@@ -56,7 +56,9 @@ void main() {
 
   testWidgets('summary in Lab order with denominators, and the result counts as seen', (tester) async {
     final (_, log) = await pump(tester);
-    expect(find.text('Mock 7, Accountancy'), findsOneWidget);
+    // The bar: the paper's name on one line, its subject on a second.
+    expect(find.text('Mock 7'), findsWidgets);
+    expect(find.bySemanticsLabel('Mock 7, Accountancy'), findsWidgets);
     expect(find.bySemanticsLabel('115 out of 250 marks'), findsWidgets);
     expect(find.text('26 of 50 correct, 15 wrong, 9 not attempted.'), findsOneWidget);
     expect(find.text('Replay recap'), findsOneWidget);

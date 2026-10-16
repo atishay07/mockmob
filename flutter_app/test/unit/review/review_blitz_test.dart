@@ -207,6 +207,7 @@ void main() {
     expect(find.text('mistakes'), findsOneWidget, reason: 'the hero number carries its unit');
     expect(find.byType(MistakeMap), findsOneWidget);
     // One surface per chapter at most (the open one); closed chapters are bare rows.
-    expect(find.byType(MistakeBar), findsNWidgets(4));
+    expect(find.byType(ChapterTrack), findsNWidgets(3), reason: 'one track a chapter row');
+    expect(find.byType(MistakeBar), findsOneWidget, reason: 'the progress line keeps the segmented bar that teaches the colours');
   });
 }

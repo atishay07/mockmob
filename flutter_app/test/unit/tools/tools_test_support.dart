@@ -13,6 +13,7 @@ import 'package:mockmob/core/models/attempt.dart';
 import 'package:mockmob/core/models/subject.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
+import 'package:mockmob/features/onboarding/state/answers_store.dart';
 import 'package:mockmob/features/practice/data/practice_catalog.dart';
 import 'package:mockmob/features/tools/combo/combo_controller.dart';
 import 'package:mockmob/features/tools/compass/score_sources.dart';
@@ -23,6 +24,8 @@ import 'package:mockmob/features/tools/domain/du_combos.dart';
 import 'package:mockmob/features/tools/domain/du_models.dart';
 import 'package:mockmob/features/tools/pro/compass_pro_models.dart';
 import 'package:mockmob/features/tools/pro/compass_pro_repository.dart';
+
+import 'my_colleges_support.dart';
 
 class FakeSource implements DuSource {
   FakeSource({this.cache = const {}, this.bundled, this.server = const {}, this.offline = false});
@@ -99,8 +102,11 @@ List<Override> toolsOverrides({
   bool pro = false,
   ComboRunner? comboRunner,
   List<Attempt> attempts = const [],
+  FakeMyColleges? myColleges,
 }) =>
     [
+      myCollegesOverride(myColleges ?? FakeMyColleges()),
+      answersStoreProvider.overrideWithValue(AnswersStore(MemoryPrefsStore())),
       duRepositoryProvider.overrideWithValue(
         neverLoads ? _NeverRepository() : DuRepository(source ?? realDuServer(), const InlineDuDecoder()),
       ),

@@ -56,7 +56,9 @@ void main() {
 
   testWidgets('no repair order: tonight\'s chapter, today\'s key and words', (tester) async {
     await pump(tester);
-    expect(keyLabelled('Repair Admission of a partner, 3 mistakes'), findsOneWidget);
+    expect(keyLabelled('Repair 3 mistakes'), findsOneWidget);
+    // The chapter and how much of it the length holds sit above the key, with the denominator.
+    expect(find.text('Admission of a partner, 3 of its 4 wrong answers.\nAbout 10 minutes. The other 12 are in Review.'), findsOneWidget);
     expect(find.textContaining('Repair Q'), findsNothing);
   });
 
@@ -69,7 +71,7 @@ void main() {
         'items': [for (final o in m.candidates) {'qid': o.questionId, 'number': o.number, 'reason': 'paper', 'key': null, 'line': null}],
       },
     );
-    expect(keyLabelled('Repair Admission of a partner, 3 mistakes'), findsOneWidget);
+    expect(keyLabelled('Repair 3 mistakes'), findsOneWidget);
     expect(find.textContaining('Repair Q'), findsNothing);
   });
 
@@ -79,12 +81,12 @@ void main() {
     final scope = RepairCandidates.scopeOf(m.candidates, startQuestionId: _leadQid, limit: 3)!;
     // The key says what opens: the led chapter, cut to the default 10-minute length.
     final label = ResultCopy.repairKey(scope, 10);
-    expect(label, 'Repair Goodwill, 3 mistakes');
+    expect(label, 'Repair 3 mistakes');
     expect(keyLabelled(label), findsOneWidget);
-    expect(keyLabelled('Repair Admission of a partner, 3 mistakes'), findsNothing);
+    expect(find.textContaining('Admission of a partner, 3 of its'), findsNothing, reason: 'the led chapter, not the first one');
     // Why it starts there, in the website's words, with its denominator.
     expect(find.text('Repair Q${q.number} first. 26 of 31 other students got it right.'), findsOneWidget);
-    expect(find.text(ResultCopy.repairScopeLine(scope, 10)), findsOneWidget);
+    expect(find.text(ResultCopy.repairScopeLine(scope, 10, chapterTotal: 3)), findsOneWidget);
     await tester.tap(keyLabelled(label));
     await tester.pump(const Duration(milliseconds: 500));
     await tester.pump(const Duration(milliseconds: 500));
@@ -112,7 +114,7 @@ void main() {
     final scope = RepairCandidates.scopeOf(m.candidates, startQuestionId: _leadQid, limit: 2)!;
     expect(scope.count, 2);
     final label = ResultCopy.repairKey(scope, 5);
-    expect(label, 'Repair Goodwill, 2 mistakes');
+    expect(label, 'Repair 2 mistakes');
     expect(keyLabelled(label), findsOneWidget);
     // Tonight's chapter has 4 and would offer 15 minutes' worth; the led run of 3 does not.
     expect(find.text(ResultCopy.chip(20)), findsNothing);
@@ -133,7 +135,7 @@ void main() {
         ],
       },
     );
-    expect(keyLabelled('Repair Admission of a partner, 3 mistakes'), findsOneWidget);
+    expect(keyLabelled('Repair 3 mistakes'), findsOneWidget);
     expect(find.textContaining('Repair Q99'), findsNothing);
   });
 

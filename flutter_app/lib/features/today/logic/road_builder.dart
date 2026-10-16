@@ -106,4 +106,4 @@ RoadModel? buildRoad(TodayInputs i) {
   );
 }
 
-String _score(num score) => score == score.roundToDouble() ? '${score.round()}' : score.toStringAsFixed(1);
+String _score(num? score) => score == null ? '' : (score == score.roundToDouble() ? '${score.round()}' : score.toStringAsFixed(1));

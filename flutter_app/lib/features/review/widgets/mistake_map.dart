@@ -40,9 +40,9 @@ int mapScaleOf(Iterable<ChapterGroup> groups) => groups.fold(1, (m, g) => math.m
 /// The mistake map: where the marks went, chapter by chapter (Review brief 12).
 ///
 /// An open list on the ground, one row per chapter, hairlines between them and no card around
-/// any of them, open or shut. Each row carries a bar with one segment per mistake (coral open, volt repaired,
-/// a ring for set aside), left-aligned and drawn at the same scale on every row, so a longer bar
-/// means more mistakes and chapters compare at a glance. A row opens (one at a time) into the
+/// any of them, open or shut. Each row carries one filled track (volt for the share already repaired) with
+/// its count and denominator beside it ("1 of 5 repaired"); the row's own number says how many are still
+/// open. A row opens (one at a time) into the
 /// mistakes as a vertical thread, with a key to repair them: one filled key for the paper to start
 /// with when [leadKeyPrimary], the others as plain text links.
 class MistakeMap extends ConsumerStatefulWidget {
@@ -282,7 +282,6 @@ class _ChapterRow extends StatelessWidget {
     final caption = [
       if (showSubject && nameSubject) subjectName(g.subjectId),
       if (papers.isNotEmpty) ReviewCopy.fromPapers([for (final p in papers) p.source]),
-      if (g.repairedCount > 0) '${g.repairedCount} repaired',
       if (g.setAsideCount > 0) '${g.setAsideCount} set aside',
     ].join(', ');
     final indent = showSubject ? _stripGlyph + MmSpace.s12 : 0.0;
@@ -341,13 +340,15 @@ class _ChapterRow extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(g.chapter, style: type.cardTitle, maxLines: 4, overflow: TextOverflow.ellipsis),
-                          const SizedBox(height: MmSpace.s2),
-                          Text(
-                            caption,
-                            style: type.caption.copyWith(color: colors.ink2),
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                          if (caption.isNotEmpty) ...[
+                            const SizedBox(height: MmSpace.s2),
+                            Text(
+                              caption,
+                              style: type.caption.copyWith(color: colors.ink2),
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
                         ],
                       ),
                     ),
@@ -360,15 +361,19 @@ class _ChapterRow extends StatelessWidget {
                   padding: EdgeInsets.only(left: indent),
                   child: Row(
                     children: [
-                      Expanded(
-                        child: MistakeBar(
-                          open: g.openCount,
-                          repaired: g.repairedCount,
-                          setAside: g.setAsideCount,
-                          scale: scale,
-                          grow: grow,
+                      // A row of only set-aside questions has no repaired share to draw: its
+                      // caption and its number already say "set aside".
+                      if (g.openCount > 0 || g.repairedCount > 0) ...[
+                        Expanded(
+                          child: ChapterTrack(repaired: g.repairedCount, total: g.items.length, grow: grow),
                         ),
-                      ),
+                        const SizedBox(width: MmSpace.s12),
+                        Text(
+                          ReviewCopy.chapterRepaired(g.repairedCount, g.items.length),
+                          style: type.caption.copyWith(color: colors.ink2),
+                        ),
+                      ] else
+                        const Spacer(),
                       const SizedBox(width: MmSpace.s8),
                       AnimatedRotation(
                         turns: open ? 0.5 : 0,
@@ -619,6 +624,74 @@ class _BarPainter extends CustomPainter {
       old.volt != volt ||
       old.voltEdge != voltEdge ||
       old.ring != ring;
+}
+
+
+/// One filled track for a chapter: the share of its mistakes already repaired, in volt, on a
+/// quiet rail. It is the whole bar of a row (one bar, not a segment per mistake); the words beside
+/// it say the count with its denominator ("1 of 5 repaired"). [grow] (0 to 1) wipes it in.
+class ChapterTrack extends StatelessWidget {
+  const ChapterTrack({super.key, required this.repaired, required this.total, this.grow = const AlwaysStoppedAnimation(1), this.height = 8});
+
+  final int repaired;
+  final int total;
+  final Animation<double> grow;
+  final double height;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    return ExcludeSemantics(
+      child: RepaintBoundary(
+        child: CustomPaint(
+          size: Size(double.infinity, height),
+          painter: _TrackPainter(
+            share: total <= 0 ? 0 : (repaired / total).clamp(0.0, 1.0),
+            grow: grow,
+            rail: colors.line,
+            volt: colors.volt,
+            voltEdge: colors.isNight ? null : colors.voltEdge,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _TrackPainter extends CustomPainter {
+  _TrackPainter({required this.share, required this.grow, required this.rail, required this.volt, required this.voltEdge}) : super(repaint: grow);
+
+  final double share;
+  final Animation<double> grow;
+  final Color rail;
+  final Color volt;
+  final Color? voltEdge;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (size.width <= 0) return;
+    final r = Radius.circular(size.height / 2);
+    canvas.drawRRect(RRect.fromRectAndRadius(Offset.zero & size, r), Paint()..color = rail);
+    final width = size.width * share * grow.value.clamp(0.0, 1.0);
+    if (width <= 0) return;
+    // A repaired share never draws narrower than its own height: a stub is still a visible dot.
+    final fill = RRect.fromRectAndRadius(Rect.fromLTWH(0, 0, math.max(width, size.height), size.height), r);
+    canvas.drawRRect(fill, Paint()..color = volt);
+    final edge = voltEdge;
+    if (edge != null) {
+      canvas.drawRRect(
+        fill.deflate(0.5),
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1
+          ..color = edge,
+      );
+    }
+  }
+
+  @override
+  bool shouldRepaint(_TrackPainter old) =>
+      old.share != share || old.grow != grow || old.rail != rail || old.volt != volt || old.voltEdge != voltEdge;
 }
 
 /// The chapter's mistakes as a vertical thread: a rail under the row's glyph, one bubble per

@@ -29,6 +29,7 @@ import 'compass_practise.dart';
 import 'programme_rows.dart';
 import 'score_sources.dart';
 import '../widgets/tools_origin.dart';
+import '../my_colleges/my_colleges_parts.dart' show MyCollegesSection;
 import '../pro/compass_pro_section.dart';
 import '../widgets/size_reveal.dart';
 
@@ -348,6 +349,7 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
           ],
         ],
       ],
+      const SliverToBoxAdapter(child: MyCollegesSection()),
       SliverToBoxAdapter(child: CompassProSection(state: s)),
       SliverToBoxAdapter(child: CompassPractise(state: s)),
       SliverToBoxAdapter(

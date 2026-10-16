@@ -131,7 +131,7 @@ class MistakeView extends StatelessWidget {
                   index: run.index,
                   child: ListView(
                 key: PageStorageKey(step.item.key),
-                padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s32),
+                padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s48),
                 children: [
                   Text('${ReviewCopy.questionLabel(step.item.number)}, ${step.item.source}', style: type.caption.copyWith(color: colors.ink2)),
                   if (earlier case final e?) _EarlierLine(miss: e),

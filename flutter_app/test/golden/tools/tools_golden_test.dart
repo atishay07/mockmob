@@ -11,8 +11,12 @@ import 'package:mockmob/features/tools/compass/compass_screen.dart';
 import 'package:mockmob/features/tools/compass/programme_screen.dart';
 import 'package:mockmob/features/tools/guide/guide_2027_screen.dart';
 import 'package:mockmob/features/tools/hub/tools_hub_screen.dart';
+import 'package:mockmob/core/api/api_error.dart';
+import 'package:mockmob/features/tools/my_colleges/my_colleges_parts.dart' show MyCollegesSection;
+import 'package:mockmob/features/tools/my_colleges/my_colleges_sheet.dart';
 import 'package:mockmob/features/tools/pro/compass_pro_repository.dart';
 
+import '../../unit/tools/my_colleges_support.dart';
 import '../../unit/tools/tools_test_support.dart';
 import '../you/you_golden_kit.dart';
 
@@ -146,4 +150,48 @@ void main() {
   // CUET 2027.
   sheetGolden('guide', () => const Guide2027Screen(), overrides: () => toolsOverrides(now: DateTime(2026, 10, 13)));
   sheetGolden('guide_full', () => const Guide2027Screen(), size: _tall, overrides: () => toolsOverrides(now: DateTime(2026, 10, 13)));
+
+  // My colleges: the Compass section, the sheet that edits the list, the chooser and a list that did not load.
+  final fourColleges = [
+    mc('b-com-hons', 'Shri Ram College of Commerce', 'B.Com. (Hons.)'),
+    mc('b-com-hons', 'Hindu College', 'B.Com. (Hons.)'),
+    mc('b-a-hons-economics', 'Hansraj College', 'B.A. (Hons.) Economics'),
+    mc('b-com-hons', 'Deshbandhu College', 'B.Com. (Hons.)'),
+  ];
+  Widget opener(bool adding) => Builder(
+        builder: (context) => Scaffold(body: Center(child: TextButton(onPressed: () => showMyCollegesSheet(context, adding: adding), child: const Text('open')))),
+      );
+  Future<void> openSheet(WidgetTester tester) async {
+    await tester.tap(find.text('open'));
+    await tester.pumpAndSettle();
+    await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 100)));
+    await tester.pumpAndSettle();
+  }
+
+  sheetGolden(
+    'compass_my_colleges',
+    () => const Scaffold(body: SafeArea(child: SingleChildScrollView(child: MyCollegesSection()))),
+    overrides: () => toolsOverrides(myColleges: FakeMyColleges(start: fourColleges)),
+  );
+  sheetGolden(
+    'compass_my_colleges_empty',
+    () => const Scaffold(body: SafeArea(child: SingleChildScrollView(child: MyCollegesSection()))),
+    overrides: () => toolsOverrides(),
+  );
+  sheetGolden('my_colleges_sheet', () => opener(false), overrides: () => toolsOverrides(myColleges: FakeMyColleges(start: fourColleges)), interact: openSheet);
+  sheetGolden('my_colleges_chooser', () => opener(true), overrides: () => toolsOverrides(myColleges: FakeMyColleges(start: fourColleges)), interact: openSheet);
+  sheetGolden(
+    'my_colleges_failed',
+    () => opener(false),
+    overrides: () => toolsOverrides(myColleges: FakeMyColleges(readError: const ApiError(kind: ApiErrorKind.network, code: 'network'))),
+    interact: openSheet,
+  );
+  sheetGolden(
+    'my_colleges_offline_copy',
+    () => opener(false),
+    overrides: () => toolsOverrides(
+      myColleges: FakeMyColleges(readError: const ApiError(kind: ApiErrorKind.network, code: 'network'), cached: fourColleges.take(3).toList()),
+    ),
+    interact: openSheet,
+  );
 }

@@ -36,8 +36,9 @@ class SheetBody extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final label = type.caption.copyWith(color: colors.ink3, fontSize: 11.5, letterSpacing: 0.4);
+    // The same lamp and rim as the flap above it (square along the crease), so the open sheet reads
+    // as one slab and the answers are not a darker panel set into the scoreboard.
     return PaperFace(
-      edge: false,
       squareTop: true,
       child: CustomPaint(
         child: Padding(

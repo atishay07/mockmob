@@ -103,18 +103,20 @@ void main() {
       expect(find.text(ToolsCopy.proNoCutoff), findsNothing);
     });
 
-    testWidgets('two combinations at one college are two rows, each with its own cutoffs', (tester) async {
+    testWidgets('two combinations at one college are one entry: My colleges holds a college once for each programme', (tester) async {
       final source = FakeSource(server: {'index.json': duIndexJson, 'offerings/b-a-programme.json': _programmeJson()});
       await pumpCompass(tester, source: source, shortlist: [
         {'g': 'b-a-programme', 'c': 'Aditi Mahavidyalaya (W)', 'p': 'Economics + Mathematics'},
         {'g': 'b-a-programme', 'c': 'Aditi Mahavidyalaya (W)', 'p': 'Economics + Psychology'},
       ]);
       await tester.pumpAndSettle();
+      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 30)));
+      await tester.pumpAndSettle();
+      // The first row moved over keeps its own cutoffs; the second names the same college and programme.
       expect(find.text('Economics + Mathematics'), findsOneWidget);
-      expect(find.text('Economics + Psychology'), findsOneWidget);
-      // Round I, UR: 559.2583 and 698.7806.
+      expect(find.text('Economics + Psychology'), findsNothing);
+      // Round I, UR: 559.2583.
       expect(find.textContaining('559.3'), findsOneWidget);
-      expect(find.textContaining('698.8'), findsOneWidget);
       expect(find.textContaining('438.5'), findsNothing, reason: 'not the first row in the file');
     });
   });

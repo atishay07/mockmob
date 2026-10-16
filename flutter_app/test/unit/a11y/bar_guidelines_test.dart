@@ -1,8 +1,11 @@
 // The bar and its live capsule as a student meets them: 48 dp targets, a label on each, and text
 // contrast as rendered, in both themes (bar review leftover). The Material icon font is loaded so
 // the tab glyphs are really drawn.
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
 
 import '../../golden/today/today_golden_support.dart';
@@ -51,5 +54,22 @@ void main() {
         handle.dispose();
       });
     }
+  }
+
+  // Critic E measured the Today dock in Day at 1.75:1. The labels and icons are ink2 (idle) and ink
+  // (active) on the glass; this holds their contrast, composited over the Day ground, above 4.5:1.
+  for (final brightness in [Brightness.dark, Brightness.light]) {
+    test('the dock labels clear 4.5:1 on the glass over the ground, ${brightness == Brightness.dark ? 'night' : 'day'}', () {
+      final colors = brightness == Brightness.dark ? MmColors.dark : MmColors.light;
+      final spec = BarGlassSpec.of(colors, GlassQuality.full);
+      final glass = Color.alphaBlend(spec.tint, colors.ground);
+      double ratio(Color a, Color b) {
+        final la = a.computeLuminance(), lb = b.computeLuminance();
+        return (math.max(la, lb) + 0.05) / (math.min(la, lb) + 0.05);
+      }
+
+      expect(ratio(colors.ink2, glass), greaterThanOrEqualTo(4.5), reason: 'idle tab label');
+      expect(ratio(colors.ink, glass), greaterThanOrEqualTo(4.5), reason: 'active tab label');
+    });
   }
 }

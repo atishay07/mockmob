@@ -15,6 +15,8 @@ import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart' show MmBar;
 import '../../../core/widgets/widgets.dart' show MobiAct, MobiController;
 import '../../rhythm/rhythm.dart';
+import '../../tools/data/my_colleges_actions.dart' show myCollegesProvider;
+import '../../tools/my_colleges/my_colleges_sheet.dart' show showMyCollegesSheet;
 import '../data/today_providers.dart';
 import '../logic/today_model.dart';
 import '../widgets/today_celebration.dart';
@@ -186,11 +188,14 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
           unawaited(context.push(AppRoutes.todayWhy(id)));
         },
         onWeek: () => unawaited(context.push(AppRoutes.todayWeek)),
-        // The colleges editor itself (You, Your sheet), a page over the bar. Pushing the You tab's
-        // root from here stacked a second You inside Today's own branch: go_router keeps the shell
-        // match's navigator key on a push, so the bar still said Today and Back went nowhere useful
-        // (owner test 15 Oct).
-        onChooseColleges: () => unawaited(context.push(AppRoutes.youSheet)),
+        // My colleges itself: one sheet over Today (the same list Compass and You read and write).
+        // The old route pushed the You sheet page, which stacked a second You inside Today's own
+        // branch (owner test 15 Oct), and edited a list Today no longer reads. An empty list opens
+        // straight on the chooser.
+        onChooseColleges: () {
+          final mine = ref.read(myCollegesProvider);
+          unawaited(showMyCollegesSheet(context, adding: mine.ready && mine.list.isEmpty));
+        },
         onRefresh: () => ref.read(todayActionsProvider).refresh(),
       ),
     );

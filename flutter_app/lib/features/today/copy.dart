@@ -290,11 +290,11 @@ abstract final class TodayCopy {
 
   /// A college-portal category in words a student says (the shared mapping in core).
   static String categoryWords(String? category) => fmt.categoryWords(category);
-  static const String ladderTitle = 'Your colleges';
+  static const String ladderTitle = 'My colleges';
   static const String dreamTag = 'Dream';
   static const String chooseColleges = 'Choose your colleges';
   static const String changeColleges = 'Change';
-  static const String ladderEmpty = 'Pick up to three colleges and see where each one closed in Round 1, 2026.';
+  static const String ladderEmpty = 'Add the colleges you are aiming for and see where each one closed in Round 1, 2026.';
 
   // The road board (owner test 15 Oct): the student's own tiles under the road.
   static const String boardTitle = 'Your road';

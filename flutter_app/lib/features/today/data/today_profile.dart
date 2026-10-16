@@ -6,19 +6,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/api_providers.dart';
 import '../../../core/auth/auth_state.dart';
+import '../../../core/models/my_colleges.dart';
 import '../../onboarding/onboarding.dart';
+import '../../tools/data/my_colleges_actions.dart';
 
 /// One college on the student's ladder, with its real CSAS 2026 Round 1 closing score.
 class LadderPick {
-  const LadderPick({required this.college, required this.course, required this.closingScore, this.outOf});
+  const LadderPick({required this.college, required this.course, this.closingScore, this.outOf});
 
   final String college;
 
   /// "B.Com (Hons)".
   final String course;
 
-  /// The Round 1 closing score as published (CSAS 2026). Never estimated.
-  final num closingScore;
+  /// The Round 1 closing score as published (CSAS 2026). Never estimated: null when no figure is on
+  /// file for this college and the student's category.
+  final num? closingScore;
 
   /// The scale, when the source states one (1000 for a four-paper combination).
   final int? outOf;
@@ -35,7 +38,7 @@ class TodayProfile {
     this.firstMoveLine,
   });
 
-  /// Dream first, safest last. At most three.
+  /// The first three of My colleges, in the student's order (the first is the dream pick).
   final List<LadderPick> ladder;
 
   /// The CSAS category the ladder figures belong to (default UR).
@@ -57,8 +60,11 @@ class TodayProfile {
   final String? firstMoveLine;
 }
 
-/// The sealed sheet as Today needs it, or null before one is sealed. Colleges without a Round 1
-/// figure for the student's category are left off the ladder rather than given a number.
+/// The sealed sheet as Today needs it, or null before one is sealed. The ladder is the first three
+/// colleges of My colleges (the one list shared with Compass, You and the website), each with its
+/// Round 1 figure when one is on file for the student's category and none when it is not: a college
+/// is never left off, and a number is never estimated. Until the list is known (loading, did not
+/// load, or nobody signed in) the colleges named in the setup stand in for it.
 ///
 /// Colleges chosen in You, Your sheet before the setup was ever sealed (a student who signed in
 /// on the website first, or left the setup before its plan) still reach the ladder: owner test
@@ -66,11 +72,12 @@ class TodayProfile {
 /// unsealed sheet is read.
 final todayProfileProvider = Provider<TodayProfile?>((ref) {
   final sheet = ref.watch(studentSheetProvider);
-  if (sheet == null) return _collegesOnly(ref);
+  final mine = ref.watch(myCollegesProvider);
+  if (sheet == null) return mine.hasList ? _listOnly(ref, mine) : _collegesOnly(ref);
   final move = sheet.firstMove;
   final days = sheet.days;
   return TodayProfile(
-    ladder: ladderOf(sheet),
+    ladder: mine.hasList ? ladderOfList(mine.list.ladder, sheet.category) : ladderOf(sheet),
     category: sheet.category,
     weakestSubject: move.subject.id,
     firstMoveAt: sheet.deferredToTonight ? move.nextWindow(ref.watch(nowProvider)()) : null,
@@ -80,13 +87,33 @@ final todayProfileProvider = Provider<TodayProfile?>((ref) {
   );
 });
 
-/// The ladder of a sheet, dream (highest closing score) first.
+/// The ladder of a sheet's setup, dream (highest closing score) first: what Today showed before the
+/// list was shared, kept for the moments the list is not known.
 List<LadderPick> ladderOf(StudentSheet sheet) {
   final course = sheet.course?.short ?? '';
   return [
     for (final c in sheet.colleges)
       if (c.score case final score?) LadderPick(college: c.name, course: course, closingScore: score, outOf: DuCatalog.scale),
-  ]..sort((a, b) => b.closingScore.compareTo(a.closingScore));
+  ]..sort((a, b) => (b.closingScore ?? 0).compareTo(a.closingScore ?? 0));
+}
+
+/// The first colleges of My colleges as Today's ladder, in the student's order. The Round 1 figure
+/// comes from the DU file on the phone when it names this college in this programme.
+List<LadderPick> ladderOfList(List<MyCollege> colleges, String category) {
+  final picks = <LadderPick>[];
+  for (final c in colleges) {
+    final course = DuCatalog.course(c.programmeId);
+    final figure = course?.offeringAt(c.college)?.scoreFor(category);
+    picks.add(LadderPick(college: c.college, course: course?.short ?? c.programme, closingScore: figure, outOf: figure == null ? null : DuCatalog.scale));
+  }
+  return picks;
+}
+
+/// The list alone, for a student whose setup was never sealed.
+TodayProfile? _listOnly(Ref ref, MyCollegesView mine) {
+  if (mine.list.isEmpty) return null;
+  final answers = ref.watch(onboardingAnswersProvider).value;
+  return TodayProfile(ladder: ladderOfList(mine.list.ladder, answers?.category ?? DuCatalog.defaultCategory), category: answers?.category ?? DuCatalog.defaultCategory);
 }
 
 /// The ladder alone, from answers that were edited but never sealed and belong to this account.

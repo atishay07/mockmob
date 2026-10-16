@@ -11,6 +11,7 @@ export 'learning_plan.dart';
 export 'mistake_insights.dart';
 export 'mistake_lab.dart';
 export 'mistake_lab_traps.dart';
+export 'my_colleges.dart';
 export 'notification_prefs.dart';
 export 'practice_quote.dart';
 export 'question.dart';

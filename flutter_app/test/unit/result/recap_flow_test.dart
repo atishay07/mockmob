@@ -256,8 +256,8 @@ void main() {
       expect(find.text('Fresh check: not available yet.'), findsNothing);
       await tester.tap(find.text('5 min'));
       await tester.pump();
-      expect(find.text('Repair Admission of a partner, 2 mistakes'), findsOneWidget);
-      await tester.tap(find.text('Repair Admission of a partner, 2 mistakes'));
+      expect(find.text('Repair 2 mistakes'), findsOneWidget);
+      await tester.tap(find.text('Repair 2 mistakes'));
       await tester.pumpAndSettle();
       expect(_at(router), startsWith('/review/repair/a7/'));
       expect(_at(router), contains('count=2'));
@@ -266,9 +266,9 @@ void main() {
     testWidgets('Finish for now ends with one line, then Today', (tester) async {
       final router = await pump(tester, '/result/a7/recap/4');
       await _run(tester, 1000);
-      // With a repair to start, "Finish for now" waits behind the card's More key.
+      // With a repair to start, "Finish for now" waits in the sheet "Choose something else" opens.
       expect(find.text('Finish for now'), findsNothing);
-      await tester.tap(find.bySemanticsLabel('More'));
+      await tester.tap(find.text('Choose something else'));
       await _run(tester, 700);
       await tester.tap(find.text('Finish for now'));
       await _run(tester, 100);
@@ -285,7 +285,7 @@ void main() {
       final router = await pump(tester, '/result/a7/recap/4', model: mock7(withDetail: d), d: d);
       await _run(tester, 1000);
       expect(find.byType(RecapMobi), findsNothing);
-      await tester.tap(find.bySemanticsLabel('More'));
+      await tester.tap(find.text('Choose something else'));
       await _run(tester, 700);
       await tester.tap(find.text('Finish for now'));
       await _run(tester, 300);
@@ -299,7 +299,7 @@ void main() {
     testWidgets('a tap on the finish screen leaves at once, and the quiet key waits until 1.2 s', (tester) async {
       final router = await pump(tester, '/result/a7/recap/4');
       await _run(tester, 1000);
-      await tester.tap(find.bySemanticsLabel('More'));
+      await tester.tap(find.text('Choose something else'));
       await _run(tester, 700);
       await tester.tap(find.text('Finish for now'));
       await _run(tester, 100);
@@ -316,7 +316,7 @@ void main() {
     testWidgets('a tap anywhere on the finish screen leaves before the act has ended', (tester) async {
       final router = await pump(tester, '/result/a7/recap/4');
       await _run(tester, 1000);
-      await tester.tap(find.bySemanticsLabel('More'));
+      await tester.tap(find.text('Choose something else'));
       await _run(tester, 700);
       await tester.tap(find.text('Finish for now'));
       await _run(tester, 400);
