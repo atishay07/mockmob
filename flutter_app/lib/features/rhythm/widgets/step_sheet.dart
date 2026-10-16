@@ -47,7 +47,8 @@ Future<void> showStepSheet(
 }) {
   return showMmSheet<void>(
     context: context,
-    title: view.step.name,
+    // No title row: the medal leads and the name sits centred under it (Screen C), so the sheet
+    // reads from the object down.
     builder: (sheet) => StepSheetBody(
       view: view,
       dateOf: dateOf,
@@ -129,6 +130,11 @@ class StepSheetBody extends StatelessWidget {
           ),
         ),
         const SizedBox(height: MmSpace.s16),
+        Semantics(
+          header: true,
+          child: Text(step.name, textAlign: TextAlign.center, style: type.headline),
+        ),
+        const SizedBox(height: MmSpace.s8),
         // The state, said in words as well as drawn: the date it landed, or "Not yet".
         Semantics(
           liveRegion: true,
