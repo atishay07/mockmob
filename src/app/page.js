@@ -153,7 +153,7 @@ const TOUR = [
     elsewhere: { href: '#du-eligibility' } },
   { id: 'rival', label: 'Benchmarks', line: 'Beat a target score under the clock', title: 'Beat the score you’re aiming for.',
     body: 'Run a short timed set against a fixed target for accuracy and pace, at daily, college or DU level. See whether you hold the standard with the clock running.',
-    points: ['The daily benchmark is free', 'Every mock earns leaderboard points for accuracy and speed'], chip: 'The daily benchmark is free.', href: '/leaderboard', cta: 'See the leaderboard' },
+    points: ['The daily benchmark is free', 'Every mock adds its score to the leaderboard'], chip: 'The daily benchmark is free.', href: '/leaderboard', cta: 'See the leaderboard' },
 ];
 
 const faqs = [

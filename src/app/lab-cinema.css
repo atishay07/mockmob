@@ -464,7 +464,10 @@ html[data-theme='light'] .lc {
 /* The screen never spills past the device, whatever the window. */
 .lc[data-pinned='true'] .lc-scene__screen { overflow: clip; border-radius: 20px; }
 .lc[data-pinned='true'] .lc-scene__copy,
-.lc[data-pinned='true'] .lc-scene__screen { transition: opacity 0.42s var(--lc-ease), transform 0.55s var(--lc-ease); }
+.lc[data-pinned='true'] .lc-scene__screen { transition: opacity 0.42s var(--lc-ease), transform 0.55s var(--lc-ease), visibility 0s; }
+/* A scene off stage is hidden once its fade ends, so its keys (the full-repair key) leave the tab order and never
+   take a tap or a focus while another scene is showing. */
+.lc[data-pinned='true'] .lc-scene[data-on='false'] :is(.lc-scene__copy, .lc-scene__screen) { visibility: hidden; transition-delay: 0s, 0s, 0.42s; }
 .lc[data-pinned='true'] .lc-scene[data-on='false'] .lc-scene__copy { opacity: 0; transform: translate3d(0, 1.25rem, 0); }
 .lc[data-pinned='true'] .lc-scene[data-on='false'] .lc-scene__screen { opacity: 0; transform: translate3d(0, 0.75rem, 0) scale(0.985); }
 .lc[data-pinned='true'] .lc-scene[data-past='true'] .lc-scene__copy { transform: translate3d(0, -1.25rem, 0); }

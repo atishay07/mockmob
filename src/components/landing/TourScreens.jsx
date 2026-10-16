@@ -5,6 +5,7 @@ import { Check, Clock, ShieldCheck } from 'lucide-react';
 import { createDemoPlayback } from '@/../data/demo_playback.mjs';
 import { durations } from '@/lib/motion/tokens.g.js';
 import { PAPER_PACE_SEC, SESSION, clock, nextMove, openedAt, weakChapters } from './labStory.mjs';
+import { BENCH_COUNT, BENCH_DAILY, BENCH_LADDER, BENCH_YOU } from './benchLadder.mjs';
 
 export const DemoPlaybackContext = createContext({ active: false, reduced: false, paused: false });
 
@@ -287,20 +288,20 @@ export function ComboScreen({ play }) {
 // ---------- 8. Benchmarks ----------
 // The two bars sweep in as the flourish; the facts and the ladder are already in place behind them.
 const BENCH_T = lineUp(3);
-const BENCH_LADDER = [['DU level', '88%'], ['College level', '82%'], ['Daily', '78%', 'target'], ['You, today', '72%', 'you']];
+const BENCH_TARGET = Math.round(BENCH_DAILY.targetAccuracy * 100);
 export function BenchmarkScreen({ play }) {
   const step = useSteps(play, BENCH_T);
   const clock = useCountdown(play, 4 * 60 + 30);
   return (
     <Frame title="Daily benchmark" step={step} right={<span className="ts__timer">{clock}</span>}>
-      <p className="ts__meta">25 questions. Hold 78% accuracy at 55 seconds a question.</p>
+      <p className="ts__meta">{BENCH_COUNT} questions. Hold {BENCH_TARGET}% accuracy at {BENCH_DAILY.avgTimePerQuestion} seconds a question.</p>
       <div className="ts__lanes">
-        <div className="ts__lane" data-run={on(step >= 1)}><span>Your run</span><i><b style={{ '--w': '72%', '--t': '1.1s' }} /></i><em>72%</em></div>
-        <div className="ts__lane" data-run={on(step >= 1)} data-target="true"><span>Target</span><i><b style={{ '--w': '78%', '--t': '0.8s' }} /></i><em>78%</em></div>
+        <div className="ts__lane" data-run={on(step >= 1)}><span>Your run</span><i><b style={{ '--w': `${BENCH_YOU}%`, '--t': '1.1s' }} /></i><em>{BENCH_YOU}%</em></div>
+        <div className="ts__lane" data-run={on(step >= 1)} data-target="true"><span>Target</span><i><b style={{ '--w': `${BENCH_TARGET}%`, '--t': '0.8s' }} /></i><em>{BENCH_TARGET}%</em></div>
       </div>
       <div className="ts__facts" data-in={on(step >= 2)}>
         <p><b>52s</b>a question</p>
-        <p><b>6 pts</b>short today</p>
+        <p><b>{BENCH_TARGET - BENCH_YOU} pts</b>short today</p>
       </div>
       <ol className="ts__ladder" data-in={on(step >= 3)} aria-label="Benchmark levels">
         {BENCH_LADDER.map(([level, score, mark]) => <li key={level} data-mark={mark}><span>{level}</span>{mark === 'target' ? <small>Today’s target</small> : null}<b>{score}</b></li>)}

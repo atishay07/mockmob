@@ -91,9 +91,9 @@
   --sp-8: 4rem;
   --sp-9: 6rem;
   --sp-10: 8rem;
-  /* Section padding: 80 px phone to 108 px desktop on top; the bottom is 8 px more (optical). At 128 px the gap
-     between two sections (about 270 px with the hairline) read as an empty field after short closing blocks. */
-  --sec-top: clamp(5rem, 3.6rem + 3.4vw, 6.75rem);
+  /* Section padding: 64 px on tablets to 80 px desktop on top; the bottom is 8 px more (optical). At 108 px the
+     gap between two sections (about 220 px with the hairline) read as a void after short closing blocks. */
+  --sec-top: clamp(4rem, 2.4rem + 2.6vw, 5rem);
   --sec-bottom: calc(var(--sec-top) + var(--sp-2));
   /* h2 to lede, and lede to the section's content (40 px phone to 64 px desktop). */
   --head-gap: var(--sp-4);
@@ -106,9 +106,9 @@
   --measure-lede: 52ch;
   --measure-body: 62ch;
 }
-/* Phones: 64 px above a section and 72 below (was 80 and 88), so a section's end and the next heading are one
-   short band apart, not 170 px of empty page after every held story and block. */
-@media (max-width: 599px) { .mm.lp { --sec-top: 4rem; } }
+/* Phones: 40 px above a section and 48 below (was 64 and 72), so a section's end and the next heading are one
+   88 px band apart with the hairline in it, not a 136 px void after every block. */
+@media (max-width: 599px) { .mm.lp { --sec-top: 2.5rem; } }
 @media (min-width: 761px) { .mm.lp { --t-hero: 3.5rem; --t-close: 3rem; --t-statement: var(--t-close); --t-display: 3.5rem; --t-headline: 2.5rem; --t-step: 1.75rem; --t-title: 1.625rem; } }
 @media (min-width: 1100px) { .mm.lp { --t-headline: 3rem; --t-step: 2rem; --t-title: 1.875rem; } }
 /* The hero's last two steps need the height to keep its keys on the first screen; the close follows the hero. */
@@ -224,8 +224,8 @@ body:has(.mm.lp) {
 
 /* ---------- Type (the page system above) ----------
    A section opening is an h2 and a lede, nothing above them. The h2 is one plain line in --ink; a product's name
-   is said in the lede, not as a coloured first clause. Only the close keeps two clauses (.lp-h2__name in --ink,
-   .lp-h2__rest in --ink-3, same size and weight), so the device marks the page's ending instead of every section.
+   is said in the lede, not as a coloured first clause. A heading with two clauses (the close) sets both in the
+   same ink, size and weight: the contrast on this page is the heading against its lede, never inside a heading.
    From 1100 px the head is two columns: the h2 on the left seven, the lede on the right five, sitting on the
    h2's last line. */
 
@@ -246,7 +246,7 @@ body:has(.mm.lp) {
   font-optical-sizing: auto;
 }
 .lp-h2__name { color: var(--ink); }
-.lp-h2__rest { color: var(--ink-3); }
+.lp-h2__rest { color: var(--ink); }
 .lp-h2--xl {
   max-width: 16ch;
   font-size: var(--t-close);
@@ -604,6 +604,8 @@ body:has(.mm.lp) {
   padding-block: var(--sp-6) var(--sp-7);
 }
 .lp-plan + .lp-plan { border-top: 1px solid var(--line); }
+/* The section's own bottom padding is the gap after the last key: no second band under it. */
+.lp-plan:last-child { padding-bottom: 0; }
 .lp-plan__price {
   margin: 0;
   font-family: var(--font-display);
@@ -658,6 +660,7 @@ body:has(.mm.lp) {
     padding: var(--sp-7) var(--sp-7) var(--sp-7) 0;
   }
   .lp-plan + .lp-plan { padding: var(--sp-7) 0 var(--sp-7) var(--sp-7); border-top: 0; border-left: 1px solid var(--line); }
+  .lp-plans > .lp-plan { padding-bottom: 0; }
   .lp-plan > .lp-h3 { grid-row: 1; }
   .lp-plan__price { grid-row: 2; align-self: end; }
   .lp-plan__note { grid-row: 3; }

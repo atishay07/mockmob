@@ -52,3 +52,25 @@ test('the full-repair key and its sheet sit outside the scaled repair panel, so 
   assert.doesNotMatch(panel, /lcr-more|<dialog/, 'the key is not inside the panel that ScrollStory scales');
   assert.match(cinema, /<div className="lc-scene__fit"[^>]*>.*<\/div>\s*\{key === 'repair' \? <RepairSheet on=\{on\} \/> : null\}/);
 });
+
+test('the Benchmarks scene shows the real benchmark levels and a question count the app offers', async () => {
+  const { RIVAL_PROFILES } = await import('../../services/ai-rival/rivalProfiles.js');
+  const { BENCH_LADDER, BENCH_COUNT, BENCH_DAILY } = await import('./benchLadder.mjs');
+  const pct = (p) => `${Math.round(p.targetAccuracy * 100)}%`;
+  const ladder = Object.fromEntries(BENCH_LADDER.map(([level, score]) => [level, score]));
+  assert.equal(ladder['DU level'], pct(RIVAL_PROFILES.SRCC_DREAM));
+  assert.equal(ladder['College level'], pct(RIVAL_PROFILES.HANSRAJ_LEVEL));
+  assert.equal(ladder.Daily, pct(RIVAL_PROFILES.NORTH_CAMPUS_RIVAL));
+  assert.equal(BENCH_DAILY, RIVAL_PROFILES.NORTH_CAMPUS_RIVAL);
+  const arena = read(new URL('../ai/AIRivalArena.jsx', import.meta.url));
+  const offered = arena.match(/\{\[([\d,\s]+)\]\.map\(\(count\)/);
+  assert.ok(offered, 'the arena still lists its question counts');
+  assert.ok(offered[1].split(',').map(Number).includes(BENCH_COUNT), `${BENCH_COUNT} questions is a count the arena offers`);
+  const tour = read(new URL('TourScreens.jsx', here));
+  assert.doesNotMatch(tour, /\b25 questions\b|'88%'|'82%'/, 'no hard-coded benchmark numbers in the scene');
+});
+
+test('the leaderboard line matches how the leaderboard ranks (the sum of mock scores, not speed)', () => {
+  assert.doesNotMatch(PAGE, /leaderboard points for accuracy and speed/);
+  assert.match(PAGE, /Every mock adds its score to the leaderboard/);
+});

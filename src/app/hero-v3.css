@@ -69,14 +69,14 @@
 .mm.lp .lp-hero--v3 .lp-hero__head { position: relative; }
 
 /* ---------- The turning line: how far down MockMob traces a mark ----------
-   "Down to" in the quiet ink, the phrase in full ink. The phrase turns per word (TypeLine.jsx): the old one leaves
+   One ink for the whole line, a step quieter than the H1 above it, so the contrast is the H1 against its support. The phrase turns per word (TypeLine.jsx): the old one leaves
    upward and fades, the next rises 0.55em into place with its opacity, 320 ms on the strong ease-out, the two
    overlapping so the slot is never empty. No caret, no selection fill, no underline. Every phrase shares one cell
    with an invisible copy of the longest, so the line never changes width or wraps. */
 .mm.lp .lp-hero--v3 .lp-type {
   font: 700 clamp(1.25rem, min(var(--t-title), 6.3cqi), 1.5rem) / 1.2 var(--font-display);
   letter-spacing: -0.025em;
-  color: var(--ink-3);
+  color: var(--ink-2);
   white-space: nowrap;
 }
 @media (min-width: 761px) {
@@ -91,7 +91,7 @@
 .lp-type__size,
 .lp-type__word { grid-area: 1 / 1; }
 .lp-type__size { visibility: hidden; }
-.lp-type__word { color: var(--ink); }
+.lp-type__word { color: inherit; }
 .lp-type__word[data-turn='in'] { animation: lp4-turn-in 320ms cubic-bezier(0.23, 1, 0.32, 1) both; }
 .lp-type__word[data-turn='out'] { animation: lp4-turn-out 240ms cubic-bezier(0.23, 1, 0.32, 1) both; pointer-events: none; }
 @keyframes lp4-turn-in { from { opacity: 0; transform: translateY(0.55em); } }
@@ -146,6 +146,9 @@
 @media (min-width: 960px) {
   .mm.lp .lp-hero--v3 .lp-keys[data-sample='done'] { grid-template-columns: max-content; }
   .mm.lp .lp-hero--v3 .lp-keys[data-sample='done'] .lp-key--try { display: none; }
+  /* Start free is already the volt key beside the card, so the finished card does not repeat it: one volt key, and
+     one Start free, on the screen. Phones keep the card's own key (the hero's keys are off screen by then). */
+  .mm.lp .lp-hero--v3:has(.lp-keys[data-sample='done']) .lp-stage .mm-drill__actions > .mm-btn--onnight { display: none; }
 }
 .mm.lp .lp-hero--v3 .lp-key--go {
   background: var(--volt);

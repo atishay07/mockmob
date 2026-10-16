@@ -221,13 +221,8 @@ html[data-theme='light'] .ml__stage { box-shadow: 0 20px 40px -24px rgba(32, 26,
   .ml-story[data-pinned='true'] .ml__caption { display: none; }
   .ml-story[data-pinned='true'] .ml__steps button { min-height: 44px; }
 }
-/* Wide windows: the held stage starts right under the docked heading, as on phones, instead of in the middle of the
-   window with an empty band above it; the band left under the stage is given back to the page after the story
-   (it slides up into it), so the gap after the story stays the usual one. */
-@media (min-width: 900px) {
-  .mm.lp #score-recovery-lab .ss--centre[data-pinned='true'] { margin-block: 0 calc(var(--ss-slack, 0px) * -1); }
-  .mm.lp #score-recovery-lab .ss--centre[data-pinned='true'] .ss__stage > * { translate: none; }
-}
+/* Wide windows centre the held stage in the window (scroll-story.css .ss--centre), so the band the stage leaves
+   is split above and below it instead of sitting as one dead band under the screen; phones keep it at eye level. */
 /* Wide, tall windows (1200 by 820 and up): the held stage is drawn a step larger, so its 13 px screen type reads at
    about 15 px and the stage fills the held window instead of leaving a band of a quarter of it empty under the
    screen. zoom keeps the layout honest (the column width is unchanged; the screen lays out at its own size). */

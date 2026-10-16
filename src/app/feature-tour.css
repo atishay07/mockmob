@@ -181,7 +181,6 @@
 }
 
 /* ---------- Exam comparator (ExamComparator.jsx) ----------
-   The heading's second clause is quieter than its first (same size and weight), and the console's clock
-   keeps the bar's right edge now that the bar carries no extra label. */
-.mm.lp .lp-h2 .lp-h2__rest { color: var(--ink-3); }
+   The heading is one ink (landing.css), and the console's clock keeps the bar's right edge now that the bar
+   carries no extra label. */
 .lp-exam__bar .lp-exam__clock { margin-left: auto; }
