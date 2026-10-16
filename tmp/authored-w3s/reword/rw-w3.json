@@ -1,0 +1,246 @@
+{
+  "batch": "rw-w3",
+  "subject": "mixed",
+  "questions": [
+    {
+      "id": "6bbde2ac-85d2-4b61-a2e7-25ad64d121d3",
+      "subject": "general_test",
+      "unit": "Logical and Analytical Reasoning",
+      "chapter": "Logical & Analytical Reasoning",
+      "type": "sequence_ordering",
+      "stem": "Arrange the following words in the order they would appear in a dictionary, from first to last: (A) Tiger (B) Tablet (C) Table (D) Tail (E) Tab. Choose the correct sequence from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(E), (C), (B), (D), (A)"
+        },
+        {
+          "key": "B",
+          "text": "(E), (D), (C), (B), (A)"
+        },
+        {
+          "key": "C",
+          "text": "(C), (E), (B), (D), (A)"
+        },
+        {
+          "key": "D",
+          "text": "(E), (C), (D), (B), (A)"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "Dictionary order compares letters from left to right. Tab comes before Table because it is a prefix of it, and Table comes before Tablet for the same reason. Tablet comes before Tail because b precedes i at the third letter, and Tail comes before Tiger because a precedes i at the second letter. The order is Tab, Table, Tablet, Tail, Tiger, which is (E), (C), (B), (D), (A).",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "CUET GAT syllabus, Logical and Analytical Reasoning: Ranking and order (alphabetical ordering)",
+      "source": "claude-authored-2026-10-17-w3"
+    },
+    {
+      "id": "f05bce07-08b2-491b-937f-d70bca9926c5",
+      "subject": "general_test",
+      "unit": "Logical and Analytical Reasoning",
+      "chapter": "Logical & Analytical Reasoning",
+      "type": "sequence_ordering",
+      "stem": "Lata is taller than Mohan. Kiran is taller than Lata. Neha is shorter than Mohan but taller than Om. Arrange the following five persons from the tallest to the shortest: (A) Neha (B) Lata (C) Om (D) Kiran (E) Mohan. Choose the correct sequence from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(D), (B), (A), (E), (C)"
+        },
+        {
+          "key": "B",
+          "text": "(B), (D), (E), (A), (C)"
+        },
+        {
+          "key": "C",
+          "text": "(D), (B), (E), (A), (C)"
+        },
+        {
+          "key": "D",
+          "text": "(D), (E), (B), (A), (C)"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "Chain the comparisons: Kiran > Lata > Mohan from the first two clues, and Mohan > Neha > Om from the third. Combining the chains gives the full order Kiran, Lata, Mohan, Neha, Om, which is (D), (B), (E), (A), (C). Check a sequence against every clue, since one wrong adjacent pair rules it out.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "CUET GAT syllabus, Logical and Analytical Reasoning: Ranking and order (height comparisons)",
+      "source": "claude-authored-2026-10-17-w3"
+    },
+    {
+      "id": "4650a47a-f12a-4916-975a-1e2bbd999de5",
+      "subject": "general_test",
+      "unit": "Logical and Analytical Reasoning",
+      "chapter": "Logical & Analytical Reasoning",
+      "type": "sequence_ordering",
+      "stem": "Five books (P), (Q), (R), (S) and (T) are placed on a shelf from left to right. S is at the left end. P is immediately to the right of R. Q is to the right of P but not next to P. Which arrangement from left to right is correct?",
+      "options": [
+        {
+          "key": "A",
+          "text": "S, R, P, Q, T"
+        },
+        {
+          "key": "B",
+          "text": "S, R, P, T, Q"
+        },
+        {
+          "key": "C",
+          "text": "S, P, R, T, Q"
+        },
+        {
+          "key": "D",
+          "text": "R, S, P, T, Q"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "S fixes the first place. R and P must then take two consecutive places among the second to the fifth, with P right after R. If P were in the fourth place, the only place to its right is the fifth, which is next to P, and if P were in the fifth place Q would have no place to its right. So R is in the second place and P in the third. Q must then be in the fifth place, to the right of P without touching it, which leaves T in the fourth place: S, R, P, T, Q.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "CUET GAT syllabus, Logical and Analytical Reasoning: Seating and arrangement (linear, ordering by clues)",
+      "source": "claude-authored-2026-10-17-w3"
+    },
+    {
+      "id": "c397d567-7836-4f84-a2ff-2e3913967ac9",
+      "subject": "general_test",
+      "unit": "Logical and Analytical Reasoning",
+      "chapter": "Logical & Analytical Reasoning",
+      "type": "statement_based",
+      "stem": "Statements: P > Q ≥ R; S < R; T ≥ P. Conclusions: (I) T > S. (II) S > Q. (III) P > R. Which conclusions follow?",
+      "options": [
+        {
+          "key": "A",
+          "text": "I only"
+        },
+        {
+          "key": "B",
+          "text": "I and III only"
+        },
+        {
+          "key": "C",
+          "text": "II and III only"
+        },
+        {
+          "key": "D",
+          "text": "I, II and III"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "From T ≥ P > Q ≥ R > S, we get T > S (I follows) and P > R (III follows). From S < R ≤ Q we get S < Q, so S > Q does not follow (II).",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "CUET GAT syllabus, Logical and Analytical Reasoning: Inequality reasoning",
+      "source": "claude-authored-2026-10-17-w3"
+    },
+    {
+      "id": "fe0417ed-5791-41de-82df-dc27964ca5bb",
+      "subject": "physics",
+      "unit": "Optics",
+      "chapter": "Wave Optics",
+      "type": "single_mcq",
+      "stem": "How is the new position of a wavefront obtained from its previous position in Huygens' principle?",
+      "options": [
+        {
+          "key": "A",
+          "text": "By joining the source to the point of observation with a straight line"
+        },
+        {
+          "key": "B",
+          "text": "As the surface on which all the rays meet at a single focus point"
+        },
+        {
+          "key": "C",
+          "text": "As the locus of points where the path difference at two slits is zero"
+        },
+        {
+          "key": "D",
+          "text": "As the envelope of secondary wavelets from points of the old wavefront"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "Each point on a wavefront acts as a source of secondary wavelets that spread out with the speed of the wave in the medium. The new wavefront is the forward envelope (common tangent surface) of these wavelets after a time t. This construction explains reflection and refraction of plane wavefronts.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "NCERT Class 12 Physics Part II, Ch 10 Wave Optics, Sec 10.2 (Huygens' principle)",
+      "source": "claude-authored-2026-10-17-w3"
+    },
+    {
+      "id": "fc6098bd-ef63-4d76-8a35-0568d11957ae",
+      "subject": "physics",
+      "unit": "Electromagnetic Waves",
+      "chapter": "Electromagnetic Waves",
+      "type": "sequence_ordering",
+      "stem": "Arrange the following electromagnetic waves in order of increasing wavelength, shortest wavelength first.\n(A) Radio waves\n(B) Visible light\n(C) Gamma rays\n(D) Microwaves\nChoose the correct answer from the options given below:",
+      "options": [
+        {
+          "key": "A",
+          "text": "(A), (B), (C), (D)"
+        },
+        {
+          "key": "B",
+          "text": "(A), (D), (B), (C)"
+        },
+        {
+          "key": "C",
+          "text": "(C), (D), (B), (A)"
+        },
+        {
+          "key": "D",
+          "text": "(C), (B), (D), (A)"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "Wavelength decreases as frequency increases across the spectrum. Radio waves are the longest, then microwaves, infrared, visible light, ultraviolet, X-rays and gamma rays are the shortest. So increasing wavelength runs gamma rays, visible light, microwaves, radio waves.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Physics Part II, Ch 8 Electromagnetic Waves, Sec 8.4 (Electromagnetic spectrum)",
+      "source": "claude-authored-2026-10-17-w3"
+    },
+    {
+      "id": "d72339f5-bbbc-48ea-9e57-12b89e48e029",
+      "subject": "physics",
+      "unit": "Electromagnetic Waves",
+      "chapter": "Electromagnetic Waves",
+      "type": "match_the_following",
+      "stem": "Match List-I (electromagnetic wave) with List-II (use).\nList-I: (A) Infrared, (B) Ultraviolet, (C) X-rays, (D) Microwaves\nList-II: (I) Sterilising water and killing bacteria, (II) Radiographs of bones, (III) Thermal imaging and TV remote controls, (IV) Radar and satellite communication\nChoose the correct answer from the options given below:",
+      "options": [
+        {
+          "key": "A",
+          "text": "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
+        },
+        {
+          "key": "B",
+          "text": "(A)-(II), (B)-(IV), (C)-(I), (D)-(III)"
+        },
+        {
+          "key": "C",
+          "text": "(A)-(IV), (B)-(III), (C)-(II), (D)-(I)"
+        },
+        {
+          "key": "D",
+          "text": "(A)-(III), (B)-(I), (C)-(II), (D)-(IV)"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "Infrared is used in thermal imaging and remote controls (III), ultraviolet sterilises water and kills bacteria (I), X-rays produce radiographs of bones (II), and microwaves are used in radar and satellite communication (IV). The correct pairing is (A)-(III), (B)-(I), (C)-(II), (D)-(IV).",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Physics Part II, Ch 8 Electromagnetic Waves, Sec 8.4 (Electromagnetic spectrum and uses)",
+      "source": "claude-authored-2026-10-17-w3"
+    }
+  ],
+  "reasons": {
+    "6bbde2ac-85d2-4b61-a2e7-25ad64d121d3": "Engine refused (sequence_options_not_orderings_of_stem_items): options ordered unlabelled words. Words now labelled (A)-(E) in the stem and options are orderings of the labels. Same dictionary-order test, key A unchanged.",
+    "f05bce07-08b2-491b-937f-d70bca9926c5": "Engine refused (sequence_options_not_orderings_of_stem_items): same cause, the five persons were unlabelled. Persons labelled (A)-(E) in the stem, options are orderings of the labels, names changed to Lata/Mohan/Kiran/Neha/Om. Same height-chain test, key C.",
+    "4650a47a-f12a-4916-975a-1e2bbd999de5": "Engine refused (sequence_options_not_orderings_of_stem_items): only R and P were labelled. All five books now carry (P)-(T) labels in the stem; options remain orderings of them. Same shelf-arrangement test, key B.",
+    "c397d567-7836-4f84-a2ff-2e3913967ac9": "Engine refused (statement_options_use_labels_not_in_stem): inline I./II./III. after a label-like capital were lost. Conclusions now written (I), (II), (III). Same syllogism-chain test, key B.",
+    "fe0417ed-5791-41de-82df-dc27964ca5bb": "Engine refused (orphan_passage_question): the stem began with According to, which reads as a passage reference. Stem reworded to a direct question; options rebalanced; key B moved to D. Same Huygens-envelope test.",
+    "fc6098bd-ef63-4d76-8a35-0568d11957ae": "Engine refused (sequence_options_not_orderings_of_stem_items): items were unlabelled with arrow options. Waves labelled (A)-(D) in the stem, options are orderings of the labels, key A moved to D. Same wavelength-ordering test.",
+    "d72339f5-bbbc-48ea-9e57-12b89e48e029": "Engine refused (match_options_not_pairings): lower-case a-d and P-S labels were not read as pairs. Relabelled to (A)-(D) and (I)-(IV), key B moved to D, explanation updated to the new labels. Same EM-wave-use matching test."
+  }
+}

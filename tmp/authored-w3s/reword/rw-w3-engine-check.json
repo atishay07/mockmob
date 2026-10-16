@@ -1,0 +1,42 @@
+{
+ "kind": "authored_w3_engine_check",
+ "label": "rw",
+ "source": "claude-authored-2026-10-17-w3",
+ "at": "2026-10-16T22:43:51.868Z",
+ "engine": {
+  "root": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob-hotfix",
+  "file": "data/nta_engine.js",
+  "version": "nta-engine-2026.10.14-r5.2",
+  "sha256": "d51959c6e83a74edff7416044bc52ce1a0339b8bc3e991680d2b46087b790674",
+  "mtime": "2026-10-14T09:30:08.044Z",
+  "minScore": 8,
+  "minFit": 8
+ },
+ "method": "ntaEligibility (quality gate with the agent scores, content gates, CUET-fit gate) on every accepted wave-3 question with the committed agent and fit tables of the named checkout plus the wave-3 entries merged in memory (policy admit). Nothing in data/ is written. Rows are mapped like the wave-1 publisher (toQuestionRow); case-set items typed single_mcq are mapped as passage children.",
+ "candidatesSha256": "2be2f310deb2b8a0aa63ca687f80ad54b362ab494a1222f6812a35bb407e74a1",
+ "planned": 7,
+ "engineEligible": 7,
+ "engineIneligible": 0,
+ "engineIneligibleReasons": {},
+ "ineligibleByGate": {},
+ "bySubject": {
+  "general_test": {
+   "planned": 4,
+   "eligible": 4,
+   "ineligible": 0,
+   "reasons": {}
+  },
+  "physics": {
+   "planned": 3,
+   "eligible": 3,
+   "ineligible": 0,
+   "reasons": {}
+  }
+ },
+ "passageSets": [],
+ "placementProblems": [],
+ "informational": {
+  "authoredTypeVersusEngineType": []
+ },
+ "refused": []
+}
