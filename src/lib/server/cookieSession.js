@@ -8,6 +8,7 @@ import {
   isTransientAuthError,
   mayWriteAuthCookies,
 } from '../supabase-auth-errors.js';
+import { checkSupabaseClaims } from './verifiedIdentity.js';
 
 /**
  * Reads the signed-in Supabase user from the request cookies.
@@ -19,6 +20,12 @@ import {
  *   so the read is reported as transient without calling Supabase.
  * - Cookie writes are held until the outcome is known. New tokens are always written; a
  *   deletion is written only when Supabase definitively ended the session.
+ * - `isKnownIdentity` (optional) turns on local verification: the access token is checked with
+ *   getClaims (signature against the cached JWKS, expiry) plus issuer and audience. When the
+ *   token is valid and isKnownIdentity says the MockMob row for that identity exists, no call to
+ *   auth/v1/user is made. In every other case (no asymmetric key, JWKS unreachable, an identity
+ *   without a row yet, so the confirmed-email proof is needed) auth/v1/user answers as before.
+ *   A token that fails verification, or fails the issuer or audience check, is refused outright.
  */
 export const READ_TIMEOUT_MS = 5000;
 const TIMED_OUT = Symbol('timed_out');
@@ -31,6 +38,8 @@ export async function readCookieUser({
   stale = false,
   timeoutMs = READ_TIMEOUT_MS,
   clientOptions = {},
+  isKnownIdentity = null,
+  nowMs = () => Date.now(),
 }) {
   if (!supabaseUrl || !supabaseKey) return { user: null, transient: false };
   if (stale) return { user: null, transient: true };
@@ -53,13 +62,52 @@ export async function readCookieUser({
   let failure = null;
   let timedOut = false;
   try {
-    // getUser asks Supabase Auth, so a deleted or banned account is refused at once. That
-    // matters because a valid identity can create the MockMob user row. The library retries a
-    // failed refresh for up to 30 s; the budget keeps /api/auth/me answering (503) well before.
-    const result = await withTimeout(supabase.auth.getUser(), timeoutMs);
-    if (result === TIMED_OUT) timedOut = true;
-    else if (result.error) failure = result.error;
-    else user = result.data?.user || null;
+    const deadline = Date.now() + timeoutMs;
+    const budget = () => Math.max(1, deadline - Date.now());
+    let needServerCheck = true;
+
+    if (isKnownIdentity) {
+      const claimsResult = await withTimeout(supabase.auth.getClaims(), timeoutMs);
+      if (claimsResult === TIMED_OUT) {
+        timedOut = true;
+        needServerCheck = false;
+      } else if (claimsResult?.error) {
+        // A transient failure (JWKS unreachable, refresh endpoint busy) is retried against
+        // auth/v1/user below; anything else (dead session, invalid signature) ends here.
+        if (!isTransientAuthError(claimsResult.error)) {
+          failure = claimsResult.error;
+          needServerCheck = false;
+        }
+      } else if (!claimsResult?.data?.claims) {
+        needServerCheck = false; // No session at all.
+      } else {
+        const checked = checkSupabaseClaims(claimsResult.data.claims, { supabaseUrl, nowMs: nowMs() });
+        if (!checked.ok) {
+          needServerCheck = false; // Wrong issuer or audience, expired, no subject: refused.
+        } else {
+          let known = false;
+          try {
+            known = Boolean(await isKnownIdentity(checked.identity));
+          } catch {
+            known = false;
+          }
+          if (known) {
+            user = checked.identity;
+            needServerCheck = false;
+          }
+        }
+      }
+    }
+
+    if (needServerCheck) {
+      // getUser asks Supabase Auth, so a deleted or banned account is refused at once. That
+      // matters because a valid identity can create the MockMob user row. The library retries a
+      // failed refresh for up to 30 s; the budget keeps /api/auth/me answering (503) well before.
+      const result = await withTimeout(supabase.auth.getUser(), budget());
+      if (result === TIMED_OUT) timedOut = true;
+      else if (result.error) failure = result.error;
+      else user = result.data?.user || null;
+    }
   } catch (error) {
     failure = error;
   }

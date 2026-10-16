@@ -10,6 +10,7 @@
 
 import { supabaseAdmin } from '@/lib/supabase';
 import { formatIdFor } from '@/lib/server/attemptSummary';
+import { authUserCache, invalidateAuthUser } from '@/lib/server/authUserCache';
 import {
   effectivePremiumFromRow,
   REFUND_REVOKED_PREMIUM_ACTION,
@@ -49,6 +50,27 @@ const userOut = (r) => r && ({
   premiumUntil: r.premium_until || null,
   razorpaySubscriptionId: r.razorpay_subscription_id || null,
   createdAt: new Date(r.created_at).getTime(),
+});
+
+// The columns userOut reads: everything the app uses of a user, without the moderation and
+// trust bookkeeping columns that no caller of getUserById looks at.
+const USER_COLUMNS = 'id, name, email, image, subjects, role, credit_balance, subscription_status, is_premium, premium_until, razorpay_subscription_id, created_at';
+// What auth() needs on every request. No plan, premium or credit fields: those are read fresh.
+const AUTH_USER_COLUMNS = 'id, name, email, image, subjects, role';
+// An older database without the paid-through columns still answers: retry with every column.
+async function readUserRow(run) {
+  let { data, error } = await run(USER_COLUMNS);
+  if (error && isMissingEntitlementSchema(error)) ({ data, error } = await run('*'));
+  if (error) throw error;
+  return userOut(data);
+}
+const authUserOut = (r) => r && ({
+  id: r.id,
+  name: r.name,
+  email: r.email,
+  image: r.image,
+  subjects: Array.isArray(r.subjects) ? r.subjects : [],
+  role: r.role,
 });
 
 const paymentOut = (r) => {
@@ -315,10 +337,20 @@ export const Database = {
 
   async getUserById(id) {
     if (!id) return null;
-    const { data, error } = await supabaseAdmin()
-      .from('users').select('*').eq('id', id).maybeSingle();
-    if (error) throw error;
-    return userOut(data);
+    return readUserRow((columns) => supabaseAdmin()
+      .from('users').select(columns).eq('id', id).maybeSingle());
+  },
+
+  // The identity row auth() resolves a session from, kept for 30 s per instance (see
+  // authUserCache.js). Never use it for plan, premium or credits: getUserById is always fresh.
+  async getAuthUserById(id) {
+    if (!id) return null;
+    return authUserCache.load(id, async (userId) => {
+      const { data, error } = await supabaseAdmin()
+        .from('users').select(AUTH_USER_COLUMNS).eq('id', userId).maybeSingle();
+      if (error) throw error;
+      return authUserOut(data);
+    });
   },
 
   async getUserByName(name) {
@@ -331,10 +363,8 @@ export const Database = {
 
   async getUserByEmail(email) {
     if (!email) return null;
-    const { data, error } = await supabaseAdmin()
-      .from('users').select('*').eq('email', email).maybeSingle();
-    if (error) throw error;
-    return userOut(data);
+    return readUserRow((columns) => supabaseAdmin()
+      .from('users').select(columns).eq('email', email).maybeSingle());
   },
 
   async createUser(user) {
@@ -348,7 +378,8 @@ export const Database = {
       credit_balance: 100,
     };
     const { data, error } = await supabaseAdmin()
-      .from('users').insert(row).select('*').single();
+      .from('users').insert(row).select(USER_COLUMNS).single();
+    invalidateAuthUser(row.id);
     if (error) throw error;
     return userOut(data);
   },
@@ -365,16 +396,21 @@ export const Database = {
     if ('premiumUntil' in updates) patch.premium_until = updates.premiumUntil;
     if ('razorpaySubscriptionId' in updates) patch.razorpay_subscription_id = updates.razorpaySubscriptionId;
 
-    let { data, error } = await supabaseAdmin()
-      .from('users').update(patch).eq('id', id).select('*').maybeSingle();
-    if (error && isMissingEntitlementSchema(error)) {
-      delete patch.premium_until;
-      delete patch.razorpay_subscription_id;
-      ({ data, error } = await supabaseAdmin()
-        .from('users').update(patch).eq('id', id).select('*').maybeSingle());
+    try {
+      let { data, error } = await supabaseAdmin()
+        .from('users').update(patch).eq('id', id).select(USER_COLUMNS).maybeSingle();
+      if (error && isMissingEntitlementSchema(error)) {
+        delete patch.premium_until;
+        delete patch.razorpay_subscription_id;
+        ({ data, error } = await supabaseAdmin()
+          .from('users').update(patch).eq('id', id).select('*').maybeSingle());
+      }
+      if (error) throw error;
+      return userOut(data);
+    } finally {
+      // Whatever happened, the next auth() on this instance reads the row again.
+      invalidateAuthUser(id);
     }
-    if (error) throw error;
-    return userOut(data);
   },
 
   // =====================================================================
@@ -680,6 +716,7 @@ export const Database = {
           await supabaseAdmin().from('users')
             .update({ role: 'creator' })
             .eq('id', existingUser.id);
+          invalidateAuthUser(existingUser.id);
         }
         return creatorOut(linked || data);
       }
