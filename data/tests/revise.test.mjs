@@ -348,9 +348,9 @@ test('later: the day follows the real cards when they are known, and an old pape
 test('reviseBody is finished for the clients: head, summary, minutes and the next day', () => {
   const cards = [card({ question_id: 'a' }), card({ question_id: 'b', due_day: '2026-10-20', right_total: 2 })];
   const body = reviseBody({ cards, items: [{ questionId: 'a' }], today: '2026-10-16', cap: 10 });
-  assert.deepEqual([body.head, body.summary, body.next, body.minutes, body.state], ['1 question to revise today', '1 due today. 2 cards, 1 recalled twice.', 'The next ones are due on Tue 20 Oct.', 5, 'ready']);
+  assert.deepEqual([body.head, body.summary, body.next, body.minutes, body.state], ['1 question to revise today', '2 questions in rotation, 1 recalled twice.', 'The next ones are due on Tue 20 Oct.', 5, 'ready']);
   assert.equal(reviseBody({ cards, items: [], today: '2026-10-16' }).head, 'Nothing to revise today');
-  assert.equal(reviseBody({ cards: [card({ question_id: 'a' })], items: [{ questionId: 'a' }], today: '2026-10-16' }).summary, '1 due today. 1 card, 0 recalled twice.', 'one card is "1 card", never "1 cards"');
+  assert.equal(reviseBody({ cards: [card({ question_id: 'a' })], items: [{ questionId: 'a' }], today: '2026-10-16' }).summary, '1 question in rotation, 0 recalled twice.', 'one card is "1 question", never "1 questions"');
 });
 
 test('later: a paper with more wrong answers than the day\'s cap says 10 come back and when the rest follow', () => {

@@ -68,7 +68,7 @@ html[data-theme='light'] .app-shell .stk--sidebar { box-shadow: inset 0 0 0 1px 
     padding: 0 2px 5px;
     background: transparent;
     color: var(--a-accent-text);
-    font: 700 11px/1.25 var(--font-body);
+    font: 700 12px/1.25 var(--font-body);
   }
   html .app-shell .arena-bottomnav > button.stk--bar .stk__disc {
     position: absolute;
@@ -90,6 +90,13 @@ html[data-theme='light'] .app-shell .stk--sidebar { box-shadow: inset 0 0 0 1px 
   html .app-shell .arena-bottomnav > button.stk--bar:focus-visible { outline: none; }
   html .app-shell .arena-bottomnav > button.stk--bar:focus-visible .stk__disc { box-shadow: 0 0 0 4px var(--a-bg), 0 0 0 6px var(--a-focus); }
   html[data-theme='light'] .app-shell .arena-bottomnav > button.stk--bar .stk__disc { box-shadow: 0 0 0 4px var(--a-bg), inset 0 0 0 1px rgb(82 103 0 / 0.35); }
+  /* Practice's session dock is up, with its own volt Start right above the bar: one volt Start on screen. The key
+     goes quiet (outlined, ink mark) and still opens the Start sheet. */
+  html:has(.pr-dock[data-shown]) .app-shell .arena-bottomnav > button.stk--bar { color: var(--a-ink-2); }
+  html:has(.pr-dock[data-shown]) .app-shell .arena-bottomnav > button.stk--bar .stk__disc {
+    background: var(--a-raised); color: var(--a-ink);
+    box-shadow: 0 0 0 4px var(--a-bg), inset 0 0 0 1.5px var(--a-line-strong);
+  }
 }
 
 /* ---------- The sheet ---------- */

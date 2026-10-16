@@ -109,6 +109,44 @@ function Prove({ attempt, topChapter, ruleCheck = null, later = null }) {
 // swotShown: the result page's SWOT already reads the chapters, so Find shows only Time and decisions.
 // timeRead: buildTimeDecisions(attempt) from the result page (the same read feeds each answer's own lines).
 // lab: the server's Mistake Lab contract (attempt.lab), or null.
+// The repair queue as a ranked list: the first three in repair order, each with its chapter, the reason it is early
+// when other students' answers put it there, and the 6 marks the wrong answer cost (5 not won plus the 1 penalty).
+// The rest wait behind "Show all N", so the one action under it ("Repair Q42") stays the thing to do.
+const QUEUE_TOP = 3;
+function RepairQueue({ queue, led, repaired, onJump }) {
+  const [all, setAll] = useState(false);
+  const listId = useId();
+  const shown = all ? queue : queue.slice(0, QUEUE_TOP);
+  return (
+    <div className="srl-queue-wrap">
+      <ol className="srl-queue" id={listId}>
+        {shown.map((r, i) => {
+          const first = led.get(r.q.id);
+          const done = repaired.has(r.q.id);
+          return (
+            <li key={r.q.id}>
+              <button type="button" className="srl-queue__item" data-done={done || undefined} data-led={first?.reason} onClick={() => onJump(r.number)}
+                aria-label={`${i + 1}. Q${r.number}, ${r.chapter}.${first?.line ? ` ${first.line}` : ''} 6 marks lost.${done ? ' Explanation ready.' : ''}`}>
+                <b className="srl-queue__n">Q{r.number}</b>
+                <span className="srl-queue__what">
+                  <span className="srl-queue__ch">{r.chapter}</span>
+                  {first?.line ? <small><Users className="srl-queue__led" size={13} strokeWidth={2.4} aria-hidden="true" />{first.line}</small> : null}
+                </span>
+                {done ? <Check className="srl-queue__done" size={16} strokeWidth={3} aria-hidden="true" /> : <span className="srl-queue__marks">−6</span>}
+              </button>
+            </li>
+          );
+        })}
+      </ol>
+      {queue.length > QUEUE_TOP ? (
+        <button type="button" className="srl-queue__more" aria-expanded={all} aria-controls={listId} onClick={() => setAll((v) => !v)}>
+          {all ? `Show the first ${QUEUE_TOP}` : `Show all ${queue.length}`}<span aria-hidden="true">{all ? '−' : '+'}</span>
+        </button>
+      ) : null}
+    </div>
+  );
+}
+
 export default function ScoreRecoveryLab({ attempt, analysis, timeRead = null, lab = null, repaired, handled = repaired, onJump, onRepairNext, swotShown = false }) {
   const { marks, chapters, mistakes } = analysis;
   const ledger = lab && (lab.state === 'ready' || lab.state === 'basic') && lab.groups?.length ? lab : null;
@@ -220,17 +258,7 @@ export default function ScoreRecoveryLab({ attempt, analysis, timeRead = null, l
                 <span>{done} of {mistakes.length} explanations ready</span>
               </div>
               {handled.size > done ? <p className="srl-fine">{handled.size - done} held or without an explanation. These do not count as repaired.</p> : null}
-              <div className="srl-queue">
-                {queue.map(r => {
-                  const first = led.get(r.q.id);
-                  return (
-                    <button key={r.q.id} type="button" className="srl-queue__item" data-done={repaired.has(r.q.id) || undefined} data-led={first?.reason}
-                      title={first?.line || undefined} aria-label={first ? `Q${r.number}, ${r.chapter}. ${first.line}` : undefined} onClick={() => onJump(r.number)}>
-                      {first ? <Users className="srl-queue__led" size={13} strokeWidth={2.4} aria-hidden="true" /> : null}Q{r.number}<span>{r.chapter}</span>
-                    </button>
-                  );
-                })}
-              </div>
+              <RepairQueue queue={queue} led={led} repaired={repaired} onJump={onJump} />
               {handled.size < mistakes.length ? (
                 <button type="button" className="srl-cta" onClick={onRepairNext}>{`Repair Q${queue.find(r => !handled.has(r.q.id)).number}`}</button>
               ) : done === mistakes.length ? <p className="srl-done">All explanations ready. Try fresh questions when you are ready.</p> : <p className="srl-fine">Review the recorded answers below or continue with ordinary practice.</p>}

@@ -1694,7 +1694,7 @@ html[data-motion='reduced'] .app-shell .ov-session .ov-session__icon--obj :is(.s
 @media (min-width: 421px) {
   .app-shell .rc .rc__top { grid-template-columns: auto minmax(0, 460px); justify-content: start; }
 }
-.app-shell .rc-day__name { font-size: 11px; letter-spacing: .01em; transition: color 160ms ease; }
+.app-shell .rc-day__name { font-size: 12px; letter-spacing: .01em; transition: color 160ms ease; }
 /* Today: a volt ring round its dot and its name in bold ink, counted or not (an open today keeps its breathing ring). */
 .app-shell .rc-day[data-today='true'] .rc-day__name { color: var(--a-ink); font-weight: 800; }
 .app-shell .rc-day[data-today='true']:not([data-state='open']) .rc-day__dot::after { content: ''; position: absolute; inset: -5px; border-radius: 50%; border: 2px solid var(--a-select); pointer-events: none; }

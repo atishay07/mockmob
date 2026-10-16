@@ -499,10 +499,10 @@
     "next": "The next ones are due on {day}.",
     "nextNone": "Questions you get wrong in a paper or a practice set come back here after 1, 3, 7 and 21 days.",
     "minutes": "About {m} minutes",
-    "summary": "{due} due today. {cards}, {twice} recalled twice.",
+    "summary": "{cards} in rotation, {twice} recalled twice.",
     "cards": {
-      "one": "1 card",
-      "many": "{n} cards"
+      "one": "1 question",
+      "many": "{n} questions"
     },
     "boxes": "Box {n}",
     "boxDays": {

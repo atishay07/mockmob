@@ -13,8 +13,27 @@
   box-shadow: var(--a-shadow-1, none);
 }
 .rt { display: grid; gap: 0; }
-/* A mistake the track opens lands below it, never under it. */
-.rp-review:has(.rt-bar) .rp-q { scroll-margin-top: 188px; }
+/* Wide screens: the count, the track and Finish for now share one row, so the sticky bar is one 46 px line. */
+@media (min-width: 641px) {
+  .rt { grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: 'count track finish'; align-items: center; column-gap: 16px; }
+  .rt__head { display: contents; }
+  .rt__count { grid-area: count; }
+  .rt__group { grid-area: track; min-width: 0; }
+  .rt__finish { grid-area: finish; }
+}
+/* Phones: only the count line sticks under the app bar (one 44 px line, not two); the track scrolls with the page
+   and is back at the top of the answers. The bar's box dissolves so the line can stick through the whole list. */
+@media (max-width: 640px) {
+  .rt-bar, .rt { display: contents; }
+  .rt__head {
+    position: sticky; top: 72px; z-index: 5; margin: 0 -2px; padding: 0 2px;
+    background: var(--a-bg, #0b100e); border-bottom: 1px solid var(--a-line, #253026);
+  }
+  .rt__group { margin: 0 0 12px; }
+}
+/* A mistake the track opens lands below the sticky line, never under it. */
+.rp-review:has(.rt-bar) .rp-q { scroll-margin-top: 136px; }
+@media (max-width: 640px) { .rp-review:has(.rt-bar) .rp-q { scroll-margin-top: 128px; } }
 .rt__head { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 44px; }
 .rt__count { margin: 0; font: 650 14px/1.3 var(--font-display, inherit); color: var(--a-ink, #f2f4ec); font-variant-numeric: tabular-nums; }
 .rt__finish {

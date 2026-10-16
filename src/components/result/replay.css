@@ -254,10 +254,8 @@ html[data-theme='light'] .rpl-sw[data-g='other_wrong'] { background: #7a1d15; }
 
 /* ---------- Phones: the replay takes the width under the step number too, so a row is as wide as it can be ---------- */
 @media (max-width: 640px) {
-  /* Over the step's connecting line, on the Lab's own ground. */
-  .srl-step .rpl { position: relative; z-index: 1; margin-left: -38px; background: var(--a-raised, #131a16); }
-  /* The words line up with the step's own text column (38px in); the stage and rows below keep the full width. */
-  .srl-step .rpl > .rpl-head { margin-left: 38px; }
+  /* The steps no longer have a number column (result.css: plain headings between hairlines), so the replay sits in
+     the step's own text column, inside the Lab's padding. A negative margin here pushed it 4px off the screen. */
   .rpl-stage { padding: 12px 12px 8px; border-radius: 14px; }
   /* Chips stay on one line and scroll inside their own row; the page itself never scrolls sideways. */
   .rpl-chips { flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; margin: 0 -12px 0 0; padding: 2px 12px 2px 2px; }

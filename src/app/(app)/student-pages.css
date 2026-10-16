@@ -215,11 +215,11 @@
 .app-shell .rc-ring__fill[data-met='true'] { filter: drop-shadow(0 0 5px var(--volt-glow, rgba(210, 240, 0, .25))); }
 .app-shell .rc-ring__count { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
 .app-shell .rc-ring__count b { font: 800 calc(var(--rc-size, 132px) * .3)/1 var(--font-display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: var(--a-ink); }
-.app-shell .rc-ring__count small { margin-top: 2px; font-size: max(11px, calc(var(--rc-size, 132px) * .09)); color: var(--a-ink-3); }
+.app-shell .rc-ring__count small { margin-top: 2px; font-size: max(12px, calc(var(--rc-size, 132px) * .09)); color: var(--a-ink-3); }
 
 /* Seven days */
 .app-shell .rc-days { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 2px; }
-.app-shell .rc-day { position: relative; display: grid; justify-items: center; gap: 3px; width: 100%; min-height: 54px; padding: 4px 0 0; border: 0; background: transparent; color: var(--a-ink-3); font: 600 11px var(--font-body); cursor: pointer; touch-action: manipulation; }
+.app-shell .rc-day { position: relative; display: grid; justify-items: center; gap: 3px; width: 100%; min-height: 54px; padding: 4px 0 0; border: 0; background: transparent; color: var(--a-ink-3); font: 600 12px var(--font-body); cursor: pointer; touch-action: manipulation; }
 .app-shell .rc-day:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 12px; }
 .app-shell .rc-day__dot { position: relative; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--a-line-strong); background: transparent; transform: scale(.6); opacity: 0; transition: transform var(--mm-spring-release-dur) var(--mk-spring) calc(var(--rc-i, 0) * 55ms), opacity 160ms linear calc(var(--rc-i, 0) * 55ms), background-color 200ms ease, border-color 200ms ease; }
 .app-shell .rc-day[data-armed='true'] .rc-day__dot { transform: scale(1); opacity: 1; }
@@ -301,7 +301,7 @@ html[data-motion='reduced'] .app-shell .rc-day[data-state='open'] .rc-day__dot::
 .app-shell .pt__marks { list-style: none; margin: 0; padding: 0; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 4px; text-align: center; }
 .app-shell .pt__marks b { display: block; font: 800 16px/1.2 var(--font-display); font-variant-numeric: tabular-nums; color: var(--a-ink-2, #bcc5b9); }
 .app-shell .pt__marks li[data-newest='true'] b { color: var(--a-accent-text, #d2f000); font-size: 19px; }
-.app-shell .pt__marks span { font-size: 11.5px; color: var(--a-ink-3, #93a08f); }
+.app-shell .pt__marks span { font-size: 12px; color: var(--a-ink-3, #93a08f); }
 .app-shell .pt__hold { opacity: 0; }
 html[data-motion='reduced'] .app-shell .pt__plot svg, html[data-motion='reduced'] .app-shell .pt__dot { transition: none; }
 @media (prefers-reduced-motion: reduce) { .app-shell .pt__plot svg, .app-shell .pt__dot { transition: none; } }

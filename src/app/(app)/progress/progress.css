@@ -50,7 +50,7 @@
 @media (max-width: 639px) {
   .app-shell .student-page--progress .rc-ribbon { gap: 5px; }
   .app-shell .student-page--progress .rc-wk { height: 52px; }
-  .app-shell .student-page--progress .rc-wk__label { font-size: 11px; }
+  .app-shell .student-page--progress .rc-wk__label { font-size: 12px; letter-spacing: -0.01em; }
   /* More than eight weeks do not fit their dates at phone width: the first week and this week keep theirs */
   .app-shell .student-page--progress .rc-ribbon[data-many='true'] li:not(:first-child):not(:last-child) .rc-wk__label { visibility: hidden; }
 }

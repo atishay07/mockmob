@@ -26,11 +26,14 @@ export default function RunTrack({ segments, onGo, onFinish }) {
   }
 
   return (
-    <div className="rt" role="group" aria-label={RUN_COPY.trackLabel} aria-describedby={hintId}>
+    // .rt and .rt__head are plain boxes with no role, so a layout may dissolve them (display: contents): one row on
+    // wide screens, and on phones only the count line sticks while the track scrolls with the page (repair-run.css).
+    <div className="rt">
       <div className="rt__head">
         <p className="rt__count" role="status" aria-live="polite">{RUN_COPY.progress(currentIndex + 1, n)}</p>
         {onFinish ? <button type="button" className="rt__finish" onClick={onFinish}>{RUN_COPY.finishForNow}</button> : null}
       </div>
+      <div className="rt__group" role="group" aria-label={RUN_COPY.trackLabel} aria-describedby={hintId}>
       <ol className="rt__track" onKeyDown={onKeyDown}>
         {segments.map((s, i) => {
           const tappable = canGoTo(segments, i);
@@ -47,6 +50,7 @@ export default function RunTrack({ segments, onGo, onFinish }) {
           );
         })}
       </ol>
+      </div>
       <span id={hintId} className="rt-sr">{RUN_COPY.trackHint}</span>
     </div>
   );

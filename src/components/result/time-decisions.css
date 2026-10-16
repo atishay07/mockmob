@@ -47,7 +47,8 @@
 .td-changes__net[data-tone='bad'] { color: var(--a-bad-text, #ff9d92); }
 
 /* ---------- One answer: "Your time and picks" ---------- */
-.rp-td { display: grid; gap: 4px; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--a-line, #253026); background: var(--a-sunken, #0f1512); }
+/* A ruled section of the open answer, not a third box inside it: the option rows stay the only boxed items. */
+.rp-td { display: grid; gap: 4px; padding: 12px 0 0; border: 0; border-top: 1px solid var(--a-line, #253026); border-radius: 0; background: transparent; }
 .rp-td p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--a-ink-2, #bcc5b9); font-variant-numeric: tabular-nums; }
 .rp-td .rp-td__label { font: 650 13px/1.4 var(--font-display, inherit); color: var(--a-ink, #f2f4ec); }
 

@@ -12,10 +12,13 @@ import { useWalletSummary } from '@/components/useWalletSummary';
 import { usesLine } from '@/lib/creditCopy.mjs';
 import './repair-check.css';
 
-export default function RepairAsk({ attemptId, questionId, number = null, askHref = null, style }) {
+// `balance`: the AI credits the repair's own response says are left after its charge. It is newer than the wallet read
+// (reused for five minutes), so the price line and the repair's "1 AI credit used. You have N." say the same N.
+export default function RepairAsk({ attemptId, questionId, number = null, askHref = null, balance = null, style }) {
   const auth = useContext(AuthContext);
   const wallet = useWalletSummary(auth?.user?.id, { reuseFresh: true });
-  const price = usesLine({ what: CHECK_COPY.askCost, cost: 1, pool: 'ai', balance: wallet.wallet?.known ? wallet.wallet.total : null });
+  const left = Number.isFinite(balance) ? balance : wallet.wallet?.known ? wallet.wallet.total : null;
+  const price = usesLine({ what: CHECK_COPY.askCost, cost: 1, pool: 'ai', balance: left });
   const offer = askOffer(wallet.wallet, price);
   const href = safeAskHref(askHref, attemptId, questionId);
   if (offer.pending) return <div className="mr-block mr-askq" data-pending aria-hidden="true" style={style}><span className="mr-askq__hold" /></div>;

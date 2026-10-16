@@ -180,7 +180,7 @@ export function RepairDone({ state, attemptId = null, questionId = null, chosen 
       <RuleCard rule={blocks.rule} hook={v3 ? blocks.hook : null} style={stagger('rule')} />
       {v3 && blocks.anotherWay ? <AnotherWay text={blocks.anotherWay} style={stagger('another')} /> : null}
       {!v3 && blocks.nextStep ? <div className="mr-block mr-next" data-stagger style={stagger('nextStep')}><h5 className="mr-label">{REPAIR_COPY.doThisNext}</h5><p>{blocks.nextStep}</p></div> : null}
-      {showCheck ? <RepairAsk attemptId={attemptId} questionId={questionId} number={number} askHref={state.check.askHref} style={stagger('ask')} /> : null}
+      {showCheck ? <RepairAsk attemptId={attemptId} questionId={questionId} number={number} askHref={state.check.askHref} balance={state.charged && state.wallet?.known !== false ? state.wallet?.total ?? null : null} style={stagger('ask')} /> : null}
       {showCheck ? <RepairCheck attemptId={attemptId} questionId={questionId} check={state.check} style={stagger('check')} /> : null}
       {record.length ? (
         <div className="mr-block mr-record" data-stagger style={stagger('record')}>

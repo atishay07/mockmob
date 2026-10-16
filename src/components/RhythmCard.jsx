@@ -221,7 +221,9 @@ function pickMobi(rhythm, { cheered, hello, counted, hour }) {
 
 // Full form takes `between`: what the page puts after this week (Progress puts the next step there, so the
 // action that earns the next study day sits right under the count), before the weeks and the paths.
-export default function RhythmCard({ compact = false, mobi = !compact, between = null }) {
+// `quietMet` (Today): the page's companion is saying the met week right now, so the card leaves out its own
+// "Week met" sentence; the ring and the day dots already show it.
+export default function RhythmCard({ compact = false, mobi = !compact, between = null, quietMet = false }) {
   const { reduced } = useMobiPrefs();
   const [wakeLine, setWakeLine] = useState('');
   const [state, setState] = useState({ status: 'loading', rhythm: null, cheered: true, pick: null });
@@ -287,7 +289,9 @@ export default function RhythmCard({ compact = false, mobi = !compact, between =
   const shownIndex = picked != null ? picked : todayIndex;
   const met = rhythm.metThisWeek;
   const pick = state.pick;
-  const status = weekStatus(rhythm);
+  // A returning week: Mobi's hello and the card's own sentence become one line, so "Welcome back" is said once.
+  const hello = pick?.kind === 'hello' && pick.line;
+  const status = hello ? `${pick.line} One counted study day starts your week.` : quietMet && met ? '' : weekStatus(rhythm);
   const streak = rhythm.weeksMetStreak;
 
   const card = (
@@ -295,8 +299,8 @@ export default function RhythmCard({ compact = false, mobi = !compact, between =
       <header className="rc__head">
         <div>
           <h2 className="rc__title">{compact ? 'This week' : 'Your study days'}</h2>
-          <p className="rc__status">{status}</p>
-          {pick?.kind === 'sleep' ? (wakeLine ? <p className="rc__status" role="status">{wakeLine}</p> : null) : pick?.line ? <p className="rc__status" role="status">{pick.line}</p> : null}
+          {status ? <p className="rc__status" role={hello ? 'status' : undefined}>{status}</p> : null}
+          {pick?.kind === 'sleep' ? (wakeLine ? <p className="rc__status" role="status">{wakeLine}</p> : null) : pick?.line && !hello ? <p className="rc__status" role="status">{pick.line}</p> : null}
         </div>
         {/* Today already holds Mobi in its plan card, so its slim weekly card keeps him out: once per screen. */}
         {pick && !compact ? <MobiReact act={pick.act} size={76} mood={pick.mood} interactive label={pick.kind === 'sleep' ? 'Mobi, asleep. Tap to wake him.' : undefined} onTap={(a) => { if (a === 'wake') setWakeLine(pick.wakeLine); }} onDone={pick.kind === 'proud' && !cheered ? markCheered : undefined} /> : null}

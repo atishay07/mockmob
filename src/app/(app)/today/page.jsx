@@ -56,7 +56,7 @@ export default function Today() {
           lede={day ? <><time className="today-date">{day}.</time> {lede}</> : lede} />
         <LearningNextAction why={top} moment={weekGoal} />
         <div className="today-record">
-          <RhythmCard compact />
+          <RhythmCard compact quietMet={Boolean(weekGoal)} />
           <TodayColleges userId={user?.id} />
           <RecordGlimpse state={insights} skip={top ? ['chapter'] : []} link={!top} />
         </div>

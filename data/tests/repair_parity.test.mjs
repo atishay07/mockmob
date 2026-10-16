@@ -9,7 +9,13 @@ const rule = (css, selector) => {
   assert.ok(at >= 0, `${selector} has a rule`);
   return css.slice(at, css.indexOf('}', at));
 };
-const minHeight = (css, selector) => Number((rule(css, selector).match(/min-height:\s*(\d+)px/) || rule(css, selector).match(/(?:^|[ ;{])height:\s*(\d+)px/) || [])[1]);
+const allRules = (css, selector) => {
+  rule(css, selector);
+  const out = [];
+  for (let at = css.indexOf(`${selector} {`); at >= 0; at = css.indexOf(`${selector} {`, at + 1)) out.push(css.slice(at, css.indexOf('}', at)));
+  return out.join('\n');
+};
+const minHeight = (css, selector) => { const body = allRules(css, selector); return Number((body.match(/min-height:\s*(\d+)px/) || body.match(/(?:^|[ ;{])height:\s*(\d+)px/) || [])[1]); };
 
 test('every control in the repair run is at least 44 px tall', () => {
   const mistake = read('src/components/recovery/mistake-repair.css');

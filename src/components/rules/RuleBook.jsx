@@ -201,6 +201,9 @@ export default function RuleBook() {
   const repairCount = (book.repairs?.chapters || []).reduce((s, ch) => s + (ch.rules?.length || 0), 0);
   const habitCount = book.habits?.rules?.length || 0;
   const useProps = { sending, busy: Boolean(sending), onUse: use, error };
+  // An empty book says so once: Mobi's card, then one line on how the first rules arrive. No zero counters and no
+  // section headings over nothing.
+  const empty = !repairCount && !habitCount;
 
   return (
     <section className="pr rb">
@@ -208,15 +211,22 @@ export default function RuleBook() {
       <p className="sr-only" aria-live="polite">{said}</p>
       <div className="rb-layout">
         <aside className="rb-side">
-          <NowCard active={book.active} labels={labels} empty={!repairCount && !habitCount} confirmed={confirmed} />
-          <nav className="rb-jump" aria-label="Sections">
-            <a href="#rb-repairs"><span>{labels.repairsTitle}</span><b>{repairCount}</b></a>
-            <a href="#rb-habits"><span>{labels.habitsTitle}</span><b>{habitCount}</b></a>
-          </nav>
+          <NowCard active={book.active} labels={labels} empty={empty} confirmed={confirmed} />
+          {empty ? null : (
+            <nav className="rb-jump" aria-label="Sections">
+              <a href="#rb-repairs"><span>{labels.repairsTitle}</span><b>{repairCount}</b></a>
+              <a href="#rb-habits"><span>{labels.habitsTitle}</span><b>{habitCount}</b></a>
+            </nav>
+          )}
           {book.basis ? <p className="rb-basis">{book.basis}</p> : null}
         </aside>
 
         <div className="rb-main">
+          {empty ? (
+            <section className="rb-section rb-section--empty" aria-label="Your rules">
+              <p className="rb-empty">{[book.repairs?.empty, book.habits?.gateLine].filter(Boolean).join(' ')}</p>
+            </section>
+          ) : <>
           <section className="rb-section" id="rb-repairs" aria-labelledby="rb-repairs-h">
             <div className="rb-section__head"><h2 id="rb-repairs-h">{labels.repairsTitle}</h2><span>{plural(repairCount, 'rule')}</span></div>
             {book.repairs?.chapters?.length ? book.repairs.chapters.map((ch) => (
@@ -233,6 +243,7 @@ export default function RuleBook() {
               <ul className="rb-habits">{book.habits.rules.map((r) => <HabitRule key={r.id} rule={r} labels={labels} use={useProps} />)}</ul>
             ) : <p className="rb-empty"><Hourglass size={18} strokeWidth={2} aria-hidden="true" />{book.habits?.gateLine}</p>}
           </section>
+          </>}
 
           <section className="rb-section" id="rb-traps" aria-labelledby="rb-traps-h">
             <div className="rb-section__head"><h2 id="rb-traps-h">Traps you meet</h2></div>

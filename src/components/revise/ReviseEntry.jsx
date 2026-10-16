@@ -1,6 +1,6 @@
 "use client";
-// Review's way into Revise (feature wave F1; spec tmp/mistake-lab-v4/SPEC.md 4.8): "Revise: 6 due today. 31 cards, 4 recalled
-// twice." from GET /api/me/revise. Revise opens in its own page. While it loads the entry still opens Revise; when the
+// Review's way into Revise (feature wave F1; spec tmp/mistake-lab-v4/SPEC.md 4.8): "6 questions to revise today" over
+// "31 questions in rotation, 4 recalled twice." (the head already says what is due, so the line does not repeat it) from GET /api/me/revise. Revise opens in its own page. While it loads the entry still opens Revise; when the
 // server says it is unavailable (no table yet) or the read fails, the entry hides itself, so nothing points at a dead page.
 import Link from 'next/link';
 import { useRevise } from './useRevise';
