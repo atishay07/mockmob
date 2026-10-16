@@ -379,10 +379,11 @@ class _RoadSectionState extends State<RoadSection> {
           ],
         ),
         // The open tuner, or the rail, eases open under the tokens (240 ms) and closes the same way.
-        AnimatedSize(
-          duration: Motion.of(context, const Duration(milliseconds: 240)),
+        MmSizeEase(
+          duration: const Duration(milliseconds: 240),
           curve: Motion.out,
           alignment: Alignment.topCenter,
+          clipBehavior: Clip.none,
           child: switch (_open) {
             null => const SizedBox(width: double.infinity),
             _Tuner.pace => Padding(padding: const EdgeInsets.only(top: MmSpace.s16), child: _paceTuner(board, goal)),

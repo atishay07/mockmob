@@ -433,8 +433,7 @@ MoveHero? _doneToday(TodayInputs i, MoveFacts f, NextMoveState state, String ove
   if (n <= 0 || b == null) return null;
   final nothingOpen = state == NextMoveState.repairedCheckNotDue || (state == NextMoveState.ready && f.tonight == null && !f.planReady);
   if (!nothingOpen) return null;
-  final options = _practiceOptions();
-  final count = _practiceCount(i, options);
+  final count = _practiceCount(i, _practiceOptions());
   return MoveHero(
     state: state,
     mood: TodayMood.normal,
@@ -446,7 +445,7 @@ MoveHero? _doneToday(TodayInputs i, MoveFacts f, NextMoveState state, String ove
     number: '$n',
     numberLabel: TodayCopy.doneRepairLabel(n),
     meaning: TodayCopy.doneRepairWhy(null),
-    durations: options,
+    // No length to change: the second pill opens the repairs instead (4.2, Tonight done).
     selectedMinutes: count,
     summary: TodayCopy.practiseMore,
     primary: TodayAction(

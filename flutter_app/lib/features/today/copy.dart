@@ -638,7 +638,9 @@ abstract final class TodayCopy {
   static String tokenMocks(int n) => '$n full mocks';
   static String studyDaysAt(int n) => '${plural(n, 'study day')} at';
   static const String studyDaysPick = 'Your study days';
-  static String mocksBefore(int taken, {required bool suggested}) => suggested ? 'before your date, suggested' : 'before your date, $taken taken';
+  static String mocksBefore(int taken, {required bool suggested}) => suggested
+      ? (taken > 0 ? 'before your date, suggested. $taken taken' : 'before your date, suggested')
+      : 'before your date, $taken taken';
   static const String doneRail = 'Done';
   static String paceTokenSemantics(int goal) => 'Study days a week, $goal. Opens the days.';
   static String mocksTokenSemantics(int n, int? taken) => 'Full mocks before your date, $n${taken == null ? '' : ', $taken taken'}. Opens the target.';

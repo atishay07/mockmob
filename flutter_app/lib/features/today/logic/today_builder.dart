@@ -27,7 +27,8 @@ const int sheetRowsShown = 4;
 TodayView buildToday(TodayInputs i) {
   final plain = buildHeader(i);
   if (i.attempts == null && !i.attemptsFailed) {
-    return TodayView(header: plain, offline: i.offline);
+    // The road draws from the calendar at once (4.4, late data), so it never arrives under the week.
+    return TodayView(header: plain, offline: i.offline, road: buildRoad(i));
   }
   final move = buildMove(i);
   final heroes = <TodayHero>[

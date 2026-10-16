@@ -201,7 +201,9 @@ class _RoadStripState extends State<RoadStrip> with SingleTickerProviderStateMix
                 child: Semantics(
                   slider: true,
                   label: TodayCopy.flagLabel(widget.examDay, own: widget.ownDate),
-                  value: TodayCopy.roadWeeksTo(own: widget.ownDate, n: weeks.length - 1),
+                  value: '${weeks.length - 1} ${TodayCopy.roadWeeksTo(own: widget.ownDate, n: weeks.length - 1)}',
+                  increasedValue: step == null ? null : '${weeks.length} ${TodayCopy.roadWeeksTo(own: widget.ownDate, n: weeks.length)}',
+                  decreasedValue: step == null ? null : '${weeks.length - 2} ${TodayCopy.roadWeeksTo(own: widget.ownDate, n: weeks.length - 2)}',
                   onIncrease: step == null ? null : () => step(_clamp(_day(widget.examDay).add(const Duration(days: 7)))),
                   onDecrease: step == null ? null : () => step(_clamp(_day(widget.examDay).subtract(const Duration(days: 7)))),
                   onTap: widget.onFlag,

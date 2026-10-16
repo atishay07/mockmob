@@ -175,11 +175,20 @@ TodayInputs ashaInputs({
   bool? attemptsStale,
   DateTime? lastTriedAt,
   LearningPlan? plan,
+  int repairedToday = 0,
+  int? reviseDue,
+  bool isPro = false,
+  String? firstName = 'Asha',
+  String? email,
 }) {
   final at = now ?? tuesdayEvening;
   return TodayInputs(
     now: at,
-    firstName: 'Asha',
+    firstName: firstName,
+    email: email,
+    repairedToday: repairedToday,
+    reviseDue: reviseDue,
+    isPro: isPro,
     subjects: const ['accountancy', 'business_studies', 'economics', 'english'],
     attempts: attempts ?? ashaRecord(at),
     attemptsFetchedAt: at.subtract(attemptsAge),

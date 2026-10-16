@@ -176,7 +176,10 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
           TodayEnter(
             delay: const Duration(milliseconds: 260),
             rise: 8,
-            child: Column(
+            // With no number beside the art (a failed read), the words keep clear of the art box.
+            child: Padding(
+              padding: EdgeInsets.only(right: m.number == null ? besideArt : 0),
+              child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 // The line under the number changes with the length ("3 of the 4 open mistakes"
@@ -209,6 +212,7 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
                   ),
                 ],
               ],
+            ),
             ),
           ),
           const SizedBox(height: MmSpace.s16),
