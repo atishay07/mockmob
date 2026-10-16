@@ -45,3 +45,10 @@ test('the tour titles its chapter list as a ranked list, since it holds strength
   const rows = weakChapters();
   for (let i = 1; i < rows.length; i += 1) assert.ok(rows[i - 1].right / rows[i - 1].of <= rows[i].right / rows[i].of, 'weakest first');
 });
+
+test('the full-repair key and its sheet sit outside the scaled repair panel, so no window clips them', () => {
+  const cinema = read(new URL('LabCinema.jsx', here));
+  const panel = cinema.slice(cinema.indexOf('function RepairPanel('), cinema.indexOf('function RepairSheet('));
+  assert.doesNotMatch(panel, /lcr-more|<dialog/, 'the key is not inside the panel that ScrollStory scales');
+  assert.match(cinema, /<div className="lc-scene__fit"[^>]*>.*<\/div>\s*\{key === 'repair' \? <RepairSheet on=\{on\} \/> : null\}/);
+});

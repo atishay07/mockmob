@@ -508,9 +508,9 @@ html[data-theme='light'] .lc {
   .lcr-brief .lcp-block[data-kind='rule'] { padding-left: 0.85rem; }
   .lcr-brief .lcp-block .lcp-block__label { margin: 0 0 0.15rem; color: var(--s-ink-3); font-size: 0.75rem; font-weight: 600; }
   .lcr-brief .lcp-block p:not(.lcp-block__label) { display: block; color: var(--s-ink); font-size: 1rem; line-height: 1.3; font-weight: 600; }
-  .lcp--repair .lcr-more {
-    /* 52px before the screen's fit scale (never below 0.8 here), so the drawn key stays a 44px target. */
-    display: flex; align-items: center; justify-content: center; width: 100%; min-height: 52px; padding: 0 1rem;
+  /* The key sits outside the scaled panel (LabCinema RepairSheet), so it is drawn at its own size: a 48px target. */
+  .lc-scene .lcr-more {
+    display: flex; align-items: center; justify-content: center; width: 100%; min-height: 48px; margin-top: 0.75rem; padding: 0 1rem;
     border: 1px solid var(--s-line-2); border-radius: 12px; background: transparent; color: var(--s-ink);
     font: 750 0.9375rem/1 var(--font-body); cursor: pointer; touch-action: manipulation; pointer-events: auto;
   }
@@ -546,6 +546,28 @@ html[data-theme='light'] .lc {
      screen's matching check line steps aside on phones and the repair fits above the action bar. */
   .lc .lcp--repair .lcp-check { display: none; }
   .lc[data-pinned='true'] .lc-scene[data-scene='repair'] .lc-scene__screen { clip-path: inset(var(--lcd-chrome) 0 0 0 round 0 0 20px 20px); }
+  /* The full-repair key stands at the screen's foot, outside the scaled panel: the screen keeps its height as
+     padding (ScrollStory's fit reads it), so the panel scales into the room above and the key is never clipped,
+     never pushed under the phone dock. */
+  .lc[data-pinned='true'] .lc-scene[data-scene='repair'] .lc-scene__screen { position: relative; padding-bottom: calc(48px + 1.75rem); }
+  .lc[data-pinned='true'] .lc-scene[data-scene='repair'] .lcr-more { position: absolute; left: 1rem; right: 1rem; bottom: 1rem; width: auto; margin: 0; background: var(--s-bg); }
+  /* Shorter phones: the short form drops what the sheet and the rule already say, so the rest stays at reading
+     size and clear of the key. First "Why B is right" (the rule under it says the same in fewer words), then on
+     the shortest windows the shortened stem and "Why D looked right": the trap's name, the pick against the key
+     and the rule to keep still tell the whole repair. */
+  @media (max-height: 860px) { .lc .lcr-brief .lcp-block[data-kind='right'] { display: none; } }
+  @media (max-height: 760px) {
+    .lc .lcp--repair :is(.lcr-stem, .lcr-brief .lcp-block[data-kind='trap']) { display: none; }
+    .lc .lc-scene[data-scene='repair'] .lc-scene__fit { --ss-fit-min: 0.75; }
+  }
+  /* The shortest phones (667 px, under 700): the Repair keeps the trap's name and the pick against the key (the
+     rest is one tap away in the sheet), and the SWOT keeps the plan its title promises; the quadrants wait for a
+     taller screen. Both may draw a little smaller rather than clip. */
+  @media (max-height: 700px) {
+    .lc .lcp--repair .lcr-brief,
+    .lc .lcp--swot .lcs-block:has(.lcp-swot) { display: none; }
+    .lc .lc-scene:is([data-scene='repair'], [data-scene='swot']) .lc-scene__fit { --ss-fit-min: 0.7; }
+  }
 }
 .lc[data-pinned='true'] .lc-scene[data-on='true'] .lc-scene__screen { pointer-events: auto; }
 

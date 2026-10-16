@@ -138,6 +138,13 @@ html[data-theme='light'] .ml__stage { box-shadow: 0 20px 40px -24px rgba(32, 26,
   .ml__strip { display: grid; margin-top: auto; }
   .ml__record { display: grid; }
 }
+/* Phones: the three figures alone (the sentence under them is the "Why this" line again), so the Plan screen holds
+   its evidence where it had an empty band above the strip. */
+@media (max-width: 959px) {
+  .ml__record { display: grid; margin-top: 0.25rem; }
+  .ml__record b { font-size: 1.375rem; }
+  .ml__record small { display: none; }
+}
 
 @media (max-width: 420px) { .ml__tiles { gap: 0.4rem; } }
 @media (prefers-reduced-motion: reduce) {
@@ -220,4 +227,10 @@ html[data-theme='light'] .ml__stage { box-shadow: 0 20px 40px -24px rgba(32, 26,
 @media (min-width: 900px) {
   .mm.lp #score-recovery-lab .ss--centre[data-pinned='true'] { margin-block: 0 calc(var(--ss-slack, 0px) * -1); }
   .mm.lp #score-recovery-lab .ss--centre[data-pinned='true'] .ss__stage > * { translate: none; }
+}
+/* Wide, tall windows (1200 by 820 and up): the held stage is drawn a step larger, so its 13 px screen type reads at
+   about 15 px and the stage fills the held window instead of leaving a band of a quarter of it empty under the
+   screen. zoom keeps the layout honest (the column width is unchanged; the screen lays out at its own size). */
+@media (min-width: 1200px) and (min-height: 820px) {
+  .ml-story[data-pinned='true'] .ml__stage { zoom: 1.15; }
 }

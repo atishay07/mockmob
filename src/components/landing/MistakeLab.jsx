@@ -293,8 +293,8 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
               <p className="ml__where">While you practise: {MOVE.rule.charAt(0).toLowerCase() + MOVE.rule.slice(1)}</p>
             </div>
             <p className="ml__note">Each mock you finish makes the next move sharper.</p>
-            {/* Wide screens: the record behind the move as figures (the same numbers as "Why this"), so the screen holds
-                its evidence instead of an empty band above the strip. Phones keep the sentence alone. */}
+            {/* The record behind the move as figures (the same numbers as "Why this"), so the screen holds
+                its evidence instead of an empty band above the strip. Phones drop the closing sentence. */}
             <div className="ml__record" aria-hidden="true">
               <p>Marks lost on {MOVE.chapter}, oldest first</p>
               <ol>

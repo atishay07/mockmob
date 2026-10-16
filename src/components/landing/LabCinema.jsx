@@ -240,12 +240,8 @@ function RepairFull({ record }) {
   );
 }
 
-function RepairPanel({ on }) {
+function RepairPanel() {
   const record = repairRecordLine();
-  const sheet = useRef(null);
-  // A scene that goes off stage (the reader scrolled on, or picked another scene) takes its sheet with it.
-  useEffect(() => { if (!on && sheet.current?.open) sheet.current.close(); }, [on]);
-  const close = () => sheet.current?.close();
   return (
     <div className="lcp lcp--repair">
       <RepairHead />
@@ -273,6 +269,21 @@ function RepairPanel({ on }) {
         ))}
       </ul>
       <div className="lcr-full"><RepairFull record={record} /></div>
+    </div>
+  );
+}
+
+// Phones: the key that opens the full repair, and its sheet. It sits at the foot of the screen, outside the
+// scaled panel (the screen keeps room for it, lab-cinema.css), so however short the window it is never clipped
+// by the screen's edge or covered by the phone dock.
+function RepairSheet({ on }) {
+  const record = repairRecordLine();
+  const sheet = useRef(null);
+  // A scene that goes off stage (the reader scrolled on, or picked another scene) takes its sheet with it.
+  useEffect(() => { if (!on && sheet.current?.open) sheet.current.close(); }, [on]);
+  const close = () => sheet.current?.close();
+  return (
+    <>
       <button type="button" className="lcr-more" aria-haspopup="dialog" onClick={() => sheet.current?.showModal()}>
         Read the full repair
       </button>
@@ -289,7 +300,7 @@ function RepairPanel({ on }) {
           </div>
         </div>
       </dialog>
-    </div>
+    </>
   );
 }
 
@@ -396,6 +407,7 @@ function Stage({ step, pinned, reduced, goTo }) {
             <figure className="lc-scene__screen" aria-label={`${tab} screen from a sample Accountancy mock`}>
               <div className="lc-scene__mini" aria-hidden="true"><ScreenBar label={tab} /></div>
               <div className="lc-scene__fit" data-ss-fit="0.62"><Panel on={on} /></div>
+              {key === 'repair' ? <RepairSheet on={on} /> : null}
             </figure>
           </article>
         );
