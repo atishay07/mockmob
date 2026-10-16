@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart' show VelocityTracker, kTouchSlop;
 import 'package:flutter/material.dart';
 
 import '../motion/motion.dart';
@@ -197,24 +198,134 @@ Future<T?> showMmSheet<T>({
 }) {
   final colors = context.mmColors;
   final large = _isLargeText(context);
-  return showModalBottomSheet<T>(
-    context: context,
-    useRootNavigator: useRootNavigator,
+  final navigator = Navigator.of(context, rootNavigator: useRootNavigator);
+  final localizations = MaterialLocalizations.of(context);
+  return navigator.push(MmSheetRoute<T>(
+    capturedThemes: InheritedTheme.capture(from: context, to: navigator.context),
+    barrierLabel: localizations.scrimLabel,
+    barrierOnTapHint: localizations.scrimOnTapHint(localizations.bottomSheetLabel),
     isScrollControlled: true,
     useSafeArea: !large,
     isDismissible: isDismissible,
     enableDrag: isDismissible,
     backgroundColor: Colors.transparent,
-    barrierColor: colors.sheetScrim,
+    modalBarrierColor: colors.sheetScrim,
     elevation: 0,
     clipBehavior: Clip.none,
     constraints: BoxConstraints(maxWidth: MmSpace.contentMaxWidth, maxHeight: large || heightFactor != null ? double.infinity : 680),
     shape: const RoundedRectangleBorder(),
     sheetAnimationStyle: _sheetAnimationStyle(context),
-    builder: (context) => MmSheetGlass(
-      child: MmSheetScaffold(title: title, footer: footer?.call(context), heightFactor: heightFactor, child: builder(context)),
+    builder: (context) => MmSheetReleaseTracker(
+      child: MmSheetGlass(
+        child: MmSheetScaffold(title: title, footer: footer?.call(context), heightFactor: heightFactor, child: builder(context)),
+      ),
     ),
-  );
+  ));
+}
+
+/// A MockMob sheet's route. The drag itself is Flutter's (the sheet tracks the finger 1:1 and a
+/// flick past 700 px/s or a release under half closes it). What it adds (AP1-13, MOTION.md C7):
+/// a sheet let go on its way down closes on [Springs.settle] seeded with the finger's own speed,
+/// so a fast flick leaves fast and a slow release drifts out, instead of every close taking the
+/// same 240 ms whatever the hand did. A close from a key or the scrim keeps the drawer curve.
+class MmSheetRoute<T> extends ModalBottomSheetRoute<T> {
+  MmSheetRoute({
+    required super.builder,
+    super.capturedThemes,
+    super.barrierLabel,
+    super.barrierOnTapHint,
+    super.backgroundColor,
+    super.elevation,
+    super.shape,
+    super.clipBehavior,
+    super.constraints,
+    super.modalBarrierColor,
+    super.isDismissible,
+    super.enableDrag,
+    required super.isScrollControlled,
+    super.settings,
+    super.useSafeArea,
+    super.sheetAnimationStyle,
+  });
+
+  /// How recent a release must be for the close to take its speed.
+  static const Duration releaseWindow = Duration(milliseconds: 250);
+
+  double? _releaseVelocity;
+  final Stopwatch _sinceRelease = Stopwatch();
+
+  /// The finger left the sheet after a vertical drag at [unitsPerSecond] of the sheet's own
+  /// height (negative: downward, toward closed).
+  void noteRelease(double unitsPerSecond) {
+    _releaseVelocity = unitsPerSecond;
+    _sinceRelease
+      ..reset()
+      ..start();
+  }
+
+  /// The close for a drag released at [velocity] from [from] (both in route units), or null for
+  /// the route's own reverse. Pure, for tests.
+  static Simulation? closeAfterRelease({required double from, required double? velocity, required bool reduced}) {
+    if (velocity == null || reduced) return null;
+    // Never pull a sheet back up on its way out: a release moving upward still closes calmly.
+    return Motion.spring(Springs.settle, from, 0, velocity: velocity < 0 ? velocity : 0);
+  }
+
+  @override
+  Simulation? createSimulation({required bool forward}) {
+    final velocity = _releaseVelocity;
+    final recent = _sinceRelease.isRunning && _sinceRelease.elapsed <= releaseWindow;
+    _releaseVelocity = null;
+    _sinceRelease.stop();
+    if (forward || !recent) return super.createSimulation(forward: forward);
+    final reduced = sheetAnimationStyle?.curve == Curves.linear;
+    return closeAfterRelease(from: controller?.value ?? 1, velocity: velocity, reduced: reduced) ?? super.createSimulation(forward: forward);
+  }
+}
+
+/// Reads the finger's speed as it leaves a sheet after a vertical drag, without joining the
+/// gesture arena (the sheet's own drag still owns the gesture), and hands it to [MmSheetRoute].
+class MmSheetReleaseTracker extends StatefulWidget {
+  const MmSheetReleaseTracker({super.key, required this.child});
+
+  final Widget child;
+
+  @override
+  State<MmSheetReleaseTracker> createState() => _MmSheetReleaseTrackerState();
+}
+
+class _MmSheetReleaseTrackerState extends State<MmSheetReleaseTracker> {
+  VelocityTracker? _tracker;
+  double _startY = 0;
+  double _travel = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Listener(
+      behavior: HitTestBehavior.translucent,
+      onPointerDown: (e) {
+        _tracker = VelocityTracker.withKind(e.kind)..addPosition(e.timeStamp, e.position);
+        _startY = e.position.dy;
+        _travel = 0;
+      },
+      onPointerMove: (e) {
+        _tracker?.addPosition(e.timeStamp, e.position);
+        _travel = (e.position.dy - _startY).abs();
+      },
+      onPointerUp: (e) {
+        final tracker = _tracker;
+        _tracker = null;
+        // Only a drag carries a speed: a tap on a key inside the sheet closes it the usual way.
+        if (tracker == null || _travel < kTouchSlop) return;
+        final route = ModalRoute.of(context);
+        final height = context.size?.height ?? 0;
+        if (route is! MmSheetRoute || height <= 0) return;
+        route.noteRelease(-tracker.getVelocity().pixelsPerSecond.dy / height);
+      },
+      onPointerCancel: (_) => _tracker = null,
+      child: widget.child,
+    );
+  }
 }
 
 /// A go_router page that presents its [child] as an MockMob modal sheet over the shell.
@@ -233,8 +344,11 @@ class MmSheetPage<T> extends Page<T> {
   Route<T> createRoute(BuildContext context) {
     final colors = context.mmColors;
     final large = _isLargeText(context);
-    return ModalBottomSheetRoute<T>(
+    final localizations = MaterialLocalizations.of(context);
+    return MmSheetRoute<T>(
       settings: this,
+      barrierLabel: localizations.scrimLabel,
+      barrierOnTapHint: localizations.scrimOnTapHint(localizations.bottomSheetLabel),
       isScrollControlled: true,
       useSafeArea: !large,
       backgroundColor: Colors.transparent,
@@ -244,7 +358,7 @@ class MmSheetPage<T> extends Page<T> {
       constraints: BoxConstraints(maxWidth: MmSpace.contentMaxWidth, maxHeight: large ? double.infinity : 680),
       shape: const RoundedRectangleBorder(),
       sheetAnimationStyle: _sheetAnimationStyle(context),
-      builder: (context) => MmSheetGlass(child: MmSheetScaffold(title: title, footer: footer, child: child)),
+      builder: (context) => MmSheetReleaseTracker(child: MmSheetGlass(child: MmSheetScaffold(title: title, footer: footer, child: child))),
     );
   }
 }
