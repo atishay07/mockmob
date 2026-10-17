@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="en" data-theme="night">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ask Mobi mock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Hanken+Grotesk:wght@400..700&display=swap" rel="stylesheet">
+<style>
+/* Tokens: copied from src/app/(app)/arena.css (R4, 9578ee66) for the web, and from
+   flutter_app/lib/core/theme/mm_colors.dart for the app frame. Nothing invented except
+   the panel's own spacing. Night uses the same values but spends almost no accent. */
+:root {
+  --a-bg:#0b100e; --a-raised:#131a16; --a-raised-2:#18211b; --a-sunken:#0f1512;
+  --a-line:#253026; --a-line-strong:#384736; --a-line-hover:rgba(244,245,240,.32);
+  --a-ink:#f2f4ec; --a-ink-2:#bcc5b9; --a-ink-3:#93a08f; --a-ink-4:#7f8b7b;
+  --a-volt:#d2f000; --a-volt-ink:#0b1000; --a-accent-text:#d2f000; --a-focus:#d2f000;
+  --a-hover:rgba(244,245,240,.04); --a-topbar:rgba(11,16,14,.86); --a-sidebar:#0e1411;
+  --a-bad-text:#ff9d92; --a-bad-wash:rgba(255,122,107,.08); --a-good-text:#b6e36e; --a-good-wash:rgba(182,227,110,.07);
+  --a-shadow-2:0 1px 2px rgba(0,0,0,.35),0 24px 56px -28px rgba(0,0,0,.7);
+  --a-scrim:rgba(5,8,6,.55);
+  --a-btn-ink-bg:#f2f4ec; --a-btn-ink-fg:#0b100e;
+  --mobi-visor:#10140c; --mobi-eye:#f4f0e0;
+  --font-display:"Bricolage Grotesque",system-ui,sans-serif;
+  --font-body:"Hanken Grotesk",system-ui,sans-serif;
+  --ease-out:cubic-bezier(.23,1,.32,1); --ease-drawer:cubic-bezier(.32,.72,0,1);
+}
+html[data-theme="day"] {
+  --a-bg:#f4f5f0; --a-raised:#ffffff; --a-raised-2:#f8f9f4; --a-sunken:#eef0e8;
+  --a-line:#dce1d4; --a-line-strong:#bcc5b0; --a-line-hover:#8f9a84;
+  --a-ink:#172016; --a-ink-2:#3d4a39; --a-ink-3:#56624f; --a-ink-4:#646f5d;
+  --a-accent-text:#4f6400; --a-focus:#4f6400; --a-hover:rgba(23,32,22,.05);
+  --a-topbar:rgba(244,245,240,.9); --a-sidebar:#eef0e8;
+  --a-bad-text:#b0291f; --a-bad-wash:rgba(176,41,31,.06); --a-good-text:#3d6600; --a-good-wash:rgba(61,102,0,.07);
+  --a-shadow-2:0 1px 2px rgba(20,32,14,.06),0 24px 56px -28px rgba(20,32,14,.22);
+  --a-scrim:rgba(23,32,22,.28);
+  --a-btn-ink-bg:#172016; --a-btn-ink-fg:#f4f5f0;
+}
+/* App frame (Flutter MmColors): warm charcoal Night, warm paper Day. */
+html[data-surface="app"] {
+  --a-bg:#12110e; --a-raised:#1b1a16; --a-raised-2:#25231e; --a-sunken:#0d0c0a;
+  --a-line:#312e27; --a-line-strong:#4a453b; --a-ink:#f4f0e6; --a-ink-2:#bdb6a6; --a-ink-3:#a09989; --a-ink-4:#6a645a;
+  --a-bad-text:#ffa396; --a-good-text:#c6e86e; --a-scrim:rgba(8,7,5,.6);
+  --a-btn-ink-bg:#f4f0e6; --a-btn-ink-fg:#12110e;
+}
+html[data-surface="app"][data-theme="day"] {
+  --a-bg:#f3efe6; --a-raised:#fffdf8; --a-raised-2:#e9e4d8; --a-sunken:#eae5da;
+  --a-line:#d8d1c2; --a-line-strong:#bdb4a2; --a-ink:#17150f; --a-ink-2:#454036; --a-ink-3:#655f53; --a-ink-4:#7a7365;
+  --a-accent-text:#526700; --a-bad-text:#a3301f; --a-good-text:#3f6400; --a-scrim:rgba(23,21,15,.3);
+  --a-btn-ink-bg:#17150f; --a-btn-ink-fg:#f3efe6;
+}
+
+* { box-sizing:border-box; }
+html,body { margin:0; }
+body { background:var(--a-bg); color:var(--a-ink); font-family:var(--font-body); font-size:15px; line-height:1.5;
+  -webkit-font-smoothing:antialiased; font-variant-numeric:tabular-nums; overflow-x:hidden; }
+button { font:inherit; color:inherit; background:none; border:0; padding:0; cursor:pointer; }
+button:focus-visible, a:focus-visible, textarea:focus-visible { outline:2px solid var(--a-focus); outline-offset:2px; }
+.view { display:none; } .view.is-on { display:block; }
+.sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+
+/* ---------- Mobi's mark: flat face, no glass, no light ---------- */
+.mark { display:inline-block; flex:none; width:var(--s,22px); height:var(--s,22px); }
+.mark .eye { transform-box:fill-box; transform-origin:center; }
+.is-reading .mark .eye { animation:blink 1.6s var(--ease-out) infinite; }
+@keyframes blink { 0%,86%,100% { transform:scaleY(1); } 92% { transform:scaleY(.15); } }
+
+/* ---------- Arena shell (desktop) ---------- */
+.shell { position:relative; width:1440px; height:900px; overflow:hidden; background:var(--a-bg); }
+.side { position:absolute; inset:0 auto 0 0; width:232px; padding:14px 14px 10px; display:flex; flex-direction:column; gap:10px;
+  background:var(--a-sidebar); border-right:1px solid var(--a-line); }
+.logo { font:800 26px/1 var(--font-display); letter-spacing:-.03em; padding:6px 4px 8px; display:flex; align-items:center; }
+.logo .mark { --s:19px; margin:0 1px; transform:translateY(1px); }
+.start { min-height:46px; border-radius:12px; background:var(--a-volt); color:var(--a-volt-ink); font:700 15px/1 var(--font-display);
+  display:flex; align-items:center; justify-content:center; }
+.navg { display:grid; gap:1px; }
+.navg p { margin:6px 0 2px; padding-inline:12px; font-size:12.5px; font-weight:600; color:var(--a-ink-3); }
+.nl { display:flex; align-items:center; gap:11px; min-height:35px; padding:0 12px; border:1px solid transparent; border-radius:12px;
+  font:600 14.5px/1 var(--font-display); color:var(--a-ink-2); position:relative; }
+.nl svg { width:17px; height:17px; color:var(--a-ink-3); flex:none; }
+.nl.cur { color:var(--a-ink); background:var(--a-raised-2); border-color:var(--a-line); }
+.nl.cur::before { content:""; position:absolute; left:-15px; top:9px; bottom:9px; width:3px; border-radius:0 3px 3px 0; background:var(--a-accent-text); }
+.nl.cur svg { color:var(--a-accent-text); }
+.nl.panel-open { color:var(--a-ink); background:var(--a-hover); }
+.nl .mark { --s:17px; }
+.side-foot { margin-top:auto; padding-top:10px; border-top:1px solid var(--a-line); display:grid; gap:8px; }
+.appear { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; padding:3px; border:1px solid var(--a-line); border-radius:14px; }
+.appear span { display:grid; place-items:center; gap:3px; min-height:46px; border-radius:11px; font-size:12px; font-weight:600; color:var(--a-ink-3); }
+.appear span svg { width:15px; height:15px; }
+.appear span.on { background:var(--a-raised-2); color:var(--a-ink); box-shadow:inset 0 0 0 1px var(--a-line-strong); }
+.top { position:absolute; left:232px; right:0; top:0; height:64px; display:flex; align-items:center; gap:10px; padding:0 20px;
+  border-bottom:1px solid var(--a-line); background:var(--a-topbar); }
+.top h1 { margin:0; font:700 16px/1 var(--font-display); flex:1; }
+.chip-c { display:inline-flex; align-items:center; gap:7px; height:40px; padding:0 13px; border:1px solid var(--a-line); border-radius:999px;
+  font:700 14px/1 var(--font-display); color:var(--a-ink); }
+.chip-c svg { width:15px; height:15px; color:var(--a-ink-3); }
+.avatar { width:30px; height:30px; border-radius:50%; display:grid; place-items:center; background:var(--a-raised-2); border:1px solid var(--a-line);
+  font:700 13px/1 var(--font-display); }
+.prof { display:inline-flex; align-items:center; gap:9px; height:40px; padding:0 13px 0 5px; border:1px solid var(--a-line); border-radius:999px; font:600 14px/1 var(--font-display); }
+
+/* ---------- Review question (the page Mobi is asked from) ---------- */
+.main { position:absolute; left:232px; top:64px; right:400px; bottom:0; overflow:hidden; padding:28px 40px 40px 48px; }
+.main.full { right:0; }
+.crumb { font-size:13.5px; color:var(--a-ink-3); margin:0 0 14px; }
+.crumb b { color:var(--a-ink-2); font-weight:600; }
+.qhead { display:flex; align-items:baseline; gap:14px; margin:0 0 6px; }
+.qhead h2 { margin:0; font:700 30px/1.1 var(--font-display); letter-spacing:-.025em; }
+.qhead span { font-size:14px; color:var(--a-ink-3); }
+.qtag { font-size:14px; color:var(--a-ink-2); margin:0 0 22px; }
+.stem { font-size:18px; line-height:1.6; color:var(--a-ink); max-width:640px; margin:0 0 20px; }
+.opts { display:grid; gap:8px; max-width:640px; margin:0 0 22px; }
+.opt { display:grid; grid-template-columns:32px 1fr auto; align-items:center; gap:12px; min-height:52px; padding:8px 14px 8px 10px;
+  border:1px solid var(--a-line); border-radius:14px; background:var(--a-raised); }
+.opt i { font-style:normal; width:32px; height:32px; border-radius:9px; display:grid; place-items:center; background:var(--a-sunken);
+  font:700 14px/1 var(--font-display); color:var(--a-ink-2); }
+.opt b { font-weight:600; }
+.opt small { font-size:13px; font-weight:600; }
+.opt.wrong { border-color:color-mix(in srgb, var(--a-bad-text) 45%, transparent); background:var(--a-bad-wash); }
+.opt.wrong small { color:var(--a-bad-text); }
+.opt.key { border-color:color-mix(in srgb, var(--a-good-text) 45%, transparent); background:var(--a-good-wash); }
+.opt.key small { color:var(--a-good-text); }
+.expl { max-width:640px; padding:16px 0 0; border-top:1px solid var(--a-line); }
+.expl h3 { margin:0 0 6px; font:700 15px/1.3 var(--font-display); }
+.expl p { margin:0 0 16px; color:var(--a-ink-2); font-size:15px; line-height:1.6; }
+.acts { display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:44px; padding:0 18px; border-radius:12px;
+  font:700 14.5px/1 var(--font-display); transition:transform 140ms var(--ease-out), background-color 150ms ease, border-color 150ms ease; }
+.btn:active { transform:scale(.97); }
+.btn-ink { background:var(--a-btn-ink-bg); color:var(--a-btn-ink-fg); }
+.btn-line { border:1px solid var(--a-line-strong); background:var(--a-raised); color:var(--a-ink); }
+.btn-volt { background:var(--a-volt); color:var(--a-volt-ink); }
+.ask-entry { display:inline-flex; align-items:center; gap:9px; min-height:44px; padding:0 12px 0 8px; border-radius:12px;
+  font:600 14.5px/1 var(--font-display); color:var(--a-ink-2); transition:background-color 150ms ease, color 150ms ease; }
+.ask-entry .mark { --s:20px; }
+.ask-entry small { font:500 13px/1 var(--font-body); color:var(--a-ink-3); }
+.ask-entry:hover, .ask-entry[aria-expanded="true"] { background:var(--a-hover); color:var(--a-ink); }
+.ask-entry[aria-expanded="true"] { box-shadow:inset 0 0 0 1px var(--a-line); }
+
+/* ---------- The panel (desktop docked) and the sheet (phone) ---------- */
+.mobi { display:flex; flex-direction:column; background:var(--a-raised); color:var(--a-ink); min-height:0; }
+.mobi.dock { position:absolute; top:64px; right:0; bottom:0; width:400px; border-left:1px solid var(--a-line);
+  transition:transform 240ms var(--ease-drawer), opacity 200ms var(--ease-out); }
+.mobi.dock.closed { transform:translateX(24px); opacity:0; pointer-events:none; transition-duration:160ms; }
+.mh { display:flex; align-items:center; gap:10px; padding:14px 12px 10px 18px; }
+.mh .mark { --s:24px; }
+.mh h2 { margin:0; flex:1; font:700 17px/1 var(--font-display); letter-spacing:-.01em; }
+.iconbtn { width:44px; height:44px; display:grid; place-items:center; border-radius:12px; color:var(--a-ink-3); }
+.iconbtn:hover { background:var(--a-hover); color:var(--a-ink); }
+.iconbtn svg { width:18px; height:18px; }
+.ctx { display:flex; flex-wrap:wrap; gap:6px; padding:0 18px 12px; border-bottom:1px solid var(--a-line); }
+.cchip { display:inline-flex; align-items:center; gap:6px; min-height:34px; padding:0 4px 0 11px; border:1px solid var(--a-line-strong);
+  border-radius:10px; font-size:13px; font-weight:600; color:var(--a-ink); background:var(--a-raised-2); }
+.cchip span { color:var(--a-ink-3); font-weight:500; }
+.cchip button { width:26px; height:26px; display:grid; place-items:center; border-radius:7px; color:var(--a-ink-3); }
+.cchip button svg { width:13px; height:13px; }
+.cchip.rec { padding-right:11px; background:none; border-color:var(--a-line); }
+.body { flex:1; min-height:0; overflow:hidden; padding:16px 18px 8px; display:flex; flex-direction:column; gap:14px; }
+.quote { padding:12px 14px; border-radius:12px; background:var(--a-sunken); font-size:14px; line-height:1.55; color:var(--a-ink-2); }
+.quote p { margin:0 0 8px; color:var(--a-ink); display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+.quote .pk { display:flex; gap:14px; flex-wrap:wrap; font-size:13px; }
+.quote .pk b { font-weight:600; }
+.quote .pk .w { color:var(--a-bad-text); } .quote .pk .k { color:var(--a-good-text); }
+.lead { margin:0; font:600 16px/1.4 var(--font-display); color:var(--a-ink); }
+.asks { display:grid; }
+.asks-h { margin:0 0 2px; font-size:13px; font-weight:600; color:var(--a-ink-3); }
+.ask { display:grid; grid-template-columns:1fr auto; align-items:center; gap:4px 14px; min-height:56px; padding:10px 2px; text-align:left;
+  border-bottom:1px solid var(--a-line); transition:color 150ms ease; }
+.ask:last-child { border-bottom:0; }
+.ask b { font-weight:600; font-size:15px; color:var(--a-ink); }
+.ask span { grid-column:1; font-size:13px; color:var(--a-ink-3); }
+.ask em { grid-column:2; grid-row:1 / span 2; font-style:normal; font-size:12.5px; font-weight:600; color:var(--a-ink-3);
+  padding:5px 9px; border-radius:8px; background:var(--a-sunken); white-space:nowrap; }
+.ask em.free { color:var(--a-good-text); }
+.ask:hover b { color:var(--a-accent-text); }
+html[data-theme="night"] .ask:hover b { color:var(--a-ink); text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--a-line-strong); }
+.ask[disabled] { cursor:not-allowed; } .ask[disabled] b { color:var(--a-ink-3); }
+.you { justify-self:end; max-width:86%; margin:0; padding:10px 14px; border-radius:14px 14px 4px 14px; background:var(--a-raised-2);
+  border:1px solid var(--a-line); font-size:14.5px; }
+.ans { display:grid; gap:10px; }
+.ans p { margin:0; font-size:15px; line-height:1.62; color:var(--a-ink); }
+.ans .src { font-size:12.5px; color:var(--a-ink-3); display:flex; align-items:center; gap:7px; }
+.ans .src .mark { --s:15px; }
+.ans .fig { font-weight:650; }
+.ans .next { justify-self:start; }
+.arrive { animation:arrive 220ms var(--ease-out) both; }
+@keyframes arrive { from { opacity:0; transform:translateY(4px); } }
+.reading { display:flex; align-items:center; gap:9px; font-size:14px; color:var(--a-ink-3); }
+.reading .mark { --s:20px; }
+.notice { padding:12px 14px; border-radius:12px; border:1px solid var(--a-line-strong); font-size:14px; line-height:1.55; color:var(--a-ink-2); display:grid; gap:10px; }
+.notice b { color:var(--a-ink); font-weight:650; }
+.empty { display:grid; justify-items:start; gap:12px; }
+.empty img { height:118px; width:auto; }
+.compose { padding:10px 14px 12px; border-top:1px solid var(--a-line); display:grid; gap:7px; background:var(--a-raised); }
+.field { display:flex; align-items:flex-end; gap:8px; padding:6px 6px 6px 14px; border:1px solid var(--a-line-strong); border-radius:14px; background:var(--a-sunken); }
+.field textarea { flex:1; min-height:32px; max-height:120px; resize:none; border:0; background:none; color:var(--a-ink); font:inherit; font-size:15px; padding:6px 0; outline:none; }
+.field textarea::placeholder { color:var(--a-ink-4); }
+.field .btn { min-height:38px; padding:0 16px; font-size:14px; border-radius:10px; }
+.field .btn[disabled] { background:var(--a-line); color:var(--a-ink-3); cursor:not-allowed; }
+.cost { display:flex; justify-content:space-between; gap:10px; font-size:12.5px; color:var(--a-ink-3); padding:0 2px; }
+.cost b { font-weight:650; color:var(--a-ink-2); }
+
+/* ---------- Phone frame (web 390 and app 412) ---------- */
+.phone { position:relative; width:100vw; height:100vh; overflow:hidden; background:var(--a-bg); }
+.ptop { height:56px; display:flex; align-items:center; gap:10px; padding:0 16px; border-bottom:1px solid var(--a-line); }
+.ptop .logo { font-size:22px; padding:0; flex:1; }
+.pmain { padding:18px 16px; }
+.pmain .qhead h2 { font-size:24px; }
+.pmain .stem { font-size:16px; }
+.pmain .opt { min-height:48px; }
+.pdock { position:absolute; left:0; right:0; bottom:0; height:64px; display:flex; justify-content:space-around; align-items:center; border-top:1px solid var(--a-line); background:var(--a-bg); font-size:11.5px; font-weight:600; color:var(--a-ink-3); }
+.pdock span { display:grid; justify-items:center; gap:3px; }
+.pdock svg { width:20px; height:20px; }
+.scrim { position:absolute; inset:0; background:var(--a-scrim); }
+.mobi.sheet { position:absolute; left:0; right:0; bottom:0; max-height:calc(100% - var(--sheet-top,92px)); border-radius:20px 20px 0 0; border-top:1px solid var(--a-line);
+  box-shadow:0 -24px 56px -28px rgba(0,0,0,.6); animation:rise 380ms var(--ease-drawer) both; }
+@keyframes rise { from { transform:translateY(100%); } }
+.mobi.sheet .body { flex:none; padding-bottom:14px; }
+.handle { width:40px; height:5px; border-radius:999px; background:var(--a-line-strong); margin:8px auto 0; flex:none; }
+.mobi.sheet .mh { padding-top:8px; }
+.mobi.sheet .compose { padding-bottom:calc(12px + env(safe-area-inset-bottom)); }
+
+/* ---------- Boards (entry points, states) ---------- */
+.board { padding:22px 16px 40px; display:grid; gap:26px; }
+.board > header h1 { margin:0 0 4px; font:700 22px/1.2 var(--font-display); letter-spacing:-.02em; }
+.board > header p { margin:0; color:var(--a-ink-3); font-size:14px; }
+.slot h2 { margin:0 0 4px; font:700 15px/1.3 var(--font-display); }
+.slot > p { margin:0 0 10px; font-size:13.5px; color:var(--a-ink-3); line-height:1.5; }
+.surface { border:1px solid var(--a-line); border-radius:18px; background:var(--a-raised); padding:16px; display:grid; gap:12px; }
+.surface h3 { margin:0; font:700 19px/1.25 var(--font-display); letter-spacing:-.015em; }
+.surface .why { margin:0; color:var(--a-ink-2); font-size:14.5px; line-height:1.55; }
+.surface .row { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+.meta { font-size:13px; color:var(--a-ink-3); }
+.plain { display:grid; gap:0; }
+.prow { display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:12px; min-height:60px; padding:10px 0; border-bottom:1px solid var(--a-line); }
+.prow:last-child { border-bottom:0; }
+.prow .mark { --s:22px; }
+.prow b { display:block; font-weight:650; font-size:15px; }
+.prow span { font-size:13px; color:var(--a-ink-3); }
+.prow svg.ic { width:20px; height:20px; color:var(--a-ink-3); }
+.count { font:700 15px/1 var(--font-display); color:var(--a-ink-2); }
+.mist { display:grid; gap:10px; padding-top:4px; }
+.mist .ln { font-size:14px; color:var(--a-ink-2); }
+.ledger { display:flex; gap:18px; flex-wrap:wrap; font-size:14px; color:var(--a-ink-2); }
+.ledger b { font:700 22px/1 var(--font-display); color:var(--a-ink); display:block; margin-bottom:4px; }
+.states { display:grid; grid-template-columns:repeat(4, 1fr); gap:18px; padding:24px 28px; height:900px; }
+.states .col { display:grid; grid-template-rows:auto 1fr; gap:10px; min-height:0; }
+.states .col h2 { margin:0; font:700 15px/1.3 var(--font-display); }
+.states .col h2 span { display:block; font:500 13px/1.45 var(--font-body); color:var(--a-ink-3); margin-top:2px; }
+.states .mobi { border:1px solid var(--a-line); border-radius:18px; overflow:hidden; box-shadow:var(--a-shadow-2); }
+
+@media (prefers-reduced-motion: reduce) {
+  .mobi.sheet, .arrive { animation:none; }
+  .is-reading .mark .eye { animation:none; }
+  .mobi.dock { transition:opacity 150ms ease; transform:none !important; }
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="mobi" viewBox="0 0 24 24">
+      <path d="M12 1.6c.5 0 1 .2 1.4.6l8.4 8.4c.8.8.8 2 0 2.8l-8.4 8.4c-.8.8-2 .8-2.8 0l-8.4-8.4c-.8-.8-.8-2 0-2.8l8.4-8.4c.4-.4.9-.6 1.4-.6z" fill="#d2f000"/>
+      <path d="M12.6 2.2l9.2 9.2c.2.2.3.4.4.6L12 13.4z" fill="#b9d400" opacity=".55"/>
+      <rect x="5.4" y="8.6" width="13.2" height="6.2" rx="3.1" fill="var(--mobi-visor)"/>
+      <ellipse class="eye" cx="9.6" cy="11.7" rx="1.05" ry="1.65" fill="var(--mobi-eye)"/>
+      <ellipse class="eye" cx="14.4" cy="11.7" rx="1.05" ry="1.65" fill="var(--mobi-eye)"/>
+    </symbol>
+    <symbol id="x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></symbol>
+    <symbol id="today" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="3" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M8 3v4M16 3v4M4 10h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="practice" viewBox="0 0 24 24"><circle cx="12" cy="13" r="7.5" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M12 9.5V13l2.5 1.5M10 3h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/></symbol>
+    <symbol id="learn" viewBox="0 0 24 24"><path d="M4 6.5C6.5 5 9.5 5 12 6.5 14.5 5 17.5 5 20 6.5V19c-2.5-1.5-5.5-1.5-8 0-2.5-1.5-5.5-1.5-8 0z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/><path d="M12 6.5V19" stroke="currentColor" stroke-width="1.8"/></symbol>
+    <symbol id="review" viewBox="0 0 24 24"><rect x="5" y="3.5" width="14" height="17" rx="3" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M9 8.5h6M9 12h6M9 15.5h3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="explore" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M15 9l-1.8 4.2L9 15l1.8-4.2z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/></symbol>
+    <symbol id="saved" viewBox="0 0 24 24"><path d="M7 4h10v16l-5-3.5L7 20z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/></symbol>
+    <symbol id="progress" viewBox="0 0 24 24"><path d="M4 19h16M7 16v-4M12 16V8M17 16v-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="radar" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8" fill="none"/><circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="1.8" fill="none"/></symbol>
+    <symbol id="compass" viewBox="0 0 24 24"><path d="M12 3l2.4 6.6L21 12l-6.6 2.4L12 21l-2.4-6.6L3 12l6.6-2.4z" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linejoin="round"/></symbol>
+    <symbol id="ranks" viewBox="0 0 24 24"><path d="M8 20v-6M12 20V9M16 20v-9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M12 4.5l.9 1.8 2 .3-1.45 1.4.35 2-1.8-.95-1.8.95.35-2L9.1 6.6l2-.3z" fill="currentColor"/></symbol>
+    <symbol id="account" viewBox="0 0 24 24"><circle cx="12" cy="9" r="3.6" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M5 20c1.2-3.4 4-5 7-5s5.8 1.6 7 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/></symbol>
+    <symbol id="moon" viewBox="0 0 24 24"><path d="M19 14.5A7.5 7.5 0 0 1 9.5 5a7.5 7.5 0 1 0 9.5 9.5z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/></symbol>
+    <symbol id="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="device" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="11" rx="2" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M9 20h6M12 16v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="bolt" viewBox="0 0 24 24"><path d="M13 3L5 13.5h6L10.5 21 19 10h-6z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/></symbol>
+    <symbol id="spark" viewBox="0 0 24 24"><path d="M12 4v4M12 16v4M4 12h4M16 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="2" fill="currentColor"/></symbol>
+    <symbol id="wrench" viewBox="0 0 24 24"><path d="M14.5 5.5a4 4 0 0 0-5 5L4 16l4 4 5.5-5.5a4 4 0 0 0 5-5l-2.5 2.5-2.5-.5-.5-2.5z" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linejoin="round"/></symbol>
+    <symbol id="more" viewBox="0 0 24 24"><circle cx="6" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="18" cy="12" r="1.6" fill="currentColor"/></symbol>
+  </defs>
+</svg>
+
+<!-- ================= Desktop 1440: Review question with Mobi docked ================= -->
+<section class="view" data-view="desk">
+  <div class="shell">
+    <aside class="side" aria-label="Main navigation">
+      <div class="logo">mockm<svg class="mark"><use href="#mobi"/></svg>b</div>
+      <a class="start">Start a session</a>
+      <nav class="navg" aria-label="Study"><p>Study</p>
+        <a class="nl"><svg><use href="#today"/></svg>Today</a>
+        <a class="nl"><svg><use href="#practice"/></svg>Practice</a>
+        <a class="nl"><svg><use href="#learn"/></svg>Learn</a>
+        <a class="nl cur" aria-current="page"><svg><use href="#review"/></svg>Review</a>
+        <a class="nl"><svg><use href="#explore"/></svg>Explore</a>
+        <a class="nl"><svg><use href="#saved"/></svg>Saved</a>
+        <a class="nl"><svg><use href="#progress"/></svg>Progress</a>
+      </nav>
+      <nav class="navg" aria-label="Planning"><p>Planning</p>
+        <a class="nl"><svg><use href="#radar"/></svg>Weak chapters</a>
+        <a class="nl"><svg><use href="#compass"/></svg>Colleges</a>
+        <button class="nl panel-open" id="navAsk" aria-expanded="true"><svg class="mark"><use href="#mobi"/></svg>Ask Mobi</button>
+      </nav>
+      <nav class="navg" aria-label="Community"><p>Community</p>
+        <a class="nl"><svg><use href="#ranks"/></svg>Your standing</a>
+      </nav>
+      <div class="side-foot">
+        <div class="appear" role="group" aria-label="Appearance">
+          <span class="js-night"><svg><use href="#moon"/></svg>Night</span>
+          <span class="js-day"><svg><use href="#sun"/></svg>Day</span>
+          <span><svg><use href="#device"/></svg>Device</span>
+        </div>
+      </div>
+    </aside>
+    <header class="top">
+      <h1>Review</h1>
+      <span class="chip-c" aria-label="Practice credits 40"><svg><use href="#bolt"/></svg>40</span>
+      <span class="chip-c js-ai" aria-label="AI credits"><svg><use href="#spark"/></svg><span class="js-ai-n">8</span></span>
+      <span class="prof"><span class="avatar">R</span>Riya</span>
+    </header>
+
+    <main class="main" id="deskMain">
+      <p class="crumb"><b>Accountancy, Mock 3</b> · Sunday 12 Oct, 9:40 pm · 142 of 250</p>
+      <div class="qhead"><h2>Question 7</h2><span>of 50</span></div>
+      <p class="qtag">Partnership: admission of a partner</p>
+      <p class="stem">X and Y share profits in the ratio 3:2. Z is admitted for a 1/4 share, which he takes equally from X and Y. What is the new profit-sharing ratio?</p>
+      <div class="opts">
+        <div class="opt"><i>A</i><b>3:2:1</b><small></small></div>
+        <div class="opt wrong"><i>B</i><b>9:6:5</b><small>Your answer, −1</small></div>
+        <div class="opt key"><i>C</i><b>19:11:10</b><small>Correct</small></div>
+        <div class="opt"><i>D</i><b>11:19:10</b><small></small></div>
+      </div>
+      <div class="expl">
+        <h3>Solution</h3>
+        <p>Each old partner gives up 1/8. X keeps 3/5 − 1/8 = 19/40, Y keeps 2/5 − 1/8 = 11/40, and Z gets 1/4 = 10/40.</p>
+        <div class="acts">
+          <button class="btn btn-ink">Repair this mistake</button>
+          <button class="ask-entry" id="deskEntry" aria-expanded="true" aria-controls="deskPanel"><svg class="mark"><use href="#mobi"/></svg>Ask Mobi about Q7</button>
+        </div>
+      </div>
+    </main>
+
+    <section class="mobi dock" id="deskPanel" role="complementary" aria-label="Ask Mobi">
+      <div class="mh"><svg class="mark"><use href="#mobi"/></svg><h2>Ask Mobi</h2>
+        <button class="iconbtn js-close" aria-label="Close Ask Mobi"><svg><use href="#x"/></svg></button></div>
+      <div class="ctx">
+        <span class="cchip">Q7 <span>· Partnership</span><button aria-label="Ask about your record instead"><svg><use href="#x"/></svg></button></span>
+        <span class="cchip rec">Your record <span>· 9 sessions</span></span>
+      </div>
+      <div class="body js-body"></div>
+      <div class="compose">
+        <div class="field"><label class="sr-only" for="ta1">Ask Mobi</label><textarea id="ta1" rows="1" placeholder="Ask about Q7"></textarea><button class="btn btn-ink" disabled>Ask</button></div>
+        <div class="cost"><span><b class="js-ai-n">8</b> of 10 AI credits left · resets 1&nbsp;Nov</span><span>Record questions are free</span></div>
+      </div>
+    </section>
+  </div>
+</section>
+
+<!-- ================= Phone 390 (web) and 412 (app): the sheet over Review ================= -->
+<section class="view" data-view="phone">
+  <div class="phone">
+    <div class="ptop"><div class="logo">mockm<svg class="mark"><use href="#mobi"/></svg>b</div><span class="chip-c"><svg><use href="#spark"/></svg>9</span></div>
+    <div class="pmain">
+      <p class="crumb"><b>Mock 3</b> · 12 Oct, 9:40 pm</p>
+      <div class="qhead"><h2>Question 7</h2><span>of 50</span></div>
+      <p class="qtag">Partnership: admission of a partner</p>
+      <p class="stem">X and Y share profits in the ratio 3:2. Z is admitted for a 1/4 share, which he takes equally from X and Y. What is the new profit-sharing ratio?</p>
+      <div class="opts"><div class="opt wrong"><i>B</i><b>9:6:5</b><small>Your answer</small></div><div class="opt key"><i>C</i><b>19:11:10</b><small>Correct</small></div></div>
+    </div>
+    <nav class="pdock"><span><svg><use href="#today"/></svg>Today</span><span><svg><use href="#practice"/></svg>Practice</span><span style="color:var(--a-ink)"><svg><use href="#review"/></svg>Review</span><span><svg><use href="#compass"/></svg>Colleges</span><span><svg><use href="#more"/></svg>More</span></nav>
+    <div class="scrim"></div>
+    <section class="mobi sheet" role="dialog" aria-modal="true" aria-label="Ask Mobi">
+      <span class="handle" aria-hidden="true"></span>
+      <div class="mh"><svg class="mark"><use href="#mobi"/></svg><h2>Ask Mobi</h2><button class="iconbtn" aria-label="Close Ask Mobi"><svg><use href="#x"/></svg></button></div>
+      <div class="ctx">
+        <span class="cchip">Q7 <span>· Partnership</span><button aria-label="Ask about your record instead"><svg><use href="#x"/></svg></button></span>
+        <span class="cchip rec">Your record <span>· 9 sessions</span></span>
+      </div>
+      <div class="body">
+        <div class="quote">
+          <p>X and Y share profits in the ratio 3:2. Z is admitted for a 1/4 share, which he takes equally from X and Y. What is the new ratio?</p>
+          <div class="pk"><span class="w">You picked <b>B, 9:6:5</b></span><span class="k">Key <b>C, 19:11:10</b></span></div>
+        </div>
+        <div class="asks">
+          <p class="asks-h">Ask about this question</p>
+          <button class="ask"><b>Why is 19:11:10 right and 9:6:5 wrong?</b><span>Uses this question, your pick and the key</span><em>1 AI credit</em></button>
+          <button class="ask"><b>What did I misread?</b><span>Points to the words that decide the split</span><em>1 AI credit</em></button>
+          <button class="ask"><b>Have I missed Partnership before?</b><span>11 wrong of 34 answered, in 4 sessions</span><em class="free">Free</em></button>
+        </div>
+      </div>
+      <div class="compose">
+        <div class="field"><label class="sr-only" for="ta2">Ask Mobi</label><textarea id="ta2" rows="1" placeholder="Ask about Q7"></textarea><button class="btn btn-ink" disabled>Ask</button></div>
+        <div class="cost"><span><b>9</b> of 10 AI credits left · resets 1&nbsp;Nov</span><span>Record questions free</span></div>
+      </div>
+    </section>
+  </div>
+</section>
+
+<!-- ================= Phone 390: where Mobi is asked from ================= -->
+<section class="view" data-view="entries">
+  <div class="board">
+    <header><h1>Where Mobi is asked from</h1><p>Each door opens the same sheet, already about what is on screen. None of them is a new box on its page.</p></header>
+
+    <div class="slot">
+      <h2>1. Today, on the lead</h2>
+      <p>"Why this?" sits beside the reason. Mobi opens with the reason answered from the record, free.</p>
+      <div class="surface">
+        <span class="meta">Up next · about 12 minutes</span>
+        <h3>Repair 3 Partnership mistakes</h3>
+        <p class="why">6 of your 13 wrong answers in Mock 3 were Partnership. They cost 36 marks.</p>
+        <div class="row"><button class="btn btn-volt">Start repair</button><button class="ask-entry"><svg class="mark"><use href="#mobi"/></svg>Why this?</button></div>
+      </div>
+    </div>
+
+    <div class="slot">
+      <h2>2. Practice, beside Repairs (D5)</h2>
+      <p>One quiet row under the subjects loop, next to the Repairs queue. The loop itself does not change.</p>
+      <div class="surface plain">
+        <div class="prow"><svg class="ic"><use href="#wrench"/></svg><div><b>Repairs</b><span>3 waiting, all Partnership</span></div><span class="count">3</span></div>
+        <div class="prow"><svg class="mark"><use href="#mobi"/></svg><div><b>Ask Mobi what to practise</b><span>Partnership: 11 wrong of 34 answered</span></div><em style="font-style:normal;font-size:12.5px;font-weight:600;color:var(--a-good-text)">Free</em></div>
+      </div>
+    </div>
+
+    <div class="slot">
+      <h2>3. Result, under where the marks went</h2>
+      <p>One line under the marks ledger. Inside a mistake, the one action stays "Repair" (D15); Mobi is the quiet second line.</p>
+      <div class="surface">
+        <div class="ledger"><span><b>142</b>of 250</span><span><b>31</b>right</span><span><b>13</b>wrong</span><span><b>6</b>blank</span></div>
+        <button class="ask-entry" style="justify-self:start"><svg class="mark"><use href="#mobi"/></svg>Ask Mobi about this mock <small>Free</small></button>
+        <div class="mist" style="border-top:1px solid var(--a-line);padding-top:12px">
+          <span class="ln"><b style="color:var(--a-ink)">Q7</b> · Partnership · you picked B, key C</span>
+          <div class="row"><button class="btn btn-ink">Repair</button><button class="ask-entry"><svg class="mark"><use href="#mobi"/></svg>Ask Mobi about Q7</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slot">
+      <h2>4. Desktop sidebar and phone More</h2>
+      <p>"Ask Mobi" is an ordinary row in Planning (and in More on a phone). It opens the panel about the page you are on. It no longer hides behind Help, under the theme switch.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= Desktop 1440: the panel's states ================= -->
+<section class="view" data-view="states">
+  <div class="states">
+    <div class="col"><h2>New student<span>No sessions yet. Mobi says what it will do and offers the first step.</span></h2>
+      <section class="mobi">
+        <div class="mh"><svg class="mark"><use href="#mobi"/></svg><h2>Ask Mobi</h2><button class="iconbtn" aria-label="Close"><svg><use href="#x"/></svg></button></div>
+        <div class="ctx"><span class="cchip rec">Your record <span>· no sessions yet</span></span></div>
+        <div class="body">
+          <div class="empty">
+            <img src="../../../public/brand/mascot/attentive.webp" alt="Mobi, listening">
+            <p class="lead">Mobi answers from your own practice. After one session it can show where your marks went.</p>
+            <button class="btn btn-line">Take a 10-question check</button>
+          </div>
+          <div class="asks">
+            <p class="asks-h">You can ask now</p>
+            <button class="ask"><b>How do AI credits work?</b><em class="free">Free</em></button>
+            <button class="ask"><b>What is NTA mode?</b><em class="free">Free</em></button>
+          </div>
+        </div>
+        <div class="compose"><div class="field"><textarea rows="1" placeholder="Ask Mobi"></textarea><button class="btn btn-ink" disabled>Ask</button></div><div class="cost"><span><b>10</b> of 10 AI credits left</span></div></div>
+      </section>
+    </div>
+
+    <div class="col"><h2>No AI credits left<span>Record answers still work. Paid asks say why they are off and when credits return.</span></h2>
+      <section class="mobi">
+        <div class="mh"><svg class="mark"><use href="#mobi"/></svg><h2>Ask Mobi</h2><button class="iconbtn" aria-label="Close"><svg><use href="#x"/></svg></button></div>
+        <div class="ctx"><span class="cchip">Q7 <span>· Partnership</span><button aria-label="Clear"><svg><use href="#x"/></svg></button></span><span class="cchip rec">Your record <span>· 9 sessions</span></span></div>
+        <div class="body">
+          <div class="notice"><b>0 of 10 AI credits left. They reset on 1&nbsp;Nov.</b>Questions about your record stay free. Nothing is charged from here.</div>
+          <div class="asks">
+            <p class="asks-h">Ask about this question</p>
+            <button class="ask" disabled><b>Why is 19:11:10 right and 9:6:5 wrong?</b><span>Needs a written reply</span><em>1 AI credit</em></button>
+            <button class="ask"><b>Have I missed Partnership before?</b><span>11 wrong of 34 answered</span><em class="free">Free</em></button>
+            <button class="ask"><b>Which chapter costs me most?</b><span>Partnership, 36 of 78 marks lost</span><em class="free">Free</em></button>
+          </div>
+        </div>
+        <div class="compose"><div class="field"><textarea rows="1" placeholder="Ask about your record"></textarea><button class="btn btn-ink" disabled>Ask</button></div><div class="cost"><span><b>0</b> of 10 AI credits left</span><span>Record questions free</span></div></div>
+      </section>
+    </div>
+
+    <div class="col"><h2>Mobi is answering<span>The ask stays on screen. Mobi's eyes blink while it reads; nothing pretends to type.</span></h2>
+      <section class="mobi is-reading">
+        <div class="mh"><svg class="mark"><use href="#mobi"/></svg><h2>Ask Mobi</h2><button class="iconbtn" aria-label="Close"><svg><use href="#x"/></svg></button></div>
+        <div class="ctx"><span class="cchip">Q7 <span>· Partnership</span><button aria-label="Clear"><svg><use href="#x"/></svg></button></span><span class="cchip rec">Your record <span>· 9 sessions</span></span></div>
+        <div class="body">
+          <p class="you">Why is 19:11:10 right and 9:6:5 wrong?</p>
+          <div class="reading" role="status"><svg class="mark"><use href="#mobi"/></svg>Reading Q7, your pick and the key</div>
+        </div>
+        <div class="compose"><div class="field"><textarea rows="1" placeholder="Ask about Q7" disabled></textarea><button class="btn btn-ink" disabled>Ask</button></div><div class="cost"><span>This reply uses 1 AI credit · 9 left</span></div></div>
+      </section>
+    </div>
+
+    <div class="col"><h2>Reply not confirmed<span>The network dropped. Retry sends the same request, so it cannot charge twice.</span></h2>
+      <section class="mobi">
+        <div class="mh"><svg class="mark"><use href="#mobi"/></svg><h2>Ask Mobi</h2><button class="iconbtn" aria-label="Close"><svg><use href="#x"/></svg></button></div>
+        <div class="ctx"><span class="cchip">Q7 <span>· Partnership</span><button aria-label="Clear"><svg><use href="#x"/></svg></button></span><span class="cchip rec">Your record <span>· 9 sessions</span></span></div>
+        <div class="body">
+          <p class="you">Why is 19:11:10 right and 9:6:5 wrong?</p>
+          <div class="notice" role="alert"><b>The reply could not be confirmed.</b>Retry sends the same request, so you will not be charged twice. Your AI credits page shows any credit used.<button class="btn btn-line" style="justify-self:start">Retry this question</button></div>
+        </div>
+        <div class="compose"><div class="field"><textarea rows="1" placeholder="Ask about Q7" disabled></textarea><button class="btn btn-ink" disabled>Ask</button></div><div class="cost"><span><b>9</b> of 10 AI credits left</span></div></div>
+      </section>
+    </div>
+  </div>
+</section>
+
+<script>
+const p = new URLSearchParams(location.search);
+const view = p.get('view') || 'desk';
+const theme = p.get('theme') === 'day' ? 'day' : 'night';
+document.documentElement.dataset.theme = theme;
+if (p.get('surface') === 'app') document.documentElement.dataset.surface = 'app';
+document.querySelector(`[data-view="${view}"]`)?.classList.add('is-on');
+document.querySelectorAll(theme === 'day' ? '.js-day' : '.js-night').forEach((n) => n.classList.add('on'));
+
+// Desktop: the panel's conversation. The answered state is the default capture; ?step=ask shows the opening state.
+const body = document.querySelector('[data-view="desk"] .js-body');
+const opening = `
+  <div class="quote"><p>X and Y share profits in the ratio 3:2. Z is admitted for a 1/4 share, which he takes equally from X and Y.</p>
+    <div class="pk"><span class="w">You picked <b>B, 9:6:5</b></span><span class="k">Key <b>C, 19:11:10</b></span></div></div>
+  <div class="asks"><p class="asks-h">Ask about this question</p>
+    <button class="ask js-pick"><b>Why is 19:11:10 right and 9:6:5 wrong?</b><span>Uses this question, your pick and the key</span><em>1 AI credit</em></button>
+    <button class="ask"><b>What did I misread?</b><span>Points to the words that decide the split</span><em>1 AI credit</em></button>
+    <button class="ask"><b>Have I missed Partnership before?</b><span>11 wrong of 34 answered, in 4 sessions</span><em class="free">Free</em></button></div>`;
+const answered = `
+  <p class="you">Why is 19:11:10 right and 9:6:5 wrong?</p>
+  <div class="ans arrive">
+    <p>The question says Z takes his share <span class="fig">equally</span> from X and Y, so each gives up the same 1/8. X keeps 3/5 − 1/8 = <span class="fig">19/40</span>, Y keeps 2/5 − 1/8 = <span class="fig">11/40</span>, and Z has 10/40.</p>
+    <p>9:6:5 is what you get when Z takes his share in the old 3:2 ratio. Before you start the sum, find the word that says how the share is given up: equally, in the old ratio, or a stated split.</p>
+    <span class="src"><svg class="mark"><use href="#mobi"/></svg>Written reply on Q7 and its key · 1 AI credit used</span>
+    <button class="btn btn-line next">Practise 10 Partnership questions</button>
+  </div>
+  <div class="asks"><p class="asks-h">Ask next</p>
+    <button class="ask"><b>Have I missed Partnership before?</b><span>11 wrong of 34 answered, in 4 sessions</span><em class="free">Free</em></button>
+    <button class="ask"><b>Give me a quick check for the split</b><span>A one-line test to run before answering</span><em>1 AI credit</em></button></div>`;
+let step = p.get('step') === 'ask' ? 'ask' : 'answered';
+function paint() {
+  if (!body) return;
+  body.innerHTML = step === 'ask' ? opening : answered;
+  document.querySelectorAll('[data-view="desk"] .js-ai-n').forEach((n) => (n.textContent = step === 'ask' ? '9' : '8'));
+  body.querySelector('.js-pick')?.addEventListener('click', () => { step = 'answered'; paint(); });
+}
+paint();
+
+// Open and close the docked panel from its three doors (entry button, sidebar row, close).
+const panel = document.getElementById('deskPanel');
+const main = document.getElementById('deskMain');
+const doors = [document.getElementById('deskEntry'), document.getElementById('navAsk')];
+function setOpen(open) {
+  panel?.classList.toggle('closed', !open);
+  main?.classList.toggle('full', !open);
+  doors.forEach((d) => d && d.setAttribute('aria-expanded', String(open)));
+  document.getElementById('navAsk')?.classList.toggle('panel-open', open);
+}
+doors.forEach((d) => d?.addEventListener('click', () => setOpen(panel.classList.contains('closed'))));
+document.querySelector('.js-close')?.addEventListener('click', () => setOpen(false));
+if (p.get('panel') === 'closed') setOpen(false);
+
+// The sheet's top: 92 px leaves the question's head visible above it on a 844 px phone.
+if (view === 'phone' && p.get('surface') === 'app') document.documentElement.style.setProperty('--sheet-top', '104px');
+</script>
+</body>
+</html>
