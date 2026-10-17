@@ -70,7 +70,7 @@ void main() {
       expect(m.chapter!.lost, 34);
       expect(m.chapter!.max, 50);
       expect(m.nextMove.kind, ReelMoveKind.repairChapter);
-      expect(m.nextMove.label, 'Repair the 4 wrong in Accounting for share capital');
+      expect(m.nextMove.label, 'Repair those 4 wrong answers');
       expect(m.nextMove.qids, hasLength(6));
     });
 

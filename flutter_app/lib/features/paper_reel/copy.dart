@@ -45,7 +45,7 @@ abstract final class ReelCopy {
   static const noChapter = 'Every chapter held up.';
   static String tally(int right, int wrong, int blank) => '$right right  ·  $wrong wrong  ·  $blank blank';
 
-  static String repairChapter(int wrong, String chapter) => 'Repair the $wrong wrong in $chapter';
+  static String repairChapter(int wrong, String chapter) => wrong == 1 ? 'Repair that wrong answer' : 'Repair those $wrong wrong answers';
   static const reviewMistakes = 'Go through what you missed';
   static const nextMock = 'Take the next mock';
 

@@ -169,7 +169,7 @@ class _ReelBody extends StatelessWidget {
               opacity: chapterIn,
               child: Transform.translate(offset: Offset(0, 12 * (1 - chapterIn)), child: _ChapterCard(model: model)),
             ),
-            const Spacer(),
+            const SizedBox(height: MmSpace.s16),
             IgnorePointer(
               ignoring: endIn < 0.5,
               child: Opacity(
@@ -181,6 +181,7 @@ class _ReelBody extends StatelessWidget {
                 ),
               ),
             ),
+            const Spacer(),
           ],
         ),
       ),
