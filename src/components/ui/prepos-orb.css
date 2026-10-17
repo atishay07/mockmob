@@ -1,0 +1,76 @@
+/* Mobi's orb (PrepOSOrb.jsx): a glass marble with lime light pooled at its base. Everything stays inside the circle:
+   a contact shadow under it, no halo around it (the old orb's volt glow read as dated, N9). */
+@property --prepos-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.prepos-orb {
+  position: relative;
+  display: inline-grid;
+  flex: none;
+  width: var(--prepos-size);
+  height: var(--prepos-size);
+  place-items: center;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 999px;
+  color: #f6f7ee;
+  background: radial-gradient(circle at 50% 36%, #151d12 0%, #0a0f09 60%, #050805 100%);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.28), 0 4px 10px -6px rgba(0, 0, 0, 0.5);
+  transform: translateZ(0);
+}
+
+/* The light inside: two slow-turning lime and mint washes, blurred together and kept low in the sphere. */
+.prepos-orb__liquid {
+  position: absolute;
+  inset: -12%;
+  border-radius: inherit;
+  background:
+    conic-gradient(from var(--prepos-angle) at 40% 70%, rgba(210, 240, 0, 0.95), rgba(210, 240, 0, 0) 30% 70%, rgba(210, 240, 0, 0.8)),
+    conic-gradient(from calc(var(--prepos-angle) * -1) at 66% 62%, rgba(120, 236, 190, 0.38), rgba(120, 236, 190, 0) 35% 75%, rgba(120, 236, 190, 0.26));
+  filter: blur(calc(var(--prepos-size) * 0.09));
+  mask-image: radial-gradient(circle at 50% 78%, #000 0%, #000 34%, transparent 70%);
+  -webkit-mask-image: radial-gradient(circle at 50% 78%, #000 0%, #000 34%, transparent 70%);
+  opacity: 0.88;
+  animation: prepos-orb-turn 22s linear infinite;
+  transition: opacity 240ms ease;
+}
+
+/* The glass: a hairline rim, a soft inner shade at the top and one crisp highlight. */
+.prepos-orb__glass {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(ellipse 30% 19% at 36% 21%, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.12) 62%, rgba(255, 255, 255, 0) 100%),
+    radial-gradient(circle at 50% 100%, rgba(210, 240, 0, 0.18), rgba(210, 240, 0, 0) 55%);
+  box-shadow:
+    inset 0 0 0 1px rgba(246, 247, 238, 0.14),
+    inset 0 calc(var(--prepos-size) * 0.08) calc(var(--prepos-size) * 0.14) rgba(0, 0, 0, 0.38);
+}
+
+.prepos-orb--active .prepos-orb__liquid {
+  opacity: 1;
+  animation-duration: 9s;
+}
+
+.prepos-orb__letters {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  font-family: var(--font-body);
+  font-size: calc(var(--prepos-size) * 0.16);
+  font-weight: 700;
+  color: rgba(246, 247, 238, 0.86);
+}
+
+@keyframes prepos-orb-turn {
+  to { --prepos-angle: 360deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prepos-orb__liquid { animation: none; }
+}
+html[data-motion='reduced'] .prepos-orb__liquid { animation: none; }

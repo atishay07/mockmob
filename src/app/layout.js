@@ -6,7 +6,6 @@ import "./brand.css";
 import { Providers } from "@/components/Providers";
 import { JsonLd } from "@/components/JsonLd";
 import { globalJsonLd, seoMetadata, siteConfig } from "@/lib/seo";
-import AssistantLauncherGate from "@/components/ai/AssistantLauncherGate";
 import { BRAND_FLAGS } from "@/../data/brand_flags.mjs";
 
 // The display face (data/brand_flags.mjs displayFont): Bricolage Grotesque, the app's display face, for
@@ -99,7 +98,6 @@ export default function RootLayout({ children }) {
         <div hidden data-impeccable-contract dangerouslySetInnerHTML={{ __html: DIRECTION_CONTRACT }} />
         <Providers>
           {children}
-          <AssistantLauncherGate />
         </Providers>
       </body>
     </html>

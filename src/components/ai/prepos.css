@@ -262,3 +262,32 @@ html[data-theme='light'] .prepos-console .pp-ask__switch button[aria-pressed='tr
 .pp-rank__go:hover { text-decoration-color: currentColor; }
 .pp-rank__go:focus-visible { outline: 2px solid var(--pp-accent, #d2f000); outline-offset: 3px; border-radius: 4px; }
 .pp-rank .pp-stack i[data-k='right'] { background: var(--a-good-text, #b6e36e); }
+/* Ask Mobi's panel (AssistantDrawer.jsx, N9). A deliberate dark surface in both themes, like the console. From 768 px it
+   floats 12 px in from the right edge with the dock's radius; on a phone it is a sheet that rises from the bottom and
+   leaves the top of the page in view, so the student still sees where they asked from. */
+.mobi-scrim { background: rgb(5 8 6 / 0.5); border: 0; padding: 0; cursor: default; }
+html[data-theme='light'] .mobi-scrim { background: rgb(23 32 22 / 0.26); }
+.mobi-panel {
+  position: absolute;
+  inset: max(56px, calc(env(safe-area-inset-top) + 44px)) 0 0 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(244, 245, 240, 0.1);
+  border-bottom: 0;
+  border-radius: 24px 24px 0 0;
+  background: #090a08;
+  box-shadow: 0 -24px 56px -28px rgb(0 0 0 / 0.6);
+  will-change: transform;
+}
+.mobi-panel__handle { display: block; flex: none; width: 40px; height: 5px; margin: 8px auto 0; border-radius: 999px; background: rgba(244, 245, 240, 0.22); }
+@media (min-width: 768px) {
+  .mobi-panel {
+    inset: 12px 12px 12px auto;
+    width: min(520px, calc(100vw - 28px));
+    border-bottom: 1px solid rgba(244, 245, 240, 0.1);
+    border-radius: 24px;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 32px 80px -32px rgb(0 0 0 / 0.75);
+  }
+}
+html[data-theme='light'] .mobi-panel { box-shadow: 0 1px 2px rgb(20 32 14 / 0.12), 0 32px 80px -32px rgb(20 32 14 / 0.45); }
