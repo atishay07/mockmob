@@ -7,6 +7,7 @@ import '../../../core/models/models.dart' show LabLabels, LabOthers, TrapTag, di
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../insights/ask_mobi.dart' show AskMobiLink, askMobiAboutLabel;
 import '../../insights/widgets/motion_bits.dart' show WhenInView;
 import '../copy.dart';
 import '../model/answer_items.dart';
@@ -32,6 +33,7 @@ class AnswerRow extends StatefulWidget {
     this.summary,
     this.summarySemantics,
     this.repair,
+    this.onAsk,
   });
 
   final AnswerItem item;
@@ -43,6 +45,10 @@ class AnswerRow extends StatefulWidget {
   /// The repair entry of an opened mistake, in place of the plain repair key (what a repair gives, its cost, or the
   /// saved repair).
   final Widget? repair;
+
+  /// "Ask Mobi about Q7": a quiet second line under the repair of an opened mistake, never a second
+  /// key on the closed row (ASK-MOBI-1018 3). Null shows nothing.
+  final VoidCallback? onAsk;
   final bool expanded;
   final VoidCallback onToggle;
 
@@ -101,6 +107,7 @@ class _AnswerRowState extends State<AnswerRow> {
     keysOff: widget.keysOff,
     onRepair: widget.onRepair,
     repair: widget.repair,
+    onAsk: widget.onAsk,
     // The counts say which option is right, so they follow the key rule: none while keys are off
     // or while the question's key is being checked.
     others: widget.keysOff || item.verdict == Verdict.held ? null : widget.others,
@@ -179,12 +186,13 @@ class _AnswerRowState extends State<AnswerRow> {
 }
 
 class _Body extends StatelessWidget {
-  const _Body({required this.item, required this.keysOff, this.onRepair, this.repair, this.others, this.othersTitle, this.trap});
+  const _Body({required this.item, required this.keysOff, this.onRepair, this.repair, this.onAsk, this.others, this.othersTitle, this.trap});
 
   final AnswerItem item;
   final bool keysOff;
   final VoidCallback? onRepair;
   final Widget? repair;
+  final VoidCallback? onAsk;
   final LabOthers? others;
   final String? othersTitle;
   final TrapTag? trap;
@@ -274,6 +282,10 @@ class _Body extends StatelessWidget {
         ] else if (onRepair != null) ...[
           const SizedBox(height: MmSpace.s16),
           KeyButton.secondary(label: ResultCopy.repairThis, onPressed: onRepair, expanded: false),
+        ],
+        if (onAsk != null) ...[
+          const SizedBox(height: MmSpace.s4),
+          AskMobiLink(label: askMobiAboutLabel(item.number), onTap: onAsk!),
         ],
       ],
     );

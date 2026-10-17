@@ -17,6 +17,7 @@ import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/account/account_avatar.dart' show AccountLeading;
 import '../../../core/widgets/widgets.dart';
+import '../../insights/ask_mobi.dart';
 import '../../insights/insights_routes.dart' show ReviewInsightsRows;
 import '../../rules/widgets/rules_entry.dart';
 import '../../social/social.dart' show MobEntryPlace, MobEntryRow;
@@ -113,7 +114,7 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
         title: ReviewCopy.title,
         notice: attempts.isStale ? HeaderNotice.forFailure(offline: attempts.error?.isOffline ?? false) : null,
         // Ask answers from the record, so it lives here (DOCK.md 6), not on the bar or the Start sheet.
-        onAsk: () => context.push(AppRoutes.ask),
+        onAsk: () => openAskMobi(context, const AskMobiContext.page()),
         showMobi: !sceneMobi,
       )),
     );

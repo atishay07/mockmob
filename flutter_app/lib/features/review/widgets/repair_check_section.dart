@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/api/api_providers.dart' show nowProvider;
@@ -12,6 +11,7 @@ import '../../../core/repositories/credits_repository.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../insights/ask_mobi.dart';
 import '../copy.dart';
 import '../data/repair_check_controller.dart';
 import '../data/repair_check_logic.dart';
@@ -124,7 +124,8 @@ class AskAboutMistake extends ConsumerWidget {
           expanded: false,
           onPressed: () {
             ref.read(featureNotesProvider.notifier).done(FeatureNote.askMobi);
-            context.push(askAboutLocation(attemptId, questionId));
+            // Ask Mobi opens over the repair, about this mistake (ASK-MOBI-1018 3).
+            openAskMobi(context, AskMobiContext.question(number: number, ref: '$attemptId:$questionId'));
           },
         ),
         const SizedBox(height: MmSpace.s8),

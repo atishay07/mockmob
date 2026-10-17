@@ -14,6 +14,8 @@ import '../../../core/repositories/repositories.dart' show attemptDetailProvider
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../insights/ask_mobi.dart' show AskMobiContext, AskMobiLink, askMobiAboutMock, mockLostLines, openAskMobi;
+import '../../insights/data/ask_suggestions.dart' show AskSheetCopy;
 import '../../insights/data/trend.dart' show trendSeries;
 import '../../insights/widgets/trend_chart.dart' show TrendSection;
 import '../../practice/widgets/result_foot.dart';
@@ -31,6 +33,7 @@ import '../data/move_state.dart';
 import '../data/result_providers.dart';
 import '../layers_copy.dart';
 import '../model/answer_items.dart';
+import '../model/ask_context.dart';
 import '../model/move_inputs.dart';
 import '../model/next_move.dart';
 import '../model/recap_variant.dart' show RecapVariant, recapMood, recapReaction;
@@ -255,6 +258,8 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
         others: lab?.othersFor(item.qid),
         othersTitle: lab?.labels.othersTitle,
         trap: lab?.traps?.tagFor(item.qid),
+        // A wrong answer carries Ask Mobi as the quiet line under its repair (ASK-MOBI-1018 3).
+        onAsk: item.verdict == Verdict.wrong ? () => openAskMobi(context, askContextOfAnswer(item, attemptId: attemptId)) : null,
         onRepair: item.repairable
             ? () => _go(Uri(path: AppRoutes.reviewRepair(attemptId, item.qid), queryParameters: const {'count': '1'}).toString())
             : null,
@@ -386,6 +391,8 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
       final swot = data.detail?.swot;
       final weak = weakChapters(rows, reviews: reviews);
       final timeReady = timeRead != null && timeRead.isReady;
+      // Where the lost marks went, chapter by chapter, from this paper's own counts (none while the keys are held).
+      final askLines = model.isHeld || model.keysUnavailable ? const <String>[] : mockLostLines(model.chapters, lost: model.breakdown.lost);
       final hasTime = replay != null || timeReady || lab != null;
       final hasProof = lab?.rules != null || lab?.ruleCheck != null || lab?.later != null || lab?.acrossMocks != null;
 
@@ -473,6 +480,21 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                         ),
                 ),
                 ...annotations(context, model, data, corrected: false, onRetry: () => ref.read(attemptDetailProvider(id).notifier).refresh(force: true)),
+                // One quiet line under the marks: Mobi opens on where this paper's lost marks went, free.
+                if (askLines.isNotEmpty)
+                  item(
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: AskMobiLink(
+                        label: askMobiAboutMock,
+                        note: AskSheetCopy.free,
+                        onTap: () => openAskMobi(
+                          context,
+                          AskMobiContext.mock(label: model.ordinal == null ? 'This mock' : 'Mock ${model.ordinal}', attemptId: id, lines: askLines),
+                        ),
+                      ),
+                    ),
+                  ),
                 // The one next move.
                 const SizedBox(height: MmSpace.s24),
                 item(

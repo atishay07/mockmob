@@ -192,12 +192,20 @@ class AskController extends Notifier<AskState> {
     return const AskState();
   }
 
+  /// The reply style the server writes in (`mentor`, `revision` for a question, `autopsy` for a
+  /// mock). The full Ask screen always talks as the mentor; the Ask Mobi sheet follows its context.
+  String get replyMode => 'mentor';
+
+  /// The question handed over to this conversation, if any. The Ask screen reads its own; the Ask
+  /// Mobi sheet reads the one it was opened with.
+  AskQuestionHand? readHand() => ref.read(askQuestionProvider);
+
   /// True when [raw] is answered on the phone from the record, so nothing leaves the phone.
   bool answersOnPhone(String raw) {
     final text = raw.trim();
     if (text.isEmpty || text.length > askMaxChars) return true;
     // A record answer cannot discuss a question: with one handed over, every message goes to Mobi.
-    if (ref.read(askQuestionProvider)?.ready ?? false) return false;
+    if (readHand()?.ready ?? false) return false;
     final insights = ref.read(insightsRepositoryProvider).value;
     return insights != null && answerFromInsights(text, insights, pro: ref.read(insightsProProvider)) != null;
   }
@@ -211,7 +219,7 @@ class AskController extends Notifier<AskState> {
       _append([AskMessage.student(text), const AskMessage.failed(AskFailure.tooLong)]);
       return AskFailure.tooLong;
     }
-    final hand = ref.read(askQuestionProvider);
+    final hand = readHand();
     // The question is still being opened: nothing is sent, because a reply sent now would go
     // without it and still cost a credit. The words stay in the field.
     if (hand != null && hand.loading) return null;
@@ -224,6 +232,14 @@ class AskController extends Notifier<AskState> {
     }
     _append([AskMessage.student(text), const AskMessage.sending()]);
     return _post(state.messages.length - 1, text, const Uuid().v4(), questionRef: questionRef);
+  }
+
+  /// A suggested ask whose answer was already read from the record on this phone ([answer]): it
+  /// lands at once, free, and nothing leaves the phone. Ignored while a reply is on its way.
+  void answerLocally(String question, RecordAnswer answer) {
+    final text = question.trim();
+    if (text.isEmpty || state.busy) return;
+    _append([AskMessage.student(text), AskMessage.reply(answer.reply, origin: AskOrigin.phone, actions: answer.actions)]);
   }
 
   /// Sends a failed message again: the one at [index], or the last message. After an unknown
@@ -315,7 +331,7 @@ class AskController extends Notifier<AskState> {
     try {
       final res = await ref.read(apiClientProvider).post('/api/ai/mentor/chat', body: {
         'message': text,
-        'mode': 'mentor',
+        'mode': replyMode,
         'requestId': requestId,
         'sessionId': ?state.sessionId,
         // The server builds the question's context itself from the student's own attempt.
@@ -467,6 +483,11 @@ AskFailure askFailureFor(ApiError e) {
 /// read, whichever is newer. Null until either has arrived.
 final askWalletProvider = Provider<AskWallet?>((ref) {
   final (fromAsk, askAt) = ref.watch(askControllerProvider.select((s) => (s.wallet, s.walletAt)));
+  return freshestAskWallet(ref, fromAsk, askAt);
+});
+
+/// The newer of a chat answer's wallet ([fromAsk], reported at [askAt]) and the credits read.
+AskWallet? freshestAskWallet(Ref ref, AskWallet? fromAsk, DateTime? askAt) {
   final read = ref.watch(creditsRepositoryProvider);
   final fromRead = read.value == null ? null : AskWallet.fromCredits(read.value!);
   if (fromAsk == null) return fromRead;
@@ -474,4 +495,4 @@ final askWalletProvider = Provider<AskWallet?>((ref) {
   final readAt = read.fetchedAt;
   // A network read that finished after the chat answer is the newer truth.
   return readAt != null && !read.fromCache && askAt != null && readAt.isAfter(askAt) ? fromRead : fromAsk;
-});
+}
