@@ -30,21 +30,32 @@ import TodayPlanFlow from './TodayPlanFlow';
 const JSON_HEADERS = { 'Content-Type': 'application/json' };
 // 'Board exams ...' reads mid-sentence in lower case; an acronym ('CUET ...') keeps its capitals.
 const lowerFirst = (t) => (/^[A-Z]{2}/.test(t) ? t : `${t.charAt(0).toLowerCase()}${t.slice(1)}`);
-const MAX_SEGMENTS = 30;
+// Up to 16 things get a segment each; more (a target of 27 full mocks) are one continuous stretch filled to the share.
+const MAX_SEGMENTS = 16;
 const LONG_DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 /** One stretch of road: `total` segments, the first `done` filled; `groups` splits it (study days, then a mock). */
 function Stretch({ done, total, order, groups = null, flag = false }) {
   if (!(total > 0)) return <span className="trd__stretch" data-none aria-hidden="true"><i /></span>;
-  const n = Math.min(total, MAX_SEGMENTS);
-  const filled = Math.min(n, Math.round((Math.min(done, total) / total) * n));
+  const flagIcon = flag ? <Flag className="trd__flag" size={14} strokeWidth={2} /> : null;
+  if (total > MAX_SEGMENTS) {
+    const share = Math.min(1, Math.max(0, done) / total);
+    return (
+      <span className="trd__stretch" data-bar aria-hidden="true">
+        <i>{share > 0 ? <b style={{ width: `${share * 100}%`, '--d': `${order * 90}ms` }} /> : null}</i>
+        {flagIcon}
+      </span>
+    );
+  }
+  const n = total;
+  const filled = Math.min(n, Math.max(0, done));
   const cut = groups ? new Set(groups) : null;
   return (
-    <span className="trd__stretch" data-dense={n > 16 || undefined} aria-hidden="true">
+    <span className="trd__stretch" data-dense={n > 10 || undefined} aria-hidden="true">
       {Array.from({ length: n }, (_, k) => (
-        <i key={k} data-on={k < filled || undefined} data-gap={cut?.has(k) || undefined} style={{ '--d': `${order * 90 + k * (n > 16 ? 12 : 30)}ms` }} />
+        <i key={k} data-on={k < filled || undefined} data-gap={cut?.has(k) || undefined} style={{ '--d': `${order * 90 + k * (n > 10 ? 16 : 30)}ms` }} />
       ))}
-      {flag ? <Flag className="trd__flag" size={14} strokeWidth={2} /> : null}
+      {flagIcon}
     </span>
   );
 }

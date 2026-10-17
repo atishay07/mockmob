@@ -262,6 +262,7 @@ html[data-theme='light'] .app-shell .tw__day[data-state='counted'] .tw__dot { bo
 .app-shell .trd__stretch[data-dense] i { border-radius: 1px; }
 .app-shell .trd__stretch i[data-gap] { margin-left: 5px; }
 .app-shell .trd__stretch i[data-on]::after { content: ''; position: absolute; inset: 0; background: var(--a-ink); transform-origin: left center; animation: trd-fill 260ms var(--t-out) both; animation-delay: calc(var(--d, 0ms) + 380ms); }
+.app-shell .trd__stretch[data-bar] i b { position: absolute; inset: 0 auto 0 0; background: var(--a-ink); transform-origin: left center; animation: trd-fill 420ms var(--t-out) both; animation-delay: calc(var(--d, 0ms) + 380ms); }
 .app-shell .trd__stretch[data-none] i { height: 0; background: none; border-top: 1.5px dashed var(--a-line-strong); border-radius: 0; }
 .app-shell .trd__flag { flex: 0 0 auto; margin-left: 3px; color: var(--a-ink-2); }
 .app-shell .trd__readout { min-height: 128px; padding: 14px 20px 18px; border-top: 1px solid var(--a-line); }
@@ -557,11 +558,11 @@ html[data-theme='light'] .tsh .tpf__done { box-shadow: inset 0 0 0 1px rgb(82 10
 
 @media (prefers-reduced-motion: reduce) {
   .app-shell :is(.today__head, .tm, .tw, .trd, .twk, .tpp, .tq, .tc, .tmob, .tw__readout, .trd__readout, .trd__receipt, .tcue__chev), .tsh__body, .tsh .tpf__step { animation: today-fade 150ms ease both !important; transform: none !important; }
-  .app-shell :is(.tw__dot, .tw__dot path, .trd__stretch i::after, .tpp__bar i), .tsh .tpf__bump { animation: none !important; transform: none; }
+  .app-shell :is(.tw__dot, .tw__dot path, .trd__stretch i::after, .trd__stretch i b, .tpp__bar i), .tsh .tpf__bump { animation: none !important; transform: none; }
   .app-shell .tw__dot path { stroke-dashoffset: 0; }
   .app-shell :is(.tm__body, .tw__sel, .trd__sel, .tm__lengths, .twk__more, .twk__plus) { transition-duration: 1ms !important; }
 }
 html[data-motion='reduced'] .app-shell :is(.today__head, .tm, .tw, .trd, .twk, .tpp, .tq, .tc, .tmob, .tw__readout, .trd__readout, .trd__receipt, .tcue__chev), html[data-motion='reduced'] .tsh__body, html[data-motion='reduced'] .tsh .tpf__step { animation: today-fade 150ms ease both !important; transform: none !important; }
-html[data-motion='reduced'] .app-shell :is(.tw__dot, .trd__stretch i::after, .tpp__bar i) { animation: none !important; }
+html[data-motion='reduced'] .app-shell :is(.tw__dot, .trd__stretch i::after, .trd__stretch i b, .tpp__bar i) { animation: none !important; }
 html[data-motion='reduced'] .app-shell .tw__dot path { animation: none; stroke-dashoffset: 0; }
 html[data-motion='reduced'] .app-shell :is(.tm__body, .tw__sel, .trd__sel, .tm__lengths, .twk__more) { transition-duration: 1ms !important; }
