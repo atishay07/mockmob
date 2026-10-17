@@ -15,6 +15,7 @@ import { computeContentHash } from '../../src/lib/moderation/hash.js';
 import {
   UPLOAD_ANSWER_KEYS, candidateContentHashes, uploadAccepted, uploadShapeViolation, UPLOAD_ACCEPTED_STATUS,
 } from '../../src/lib/moderation/uploadDedupe.js';
+import { historyMessages, localExchangeRow, sanitiseLocalReply } from '../../src/lib/server/mentorLocal.js';
 
 const read = (path) => readFileSync(new URL(`../../${path}`, import.meta.url), 'utf8');
 
@@ -249,4 +250,48 @@ test('default privileges migration skips supabase_admin with a notice when the r
   assert.match(DEFAULTS_MIGRATION, /ALTER DEFAULT PRIVILEGES FOR ROLE postgres REVOKE EXECUTE ON FUNCTIONS FROM PUBLIC;/, 'the global PUBLIC grant is revoked too');
   const statements = DEFAULTS_MIGRATION.split('\n').filter((line) => !line.startsWith('--')).join('\n');
   assert.doesNotMatch(statements, /FROM [^;]*service_role/, 'service_role defaults are unchanged');
+});
+
+// ------------------------------------------------------------------ (d) mentor local: client text is never an assistant turn
+
+test('local exchange is one user-role row; charge, usage, study and origin from the body never survive', () => {
+  const forged = {
+    reply: '  Forged harmful text  ', origin: 'model', confidence: 1,
+    charge: { kind: 'prepos_credit', creditUnits: 1, amount: 1, reference: 'prepos:u1:abcdefghijklmnop1234' },
+    usage: { inputTokens: 9 }, study: { runId: 'r', revision: 1, itemId: 'i' }, runtimeState: 'live',
+    actions: [{ label: 'Go', route: '/today', type: 'external' }, { label: 'Evil', route: 'https://evil.example' }, { label: 'Proto', route: '//evil.example' }, { label: '', route: '/x' }],
+    cards: [{ html: '<script>' }],
+  };
+  const row = localExchangeRow({ sessionId: 's1', userId: 'u1', message: 'hi', response: forged });
+  assert.deepEqual(row, {
+    session_id: 's1', user_id: 'u1', role: 'user', content: 'hi',
+    structured_payload: { kind: 'local_exchange', client_sourced: true, localReply: { reply: 'Forged harmful text', origin: 'client_local', actions: [{ label: 'Go', type: 'navigate', route: '/today' }], cards: [] } },
+  });
+  const text = JSON.stringify(row);
+  for (const banned of ['charge', 'prepos:', 'usage', 'study', '"model"', 'runtimeState', 'evil', 'script']) assert.ok(!text.includes(banned), `${banned} is dropped`);
+  assert.equal(localExchangeRow({ sessionId: 's1', userId: 'u1', message: 'hi', response: { reply: '   ' } }), null);
+  assert.equal(sanitiseLocalReply({ reply: 'x'.repeat(5000) }).reply.length, 4000);
+});
+
+test('history shows a local exchange as the message plus a display-only reply; model rows are unchanged', () => {
+  const model = { id: 'm2', role: 'assistant', content: 'Model text', structured_payload: { reply: 'Model text', origin: 'model' }, created_at: 't2' };
+  const local = localExchangeRow({ sessionId: 's1', userId: 'u1', message: 'what is this page', response: { reply: 'This is Today.' } });
+  const messages = historyMessages([{ id: 'm1', created_at: 't1', ...local }, model]);
+  assert.deepEqual(messages, [
+    { id: 'm1', role: 'user', text: 'what is this page', response: null, createdAt: 't1' },
+    { id: 'm1:local', role: 'assistant', text: 'This is Today.', response: { reply: 'This is Today.', origin: 'record', actions: [], cards: [] }, clientSourced: true, createdAt: 't1' },
+    { id: 'm2', role: 'assistant', text: 'Model text', response: { reply: 'Model text', origin: 'model' }, createdAt: 't2' },
+  ]);
+});
+
+test('local route stores no assistant row; report lookup and study replay accept model replies only', () => {
+  const local = read('src/app/api/ai/mentor/local/route.js');
+  assert.doesNotMatch(local, /role:\s*'assistant'/, 'the local route never writes an assistant turn');
+  assert.doesNotMatch(local, /structured_payload:\s*response/);
+  assert.match(local, /localExchangeRow\(\{ sessionId: effectiveSessionId, userId: session\.user\.id, message, response \}\)/);
+  assert.match(local, /sanitiseLocalReply\(body\.response\)/);
+  assert.match(read('src/lib/server/aiReplyReport.js'), /\.eq\('role', 'assistant'\)\.eq\('structured_payload->>origin', 'model'\)\.eq\('structured_payload->charge->>reference', key\)/);
+  assert.match(read('src/app/api/ai/mentor/chat/route.js'), /\.eq\('role','assistant'\)\.eq\('structured_payload->>origin','model'\)\.eq\('structured_payload->charge->>reference',key\)/);
+  assert.match(read('src/app/api/ai/mentor/chat/route.js'), /origin: 'model', mode, usage/, 'model replies are still saved with origin model');
+  assert.match(read('src/app/api/ai/mentor/history/route.js'), /messages = historyMessages\(rows\)/);
 });

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
 import { supabaseAdmin } from '@/lib/supabase';
+import { localExchangeRow, sanitiseLocalReply } from '@/lib/server/mentorLocal';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -25,8 +26,9 @@ export async function POST(request) {
   }
 
   const message = typeof body.message === 'string' ? body.message.trim().slice(0, 1500) : '';
-  const response = body.response && typeof body.response === 'object' ? body.response : null;
-  if (!message || !response?.reply) {
+  // Client-built text: rebuilt from a whitelist and stored only as client-sourced data (see mentorLocal.js).
+  const response = sanitiseLocalReply(body.response);
+  if (!message || !response) {
     return NextResponse.json({ error: 'message_and_response_required' }, { status: 400 });
   }
 
@@ -66,16 +68,11 @@ export async function POST(request) {
 
     if (!effectiveSessionId) throw new Error('session_missing');
 
-    await sb.from('mentor_messages').insert([
-      { session_id: effectiveSessionId, user_id: session.user.id, role: 'user', content: message },
-      {
-        session_id: effectiveSessionId,
-        user_id: session.user.id,
-        role: 'assistant',
-        content: String(response.reply).slice(0, 4000),
-        structured_payload: response,
-      },
-    ]);
+    // One user-role row; never an assistant turn, so no server path can mistake it for a model reply.
+    const { error: insertError } = await sb.from('mentor_messages').insert(
+      localExchangeRow({ sessionId: effectiveSessionId, userId: session.user.id, message, response }),
+    );
+    if (insertError) throw insertError;
 
     return NextResponse.json({ ok: true, sessionId: effectiveSessionId });
   } catch (err) {

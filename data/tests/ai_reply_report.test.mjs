@@ -60,7 +60,8 @@ function fakeDb({ messages = [], reservations = [], failOn = null, reports = [] 
         log.reads.push([name, [...filters]]);
         if (failOn === name) return { data: null, error: { message: 'down' } };
         const rows = name === 'mentor_messages' ? messages : reservations;
-        const row = rows.find((r) => filters.every(([c, v]) => (c === 'structured_payload->charge->>reference' ? r.reference : r[c]) === v));
+        const field = (r, c) => (c === 'structured_payload->charge->>reference' ? r.reference : c === 'structured_payload->>origin' ? r.origin : r[c]);
+        const row = rows.find((r) => filters.every(([c, v]) => field(r, c) === v));
         return { data: row || null, error: null };
       },
       upsert: async (row, opts) => {
@@ -75,7 +76,7 @@ function fakeDb({ messages = [], reservations = [], failOn = null, reports = [] 
   return { from: table, log, reports };
 }
 const KEY = `prepos:u1:${RID}`;
-const stored = { user_id: 'u1', role: 'assistant', reference: KEY, content: 'What the student saw', session_id: 'sess-1' };
+const stored = { user_id: 'u1', role: 'assistant', origin: 'model', reference: KEY, content: 'What the student saw', session_id: 'sess-1' };
 
 test('findReceivedReply finds the reply by the owner and the operation key, from the message or the committed credit operation', async () => {
   assert.deepEqual(await findReceivedReply(fakeDb({ messages: [stored] }), 'u1', RID), { found: true, text: 'What the student saw', sessionId: 'sess-1' });
@@ -83,6 +84,9 @@ test('findReceivedReply finds the reply by the owner and the operation key, from
   // someone else's reply, an uncommitted operation, an unknown id and a user's own role filter all find nothing
   assert.equal((await findReceivedReply(fakeDb({ messages: [stored] }), 'u2', RID)).found, false);
   assert.equal((await findReceivedReply(fakeDb({ messages: [{ ...stored, role: 'user' }] }), 'u1', RID)).found, false);
+  // Only a model reply counts: a row whose payload was built by the client (or carries no model origin) is not a receipt.
+  assert.equal((await findReceivedReply(fakeDb({ messages: [{ ...stored, origin: 'client_local' }] }), 'u1', RID)).found, false);
+  assert.equal((await findReceivedReply(fakeDb({ messages: [{ ...stored, origin: undefined }] }), 'u1', RID)).found, false);
   assert.equal((await findReceivedReply(fakeDb({ reservations: [{ user_id: 'u1', operation_key: KEY, state: 'released' }] }), 'u1', RID)).found, false);
   assert.equal((await findReceivedReply(fakeDb({ reservations: [{ user_id: 'u1', operation_key: KEY, state: 'executing' }] }), 'u1', RID)).found, false);
   assert.equal((await findReceivedReply(fakeDb({ messages: [stored] }), 'u1', 'short')).found, false);
