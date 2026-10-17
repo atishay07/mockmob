@@ -74,7 +74,7 @@ function Question({ q, mine, resultId, partial = false }) {
         {youRow ? <Row m={youRow} you /> : null}
         {q.others.map((o) => <Row key={o.memberId} m={o} />)}
       </ul>
-      {q.picks && q.picks.length ? <p className="mob-hint">{partial ? 'How the members you can read picked' : 'How your Mob picked'}: {q.picks.map((p) => `${p.option || 'No answer'} ${p.count}`).join(', ')}.</p> : null}
+      {q.picks && q.picks.length ? <p className="mob-hint">{partial ? 'How you and the members who share picked' : 'How your Mob picked'}: {q.picks.map((p) => `${p.option || 'No answer'} ${p.count}`).join(', ')}.</p> : null}
       {q.trap ? (
         <div className="mob-q__trap">
           <p className="mob-note"><b>Your Mob&apos;s trap:</b> {q.trap.count} of {q.trap.of} picked {q.trap.option}. {q.trap.trapName ? `Trap: ${q.trap.trapName}.` : 'A common wrong pick.'}</p>
