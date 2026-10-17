@@ -41,8 +41,12 @@ test('?q and #hash open a real question only', () => {
   assert.equal(faqIdFrom(null), null);
 });
 
-test('Help is linked from the account menu and the footer, and the page exists', () => {
-  assert.match(read('src/lib/arenaNavigation.js'), /label: 'Account', items: \[[^\]]*item\('help', 'Help', 'help'\)/);
+test('Help and FAQ is linked from the Account group and the footer, and the page exists', () => {
+  // D11 (18 Oct): "Help" alone was the wrong word and a menu in the sidebar the wrong place. It is a plain link to its own page.
+  assert.match(read('src/lib/arenaNavigation.js'), /label: 'Account', items: \[[^\]]*item\('help', 'Help and FAQ', 'help'\)/);
+  const shell = read('src/app/(app)/AppLayoutClient.jsx');
+  assert.doesNotMatch(shell, /arena-help-door|<HelpMenu|guide-button/, 'no Help menu in the shell');
+  assert.match(read('src/app/(app)/help/HelpPageClient.jsx'), /<ArenaHead title="Help and FAQ"/);
   assert.match(read('src/components/MarketingFooter.jsx'), /\['Help', '\/help'\]/);
   assert.doesNotThrow(() => read('src/app/(app)/help/page.js'));
 });

@@ -38,7 +38,7 @@ export default function HelpPageClient() {
 
   return (
     <div className="student-page help">
-      <ArenaHead title="Help" lede={HELP_LEDE} />
+      <ArenaHead title="Help and FAQ" lede={HELP_LEDE} />
       {/* The two quickest ways first (N17): Mobi answers about any page in place, and the tour shows the arena once. */}
       <div className="help-ways">
         {HELP_DOOR_ROWS.filter((row) => row.action).map((row) => {

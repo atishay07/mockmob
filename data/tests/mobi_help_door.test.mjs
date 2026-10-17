@@ -50,9 +50,10 @@ test('the floating orb is retired; Mobi lives in the shell and opens in place', 
   assert.doesNotMatch(read('src/app/layout.js'), /AssistantLauncher/);
   const shell = read('src/app/(app)/AppLayoutClient.jsx');
   assert.match(shell, /<AskMobiHost \/>/);
-  assert.match(shell, /<HelpMenu/);
-  assert.match(shell, /className="arena-help-door"/);
+  // D11 (18 Oct): the Help door and its menu are gone from the shell; Help and FAQ is its own page, linked in the Account group.
+  assert.doesNotMatch(shell, /<HelpMenu|arena-help-door/);
   assert.match(shell, /data-tour="nav-more"/);
+  assert.match(shell, /target: \['nav-help', 'nav-more'\]/, 'the tour ends on the Help and FAQ link, or More on a phone');
   assert.doesNotMatch(shell, /shadow-\[0_0_/, 'no glow in the tour');
   assert.match(read('src/components/recovery/RepairAsk.jsx'), /openAskMobi\(/);
   const orb = read('src/components/ui/prepos-orb.css');

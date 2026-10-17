@@ -28,7 +28,10 @@ test('the dock holds Today, Practice, Review and Colleges; Learn and Explore mov
   assert.ok(STUDY_NAV.some((tab) => tab.id === 'learn'), 'Learn stays in the Study group');
   // The More sheet lists the places that are not in the dock, so its Study group opens on Learn (NAV-1017 10, check 4);
   // the desktop sidebar still draws every group in full.
-  assert.match(layout, /const sheetGroups = navGroups\.map\(\(group\) => \(\{ \.\.\.group, items: group\.items\.filter\(\(tab\) => !dockIds\.has\(tab\.id\)\) \}\)\)/);
+  // Account and Help and FAQ head the sheet (the name row, and a link beside the sign-out key) instead of sitting at its foot.
+  assert.match(layout, /const sheetGroups = navGroups\.map\(\(group\) => \(\{ \.\.\.group, items: group\.items\.filter\(\(tab\) => !dockIds\.has\(tab\.id\) && !sheetHeadIds\.has\(tab\.id\)\) \}\)\)/);
+  assert.match(layout, /const sheetHeadIds = new Set\(\['profile', 'help'\]\)/);
+  assert.match(layout, /<Link href=\{previewLinks\?\.help \|\| '\/help'\} className="arena-sheet__help"[\s\S]{0,160}?>\s*<AppIcon name="help" \/> Help and FAQ/);
   assert.match(layout, /<AppearanceSwitch \/>\s*\{sheetGroups\.map/);
   const dockIds = new Set(MOBILE_STUDY_NAV.map((tab) => tab.id));
   const sheetStudy = STUDY_NAV.filter((tab) => !dockIds.has(tab.id)).map((tab) => tab.id);
@@ -61,6 +64,25 @@ test('the lens is a neutral plate 4 px narrower than its slot, never volt', () =
   assert.match(rule, /width: calc\(\(100% - 2 \* var\(--dock-pad\)\) \/ 5 - 4px\)/);
   assert.match(rule, /height: 56px/);
   assert.doesNotMatch(rule, /volt|accent/);
+});
+
+test('the page ends at the dock: a fixed foot in the page colour, never volt, never catching a pointer (D13)', () => {
+  const start = arenaCss.indexOf('html .app-shell .arena-dock::before {');
+  assert.ok(start > 0, 'the dock has a foot');
+  const rule = arenaCss.slice(start, arenaCss.indexOf('}', start));
+  assert.match(rule, /position: fixed/);
+  assert.match(rule, /z-index: -1/);
+  assert.match(rule, /var\(--a-bg\)/, 'the page colour, not a colour of its own');
+  assert.match(rule, /pointer-events: none/);
+  assert.doesNotMatch(rule, /volt|accent|box-shadow/);
+  // The foot reaches 40 px above the capsule, so it softens what runs under the dock instead of cutting it off.
+  assert.match(rule, /12px \+ 64px \+ 40px/);
+});
+
+test('narrow phones set the words at 10 px so the lens never touches a letter (D13, measured at 360 and 375)', () => {
+  const at = arenaCss.indexOf('@media (max-width: 379px)');
+  assert.ok(at > 0);
+  assert.match(arenaCss.slice(at, arenaCss.indexOf('}', at)), /--dock-label: 10px/);
 });
 
 test('slot widths stay at or above 44 px at every phone width (NAV-1017 6.1 formula)', () => {
