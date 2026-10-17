@@ -19,8 +19,7 @@ export function PublicHeroArt({ kind = 'subjects' }) {
       <figure className="pub-art pub-art--campus">
         <picture>
           <source type="image/avif" srcSet={set('avif')} sizes="(min-width: 640px) 560px, calc(100vw - 40px)" />
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/campus/srcc-450.webp" srcSet={set('webp')} sizes="(min-width: 640px) 560px, calc(100vw - 40px)" width={600} height={400} alt="Shri Ram College of Commerce, Delhi University, drawn under evening light" decoding="async" />
+          <img src="/images/campus/srcc-450.webp" srcSet={set('webp')} sizes="(min-width: 640px) 560px, calc(100vw - 40px)" width={600} height={400} alt="Shri Ram College of Commerce, Delhi University, drawn in daylight" decoding="async" />
         </picture>
         <figcaption>Shri Ram College of Commerce, Delhi University.</figcaption>
       </figure>

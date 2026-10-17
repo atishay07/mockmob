@@ -15,7 +15,7 @@ export const toDuId = (id) => (id === 'general_test' ? 'gat' : id);
 export const COMPASS_HREF = '/admission-compass';
 export const NO_SUBJECTS_LINE = 'Add your subjects to see which DU programmes they open.';
 export const NO_SUBJECTS_KEY = 'Add subjects';
-export const OPEN_KEY = 'Open Compass';
+export const OPEN_KEY = 'Open Colleges'; // One name for the place on every surface (W-067).
 
 /** The subjects the Compass page would start from, as the comma list it reads. */
 export function startingList({ saved, profile } = {}) {

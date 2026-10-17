@@ -171,7 +171,8 @@
 .app-shell .acct-day:disabled { cursor: not-allowed; opacity: 0.6; }
 @media (hover: hover) and (pointer: fine) { .app-shell .acct-day:hover:not(:disabled):not([data-study='true']):not([aria-checked='true']) { border-color: var(--a-line-hover); background: var(--a-hover); } }
 .app-shell .acct-day[data-study='true'] { background: var(--a-ink); border-color: var(--a-ink); color: var(--a-bg); }
-.app-shell .acct-day[aria-checked='true'] { background: var(--volt, #d2f000); border-color: var(--volt, #d2f000); color: #0b1000; }
+/* A picked day is marked with the selection ring and wash, not a volt fill, so the page keeps one volt button in view (W-075). */
+.app-shell .acct-day[aria-checked='true'] { background: var(--a-volt-wash, rgba(210, 240, 0, 0.07)); border-color: var(--a-select, #d2f000); box-shadow: inset 0 0 0 1px var(--a-select, #d2f000); color: var(--a-ink); font-weight: 700; }
 .app-shell .acct-goal__split { margin: 0; min-width: 0; overflow-wrap: anywhere; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
 .app-shell .acct-goal__counts { margin: 0; max-width: 56ch; min-width: 0; overflow-wrap: anywhere; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-3); }
 .app-shell .acct-goal__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }

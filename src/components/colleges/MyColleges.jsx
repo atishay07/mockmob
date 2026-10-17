@@ -120,7 +120,7 @@ export function AccountColleges({ userId }) {
         <p className="mc-notice" role="status" aria-live="polite">{mine.notice}{undo && mine.notice.startsWith('Removed') ? <> <button type="button" className="mc-undo" onClick={restore}>Undo</button></> : null}</p>
         {mine.status === 'ready' && colleges.length ? (
           colleges.length < MAX_COLLEGES
-            ? <Link className="mc-key" href={COMPASS_HREF}><Plus size={16} aria-hidden="true" />Add from Admission Compass</Link>
+            ? <Link className="mc-key" href={COMPASS_HREF}><Plus size={16} aria-hidden="true" />Add from Colleges</Link>
             : <p className="mc-note">{FULL_LINE}</p>
         ) : null}
       </div>
