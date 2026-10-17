@@ -32,6 +32,8 @@ class AnswerRow extends StatefulWidget {
     this.summary,
     this.summarySemantics,
     this.repair,
+    this.onTryFirst,
+    this.onShowAnswer,
   });
 
   final AnswerItem item;
@@ -43,6 +45,11 @@ class AnswerRow extends StatefulWidget {
   /// The repair entry of an opened mistake, in place of the plain repair key (what a repair gives, its cost, or the
   /// saved repair).
   final Widget? repair;
+
+  /// "Try it again before you see the answer" (v15 spec 3.2): when given, the row keeps the key, the explanation and
+  /// the traps back and offers this try first; [onShowAnswer] shows them. Null shows them as the key rule allows.
+  final VoidCallback? onTryFirst;
+  final VoidCallback? onShowAnswer;
   final bool expanded;
   final VoidCallback onToggle;
 
@@ -96,19 +103,24 @@ class _AnswerRowState extends State<AnswerRow> {
     Verdict.held => ResultCopy.statusHeld,
   };
 
-  Widget _body() => _Body(
-    item: item,
-    keysOff: widget.keysOff,
-    onRepair: widget.onRepair,
-    repair: widget.repair,
-    // The counts say which option is right, so they follow the key rule: none while keys are off
-    // or while the question's key is being checked.
-    others: widget.keysOff || item.verdict == Verdict.held ? null : widget.others,
-    othersTitle: widget.othersTitle,
-    // A trap names the student's own wrong option: never on a right, blank or held answer, and never
-    // while keys are off (the tag is a statement about the key).
-    trap: widget.keysOff || item.verdict != Verdict.wrong ? null : widget.trap,
-  );
+  Widget _body() {
+    final hidden = widget.onTryFirst != null;
+    return _Body(
+      item: item,
+      // A hidden key is a key that is off for now: no right option, no explanation, no counts, no trap.
+      keysOff: widget.keysOff || hidden,
+      onRepair: widget.onRepair,
+      repair: widget.repair,
+      tryFirst: hidden ? (onTry: widget.onTryFirst!, onShow: widget.onShowAnswer) : null,
+      // The counts say which option is right, so they follow the key rule: none while keys are off
+      // or while the question's key is being checked.
+      others: widget.keysOff || hidden || item.verdict == Verdict.held ? null : widget.others,
+      othersTitle: widget.othersTitle,
+      // A trap names the student's own wrong option: never on a right, blank or held answer, and never
+      // while keys are off (the tag is a statement about the key).
+      trap: widget.keysOff || hidden || item.verdict != Verdict.wrong ? null : widget.trap,
+    );
+  }
 
   BubbleState get _bubble => switch (item.verdict) {
     Verdict.correct => BubbleState.filled,
@@ -179,10 +191,11 @@ class _AnswerRowState extends State<AnswerRow> {
 }
 
 class _Body extends StatelessWidget {
-  const _Body({required this.item, required this.keysOff, this.onRepair, this.repair, this.others, this.othersTitle, this.trap});
+  const _Body({required this.item, required this.keysOff, this.onRepair, this.repair, this.tryFirst, this.others, this.othersTitle, this.trap});
 
   final AnswerItem item;
   final bool keysOff;
+  final ({VoidCallback onTry, VoidCallback? onShow})? tryFirst;
   final VoidCallback? onRepair;
   final Widget? repair;
   final LabOthers? others;
@@ -196,6 +209,8 @@ class _Body extends StatelessWidget {
     final q = item.question;
     final note = item.verdict == Verdict.held
         ? ResultCopy.keyHeld
+        : tryFirst != null
+        ? null
         : keysOff
         ? ResultCopy.keysOff
         : null;
@@ -234,6 +249,7 @@ class _Body extends StatelessWidget {
         ],
         const SizedBox(height: MmSpace.s12),
         _Options(item: item, keysOff: keysOff, others: others, trap: trap),
+        if (tryFirst != null) ...[const SizedBox(height: MmSpace.s16), _TryFirstPrompt(onTry: tryFirst!.onTry, onShow: tryFirst!.onShow)],
         if (item.verdict == Verdict.blank) ...[
           const SizedBox(height: MmSpace.s12),
           Text(ResultCopy.didNotAnswer, style: type.small.copyWith(color: colors.ink2)),
@@ -275,6 +291,32 @@ class _Body extends StatelessWidget {
           const SizedBox(height: MmSpace.s16),
           KeyButton.secondary(label: ResultCopy.repairThis, onPressed: onRepair, expanded: false),
         ],
+      ],
+    );
+  }
+}
+
+/// "Try it again before you see the answer": the key stays back until the student has answered the question once more
+/// (a sheet that is not recorded) or asks to see it.
+class _TryFirstPrompt extends StatelessWidget {
+  const _TryFirstPrompt({required this.onTry, this.onShow});
+
+  final VoidCallback onTry;
+  final VoidCallback? onShow;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(ResultCopy.tryFirstTitle, style: type.cardTitle.copyWith(fontSize: 16)),
+        const SizedBox(height: MmSpace.s4),
+        Text(ResultCopy.tryFirstLine, style: type.small.copyWith(color: colors.ink2)),
+        const SizedBox(height: MmSpace.s12),
+        Align(alignment: Alignment.centerLeft, child: KeyButton.secondary(label: ResultCopy.tryItAgain, expanded: false, onPressed: onTry)),
+        if (onShow != null) Align(alignment: Alignment.centerLeft, child: KeyButton.quiet(label: ResultCopy.showTheAnswer, onPressed: onShow)),
       ],
     );
   }

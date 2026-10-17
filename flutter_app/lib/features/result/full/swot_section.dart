@@ -37,7 +37,15 @@ String swotPracticeHref(SwotPractice p) => Uri(
 /// rows, then the four groups, rise in 60 ms apart. A later visit, and reduced motion, show it at
 /// rest.
 class SwotSection extends StatefulWidget {
-  const SwotSection({super.key, required this.attemptId, required this.swot, required this.onOpenQuestion});
+  const SwotSection({super.key, required this.attemptId, required this.swot, required this.onOpenQuestion, this.bare = false, this.readTitle});
+
+  /// Drawn without its own title, under a heading the page already gives it (the open analysis' "Strengths and
+  /// weaknesses", v15 spec 3.1). The default keeps "After this mock".
+  final bool bare;
+
+  /// The heading over the read of the paper; null keeps "SWOT for this mock", the open analysis says "What this paper
+  /// showed".
+  final String? readTitle;
 
   final String attemptId;
   final Swot? swot;
@@ -118,9 +126,7 @@ class _SwotSectionState extends State<SwotSection> with SingleTickerProviderStat
 
     final basis = swot.basis;
     final groups = [for (final q in swot.quadrants) if (q.isVisible) q];
-    return MmSection(
-      title: ResultCopy.swotTitle,
-      child: Column(
+    final content = Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (swot.plan.isNotEmpty) ...[
@@ -139,7 +145,7 @@ class _SwotSectionState extends State<SwotSection> with SingleTickerProviderStat
             ],
             const SizedBox(height: MmRhythm.group),
           ],
-          _Heading(ResultCopy.swotReadTitle),
+          _Heading(widget.readTitle ?? ResultCopy.swotReadTitle),
           if (basis != null && basis.line.isNotEmpty) ...[
             const SizedBox(height: MmSpace.s4),
             Text(basis.line, style: type.small.copyWith(color: colors.ink2)),
@@ -153,8 +159,8 @@ class _SwotSectionState extends State<SwotSection> with SingleTickerProviderStat
             arrive(_QuadrantBlock(quadrant: g, onOpenQuestion: widget.onOpenQuestion)),
           ],
         ],
-      ),
-    );
+      );
+    return widget.bare ? content : MmSection(title: ResultCopy.swotTitle, child: content);
   }
 }
 

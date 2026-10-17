@@ -50,9 +50,11 @@ Widget whereSection(
   ValueChanged<int>? onOpenQuestion,
   VoidCallback? onSeeChanges,
   ValueChanged<String>? onSeeInReplay,
+  String? title,
 }) {
   if (lab != null && lab.showsLedger && onOpenQuestion != null) {
     return LabLedgerSection(
+      title: title,
       attemptId: m.attemptId,
       lab: lab,
       onOpenQuestion: onOpenQuestion,
@@ -62,7 +64,7 @@ Widget whereSection(
     );
   }
   final section = MmSection(
-    title: ResultCopy.sectionWhere,
+    title: title ?? ResultCopy.sectionWhere,
     child: BreakdownSection(breakdown: m.breakdown, flow: true, cells: onOpenQuestion == null ? null : m.cells, onOpenQuestion: onOpenQuestion),
   );
   // An older paper with nothing to split (nothing missed, or answer checks not ready) still says

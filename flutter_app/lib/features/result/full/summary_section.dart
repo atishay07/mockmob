@@ -7,18 +7,25 @@ import '../model/recap_model.dart';
 import '../sheet/sheet_geometry.dart';
 import '../widgets/answer_map.dart';
 
-/// The answer map alone, for the "Every answer" fold of the result (RESULT-1017 4.6): ten to a row, numbered like
-/// the exam hall's sheet, every bubble opening its question. No Mobi: the result has none (F11).
+/// The answer sheet of the result (v15 spec 3.1): ten to a row, numbered like the exam hall's sheet, every bubble
+/// opening its question. The reader Mobi sits beside the heading and turns to the answer the student opens (the
+/// restore of the 17 Oct cut, N12); [mobi] is null on an NTA result, which has no Mobi.
 class ResultAnswersMap extends StatelessWidget {
-  const ResultAnswersMap({super.key, required this.model, required this.onOpen, this.onPeek});
+  const ResultAnswersMap({super.key, required this.model, required this.onOpen, this.onPeek, this.mobi, this.mobiPose = MobiPose.read, this.arrival = false});
 
   final RecapModel model;
   final ValueChanged<int> onOpen;
   final ValueChanged<int>? onPeek;
+  final MobiController? mobi;
+  final MobiPose mobiPose;
+  final bool arrival;
+
+  /// The reader Mobi's height.
+  static const double mobiSize = 56;
 
   @override
   Widget build(BuildContext context) =>
-      _AnswersMap(model: model, onOpen: onOpen, arrival: false, onPeek: onPeek);
+      _AnswersMap(model: model, onOpen: onOpen, arrival: arrival, onPeek: onPeek, mobi: mobi, mobiPose: mobiPose);
 }
 
 /// The paper's answers as one map on the page itself, ten to a row and numbered like the sheet in
@@ -26,12 +33,14 @@ class ResultAnswersMap extends StatelessWidget {
 /// bubbles on the ground. The recap's printed sheet is the object; here the result is simply read
 /// and every bubble opens its question.
 class _AnswersMap extends StatelessWidget {
-  const _AnswersMap({required this.model, required this.onOpen, required this.arrival, this.onPeek});
+  const _AnswersMap({required this.model, required this.onOpen, required this.arrival, this.onPeek, this.mobi, this.mobiPose = MobiPose.read});
 
   final RecapModel model;
   final ValueChanged<int>? onOpen;
   final bool arrival;
   final ValueChanged<int>? onPeek;
+  final MobiController? mobi;
+  final MobiPose mobiPose;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +48,7 @@ class _AnswersMap extends StatelessWidget {
     final type = context.mmType;
     final label = type.small.copyWith(color: colors.ink3);
     final cells = model.cells;
+    final mobi = this.mobi;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -63,6 +73,10 @@ class _AnswersMap extends StatelessWidget {
                 ],
               ),
             ),
+            if (mobi != null) ...[
+              const SizedBox(width: MmSpace.s8),
+              Mobi(pose: mobiPose, size: ResultAnswersMap.mobiSize, controller: mobi),
+            ],
           ],
         ),
         const SizedBox(height: MmSpace.s12),

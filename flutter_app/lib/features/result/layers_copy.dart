@@ -59,6 +59,27 @@ abstract final class LayersCopy {
   static const heldLine = 'Check it held: right. The fix held on a new question.';
   static const slippedLine = 'Check it held: not this time. It comes back in Revise.';
 
+  // ---- The full analysis, open (v15 spec 3.1) -------------------------------------------------
+
+  /// The heading over the open analysis.
+  static const analysis = 'Your full analysis';
+  static const analysisLine = 'Everything this paper shows, in the order a student reads it.';
+  static const sectionAnswerSheet = 'Answer sheet';
+  static const sectionMarksWent = 'Where your marks went';
+  static const sectionTime = 'Time';
+  static const sectionStrengths = 'Strengths and weaknesses';
+  static const strengthsRead = 'What this paper showed';
+  static const sectionScores = 'Scores by session';
+  static const noWeakChapters = 'No chapter cost marks on this paper.';
+  static const practise = 'Practise';
+  static String practiseChapter(String chapter) => 'Practise $chapter';
+  static String showAllChapters(int n) => 'Show all $n chapters';
+  static const marksSplitTitle = 'How the marks split';
+
+  /// The folded row of right answers under the mistakes: "28 answered right".
+  static String rightRow(int n) => n == 1 ? '1 answered right' : '$n answered right';
+  static String answeredRightSpoken(int n, {required bool open}) => '${rightRow(n)}. ${open ? 'Fold away' : 'Show them'}';
+
   // ---- Layer 4: the folds -------------------------------------------------------------------
 
   static const more = 'More from this paper';

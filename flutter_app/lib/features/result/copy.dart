@@ -22,6 +22,12 @@ abstract final class ResultCopy {
   static String submittedAt(DateTime at) => 'Submitted at ${formatTime12(at)}.';
   static const savedOnServer = 'Saved to your account.';
   static const answerSheet = 'Answer sheet';
+
+  /// The step before the key on a mistake (v15 spec 3.2, from the website's fix round).
+  static const tryFirstTitle = 'Try it again before you see the answer';
+  static const tryFirstLine = 'Answer the question once more with no key showing. This try is not recorded.';
+  static const tryItAgain = 'Try it again';
+  static const showTheAnswer = 'Show the answer';
   static const answers = 'Answers';
   static String range(int n) => '1 to $n';
   static const mapHint = 'Tap a bubble to open that answer.';

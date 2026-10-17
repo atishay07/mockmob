@@ -89,11 +89,15 @@ class MistakeSummary extends StatelessWidget {
     this.yours,
     this.answer,
     this.cohort,
+    this.when,
   });
 
   final int number;
   final String? chapter;
   final String? stem;
+
+  /// The paper and when it was attempted, in the student's own 12-hour time: "Mock 7, 12 Oct, 10:44 PM".
+  final String? when;
 
   /// The student's letter, and the correct letter when the key may be shown.
   final String? yours;
@@ -127,6 +131,10 @@ class MistakeSummary extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(chapter ?? 'Question $number', style: type.cardTitle.copyWith(fontSize: 15.5), maxLines: 1, overflow: TextOverflow.ellipsis),
+                  if (when != null) ...[
+                    const SizedBox(height: MmSpace.s2),
+                    Text(when!, style: type.caption.copyWith(color: colors.ink2), maxLines: 1, overflow: TextOverflow.ellipsis),
+                  ],
                   if (stem != null && stem!.isNotEmpty) ...[
                     const SizedBox(height: MmSpace.s2),
                     Text(stem!, style: type.small.copyWith(color: colors.ink2), maxLines: 1, overflow: TextOverflow.ellipsis),
@@ -165,9 +173,10 @@ class MistakeSummary extends StatelessWidget {
   }
 
   /// What a screen reader hears for the row.
-  static String spoken({required int number, String? chapter, String? yours, String? answer, String? cohort, required MistakeStatus status}) => [
+  static String spoken({required int number, String? chapter, String? when, String? yours, String? answer, String? cohort, required MistakeStatus status}) => [
     'Question $number',
     ?chapter,
+    ?when,
     if (yours != null) LayersCopy.yours(yours),
     if (answer != null) LayersCopy.answer(answer),
     ?cohort,
@@ -418,6 +427,61 @@ class LeftBlankRow extends StatelessWidget {
                 const Bubble(state: BubbleState.blank, size: 22, animate: false),
                 const SizedBox(width: MmSpace.s12),
                 Expanded(child: Text(LayersCopy.leftBlank(count), style: context.mmType.cardTitle.copyWith(fontSize: 15))),
+                AnimatedRotation(
+                  turns: open ? 0.5 : 0,
+                  duration: Motion.of(context, const Duration(milliseconds: 200)),
+                  curve: Motion.out,
+                  child: Icon(LucideIcons.chevronDown, size: 20, color: colors.ink3),
+                ),
+              ],
+            ),
+          ),
+        ),
+        MmSizeEase(
+          duration: Motion.of(context, open ? const Duration(milliseconds: 260) : const Duration(milliseconds: 200)),
+          curve: Motion.out,
+          alignment: Alignment.topCenter,
+          child: open
+              ? Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: children)
+              : const SizedBox(width: double.infinity),
+        ),
+      ],
+    );
+  }
+}
+
+/// The folded row of right answers under the mistakes: "28 answered right", opening the right rows in place (the
+/// answers a student got right are still one tap away; they are not mistakes, so they do not lead).
+class RightAnswersRow extends StatelessWidget {
+  const RightAnswersRow({super.key, required this.count, required this.open, required this.onTap, required this.children});
+
+  final int count;
+  final bool open;
+  final VoidCallback onTap;
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Divider(height: 1, thickness: 1, color: colors.line),
+        MmPressable(
+          onTap: onTap,
+          pressedScale: 0.985,
+          focusRadius: MmRadius.smallAll,
+          haptic: MmPressHaptic.selection,
+          highlight: true,
+          selected: open,
+          semanticsLabel: LayersCopy.answeredRightSpoken(count, open: open),
+          builder: (context, pressed, _) => ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 56),
+            child: Row(
+              children: [
+                const Bubble(state: BubbleState.filled, size: 22, animate: false),
+                const SizedBox(width: MmSpace.s12),
+                Expanded(child: Text(LayersCopy.rightRow(count), style: context.mmType.cardTitle.copyWith(fontSize: 15))),
                 AnimatedRotation(
                   turns: open ? 0.5 : 0,
                   duration: Motion.of(context, const Duration(milliseconds: 200)),

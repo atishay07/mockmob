@@ -192,7 +192,7 @@ void main() {
       expect(row.expanded, isTrue);
     });
 
-    testWidgets('late at night there is no Mobi on the result, and the panel says the hour in plain words', (tester) async {
+    testWidgets('late at night Mobi is not sleepy on the result, and the panel says the hour in plain words', (tester) async {
       final d = detail();
       await pumpResultRoute(
         tester,
@@ -201,7 +201,9 @@ void main() {
         overrides: resultOverrides(attemptId: 'a7', data: _ready(mock7(withDetail: d), d), now: DateTime(2026, 10, 13, 0, 30)),
       );
       await _run(tester, 600);
-      expect(find.byType(Mobi), findsNothing);
+      for (final m in tester.widgetList<Mobi>(find.byType(Mobi))) {
+        expect(m.pose, isNot(MobiPose.sleepy));
+      }
       expect(find.text('It is late. One repair is enough for tonight.'), findsOneWidget);
     });
   });
