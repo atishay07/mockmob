@@ -10,9 +10,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../auth/auth_state.dart';
 import '../../haptics/haptics.dart';
 import '../../motion/motion.dart';
+import '../../storage/storage_providers.dart' show appPrefsProvider;
 import '../../theme/theme.dart';
 import '../materials/light_field.dart';
 import 'brand_logo.dart';
+import 'first_launch_opening.dart';
 import 'logo_geometry.g.dart';
 
 /// The brand opening's timeline, in milliseconds from the moment the "mo" is on the glass (the
@@ -37,6 +39,12 @@ import 'logo_geometry.g.dart';
 /// exactly (a still, alive launch screen), so nothing moves; the first screen replaces it when it
 /// is known. If the app itself is not built yet, the word holds and Mobi blinks now and then
 /// (never a spinner), at most [maxMs].
+///
+/// The first launch after install (M-001) plays the whole opening, [fullMs] in all: everything
+/// above is the same up to the composed word, which then holds until [fullHandOffAt] while Mobi
+/// glances back and blinks and the word swells [breathZoom] and settles back to rest, so the
+/// hand-off starts from the exact still word. Never a blank wait: the word is on the glass from
+/// 1000 ms on.
 abstract final class OpeningTimeline {
   static const double blinkAt = 150;
   static const double inkAt = 320;
@@ -51,6 +59,13 @@ abstract final class OpeningTimeline {
 
   /// The composed word; the hand-off may start here.
   static const double settledAt = 1000;
+
+  /// The first launch after install (M-001): the opening lasts [fullMs], from the "mo" on the glass
+  /// to the first screen. The hand-off ([fadeMs]) starts at [fullHandOffAt]; the word holds from
+  /// [settledAt] to there, swelling by [breathZoom] at the middle and back to rest.
+  static const double fullMs = 3000;
+  static const double fullHandOffAt = fullMs - fadeMs;
+  static const double breathZoom = 0.03;
 
   /// The first screen paints under the opaque opening this long before the fade, so its first
   /// (and most expensive) frame is not one of the fade's.
@@ -126,6 +141,15 @@ abstract final class OpeningTimeline {
   /// Camera progress, 0 at the "mo" to 1 at the word.
   static double camera(double t) => pullBack.transform(_span(t, expandAt, cameraMs));
 
+  /// The swell of the first-launch hold, 0 to 1 and back to 0: nothing before the word is composed
+  /// or after the hand-off starts, and a sine squared between, so it leaves and returns to rest
+  /// with no velocity (the hand-off, and a launch screen that takes over, see the exact still word).
+  static double breath(double t) {
+    if (t <= settledAt || t >= fullHandOffAt) return 0;
+    final s = math.sin(math.pi * (t - settledAt) / (fullHandOffAt - settledAt));
+    return s * s;
+  }
+
   /// The lamp coming up with the word, 0 to 1.
   static double lamp(double t) => Motion.glide.transform(_span(t, expandAt, cameraMs));
 
@@ -191,8 +215,9 @@ abstract final class OpeningTimeline {
     );
   }
 
-  /// The pose at [t] ms on a [size] screen painted at [devicePixelRatio].
-  static LogoPose poseAt(double t, Size size, {double devicePixelRatio = 2}) {
+  /// The pose at [t] ms on a [size] screen painted at [devicePixelRatio]. [firstLaunch] adds the
+  /// first-launch hold's swell after the word is composed ([breath]); the first 1000 ms are the same.
+  static LogoPose poseAt(double t, Size size, {double devicePixelRatio = 2, bool firstLaunch = false}) {
     final glyphs = List<LogoGlyphPose>.filled(LogoGeometry.word.length, LogoGlyphPose.rest);
 
     // Leftwards from the m of "mo". Each letter's slot (its ink plus the gap to its right
@@ -222,8 +247,12 @@ abstract final class OpeningTimeline {
     final inkDone = t >= inkAt + inkMs;
     final swapAt = detailSwapAt(size, devicePixelRatio);
     final toSmall = _span(t, swapAt - detailSwapMs / 2, detailSwapMs);
+    final swell = firstLaunch ? breath(t) : 0.0;
+    final view = _cameraView(c, size);
     return LogoPose(
-      view: _cameraView(c, size),
+      view: swell == 0
+          ? view
+          : Rect.fromCenter(center: view.center, width: view.width / (1 + breathZoom * swell), height: view.height / (1 + breathZoom * swell)),
       glyphs: glyphs,
       mobi: MobiFacePose(
         // The full master (the splash's ring eye and flap cut) while Mobi is drawn large enough
@@ -362,7 +391,8 @@ abstract final class OpeningGlass {
 }
 
 /// The one brand opening, on every cold start: it continues the system splash's "mo", grows into
-/// "mockmob", and hands off to the first screen. It covers the app until it is done, then
+/// "mockmob", and hands off to the first screen. About 1.3 s; the first launch after install
+/// ([firstLaunch]) plays it whole, about 3 s. It covers the app until it is done, then
 /// removes itself ([onDone]); tap to skip. Under reduced motion the "mo" fades to the word.
 ///
 /// [ready] says the first screen is known and built (the session is known and the router has gone
@@ -382,9 +412,14 @@ class BrandOpening extends ConsumerStatefulWidget {
     this.progress,
     this.shown,
     this.onSeen,
+    this.firstLaunch = false,
   });
 
   final VoidCallback onDone;
+
+  /// The first launch after install (M-001): the whole opening, [OpeningTimeline.fullMs] in all, instead of the short
+  /// one. Under reduced motion it is the same short fade either way.
+  final bool firstLaunch;
 
   /// Called once when the "mo" is on the glass (the platform answered, or its answer timed out):
   /// from here the opening's clock runs. The host builds the app under the opening from this
@@ -531,7 +566,15 @@ class _BrandOpeningState extends ConsumerState<BrandOpening> with TickerProvider
     if ((widget.ready || widget.launchReady) && _launchAt == null) _launchAt = _now;
   }
 
-  double get _settledAt => _reduced ? OpeningTimeline.reducedMs : OpeningTimeline.settledAt;
+  /// When the word is composed: from here a tap hands off.
+  double get _composedAt => _reduced ? OpeningTimeline.reducedMs : OpeningTimeline.settledAt;
+
+  /// The earliest the hand-off starts on its own: the composed word, or after the first launch's hold.
+  double get _settledAt => _reduced
+      ? OpeningTimeline.reducedMs
+      : widget.firstLaunch
+          ? OpeningTimeline.fullHandOffAt
+          : OpeningTimeline.settledAt;
 
   void _tick() {
     final t = _now;
@@ -566,12 +609,12 @@ class _BrandOpeningState extends ConsumerState<BrandOpening> with TickerProvider
   void _skip() {
     if (_done || widget.progress != null) return;
     _buzzed = true;
-    if (_readyAt != null || _now >= _settledAt) {
+    if (_readyAt != null || _now >= _composedAt) {
       // Not ready yet past the word: the app is on its launch screen, which is this opening's
       // last frame, so the hand-off moves nothing and the tap is never dead.
       _handOff();
     } else {
-      _seenAt = _clock.value - _settledAt;
+      _seenAt = _clock.value - _composedAt;
     }
   }
 
@@ -662,6 +705,7 @@ class _BrandOpeningState extends ConsumerState<BrandOpening> with TickerProvider
                         time: () => _t,
                         frozenAt: frozen ? _t : null,
                         reduced: _reduced && !frozen,
+                        firstLaunch: widget.firstLaunch,
                         devicePixelRatio: MediaQuery.devicePixelRatioOf(context),
                       ),
                     ),
@@ -704,11 +748,13 @@ class _OpeningPainter extends CustomPainter {
     required this.frozenAt,
     required this.reduced,
     required this.devicePixelRatio,
+    this.firstLaunch = false,
   }) : super(repaint: clock);
 
   final double Function() time;
   final double? frozenAt;
   final bool reduced;
+  final bool firstLaunch;
   final double devicePixelRatio;
 
   void _paint(Canvas canvas, Size size, LogoPose pose, {double opacity = 1}) => BrandLogoPainter.paintPose(
@@ -737,7 +783,7 @@ class _OpeningPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final t = time();
     if (!reduced) {
-      _paint(canvas, size, OpeningTimeline.poseAt(t, size, devicePixelRatio: devicePixelRatio));
+      _paint(canvas, size, OpeningTimeline.poseAt(t, size, devicePixelRatio: devicePixelRatio, firstLaunch: firstLaunch));
       return;
     }
     // One, then the other: the "mo" fades out, then the word fades in, so two sizes of the logo
@@ -751,10 +797,11 @@ class _OpeningPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_OpeningPainter old) =>
-      old.reduced != reduced || old.devicePixelRatio != devicePixelRatio || old.frozenAt != frozenAt;
+      old.reduced != reduced || old.firstLaunch != firstLaunch || old.devicePixelRatio != devicePixelRatio || old.frozenAt != frozenAt;
 }
 
-/// Lays the brand opening over the app on every cold start and removes it when it is done. The
+/// Lays the brand opening over the app on every cold start (the whole one on the first launch after
+/// install, M-001) and removes it when it is done. The
 /// app underneath builds and routes as usual; it is hidden from screen readers until then.
 class BrandOpeningHost extends ConsumerStatefulWidget {
   const BrandOpeningHost({super.key, required this.child, this.shown, this.afterOpening});
@@ -784,6 +831,10 @@ class BrandOpeningHost extends ConsumerStatefulWidget {
 
 class _BrandOpeningHostState extends ConsumerState<BrandOpeningHost> {
   bool _showing = true;
+
+  /// The first launch after install (M-001): read once, so the opening that started is the opening
+  /// that finishes, and the flag is set only after it has played.
+  late final bool _firstLaunch = ref.read(firstLaunchOpeningProvider);
 
   /// The opening is opaque until just before it fades, so the app underneath is not painted
   /// until then ([_painted]), and its tickers are muted until the fade starts ([_live]): on a
@@ -828,6 +879,7 @@ class _BrandOpeningHostState extends ConsumerState<BrandOpeningHost> {
           BrandOpening(
             ready: _appFramed && authKnown,
             launchReady: _appFramed,
+            firstLaunch: _firstLaunch,
             shown: widget.shown,
             onSeen: _buildApp,
             onPrepaint: () {
@@ -836,7 +888,11 @@ class _BrandOpeningHostState extends ConsumerState<BrandOpeningHost> {
               _appFramed = true;
               setState(() => _painted = true);
             },
-            onReveal: () => setState(() => _live = true),
+            onReveal: () {
+              setState(() => _live = true);
+              // The whole opening has been seen by the hand-off: every launch after it is the short one.
+              if (_firstLaunch) unawaited(FirstLaunchOpening.markPlayed(ref.read(appPrefsProvider)));
+            },
             onDone: () => setState(() => _showing = false),
           ),
         if (!_showing && widget.afterOpening != null) widget.afterOpening!,

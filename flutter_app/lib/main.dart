@@ -18,6 +18,7 @@ import 'core/storage/app_prefs.dart';
 import 'core/storage/prefs_store.dart';
 import 'core/theme/glass_quality.dart';
 import 'core/widgets/brand/brand_opening.dart' show BrandOpeningHost;
+import 'core/widgets/brand/first_launch_opening.dart' show FirstLaunchOpening, firstLaunchOpeningProvider;
 import 'core/widgets/skeleton.dart' show SkeletonGroup;
 import 'core/sync/sync.dart';
 import 'features/notifications/services/android_permission_requester.dart';
@@ -46,19 +47,23 @@ Future<void> _start() async {
   // student was heading when the app last died during sign-in (a code read in the mail app,
   // Google sign-in in the browser): kept on the phone and restored here, so the target page and
   // the first-sign-in sheet survive the process being killed. Read together, not one after the
-  // other: each is a round trip to the platform before the first frame.
+  // other: each is a round trip to the platform before the first frame. The third says whether
+  // this is the first launch after install, which plays the whole 3 second opening (M-001).
   final boot = await Future.wait<Object>([
     GlassBoot.read(AppPrefs(SharedPrefsStore())),
     IntendedRoute.restored(SharedPrefsStore()),
+    FirstLaunchOpening.due(AppPrefs(SharedPrefsStore())),
   ]);
   final glass = boot[0] as GlassBoot;
   final intended = boot[1] as IntendedRoute;
+  final firstLaunch = boot[2] as bool;
 
   runApp(
     ProviderScope(
       overrides: [
         glassBootProvider.overrideWithValue(glass),
         intendedRouteProvider.overrideWithValue(intended),
+        firstLaunchOpeningProvider.overrideWithValue(firstLaunch),
         // Start, the bar's live capsule and its badges (shared with the device demo).
         ...liveAppOverrides(),
         // Module 11: the Android 13 notification permission.

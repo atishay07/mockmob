@@ -7,6 +7,7 @@ export 'art/mm_art.dart';
 export 'brand/brand_logo.dart';
 export 'brand/brand_opening.dart';
 export 'brand/cold_open.dart';
+export 'brand/first_launch_opening.dart';
 export 'brand/mark.dart';
 export 'brand/wordmark.dart';
 export 'bubbles/bubble.dart';
