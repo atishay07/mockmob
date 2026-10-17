@@ -1,52 +1,49 @@
 # NOW: MockMob current state (overwrite this file at every handoff; git keeps the history)
 
-**Last written:** 18 Oct 2026, about 3:20 am IST, by session 25ef3d95 (Claude Opus 5.5, main, CEO/CTO). The owner is moving the work to another account before he sleeps. **Read next:** `OWNER-MASTER-LEDGER.md` (new section "Added 18 Oct 2:30-4:10 am"), then `OWNER-FEEDBACK-2026-10-18-DAWN.md` (his words; the end sections hold tonight's decisions, D25-D29).
+**Last written:** 18 Oct 2026, about 4:05 am IST, by session 25ef3d95 (Claude Opus 5.5, main). Safe stop at 80% usage at the owner's request ("use it at 80%... stop everything safely... prepare the handoff and the prompt"). **Read next:** `OWNER-MASTER-LEDGER.md` (sections "Added 18 Oct 2:30-4:10 am" and "Added 18 Oct about 3:45-4 am"), then `OWNER-FEEDBACK-2026-10-18-DAWN.md` (his words, end sections: D25-D34), then `MISSED-ASKS-2026-10-18.md`.
 
 ## 1. Live
-- **www.mockmob.in = main 9578ee66 (web release 4).** Nothing new pushed tonight yet. STATUS entries for R3, R4 and R5 still to write in the next push.
+- **www.mockmob.in = main 9578ee66 (web release 4).** Nothing pushed this session. STATUS entries for R3, R4 and R5 still unwritten.
 - **Production DB:** unchanged since 17 Oct. The Mob migration is NOT on production.
-- **App:** v13 (1.0.13) is the last delivered APK; it is installed on the emulator (the owner watched it).
+- **App:** v13 (1.0.13) is the last delivered APK.
 
-## 2. Owner decisions tonight (do not re-ask)
-- **A2: hold v15 for the new Today.** v15 = new Today + result + polish + Ask Mobi + the paper reel.
-- **Mock-ups approved:** TODAY-1018 (with D26 Road to CUET = due today / due this week / the goal; D27 feel unique), ASK-MOBI-1018, REVIEW-RESULT-1018, COMMUNITY-1018 (hide contributions behind CONTRIBUTE_ENABLED, keep Explore, the Mob, Your standing, creators). All in `docs/design-decisions/pass-1018/`, mocks in `tmp/design-1018/`.
-- **D5 = Repairs** (CTO; he could not confirm). **D6 = Ask Mobi** (confirmed).
-- **D28/D29:** the "Back from marking" card is fake (marking is instant). Replace it with a truthful reel, "Play your paper back, 20 s", built on the same engine as the D17 replay; fix the three v13 Today bugs (greeting by hour, stuck "Still refreshing", row under the bar).
-- **He wants speed:** run focused parallel builds; he does not want stalls. CPU is the practical ceiling (about 12-15 heavy agents).
+## 2. The owner's mood and the most important facts
+- At 4 am he viewed the landing branch live and called it **"so trash and a major regression"** (D32). **Do not ship web/land2-1015.** Keep only the held-story position indicator at the top (Mistake Lab, What's inside) and the top light/dark toggle, ported into the CURRENT live landing. Confirm the exact element with him first.
+- He saw no visible change in release 5's dashboard (D33). Releases must make his asks visibly obvious, and say where to look.
+- He reviews big pages live himself (D30): open the dev server in the app's browser pane (preview_start with the localhost URL) or give the LAN address (the PC is 192.168.1.8; the dev server binds all interfaces).
+- Decisions earlier tonight (do not re-ask): A2 hold v15 for the new Today; mock-ups approved (TODAY, ASK-MOBI, REVIEW-RESULT, COMMUNITY-1018 in docs/design-decisions/pass-1018); D5 = Repairs; D6 = Ask Mobi; D26 Road to CUET shows due today / due this week / the goal; D27 Today must feel unique; D29 replace "Back from marking" with the truthful "Play your paper back" reel.
 
-## 3. In flight at the handover (session 25ef3d95 workflows; run ids only resume in that session, so a new session relaunches from the worktrees)
+## 3. Stop point per track (all workflows stopped; every tree committed; dev servers, Chrome, Flutter, Gradle and the emulator stopped; still running on purpose: staging site 3101, relay 3102, adb; one unknown process still listens on 3306)
 
 | Track | Worktree, branch | Head | State | Next |
 |---|---|---|---|---|
-| **Web release 5** | wt-ship17, deploy/web-1018-r5 | 7ef0ba7a | All 6 items built and merged (night 4af8973a, theme c06d2a58, nav 0a7b35c6, practice cb7eaa15, result 3c00fcb9, lr a3a060dc); integrator was finishing suites; then the independent verifier | Verifier (suites + D7, D10, D11, D13, D5, D15, D16, D17, F15 at 390/1440 Night/Day), STATUS R3-R5, **main pushes** |
-| **Landing** | wt-land2, web/land2-1015 | 48e7b057 | Checker 1 of the final loop running (L-001..L-045, zero truth, zero high) | Fix loop until SHIP, ship verifier (merge origin/main), **main pushes** (memory landing-checklist-gate) |
-| **Today web** | wt-today18, web/today-1018 | 9b9b84dc (+12 dirty) | Opus build in progress; critic + fix follow | Into release 6 |
-| **Review/result web** | wt-r6-review, web/r6-review-1018 | c7292e41 (+8 dirty) | Building (P-RR1 done) | Into release 6 |
-| **Ask Mobi web** | wt-r6-askmobi, web/r6-askmobi-1018 | a7fc0f9a | Built (panel); finishing | Into release 6; wire call sites (Practice, result, Today "Why this?") |
-| **Community + D20 web** | wt-r6-community, web/r6-community-1018 | 0a7b35c6 (+18 dirty) | Building | Into release 6 |
-| **Mob web/server** | wt-mobfix, web/mob-fix-1017 | 286aa73b | 5 gate defects fixed with tests | Re-run the go/no-go on staging; stays OFF in production |
-| **v15 base** | wt-v15, ui/v15-1018 | 6ffc3e59 | v13 + v14 + **polish merged** | Integrate the rest |
-| **v15 result** | wt-v15-result, ui/v15-result | c56fc063 | DONE (D15-D17) | Merge into ui/v15-1018: **3 conflicts with polish** (main aborted a quick merge; the integrator resolves with tests) |
-| **v15 Today** | wt-v15-today2, ui/v15-today2 | 76ee2e90 (+8 dirty) | Opus build in progress; critic + fix follow. Do NOT use ui/v15-today (d4c75899, the rejected R4 design) | Merge into v15 |
-| **v15 Ask Mobi** | wt-v15-askmobi, ui/v15-askmobi | 5e162f98 (+3 dirty) | Building | Merge; wire call sites |
-| **v15 paper reel** | wt-v15-reel, ui/v15-reel | 6ffc3e59 (agent just started; the fresh worktree shows many line-ending changes) | Standalone PaperReel widget + entry cards (D29) | Merge; wire on Today after submission and on the result |
-| **Rig** | staging 3101, relay 3102, emulator | - | Emulator booted with v13 signed in to the test account | v15 walk |
-| **Play readiness** | doc `docs/brain/PLAY-READINESS-V15.md` | - | Being written | Owner: upload key, Play Console |
-| **Missed asks** | doc `docs/brain/MISSED-ASKS-2026-10-18.md` | - | Synthesizer running (finishes the 17 Oct corpus sweep) | Fold M-### into the master ledger |
-| **Badges and icons** | `docs/design-decisions/pass-1018/BADGES-ICONS-1018.md` | - | Design + mocks running (D19, D8) | Show the owner |
+| **Web release 5** | wt-ship17, deploy/web-1018-r5 | 9dce83f9 | All 6 items merged (Night D7/D12, theme D10, Help page + nav pulse D11/D13, Practice Repairs + Ask Mobi D5, result labels + bar D15/D17, Learn and Review F15 Revise/Concepts); suites were being fixed by the integrator; visual verifier never finished | Run the suites and an independent verifier (390/1440, Night/Day, per D item); **show him live first (D30, D33)**; then push with the STATUS entry for R3-R5 |
+| **Landing** | wt-land2, web/land2-1015 | 48e7b057 | **Rejected (D32)** | New pass on the live landing: port the position indicator and the toggle only; start from his landing words (D31); show him live before shipping |
+| **Today web** | wt-today18, web/today-1018 | fa55c354 (STOP) | Partial Opus build of TODAY-1018 + D26/D27 | Finish, critic, show him live |
+| **Review/result web** | wt-r6-review, web/r6-review-1018 | b9a68e62 | REVIEW-RESULT-1018 mostly built | Finish replay/reel (D29), verify |
+| **Ask Mobi web** | wt-r6-askmobi, web/r6-askmobi-1018 | 8615756f | Panel built (ASK-MOBI-1018) | Wire call sites; verify |
+| **Community + D20 web** | wt-r6-community, web/r6-community-1018 | f05fdffc | Contributions hidden behind CONTRIBUTE_ENABLED; D20 in progress | Finish D20, verify |
+| **Mob web/server** | wt-mobfix, web/mob-fix-1017 | e89d4a35 | The 5 gate defects fixed with tests | Re-run the go/no-go on staging; stays OFF |
+| **v15 base** | wt-v15, ui/v15-1018 | 30a2b395 | v13 + v14 + polish + **result merged** (the integrator resolved the 3 conflicts; its full test run did not finish) | Run analyze, full unit, full goldens; then merge Today, Ask Mobi, reel |
+| **v15 Today** | wt-v15-today2, ui/v15-today2 | c0558c6e (STOP) | Partial Opus build (TODAY-1018 app). Never use ui/v15-today (d4c75899, rejected design) | Finish, critic |
+| **v15 Ask Mobi** | wt-v15-askmobi, ui/v15-askmobi | d07d90bb (STOP) | Partial | Finish |
+| **v15 paper reel** | wt-v15-reel, ui/v15-reel | 61aa6d10 | DONE: PaperReel widget + Today card + result entry (27 tests) | Wire into Today after submission and the result (D29) |
+| **Docs done** | docs/brain/PLAY-READINESS-V15.md, MISSED-ASKS-2026-10-18.md, docs/design-decisions/pass-1018/*.md | - | Done | Use |
 
-Every agent commits as it goes; a stopped agent leaves its work in its worktree (commit any dirty tree as a STOP POINT before reusing it).
+## 4. Next steps, in order
+1. Fold `MISSED-ASKS-2026-10-18.md` into the master ledger; ask him M-001 and M-006 with recommendations; adopt M-018 (end updates with "Things needed from you right now" / "Nothing needed from your side").
+2. Release 5: suites, verifier, show him live, push (STATUS R3-R5).
+3. Landing: port the two kept pieces into the live landing; show him live; ship only on his yes.
+4. v15: test the merged base; finish Today, Ask Mobi; wire the reel and fix the three D28 Today bugs; emulator walk with screenshots; Opus critique; fix; confirm walk; release 1.0.15 APK + AAB.
+5. Release 6 web: Today, Review/result (+ reel), Ask Mobi, community + D20; show him live; push.
+6. Then: the Mob re-gate; badges/icons decision (BADGES-ICONS-1018); the D22 social names; Higgsfield.
 
-## 4. Next steps, in order (with honest times from about 3:20 am, if uninterrupted)
-1. **Push release 5** after its verifier: about 4:15 am.
-2. **Landing:** loop to SHIP, then push: about 4:30-5:30 am.
-3. **v15:** finish Today, Ask Mobi and the reel packets (about 60-75 min); integrate all into ui/v15-1018 (result's 3 conflicts, D28 bugs, wire the reel and Ask Mobi; analyze, full unit, full goldens; about 60 min); emulator walk against F, N, D (app) and L01-L39 plus the D25-D29 items, with screenshots (60 min); Opus critique (20 min); fix round (45 min); confirm walk (40 min); release 1.0.15 APK + AAB (20 min). **v15 in his hands about 8-8:30 am.**
-4. **Release 6 (web):** Today, Review/result, Ask Mobi (with call sites), community + D20, merged on top of release 5; verifier; push: about 6-6:30 am.
-5. Then: the Mob re-gate; the app Review/result packet (REVIEW-RESULT-1018 app) for 1.0.16; fold the missed asks; badges/icons decision; Higgsfield.
-
-## 5. Decisions or items waiting on the owner
-- Badges and icons mock-ups (when ready); the D22 social-circle names (COMMUNITY-1018 has options).
+## 5. Waiting on the owner
+- M-001 (logo 3 s), M-006 ("exciting copy" vs no hype), confirm the D32 kept element, badges and icons, D22 names.
 - Play Console account and upload key; the Anthropic key; the Avast HTTPS-scanning exception; 112 held questions; a Hindi reviewer; free first Repair.
 
-## 6. Rules that bit (repeated because they cost hours)
-- Refine, never rebuild; mock-ups first. Never SendMessage a running workflow agent. Agents stop only their own processes; never chrome.exe directly. Unlink node_modules junctions before `git worktree remove`. Dev servers with NODE_OPTIONS=--max-old-space-size=4096. Keep C: at 100 GB+ free. Check usage before waves; stop at about 95% with STOP POINT commits. Never queue a fast item behind a slow one in the same workflow (tonight the landing check waited 40 min behind the v15 result packet).
+## 6. Rules that bit
+- Refine, never rebuild; mock-ups first; he reviews big pages live before shipping (D30).
+- Never queue a fast item behind a slow one in one workflow (the landing check waited 40 minutes).
+- Never SendMessage a running workflow agent; agents stop only their own processes; never chrome.exe directly; unlink node_modules junctions before worktree removal; dev servers with NODE_OPTIONS=--max-old-space-size=4096; keep C: at 100 GB+ (128 GB free now).
+- Check usage before waves; his stop rule is about 80% when he says so (tonight) or 95-98% otherwise.
