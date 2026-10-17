@@ -81,7 +81,7 @@ void main() {
       expect(container.read(glassQualityProvider.notifier).chosen, GlassQuality.full);
       expect(container.read(glassQualityProvider.notifier).autoLite, isTrue);
       expect(await AppPrefs(store).glassQuality(), isNull, reason: 'the automatic step is not saved as the choice');
-      expect(await AppPrefs(store).glassAutoLite(), isTrue);
+      expect(await AppPrefs(store).glassAutoLite(), isFalse, reason: 'the watch steps down for this run only (v14), so a trip never sticks across launches');
 
       // Picking Full again clears the automatic step.
       await container.read(glassQualityProvider.notifier).choose(GlassQuality.full);
@@ -130,6 +130,15 @@ void main() {
       final setting = container.read(glassQualityProvider.notifier);
       expect(setting.chosen, GlassQuality.full);
       expect(setting.autoLite, isTrue, reason: 'Appearance says so and offers Full again');
+    });
+
+    test('the raster watch never runs on an emulator (its software GPU is not the glass)', () async {
+      final glass = await GlassBoot.read(AppPrefs(MemoryPrefsStore()), lowMemory: () async => false, emulator: () async => true);
+      expect(glass.emulator, isTrue);
+      expect(glass.chosen, GlassQuality.full);
+      expect(glass.autoLite, isFalse);
+      final phone = await GlassBoot.read(AppPrefs(MemoryPrefsStore()), lowMemory: () async => false, emulator: () async => false);
+      expect(phone.emulator, isFalse);
     });
 
     test('a phone with enough memory starts on Full', () async {

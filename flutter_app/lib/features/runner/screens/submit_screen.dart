@@ -9,6 +9,7 @@ import '../../../core/haptics/haptics.dart';
 import '../../../core/models/session.dart' show SessionVia;
 import '../../../core/router/routes.dart';
 import '../../../core/sync/session/session_engine.dart';
+import '../../../core/motion/mm_scroll_behavior.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -603,7 +604,8 @@ class _Body extends StatelessWidget {
     if (!centred) return SingleChildScrollView(padding: padding, child: child);
     return LayoutBuilder(
       builder: (context, box) => SingleChildScrollView(
-        physics: const ClampingScrollPhysics(),
+        // The app's one bounce (GLASS-1017 5.9, F3), as on every page.
+        physics: MmScrollBehavior.page,
         padding: padding,
         child: ConstrainedBox(
           constraints: BoxConstraints(minHeight: (box.maxHeight - padding.vertical).clamp(0.0, double.infinity)),

@@ -35,7 +35,9 @@ class AppPrefs {
   static const _glassQuality = 'glass_quality';
   // v2 (v13): the old flag was mostly set by the memory-size guess, which no longer steps glass
   // down; a fresh key lets those phones start on Full again, and the raster watch re-decides.
-  static const _glassAutoLite = 'glass_auto_lite_v2';
+  // v3 (v14): the raster watch no longer saves its step, so a v13 trip that stuck (the emulator,
+  // one slow scroll) is cleared; only the low-RAM first-launch step is kept from here on.
+  static const _glassAutoLite = 'glass_auto_lite_v3';
   static const _coldOpenSeen = 'cold_open_seen';
 
   Future<bool> welcomeSeen() async => await _prefs.getBool(_welcomeSeen) ?? false;

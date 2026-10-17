@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:ui' show Tristate;
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/mascot/mascot.dart' show MobiCharacter;
 import 'package:mockmob/features/runner/copy.dart';
 import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/sync/session/session_engine.dart';
@@ -134,6 +135,21 @@ void main() {
       await settle(tester);
       expect(s.currentIndex, 5);
       expect(find.text('Your answer sheet'), findsNothing);
+    });
+
+    testWidgets('no Mobi in the Questions sheet of a mock (L35)', (tester) async {
+      await pumpRunner(tester, session: FakeRunnerSession());
+      await tester.tap(find.text('Questions'));
+      await settle(tester);
+      expect(find.byType(PaletteSheet), findsOneWidget);
+      expect(find.byType(MobiCharacter), findsNothing, reason: 'nothing moves inside a timed paper');
+    });
+
+    testWidgets('a practice set keeps its one Mobi in the Questions sheet (L35)', (tester) async {
+      await pumpRunner(tester, session: FakeRunnerSession(questions: accountancyQuestions(10), mode: 'quick', mockNumber: null));
+      await tester.tap(find.text('Questions'));
+      await settle(tester);
+      expect(find.byType(MobiCharacter), findsOneWidget, reason: 'a practice set keeps its one Mobi');
     });
 
     testWidgets('keep going keeps the student in the mock', (tester) async {

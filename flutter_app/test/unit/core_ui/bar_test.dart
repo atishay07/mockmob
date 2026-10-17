@@ -65,9 +65,9 @@ void main() {
       expect([for (final t in kBarTabs) t.label], ['Today', 'Practice', 'Review', 'Colleges', 'You']);
     });
 
-    test('the glass is frost (L33): sigma 32 with a 1.5 saturation lift', () {
-      expect(MmBar.blurSigma, 32);
-      expect(MmBar.blurSigma, greaterThan(MmElevation.sigmaDock));
+    test('the glass is frost that shows shape (L33, F3, GLASS-1017 6.1): sigma 16 with a 1.5 saturation lift', () {
+      expect(MmBar.blurSigma, 16);
+      expect(MmBar.blurSigma, greaterThanOrEqualTo(12), reason: 'glyphs under the bar never read');
       expect(MmBar.saturation, 1.5);
     });
   });

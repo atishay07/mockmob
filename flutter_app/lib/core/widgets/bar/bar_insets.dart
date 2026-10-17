@@ -48,14 +48,21 @@ class MmBarInsets extends InheritedWidget {
 }
 
 /// The ground fading in behind the bar (replaces the old `DockScrim`). It runs from 40 dp above
-/// the bar's top (or the capsule's, while it shows) to the screen's bottom: clear at the top, 25%
-/// ground at the bar's top, 45% at its bottom edge and 80% at the screen's bottom. It only
-/// separates the floating row from the page; it no longer erases what scrolls under the glass,
-/// so content shows through the frost as soft colour and shape (L33, NAV-1017 6.7, GLASS-1017
-/// 6.1). Legibility is the glass's job: its luminosity step keeps the labels above 4.5:1 over
-/// any page, from paper white to a volt key (`BarGlass`).
+/// the bar's top (or the capsule's, while it shows) to the screen's bottom: clear at the top,
+/// [atBarTop] ground at the bar's top, [atBarBottom] at its bottom edge and 80% at the screen's
+/// bottom. It only separates the floating row from the page; it never erases what scrolls under
+/// the glass, so content shows through the frost as soft colour and shape (L33, NAV-1017 6.7,
+/// GLASS-1017 6.1). v14: the v13 walk read the Night bar as an opaque pill, and 25 to 45% ground
+/// under a 50% tint left content at about 14% of its light; the scrim is now 12 to 22%.
+/// Legibility is the glass's job: its luminosity step keeps the labels at 4.5:1 or better even
+/// over a solid volt key under this scrim (`BarGlass`, test/unit/a11y/bar_guidelines_test.dart).
 class BarScrim extends StatelessWidget {
   const BarScrim({super.key, required this.bottomInset, this.capsule = false});
+
+  /// The ground's strength at the bar's top and bottom edges (what the label contrast is judged
+  /// over).
+  static const double atBarTop = 0.12;
+  static const double atBarBottom = 0.22;
 
   /// The gesture inset under the bar.
   final double bottomInset;
@@ -74,9 +81,10 @@ class BarScrim extends StatelessWidget {
     final top = surfaceTop / height;
     final bottom = ((height - bottomInset - MmBar.lift) / height).clamp(top, 1.0);
     if (capsule) {
-      // With the live capsule up, the page fades out under it instead of showing half a row in the
-      // 8 dp between the capsule and the bar: 60% ground from the capsule's top to the bar's top,
-      // so a row never reads half-hidden there (v13 clutter fix).
+      // With the live capsule up, the page fades under it instead of showing half a row in the
+      // 8 dp between the capsule and the bar: 50% ground at the capsule's top (v13 clutter fix),
+      // easing to 30% at the bar's top so the bar itself stays see-through glass (v14), then the
+      // bar's own 22% at its bottom edge.
       final barTop = ((MmBar.capsuleClearance + surfaceTop) / height).clamp(top, bottom);
       return DecoratedBox(
         decoration: BoxDecoration(
@@ -86,9 +94,9 @@ class BarScrim extends StatelessWidget {
             stops: [0, top, barTop, bottom, 1],
             colors: [
               ground.withValues(alpha: 0),
-              ground.withValues(alpha: 0.6),
-              ground.withValues(alpha: 0.6),
-              ground.withValues(alpha: 0.45),
+              ground.withValues(alpha: 0.5),
+              ground.withValues(alpha: 0.3),
+              ground.withValues(alpha: atBarBottom),
               ground.withValues(alpha: 0.8),
             ],
           ),
@@ -101,7 +109,7 @@ class BarScrim extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           stops: [0, top, bottom, 1],
-          colors: [ground.withValues(alpha: 0), ground.withValues(alpha: 0.25), ground.withValues(alpha: 0.45), ground.withValues(alpha: 0.8)],
+          colors: [ground.withValues(alpha: 0), ground.withValues(alpha: atBarTop), ground.withValues(alpha: atBarBottom), ground.withValues(alpha: 0.8)],
         ),
       ),
     );

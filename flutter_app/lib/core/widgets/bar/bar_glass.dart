@@ -14,11 +14,17 @@ typedef BarShape = RRect Function(Size size);
 /// * Full: one `BackdropFilter.grouped` per surface inside the shell's `BackdropGroup` (so the
 ///   capsule, the live capsule and a glass Start key share one backdrop snapshot), clipped to the
 ///   surface's own shape. What scrolls under it is lifted to 1.5 saturation, its luminosity is
-///   compressed toward the glass (Night: scaled to 50%; Day: lifted to at least 45% white), then
-///   blurred at sigma 32 ([MmBar.blurSigma], the owner's frost, L33), under a warm tint at 50%
-///   (Night) or 55% (Daylight). Content shows through as soft colour and shape, never as an
-///   opaque slab, and the labels stay above 5:1 over any backdrop from black to paper white or
-///   volt (the luminosity step does the legibility work a heavier tint used to do).
+///   compressed toward the glass (Night: scaled to 45%; Day: lifted to at least 45% white), then
+///   blurred at sigma 16 ([MmBar.blurSigma], frost that keeps shape, L33 and F3), under a warm tint at 40%
+///   in both themes (v14: 50% Night and 55% Day read as an opaque pill on the device walk).
+///   Content shows through as soft colour and shape, never as an opaque slab, and the labels
+///   stay at 4.5:1 or better over any backdrop from black to paper white or a solid volt key
+///   under the bar's scrim (the luminosity step does the legibility work a heavier tint used to
+///   do; test/unit/a11y/bar_guidelines_test.dart).
+///
+///   The lens shader (`mm_glass.frag`, rim bend) stays off by default (GLASS-1017 15.1): its
+///   texture mapping (check A4) and raster budget (section 7) still need a device run. This
+///   tier is therefore "Full without the shader", made clearly see-through instead.
 /// * Lite: no live blur; a denser tint (94% Night and Day) and the noise tile, so what scrolls
 ///   under the bar still shows through dimly as shape and colour (v13 device walk: at 97% the
 ///   Night bar read as an opaque charcoal pill). Labels stay above 6:1 over black, paper or volt.
@@ -48,7 +54,7 @@ class BarGlass extends StatefulWidget {
   );
 
   /// How far Night scales the backdrop's light down, and the white floor Day lifts it to.
-  static const double nightLuminosity = 0.50;
+  static const double nightLuminosity = 0.45;
   static const double dayFloor = 0.45;
 
   /// The colour matrix applied to the backdrop before the blur: saturation [MmBar.saturation]
@@ -135,7 +141,7 @@ class BarGlassSpec {
       const edgeMid = Color(0x08FFFFFF); // white 3%
       const shadow = Color(0x66000000); // black 40%
       return switch (quality) {
-        GlassQuality.full => const BarGlassSpec(tint: Color(0x801B1A16), edgeTop: edgeTop, edgeMid: edgeMid, shadow: shadow),
+        GlassQuality.full => const BarGlassSpec(tint: Color(0x661B1A16), edgeTop: edgeTop, edgeMid: edgeMid, shadow: shadow),
         GlassQuality.lite => const BarGlassSpec(tint: Color(0xF01B1A16), edgeTop: edgeTop, edgeMid: edgeMid, shadow: shadow, noise: 0.04),
         GlassQuality.off => const BarGlassSpec(
           tint: Color(0xFF1B1A16),
@@ -151,7 +157,7 @@ class BarGlassSpec {
     const shadow = Color(0x1F3A3020); // #3A3020 at 12%
     const hairline = Color(0x99D8D1C2); // #D8D1C2 at 60%
     return switch (quality) {
-      GlassQuality.full => const BarGlassSpec(tint: Color(0x8CFFFDF8), edgeTop: edgeTop, edgeMid: edgeMid, shadow: shadow, hairline: hairline),
+      GlassQuality.full => const BarGlassSpec(tint: Color(0x66FFFDF8), edgeTop: edgeTop, edgeMid: edgeMid, shadow: shadow, hairline: hairline),
       GlassQuality.lite => const BarGlassSpec(
         tint: Color(0xF0FFFDF8),
         edgeTop: edgeTop,
