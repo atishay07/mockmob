@@ -31,23 +31,50 @@
 }
 .pr-live.is-springing { transition: transform 300ms var(--pr-spring); }
 
-/* ---------- Options: strike, glide ---------- */
+/* ---------- Options: one box, the choice inks in from its letter, strike ----------
+   The chosen answer is drawn on the option itself: its line turns volt, and a wash grows as a circle from the letter's
+   centre inside the option, clipped to it (the app's answer_option.dart: the bubble inks from where the finger touched).
+   Changing the answer clears the old option in 120 ms and inks the new one in 260 ms; nothing travels between options,
+   so only one outlined box is ever on screen (owner F10). A press scales the option with its own border; there is no
+   layer under it. The letter pops once on the icon spring. Reduced motion: a 120 ms colour fade, no clip, no scale.
+   NTA classic (nta-classic.css) never carries .pr-run and is untouched. */
 .pr-run .nta-options { position: relative; isolation: isolate; }
 .pr-run .nta-option {
-  position: relative; z-index: 1;
+  position: relative; z-index: 1; overflow: hidden;
   -webkit-touch-callout: none; -webkit-user-select: none; user-select: none;
-  transition: border-color 200ms var(--pr-ease), background-color 200ms var(--pr-ease), transform 140ms var(--pr-ease);
+  /* Leaving the selected state is instant for the outline, so the old answer's box is gone in the frame the new one starts. */
+  transition: border-color 0ms, background-color 160ms var(--pr-ease), box-shadow 120ms var(--pr-ease), transform 140ms var(--mm-press-lift, var(--pr-ease));
 }
-.pr-run .nta-option:active:not(:disabled) { transform: scale(.985); }
-.pr-run .nta-option.is-selected { border-color: transparent; background: transparent; }
-.pr-run .nta-option-letter { transition: background-color 200ms var(--pr-ease), color 200ms var(--pr-ease); }
-.pr-glide {
-  position: absolute; left: 0; right: 0; top: 0; z-index: 0; height: 0; opacity: 0; pointer-events: none;
-  border-radius: 8px; border: 1px solid color-mix(in oklab, var(--pr-accent) 72%, transparent);
+/* The same list at the runner's own specificity, so arena.css's 180 ms border fade on .nta-option cannot bring the old box back. */
+.app-shell .nta-runner.pr-run[data-interface="mockmob"] .nta-option {
+  transition: border-color 0ms, background-color 160ms var(--pr-ease), box-shadow 120ms var(--pr-ease), transform 140ms var(--mm-press-lift, var(--pr-ease));
+}
+.pr-run .nta-option:active:not(:disabled),
+.app-shell .nta-runner.pr-run[data-interface="mockmob"] .nta-option:active:not(:disabled) { transform: scale(.985); transition-duration: 0ms, 160ms, 120ms, 100ms; }
+.pr-run .nta-option::before {
+  /* Under the letter and text, over the option's own fill: the option is a stacking context (z-index 1). */
+  content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
   background: color-mix(in oklab, var(--pr-accent) 9%, transparent);
-  transition: opacity 180ms var(--pr-ease);
+  clip-path: circle(0 at 28px 50%); opacity: 0;
+  transition: opacity 90ms var(--pr-ease), clip-path 0s linear 90ms;
 }
-.pr-glide[data-placed='1'] { transition: opacity 180ms var(--pr-ease), transform 320ms var(--pr-spring), height 320ms var(--pr-ease); }
+.app-shell .nta-runner.pr-run[data-interface="mockmob"] .nta-option.is-selected,
+.pr-run .nta-option.is-selected {
+  border-color: color-mix(in oklab, var(--pr-accent) 72%, transparent);
+  background: var(--a-raised-2, transparent);
+  box-shadow: none;
+  transition-duration: 120ms, 160ms, 120ms, 140ms;
+}
+.pr-run .nta-option.is-selected::before {
+  opacity: 1; clip-path: circle(150% at 28px 50%);
+  transition: opacity 80ms var(--pr-ease), clip-path 260ms var(--mm-ease-out, var(--pr-ease));
+}
+.pr-run .nta-option-letter { transition: none; }
+.pr-run .nta-option.is-selected .nta-option-letter { transition: background-color 160ms var(--pr-ease), color 160ms var(--pr-ease); }
+.pr-run .nta-option.is-selected .nta-option-letter { background: var(--volt); color: #050600; animation: pr-letter-pop var(--mm-spring-icon-pop-dur, 320ms) var(--mm-spring-icon-pop, var(--pr-spring)) both; }
+@keyframes pr-letter-pop { 0% { transform: scale(1); } 45% { transform: scale(1.08); } 100% { transform: scale(1); } }
+/* The outgoing question in the hand-off keeps its answer, drawn the same way, without the ink motion. */
+.pr-ghost .nta-option.is-ghost-selected::before { opacity: 1; clip-path: none; transition: none; }
 
 .pr-run .nta-option.is-struck .nta-option-text,
 .pr-run .nta-option.is-struck .nta-option-letter { opacity: .45; }
@@ -147,10 +174,17 @@
   .pr-live[data-entering], .pr-ghost, .pr-strike, .pr-note, .pr-label, .pr-run .is-ready, .pr-run .is-ready::after,
   .pr-goto, .pr-undo, .pr-undo i, .pr-sheet__backdrop, .pr-sheet__panel { animation: none !important; }
   .pr-ghost { display: none; }
-  .pr-glide, .pr-glide[data-placed='1'], .pr-run .nta-option, .pr-run .nta-palette-chip, .pr-live.is-springing { transition: none !important; }
+  .pr-run .nta-palette-chip, .pr-live.is-springing { transition: none !important; }
+  .pr-run .nta-option { transition: border-color 120ms linear, background-color 120ms linear !important; transform: none !important; }
+  .pr-run .nta-option::before, .pr-run .nta-option.is-selected::before { clip-path: none; transition: opacity 120ms linear !important; }
+  .pr-run .nta-option.is-selected .nta-option-letter { animation: none; }
   .pr-run .nta-palette-chip.is-dimmed { transform: none; }
 }
 
 .pr-sheet__say.is-plain { grid-template-columns: minmax(0, 1fr); min-height: 0; }
 .pr-ghost .nta-option.is-ghost-selected { border-color: color-mix(in oklab, var(--pr-accent) 72%, transparent); background: color-mix(in oklab, var(--pr-accent) 9%, transparent); }
 .pr-ghost .nta-option.is-ghost-selected .nta-option-letter { background: var(--volt); color: #050600; }
+
+:root[data-motion='reduced'] .pr-run .nta-option { transition: border-color 120ms linear, background-color 120ms linear; transform: none !important; }
+:root[data-motion='reduced'] .pr-run :is(.nta-option, .nta-option.is-selected)::before { clip-path: none; transition: opacity 120ms linear; }
+:root[data-motion='reduced'] .pr-run .nta-option.is-selected .nta-option-letter { animation: none; }

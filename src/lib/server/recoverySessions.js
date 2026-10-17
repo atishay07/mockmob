@@ -2,7 +2,7 @@ import 'server-only';
 import { supabaseAdmin } from '@/lib/supabase';
 import { Database } from '@/../data/db';
 import { scoreSession, scorePracticeSubmission, submitMeta, lateTimeUpEnd } from '@/../data/recovery';
-import { getMode, isValidModeId, resolveCount, resolveDurationSec } from '@/../data/test_modes';
+import { fineTuneViolation, getMode, isValidModeId, resolveCount, resolveDurationSec } from '@/../data/test_modes';
 import { normalizeSubjectSelection } from '@/../data/cuet_controls';
 import { randomUUID } from 'node:crypto';
 import { LAUNCH_SUBJECTS, publicSessionView } from '@/../shared/recoveryContract';
@@ -44,6 +44,10 @@ export async function startSession(userId, input) {
   if (!isValidModeId(input.mode || 'quick')) throw new Error('INVALID_MODE');
   const mode = getMode(input.mode || 'quick');
   if (!mode) throw new Error('INVALID_MODE');
+  // Same fine-tune scope as a practice start (data/test_modes.js): chapters only for Quick practice.
+  const askedChapters = [typeof input.chapter === 'string' ? input.chapter : '', ...(typeof input.chapters === 'string' ? input.chapters.split(',') : [])].filter(Boolean);
+  const outOfScope = fineTuneViolation(mode.id, { chapters: askedChapters });
+  if (outOfScope) throw new Error(outOfScope);
   const db = supabaseAdmin();
   const { data: existing, error: readError } = await db.from('recovery_sessions').select('*').eq('user_id', userId).eq('request_key', input.generationKey).maybeSingle();
   if (readError) throw new Error('RECOVERY_MIGRATION_REQUIRED');

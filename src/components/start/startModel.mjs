@@ -213,14 +213,25 @@ function hrefParts(href) {
  * student reads what the session is and what follows it instead. Every other kind keeps the plan's
  * own reason, word for word.
  */
-export function heroReason(primary, { count = null, minutes = null } = {}) {
+export function heroReason(primary, { count = null, minutes = null, named = false } = {}) {
   if (primary?.kind !== 'ordinary_practice') return primary?.reason ? String(primary.reason) : null;
   const n = whole(count) || SESSION.quickCount;
   const timed = Math.round((n * TEST_MODES.quick.durationPerQuestionSec) / 60);
   const review = Math.max(0, (whole(minutes) || 0) - timed);
+  // When the title already names the set ("10 Economics questions"), the line starts at the time, not the count again.
+  const lead = named ? `About ${timed} minutes` : `${plural(n, 'question')}, about ${timed} minutes`;
   return review
-    ? `${plural(n, 'question')}, about ${timed} minutes, then ${review} minutes on why each miss happened.`
-    : `${plural(n, 'question')}, about ${timed} minutes. Then see why each miss happened.`;
+    ? `${lead}, then ${review} minutes on why each miss happened.`
+    : `${lead}. Then see why each miss happened.`;
+}
+
+/** A following move's title, naming the subject: '10 Economics questions', 'A Full mock in Economics'. */
+export function followingTitle(mode, count, name) {
+  const subject = name ? `${name} ` : '';
+  if (mode === 'full') return `A Full mock in ${name || 'your subject'}`;
+  if (mode === 'nta') return `NTA mode in ${name || 'your subject'}`;
+  const n = whole(count) || SESSION.quickCount;
+  return `${n} ${subject}${n === 1 ? 'question' : 'questions'}`;
 }
 
 /**
@@ -239,6 +250,7 @@ export function heroFromPlan(plan, { subject = null, pro = false, balance = null
   const { path, params } = hrefParts(href);
   const practice = path === PRACTICE_HREF;
   let linked = subjectFor(params.get('subject'))?.id || null;
+  const linkedByPlan = Boolean(linked);
   let finalHref = href;
   if (practice && !linked && subjectFor(subject)) {
     params.set('subject', subjectFor(subject).id);
@@ -255,11 +267,17 @@ export function heroFromPlan(plan, { subject = null, pro = false, balance = null
   }
   const mode = practice ? (params.get('mode') || 'quick') : null;
   const count = whole(params.get('count'));
+  // START-1017 D3: a move that follows the chosen subject (plain practice whose link named no subject) sits under the
+  // subject rail and its title names the subject, so the picture and the words change together (owner F6). A move bound
+  // to something else (a resume, a repair, a check, a linked subject) sits above the rail and keeps the plan's title.
+  const followsSubject = Boolean(practice && !linkedByPlan && linked && TEST_MODES[mode]);
   return {
     id: 'move',
     kind: String(primary.kind || 'next'),
-    title: String(primary.title),
-    reason: heroReason(primary, { count, minutes: plan?.minutes }),
+    title: followsSubject ? followingTitle(mode, count, subjectName(linked)) : String(primary.title),
+    planTitle: String(primary.title),
+    followsSubject,
+    reason: heroReason(primary, { count, minutes: plan?.minutes, named: followsSubject }),
     href: finalHref,
     cta: known.cta,
     graphic: known.graphic === 'subject' && !linked && !subjectFor(subject) ? 'check' : known.graphic,
@@ -287,18 +305,22 @@ export function startRows({ plan = null, subjects = [], subject = null, pro = fa
   const name = subjectName(chosen);
   const hero = heroFromPlan(plan, { subject: chosen, pro, balance, tonightKey });
   const rows = [];
-  // A hero that is already "10 questions" in this subject is Quick practice: one row, not two.
-  if (!hero?.quick) {
-    rows.push({ id: 'quick', title: 'Quick practice', detail: `${plural(SESSION.quickCount, 'question')}, about ${SESSION.quickMinutes} minutes${name ? ` in ${name}` : ''}`,
-      href: practiceHref({ subject: chosen, mode: 'quick', count: SESSION.quickCount }), graphic: 'subject', subject: chosen, cost: costLine('quick', { pro, balance }), badge: String(SESSION.quickCount) });
+  // A hero that is already "10 questions" in the chosen subject is Quick practice: one row, not two. A fixed hero (a
+  // resume, a repair, a linked subject) does not follow the chips, so the Quick practice row comes back under them.
+  if (!(hero?.quick && hero?.followsSubject)) {
+    rows.push({ id: 'quick', title: 'Quick practice', detail: `${SESSION.quickCount} ${name ? `${name} ` : ''}questions, about ${SESSION.quickMinutes} minutes`,
+      href: practiceHref({ subject: chosen, mode: 'quick', count: SESSION.quickCount }), graphic: 'subject', subject: chosen, cost: costLine('quick', { pro, balance }), badge: String(SESSION.quickCount), go: 'start' });
   }
-  rows.push({ id: 'full', title: 'Full mock', detail: `${SESSION.fullCount} questions, ${SESSION.fullMinutes} minutes${name ? ` in ${name}` : ''}`,
-    href: practiceHref({ subject: chosen, mode: 'full' }), graphic: 'paper', subject: chosen, cost: costLine('full', { pro, balance }) });
-  rows.push({ id: 'nta', title: 'NTA mode', detail: `${SESSION.ntaCount} questions, ${SESSION.ntaMinutes} minutes on the exam-style screen`,
-    // Locked: Practice shows the screen preview and what Pro adds, so the row still opens it.
-    href: practiceHref({ subject: chosen, mode: 'nta', screen: 'nta' }), graphic: 'nta', subject: chosen, cost: costLine('nta', { pro, balance }), tag: null });
-  const choose = { id: 'choose', title: 'Choose your own', detail: 'Any subject, chapters, mode and length', href: PRACTICE_HREF, graphic: 'fan', subjects: subjects.slice(0, 3) };
-  return { hero, rows, choose };
+  rows.push({ id: 'full', title: 'Full mock', detail: `${SESSION.fullCount} ${name ? `${name} ` : ''}questions, ${SESSION.fullMinutes} minutes, a new paper every time`,
+    href: practiceHref({ subject: chosen, mode: 'full' }), graphic: 'stopwatch', subject: chosen, cost: costLine('full', { pro, balance }), go: 'start' });
+  rows.push({ id: 'nta', title: 'NTA mode', detail: `The exam-day screen${name ? ` in ${name}` : ''}, ${SESSION.ntaCount} questions in ${SESSION.ntaMinutes} minutes`,
+    // Locked: Practice shows the screen preview and what Pro adds, so the row still opens it. The outlined Pro tag
+    // marks the lock on the tile; the cost line says it in words.
+    href: practiceHref({ subject: chosen, mode: 'nta', screen: 'nta' }), graphic: 'exam', subject: chosen, cost: costLine('nta', { pro, balance }), tag: SESSION.ntaPro && !pro ? 'Pro' : null, go: 'start' });
+  const choose = { id: 'choose', title: 'Choose your own', detail: 'Any subject, chapters, mode and length', href: PRACTICE_HREF, graphic: 'fan', subjects: subjects.slice(0, 3), go: 'open' };
+  // What the label over the rows says: under a fixed hero the rows are the chosen subject's ("Or start in Economics").
+  const section = !hero ? 'Pick a session' : hero.followsSubject ? 'Or start something else' : name ? `Or start in ${name}` : 'Or start something else';
+  return { hero, rows, choose, section };
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -351,6 +373,12 @@ export function springEasing({ zeta = 0.72, points = 28 } = {}) {
     values.push(i === points ? 1 : Math.round(x * 1000) / 1000);
   }
   return `linear(${values.join(', ')})`;
+}
+
+/** The sheet's title follows the clock, as the app's QuickStartSheet.titleFor does: tonight from 4 PM. */
+export function sheetTitle(date = new Date()) {
+  const hour = date instanceof Date && !Number.isNaN(date.getTime()) ? date.getHours() : 12;
+  return hour >= 16 ? 'Pick tonight’s work' : 'Pick today’s work';
 }
 
 /** ?start=open|quick|full|nta on a signed-in page opens the sheet (deep links, app shortcuts). */

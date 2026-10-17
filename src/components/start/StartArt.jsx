@@ -23,6 +23,7 @@ import psychology from './art/obj-psychology.webp';
 import sociology from './art/obj-sociology.webp';
 import computerscience from './art/obj-computerscience.webp';
 import language from './art/obj-language.webp';
+import stopwatch from './art/hybrid-stopwatch.webp';
 
 const FILES = { accountancy, business, economics, english, generaltest, mathematics, physics, chemistry, biology, history, politicalscience, geography, psychology, sociology, computerscience, language };
 
@@ -129,10 +130,52 @@ export function DrawnGraphic({ kind, size = 64 }) {
   );
 }
 
+/**
+ * The app's lamp-lit stopwatch (flutter_app/assets/art/hybrid-stopwatch.webp, 596 x 768) for a Full mock, with its long
+ * hand drawn at the render's pivot (HybridSpec.stopwatch: 0.471, 0.605), so web and app show the same object (F4).
+ * `width` sets the size; the height follows the render. The enamel face is white in both themes, so the hand is ink.
+ */
+export function Stopwatch({ width = 66, className = '' }) {
+  const height = Math.round((width * 768) / 596);
+  return (
+    <span className={`st-watch ${className}`} style={{ width, height }} aria-hidden="true">
+      <Image className="st-watch__img" src={stopwatch} alt="" width={width} height={height} draggable={false} />
+      <svg className="st-watch__hand" viewBox="0 0 596 768" width={width} height={height} focusable="false">
+        <line x1="281" y1="465" x2="372" y2="352" />
+        <circle cx="281" cy="465" r="13" />
+      </svg>
+    </span>
+  );
+}
+
+/**
+ * NTA mode's exam screen drawn small: the blue bar and the answer palette in the exam's own colours (answered green,
+ * marked purple, not answered orange, not visited white). The same object on the Start sheet and on Practice.
+ */
+const PALETTE = ['g', 'g', 'o', 'e', 'p', 'g', 'e', 'e', 'g', 'e', 'e', 'e'];
+export function ExamPanel({ width = 76, height = 64, className = '' }) {
+  return (
+    <span className={`st-exam ${className}`} style={{ width, height }} aria-hidden="true">
+      {PALETTE.map((tone, i) => <b key={i} data-tone={tone} style={{ left: `${8 + (i % 4) * 22}%`, top: `${28 + Math.floor(i / 4) * 23}%` }} />)}
+    </span>
+  );
+}
+
+/** Smart practice: topic weights, drawn; the weakest topic carries the accent. */
+export function WeightsGlyph({ width = 60, height = 56, className = '' }) {
+  return (
+    <span className={`st-weights ${className}`} style={{ width, height }} aria-hidden="true">
+      <i style={{ height: '38%' }} /><i data-hot="" style={{ height: '100%' }} /><i style={{ height: '62%' }} /><i style={{ height: '24%' }} />
+    </span>
+  );
+}
+
 /** The right picture for a row or the hero. */
 export function RowArt({ graphic, subject, subjects, size = 64, height, priority = false }) {
   if (graphic === 'subject' && subject && subjectArt(subject)) return <SubjectObject subject={subject} size={size} height={height} priority={priority} />;
   if (graphic === 'fan') return <SubjectFan subjects={subjects} size={size} />;
+  if (graphic === 'stopwatch') return <Stopwatch width={Math.round(size * 0.8)} />;
+  if (graphic === 'exam') return <ExamPanel width={Math.round(size * 1.15)} height={Math.round(size * 0.97)} />;
   return <DrawnGraphic kind={graphic === 'subject' ? 'check' : graphic} size={size} />;
 }
 

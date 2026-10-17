@@ -16,6 +16,7 @@ export const TEST_MODES = {
     durationPerQuestionSec: 60,        // ~60s/Q
     difficulty: { easy: 0.40, medium: 0.40, hard: 0.20 },
     allowDifficultyOverride: true,
+    allowChapters: true,               // the only mode a student may narrow to chapters (START-1017 4.3)
     useWeakTopics: false,
     recencyLimit: 3,
     maxPerConcept: 2,
@@ -84,6 +85,24 @@ export function getMode(id) {
 
 export function isValidModeId(id) {
   return typeof id === 'string' && Object.prototype.hasOwnProperty.call(TEST_MODES, id);
+}
+
+// The fine-tune scope (START-1017 section 4.3, owner F9): what a student may set for each mode.
+//   Quick practice: chapters and difficulty.  Full mock: difficulty only (it covers every chapter, like the exam).
+//   Smart practice and NTA mode: nothing (we choose).  Clients show only these; the server refuses the rest.
+export function fineTuneScope(id) {
+  const mode = TEST_MODES[id];
+  return { chapters: mode?.allowChapters === true, difficulty: mode?.allowDifficultyOverride === true };
+}
+
+// The refusal for a start that asks for what its mode does not allow, or null. `chapters` is a list
+// (or a count); `difficulty` a level ('' or null for the mode's own mix).
+export function fineTuneViolation(id, { chapters = [], difficulty = '' } = {}) {
+  const scope = fineTuneScope(id);
+  const asked = Array.isArray(chapters) ? chapters.filter(Boolean).length : Number(chapters) || 0;
+  if (asked > 0 && !scope.chapters) return 'CHAPTERS_NOT_ALLOWED';
+  if (difficulty && !scope.difficulty) return 'DIFFICULTY_NOT_ALLOWED';
+  return null;
 }
 
 export function defaultModeFor(isPremium) {

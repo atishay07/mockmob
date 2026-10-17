@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useLayoutEffect, useRef, useCallback, Suspense, useMemo, useSyncExternalStore } from 'react';
+import React, { useState, useEffect, useRef, useCallback, Suspense, useMemo, useSyncExternalStore } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
@@ -12,7 +12,7 @@ import { api, apiPost } from '@/lib/fetcher';
 import { useAuth } from '@/components/AuthProvider';
 import { startMobPaper } from '@/components/mob/useMob';
 import { VoteControls } from '@/components/questions/VoteControls';
-import { getMode, isValidModeId, resolveCount, resolveDurationSec } from '@/../data/test_modes';
+import { fineTuneScope, getMode, isValidModeId, resolveCount, resolveDurationSec } from '@/../data/test_modes';
 import { progressFromEvents, resumableDraft, SUBMISSION_GRACE_MS } from '@/../data/session_draft';
 import { plainOptionTexts } from '@/../data/option_text';
 import './nta-classic.css';
@@ -184,12 +184,15 @@ function TestRunner() {
   const { user, status: authStatus, refreshSession } = useAuth();
 
   const subjectId = searchParams.get('subject');
-  const chapter = searchParams.get('chapter') || null;
-  const chapters = searchParams.get('chapters') || null;
-  const difficulty = searchParams.get('difficulty') || null;
   const modeIdRaw = searchParams.get('mode') || 'quick';
   const modeId = isValidModeId(modeIdRaw) ? modeIdRaw : 'quick';
   const mode = getMode(modeId);
+  // An older link may carry a chapter or a level its mode does not take (fineTuneScope); the server refuses those, so
+  // they are left off here and the paper is the mode's own.
+  const scope = fineTuneScope(modeId);
+  const chapter = scope.chapters ? searchParams.get('chapter') || null : null;
+  const chapters = scope.chapters ? searchParams.get('chapters') || null : null;
+  const difficulty = scope.difficulty ? searchParams.get('difficulty') || null : null;
   const requestedCount = parseInt(searchParams.get('count') || '10', 10);
   const count = resolveCount(mode, requestedCount);
   const generationKey = searchParams.get('generationKey');
@@ -250,7 +253,6 @@ function TestRunner() {
   const reviewReturnRef = useRef(null);
   const [ackSeq, setAckSeq] = useState(0);
   const [lastAnswerSeq, setLastAnswerSeq] = useState(0);
-  const glideRefs = useRef({});
 
   // The start receipt is added to the address after the server answers; it must not look like a new launch.
   const launchKey = useMemo(() => { const p = new URLSearchParams(searchParams.toString()); p.delete('startReceipt'); return p.toString(); }, [searchParams]);
@@ -783,25 +785,8 @@ function TestRunner() {
     shownBlockRef.current = currentBlockStart;
   }, [currentBlockStart]);
 
-  // The selection glides from the old option to the new one. Measured only when an answer or the
-  // question changes (and on resize), never per frame.
-  const placeGlides = useCallback(() => {
-    for (const [qid, glide] of Object.entries(glideRefs.current)) {
-      if (!glide?.isConnected) { delete glideRefs.current[qid]; continue; }
-      const selected = glide.parentElement?.querySelector('.nta-option.is-selected');
-      if (!selected) { glide.style.opacity = '0'; continue; }
-      glide.style.height = `${selected.offsetHeight}px`;
-      glide.style.transform = `translate3d(0, ${selected.offsetTop}px, 0)`;
-      glide.style.opacity = '1';
-      if (glide.dataset.placed !== '1') { void glide.offsetHeight; glide.dataset.placed = '1'; }
-    }
-  }, []);
-  useLayoutEffect(() => { if (practiceRun) placeGlides(); }, [practiceRun, placeGlides, answers, idx, questions, loading]);
-  useEffect(() => {
-    if (!practiceRun) return undefined;
-    window.addEventListener('resize', placeGlides);
-    return () => window.removeEventListener('resize', placeGlides);
-  }, [practiceRun, placeGlides]);
+  // The chosen answer is drawn on its own option (practice-run.css: an ink that grows from the letter, clipped to the
+  // option), so nothing travels between options and only one outlined box is ever on screen (owner F10).
 
   // Press and hold (or right-click) an option to cross it out.
   const cancelPress = useCallback(() => {
@@ -1084,7 +1069,6 @@ function TestRunner() {
       </h2>
 
       <div className="nta-options" role="group" aria-label={`Options for question ${questionIndex + 1}`}>
-        {practiceRun && <span className="pr-glide" aria-hidden="true" ref={(el) => { if (el) glideRefs.current[question.id] = el; }} />}
         {question.options.map((opt, optionIndex) => {
           const selected = answers[question.id] === optionIndex;
           const isStruck = practiceRun && (struck[question.id] || []).includes(optionIndex);
