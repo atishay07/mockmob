@@ -164,7 +164,7 @@ test('the panel: no tabs, switch or dropdown before the first answer; the R4 saf
   assert.match(panel, /onClick=\{\(\) => sendPaid\(retry\.message, true\)\}>Retry this question</, 'a retry reuses the same request');
   assert.match(panel, /if \(!isRetry && !paid\.open\) return;/, 'no paid call when written replies cannot be bought');
   assert.match(panel, /announceWallet\(userId, next\)/, 'the top bar takes the same balance');
-  assert.match(panel, /readWallet\(\);\n    \}/, 'the balance is read again after every written reply');
+  assert.match(panel, /readWallet\(\);\r?\n    \}/, 'the balance is read again after every written reply');
   assert.match(panel, /const fromRecord = !questionTyping && /, 'no record answer to a question while written replies are open');
   assert.match(panel, /ask\.price === 'free' \? 'Free' : creditCount\(1\)/, 'every ask shows its price before it is sent');
   const css = read('src/components/ai/ask-mobi.css');
