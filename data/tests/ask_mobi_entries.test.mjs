@@ -3,12 +3,13 @@
 // by value; the screens are held by their source, since the repo's component tests read source.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import {
   ENTRY_LABELS, canAskAboutQuestion, fallbackHref, mockContext, mockEntryLabel, mockLabel, optionLabel, practiceContext, practicePreview,
   questionContext, questionEntryLabel, questionRefOf, todayContext,
 } from '../../src/components/ai/askContexts.mjs';
 import { normalizeContext } from '../../src/components/ai/askMobi.mjs';
+import { clip, exchangesFrom, sourceOf } from '../../src/components/ai/mentorHistory.mjs';
 import { inSentence, openingFor, suggestionsFor } from '../../src/components/ai/askSuggestions.mjs';
 
 const read = (path) => readFileSync(new URL(`../../${path}`, import.meta.url), 'utf8');
@@ -186,11 +187,48 @@ test('the panel has a designed state for empty, thinking, answer, error, out of 
 test('the cost shows before each call and the balance updates after it (W-060)', () => {
   const panel = read('src/components/ai/AskMobiPanel.jsx');
   assert.match(panel, /ask\.price === 'free' \? 'Free' : creditCount\(1\)/, 'every ask row names its price');
-  assert.match(panel, /Needs a written reply, \$\{creditCount\(1\)\}/, 'the composer names the price of what is typed');
+  assert.match(panel, /usesLine\(\{ what: 'This reply', cost: 1, pool: 'ai' \}\)/, 'the composer names the price of what is typed, in the one credit wording');
+  assert.match(panel, /<Link href="\/pricing\/ai-credits" className="amb-cost__wallet"/, 'the balance links to the AI credits page');
   assert.match(panel, /announceWallet\(userId, next\)/, 'the top bar takes the same number');
   assert.match(panel, /finally \{[^}]*readWallet\(\);/s, 'the balance is read again after every written reply, success or failure');
   const route = '/api/ai/mentor/chat';
   assert.ok(panel.includes(route), 'it uses the existing AI route and no other');
   assert.doesNotMatch(panel, /fetch\('\/api\/ai\/(?!credits'|mentor\/(chat|local))/, 'no other AI route is called from the panel');
   assert.doesNotMatch(panel, /gpt-|claude-|haiku|luna|openai|anthropic/i, 'the panel never names or picks a model');
+});
+
+test('earlier questions pair each question with its reply, newest first, with the reply cut and its source named', () => {
+  const messages = [
+    { id: 'u1', role: 'user', text: 'Where am I losing marks?' },
+    { id: 'a1', role: 'assistant', text: 'Partnership.', response: { reply: 'Partnership costs the most marks.', origin: 'record' } },
+    { id: 'u2', role: 'user', text: 'Explain goodwill' },
+    { id: 'a2', role: 'assistant', response: { reply: 'word '.repeat(80), runtimeState: 'live', charge: { kind: 'prepos_credit', amount: 1 } } },
+    { id: 'u3', role: 'user', text: 'Is anyone there?' },
+    { id: 'u4', role: 'user', text: '   ' },
+    { id: 'a4', role: 'assistant', response: { reply: 'Written replies are paused.', runtimeState: 'paused' } },
+  ];
+  const rows = exchangesFrom(messages);
+  assert.deepEqual(rows.map((r) => r.id), ['u3', 'u2', 'u1'], 'newest first; an empty question is dropped');
+  assert.equal(rows[2].source, 'From your record');
+  assert.equal(rows[1].source, 'Written reply');
+  assert.ok(rows[1].reply.endsWith('…') && rows[1].reply.length <= 262, 'a long reply is cut at a word');
+  assert.deepEqual([rows[0].reply, rows[0].source], [null, null], 'a question with no saved reply shows none, and invents no source');
+  assert.equal(sourceOf({ runtimeState: 'paused' }), null, 'a service status is not an answer');
+  assert.equal(sourceOf({}), 'Earlier reply, source not recorded');
+  assert.equal(exchangesFrom(messages, { limit: 1 }).length, 1);
+  assert.deepEqual(exchangesFrom(null), []);
+  assert.equal(clip('short'), 'short');
+});
+
+test('/mentor is "Your record" with no tabs, the old four-tab hub is gone, and the old deep links still land well', () => {
+  const page = read('src/app/(app)/mentor/page.js');
+  assert.match(page, /<MentorRecordPage \/>/);
+  const view = read('src/components/ai/MentorRecordPage.jsx');
+  assert.match(view, /if \(tab === 'plan'\) \{ router\.replace\('\/today'\)/, 'the next step lives on Today');
+  assert.match(view, /if \(tab === 'tools'\) \{ router\.replace\('\/pricing\/ai-credits'\)/, 'the wallet and its rules live on the AI credits page');
+  assert.match(view, /title="Your record"/);
+  assert.match(view, /<AskMobiLink context=\{\{ kind: 'page' \}\}/, 'Mobi is one row away, and opens beside the record');
+  assert.doesNotMatch(view, /role="tablist"|aria-pressed|SECTIONS/, 'no tabs');
+  for (const gone of ['src/components/ai/MockMobAIHub.jsx', 'src/components/ai/AIMentorTerminal.jsx']) assert.equal(existsSync(new URL(`../../${gone}`, import.meta.url)), false, gone);
+  assert.match(read('src/app/(app)/AppLayoutClient.jsx'), /<Link href="\/pricing\/ai-credits" className="arena-chip arena-chip--prepos"/, 'the top bar balance opens the AI credits page');
 });

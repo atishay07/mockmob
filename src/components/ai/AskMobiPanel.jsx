@@ -15,7 +15,7 @@ import { useAuth } from '@/components/AuthProvider';
 import { walletFromResponse, isPaidUser } from '@/services/credits/aiWalletState';
 import { announceWallet, cachedWallet } from '@/components/useWalletSummary';
 import { answerFromInsights } from '../../../data/prepos_insights';
-import { creditCount, usedLine } from '@/lib/creditCopy.mjs';
+import { creditCount, usedLine, usesLine } from '@/lib/creditCopy.mjs';
 import { useInsights } from './useInsights';
 import MobiMark from './MobiMark';
 import {
@@ -363,12 +363,13 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
           <button type="submit" className="amb-send" disabled={!canSend}>Ask</button>
         </div>
         <div className="amb-cost">
-          <span className="amb-cost__wallet">
+          {/* The balance, with the AI credits page one tap away (the wallet and its rules live there). */}
+          <Link href="/pricing/ai-credits" className="amb-cost__wallet" onClick={() => onClose?.()}>
             {line.count !== null ? <b key={line.count} className="amb-num">{line.count}</b> : null}{line.count !== null ? ' ' : ''}{line.rest}
             {line.reset ? <><i aria-hidden="true"> · </i>{line.reset}</> : null}
-          </span>
+          </Link>
           <span className="amb-cost__price" aria-live="polite">
-            {!price ? 'Record questions are free' : price === 'free' ? 'Free, from your record' : offline ? 'Needs a connection. Nothing is charged.' : paid.open ? `Needs a written reply, ${creditCount(1)}` : 'Needs a written reply. Nothing is charged from here.'}
+            {!price ? 'Record questions are free' : price === 'free' ? 'Free, from your record' : offline ? 'Needs a connection. Nothing is charged.' : paid.open ? usesLine({ what: 'This reply', cost: 1, pool: 'ai' }) : 'Needs a written reply. Nothing is charged from here.'}
           </span>
         </div>
       </form>

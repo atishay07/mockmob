@@ -1,0 +1,15 @@
+/* /mentor, "Your record" (ASK-MOBI-1018, P4). The page's own sections sit on the page in the Arena's Night and Day tokens;
+   the only list here is Mobi's earlier questions, hairline rows with no boxes. */
+.app-shell .mrp { display: grid; gap: 24px; min-width: 0; max-width: 56rem; }
+.app-shell .mrp-ask { margin-top: 0; }
+.app-shell .mrp-note { margin: 0; font-size: 14px; color: var(--a-ink-3); }
+
+.app-shell .mrp-history { display: grid; gap: 10px; }
+.app-shell .mrp-history h2 { margin: 0; font: 700 20px/1.25 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); }
+.app-shell .mrp-history ul { list-style: none; margin: 0; padding: 0; display: grid; }
+.app-shell .mrp-history li { display: grid; gap: 4px; padding: 14px 0; border-top: 1px solid var(--a-line); }
+.app-shell .mrp-history li:last-child { border-bottom: 1px solid var(--a-line); }
+.app-shell .mrp-history b { font: 650 15px/1.4 var(--font-display); color: var(--a-ink); overflow-wrap: anywhere; }
+.app-shell .mrp-history p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--a-ink-2); overflow-wrap: anywhere; }
+.app-shell .mrp-history span { font-size: 12.5px; color: var(--a-ink-3); }
+.app-shell .mrp-foot { margin: 0; }

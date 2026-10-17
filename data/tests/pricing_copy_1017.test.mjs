@@ -19,7 +19,8 @@ test('W-093: signed-in pages carry no hedge or privacy filler lines', () => {
   const lines = [
     ['src/app/(app)/admission-compass/AdmissionCompassPageClient.jsx', /stay on this device|not a prediction/],
     ['src/components/ai/AIRivalArena.jsx', /not a student or a CUET rank prediction/],
-    ['src/components/ai/MockMobAIHub.jsx', /not a diagnosis/],
+    ['src/components/ai/AskMobiPanel.jsx', /not a diagnosis/],
+    ['src/components/ai/MentorRecordPage.jsx', /not a diagnosis/],
     ['src/components/ai/RecordView.jsx', /not a verdict/],
     ['src/app/(app)/analytics/AnalyticsPageClient.jsx', /rough guide/],
     ['src/app/api/recovery/route.js', /causal score gain/],
@@ -58,8 +59,9 @@ test('W-099: the top-chapter finding and the next-step key each have one home', 
   assert.doesNotMatch(read('src/components/RecoveryOverview.jsx').split("if (view === 'review')")[1].split('// Progress:')[0], /LearningNextAction/, 'Review');
   assert.doesNotMatch(read('src/app/(app)/analytics/AnalyticsPageClient.jsx'), /LearningNextAction/, 'Weak chapters');
   assert.match(read('src/components/RecoveryOverview.jsx'), /<RecordGlimpse finding=\{false\} \/>/, 'Review shows the trend, not the finding');
-  const hub = read('src/components/ai/MockMobAIHub.jsx');
-  assert.doesNotMatch(hub, /insightsState\.findings\[0\]\.headline/, 'Ask Mobi links to the finding instead of repeating it');
+  for (const rel of ['src/components/ai/AskMobiPanel.jsx', 'src/components/ai/MentorRecordPage.jsx']) {
+    assert.doesNotMatch(read(rel), /findings\[0\]\.headline/, `${rel}: Ask Mobi links to the finding instead of repeating it`);
+  }
   const rhythm = read('src/components/RhythmCard.jsx');
   assert.match(rhythm, /compact \? \(\s*<div className="rc__top">/, 'only Today’s compact card draws the ring and seven days');
 });

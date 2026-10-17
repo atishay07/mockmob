@@ -1,7 +1,7 @@
-import AIMentorTerminal from '@/components/ai/AIMentorTerminal';
+import MentorRecordPage from '@/components/ai/MentorRecordPage';
 
 export const dynamic = 'force-dynamic';
 
 export default function MentorPage() {
-  return <div className="student-page student-page--mentor"><AIMentorTerminal /></div>;
+  return <div className="student-page student-page--mentor"><MentorRecordPage /></div>;
 }
