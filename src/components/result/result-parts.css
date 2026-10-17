@@ -65,3 +65,7 @@
   .ap-part { animation: none; }
   .ap .ap-row, .ap .ap-next { transition: none; }
 }
+
+/* The part's own heading already ends in a hairline: the R4 block under it starts without a second rule or a gap. */
+.ap-body > .rl-part { border-top: 0; padding-top: 0; }
+.ap-body .srl-find > .ftm:first-child { border-top: 0; padding-top: 4px; }

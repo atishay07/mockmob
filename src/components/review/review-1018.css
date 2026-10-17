@@ -24,7 +24,7 @@
 
 /* ---------- a chapter ---------- */
 .app-shell .rv8-chs { list-style: none; margin: 0; padding: 0; }
-.app-shell .rv8-ch { border-bottom: 1px solid var(--a-line); }
+.app-shell .rv8-ch { border-bottom: 1px solid var(--a-line); scroll-margin-top: 84px; }
 .app-shell .rvw .rv8-ch__bar {
   display: grid; grid-template-columns: 48px minmax(0, 1fr) auto; gap: 4px 12px; align-items: start; width: 100%;
   padding: 16px 0 14px; border-radius: 12px;

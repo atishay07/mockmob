@@ -136,7 +136,7 @@ function ChapterRow({ row, open, onToggle, wallet, byUid, openUid, setOpenUid, a
   const href = `/dashboard?${new URLSearchParams({ subject: subjectId(row.subject), mode: 'quick', count: String(NEXT_MOVE_RULES.setSize), chapter: row.name })}`;
   const allRepaired = !row.open.length;
   return (
-    <li className="rv8-ch" data-open={open || undefined}>
+    <li className="rv8-ch" data-open={open || undefined} id={`rv8-row-${row.id.replace(/[^A-Za-z0-9_-]/g, '-')}`}>
       <button type="button" className="rv8-ch__bar mk-press" aria-expanded={open} aria-controls={open ? panel : undefined} onClick={onToggle}>
         <span className="rv8-ch__obj" aria-hidden="true"><SubjectObject id={subjectId(row.subject)} size={48} framed={false} /></span>
         <span className="rv8-ch__name">{row.name}</span>
@@ -309,10 +309,11 @@ export default function ReviewChapters({ body, onChanged }) {
   const [openUid, setOpenUidState] = useState(() => { try { return new URLSearchParams(window.location.search).get('q'); } catch { return null; } });
   const setOpenId = useCallback((id) => { setOpenIdState(id); setUrl(id, null); }, []);
   const setOpenUid = useCallback((uid) => { setOpenUidState(uid); setUrl(openId, uid); }, [openId]);
-  // A question asked for in the URL is brought into view once.
+  // A question, or a chapter other than the first, asked for in the URL is brought into view once.
   useEffect(() => {
-    if (!openUid) return undefined;
-    const t = setTimeout(() => document.getElementById(`rv8-q-${openUid.replace(/[^A-Za-z0-9_-]/g, '-')}`)?.scrollIntoView({ block: 'start', behavior: reduced() ? 'auto' : 'smooth' }), 240);
+    const target = openUid ? `rv8-q-${openUid.replace(/[^A-Za-z0-9_-]/g, '-')}` : openId && openId !== lose.rows[0]?.id ? `rv8-row-${openId.replace(/[^A-Za-z0-9_-]/g, '-')}` : null;
+    if (!target) return undefined;
+    const t = setTimeout(() => document.getElementById(target)?.scrollIntoView({ block: 'start', behavior: reduced() ? 'auto' : 'smooth' }), 240);
     return () => clearTimeout(t);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const line = lose.line;
