@@ -17,7 +17,8 @@ import AnswerCorrectionNotice from '@/components/recovery/AnswerCorrectionNotice
 import KeyReviewNotice from '@/components/recovery/KeyReviewNotice';
 import RunTrack from '@/components/recovery/RunTrack';
 import RepairEnding from '@/components/recovery/RepairEnding';
-import { RUN_COPY, arrowIntent, runSegments, stepIndex, endingModel, retryIds as retryIdsOf, earlierMisses, earlierMissLine } from '@/components/recovery/repairRun';
+import { paperStamp } from '@/../data/repair_paper.mjs';
+import { RUN_COPY, arrowIntent, runSegments, stepIndex, endingModel, retryIds as retryIdsOf, earlierMisses, earlierMissAt } from '@/components/recovery/repairRun';
 import { REPAIR_OUTCOMES, hasExplanation, repairLabel, repairProgress } from '@/../data/repair_presentation.mjs';
 import { analyseSession, formatDuration } from '@/../data/session_recovery';
 import { buildTimeDecisions, TIME_COPY, spentLabel, TIME_RULES } from '@/../data/time_decisions';
@@ -75,6 +76,7 @@ export default function ResultPageClient({ previewId = null }) {
   const [open, setOpen] = useState(() => new Set());
   const [visited, setVisited] = useState(() => new Set());
   const [repairOutcomes, setRepairOutcomes] = useState({});
+  const [savedRepairs, setSavedRepairs] = useState({}); // qid -> { repairedAt }: wrong answers that already hold a saved repair (F17)
   const [autoRepair, setAutoRepair] = useState(null);
   const [reporting, setReporting] = useState({});
   const [reported, setReported] = useState({});
@@ -108,9 +110,9 @@ export default function ResultPageClient({ previewId = null }) {
 
   useEffect(() => {
     let alive = true;
-    queueMicrotask(() => { if (alive) { setAttempt(null); setError(null); setFilter('all'); setReporting({}); setReported({}); setReportError(null); setRepairOutcomes({}); setAutoRepair(null); setStarted(new Set()); setRunCurrent(null); setHandover(null); setEnding(false); setAckedAt(null); setEpochs({}); } });
+    queueMicrotask(() => { if (alive) { setAttempt(null); setError(null); setFilter('all'); setReporting({}); setReported({}); setReportError(null); setRepairOutcomes({}); setSavedRepairs({}); setAutoRepair(null); setStarted(new Set()); setRunCurrent(null); setHandover(null); setEnding(false); setAckedAt(null); setEpochs({}); } });
     apiGet(`/api/attempts/${id}`)
-      .then(data => { if (!alive) return; setAttempt(data); setRepairOutcomes(Object.fromEntries(Object.entries(data.answerReviews || {}).map(([qid, review]) => [qid, review.state === 'corrected' ? 'corrected_key' : 'held_for_recheck']))); const firstWrong = (data.details || []).find(d => d.isCorrect === false); const initial = new Set(firstWrong ? [firstWrong.qid] : []); setOpen(initial); setVisited(initial); })
+      .then(data => { if (!alive) return; setAttempt(data); const saved = data.savedRepairs && typeof data.savedRepairs === 'object' ? data.savedRepairs : {}; setSavedRepairs(saved); const reviewed = Object.fromEntries(Object.entries(data.answerReviews || {}).map(([qid, review]) => [qid, review.state === 'corrected' ? 'corrected_key' : 'held_for_recheck'])); setRepairOutcomes({ ...Object.fromEntries(Object.keys(saved).map((qid) => [qid, 'stored'])), ...reviewed }); const firstWrong = (data.details || []).find(d => d.isCorrect === false); const initial = new Set(firstWrong ? [firstWrong.qid] : []); setOpen(initial); setVisited(initial); })
       .catch(e => { if (alive) setError(e.message); });
     return () => { alive = false; };
   }, [id, retry]);
@@ -217,6 +219,7 @@ export default function ResultPageClient({ previewId = null }) {
   const settled = useCallback((qid, status) => {
     if (REPAIR_OUTCOMES.includes(status)) setRepairOutcomes(s => ({ ...s, [qid]: status }));
     if (status === 'explained') setAckedAt(Date.now());
+    if (status === 'explained' || status === 'stored') setSavedRepairs(s => (s[qid] ? s : { ...s, [qid]: { repairedAt: new Date().toISOString() } }));
   }, []);
 
   if (error)    return <div className="container-narrow student-page student-page--result pt-8"><ErrorState scene="unreachable" title="This session did not load" message="Your recorded result is safe. Try again to see it." onRetry={() => { setError(null); setRetry((count) => count + 1); }} /></div>;
@@ -249,6 +252,8 @@ export default function ResultPageClient({ previewId = null }) {
     // Only the first reopened mistake starts on its own (set now, so the reopened rows mount with it); the rest wait for their turn.
     if (first) { setAutoRepair(first.q.id); requestAnimationFrame(() => jumpTo(first.number, { repair: true, instant: true })); }
   };
+  // F17: which paper every mistake here came from, and when it was attempted ("Mock 3, Accountancy, 16 Oct, 9:40 pm").
+  const paperLine = paperStamp({ source: attempt.paper?.source, subject: subjectName(attempt.subject), at: attempt.paper?.completedAt ?? attempt.completedAt });
   const bubbleLabel = (r) => `Q${r.number}, ${r.chapter}: ${verdictWord(r.verdict)}${r.changed ? ', answer changed' : ''}`;
 
   async function handleReport(row) {
@@ -426,11 +431,11 @@ export default function ResultPageClient({ previewId = null }) {
                     ) : null}
                     {isWrong && Number.isInteger(given) ? (
                       <MistakeRepair key={`${q.id}:${epochs[q.id] || 0}`} attemptId={attempt.id} questionId={q.id} number={number} nta={isNtaAttempt} chosen={LETTERS[given]} answer={Number.isInteger(q.correctIndex) ? LETTERS[q.correctIndex] : null}
-                        autoStart={autoRepair === q.id} onSettled={settled} initialReview={review} onReview={reviewReceived}
+                        autoStart={autoRepair === q.id || !!savedRepairs[q.id]} saved={savedRepairs[q.id]?.repairedAt || null} paper={paperLine || null} onSettled={settled} initialReview={review} onReview={reviewReceived}
                         insights={repairInsights}
                         isCurrent={!engaged || runCurrent === q.id} onStart={noteStart} onStep={engaged ? stepFrom : undefined} onFinish={() => setEnding(true)}
                         handover={handover?.qid === q.id ? (handover.n % 2 ? 'a' : 'b') : null}
-                        earlier={(() => { const m = earlierMisses(attempt, q.id)[0]; return m ? { line: earlierMissLine(m), href: `/result/${m.attemptId}` } : null; })()}
+                        earlier={(() => { const m = earlierMisses(attempt, q.id)[0]; return m ? { line: earlierMissAt(m), href: `/result/${m.attemptId}` } : null; })()}
                         next={(() => { const at = orderedMistakes.findIndex(m => m.q.id === q.id); const n = orderedMistakes.find((m, i) => i > at && !handled.has(m.q.id)) || orderedMistakes.find(m => m.q.id !== q.id && !handled.has(m.q.id)); return n ? { number: n.number, go: () => jumpTo(n.number, { repair: true }) } : null; })()} />
                     ) : null}
                     {review && !(isWrong && Number.isInteger(given)) ? review.state === 'corrected' || review.state === 'key_changed_unverified' ? <AnswerCorrectionNotice review={review} /> : <KeyReviewNotice chosenLetter={Number.isInteger(given) ? LETTERS[given] : null} keyLetter={LETTERS[q.correctIndex]} reviewState={review.state} /> : null}

@@ -3,7 +3,9 @@ import { Database } from '@/../data/db';
 import { auth } from '@/lib/auth';
 import { readAnswerReviews } from '@/services/recovery/answerReviews';
 import { buildRecap } from '@/lib/server/recap';
-import { buildMissedBefore } from '@/components/recovery/repairRun.js';
+import { buildMissedBefore, sourceLabel } from '@/components/recovery/repairRun.js';
+import { supabaseAdmin } from '@/lib/supabase';
+import { getSavedRepairs } from '@/lib/server/repairSaved';
 import { resultHistory } from '@/../data/mock_swot';
 import { readCohortWithTime } from '@/lib/server/cohortStats';
 import { loadRuleSources } from '@/lib/server/ruleBook';
@@ -20,6 +22,14 @@ export async function GET(request, { params }) {
       return NextResponse.json({ error: 'Attempt not found' }, { status: 404 });
     }
     const reviews = await readAnswerReviews(attempt);
+    // The student's attempts are read once for this request: the history below and the paper's "Mock 3" name share it.
+    const memo = new Map();
+    // F17: which of this paper's wrong answers already hold a saved repair (they open at once and never offer a paid
+    // repair again), and which paper this is. Each is additive and left out on its own failure.
+    const [savedRepairs, paper] = await Promise.all([
+      getSavedRepairs(supabaseAdmin(), session.user.id, attempt).catch((e) => { console.warn('[api/attempts/:id] savedRepairs skipped:', e?.message); return undefined; }),
+      Database.getAttempts(session.user.id, { memo }).then((all) => ({ source: sourceLabel(all, attempt), completedAt: Number(attempt.completedAt) || null })).catch((e) => { console.warn('[api/attempts/:id] paper skipped:', e?.message); return undefined; }),
+    ]);
     // Everything read from the history is additive: if the history cannot be read, the result still loads
     // without it. Each part fails on its own (data/mock_swot.js resultHistory):
     //  - recap: tone and the previous comparable attempt;
@@ -41,7 +51,7 @@ export async function GET(request, { params }) {
       attempt,
       answerReviews: reviews.answerReviews,
       answerReviewState: reviews.answerReviewState,
-      loadAttempts: () => Database.getAttempts(session.user.id),
+      loadAttempts: () => Database.getAttempts(session.user.id, { memo }),
       recapOf: buildRecap,
       missedBeforeOf: buildMissedBefore,
       cohortOf: (input) => readCohortWithTime(input),
@@ -54,7 +64,7 @@ export async function GET(request, { params }) {
       swotEnabled: process.env.SWOT_ENABLED !== 'off',
       warn: (part, e) => console.warn(`[api/attempts/:id] ${part} skipped:`, e?.message),
     });
-    return NextResponse.json({ ...attempt, ...reviews, ...history }, { headers: { 'Cache-Control': 'no-store' } });
+    return NextResponse.json({ ...attempt, ...reviews, ...history, ...(savedRepairs ? { savedRepairs } : {}), ...(paper ? { paper } : {}) }, { headers: { 'Cache-Control': 'no-store' } });
   } catch (e) {
     console.error('[api/attempts/:id] GET failed:', e);
     return NextResponse.json({ error: 'Failed to load attempt' }, { status: 500 });

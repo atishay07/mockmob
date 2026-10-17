@@ -21,6 +21,7 @@ import RulesEntry from './rules/RulesEntry';
 import RhythmCard from './RhythmCard';
 import ReviseEntry from './revise/ReviseEntry';
 import { reviewChanges } from './recovery/reviewChanges';
+import { paperStamp } from '@/../data/repair_paper.mjs';
 import { SUBJECTS } from '@/../data/subjects';
 import './recovery/review-changes.css';
 import './recovery/overview.css';
@@ -44,6 +45,9 @@ const when = (ts) => {
   const d = new Date(ts);
   return Number.isNaN(d.getTime()) ? '' : d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
 };
+
+// F17: a wrong answer that already holds a saved repair is done work, so it is not "to review" again.
+const openOf = (a) => Math.max(0, (a.mistakes || 0) - (a.repaired || 0));
 
 const reducedMotion = () => {
   try { return document.documentElement.dataset.motion === 'reduced' || window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { return true; }
@@ -77,18 +81,22 @@ function Figures({ label, items }) {
 
 function SessionRow({ a, fresh = false, index = 0 }) {
   const pct = a.total ? Math.round((a.correct / a.total) * 100) : 0;
-  const date = when(a.completedAt);
+  // "Mock 3, 16 Oct, 9:40 pm": which paper it was and when it was attempted (the subject is the title above it).
+  const stamp = paperStamp({ source: a.source, at: a.completedAt }) || when(a.completedAt);
+  const open = openOf(a);
+  const repaired = a.repaired || 0;
   return (
     <li data-fresh={fresh || undefined} style={fresh ? { '--ov-i': index } : undefined}>
       <Link className="rv-session" href={`/result/${a.id}`}>
         <span className="rv-session__art" aria-hidden="true"><SubjectObject id={a.subject} size={68} framed={false} /></span>
         <span className="rv-session__main">
           <b>{subjectLabel(a.subject)}{fresh ? <span className="ov-new">New since your last look</span> : null}</b>
-          <span>{date ? `${date}, ` : ''}{a.correct} of {a.total} correct</span>
+          {stamp ? <span className="rv-session__paper">{stamp}</span> : null}
+          <span>{a.correct} of {a.total} correct{repaired > 0 ? `, ${repaired} repaired` : ''}</span>
           <i className="ov-bar" aria-hidden="true"><em style={{ transform: `scaleX(${pct / 100})` }} /></i>
         </span>
-        <span className="rv-session__state" data-tone={a.mistakes > 0 ? 'open' : 'clear'}>
-          {a.mistakes > 0 ? <><b>{a.mistakes}</b> to review</> : 'All correct'}
+        <span className="rv-session__state" data-tone={open > 0 ? 'open' : 'clear'}>
+          {open > 0 ? <><b>{open}</b> to review</> : repaired > 0 ? 'All repaired' : 'All correct'}
         </span>
       </Link>
     </li>
@@ -99,13 +107,13 @@ export default function RecoveryOverview({ view }) {
   const [data, setData] = useState(null), [error, setError] = useState(''), [retryCount, setRetryCount] = useState(0);
   const [changes, setChanges] = useState(null);
   const wait = useWaitStage(!data && !error);
-  useEffect(() => { let alive = true; apiGet('/api/recovery').then(d => { if (!alive) return; if (view === 'review') { let storage = null; try { storage = window.localStorage; } catch { storage = null; } setChanges(reviewChanges(d?.ordinaryReview || [], storage)); } setData(d); }).catch(() => { if (alive) { setError('Your record did not load.'); } }); return () => { alive = false; }; }, [retryCount, view]);
+  useEffect(() => { let alive = true; apiGet('/api/recovery').then(d => { if (!alive) return; if (view === 'review') { let storage = null; try { storage = window.localStorage; } catch { storage = null; } setChanges(reviewChanges((d?.ordinaryReview || []).map(a => ({ ...a, mistakes: openOf(a) })), storage)); } setData(d); }).catch(() => { if (alive) { setError('Your record did not load.'); } }); return () => { alive = false; }; }, [retryCount, view]);
   // Progress: the week and the plan load on their own; either failing joins the record's one error state.
   const [partFailed, setPartFailed] = useState(false);
   const partFail = useCallback(() => setPartFailed(true), []);
   const retry = () => { setData(null); setError(''); setPartFailed(false); setRetryCount(n => n + 1); };
   const review = data?.ordinaryReview || [];
-  const toReview = review.reduce((s, a) => s + (a.mistakes || 0), 0);
+  const toReview = review.reduce((s, a) => s + openOf(a), 0);
   const answered = review.reduce((s, a) => s + (a.total || 0), 0);
   const correct = review.reduce((s, a) => s + (a.correct || 0), 0);
   const rightFigure = answered
@@ -123,7 +131,7 @@ export default function RecoveryOverview({ view }) {
   };
 
   // Review leads with what is open and the one session to open first: the newest session that still has misses.
-  const openFirst = review.find((a) => (a.mistakes || 0) > 0) || null;
+  const openFirst = review.find((a) => openOf(a) > 0) || null;
   const sessionName = (a) => [subjectLabel(a.subject), when(a.completedAt)].filter(Boolean).join(', ');
   // On Review the lead already opens the newest session, so the milestone that only points at the newest is not repeated.
   const notes = (data?.milestones || []).filter((m) => !(view === 'review' && m.kind === 'first_session' && review.length > 0));
@@ -148,7 +156,7 @@ export default function RecoveryOverview({ view }) {
             <p className="rv-lead__num" aria-hidden="true">{changes?.changed ? <RollNumber from={changes.fromToReview} to={toReview} /> : toReview}</p>
             <div className="rv-lead__body">
               <h2 id="rv-lead-h">{toReview ? <><span className="sr-only">{toReview} </span>{toReview === 1 ? 'question' : 'questions'} to review, of {answered} answered</> : `Nothing to review in ${answered} answers`}</h2>
-              <p>{openFirst ? <>{openFirst === review[0] ? 'Your newest session' : 'Your newest session with misses'} has {openFirst.mistakes} of its {openFirst.total} {openFirst.total === 1 ? 'question' : 'questions'} to look at.</> : 'Every answer in your saved sessions was right.'}</p>
+              <p>{openFirst ? <>{openFirst === review[0] ? 'Your newest session' : 'Your newest session with misses'} has {openOf(openFirst)} of its {openFirst.total} {openFirst.total === 1 ? 'question' : 'questions'} to look at.</> : review.some((x) => (x.repaired || 0) > 0) ? 'Every miss in your saved sessions has a repair saved.' : 'Every answer in your saved sessions was right.'}</p>
             </div>
             {openFirst ? <Link className="btn-volt md rv-lead__go mk-press" data-page-primary="" href={`/result/${openFirst.id}`}>Open {sessionName(openFirst)}</Link> : null}
           </section>
@@ -194,7 +202,7 @@ export default function RecoveryOverview({ view }) {
             { label: 'Playbook entries', value: data.playbook.length, note: data.playbook.length ? 'saved from results' : 'None saved yet' },
           ]} /> : <div className="rv-empty"><b>No saved session yet</b><p>Your first scored session starts this record. The next step above is the quickest way in.</p></div>}
           {review.length > 0 ? (
-            <p className="rv-note rv-note--review"><b>{toReview ? `${count(toReview, 'question')} to look at in Review` : 'Nothing left to look at in Review'}</b><span>{toReview ? `From ${count(review.length, 'saved session').toLowerCase()}. ` : 'Every saved answer was right. '}<Link className="pr-link" href="/review">Open Review</Link></span></p>
+            <p className="rv-note rv-note--review"><b>{toReview ? `${count(toReview, 'question')} to look at in Review` : 'Nothing left to look at in Review'}</b><span>{toReview ? `From ${count(review.length, 'saved session').toLowerCase()}. ` : review.some((x) => (x.repaired || 0) > 0) ? 'Every miss has a repair saved. ' : 'Every saved answer was right. '}<Link className="pr-link" href="/review">Open Review</Link></span></p>
           ) : null}
           {noteList}
         </section>

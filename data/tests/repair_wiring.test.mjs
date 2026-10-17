@@ -207,7 +207,11 @@ test('a v3 payload with every field renders blocks 1 to 12 in the A.1 order', as
   assert.equal((html.match(/class="mr-rule"/g) || []).length, 1, 'one raised surface');
   // Stored: same blocks, rendered at once, and the fine print says no credit was used.
   const stored = textOf(render({ ...base, state: { ...V3_FULL, status: 'stored', charged: 0, wallet: null }, insights: null }));
-  assert.ok(stored.includes('Saved repair. No credit used.'));
+  // F17: the saved footer says when it was made (India time, 12-hour clock) and that no credit was used.
+  assert.match(stored, /Saved repair from .+, 2:42 pm\. No credit used\./);
+  assert.ok(textOf(render({ ...base, state: { ...V3_FULL, repair: { ...V3_FULL.repair, generatedAt: undefined }, status: 'stored', charged: 0, wallet: null }, insights: null })).includes('Saved repair. No credit used.'));
+  // And the paper it came from, when the page names it.
+  assert.ok(textOf(render({ ...base, state: { ...V3_FULL, status: 'stored', charged: 0, wallet: null }, from: 'Mock 3, Accountancy, 16 Oct, 9:40 pm' })).includes('From Mock 3, Accountancy, 16 Oct, 9:40 pm'));
   assert.doesNotMatch(render({ ...base, state: { ...V3_FULL, status: 'stored' } }), /data-fresh/);
 });
 

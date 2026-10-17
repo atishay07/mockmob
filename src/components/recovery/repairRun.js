@@ -4,6 +4,7 @@
 // rules the same. Nothing here reads the page, the clock or storage unless it is handed in, and
 // nothing claims a repair the server has not acknowledged.
 import { hasExplanation, REPAIR_OUTCOMES } from '../../../data/repair_presentation.mjs';
+import { attemptedWhen } from '../../../data/repair_paper.mjs';
 
 const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
 
@@ -26,6 +27,8 @@ export const RUN_COPY = Object.freeze({
     upcoming: 'not reached yet',
   }),
   missedBefore: (source, date) => `You also missed this question in ${source} on ${date}.`,
+  // F17: with the time it was attempted, in the one stamp the rest of the record uses ("Mock 2, 12 Oct, 9:40 pm").
+  missedBeforeAt: (source, when) => `You also missed this question in ${source}${when ? `, ${when}` : ''}.`,
   openThatResult: 'Open that result',
   missedTimes: (n) => (n === 2 ? 'Missed twice' : `Missed ${n} times`),
   endingUnit: (n) => (n === 1 ? 'mistake repaired' : 'mistakes repaired'),
@@ -126,6 +129,23 @@ export function sourceLabel(attempts, attempt) {
   return `Mock ${index >= 0 ? index + 1 : mocks.length + 1}`;
 }
 
+/** sourceLabel for every attempt at once (one pass per subject instead of one sort per attempt): Map<attemptId, label>. */
+export function sourceLabels(attempts) {
+  const out = new Map();
+  const bySubject = new Map();
+  for (const a of attempts || []) {
+    const mode = a?.selectionMeta?.mode || a?.mode;
+    if (!MOCK_MODES.has(mode)) { out.set(a.id, 'Quick practice'); continue; }
+    if (!bySubject.has(a.subject)) bySubject.set(a.subject, []);
+    bySubject.get(a.subject).push(a);
+  }
+  for (const mocks of bySubject.values()) {
+    mocks.sort(byTime);
+    mocks.forEach((a, i) => { if (!out.has(a.id)) out.set(a.id, `Mock ${i + 1}`); });
+  }
+  return out;
+}
+
 /**
  * For the server to attach to the result of one attempt: for each question the student got wrong in
  * `attemptId`, the other attempts where the same question was also answered wrong, newest first.
@@ -166,6 +186,11 @@ export function dayMonth(ms) {
 
 export function earlierMissLine(miss, format = dayMonth) {
   return miss ? RUN_COPY.missedBefore(miss.source, format(miss.completedAt)) : null;
+}
+
+/** The same line with the day and time it was attempted ("You also missed this question in Mock 2, 12 Oct, 9:40 pm."). */
+export function earlierMissAt(miss, now = Date.now()) {
+  return miss ? RUN_COPY.missedBeforeAt(miss.source, attemptedWhen(miss.completedAt, now)) : null;
 }
 
 // ---------- The ending ----------

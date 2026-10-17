@@ -11,6 +11,7 @@ export function repairRetryPolicy(httpStatus, error, body = null) {
   return { resetRequest, canRetry };
 }
 export function repairLabel(status) {
+  if (status === 'stored') return 'Repaired'; // F17: a saved repair is done work, not "ready" to be bought again
   if (hasExplanation(status)) return 'Explanation ready';
   if (status === 'held_for_recheck') return 'Held for review';
   if (status === 'not_explained') return 'No explanation';
@@ -137,6 +138,11 @@ export const REPAIR_COPY = Object.freeze({
   fromRecord: 'From your record',
   doThisNext: 'Do this next',
   practise: (chapter) => (chapter ? `Practise 5 on ${chapter}` : 'Practise 5 on this chapter'),
+  // F17: a mistake that already holds a repair opens it, free. The paid start is never offered for it.
+  openSaved: 'Open your saved repair',
+  savedFree: (when) => (when ? `Repaired ${when}. Opening it is free.` : 'Repaired already. Opening it is free.'),
+  savedFoot: (when) => (when ? `Saved repair from ${when}. No credit used.` : 'Saved repair. No credit used.'),
+  fromPaper: 'From',
 });
 
 // Loading (spec A.8): one line that changes on real elapsed time, never a timer pretending to be stages.
@@ -144,6 +150,8 @@ export const REPAIR_LOADING = Object.freeze({
   slowAfterMs: 8000,
   longAfterMs: 45000,
   writing: (number) => (Number.isInteger(number) ? `Writing the repair for Q${number}.` : 'Writing the repair.'),
+  opening: (number) => (Number.isInteger(number) ? `Opening your saved repair for Q${number}.` : 'Opening your saved repair.'),
+  openingSlow: 'Still opening it. Nothing is charged.',
   slow: 'Still writing. You are charged only if it arrives.',
   long: 'Taking longer than usual. Still trying.',
 });

@@ -15,6 +15,14 @@
 .mr-start__text { display: grid; gap: 2px; flex: 1; min-width: 0; }
 .mr-start__text b { font: 700 15px/1.25 var(--font-display, inherit); }
 .mr-start__text small { font-size: 13px; line-height: 1.4; color: var(--a-ink-2, #bcc5b9); }
+/* F17: the paper a mistake came from ("From Mock 3, Accountancy, 16 Oct, 9:40 pm") and the quiet open button for a saved repair. */
+.mr-from { margin: 0 4px 8px; font-size: 13px; line-height: 1.4; color: var(--a-ink-3, #98a396); font-variant-numeric: tabular-nums; }
+.mr-from span { font-weight: 650; color: var(--a-ink-2, #bcc5b9); }
+.mr--done > .mr-from { margin: 0 0 10px; }
+.mr-start[data-saved] { border-color: var(--a-line, #253026); background: transparent; }
+.mr-start[data-saved]:hover { border-color: var(--a-volt-line, currentColor); background: var(--a-volt-wash, transparent); }
+.mr-start[data-saved] .mr-start__icon { background: transparent; color: var(--a-accent-text, #d2f000); box-shadow: inset 0 0 0 1.5px var(--a-volt-line, currentColor); }
+.mr-start[data-saved]:hover .mr-start__icon { transform: none; }
 .mr-cost { margin: 8px 4px 0; font-size: 13px; line-height: 1.4; color: var(--a-ink-2, #bcc5b9); }
 .mr-start__cost { flex: none; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--a-volt-line); font: 650 12px/1.3 var(--font-display, inherit); color: var(--a-accent-text, #d2f000); }
 .mr-start:focus-visible, .mr-retry:focus-visible, .mr-practice:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; }

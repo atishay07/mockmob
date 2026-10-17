@@ -5,6 +5,8 @@ import { improvementEvidence } from '@/../data/recovery';
 import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
 import { currentEvidenceHashes } from '@/../data/question_reads';
 import { learningRecord } from '@/lib/server/learning';
+import { getRepairedCounts } from '@/lib/server/repairSaved';
+import { sourceLabels } from '@/components/recovery/repairRun.js';
 
 export async function GET(request) {
   const session=await auth(request);
@@ -13,7 +15,11 @@ export async function GET(request) {
   if(!(await checkPersistentRateLimit(request,{route:'/api/recovery:get',limit:40,keyParts:[session.user.id],fallback:'memory'})).allowed)return Response.json({error:'Too many requests'},{status:429,headers:{'Cache-Control':'no-store','Retry-After':'30'}});
   const memo=new Map(); // the learning record below reads the same attempts
   const allAttempts=await Database.getAttempts(session.user.id,{memo});
-  const ordinaryReview=allAttempts.map(a=>({id:a.id,subject:a.subject,completedAt:a.completedAt,correct:a.correct,total:a.total,scoringVersion:a.selectionMeta?.scoringVersion || 'historical_device',mistakes:(a.details || []).filter(d=>d.isCorrect!==true).length}));
+  // F17: each session names its paper ("Mock 3") and how many of its wrong answers already hold a saved repair; a failed read
+  // leaves the count at zero (the list still loads) rather than failing the record.
+  const repairedBy=await getRepairedCounts(supabaseAdmin(),session.user.id,allAttempts).catch(()=>({}));
+  const papers=sourceLabels(allAttempts);
+  const ordinaryReview=allAttempts.map(a=>({id:a.id,subject:a.subject,completedAt:a.completedAt,correct:a.correct,total:a.total,scoringVersion:a.selectionMeta?.scoringVersion || 'historical_device',mistakes:(a.details || []).filter(d=>d.isCorrect!==true).length,repaired:repairedBy[a.id] || 0,source:papers.get(a.id) || 'Quick practice'}));
   const attempts=allAttempts.filter(a=>a.selectionMeta?.scoringVersion==='server_snapshot_v1' && a.selectionMeta?.contentEvidence !== 'legacy_bank');
   const db=supabaseAdmin();
   const [{data:reviews,error:reviewError},{data:playbook,error:playbookError}]=await Promise.all([
