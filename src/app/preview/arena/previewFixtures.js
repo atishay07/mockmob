@@ -26,6 +26,16 @@ const SUBJECT_EXAMPLES = {
     { chapter: 'Grammar', body: 'Choose the correct sentence:', options: ['She have a book.', 'She has a book.', 'She having a book.', 'She has an books.'], answer: 'B', explanation: 'The singular subject she takes has; a book is singular.' },
   ],
 };
+// ?catalog=full: the subject list as a student sees it (more than five to choose from), so the five-subject cap can be checked.
+const MORE_SUBJECTS = [
+  { id: 'mathematics', name: 'Mathematics', practice: 'supported' },
+  { id: 'physics', name: 'Physics', practice: 'supported' },
+  { id: 'chemistry', name: 'Chemistry', practice: 'supported' },
+  { id: 'history', name: 'History', practice: 'supported' },
+  { id: 'computer_science', name: 'Computer Science / IP', practice: 'supported' },
+  { id: 'general_test', name: 'General Test', practice: 'supported' },
+];
+export const FULL_SUBJECTS = [...SUBJECTS, ...MORE_SUBJECTS].map((subject) => ({ ...subject, chapters: EXAMPLES.map((question) => question.chapter) }));
 export const FIXTURE_SUBJECTS = SUBJECTS.map((subject) => ({ ...subject, chapters: (SUBJECT_EXAMPLES[subject.id] || EXAMPLES).map((question) => question.chapter) }));
 export const fixtureFeed = (subject, long = false) => Array.from({ length: 29 }, (_, index) => {
   const example = (SUBJECT_EXAMPLES[subject] || EXAMPLES)[index % 2];

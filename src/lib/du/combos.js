@@ -6,8 +6,9 @@
 // programmes it unlocks, how many DU programmes it unlocks in total, and how few papers it
 // needs. It says nothing about scores, cutoffs or admission chances.
 import { evaluateGroup } from './eligibility.js';
+import { CUET_MAX_SUBJECTS } from '../cuetRules.mjs';
 
-export const DEFAULT_MAX_PAPERS = 5; // the CUET UG 2026 limit; 2027 rules are provisional
+export const DEFAULT_MAX_PAPERS = CUET_MAX_SUBJECTS; // the CUET UG 2026 limit; 2027 rules are provisional
 export const MAX_POOL = 12;
 
 const selectionOf = (items) => ({

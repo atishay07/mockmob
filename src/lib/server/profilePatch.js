@@ -1,11 +1,12 @@
 import { SUBJECTS } from '../../../data/subjects.js';
 import { toPublicSubjectId } from '../../../data/cuet_controls.js';
 import { isRetiredSubject } from '../../../data/subject_claim.js';
+import { CUET_MAX_SUBJECTS } from '../cuetRules.mjs';
 
 // Accept both the internal ids and the public ids that /api/subjects sends (for example the
 // General Test is 'gat' internally and 'general_test' publicly); store whatever the client sent.
 const SUBJECT_IDS = new Set(SUBJECTS.flatMap((subject) => [subject.id, toPublicSubjectId(subject.id)]));
-const MAX_SUBJECTS = 5;
+const MAX_SUBJECTS = CUET_MAX_SUBJECTS;
 
 // Students may change only their display name and subjects here. Entitlements, role, email and
 // billing fields are server-owned (payments, webhooks, admin) and are never accepted from a client.

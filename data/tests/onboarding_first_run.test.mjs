@@ -51,7 +51,7 @@ test('the page wires the live rules and saves the goal the server checks', () =>
   assert.ok(route.includes('resolveGoalWeekdays(body)'), 'the server takes 1 to 7');
   // Preview never writes the goal (the fixture blocks unknown writes).
   assert.ok(/if \(preview\) \{ setNotice\('Preview only: your days were checked here/.test(page));
-  assert.ok(page.includes("That's five. Remove one to swap."));
+  assert.ok(page.includes("That's five, the most CUET allows. Remove one to swap."));
 });
 
 test('days: 1 to 7, Skip keeps the server default of 4', () => {

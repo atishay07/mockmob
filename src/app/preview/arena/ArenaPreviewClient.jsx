@@ -37,7 +37,7 @@ import ResultPageClient from '@/app/(app)/result/[id]/ResultPageClient';
 import AIRivalArena from '@/components/ai/AIRivalArena';
 import OnboardingPageClient from '@/app/onboarding/OnboardingPageClient';
 import ModerationPageClient from '@/app/(app)/moderation/ModerationPageClient';
-import { FIXTURE_SUBJECTS, SYLLABUS_SUBJECTS, fixtureFeed, fixtureChapters, syllabusChapters, fixtureUploads, fixtureAttempt } from './previewFixtures';
+import { FIXTURE_SUBJECTS, SYLLABUS_SUBJECTS, FULL_SUBJECTS, fixtureFeed, fixtureChapters, syllabusChapters, fixtureUploads, fixtureAttempt } from './previewFixtures';
 import { CIRCULAR_QUEUE_CORRECTION, answerReview } from '@/../data/answer_corrections.mjs';
 import { fixtureMock, fixtureReplayMock, fixtureRepairV3, fixtureLabLoop, fixtureAcross, fixtureRuleBook, FIXTURE_PLAYBOOK, fixtureSlice4, fixtureTrapsMeet, fixtureRevise, fixtureReviseAnswer, fixtureResultPaper, RESULT_PAPER_NAMES } from './previewMock';
 import { fixtureCheckField, fixtureCheckGet, fixtureCheckPost, fixtureAskContext, freshCheckMemory } from './previewRepairCheck';
@@ -170,7 +170,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       if (handled) return handled;
     }
     const syllabus = fixture.get('chapters') === 'syllabus';
-    if (url.pathname === '/api/subjects') return state === 'subject-error' ? json({ error: 'Fixture subject failure' }, 503) : json(syllabus ? SYLLABUS_SUBJECTS : FIXTURE_SUBJECTS);
+    if (url.pathname === '/api/subjects') return state === 'subject-error' ? json({ error: 'Fixture subject failure' }, 503) : json(fixture.get('catalog') === 'full' ? FULL_SUBJECTS : syllabus ? SYLLABUS_SUBJECTS : FIXTURE_SUBJECTS);
     if (url.pathname === '/api/chapters') return state === 'chapter-error' ? json({ error: 'Fixture chapter failure' }, 503) : json(syllabus ? syllabusChapters(url.searchParams.get('subject')) : fixtureChapters(url.searchParams.get('subject')));
     if (url.pathname === '/api/questions/feed') {
       const limit = Number(url.searchParams.get('limit')) || 12;

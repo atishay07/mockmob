@@ -133,7 +133,7 @@ export default function ComboPlanner() {
         <div className="cp-limit" role="group" aria-label="Subjects you will write in CUET">
           <span>Subjects you will write</span>
           {[3, 4, 5].map((n) => <button key={n} type="button" aria-pressed={maxPapers === n} onClick={() => setMaxPapers(n)}>{n}</button>)}
-          <small>CUET UG 2026 allowed up to 5. 2027 rules are provisional.</small>
+          <small>NTA allowed up to 5 in 2025 and 2026, languages and the General Test included. The 2027 limit is not out yet.</small>
         </div>
       </section>
 

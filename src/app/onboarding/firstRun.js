@@ -7,8 +7,9 @@
 // to /dashboard, and the first run ends on /dashboard. The one addition is that a student who has
 // just saved subjects in this visit (or reloads on ?step=days) stays for the days step.
 // Copy rules: sentence case, no "!", no em dash. Every line here is checked against the server.
+import { CUET_MAX_SUBJECTS } from '../../lib/cuetRules.mjs';
 
-export const SUBJECT_CAP = 5;
+export const SUBJECT_CAP = CUET_MAX_SUBJECTS;
 export const STEPS = Object.freeze(['subjects', 'days']);
 export const DAY_OPTIONS = Object.freeze([1, 2, 3, 4, 5, 6, 7]);
 // The server reads a missing goal as 4 days (src/lib/server/appPrefs.js goalOut), so Skip keeps 4.

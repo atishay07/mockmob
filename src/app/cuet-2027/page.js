@@ -39,6 +39,7 @@ const page = {
     {
       heading: 'Choosing your five subjects',
       body: [
+        'The most you can take is five. The CUET UG 2026 information bulletin lets a candidate choose up to five subjects in all, and a language or the General Aptitude Test uses one of the five. The 2025 bulletin said the same. NTA has not said what 2027 will allow, and press reports say a lower limit is being discussed, so plan with five and check the bulletin when it is out.',
         'Work backwards from the course and check each university’s current eligibility rules before choosing papers. Programme requirements can differ, and the 2027 rules may change when institutions publish their bulletins.',
         'MockMob Admission Compass checks sourced DU programme eligibility and historical cutoffs. It does not predict admission, and its historical data does not replace the official 2027 requirements.',
       ],

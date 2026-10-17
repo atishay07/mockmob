@@ -23,6 +23,7 @@ import { SubjectObject } from '@/components/brand/SubjectObject';
 import { mobiAct, useMobiScope } from '@/components/brand/pipEvents';
 import { useCountUp } from '@/lib/motion';
 import { getMobiPrefs } from '@/lib/mobiPrefs';
+import { SUBJECT_RULE_NOTE } from '@/lib/cuetRules.mjs';
 import { ONBOARDING_LEAD, bankCount, tileCount } from '@/lib/paperCopy.mjs';
 import {
   DAY_OPTIONS, DEFAULT_DAYS, DONE_PATH, GOAL_PATH, SIGNUP_PATH, STUDY_DAY_RULE, SUBJECT_CAP,
@@ -342,6 +343,7 @@ export default function OnboardingPageClient({ preview = false }) {
             )}
             <h1 ref={headingRef} tabIndex={-1} className="ob-title">{copy.title}</h1>
             <p className="ob-lead">{copy.lead}</p>
+            {step === 'subjects' ? <p className="ob-rule">{SUBJECT_RULE_NOTE}</p> : null}
           </div>
           {/* One Mobi on the screen, beside the title (never over it); he stays put between steps. */}
           <div className="ob-mobi" aria-hidden="true"><MobiReact key={mobi.n} act={mobi.act} size={88} onDone={mobi.onDone} /></div>
@@ -459,7 +461,7 @@ export default function OnboardingPageClient({ preview = false }) {
                 {selected.length === 0
                   ? <span>Pick at least 1 subject</span>
                   : <><span aria-hidden="true"><b className="ob-count">{shownCount}</b> of {SUBJECT_CAP} picked</span><span className="sr-only">{pickedLine(selected.length)}</span></>}
-                <span className="ob-cap" role="status">{capHit && selected.length >= SUBJECT_CAP ? "That's five. Remove one to swap." : ''}</span>
+                <span className="ob-cap" role="status">{capHit && selected.length >= SUBJECT_CAP ? "That's five, the most CUET allows. Remove one to swap." : ''}</span>
               </span>
             </div>
           ) : (
