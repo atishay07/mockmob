@@ -41,6 +41,7 @@ import { FIXTURE_SUBJECTS, SYLLABUS_SUBJECTS, fixtureFeed, fixtureChapters, syll
 import { CIRCULAR_QUEUE_CORRECTION, answerReview } from '@/../data/answer_corrections.mjs';
 import { fixtureMock, fixtureReplayMock, fixtureRepairV3, fixtureLabLoop, fixtureAcross, fixtureRuleBook, FIXTURE_PLAYBOOK, fixtureSlice4, fixtureTrapsMeet, fixtureRevise, fixtureReviseAnswer, fixtureResultPaper, RESULT_PAPER_NAMES } from './previewMock';
 import { fixtureCheckField, fixtureCheckGet, fixtureCheckPost, fixtureAskContext, freshCheckMemory } from './previewRepairCheck';
+import { fixtureReviseQueue, fixtureReviseLegacy, fixtureStudyRun, freshCardsMemory } from './previewRevise';
 import RuleBook from '@/components/rules/RuleBook';
 import ReviseRun from '@/components/revise/ReviseRun';
 import { choosableRule, startSheetLines, bookRules } from '@/../data/rule_book';
@@ -409,11 +410,19 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     if (url.pathname === '/api/me/revise' && method === 'GET') {
       const kind = fixture.get('revise') || 'ready';
       if (kind === 'down' || state === 'empty') return json({ version: 1, state: 'unavailable', message: 'Revise is not available right now. Try again shortly.', items: [] }, 503);
-      return json(fixtureRevise(kind === 'empty' ? 'empty' : 'ready'));
+      if (kind === 'empty') return json(fixtureRevise('empty'));
+      if (kind === 'legacy') return json(fixtureReviseLegacy());
+      return json(fixtureReviseQueue(kind));
+    }
+    // The concept cards of the Revise queue play on the study engine's recall run (previewRevise.js, this tab's memory).
+    if (url.pathname.startsWith('/api/study/runs')) {
+      const memory = (window.__previewCards ||= freshCardsMemory());
+      const got = fixtureStudyRun(method, url.pathname, JSON.parse(init?.body || '{}'), memory);
+      return json(got.body, got.http);
     }
     if (url.pathname === '/api/me/revise/answer' && method === 'POST') {
       const body = JSON.parse(init.body || '{}');
-      const card = fixtureRevise('ready').items.find((i) => i.questionId === body.questionId);
+      const card = fixtureReviseQueue('ready').items.find((i) => i.kind !== 'card' && i.questionId === body.questionId) || fixtureRevise('ready').items.find((i) => i.questionId === body.questionId);
       return new Promise((resolve) => setTimeout(() => resolve(json(fixtureReviseAnswer(body.choice, card?.box))), 450));
     }
     if (url.pathname === '/api/recovery' && method === 'GET') {

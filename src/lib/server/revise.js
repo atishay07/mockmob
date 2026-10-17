@@ -9,13 +9,17 @@
 // chapter number, SWOT line or Compass sample can move, and it spends no credits. A missing table is state 'unavailable'.
 import { optionHash } from '../../../data/option_hash.js';
 import { correctIndexOf } from '../../../data/mistake_repair.js';
-import { REVISE_RULES, REVISE_VERSION, addDays, capFrom, dayLabel, gradeCard, istDate, planSeeds, resultLine, reviseBody, todaysQueue } from '../../../data/revise.js';
+import { REVISE_RULES, REVISE_VERSION, addDays, boxCounts, capFrom, dayLabel, gradeCard, istDate, planSeeds, resultLine, reviseBody, todaysQueue } from '../../../data/revise.js';
 import COPY from '../../../data/mistake_lab.copy.json' with { type: 'json' };
+import { mergeQueue, headLine, mixLine } from '../../components/revise/reviseQueue.js';
+import { stampWhen } from '../../../data/review_input.mjs';
 
 const BATCH = 100;
 const CARD_COLUMNS = 'question_id,box,due_day,state,right_total,last_recalled_day,key_hash,wrong_at,created_at,updated_at';
 const QUESTION_COLUMNS = 'id,subject,chapter,question,body,options,correct_index,correct_answer,status,is_deleted,verification_state,explanation,passage_text';
 
+// The `mode` column ('question' | 'again', migration 20261017160000) is read when it exists; code works before it is applied.
+const modeColumnMissing = (error) => /mode/i.test(error?.message || '') && /42703|column|schema cache/i.test(`${error?.code || ''} ${error?.message || ''}`);
 const missing = (error) => /revise_cards|schema cache|does not exist|PGRST20[25]|42P01/i.test(`${error?.code || ''} ${error?.message || ''}`);
 const fail = (code, cause) => Object.assign(new Error(code), { code, cause });
 const client = async (db) => db || (await import('../supabase')).supabaseAdmin();
@@ -45,7 +49,8 @@ export function reviseItem(row, card) {
 }
 
 async function loadCards(db, userId) {
-  const res = await db.from('revise_cards').select(CARD_COLUMNS).eq('user_id', userId).limit(2000);
+  let res = await db.from('revise_cards').select(`${CARD_COLUMNS},mode`).eq('user_id', userId).limit(2000);
+  if (res.error && modeColumnMissing(res.error)) res = await db.from('revise_cards').select(CARD_COLUMNS).eq('user_id', userId).limit(2000);
   if (res.error) throw Object.assign(fail(missing(res.error) ? 'REVISE_MISSING' : 'REVISE_UNAVAILABLE', res.error), { missing: missing(res.error) });
   return res.data || [];
 }
@@ -84,30 +89,96 @@ async function seed(db, userId, cards, now) {
   return loadCards(db, userId);
 }
 
-/** GET /api/me/revise. Returns { http, body }. */
-export async function getRevise(userId, { cap = REVISE_RULES.cap, db, now = Date.now() } = {}) {
+/**
+ * GET /api/me/revise. Returns { http, body }. The body is the v1 body (today's questions, no key) and, when `queue` is given,
+ * a `queue` field: Revise as ONE queue over four sources (LEARN-REVIEW-1017 5.8, src/components/revise/reviseQueue.js).
+ *   queue.loadRecord(userId, { cards, now, cap })   the Review record (data/review_input.mjs input) or throws: it names the
+ *                                                    repaired mistakes (played as 'again'), the pending Check it held and the
+ *                                                    paper each wrong answer came from. Failing, those parts are left out.
+ *   queue.readDueCards()                             the lesson cards due today as a number, or { due, available } where `available`
+ *                                                    is what a recall run would play (due plus new cards of lessons already read);
+ *                                                    null when unknown (never zero for unknown)
+ */
+export async function getRevise(userId, { cap = REVISE_RULES.cap, db, now = Date.now(), queue = null } = {}) {
   const client_ = await client(db);
   const today = istDate(now);
   let cards;
   try { cards = await loadCards(client_, userId); } catch (e) { return unavailable(e); }
   try { cards = await seed(client_, userId, cards, now); } catch { /* seeding failed: the cards already stored still work */ }
-  const queue = todaysQueue({ cards, today, cap });
+  const due = todaysQueue({ cards, today, cap });
   // Ask the first `room` due questions that may be asked: a due card whose question is under re-check or withdrawn is
   // skipped and the next due card takes its place.
   const items = [];
   let skipped = 0;
   try {
-    for (let at = 0; at < queue.due.length && items.length < queue.room; at += BATCH) {
-      const chunk = queue.due.slice(at, at + BATCH);
+    for (let at = 0; at < due.due.length && items.length < due.room; at += BATCH) {
+      const chunk = due.due.slice(at, at + BATCH);
       const questions = await loadQuestions(client_, chunk.map((c) => c.question_id));
       for (const c of chunk) {
-        if (items.length >= queue.room) break;
+        if (items.length >= due.room) break;
         const row = questions.get(c.question_id);
         if (eligibleQuestion(row)) items.push(reviseItem(row, c)); else skipped += 1;
       }
     }
   } catch (e) { return unavailable(e); }
-  return { http: 200, body: reviseBody({ cards, items, today, cap, skipped }) };
+  const body = reviseBody({ cards, items, today, cap, skipped });
+  if (!queue) return { http: 200, body };
+  return { http: 200, body: { ...body, queue: await composeQueue(userId, { client_, cards, items, due, today, cap, now, queue }) } };
+}
+
+const isRepaired = (item) => ['repaired', 'held', 'slipped'].includes(item?.state);
+
+/** Revise as one queue: the due questions, the repaired mistakes, the pending checks and the lesson cards, deduped and capped. */
+async function composeQueue(userId, { client_, cards, items, due, today, cap, now, queue }) {
+  let record = null;
+  if (typeof queue.loadRecord === 'function') {
+    try { record = await queue.loadRecord(userId, { db: client_, cards, now, cap }); } catch { record = null; }
+  }
+  let dueCards = null;
+  let availableCards = null;
+  if (typeof queue.readDueCards === 'function') {
+    try {
+      const got = await queue.readDueCards();
+      const due = typeof got === 'object' && got ? got.due : got;
+      dueCards = Number.isFinite(due) ? due : null;
+      availableCards = typeof got === 'object' && got && Number.isFinite(got.available) ? got.available : dueCards;
+    } catch { dueCards = null; }
+  }
+  const paperById = new Map((record?.papers || []).map((p) => [p.id, p]));
+  const wrongOf = new Map(); // question id -> the newest paper it was answered wrong in
+  const repaired = new Set();
+  for (const it of record?.items || []) {
+    if (!it.qid || it.state === 'blank') continue;
+    if (!wrongOf.has(it.qid)) wrongOf.set(it.qid, it);
+    if (isRepaired(it)) repaired.add(it.qid);
+  }
+  const cardOf = new Map(cards.map((c) => [c.question_id, c]));
+  const questions = [];
+  const again = [];
+  const promote = [];
+  for (const item of items) {
+    const card = cardOf.get(item.questionId);
+    const from = wrongOf.get(item.questionId);
+    const paper = from ? paperById.get(from.paper) : null;
+    const mode = card?.mode === 'again' || repaired.has(item.questionId) ? 'again' : 'question';
+    const shaped = { ...item, dueDay: card?.due_day || today, source: paper ? `${paper.name}, ${stampWhen(paper.at)}` : null };
+    (mode === 'again' ? again : questions).push(shaped);
+    if (mode === 'again' && card && 'mode' in card && card.mode !== 'again') promote.push(item.questionId);
+  }
+  // A repaired mistake is a card of mode 'again' from now on (so Review and the app count the same split). Best effort.
+  if (promote.length) {
+    try { await client_.from('revise_cards').update({ mode: 'again' }).eq('user_id', userId).in('question_id', promote); } catch { /* the split is worked out again on the next read */ }
+  }
+  // The pending Check it held: repaired, not yet checked, from the day after the repair (data/review_input.mjs reviseDue).
+  const checks = (record?.items || [])
+    .filter((it) => it.state === 'repaired' && it.qid && it.repairedAt && istDate(Date.parse(it.repairedAt)) < today)
+    .map((it) => ({ attemptId: it.paper, questionId: it.qid, number: it.q, paper: paperById.get(it.paper)?.name || null, chapter: (record.chapters || []).find((c) => c.id === it.ch)?.name || null }));
+  const merged = mergeQueue({ questions, again, checks, cards: dueCards, cap, answered: due.answered });
+  return {
+    version: 2, today, cap, items: merged.items, counts: merged.counts, total: merged.total, minutes: merged.minutes, unknown: merged.unknown,
+    dropped: merged.dropped, cardsAvailable: availableCards, head: headLine(merged.total, merged.minutes), mix: mixLine(merged.counts), boxes: boxCounts(cards), rotation: cards.filter((c) => c.state === 'active').length,
+    nextDay: due.nextDay, nextDayLabel: due.nextDay ? dayLabel(due.nextDay) : null,
+  };
 }
 
 function unavailable() {

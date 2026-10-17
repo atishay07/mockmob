@@ -210,33 +210,41 @@ async function readKeys(db, ids) {
 }
 
 /**
- * GET /api/me/review. Returns { http, body }. `wallet` is { aiCredits, aiRenews, practiceCredits, isPremium } or null (unknown),
- * `readDueCards` returns the lesson cards due today or null. Both are injected so a failed read never reaches this file.
+ * The record GET /api/me/review and GET /api/me/revise are built from: one read of the papers, the saved repairs, the Revise
+ * cards and the keys. Throws REVIEW_ATTEMPTS_UNAVAILABLE or REVIEW_REPAIRS_UNAVAILABLE when the papers or the repairs cannot be
+ * read (never an empty record: L12). `cards` may be passed when the caller already read them (Revise seeds first); `undefined`
+ * reads them here. A failed read of the cards, the lesson cards or the keys degrades one part (null = unknown).
  */
-export async function getReview(userId, { db, wallet = null, readDueCards = null, cap = 10, now = Date.now() } = {}) {
+export async function loadReviewRecord(userId, { db, wallet = null, readDueCards = null, cap = 10, now = Date.now(), cards } = {}) {
   const c = await client(db);
-  let slim;
-  let heavy;
-  let reservations;
-  try {
-    slim = await readSlim(c, userId);
-    const window = slim.slice(0, ATTEMPT_WINDOW);
-    heavy = await readHeavy(c, userId, window.filter((a) => (Number(a.wrong) || 0) > 0 || (Number(a.unattempted) || 0) > 0).map((a) => a.id));
-    reservations = slim.some((a) => (Number(a.wrong) || 0) > 0) ? await readReservations(c, userId) : [];
-  } catch (e) {
-    return unavailable(e);
-  }
+  const slim = await readSlim(c, userId);
+  const window = slim.slice(0, ATTEMPT_WINDOW);
+  const heavy = await readHeavy(c, userId, window.filter((a) => (Number(a.wrong) || 0) > 0 || (Number(a.unattempted) || 0) > 0).map((a) => a.id));
+  const reservations = slim.some((a) => (Number(a.wrong) || 0) > 0) ? await readReservations(c, userId) : [];
   const wrongIds = [];
   for (const body of heavy.values()) {
     const details = Array.isArray(body.details) ? body.details : [];
     for (const d of details) if (d?.isCorrect === false && typeof d.qid === 'string') wrongIds.push(d.qid);
   }
-  const [cards, keyRows, dueCards] = await Promise.all([
-    readCards(c, userId).catch(() => null),
+  const [readCardsOut, keyRows, dueCards] = await Promise.all([
+    cards === undefined ? readCards(c, userId).catch(() => null) : Promise.resolve(cards),
     wrongIds.length ? readKeys(c, wrongIds).catch(() => null) : Promise.resolve(new Map()),
     typeof readDueCards === 'function' ? Promise.resolve().then(readDueCards).catch(() => null) : Promise.resolve(null),
   ]);
-  const record = buildReviewRecord({ userId, slim, heavy, reservations, cards, keyRows, dueCards, wallet, now, cap });
+  return buildReviewRecord({ userId, slim, heavy, reservations, cards: readCardsOut, keyRows, dueCards, wallet, now, cap });
+}
+
+/**
+ * GET /api/me/review. Returns { http, body }. `wallet` is { aiCredits, aiRenews, practiceCredits, isPremium } or null (unknown),
+ * `readDueCards` returns the lesson cards due today or null. Both are injected so a failed read never reaches this file.
+ */
+export async function getReview(userId, deps = {}) {
+  let record;
+  try {
+    record = await loadReviewRecord(userId, deps);
+  } catch (e) {
+    return unavailable(e);
+  }
   return { http: 200, body: { ...reviewBody(record), partial: record.partial, papersTotal: record.papersTotal } };
 }
 
