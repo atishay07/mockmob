@@ -8,21 +8,19 @@ import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/models/models.dart';
-import 'package:mockmob/core/repositories/credits_repository.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
+import 'package:mockmob/features/insights/data/ask_question.dart';
+import 'package:mockmob/features/insights/data/ask_sheet_controller.dart';
+import 'package:mockmob/features/insights/widgets/ask_sheet.dart';
 import 'package:mockmob/features/review/data/repair_check_api.dart';
 import 'package:mockmob/features/review/data/repair_check_controller.dart';
 import 'package:mockmob/features/review/data/repair_check_logic.dart';
 import 'package:mockmob/features/review/screens/repair_screen.dart';
 import 'package:mockmob/features/review/widgets/repair_check_section.dart';
 
-import 'package:mockmob/features/insights/data/ask_question.dart';
-import 'package:mockmob/features/insights/data/ask_sheet_controller.dart';
-import 'package:mockmob/features/insights/widgets/ask_sheet.dart';
-
 import '../../golden/insights/insights_golden_support.dart' show insightsOverrides;
-import '../../golden/review/review_golden_support.dart' show StillCredits, credits, runOf;
+import '../../golden/review/review_golden_support.dart' show credits, runOf;
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
 import 'support/repair_check_fixtures.dart';
