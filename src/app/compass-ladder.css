@@ -54,7 +54,8 @@
 @media (min-width: 900px) { .lp-cpro { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); align-items: start; } .lp-cpro__fine { grid-column: 1 / -1; } }
 .lp-cpro__copy { display: grid; gap: 0.6rem; justify-items: start; }
 .lp-cpro__copy p { margin: 0; color: var(--ink-2); line-height: 1.6; }
-.lp-cpro__badge { display: inline-flex; padding: 0.2rem 0.65rem; border-radius: 999px; border: 1px solid var(--accent-line, rgba(210, 240, 0, 0.45)); color: var(--accent-text) !important; font: 700 0.75rem var(--font-body); }
+/* A plain label over the heading, never a pill (W-076). */
+.lp-cpro__badge { display: block; padding: 0; border: 0; color: var(--accent-text) !important; font: 700 0.875rem/1.3 var(--font-body); }
 .lp-cpro__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; }
 .lp-cpro__list li { display: grid; gap: 0.2rem; padding: 0.85rem 1rem; border-radius: 14px; border: 1px solid var(--line); background: rgb(var(--tint) / 0.03); }
 .lp-cpro__list b { font: 700 0.98rem var(--font-display); color: var(--ink); }

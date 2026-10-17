@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { Skeleton, ErrorState } from '@/components/ui/Skeleton';
 import ArenaHead from '@/components/arena/ArenaHead';
 import { apiGet } from '@/lib/fetcher';
+import { PaperTrend } from '@/components/ai/RecordGlimpse';
 import './leaderboard.css';
 
 const count = (n) => Number(n).toLocaleString('en-IN');
@@ -55,6 +56,9 @@ export default function LeaderboardPageClient() {
         <Link href="/dashboard" className="lb-go" data-page-primary="">Start a practice session</Link>
       </section>
     )}
+    {/* What moves the place (W-083): the real marks of the student's last papers of one kind, when there are three or
+        more. It draws nothing with fewer, so a new student never sees an invented line. */}
+    {state === 'ready' && standing ? <div className="lb-trend"><PaperTrend /></div> : null}
     {state === 'ready' && !standing && (
       <section className="lb-stand" aria-labelledby="lb-empty">
         <p className="lb-stand__place lb-stand__place--empty" id="lb-empty">You have no recorded mocks yet.</p>

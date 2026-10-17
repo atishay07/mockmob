@@ -237,7 +237,7 @@ export default function ProfilePageClient() {
 
   return (
     <div className="student-page student-page--profile acct view">
-      <ArenaHead title="Your corner of the Arena." lede="Your CUET plan, your access and how MockMob looks and feels. Your practice history stays with your account." />
+      <ArenaHead title="Your account." lede="Your CUET plan, your access and how MockMob looks and feels. Your practice history stays with your account." />
 
       <div className="acct-grid">
         <div className="acct-col">
@@ -280,7 +280,7 @@ export default function ProfilePageClient() {
             </label>
             <div className="acct-card__keys">
               <div className="profile-save-note" role={saveState.type === 'error' ? 'alert' : 'status'} data-tone={saveState.type || undefined}>
-                {saveState.type === 'success' ? <><DrawnCheck size={16} />{saveState.message}</> : saveState.type === 'error' ? saveState.message : isSaving ? 'Saving' : 'Save your name to update it across the Arena.'}
+                {saveState.type === 'success' ? <><DrawnCheck size={16} />{saveState.message}</> : saveState.type === 'error' ? saveState.message : isSaving ? 'Saving' : 'Save your name to update it across MockMob.'}
               </div>
               <Button variant={dirty ? 'volt' : 'outline'} size="md" disabled={isSaving || !dirty} onClick={saveName}>
                 {isSaving ? 'Saving' : 'Save name'}

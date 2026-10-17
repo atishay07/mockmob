@@ -31,3 +31,12 @@
 @media (hover: hover) and (pointer: fine) { .help-write:hover { background: var(--a-hover); } }
 @media (prefers-reduced-motion: reduce) { .help-q__chev, .help-q__panel { transition: none; } }
 :root[data-motion='reduced'] .help-q__chev, :root[data-motion='reduced'] .help-q__panel { transition: none; }
+
+/* Search over the questions (W-083): one ruled field on the page's tokens, 48 px tall. */
+.help-find { display: flex; align-items: center; gap: 10px; min-height: 48px; margin: 10px 0 4px; padding: 0 14px; border: 1px solid var(--a-line-strong); border-radius: 14px; background: var(--a-raised); color: var(--a-ink-3); }
+.help-find:focus-within { border-color: var(--a-select); box-shadow: 0 0 0 1px var(--a-select); }
+.help-find svg { flex: none; }
+.help-find input { flex: 1; min-width: 0; min-height: 46px; padding: 0; border: 0; outline: 0; background: transparent; color: var(--a-ink); font: 500 16px var(--font-body); }
+.help-find input::placeholder { color: var(--a-ink-3); }
+.help-find__count { min-height: 1.4em; margin: 4px 0 10px; font-size: 13.5px; color: var(--a-ink-3); }
+.help-find__count:empty { min-height: 0; margin: 0 0 6px; }

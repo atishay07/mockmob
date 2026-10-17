@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, ArrowRight, Pause, Play } from 'lucide-react';
+import { ArrowLeft, Pause, Play } from 'lucide-react';
 import { createDemoPlayback } from '@/../data/demo_playback.mjs';
 import { DemoPlaybackContext, TOUR_SCREENS } from './TourScreens';
 import ScrollStory from './ScrollStory';
@@ -227,7 +227,7 @@ function TourStage({ slides, step, pinned, reduced, goTo: storyGoTo }) {
 
           <div className="ft__controls">
             <button type="button" className="ft__arrow" onClick={event => goTo(active - 1, { keyboard: event.detail === 0 })} aria-label="Previous feature"><ArrowLeft size={18} aria-hidden="true" /></button>
-            <button type="button" className="ft__next" onClick={event => goTo(active + 1, { keyboard: event.detail === 0 })} aria-label={'Next feature: ' + next?.label}><span>Up next <b>{next?.label}</b></span><ArrowRight size={18} aria-hidden="true" /></button>
+            <button type="button" className="ft__next" onClick={event => goTo(active + 1, { keyboard: event.detail === 0 })} aria-label={'Next feature: ' + next?.label}><span>Up next <b>{next?.label}</b></span></button>
           </div>
         </div>
       </div>

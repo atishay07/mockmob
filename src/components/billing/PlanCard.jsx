@@ -91,7 +91,7 @@ export function PlanCard() {
         <>
           {lapsed ? <p className="plan-card__lead">Your monthly Pro has ended and no further payment will be taken.{until ? <> It ended on <strong>{fmt(until)}</strong>.</> : null} Your history and saved questions stay.</p> : ended ? <p className="plan-card__lead">Your Pro access ended on <strong>{fmt(until)}</strong>. Your history and saved questions stay.</p> : null}
           <p className="plan-card__lead">{FREE_COSTS}</p>
-          <Link href="/pricing" className="plan-card__cta"><AppIcon name="pricing" size={16} />{ended || lapsed ? 'See Pro to renew' : 'See Pro'}</Link>
+          <Link href="/pricing" className="plan-card__cta" data-page-primary=""><AppIcon name="pricing" size={16} />{ended || lapsed ? 'See Pro to renew' : 'See Pro'}</Link>
         </>
       )}
     </section>

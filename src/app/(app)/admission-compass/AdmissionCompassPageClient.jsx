@@ -41,11 +41,12 @@ export default function AdmissionCompassPageClient() {
     <main className="cmp">
       <header className="cmp-head">
         <div>
-          <h1 className="display-md">Which DU courses can your subjects get?</h1>
+          {/* One name for this place everywhere (W-067): the dock, the sidebar, the More sheet and the app call it Colleges. */}
+          <h1 className="display-md">Colleges</h1>
           <p>
             {seed.length > 0
-              ? 'Your subjects are already ticked below. Add your category and a score to see which programmes your subjects open under DU’s 2026 rules, and the 2026 cutoff college by college.'
-              : 'Tick your CUET subjects, then add your category and a score to see which programmes they open under DU’s 2026 rules, and the 2026 cutoff college by college.'}
+              ? 'Which DU programmes your subjects open under DU’s 2026 rules, and the 2026 cutoff college by college. Your subjects are already ticked below; add your category and a score.'
+              : 'Which DU programmes your CUET subjects open under DU’s 2026 rules, and the 2026 cutoff college by college. Tick your subjects below, then add your category and a score.'}
           </p>
         </div>
       </header>

@@ -74,7 +74,7 @@ html[data-theme='light'] .lp-stage__live { background: #7d9a00; box-shadow: 0 0 
 .lp-exam-intro .lp-sub { margin-top: 1rem; max-width: 56ch; }
 .lp-exam-switch { display: flex; padding: 5px; gap: 4px; background: var(--paper); border: 1px solid var(--line-strong); border-radius: 999px; flex-shrink: 0; }
 .lp-exam-switch button { display: flex; align-items: center; justify-content: center; gap: .5rem; min-height: 44px; padding: .6rem 1rem; border: 0; border-radius: 999px; background: transparent; color: var(--ink-2); cursor: pointer; font-weight: 600; font-size: .875rem; transition: background-color .25s, color .25s; }
-.lp-exam-switch button[aria-pressed='true'] { background: var(--volt); color: var(--volt-ink); }
+.lp-exam-switch button[aria-pressed='true'] { background: var(--ink); color: var(--paper); } /* Selection in ink, not volt (W-075). */
 .lp-exam-switch button > span { padding: .1rem .35rem; background: #71823722; border-radius: 4px; font-size: .625rem; }
 .lp-exam { --exam-bg: #10180f; --exam-panel: #172015; --exam-line: #354330; --exam-ink: #f2f5ec; --exam-muted: #acbba2; border: 1px solid var(--line-strong); border-radius: 1rem; overflow: hidden; background: var(--exam-bg); color: var(--exam-ink); box-shadow: 0 18px 40px #0000000d; }
 .lp-exam__bar { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; border-bottom: 1px solid var(--exam-line); font-size: .8125rem; }
@@ -100,7 +100,7 @@ html[data-theme='light'] .lp-stage__live { background: #7d9a00; box-shadow: 0 0 
 .lp-exam__check { margin-left: auto; color: #d2f000; }
 .lp-exam__actions { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin-top: auto; padding-top: 2rem; }
 .lp-exam__actions button, .lp-exam__foot button { display: flex; align-items: center; justify-content: center; gap: .4rem; min-height: 44px; padding: .55rem .8rem; border: 1px solid var(--exam-line); border-radius: 6px; background: var(--exam-panel); color: var(--exam-ink); font-size: .75rem; font-weight: 600; cursor: pointer; }
-.lp-exam__actions .lp-exam__save { margin-left: auto; background: #d2f000; border-color: #d2f000; color: #152000; }
+.lp-exam__actions .lp-exam__save { margin-left: auto; background: #f2f4ec; border-color: #f2f4ec; color: #152000; } /* The demo's own button is ink-on-paper, so the page's real volt (pricing, the dock) stays the only one on screen (W-075). */
 .lp-exam__palette { padding: 1.5rem 1.25rem; border-left: 1px solid var(--exam-line); background: var(--exam-panel); }
 .lp-exam__palette-heading h4 { margin: 0 0 .3rem; font-size: .9375rem; font-weight: 600; }
 .lp-exam__palette-heading > span { font-size: .75rem; color: var(--exam-muted); }

@@ -14,7 +14,19 @@
   transition: border-color 150ms var(--a-ease), background-color 150ms var(--a-ease);
 }
 .privacy-choice label:has(input:checked) { border-color: var(--a-select); background: var(--a-volt-wash); }
-.privacy-choice input, .privacy-toggle input { width: 20px; height: 20px; accent-color: var(--volt, #d2f000); }
+/* Each radio and checkbox is its own 44 px target (W-079); the drawn mark stays 20 px in the middle of it. */
+.privacy-choice input, .privacy-toggle input {
+  appearance: none; -webkit-appearance: none; flex: none; width: 44px; height: 44px; margin: 0 -8px 0 -12px; border: 0; border-radius: 12px; cursor: pointer;
+  background: radial-gradient(circle at center, var(--a-raised) 0 8px, var(--a-line-strong) 8.5px 10px, transparent 10.5px);
+}
+.privacy-choice input:checked { background: radial-gradient(circle at center, var(--a-select) 0 5px, var(--a-raised) 5.5px 8px, var(--a-select) 8.5px 10px, transparent 10.5px); }
+.privacy-toggle input {
+  background: linear-gradient(var(--a-raised), var(--a-raised)) center / 17px 17px no-repeat, linear-gradient(var(--a-line-strong), var(--a-line-strong)) center / 20px 20px no-repeat;
+}
+.privacy-toggle input:checked {
+  background: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 10.5l3.2 3.2L15 6.8' fill='none' stroke='%230b1000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 20px 20px no-repeat, linear-gradient(var(--a-select), var(--a-select)) center / 20px 20px no-repeat;
+}
+.privacy-toggle input:disabled { cursor: not-allowed; }
 .privacy-choice input:focus-visible, .privacy-toggle input:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 .privacy-toggle { display: flex; align-items: center; gap: 12px; min-height: 44px; font-weight: 600; color: var(--a-ink); cursor: pointer; }
 .privacy-toggle:has(input:disabled) { opacity: 0.55; cursor: not-allowed; }

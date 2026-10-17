@@ -25,14 +25,16 @@
   display: flex;
   gap: 6px;
   margin: 0 -16px;
-  padding: 4px 16px 10px;
+  /* The trailing fade is a deliberate peek (W-082): wide enough to read as "more this way", and the row ends with room
+     past the last subject so, scrolled to the end, no object is ever left under the fade. */
+  padding: 4px 64px 10px 16px;
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scroll-snap-type: x proximity;
   scrollbar-width: none;
   border-bottom: 1px solid var(--a-line);
-  -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 36px), transparent);
-  mask-image: linear-gradient(90deg, #000 calc(100% - 36px), transparent);
+  -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 64px), transparent);
+  mask-image: linear-gradient(90deg, #000 calc(100% - 64px), transparent);
 }
 .app-shell .pr .pr-subjects::-webkit-scrollbar { display: none; }
 @media (min-width: 1024px) {
@@ -259,7 +261,8 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg [role='radio']
 .app-shell .pr .pr-ticket.pr-summary dd[data-tone='locked'] { color: var(--a-ink-3); }
 .app-shell .pr .pr-ticket.pr-summary div[data-balance] dd { color: var(--a-ink-2); font-weight: 600; }
 .app-shell .pr .pr-ticket__go {
-  display: inline-flex; align-items: center; min-height: 32px; margin: -6px 0; padding: 0; border: 0; background: none;
+  /* A 44 px target (W-079) that keeps the row's height: the extra 12 px sits in negative margin around the word. */
+  display: inline-flex; align-items: center; justify-content: flex-end; min-height: 44px; min-width: 44px; margin: -12px 0; padding: 0; border: 0; background: none;
   color: inherit; font: inherit; cursor: pointer;
   text-decoration: underline; text-decoration-color: var(--a-line-strong); text-underline-offset: 3px;
 }
@@ -324,7 +327,7 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg [role='radio']
   .app-shell .pr .pr-bar__text i { font-style: normal; font-weight: 700; color: var(--a-accent-text); }
   .app-shell .pr .pr-bar__text i[data-tone='locked'] { color: var(--a-ink-3); }
   /* Under 380 px the length in minutes gives way, so the price is never cut. */
-  @media (max-width: 379px) { .app-shell .pr .pr-bar__min { display: none; } }
+  @media (max-width: 379px) { .app-shell .pr .pr-bar__min { display: none; } .app-shell .pr .pr-bar__qword { display: none; } }
   /* A blocked session's bar carries the wider outlined action ("Need 10 more", "See Pro"), so the minutes give way to the
      price there too; the card above still says the time. */
   .app-shell .pr .pr-bar__text[data-blocked] .pr-bar__min { display: none; }

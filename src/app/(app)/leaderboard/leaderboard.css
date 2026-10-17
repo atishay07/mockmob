@@ -27,3 +27,7 @@
 .app-shell .lb .lb-go:active { transform: scale(0.98); }
 .app-shell .lb .lb-go:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 @media (hover: hover) and (pointer: fine) { .app-shell .lb .lb-go:hover { background: #e8ff4a; } }
+
+/* What moves the place (W-083): the real-marks trend from the student's last papers, the same block Today shows. */
+.app-shell .lb-trend { max-width: 640px; }
+.app-shell .lb-trend:empty { display: none; }

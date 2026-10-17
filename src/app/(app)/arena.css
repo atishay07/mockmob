@@ -249,7 +249,8 @@ html[data-theme='light'] :is(.app-shell .nta-runner[data-interface='nta'], .aren
 }
 .app-shell .arena-sidebar__foot {
   margin-top: auto;
-  position: sticky; bottom: 0; padding: 10px 0 8px; border-top: 1px solid var(--a-line); background: var(--a-bg);
+  padding: 10px 0 6px;
+  border-top: 1px solid var(--a-line);
   display: grid;
   gap: 8px;
 }
@@ -1881,7 +1882,10 @@ html[data-motion='reduced'] .app-shell .rc-caption .rc-chip { animation: none; }
 @media (hover: hover) and (pointer: fine) { .app-shell .arena-appearance button[aria-checked='false']:hover { background: var(--a-hover); color: var(--a-ink); } }
 @media (prefers-reduced-motion: reduce) { .app-shell .arena-appearance button { transition: none; } }
 :root[data-motion='reduced'] .app-shell .arena-appearance button { transition: none; }
-.app-shell .arena-sidebar__foot .arena-appearance { margin-bottom: 10px; }
+.app-shell .arena-sidebar__foot .arena-appearance { margin: 0; }
+.app-shell .arena-appearance--compact { padding: 3px; gap: 2px; }
+.app-shell .arena-appearance--compact button { place-items: center; min-width: 44px; min-height: 44px; padding: 0; }
+.app-shell .arena-sidebar__foot .arena-chip { justify-self: start; }
 .app-shell .arena-sheet .arena-appearance { margin: 0 0 12px; }
 
 /* Today, done state: the recorded line is plain text with a check, not a box inside the card. */

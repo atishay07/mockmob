@@ -28,11 +28,14 @@ export function HeroDockGate({ children }) {
     // The interactive product panels (the feature tour's screen, the exam comparator) are content you read to the
     // last row, so the bar steps aside while a real part of one holds the screen, as it does for the demo.
     const panels = [...document.querySelectorAll('.lp .ft, .lp .lp-exam')];
+    // One volt per screen (W-075): while a section's own volt button (pricing, the eligibility teaser, the close band)
+    // is in the band between the nav and the bar, the bar steps aside so that button is the only volt on screen.
+    const volts = [...document.querySelectorAll('.lp main :is(.mm-btn--primary, .btn-volt)')].filter((el) => !el.closest('.lp-hero, .lp-dockgate'));
     const show = (on) => { node.dataset.shown = on ? 'true' : 'false'; };
     if (typeof IntersectionObserver === 'undefined' || (!cta && !demo)) { show(true); return undefined; }
-    const state = { cta: Boolean(cta), demo: Boolean(demo), elig: false, panels: new Set() };
+    const state = { cta: Boolean(cta), demo: Boolean(demo), elig: false, panels: new Set(), volts: new Set() };
     const update = () => {
-      show(!state.cta && !state.demo && !state.elig && state.panels.size === 0);
+      show(!state.cta && !state.demo && !state.elig && state.panels.size === 0 && state.volts.size === 0);
       if (state.elig && !state.cta && !state.demo) node.dataset.yield = 'elig';
       else delete node.dataset.yield;
     };
@@ -57,10 +60,15 @@ export function HeroDockGate({ children }) {
       update();
     }, { rootMargin: `-${NAV + DEMO_MIN_PX}px 0px -${DOCK + DEMO_MIN_PX}px 0px`, threshold: 0 });
     panels.forEach((panel) => panelWatch.observe(panel));
+    const voltWatch = new IntersectionObserver((entries) => {
+      for (const entry of entries) { if (entry.isIntersecting) state.volts.add(entry.target); else state.volts.delete(entry.target); }
+      update();
+    }, { rootMargin: `-${NAV}px 0px 0px 0px`, threshold: 0 });
+    volts.forEach((button) => voltWatch.observe(button));
     if (cta) ctaWatch.observe(cta);
     if (demo) demoWatch.observe(demo);
     if (elig) eligWatch.observe(elig);
-    return () => { ctaWatch.disconnect(); demoWatch.disconnect(); eligWatch.disconnect(); panelWatch.disconnect(); delete node.dataset.yield; };
+    return () => { ctaWatch.disconnect(); demoWatch.disconnect(); eligWatch.disconnect(); panelWatch.disconnect(); voltWatch.disconnect(); delete node.dataset.yield; };
   }, []);
 
   return <div ref={gate} className="lp-dockgate" data-shown="false">{children}</div>;

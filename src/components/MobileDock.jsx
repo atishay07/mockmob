@@ -15,6 +15,7 @@ import '@/app/nav-motion.css';
 export function MobileDock({ note = 'Free to start. No card.', label, href, checkoutAware = false, isPremium = false, hideAtFooter = false }) {
   const { isAuthenticated } = useAuth();
   const atFooter = useFooterInView(hideAtFooter);
+  const yielding = useVoltOnScreen();
   const pathname = usePathname();
   const checkout = useSyncExternalStore(subscribeCheckoutStatus, readCheckoutStatus, readCheckoutStatusOnServer);
   const stage = !checkoutAware ? 'open' : isPremium || checkout === 'active' ? 'active' : checkout;
@@ -40,7 +41,7 @@ export function MobileDock({ note = 'Free to start. No card.', label, href, chec
     <>
       {/* With hideAtFooter the bar leaves before the footer arrives, so no pad is needed below the footer. */}
       {hideAtFooter ? null : <div className="mm-dockpad" aria-hidden="true" />}
-      <div className="mm-dock" data-motion-dock="true" data-hidden={atFooter ? 'true' : undefined} inert={atFooter ? true : undefined}>
+      <div className="mm-dock" data-motion-dock="true" data-hidden={atFooter || yielding ? 'true' : undefined} inert={atFooter || yielding ? true : undefined}>
         <p className="mm-dock__note">{resolvedNote}</p>
         {/* A jump within this page (the landing's "/#try-practice") never needs the route prefetched. */}
         <Link href={resolvedHref} prefetch={resolvedHref.split('#')[0] === pathname ? false : undefined} className="mm-btn mm-btn--primary">
@@ -49,6 +50,25 @@ export function MobileDock({ note = 'Free to start. No card.', label, href, chec
       </div>
     </>
   );
+}
+
+// One volt per screen (W-075): while the page's own volt button is on screen, the bar steps aside so that button is
+// the only volt in view; it comes back when the button scrolls away. The nav's action is the quiet secondary button.
+function useVoltOnScreen() {
+  const [on, setOn] = useState(false);
+  useEffect(() => {
+    if (typeof IntersectionObserver === 'undefined') return undefined;
+    const buttons = [...document.querySelectorAll('main :is(.mm-btn--primary, .btn-volt)')].filter((el) => !el.closest('.mm-dock, .mm-nav, .lp-dockgate'));
+    if (!buttons.length) return undefined;
+    const seen = new Set();
+    const io = new IntersectionObserver((entries) => {
+      for (const entry of entries) { if (entry.isIntersecting) seen.add(entry.target); else seen.delete(entry.target); }
+      setOn(seen.size > 0);
+    }, { rootMargin: '-64px 0px 0px 0px', threshold: 0 });
+    buttons.forEach((button) => io.observe(button));
+    return () => io.disconnect();
+  }, []);
+  return on;
 }
 
 function useFooterInView(enabled) {

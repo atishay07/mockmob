@@ -12,6 +12,8 @@ import {
 } from 'lucide-react';
 // The phone dock's Colleges tab and its More key (NAV-1017 section 8).
 import { Ellipsis, University } from 'lucide-react';
+// Help's question search (W-083).
+import { Search } from 'lucide-react';
 
 const STROKE = 1.75;
 
@@ -48,6 +50,7 @@ const APP_ICONS = {
   unlimited: InfinityIcon,
   colleges: University,
   more: Ellipsis,
+  search: Search,
 };
 
 const STATUS_ICONS = {
@@ -92,7 +95,8 @@ export function SubjectIcon({ id, size = 20, className = '', ...rest }) {
 
 /**
  * The two currencies, drawn as two coins so they are never confused:
- *   practice: a bolt coin  (spent on Quick practice and Full mock)
+ *   practice: a paper coin (spent on Quick practice and Full mock); a small question sheet, never a bolt, so it cannot
+ *             read as the retired bolt mark
  *   prepos:   an orbit coin (the PrepOS wallet)
  */
 export function CreditMark({ kind = 'practice', size = 18, className = '' }) {
@@ -106,7 +110,10 @@ export function CreditMark({ kind = 'practice', size = 18, className = '' }) {
           <circle cx="12" cy="12" r="1.15" fill="currentColor" stroke="none" />
         </>
       ) : (
-        <path d="M13 6.75 8.9 12.4h3l-.9 4.85 4.1-5.65h-3z" />
+        <>
+          <rect x="8.6" y="7" width="6.8" height="10" rx="1.3" />
+          <path d="M10.6 10.2h2.8M10.6 13.2h2.8" />
+        </>
       )}
     </svg>
   );

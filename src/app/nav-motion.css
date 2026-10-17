@@ -30,18 +30,15 @@
 .mm-nav__sheet--in > :nth-child(7) { animation-delay: 240ms; }
 .mm-nav__sheet--in > :nth-child(n + 8) { animation-delay: 280ms; }
 
-/* The Start key: it leans in and glows before you press, and springs back after */
+/* The nav and dock action: it leans in before you press and springs back after. No glow (W-076): the lift is a soft
+   neutral shadow, and the dock's arrival is its own slide, not a volt halo. */
 .mm-nav .mm-nav__cta, .mm-dock .mm-btn--primary {
   transition: transform var(--mm-spring-release-dur) var(--mm-spring-release), box-shadow 240ms ease, background-color 150ms ease;
 }
 @media (hover: hover) and (pointer: fine) {
-  .mm-nav .mm-nav__cta:hover, .mm-dock .mm-btn--primary:hover { transform: translateY(-1px); box-shadow: 0 10px 26px -8px var(--volt-glow-strong, rgba(210, 240, 0, .5)); }
+  .mm-nav .mm-nav__cta:hover, .mm-dock .mm-btn--primary:hover { transform: translateY(-1px); box-shadow: 0 8px 18px -10px rgba(10, 16, 8, .45); }
 }
-.mm-nav .mm-nav__cta:focus-visible, .mm-dock .mm-btn--primary:focus-visible { box-shadow: 0 10px 26px -8px var(--volt-glow-strong, rgba(210, 240, 0, .5)); }
-.mm-nav .mm-nav__cta:active, .mm-dock .mm-btn--primary:active { transform: scale(0.96); box-shadow: 0 2px 8px -4px var(--volt-glow-strong, rgba(210, 240, 0, .5)); transition-duration: 90ms, 120ms, 150ms; }
-/* One glow when the dock first appears, so the single action is the thing you see */
-.mm-dock[data-motion-dock] .mm-btn--primary { animation: mm-dock-glow 1800ms ease-out 700ms 1 both; }
-@keyframes mm-dock-glow { 0% { box-shadow: 0 0 0 0 var(--volt-glow-strong, rgba(210, 240, 0, .5)); } 60% { box-shadow: 0 0 0 12px rgba(210, 240, 0, 0); } 100% { box-shadow: 0 0 0 0 rgba(210, 240, 0, 0); } }
+.mm-nav .mm-nav__cta:active, .mm-dock .mm-btn--primary:active { transform: scale(0.96); transition-duration: 90ms, 120ms, 150ms; }
 
 html[data-motion='reduced'] .mm-nav__pill, html[data-motion='reduced'] .mm-nav .mm-nav__links .mm-nav__link, html[data-motion='reduced'] .mm-nav .mm-nav__cta, html[data-motion='reduced'] .mm-dock .mm-btn--primary { transition: none; }
 html[data-motion='reduced'] .mm-nav__sheet--in > *, html[data-motion='reduced'] .mm-dock[data-motion-dock] .mm-btn--primary { animation: none; }

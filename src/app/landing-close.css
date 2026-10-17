@@ -28,6 +28,11 @@
 .lp-dockmobi__line .lp-docklink {
   position: relative;
   justify-self: start;
+  /* The link's own box is the 44 px target (W-079), not a pseudo-element: padding grows it, margin keeps the line. */
+  display: inline-block;
+  min-width: 44px;
+  padding: 14px 2px 14px 10px;
+  margin: -14px -2px -14px -10px;
   color: var(--ink);
   font-weight: 600;
   text-decoration: underline;
@@ -35,12 +40,6 @@
   text-decoration-thickness: 2px;
   text-underline-offset: 3px;
   border-radius: 4px;
-}
-/* A 44px tall hit area around the short link, kept clear of the dock's button on its right. */
-.lp-dockmobi__line .lp-docklink::after {
-  content: '';
-  position: absolute;
-  inset: -14px -2px -14px -10px;
 }
 .lp-dockmobi__line .lp-docklink:focus-visible {
   outline: 2px solid var(--ink);

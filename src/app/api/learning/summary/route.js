@@ -211,7 +211,7 @@ export async function GET(request) {
           ? 'Available practice and deeper speed diagnostics are active.'
           : 'Premium unlocks available practice, unlimited mocks, and deeper speed diagnostics.',
         bookmarkBenefit: isPremium ? 'Unlimited bookmarks' : `${FREE_BOOKMARK_LIMIT} saved questions included`,
-        arenaBenefit: isPremium ? 'Arena sprints run without credit friction.' : 'Upgrade to remove credit friction in Arena.',
+        arenaBenefit: isPremium ? 'Practice runs without credits on Pro.' : 'Pro removes the credit cost of practice.',
       },
       activity: activityDays.map((day) => ({
         day,

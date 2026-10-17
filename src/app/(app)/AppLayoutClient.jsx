@@ -325,8 +325,10 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
             {group.items.map((tab) => renderNavLink(tab))}
           </nav>
         ))}
+        {/* The foot is one compact row at the end of the list, not a sticky panel: at 1440 x 900 it never covers a row
+            (W-069). Appearance keeps its three choices as icons with names; Guide sits under it. */}
         <div className="arena-sidebar__foot">
-          <AppearanceSwitch />
+          <AppearanceSwitch compact />
           <button
             type="button"
             className="arena-chip"
