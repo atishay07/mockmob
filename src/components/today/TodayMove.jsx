@@ -55,7 +55,7 @@ function ChangeLength({ open, onClose, move, chosen, onChoose, saving }) {
 
 function SomethingElse({ open, onClose, items }) {
   return (
-    <TodaySheet open={open} onClose={onClose} id="tm-else" title="Something else" lede="Each one, and why it might be the move tonight.">
+    <TodaySheet open={open} onClose={onClose} id="tm-else" title="Something else" lede="Each one, and why it might be your next move.">
       <ul className="tsh__list">
         {items.map((a) => (
           <li key={a.id}>
