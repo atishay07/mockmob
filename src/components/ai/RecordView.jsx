@@ -10,7 +10,7 @@ import { useCountUpState, useInView } from '@/lib/motion';
 import AnswerSheet from './AnswerSheet';
 import { lookChange, readLastLook, rememberLook } from './useInsights';
 import './prepos.css';
-import { MIN_CHAPTER_SAMPLE } from '../../../data/prepos_insights';
+import { MIN_CHAPTER_SAMPLE, RANKED_CHAPTERS } from '../../../data/prepos_insights';
 
 const sec = (s) => (s >= 60 ? `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, '0')}` : `${Math.round(s)}s`);
 const signed = (n) => (n > 0 ? `+${n}` : n < 0 ? `−${Math.abs(n)}` : '0');
@@ -28,7 +28,7 @@ function Stack({ right, wrong, skip, label }) {
   );
 }
 
-const FREE_CHAPTERS = 3;
+const FREE_CHAPTERS = RANKED_CHAPTERS.free;
 
 // The marks ledger. The accuracy figure rolls from what the student saw last time to what is true
 // now, and a line says what moved. Mobi hops only for a real rise of 5 points or more.
@@ -131,7 +131,7 @@ export default function RecordView({ state, onNavigate, pro = false }) {
           <p className="pp-note">No chapter has {MIN_CHAPTER_SAMPLE}+ answered questions with misses yet, so none is ranked. Rankings need a few questions per chapter to mean anything.</p>
         ) : (
           <ul className="pp-chapters">
-            {chapters.ranked.slice(0, pro ? 8 : FREE_CHAPTERS).map((c) => (
+            {chapters.ranked.slice(0, pro ? RANKED_CHAPTERS.pro : FREE_CHAPTERS).map((c) => (
               <li key={c.key}>
                 <div className="pp-chapters__top"><b>{c.chapter}</b><span>{c.subjectName}</span></div>
                 <Stack right={c.right} wrong={c.wrong} skip={c.skip} label={`${c.right} right, ${c.wrong} wrong, ${c.skip} blank`} />

@@ -15,6 +15,9 @@ import { dwellOf } from './paper_trace.js';
 export const MARK_RIGHT = 5;
 export const MARK_WRONG = -1;
 export const MIN_CHAPTER_SAMPLE = 4;
+// How many ranked chapters the record shows: Free sees the top few, Pro sees more (RecordView). Public copy reads
+// this too, so a page never promises more ranked chapters than the record draws.
+export const RANKED_CHAPTERS = Object.freeze({ free: 3, pro: 8 });
 const DAY = 86_400_000;
 
 export function wilson(successes, total, z = 1.96) {

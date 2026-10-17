@@ -199,3 +199,66 @@ test('the sample is named for what its clock can be: the opening of a Full mock,
     assert.doesNotMatch(source, /10-question set|this set\b|'This set'|Replay the session/i, `${name} names the sample one way`);
   }
 });
+
+// ---------- L-032: the Repair and the SWOT read at 14 px or more on a 390 px phone ----------
+// The held screens no longer shrink their words to fit: a phone short of room sets optional rows aside first
+// (storyFit.mjs, data-ss-drop), and every word on the short Repair and SWOT is drawn at 0.875rem or more.
+test('a screen short of room sets rows aside lowest number first, equal numbers together, and stops once it fits', async () => {
+  const { setAsideUntilFit } = await import('./storyFit.mjs');
+  const rows = [{ id: 'units-a', r: 5 }, { id: 'head', r: 1 }, { id: 'units-b', r: 5 }, { id: 'step2', r: 2 }, { id: 'groups', r: 6 }];
+  const run = (room) => {
+    const gone = new Set();
+    const height = () => 100 + rows.filter((x) => !gone.has(x.id)).length * 20;
+    const ranks = setAsideUntilFit(rows, { rank: (x) => x.r, setAside: (x) => gone.add(x.id), fits: () => height() <= room });
+    return { ranks, gone: [...gone].sort() };
+  };
+  assert.deepEqual(run(200), { ranks: [], gone: [] }, 'a screen that fits keeps every row');
+  assert.deepEqual(run(180), { ranks: [1], gone: ['head'] });
+  assert.deepEqual(run(140), { ranks: [1, 2, 5], gone: ['head', 'step2', 'units-a', 'units-b'] }, 'both units go together');
+  assert.deepEqual(run(0).ranks, [1, 2, 5, 6], 'it never loops past the last row');
+});
+
+test('the Repair and the SWOT mark their optional rows, and never the trap, the pick against the key or the first set', () => {
+  const src = readFileSync(new URL('./LabCinema.jsx', import.meta.url), 'utf8');
+  const repair = src.slice(src.indexOf('function RepairPanel'), src.indexOf('function RepairSheet'));
+  const swot = src.slice(src.indexOf('function SwotPanel'), src.indexOf('const PANELS'));
+  assert.match(repair, /<p className="lcr-stem" data-ss-drop="2">/);
+  assert.match(src, /const BRIEF_DROP = \{ right: 1, trap: 3, rule: 4 \};/);
+  assert.match(repair, /data-ss-drop=\{BRIEF_DROP\[b\.kind\]\}/);
+  assert.doesNotMatch(src.slice(src.indexOf('function RepairHead'), src.indexOf('// The full repair')), /data-ss-drop/, 'the trap’s name always stays');
+  assert.doesNotMatch(repair.slice(repair.indexOf('lcr-pair'), repair.indexOf('lcp-check')), /data-ss-drop/, 'the pick against the key always stays');
+  assert.match(swot, /className="lcp__h" data-ss-drop="1"/);
+  assert.match(swot, /className="lcs-step" data-ss-drop=\{i === 0 \? undefined : 2\}/, 'the first set always stays');
+  assert.match(swot, /className="lcs-block" data-ss-drop="6"/, 'the four groups go last');
+  assert.match(swot, /className="lcp-swot__unit" data-ss-drop="5"/);
+  // ScrollStory sets rows aside before it scales, and only where the layout opts in.
+  const story = readFileSync(new URL('./ScrollStory.jsx', import.meta.url), 'utf8');
+  const fit = story.slice(story.indexOf('function fitAll'), story.indexOf('// Slack:'));
+  assert.ok(fit.indexOf('setAsideUntilFit') > 0 && fit.indexOf('setAsideUntilFit') < fit.indexOf("setProperty('--ss-fit'"), 'rows go before any scaling');
+  assert.match(fit, /getPropertyValue\('--ss-drop'\)\.trim\(\) === '1'/);
+  const ssCss = readFileSync(new URL('../../app/scroll-story.css', import.meta.url), 'utf8');
+  assert.match(ssCss, /\.ss \[data-ss-dropped='true'\] \{ display: none !important; \}/);
+  const css = readFileSync(new URL('../../app/lab-cinema.css', import.meta.url), 'utf8');
+  assert.match(css, /\.lc \.lc-scene:is\(\[data-scene='repair'\], \[data-scene='swot'\]\) \.lc-scene__fit \{ --ss-fit-min: 0\.8; --ss-drop: 1; \}/);
+});
+
+test('every word on the phone Repair and SWOT is drawn at 14 px (0.875rem) or more', () => {
+  const css = readFileSync(new URL('../../app/lab-cinema.css', import.meta.url), 'utf8');
+  const start = css.indexOf('@media (max-width: 959px) {');
+  const phone = css.slice(start, css.indexOf('@media (max-width: 959px) and (orientation: portrait)'));
+  const portrait = css.slice(css.indexOf('@media (max-width: 959px) and (orientation: portrait)'), css.indexOf("/* Short windows: the words shrink before the screen does. */"));
+  const rules = [...(phone + portrait).matchAll(/([^{}]+)\{([^{}]*)\}/g)]
+    .filter(([, sel]) => /lcp--repair|lcr-|lcp--swot|lcp-swot|lcs-|lcp-plan/.test(sel) && !/lcr-sheet/.test(sel));
+  assert.ok(rules.length > 10, 'the phone rules were found');
+  for (const [, sel, body] of rules) {
+    for (const [, size] of body.matchAll(/font(?:-size)?:\s*(?:\d{3}\s+)?([\d.]+)rem/g)) {
+      assert.ok(Number(size) >= 0.875, `${sel.trim()} draws ${size}rem on phones`);
+    }
+  }
+  // The rules that the phone rules do not restate: labels, units and the plan's key are all at 0.875rem.
+  assert.match(phone, /\.lcp--repair \.lcr-pair em \{[^}]*font-size: 0\.875rem;/);
+  assert.match(phone, /\.lcr-brief \.lcp-block \.lcp-block__label \{[^}]*font-size: 0\.875rem;/);
+  assert.match(phone, /\.lcp--swot \.lcs-h, \.lcp--swot \.lcp-plan__go \{ font-size: 0\.875rem; \}/);
+  assert.match(phone, /\.lcp-swot__label \{[^}]*font-size: 0\.875rem; \}/);
+  assert.match(phone, /\.lcp-swot__unit \{[^}]*font-size: 0\.875rem;/);
+});

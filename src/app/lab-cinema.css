@@ -494,24 +494,25 @@ html[data-theme='light'] .lc {
   .lc-scene:is([data-scene='repair'], [data-scene='swot']) .lc-scene__title { max-width: 22ch; }
 
   /* Repair, short: the trap as the headline, the pick crossed and the key checked, three one-liners. */
-  .lcp--repair { gap: 0.7rem; }
+  .lcp--repair { gap: 0.6rem; }
   .lcp--repair .lcr-head { gap: 0.2rem; }
-  .lcp--repair .lcr-head__q { font-size: 0.875rem; }
+  /* The pick against the key below already says "Your pick D, Key B", so the question's number line steps aside. */
+  .lcp--repair .lcr-head__q { display: none; }
   .lcp--repair .lcr-stem { display: block; margin: 0; color: var(--s-ink-2); font-size: 0.9375rem; line-height: 1.4; }
   .lcp--repair > .lcr-full { display: none; }
   .lcp--repair .lcr-pair { display: grid; grid-template-columns: minmax(0, 1fr) 2.25rem minmax(0, 1fr); gap: 0; align-items: stretch; }
-  .lcp--repair .lcr-pair li[data-state] { flex-direction: column; flex-wrap: nowrap; justify-content: flex-start; gap: 0.3rem; min-height: 0; padding: 0.75rem 0.5rem 0.65rem; text-align: center; font-size: 0.9375rem; line-height: 1.25; }
-  .lcp--repair .lcr-pair .lcp-q__letter { order: 0; width: 2.5rem; height: 2.5rem; border-radius: 12px; font: 800 1.125rem/1 var(--font-display); }
-  .lcp--repair .lcr-pair em { order: 1; margin: 0; font-size: 0.75rem; }
+  .lcp--repair .lcr-pair li[data-state] { flex-direction: column; flex-wrap: nowrap; justify-content: flex-start; gap: 0.3rem; min-height: 0; padding: 0.6rem 0.5rem 0.55rem; text-align: center; font-size: 0.9375rem; line-height: 1.25; }
+  .lcp--repair .lcr-pair .lcp-q__letter { order: 0; width: 2.25rem; height: 2.25rem; border-radius: 12px; font: 800 1.125rem/1 var(--font-display); }
+  .lcp--repair .lcr-pair em { order: 1; margin: 0; font-size: 0.875rem; }
   .lcp--repair .lcr-pair span { order: 2; color: var(--s-ink); }
   .lcp--repair .lcr-pair .lcp-q__badge { top: -0.4rem; right: -0.4rem; width: 1.15rem; height: 1.15rem; }
   .lcp--repair .lcr-pair li.lcr-pair__arrow { position: relative; display: block; min-height: 0; padding: 0; border: 0; background: none; }
-  .lcr-pair__line { position: absolute; left: 0.2rem; right: 0.4rem; top: 2rem; height: 2px; margin-top: -1px; border-radius: 2px; background: var(--s-good-fill); transform-origin: left center; }
-  .lcr-pair__head { position: absolute; right: 0.25rem; top: 2rem; width: 0.55rem; height: 0.55rem; margin-top: -0.275rem; border-top: 2px solid var(--s-good-fill); border-right: 2px solid var(--s-good-fill); transform: rotate(45deg); }
+  .lcr-pair__line { position: absolute; left: 0.2rem; right: 0.4rem; top: 1.725rem; height: 2px; margin-top: -1px; border-radius: 2px; background: var(--s-good-fill); transform-origin: left center; }
+  .lcr-pair__head { position: absolute; right: 0.25rem; top: 1.725rem; width: 0.55rem; height: 0.55rem; margin-top: -0.275rem; border-top: 2px solid var(--s-good-fill); border-right: 2px solid var(--s-good-fill); transform: rotate(45deg); }
   .lcp--repair .lcr-brief { display: grid; margin: 0; padding: 0; list-style: none; }
   .lcr-brief .lcp-block { padding: 0.55rem 0 0.6rem; }
   .lcr-brief .lcp-block[data-kind='rule'] { padding-left: 0.85rem; }
-  .lcr-brief .lcp-block .lcp-block__label { margin: 0 0 0.15rem; color: var(--s-ink-3); font-size: 0.75rem; font-weight: 600; }
+  .lcr-brief .lcp-block .lcp-block__label { margin: 0 0 0.15rem; color: var(--s-ink-3); font-size: 0.875rem; font-weight: 600; }
   .lcr-brief .lcp-block p:not(.lcp-block__label) { display: block; color: var(--s-ink); font-size: 1rem; line-height: 1.3; font-weight: 600; }
   /* The key sits outside the scaled panel (LabCinema RepairSheet), so it is drawn at its own size: a 48px target. */
   .lc-scene .lcr-more {
@@ -527,26 +528,32 @@ html[data-theme='light'] .lc {
   .lcr-sheet .lcr-record { font-size: 0.9375rem; }
 
   /* SWOT, short: the plan in one line each, then four quadrants, each a strong line and its count. */
+  /* Every word on the short SWOT reads at 14 px or more. */
   .lcp--swot { gap: 0.625rem; }
+  .lcp--swot .lcs-h, .lcp--swot .lcp-plan__go { font-size: 0.875rem; }
   .lcp--swot .lcp-plan { gap: 0.65rem; padding-block: 0.55rem; }
   .lcp--swot .lcp-plan__why { display: none; }
   .lcp--swot .lcp-plan__label { font-size: 1rem; }
   .lcp-swot__q { display: flex; flex-direction: column; padding: 0.5rem 0 0.625rem; }
   .lcp-swot__full { display: none; }
   .lcp-swot__brief { display: flex; flex: 1; flex-direction: column; }
-  .lcp-swot__label { margin-bottom: 0.35rem; font-size: 0.8125rem; }
+  .lcp-swot__label { margin-bottom: 0.35rem; font-size: 0.875rem; }
   .lcp-swot__line { flex: 1; margin: 0; color: var(--s-ink); font-size: 0.9375rem; font-weight: 700; line-height: 1.2; }
   .lcp-swot__figure { margin: 0.35rem 0 0; color: var(--s-good); font: 800 1.625rem/1 var(--font-display); letter-spacing: -0.02em; }
-  .lcp-swot__unit { margin: 0.2rem 0 0; color: var(--s-ink-2); font-size: 0.8125rem; line-height: 1.3; }
+  .lcp-swot__unit { margin: 0.2rem 0 0; color: var(--s-ink-2); font-size: 0.875rem; line-height: 1.3; }
   .lcp-swot__q[data-q='weakness'] .lcp-swot__figure { color: var(--s-bad); }
   .lcp-swot__q[data-q='opportunity'] .lcp-swot__figure { color: var(--s-accent); }
   .lcp-swot__q[data-q='threat'] .lcp-swot__figure { color: var(--s-amber-ink); }
 }
-/* Phones: the short Repair and the SWOT fit the screen like every other scene (scaled once per resize, never
-   below 0.8), so the page's scroll never stops inside them; the full repair opens in its own sheet (below), never
+/* Phones: the short Repair and the SWOT fit the screen at full size (rows set aside once per resize, scaled only as
+   a last resort, never below 0.8), so the page's scroll never stops inside them; the full repair opens in its own sheet (below), never
    inside the held screen. The screen is clipped at the header's foot. Taps reach the screen of the scene on stage. */
 @media (max-width: 959px) and (orientation: portrait) {
-  .lc .lc-scene:is([data-scene='repair'], [data-scene='swot']) .lc-scene__fit { --ss-fit-min: 0.8; }
+  /* Rather than shrink, a screen short of room sets its optional rows aside (LabCinema data-ss-drop): the Repair
+     first drops why the key is right, then the stem, then why the pick tempted, then the rule; the SWOT drops its
+     heading, the second set, the groups' heading, the plan's heading, the groups' units, and last the four groups
+     (LabCinema SwotPanel). The trap's name, the pick against the key and the first set always stay, at reading size. */
+  .lc .lc-scene:is([data-scene='repair'], [data-scene='swot']) .lc-scene__fit { --ss-fit-min: 0.8; --ss-drop: 1; }
   /* The scene's own line above the screen already says the repair is written from the answer key, so the
      screen's matching check line steps aside on phones and the repair fits above the action bar. */
   .lc .lcp--repair .lcp-check { display: none; }
@@ -556,23 +563,16 @@ html[data-theme='light'] .lc {
      never pushed under the phone dock. */
   .lc[data-pinned='true'] .lc-scene[data-scene='repair'] .lc-scene__screen { position: relative; padding-bottom: calc(48px + 1.75rem); }
   .lc[data-pinned='true'] .lc-scene[data-scene='repair'] .lcr-more { position: absolute; left: 1rem; right: 1rem; bottom: 1rem; width: auto; margin: 0; background: var(--s-bg); }
-  /* Shorter phones: the short form drops what the sheet and the rule already say, so the rest stays at reading
-     size and clear of the key. First "Why B is right" (the rule under it says the same in fewer words), then on
-     the shortest windows the shortened stem and "Why D looked right": the trap's name, the pick against the key
-     and the rule to keep still tell the whole repair. */
-  @media (max-height: 860px) { .lc .lcr-brief .lcp-block[data-kind='right'] { display: none; } }
+  /* A brief with every row set aside takes no gap either. */
+  .lc .lcp--repair .lcr-brief:not(:has(> :not([data-ss-dropped]))) { display: none; }
+  /* Short windows: the pick against the key draws tighter (smaller letter tiles, less padding), never smaller words. */
   @media (max-height: 760px) {
-    .lc .lcp--repair :is(.lcr-stem, .lcr-brief .lcp-block[data-kind='trap']) { display: none; }
-    .lc .lc-scene[data-scene='repair'] .lc-scene__fit { --ss-fit-min: 0.75; }
+    .lc .lcp--repair .lcr-pair li[data-state] { gap: 0.2rem; padding: 0.4rem 0.4rem 0.45rem; }
+    .lc .lcp--repair .lcr-pair .lcp-q__letter { width: 1.9rem; height: 1.9rem; border-radius: 10px; font-size: 1rem; }
+    .lc .lcp--repair :is(.lcr-pair__line, .lcr-pair__head) { top: 1.35rem; }
+    .lc .lcp--repair .lcr-head__trap { font-size: 1.25rem; }
   }
-  /* The shortest phones (667 px, under 700): the Repair keeps the trap's name and the pick against the key (the
-     rest is one tap away in the sheet), and the SWOT keeps the plan its title promises; the quadrants wait for a
-     taller screen. Both may draw a little smaller rather than clip. */
-  @media (max-height: 700px) {
-    .lc .lcp--repair .lcr-brief,
-    .lc .lcp--swot .lcs-block:has(.lcp-swot) { display: none; }
-    .lc .lc-scene:is([data-scene='repair'], [data-scene='swot']) .lc-scene__fit { --ss-fit-min: 0.7; }
-  }
+  @media (max-height: 700px) { .lc .lc-scene:is([data-scene='repair'], [data-scene='swot']) .lc-scene__fit { --ss-fit-min: 0.7; } }
 }
 .lc[data-pinned='true'] .lc-scene[data-on='true'] .lc-scene__screen { pointer-events: auto; }
 

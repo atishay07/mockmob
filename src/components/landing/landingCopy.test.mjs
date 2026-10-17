@@ -318,3 +318,64 @@ test('the sample card keeps one volt key: its forward key is quiet, the explanat
   assert.match(empty, /color: var\(--ink-2\)/);
   assert.doesNotMatch(empty, /@media|var\(--t-title|var\(--font-display\)/, 'no wide-screen heading step');
 });
+
+// ---------- Round 15: the switch has no glow, no page says "not affiliated", Pro's chapters and the PYQ claim ----------
+
+test('no glow around the theme switch in either theme: every shadow on its thumb is an inset (owner, L-019)', () => {
+  const appDir = new URL('../../app/', import.meta.url);
+  let seen = 0;
+  for (const name of readdirSync(appDir).filter((n) => n.endsWith('.css'))) {
+    const source = words(read(new URL(name, appDir)));
+    for (const [, selector, body] of source.matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
+      if (!selector.includes('mm-theme-toggle__thumb')) continue;
+      for (const [, value] of body.matchAll(/box-shadow:\s*([^;]+);/g)) {
+        seen += 1;
+        for (const layer of value.split(/,(?![^(]*\))/)) {
+          assert.match(layer.trim(), /^(inset\b|none$)/, `${name}: ${selector.trim()} draws an outer shadow (${layer.trim()})`);
+        }
+      }
+    }
+  }
+  assert.ok(seen >= 2, 'the Day sun and the Night moon were both checked');
+});
+
+test('no public page carries "not affiliated" or other defensive fine print (owner, L-024)', () => {
+  const appDir = new URL('../../app/', import.meta.url);
+  // Every top-level public route's page. Legal pages (terms) keep their legal wording; the owner decides those.
+  const LEGAL = new Set(['terms']);
+  const routes = readdirSync(appDir, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory() && !/^[([_]|^api$|^preview$/.test(entry.name) && !LEGAL.has(entry.name))
+    .map((entry) => entry.name)
+    .filter((name) => { try { read(new URL(`${name}/page.js`, appDir)); return true; } catch { return false; } });
+  assert.ok(routes.includes('about') && routes.includes('cuet-subject-combination'), 'the pages that carried it are checked');
+  for (const name of routes) {
+    assert.doesNotMatch(words(read(new URL(`${name}/page.js`, appDir))), /not affiliated|illustrative|not a prediction|example only|just a diagnostic/i, `/${name} carries defensive fine print`);
+  }
+});
+
+test('Pro’s chapter claim reads the record’s own cap: up to N ranked chapters, never "every chapter" (T-1)', async () => {
+  const { RANKED_CHAPTERS } = await import('../../../data/prepos_insights.js');
+  const record = read(new URL('../ai/RecordView.jsx', import.meta.url));
+  assert.match(record, /chapters\.ranked\.slice\(0, pro \? RANKED_CHAPTERS\.pro : FREE_CHAPTERS\)/, 'the record draws the shared cap');
+  assert.match(record, /const FREE_CHAPTERS = RANKED_CHAPTERS\.free;/);
+  assert.ok(Number.isInteger(RANKED_CHAPTERS.pro) && RANKED_CHAPTERS.pro > RANKED_CHAPTERS.free);
+  assert.doesNotMatch(words(PAGE), /every chapter ranked|for every chapter|every ranked chapter/i);
+  assert.match(PAGE, /`Up to \$\{RANKED_CHAPTERS\.pro\} ranked chapters, plus pace and changed answers`/);
+  assert.match(PAGE, /Pro ranks up to \$\{RANKED_CHAPTERS\.pro\} chapters and adds pace and changed-answer detail\./);
+});
+
+test('the site’s own descriptions name previous year questions only once verified historical material is claimed (T-2)', async () => {
+  const capabilities = await import('../../../data/capabilities.js');
+  const seo = await import('../../lib/seo.js');
+  const course = seo.globalJsonLd().find((node) => node['@type'] === 'Course');
+  const teaches = seo.courseJsonLd({ name: 'x', description: 'y', path: '/' }).teaches.join(' ');
+  const said = [seo.siteConfig.description, course.description, teaches].join(' ');
+  if (capabilities.VERIFIED_HISTORICAL_CLAIMED) {
+    assert.match(said, /previous year question/i);
+  } else {
+    assert.match(capabilities.INVENTORY_POLICIES.verified_historical, /None is claimed today/);
+    assert.doesNotMatch(said, /previous year question|\bPYQ/i, 'no verified historical material is claimed today');
+    assert.doesNotMatch(seo.publicRoutes.find((r) => r.path === '/cuet-previous-year-questions').description, /^Practise/, 'the PYQ guide does not offer them as practice here');
+  }
+  assert.doesNotMatch(read(new URL('../../lib/seo.js', import.meta.url)), /'[^'`]*previous year questions, (online )?practice tests[^'`]*'/, 'no hard-coded claim left behind');
+});

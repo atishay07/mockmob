@@ -198,6 +198,10 @@ function NetStrip() {
 // Nothing scrolls inside the held screen.
 const optionText = (letter) => REPAIR.options.find(([l]) => l === letter)?.[1];
 const BRIEF = REPAIR.blocks.filter((b) => b.short);
+// On a phone that is short of room, the short form sets rows aside in this order (ScrollStory data-ss-drop) rather
+// than shrinking its words: why the key is right (the rule says it in fewer words), the shortened stem, why the pick
+// tempted, and last the rule. The trap's name and the pick against the key always stay; the sheet has every word.
+const BRIEF_DROP = { right: 1, trap: 3, rule: 4 };
 
 function RepairHead() {
   return (
@@ -245,7 +249,7 @@ function RepairPanel() {
   return (
     <div className="lcp lcp--repair">
       <RepairHead />
-      <p className="lcr-stem">{REPAIR.stemShort}</p>
+      <p className="lcr-stem" data-ss-drop="2">{REPAIR.stemShort}</p>
       <ul className="lcp-q__opts lcr-pair">
         <li data-state="picked">
           <b className="lcp-q__letter">{REPAIR.picked}<i className="lcp-q__badge" aria-hidden="true"><X size={10} strokeWidth={3.2} /></i></b>
@@ -262,7 +266,7 @@ function RepairPanel() {
       <p className="lcp-check"><ShieldCheck size={15} aria-hidden="true" />Explained from the answer key ({REPAIR.key}).</p>
       <ul className="lcr-brief">
         {BRIEF.map((b, i) => (
-          <li key={b.kind} className="lcp-block" data-kind={b.kind} style={{ '--i': i }}>
+          <li key={b.kind} className="lcp-block" data-kind={b.kind} data-ss-drop={BRIEF_DROP[b.kind]} style={{ '--i': i }}>
             <p className="lcp-block__label">{b.label}</p>
             <p>{b.short}</p>
           </li>
@@ -305,15 +309,18 @@ function RepairSheet({ on }) {
 }
 
 // ---------- 4. SWOT: Do this next, then, then the four groups ----------
+// On a phone short of room the SWOT sets rows aside in this order (ScrollStory data-ss-drop) rather than shrinking its
+// words: its heading (the scene's title says it), the second set (the Opportunities group names it), the groups'
+// heading, the plan's heading, the groups' units, and only on the shortest windows the four groups.
 function SwotPanel() {
   return (
     <div className="lcp lcp--swot">
-      <p className="lcp__h">After this mock</p>
+      <p className="lcp__h" data-ss-drop="1">After this mock</p>
       {/* One move first, then what follows it: the page promises a single next move, so the plan says which one. */}
       <div className="lcs-block">
         {S.swot.plan.map((p, i) => (
-          <div key={p.label} className="lcs-step">
-            <p className="lcs-h">{i === 0 ? 'Do this next' : 'Then'}</p>
+          <div key={p.label} className="lcs-step" data-ss-drop={i === 0 ? undefined : 2}>
+            <p className="lcs-h" data-ss-drop={i === 0 ? 4 : undefined}>{i === 0 ? 'Do this next' : 'Then'}</p>
             <ol className="lcs-plan" start={i + 1}>
               <li className="lcp-plan" data-first={i === 0 ? 'true' : undefined} style={{ '--i': i }}>
                 <span className="lcp-plan__n" aria-hidden="true">{i + 1}</span>
@@ -324,8 +331,8 @@ function SwotPanel() {
           </div>
         ))}
       </div>
-      <div className="lcs-block">
-        <p className="lcs-h">SWOT for this mock</p>
+      <div className="lcs-block" data-ss-drop="6">
+        <p className="lcs-h" data-ss-drop="3">SWOT for this mock</p>
         <div className="lcp-swot">
           {S.swot.quadrants.map((q, i) => (
             <div key={q.id} className="lcp-swot__q" data-q={q.id} style={{ '--i': i }}>
@@ -338,7 +345,7 @@ function SwotPanel() {
               <div className="lcp-swot__brief">
                 <p className="lcp-swot__line">{q.line}</p>
                 <p className="lcp-swot__figure">{q.figure}</p>
-                <p className="lcp-swot__unit">{q.unit}</p>
+                <p className="lcp-swot__unit" data-ss-drop="5">{q.unit}</p>
               </div>
             </div>
           ))}

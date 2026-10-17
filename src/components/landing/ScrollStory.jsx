@@ -15,7 +15,9 @@
 // is also a named view timeline (--ss-track), which consumers use for compositor-only progress fills (see scroll-story.css). Elements marked data-ss-fit
 // are scaled once per resize to fit their parent, so short phones and landscape keep the hold instead
 // of clipping the screen, and the band left under elements marked data-ss-end is measured as
-// --ss-slack (centring, exit gap).
+// --ss-slack (centring, exit gap). A fitted node whose layout sets --ss-drop: 1 first sets aside its optional rows
+// (marked data-ss-drop="1", "2", ..., lowest first, equal numbers together) until it fits at full size, so its words keep their reading
+// size, and is scaled only if it still does not fit with all of them set aside.
 // Every step's content stays in the DOM in reading order; focusing into a step brings it on stage, and
 // the scrollbar, find-in-page and screen readers still move through the story by position.
 // Reduced motion keeps the hold with calm, instant swaps. Without IntersectionObserver the steps stack.
@@ -23,6 +25,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import '@/app/scroll-story.css';
 import { drawnAncestor, settleUndrawn, undrawn } from './undrawn';
 import { QUIET_MS, STEP_MS, TOUCH_TAIL_MS, touchEnd, touchMove, touchStart, wheelStep } from './storyGesture.mjs';
+import { setAsideUntilFit } from './storyFit.mjs';
 
 const reducedNow = () => {
   if (typeof window === 'undefined') return false;
@@ -133,6 +136,8 @@ function fitAll(stage) {
     const room = node.parentElement;
     if (!room) continue;
     node.style.removeProperty('--ss-fit');
+    const optional = [...node.querySelectorAll('[data-ss-drop]')];
+    optional.forEach((row) => row.removeAttribute('data-ss-dropped'));
     // Room: from the node's own top to the parent's content bottom (the node scales from its top
     // left and is laid out 1/fit wider, so it keeps the full width and rewraps a little shorter).
     const box = room.getBoundingClientRect();
@@ -141,6 +146,11 @@ function fitAll(stage) {
     // The smallest scale: --ss-fit-min from CSS (per layout) wins over data-ss-fit, then 0.6.
     const min = parseFloat(getComputedStyle(node).getPropertyValue('--ss-fit-min')) || Number(node.dataset.ssFit) || 0.6;
     if (!(space > 0) || node.offsetHeight <= space + 1) continue;
+    if (getComputedStyle(node).getPropertyValue('--ss-drop').trim() === '1') {
+      // Rows sharing a number go together (the four groups' units, say), so a screen never drops half a set.
+      setAsideUntilFit(optional, { rank: (row) => Number(row.dataset.ssDrop), setAside: (row) => row.setAttribute('data-ss-dropped', 'true'), fits: () => node.offsetHeight <= space + 1 });
+      if (node.offsetHeight <= space + 1) continue;
+    }
     let fit = Math.max(min, space / node.offsetHeight);
     for (let pass = 0; pass < 3; pass += 1) {
       node.style.setProperty('--ss-fit', fit.toFixed(3));
@@ -274,6 +284,7 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
       cancelAnimationFrame(frame);
       observer.disconnect();
       stage.querySelectorAll('[data-ss-fit]').forEach((node) => node.style.removeProperty('--ss-fit'));
+      stage.querySelectorAll('[data-ss-dropped]').forEach((row) => row.removeAttribute('data-ss-dropped'));
       root.style.removeProperty('--ss-slack');
     };
   }, [pinned]);

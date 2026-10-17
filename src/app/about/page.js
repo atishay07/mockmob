@@ -73,8 +73,7 @@ export default function AboutPage() {
           <div className="mm-wrap mm-wrap--tight">
             <h2 className="mm-h2">Independent, and clear about it.</h2>
             <p className="mm-body" style={{ marginTop: '1rem' }}>
-              MockMob is not affiliated with NTA, Delhi University, or any exam body. We are an
-              independent practice platform. Payments are processed by Razorpay, and our refund
+              MockMob is an independent practice platform. Payments are processed by Razorpay, and our refund
               policy is written in plain language on the{' '}
               <Link href="/refunds" className="mm-link">
                 refunds page

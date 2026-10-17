@@ -7,12 +7,15 @@ export const LAUNCH_SUBJECT_IDS = ['english', 'accountancy', 'business_studies',
 // until a real captured top-up and the Rival atomic-submission migration are verified.
 export const RELEASE_GATES = Object.freeze({ content: false, authenticatedJourney: false, stagingPayments: false, economics: false, runtimeAi: true, aiCommerce: false });
 export const CAPABILITY_REGISTRY_VERSION = '2026-10-02.1';
+// Verified historical exam material (previous year questions with a recorded source). None is claimed today; public
+// copy that would mention previous year questions as something to practise here reads this flag (src/lib/seo.js).
+export const VERIFIED_HISTORICAL_CLAIMED = false;
 // Inventory purposes are distinct. A count from one purpose never proves another.
 export const INVENTORY_POLICIES = Object.freeze({
   ordinary: 'Ordinary library questions that pass the publication and family-hold policy.',
   recovery_eligible: 'Evidence-managed questions eligible for recovery probes and fresh checks.',
   original_sample: 'Original MockMob sample content; not historical exam material.',
-  verified_historical: 'Verified historical exam material with a recorded source. None is claimed today.',
+  verified_historical: `Verified historical exam material with a recorded source.${VERIFIED_HISTORICAL_CLAIMED ? '' : ' None is claimed today.'}`,
 });
 export const CAPABILITIES = Object.freeze({
   practice: { id: 'practice', version: 1, state: 'available', subjects: 'available_inventory', entitlement: 'credits_or_access', inventoryPolicy: 'ordinary', href: '/dashboard', reason: 'Timed practice from the ordinary library. The exact set is confirmed at launch; you are not charged if it cannot be built.' },

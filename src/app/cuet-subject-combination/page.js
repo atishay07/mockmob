@@ -82,7 +82,6 @@ export default function ComboPlannerPage() {
               ))}
             </div>
             <p className="du-disclaimer">
-              MockMob is an independent exam preparation platform and is not affiliated with the University of Delhi or NTA.
               Confirm the 2027 bulletins before you register. <Link href="/cuet-cutoff-calculator" className="lp-link">DU cutoff calculator</Link>
             </p>
           </div>

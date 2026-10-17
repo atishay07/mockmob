@@ -96,3 +96,5 @@
   .mm.lp .ss--centre[data-pinned='true'] { margin-bottom: calc((var(--ss-slack, 0px) + var(--ss-foot-give)) * -1); }
 }
 @media (prefers-reduced-motion: reduce) { .mm.lp .mm-dock { transition: none; } }
+/* An optional row that ScrollStory set aside so its screen fits at full size (data-ss-drop, --ss-drop). */
+.ss [data-ss-dropped='true'] { display: none !important; }

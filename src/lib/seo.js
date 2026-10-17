@@ -1,9 +1,15 @@
+import { VERIFIED_HISTORICAL_CLAIMED } from '../../data/capabilities.js';
+
+// Previous year questions are named as something to practise here only once verified historical material is
+// claimed (data/capabilities.js); until then the site's own descriptions leave them out.
+const PYQ_PRACTICE = VERIFIED_HISTORICAL_CLAIMED ? ' previous year questions,' : '';
+
 export const siteConfig = {
   name: 'MockMob',
   legalName: 'MockMob',
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://mockmob.in',
   description:
-    'MockMob helps CUET aspirants practise free mock tests, previous year questions, online practice tests, analytics, and DU admission planning.',
+    `MockMob helps CUET aspirants practise free mock tests,${PYQ_PRACTICE} online practice tests, analytics, and DU admission planning.`,
   email: 'support@mockmob.in',
   socialLinks: [],
 };
@@ -55,7 +61,9 @@ export const publicRoutes = [
     path: '/cuet-previous-year-questions',
     title: 'CUET Previous Year Questions with Answers | MockMob',
     description:
-      'Practise CUET previous year questions, understand exam patterns, revise high-value topics, and build a smarter PYQ routine.',
+      VERIFIED_HISTORICAL_CLAIMED
+        ? 'Practise CUET previous year questions, understand exam patterns, revise high-value topics, and build a smarter PYQ routine.'
+        : 'How to use CUET previous year questions: understand exam patterns, revise high-value topics, and build a smarter PYQ routine.',
     priority: 0.92,
   },
   {
@@ -206,7 +214,7 @@ export function courseJsonLd({ name, description, path }) {
     educationalLevel: 'Undergraduate entrance exam preparation',
     teaches: [
       'CUET mock test practice',
-      'CUET previous year question solving',
+      ...(VERIFIED_HISTORICAL_CLAIMED ? ['CUET previous year question solving'] : []),
       'CUET subject-wise revision',
       'Exam speed and accuracy improvement',
     ],
@@ -252,7 +260,7 @@ export function globalJsonLd() {
       '@id': `${siteConfig.url}/#cuet-course`,
       name: 'CUET UG Mock Test Preparation',
       description:
-        'Online CUET UG preparation with mock tests, previous year questions, practice tests, analytics, and admission planning tools.',
+        `Online CUET UG preparation with mock tests,${PYQ_PRACTICE} practice tests, analytics, and admission planning tools.`,
       url: siteConfig.url,
       provider: {
         '@id': `${siteConfig.url}/#organization`,

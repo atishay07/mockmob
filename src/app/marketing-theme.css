@@ -43,7 +43,8 @@ html[data-theme='dark']:has(.mm), html[data-theme='dark'] body:has(.mm) { backgr
 .mm-theme-toggle__star:nth-child(2) { left: 18px; top: 17px; width: 1.5px; height: 1.5px; }
 .mm-theme-toggle__star:nth-child(3) { left: 25px; top: 7px; width: 1.5px; height: 1.5px; }
 .mm-theme-toggle__thumb { position: absolute; left: 3px; top: 3px; width: 22px; height: 22px; border-radius: 50%; background-color: #ffcb3a;
-  box-shadow: inset 0 0 0 0 #edf1df, 0 0 0 3px rgb(255 203 58 / .26), 0 0 12px 1px rgb(255 186 40 / .5);
+  /* A flat sun and a flat moon: no glow or halo around the switch (owner, L-019). The inset carves the moon. */
+  box-shadow: inset 0 0 0 0 #edf1df;
   transform: translateX(0) rotate(0deg);
   transition: transform .6s cubic-bezier(.34, 1.4, .5, 1), background-color .4s ease, box-shadow .55s cubic-bezier(.22, 1, .36, 1), scale .16s ease; }
 .mm-theme-toggle:hover .mm-theme-toggle__sky { border-color: #8fa25a; }
@@ -57,7 +58,7 @@ html[data-theme='dark'] .mm-theme-toggle__star:nth-child(1) { transition-delay: 
 html[data-theme='dark'] .mm-theme-toggle__star:nth-child(2) { transition-delay: .3s; opacity: .7; }
 html[data-theme='dark'] .mm-theme-toggle__star:nth-child(3) { transition-delay: .38s; opacity: .8; }
 html[data-theme='dark'] .mm-theme-toggle__thumb { background-color: transparent; transform: translateX(28px) rotate(-28deg);
-  box-shadow: inset -6px -2px 0 0 #edf1df, 0 0 0 0 rgb(255 203 58 / 0), 0 0 10px 1px rgb(222 236 196 / .22); }
+  box-shadow: inset -6px -2px 0 0 #edf1df; }
 /* Theme change: the new palette spreads out from the switch (View Transitions; JS drives the clip). */
 html[data-theme-switching]::view-transition-old(root),
 html[data-theme-switching]::view-transition-new(root) { animation: none; mix-blend-mode: normal; }

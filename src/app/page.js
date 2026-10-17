@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { CAPABILITIES, newOfferReleased } from '@/../data/capabilities';
 import { benchCopy } from '@/components/landing/benchLadder.mjs';
 import { REPAIR_COST } from '@/components/landing/labStory.mjs';
+import { RANKED_CHAPTERS } from '@/../data/prepos_insights';
 import { publicOffer } from '@/lib/payments/offer';
 import STUDY_RELEASE from '@/../data/study/release.json';
 import { NavBar } from '@/components/NavBar';
@@ -64,7 +65,7 @@ const proPlan = newOfferReleased() ? ['All available recovery pathways', 'Fresh 
   'Unlimited Quick practice and Full mocks, a new paper each time',
   'Compass Pro: your practice mapped to your DU shortlist',
   'Smart practice and NTA mode',
-  'Every chapter ranked, with pace and changed answers',
+  `Up to ${RANKED_CHAPTERS.pro} ranked chapters, plus pace and changed answers`,
   '50 AI credits a month',
   'Unlimited saved questions',
 ];
@@ -144,7 +145,7 @@ const TOUR = [
     body: 'Every answer you changed, every question that ate your time, every skip, in the order it happened. Then turn the costly ones into a short drill.',
     points: ['An answer-by-answer timeline', 'Save any question to revisit later'], chip: 'Then turn the costly questions into a short drill.', href: '/review', cta: 'Review your mistakes' },
   { id: 'radar', label: 'Weak chapters', line: 'The chapter to fix first', title: 'Know which chapter to fix first.',
-    body: 'MockMob traces every miss back to its chapter, so tonight’s session has one clear target. Pro adds pace and changed-answer detail for every chapter.',
+    body: `MockMob traces every miss back to its chapter, so tonight’s session has one clear target. Pro ranks up to ${RANKED_CHAPTERS.pro} chapters and adds pace and changed-answer detail.`,
     points: ['Your weakest chapters, free after every mock', 'Built only from questions you attempted'], chip: 'Your weakest chapters, free after every mock.', href: '/analytics', cta: 'See your weak chapters' },
   { id: 'prepos', label: 'Ask Mobi', line: 'Ask what to do tonight', title: 'Ask Mobi what to do tonight.',
     body: 'Ask Mobi reads your practice record and answers with where the marks went and a single next step, with the mocks behind it.',
