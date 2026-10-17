@@ -287,3 +287,28 @@ test('the due count the badge reads: set when Revise has read it, counted down o
   setReviseDue('x');
   assert.equal(getReviseDue(), undefined, 'garbage is not a number');
 });
+
+test('before the mode migration is applied (production today) the read falls back to the old columns and Revise still plays', async () => {
+  const w = reviseWorld();
+  const db = fakeDb(w);
+  const selects = [];
+  const from = db.from.bind(db);
+  db.from = (table) => {
+    const q = from(table);
+    const select = q.select.bind(q);
+    const run = q.run.bind(q);
+    q.select = (cols) => { q.cols = cols; return select(cols); };
+    q.run = () => {
+      if (table === 'revise_cards' && q.op === 'select') selects.push(q.cols);
+      if (table === 'revise_cards' && q.op === 'select' && /(^|,)mode(,|$)/.test(q.cols || '')) return { data: null, error: { code: '42703', message: 'column revise_cards.mode does not exist' } };
+      return run();
+    };
+    return q;
+  };
+  const out = await getRevise(USER, { db, now: NOW, ...deps() });
+  assert.equal(out.http, 200);
+  assert.ok(selects.some((s) => /,mode$/.test(s)), 'it asks for mode first');
+  assert.ok(selects.some((s) => !/mode/.test(s)), 'and reads again without it');
+  assert.ok(out.body.queue.items.length > 0);
+  assert.equal(out.body.queue.items.find((i) => i.questionId === 'r-q2' && i.kind !== 'check').kind, 'again', 'the split comes from the repairs, not the column');
+});

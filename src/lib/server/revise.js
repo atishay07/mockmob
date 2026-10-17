@@ -19,7 +19,7 @@ const CARD_COLUMNS = 'question_id,box,due_day,state,right_total,last_recalled_da
 const QUESTION_COLUMNS = 'id,subject,chapter,question,body,options,correct_index,correct_answer,status,is_deleted,verification_state,explanation,passage_text';
 
 // The `mode` column ('question' | 'again', migration 20261017160000) is read when it exists; code works before it is applied.
-const modeColumnMissing = (error) => /mode/i.test(error?.message || '') && /42703|column|schema cache/i.test(`${error?.code || ''} ${error?.message || ''}`);
+const modeColumnMissing = (error) => /\bmode\b/i.test(error?.message || '') && /42703|column|schema cache/i.test(`${error?.code || ''} ${error?.message || ''}`);
 const missing = (error) => /revise_cards|schema cache|does not exist|PGRST20[25]|42P01/i.test(`${error?.code || ''} ${error?.message || ''}`);
 const fail = (code, cause) => Object.assign(new Error(code), { code, cause });
 const client = async (db) => db || (await import('../supabase')).supabaseAdmin();
