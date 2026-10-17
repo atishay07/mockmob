@@ -305,6 +305,13 @@ export default function ResultPageClient({ previewId = null }) {
       if (first) requestAnimationFrame(() => jumpTo(first.number));
       else requestAnimationFrame(() => document.querySelector('.rx-mistakes')?.scrollIntoView({ block: 'start' }));
     }
+    // Review's rows and its next move (LEARN-REVIEW-1017 5.5): #q-42 opens Q42 where it lives; #repair-42 opens it and begins
+    // its repair as the result's own key does (the try before the key first while the key is hidden; a saved one opens free).
+    const asked = /^#(q|repair)-(\d{1,3})$/.exec(hash);
+    if (asked) {
+      const number = Number(asked[2]);
+      requestAnimationFrame(() => jumpTo(number, { repair: asked[1] === 'repair' }));
+    }
     if (hash === '#lab') {
       setFold('marks', true, { remember: false });
       requestAnimationFrame(() => requestAnimationFrame(() => document.getElementById('lab')?.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'start' })));

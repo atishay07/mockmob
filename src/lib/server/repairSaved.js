@@ -96,10 +96,38 @@ export function repairedCounts({ userId, attempts, reservations }) {
 }
 
 export async function getRepairedCounts(db, userId, attempts) {
-  if (!(attempts || []).some((a) => (a?.details || []).some((d) => d?.isCorrect === false))) return {};
+  return (await getRepairedByPaper(db, userId, attempts)).counts;
+}
+
+/**
+ * Per paper, which wrong answers hold a saved repair: { [attemptId]: [questionId, ...] }. Review's Mistakes view marks each
+ * of those rows "repaired, opens free" (F17). Same reservations and rule as repairedCounts.
+ */
+export function repairedQids({ userId, attempts, reservations }) {
+  const ids = new Set();
+  for (const r of reservations || []) {
+    if (!repairFromReceipt(r?.receipt)) continue;
+    const id = repairIdFromOperationKey(r.operation_key);
+    if (id) ids.add(id);
+  }
+  const out = {};
+  for (const a of attempts || []) {
+    const qids = [];
+    for (const d of Array.isArray(a?.details) ? a.details : []) {
+      if (d && d.isCorrect === false && typeof d.qid === 'string' && ids.has(mistakeKey(userId, a.id, d.qid))) qids.push(d.qid);
+    }
+    if (qids.length) out[a.id] = qids;
+  }
+  return out;
+}
+
+/** One read for both: { counts: { [attemptId]: n }, qids: { [attemptId]: [questionId] } }. Throws on a failed read. */
+export async function getRepairedByPaper(db, userId, attempts) {
+  if (!(attempts || []).some((a) => (a?.details || []).some((d) => d?.isCorrect === false))) return { counts: {}, qids: {} };
   const res = await db.from('ai_credit_reservations').select('operation_key,receipt')
     .eq('user_id', userId).eq('state', 'committed').eq('action', 'score_recovery_repair')
     .not('receipt->repair', 'is', null).order('updated_at', { ascending: false }).limit(SAVED_WINDOW);
   if (res.error) throw lookupFailed(res.error);
-  return repairedCounts({ userId, attempts, reservations: res.data || [] });
+  const reservations = res.data || [];
+  return { counts: repairedCounts({ userId, attempts, reservations }), qids: repairedQids({ userId, attempts, reservations }) };
 }

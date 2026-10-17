@@ -427,7 +427,24 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       const page = new URLSearchParams(window.location.search);
       if (page.get('record') === 'down') return json({ error: 'unavailable' }, 503);
       const empty = page.get('record') === 'empty' || state === 'empty';
-      const ordinaryReview = empty ? [] : PREVIEW_ATTEMPTS.map((a) => ({ id: a.id, subject: a.subject, completedAt: a.completedAt, correct: a.correct, total: a.total, mistakes: a.total - a.correct, source: a.id === 'preview-a1' && page.get('saved') === '1' ? 'Mock 3' : 'Quick practice', repaired: a.id === 'preview-a1' && page.get('saved') === '1' ? 2 : 0 }));
+      // Review's Mistakes view (LEARN-REVIEW-1017 5.5): each paper's wrong answers and blanks as the server sends them (data/review_mistakes.mjs
+      // paperItems). Illustrative stems, never bank rows. ?saved=1 marks Mock 3's two wrong answers repaired; ?items=off is an older server (counts only).
+      const saved = page.get('saved') === '1';
+      const ITEMS = {
+        'preview-a1': [
+          { qid: 'pa1-q3', n: 3, chapter: 'Share Capital', state: saved ? 'repaired' : 'open', pick: 'D', stem: 'Illustrative: shares issued at a premium of ₹2 are forfeited after the first call. The amount credited to forfeiture is…' },
+          { qid: 'pa1-q6', n: 6, chapter: 'Share Capital', state: saved ? 'repaired' : 'open', pick: 'A', stem: 'Illustrative: the minimum subscription a company must receive before allotment is…' },
+          { qid: 'pa1-q9', n: 9, chapter: 'Accounting Ratios', state: 'blank', pick: null, stem: 'Illustrative: a current ratio of 2.5 with working capital of ₹60,000 gives current liabilities of…' },
+        ],
+        'preview-a2': [
+          { qid: 'pa2-q2', n: 2, chapter: 'National Income', state: 'open', pick: 'B', stem: 'Illustrative: net factor income from abroad is added to domestic product to give…' },
+          { qid: 'pa2-q5', n: 5, chapter: 'Money and Banking', state: 'open', pick: 'C', stem: 'Illustrative: a rise in the cash reserve ratio changes the money multiplier by…' },
+          { qid: 'pa2-q7', n: 7, chapter: 'National Income', state: 'open', pick: 'A', stem: 'Illustrative: which of these is included in national income: a transfer payment or a factor payment?' },
+          { qid: 'pa2-q8', n: 8, chapter: 'Money and Banking', state: 'blank', pick: null, stem: 'Illustrative: the lender of last resort in India is…' },
+          { qid: 'pa2-q10', n: 10, chapter: 'Government Budget', state: 'blank', pick: null, stem: 'Illustrative: a revenue deficit means revenue expenditure is greater than…' },
+        ],
+      };
+      const ordinaryReview = empty ? [] : PREVIEW_ATTEMPTS.map((a) => ({ id: a.id, subject: a.subject, completedAt: a.completedAt, correct: a.correct, total: a.total, mistakes: a.total - a.correct, source: a.id === 'preview-a1' && saved ? 'Mock 3' : 'Quick practice', repaired: a.id === 'preview-a1' && saved ? 2 : 0, ...(page.get('items') === 'off' ? {} : { items: ITEMS[a.id] || [] }) }));
       const milestones = empty ? [] : studyMilestones([{ id: 'preview-a1', completedAt: Date.now() - 1000, selectionMeta: { scoringVersion: 'server_practice_v1' } }], []);
       return json({ ordinaryReview, progress: [], milestones, playbook: empty ? [] : [{ id: 'pb1', strategy: 'two_pass', reflection: 'Do the sure questions first, then come back to the long ones.' }], reviewState: 'ready', note: 'Fresh delayed checks provide concept evidence, not a causal score gain.' });
     }

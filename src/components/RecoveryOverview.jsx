@@ -5,7 +5,7 @@
 // Review: the open-question count over what was answered (the anchor) and the one session to open first, the ways
 // into Revise and Rules, then the sessions. Progress: this week out of the goal, the next step, then the record.
 // No boxes inside boxes and no arrows on rows: the whole row is the control.
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { apiGet } from '@/lib/fetcher';
 import LearningNextAction from './LearningNextAction';
@@ -25,7 +25,10 @@ import { MobTodayCard } from './mob/MobTodayCard';
 import { useMobEnabled } from './mob/MobFlag';
 import { useAuth } from './AuthProvider';
 import { reviewChanges } from './recovery/reviewChanges';
-import { paperStamp } from '@/../data/repair_paper.mjs';
+import { paperStamp, clockTime } from '@/../data/repair_paper.mjs';
+import { reviewModel } from '@/../data/review_mistakes.mjs';
+import { useWalletSummary } from './useWalletSummary';
+import { ReviewNextMove, ReviewReceipt, ReviewChapters } from './review/ReviewMistakes';
 import { SUBJECTS } from '@/../data/subjects';
 import './recovery/review-changes.css';
 import './recovery/overview.css';
@@ -124,7 +127,7 @@ function SessionRow({ a, fresh = false, index = 0 }) {
           <i className="ov-bar" aria-hidden="true"><em style={{ transform: `scaleX(${pct / 100})` }} /></i>
         </span>
         <span className="rv-session__state" data-tone={open > 0 ? 'open' : 'clear'}>
-          {open > 0 ? <><b>{open}</b> to review</> : repaired > 0 ? 'All repaired' : 'All correct'}
+          {open > 0 ? <><b>{open}</b> open</> : repaired > 0 ? 'All repaired' : 'All correct'}
         </span>
       </Link>
       {/* W-039: "Review again" opens this paper's mistakes from the first, with every saved repair opening free; the Lab
@@ -136,6 +139,127 @@ function SessionRow({ a, fresh = false, index = 0 }) {
         </span>
       ) : null}
     </li>
+  );
+}
+
+// Review (LEARN-REVIEW-1017, F15): "Review" with two views. Mistakes (the default): the one next move, a receipt of what is
+// found, repaired and open, Revise, every open mistake by chapter across papers priced in marks, then the quiet rows.
+// Papers: the record finding and trend, the figures and every paper with "Review again" and its Mistake Lab. The view is
+// in the address (?view=papers) so a link or a reload keeps it. Today's plan card and the study record moved off Review
+// (Today and Concepts carry them); nothing else left.
+const readView = () => { try { return new URLSearchParams(window.location.search).get('view') === 'papers' ? 'papers' : 'mistakes'; } catch { return 'mistakes'; } };
+
+function ReviewPage({ data, error, retry, review, answered, rightFigure, changes, noteList, wait }) {
+  const { user } = useAuth();
+  const wallet = useWalletSummary(user?.id, { reuseFresh: true });
+  const aiCredits = wallet.wallet?.known ? wallet.wallet.total : null;
+  const [tab, setTab] = useState('mistakes');
+  useEffect(() => { const v = readView(); if (v !== 'mistakes') queueMicrotask(() => setTab(v)); }, []);
+  const [triedAt, setTriedAt] = useState(null);
+  useEffect(() => { if (error) queueMicrotask(() => setTriedAt(clockTime(Date.now()))); }, [error]);
+  const model = useMemo(() => reviewModel(review, { aiCredits, isPremium: Boolean(user?.isPremium) }), [review, aiCredits, user?.isPremium]);
+  const choose = (next) => {
+    setTab(next);
+    try { const url = new URL(window.location.href); if (next === 'papers') url.searchParams.set('view', 'papers'); else url.searchParams.delete('view'); window.history.replaceState(window.history.state, '', url); } catch { /* the view still switches */ }
+  };
+  const onKey = (event) => {
+    if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
+    event.preventDefault();
+    const next = tab === 'mistakes' ? 'papers' : 'mistakes';
+    choose(next);
+    document.getElementById(`rv2-tab-${next}`)?.focus();
+  };
+  const blanksPaper = review.find((p) => (p.items || []).some((i) => i.state === 'blank')) || null;
+  const firstBlank = blanksPaper ? blanksPaper.items.find((i) => i.state === 'blank') : null;
+  const savedPaper = review.find((p) => (p.repaired || 0) > 0) || null;
+  return (
+    <section className="pr ov rv rv--review">
+      <ArenaHead title="Review" lede="What is still open, what you already fixed, and the one mistake to do next." />
+      {error ? (
+        <ErrorState scene="unreachable" title="Your mistakes did not load" message={`Check your connection and try again. Your papers and repairs are safe.${triedAt ? ` Tried at ${triedAt}.` : ''}`} onRetry={retry} />
+      ) : null}
+      {!data && !error ? <div className="rv-skel" role="status" aria-label="Loading your mistakes"><i /><i /><i /></div> : null}
+      {!data && !error ? <ArenaCompanion compact act={wait === 'long' ? 'loading' : 'idle'} pose="attentive" title="Opening your saved record.">Your mistakes and papers will appear here.</ArenaCompanion> : null}
+
+      {data && review.length > 0 ? (
+        <>
+          <div className="rv2-seg" role="tablist" aria-label="Review">
+            <button type="button" role="tab" id="rv2-tab-mistakes" aria-selected={tab === 'mistakes'} aria-controls="rv2-panel" tabIndex={tab === 'mistakes' ? 0 : -1} onClick={() => choose('mistakes')} onKeyDown={onKey}>
+              Mistakes <small>{model.receipt.open} open</small>
+            </button>
+            <button type="button" role="tab" id="rv2-tab-papers" aria-selected={tab === 'papers'} aria-controls="rv2-panel" tabIndex={tab === 'papers' ? 0 : -1} onClick={() => choose('papers')} onKeyDown={onKey}>
+              Papers <small>{review.length}</small>
+            </button>
+          </div>
+          <div id="rv2-panel" role="tabpanel" aria-labelledby={`rv2-tab-${tab}`}>
+            {tab === 'mistakes' ? (
+              <div className="rv2-body" key="mistakes">
+                <div className="rv2-main">
+                  <ReviewNextMove move={model.move} />
+                  {model.listed ? <ReviewChapters chapters={model.chapters} receipt={model.receipt} subjectName={subjectLabel} papers={review.length} /> : (
+                    <section className="rv-sec" aria-labelledby="rv2-bypaper">
+                      <div className="rv-sec__head"><h2 id="rv2-bypaper">Open mistakes by paper</h2><span>Newest first</span></div>
+                      <ul className="ov-list rv-list">{review.filter((a) => openOf(a) > 0).map((a, i) => <SessionRow key={a.id} a={a} index={i} />)}</ul>
+                    </section>
+                  )}
+                </div>
+                <div className="rv2-side">
+                  <ReviewReceipt receipt={model.receipt} />
+                  <div className="ov-links rv-ways rv2-revise"><ReviseEntry /></div>
+                  <section className="rv2-also" aria-labelledby="rv2-also-h">
+                    <h2 id="rv2-also-h" className="rv2-also__h">Also in Review</h2>
+                    <div className="ov-links rv-ways">
+                      <LabEntry review={review} />
+                      <RulesEntry />
+                      {savedPaper ? <Link className="rv2-row" href={`/result/${savedPaper.id}#mistakes`}><b>{model.receipt.repaired} repaired</b><span>Each opens its saved repair, free. Newest: {[savedPaper.source, subjectLabel(savedPaper.subject), when(savedPaper.completedAt)].filter(Boolean).join(', ')}.</span></Link> : null}
+                      {firstBlank ? <Link className="rv2-row" href={`/result/${blanksPaper.id}#q-${firstBlank.n}`}><b>Not attempted</b><span>{model.receipt.blank} left blank, {model.receipt.blank * 5} marks not earned. Try any of them again, free.</span></Link> : null}
+                      <Link className="rv2-row" href="/saved"><b>Saved questions</b><span>Questions you bookmarked while practising.</span></Link>
+                    </div>
+                  </section>
+                </div>
+              </div>
+            ) : (
+              <div className="rv2-body rv2-body--papers" key="papers">
+                <div className="rv2-side rv2-side--papers">
+                  {noteList}
+                  <div className="rv-record"><RecordGlimpse /></div>
+                </div>
+                <div className="rv2-main">
+                  <section className="rv-sec" aria-labelledby="ov-sessions">
+                    <div className="rv-sec__head"><h2 id="ov-sessions">{review.length > 1 ? `Your ${review.length} papers` : 'Your paper'}</h2>{review.length > 1 ? <span>Newest first</span> : null}</div>
+                    <Figures label="Review summary" items={[
+                      { label: 'Papers', value: review.length, note: `${answered} questions answered` },
+                      { label: 'Answered right', ...rightFigure },
+                      { label: 'Last paper', value: when(review[0]?.completedAt) || 'None yet', note: review[0] ? subjectLabel(review[0].subject) : 'No paper yet' },
+                    ]} />
+                    <ul className="ov-list rv-list">{review.map((a, i) => <SessionRow key={a.id} a={a} fresh={changes?.fresh.has(a.id)} index={i} />)}</ul>
+                  </section>
+                </div>
+              </div>
+            )}
+          </div>
+        </>
+      ) : null}
+
+      {data && review.length === 0 ? (
+        <section className="rv-sec" aria-labelledby="rv2-empty-h">
+          <div className="rv-empty rv-empty--room">
+            <SceneVignette scene="nothingYet" interactive />
+            <div className="rv2-empty__copy">
+              <h2 id="rv2-empty-h">Your mistakes gather here</h2>
+              <p>Every wrong answer lands here with its paper and time, priced in marks, with the one to fix first.</p>
+              <div className="rv2-example" aria-label="Example of a mistake row">
+                <span className="rv2-item__n" aria-hidden="true">4</span>
+                <span className="rv2-example__text"><b>Partnership: goodwill brought in by a new partner</b><small>Example. Quick practice, today, 9:40 PM. You picked B</small></span>
+              </div>
+              <Link className="btn-volt md" data-page-primary="" href="/dashboard?mode=quick&count=10">Start 10 questions</Link>
+            </div>
+          </div>
+          <div className="ov-links rv-ways"><ReviseEntry /><RulesEntry /></div>
+        </section>
+      ) : null}
+      {data?.reviewState === 'unavailable' ? <div className="pr-alert" data-tone="warning" role="status"><StatusIcon kind="warning" />The review queue is being prepared. Your saved attempts remain available.</div> : null}
+    </section>
   );
 }
 
@@ -166,9 +290,6 @@ export default function RecoveryOverview({ view }) {
     return { title: said?.title || m.title, detail: said ? null : m.detail, link: said?.link || 'Open record', href: m.href };
   };
 
-  // Review leads with what is open and the one session to open first: the newest session that still has misses.
-  const openFirst = review.find((a) => openOf(a) > 0) || null;
-  const sessionName = (a) => [subjectLabel(a.subject), when(a.completedAt)].filter(Boolean).join(', ');
   // On Review the lead already opens the newest session, so the milestone that only points at the newest is not repeated.
   const notes = (data?.milestones || []).filter((m) => !(view === 'review' && m.kind === 'first_session' && review.length > 0));
 
@@ -183,43 +304,7 @@ export default function RecoveryOverview({ view }) {
   const noteList = notes.length ? <div className="rv-notes" role="group" aria-label="Recorded milestones">{notes.map(m => { const line = milestoneLine(m); return <p key={m.kind} className="rv-note"><b>{line.title}</b><span>{line.detail ? <>{line.detail} </> : null}<Link className="pr-link" href={line.href}>{line.link}</Link></span></p>; })}</div> : null;
 
   if (view === 'review') {
-    return (
-      <section className="pr ov rv rv--review">
-        <ArenaHead title="Review what mattered." lede="Open a session to see why each miss happened." />
-        {status}
-        {data && review.length > 0 ? (
-          <section className="rv-lead" aria-labelledby="rv-lead-h">
-            <p className="rv-lead__num" aria-hidden="true">{changes?.changed ? <RollNumber from={changes.fromToReview} to={toReview} /> : toReview}</p>
-            <div className="rv-lead__body">
-              <h2 id="rv-lead-h">{toReview ? <><span className="sr-only">{toReview} </span>{toReview === 1 ? 'question' : 'questions'} to review, of {answered} answered</> : `Nothing to review in ${answered} answers`}</h2>
-              <p>{openFirst ? <>{openFirst === review[0] ? 'Your newest session' : 'Your newest session with misses'} has {openOf(openFirst)} of its {openFirst.total} {openFirst.total === 1 ? 'question' : 'questions'} to look at.</> : review.some((x) => (x.repaired || 0) > 0) ? 'Every miss in your saved sessions has a repair saved.' : 'Every answer in your saved sessions was right.'}</p>
-            </div>
-            {openFirst ? <Link className="btn-volt md rv-lead__go mk-press" data-page-primary="" href={`/result/${openFirst.id}`}>Open {sessionName(openFirst)}</Link> : null}
-          </section>
-        ) : null}
-        {noteList}
-        {data && review.length > 0 ? <div className="ov-links rv-ways"><LabEntry review={review} /><ReviseEntry /><RulesEntry /></div> : null}
-        {/* From Today (TODAY-1017 section 7): the record's finding and the paper trend live at the head of Review now. */}
-        {data && review.length > 0 ? <div className="rv-record"><RecordGlimpse /></div> : null}
-        {data ? (
-          <section className="rv-sec" aria-labelledby="ov-sessions">
-            <div className="rv-sec__head"><h2 id="ov-sessions">{review.length > 1 ? `Your ${review.length} sessions` : review.length === 1 ? 'Your session' : 'Your sessions'}</h2>{review.length > 1 ? <span>Newest first</span> : null}</div>
-            {review.length > 0 ? <Figures label="Review summary" items={[
-              { label: 'Sessions saved', value: review.length, note: `${answered} questions answered` },
-              { label: 'Answered right', ...rightFigure },
-              { label: 'Last session', value: when(review[0]?.completedAt) || 'None yet', note: review[0] ? subjectLabel(review[0].subject) : 'No session yet' },
-            ]} /> : null}
-            {review.length ? <ul className="ov-list rv-list">{review.map((a, i) => <SessionRow key={a.id} a={a} fresh={changes?.fresh.has(a.id)} index={i} />)}</ul> : (
-              <div className="rv-empty rv-empty--room"><SceneVignette scene="nothingYet" interactive /><ArenaCompanion mobi={false} title="Nothing to review yet">Finish a practice session and every miss lands here with its explanation.</ArenaCompanion><Link className="btn-volt md" data-page-primary="" href="/dashboard">Choose practice</Link></div>
-            )}
-          </section>
-        ) : null}
-        {data ? <LearningNextAction compact quiet={review.length === 0 || Boolean(openFirst)} /> : null}
-        {data ? <StudyProgress review /> : null}
-        {data?.reviewState === 'unavailable' ? <div className="pr-alert" data-tone="warning" role="status"><StatusIcon kind="warning" />The review queue is being prepared. Your saved attempts remain available.</div> : null}
-        {data && review.length === 0 ? <div className="ov-links rv-ways"><ReviseEntry /><RulesEntry /></div> : null}
-      </section>
-    );
+    return <ReviewPage data={data} error={error} retry={retry} review={review} answered={answered} rightFigure={rightFigure} changes={changes} noteList={noteList} wait={wait} />;
   }
 
   // Progress: this week (the anchor, out of the goal), the next step that earns a study day, then the evidence.
@@ -242,7 +327,7 @@ export default function RecoveryOverview({ view }) {
             { label: 'Playbook entries', value: data.playbook.length, note: data.playbook.length ? 'saved from results' : 'None saved yet' },
           ]} /> : <div className="rv-empty"><b>No saved session yet</b><p>Your first scored session starts this record. The next step above is the quickest way in.</p></div>}
           {review.length > 0 ? (
-            <p className="rv-note rv-note--review"><b>{toReview ? `${count(toReview, 'question')} to look at in Review` : 'Nothing left to look at in Review'}</b><span>{toReview ? `From ${count(review.length, 'saved session').toLowerCase()}. ` : review.some((x) => (x.repaired || 0) > 0) ? 'Every miss has a repair saved. ' : 'Every saved answer was right. '}<Link className="pr-link" href="/review">Open Review</Link></span></p>
+            <p className="rv-note rv-note--review"><b>{toReview ? `${count(toReview, 'open mistake')} in Review` : 'Nothing open in Review'}</b><span>{toReview ? `From ${count(review.length, 'saved session').toLowerCase()}. ` : review.some((x) => (x.repaired || 0) > 0) ? 'Every miss has a repair saved. ' : 'Every saved answer was right. '}<Link className="pr-link" href="/review">Open Review</Link></span></p>
           ) : null}
           {noteList}
         </section>

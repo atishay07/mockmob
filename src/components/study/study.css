@@ -423,3 +423,17 @@
 
 /* W-040: the three-step line sits clear of the next-lesson card above it (it touched the card at 1440). */
 .sx-library > .sx-hero + .sx-flow { margin-top: 18px; }
+
+/* Concepts, pass 1017 (LEARN-REVIEW-1017 5.9): the three-step line folds; one search field above the subject's chapters. */
+.sx-how { margin-top: 14px; }
+.sx-how > summary { display: inline-flex; align-items: center; min-height: 44px; cursor: pointer; font-weight: 600; color: var(--a-ink, inherit); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--a-line-strong); list-style: none; }
+.sx-how > summary::-webkit-details-marker { display: none; }
+.sx-how > summary:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 4px; }
+.sx-how .sx-flow { margin-top: 4px; }
+.sx-library > .sx-hero + .sx-how { margin-top: 12px; }
+.sx-search { display: flex; align-items: center; gap: 10px; min-height: 48px; margin-top: 20px; padding: 0 14px; border-radius: 12px; border: 1px solid var(--a-line-strong); background: var(--a-raised); color: var(--a-ink-3); }
+.sx-search:focus-within { border-color: var(--a-focus); box-shadow: 0 0 0 1px var(--a-focus); }
+.sx-search input { flex: 1; min-width: 0; min-height: 46px; border: 0; background: transparent; color: var(--a-ink); font: 500 16px/1.3 var(--font-body); outline: none; }
+.sx-search input::placeholder { color: var(--a-ink-3); }
+.sx-nomatch { padding: 8px 0; }
+.sx-mock { min-height: 44px; }

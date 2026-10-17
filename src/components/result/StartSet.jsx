@@ -69,6 +69,8 @@ export default function StartSet({ href, label, className = '', isPremium = fals
     const fresh = quote && quote.launchable === true && quote.idempotencyToken && !(Date.parse(quote.expiresAt) <= Date.now());
     if (!fresh) { router.push(href); return; }
     setBusy(true);
+    // A quote's start token belongs to one start: the next set started from this page reads a fresh quote.
+    quotes.delete(`${set.subject}|${set.count}`);
     const p = new URLSearchParams({ subject: set.subject, count: String(set.count), mode: 'quick' });
     if (set.chapters.length) p.set('chapters', set.chapters.join(','));
     router.push(`/test?${p}&generationKey=${encodeURIComponent(quote.idempotencyToken)}`);
