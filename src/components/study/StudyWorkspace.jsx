@@ -54,17 +54,17 @@ export default function StudyWorkspace({ unitId = null, runId = null, preview = 
 
   // The library says what did not load, and that the student's own record is safe (LEARN-REVIEW-1017 5.14); a lesson or a run keeps its own wording.
   const libraryFailed = !current.runId && !current.unitId;
-  if (error) return <div className={libraryFailed ? 'sx sx-library cx' : 'sx'}>{libraryFailed ? <header className="cx-head"><h1>Concepts</h1><p className="cx-lede">Short lessons on the ideas behind your mistakes.</p></header> : null}<div className="sx-alert cx-fail" role="alert">{libraryFailed ? <p><b>Concepts did not load.</b> {/could not be saved/.test(error.text) ? 'Your saved lessons and progress are safe.' : error.text}</p> : <p>{error.text}</p>}<div className="sx-actions">
+  if (error) return <div className={libraryFailed ? 'sx sx-library cx' : 'sx'}>{libraryFailed ? <header className="cx-head"><h1>Learn</h1><p className="cx-lede">Short lessons on the ideas behind your mistakes.</p></header> : null}<div className="sx-alert cx-fail" role="alert">{libraryFailed ? <p><b>Concepts did not load.</b> {/could not be saved/.test(error.text) ? 'Your saved lessons and progress are safe.' : error.text}</p> : <p>{error.text}</p>}<div className="sx-actions">
     <button type="button" className="sx-secondary" onClick={() => { setStartError(null); setAttempt(n => n + 1); }}>Try again</button>
     {error.signIn ? <Link className="sx-secondary" href="/login">Sign in</Link> : null}
     {libraryFailed ? null : <Link className="sx-quiet" href="/learn" onClick={back ? e => { e.preventDefault(); back(); } : undefined}>Back to Concepts</Link>}<Link className="sx-quiet" href="/dashboard">Practise questions</Link></div></div></div>;
-  if (!data && libraryFailed) return <div className="sx sx-library cx cx-loading" role="status" aria-label="Loading Concepts">
-    <header className="cx-head"><h1>Concepts</h1><p className="cx-lede">Short lessons on the ideas behind your mistakes.</p></header>
+  if (!data && libraryFailed) return <div className="sx sx-library cx cx-loading" role="status" aria-label="Loading Learn">
+    <header className="cx-head"><h1>Learn</h1><p className="cx-lede">Short lessons on the ideas behind your mistakes.</p></header>
     <div className="cx-board"><div className="cx-main"><section className="cx-next cx-next--wait" aria-hidden="true"><i /><i /><i /></section><div className="cx-skel" aria-hidden="true"><i /><i /><i /><i /></div></div></div></div>;
   if (!data) return <div className="sx" role="status" aria-label="Loading"><div className="sx-skeleton"><i /><i /><i /></div></div>;
   if (current.runId) return <StudyRun key={data.id} run={data} api={api} onOpenRun={openRun} onExit={back} />;
   if (current.unitId) return <LessonOverview unit={data} api={api} onOpenRun={openRun} onBack={back} from={current.from} />;
-  if (data.state === 'disabled') return <div className="sx"><h1>Concepts</h1><p className="sx-lede">Lessons are switched off right now. Your saved progress is kept. You can still practise questions and take mocks.</p><Link className="btn-volt md" href="/dashboard">Practise questions</Link></div>;
+  if (data.state === 'disabled') return <div className="sx"><h1>Learn</h1><p className="sx-lede">Lessons are switched off right now. Your saved progress is kept. You can still practise questions and take mocks.</p><Link className="btn-volt md" href="/dashboard">Practise questions</Link></div>;
   return <StudyLibrary catalog={data} api={api} onOpenRun={openRun} onOpenUnit={openUnit} initialSubject={subject}
     prefsSlot={data.preferences ? <StudyPreferences prefs={data.preferences} units={data.units} api={api} onOpenRun={openRun} /> : null} />;
 }

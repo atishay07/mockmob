@@ -93,7 +93,7 @@ export default function LessonOverview({ unit, api, onOpenRun, onBack, from: fro
   ];
   // Back goes where the student came from: the page before this one when it is ours (it keeps its scroll and its opened row),
   // else the result for a question, else Concepts.
-  const backLabel = from?.kind === 'q' ? `Back to Question ${from.number}` : from ? 'Back' : 'Concepts';
+  const backLabel = from?.kind === 'q' ? `Back to Question ${from.number}` : from ? 'Back' : 'Learn';
   const backHref = from?.kind === 'q' ? `/result/${encodeURIComponent(from.attemptId)}` : `/learn?subject=${unit.subject}`;
   const goBack = (event) => {
     if (onBack) { event.preventDefault(); onBack(); return; }

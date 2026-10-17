@@ -4,7 +4,7 @@ import { CAPABILITIES } from '@/../data/capabilities';
 const item = (id, label, icon = id, href = `/${id}`, hint = null) => ({ id, label, icon, href, hint });
 export const STUDY_NAV = [
   item('today', 'Today'), item('dashboard', 'Practice', 'practice', CAPABILITIES.practice.href),
-  item('learn', 'Concepts'), item('review', 'Review', 'review', CAPABILITIES.review.href),
+  item('learn', 'Learn'), item('review', 'Review', 'review', CAPABILITIES.review.href),
   item('explore', 'Explore'),
   item('saved', 'Saved'), item('progress', 'Progress'),
 ];

@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import { redirect } from 'next/navigation';
 import StudyWorkspace from '@/components/study/StudyWorkspace';
-export const metadata = { title: 'Concepts — MockMob', description: 'Short CUET lessons: learn a concept, lock it in with recall, then apply it on practice questions.' };
+export const metadata = { title: 'Learn — MockMob', description: 'Short CUET lessons: learn a concept, lock it in with recall, then apply it on practice questions.' };
 export default async function Learn({ searchParams }) {
   const params = await searchParams;
   // Concept cards that are due are played in Revise now (LEARN-REVIEW-1017 5.8): one queue for everything to bring back. The old

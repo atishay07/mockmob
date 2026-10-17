@@ -67,7 +67,7 @@ export default function StudyLibrary({ catalog, api, onOpenRun, onOpenUnit, init
 
   return <div className="sx sx-library cx">
     <header className="cx-head">
-      <h1>Concepts</h1>
+      <h1>Learn</h1>
       <p className="cx-lede">Short lessons on the ideas behind your mistakes.</p>
     </header>
     <div className="cx-board">
