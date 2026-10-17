@@ -39,7 +39,7 @@ function lengthLine(move, n) {
 function ChangeLength({ open, onClose, move, chosen, onChoose, saving }) {
   const current = chosen || move?.key?.minutes || 10;
   return (
-    <TodaySheet open={open} onClose={onClose} id="tm-length" title="How long tonight?" lede="The move keeps its aim. The length sets how much of it fits.">
+    <TodaySheet open={open} onClose={onClose} id="tm-length" title="How long do you have?" lede="The move keeps its aim. The length sets how much of it fits.">
       <div className="tsh__options" role="radiogroup" aria-label="Length">
         {LENGTHS.map((n) => (
           <button key={n} type="button" role="radio" aria-checked={current === n} className="tsh__option" disabled={saving === 'saving'} onClick={() => onChoose(n)}>
@@ -48,7 +48,7 @@ function ChangeLength({ open, onClose, move, chosen, onChoose, saving }) {
           </button>
         ))}
       </div>
-      <p className="tsh__status" role="status">{saving === 'saving' ? 'Saving…' : saving === 'saved' ? 'Saved.' : saving === 'local' ? 'Set for tonight on this device.' : saving === 'failed' ? `Your time was not saved, so it stays at ${current} minutes.` : ''}</p>
+      <p className="tsh__status" role="status">{saving === 'saving' ? 'Saving…' : saving === 'saved' ? 'Saved.' : saving === 'local' ? 'Kept on this device for today.' : saving === 'failed' ? `Your time was not saved, so it stays at ${current} minutes.` : ''}</p>
     </TodaySheet>
   );
 }
@@ -106,6 +106,8 @@ export default function TodayMove({ phase, move, word = 'Tonight’s move', slow
 
   const m = move;
   const offline = !online;
+  // Change length shows only when a length changes the move (a Revise of 4, or a timed mock, is the same at every length).
+  const lengthMatters = new Set(LENGTHS.map((n) => { const f = fitMove(m.base || m, n); return `${f?.number}|${f?.key?.minutes}`; })).size > 1;
   const heading = m.number != null ? `${m.overline}: ${m.subjectName ? `${m.subjectName}, ` : ''}${m.number} ${m.label}` : `${m.overline}: ${m.title}`;
   return (
     <section className="tm" data-move={m.id} aria-labelledby="tm-title">
@@ -128,7 +130,7 @@ export default function TodayMove({ phase, move, word = 'Tonight’s move', slow
         <Link className="tm__key" data-page-primary href={m.key.href}>{m.key.label}{m.key.minutes ? <span className="tm__key-len">{m.key.minutes} min</span> : null}</Link>
       )}
       <div className="tm__pills">
-        {m.pills.length ? (
+        {m.pills.length && lengthMatters ? (
           <button type="button" className="tm__pill" aria-haspopup="dialog" onClick={() => setSheet('length')}><Clock3 size={17} strokeWidth={1.75} aria-hidden="true" />Change length</button>
         ) : null}
         {m.pills.second === 'mock' ? (
