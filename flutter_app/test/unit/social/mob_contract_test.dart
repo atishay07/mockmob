@@ -180,7 +180,7 @@ void main() {
     final errors = (jsonDecode(File('test/fixtures/mob/errors_v1.json').readAsStringSync()) as Map<String, dynamic>);
 
     test('every code has an app failure and the same sentence as the server', () {
-      expect(errors.keys, hasLength(37));
+      expect(errors.keys, hasLength(47));
       for (final entry in errors.entries) {
         final body = (entry.value as Map<String, dynamic>)['body'] as Map<String, dynamic>;
         final message = (body['error'] as Map<String, dynamic>)['message'] as String;
@@ -336,7 +336,7 @@ void main() {
       http.handler = (o) => FakeReply(409, errorOf('MOB_LIMIT')['body']);
       final f = await actions().create(subject: 'economics', name: 'Asha', colour: 0);
       expect(f, MobFailure.mobLimit);
-      expect(MobCopy.failure(f!), startsWith('Free includes one Mob.'));
+      expect(MobCopy.failure(f!), startsWith('You already started a Mob.'));
     });
   });
 

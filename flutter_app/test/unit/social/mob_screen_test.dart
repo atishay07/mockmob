@@ -96,7 +96,7 @@ void main() {
       await _pump(tester, const MobScreen(), noMobState(), actions: (ref) => FakeMobActions(ref, failure: MobFailure.mobLimit));
       await tester.tap(find.text(MobCopy.startKey));
       await tester.pumpAndSettle();
-      expect(find.textContaining('Free includes one Mob.'), findsOneWidget);
+      expect(find.textContaining('You already started a Mob.'), findsOneWidget);
     });
   });
 
@@ -126,7 +126,7 @@ void main() {
       expect(find.text('7 of 10'), findsOneWidget);
       expect(find.text('Sat'), findsNothing);
       // The Pro note says what Pro includes and sells nothing.
-      expect(find.text(MobCopy.proTitle), findsOneWidget);
+      expect(find.text(MobCopy.proLine), findsOneWidget);
       expect(find.textContaining('pricing', findRichText: true), findsNothing);
 
       await tester.tap(find.text(MobCopy.seeAnswers));
@@ -142,12 +142,12 @@ void main() {
     testWidgets('not sat: Sit this week\'s paper with its free-of-credits line, no trap, no compare', (tester) async {
       final nav = RecordingNavigator();
       await _pump(tester, const MobScreen(), mobState(null, 'get_not_sat_v1.json'), nav: nav);
-      expect(find.text(MobCopy.sitKey(10, 12)), findsOneWidget);
-      expect(find.text(MobCopy.sitNote(10, 12)), findsOneWidget);
+      expect(find.text(MobCopy.sitKey(10, 10)), findsOneWidget);
+      expect(find.text(MobCopy.sitNote(10, 10)), findsOneWidget);
       expect(find.text('Free. No credits.'), findsOneWidget);
       expect(find.text(MobCopy.trapTitle), findsNothing);
       expect(find.text(MobCopy.compareTitle), findsNothing);
-      await tester.tap(find.text(MobCopy.sitKey(10, 12)));
+      await tester.tap(find.text(MobCopy.sitKey(10, 10)));
       await tester.pumpAndSettle();
       expect(nav.calls, ['sit']);
     });
@@ -182,7 +182,7 @@ void main() {
         m['trap'] = null;
       }));
       expect(find.text(MobCopy.freeUsed), findsOneWidget);
-      expect(find.text(MobCopy.sitKey(10, 12)), findsNothing);
+      expect(find.text(MobCopy.sitKey(10, 10)), findsNothing);
     });
 
     testWidgets('alone: the invite is the primary action, no switches yet', (tester) async {
@@ -190,7 +190,7 @@ void main() {
       expect(find.text(MobCopy.inviteRow(4)), findsOneWidget);
       expect(find.text(MobCopy.aloneLead), findsOneWidget);
       expect(find.text('0 of 1'), findsOneWidget);
-      expect(find.text(MobCopy.sitKey(10, 12)), findsOneWidget);
+      expect(find.text(MobCopy.sitKey(10, 10)), findsOneWidget);
       expect(find.text(MobCopy.shareLabel), findsNothing);
       expect(find.text(MobCopy.muteNudges), findsNothing);
     });
@@ -203,7 +203,7 @@ void main() {
         m['trap'] = null;
       }));
       expect(find.text(MobCopy.closed), findsOneWidget);
-      expect(find.text(MobCopy.sitKey(10, 12)), findsNothing);
+      expect(find.text(MobCopy.sitKey(10, 10)), findsNothing);
     });
 
     testWidgets('the full Mob has no invite row and says it is full', (tester) async {
@@ -250,7 +250,7 @@ void main() {
       expect(find.text(MobCopy.makeExtra), findsOneWidget);
       expect(find.text(MobCopy.historyTitle), findsOneWidget);
       expect(find.text('2 weeks'), findsOneWidget);
-      expect(find.text(MobCopy.proTitle), findsNothing);
+      expect(find.text(MobCopy.proLine), findsNothing);
       await tester.ensureVisible(find.text(MobCopy.sitIt));
       await tester.tap(find.text(MobCopy.sitIt));
       await tester.pumpAndSettle();
@@ -482,9 +482,8 @@ void main() {
       final nav = RecordingNavigator();
       await _pump(tester, const MobTodayCard(), mobState(null, 'get_not_sat_v1.json'), nav: nav);
       expect(find.text(MobCopy.ringLine(3, 4)), findsOneWidget);
-      expect(find.text('Free. No credits.'), findsOneWidget);
       expect(find.text(MobCopy.nudgeReceived('Riya')), findsOneWidget);
-      await tester.tap(find.text(MobCopy.sitKey(10, 12)));
+      await tester.tap(find.text(MobCopy.sitKey(10, 10)));
       await tester.pumpAndSettle();
       expect(nav.calls, ['sit']);
     });
@@ -492,7 +491,7 @@ void main() {
     testWidgets('Today card: after you sat, the key opens the Mob', (tester) async {
       await _pump(tester, const MobTodayCard(), mobState());
       expect(find.text(MobCopy.seeMob), findsOneWidget);
-      expect(find.text(MobCopy.sitKey(10, 12)), findsNothing);
+      expect(find.text(MobCopy.sitKey(10, 10)), findsNothing);
     });
 
     testWidgets('Today card: with the week\'s free paper used elsewhere there is no sit key', (tester) async {
@@ -500,7 +499,7 @@ void main() {
         (((m['week'] as Map)['paper']) as Map)['blocked'] = 'free_used';
         (m['week'] as Map)['youSat'] = false;
       }));
-      expect(find.text(MobCopy.sitKey(10, 12)), findsNothing);
+      expect(find.text(MobCopy.sitKey(10, 10)), findsNothing);
       expect(find.text(MobCopy.seeMob), findsOneWidget);
     });
 
@@ -577,11 +576,11 @@ void main() {
     testWidgets('the plan\'s limit comes back as its sentence with a way to the Mob you are in', (tester) async {
       const preview = MobInvitePreview(code: '7K3M9QXA', subject: 'economics', size: 2, seatsLeft: 3);
       await _pump(tester, const MobJoinScreen(code: '7K3M9QXA'), mobState(),
-          actions: (ref) => FakeMobActions(ref, previewResult: (preview, null), failure: MobFailure.mobLimit));
+          actions: (ref) => FakeMobActions(ref, previewResult: (preview, null), failure: MobFailure.mobCeiling));
       await tester.tap(find.text(MobCopy.joinKey));
       await tester.pumpAndSettle();
-      expect(find.textContaining('Free includes one Mob.'), findsOneWidget);
-      expect(find.text(MobCopy.openYourMob), findsOneWidget);
+      expect(find.textContaining('You are in 12 Mobs'), findsOneWidget);
+      expect(find.text(MobCopy.openYourMobs), findsOneWidget);
     });
 
     testWidgets('a refused name opens the name field with the reason', (tester) async {

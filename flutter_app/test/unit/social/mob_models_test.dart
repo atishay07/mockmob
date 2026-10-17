@@ -243,7 +243,7 @@ void main() {
     test('no copy carries an exclamation mark, an arrow, a price or a reward', () {
       final all = [
         MobCopy.pitch, ...MobCopy.promises, MobCopy.closes, MobCopy.closed, MobCopy.nudgeKey, MobCopy.leaveBody, MobCopy.inviteBody,
-        MobCopy.joinNoContacts, MobCopy.proTitle, MobCopy.proIntro, ...MobCopy.proItems, ...MobCopy.joinFacts, MobCopy.lockedNote, MobCopy.sampleLead,
+        MobCopy.joinNoContacts, MobCopy.proLine, ...MobCopy.joinFacts, MobCopy.lockedNote, MobCopy.sampleLead,
         MobCopy.extraNote, MobCopy.extrasEmpty, MobCopy.shareHint, MobCopy.showScoreNote, MobCopy.sideBySideFoot, MobCopy.freeUsed,
         for (final f in MobFailure.values) MobCopy.failure(f),
       ];
