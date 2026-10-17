@@ -15,7 +15,7 @@ import 'package:mockmob/features/social/widgets/mob_today_card.dart';
 import '../../helpers/golden_harness.dart';
 import 'mob_test_kit.dart';
 
-const Size _tall = Size(390, 2600);
+const Size _tall = Size(390, 3600);
 
 Future<void> _pump(
   WidgetTester tester,
@@ -304,6 +304,8 @@ void main() {
 
     testWidgets('Start another Mob opens the form without the subjects that have a Mob', (tester) async {
       await _pump(tester, const MobScreen(), proState());
+      await tester.ensureVisible(find.text(MobCopy.startAnother));
+      await tester.pumpAndSettle();
       await tester.tap(find.text(MobCopy.startAnother));
       await tester.pumpAndSettle();
       expect(find.text(MobCopy.startKey), findsOneWidget);
@@ -358,9 +360,12 @@ void main() {
       expect(fake!.calls, ['leave:K7Q2M9XR4T1A']);
     });
 
-    testWidgets('every tappable control is at least 48 dp, Free and Pro', (tester) async {
+    testWidgets('every tappable control is at least 48 dp (Free)', (tester) async {
       await _pump(tester, const MobScreen(), mobState());
       await expectLater(tester, meetsGuideline(androidTapTargetGuideline));
+    });
+
+    testWidgets('every tappable control is at least 48 dp (Pro)', (tester) async {
       await _pump(tester, const MobScreen(), proState());
       await expectLater(tester, meetsGuideline(androidTapTargetGuideline));
     });
@@ -369,7 +374,7 @@ void main() {
   group('side-by-side', () {
     testWidgets('per question: you, the sharers, the verdict in words, the split, the trap', (tester) async {
       final nav = RecordingNavigator();
-      await _pump(tester, MobCompareScreen(data: _compare()), mobState(), nav: nav);
+      await _pump(tester, MobCompareScreen(data: _compare()), mobState(), nav: nav, size: const Size(390, 4800));
       expect(find.text(MobCopy.sideBySideTitle(_compare())), findsOneWidget);
       expect(find.text('3 of 4 sat.'), findsOneWidget);
       expect(find.text('Your Mob split on 3 of 10 questions.'), findsOneWidget);
@@ -378,7 +383,7 @@ void main() {
       expect(find.text(MobCopy.right), findsWidgets);
       expect(find.text(MobCopy.wrong), findsWidgets);
       expect(find.text('Changed once. 1m 11s'), findsOneWidget);
-      expect(find.text(MobCopy.howPicked(const [MobPickCount(option: 'B', count: 3)])), findsOneWidget);
+      expect(find.text(MobCopy.howPicked(const [MobPickCount(option: 'B', count: 3)])), findsNWidgets(2), reason: 'questions 6 and 10');
       await tester.ensureVisible(find.text(MobCopy.repairIt));
       await tester.tap(find.text(MobCopy.repairIt));
       await tester.pumpAndSettle();
@@ -425,7 +430,7 @@ void main() {
     });
 
     testWidgets('every tappable control is at least 48 dp', (tester) async {
-      await _pump(tester, MobCompareScreen(data: _compare()), mobState());
+      await _pump(tester, MobCompareScreen(data: _compare()), mobState(), size: const Size(390, 4800));
       await expectLater(tester, meetsGuideline(androidTapTargetGuideline));
       await expectLater(tester, meetsGuideline(textContrastGuideline));
     });
@@ -455,10 +460,13 @@ void main() {
       expect(fake!.calls, ['history', 'compare:2026-10-05:-']);
     });
 
-    testWidgets('a failed read names the cause and offers Try again; empty says when weeks appear', (tester) async {
+    testWidgets('a failed read names the cause and offers Try again', (tester) async {
       await _pump(tester, const MobHistoryScreen(), proState());
       expect(find.text(MobCopy.failure(MobFailure.generic)), findsOneWidget);
       expect(find.text(MobCopy.tryAgain), findsOneWidget);
+    });
+
+    testWidgets('no closed week yet: it says when weeks appear', (tester) async {
       await _pump(tester, const MobHistoryScreen(), proState(), actions: (ref) => FakeMobActions(ref, historyResult: const MobHistory()));
       expect(find.text(MobCopy.historyEmpty), findsOneWidget);
     });

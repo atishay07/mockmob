@@ -161,7 +161,11 @@ class _MobJoinScreenState extends ConsumerState<MobJoinScreen> {
                         style: type.title.copyWith(color: colors.ink),
                       ),
                     ),
-                    KeyButton.quiet(label: _editing ? 'Done' : MobCopy.changeName, onPressed: () => setState(() => _editing = !_editing)),
+                    KeyButton.quiet(
+                      label: _editing ? 'Done' : 'Change',
+                      semanticsLabel: _editing ? 'Done' : MobCopy.changeName,
+                      onPressed: () => setState(() => _editing = !_editing),
+                    ),
                   ],
                 ),
                 if (_editing) ...[
