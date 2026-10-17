@@ -101,7 +101,9 @@ function PracticeSkeleton() {
   );
 }
 
-export default function DashboardPageClient() {
+// studyEnabled: the Learn lessons are on (STUDY_CONTENT_ENABLED, read by page.js). Learn left the phone dock for the More
+// sheet and this page (NAV-1017 8.2), so its Concepts panel is drawn here only while Learn exists.
+export default function DashboardPageClient({ studyEnabled = false } = {}) {
   const { user, status: authStatus } = useAuth();
   const toast = useToast();
   const router = useRouter();
@@ -701,6 +703,13 @@ export default function DashboardPageClient() {
         </section>
 
         <div className="pr-lower__side">
+        {studyEnabled && (
+          <section className="pr-panel" aria-labelledby="pr-concepts">
+            <div className="pr-panel__head"><h2 id="pr-concepts">Concepts</h2></div>
+            <p className="pr-panel__lead">Short lessons: learn a concept, lock it in with recall, then apply it on practice questions.</p>
+            <Link href="/learn" className="pr-link pr-link--strong"><AppIcon name="learn" size={16} />Open Learn</Link>
+          </section>
+        )}
         <section className="pr-panel" aria-labelledby="pr-access">
           <div className="pr-panel__head"><h2 id="pr-access">{isPremium ? 'Your access' : 'MockMob Pro'}</h2></div>
           <p className="pr-panel__lead">{isPremium

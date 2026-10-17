@@ -5,7 +5,7 @@
    sidebar, the phone dock and modals around for the length of the entrance. */
 .app-shell.view, .app-shell .view { animation: arena-fade 220ms ease-out both; }
 .app-shell .arena-nav-link { min-height: 44px; }
-.app-shell .arena-bottomnav { display: none; }
+.app-shell .arena-dock { display: none; }
 /* Timed answering stays calm: the shell appears, nothing in the runner travels, and the
    question-progress fill changes instantly (it moves on every Save & Next). */
 .app-shell--test .view, .app-shell.app-shell--test { animation-duration: 120ms; }
@@ -94,11 +94,8 @@
 .app-shell .student-page--result .count-btn { min-height: 44px; }
 @media (max-width: 1023px) {
   .app-shell :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), textarea, select) { font-size: 16px; }
-  .app-shell .arena-bottomnav { position: fixed; inset: auto 0 0; z-index: 44; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 1px solid var(--a-line-strong); background: var(--a-bg); padding: 5px 6px calc(5px + env(safe-area-inset-bottom)); }
-  .app-shell .arena-bottomnav :is(a, button) { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; min-height: 54px; min-width: 0; padding: 5px 2px; border: none; border-radius: 9px; background: transparent; color: var(--a-ink-3); text-decoration: none; font: 650 11px/1.25 var(--font-body); cursor: pointer; }
-  .app-shell .arena-bottomnav svg { width: 19px; height: 19px; }
-  .app-shell .arena-bottomnav [aria-current='page'], .app-shell .arena-bottomnav [aria-expanded='true'] { color: var(--a-accent-text); background: var(--a-volt-wash); }
-  .app-shell .arena-bottomnav :focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; }
+  /* The phone and tablet dock (NAV-1017 section 8; geometry and glass in arena.css, the Start key in start.css). */
+  .app-shell .arena-dock { display: flex; }
   .app-shell:not(.app-shell--test) .app-main { padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
   .app-shell .pr-summary { bottom: calc(76px + env(safe-area-inset-bottom)); }
   .app-shell .arena-sheet { max-height: calc(100dvh - 148px); overflow-y: auto; overscroll-behavior: contain; }

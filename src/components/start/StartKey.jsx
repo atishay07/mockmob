@@ -2,7 +2,8 @@
 
 // The Start key: an action, not a page. It opens the Start sheet, which grows out of it.
 //   variant 'sidebar'  a full-width volt key under the logo (from 1024 px)
-//   variant 'bar'      a raised volt key in the phone and tablet bar, between Practice and the rest
+//   variant 'bar'      a 64 px round volt key beside the phone and tablet dock's tab capsule (NAV-1017 A1): its play
+//                      mark and word sit on the tabs' icon and label lines, and its look never follows page state.
 // Volt is the one action colour; the key carries the word Start with a play mark.
 import { openStart, useStartState } from './startStore';
 import './start.css';
@@ -34,7 +35,7 @@ export default function StartKey({ variant = 'sidebar', onOpen = null }) {
     >
       {variant === 'bar' ? (
         <>
-          <span className="stk__disc"><PlayMark size={16} /></span>
+          <span className="stk__disc"><PlayMark size={22} /></span>
           <span className="stk__word">Start</span>
         </>
       ) : (

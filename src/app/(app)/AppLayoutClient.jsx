@@ -61,11 +61,13 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
     const sheet = document.getElementById('arena-sheet');
     const opener = menuOpener.current;
     const header = document.querySelector('.app-shell .arena-topbar');
-    const dock = document.querySelector('.arena-bottomnav');
-    // The More sheet rises from the dock: it sits on the dock's top edge and never reaches under the header.
+    const dock = document.querySelector('.arena-dock');
+    // The More sheet rises from the dock (the tab capsule and the Start key): it sits on the dock's top edge and never
+    // reaches under the header.
     const fitMenu = () => {
       const bottom = dock?.getBoundingClientRect();
-      const dockTop = bottom?.height ? Math.min(innerHeight, bottom.top) : innerHeight;
+      // 8 px of air between the sheet and the floating dock, as between the dock's capsule and its key.
+      const dockTop = bottom?.height ? Math.min(innerHeight, bottom.top - 8) : innerHeight;
       const available = dockTop - (header?.getBoundingClientRect().bottom || 64) - 12;
       if (sheet) {
         sheet.style.maxHeight = `${Math.max(80, available)}px`;
@@ -81,7 +83,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
     const frame = requestAnimationFrame(() => sheet?.querySelector('.arena-nav-link')?.focus({ preventScroll: true }));
     const closeOnEscape = (event) => { if (event.key === 'Escape') { setMobileMenuOpen(false); opener?.focus({ preventScroll: true }); } };
     // The scrim closes on its own click, so a tap on it never falls through to the page beneath.
-    const inMenu = (target) => target.closest?.('.arena-topbar, .arena-bottomnav, .arena-sheet, .arena-sheet-scrim');
+    const inMenu = (target) => target.closest?.('.arena-topbar, .arena-dock, .arena-sheet, .arena-sheet-scrim');
     const closeOutside = (event) => { if (!inMenu(event.target)) setMobileMenuOpen(false); };
     const closeOnExit = (event) => { if (!inMenu(event.target)) setMobileMenuOpen(false); };
     const desktop = matchMedia('(min-width: 1024px)');
@@ -154,7 +156,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
       if (done) return;
       const active = document.activeElement;
       // A page that put focus on purpose (a search box, a sheet) keeps it.
-      if (active && active !== document.body && active !== main && !active.closest('.arena-sidebar, .arena-bottomnav, .arena-sheet, .arena-topbar')) { finish(); return; }
+      if (active && active !== document.body && active !== main && !active.closest('.arena-sidebar, .arena-dock, .arena-sheet, .arena-topbar')) { finish(); return; }
       const heading = main.querySelector('h1');
       if (!heading && !fallback) return;
       finish();
@@ -277,7 +279,12 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
 
   const showStudy=studyEnabled || previewRoute==='/learn';
   const navGroups = arenaNavigation(isModerator, { mob: mobEnabled || Boolean(previewLinks?.mob) }).map((group) => ({ ...group, items: group.items.filter((tab) => !(isTestRoute && tab.id === 'mentor') && (showStudy || tab.id!=='learn')) }));
-  const mobileTabs=showStudy ? MOBILE_STUDY_NAV : navGroups.flatMap(group=>group.items).filter(tab=>['today','dashboard','explore','review'].includes(tab.id));
+  // The phone dock's four places (NAV-1017 section 8). The More sheet lists every other place, so its Study group opens
+  // on Learn, then Explore, Saved and Progress; the dock's places are one tap away right under it and are not repeated.
+  // The desktop sidebar keeps the full groups.
+  const mobileTabs = MOBILE_STUDY_NAV;
+  const dockIds = new Set(mobileTabs.map((tab) => tab.id));
+  const sheetGroups = navGroups.map((group) => ({ ...group, items: group.items.filter((tab) => !dockIds.has(tab.id)) })).filter((group) => group.items.length);
   const allTabs = navGroups.flatMap((group) => group.items);
   const isActive = (id) => activePath === `/${id}` || activePath.startsWith(`/${id}/`);
   const renderNavLink = (tab, onNavigate) => (
@@ -428,7 +435,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
               </div>
             </div>
             <AppearanceSwitch />
-            {navGroups.map((group) => (
+            {sheetGroups.map((group) => (
               <nav key={group.label} className="arena-nav-group" aria-label={group.label}>
                 <p className="arena-nav-label">{group.label}</p>
                 {group.items.map((tab) => renderNavLink(tab, () => setMobileMenuOpen(false)))}
@@ -437,10 +444,15 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
           </div>
         </>
       )}
-      {!isTestRoute && <nav className="arena-bottomnav" aria-label="Quick study navigation">
-        {mobileTabs.map((tab, index) => <React.Fragment key={tab.id}>{index === 2 && <StartKey variant="bar" onOpen={() => setMobileMenuOpen(false)} />}<Link href={previewLinks?.[tab.id] || tab.href} onClick={() => setMobileMenuOpen(false)} aria-current={isActive(tab.id) ? 'page' : undefined} data-tour={`nav-${tab.id}`}><AppIcon name={tab.icon} /><span>{tab.label}</span></Link></React.Fragment>)}
-        <button type="button" aria-expanded={mobileMenuOpen} aria-controls={mobileMenuOpen ? 'arena-sheet' : undefined} onClick={toggleMenu}><AppIcon name="expand" /><span>More</span></button>
-      </nav>}
+      {/* The phone and tablet dock (NAV-1017 section 8): a glass capsule of five places and, beside it, the Start key. The
+          key is an action, so it sits outside the nav, which keeps five tabs. */}
+      {!isTestRoute && <div className="arena-dock">
+        <nav className="arena-bottomnav" aria-label="Quick study navigation">
+          {mobileTabs.map((tab) => <Link key={tab.id} href={previewLinks?.[tab.id] || tab.href} onClick={() => setMobileMenuOpen(false)} aria-current={isActive(tab.id) ? 'page' : undefined} data-tour={`nav-${tab.id}`}><AppIcon name={tab.icon} size={24} /><span>{tab.label}</span></Link>)}
+          <button type="button" aria-expanded={mobileMenuOpen} aria-controls={mobileMenuOpen ? 'arena-sheet' : undefined} onClick={toggleMenu}><AppIcon name="more" size={24} /><span>More</span></button>
+        </nav>
+        <StartKey variant="bar" onOpen={() => setMobileMenuOpen(false)} />
+      </div>}
       {!isTestRoute && <StartSheetHost previewLinks={previewLinks} />}
       {!isTestRoute && tourOpen && (
         <div className="pointer-events-none fixed inset-0 z-[80]">

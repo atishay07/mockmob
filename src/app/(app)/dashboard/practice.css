@@ -286,7 +286,7 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg [role='radio']
 @media (max-width: 1023px) {
   .app-shell .pr .pr-bar {
     position: sticky;
-    bottom: calc(82px + env(safe-area-inset-bottom));
+    bottom: calc(var(--dock-h, 84px) + env(safe-area-inset-bottom));
     z-index: 20;
     display: block;
     margin-top: -22px;

@@ -48,52 +48,38 @@
 .app-shell .stk--sidebar[aria-expanded='true'] { box-shadow: inset 0 0 0 2px rgb(24 32 0 / 0.5); }
 html[data-theme='light'] .app-shell .stk--sidebar { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.3); }
 
-/* Phone and tablet bar: a raised volt disc between Practice and the rest. The bar becomes six equal
-   columns and its sliding pill (arena.css) follows the shifted positions. */
+/* Phone and tablet dock: the round Start key beside the tab capsule (NAV-1017 option A1, the owner's pick on 17 Oct).
+   A 64 px volt circle the capsule's height, its play mark on the tabs' icon line (centre 23 px down) and its word on their
+   label line (39 to 53 px), so the row reads as one object. Its look is fixed: no page, dock, CTA, scroll position or open
+   sheet changes its fill, mark or word (NAV-1017 6.8, F12). Only the press moves it: it sinks to 0.94 and springs back. */
 @media (max-width: 1023px) {
-  html .app-shell .arena-bottomnav:has(> [data-start-key]) { grid-template-columns: repeat(6, minmax(0, 1fr)); }
-  html .app-shell .arena-bottomnav:has(> [data-start-key])::before { width: calc((100% - 12px) / 6); }
-  html .app-shell .arena-bottomnav:has(> [data-start-key]):has(> :nth-child(5)[aria-current='page']) { --abn-i: 4; --abn-on: 1; }
-  html .app-shell .arena-bottomnav:has(> [data-start-key]):has(> :nth-child(6)[aria-expanded='true']) { --abn-i: 5; --abn-on: 1; }
-
-  html .app-shell .arena-bottomnav > button.stk--bar {
+  html .app-shell .arena-dock > .stk--bar {
+    --mk-press-scale: 0.94;
     position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 4px;
-    min-height: 54px;
-    padding: 0 2px 5px;
-    background: transparent;
-    color: var(--a-accent-text);
-    font: 700 12px/1.25 var(--font-body);
-  }
-  html .app-shell .arena-bottomnav > button.stk--bar .stk__disc {
-    position: absolute;
-    top: -15px;
-    left: 50%;
-    width: 48px;
-    height: 48px;
-    margin-left: -24px;
+    flex: none;
+    display: grid;
+    grid-template-rows: 24px 14px;
+    row-gap: 4px;
+    justify-items: center;
+    align-content: start;
+    width: 64px;
+    height: 64px;
+    padding: 11px 0 0;
     border-radius: 50%;
     background: var(--volt);
     color: #182000;
-    box-shadow: 0 0 0 4px var(--a-bg);
-    transition: transform 420ms var(--mk-spring);
+    font: 700 var(--dock-label, 11px)/14px var(--font-body);
+    letter-spacing: 0;
+    box-shadow: 0 20px 40px -22px rgb(0 0 0 / 0.55), 0 2px 6px -2px rgb(0 0 0 / 0.25), inset 0 0 0 1px #9db400, inset 0 1px 0 rgb(255 255 255 / 0.35);
+    pointer-events: auto;
   }
-  html .app-shell .arena-bottomnav > button.stk--bar .stk__disc svg { width: 18px; height: 18px; margin-left: 2px; animation: none; }
-  html .app-shell .arena-bottomnav > button.stk--bar[aria-expanded='true'] { color: var(--a-accent-text); background: transparent; }
-  html .app-shell .arena-bottomnav > button.stk--bar[aria-expanded='true'] .stk__disc { transform: scale(0.94); }
-  html .app-shell .arena-bottomnav > button.stk--bar:active .stk__disc { transform: scale(0.9); transition-duration: 90ms, 200ms, 200ms, 200ms; }
-  html .app-shell .arena-bottomnav > button.stk--bar:focus-visible { outline: none; }
-  html .app-shell .arena-bottomnav > button.stk--bar:focus-visible .stk__disc { box-shadow: 0 0 0 4px var(--a-bg), 0 0 0 6px var(--a-focus); }
-  html[data-theme='light'] .app-shell .arena-bottomnav > button.stk--bar .stk__disc { box-shadow: 0 0 0 4px var(--a-bg), inset 0 0 0 1px rgb(82 103 0 / 0.35); }
-  /* The key keeps one look on every page and at every scroll position: the lime disc (CTO decision, nav A1; NAV-1017 4:
-     "the key does not follow page state"). The old rule turned it white whenever the Practice dock was up and back again as
-     the page scrolled (owner F12, START-1017 section 5). The bar keeps all six places, so the dock never changes shape
-     between pages either (rule 11, S016). */
+  html .app-shell .arena-dock > .stk--bar .stk__disc { width: 24px; height: 24px; }
+  html .app-shell .arena-dock > .stk--bar .stk__disc svg { width: 22px; height: 22px; margin-left: 2px; }
+  html .app-shell .arena-dock > .stk--bar .stk__word { display: block; height: 14px; white-space: nowrap; }
+  html .app-shell .arena-dock > .stk--bar:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 3px; }
+  html[data-theme='light'] .app-shell .arena-dock > .stk--bar {
+    box-shadow: 0 18px 36px -20px rgb(23 32 22 / 0.24), 0 1px 3px rgb(23 32 22 / 0.08), inset 0 0 0 1px rgb(79 100 0 / 0.45);
+  }
 }
 /* Wide screens: on a page that owns a volt action (Practice's session Start, Today's plan key, a result's Repair key, any
    data-page-primary key, which AppLayoutClient turns into #app-main[data-start-quiet]) the sidebar key steps back, outlined
