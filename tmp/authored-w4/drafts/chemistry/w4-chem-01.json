@@ -1,0 +1,908 @@
+{
+  "batch": "w4-chem-01",
+  "subject": "chemistry",
+  "questions": [
+    {
+      "id": "8ee1facc-2274-4141-bba7-1389a5caee34",
+      "subject": "chemistry",
+      "unit": "Haloalkanes and Haloarenes",
+      "chapter": "Haloalkanes & Haloarenes",
+      "type": "sequence_ordering",
+      "stem": "Arrange the following alkyl halides in decreasing order of their rate of reaction with aqueous KOH:\n(A) 1-Chloropropane\n(B) 1-Iodopropane\n(C) 1-Fluoropropane\n(D) 1-Bromopropane",
+      "options": [
+        {
+          "key": "A",
+          "text": "(B), (D), (C), (A)"
+        },
+        {
+          "key": "B",
+          "text": "(C), (A), (D), (B)"
+        },
+        {
+          "key": "C",
+          "text": "(B), (D), (A), (C)"
+        },
+        {
+          "key": "D",
+          "text": "(D), (B), (A), (C)"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "Breaking the C-X bond controls the rate, and the bond weakens down the group: C-F is strongest (about 452 kJ mol^-1 in CH3-F) and C-I weakest (about 234 kJ mol^-1 in CH3-I), while iodide is the best leaving group. For the same alkyl group the rate therefore follows R-I > R-Br > R-Cl > R-F. Ranking by bond polarity gives the reverse order, which is the common slip.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Chemistry Part II, Ch 6 Haloalkanes and Haloarenes: nature of the C-X bond and reactivity of haloalkanes in nucleophilic substitution",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "medium ok (a notch easy)",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": []
+      }
+    },
+    {
+      "id": "440d1252-fc4c-4fb5-8c77-d6ffbdd335f4",
+      "subject": "chemistry",
+      "unit": "Haloalkanes and Haloarenes",
+      "chapter": "Haloalkanes & Haloarenes",
+      "type": "statement_based",
+      "stem": "Consider the following statements about haloalkanes and haloarenes.\n(A) The C-X bond length in haloalkanes increases from C-F to C-I.\n(B) Chlorobenzene has a lower dipole moment than cyclohexyl chloride.\n(C) Monochloroalkanes such as 1-chlorobutane are denser than water.\n(D) Among the isomeric dichlorobenzenes, the para isomer has the highest melting point.\nChoose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(A), (B) and (D) only"
+        },
+        {
+          "key": "B",
+          "text": "(A), (B) and (C) only"
+        },
+        {
+          "key": "C",
+          "text": "(B), (C) and (D) only"
+        },
+        {
+          "key": "D",
+          "text": "(A), (C) and (D) only"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "The C-X bond lengthens as the halogen gets larger, so C-I is the longest. The carbon of chlorobenzene is sp2 hybridised and the C-Cl bond is partly shortened by resonance, which lowers its dipole moment below that of cyclohexyl chloride. The symmetrical para isomer packs best in the crystal and melts highest. Statement (C) is false: monochloroalkanes are lighter than water, and only bromo, iodo and polychloro compounds are denser.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Chemistry Part II, Ch 6 Haloalkanes and Haloarenes: nature of the C-X bond, dipole moments, density and melting points of haloalkanes and haloarenes",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "repaired",
+        "solved_key_matches": true,
+        "syllabus": "in: Unit VI nature of C-X bond, physical properties (melting and boiling point, density and solubility)",
+        "level": "medium ok",
+        "answer_tells": "none found",
+        "duplicates": "original SN1/SN2 statement set repeated live-bank items 436fe8, 7f59e0, ec8580, 2e7f64 (same SN1 carbocation and SN2 rate statements); that sub-topic is saturated in the bank",
+        "repairs": [
+          {
+            "what": "Rewrote the four statements to a different sub-topic (C-X bond length, dipole moment of chlorobenzene, density of monochloroalkanes, melting point of para-dichlorobenzene); key set (A),(B),(D) stays at option A, same type and level",
+            "changes_what_a_solver_sees": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "77382746-bcfe-4dc8-a4f6-f5bc5d2e75d0",
+      "subject": "chemistry",
+      "unit": "Haloalkanes and Haloarenes",
+      "chapter": "Haloalkanes & Haloarenes",
+      "type": "single_mcq",
+      "stem": "Which reagent is preferred for converting propan-1-ol into 1-chloropropane because the by-products are gases?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phosphorus pentachloride, PCl5"
+        },
+        {
+          "key": "B",
+          "text": "Phosphorus trichloride, PCl3"
+        },
+        {
+          "key": "C",
+          "text": "Concentrated HCl with anhydrous ZnCl2"
+        },
+        {
+          "key": "D",
+          "text": "Thionyl chloride, SOCl2"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "Thionyl chloride converts an alcohol into the chloroalkane, ROH + SOCl2 gives RCl + SO2 + HCl, and both by-products escape as gases, leaving a pure product. PCl5 and PCl3 leave phosphorus compounds (POCl3, H3PO3) that must be separated, and HCl with ZnCl2 leaves water and an equilibrium mixture.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "NCERT Class 12 Chemistry Part II, Ch 6 Haloalkanes and Haloarenes: preparation of haloalkanes from alcohols",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "easy ok",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": []
+      }
+    },
+    {
+      "id": "ce3ca84d-bf8b-44e6-a55b-d5c42ba29c2b",
+      "subject": "chemistry",
+      "unit": "Haloalkanes and Haloarenes",
+      "chapter": "Haloalkanes & Haloarenes",
+      "type": "single_mcq",
+      "stem": "Bromoethane is heated with silver cyanide. The main organic product is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Propanenitrile, CH3CH2CN"
+        },
+        {
+          "key": "B",
+          "text": "Isocyanoethane, CH3CH2NC"
+        },
+        {
+          "key": "C",
+          "text": "Nitroethane, CH3CH2NO2"
+        },
+        {
+          "key": "D",
+          "text": "Ethyl nitrite, CH3CH2ONO"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "Silver cyanide is largely covalent, so the nitrogen end of the cyanide group attacks the carbon of the haloalkane and an isocyanide forms. Ionic KCN gives the alkyl cyanide (propanenitrile) instead. Nitroethane and ethyl nitrite come from the nitrite salts, AgNO2 and KNO2.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Chemistry Part II, Ch 6 Haloalkanes and Haloarenes: ambident nucleophiles (CN- and NO2-) in nucleophilic substitution",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "medium ok",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": []
+      }
+    },
+    {
+      "id": "83bcb2bd-fdce-4196-bbcc-daa578f27ba4",
+      "subject": "chemistry",
+      "unit": "Haloalkanes and Haloarenes",
+      "chapter": "Haloalkanes & Haloarenes",
+      "type": "single_mcq",
+      "stem": "A mixture of bromobenzene and bromomethane is heated with sodium metal in dry ether. The number of different hydrocarbons that can form by carbon-carbon coupling is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "4"
+        },
+        {
+          "key": "B",
+          "text": "3"
+        },
+        {
+          "key": "C",
+          "text": "2"
+        },
+        {
+          "key": "D",
+          "text": "1"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "Three coupling reactions compete. The Wurtz-Fittig reaction between the two different halides gives toluene, the Fittig reaction of bromobenzene with itself gives biphenyl, and the Wurtz reaction of bromomethane with itself gives ethane. Sodium bromide is inorganic, so the count is three; a count of one would keep only the cross-coupled toluene and ignore the self-coupling of each halide.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "NCERT Class 12 Chemistry Part II, Ch 6 Haloalkanes and Haloarenes: reactions with sodium (Wurtz, Wurtz-Fittig and Fittig reactions)",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "hard is generous (medium-hard, three competing couplings)",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": [],
+        "note": "Count of 3 follows the NCERT Wurtz, Wurtz-Fittig and Fittig reactions; a solver who only knows Wurtz-Fittig answers 1 and is wrong by the stem."
+      }
+    },
+    {
+      "id": "2e4f3189-8abb-4e28-8c5b-13da81ddcbed",
+      "subject": "chemistry",
+      "unit": "Alcohols, Phenols and Ethers",
+      "chapter": "Alcohols, Phenols & Ethers",
+      "type": "match_the_following",
+      "stem": "Match List-I with List-II.\nList-I: (A) Phenol with bromine in carbon disulphide at low temperature (B) Phenol oxidised with chromic acid (C) Phenol treated with concentrated nitric acid (D) Phenol treated with dilute nitric acid at low temperature\nList-II: (I) Benzoquinone (II) Mixture of o- and p-nitrophenols (III) 2,4,6-Trinitrophenol (IV) Mixture of o- and p-bromophenols\nChoose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(A)-(II), (B)-(I), (C)-(III), (D)-(IV)"
+        },
+        {
+          "key": "B",
+          "text": "(A)-(IV), (B)-(III), (C)-(I), (D)-(II)"
+        },
+        {
+          "key": "C",
+          "text": "(A)-(IV), (B)-(I), (C)-(II), (D)-(III)"
+        },
+        {
+          "key": "D",
+          "text": "(A)-(IV), (B)-(I), (C)-(III), (D)-(II)"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "In a non-polar solvent at low temperature phenol is brominated only mildly, giving o- and p-bromophenols, and chromic acid oxidises it to the conjugated diketone benzoquinone. Concentrated nitric acid nitrates all three activated positions to give picric acid, whereas dilute nitric acid at low temperature gives only the mono-nitro o- and p-isomers. Swapping the two nitration products is the usual slip.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Chemistry Part II, Ch 7 Alcohols, Phenols and Ethers: electrophilic substitution (halogenation, nitration) and oxidation of phenol",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "repaired",
+        "solved_key_matches": true,
+        "syllabus": "in: Unit VII chemical properties of phenols including oxidation and reduction; electrophilic substitution",
+        "level": "medium ok",
+        "answer_tells": "none found",
+        "duplicates": "original pairs zinc-dust distillation (live 6a6a4f) and warm water on a diazonium salt (live e1b109) repeated two live-bank pairs",
+        "repairs": [
+          {
+            "what": "Replaced those two pairs by phenol with Br2 in CS2 at low temperature (o- and p-bromophenols) and phenol with dilute HNO3 at low temperature (o- and p-nitrophenols); mapping and option set rebuilt, key stays at option D",
+            "changes_what_a_solver_sees": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "be5f0133-bd71-4e1d-97ad-742ee67fe221",
+      "subject": "chemistry",
+      "unit": "Alcohols, Phenols and Ethers",
+      "chapter": "Alcohols, Phenols & Ethers",
+      "type": "single_mcq",
+      "stem": "Air oxidation of isopropylbenzene, the first step in the industrial preparation of phenol, gives:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cumene hydroperoxide"
+        },
+        {
+          "key": "B",
+          "text": "2-Phenylpropan-2-ol"
+        },
+        {
+          "key": "C",
+          "text": "Acetophenone"
+        },
+        {
+          "key": "D",
+          "text": "Benzoic acid"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "In the cumene process, air oxidises the benzylic C-H bond of cumene to give cumene hydroperoxide, which dilute acid then rearranges to phenol and propanone. The oxidation stops at the hydroperoxide. Hot alkaline KMnO4 would take the side chain all the way to benzoic acid, but that is not what air does here.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "NCERT Class 12 Chemistry Part II, Ch 7 Alcohols, Phenols and Ethers: preparation of phenol from cumene (cumene hydroperoxide intermediate)",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "easy ok",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": [],
+        "note": "Cumene process appears in the bank only as a reaction match (6a6a4f); this item asks for the hydroperoxide intermediate, a different idea."
+      }
+    },
+    {
+      "id": "35246480-bd79-48c2-b3f9-8d6128c2a14e",
+      "subject": "chemistry",
+      "unit": "Alcohols, Phenols and Ethers",
+      "chapter": "Alcohols, Phenols & Ethers",
+      "type": "single_mcq",
+      "stem": "Which reagent reduces ethanoic acid directly to ethanol?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sodium borohydride, NaBH4"
+        },
+        {
+          "key": "B",
+          "text": "Zinc amalgam with concentrated HCl"
+        },
+        {
+          "key": "C",
+          "text": "Lithium aluminium hydride, LiAlH4"
+        },
+        {
+          "key": "D",
+          "text": "Pyridinium chlorochromate, PCC"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "Carboxylic acids are reduced to primary alcohols by lithium aluminium hydride in dry ether, a very powerful hydride donor. Sodium borohydride is milder and reduces aldehydes and ketones but not carboxylic acids. Zinc amalgam with HCl converts C=O of aldehydes and ketones into CH2, and PCC is an oxidising agent.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Chemistry Part II, Ch 7 Alcohols, Phenols and Ethers and Ch 8: reduction of carboxylic acids to primary alcohols with LiAlH4",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "medium ok (a notch easy)",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": []
+      }
+    },
+    {
+      "id": "8e181c77-95ef-4e7c-8bf5-857cbba9f869",
+      "subject": "chemistry",
+      "unit": "Alcohols, Phenols and Ethers",
+      "chapter": "Alcohols, Phenols & Ethers",
+      "type": "single_mcq",
+      "stem": "Drinking methanol can cause blindness and death because in the body it is oxidised to:",
+      "options": [
+        {
+          "key": "A",
+          "text": "ethanal and ethanoic acid"
+        },
+        {
+          "key": "B",
+          "text": "methanal and ethanoic acid"
+        },
+        {
+          "key": "C",
+          "text": "ethanal and methanoic acid"
+        },
+        {
+          "key": "D",
+          "text": "methanal and methanoic acid"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "In the liver methanol is oxidised first to methanal and then to methanoic acid. Methanal coagulates the protoplasm of cells and methanoic acid damages the optic nerve, which is why methanol is poisonous. Ethanal and ethanoic acid are the oxidation products of ethanol, and the mixed pairs result from carrying one alcohol's product into the other's second step.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "NCERT Class 12 Chemistry Part II, Ch 7 Alcohols, Phenols and Ethers: commercially important alcohols, methanol poisoning",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "repaired",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "easy ok",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": [
+          {
+            "what": "Two throwaway distractors (methane and carbon dioxide; carbon monoxide and hydrogen) replaced by mixed methanal/ethanal and methanoic/ethanoic pairs; key unchanged, explanation extended",
+            "changes_what_a_solver_sees": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "0192976d-ce4d-4ed3-9672-8b0d1578ab19",
+      "subject": "chemistry",
+      "unit": "Alcohols, Phenols and Ethers",
+      "chapter": "Alcohols, Phenols & Ethers",
+      "type": "single_mcq",
+      "stem": "Sodium phenoxide is treated with bromomethane to give compound X. X is then treated with bromine in ethanoic acid in the absence of iron(III) bromide. The major product is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "2,4,6-Tribromophenol"
+        },
+        {
+          "key": "B",
+          "text": "1-Bromo-4-methoxybenzene"
+        },
+        {
+          "key": "C",
+          "text": "1-Bromo-2-methoxybenzene"
+        },
+        {
+          "key": "D",
+          "text": "1-Bromo-3-methoxybenzene"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "Sodium phenoxide and bromomethane react by Williamson synthesis to give anisole. The OCH3 group activates the ring and directs to the ortho and para positions, so bromination proceeds without a catalyst, and the less hindered para isomer is the major product. The ortho isomer is only the minor product, and meta substitution does not occur.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "NCERT Class 12 Chemistry Part II, Ch 7 Alcohols, Phenols and Ethers: Williamson synthesis from phenoxide; halogenation of anisole",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "hard is generous (two steps, medium-hard)",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": []
+      }
+    },
+    {
+      "id": "5afc1dc3-d029-4d47-ab5c-9c7043cbd7a4",
+      "subject": "chemistry",
+      "unit": "Aldehydes, Ketones and Carboxylic Acids",
+      "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+      "type": "single_mcq",
+      "stem": "Which one of the following is the correct name of CH3CH(Cl)CH2COOH in the IUPAC system?",
+      "options": [
+        {
+          "key": "A",
+          "text": "3-Chlorobutanoic acid"
+        },
+        {
+          "key": "B",
+          "text": "2-Chlorobutanoic acid"
+        },
+        {
+          "key": "C",
+          "text": "4-Chlorobutanoic acid"
+        },
+        {
+          "key": "D",
+          "text": "3-Chloropropanoic acid"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "The longest chain containing the COOH group has four carbons, so the parent is butanoic acid, and the carboxyl carbon is always carbon 1. Counting on, CH2 is carbon 2 and the carbon bearing chlorine is carbon 3, giving 3-chlorobutanoic acid. Numbering from the methyl end, which puts chlorine on carbon 2, ignores that the principal functional group fixes carbon 1.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Chemistry Part II, Ch 8 Aldehydes, Ketones and Carboxylic Acids: IUPAC nomenclature of carboxylic acids",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "labelled medium, plays easy (one notch)",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": []
+      }
+    },
+    {
+      "id": "a04434ca-9aad-472b-bbab-a3f1772efcdf",
+      "subject": "chemistry",
+      "unit": "Aldehydes, Ketones and Carboxylic Acids",
+      "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+      "type": "single_mcq",
+      "stem": "Benzene reacts with ethanoyl chloride in the presence of anhydrous aluminium chloride to give:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Benzaldehyde"
+        },
+        {
+          "key": "B",
+          "text": "Ethylbenzene"
+        },
+        {
+          "key": "C",
+          "text": "Acetophenone"
+        },
+        {
+          "key": "D",
+          "text": "Benzoic acid"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "In Friedel-Crafts acylation the acylium ion CH3CO+ attacks the ring and the product is the ketone acetophenone (methyl phenyl ketone). Benzaldehyde comes from the Gattermann-Koch reaction with CO and HCl, and ethylbenzene would need an ethyl halide in Friedel-Crafts alkylation.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "NCERT Class 12 Chemistry Part II, Ch 8 Aldehydes, Ketones and Carboxylic Acids: preparation of ketones by Friedel-Crafts acylation",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "easy ok",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": []
+      }
+    },
+    {
+      "id": "47b26e05-f8b5-44e7-a499-1078b4ff6bdd",
+      "subject": "chemistry",
+      "unit": "Aldehydes, Ketones and Carboxylic Acids",
+      "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+      "type": "single_mcq",
+      "stem": "Ethanal is treated with HCN, and the addition product is then hydrolysed with dilute acid. The final product is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "2-Hydroxypropanoic acid"
+        },
+        {
+          "key": "B",
+          "text": "Propanoic acid"
+        },
+        {
+          "key": "C",
+          "text": "3-Hydroxypropanoic acid"
+        },
+        {
+          "key": "D",
+          "text": "2-Oxopropanoic acid"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "HCN adds across the C=O group of ethanal to give the cyanohydrin CH3CH(OH)CN, and hydrolysis converts the CN group into COOH. The hydroxyl group stays on the same carbon, so the product is 2-hydroxypropanoic acid (lactic acid). Propanoic acid would require the OH to be lost, which does not happen, and no oxidation step is involved.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Chemistry Part II, Ch 8 Aldehydes, Ketones and Carboxylic Acids: nucleophilic addition of HCN, cyanohydrins",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "medium ok",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": []
+      }
+    },
+    {
+      "id": "9f114e98-a8ab-4a14-a9e6-2ddf5d0a2729",
+      "subject": "chemistry",
+      "unit": "Aldehydes, Ketones and Carboxylic Acids",
+      "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+      "type": "single_mcq",
+      "stem": "Sodium propanoate is heated with soda lime. The organic product formed is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Propane"
+        },
+        {
+          "key": "B",
+          "text": "Butane"
+        },
+        {
+          "key": "C",
+          "text": "Methane"
+        },
+        {
+          "key": "D",
+          "text": "Ethane"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "Heating the sodium salt of a carboxylic acid with soda lime (NaOH and CaO) removes the carboxyl carbon as sodium carbonate: C2H5COONa + NaOH gives C2H6 + Na2CO3. The alkane has one carbon fewer than the acid, so ethane forms. Butane is the product of Kolbe electrolysis of the same salt, where two alkyl radicals couple.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "NCERT Class 12 Chemistry Part II, Ch 8 Aldehydes, Ketones and Carboxylic Acids: decarboxylation of carboxylic acids",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "easy ok",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": []
+      }
+    },
+    {
+      "id": "6fa18b54-8d1a-48ce-b3cb-8c451d1e3287",
+      "subject": "chemistry",
+      "unit": "Aldehydes, Ketones and Carboxylic Acids",
+      "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+      "type": "single_mcq",
+      "stem": "Propanoic acid is heated with methanol in the presence of a few drops of concentrated sulphuric acid. The ester formed is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Propyl methanoate"
+        },
+        {
+          "key": "B",
+          "text": "Methyl ethanoate"
+        },
+        {
+          "key": "C",
+          "text": "Methyl propanoate"
+        },
+        {
+          "key": "D",
+          "text": "Ethyl propanoate"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "In esterification the acid supplies the acyl part and the alcohol supplies the alkyl part, with loss of water: CH3CH2COOH + CH3OH gives CH3CH2COOCH3 + H2O. The ester is named alkyl (from the alcohol) followed by alkanoate (from the acid), so it is methyl propanoate. Propyl methanoate results from swapping the roles of the acid and the alcohol.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Chemistry Part II, Ch 8 Aldehydes, Ketones and Carboxylic Acids: esterification of carboxylic acids with alcohols",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "labelled medium, plays easy (one notch)",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": []
+      }
+    },
+    {
+      "id": "eb20eba0-98e1-4090-8320-cab801471c74",
+      "subject": "chemistry",
+      "unit": "Aldehydes, Ketones and Carboxylic Acids",
+      "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+      "type": "single_mcq",
+      "stem": "Formalin, used for preserving biological specimens, is a 40 percent aqueous solution of:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ethanal"
+        },
+        {
+          "key": "B",
+          "text": "Methanal"
+        },
+        {
+          "key": "C",
+          "text": "Methanoic acid"
+        },
+        {
+          "key": "D",
+          "text": "Propanone"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "Formalin is a 40 percent aqueous solution of methanal (formaldehyde), used to preserve biological specimens and to make phenol-formaldehyde resins. Methanoic acid is the oxidation product of methanal, and ethanal and propanone are different carbonyl compounds with other uses.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "NCERT Class 12 Chemistry Part II, Ch 8 Aldehydes, Ketones and Carboxylic Acids: uses of aldehydes and ketones",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "easy ok",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": []
+      }
+    },
+    {
+      "id": "359c50ec-370a-4277-a1e1-26ff626c290f",
+      "subject": "chemistry",
+      "unit": "Aldehydes, Ketones and Carboxylic Acids",
+      "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+      "type": "statement_based",
+      "stem": "Consider the following statements about aldehydes, ketones and carboxylic acids.\n(A) The carbonyl carbon is sp2 hybridised, and the C=O bond is polarised with a partial positive charge on carbon.\n(B) Ethanal and propanone are miscible with water in all proportions.\n(C) The boiling points of aldehydes and ketones are lower than those of alcohols of comparable molar mass.\n(D) Methanal is a liquid at room temperature.\nChoose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(A), (C) and (D) only"
+        },
+        {
+          "key": "B",
+          "text": "(B), (C) and (D) only"
+        },
+        {
+          "key": "C",
+          "text": "(A), (B) and (C) only"
+        },
+        {
+          "key": "D",
+          "text": "(A), (B) and (D) only"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "The carbonyl carbon is sp2 hybridised and carries a partial positive charge because oxygen is more electronegative. Ethanal and propanone form hydrogen bonds with water and mix with it in all proportions. Aldehydes and ketones cannot form hydrogen bonds with each other, so they boil below alcohols of comparable molar mass. Methanal is a gas at room temperature, so statement (D) is false.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Chemistry Part II, Ch 8 Aldehydes, Ketones and Carboxylic Acids: structure of the carbonyl group, physical properties (boiling point and solubility)",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "repaired",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "medium ok",
+        "answer_tells": "none found",
+        "duplicates": "statement (C) on dimers of carboxylic acids was word for word statement (B) of live-bank item 08adfc",
+        "repairs": [
+          {
+            "what": "Statement (C) replaced by \"boiling points of aldehydes and ketones are lower than those of alcohols of comparable molar mass\" (true); key set (A),(B),(C) at option C unchanged",
+            "changes_what_a_solver_sees": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "b19fa8e5-08f3-47e4-8450-b40bc6631f53",
+      "subject": "chemistry",
+      "unit": "Aldehydes, Ketones and Carboxylic Acids",
+      "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+      "type": "sequence_ordering",
+      "stem": "Arrange the following in increasing order of acidic strength:\n(A) Benzoic acid\n(B) 4-Nitrobenzoic acid\n(C) 4-Methoxybenzoic acid\n(D) 4-Chlorobenzoic acid",
+      "options": [
+        {
+          "key": "A",
+          "text": "(C), (A), (D), (B)"
+        },
+        {
+          "key": "B",
+          "text": "(A), (C), (D), (B)"
+        },
+        {
+          "key": "C",
+          "text": "(C), (A), (B), (D)"
+        },
+        {
+          "key": "D",
+          "text": "(B), (D), (A), (C)"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "Electron-withdrawing groups stabilise the benzoate ion and raise acidity, while electron-donating groups destabilise it. The nitro group withdraws strongly, chlorine withdraws by its inductive effect more than it donates by resonance, and the methoxy group donates by resonance, so it is the weakest acid, even weaker than benzoic acid. Placing methoxy above benzoic acid because of its electronegative oxygen ignores that resonance donation.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "NCERT Class 12 Chemistry Part II, Ch 8 Aldehydes, Ketones and Carboxylic Acids: effect of substituents on the acidity of benzoic acid",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "hard ok (pKa 3.4 / 4.0 / 4.2 / 4.5 order)",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": []
+      }
+    },
+    {
+      "id": "5069f737-db90-4b0d-83ff-4c19643ca9a1",
+      "subject": "chemistry",
+      "unit": "Aldehydes, Ketones and Carboxylic Acids",
+      "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+      "type": "single_mcq",
+      "stem": "Which one of the following does NOT give benzoic acid when heated with alkaline KMnO4 and then acidified?",
+      "options": [
+        {
+          "key": "A",
+          "text": "n-Butylbenzene"
+        },
+        {
+          "key": "B",
+          "text": "sec-Butylbenzene"
+        },
+        {
+          "key": "C",
+          "text": "Isobutylbenzene"
+        },
+        {
+          "key": "D",
+          "text": "tert-Butylbenzene"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "Vigorous oxidation of an alkylbenzene needs at least one hydrogen on the benzylic carbon, and then the whole side chain is oxidised to COOH whatever its length. The n-butyl, sec-butyl and isobutyl groups all have benzylic hydrogens and give benzoic acid. The tert-butyl group has none, so tert-butylbenzene is not oxidised.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "NCERT Class 12 Chemistry Part II, Ch 8 Aldehydes, Ketones and Carboxylic Acids: preparation of carboxylic acids by side-chain oxidation of alkylbenzenes",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "hard is generous (medium-hard)",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": []
+      }
+    },
+    {
+      "id": "efce0722-5459-4073-8962-fe465fb5fa07",
+      "subject": "chemistry",
+      "unit": "Aldehydes, Ketones and Carboxylic Acids",
+      "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+      "type": "single_mcq",
+      "stem": "Ethanal is treated with excess methanol in the presence of dry hydrogen chloride gas. The final organic product is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Methyl ethanoate"
+        },
+        {
+          "key": "B",
+          "text": "1,1-Dimethoxyethane"
+        },
+        {
+          "key": "C",
+          "text": "1-Methoxyethan-1-ol"
+        },
+        {
+          "key": "D",
+          "text": "Methoxymethane"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "Under dry HCl methanol adds to the C=O group of ethanal to give the hemiacetal 1-methoxyethan-1-ol. With excess methanol this reacts further with loss of water to give the acetal 1,1-dimethoxyethane. The hemiacetal is only the intermediate, and methyl ethanoate would need an oxidation step.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Chemistry Part II, Ch 8 Aldehydes, Ketones and Carboxylic Acids: nucleophilic addition of alcohols, hemiacetals and acetals",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "medium ok",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": []
+      }
+    }
+  ]
+}

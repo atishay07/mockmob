@@ -1,0 +1,886 @@
+{
+  "batch": "w4-chem-03",
+  "subject": "chemistry",
+  "questions": [
+    {
+      "id": "969ec6f8-7e52-48ce-9832-299e478417ce",
+      "subject": "chemistry",
+      "unit": "Electrochemistry",
+      "chapter": "Electrochemistry",
+      "type": "single_mcq",
+      "stem": "The standard electrode potentials of Ni²⁺/Ni and Ag⁺/Ag are −0.25 V and +0.80 V respectively. Using 2.303RT/F = 0.059 V at 298 K, the EMF of the cell Ni(s) | Ni²⁺ (1.0 M) || Ag⁺ (0.01 M) | Ag(s) is closest to:",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.17 V"
+        },
+        {
+          "key": "B",
+          "text": "0.93 V"
+        },
+        {
+          "key": "C",
+          "text": "0.99 V"
+        },
+        {
+          "key": "D",
+          "text": "0.81 V"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "E°cell = 0.80 − (−0.25) = 1.05 V and n = 2. The reaction Ni + 2Ag⁺ → Ni²⁺ + 2Ag gives Q = [Ni²⁺]/[Ag⁺]² = 1.0/(0.01)² = 10⁴, so Ecell = 1.05 − (0.059/2) × 4 = 1.05 − 0.118 = 0.93 V. Leaving [Ag⁺] unsquared gives Q = 100 and 0.99 V, which ignores that two Ag⁺ ions appear in the balanced equation.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "NCERT Class 12 Chemistry Part I, Ch 2 Electrochemistry: Nernst equation applied to the EMF of a cell with non-standard concentrations",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "hard is generous (medium-hard; two steps)",
+        "answer_tells": "none found",
+        "duplicates": "validator soft flag same_figures with three earlier Nernst items (single electrode and K); this one is a cell EMF with a squared concentration, a different idea; kept",
+        "repairs": []
+      }
+    },
+    {
+      "id": "a7758e68-699c-48a6-bc75-d2a972b4ad92",
+      "subject": "chemistry",
+      "unit": "Electrochemistry",
+      "chapter": "Electrochemistry",
+      "type": "single_mcq",
+      "stem": "The same current is passed through two electrolytic cells in series, one containing aqueous CuSO4 and the other aqueous AgNO3. If 3.175 g of copper (molar mass 63.5 g mol⁻¹) is deposited in the first cell, the mass of silver (molar mass 108 g mol⁻¹) deposited in the second cell is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "5.40 g"
+        },
+        {
+          "key": "B",
+          "text": "21.6 g"
+        },
+        {
+          "key": "C",
+          "text": "2.70 g"
+        },
+        {
+          "key": "D",
+          "text": "10.8 g"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "The same charge passes through both cells. Cu²⁺ + 2e⁻ → Cu, so 3.175 g = 0.05 mol Cu uses 0.10 mol of electrons. Ag⁺ + e⁻ → Ag needs one electron per atom, so 0.10 mol Ag = 0.10 × 108 = 10.8 g is deposited. Assuming equal moles of the two metals (0.05 mol Ag, 5.40 g) forgets that copper takes two electrons per atom while silver takes one.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Chemistry Part I, Ch 2 Electrochemistry: Faraday's second law of electrolysis: same charge through different electrolytes",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "medium ok",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": []
+      }
+    },
+    {
+      "id": "5c0ee5c8-3f94-4d63-b0a2-b4d994547c7e",
+      "subject": "chemistry",
+      "unit": "Electrochemistry",
+      "chapter": "Electrochemistry",
+      "type": "single_mcq",
+      "stem": "In a hydrogen–oxygen fuel cell with aqueous KOH as the electrolyte, the reaction taking place at the anode is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "2H2 + 4OH⁻ → 4H2O + 4e⁻"
+        },
+        {
+          "key": "B",
+          "text": "O2 + 2H2O + 4e⁻ → 4OH⁻"
+        },
+        {
+          "key": "C",
+          "text": "2H2O → O2 + 4H⁺ + 4e⁻"
+        },
+        {
+          "key": "D",
+          "text": "2H2 → 4H⁺ + 4e⁻"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "Oxidation takes place at the anode, so hydrogen is oxidised; in the alkaline electrolyte it combines with OH⁻ to give water: 2H2 + 4OH⁻ → 4H2O + 4e⁻. The reduction of O2 to OH⁻ is the cathode half-reaction, and H⁺ cannot be a product in a KOH solution.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "NCERT Class 12 Chemistry Part I, Ch 2 Electrochemistry: Fuel cells: electrode reactions of the H2-O2 fuel cell",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "easy ok",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": []
+      }
+    },
+    {
+      "id": "e6056587-a51f-421d-a7eb-904e696e12af",
+      "subject": "chemistry",
+      "unit": "Electrochemistry",
+      "chapter": "Electrochemistry",
+      "type": "single_mcq",
+      "stem": "When an aqueous solution of KCl is diluted, how do its conductivity (κ) and its molar conductivity (Λm) change?",
+      "options": [
+        {
+          "key": "A",
+          "text": "κ decreases and Λm decreases"
+        },
+        {
+          "key": "B",
+          "text": "κ increases and Λm increases"
+        },
+        {
+          "key": "C",
+          "text": "κ decreases and Λm increases"
+        },
+        {
+          "key": "D",
+          "text": "κ increases and Λm decreases"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "Dilution reduces the number of ions in each cm³ of solution, so the conductivity κ falls. Molar conductivity Λm = κ/c refers to the solution containing one mole of electrolyte; for a strong electrolyte it rises slowly on dilution because weaker inter-ionic attraction lets the ions move more freely. Saying both decrease mixes up the per-volume quantity with the per-mole quantity.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "NCERT Class 12 Chemistry Part I, Ch 2 Electrochemistry: Variation of conductivity and molar conductivity with concentration for a strong electrolyte",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "easy ok",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": []
+      }
+    },
+    {
+      "id": "4fced3ab-5807-43b8-8025-82d9859180a1",
+      "subject": "chemistry",
+      "unit": "Electrochemistry",
+      "chapter": "Electrochemistry",
+      "type": "single_mcq",
+      "stem": "At infinite dilution, the molar ionic conductivities of Al³⁺ and SO4²⁻ are 189 and 160 S cm² mol⁻¹ respectively. The limiting molar conductivity of Al2(SO4)3, in S cm² mol⁻¹, is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "349"
+        },
+        {
+          "key": "B",
+          "text": "858"
+        },
+        {
+          "key": "C",
+          "text": "887"
+        },
+        {
+          "key": "D",
+          "text": "538"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "By Kohlrausch law, Λ°m = ν₊λ°₊ + ν₋λ°₋. One formula unit of Al2(SO4)3 gives 2 Al³⁺ and 3 SO4²⁻, so Λ°m = 2 × 189 + 3 × 160 = 378 + 480 = 858. Adding the two ionic values once (349) ignores the number of ions per formula unit, and swapping the coefficients gives 887.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Chemistry Part I, Ch 2 Electrochemistry: Kohlrausch law of independent migration of ions applied to a strong electrolyte",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "medium ok",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": []
+      }
+    },
+    {
+      "id": "7e7b5652-225b-40a3-859f-5f1d822bfe17",
+      "subject": "chemistry",
+      "unit": "Chemical Kinetics",
+      "chapter": "Chemical Kinetics",
+      "type": "statement_based",
+      "stem": "Consider the following statements about the rate of a chemical reaction.\n(A) A catalyst provides an alternative pathway of lower activation energy.\n(B) A catalyst shifts the equilibrium of a reversible reaction towards the products.\n(C) The rate constant of a reaction depends on temperature.\n(D) At a fixed temperature, the rate constant does not depend on the concentrations of the reactants.\nChoose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(A), (C) and (D) only"
+        },
+        {
+          "key": "B",
+          "text": "(A), (B) and (C) only"
+        },
+        {
+          "key": "C",
+          "text": "(B), (C) and (D) only"
+        },
+        {
+          "key": "D",
+          "text": "(A), (B) and (D) only"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "A catalyst lowers the activation energy through an alternative path, the rate constant varies with temperature through k = A e^(−Ea/RT), and at one temperature k is fixed whatever the concentrations, so (A), (C) and (D) are true. A catalyst speeds up the forward and backward reactions equally and leaves the equilibrium composition unchanged, so (B) is false.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Chemistry Part I, Ch 3 Chemical Kinetics: Factors affecting rate, catalyst, rate constant and its temperature dependence",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "medium ok",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": []
+      }
+    },
+    {
+      "id": "973877a8-423b-40dd-847e-6e0491b45a02",
+      "subject": "chemistry",
+      "unit": "Chemical Kinetics",
+      "chapter": "Chemical Kinetics",
+      "type": "single_mcq",
+      "stem": "A zero order reaction has a rate constant of 5.0 × 10⁻³ mol L⁻¹ min⁻¹. For an initial concentration of 0.20 mol L⁻¹, the time taken for the concentration of the reactant to fall to 0.05 mol L⁻¹ is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "15 min"
+        },
+        {
+          "key": "B",
+          "text": "40 min"
+        },
+        {
+          "key": "C",
+          "text": "50 min"
+        },
+        {
+          "key": "D",
+          "text": "30 min"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "For a zero order reaction [A] = [A]₀ − kt, so t = (0.20 − 0.05)/(5.0 × 10⁻³) = 30 min. Check: 0.20 to 0.10 takes 0.10/0.005 = 20 min and 0.10 to 0.05 takes 0.05/0.005 = 10 min. Counting two equal half-lives of 20 min (40 min) is wrong because a zero order half-life shrinks as the concentration falls.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Chemistry Part I, Ch 3 Chemical Kinetics: Integrated rate equation of a zero order reaction",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "medium ok",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": []
+      }
+    },
+    {
+      "id": "a08beb87-d194-457a-81c5-2bf8b78436fe",
+      "subject": "chemistry",
+      "unit": "Chemical Kinetics",
+      "chapter": "Chemical Kinetics",
+      "type": "single_mcq",
+      "stem": "For an elementary gas-phase reaction 2A + B → products, the volume of the reaction vessel is reduced to one-third of its original value at constant temperature. The rate of the reaction becomes:",
+      "options": [
+        {
+          "key": "A",
+          "text": "9 times"
+        },
+        {
+          "key": "B",
+          "text": "3 times"
+        },
+        {
+          "key": "C",
+          "text": "27 times"
+        },
+        {
+          "key": "D",
+          "text": "6 times"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "For an elementary step the rate law follows the stoichiometry: rate = k[A]²[B], overall order 3. Reducing the volume to one-third makes every concentration three times larger, so the rate becomes 3² × 3 = 27 times. Raising only [A] to the second power gives 9 times and forgets the dependence on [B].",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Chemistry Part I, Ch 3 Chemical Kinetics: Rate law of an elementary reaction and the effect of concentration on rate",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "medium ok",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": []
+      }
+    },
+    {
+      "id": "bc99a237-d954-40cc-a95a-0320cf346f7f",
+      "subject": "chemistry",
+      "unit": "Chemical Kinetics",
+      "chapter": "Chemical Kinetics",
+      "type": "single_mcq",
+      "stem": "In the Arrhenius equation k = A e^(−Ea/RT), the factor e^(−Ea/RT) represents:",
+      "options": [
+        {
+          "key": "A",
+          "text": "the fraction of collisions that have the correct orientation"
+        },
+        {
+          "key": "B",
+          "text": "the fraction of molecules with energy equal to or greater than Ea"
+        },
+        {
+          "key": "C",
+          "text": "the number of collisions per second in unit volume"
+        },
+        {
+          "key": "D",
+          "text": "the minimum energy a colliding pair must have to react"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "In collision theory only molecules with energy equal to or greater than the activation energy can react, and the Boltzmann factor e^(−Ea/RT) gives this fraction, which rises with temperature. The fraction of collisions with proper orientation is the steric factor, and the collision frequency is contained in the pre-exponential factor A.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "NCERT Class 12 Chemistry Part I, Ch 3 Chemical Kinetics: Arrhenius equation and collision theory: meaning of the exponential factor",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "easy ok",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": []
+      }
+    },
+    {
+      "id": "38dd3ed0-f042-4470-b5b8-90886167286c",
+      "subject": "chemistry",
+      "unit": "Chemical Kinetics",
+      "chapter": "Chemical Kinetics",
+      "type": "single_mcq",
+      "stem": "In a reaction A → products, the concentration of A falls from 0.80 mol L⁻¹ to 0.50 mol L⁻¹ in 10 minutes. The average rate of the reaction, in mol L⁻¹ s⁻¹, is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "5.0 × 10⁻³"
+        },
+        {
+          "key": "B",
+          "text": "1.3 × 10⁻³"
+        },
+        {
+          "key": "C",
+          "text": "3.0 × 10⁻²"
+        },
+        {
+          "key": "D",
+          "text": "5.0 × 10⁻⁴"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "Average rate = −Δ[A]/Δt = (0.80 − 0.50)/(10 × 60 s) = 0.30/600 = 5.0 × 10⁻⁴ mol L⁻¹ s⁻¹. The value 3.0 × 10⁻² is the rate per minute and leaves the time unconverted, while 5.0 × 10⁻³ converts only one minute to seconds.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "NCERT Class 12 Chemistry Part I, Ch 3 Chemical Kinetics: Average rate of a reaction from the change in concentration over time",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "easy ok",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": []
+      }
+    },
+    {
+      "id": "0dfb5b38-ed97-4c20-8199-41135c08395b",
+      "subject": "chemistry",
+      "unit": "d and f Block Elements",
+      "chapter": "d- and f-Block Elements",
+      "type": "single_mcq",
+      "stem": "Which of the following is NOT a property of the interstitial compounds of transition metals?",
+      "options": [
+        {
+          "key": "A",
+          "text": "They are very hard, some approaching diamond in hardness"
+        },
+        {
+          "key": "B",
+          "text": "They retain the metallic conductivity of the metal"
+        },
+        {
+          "key": "C",
+          "text": "They have lower melting points than the pure metals"
+        },
+        {
+          "key": "D",
+          "text": "They are chemically inert towards most reagents"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "Small atoms such as H, B, C and N occupy the voids of the metal lattice, which makes the compounds very hard, chemically inert and conducting like the parent metal. The strong bonding also raises their melting points above those of the pure metals, so the statement about lower melting points is the one that is false.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "NCERT Class 12 Chemistry Part I, Ch 4 d- and f-Block Elements: Formation of interstitial compounds and their properties",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "easy ok",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": []
+      }
+    },
+    {
+      "id": "8199b343-e47e-40e5-acdd-8e458592a4d0",
+      "subject": "chemistry",
+      "unit": "d and f Block Elements",
+      "chapter": "d- and f-Block Elements",
+      "type": "single_mcq",
+      "stem": "Given E°(Cr³⁺/Cr²⁺) = −0.41 V, E°(Fe³⁺/Fe²⁺) = +0.77 V and E°(Mn³⁺/Mn²⁺) = +1.57 V, which of the following reactions is NOT spontaneous under standard conditions?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cr³⁺ + Fe²⁺ → Cr²⁺ + Fe³⁺"
+        },
+        {
+          "key": "B",
+          "text": "Mn³⁺ + Fe²⁺ → Mn²⁺ + Fe³⁺"
+        },
+        {
+          "key": "C",
+          "text": "Fe³⁺ + Cr²⁺ → Fe²⁺ + Cr³⁺"
+        },
+        {
+          "key": "D",
+          "text": "Mn³⁺ + Cr²⁺ → Mn²⁺ + Cr³⁺"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "A redox reaction is spontaneous only when the couple of the oxidising agent has the higher E°. Cr³⁺ (−0.41 V) cannot oxidise Fe²⁺ because E°cell = −0.41 − 0.77 = −1.18 V. The other three give positive values: +0.80 V for Mn³⁺ with Fe²⁺, +1.18 V for Fe³⁺ with Cr²⁺ and +1.98 V for Mn³⁺ with Cr²⁺.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "NCERT Class 12 Chemistry Part I, Ch 4 d- and f-Block Elements: Standard electrode potentials of M3+/M2+ couples and their use in predicting reactions",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "labelled hard, plays medium (one notch)",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": []
+      }
+    },
+    {
+      "id": "9796cd95-e541-4ba5-85eb-7f4b7cab45ad",
+      "subject": "chemistry",
+      "unit": "d and f Block Elements",
+      "chapter": "d- and f-Block Elements",
+      "type": "single_mcq",
+      "stem": "Addition of aqueous NaOH to an orange solution of K2Cr2O7 turns it yellow. The species responsible for the yellow colour is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cr³⁺"
+        },
+        {
+          "key": "B",
+          "text": "CrO3"
+        },
+        {
+          "key": "C",
+          "text": "Cr(OH)3"
+        },
+        {
+          "key": "D",
+          "text": "CrO4²⁻"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "In alkaline solution dichromate changes to chromate: Cr2O7²⁻ + 2OH⁻ → 2CrO4²⁻ + H2O. Chromium stays in the +6 state and the yellow chromate returns to orange dichromate on adding acid. Cr³⁺ or Cr(OH)3 would need a reducing agent, and NaOH is not one.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Chemistry Part I, Ch 4 d- and f-Block Elements: Potassium dichromate: chromate-dichromate interconversion with pH",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "medium ok",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": []
+      }
+    },
+    {
+      "id": "c459a1d2-65e0-4cd0-b071-3ec287fe0efc",
+      "subject": "chemistry",
+      "unit": "d and f Block Elements",
+      "chapter": "d- and f-Block Elements",
+      "type": "match_the_following",
+      "stem": "Match List-I with List-II.\nList-I (Aqueous ion): (A) Cu²⁺ (B) Cr³⁺ (C) Mn²⁺ (D) Ni²⁺\nList-II (Colour): (I) Violet (II) Pink (III) Blue (IV) Green\nChoose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(A)-(I), (B)-(III), (C)-(II), (D)-(IV)"
+        },
+        {
+          "key": "B",
+          "text": "(A)-(III), (B)-(I), (C)-(II), (D)-(IV)"
+        },
+        {
+          "key": "C",
+          "text": "(A)-(III), (B)-(I), (C)-(IV), (D)-(II)"
+        },
+        {
+          "key": "D",
+          "text": "(A)-(II), (B)-(I), (C)-(III), (D)-(IV)"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "The hydrated ions absorb light through d-d transitions: Cu²⁺ appears blue, Cr³⁺ violet, Mn²⁺ pale pink and Ni²⁺ green. The other pairings interchange blue and violet, or pink and green, which are the usual slips when these colours are learnt as an unordered list.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Chemistry Part I, Ch 4 d- and f-Block Elements: Formation of coloured ions by transition metals (d-d transitions)",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "medium ok",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": []
+      }
+    },
+    {
+      "id": "34a6cabf-0b12-4321-b746-76378dd8d946",
+      "subject": "chemistry",
+      "unit": "d and f Block Elements",
+      "chapter": "d- and f-Block Elements",
+      "type": "sequence_ordering",
+      "stem": "Arrange the following lanthanoid ions in the increasing order of their ionic radii.\n(A) Gd³⁺\n(B) La³⁺\n(C) Lu³⁺\n(D) Pr³⁺\nChoose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(C), (A), (D), (B)"
+        },
+        {
+          "key": "B",
+          "text": "(B), (D), (A), (C)"
+        },
+        {
+          "key": "C",
+          "text": "(C), (A), (B), (D)"
+        },
+        {
+          "key": "D",
+          "text": "(A), (C), (D), (B)"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "Because 4f electrons shield the nuclear charge poorly, the radius of Ln³⁺ falls steadily from La³⁺ (atomic number 57) to Lu³⁺ (71). Pr (59) and Gd (64) lie in between, so the increasing order is Lu³⁺ < Gd³⁺ < Pr³⁺ < La³⁺. Reading the series from La to Lu gives the decreasing order instead.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Chemistry Part I, Ch 4 d- and f-Block Elements: Lanthanoid contraction: trend in the ionic radii of the Ln3+ ions",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "medium ok",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": []
+      }
+    },
+    {
+      "id": "a58d364f-574c-424c-9ed2-0f6e4fdb5c3e",
+      "subject": "chemistry",
+      "unit": "Coordination Compounds",
+      "chapter": "Coordination Compounds",
+      "type": "single_mcq",
+      "stem": "Excess silver nitrate solution is added to an aqueous solution containing one mole of [Co(NH3)5Cl]Cl2. The number of moles of AgCl precipitated is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "0"
+        },
+        {
+          "key": "C",
+          "text": "2"
+        },
+        {
+          "key": "D",
+          "text": "1"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "In Werner’s picture the chloride inside the coordination sphere is bonded to cobalt by a coordinate bond and does not ionise, while the two outer-sphere chloride ions are free: [Co(NH3)5Cl]Cl2 → [Co(NH3)5Cl]²⁺ + 2Cl⁻. Only these two give AgCl, so 2 mol is precipitated. Counting all three chlorine atoms (3 mol) treats the bonded chloride as ionisable.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "NCERT Class 12 Chemistry Part I, Ch 5 Coordination Compounds: Werner's theory: primary and secondary valence, ionisable and coordinated ligands",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "easy ok",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": []
+      }
+    },
+    {
+      "id": "bdc87aa5-3aa5-4786-9440-5aa51f0bb35d",
+      "subject": "chemistry",
+      "unit": "Coordination Compounds",
+      "chapter": "Coordination Compounds",
+      "type": "single_mcq",
+      "stem": "The IUPAC name of the complex [Co(NH3)4Cl2]Cl is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "dichloridotetraamminecobalt(III) chloride"
+        },
+        {
+          "key": "B",
+          "text": "tetraamminedichloridocobaltate(III) chloride"
+        },
+        {
+          "key": "C",
+          "text": "tetraamminedichloridocobalt(II) chloride"
+        },
+        {
+          "key": "D",
+          "text": "tetraamminedichloridocobalt(III) chloride"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "Ligands are named in alphabetical order ignoring the numerical prefixes, so ammine comes before chlorido. With NH3 neutral, two Cl⁻ inside and a charge of +1 on the complex ion, x + 0 − 2 = +1 gives cobalt(III); a cationic complex takes no -ate ending. Starting with dichlorido follows the prefixes instead of the alphabet.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Chemistry Part I, Ch 5 Coordination Compounds: IUPAC nomenclature of coordination compounds: order of ligands and oxidation state",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "medium ok",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": []
+      }
+    },
+    {
+      "id": "5423cc50-4ae2-487d-94b9-6da3cf15a6dd",
+      "subject": "chemistry",
+      "unit": "Coordination Compounds",
+      "chapter": "Coordination Compounds",
+      "type": "single_mcq",
+      "stem": "The total number of stereoisomers (geometrical and optical together) possible for the octahedral complex ion [Co(en)2Cl2]+, where en is ethane-1,2-diamine, a bidentate ligand, is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "4"
+        },
+        {
+          "key": "D",
+          "text": "5"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "The trans form has a plane of symmetry and is optically inactive. The cis form has no plane or centre of symmetry, so it exists as a pair of mirror-image optical isomers. The total is 2 + 1 = 3. Answering 2 counts only the cis and trans geometrical isomers and misses the optical pair of the cis form.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "NCERT Class 12 Chemistry Part I, Ch 5 Coordination Compounds: Stereoisomerism in coordination compounds: geometrical and optical isomers of [Co(en)2Cl2]+",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "labelled hard, NCERT staple, plays medium (one notch)",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": []
+      }
+    },
+    {
+      "id": "03468e44-24ac-4016-a28b-cdc361d9e934",
+      "subject": "chemistry",
+      "unit": "Coordination Compounds",
+      "chapter": "Coordination Compounds",
+      "type": "match_the_following",
+      "stem": "Match List-I with List-II.\nList-I (Complex): (A) [Fe(CO)5] (B) [Cr(CO)6] (C) [Ni(CN)4]²⁻ (D) [NiCl4]²⁻\nList-II (Shape): (I) Tetrahedral (II) Octahedral (III) Square planar (IV) Trigonal bipyramidal\nChoose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(A)-(IV), (B)-(III), (C)-(II), (D)-(I)"
+        },
+        {
+          "key": "B",
+          "text": "(A)-(IV), (B)-(II), (C)-(III), (D)-(I)"
+        },
+        {
+          "key": "C",
+          "text": "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)"
+        },
+        {
+          "key": "D",
+          "text": "(A)-(IV), (B)-(II), (C)-(I), (D)-(III)"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "Fe(CO)5 is trigonal bipyramidal (dsp³) and Cr(CO)6 is octahedral (d²sp³). Ni²⁺ forms square planar [Ni(CN)4]²⁻ with the strong-field cyanide (dsp²) but tetrahedral [NiCl4]²⁻ with the weak-field chloride (sp³). Swapping the last two shapes is the usual slip, since both are four-coordinate Ni(II) complexes.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Chemistry Part I, Ch 5 Coordination Compounds: Shape and bonding of metal carbonyls and of four-coordinate nickel(II) complexes",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "medium ok",
+        "answer_tells": "none found",
+        "duplicates": "shares the complex [Ni(CN)4]2- with live match 0827f1 (which asks hybridisation); this item asks shape for four different complexes; kept",
+        "repairs": []
+      }
+    },
+    {
+      "id": "c448902e-cfe8-4f58-afca-25e26e7a5cc9",
+      "subject": "chemistry",
+      "unit": "Coordination Compounds",
+      "chapter": "Coordination Compounds",
+      "type": "sequence_ordering",
+      "stem": "Arrange the following complex ions in the increasing order of their spin-only magnetic moment.\n(A) [Fe(H2O)6]²⁺\n(B) [Co(NH3)6]³⁺\n(C) [Cr(H2O)6]³⁺\n(D) [Ni(H2O)6]²⁺\nChoose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(B), (C), (D), (A)"
+        },
+        {
+          "key": "B",
+          "text": "(B), (D), (A), (C)"
+        },
+        {
+          "key": "C",
+          "text": "(B), (D), (C), (A)"
+        },
+        {
+          "key": "D",
+          "text": "(A), (C), (D), (B)"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "Unpaired electrons give the moment √[n(n+2)]: [Co(NH3)6]³⁺ is low-spin d⁶ with 0 (0 BM), [Ni(H2O)6]²⁺ is d⁸ with 2 (2.83 BM), [Cr(H2O)6]³⁺ is d³ with 3 (3.87 BM) and [Fe(H2O)6]²⁺ is high-spin d⁶ with 4 (4.90 BM). Treating cobalt(III) as high spin would place it at the top instead of at zero.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "NCERT Class 12 Chemistry Part I, Ch 5 Coordination Compounds: Crystal field theory and Valence Bond Theory: high-spin and low-spin octahedral complexes, magnetic moment",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "auditor": "w4-audit-chemistry",
+        "date": "2026-10-17",
+        "verdict": "kept",
+        "solved_key_matches": true,
+        "syllabus": "in 2026 syllabus",
+        "level": "hard ok (CFT with four ions)",
+        "answer_tells": "none found",
+        "duplicates": "no live-bank or wave 1-3 duplicate",
+        "repairs": []
+      }
+    }
+  ]
+}
