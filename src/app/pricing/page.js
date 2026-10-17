@@ -173,7 +173,7 @@ const buildFaqs = (offer, bankSize = null) => [
   },
   {
     q: 'What is Your standing?',
-    a: 'Your standing is your own rank among MockMob students, worked out from the points your recorded mocks earn. You see your rank, how many students are ranked and your average. No other student's name is shown, and it is separate from your CUET exam rank.',
+    a: 'Your standing is your own rank among MockMob students, worked out from the points your recorded mocks earn. You see your rank, how many students are ranked and your average. No other student’s name is shown, and it is separate from your CUET exam rank.',
   },
 ];
 
