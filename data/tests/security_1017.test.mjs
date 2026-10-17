@@ -16,6 +16,7 @@ import {
   UPLOAD_ANSWER_KEYS, candidateContentHashes, uploadAccepted, uploadShapeViolation, UPLOAD_ACCEPTED_STATUS,
 } from '../../src/lib/moderation/uploadDedupe.js';
 import { executeDeletion, planDeletion } from '../../src/lib/server/accountDeletion.js';
+import { VoteError, isVotableQuestion, voteOnLiveQuestion } from '../question_votes.js';
 import { historyMessages, localExchangeRow, sanitiseLocalReply } from '../../src/lib/server/mentorLocal.js';
 
 const read = (path) => readFileSync(new URL(`../../${path}`, import.meta.url), 'utf8');
@@ -391,4 +392,75 @@ test('the prefix match is not a LIKE pattern, so % or _ in an id cannot widen it
   const branch = DELETION_SCRUB.slice(DELETION_SCRUB.indexOf("v_item ? 'prefix'"), DELETION_SCRUB.indexOf("elsif v_item ? 'parent_table'"));
   const code = branch.split(/\r?\n/).filter((line) => !line.trim().startsWith('--')).join(' ');
   assert.doesNotMatch(code, /like/i);
+});
+
+// ------------------------------------------------------------------ (f) votes only on live questions
+
+// A small fake of the Supabase query builder over two tables, enough for voteOnLiveQuestion.
+function voteDb({ questions = [], votes = [], failOn = null } = {}) {
+  const tables = { questions, question_votes: votes };
+  const writes = [];
+  const from = (name) => {
+    const filters = [];
+    let op = 'select';
+    let payload = null;
+    const matches = (row) => filters.every(([c, v]) => row[c] === v);
+    const run = () => {
+      if (failOn === `${name}.${op}`) return { data: null, error: { message: 'down' } };
+      const rows = tables[name];
+      if (op === 'select') return { data: rows.filter(matches).map((r) => ({ ...r })), error: null };
+      writes.push([name, op, payload, [...filters]]);
+      if (op === 'insert') rows.push({ ...payload });
+      if (op === 'update') rows.filter(matches).forEach((r) => Object.assign(r, payload));
+      if (op === 'delete') tables[name] = rows.filter((r) => !matches(r));
+      return { data: null, error: null };
+    };
+    const q = {
+      select: () => q,
+      eq: (c, v) => { filters.push([c, v]); return q; },
+      insert: (p) => { op = 'insert'; payload = p; return q; },
+      update: (p) => { op = 'update'; payload = p; return q; },
+      delete: () => { op = 'delete'; return q; },
+      maybeSingle: async () => { const r = run(); return { data: Array.isArray(r.data) ? r.data[0] || null : r.data, error: r.error }; },
+      then: (resolve, reject) => Promise.resolve(run()).then(resolve, reject),
+    };
+    return q;
+  };
+  return { from, writes, tables };
+}
+
+test('votes on pending, rejected, deleted or missing questions are refused before anything is written', async () => {
+  const questions = [
+    { id: 'pending', status: 'pending', is_deleted: false },
+    { id: 'rejected', status: 'rejected', is_deleted: false },
+    { id: 'deleted', status: 'live', is_deleted: true },
+  ];
+  for (const id of ['pending', 'rejected', 'deleted', 'missing']) {
+    const db = voteDb({ questions: questions.map((q) => ({ ...q })) });
+    await assert.rejects(voteOnLiveQuestion(db, 'u1', id, 'down'), (e) => e instanceof VoteError && e.code === 'question_not_found', id);
+    assert.deepEqual(db.writes, [], `${id}: no vote and no score change`);
+  }
+  assert.equal(isVotableQuestion({ status: 'live', is_deleted: false }), true);
+  assert.equal(isVotableQuestion({ status: 'live', is_deleted: null }), true);
+  assert.equal(isVotableQuestion({ status: 'pending', verification_state: 'verified', exploration_state: 'active' }), false);
+});
+
+test('a vote on a live question is stored and recounted; a failed write is an error, not a 200', async () => {
+  const db = voteDb({ questions: [{ id: 'q1', status: 'live', is_deleted: false, score: 0 }], votes: [{ user_id: 'u2', question_id: 'q1', vote_type: 'up' }] });
+  assert.deepEqual(await voteOnLiveQuestion(db, 'u1', 'q1', 'down'), { questionId: 'q1', upvotes: 1, downvotes: 1, score: 0, userVote: 'down' });
+  assert.deepEqual(await voteOnLiveQuestion(db, 'u1', 'q1', 'up'), { questionId: 'q1', upvotes: 2, downvotes: 0, score: 2, userVote: 'up' });
+  assert.deepEqual(await voteOnLiveQuestion(db, 'u1', 'q1', null), { questionId: 'q1', upvotes: 1, downvotes: 0, score: 1, userVote: null });
+  assert.equal(db.tables.questions[0].score, 1);
+  for (const failOn of ['question_votes.insert', 'questions.update', 'questions.select']) {
+    const broken = voteDb({ questions: [{ id: 'q1', status: 'live', is_deleted: false }], failOn });
+    await assert.rejects(voteOnLiveQuestion(broken, 'u1', 'q1', 'up'), (e) => e.code === 'vote_unavailable', failOn);
+  }
+});
+
+test('Database.voteQuestion goes through voteOnLiveQuestion and the route maps a refused vote to 404, rate limited per student', () => {
+  const db = read('data/db.js');
+  assert.match(db, /async voteQuestion\(userId, questionId, voteType\) \{\s*\/\/[^\n]*\n\s*return voteOnLiveQuestion\(supabaseAdmin\(\), userId, questionId, voteType\);/);
+  const route = read('src/app/api/questions/[id]/vote/route.js');
+  assert.match(route, /e\?\.code === 'question_not_found'/);
+  assert.match(route, /checkPersistentRateLimit\(request, \{ \.\.\.VOTE_LIMIT, keyParts: \[session\.user\.id\]/);
 });

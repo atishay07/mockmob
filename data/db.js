@@ -18,6 +18,7 @@ import {
   refundRevocationMatchesPayment,
 } from '@/lib/payments/entitlements';
 import { SEED_QUESTIONS } from './questions';
+import { voteOnLiveQuestion } from './question_votes';
 import { publicationEligibility, sharedEligibilitySnapshot } from './evidence_registry';
 import { assertFullBankRead } from './full_bank_guard';
 import { selectPracticeQuestions } from './practice_pick';
@@ -1363,67 +1364,8 @@ export const Database = {
   },
 
   async voteQuestion(userId, questionId, voteType) {
-    if (!userId) throw new Error('User is required');
-    if (!questionId) throw new Error('Question is required');
-    if (![null, 'up', 'down'].includes(voteType)) throw new Error('Invalid vote type');
-
-    const supabase = supabaseAdmin();
-
-    // 1. Check existing vote
-    const { data: existing } = await supabase
-      .from("question_votes")
-      .select("*")
-      .eq("user_id", userId)
-      .eq("question_id", questionId)
-      .maybeSingle();
-
-    // 2. Insert / update / delete
-    if (voteType === null) {
-      await supabase
-        .from("question_votes")
-        .delete()
-        .eq("user_id", userId)
-        .eq("question_id", questionId);
-    } else if (existing) {
-      await supabase
-        .from("question_votes")
-        .update({ vote_type: voteType })
-        .eq("user_id", userId)
-        .eq("question_id", questionId);
-    } else {
-      await supabase.from("question_votes").insert({
-        user_id: userId,
-        question_id: questionId,
-        vote_type: voteType,
-      });
-    }
-
-    // 3. Fetch all votes for this question
-    const { data: votes } = await supabase
-      .from("question_votes")
-      .select("vote_type")
-      .eq("question_id", questionId);
-
-    const upvotes = votes.filter(v => v.vote_type === "up").length;
-    const downvotes = votes.filter(v => v.vote_type === "down").length;
-    const score = upvotes - downvotes;
-
-    // 4. Update question table
-    await supabase
-      .from("questions")
-      .update({ upvotes, downvotes, score })
-      .eq("id", questionId);
-
-    const result = {
-      questionId,
-      upvotes,
-      downvotes,
-      score,
-      userVote: voteType,
-    };
-
-    console.log('Vote saved', questionId, result);
-    return result;
+    // Live questions only, every write checked (data/question_votes.js; security review 17 Oct 2026).
+    return voteOnLiveQuestion(supabaseAdmin(), userId, questionId, voteType);
   },
 
   async getAllQuestions() {
