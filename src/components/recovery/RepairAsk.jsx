@@ -15,7 +15,7 @@ import './repair-check.css';
 
 // `balance`: the AI credits the repair's own response says are left after its charge. It is newer than the wallet read
 // (reused for five minutes), so the price line and the repair's "1 AI credit used. You have N." say the same N.
-export default function RepairAsk({ attemptId, questionId, number = null, askHref = null, balance = null, style }) {
+export default function RepairAsk({ attemptId, questionId, number = null, askHref = null, askContext = null, balance = null, style }) {
   const auth = useContext(AuthContext);
   const wallet = useWalletSummary(auth?.user?.id, { reuseFresh: true });
   const left = Number.isFinite(balance) ? balance : wallet.wallet?.known ? wallet.wallet.total : null;
@@ -30,7 +30,9 @@ export default function RepairAsk({ attemptId, questionId, number = null, askHre
           <Link className="mr-ask" href={href} onClick={(event) => {
             // In the arena, Mobi opens over this repair (N9), so the student keeps the mistake in view; elsewhere, the link.
             const asked = askRequestFromHref(href);
-            if (asked && isPlainClick(event) && openAskMobi({ ...asked, from: event.currentTarget })) event.preventDefault();
+            // The panel opens already about this question: its number, chapter and short pick and key labels when the page has them.
+            const context = askContext?.ref === asked?.questionRef ? askContext : { kind: 'question', ref: asked?.questionRef, number };
+            if (asked && isPlainClick(event) && openAskMobi({ context, from: event.currentTarget })) event.preventDefault();
           }}>{askLabel(number)}</Link>
           <p className="mr-chk__fine">{offer.line} {askSeesLine(number)}</p>
         </>

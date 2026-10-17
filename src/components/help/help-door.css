@@ -1,4 +1,4 @@
-/* The Help door and its menu (N17, N9). The door is the sidebar foot's one row: Mobi's orb, "Help" and what is inside.
+/* The Help door and its menu (N17, N9). The door is the sidebar foot's one row: a plain icon, "Help" and what is inside.
    The menu is a raised sheet in the arena's own tokens (so Night and Day both hold), one list with hairline rows and no
    boxes inside it. Motion: it rises 6 px and settles from 97 % in 220 ms from the corner that touches the door, and
    fades out in 140 ms. */
@@ -89,3 +89,6 @@ html[data-theme='light'] .help-menu-scrim { background: rgb(23 32 22 / 0.28); }
   .help-menu, .help-menu[data-closing], .help-menu-scrim, .app-shell .arena-help-door { animation-duration: 1ms; transition: none; }
 }
 html[data-motion='reduced'] :is(.help-menu, .help-menu-scrim) { animation-duration: 1ms; }
+
+/* The door's icon: a plain line icon in a 32 px square, the same size the orb held, so the row does not change height. */
+.app-shell .arena-help-door__icon { display: grid; flex: none; place-items: center; width: 32px; height: 32px; color: var(--a-ink-2); }

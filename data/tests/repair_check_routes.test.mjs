@@ -180,12 +180,14 @@ test('test:recovery runs the repair check suites', () => {
   for (const file of ['repair_check.test.mjs', 'repair_check_flow.test.mjs', 'repair_check_store.test.mjs', 'repair_check_routes.test.mjs']) assert.ok(script.includes(`data/tests/${file}`), file);
 });
 
-test('the Ask screen opened from a repair: reads ?q on the page, shows the free context, sends only the reference, and never answers a question from the record', () => {
-  const hub = read('src/components/ai/MockMobAIHub.jsx');
-  assert.match(hub, /const questionRef = variant === 'page' \? searchParams\.get\('q'\) : askedAbout;/, 'the panel ignores the host page\'s query, like ?tab');
-  assert.match(hub, /fetch\(`\/api\/recovery\/ask-context\?q=\$\{encodeURIComponent\(questionRef\)\}`/);
-  assert.match(hub, /\.\.\.\(pendingRef\.current\.questionRef \? \{ questionRef: pendingRef\.current\.questionRef \} : \{\}\)/, 'the request carries the reference, never the question text');
-  assert.match(hub, /!isRetry && !withQuestion && \(insightsState/, 'no record answer while a question is attached');
-  assert.match(hub, /useState\(questionRef \? 'model' : 'record'\)/, 'written guidance, so the cost line shows before sending');
-  assert.match(hub, /onDrop=\{\(\) => \{ setQuestionCtx\(null\); setKind\('record'\); \}\}/, 'the student can drop the question and ask about the record');
+test('the Ask panel opened from a repair: reads the reference from its context, shows the free context, sends only the reference, and never answers a question from the record', () => {
+  const panel = read('src/components/ai/AskMobiPanel.jsx');
+  assert.match(panel, /const questionRef = context\?\.kind === 'question' \? context\.ref : null;/, 'the reference comes from what the opener sent, never from the host page\'s query');
+  assert.match(panel, /fetch\(`\/api\/recovery\/ask-context\?q=\$\{encodeURIComponent\(questionRef\)\}`/);
+  assert.match(panel, /\.\.\.\(pendingRef\.current\.questionRef \? \{ questionRef: pendingRef\.current\.questionRef \} : \{\}\)/, 'the request carries the reference, never the question text');
+  assert.match(panel, /const fromRecord = !questionTyping && /, 'no record answer while a question is attached and written replies are open');
+  assert.match(panel, /mode: modeFor\(scoped\.kind\)/, 'a question is a written reply about that question');
+  assert.match(panel, /const dropQuestion = \(\) =>/, 'the student can drop the question and ask about the record');
+  const page = read('src/components/ai/MentorRecordPage.jsx');
+  assert.match(page, /openAskMobi\(\{ context: q \? \{ kind: 'question', ref: q \} : \{ kind: 'page' \} \}\)/, '/mentor?tab=ask&q= opens the panel on that question');
 });

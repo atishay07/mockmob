@@ -48,11 +48,11 @@ const TOUR_STEPS_ALL = [
   { title: 'Review', target: 'nav-review', body: 'Every mistake from your papers, with its explanation. Repair one to find the reason, and Revise brings it back until it holds.' },
   { title: 'Progress', target: 'nav-progress', body: 'Your study days, badges and personal bests, week by week. Your standing, where your recorded mocks place you, sits right under it.' },
   { title: 'Colleges', target: 'nav-admission-compass', body: 'Which DU courses your subjects open, and the 2026 cutoff college by college. Your chosen colleges show on Today.' },
-  { title: 'Ask Mobi', target: 'nav-mentor', body: 'Questions about your own record are free. A written reply on a question costs 1 AI credit, and the cost shows before you ask.' },
+  { title: 'Ask Mobi', target: 'nav-mentor', body: 'Opens beside the question, the result, Practice or Today, already about it. Questions about your own record are free. A written reply costs 1 AI credit, and the cost shows before you ask.' },
   { title: 'Your Mob', target: 'nav-mob', body: 'You and up to four friends sit the same 10-question paper each week. You see who has sat it, and your own result.', mob: true },
   // The last stop is the standalone Help and FAQ page (D11): a link in the sidebar's Account group, under More on a phone.
-  { title: 'Help and FAQ', target: ['nav-help', 'nav-more'], body: 'Stuck anywhere? Help and FAQ has the common questions, this tour to take again, Ask Mobi and a way to write to us.',
-    bodies: { 'nav-more': 'Stuck anywhere? Help and FAQ is under More: the common questions, this tour to take again, Ask Mobi and a way to write to us.' } },
+  { title: 'Help and FAQ', target: ['nav-help', 'nav-more'], body: 'Stuck anywhere? Help and FAQ has the common questions, this tour to take again and a way to write to us.',
+    bodies: { 'nav-more': 'Stuck anywhere? Help and FAQ is under More: the common questions, this tour to take again and a way to write to us.' } },
 ];
 // Pip guides the tour only (rare, so it may have character); it nods on each step.
 const TOUR_POSES = ['greeting', 'encouraging', 'thinking', 'encouraging', 'celebrating', 'encouraging', 'thinking', 'celebrating', 'greeting'];
@@ -382,7 +382,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
               <CreditAmount kind="practice" amount={user?.isPremium ? 'unlimited' : (user?.creditBalance || 0)} unit={false} />
             </Link>
             {wallet.status !== 'idle' && (
-              <Link href="/mentor" className="arena-chip arena-chip--prepos" data-state={wallet.wallet?.state || 'unknown'} aria-label={wallet.wallet?.known ? `AI credits: ${wallet.wallet.total}${wallet.wallet.state === 'paused' ? ', paused' : ''}` : 'AI credits unavailable'}>
+              <Link href="/pricing/ai-credits" className="arena-chip arena-chip--prepos" data-state={wallet.wallet?.state || 'unknown'} aria-label={wallet.wallet?.known ? `AI credits: ${wallet.wallet.total}${wallet.wallet.state === 'paused' ? ', paused' : ''}` : 'AI credits unavailable'}>
                 <CreditAmount kind="prepos" amount={wallet.wallet?.known ? wallet.wallet.total : null} unit={false} />
               </Link>
             )}

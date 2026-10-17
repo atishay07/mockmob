@@ -4,20 +4,23 @@
 //   - the questions from that subject's sessions still waiting for a repair, with the way into Review where they are
 //     repaired (the count is Review's own: missed or blank, minus the ones that already hold a saved repair, F17);
 //   - the repairs already saved, with the way back to the newest one (a saved repair reopens free on its result);
-//   - Ask Mobi in place (N9), about the newest saved repair in this subject when there is one (the panel opens on "the
-//     mistake you repaired" with its rule, so it is never handed one still waiting), else about the record.
+//   - Ask Mobi, the page's one entry to it (ASK-MOBI-1018, D5): "Ask Mobi what to practise" opens the panel already about
+//     Practice, with the record's weakest chapter, and the line under it says what the record shows there.
 // Counts come from the attempts the page already holds and GET /api/me/repair-record; until that answers, the line says
 // it is checking (never a number that then changes), and a failed read says so instead of claiming nothing is saved.
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { MessageCircle, Wrench } from 'lucide-react';
 import { apiGet } from '@/lib/fetcher';
-import { isPlainClick, openAskMobi } from '@/components/ai/askMobi.mjs';
-import { dayLabel, plural, repairsFor, sessionsWord } from './repairsLine.mjs';
+import AskMobiLink from '@/components/ai/AskMobiLink';
+import { ENTRY_LABELS, practiceContext, practicePreview } from '@/components/ai/askContexts.mjs';
+import { useInsights } from '@/components/ai/useInsights';
+import { plural, repairsFor, sessionsWord } from './repairsLine.mjs';
 
 export default function PracticeRepairs({ userId, attempts, subjectId, subjectName }) {
   const [record, setRecord] = useState({ state: 'loading', rows: null });
   const [nonce, setNonce] = useState(0);
+  const { insights } = useInsights(userId || null);
 
   useEffect(() => {
     if (!userId) return undefined;
@@ -31,11 +34,9 @@ export default function PracticeRepairs({ userId, attempts, subjectId, subjectNa
   const facts = useMemo(() => repairsFor({ attempts, repairs: record.rows, subjectId }), [attempts, record.rows, subjectId]);
   if (!subjectId) return null;
   const name = subjectName || 'this subject';
-  const askHref = facts.ask ? `/mentor?tab=ask&q=${encodeURIComponent(facts.ask.ref)}` : '/mentor?tab=ask';
-  const askLabel = !facts.ask ? 'Ask Mobi' : facts.ask.number ? `Ask Mobi about Q${facts.ask.number}` : 'Ask Mobi about your repair';
-  const askLine = facts.ask
-    ? `About your latest ${name} repair${facts.ask.at ? `, saved ${dayLabel(facts.ask.at)}` : ''}.`
-    : facts.sessions ? `About your ${name} record.` : `About ${name} or how to practise it.`;
+  // What the record says about the weakest chapter, with its denominator; left out when the record has none.
+  const preview = practicePreview(insights);
+  const askLine = preview ? `${preview}.` : `About ${name} or how to practise it.`;
 
   let title; let detail; let primary = null;
   if (record.state === 'loading') {
@@ -75,10 +76,9 @@ export default function PracticeRepairs({ userId, attempts, subjectId, subjectNa
       </div>
       <div className="pr-fix__acts">
         {primary ? <Link className="pr-fix__go" href={primary.href}>{primary.label}</Link> : null}
-        <Link className="pr-fix__ask" href={askHref} aria-describedby="pr-fix-ask-line"
-          onClick={(event) => { if (isPlainClick(event) && openAskMobi({ tab: 'ask', questionRef: facts.ask?.ref || null, from: event.currentTarget })) event.preventDefault(); }}>
-          <MessageCircle size={16} strokeWidth={2.2} aria-hidden="true" />{askLabel}
-        </Link>
+        <AskMobiLink context={practiceContext(insights)} variant="plain" className="pr-fix__ask" aria-describedby="pr-fix-ask-line">
+          <MessageCircle size={16} strokeWidth={2.2} aria-hidden="true" />{ENTRY_LABELS.practice}
+        </AskMobiLink>
       </div>
       <p className="pr-fix__fine" id="pr-fix-ask-line">{askLine} Opening Mobi is free; a written reply costs 1 AI credit.</p>
     </div>

@@ -224,21 +224,31 @@ test('the lead names what the question is tied to only when the server said so',
   assert.match(leadLine('chapter'), /no extra credit\.$/);
 });
 
-test('the Ask screen: a handed-over question with written replies unavailable says Mobi cannot answer it, charges nothing and never offers free asking about it', () => {
-  const hub = read('src/components/ai/MockMobAIHub.jsx');
-  assert.match(hub, /const blockedQuestion = withQuestion && Boolean\(wallet\) && wallet\.state !== 'available';/);
-  assert.match(hub, /Mobi cannot answer this question right now\. Nothing was charged\./);
-  assert.match(hub, /blocked \? 'Ask about my record' : 'Ask something else'/, 'the way out drops the question');
-  assert.match(hub, /\{blockedQuestion \? null : <form className="pp-composer"/, 'no greyed-out composer for a question that cannot be asked');
-  assert.match(hub, /\{blockedQuestion \|\| withQuestion \? null : <div className="pp-ask__switch"/, 'no reply-source switch beside a handed-over question');
+// Ask Mobi's panel (ASK-MOBI-1018) replaced the four-tab Ask screen; these hold the same promises on the panel.
+test('the Ask panel: a handed-over question with written replies unavailable says so, charges nothing and never offers free asking about it', async () => {
+  const { paidState } = await import('../../src/components/ai/askSuggestions.mjs');
+  for (const state of ['paused', 'empty']) {
+    const out = paidState({ known: true, state, total: 0, includedMonthlyCredits: 10 });
+    assert.equal(out.open, false, state);
+    assert.match(out.why, /Nothing is charged from here\./, state);
+    assert.match(out.why, /Questions about your record stay free\./, state);
+  }
+  assert.equal(paidState({ known: false, state: 'error' }).open, false, 'credits that cannot be read are never treated as open');
+  const panel = read('src/components/ai/AskMobiPanel.jsx');
+  assert.match(panel, /const questionTyping = withQuestion && \(!wallet \|\| paid\.open\);/, 'a typed ask is about the question only while written replies are open');
+  assert.match(panel, /const placeholder = questionTyping \? `Ask about \$\{qName\}` :/, 'when they are not, the composer asks the record, not the question');
+  assert.match(panel, /if \(!isRetry && !paid\.open\) return;/, 'no paid call is made');
+  assert.match(panel, /<button type="button" className="amb-btn amb-btn--line" onClick=\{dropQuestion\}>Ask about my record<\/button>/, 'the way out drops the question');
+  assert.match(panel, /disabled=\{off\}/, 'the written asks are disabled, not hidden');
 });
 
-test('the Ask screen with a handed-over question: no record claim, no Focus select, the cost sits in the question card', () => {
-  const hub = read('src/components/ai/MockMobAIHub.jsx');
-  assert.match(hub, /withQuestion \? 'The reply is guidance on this question, not a verified answer key\.' : 'Your record is the context\./, 'the record wording is only for written guidance without a question');
-  assert.match(hub, /wallet\?\.state==='available' && !withQuestion \? <div className="pp-ask__focus">/, 'Focus is not offered for a handed-over question');
-  assert.match(hub, /costLine=\{withQuestion && !blockedQuestion && wallet\?\.state==='available'/, 'the cost line moves into the card');
-  assert.match(hub, /\{costLine \? <p className="pp-ask__qcost">/);
+test('the Ask panel with a handed-over question: no record claim, no Focus select, the price on every ask', () => {
+  const panel = read('src/components/ai/AskMobiPanel.jsx');
+  assert.doesNotMatch(panel, /Focus|Listbox|FOCUS_OPTIONS/, 'no Focus select');
+  assert.match(panel, /<figure className="amb-quote" aria-label=\{`\$\{qName\}, the question you are asking about`\}>/, 'the question sits in its own quote, with the pick and the key');
+  assert.match(panel, /The key is being re-checked, so Mobi will not name an answer\./, 'a key under re-check is never named');
+  assert.match(panel, /ask\.price === 'free' \? 'Free' : creditCount\(1\)/, 'the cost shows on every ask before it is sent');
+  assert.doesNotMatch(panel, /verified answer key|Your record is the context/, 'no record claim about a written reply');
 });
 
 test('UI details: no first-answer note on a withdrawn question, the skeleton keeps the phone actions row, no Ask link before the wallet is read, no stripes or arrow', () => {

@@ -40,7 +40,7 @@ test('the lines are plain: no "!", no em dash, no middle dot', () => {
 // credit names are gone from every spend line (audit finding 12).
 const WEBSITE_FILES = [
   'src/components/recovery/MistakeRepair.jsx', 'src/components/ScoreRecoveryLab.jsx', 'src/components/study/StudyHelp.jsx',
-  'src/components/ai/MockMobAIHub.jsx', 'src/components/ai/AIRivalArena.jsx', 'src/components/ai/assistantKnowledge.js',
+  'src/components/ai/AskMobiPanel.jsx', 'src/components/ai/MentorRecordPage.jsx', 'src/components/ai/AIRivalArena.jsx', 'src/components/ai/assistantKnowledge.js',
   'src/components/ui/Glyph.jsx', 'src/components/profile/accountModel.mjs', 'src/components/profile/CreditsSection.jsx',
   'src/components/profile/creditsModel.mjs', 'src/components/billing/PlanCard.jsx', 'src/components/billing/PrepOSCreditPurchaseButton.jsx',
   'src/app/(app)/AppLayoutClient.jsx', 'src/app/pricing/page.js', 'src/app/pricing/ai-credits/page.js', 'src/app/refunds/page.js',
@@ -61,7 +61,9 @@ test('a repair, a lesson explanation, a written reply and a benchmark each say t
   assert.match(read('src/components/recovery/MistakeRepair.jsx'), /usedLine\(\{ cost: /);
   assert.match(read('src/components/ScoreRecoveryLab.jsx'), /usesLine\(\{ what, verb: .*cost: remaining, pool: 'ai'/);
   assert.match(read('src/components/study/StudyHelp.jsx'), /usesLine\(\{ what: 'This explanation', cost: 1, pool: 'ai'/);
-  assert.match(read('src/components/ai/MockMobAIHub.jsx'), /usesLine\(\{ what: 'One written reply'/);
+  // Ask Mobi's panel: the price of a written reply names its pool before the call, and the reply names the credit used and the balance after.
+  assert.match(read('src/components/ai/AskMobiPanel.jsx'), /usesLine\(\{ what: 'This reply', cost: 1, pool: 'ai' \}\)/);
+  assert.match(read('src/components/ai/AskMobiPanel.jsx'), /usedLine\(\{ cost: response\.charged, pool: 'ai', balance: wallet\?\.known \? wallet\.total : null \}\)/);
   assert.match(read('src/components/ai/AIRivalArena.jsx'), /usesLine\(\{ what: 'This benchmark'/);
   assert.match(read('src/services/recovery/repairFlow.js'), /usesLine\(\{ what: 'This repair', cost: REPAIR_CREDIT_COST/);
   assert.match(read('src/services/prepos/modelReply.js'), /usesLine\(\{ what: 'This reply'/);

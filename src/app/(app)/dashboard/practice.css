@@ -189,6 +189,8 @@ html[data-theme='light'] .app-shell .pr {
   transition: background-color 160ms ease, border-color 160ms ease, transform var(--mm-press-lift-dur) var(--mm-press-lift);
 }
 .app-shell .pr .pr-fix__ask svg { flex: none; color: var(--a-accent-text); }
+/* The ask key carries the page's one Ask Mobi label (ASK-MOBI-1018), "Ask Mobi what to practise": on a phone it may take two lines, and the two keys stay one height. */
+@media (max-width: 767px) { .app-shell .pr .pr-fix__ask { white-space: normal; text-wrap: balance; } }
 @media (hover: hover) and (pointer: fine) {
   .app-shell .pr :is(.pr-fix__go, .pr-fix__ask):hover { border-color: var(--a-ink-3); background: var(--a-hover); }
 }

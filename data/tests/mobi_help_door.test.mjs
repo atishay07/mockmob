@@ -25,9 +25,9 @@ test('openAskMobi reports whether a host took the request', () => {
   const host = new EventTarget();
   host.addEventListener(ASK_MOBI_EVENT, (event) => { heard.push(event.detail); event.preventDefault(); });
   assert.equal(openAskMobi({ tab: 'ask', questionRef: 'a1:q2' }, host), true);
-  assert.deepEqual(heard[0], { tab: 'ask', questionRef: 'a1:q2', origin: null });
+  assert.deepEqual(heard[0], { tab: 'ask', questionRef: 'a1:q2', origin: null, context: { kind: 'question', ref: 'a1:q2', label: null, number: null, chapter: null, lines: [], pickLabel: null, keyLabel: null } });
   assert.equal(openAskMobi({ tab: 'bogus', questionRef: '<script>' }, host), true);
-  assert.deepEqual(heard[1], { tab: 'plan', questionRef: null, origin: null });
+  assert.deepEqual(heard[1], { tab: 'plan', questionRef: null, origin: null, context: { kind: 'page', ref: null, label: null, number: null, chapter: null, lines: [] } });
   // No host mounted (a public page, the timed runner): the caller keeps its plain link.
   assert.equal(openAskMobi({ tab: 'ask' }, new EventTarget()), false);
   assert.equal(isPlainClick({ button: 0 }), true);
@@ -41,7 +41,8 @@ test('the Help door copy is plain sentence case with no hype, arrows or caps lab
     assert.ok(line && line.length < 70, line);
     assert.doesNotMatch(line, /[!→←↗»]|\b[A-Z]{4,}\b/, line);
   }
-  assert.deepEqual(HELP_DOOR_ROWS.map((row) => row.id), ['ask', 'tour', 'faq', 'write']);
+  // Ask Mobi left the Help door (ASK-MOBI-1018): it is the Planning row and opens from the work itself.
+  assert.deepEqual(HELP_DOOR_ROWS.map((row) => row.id), ['tour', 'faq', 'write']);
   assert.ok(HELP_DOOR_ROWS.every((row) => row.action || row.href), 'every row does something');
 });
 
@@ -52,6 +53,8 @@ test('the floating orb is retired; Mobi lives in the shell and opens in place', 
   assert.match(shell, /<AskMobiHost \/>/);
   // D11 (18 Oct): the Help door and its menu are gone from the shell; Help and FAQ is its own page, linked in the Account group.
   assert.doesNotMatch(shell, /<HelpMenu|arena-help-door/);
+  assert.doesNotMatch(shell, /PrepOSOrb/, 'no orb under the theme switch');
+  assert.doesNotMatch(read('src/components/help/HelpMenu.jsx'), /PrepOSOrb|onAsk/, 'the Help menu no longer opens Mobi');
   assert.match(shell, /data-tour="nav-more"/);
   assert.match(shell, /target: \['nav-help', 'nav-more'\]/, 'the tour ends on the Help and FAQ link, or More on a phone');
   assert.doesNotMatch(shell, /shadow-\[0_0_/, 'no glow in the tour');

@@ -2,7 +2,7 @@
 // misses holding a saved repair, F17), it follows the chosen subject, and Ask Mobi names the newest unrepaired miss.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { repairsFor, sessionsWord } from '../../src/app/(app)/dashboard/repairsLine.mjs';
 
 const det = (spec) => spec.split('').map((c, i) => ({ qid: `q${i + 1}`, isCorrect: c === 'r' ? true : c === 'w' ? false : null }));
@@ -59,14 +59,21 @@ test('session counts read as words up to ten', () => {
   assert.equal(sessionsWord(12), 'your 12 sessions');
 });
 
-test('Practice draws the line under the subject shelf and opens Mobi in place', () => {
+test('Practice draws the line under the subject shelf, and its one Ask Mobi entry opens the panel about Practice', () => {
   const page = readFileSync(new URL('../../src/app/(app)/dashboard/DashboardPageClient.jsx', import.meta.url), 'utf8');
   const line = readFileSync(new URL('../../src/app/(app)/dashboard/PracticeRepairs.jsx', import.meta.url), 'utf8');
   const shelf = page.indexOf('className="pr-subjects"');
   const fix = page.indexOf('<PracticeRepairs ');
   const modes = page.indexOf('pr-step--modes');
   assert.ok(shelf > 0 && fix > shelf && fix < modes, 'between the shelf and the modes');
-  assert.match(line, /openAskMobi\(\{ tab: 'ask', questionRef:/);
+  // ASK-MOBI-1018 (D5): the page's one Ask Mobi entry is this line's key, "Ask Mobi what to practise", with the record's weakest
+  // chapter as its preview; the separate row the Ask Mobi branch drew under the shelf is not drawn, so there are never two.
+  assert.match(line, /<AskMobiLink context=\{practiceContext\(insights\)\}/);
+  assert.match(line, /\{ENTRY_LABELS\.practice\}/);
+  assert.match(line, /practicePreview\(insights\)/);
+  assert.doesNotMatch(line, /openAskMobi\(/, 'the entry is the shared AskMobiLink, not a second hand-rolled opener');
+  assert.doesNotMatch(page, /PracticeAskRow/, 'no second Ask Mobi row on Practice');
+  assert.equal(existsSync(new URL('../../src/components/ai/PracticeAskRow.jsx', import.meta.url)), false);
   assert.match(line, /\/api\/me\/repair-record\?limit=100/);
   assert.match(line, /href="\/review"|href: '\/review'/);
 });

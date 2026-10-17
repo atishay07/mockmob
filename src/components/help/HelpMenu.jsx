@@ -2,19 +2,18 @@
 
 // The Help door's menu (N17). It rises from the door that opened it: from the sidebar's foot on a desktop (its lower
 // left corner sits on the door, so it reads as the door opening), from the dock on a phone (the same place as More).
-// Four rows, each a full 44 px target; the first takes focus, the arrows move between them, Escape and a click outside
+// Three rows, each a full 44 px target; the first takes focus, the arrows move between them, Escape and a click outside
 // close it and put focus back on the door. It closes with a short fade so it never just vanishes.
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { AppIcon } from '@/components/ui/Glyph';
-import { PrepOSOrb } from '@/components/ui/PrepOSOrb';
 import { HELP_DOOR, HELP_DOOR_ROWS } from '@/lib/helpDoor.mjs';
 import './help-door.css';
 
 const ICONS = { tour: 'guide', faq: 'help', write: 'mail' };
 const CLOSE_MS = 140;
 
-export default function HelpMenu({ request, onClose, onAsk, onTour, links = null }) {
+export default function HelpMenu({ request, onClose, onTour, links = null }) {
   const panel = useRef(null);
   const [place, setPlace] = useState(null);
   const [closing, setClosing] = useState(false);
@@ -71,8 +70,6 @@ export default function HelpMenu({ request, onClose, onAsk, onTour, links = null
   }, [opener, requestClose]);
 
   const choose = (row, event) => {
-    // Focus goes back to the door before Mobi opens, so closing Mobi returns the student to the door, not to the page top.
-    if (row.action === 'ask') { const from = opener || event.currentTarget; opener?.focus({ preventScroll: true }); onAsk?.(from); finish.current(); return; }
     if (row.action === 'tour') { finish.current(); onTour?.(); return; }
     finish.current();
   };
@@ -95,7 +92,7 @@ export default function HelpMenu({ request, onClose, onAsk, onTour, links = null
             const body = (
               <>
                 <span className="help-menu__icon" aria-hidden="true">
-                  {row.id === 'ask' ? <PrepOSOrb size={30} /> : <AppIcon name={ICONS[row.id]} size={19} />}
+                  <AppIcon name={ICONS[row.id]} size={19} />
                 </span>
                 <span className="help-menu__text">
                   <b>{row.label}</b>
