@@ -1,3 +1,11 @@
+## 17 October 2026, about 10:20 am IST - Authored wave 4 published on production (200 questions; mathematics 51, chemistry 42, general_test 39, biology 35, physics 33)
+
+- Applied by Claude (session 25ef3d95) under the owner's standing database grant and his publish rule: only questions whose two quality judges average 8 or more AND whose fit median is 8 or more, after the full wave 1-2 process (coverage plan from select-only production SQL against the blueprints, Sonnet authors, a Sonnet audit per subject, 5 blind Haiku solvers with 4 of 5 on the key, 2 rubric judges, 3 fit judges, the acceptance rule, a Sonnet expert pass, a 3-solver blind re-solve of the one repair that changed solver-visible text). Hindi stays out.
+- Plan `docs/brain/reports/authored-w4/plans/wave4-publish-plan-production-2026-10-17.json` (hash 813c724a6554f82a, 200 rows, 2 passage groups, no blockers); select-only dry runs on staging and production first. The main session re-checked all 200 rows against the final score entries before applying (0 failures).
+- Inserted 200. Live after: biology 451, chemistry 466, gat 322, mathematics 383, physics 383. Restore file `docs/brain/reports/authored-publish/authored-publish-restore-2026-10-17T04-46-59-355Z.json` (undo: `--mode=restore --restore=<that file> --expect-project=isrxrxzjocewrdureyhp`); also `supabase/undo/20261017130000_authored_wave4_publish.undo.sql`.
+- Held: 57 rows at 7-7.9; out: 22 (first-pass rule 20, including 8 general_test Current Affairs items the fit judges rated 6; one unaudited physics draft job never laid out).
+- NTA mode: the rows show in practice now; they become NTA-eligible once the code carrying the merged score tables (this branch) is deployed.
+
 ## 17 October 2026, about 4:35 am IST - Authored wave 3 published on production (153 questions; chemistry 48, general_test 56, physics 49)
 
 - Applied by Claude (session 25ef3d95) under the owner's standing database grant and his 17 Oct publish rule: only questions whose two quality judges average 8 or more AND whose fit median is 8 or more, after the full wave 1-2 process (5 blind Haiku solvers with 4 of 5 on the key, 2 rubric judges, 3 fit judges, the acceptance rule, a Sonnet expert pass, 3-solver blind re-solves of every repair that changed solver-visible text (16 of 16 held 3 of 3), a full fresh pass on 7 reworded rows). Hindi stays out.
