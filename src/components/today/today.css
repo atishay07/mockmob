@@ -1,6 +1,7 @@
-/* Today, pass 1017 (docs/design-decisions/pass-1017/TODAY-1017.md section 4). One card (the move), then the glance on
-   the ground: This week, Road to May, and two rows. Arena tokens (--a-*) carry Night and Day; volt (#d2f000) fills only
-   the move's key, counted marks and counted pips, and the flag's stem. No glass on content, no glow, no loops. */
+/* Today, pass 1017 (docs/design-decisions/pass-1017/TODAY-1017.md section 4; the road per TODAY-NIGHT-1017). One card
+   (the move), then the glance on the ground: Road to May as one readout (the week inside it) and two rows. Arena tokens
+   (--a-*) carry Night and Day; volt (#d2f000) fills only the move's key and counted marks and pips. No glass on content,
+   no glow, no loops. */
 
 .app-shell .student-page--today .today { gap: 0; }
 .app-shell .today__head { padding: 12px 0 18px; animation: today-fade 200ms var(--ease-out) both; }
@@ -8,13 +9,12 @@
 .app-shell .today__date time { color: inherit; }
 .app-shell .today__hello { margin: 4px 0 0; font: 600 26px/1.15 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); overflow-wrap: anywhere; }
 
-/* Phone order: the move, the week, the road, the rows. Wide: the move and the rows left, the week and the road right. */
+/* Phone order: the move, the road (the week inside it), the rows. Wide: the move and the rows left, the road right. */
 .app-shell .today-grid { display: flex; flex-direction: column; gap: 28px; min-width: 0; }
 .app-shell .today-grid__main, .app-shell .today-grid__side { display: contents; }
 .app-shell .today-grid .tm { order: 1; }
-.app-shell .today-grid .tw { order: 2; margin-top: 4px; }
-.app-shell .today-grid .trd { order: 3; }
-.app-shell .today-grid .tr { order: 4; }
+.app-shell .today-grid .trd { order: 2; margin-top: 4px; }
+.app-shell .today-grid .tr { order: 3; }
 .app-shell .today-grid > * > * { min-width: 0; }
 
 /* Shared glance type. */
@@ -112,99 +112,80 @@ html[data-theme='light'] .app-shell .tw__day[data-state='counted'] .tw__dot { bo
 .app-shell .tw__fig--wait, .app-shell .tw__caption--wait span { display: inline-block; width: 92px; height: 22px; border-radius: 8px; background: var(--a-raised-2); }
 .app-shell .tw__caption--wait span { width: 70%; height: 14px; }
 
-/* ---------- Road to May ---------- */
-.app-shell .trd { animation: today-rise-8 240ms var(--ease-out) 80ms both; }
-.app-shell .trd__strip { position: relative; height: 118px; margin-top: 14px; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
-.app-shell .trd__lane-flag { position: absolute; inset: 0 0 auto; height: 26px; z-index: 2; pointer-events: none; }
-.app-shell .trd__lane-flag .trd__flag { pointer-events: auto; }
-.app-shell .trd__stem { position: absolute; top: 13px; width: 2px; height: 85px; margin-left: -1px; background: #d2f000; border-radius: 1px; pointer-events: none; }
-html[data-theme='light'] .app-shell .trd__stem { background: var(--a-accent-text); }
-.app-shell .trd__flag {
-  position: absolute; top: 0; display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 10px;
-  border-radius: 13px; background: var(--a-ink); color: var(--a-bg); font: 700 11.5px/1 inherit; white-space: nowrap;
-  transform: translateX(-50%); touch-action: none; cursor: pointer; transition: transform 160ms var(--ease-out);
-}
-.app-shell .trd__flag[data-side='end'] { transform: translateX(calc(-100% + 14px)); }
-.app-shell .trd__flag[data-side='start'] { transform: translateX(-14px); }
-.app-shell .trd__flag[data-draggable] { cursor: grab; }
-.app-shell .trd__strip[data-dragging] .trd__flag { cursor: grabbing; }
-.app-shell .trd__flag::before { content: ''; position: absolute; inset: -9px -6px; }
-.app-shell .trd__flag:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 3px; }
-.app-shell .trd__grip { display: grid; grid-template-columns: repeat(2, 2px); gap: 2px; opacity: 0.6; }
-.app-shell .trd__grip i { width: 2px; height: 2px; border-radius: 1px; background: currentColor; }
-.app-shell .trd__lane-bands { position: absolute; top: 30px; left: 0; right: 0; height: 68px; pointer-events: none; }
-.app-shell .trd__reg { position: absolute; top: 0; height: 68px; border-left: 1.5px solid var(--a-line-strong); }
-.app-shell .trd__reg span { position: absolute; right: 5px; top: 0; font-size: 11px; font-weight: 600; color: var(--a-ink-3); white-space: nowrap; }
-.app-shell .trd__boards { position: absolute; top: 0; height: 20px; }
-.app-shell .trd__boards::after { content: ''; position: absolute; left: 0; right: 0; top: 16px; height: 4px; border-radius: 2px; background: var(--a-line-strong); }
-.app-shell .trd__boards span { position: absolute; left: 0; top: 0; font-size: 11px; font-weight: 600; color: var(--a-ink-3); white-space: nowrap; }
-.app-shell .trd__weeks {
-  position: absolute; top: 56px; left: 0; right: 0; height: 42px; display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr));
-  align-items: end; padding: 0; border: 0; background: none; color: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent;
-}
-.app-shell .trd__weeks::after { content: ''; position: absolute; left: 0; right: 0; bottom: -2px; height: 1px; background: var(--a-line); }
-/* The tap target is the whole 118 px strip, not the 9 px columns: a tap anywhere opens the nearest week (openRailAt reads
-   the pointer x). The flag's lane sits above it, so the flag still drags and opens its own sheet. */
-.app-shell .trd__weeks::before { content: ''; position: absolute; left: 0; right: 0; top: -56px; bottom: -20px; }
-.app-shell .trd__weeks:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 4px; border-radius: 8px; }
-.app-shell .trd__col { position: relative; display: flex; align-items: flex-end; justify-content: center; height: 100%; animation: today-grow 220ms var(--ease-out) both; }
-.app-shell .trd__col[data-current]::before { content: ''; position: absolute; left: 50%; bottom: -4px; width: max(12px, 100%); height: calc(100% + 6px); transform: translateX(-50%); border: 1.5px solid var(--a-ink); border-radius: 8px; }
-.app-shell .trd__pips { display: flex; flex-direction: column-reverse; gap: 2px; }
-.app-shell .trd__pips i { display: block; width: 6px; height: 4.5px; border-radius: 1.5px; background: var(--a-line-strong); }
-.app-shell .trd__col[data-current] .trd__pips i, .app-shell .trd__rail-week .trd__pips i { height: 6px; }
-.app-shell .trd__pips i[data-on] { background: #d2f000; }
-html[data-theme='light'] .app-shell .trd__pips i[data-on] { box-shadow: 0 0 0 1px rgb(82 103 0 / 0.45); }
-.app-shell .trd__lane-months { position: absolute; left: 0; right: 0; top: 102px; height: 16px; pointer-events: none; }
-.app-shell .trd__lane-months span { position: absolute; top: 0; font-size: 11px; font-weight: 600; color: var(--a-ink-3); }
-.app-shell .trd__receipt { margin: 10px 0 0; font-size: 14px; color: var(--a-ink-2); }
-.app-shell .trd__tokens { display: grid; gap: 2px; margin-top: 12px; }
-/* Block, not flex: the sentence wraps as words around its token instead of dropping whole onto its own line. */
-.app-shell .trd__line { display: block; min-height: 44px; margin: 0; font-size: 15px; line-height: 44px; color: var(--a-ink-2); }
-.app-shell .trd__line .trd__token { vertical-align: middle; line-height: 1; }
-.app-shell .trd__num { color: var(--a-ink); font-weight: 700; font-variant-numeric: tabular-nums; }
-.app-shell .trd__wait { display: inline-block; width: 120px; height: 14px; border-radius: 6px; background: var(--a-raised-2); }
-.app-shell .trd__token {
-  position: relative; display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 10px 0 12px;
-  border: 1px solid var(--a-line-strong); border-radius: 12px; background: var(--a-raised-2); color: var(--a-ink);
-  font: 600 15px/1 inherit; font-variant-numeric: tabular-nums; cursor: pointer;
-  transition: transform 100ms var(--ease-out), border-color 150ms ease;
-}
-.app-shell .trd__token::before { content: ''; position: absolute; inset: -5px -2px; }
-.app-shell .trd__token svg { color: var(--a-ink-3); }
-.app-shell .trd__token[aria-expanded='true'] { border-color: var(--a-ink); }
-.app-shell .trd__token:active:not(:disabled) { transform: scale(0.98); }
-.app-shell .trd__token:disabled { cursor: default; color: var(--a-ink-2); border-style: dashed; }
-.app-shell .trd__token:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
-.app-shell .trd__note { margin: 6px 0 0; font-size: 14px; line-height: 1.45; color: var(--a-ink-2); }
-.app-shell .trd__panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 240ms var(--ease-out); }
-.app-shell .trd__panel[data-open='true'] { grid-template-rows: 1fr; }
-.app-shell .trd__panel-in { min-height: 0; overflow: hidden; }
-.app-shell .trd__panel[data-open='true'] .trd__panel-in > * { animation: today-fade 160ms ease 60ms both; }
-.app-shell .trd__tuner { padding: 12px 2px 4px; }
-.app-shell .trd__stops { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
-.app-shell .trd__stop { min-height: 44px; border: 1px solid var(--a-line-strong); border-radius: 22px; background: var(--a-raised-2); color: var(--a-ink); font: 700 15px/1 inherit; font-variant-numeric: tabular-nums; cursor: pointer; transition: transform 100ms var(--ease-out), background-color 150ms ease; }
-.app-shell .trd__stop[aria-checked='true'] { background: var(--a-ink); color: var(--a-bg); border-color: var(--a-ink); }
-.app-shell .trd__stop:active { transform: scale(0.96); }
-.app-shell .trd__stop:focus-visible, .app-shell .trd__step:focus-visible, .app-shell .trd__done:focus-visible, .app-shell .trd__rail-week:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
-.app-shell .trd__ruler { display: flex; align-items: center; gap: 10px; }
-.app-shell .trd__step { display: grid; place-items: center; flex: 0 0 44px; width: 44px; height: 44px; border: 1px solid var(--a-line-strong); border-radius: 22px; background: var(--a-raised-2); color: var(--a-ink); cursor: pointer; }
-.app-shell .trd__step:disabled { opacity: 0.45; cursor: default; }
-.app-shell .trd__range { flex: 1; min-width: 0; height: 44px; accent-color: var(--a-ink); }
-.app-shell .trd__rail-list { display: flex; gap: 4px; margin: 0; padding: 4px 2px 6px; list-style: none; overflow-x: auto; scroll-snap-type: x proximity; overscroll-behavior-x: contain; scrollbar-width: thin; }
-.app-shell .trd__rail-list li { flex: 0 0 48px; scroll-snap-align: center; }
-.app-shell .trd__rail-week { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 8px; width: 48px; height: 88px; padding: 6px 0 8px; border: 1px solid transparent; border-radius: 12px; background: none; color: inherit; cursor: pointer; }
-.app-shell .trd__rail-week[data-boards] { background: var(--a-raised-2); }
-.app-shell .trd__rail-week[aria-pressed='true'] { border-color: var(--a-ink); }
-.app-shell .trd__rail-date { font-size: 11px; font-weight: 600; color: var(--a-ink-3); white-space: nowrap; }
-.app-shell .trd__rail-week[data-current] .trd__rail-date { color: var(--a-ink); font-size: 10px; }
-.app-shell .trd__rail-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 6px; }
-.app-shell .trd__readout { margin: 0; font-size: 14px; color: var(--a-ink-2); }
-.app-shell .trd__done { flex: 0 0 auto; min-height: 44px; padding: 0 18px; border: 1px solid var(--a-line-strong); border-radius: 22px; background: var(--a-raised-2); color: var(--a-ink); font: 600 14.5px/1 inherit; cursor: pointer; }
+/* ---------- Road to May (TODAY-NIGHT-1017): one plain readout, no chart to decode ----------
+   The countdown, then rows split by hairlines: This week, Full mocks, Coming up; one Change plan pill under them.
+   No volt here: the bar is ink, so the move's key stays the viewport's one volt (counted day marks are data). */
+.app-shell .trd { animation: today-rise-8 240ms var(--ease-out) 40ms both; }
+.app-shell .tp__count { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; margin: 10px 0 0; }
+.app-shell .tp__count b { font: 700 64px/0.9 var(--font-display); letter-spacing: -0.05em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
+.app-shell .tp__unit { font: 600 24px/1 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); }
+.app-shell .tp__when { flex-basis: 100%; margin-top: 6px; font-size: 15px; line-height: 1.4; color: var(--a-ink-2); }
+.app-shell .tp__sub { margin: 4px 0 0; font-size: 15px; line-height: 1.45; color: var(--a-ink-2); }
+.app-shell .tp__sub b { color: var(--a-ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+.app-shell .tp__rows { display: grid; margin-top: 18px; }
+.app-shell .tp__row { padding: 16px 0; border-top: 1px solid var(--a-line); }
+.app-shell .tp__row:last-child { padding-bottom: 4px; }
+.app-shell .tp__line { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.app-shell .tp__label, .app-shell .tp .tw .tg__h { margin: 0; font: 600 16px/1.25 var(--font-display); letter-spacing: -0.005em; color: var(--a-ink); }
+.app-shell .tp__fig { display: inline-flex; align-items: baseline; gap: 6px; margin: 0; font-size: 14px; color: var(--a-ink-2); white-space: nowrap; }
+.app-shell .tp__fig b, .app-shell .tp .tw__fig b { font: 700 26px/1 var(--font-display); letter-spacing: -0.04em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
+.app-shell .tp .tw__of { font: 600 16px/1 var(--font-display); }
+.app-shell .tp__fig--when span { font-size: 14px; font-weight: 600; color: var(--a-ink); }
+.app-shell .tp__bar { position: relative; height: 8px; margin-top: 12px; border-radius: 4px; background: var(--a-raised-2); box-shadow: inset 0 0 0 1px var(--a-line); overflow: hidden; }
+.app-shell .tp__bar i { position: absolute; inset: 0; border-radius: inherit; background: var(--a-ink); transform-origin: left center; transition: transform 600ms var(--ease-out); animation: tp-fill 700ms var(--ease-out) 200ms both; }
+.app-shell .tp__title { margin: 6px 0 0; font-size: 15.5px; font-weight: 600; line-height: 1.35; color: var(--a-ink); }
+.app-shell .tp__note { margin: 8px 0 0; font-size: 14px; line-height: 1.45; color: var(--a-ink-2); }
+.app-shell .tp__note b { color: var(--a-ink); font-weight: 600; }
+.app-shell .tp__change { width: 100%; margin-top: 14px; }
+/* The week as the readout's first row: its own heading row, marks and caption, a hairline above like the others. */
+.app-shell .today-grid .tp .tw { margin-top: 0; animation: none; }
+.app-shell .tp .tw__days { margin-top: 12px; }
+.app-shell .trd__wait { display: inline-block; width: 160px; height: 14px; border-radius: 6px; background: var(--a-raised-2); }
 .app-shell .trd__window { margin: 10px 0 0; font-size: 15px; color: var(--a-ink-2); max-width: 46ch; }
-.app-shell .trd__date { display: grid; gap: 14px; }
-.app-shell .trd__date-field { display: grid; gap: 6px; font-size: 13px; color: var(--a-ink-3); }
-.app-shell .trd__date-field input { min-height: 48px; padding: 0 14px; border: 1px solid var(--a-line-strong); border-radius: 14px; background: var(--a-raised-2); color: var(--a-ink); font: 600 16px/1 inherit; color-scheme: inherit; }
-.app-shell .trd__date-keys { display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); gap: 10px; }
+@keyframes tp-fill { from { transform: scaleX(0); } }
+
+/* The plan sheet: three plain questions, each with its choices and one status line. Sheets sit outside .app-shell. */
+.tsh .tpq__list { display: grid; gap: 24px; margin-top: 4px; }
+.tsh .tpq { display: grid; gap: 10px; min-width: 0; }
+.tsh .tpq__h { margin: 0; font: 600 16px/1.3 var(--font-display); color: var(--a-ink); }
+.tsh .tpq__note { margin: 0; font-size: 14px; line-height: 1.45; color: var(--a-ink-2); }
+.tsh .tpq__note b { color: var(--a-ink); font-weight: 600; }
+.tsh .tpq__status { margin: 0; font-size: 14px; color: var(--a-ink-2); }
+.tsh .tpq__date { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 10px; }
+.tsh .tpq__more { width: 100%; }
+.tsh .tsh__option:disabled { cursor: default; opacity: 0.55; }
+.tsh .tsh__option--row { grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 14px; }
+.tsh .tsh__option-text { display: grid; gap: 3px; min-width: 0; }
+.tsh .tsh__option .tsh__option-text span { font-size: 14px; color: var(--a-ink-2); }
+.tsh .tsh__option .tsh__option-fig { display: grid; justify-items: end; gap: 3px; }
+.tsh .tsh__option .tsh__option-fig b { font: 700 26px/1 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
+.tsh .tsh__option .tsh__option-fig small { font-size: 12px; color: var(--a-ink-3); white-space: nowrap; }
+.tsh .tsh__stepper { display: flex; align-items: center; justify-content: center; gap: 14px; }
+.tsh .tsh__step-value { min-width: 9ch; text-align: center; font-weight: 600; font-size: 16px; color: var(--a-ink); font-variant-numeric: tabular-nums; }
+.tsh .trd__stops { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+.tsh .trd__stop { min-height: 44px; border: 1px solid var(--a-line-strong); border-radius: 22px; background: var(--a-raised-2); color: var(--a-ink); font: 700 15px/1 inherit; font-variant-numeric: tabular-nums; cursor: pointer; transition: transform 100ms var(--ease-out), background-color 150ms ease; }
+.tsh .trd__stop[aria-checked='true'] { background: var(--a-ink); color: var(--a-bg); border-color: var(--a-ink); }
+.tsh .trd__stop:active { transform: scale(0.96); }
+.tsh .trd__stop:disabled { cursor: default; }
+.tsh :is(.trd__stop, .trd__step, .trd__rail-week, .tsh__option):focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.tsh .trd__step { display: grid; place-items: center; flex: 0 0 44px; width: 44px; height: 44px; border: 1px solid var(--a-line-strong); border-radius: 22px; background: var(--a-raised-2); color: var(--a-ink); cursor: pointer; transition: transform 100ms var(--ease-out); }
+.tsh .trd__step:active:not(:disabled) { transform: scale(0.96); }
+.tsh .trd__step:disabled { opacity: 0.45; cursor: default; }
+.tsh .trd__rail { margin-top: 6px; }
+.tsh .trd__rail-list { display: flex; gap: 4px; margin: 0; padding: 4px 2px 6px; list-style: none; overflow-x: auto; scroll-snap-type: x proximity; overscroll-behavior-x: contain; scrollbar-width: thin; }
+.tsh .trd__rail-list li { flex: 0 0 48px; scroll-snap-align: center; }
+.tsh .trd__rail-week { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 8px; width: 48px; height: 88px; padding: 6px 0 8px; border: 1px solid transparent; border-radius: 12px; background: none; color: inherit; cursor: pointer; }
+.tsh .trd__rail-week[data-boards] { background: var(--a-raised-2); }
+.tsh .trd__rail-week[aria-pressed='true'] { border-color: var(--a-ink); }
+.tsh .trd__rail-date { font-size: 11px; font-weight: 600; color: var(--a-ink-3); white-space: nowrap; }
+.tsh .trd__rail-week[data-current] .trd__rail-date { color: var(--a-ink); font-size: 10px; }
+.tsh .trd__pips { display: flex; flex-direction: column-reverse; gap: 2px; }
+.tsh .trd__pips i { display: block; width: 6px; height: 6px; border-radius: 1.5px; background: var(--a-line-strong); }
+.tsh .trd__pips i[data-on] { background: #d2f000; }
+html[data-theme='light'] .tsh .trd__pips i[data-on] { box-shadow: 0 0 0 1px rgb(82 103 0 / 0.45); }
+.tsh .trd__readout { margin: 6px 0 0; font-size: 14px; color: var(--a-ink-2); }
+.tsh .trd__date-field { display: grid; gap: 6px; font-size: 13px; color: var(--a-ink-3); }
+.tsh .trd__date-field input { min-height: 48px; padding: 0 14px; border: 1px solid var(--a-line-strong); border-radius: 14px; background: var(--a-raised-2); color: var(--a-ink); font: 600 16px/1 inherit; color-scheme: inherit; }
 
 /* ---------- Rows ---------- */
 .app-shell .tr { display: grid; margin: 0; padding: 0; list-style: none; animation: today-rise-8 240ms var(--ease-out) 120ms both; }
@@ -265,7 +246,7 @@ html[data-theme='light'] .app-shell .trd__pips i[data-on] { box-shadow: 0 0 0 1p
   .app-shell .today-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 48px; align-items: start; }
   .app-shell .today-grid__main, .app-shell .today-grid__side { display: grid; gap: 24px; min-width: 0; }
   .app-shell .today-grid__side { gap: 28px; padding-top: 6px; }
-  .app-shell .today-grid .tw { margin-top: 0; }
+  .app-shell .today-grid .trd { margin-top: 0; }
   .app-shell .tm { padding: 28px; }
   .app-shell .tm--wait { min-height: 470px; }
   .app-shell .tm__top { min-height: 136px; }
@@ -282,16 +263,14 @@ html[data-theme='light'] .app-shell .trd__pips i[data-on] { box-shadow: 0 0 0 1p
 @keyframes today-rise-8 { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 @keyframes today-mark { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: none; } }
 @keyframes today-tick { to { stroke-dashoffset: 0; } }
-@keyframes today-grow { from { opacity: 0; transform: scaleY(0.4); transform-origin: bottom; } to { opacity: 1; transform: none; } }
 @keyframes tsh-in { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
 @keyframes tsh-pop { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; transform: none; } }
-.app-shell .trd__col { animation-delay: calc(var(--k, 0) * 8ms); }
 
 @media (prefers-reduced-motion: reduce) {
-  .app-shell :is(.today__head, .tm, .tw, .trd, .tr, .trd__col, .tw__dot), .tsh__body { animation: today-fade 120ms ease both !important; transform: none !important; }
+  .app-shell :is(.today__head, .tm, .tw, .trd, .tr, .tw__dot), .tsh__body { animation: today-fade 120ms ease both !important; transform: none !important; }
+  .app-shell .tp__bar i { animation: none; transition: none; }
   .app-shell .tw__dot path { animation: none; stroke-dashoffset: 0; }
-  .app-shell .trd__panel { transition: none; }
 }
-html[data-motion='reduced'] .app-shell :is(.today__head, .tm, .tw, .trd, .tr, .trd__col, .tw__dot), html[data-motion='reduced'] .tsh__body { animation: today-fade 120ms ease both !important; transform: none !important; }
+html[data-motion='reduced'] .app-shell :is(.today__head, .tm, .tw, .trd, .tr, .tw__dot), html[data-motion='reduced'] .tsh__body { animation: today-fade 120ms ease both !important; transform: none !important; }
 html[data-motion='reduced'] .app-shell .tw__dot path { animation: none; stroke-dashoffset: 0; }
-html[data-motion='reduced'] .app-shell .trd__panel { transition: none; }
+html[data-motion='reduced'] .app-shell .tp__bar i { animation: none; transition: none; }
