@@ -19,7 +19,7 @@ import { creditCount, usedLine } from '@/lib/creditCopy.mjs';
 import { useInsights } from './useInsights';
 import MobiMark from './MobiMark';
 import {
-  answerFree, modeFor, openingFor, paidState, priceForText, productAskFor, recordSource, recordSummary, sessionsLabel,
+  answerFree, inSentence, modeFor, openingFor, paidState, priceForText, productAskFor, recordSource, recordSummary, sessionsLabel,
   suggestionsFor, walletLine,
 } from './askSuggestions.mjs';
 
@@ -208,7 +208,7 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
   const busy = Boolean(pending) || Boolean(retry);
   const canSend = Boolean(input.trim()) && !busy && !opening && (price === 'free' || (paid.open && !offline));
   const line = walletLine(wallet);
-  const placeholder = questionTyping ? `Ask about ${qName}` : scoped.kind === 'mock' ? `Ask about ${scoped.label || 'this mock'}` : 'Ask about your record';
+  const placeholder = questionTyping ? `Ask about ${qName}` : scoped.kind === 'mock' ? `Ask about ${inSentence(scoped.label)}` : 'Ask about your record';
   const sessions = sessionsLabel(insights, status);
   const summary = recordSummary(insights, { pro });
   const subjectChip = withQuestion || opening
@@ -286,17 +286,6 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
           </div>
         ) : null}
 
-        {offline ? (
-          <p className="amb-notice" role="status">
-            <b>You are offline.</b>
-            <span>Questions about your record still work. A written reply needs a connection, so nothing is sent and nothing is charged.</span>
-          </p>
-        ) : null}
-
-        {!offline && (withQuestion || questionRef === null) && !paid.open && wallet && asks.some((a) => a.price === 'paid') && !busy ? (
-          <p className="amb-notice" role="status">{paid.why}</p>
-        ) : null}
-
         {first ? (
           <>
             <p className="amb-you">{first.ask}</p>
@@ -321,6 +310,18 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
             <span>Retry sends the same request, so you will not be charged twice. Your AI credits page shows any credit used.</span>
             <button type="button" className="amb-btn amb-btn--line" disabled={Boolean(pending)} onClick={() => sendPaid(retry.message, true)}>Retry this question</button>
           </div>
+        ) : null}
+
+        {/* Why the written asks wait (offline, paused or out of credits), in plain words, right above the rows it explains. */}
+        {offline ? (
+          <p className="amb-notice" role="status">
+            <b>You are offline.</b>
+            <span>Questions about your record still work. A written reply needs a connection, so nothing is sent and nothing is charged.</span>
+          </p>
+        ) : null}
+
+        {!offline && (withQuestion || questionRef === null) && !paid.open && wallet && asks.some((a) => a.price === 'paid') && !busy ? (
+          <p className="amb-notice" role="status">{paid.why}</p>
         ) : null}
 
         {!opening && !questionFailed && asks.length && !pending && !retry ? (
@@ -390,6 +391,14 @@ function Answer({ response, qName = 'this question', wallet = null, onNavigate, 
     source = `${what}. ${spent}`;
   } else if (response.origin === 'status') source = null;
   else if (!source) source = 'From your record';
+  if (response.origin === 'status') {
+    return (
+      <div className="amb-notice amb-rise" role="status" data-origin="status" data-last={last ? '' : undefined}>
+        {String(response.reply || '').split(/\n{2,}/).map((para, i) => <span key={i}>{para}</span>)}
+        {next ? <button type="button" className="amb-btn amb-btn--line" onClick={() => onNavigate(next.route || next.target)}>{next.label}</button> : null}
+      </div>
+    );
+  }
   return (
     <div className="amb-ans amb-rise" data-origin={response.origin} data-last={last ? '' : undefined}>
       {String(response.reply || '').split(/\n{2,}/).map((para, i) => <p key={i}>{para}</p>)}

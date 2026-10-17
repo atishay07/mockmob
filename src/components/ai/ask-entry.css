@@ -17,9 +17,9 @@
   display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 2px 12px; width: 100%; min-height: 60px; padding: 10px 2px;
   border-top: 1px solid var(--a-line); border-bottom: 1px solid var(--a-line); color: var(--a-ink);
 }
-.ame--row .ame__icon { grid-row: 1 / span 2; display: grid; place-items: center; width: 32px; height: 32px; color: var(--a-ink-2); }
+.ame--row .ame__icon { grid-column: 1; grid-row: 1 / span 2; display: grid; place-items: center; width: 32px; height: 32px; color: var(--a-ink-2); }
 .ame--row b { font: 650 15px/1.3 var(--font-display, inherit); color: var(--a-ink); }
-.ame--row span { grid-column: 2; font-size: 13px; font-weight: 500; line-height: 1.4; color: var(--a-ink-3); }
+.ame--row > span:not(.ame__icon) { grid-column: 2; font-size: 13px; font-weight: 500; line-height: 1.4; color: var(--a-ink-3); }
 @media (hover: hover) { .ame--row:hover b { text-decoration: underline; text-decoration-color: var(--a-line-strong); text-underline-offset: 3px; } }
 
 .ame-line { margin: 2px 0 0; }
@@ -27,6 +27,6 @@
 html[data-motion='reduced'] .ame:active { transform: none; }
 
 /* Inline, inside a sentence (Today's "Why this?"): the page's own inline link style decides the look. */
-.ame.ame--inline { display: inline; min-height: 0; padding: 0; font: inherit; font-weight: 600; color: var(--a-ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.ame.ame--inline { white-space: nowrap; display: inline; min-height: 0; padding: 0; font: inherit; font-weight: 600; color: var(--a-ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 .ame.ame--inline:active { transform: none; }
 .ame--practice { margin-top: 14px; }

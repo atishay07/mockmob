@@ -21,6 +21,12 @@ const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 const sec = (s) => (s >= 60 ? `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, '0')}` : `${Math.round(s)}s`);
 const ready = (insights) => insights?.state === 'ready';
 
+/** A label inside a sentence: "this mock" for the chip's "This mock"; a paper's own name ("Mock 3") stays as it is. */
+export function inSentence(label, fallback = 'this mock') {
+  const value = String(label || '').trim() || fallback;
+  return /^This /.test(value) ? `t${value.slice(1)}` : value;
+}
+
 /** A chapter row from the record by name, or null. Ranked chapters first, then the thin ones. */
 export function findChapter(insights, name) {
   if (!ready(insights) || !name) return null;
@@ -161,7 +167,8 @@ export function openingFor({ context = {}, insights = null, status = 'loading', 
     return { ask: 'Why this step?', reply: [context.reason, ...lines].filter(Boolean).join(' '), actions: [], source: status === 'ready' ? recordSource(insights) : 'From your plan' };
   }
   if (kind === 'mock' && lines.length) {
-    return { ask: `Where did the marks go in ${context.label || 'this mock'}?`, reply: lines.join(' '), actions: [], source: `From ${context.label || 'this mock'}` };
+    // One line each, so the chapters read as a short list and not as one long sentence (the panel keeps line breaks).
+    return { ask: `Where did the marks go in ${inSentence(context.label)}?`, reply: lines.join('\n'), actions: [], source: `From ${inSentence(context.label)}` };
   }
   if (status !== 'ready' && status !== 'empty') return null;
   const ask = kind === 'practice' ? 'What should I practise?' : kind === 'today' ? 'Why this step?' : 'Where am I losing marks?';

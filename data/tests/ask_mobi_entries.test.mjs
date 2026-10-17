@@ -9,7 +9,7 @@ import {
   questionContext, questionEntryLabel, questionRefOf, todayContext,
 } from '../../src/components/ai/askContexts.mjs';
 import { normalizeContext } from '../../src/components/ai/askMobi.mjs';
-import { openingFor, suggestionsFor } from '../../src/components/ai/askSuggestions.mjs';
+import { inSentence, openingFor, suggestionsFor } from '../../src/components/ai/askSuggestions.mjs';
 
 const read = (path) => readFileSync(new URL(`../../${path}`, import.meta.url), 'utf8');
 const BANNED = /[!→←↗»]|\b[A-Z]{4,}\b(?<!\bNTA\b)/;
@@ -86,8 +86,14 @@ test('a mock opens with where the marks went, from the paper itself, and says no
   assert.equal(ctx.ref, 'att1');
   assert.equal(normalizeContext(ctx).lines.length, 4, 'the open API keeps all four lines');
   const first = openingFor({ context: normalizeContext(ctx), insights: INSIGHTS, status: 'ready' });
-  assert.equal(first.reply, ctx.lines.join(' '));
+  assert.equal(first.reply, ctx.lines.join('\n'), 'one chapter per line');
   assert.equal(first.source, 'From Mock 3');
+  const generic = openingFor({ context: normalizeContext(mockContext({ attemptId: 'att1', label: 'This mock', analysis })), insights: INSIGHTS, status: 'ready' });
+  assert.equal(generic.ask, 'Where did the marks go in this mock?', 'a generic label reads as a sentence');
+  assert.equal(generic.source, 'From this mock');
+  assert.equal(inSentence('This session', 'this mock'), 'this session');
+  assert.equal(inSentence(null), 'this mock');
+  assert.equal(inSentence('Mock 3'), 'Mock 3');
   assert.deepEqual(mockContext({ attemptId: 'att1', analysis: { marks: { gap: 0, max: 250 }, chapters: [] } }).lines, []);
   assert.deepEqual(mockContext({ attemptId: 'a b' }).lines, []);
   assert.equal(mockContext({ attemptId: 'a b' }).ref, null);
