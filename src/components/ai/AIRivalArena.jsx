@@ -271,7 +271,7 @@ export default function AIRivalArena() {
               Check your pace against a practice rival.
             </h1>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-zinc-400">
-              A short timed challenge comparing pace, accuracy and skipped questions. Your rival is a simulated benchmark, not a student or a CUET rank prediction.
+              A short timed challenge comparing pace, accuracy and skipped questions.
             </p>
           </div>
           <DailyChallenge profile={selectedProfile} onStart={() => startBattle(selectedRival)} disabled={!access.allowed || starting} />

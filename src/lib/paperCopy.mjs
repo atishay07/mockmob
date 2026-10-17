@@ -138,7 +138,7 @@ export function pricingBankFaq(bankSize) {
 }
 
 /** Onboarding: the subjects step's lead, and the count on each subject tile. */
-export const ONBOARDING_LEAD = 'Pick up to 5. Each mock in a subject is a fresh paper from its question bank. You can change them any time.';
+export const ONBOARDING_LEAD = 'Pick up to 5. Every mock is built fresh from one live question bank, with no cap on how many you take. You can change them any time.';
 export function tileCount(count) {
   return Number.isInteger(count) && count > 0 ? `${fmt(count)} question${count === 1 ? '' : 's'}` : null;
 }

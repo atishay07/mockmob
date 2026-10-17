@@ -100,7 +100,7 @@ export default function LookAndFeelCard() {
       <header className="lf__head">
         <div>
           <h2 id="lf-title">Appearance and feel</h2>
-          <p className="lf__lede">Your choices take effect at once and stay on this device.</p>
+          <p className="lf__lede">Your choices take effect at once.</p>
         </div>
         <MobiReact key={preview.n} act={preview.act} size={72} interactive onDone={() => setPreview((p) => (p.act === 'idle' ? p : { act: 'idle', n: p.n }))} />
       </header>

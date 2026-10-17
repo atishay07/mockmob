@@ -3,6 +3,7 @@ import { CAPABILITIES, recoveryReleased, newOfferReleased } from '@/../data/capa
 import { publicOffer } from '@/lib/payments/offer';
 import { Check, History, Timer, Wrench, Radar, Sparkles, Compass, Combine, Trophy, Monitor, Target, GraduationCap, ShieldCheck, BookOpenText } from 'lucide-react';
 import STUDY_RELEASE from '@/../data/study/release.json';
+import { SUBJECT_CLAIM } from '@/../data/subject_claim';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
 import { MobileDock } from '@/components/MobileDock';
@@ -127,10 +128,9 @@ const TOUR = [
 
 const faqs = [
   { question: 'Can I try it before signing up?', answer: 'Yes. Answer five CUET-style questions at the top of this page, each with the reasoning behind the answer. No account needed.' },
-  { question: 'What is MockMob built for?', answer: 'Timed CUET UG practice, a clear read of every mistake, and one next step you can act on tonight. It is built first for English, Accountancy, Business Studies and Economics, with DU eligibility and published cutoffs alongside.' },
+  { question: 'What is MockMob built for?', answer: 'Timed CUET UG practice, a clear read of every mistake, and one next step you can act on tonight. It covers the 15 subjects behind 19 of every 20 CUET papers, with DU eligibility and published cutoffs alongside.' },
   { question: 'What is the Mistake Lab?', answer: 'After every mock, the Lab shows where your marks went: the time on each question, every answer you changed, the reason behind each miss, and a SWOT with the set to do next. Mistake Repair then fixes the reasoning, one mistake at a time.' },
   { question: 'What does Pro cost?', answer: OFFER.purchasable === 'monthly' ? `₹${OFFER.monthly.rupees} a month. It renews until you cancel in Account, and you keep Pro to the end of the month you paid for.` : `Monthly Pro at ₹${OFFER.monthly.rupees} a month is opening soon. Until then, ₹${OFFER.oneTime.rupees} once covers access through ${OFFER.oneTime.expires}, with no auto-renewal. Whoever pays now keeps the full term.` },
-  { question: 'Is MockMob affiliated with NTA or DU?', answer: 'No. MockMob is independent. The exam pattern and the DU rules you see here come from what NTA and DU publish.' },
 ];
 
 export default function LandingPage() {
@@ -206,7 +206,7 @@ export default function LandingPage() {
               ))}
             </p>
             <div className="lp-shelf">
-              <ul className="lp-shelf__row" aria-label="Built first for CUET Commerce and English">
+              <ul className="lp-shelf__row" aria-label="Subjects with full NTA-pattern mocks">
                 {SHELF.map(({ id, name, href, depth, tilt, base, sizes }, i) => (
                   <li key={id} className="lp-shelf__item" style={{ '--k': i, '--depth': depth, '--tilt': `${tilt}deg`, '--base': base }}>
                     <Link href={href} className="lp-shelf__link">
@@ -216,7 +216,7 @@ export default function LandingPage() {
                   </li>
                 ))}
               </ul>
-              <p className="lp-shelf__note">Built first for CUET Commerce and English.</p>
+              <p className="lp-shelf__note">{SUBJECT_CLAIM.long}.</p>
             </div>
           </div>
         </section>

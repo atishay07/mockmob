@@ -406,3 +406,11 @@ test('both rival routes pass the student and plan on, so the intro and the outro
     assert.match(src, /generateAIResponse\(\{[^}]*\.\.\.spendUserFor\(/s, rel);
   }
 });
+
+test('both rival routes pass the student and plan on, so the intro and the outro count against the monthly cap', () => {
+  for (const rel of ['src/app/api/ai/rival/start/route.js', 'src/app/api/ai/rival/submit/route.js']) {
+    const src = file(rel);
+    assert.match(src, /import \{ spendUserFor \} from '@\/services\/prepos\/replyDeps'/, rel);
+    assert.match(src, /generateAIResponse\(\{[^}]*\.\.\.spendUserFor\(/s, rel);
+  }
+});

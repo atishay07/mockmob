@@ -23,10 +23,10 @@ export function generateMetadata() {
   const offer = publicOffer();
   const monthly = offer.purchasable === 'monthly';
   return seoMetadata({
-    title: monthly ? `MockMob Pro Pricing: ₹${offer.monthly.rupees} a month` : `MockMob Pro Pricing: ₹${offer.oneTime.rupees} to start`,
+    title: `MockMob Pro Pricing: ₹${offer.monthly.rupees} a month`,
     description: monthly
       ? `Start free. MockMob Pro is ₹${offer.monthly.rupees} a month: unlimited Quick practice and Full mock, Smart practice, NTA mode and full chapter review. Cancel anytime.`
-      : `Start free. MockMob Pro access is ₹${offer.oneTime.rupees} once through ${offer.oneTime.expires}: unlimited Quick practice and Full mock, Smart practice, NTA mode and full chapter review. No renewal.`,
+      : `Start free. MockMob Pro is ₹${offer.monthly.rupees} a month, and monthly billing opens soon. Until then one ₹${offer.oneTime.rupees} payment covers Pro through ${offer.oneTime.expires}, with no renewal: unlimited Quick practice and Full mock, Smart practice, NTA mode and full chapter review.`,
     path: '/pricing',
   });
 }
@@ -38,6 +38,11 @@ const buildPlans = (offer) => [
     cycle: 'forever',
     description: 'Enough to see whether MockMob suits you. No card needed.',
     ctaLabel: 'Create a free account',
+    terms: [
+      ['Renewal', 'None, and no card needed'],
+      ['Practice credits', '100 to start: 10 a Quick session, 50 a Full mock'],
+      ['AI credits', '10 a month for written replies from Ask Mobi'],
+    ],
     features: newOfferReleased() ? ['One five-question baseline per launch subject', 'One included daily 10-question practice set', 'One new complete recovery episode per week', 'Delayed checks for every started episode', '25 saved questions', 'Free DU eligibility and historical cutoffs'] : [
       'Quick practice, 5 to 20 questions, 10 practice credits a session',
       'Full mock, 50 questions in 60 minutes, 50 practice credits a mock',
@@ -49,11 +54,16 @@ const buildPlans = (offer) => [
   },
   {
     name: offer.purchasable === 'monthly' ? 'Pro' : 'Pro access',
-    price: `₹${offer.purchasable === 'monthly' ? offer.monthly.rupees : offer.oneTime.rupees}`,
-    cycle: offer.purchasable === 'monthly' ? '/month' : 'once',
+    price: `₹${offer.monthly.rupees}`,
+    cycle: 'a month',
     description: offer.purchasable === 'monthly'
       ? `Every mode, no limits. ₹${offer.monthly.rupees} is charged when you start, then every month on the same date until you cancel.`
-      : `One payment covers you through ${offer.oneTime.expires}. It does not renew.`,
+      : `Every mode, no limits. The ₹${offer.oneTime.rupees} you pay today is one payment: it covers you through ${offer.oneTime.expires} and does not renew.`,
+    terms: [
+      ['Renewal', offer.purchasable === 'monthly' ? 'Every month on the same date until you cancel in Account' : `None on this payment, which runs through ${offer.oneTime.expires}`],
+      ['Practice credits', 'Nothing to spend: every mode is included'],
+      ['AI credits', '50 a month, kept apart from practice credits'],
+    ],
     ctaLabel: offer.purchasable === 'monthly' ? `Start Pro for ₹${offer.monthly.rupees}/month` : `Get access for ₹${offer.oneTime.rupees}`,
     planId: offer.purchasable === 'monthly' ? offer.monthly.planId : offer.oneTime.planId,
     billing: offer.purchasable === 'monthly' ? 'monthly' : 'once',
@@ -112,6 +122,13 @@ const COMPARISON_GROUPS = newOfferReleased() ? [{ heading: 'Practice and recover
   },
 ];
 
+const FREE_NOTES = [
+  'Quick practice uses 10 practice credits a session. A Full mock uses 50.',
+  'New accounts start with 100 practice credits. Each question you upload that passes moderation adds 15.',
+  'Credits decide how often you practise, never what you can see: results, explanations, DU eligibility and published cutoffs stay open.',
+  'Written replies from Ask Mobi use AI credits: 10 a month on Free.',
+];
+
 const AI_PACKS = [
   {
     name: 'AI Boost',
@@ -140,7 +157,7 @@ const buildFaqs = (offer, bankSize = null) => [
     q: 'Is Pro a monthly subscription?',
     a: offer.purchasable === 'monthly'
       ? `Yes. Pro is ₹${offer.monthly.rupees} a month. The first payment is taken when you start, and it renews on the same date each month until you cancel. Cancel in Account at any time; you keep Pro until the end of the month you already paid for.`
-      : `Not yet. Right now Pro is one payment of ₹${offer.oneTime.rupees} for access through ${offer.oneTime.expires}, with no auto-renewal.`,
+      : `Not yet. Pro is ₹${offer.monthly.rupees} a month, and monthly billing opens soon. Until then Pro is one payment of ₹${offer.oneTime.rupees} for access through ${offer.oneTime.expires}, with no auto-renewal.`,
   },
   {
     q: 'What happens when I cancel?',
@@ -224,11 +241,11 @@ export default async function PricingPage() {
       <main>
         <section className="mm-section mm-section--flush" style={{ paddingTop: '2.5rem', paddingBottom: '2rem' }}>
           <div className="mm-wrap">
-            <h1 className="mm-h1">{offer.purchasable === 'monthly' ? `Pro is ₹${offer.monthly.rupees} a month.` : `₹${offer.oneTime.rupees} gets you in.`}</h1>
+            <h1 className="mm-h1">{`Pro is ₹${offer.monthly.rupees} a month.`}</h1>
             <p className="mm-lead" style={{ marginTop: '1rem' }}>
               {offer.purchasable === 'monthly'
                 ? 'Start free and stay free if that is enough. Go Pro when you want unlimited practice, every mode and full chapter review. Cancel any time in Account.'
-                : `Start free and stay free if that is enough. For everything, one payment of ₹${offer.oneTime.rupees} covers access through ${offer.oneTime.expires}, with no renewal.`}
+                : `Start free and stay free if that is enough. Monthly billing opens soon. Until then, one payment of ₹${offer.oneTime.rupees} covers Pro through ${offer.oneTime.expires}, with no renewal.`}
             </p>
             <p className="mm-body" style={{ marginTop: '0.875rem', maxWidth: '60ch', fontVariantNumeric: 'tabular-nums' }}>{pricingBankLine(bankSize)} {pricingSubjectLine()}</p>
           </div>
@@ -264,13 +281,19 @@ export default async function PricingPage() {
                     <aside className="mm-plans__note" aria-label="How Free works">
                       <h3>How Free works</h3>
                       <ul>
-                        <li>Quick practice uses 10 practice credits a session. A Full mock uses 50.</li>
-                        <li>New accounts start with 100 practice credits. Each question you upload that passes moderation adds 15.</li>
-                        <li>Credits decide how often you practise, never what you can see: results, explanations, DU eligibility and published cutoffs stay open.</li>
-                        <li>Written replies from Ask Mobi use AI credits: 10 a month on Free.</li>
+                        {FREE_NOTES.map((line) => <li key={line}>{line}</li>)}
                       </ul>
                       <a className="mm-link" href="#compare">Free and Pro, line by line</a>
                     </aside>
+                    <details className="mm-plans__fold mm-faq">
+                      <summary>How Free works</summary>
+                      <div className="mm-faq__body">
+                        <ul>
+                          {FREE_NOTES.map((line) => <li key={line}>{line}</li>)}
+                        </ul>
+                        <a className="mm-link" href="#compare">Free and Pro, line by line</a>
+                      </div>
+                    </details>
                   </div>
                 );
               })}

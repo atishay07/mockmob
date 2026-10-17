@@ -175,7 +175,7 @@ export default function RecoveryOverview({ view }) {
         {noteList}
         {data && review.length > 0 ? <div className="ov-links rv-ways"><ReviseEntry /><RulesEntry /></div> : null}
         {/* From Today (TODAY-1017 section 7): the record's finding and the paper trend live at the head of Review now. */}
-        {data && review.length > 0 ? <div className="rv-record"><RecordGlimpse /></div> : null}
+        {data && review.length > 0 ? <div className="rv-record"><RecordGlimpse finding={false} /><p className="rv-record__more"><Link className="pr-link" href="/analytics">Which chapters cost the most marks, on Weak chapters</Link></p></div> : null}
         {data ? (
           <section className="rv-sec" aria-labelledby="ov-sessions">
             <div className="rv-sec__head"><h2 id="ov-sessions">{review.length > 1 ? `Your ${review.length} sessions` : review.length === 1 ? 'Your session' : 'Your sessions'}</h2>{review.length > 1 ? <span>Newest first</span> : null}</div>
@@ -189,7 +189,6 @@ export default function RecoveryOverview({ view }) {
             )}
           </section>
         ) : null}
-        {data ? <LearningNextAction compact quiet={review.length === 0 || Boolean(openFirst)} /> : null}
         {data ? <StudyProgress review /> : null}
         {data?.reviewState === 'unavailable' ? <div className="pr-alert" data-tone="warning" role="status"><StatusIcon kind="warning" />The review queue is being prepared. Your saved attempts remain available.</div> : null}
         {data && review.length === 0 ? <div className="ov-links rv-ways"><ReviseEntry /><RulesEntry /></div> : null}

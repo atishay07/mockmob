@@ -165,7 +165,7 @@ export default function CompassPro({ userId, seedSubjects = [] }) {
     <section className="cpro" aria-labelledby="cpro-title">
       <div className="cpro-head">
         <h2 id="cpro-title">Your practice, mapped to your colleges.</h2>
-        <p>Compass Pro shows what each paper would be worth if exam day went exactly like your practice so far. It is a projection from your own record, not a prediction: CUET scores are normalised and your practice will change it.</p>
+        <p>Compass Pro shows what each paper would be worth if exam day went exactly like your practice so far.</p>
       </div>
 
       <div className="cpro-grid">

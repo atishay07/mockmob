@@ -422,7 +422,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       const empty = page.get('record') === 'empty' || state === 'empty';
       const ordinaryReview = empty ? [] : PREVIEW_ATTEMPTS.map((a) => ({ id: a.id, subject: a.subject, completedAt: a.completedAt, correct: a.correct, total: a.total, mistakes: a.total - a.correct, source: a.id === 'preview-a1' && page.get('saved') === '1' ? 'Mock 3' : 'Quick practice', repaired: a.id === 'preview-a1' && page.get('saved') === '1' ? 2 : 0 }));
       const milestones = empty ? [] : studyMilestones([{ id: 'preview-a1', completedAt: Date.now() - 1000, selectionMeta: { scoringVersion: 'server_practice_v1' } }], []);
-      return json({ ordinaryReview, progress: [], milestones, playbook: empty ? [] : [{ id: 'pb1', strategy: 'two_pass', reflection: 'Do the sure questions first, then come back to the long ones.' }], reviewState: 'ready', note: 'Fresh delayed checks provide concept evidence, not a causal score gain.' });
+      return json({ ordinaryReview, progress: [], milestones, playbook: empty ? [] : [{ id: 'pb1', strategy: 'two_pass', reflection: 'Do the sure questions first, then come back to the long ones.' }], reviewState: 'ready', note: '' });
     }
     if (url.pathname === '/api/bookmarks' && method === 'GET') return json({ questions: state === 'empty' ? [] : fixtureFeed('accountancy').slice(0, 2).map((q) => ({ ...q, saved: true })), questionIds: [], count: state === 'empty' ? 0 : 2 });
     if (url.pathname === '/api/learning/plan') {

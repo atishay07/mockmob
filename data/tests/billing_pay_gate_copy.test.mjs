@@ -21,9 +21,13 @@ test('the monthly card says what is charged, when, and how to stop it, above the
   assert.match(pricing, /The first payment is taken when you start/);
 });
 
-test('before monthly opens, /pricing does not set a monthly price next to the one-time payment or push "pay now"', () => {
+test('before monthly opens, /pricing shows the owner’s model (Rs 99 a month) and says plainly what the button charges', () => {
+  // Owner, 15 Oct and 17 Oct 2026: the plan is presented as 99 a month; Razorpay is set up later. The page never hides that the
+  // payment taken today is one ₹99 payment with no renewal, and never pushes "pay now".
   assert.doesNotMatch(pricing, /Pay once now/);
-  assert.doesNotMatch(pricing, /Monthly Pro at ₹\$\{offer\.monthly\.rupees\} (is coming|opens soon)/);
+  assert.match(pricing, /Pro is ₹\$\{offer\.monthly\.rupees\} a month\./);
+  assert.match(pricing, /Monthly billing opens soon\. Until then, one payment of ₹\$\{offer\.oneTime\.rupees\} covers Pro through \$\{offer\.oneTime\.expires\}, with no renewal\./);
+  assert.match(pricing, /None on this payment, which runs through/);
 });
 
 test('the comparison table has sentence-case labels and no thick coloured edge', () => {

@@ -66,11 +66,12 @@ function PaperTrend() {
 
 // `state` hands in a read the page already made (Today shares one); `skip` leaves out findings the page
 // already shows (Today's plan carries the chapter finding as its why).
-export default function RecordGlimpse({ state: given = null, skip = [], link = true }) {
+// `finding={false}` leaves the finding to Weak chapters, where it lives, and shows only the paper trend.
+export default function RecordGlimpse({ state: given = null, skip = [], link = true, finding = true }) {
   const { user } = useAuth();
   const own = useInsights(given ? null : user?.id);
   const state = given || own;
-  const f = state.status === 'ready' ? state.findings.find((x) => !skip.includes(x.id)) || null : null;
+  const f = finding && state.status === 'ready' ? state.findings.find((x) => !skip.includes(x.id)) || null : null;
   return (
     <>
       {f ? (

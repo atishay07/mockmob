@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { Logo } from './Logo';
 import { FooterStart } from './FooterStart';
+import { SUBJECT_CLAIM } from '../../data/subject_claim.js';
 
 const PRODUCT_LINKS = [
   ['DU eligibility and cutoff calculator', '/cuet-cutoff-calculator'],
@@ -39,7 +40,7 @@ export function MarketingFooter() {
             <Logo />
             <p className="mm-foot__blurb">
               Timed CUET practice, a clear read of every mistake, and one next step for tonight.
-              Built first for English, Accountancy, Business Studies and Economics.
+              {SUBJECT_CLAIM.short}.
             </p>
             <FooterStart />
             <a
@@ -89,8 +90,7 @@ export function MarketingFooter() {
 
         <div className="mm-foot__base">
           <p>
-            &copy; {new Date().getFullYear()} MockMob. An independent CUET preparation platform, not
-            affiliated with NTA, the University of Delhi or any official exam body.
+            &copy; {new Date().getFullYear()} MockMob
           </p>
         </div>
       </div>

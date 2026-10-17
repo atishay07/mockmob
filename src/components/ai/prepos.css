@@ -114,8 +114,9 @@
 .pp-evidence__head > span, .pp-ask__heading > div > span { font:600 13px/1.4 var(--font-body); color:var(--pp-ink-3, #a7b3a2); }
 .pp-evidence h3 { margin:0; font:700 22px/1.25 var(--font-display); letter-spacing:-.02em; }
 .pp-evidence p { margin:0; max-width:65ch; color:var(--pp-ink-2, #c5cebf); font-size:14px; line-height:1.6; }
+.pp-evidence__go { justify-self:start; text-align:left; }
 .pp-evidence small, .pp-plan__handoff > span { color:var(--pp-ink-3, #a7b3a2); font-size:12px; line-height:1.5; }
-.pp-evidence__head button, .pp-plan__handoff button { display:inline-flex; align-items:center; gap:8px; min-height:44px; background:none; border:0; padding:0; color:var(--pp-accent, #d2f000); font-size:13px; font-weight:650; cursor:pointer; }
+.pp-evidence__head button, .pp-evidence__go, .pp-plan__handoff button { display:inline-flex; align-items:center; gap:8px; min-height:44px; background:none; border:0; padding:0; color:var(--pp-accent, #d2f000); font-size:13px; font-weight:650; cursor:pointer; }
 /* Checked facts behind the shared next step: record observations and product rules, labelled. */
 .pp-facts { display:grid; gap:8px; padding-top:4px; }
 .pp-facts h4 { margin:0; font:600 13px/1.4 var(--font-body); color:var(--pp-ink-3, #a7b3a2); }
@@ -172,7 +173,7 @@
 .pp-composer > div { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; }
 .pp-composer > div > span { font-size:11px; line-height:1.5; color:var(--pp-ink-3, #a7b3a2); }
 .pp-ask button:disabled { opacity:.55; cursor:not-allowed; }
-.pp-ask button:focus-visible, .pp-ask select:focus-visible, .pp-evidence button:focus-visible, .pp-plan__handoff button:focus-visible { outline:2px solid var(--pp-accent, #d2f000); outline-offset:3px; }
+.pp-ask button:focus-visible, .pp-ask select:focus-visible, .pp-evidence button:focus-visible, .pp-evidence__go:focus-visible, .pp-plan__handoff button:focus-visible { outline:2px solid var(--pp-accent, #d2f000); outline-offset:3px; }
 @media(max-width:600px) {
   .prepos-console > nav { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); }
   .prepos-console > nav button { min-width:0; padding:8px 4px; line-height:1.35; overflow-wrap:anywhere; }

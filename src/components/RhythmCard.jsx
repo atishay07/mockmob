@@ -281,7 +281,7 @@ export default function RhythmCard({ compact = false, mobi = !compact, between =
   const pick = state.pick;
   // A returning week: Mobi's hello and the card's own sentence become one line, so "Welcome back" is said once.
   const hello = pick?.kind === 'hello' && pick.line;
-  const status = hello ? `${pick.line} One counted study day starts your week.` : quietMet && met ? '' : weekStatus(rhythm);
+  const status = hello ? `${pick.line} One counted study day starts your week.` : quietMet && met ? '' : !compact && rhythm.studyDays > 0 && !met && !rhythm.paused ? `${rhythm.studyDays} of ${rhythm.daysGoal} study days this week. ${weekStatus(rhythm)}` : weekStatus(rhythm);
   const streak = rhythm.weeksMetStreak;
 
   const card = (
@@ -297,14 +297,21 @@ export default function RhythmCard({ compact = false, mobi = !compact, between =
         {/* Today already holds Mobi in its plan card, so its slim weekly card keeps him out: once per screen. */}
       </header>
 
-      <div className="rc__top">
-        <WeekRing rhythm={rhythm} armed={armed} size={compact ? 92 : 132} />
-        <div className="rc__week">
-          <DayBubbles week={week} armed={armed} picked={picked} onPick={setPicked} fresh={state.fresh} />
-          <DayCaption week={week} index={shownIndex} />
-          {!compact && streak > 0 ? <p className="rc__streak"><b>{streak}</b> {streak === 1 ? 'week' : 'weeks'} met in a row{rhythm.bestRun > streak ? <>, best run {rhythm.bestRun}</> : null}</p> : null}
+      {compact ? (
+        <div className="rc__top">
+          <WeekRing rhythm={rhythm} armed={armed} size={92} />
+          <div className="rc__week">
+            <DayBubbles week={week} armed={armed} picked={picked} onPick={setPicked} fresh={state.fresh} />
+            <DayCaption week={week} index={shownIndex} />
+          </div>
         </div>
-      </div>
+      ) : (
+        // Progress does not repeat Today's ring and seven days: it leads with the weeks, this one the last column.
+        <>
+          {streak > 0 ? <p className="rc__streak"><b>{streak}</b> {streak === 1 ? 'week' : 'weeks'} met in a row{rhythm.bestRun > streak ? <>, best run {rhythm.bestRun}</> : null}</p> : null}
+          <Ribbon ribbon={ribbon} armed={armed} />
+        </>
+      )}
 
       {compact ? <Link className="rc__more" href="/progress">See your weeks and milestones</Link> : null}
     </section>
@@ -316,7 +323,6 @@ export default function RhythmCard({ compact = false, mobi = !compact, between =
       {card}
       {between}
       <section ref={moreRef} className="rc rc--more" aria-label="Your weeks and milestones">
-        <Ribbon ribbon={ribbon} armed={moreArmed} />
         <StudyBadges rhythm={rhythm} armed={moreArmed} />
         <p className="rc__foot">A study day is a day with a scored session of at least 5 answers or a finished Mistake Repair. <Link href="/profile#goal" className="rc__foot-link">Change your study days</Link> in Account or in the app.</p>
       </section>

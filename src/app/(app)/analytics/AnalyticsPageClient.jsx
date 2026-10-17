@@ -12,7 +12,6 @@ import Link from 'next/link';
 import { RefreshCw } from 'lucide-react';
 import { SkeletonCard, ErrorState } from '@/components/ui/Skeleton';
 import { apiGet } from '@/lib/fetcher';
-import LearningNextAction from '@/components/LearningNextAction';
 import RecordView from '@/components/ai/RecordView';
 import { useInsights } from '@/components/ai/useInsights';
 import { useAuth } from '@/components/AuthProvider';
@@ -110,8 +109,6 @@ export default function AnalyticsPageClient() {
         <Link href="/mentor?tab=ask" className="rd-ask">Ask Mobi</Link>
       </header>
 
-      <LearningNextAction compact />
-
       {(() => {
         const across = rules.state === 'ready' && rules.data?.acrossMocks ? (
           <AcrossMocks across={rules.data.acrossMocks} defaultOpen surface="card" footer={<>
@@ -130,7 +127,7 @@ export default function AnalyticsPageClient() {
                   ? <TrendScrub timeline={timeline} colors={colors} />
                   : <p className="pr-empty">{timeline.length === 0 ? 'Finish a session to start your trend.' : 'One more session and the trend line appears.'}</p>}
               </div>
-              {timeline.length > 1 && <p className="rd-foot">{timeline[0].score}% to {timeline[timeline.length - 1].score}% over {timeline.length} sessions. Each session is a different set of questions, so read it as a rough guide.</p>}
+              {timeline.length > 1 && <p className="rd-foot">{timeline[0].score}% to {timeline[timeline.length - 1].score}% over {timeline.length} sessions.</p>}
             </section>
 
             {subjects.length > 0 && (
