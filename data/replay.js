@@ -222,3 +222,160 @@ export function replayView(replay, { total: given = null } = {}) {
   const cut = recordSec < SLOT_RULES.cutSec ? { reason: 'short' } : answerEvents < SLOT_RULES.cutEvents ? { reason: 'few' } : null;
   return { perQuestion, events, cut, recordSec, answered, total, awaySec, awayCount, firstAt };
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+// D29, pass 1018 (owner, 18 Oct 4:10 am IST): "Play your paper back, 20 s". The same engine as the replay above, not a second
+// feature: it reads replayView() (perQuestion seconds and the real events) plus the attempt record's own rows and answer
+// changes, and returns ONE timeline of frames. The sheet plays question by question (a bubble lights right, wrong or blank
+// as the score counts up), pauses on the real moments (a right answer changed to wrong, the longest stay), lands on the
+// costliest chapter and ends on the one next move. Nothing here is invented: a moment exists only where the record says it
+// happened, and a paper with no trace still plays its sheet, score, costliest chapter and next move (no moments).
+// PURE: no React, no clock. The website draws it with a rAF clock over `durationMs`; the app ports it with the same JSON.
+export const REEL_RULES = Object.freeze({
+  startMs: 600, // the empty sheet, before the first bubble
+  walkMs: 8000, // the whole sheet takes about 8 seconds, never slower than 420 ms or faster than 90 ms a question
+  stepMin: 90,
+  stepMax: 420,
+  momentMs: 2200, // each pause on a real moment
+  chapterMs: 3200, // the costliest chapter
+  endMs: 1200, // the next move settles
+  maxMoments: 3,
+  longStayMin: 90, // seconds, and at least 2.5x the even pace, on a question that did not earn marks
+  longStayRatio: 2.5,
+});
+const MARKS_RIGHT = 5;
+const MARKS_WRONG = -1;
+const LETTERS = 'ABCDEFGH';
+
+/** The caption of one real event, in words ("Q22 changed D to A, a right answer made wrong"). Shared by the replay's Play. */
+export function eventCaption(e, { key = null } = {}) {
+  if (!e) return null;
+  const C = R.slots.caption;
+  const at = clockLabel(e.at);
+  const letter = (i) => (Number.isInteger(i) ? LETTERS[i] || String(i + 1) : '');
+  if (e.kind === 'end') return { at, text: C.end };
+  if (e.kind === 'back') return { at, text: fill(C.back, { n: e.n }) };
+  if (e.kind === 'clear') return { at, text: fill(C.clear, { n: e.n }) };
+  if (e.kind === 'pick') return { at, text: fill(C.pick, { n: e.n, to: letter(e.to) }) };
+  let made = '';
+  if (Number.isInteger(key)) {
+    if (e.from === key && e.to !== key) made = `, ${R.slots.made.rightToWrong}`;
+    else if (e.from !== key && e.to === key) made = `, ${R.slots.made.wrongToRight}`;
+  }
+  return { at, text: fill(C.change, { n: e.n, from: letter(e.from), to: letter(e.to), made }) };
+}
+
+/**
+ * The real moments of a paper, at most REEL_RULES.maxMoments, ranked lost, long, won and returned in paper order:
+ *   lost  the first answer was the key and the paper's final answer is not (answerChanges: before === key, after !== key)
+ *   long  the longest stay (>= 90 s and >= 2.5x even pace) on a question that did not earn marks
+ *   won   the first answer was wrong and the final answer is the key
+ * rows: analyseSession(attempt).rows; changes: attempt.selectionMeta.recovery.observed.answerChanges.
+ */
+export function reelMoments({ rows = [], changes = [], view = null, paceSec = null } = {}) {
+  const M = R.reel.moments;
+  const byQid = new Map();
+  for (const c of Array.isArray(changes) ? changes : []) {
+    if (!c || !c.qid || !Number.isFinite(c.at)) continue;
+    if (!byQid.has(c.qid)) byQid.set(c.qid, []);
+    byQid.get(c.qid).push(c);
+  }
+  const lost = [];
+  const won = [];
+  for (const row of rows) {
+    const key = row.q?.correctIndex;
+    const list = byQid.get(row.q?.id)?.slice().sort((a, b) => a.at - b.at);
+    if (!list?.length || !Number.isInteger(key)) continue;
+    if (row.verdict === 'wrong' && list[0].before === key) {
+      const leave = list.find((c) => c.before === key && c.after !== key) || list[0];
+      lost.push({ kind: 'lost', n: row.number, at: clockLabel(sec(leave.at)), text: fill(M.lost, { n: row.number, m: MARKS_RIGHT - MARKS_WRONG }) });
+    } else if (row.verdict === 'correct' && Number.isInteger(list[0].before) && list[0].before !== key) {
+      const gain = list.find((c) => c.after === key) || list[list.length - 1];
+      won.push({ kind: 'won', n: row.number, at: clockLabel(sec(gain.at)), text: fill(M.won, { n: row.number, m: MARKS_RIGHT - MARKS_WRONG }) });
+    }
+  }
+  let long = null;
+  if (view && !view.cut && paceSec > 0) {
+    const verdictOf = new Map(rows.map((r) => [r.number, r.verdict]));
+    const best = view.perQuestion.filter((q) => q.sec >= REEL_RULES.longStayMin && q.sec >= REEL_RULES.longStayRatio * paceSec && verdictOf.get(q.n) !== 'correct')
+      .sort((a, b) => b.sec - a.sec || a.n - b.n)[0];
+    if (best) {
+      const x = Math.round((best.sec / paceSec) * 10) / 10;
+      long = { kind: 'long', n: best.n, at: null, text: fill(M.long, { n: best.n, time: spentLabel(best.sec), x, pace: spentLabel(paceSec), result: R.reel.results[verdictOf.get(best.n) === 'skipped' ? 'blank' : 'wrong'] }) };
+    }
+  }
+  const picked = [];
+  const taken = new Set();
+  for (const m of [...lost.slice(0, 2), ...(long ? [long] : []), ...won.slice(0, 1), ...lost.slice(2)]) {
+    if (picked.length >= REEL_RULES.maxMoments) break;
+    if (taken.has(m.n)) continue; // one pause a question
+    taken.add(m.n);
+    picked.push(m);
+  }
+  return picked.sort((a, b) => a.n - b.n);
+}
+
+/**
+ * reelScript({ rows, changes, view, paceSec, finding, next }) -> null | {
+ *   total, durationMs, max, score, moments, chapter, next, frames }
+ *   rows     analyseSession(attempt).rows (number, verdict 'correct'|'wrong'|'skipped', chapter, q)
+ *   changes  the record's observed answerChanges
+ *   view     replayView(lab.replay), or null without a trace (the sheet still plays)
+ *   finding  costliestLine(...) { line, detail, chapter } or null
+ *   next     the one next move { kind, label, target, href } or null
+ * Frames in clock order: { t (ms), kind: 'start'|'light'|'moment'|'chapter'|'next', n, lit, marks, caption, ring }.
+ * `lit` is how many questions of the sheet have lit; `marks` the running score (+5 right, -1 wrong, 0 blank); at the last
+ * light frame it equals the paper's score. null when no question was answered.
+ */
+export function reelScript({ rows = [], changes = [], view = null, paceSec = null, finding = null, next = null } = {}) {
+  const total = rows.length;
+  const answered = rows.filter((r) => r.verdict !== 'skipped').length;
+  if (!total || !answered) return null;
+  const Rr = R.reel;
+  const moments = reelMoments({ rows, changes, view, paceSec });
+  const momentAt = new Map(moments.map((m) => [m.n, m]));
+  const step = Math.min(REEL_RULES.stepMax, Math.max(REEL_RULES.stepMin, Math.round(REEL_RULES.walkMs / total)));
+  const frames = [{ t: 0, kind: 'start', n: null, lit: 0, marks: 0, caption: null, ring: null }];
+  let t = REEL_RULES.startMs;
+  let marks = 0;
+  rows.forEach((row, i) => {
+    marks += row.verdict === 'correct' ? MARKS_RIGHT : row.verdict === 'wrong' ? MARKS_WRONG : 0;
+    frames.push({ t, kind: 'light', n: row.number, lit: i + 1, marks, caption: null, ring: null });
+    t += step;
+    const m = momentAt.get(row.number);
+    if (m) {
+      frames.push({ t, kind: 'moment', n: row.number, lit: i + 1, marks, caption: { at: m.at, text: m.text }, ring: row.number });
+      t += REEL_RULES.momentMs;
+    }
+  });
+  const chapterName = finding?.chapter || null;
+  const chapter = chapterName ? { name: chapterName, numbers: rows.filter((r) => r.chapter === chapterName && r.verdict !== 'correct').map((r) => r.number) } : null;
+  if (finding?.line) {
+    frames.push({ t, kind: 'chapter', n: null, lit: total, marks, caption: { at: null, text: finding.line, detail: finding.detail || null }, ring: null, chapter });
+    t += REEL_RULES.chapterMs;
+  }
+  frames.push({ t, kind: 'next', n: null, lit: total, marks, caption: { at: null, text: Rr.next }, ring: null, chapter, next: next || null });
+  return { total, durationMs: t + REEL_RULES.endMs, max: total * MARKS_RIGHT, score: marks, moments, chapter, next: next || null, frames };
+}
+
+/** The frame showing at clock t (ms): the last frame at or before it. */
+export function reelFrameAt(script, t) {
+  if (!script?.frames?.length) return null;
+  let lo = 0;
+  let hi = script.frames.length - 1;
+  while (lo < hi) {
+    const mid = (lo + hi + 1) >> 1;
+    if (script.frames[mid].t <= t) lo = mid; else hi = mid - 1;
+  }
+  return script.frames[lo];
+}
+
+/** The frames a student steps through one press at a time (reduced motion): each real moment, the chapter, the next move. */
+export function reelKeyFrames(script) {
+  return (script?.frames || []).filter((f) => f.kind === 'moment' || f.kind === 'chapter' || f.kind === 'next');
+}
+
+/** The honest length for the title: the script's own duration to the nearest 5 seconds, never under 5 ("20 s"). */
+export function reelSeconds(script) {
+  return Math.max(5, Math.round((script?.durationMs || 0) / 5000) * 5);
+}
