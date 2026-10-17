@@ -55,8 +55,8 @@ const PARTS = [
     href: '/cuet-subject-combination', link: 'Plan your subjects',
   },
   {
-    title: 'Leaderboard',
-    body: 'Points for speed, accuracy and difficulty across your recorded mocks. It is separate from your CUET exam rank.',
+    title: 'Your standing',
+    body: 'Your own rank among MockMob students, from your recorded mocks. You see your rank and your average; no other student's name is shown. It is separate from your CUET exam rank.',
     href: '/signup', link: 'Create a free account',
   },
 ];

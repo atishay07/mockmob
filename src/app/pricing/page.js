@@ -44,7 +44,7 @@ const buildPlans = (offer) => [
       'Every paper built fresh from the live question bank',
       'Weekly progress tracking',
       '25 saved questions',
-      'Leaderboard',
+      'Your standing',
     ],
   },
   {
@@ -89,7 +89,7 @@ const COMPARISON_GROUPS = newOfferReleased() ? [{ heading: 'Practice and recover
     heading: 'Platform basics',
     rows: [
       ['Saved questions', '25 saves', 'Unlimited saves'],
-      ['Leaderboard', true, true],
+      ['Your standing', true, true],
       ['Weekly progress tracking', true, true],
     ],
   },
@@ -172,8 +172,8 @@ const buildFaqs = (offer, bankSize = null) => [
     a: 'New questions pass source and answer-key checks before they reach you, and anything uncertain is held back. If a key looks wrong, report it from your result and we recheck it.',
   },
   {
-    q: 'How does the leaderboard work?',
-    a: 'Every mock you take adds points for speed, accuracy and the difficulty of the questions. Your points set your place on the leaderboard, which is separate from your CUET exam rank.',
+    q: 'What is Your standing?',
+    a: 'Your standing is your own rank among MockMob students, worked out from the points your recorded mocks earn. You see your rank, how many students are ranked and your average. No other student's name is shown, and it is separate from your CUET exam rank.',
   },
 ];
 
