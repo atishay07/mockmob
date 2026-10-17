@@ -1,0 +1,821 @@
+{
+  "batch": "w4-bio-02",
+  "subject": "biology",
+  "questions": [
+    {
+      "id": "1ed56924-fcf9-4015-8327-e71c2be3dbe5",
+      "subject": "biology",
+      "unit": "Biology and Human Welfare",
+      "chapter": "Human Health & Disease",
+      "type": "single_mcq",
+      "stem": "A patient has sustained high fever of 39 to 40 degrees Celsius, weakness, stomach pain, constipation and headache, and typhoid is suspected. Which test is used to confirm the diagnosis?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ELISA"
+        },
+        {
+          "key": "B",
+          "text": "Biopsy"
+        },
+        {
+          "key": "C",
+          "text": "Widal test"
+        },
+        {
+          "key": "D",
+          "text": "Polymerase chain reaction"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "Typhoid, caused by Salmonella typhi, is confirmed by the Widal test, which detects the patient's antibodies against the bacterium. ELISA is the test used to detect HIV infection and is the nearest wrong choice, but it is not the confirmatory test for typhoid. Biopsy is used to examine tissue for cancer, and PCR for early detection of HIV or of cancer genes.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "NCERT Class 12 Biology, Ch 7 Human Health and Disease: typhoid, its symptoms and confirmation by the Widal test",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "blind_answer": "C",
+        "key_confirmed": true,
+        "syllabus": "in 2026 syllabus",
+        "bank_duplicate_check": "no duplicate among the live biology rows (select-only keyword reads on production isrxrxzjocewrdureyhp) nor in waves 1-3 (validator)",
+        "verdict": "kept"
+      }
+    },
+    {
+      "id": "3434a96f-2ebc-45ae-932b-f5729c83538b",
+      "subject": "biology",
+      "unit": "Biology and Human Welfare",
+      "chapter": "Human Health & Disease",
+      "type": "single_mcq",
+      "stem": "On exposure to pollen, a person develops sneezing and watery eyes. Which pair correctly names the type of antibody involved and the cells that release histamine?",
+      "options": [
+        {
+          "key": "A",
+          "text": "IgE; mast cells"
+        },
+        {
+          "key": "B",
+          "text": "IgA; mast cells"
+        },
+        {
+          "key": "C",
+          "text": "IgE; macrophages"
+        },
+        {
+          "key": "D",
+          "text": "IgA; macrophages"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "In allergy the immune system overreacts to an allergen such as pollen and makes IgE antibodies, which trigger mast cells to release histamine and serotonin; these cause sneezing and watery eyes. IgA is the antibody found in colostrum, and macrophages are phagocytes, so neither is the source of histamine in an allergic response.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Biology, Ch 7 Human Health and Disease: allergy, IgE antibodies and release of histamine from mast cells",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "blind_answer": "A",
+        "key_confirmed": true,
+        "syllabus": "in 2026 syllabus",
+        "bank_duplicate_check": "no duplicate among the live biology rows (select-only keyword reads on production isrxrxzjocewrdureyhp) nor in waves 1-3 (validator)",
+        "verdict": "kept"
+      }
+    },
+    {
+      "id": "93f0a684-7f2b-4742-81bd-b68eef0a280e",
+      "subject": "biology",
+      "unit": "Biology and Human Welfare",
+      "chapter": "Human Health & Disease",
+      "type": "sequence_ordering",
+      "stem": "Arrange the following events of HIV replication in a human host in the correct sequence.\n(A) Progeny viruses released into the blood attack other helper T lymphocytes\n(B) Viral RNA is copied into DNA by reverse transcriptase\n(C) Viral DNA is incorporated into the DNA of the infected cell\n(D) HIV enters a macrophage\nChoose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(B), (D), (C), (A)"
+        },
+        {
+          "key": "B",
+          "text": "(D), (B), (A), (C)"
+        },
+        {
+          "key": "C",
+          "text": "(C), (D), (B), (A)"
+        },
+        {
+          "key": "D",
+          "text": "(D), (B), (C), (A)"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "After HIV enters a macrophage, its RNA genome is copied into DNA by reverse transcriptase, and this viral DNA is incorporated into the host cell's DNA, which then directs the production of new viruses. The progeny viruses released into the blood go on to attack helper T lymphocytes. Integration cannot come before reverse transcription, because the viral genome stays RNA until it has been copied.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Biology, Ch 7 Human Health and Disease: AIDS, replication of HIV in macrophages and helper T lymphocytes",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "blind_answer": "D",
+        "key_confirmed": true,
+        "syllabus": "in 2026 syllabus",
+        "bank_duplicate_check": "no duplicate among the live biology rows (select-only keyword reads on production isrxrxzjocewrdureyhp) nor in waves 1-3 (validator)",
+        "verdict": "kept",
+        "advisory": "advisory: HIV reverse transcriptase appears in live bank statement items; this is a sequence item, different task"
+      }
+    },
+    {
+      "id": "09a87281-edba-4507-85d1-c3e313dd7071",
+      "subject": "biology",
+      "unit": "Biology and Human Welfare",
+      "chapter": "Human Health & Disease",
+      "type": "single_mcq",
+      "stem": "A drug obtained by acetylation of morphine is taken by snorting or injection. Which option correctly gives the drug, its source plant and its effect on body functions?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cocaine; Erythroxylum coca; stimulates the central nervous system"
+        },
+        {
+          "key": "B",
+          "text": "Heroin; Papaver somniferum; slows down body functions"
+        },
+        {
+          "key": "C",
+          "text": "Heroin; Cannabis sativa; slows down body functions"
+        },
+        {
+          "key": "D",
+          "text": "Heroin; Papaver somniferum; stimulates the central nervous system"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "Heroin (diacetylmorphine) is made by acetylating morphine, which is extracted from the latex of the poppy plant Papaver somniferum, and it is a depressant that slows down body functions. Cocaine from Erythroxylum coca is the stimulant, and Cannabis sativa gives marijuana and hashish, so those rows describe other drugs.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Biology, Ch 7 Human Health and Disease: drugs and alcohol abuse, opioids, cannabinoids and coca alkaloids",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "blind_answer": "B",
+        "key_confirmed": true,
+        "syllabus": "in 2026 syllabus",
+        "bank_duplicate_check": "no duplicate among the live biology rows (select-only keyword reads on production isrxrxzjocewrdureyhp) nor in waves 1-3 (validator)",
+        "verdict": "kept"
+      }
+    },
+    {
+      "id": "80acdc79-32e8-47ce-893b-76579df268fc",
+      "subject": "biology",
+      "unit": "Biology and Human Welfare",
+      "chapter": "Human Health & Disease",
+      "type": "single_mcq",
+      "stem": "The behaviour of the cells from the swelling when they are crowded together indicates that they have lost:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Contact inhibition"
+        },
+        {
+          "key": "B",
+          "text": "Metastasis"
+        },
+        {
+          "key": "C",
+          "text": "Neoplastic transformation"
+        },
+        {
+          "key": "D",
+          "text": "Cell differentiation"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "Normal cells stop dividing when they touch their neighbours, a property called contact inhibition, and cancer cells have lost it, so they keep dividing even when crowded and form a lump. Metastasis is the spread of tumour cells to other sites, a property that malignant cells gain rather than lose, so it does not describe this behaviour.",
+      "passage_text": "A 52-year-old man who has chewed tobacco for thirty years visits a clinic with a hard, painless swelling on the inner lining of his cheek that has not healed for three months. A small piece of the swelling is removed and examined under a microscope. The pathologist reports that the cells from the swelling keep on dividing even when they are crowded against one another, whereas cells from the healthy lining of the same cheek stop dividing once they touch their neighbours. Cells from the swelling are also found in a lymph node of the neck. A genetic test shows that a normal gene which regulates cell division in the cheek cells has been changed so that it stays permanently switched on. The doctor explains that substances present in chewed tobacco can bring about such a change. The surgeon plans to remove the swelling, and the radiation specialist plans to treat the area with a lethal dose of radiation after the operation. The oncologist advises a course of chemotherapy as well. The patient is told that all these steps are meant to remove or destroy the abnormal cells and that regular check-ups will be needed for several years after the treatment.",
+      "set_id": "w4-bio-02-set-1",
+      "difficulty_label": "easy",
+      "ncert_ref": "NCERT Class 12 Biology, Ch 7 Human Health and Disease: cancer, contact inhibition and transformation of normal cells",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "blind_answer": "A",
+        "key_confirmed": true,
+        "syllabus": "in 2026 syllabus",
+        "bank_duplicate_check": "no duplicate among the live biology rows (select-only keyword reads on production isrxrxzjocewrdureyhp) nor in waves 1-3 (validator)",
+        "verdict": "kept",
+        "advisory": "advisory: passage-bound by wording (\"this patient\"), answer is NCERT contact inhibition, not named in the passage"
+      }
+    },
+    {
+      "id": "7d4b6c6f-9f8e-4e6f-a243-bdcda52cb355",
+      "subject": "biology",
+      "unit": "Biology and Human Welfare",
+      "chapter": "Human Health & Disease",
+      "type": "single_mcq",
+      "stem": "The finding in the lymph node of the neck indicates that the tumour is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Benign, because benign tumours remain confined to the site where they arise"
+        },
+        {
+          "key": "B",
+          "text": "Benign, because a hard painless swelling does not harm other tissues"
+        },
+        {
+          "key": "C",
+          "text": "Malignant, because its cells have spread to another part of the body"
+        },
+        {
+          "key": "D",
+          "text": "Malignant, because the swelling has not healed for three months"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "Benign tumours stay confined to their site of origin, whereas malignant tumours shed cells that reach other parts of the body, a process called metastasis. Cells of the swelling in a lymph node therefore show spread and point to a malignant tumour. Hardness, painlessness or slow healing cannot by themselves separate the two types.",
+      "passage_text": "A 52-year-old man who has chewed tobacco for thirty years visits a clinic with a hard, painless swelling on the inner lining of his cheek that has not healed for three months. A small piece of the swelling is removed and examined under a microscope. The pathologist reports that the cells from the swelling keep on dividing even when they are crowded against one another, whereas cells from the healthy lining of the same cheek stop dividing once they touch their neighbours. Cells from the swelling are also found in a lymph node of the neck. A genetic test shows that a normal gene which regulates cell division in the cheek cells has been changed so that it stays permanently switched on. The doctor explains that substances present in chewed tobacco can bring about such a change. The surgeon plans to remove the swelling, and the radiation specialist plans to treat the area with a lethal dose of radiation after the operation. The oncologist advises a course of chemotherapy as well. The patient is told that all these steps are meant to remove or destroy the abnormal cells and that regular check-ups will be needed for several years after the treatment.",
+      "set_id": "w4-bio-02-set-1",
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Biology, Ch 7 Human Health and Disease: cancer, benign and malignant tumours, metastasis",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "blind_answer": "C",
+        "key_confirmed": true,
+        "syllabus": "in 2026 syllabus",
+        "bank_duplicate_check": "no duplicate among the live biology rows (select-only keyword reads on production isrxrxzjocewrdureyhp) nor in waves 1-3 (validator)",
+        "verdict": "kept"
+      }
+    },
+    {
+      "id": "89ff99c8-222d-48d8-8071-e65f3656d7cd",
+      "subject": "biology",
+      "unit": "Biology and Human Welfare",
+      "chapter": "Human Health & Disease",
+      "type": "single_mcq",
+      "stem": "The gene change found by the genetic test and the agent that caused it are best described, respectively, as:",
+      "options": [
+        {
+          "key": "A",
+          "text": "A viral oncogene inserted into host DNA; a chemical carcinogen"
+        },
+        {
+          "key": "B",
+          "text": "A proto-oncogene activated into an oncogene; a chemical carcinogen"
+        },
+        {
+          "key": "C",
+          "text": "A proto-oncogene activated into an oncogene; a physical carcinogen"
+        },
+        {
+          "key": "D",
+          "text": "A viral oncogene inserted into host DNA; a biological carcinogen"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "Normal cellular genes that regulate cell division (proto-oncogenes) can be activated into oncogenes by carcinogens, and tobacco substances are chemical carcinogens. A viral oncogene would have to be brought in by an oncogenic virus, which this case does not describe, and a physical carcinogen would be ionising radiation such as X-rays or gamma rays.",
+      "passage_text": "A 52-year-old man who has chewed tobacco for thirty years visits a clinic with a hard, painless swelling on the inner lining of his cheek that has not healed for three months. A small piece of the swelling is removed and examined under a microscope. The pathologist reports that the cells from the swelling keep on dividing even when they are crowded against one another, whereas cells from the healthy lining of the same cheek stop dividing once they touch their neighbours. Cells from the swelling are also found in a lymph node of the neck. A genetic test shows that a normal gene which regulates cell division in the cheek cells has been changed so that it stays permanently switched on. The doctor explains that substances present in chewed tobacco can bring about such a change. The surgeon plans to remove the swelling, and the radiation specialist plans to treat the area with a lethal dose of radiation after the operation. The oncologist advises a course of chemotherapy as well. The patient is told that all these steps are meant to remove or destroy the abnormal cells and that regular check-ups will be needed for several years after the treatment.",
+      "set_id": "w4-bio-02-set-1",
+      "difficulty_label": "hard",
+      "ncert_ref": "NCERT Class 12 Biology, Ch 7 Human Health and Disease: cancer, proto-oncogenes, oncogenes and types of carcinogens",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "blind_answer": "B",
+        "key_confirmed": true,
+        "syllabus": "in 2026 syllabus",
+        "bank_duplicate_check": "no duplicate among the live biology rows (select-only keyword reads on production isrxrxzjocewrdureyhp) nor in waves 1-3 (validator)",
+        "verdict": "kept"
+      }
+    },
+    {
+      "id": "f6b8e854-fac9-4ea3-8f17-24481236c2ea",
+      "subject": "biology",
+      "unit": "Biology and Human Welfare",
+      "chapter": "Human Health & Disease",
+      "type": "single_mcq",
+      "stem": "Why is chemotherapy advised for this patient in addition to surgery and radiation?",
+      "options": [
+        {
+          "key": "A",
+          "text": "The drugs stimulate the immune system to clear the swelling, so no other treatment is needed"
+        },
+        {
+          "key": "B",
+          "text": "The drugs repair the changed gene in the tumour cells and make them normal again"
+        },
+        {
+          "key": "C",
+          "text": "The drugs convert the swelling into a benign tumour so that it need not be removed"
+        },
+        {
+          "key": "D",
+          "text": "The drugs travel through the body and can destroy tumour cells that have spread elsewhere"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "Surgery and radiation treat the site of the tumour only, but cells found in a lymph node may already have spread. Chemotherapeutic drugs act throughout the body and so can reach such cells. They cannot repair altered genes, and they are not free of side effects: many harm normal cells and cause hair loss and anaemia.",
+      "passage_text": "A 52-year-old man who has chewed tobacco for thirty years visits a clinic with a hard, painless swelling on the inner lining of his cheek that has not healed for three months. A small piece of the swelling is removed and examined under a microscope. The pathologist reports that the cells from the swelling keep on dividing even when they are crowded against one another, whereas cells from the healthy lining of the same cheek stop dividing once they touch their neighbours. Cells from the swelling are also found in a lymph node of the neck. A genetic test shows that a normal gene which regulates cell division in the cheek cells has been changed so that it stays permanently switched on. The doctor explains that substances present in chewed tobacco can bring about such a change. The surgeon plans to remove the swelling, and the radiation specialist plans to treat the area with a lethal dose of radiation after the operation. The oncologist advises a course of chemotherapy as well. The patient is told that all these steps are meant to remove or destroy the abnormal cells and that regular check-ups will be needed for several years after the treatment.",
+      "set_id": "w4-bio-02-set-1",
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Biology, Ch 7 Human Health and Disease: cancer, treatment by surgery, radiation therapy and chemotherapy",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "blind_answer": "D",
+        "key_confirmed": true,
+        "syllabus": "in 2026 syllabus",
+        "bank_duplicate_check": "no duplicate among the live biology rows (select-only keyword reads on production isrxrxzjocewrdureyhp) nor in waves 1-3 (validator)",
+        "verdict": "repaired",
+        "repairs": [
+          {
+            "what": "option A \"Chemotherapy is the only form of treatment that never damages normal body cells\" replaced: it carried the absolute words only/never (a tell) and repeated the false idea of statement (C) in the next item; new text is a misconception about immune activation",
+            "changes_what_a_solver_sees": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "3fd2baf1-f46d-4695-90b7-8e40c62975f2",
+      "subject": "biology",
+      "unit": "Biology and Human Welfare",
+      "chapter": "Human Health & Disease",
+      "type": "statement_based",
+      "stem": "Which of the following statements about this patient's diagnosis and treatment are correct?\n(A) The tobacco substances that changed his gene are chemical carcinogens.\n(B) The radiation is directed at the tumour cells, taking care not to damage the neighbouring normal cells.\n(C) The chemotherapeutic drugs will destroy only the tumour cells and leave all normal body cells unharmed.\n(D) Alpha-interferon, which activates the immune system, could also be used to help destroy the tumour.\nChoose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Only (A) and (B)"
+        },
+        {
+          "key": "B",
+          "text": "Only (B), (C) and (D)"
+        },
+        {
+          "key": "C",
+          "text": "Only (A), (B) and (D)"
+        },
+        {
+          "key": "D",
+          "text": "Only (A), (C) and (D)"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "Chewed tobacco contains chemical carcinogens, and radiotherapy lethally irradiates the tumour cells while taking care of the neighbouring normal tissue. Alpha-interferon is a biological response modifier that activates the immune system against a tumour. Chemotherapeutic drugs also harm normal cells and cause hair loss and anaemia, so the claim that they spare all normal cells is false.",
+      "passage_text": "A 52-year-old man who has chewed tobacco for thirty years visits a clinic with a hard, painless swelling on the inner lining of his cheek that has not healed for three months. A small piece of the swelling is removed and examined under a microscope. The pathologist reports that the cells from the swelling keep on dividing even when they are crowded against one another, whereas cells from the healthy lining of the same cheek stop dividing once they touch their neighbours. Cells from the swelling are also found in a lymph node of the neck. A genetic test shows that a normal gene which regulates cell division in the cheek cells has been changed so that it stays permanently switched on. The doctor explains that substances present in chewed tobacco can bring about such a change. The surgeon plans to remove the swelling, and the radiation specialist plans to treat the area with a lethal dose of radiation after the operation. The oncologist advises a course of chemotherapy as well. The patient is told that all these steps are meant to remove or destroy the abnormal cells and that regular check-ups will be needed for several years after the treatment.",
+      "set_id": "w4-bio-02-set-1",
+      "difficulty_label": "hard",
+      "ncert_ref": "NCERT Class 12 Biology, Ch 7 Human Health and Disease: cancer, carcinogens, radiotherapy, chemotherapy and biological response modifiers",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "blind_answer": "C",
+        "key_confirmed": true,
+        "syllabus": "in 2026 syllabus",
+        "bank_duplicate_check": "no duplicate among the live biology rows (select-only keyword reads on production isrxrxzjocewrdureyhp) nor in waves 1-3 (validator)",
+        "verdict": "kept"
+      }
+    },
+    {
+      "id": "b833fc48-2bbc-4a6c-93b6-862a27d26db6",
+      "subject": "biology",
+      "unit": "Biology and Human Welfare",
+      "chapter": "Microbes in Human Welfare",
+      "type": "sequence_ordering",
+      "stem": "Arrange the following events in the conversion of milk into curd in the correct sequence.\n(A) Coagulation and partial digestion of milk proteins by the acid\n(B) Addition of a small amount of curd to fresh milk\n(C) Multiplication of lactic acid bacteria at a suitable temperature\n(D) Production of lactic acid from the sugar of the milk\nChoose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(B), (D), (C), (A)"
+        },
+        {
+          "key": "B",
+          "text": "(B), (C), (D), (A)"
+        },
+        {
+          "key": "C",
+          "text": "(C), (B), (D), (A)"
+        },
+        {
+          "key": "D",
+          "text": "(B), (C), (A), (D)"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "The curd added to fresh milk supplies lactic acid bacteria as a starter. At a suitable temperature they multiply and make lactic acid from the milk sugar, and this acid then coagulates and partially digests the milk proteins to give curd. The acid cannot be formed before the bacteria have been added and have multiplied, so the protein change comes last.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "NCERT Class 12 Biology, Ch 8 Microbes in Human Welfare: microbes in household products, conversion of milk to curd by lactic acid bacteria",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "blind_answer": "B",
+        "key_confirmed": true,
+        "syllabus": "in 2026 syllabus",
+        "bank_duplicate_check": "no duplicate among the live biology rows (select-only keyword reads on production isrxrxzjocewrdureyhp) nor in waves 1-3 (validator)",
+        "verdict": "kept"
+      }
+    },
+    {
+      "id": "d97512d6-e8e1-4f10-bf26-da7b7f30b701",
+      "subject": "biology",
+      "unit": "Biology and Human Welfare",
+      "chapter": "Microbes in Human Welfare",
+      "type": "sequence_ordering",
+      "stem": "Arrange the following events of the secondary treatment of sewage in the correct sequence.\n(A) Aerobic microbes grow into flocs while the BOD of the effluent falls\n(B) Effluent from the primary settling tank is aerated in a large tank\n(C) The remaining sludge is digested by anaerobic bacteria in digesters\n(D) Flocs settle in a settling tank to form activated sludge\nChoose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(B), (A), (D), (C)"
+        },
+        {
+          "key": "B",
+          "text": "(B), (D), (A), (C)"
+        },
+        {
+          "key": "C",
+          "text": "(A), (B), (D), (C)"
+        },
+        {
+          "key": "D",
+          "text": "(B), (A), (C), (D)"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "In secondary treatment the primary effluent is aerated, aerobic microbes grow into flocs and lower the BOD, the flocs settle as activated sludge, and the part of the sludge not returned to the aeration tank goes to anaerobic digesters. Settling cannot come before floc formation, and sludge can be digested only after it has been collected.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Biology, Ch 8 Microbes in Human Welfare: secondary treatment of sewage, activated sludge and anaerobic sludge digesters",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "blind_answer": "A",
+        "key_confirmed": true,
+        "syllabus": "in 2026 syllabus",
+        "bank_duplicate_check": "no duplicate among the live biology rows (select-only keyword reads on production isrxrxzjocewrdureyhp) nor in waves 1-3 (validator)",
+        "verdict": "kept"
+      }
+    },
+    {
+      "id": "9cb149e1-92bd-451d-8cd8-f092d0d7e74a",
+      "subject": "biology",
+      "unit": "Biology and Human Welfare",
+      "chapter": "Microbes in Human Welfare",
+      "type": "match_the_following",
+      "stem": "Match List-I with List-II.\nList-I (Microbe): (A) Aspergillus niger (B) Acetobacter aceti (C) Saccharomyces cerevisiae (D) Streptococcus\nList-II (Product): (I) Streptokinase (II) Ethanol (III) Citric acid (IV) Acetic acid\nChoose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(A)-(III), (B)-(IV), (C)-(I), (D)-(II)"
+        },
+        {
+          "key": "B",
+          "text": "(A)-(III), (B)-(II), (C)-(IV), (D)-(I)"
+        },
+        {
+          "key": "C",
+          "text": "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)"
+        },
+        {
+          "key": "D",
+          "text": "(A)-(III), (B)-(IV), (C)-(II), (D)-(I)"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "Aspergillus niger, a fungus, yields citric acid; Acetobacter aceti, a bacterium, yields acetic acid; the yeast Saccharomyces cerevisiae yields ethanol; and Streptococcus produces streptokinase, used as a clot buster. The nearest wrong mapping swaps the yeast and the bacterium, giving ethanol to Streptococcus and streptokinase to the yeast.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Biology, Ch 8 Microbes in Human Welfare: microbes in industrial products, organic acids, ethanol and streptokinase",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "blind_answer": "D",
+        "key_confirmed": true,
+        "syllabus": "in 2026 syllabus",
+        "bank_duplicate_check": "no duplicate among the live biology rows (select-only keyword reads on production isrxrxzjocewrdureyhp) nor in waves 1-3 (validator)",
+        "verdict": "kept"
+      }
+    },
+    {
+      "id": "d8c5c153-958e-43f3-83f9-1af6b137e1ce",
+      "subject": "biology",
+      "unit": "Biology and Human Welfare",
+      "chapter": "Microbes in Human Welfare",
+      "type": "statement_based",
+      "stem": "Which of the following statements about microbial products are correct?\n(A) Wine and beer are produced without distillation of the fermented broth.\n(B) Whisky, brandy and rum are produced without distillation of the fermented broth.\n(C) Lipases are used as clot busters in patients who have had a myocardial infarction.\n(D) Penicillin was named after the mould Penicillium notatum.\nChoose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Only (A), (B) and (D)"
+        },
+        {
+          "key": "B",
+          "text": "Only (A) and (D)"
+        },
+        {
+          "key": "C",
+          "text": "Only (B) and (C)"
+        },
+        {
+          "key": "D",
+          "text": "Only (A), (C) and (D)"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "Wine and beer are obtained by yeast fermentation without distillation, whereas whisky, brandy and rum need distillation of the fermented broth. The clot buster is streptokinase, while lipases are added to detergents to remove oily stains. Penicillin took its name from the mould Penicillium notatum, so only the first and last statements are correct.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "NCERT Class 12 Biology, Ch 8 Microbes in Human Welfare: fermented beverages, antibiotics and enzymes in industrial products",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "blind_answer": "B",
+        "key_confirmed": true,
+        "syllabus": "in 2026 syllabus",
+        "bank_duplicate_check": "no duplicate among the live biology rows (select-only keyword reads on production isrxrxzjocewrdureyhp) nor in waves 1-3 (validator)",
+        "verdict": "kept"
+      }
+    },
+    {
+      "id": "914f319b-fe73-4d95-ac69-112442cffdd4",
+      "subject": "biology",
+      "unit": "Biology and Human Welfare",
+      "chapter": "Microbes in Human Welfare",
+      "type": "single_mcq",
+      "stem": "Statins are bioactive molecules obtained from the yeast Monascus purpureus. Their medical use depends on their ability to:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dissolve blood clots that have blocked the arteries supplying the heart muscle"
+        },
+        {
+          "key": "B",
+          "text": "Suppress the immune response that causes rejection of a transplanted organ"
+        },
+        {
+          "key": "C",
+          "text": "Lower blood cholesterol by competitively inhibiting the enzyme that synthesises it"
+        },
+        {
+          "key": "D",
+          "text": "Kill disease-causing bacteria that have entered the tissues of the body"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "Statins are competitive inhibitors of the enzyme responsible for the synthesis of cholesterol, so they lower blood cholesterol. Dissolving clots is the role of streptokinase, immune suppression after transplants is the role of cyclosporin A, and killing bacteria is the role of antibiotics such as penicillin.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Biology, Ch 8 Microbes in Human Welfare: bioactive molecules, statins from Monascus purpureus",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "blind_answer": "C",
+        "key_confirmed": true,
+        "syllabus": "in 2026 syllabus",
+        "bank_duplicate_check": "no duplicate among the live biology rows (select-only keyword reads on production isrxrxzjocewrdureyhp) nor in waves 1-3 (validator)",
+        "verdict": "kept"
+      }
+    },
+    {
+      "id": "ccbe9308-e3df-46c1-a7ec-6d9c25cf9073",
+      "subject": "biology",
+      "unit": "Biology and Human Welfare",
+      "chapter": "Microbes in Human Welfare",
+      "type": "single_mcq",
+      "stem": "A farmer wants to protect crop roots from fungal pathogens without using chemical fungicides. Which of the following biocontrol agents should the farmer use?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trichoderma"
+        },
+        {
+          "key": "B",
+          "text": "Bacillus thuringiensis"
+        },
+        {
+          "key": "C",
+          "text": "Baculovirus"
+        },
+        {
+          "key": "D",
+          "text": "Ladybird beetle"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "Trichoderma is a free-living fungus common in root ecosystems and is an effective biocontrol agent against several plant pathogens. Bacillus thuringiensis and baculoviruses are used against insect pests such as caterpillars, and the ladybird beetle feeds on aphids, so none of them acts against fungal pathogens.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Biology, Ch 8 Microbes in Human Welfare: microbes as biocontrol agents, Trichoderma against plant pathogens",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "blind_answer": "A",
+        "key_confirmed": true,
+        "syllabus": "in 2026 syllabus",
+        "bank_duplicate_check": "no duplicate among the live biology rows (select-only keyword reads on production isrxrxzjocewrdureyhp) nor in waves 1-3 (validator)",
+        "verdict": "kept",
+        "advisory": "advisory: Trichoderma as a biocontrol agent also appears in a live bank item that contrasts it with Rhizobium; different question, same fact"
+      }
+    },
+    {
+      "id": "569476e7-3a80-40fd-bb83-996b09c75b2c",
+      "subject": "biology",
+      "unit": "Biology and Human Welfare",
+      "chapter": "Microbes in Human Welfare",
+      "type": "single_mcq",
+      "stem": "Which photosynthetic, nitrogen-fixing organism is an important biofertiliser in paddy fields and also adds organic matter to the soil?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Rhizobium"
+        },
+        {
+          "key": "B",
+          "text": "Azotobacter"
+        },
+        {
+          "key": "C",
+          "text": "Glomus"
+        },
+        {
+          "key": "D",
+          "text": "Anabaena"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "Anabaena is a cyanobacterium: it photosynthesises, fixes atmospheric nitrogen and adds organic matter to paddy soil. Azotobacter fixes nitrogen but is not photosynthetic, Rhizobium works in the root nodules of legumes, and Glomus is a mycorrhizal fungus that helps plants absorb phosphorus.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "NCERT Class 12 Biology, Ch 8 Microbes in Human Welfare: biofertilisers, cyanobacteria in paddy fields",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "blind_answer": "D",
+        "key_confirmed": true,
+        "syllabus": "in 2026 syllabus",
+        "bank_duplicate_check": "no duplicate among the live biology rows (select-only keyword reads on production isrxrxzjocewrdureyhp) nor in waves 1-3 (validator)",
+        "verdict": "kept"
+      }
+    },
+    {
+      "id": "b52d4156-825a-4124-86e1-a4eba1f28fb5",
+      "subject": "biology",
+      "unit": "Biotechnology and its Applications",
+      "chapter": "Biotechnology Principles & Processes",
+      "type": "sequence_ordering",
+      "stem": "Arrange the following steps of the polymerase chain reaction in the correct sequence.\n(A) Extension of the primers by Taq polymerase\n(B) Annealing of primers to the template strands\n(C) Mixing the template DNA, primers, Taq polymerase and nucleotides in a tube\n(D) Denaturation of the template DNA by heating\nChoose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(C), (B), (D), (A)"
+        },
+        {
+          "key": "B",
+          "text": "(D), (C), (A), (B)"
+        },
+        {
+          "key": "C",
+          "text": "(C), (D), (B), (A)"
+        },
+        {
+          "key": "D",
+          "text": "(C), (D), (A), (B)"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "A PCR starts with the template, primers, thermostable Taq polymerase and nucleotides in one tube. Heating denatures the double-stranded template, cooling lets the primers anneal to the separated strands, and Taq polymerase then extends the primers. Annealing cannot come before denaturation, because primers can bind only to single strands.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Biology, Ch 9 Biotechnology: Principles and Processes: polymerase chain reaction, denaturation, annealing and extension",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "blind_answer": "C",
+        "key_confirmed": true,
+        "syllabus": "in 2026 syllabus",
+        "bank_duplicate_check": "no duplicate among the live biology rows (select-only keyword reads on production isrxrxzjocewrdureyhp) nor in waves 1-3 (validator)",
+        "verdict": "kept"
+      }
+    },
+    {
+      "id": "66a5caed-b85f-4f55-b455-26ff8f422d8c",
+      "subject": "biology",
+      "unit": "Biotechnology and its Applications",
+      "chapter": "Biotechnology Principles & Processes",
+      "type": "single_mcq",
+      "stem": "Which sequence of a cloning vector is responsible for controlling the copy number of the linked foreign DNA?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Selectable marker gene"
+        },
+        {
+          "key": "B",
+          "text": "Restriction enzyme recognition site"
+        },
+        {
+          "key": "C",
+          "text": "Promoter region"
+        },
+        {
+          "key": "D",
+          "text": "Origin of replication"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "The origin of replication is the sequence from which replication starts, and any DNA linked to it is replicated in the host; it also controls the copy number of the linked DNA. A selectable marker only helps to identify transformants, and a recognition site is only where the vector is cut.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "NCERT Class 12 Biology, Ch 9 Biotechnology: Principles and Processes: features of a cloning vector, origin of replication",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "blind_answer": "D",
+        "key_confirmed": true,
+        "syllabus": "in 2026 syllabus",
+        "bank_duplicate_check": "no duplicate among the live biology rows (select-only keyword reads on production isrxrxzjocewrdureyhp) nor in waves 1-3 (validator)",
+        "verdict": "kept"
+      }
+    },
+    {
+      "id": "c4e0c49c-4d53-4ce3-a21f-e5a5d39da739",
+      "subject": "biology",
+      "unit": "Biotechnology and its Applications",
+      "chapter": "Biotechnology Principles & Processes",
+      "type": "single_mcq",
+      "stem": "In a stirred-tank bioreactor, the stirrer is mainly used to:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Rupture the host cells and release the product into the medium"
+        },
+        {
+          "key": "B",
+          "text": "Mix the contents evenly and ensure oxygen availability throughout"
+        },
+        {
+          "key": "C",
+          "text": "Sterilise the culture medium before the host cells are added"
+        },
+        {
+          "key": "D",
+          "text": "Separate and purify the product from the culture broth"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "The stirrer of a stirred-tank bioreactor mixes the contents evenly and makes oxygen available throughout the vessel, so that the host cells grow under optimum conditions. Separation and purification of the product belong to downstream processing, and the medium is sterilised separately before inoculation.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "NCERT Class 12 Biology, Ch 9 Biotechnology: Principles and Processes: bioreactors, stirred-tank type",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "blind_answer": "B",
+        "key_confirmed": true,
+        "syllabus": "in 2026 syllabus",
+        "bank_duplicate_check": "no duplicate among the live biology rows (select-only keyword reads on production isrxrxzjocewrdureyhp) nor in waves 1-3 (validator)",
+        "verdict": "kept"
+      }
+    },
+    {
+      "id": "b8374232-3875-4669-a6aa-d2a27190437b",
+      "subject": "biology",
+      "unit": "Biotechnology and its Applications",
+      "chapter": "Biotechnology Principles & Processes",
+      "type": "single_mcq",
+      "stem": "A student isolating DNA from plant leaves wants to break the cell wall and then free the DNA of RNA and proteins. Which combination of enzymes should be used?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cellulase for the cell wall, ribonuclease for RNA and protease for proteins"
+        },
+        {
+          "key": "B",
+          "text": "Lysozyme for the cell wall, ribonuclease for RNA and protease for proteins"
+        },
+        {
+          "key": "C",
+          "text": "Chitinase for the cell wall, ribonuclease for RNA and protease for proteins"
+        },
+        {
+          "key": "D",
+          "text": "Cellulase for the cell wall, ribonuclease for proteins and protease for RNA"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "Plant cell walls are digested by cellulase, RNA is removed by ribonuclease and proteins by protease. Lysozyme is used for bacterial cells and chitinase for fungal cells, so they suit other sources, and the last combination assigns ribonuclease and protease to the wrong substrates.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Biology, Ch 9 Biotechnology: Principles and Processes: isolation of genetic material, enzymes used to lyse cells and remove RNA and proteins",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "blind_answer": "A",
+        "key_confirmed": true,
+        "syllabus": "in 2026 syllabus",
+        "bank_duplicate_check": "no duplicate among the live biology rows (select-only keyword reads on production isrxrxzjocewrdureyhp) nor in waves 1-3 (validator)",
+        "verdict": "repaired",
+        "repairs": [
+          {
+            "what": "difficulty_label hard -> medium (cellulase for plant wall, RNase for RNA, protease for protein is one NCERT line)",
+            "changes_what_a_solver_sees": false
+          }
+        ]
+      }
+    }
+  ]
+}
