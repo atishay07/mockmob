@@ -44,6 +44,7 @@ function initial(kind) {
     m.mob.week.size = 2; m.mob.week.sat = 2; m.mob.seatsLeft = 3; m.mob.trap = null;
     m.mob.nudge = { canSend: false, reason: 'everyone_sat', received: null };
     if (shows) m.mob.together = { with: 1, sameRight: 5, of: 10, sharedMiss: 6 };
+    if (m.mob.compare) { m.mob.compare.youShare = shows; m.mob.compare.needsShare = !shows; }
     return m;
   }
   if (kind === 'full') {
@@ -95,7 +96,7 @@ export function previewMob(url, method, init, fixture, json) {
   }
   if (path === '/api/mob/history' && method === 'GET') return kind === 'pro' ? send(historyV2) : fail('PRO_REQUIRED');
   if (path.startsWith('/api/mob/join/') && method === 'GET') {
-    return fixture.get('invite') === 'invalid' ? fail('INVITE_INVALID') : send(lookupV1);
+    return fixture.get('invite') === 'invalid' ? fail('INVITE_INVALID') : send(fixture.get('auth') === 'out' ? lookupV1 : { ...lookupV1, inviter: 'Riya' });
   }
   if (path === '/api/mob/reports' && method === 'GET') {
     return send({ reports: [{ id: 41, reason: 'name', name: 'Bad Name', createdAt: '2026-10-15T14:05:00.000Z', canRemove: true }, { id: 40, reason: 'nudge', name: 'Kabir', createdAt: '2026-10-14T09:30:00.000Z', canRemove: false }] });
