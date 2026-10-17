@@ -59,7 +59,7 @@
 .app-shell .rd-subjects__acc { display: grid; justify-items: end; gap: 0; font: inherit; }
 .app-shell .rd-subjects__acc b { font: 800 20px/1.1 var(--font-display); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
 .app-shell .rd-subjects__acc small { font-size: 12px; color: var(--a-ink-3); }
-.app-shell .rd-link { min-height: 44px; }
+.app-shell .rd .rd-link { min-height: 44px; display: inline-flex; align-items: center; color: var(--a-ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--a-line-strong); }
 
 /* The record (RecordView, shared with the Mentor record tab; only this page is changed here) */
 .app-shell .rd .pp-record { gap: 36px; }
@@ -92,8 +92,9 @@
 .app-shell .rd .pp-findings b { font-size: 17px; letter-spacing: -0.01em; }
 .app-shell .rd .pp-findings p { font-size: 14.5px; max-width: 64ch; }
 .app-shell .rd .pp-findings__foot { margin-top: 8px; }
-.app-shell .rd .pp-findings__foot button { min-height: 44px; padding: 0; border: 0; border-radius: 0; background: none; color: var(--a-accent-text); font: 700 14px var(--font-display); }
-.app-shell .rd .pp-findings__foot button:hover { border: 0; text-decoration: underline; text-underline-offset: 3px; color: var(--a-accent-text); }
+/* N13: the actions read as ink links, so the page keeps one volt in view (the trend line). */
+.app-shell .rd .pp-findings__foot button { min-height: 44px; padding: 0; border: 0; border-radius: 0; background: none; color: var(--a-ink); font: 700 14px var(--font-display); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--a-line-strong); }
+.app-shell .rd .pp-findings__foot button:hover { border: 0; text-decoration-color: currentColor; color: var(--a-ink); }
 
 /* Chapters: the bar is the data; the rest is type */
 .app-shell .rd .pp-chapters { gap: 20px; }

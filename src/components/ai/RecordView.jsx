@@ -103,22 +103,36 @@ export default function RecordView({ state, onNavigate, pro = false, afterLedger
   const blank = ledger.openSkipped / 5;
   const maxChange = Math.max(changes.marksGained, changes.marksLost, 1);
 
+  // N15 (17 Oct night): "Chapters, by marks left open" read as jargon. The ranking now says what it is in plain words:
+  // the chapters costing the most marks, each with what happened in it, the marks a right answer would have added, and
+  // for the first one the practice that wins them back. The chapter finding in "What stands out" said the same thing
+  // again, so on a page that shows the ranking first it is left out there (one place for it, one action).
+  const shownChapters = chapters.ranked.slice(0, pro ? 8 : FREE_CHAPTERS);
+  const chapterFinding = findings.find((f) => f.id === 'chapter') || null;
+  const shownFindings = chaptersFirst && chapters.ranked.length ? findings.filter((f) => f.id !== 'chapter') : findings;
   const chaptersSection = (
       <section aria-labelledby="pp-c">
-        <h3 id="pp-c" className="pp-h">Chapters, by marks left open</h3>
-        {chapters.ranked.length ? <p className="pp-note">Worth is 5 marks for each wrong or blank answer, what a right answer would have added. Each wrong answer also cost −1 on its paper.</p> : null}
+        <h3 id="pp-c" className="pp-h">Chapters costing you the most marks</h3>
         {chapters.ranked.length === 0 ? (
-          <p className="pp-note">No chapter has {MIN_CHAPTER_SAMPLE}+ answered questions with misses yet, so none is ranked. Rankings need a few questions per chapter to mean anything.</p>
+          <p className="pp-note">No chapter has {MIN_CHAPTER_SAMPLE} or more answered questions with a miss yet, so none is ranked. A few questions in a chapter are needed before a ranking means anything.</p>
         ) : (
-          <ul className="pp-chapters">
-            {chapters.ranked.slice(0, pro ? 8 : FREE_CHAPTERS).map((c) => (
-              <li key={c.key}>
-                <div className="pp-chapters__top"><b>{c.chapter}</b><span>{c.subjectName}</span></div>
-                <Stack right={c.right} wrong={c.wrong} skip={c.skip} label={`${c.right} right, ${c.wrong} wrong, ${c.skip} blank`} />
-                <div className="pp-chapters__meta"><span>{c.right} right, {c.wrong} wrong, {c.skip} blank</span><span>Worth {c.open} marks, from {c.n} questions</span></div>
-              </li>
-            ))}
-          </ul>
+          <>
+            <ol className="pp-rank">
+              {shownChapters.map((c, i) => (
+                <li key={c.key}>
+                  <span className="pp-rank__n" aria-hidden="true">{i + 1}</span>
+                  <div className="pp-rank__main">
+                    <div className="pp-rank__top"><b>{c.chapter}</b><span>{c.subjectName}</span></div>
+                    <p className="pp-rank__what">{c.wrong} wrong{c.skip ? ` and ${c.skip} left blank` : ''}, out of {c.n} question{c.n === 1 ? '' : 's'}.</p>
+                    <Stack right={c.right} wrong={c.wrong} skip={c.skip} label={`${c.right} right, ${c.wrong} wrong, ${c.skip} blank`} />
+                    {i === 0 && chapterFinding?.action ? <button type="button" className="pp-rank__go" onClick={() => onNavigate(chapterFinding.action.href)}>{chapterFinding.action.label}</button> : null}
+                  </div>
+                  <p className="pp-rank__marks"><b>{c.open}</b><small>marks to win back</small></p>
+                </li>
+              ))}
+            </ol>
+            <p className="pp-note">A right answer adds 5 marks, so every wrong or blank answer is 5 marks you can still win. Each wrong one also cost 1 on its paper.</p>
+          </>
         )}
         {!pro && chapters.ranked.length > FREE_CHAPTERS && <ProLock what={`${chapters.ranked.length - FREE_CHAPTERS} more ranked chapters are part of Pro.`} onNavigate={onNavigate} />}
         {pro && chapters.thin.length > 0 && (
@@ -145,11 +159,11 @@ export default function RecordView({ state, onNavigate, pro = false, afterLedger
 
       <AnswerSheet right={right} wrong={wrong} blank={blank} />
 
-      {findings.length > 0 && (
+      {shownFindings.length > 0 && (
         <section aria-labelledby="pp-f">
           <h3 id="pp-f" className="pp-h">What stands out</h3>
           <ol className="pp-findings">
-            {findings.map((f) => (
+            {shownFindings.map((f) => (
               <li key={f.id} data-kind={f.kind}>
                 <div>
                   <b>{f.headline}</b>
