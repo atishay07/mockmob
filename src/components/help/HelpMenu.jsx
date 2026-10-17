@@ -71,7 +71,8 @@ export default function HelpMenu({ request, onClose, onAsk, onTour, links = null
   }, [opener, requestClose]);
 
   const choose = (row, event) => {
-    if (row.action === 'ask') { onAsk?.(opener || event.currentTarget); finish.current(); return; }
+    // Focus goes back to the door before Mobi opens, so closing Mobi returns the student to the door, not to the page top.
+    if (row.action === 'ask') { const from = opener || event.currentTarget; opener?.focus({ preventScroll: true }); onAsk?.(from); finish.current(); return; }
     if (row.action === 'tour') { finish.current(); onTour?.(); return; }
     finish.current();
   };
