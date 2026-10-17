@@ -204,7 +204,7 @@ export default function TodayPlanFlow({ open, onClose, startStep = 1, today, pla
                 <span className="tpf__ans-s">NTA has not published the {dates.year} dates yet.</span>
               </button>
               <button type="button" role="radio" className="tpf__ans" aria-checked={Boolean(exam) || ownOpen} disabled={locked} onClick={() => setOwnOpen(true)}>
-                <b className="tpf__ans-big">{exam ? weekdayDay(exam) : 'Your day'}</b>
+                <b className="tpf__ans-big">{exam ? weekdayDay(exam) : 'Pick a day'}</b>
                 <span className="tpf__ans-t">My own date</span>
                 <span className="tpf__ans-s">{exam ? `Set for ${dates.year}.` : 'Once your admit card shows it.'}</span>
               </button>

@@ -197,7 +197,7 @@ export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, l
   } else if (stop.id === 'week') {
     readout = (
       <>
-        <h3>This week, to {weekdayDay(week.end)}</h3>
+        <h3>{week.end === today ? 'This week' : `This week, to ${weekdayDay(week.end)}`}</h3>
         {week.items.length ? (
           <ul className="trd__items">
             {week.items.map((i) => (
@@ -211,7 +211,7 @@ export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, l
         <p className="trd__note">{week.line}</p>
         {week.nextMock ? <p className="trd__note">Your next full mock falls in the week of {shortDay(week.nextMock)}, at {paceWords || 'your pace'}.</p> : null}
         {week.extraMocks > 0 ? <p className="trd__note">{week.extraMocks} more full {week.extraMocks === 1 ? 'mock' : 'mocks'} than planned this week. Extra is extra.</p> : null}
-        <p className="trd__note">Any day you practise counts, planned or not. <Link className="tm__inline" href="/progress">Your weeks</Link></p>
+        <p className="trd__note">Any day you practise counts, planned or not. <Link className="tm__inline trd__nowrap" href="/progress">Your weeks</Link></p>
       </>
     );
   } else {

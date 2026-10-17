@@ -46,7 +46,7 @@ function Art({ move, failed }) {
   if (move.id === 'revise' && move.subjects?.length) {
     return (
       <span className="tm__art tm__art--stack" data-n={move.subjects.length} aria-hidden="true">
-        {move.subjects.map((s, i) => <span key={s} className="tm__stack-i" style={{ '--k': i }}><SubjectObject id={s} size={[96, 64, 56][i]} lit={i === 0} life={false} framed={false} /></span>)}
+        {move.subjects.map((s, i) => <span key={s} className="tm__stack-i" style={{ '--k': i }}><SubjectObject id={s} size={move.subjects.length === 1 ? 112 : [96, 64, 56][i]} lit={i === 0} life={false} framed={false} /></span>)}
       </span>
     );
   }
