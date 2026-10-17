@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../motion/mm_scroll_behavior.dart';
 import '../theme/theme.dart';
 
 /// The one layout of every moment screen (SPACING.md 7, audit G11): a header, then the content
@@ -44,8 +45,9 @@ class MomentScaffold extends StatelessWidget {
         children: [
           ?header,
           Expanded(
+            // The app's one bounce (GLASS-1017 5.9, F3), as on every page: no stretch, no clamp.
             child: CustomScrollView(
-              physics: const ClampingScrollPhysics(),
+              physics: MmScrollBehavior.page,
               slivers: [
                 SliverFillRemaining(
                   hasScrollBody: false,
