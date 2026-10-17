@@ -10,6 +10,7 @@ import '../../../core/motion/motion.dart';
 import '../../../core/repositories/remote_state.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../practice/widgets/stale_subjects_banner.dart' show openEditSubjects;
 import '../../you/data/subject_catalog.dart' show youSubjectNames;
 import '../../you/widgets/you_page.dart';
 import '../../you/widgets/you_row.dart';
@@ -164,6 +165,10 @@ class _StartMobFormState extends ConsumerState<StartMobForm> {
   int _colour = 0;
   bool _busy = false;
   String? _error;
+  String? _nameError;
+
+  /// The server said there is no subject to start a Mob for: the way forward is Edit subjects.
+  bool _subjectsFirst = false;
 
   @override
   void initState() {
@@ -185,18 +190,29 @@ class _StartMobFormState extends ConsumerState<StartMobForm> {
     final subject = _subject;
     if (subject == null) return;
     if (!isValidMobName(_name.text)) {
-      setState(() => _error = MobCopy.nameRule);
+      setState(() => _nameError = MobCopy.nameRule);
       return;
     }
     setState(() {
       _busy = true;
       _error = null;
+      _nameError = null;
+      _subjectsFirst = false;
     });
-    final failure = await ref.read(mobActionsProvider).create(subject: subject, name: _name.text, colour: _colour);
+    final actions = ref.read(mobActionsProvider);
+    final failure = await actions.create(subject: subject, name: _name.text, colour: _colour);
     if (!mounted) return;
     setState(() => _busy = false);
     if (failure != null) {
-      setState(() => _error = failure == MobFailure.nameInvalid ? MobCopy.nameRule : MobCopy.failure(failure));
+      final nameProblem = failure == MobFailure.nameInvalid || failure == MobFailure.nameRefused;
+      setState(() {
+        if (nameProblem) {
+          _nameError = failure == MobFailure.nameInvalid ? MobCopy.nameRule : MobCopy.failure(failure);
+        } else {
+          _error = actions.say(failure);
+        }
+        _subjectsFirst = failure.needsSubjects;
+      });
     } else {
       ref.read(hapticsProvider).confirm();
       widget.onStarted?.call();
@@ -205,31 +221,52 @@ class _StartMobFormState extends ConsumerState<StartMobForm> {
 
   @override
   Widget build(BuildContext context) {
-    final type = context.mmType;
-    final colors = context.mmColors;
     final subjects = [
       for (final s in ref.watch(authSnapshotProvider.select((a) => a.subjects)))
         if (RegExp(r'^[a-z][a-z_]{1,40}$').hasMatch(s) && !isHiddenSubject(s) && !widget.skip.contains(s)) s,
     ];
     if (_subject == null || !subjects.contains(_subject)) _subject = subjects.isEmpty ? null : subjects.first;
-    final form = Column(
+    // No subject to start a Mob for: one sentence and the one way forward, never a dead Start key.
+    final noSubject = subjects.isEmpty;
+    final form = noSubject
+        ? Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              MobNote(widget.skip.isEmpty ? MobCopy.noSubjects : MobCopy.everySubjectHasMob),
+              const SizedBox(height: MmSpace.s16),
+              if (widget.skip.isEmpty)
+                KeyButton(label: MobCopy.chooseSubjects, onPressed: () => openEditSubjects(context))
+              else
+                KeyButton.secondary(label: MobCopy.addSubject, onPressed: () => openEditSubjects(context)),
+              if (!widget.another) ...[
+                const SizedBox(height: MmSpace.s12),
+                const MobNote(MobCopy.haveLink, center: true),
+              ],
+            ],
+          )
+        : _formColumn(context, subjects);
+    if (widget.another) return Padding(padding: const EdgeInsets.symmetric(horizontal: MmSpace.sheetSide), child: form);
+    return _startPage(context, form);
+  }
+
+  Widget _formColumn(BuildContext context, List<String> subjects) {
+    final type = context.mmType;
+    final colors = context.mmColors;
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(MobCopy.subjectLabel, style: type.label.copyWith(color: colors.ink2)),
         const SizedBox(height: MmSpace.s8),
-        if (subjects.isEmpty)
-          MobNote(widget.skip.isEmpty ? MobCopy.noSubjects : MobCopy.everySubjectHasMob)
-        else
-          Wrap(
-            spacing: MmSpace.s8,
-            runSpacing: MmSpace.s4,
-            children: [
-              for (final s in subjects)
-                MmChip(label: youSubjectNames[s] ?? Mob(subject: s).subjectName, selected: _subject == s, onTap: () => setState(() => _subject = s)),
-            ],
-          ),
+        Wrap(
+          spacing: MmSpace.s8,
+          runSpacing: MmSpace.s4,
+          children: [
+            for (final s in subjects)
+              MmChip(label: youSubjectNames[s] ?? Mob(subject: s).subjectName, selected: _subject == s, onTap: () => setState(() => _subject = s)),
+          ],
+        ),
         const SizedBox(height: MmSpace.s24),
-        MobNameField(controller: _name, label: MobCopy.nameLabel, error: _error, onChanged: (_) => setState(() => _error = null)),
+        MobNameField(controller: _name, label: MobCopy.nameLabel, error: _nameError, onChanged: (_) => setState(() => _nameError = null)),
         const SizedBox(height: MmSpace.s4),
         const MobNote(MobCopy.nameNote),
         const SizedBox(height: MmSpace.s16),
@@ -237,13 +274,27 @@ class _StartMobFormState extends ConsumerState<StartMobForm> {
         ColourPicker(value: _colour, onChanged: (c) => setState(() => _colour = c)),
         const SizedBox(height: MmSpace.s24),
         KeyButton(label: _busy ? 'Starting your Mob' : MobCopy.startKey, loading: _busy, onPressed: _busy || _subject == null ? null : _start),
+        const SizedBox(height: MmSpace.s8),
+        const MobNote(MobCopy.startCost, center: true),
+        if (_error != null) ...[
+          const SizedBox(height: MmSpace.s12),
+          InlineBanner(message: _error!, tone: BannerTone.error),
+          if (_subjectsFirst) ...[
+            const SizedBox(height: MmSpace.s8),
+            KeyButton.secondary(label: MobCopy.chooseSubjects, onPressed: () => openEditSubjects(context)),
+          ],
+        ],
         if (!widget.another) ...[
           const SizedBox(height: MmSpace.s12),
           const MobNote(MobCopy.haveLink, center: true),
         ],
       ],
     );
-    if (widget.another) return Padding(padding: const EdgeInsets.symmetric(horizontal: MmSpace.sheetSide), child: form);
+  }
+
+  Widget _startPage(BuildContext context, Widget form) {
+    final type = context.mmType;
+    final colors = context.mmColors;
     return Padding(
       padding: youGutter,
       child: MmStagger(
@@ -301,6 +352,9 @@ class _MobBodyState extends ConsumerState<MobBody> {
 
   Mob get mob => widget.mob;
 
+  /// The sentence for a failed write: the server's own when it says a real figure (the wait of a 429).
+  String _say(MobFailure f) => ref.read(mobActionsProvider).say(f);
+
   Future<void> _sit({MobExtra? extra}) async {
     if (_sitting != null) return;
     setState(() => _sitting = extra?.id ?? 'week');
@@ -316,7 +370,7 @@ class _MobBodyState extends ConsumerState<MobBody> {
     if (!mounted) return;
     setState(() {
       _nudging = false;
-      _nudgeNote = failure == null ? MobCopy.nudgeSentNote : MobCopy.failure(failure);
+      _nudgeNote = failure == null ? MobCopy.nudgeSentNote : _say(failure);
     });
     // The success haptic only after the server's ack (haptic grammar).
     if (failure == null) ref.read(hapticsProvider).confirm();
@@ -326,7 +380,7 @@ class _MobBodyState extends ConsumerState<MobBody> {
 
   Future<void> _startAnother() => showMmSheet<void>(
         context: context,
-        title: MobCopy.startAnotherTitle,
+        title: mob.plan.startedNone ? MobCopy.startOwnTitle : MobCopy.startAnotherTitle,
         builder: (sheet) => StartMobForm(another: true, skip: [for (final m in mob.mobs) m.subject], onStarted: () => Navigator.of(sheet).pop()),
       );
 
@@ -367,13 +421,13 @@ class _MobBodyState extends ConsumerState<MobBody> {
         if (!await confirmMobSheet(context, title: MobCopy.removeTitle(m.name), body: MobCopy.removeBody(m.name), confirm: MobCopy.removeMember)) return;
         failure = await actions.remove(m.memberId);
     }
-    if (failure != null && mounted) showMobToast(context, MobCopy.failure(failure));
+    if (failure != null && mounted) showMobToast(context, _say(failure));
   }
 
   Future<void> _leave() async {
     if (!await confirmMobSheet(context, title: MobCopy.leaveTitle(mob.several, mob.subjectName), body: MobCopy.leaveBody, confirm: MobCopy.leaveConfirm)) return;
     final failure = await ref.read(mobActionsProvider).leave();
-    if (failure != null && mounted) showMobToast(context, MobCopy.failure(failure));
+    if (failure != null && mounted) showMobToast(context, _say(failure));
   }
 
   @override
@@ -436,7 +490,10 @@ class _MobBodyState extends ConsumerState<MobBody> {
           ],
           MmStaggerItem(index: i++, child: MobExtrasSection(mob: mob, busyExtra: _sitting == 'week' ? null : _sitting, onSit: (x) => _sit(extra: x))),
           MmStaggerItem(index: i++, child: _members(context)),
-          if (mob.seatsLeft > 0 && !mob.alone)
+          // The owner's stop rule paused new invites: say so plainly and offer no invite key.
+          if (mob.seatsLeft > 0 && mob.invitesPaused)
+            Padding(padding: const EdgeInsets.fromLTRB(youText, MmSpace.s12, youText, 0), child: const MobNote(MobCopy.invitesPaused)),
+          if (mob.canInvite && !mob.alone)
             MmStaggerItem(
               index: i++,
               child: Padding(
@@ -486,8 +543,9 @@ class _MobBodyState extends ConsumerState<MobBody> {
   Widget _primary(BuildContext context, bool closed) {
     final paper = mob.week.paper;
     final sitting = _sitting == 'week';
-    if (mob.alone && !mob.week.youSat) {
-      // Alone: the invite is the one primary action until someone joins.
+    if (mob.alone && !mob.week.youSat && mob.canInvite) {
+      // Alone: the invite is the one primary action until someone joins (when invites are paused the
+      // paper is the primary action, like any Mob).
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -582,7 +640,7 @@ class _MobBodyState extends ConsumerState<MobBody> {
     Future<void> toggle(Future<MobFailure?> Function() write, bool v) async {
       ref.read(hapticsProvider).toggle(v);
       final f = await write();
-      if (f != null && context.mounted) showMobToast(context, MobCopy.failure(f));
+      if (f != null && context.mounted) showMobToast(context, actions.say(f));
     }
 
     return Column(

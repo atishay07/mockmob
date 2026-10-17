@@ -53,7 +53,7 @@ class _MobHistoryScreenState extends ConsumerState<MobHistoryScreen> {
     if (!mounted) return;
     setState(() => _opening = null);
     if (failure != null) {
-      showMobToast(context, MobCopy.failure(failure));
+      showMobToast(context, ref.read(mobActionsProvider).say(failure));
     } else if (compare != null) {
       await openMobCompare(context, compare, week: w.week);
     }
@@ -87,7 +87,7 @@ class _MobHistoryScreenState extends ConsumerState<MobHistoryScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(MobCopy.failure(_failure!), style: type.body.copyWith(color: colors.ink)),
+                  Text(ref.read(mobActionsProvider).say(_failure!), style: type.body.copyWith(color: colors.ink)),
                   const SizedBox(height: MmSpace.s16),
                   PillKey(label: MobCopy.tryAgain, onPressed: _load),
                 ],

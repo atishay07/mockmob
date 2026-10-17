@@ -47,7 +47,7 @@ class _MobCompareScreenState extends ConsumerState<MobCompareScreen> {
       if (mounted) {
         setState(() {
           _busy = false;
-          _notice = MobCopy.failure(failure);
+          _notice = ref.read(mobActionsProvider).say(failure);
         });
       }
       return;
@@ -57,7 +57,7 @@ class _MobCompareScreenState extends ConsumerState<MobCompareScreen> {
     setState(() {
       _busy = false;
       if (fresh != null) _data = fresh;
-      _notice = failure2 == null ? null : MobCopy.failure(failure2);
+      _notice = failure2 == null ? null : ref.read(mobActionsProvider).say(failure2);
     });
   }
 

@@ -5,6 +5,7 @@ import '../../../core/models/json_helpers.dart';
 import '../../../core/repositories/json_remote_notifier.dart';
 import '../../../core/repositories/remote_state.dart';
 import '../../../core/storage/prefs_store.dart';
+import '../copy.dart';
 import 'mob_models.dart';
 
 /// The phone-only memories of the Mob: which Mob is on screen, which sitters this student has
@@ -140,6 +141,16 @@ enum MobFailure {
   alreadyInMob('ALREADY_IN_MOB'),
   mobLimit('MOB_LIMIT'),
   mobLimitPro('MOB_LIMIT_PRO'),
+  mobCeiling('MOB_CEILING'),
+  invitesPaused('INVITES_PAUSED'),
+  joinPaused('JOIN_PAUSED'),
+  weekInvalid('WEEK_INVALID'),
+  extraNotFound('EXTRA_NOT_FOUND'),
+  compareSitFirst('COMPARE_SIT_FIRST'),
+  notSatThatWeek('NOT_SAT_THAT_WEEK'),
+  comparePastAlone('COMPARE_PAST_ALONE'),
+  bankThin('BANK_THIN'),
+  noSubjects('NO_SUBJECTS'),
   mobRequired('MOB_REQUIRED'),
   proRequired('PRO_REQUIRED'),
   compareUnavailable('COMPARE_UNAVAILABLE'),
@@ -177,6 +188,9 @@ enum MobFailure {
   /// This part is for Pro: the screen says "Included with Pro." and sells nothing.
   bool get needsPro => this == proRequired || this == mobLimit || this == freePaperUsed;
 
+  /// The student must choose their subjects before a Mob can start: the way forward is Edit subjects.
+  bool get needsSubjects => this == noSubjects || this == subjectInvalid;
+
   static MobFailure fromCode(String code) {
     final up = code.toUpperCase();
     for (final f in values) {
@@ -198,6 +212,31 @@ MobFailure mobFailureFor(ApiError e) {
 /// The result of a Mob write: null on success, else why it failed.
 typedef MobWrite = Future<MobFailure?>;
 
+/// What the server said beyond the code, for the two codes whose sentence names a real figure: the
+/// 429's real wait and a thin chapter's count with the nearest paper that can be built.
+class MobServerSaid {
+  const MobServerSaid({this.message, this.suggest});
+
+  factory MobServerSaid.from(ApiError e) {
+    final detail = e.details['detail'];
+    final suggest = detail is Map ? detail['suggest'] : null;
+    return MobServerSaid(
+      message: e.serverMessage,
+      suggest: suggest is Map && suggest['count'] is int
+          ? MobSuggestion(
+              chapter: suggest['chapter'] as String?,
+              count: suggest['count'] as int,
+              ready: detail is Map ? detail['ready'] as int? : null,
+              asked: detail is Map ? detail['asked'] as int? : null,
+            )
+          : null,
+    );
+  }
+
+  final String? message;
+  final MobSuggestion? suggest;
+}
+
 /// Every Mob call. Every call after the first names its Mob (`mob` in the body or the query), so
 /// a write can never land in another Mob; creating and joining name none, because they make or
 /// find one. Each write shows the server's reply when it carries the `GET` shape, then reads the
@@ -218,6 +257,33 @@ class MobActions {
 
   Map<String, Object?> _scoped([Map<String, Object?> body = const {}]) => {'mob': ?mobId, ...body};
 
+  MobServerSaid? _said;
+  MobFailure? _saidFor;
+
+  /// The failure of [e], remembering the server's own sentence when it carries a figure (the real
+  /// wait of a 429, a thin chapter's count) so [say] and [suggestion] can speak it.
+  MobFailure _failed(ApiError e) {
+    final f = mobFailureFor(e);
+    if (f == MobFailure.rateLimited || f == MobFailure.bankThin) {
+      _said = MobServerSaid.from(e);
+      _saidFor = f;
+    } else {
+      _said = null;
+      _saidFor = null;
+    }
+    return f;
+  }
+
+  /// The sentence for [failure]: the server's own when it said more than the code does (the real
+  /// wait: "You can start another in 25 minutes"), else the app's copy for the code.
+  String say(MobFailure failure) {
+    final said = _saidFor == failure ? _said?.message : null;
+    return said ?? MobCopy.failure(failure);
+  }
+
+  /// The nearest paper the bank can build, after a BANK_THIN (null otherwise).
+  MobSuggestion? get suggestion => _saidFor == MobFailure.bankThin ? _said?.suggest : null;
+
   Future<MobFailure?> _run(Future<ApiResponse> Function() call, {bool acceptsShape = false, bool clears = false}) async {
     try {
       final response = await call();
@@ -229,7 +295,7 @@ class MobActions {
       await _repo.refresh(force: true);
       return null;
     } on ApiError catch (e) {
-      return mobFailureFor(e);
+      return _failed(e);
     } on Object {
       return MobFailure.generic;
     }
@@ -281,7 +347,21 @@ class MobActions {
       await _repo.refresh(force: true);
       return (made.extraId, null);
     } on ApiError catch (e) {
-      return (null, mobFailureFor(e));
+      return (null, _failed(e));
+    } on Object {
+      return (null, MobFailure.generic);
+    }
+  }
+
+  /// Pro: the chapters of this Mob's subject the bank can build an extra paper from, each with the
+  /// longest paper it can really make (`GET /api/mob/extra?mob=`). A failure leaves the whole subject,
+  /// which always works.
+  Future<(MobChapters?, MobFailure?)> chapters() async {
+    try {
+      final response = await _api.get('/api/mob/extra', query: {'mob': ?mobId});
+      return (MobChapters.fromJson(asJson(response.data)), null);
+    } on ApiError catch (e) {
+      return (null, _failed(e));
     } on Object {
       return (null, MobFailure.generic);
     }
@@ -298,7 +378,7 @@ class MobActions {
       return (compare, null);
     } on ApiError catch (e) {
       await _repo.refresh(force: true);
-      return (null, mobFailureFor(e));
+      return (null, _failed(e));
     } on Object {
       return (null, MobFailure.generic);
     }
@@ -310,7 +390,7 @@ class MobActions {
       final response = await _api.get('/api/mob/history', query: {'mob': ?mobId});
       return (MobHistory.fromJson(asJson(response.data)), null);
     } on ApiError catch (e) {
-      return (null, mobFailureFor(e));
+      return (null, _failed(e));
     } on Object {
       return (null, MobFailure.generic);
     }
@@ -325,7 +405,8 @@ class MobActions {
     } on ApiError catch (e) {
       if (e.status == 410) return (null, MobFailure.inviteExpired);
       if (e.kind == ApiErrorKind.notFound && !e.hasCode('MOB_DISABLED')) return (null, MobFailure.inviteInvalid);
-      return (null, mobFailureFor(e));
+      // A full Mob (MOB_FULL) and the paused links (JOIN_PAUSED) have their own words and screens.
+      return (null, _failed(e));
     } on Object {
       return (null, MobFailure.generic);
     }

@@ -93,8 +93,9 @@ class ApiError implements Exception {
   /// How long to wait before calling again, set for 429 and by a Retry-After header.
   final Duration? retryAfter;
 
-  /// Whitelisted structured fields only: `balance`, `review`, `reasonCode`, `state`, `charged`, and
-  /// `message` for the Mistake Repair failure codes in [studentMessageCodes] (see [serverMessage]).
+  /// Whitelisted structured fields only: `balance`, `review`, `reasonCode`, `state`, `charged`,
+  /// `message` for the Mistake Repair failure codes in [studentMessageCodes] and the Mob codes in
+  /// [mobMessageCodes] (see [serverMessage]), and the Mob's BANK_THIN `detail`.
   final Map<String, Object?> details;
 
   bool hasCode(String other) => code.toLowerCase() == other.toLowerCase();
@@ -140,8 +141,8 @@ class ApiError implements Exception {
   bool get chargedNothing => details['charged'] == 0;
 
   /// The sentence the server wrote for the student, kept only for the Mistake Repair failure codes
-  /// in [studentMessageCodes]. Null for every other error: nothing else from a response body
-  /// reaches the UI.
+  /// in [studentMessageCodes] and the Mob's [mobMessageCodes]. Null for every other error: nothing
+  /// else from a response body reaches the UI.
   String? get serverMessage {
     final m = details['message'];
     return m is String && m.isNotEmpty ? m : null;
@@ -162,6 +163,37 @@ class ApiError implements Exception {
     ApiCodes.invalidPick,
     ApiCodes.lookupFailed,
   };
+
+  /// The Mob's two sentences that carry a real figure: the 429 says the real wait ("You can start
+  /// another in 25 minutes") and a thin chapter says how many questions are ready. Every other Mob
+  /// code keeps the app's own copy, which a test holds equal to the server's.
+  static const mobMessageCodes = {'RATE_LIMITED', 'BANK_THIN'};
+
+  /// What `{ error: { message, detail } }` adds for [mobMessageCodes]: the sentence (kept under 400
+  /// characters) and, for BANK_THIN, `detail: { ready, asked, suggest: { chapter, count } }` as plain
+  /// numbers and a chapter name. Nothing else from the body is kept.
+  static void _readMobSaid(Map<Object?, Object?> error, Object? code, Map<String, Object?> details) {
+    final up = code is String ? code.toUpperCase() : null;
+    if (up == null || !mobMessageCodes.contains(up)) return;
+    final message = error['message'];
+    if (message is String && message.trim().isNotEmpty && message.length <= 400) details['message'] = message.trim();
+    final detail = error['detail'];
+    if (up != 'BANK_THIN' || detail is! Map) return;
+    final out = <String, Object?>{};
+    final ready = detail['ready'];
+    if (ready is num) out['ready'] = ready.toInt();
+    final asked = detail['asked'];
+    if (asked is num) out['asked'] = asked.toInt();
+    final suggest = detail['suggest'];
+    if (suggest is Map && suggest['count'] is num) {
+      final chapter = suggest['chapter'];
+      out['suggest'] = {
+        'chapter': chapter is String && chapter.trim().isNotEmpty && chapter.length <= 120 ? chapter : null,
+        'count': (suggest['count'] as num).toInt(),
+      };
+    }
+    if (out.isNotEmpty) details['detail'] = out;
+  }
 
   /// True when repeating the same call may succeed without the student changing anything.
   bool get isRetryable => switch (kind) {
@@ -244,6 +276,7 @@ class ApiError implements Exception {
     if (error is Map) {
       final nested = error['code'];
       if (nested is String && _machineCode.hasMatch(nested)) code ??= nested;
+      _readMobSaid(error, nested, details);
     }
     final state = map['state'];
     if (state is String) details['state'] = state;

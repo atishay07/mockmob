@@ -14,9 +14,10 @@ import '../widgets/mob_ring.dart';
 import 'mob_screen.dart';
 
 /// `https://www.mockmob.in/join/<code>`: who invited you and what a Mob asks (one 10-question paper a
-/// week, about 12 minutes), the subject and seats (never a member's name), your name and colour
-/// already filled in and editable (T001), and one key. An unusable code, for any reason including a
-/// block, reads the same plain sentence (P10). Open to everyone (owner decision D-S1): nothing stands
+/// week, 10 minutes), the subject and seats (never a member's name), your name and colour already
+/// filled in and editable (T001), and one key. An unusable code, for any reason including a block,
+/// reads the same plain sentence (P10). A full Mob (MOB_FULL) and the paused links (JOIN_PAUSED) each
+/// have their own words and one way forward. Open to everyone (owner decision D-S1): nothing stands
 /// between the link and the key, and the Mob has no chat, no DMs and no free text beyond a name.
 class MobJoinScreen extends ConsumerStatefulWidget {
   const MobJoinScreen({super.key, required this.code});
@@ -100,6 +101,9 @@ class _MobJoinScreenState extends ConsumerState<MobJoinScreen> {
         _editing = true;
         _nameError = failure == MobFailure.nameInvalid ? MobCopy.nameRule : MobCopy.failure(failure);
       });
+    } else if (failure == MobFailure.inviteInvalid || failure == MobFailure.inviteExpired || failure == MobFailure.full || failure == MobFailure.joinPaused) {
+      // The link stopped working, or the Mob filled, since the page was drawn: the page says so.
+      setState(() => _failure = failure);
     } else {
       setState(() => _failure = failure);
     }
@@ -107,6 +111,29 @@ class _MobJoinScreenState extends ConsumerState<MobJoinScreen> {
 
   /// The link is unusable (bad, expired, gone, or a block): one sentence, nothing more.
   bool get _unusable => _failure == MobFailure.inviteInvalid || _failure == MobFailure.inviteExpired;
+
+  /// The Mob has its 5 members (MOB_FULL), at the page or at the Join key.
+  bool get _full => _failure == MobFailure.full;
+
+  /// New members cannot join by link right now (the owner's stop rule, JOIN_PAUSED).
+  bool get _paused => _failure == MobFailure.joinPaused;
+
+  void _openMobs() => Navigator.of(context).pushReplacement(MaterialPageRoute<void>(builder: (_) => const MobScreen()));
+
+  /// A state that is not an invite: its own words, and the way forward.
+  List<Widget> _stateCard(String title, String note, {bool startOwn = false}) {
+    final type = context.mmType;
+    final colors = context.mmColors;
+    return [
+      Text(title, style: type.headline.copyWith(color: colors.ink)),
+      const SizedBox(height: MmSpace.s8),
+      Text(note, style: type.body.copyWith(color: colors.ink2)),
+      if (startOwn) ...[
+        const SizedBox(height: MmSpace.s24),
+        KeyButton(label: MobCopy.startOwn, onPressed: _openMobs),
+      ],
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -128,12 +155,16 @@ class _MobJoinScreenState extends ConsumerState<MobJoinScreen> {
                   label: MobCopy.checkingInvite,
                   child: Column(children: [Skeleton(height: 32), SizedBox(height: MmSpace.s12), Skeleton(height: 64)]),
                 )
-              else if (_unusable) ...[
-                Text(MobCopy.inviteUnusableTitle, style: type.headline.copyWith(color: colors.ink)),
+              else if (_unusable)
+                ..._stateCard(MobCopy.inviteUnusableTitle, MobCopy.inviteUnusableNote, startOwn: true)
+              else if (_full)
+                ..._stateCard(MobCopy.inviteFullTitle, MobCopy.inviteFullNote, startOwn: true)
+              else if (_paused)
+                ..._stateCard(MobCopy.invitePausedTitle, MobCopy.invitePausedNote)
+              else if (preview == null) ...[
+                Text(MobCopy.inviteLoadFailedTitle, style: type.headline.copyWith(color: colors.ink)),
                 const SizedBox(height: MmSpace.s8),
-                Text(MobCopy.inviteUnusableNote, style: type.body.copyWith(color: colors.ink2)),
-              ] else if (preview == null) ...[
-                Text(MobCopy.failure(_failure ?? MobFailure.generic), style: type.title.copyWith(color: colors.ink)),
+                Text(ref.read(mobActionsProvider).say(_failure ?? MobFailure.generic), style: type.body.copyWith(color: colors.ink2)),
                 const SizedBox(height: MmSpace.s16),
                 PillKey(label: MobCopy.tryAgain, onPressed: _load),
               ] else ...[
@@ -179,20 +210,20 @@ class _MobJoinScreenState extends ConsumerState<MobJoinScreen> {
                 ],
                 if (_failure != null) ...[
                   const SizedBox(height: MmSpace.s12),
-                  InlineBanner(message: MobCopy.failure(_failure!), tone: BannerTone.error),
-                  if (_failure == MobFailure.mobLimit || _failure == MobFailure.mobLimitPro || _failure == MobFailure.alreadyInMob) ...[
+                  InlineBanner(message: ref.read(mobActionsProvider).say(_failure!), tone: BannerTone.error),
+                  // Joining is open to every plan up to one safety ceiling (12 Mobs); a Mob you are in already just opens.
+                  if (_failure == MobFailure.mobCeiling || _failure == MobFailure.alreadyInMob) ...[
                     const SizedBox(height: MmSpace.s8),
-                    KeyButton.secondary(
-                      label: MobCopy.openYourMob,
-                      onPressed: () => Navigator.of(context).pushReplacement(MaterialPageRoute<void>(builder: (_) => const MobScreen())),
-                    ),
+                    KeyButton.secondary(label: MobCopy.openYourMobs, onPressed: _openMobs),
                   ],
                 ],
                 const SizedBox(height: MmSpace.s24),
                 KeyButton(label: _busy ? 'Joining' : MobCopy.joinKey, loading: _busy, onPressed: _busy ? null : _join),
               ],
-              const SizedBox(height: MmSpace.s16),
-              const MobNote(MobCopy.joinNoContacts, center: true),
+              if (preview != null && !_unusable && !_full && !_paused) ...[
+                const SizedBox(height: MmSpace.s16),
+                const MobNote(MobCopy.joinNoContacts, center: true),
+              ],
             ],
           ),
         ),

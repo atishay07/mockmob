@@ -9,12 +9,12 @@ import 'data/mob_repository.dart';
 abstract final class MobCopy {
   static const String title = 'Your Mob';
   static const String startTitle = 'Start a Mob';
-  static const String pitch = 'Sit one paper a week with up to 4 friends.';
+  static const String pitch = 'Sit one 10-question paper a week with up to 4 friends.';
   static const List<String> promises = [
     'Same 10 questions for everyone, fresh each week.',
     'You see who sat, never who didn\'t.',
-    'Scores stay private unless you choose.',
-    'The weekly paper is free of credits.',
+    'Shared inside your Mob only: members see each other\'s answers and scores. One switch turns yours off.',
+    'The weekly paper is free of credits, on any plan.',
   ];
   static const String subjectLabel = 'Subject for the weekly paper';
   static const String nameLabel = 'Your name in the Mob';
@@ -23,9 +23,13 @@ abstract final class MobCopy {
   static const String nameNote = 'Only your Mob sees it. 2 to 18 letters.';
   static const String colourLabel = 'Colour';
   static const String startKey = 'Start a Mob';
-  static const String haveLink = 'Sent a link by a friend? Open the link to join their Mob instead.';
-  static const String noSubjects = 'Add a subject in You first, then start a Mob for it.';
-  static const String everySubjectHasMob = 'Every subject you study already has a Mob.';
+  static const String haveLink = 'Got a link from a friend? Open it to join their Mob. You can be in theirs and your own.';
+  // No subject to start a Mob for: the sentence is the server's (NO_SUBJECTS), the way forward is the key.
+  static const String noSubjects = 'Choose your CUET subjects first. A Mob sits one paper a week in one of them.';
+  static const String chooseSubjects = 'Choose your subjects';
+  static const String everySubjectHasMob = 'Each of your subjects already has one of your Mobs. Add a subject to start another.';
+  static const String addSubject = 'Add a subject';
+  static const String startCost = 'Free. The weekly paper costs no credits.';
 
   static String colourName(int i) => const ['Blue', 'Teal', 'Amber', 'Rose', 'Violet', 'Sky', 'Coral', 'Green'][i.clamp(0, 7)];
 
@@ -37,7 +41,11 @@ abstract final class MobCopy {
 
   // The paper.
   static String sitKey(int count, int minutes) => 'Sit this week\'s paper';
-  static String sitNote(int count, int minutes) => '$count questions, about $minutes minutes, the same for everyone.';
+
+  /// "10 questions, 10 minutes": the paper's own clock (60 seconds a question), the same words the
+  /// website uses.
+  static String paperClock(int count, int minutes) => '$count questions, $minutes minutes';
+  static String sitNote(int count, int minutes) => '${paperClock(count, minutes)}, the same for everyone.';
   static const String seeAnswers = 'See your answers';
   static const String seeMob = 'See your Mob';
   static const String freeUsed = 'You already sat a Mob paper this week, in another Mob. Free includes one a week, and Pro lets you sit one in every Mob.';
@@ -110,7 +118,9 @@ abstract final class MobCopy {
   static const String compareTitle = 'Compare with your Mob';
   static const String openCompare = 'See the side-by-side';
   static const String shareLabel = 'Share my score and answers with my Mob';
-  static const String shareHint = 'Off by default. Members who share see what each other picked and how they scored, never a ranking.';
+  // Sharing inside a Mob is on by default (17 Oct decision); one switch turns it off.
+  static const String shareHint =
+      'On by default. Members who share see what each other picked, how long it took and how they scored, only inside this Mob, never a ranking. Turn it off to keep yours to yourself.';
   static const String shareHintCompare = 'You see what members who share picked, and they see yours. Never a ranking.';
   static const String lockedNote = 'The full side-by-side is included with Pro: who picked what, who changed an answer, and how long each question took.';
   static const String sampleNote = 'This is your free first side-by-side, so it stays open for this week.';
@@ -158,6 +168,15 @@ abstract final class MobCopy {
   static const String makeExtraSheetTitle = 'Make an extra paper';
   static String chapterOf(String subject) => 'Chapter of $subject';
   static const String wholeSubject = 'Whole subject';
+  static String chapterUpTo(int n) => 'Up to $n questions';
+  static const String chaptersLoading = 'Checking which chapters have questions ready.';
+  static const String chaptersFailed = 'Chapters did not load. The whole subject still works.';
+  static const String chaptersNone = 'No single chapter has enough questions ready yet. The whole subject does.';
+  static const String chaptersOnly = 'Only chapters with enough questions ready for a paper are listed.';
+  static String chapterReady(int longest) => 'Enough questions are ready in this chapter for a paper of up to $longest.';
+  static const String searchChapters = 'Search chapters';
+  static String suggestKey(MobSuggestion s) =>
+      s.chapter == null ? 'Make a ${s.count}-question paper on the whole subject' : 'Make a ${s.count}-question paper on ${s.chapter}';
   static const String lengthLabel = 'Length';
   static String questionsN(int n) => '$n questions';
   static const String extraNote = 'Free of credits. Anyone in your Mob can sit it for 7 days. Your Mob can have 3 extra papers a week.';
@@ -197,6 +216,7 @@ abstract final class MobCopy {
   static const String full = 'Your Mob is full: 5 of 5.';
   static const String inviteTitle = 'Invite a friend';
   static const String inviteBody = 'Anyone with this link can join while there are seats. MockMob never asks for your contacts.';
+  static const String invitesPaused = 'New invites are paused for now. Your Mob works as before.';
   static String inviteUntil(DateTime at) => 'Link works until ${formatIstDayTime(at)}';
   static const String copy = 'Copy link';
   static const String copied = 'Link copied.';
@@ -208,7 +228,7 @@ abstract final class MobCopy {
   static const String aloneLead = 'Invite a friend to start your ring.';
 
   static const String settingsTitle = 'Settings';
-  static const String showScoreNote = 'Off by default. Your Mob sees 7 of 10 beside your name, and members who share see what each other picked. Never a ranking.';
+  static const String showScoreNote = shareHint;
   static const String muteNudges = 'Mute nudges';
   static const String muteNudgesNote = 'You will not see Sit it with me notes.';
   static const String changeName = 'Change name or colour';
@@ -234,17 +254,13 @@ abstract final class MobCopy {
   static const String reported = 'Reported. A moderator will look at it.';
 
   // The plan (the app never sells: this only says what Pro includes).
-  static const String proTitle = 'Included with Pro';
-  static const String proIntro = 'The weekly paper, the ring and your own result are free. Pro adds:';
-  static const List<String> proItems = [
-    'The full side-by-side every week: who picked what, who changed an answer, how long each question took.',
-    'Your Mob\'s shared trap, with its repair.',
-    'Past weeks of your Mob.',
-    'Extra papers on a chapter and length you choose.',
-    'Up to 3 Mobs, one for each subject.',
-  ];
+  // One quiet line near the end of the page, never a block of bullets (the website's wording). Free
+  // starts 1 Mob and joins any by invite; Pro starts up to 3.
+  static const String proLine = 'Pro adds the full side-by-side every week, past weeks, extra papers on a chapter you choose, and up to 3 Mobs you start.';
   static const String startAnother = 'Start another Mob';
+  static const String startOwn = 'Start your own Mob';
   static const String startAnotherTitle = 'Start another Mob';
+  static const String startOwnTitle = 'Start your own Mob';
   static String switcherLabel(String subject) => subject;
   static const String switcherSemantics = 'Your Mobs';
 
@@ -263,8 +279,9 @@ abstract final class MobCopy {
       ? 'A small group sitting one 10-question ${p.subjectName} paper each week. ${p.size} of $mobMaxSize seats taken.'
       : 'A small group, one paper a week. ${p.size} of $mobMaxSize seats taken.';
   static const List<String> joinFacts = [
-    'Same 10 questions for everyone, about 12 minutes. The paper is free of credits.',
-    'You see who sat, never who didn\'t. Scores stay private unless you choose.',
+    'One paper a week, the same 10 questions for all of you, 10 minutes. Free of credits, on any plan.',
+    'You see who sat, never who didn\'t. Never ranked, and you can leave any time.',
+    'Shared inside the Mob only: members see each other\'s answers and scores. One switch turns yours off.',
   ];
   static const String joinNoContacts = 'MockMob never asks for your contacts. You can leave any time.';
   static const String joinKey = 'Join';
@@ -274,12 +291,45 @@ abstract final class MobCopy {
   static const String inviteUnusableNote = 'Ask your friend for a new link.';
   static const String inviteUnusable ='This invite can\'t be used. Ask your friend for a new link.';
   static const String checkingInvite = 'Checking the invite.';
+  static const String inviteFullTitle = 'This Mob is full.';
+  static const String inviteFullNote = 'It has 5 members, the most a Mob can have. Ask your friend to tell you if a seat opens, or start a Mob of your own and invite your friends to it.';
+  static const String invitePausedTitle = 'Joining is paused for now.';
+  static const String invitePausedNote = 'New members cannot join a Mob by link just now. Keep the link and try it again later.';
+  static const String inviteLoadFailedTitle = 'The invite did not load.';
+  static const String openYourMobs = 'Open your Mobs';
 
   // Today and the hub.
   static const String hubRow = 'Your Mob';
   static const String hubStart = 'Start a Mob';
   static const String hubStartNote = 'One paper a week with friends';
   static String mobiComplete(int size) => 'Your Mob sat it, all $size.';
+
+  // Entry points on Today, Practice and Review (the website's lines).
+  static const String entryAloneBig = 'Just you so far';
+  static const String entryAloneLine = 'Send the link to a friend. The ring fills as you sit the same paper.';
+  static String entryAloneTitle(String name) => '$name is just you so far';
+  static String entryOpenLine(String subject, String clock) => 'This week\'s $subject paper: $clock, no credits.';
+  static const String entrySatLine = 'You sat this week\'s paper.';
+  static const String entryWatchLine = 'See where your Mob is this week.';
+  static String entryPracticeTitle(String subject, String clock) => 'Mob paper, $subject, $clock';
+  static String entryPracticeSatTitle(String subject) => 'Mob paper, $subject: sat';
+  static String entryTrapTitle(String name, int question) => '$name\'s trap: question $question';
+  static String entryTrapLine(MobTrap t) {
+    final what = t.trapName == null ? '' : ' Trap: ${t.trapName}.';
+    final you = t.youGotItRight
+        ? 'You got it right.'
+        : t.youPickedIt
+            ? 'You picked ${t.option} too.'
+            : 'You did not pick it.';
+    return '${t.count} of ${t.of} picked ${t.option}.$what $you';
+  }
+
+  static const String notNow = 'Not now';
+  static const String inviteMomentTitle = 'Sit one paper a week with friends';
+  static String inviteMomentBody(String reason) =>
+      '$reason A Mob is up to 5 friends on the same 10 questions each week, free of credits. Only people you send the link to can join.';
+  static const String inviteMomentWeek = 'You met your study goal for a week.';
+  static String inviteMomentSessions(int n) => 'You have saved $n sessions.';
   static String todayTitle(Mob m) => m.several ? 'Your ${m.subjectName} Mob' : 'Your Mob';
 
   /// One sentence for every failure: the server's own wording for its codes (a test holds the two together).
@@ -290,10 +340,19 @@ abstract final class MobCopy {
         MobFailure.notInMob => 'You are not in a Mob.',
         MobFailure.notFound => 'That member is not in your Mob.',
         MobFailure.inviteInvalid || MobFailure.inviteExpired => inviteUnusable,
-        MobFailure.full => 'This Mob already has 5 members.',
+        MobFailure.full => 'This Mob is full: it has 5 members, the most a Mob can have. Ask your friend to tell you if a seat opens, or start a Mob of your own.',
         MobFailure.alreadyInMob => 'You are already in this Mob.',
-        MobFailure.mobLimit => 'Free includes one Mob. Leave yours to start or join another, or go Pro to be in up to 3.',
-        MobFailure.mobLimitPro => 'You are in 3 Mobs already. Leave one to start or join another.',
+        MobFailure.mobLimit => 'You already started a Mob. Free lets you start one, and join as many as friends invite you to. Pro lets you start up to 3.',
+        MobFailure.mobLimitPro => 'You already started 3 Mobs, the most Pro allows. You can still join any Mob a friend invites you to.',
+        MobFailure.mobCeiling => 'You are in 12 Mobs, the most one account can be in. Leave one to start or join another.',
+        MobFailure.invitesPaused => 'New invites are paused for now. Your Mob works as before.',
+        MobFailure.joinPaused => 'Joining a Mob by link is paused for now. Try this link again later.',
+        MobFailure.weekInvalid => 'There is no Mob paper for that week.',
+        MobFailure.extraNotFound => 'That extra paper is not in your Mob.',
+        MobFailure.compareSitFirst => 'Sit this paper first, then you can compare it with your Mob.',
+        MobFailure.notSatThatWeek => 'You did not sit that week\'s paper, so there is nothing of yours to compare.',
+        MobFailure.comparePastAlone => 'Only one member sat that week\'s paper, so there is nothing to compare.',
+        MobFailure.bankThin => 'There are not enough questions ready for that paper.',
         MobFailure.mobRequired => 'Say which Mob this is for.',
         MobFailure.proRequired => 'This part of the Mob is included with Pro.',
         MobFailure.compareUnavailable => 'There is nothing to compare yet. It needs one more member to sit this paper.',
@@ -314,10 +373,11 @@ abstract final class MobCopy {
         MobFailure.nameInvalid => 'Use 2 to 18 letters for your name. Spaces, dots, apostrophes and hyphens are fine.',
         MobFailure.nameRefused => 'Choose a different name. Your Mob sees it.',
         MobFailure.subjectInvalid => 'Choose one of your subjects.',
+        MobFailure.noSubjects => noSubjects,
         MobFailure.colourInvalid => 'Choose one of the 8 colours.',
         MobFailure.reasonInvalid => 'Choose why you are reporting.',
         MobFailure.bodyInvalid => 'Something in the request was not right. Try again.',
-        MobFailure.rateLimited => 'Too many tries. Wait a little and try again.',
+        MobFailure.rateLimited => 'Too many tries in a short time. Try again in a few minutes.',
         MobFailure.paperUnavailable => 'This week\'s paper could not be built just now. Nothing was charged. Try again shortly.',
         MobFailure.migration => 'Your Mob is not available just now. Try again shortly.',
         MobFailure.unavailable => 'Your Mob did not load. Try again shortly.',

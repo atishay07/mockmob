@@ -8,9 +8,10 @@ import '../copy.dart';
 import '../data/mob_models.dart';
 import '../data/mob_repository.dart';
 
-/// The student's Mobs as a row of chips, the active one chosen (Free is in one Mob, Pro in up to 3).
-/// A Pro student below 3 Mobs also gets "Start another Mob" at the end. Hidden for a student in one
-/// Mob who cannot start another, so a free student never sees a row with a single chip.
+/// The student's Mobs as a row of chips, the active one chosen. Any plan joins any number of Mobs by
+/// invite; Free starts one and Pro up to 3, so a student who may still start one gets "Start your
+/// own Mob" (none started yet) or "Start another Mob" at the end. Hidden for a student in one Mob
+/// who cannot start another, so a row never holds a single chip.
 class MobSwitcher extends ConsumerWidget {
   const MobSwitcher({super.key, required this.mob, required this.onStartAnother});
 
@@ -37,7 +38,7 @@ class MobSwitcher extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: MmSpace.s8),
       child: ChipRail.labelled(
-        labels: [...labelsFor(mobs), if (canStart) MobCopy.startAnother],
+        labels: [...labelsFor(mobs), if (canStart) mob.plan.startedNone ? MobCopy.startOwn : MobCopy.startAnother],
         leading: [for (var i = 0; i < mobs.length; i++) null, if (canStart) LucideIcons.plus],
         selected: active < 0 ? 0 : active,
         semanticLabel: MobCopy.switcherSemantics,
@@ -53,8 +54,8 @@ class MobSwitcher extends ConsumerWidget {
   }
 }
 
-/// Free only: one quiet block near the end of the page, so the paper and the ring come first. It
-/// says what Pro includes and sells nothing: no price, no button, no count-down (T005, T009).
+/// Free only: one quiet line near the end of the page, so the paper and the ring come first. It says
+/// what Pro adds in one sentence and sells nothing: no price, no button, no count-down (T005, T009).
 class MobProNote extends StatelessWidget {
   const MobProNote({super.key, required this.mob});
 
@@ -67,30 +68,7 @@ class MobProNote extends StatelessWidget {
     final colors = context.mmColors;
     return Padding(
       padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s32, MmSpace.gutter, 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Semantics(header: true, child: Text(MobCopy.proTitle, style: type.labelLarge.copyWith(color: colors.ink2))),
-          const SizedBox(height: MmSpace.s8),
-          Text(MobCopy.proIntro, style: type.small.copyWith(color: colors.ink2)),
-          const SizedBox(height: MmSpace.s8),
-          for (final line in MobCopy.proItems)
-            Padding(
-              padding: const EdgeInsets.only(bottom: MmSpace.s8),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 3),
-                    child: Icon(LucideIcons.check, size: 16, color: colors.ink3),
-                  ),
-                  const SizedBox(width: MmSpace.s12),
-                  Expanded(child: Text(line, style: type.body.copyWith(color: colors.ink2))),
-                ],
-              ),
-            ),
-        ],
-      ),
+      child: Text(MobCopy.proLine, style: type.small.copyWith(color: colors.ink2)),
     );
   }
 }
