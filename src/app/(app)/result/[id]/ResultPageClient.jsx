@@ -422,7 +422,10 @@ export default function ResultPageClient({ previewId = null }) {
     );
   };
 
-  // Each row's chip says a real server state, never ahead of it (RESULT-1017 4.5).
+  // Each row's chip says a real server state, never ahead of it (RESULT-1017 4.5). D15 (owner, 18 Oct dawn): one action
+  // per mistake with one label everywhere. A mistake not yet repaired says "Repair" (the next move says "Repair Q6", the
+  // opened row's key says "Repair Q6"); the one the next move points at keeps its volt outline, never other words. A
+  // repaired one says "Check it held" until the new question is marked. The price lives in the one spend line under the list.
   const statusOf = (row) => {
     const qid = row.q.id;
     const review = answerReviews[qid];
@@ -436,9 +439,9 @@ export default function ResultPageClient({ previewId = null }) {
     if (c) return c.right ? { id: 'held', label: 'Held on a new question' } : { id: 'slipped', label: 'Slipped on a new question' };
     if (hasExplanation(out)) return { id: 'check', label: 'Check it held' };
     if (started.has(qid)) return { id: 'writing', label: 'Writing' };
-    // Out of AI credits: the chip says the price, quiet, and the opened row offers the credits line, not a paid repair.
-    if (aiCredits === 0) return { id: 'nocredit', label: 'Repair, 1 AI credit' };
-    if (move?.kind === 'repair' && move.target?.qid === qid) return { id: 'first', label: 'Repair first' };
+    // Out of AI credits: the same word, quiet; the opened row offers the credits line, not a paid repair.
+    if (aiCredits === 0) return { id: 'nocredit', label: 'Repair' };
+    if (move?.kind === 'repair' && move.target?.qid === qid) return { id: 'first', label: 'Repair' };
     return { id: 'repair', label: 'Repair' };
   };
   const cohortItem = new Map((repairOrder?.state === 'cohort' ? repairOrder.items || [] : []).filter(x => x?.reason === 'most_right' && x.line).map(x => [x.qid, x.line]));
@@ -572,6 +575,11 @@ export default function ResultPageClient({ previewId = null }) {
             const review = answerReviews[q.id];
             const timeRow = timeRead?.state === 'ready' ? timeRead.rows[row.index] : null;
             const rowMs = timeRow ? (timeRow.ms >= TIME_RULES.minTimedMs ? timeRow.ms : null) : row.ms;
+            // A mistake's progress in the chip's own words (D15), so the two lists never name one state twice; the plain
+            // "Repair" is left to the mistakes list, where the action is.
+            const chip = verdict === 'wrong' ? statusOf(row) : null;
+            const progress = chip ? (['repair', 'first', 'nocredit'].includes(chip.id) ? null : { label: chip.label, tone: ['check', 'held'].includes(chip.id) ? 'repaired' : 'held' })
+              : repairLabel(repairOutcomes[q.id]) ? { label: repairLabel(repairOutcomes[q.id]), tone: hasExplanation(repairOutcomes[q.id]) ? 'repaired' : 'held' } : null;
             return (
               <li key={q.id} id={elsewhere ? `qa-${number}` : `q-${number}`} className="rp-q" hidden={filter !== 'all' && filter !== verdict} data-verdict={verdict} data-open={isOpen || undefined}>
                 {!elsewhere && arrived?.number === number ? <span key={arrived.n} className="rp-q__ring" aria-hidden="true" /> : null}
@@ -585,7 +593,7 @@ export default function ResultPageClient({ previewId = null }) {
                       {Number.isFinite(rowMs) ? <span>{timeRow ? spentLabel(rowMs / 1000) : formatDuration(rowMs)}</span> : null}
                       {row.changed ? <span>Answer changed</span> : null}
                       {earlierMisses(attempt, q.id).length ? <span data-kind="twice">{RUN_COPY.missedTimes(earlierMisses(attempt, q.id).length + 1)}</span> : null}
-                      {repairLabel(repairOutcomes[q.id]) ? <span data-verdict={hasExplanation(repairOutcomes[q.id]) ? 'repaired' : 'held'}>{repairLabel(repairOutcomes[q.id])}</span> : null}
+                      {progress ? <span data-verdict={progress.tone}>{progress.label}</span> : null}
                       {elsewhere ? <span>{verdict === 'wrong' ? 'Opens in your mistakes' : 'Opens in your blanks'}</span> : null}
                     </span>
                   </span>
