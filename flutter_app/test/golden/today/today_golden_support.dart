@@ -37,7 +37,7 @@ List<Override> get todayOverrides => [
 RoadActions get noopRoadActions => RoadActions(savePace: (_) async {}, setExamDate: (_) async {}, setMockTarget: (_) async {});
 
 TodayCallbacks get noopCallbacks =>
-    TodayCallbacks(onAction: (_) {}, onTarget: (_) {}, onMinutes: (_) {}, onShowMe: (_) {}, onWeek: () {}, road: noopRoadActions);
+    TodayCallbacks(onAction: (_) {}, onTarget: (_) {}, onMinutes: (_) {}, onShowMe: (_) {}, onWeek: () {}, onChooseColleges: () {}, road: noopRoadActions);
 
 /// Today as the shell shows it: phone insets, the bar floating over the content with its scrim,
 /// the content's bottom padding raised by the bar's clearance ([MmBarInsets]), and the live
@@ -137,10 +137,17 @@ void todayGolden(
   double textScale = 1,
   bool firstWeekLook = false,
   Future<void> Function(WidgetTester tester)? act,
+  Map<String, String> Function(TodayView view)? prices,
 }) {
   screenGolden(
     name,
-    () => _Scrolled(offset: scrollTo, builder: (controller) => TodayBody(view: view(), callbacks: noopCallbacks, controller: controller, skeletonDelay: Duration.zero)),
+    () => _Scrolled(
+      offset: scrollTo,
+      builder: (controller) {
+        final v = view();
+        return TodayBody(view: v, callbacks: noopCallbacks, controller: controller, skeletonDelay: Duration.zero, prices: prices?.call(v) ?? const {});
+      },
+    ),
     size: size,
     dock: dock,
     settle: scrollTo > 0,

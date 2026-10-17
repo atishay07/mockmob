@@ -46,7 +46,6 @@ class GlanceLink extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final accent = colors.isNight ? colors.volt : colors.accentText;
     return MmPressable(
       onTap: onTap,
       semanticsLabel: label,
@@ -64,9 +63,10 @@ class GlanceLink extends StatelessWidget {
               fontSize: 14,
               fontWeight: FontWeight.w600,
               color: pressed ? colors.ink2 : colors.ink,
+              // An ink underline, not volt: volt stays on the one lead key (D7, one volt per view).
               decoration: TextDecoration.underline,
-              decorationColor: accent,
-              decorationThickness: 2,
+              decorationColor: colors.ink3,
+              decorationThickness: 1.5,
             ),
           ),
         ),
@@ -87,7 +87,8 @@ class LastPaperBlock extends StatelessWidget {
     final type = context.mmType;
     final d = detail;
     final p = d.paper;
-    final accent = colors.isNight ? colors.volt : colors.accentText;
+    // A rise is said in the good colour with its words, never in volt.
+    final accent = colors.goodText;
     final at = p.up == true && p.change != null ? p.sub.indexOf(p.change!) : -1;
     final subStyle = type.caption.copyWith(fontSize: 13.5, color: colors.ink2);
     return Column(

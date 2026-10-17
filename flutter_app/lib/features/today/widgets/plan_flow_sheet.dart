@@ -290,28 +290,47 @@ class _PlanFlowBodyState extends State<PlanFlowBody> {
   }
 
   Widget _dateStep(BuildContext context) {
+    final colors = context.mmColors;
     final windowStart = expectedWindowStart;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        _Option(
-          key: const ValueKey('plan-date-expected'),
-          title: GlanceCopy.dateExpected,
-          note: GlanceCopy.dateExpectedNote(windowStart),
-          selected: !_own,
-          onTap: _pickExpected,
-        ),
-        const SizedBox(height: MmSpace.s8),
-        _Option(
-          key: const ValueKey('plan-date-own'),
-          title: GlanceCopy.dateOwn,
-          note: GlanceCopy.dateOwnNote,
-          selected: _own,
-          onTap: () {
-            HapticFeedback.selectionClick();
-            setState(() => _monthOpen = true);
-          },
+        // Two answers side by side, each with its date as the figure: a choice to make, not a
+        // field to fill.
+        IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: _Tile(
+                  key: const ValueKey('plan-date-expected'),
+                  selected: !_own,
+                  onTap: _pickExpected,
+                  semantics: '${GlanceCopy.dateExpected}. ${GlanceCopy.dateExpectedNote(windowStart)}',
+                  label: GlanceCopy.dateExpected,
+                  figure: GlanceCopy.dateFigure(windowStart),
+                  note: GlanceCopy.dateExpectedShort,
+                ),
+              ),
+              const SizedBox(width: MmSpace.s8),
+              Expanded(
+                child: _Tile(
+                  key: const ValueKey('plan-date-own'),
+                  selected: _own,
+                  onTap: () {
+                    HapticFeedback.selectionClick();
+                    setState(() => _monthOpen = true);
+                  },
+                  semantics: '${GlanceCopy.dateOwn}. ${GlanceCopy.dateOwnNote}',
+                  label: GlanceCopy.dateOwn,
+                  figure: _own ? GlanceCopy.dateFigure(_exam) : GlanceCopy.pickADay,
+                  figureColor: _own ? null : colors.ink3,
+                  note: GlanceCopy.dateOwnNote,
+                ),
+              ),
+            ],
+          ),
         ),
         MmSizeEase(
           duration: Motion.ui,
@@ -320,7 +339,7 @@ class _PlanFlowBodyState extends State<PlanFlowBody> {
           clipBehavior: Clip.hardEdge,
           child: _monthOpen
               ? Padding(
-                  padding: const EdgeInsets.only(top: MmSpace.s12),
+                  padding: const EdgeInsets.only(top: MmSpace.s16),
                   child: _MonthView(
                     months: [DateTime.utc(windowStart.year, 5), DateTime.utc(windowStart.year, 6)],
                     selected: _own ? _exam : null,
@@ -343,12 +362,11 @@ class _PlanFlowBodyState extends State<PlanFlowBody> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
+        // The week as seven answer bubbles: a chosen day is filled in, like a mark on the sheet.
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            for (var d = 0; d < 7; d++) ...[
-              if (d > 0) const SizedBox(width: 6),
-              Expanded(child: _DayToggle(label: TodayCopy.weekdayShort[d], on: _days.contains(d), onTap: () => _toggleDay(d))),
-            ],
+            for (var d = 0; d < 7; d++) _DayBubble(label: TodayCopy.weekdayShort[d], on: _days.contains(d), onTap: () => _toggleDay(d)),
           ],
         ),
         const SizedBox(height: MmSpace.s12),
@@ -358,25 +376,53 @@ class _PlanFlowBodyState extends State<PlanFlowBody> {
   }
 
   Widget _mocksStep(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
     final rows = [
-      (_Pace.fortnight, GlanceCopy.paceFortnight, GlanceCopy.paceFortnightNote, _fortnight),
-      (_Pace.week, GlanceCopy.paceWeek, GlanceCopy.paceWeekNote, _weekly),
-      (_Pace.month, GlanceCopy.paceMonth, GlanceCopy.paceMonthNote, _monthly),
+      (_Pace.fortnight, GlanceCopy.paceFortnight, _fortnight, true),
+      (_Pace.week, GlanceCopy.paceWeek, _weekly, false),
+      (_Pace.month, GlanceCopy.paceMonth, _monthly, false),
     ];
+    final note = switch (_pace) {
+      _Pace.fortnight => GlanceCopy.paceFortnightWhy,
+      _Pace.week => GlanceCopy.paceWeekNote,
+      _Pace.month => GlanceCopy.paceMonthNote,
+      _Pace.own => GlanceCopy.paceOwnNote(_taken),
+    };
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        for (final (pace, title, note, n) in rows) ...[
-          _Option(key: ValueKey('plan-pace-${pace.name}'), title: title, note: note, selected: _pace == pace, figure: '$n', onTap: () => _pickPace(pace, n)),
-          const SizedBox(height: MmSpace.s8),
-        ],
-        _Option(
+        // Three paces as figures side by side: the total each one reaches by the exam.
+        IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              for (var k = 0; k < rows.length; k++) ...[
+                if (k > 0) const SizedBox(width: MmSpace.s8),
+                Expanded(
+                  child: _Tile(
+                    key: ValueKey('plan-pace-${rows[k].$1.name}'),
+                    selected: _pace == rows[k].$1,
+                    onTap: () => _pickPace(rows[k].$1, rows[k].$3),
+                    semantics: '${rows[k].$2}, ${rows[k].$3} full mocks${rows[k].$4 ? ', suggested' : ''}',
+                    tag: rows[k].$4 ? GlanceCopy.suggested : null,
+                    figure: '${rows[k].$3}',
+                    note: rows[k].$2,
+                    big: true,
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ),
+        const SizedBox(height: MmSpace.s8),
+        _Tile(
           key: const ValueKey('plan-pace-own'),
-          title: GlanceCopy.paceOwn,
-          note: GlanceCopy.paceOwnNote(_taken),
           selected: _pace == _Pace.own,
           onTap: () => _pickPace(_Pace.own, _target),
+          semantics: '${GlanceCopy.paceOwn}, $_target full mocks',
+          label: GlanceCopy.paceOwn,
           trailing: _Stepper(
             value: _target,
             canLess: _target > _taken + 1 && _target > mockTargetMin,
@@ -384,6 +430,11 @@ class _PlanFlowBodyState extends State<PlanFlowBody> {
             onLess: () => _pickPace(_Pace.own, _target - 1),
             onMore: () => _pickPace(_Pace.own, _target + 1),
           ),
+        ),
+        const SizedBox(height: MmSpace.s12),
+        MmOverlapSwitcher.fade(
+          alignment: Alignment.topLeft,
+          child: Text(note, key: ValueKey(note), style: type.caption.copyWith(fontSize: 13.5, height: 19 / 13.5, color: colors.ink2)),
         ),
       ],
     );
@@ -463,87 +514,108 @@ class _Token extends StatelessWidget {
   }
 }
 
-/// One answer: a round mark, the title and its note, and an optional figure or control.
-class _Option extends StatelessWidget {
-  const _Option({super.key, required this.title, required this.note, required this.selected, required this.onTap, this.figure, this.trailing});
+/// One answer as a tile: an optional tag ("Suggested"), its label, its figure, a note, and an
+/// optional control. Chosen, it is filled and edged in ink; there is no radio mark: the figure is
+/// the answer.
+class _Tile extends StatelessWidget {
+  const _Tile({
+    super.key,
+    required this.selected,
+    required this.onTap,
+    required this.semantics,
+    this.label,
+    this.figure,
+    this.figureColor,
+    this.note,
+    this.tag,
+    this.trailing,
+    this.big = false,
+  });
 
-  final String title;
-  final String note;
   final bool selected;
   final VoidCallback onTap;
+  final String semantics;
+  final String? label;
   final String? figure;
+  final Color? figureColor;
+  final String? note;
+  final String? tag;
   final Widget? trailing;
+
+  /// A pace tile: the figure leads, large, with a line kept for the tag so the three align.
+  final bool big;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
+    final accent = colors.isNight ? colors.volt : colors.accentText;
+    final tagStyle = type.micro.copyWith(fontSize: 11.5, height: 15 / 11.5, color: accent, fontWeight: FontWeight.w700, letterSpacing: 0.2);
+    final words = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (big) ...[
+          // The tag's line is kept on every pace tile, so the three figures stand on one line.
+          Text(tag ?? ' ', style: tagStyle),
+          const SizedBox(height: MmSpace.s4),
+        ],
+        if (label != null)
+          Text(label!, style: type.labelLarge.copyWith(fontSize: 14, height: 19 / 14, fontWeight: FontWeight.w600, color: colors.ink2)),
+        if (figure != null) ...[
+          if (label != null) const SizedBox(height: MmSpace.s6),
+          Text(
+            figure!,
+            style: type.figureCompact.copyWith(fontSize: big ? 34 : 24, height: 1, color: figureColor ?? colors.ink, fontFeatures: const [FontFeature.tabularFigures()]),
+          ),
+        ],
+        if (note != null) ...[
+          SizedBox(height: big ? MmSpace.s6 : MmSpace.s8),
+          Text(
+            note!,
+            style: big
+                ? type.labelLarge.copyWith(fontSize: 13.5, height: 18 / 13.5, fontWeight: FontWeight.w600, color: colors.ink)
+                : type.caption.copyWith(fontSize: 12.5, height: 17 / 12.5, color: colors.ink2),
+          ),
+        ],
+      ],
+    );
     return MmPressable(
       onTap: onTap,
-      semanticsLabel: '$title. $note${figure == null ? '' : '. $figure'}',
+      semanticsLabel: semantics,
       selected: selected,
       inMutuallyExclusiveGroup: true,
       focusRadius: BorderRadius.circular(18),
-      pressedScale: 0.985,
+      pressedScale: 0.975,
+      haptic: MmPressHaptic.selection,
       builder: (context, pressed, _) => AnimatedContainer(
         duration: Motion.of(context, const Duration(milliseconds: 180)),
         curve: Motion.out,
-        padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16, MmSpace.s12),
+        constraints: const BoxConstraints(minHeight: MmTarget.min),
+        padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s12, MmSpace.s12),
         decoration: BoxDecoration(
           color: selected ? colors.selectedSurface : (pressed ? colors.raised2.withValues(alpha: 0.5) : Colors.transparent),
           borderRadius: BorderRadius.circular(18),
           border: Border.all(color: selected ? colors.ink2 : colors.line, width: selected ? 1.5 : 1),
         ),
-        child: Row(
-          children: [
-            _Radio(on: selected),
-            const SizedBox(width: MmSpace.s12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(title, style: type.labelLarge.copyWith(fontSize: 15, fontWeight: FontWeight.w600, color: colors.ink)),
-                  const SizedBox(height: 2),
-                  Text(note, style: type.caption.copyWith(fontSize: 13, height: 18 / 13, color: colors.ink2)),
-                ],
-              ),
-            ),
-            if (figure != null) ...[
-              const SizedBox(width: MmSpace.s12),
-              Text(figure!, style: type.figureCompact.copyWith(fontSize: 24, height: 1, color: colors.ink, fontFeatures: const [FontFeature.tabularFigures()])),
-            ],
-            if (trailing != null) ...[const SizedBox(width: MmSpace.s8), trailing!],
-          ],
-        ),
+        child: trailing == null
+            ? Align(alignment: Alignment.topLeft, child: words)
+            : Row(children: [Expanded(child: words), const SizedBox(width: MmSpace.s8), trailing!]),
       ),
     );
   }
 }
 
-class _Radio extends StatelessWidget {
-  const _Radio({required this.on});
-
-  final bool on;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    return AnimatedContainer(
-      duration: Motion.of(context, const Duration(milliseconds: 160)),
-      width: 20,
-      height: 20,
-      decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: on ? colors.ink : colors.ink3, width: on ? 6 : 1.5)),
-    );
-  }
-}
-
-class _DayToggle extends StatelessWidget {
-  const _DayToggle({required this.label, required this.on, required this.onTap});
+/// One weekday as an answer bubble: chosen, it is filled in ink with its name in the ground's
+/// colour; open, it is a ring. 44 dp, the whole bubble is the target.
+class _DayBubble extends StatelessWidget {
+  const _DayBubble({required this.label, required this.on, required this.onTap});
 
   final String label;
   final bool on;
   final VoidCallback onTap;
+
+  static const double size = 44;
 
   @override
   Widget build(BuildContext context) {
@@ -553,30 +625,25 @@ class _DayToggle extends StatelessWidget {
       onTap: onTap,
       semanticsLabel: label,
       checked: on,
-      focusRadius: BorderRadius.circular(16),
-      pressedScale: 0.95,
+      focusRadius: MmRadius.pillAll,
+      pressedScale: 0.92,
       builder: (context, pressed, _) => AnimatedContainer(
-        duration: Motion.of(context, const Duration(milliseconds: 160)),
+        duration: Motion.of(context, const Duration(milliseconds: 180)),
         curve: Motion.out,
-        height: 74,
+        width: size,
+        height: size,
+        alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: on ? colors.selectedSurface : Colors.transparent,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: on ? colors.ink2 : colors.line, width: on ? 1.5 : 1),
+          shape: BoxShape.circle,
+          color: on ? colors.ink : (pressed ? colors.raised2 : Colors.transparent),
+          border: on ? null : Border.all(color: colors.ink3, width: 1.5),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            AnimatedContainer(
-              duration: Motion.of(context, const Duration(milliseconds: 160)),
-              width: 22,
-              height: 22,
-              decoration: BoxDecoration(shape: BoxShape.circle, color: on ? colors.ink : Colors.transparent, border: on ? null : Border.all(color: colors.ink3, width: 1.5)),
-              child: on ? Icon(LucideIcons.check, size: 13, color: colors.ground) : null,
-            ),
-            const SizedBox(height: MmSpace.s6),
-            Text(label, maxLines: 1, softWrap: false, overflow: TextOverflow.visible, style: type.micro.copyWith(fontSize: 12, fontWeight: FontWeight.w600, color: on ? colors.ink : colors.ink2)),
-          ],
+        child: Text(
+          label,
+          maxLines: 1,
+          softWrap: false,
+          textScaler: MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.15),
+          style: type.micro.copyWith(fontSize: 12.5, fontWeight: FontWeight.w700, color: on ? colors.ground : colors.ink2),
         ),
       ),
     );
@@ -787,7 +854,7 @@ class _Preview extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        days >= 7 ? cell(weeks, GlanceCopy.previewWeeks(own)) : cell(days, GlanceCopy.daysTo(own: own)),
+        days >= 7 ? cell(weeks, TodayCopy.roadWeeksTo(own: own, n: weeks)) : cell(days, TodayCopy.roadDaysTo(own: own, n: days)),
         const SizedBox(width: MmSpace.s12),
         cell(studyDays, GlanceCopy.previewStudy(perWeek)),
         const SizedBox(width: MmSpace.s12),

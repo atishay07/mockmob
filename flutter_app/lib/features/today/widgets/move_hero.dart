@@ -42,9 +42,14 @@ class MoveHeroCard extends StatefulWidget {
     this.choices = const [],
     this.onChoose,
     this.onMore,
+    this.price,
   });
 
   final MoveHero move;
+
+  /// What the key costs, in the server's own numbers ("Each repair uses 1 AI credit. You have
+  /// 38."), or null while it is not known (then the line's place is kept, empty).
+  final String? price;
 
   /// The two other moves under the key (TODAY-1018 6.1). Empty keeps the older pills (a failed
   /// read's Practise anyway).
@@ -294,6 +299,18 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
               ),
             ),
           ),
+          // The price, before the press (W-060): its line's place is held from the first frame, so
+          // a quote that lands a moment later never moves the card.
+          if (widget.choices.isNotEmpty && m.kind != MoveKind.failure && m.kind != MoveKind.done && m.state != NextMoveState.historyUnavailable) ...[
+            const SizedBox(height: MmSpace.s8),
+            ConstrainedBox(
+              constraints: BoxConstraints(minHeight: MediaQuery.textScalerOf(context).scale(13) * 18 / 13),
+              child: MmOverlapSwitcher.fade(
+                alignment: Alignment.topLeft,
+                child: Text(widget.price ?? '', key: ValueKey(widget.price), style: type.caption.copyWith(fontSize: 13, height: 18 / 13, color: colors.ink2)),
+              ),
+            ),
+          ],
           if (widget.choices.isEmpty && (sized || m.alternate != null || m.secondary != null)) ...[
             const SizedBox(height: MmSpace.s12),
             KeyedSubtree(

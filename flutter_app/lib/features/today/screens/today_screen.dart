@@ -24,7 +24,9 @@ import '../../tools/data/my_colleges_actions.dart' show MyCollegesStatus, myColl
 import '../../tools/my_colleges/my_colleges_sheet.dart' show showMyCollegesSheet;
 import '../data/road_plan.dart' show roadPlanProvider;
 import '../data/today_providers.dart';
+import '../../practice/data/practice_quote.dart' show practiceQuoteProvider;
 import '../logic/links.dart';
+import '../logic/move_price.dart';
 import '../logic/today_model.dart';
 import '../logic/visit_latch.dart';
 import '../widgets/colleges_card.dart' show CollegesCardInfo, CollegesCardStatus;
@@ -230,6 +232,27 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
     }
   }
 
+  /// The price line of the lead and of each choice, from the server's quote and the AI credit
+  /// wallet (TODAY-1018 section 5, W-060). Nothing unknown is shown.
+  Map<String, String> _prices(TodayView view) {
+    final hero = view.hero;
+    final moves = <MoveHero>[
+      if (hero is MoveHero) hero,
+      for (final c in view.choices) ?c.hero,
+    ];
+    if (moves.isEmpty) return const {};
+    final repairs = moves.any((m) => m.kind == MoveKind.repair || m.kind == MoveKind.firstRepair || m.kind == MoveKind.returning);
+    final credits = repairs ? ref.watch(creditsRepositoryProvider).value : null;
+    final out = <String, String>{};
+    for (final m in moves) {
+      final query = quoteQueryFor(m);
+      final quote = query == null ? null : ref.watch(practiceQuoteProvider(query)).value;
+      final line = priceLine(m, credits: credits, quote: quote);
+      if (line != null) out[priceKeyOf(m)] = line;
+    }
+    return out;
+  }
+
   void _action(TodayAction action) {
     if (action.startsSession || action.actionType == 'resume') {
       // The length the card shows, not the raw chip: a stale or unoffered pick is never logged.
@@ -261,6 +284,7 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
     final hasEnding = _endingFor(has: ending != null, painted: view.hero != null);
     return TodayBody(
       view: view,
+      prices: _prices(view),
       retrying: _retrying,
       controller: _scroll,
       mobiController: _mobi,

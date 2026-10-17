@@ -94,6 +94,33 @@ abstract final class GlanceCopy {
   static String doneOf(int done, int total) => '$done of $total done';
   static const String allDoneToday = 'Everything due today is done.';
   static String leftToday(String first, int more) => more <= 0 ? 'Left: ${_lowerFirst(first)}' : 'Left: ${_lowerFirst(first)}, and $more more';
+
+  /// Due today's line: the next thing still open.
+  static String nextToday(String first) => 'Next: ${_lowerFirst(first)}.';
+
+  /// Due this week: what is left of the week's plan, by its last day.
+  static String weekLeft({required int days, required int mocks, DateTime? by}) {
+    final parts = <String>[
+      if (days > 0) plural(days, 'study day'),
+      if (mocks > 0) mocks == 1 ? 'a full mock' : '$mocks full mocks',
+    ];
+    final when = by == null ? '' : ' by ${_weekdayShort[by.weekday - 1]}';
+    return 'Left: ${listJoin(parts)}$when.';
+  }
+
+  static const String weekPlanDone = "This week's plan is done.";
+  static String weekPlanDoneNext(DateTime next) => "This week's plan is done. The next full mock is due ${_dayShort(next)}.";
+  static String weekLeftNext(String left, DateTime next) => '$left Next full mock ${_dayShort(next)}.';
+  static String weekFigure(int done, int planned) => '$done of $planned done';
+
+  /// The overall goal's line: the pace that reaches the target, and the study days left.
+  static String goalLine({required String pace, required bool suggested, required bool met, int? studyLeft, int? perWeek}) {
+    final head = met ? 'Target met.' : (suggested ? 'Suggested: $pace.' : '${_upperFirst(pace)} to reach it.');
+    if (studyLeft == null || perWeek == null) return head;
+    return '$head ${plural(studyLeft, 'study day')} left at $perWeek a week.';
+  }
+
+  static String roadHeadSemantics(String figure, String date) => '$figure. $date. Change plan.';
   static String studyDaysOf(int done, int goal) => '$done of $goal study days';
   static String studyDaysNoGoal(int done) => plural(done, 'study day');
   static String plannedDone(int done, int planned) => '$done of $planned planned done';
@@ -155,6 +182,9 @@ abstract final class GlanceCopy {
   static const String askMocks = 'How many full mocks before your exam?';
   static const String dateExpected = 'The expected start';
   static String dateExpectedNote(DateTime d) => '${_dayLong(d)}. NTA has not published the 2027 dates yet.';
+  static String dateFigure(DateTime d) => '${d.day} ${_month[d.month - 1]} ${d.year}';
+  static const String dateExpectedShort = 'NTA has not published the 2027 dates yet.';
+  static const String pickADay = 'Pick a day';
   static const String dateOwn = 'My own date';
   static const String dateOwnNote = 'Once your admit card shows it.';
   static const String dateReadOnly = 'Set on the app for now';
@@ -162,6 +192,7 @@ abstract final class GlanceCopy {
   static const String keepOneDay = 'Keep at least one day.';
   static const String paceFortnight = 'One a fortnight';
   static const String paceFortnightNote = 'Suggested. Steady practice alongside your chapters.';
+  static const String paceFortnightWhy = 'Steady practice alongside your chapters: a fresh paper every other week.';
   static const String paceWeek = 'One a week';
   static const String paceWeekNote = 'The most practice: a full paper every week.';
   static const String paceMonth = 'One a month';
@@ -251,4 +282,5 @@ abstract final class GlanceCopy {
   }
 
   static String _lowerFirst(String s) => s.isEmpty ? s : s[0].toLowerCase() + s.substring(1);
+  static String _upperFirst(String s) => s.isEmpty ? s : s[0].toUpperCase() + s.substring(1);
 }

@@ -612,6 +612,10 @@ abstract final class TodayCopy {
   static const String somethingElse = 'Something else';
   static const String practiseMore = 'Practise more';
   static const String seeTonightsRepairs = "See tonight's repairs";
+
+  // The price line under the key (TODAY-1018 section 5): the wallet's and the quote's own numbers.
+  static String priceRepair(int balance) => 'Each repair uses 1 AI credit. You have $balance.';
+  static const String priceFree = 'Free. No credits.';
   static const String openTheRepair = 'Open the repair';
   static const String openTheSession = 'Open the session';
 
@@ -736,7 +740,7 @@ abstract final class TodayCopy {
   static String lastPaperName(String label, String subject) => '$label, $subject';
   static String lastPaperSub(String date, String? change) => change == null ? date : '$date, $change';
   static String collegesSub(String course, int more) => more > 0 ? '$course, 2026 Round 1. $more more saved.' : '$course, 2026 Round 1.';
-  static const String collegesEmpty = 'Pick up to 8 to see their 2026 cutoffs here';
+  static const String collegesEmpty = 'Pick up to 8 colleges to see their 2026 cutoffs here.';
   static const String choose = 'Choose';
 
   // Today 1017, second half.

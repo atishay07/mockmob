@@ -19,6 +19,7 @@ import '../../../core/widgets/widgets.dart';
 import '../../tools/tools_paths.dart';
 import '../copy.dart';
 import '../copy_glance.dart';
+import '../logic/move_price.dart' show priceKeyOf;
 import '../logic/today_model.dart';
 import '../logic/today_reactions.dart';
 import '../widgets/also_slots.dart';
@@ -96,7 +97,11 @@ class TodayBody extends StatefulWidget {
     this.mobiController,
     this.retrying = false,
     this.skeletonDelay = const Duration(milliseconds: 400),
+    this.prices = const {},
   });
+
+  /// The price line of each move the card can show, by [priceKeyOf] (the screen reads the quotes
+  /// and the wallet); a move without one shows no line.
 
   final TodayView view;
   final TodayCallbacks callbacks;
@@ -118,6 +123,7 @@ class TodayBody extends StatefulWidget {
   /// A Try again read is running: the Try again key shows it is working.
   final bool retrying;
   final Duration skeletonDelay;
+  final Map<String, String> prices;
 
   @override
   State<TodayBody> createState() => _TodayBodyState();
@@ -611,6 +617,7 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
           keyPulse: _keyPulse,
           choices: _shownChoices,
           onChoose: _choose,
+          price: widget.prices[priceKeyOf(hero)],
           onMore: hero.kind == MoveKind.failure || hero.state == NextMoveState.historyUnavailable
               ? null
               : () => cb.onAction(const TodayAction(GlanceCopy.moreWays, OpenAlternatives())),

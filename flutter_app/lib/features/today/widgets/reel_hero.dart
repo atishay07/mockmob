@@ -52,20 +52,27 @@ class ReelHeroCard extends StatelessWidget {
               ),
             ),
             if (n != null) ...[
-              const SizedBox(height: MmSpace.s20),
-              // The paper as its sheet, one hollow bubble per question: what the reel will play.
-              TodayEnter(
-                delay: const Duration(milliseconds: 200),
-                rise: 6,
-                child: BubbleGrid(
-                  states: List<BubbleState>.filled(n, BubbleState.hollow),
-                  sealed: true,
-                  numbers: false,
-                  bubbleSize: 13,
-                  minGap: 6,
-                  maxGap: 14,
-                  rowGap: 9,
-                  semanticsLabel: TodayCopy.reelSheetSemantics(n),
+              const SizedBox(height: MmSpace.s16),
+              // The paper as its sheet, one hollow bubble per question: what the reel will play. It
+              // stands beside the subject's object, never under it.
+              Padding(
+                padding: const EdgeInsets.only(right: besideArt),
+                child: TodayEnter(
+                  delay: const Duration(milliseconds: 200),
+                  rise: 6,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: BubbleGrid(
+                      states: List<BubbleState>.filled(n, BubbleState.hollow),
+                      sealed: true,
+                      numbers: false,
+                      bubbleSize: 11,
+                      minGap: 5,
+                      maxGap: 9,
+                      rowGap: 7,
+                      semanticsLabel: TodayCopy.reelSheetSemantics(n),
+                    ),
+                  ),
                 ),
               ),
             ],

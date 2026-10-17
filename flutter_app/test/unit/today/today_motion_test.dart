@@ -6,11 +6,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/features/today/copy_glance.dart';
 import 'package:mockmob/core/art/art.dart' show SubjectEmblem;
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/haptics/haptics.dart';
 import 'package:mockmob/core/widgets/count_up.dart' show MmNumberMemory;
-import 'package:mockmob/features/today/copy.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
 import 'package:mockmob/features/today/logic/today_model.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
@@ -137,7 +137,8 @@ void main() {
       );
       final handle = tester.ensureSemantics();
       await tester.pump();
-      final alternative = TodayCopy.somethingElse;
+      // TODAY-1018: the card's quiet way out is "More ways to practise" under its two choices.
+      const alternative = GlanceCopy.moreWays;
       expect(announced(tester).where((l) => l == alternative), hasLength(1), reason: 'the capsule replaced the pinned bar: one key, not two');
       final quiet = find.text(alternative);
       expect(quiet, findsOneWidget);

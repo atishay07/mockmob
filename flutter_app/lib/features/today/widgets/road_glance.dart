@@ -1,10 +1,18 @@
 // Road to CUET (TODAY-1018 section 3 row 4, and the owner's 3:30 am words: "respecting information
-// like what's due today, what's due for the week, and showing the overall goal"). Three layers
-// read at a glance, drawn as three nested rings beside their numbers: due today (inner, volt:
-// the counted things), due this week (middle, ink), the overall goal (outer: full mocks done
-// over the target). Each layer is a button that opens its detail in place; Change plan opens the
-// guided sentence. One outlined surface (the whole of it is pressable parts), no card in a card,
-// no glow, no neon. Calendar arithmetic and the student's own plan only: no predictions.
+// like what's due today, what's due for the week, and showing the overall goal"; D26). One outlined
+// surface that reads at a glance, top to bottom:
+//
+// * the distance: "27 weeks to CUET UG", "Expected from Sat 1 May 2027" (tap: Change plan);
+// * Due today: what today asks, as answer bubbles (filled when done), and the next one in words;
+// * Due this week: the week's plan (the study days and the full mock the pace asks for), what is
+//   left and by when;
+// * Overall goal: full mocks taken of the target as a row of bubbles, the pace that reaches it and
+//   the study days left.
+//
+// The bubbles are the answer sheet's own (MockMob's mark), inked in the page's ink, not volt: volt
+// stays on the one lead key and the counted days of This week (no glow, no neon, D7). Each layer
+// opens in place to its items, each one a tap from its screen. Calendar arithmetic and the
+// student's own plan only: no predictions, and an unknown count says so (never 0).
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -17,7 +25,6 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../copy_glance.dart';
 import '../logic/today_model.dart';
-import 'today_type.dart';
 import 'plan_flow_sheet.dart';
 import 'road_section.dart' show RoadActions;
 
@@ -27,7 +34,7 @@ class RoadGlance extends StatefulWidget {
   final RoadLayers layers;
   final RoadModel road;
 
-  /// Where Change plan saves; without it the button still opens the plan, read-only.
+  /// Where Change plan saves; without it the plan still opens, and its answers save nowhere.
   final RoadActions? actions;
 
   /// A due item opens its screen through this.
@@ -61,107 +68,114 @@ class _RoadGlanceState extends State<RoadGlance> {
     final l = widget.layers;
     final countWeeks = l.days >= 7;
     final figure = countWeeks ? l.weeks : l.days;
-    final ringColors = RoadRings.colorsFor(colors);
-
     final windowOpen = widget.road.phase == RoadPhase.window;
-    final headline = windowOpen
-        ? Text(TodayCopy.windowOpen, style: type.figureCompact.copyWith(fontSize: 34, height: 1.1, color: colors.ink))
-        : Row(
-      crossAxisAlignment: CrossAxisAlignment.baseline,
-      textBaseline: TextBaseline.alphabetic,
-      children: [
-        MmCountUp(
-          value: figure,
-          fromZeroOnFirstBuild: false,
-          style: type.figureCompact.copyWith(fontSize: 52, height: 1, color: colors.ink, fontFeatures: const [FontFeature.tabularFigures()]),
-        ),
-        const SizedBox(width: MmSpace.s8),
-        Flexible(
-          child: Text(
-            countWeeks ? GlanceCopy.weeksTo(own: l.ownDate) : GlanceCopy.daysTo(own: l.ownDate),
-            style: type.title.copyWith(fontSize: 19, color: colors.ink),
-          ),
-        ),
-      ],
-    );
+    final dateLine = l.ownDate ? GlanceCopy.yourDate(l.examDate) : GlanceCopy.expectedFrom(l.examDate);
+    final unit = countWeeks ? TodayCopy.roadWeeksTo(own: l.ownDate, n: figure) : TodayCopy.roadDaysTo(own: l.ownDate, n: figure);
 
-    final rows = [
-      _Layer(
-        index: 0,
-        color: ringColors[0],
-        label: GlanceCopy.layerToday,
-        figure: l.todayTotal == 0 ? GlanceCopy.allDoneToday : GlanceCopy.doneOf(l.todayDone, l.todayTotal),
-        line: _todayLine(l),
-        open: _open == 0,
-        onTap: () => _toggle(0),
-      ),
-      _Layer(
-        index: 1,
-        color: ringColors[1],
-        label: GlanceCopy.layerWeek,
-        figure: l.weekGoal == null ? GlanceCopy.studyDaysNoGoal(l.weekDays) : GlanceCopy.studyDaysOf(l.weekDays, l.weekGoal!),
-        line: l.planned == 0 ? GlanceCopy.setDaysHint : GlanceCopy.plannedDone(l.plannedDone, l.planned),
-        open: _open == 1,
-        onTap: () => _toggle(1),
-      ),
-      _Layer(
-        index: 2,
-        color: ringColors[2],
-        label: GlanceCopy.layerGoal,
-        figure: l.mocksKnown ? GlanceCopy.mocksOf(l.mocksTaken, l.mockTarget) : GlanceCopy.mocksUnknown,
-        line: !l.mocksKnown ? l.milestone ?? '' : (l.targetSuggested ? '${l.pace}, ${GlanceCopy.suggestedTag}' : l.pace),
-        open: _open == 2,
-        onTap: () => _toggle(2),
-      ),
-    ];
-
-    final rings = RoadRings(
-      fractions: [l.todayFraction, l.weekFraction, l.goalFraction],
-      highlight: _open,
-      size: 108,
-    );
-
-    final layers = LayoutBuilder(
-      builder: (context, box) {
-        final scale = MediaQuery.textScalerOf(context).scale(1);
-        final stacked = box.maxWidth - 108 - MmSpace.s16 < 170 * scale.clamp(1.0, 1.4);
-        final column = Column(crossAxisAlignment: CrossAxisAlignment.stretch, mainAxisSize: MainAxisSize.min, children: rows);
-        if (stacked) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [Center(child: rings), const SizedBox(height: MmSpace.s12), column],
-          );
-        }
-        return Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [rings, const SizedBox(width: MmSpace.s16), Expanded(child: column)],
-        );
-      },
-    );
-
-    final open = _open;
-    final detail = MmSizeEase(
-      duration: Motion.ui,
-      curve: Motion.out,
-      alignment: Alignment.topCenter,
-      clipBehavior: Clip.hardEdge,
-      child: open == null
-          ? const SizedBox(width: double.infinity)
-          : Padding(
-              key: ValueKey('road-detail-$open'),
-              padding: const EdgeInsets.only(top: MmSpace.s12),
-              child: _Detail(
-                items: switch (open) {
-                  0 => l.today,
-                  1 => l.weekItems,
-                  _ => l.goalItems,
-                },
-                marks: open == 2 && l.mocksKnown ? (l.mocksTaken, l.mockTarget) : null,
-                onOpen: widget.onOpen,
+    // The distance and the date: the plan's own answers, so a tap opens Change plan on them.
+    final head = MmPressable(
+      key: const ValueKey('road-head'),
+      onTap: _changePlan,
+      semanticsLabel: GlanceCopy.roadHeadSemantics(windowOpen ? TodayCopy.windowOpen : '$figure $unit', dateLine),
+      focusRadius: MmRadius.smallAll,
+      pressedScale: 0.99,
+      builder: (context, pressed, _) => Padding(
+        padding: const EdgeInsets.fromLTRB(MmSpace.s8, MmSpace.s4, MmSpace.s8, MmSpace.s4),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (windowOpen)
+              Text(TodayCopy.windowOpen, style: type.figureCompact.copyWith(fontSize: 34, height: 1.1, color: colors.ink))
+            else
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.baseline,
+                textBaseline: TextBaseline.alphabetic,
+                children: [
+                  MmCountUp(
+                    value: figure,
+                    fromZeroOnFirstBuild: false,
+                    style: type.figureCompact.copyWith(fontSize: 52, height: 1, color: colors.ink, fontFeatures: const [FontFeature.tabularFigures()]),
+                  ),
+                  const SizedBox(width: MmSpace.s8),
+                  Flexible(child: Text(unit, style: type.title.copyWith(fontSize: 19, color: colors.ink))),
+                ],
               ),
-            ),
+            const SizedBox(height: MmSpace.s4),
+            Text(dateLine, style: type.caption.copyWith(fontSize: 14, color: pressed ? colors.ink : colors.ink2)),
+          ],
+        ),
+      ),
     );
 
+    // Due today.
+    final todayLeft = [for (final t in l.today) if (!t.done) t];
+    final todayPips = <_Pip>[
+      for (final t in l.today) if (t.done) _Pip.done,
+      for (var k = 0; k < todayLeft.length; k++) k == 0 ? _Pip.next : _Pip.todo,
+    ];
+    final today = _Layer(
+      index: 0,
+      label: GlanceCopy.layerToday,
+      figure: l.todayTotal == 0 ? GlanceCopy.allDoneToday : GlanceCopy.doneOf(l.todayDone, l.todayTotal),
+      pips: todayPips,
+      line: todayLeft.isEmpty ? (l.todayTotal == 0 ? null : GlanceCopy.allDoneToday) : GlanceCopy.nextToday(todayLeft.first.label),
+      open: _open == 0,
+      onTap: () => _toggle(0),
+      detail: _Detail(items: l.today, onOpen: widget.onOpen),
+    );
+
+    // Due this week: the study days the goal asks for, then the full mock the pace asks for.
+    final goal = l.weekGoal;
+    final daysDone = goal == null ? l.weekDays : math.min(l.weekDays, goal);
+    final weekPips = goal == null
+        ? const <_Pip>[]
+        : <_Pip>[
+            for (var k = 0; k < goal; k++) k < daysDone ? _Pip.done : (k == daysDone ? _Pip.next : _Pip.todo),
+            for (var k = 0; k < l.weekMocksPlanned; k++) k < l.weekMocksDone ? _Pip.paperDone : _Pip.paper,
+          ];
+    final daysLeft = goal == null ? 0 : math.max(0, goal - l.weekDays);
+    final mocksLeft = math.max(0, l.weekMocksPlanned - l.weekMocksDone);
+    final String weekLine;
+    if (goal == null) {
+      weekLine = GlanceCopy.setDaysHint;
+    } else if (daysLeft == 0 && mocksLeft == 0) {
+      weekLine = l.nextMockOn == null ? GlanceCopy.weekPlanDone : GlanceCopy.weekPlanDoneNext(l.nextMockOn!);
+    } else {
+      final left = GlanceCopy.weekLeft(days: daysLeft, mocks: mocksLeft, by: l.weekEnds);
+      weekLine = mocksLeft == 0 && l.nextMockOn != null ? GlanceCopy.weekLeftNext(left, l.nextMockOn!) : left;
+    }
+    final week = _Layer(
+      index: 1,
+      label: GlanceCopy.layerWeek,
+      figure: goal == null ? GlanceCopy.studyDaysNoGoal(l.weekDays) : GlanceCopy.weekFigure(l.plannedDone, l.planned),
+      pips: weekPips,
+      line: weekLine,
+      open: _open == 1,
+      onTap: () => _toggle(1),
+      detail: _Detail(items: l.weekItems, onOpen: widget.onOpen),
+    );
+
+    // The overall goal: full mocks taken of the target.
+    final known = l.mocksKnown;
+    final met = known && l.mocksTaken >= l.mockTarget;
+    final goalLine = known
+        ? GlanceCopy.goalLine(pace: l.pace, suggested: l.targetSuggested, met: met, studyLeft: l.studyDaysLeft, perWeek: l.perWeek)
+        : (l.studyDaysLeft != null && l.perWeek != null ? GlanceCopy.itemStudyLeft(l.studyDaysLeft!, l.perWeek!) : null);
+    final overall = _Layer(
+      index: 2,
+      label: GlanceCopy.layerGoal,
+      figure: known ? GlanceCopy.mocksOf(l.mocksTaken, l.mockTarget) : GlanceCopy.mocksUnknown,
+      pips: known ? [for (var k = 0; k < l.mockTarget; k++) k < l.mocksTaken ? _Pip.paperDone : (k == l.mocksTaken ? _Pip.paperNext : _Pip.paper)] : const [],
+      line: goalLine,
+      open: _open == 2,
+      onTap: () => _toggle(2),
+      detail: _Detail(items: l.goalItems, onOpen: widget.onOpen),
+    );
+
+    final rule = Padding(
+      padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8),
+      child: Divider(height: 1, thickness: 1, color: colors.line),
+    );
     final milestone = l.milestone;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -176,29 +190,33 @@ class _RoadGlanceState extends State<RoadGlance> {
             border: Border.all(color: colors.line),
           ),
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(MmSpace.cardPadding, MmSpace.cardPadding, MmSpace.cardPadding, MmSpace.s16),
+            padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s16, MmSpace.s12, MmSpace.s16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisSize: MainAxisSize.min,
               children: [
-                headline,
-                const SizedBox(height: MmSpace.s4),
-                Text(l.ownDate ? GlanceCopy.yourDate(l.examDate) : GlanceCopy.expectedFrom(l.examDate), style: type.caption.copyWith(fontSize: 14, color: colors.ink2)),
-                const SizedBox(height: MmSpace.s16),
-                layers,
-                detail,
+                head,
                 const SizedBox(height: MmSpace.s12),
-                Divider(height: 1, thickness: 1, color: colors.line),
+                today,
+                rule,
+                week,
+                rule,
+                overall,
+                rule,
                 const SizedBox(height: MmSpace.s12),
-                if (milestone != null) _Milestone(text: milestone),
+                if (milestone != null)
+                  Padding(padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8), child: _Milestone(text: milestone)),
                 if (_receipt != null) ...[
                   const SizedBox(height: MmSpace.s8),
-                  Text(_receipt!, style: type.caption.copyWith(fontSize: 13.5, color: colors.ink2)),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8),
+                    child: Text(_receipt!, style: type.caption.copyWith(fontSize: 13.5, color: colors.ink2)),
+                  ),
                 ],
                 const SizedBox(height: MmSpace.s12),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: _PlanKey(onTap: _changePlan),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8),
+                  child: Align(alignment: Alignment.centerRight, child: _PlanKey(onTap: _changePlan)),
                 ),
               ],
             ),
@@ -207,98 +225,237 @@ class _RoadGlanceState extends State<RoadGlance> {
       ],
     );
   }
-
-  static String _todayLine(RoadLayers l) {
-    final left = [for (final t in l.today) if (!t.done) t];
-    if (l.todayTotal == 0 || left.isEmpty) return GlanceCopy.allDoneToday;
-    return GlanceCopy.leftToday(left.first.label, left.length - 1);
-  }
 }
 
-/// One layer: its ring's colour as a short bar, the label, the figure and the line; a tap opens
-/// the detail in place (one at a time).
+/// One layer: its label and figure, its bubbles, one line, and its items when open. The whole
+/// layer is the button (one target, at least 48 dp).
 class _Layer extends StatelessWidget {
-  const _Layer({required this.index, required this.color, required this.label, required this.figure, required this.line, required this.open, required this.onTap});
+  const _Layer({
+    required this.index,
+    required this.label,
+    required this.figure,
+    required this.pips,
+    required this.line,
+    required this.open,
+    required this.onTap,
+    required this.detail,
+  });
 
   final int index;
-  final Color color;
   final String label;
   final String figure;
-  final String line;
+  final List<_Pip> pips;
+  final String? line;
   final bool open;
   final VoidCallback onTap;
+  final Widget detail;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    return MmPressable(
-      key: ValueKey('road-layer-$index'),
-      onTap: onTap,
-      semanticsLabel: GlanceCopy.layerSemantics(label, figure, line, open),
-      selected: open,
-      focusRadius: MmRadius.smallAll,
-      pressedScale: 0.98,
-      builder: (context, pressed, _) => AnimatedContainer(
-        duration: const Duration(milliseconds: 120),
-        padding: const EdgeInsets.symmetric(vertical: MmSpace.s6, horizontal: MmSpace.s6),
-        decoration: BoxDecoration(
-          color: open || pressed ? colors.raised2.withValues(alpha: colors.isNight ? 0.8 : 0.9) : Colors.transparent,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        constraints: const BoxConstraints(minHeight: MmTarget.min),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(width: 3, height: 30, decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(2))),
-            const SizedBox(width: MmSpace.s8),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(label, style: type.micro.copyWith(fontSize: 12, fontWeight: FontWeight.w600, color: colors.ink3, letterSpacing: 0.2)),
-                  Text(figure, style: type.labelLarge.copyWith(fontSize: 15, height: 20 / 15, fontWeight: FontWeight.w700, color: colors.ink, fontFeatures: const [FontFeature.tabularFigures()])),
-                  Text(line, maxLines: 2, overflow: TextOverflow.ellipsis, style: type.caption.copyWith(fontSize: 12.5, height: 17 / 12.5, color: colors.ink2)),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        MmPressable(
+          key: ValueKey('road-layer-$index'),
+          onTap: onTap,
+          semanticsLabel: GlanceCopy.layerSemantics(label, figure, line ?? '', open),
+          selected: open,
+          focusRadius: MmRadius.smallAll,
+          pressedScale: 0.99,
+          builder: (context, pressed, _) => AnimatedContainer(
+            duration: const Duration(milliseconds: 120),
+            constraints: const BoxConstraints(minHeight: MmTarget.min),
+            padding: const EdgeInsets.fromLTRB(MmSpace.s8, MmSpace.s12, MmSpace.s8, MmSpace.s12),
+            decoration: BoxDecoration(
+              color: pressed ? colors.raised2.withValues(alpha: colors.isNight ? 0.7 : 0.8) : Colors.transparent,
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(label, style: type.caption.copyWith(fontSize: 13, fontWeight: FontWeight.w600, color: colors.ink2)),
+                    const SizedBox(width: MmSpace.s12),
+                    Expanded(
+                      child: Text(
+                        figure,
+                        textAlign: TextAlign.end,
+                        maxLines: 2,
+                        style: type.labelLarge.copyWith(fontSize: 15, height: 20 / 15, fontWeight: FontWeight.w700, color: colors.ink, fontFeatures: const [FontFeature.tabularFigures()]),
+                      ),
+                    ),
+                    const SizedBox(width: MmSpace.s6),
+                    AnimatedRotation(
+                      turns: open ? 0.5 : 0,
+                      duration: Motion.of(context, const Duration(milliseconds: 220)),
+                      curve: Motion.out,
+                      child: Icon(LucideIcons.chevronDown, size: 16, color: colors.ink3),
+                    ),
+                  ],
+                ),
+                if (pips.isNotEmpty) ...[
+                  const SizedBox(height: MmSpace.s8),
+                  _Pips(pips: pips),
                 ],
-              ),
+                if (line != null) ...[
+                  const SizedBox(height: MmSpace.s6),
+                  Text(line!, maxLines: 3, overflow: TextOverflow.ellipsis, style: type.caption.copyWith(fontSize: 13.5, height: 19 / 13.5, color: colors.ink2)),
+                ],
+              ],
             ),
-            AnimatedRotation(
-              turns: open ? 0.5 : 0,
-              duration: Motion.of(context, const Duration(milliseconds: 200)),
-              curve: Motion.out,
-              child: Icon(LucideIcons.chevronDown, size: 16, color: colors.ink3),
-            ),
-          ],
+          ),
         ),
+        MmSizeEase(
+          duration: Motion.ui,
+          curve: Motion.out,
+          alignment: Alignment.topCenter,
+          clipBehavior: Clip.hardEdge,
+          child: open
+              ? Padding(key: ValueKey('road-detail-$index'), padding: const EdgeInsets.only(bottom: MmSpace.s8), child: detail)
+              : const SizedBox(width: double.infinity),
+        ),
+      ],
+    );
+  }
+}
+
+/// What a bubble on the road says. Study days and today's tasks are round, like the answer
+/// sheet's bubbles; full mocks are small papers.
+enum _Pip { done, next, todo, paperDone, paperNext, paper }
+
+/// A row of bubbles that wraps to the width, inked in once (their own short draw, the road's
+/// part of the page's one load moment), and still under reduced motion.
+class _Pips extends StatelessWidget {
+  const _Pips({required this.pips});
+
+  final List<_Pip> pips;
+
+  static const double size = 12;
+  static const double gap = 5;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    return ExcludeSemantics(
+      child: LayoutBuilder(
+        builder: (context, box) {
+          // One row when the bubbles fit, a little smaller if that is what it takes; otherwise
+          // balanced rows (11 and 10, never 20 and a lone 1).
+          var s = size, g = gap;
+          int fit(double s, double g) => math.max(1, ((box.maxWidth + g) / (s + g)).floor());
+          if (fit(s, g) < pips.length && fit(10, 4) >= pips.length) {
+            s = 10;
+            g = 4;
+          }
+          final most = fit(s, g);
+          final rows = (pips.length / most).ceil();
+          final perRow = (pips.length / rows).ceil();
+          final height = rows * s + math.max(0, rows - 1) * g;
+          return TweenAnimationBuilder<double>(
+            tween: Tween(begin: 0, end: 1),
+            duration: Motion.of(context, const Duration(milliseconds: 520)),
+            curve: Motion.out,
+            builder: (context, t, _) => CustomPaint(
+              size: Size(box.maxWidth, height),
+              painter: _PipsPainter(pips: pips, perRow: perRow, t: t, colors: colors, size: s, gap: g),
+            ),
+          );
+        },
       ),
     );
   }
 }
 
+class _PipsPainter extends CustomPainter {
+  _PipsPainter({required this.pips, required this.perRow, required this.t, required this.colors, required this.size, required this.gap});
+
+  final List<_Pip> pips;
+  final int perRow;
+  final double t;
+  final MmColors colors;
+  final double size;
+  final double gap;
+
+  @override
+  void paint(Canvas canvas, Size box) {
+    final s = size;
+    final g = gap;
+    final done = pips.where((p) => p == _Pip.done || p == _Pip.paperDone).length;
+    var inked = 0;
+    for (var k = 0; k < pips.length; k++) {
+      final p = pips[k];
+      final c = Offset((k % perRow) * (s + g) + s / 2, (k ~/ perRow) * (s + g) + s / 2);
+      final filled = p == _Pip.done || p == _Pip.paperDone;
+      final paper = p == _Pip.paper || p == _Pip.paperDone || p == _Pip.paperNext;
+      // Done ones ink in, in order: each one pops from 0.6 to full size in its slice of the draw.
+      var scale = 1.0;
+      var alpha = 1.0;
+      if (filled) {
+        final slice = done <= 1 ? t : (t * (done + 1) - inked).clamp(0.0, 1.0);
+        scale = 0.6 + 0.4 * Curves.easeOutBack.transform(slice.clamp(0.0, 1.0)).clamp(0.0, 1.2);
+        alpha = slice.clamp(0.0, 1.0);
+        inked++;
+      }
+      final r = s / 2 * scale;
+      final rect = paper
+          ? RRect.fromRectAndRadius(Rect.fromCenter(center: c, width: s * 0.78 * scale, height: s * scale), const Radius.circular(2.5))
+          : null;
+      if (filled) {
+        final paint = Paint()..color = colors.ink.withValues(alpha: (colors.isNight ? 0.92 : 0.88) * alpha);
+        if (rect != null) {
+          canvas.drawRRect(rect, paint);
+        } else {
+          canvas.drawCircle(c, r, paint);
+        }
+        continue;
+      }
+      final next = p == _Pip.next || p == _Pip.paperNext;
+      final stroke = Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = next ? 1.75 : 1.25
+        ..color = next ? colors.ink2 : colors.ink4;
+      if (rect != null) {
+        canvas.drawRRect(rect.deflate(stroke.strokeWidth / 2), stroke);
+      } else {
+        canvas.drawCircle(c, r - stroke.strokeWidth / 2, stroke);
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(_PipsPainter old) =>
+      old.t != t || old.perRow != perRow || old.size != size || old.gap != gap || old.colors != colors || !_same(old.pips, pips);
+
+  static bool _same(List<_Pip> a, List<_Pip> b) {
+    if (a.length != b.length) return false;
+    for (var i = 0; i < a.length; i++) {
+      if (a[i] != b[i]) return false;
+    }
+    return true;
+  }
+}
+
 /// The open layer's items: each done or not, the open ones a tap away.
 class _Detail extends StatelessWidget {
-  const _Detail({required this.items, this.marks, this.onOpen});
+  const _Detail({required this.items, this.onOpen});
 
   final List<DueItem> items;
-
-  /// (taken, target): the goal's full mocks as small marks.
-  final (int, int)? marks;
   final void Function(TodayTarget target)? onOpen;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final m = marks;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (m != null) ...[
-          _MockMarks(taken: m.$1, target: m.$2),
-          const SizedBox(height: MmSpace.s8),
-        ],
         for (final item in items)
           MmPressable(
             onTap: item.target == null || onOpen == null ? null : () => onOpen!(item.target!),
@@ -306,13 +463,16 @@ class _Detail extends StatelessWidget {
             focusRadius: MmRadius.smallAll,
             pressedScale: 0.99,
             builder: (context, pressed, _) => Container(
-              constraints: const BoxConstraints(minHeight: 44),
-              padding: const EdgeInsets.symmetric(horizontal: MmSpace.s6),
-              color: pressed ? colors.raised2.withValues(alpha: 0.6) : Colors.transparent,
+              constraints: const BoxConstraints(minHeight: MmTarget.min),
+              padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8),
+              decoration: BoxDecoration(
+                color: pressed ? colors.raised2.withValues(alpha: 0.6) : Colors.transparent,
+                borderRadius: BorderRadius.circular(12),
+              ),
               child: Row(
                 children: [
                   if (item.info)
-                    SizedBox(width: 20, child: Center(child: Container(width: 6, height: 6, decoration: BoxDecoration(color: colors.ink3, shape: BoxShape.circle))))
+                    SizedBox(width: 20, child: Center(child: Container(width: 5, height: 5, decoration: BoxDecoration(color: colors.ink3, shape: BoxShape.circle))))
                   else
                     _Tick(done: item.done),
                   const SizedBox(width: MmSpace.s12),
@@ -332,6 +492,7 @@ class _Detail extends StatelessWidget {
   }
 }
 
+/// A done item is a filled bubble with a tick, in ink; an open one is a hollow bubble.
 class _Tick extends StatelessWidget {
   const _Tick({required this.done});
 
@@ -344,44 +505,11 @@ class _Tick extends StatelessWidget {
       return Container(
         width: 20,
         height: 20,
-        decoration: BoxDecoration(color: colors.markFill, shape: BoxShape.circle),
-        child: Icon(LucideIcons.check, size: 12, color: colors.voltInk),
+        decoration: BoxDecoration(color: colors.ink.withValues(alpha: 0.9), shape: BoxShape.circle),
+        child: Icon(LucideIcons.check, size: 12, color: colors.ground),
       );
     }
     return Container(width: 20, height: 20, decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: colors.ink3, width: 1.5)));
-  }
-}
-
-/// Full mocks as small marks: taken filled in ink, the rest outlined.
-class _MockMarks extends StatelessWidget {
-  const _MockMarks({required this.taken, required this.target});
-
-  final int taken;
-  final int target;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final n = target.clamp(1, 30);
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: MmSpace.s6),
-      child: Wrap(
-        spacing: 4,
-        runSpacing: 4,
-        children: [
-          for (var k = 0; k < n; k++)
-            Container(
-              width: 12,
-              height: 6,
-              decoration: BoxDecoration(
-                color: k < taken ? colors.ink : Colors.transparent,
-                borderRadius: BorderRadius.circular(2),
-                border: k < taken ? null : Border.all(color: colors.ink4.withValues(alpha: 0.9)),
-              ),
-            ),
-        ],
-      ),
-    );
   }
 }
 
@@ -445,104 +573,5 @@ class _PlanKey extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-/// Three nested rings: today inside, this week, the goal outside. Each draws in once (the page's
-/// one authored moment for the road) and, while a layer is open, the others step back.
-class RoadRings extends StatelessWidget {
-  const RoadRings({super.key, required this.fractions, this.highlight, this.size = 108});
-
-  final List<double> fractions;
-  final int? highlight;
-  final double size;
-
-  /// Today (volt: counted things), this week (ink), the goal (a softer ink).
-  static List<Color> colorsFor(MmColors c) => [c.markFill, c.ink, c.isNight ? c.ink2 : c.ink3];
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final palette = colorsFor(colors);
-    return Semantics(
-      excludeSemantics: true,
-      child: TweenAnimationBuilder<double>(
-        tween: Tween(begin: 0, end: 1),
-        duration: Motion.of(context, const Duration(milliseconds: 900)),
-        curve: const Cubic(0.23, 1, 0.32, 1),
-        builder: (context, t, _) => SizedBox.square(
-          dimension: size,
-          child: CustomPaint(
-            painter: _RingsPainter(
-              fractions: [for (final f in fractions) f * t],
-              colors: palette,
-              track: colors.isNight ? colors.line : colors.lineStrong.withValues(alpha: 0.5),
-              highlight: highlight,
-              voltInk: colors.voltInk,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _RingsPainter extends CustomPainter {
-  _RingsPainter({required this.fractions, required this.colors, required this.track, required this.voltInk, this.highlight});
-
-  final List<double> fractions;
-  final List<Color> colors;
-  final Color track;
-  final Color voltInk;
-  final int? highlight;
-
-  static const double stroke = 9;
-  static const double gap = 4;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final c = size.center(Offset.zero);
-    final outer = size.width / 2 - stroke / 2;
-    // Index 0 (today) is the innermost ring.
-    for (var k = 0; k < 3; k++) {
-      final r = outer - (2 - k) * (stroke + gap);
-      final dim = highlight != null && highlight != k;
-      final rect = Rect.fromCircle(center: c, radius: r);
-      canvas.drawCircle(
-        c,
-        r,
-        Paint()
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = stroke
-          ..color = track,
-      );
-      final f = fractions[k].clamp(0.0, 1.0);
-      if (f <= 0) continue;
-      final color = colors[k].withValues(alpha: dim ? 0.3 : 1);
-      final sweep = math.max(f * math.pi * 2, 0.06);
-      canvas.drawArc(
-        rect,
-        -math.pi / 2,
-        sweep,
-        false,
-        Paint()
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = stroke
-          ..strokeCap = StrokeCap.round
-          ..color = color,
-      );
-    }
-  }
-
-  @override
-  bool shouldRepaint(_RingsPainter old) =>
-      old.highlight != highlight || old.track != track || !_same(old.fractions, fractions) || !_same(old.colors, colors);
-
-  static bool _same<T>(List<T> a, List<T> b) {
-    if (a.length != b.length) return false;
-    for (var i = 0; i < a.length; i++) {
-      if (a[i] != b[i]) return false;
-    }
-    return true;
   }
 }

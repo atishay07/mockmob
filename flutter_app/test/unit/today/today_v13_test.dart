@@ -2,6 +2,7 @@
 // moves, the week's caption table, the road strip's arithmetic, and the move card's pills.
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/features/today/copy_glance.dart';
 import 'package:mockmob/features/today/copy.dart';
 import 'package:mockmob/features/today/logic/road_board.dart';
 import 'package:mockmob/features/today/logic/road_weeks.dart';
@@ -61,15 +62,23 @@ void main() {
       expect(m.secondary!.label, TodayCopy.somethingElse);
     });
 
-    test('returning after a week: three first, See all 6, Mobi greets, Welcome back', () {
-      final v = buildToday(ashaInputs(now: DateTime.utc(2026, 10, 23, 14, 40), attempts: ashaRecord(tuesdayEvening), week: threeOfFour));
+    test('returning after a week: the warm-up leads, the repair and Revise wait as choices, Welcome back', () {
+      final v = buildToday(ashaInputs(now: DateTime.utc(2026, 10, 23, 14, 40), attempts: ashaRecord(tuesdayEvening), week: threeOfFour, reviseDue: 14));
       final m = moveOf(v);
-      expect(m.kind, MoveKind.returning);
-      expect(m.overline, TodayCopy.returningOverline);
-      expect(m.number, '3');
-      expect(m.whyLink, 'See all 6');
+      // TODAY-1018 section 5, Returning: "Find your footing again", ten warm-up questions.
+      expect(m.kind, MoveKind.warmUp);
+      expect(m.title, GlanceCopy.titleFooting);
+      expect(m.number, '10');
       expect(m.art.isMobi, isTrue);
       expect(v.header.greeting, 'Welcome back, Asha');
+      // The open mistakes are one tap away, still three first when the card swaps to them.
+      final repair = v.choices.firstWhere((c) => c.key == 'repair');
+      expect(repair.title, GlanceCopy.choiceRepair);
+      expect(repair.line, startsWith('6 open from '));
+      expect(repair.hero!.kind, MoveKind.returning);
+      expect(repair.hero!.number, '3');
+      expect(repair.hero!.whyLink, 'See all 6');
+      expect(v.choices.map((c) => c.key), contains('revise'));
     });
 
     test('sparse: one paper says so and offers the full mock', () {
@@ -83,8 +92,10 @@ void main() {
       final m = moveOf(buildToday(ashaInputs(now: saturday, attempts: record, week: threeOfFour, repaired: repairedAll(record), repairedToday: 4)));
       expect(m.kind, MoveKind.done);
       expect(m.numberLabel, 'of 4 repaired\ntonight');
-      expect(m.primary.label, startsWith(TodayCopy.practiseMore));
-      expect(m.alternate!.label, TodayCopy.openTheRepair);
+      // TODAY-1018 section 5, Done: the key shows tonight's repairs; more practice stays a tap away.
+      expect(m.primary.label, TodayCopy.seeTonightsRepairs);
+      expect(m.primary.startsSession, isFalse);
+      expect(m.alternate!.label, startsWith(TodayCopy.practiseMore));
       expect(m.canChangeLength, isFalse);
     });
 
@@ -130,7 +141,7 @@ void main() {
     }
   });
 
-  testWidgets('Change length opens the lengths panel', (tester) async {
+  testWidgets('the length token ("about 15 min") opens the lengths panel', (tester) async {
     await pumpMockmob(
       tester,
       PhoneFrame(
@@ -145,7 +156,7 @@ void main() {
       disableAnimations: true,
       overrides: todayOverrides,
     );
-    await tester.tap(find.text(TodayCopy.changeLength));
+    await tester.tap(find.text(GlanceCopy.lengthToken(15)));
     await tester.pumpAndSettle();
     expect(find.text(TodayCopy.repairLength), findsOneWidget);
   });

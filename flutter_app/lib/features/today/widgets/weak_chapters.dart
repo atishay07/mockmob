@@ -194,9 +194,13 @@ class _Mistake extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final m = mistake;
+    // Each mistake on a quiet raised wash (no coloured edge): its head, the full stem, one action.
     return Container(
-      padding: const EdgeInsets.only(left: MmSpace.s12),
-      decoration: BoxDecoration(border: Border(left: BorderSide(color: colors.line, width: 2))),
+      padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s12, MmSpace.s12, MmSpace.s4),
+      decoration: BoxDecoration(
+        color: colors.isNight ? colors.raised.withValues(alpha: 0.55) : colors.raised.withValues(alpha: 0.75),
+        borderRadius: BorderRadius.circular(14),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,

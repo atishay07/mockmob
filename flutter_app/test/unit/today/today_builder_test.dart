@@ -138,13 +138,17 @@ void main() {
       expect(m.art.isMobi, isFalse);
     });
 
-    test('back after a week: pick up where you left off, three first, Mobi greets', () {
-      final m = _move(ashaInputs(now: now.add(const Duration(days: 6)), attempts: ashaRecord(now), returning: true));
-      expect(m.kind, MoveKind.returning);
+    test('back after a week: the warm-up leads (TODAY-1018 5), and the repair still offers three first', () {
+      final inputs = ashaInputs(now: now.add(const Duration(days: 6)), attempts: ashaRecord(now), returning: true);
+      final m = _move(inputs);
+      expect(m.kind, MoveKind.warmUp);
       expect(m.overline, TodayCopy.returningOverline);
-      expect(m.number, '3');
-      expect(m.meaning, contains('Its six open mistakes are still here; start with three.'));
+      expect(m.number, '10');
       expect(m.art.art, MmArt.mobiGreet);
+      final repair = repairMoveFor(inputs)!;
+      expect(repair.kind, MoveKind.returning);
+      expect(repair.number, '3');
+      expect(repair.meaning, contains('Its six open mistakes are still here; start with three.'));
     });
 
     test('"Not today" hides the repair and says where the mistakes are', () {

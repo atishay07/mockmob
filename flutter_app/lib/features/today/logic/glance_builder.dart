@@ -68,7 +68,9 @@ String leadTitle(MoveHero m) => switch (m.kind) {
 /// move's title stands over the number, and a repair or Revise says what the mistakes cost. A
 /// failed read keeps its own card.
 MoveHero presentMove(MoveHero m, TodayInputs i) {
-  if (m.kind == MoveKind.failure || m.state == NextMoveState.historyUnavailable) return m;
+  // A failed read keeps its own card, its title set like every other move's (not the display
+  // face), so the error never looks like a different screen.
+  if (m.kind == MoveKind.failure || m.state == NextMoveState.historyUnavailable) return m.copyWith(title: m.subjectLine);
   final day = i.firstWeekDay;
   final firstWeek = day != null && m.overline == TodayCopy.firstWeekOverline(day);
   final overline = m.kind == MoveKind.done ? GlanceCopy.doneOverline : (firstWeek ? m.overline : GlanceCopy.upNext(m.subjectLine));
@@ -233,12 +235,8 @@ RoadLayers buildRoadLayers(TodayInputs i, {required RoadBoard board, MoveHero? l
   final planned = _planned(i);
   final goal = w == null || w.paused ? null : w.goal;
 
-  // Due today.
+  // Due today: the things to do first (the study day counts itself once any of them is done).
   final today = <DueItem>[];
-  if (w != null && goal != null && (planned == null || planned.contains(todayIdx))) {
-    final counted = w.studied[todayIdx];
-    today.add(DueItem(label: counted ? GlanceCopy.itemStudyDayDone : GlanceCopy.itemStudyDay, done: counted));
-  }
   if (i.repairedToday > 0) today.add(DueItem(label: GlanceCopy.itemRepaired(i.repairedToday), done: true));
   final f = MoveFacts(i);
   final tonight = f.tonight;
@@ -258,6 +256,10 @@ RoadLayers buildRoadLayers(TodayInputs i, {required RoadBoard board, MoveHero? l
   }
   if (today.where((t) => !t.done).isEmpty && lead != null && lead.kind != MoveKind.failure && lead.kind != MoveKind.done) {
     today.add(DueItem(label: lead.title ?? leadTitle(lead), done: false, target: lead.primary.target));
+  }
+  if (w != null && goal != null && (planned == null || planned.contains(todayIdx))) {
+    final counted = w.studied[todayIdx];
+    today.add(DueItem(label: counted ? GlanceCopy.itemStudyDayDone : GlanceCopy.itemStudyDay, done: counted));
   }
 
   // This week.
@@ -319,6 +321,10 @@ RoadLayers buildRoadLayers(TodayInputs i, {required RoadBoard board, MoveHero? l
     perWeek: board.goal,
     milestone: milestone,
     mocksKnown: mocksKnown,
+    weekMocksPlanned: plannedMocks,
+    weekMocksDone: math.min(mocksThisWeek, plannedMocks),
+    nextMockOn: plannedMocks == 0 && nextDue != null && mocksKnown && all.isNotEmpty ? (nextDue.isBefore(i.date()) ? i.date() : nextDue) : null,
+    weekEnds: sunday,
     goalItems: [
       DueItem(label: GlanceCopy.itemExamOn(board.examDate, own: board.ownDate), done: false, info: true),
       if (mocksKnown) DueItem(label: GlanceCopy.itemMocksTaken(taken, target, suggested: suggested), done: taken >= target),
@@ -431,8 +437,18 @@ PaperDetail? buildPaperDetail(TodayInputs i) {
       if (open.isNotEmpty) leakTarget = GoTo(TodayLinks.repair(a.id, open.first.questionId, open.length));
     }
   }
+  // When it was taken, to the minute (TODAY-1018 row 6: "Sat 17 Oct, 9:12 PM, +12 on the one before").
+  final when = GlanceCopy.paperWhen(i.clock(a.completedAt));
   return PaperDetail(
-    paper: paper,
+    paper: LastPaper(
+      title: paper.title,
+      sub: paper.change == null ? when : '$when, ${paper.change}',
+      marks: paper.marks,
+      outOf: paper.outOf,
+      target: paper.target,
+      change: paper.change,
+      up: paper.up,
+    ),
     right: a.correct,
     wrong: a.wrong,
     blank: a.unattempted,

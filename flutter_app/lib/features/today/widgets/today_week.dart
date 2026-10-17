@@ -178,7 +178,14 @@ class _TodayWeekRowState extends ConsumerState<TodayWeekRow> {
           ),
           if (readout != null) ...[
             const SizedBox(height: MmSpace.s12),
-            _Readout(readout: readout, upNext: widget.upNext),
+            // A day with more lines eases the page to its height instead of jumping it.
+            MmSizeEase(
+              duration: Motion.ui,
+              curve: Motion.out,
+              alignment: Alignment.topCenter,
+              clipBehavior: Clip.none,
+              child: _Readout(readout: readout, upNext: widget.upNext),
+            ),
           ],
           const SizedBox(height: MmSpace.s12),
           Divider(height: 1, thickness: 1, color: colors.line),
@@ -293,7 +300,7 @@ class _Days extends StatelessWidget {
                     letter: type.micro.copyWith(fontSize: 12, fontWeight: FontWeight.w600),
                     scaler: scaler,
                     colors: colors,
-                    mark: days == null ? const Skeleton.circle(size: TodayWeekRow.mark) : _Mark(day: days![i], before: before.contains(i)),
+                    mark: days == null ? const Skeleton.circle(size: TodayWeekRow.mark) : _Mark(day: days![i], before: before.contains(i), order: i),
                   ),
                 ),
             ],
@@ -403,10 +410,13 @@ class _Readout extends StatelessWidget {
 /// planned is an ink ring; planned but passed is a dashed ring; a rest day is a dot; a day before
 /// the account is a short dash. Today's ring is ink, 2 dp.
 class _Mark extends StatelessWidget {
-  const _Mark({required this.day, required this.before});
+  const _Mark({required this.day, required this.before, this.order = 0});
 
   final PlanDay day;
   final bool before;
+
+  /// The day's place in the week: the counted days pop in this order (30 ms apart).
+  final int order;
 
   @override
   Widget build(BuildContext context) {
@@ -420,11 +430,10 @@ class _Mark extends StatelessWidget {
     }
     switch (day.mark) {
       case PlanDayMark.done:
-        return Container(
-          width: size,
-          height: size,
-          decoration: BoxDecoration(color: colors.markFill, shape: BoxShape.circle),
-          child: Icon(LucideIcons.check, size: 16, color: colors.voltInk),
+        return _CountedPop(
+          order: order,
+          disc: Container(width: size, height: size, decoration: BoxDecoration(color: colors.markFill, shape: BoxShape.circle)),
+          tick: Icon(LucideIcons.check, size: 16, color: colors.voltInk),
         );
       case PlanDayMark.rest:
         return SizedBox.square(
@@ -443,6 +452,85 @@ class _Mark extends StatelessWidget {
           ),
         );
     }
+  }
+}
+
+/// A counted day lands once, as part of the page's one load moment (TODAY-1018 6): its disc pops
+/// from 0.6 to full size (220 ms, 30 ms after the day before it), then its tick draws from the
+/// left (160 ms). It plays once per mark, never on a refresh; reduced motion shows it at rest.
+class _CountedPop extends StatefulWidget {
+  const _CountedPop({required this.order, required this.disc, required this.tick});
+
+  final int order;
+  final Widget disc;
+  final Widget tick;
+
+  @override
+  State<_CountedPop> createState() => _CountedPopState();
+}
+
+class _CountedPopState extends State<_CountedPop> with SingleTickerProviderStateMixin {
+  static const Duration _pop = Duration(milliseconds: 220);
+  static const Duration _draw = Duration(milliseconds: 160);
+
+  late final AnimationController _c = AnimationController(vsync: this, duration: _pop + _draw);
+  bool _decided = false;
+  Timer? _start;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_decided) return;
+    _decided = true;
+    if (Motion.reduced(context)) {
+      _c.value = 1;
+      return;
+    }
+    // After the block itself has risen in (TodayEnter, about 260 ms), the days pop in order.
+    _start = Timer(Duration(milliseconds: 260 + 30 * widget.order), () {
+      if (mounted) _c.forward();
+    });
+  }
+
+  @override
+  void dispose() {
+    _start?.cancel();
+    _c.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final split = _pop.inMilliseconds / (_pop + _draw).inMilliseconds;
+    return AnimatedBuilder(
+      animation: _c,
+      builder: (context, _) {
+        final t = _c.value;
+        final pop = Curves.easeOutBack.transform((t / split).clamp(0.0, 1.0));
+        final draw = Motion.out.transform(((t - split) / (1 - split)).clamp(0.0, 1.0));
+        return Opacity(
+          opacity: (t / split * 1.6).clamp(0.0, 1.0),
+          child: Transform.scale(
+            scale: 0.6 + 0.4 * pop,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                widget.disc,
+                // The tick's own box stays put; its clip opens from the left.
+                SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: ClipRect(child: Align(alignment: Alignment.centerLeft, widthFactor: draw, child: widget.tick)),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }
 

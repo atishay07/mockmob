@@ -74,7 +74,21 @@ class RoadLayers {
     this.milestone,
     this.goalItems = const [],
     this.mocksKnown = true,
+    this.weekMocksPlanned = 0,
+    this.weekMocksDone = 0,
+    this.nextMockOn,
+    this.weekEnds,
   });
+
+  /// Full mocks the pace asks for this week, and how many are on the record this week.
+  final int weekMocksPlanned;
+  final int weekMocksDone;
+
+  /// When the next full mock is due, when it is not this week (or the record is unknown: null).
+  final DateTime? nextMockOn;
+
+  /// The last day of this week (Sunday): "a full mock by Sun".
+  final DateTime? weekEnds;
 
   /// The record was read, so the full mocks taken are known (else the goal says so, never 0).
   final bool mocksKnown;
