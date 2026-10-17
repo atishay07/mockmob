@@ -10,13 +10,12 @@
 // reused only after an unknown outcome so a retry can never charge twice, and the wallet broadcast to the top bar.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
 import { walletFromResponse, isPaidUser } from '@/services/credits/aiWalletState';
 import { announceWallet, cachedWallet } from '@/components/useWalletSummary';
 import { answerFromInsights } from '../../../data/prepos_insights';
 import { creditCount, usedLine } from '@/lib/creditCopy.mjs';
-import { pageHelpForPath } from './assistantKnowledge';
 import { useInsights } from './useInsights';
 import MobiMark from './MobiMark';
 import {
@@ -36,7 +35,6 @@ export default function AskMobiPanel(props) {
 
 function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-title' }) {
   const router = useRouter();
-  const pathname = usePathname();
   const { user } = useAuth();
   const userId = user?.id || null;
   const pro = isPaidUser(user);
@@ -203,7 +201,6 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
   const canSend = Boolean(input.trim()) && !busy && !opening && (price === 'free' || paid.open);
   const line = walletLine(wallet);
   const placeholder = questionTyping ? `Ask about ${qName}` : scoped.kind === 'mock' ? `Ask about ${scoped.label || 'this mock'}` : 'Ask about your record';
-  const page = pageHelpForPath(pathname);
   const sessions = sessionsLabel(insights, status);
   const summary = recordSummary(insights, { pro });
   const subjectChip = withQuestion || opening
@@ -331,9 +328,6 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
           </section>
         ) : null}
 
-        {!turns.length && !first && !withQuestion && !opening && !isNew && status === 'ready' && scoped.kind === 'page' ? (
-          <p className="amb-quiet">{page.title}: {page.body}</p>
-        ) : null}
       </div>
 
       <form className="amb-compose" onSubmit={(event) => { event.preventDefault(); submit(); }}>
