@@ -1,13 +1,14 @@
 "use client";
 
-// Account > Community and help: the calm list from the restructure's You page, inside the live
-// navigation. Your standing, Contribute and My uploads are the same pages and the same words as the sidebar's
-// Community group, so a phone that never opens the menu still reaches the leaderboard from here.
+// Account > Progress and help: the calm list from the restructure's You page, inside the live navigation. Your standing is the
+// same page and the same words as the sidebar's link under Progress, so a phone that never opens the menu still reaches it from
+// here. Contribute and My uploads are drawn only while CONTRIBUTE_ENABLED is on (COMMUNITY-1018); the group no longer says community.
 // "Replay the guide" opens the live shell's tour: it asks the shell first (GUIDE_EVENT, cancelable),
 // then presses the shell's own Guide button, and says where the guide lives if neither answered.
 import { useState } from 'react';
 import Link from 'next/link';
-import { COMMUNITY_ROWS, GUIDE_EVENT, HELP_ROWS } from './accountModel.mjs';
+import { GUIDE_EVENT, HELP_ROWS, standingRows } from './accountModel.mjs';
+import { useContributeEnabled } from '@/components/contribute/ContributeFlag';
 import './account.css';
 
 function openGuide() {
@@ -35,14 +36,15 @@ function Row({ row, onGuideMissing }) {
 
 export default function AccountLinks() {
   const [guideNote, setGuideNote] = useState('');
+  const contribute = useContributeEnabled();
   const missing = () => setGuideNote('The tour is under Help, at the foot of the menu.');
 
   return (
-    <section className="glass acct-links" aria-label="Community and help">
+    <section className="glass acct-links" aria-label="Progress and help">
       <div className="acct-links__group" id="community">
-        <h2 className="acct-h2">Community</h2>
+        <h2 className="acct-h2">Progress</h2>
         <ul className="acct-list">
-          {COMMUNITY_ROWS.map((row) => <li key={row.id}><Row row={row} onGuideMissing={missing} /></li>)}
+          {standingRows(contribute).map((row) => <li key={row.id}><Row row={row} onGuideMissing={missing} /></li>)}
         </ul>
       </div>
       <div className="acct-links__group" id="help">

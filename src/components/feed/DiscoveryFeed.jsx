@@ -6,6 +6,7 @@ import ArenaHead from '@/components/arena/ArenaHead';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import { EmptyState, ErrorState, SkeletonLines } from '@/components/ui/Skeleton';
 import { QuestionCard } from './QuestionCard';
+import { useContributeEnabled } from '@/components/contribute/ContributeFlag';
 import { Listbox } from '@/components/ui/controls/Listbox';
 import { appendUniqueQuestions, chapterGroups } from '@/../data/explore_feed';
 
@@ -14,6 +15,7 @@ const EMPTY_PAGE = { questions: [], nextOffset: 0, hasMore: false, state: 'idle'
 const DIFFICULTY_OPTIONS = [{ value: '', label: 'All levels' }, { value: 'easy', label: 'Easy' }, { value: 'medium', label: 'Medium' }, { value: 'hard', label: 'Hard' }];
 
 export function DiscoveryFeed() {
+  const contributeOn = useContributeEnabled();
   const [subjects, setSubjects] = useState([]);
   const [subjectState, setSubjectState] = useState('loading');
   const [subjectRetry, setSubjectRetry] = useState(0);
@@ -131,7 +133,7 @@ export function DiscoveryFeed() {
           <span className="mono-label">Tonight’s rule</span><h2>Answer first.<br />Then ask why.</h2><p>A wrong answer with a clear reason is worth coming back to. Keep those questions close.</p>
           <Link href="/saved" className="ex-route">Open saved questions</Link><Link href="/review" className="ex-route">Review your timed sessions</Link>
           {Number.isFinite(solved) && <p className="ex-record"><b>{solved}</b> questions solved in your recorded untimed practice. <Link href="/progress">See progress</Link></p>}
-          <p className="ex-footnote">Community votes help organise the feed. They do not certify an answer.</p>
+          {contributeOn ? <p className="ex-footnote">Community votes help organise the feed. They do not certify an answer.</p> : null}
         </aside>
       </div>
     </div>

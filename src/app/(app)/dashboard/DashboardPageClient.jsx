@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Check, Play, SlidersHorizontal, Target } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { AppIcon, CreditAmount, StatusIcon } from '@/components/ui/Glyph';
+import { useContributeEnabled } from '@/components/contribute/ContributeFlag';
 import { Button } from '@/components/ui/Button';
 import { ErrorState, EmptyState } from '@/components/ui/Skeleton';
 import { apiGet } from '@/lib/fetcher';
@@ -130,6 +131,8 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
   const toast = useToast();
   const router = useRouter();
   const searchParams = useSearchParams();
+  // CONTRIBUTE_ENABLED: the Add a question panel and the submissions read are part of the paused contribution side.
+  const contributeOn = useContributeEnabled();
 
   const [subjects, setSubjects] = useState([]);
   const [attempts, setAttempts] = useState([]);
@@ -210,7 +213,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
       .catch(() => { if (alive) apply(fallback); });
     optional('/api/leaderboard', value => setStanding(value?.you ?? null), null);
     optional('/api/stats', setStats, { state: 'unavailable' });
-    optional('/api/questions/mine', value => setSubmissions(Array.isArray(value) ? value : []), []);
+    if (contributeOn) optional('/api/questions/mine', value => setSubmissions(Array.isArray(value) ? value : []), []);
     optional('/api/learning/summary', setLearningSummary, null);
     async function load() {
       try {
@@ -234,7 +237,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
 
     load();
     return () => { alive = false; };
-  }, [user, authStatus, loadNonce, searchParams]);
+  }, [user, authStatus, loadNonce, searchParams, contributeOn]);
 
   async function refreshSubmissions() {
     setSubRefreshing(true);
@@ -803,7 +806,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
           </div>
         </section>
 
-        <section className="pr-panel" aria-labelledby="pr-bank">
+        {contributeOn && <section className="pr-panel" aria-labelledby="pr-bank">
           <div className="pr-panel__head"><h2 id="pr-bank">Add a question</h2></div>
           <p className="pr-panel__lead">Upload a question. If it passes moderation, you earn practice credits for Quick practice and Full mock.</p>
           <Link href="/upload" className="pr-link pr-link--strong"><AppIcon name="contribute" size={16} />Upload a question</Link>
@@ -825,7 +828,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
               </ul>
             </>
           )}
-        </section>
+        </section>}
         </div>
       </div>
     </div>

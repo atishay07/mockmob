@@ -226,6 +226,11 @@ export const COMMUNITY_ROWS = Object.freeze([
   Object.freeze({ id: 'my-uploads', label: 'My uploads', note: 'Where each of your questions stands', href: '/my-uploads' }),
 ]);
 
+// The two rows that belong to the paused contribution side (COMMUNITY-1018). They are drawn only while CONTRIBUTE_ENABLED is on;
+// Your standing is always drawn. The word "community" is retired as a heading: the group is called Progress.
+export const CONTRIBUTE_ROW_IDS = Object.freeze(['upload', 'my-uploads']);
+export const standingRows = (contribute = false) => COMMUNITY_ROWS.filter((row) => contribute || !CONTRIBUTE_ROW_IDS.includes(row.id));
+
 export const HELP_ROWS = Object.freeze([
   Object.freeze({ id: 'guide', label: 'Replay the guide', note: 'A short tour of the places you study', action: 'guide' }),
   Object.freeze({ id: 'contact', label: 'Contact us', note: 'A result that looks wrong, or anything else', href: '/contact' }),

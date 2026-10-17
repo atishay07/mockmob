@@ -1,9 +1,12 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { supabaseAdmin } from '@/lib/supabase';
+import { contributeEnabled, contributionsPausedResponse } from '@/lib/contribute';
 
 // GET /api/questions/mine — returns the current user's uploaded questions with status
 export async function GET() {
+  // Hidden with Contribute (COMMUNITY-1018): the list stays in the database, the route answers a stable 403 while the flag is off.
+  if (!contributeEnabled()) return contributionsPausedResponse();
   try {
     const session = await auth();
     if (!session?.user) {

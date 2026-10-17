@@ -9,6 +9,7 @@ import { candidateContentHashes, uploadAccepted, uploadShapeViolation, UPLOAD_AC
 import { checkPersistentRateLimit, rateLimitHeaders } from '@/lib/server/rateLimit'
 import { normalizeSubjectSelection } from '@/../data/cuet_controls'
 import { isValidTopSyllabusPair } from '@/../data/canonical_syllabus'
+import { contributeEnabled, contributionsPausedResponse } from '@/lib/contribute'
 
 /**
  * POST /api/questions/upload
@@ -40,6 +41,8 @@ const UPLOAD_LIMITS = [
 ]
 
 export async function POST(request) {
+  // Contributions are paused unless CONTRIBUTE_ENABLED=true (COMMUNITY-1018): a stable 403, before any auth, limit or database work.
+  if (!contributeEnabled()) return contributionsPausedResponse()
   try {
     // ---- Auth: derive author_id from verified JWT ----
     // In development, skip JWT validation and use a fixed test user.
