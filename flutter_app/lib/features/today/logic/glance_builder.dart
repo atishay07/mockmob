@@ -236,8 +236,17 @@ RoadLayers buildRoadLayers(TodayInputs i, {required RoadBoard board, MoveHero? l
   final goal = w == null || w.paused ? null : w.goal;
 
   // Due today: the things to do first (the study day counts itself once any of them is done).
+  // The lead card's own move comes first when it is not one of tonight's repair or Revise, so the
+  // road and the card never name different next things.
   final today = <DueItem>[];
   if (i.repairedToday > 0) today.add(DueItem(label: GlanceCopy.itemRepaired(i.repairedToday), done: true));
+  final leadOwn = lead != null &&
+      lead.kind != MoveKind.failure &&
+      lead.kind != MoveKind.done &&
+      lead.state != NextMoveState.historyUnavailable &&
+      choiceKeyOf(lead) != 'repair' &&
+      lead.kind != MoveKind.revise;
+  if (leadOwn) today.add(DueItem(label: lead.title ?? leadTitle(lead), done: false, target: lead.primary.target));
   final f = MoveFacts(i);
   final tonight = f.tonight;
   final b = f.basis;
@@ -321,6 +330,7 @@ RoadLayers buildRoadLayers(TodayInputs i, {required RoadBoard board, MoveHero? l
     perWeek: board.goal,
     milestone: milestone,
     mocksKnown: mocksKnown,
+    weekKnown: w != null,
     weekMocksPlanned: plannedMocks,
     weekMocksDone: math.min(mocksThisWeek, plannedMocks),
     nextMockOn: plannedMocks == 0 && nextDue != null && mocksKnown && all.isNotEmpty ? (nextDue.isBefore(i.date()) ? i.date() : nextDue) : null,

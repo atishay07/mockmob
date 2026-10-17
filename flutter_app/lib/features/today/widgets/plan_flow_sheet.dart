@@ -670,8 +670,8 @@ class _Stepper extends StatelessWidget {
           pressedScale: 0.92,
           haptic: MmPressHaptic.selection,
           builder: (context, pressed, _) => Container(
-            width: 40,
-            height: 40,
+            width: MmTarget.min,
+            height: MmTarget.min,
             decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: colors.lineStrong), color: pressed ? colors.raised2 : null),
             child: Icon(icon, size: 16, color: enabled ? colors.ink : colors.ink4),
           ),
@@ -681,7 +681,7 @@ class _Stepper extends StatelessWidget {
       children: [
         key(LucideIcons.minus, GlanceCopy.fewer, canLess, onLess),
         SizedBox(
-          width: 40,
+          width: 44,
           child: Text('$value', textAlign: TextAlign.center, style: type.figureCompact.copyWith(fontSize: 22, height: 1, color: colors.ink, fontFeatures: const [FontFeature.tabularFigures()])),
         ),
         key(LucideIcons.plus, GlanceCopy.more, canMore, onMore),
@@ -715,6 +715,18 @@ class _MonthView extends StatelessWidget {
         for (final m in months) ...[
           Text('${_names[m.month - 1]} ${m.year}', style: type.labelLarge.copyWith(fontSize: 14, fontWeight: FontWeight.w600, color: colors.ink)),
           const SizedBox(height: MmSpace.s8),
+          // The weekdays over their columns, so a date reads as a day.
+          ExcludeSemantics(
+            child: Row(
+              children: [
+                for (final d in TodayCopy.weekdayShort)
+                  Expanded(
+                    child: Text(d, textAlign: TextAlign.center, style: type.micro.copyWith(fontSize: 11.5, fontWeight: FontWeight.w600, color: colors.ink3)),
+                  ),
+              ],
+            ),
+          ),
+          const SizedBox(height: MmSpace.s4),
           LayoutBuilder(
             builder: (context, box) {
               final cell = box.maxWidth / 7;
@@ -722,24 +734,25 @@ class _MonthView extends StatelessWidget {
               final count = DateTime.utc(m.year, m.month + 1, 0).day;
               return Wrap(
                 children: [
-                  for (var k = 0; k < lead; k++) SizedBox(width: cell, height: 40),
+                  for (var k = 0; k < lead; k++) SizedBox(width: cell, height: MmTarget.min),
                   for (var d = 1; d <= count; d++)
                     () {
                       final day = DateTime.utc(m.year, m.month, d);
                       final enabled = !day.isBefore(first) && !day.isAfter(last);
                       final chosen = selected != null && same(selected!, day);
                       final ring = same(ringed, day);
+                      // The whole cell is the target (at least 44 dp); the day's circle is 36.
                       return SizedBox(
                         width: cell,
-                        height: 40,
-                        child: Center(
-                          child: MmPressable(
+                        height: MmTarget.min,
+                        child: MmPressable(
                             onTap: enabled ? () => onDay(day) : null,
                             semanticsLabel: '${GlanceCopy.dayShort(day)}${ring ? ', expected start' : ''}',
                             selected: chosen,
                             focusRadius: MmRadius.pillAll,
                             pressedScale: 0.92,
-                            builder: (context, pressed, _) => Container(
+                            builder: (context, pressed, _) => Center(
+                              child: Container(
                               width: 36,
                               height: 36,
                               alignment: Alignment.center,

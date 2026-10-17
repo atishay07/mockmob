@@ -109,9 +109,10 @@ void main() {
     expect(events.whereType<TodayAction>(), isEmpty);
   });
 
-  testWidgets('a sheet row opens its result; the sealed one opens the sealed sheet', (tester) async {
+  testWidgets('the paper reel plays the fresh paper (its result when no reel is wired); Last paper opens its own', (tester) async {
     final events = await pumpToday(tester, buildToday(ashaInputs(unopened: [(attemptId: 'm7', receivedAt: tuesdayEvening)])));
-    await tester.tap(find.text(TodayCopy.openDirectly));
+    await tester.tap(find.byKey(const ValueKey('reel-play')));
+    await tester.pump();
     // The Last paper row is the newest opened paper (Mock 7 is still sealed): the Business
     // Studies quick paper from four days before.
     final row = find.text(GlanceCopy.openResult);

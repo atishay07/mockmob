@@ -251,10 +251,10 @@ void main() {
   screenGolden(
     'today1018_weak_open',
     () => _onGround(WeakChaptersBlock(
-      weak: buildToday(activeInputs(repaired: const {
-        'm7': {'m7-q5'},
-        'm6': {'m6-q2', 'm6-q9'},
-      })).glance!.weak,
+      weak: buildToday(activeInputs(repaired: () {
+        final all = repairedAll(ashaRecord(sunday));
+        return {...all, 'm7': {...all['m7']!}..remove('m7-q3')};
+      }())).glance!.weak,
       initialOpen: 0,
       onOpen: (_) {},
     )),

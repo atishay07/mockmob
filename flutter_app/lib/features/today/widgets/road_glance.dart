@@ -136,7 +136,9 @@ class _RoadGlanceState extends State<RoadGlance> {
     final daysLeft = goal == null ? 0 : math.max(0, goal - l.weekDays);
     final mocksLeft = math.max(0, l.weekMocksPlanned - l.weekMocksDone);
     final String weekLine;
-    if (goal == null) {
+    if (!l.weekKnown) {
+      weekLine = TodayCopy.weekNotRead;
+    } else if (goal == null) {
       weekLine = GlanceCopy.setDaysHint;
     } else if (daysLeft == 0 && mocksLeft == 0) {
       weekLine = l.nextMockOn == null ? GlanceCopy.weekPlanDone : GlanceCopy.weekPlanDoneNext(l.nextMockOn!);
@@ -147,7 +149,7 @@ class _RoadGlanceState extends State<RoadGlance> {
     final week = _Layer(
       index: 1,
       label: GlanceCopy.layerWeek,
-      figure: goal == null ? GlanceCopy.studyDaysNoGoal(l.weekDays) : GlanceCopy.weekFigure(l.plannedDone, l.planned),
+      figure: !l.weekKnown ? null : (goal == null ? GlanceCopy.studyDaysNoGoal(l.weekDays) : GlanceCopy.weekFigure(l.plannedDone, l.planned)),
       pips: weekPips,
       line: weekLine,
       open: _open == 1,
@@ -243,7 +245,9 @@ class _Layer extends StatelessWidget {
 
   final int index;
   final String label;
-  final String figure;
+
+  /// Null when the layer's count is not known (it is never shown as 0).
+  final String? figure;
   final List<_Pip> pips;
   final String? line;
   final bool open;
@@ -261,7 +265,7 @@ class _Layer extends StatelessWidget {
         MmPressable(
           key: ValueKey('road-layer-$index'),
           onTap: onTap,
-          semanticsLabel: GlanceCopy.layerSemantics(label, figure, line ?? '', open),
+          semanticsLabel: GlanceCopy.layerSemantics(label, figure ?? '', line ?? '', open),
           selected: open,
           focusRadius: MmRadius.smallAll,
           pressedScale: 0.99,
@@ -284,7 +288,7 @@ class _Layer extends StatelessWidget {
                     const SizedBox(width: MmSpace.s12),
                     Expanded(
                       child: Text(
-                        figure,
+                        figure ?? '',
                         textAlign: TextAlign.end,
                         maxLines: 2,
                         style: type.labelLarge.copyWith(fontSize: 15, height: 20 / 15, fontWeight: FontWeight.w700, color: colors.ink, fontFeatures: const [FontFeature.tabularFigures()]),

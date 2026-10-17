@@ -304,11 +304,12 @@ void main() {
       expect(view.also.map((s) => s.action.label), [TodayCopy.openSheet, 'Start repair']);
     });
 
-    test('an unopened result takes over the hero as the sealed sheet', () {
+    test('a fresh paper takes over the hero as the paper reel, once (D29)', () {
       final view = buildToday(ashaInputs(unopened: [(attemptId: 'm7', receivedAt: now)]));
       final sealed = view.hero! as SealedHero;
       expect(sealed.title, 'Mock 7, Accountancy');
-      expect(sealed.line, 'Received at 8:40 PM. Your result is ready.');
+      expect(sealed.line, TodayCopy.reelLine('Accountancy'));
+      expect(sealed.questions, 50);
     });
 
     test('the sealed paper keeps its marks off "Your sheet"', () {

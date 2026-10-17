@@ -3,6 +3,7 @@
 // from the count it last showed instead of from 0.
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/features/today/widgets/reel_hero.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/widgets/count_up.dart' show MmNumberMemory;
 import 'package:mockmob/core/widgets/monumental_number.dart';
@@ -10,7 +11,6 @@ import 'package:mockmob/features/today/logic/today_builder.dart';
 import 'package:mockmob/features/today/logic/today_model.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
 import 'package:mockmob/features/today/widgets/move_hero.dart';
-import 'package:mockmob/features/today/widgets/sealed_hero.dart';
 
 import '../../golden/today/today_golden_support.dart';
 import '../../helpers/fonts.dart';
@@ -68,7 +68,7 @@ void main() {
 
     set(() => view = sealed);
     await tester.pump(const Duration(milliseconds: 60));
-    expect(find.byType(SealedHeroCard), findsOneWidget);
+    expect(find.byType(ReelHeroCard), findsOneWidget);
     expect(find.byType(MoveHeroCard), findsOneWidget, reason: 'the move card leaves on the overlap, not in one frame');
 
     set(() => view = move);
@@ -77,7 +77,7 @@ void main() {
 
     await frames(tester, const Duration(seconds: 2));
     expect(find.byType(MoveHeroCard), findsOneWidget);
-    expect(find.byType(SealedHeroCard), findsNothing);
+    expect(find.byType(ReelHeroCard), findsNothing);
     await tester.pump(const Duration(seconds: 10));
   });
 

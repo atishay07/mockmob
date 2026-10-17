@@ -34,7 +34,8 @@ class PaperReel extends StatefulWidget {
 
   /// Opens the reel full screen over the current route.
   static Future<void> open(BuildContext context, {required PaperReelModel model, required ValueChanged<ReelNextMove> onNextMove}) {
-    return Navigator.of(context).push(PageRouteBuilder<void>(
+    // Over the whole app, the tab bar included: the reel is its own 20 seconds.
+    return Navigator.of(context, rootNavigator: true).push(PageRouteBuilder<void>(
       opaque: true,
       transitionDuration: const Duration(milliseconds: 280),
       reverseTransitionDuration: const Duration(milliseconds: 200),

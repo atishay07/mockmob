@@ -78,7 +78,11 @@ class RoadLayers {
     this.weekMocksDone = 0,
     this.nextMockOn,
     this.weekEnds,
+    this.weekKnown = true,
   });
+
+  /// The week's study days were read (else the layer says so, never "0 study days").
+  final bool weekKnown;
 
   /// Full mocks the pace asks for this week, and how many are on the record this week.
   final int weekMocksPlanned;
