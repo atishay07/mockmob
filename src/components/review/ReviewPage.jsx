@@ -17,6 +17,7 @@ import { bookRules } from '@/../data/rule_book';
 import { reviewMove } from '@/../data/review_input.mjs';
 import { clockTime, practiceCostLine } from '@/../data/result_next_move.mjs';
 import { SUBJECTS } from '@/../data/subjects';
+import { recordFromBody } from './reviewRecord.mjs';
 import ReviewNextMove from './ReviewNextMove';
 import ReceiptStrip from './ReceiptStrip';
 import ChapterRows, { ItemList } from './ChapterRows';
@@ -25,26 +26,6 @@ import './review-1017.css';
 
 const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 const joinNames = (list) => (list.length <= 1 ? list[0] || '' : `${list.slice(0, -1).join(', ')} and ${list[list.length - 1]}`);
-
-/**
- * The record reviewMove() reads, rebuilt from the body GET /api/me/review returns (the body carries every field the
- * record had: papers, chapters, items in server order, wallet, revise, repairOrder). PURE.
- */
-export function recordFromBody(body) {
-  if (!body || body.state === 'unavailable') return null;
-  return {
-    state: body.state, now: body.now, wallet: body.wallet ?? null,
-    papers: body.papers || [],
-    chapters: (body.chapters || []).map((c) => ({ id: c.id, name: c.name, subject: c.subject, subjectName: c.subjectName })),
-    items: (body.items || []).map((i) => ({
-      paper: i.paper, q: i.q, qid: i.qid ?? undefined, ch: i.ch, state: i.state, stem: i.stem,
-      ...(i.pick ? { pick: i.pick } : {}), ...(i.keyState ? { keyState: i.keyState } : {}),
-      ...(i.repairedAt ? { repairedAt: i.repairedAt } : {}), ...(i.checkedAt ? { checkedAt: i.checkedAt } : {}), ...(i.reviseNext ? { reviseNext: i.reviseNext } : {}),
-    })),
-    revise: body.revise ?? null,
-    ...(Array.isArray(body.repairOrder) && body.repairOrder.length ? { repairOrder: body.repairOrder } : {}),
-  };
-}
 
 /** The cause a failed read names, in the student's words. */
 function causeOf(error) {
