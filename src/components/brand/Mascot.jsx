@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { useMobiPrefs } from '@/lib/mobiPrefs';
 import assets from '@/../public/brand/mascot/manifest.json';
@@ -54,5 +55,29 @@ export function MascotSeat({ pose: wanted, facing = 'left', label, note, classNa
   const { celebrations } = useMobiPrefs();
   const pose = calmPose(wanted, celebrations);
   const faced = pose === 'pointing' ? facing : 'right';
-  return <figure className={`pip-seat ${className}`} data-pip-station={station} data-pip-pose={station ? pose : undefined}><div className="pip-seat__art"><span className="pip-rig" data-facing={faced} style={{ '--pip-ar': aspect(pose) }}><span className="pip-rig__breath"><Mascot pose={pose} facing={faced} eager={eager} alt={`Mobi, MockMob’s study companion, ${pose === 'attentive' ? 'listening attentively' : pose === 'thinking' ? 'thinking' : pose === 'pointing' ? 'pointing towards your next step' : pose === 'celebrating' ? 'celebrating a finished drill' : pose === 'encouraging' ? 'cheering you on' : pose === 'idle' ? 'sitting beside the preview' : 'waving hello'}.`} /><PipEyes pose={pose} /></span></span></div><figcaption><b>{label}</b>{note && <span>{note}</span>}</figcaption></figure>;
+  const seatRef = useRef(null);
+  // The eyes layer and the contact shadow are drawn by CSS, the body is a lazy image: until the image has
+  // decoded, a phone saw two eyes floating over a shadow. So the seat waits (data-art="wait", brand-pip.css: the
+  // art box at opacity 0) and shows body, eyes and shadow together once the image is in. The server HTML carries
+  // no wait, so without JavaScript the seat is as before. Within one screen of the window the image is asked for
+  // at once (eager), so by the time the seat is on screen it is usually already drawn.
+  useEffect(() => {
+    const seat = seatRef.current;
+    const img = seat?.querySelector('.pip-image');
+    if (!seat || !img || (img.complete && img.naturalWidth)) return undefined;
+    seat.dataset.art = 'wait';
+    const show = () => { if (img.naturalWidth) seat.dataset.art = 'ready'; };
+    img.addEventListener('load', show);
+    let near = null;
+    if (img.loading === 'lazy' && typeof IntersectionObserver !== 'undefined') {
+      near = new IntersectionObserver((entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        img.loading = 'eager';
+        near.disconnect();
+      }, { rootMargin: '100% 0px' });
+      near.observe(seat);
+    }
+    return () => { img.removeEventListener('load', show); near?.disconnect(); delete seat.dataset.art; };
+  }, [pose]);
+  return <figure ref={seatRef} className={`pip-seat ${className}`} data-pip-station={station} data-pip-pose={station ? pose : undefined}><div className="pip-seat__art"><span className="pip-rig" data-facing={faced} style={{ '--pip-ar': aspect(pose) }}><span className="pip-rig__breath"><Mascot pose={pose} facing={faced} eager={eager} alt={`Mobi, MockMob’s study companion, ${pose === 'attentive' ? 'listening attentively' : pose === 'thinking' ? 'thinking' : pose === 'pointing' ? 'pointing towards your next step' : pose === 'celebrating' ? 'celebrating a finished drill' : pose === 'encouraging' ? 'cheering you on' : pose === 'idle' ? 'sitting beside the preview' : 'waving hello'}.`} /><PipEyes pose={pose} /></span></span></div><figcaption><b>{label}</b>{note && <span>{note}</span>}</figcaption></figure>;
 }

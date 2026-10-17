@@ -209,16 +209,8 @@ export function DockMobi({ label, state, children }) {
 }
 
 /**
- * The phone dock, by who is looking. The label and the KEYS change, never a small linked line:
- *   new visitor      (no label: the hero, the pricing and the close already say it is free)
- *                                         [Start free] [Try 5 questions]
- *   answered some    "Save your answers"  [Start free]              (the sample is not offered again)
- *   signed in        "Welcome back"       [Go to practice]
- * The sample's state arrives live (useSampleState.js), so the dock changes without a reload.
- */
-/**
  * The band the held stories keep free for the dock (scroll-story.css) is the dock's own height on its floor plus
- * 12 px of air, measured, so a dock with a label line ("Save your answers") gets the room it needs too.
+ * 12 px of air, measured, so a dock with a label line ("Welcome back") gets the room it needs too.
  */
 function useDockRoom() {
   useEffect(() => {
@@ -236,12 +228,22 @@ function useDockRoom() {
   }, []);
 }
 
+/**
+ * The phone dock is ONE real key whose label follows the visitor (owner, L-008/L-009: one real key, its label
+ * following state). No state adds a second key or a small linked line:
+ *   new visitor, or some questions answered   [Start free]
+ *   finished the sample                       [Sign up]
+ *   signed in                  "Welcome back" [Go to practice]
+ * Only a returning member gets a label line. Nothing the sample records is saved to an account (the record keeps a
+ * count, a subject and a chapter, never the answers), so no state promises that answers are kept. The sample's state
+ * arrives live (useSampleState.js), so the key changes without a reload.
+ */
 export function LandingDock() {
-  const { kind, signupHref, homeHref, homeText } = useVisitor();
+  const { kind, signupHref, homeHref, homeText, sample } = useVisitor();
   useNavKeyYields();
   useDockRoom();
-  // A label only where it carries state: a returning member, or a visitor with answers worth saving.
-  const label = kind === 'member' ? 'Welcome back' : kind === 'sampled' ? 'Save your answers' : '';
+  const label = kind === 'member' ? 'Welcome back' : '';
+  const startText = kind === 'sampled' && sample.done ? 'Sign up' : 'Start free';
   return (
     <HeroDockGate>
       <MobileDock>
@@ -249,10 +251,7 @@ export function LandingDock() {
           {kind === 'member' ? (
             <Link href={homeHref} className="mm-btn mm-btn--primary">{homeText}</Link>
           ) : (
-            <>
-              <Link href={signupHref} className="mm-btn mm-btn--primary">Start free</Link>
-              {kind === 'new' ? <a href="#try-practice" className="mm-btn mm-btn--secondary">Try 5 questions</a> : null}
-            </>
+            <Link href={signupHref} className="mm-btn mm-btn--primary">{startText}</Link>
           )}
         </DockMobi>
       </MobileDock>

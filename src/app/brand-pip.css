@@ -230,6 +230,14 @@
 [data-pip-guide='local'] .pip-seat[data-pip-enter] .pip-rig { animation: pip-arrive 880ms both; }
 [data-pip-guide='local'] .pip-seat[data-pip-station='hero'][data-pip-enter] .pip-rig { animation: pip-arrive 880ms 280ms both, pip-wave 1300ms 1160ms backwards; }
 [data-pip-guide='local'] .pip-seat[data-pip-station='close'][data-pip-enter] .pip-rig { animation: pip-arrive 880ms both, pip-wave 1300ms 880ms backwards; }
+/* Until the body image is in (Mascot.jsx, data-art), the whole art box waits unseen: body, eyes and contact
+   shadow, so a phone never sees two eyes floating over a shadow. Then all three fade in together, and his arrival
+   waits with them, so the hop plays once he is drawn. */
+.pip-seat__art { transition: opacity 180ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)); }
+.pip-seat[data-art='wait'] .pip-seat__art { opacity: 0; }
+[data-pip-guide='local'] .pip-seat[data-pip-station][data-pip-enter][data-art='wait'] .pip-rig { animation: none; }
+@media (prefers-reduced-motion: reduce) { .pip-seat__art { transition: none; } }
+:root[data-motion='reduced'] .pip-seat__art { transition: none; }
 .pip-actor[data-motion^='arrive'] { animation: pip-arrive-actor 880ms both; }
 .pip-actor[data-motion^='wave'] { animation: pip-wave 1300ms backwards; }
 .pip-actor[data-motion='wave-1'] { animation-name: pip-wave-b; }

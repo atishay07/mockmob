@@ -200,7 +200,7 @@ test('no first-visit theme hint covers the landing headline', () => {
 
 test('the owner’s hero and heading asks hold: CUET 2027 in the brand colour, MockMob green in the docked band, commerce first', () => {
   // L-017: "CUET 2027" is coloured, as a name in the lead (not a kicker above the headline, not a button).
-  assert.match(PAGE, /all the way to <b className="lp-lead__exam">CUET 2027<\/b>\./);
+  assert.match(PAGE, /all the way to <b className="lp-lead__exam">CUET 2027<\/b>, commerce papers first\.<\/p>/);
   const hero = read(new URL('../../app/hero-v3.css', import.meta.url));
   assert.match(hero, /\.lp-lead__exam \{ font-weight: 600; color: var\(--accent-text\); \}/);
   assert.doesNotMatch(PAGE, /<(a|button|Link)[^>]*>\s*CUET 2027/, 'CUET 2027 is not a control');
@@ -217,4 +217,104 @@ test('no defensive fine print in the landing or its footer (owner, L-024)', () =
   for (const [name, source] of [['page.js', PAGE], ['MarketingFooter.jsx', footer], ...LANDING]) {
     assert.doesNotMatch(source.replace(/\/\/.*$|\/\*[\s\S]*?\*\/|\{\/\*[\s\S]*?\*\/\}/gm, ''), /not affiliated|illustrative|not a prediction|example only|just a diagnostic/i, `${name} carries defensive fine print`);
   }
+});
+
+// ---------- Round 14 truth checks: the sample saves no answers, the dock is one key, the Free list names what its credits do ----------
+
+// Source without its comments: the words a visitor can read, not the notes about them.
+const words = (source) => source.replace(/\/\/.*$|\/\*[\s\S]*?\*\/|\{\/\*[\s\S]*?\*\/\}/gm, '');
+
+function sourcesBelow(dir, found = []) {
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const path = new URL(entry.name + (entry.isDirectory() ? '/' : ''), dir);
+    if (entry.isDirectory()) sourcesBelow(path, found);
+    else if (/\.(jsx?|mjs)$/.test(entry.name) && !/\.test\.mjs$/.test(entry.name)) found.push([path.pathname, read(path)]);
+  }
+  return found;
+}
+
+test('no landing copy says the sample’s answers are saved: nothing outside the route calls /api/me/sample-import', async () => {
+  // The route exists, but no page, component or service posts the sample to it, and the sample record keeps no answers.
+  const src = new URL('../../', import.meta.url);
+  const callers = sourcesBelow(src).filter(([path, source]) => !path.includes('/app/api/me/sample-import/') && /sample-import/.test(source)).map(([path]) => path);
+  assert.deepEqual(callers, [], 'a caller of sample-import now exists: the landing may then say what it keeps, and this test should say so');
+  const { nextRecord } = await import('./sampleRecord.mjs');
+  const record = nextRecord(null, { answered: 5, done: true, subject: 'english', at: '2026-10-17T00:00:00Z', focus: 'Partnership', picks: ['A', 'B'], answers: [1, 2] });
+  assert.deepEqual(Object.keys(record).sort(), ['answered', 'at', 'done', 'focus', 'subject'], 'the record holds a count, a subject and a chapter, never the answers');
+  const footer = read(new URL('../MarketingFooter.jsx', here));
+  for (const [name, source] of [['page.js', PAGE], ['MarketingFooter.jsx', footer], ...LANDING]) {
+    assert.doesNotMatch(words(source), /save your answers|keep these answers|keeps? your answers|answers (are|stay) (saved|kept)/i, `${name} promises saved answers`);
+    assert.doesNotMatch(words(source), /Start free and see your next move/, `${name} has a key promising saved answers`);
+  }
+});
+
+test('the close and the hero keys say only what a finished sample really gives', () => {
+  const close = read(new URL('CloseActions.jsx', here));
+  assert.match(close, /name: `\$\{COUNT_WORDS\[n\] \|\| n\} \$\{n === 1 \? 'question' : 'questions'\} done\.`/, 'the heading counts what was answered');
+  assert.doesNotMatch(close, /name: 'Five questions/);
+  assert.match(close, /rest: 'Your next move is one sign-up away\.'/);
+  assert.match(close, /sub: 'Start free and your first mock builds the record your next move comes from\.'/);
+  assert.match(close, /kind === 'member' \? homeText : 'Start free'/);
+  // After a reload the sample's card starts at the subject picker, so the hero's key must not name a card that is gone.
+  const keys = read(new URL('HeroKeys.jsx', here));
+  assert.match(keys, /sample\.done \? 'Try the sample again' : 'Try 5 questions'/);
+  assert.doesNotMatch(keys, /Back to the sample|Your questions/);
+});
+
+test('the Free plan names what its AI credits are for: Mistake Repair and Ask Mobi, at the wallet’s own number', async () => {
+  const { REPAIR_COST } = await import('./labStory.mjs');
+  const wallet = read(new URL('../../services/credits/aiCreditWallet.js', import.meta.url));
+  const freeMonthly = Number(wallet.match(/AI_FREE_MONTHLY_CREDITS = (\d+);/)[1]);
+  assert.equal(REPAIR_COST.freeMonthly, freeMonthly);
+  // The line is built from the same number the Repair scene and the wallet carry, so the three cannot drift apart.
+  assert.match(PAGE, /`\$\{REPAIR_COST\.freeMonthly\} AI credits a month, for Mistake Repair and for Ask Mobi beyond your own record`/);
+  assert.equal(`${REPAIR_COST.freeMonthly} AI credits a month, for Mistake Repair and for Ask Mobi beyond your own record`, `${freeMonthly} AI credits a month, for Mistake Repair and for Ask Mobi beyond your own record`);
+  assert.doesNotMatch(PAGE, /'10 AI credits a month, for Ask Mobi/);
+  // A repair is paid from that same AI wallet (reserve, execute, commit or release, as Ask Mobi replies are).
+  const repair = read(new URL('../../services/recovery/mistakeRepair.js', import.meta.url));
+  assert.match(repair, /same reserve -> execute -> commit \| release lifecycle as PrepOS replies/);
+  const cinema = read(new URL('LabCinema.jsx', here));
+  assert.match(cinema, /A repair uses \$\{REPAIR_COST\.credits\} AI credit; Free has \$\{REPAIR_COST\.freeMonthly\} a month\./);
+});
+
+test('L-024: no affiliation FAQ, no independent-platform footer line, no defensive "says little yet"', () => {
+  const footer = read(new URL('../MarketingFooter.jsx', here));
+  const faq = PAGE.slice(PAGE.indexOf('const faqs = ['), PAGE.indexOf('export default async function LandingPage'));
+  assert.doesNotMatch(faq, /affiliated|MockMob is independent/i, 'the FAQ does not ask or answer the affiliation question');
+  assert.match(faq, /question: 'What is MockMob built for\?', answer: '[^']*DU eligibility and published cutoffs sit alongside, from what NTA and DU publish\.'/);
+  assert.doesNotMatch(footer, /independent CUET preparation platform|An independent/i);
+  assert.equal((footer.match(/&copy;/g) || []).length, 1, 'one copyright line');
+  assert.match(footer, /&copy; \{new Date\(\)\.getFullYear\(\)\} MockMob\.\s*<\/p>/);
+  for (const [name, source] of [['page.js', PAGE], ['MarketingFooter.jsx', footer], ...LANDING]) {
+    assert.doesNotMatch(words(source), /says little yet/i, `${name} hedges the result`);
+  }
+});
+
+test('the phone dock is one real key whose label follows state, and the hero says "chapter" once and commerce once', () => {
+  const dock = read(new URL('HeroDockGate.jsx', here));
+  const body = dock.slice(dock.indexOf('export function LandingDock()'), dock.indexOf('export default HeroDockGate'));
+  assert.equal((body.match(/<Link /g) || []).length, 2, 'one link key per state: member, or the sign-up key');
+  assert.doesNotMatch(body, /<a |Try 5 questions/, 'no second key in the dock');
+  assert.match(body, /kind === 'sampled' && sample\.done \? 'Sign up' : 'Start free'/);
+  assert.match(body, /const label = kind === 'member' \? 'Welcome back' : '';/);
+  // L-025 / L-023: the lead no longer repeats the turning line's "chapter" and names commerce once.
+  const lead = PAGE.match(/<p className="lp-lead">(.*?)<\/p>/)[1];
+  assert.doesNotMatch(lead, /chapter/i);
+  assert.equal((lead.match(/commerce/gi) || []).length, 1);
+  assert.match(PAGE, /<TypeLine lead="Down to" phrases=\{\['the chapter\.'/);
+  assert.match(lead, /<b className="lp-lead__exam">CUET 2027<\/b>/);
+});
+
+test('the sample card keeps one volt key: its forward key is quiet, the explanation line is secondary ink, the DU hint is a plain line', () => {
+  const drill = read(new URL('DemoDrill.jsx', here));
+  assert.match(drill, /className="mm-btn mm-btn--card" onClick=\{next\}/);
+  const css = (name) => read(new URL(`../../${name}`, import.meta.url));
+  const globals = css('app/globals.css');
+  assert.doesNotMatch(globals.match(/\.mm-btn--card \{[^}]*\}/)[0], /var\(--volt\)/, 'the quiet key is not volt');
+  assert.match(css('app/lab-cinema.css'), /\.lcp-check \{[^}]*color: var\(--s-ink-2\);/);
+  const du = css('components/du/du.css');
+  const empty = du.slice(du.indexOf(".du-teaser__lead[data-empty='true'] {"), du.indexOf('.du-teaser__streams {'));
+  assert.match(empty, /font: 500 var\(--t-body, 1rem\)/);
+  assert.match(empty, /color: var\(--ink-2\)/);
+  assert.doesNotMatch(empty, /@media|var\(--t-title|var\(--font-display\)/, 'no wide-screen heading step');
 });

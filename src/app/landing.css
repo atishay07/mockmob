@@ -194,26 +194,25 @@ body:has(.mm.lp) {
 /* ---------- Scroll choreography ----------
    Reveal flips data-in once per element. Text never waits for it: headings and ledes are not wrapped in a
    Reveal. Only product screens and objects get an entrance, once: 8 px up and in, 240 ms for the fade, 360 ms
-   at most for the travel, on a strong ease-out. Items inside stagger 40 ms apart. */
+   at most for the travel, on a strong ease-out. Items inside stagger 40 ms apart.
+   Visible by default: only a Reveal that Reveal.jsx has armed after mount (data-in="false", set only while it is
+   wholly below the window) is hidden, so the server HTML, a page without JavaScript and anything already on
+   screen at load all show their content at once. */
 
 .lp .rv {
-  opacity: 0;
-  transform: translate3d(0, 8px, 0);
   transition: opacity 240ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)) var(--d, 0ms), transform 360ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)) var(--d, 0ms);
 }
-.lp .rv[data-in="true"] {
-  opacity: 1;
-  transform: none;
-}
-.lp .rv-item {
+.lp .rv[data-in="false"] {
   opacity: 0;
   transform: translate3d(0, 8px, 0);
+}
+.lp .rv-item {
   transition: opacity 240ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)) calc(var(--i, 0) * 40ms + 80ms),
     transform 360ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)) calc(var(--i, 0) * 40ms + 80ms);
 }
-.lp .rv[data-in="true"] .rv-item {
-  opacity: 1;
-  transform: none;
+.lp .rv[data-in="false"] .rv-item {
+  opacity: 0;
+  transform: translate3d(0, 8px, 0);
 }
 /* Reached at speed (a fling, a hard wheel, a jump) or from above: the same entrance, short and all at once,
    so the page never settles on half-faded content that is still staggering in (Reveal.jsx, data-snap). */

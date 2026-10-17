@@ -250,7 +250,7 @@ html[data-theme='light'] .lc {
 .lcr-head__q { margin: 0; color: var(--s-ink-2); font-size: 0.8125rem; font-weight: 700; }
 /* The trap's name is the screen's headline. */
 .lcr-head__trap { margin: 0; color: var(--s-ink); font: 800 1.375rem/1.12 var(--font-display); letter-spacing: -0.02em; }
-.lcp-check { display: inline-flex; align-items: center; gap: 0.45rem; margin: 0; color: var(--s-good); font-size: 0.8125rem; font-weight: 700; }
+.lcp-check { display: inline-flex; align-items: center; gap: 0.45rem; margin: 0; color: var(--s-ink-2); font-size: 0.8125rem; font-weight: 700; }
 .lcp-q { padding: 0; }
 .lcp-q__stem { margin: 0 0 0.65rem; font-size: 0.875rem; line-height: 1.45; font-weight: 600; }
 .lcp-q__opts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.4rem; margin: 0; padding: 0; list-style: none; }

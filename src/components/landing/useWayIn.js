@@ -38,8 +38,8 @@ export function useWayIn() {
 /**
  * Which visitor this is, for the keys that change with them:
  *   member   signed in: "Go to practice"
- *   sampled  answered at least one sample question: "Save your answers"
- *   new      neither: "Free to start", with the sample one tap away
+ *   sampled  answered at least one sample question: "Start free", or "Sign up" in the dock once the sample is finished
+ *   new      neither: "Start free", with the sample one tap away in the hero
  */
 export function useVisitor() {
   const way = useWayIn();

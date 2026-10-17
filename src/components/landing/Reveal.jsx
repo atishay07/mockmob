@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 // How fast the page is moving: one passive scroll listener shared by every Reveal (no frame loop), in px per ms
 // between the last two scroll events, and zero once the page has been still for PACE_STILL_MS.
@@ -25,28 +25,29 @@ function watchPace(on) {
 }
 const paceNow = () => (performance.now() - pace.t > PACE_STILL_MS ? 0 : pace.v);
 
-// Scroll choreography without an animation library. The wrapper flips
-// data-in once it enters the viewport; all motion lives in CSS, keyed off that
-// attribute, and only ever animates opacity and transform so nothing reflows.
+// Scroll choreography without an animation library. All motion lives in CSS, keyed off data-in, and only
+// ever animates opacity and transform so nothing reflows. The server HTML carries no data-in, so the content is
+// visible before any script runs (and without JavaScript). After mount a Reveal is armed (data-in="false",
+// hidden) only if it is still wholly below the window, and flips to "true" once it enters; one already on screen
+// (or above it) is marked "true" at once, so it never blinks out and back in.
 // Reached at speed (a fling, a hard wheel, a jump) or from above, it also gets
 // data-snap for a moment: the same entrance, short and without its stagger, so
 // the page never settles on half-faded content that is still arriving.
-// Reduced motion shows everything immediately. A <noscript> rule in the page
-// keeps content visible without JavaScript.
+// Reduced motion shows everything immediately.
 export function Reveal({ as: Tag = 'div', className = '', delay = 0, threshold = 0.12, children, ...rest }) {
   const ref = useRef(null);
-  const [inView, setInView] = useState(false);
 
   useEffect(() => {
     const node = ref.current;
     if (!node) return undefined;
-    // Reduced motion is handled in CSS (everything is visible, nothing
-    // transitions). Without IntersectionObserver, show the content outright.
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
-    if (typeof IntersectionObserver === 'undefined') {
+    // Reduced motion is handled in CSS (everything is visible, nothing transitions). Without
+    // IntersectionObserver, or when the content is already on screen or above it, show it outright.
+    const below = node.getBoundingClientRect().top >= window.innerHeight;
+    if (!below || window.matchMedia('(prefers-reduced-motion: reduce)').matches || typeof IntersectionObserver === 'undefined') {
       node.dataset.in = 'true';
       return undefined;
     }
+    node.dataset.in = 'false';
     let snapTimer = 0;
     let pacing = true;
     watchPace(true);
@@ -60,7 +61,7 @@ export function Reveal({ as: Tag = 'div', className = '', delay = 0, threshold =
           node.dataset.snap = 'true';
           snapTimer = window.setTimeout(() => { delete node.dataset.snap; }, SNAP_MS);
         }
-        setInView(true);
+        node.dataset.in = 'true';
         observer.disconnect();
         stopPace();
       },
@@ -79,9 +80,8 @@ export function Reveal({ as: Tag = 'div', className = '', delay = 0, threshold =
     <Tag
       ref={ref}
       className={`rv ${className}`}
-      data-in={inView ? 'true' : 'false'}
       style={{ '--d': `${delay}ms` }}
-      onFocusCapture={() => setInView(true)}
+      onFocusCapture={(event) => { event.currentTarget.dataset.in = 'true'; }}
       {...rest}
     >
       {children}

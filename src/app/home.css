@@ -172,3 +172,10 @@
 @media (min-width: 960px) {
   .mm.lp .lp-statement__text { font-size: var(--t-statement); }
 }
+/* Phones and tablets, where the statement stands right above the bank's h2: it steps down to the lead tier (22 px,
+   500, lede leading), so it reads as the hero's last line and the bank heading under it leads (a 26 px, 600
+   statement over a 32 px, 800 h2 read as two competing headlines). */
+@media (max-width: 959px) {
+  .mm.lp .lp-statement { --t-statement: 1.375rem; }
+  .mm.lp .lp-statement__text { font-weight: 500; line-height: 1.32; letter-spacing: -0.01em; max-width: 34ch; }
+}

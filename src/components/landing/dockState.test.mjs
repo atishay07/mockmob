@@ -41,16 +41,28 @@ test('the visitor is a member, sampled or new, in that order of precedence', () 
   assert.equal(visitorKind(false, undefined), 'new');
 });
 
-test('the dock keeps its three states and never falls back to a small linked line', () => {
+// Owner, L-008/L-009 (17 Oct 2026): "the dock must be one real key whose label follows state". A new visitor sees
+// "Start free"; a guest who finished the sample sees "Sign up"; a signed-in member sees "Welcome back" over one
+// "Go to practice". No state has a second key, and none promises that sample answers are saved (nothing saves them).
+test('the dock is one real key whose label follows state, and never falls back to a small linked line', () => {
   const dock = readFileSync(new URL('./HeroDockGate.jsx', import.meta.url), 'utf8');
-  for (const text of ['Welcome back', 'Save your answers', 'Go to practice', 'Start free', 'Try 5 questions']) {
-    assert.ok(dock.includes(text) || readFileSync(new URL('./useWayIn.js', import.meta.url), 'utf8').includes(text), text);
+  const ways = readFileSync(new URL('./useWayIn.js', import.meta.url), 'utf8');
+  for (const text of ['Welcome back', 'Go to practice', 'Start free', 'Sign up']) {
+    assert.ok(dock.includes(text) || ways.includes(text), text);
   }
+  // The words follow the visitor: Start free, Sign up once the sample is finished, "Welcome back" only for a member.
+  const body = dock.slice(dock.indexOf('export function LandingDock()'), dock.indexOf('export default HeroDockGate'));
+  assert.match(body, /const label = kind === 'member' \? 'Welcome back' : '';/);
+  assert.match(body, /kind === 'sampled' && sample\.done \? 'Sign up' : 'Start free'/);
+  assert.match(ways, /homeText: 'Go to practice'/);
+  // One key per state: a member's, or the sign-up key. No second key, no anchor to the sample, no saved-answers line.
+  assert.equal((body.match(/<Link /g) || []).length, 2);
+  assert.ok(!/<a /.test(body), 'no second key in the dock');
+  assert.ok(!dock.includes('Try 5 questions'));
+  assert.ok(!dock.includes('Save your answers'));
   assert.ok(!dock.includes('lp-docklink'));
   // A new visitor gets no label: "Free to start" is said by the hero, the pricing and the close.
   assert.ok(!dock.includes("'Free to start'"));
-  // The sample's own key is offered only to a visitor who has not tried it.
-  assert.match(dock, /kind === 'new' \? <a href="#try-practice"/);
 });
 
 test('one dock rule: up from the hero to the close, never retired by a held story in portrait', () => {

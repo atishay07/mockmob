@@ -60,6 +60,17 @@ function storyRest(node, step) {
   const max = document.documentElement.scrollHeight - window.innerHeight;
   return Math.round(Math.max(0, Math.min(max, window.scrollY + track.getBoundingClientRect().top + (hold * Math.min(step, steps - 1)) / (steps - 1))));
 }
+// Focus lands on the card's first control without scrolling (the glide does the moving, and jumps under Reduce
+// motion). A click or tap does not match :focus-visible, so the control would hold focus unseen: it is marked for
+// the same ring (data-landed, landing-close.css) until focus leaves it.
+function landOn(control) {
+  if (!control) return;
+  control.focus({ preventScroll: true });
+  if (document.activeElement !== control || control.matches(':focus-visible')) return;
+  control.dataset.landed = 'true';
+  control.addEventListener('blur', () => { delete control.dataset.landed; }, { once: true });
+}
+
 // Keyboard and screen-reader users land where the page went: a section without its own tab stop takes one
 // for the moment, and gives it back when focus leaves.
 function focusSection(node) {
@@ -88,7 +99,7 @@ export function DemoJump() {
       cancel();
       // Focus first, without scrolling: keyboard and screen-reader users land on the question, and the dock
       // (shown while focus is inside it) can leave as the card comes on.
-      firstControl(stage)?.focus({ preventScroll: true });
+      landOn(firstControl(stage));
       cancel = glideTo(() => topFor(stage, headroom(stage)), () => arrive(stage));
     };
 

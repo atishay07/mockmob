@@ -55,7 +55,7 @@ import './landing-rest.css';
 const freePlan = newOfferReleased() ? ['One baseline per launch subject', 'One included daily 10-question set', 'One new recovery episode per week', 'Fresh checks for started episodes', '25 saved questions'] : [
   '100 practice credits to start: a Quick practice uses 10, a Full mock 50',
   'Every mock drawn from the same question bank as Pro',
-  '10 AI credits a month, for Ask Mobi beyond your own record',
+  `${REPAIR_COST.freeMonthly} AI credits a month, for Mistake Repair and for Ask Mobi beyond your own record`,
   'Weekly progress tracking',
   '25 saved questions',
   'Your standing among MockMob students',
@@ -166,12 +166,10 @@ const TOUR = [
 
 const faqs = [
   { question: 'Can I try it before signing up?', answer: 'Yes. Pick your subject at the top of this page and answer five CUET-style questions, each with the reason behind the answer. No account needed.' },
-  { question: 'What is MockMob built for?', answer: 'Timed CUET UG practice, a clear read of every mistake, and one next step you can act on tonight. DU eligibility and published cutoffs sit alongside.' },
+  { question: 'What is MockMob built for?', answer: 'Timed CUET UG practice, a clear read of every mistake, and one next step you can act on tonight. DU eligibility and published cutoffs sit alongside, from what NTA and DU publish.' },
   { question: 'What is the Mistake Lab?', answer: 'After every mock, the Lab shows where your marks went: the time on each question, every answer you changed, the reason behind each miss, and a SWOT with the set to do next. Mistake Repair then fixes the reasoning, one mistake at a time.' },
   { question: 'How many mocks can I take?', answer: 'With Pro, as many as you like. Every Quick practice and Full mock is a new paper, drawn from the question bank when you start it, so there is no fixed set of papers to run out of. Free starts with 100 practice credits from the same bank: a Quick practice uses 10, a Full mock 50. A question you have answered can come back, more often in subjects with smaller banks.' },
-  { question: 'What does Pro cost?', answer: OFFER.purchasable === 'monthly' ? `₹${OFFER.monthly.rupees} a month. It renews until you cancel in Account, and you keep Pro to the end of the month you paid for.` : `₹${OFFER.oneTime.rupees} once, for access through ${OFFER.oneTime.expires}. It does not renew and nothing is charged again.` },
-  { question: 'Is MockMob affiliated with NTA or DU?', answer: 'No. MockMob is independent. The exam pattern and the DU rules you see here come from what NTA and DU publish.' },
-];
+  { question: 'What does Pro cost?', answer: OFFER.purchasable === 'monthly' ? `₹${OFFER.monthly.rupees} a month. It renews until you cancel in Account, and you keep Pro to the end of the month you paid for.` : `₹${OFFER.oneTime.rupees} once, for access through ${OFFER.oneTime.expires}. It does not renew and nothing is charged again.` },];
 
 export default async function LandingPage() {
   const subjectCounts = await storedSubjectCounts();
@@ -205,7 +203,7 @@ export default async function LandingPage() {
               <TypeLine lead="Down to" phrases={['the chapter.', 'the minute.', 'the changed answer.', 'the reason.']} label="the chapter, the minute, the changed answer and the reason." />
               {/* The exam's name in the brand colour (owner, 15 Oct: "CUET 2027 was colored"): a word in the lead, not a
                   kicker above the headline and not a button, so it does nothing when tapped. */}
-              <p className="lp-lead">Then it picks the chapter for tonight and keeps your DU shortlist in sight, all the way to <b className="lp-lead__exam">CUET 2027</b>.</p>
+              <p className="lp-lead">Then it picks what to practise tonight and keeps your DU shortlist in sight, all the way to <b className="lp-lead__exam">CUET 2027</b>, commerce papers first.</p>
               <div className="lp-cta">
                 <HeroKeys />
               </div>

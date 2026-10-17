@@ -81,6 +81,9 @@ html[data-motion='reduced'] :is(.lp-dockmobi__label, .lp-dockkeys > *) { animati
   #try-practice[data-arrive='true'] .mm-drill { animation-name: lp-arrive-calm; animation-timing-function: linear; }
 }
 html[data-motion='reduced'] #try-practice[data-arrive='true'] .mm-drill { animation-name: lp-arrive-calm; animation-timing-function: linear; }
+/* The control a "Try 5 questions" link gave focus to (DemoJump.jsx) shows the focus ring after a click or tap too,
+   until focus leaves it. */
+#try-practice :is(.lp-pick__chip, .mm-drill__option, .mm-btn)[data-landed='true'] { outline: 2px solid var(--volt); outline-offset: 3px; }
 
 /* ---------- The dock retires once the close band's actions enter the window, through the footer (CloseActions.jsx) ----------
    A 200 ms fade and slide down; it comes back only if the reader scrolls back above the close. */

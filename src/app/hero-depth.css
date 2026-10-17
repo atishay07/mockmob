@@ -97,10 +97,10 @@
     }
   }
 }
-/* The unlit words stay readable at AA (4.5:1 against the page in both themes: 5.3:1 at Night, 5.0:1 at Day), so a
-   reader who stops mid-scroll still reads the whole sentence; the scrub lights them the rest of the way. */
-.lp-statement { --lp-word-dim: 0.52; }
-[data-theme='light'] .lp-statement { --lp-word-dim: 0.65; }
+/* The unlit words stay well readable: at least 60% of the ink in both themes, so a reader who stops mid-scroll
+   still reads the whole sentence; the scrub lights the rest. */
+.lp-statement { --lp-word-dim: 0.62; }
+[data-theme='light'] .lp-statement { --lp-word-dim: 0.7; }
 @keyframes lp-word { from { opacity: var(--lp-word-dim, 0.42); } to { opacity: 1; } }
 
 /* ---------- 4. Phones: the statement holds the screen while it plays ----------

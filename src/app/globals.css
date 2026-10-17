@@ -1675,6 +1675,24 @@ body:has(.mm) {
   box-shadow: none;
 }
 
+/* The quiet key on the sample card's night surface (the forward key while the sample runs): a lighter face over the
+   same 4px lip as the volt keys, so the hero's Start free stays the one volt key in the viewport. */
+.mm-btn--card {
+  background: var(--slate-3);
+  color: var(--chalk);
+  box-shadow: 0 var(--btn-edge) 0 color-mix(in srgb, var(--chalk-2) 40%, var(--slate)), inset 0 0 0 1px var(--slate-line);
+  transform: translateY(calc(var(--btn-edge) * -1));
+}
+.mm-btn--card:active {
+  transform: translateY(0);
+  box-shadow: 0 0 0 color-mix(in srgb, var(--chalk-2) 40%, var(--slate)), inset 0 0 0 1px var(--slate-line);
+}
+@media (hover: hover) {
+  .mm-btn--card:hover {
+    background: color-mix(in srgb, var(--chalk) 8%, var(--slate-3));
+  }
+}
+
 .mm-btn--quiet {
   background: transparent;
   color: var(--ink-2);

@@ -133,18 +133,25 @@
 }
 /* Phones and tablets: the lineup as a 2 by 2 on two shared floors (SLOP-AUDIT 3.9). Each object stands at about
    a third of the width on its column's hairline, the paper's name and its real question count under the line, left-aligned, so the
-   four read as products, not as a list of thumbnails. The size is held to 15svh so the statement, the heading, both
+   four read as products, not as a list of thumbnails. The size is held to 14svh so the statement, the heading, both
    rows and the note still fit the held scene between the bar and the dock (hero-depth.css); each object lifts onto
    its floor as its share of the statement lights. */
 @media (max-width: 959px) {
-  .mm.lp .lp-statement .lp-shelf { --shelf-obj: min(33vw, 15svh, 9.5rem); }
-  .mm.lp .lp-shelf__title { margin-bottom: 0.75rem; }
+  .mm.lp .lp-statement .lp-shelf { --shelf-obj: min(33vw, 14svh, 9.5rem); }
+  /* 40 px of air under the statement (the grid's 24 px gap and 16 more), then a hairline: the bank's h2 opens its
+     own part of the page, the way every section opens. */
+  .mm.lp .lp-shelf__title { margin: 1rem 0 0.75rem; padding-top: 1rem; border-top: 1px solid var(--line); }
   .mm.lp .lp-shelf__note { margin-top: 0.75rem; font-size: var(--t-label, 0.875rem); }
   .mm.lp .lp-shelf__row { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem var(--sp-5, 1.5rem); padding: 0; }
   .mm.lp .lp-shelf__item:nth-child(even) { translate: none; }
   .mm.lp .lp-shelf__item:nth-child(3) { margin-top: 0; }
   .mm.lp .lp-shelf__name { padding-top: 0.625rem; font-size: var(--t-body); white-space: normal; }
   .mm.lp .lp-shelf__fact { min-height: 1.45em; margin-top: 0.125rem; font-size: var(--t-fine, 0.8125rem); }
+}
+/* The shortest phones that still get the held scene (780 to 839 px tall): the objects give up the height, so the
+   statement's first line clears the bar and the note clears the dock. */
+@media (max-width: 959px) and (min-height: 780px) and (max-height: 839px) {
+  .mm.lp .lp-statement .lp-shelf { --shelf-obj: min(33vw, 11svh, 9.5rem); }
 }
 .mm.lp .lp-shelf__link:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 4px; border-radius: 4px; }
 .mm.lp .lp-shelf__link:focus-visible .lp-shelf__float { transform: translateY(-6px); }

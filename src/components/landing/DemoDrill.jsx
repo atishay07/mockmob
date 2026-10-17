@@ -284,7 +284,7 @@ export function DemoDrill() {
               ? 'A full mock is 50 of these in 60 minutes.'
               : score >= 2
                 ? `${score} of ${set.length} is a start. Five questions are a small sample.`
-                : 'Five questions are a small sample, so this says little yet.'}
+                : 'A full mock is 50 questions in 60 minutes.'}
           </p>
 
           {missed.length > 0 ? (
@@ -385,7 +385,8 @@ export function DemoDrill() {
                 {question.why}
                 </span>
               </p>
-              <button type="button" className="mm-btn mm-btn--onnight" onClick={next}>
+              {/* The card's quiet key: the hero's Start free is the one volt key on screen while the sample runs. */}
+              <button type="button" className="mm-btn mm-btn--card" onClick={next}>
                 {index + 1 >= set.length ? 'See your result' : 'Next question'}
               </button>
             </>

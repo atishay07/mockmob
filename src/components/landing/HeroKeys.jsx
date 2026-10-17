@@ -20,10 +20,12 @@ export function HeroKeys() {
     );
   }
 
-  // Once the sample is finished its card offers another subject itself, so this key only leads back to it. Each label
-  // stays on one line in a half-width key at 360 to 390 px, and Start free stays volt in every state. On wide
-  // screens the finished card sits right beside the keys, so the key steps aside there (hero-v3.css, data-sample).
-  const tryText = sample.done ? 'Back to the sample' : sample.answered > 0 ? 'Your questions' : 'Try 5 questions';
+  // The sample keeps a count, a subject and a chapter, never the answers or the result card, so after a reload this
+  // key leads to the subject picker. Its words stay true there: a finished sample is offered again, and a visitor
+  // who answered some is offered the five again, not "your questions". Each label stays on one line in a half-width
+  // key at 360 to 390 px, and Start free stays volt in every state. On wide screens the finished card sits right
+  // beside the keys, so the key steps aside there (hero-v3.css, data-sample).
+  const tryText = sample.done ? 'Try the sample again' : 'Try 5 questions';
   return (
     <div className="mm-actions lp-keys" data-visitor={kind} data-sample={sample.done ? 'done' : undefined}>
       {/* Plain "Start free" in every state: sign-up does not carry the sample's chapter through onboarding, so the key
