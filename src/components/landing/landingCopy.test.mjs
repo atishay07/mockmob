@@ -341,15 +341,18 @@ test('no glow around the theme switch in either theme: every shadow on its thumb
 
 test('no public page carries "not affiliated" or other defensive fine print (owner, L-024)', () => {
   const appDir = new URL('../../app/', import.meta.url);
-  // Every top-level public route's page. Legal pages (terms) keep their legal wording; the owner decides those.
-  const LEGAL = new Set(['terms']);
+  // Every top-level public route's page, the legal pages (terms, privacy, refunds) included: no exemptions.
   const routes = readdirSync(appDir, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory() && !/^[([_]|^api$|^preview$/.test(entry.name) && !LEGAL.has(entry.name))
+    .filter((entry) => entry.isDirectory() && !/^[([_]|^api$|^preview$/.test(entry.name))
     .map((entry) => entry.name)
     .filter((name) => { try { read(new URL(`${name}/page.js`, appDir)); return true; } catch { return false; } });
-  assert.ok(routes.includes('about') && routes.includes('cuet-subject-combination'), 'the pages that carried it are checked');
+  assert.ok(['about', 'cuet-subject-combination', 'terms'].every((name) => routes.includes(name)), 'the pages that carried it are checked');
   for (const name of routes) {
-    assert.doesNotMatch(words(read(new URL(`${name}/page.js`, appDir))), /not affiliated|illustrative|not a prediction|example only|just a diagnostic/i, `/${name} carries defensive fine print`);
+    assert.doesNotMatch(
+      words(read(new URL(`${name}/page.js`, appDir))),
+      /not affiliated|affiliation|illustrative|not a prediction|example only|just a diagnostic|not official|independent practice platform|Independent, and clear/i,
+      `/${name} carries defensive fine print`,
+    );
   }
 });
 

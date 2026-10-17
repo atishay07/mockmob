@@ -36,10 +36,6 @@ export default function TermsPage() {
             <p>Pro access unlocks premium features such as unlimited mocks, full chapter review, difficulty controls, bookmarks, and Admission Compass. Current season access ends 31 July 2027. Available inventory and reattempts are included; unlimited unique questions are not promised. Existing purchases keep their recorded expiry and rights. DU eligibility and historical cutoffs are free. Recovery is unavailable until its content and journey gates pass.</p>
           </section>
           <section>
-            <h2>Exam affiliation</h2>
-            <p>MockMob is not affiliated with NTA, DU, CUET, or any government exam body. Scores, bands, recommendations, and analysis are practice guidance, not official admission decisions.</p>
-          </section>
-          <section>
             <h2>Misuse</h2>
             <p>We may restrict or terminate access for spam, cheating, harassment, reverse engineering, payment abuse, harmful uploads, or attempts to compromise the platform.</p>
           </section>
