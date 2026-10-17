@@ -47,7 +47,8 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 3. **Nothing looks like a form.** Settings and plan surfaces are leading, interactive flows that take you to the next thing (D3).
 4. **Night mode stays subtle.** No neon, no heavy glows or accents (D7). He loved the earlier Night.
 5. **Motion must not degrade.** A changed animation is at least as good as the old one (D10 theme switcher, N5 segmented controls).
-6. **No obvious disclaimers or filler lines** (W-093). No "41 subjects" (W-095).
+6. **No obvious disclaimers or filler lines** (W-093). No "41 subjects" (W-095). Copy tone is exciting and bold (M-006, 18 Oct), never false.
+8. **Keep the badges** (D19, 18 Oct): refine them, never remove them.
 7. **Only gpt-6-luna and Claude Haiku 5.5 run in the app or website** (W-098).
 
 ## Keep (he praised these; don't touch except for bugs)
@@ -157,7 +158,7 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 | Status | Item |
 |---|---|
 | OPEN | **D9:** "Not much implemented". |
-| OPEN | **D19:** the badges are weird. |
+| OPEN | **D19 (clarified 3:50 am):** "badges are not incorporated properly but they look cool so keep them don't remove just refine the UI and functionality around them." Keep the badges; refine their presentation, placement and what earning one does. BADGES-ICONS-1018 option A (remove) is REJECTED. |
 | OPEN | **W-053:** You leads with study days, badges, milestones and personal bests. |
 | OPEN | **W-052:** the top-bar Profile shows name, email, credits and plan. |
 
@@ -174,7 +175,7 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 | Status | Item |
 |---|---|
 | DECIDE | **D21:** maybe suspend the community idea and remove the community section (not final). Keep "Your standing". Don't delete anything until he decides. |
-| OPEN | **D22:** a concept brief for a cooler, useful "social circle" with a better name than "community". Reference: an app he called "RPM" (leaderboard, aura, badges); he finds it cringe, so don't copy. |
+| OPEN | **D22 (name DECIDED 3:50 am: Mob; "community" retired):** a concept brief for a cooler, useful "social circle". Reference: an app he called "RPM" (leaderboard, aura, badges); he finds it cringe, so don't copy. |
 | OPEN | **W-055:** the leaderboard is the richer earlier design. |
 | BUILT | **The Mob:** web wt-mobfix c33d7f03 plus a fix round, 18 Oct; the app side is in v13/v15, off. **It switches on only at 10/10 after the gate** (the steps are in NOW.md). Square this with D21 first. |
 | OPEN | **W-061, W-062:** the Mob on the main surfaces. |
@@ -240,12 +241,12 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 ### Missed asks folded in, 18 Oct about 3:45 am IST (from `MISSED-ASKS-2026-10-18.md`; his words and code checks are there)
 | Id | Surface | Item | Status |
 |---|---|---|---|
-| M-001 | App, brand opening | "why is the 3-second logo not up?" The logo B opening exists at about 1.3 s | DECIDE (asked 18 Oct 3:45 am) |
+| M-001 | App, brand opening | DECIDED 3:50 am: the full 3 s logo B opening on the FIRST launch after install only; later launches keep the short one (about 1.3 s) | OPEN (v15) |
 | M-002 | App, copy | Unlimited mocks from one central bank, said truthfully and quietly in the app (onboarding, plan, credits) | OPEN |
 | M-003 | App and web, NTA | A brief interruption of 3 s or less (the notification shade) is forgiven; a deliberate switch counts at once; three warnings, no other grace | OPEN (with W-023) |
 | M-004 | Both | A feature-by-feature robustness walk: no crash, dead button or lost state | OPEN (the v15 walk and the live W re-audit) |
 | M-005 | App | Every decorative dot or indicator carries real information or is reworked so it does | OPEN |
-| M-006 | Copy | "exciting copy, captions" in place of the disclaimers, versus W-093's "no hype" | DECIDE (asked 18 Oct 3:45 am) |
+| M-006 | Copy | DECIDED 3:50 am: **exciting, bolder copy** (punchier, energetic) where disclaimers were removed, on the landing and in onboarding. Relaxes W-093's no-hype for tone only; truth rules still hold (no false claims, real numbers) | OPEN (copy pass) |
 | M-007 | Compass data | Verify programmes, counts and cutoffs against the CSAS and DU sources; record the source and date | OPEN |
 | M-008 | Content | His 10/10 question definition goes into the judge rubric (content runs only when he asks) | OPEN |
 | M-009 | Landing, onboarding | Video or scroll-animation ideas: storyboards for the top two, he picks | OPEN (with Higgsfield) |
@@ -264,7 +265,7 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 - **M-019:** while he sleeps, never block on a question; find a workaround.
 
 ## Waiting on the owner (updated 18 Oct about 3:45 am)
-- M-001 (logo opening length), M-006 (copy tone), D19 (badges), D22 (the social side's name): asked at 3:45 am.
+- Answered 3:50 am: M-001 first launch 3 s; M-006 bolder copy; D19 keep badges, refine; D22 Mob.
 - D32: confirm the kept landing element when he reviews the port live (wt-land3, port 3206).
 - The icons (D8): the proposal is in BADGES-ICONS-1018; it ships with the next app nav change, unless he objects.
 - Play Console account and upload key; Anthropic key; Avast HTTPS-scanning exception; 112 held questions; a Hindi reviewer; free first Repair; M-011 Vercel duplicates (his click).
