@@ -23,6 +23,7 @@ import { ExamComparator } from '@/components/landing/ExamComparator';
 import FeatureTour from '@/components/landing/FeatureTour';
 import MistakeLab from '@/components/landing/MistakeLab';
 import LabCinema from '@/components/landing/LabCinema';
+import { SectionPosition } from '@/components/landing/SectionPosition';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import { objectStage } from '@/components/brand/ObjectLifeModel.mjs';
 import { subjectArt } from '@/../data/subject_art.mjs';
@@ -63,6 +64,13 @@ const proPlan = newOfferReleased() ? ['All available recovery pathways', 'Fresh 
 const OFFER = publicOffer();
 const SHOWCASE = buildCompassShowcase();
 const WALL_VOICES = publishedVoices();
+// The held stories, as the position band under the site bar names them while one runs (SectionPosition). Each name is
+// the words of its section's own heading: the Mistake Lab's kicker, the tour's title, the Recovery Lab's kicker.
+const POSITION = [
+  { id: 'inside-the-lab', name: 'Inside the Mistake Lab' },
+  { id: 'your-prep', name: <>What’s inside <em>MockMob</em></> },
+  { id: 'score-recovery-lab', name: 'Score Recovery Lab' },
+];
 const DU_FACTS = duIndexFacts();
 
 // The statement scrubs word by word with the scroll (on phones it holds the screen while it does).
@@ -142,6 +150,7 @@ export default function LandingPage() {
         <style>{'.rv,.rv-item,.lp-hero [data-hero]{opacity:1!important;transform:none!important}'}</style>
       </noscript>
       <NavBar />
+      <SectionPosition sections={POSITION} />
       <main id="main-content">
         {/* ------------------------------ HERO ------------------------------ */}
         <section className="lp-hero">
@@ -222,7 +231,7 @@ export default function LandingPage() {
         </section>
 
         {/* ------------------- MISTAKE LAB CINEMA (held scroll story) ------------------ */}
-        <section className="lp-sec lp-sec--cinema" id="inside-the-lab" aria-labelledby="inside-the-lab-title">
+        <section className="lp-sec lp-sec--cinema lp-pos-host" id="inside-the-lab" aria-labelledby="inside-the-lab-title">
           {/* Without JavaScript the held stories (ScrollStory) simply scroll as plain sections. */}
           <noscript><style>{'.ss .ss__track{height:auto!important}.ss .ss__stage{position:static!important;height:auto!important}'}</style></noscript>
           <div className="mm-wrap">
@@ -236,7 +245,7 @@ export default function LandingPage() {
         </section>
 
         {/* --------------------------- FEATURE TOUR -------------------------- */}
-        <section className="lp-sec lp-sec--tour" id="your-prep">
+        <section className="lp-sec lp-sec--tour lp-pos-host" id="your-prep">
           <div className="mm-wrap">
             <Reveal className="lp-head lp-head--left">
               <h2 className="lp-h2">What’s inside MockMob.</h2>
@@ -247,7 +256,7 @@ export default function LandingPage() {
         </section>
 
         {/* ------------------------- SCORE RECOVERY LAB --------------------- */}
-        <section className="lp-sec" id="score-recovery-lab">
+        <section className="lp-sec lp-pos-host" id="score-recovery-lab">
           <div className="mm-wrap">
             <div className="lp-guide-head"><Reveal className="lp-head lp-head--left">
               <p className="lp-kicker">Score Recovery Lab</p>
