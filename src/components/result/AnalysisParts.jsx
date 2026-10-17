@@ -8,7 +8,7 @@
 // an opened answer keeps its state when the student looks at another part. The open part lives in the URL (?part=time),
 // so Back returns to it and a link can open a part. The open row is a neutral lit fill with a 3 px ink bar: never lime.
 // Motion: the old part fades out (120 ms) and the new one rises 8 px while fading in (200 ms); scale 0.98 on rows.
-import { useRef } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import './result-parts.css';
 
 const reduced = () => { try { return document.documentElement.dataset.motion === 'reduced' || window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { return true; } };
@@ -49,6 +49,24 @@ export function scrollToPart(id) {
  */
 export default function AnalysisParts({ parts, open, onOpen }) {
   const indexRef = useRef(null);
+  // The lit fill and its 3 px ink bar are one marker that slides to the open row (200 ms, transform and height only); it is
+  // measured from the open row, so a row that wraps to three lines still gets a fill that fits. First paint does not animate.
+  const [mark, setMark] = useState(null); // { y, h }
+  const [ready, setReady] = useState(false);
+  const measure = useCallback(() => {
+    const li = indexRef.current?.querySelector('li[data-open]');
+    if (!li) return;
+    setMark((m) => (m && m.y === li.offsetTop && m.h === li.offsetHeight ? m : { y: li.offsetTop, h: li.offsetHeight }));
+  }, []);
+  useLayoutEffect(measure, [measure, open]);
+  useEffect(() => {
+    const ol = indexRef.current;
+    if (!ol || typeof ResizeObserver === 'undefined') return undefined;
+    const ro = new ResizeObserver(measure);
+    ro.observe(ol);
+    const raf = requestAnimationFrame(() => setReady(true));
+    return () => { ro.disconnect(); cancelAnimationFrame(raf); };
+  }, [measure]);
   const at = Math.max(0, parts.findIndex((p) => p.id === open));
   const next = parts[at + 1] || null;
   const choose = (id) => { onOpen(id); scrollToPart(id); };
@@ -68,6 +86,8 @@ export default function AnalysisParts({ parts, open, onOpen }) {
       <h2 id="ap-title" className="ap-title">Your full analysis</h2>
       <p className="ap-lede">Six parts, each with what it found. One opens at a time.</p>
       <div className="ap-grid">
+        <div className="ap-indexwrap">
+        <span className="ap-mark" aria-hidden="true" data-ready={ready || undefined} style={mark ? { transform: `translateY(${mark.y}px)`, height: `${mark.h}px` } : { opacity: 0 }} />
         <ol className="ap-index" ref={indexRef} onKeyDown={onKey} aria-label="The six parts">
           {parts.map((p) => (
             <li key={p.id} data-open={p.id === open || undefined}>
@@ -80,6 +100,7 @@ export default function AnalysisParts({ parts, open, onOpen }) {
             </li>
           ))}
         </ol>
+        </div>
         <div className="ap-detail" id="ap-detail">
           {parts.map((p, i) => (
             <section key={p.id} id={`ap-part-${p.id}`} className="ap-part" hidden={p.id !== open} aria-labelledby={`ap-h-${p.id}`} data-part={p.id}>
