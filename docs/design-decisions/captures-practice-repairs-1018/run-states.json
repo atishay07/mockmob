@@ -1,0 +1,41 @@
+{
+ "shots": [
+  {
+   "file": "practice-repairs-390-night-clear.png",
+   "scen": "clear",
+   "text": "Every Accountancy miss is repaired\n\nEach one holds a saved repair you can reopen for free. 2 saved repairs to revisit\n\nAsk Mobi about Q3\n\nAbout your latest Accountancy repair, saved 18 Oct. Opening Mobi is free; a written reply costs 1 AI credit.",
+   "errors": []
+  },
+  {
+   "file": "practice-repairs-390-day-clear.png",
+   "scen": "clear",
+   "text": "Every Accountancy miss is repaired\n\nEach one holds a saved repair you can reopen for free. 2 saved repairs to revisit\n\nAsk Mobi about Q3\n\nAbout your latest Accountancy repair, saved 18 Oct. Opening Mobi is free; a written reply costs 1 AI credit.",
+   "errors": []
+  },
+  {
+   "file": "practice-repairs-390-night-empty.png",
+   "scen": "empty",
+   "text": "No Accountancy sessions yet\n\nAfter a session, every question you miss waits here to be repaired.\n\nAsk Mobi\n\nAbout Accountancy or how to practise it. Opening Mobi is free; a written reply costs 1 AI credit.",
+   "errors": []
+  },
+  {
+   "file": "practice-repairs-390-day-empty.png",
+   "scen": "empty",
+   "text": "No Accountancy sessions yet\n\nAfter a session, every question you miss waits here to be repaired.\n\nAsk Mobi\n\nAbout Accountancy or how to practise it. Opening Mobi is free; a written reply costs 1 AI credit.",
+   "errors": []
+  },
+  {
+   "file": "practice-repairs-390-night-error.png",
+   "scen": "error",
+   "text": "3 questions missed in Accountancy\n\nYour saved repairs did not load, so some of these may already be repaired. Check again\n\nReview and repair\nAsk Mobi\n\nAbout your Accountancy record. Opening Mobi is free; a written reply costs 1 AI credit.",
+   "errors": []
+  },
+  {
+   "file": "practice-repairs-390-day-error.png",
+   "scen": "error",
+   "text": "3 questions missed in Accountancy\n\nYour saved repairs did not load, so some of these may already be repaired. Check again\n\nReview and repair\nAsk Mobi\n\nAbout your Accountancy record. Opening Mobi is free; a written reply costs 1 AI credit.",
+   "errors": []
+  }
+ ],
+ "clicks": []
+}
