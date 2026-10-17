@@ -1,7 +1,7 @@
 import HelpPageClient from './HelpPageClient';
 
 export const metadata = {
-  title: 'Help | MockMob',
+  title: 'Help and FAQ | MockMob',
   description: 'Short answers to what students ask most, and a way to write to us.',
 };
 

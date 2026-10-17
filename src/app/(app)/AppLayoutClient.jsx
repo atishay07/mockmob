@@ -16,12 +16,7 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import AppearanceSwitch from '@/components/AppearanceSwitch';
 import { PipActor } from '@/components/brand/PipActor';
 import { StartKey, StartSheetHost } from '@/components/start';
-import { PrepOSOrb } from '@/components/ui/PrepOSOrb';
-import HelpMenu from '@/components/help/HelpMenu';
 import AskMobiHost from '@/components/ai/AskMobiHost';
-import { openAskMobi } from '@/components/ai/askMobi.mjs';
-import { HELP_DOOR } from '@/lib/helpDoor.mjs';
-import '@/components/help/help-door.css';
 import './arena.css';
 import './student-pages.css';
 import './explore/explore.css';
@@ -49,9 +44,9 @@ const TOUR_STEPS_ALL = [
   { title: 'Colleges', target: 'nav-admission-compass', body: 'Which DU courses your subjects open, and the 2026 cutoff college by college. Your chosen colleges show on Today.' },
   { title: 'Ask Mobi', target: 'nav-mentor', body: 'Questions about your own record are free. A written reply on a question costs 1 AI credit, and the cost shows before you ask.' },
   { title: 'Your Mob', target: 'nav-mob', body: 'You and up to four friends sit the same 10-question paper each week. You see who has sat it, and your own result.', mob: true },
-  // The last stop is where help lives (N17): the sidebar's Help door, or More on a phone.
-  { title: 'Help', target: ['guide-button', 'nav-more'], body: 'Stuck anywhere? Open Help to ask Mobi about the page you are on, take this tour again or read the common answers.',
-    bodies: { 'nav-more': 'Stuck anywhere? Help is under More: ask Mobi about the page you are on, take this tour again or read the common answers.' } },
+  // The last stop is the standalone Help and FAQ page (D11): a link in the sidebar's Account group, under More on a phone.
+  { title: 'Help and FAQ', target: ['nav-help', 'nav-more'], body: 'Stuck anywhere? Help and FAQ has the common questions, this tour to take again, Ask Mobi and a way to write to us.',
+    bodies: { 'nav-more': 'Stuck anywhere? Help and FAQ is under More: the common questions, this tour to take again, Ask Mobi and a way to write to us.' } },
 ];
 // Pip guides the tour only (rare, so it may have character); it nods on each step.
 const TOUR_POSES = ['greeting', 'encouraging', 'thinking', 'celebrating', 'encouraging', 'thinking', 'celebrating', 'greeting'];
@@ -66,8 +61,6 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   const [tourOpen, setTourOpen] = useState(false);
   const [tourStep, setTourStep] = useState(0);
   const [tourTarget, setTourTarget] = useState(null);
-  // The Help door's menu: { anchor: 'sidebar' | 'dock', el } while open (N17).
-  const [help, setHelp] = useState(null);
   const tourSeenKey = user?.id ? `mockmob_app_tour_seen_${user.id}` : 'mockmob_app_tour_seen';
   const activePath = previewRoute || pathname;
   const isTestRoute = activePath.startsWith('/test');
@@ -273,7 +266,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   // Account's "Replay the guide" asks the shell to open the tour (it falls back to pressing Guide).
   useEffect(() => {
     if (isTestRoute) return undefined;
-    const openGuide = (event) => { event.preventDefault(); setMobileMenuOpen(false); setHelp(null); setTourStep(0); setTourOpen(true); };
+    const openGuide = (event) => { event.preventDefault(); setMobileMenuOpen(false); setTourStep(0); setTourOpen(true); };
     window.addEventListener('mockmob:open-guide', openGuide);
     return () => window.removeEventListener('mockmob:open-guide', openGuide);
   }, [isTestRoute]);
@@ -304,7 +297,10 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   // The desktop sidebar keeps the full groups.
   const mobileTabs = MOBILE_STUDY_NAV;
   const dockIds = new Set(mobileTabs.map((tab) => tab.id));
-  const sheetGroups = navGroups.map((group) => ({ ...group, items: group.items.filter((tab) => !dockIds.has(tab.id)) })).filter((group) => group.items.length);
+  // Account and Help and FAQ are the sheet's own header (the name row and the Help and FAQ link beside the sign-out key), so one tap
+  // reaches them; the sidebar keeps both in its Account group. Nothing is dropped: each is still one tap from More.
+  const sheetHeadIds = new Set(['profile', 'help']);
+  const sheetGroups = navGroups.map((group) => ({ ...group, items: group.items.filter((tab) => !dockIds.has(tab.id) && !sheetHeadIds.has(tab.id)) })).filter((group) => group.items.length);
   const allTabs = navGroups.flatMap((group) => group.items);
   const isActive = (id) => activePath === `/${id}` || activePath.startsWith(`/${id}/`);
   const renderNavLink = (tab, onNavigate) => (
@@ -345,23 +341,10 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
             {group.items.map((tab) => renderNavLink(tab))}
           </nav>
         ))}
-        {/* The foot is one compact row at the end of the list, not a sticky panel: at 1440 x 900 it never covers a row
-            (W-069). Appearance keeps its three choices as icons with names; Guide sits under it. */}
+        {/* The foot is the appearance row alone (D11): Account and Help and FAQ are links in the Account group above it, and
+            Help and FAQ is its own page, not a menu inside the sidebar. */}
         <div className="arena-sidebar__foot">
           <AppearanceSwitch compact />
-          {/* The Help door (N17): the one place a stuck student looks. Mobi's orb lives here now, in the shell, instead of
-              floating over the page (N9). */}
-          <button
-            type="button"
-            className="arena-help-door"
-            data-tour="guide-button"
-            aria-haspopup="dialog"
-            aria-expanded={help?.anchor === 'sidebar'}
-            onClick={(event) => { const el = event.currentTarget; setHelp((open) => (open?.anchor === 'sidebar' ? null : { anchor: 'sidebar', el })); }}
-          >
-            <PrepOSOrb size={32} active={help?.anchor === 'sidebar'} />
-            <span className="arena-help-door__text"><b>{HELP_DOOR.label}</b><span>{HELP_DOOR.hint}</span></span>
-          </button>
         </div>
       </aside>
 
@@ -444,15 +427,6 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
               <div className="arena-sheet__tools">
                 <button
                   type="button"
-                  className="arena-chip"
-                  data-tour="guide-button"
-                  aria-haspopup="dialog"
-                  onClick={() => { setMobileMenuOpen(false); setHelp({ anchor: 'dock', el: document.querySelector('.arena-dock [data-tour="nav-more"]') }); }}
-                >
-                  <AppIcon name="guide" /> {HELP_DOOR.label}
-                </button>
-                <button
-                  type="button"
                   onClick={async () => { await signOut(); router.push('/'); }}
                   title="Sign out"
                   aria-label="Sign out"
@@ -461,6 +435,9 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
                   <AppIcon name="signout" />
                 </button>
               </div>
+              <Link href={previewLinks?.help || '/help'} className="arena-sheet__help" aria-current={isActive('help') ? 'page' : undefined} onClick={() => setMobileMenuOpen(false)}>
+                <AppIcon name="help" /> Help and FAQ
+              </Link>
             </div>
             <AppearanceSwitch />
             {sheetGroups.map((group) => (
@@ -477,21 +454,12 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
       {!isTestRoute && <div className="arena-dock">
         <nav className="arena-bottomnav" aria-label="Quick study navigation">
           {mobileTabs.map((tab) => <Link key={tab.id} href={previewLinks?.[tab.id] || tab.href} onClick={() => setMobileMenuOpen(false)} aria-current={isActive(tab.id) ? 'page' : undefined} data-tour={`nav-${tab.id}`}><AppIcon name={tab.icon} size={24} /><span>{tab.label}</span></Link>)}
-          <button type="button" data-tour="nav-more" aria-expanded={mobileMenuOpen} aria-controls={mobileMenuOpen ? 'arena-sheet' : undefined} onClick={(event) => { setHelp(null); toggleMenu(event); }}><AppIcon name="more" size={24} /><span>More</span></button>
+          <button type="button" data-tour="nav-more" aria-expanded={mobileMenuOpen} aria-controls={mobileMenuOpen ? 'arena-sheet' : undefined} onClick={toggleMenu}><AppIcon name="more" size={24} /><span>More</span></button>
         </nav>
         <StartKey variant="bar" onOpen={() => setMobileMenuOpen(false)} />
       </div>}
       {!isTestRoute && <StartSheetHost previewLinks={previewLinks} />}
       {!isTestRoute && <AskMobiHost />}
-      {!isTestRoute && help ? (
-        <HelpMenu
-          request={help}
-          links={previewLinks}
-          onClose={() => setHelp(null)}
-          onAsk={(from) => openAskMobi({ tab: 'ask', from })}
-          onTour={() => { setTourStep(0); setTourOpen(true); }}
-        />
-      ) : null}
       {!isTestRoute && tourOpen && (
         <div className="pointer-events-none fixed inset-0 z-[80]">
           {tourTarget ? (

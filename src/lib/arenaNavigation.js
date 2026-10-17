@@ -15,7 +15,7 @@ export function arenaNavigation(moderator = false, { mob = false } = {}) {
     { label: 'Study', items: STUDY_NAV },
     { label: 'Planning', items: [item('analytics', 'Weak chapters', 'radar', '/analytics'), item('admission-compass', 'Colleges', 'colleges', '/admission-compass', 'DU cutoffs'), item('mentor', 'Ask Mobi', 'prepos')] },
     { label: 'Community', items: [...(mob ? [item('mob', 'Your Mob', 'mob')] : []), item('leaderboard', 'Your standing', 'ranks'), item('upload', 'Contribute', 'contribute'), item('my-uploads', 'My uploads', 'uploads')] },
-    { label: 'Account', items: [item('profile', 'Account', 'account'), item('help', 'Help', 'help')] },
+    { label: 'Account', items: [item('profile', 'Account', 'account'), item('help', 'Help and FAQ', 'help')] },
   ];
 }
 // The phone dock (NAV-1017 section 8): Today, Practice, Review and Colleges, then More (drawn by the layout). Colleges is
