@@ -1,0 +1,1191 @@
+{
+ "wf": "wf_4358acd4-998",
+ "label": "ledger",
+ "result": {
+  "items": [
+   {
+    "id": "L-001",
+    "area": "landing",
+    "page": "/ (public landing)",
+    "check": "www.mockmob.in/ serves the NEW landing in production (not the old static hero), and every L-item below passes on the live URL. No preview or staging link is offered instead.",
+    "quotes": "\"the new landing page: both of these should be the priority to be done within the next one\" / \"No need to make any preview link. Just complete everything.\"",
+    "dates": "17 Oct 07:11Z, 07:15Z; 04:46Z"
+   },
+   {
+    "id": "L-002",
+    "area": "landing",
+    "page": "/",
+    "check": "The landing ships only after a critic round scores it 88 or more AND a verifier finds no truth defects (no false or unverifiable claim). Score report exists for the shipped build.",
+    "quotes": "\"the landing page just needs a better score.\" / \"Ship the landing only at 88+ with no truth defects.\"",
+    "dates": "16 Oct 11:19Z; 20:41Z, 22:31Z"
+   },
+   {
+    "id": "L-003",
+    "area": "landing",
+    "page": "/ (all sections)",
+    "check": "Open / at 390 px: every section is composed for the phone first and is at least as impressive as at 1440 px; no desktop-only effect is missing or broken on the phone.",
+    "quotes": "\"When people visit the landing page, it should be a mobile-first approach only.\"",
+    "dates": "15 Oct 10:44Z"
+   },
+   {
+    "id": "L-004",
+    "area": "landing",
+    "page": "/",
+    "check": "The landing still has the full feature showcase, tour, scroll animations and flying Mobi (about 12 sections); no section from the previous landing was cut or replaced by a plain 15-subject list. Compare section list against the previous production version: nothing lost.",
+    "quotes": "\"It is a major regression from the previous landing page. It looked like a landing page, had a feature showcase\"",
+    "dates": "15 Oct 07:47Z"
+   },
+   {
+    "id": "L-005",
+    "area": "landing",
+    "page": "/",
+    "check": "Every scroll animation and scroll behaviour of the previous landing still exists and runs more fluidly (none removed for simplicity).",
+    "quotes": "\"you have removed the animations, scroll, and other things also\"",
+    "dates": "15 Oct 07:47Z"
+   },
+   {
+    "id": "L-006",
+    "area": "landing",
+    "page": "/ (signed in)",
+    "check": "Signed in, open /: the guest CTA 'Start free practice / Try 5 questions' is NOT shown; a 'Welcome back' state with an obvious Enter the Arena / Go to practice button is shown (or the user lands in the Arena).",
+    "quotes": "\"either there should be 'You are logged in to the Arena,' or they should directly enter into Arena.\"",
+    "dates": "13 Oct 08:44Z"
+   },
+   {
+    "id": "L-007",
+    "area": "landing",
+    "page": "/ and top nav",
+    "check": "Load / as (a) first-time visitor, (b) signed-out returning, (c) signed-in free, (d) paid: hero CTA, nav and bottom bar differ appropriately for each state (no paid upsell shown to a paid user).",
+    "quotes": "\"free, paid, signed in, signed out, or first-time visitor. According to that, it should show relevant information.\"",
+    "dates": "13 Oct 08:44Z"
+   },
+   {
+    "id": "L-008",
+    "area": "landing",
+    "page": "/ bottom bar (dock)",
+    "check": "The landing bottom bar is ONE real button (no small linked text beside it) whose label and target follow state: guest = Free to start / Try a CUET question; signed in = Welcome back + Go to arena/practice; guest who finished the sample = Sign up. Each label navigates correctly.",
+    "quotes": "\"The button should change its state according to the user.\" / \"Just say 'Welcome back'\"",
+    "dates": "15 Oct 18:01Z (supersedes 14:41Z footer ask)"
+   },
+   {
+    "id": "L-009",
+    "area": "landing",
+    "page": "/ sample questions -> dock/CTAs",
+    "check": "As a guest, finish the 5 sample questions, then scroll: the dock and later CTAs now say Sign up, not Try a CUET question again.",
+    "quotes": "\"I attempted 5 questions. Still, when I scroll down, it's showing the same screen. Rather than that, it can show 'Sign up'.\"",
+    "dates": "15 Oct 18:01Z"
+   },
+   {
+    "id": "L-010",
+    "area": "landing",
+    "page": "/ footer and bottom CTA",
+    "check": "Click the bottom 'Try a CUET question' (and any footer CTA): it works and opens the sample; a working Sign up route is reachable from the bottom of the page.",
+    "quotes": "\"There's a 'Try CBT Question' button that doesn't work, and 'Sign Up' is actually required.\"",
+    "dates": "15 Oct 14:41Z"
+   },
+   {
+    "id": "L-011",
+    "area": "landing",
+    "page": "/ at 390 px (Start / bottom button)",
+    "check": "At 390 px the Start / bottom-bar button is horizontally centred and sits inside the layout; it does not float or pop separately.",
+    "quotes": "\"the start button is extremely weirdly aligned... not being centered and popping separately.\"",
+    "dates": "15 Oct 18:01Z; repeated 17 Oct F13"
+   },
+   {
+    "id": "L-012",
+    "area": "landing",
+    "page": "/ top bar",
+    "check": "Click the MockMob logo/button in the top bar: scrolls/returns to the top header. Every other top-bar link (Go to bottom, All, section links) reaches its target. A clear conversion CTA (Start / Sign up / Enter Arena by state) sits in the top bar.",
+    "quotes": "\"If I'm clicking it, it should take me to the home header that's not working. Anything else, like 'Go to bottom' or 'All', is also not working.\"",
+    "dates": "15 Oct 18:01Z"
+   },
+   {
+    "id": "L-013",
+    "area": "landing",
+    "page": "/",
+    "check": "Conversion path audit: a guest can reach a sample, sign-up and the Arena in at most 2 taps from the hero, the dock and the footer; no dead CTA.",
+    "quotes": "\"this might not be the most converting site. That's why we need to focus on that aspect also.\"",
+    "dates": "15 Oct 18:01Z"
+   },
+   {
+    "id": "L-014",
+    "area": "landing",
+    "page": "/ hero",
+    "check": "Hero is redesigned with clean spacing and conveys the message at first glance without bombarding; every other section of the page is still present (no regressive removal).",
+    "quotes": "\"the hero section needs to be redesigned\" / \"I don't want to remove anything from the website\"",
+    "dates": "15 Oct 18:01Z, 18:13Z"
+   },
+   {
+    "id": "L-015",
+    "area": "landing",
+    "page": "/ hero sample",
+    "check": "A visitor whose subject combination is not in the 5 sample questions has a clear path from the hero (subject choice or sign-up route); they are never stuck with irrelevant questions.",
+    "quotes": "\"if someone doesn't have the subject combination, what then?\"",
+    "dates": "15 Oct 18:01Z"
+   },
+   {
+    "id": "L-016",
+    "area": "landing",
+    "page": "/ hero headline",
+    "check": "The hero headline has a visibly changing word (typed line or crisp per-letter morph) that runs on the live page; it is not glass and has no glow.",
+    "quotes": "\"A typed line or a crisp per-letter morph is fine. Glass is not needed.\"",
+    "dates": "15 Oct 18:01Z, 19:02Z; 16 Oct ~00:45 IST"
+   },
+   {
+    "id": "L-017",
+    "area": "landing",
+    "page": "/ hero",
+    "check": "'CUET 2027' in the hero is coloured (brand colour), not plain text.",
+    "quotes": "\"CUET 2027 was colored. All that is now removed.\"",
+    "dates": "15 Oct 18:01Z"
+   },
+   {
+    "id": "L-018",
+    "area": "landing",
+    "page": "/ hero",
+    "check": "The CUET 2027 element either does something meaningful when clicked or is not styled as a button (no button that only scrolls down).",
+    "quotes": "\"there is a CUET 2027 button that just scrolls down.\"",
+    "dates": "15 Oct 18:01Z"
+   },
+   {
+    "id": "L-019",
+    "area": "landing",
+    "page": "/ (hero and all buttons)",
+    "check": "No glow around buttons, no sheen sweep, no light running around an edge, no drifting glow blobs, no gradient text anywhere on the landing.",
+    "quotes": "\"some sort of glowy animation around the button that really amplifies the AI slop look\"",
+    "dates": "15 Oct 19:02Z; 16 Oct ~00:45 IST"
+   },
+   {
+    "id": "L-020",
+    "area": "landing",
+    "page": "/ 'Fix the reason, not just answer' and all sections",
+    "check": "No eyebrow pill or label with a pulsing/static dot anywhere (including above 'Fix the reason, not just answer'); no decorative four-icon row; hierarchy is done with typography and layout, not cards, pills or badges.",
+    "quotes": "\"This is a pure giveaway that this is an AI-generated website\"",
+    "dates": "15 Oct 19:14Z"
+   },
+   {
+    "id": "L-021",
+    "area": "landing",
+    "page": "/ hero copy and Mobi",
+    "check": "Hard-reload / 5 times (390 and 1440): the hero copy ('Your lost marks went somewhere. Mockmob shows you where...') and Mobi render fully every time; no missing text or failed copy file.",
+    "quotes": "\"This is good, actually... but this file is not loading properly, so just check it.\"",
+    "dates": "15 Oct 18:01Z"
+   },
+   {
+    "id": "L-022",
+    "area": "landing",
+    "page": "/",
+    "check": "No floating subtext lines 'Built first for commerce', 'CUET commerce' or 'English'; each is either a deliberate element in the hierarchy or gone.",
+    "quotes": "\"should not just be thrown around as a subtext\"",
+    "dates": "15 Oct 18:01Z"
+   },
+   {
+    "id": "L-023",
+    "area": "landing",
+    "page": "/",
+    "check": "Commerce-first positioning is still clear on the landing (CUET Commerce leads), delivered through hierarchy rather than stray subtext.",
+    "quotes": "\"I really like the overall direction... building it in a commerce-first direction.\"",
+    "dates": "15 Oct 10:44Z"
+   },
+   {
+    "id": "L-024",
+    "area": "landing",
+    "page": "all public pages",
+    "check": "Search rendered text of every public page: zero instances of 'illustrative', 'not a prediction', 'example only', 'not affiliated', 'just a diagnostic' or similar defensive fine print.",
+    "quotes": "\"You have filled the website with these kinds of sub-remarks but they are not acceptable on the production site.\"",
+    "dates": "12 Oct 20:59Z; 15 Oct 10:44Z"
+   },
+   {
+    "id": "L-025",
+    "area": "landing",
+    "page": "/ (all copy and theme)",
+    "check": "All landing English reads correctly and specifically (weak spots fixed, good copy kept); one design theme matching the app; passes the 12-part anti-slop test (score toward 90, from his 50-60).",
+    "quotes": "\"This kind of still has an AI slop look.\" / \"some places still need fixing. Read everything carefully.\"",
+    "dates": "15 Oct 10:44Z, 18:01Z; 16 Oct ~01:00 IST"
+   },
+   {
+    "id": "L-026",
+    "area": "landing",
+    "page": "/ 'Every mark, traced back to a moment' (Time / Changes / Repairs / What)",
+    "check": "At 390 px this showcase pins and steps through its scenes exactly like desktop; it does NOT stack into separate sections.",
+    "quotes": "\"When I am resizing the browser to a mobile size, they are coming as different sections. That should not happen.\"",
+    "dates": "15 Oct 10:44Z; approved 14:41Z"
+   },
+   {
+    "id": "L-027",
+    "area": "landing",
+    "page": "/ every pinned section",
+    "check": "With a fast wheel flick and a fast touch swipe, each gesture advances exactly ONE slide; never skips several slides.",
+    "quotes": "\"One scroll should be one slide only, no matter what the speed is\"",
+    "dates": "15 Oct 14:41Z"
+   },
+   {
+    "id": "L-028",
+    "area": "landing",
+    "page": "/ 'What's inside MockMob'",
+    "check": "The 'What's inside MockMob' pinned section advances much slower than before (one slide per gesture; readable dwell).",
+    "quotes": "\"what's inside Mockmob is especially extremely fast. This needs to be slowed down a lot.\"",
+    "dates": "15 Oct 14:41Z"
+   },
+   {
+    "id": "L-029",
+    "area": "landing",
+    "page": "/ 'What and Why MockMob', 'see where your marks went'",
+    "check": "These sections hold the screen and step their content as the user scrolls (desktop and phone), so a single fast flick cannot skip them.",
+    "quotes": "\"people scroll past them very fast... automatically switch to the next section even while scrolling\"",
+    "dates": "15 Oct 10:44Z"
+   },
+   {
+    "id": "L-030",
+    "area": "landing",
+    "page": "/ 'What's inside MockMob' heading",
+    "check": "Heading is smaller and less dominant, 'MockMob' in green, spacing fixed, heading and subtext animate together and attach to the next practice section.",
+    "quotes": "\"what's inside Mockmob actually gets less highlighted. Maybe Mockmob can be highlighted in green.\"",
+    "dates": "15 Oct 18:01Z"
+   },
+   {
+    "id": "L-031",
+    "area": "landing",
+    "page": "/ at 390 px",
+    "check": "Each landing screen fills the phone viewport with no dead space at the bottom; key content sits at or above eye line (upper two-thirds).",
+    "quotes": "\"there's some wasted space at the bottom... it's below the eye-line level.\"",
+    "dates": "15 Oct 18:01Z"
+   },
+   {
+    "id": "L-032",
+    "area": "landing",
+    "page": "/ Repair and SWOT scenes",
+    "check": "At 390 px the Repair and SWOT scene text is comfortably readable (body at least 14-16 px, short per scene) and the important content is still there.",
+    "quotes": "\"This repair section's text is actually kind of unreadable on mobile... Same with the sort analysis\"",
+    "dates": "15 Oct 18:01Z"
+   },
+   {
+    "id": "L-033",
+    "area": "landing",
+    "page": "/ Time / Lab demo",
+    "check": "No demo question time above about 3 minutes anywhere on the landing (no 10-14 minute values, no 10:35 change times).",
+    "quotes": "\"No one spends 10 minutes on a question.\"",
+    "dates": "15 Oct 18:01Z"
+   },
+   {
+    "id": "L-034",
+    "area": "landing",
+    "page": "/ Time scene",
+    "check": "Time-per-question bars have different heights (some under, some over the ideal pace line) with matching feedback text.",
+    "quotes": "\"some questions are below the correct pace time and some are above\"",
+    "dates": "15 Oct 14:41Z"
+   },
+   {
+    "id": "L-035",
+    "area": "landing",
+    "page": "/ Changes scene",
+    "check": "The answer-change animation shows B in green with a check, the path to D crossed out and D in red; understandable without reading.",
+    "quotes": "\"B is green with a check mark, and the line going to D is a wrong thing, so cross it and then show D.\"",
+    "dates": "15 Oct 14:41Z"
+   },
+   {
+    "id": "L-036",
+    "area": "landing",
+    "page": "/ Smart analysis and Replay scenes",
+    "check": "Smart analysis and Replay graphics are self-explanatory and nothing in the Replay scene is broken or meaningless.",
+    "quotes": "\"some things are not proper there also. They can be thought through a bit\"",
+    "dates": "15 Oct 14:41Z"
+   },
+   {
+    "id": "L-037",
+    "area": "landing",
+    "page": "/ accountancy mock section (3D calculator)",
+    "check": "The 3D calculator behind the accountancy mock behaves identically at 1440 and 390 (visible in both or intentionally absent in both); no glitch.",
+    "quotes": "\"it's disappearing in the phone one. Just check what it is, if it's a glitch\" / \"every mark traced back to a moment, so this account NC Mock.\"",
+    "dates": "15 Oct 10:44Z"
+   },
+   {
+    "id": "L-038",
+    "area": "landing",
+    "page": "/ subject logo scroller",
+    "check": "At 390 px the subject object scroller is perfectly aligned, objects large enough, motion has gentle easing.",
+    "quotes": "\"They are not aligned perfectly... Maybe add some sort of easing, a little bit.\"",
+    "dates": "15 Oct 10:44Z"
+   },
+   {
+    "id": "L-039",
+    "area": "landing",
+    "page": "/ Mobi",
+    "check": "Mobi is present on the landing and its homepage motion is visibly better than the 15 Oct version (purposeful, smooth).",
+    "quotes": "\"If you are also just improving the motion of Mockmob on the homepage\" / \"Mobi is good\"",
+    "dates": "15 Oct 10:44Z, 18:01Z"
+   },
+   {
+    "id": "L-040",
+    "area": "landing",
+    "page": "/",
+    "check": "Fast flick-scroll top to bottom on phone and desktop: no animation glitching, flicker, jank or missed reveals; page weight and animation cost reduced (Lighthouse/perf trace).",
+    "quotes": "\"If I'm scrolling really fast on the website, there is some glitching... Overall, this is a heavy site.\"",
+    "dates": "15 Oct 18:01Z"
+   },
+   {
+    "id": "L-041",
+    "area": "landing",
+    "page": "/ hero/facts",
+    "check": "The landing says plainly that every paper is fresh from one live central bank with no mock cap (vs rivals' 10-30 per subject); prominent enough to register, not a loud banner; never says 'never repeats' unless guaranteed.",
+    "quotes": "\"It should not be in the face or something, but everyone should know that this is our actual key differentiation\"",
+    "dates": "16 Oct 11:19Z"
+   },
+   {
+    "id": "L-042",
+    "area": "landing",
+    "page": "/",
+    "check": "What he approved is still there: Mobi, the time section, the good copy, logo animations.",
+    "quotes": "\"Just double down on everything that you have done: more refinement and more perfection.\"",
+    "dates": "15 Oct 18:01Z"
+   },
+   {
+    "id": "L-043",
+    "area": "landing",
+    "page": "/ opening",
+    "check": "If the landing has a logo opening, it uses logo B and lasts about 3 s; otherwise mark N/A (the 3-second logo opening was most likely an app ask).",
+    "quotes": "\"why is the 3-second logo not up?\"",
+    "dates": "14 Oct 19:32Z"
+   },
+   {
+    "id": "L-044",
+    "area": "landing",
+    "page": "/ (scroll scenes)",
+    "check": "No Higgsfield/video scene is live unless the owner approved its storyboard; SVG/Mobi scroll scenes stay where they work. (Planned last, budget USD 15.)",
+    "quotes": "\"I was thinking in the direction of some scroll animations... Sometimes we need some proper animation.\"",
+    "dates": "16 Oct 17:37Z, 17:40Z"
+   },
+   {
+    "id": "L-045",
+    "area": "landing",
+    "page": "/ app promotion",
+    "check": "The site links to/promotes the Android app only where a real link exists; no placeholder or broken App Store / Play Store badges. Full app-promo section deferred until store links exist.",
+    "quotes": "\"we have to add a section on the website promoting the app also... Right now, we don't have the links\"",
+    "dates": "12 Oct 12:50Z; 15 Oct 18:13Z"
+   },
+   {
+    "id": "W-001",
+    "area": "start-practice-runner",
+    "page": "Start menu (Full Mock and modes)",
+    "check": "Put the web Start menu side by side with the app's: Full Mock and the other modes match the app's design language and polish (F4).",
+    "quotes": "\"this full mock in the start menu is better incorporated in the mobile app than on the website.\"",
+    "dates": "17 Oct ~00:45 IST (F4)"
+   },
+   {
+    "id": "W-002",
+    "area": "start-practice-runner",
+    "page": "Start menu modes",
+    "check": "Quick practice, By chapter, Smart, Exam condition/NTA and Full mock each look pressable (button affordance, hover and press states, clear action label) and trigger an obvious action on click (F5).",
+    "quotes": "\"these feel like cards depicting information rather than buttons that I click\"",
+    "dates": "17 Oct ~00:45 IST (F5)"
+   },
+   {
+    "id": "W-003",
+    "area": "start-practice-runner",
+    "page": "Start menu subject logos and top card",
+    "check": "Subject logos are bigger (sized like the 'Finish your recall session' card logo) and the top card's subject name changes live when the selected subject changes (F6).",
+    "quotes": "\"Maybe the logos can be made a bit bigger, like in the top card of 'Finish your recall session'.\"",
+    "dates": "17 Oct ~00:45 IST (F6); 16 Oct 19:03Z"
+   },
+   {
+    "id": "W-004",
+    "area": "start-practice-runner",
+    "page": "Start menu subject chips",
+    "check": "Unselected subject chips are blurred noticeably more than before, the selected chip is sharp, and all chip logos are larger (F7).",
+    "quotes": "\"just increase the blur of the other subjects a bit more\"",
+    "dates": "17 Oct ~00:45 IST (F7)"
+   },
+   {
+    "id": "W-005",
+    "area": "start-practice-runner",
+    "page": "Start menu fine-tune",
+    "check": "Fine-tune sits ABOVE the 'Start quick practice' button, visible without hunting; its UI is clean; chapters are grouped and have a search field that finds a chapter by typing (F8).",
+    "quotes": "\"Chapters are cluttered, and it's difficult to find exactly what we are looking for.\"",
+    "dates": "17 Oct ~00:45 IST (F8)"
+   },
+   {
+    "id": "W-006",
+    "area": "start-practice-runner",
+    "page": "Start menu per mode",
+    "check": "Fine-tune scope rule: Quick practice shows fine-tune; Full mock shows only a difficulty slider (no chapter picker); NTA / Exam condition and Smart practice show no fine-tune at all (F9).",
+    "quotes": "\"The entire fine-tune should be in the quick practice only.\"",
+    "dates": "17 Oct ~00:45 IST (F9)"
+   },
+   {
+    "id": "W-007",
+    "area": "start-practice-runner",
+    "page": "Start menu Start button on scroll",
+    "check": "Scroll the Start page slowly down and up: the Start button never flips white and the '15 questions, 15 minutes' summary never appears/hides/reappears; its state follows one deterministic rule (F12).",
+    "quotes": "\"What state is it really following? That is the confusion.\"",
+    "dates": "17 Oct ~00:45 IST (F12)"
+   },
+   {
+    "id": "W-008",
+    "area": "start-practice-runner",
+    "page": "Start page bottom half / Start button placement",
+    "check": "The Start button and bottom half of the Start page sit in a deliberate, balanced position (desktop and 390 px); not awkward or floating (F13).",
+    "quotes": "\"it looks kind of weird to me, the placement of the start button at least.\"",
+    "dates": "17 Oct ~00:45 IST (F13)"
+   },
+   {
+    "id": "W-009",
+    "area": "start-practice-runner",
+    "page": "Start / Practice order",
+    "check": "Flow reads top to bottom: pick subject once, then mode, then options; no second subject picker appears after the modes.",
+    "quotes": "\"first in the top English subject, then a few modes, then subject selection... it's not exactly idle\"",
+    "dates": "16 Oct 05:02Z"
+   },
+   {
+    "id": "W-010",
+    "area": "start-practice-runner",
+    "page": "Start menu subject row (desktop)",
+    "check": "At 1440 px the horizontal subject row scrolls with mouse wheel, drag and visible arrows.",
+    "quotes": "\"The horizontal scroll thing for subjects is not working on desktop\"",
+    "dates": "15 Oct 10:44Z"
+   },
+   {
+    "id": "W-011",
+    "area": "start-practice-runner",
+    "page": "Start menu ('Start here')",
+    "check": "The Start sheet concept is kept and refined with graphics, better spacing and typography (not replaced).",
+    "quotes": "\"This start thing that you have included, I really love it.\"",
+    "dates": "15 Oct 07:47Z, 10:44Z"
+   },
+   {
+    "id": "W-012",
+    "area": "start-practice-runner",
+    "page": "Practice and Start: NTA tile; full mock start",
+    "check": "NTA tile boxes and checkboxes stay inside their container (Practice and Start, 390 and 1440); pressing Start on a full mock / NTA plays a short start moment (e.g. clock turns 360).",
+    "quotes": "\"Some boxes and checkboxes are going out of the area\" / \"the clock doing a 360\"",
+    "dates": "15 Oct 14:51Z"
+   },
+   {
+    "id": "W-013",
+    "area": "start-practice-runner",
+    "page": "Practice page",
+    "check": "Practice keeps the earlier rich UI, including the blue light and texture on the cards; nothing plainer than the pre-15 Oct version.",
+    "quotes": "\"Previously it was such a beautiful UI. Now what is this?\" / \"some blue light and texture on the cards\"",
+    "dates": "15 Oct 07:47Z; 16 Oct 20:06Z; 17 Oct 3:10 am IST"
+   },
+   {
+    "id": "W-014",
+    "area": "start-practice-runner",
+    "page": "Dashboard / Practice subject objects (desktop)",
+    "check": "At 1440 px subject objects on the dashboard and Practice are larger than the 15 Oct size, with eased motion; 390 px size unchanged.",
+    "quotes": "\"Logos are a bit small for the subjects, in my opinion. In the desktop version\"",
+    "dates": "15 Oct 10:44Z"
+   },
+   {
+    "id": "W-015",
+    "area": "start-practice-runner",
+    "page": "Arena (Practice, Today, runner, results) at 390 px",
+    "check": "Arena pages are desktop-first and also clear at 390 px; a first-time student can tell what to do on each page, with the app's clarity brought over.",
+    "quotes": "\"things are very similar in the arena section. This can be improved on mobile.\"",
+    "dates": "15 Oct 10:44Z"
+   },
+   {
+    "id": "W-016",
+    "area": "start-practice-runner",
+    "page": "Test runner option select",
+    "check": "Picking an answer shows one clean state change; no second box slides out of the confirm box top to bottom (F10). The runner otherwise stays fluid.",
+    "quotes": "\"there are two boxes: one box is confirming my selection, and there's another box which is coming out of it\"",
+    "dates": "17 Oct ~00:45 IST (F10)"
+   },
+   {
+    "id": "W-017",
+    "area": "start-practice-runner",
+    "page": "Test runner top notice",
+    "check": "The runner shows a short, reworded status at the top (answers saved on this device; stay online to submit; bank being checked), not the original exact lines, with no filler.",
+    "quotes": "\"It should always be shown at the top... You can write it, but not exactly this.\"",
+    "dates": "13 Oct 08:44Z"
+   },
+   {
+    "id": "W-018",
+    "area": "start-practice-runner",
+    "page": "Test runner (NTA screen-capture / privacy line)",
+    "check": "No privacy or screen-capture filler line anywhere in the runner or NTA mode.",
+    "quotes": "\"Remove that privacy line, whatever that is.\"",
+    "dates": "13 Oct 18:53Z"
+   },
+   {
+    "id": "W-019",
+    "area": "start-practice-runner",
+    "page": "Runner NTA-style mode passages",
+    "check": "In NTA-style mode, reading-passage text is clearly readable in Night and Day (colour follows the theme).",
+    "quotes": "\"In the NTA style mode, it's just not visible because the color is not adapting\"",
+    "dates": "13 Oct 08:44Z"
+   },
+   {
+    "id": "W-020",
+    "area": "start-practice-runner",
+    "page": "Runner NTA mode at 390 px",
+    "check": "NTA mode at 390 px has a phone layout (palette, readable question, 44 px tap targets, palette reachable), not a shrunk desktop console.",
+    "quotes": "\"The NTA mode on mobile is, I think, not very apt.\"",
+    "dates": "13 Oct 08:44Z"
+   },
+   {
+    "id": "W-021",
+    "area": "start-practice-runner",
+    "page": "NTA mock (English)",
+    "check": "Build an English NTA mock: section and question-type order match the real CUET English pattern; it does not show passage after passage through question 15.",
+    "quotes": "\"I am now on question 15, and it's just showing me passages and passages.\"",
+    "dates": "13 Oct 08:44Z"
+   },
+   {
+    "id": "W-022",
+    "area": "start-practice-runner",
+    "page": "NTA mock builder (every subject)",
+    "check": "For each offered subject, an NTA mock builds in under 30 s, matches that subject's exact CUET pattern, draws only well-scored questions (prefers newest), and costs no per-mock AI call.",
+    "quotes": "\"It should not take more than 30 seconds... fully equivalent to a proper CUET expert-made, handmade mock.\"",
+    "dates": "13 Oct 08:44Z, 09:20Z, 14:32Z, 14:41Z"
+   },
+   {
+    "id": "W-023",
+    "area": "start-practice-runner",
+    "page": "NTA mode integrity (web strike guard)",
+    "check": "In NTA mode: a brief interruption under 3 s does not count; a real tab/app switch counts at once; 3 warnings total; no extra grace period beyond that.",
+    "quotes": "\"we are already giving 3 warnings... No need to give any grace or anything else.\"",
+    "dates": "13 Oct 18:53Z"
+   },
+   {
+    "id": "W-024",
+    "area": "start-practice-runner",
+    "page": "Runner and test controls",
+    "check": "Runner controls (timer, palette, mark for review, submit, answer persistence, reconnect) behave exactly as before the redesign; no upsell, Mobi or heavy animation inside a timed paper.",
+    "quotes": "\"I hope you have not changed what was not meant to be changed.\"",
+    "dates": "15 Oct 07:47Z"
+   },
+   {
+    "id": "W-025",
+    "area": "result-review-repair",
+    "page": "Result screen",
+    "check": "No sleeping Mobi on the result screen (F11).",
+    "quotes": "\"Mobby sleeping here feels a bit weird to me and is very confusing to me.\"",
+    "dates": "17 Oct ~00:45 IST (F11)"
+   },
+   {
+    "id": "W-026",
+    "area": "result-review-repair",
+    "page": "Result screen",
+    "check": "In three layers: a first-time student sees at once what happened and ONE next move; the SWOT / analysis / repair stack no longer overwhelms; all features are still reachable; 'Check it held' is kept (F11).",
+    "quotes": "\"If I see it from the student's point of view, they won't be able to figure out anything in this UI.\"",
+    "dates": "17 Oct ~00:45 IST (F11); 16 Oct 20:41Z"
+   },
+   {
+    "id": "W-027",
+    "area": "result-review-repair",
+    "page": "Result screen",
+    "check": "The submission confirmation appears once, not twice (F11).",
+    "quotes": "\"Submission is there, and the add submission is there.\"",
+    "dates": "17 Oct ~00:45 IST (F11)"
+   },
+   {
+    "id": "W-028",
+    "area": "result-review-repair",
+    "page": "Result screen Repair entry",
+    "check": "Repair's value is obvious on the result screen: clear label, one-line payoff, obvious entry point on the mistake.",
+    "quotes": "\"I'm still not sure if 'repair the mistake' is what it is adding as a useful thing.\"",
+    "dates": "17 Oct ~00:45 IST (F11)"
+   },
+   {
+    "id": "W-029",
+    "area": "result-review-repair",
+    "page": "Result screen SWOT",
+    "check": "After every mock a SWOT is shown with one-tap recommendations of specific topic mocks; it is separate from the repair lab; text readable at 390 px.",
+    "quotes": "\"after each mock, add a SWOT analysis. According to that, we will recommend the next specific topic mocks\"",
+    "dates": "15 Oct 03:19Z, 18:01Z"
+   },
+   {
+    "id": "W-030",
+    "area": "result-review-repair",
+    "page": "Result reveal",
+    "check": "The result has a short, memorable reveal (animated cards) that explains the score and the next step without clutter.",
+    "quotes": "\"a satisfying reveal that helps students understand their result and take the next step.\"",
+    "dates": "12 Oct 13:33Z"
+   },
+   {
+    "id": "W-031",
+    "area": "result-review-repair",
+    "page": "Review / Repair (free vs paid)",
+    "check": "The correct answer/key and right/wrong are free; paid Repair delivers substantially more (diagnosis, alternative explanation, practice), never just the key.",
+    "quotes": "\"We can't ask them to pay extra to just see the right answer\"",
+    "dates": "14 Oct 16:44Z; 15 Oct 20:49Z"
+   },
+   {
+    "id": "W-032",
+    "area": "result-review-repair",
+    "page": "Repair (learning loop)",
+    "check": "Repair lets the student retry before seeing the key, gives a fresh checked question on the same rule, puts the rule on Revise, shows their trap pattern, and offers a follow-up to Ask Mobi.",
+    "quotes": "\"explaining the key is not enough\" (CEO decision 16 Oct 02:20, paraphrase)",
+    "dates": "16 Oct ~02:20 IST"
+   },
+   {
+    "id": "W-033",
+    "area": "result-review-repair",
+    "page": "Repair (reliability)",
+    "check": "On the project test account (staging), a repair completes with no API/key/balance error; any failure shows a readable state and no credit is lost. Cause of earlier failures reported.",
+    "quotes": "\"Check if there is no issue with any API key or balance issue... and report it to me.\"",
+    "dates": "14 Oct 16:44Z, 21:17Z"
+   },
+   {
+    "id": "W-034",
+    "area": "result-review-repair",
+    "page": "Mistake Lab per-question timing",
+    "check": "For each question Mistake Lab shows average time spent, the time that should have been spent, and when each changed answer was picked.",
+    "quotes": "\"Even the old features have now been deleted, like average time spent on this question\"",
+    "dates": "15 Oct 07:06Z"
+   },
+   {
+    "id": "W-035",
+    "area": "result-review-repair",
+    "page": "Mistake Lab dashboard (v4)",
+    "check": "Mistake Lab v4 is live, gives clearly more insight than the 15 Oct version, is easy to understand and reachable in one tap from results/review.",
+    "quotes": "\"It should be something which no one is giving\" / \"Easy to understand and access also\"",
+    "dates": "15 Oct 03:19Z, 07:06Z, 20:59Z"
+   },
+   {
+    "id": "W-036",
+    "area": "result-review-repair",
+    "page": "Replay / paper minute by minute",
+    "check": "Replay (minute-by-minute) is complete and the plots built in the previous session are present on the live site.",
+    "quotes": "\"this replay or paper minute by minute is also a kind of incomplete feature.\"",
+    "dates": "15 Oct 20:49Z"
+   },
+   {
+    "id": "W-037",
+    "area": "result-review-repair",
+    "page": "Review",
+    "check": "A mistake already repaired opens its saved repair and never offers or charges a paid repair again (F17).",
+    "quotes": "\"I have to repair it again and spend another credit. That should not happen\"",
+    "dates": "17 Oct ~1:20 am IST (F17)"
+   },
+   {
+    "id": "W-038",
+    "area": "result-review-repair",
+    "page": "Review",
+    "check": "Each mistake shows the mock name and the date and time it was attempted, in 12-hour format (F17).",
+    "quotes": "\"it should show the mock time and date when that was attempted in the review section.\"",
+    "dates": "17 Oct ~1:20 am IST (F17)"
+   },
+   {
+    "id": "W-039",
+    "area": "result-review-repair",
+    "page": "Review / 'You' section",
+    "check": "Review includes the student's own mistakes and the 'You' section carries substantially more than before; 'Review again' works.",
+    "quotes": "\"The 'You' section shows not much.\"",
+    "dates": "15 Oct 14:51Z; 16 Oct 05:02Z"
+   },
+   {
+    "id": "W-040",
+    "area": "result-review-repair",
+    "page": "Learn and Review",
+    "check": "Learn and Review received a real refinement pass (layout, hierarchy, states), not just bug fixes (F15).",
+    "quotes": "\"I know there are many things which need refinement there\"",
+    "dates": "17 Oct ~00:45 IST (F15)"
+   },
+   {
+    "id": "W-041",
+    "area": "today-progress-colleges-account",
+    "page": "Today",
+    "check": "Today is uncluttered and answers 'what do I do now' with one clear 'Up next' move; every dropdown/control on it is a properly designed component (F14).",
+    "quotes": "\"This today section I never really liked: very cluttered, very confusing.\"",
+    "dates": "17 Oct ~00:45 IST (F14); supersedes 15 Oct 07:47Z"
+   },
+   {
+    "id": "W-042",
+    "area": "today-progress-colleges-account",
+    "page": "Today / Home",
+    "check": "Today loads fast with no section arriving late and works for an account with history (no error card).",
+    "quotes": "\"Today itself is a bit slow to load\" / \"The homepage is still not working, at least for my account\"",
+    "dates": "13 Oct 08:44Z; 16 Oct 05:02Z"
+   },
+   {
+    "id": "W-043",
+    "area": "today-progress-colleges-account",
+    "page": "Today cards",
+    "check": "Today cards have balanced spacing: no large empty area with content stuck to the top (e.g. the Accountancy card).",
+    "quotes": "\"too much space and the content stuck at the top\" (Accountancy card)",
+    "dates": "14 Oct 12:29Z"
+   },
+   {
+    "id": "W-044",
+    "area": "today-progress-colleges-account",
+    "page": "Today -> Road to May",
+    "check": "A visible cue (e.g. down arrow) leads to Road to May below the fold; the existing blur is slightly stronger.",
+    "quotes": "\"something in the UI should be leading them below, maybe a down arrow\"",
+    "dates": "15 Oct 14:51Z"
+   },
+   {
+    "id": "W-045",
+    "area": "today-progress-colleges-account",
+    "page": "Road to May / study plan",
+    "check": "Road to May shows an interactive, editable board; changing study days updates correctly (not stuck at 3); the timeline is understandable and adjustable in place if feasible.",
+    "quotes": "\"when I change the study days, it's just showing 3 only to me\" / \"making it editable or changeable\"",
+    "dates": "15 Oct 14:51Z; 16 Oct 05:02Z"
+   },
+   {
+    "id": "W-046",
+    "area": "today-progress-colleges-account",
+    "page": "Study day; week/chapters UI",
+    "check": "Study day page is kept and refined; the week/chapters UI matches or beats the earlier, better version.",
+    "quotes": "\"Study day is good but can be refined.\" / \"The week chapters' UI was actually looking better previously.\"",
+    "dates": "14 Oct 13:47Z; 15 Oct 07:47Z"
+   },
+   {
+    "id": "W-047",
+    "area": "today-progress-colleges-account",
+    "page": "Your Colleges",
+    "check": "Choosing a college loads a suggestion (no 'Could not load a suggestion'), Start does something, and returning Home adds no stray duplicate section.",
+    "quotes": "\"it's showing 'Could not load a suggestion.' Then I'm clicking Start, nothing is happening\"",
+    "dates": "15 Oct 14:51Z"
+   },
+   {
+    "id": "W-048",
+    "area": "today-progress-colleges-account",
+    "page": "Colleges search",
+    "check": "Typing 'BCOM', 'bcom' or 'B.Com' returns B.Com programmes; the list does not jump to the bottom or hide; on a phone results stay above the keyboard.",
+    "quotes": "\"when I am searching BCOM, there is nothing, and it's going to the bottom\"",
+    "dates": "16 Oct 05:02Z"
+   },
+   {
+    "id": "W-049",
+    "area": "today-progress-colleges-account",
+    "page": "Onboarding (colleges)",
+    "check": "Picking target colleges happens inside onboarding, not as a separate add flow on main screens.",
+    "quotes": "\"This Add the Colleges needs to be incorporated into the onboarding section only.\"",
+    "dates": "16 Oct 05:02Z"
+   },
+   {
+    "id": "W-050",
+    "area": "today-progress-colleges-account",
+    "page": "Admission Compass / CUET tools / Combo Planner",
+    "check": "Compass is prominent (not tucked in a corner), has clear hierarchy and one primary move, handles a student with no score sensibly, and is linked with the CUET tools and Combo Planner; sparse sections show something useful.",
+    "quotes": "\"why is it asking for my score?... This lacks visual hierarchy\" / \"it's quite an important feature\"",
+    "dates": "15 Oct 14:51Z; 16 Oct 05:02Z"
+   },
+   {
+    "id": "W-051",
+    "area": "today-progress-colleges-account",
+    "page": "Cutoff calculator",
+    "check": "Cutoff calculator has its 'New' tag and the green line inside the green element back, and does not look like the 2025 site.",
+    "quotes": "\"This is looking like the old website we had in 2025, honestly.\"",
+    "dates": "15 Oct 07:47Z"
+   },
+   {
+    "id": "W-052",
+    "area": "today-progress-colleges-account",
+    "page": "Profile (top-bar button)",
+    "check": "A top-bar avatar/button opens Profile, which shows name, email, practice credits and AI credits at a glance, and does more than a static profile.",
+    "quotes": "\"Profile and On can be opened by a button... by the top bar\"",
+    "dates": "15 Oct 14:51Z; 16 Oct 05:02Z"
+   },
+   {
+    "id": "W-053",
+    "area": "today-progress-colleges-account",
+    "page": "You area",
+    "check": "'You' leads with study days, badges, milestones and personal bests (more badges than before); plan/billing items sit lower.",
+    "quotes": "\"You can add more badges to it and make it more intuitive\"",
+    "dates": "16 Oct 05:02Z"
+   },
+   {
+    "id": "W-054",
+    "area": "today-progress-colleges-account",
+    "page": "Account / theme",
+    "check": "The light/dark switch and account settings are found within 2 taps from any page; the account area he liked is unchanged in substance.",
+    "quotes": "\"Where's the option to do light or dark mode? I'm unable to find it.\" / \"That seems okay.\"",
+    "dates": "15 Oct 07:47Z, 14:51Z"
+   },
+   {
+    "id": "W-055",
+    "area": "today-progress-colleges-account",
+    "page": "Leaderboard",
+    "check": "Leaderboard is the richer earlier design (refined), not a basic list.",
+    "quotes": "\"Leaderboard, again, made it very basic.\"",
+    "dates": "15 Oct 07:47Z"
+   },
+   {
+    "id": "W-056",
+    "area": "today-progress-colleges-account",
+    "page": "Onboarding; Guide",
+    "check": "Onboarding and Guide are at least as good as before (no regression).",
+    "quotes": "\"Onboarding is... better or similar and can be kept\" / \"The guide is fine.\"",
+    "dates": "15 Oct 07:47Z"
+   },
+   {
+    "id": "W-057",
+    "area": "today-progress-colleges-account",
+    "page": "Sign up / Login",
+    "check": "Sign up and Login show a visible design improvement over the 15 Oct look.",
+    "quotes": "\"Sign up seems similar. Login also.\"",
+    "dates": "15 Oct 07:47Z"
+   },
+   {
+    "id": "W-058",
+    "area": "today-progress-colleges-account",
+    "page": "Sign-in persistence",
+    "check": "Sign in with Google and with email code on the test account; close and reopen the browser after hours: still signed in, no repeated login.",
+    "quotes": "\"logging in again and again was one of the issues\"",
+    "dates": "13 Oct 05:55Z"
+   },
+   {
+    "id": "W-059",
+    "area": "today-progress-colleges-account",
+    "page": "Login methods",
+    "check": "A decision on phone or password login is recorded (tentative ask); not required to ship.",
+    "quotes": "\"We can also maybe integrate phone login\"",
+    "dates": "13 Oct 05:55Z"
+   },
+   {
+    "id": "W-060",
+    "area": "today-progress-colleges-account",
+    "page": "Ask Mobi",
+    "check": "Ask Mobi shows the credit cost before each call and the balance updates after; consistent with the credit UI elsewhere.",
+    "quotes": "\"whether it is integrated properly with the credit UI and the entire system\"",
+    "dates": "15 Oct 14:51Z"
+   },
+   {
+    "id": "W-061",
+    "area": "today-progress-colleges-account",
+    "page": "Mob (website)",
+    "check": "Mob live on web for every signed-in user (no age gate or consent step). Free: start 1 and join any, weekly 10-question paper, ring, own result, teaser line. Pro: full side-by-side, history, extra papers, up to 3 Mobs. First Mob week shows side-by-side once free. Same as the app; polished to 10/10 before MOB_ENABLED.",
+    "quotes": "\"Open to everyone is the direction, and that's final.\" / \"It's a 0/10 idea even if the execution is like a 5/10\"",
+    "dates": "16 Oct 19:20Z; 17 Oct ~1:45 am IST; priority 17 Oct 07:15Z (4-5 h)"
+   },
+   {
+    "id": "W-062",
+    "area": "today-progress-colleges-account",
+    "page": "Main surfaces (social loop)",
+    "check": "The Mob/social entry appears on the main board surfaces (Today/Practice/result) where it is useful, on both web and app.",
+    "quotes": "\"a clear, useful social aspect integrated both with the app and the website.\"",
+    "dates": "16 Oct 11:44Z, 16:04Z"
+   },
+   {
+    "id": "W-063",
+    "area": "today-progress-colleges-account",
+    "page": "Streaks / celebrations",
+    "check": "Supportive streaks and progress celebrations exist where they help, with no pressure, loss threats or game clutter.",
+    "quotes": "\"avoiding clutter, pressure, or an experience overwhelmed by game mechanics.\"",
+    "dates": "12 Oct 13:33Z"
+   },
+   {
+    "id": "W-064",
+    "area": "today-progress-colleges-account",
+    "page": "All signed-in pages (adoption)",
+    "check": "Every feature has a guided entry point at the right moment (first-week path, receipts of value); a first-time student can say what to do next on each screen (F18).",
+    "quotes": "\"they didn't use 90% of the features because they didn't actually know what they were to do\"",
+    "dates": "15 Oct 03:24Z; 17 Oct ~1:20 am IST (F18)"
+   },
+   {
+    "id": "W-065",
+    "area": "nav-dock-global-design",
+    "page": "Dock (signed-in site)",
+    "check": "Dock is design A1 with a lime-filled Start key; the raised active/Practice bubble never overlaps its own icon; icons, bubble and labels share one centre line with no clipping (desktop and 390 px).",
+    "quotes": "\"A1 seems good to me\" / \"if you see the practice bubble, it's cutting into that\"",
+    "dates": "16 Oct 05:02Z, 20:06Z; 17 Oct 3:10 am IST"
+   },
+   {
+    "id": "W-066",
+    "area": "nav-dock-global-design",
+    "page": "Dock slot count",
+    "check": "Dock has 4 to 6 slots (fewer preferred), every slot aligned; the count is justified from the research (F1).",
+    "quotes": "\"Right now, we are at 6, but it is not aligned properly at all.\"",
+    "dates": "17 Oct ~00:45 IST (F1)"
+   },
+   {
+    "id": "W-067",
+    "area": "nav-dock-global-design",
+    "page": "Colleges in navigation",
+    "check": "Colleges has a deliberate, researched home in navigation (same on web and app), not the 16 Oct integration (F2).",
+    "quotes": "\"One thing is for sure: this right now is not good.\"",
+    "dates": "17 Oct ~00:45 IST (F2)"
+   },
+   {
+    "id": "W-068",
+    "area": "nav-dock-global-design",
+    "page": "Dock (all earlier feedback)",
+    "check": "Walk every earlier dock complaint (alignment, bubble, label text, count, Colleges, icons, blur) and show each is fixed on the live site, and the dock visibly differs from the 13 Oct version (F13).",
+    "quotes": "\"I had already given a lot of feedback related to all this previously and I don't think that all that has been taken into account.\"",
+    "dates": "14 Oct 12:29Z; 16 Oct 19:03Z; 17 Oct F13"
+   },
+   {
+    "id": "W-069",
+    "area": "nav-dock-global-design",
+    "page": "Dock icons; all logos and icons",
+    "check": "Dock icons read clearly (no odd sun-on-a-line or pencil-with-dot glyphs); no logo, object or icon is clipped or incomplete on any page.",
+    "quotes": "\"the icons on the bottom half bar also look extremely weird\"",
+    "dates": "14 Oct 15:21Z"
+   },
+   {
+    "id": "W-070",
+    "area": "nav-dock-global-design",
+    "page": "Navigation and menus",
+    "check": "Menu labels are clear; a first-time user can tell what 'Arena' is; 'Go to Home' vs 'Arena' is not confusing; navigation is not merged into 5 dense pages and pages are not cluttered with extra information.",
+    "quotes": "\"Even Arena people, as first-time users, don't understand what that exactly is.\" / \"Cluttering each page with more information is not the solution.\"",
+    "dates": "13 Oct 08:44Z; 15 Oct 07:47Z"
+   },
+   {
+    "id": "W-071",
+    "area": "nav-dock-global-design",
+    "page": "Dock and interactive surfaces",
+    "check": "The dock and key surfaces use liquid-glass material with responsive press, hover and soft bounce (glass allowed here by his words; not glass everywhere by default).",
+    "quotes": "\"the liquid glass design and how it interacts with everything, I really love it\"",
+    "dates": "12 Oct 20:59Z; 16 Oct 19:03Z"
+   },
+   {
+    "id": "W-072",
+    "area": "nav-dock-global-design",
+    "page": "All pages (premium bar)",
+    "check": "Side by side with HIGH/Revolut/Fampay references, each page reads premium (composition, type, motion, imagery), stays legible and fast; not a basic template.",
+    "quotes": "\"It should have a really fancy UI: something premium\" / \"I expect nothing but perfection from you.\"",
+    "dates": "12 Oct 20:59Z; 13 Oct"
+   },
+   {
+    "id": "W-073",
+    "area": "nav-dock-global-design",
+    "page": "All pages (motion)",
+    "check": "Used live (not stills): page transitions, count-ups and entrances are wired; motion is fluid, above Duolingo level, each with a reason; no constant animation inside a timed paper.",
+    "quotes": "\"what matters is, while using it, the animations, motion design\" / \"truly feel like a next-level app\"",
+    "dates": "14 Oct 08:31Z, 12:29Z, 19:35Z; 15 Oct 06:24Z"
+   },
+   {
+    "id": "W-074",
+    "area": "nav-dock-global-design",
+    "page": "All pages (Mobi rules)",
+    "check": "Mobi appears at most once per screen, only at real moments (welcome, empty/error, return, result), with varied poses that react to what the student did; never during timed answering; better-looking than before.",
+    "quotes": "\"The mob should be everywhere with different actions and emotions.\"",
+    "dates": "14 Oct 19:35Z; 15 Oct 15:44Z; standing rule"
+   },
+   {
+    "id": "W-075",
+    "area": "nav-dock-global-design",
+    "page": "All pages",
+    "check": "One volt (lime) primary button per viewport; screenshot every page at 390 and 1440: never two lime primaries visible at once.",
+    "quotes": "\"One volt (lime) primary per viewport.\" (standing design rule)",
+    "dates": "16-17 Oct standing"
+   },
+   {
+    "id": "W-076",
+    "area": "nav-dock-global-design",
+    "page": "All pages (slop list)",
+    "check": "Zero of: eyebrow pills or dots, glow, gradient text, icon grids, nested cards (boxes inside boxes), arrows on buttons, ALL-CAPS labels, hype, build talk.",
+    "quotes": "\"Banned: eyebrow pills or dots, glow, gradient text, icon grids, nested cards, arrows on buttons, ALL-CAPS labels, hype, build talk.\"",
+    "dates": "15 Oct 19:02Z, 19:14Z; standing"
+   },
+   {
+    "id": "W-077",
+    "area": "nav-dock-global-design",
+    "page": "All pages (12-part anti-slop test)",
+    "check": "Each page passes the 12-part test: identity with logo hidden, one primary action, true content, hierarchy at first scan, intentional composition, typography by role, every state, accessible interaction, no pseudo-evidence, motion with a reason, one metric + guardrail, nothing better removed.",
+    "quotes": "\"how to avoid AI slop design: what exact things to avoid.\"",
+    "dates": "15 Oct 19:02Z, 21:13Z"
+   },
+   {
+    "id": "W-078",
+    "area": "nav-dock-global-design",
+    "page": "All pages (Night and Day)",
+    "check": "Every page at 390 and 1440 in Night and Day: same layout, legible contrast, no theme-only bugs; one spacing system; consistent alignment.",
+    "quotes": "\"there are many spacing inconsistencies and light/dark mode inconsistencies.\"",
+    "dates": "14 Oct 12:29Z"
+   },
+   {
+    "id": "W-079",
+    "area": "nav-dock-global-design",
+    "page": "All pages (targets)",
+    "check": "Every tappable control on web is at least 44 px.",
+    "quotes": "\"44 px web and 48 dp app targets.\" (standing)",
+    "dates": "standing"
+   },
+   {
+    "id": "W-080",
+    "area": "nav-dock-global-design",
+    "page": "Brand colours and wordmark",
+    "check": "Volt/lime on a dark ground and the lowercase 'mockmob' wordmark everywhere; no cobalt, vermilion or navy brand swaps.",
+    "quotes": "\"don't align at all with our brand identity... Why is this such a regression?\"",
+    "dates": "13 Oct"
+   },
+   {
+    "id": "W-081",
+    "area": "nav-dock-global-design",
+    "page": "Logo (header, footer, favicon, share cards, landing)",
+    "check": "Only logo B (Mobi face as the second 'o') with the small dot before the wordmark; no bolt mark, no old/Instagram logo, no A or C anywhere.",
+    "quotes": "\"just remove that bolt mark and all the old logo. Only there should be the new one and that small dot\"",
+    "dates": "13 Oct 12:03Z; 15 Oct 07:47Z"
+   },
+   {
+    "id": "W-082",
+    "area": "nav-dock-global-design",
+    "page": "Subject art (all pages)",
+    "check": "Lamp-lit high-res 3D subject objects everywhere (no flat or childish emblems, never cropped); each says its subject; Business Studies is the open briefcase; no Hindi-text art; other subjects' art unchanged unless asked.",
+    "quotes": "\"the old one just seemed much higher, very 3D, and sophisticated.\"",
+    "dates": "14 Oct 15:21Z, 16:31Z, 19:54Z; 17 Oct decision"
+   },
+   {
+    "id": "W-083",
+    "area": "nav-dock-global-design",
+    "page": "All pages (balance)",
+    "check": "Each screen is balanced: not sparse/minimal, not over-gamified; content was not cut to look minimal.",
+    "quotes": "\"less is not good. Balanced is the highest favorability.\"",
+    "dates": "14 Oct 12:29Z"
+   },
+   {
+    "id": "W-084",
+    "area": "nav-dock-global-design",
+    "page": "All pages (never cut)",
+    "check": "Diff the page/feature list against the previous production version: no feature or liked UI removed; confusing things were redesigned, not deleted.",
+    "quotes": "\"Never cut features.\" / \"confusing doesn't mean get off. Just improve the UI\"",
+    "dates": "15 Oct 07:47Z, 14:51Z; 16 Oct 20:41Z; 17 Oct F16"
+   },
+   {
+    "id": "W-085",
+    "area": "nav-dock-global-design",
+    "page": "Web and app parity",
+    "check": "Every feature on one surface exists on the other (Ask Mobi, Mob, Repair, SWOT, badges, Road to May, Compass, Start fine-tune rules).",
+    "quotes": "\"make sure it is perfectly synced with the website also\"",
+    "dates": "14 Oct 16:31Z"
+   },
+   {
+    "id": "W-086",
+    "area": "nav-dock-global-design",
+    "page": "Imagery",
+    "check": "Visuals are high-quality generated images or animated SVG, not stock-looking or basic.",
+    "quotes": "\"we can generate SVGs and all for sure.\"",
+    "dates": "12 Oct 20:59Z; 14 Oct 19:35Z"
+   },
+   {
+    "id": "W-087",
+    "area": "nav-dock-global-design",
+    "page": "All pages (small details)",
+    "check": "A detail sweep per page found and fixed small logos, misalignments, easing gaps, clipped bits (list of fixes with screenshots).",
+    "quotes": "\"focus on the small refinements: small logos anywhere\"",
+    "dates": "15 Oct 10:44Z"
+   },
+   {
+    "id": "W-088",
+    "area": "nav-dock-global-design",
+    "page": "Flows (during / after / return)",
+    "check": "Each main flow has designed states for during the task, after finishing, and on return (plus empty, loading, error).",
+    "quotes": "\"how they feel during a task, after finishing, and when returning.\"",
+    "dates": "12 Oct 13:33Z"
+   },
+   {
+    "id": "W-089",
+    "area": "nav-dock-global-design",
+    "page": "Research traceability",
+    "check": "Each redesigned page has a DESIGN_DECISIONS note citing his research pack (AGENT_RULES evidence IDs).",
+    "quotes": "\"make sure that these things are kept in mind and followed\"",
+    "dates": "12 Oct 12:50Z; 15 Oct 21:13Z; 16 Oct 11:44Z"
+   },
+   {
+    "id": "W-090",
+    "area": "nav-dock-global-design",
+    "page": "Whole site (new-student clarity)",
+    "check": "A new student landing in the Arena understands the website as quickly as the app; new features sit inside the main flow, not bolted on; the overall look is a tangible before/after difference.",
+    "quotes": "\"everything is very confusing for a new student coming to the site. App is good in this term\"",
+    "dates": "15 Oct 03:24Z; 16 Oct 16:18Z"
+   },
+   {
+    "id": "W-091",
+    "area": "nav-dock-global-design",
+    "page": "Whole site (delivery proof)",
+    "check": "Every W- and L-item is verified on the LIVE build at 390 and 1440, Night and Day, with screenshot proof he can open; the newest build is tested, not an old one; nothing called done unless visible on screen.",
+    "quotes": "\"I don't want anything missed. Check everything that I said I wanted in the website.\"",
+    "dates": "14 Oct 08:11Z; 16 Oct 16:09Z, 20:31Z; 17 Oct 04:42Z, 07:15Z"
+   },
+   {
+    "id": "W-092",
+    "area": "nav-dock-global-design",
+    "page": "Process (speed vs quality)",
+    "check": "Tests and the visual gate ran for the shipped build (suites + critique at 390/1440 Night/Day + independent verifier); no check skipped for speed.",
+    "quotes": "\"Speed doesn't mean we have to compromise with quality.\"",
+    "dates": "17 Oct 07:15Z"
+   },
+   {
+    "id": "W-093",
+    "area": "pricing-help-copy-misc",
+    "page": "All signed-in pages (copy)",
+    "check": "No obvious disclaimer or filler lines (non-affiliation, 'just a practice', privacy lines); copy is specific, plain and concrete with real numbers and denominators; no hype.",
+    "quotes": "\"These kinds of things are obvious and don't need to be written.\"",
+    "dates": "12 Oct 20:59Z; 13 Oct 18:53Z"
+   },
+   {
+    "id": "W-094",
+    "area": "pricing-help-copy-misc",
+    "page": "Pricing, onboarding, Start menu, result",
+    "check": "Each says truthfully and calmly that every paper is fresh from one live bank with no mock cap; no banner; no 'never repeats' unless guaranteed.",
+    "quotes": "\"anyone can do unlimited mocks... It should not be in the face\"",
+    "dates": "16 Oct 11:19Z"
+   },
+   {
+    "id": "W-095",
+    "area": "pricing-help-copy-misc",
+    "page": "Whole site incl. landing (subject claim)",
+    "check": "Zero '41 subjects' anywhere; claim reads like 'Full NTA-pattern mocks for the 15 subjects behind 19 of every 20 CUET papers'; the 4 subjects CUET dropped in 2025 are hidden from pickers.",
+    "quotes": "\"retire '41 subjects'\"",
+    "dates": "16 Oct 18:42Z, 20:41Z; 17 Oct decision"
+   },
+   {
+    "id": "W-096",
+    "area": "pricing-help-copy-misc",
+    "page": "Times on screen",
+    "check": "Every time shown on the site uses the 12-hour clock with am/pm (e.g. Review attempt times), relative where natural.",
+    "quotes": "\"relative times... 12-hour clock\" (owner format rule)",
+    "dates": "16 Oct"
+   },
+   {
+    "id": "W-097",
+    "area": "pricing-help-copy-misc",
+    "page": "Pricing",
+    "check": "Pricing has a clear typography and visual upgrade over 15 Oct; shows real Rs per month, renewal, included usage and credits; no fake reference prices, countdowns or loss threats; plan presented as 99 a month (Razorpay reconfiguration itself deferred).",
+    "quotes": "\"Pricing seems to be the same\" / \"the finalized model was 99 per month.\"",
+    "dates": "15 Oct 07:47Z, 20:49Z; 17 Oct 'leave for now'"
+   },
+   {
+    "id": "W-098",
+    "area": "pricing-help-copy-misc",
+    "page": "AI features (config)",
+    "check": "Every web AI route uses only gpt-6-luna or claude-haiku-5-5 (providerCore); per-user caps Rs 5 paid / Rs 1 free a month.",
+    "quotes": "\"Those are the only two models that, anywhere in the entire app or website, are allowed to be used.\"",
+    "dates": "16 Oct 19:24Z; 17 Oct ~2:15 am IST"
+   },
+   {
+    "id": "W-099",
+    "area": "pricing-help-copy-misc",
+    "page": "Feature set",
+    "check": "No redundant or near-duplicate features; existing features deepened instead.",
+    "quotes": "\"try not to overload with useless features or just too many similar things.\"",
+    "dates": "15 Oct 07:06Z"
+   },
+   {
+    "id": "W-100",
+    "area": "pricing-help-copy-misc",
+    "page": "Marketing integrations",
+    "check": "Deferred to January: WhatsApp, phone capture, checkout and abandoned-cart flows are NOT required now (mark N/A).",
+    "quotes": "\"We'll come to the marketing side, but not right now. We'll start this from January\"",
+    "dates": "15 Oct 18:23Z, 18:26Z"
+   }
+  ],
+  "superseded": [
+   "15 Oct 07:47Z 'Today is okay, only dropdowns/controls badly designed' -> superseded by 17 Oct F14: Today very cluttered and confusing, redesign as one 'Up next' (W-041).",
+   "15 Oct 14:41Z footer ask (Sign up + Free to start present, Try CUET button works) -> superseded by 15 Oct 18:01Z one state-aware button (L-008); 'the button must work' kept (L-010).",
+   "12 Oct 20:59Z no disclaimers vs 13 Oct 08:44Z runner top notice -> newest: keep a short reworded runner notice, no filler; privacy line removed 13 Oct 18:53Z (W-017, W-018).",
+   "15 Oct 18:01Z complaint that the moving glassmorphism/morphing hero text and pulsing dot were removed -> 15 Oct 19:02-19:14Z and 16 Oct ~00:45 IST: typed or per-letter morph only, glass not needed, pulsing dot and glow are slop (L-016, L-019, L-020).",
+   "13 Oct 12:03Z logo B 'may change to A later' -> 15 Oct 07:47Z logo B only, no bolt mark or old logo (W-081).",
+   "14 Oct 16:31Z-19:54Z per-subject art options (A for commerce and CS, Business Studies A or old) -> 17 Oct decision: Business Studies = open briefcase, all other art stays, no regeneration unasked (W-082).",
+   "13 Oct 08:44Z 'maybe move Practice to the first nav slot' and 15 Oct 14:51Z 'nav should have 5 to 6 things' -> 17 Oct F1 4-6 slots (fewer may be better) and 3:10 am IST Nav A1 with lime-filled Start key (W-065, W-066).",
+   "14 Oct 13:47Z 'website only needs look, feel and motion polish' -> 14 Oct 19:35Z take features a step further, 15 Oct 03:24Z website needs fixing or redesign, 17 Oct full redesign check (W-090, W-091).",
+   "14-15 Oct Mistake/Recovery Lab framed as the USP -> 16 Oct 11:19Z unlimited mocks from one central bank is the headline differentiator; Mistake Lab still deepened (L-041, W-094, W-035).",
+   "15 Oct 07:47Z 'huge regression' verdict on the rejected restructure -> 15 Oct 10:44Z direction re-approved; the no-cutting rule stands (L-004, W-084).",
+   "15 Oct 18:01Z 'such bad copywriting' -> he changed his opinion: keep the good copy, fix only weak spots (L-021, L-025).",
+   "15 Oct 03:24Z 'website needs fixing or even a redesign' -> 15 Oct 07:47Z/13:15 IST redesign by cutting content rejected; clarity layered on existing richness (W-090, W-084).",
+   "14 Oct 21:17Z invitation to test repair in his signed-in Opera/Chrome -> standing rule: never drive his browser or sign in as him; use the project test account on staging (W-033, W-058).",
+   "15 Oct 20:49Z 'Razorpay must be reconfigured to 99 per month' -> 17 Oct night owner decision 'leave for now / later' for Razorpay; pricing copy still shows the monthly model (W-097).",
+   "13 Oct 18:53Z NTA integrity with 1.5 s grace in code -> 'No need to give any grace': 3 s rule for brief interruptions, 3 warnings, no extra grace (W-023).",
+   "13 Oct 09:20Z NTA question bar 'about 8 to 8.5' / 'above 6' for restored items -> 17 Oct publish rule: 8+ published (NTA-eligible); 5-7 practice only (W-022).",
+   "15 Oct 14:51Z / 16 Oct 05:02Z Start menu 'make it more advanced' -> refined into specific F4-F9, F12, F13 items (W-001 to W-008).",
+   "17 Oct 07:11Z 'everything incl. app build and mock feature in 1 to 2 hours' -> 17 Oct 07:15Z website redesign check + new landing first ('within the next one'); Mob (web and app) + v13 app in 4-5 hours (L-001, W-061).",
+   "15 Oct 18:23Z WhatsApp, phone number, checkout, abandoned cart -> 15 Oct 18:26Z deferred to January (W-100).",
+   "12 Oct 20:59Z glassmorphism wanted vs ui-ux-standards 'no glass by default' -> his words win for the dock and interactive surfaces only (W-071)."
+  ],
+  "notes": "145 items (45 landing L-001..L-045, 100 website W-001..W-100) deduplicated from the 245 raw asks; every distinct ask kept, duplicates merged under the newest wording. F4-F18 from docs/brain/OWNER-FEEDBACK-2026-10-17.md map to W-001..W-008, W-016, W-025..W-028, W-037, W-038, W-040, W-041, W-064, W-066, W-067, W-068, W-084 (F1-F3 app items applied to the web dock as W-065/W-066/W-071). Standing rules are checkable items: one volt primary (W-075), Mobi rules (W-074), slop list (W-076), 12-part test (W-077), Night/Day parity (W-078), 44 px targets (W-079), logo B (W-081), unlimited-mocks USP (L-041, W-094), never cut (W-084, L-004), 41-subjects retirement (W-095), fine-tune scope (W-006), 12-hour time (W-096; derived from his time-format rule, which he set for reporting, so treat it as an inferred on-screen rule), two-model rule (W-098). Ambiguous voice-typed items to clarify before editing: L-037 ('account NC Mock'), L-043 (3-second logo, probably app-only), W-021 (whether passages come first in CUET English). Deferred, not required now: L-044 Higgsfield scenes (needs storyboard approval), L-045 store-link app promo, W-059 phone/password login, W-100 marketing integrations, and Razorpay reconfiguration in W-097. Signed-in checks must use the project test account on staging only. Markdown ledger written to C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob-next\\docs\\brain\\WEB-OWNER-LEDGER-2026-10-17.md (tables by area with an empty Result column, plus the superseded list and notes). No code, git or database was touched."
+ }
+}

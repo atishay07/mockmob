@@ -1,0 +1,341 @@
+{
+ "wf": "wf_ca07ec62-a9e",
+ "label": "critic-r13-a",
+ "result": {
+  "score": 80,
+  "verdict": "Critic A, round 13. I reviewed head a9f0ec8d on http://localhost:3122 with headless puppeteer only and no code edits. Score: 80/100. It does not ship: there is one high defect (a regression on owner ledger items L-027 to L-029) and one truth defect.\n\nScore breakdown:\n- Typographic hierarchy: 12/15\n- Slop-free: 13/15\n- Balance: 12/15\n- Motion purpose and quality: 10/15\n- Mobile-first impressiveness: 13/15\n- Truthfulness: 10/13\n- Copy: 10/12\n\nFirst 60 seconds at 390: the phone hero is strong. It shows the H1 (42px/800), the turning line (\"Down to the chapter / minute / changed answer / reason\"), the lead with CUET 2027 in brand colour, one volt Start free with a quiet Try 5 questions beside it, and the price and count lines. The 15-subject sample card starts just under the fold. The dock rises with Mobi once the hero keys are gone. The scroll-held Lab, tour and Across-your-mocks stories pin and step at 390. Every number in the sample adds up and stays consistent across the Time, Changes, Replay, SWOT and Plan screens: 22/50, the 3:37 over pace, the 1:19 median, 28 marks first and -6 net, Q6 opened at 7:53, Q10 at 14:24 and 14:59 total, 17:20 = 20 × 52s, and \"900 clears 5 of 10\". No first-visit theme hint appears any more, and nothing is offered as available that RELEASE_GATES keeps closed (benchmarks and fresh checks say \"Opens soon\", and the section is \"Across your mocks\").\n\nProblems that cost points:\n- **One gesture = one slide is gone.** ScrollStory has scrolled 1:1 with the page since round 3 (323f6d29). Production had per-gesture stepping (f42b898c).\n- **\"Save your answers\" is false.** The dock label and the close copy promise the sample answers are kept after sign-up, but nothing carries them over.\n- **Close-band Mobi shows as floating eyes** until his lazy-loaded image arrives.\n- **Desktop has dead bands** under the held stages.\n- **14 type sizes are in use.**\n\nWhat I captured (all under mockmob-next\\tmp\\landing-1017\\critic-r13-a):\n- **Wheel-scrolled frames** about 0.2 of a window apart inside every held story, with contact sheets. Night was rendered with mm:theme:v1=dark; a \"night\" value renders Day.\n  - day-390: 102 frames\n  - night-390: 102 frames\n  - day-1440: 90 frames\n  - night-1440: 90 frames\n- **My first Day pass** froze the Lab cinema on Time for the whole story. That run overlapped the stopped fixer's 16:47 commit (a9f0ec8d). I discarded it and recaptured, and stepprobe.mjs plus the probe-lc shots confirm the steps advance on the current build.\n- **Reduced motion** at 390 (rm-390): stories still hold, swaps are instant, \"Autoplay is off\", no running animations.\n- **First visit** (firstvisit-390): no theme hint, and the dock's Try 5 questions lands on the sample with Accountancy focused.\n- **Fast-fling tests:** fling-390 contact sheet, plus flingstep.mjs measuring steps skipped per flick.\n- **Five hard reloads** at each width (reload5.mjs): H1, lead and count rendered every time; the desktop Mobi loaded every time.\n- **Close-band probe** (probe-close).\n- **Navigation probe** (navprobe.mjs): the CTAs reach /signup in about 1.1 s on the dev server.\n- **Reload probe** (reloadprobe.mjs): the second \"/\" navigation at about 3.4 s is a same-document replaceState, not a reload.\n- **Volt and type scan** at 390 (volt-390.json): no viewport with two volt keys while scrolling; 14 distinct font sizes.\n- **Internal links** (links.txt): all 200; /signup timed out once on a cold compile and returned 200 on retry. All in-page anchors exist.\n- **Console errors:** none in any run. **Horizontal overflow:** none at 390 or 1440.\n\nWhat I clicked, each with a real pointer after a hit-test (clicks-night-390, clicks-day-1440, ix-night-390, ix-day-1440):\n- **Sample flow at both widths:** subject chip, 5 answers, 5 Next keys and the result. Each answer showed its reason; the result names \"10 questions on Partnership, where 3 of your 4/5 misses came from\" with a Start free key.\n- **Theme switch** in the bar and in the menu sheet, both ways.\n- **Phone menu:** open and close; all items are 52px tall.\n- **Logo** returns to the top.\n- **Lab:** all four rail tabs (each glides to its step); \"Read the full repair\" opens and Close shuts it.\n- **Tour:** all five tabs, Next, Previous, and Pause/Play (\"Play demos\").\n- **Across your mocks:** all four tabs and Pause.\n- **Compass:** course, OBC, Round 2, Try 800 (\"800 clears 9 of these 9 Round 2 OBC-NCL\"), and a slider drag 800 to 940.\n- **Eligibility:** Quick start Commerce, and \"See programmes\" goes to /cuet-cutoff-calculator.\n- **Exam comparator:** NTA tab, answer, Mark for review, back to the MockMob tab, Reset.\n- **Reel Watch:** an inline Instagram iframe loads.\n- **FAQ:** opens.\n- **Close band:** Try 5 questions jumps to the sample; Start free goes to /signup.\n- **Dock:** Try 5 questions and Start free.\n- **Hero links:** the calculator link, both proof links, and hero Try 5 questions.\n- **Targets:** all tested targets are at least 44px.\n- **Broad sweep:** a 178-element sweep at 1440. Its index drift after reloads makes its fail list noisy; none of its \"fails\" reproduced in the targeted runs.\n\nSigned-in and paid states cannot be checked on screen (agents do not sign in to hosted accounts), so L-006 and L-007 are judged from the code only.\n\nProcess note: at about 16:50 my over-broad process filter stopped critic B's two Night capture runs (critic-r13-b/night-390 and night-1440, at about 63 frames each). I sent the main session a message about it. No orphan Chrome was left by my runs, and all of my browsers are closed.",
+  "ledger": [
+   {
+    "id": "L-001",
+    "result": "fail",
+    "note": "Not live; the worktree build only, and it cannot ship below 88."
+   },
+   {
+    "id": "L-002",
+    "result": "fail",
+    "note": "This round scores 80, and there is a truth defect (Save your answers)."
+   },
+   {
+    "id": "L-003",
+    "result": "pass",
+    "note": "Every section is composed for 390, and the held stories pin on the phone."
+   },
+   {
+    "id": "L-004",
+    "result": "pass",
+    "note": "All sections are present: hero and sample, statement and bank shelf, Lab cinema, tour, Across your mocks, Compass, DU calculator, exam comparator, creators, pricing, FAQ, close."
+   },
+   {
+    "id": "L-005",
+    "result": "partial",
+    "note": "The scroll stories, statement scrub and shelf drops still run, but the previous one-gesture-one-slide behaviour was removed (scroll-linked since 323f6d29)."
+   },
+   {
+    "id": "L-006",
+    "result": "partial",
+    "note": "Code only: the member dock shows 'Welcome back' with Go to practice, and the close shows 'Your record is kept'. Not seen on screen because there was no sign-in."
+   },
+   {
+    "id": "L-007",
+    "result": "partial",
+    "note": "New, sampled and member states differ in the code. Paid versus free is not distinguished on the landing, and pricing still upsells Pro to everyone. Not verified on screen."
+   },
+   {
+    "id": "L-008",
+    "result": "partial",
+    "note": "No small linked text any more. A new guest's dock still has two keys (Start free and Try 5 questions), not the ONE state key the ledger asks for."
+   },
+   {
+    "id": "L-009",
+    "result": "partial",
+    "note": "After the sample, the dock drops Try 5 questions and shows 'Save your answers' with Start free, which goes to /signup. The label promises a carry-over that does not exist."
+   },
+   {
+    "id": "L-010",
+    "result": "pass",
+    "note": "The close's Try 5 questions jumps to the sample; the close, dock and footer Start free all reach /signup."
+   },
+   {
+    "id": "L-011",
+    "result": "pass",
+    "note": "At 390 the dock is a full-width centred bar inside the 16px gutters."
+   },
+   {
+    "id": "L-012",
+    "result": "pass",
+    "note": "The logo returns to y=0; nav links reach their targets; the bar's Start free turns volt once the hero keys are gone."
+   },
+   {
+    "id": "L-013",
+    "result": "pass",
+    "note": "The sample is one tap from the hero, dock and close; sign-up is one tap from the hero, dock, close, footer and the result card."
+   },
+   {
+    "id": "L-014",
+    "result": "pass",
+    "note": "The hero is clean and reads at a glance; nothing was removed."
+   },
+   {
+    "id": "L-015",
+    "result": "pass",
+    "note": "The sample starts with a choice of 15 subjects ('Which subjects are you taking?'), plus Try another subject."
+   },
+   {
+    "id": "L-016",
+    "result": "pass",
+    "note": "The TypeLine turns 'the chapter / minute / changed answer / reason'; no glass, no glow."
+   },
+   {
+    "id": "L-017",
+    "result": "pass",
+    "note": "CUET 2027 is in brand colour in the lead (volt at Night, olive at Day)."
+   },
+   {
+    "id": "L-018",
+    "result": "pass",
+    "note": "CUET 2027 is a word in the lead, not a button."
+   },
+   {
+    "id": "L-019",
+    "result": "pass",
+    "note": "No glow, sheen, edge light, glow blobs or gradient text; the CSS grep is clean."
+   },
+   {
+    "id": "L-020",
+    "result": "pass",
+    "note": "No eyebrow pills or dots, and no icon rows; the docked mini-headings are plain text."
+   },
+   {
+    "id": "L-021",
+    "result": "pass",
+    "note": "Five hard reloads at 390 and 1440: H1, lead and count rendered every time; the desktop Mobi loaded every time; no errors."
+   },
+   {
+    "id": "L-022",
+    "result": "pass",
+    "note": "No stray 'Built first for commerce' subtext; 'Commerce papers first.' is the bold lead of the shelf note."
+   },
+   {
+    "id": "L-023",
+    "result": "partial",
+    "note": "Commerce leads only through the four-paper shelf and Accountancy as the first chip; the hero itself never says commerce."
+   },
+   {
+    "id": "L-024",
+    "result": "partial",
+    "note": "No 'illustrative' or 'not a prediction' lines, but the FAQ 'Is MockMob affiliated with NTA or DU? No. MockMob is independent.' and the footer 'An independent CUET preparation platform' remain."
+   },
+   {
+    "id": "L-025",
+    "result": "partial",
+    "note": "The copy is specific and mostly strong; the false 'Save your answers' claim and the statement stacked on the H2 keep it short of 90."
+   },
+   {
+    "id": "L-026",
+    "result": "pass",
+    "note": "At 390 the Lab pins and steps Time, Changes, Repair, SWOT (night-390 f008 to f023)."
+   },
+   {
+    "id": "L-027",
+    "result": "fail",
+    "note": "A 2,000px wheel flick at 390 moved the Lab from Time to Repair, the tour from Practice to Ask Mobi, and Across from Replay to Plan. A 5,600px fling crossed the whole Lab story."
+   },
+   {
+    "id": "L-028",
+    "result": "fail",
+    "note": "The tour is 1:1 with the scroll (about 780px a step at 390), so one ordinary flick advances two slides."
+   },
+   {
+    "id": "L-029",
+    "result": "fail",
+    "note": "The stories hold and step, but a single fast flick skips them (fling-390 fl-01)."
+   },
+   {
+    "id": "L-030",
+    "result": "partial",
+    "note": "The docked mini label shows 'MockMob' in green and the heading docks. The h2 is still the same 48/32px tier as every other section head."
+   },
+   {
+    "id": "L-031",
+    "result": "pass",
+    "note": "The held phone screens fill the viewport above the dock; the key content sits in the upper two-thirds."
+   },
+   {
+    "id": "L-032",
+    "result": "pass",
+    "note": "The Repair and SWOT scenes at 390 are short and readable (night-390 f017, f021)."
+   },
+   {
+    "id": "L-033",
+    "result": "pass",
+    "note": "The longest question is Q4 at 3:20; change gaps are 0:50 to 3:05."
+   },
+   {
+    "id": "L-034",
+    "result": "pass",
+    "note": "Ten bars of different lengths on both sides of the 1:12 pace line, with matching under/over labels."
+   },
+   {
+    "id": "L-035",
+    "result": "pass",
+    "note": "Q4: B green with a check, then a red path, then D red and crossed; Q9 goes the other way, to green."
+   },
+   {
+    "id": "L-036",
+    "result": "pass",
+    "note": "The Replay and Weak chapters screens are self-explanatory and consistent with the Lab numbers."
+   },
+   {
+    "id": "L-037",
+    "result": "pass",
+    "note": "The lamp-lit Accountancy calculator shows in the Lab screen header at both 390 and 1440."
+   },
+   {
+    "id": "L-038",
+    "result": "pass",
+    "note": "The subject objects are a 2x2 lineup at 390 on a shared floor, with names and counts beneath; they drop in gently."
+   },
+   {
+    "id": "L-039",
+    "result": "partial",
+    "note": "Mobi is on the desktop hero, in the phone dock and at the close. At 390 the close shows only his eyes and shadow until the lazy art loads (day and night f100)."
+   },
+   {
+    "id": "L-040",
+    "result": "partial",
+    "note": "Fast flings show whole frames and no console errors. One mid-fling cross-fade was caught, and I ran no perf trace or Lighthouse."
+   },
+   {
+    "id": "L-041",
+    "result": "pass",
+    "note": "'One question bank. As many mocks as you want with Pro.' at heading level, a new paper each time, no 'never repeats'."
+   },
+   {
+    "id": "L-042",
+    "result": "pass",
+    "note": "Mobi, the Time scene, the good copy and the logo animations are all kept."
+   },
+   {
+    "id": "L-043",
+    "result": "pass",
+    "note": "N/A: the landing has no logo opening."
+   },
+   {
+    "id": "L-044",
+    "result": "pass",
+    "note": "No video or Higgsfield scenes; only SVG and Mobi scenes."
+   },
+   {
+    "id": "L-045",
+    "result": "pass",
+    "note": "No store badges or placeholder app links."
+   }
+  ],
+  "defects": [
+   {
+    "severity": "high",
+    "truth": false,
+    "section": "Held scroll stories (Lab cinema, What's inside tour, Across your mocks)",
+    "what": "One gesture no longer moves exactly one slide (owner items L-027, L-028, L-029; 15 Oct: 'One scroll should be one slide only, no matter what the speed is'). ScrollStory is scroll-linked 1:1 by design ('Nothing here cancels a wheel... a fling moves the page as far as it would'), a change made in round 3 (323f6d29). That reverses the per-gesture stepping production had (f42b898c, listed LIVE in VISION-INVENTORY-2026-10-16).",
+    "evidence": "flingstep.mjs at 390, one flick of 8 x 250px wheel events: Lab 0:Time to 2:Repair (skips Changes); tour Practice to Ask Mobi (skips Replay and Weak chapters); Across Replay to Plan (skips Find). fling-390/fl-01-rest: a 5,600px fling crosses the whole Lab story.",
+    "fix": "In ScrollStory, add a per-gesture stepper that works only inside the hold. On the first wheel delta, touchstart+move or scroll key of a new gesture inside the track, call go(step plus or minus 1), which glides over STEP_MS to restOf(n). Swallow the rest of that gesture: preventDefault on wheel and touchmove until a 180ms wheel-quiet gap or touchend plus 250ms. At step 0 going up or the last step going down, release to native scroll so the page never traps the reader. Leave scrollbar drags, find-in-page and focus moves 1:1, keep reduced motion instant, and port the f42b898c logic where it fits. Give the tour a longer dwell (it moves one slide per gesture anyway). Add a scrollMotion test asserting one step per synthetic flick of any size."
+   },
+   {
+    "severity": "medium",
+    "truth": true,
+    "section": "Phone dock (sampled state) and close band (sampled state)",
+    "what": "After a guest answers the sample, the dock is labelled 'Save your answers' and the close says 'Start free to keep these answers and get the next move from your own record.' The answers are never kept. They live only in localStorage mm:sample:v1, and nothing calls /api/me/sample-import. That route's SAMPLE_VERSION 'landing-v1' also expects the old fixed five cross-subject questions, not the current 15-subject DemoDrill.",
+    "evidence": "HeroDockGate.jsx:244 sets the label 'Save your answers'. CloseActions.jsx:21 has the sampled sub text. A grep for sample-import or sampleImport callers outside the route and lib finds nothing. lib/server/sampleImport.js lines 13-19 list the old SAMPLE_QUESTIONS.",
+    "fix": "Either wire the import (after sign-up, post the mm:sample answers to /api/me/sample-import with a new SAMPLE_VERSION and question ids matching sampleBank, and show 'Saved to your account' only when the save is confirmed), or change the words now. Dock label: 'Your next move is one step away' (or no label) with Start free. Close sub: 'Start free and get your next move from your own record.' Add both strings to landingCopy.test.mjs so 'keep these answers' and 'Save your answers' fail while no import is wired."
+   },
+   {
+    "severity": "medium",
+    "truth": false,
+    "section": "Close band Mobi at 390 (Day and Night)",
+    "what": "The close seat draws Mobi's eye layer (.pip-eyes) and contact shadow before his lazy-loaded body image arrives, so a phone on a normal connection sees two floating eyes beside Start free.",
+    "evidence": "day-390/f100-y23276 and night-390/f100-y23276 show only eyes and a shadow; probe-close shows the full body once the image has loaded. Mascot.jsx:23 uses loading='lazy', and the eyes are a separate span at lines 35-40.",
+    "fix": "Render the seat at opacity 0 until the img load event (img.complete && naturalWidth), then fade body, eyes and shadow in together (180ms ease-out). Also start loading the close-seat art when the close is within one screen (IntersectionObserver rootMargin 100%, or fetchpriority low with loading='eager' once near)."
+   },
+   {
+    "severity": "low",
+    "truth": false,
+    "section": "What's inside MockMob heading (L-030)",
+    "what": "The section h2 is the same 48px desktop / 32px phone tier as every other section head. The owner asked for it smaller and less dominant, and 'MockMob' is green only in the small docked label.",
+    "evidence": "volt-390.json headings: H2.lp-h2 32px/800 \"What’s inside MockMob.\"; ix-day-1440 headings: 48px/800.",
+    "fix": "Give this head a quieter tier (36px desktop, 26px phone, 700) and let the docked mini label (with MockMob in brand green, as now) carry it. No volt fill, so the single-word-accent ban still holds."
+   },
+   {
+    "severity": "low",
+    "truth": false,
+    "section": "Hero sample at 1440",
+    "what": "Two volt keys share the viewport while the sample is in progress: hero Start free and the card's Next question.",
+    "evidence": "ix-day-1440/drill-1-answered.jpg: 'Start free' (volt) and 'Next question' (volt, full width) are both on screen.",
+    "fix": "While the sample is mid-run, render Next question as the card's light key (paper-on-ink, with the same 3D lip). Only the result's Start free, or the hero's, stays volt."
+   },
+   {
+    "severity": "low",
+    "truth": false,
+    "section": "Statement and bank heading at 390",
+    "what": "The scroll-scrubbed statement (26px/600) sits directly above the bank H2 (32px/800), which reads as two competing headlines. Arriving by the dock jump, the statement rests in pale grey and looks disabled.",
+    "evidence": "firstvisit-390/dock-landed.jpg; volt-390.json: P.lp-statement__text 26px/600 then H2.lp-shelf__title 32px/800.",
+    "fix": "Drop the statement to the lead tier (20-22px/500) with its at-rest ink at least 60% opacity. Add 40px of air and a hairline before the H2 so the bank heading clearly leads."
+   },
+   {
+    "severity": "low",
+    "truth": false,
+    "section": "Type scale (whole page)",
+    "what": "14 distinct font sizes at 390 (target 12 or fewer), including 15px x16 and 13px x99 stragglers.",
+    "evidence": "volt-390.json type.sizes: 42 40 36 32 26 24 22 20 18 16 15 14 13 12.",
+    "fix": "Fold 15px into 16 or 14 and 13px into 12 or 14 through the shared tokens; drop the single 24px and 40px uses into neighbouring tiers."
+   },
+   {
+    "severity": "low",
+    "truth": false,
+    "section": "Desktop 1440 held stories",
+    "what": "Inside the held tour and Across-your-mocks stages, the stage fills only about 55-60% of the window and leaves a 300-400px empty band above the 'Pause demos / Also on this page' row. The Across rail column is empty in its upper half.",
+    "evidence": "day-1440 f045-f053 (tour) and f063-f071 (Across your mocks).",
+    "fix": "Centre the stage plus controls as one block in the held window (use --ss-slack as the Lab does), or raise the controls row to sit 24px under the stage."
+   },
+   {
+    "severity": "low",
+    "truth": false,
+    "section": "Pricing, Free list",
+    "what": "'10 AI credits a month, for Ask Mobi beyond your own record' omits that Mistake Repair spends the same credits, which the Lab's Repair scene states ('A repair uses 1 AI credit; Free has 10 a month').",
+    "evidence": "server-text.txt lines 113 and 526.",
+    "fix": "Use '10 AI credits a month, for Mistake Repair and for Ask Mobi beyond your own record' and hold it equal in landingCopy.test.mjs."
+   },
+   {
+    "severity": "low",
+    "truth": false,
+    "section": "FAQ and footer (L-024)",
+    "what": "The FAQ 'Is MockMob affiliated with NTA or DU? No. MockMob is independent.' and the footer 'An independent CUET preparation platform.' are the kind of defensive line the owner asked to remove.",
+    "evidence": "server-text.txt lines 553-554 and 584.",
+    "fix": "Drop the affiliation FAQ and keep the sourcing fact in 'What is MockMob built for?' (for example '...DU eligibility and published cutoffs sit alongside, from what NTA and DU publish'). Footer: '© 2026 MockMob.'"
+   },
+   {
+    "severity": "low",
+    "truth": false,
+    "section": "Know where you're headed (college list)",
+    "what": "The college thumbnails show as blank dark boxes for about the first second while scrolling at 390, because they are lazy-loaded with no placeholder.",
+    "evidence": "night-390/f088-y17204.jpg: empty squares beside SRCC, Hindu, Hansraj and St. Stephen's.",
+    "fix": "Give each thumb a flat dominant-colour background (no gradient) and decode='async' with loading='eager' once the section is one screen away, so the photo fades in over 150ms."
+   },
+   {
+    "severity": "low",
+    "truth": false,
+    "section": "Creator reels in Night",
+    "what": "Pressing Watch opens Instagram's white embed inside the dark page with no framing.",
+    "evidence": "clicks-night-390/14-reel.jpg: a white 'Loading the reel from Instagram' box.",
+    "fix": "Hold the reel's poster (or a dark panel with the creator name) until the iframe load event, then reveal it inside a 16px-radius frame with a hairline border."
+   },
+   {
+    "severity": "low",
+    "truth": false,
+    "section": "Phone dock, new guest (L-008)",
+    "what": "The owner ledger asks for ONE real dock button whose label follows state. A new guest gets two equal keys (Start free and Try 5 questions).",
+    "evidence": "HeroDockGate.jsx:253-254; night-390 frames f003 onward.",
+    "fix": "New guest: the one key 'Try a CUET question', which jumps to the sample; the hero, pricing and close already carry Start free. Sampled guest: 'Sign up'. Member: 'Welcome back' with Go to practice. Update dockState.test.mjs."
+   }
+  ]
+ }
+}

@@ -1,0 +1,115 @@
+{
+ "wf": "wf_4358acd4-998",
+ "label": "verify:result-review-repair",
+ "result": {
+  "results": [
+   {
+    "id": "W-025",
+    "result": "pass",
+    "evidence": "390 Night, fake clock 2:30 AM, /preview/arena?view=result&paper=weak: DOM probe on arrival and with a mistake row open finds only the logo's second 'o' and the profile avatar, no Mobi figure. Code: ResultHead says no Mobi; reaction.js is not used by the page; the only result Mobi is a awake 'cheer' after a held check, and RepairMobi acts are think/correct/hello/oops/encourage/rest, never sleepy. Captures: weak-390-night-2am-top.png, weak-390-night-2am-rowopen.png.",
+    "fix": ""
+   },
+   {
+    "id": "W-026",
+    "result": "pass",
+    "evidence": "390 and 1440, Night and Day, papers weak and avg. First view is the receipt, big score with denominator, marks bar, counts, one finding line, and one 'Do this next' panel with a single volt key (Repair Q42, or Practise 10 on the costliest chapter). Mistakes list shows 4 rows plus Show all. SWOT, time, replay, others, rule/proof and Every answer are 5-6 named folds with one-line teasers; all open and work. 'Check it held' is kept as the row chip and the fresh question inside the repair. Captures: avg-1440-light-top.png, avg-390-light-full.png, weak-390-dark-full.png.",
+    "fix": ""
+   },
+   {
+    "id": "W-027",
+    "result": "pass",
+    "evidence": "Opened all folds on weak, avg, strong, perfect, blank, practice5, mock=full, nta and quick practice at 390 and regex-scanned page text for submitted/submission/saved/session complete/practice finished/recorded. The only confirmation is the single receipt line 'Accountancy full mock. Recorded 12:26 PM, 36m 34s.' (the other hits are the 'Saved' nav item, 'All saved mistakes' link and, inside the Replay fold, a clock event 'Submitted at 51:46').",
+    "fix": ""
+   },
+   {
+    "id": "W-028",
+    "result": "pass",
+    "evidence": "On repair-led results the next-move panel reads 'A repair gives you why D looked right, the trap, one rule to keep, and a new question to check it held. 1 AI credit. You have 68. No charge if the repair cannot be written.' Every mistake row carries a 'Repair' chip ('Repair first' on the lead one) and an opened row shows a lime 'Repair this mistake' card with the same one-line payoff and the price. Captures: avg-1440-light-top.png, row-open-390-night-b.png. Caveat: when the primary move is 'Practise 10 on the chapter' (weak paper), the payoff line is not visible until a row is opened; only 'Or repair Q24 first, 1 AI credit' shows.",
+    "fix": "On practise-led results also show the one-line payoff under the 'Or repair Qn first' link, or add the payoff as a muted line under the Your N mistakes heading."
+   },
+   {
+    "id": "W-029",
+    "result": "partial",
+    "evidence": "Full mocks show 'After this mock: strengths, gaps and plan' as a fold, separate from the repair list and from 'Your rule and proof it stuck'. Open, it leads with 'Do these next': three topic mocks ('Practise 10 on Share Capital' etc.) each with a Set up button whose href is /dashboard?subject=accountancy&mode=quick&count=10&chapter=...; a real click navigates there. Text at 390 is 13-21px, readable (swot-390-night-view1.png). But the SWOT is closed on arrival and its teaser is one line, so it is not 'shown' after the mock without a tap; quick practice has no SWOT.",
+    "fix": "Make the 'After this mock' fold open by default on a full mock the first time (or show its first recommendation as the teaser with its Set up key); keep it a separate fold."
+   },
+   {
+    "id": "W-030",
+    "result": "pass",
+    "evidence": "First open per browser session plays a short staged reveal: receipt fades, score counts up (127 to 128 captured), the bar segments grow, counts and the costliest-chapter line rise, then the 'Do this next' card rises, then the first mistake rows (about 0.9 s, off under reduced motion; result-1017.css lines 202-215). Frames reveal-390-night-f1.png, f3.png. No clutter; it explains the score and the single next step. Plays only on first open, by design.",
+    "fix": ""
+   },
+   {
+    "id": "W-031",
+    "result": "pass",
+    "evidence": "Opened mistake rows show the options with 'Correct answer' and 'Your pick' tags and right/wrong chips with no credit (row-open-390-night-b.png). The paid repair (fixture repair=v3) adds: why the pick looked right, where it breaks, why the key is right, the other options, rule with hook (Keep this/Copy), explain-another-way, a fresh Check it held question, trap-pattern record lines and a practise key (repair-390-night-1.png, repair-seq-1/2.png). Server rule read: a stored repair reopens free (mistakeRepair.js lines 62-65).",
+    "fix": ""
+   },
+   {
+    "id": "W-032",
+    "result": "partial",
+    "evidence": "Present: fresh checked question on the same topic ('Check it held', server-marked; wrong pick shows key and explanation, chip 'Slipped on a new question'), 'Revise will bring both back today' line, trap pattern line ('Since 9 Oct, 2 of your 3 repairs in Share Capital had this trap'), and 'Ask Mobi about Q24' with price (with &ai=live; 'Written replies are paused' otherwise). Missing: retry before the key. The opened mistake shows 'Correct answer' on the options before the student has tried again, and Repair has no 'try it again first' step (the doc VISION-INVENTORY 16 Oct lists 'no retry-before-the-key' as a gap; nothing in src does it). Captures: check-answered-390-night.png.",
+    "fix": "Add a free 'Try it again' step on the opened mistake that hides the Correct-answer tag until the student re-answers (first re-answer counts, key then shown), before offering paid Repair; keep the key free afterwards."
+   },
+   {
+    "id": "W-033",
+    "result": "partial",
+    "evidence": "Could not run a real repair on staging (no sign-in, read-only, no model calls). Verified with fixtures at 390 Night: fail ('The repair could not be prepared reliably this time. You were not charged.' + Try again), insufficient credits (price and 'See your AI credits' plus free practice), pending, released, held-for-recheck (chip 'Key being re-checked'), not-explained ('No repair, no charge') and malformed all render a readable state with no charge. Code (fix/repair-reliability, STATUS 15 Oct) uses fresh request ids, 95 s abort, and shows the server message per code. Cause of earlier failures is reported in docs/brain/REPAIR-LAB-AUDIT-2026-10-14.md (no timeout, stuck reservations, passage not sent, NTA shuffle refusal, banned-word filter, swallowed provider errors) but not re-confirmed on staging in this build. Extra: the row chip stays 'Writing' after a failed repair.",
+    "fix": "Run one real repair on the staging test account (free and Pro, MCQ and passage) and report the provider/key/balance outcome to the owner; change the row chip from 'Writing' to 'Repair' (or 'Try again') when the repair ended in an error state."
+   },
+   {
+    "id": "W-034",
+    "result": "pass",
+    "evidence": "mock=full&cohort=time, opened Q12 at 1440 Day: 'Students who got this right took a median of 2m 03s (36 students)' (others' time), 'Your time and picks: 2m 15s on this question. The paper gives 1m 12s a question, and your median was 50s.' with a time bar, 'Picked C at 13:02'. The time fold lists each change: 'Picked C at 7:17. Changed to A at 48:56, 41m 39s later, on a later visit.' and 'Where your time went' per question vs the paper's pace. Capture lab-390-night-time.png, replay-1440-day-playing.png. Wording says median, not average.",
+    "fix": ""
+   },
+   {
+    "id": "W-035",
+    "result": "partial",
+    "evidence": "On a full mock the Lab content is clearly richer than 15 Oct: 'Where the marks went' ledger groups (right then changed, crossed out the key, 2 min or more, under 20 s) with marks per group, 'most other students got right' Q chips, changes net cost, how-it-is-counted, key re-checks, across-mocks and cohort lines (lab-390-night-marks.png). From a result it is one tap (open the fold). It is not one tap from Review (Review has no Lab link, only 'Open Accountancy, 16 Oct' then a fold) and it is renamed 'Where the marks went', so 'Mistake Lab' is not findable by name; groups use dense labels ('Crossed out the key'). This build is not live yet.",
+    "fix": "Add a 'Where your marks went' entry to Review that deep-links to the result's marks fold (#fold-marks open), and give the fold a one-line plain explanation of each group."
+   },
+   {
+    "id": "W-036",
+    "result": "pass",
+    "evidence": "mock=full at 1440 Day: 'Your time and changed answers' fold holds the Replay: filter chips with counts (Right then changed 2, Crossed out the key 2, 2 minutes or more 3, Under 20 seconds 3), a Play button with clock, a scrubber and Q1-Q50 strip, per-10-minute rows with away time, even-pace lines ('By 20:00: 20 of 50 answered. Even pace: 16'), flags for marked-for-review, pace summary and 'Submitted at 51:46'. A real click on Play ran the playhead to 13:21 and dimmed later questions (replay-1440-day-playing.png). Present in this build; the live site could not be checked (build not yet live). Layout note: closed fold bars stop at about 60% width at 1440 while the open Replay spans full width.",
+    "fix": "Make fold bars span the same width as their open bodies at 1440."
+   },
+   {
+    "id": "W-037",
+    "result": "pass",
+    "evidence": "Result with &return=1 (first mistake saved) and &saved=1&repair=v3-stored: saved mistakes show the chip 'Check it held', never 'Repair'; opening one auto-loads its saved repair ('From Mock 3, Accountancy, 4 Oct, 11:30 PM ... Why C looked right ...') with no price line; the summary counts only unrepaired ones ('These 4 repairs use 4 AI credits', 2 of 6 repaired) and says 'Reopening a repair is free'. Server read: mistakeRepair.js returns a stored repair before any reserve and a failed read throws rather than charging (F17). Captures: saved1-390-night-open.png, return1-390-night-open.png.",
+    "fix": ""
+   },
+   {
+    "id": "W-038",
+    "result": "partial",
+    "evidence": "The paper name and attempt time are shown, in 12-hour format, in the receipt ('Recorded 4 Oct, 11:30 PM'), in the opened mistake ('From Mock 3, Accountancy, 4 Oct, 11:30 PM'; 'You also missed this in Mock 2, 28 Sep, 11:30 PM') and on Review session rows ('Mock 3, yesterday, 1:21 PM'). But the closed mistake rows in the result list do not carry it, Review does not list mistakes individually, and when the paper has no source the stamp reads 'From Accountancy, today, 12:10 PM' without a mock name. Captures: review-saved-390-night-full.png, saved1-390-night-top.png.",
+    "fix": "Show a quiet 'Mock 3, 4 Oct, 11:30 PM' line on each mistake row (closed) and always fall back to the paper kind ('Full mock') when no name is stored."
+   },
+   {
+    "id": "W-039",
+    "result": "partial",
+    "evidence": "Review (390/1440) is a session list: '6 questions to review, of 20 answered', Open Accountancy 16 Oct, Revise and Rules rows, record glimpse, paper trend and per-session rows ('7 of 10 correct, 2 repaired', '1 to review'); the student's own mistakes are one tap away on the result page, not on Review itself. There is no 'Review again' anywhere on the web (grep finds none; the app has it). The web You/Profile page is substantial (plan, subjects, My colleges with cutoff, credits and history, look and feel, install), but I cannot tell it is 'substantially more' than before without the earlier version. Captures: review-1440-day-top.png, profile-390-night-full output.",
+    "fix": "Add a mistakes list to Review (open mistakes by chapter priced in marks, with saved repairs marked) and a 'Review again' run (repaired mistake answered before the key) as decided in LEARN-REVIEW-1017.md."
+   },
+   {
+    "id": "W-040",
+    "result": "fail",
+    "evidence": "Review at 390 and 1440 is exactly the 'what exists now' layout the 17 Oct design doc (LEARN-REVIEW-1017.md section 2.1, R1-R8) lists for refinement: same 'Review what mattered.' head, big count with volt, Revise and Rules link rows, record card, session rows. No Mistakes/Papers views, no receipt strip, no next-move panel; sidebar still says Learn not Concepts (grep for Papers/Concepts in RecoveryOverview, arenaNavigation, StudyLibrary finds nothing); git diff 97210ab0..HEAD touches only MistakeRepair.jsx and repair-run.css in these areas. The only changes since the doc are bug fixes (F17 repaired counts and stamps, dock margin). Captures: review-1440-day-top.png, review-saved-390-night-full.png.",
+    "fix": "Build LEARN-REVIEW-1017.md section 5 for the web: Review as Mistakes/Papers with one next move, receipt strip, mistakes by chapter priced in marks, one Revise queue, lesson link on the mistake; rename Learn to Concepts; re-run the 390/1440 Night/Day gate."
+   }
+  ],
+  "notes": "Method: headless Chrome 'chrome.exe --headless=new' driven over CDP with ws (no puppeteer/playwright was installed), temp profile deleted, one Chrome at a time, waited for RAM above 1200 MB before launches; real mouse events after elementFromPoint hit-tests; fake clock set to 2:30 AM for the sleeping-Mobi check. Captures are in C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob-next\\tmp\\web-audit-1017\\result-review-repair\\ (about 60 png). Only the localhost:3263 preview fixtures were used; no sign-in, no staging call, no model call, no database touch. The helper scripts are in the session scratchpad. Not checkable here: a live repair on the staging test account (W-033), and the live site for W-035/W-036 (build not deployed). Items seen as extras are listed below.",
+  "extra": [
+   "Result with &return=1: next-move panel says 'Or repair Q25 first' while the list below shows Q2 as the next unrepaired mistake in repair order (24 repaired, then 2, 4, 7). Next move and list disagree; check nextMove/openMistakes ordering with saved repairs.",
+   "After a failed repair (fail, pending, released, malformed) the row chip still reads 'Writing'.",
+   "On practise-led results (weak paper) the Repair payoff line is hidden until a row is opened, only 'Or repair Q24 first, 1 AI credit' shows.",
+   "At 1440 the closed fold bars on the result stop at roughly 60% of the content width while open bodies (Replay) span the full width, so the folds look misaligned.",
+   "Receipt for the saved=1 fixture says 'Accountancy practice' while the paper is 'Mock 3' (fixture mismatch, but check that the receipt uses the stored paper name).",
+   "The Learn page was not captured in this area; the sidebar still says Learn and Concepts renaming from the F15 decision is not done.",
+   "Review has no 'Review again' and no link to the marks Lab; two lime keys (page volt and dock Start) sit in the first viewport at 390, which the F15 decision doc itself flags.",
+   "Opened Lab folds hold a lot of text at 390 (the marks fold is about 25 lines of ledger groups and how-it-is-counted), which is the density the owner objected to in F11, though it is now folded by default."
+  ]
+ }
+}

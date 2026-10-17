@@ -1,0 +1,150 @@
+{
+ "wf": "wf_4358acd4-998",
+ "label": "verify2:start-practice-runner",
+ "result": {
+  "results": [
+   {
+    "id": "W-001",
+    "result": "pass",
+    "evidence": "Start sheet (Start key, 390 and 1440, Night and Day; v2/S-390-dark-sheet.png, S-1440-light-sheet.png): glass sheet with Mobi, subject rail, lit hero card ('Set it up'), Full mock tile with the app's stopwatch object and NTA tile with the exam-panel object, play discs, cost lines. Matches the app's deck language and is richer than the app's plain row list. Layout holds at both widths."
+   },
+   {
+    "id": "W-002",
+    "result": "partial",
+    "evidence": "Real-pointer hit-tested clicks: all four Practice mode tiles (Quick, Full, Smart, NTA) have cursor:pointer, hover lift (translate -1px plus border) and press scale. A click only selects the tile (radio ring fills to a tick, aria-checked flips, ticket and Fine-tune update); the action happens on a separate Start button. In the Start sheet, Full mock and NTA are links with a play disc that open Practice with that mode selected (/dashboard?subject=..&mode=full lands with Full checked), not a start. The sheet has no Quick/By chapter/Smart rows. Tiles still read as radio cards, with no action label on the tile itself.",
+    "fix": "Give each tile an explicit action label ('Set up Quick', 'Start Full mock') or make the ring a go-disc. In the sheet, say 'Set up' on the Full and NTA tiles. Add a visible pressed state beyond the 0.985 scale."
+   },
+   {
+    "id": "W-003",
+    "result": "partial",
+    "evidence": "Live name change works: in the sheet, selecting Economics changes the hero from '10 Accountancy questions' to '10 Economics questions' and the Full/NTA/Quick row text follows; the Practice ticket also follows. Sizes: sheet chip logos grew 48 to 64 px (rendered about 58 px unselected and 69 px selected), but the hero card art is 112 px on phone and 132 px on desktop, so chips are about half that, not 'like the top card'. With the 'Finish your recall session' (resume) move the top card is deliberately not subject-bound and never changes; the rows below do. Practice page subject objects are 116/104 px, close to the hero size.",
+    "fix": "Raise the sheet chip stage to about 84-96 px, or let the selected chip's object match the hero art size. Tell the user in the resume hero which subject the rows below belong to, because the card itself stays fixed."
+   },
+   {
+    "id": "W-004",
+    "result": "pass",
+    "evidence": "Computed styles on both surfaces: unselected sheet chips use filter blur(1.6px) saturate(0.55), opacity 0.55, scale 0.9; the selected chip has filter none. Before (9bb41032) the chips had no blur and were 48 px; now 64 px. Practice subject row: unselected blur(2px) saturate(0.5) at opacity 0.5 and 104 px, selected sharp at 116 px (390: 79 vs 88 px). Names stay sharp. Verified in Night and Day at 390 and 1440."
+   },
+   {
+    "id": "W-005",
+    "result": "partial",
+    "evidence": "Chapter picker works: 'Choose chapters' opens a bottom sheet at 390 and an inline panel at 1440; it is grouped by unit (6 units with 'Whole unit' links) with a 'Search 16 chapters' field. Typing 'partn' filtered 16 chapters to 8, and a chapter ticks on click. Fine-tune is above the session card in DOM order, so it sits above the Start bar at 390 once scrolled. It is not visible without scrolling: Fine-tune starts about 1100 px down at 1440 and about 1900 px down at 390. At 1440 the Start button sits in the right column level with Subject/Mode, visually above Fine-tune. Search also matches unit names, so 'partn' shows chapters whose own names lack it.",
+    "fix": "Open the page with Fine-tune collapsed into a visible one-line summary row ('Chapters: All 16, Difficulty: Balanced, Edit') directly above the Start button on both widths, or move Fine-tune above Questions. Limit search to chapter names, or show a match highlight."
+   },
+   {
+    "id": "W-006",
+    "result": "pass",
+    "evidence": "Clicked each tile and read the DOM at 390 and 1440, Night and Day. Quick: data-scope=both, with the Chapters picker and Difficulty. Full: scope=level, with only 'For a Full mock you can set the difficulty...' and the Difficulty control, no chapter picker. Smart: scope=none, 'We choose for you...'. NTA: scope=none, 'We choose for you...'. The ticket's Chapters row reads 'All, as the exam' for Full and NTA. Code: fineTuneScope(mode) in data/test_modes."
+   },
+   {
+    "id": "W-007",
+    "result": "pass",
+    "evidence": "Scrolled Practice in 120 px steps down and up, sampling each step (390 Night, 390 Day, 1440 Night). At 390 the bar's Start key stays rgb(210,240,0) at every scroll position and the dock Start stays lime. The bar text 'Quick practice, Accountancy, 10 questions, 10 min, 10 credits' never changes. The bar rides above the dock while the setup is on screen, then scrolls away with the session card at about y=1560; going up it returns at the same y (identical down and up samples). At 1440 the card's Start is constant. One deterministic rule, no flip or reappearing summary. Code: data-owns-start plus a sticky bar with no scroll script."
+   },
+   {
+    "id": "W-008",
+    "result": "partial",
+    "evidence": "390: deliberate sticky bar docked above the tab bar and a Start card at the end of the setup; no floating button. At the first fold the bar and dock cover the top of the Quick tile (v2/SC-390-dark-0.png). 1440: a sticky right-hand session card with Start, which is deliberate. The bottom half is lopsided: below the stats strip the left column holds only 'Recent sessions' (2 rows) and then about 450 px of empty space beside the long right column (Pro, Add a question, My submissions) (v2/SC-1440-dark-100.png). That is the kind of 'weird' bottom placement the owner mentioned.",
+    "fix": "At 1440 balance the lower half: put Recent sessions across the full width, or stack Pro, Add a question and My submissions into two columns under it. At 390 add top padding so the first fold does not hide the Quick tile behind the bar."
+   },
+   {
+    "id": "W-009",
+    "result": "pass",
+    "evidence": "Practice order in the DOM and on screen: Subject (one row), then Mode (four tiles), then Questions, then Fine-tune, then the session card. There is no second subject picker anywhere. In the Start sheet there is one subject rail above the hero and rows. Rows after it ('Or start in Economics') change with the rail rather than ask again."
+   },
+   {
+    "id": "W-010",
+    "result": "pass",
+    "evidence": "Start sheet at 1440 with 4 chips overflowing (scrollWidth minus clientWidth = 253). Real mouse wheel 300 moved scrollLeft 0 to 253 and -300 back to 0. The next arrow (hit-tested) moved it 0 to 253 and prev 253 to 0. A mouse drag from the 70 percent point to 25 percent moved it 0 to 253 and the reverse drag 253 to 0, without changing the selected subject. Edge fade and arrow discs are visible. A first drag that started on the arrow button did nothing, which is expected."
+   },
+   {
+    "id": "W-011",
+    "result": "pass",
+    "evidence": "The Start sheet is kept: Start key (sidebar 'Start a session' and the phone dock) opens it as a native dialog (bottom sheet under 1024 px, panel from 1024 px) with Mobi, greeting 'Pick tonight's work', balance, subject rail, hero card with a rendered subject object, stopwatch and exam-panel tiles, spacing and typography refined. Captured in both themes at 390 and 1440."
+   },
+   {
+    "id": "W-012",
+    "result": "partial",
+    "evidence": "Containment passes: NTA tile in Practice has 0 children outside its box (175x211 at 390, 385x132 at 1440). The NTA console preview and its bar exceed their container by only 1 px (border rounding), with no horizontal overflow at 390 or 1440, Night and Day. No start moment exists: pressing 'Start NTA mode' only changes the button to 'Starting...' and shows a 'Starting your session...' toast (v2/NB-1440-dark-start-120.png). The stopwatch hand is a static SVG (start.css .st-watch__hand has no animation). The NTA launch screen is a pulsing dot with three text steps and 'This can take up to 30 seconds'.",
+    "fix": "On Start press for Full mock and NTA, spin the stopwatch hand 360 degrees (about 600 ms, with a reduced-motion fade) in the tile and ticket art before router.push. Replace NtaValidationSpinner's dot with the same clock."
+   },
+   {
+    "id": "W-013",
+    "result": "fail",
+    "evidence": "Practice cards at 390 and 1440, Night and Day (v2/P-1440-dark-practice-top.png, P-1440-light-practice-top.png) are flat dark or pale panels with only a lime selection ring. No blue light and no texture appear on the tiles, session card or Fine-tune. practice.css and arena.css contain no blue light, grain or noise on cards. The 17 Oct owner note asks for that richness back and the build does not restore it.",
+    "fix": "Restore the pre-15 Oct card surface on Practice: a soft cool-blue top-edge light plus a fine grain texture on .pr-tile, .pr-ticket and .pr-fine2, as in the app's cards. Keep the lime selection state and add a visual check against the pre-15 Oct captures."
+   },
+   {
+    "id": "W-014",
+    "result": "partial",
+    "evidence": "1440: Practice subject objects are 116 px selected and 104 px unselected (drawn at 132). The 15 Oct pass-2 size was 104 px and the pre-15 Oct size 60-80 px, so they are larger, with eased lamp, pick and tick motion in practice.css. 390: objects are 88 px selected and 79 px unselected, up from 60 px on 15 Oct, so the phone size is not unchanged. There is no separate dashboard route; /dashboard is Practice.",
+    "fix": "If 390 must stay as on 15 Oct, set --pr-obj back to 60 px under 640 px. Otherwise accept 88 px and tell the owner."
+   },
+   {
+    "id": "W-015",
+    "result": "pass",
+    "evidence": "390 px captures of Practice, Today (v2/A15-390-today.png: 'Today's move', one lime action, 'Something else'), the runner and the result (v2/A15-390-result.png: score, 'Do this next', Repair button). Each has one clear heading, a plain next action and a bottom dock. No horizontal overflow (scrollWidth minus innerWidth = 0 everywhere). Runner at 390 has 44 px or larger targets. Sub-pages look app-like, not shrunk desktop pages."
+   },
+   {
+    "id": "W-016",
+    "result": "pass",
+    "evidence": "Real-pointer clicks on options at 390 and 1440, Night and Day, with frames at 0, 60, 150, 300 and 600 ms. Exactly one option has is-selected in every frame; the old option's border returns to the idle colour in the first frame (border-color 0 ms). A re-pick shows B cleared and C inked in one step. The ink is a clip-path circle inside the same box (::before), with no other box. Screenshots RN-390-dark-02-pick-1 and RN-390-dark-03-repick-3 show a single outlined option."
+   },
+   {
+    "id": "W-017",
+    "result": "fail",
+    "evidence": "The top notice (.runner-sync-state, 390 and 1440, Night and Day) reads: 'Answers are saved on this device. Stay online when submitting. Existing practice-bank content is still being audited.' That is the exact original string from commit 3c88f925 (4 Oct) in TestPageClient.jsx line 1199, so it was not reworded. At 390 it takes 3 lines (73 px) above the header. The 'being audited' clause is filler and an unprompted disclaimer.",
+    "fix": "Replace it with one short line, for example 'Saved on this device. Stay online to submit.' Drop the 'practice-bank content is being audited' clause, or show it only when a real audit flag is set. Keep it to one line at 390."
+   },
+   {
+    "id": "W-018",
+    "result": "partial",
+    "evidence": "No privacy, screen-capture or screenshot wording in the quick runner or NTA runner body (regex over body text, all widths and themes). The NTA entry dialog still carries the disclaimer 'Browser safeguards let you exit with Escape or switch apps. These exits are detected here; this is not server-verified proctoring.' (ExamIntegrityGuard.jsx ei-fine, v2/NT-390-dark-nta-00-entry.png). That is probably the line the owner called filler.",
+    "fix": "Delete the .ei-fine paragraph from IntegrityOverlay; keep only the three functional rules."
+   },
+   {
+    "id": "W-019",
+    "result": "pass",
+    "evidence": "Injected a 5-question passage set into the preview session (fetch hook) and read computed colours. NTA style (Night and Day, 390 and 1440): passage text rgb(31,41,51) on rgb(247,250,252), a fixed light exam surface, high contrast. MockMob style: Night text rgb(188,197,185) on a dark tint; Day text rgb(61,74,57) on a light tint. Viewed NT-390-dark-nta-01-runner.png and NT-390-dark-mockmob-01-runner.png; the passage is clearly readable."
+   },
+   {
+    "id": "W-020",
+    "result": "pass",
+    "evidence": "NTA at 390 (both screens): a single-column paper, a bottom bar with Back, Clear response, Palette 0/50, Mark for review & next and Save & next, and the palette as a bottom sheet (opened via the Palette key, 'Review palette' with counts). Hit-test of all interactive elements: 0 smaller than 44 px; no horizontal overflow. The question text is 16 px and the passage 15 px. Not a shrunk desktop console. The top stack (notice, interface toggle, header, warnings) takes about 330 px before the question."
+   },
+   {
+    "id": "W-021",
+    "result": "pass",
+    "evidence": "Code read (needs the live bank for an end-to-end build): data/nta_blueprints/english.json order.layout 'sets_first_then_mixed_verbal': two passage sets of 4-5 questions at Q1-5 and Q6-10, then standalone verbal-ability types from Q11-50, max same-type run 3, 'more than 3 passages is not authentic'. Question 15 is therefore a vocabulary or grammar item. nta_engine.js layout() and the contiguity checks enforce it; the paper is not started without two complete sets."
+   },
+   {
+    "id": "W-022",
+    "result": "pass",
+    "evidence": "Code read (the live bank is out of reach here). nta_engine.js: NTA_TIME_BUDGET_MS = 30_000 with a deadline checked in fill, repair and runLevel; NTA_MIN_SCORE 8 plus a fit-score gate; selection by creation day newest first (NTA_RECENCY_BUCKET_MS), then score; blueprints exist for every public subject in nta_blueprints/index.json (english, general_test, accountancy, business_studies, economics, mathematics, physics, chemistry, biology, history, political_science, geography, psychology, sociology, computer_science). src/lib/server/ntaPaper.js and the engine import no model client, so there is no per-mock AI call. Ran data/tests/nta_engine.test.mjs and nta_blueprints.test.mjs: all pass except the 2,000-question timing test, which took 4.4 s on this loaded PC (it asserts a tighter bound than 30 s)."
+   },
+   {
+    "id": "W-023",
+    "result": "partial",
+    "evidence": "data/exam_integrity.mjs and ExamIntegrityGuard.jsx: 3 strikes (INTEGRITY_STRIKES = 3), the third submits (onTerminate to submitTest('nta_strikes')); a tab switch (visibilitychange hidden) counts immediately; fullscreen exit counts immediately; a window blur counts after a 150 ms debounce. There is no 3 s rule: an interruption of 200 ms to 2.9 s (a notification stealing focus) counts as a warning. No grace period beyond the 150 ms debounce, which matches 'no grace'. The monitor's 'away' flag stops double counting while away.",
+    "fix": "In onBlur use a 3000 ms timer that is cancelled by focus, and count visibilitychange-hidden immediately only when it lasts longer than the OS notification case (or count hidden immediately and blur after 3 s). Add a test that a 2 s blur adds no strike and a 4 s blur adds one."
+   },
+   {
+    "id": "W-024",
+    "result": "pass",
+    "evidence": "Exercised the runner at 390 and 1440 with real pointer clicks: timer counts down (11:54 to 11:52); Mark toggles to 'Unmark'; the palette opens (390 bottom sheet 'Review palette' with Answered/Marked/Pending/Not visited counts, 1440 side palette with per-question states); a Submit control is present; an answer persists across reload (1 answered, timer continues from 11:46 not reset); Prev/Next and option select work. No upsell, no Mobi and no heavy animation inside the paper (only the 260 ms in-box ink and the letter pop). Source diff since 336860dc adds event capture and strike recording but leaves the timer, submit and draft logic in place."
+   }
+  ],
+  "notes": "Method: headless Chrome through playwright-core with a temp profile (deleted), the dev server at localhost:3263 (f725a422), 390x844 and 1440x900, Night and Day, real pointer clicks after elementFromPoint hit tests. All captures are in C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob-next\\tmp\\web-audit-1017\\start-practice-runner\\v2 (prefixes P- Practice, S-/S2- sheet, SC- scroll, CP- chapters, RN- runner, NT- NTA, NB- NTA/start, CT- controls, RL- rail, A15- arena). Scripts are in the session scratchpad under spr-w2. Chrome was closed at the end and the temp profiles removed. The worktree is C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17 (the task text had a mangled path). Limits: W-021 and W-022 were verified from code, blueprints and unit tests only, because a live build needs the database. The NTA strike behaviour (W-023) was read from code, as headless Chrome cannot switch tabs. In headless the NTA runner collected spurious blur strikes (Warnings 2/3 and 'Session ended'), a harness artifact. The passage test injected passages by hooking the preview fetch, since the preview fixtures have none. W-013 could not be compared with a rendered pre-15 Oct build; the judgement rests on the current cards having no blue light or texture and on the owner's 17 Oct note.",
+  "extra": [
+   "Two lime Start buttons are on screen at once on phones: the dock's Start key (opens the sheet) and the page's own lime CTA (Practice bar 'Start 10 questions', Today 'Start Revise'). That breaks the one-volt rule and could confuse a new student about which one starts the test.",
+   "On phones the Practice session bar and dock cover the top of the Quick tile on first load (SC-390-dark-0.png). The page's first screen is mostly heading, credits text and the subject row, and the mode choice is below the fold.",
+   "At 1440 in NTA mode the sticky session card's top edge slides under the sticky top bar near the end of the page (NB-1440-dark-start-120.png).",
+   "The runner notice takes 3 lines (about 73 px) at 390 and, with the interface toggle, header and warnings, pushes the question about 330 px down in NTA mode.",
+   "NTA entry dialog states 'Copy, paste and right-click are disabled' and the 'not server-verified proctoring' disclaimer; the owner dislikes obvious disclaimers.",
+   "Sheet Full mock tile at 390 shows 'Uses 50 practice credits. You have 40.' in amber wrapped over 4 lines, a clunky cost line next to the tidy one-line app rows.",
+   "Search in the chapter picker also matches unit names, so a search for 'partn' returns chapters whose own names do not contain it.",
+   "Sidebar Start key shows lime during the Practice skeleton and quiet after load, a brief flip on every Practice load (F12 rule holds after load).",
+   "Preview-only: sheet links in /preview/arena are rewritten to the bare dashboard URL, so a sheet click there does not preselect Full; the real href (/dashboard?subject=..&mode=full) was checked separately and does."
+  ]
+ }
+}

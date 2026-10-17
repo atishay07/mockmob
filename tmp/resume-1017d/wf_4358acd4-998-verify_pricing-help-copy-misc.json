@@ -1,0 +1,65 @@
+{
+ "wf": "wf_4358acd4-998",
+ "label": "verify:pricing-help-copy-misc",
+ "result": {
+  "results": [
+   {
+    "id": "W-093",
+    "result": "fail",
+    "evidence": "Rendered text of all 23 /preview/arena views at 390 and 1440, read in full. Disclaimer or filler lines remain. Ranks: 'It is separate from your CUET exam rank' and 'Nobody else is named here.' Rival: 'simulated benchmark, not a student or a CUET rank prediction.' Compass: 'not a prediction; ... Your subjects and score stay on this device'. Join/Mob: 'Scores stay private unless you choose', 'Off by default... Never a ranking', 'MockMob never asks for your contacts.' Explore: 'This is practice, separate from your timed mock score.' Upload: 'No credit reward is promised', 'Submission does not mean publication.' Ask Mobi/Today/Progress: 'A practice observation, not a diagnosis', 'not a causal score gain'. Public footer on every marketing page, and About 'Independent, and clear about it': 'not affiliated with NTA, the University of Delhi or any official exam body.' Numbers are real: 1,404 questions, 40 credits, 3 of 4 sat, 8 of 23 changes.",
+    "problem": "Non-affiliation, 'just a practice' and privacy lines are still on screen in many places, which is exactly what the owner said should not be written.",
+    "fix": "Delete these sentences: ranks 'separate from your CUET exam rank' and 'Nobody else is named here'; rival 'simulated benchmark, not a student or a CUET rank prediction'; explore 'This is practice, separate from your timed mock score'; join/mob privacy and 'never a ranking' lines; upload 'No credit reward is promised' and 'Submission does not mean publication'; the 'not a diagnosis' and 'not a causal score gain' tags; the non-affiliation footer sentence on MarketingFooter and the About 'Independent, and clear about it' block. Keep only legal text on /terms and /privacy. Keep concrete facts, and move any genuinely needed consent copy into the setting itself."
+   },
+   {
+    "id": "W-094",
+    "result": "partial",
+    "evidence": "Pricing: 'There is no fixed set of mocks: each paper is built when you start it, from a live bank of 5,941 questions... Pro covers as many as you take; on Free, each one uses practice credits', and the FAQ 'As many as you take'. Start menu (dashboard 1440 Night, viewed): 'Every paper is built fresh from the 1,404 Accountancy questions in the bank... There is no cap on how many you take, only the practice credits each one uses.' Result: 'Take another fresh paper... There is no cap on how many papers you take.' No banner and no 'never repeats' anywhere (paperCopy.mjs forbids it).",
+    "problem": "Onboarding says only 'Each mock in a subject is a fresh paper from its question bank.' It never says there is no cap on mocks, so it covers half of the claim.",
+    "fix": "Extend ONBOARDING_LEAD in src/lib/paperCopy.mjs: 'Pick up to 5. Every mock is a fresh paper from one live question bank, and there is no cap on how many you take. You can change them any time.' Keep the data/tests copy test in step."
+   },
+   {
+    "id": "W-095",
+    "result": "pass",
+    "evidence": "Zero '41 subjects' found by repo grep (src, data, public), rendered text of the new landing (3122) at 390 and 1440, the old landing and /pricing, /features, /about and the combo planner, and the meta and JSON-LD of 8 public pages. The claim reads 'Full NTA-pattern mocks for the 15 subjects behind 19 of every 20 CUET papers' (pricing, meta, JSON-LD) and the landing reads '5,941 questions to practise in the 15 subjects behind 19 of every 20 CUET papers.' /api/stats returns publicSubjectCount 15 and 15 subject counts. /api/subjects returns 38 entries with none of entrepreneurship, teaching_aptitude, legal_studies or engineering_graphics. Onboarding and Practice only list practice==='supported'. Retired saved choices read 'CUET dropped this paper in 2025' (?stale=1 viewed). data/tests/subject_claim.test.mjs guards it.",
+    "problem": "Minor only: in the preview fixture a stale Hindi choice reads 'no longer recognised', though Hindi is a real not-offered subject. The wording is wrong but it is not a '41' issue.",
+    "fix": "Optional: show the registry's practiceReason for not_offered subjects in the dashboard's stale-choice row."
+   },
+   {
+    "id": "W-096",
+    "result": "pass",
+    "evidence": "Student-facing times found in rendered text are all 12-hour with PM or AM: Review 'Quick practice, yesterday, 1:08 PM' and '14 Oct, 1:08 PM'; Result 'Recorded 4 Oct, 11:30 PM'; Mob 'Closes Sunday 11:59 PM'; Join 'Tue 20 Oct, 9:40 PM'; Account list '4:30 PM', '10:30 AM'. Relative words are used where natural ('yesterday'). Code uses hour12:true or the en-IN default (12-hour). The only 24-hour-looking strings (0:41, 3:10) are durations, not clock times.",
+    "problem": "Cosmetic: the Recovery page prints 'Next fresh check: <en-IN toLocaleString> IST' with a numeric date and seconds, and the Admin and Creator dashboards use hour:'2-digit' with no hour12. The Recovery page is not released.",
+    "fix": "Optional: use the shared 12-hour formatter in src/app/(app)/recovery/page.jsx line 58 and set hour12:true in AdminDashboardClient and CreatorDashboardClient."
+   },
+   {
+    "id": "W-097",
+    "result": "fail",
+    "evidence": "Rendered /pricing at 390 and 1440, Night and Day (1440 Day viewed). It reads 'Rs 99 gets you in', the card shows 'Rs 99 once', 'covers access through 31 July 2027, with no renewal', and the CTA is 'Get access for Rs 99'. The FAQ answers 'Is Pro a monthly subscription?' with 'Not yet.' The monthly branch (Pro Rs 99 /month, renewal on the same date, cancel in Account) only renders when env RAZORPAY_PLAN_ID_PRO_MONTHLY_99 is set. This dev build does not set it: .env.local sets only the older _PRO_MONTHLY variable. Git history since 15 Oct shows copy changes and PricingCard edits only. The layout is the same as 15 Oct (two cards, comparison table, FAQ). Positives: real rupees, included usage (10 and 50 practice credits, 100 start credits) and no fake reference prices, countdowns or loss threats.",
+    "problem": "The plan is not presented as 99 a month, and there is no visible typography or visual upgrade over 15 Oct (the owner's 'pricing seems the same' complaint stands). Whether the live deploy shows monthly depends entirely on an env var.",
+    "fix": "Make the monthly presentation the default for display: show 'Pro Rs 99 a month, renews monthly, cancel anytime' as the plan, and keep the checkout button on the one-time flow or 'coming online' until Razorpay is reconfigured. Alternatively set RAZORPAY_PLAN_ID_PRO_MONTHLY_99 on the deploy. Then do a real design pass on /pricing: a large price numeral, a plan header and a credits/usage strip (Free 100 credits, Pro unlimited, AI credits 10 vs 50), a renewal line, and a sticky Pro card. Capture it at 390 and 1440 Night and Day against the 15 Oct screenshot."
+   },
+   {
+    "id": "W-098",
+    "result": "partial",
+    "evidence": "Models: providerCore.js has an allowlist (openai gpt-6-luna, anthropic claude-haiku-5-5) checked in callOnce before any client call (line 293). The only AI call sites are Ask Mobi (replyDeps), Mistake Repair, Rival (start and submit) and moderation, all through generateAIResponse. There are no other SDK or fetch calls to other providers (grep of src). reserve_runtime_ai refuses other models in the DB. Caps: STATUS.md says production was set by hand to Rs 5 paid (0.0568) and Rs 1 free (0.0114) at 2:35 am on 17 Oct. But the repo migration 20261017120000_runtime_ai_user_cap.sql seeds student_user_paid at 0.1136 (Rs 10), and data/tests/ai_user_cap.test.mjs asserts 0.1136. I did not touch any database, so the live value is unverified.",
+    "problem": "The repository source of truth says Rs 10 paid. Any fresh or restored database gets Rs 10 and the test enforces the wrong number. COST_TABLE still lists old model names (telemetry only, harmless).",
+    "fix": "Add a follow-up migration, or edit the seed, setting student_user_paid monthly_cap_usd to 0.0568. Update the test to 0.0568 and the header comment to Rs 5. Have the owner's ops confirm the live row. Optionally prune COST_TABLE to the two allowed models."
+   },
+   {
+    "id": "W-099",
+    "result": "partial",
+    "evidence": "Signed-in nav (viewed): Today, Practice, Review, Explore, Saved, Progress, Weak chapters, Compass, Ask Mobi, Your Mob, Your standing, Contribute, My uploads, Account, Help. Overlaps in the rendered pages: Ask Mobi's Next step tab says 'The same next action as Today' and repeats 'Start 10 practice questions'; the same 'Your next step: 10 questions, about 10 minutes' CTA appears in Review, Progress and Ask Mobi; the Progress 'Your record so far' block (sessions, answered right 60%, 12 of 20) repeats Review's 'Your 2 sessions' block; the 'Partnership Fundamentals is where the most marks are open' insight is in both Review and Ask Mobi; Rival has 6 benchmark variants (Daily, Speed, Accuracy, Weakness, DU Target, Composite) that are near-duplicates; Contribute and My uploads are two entries; /recovery is a 'steps open soon' stub, and Review also contains Revise, Rules and Traps.",
+    "problem": "Several near-duplicate surfaces remain, so Ask Mobi, Progress, Review and Today restate each other.",
+    "fix": "Fold the Ask Mobi 'Next step' tab into Today and keep Ask Mobi as Ask only. Drop the duplicated sessions summary from Progress and link to Review. Show 'Your next step' in one place per page. Merge My uploads into Contribute as a tab. Collapse the 6 Rival benchmarks into one setup with a type picker. Hide the /recovery stub until it is released."
+   },
+   {
+    "id": "W-100",
+    "result": "not-testable",
+    "evidence": "N/A by owner decision (marketing deferred to January). Confirmed nothing half-built is visible: no WhatsApp opt-in, phone capture or abandoned-cart screens in the rendered pages. WhatsApp appears only in the Help sign-in tip about in-app browsers and in the SignupCard in-app-browser detector.",
+    "problem": "",
+    "fix": ""
+   }
+  ],
+  "notes": "Read-only audit of deploy/web-1017 (f725a422) on :3263 and the landing branch on :3122. A custom CDP driver was used with headless Chrome only (no puppeteer or playwright is installed in mockmob-hotfix). Chrome was closed and the temp profile deleted after each run. Captures and text dumps are in C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob-next\\tmp\\web-audit-1017\\pricing-help-copy-misc\\ (pricing-*, app-*-1440-night, app-*-390-day, land-*, plus .txt dumps). I opened pricing 1440 Day, pricing 390 Night, the dashboard 1440 Night and onboarding 390 Day; the rest were judged from the full rendered-text dumps. I did not click through each view with real pointer input, since these were copy and config checks. I could not verify the live Razorpay env or the production DB cap values. Extra problems the owner would object to: (1) the preview 'Development preview / Illustrative data' strip is dev-only and is not a defect. (2) The Today and Review copy repeats 'Your next step: 10 questions, about 10 minutes' on four pages. (3) 'Recovery steps open soon' is a dead-end page still reachable at /recovery. (4) The signed-in pages show 'Usable questions 5,941' beside per-subject counts; keep these consistent with the pricing bank line, which is correct today."
+ }
+}

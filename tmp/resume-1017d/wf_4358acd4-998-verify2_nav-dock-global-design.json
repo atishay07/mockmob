@@ -1,0 +1,190 @@
+{
+ "wf": "wf_4358acd4-998",
+ "label": "verify2:nav-dock-global-design",
+ "result": {
+  "results": [
+   {
+    "id": "W-065",
+    "result": "pass",
+    "evidence": "Headless Chrome on localhost:3263, 390/360/320/768, Night+Day, 5 views. DOM-measured: icon centres of 5 tabs + Start key spread 0.00 px, label centres spread 0.00 px, key 64x64 same top/bottom as the 64 px capsule, every slot >=45.6 px, elementFromPoint hits true at 5 points per control. Key is lime-filled rgb(210,240,0) on every route and scroll (A1). The active lens (51.6x56 plate, behind the icon) contains the icon and label and never overlaps a neighbour on Today/Practice/Review/Colleges/More; hidden when no tab is current (Saved). Zoomed captures opened: R-W065-dock-*-{390,360,320,768}-{night,day}.png.",
+    "fix": ""
+   },
+   {
+    "id": "W-066",
+    "result": "pass",
+    "evidence": "Dock = 5 slots (Today, Practice, Review, Colleges, More) plus a detached Start key = 6 controls, all on one centre line (measured 0.00 spread). Count rationale is written in docs/design-decisions/pass-1017/NAV-1017.md (Apple HIG tabs, Material 3 cap of five, Maps/Spotify trend, Start = action). Caveat: that note lives in mockmob-next on feat/app-and-web, it is not in the shipped f725a422 tree.",
+    "fix": "Commit NAV-1017.md (and the other pass-1017 notes) to the release branch so the justification ships with the build."
+   },
+   {
+    "id": "W-067",
+    "result": "partial",
+    "evidence": "Colleges is now a named dock tab on web (active on /admission-compass) and the app's bar_tabs.dart also has a 'Colleges' slot. But the same place is called three things on the web: dock/More 'Colleges', desktop sidebar 'Compass, DU cutoffs' with topbar title 'Compass' (R-compass-1440-night.png), and page h1 'Which DU courses can your subjects get?' with no title at all in the 390 topbar (R-compass-390-night.png). The dock Colleges is not in the More sheet or sidebar under that name, so a new student cannot connect them.",
+    "fix": "Rename the sidebar item/topbar title to 'Colleges' (keep 'DU cutoffs' as the hint) and give the page a Colleges h1 or title; same word on app and web."
+   },
+   {
+    "id": "W-068",
+    "result": "partial",
+    "evidence": "Visible before/after difference is large (before mock web-before-night.png: 6 slots, disc popping 9 px above the bar, label 2.6 px low; now a glass capsule + same-height key). Alignment, bubble, label text size (11/14 px, one baseline), count, Colleges tab, dense glass (0.94/0.93, no text reads through) and key never flipping are verified fixed. Still open: Day theme toggle shows a sun disc with a white dash (the 'sun on a line' glyph, R-W069-topbar-right-1440-day.png); STATUS admits the Practice bar mode name is cut at 360 ('Quick pr…'); Colleges naming split (W-067).",
+    "fix": "Replace the Day toggle glyph with a clear sun/moon icon; fix the 360 px truncation; unify Colleges naming; then re-walk the 14 Oct and 16 Oct complaints one by one."
+   },
+   {
+    "id": "W-069",
+    "result": "partial",
+    "evidence": "Dock icons read clearly (calendar-check, stopwatch, notebook, building, dots, play) at 3x zoom. Failures: Day theme toggle is still a yellow disc plus a white bar (sun-on-a-line); on Practice the three unselected subject objects (Economics, Business Studies, English) are heavily blurred and dimmed at 390 and 1440 (R-W069-subjects-1440-night.png), so they read as incomplete; at 1440x900 the sidebar's sticky foot cuts the 'Contribute' row in half and hides My uploads/Account/Help until the sidebar is scrolled.",
+    "fix": "Fix the Day toggle icon; show unselected subject art sharp at lower opacity instead of blur; make the sidebar foot not overlap rows (shrink the foot or compact the groups at 900 px)."
+   },
+   {
+    "id": "W-070",
+    "result": "partial",
+    "evidence": "Menu labels are clear (Today, Practice, Review, Colleges, More; More sheet groups Study/Planning/Community/Account, R-W070-more-sheet-390-{night,day}.png); no 'Go to Home' vs 'Arena' pair exists (marketing says 'Go to Practice'). Navigation is not merged: 14 sidebar items in 5 groups. But 'Arena' still appears to a first-time user: profile h1 'Your corner of the Arena.', landing kicker 'Arena', 'Arena preview' label, 'Arena · Full mock'.",
+    "fix": "Replace remaining 'Arena' copy with plain words (Your account; Practice)."
+   },
+   {
+    "id": "W-071",
+    "result": "pass",
+    "evidence": "Dock is a blur(32px) saturate(1.5) glass capsule with sliding spring lens; real mouse-down on Review gave transform matrix(0.96) in Night and Day (R-W071-press-review-390-*.png); More sheet and Start sheet are glass with spring. Measured live: lens moves by column index (translate 222 px at More). Glass is limited to dock/sheets, not applied everywhere. Desktop hover capture was inconclusive (page mid-transition), so hover on sidebar rows is not independently proven.",
+    "fix": ""
+   },
+   {
+    "id": "W-072",
+    "result": "partial",
+    "evidence": "Core app pages (Today, Review, Result, Practice, Start sheet, Progress) have strong type, lamp-lit objects, Mobi scenes and motion. Not premium everywhere: public features/about/privacy are text-only lists with no imagery (R-pub-features-390-night.png), Your standing and Help are sparse, Rival is a dense dark card grid, Ask Mobi is a box inside box.",
+    "fix": "Bring features/about/standing/rival up to the Today/Result standard (one hero object, fewer boxes) before claiming a premium pass."
+   },
+   {
+    "id": "W-073",
+    "result": "partial",
+    "evidence": "Live (not stills): clicking dock Practice from Today gave a fade-through at 50/120/200/300 ms with staged entrance of the Mode block and the lens sliding (R-W073-trans-sheet-new.png); ViewTransition is wired (placeTransition.js, startViewTransition called). Timed runner (390 and 1440, Night and Day) has zero infinite animations. Count-ups exist in code (TodayMove, ResultHead, RecordView, RhythmCard) but a 250 ms sampler on Progress saw values settle almost instantly. PLACE_ORDER still models the old dock (Learn, You) and has no Colleges, so Colleges transitions are a plain fade. 'Above Duolingo' cannot be proven by a script.",
+    "fix": "Add admission-compass to PLACE_ORDER in dock order; confirm count-up duration on a device."
+   },
+   {
+    "id": "W-074",
+    "result": "partial",
+    "evidence": "App pages show Mobi once and only at moments (Today first-run/returning hero, Start sheet, Review/Saved empty scenes, error card), varied poses, none in the runner. Landing breaks the rule: at 390 the sticky 'Free to start' dock carries a Mobi icon while a section Mobi sits above it, and one viewport (scroll y 14300) holds three Mobi nodes (pip-image, pip-actor, pip-image); landing sheets M390-night-04..06.",
+    "fix": "Remove the Mobi icon from the sticky landing dock and keep one seat per viewport."
+   },
+   {
+    "id": "W-075",
+    "result": "fail",
+    "evidence": "By design the phone Start key stays lime on every page, so at 390 any page with its own lime primary shows two lime fills: Practice (Start 10 questions + key), Today (Start Revise), Review (Open Accountancy), Colleges (View courses), Your standing, Result, Your Mob, Ask Mobi (three: selected chip too), Rival, Recovery. At 1440: Account (See Pro + sidebar Start), Ask Mobi, Rival, Recovery; public pages show nav 'Start free' + CTA; landing 390 shows the sticky 'Try a CUET question' with every section CTA. Metrics in res2-q390/q1440.json, captures R-*-390-*.png. The owner did say 'A1 seems good', so the key is accepted, but the standing rule is broken on most screens.",
+    "fix": "Either make the 390 key outlined whenever the page owns a lime primary (data-page-primary, same as desktop) or get the owner's explicit waiver of one-volt for the dock; add data-page-primary to Account, Ask Mobi, Rival, Recovery."
+   },
+   {
+    "id": "W-076",
+    "result": "fail",
+    "evidence": "Rival (/rival) has eyebrow pills and labels ('Daily check' pill, 'Shadow Benchmark', 'free today'/'Pro' pills), an icon grid of coloured lock/sword tiles and boxes inside cards (R-rival-1440-day.png). Landing at 390/1440 has kicker dots ('Score Recovery Lab', 'DU Compass'), pills ('Compass Pro', 'Combo Planner', 'Creator reel'), arrows on buttons ('Up next Replay →', 'Save & Next →') and cards inside cards (M390-night-02..05). Ask Mobi has a lime glowing orb (prepos-orb__ring, inset lime shadow) and a box in a box. OG share card has a three-pill row. No ALL-CAPS labels (only acronyms), no gradient text found.",
+    "fix": "De-slop Rival and the landing demo cards (drop pills/dots/arrows, flatten nested cards), remove the orb glow, drop the OG pills."
+   },
+   {
+    "id": "W-077",
+    "result": "partial",
+    "evidence": "Today, Review, Result, Practice and the Start sheet pass on one primary, true content and hierarchy. Rival, Ask Mobi, landing demo cards and the Colleges page (two lime actions at 390, long dense intro) do not pass the one-primary, intentional composition and slop tests; Your standing and Help are under-composed. A full 12-part score per page was not produced by the team for this build (NAV/GLASS/LEARN-REVIEW/RESULT/START/TODAY notes only).",
+    "fix": "Score every page against the 12 parts and fix the failing ones listed under W-075/W-076."
+   },
+   {
+    "id": "W-078",
+    "result": "partial",
+    "evidence": "390/1440 Night and Day compared for ~30 views: layouts match, no horizontal scroll anywhere (hscroll 0). Theme-only bug: Rival renders a dark panel inside Day (R-rival-1440-day.png). Day contrast looked legible on the pages opened. Sidebar foot overlapping rows is theme independent.",
+    "fix": "Theme the Rival page with the arena tokens."
+   },
+   {
+    "id": "W-079",
+    "result": "fail",
+    "evidence": "Measured <44 px controls: Practice summary buttons 'All 2' 44x32 and 'Balanced' 59x32; Account weekday chips 41x44 (Mon..Sun at 390) and radio/checkbox inputs 20x44; Your Mob icon buttons 52x32; landing 'Sign up' link 39x16 and the 1440 demo question-palette buttons 27x36; Explore error buttons Reload/Details 74x31 and 74x33. All other arena controls, dock slots (45.6+) and Start key pass.",
+    "fix": "Give those controls min-height/min-width 44 px (or a 44 px hit area)."
+   },
+   {
+    "id": "W-080",
+    "result": "pass",
+    "evidence": "Volt #d2f000 on near-black Night (olive #4f6400 text accent on Day), lowercase 'mockmob' wordmark on every page and the OG card; no cobalt, vermilion or navy brand colours seen across ~130 captures.",
+    "fix": ""
+   },
+   {
+    "id": "W-081",
+    "result": "pass",
+    "evidence": "Header, sidebar, footer (MarketingFooter uses Logo), auth cards all draw LogoMark B (Mobi as second o) with the small dot. Favicon icon.svg and apple-icon.png are the 'mo' tile with Mobi o, OG image 1200x630 shows logo B. No bolt-mark or old logo in src (public/brand/logo-header-*.svg are unreferenced). The lightning glyph on the credits chip is a credit icon, not the logo.",
+    "fix": "Optional: delete the unreferenced public/brand/logo-header SVGs and consider a non-bolt credit glyph so it cannot be read as the old bolt mark."
+   },
+   {
+    "id": "W-082",
+    "result": "partial",
+    "evidence": "The 29 subject object masters (R-W082-subject-art-sheet.png) are lamp-lit, high-res 3D; Business is the open briefcase, no Hindi-text art. In use the art is sharp on Account, Start sheet, Today, landing, OG, but on Practice the unselected subjects are blurred to near-unreadable at 390 and 1440, and the carousel edge crops the last object.",
+    "fix": "Dim rather than blur unselected subject art; show a peek of the next card with a fade mask."
+   },
+   {
+    "id": "W-083",
+    "result": "partial",
+    "evidence": "Today, Review, Progress, Practice and Colleges are full; Your standing (R-ranks-390-night.png), Help and Recovery are sparse with large empty areas; nothing looks over-gamified. Index of cut content: none found (see W-084).",
+    "fix": "Add one useful block to Your standing (rank trend) and Help (search/contact card)."
+   },
+   {
+    "id": "W-084",
+    "result": "pass",
+    "evidence": "git diff --name-status deploy/ux-1017..f725a422 -- src shows no deleted or renamed files; arenaNavigation keeps every item (Learn, Explore, Saved, Progress, Compass, Ask Mobi, Mob, Standing, Contribute, My uploads, Account, Help) in sidebar and More sheet; Learn moved from dock to More (flag-gated STUDY_CONTENT_ENABLED, same as before). 'Moved, never removed' holds.",
+    "fix": ""
+   },
+   {
+    "id": "W-085",
+    "result": "partial",
+    "evidence": "Web side has Ask Mobi (/mentor), Your Mob (flag-gated), Repair buttons on Result, Road to May on Today, badges on Progress, Compass, Start sheet 'Set it up' fine-tune (captures). App parity itself was not exercised here; the app bar has a Colleges tab like the web. Mob and Learn only show when MOB_ENABLED / STUDY_CONTENT_ENABLED are on, so parity differs by flag.",
+    "fix": "Run a feature-by-feature web/app parity table on the emulator and live site with flags noted."
+   },
+   {
+    "id": "W-086",
+    "result": "pass",
+    "evidence": "Imagery is generated lamp-lit objects, DU campus renderings on the landing, scene art (Mobi under a lamp) for empty states and animated SVG Mobi; nothing stock-looking.",
+    "fix": ""
+   },
+   {
+    "id": "W-087",
+    "result": "partial",
+    "evidence": "STATUS lists 17 critic defects fixed and a 'dock denser' pass, but no per-page list with screenshots was in the shipped tree. Remaining small details found: sidebar foot cutting 'Contribute', sun-on-a-line Day toggle, blurred subject art, 360 px 'Quick pr…' truncation, sub-44 chips, rival unthemed.",
+    "fix": "Fix the items under W-069/W-079/W-078 and publish the sweep list with before/after captures."
+   },
+   {
+    "id": "W-088",
+    "result": "pass",
+    "evidence": "Designed states seen: during (runner, skeleton Today/Review with Mobi 'Opening your saved record'), after (Result with Do this next, repaired rows), return (Today 'Welcome back', 'Pick up where you left off'), empty (Review, Saved, Progress, Explore scenes), error ('This did not load', stats=error). R-W088-states-sheet-A/B.png.",
+    "fix": ""
+   },
+   {
+    "id": "W-089",
+    "result": "partial",
+    "evidence": "Six notes exist (NAV, GLASS, LEARN-REVIEW, RESULT, START, TODAY-1017) citing AGENT_RULES evidence IDs, but they are in mockmob-next on feat/app-and-web, not in f725a422's docs/design-decisions. No note for Colleges/Compass, Account, Progress, Your Mob, Ask Mobi, Rival, Help.",
+    "fix": "Commit the notes with the release and add a note per redesigned page."
+   },
+   {
+    "id": "W-090",
+    "result": "partial",
+    "evidence": "New-student clarity improved (Today hero, plain dock words, Start sheet) but 'Arena' jargon remains in the profile h1 and landing, Compass/Colleges naming splits, and 14 sidebar items remain on desktop; the landing at 390 is a very long page (26,866 px) with dense demo cards.",
+    "fix": "Rename Arena copy, unify Colleges, shorten the landing path to first practice."
+   },
+   {
+    "id": "W-091",
+    "result": "partial",
+    "evidence": "This run checked the same commit on a dev server (not the mockmob.in host), at 390 and 1440, Night and Day, ~30 views, with openable captures in tmp/web-audit-1017/nav-dock-global-design (R-*.png). Many W-items fail as listed; signed-in live pages were only reachable through the preview fixtures. Dev-server note: during one client navigation the page flashed unstyled (dev CSS), not reproducible as a product bug without a production build.",
+    "fix": "Repeat on the live host with a test account and fix the failing items first."
+   },
+   {
+    "id": "W-092",
+    "result": "partial",
+    "evidence": "STATUS for f725a422: lint clean, app 498 / recovery 415 / learning 343 / auth 109 / billing 118 / nta 188 etc., next build passes, headless captures at 390/1440 Night+Day of Practice, Start sheet, Result, Review, Today, Mob, More, a critic round fixing 17 defects. Gaps: not every page was critiqued (Rival, Ask Mobi, Account, Compass), one dock test skipped (needs a server), a known 360 px truncation shipped, and no independent verifier is recorded for this build before deploy (this run is the first).",
+    "fix": "Add the missing pages to the visual gate and run an independent verifier before deploy."
+   }
+  ],
+  "notes": "Method: puppeteer-core (C:\\Users\\atish\\lhrun) with headless Chrome and temp user-data-dirs (deleted; my Chrome processes closed). Dev server http://localhost:3263 (f725a422) is shared and was briefly refused/slow, so affected pages were re-captured serially with skeleton waits. Captures (prefix R-) in C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob-next\\tmp\\web-audit-1017\\nav-dock-global-design; landing stepped shots under landing-tiles; metrics JSON in the scratchpad (res2-q390.json, res2-q1440.json, dock-report.json). The Development-preview banner was hidden by CSS for captures. Items I could not prove: desktop hover state (capture hit a page transition), app-side parity, real-device motion feel. Dock geometry is exact at 390/360/320/768; the dock itself is the strongest part of the build.",
+  "extra": [
+   "Sidebar foot (appearance switch + Guide) is sticky and covers the 'Contribute' row and hides My uploads/Account/Help at 1440x900 until the sidebar is scrolled.",
+   "Rival page renders a dark panel in Daylight and has eyebrow pills and a coloured icon-tile grid.",
+   "Timed runner shows 'Existing practice-bank content is still being audited.' (build talk and a disclaimer the owner dislikes).",
+   "PLACE_ORDER in placeTransition.js still models the old dock (Learn, You) and has no Colleges.",
+   "Account weekday chips are 41 px wide and native radio/checkbox inputs are 20 px wide.",
+   "The 390 Start key stays lime with every page primary (two lime fills); only the desktop sidebar key goes quiet.",
+   "Landing sticky dock carries a Mobi icon plus a section Mobi, and up to 3 Mobi nodes appear in one 390 viewport.",
+   "OG share card has a row of three feature pills.",
+   "Profile h1 'Your corner of the Arena.' and landing 'Arena' labels still use the jargon the owner flagged.",
+   "Ask Mobi shows a glowing lime orb (inset lime shadow) and nested boxes.",
+   "Credits chip uses a lightning bolt glyph that could be read as the removed bolt mark."
+  ]
+ }
+}

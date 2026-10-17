@@ -1,0 +1,699 @@
+[
+ {
+  "id": "W-001",
+  "result": "pass",
+  "evidence": "Start sheet (Start key, 390 and 1440, Night and Day; v2/S-390-dark-sheet.png, S-1440-light-sheet.png): glass sheet with Mobi, subject rail, lit hero card ('Set it up'), Full mock tile with the app's stopwatch object and NTA tile with the exam-panel object, play discs, cost lines. Matches the app's deck language and is richer than the app's plain row list. Layout holds at both widths.",
+  "area": "start-practice-runner"
+ },
+ {
+  "id": "W-002",
+  "result": "partial",
+  "evidence": "Real-pointer hit-tested clicks: all four Practice mode tiles (Quick, Full, Smart, NTA) have cursor:pointer, hover lift (translate -1px plus border) and press scale. A click only selects the tile (radio ring fills to a tick, aria-checked flips, ticket and Fine-tune update); the action happens on a separate Start button. In the Start sheet, Full mock and NTA are links with a play disc that open Practice with that mode selected (/dashboard?subject=..&mode=full lands with Full checked), not a start. The sheet has no Quick/By chapter/Smart rows. Tiles still read as radio cards, with no action label on the tile itself.",
+  "fix": "Give each tile an explicit action label ('Set up Quick', 'Start Full mock') or make the ring a go-disc. In the sheet, say 'Set up' on the Full and NTA tiles. Add a visible pressed state beyond the 0.985 scale.",
+  "area": "start-practice-runner"
+ },
+ {
+  "id": "W-003",
+  "result": "partial",
+  "evidence": "Live name change works: in the sheet, selecting Economics changes the hero from '10 Accountancy questions' to '10 Economics questions' and the Full/NTA/Quick row text follows; the Practice ticket also follows. Sizes: sheet chip logos grew 48 to 64 px (rendered about 58 px unselected and 69 px selected), but the hero card art is 112 px on phone and 132 px on desktop, so chips are about half that, not 'like the top card'. With the 'Finish your recall session' (resume) move the top card is deliberately not subject-bound and never changes; the rows below do. Practice page subject objects are 116/104 px, close to the hero size.",
+  "fix": "Raise the sheet chip stage to about 84-96 px, or let the selected chip's object match the hero art size. Tell the user in the resume hero which subject the rows below belong to, because the card itself stays fixed.",
+  "area": "start-practice-runner"
+ },
+ {
+  "id": "W-004",
+  "result": "pass",
+  "evidence": "Computed styles on both surfaces: unselected sheet chips use filter blur(1.6px) saturate(0.55), opacity 0.55, scale 0.9; the selected chip has filter none. Before (9bb41032) the chips had no blur and were 48 px; now 64 px. Practice subject row: unselected blur(2px) saturate(0.5) at opacity 0.5 and 104 px, selected sharp at 116 px (390: 79 vs 88 px). Names stay sharp. Verified in Night and Day at 390 and 1440.",
+  "area": "start-practice-runner"
+ },
+ {
+  "id": "W-005",
+  "result": "partial",
+  "evidence": "Chapter picker works: 'Choose chapters' opens a bottom sheet at 390 and an inline panel at 1440; it is grouped by unit (6 units with 'Whole unit' links) with a 'Search 16 chapters' field. Typing 'partn' filtered 16 chapters to 8, and a chapter ticks on click. Fine-tune is above the session card in DOM order, so it sits above the Start bar at 390 once scrolled. It is not visible without scrolling: Fine-tune starts about 1100 px down at 1440 and about 1900 px down at 390. At 1440 the Start button sits in the right column level with Subject/Mode, visually above Fine-tune. Search also matches unit names, so 'partn' shows chapters whose own names lack it.",
+  "fix": "Open the page with Fine-tune collapsed into a visible one-line summary row ('Chapters: All 16, Difficulty: Balanced, Edit') directly above the Start button on both widths, or move Fine-tune above Questions. Limit search to chapter names, or show a match highlight.",
+  "area": "start-practice-runner"
+ },
+ {
+  "id": "W-006",
+  "result": "pass",
+  "evidence": "Clicked each tile and read the DOM at 390 and 1440, Night and Day. Quick: data-scope=both, with the Chapters picker and Difficulty. Full: scope=level, with only 'For a Full mock you can set the difficulty...' and the Difficulty control, no chapter picker. Smart: scope=none, 'We choose for you...'. NTA: scope=none, 'We choose for you...'. The ticket's Chapters row reads 'All, as the exam' for Full and NTA. Code: fineTuneScope(mode) in data/test_modes.",
+  "area": "start-practice-runner"
+ },
+ {
+  "id": "W-007",
+  "result": "pass",
+  "evidence": "Scrolled Practice in 120 px steps down and up, sampling each step (390 Night, 390 Day, 1440 Night). At 390 the bar's Start key stays rgb(210,240,0) at every scroll position and the dock Start stays lime. The bar text 'Quick practice, Accountancy, 10 questions, 10 min, 10 credits' never changes. The bar rides above the dock while the setup is on screen, then scrolls away with the session card at about y=1560; going up it returns at the same y (identical down and up samples). At 1440 the card's Start is constant. One deterministic rule, no flip or reappearing summary. Code: data-owns-start plus a sticky bar with no scroll script.",
+  "area": "start-practice-runner"
+ },
+ {
+  "id": "W-008",
+  "result": "partial",
+  "evidence": "390: deliberate sticky bar docked above the tab bar and a Start card at the end of the setup; no floating button. At the first fold the bar and dock cover the top of the Quick tile (v2/SC-390-dark-0.png). 1440: a sticky right-hand session card with Start, which is deliberate. The bottom half is lopsided: below the stats strip the left column holds only 'Recent sessions' (2 rows) and then about 450 px of empty space beside the long right column (Pro, Add a question, My submissions) (v2/SC-1440-dark-100.png). That is the kind of 'weird' bottom placement the owner mentioned.",
+  "fix": "At 1440 balance the lower half: put Recent sessions across the full width, or stack Pro, Add a question and My submissions into two columns under it. At 390 add top padding so the first fold does not hide the Quick tile behind the bar.",
+  "area": "start-practice-runner"
+ },
+ {
+  "id": "W-009",
+  "result": "pass",
+  "evidence": "Practice order in the DOM and on screen: Subject (one row), then Mode (four tiles), then Questions, then Fine-tune, then the session card. There is no second subject picker anywhere. In the Start sheet there is one subject rail above the hero and rows. Rows after it ('Or start in Economics') change with the rail rather than ask again.",
+  "area": "start-practice-runner"
+ },
+ {
+  "id": "W-010",
+  "result": "pass",
+  "evidence": "Start sheet at 1440 with 4 chips overflowing (scrollWidth minus clientWidth = 253). Real mouse wheel 300 moved scrollLeft 0 to 253 and -300 back to 0. The next arrow (hit-tested) moved it 0 to 253 and prev 253 to 0. A mouse drag from the 70 percent point to 25 percent moved it 0 to 253 and the reverse drag 253 to 0, without changing the selected subject. Edge fade and arrow discs are visible. A first drag that started on the arrow button did nothing, which is expected.",
+  "area": "start-practice-runner"
+ },
+ {
+  "id": "W-011",
+  "result": "pass",
+  "evidence": "The Start sheet is kept: Start key (sidebar 'Start a session' and the phone dock) opens it as a native dialog (bottom sheet under 1024 px, panel from 1024 px) with Mobi, greeting 'Pick tonight's work', balance, subject rail, hero card with a rendered subject object, stopwatch and exam-panel tiles, spacing and typography refined. Captured in both themes at 390 and 1440.",
+  "area": "start-practice-runner"
+ },
+ {
+  "id": "W-012",
+  "result": "partial",
+  "evidence": "Containment passes: NTA tile in Practice has 0 children outside its box (175x211 at 390, 385x132 at 1440). The NTA console preview and its bar exceed their container by only 1 px (border rounding), with no horizontal overflow at 390 or 1440, Night and Day. No start moment exists: pressing 'Start NTA mode' only changes the button to 'Starting...' and shows a 'Starting your session...' toast (v2/NB-1440-dark-start-120.png). The stopwatch hand is a static SVG (start.css .st-watch__hand has no animation). The NTA launch screen is a pulsing dot with three text steps and 'This can take up to 30 seconds'.",
+  "fix": "On Start press for Full mock and NTA, spin the stopwatch hand 360 degrees (about 600 ms, with a reduced-motion fade) in the tile and ticket art before router.push. Replace NtaValidationSpinner's dot with the same clock.",
+  "area": "start-practice-runner"
+ },
+ {
+  "id": "W-013",
+  "result": "fail",
+  "evidence": "Practice cards at 390 and 1440, Night and Day (v2/P-1440-dark-practice-top.png, P-1440-light-practice-top.png) are flat dark or pale panels with only a lime selection ring. No blue light and no texture appear on the tiles, session card or Fine-tune. practice.css and arena.css contain no blue light, grain or noise on cards. The 17 Oct owner note asks for that richness back and the build does not restore it.",
+  "fix": "Restore the pre-15 Oct card surface on Practice: a soft cool-blue top-edge light plus a fine grain texture on .pr-tile, .pr-ticket and .pr-fine2, as in the app's cards. Keep the lime selection state and add a visual check against the pre-15 Oct captures.",
+  "area": "start-practice-runner"
+ },
+ {
+  "id": "W-014",
+  "result": "partial",
+  "evidence": "1440: Practice subject objects are 116 px selected and 104 px unselected (drawn at 132). The 15 Oct pass-2 size was 104 px and the pre-15 Oct size 60-80 px, so they are larger, with eased lamp, pick and tick motion in practice.css. 390: objects are 88 px selected and 79 px unselected, up from 60 px on 15 Oct, so the phone size is not unchanged. There is no separate dashboard route; /dashboard is Practice.",
+  "fix": "If 390 must stay as on 15 Oct, set --pr-obj back to 60 px under 640 px. Otherwise accept 88 px and tell the owner.",
+  "area": "start-practice-runner"
+ },
+ {
+  "id": "W-015",
+  "result": "pass",
+  "evidence": "390 px captures of Practice, Today (v2/A15-390-today.png: 'Today's move', one lime action, 'Something else'), the runner and the result (v2/A15-390-result.png: score, 'Do this next', Repair button). Each has one clear heading, a plain next action and a bottom dock. No horizontal overflow (scrollWidth minus innerWidth = 0 everywhere). Runner at 390 has 44 px or larger targets. Sub-pages look app-like, not shrunk desktop pages.",
+  "area": "start-practice-runner"
+ },
+ {
+  "id": "W-016",
+  "result": "pass",
+  "evidence": "Real-pointer clicks on options at 390 and 1440, Night and Day, with frames at 0, 60, 150, 300 and 600 ms. Exactly one option has is-selected in every frame; the old option's border returns to the idle colour in the first frame (border-color 0 ms). A re-pick shows B cleared and C inked in one step. The ink is a clip-path circle inside the same box (::before), with no other box. Screenshots RN-390-dark-02-pick-1 and RN-390-dark-03-repick-3 show a single outlined option.",
+  "area": "start-practice-runner"
+ },
+ {
+  "id": "W-017",
+  "result": "fail",
+  "evidence": "The top notice (.runner-sync-state, 390 and 1440, Night and Day) reads: 'Answers are saved on this device. Stay online when submitting. Existing practice-bank content is still being audited.' That is the exact original string from commit 3c88f925 (4 Oct) in TestPageClient.jsx line 1199, so it was not reworded. At 390 it takes 3 lines (73 px) above the header. The 'being audited' clause is filler and an unprompted disclaimer.",
+  "fix": "Replace it with one short line, for example 'Saved on this device. Stay online to submit.' Drop the 'practice-bank content is being audited' clause, or show it only when a real audit flag is set. Keep it to one line at 390.",
+  "area": "start-practice-runner"
+ },
+ {
+  "id": "W-018",
+  "result": "partial",
+  "evidence": "No privacy, screen-capture or screenshot wording in the quick runner or NTA runner body (regex over body text, all widths and themes). The NTA entry dialog still carries the disclaimer 'Browser safeguards let you exit with Escape or switch apps. These exits are detected here; this is not server-verified proctoring.' (ExamIntegrityGuard.jsx ei-fine, v2/NT-390-dark-nta-00-entry.png). That is probably the line the owner called filler.",
+  "fix": "Delete the .ei-fine paragraph from IntegrityOverlay; keep only the three functional rules.",
+  "area": "start-practice-runner"
+ },
+ {
+  "id": "W-019",
+  "result": "pass",
+  "evidence": "Injected a 5-question passage set into the preview session (fetch hook) and read computed colours. NTA style (Night and Day, 390 and 1440): passage text rgb(31,41,51) on rgb(247,250,252), a fixed light exam surface, high contrast. MockMob style: Night text rgb(188,197,185) on a dark tint; Day text rgb(61,74,57) on a light tint. Viewed NT-390-dark-nta-01-runner.png and NT-390-dark-mockmob-01-runner.png; the passage is clearly readable.",
+  "area": "start-practice-runner"
+ },
+ {
+  "id": "W-020",
+  "result": "pass",
+  "evidence": "NTA at 390 (both screens): a single-column paper, a bottom bar with Back, Clear response, Palette 0/50, Mark for review & next and Save & next, and the palette as a bottom sheet (opened via the Palette key, 'Review palette' with counts). Hit-test of all interactive elements: 0 smaller than 44 px; no horizontal overflow. The question text is 16 px and the passage 15 px. Not a shrunk desktop console. The top stack (notice, interface toggle, header, warnings) takes about 330 px before the question.",
+  "area": "start-practice-runner"
+ },
+ {
+  "id": "W-021",
+  "result": "pass",
+  "evidence": "Code read (needs the live bank for an end-to-end build): data/nta_blueprints/english.json order.layout 'sets_first_then_mixed_verbal': two passage sets of 4-5 questions at Q1-5 and Q6-10, then standalone verbal-ability types from Q11-50, max same-type run 3, 'more than 3 passages is not authentic'. Question 15 is therefore a vocabulary or grammar item. nta_engine.js layout() and the contiguity checks enforce it; the paper is not started without two complete sets.",
+  "area": "start-practice-runner"
+ },
+ {
+  "id": "W-022",
+  "result": "pass",
+  "evidence": "Code read (the live bank is out of reach here). nta_engine.js: NTA_TIME_BUDGET_MS = 30_000 with a deadline checked in fill, repair and runLevel; NTA_MIN_SCORE 8 plus a fit-score gate; selection by creation day newest first (NTA_RECENCY_BUCKET_MS), then score; blueprints exist for every public subject in nta_blueprints/index.json (english, general_test, accountancy, business_studies, economics, mathematics, physics, chemistry, biology, history, political_science, geography, psychology, sociology, computer_science). src/lib/server/ntaPaper.js and the engine import no model client, so there is no per-mock AI call. Ran data/tests/nta_engine.test.mjs and nta_blueprints.test.mjs: all pass except the 2,000-question timing test, which took 4.4 s on this loaded PC (it asserts a tighter bound than 30 s).",
+  "area": "start-practice-runner"
+ },
+ {
+  "id": "W-023",
+  "result": "partial",
+  "evidence": "data/exam_integrity.mjs and ExamIntegrityGuard.jsx: 3 strikes (INTEGRITY_STRIKES = 3), the third submits (onTerminate to submitTest('nta_strikes')); a tab switch (visibilitychange hidden) counts immediately; fullscreen exit counts immediately; a window blur counts after a 150 ms debounce. There is no 3 s rule: an interruption of 200 ms to 2.9 s (a notification stealing focus) counts as a warning. No grace period beyond the 150 ms debounce, which matches 'no grace'. The monitor's 'away' flag stops double counting while away.",
+  "fix": "In onBlur use a 3000 ms timer that is cancelled by focus, and count visibilitychange-hidden immediately only when it lasts longer than the OS notification case (or count hidden immediately and blur after 3 s). Add a test that a 2 s blur adds no strike and a 4 s blur adds one.",
+  "area": "start-practice-runner"
+ },
+ {
+  "id": "W-024",
+  "result": "pass",
+  "evidence": "Exercised the runner at 390 and 1440 with real pointer clicks: timer counts down (11:54 to 11:52); Mark toggles to 'Unmark'; the palette opens (390 bottom sheet 'Review palette' with Answered/Marked/Pending/Not visited counts, 1440 side palette with per-question states); a Submit control is present; an answer persists across reload (1 answered, timer continues from 11:46 not reset); Prev/Next and option select work. No upsell, no Mobi and no heavy animation inside the paper (only the 260 ms in-box ink and the letter pop). Source diff since 336860dc adds event capture and strike recording but leaves the timer, submit and draft logic in place.",
+  "area": "start-practice-runner"
+ },
+ {
+  "id": "W-093",
+  "result": "partial",
+  "evidence": "Redid at 390 and 1440 with headless Chrome. The /preview/arena views were all dumped as text and screenshots, and I grepped them. Signed-in pages carry no non-affiliation line, no 'just a practice' line and no privacy filler. Profile's privacy block is a real consent control, so it is not counted. Several hedge and disclaimer lines remain. Compass: 'Cutoffs are DU's published 2026 history, not a prediction; 2027 rules stay provisional ... Your subjects and score stay on this device; colleges ... saved to your account.' Rival: 'Your rival is a simulated benchmark, not a student or a CUET rank prediction.' Ask Mobi: 'A practice observation, not a diagnosis.' Progress: 'Fresh delayed checks provide concept evidence, not a causal score gain.' Weak chapters: 'read this as a description, not a verdict' and 'read it as a rough guide.' Public side, outside the stated scope: every public page footer says 'An independent CUET preparation platform, not affiliated with NTA, the University of Delhi or any official exam body.' The About page has an 'Independent, and clear about it' section with the same non-affiliation text, and /coming-soon repeats it. Numbers and denominators are otherwise concrete ('5,941', '7/10 correct', '18 of 22 other students', '2 sessions, too few to read much into'). No hype found.",
+  "problem": "The non-affiliation line is on every public page, and several signed-in screens keep disclaimer-style sentences.",
+  "fix": "Delete the non-affiliation footer sentence from MarketingFooter and the About 'Independent' block (keep it in Terms only). Delete the Compass privacy sentence and the Rival, Ask Mobi, Progress and Weak chapters caveats. If an honesty hedge must stay, fold it into the number, e.g. 'Likely 31 to 69% (24 answered)', which the page already does.",
+  "area": "pricing-help-copy-misc"
+ },
+ {
+  "id": "W-094",
+  "result": "partial",
+  "evidence": "Pricing, Start menu (Practice side panel) and result are right. Pricing: 'There is no fixed set of mocks: each paper is built when you start it, from a live bank of 5,941 questions, questions you have not answered first. Pro covers as many as you take; on Free, each one uses practice credits.' The FAQ 'How many mocks do I get per subject?' opened with a real click after elementFromPoint hit the SUMMARY, at both sizes. It says 'With Pro there is no cap' and 'A subject with a small bank can bring back questions you have answered before'. Start menu: 'Every paper is built fresh from the 1,404 Accountancy questions in the bank ... There is no cap on how many you take, only the practice credits each one uses.' Result (bottom of page, small text under 'Take another fresh paper'): 'built new from the 1,404 questions in the bank ... no cap on how many papers you take.' The landing hero has one calm sentence, 'drawn fresh from one bank of 5,941 questions across 15 subjects, so it never runs out at 10 or 30 mocks'. There is no banner anywhere and no 'never repeats'. Onboarding is the weak one: 'Each mock in a subject is a fresh paper from its question bank.' It does not say the bank is live or that there is no cap.",
+  "problem": "Onboarding says 'fresh paper' only. It never mentions one live bank or the absence of a cap.",
+  "fix": "Change ONBOARDING_LEAD in src/lib/paperCopy.mjs to: 'Pick up to 5. Every mock is built fresh from one live question bank, with no cap on how many you take. You can change them any time.' The landing line 'never runs out at 10 or 30 mocks' also names rivals' numbers; consider 'so there is no fixed set to run out of'.",
+  "area": "pricing-help-copy-misc"
+ },
+ {
+  "id": "W-095",
+  "result": "partial",
+  "evidence": "Zero '41 subjects': grep of src and public found none. Fetching 22 public pages from the dev server, including the sitemap, found only '$41' RSC flight references and a '2:41' timer in a sample. The 390 and 1440 text dumps of 22 signed-in views and 20 public pages found none either. The claim reads right in two places. Pricing shows 'Full NTA-pattern mocks for the 15 subjects behind 19 of every 20 CUET papers (2026 NTA data).' The home meta description, og:description and twitter:description use the same sentence without the source tag. The 4 dropped subjects are hidden: /api/subjects returns 38 entries and none is Entrepreneurship, Teaching Aptitude, Legal Studies or Engineering Graphics (the route uses withoutRetiredSubjects). The onboarding and dashboard pickers show only the 15 with practice 'supported'. No retired name appears in any rendered page. Gap: the landing's visible hero says only 'across 15 subjects' and never the '19 of every 20 papers' claim, while the footer and features copy say 'Built first for English, Accountancy, Business Studies and Economics', which reads as a different claim.",
+  "problem": "The visible landing claim is not the owner's sentence; it appears only on Pricing and in meta tags.",
+  "fix": "Put SUBJECT_CLAIM.long into the landing hero in place of 'across 15 subjects', or into the closing section above the footer.",
+  "area": "pricing-help-copy-misc"
+ },
+ {
+  "id": "W-096",
+  "result": "pass",
+  "evidence": "Every time rendered in the captures is 12-hour with am/pm and relative where natural. Review (390 and 1440, Day and Night): 'Quick practice, yesterday, 4:43 PM' and 'Quick practice, 14 Oct, 4:43 PM'. Result: 'Accountancy full mock. Recorded 3:21 PM, 46m 36s.' Landing Mobi caption: 'Even at 11pm.' A code search for time formatters found hour12: true or en-IN/en-US defaults everywhere (Mob model, account model, RepairEnding, admin and moderation). No 24-hour clock string is rendered; '23:00' and '18:00' appear only in API validation error messages. Minor: src/app/(app)/recovery/page.jsx line 58 prints 'Next fresh check: ' plus toLocaleString('en-IN') plus ' IST', which gives '17/10/2026, 8:41:00 pm IST'. That is 12-hour, but includes seconds, is not relative, and I could not see it live because Recovery shows 'Recovery steps open soon' here.",
+  "problem": "Only the Recovery next-check line shows seconds and a numeric date.",
+  "fix": "In recovery/page.jsx use the same relative formatter as Today or Review (for example 'tomorrow, 8:41 pm') and drop the seconds.",
+  "area": "pricing-help-copy-misc"
+ },
+ {
+  "id": "W-097",
+  "result": "partial",
+  "evidence": "Pricing /pricing was captured at 390 and 1440, Day and Night, full page plus a top crop. Typography is strong: the H1 is 76px Bricolage 800 on desktop and 41px on phone, the price is 56px, there is no horizontal overflow (scrollWidth equals clientWidth), the Pro card is clearly emphasised, and the Free card has a 'How Free works' note on desktop. There are no fake reference prices, countdowns or loss threats, and the credits are real (10 and 50 practice credits, 10 and 50 AI credits a month). The 15 Oct to now diff on the pricing CSS is mostly font-size bumps plus the Free note, so the upgrade is modest. The plan is not presented as 99 a month. The local dev server and live www.mockmob.in both render '₹99 gets you in.', 'Pro access ₹99 once', 'through 31 July 2027, with no renewal', and the FAQ 'Is Pro a monthly subscription? Not yet.' The code (publicOffer) switches to 'Pro is ₹99 a month' and renewal copy only when the monthly Razorpay plan env is set, which is deferred, so that state could not be viewed. At 390 the 'How Free works' note is hidden (its link has a 0x0 box), so mobile Free users never see the credit explanation.",
+  "problem": "No per-month price or renewal is shown while the monthly plan id is unset. The visual upgrade is incremental, and the Free credit note is missing on phones.",
+  "fix": "Show the owner's model in copy now: 'Pro is ₹99 a month' as the headline with a 'monthly billing opens soon' note, or set RAZORPAY_PLAN_ID_PRO_MONTHLY_99 once the Razorpay plan exists. Show 'How Free works' on phones as a collapsed details block under the Free card. If a bigger upgrade is wanted, give the Pro card a price row with the per-month, renewal and included-usage line items.",
+  "area": "pricing-help-copy-misc"
+ },
+ {
+  "id": "W-098",
+  "result": "partial",
+  "evidence": "Code read in the worktree, not tested by running AI calls. The allowlist in src/services/ai/providerCore.js (ALLOWED_MODELS = openai gpt-6-luna and anthropic claude-haiku-5-5) is checked in callOnce before any client is touched. An env override such as AI_LUNA_MODEL is refused, not substituted. The database function reserve_runtime_ai refuses any other model ('runtime model not allowed'). Callers: Mistake Repair (luna, with haiku-5-5 fallback), Ask Mobi (replyDeps), moderation (LUNA_MODEL) and rival intro and outro (default luna). No other provider SDK call exists in src. The 'gemini' and 'gpt-5-nano' strings in data/ are offline labels and comments. Caps: STATUS.md says the paid cap was set to 0.0568 USD (Rs 5) by a one-off UPDATE on 17 Oct ~2:15 am, and the free cap is 0.0114 (Rs 1). I cannot read the database, so the live values are unverified. The migration file supabase/migrations/20261017120000_runtime_ai_user_cap.sql still seeds student_user_paid at 0.1136 (Rs 10), so a fresh apply gives Rs 10. src/app/api/ai/rival/start/route.js and submit/route.js call generateAIResponse without userId or userTier, so those two routes get no per-user cap. Moderation calls also have no user, which is by design.",
+  "problem": "The per-user caps are not enforced on rival start and submit, and the repo migration disagrees with the Rs 5 owner decision.",
+  "fix": "Pass ...spendUserFor(session.user) (userId plus a paid or free userTier) in both rival routes' generateAIResponse calls. Add a migration, or edit the seed, so student_user_paid is 0.0568 and a re-apply cannot restore Rs 10.",
+  "area": "pricing-help-copy-misc"
+ },
+ {
+  "id": "W-099",
+  "result": "partial",
+  "evidence": "Signed-in nav is Today, Practice, Review, Explore, Saved, Progress, Weak chapters, Compass, Ask Mobi, Your Mob, Your standing, Contribute, My uploads, Account and Help. Near-duplicates seen in the text dumps: (1) the identical finding card 'Partnership Fundamentals is where the most marks are open' (30 marks) appears on Review, Weak chapters and Ask Mobi; (2) the 'This week, 3 of 4 study days' strip appears on both Today and Progress; (3) the 'Your next step: 10 questions, about 10 minutes. Start 10 practice questions' CTA repeats on Review, Progress, Weak chapters and Ask Mobi; (4) chapter-by-marks ranking exists on Weak chapters, Review and Compass ('Your practice says: Partnership Fundamentals'). On the plus side, the public Features page lists only 10 features, and existing ones were deepened (Review has a rule book and Revise, Result has a Mistake Lab).",
+  "problem": "Several signed-in pages repeat the same record and finding instead of adding depth.",
+  "fix": "Show the top-chapter finding card on one page only (Weak chapters) and link to it from Review and Ask Mobi. Keep the study-days strip only on Today and give Progress its own content, or drop the strip. Keep one 'next step' CTA per page cluster.",
+  "area": "pricing-help-copy-misc"
+ },
+ {
+  "id": "W-100",
+  "result": "not-testable",
+  "evidence": "N/A by instruction: WhatsApp, phone capture, checkout and abandoned-cart marketing flows are deferred to January. They were not checked or required. Only noted: Razorpay checkout exists on /pricing for the one-time Rs 99 offer, but I did not trigger payment.",
+  "area": "pricing-help-copy-misc"
+ },
+ {
+  "id": "W-025",
+  "result": "pass",
+  "evidence": "Headless Chrome at 390 and 1440, Night and Day, against localhost:3263 (f725a422). Six result papers (weak, avg, strong, perfect, blank, practice5): no Mobi in the DOM on arrival (no mobi class, no img). reaction.js and ResultHead.jsx say a result is never sleepy, with no hour-based act. Mobi appears only inside an opened repair and as one cheer after a check holds, both awake. A held-key repair shows him standing calmly (repairstate-held, repairstate-unexplained). Captures: avg-390-dark-full.png, check-right-390-dark.png, repairstate-held-390-dark.png.",
+  "area": "result-review-repair"
+ },
+ {
+  "id": "W-026",
+  "result": "partial",
+  "evidence": "The layers are in place. Layer 1 is the receipt, the 128 / 250 score, the marks bar and the chapter that cost most. Layer 2 is a single 'Do this next' card with one Repair Q42 key. Layer 3 is 'Your 12 mistakes' (4 shown, 'Show all 12'). Layer 4 is six named folds under 'More from this paper': Where the marks went, Your time and changed answers, After this mock, How others answered, Your rule and proof it stuck, Every answer. All lab features are reachable and 'Check it held' is kept. Strictness fail: at 390x844 the first viewport shows two lime keys at once, the Repair Q42 key and the phone dock's Start disc (avg390-dark-vp0.png). The code only quiets the desktop sidebar Start (start.css, data-start-quiet). The next-move card is also long: why line, value line, cost line, alt link.",
+  "problem": "At 390 the dock's lime Start competes with the one next move, and the card's three paragraphs push the mistakes below the fold.",
+  "fix": "Make the phone dock Start outlined or quiet while .student-page--result is mounted, as the sidebar already does. Fold the value and cost lines into one sentence under the key.",
+  "area": "result-review-repair"
+ },
+ {
+  "id": "W-027",
+  "result": "pass",
+  "evidence": "The result has exactly one receipt line, 'Accountancy full mock. Recorded 3:20 PM, 36m 34s.' A text search of all six papers, visible and hidden text, found no 'session complete', 'practice finished', 'Saved.' or 'submission'. Options read 'Correct answer' and 'Your pick', not 'Key at submission'. The Replay's 'Submitted at 51:46' sits only inside the time fold. I did not exercise the runner's own submit sheet, which is outside this area.",
+  "area": "result-review-repair"
+ },
+ {
+  "id": "W-028",
+  "result": "pass",
+  "evidence": "The 'Do this next' card reads 'Repair Q42', then 'A repair gives you why D looked right, the trap, one rule to keep, and a new question to check it held.', then '1 AI credit. You have 68. No charge if the repair cannot be written.' Each mistake row carries a Repair or 'Repair first' chip. An opened row shows a 'Repair this mistake' card with the same payoff and price (row14-open-390-dark.png). The label, one-line payoff and entry point are obvious at 390 and 1440.",
+  "area": "result-review-repair"
+ },
+ {
+  "id": "W-029",
+  "result": "partial",
+  "evidence": "The 'After this mock: strengths, gaps and plan' fold is separate from the repair lab. It opens to 'Do these next' with 'Practise 10 on Share Capital', 'Practise 10 on Accounting Ratios' and 'Practise 10 on Change in Profit Sharing Ratio', each with a Set up button, then Strengths, Opportunities and Threats (fold-avg-after-390-dark.png). No text is under 12 px at 390. Gaps: it is closed by default and shows only a one-line teaser. Set up links to /dashboard?subject=accountancy&mode=quick&count=10&chapter=... (a pre-filled set-up screen, not a start). The recommendations are 10-question chapter sets, not 'topic mocks'. A quick-practice result has no SWOT at all.",
+  "problem": "The SWOT is hidden behind a fold, and the recommendation is two taps from starting.",
+  "fix": "Show the first 'Do these next' row in the Do this next card, or open the SWOT fold by default after a full mock. Let Set up start the chapter set directly, with the price shown on the button.",
+  "area": "result-review-repair"
+ },
+ {
+  "id": "W-030",
+  "result": "partial",
+  "evidence": "A first open plays a short sequence in a fresh session: the score counts up (81 to 128 in about 600 ms), the three-part bar grows, the finding rises, then the next-move card rises (reveal-0.png vs reveal-350.png). It is short, explains the score and one next step, and has no clutter. It is restrained: only one card animates, and a strong or perfect paper gets no different or celebratory beat. It never replays on a return visit or under reduced motion.",
+  "problem": "The reveal is correct but not memorable, and it is not really 'animated cards'.",
+  "fix": "Add one distinct beat per outcome tier (for example the marks bar settling on a perfect paper, or the cost-most chapter card sliding in), still under 1 second.",
+  "area": "result-review-repair"
+ },
+ {
+  "id": "W-031",
+  "result": "pass",
+  "evidence": "An opened wrong row shows both options marked 'Correct answer' and 'Your pick', the right or wrong verdict, the book explanation and the time lines, all with no credit (row14-open-390-dark.png). Paid Repair adds why the pick looked right, where it breaks, why the key is right, the other options, a rule to keep with Copy, 'Explain it another way', a fresh check question, the trap pattern from your record and a Next mistake step (repair390-q42-panel.png). It does far more than reveal the key. 'Reopening a repair is free' is stated on the page.",
+  "area": "result-review-repair"
+ },
+ {
+  "id": "W-032",
+  "result": "partial",
+  "evidence": "Present and seen on screen: a fresh unseen same-topic question ('Check it held', no extra credit, first answer counts), a Revise line after answering ('Revise will bring this mistake back today', and 'both back' on a miss, linking to /review/revise), a personal trap pattern ('Since 9 Oct, 2 of your 3 repairs in Share Capital had this trap'), and 'Ask Mobi about Q42' (shown with &ai=live; otherwise 'Written replies are paused right now. Nothing is charged'). Missing: retry before the key. The key is in the row header ('Correct answer Option three') and the repair opens with 'Explained from the answer key (C)' before the student tries again. Only one fresh question is offered, not two.",
+  "problem": "No retry-before-the-key step; the check comes after the key is shown.",
+  "fix": "Before the explanation, offer 'Try Q42 again' (options, no key shown). Reveal the key and the repair after the second pick, and give the check as the follow-up.",
+  "area": "result-review-repair"
+ },
+ {
+  "id": "W-033",
+  "result": "partial",
+  "evidence": "I cannot run a live staging repair: there is no agent sign-in and a model call is forbidden. What I verified on fixtures: failure, insufficient credit, released, held key and no-repair each show a readable message with the charge stated. Examples: 'The repair could not be prepared reliably this time. You were not charged.' with Try again; 'This repair uses 1 AI credit. You have 0...' with Practise 5 fresh questions and See your AI credits; 'We may have got this one wrong... You were not charged a credit.' Server code (repairFlow.js, repairSaved.js) releases the reservation on failure, and a failed stored-repair lookup throws rather than charging. The cause is reported in STATUS.md: the missing OPENAI_API_KEY root cause was closed, with a live owner repair receipted 15 Oct 08:47 IST (gpt-6-luna). The Haiku fallback price migration was recorded as NOT APPLIED.",
+  "problem": "The live staging completion is unverified. After a failed or refused repair the row chip still says 'Writing', and the Do this next card still says 'You have 68' when the repair reported 0.",
+  "fix": "Have the owner or main session run one repair on the staging test account and record the receipt. Reset the chip to 'Repair' on error, and refresh the wallet figure in the next-move card after any repair response.",
+  "area": "result-review-repair"
+ },
+ {
+  "id": "W-034",
+  "result": "partial",
+  "evidence": "With &mock=full&cohort=time at 390: an opened row shows '45s on this question. The paper gives 1m 12s a question, and your median was 50s. Picked A at 42:06.' It also shows 'Students who got this right took a median of 41s (42 students)' and 'None of the 31 timed students changed their answer'. The time fold lists 'Every answer you changed', for example 'Q8 Picked C at 7:17. Changed to A at 48:56, 41m 39s later, on a later visit. +6' (fold-mockfull-time-390-dark.png). Spent time, expected time and change times are all present. Caveats: the others' figure is a median, not an average, and appears only with at least 10 timed students. The default paper=avg fixture shows no cohort time. Whether production holds the nightly cohort table is unverified (STATUS says slice 5 was NOT applied as of 16 Oct).",
+  "problem": "Cohort time per question may not appear on the live site if the table is not populated.",
+  "fix": "Confirm the cohort_time table is applied and populated in production, or show a plain 'not enough students yet' line so the absence is explained.",
+  "area": "result-review-repair"
+ },
+ {
+  "id": "W-035",
+  "result": "partial",
+  "evidence": "Lab slices 1 to 5 are in this build: ledger, Replay, time and decisions, trap tags, rule proof and cohort lines, all in the result folds. They are reachable in one tap from the result (each fold is one tap) and in two from Review ('Open Accountancy, 16 Oct', then a fold). The folds use plain names ('Where the marks went', 'Your time and changed answers'), and each states its finding in a teaser, which is easy to understand. But no screen is named 'Mistake Lab' or dashboard-like in the app (the name appears only on the landing page), and nothing signals 'v4' or points to what is new.",
+  "problem": "The USP has no visible name or entry on the result or Review, so a student cannot find the Lab or know it is the differentiator.",
+  "fix": "Title the folds' group 'Mistake Lab' (More from this paper, from your Mistake Lab) and add a Review row that deep-links to the Lab folds of the newest mock.",
+  "area": "result-review-repair"
+ },
+ {
+  "id": "W-036",
+  "result": "pass",
+  "evidence": "Replay sits inside 'Your time and changed answers' (fold-mockfull-time-390-dark.png). It has a Play button with the 51:46 clock, a scrub bar, filter chips (Right then changed, Crossed out the key, 2 minutes or more, Under 20 seconds), minute-by-minute rows with 'By 10:00: 9 of 50 answered. Even pace: 8', away bands, picked, changed and marked markers, and a legend. Below it come the where-your-time-went bars against the paper's pace and the change list. It is readable at 390, with no overflow and no text under 12 px. I did not play it back. It is the same commit as the live site.",
+  "area": "result-review-repair"
+ },
+ {
+  "id": "W-037",
+  "result": "pass",
+  "evidence": "On &return=1 the first repaired mistake (Q42) shows the chip 'Check it held', the header 'Your 12 mistakes, 1 of 12 repaired', and 'These 11 repairs use 11 AI credits' (return1-top-390.png). The next move skips it to Q43. Opening Q42 auto-requests the repair, which returns stored with charged 0, and shows the saved repair free (return1-row42-open-390.png). Server code: findStoredRepair reads the committed reservation and returns charged 0, and a failed lookup throws, so an unreadable lookup never causes a second charge. Minor: savedRepairsForAttempt scans only the newest 500 committed repairs, so a very heavy user could see a paid-looking chip, though the route still reopens free.",
+  "area": "result-review-repair"
+ },
+ {
+  "id": "W-038",
+  "result": "partial",
+  "evidence": "Review's session list shows the mock name and the 12-hour time: 'Mock 3, yesterday, 4:40 PM, 7 of 10 correct, 2 repaired' and 'Quick practice, 14 Oct, 4:40 PM' (review-saved-390-dark.png, 1440). On the result, an opened repair says 'From Accountancy, today, 3:33 PM' (paperStamp, India time, 12-hour, 'Mock 3' when a source exists). The receipt reads 'Recorded 3:20 PM'. The individual mistake rows show no mock name or date until the repair is opened, and the paper= result fixtures give 'From Accountancy...' with no mock name.",
+  "problem": "The mistake itself does not carry its paper name and time in the list.",
+  "fix": "Add a quiet third line to each mistake row or to the group header: 'Mock 3, 16 Oct, 9:40 PM'. Always include the source label.",
+  "area": "result-review-repair"
+ },
+ {
+  "id": "W-039",
+  "result": "partial",
+  "evidence": "Review now holds the student's own mistakes: '6 questions to review, of 20 answered', a volt 'Open Accountancy, 16 Oct', Revise and Your rules rows, a record insight, a 6-mock trend chart, and per-session rows with 'N to review' (review-saved-390-dark.png). Progress ('Your study days and checks') holds study days, weeks met, and Badges 9 of 16 earned with dates. The Profile page is far fuller than a stub. But there is no 'Review again' control or label anywhere in src (grep), so I cannot show it working. The nearest equivalents are 'Open <session>' and the free reopen of a repair.",
+  "problem": "The check names a 'Review again' control that does not exist.",
+  "fix": "Add a 'Review again' action on each session row (re-opens the mistakes with the repairs already saved), or retire the term from the ledger.",
+  "area": "result-review-repair"
+ },
+ {
+  "id": "W-040",
+  "result": "fail",
+  "evidence": "The F15 Learn and Review redesign is a decision document only (docs/design-decisions/pass-1017/LEARN-REVIEW-1017.md; commits 92780f26 and 8ce5464b are design commits, not on deploy/web-1017). The release's Review and Learn changes are F17's saved-repair line and session stamp, plus dock margin fixes. The Review captured here matches the document's own 'what exists now' list: the R1 head, R2 lead with volt key, R3 notes and R4 link rows are unchanged. Learn at 1440 is unchanged: a volt 'Open lesson' next to a solid lime 'Start a session', and 0 of 21 lessons read with no next-move framing. STATUS records that Learn has no phone entry while STUDY_CONTENT_ENABLED is off, and that flag was not checked.",
+  "problem": "No layout, hierarchy or state refinement of Learn or Review shipped in this build.",
+  "fix": "Build the LEARN-REVIEW-1017 decision (find, fix, keep with one next move) on the web branch, and quiet the second volt key on Learn. Confirm STUDY_CONTENT_ENABLED in production.",
+  "area": "result-review-repair"
+ },
+ {
+  "id": "W-041",
+  "result": "pass",
+  "evidence": "Headless Chrome, /preview/arena?view=today, 390 Night/Day and 1440 Night/Day, data=ready/empty/returning/sparse/long. Today is one move card (Today's move: Accountancy, 4, Start Revise 5 min, Something else), then This week, Road to May, Last paper and Your colleges as two rows. No native <select> on the page (counted 0 in every state). Real-pointer click on 'Something else' (hit-tested BUTTON.tm__pill) opens a native dialog sheet with 6 labelled alternatives. '4 a week' and '14 full mocks' are custom token buttons with an inline tuner. Captures: run2/today-390-dark-s0/s1, today-1440-dark-s0, e2-else-390-dark, e1-else-390-dark. Caveat: the label says 'Today's move'/'Tonight's move', not the literal words 'Up next'.",
+  "fix": "Optional: label the card 'Up next' if the owner wants that exact word.",
+  "area": "today-progress-colleges-account"
+ },
+ {
+  "id": "W-042",
+  "result": "partial",
+  "evidence": "No error card in any fixture state: ready, returning, sparse, empty, long, free and pro (innerText has no 'did not load' or error text, zero console errors). Skeletons hold the card height. But sections do not arrive together: in the fixture the week and road render at about 1.4 s and the move card, Last paper and Your colleges at about 5 to 7 s (3 runs, g1.mjs). The dev server is shared with other verifiers and the preview computes plan data in-browser, so I cannot measure production speed. I could not test a real account (no sign-in allowed). The Last paper row returns null until its read finishes, so rows pop in and shift the layout.",
+  "fix": "Fire the plan and papers reads first and show the week and road only with the move, or give every block a skeleton of its final height. Measure against the real account on staging with Lighthouse or RUM.",
+  "area": "today-progress-colleges-account"
+ },
+ {
+  "id": "W-043",
+  "result": "pass",
+  "evidence": "The move card is evenly padded at 390 and 1440, Night and Day: overline, subject and art, big number, one reason paragraph, volt key, pill, with no dead band or content stuck at the top. Checked the Accountancy card (data=ready), the empty first-move card (10 questions) and the repair/returning variant. Captures: today-390-dark-s0, today-390-light-s0, today-1440-dark-s0, today-empty-390-dark-s0.",
+  "fix": "",
+  "area": "today-progress-colleges-account"
+ },
+ {
+  "id": "W-044",
+  "result": "fail",
+  "evidence": "No cue to Road to May. Grepping src/components/today and src/app/(app)/today for chevron, arrow, cue, fade, blur and fold finds nothing apart from the ChevronsUpDown token icons. At 390 the first screen ends with the move card and the This week heading peeking under the dock. There is no arrow, label or peek line, and no blur or fade tied to the fold (today-390-dark-s0). Today page code has no blur or stronger-blur change.",
+  "fix": "Add a small 'Road to May' down-chevron row, or a gradient fade with a chevron, under the move card on phones. It should scroll to #road on tap and fade out once the road is in view. Make the existing dock or edge blur slightly stronger.",
+  "area": "today-progress-colleges-account"
+ },
+ {
+  "id": "W-045",
+  "result": "pass",
+  "evidence": "Real-pointer clicks at 390 and 1440. '4 a week' opens a 1-7 stop group. Picking 6 gives '140 study days at 6 a week' and Saved.; 2 gives 56; 7 gives 161; back to 4 gives 98 (e2.out). Mock target stepper 14 to 15 works. Tapping the weeks strip opens the week rail (e1-rail-390-dark) with a readout such as 'Week of 22 Feb: 2 study days planned, a boards week'. Dragging the CUET flag moves the date ('Your date, 31 May', 32 weeks) with a receipt. Tapping the flag opens a date sheet. Caveat: 'This week 3 of 4' did not change in the fixture because the rhythm stub hard-codes 4. The real /api/me/rhythm uses the stored goal and the page re-reads it on save, so I did not mark it a product bug. Per-week study days are not individually editable.",
+  "fix": "Optionally let a tapped rail week override its planned days. Add the real rhythm stub reading window.__previewGoal so the preview shows the week header updating.",
+  "area": "today-progress-colleges-account"
+ },
+ {
+  "id": "W-046",
+  "result": "not-testable",
+  "evidence": "Study day and Learn pages (/learn, /study/[id]) are behind the signed-in layout and STUDY_CONTENT_ENABLED, and no /preview/arena view renders them (previewStudy.js only feeds Progress badges). I cannot sign in. The only 'week' UI I could drive is the Road to May rail, which is not the study-day or chapters UI. Last study-component change was 17 Oct 05:12 (dock clearance only).",
+  "fix": "Add a ?view=learn fixture to the arena preview, or verify on staging with the test account.",
+  "area": "today-progress-colleges-account"
+ },
+ {
+  "id": "W-047",
+  "result": "partial",
+  "evidence": "The string 'Could not load a suggestion' no longer exists in src. On the web, colleges are chosen in Compass with 'Add to my colleges'. With colleges=empty I searched bcom, opened B.Com. (Hons.), clicked 'Add to my colleges, Shri Ram College of Commerce' (real click) and it flipped to 'In My colleges'. I then tapped the dock Today link: exactly one 'Your colleges' row (SRCC, 924.3 of 1000) and no duplicate section. The check's flow of choosing a college, getting a suggestion and pressing Start does not exist on the web, so there is no suggestion or Start to test.",
+  "fix": "If the app flow is the target, add a 'Plan for this college' next move to the Your colleges row that opens a practice or cutoff gap action. Otherwise record that the suggestion flow is app-only.",
+  "area": "today-progress-colleges-account"
+ },
+ {
+  "id": "W-048",
+  "result": "pass",
+  "evidence": "Compass (390 dark, view=compass), programme search typed with real keys: BCOM, bcom, B.Com, b com, bcom hons, B.Com (Hons). Each returns B.Com. (Hons.) 55 colleges and B.Com. 44 colleges. scrollY is unchanged (3176) and the input stays at y=150 under the sticky '35 of 73 open' bar, so the list does not jump or hide (run2/f2-q1..q5, m-search.png). The shared matcher lib/du/collegeSearch.mjs aliases bcom to 'b com'. I could not emulate a real on-screen keyboard; the results begin about 260 px from the top, above where a keyboard would sit.",
+  "fix": "",
+  "area": "today-progress-colleges-account"
+ },
+ {
+  "id": "W-049",
+  "result": "fail",
+  "evidence": "Onboarding has two steps only: 'Which subjects are you taking?' and 'How many days a week can you study?' (m1.mjs, m-onb-guide-390.png). The onboarding code has no college field. Colleges are added only through the Compass row key 'Add to my colleges', the Account My colleges list, and a Choose link on Today's Your colleges row (TodayRows.jsx links to /admission-compass).",
+  "fix": "Add an optional third onboarding step, 'Which colleges are you aiming for?', reusing the B.Com search plus useMyColleges (up to 8). Replace Today's Choose row with a link back to the Account list.",
+  "area": "today-progress-colleges-account"
+ },
+ {
+  "id": "W-050",
+  "result": "partial",
+  "evidence": "Done: Compass is a first-class nav place (sidebar 'Compass, DU cutoffs', dock 'Colleges'). A sticky bar gives one primary key ('35 of 73 open', Edit, View courses). Score is optional ('Category and score optional', 'Target score e.g. 767') and Pro shows 'History: Practise 18 more questions to project' for sparse data. Missing: no link from the in-app Compass to the Combo Planner or other CUET tools (grep of AdmissionCompassPageClient, CutoffCalculator and CompassPro finds no reference; /cuet-subject-combination is public-only). At 390 two long text paragraphs (about 8 lines) sit before the sticky bar and picker. Captures: compass-free-390-dark-s0, m-compass-pro.png.",
+  "fix": "Add a 'Plan your subjects' link to /cuet-subject-combination and a CUET tools row at the top of Compass. Cut the lede and disclaimer to 2 lines each on phones, with the disclaimer moved to a footnote.",
+  "area": "today-progress-colleges-account"
+ },
+ {
+  "id": "W-051",
+  "result": "fail",
+  "evidence": "DOM scan of the loaded /cuet-cutoff-calculator (1440 Day) and the in-app Compass: zero elements with the text 'New'. Public nav text is 'Free mock test | Cutoff calculator | Your prep tools | CUET PYQs | Pricing', and the signed-in sidebar is 'Compass, DU cutoffs' with no tag (n1.mjs). git log for a New tag in nav or du components finds nothing. The page does not look like the 2025 site (modern glass cards, Gabarito type), but the 'New' tag is missing and I could not locate the green-line-in-green-element treatment.",
+  "fix": "Add a lime 'New' pill beside 'Cutoff calculator' in NavBar LINKS and the footer, and restore the green inset line on the green pill or active chip. Confirm that line with the owner from his 15 Oct screenshot.",
+  "area": "today-progress-colleges-account"
+ },
+ {
+  "id": "W-052",
+  "result": "partial",
+  "evidence": "The top-bar avatar opens Account at 390 (44x44 link, hit-tested, landed on 'Your corner of the Arena.') and the name chip does so at 1440. Account shows name (Hi, Preview.), 'Signed in as preview@example.test', plan, subjects, mocks and average, a credits history with Practice credits 40 and AI credits, My colleges, Weekly goal, Appearance and privacy, so it does more than a static profile. But credits are not at a glance: at 390 the top bar shows only the practice chip (the AI chip is arena-sm-up) and the credits cards are about 2 screens down. At 1440 the Credits card shows a skeleton for the first seconds and the AI chip pops in late.",
+  "fix": "Show a two-chip credits strip (Practice 40, AI credits 68) directly under the name and email on Account. Show the AI chip on phones too, or put it in the avatar sheet.",
+  "area": "today-progress-colleges-account"
+ },
+ {
+  "id": "W-053",
+  "result": "partial",
+  "evidence": "Progress ('Your study days and checks.') leads with the study-days ring (3 of 4), weekly marks, goal-met weeks, then Badges (9 of 16 earned: Papers, Repairs, Weeks at your goal), Your best work and Personal bests, with no plan or billing (m-progress-a/b.png). That is a richer set than before. But the web page labelled as the 'You' equivalent, Account (YourSheet), leads with name, subjects and mocks, and Plan and Credits sit right beside or after it, with study days and badges not shown there.",
+  "fix": "Put a compact study-days ring and latest-badge strip on the Account sheet, or name Progress 'You' and link it first. Move Plan and Credits below Weekly goal.",
+  "area": "today-progress-colleges-account"
+ },
+ {
+  "id": "W-054",
+  "result": "pass",
+  "evidence": "390: tap 1 'More' (opens a sheet with Night, Daylight and Match device), tap 2 'Daylight' changes data-theme dark to light and the body background from rgb(11,16,14) to rgb(244,245,240). The avatar link goes to Account in 1 tap. 1440: one tap on the top-bar toggle changes the theme, and the sidebar has the same switch. The Account page keeps sheet, plan, credits, goal, appearance, privacy and delete (k1.mjs). Caveat: the dev server needed several taps before hydration, which is an environment effect. The in-test runner hides the bar by design.",
+  "fix": "",
+  "area": "today-progress-colleges-account"
+ },
+ {
+  "id": "W-055",
+  "result": "fail",
+  "evidence": "/leaderboard is 'Your standing': one rank figure ('14th of 212 students who have sat a mock'), two stats (Mocks 12, Average score 62%), a note and one button, nothing else (r1-ranks-390-dark-ready.png). It has no list, top, trend, league or rank history. Code confirms that only the signed-in student's own standing is returned. This is more basic than the earlier design, not richer.",
+  "fix": "Add a privacy-safe richness layer: rank history sparkline, percentile band, week-on-week movement, a mock-type split and an anonymised top-10 score ladder (initials or a nickname the student opts into), or a Mob-based board.",
+  "area": "today-progress-colleges-account"
+ },
+ {
+  "id": "W-056",
+  "result": "pass",
+  "evidence": "Onboarding at 390 Night and 1440 Day: Step 1 of 2 subjects (object tiles, '4 of 5 picked', Next), Step 2 days (1-7 stops, live ring preview, 'Save and continue', 'Skip for now'), Mobi beside the title. Real click on Next moves to step 2. The Guide (Today, Practice, Review, Progress) opens with a spotlight, steps through 1 of 4 to 4 of 4 and finishes at 390 and 1440 (m-onb-guide-390.png, m1.mjs). No regression seen.",
+  "fix": "Optional: add Colleges and Ask Mobi steps to the Guide (see W-064).",
+  "area": "today-progress-colleges-account"
+ },
+ {
+  "id": "W-057",
+  "result": "fail",
+  "evidence": "src/app/auth.css has had one added line since before 15 Oct (commit 09421b29, 16 Oct: .auth-card__why) and Login and Signup client files were last touched for copy only (git log). The rendered pages (login2/signup2 at 390 and 1440, Night and Day) are tidy: Google key, email field, 'Email me a sign-in code', one headline and points. But there is no visible design improvement over 15 Oct. At 390 the card sits above the headline, and the Night 'Email me a sign-in code' key is a muted olive that reads disabled.",
+  "fix": "Redesign the shell: a hero panel with Mobi or the object scene, a headline above the form on phones, a lime enabled-looking primary key, trust and credit points as chips, and better motion.",
+  "area": "today-progress-colleges-account"
+ },
+ {
+  "id": "W-058",
+  "result": "not-testable",
+  "evidence": "I may not sign in or enter credentials, so I could not run Google or email-code sign-in, nor close and reopen after hours. Code evidence only: src/proxy.js now sits next to app/ and refreshes the Supabase session; the 13 Oct fixes in docs/brain/AUTH-RELIABILITY-2026-10-13.md (no sign-out on focus or token refresh events, local-scope sign-out, 429 timing, resend) are present. The login card says 'you stay signed in on this device until you sign out'.",
+  "fix": "Verify on staging with the test account: sign in by Google and by email code, close the browser, reopen after 3 or more hours, and check /api/auth/me is 200 with no refresh-token revocation in Supabase auth logs.",
+  "area": "today-progress-colleges-account"
+ },
+ {
+  "id": "W-059",
+  "result": "pass",
+  "evidence": "A decision is recorded in docs/brain/AUTH-RELIABILITY-2026-10-13.md, 'Phone or password login (owner asked)': phone built in the app but switched off, with preconditions (Turnstile, a Before User Created hook, a +91-only SMS hook, a rate limit, age and guardian consent). Passwords are deferred. Revisit after a week of /api/auth/me 401 and 503 data. Not required to ship.",
+  "fix": "",
+  "area": "today-progress-colleges-account"
+ },
+ {
+  "id": "W-060",
+  "result": "partial",
+  "evidence": "Ask tab with the wallet loaded (390 Night, 1440 Day, ai=live): the cost shows before the call in three places ('Written guidance, 1 AI credit', 'One written reply uses 1 AI credit. You have 68.', button 'Ask Mobi, 1 AI credit'). After a real-pointer send the page balance goes 68 to 67 with the receipt '1 AI credit used. You have 67.' A record-answerable question correctly reports 'From your record, no credits' with no charge. Gaps: the top-bar AI chip still read 68 after the call (stale), and at 390 that chip is hidden. The AI wallet takes about 4 to 17 s to appear ('Reading AI credits…'). The dark hub panel stays dark in Daylight.",
+  "fix": "Refetch or broadcast the wallet after a reply so the top-bar chip and the Credits card update at once (useWalletSummary invalidate). Show the AI balance on phones. Theme the hub panel for Day.",
+  "area": "today-progress-colleges-account"
+ },
+ {
+  "id": "W-061",
+  "result": "partial",
+  "evidence": "Built and polished in the preview, not live. The Mob page (ready, sample, none, pro states at 390 and 1440) has the ring, weekly 10-question paper, members, share-score toggle, the Free vs Pro 'Included with Pro' list, a Start your Mob form and no age or consent step (grep of components/mob finds none). Rules are in code: FREE_MAX_MOBS 1, PRO_MAX_MOBS 3, sample compare for free, locked and Pro compare and history. But MOB_ENABLED is unset: the (app)/mob page calls notFound(), the nav item is hidden, and live https://www.mockmob.in/join/7KQ2M9XR returns 404. So it is not live for any signed-in user. 10/10 polish is unproven. Captures: mobx-ready/none/pro/sample.",
+  "fix": "After the owner's polish sign-off, set MOB_ENABLED=true and apply the Mob migrations on production. Then walk it with the staging account: Free start 1 and join any, Pro 3 Mobs, first-week side-by-side.",
+  "area": "today-progress-colleges-account"
+ },
+ {
+  "id": "W-062",
+  "result": "partial",
+  "evidence": "With the preview flag on, the social entry appears in the nav ('Your Mob'), on Progress (the 'Your Mob 3 of 4 sat this week' card) and on the result page when the paper is a Mob paper (MobResultRow). Today has no Mob card (moved to Progress per today/page.jsx), only a Mobi cheer when the ring completes and a 'Something else' alternative when unsat. Practice (dashboard) has none. On production, with MOB_ENABLED off, none of it shows.",
+  "fix": "Add a slim Mob line on Today under This week ('Your Mob: 3 of 4 sat, your paper closes Sunday') and a 'Sit it with your Mob' chip on Practice. Gate both on MOB_ENABLED.",
+  "area": "today-progress-colleges-account"
+ },
+ {
+  "id": "W-063",
+  "result": "pass",
+  "evidence": "Supportive progress only: weekly ring with a calm caption ('Today is counted. 1 more to meet 4', 'Your week starts tonight', 'Goal met... Anything more this week is extra'), 'weeks met in a row' as a count, a pause for the weekly goal, 16 dated badges with 'Not yet. Lands with...' wording, and a Celebrations setting (Full, Quiet, Off) on Account. A grep of today, studyBadges and mobi copy finds no loss-threat wording such as 'don't break your streak'. No XP or points clutter.",
+  "fix": "",
+  "area": "today-progress-colleges-account"
+ },
+ {
+  "id": "W-064",
+  "result": "partial",
+  "evidence": "Good: Today's first-move card differs by stage ('Your first move... 10 questions to your starting point', 'Day 1 of your first week', 'Pick up where you left off'). Empty states for Review, Explore, Radar, Saved, Progress, Standing and Mob none each carry one next action (Choose practice, Explore questions, Start 10 practice questions, Start a practice session, Start your Mob). The Guide has 4 steps. Gaps: the Guide covers only Today, Practice, Review and Progress, with nothing on Compass or Colleges, Ask Mobi, Mob or the study plan. Compass and Ask Mobi have no first-time prompt. Mob none and Dashboard rendered skeleton or blank in my first load (late render).",
+  "fix": "Extend the Guide to 7 steps (Compass or Colleges, Ask Mobi, Your Mob) and add a one-time 'First time here?' line on Compass and Ask Mobi. Add a receipt-of-value line after the first repair or first mock ('You fixed 1 mistake').",
+  "extra": null,
+  "area": "today-progress-colleges-account"
+ },
+ {
+  "id": "W-065",
+  "result": "pass",
+  "evidence": "Headless Chrome on localhost:3263, 390/360/320/768, Night+Day, 5 views. DOM-measured: icon centres of 5 tabs + Start key spread 0.00 px, label centres spread 0.00 px, key 64x64 same top/bottom as the 64 px capsule, every slot >=45.6 px, elementFromPoint hits true at 5 points per control. Key is lime-filled rgb(210,240,0) on every route and scroll (A1). The active lens (51.6x56 plate, behind the icon) contains the icon and label and never overlaps a neighbour on Today/Practice/Review/Colleges/More; hidden when no tab is current (Saved). Zoomed captures opened: R-W065-dock-*-{390,360,320,768}-{night,day}.png.",
+  "fix": "",
+  "area": "nav-dock-global-design"
+ },
+ {
+  "id": "W-066",
+  "result": "pass",
+  "evidence": "Dock = 5 slots (Today, Practice, Review, Colleges, More) plus a detached Start key = 6 controls, all on one centre line (measured 0.00 spread). Count rationale is written in docs/design-decisions/pass-1017/NAV-1017.md (Apple HIG tabs, Material 3 cap of five, Maps/Spotify trend, Start = action). Caveat: that note lives in mockmob-next on feat/app-and-web, it is not in the shipped f725a422 tree.",
+  "fix": "Commit NAV-1017.md (and the other pass-1017 notes) to the release branch so the justification ships with the build.",
+  "area": "nav-dock-global-design"
+ },
+ {
+  "id": "W-067",
+  "result": "partial",
+  "evidence": "Colleges is now a named dock tab on web (active on /admission-compass) and the app's bar_tabs.dart also has a 'Colleges' slot. But the same place is called three things on the web: dock/More 'Colleges', desktop sidebar 'Compass, DU cutoffs' with topbar title 'Compass' (R-compass-1440-night.png), and page h1 'Which DU courses can your subjects get?' with no title at all in the 390 topbar (R-compass-390-night.png). The dock Colleges is not in the More sheet or sidebar under that name, so a new student cannot connect them.",
+  "fix": "Rename the sidebar item/topbar title to 'Colleges' (keep 'DU cutoffs' as the hint) and give the page a Colleges h1 or title; same word on app and web.",
+  "area": "nav-dock-global-design"
+ },
+ {
+  "id": "W-068",
+  "result": "partial",
+  "evidence": "Visible before/after difference is large (before mock web-before-night.png: 6 slots, disc popping 9 px above the bar, label 2.6 px low; now a glass capsule + same-height key). Alignment, bubble, label text size (11/14 px, one baseline), count, Colleges tab, dense glass (0.94/0.93, no text reads through) and key never flipping are verified fixed. Still open: Day theme toggle shows a sun disc with a white dash (the 'sun on a line' glyph, R-W069-topbar-right-1440-day.png); STATUS admits the Practice bar mode name is cut at 360 ('Quick pr…'); Colleges naming split (W-067).",
+  "fix": "Replace the Day toggle glyph with a clear sun/moon icon; fix the 360 px truncation; unify Colleges naming; then re-walk the 14 Oct and 16 Oct complaints one by one.",
+  "area": "nav-dock-global-design"
+ },
+ {
+  "id": "W-069",
+  "result": "partial",
+  "evidence": "Dock icons read clearly (calendar-check, stopwatch, notebook, building, dots, play) at 3x zoom. Failures: Day theme toggle is still a yellow disc plus a white bar (sun-on-a-line); on Practice the three unselected subject objects (Economics, Business Studies, English) are heavily blurred and dimmed at 390 and 1440 (R-W069-subjects-1440-night.png), so they read as incomplete; at 1440x900 the sidebar's sticky foot cuts the 'Contribute' row in half and hides My uploads/Account/Help until the sidebar is scrolled.",
+  "fix": "Fix the Day toggle icon; show unselected subject art sharp at lower opacity instead of blur; make the sidebar foot not overlap rows (shrink the foot or compact the groups at 900 px).",
+  "area": "nav-dock-global-design"
+ },
+ {
+  "id": "W-070",
+  "result": "partial",
+  "evidence": "Menu labels are clear (Today, Practice, Review, Colleges, More; More sheet groups Study/Planning/Community/Account, R-W070-more-sheet-390-{night,day}.png); no 'Go to Home' vs 'Arena' pair exists (marketing says 'Go to Practice'). Navigation is not merged: 14 sidebar items in 5 groups. But 'Arena' still appears to a first-time user: profile h1 'Your corner of the Arena.', landing kicker 'Arena', 'Arena preview' label, 'Arena · Full mock'.",
+  "fix": "Replace remaining 'Arena' copy with plain words (Your account; Practice).",
+  "area": "nav-dock-global-design"
+ },
+ {
+  "id": "W-071",
+  "result": "pass",
+  "evidence": "Dock is a blur(32px) saturate(1.5) glass capsule with sliding spring lens; real mouse-down on Review gave transform matrix(0.96) in Night and Day (R-W071-press-review-390-*.png); More sheet and Start sheet are glass with spring. Measured live: lens moves by column index (translate 222 px at More). Glass is limited to dock/sheets, not applied everywhere. Desktop hover capture was inconclusive (page mid-transition), so hover on sidebar rows is not independently proven.",
+  "fix": "",
+  "area": "nav-dock-global-design"
+ },
+ {
+  "id": "W-072",
+  "result": "partial",
+  "evidence": "Core app pages (Today, Review, Result, Practice, Start sheet, Progress) have strong type, lamp-lit objects, Mobi scenes and motion. Not premium everywhere: public features/about/privacy are text-only lists with no imagery (R-pub-features-390-night.png), Your standing and Help are sparse, Rival is a dense dark card grid, Ask Mobi is a box inside box.",
+  "fix": "Bring features/about/standing/rival up to the Today/Result standard (one hero object, fewer boxes) before claiming a premium pass.",
+  "area": "nav-dock-global-design"
+ },
+ {
+  "id": "W-073",
+  "result": "partial",
+  "evidence": "Live (not stills): clicking dock Practice from Today gave a fade-through at 50/120/200/300 ms with staged entrance of the Mode block and the lens sliding (R-W073-trans-sheet-new.png); ViewTransition is wired (placeTransition.js, startViewTransition called). Timed runner (390 and 1440, Night and Day) has zero infinite animations. Count-ups exist in code (TodayMove, ResultHead, RecordView, RhythmCard) but a 250 ms sampler on Progress saw values settle almost instantly. PLACE_ORDER still models the old dock (Learn, You) and has no Colleges, so Colleges transitions are a plain fade. 'Above Duolingo' cannot be proven by a script.",
+  "fix": "Add admission-compass to PLACE_ORDER in dock order; confirm count-up duration on a device.",
+  "area": "nav-dock-global-design"
+ },
+ {
+  "id": "W-074",
+  "result": "partial",
+  "evidence": "App pages show Mobi once and only at moments (Today first-run/returning hero, Start sheet, Review/Saved empty scenes, error card), varied poses, none in the runner. Landing breaks the rule: at 390 the sticky 'Free to start' dock carries a Mobi icon while a section Mobi sits above it, and one viewport (scroll y 14300) holds three Mobi nodes (pip-image, pip-actor, pip-image); landing sheets M390-night-04..06.",
+  "fix": "Remove the Mobi icon from the sticky landing dock and keep one seat per viewport.",
+  "area": "nav-dock-global-design"
+ },
+ {
+  "id": "W-075",
+  "result": "fail",
+  "evidence": "By design the phone Start key stays lime on every page, so at 390 any page with its own lime primary shows two lime fills: Practice (Start 10 questions + key), Today (Start Revise), Review (Open Accountancy), Colleges (View courses), Your standing, Result, Your Mob, Ask Mobi (three: selected chip too), Rival, Recovery. At 1440: Account (See Pro + sidebar Start), Ask Mobi, Rival, Recovery; public pages show nav 'Start free' + CTA; landing 390 shows the sticky 'Try a CUET question' with every section CTA. Metrics in res2-q390/q1440.json, captures R-*-390-*.png. The owner did say 'A1 seems good', so the key is accepted, but the standing rule is broken on most screens.",
+  "fix": "Either make the 390 key outlined whenever the page owns a lime primary (data-page-primary, same as desktop) or get the owner's explicit waiver of one-volt for the dock; add data-page-primary to Account, Ask Mobi, Rival, Recovery.",
+  "area": "nav-dock-global-design"
+ },
+ {
+  "id": "W-076",
+  "result": "fail",
+  "evidence": "Rival (/rival) has eyebrow pills and labels ('Daily check' pill, 'Shadow Benchmark', 'free today'/'Pro' pills), an icon grid of coloured lock/sword tiles and boxes inside cards (R-rival-1440-day.png). Landing at 390/1440 has kicker dots ('Score Recovery Lab', 'DU Compass'), pills ('Compass Pro', 'Combo Planner', 'Creator reel'), arrows on buttons ('Up next Replay →', 'Save & Next →') and cards inside cards (M390-night-02..05). Ask Mobi has a lime glowing orb (prepos-orb__ring, inset lime shadow) and a box in a box. OG share card has a three-pill row. No ALL-CAPS labels (only acronyms), no gradient text found.",
+  "fix": "De-slop Rival and the landing demo cards (drop pills/dots/arrows, flatten nested cards), remove the orb glow, drop the OG pills.",
+  "area": "nav-dock-global-design"
+ },
+ {
+  "id": "W-077",
+  "result": "partial",
+  "evidence": "Today, Review, Result, Practice and the Start sheet pass on one primary, true content and hierarchy. Rival, Ask Mobi, landing demo cards and the Colleges page (two lime actions at 390, long dense intro) do not pass the one-primary, intentional composition and slop tests; Your standing and Help are under-composed. A full 12-part score per page was not produced by the team for this build (NAV/GLASS/LEARN-REVIEW/RESULT/START/TODAY notes only).",
+  "fix": "Score every page against the 12 parts and fix the failing ones listed under W-075/W-076.",
+  "area": "nav-dock-global-design"
+ },
+ {
+  "id": "W-078",
+  "result": "partial",
+  "evidence": "390/1440 Night and Day compared for ~30 views: layouts match, no horizontal scroll anywhere (hscroll 0). Theme-only bug: Rival renders a dark panel inside Day (R-rival-1440-day.png). Day contrast looked legible on the pages opened. Sidebar foot overlapping rows is theme independent.",
+  "fix": "Theme the Rival page with the arena tokens.",
+  "area": "nav-dock-global-design"
+ },
+ {
+  "id": "W-079",
+  "result": "fail",
+  "evidence": "Measured <44 px controls: Practice summary buttons 'All 2' 44x32 and 'Balanced' 59x32; Account weekday chips 41x44 (Mon..Sun at 390) and radio/checkbox inputs 20x44; Your Mob icon buttons 52x32; landing 'Sign up' link 39x16 and the 1440 demo question-palette buttons 27x36; Explore error buttons Reload/Details 74x31 and 74x33. All other arena controls, dock slots (45.6+) and Start key pass.",
+  "fix": "Give those controls min-height/min-width 44 px (or a 44 px hit area).",
+  "area": "nav-dock-global-design"
+ },
+ {
+  "id": "W-080",
+  "result": "pass",
+  "evidence": "Volt #d2f000 on near-black Night (olive #4f6400 text accent on Day), lowercase 'mockmob' wordmark on every page and the OG card; no cobalt, vermilion or navy brand colours seen across ~130 captures.",
+  "fix": "",
+  "area": "nav-dock-global-design"
+ },
+ {
+  "id": "W-081",
+  "result": "pass",
+  "evidence": "Header, sidebar, footer (MarketingFooter uses Logo), auth cards all draw LogoMark B (Mobi as second o) with the small dot. Favicon icon.svg and apple-icon.png are the 'mo' tile with Mobi o, OG image 1200x630 shows logo B. No bolt-mark or old logo in src (public/brand/logo-header-*.svg are unreferenced). The lightning glyph on the credits chip is a credit icon, not the logo.",
+  "fix": "Optional: delete the unreferenced public/brand/logo-header SVGs and consider a non-bolt credit glyph so it cannot be read as the old bolt mark.",
+  "area": "nav-dock-global-design"
+ },
+ {
+  "id": "W-082",
+  "result": "partial",
+  "evidence": "The 29 subject object masters (R-W082-subject-art-sheet.png) are lamp-lit, high-res 3D; Business is the open briefcase, no Hindi-text art. In use the art is sharp on Account, Start sheet, Today, landing, OG, but on Practice the unselected subjects are blurred to near-unreadable at 390 and 1440, and the carousel edge crops the last object.",
+  "fix": "Dim rather than blur unselected subject art; show a peek of the next card with a fade mask.",
+  "area": "nav-dock-global-design"
+ },
+ {
+  "id": "W-083",
+  "result": "partial",
+  "evidence": "Today, Review, Progress, Practice and Colleges are full; Your standing (R-ranks-390-night.png), Help and Recovery are sparse with large empty areas; nothing looks over-gamified. Index of cut content: none found (see W-084).",
+  "fix": "Add one useful block to Your standing (rank trend) and Help (search/contact card).",
+  "area": "nav-dock-global-design"
+ },
+ {
+  "id": "W-084",
+  "result": "pass",
+  "evidence": "git diff --name-status deploy/ux-1017..f725a422 -- src shows no deleted or renamed files; arenaNavigation keeps every item (Learn, Explore, Saved, Progress, Compass, Ask Mobi, Mob, Standing, Contribute, My uploads, Account, Help) in sidebar and More sheet; Learn moved from dock to More (flag-gated STUDY_CONTENT_ENABLED, same as before). 'Moved, never removed' holds.",
+  "fix": "",
+  "area": "nav-dock-global-design"
+ },
+ {
+  "id": "W-085",
+  "result": "partial",
+  "evidence": "Web side has Ask Mobi (/mentor), Your Mob (flag-gated), Repair buttons on Result, Road to May on Today, badges on Progress, Compass, Start sheet 'Set it up' fine-tune (captures). App parity itself was not exercised here; the app bar has a Colleges tab like the web. Mob and Learn only show when MOB_ENABLED / STUDY_CONTENT_ENABLED are on, so parity differs by flag.",
+  "fix": "Run a feature-by-feature web/app parity table on the emulator and live site with flags noted.",
+  "area": "nav-dock-global-design"
+ },
+ {
+  "id": "W-086",
+  "result": "pass",
+  "evidence": "Imagery is generated lamp-lit objects, DU campus renderings on the landing, scene art (Mobi under a lamp) for empty states and animated SVG Mobi; nothing stock-looking.",
+  "fix": "",
+  "area": "nav-dock-global-design"
+ },
+ {
+  "id": "W-087",
+  "result": "partial",
+  "evidence": "STATUS lists 17 critic defects fixed and a 'dock denser' pass, but no per-page list with screenshots was in the shipped tree. Remaining small details found: sidebar foot cutting 'Contribute', sun-on-a-line Day toggle, blurred subject art, 360 px 'Quick pr…' truncation, sub-44 chips, rival unthemed.",
+  "fix": "Fix the items under W-069/W-079/W-078 and publish the sweep list with before/after captures.",
+  "area": "nav-dock-global-design"
+ },
+ {
+  "id": "W-088",
+  "result": "pass",
+  "evidence": "Designed states seen: during (runner, skeleton Today/Review with Mobi 'Opening your saved record'), after (Result with Do this next, repaired rows), return (Today 'Welcome back', 'Pick up where you left off'), empty (Review, Saved, Progress, Explore scenes), error ('This did not load', stats=error). R-W088-states-sheet-A/B.png.",
+  "fix": "",
+  "area": "nav-dock-global-design"
+ },
+ {
+  "id": "W-089",
+  "result": "partial",
+  "evidence": "Six notes exist (NAV, GLASS, LEARN-REVIEW, RESULT, START, TODAY-1017) citing AGENT_RULES evidence IDs, but they are in mockmob-next on feat/app-and-web, not in f725a422's docs/design-decisions. No note for Colleges/Compass, Account, Progress, Your Mob, Ask Mobi, Rival, Help.",
+  "fix": "Commit the notes with the release and add a note per redesigned page.",
+  "area": "nav-dock-global-design"
+ },
+ {
+  "id": "W-090",
+  "result": "partial",
+  "evidence": "New-student clarity improved (Today hero, plain dock words, Start sheet) but 'Arena' jargon remains in the profile h1 and landing, Compass/Colleges naming splits, and 14 sidebar items remain on desktop; the landing at 390 is a very long page (26,866 px) with dense demo cards.",
+  "fix": "Rename Arena copy, unify Colleges, shorten the landing path to first practice.",
+  "area": "nav-dock-global-design"
+ },
+ {
+  "id": "W-091",
+  "result": "partial",
+  "evidence": "This run checked the same commit on a dev server (not the mockmob.in host), at 390 and 1440, Night and Day, ~30 views, with openable captures in tmp/web-audit-1017/nav-dock-global-design (R-*.png). Many W-items fail as listed; signed-in live pages were only reachable through the preview fixtures. Dev-server note: during one client navigation the page flashed unstyled (dev CSS), not reproducible as a product bug without a production build.",
+  "fix": "Repeat on the live host with a test account and fix the failing items first.",
+  "area": "nav-dock-global-design"
+ },
+ {
+  "id": "W-092",
+  "result": "partial",
+  "evidence": "STATUS for f725a422: lint clean, app 498 / recovery 415 / learning 343 / auth 109 / billing 118 / nta 188 etc., next build passes, headless captures at 390/1440 Night+Day of Practice, Start sheet, Result, Review, Today, Mob, More, a critic round fixing 17 defects. Gaps: not every page was critiqued (Rival, Ask Mobi, Account, Compass), one dock test skipped (needs a server), a known 360 px truncation shipped, and no independent verifier is recorded for this build before deploy (this run is the first).",
+  "fix": "Add the missing pages to the visual gate and run an independent verifier before deploy.",
+  "area": "nav-dock-global-design"
+ }
+]

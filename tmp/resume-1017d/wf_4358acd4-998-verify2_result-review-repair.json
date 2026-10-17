@@ -1,0 +1,118 @@
+{
+ "wf": "wf_4358acd4-998",
+ "label": "verify2:result-review-repair",
+ "result": {
+  "results": [
+   {
+    "id": "W-025",
+    "result": "pass",
+    "evidence": "Headless Chrome at 390 and 1440, Night and Day, against localhost:3263 (f725a422). Six result papers (weak, avg, strong, perfect, blank, practice5): no Mobi in the DOM on arrival (no mobi class, no img). reaction.js and ResultHead.jsx say a result is never sleepy, with no hour-based act. Mobi appears only inside an opened repair and as one cheer after a check holds, both awake. A held-key repair shows him standing calmly (repairstate-held, repairstate-unexplained). Captures: avg-390-dark-full.png, check-right-390-dark.png, repairstate-held-390-dark.png."
+   },
+   {
+    "id": "W-026",
+    "result": "partial",
+    "evidence": "The layers are in place. Layer 1 is the receipt, the 128 / 250 score, the marks bar and the chapter that cost most. Layer 2 is a single 'Do this next' card with one Repair Q42 key. Layer 3 is 'Your 12 mistakes' (4 shown, 'Show all 12'). Layer 4 is six named folds under 'More from this paper': Where the marks went, Your time and changed answers, After this mock, How others answered, Your rule and proof it stuck, Every answer. All lab features are reachable and 'Check it held' is kept. Strictness fail: at 390x844 the first viewport shows two lime keys at once, the Repair Q42 key and the phone dock's Start disc (avg390-dark-vp0.png). The code only quiets the desktop sidebar Start (start.css, data-start-quiet). The next-move card is also long: why line, value line, cost line, alt link.",
+    "problem": "At 390 the dock's lime Start competes with the one next move, and the card's three paragraphs push the mistakes below the fold.",
+    "fix": "Make the phone dock Start outlined or quiet while .student-page--result is mounted, as the sidebar already does. Fold the value and cost lines into one sentence under the key."
+   },
+   {
+    "id": "W-027",
+    "result": "pass",
+    "evidence": "The result has exactly one receipt line, 'Accountancy full mock. Recorded 3:20 PM, 36m 34s.' A text search of all six papers, visible and hidden text, found no 'session complete', 'practice finished', 'Saved.' or 'submission'. Options read 'Correct answer' and 'Your pick', not 'Key at submission'. The Replay's 'Submitted at 51:46' sits only inside the time fold. I did not exercise the runner's own submit sheet, which is outside this area."
+   },
+   {
+    "id": "W-028",
+    "result": "pass",
+    "evidence": "The 'Do this next' card reads 'Repair Q42', then 'A repair gives you why D looked right, the trap, one rule to keep, and a new question to check it held.', then '1 AI credit. You have 68. No charge if the repair cannot be written.' Each mistake row carries a Repair or 'Repair first' chip. An opened row shows a 'Repair this mistake' card with the same payoff and price (row14-open-390-dark.png). The label, one-line payoff and entry point are obvious at 390 and 1440."
+   },
+   {
+    "id": "W-029",
+    "result": "partial",
+    "evidence": "The 'After this mock: strengths, gaps and plan' fold is separate from the repair lab. It opens to 'Do these next' with 'Practise 10 on Share Capital', 'Practise 10 on Accounting Ratios' and 'Practise 10 on Change in Profit Sharing Ratio', each with a Set up button, then Strengths, Opportunities and Threats (fold-avg-after-390-dark.png). No text is under 12 px at 390. Gaps: it is closed by default and shows only a one-line teaser. Set up links to /dashboard?subject=accountancy&mode=quick&count=10&chapter=... (a pre-filled set-up screen, not a start). The recommendations are 10-question chapter sets, not 'topic mocks'. A quick-practice result has no SWOT at all.",
+    "problem": "The SWOT is hidden behind a fold, and the recommendation is two taps from starting.",
+    "fix": "Show the first 'Do these next' row in the Do this next card, or open the SWOT fold by default after a full mock. Let Set up start the chapter set directly, with the price shown on the button."
+   },
+   {
+    "id": "W-030",
+    "result": "partial",
+    "evidence": "A first open plays a short sequence in a fresh session: the score counts up (81 to 128 in about 600 ms), the three-part bar grows, the finding rises, then the next-move card rises (reveal-0.png vs reveal-350.png). It is short, explains the score and one next step, and has no clutter. It is restrained: only one card animates, and a strong or perfect paper gets no different or celebratory beat. It never replays on a return visit or under reduced motion.",
+    "problem": "The reveal is correct but not memorable, and it is not really 'animated cards'.",
+    "fix": "Add one distinct beat per outcome tier (for example the marks bar settling on a perfect paper, or the cost-most chapter card sliding in), still under 1 second."
+   },
+   {
+    "id": "W-031",
+    "result": "pass",
+    "evidence": "An opened wrong row shows both options marked 'Correct answer' and 'Your pick', the right or wrong verdict, the book explanation and the time lines, all with no credit (row14-open-390-dark.png). Paid Repair adds why the pick looked right, where it breaks, why the key is right, the other options, a rule to keep with Copy, 'Explain it another way', a fresh check question, the trap pattern from your record and a Next mistake step (repair390-q42-panel.png). It does far more than reveal the key. 'Reopening a repair is free' is stated on the page."
+   },
+   {
+    "id": "W-032",
+    "result": "partial",
+    "evidence": "Present and seen on screen: a fresh unseen same-topic question ('Check it held', no extra credit, first answer counts), a Revise line after answering ('Revise will bring this mistake back today', and 'both back' on a miss, linking to /review/revise), a personal trap pattern ('Since 9 Oct, 2 of your 3 repairs in Share Capital had this trap'), and 'Ask Mobi about Q42' (shown with &ai=live; otherwise 'Written replies are paused right now. Nothing is charged'). Missing: retry before the key. The key is in the row header ('Correct answer Option three') and the repair opens with 'Explained from the answer key (C)' before the student tries again. Only one fresh question is offered, not two.",
+    "problem": "No retry-before-the-key step; the check comes after the key is shown.",
+    "fix": "Before the explanation, offer 'Try Q42 again' (options, no key shown). Reveal the key and the repair after the second pick, and give the check as the follow-up."
+   },
+   {
+    "id": "W-033",
+    "result": "partial",
+    "evidence": "I cannot run a live staging repair: there is no agent sign-in and a model call is forbidden. What I verified on fixtures: failure, insufficient credit, released, held key and no-repair each show a readable message with the charge stated. Examples: 'The repair could not be prepared reliably this time. You were not charged.' with Try again; 'This repair uses 1 AI credit. You have 0...' with Practise 5 fresh questions and See your AI credits; 'We may have got this one wrong... You were not charged a credit.' Server code (repairFlow.js, repairSaved.js) releases the reservation on failure, and a failed stored-repair lookup throws rather than charging. The cause is reported in STATUS.md: the missing OPENAI_API_KEY root cause was closed, with a live owner repair receipted 15 Oct 08:47 IST (gpt-6-luna). The Haiku fallback price migration was recorded as NOT APPLIED.",
+    "problem": "The live staging completion is unverified. After a failed or refused repair the row chip still says 'Writing', and the Do this next card still says 'You have 68' when the repair reported 0.",
+    "fix": "Have the owner or main session run one repair on the staging test account and record the receipt. Reset the chip to 'Repair' on error, and refresh the wallet figure in the next-move card after any repair response."
+   },
+   {
+    "id": "W-034",
+    "result": "partial",
+    "evidence": "With &mock=full&cohort=time at 390: an opened row shows '45s on this question. The paper gives 1m 12s a question, and your median was 50s. Picked A at 42:06.' It also shows 'Students who got this right took a median of 41s (42 students)' and 'None of the 31 timed students changed their answer'. The time fold lists 'Every answer you changed', for example 'Q8 Picked C at 7:17. Changed to A at 48:56, 41m 39s later, on a later visit. +6' (fold-mockfull-time-390-dark.png). Spent time, expected time and change times are all present. Caveats: the others' figure is a median, not an average, and appears only with at least 10 timed students. The default paper=avg fixture shows no cohort time. Whether production holds the nightly cohort table is unverified (STATUS says slice 5 was NOT applied as of 16 Oct).",
+    "problem": "Cohort time per question may not appear on the live site if the table is not populated.",
+    "fix": "Confirm the cohort_time table is applied and populated in production, or show a plain 'not enough students yet' line so the absence is explained."
+   },
+   {
+    "id": "W-035",
+    "result": "partial",
+    "evidence": "Lab slices 1 to 5 are in this build: ledger, Replay, time and decisions, trap tags, rule proof and cohort lines, all in the result folds. They are reachable in one tap from the result (each fold is one tap) and in two from Review ('Open Accountancy, 16 Oct', then a fold). The folds use plain names ('Where the marks went', 'Your time and changed answers'), and each states its finding in a teaser, which is easy to understand. But no screen is named 'Mistake Lab' or dashboard-like in the app (the name appears only on the landing page), and nothing signals 'v4' or points to what is new.",
+    "problem": "The USP has no visible name or entry on the result or Review, so a student cannot find the Lab or know it is the differentiator.",
+    "fix": "Title the folds' group 'Mistake Lab' (More from this paper, from your Mistake Lab) and add a Review row that deep-links to the Lab folds of the newest mock."
+   },
+   {
+    "id": "W-036",
+    "result": "pass",
+    "evidence": "Replay sits inside 'Your time and changed answers' (fold-mockfull-time-390-dark.png). It has a Play button with the 51:46 clock, a scrub bar, filter chips (Right then changed, Crossed out the key, 2 minutes or more, Under 20 seconds), minute-by-minute rows with 'By 10:00: 9 of 50 answered. Even pace: 8', away bands, picked, changed and marked markers, and a legend. Below it come the where-your-time-went bars against the paper's pace and the change list. It is readable at 390, with no overflow and no text under 12 px. I did not play it back. It is the same commit as the live site."
+   },
+   {
+    "id": "W-037",
+    "result": "pass",
+    "evidence": "On &return=1 the first repaired mistake (Q42) shows the chip 'Check it held', the header 'Your 12 mistakes, 1 of 12 repaired', and 'These 11 repairs use 11 AI credits' (return1-top-390.png). The next move skips it to Q43. Opening Q42 auto-requests the repair, which returns stored with charged 0, and shows the saved repair free (return1-row42-open-390.png). Server code: findStoredRepair reads the committed reservation and returns charged 0, and a failed lookup throws, so an unreadable lookup never causes a second charge. Minor: savedRepairsForAttempt scans only the newest 500 committed repairs, so a very heavy user could see a paid-looking chip, though the route still reopens free."
+   },
+   {
+    "id": "W-038",
+    "result": "partial",
+    "evidence": "Review's session list shows the mock name and the 12-hour time: 'Mock 3, yesterday, 4:40 PM, 7 of 10 correct, 2 repaired' and 'Quick practice, 14 Oct, 4:40 PM' (review-saved-390-dark.png, 1440). On the result, an opened repair says 'From Accountancy, today, 3:33 PM' (paperStamp, India time, 12-hour, 'Mock 3' when a source exists). The receipt reads 'Recorded 3:20 PM'. The individual mistake rows show no mock name or date until the repair is opened, and the paper= result fixtures give 'From Accountancy...' with no mock name.",
+    "problem": "The mistake itself does not carry its paper name and time in the list.",
+    "fix": "Add a quiet third line to each mistake row or to the group header: 'Mock 3, 16 Oct, 9:40 PM'. Always include the source label."
+   },
+   {
+    "id": "W-039",
+    "result": "partial",
+    "evidence": "Review now holds the student's own mistakes: '6 questions to review, of 20 answered', a volt 'Open Accountancy, 16 Oct', Revise and Your rules rows, a record insight, a 6-mock trend chart, and per-session rows with 'N to review' (review-saved-390-dark.png). Progress ('Your study days and checks') holds study days, weeks met, and Badges 9 of 16 earned with dates. The Profile page is far fuller than a stub. But there is no 'Review again' control or label anywhere in src (grep), so I cannot show it working. The nearest equivalents are 'Open <session>' and the free reopen of a repair.",
+    "problem": "The check names a 'Review again' control that does not exist.",
+    "fix": "Add a 'Review again' action on each session row (re-opens the mistakes with the repairs already saved), or retire the term from the ledger."
+   },
+   {
+    "id": "W-040",
+    "result": "fail",
+    "evidence": "The F15 Learn and Review redesign is a decision document only (docs/design-decisions/pass-1017/LEARN-REVIEW-1017.md; commits 92780f26 and 8ce5464b are design commits, not on deploy/web-1017). The release's Review and Learn changes are F17's saved-repair line and session stamp, plus dock margin fixes. The Review captured here matches the document's own 'what exists now' list: the R1 head, R2 lead with volt key, R3 notes and R4 link rows are unchanged. Learn at 1440 is unchanged: a volt 'Open lesson' next to a solid lime 'Start a session', and 0 of 21 lessons read with no next-move framing. STATUS records that Learn has no phone entry while STUDY_CONTENT_ENABLED is off, and that flag was not checked.",
+    "problem": "No layout, hierarchy or state refinement of Learn or Review shipped in this build.",
+    "fix": "Build the LEARN-REVIEW-1017 decision (find, fix, keep with one next move) on the web branch, and quiet the second volt key on Learn. Confirm STUDY_CONTENT_ENABLED in production."
+   }
+  ],
+  "notes": "Method: headless Chrome 155 (puppeteer-core from the npx cache, since puppeteer-core is not in mockmob-hotfix\\node_modules), temp user-data-dirs deleted, Chrome processes killed at the end. Worktree used: C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17, commit f725a422, dev server on :3263 (not started or stopped by me). Clicks were real pointer clicks after an elementFromPoint hit test. Captures, all opened and judged, are in C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob-next\\tmpweb-audit-1017\\result-review-repair\\. Fixtures used: view=result with paper=weak|avg|strong|perfect|blank, return=1, saved=1, mock=full&cohort=time, repair=v3|v3-stored|fail|insufficient|unexplained|held|released, ai=live, plan=free|pro, view=review&saved=1, view=progress, view=profile, view=revise and /preview/study. Limits: this is the dev server of the live commit with fixtures, not production data or a signed-in staging account. The cohort time, nightly tables and live repair completion are therefore not checked against real data. Dark and Day were both checked for the result (390 dark and light, 1440 dark and light). Review and Learn were captured in Night only. The dev server recompiled mid-run, so a few captures needed a retry; one 'unexplained' capture appeared unstyled during a dev recompile, so it was not used for the verdict. I did not run the runner's submit sheet. The rules view (view=rules) was not captured because its run hit a dev reload.",
+  "extra": [
+   "At 390 the Result first viewport shows two lime keys at once: the Repair Q42 key and the dock's Start disc. The owner already objected to Start placement (F13) and asked for ONE next move (F11).",
+   "After a failed or refused repair (fail, insufficient, released) the mistake row's chip still says 'Writing', and the Do this next card still says 'You have 68' while the repair reported 0 credits.",
+   "The Do this next card is three paragraphs long at 390 (why, value, cost, and a late-night or note line when it applies), which pushes 'Your 12 mistakes' to the second screen.",
+   "On the Learn page at 1440 there are two volt keys at once ('Open lesson' and the lime 'Start a session'). The result sidebar goes quiet but Learn does not.",
+   "'Reopening a repair is free' and 'These 12 repairs use 12 AI credits' appear as small grey text after the list, so the price of the whole backlog is easy to miss.",
+   "The 'Check it held' answer is a hidden radio over the whole option row. Tapping the row works, but the sticky Check my answer button is greyed until a pick, with only a small 'Pick one option' hint.",
+   "Review's session thumbnails (calculator, scales) are tiny and decorative at 1440, with a lot of dead space to their right; the 'N to review' counts are the only action cue."
+  ]
+ }
+}

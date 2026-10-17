@@ -1,0 +1,165 @@
+{
+ "wf": "wf_4358acd4-998",
+ "label": "verify2:today-progress-colleges-account",
+ "result": {
+  "results": [
+   {
+    "id": "W-041",
+    "result": "pass",
+    "evidence": "Headless Chrome, /preview/arena?view=today, 390 Night/Day and 1440 Night/Day, data=ready/empty/returning/sparse/long. Today is one move card (Today's move: Accountancy, 4, Start Revise 5 min, Something else), then This week, Road to May, Last paper and Your colleges as two rows. No native <select> on the page (counted 0 in every state). Real-pointer click on 'Something else' (hit-tested BUTTON.tm__pill) opens a native dialog sheet with 6 labelled alternatives. '4 a week' and '14 full mocks' are custom token buttons with an inline tuner. Captures: run2/today-390-dark-s0/s1, today-1440-dark-s0, e2-else-390-dark, e1-else-390-dark. Caveat: the label says 'Today's move'/'Tonight's move', not the literal words 'Up next'.",
+    "fix": "Optional: label the card 'Up next' if the owner wants that exact word."
+   },
+   {
+    "id": "W-042",
+    "result": "partial",
+    "evidence": "No error card in any fixture state: ready, returning, sparse, empty, long, free and pro (innerText has no 'did not load' or error text, zero console errors). Skeletons hold the card height. But sections do not arrive together: in the fixture the week and road render at about 1.4 s and the move card, Last paper and Your colleges at about 5 to 7 s (3 runs, g1.mjs). The dev server is shared with other verifiers and the preview computes plan data in-browser, so I cannot measure production speed. I could not test a real account (no sign-in allowed). The Last paper row returns null until its read finishes, so rows pop in and shift the layout.",
+    "fix": "Fire the plan and papers reads first and show the week and road only with the move, or give every block a skeleton of its final height. Measure against the real account on staging with Lighthouse or RUM."
+   },
+   {
+    "id": "W-043",
+    "result": "pass",
+    "evidence": "The move card is evenly padded at 390 and 1440, Night and Day: overline, subject and art, big number, one reason paragraph, volt key, pill, with no dead band or content stuck at the top. Checked the Accountancy card (data=ready), the empty first-move card (10 questions) and the repair/returning variant. Captures: today-390-dark-s0, today-390-light-s0, today-1440-dark-s0, today-empty-390-dark-s0.",
+    "fix": ""
+   },
+   {
+    "id": "W-044",
+    "result": "fail",
+    "evidence": "No cue to Road to May. Grepping src/components/today and src/app/(app)/today for chevron, arrow, cue, fade, blur and fold finds nothing apart from the ChevronsUpDown token icons. At 390 the first screen ends with the move card and the This week heading peeking under the dock. There is no arrow, label or peek line, and no blur or fade tied to the fold (today-390-dark-s0). Today page code has no blur or stronger-blur change.",
+    "fix": "Add a small 'Road to May' down-chevron row, or a gradient fade with a chevron, under the move card on phones. It should scroll to #road on tap and fade out once the road is in view. Make the existing dock or edge blur slightly stronger."
+   },
+   {
+    "id": "W-045",
+    "result": "pass",
+    "evidence": "Real-pointer clicks at 390 and 1440. '4 a week' opens a 1-7 stop group. Picking 6 gives '140 study days at 6 a week' and Saved.; 2 gives 56; 7 gives 161; back to 4 gives 98 (e2.out). Mock target stepper 14 to 15 works. Tapping the weeks strip opens the week rail (e1-rail-390-dark) with a readout such as 'Week of 22 Feb: 2 study days planned, a boards week'. Dragging the CUET flag moves the date ('Your date, 31 May', 32 weeks) with a receipt. Tapping the flag opens a date sheet. Caveat: 'This week 3 of 4' did not change in the fixture because the rhythm stub hard-codes 4. The real /api/me/rhythm uses the stored goal and the page re-reads it on save, so I did not mark it a product bug. Per-week study days are not individually editable.",
+    "fix": "Optionally let a tapped rail week override its planned days. Add the real rhythm stub reading window.__previewGoal so the preview shows the week header updating."
+   },
+   {
+    "id": "W-046",
+    "result": "not-testable",
+    "evidence": "Study day and Learn pages (/learn, /study/[id]) are behind the signed-in layout and STUDY_CONTENT_ENABLED, and no /preview/arena view renders them (previewStudy.js only feeds Progress badges). I cannot sign in. The only 'week' UI I could drive is the Road to May rail, which is not the study-day or chapters UI. Last study-component change was 17 Oct 05:12 (dock clearance only).",
+    "fix": "Add a ?view=learn fixture to the arena preview, or verify on staging with the test account."
+   },
+   {
+    "id": "W-047",
+    "result": "partial",
+    "evidence": "The string 'Could not load a suggestion' no longer exists in src. On the web, colleges are chosen in Compass with 'Add to my colleges'. With colleges=empty I searched bcom, opened B.Com. (Hons.), clicked 'Add to my colleges, Shri Ram College of Commerce' (real click) and it flipped to 'In My colleges'. I then tapped the dock Today link: exactly one 'Your colleges' row (SRCC, 924.3 of 1000) and no duplicate section. The check's flow of choosing a college, getting a suggestion and pressing Start does not exist on the web, so there is no suggestion or Start to test.",
+    "fix": "If the app flow is the target, add a 'Plan for this college' next move to the Your colleges row that opens a practice or cutoff gap action. Otherwise record that the suggestion flow is app-only."
+   },
+   {
+    "id": "W-048",
+    "result": "pass",
+    "evidence": "Compass (390 dark, view=compass), programme search typed with real keys: BCOM, bcom, B.Com, b com, bcom hons, B.Com (Hons). Each returns B.Com. (Hons.) 55 colleges and B.Com. 44 colleges. scrollY is unchanged (3176) and the input stays at y=150 under the sticky '35 of 73 open' bar, so the list does not jump or hide (run2/f2-q1..q5, m-search.png). The shared matcher lib/du/collegeSearch.mjs aliases bcom to 'b com'. I could not emulate a real on-screen keyboard; the results begin about 260 px from the top, above where a keyboard would sit.",
+    "fix": ""
+   },
+   {
+    "id": "W-049",
+    "result": "fail",
+    "evidence": "Onboarding has two steps only: 'Which subjects are you taking?' and 'How many days a week can you study?' (m1.mjs, m-onb-guide-390.png). The onboarding code has no college field. Colleges are added only through the Compass row key 'Add to my colleges', the Account My colleges list, and a Choose link on Today's Your colleges row (TodayRows.jsx links to /admission-compass).",
+    "fix": "Add an optional third onboarding step, 'Which colleges are you aiming for?', reusing the B.Com search plus useMyColleges (up to 8). Replace Today's Choose row with a link back to the Account list."
+   },
+   {
+    "id": "W-050",
+    "result": "partial",
+    "evidence": "Done: Compass is a first-class nav place (sidebar 'Compass, DU cutoffs', dock 'Colleges'). A sticky bar gives one primary key ('35 of 73 open', Edit, View courses). Score is optional ('Category and score optional', 'Target score e.g. 767') and Pro shows 'History: Practise 18 more questions to project' for sparse data. Missing: no link from the in-app Compass to the Combo Planner or other CUET tools (grep of AdmissionCompassPageClient, CutoffCalculator and CompassPro finds no reference; /cuet-subject-combination is public-only). At 390 two long text paragraphs (about 8 lines) sit before the sticky bar and picker. Captures: compass-free-390-dark-s0, m-compass-pro.png.",
+    "fix": "Add a 'Plan your subjects' link to /cuet-subject-combination and a CUET tools row at the top of Compass. Cut the lede and disclaimer to 2 lines each on phones, with the disclaimer moved to a footnote."
+   },
+   {
+    "id": "W-051",
+    "result": "fail",
+    "evidence": "DOM scan of the loaded /cuet-cutoff-calculator (1440 Day) and the in-app Compass: zero elements with the text 'New'. Public nav text is 'Free mock test | Cutoff calculator | Your prep tools | CUET PYQs | Pricing', and the signed-in sidebar is 'Compass, DU cutoffs' with no tag (n1.mjs). git log for a New tag in nav or du components finds nothing. The page does not look like the 2025 site (modern glass cards, Gabarito type), but the 'New' tag is missing and I could not locate the green-line-in-green-element treatment.",
+    "fix": "Add a lime 'New' pill beside 'Cutoff calculator' in NavBar LINKS and the footer, and restore the green inset line on the green pill or active chip. Confirm that line with the owner from his 15 Oct screenshot."
+   },
+   {
+    "id": "W-052",
+    "result": "partial",
+    "evidence": "The top-bar avatar opens Account at 390 (44x44 link, hit-tested, landed on 'Your corner of the Arena.') and the name chip does so at 1440. Account shows name (Hi, Preview.), 'Signed in as preview@example.test', plan, subjects, mocks and average, a credits history with Practice credits 40 and AI credits, My colleges, Weekly goal, Appearance and privacy, so it does more than a static profile. But credits are not at a glance: at 390 the top bar shows only the practice chip (the AI chip is arena-sm-up) and the credits cards are about 2 screens down. At 1440 the Credits card shows a skeleton for the first seconds and the AI chip pops in late.",
+    "fix": "Show a two-chip credits strip (Practice 40, AI credits 68) directly under the name and email on Account. Show the AI chip on phones too, or put it in the avatar sheet."
+   },
+   {
+    "id": "W-053",
+    "result": "partial",
+    "evidence": "Progress ('Your study days and checks.') leads with the study-days ring (3 of 4), weekly marks, goal-met weeks, then Badges (9 of 16 earned: Papers, Repairs, Weeks at your goal), Your best work and Personal bests, with no plan or billing (m-progress-a/b.png). That is a richer set than before. But the web page labelled as the 'You' equivalent, Account (YourSheet), leads with name, subjects and mocks, and Plan and Credits sit right beside or after it, with study days and badges not shown there.",
+    "fix": "Put a compact study-days ring and latest-badge strip on the Account sheet, or name Progress 'You' and link it first. Move Plan and Credits below Weekly goal."
+   },
+   {
+    "id": "W-054",
+    "result": "pass",
+    "evidence": "390: tap 1 'More' (opens a sheet with Night, Daylight and Match device), tap 2 'Daylight' changes data-theme dark to light and the body background from rgb(11,16,14) to rgb(244,245,240). The avatar link goes to Account in 1 tap. 1440: one tap on the top-bar toggle changes the theme, and the sidebar has the same switch. The Account page keeps sheet, plan, credits, goal, appearance, privacy and delete (k1.mjs). Caveat: the dev server needed several taps before hydration, which is an environment effect. The in-test runner hides the bar by design.",
+    "fix": ""
+   },
+   {
+    "id": "W-055",
+    "result": "fail",
+    "evidence": "/leaderboard is 'Your standing': one rank figure ('14th of 212 students who have sat a mock'), two stats (Mocks 12, Average score 62%), a note and one button, nothing else (r1-ranks-390-dark-ready.png). It has no list, top, trend, league or rank history. Code confirms that only the signed-in student's own standing is returned. This is more basic than the earlier design, not richer.",
+    "fix": "Add a privacy-safe richness layer: rank history sparkline, percentile band, week-on-week movement, a mock-type split and an anonymised top-10 score ladder (initials or a nickname the student opts into), or a Mob-based board."
+   },
+   {
+    "id": "W-056",
+    "result": "pass",
+    "evidence": "Onboarding at 390 Night and 1440 Day: Step 1 of 2 subjects (object tiles, '4 of 5 picked', Next), Step 2 days (1-7 stops, live ring preview, 'Save and continue', 'Skip for now'), Mobi beside the title. Real click on Next moves to step 2. The Guide (Today, Practice, Review, Progress) opens with a spotlight, steps through 1 of 4 to 4 of 4 and finishes at 390 and 1440 (m-onb-guide-390.png, m1.mjs). No regression seen.",
+    "fix": "Optional: add Colleges and Ask Mobi steps to the Guide (see W-064)."
+   },
+   {
+    "id": "W-057",
+    "result": "fail",
+    "evidence": "src/app/auth.css has had one added line since before 15 Oct (commit 09421b29, 16 Oct: .auth-card__why) and Login and Signup client files were last touched for copy only (git log). The rendered pages (login2/signup2 at 390 and 1440, Night and Day) are tidy: Google key, email field, 'Email me a sign-in code', one headline and points. But there is no visible design improvement over 15 Oct. At 390 the card sits above the headline, and the Night 'Email me a sign-in code' key is a muted olive that reads disabled.",
+    "fix": "Redesign the shell: a hero panel with Mobi or the object scene, a headline above the form on phones, a lime enabled-looking primary key, trust and credit points as chips, and better motion."
+   },
+   {
+    "id": "W-058",
+    "result": "not-testable",
+    "evidence": "I may not sign in or enter credentials, so I could not run Google or email-code sign-in, nor close and reopen after hours. Code evidence only: src/proxy.js now sits next to app/ and refreshes the Supabase session; the 13 Oct fixes in docs/brain/AUTH-RELIABILITY-2026-10-13.md (no sign-out on focus or token refresh events, local-scope sign-out, 429 timing, resend) are present. The login card says 'you stay signed in on this device until you sign out'.",
+    "fix": "Verify on staging with the test account: sign in by Google and by email code, close the browser, reopen after 3 or more hours, and check /api/auth/me is 200 with no refresh-token revocation in Supabase auth logs."
+   },
+   {
+    "id": "W-059",
+    "result": "pass",
+    "evidence": "A decision is recorded in docs/brain/AUTH-RELIABILITY-2026-10-13.md, 'Phone or password login (owner asked)': phone built in the app but switched off, with preconditions (Turnstile, a Before User Created hook, a +91-only SMS hook, a rate limit, age and guardian consent). Passwords are deferred. Revisit after a week of /api/auth/me 401 and 503 data. Not required to ship.",
+    "fix": ""
+   },
+   {
+    "id": "W-060",
+    "result": "partial",
+    "evidence": "Ask tab with the wallet loaded (390 Night, 1440 Day, ai=live): the cost shows before the call in three places ('Written guidance, 1 AI credit', 'One written reply uses 1 AI credit. You have 68.', button 'Ask Mobi, 1 AI credit'). After a real-pointer send the page balance goes 68 to 67 with the receipt '1 AI credit used. You have 67.' A record-answerable question correctly reports 'From your record, no credits' with no charge. Gaps: the top-bar AI chip still read 68 after the call (stale), and at 390 that chip is hidden. The AI wallet takes about 4 to 17 s to appear ('Reading AI credits…'). The dark hub panel stays dark in Daylight.",
+    "fix": "Refetch or broadcast the wallet after a reply so the top-bar chip and the Credits card update at once (useWalletSummary invalidate). Show the AI balance on phones. Theme the hub panel for Day."
+   },
+   {
+    "id": "W-061",
+    "result": "partial",
+    "evidence": "Built and polished in the preview, not live. The Mob page (ready, sample, none, pro states at 390 and 1440) has the ring, weekly 10-question paper, members, share-score toggle, the Free vs Pro 'Included with Pro' list, a Start your Mob form and no age or consent step (grep of components/mob finds none). Rules are in code: FREE_MAX_MOBS 1, PRO_MAX_MOBS 3, sample compare for free, locked and Pro compare and history. But MOB_ENABLED is unset: the (app)/mob page calls notFound(), the nav item is hidden, and live https://www.mockmob.in/join/7KQ2M9XR returns 404. So it is not live for any signed-in user. 10/10 polish is unproven. Captures: mobx-ready/none/pro/sample.",
+    "fix": "After the owner's polish sign-off, set MOB_ENABLED=true and apply the Mob migrations on production. Then walk it with the staging account: Free start 1 and join any, Pro 3 Mobs, first-week side-by-side."
+   },
+   {
+    "id": "W-062",
+    "result": "partial",
+    "evidence": "With the preview flag on, the social entry appears in the nav ('Your Mob'), on Progress (the 'Your Mob 3 of 4 sat this week' card) and on the result page when the paper is a Mob paper (MobResultRow). Today has no Mob card (moved to Progress per today/page.jsx), only a Mobi cheer when the ring completes and a 'Something else' alternative when unsat. Practice (dashboard) has none. On production, with MOB_ENABLED off, none of it shows.",
+    "fix": "Add a slim Mob line on Today under This week ('Your Mob: 3 of 4 sat, your paper closes Sunday') and a 'Sit it with your Mob' chip on Practice. Gate both on MOB_ENABLED."
+   },
+   {
+    "id": "W-063",
+    "result": "pass",
+    "evidence": "Supportive progress only: weekly ring with a calm caption ('Today is counted. 1 more to meet 4', 'Your week starts tonight', 'Goal met... Anything more this week is extra'), 'weeks met in a row' as a count, a pause for the weekly goal, 16 dated badges with 'Not yet. Lands with...' wording, and a Celebrations setting (Full, Quiet, Off) on Account. A grep of today, studyBadges and mobi copy finds no loss-threat wording such as 'don't break your streak'. No XP or points clutter.",
+    "fix": ""
+   },
+   {
+    "id": "W-064",
+    "result": "partial",
+    "evidence": "Good: Today's first-move card differs by stage ('Your first move... 10 questions to your starting point', 'Day 1 of your first week', 'Pick up where you left off'). Empty states for Review, Explore, Radar, Saved, Progress, Standing and Mob none each carry one next action (Choose practice, Explore questions, Start 10 practice questions, Start a practice session, Start your Mob). The Guide has 4 steps. Gaps: the Guide covers only Today, Practice, Review and Progress, with nothing on Compass or Colleges, Ask Mobi, Mob or the study plan. Compass and Ask Mobi have no first-time prompt. Mob none and Dashboard rendered skeleton or blank in my first load (late render).",
+    "fix": "Extend the Guide to 7 steps (Compass or Colleges, Ask Mobi, Your Mob) and add a one-time 'First time here?' line on Compass and Ask Mobi. Add a receipt-of-value line after the first repair or first mock ('You fixed 1 mistake').",
+    "extra": null
+   }
+  ],
+  "extra": [
+   "Dev-only Next issue badge on Profile at 390: console error 'Can't perform a React state update on a component that hasn't mounted yet' (a state update during render in the Account page or one of its cards). Production hides the badge but the bug is real.",
+   "Ask Mobi hub panel stays near-black inside the Daylight page, a visible theme mismatch (h1-after-1440-light.png).",
+   "Top-bar AI credit chip goes stale after an Ask Mobi credit spend (68 vs 67), and it is hidden on phones (arena-sm-up).",
+   "Today at 390 has two lime keys in view (Start Revise and the dock Start key), against the 'one volt' intent in the code comment.",
+   "Account page: the first-paint credits cards are skeletons and the AI chip pops in about 3 s late. The wallet read took 4 to 17 s on the dev server (ask page 'Reading AI credits…').",
+   "Sidebar Appearance switch briefly shows the wrong highlighted mode before hydration (Daylight highlighted while Night) on first paint.",
+   "Compass at 390: about 8 lines of intro and disclaimer text before the primary controls. The Pro Compass page is very long (11,884 px) with no in-page anchor jump.",
+   "The Mob nav item, /mob and /join are 404 on live (MOB_ENABLED off), so the Progress and Mob preview shots do not match production.",
+   "Capture artefacts and environment: the dev server on 3263 was shared with the other verifier areas, so first loads took 3 to 20 s. Hydration delayed taps by 4 to 7 s at 390. I could not emulate an on-screen keyboard or test real sign-in or persistence. All captures are under mockmob-next/tmp/web-audit-1017/today-progress-colleges-account/run2. Chrome and temp profiles were closed and deleted. My scripts are in the session scratchpad under vtpca/."
+  ],
+  "notes": "I checked 24 items on the f725a422 dev server at http://localhost:3263 with headless Chrome via puppeteer-core, at 390x844 and 1440x900, Night and Day. Clicks were real pointer events, hit-tested with elementFromPoint, and I opened the captures before judging. Outcomes: 5 pass (W-041, W-043, W-045, W-048, W-054, W-056, W-059, W-063 are the passes; recount below), 9 partial, 5 fail, 2 not-testable. Exact tally: pass = W-041, W-043, W-045, W-048, W-054, W-056, W-059, W-063 (8); partial = W-042, W-047, W-050, W-052, W-053, W-060, W-061, W-062, W-064 (9); fail = W-044, W-049, W-051, W-055, W-057 (5); not-testable = W-046, W-058 (2). Total 24. Main findings: Today and Road to May are strong and editable; the down-arrow cue, onboarding colleges, the cutoff-calculator New tag, the richer leaderboard and the login and signup redesign are not there. The Mob is built and polished in preview but off on production (MOB_ENABLED unset, /join returns 404 live). Dev server latency, shared with other verifiers, limits what I can say about real load speed (W-042). Sign-in persistence and the Study day UI need staging with the test account. Chrome processes and temp profiles were closed and deleted. I did not edit code, commit, stash or touch any database.\""
+ }
+}
