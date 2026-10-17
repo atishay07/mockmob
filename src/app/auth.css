@@ -12,20 +12,20 @@
 .auth .auth__lead { margin: 0; max-width: 38ch; }
 .auth__card { animation: auth-rise 420ms cubic-bezier(0.23, 1, 0.32, 1) 80ms both; }
 
-/* The desk: the app's lamp-lit subject objects and Mobi on one floor line, under a soft warm lamp. */
+/* The desk: the app's lamp-lit subject objects and Mobi on one floor line. A flat raised surface (no glow, no gradient). */
 .auth__scene { display: grid; gap: 1.25rem; align-content: start; }
 .auth__desk {
   position: relative; height: 188px; margin: 0; border-radius: 24px; overflow: hidden;
-  background: radial-gradient(120% 90% at 50% 100%, rgb(240 190 120 / 0.14), transparent 62%), var(--paper-raised);
+  background: var(--paper-raised);
   border: 1px solid var(--line);
 }
 .auth__floor { position: absolute; left: 7%; right: 7%; bottom: 34px; height: 1px; background: var(--line-strong); }
 .auth__obj, .auth__mobi { position: absolute; bottom: 30px; display: block; animation: auth-settle 560ms cubic-bezier(0.23, 1, 0.32, 1) both; animation-delay: calc(160ms + var(--i, 0) * 70ms); }
-.auth__mobi { left: 6%; bottom: 32px; --i: 4; }
-.auth__obj--0 { left: 30%; }
-.auth__obj--1 { left: 51%; bottom: 33px; }
-.auth__obj--2 { left: 67%; bottom: 31px; }
-.auth__obj--3 { left: 82%; bottom: 31px; }
+.auth__mobi { left: 7%; bottom: 32px; --i: 4; }
+.auth__obj--0 { left: 25%; }
+.auth__obj--1 { left: 45%; bottom: 33px; }
+.auth__obj--2 { left: 62%; bottom: 31px; }
+.auth__obj--3 { left: 78%; bottom: 31px; }
 .auth__obj img, .auth__obj picture { display: block; }
 
 .auth__points { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
@@ -40,10 +40,10 @@
   .auth__desk { height: 150px; }
   .auth__obj, .auth__mobi { zoom: 0.74; }
   .auth__mobi { left: 4%; }
-  .auth__obj--0 { left: 27%; }
-  .auth__obj--1 { left: 50%; }
-  .auth__obj--2 { left: 65%; }
-  .auth__obj--3 { left: 79%; }
+  .auth__obj--0 { left: 24%; }
+  .auth__obj--1 { left: 45%; }
+  .auth__obj--2 { left: 61%; }
+  .auth__obj--3 { left: 76%; }
 }
 @media (min-width: 900px) {
   .auth__grid {

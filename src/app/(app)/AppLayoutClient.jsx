@@ -476,7 +476,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
           )}
           {tourTarget && (
             <div
-              className="pointer-events-none fixed rounded-2xl border-2 border-volt shadow-[0_0_34px_rgba(210,240,0,0.42)]"
+              className="pointer-events-none fixed rounded-2xl border-2 border-volt"
               style={{
                 left: tourTarget.left,
                 top: tourTarget.top,

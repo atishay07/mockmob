@@ -300,7 +300,7 @@ test('Today, Account and the Compass rows all use the one list', () => {
   const today = read('src/app/(app)/today/page.jsx');
   assert.match(today, /<TodayRows papers=\{data\.papers\} userId=\{userId\}/);
   assert.match(read('src/components/today/TodayRows.jsx'), /useMyColleges\(userId\)/);
-  assert.match(read('src/app/(app)/profile/ProfilePageClient.jsx'), /<AccountColleges userId=\{user\?\.id\} \/>/);
+  assert.match(read('src/app/(app)/profile/ProfilePageClient.jsx'), /<AccountColleges userId=\{user\?\.id\} picker=\{<CollegePicker userId=\{user\?\.id\} compact \/>\} \/>/, 'Account adds colleges in place with the onboarding picker');
   const calc = read('src/components/du/CutoffCalculator.jsx');
   assert.match(calc, /<AddToMyColleges userId=\{userId\} programmeId=\{group\?\.id\}/);
   const mine = read('src/components/colleges/MyColleges.jsx');

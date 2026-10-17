@@ -66,7 +66,9 @@ const fitLine = (fit) => (!fit ? '' : fit.kind === 'meets' ? 'Your subjects meet
   : fit.kind === 'none' ? 'Add your subjects to check its DU subject rules.'
     : fit.by ? `Your subjects are ${fit.by} ${fit.by === 1 ? 'subject' : 'subjects'} short of its DU subject rules.` : 'Your subjects do not meet its DU subject rules yet.');
 
-function Colleges({ userId, subjects }) {
+// The colleges row's reads: My colleges, then the first college's cutoff and the subject check together, so the row lands
+// once. `status` is 'loading' until all of it is known (or 'error' / 'empty' / 'ready').
+function useCollegeRow(userId, subjects) {
   const mine = useMyColleges(userId);
   const first = mine.status === 'ready' && mine.colleges.length ? mine.colleges[0] : null;
   const firstKey = first ? `${first.programmeId}::${first.college}` : '';
@@ -75,18 +77,27 @@ function Colleges({ userId, subjects }) {
   useEffect(() => {
     if (!first) return undefined;
     let alive = true;
-    // The cutoff and the subject check arrive together, so the row lands once.
     Promise.all([loadOfferings(first.programmeId).catch(() => null), Promise.resolve(loadRules()).catch(() => null)])
       .then(([data, rules]) => alive && setOffer({ key: firstKey, cut: data ? roundOneCutoff(data, first, 'UR') : null, fit: rules ? fitFor(rules, first.programmeId, subjects) : null }));
     return () => { alive = false; };
     // The key stands for the entry; the object is a new one on every list change.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [firstKey, subjectKey]);
-  if (mine.status === 'error') {
-    return <li className="tr__note"><span className="tr__label">Your colleges</span><span>Your colleges did not load. <button type="button" className="tm__inline" onClick={mine.retry}>Try again</button></span></li>;
+  if (!userId) return { status: 'none' };
+  if (mine.status === 'error') return { status: 'error', retry: mine.retry };
+  if (mine.status !== 'ready') return { status: 'loading' };
+  if (!first) return { status: 'empty' };
+  if (offer.key !== firstKey) return { status: 'loading' };
+  return { status: 'ready', first, more: mine.colleges.length - 1, cut: offer.cut, fit: offer.fit };
+}
+
+function Colleges({ row }) {
+  if (row.status === 'none') return null;
+  if (row.status === 'error') {
+    return <li className="tr__note"><span className="tr__label">Your colleges</span><span>Your colleges did not load. <button type="button" className="tm__inline" onClick={row.retry}>Try again</button></span></li>;
   }
-  if (mine.status !== 'ready') return <Waiting label="Your colleges" />;
-  if (!first) {
+  if (row.status === 'loading') return <Waiting label="Your colleges" />;
+  if (row.status === 'empty') {
     // Colleges are picked in onboarding (owner, 16 Oct); a student who skipped it adds them on Account's one list.
     return (
       <li className="tr__note">
@@ -95,13 +106,10 @@ function Colleges({ userId, subjects }) {
       </li>
     );
   }
-  // The row waits for its cutoff, so the figure never pops in after the name.
-  if (offer.key !== firstKey) return <Waiting label="Your colleges" />;
-  const more = mine.colleges.length - 1;
-  const cut = offer.cut;
+  const { first, more, cut } = row;
   const cat = cut ? (cut.category === 'UR' ? 'unreserved' : cut.category) : '';
   const sub = `${first.programme ? `${first.programme}, ` : ''}2026 Round 1${cat ? `, ${cat}` : ''}.${more > 0 ? ` ${more} more saved.` : ''}`;
-  const fit = fitLine(offer.fit);
+  const fit = fitLine(row.fit);
   // The college's next step (W-047): the course opened in Compass, with its rules checked against your subjects and its
   // cutoffs college by college. A plain link, so it always does something.
   const planHref = `/admission-compass?course=${encodeURIComponent(first.programmeId)}`;
@@ -110,7 +118,7 @@ function Colleges({ userId, subjects }) {
       <Row href="/admission-compass" label="Your colleges" title={first.college} sub={sub} figure={cut ? formatScore(cut.cutoff) : null} of={cut ? 'of 1000' : null} aria={`Your colleges: ${first.college}, ${sub}${cut ? ` Cutoff ${formatScore(cut.cutoff)} of 1000.` : ''} Open Colleges.`} />
       {fit ? (
         <li className="tr__plan">
-          <p className="tr__fit" data-fit={offer.fit?.kind}>{fit}</p>
+          <p className="tr__fit" data-fit={row.fit?.kind}>{fit}</p>
           <Link className="tm__pill tr__plan-key" href={planHref}><Compass size={17} strokeWidth={1.75} aria-hidden="true" />Plan for it</Link>
         </li>
       ) : null}
@@ -118,11 +126,21 @@ function Colleges({ userId, subjects }) {
   );
 }
 
-export default function TodayRows({ papers, userId, subjectName, subjects = [] }) {
+/** `hold`: the move is still on its way; the rows wait with it, and with each other, so the page lands in one piece (W-042). */
+export default function TodayRows({ papers, userId, subjectName, subjects = [], hold = false }) {
+  const row = useCollegeRow(userId, subjects);
+  if (hold || papers.status === 'loading' || row.status === 'loading') {
+    return (
+      <ul className="tr" aria-label="Your record" aria-busy="true">
+        <Waiting label="Last paper" />
+        {userId ? <Waiting label="Your colleges" /> : null}
+      </ul>
+    );
+  }
   return (
     <ul className="tr" aria-label="Your record">
       <LastPaper papers={papers} subjectName={subjectName} />
-      {userId ? <Colleges userId={userId} subjects={subjects} /> : null}
+      <Colleges row={row} />
     </ul>
   );
 }
