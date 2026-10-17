@@ -1133,9 +1133,10 @@ class _WalletLink extends StatelessWidget {
         child: Align(
           alignment: Alignment.centerLeft,
           widthFactor: 1,
-          child: AnimatedSwitcher(
-            duration: Motion.of(context, const Duration(milliseconds: 160)),
-            layoutBuilder: (current, previous) => Stack(alignment: Alignment.centerLeft, children: [...previous, ?current]),
+          // The balance line changes in place: the shared overlap switcher (no dip to half strength), left-aligned.
+          child: MmOverlapSwitcher.fade(
+            duration: const Duration(milliseconds: 160),
+            alignment: Alignment.centerLeft,
             child: _WalletText(line, pressed: pressed, key: ValueKey(line)),
           ),
         ),
