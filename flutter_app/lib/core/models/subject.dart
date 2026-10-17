@@ -39,7 +39,16 @@ class Subject {
   final String? registryVersion;
 
   bool get isSupported => practice == 'supported';
+
+  /// What a picker or a start path may offer: supported, and not one CUET no longer sets.
+  bool get isOffered => isSupported && !isHiddenSubject(id);
 }
+
+/// CUET dropped these four papers in 2025 (SUBJECT-COVERAGE-2026-10-17), so no picker and no start
+/// path offers them. Their rows and questions stay on the server; the app just never lists them.
+const hiddenSubjectIds = {'entrepreneurship', 'teaching_aptitude', 'legal_studies', 'engineering_graphics'};
+
+bool isHiddenSubject(String? id) => id != null && hiddenSubjectIds.contains(id);
 
 /// The four Commerce launch subjects that get free first practice (spec 5.1.2).
 const launchSubjectIds = ['english', 'accountancy', 'business_studies', 'economics'];

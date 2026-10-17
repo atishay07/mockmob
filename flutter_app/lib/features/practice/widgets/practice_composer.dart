@@ -26,6 +26,7 @@ import 'composer_parts.dart';
 import 'composer_ticket.dart';
 import 'exam_sheet_start.dart' show ExamSheetStart;
 import 'failure_copy.dart';
+import 'fine_tune.dart';
 import 'get_panel.dart';
 import 'other_subjects_sheet.dart';
 import 'plain_notice.dart';
@@ -303,11 +304,32 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
     final isPro = ref.watch(authSnapshotProvider.select((a) => a.isPro));
     final lengthNote = _c.lengthNote;
 
-    final difficulty = DifficultyPicker(
-      value: _selection.difficulty,
-      isPro: isPro,
-      onChanged: (d) => _c.change(_selection.copyWith(difficulty: d)),
+    // By chapter is Quick practice with the chapters asked first, so its Fine-tune leads. Every other mode
+    // puts it right above Start, under what you get and what it costs.
+    final chaptersFirst = mode == PracticeMode.chapter;
+    final Widget fineTune = KeyReveal(
+      show: !(start.gated && mode.fineTune == FineTuneScope.none),
+      child: Padding(
+        padding: EdgeInsets.only(top: chaptersFirst ? 0 : MmSpace.s20, bottom: chaptersFirst ? MmSpace.s20 : 0),
+        child: FineTune(
+          mode: mode,
+          chapters: _selection.chapters,
+          difficulty: _selection.difficulty,
+          isPro: isPro,
+          showLevel: !start.gated && !start.creditsLow,
+          onPickChapters: _pickChapter,
+          onRemoveChapter: (name) {
+            ref.read(hapticsProvider).selection();
+            _c.change(_selection.copyWith(chapters: [
+              for (final c in _selection.chapters)
+                if (c != name) c,
+            ]));
+          },
+          onDifficulty: (d) => _c.change(_selection.copyWith(difficulty: d)),
+        ),
+      ),
     );
+
     final children = <Widget>[
       ComposerTicket(
         subjectId: _selection.subjectId,
@@ -327,20 +349,6 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
       if (widget.showSubjects) ...[
         _SubjectPicker(selected: _selection.subjectId, onPick: _pickSubject, onOther: _pickOtherSubject),
         const SizedBox(height: MmSpace.s24),
-      ],
-      if (mode == PracticeMode.chapter) ...[
-        ChapterField(
-          chapters: _selection.chapters,
-          onTap: _pickChapter,
-          onRemove: (name) {
-            ref.read(hapticsProvider).selection();
-            _c.change(_selection.copyWith(chapters: [
-              for (final c in _selection.chapters)
-                if (c != name) c,
-            ]));
-          },
-        ),
-        const SizedBox(height: MmSpace.s16),
       ],
       if (mode.usesCount) ...[
         LengthPicker(
@@ -362,6 +370,7 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
         ),
         const SizedBox(height: MmSpace.s16),
       ],
+      if (chaptersFirst) fineTune,
       GetPanel(
         selection: _selection,
         subjectName: subject,
@@ -374,15 +383,7 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
         onOpenConcepts: widget.exits.concepts,
         onOpenReview: widget.exits.review,
       ),
-      // The level is an aside to what you get and what it costs, so it follows them: Cost and
-      // Marking are never pushed below the fold by a control. With credits short it is not a
-      // choice that matters, so it steps aside.
-      // The quote decides these two, so they open and close with it instead of cutting in.
-      if (mode.allowsDifficulty)
-        KeyReveal(
-          show: !start.gated && !start.creditsLow,
-          child: Padding(padding: const EdgeInsets.only(top: MmSpace.s20), child: difficulty),
-        ),
+      if (!chaptersFirst) fineTune,
       if (mode.isMock)
         KeyReveal(
           show: !start.gated,

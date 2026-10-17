@@ -241,6 +241,14 @@ void main() {
         await _shot(tester, 'confirm_mock', b);
       });
 
+      testWidgets('confirm, smart practice: nothing to set, one calm line that we choose for you (F9)', (tester) async {
+        await _pump(tester, '/practice', b, practiceOverrides(quotes: _tabQuotes(), attempts: const [], now: _evening));
+        await _settle(tester);
+        await _open(tester, 'Smart practice');
+        expect(find.text(PracticeCopy.fineTuneSmart), findsOneWidget);
+        await _shot(tester, 'confirm_smart', b);
+      });
+
       testWidgets('confirm, full mock on a 360 by 640 phone at 1.3x text: the notes sit clear above the pinned Start', (tester) async {
         await _pump(tester, '/practice', b, practiceOverrides(quotes: _tabQuotes(), attempts: const [], now: _evening), size: const Size(360, 640), textScale: 1.3);
         await _settle(tester);

@@ -1,4 +1,5 @@
 import '../../../core/models/json_helpers.dart';
+import '../../../core/models/subject.dart' show isHiddenSubject;
 import 'practice_selection.dart';
 
 /// What a practice link asks for: `?subject=&count=&chapter=&chapters=a&chapters=b&difficulty=
@@ -16,7 +17,8 @@ class PracticeLink {
       if (name.isNotEmpty && name.length <= 120 && !chapters.contains(name)) chapters.add(name);
     }
     return PracticeLink(
-      subject: _clean(q['subject']),
+      // A subject CUET no longer sets is never a place to start: the link falls back to the student's own.
+      subject: isHiddenSubject(_clean(q['subject'])) ? null : _clean(q['subject']),
       count: asInt(q['count']),
       chapters: chapters.take(maxChapters).toList(),
       difficulty: _clean(q['difficulty']),
@@ -47,7 +49,7 @@ class PracticeLink {
       mode: mode,
       subjectId: id,
       count: nearestPracticeCount(count, counts: mode.counts, fallback: mode.defaultCount),
-      chapters: mode == PracticeMode.chapter ? chapters : const [],
+      chapters: mode.allowsChapters ? chapters : const [],
       difficulty: PracticeDifficulty.parse(difficulty),
       purpose: allowedPurpose,
       recoveryFrom: mode == PracticeMode.chapter ? recoveryFrom : null,

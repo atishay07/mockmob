@@ -148,6 +148,15 @@ abstract final class PracticeCopy {
   static const String difficultyLocked = 'Easy, Medium and Hard come with Pro.';
   static const String difficultyLockedHint = 'Comes with Pro';
 
+  // Fine-tune (owner, 17 Oct, F8 and F9): one block above Start, scoped by mode. Chapters and level
+  // belong to Quick practice; a Full mock keeps the level; Smart practice and NTA mode choose for you.
+  static const String fineTuneLabel = 'Fine-tune';
+  static const String fineTuneQuick = 'For Quick practice you can pick the chapters and the difficulty.';
+  static const String fineTuneFull = 'For a Full mock you can set the difficulty. It covers every chapter, like the exam.';
+  static const String fineTuneSmart =
+      'We choose for you. Smart practice leans on the topics where you get under 60% right, so there is nothing to set.';
+  static const String fineTuneNta = 'We choose for you. NTA mode is 50 questions across the syllabus in the exam’s mix, so there is nothing to set.';
+
   // The summary of what starts.
   static const String summarySubject = 'Subject';
   static const String summaryMode = 'Mode';

@@ -30,9 +30,25 @@ enum PracticeMode {
 
   int get defaultCount => this == smart ? 15 : defaultPracticeCount;
 
+  /// What Fine-tune offers in this mode (owner, 17 Oct, F9): chapters and level in Quick practice
+  /// (By chapter is Quick practice with the chapters asked first), the level alone in a Full mock
+  /// (it covers every chapter, like the exam), and nothing in Smart practice and NTA mode, where
+  /// we choose.
+  FineTuneScope get fineTune => switch (this) {
+    quick || chapter => FineTuneScope.chaptersAndLevel,
+    full => FineTuneScope.levelOnly,
+    smart || nta => FineTuneScope.none,
+  };
+
   /// Modes whose server definition allows a difficulty override (`allowDifficultyOverride`).
-  bool get allowsDifficulty => this == quick || this == chapter || this == full;
+  bool get allowsDifficulty => fineTune != FineTuneScope.none;
+
+  /// Only Quick practice takes a chapter choice: the other modes cover the syllabus themselves.
+  bool get allowsChapters => fineTune == FineTuneScope.chaptersAndLevel;
 }
+
+/// Which Fine-tune controls a mode shows (see [PracticeMode.fineTune]).
+enum FineTuneScope { chaptersAndLevel, levelOnly, none }
 
 /// The question counts Quick and chapter practice offer, and nothing else.
 const List<int> practiceCounts = [5, 10, 15, 20];
@@ -91,7 +107,7 @@ class PracticeSelection {
   final String subjectId;
   final int count;
 
-  /// Chapter practice only. The API takes chapter NAMES: one goes in `chapter`, several in
+  /// Quick practice only (By chapter included). The API takes chapter NAMES: one goes in `chapter`, several in
   /// `chapters`.
   final List<String> chapters;
 
@@ -113,7 +129,7 @@ class PracticeSelection {
   /// The single chapter, when exactly one is chosen.
   String? get chapter => chapters.length == 1 ? chapters.first : null;
 
-  List<String> get effectiveChapters => mode == PracticeMode.chapter ? chapters : const [];
+  List<String> get effectiveChapters => mode.allowsChapters ? chapters : const [];
 
   /// What the draft and the runner call the chapter selection ("Goodwill", or the names joined).
   String? get chapterLabel => effectiveChapters.isEmpty ? null : effectiveChapters.join(' | ');

@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:ui' show ImageFilter;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../api/api_providers.dart';
+import '../art/art.dart';
 import '../copy/formatters.dart';
 import '../domain/session_rules.dart';
 import '../models/session_draft.dart';
@@ -12,10 +14,11 @@ import '../repositories/session_draft_repository.dart';
 import '../motion/motion.dart';
 import '../theme/theme.dart';
 import '../widgets/bar/morph_sheet_route.dart' show MorphSheetRoute;
-import '../widgets/controls/chip.dart';
+import '../widgets/controls/selection_style.dart';
 import '../widgets/bubbles/sheet_glyph.dart';
 import '../widgets/materials/edge_light.dart';
 import '../widgets/materials/light_field.dart';
+import '../widgets/materials/shape.dart' show MmClip;
 import '../widgets/materials/lit_edge.dart';
 import '../widgets/mobi.dart';
 import '../widgets/pressable.dart';
@@ -118,6 +121,30 @@ class StartMove {
   final String? kind;
 
   bool get isRepair => kind == 'repair';
+
+  /// Plain practice that has no subject of its own to defend: Quick practice with no chapter and no
+  /// first-use allowance. Its subject is the one the student picks in the sheet, so the hero sits
+  /// under the subject chips and its title names that subject (owner, 17 Oct, F6). A repair, a
+  /// mock, a resume, a chapter or a baseline check is bound to what it is, so it stays above the
+  /// chips and never changes when a chip is pressed.
+  bool get followsSubject {
+    if (kind != 'practice') return false;
+    final uri = Uri.tryParse(location);
+    if (uri == null) return false;
+    final q = uri.queryParameters;
+    final quickPath = uri.path == AppRoutes.practiceStart || uri.path == AppRoutes.practiceSetup('quick');
+    return quickPath && (q['mode'] ?? 'quick') == 'quick' && !q.containsKey('chapter') && !q.containsKey('chapters') && !q.containsKey('purpose');
+  }
+
+  /// How many questions a following move asks for (the link's own count, else ten).
+  int get followCount => int.tryParse(Uri.tryParse(location)?.queryParameters['count'] ?? '') ?? 10;
+
+  /// The same move with its subject swapped for [subject] (a following move only).
+  String locationIn(String? subject) {
+    if (subject == null) return location;
+    final uri = Uri.parse(location);
+    return uri.replace(queryParameters: {...uri.queryParameters, 'subject': subject}).toString();
+  }
 }
 
 final startTonightMoveProvider = Provider<StartMove?>((ref) => null);
@@ -443,6 +470,13 @@ class _StartRows extends ConsumerWidget {
     final answered = this.answered;
     final subjectName = subject == null ? null : subjectDisplayName(subject);
 
+    // Everything under the subject rail follows it and nothing above it does (D3): Quick 10 and a
+    // plain practice move sit under the chips and name the subject; a resume, a repair or a mock
+    // is bound to something else and sits above them.
+    final following = draft == null && move != null && move.followsSubject;
+    final count = following ? move.followCount : 10;
+    final named = subjectName ?? '';
+    final quickLine = subjectName == null ? '$count questions' : '$count $subjectName questions';
     final quick = ChoiceOption(
       id: 'quick',
       glyph: QuickStartDeck.glyphFor('quick'),
@@ -456,8 +490,8 @@ class _StartRows extends ConsumerWidget {
     var quickIsHero = false;
     if (draft != null) {
       final ends = draft.isMock ? startEndsLine(draft.endsAtWallMs, now) : null;
-      final count = answered == null ? null : '$answered of ${draft.view.questions.length} answered.';
-      final mockNote = [ends, count].whereType<String>().join(' ');
+      final answeredLine = answered == null ? null : '$answered of ${draft.view.questions.length} answered.';
+      final mockNote = [ends, answeredLine].whereType<String>().join(' ');
       hero = ChoiceOption(
         id: 'resume',
         glyph: QuickStartDeck.glyphFor('resume'),
@@ -472,6 +506,18 @@ class _StartRows extends ConsumerWidget {
         // The note keeps room for its longest form, so nothing moves when the count lands.
         noteLines: draft.isMock ? 3 : 2,
         onTap: () => go(AppRoutes.run(draft.sessionId), act: startActFor('resume')),
+      );
+    } else if (move != null && following) {
+      final when = tonightOrToday(now);
+      hero = ChoiceOption(
+        id: 'tonight',
+        glyph: QuickStartDeck.glyphFor('quick'),
+        // The subject's name follows the chip: "10 Economics questions" becomes "10 Business Studies
+        // questions" and the card keeps its height.
+        title: quickLine,
+        titleLines: 2,
+        note: "${when[0].toUpperCase()}${when.substring(1)}'s move, about $count minutes.",
+        onTap: () => go(move.locationIn(subject), act: startActFor('practice')),
       );
     } else if (move != null) {
       heroIsRepair = move.isRepair;
@@ -489,9 +535,20 @@ class _StartRows extends ConsumerWidget {
         onTap: () => go(move.location, act: startActFor(move.kind ?? 'quick')),
       );
     } else {
-      hero = quick;
       quickIsHero = true;
+      hero = ChoiceOption(
+        id: 'quick',
+        glyph: QuickStartDeck.glyphFor('quick'),
+        title: subjectName == null ? 'Quick 10' : quickLine,
+        titleLines: subjectName == null ? null : 2,
+        note: subjectName == null ? '10 questions, about 10 minutes.' : 'Quick practice, about 10 minutes.',
+        onTap: () => go(StartLocations.quick10(subject), act: startActFor('quick')),
+      );
     }
+    final showChips = subjects.length > 1;
+    final chipsLead = showChips && (quickIsHero || following);
+    // The hero already is this set when it is the ten-question run.
+    final heroIsQuick10 = quickIsHero || (following && count == 10);
 
     final full = ChoiceOption(
       id: 'mock',
@@ -529,43 +586,95 @@ class _StartRows extends ConsumerWidget {
     final modes = <ChoiceRow>[
       // Full mock and NTA mode share one row, so their titles sit on one line (L09); Quick 10 is
       // the lead when nothing else leads, otherwise it keeps a row of its own.
-      if (!quickIsHero) ChoiceRow.wide(quick),
+      if (!heroIsQuick10) ChoiceRow.wide(quick),
       if (ntaOption != null) ChoiceRow.pair(full, ntaOption) else ChoiceRow.wide(full),
       if (repairOption != null) ChoiceRow.wide(repairOption),
     ];
 
+    final heroDeck = ChoiceDeck(rows: [ChoiceRow.lead(hero)], onSheet: true, leadKey: heroKey, animateIn: false);
+    final rail = _SubjectChips(subjects: subjects, selected: subject, mobi: mobi);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        ChoiceDeck(rows: [ChoiceRow.lead(hero)], onSheet: true, leadKey: heroKey, animateIn: false),
-        if (subjects.length > 1) ...[
+        if (chipsLead) ...[
+          rail,
           const SizedBox(height: MmSpace.s12),
-          _SubjectChips(subjects: subjects, selected: subject, mobi: mobi),
+          heroDeck,
+        ] else ...[
+          heroDeck,
+          if (showChips) ...[
+            const SizedBox(height: MmSpace.s12),
+            rail,
+            // The rows under the rail follow it, so they say which subject (D3).
+            if (named.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(MmSpace.s4, MmSpace.s4, 0, 0),
+                child: Text('Or start in $named', style: type.small.copyWith(color: colors.ink3)),
+              ),
+          ],
         ],
         const SizedBox(height: MmSpace.s12),
-        ChoiceDeck(rows: modes, onSheet: true, animateIn: false),
+        ChoiceDeck(rows: modes, onSheet: true, animateIn: false, goMarks: true),
         const SizedBox(height: MmSpace.s4),
-        Center(
-          child: TextButton(
-            key: const ValueKey('start-choose-in-practice'),
-            onPressed: onPractice,
-            style: TextButton.styleFrom(
-              minimumSize: const Size(48, 48),
-              foregroundColor: colors.isNight ? colors.ink : colors.accentText,
-              textStyle: type.labelLarge,
-            ),
-            child: const Text('Choose your own in Practice'),
-          ),
-        ),
+        _ChooseRow(onTap: onPractice),
       ],
     );
   }
 }
 
-/// One row of subject chips: the subject the modes start in, the current one selected. The row
-/// scrolls the selected chip fully into view when the sheet opens and whenever the pick changes,
-/// so a chip is never left cut off at the edge (device walk-through, 14 Oct).
+/// "Choose your own in Practice": a plain row that opens Practice, with a chevron disc so it reads
+/// as a button like every other row of the sheet (it starts nothing, so it has no play mark).
+class _ChooseRow extends StatelessWidget {
+  const _ChooseRow({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return MmPressable(
+      key: const ValueKey('start-choose-in-practice'),
+      semanticsLabel: 'Choose your own in Practice',
+      focusRadius: MmRadius.smallAll,
+      haptic: MmPressHaptic.selection,
+      pressedScale: 0.985,
+      onTap: onTap,
+      builder: (context, pressed, _) => DecoratedBox(
+        decoration: BoxDecoration(color: pressed ? colors.ink.withValues(alpha: 0.06) : null, borderRadius: MmRadius.smallAll),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 56),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4, vertical: MmSpace.s8),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text('Choose your own in Practice', style: type.labelLarge),
+                      Text('Any subject, chapters, mode and length.', style: type.caption.copyWith(color: colors.ink2)),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: MmSpace.s8),
+                ChoiceGoMark(pressed: pressed, opens: true),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// The subject rail: the subject the modes below start in, each as its own lit object leaning out
+/// of a chip (64 dp, F7), the name beside it. The chosen one stands sharp and lifted; every other
+/// object steps back (blurred, dimmer, smaller) so the choice reads at once. The row scrolls the
+/// chosen chip fully into view when the sheet opens and whenever the pick changes, so a chip is
+/// never left cut off at the edge (device walk-through, 14 Oct).
 class _SubjectChips extends ConsumerStatefulWidget {
   const _SubjectChips({required this.subjects, required this.selected, required this.mobi});
 
@@ -575,12 +684,18 @@ class _SubjectChips extends ConsumerStatefulWidget {
   /// Glances at a chip when it is picked.
   final MobiController mobi;
 
+  /// The chip's height, and how far the object leans over its top edge.
+  static const double chipHeight = 56;
+  static const double lean = 14;
+  static const double objectSize = 64;
+
   @override
   ConsumerState<_SubjectChips> createState() => _SubjectChipsState();
 }
 
 class _SubjectChipsState extends ConsumerState<_SubjectChips> {
   final Map<String, GlobalKey> _chipKeys = {};
+  final Map<String, ValueNotifier<int>> _picks = {};
 
   @override
   void initState() {
@@ -592,6 +707,14 @@ class _SubjectChipsState extends ConsumerState<_SubjectChips> {
   void didUpdateWidget(_SubjectChips old) {
     super.didUpdateWidget(old);
     if (old.selected != widget.selected) _reveal(animate: true);
+  }
+
+  @override
+  void dispose() {
+    for (final n in _picks.values) {
+      n.dispose();
+    }
+    super.dispose();
   }
 
   void _reveal({required bool animate}) {
@@ -619,17 +742,131 @@ class _SubjectChipsState extends ConsumerState<_SubjectChips> {
             if (i > 0) const SizedBox(width: MmSpace.s8),
             KeyedSubtree(
               key: _chipKeys.putIfAbsent(id, GlobalKey.new),
-              child: MmChip(
-                label: subjectDisplayName(id),
+              child: _SubjectChip(
+                subject: id,
                 selected: id == widget.selected,
+                reaction: _picks.putIfAbsent(id, () => ValueNotifier(0)),
                 onTap: () {
-                  if (id != widget.selected && !Motion.reduced(context)) widget.mobi.glanceAtWidget(_chipKeys[id]!, hold: const Duration(milliseconds: 900));
+                  if (id != widget.selected) {
+                    if (!Motion.reduced(context)) widget.mobi.glanceAtWidget(_chipKeys[id]!, hold: const Duration(milliseconds: 900));
+                    _picks[id]?.value++;
+                  }
                   ref.read(startSubjectProvider.notifier).select(id);
                 },
               ),
             ),
           ],
         ],
+      ),
+    );
+  }
+}
+
+/// One subject chip: a 56 dp pill with the subject's object leaning 14 dp over its top edge. Chosen
+/// and not chosen follow the shared answer-sheet selection ([MmSelection]); the object's blur,
+/// dimming and size carry the rest, and the name stays sharp.
+class _SubjectChip extends ConsumerWidget {
+  const _SubjectChip({required this.subject, required this.selected, required this.onTap, required this.reaction});
+
+  final String subject;
+  final bool selected;
+  final VoidCallback onTap;
+  final ValueNotifier<int> reaction;
+
+  /// Greys a picture towards its luminance: 1 is untouched, 0 is grey.
+  static ColorFilter _saturation(double s) => ColorFilter.matrix(<double>[
+    0.213 + 0.787 * s, 0.715 - 0.715 * s, 0.072 - 0.072 * s, 0, 0,
+    0.213 - 0.213 * s, 0.715 + 0.285 * s, 0.072 - 0.072 * s, 0, 0,
+    0.213 - 0.213 * s, 0.715 - 0.715 * s, 0.072 + 0.928 * s, 0, 0,
+    0, 0, 0, 1, 0,
+  ]);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final light = SubjectLight.forSubject(subject);
+    final name = subjectDisplayName(subject);
+    final duration = Motion.of(context, Motion.ui);
+    return MmPressable(
+      semanticsLabel: name,
+      selected: selected,
+      inMutuallyExclusiveGroup: true,
+      focusRadius: MmRadius.keyAll,
+      haptic: MmPressHaptic.selection,
+      pressedScale: 0.97,
+      onTap: onTap,
+      builder: (context, pressed, _) => TweenAnimationBuilder<double>(
+        tween: Tween<double>(end: selected ? 1 : 0),
+        duration: duration,
+        curve: Motion.out,
+        builder: (context, t, _) {
+          final rest = MmSelection.side(colors, selected: false);
+          final picked = MmSelection.side(colors, selected: true);
+          Widget object = SubjectEmblem(subject: subject, size: _SubjectChips.objectSize, framed: false, marked: selected, reaction: reaction, life: false);
+          if (t < 1) {
+            // The ones that stand back: a real blur, desaturated and dimmer, and smaller (F7).
+            object = Opacity(
+              opacity: 0.5 + 0.5 * t,
+              child: ImageFiltered(
+                imageFilter: ImageFilter.blur(sigmaX: 2 * (1 - t), sigmaY: 2 * (1 - t), tileMode: TileMode.decal),
+                child: ColorFiltered(colorFilter: _saturation(0.5 + 0.5 * t), child: object),
+              ),
+            );
+          }
+          return Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: _SubjectChips.lean),
+                child: DecoratedBox(
+                  position: DecorationPosition.foreground,
+                  decoration: ShapeDecoration(shape: RoundedSuperellipseBorder(borderRadius: MmRadius.keyAll, side: BorderSide.lerp(rest, picked, t))),
+                  child: MmClip(
+                    borderRadius: MmRadius.keyAll,
+                    child: ColoredBox(
+                      color: Color.lerp(MmSelection.fill(colors, selected: false, pressed: pressed), MmSelection.fill(colors, selected: true, pressed: pressed), t)!,
+                      child: Stack(
+                        children: [
+                          if (light != null && t > 0)
+                            Positioned.fill(child: LightField.subject(context, light, center: const Alignment(-0.7, 0.2), strength: 0.8 * t)),
+                          SizedBox(
+                            height: _SubjectChips.chipHeight,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: _SubjectChips.objectSize + MmSpace.s12, right: MmSpace.s16 + 2),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                widthFactor: 1,
+                                child: Text(
+                                  name,
+                                  maxLines: 1,
+                                  softWrap: false,
+                                  style: type.labelLarge.copyWith(color: Color.lerp(colors.ink3, colors.ink, t)),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 6,
+                top: 0,
+                width: _SubjectChips.objectSize,
+                height: _SubjectChips.objectSize,
+                child: IgnorePointer(
+                  child: Transform.translate(
+                    offset: Offset(0, -2 * t),
+                    child: Transform.scale(scale: 0.9 + 0.16 * t, child: object),
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

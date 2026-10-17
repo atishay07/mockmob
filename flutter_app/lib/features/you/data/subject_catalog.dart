@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/api.dart';
 import '../../../core/models/json_helpers.dart';
+import '../../../core/models/subject.dart' show isHiddenSubject;
 
 /// Short proper names of the 15 practice subjects, keyed by public id. The registry's official
 /// names can be long ("Computer Science / Informatics Practices"); these read on one line.
@@ -99,7 +100,7 @@ final youSubjectCatalogProvider = FutureProvider.autoDispose<SubjectCatalog>((re
     final response = await ref.watch(apiClientProvider).get('/api/subjects', options: const ApiOptions(authenticated: false));
     final options = <SubjectOption>[
       for (final j in asJsonList(response.data))
-        if (asStringOr(j['id'], '').isNotEmpty && asString(j['practice']) != 'merged')
+        if (asStringOr(j['id'], '').isNotEmpty && asString(j['practice']) != 'merged' && !isHiddenSubject(asString(j['id'])))
           SubjectOption(
             id: asStringOr(j['id'], ''),
             name: youSubjectNames[asStringOr(j['id'], '')] ?? asStringOr(j['name'], asStringOr(j['id'], '')),

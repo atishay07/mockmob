@@ -97,15 +97,16 @@ void main() {
     await tester.tap(find.text('Start'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 800));
-    // Tonight's subject is the one the sheet opens on, and Quick 10 starts in it.
+    // Tonight's subject is the one the sheet opens on, and the Quick 10 hero starts in it (v13: the
+    // hero sits under the rail and names the subject).
     expect(find.textContaining('10 Accountancy questions'), findsOneWidget);
     await tester.ensureVisible(find.text('Economics'));
     await tester.pump();
     await tester.tap(find.text('Economics'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 300));
-    expect(find.textContaining('10 Economics questions'), findsOneWidget, reason: 'the note says what will start');
-    await tester.tap(find.text('Quick 10'));
+    expect(find.textContaining('10 Economics questions'), findsOneWidget, reason: 'the hero says what will start, in the chosen subject');
+    await tester.tap(find.text('10 Economics questions'));
     await tester.pumpAndSettle();
     expect(started.single.path, '/practice/setup/quick');
     expect(started.single.queryParameters, {'count': '10', 'subject': 'economics'});

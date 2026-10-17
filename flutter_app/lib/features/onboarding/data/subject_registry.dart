@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/api.dart';
 import '../../../core/models/json_helpers.dart';
+import '../../../core/models/subject.dart' show isHiddenSubject;
 import 'subjects.dart';
 
 /// A CUET subject MockMob has no practice for yet, as `GET /api/subjects` names it.
@@ -43,7 +44,7 @@ class SubjectRegistry {
     for (final j in rows) {
       final id = asStringOr(j['id'], '');
       final practice = asStringOr(j['practice'], 'unknown');
-      if (id.isEmpty || practice == 'merged') continue;
+      if (id.isEmpty || practice == 'merged' || isHiddenSubject(id)) continue;
       final known = SheetSubject.byId(id);
       if (practice == 'supported' && known != null) {
         offered.add(known);

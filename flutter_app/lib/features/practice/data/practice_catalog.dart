@@ -101,7 +101,7 @@ class PracticeCatalogApi {
   /// Only the subjects practice can start in.
   Future<List<Subject>> subjects() async => [
     for (final e in await registry())
-      if (e.subject.isSupported) e.subject,
+      if (e.subject.isOffered) e.subject,
   ];
 
   /// `GET /api/stats`: public, cached 30 s. Usable questions per subject, keyed by internal id.
