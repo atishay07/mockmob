@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Today 1018 mock</title>
+<style>
+  body { margin: 0; background: #0f1110; color: #e9ece4; font: 14px/1.45 system-ui, sans-serif; }
+  header { display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; padding: 14px 20px; border-bottom: 1px solid #2a2f2b; }
+  header b { font-size: 15px; }
+  header span { color: #9aa196; }
+  .g { display: inline-flex; gap: 4px; flex-wrap: wrap; }
+  button { min-height: 32px; padding: 0 10px; border: 1px solid #3a413b; border-radius: 8px; background: transparent; color: #cfd5ca; cursor: pointer; }
+  button[aria-pressed='true'] { background: #e9ece4; color: #0f1110; }
+  main { display: flex; gap: 28px; align-items: flex-start; padding: 24px 20px 40px; overflow-x: auto; }
+  figure { margin: 0; flex: none; }
+  figcaption { margin-bottom: 8px; color: #9aa196; }
+  iframe { display: block; border: 1px solid #2a2f2b; border-radius: 14px; background: #000; }
+  .wide { transform-origin: top left; }
+</style>
+</head>
+<body>
+<header>
+  <b>Today 1018: the new Today, web and app</b><span>Clickable. Illustrative data. Spec: docs/design-decisions/pass-1018/TODAY-1018.md</span>
+  <span class="g" id="st"></span><span class="g" id="th"></span>
+</header>
+<main>
+  <figure><figcaption>Website, phone 390</figcaption><iframe id="w390" width="390" height="844" title="Website 390"></iframe></figure>
+  <figure><figcaption>App, Android 412</figcaption><iframe id="a412" width="412" height="915" title="App 412"></iframe></figure>
+  <figure><figcaption>Website, desktop 1440 (shown at 75%)</figcaption><div style="width:1080px;height:675px;overflow:hidden;border-radius:14px"><iframe id="w1440" class="wide" width="1440" height="900" style="transform:scale(.75)" title="Website 1440"></iframe></div></figure>
+</main>
+<script>
+  const states = [['active', 'Active'], ['dayone', 'Day one'], ['returning', 'Returning'], ['done', 'Done'], ['loading', 'Loading'], ['error', 'Error']];
+  let s = 'active', t = 'night';
+  const draw = () => {
+    document.getElementById('st').innerHTML = 'State: ' + states.map(([k, l]) => `<button aria-pressed="${k === s}" data-s="${k}">${l}</button>`).join('');
+    document.getElementById('th').innerHTML = 'Theme: ' + ['night', 'day'].map((k) => `<button aria-pressed="${k === t}" data-t="${k}">${k === 'night' ? 'Night' : 'Day'}</button>`).join('');
+    const qs = `?state=${s}&theme=${t}&chrome=0`;
+    w390.src = 'web.html' + qs; w1440.src = 'web.html' + qs; a412.src = 'app.html' + qs;
+  };
+  document.addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; if (b.dataset.s) s = b.dataset.s; if (b.dataset.t) t = b.dataset.t; draw(); });
+  draw();
+</script>
+</body>
+</html>
