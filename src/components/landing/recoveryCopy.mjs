@@ -17,7 +17,7 @@ const LIVE = {
 const SOON = {
   statement: 'Fix the reason, not just the answer. Practise five fresh questions on the chapter that cost you. Then test your DU shortlist against real cutoffs.',
   title: 'Find the leak. Make one move.',
-  sub: 'The Mistake Lab reads one mock. The Score Recovery Lab follows one leak: replay, find and plan run after every mock today. Its fresh checks, spread over a week, open soon.',
+  sub: 'The Mistake Lab reads one mock. The Score Recovery Lab follows one leak across your mocks: it replays the answers, finds the chapter behind them and sets one next move. Fresh checks, a few days apart, open soon.',
   checkTitle: 'Fresh checks, opening soon',
   checkBody: 'Checks on new questions, a few days apart. Not open yet.',
   checkHead: 'When it opens: questions you have not answered before',

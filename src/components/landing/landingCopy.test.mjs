@@ -72,9 +72,13 @@ test('the Benchmarks scene shows the real benchmark levels and a question count 
   assert.doesNotMatch(tour, /\b25 questions\b|'88%'|'82%'/, 'no hard-coded benchmark numbers in the scene');
 });
 
-test('the leaderboard line matches how the leaderboard ranks (the sum of mock scores, not speed)', () => {
-  assert.doesNotMatch(PAGE, /leaderboard points for accuracy and speed/);
-  assert.match(PAGE, /Every mock adds its score to the leaderboard/);
+test('no leaderboard of other students: the product shows only the student's own standing', () => {
+  // /leaderboard answers only the caller's own rank (the privacy hotfix of 17 Oct 2026), so the landing never sells a
+  // board of other students: the feature is "Your standing".
+  assert.doesNotMatch(PAGE, /'Leaderboard'|to the leaderboard|See the leaderboard|leaderboard points/i);
+  assert.match(PAGE, /Your standing among MockMob students/);
+  assert.match(PAGE, /cta: 'See your standing'/);
+  for (const [name, source] of LANDING) assert.doesNotMatch(source, /leaderboard/i, `${name} names a leaderboard`);
 });
 
 test('Score Recovery delayed fresh checks are promised only while Recovery is released', async () => {

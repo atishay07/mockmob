@@ -318,7 +318,7 @@ export function DemoDrill() {
                   </li>
                 ))}
               </ul>
-              <p className="mm-drill__move"><b>Your next move:</b> practise 10 questions on {focus}. With a free account that set uses 10 of the 100 practice credits Free starts with.</p>
+              <p className="mm-drill__move"><b>Your next move:</b> 10 questions on {focus}. On Free, that set uses 10 of the 100 practice credits you start with.</p>
             </div>
           ) : (
             <div className="mm-drill__readout">

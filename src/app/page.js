@@ -56,7 +56,7 @@ const freePlan = newOfferReleased() ? ['One baseline per launch subject', 'One i
   '10 AI credits a month, for Ask Mobi beyond your own record',
   'Weekly progress tracking',
   '25 saved questions',
-  'Leaderboard',
+  'Your standing among MockMob students',
 ];
 const proPlan = newOfferReleased() ? ['All available recovery pathways', 'Fresh delayed checks and full history', 'Unlimited available practice and reattempts', 'Full, Smart and NTA access', 'Unlimited saved questions'] : [
   'Unlimited Quick practice and Full mocks, a new paper each time',
@@ -156,7 +156,7 @@ const TOUR = [
     elsewhere: { href: '#du-eligibility' } },
   { id: 'rival', label: 'Benchmarks', line: 'Beat a target score under the clock', title: 'Beat the score you’re aiming for.',
     body: 'Run a short timed set against a fixed target for accuracy and pace, at daily, college or DU level. See whether you hold the standard with the clock running.',
-    points: ['The daily benchmark is free', 'Every mock adds its score to the leaderboard'], chip: 'The daily benchmark is free.', href: '/leaderboard', cta: 'See the leaderboard' },
+    points: ['The daily benchmark is free', 'Every mock you record moves your own standing among MockMob students'], chip: 'The daily benchmark is free.', href: '/leaderboard', cta: 'See your standing' },
 ];
 
 const faqs = [
