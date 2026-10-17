@@ -23,3 +23,6 @@ Branch ui/ux-social-1016 in wt-appux2. This note covers the integrator's work ov
 - AP1: 03, 05 (token step), 06 to 09, 15, the rest of 10 and 16.
 - AP2: the 5-frame goldens for AP2-04 (0, 140, 280 ms) and the runner-time test for AP2-01.
 - The Mob: the paper starter hook, signed-out invite links, 1.3x goldens at 412.
+
+## Integration check (17 Oct 2026, after the stop point)
+2787be0a reviewed by area (segmented lock, difficulty picker, finish copy, marks bar ink, result foot, evidence link, submit legend): all kept, nothing reverted, nothing to finish. `flutter analyze` on the whole app: no issues. Full unit suite (-j 1, by folder): 5096 passed, 0 failed (the earlier session_store_test failure did not repeat; it is a timing test that failed under machine load). Full golden suite by folder: 1301 passed, 0 failed, no master changed (You hub, Today, router and the rest included); widget_test and device_demo: 1 passed. No emulator walk was done here (device-truth rule still applies to every item above).
