@@ -127,6 +127,14 @@ export const REPAIR_PROMPT_VERSION = repairPromptVersion();
 export const REPAIR_V3_MAX_TOKENS = 1400;
 
 export const TRAP_TYPES = Object.freeze(['partly_true', 'reversed', 'look_alike_term', 'missed_not_except', 'not_in_passage', 'calculation_slip', 'wrong_rule', 'one_step_short', 'extreme_word', 'assertion_reason_link', 'other']);
+/** Trap labels that only make sense when the question comes with a passage (English reading, case studies). */
+export const PASSAGE_ONLY_TRAPS = Object.freeze(['not_in_passage']);
+/** True when the question carries passage text (attempt snapshot or raw row). */
+export const hasPassage = (question) => passageText(question) !== '';
+/** The trap types the model may name for this question: passage-only labels are left out when there is no passage. */
+export const trapTypesFor = (question) => (hasPassage(question) ? TRAP_TYPES : TRAP_TYPES.filter((t) => !PASSAGE_ONLY_TRAPS.includes(t)));
+/** A trap type that is allowed for this question; a passage-only label on a question without a passage becomes 'other'. */
+export const allowedTrapType = (type, question) => (trapTypesFor(question).includes(type) ? type : 'other');
 // Server caps in characters. The prompt asks for words (30, 35, 35, 35, 18, 15, 12, 60); these leave room for that.
 export const LIMITS_V3 = Object.freeze({ trap: 260, why_wrong: 280, why_right: 280, contrast: 280, others: 150, rule: 130, memory_hook: 100, another_way: 460 });
 const REQUIRED_V3 = ['trap', 'why_wrong', 'why_right', 'rule'];
@@ -163,7 +171,7 @@ Work in this order.
 1. Solve the question yourself from the question, passage and options. Put the 0-based index of your answer in "solved_index".
 2. The platform's answer key is option ${K} (index ${keyIndex}). Set "agrees_with_key" to true only if solved_index is ${keyIndex}. If it is not, set every text field to "", "trap_type" to "other" and "others" to [].
 3. If you agree, write for a 17-year-old in plain English. Write about the options and the idea, never about the student's mind or habits: write "This option borrows a true fact", never "You rushed".
-- "trap_type": one of ${TRAP_TYPES.join(', ')}.
+- "trap_type": one of ${trapTypesFor(question).join(', ')}.
 - "trap": why option ${C} looks right at first. Max 30 words.
 - "why_wrong": the exact point where option ${C} fails. Max 35 words.
 - "why_right": why option ${K} is right. Max 35 words. When a reference explanation is given, use it as evidence and do not contradict it.
@@ -294,7 +302,7 @@ const comparable = (s) => String(s ?? '').toLowerCase().replace(/[^\p{L}\p{N}\s]
  * Turn v3 model output into explained | disputed | unusable (spec A.4).
  * @returns {{kind:'explained', repair:object, dropped:string[]} | {kind:'disputed', solvedIndex:number} | {kind:'unusable', reason:string}}
  */
-export function interpretRepairV3(data, { keyIndex, chosenIndex, optionCount }) {
+export function interpretRepairV3(data, { keyIndex, chosenIndex, optionCount, question = null }) {
   if (!data || typeof data !== 'object' || Array.isArray(data)) return { kind: 'unusable', reason: 'not_an_object' };
   const solved = data.solved_index;
   if (!Number.isInteger(solved) || solved < 0 || solved >= optionCount) return { kind: 'unusable', reason: 'solved_index' };
@@ -308,7 +316,8 @@ export function interpretRepairV3(data, { keyIndex, chosenIndex, optionCount }) 
     return fitted && !breaksRules(fitted) ? fitted : null;
   };
   const dropped = [];
-  const repair = { trap_type: TRAP_TYPES.includes(data.trap_type) ? data.trap_type : 'other' };
+  // Strict by default: without the question, passage-only labels cannot be proven valid, so they fall back to 'other'.
+  const repair = { trap_type: allowedTrapType(data.trap_type, question) };
 
   for (const field of REQUIRED_V3) {
     const value = prepare(data[field], LIMITS_V3[field]);

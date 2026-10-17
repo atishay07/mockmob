@@ -15,8 +15,10 @@ The working sequence for the coming days is docs/brain/PLAN-2026-10-04-NEXT-DAYS
 No routine human review: uncertainty means quarantine, never forced publication.
 Never call a paid model outside its persistent budget guard; retries and failures count.
 Budgets (owner, 4 Oct 2026): question/content generation USD 50 lifetime ceiling
-(scripts/pipeline/lib/budgetLedger.mjs); student-facing AI USD 25 per IST month,
-enforced in the database (runtime_ai_budget.monthly_cap_usd). Student AI is enabled
+(scripts/pipeline/lib/budgetLedger.mjs); student-facing AI is capped per user per IST month
+(Rs 5 for a paid student, Rs 1 for a free one), enforced in the database
+(runtime_ai_budget); the global monthly ceiling was removed by the owner on 17 Oct 2026;
+only gpt-6-luna and claude-haiku-5-5 may run. Student AI is enabled
 (RELEASE_GATES.runtimeAi); it reaches students only once deployed with the AI_* env vars.
 These are the limits. Do not invent stricter ones; ask the owner to change them.
 Do not claim model agreement proves truth, or simulated marks are observed gains.

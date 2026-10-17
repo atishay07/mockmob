@@ -180,7 +180,7 @@ test('NTA shuffled options with a distractor reworded after the session: the rec
 
 // ---- Repair v3 (build spec 15 Oct 2026, sections A.2 to A.4) ----
 import {
-  buildRepairPromptV3, interpretRepairV3, fitSentence, cleanRepairText, claimsAboutStudent, contradictsKey, withLegacyAliases,
+  buildRepairPromptV3, interpretRepairV3, trapTypesFor, allowedTrapType, PASSAGE_ONLY_TRAPS, fitSentence, cleanRepairText, claimsAboutStudent, contradictsKey, withLegacyAliases,
   repairPromptVersion, REPAIR_PROMPT_VERSION, MISTAKE_REPAIR_SCHEMA_V3, LIMITS_V3, TRAP_TYPES, REFERENCE_EXPLANATION_CAP,
 } from '../mistake_repair.js';
 
@@ -210,7 +210,7 @@ test('the v3 prompt carries the subject name, chapter, topic, question type and 
   assert.match(p.system, /^You are MockMob's tutor for CUET UG English\. A student chose option A \(index 0\)\./);
   assert.match(p.system, /The platform's answer key is option B \(index 1\)\. Set "agrees_with_key" to true only if solved_index is 1\./);
   assert.match(p.system, /Return JSON only with exactly these keys: solved_index, agrees_with_key, trap_type, trap, why_wrong, why_right, contrast, others, rule, memory_hook, another_way\./);
-  for (const type of TRAP_TYPES) assert.ok(p.system.includes(type), type);
+  for (const type of trapTypesFor(v3q)) assert.ok(p.system.includes(type), type);
   assert.match(p.user, /^Subject: English\nChapter: Correct Word Usage\nTopic: Commonly confused words\nQuestion type: mcq\nQuestion: Choose the word/);
   assert.match(p.user, /\nOptions:\nA \(index 0\)\. effect\nB \(index 1\)\. affect\nC \(index 2\)\. infect\nD \(index 3\)\. afflict\nStudent chose option A \(index 0\)\./);
   assert.match(p.user, /Reference explanation from the question bank \(may be brief\):\nAffect is the verb meaning to influence\./);
@@ -450,4 +450,25 @@ test('legacy aliases are added on the way out for v3 only, never invented for ol
   const v1 = { why_tempting: 'a', why_wrong: 'b', key_idea: 'c', next_step: 'd' };
   assert.equal(withLegacyAliases(v1), v1);
   assert.equal(withLegacyAliases(null), null);
+});
+
+test('passage-only trap labels are offered and kept only for a question with a passage', () => {
+  const plain = { question: 'Which entry?', options: ['a', 'b', 'c', 'd'] };
+  const reading = { ...plain, passageText: 'Maya read the notice twice.' };
+  assert.deepEqual(PASSAGE_ONLY_TRAPS, ['not_in_passage']);
+  assert.ok(!trapTypesFor(plain).includes('not_in_passage'));
+  assert.ok(trapTypesFor(reading).includes('not_in_passage'));
+  assert.ok(trapTypesFor({ ...plain, passage_text: 'x' }).includes('not_in_passage'), 'raw rows too');
+  assert.ok(!trapTypesFor({ ...plain, passageText: '   ' }).includes('not_in_passage'), 'a blank passage is no passage');
+  assert.equal(allowedTrapType('not_in_passage', plain), 'other');
+  assert.equal(allowedTrapType('not_in_passage', reading), 'not_in_passage');
+  assert.equal(allowedTrapType('partly_true', plain), 'partly_true');
+  assert.equal(allowedTrapType('made_up', reading), 'other');
+  const p = buildRepairPromptV3({ question: plain, chosenIndex: 0, keyIndex: 1, subjectName: 'Accountancy' });
+  assert.doesNotMatch(p.system, /not_in_passage/);
+  assert.match(buildRepairPromptV3({ question: reading, chosenIndex: 0, keyIndex: 1, subjectName: 'English' }).system, /not_in_passage/);
+  const bad = { ...goodV3, trap_type: 'not_in_passage' };
+  assert.equal(interpretRepairV3(bad, { ...ctx, question: plain }).repair.trap_type, 'other');
+  assert.equal(interpretRepairV3(bad, ctx).repair.trap_type, 'other', 'strict when the question is not passed');
+  assert.equal(interpretRepairV3(bad, { ...ctx, question: reading }).repair.trap_type, 'not_in_passage');
 });
