@@ -182,7 +182,7 @@ test('test:recovery runs the repair check suites', () => {
 
 test('the Ask screen opened from a repair: reads ?q on the page, shows the free context, sends only the reference, and never answers a question from the record', () => {
   const hub = read('src/components/ai/MockMobAIHub.jsx');
-  assert.match(hub, /const questionRef = variant === 'page' \? searchParams\.get\('q'\) : null;/, 'the drawer ignores the host page\'s query, like ?tab');
+  assert.match(hub, /const questionRef = variant === 'page' \? searchParams\.get\('q'\) : askedAbout;/, 'the panel ignores the host page\'s query, like ?tab');
   assert.match(hub, /fetch\(`\/api\/recovery\/ask-context\?q=\$\{encodeURIComponent\(questionRef\)\}`/);
   assert.match(hub, /\.\.\.\(pendingRef\.current\.questionRef \? \{ questionRef: pendingRef\.current\.questionRef \} : \{\}\)/, 'the request carries the reference, never the question text');
   assert.match(hub, /!isRetry && !withQuestion && \(insightsState/, 'no record answer while a question is attached');

@@ -87,5 +87,5 @@ test('profile and onboarding copy', () => {
   assert.ok(!profile.includes('Open Today ↗'));
   assert.ok(!profile.includes('Profile updated successfully.'));
   const onboarding = read('src/app/onboarding/OnboardingPageClient.jsx');
-  assert.ok(onboarding.includes("That's five. Remove one to swap."));
+  assert.ok(onboarding.includes("That's five, the most CUET allows. Remove one to swap."));
 });
