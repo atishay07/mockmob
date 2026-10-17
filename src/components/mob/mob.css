@@ -19,6 +19,9 @@ html[data-theme='light'] {
 
 .mob-page { display: grid; gap: 16px; }
 .mob-card { display: grid; gap: 14px; align-content: start; min-width: 0; padding: clamp(18px, 3vw, 24px); }
+/* Members, Included with Pro and Settings are plain sections: a hairline and air, not more boxes. The card stays on the
+   ring and this week's paper. */
+.mob-card.mob-plain { padding: 22px 2px 4px; border: 0; border-top: 1px solid var(--a-line); border-radius: 0; background: none; box-shadow: none; }
 .mob-h2 { margin: 0; font: 800 20px/1.2 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); }
 .mob-h3 { margin: 0; font: 800 17px/1.3 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink); }
 .mob-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }

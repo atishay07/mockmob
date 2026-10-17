@@ -20,6 +20,8 @@
   --ctl-volt: #d2f000;
   --ctl-volt-edge: #9db400;
   --ctl-volt-ink: #0b1000;
+  --ctl-seg-pick-bg: color-mix(in srgb, #9db400 16%, transparent);
+  --ctl-seg-pick-line: #7f9200;
   --ctl-wash: rgba(124, 150, 20, 0.1);
   --ctl-select-line: #6f8700;
   --ctl-accent-text: #4f6400;
@@ -51,6 +53,8 @@
   --ctl-focus: #d2f000;
   --ctl-hover: rgba(244, 245, 240, 0.05);
   --ctl-lens-bg: rgba(244, 245, 240, 0.08);
+  --ctl-seg-pick-bg: rgba(210, 240, 0, 0.14);
+  --ctl-seg-pick-line: #d2f000;
   --ctl-track-inset: inset 0 1px 2px rgba(0, 0, 0, 0.28);
   --ctl-edge: inset 0 1px 0 rgba(244, 245, 240, 0.05);
   --ctl-pop-bg: rgba(22, 30, 25, 0.9);
@@ -165,7 +169,7 @@
 .ctl-seg__lens {
   position: absolute; z-index: 0; top: 0; left: 0;
   width: var(--ctl-w, 0px); height: var(--ctl-h, 0px); border-radius: 10px;
-  background: var(--ctl-volt); box-shadow: 0 2px 0 var(--ctl-volt-edge);
+  background: var(--ctl-seg-pick-bg); box-shadow: inset 0 0 0 1.5px var(--ctl-seg-pick-line);
   transform: translate3d(var(--ctl-x, 0px), var(--ctl-y, 0px), 0);
   opacity: 0; pointer-events: none;
   transition: transform 380ms var(--ctl-spring), width 260ms var(--ctl-ease), height 260ms var(--ctl-ease), opacity 160ms ease;
@@ -186,9 +190,10 @@
 @media (hover: hover) {
   .ctl-seg__opt:hover:not(:disabled):not([aria-checked='true']) { background: var(--ctl-hover); color: var(--ctl-ink); }
 }
-.ctl-seg__opt[aria-checked='true'] { color: var(--ctl-volt-ink); }
+/* The pick is a volt tint with a volt line and ink text, never a solid volt fill: the page's one volt is its primary. */
+.ctl-seg__opt[aria-checked='true'] { color: var(--ctl-ink); }
 /* Before the lens is measured (first paint, or no script), the checked option paints its own keycap. */
-.ctl-seg:not([data-lens='on']) .ctl-seg__opt[aria-checked='true'] { background: var(--ctl-volt); box-shadow: 0 2px 0 var(--ctl-volt-edge); }
+.ctl-seg:not([data-lens='on']) .ctl-seg__opt[aria-checked='true'] { background: var(--ctl-seg-pick-bg); box-shadow: inset 0 0 0 1.5px var(--ctl-seg-pick-line); }
 .ctl-seg__opt:active:not(:disabled) { transform: scale(0.95); transition-duration: 180ms, 150ms, 90ms; transition-timing-function: ease, ease, var(--ctl-ease); }
 .ctl-seg__opt:focus-visible { outline: 2px solid var(--ctl-focus); outline-offset: 2px; }
 .ctl-seg__opt:disabled { opacity: 0.45; cursor: not-allowed; }

@@ -45,9 +45,9 @@ test('dates: a calendar date is never shifted, and a time is India time in 12 ho
   assert.equal(longDate('2027-01-12'), '12 January');
   assert.equal(longDate('2026-13-01'), null);
   assert.equal(longDate(null), null);
-  assert.equal(whenLabel('2026-10-14T11:00:00.000Z'), '14 Oct, 4:30 pm');
-  assert.equal(whenLabel('2026-10-14T18:45:00.000Z'), '15 Oct, 12:15 am');
-  assert.equal(whenLabel('2026-10-14T06:30:00.000Z'), '14 Oct, 12:00 pm');
+  assert.equal(whenLabel('2026-10-14T11:00:00.000Z'), '14 Oct, 4:30 PM');
+  assert.equal(whenLabel('2026-10-14T18:45:00.000Z'), '15 Oct, 12:15 AM');
+  assert.equal(whenLabel('2026-10-14T06:30:00.000Z'), '14 Oct, 12:00 PM');
   assert.equal(whenLabel('nope'), null);
 });
 
@@ -55,7 +55,7 @@ test('a history line prints what, when, the change, the pool and the balance aft
   const lines = FIXTURE.history.map(historyLine);
   assert.deepEqual(
     [lines[0].what, lines[0].changeText, lines[0].poolName, lines[0].after, lines[0].when],
-    ['Practice set', '-10', 'Practice credits', '40 left', '14 Oct, 4:30 pm'],
+    ['Practice set', '-10', 'Practice credits', '40 left', '14 Oct, 4:30 PM'],
   );
   assert.deepEqual([lines[1].what, lines[1].changeText, lines[1].poolName, lines[1].after], ['Repair, Q2 Accountancy', '-1', 'AI credits', '9 left']);
   assert.deepEqual([lines[2].changeText, lines[2].spokenChange], ['+10', '10 added']);

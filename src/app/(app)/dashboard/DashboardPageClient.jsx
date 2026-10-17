@@ -417,7 +417,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
         : quote.creditCost === 0 ? 'Free today'
           : `${quote.creditCost} ${quote.creditCost === 1 ? 'credit' : 'credits'}`
     : modeBadge(effectiveModeId).text;
-  const chapterValue = !scope.chapters ? 'All, as the exam' : sentChapters.length ? `${sentChapters.length} of ${chapterTotal}` : chapterTotal ? `All ${chapterTotal}` : 'All';
+  const chapterValue = effectiveModeId === 'smart' ? 'Your weakest topics, chosen for you' : !scope.chapters ? 'All, as the exam' : sentChapters.length ? `${sentChapters.length} of ${chapterTotal}` : chapterTotal ? `All ${chapterTotal}` : 'All';
   const difficultyValue = !scope.difficulty ? 'Chosen for you' : difficultyMode === 'auto' ? 'Balanced' : difficultyMode[0].toUpperCase() + difficultyMode.slice(1);
   // Mobi on this page only at a real moment: thinking in the card while a start is slow, or after a failed start; else
   // beside "We choose for you" in Fine-tune. Never both (D9).
@@ -445,6 +445,10 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
     window.setTimeout(() => target?.focus?.({ preventScroll: true }), reducedMotion() ? 0 : 320);
   }
 
+  // The phone bar's key names what it starts, so it never reads as the dock's Start key (which opens the Start sheet).
+  const barStartLabel = effectiveModeId === 'full' ? 'Start full mock'
+    : effectiveModeId === 'nta' ? 'Start NTA paper'
+      : `Start ${quoteCount} ${quoteCount === 1 ? 'question' : 'questions'}`;
   // The session card's Start (from 1024 px) and the phone bar's Start: one volt each, never both on one layout.
   const startKey = (className, short = false) => (blocked && quote.upgradeHref ? (
     <Link href={quote.upgradeHref} className={`btn-outline md ${className}`}>{short ? (shortfall ? `Need ${shortfall} more` : quote.reasonCode === 'access_required' ? 'See Pro' : 'See options') : blockedLabel}</Link>
@@ -452,7 +456,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
     <button type="button" className={`btn-outline md ${className}`} onClick={() => setQuoteNonce((n) => n + 1)}>Check again</button>
   ) : (
     <Button variant="volt" size="md" className={className} data-page-primary={short ? undefined : ''} disabled={isLaunching || !quoteLaunchable} aria-busy={isLaunching || quoteStatus === 'loading' || undefined} onClick={launch}>
-      <AppIcon name="practice" size={short ? 17 : 18} />{short ? (isLaunching ? 'Starting…' : 'Start') : startLabel}
+      {short ? (isLaunching ? 'Starting…' : barStartLabel) : <><AppIcon name="practice" size={18} />{startLabel}</>}
     </Button>
   ));
 

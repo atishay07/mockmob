@@ -6,7 +6,7 @@
 
 /* ---------- The track ---------- */
 .rt-bar {
-  position: sticky; top: 72px; z-index: 5; margin: 0 0 12px; padding: 0 14px;
+  position: sticky; top: var(--arena-topbar-h, 63px); z-index: 5; margin: 0 0 12px; padding: 0 14px;
   border-radius: 16px; border: 1px solid var(--a-line, #253026);
   /* Opaque: text under a sticky tracker never shows through it. */
   background: var(--a-raised, #131a16);
@@ -26,7 +26,7 @@
 @media (max-width: 640px) {
   .rt-bar, .rt { display: contents; }
   .rt__head {
-    position: sticky; top: 72px; z-index: 5; margin: 0 -2px; padding: 0 2px;
+    position: sticky; top: var(--arena-topbar-h, 63px); z-index: 5; margin: 0 -2px; padding: 0 2px;
     background: var(--a-bg, #0b100e); border-bottom: 1px solid var(--a-line, #253026);
   }
   .rt__group { margin: 0 0 12px; }

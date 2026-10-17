@@ -310,7 +310,7 @@ export default function ResultPageClient({ previewId = null }) {
     // Only the first reopened mistake starts on its own (set now, so the reopened rows mount with it); the rest wait for their turn.
     if (first) { setAutoRepair(first.q.id); requestAnimationFrame(() => jumpTo(first.number, { repair: true, instant: true })); }
   };
-  // F17: which paper every mistake here came from, and when it was attempted ("Mock 3, Accountancy, 16 Oct, 9:40 pm").
+  // F17: which paper every mistake here came from, and when it was attempted ("Mock 3, Accountancy, 16 Oct, 9:40 PM").
   const paperLine = paperStamp({ source: attempt.paper?.source, subject: subjectName(attempt.subject), at: attempt.paper?.completedAt ?? attempt.completedAt });
   const bubbleLabel = (r) => `Q${r.number}, ${r.chapter}: ${verdictWord(r.verdict)}${r.changed ? ', answer changed' : ''}`;
   const firstWrong = analysis.rows.findIndex(r => r.verdict === 'wrong');
@@ -428,6 +428,8 @@ export default function ResultPageClient({ previewId = null }) {
     if (c) return c.right ? { id: 'held', label: 'Held on a new question' } : { id: 'slipped', label: 'Slipped on a new question' };
     if (hasExplanation(out)) return { id: 'check', label: 'Check it held' };
     if (started.has(qid)) return { id: 'writing', label: 'Writing' };
+    // Out of AI credits: the chip says the price, quiet, and the opened row offers the credits line, not a paid repair.
+    if (aiCredits === 0) return { id: 'nocredit', label: 'Repair, 1 AI credit' };
     if (move?.kind === 'repair' && move.target?.qid === qid) return { id: 'first', label: 'Repair first' };
     return { id: 'repair', label: 'Repair' };
   };

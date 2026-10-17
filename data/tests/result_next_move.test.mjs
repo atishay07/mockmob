@@ -41,7 +41,7 @@ test('acceptance check 6: weak practises, average and strong repair, perfect goe
   assert.equal(by.avg.label, 'Repair Q42');
   assert.equal(by.strong.label, 'Repair Q31');
   assert.equal(by.strong.note, 'All 4 repairs take about 15 minutes.');
-  assert.equal(by.perfect.label, 'Set up a harder full mock');
+  assert.equal(by.perfect.label, 'Take another full mock', 'a free student is not promised a set level');
   assert.equal(by.zero_credits.label, 'Practise 10 on Share Capital');
   assert.equal(by.zero_credits.why, 'Repairs use AI credits. You have 0.');
   assert.equal(by.all_repaired.label, 'Check Q42 held');

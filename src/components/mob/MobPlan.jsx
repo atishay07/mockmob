@@ -35,7 +35,7 @@ const PRO_ITEMS = [
 export function ProNote({ data }) {
   if (data.plan.pro) return null;
   return (
-    <section className="glass mob-card" aria-labelledby="mob-pro-h">
+    <section className="mob-card mob-plain" aria-labelledby="mob-pro-h">
       <h2 id="mob-pro-h" className="mob-h2">Included with Pro</h2>
       <p className="mob-note">The weekly paper, the ring and your own result are free. Pro adds:</p>
       <ul className="mob-promises">

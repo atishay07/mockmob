@@ -7,9 +7,14 @@ import { useId } from 'react';
 import { Check } from 'lucide-react';
 import MobiReact from '@/components/brand/MobiReact';
 import { mistakesHead } from '@/../data/result_next_move.mjs';
+import { plainOptionTexts } from '@/../data/option_text';
 
 export const SHOWN_FIRST = 4;
 const LETTERS = 'ABCDEFGH';
+const optionText = (texts, i) => {
+  const t = texts[i];
+  return typeof t === 'string' ? t.trim() : t == null ? '' : String(t);
+};
 
 function Chip({ status, cheer }) {
   if (!status) return null;
@@ -29,6 +34,10 @@ function Row({ row, open, onToggle, status, cohort, cheer, children, arrived }) 
   const key = row.q?.correctIndex;
   const stem = String(row.q?.question ?? row.q?.body ?? '').trim() || 'Question unavailable';
   const isWrong = row.verdict === 'wrong';
+  // An opened row writes the two options out (RESULT-1017 4.5): what the student picked and the answer, as text.
+  const texts = open ? plainOptionTexts(row.q?.options) : [];
+  const mineText = open && isWrong && Number.isInteger(given) ? optionText(texts, given) : '';
+  const keyText = open && Number.isInteger(key) ? optionText(texts, key) : '';
   return (
     <li id={`q-${row.number}`} className="rx-row" data-verdict={row.verdict} data-open={open || undefined}>
       {arrived ? <span key={arrived} className="rp-q__ring" aria-hidden="true" /> : null}
@@ -44,6 +53,12 @@ function Row({ row, open, onToggle, status, cohort, cheer, children, arrived }) 
               {Number.isInteger(key) ? <span className="rx-pick" data-kind="key"><i>{LETTERS[key]}</i>answer</span> : null}
               {cohort ? <span className="rx-row__cohort">{cohort}</span> : null}
             </span>
+            {mineText || keyText ? (
+              <span className="rx-row__opts">
+                {mineText ? <span className="rx-opt" data-kind="mine"><i>{LETTERS[given]}</i><span><small>Your answer</small>{mineText}</span></span> : null}
+                {keyText ? <span className="rx-opt" data-kind="key"><i>{LETTERS[key]}</i><span><small>Correct answer</small>{keyText}</span></span> : null}
+              </span>
+            ) : null}
           </span>
           <span className="rx-row__side">
             <span className="rx-row__cost">{isWrong ? '−6' : '0'}</span>
@@ -91,7 +106,8 @@ export default function MistakeList({ mistakes, blanks, openIds, onToggle, statu
       {top}
       <div className="rx-mistakes__head">
         <h2 id="rx-mistakes-title">{head.title}</h2>
-        {head.side ? <span className="rx-mistakes__side">{head.side}</span> : null}
+        {/* While a repair run is on, its strip carries the count; the head does not repeat it. */}
+        {head.side && !top ? <span className="rx-mistakes__side">{head.side}</span> : null}
       </div>
       {mistakes.length ? (
         <p className="rx-mistakes__sub">{ordered === 'repair' ? 'In repair order: the ones most other students got right come first. Repaired ones say whether the fix held.' : 'In paper order. Repaired ones say whether the fix held.'}</p>

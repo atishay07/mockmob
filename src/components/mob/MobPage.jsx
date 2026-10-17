@@ -421,7 +421,8 @@ function InMob({ data, mob, user }) {
             {week.youSat ? (
               <>
                 {week.yourResultId ? <Link className={primary()} {...pageProps} href={resultHref(week.yourResultId)}>See your answers</Link> : null}
-                {!alone ? (
+                {/* Everyone has sat: no dead button, only the line that says so. */}
+                {!alone && nudge.reason !== 'everyone_sat' ? (
                   <button type="button" className="mob-key" onClick={sendNudge} disabled={!nudge.canSend || mob.busy === 'nudge'} aria-describedby={nudgeReason ? 'mob-nudge-why' : undefined}>
                     Ask the others to sit it
                   </button>
@@ -443,7 +444,7 @@ function InMob({ data, mob, user }) {
       <ExtrasCard data={data} run={run} busy={mob.busy} comparing={opening && opening !== 'week' ? opening : null}
         onCompare={(x) => openCompare(x.id, { extra: x.id })} />
 
-      <section className="glass mob-card" aria-labelledby="mob-members-h">
+      <section className="mob-card mob-plain" aria-labelledby="mob-members-h">
         <header className="mob-head">
           <h2 id="mob-members-h" className="mob-h2">Members</h2>
           <span className="mob-count">{week.size} of {MAX_MEMBERS}</span>
@@ -469,7 +470,7 @@ function InMob({ data, mob, user }) {
       <HistoryCard data={data} load={mob.history} comparing={opening && opening !== 'week' ? opening : null} onCompare={(w) => openCompare(w, { week: w })} />
       <ProNote data={data} />
 
-      <section className="glass mob-card" aria-labelledby="mob-settings-h">
+      <section className="mob-card mob-plain" aria-labelledby="mob-settings-h">
         <h2 id="mob-settings-h" className="mob-h2">Settings</h2>
         <div className="mob-settings">
           {/* A Mob of one has nobody to show a score to or to be nudged by: the two switches arrive with the first friend. */}

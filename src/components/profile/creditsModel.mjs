@@ -37,14 +37,14 @@ export function longDate(ymd, { year = false } = {}) {
   return year ? `${day} ${MONTHS[month - 1]} ${m[1]}` : `${day} ${MONTHS[month - 1]}`;
 }
 
-/** "14 Oct, 3:30 pm" in India time, from an ISO instant. Null when it is not one. */
+/** "14 Oct, 3:30 PM" in India time, from an ISO instant. Null when it is not one. */
 export function whenLabel(iso) {
   const t = Date.parse(iso);
   if (!Number.isFinite(t)) return null;
   const ist = new Date(t + (5 * 60 + 30) * 60 * 1000);
   const h = ist.getUTCHours();
   const h12 = h % 12 === 0 ? 12 : h % 12;
-  return `${ist.getUTCDate()} ${SHORT[ist.getUTCMonth()]}, ${h12}:${String(ist.getUTCMinutes()).padStart(2, '0')} ${h < 12 ? 'am' : 'pm'}`;
+  return `${ist.getUTCDate()} ${SHORT[ist.getUTCMonth()]}, ${h12}:${String(ist.getUTCMinutes()).padStart(2, '0')} ${h < 12 ? 'AM' : 'PM'}`;
 }
 
 /**

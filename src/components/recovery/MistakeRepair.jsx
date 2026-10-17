@@ -35,6 +35,30 @@ function RepairCost() {
   return <p className="mr-cost">{usesLine({ what: 'This repair', cost: 1, pool: 'ai', balance: wallet.wallet?.known ? wallet.wallet.total : null })}</p>;
 }
 
+// The paid start, or, with a known balance of 0 AI credits, the credits line and the free way forward instead.
+function RepairStart({ chosen, onStart }) {
+  const auth = useContext(AuthContext);
+  const wallet = useWalletSummary(auth?.user?.id, { reuseFresh: true });
+  if (wallet.wallet?.known && wallet.wallet.total === 0) {
+    return (
+      <div className="mr-empty">
+        <p className="mr-cost">{usesLine({ what: 'A repair', cost: 1, pool: 'ai', balance: 0 })}</p>
+        <p className="mr-note mr-ways"><Link href="/pricing/ai-credits">See your AI credits</Link> <Link href="/dashboard?mode=quick&count=5">Practise 5 fresh questions</Link></p>
+      </div>
+    );
+  }
+  return (
+    <>
+      <button type="button" className="mr-start" onClick={onStart}>
+        <span className="mr-start__icon" aria-hidden="true"><Wrench size={18} strokeWidth={2.4} /></span>
+        <span className="mr-start__text"><b>Repair this mistake</b><small>Why {chosen ? `option ${chosen}` : 'your answer'} looked right, why the key is right and one rule to keep, then a new question to check it held</small></span>
+        <span className="mr-start__cost">1 AI credit</span>
+      </button>
+      <RepairCost />
+    </>
+  );
+}
+
 // "Q7. Your pick B. Key C." as a small reveal: the pick settles, then the key's ring draws and fills.
 // A stored repair (or reduced motion, via CSS) paints the final state at once.
 function FoldLine({ number, chosen, answer, folded, onToggle, animate }) {
@@ -60,7 +84,7 @@ function FoldLine({ number, chosen, answer, folded, onToggle, animate }) {
   );
 }
 
-// Which paper this mistake came from and when it was attempted: "From Mock 3, Accountancy, 16 Oct, 9:40 pm".
+// Which paper this mistake came from and when it was attempted: "From Mock 3, Accountancy, 16 Oct, 9:40 PM".
 function PaperFrom({ line }) {
   return line ? <p className="mr-from"><span>{REPAIR_COPY.fromPaper}</span> {line}</p> : null;
 }
@@ -342,12 +366,7 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
       return (
         <div className="mr">
           <PaperFrom line={paper} />
-          <button type="button" className="mr-start" onClick={() => { started.current = true; run(); }}>
-            <span className="mr-start__icon" aria-hidden="true"><Wrench size={18} strokeWidth={2.4} /></span>
-            <span className="mr-start__text"><b>Repair this mistake</b><small>Why {chosen ? `option ${chosen}` : 'your answer'} looked right, why the key is right and one rule to keep, then a new question to check it held</small></span>
-            <span className="mr-start__cost">1 AI credit</span>
-          </button>
-          <RepairCost />
+          <RepairStart chosen={chosen} onStart={() => { started.current = true; run(); }} />
         </div>
       );
     }

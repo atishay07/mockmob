@@ -15,6 +15,7 @@ export const NEXT_MOVE_RULES = Object.freeze({
   weakShare: 0.4, // under 40 percent of answered questions right: a chapter set before single repairs
   setSize: 10, // "Practise 10 on {chapter}"
   practiceCost: 10, // practice credits for a 10-question Quick practice (src/lib/paperCopy.mjs MODE_COST.quick)
+  fullMockCost: 50, // practice credits for a Full mock (src/lib/paperCopy.mjs MODE_COST.full, data/test_modes.js)
   fewRepairs: 5, // with 5 or fewer left, the time for all of them is said
   lateFrom: 23, // 11 PM to 5 AM: one plain line, no figure
   lateUntil: 5,
@@ -242,17 +243,39 @@ export function nextMove({ analysis, answerReviews = {}, repairOrder = null, rep
     };
   };
 
-  // 1. Nothing missed.
+  // 1. Nothing missed. A set level (harder) comes with Pro, so a free student is offered another paper at its real
+  // price, never a harder one they cannot set up; a price above the balance says how many more are needed.
   if (!marks.gap) {
     const mock = mode === 'full' || mode === 'nta';
+    const mockHref = `/dashboard?${new URLSearchParams({ subject: subject || '', mode: 'full' })}`;
+    if (isPremium) {
+      return {
+        kind: 'harder', rule: 1,
+        label: mock ? 'Set up a harder full mock' : `Practise ${NEXT_MOVE_RULES.setSize} harder in ${subjectLabel}`,
+        why: 'A harder paper finds what is left to fix.', // layer 1 already says "Every question right."
+        value: null, cost: mock ? 'Pro covers this paper.' : 'Pro covers this set.', late: null,
+        alt: { kind: 'paper', label: 'Take another fresh paper', target: null },
+        note: null,
+        target: { chapter: null, href: mock ? mockHref : practiseHref({ subject }) },
+      };
+    }
+    const price = mock ? NEXT_MOVE_RULES.fullMockCost : NEXT_MOVE_RULES.practiceCost;
+    const short = Number.isFinite(practiceCredits) && practiceCredits < price ? price - practiceCredits : 0;
+    const cost = [
+      usesLine({ what: mock ? 'A full mock' : 'This set', cost: price, pool: 'practice', balance: practiceCredits }),
+      short ? `Need ${short} more.` : null,
+      'A set level comes with Pro.',
+    ].filter(Boolean).join(' ');
     return {
       kind: 'harder', rule: 1,
-      label: mock ? 'Set up a harder full mock' : `Practise ${NEXT_MOVE_RULES.setSize} harder in ${subjectLabel}`,
-      why: 'A harder paper finds what is left to fix.', // layer 1 already says "Every question right."
-      value: null, cost: null, late: null,
-      alt: { kind: 'paper', label: 'Take another fresh paper', target: null },
+      label: mock ? 'Take another full mock' : `Practise ${NEXT_MOVE_RULES.setSize} more in ${subjectLabel}`,
+      why: 'Another fresh paper finds what is left to fix.',
+      value: null, cost, late: null,
+      alt: mock
+        ? { kind: 'practise', label: `Or practise ${NEXT_MOVE_RULES.setSize} in ${subjectLabel}, ${NEXT_MOVE_RULES.practiceCost} practice credits`, target: { chapter: null, href: practiseHref({ subject }) } }
+        : { kind: 'paper', label: 'Take another fresh paper', target: null },
       note: null,
-      target: { chapter: null, href: mock ? `/dashboard?${new URLSearchParams({ subject: subject || '', mode: 'full' })}` : practiseHref({ subject }) },
+      target: { chapter: null, href: mock ? mockHref : practiseHref({ subject }) },
     };
   }
 

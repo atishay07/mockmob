@@ -257,6 +257,8 @@ html[data-theme='light'] :is(.app-shell .nta-runner[data-interface='nta'], .aren
 /* Horizontal clipping must not create a body scroll container: the topbar sticks
    to the viewport, including when More opens from the bottom navigation. */
 body:has(.app-shell) { overflow-x: clip; }
+/* The top bar's height (62 px row plus its 1 px line): sticky strips under it sit flush, with no gap for text to show in. */
+.app-shell { --arena-topbar-h: 63px; }
 .app-shell .arena-topbar {
   position: sticky;
   top: 0;
@@ -330,14 +332,16 @@ body:has(.app-shell) { overflow-x: clip; }
   font-family: var(--font-mono);
   font-weight: 600;
 }
+/* Pro is a volt outline with ink text, not a fill: the page's volt belongs to its primary action. */
 .app-shell .arena-chip--pro {
-  border-color: var(--a-select);
-  background: var(--volt);
-  color: #0b1000;
+  border-color: var(--a-accent-text);
+  background: transparent;
+  color: var(--a-ink);
 }
+.app-shell .arena-chip--pro .icon { color: var(--a-accent-text); }
 .app-shell .arena-chip--pro:hover {
-  color: #0b1000;
-  border-color: var(--a-select);
+  color: var(--a-ink);
+  border-color: var(--a-accent-text);
 }
 .app-shell .arena-chip--mod {
   border-color: var(--a-volt-line);

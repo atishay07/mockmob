@@ -218,7 +218,7 @@ html[data-theme='light'] .app-shell .pr .pr-tile__ring { color: #fff; }
 .app-shell .pr .pr-fine2__label small { font: 600 13px/1.3 var(--font-body); color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
 .app-shell .pr .pr-fine2__mix, .app-shell .pr .pr-fine2__note { margin: 0; font-size: 13px; line-height: 1.45; color: var(--a-ink-3); }
 .app-shell .pr .pr-fine2__note { color: var(--a-ink-2); }
-.app-shell .pr .pr-fine2__mix .pr-link { min-height: 0; }
+.app-shell .pr .pr-fine2__mix .pr-link { display: inline-flex; align-items: center; min-height: 44px; padding: 0 6px; margin: -12px 0; vertical-align: middle; }
 .app-shell .pr .pr-fine2__we { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 12px; align-items: center; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--a-line); animation: pr-fade-in 200ms var(--mm-ease-out) both; }
 .app-shell .pr .pr-fine2__we:not(:has(.pr-fine2__mobi)) { grid-template-columns: minmax(0, 1fr); }
 .app-shell .pr .pr-fine2__we p { margin: 0; font-size: 15px; line-height: 1.5; color: var(--a-ink); text-wrap: pretty; }
@@ -305,13 +305,7 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg [role='radio']
     box-shadow: 0 18px 40px -16px rgb(0 0 0 / 0.6);
     transition: border-radius 200ms var(--mm-ease-out), box-shadow 200ms var(--mm-ease-out);
   }
-  @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-    .app-shell .pr .pr-bar__in {
-      background: color-mix(in srgb, var(--a-raised) 92%, transparent);
-      -webkit-backdrop-filter: blur(22px) saturate(1.4);
-      backdrop-filter: blur(22px) saturate(1.4);
-    }
-  }
+  /* Opaque on purpose: the setup scrolls under the riding bar, and nothing behind it may read through. */
   html[data-theme='light'] .app-shell .pr .pr-bar__in { box-shadow: 0 16px 36px -18px rgb(20 32 14 / 0.38); }
   @supports (container-type: scroll-state) {
     .app-shell .pr .pr-bar { container-type: scroll-state; margin-top: -31px; }

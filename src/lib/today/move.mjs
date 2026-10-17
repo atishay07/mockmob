@@ -133,7 +133,7 @@ export function buildMove({ plan = null, planFailed = false, papers = null, rhyt
         why: `Your last paper was ${lastName} on ${lastWhen}. ${open === n ? `${open === 1 ? 'Its one mistake is' : `All ${word(open)} of its mistakes are`} still open.` : `Its ${word(open)} open mistakes are still here; start with ${word(n)}.`}`,
         key: { label: 'Start repair', href: `/result/${encodeURIComponent(last.id)}`, minutes: repairMinutes(n) },
         link: open > n ? { label: `See all ${open}`, href: `/result/${encodeURIComponent(last.id)}` } : null,
-        pills: pills(), art: 'mobi', mobiAct: 'hello', subject: last.subject, returning: true, open,
+        pills: pills(), art: 'mobi', mobiAct: 'hello', subject: last.subject, returning: true, open, aiEach: 1,
       };
     }
     return {
@@ -152,6 +152,7 @@ export function buildMove({ plan = null, planFailed = false, papers = null, rhyt
     key: { label: 'Start repair', href: `/result/${encodeURIComponent(last.id)}`, minutes: repairMinutes(open) },
     link: { label: 'See why', href: `/result/${encodeURIComponent(last.id)}` },
     pills: pills(papers.length < 2 ? 'mock' : 'else'), art: 'object', subject: last.subject, firstWeek, open,
+    aiEach: 1, // each repair uses 1 AI credit; the card says so, with the balance, before the press
   });
 
   if (!tonightDone && open > 0 && neverRepaired) {

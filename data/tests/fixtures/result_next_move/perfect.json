@@ -429,14 +429,14 @@
     "move": {
       "kind": "harder",
       "rule": 1,
-      "label": "Set up a harder full mock",
-      "why": "A harder paper finds what is left to fix.",
+      "label": "Take another full mock",
+      "why": "Another fresh paper finds what is left to fix.",
       "value": null,
-      "cost": null,
+      "cost": "A full mock uses 50 practice credits. You have 40. Need 10 more. A set level comes with Pro.",
       "late": null,
       "alt": {
-        "kind": "paper",
-        "label": "Take another fresh paper"
+        "kind": "practise",
+        "label": "Or practise 10 in Accountancy, 10 practice credits"
       },
       "note": null,
       "target": {

@@ -172,7 +172,7 @@ export default function ChapterPicker({ subjectName = '', data, chosen = [], onC
             <div className="cp-sheet__title">
               <div>
                 <h2 id={`${panelId}-title`}>{subjectName} chapters</h2>
-                <p>{flat ? `${count} chapters` : `${count} chapters in ${units.length} units`}</p>
+                <p>{flat ? `${count} ${count === 1 ? 'chapter' : 'chapters'}` : `${count} ${count === 1 ? 'chapter' : 'chapters'} in ${units.length} ${units.length === 1 ? 'unit' : 'units'}`}</p>
               </div>
               <button type="button" className="cp-close mk-press" aria-label="Close" onClick={closeSheet}><X size={20} strokeWidth={1.9} aria-hidden="true" /></button>
             </div>

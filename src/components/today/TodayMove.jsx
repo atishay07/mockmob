@@ -3,7 +3,7 @@
 // meaning), why from the student's own record in one sentence, one volt key with the length inside it, and two
 // pressable pills under it (Change length, Something else). Every other way into practice is in Something else.
 // The key is the viewport's one volt (data-page-primary steps the shell's Start key back to an outline).
-import { useState, useSyncExternalStore } from 'react';
+import { useContext, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { Clock3, Shuffle, FileText, Play, RotateCcw } from 'lucide-react';
 import { SubjectObject } from '@/components/brand/SubjectObject';
@@ -11,6 +11,9 @@ import MobiReact from '@/components/brand/MobiReact';
 import { useCountUpState } from '@/lib/motion/useCountUp';
 import { fitMove, keepTogether } from '@/lib/today/move.mjs';
 import TodaySheet from './TodaySheet';
+import { AuthContext } from '@/components/AuthProvider';
+import { useWalletSummary } from '@/components/useWalletSummary';
+import { usesLine } from '@/lib/creditCopy.mjs';
 
 const subscribeOnline = (cb) => { window.addEventListener('online', cb); window.addEventListener('offline', cb); return () => { window.removeEventListener('online', cb); window.removeEventListener('offline', cb); }; };
 const onlineNow = () => navigator.onLine !== false;
@@ -18,6 +21,13 @@ const onlineNow = () => navigator.onLine !== false;
 function BigNumber({ value }) {
   const { value: rolled, ink } = useCountUpState(value, { memoryKey: 'today-move-number' });
   return <span className="tm__num" data-ink={ink || undefined}><span aria-hidden="true">{rolled}</span><span className="sr-only">{value}</span></span>;
+}
+
+// A repair move's price before the press: "Each repair uses 1 AI credit. You have 68." (unknown balance, no number).
+function RepairPrice({ each }) {
+  const auth = useContext(AuthContext);
+  const wallet = useWalletSummary(auth?.user?.id, { reuseFresh: true });
+  return <p className="tm__caption tm__price">{usesLine({ what: 'Each repair', cost: each, pool: 'ai', balance: wallet.wallet?.known ? wallet.wallet.total : null })}</p>;
 }
 
 function Art({ move, failed }) {
@@ -129,6 +139,7 @@ export default function TodayMove({ phase, move, word = 'Tonight’s move', slow
       ) : (
         <Link className="tm__key" data-page-primary href={m.key.href}>{m.key.label}{m.key.minutes ? <span className="tm__key-len">{m.key.minutes} min</span> : null}</Link>
       )}
+      {m.aiEach && m.open > 0 ? <RepairPrice each={m.aiEach} /> : null}
       <div className="tm__pills">
         {m.pills.length && lengthMatters ? (
           <button type="button" className="tm__pill" aria-haspopup="dialog" onClick={() => setSheet('length')}><Clock3 size={17} strokeWidth={1.75} aria-hidden="true" />Change length</button>

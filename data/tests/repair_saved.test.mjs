@@ -171,42 +171,42 @@ test('repairedCounts and getRepairedCounts: wrong answers with a saved repair, p
 
 // ---- the paper stamp ----
 
-const NOW = Date.parse('2026-10-17T08:30:00Z'); // 2:00 pm IST on 17 Oct
+const NOW = Date.parse('2026-10-17T08:30:00Z'); // 2:00 PM IST on 17 Oct
 const ist = (s) => Date.parse(`${s}+05:30`);
 
 test('attemptedWhen: relative inside the hour, today and yesterday with the time, then the date, 12-hour clock, India time', () => {
   assert.equal(attemptedWhen(NOW - 20_000, NOW), 'just now');
   assert.equal(attemptedWhen(NOW - 60_000, NOW), '1 minute ago');
   assert.equal(attemptedWhen(NOW - 12 * 60_000, NOW), '12 minutes ago');
-  assert.equal(attemptedWhen(ist('2026-10-17T09:40:00'), NOW), 'today, 9:40 am');
-  assert.equal(attemptedWhen(ist('2026-10-16T21:40:00'), NOW), 'yesterday, 9:40 pm');
-  assert.equal(attemptedWhen(ist('2026-10-12T00:05:00'), NOW), '12 Oct, 12:05 am');
-  assert.equal(attemptedWhen(ist('2026-10-12T12:30:00'), NOW), '12 Oct, 12:30 pm');
-  assert.equal(attemptedWhen(ist('2025-12-31T23:59:00'), NOW), '31 Dec 2025, 11:59 pm');
-  assert.equal(attemptedWhen(ist('2026-09-28T23:30:00'), NOW), '28 Sep, 11:30 pm', 'September is Sep, never Sept');
-  assert.equal(attemptedWhen('2026-10-16T16:10:00.000Z', NOW), 'yesterday, 9:40 pm', 'an ISO string reads the same as its milliseconds');
+  assert.equal(attemptedWhen(ist('2026-10-17T09:40:00'), NOW), 'today, 9:40 AM');
+  assert.equal(attemptedWhen(ist('2026-10-16T21:40:00'), NOW), 'yesterday, 9:40 PM');
+  assert.equal(attemptedWhen(ist('2026-10-12T00:05:00'), NOW), '12 Oct, 12:05 AM');
+  assert.equal(attemptedWhen(ist('2026-10-12T12:30:00'), NOW), '12 Oct, 12:30 PM');
+  assert.equal(attemptedWhen(ist('2025-12-31T23:59:00'), NOW), '31 Dec 2025, 11:59 PM');
+  assert.equal(attemptedWhen(ist('2026-09-28T23:30:00'), NOW), '28 Sep, 11:30 PM', 'September is Sep, never Sept');
+  assert.equal(attemptedWhen('2026-10-16T16:10:00.000Z', NOW), 'yesterday, 9:40 PM', 'an ISO string reads the same as its milliseconds');
   for (const bad of [null, undefined, '', 0, 'x', NaN]) assert.equal(attemptedWhen(bad, NOW), '');
-  assert.equal(clockTime(ist('2026-10-16T21:40:00')), '9:40 pm');
+  assert.equal(clockTime(ist('2026-10-16T21:40:00')), '9:40 PM');
 });
 
 test('attemptedWhen: the day boundary is India midnight, not the server\'s', () => {
-  const late = Date.parse('2026-10-17T19:00:00Z'); // 12:30 am IST on 18 Oct
-  assert.equal(attemptedWhen(ist('2026-10-17T21:50:00'), late), 'yesterday, 9:50 pm');
+  const late = Date.parse('2026-10-17T19:00:00Z'); // 12:30 AM IST on 18 Oct
+  assert.equal(attemptedWhen(ist('2026-10-17T21:50:00'), late), 'yesterday, 9:50 PM');
   assert.equal(attemptedWhen(ist('2026-10-18T00:10:00'), late), '20 minutes ago');
 });
 
-test('paperStamp: "Mock 3, Accountancy, 16 Oct, 9:40 pm"; a missing part is left out', () => {
+test('paperStamp: "Mock 3, Accountancy, 16 Oct, 9:40 PM"; a missing part is left out', () => {
   const at = ist('2026-10-16T21:40:00');
   const now = Date.parse('2026-10-20T08:00:00Z');
-  assert.equal(paperStamp({ source: 'Mock 3', subject: 'Accountancy', at, now }), 'Mock 3, Accountancy, 16 Oct, 9:40 pm');
-  assert.equal(paperStamp({ source: 'Mock 3', at, now }), 'Mock 3, 16 Oct, 9:40 pm');
+  assert.equal(paperStamp({ source: 'Mock 3', subject: 'Accountancy', at, now }), 'Mock 3, Accountancy, 16 Oct, 9:40 PM');
+  assert.equal(paperStamp({ source: 'Mock 3', at, now }), 'Mock 3, 16 Oct, 9:40 PM');
   assert.equal(paperStamp({ source: 'Quick practice', subject: 'Accountancy', at: null, now }), 'Quick practice, Accountancy');
   assert.equal(paperStamp({}), '');
 });
 
 test('the earlier-miss line carries the source and the attempt time; the older line is unchanged', () => {
   const miss = { attemptId: 'x', source: 'Mock 2', completedAt: ist('2026-10-12T21:40:00') };
-  assert.equal(earlierMissAt(miss, Date.parse('2026-10-17T08:30:00Z')), 'You also missed this question in Mock 2, 12 Oct, 9:40 pm.');
+  assert.equal(earlierMissAt(miss, Date.parse('2026-10-17T08:30:00Z')), 'You also missed this question in Mock 2, 12 Oct, 9:40 PM.');
   assert.equal(earlierMissAt(null), null);
   assert.equal(RUN_COPY.missedBeforeAt('Mock 2', ''), 'You also missed this question in Mock 2.');
   assert.equal(RUN_COPY.missedBefore('Mock 2', '12 October'), 'You also missed this question in Mock 2 on 12 October.');
@@ -225,8 +225,8 @@ test('the saved-repair words: Repaired, a free open and the saved footer; none o
   assert.equal(repairLabel('stored'), 'Repaired');
   assert.equal(repairLabel('explained'), 'Explanation ready');
   assert.equal(REPAIR_COPY.openSaved, 'Open your saved repair');
-  assert.equal(REPAIR_COPY.savedFree('16 Oct, 9:52 pm'), 'Repaired 16 Oct, 9:52 pm. Opening it is free.');
-  assert.equal(REPAIR_COPY.savedFoot('yesterday, 9:52 pm'), 'Saved repair from yesterday, 9:52 pm. No credit used.');
+  assert.equal(REPAIR_COPY.savedFree('16 Oct, 9:52 PM'), 'Repaired 16 Oct, 9:52 PM. Opening it is free.');
+  assert.equal(REPAIR_COPY.savedFoot('yesterday, 9:52 PM'), 'Saved repair from yesterday, 9:52 PM. No credit used.');
   assert.equal(REPAIR_COPY.savedFoot(''), 'Saved repair. No credit used.');
   assert.equal(REPAIR_LOADING.opening(3), 'Opening your saved repair for Q3.');
   for (const t of [REPAIR_COPY.openSaved, REPAIR_COPY.savedFree('x'), REPAIR_COPY.savedFoot('x'), REPAIR_LOADING.opening(3), REPAIR_LOADING.openingSlow]) assert.doesNotMatch(t, /1 AI credit|uses 1|charged only/i);
