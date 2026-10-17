@@ -145,6 +145,8 @@ export function ExtrasCard({ data, run, busy, onCompare, comparing }) {
           {extras.map((x) => <ExtraRow key={x.id} x={x} data={data} onCompare={onCompare} comparing={comparing} />)}
         </ul>
       ) : <p className="mob-note">No extra papers this week. Make one on a chapter you want to drill, and your Mob can sit it too.</p>}
+      {/* Owner decision pending (D-S2): extra papers are open to every member of the Mob, on any plan, apart from the one weekly Mob paper Free includes. Say so, so the two never read as a contradiction. */}
+      {!data.plan.canMakeExtra && extras.length ? <p className="mob-hint">Extra papers are open to every member of the Mob, on any plan. Pro members make them.</p> : null}
       {data.plan.canMakeExtra ? (
         <button type="button" className="mob-key mob-invite-row" onClick={() => setOpen(true)}><Plus size={16} aria-hidden="true" />Make an extra paper</button>
       ) : null}

@@ -269,6 +269,20 @@ export function createMobService(deps) {
   return {
     view,
 
+    /**
+     * Run BEFORE the create rate limit (http.js gate). A student already at their plan's cap of Mobs they started hears
+     * the plan's own sentence, never the rate limit's: for Pro the weekly create limit (3) equals the cap (3), so the
+     * wait ("start another on Sun 25 Oct") would be wrong for someone who must leave a Mob first. A failed read of the
+     * account or the count says nothing here: create decides.
+     */
+    async createGate(userId) {
+      const user = await loadUser(userId);
+      if (!user) return;
+      const plan = startLimit(user);
+      const n = await startedCount(userId);
+      if (n !== null && n >= plan.max) throw new MobError(plan.code);
+    },
+
     async create(userId, body) {
       const user = await loadUser(userId);
       if (!user) throw new MobError('UNAVAILABLE'); // the account did not load: never blame the student's subjects for it
@@ -586,24 +600,24 @@ export function createMobService(deps) {
     if (!validMobId(body.extra)) throw new MobError('EXTRA_NOT_FOUND');
     const extra = await call('mob_extra_get', { p_user_id: userId, p_extra_id: body.extra });
     if (!extra || extra.mob_id !== state.mob.id) throw new MobError('EXTRA_NOT_FOUND');
-    if ((extra.sittings || []).some((s) => s.user_id === userId)) throw new MobError('PAPER_ALREADY_SAT');
+    if ((extra.sittings || []).some((s) => s.user_id === userId)) throw new MobError('EXTRA_ALREADY_SAT');
     if (extraTooLate(extra)) throw new MobError('EXTRA_CLOSED');
     const questions = await deps.loadQuestions(extra.question_ids).catch(() => []);
     if (!Array.isArray(questions) || questions.length !== extra.question_ids.length) throw new MobError('PAPER_UNAVAILABLE');
     const generationKey = `mob_${createHmac('sha256', String(deps.secret || 'mob')).update(`extra:${extra.id}:${userId}`).digest('hex').slice(0, 40)}`;
     const input = { experience: 'practice', mode: 'quick', count: questions.length, subject: state.mob.subject, generationKey };
     if (typeof body.startReceipt === 'string' && body.startReceipt.length <= 2000) input.startReceipt = body.startReceipt;
-    return runStart(userId, input, { mobPaper: { mobId: state.mob.id, weekStart: String(extra.week_start).slice(0, 10), extraId: extra.id, questions } });
+    return runStart(userId, input, { mobPaper: { mobId: state.mob.id, weekStart: String(extra.week_start).slice(0, 10), extraId: extra.id, questions } }, { extra: true });
   }
 
-  async function runStart(userId, input, server) {
+  async function runStart(userId, input, server, { extra = false } = {}) {
     try {
       return await deps.startPractice(userId, input, server);
     } catch (error) {
       const m = String(error?.message || '');
       if (/CREDITS/.test(m)) throw new MobError('CREDITS');
       if (/SESSION_EXPIRED/.test(m)) throw new MobError('PAPER_EXPIRED');
-      if (/ALREADY_SUBMITTED/.test(m)) throw new MobError('PAPER_ALREADY_SAT');
+      if (/ALREADY_SUBMITTED/.test(m)) throw new MobError(extra ? 'EXTRA_ALREADY_SAT' : 'PAPER_ALREADY_SAT');
       if (/INSUFFICIENT_PRACTICE_CONTENT|SUBJECT_NOT_SUPPORTED/.test(m)) throw new MobError('PAPER_UNAVAILABLE');
       if (/MIGRATION/.test(m)) throw new MobError('MIGRATION');
       if (error instanceof MobError) throw error;

@@ -2,7 +2,7 @@
 // bodies the routes answer with. Development only: writes change this tab's copy and nothing else.
 //   Free and Pro (SOCIAL-SPEC section 15): ?mob=ready (free, you sat, your first side-by-side is free) | sample (free, the sample week
 //   open: trap and side-by-side) | locked (free, the sample went to another week: teaser and the Pro line) | pro (two Mobs,
-//   extra papers, past weeks) | blocked (free, you already sat this week in another Mob)
+//   extra papers, past weeks) | blocked (free, you already sat this week in another Mob) | extras (free, extra papers waiting)
 //   ?mob=ready (default, you sat) | notsat (a nudge waiting, cost line) | alone | none | full | closed | error | loading
 //   | complete (4 of 4 sat: the ring settles, Today's Mobi moment) | two (a Mob of two who both sat and show their score:
 //   the Together card) | private (a Mob of two, both sat, your score private: the hint to compare)
@@ -27,6 +27,8 @@ function initial(kind) {
     return m;
   }
   if (kind === 'blocked') { const m = clone(getNotSat); m.mob.week.paper.cost = null; m.mob.week.paper.blocked = 'free_used'; m.mob.nudge.received = null; return m; }
+  // extras: free, with this week's extra papers a Pro member made (any member sits them)
+  if (kind === 'extras') { const m = clone(getV1); m.mob.trap = null; m.mob.extras = clone(getProV2).mob.extras; return m; }
   if (kind === 'alone') return clone(getAlone);
   if (kind === 'notsat') return clone(getNotSat);
   if (kind === 'closed') { const m = clone(getNotSat); m.mob.week.closed = true; m.mob.nudge.received = null; return m; }

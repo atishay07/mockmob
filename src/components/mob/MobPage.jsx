@@ -445,8 +445,10 @@ function InMob({ data, mob, user }) {
             ) : null}
             {!week.youSat && freeUsed ? (
               <>
-                <p className="mob-note">You already sat a Mob paper this week, in another Mob. Free includes one a week.</p>
-                <Link className="mob-key" href="/pricing">See Pro</Link>
+                {/* Not an error: the student has done this week's paper, in their other Mob. The claim is theirs, not this Mob's. */}
+                <p className="mob-done"><Check size={16} strokeWidth={2.5} aria-hidden="true" />This week&apos;s paper is done.</p>
+                <p className="mob-note">You sat it in your other Mob. Free includes one weekly Mob paper, and the next opens Monday. Pro lets you sit one in every Mob.</p>
+                <Link className="mob-link" href="/pricing">See Pro</Link>
               </>
             ) : null}
             {week.youSat ? (

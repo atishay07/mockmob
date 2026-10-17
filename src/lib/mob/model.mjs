@@ -83,6 +83,8 @@ export const ERRORS = Object.freeze({
   NOT_SAT_YET: [409, 'Sit this week\'s paper first, then you can ask the others.'],
   ALREADY_NUDGED: [409, 'You already asked the others this week.'],
   PAPER_ALREADY_SAT: [409, 'You already sat this week\'s paper. The next one opens Monday.'],
+  // An extra paper has no Monday: it stays open 7 days from when it was made, and each member sits it once.
+  EXTRA_ALREADY_SAT: [409, 'You already sat this extra paper. Your answers are under See your answers.'],
   WEEK_CLOSED: [410, 'This week\'s paper closed. The next one opens Monday.'],
   PAPER_EXPIRED: [410, 'Your time on this week\'s paper ran out. The next one opens Monday.'],
   CREDITS: [402, 'You do not have enough credits for this paper.'],

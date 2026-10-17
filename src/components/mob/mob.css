@@ -53,6 +53,8 @@ html[data-theme='light'] {
   color: var(--a-accent-text); font: 700 14px/1.2 var(--font-body); text-decoration: underline; text-underline-offset: 4px;
 }
 .mob-link:disabled { opacity: 0.5; cursor: not-allowed; }
+/* A plain "done", in the good colour with a tick: the student's week is finished somewhere else, which is not an error. */
+.mob-done { display: inline-flex; align-items: center; gap: 8px; margin: 0; font: 700 15px/1.3 var(--font-display); color: var(--a-good-text); }
 .mob-icon {
   flex: none; display: inline-grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 12px;
   background: transparent; color: var(--a-ink-2); cursor: pointer; transition: background-color 150ms var(--mm-ease-out), color 150ms var(--mm-ease-out);
@@ -387,3 +389,23 @@ html[data-theme='light'] .mob-volt { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 
 .mob-chip[data-off] { opacity: 0.45; cursor: not-allowed; }
 .mob-notice-wrap { display: grid; gap: 10px; justify-items: start; }
 .mob-notice-wrap:empty { display: none; }
+
+/* ==========================================================================
+   18 Oct: the switches are a real 44 px target
+   The site's switch is drawn 52 x 32 and relies on its row as the target, so the button's own box measured 32 px high
+   (go/no-go check: under 44). In the Mob the button's box is 56 x 44; the rail is drawn on ::before at the same 52 x 32,
+   so the look does not move. The thumb and the tick keep their place inside the rail.
+   ========================================================================== */
+.mob-page .ctl-toggle .mk-switch, .mob-page .ctl-toggle .mk-switch[aria-checked='true'] { width: 56px; height: 44px; min-width: 56px; min-height: 44px; border: 0; background: transparent; }
+.mob-page .ctl-toggle .mk-switch::before {
+  content: ''; position: absolute; inset: auto; left: 2px; top: 6px; width: 52px; height: 32px; box-sizing: border-box; border-radius: 999px;
+  border: 1px solid var(--ctl-line-strong); background: var(--ctl-sunken);
+  transition: background-color 220ms ease, border-color 220ms ease;
+}
+.mob-page .ctl-toggle .mk-switch[aria-checked='true']::before { background: var(--ctl-volt); border-color: var(--ctl-volt-edge); }
+.mob-page .ctl-toggle .mk-switch__tick { inset: auto; left: 3px; top: 7px; width: 50px; height: 30px; }
+.mob-page .ctl-toggle .mk-switch__thumb { left: 6px; top: 10px; }
+.mob-page .ctl-toggle .mk-switch:focus-visible { outline: none; }
+.mob-page .ctl-toggle .mk-switch:focus-visible::before { outline: 2px solid var(--ctl-focus); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .mob-page .ctl-toggle .mk-switch::before { transition: none; } }
+:root[data-motion='reduced'] .mob-page .ctl-toggle .mk-switch::before { transition: none; }

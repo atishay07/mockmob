@@ -58,7 +58,7 @@ const Row = ({ m, you }) => (
   </li>
 );
 
-function Question({ q, mine, resultId }) {
+function Question({ q, mine, resultId, partial = false }) {
   const youRow = q.you ? { ...q.you, name: mine.name, colour: mine.colour } : null;
   return (
     <li className="mob-q" data-split={q.split || undefined} data-trap={q.trap ? '' : undefined}>
@@ -74,7 +74,7 @@ function Question({ q, mine, resultId }) {
         {youRow ? <Row m={youRow} you /> : null}
         {q.others.map((o) => <Row key={o.memberId} m={o} />)}
       </ul>
-      {q.picks && q.picks.length ? <p className="mob-hint">How your Mob picked: {q.picks.map((p) => `${p.option || 'No answer'} ${p.count}`).join(', ')}.</p> : null}
+      {q.picks && q.picks.length ? <p className="mob-hint">{partial ? 'How the members you can read picked' : 'How your Mob picked'}: {q.picks.map((p) => `${p.option || 'No answer'} ${p.count}`).join(', ')}.</p> : null}
       {q.trap ? (
         <div className="mob-q__trap">
           <p className="mob-note"><b>Your Mob&apos;s trap:</b> {q.trap.count} of {q.trap.of} picked {q.trap.option}. {q.trap.trapName ? `Trap: ${q.trap.trapName}.` : 'A common wrong pick.'}</p>
@@ -106,7 +106,7 @@ export function SideBySide({ data, mine, onBack, onShare, busy, headingRef }) {
       </header>
       {data.questions.length ? (
         <ol className="mob-qs">
-          {data.questions.map((q) => <Question key={q.id} q={q} mine={mine} resultId={data.yourResultId} />)}
+          {data.questions.map((q) => <Question key={q.id} q={q} mine={mine} resultId={data.yourResultId} partial={data.hidden > 0} />)}
         </ol>
       ) : <p className="mob-note">The questions of this paper are not available to show just now. Your result is still yours to open.</p>}
       <p className="mob-hint mob-sbs__foot">Seconds come from your device&apos;s own record of the paper. A question shows no time when the record did not keep one.</p>

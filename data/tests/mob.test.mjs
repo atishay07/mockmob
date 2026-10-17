@@ -622,7 +622,7 @@ test('routes: MOB_ENABLED off is 404 everywhere; signed out is 401 except the pu
 });
 
 test('routes: rate limits answer 429 with Retry-After, on the limits P11 names', async () => {
-  assert.deepEqual([LIMITS.invite.limit, LIMITS.lookup.limit, LIMITS.join.limit, LIMITS.report.limit, LIMITS.write.limit], [5, 30, 10, 10, 60]);
+  assert.deepEqual([LIMITS.invite.limit, LIMITS.lookup.limit, LIMITS.join.limit, LIMITS.report.limit, LIMITS.write.limit], [5, 120, 10, 10, 60]);
   assert.equal(LIMITS.lookup.by, 'ip');
   const deps = httpDeps({ allow: false });
   const res = await handleMob(deps, 'invite', req('POST'));

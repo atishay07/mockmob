@@ -313,7 +313,7 @@ test('extra papers: only Pro makes them, any member sits them, 3 a Mob and week,
     assert.equal(await svc.recordFromAttempt('u2', att), 'recorded');
     assert.equal(await svc.recordFromAttempt('u2', att), 'exists');
     assert.equal(await svc.recordFromAttempt('u3', { ...att, userId: 'u3', completedAt: NOW + 8 * DAY }), 'late');
-    await assert.rejects(svc.startPaper('u2', { extra: r.extraId }), expectCode('PAPER_ALREADY_SAT'));
+    await assert.rejects(svc.startPaper('u2', { extra: r.extraId }), expectCode('EXTRA_ALREADY_SAT'));
     const after = (await svc.view('u2')).mob.extras[0];
     assert.deepEqual([after.youSat, after.sat, after.yourResultId], [true, 1, `att_u2_${r.extraId}`]);
     // 3 a Mob and week.
@@ -446,10 +446,11 @@ test('the side-by-side on a real Mob: reciprocal sharing, nobody named who keeps
     assert.equal(quiet.questions.length, 10);
     assert.deepEqual(quiet.questions[1].you, { picked: 'D', right: false, changed: 1, seconds: 10 });
     assert.deepEqual(quiet.questions[1].others, []);
-    assert.deepEqual(quiet.questions[1].picks, [{ option: 'D', count: 3 }], 'counts per option, no names');
+    // 18 Oct: the counts and the split are over the sitters you can read. Nobody shares, so only you: no counts, no split.
+    assert.equal(quiet.questions[1].picks, null, 'a member who keeps answers private is in nobody else's counts');
     assert.equal(quiet.questions[1].trap.trapName, 'A look-alike term');
     assert.deepEqual([quiet.questions[1].trap.option, quiet.questions[1].trap.count, quiet.questions[1].trap.of], ['D', 3, 3]);
-    assert.equal(quiet.questions[4].split, true);
+    assert.equal(quiet.questions[4].split, null, 'a split needs 2 readable sitters');
     assert.equal(quiet.questions[0].stem, 'Question 1 stem');
     assert.equal(quiet.questions[1].key, 'B');
     // Sharing is reciprocal: Riya shares, Asha shares, Kabir keeps his private.
@@ -462,6 +463,9 @@ test('the side-by-side on a real Mob: reciprocal sharing, nobody named who keeps
     const everything = JSON.stringify(shared);
     for (const leak of ['Kabir', 'Meera', '"u1"', '"u2"', 'u3', 'u4', 'att_u2', 'att_u3', 'att_u4', 'user_id', 'session_id']) assert.equal(everything.includes(leak), false, leak);
     assert.equal(shared.questions[3].others[0].right, true);
+    // Kabir (private) is the one who missed question 5: neither the split nor the counts of the two who share show it.
+    assert.equal(shared.questions[4].split, false, 'Kabir's miss is not in the split of Riya and Asha');
+    assert.equal(shared.questions[1].picks, null, 'two readable sitters are too few for counts');
     // Free students: the teaser always, the side-by-side once.
     assert.equal((await svc.view('u2')).mob.compare.access, 'offer');
     assert.equal((await svc.view('u2')).mob.trap, null, 'the shared trap is part of the side-by-side, not the teaser');

@@ -5,7 +5,11 @@
 //   - Errors: { error: { code, message } }. Successes: JSON, Cache-Control: no-store.
 //   - Rate limits (P11), persistent through checkPersistentRateLimit; a 429 carries Retry-After and says the real wait in
 //     plain words. Starting a Mob and making an extra paper count only when they succeed: a request that fails (a typo
-//     in the name, a thin chapter, any error) gives its count back, so mistakes never lock a student out.
+//     in the name, a thin chapter, any error) gives its count back, so mistakes never lock a student out. Joining gives
+//     back a try that failed on the student's own input (a name or colour that is not allowed, a body that is not right)
+//     and on our own failures; a wrong, expired or full link still counts, because those are guesses at a code.
+//   - A gate can answer before any limit is taken (create: the plan's own cap of Mobs, so a student at the cap hears
+//     that, never the weekly create limit's wait).
 import { MobError, errorBody, errorStatus, waitPhrase } from '../../mob/model.mjs';
 
 const MIN = 60_000;
@@ -16,8 +20,10 @@ export const LIMITS = Object.freeze({
   read: { limit: 120, windowMs: 10 * MIN, by: 'user' },
   write: { limit: 60, windowMs: HOUR, by: 'user' },
   invite: { limit: 5, windowMs: DAY, by: 'user' },
-  lookup: { limit: 30, windowMs: 10 * MIN, by: 'ip' },
-  join: { limit: 10, windowMs: HOUR, by: 'user' },
+  // Per network, not per student: a class sharing one connection opens one link (30 a window ran out at 30 students).
+  // 120 tries in 10 minutes from one network is still nowhere near guessing a 40-bit code.
+  lookup: { limit: 120, windowMs: 10 * MIN, by: 'ip' },
+  join: { limit: 10, windowMs: HOUR, by: 'user', success: true, refundOn: ['NAME_INVALID', 'NAME_REFUSED', 'COLOUR_INVALID', 'BODY_INVALID', 'UNAVAILABLE', 'MIGRATION', 'JOIN_PAUSED'] },
   report: { limit: 10, windowMs: DAY, by: 'user' },
   // Starting Mobs is rare. A cap here is what stops leave-and-start-again from being a way to a fresh weekly paper.
   // Both count successful actions only (success: true).
@@ -42,7 +48,7 @@ export function limitMessage(name, wait) {
 // action -> [method, limits, service call, success status]
 export const ACTIONS = Object.freeze({
   get: ['GET', ['read'], (s, u, _b, p) => s.view(u, { mobId: p.query?.mob })],
-  create: ['POST', ['create', 'write'], (s, u, b) => s.create(u, b), 201],
+  create: ['POST', ['create', 'write'], (s, u, b) => s.create(u, b), 201, { gate: (s, u) => s.createGate?.(u) }],
   invite: ['POST', ['invite', 'write'], (s, u, b) => s.invite(u, b)],
   lookup: ['GET', ['lookup'], (s, u, _b, p) => s.lookup(p.code, { viewerId: u }), 200, { public: true }],
   join: ['POST', ['join', 'write'], (s, u, b) => s.join(u, b)],
@@ -86,14 +92,27 @@ export async function handleMob(deps, action, request, params = {}) {
     return { route: `/api/mob:${name}`, limit: l.limit, windowMs: l.windowMs, keyParts: l.by === 'user' ? [userId] : [], identityOnly: l.by === 'user' };
   };
   const taken = [];
-  const giveBack = async () => {
-    for (const name of taken) if (LIMITS[name].success && deps.giveBack) await Promise.resolve(deps.giveBack(request, optsFor(name))).catch(() => null);
+  // code: why the request failed (null: the request never happened, so every success-only count comes back). A limit with
+  // refundOn gives its count back only for those codes.
+  const giveBack = async (code = null) => {
+    for (const name of taken) {
+      const l = LIMITS[name];
+      if (!l.success || !deps.giveBack) continue;
+      if (code !== null && l.refundOn && !l.refundOn.includes(code)) continue;
+      await Promise.resolve(deps.giveBack(request, optsFor(name))).catch(() => null);
+    }
   };
+  // The plan's own answer comes before the limits (a gate throws a MobError, or says nothing and the request goes on).
+  if (flags.gate) {
+    try { await flags.gate(deps.service, userId); } catch (error) {
+      if (error instanceof MobError) return fail(error.code, {}, { message: error.extra?.message, detail: error.extra?.detail });
+    }
+  }
   for (const name of limits) {
     const l = LIMITS[name];
     const result = await deps.rateLimit(request, optsFor(name)).catch(() => ({ allowed: false }));
     if (!result?.allowed) {
-      await giveBack(); // an earlier limit of this request counted it; the request does not happen
+      await giveBack(null); // an earlier limit of this request counted it; the request does not happen
       const read = deps.waitFor ? await Promise.resolve(deps.waitFor(request, optsFor(name))).catch(() => null) : null;
       const seconds = Number.isFinite(read) && read > 0 ? read : Number(result?.retryAfterSeconds) || Math.ceil(l.windowMs / 1000);
       const now = deps.now ? deps.now() : Date.now();
@@ -104,18 +123,21 @@ export async function handleMob(deps, action, request, params = {}) {
   let body = {};
   if (request.method !== 'GET') {
     const text = await request.text().catch(() => '');
-    if (text.length > MAX_BODY) { await giveBack(); return fail('BODY_INVALID'); }
+    if (text.length > MAX_BODY) { await giveBack('BODY_INVALID'); return fail('BODY_INVALID'); }
     if (text.trim()) {
-      try { body = JSON.parse(text); } catch { await giveBack(); return fail('BODY_INVALID'); }
-      if (!body || typeof body !== 'object' || Array.isArray(body)) { await giveBack(); return fail('BODY_INVALID'); }
+      try { body = JSON.parse(text); } catch { await giveBack('BODY_INVALID'); return fail('BODY_INVALID'); }
+      if (!body || typeof body !== 'object' || Array.isArray(body)) { await giveBack('BODY_INVALID'); return fail('BODY_INVALID'); }
     }
   }
   try {
     const out = await run(deps.service, userId, body, params);
     return Response.json(out, { status: okStatus, headers });
   } catch (error) {
-    await giveBack();
-    if (error instanceof MobError) return fail(error.code, {}, { message: error.extra?.message, detail: error.extra?.detail });
+    if (error instanceof MobError) {
+      await giveBack(error.code);
+      return fail(error.code, {}, { message: error.extra?.message, detail: error.extra?.detail });
+    }
+    await giveBack('UNAVAILABLE');
     console.error('[mob]', action, error?.message || error);
     return fail('UNAVAILABLE');
   }
