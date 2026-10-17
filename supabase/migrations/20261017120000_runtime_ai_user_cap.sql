@@ -10,7 +10,7 @@
 --   1. runtime_ai_requests.user_id (nullable text) + index (user_id, created_at). Calls without a user (scripts, the
 --      content pipeline, moderation) leave it null and behave exactly as before.
 --   2. Two cap rows in runtime_ai_budget, so the caps change with one UPDATE and no deploy:
---        student_user_paid  monthly_cap_usd 0.1136  (Rs 10 at USD 1 = Rs 88)  any active paid plan
+--        student_user_paid  monthly_cap_usd 0.0568  (Rs 5 at USD 1 = Rs 88; owner, 17 Oct 2026, 2:15 am)  any active paid plan
 --        student_user_free  monthly_cap_usd 0.0114  (Rs 1)                      everyone else
 --      Only the row id 'student_ai' carries funding, pause and spend; nothing reads these two rows except this function.
 --   3. reserve_runtime_ai takes p_user_id and p_user_tier ('paid', anything else = free) and refuses with
@@ -23,12 +23,21 @@
 --      first, otherwise both would match a 5-argument call.
 -- Deploy order: apply this migration BEFORE the code that sends p_user_id (the old function has no such parameter).
 -- Rollback: supabase/undo/20261017120000_runtime_ai_user_cap.undo.sql.
+--
+-- Owner decision, 17 Oct 2026 ~2:15 am IST: a paid student gets Rs 5 a month (USD 0.0568), a free one Rs 1 (USD 0.0114); the
+-- global monthly ceiling is removed. This file originally seeded the paid cap at 0.1136 (Rs 10), which disagreed with that
+-- decision, so a fresh database would have come up at Rs 10. The seed above now says 0.0568. Production already has this
+-- migration applied (as 20261016195638) and its rows read student_user_paid 0.0568 and student_user_free 0.0114 (read-only
+-- select, 17 Oct 2026), so nothing here needs applying there. The insert stays "on conflict do nothing": a re-apply never
+-- overwrites a cap that was changed with an UPDATE. Do not add a statement here that updates an existing row.
+-- Note for a fresh database only: the global 'student_ai' row still seeds USD 25 from 20261004120000_runtime_ai_monthly_cap.sql;
+-- production's row was raised to 1000000 by the owner's removal of the ceiling. This file does not touch it.
 
 alter table public.runtime_ai_requests add column if not exists user_id text;
 create index if not exists runtime_ai_requests_user_month_idx on public.runtime_ai_requests(user_id, created_at);
 
 insert into public.runtime_ai_budget(id, monthly_cap_usd) values
-  ('student_user_paid', 0.1136),
+  ('student_user_paid', 0.0568),
   ('student_user_free', 0.0114)
 on conflict (id) do nothing;
 

@@ -38,12 +38,12 @@ const COST = 0.0016;
 const reserveWith = (q) => (key, user = null, tier = null, provider = 'openai', model = 'gpt-6-luna') =>
   q('select reserve_runtime_ai($1,$2,$3,$4,$5,$6,$7) v', [key, provider, model, 4000, 2400, user, tier]);
 
-test('per-user cap: free USD 0.0114, paid USD 0.1136, IST month, global check untouched, no-user calls unchanged', async () => {
+test('per-user cap: free USD 0.0114, paid USD 0.0568, IST month, global check untouched, no-user calls unchanged', async () => {
   const { db, q } = await guardDb();
   try {
     await db.exec(MIGRATION);
     const caps = Object.fromEntries((await q("select id, monthly_cap_usd from runtime_ai_budget where id like 'student_user_%'")).map((r) => [r.id, Number(r.monthly_cap_usd)]));
-    assert.deepEqual(caps, { student_user_paid: 0.1136, student_user_free: 0.0114 });
+    assert.deepEqual(caps, { student_user_paid: 0.0568, student_user_free: 0.0114 });
     assert.equal(Number((await q("select monthly_cap_usd from runtime_ai_budget where id='student_ai'"))[0].monthly_cap_usd), 25, 'the global cap is as it was');
     const reserve = reserveWith(q);
 
@@ -63,18 +63,18 @@ test('per-user cap: free USD 0.0114, paid USD 0.1136, IST month, global check un
     for (let i = 0; i < 7; i += 1) await q('select receipt_runtime_ai($1,$2,$3)', [`free_user_key_${i}`, 0.0002, { fixture: true }]);
     assert.equal((await reserve('free_user_key_9', 'u_free', 'free'))[0].v.dispatch, true, '7 x 0.0002 + 0.0016 is under 0.0114');
 
-    // Paid: 71 reservations = 0.1136 exactly fit; the 72nd does not.
-    for (let i = 0; i < 71; i += 1) await reserve(`paid_user_key_${String(i).padStart(2, '0')}`, 'u_paid', 'paid');
-    await assert.rejects(reserve('paid_user_key_71', 'u_paid', 'paid'), /runtime user limit reached/);
+    // Paid (Rs 5 = USD 0.0568): 35 reservations = 0.056 fit; the 36th would make 0.0576.
+    for (let i = 0; i < 35; i += 1) await reserve(`paid_user_key_${String(i).padStart(2, '0')}`, 'u_paid', 'paid');
+    await assert.rejects(reserve('paid_user_key_35', 'u_paid', 'paid'), /runtime user limit reached/);
 
     // The cap is the IST month: last month's rows do not count.
     await q("update runtime_ai_requests set created_at = runtime_ai_month_start() - interval '1 day' where user_id in ('u_paid','u_free')");
-    assert.equal((await reserve('paid_user_key_72', 'u_paid', 'paid'))[0].v.dispatch, true);
+    assert.equal((await reserve('paid_user_key_36', 'u_paid', 'paid'))[0].v.dispatch, true);
     assert.equal((await reserve('free_user_key_10', 'u_free', 'free'))[0].v.dispatch, true);
 
     // A cap is a row: changing it takes one UPDATE and no deploy.
     await q("update runtime_ai_budget set monthly_cap_usd=0.0001 where id='student_user_paid'");
-    await assert.rejects(reserve('paid_user_key_73', 'u_paid', 'paid'), /runtime user limit reached/);
+    await assert.rejects(reserve('paid_user_key_37', 'u_paid', 'paid'), /runtime user limit reached/);
     await q("delete from runtime_ai_budget where id='student_user_free'");
     await assert.rejects(reserve('free_user_key_11', 'u_free', 'free'), /runtime funding unavailable/, 'a missing cap row fails closed');
 
@@ -392,4 +392,12 @@ test('account deletion unlinks the student from the AI cost rows instead of dele
   assert.equal(step.action, 'anonymise');
   assert.deepEqual(step.set, [{ column: 'user_id', value: 'null' }]);
   assert.deepEqual(step.match, [{ column: 'user_id' }]);
+});
+
+test('both rival routes pass the student and plan on, so the intro and the outro count against the monthly cap', () => {
+  for (const rel of ['src/app/api/ai/rival/start/route.js', 'src/app/api/ai/rival/submit/route.js']) {
+    const src = file(rel);
+    assert.match(src, /import \{ spendUserFor \} from '@\/services\/prepos\/replyDeps'/, rel);
+    assert.match(src, /generateAIResponse\(\{[^}]*\.\.\.spendUserFor\(/s, rel);
+  }
 });
