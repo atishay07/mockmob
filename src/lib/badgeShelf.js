@@ -155,10 +155,15 @@ export function nextOnPath(paths, stepId) {
   return next ? { kind: 'next', step: next } : null;
 }
 
-/** "From Accountancy full mock, Sat 17 Oct, 9:12 PM", then the marks. Null without a record: no source is made up. */
-export function paperLine(record, zone) {
+/**
+ * "From Accountancy full mock, Sat 17 Oct, 9:12 PM", then the marks. A badge dated by its own paper already says
+ * that time on the "Earned" line above it, so the paper's time is added only when it differs. Null without a record:
+ * no source is made up.
+ */
+export function paperLine(record, zone, earnedAt = null) {
   if (!record || !record.attemptId) return null;
-  const when = whenLine(record.at, zone);
+  const same = earnedAt != null && toMs(record.at) === toMs(earnedAt);
+  const when = same ? '' : whenLine(record.at, zone);
   const marks = Number.isFinite(record.max) && record.max > 0 ? `${record.marks} of ${record.max} marks` : '';
   return {
     attemptId: record.attemptId,
@@ -190,11 +195,12 @@ export function detailOf(paths, stepId, { entries = {}, records = {}, zone } = {
     earned,
     unknown,
     earnedLine: earned ? (step.earnedAt != null && !step.undated ? `Earned ${whenLine(step.earnedAt, zone)}` : 'Earned. The date is not recorded yet.') : '',
-    paper: earned ? paperLine(records[step.id], zone) : null,
-    // Not earned: the count so far when one exists, else the plain fact that it has not landed.
-    soFar: earned || unknown ? '' : count ? count.so : 'Not earned yet',
+    paper: earned ? paperLine(records[step.id], zone, step.earnedAt) : null,
+    // Not earned: it says so, with the count so far where one exists (never a count that is not exact).
+    notYet: !earned && !unknown,
+    soFar: earned || unknown || !count ? '' : count.so,
     unknownLine: unknown ? 'This one could not be checked just now.' : '',
-    next: next ? { kind: next.kind, id: next.step.id, name: next.step.name, condition: next.step.condition, more: nextCount ? nextCount.more : '', so: nextCount ? nextCount.so : '' } : null,
+    next: next ? { kind: next.kind, id: next.step.id, name: next.step.name, condition: next.step.condition, more: nextCount ? nextCount.more : '', short: nextCount ? nextCount.short : '' } : null,
     action: actionFor(path.id),
     pathDone: !next && !!path.steps.length && path.steps.every((s) => s.status === 'earned'),
   };

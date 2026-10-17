@@ -19,6 +19,7 @@ import { useWaitStage } from '@/lib/mobiHooks';
 import StudyProgress from './study/StudyProgress';
 import RulesEntry from './rules/RulesEntry';
 import RhythmCard from './RhythmCard';
+import StudyBadges from './StudyBadges';
 import ReviseEntry from './revise/ReviseEntry';
 import RecordGlimpse from './ai/RecordGlimpse';
 import { MobTodayCard } from './mob/MobTodayCard';
@@ -122,7 +123,9 @@ export default function RecoveryOverview({ view }) {
   // Progress: the week and the plan load on their own; either failing joins the record's one error state.
   const [partFailed, setPartFailed] = useState(false);
   const partFail = useCallback(() => setPartFailed(true), []);
-  const retry = () => { setData(null); setError(''); setPartFailed(false); setRetryCount(n => n + 1); };
+  // The week the card read is handed up: the badges below the record need its time zone and goal, and it is read once.
+  const [rhythm, setRhythm] = useState(null);
+  const retry = () => { setData(null); setError(''); setPartFailed(false); setRhythm(null); setRetryCount(n => n + 1); };
   const review = data?.ordinaryReview || [];
   const toReview = review.reduce((s, a) => s + openOf(a), 0);
   const answered = review.reduce((s, a) => s + (a.total || 0), 0);
@@ -202,7 +205,7 @@ export default function RecoveryOverview({ view }) {
       <ArenaHead title="Your study days and checks." lede="This week first, then what your sessions, recovery checks and playbook show." />
       {/* One failed read on this page (week, plan or record) is one page-level error with one retry that reloads all three. */}
       {partFailed && !error ? <ErrorState scene="unreachable" title="Your record did not load" message="Check your connection and try again. Your saved sessions are safe." onRetry={retry} /> : null}
-      {!partFailed && !error ? <RhythmCard key={retryCount} onError={partFail} between={<LearningNextAction compact onError={partFail} />} /> : null}
+      {!partFailed && !error ? <RhythmCard key={retryCount} onError={partFail} onLoad={setRhythm} between={<LearningNextAction compact onError={partFail} />} /> : null}
       {/* The Mob card moved here from Today (TODAY-1017 section 7); only while MOB_ENABLED is on and you are in a Mob. */}
       <ProgressMob />
       {status}
@@ -222,6 +225,8 @@ export default function RecoveryOverview({ view }) {
         </section>
       ) : null}
       {data ? <StudyProgress /> : null}
+      {/* The badges and the personal bests: their own section, right after the record (BADGES-REFINE-1018). */}
+      {data ? <StudyBadges key={`badges-${retryCount}`} rhythm={rhythm} rhythmFailed={partFailed} /> : null}
       {data ? (
         <>
           <section className="rv-sec" aria-labelledby="ov-checks">

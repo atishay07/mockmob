@@ -149,7 +149,7 @@ test('the next badge on the same path, with its exact count left', () => {
   const d = detailOf(paths, 'first_repair', { entries: countEntries(b.progress), records: b.records, zone: 'Asia/Kolkata' });
   assert.equal(d.next.name, '5 repairs');
   assert.equal(d.next.more, '2 more repairs');
-  assert.equal(d.next.so, '3 of 5 repairs');
+  assert.equal(d.next.short, '3 of 5');
   assert.deepEqual(d.action, { label: 'Open your mistakes', href: '/review' });
 });
 
@@ -176,9 +176,18 @@ test('an earned badge says when, and names the paper it came from with the way t
   assert.equal(d.earned, true);
   assert.match(d.earnedLine, /^Earned [A-Z][a-z]{2} \d{1,2} [A-Z][a-z]{2}, \d{1,2}:\d{2} (AM|PM)$/);
   assert.equal(d.paper.attemptId, 'fm2');
-  assert.match(d.paper.from, /^From Accountancy full mock, [A-Z][a-z]{2} \d{1,2} [A-Z][a-z]{2}, \d{1,2}:\d{2} (AM|PM)$/);
+  // The paper's time is the badge's own, already said on the Earned line, so it is not said twice.
+  assert.equal(d.paper.from, 'From Accountancy full mock');
   assert.equal(d.paper.marks, '165 of 250 marks, 126 before');
   assert.equal(d.soFar, '');
+  assert.equal(d.notYet, false);
+});
+
+test('when the paper is dated differently from the badge, the paper own date and time are said', () => {
+  const rec = { attemptId: 'a1', subject: 'accountancy', mode: 'full', at: Date.parse('2026-10-17T15:42:00.000Z'), marks: 152, max: 250, before: 142 };
+  assert.equal(paperLine(rec, 'Asia/Kolkata', Date.parse('2026-10-17T15:42:00.000Z')).from, 'From Accountancy full mock');
+  assert.equal(paperLine(rec, 'Asia/Kolkata', Date.parse('2026-10-18T10:00:00.000Z')).from, 'From Accountancy full mock, Sat 17 Oct, 9:12 PM');
+  assert.equal(paperLine(rec, 'Asia/Kolkata').from, 'From Accountancy full mock, Sat 17 Oct, 9:12 PM');
 });
 
 test('a badge with no paper on record shows no paper line (no source is made up)', () => {
@@ -194,6 +203,7 @@ test('a badge not earned shows its condition, its count so far with the denomina
   const d = detailOf(b.paths, 'full_mocks_5', { entries: countEntries(b.progress), records: b.records, zone: 'Asia/Kolkata' });
   assert.equal(d.earned, false);
   assert.equal(d.condition, 'Lands with your 5th scored full mock or NTA paper.');
+  assert.equal(d.notYet, true);
   assert.equal(d.soFar, '3 of 5 full mocks');
   assert.deepEqual(d.action, { label: 'Choose practice', href: '/dashboard' });
   assert.equal(d.earnedLine, '');
@@ -202,7 +212,8 @@ test('a badge not earned shows its condition, its count so far with the denomina
 test('with no exact count the sheet says it is not earned yet, never "0 of" something', () => {
   const b = board(SOME);
   const d = detailOf(b.paths, 'first_hold', { entries: countEntries(b.progress), records: b.records, zone: 'Asia/Kolkata' });
-  assert.equal(d.soFar, 'Not earned yet');
+  assert.equal(d.notYet, true);
+  assert.equal(d.soFar, '');
   assert.doesNotMatch(JSON.stringify(d), /0 of/);
 });
 
