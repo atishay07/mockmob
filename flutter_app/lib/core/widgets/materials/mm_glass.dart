@@ -558,6 +558,11 @@ class MmGlass extends StatefulWidget {
 class _MmGlassState extends State<MmGlass> {
   bool _counted = false;
 
+  /// The content keeps its state when the glass gains or loses its backdrop and shadow layers (a sheet
+  /// starts at materialize 0 with neither): without a global key those wrappers re-parent the content, and a
+  /// state that owns something (a controller) would be disposed under a child that is still on screen.
+  final GlobalKey _contentKey = GlobalKey(debugLabel: 'MmGlass content');
+
   void _count(bool live) {
     if (live == _counted) return;
     _counted = live;
@@ -588,7 +593,7 @@ class _MmGlassState extends State<MmGlass> {
     Widget pane = CustomPaint(
       painter: _GlassFillPainter(spec: spec, radius: widget.borderRadius, materialize: m, fill: f, solid: colors.raised),
       foregroundPainter: _GlassRimPainter(spec: spec, radius: widget.borderRadius, boost: widget.boost, fill: f),
-      child: widget.child,
+      child: KeyedSubtree(key: _contentKey, child: widget.child),
     );
     if (live) {
       pane = GlassBackdrop(spec: spec, borderRadius: widget.borderRadius, strength: m * (1 - f), child: pane);

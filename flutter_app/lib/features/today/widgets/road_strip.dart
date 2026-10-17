@@ -338,7 +338,7 @@ class _StripPainter extends CustomPainter {
       final size0 = math.min(pip, pitch - 1);
       // The columns grow from the baseline, left to right, a few milliseconds apart.
       final t = ((grow * (1 + columns * 0.02)) - c * 0.02).clamp(0.0, 1.0);
-      final shown = (count * Curves.easeOut.transform(t)).ceil();
+      final shown = (count * Motion.out.transform(t)).ceil();
       final cx = (c + 0.5) * col;
       for (var k = 0; k < shown; k++) {
         final y = pipsBase - size0 - k * pitch;

@@ -6,6 +6,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 
@@ -34,7 +35,7 @@ class TodayPill extends StatelessWidget {
       haptic: MmPressHaptic.selection,
       builder: (context, pressed, _) => AnimatedContainer(
         duration: const Duration(milliseconds: 100),
-        curve: Curves.easeOut,
+        curve: Motion.out,
         height: height,
         padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12),
         decoration: ShapeDecoration(
@@ -101,7 +102,7 @@ class TodayToken extends StatelessWidget {
         haptic: MmPressHaptic.selection,
         builder: (context, pressed, _) => AnimatedContainer(
           duration: const Duration(milliseconds: 100),
-          curve: Curves.easeOut,
+          curve: Motion.out,
           height: height,
           padding: const EdgeInsets.only(left: MmSpace.s12, right: MmSpace.s8),
           decoration: BoxDecoration(

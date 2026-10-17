@@ -262,7 +262,8 @@ class MistakeChip extends StatelessWidget {
       MistakeStatus.corrected => (colors.ink3, colors.ink2, null),
     };
     return ExcludeSemantics(
-      child: AnimatedSwitcher(
+      child: MmOverlapSwitcher(
+        outDuration: Motion.of(context, const Duration(milliseconds: 120)),
         duration: Motion.of(context, const Duration(milliseconds: 200)),
         child: Container(
           key: ValueKey(status),
