@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>App Learn and Review mock, pass 1017</title>
+<title>App Learn and Review mock, pass 1017 (revised)</title>
 <style>
-/* The app's own cuts (flutter_app/assets/fonts) and colours (lib/core/theme/mm_colors.dart, ui/v13-review 8fe53c87). */
+/* The app's own cuts (flutter_app/assets/fonts) and colours (lib/core/theme/mm_colors.dart, ui/v13-review 8fe53c87). Numbers from fixture.json. */
 @font-face { font-family: 'BricolageCondensed'; src: url('assets/BricolageCondensed-Bold.ttf'); font-weight: 700; }
 @font-face { font-family: 'BricolageHeadline'; src: url('assets/BricolageHeadline-SemiBold.ttf'); font-weight: 600; }
 @font-face { font-family: 'BricolageTitle'; src: url('assets/BricolageTitle-SemiBold.ttf'); font-weight: 600; }
@@ -15,24 +15,26 @@
 @font-face { font-family: 'Hanken'; src: url('assets/HankenGrotesk-Bold.ttf'); font-weight: 700; }
 :root {
   --ground: #12110E; --raised: #1B1A16; --raised2: #25231E; --sunken: #0D0C0A; --line: #312E27; --lineStrong: #4A453B;
-  --ink: #F4F0E6; --ink2: #BDB6A6; --ink3: #A09989; --ink4: #6A645A;
-  --accent: #D2F000; --volt: #D2F000; --voltInk: #0B1000; --lamp: #F2A93B;
-  --bad: #FFA396; --badWash: #2A1614; --badBorder: #7D3128; --good: #C6E86E;
-  --glass: rgba(28,26,22,.62); --edgeTop: rgba(255,246,228,.14);
+  --ink: #F4F0E6; --ink2: #BDB6A6; --ink3: #A09989;
+  --accent: #D2F000; --volt: #D2F000; --voltInk: #0B1000; --voltEdge: #9DB400;
+  --bad: #FFA396; --badWash: #2A1614; --badBorder: #7D3128; --good: #C6E86E; --warn: #E8BE5A;
+  --glass: rgba(28,26,22,.62); --edgeTop: rgba(255,246,228,.14); --lit: rgba(244,240,230,.10);
   --shadow: 0 20px 40px -22px rgba(0,0,0,.5), 0 2px 6px -2px rgba(0,0,0,.2);
-  --ease: cubic-bezier(0.23, 1, 0.32, 1);
+  --scrim: rgba(8,7,5,.62);
 }
 html[data-theme='light'] {
   --ground: #F3EFE6; --raised: #FFFDF8; --raised2: #E9E4D8; --sunken: #EAE5DA; --line: #D8D1C2; --lineStrong: #BDB4A2;
-  --ink: #17150F; --ink2: #454036; --ink3: #655F53; --ink4: #8A8375;
-  --accent: #526700; --bad: #B0291F; --badWash: #FBE9E7; --badBorder: #B93225; --good: #3D6600;
-  --glass: rgba(255,253,248,.72); --edgeTop: rgba(255,255,255,.8);
+  --ink: #17150F; --ink2: #454036; --ink3: #655F53;
+  --accent: #526700; --bad: #B0291F; --badWash: #FBE9E7; --badBorder: #B93225; --good: #3D6600; --warn: #845400;
+  --glass: rgba(255,253,248,.72); --edgeTop: rgba(255,255,255,.8); --lit: rgba(23,21,15,.07); --voltEdge: rgba(79,100,0,.45);
   --shadow: 0 14px 30px -18px rgba(42,32,16,.15), 0 1px 2px rgba(42,32,16,.06);
+  --scrim: rgba(40,34,24,.38);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { background: var(--ground); color: var(--ink); font-family: 'Hanken', sans-serif; -webkit-font-smoothing: antialiased; }
 b, .n { font-variant-numeric: tabular-nums; }
 [hidden] { display: none !important; }
+html[data-theme='dark'] .day, html[data-theme='light'] .night { display: none !important; }
 .lamp { position: absolute; inset: 0 0 auto 0; height: 480px; pointer-events: none; background: radial-gradient(120% 70% at 85% 0%, rgba(242,169,59,.14), rgba(242,169,59,0) 60%); }
 html[data-theme='light'] .lamp { display: none; }
 .status { height: 28px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; font: 600 13px/1 'Hanken'; }
@@ -43,26 +45,34 @@ html[data-theme='light'] .lamp { display: none; }
 .back { width: 44px; height: 44px; border-radius: 999px; display: grid; place-items: center; background: var(--glass); box-shadow: inset 0 1px 0 var(--edgeTop), 0 0 0 1px var(--line); }
 .back svg, .ask svg { width: 20px; height: 20px; stroke: var(--ink); fill: none; stroke-width: 2; }
 .page { position: relative; padding: 4px 20px 140px; }
+.note { display: flex; align-items: center; gap: 10px; min-height: 48px; margin: 0 0 6px; font: 500 14px/1.4 'Hanken'; color: var(--ink2); }
+.note svg { flex: none; width: 18px; height: 18px; stroke: var(--ink2); fill: none; stroke-width: 2; }
+.note u { color: var(--ink); font-weight: 600; text-underline-offset: 3px; }
 
-/* hero: the existing composition (monumental number, lamp-lit object, one volt key) */
-.hero { position: relative; padding: 20px; border-radius: 26px; background: var(--raised); box-shadow: var(--shadow), inset 0 1px 0 var(--edgeTop), 0 0 0 1px var(--line); overflow: hidden; }
-.hero .over { font: 500 14px/1.3 'Hanken'; color: var(--ink2); }
-.hero h2 { margin-top: 4px; max-width: 62%; font: 600 24px/1.12 'BricolageTitle'; letter-spacing: -.01em; }
-.hero .art { position: absolute; right: 12px; top: 14px; width: 120px; height: 120px; object-fit: contain; }
-.big { display: flex; align-items: baseline; gap: 10px; margin-top: 8px; font-family: 'BricolageCondensed'; }
-.big b { font-size: 96px; line-height: .86; }
-.big span { font-size: 34px; color: var(--ink2); }
-.hero .why { margin-top: 12px; font: 500 15px/1.5 'Hanken'; color: var(--ink2); }
-.hero .why strong { font-weight: 600; color: var(--ink); }
-.volt { margin-top: 16px; height: 56px; border-radius: 999px; display: grid; place-items: center; background: var(--volt); color: var(--voltInk); font: 600 17px/1 'Hanken'; }
-html[data-theme='light'] .volt { box-shadow: inset 0 0 0 1px rgba(82,103,0,.3); }
-.hero .cost { margin-top: 10px; font: 500 13.5px/1.45 'Hanken'; color: var(--ink3); text-align: center; }
-.mix { margin-top: 12px; display: flex; gap: 14px; flex-wrap: wrap; font: 500 14px/1.3 'Hanken'; color: var(--ink2); }
-.mix b { color: var(--ink); font-weight: 700; }
-
-.seg { margin-top: 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; border-radius: 999px; background: var(--sunken); box-shadow: 0 0 0 1px var(--line); }
+.seg { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; border-radius: 999px; background: var(--sunken); box-shadow: 0 0 0 1px var(--line); }
 .seg span { height: 44px; border-radius: 999px; display: grid; place-items: center; font: 600 15px/1 'Hanken'; color: var(--ink3); }
 .seg span.on { background: var(--raised2); color: var(--ink); box-shadow: inset 0 1px 0 var(--edgeTop), 0 0 0 1px var(--lineStrong); }
+
+/* hero: the app's composition (lamp-lit object, monumental number, one volt key) */
+.hero { position: relative; margin-top: 16px; padding: 20px; border-radius: 26px; background: var(--raised); box-shadow: var(--shadow), inset 0 1px 0 var(--edgeTop), 0 0 0 1px var(--line); overflow: hidden; }
+.hero h2 { max-width: 60%; font: 600 24px/1.12 'BricolageTitle'; letter-spacing: -.01em; }
+.hero .art { position: absolute; right: 10px; top: 8px; width: 118px; height: 118px; object-fit: contain; }
+.big { display: flex; align-items: flex-end; gap: 10px; margin-top: 10px; font-family: 'BricolageCondensed'; }
+.big b { font-size: 92px; line-height: .84; }
+.big span { font-size: 26px; line-height: 1; color: var(--ink2); padding-bottom: 4px; }
+.hero .src { margin-top: 10px; font: 500 14.5px/1.45 'Hanken'; color: var(--ink2); }
+.chips { margin-top: 12px; display: flex; align-items: center; gap: 6px; }
+.chip { flex: none; display: inline-flex; align-items: center; gap: 5px; height: 32px; padding: 0 9px 0 5px; border-radius: 999px; background: var(--sunken); box-shadow: 0 0 0 1px var(--line); font: 700 13px/1 'Hanken'; }
+.chip i { width: 18px; height: 18px; border-radius: 999px; background: var(--badWash); box-shadow: inset 0 0 0 1.5px var(--badBorder); display: grid; place-items: center; }
+.chip i svg { width: 10px; height: 10px; stroke: var(--bad); stroke-width: 2.4; }
+.chip.slip i { background: transparent; box-shadow: inset 0 0 0 1.5px var(--warn); }
+.chip.slip i svg { stroke: var(--warn); }
+.showme { flex: none; margin-left: auto; min-height: 44px; display: inline-flex; align-items: center; font: 700 14.5px/1 'Hanken'; color: var(--accent); }
+.volt { margin-top: 16px; height: 56px; border-radius: 999px; display: grid; place-items: center; background: var(--volt); color: var(--voltInk); font: 600 17px/1 'Hanken'; box-shadow: inset 0 0 0 1px var(--voltEdge); }
+.volt.off { background: var(--raised2); color: var(--ink3); box-shadow: 0 0 0 1px var(--line); }
+.hero .val { margin-top: 12px; font: 500 14px/1.45 'Hanken'; color: var(--ink2); text-align: center; }
+.hero .cost { margin-top: 4px; font: 500 13.5px/1.45 'Hanken'; color: var(--ink3); text-align: center; }
+.hero .alt { margin-top: 8px; min-height: 40px; display: grid; place-items: center; font: 600 14.5px/1 'Hanken'; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--lineStrong); }
 
 /* receipt strip */
 .life { margin-top: 22px; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
@@ -74,41 +84,70 @@ html[data-theme='light'] .volt { box-shadow: inset 0 0 0 1px rgba(82,103,0,.3); 
 .held { margin-top: 10px; font: 500 14.5px/1.5 'Hanken'; color: var(--ink2); }
 .held strong { color: var(--ink); font-weight: 600; }
 
-.sec { margin-top: 30px; }
+.sec { margin-top: 28px; }
 .sec-head { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
 .sec-head h2 { font: 600 24px/1.2 'BricolageHeadline'; letter-spacing: -.015em; }
-.sec-head p { font: 700 16px/1 'Hanken'; color: var(--bad); }
-.sub { margin-top: 8px; font: 500 14px/1.45 'Hanken'; color: var(--ink3); }
+.sec-head p { font: 500 13.5px/1 'Hanken'; color: var(--ink3); }
+.sub { margin-top: 8px; font: 500 14px/1.45 'Hanken'; color: var(--ink2); }
 .ch { display: grid; grid-template-columns: 48px minmax(0,1fr) auto; gap: 2px 12px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--line); }
 .ch img { grid-row: span 3; width: 48px; height: 48px; object-fit: contain; align-self: start; }
 .ch b { font: 600 16px/1.3 'Hanken'; }
-.ch .lost { font: 700 22px/1 'BricolageCondensed'; color: var(--bad); text-align: right; }
-.ch .meta { grid-column: 2 / span 2; font: 500 14px/1.4 'Hanken'; color: var(--ink3); }
+.ch .lost { font: 700 24px/1 'BricolageCondensed'; color: var(--bad); text-align: right; }
+.ch .meta { grid-column: 2 / span 2; font: 500 13.5px/1.4 'Hanken'; color: var(--ink3); }
 .ch .prog { grid-column: 2 / span 2; display: flex; align-items: center; gap: 10px; margin-top: 6px; font: 600 13px/1 'Hanken'; color: var(--ink2); }
-.track { flex: 1; height: 4px; border-radius: 99px; background: var(--line); overflow: hidden; }
+.track { flex: 1; height: 4px; border-radius: 99px; background: var(--line); overflow: hidden; max-width: 120px; }
 .track i { display: block; height: 100%; background: var(--good); }
-.open { padding: 2px 0 16px 60px; border-bottom: 1px solid var(--line); }
-.q { display: grid; grid-template-columns: 36px minmax(0,1fr) auto; gap: 2px 12px; align-items: center; padding: 10px 0; }
-.qb { grid-row: span 2; width: 36px; height: 36px; border-radius: 999px; display: grid; place-items: center; background: var(--badWash); box-shadow: inset 0 0 0 1.5px var(--badBorder); color: var(--bad); font: 700 13px/1 'Hanken'; }
-.qb.done { background: transparent; box-shadow: inset 0 0 0 1.5px var(--lineStrong); color: var(--ink3); }
-.q b { font: 600 15px/1.3 'Hanken'; }
-.q span.w { font: 500 13px/1.35 'Hanken'; color: var(--ink3); }
-.q em { grid-row: span 2; font-style: normal; font: 600 13px/1 'Hanken'; color: var(--ink2); }
-.q em.due { color: var(--ink3); }
-.q em[data-k='repair'] { height: 32px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--lineStrong); display: inline-flex; align-items: center; color: var(--ink); }
-.lesson { margin-top: 8px; display: grid; gap: 2px; padding: 12px 14px; border-radius: 16px; box-shadow: 0 0 0 1px var(--line); }
-.lesson b { font: 600 15px/1.3 'Hanken'; }
+
+/* opened chapter with the lifeline connector (kept from review_rows.dart) */
+.open { padding: 4px 0 16px; border-bottom: 1px solid var(--line); }
+.q { position: relative; display: grid; grid-template-columns: 36px minmax(0,1fr); gap: 3px 12px; padding: 10px 0 12px; }
+.q::before { content: ''; position: absolute; left: 17px; top: 0; bottom: 0; width: 2px; background: var(--line); }
+.q:first-child::before { top: 24px; }
+.q.end::before { bottom: auto; height: 24px; }
+.qb { position: relative; grid-row: span 3; align-self: start; width: 36px; height: 36px; border-radius: 999px; display: grid; place-items: center; background: var(--badWash); box-shadow: inset 0 0 0 1.5px var(--badBorder); color: var(--bad); font: 700 13px/1 'Hanken'; }
+.qb.slip { background: var(--ground); box-shadow: inset 0 0 0 1.5px var(--warn); color: var(--warn); }
+.qb.blank { background: var(--ground); box-shadow: inset 0 0 0 1.5px var(--lineStrong); color: var(--ink3); }
+.q b { font: 600 15px/1.35 'Hanken'; }
+.q .w { font: 500 13px/1.4 'Hanken'; color: var(--ink3); }
+.pill { justify-self: start; margin-top: 6px; height: 36px; padding: 0 14px; border-radius: 999px; display: inline-flex; align-items: center; background: var(--raised2); box-shadow: inset 0 1px 0 var(--edgeTop), 0 0 0 1px var(--lineStrong); font: 600 13.5px/1 'Hanken'; }
+.pill.slip { color: var(--warn); }
+.more { margin: 2px 0 0 48px; min-height: 44px; display: flex; align-items: center; font: 600 14.5px/1.3 'Hanken'; color: var(--ink2); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--lineStrong); }
+.lesson { margin-top: 8px; display: grid; gap: 2px; padding: 12px 0; border-top: 1px solid var(--line); }
+.lesson b { font: 600 15px/1.3 'Hanken'; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--lineStrong); }
 .lesson span { font: 500 13.5px/1.35 'Hanken'; color: var(--ink3); }
 .pillbtn { margin-top: 10px; height: 48px; border-radius: 999px; display: grid; place-items: center; box-shadow: inset 0 1px 0 var(--edgeTop), 0 0 0 1px var(--lineStrong); background: var(--raised2); font: 600 15px/1 'Hanken'; }
+.pillbtn + .pillbtn { background: transparent; box-shadow: none; }
 .row { display: grid; grid-template-columns: minmax(0,1fr) 20px; gap: 2px 12px; align-items: center; padding: 15px 0; border-bottom: 1px solid var(--line); }
 .row b { font: 600 16px/1.3 'Hanken'; }
+.row b small { margin-left: 8px; font: 600 13.5px/1 'Hanken'; color: var(--ink3); }
 .row span { grid-column: 1; font: 500 14px/1.45 'Hanken'; color: var(--ink3); }
 .row svg { grid-column: 2; grid-row: 1 / span 2; width: 18px; height: 18px; stroke: var(--ink3); fill: none; stroke-width: 2; }
+
+/* answer sheet (free): your pick, the key, the book explanation, Try it again; Repair is the paid step */
+.scrim { position: fixed; inset: 0; background: var(--scrim); z-index: 8; }
+.sheet { position: fixed; left: 0; right: 0; bottom: 0; z-index: 9; max-height: 80%; overflow: hidden; padding: 10px 20px 28px; border-radius: 32px 32px 0 0; background: var(--raised); box-shadow: inset 0 1px 0 var(--edgeTop), 0 -10px 40px -10px rgba(0,0,0,.4); }
+.grab { width: 40px; height: 5px; border-radius: 99px; background: var(--lineStrong); margin: 0 auto 14px; }
+.sheet .k { font: 600 14px/1.4 'Hanken'; color: var(--ink2); }
+.sheet .k span { display: block; color: var(--ink3); font-weight: 500; }
+.sheet .stem { margin-top: 8px; font: 600 18px/1.45 'Hanken'; }
+.sheet ul { margin-top: 14px; list-style: none; display: grid; gap: 8px; }
+.sheet li { display: grid; grid-template-columns: 28px minmax(0,1fr) auto; gap: 10px; align-items: center; min-height: 50px; padding: 8px 14px; border-radius: 16px; box-shadow: 0 0 0 1px var(--line); font: 500 15px/1.35 'Hanken'; }
+.sheet li i { font-style: normal; width: 28px; height: 28px; border-radius: 999px; display: grid; place-items: center; box-shadow: inset 0 0 0 1.5px var(--lineStrong); font: 700 12.5px/1 'Hanken'; color: var(--ink3); }
+.sheet li em { font-style: normal; font: 700 12.5px/1 'Hanken'; }
+.sheet li.pick { box-shadow: 0 0 0 1.5px var(--badBorder); background: var(--badWash); } .sheet li.pick i { box-shadow: inset 0 0 0 1.5px var(--badBorder); color: var(--bad); } .sheet li.pick em { color: var(--bad); }
+.sheet li.key { box-shadow: 0 0 0 1.5px var(--good); } .sheet li.key i { box-shadow: inset 0 0 0 1.5px var(--good); color: var(--good); } .sheet li.key em { color: var(--good); }
+.sheet .book { margin-top: 14px; font: 500 14.5px/1.5 'Hanken'; color: var(--ink2); }
+.sheet .book b { color: var(--ink); font-weight: 600; }
+.sheet .two { margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.sheet .two span { height: 50px; border-radius: 999px; display: grid; place-items: center; background: var(--raised2); box-shadow: inset 0 1px 0 var(--edgeTop), 0 0 0 1px var(--lineStrong); font: 600 15px/1 'Hanken'; }
+.sheet .fine { margin-top: 10px; text-align: center; font: 500 13px/1.45 'Hanken'; color: var(--ink3); }
 
 /* revise run */
 .ticks { margin-top: 14px; display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; }
 .ticks i { height: 6px; border-radius: 99px; background: var(--line); }
 .ticks i.on { background: var(--ink2); } .ticks i.now { background: var(--ink); }
+.mix { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 4px 14px; font: 500 14px/1.4 'Hanken'; color: var(--ink3); }
+.mix b { color: var(--ink); font-weight: 700; }
 .kind { margin-top: 20px; font: 600 14px/1.4 'Hanken'; color: var(--ink2); }
 .kind span { display: block; font-weight: 500; color: var(--ink3); }
 .stem { margin-top: 10px; font: 600 19px/1.45 'Hanken'; }
@@ -120,89 +159,139 @@ html[data-theme='light'] .volt { box-shadow: inset 0 0 0 1px rgba(82,103,0,.3); 
 /* concepts */
 .search { margin-top: 16px; height: 50px; border-radius: 999px; display: flex; align-items: center; gap: 10px; padding: 0 18px; background: var(--sunken); box-shadow: 0 0 0 1px var(--lineStrong); font: 500 15px/1 'Hanken'; color: var(--ink3); }
 .search svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; }
-.lrow { display: grid; grid-template-columns: 36px minmax(0,1fr) auto; gap: 2px 12px; align-items: center; padding: 12px 0; }
+.chrow { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 2px 12px; align-items: baseline; padding: 14px 0 4px; }
+.chrow b { font: 600 16px/1.3 'Hanken'; }
+.chrow .lost { font: 700 22px/1 'BricolageCondensed'; color: var(--bad); }
+.chrow span:not(.lost) { grid-column: 1 / -1; font: 500 13.5px/1.4 'Hanken'; color: var(--ink3); }
+.lrow { display: grid; grid-template-columns: 36px minmax(0,1fr) auto; gap: 2px 12px; align-items: center; padding: 10px 0; }
+.lrow.last { border-bottom: 1px solid var(--line); padding-bottom: 14px; }
 .ring { grid-row: span 2; width: 34px; height: 34px; }
 .ring circle { fill: none; stroke-width: 3; } .ring .t { stroke: var(--lineStrong); } .ring .a { stroke: var(--good); stroke-linecap: round; }
 .lrow b { font: 600 15.5px/1.3 'Hanken'; } .lrow span { font: 500 13.5px/1.35 'Hanken'; color: var(--ink3); }
 .lrow em { grid-row: span 2; font-style: normal; font: 600 13px/1 'Hanken'; color: var(--ink3); }
+.record { margin-top: 18px; font: 500 14px/1.5 'Hanken'; color: var(--ink2); }
+.record b { font: 700 20px/1 'BricolageCondensed'; color: var(--ink); }
 
-/* empty */
-.empty { margin-top: 40px; display: grid; gap: 14px; text-align: center; }
-.empty h2 { font: 700 36px/1 'BricolageCondensed'; }
+/* empty: the lamp-lit scene with Mobi is kept */
+.empty { margin-top: 8px; display: grid; gap: 14px; text-align: center; }
+
+.empty h2 { font: 700 34px/1 'BricolageCondensed'; }
 .empty p { font: 500 16px/1.5 'Hanken'; color: var(--ink2); }
 .sample { display: grid; grid-template-columns: 36px minmax(0,1fr) auto; gap: 2px 12px; align-items: center; padding: 12px 14px; border-radius: 18px; box-shadow: 0 0 0 1px var(--line); text-align: left; }
-.sample em { font-style: normal; font: 600 12.5px/1 'Hanken'; color: var(--ink3); }
+.sample .qb { grid-row: span 2; }
+.sample em { grid-row: span 2; font-style: normal; font: 600 12.5px/1 'Hanken'; color: var(--ink3); }
 
-/* NAV-1017 option A: glass capsule plus round Start key; the key stays glass so the page's lime is the one fill */
-.navbar { position: fixed; left: 14px; right: 14px; bottom: 16px; display: grid; grid-template-columns: minmax(0,1fr) 64px; gap: 8px; }
-.capsule { height: 64px; border-radius: 999px; display: grid; grid-template-columns: repeat(5, 1fr); align-items: center; background: var(--glass); backdrop-filter: blur(18px) saturate(150%); box-shadow: inset 0 1px 0 var(--edgeTop), 0 0 0 1px var(--line), var(--shadow); padding: 0 4px; }
-.capsule span { position: relative; display: grid; justify-items: center; gap: 4px; font: 600 11px/1 'Hanken'; color: var(--ink3); }
+.room { position: relative; }
+.room > img.bg { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 22px; }
+.room > img.mobi { position: absolute; left: 29%; top: 37.6%; width: 44.8%; height: 42%; object-fit: contain; object-position: 50% 100%; }
+/* NAV-1017 A1: glass capsule of five tabs plus a separate round lime Start key. The key never changes look with the page. */
+.navbar { position: fixed; left: 16px; right: 16px; bottom: 16px; display: grid; grid-template-columns: minmax(0,1fr) 64px; gap: 8px; z-index: 7; }
+.capsule { height: 64px; border-radius: 999px; display: grid; grid-template-columns: repeat(5, 1fr); align-items: center; background: var(--glass); backdrop-filter: blur(32px) saturate(150%); box-shadow: inset 0 1px 0 var(--edgeTop), 0 0 0 1px var(--line), var(--shadow); padding: 0 4px; }
+.capsule span { position: relative; display: grid; justify-items: center; gap: 4px; font: 600 11px/14px 'Hanken'; color: var(--ink3); }
 .capsule span.on { color: var(--ink); }
-.capsule span.on::before { content: ''; position: absolute; inset: -8px 0; border-radius: 999px; background: color-mix(in oklab, var(--ink) 8%, transparent); box-shadow: inset 0 1px 0 var(--edgeTop); z-index: -1; }
-.capsule svg { width: 21px; height: 21px; stroke: currentColor; fill: none; stroke-width: 1.8; }
-.capsule .badge { position: absolute; top: -6px; left: calc(50% + 6px); min-width: 18px; height: 18px; padding: 0 5px; border-radius: 99px; background: var(--ink); color: var(--ground); font: 700 11px/18px 'Hanken'; text-align: center; }
-.startkey { height: 64px; border-radius: 999px; display: grid; place-items: center; align-content: center; gap: 3px; background: var(--glass); backdrop-filter: blur(18px); box-shadow: inset 0 1px 0 var(--edgeTop), 0 0 0 1.5px var(--accent); font: 600 11px/1 'Hanken'; }
-.startkey svg { width: 16px; height: 16px; fill: var(--accent); }
+.capsule span.on::before { content: ''; position: absolute; top: -10px; bottom: -10px; left: 0; right: 0; border-radius: 999px; background: var(--lit); box-shadow: inset 0 1px 0 var(--edgeTop); z-index: -1; }
+.capsule svg { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 1.7; }
+.capsule .badge { position: absolute; top: -5px; left: calc(50% + 6px); min-width: 18px; height: 18px; padding: 0 5px; border-radius: 99px; background: var(--ink); color: var(--ground); font: 700 11px/18px 'Hanken'; text-align: center; font-style: normal; }
+.startkey { height: 64px; border-radius: 999px; display: grid; place-items: center; align-content: center; gap: 4px; background: var(--volt); color: var(--voltInk); box-shadow: inset 0 0 0 1px var(--voltEdge), inset 0 1px 0 rgba(255,255,255,.35), var(--shadow); font: 700 11px/14px 'Hanken'; }
+.startkey svg { width: 22px; height: 22px; fill: var(--voltInk); }
+.in-run .navbar { display: none; }
 </style>
 </head>
 <body>
 <div class="lamp"></div>
 <div class="status"><span>9:41 PM</span><span>5G 82%</span></div>
 
-<!-- REVIEW: Revise due -->
-<div data-s="review open">
+<!-- REVIEW, Mistakes (states: review, open, sheet, fail, offline, zero) -->
+<div data-s="review open sheet fail offline zero">
   <div class="bar-top"><h1><span class="av">P</span>Review</h1><span class="ask"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask Mobi</span></div>
   <div class="page">
-    <section class="hero" data-s="review">
-      <p class="over">Due today, free</p>
-      <h2>Revise</h2>
-      <div class="big"><b class="n">8</b><span>to revise</span></div>
-      <p class="mix"><span><b>5</b> questions back</span><span><b>1</b> new-question check</span><span><b>2</b> concept cards</span></p>
-      <div class="volt">Revise 8, about 7 min</div>
-      <p class="cost">Free. Never counted in your marks.</p><p class="cost" style="margin-top:6px;color:var(--ink2);text-decoration:underline;text-underline-offset:3px">Repair Partnership instead</p>
-    </section>
-    <section class="hero" data-s="open">
+    <p class="note" data-s="fail"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5"/></svg><span>Could not refresh. Saved at 9:12 PM. <u>Try again</u></span></p>
+    <p class="note" data-s="offline"><svg viewBox="0 0 24 24"><path d="M3 3l18 18M8.5 16.5a5 5 0 0 1 7 0M5 13a10 10 0 0 1 5-2.7M14 10.3A10 10 0 0 1 19 13M2 9.3a15 15 0 0 1 4.5-2.6M12 5a15 15 0 0 1 10 4.3"/></svg><span>You are offline. Saved on this phone at 9:12 PM.</span></p>
+    <div class="seg"><span class="on">Mistakes, 22 open</span><span>Papers, 3</span></div>
+    <section class="hero">
       <img class="art" src="assets/app-obj-accountancy.webp" alt="">
-      <p class="over">Costliest chapter, Accountancy</p>
-      <h2>Partnership: admission of a partner</h2>
-      <div class="big"><b class="n">6</b><span>to repair</span></div>
-      <p class="why"><strong>Cost you 36 marks</strong> in Mock 3 and Mock 2.</p>
-      <div class="volt">Repair 6 mistakes, 15 min</div>
-      <p class="cost">1 AI credit a mistake. You have 40.</p>
-    </section>
-    <div class="seg"><span class="on">Mistakes, 21 open</span><span>Papers, 3</span></div>
-    <div class="life"><div><b class="n">30</b><span>Found</span></div><div><b class="n">9</b><span>Repaired</span></div><div><b class="n">7</b><span>Retested</span></div><div><b class="n">6</b><span>Still right</span></div></div>
-    <p class="held"><strong>6 of the 7 you checked held.</strong> Q17 slipped; it is back in Revise on Tue, 21 Oct.</p>
-    <section class="sec">
-      <div class="sec-head"><h2>21 to repair</h2><p class="n">126 marks</p></div>
-      <p class="sub">Costliest first. Each wrong answer cost 6 marks.</p>
-      <div class="ch"><img src="assets/app-obj-accountancy.webp" alt=""><b>Partnership: admission of a partner</b><span class="lost n">−36</span><span class="meta">Mock 3 and Mock 2</span><span class="prog"><span class="track"><i style="width:14%"></i></span>1 of 7 repaired</span></div>
-      <div class="open" data-s="open">
-        <div class="q"><span class="qb n">42</span><b>Question 42</b><em data-k="repair">Repair</em><span class="w">Mock 3, 16 Oct, 9:40 PM</span></div>
-        <div class="q"><span class="qb n">38</span><b>Question 38</b><em data-k="repair">Repair</em><span class="w">Mock 3, 16 Oct, 9:40 PM</span></div>
-        <div class="q"><span class="qb n">11</span><b>Question 11</b><em data-k="repair">Repair</em><span class="w">Mock 2, 12 Oct, 10:42 PM</span></div>
-        <div class="q"><span class="qb n done">17</span><b>Question 17</b><em class="due">Back Tue</em><span class="w">Repaired 13 Oct. Opens free</span></div>
-        <div class="lesson"><b>Learn the idea first</b><span>Admission of a partner, 7-minute lesson, free</span></div>
-        <div class="pillbtn">Repair 3 in this chapter</div>
+      <h2>Admission of a partner</h2>
+      <div class="big"><b class="n">35</b><span>marks lost<br>here</span></div>
+      <div class="chips"><span class="chip"><i><svg viewBox="0 0 10 10"><path d="M2 2l6 6M8 2l-6 6"/></svg></i>Q42</span><span class="chip"><i><svg viewBox="0 0 10 10"><path d="M2 2l6 6M8 2l-6 6"/></svg></i>Q38</span><span class="chip"><i><svg viewBox="0 0 10 10"><path d="M2 2l6 6M8 2l-6 6"/></svg></i>Q45</span><span class="chip"><i><svg viewBox="0 0 10 10"><path d="M2 2l6 6M8 2l-6 6"/></svg></i>Q11</span><span class="showme">Show me</span></div>
+      <div data-s="review open sheet fail">
+        <div class="volt">Repair Q42</div>
+        <p class="val">A repair gives you why D looked right, the trap, one rule to keep, and a new question to check it held.</p>
+        <p class="cost">1 AI credit. You have 40. No charge if the repair cannot be written.</p>
+        <p class="alt">Practise 10 on this chapter instead</p>
       </div>
-      <div class="ch"><img src="assets/app-obj-accountancy.webp" alt=""><b>Issue of shares</b><span class="lost n">−24</span><span class="meta">Mock 3</span><span class="prog"><span class="track"><i style="width:0"></i></span>0 of 4 repaired</span></div>
-      <div class="ch" data-s="review"><img src="assets/app-obj-accountancy.webp" alt=""><b>Cash flow statement</b><span class="lost n">−18</span><span class="meta">Mock 2</span><span class="prog"><span class="track"><i style="width:40%"></i></span>2 of 5 repaired</span></div>
-      <div class="ch" data-s="review"><img src="assets/app-obj-business.webp" alt=""><b>Principles of management</b><span class="lost n">−18</span><span class="meta">Business Studies, quick practice</span><span class="prog"><span class="track"><i style="width:0"></i></span>0 of 3 repaired</span></div>
+      <div data-s="offline">
+        <p class="val" style="margin-top:14px">Repairs need a connection. Show me works offline.</p>
+        <div class="volt off" style="margin-top:10px">Repair Q42</div>
+        <p class="cost">1 AI credit. You have 40.</p>
+      </div>
+      <div data-s="zero">
+        <div class="volt">Practise 10 on this chapter</div>
+        <p class="val">Repairs use AI credits. You have 0. They renew on 1&nbsp;Nov.</p>
+        <p class="cost">Uses 10 practice credits. You have 140.</p>
+        <p class="alt">See your AI credits</p>
+      </div>
     </section>
-    <section class="sec" data-s="review">
-      <div class="row"><b>9 repaired</b><span>Each opens its saved repair, free</span><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
-      <div class="row"><b>Your rules</b><span>7 rules. Next mock: read every option first</span><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
+    <div class="life"><div><b class="n">30</b><span>Found</span></div><div><b class="n">9</b><span>Repaired</span></div><div><b class="n">7</b><span>Retested</span></div><div><b class="n">6</b><span>Still right</span></div></div>
+    <p class="held"><strong>6 of the 7 checks held.</strong> Q17 slipped tonight, so it is open again and back in Revise tomorrow, Sun 18 Oct.</p>
+    <div class="row" style="margin-top:4px"><b>Revise<small class="n">8 due today</small></b><span>5 questions back, 1 Check it held, 2 concept cards. About 7 minutes, free.</span><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
+    <section class="sec" id="chap">
+      <div class="sec-head"><h2>22 open mistakes</h2><p>Costliest first</p></div>
+      <p class="sub">With 8 left blank, they cost you 172 marks across 3 papers. A wrong answer costs 6 marks, a blank 5.</p>
+      <div class="ch"><img src="assets/app-obj-accountancy.webp" alt=""><b>Admission of a partner</b><span class="lost n">−35</span><span class="meta">5 wrong, 1 left blank. Mock 3 and Mock 2</span><span class="prog"><span class="track"><i style="width:29%"></i></span>2 of 7 repaired, 1 slipped</span></div>
+      <div class="open" data-s="open">
+        <div class="q"><span class="qb n">42</span><b>Goodwill brought in cash by the new partner is credited to…</b><span class="w">Mock 3, 16 Oct, 9:40 PM</span><span class="pill">Repair</span></div>
+        <div class="q"><span class="qb n">38</span><b>B is admitted for a 1/5 share. The sacrificing ratio of A and C is…</b><span class="w">Mock 3, 16 Oct, 9:40 PM</span><span class="pill">Repair</span></div>
+        <div class="q"><span class="qb n">45</span><b>On admission, a revaluation profit is credited to…</b><span class="w">Mock 3, 16 Oct, 9:40 PM</span><span class="pill">Repair</span></div>
+        <div class="q"><span class="qb n">11</span><b>Premium for goodwill paid privately to the old partners is…</b><span class="w">Mock 2, 12 Oct, 10:42 PM</span><span class="pill">Repair</span></div>
+        <div class="q"><span class="qb n slip">17</span><b>Hidden goodwill when the new partner's capital is given…</b><span class="w">Mock 2, 12 Oct, 10:42 PM. Repaired 13 Oct, 11:08 PM, opens free. Back in Revise tomorrow</span><span class="pill slip">Slipped on a new question</span></div>
+        <div class="q end"><span class="qb n blank">47</span><b>Partners' capitals adjusted on the basis of the new partner's capital…</b><span class="w">Mock 3, 16 Oct, 9:40 PM. Left blank, not a mistake</span><span class="pill">Try it again, free</span></div>
+        <p class="more">Show 2 more: Q6 and Q21, both held</p>
+        <div class="lesson"><b>Learn the idea first</b><span>Goodwill and the new partner, 7-minute lesson, free</span></div>
+        <div class="pillbtn">Repair 3 from Mock 3</div>
+        <div class="pillbtn">Repair 1 from Mock 2</div>
+      </div>
+      <div class="ch"><img src="assets/app-obj-accountancy.webp" alt=""><b>Retirement and death of a partner</b><span class="lost n">−29</span><span class="meta">4 wrong, 1 left blank. Mock 3 and Mock 2</span><span class="prog"><span class="track"><i style="width:0"></i></span>0 of 4 repaired</span></div>
+      <div class="ch"><img src="assets/app-obj-accountancy.webp" alt=""><b>Issue of shares</b><span class="lost n">−28</span><span class="meta">3 wrong, 2 left blank. Mock 3 and Mock 2</span><span class="prog"><span class="track"><i style="width:40%"></i></span>2 of 5 repaired</span></div>
+      <div class="ch"><img src="assets/app-obj-accountancy.webp" alt=""><b>Cash flow statement</b><span class="lost n">−23</span><span class="meta">3 wrong, 1 left blank. Mock 2</span><span class="prog"><span class="track"><i style="width:40%"></i></span>2 of 5 repaired</span></div>
+      <div class="row"><b>See all 7 chapters</b><span>Dissolution −22, Principles of management −18, Accounting ratios −17</span><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
+    </section>
+    <section class="sec">
+      <div class="sec-head"><h2>Also in Review</h2></div>
+      <div class="row"><b>9 repaired</b><span>Each opens its saved repair, free. 6 held, 1 slipped, 2 waiting for Check it held.</span><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
+      <div class="row"><b>Revise schedule</b><span>30 questions in rotation, back after 1, 3, 7 and 21 days</span><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
+      <div class="row"><b>Your rules</b><span>7 rules. Next mock: read every option before you mark</span><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
       <div class="row"><b>Saved questions</b><span>2 saved</span><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
+      <div class="row"><b>Not attempted</b><span>8 left blank in Mock 3 and Mock 2, 40 marks not earned. Try any again, free.</span><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
     </section>
   </div>
 </div>
 
-<!-- REVISE run -->
+<!-- Free answer sheet over Review (opened from Show me or a row) -->
+<div data-s="sheet"><div class="scrim"></div>
+  <div class="sheet" role="dialog" aria-label="Question 42">
+    <div class="grab"></div>
+    <p class="k">Question 42<span>Mock 3, 16 Oct, 9:40 PM. Admission of a partner</span></p>
+    <p class="stem">Goodwill brought in cash by the new partner is credited to</p>
+    <ul>
+      <li><i>A</i>Cash account only</li>
+      <li class="key"><i>B</i>Old partners, in their sacrificing ratio<em>Correct</em></li>
+      <li><i>C</i>All partners, in the new ratio</li>
+      <li class="pick"><i>D</i>The new partner's capital account<em>Your pick</em></li>
+    </ul>
+    <p class="book"><b>From the book.</b> The cash pays the old partners for the share of profit they give up, so it goes to them in the ratio they sacrificed.</p>
+    <div class="two"><span>Try it again</span><span>Repair Q42</span></div>
+    <p class="fine">Seeing the answer and trying again are free. Repair adds why D looked right, the trap, one rule and a Check it held, for 1 AI credit.</p>
+  </div>
+</div>
+
+<!-- REVISE run: the bar steps away during a focused run -->
 <div data-s="revise">
   <div class="bar-top"><span class="back"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></span><span style="font:600 15px/1 'Hanken';color:var(--ink2)">3 of 8</span></div>
   <div class="page">
     <h1 style="font:600 30px/1.1 'BricolageHeadline'">Revise</h1>
+    <p class="sub" style="font-size:15px">8 due today, about 7 minutes.</p>
     <div class="ticks"><i class="on"></i><i class="on"></i><i class="now"></i><i></i><i></i><i></i><i></i><i></i></div>
+    <p class="mix"><span><b>5</b> questions back</span><span><b>1</b> Check it held</span><span><b>2</b> concept cards</span></p>
     <p class="kind">A question you got wrong<span>Mock 2, 12 Oct, 10:42 PM. Cash flow statement</span></p>
     <p class="stem">Interest received by a non-financial company is shown under which activity in a cash flow statement?</p>
     <ul class="opts"><li><i></i>A. Operating activities</li><li><i></i>B. Investing activities</li><li><i></i>C. Financing activities</li><li><i></i>D. Cash and cash equivalents</li></ul>
@@ -211,66 +300,70 @@ html[data-theme='light'] .volt { box-shadow: inset 0 0 0 1px rgba(82,103,0,.3); 
   </div>
 </div>
 
-<!-- CONCEPTS -->
+<!-- CONCEPTS (reached from Practice, so Practice is the current tab) -->
 <div data-s="concepts">
   <div class="bar-top"><span class="back"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></span></div>
   <div class="page">
     <h1 style="font:600 30px/1.1 'BricolageHeadline'">Concepts</h1>
     <p class="sub" style="font-size:15px">Short lessons on the ideas behind your mistakes.</p>
-    <section class="hero" style="margin-top:16px">
+    <section class="hero">
       <img class="art" src="assets/app-obj-accountancy.webp" alt="">
-      <p class="over">Read this next, 7 min</p>
-      <h2>Admission of a partner</h2>
-      <p class="why"><strong>6 of your open mistakes</strong> are in this chapter.</p>
-      <div class="volt">Start the lesson</div>
-      <p class="cost">Free. Its cards then come back in Revise.</p>
+      <h2>Goodwill and the new partner</h2>
+      <p class="src" style="max-width:60%">Read this next. 5 of your open mistakes are in its chapter.</p>
+      <div class="volt">Start the lesson, 9 minutes</div>
+      <p class="cost" style="margin-top:10px">Free. Its 4 cards then join Revise, where 8 are due today.</p>
     </section>
     <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>Search chapters and lessons</div>
     <section class="sec">
       <div class="sec-head"><h2>Where you lose marks</h2></div>
-      <div class="lrow"><svg class="ring" viewBox="0 0 36 36"><circle class="t" cx="18" cy="18" r="14"/></svg><b>Admission of a partner</b><em>7 min</em><span>Partnership, 6 open mistakes</span></div>
-      <div class="lrow"><svg class="ring" viewBox="0 0 36 36"><circle class="t" cx="18" cy="18" r="14"/><circle class="a" cx="18" cy="18" r="14" stroke-dasharray="88 88" transform="rotate(-90 18 18)"/></svg><b>Change in profit sharing ratio</b><em>Read</em><span>2 cards due in Revise</span></div>
-      <div class="lrow" style="border-bottom:1px solid var(--line)"><svg class="ring" viewBox="0 0 36 36"><circle class="t" cx="18" cy="18" r="14"/></svg><b>Issue of shares at a premium</b><em>8 min</em><span>Issue of shares, 4 open mistakes</span></div>
+      <div class="chrow"><b>Admission of a partner</b><span class="lost n">−35</span><span>5 open mistakes, 1 blank</span></div>
+      <div class="lrow"><svg class="ring" viewBox="0 0 36 36"><circle class="t" cx="18" cy="18" r="14"/></svg><b>Goodwill and the new partner</b><em>7 min</em><span>New</span></div>
+      <div class="lrow last"><svg class="ring" viewBox="0 0 36 36"><circle class="t" cx="18" cy="18" r="14"/><circle class="a" cx="18" cy="18" r="14" stroke-dasharray="88 88" transform="rotate(-90 18 18)"/></svg><b>Sacrificing and gaining ratio</b><em>Read</em><span>2 cards due in Revise today</span></div>
+      <div class="chrow"><b>Retirement and death of a partner</b><span class="lost n">−29</span><span>4 open mistakes, 1 blank</span></div>
+      <div class="lrow last"><svg class="ring" viewBox="0 0 36 36"><circle class="t" cx="18" cy="18" r="14"/></svg><b>Retirement of a partner</b><em>8 min</em><span>New</span></div>
+      <div class="chrow"><b>Issue of shares</b><span class="lost n">−28</span><span>3 open mistakes, 2 blanks</span></div>
+      <div class="lrow last"><svg class="ring" viewBox="0 0 36 36"><circle class="t" cx="18" cy="18" r="14"/></svg><b>Issue of shares at a premium</b><em>8 min</em><span>New</span></div>
     </section>
     <section class="sec">
-      <div class="row"><b>All Accountancy chapters</b><span>5 lessons in 4 of 12 chapters</span><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
-      <div class="row"><b>Other subjects</b><span>Business Studies 2, English 2, Economics 0</span><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
+      <div class="row"><b>All Accountancy chapters</b><span>12 chapters, 5 lessons in 4 of them</span><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
+      <div class="row"><b>Other subjects</b><span>Business Studies 2 lessons, English 2, Economics none yet</span><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
+      <p class="record"><b class="n">2</b> of 9 lessons read. <b class="n">8</b> cards in Revise.</p>
     </section>
   </div>
 </div>
 
-<!-- EMPTY -->
+<!-- EMPTY: the lamp-lit scene with Mobi, one line, an example row, one key -->
 <div data-s="empty">
   <div class="bar-top"><h1><span class="av">P</span>Review</h1><span class="ask"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg>Ask Mobi</span></div>
   <div class="page">
     <div class="empty">
+      <div class="room"><img class="bg night" src="assets/scene-nothing-night.webp" alt=""><img class="bg day" src="assets/scene-nothing-day.webp" alt=""><img class="mobi" src="assets/idle.webp" alt=""></div>
       <h2>Your mistakes gather here</h2>
-      <p>Every wrong answer comes here with its paper and time, priced in marks. Repair it once; Revise brings it back until it sticks.</p>
-      <div class="sample"><span class="qb n">4</span><b style="font:600 15px/1.3 'Hanken'">Partnership</b><em>Example</em><span style="font:500 13px/1.35 'Hanken';color:var(--ink3)">Mock 1, 12 Oct, 8:40 PM. Cost 6 marks</span></div>
-      <div class="volt">Start 10 questions</div>
-      <p style="margin-top:10px;font:500 13.5px/1.45 'Hanken';color:var(--ink3);text-align:center">About 10 minutes, Accountancy. Free on your plan.</p>
+      <p>Every wrong answer lands here with its paper and time, priced in marks.</p>
+      <div class="sample"><span class="qb n">4</span><b style="font:600 15px/1.3 'Hanken'">Admission of a partner</b><em>Example</em><span style="font:500 13px/1.35 'Hanken';color:var(--ink3)">Mock 1, 12 Oct, 8:40 PM. Cost you 6 marks</span></div>
+      <div class="volt" style="margin-top:4px">Start 10 questions</div>
+      <p style="font:500 13.5px/1.45 'Hanken';color:var(--ink3)">About 10 minutes, Accountancy. Free on your plan.</p>
     </div>
   </div>
 </div>
 
-<nav class="navbar">
+<nav class="navbar" aria-label="Main">
   <div class="capsule">
     <span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2"/></svg>Today</span>
     <span data-tab="practice"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="16" rx="2"/><path d="M9 9h6M9 13h6"/></svg>Practice</span>
-    <span data-tab="review"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 3-6.2"/><path d="M4 4v4h4"/></svg>Review<i class="badge n" data-badge style="font-style:normal">8</i></span>
+    <span data-tab="review"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 3-6.2"/><path d="M4 4v4h4"/></svg>Review<i class="badge n" data-badge>8</i></span>
     <span><svg viewBox="0 0 24 24"><path d="M3 10l9-6 9 6M5 10v9h14v-9"/></svg>Colleges</span>
     <span><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>You</span>
   </div>
-  <div class="startkey"><svg viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z"/></svg>Start</div>
+  <div class="startkey" aria-label="Start a session"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z"/></svg>Start</div>
 </nav>
 <script>
   const p = new URLSearchParams(location.search); const s = p.get('s') || 'review';
   if (p.get('theme') === 'light') document.documentElement.dataset.theme = 'light';
   document.querySelectorAll('[data-s]').forEach((el) => { el.hidden = !el.dataset.s.split(' ').includes(s); });
-  const tab = s === 'concepts' ? 'practice' : 'review';
-  document.querySelector(`[data-tab="${tab}"]`).classList.add('on');
-  if (s === 'empty' || s === 'open') document.querySelectorAll('[data-badge]').forEach((b) => b.remove());
-  if (s === 'open') document.querySelector('.held').innerHTML = '<strong>6 of the 7 you checked held.</strong> Nothing due in Revise today; 4 come back tomorrow.';
+  document.querySelector(`[data-tab="${s === 'concepts' ? 'practice' : 'review'}"]`).classList.add('on');
+  if (s === 'revise') document.body.classList.add('in-run');
+  if (s === 'empty') document.querySelectorAll('[data-badge]').forEach((b) => b.remove());
 </script>
 </body>
 </html>

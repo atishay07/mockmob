@@ -1,0 +1,418 @@
+[
+{
+"page": "web.html",
+"out": "web-review-390-night",
+"w": 390,
+"h": 844,
+"q": "s=review"
+},
+{
+"page": "web.html",
+"out": "web-review-390-day",
+"w": 390,
+"h": 844,
+"q": "s=review&theme=light"
+},
+{
+"page": "web.html",
+"out": "web-review-1440-night",
+"w": 1440,
+"h": 900,
+"q": "s=review"
+},
+{
+"page": "web.html",
+"out": "web-review-1440-day",
+"w": 1440,
+"h": 900,
+"q": "s=review&theme=light"
+},
+{
+"page": "web.html",
+"out": "web-open-390-night",
+"w": 390,
+"h": 844,
+"q": "s=open",
+"eval": "document.getElementById('chap').scrollIntoView(); scrollBy(0, -72)"
+},
+{
+"page": "web.html",
+"out": "web-open-390-day",
+"w": 390,
+"h": 844,
+"q": "s=open&theme=light",
+"eval": "document.getElementById('chap').scrollIntoView(); scrollBy(0, -72)"
+},
+{
+"page": "web.html",
+"out": "web-open-1440-night",
+"w": 1440,
+"h": 900,
+"q": "s=open",
+"eval": "document.getElementById('chap').scrollIntoView(); scrollBy(0, -72)"
+},
+{
+"page": "web.html",
+"out": "web-open-1440-day",
+"w": 1440,
+"h": 900,
+"q": "s=open&theme=light",
+"eval": "document.getElementById('chap').scrollIntoView(); scrollBy(0, -72)"
+},
+{
+"page": "web.html",
+"out": "web-papers-390-night",
+"w": 390,
+"h": 844,
+"q": "s=papers"
+},
+{
+"page": "web.html",
+"out": "web-papers-390-day",
+"w": 390,
+"h": 844,
+"q": "s=papers&theme=light"
+},
+{
+"page": "web.html",
+"out": "web-papers-1440-night",
+"w": 1440,
+"h": 900,
+"q": "s=papers"
+},
+{
+"page": "web.html",
+"out": "web-papers-1440-day",
+"w": 1440,
+"h": 900,
+"q": "s=papers&theme=light"
+},
+{
+"page": "web.html",
+"out": "web-empty-390-night",
+"w": 390,
+"h": 844,
+"q": "s=empty"
+},
+{
+"page": "web.html",
+"out": "web-empty-390-day",
+"w": 390,
+"h": 844,
+"q": "s=empty&theme=light"
+},
+{
+"page": "web.html",
+"out": "web-empty-1440-night",
+"w": 1440,
+"h": 900,
+"q": "s=empty"
+},
+{
+"page": "web.html",
+"out": "web-empty-1440-day",
+"w": 1440,
+"h": 900,
+"q": "s=empty&theme=light"
+},
+{
+"page": "web.html",
+"out": "web-fail-390-night",
+"w": 390,
+"h": 844,
+"q": "s=fail"
+},
+{
+"page": "web.html",
+"out": "web-fail-390-day",
+"w": 390,
+"h": 844,
+"q": "s=fail&theme=light"
+},
+{
+"page": "web.html",
+"out": "web-fail-1440-night",
+"w": 1440,
+"h": 900,
+"q": "s=fail"
+},
+{
+"page": "web.html",
+"out": "web-fail-1440-day",
+"w": 1440,
+"h": 900,
+"q": "s=fail&theme=light"
+},
+{
+"page": "web.html",
+"out": "web-zero-390-night",
+"w": 390,
+"h": 844,
+"q": "s=zero"
+},
+{
+"page": "web.html",
+"out": "web-zero-390-day",
+"w": 390,
+"h": 844,
+"q": "s=zero&theme=light"
+},
+{
+"page": "web.html",
+"out": "web-zero-1440-night",
+"w": 1440,
+"h": 900,
+"q": "s=zero"
+},
+{
+"page": "web.html",
+"out": "web-zero-1440-day",
+"w": 1440,
+"h": 900,
+"q": "s=zero&theme=light"
+},
+{
+"page": "web.html",
+"out": "web-revise-390-night",
+"w": 390,
+"h": 844,
+"q": "s=revise"
+},
+{
+"page": "web.html",
+"out": "web-revise-390-day",
+"w": 390,
+"h": 844,
+"q": "s=revise&theme=light"
+},
+{
+"page": "web.html",
+"out": "web-revise-1440-night",
+"w": 1440,
+"h": 900,
+"q": "s=revise"
+},
+{
+"page": "web.html",
+"out": "web-revise-1440-day",
+"w": 1440,
+"h": 900,
+"q": "s=revise&theme=light"
+},
+{
+"page": "web.html",
+"out": "web-learn-390-night",
+"w": 390,
+"h": 844,
+"q": "s=learn"
+},
+{
+"page": "web.html",
+"out": "web-learn-390-day",
+"w": 390,
+"h": 844,
+"q": "s=learn&theme=light"
+},
+{
+"page": "web.html",
+"out": "web-learn-1440-night",
+"w": 1440,
+"h": 900,
+"q": "s=learn"
+},
+{
+"page": "web.html",
+"out": "web-learn-1440-day",
+"w": 1440,
+"h": 900,
+"q": "s=learn&theme=light"
+},
+{
+"page": "web.html",
+"out": "web-lesson-390-night",
+"w": 390,
+"h": 844,
+"q": "s=lesson"
+},
+{
+"page": "web.html",
+"out": "web-lesson-390-day",
+"w": 390,
+"h": 844,
+"q": "s=lesson&theme=light"
+},
+{
+"page": "web.html",
+"out": "web-lesson-1440-night",
+"w": 1440,
+"h": 900,
+"q": "s=lesson"
+},
+{
+"page": "web.html",
+"out": "web-lesson-1440-day",
+"w": 1440,
+"h": 900,
+"q": "s=lesson&theme=light"
+},
+{
+"page": "web.html",
+"out": "web-review-1440-night-full",
+"w": 1440,
+"h": 900,
+"q": "s=review",
+"full": true
+},
+{
+"page": "web.html",
+"out": "web-open-390-night-full",
+"w": 390,
+"h": 844,
+"q": "s=open",
+"full": true
+},
+{
+"page": "web.html",
+"out": "web-learn-390-night-full",
+"w": 390,
+"h": 844,
+"q": "s=learn",
+"full": true
+},
+{
+"page": "app.html",
+"out": "app-review-412-night",
+"w": 412,
+"h": 915,
+"q": "s=review"
+},
+{
+"page": "app.html",
+"out": "app-review-412-day",
+"w": 412,
+"h": 915,
+"q": "s=review&theme=light"
+},
+{
+"page": "app.html",
+"out": "app-open-412-night",
+"w": 412,
+"h": 915,
+"q": "s=open",
+"eval": "document.getElementById('chap').scrollIntoView(); scrollBy(0, -72)"
+},
+{
+"page": "app.html",
+"out": "app-open-412-day",
+"w": 412,
+"h": 915,
+"q": "s=open&theme=light",
+"eval": "document.getElementById('chap').scrollIntoView(); scrollBy(0, -72)"
+},
+{
+"page": "app.html",
+"out": "app-sheet-412-night",
+"w": 412,
+"h": 915,
+"q": "s=sheet"
+},
+{
+"page": "app.html",
+"out": "app-sheet-412-day",
+"w": 412,
+"h": 915,
+"q": "s=sheet&theme=light"
+},
+{
+"page": "app.html",
+"out": "app-revise-412-night",
+"w": 412,
+"h": 915,
+"q": "s=revise"
+},
+{
+"page": "app.html",
+"out": "app-revise-412-day",
+"w": 412,
+"h": 915,
+"q": "s=revise&theme=light"
+},
+{
+"page": "app.html",
+"out": "app-concepts-412-night",
+"w": 412,
+"h": 915,
+"q": "s=concepts"
+},
+{
+"page": "app.html",
+"out": "app-concepts-412-day",
+"w": 412,
+"h": 915,
+"q": "s=concepts&theme=light"
+},
+{
+"page": "app.html",
+"out": "app-empty-412-night",
+"w": 412,
+"h": 915,
+"q": "s=empty"
+},
+{
+"page": "app.html",
+"out": "app-empty-412-day",
+"w": 412,
+"h": 915,
+"q": "s=empty&theme=light"
+},
+{
+"page": "app.html",
+"out": "app-fail-412-night",
+"w": 412,
+"h": 915,
+"q": "s=fail"
+},
+{
+"page": "app.html",
+"out": "app-fail-412-day",
+"w": 412,
+"h": 915,
+"q": "s=fail&theme=light"
+},
+{
+"page": "app.html",
+"out": "app-offline-412-night",
+"w": 412,
+"h": 915,
+"q": "s=offline"
+},
+{
+"page": "app.html",
+"out": "app-offline-412-day",
+"w": 412,
+"h": 915,
+"q": "s=offline&theme=light"
+},
+{
+"page": "app.html",
+"out": "app-zero-412-night",
+"w": 412,
+"h": 915,
+"q": "s=zero"
+},
+{
+"page": "app.html",
+"out": "app-zero-412-day",
+"w": 412,
+"h": 915,
+"q": "s=zero&theme=light"
+},
+{
+"page": "app.html",
+"out": "app-open-412-night-full",
+"w": 412,
+"h": 915,
+"q": "s=open",
+"full": true
+}
+]
