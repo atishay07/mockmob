@@ -119,3 +119,8 @@ Each time, a screen he wanted **refined** was **rebuilt**, and the useful parts 
 - **Ask Mobi (ASK-MOBI-1018): build it.**
 - **Review and result (REVIEW-RESULT-1018): build it.**
 - **Community (COMMUNITY-1018): yes, hide the contribution features** (Contribute, My uploads, Add a question, vote arrows) behind one flag; keep Explore, the Mob, Your standing and the creator programme; Your standing moves under Progress.
+
+## Owner question while watching the emulator (v13 1.0.13 installed), 18 Oct about 4 am IST
+- His words: "Can you explain to me what exactly [Back from marking] is? [Open your sheet.] This feature looks cool on the home page, but what exactly is this? This looks like an older build to me overall."
+- Ledger D28 (CTO decision): keep the "Back from marking" moment but make it self-explanatory with one action: heading "Your <subject> mock is marked", one line on what is inside (score, where the marks went, what to fix first), one key "See my result" that plays the reveal (skip inside); shown once after a fresh submission, then the Up next card returns. Remove the second "Open results directly" link.
+- Bugs seen on the same v13 screen (fix in v15): "Good evening" at 2:41 am (greeting by hour); "Still refreshing. Your page is safe." stuck at the top; the "Day 3 of your first week / Start Revise" row half under the bottom bar (clearance).
