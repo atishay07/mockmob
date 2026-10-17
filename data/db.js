@@ -11,6 +11,7 @@
 import { supabaseAdmin } from '@/lib/supabase';
 import { formatIdFor } from '@/lib/server/attemptSummary';
 import { claimWebhookEventWith } from '@/lib/server/webhookClaim';
+import { CREATOR_SALE_COLUMNS, creatorSaleOut } from '@/lib/referrals/creatorSales';
 import { authUserCache, invalidateAuthUser } from '@/lib/server/authUserCache';
 import {
   effectivePremiumFromRow,
@@ -889,6 +890,28 @@ export const Database = {
       throw updateError;
     }
     return true;
+  },
+
+  /**
+   * Sales attributed to one creator, cut down to what the creator may see (creatorSaleOut):
+   * no raw Razorpay objects, no buyer contact data, no user or Razorpay ids.
+   */
+  async listCreatorSales(creatorId, { limit = 100, offset = 0 } = {}) {
+    if (!creatorId) return [];
+    const { data, error } = await supabaseAdmin()
+      .from('payments')
+      .select(CREATOR_SALE_COLUMNS)
+      .eq('creator_id', creatorId)
+      .order('created_at', { ascending: false })
+      .range(offset, offset + limit - 1);
+    if (error) {
+      if (isMissingReferralSchema(error)) {
+        console.error('[db] listCreatorSales skipped because referral schema is missing:', error.message);
+        return [];
+      }
+      throw error;
+    }
+    return (data || []).map(creatorSaleOut);
   },
 
   async listOrders({ limit = 100, offset = 0, creatorId = null } = {}) {
