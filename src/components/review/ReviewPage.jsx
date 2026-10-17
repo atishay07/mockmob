@@ -180,7 +180,8 @@ function ReviewInner({ tabParam }) {
   const tab = params.get(tabParam) === 'papers' ? 'papers' : 'mistakes';
   const [read, setRead] = useState({ status: 'loading' });
   const [retrying, setRetrying] = useState(false);
-  const [openUid, setOpenUid] = useState(null);
+  // A link back to one question (?open={chapterId}&q={uid}, from a lesson's "Back to Question 42") opens its sheet too.
+  const [openUid, setOpenUid] = useState(() => (params.get('open') && params.get('q')) || null);
   // A move the student asked for: open its chapter at its question (and start the repair when it is the panel's key).
   const [focus, setFocus] = useState(() => {
     const q = params.get('q');
@@ -243,7 +244,7 @@ function ReviewInner({ tabParam }) {
           <div className="rvw-board">
             {move ? <ReviewNextMove move={move} onOpen={openTarget} /> : null}
             <div className="rvw-side">
-              <ReceiptStrip receipt={body.receipt} />
+              {body.receipt?.found > 0 ? <ReceiptStrip receipt={body.receipt} /> : null}
               <ReviseRow due={body.reviseDue} answeredToday={body.revise?.answeredToday || 0} />
               <AlsoInReview body={body} items={items} wallet={body.wallet} openUid={openUid} setOpenUid={setOpenUid} onChanged={onChanged} />
             </div>
@@ -257,7 +258,9 @@ function ReviewInner({ tabParam }) {
 
 export default function ReviewPage({ tabParam = 'view' }) {
   return (
-    <section className="rvw" aria-label="Review">
+    // data-owns-start: Review holds the page's one volt in every state, so the sidebar's Start key keeps one look for the
+    // whole visit (it does not flip when the read lands or the view changes); the phone bar's key is lime everywhere (nav A1).
+    <section className="rvw" aria-label="Review" data-owns-start="">
       <Suspense fallback={<><h1 className="display-md rvw-title">Review</h1><Loading /></>}>
         <ReviewInner tabParam={tabParam} />
       </Suspense>

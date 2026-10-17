@@ -30,6 +30,7 @@ export default function ReceiptStrip({ receipt }) {
     try { return JSON.parse(window.localStorage.getItem(SEEN_KEY) || 'null'); } catch { return null; }
   });
   useEffect(() => {
+    if (!receipt) return;
     try { window.localStorage.setItem(SEEN_KEY, JSON.stringify(Object.fromEntries(FIELDS.map(([k]) => [k, receipt[k]])))); } catch { /* fine without storage */ }
   }, [receipt]);
   if (!receipt) return null;

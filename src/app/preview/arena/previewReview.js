@@ -14,6 +14,8 @@ import empty from '@/../data/tests/fixtures/review/empty.json';
 import recordDown from '@/../data/tests/fixtures/review/record_down.json';
 import { reviewBody } from '@/../data/review_input.mjs';
 import { SUBJECTS } from '@/../data/subjects';
+import { scoreSession } from '@/../data/recovery';
+import { computePrepOSInsights, readout } from '@/../data/prepos_insights';
 import { fixtureRepairV3 } from './previewMock';
 import { fixtureCheckField } from './previewRepairCheck';
 
@@ -78,6 +80,34 @@ function catalogFor(rec, subject) {
   return { units };
 }
 
+/**
+ * The record finding on Papers, from the same student: each paper scored by the real scorer and read by the real insights
+ * reader, so its chapter and counts agree with the rest of Review. Questions the fixture does not list were answered right;
+ * their chapters are spread over the paper's own chapters (illustrative).
+ */
+export function insightsFor(rec) {
+  const attempts = rec.papers.map((paper) => {
+    const mine = rec.items.filter((i) => i.paper === paper.id);
+    const byQ = new Map(mine.map((i) => [i.q, i]));
+    const chapters = [...new Set(mine.map((i) => i.ch))];
+    const name = (id) => rec.chapters.find((c) => c.id === id)?.name || 'General';
+    const questions = []; const answers = {}; const events = []; let seq = 1; let at = 600;
+    for (let n = 1; n <= paper.questions; n += 1) {
+      const item = byQ.get(n);
+      const id = `${paper.id}-q${n}`;
+      questions.push({ id, chapter: name(item ? item.ch : chapters[n % Math.max(1, chapters.length)]), difficulty: 'medium', correctIndex: 0, options: ['A', 'B', 'C', 'D'].map((key) => ({ key, text: key })) });
+      events.push({ seq: seq++, qid: id, at, type: 'visit' });
+      if (item?.state !== 'blank') { const answer = item ? 1 : 0; answers[id] = answer; events.push({ seq: seq++, qid: id, at: at + 30000, type: 'answer', answer }); }
+      at += 60000;
+    }
+    const result = scoreSession(questions, answers, events, at + 1000);
+    return { id: paper.id, userId: 'preview-user', subject: subjectId(paper.subject), ...result, questionsSnapshot: questions, selectionMeta: { recovery: result.recovery }, completedAt: Date.parse(paper.at) };
+  });
+  const names = Object.fromEntries(rec.papers.map((p) => [subjectId(p.subject), p.subject]));
+  const insights = computePrepOSInsights(attempts, { subjectNames: names, now: Date.parse(rec.now) });
+  return { ok: true, insights, findings: readout(insights, { limit: 4 }) };
+}
+
 /** Handles the Review endpoints while the preview shows Review; null for everything else. */
 export function previewReview(url, method, init, fixture, json) {
   if (fixture.get('view') !== 'review') return null;
@@ -99,6 +129,7 @@ export function previewReview(url, method, init, fixture, json) {
     const items = rec.papers.map((p) => ({ id: p.id, subject: subjectId(p.subject), mode: p.kind === 'full mock' ? 'full' : 'quick', correct: p.right, wrong: p.wrong, unattempted: p.blank, total: p.questions, marks: p.score, maxMarks: p.of, completedAt: Date.parse(p.at), formatId: `${p.kind}:${subjectId(p.subject)}:q${p.questions}` }));
     return json({ items, nextCursor: null });
   }
+  if (url.pathname === '/api/prepos/insights') return json(insightsFor(rec));
   if (url.pathname === '/api/study/catalog') return json(catalogFor(rec, url.searchParams.get('subject')));
   if (url.pathname === '/api/recovery/repair' && method === 'POST') {
     const body = JSON.parse(init.body || '{}');

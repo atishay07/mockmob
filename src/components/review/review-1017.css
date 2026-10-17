@@ -59,8 +59,8 @@
 .app-shell .rvw-next__value { margin: 0; font: 500 14.5px/1.5 var(--font-body); color: var(--a-ink-2); text-wrap: pretty; }
 .app-shell .rvw-next__cost { margin: 0; font: 500 13.5px/1.45 var(--font-body); color: var(--a-ink-3); }
 .app-shell .rvw .rvw-alt, .app-shell .rvw .rvw-key {
-  justify-self: start; display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 12px;
-  border: 1px solid var(--a-line-strong); font: 650 14.5px/1.2 var(--font-body); color: var(--a-ink); text-align: left;
+  justify-self: start; display: inline-flex; align-items: center; min-height: 44px; padding: 9px 16px; border-radius: 12px;
+  border: 1px solid var(--a-line-strong); font: 650 14.5px/1.3 var(--font-body); color: var(--a-ink); text-align: left; text-wrap: balance;
 }
 .app-shell .rvw .rvw-key--round { border-radius: 999px; }
 @media (hover: hover) and (pointer: fine) {
@@ -90,6 +90,7 @@
 .app-shell .rvw-row > span { grid-column: 1; font: 500 13.5px/1.45 var(--font-body); color: var(--a-ink-3); text-wrap: pretty; }
 .app-shell .rvw-row > .rvw-chev { grid-column: 2; grid-row: 1 / span 2; }
 .app-shell .rvw-revise { margin-top: 4px; }
+.app-shell .rvw-side > .rvw-revise:first-child { margin-top: 18px; }
 @media (hover: hover) and (pointer: fine) {
   .app-shell .rvw .rvw-row:hover > b { text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--a-line-strong); }
 }
@@ -133,6 +134,9 @@
 .app-shell .rvw-open { padding: 0 0 18px 12px; }
 .app-shell .rvw-open .rvw-q { animation: rvw-in 240ms var(--rvw-ease) both; animation-delay: calc(var(--i, 0) * 30ms); }
 
+/* A row brought into view (the panel's key, a link back from a lesson) lands below the sticky top bar, not under it. */
+.app-shell .rvw :is(.rvw-q, .rvw-open, .rvw-ch, .rvw-batch) { scroll-margin-top: 88px; }
+
 /* Question rows */
 .app-shell .rvw-q { border-top: 1px solid color-mix(in oklab, var(--a-line) 60%, transparent); }
 .app-shell .rvw-q:first-child { border-top: 0; }
@@ -153,6 +157,8 @@
   justify-self: start; margin-top: 6px; display: inline-flex; align-items: center; min-height: 36px; padding: 0 14px; border-radius: 999px;
   border: 1px solid var(--a-line-strong); font: 650 13.5px/1 var(--font-body); color: var(--a-ink); white-space: nowrap;
 }
+.app-shell .rvw-pill { animation: rvw-fade 200ms var(--rvw-ease) both; }
+@keyframes rvw-fade { from { opacity: 0; } to { opacity: 1; } }
 .app-shell .rvw-pill[data-k='slip'] { color: var(--a-warn-text); border-color: color-mix(in oklab, var(--a-warn-text) 50%, transparent); }
 .app-shell .rvw-pill[data-k='held'] { color: var(--a-good-text); border-color: color-mix(in oklab, var(--a-good-text) 45%, transparent); }
 .app-shell .rvw-pill:is([data-k='free'], [data-k='key']) { color: var(--a-ink-2); }
@@ -272,6 +278,9 @@
   .app-shell .rvw-strip dd { font-size: 34px; }
   .app-shell .rvw-also { margin-top: 30px; }
   .app-shell .rvw-open { padding-left: 60px; }
+  .app-shell .rvw-skel__board { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 0 56px; align-items: start; }
+  .app-shell .rvw-skel__panel { height: 300px; }
+  .app-shell .rvw-skel__strip { height: 82px; }
   .app-shell .rvw-papers { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 56px; align-items: start; }
 }
 

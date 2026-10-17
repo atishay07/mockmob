@@ -50,7 +50,7 @@ function useQuestion(item, wanted) {
   return [state, () => { setState({ status: 'loading' }); setTick((t) => t + 1); }];
 }
 
-function TryAgain({ q, number, onShow }) {
+function TryAgain({ q, number }) {
   const [picked, setPicked] = useState([]);
   const last = picked[picked.length - 1];
   const right = last !== undefined && last === q.key;
@@ -69,7 +69,7 @@ function TryAgain({ q, number, onShow }) {
       <p className="rvw-try__said" role="status" aria-live="polite">
         {last === undefined ? 'Pick one. Nothing is recorded and nothing is charged.'
           : right ? `Right: ${LETTERS[last]}. This try is not recorded.`
-            : <>Not {LETTERS[last]}. The answer stays hidden. Pick again, or <button type="button" className="rvw-inline" onClick={onShow}>show the answer</button>.</>}
+            : `Not ${LETTERS[last]}. Pick again. The answer stays hidden until you ask for it.`}
       </p>
     </div>
   );
@@ -116,7 +116,7 @@ export default function AnswerSheet({ item, wallet, autoRepair = false, onChange
   const body = (() => {
     if (waiting) return <p className="rvw-sheet__note" role="status">Opening Question {item.number}.</p>;
     if (failed) return <p className="rvw-sheet__note" role="alert">Question {item.number} did not load. <button type="button" className="rvw-inline" onClick={retry}>Try again</button></p>;
-    if (mode === 'try' && q) return <TryAgain q={q} number={item.number} onShow={() => setMode('answer')} />;
+    if (mode === 'try' && q) return <TryAgain q={q} number={item.number} />;
     if (mode === 'answer' && q) return <Answer q={q} />;
     if (mode === 'repair' || mode === 'saved') {
       const questionId = item.qid || q?.id;

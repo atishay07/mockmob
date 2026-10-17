@@ -53,7 +53,7 @@ export function ItemRow({ item, wallet, open, onToggle, onChanged, autoRepair = 
         <span className="rvw-q__text">
           <b>{item.stem}{item.stem && !ended(item.stem) ? '…' : ''}</b>
           <span className="rvw-q__when">{metaOf(item)}</span>
-          {!open ? <span className="rvw-pill" data-k={pillKind(item)}>{item.pill}</span> : null}
+          {!open ? <span key={item.pill} className="rvw-pill" data-k={pillKind(item)}>{item.pill}</span> : null}
         </span>
       </button>
       {open ? <AnswerSheet key={`${item.uid}:${autoRepair}`} item={item} wallet={wallet} autoRepair={autoRepair > 0} onChanged={onChanged} /> : null}
@@ -85,11 +85,21 @@ function useLesson(subject, chapter) {
   return lesson;
 }
 
-function LessonLink({ subject, chapter, from }) {
+/** Puts the chapter and the question into this page's address, so "Back to Question 42" lands on them again. */
+function markReturn(chapterId, uid) {
+  try {
+    const p = new URLSearchParams(window.location.search);
+    p.set('open', chapterId);
+    if (uid) p.set('q', uid); else p.delete('q');
+    window.history.replaceState(window.history.state, '', `${window.location.pathname}?${p}`);
+  } catch { /* the lesson still opens */ }
+}
+
+function LessonLink({ subject, chapter, chapterId, uid, from }) {
   const lesson = useLesson(subject, chapter);
   if (!lesson) return null;
   return (
-    <Link className="rvw-lesson" href={lessonHref(lesson, from)}>
+    <Link className="rvw-lesson" href={lessonHref(lesson, from)} onClick={() => markReturn(chapterId, uid)}>
       <u>Learn the idea first</u>
       <small>{lesson.title}{Number.isFinite(lesson.minutes) ? `, ${lesson.minutes}-minute lesson` : ', lesson'}, free</small>
     </Link>
@@ -195,7 +205,7 @@ function OpenChapter({ row, byUid, wallet, openUid, setOpenUid, onChanged, focus
       </ul>
       {hiddenLine ? <button type="button" className="rvw-more" onClick={() => setMore(true)}>{hiddenLine}</button> : null}
       <div className="rvw-open__foot">
-        {first ? <LessonLink subject={subject} chapter={row.name} from={{ kind: 'q', attemptId: first.attemptId, number: first.number }} /> : null}
+        {first ? <LessonLink subject={subject} chapter={row.name} chapterId={row.id} uid={first.uid} from={{ kind: 'q', attemptId: first.attemptId, number: first.number }} /> : null}
         {byPaper.length ? (
           <div className="rvw-paperkeys">
             {byPaper.map(([paper, list]) => (
@@ -268,9 +278,9 @@ export default function ChapterRows({ body, wallet, focus, openUid, setOpenUid, 
     <section className="rvw-chap" aria-labelledby="rvw-chap-h">
       <div className="rvw-sechead">
         <h2 id="rvw-chap-h" className="rvw-h2">{noneOpen ? 'No open mistakes' : body.head?.title}</h2>
-        <span>Costliest first</span>
+        {rows.length ? <span>Costliest first</span> : null}
       </div>
-      {noneOpen ? <p className="rvw-sub">{counts.blanks ? `${counts.blanks} left blank cost you ${counts.marks} marks. A blank costs 5. Try any of them again, free.` : 'Every wrong answer is repaired.'}</p>
+      {noneOpen ? <p className="rvw-sub">{counts.blanks ? `${counts.blanks} left blank cost you ${counts.marks} marks. A blank costs 5. Try any of them again, free.` : body.receipt?.found ? 'Every wrong answer is repaired.' : 'Every answer on your papers was right.'}</p>
         : body.head?.sub ? <p className="rvw-sub">{body.head.sub}</p> : null}
       <ul className="rvw-chs">
         {shown.map((row) => (
