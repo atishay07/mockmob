@@ -93,7 +93,7 @@ class _ExamDateSheet extends ConsumerWidget {
           KeyButton.quiet(label: TodayCopy.boardDateReset, onPressed: () => _choose(context, ref, null)),
         ],
         const SizedBox(height: MmSpace.s12),
-        Text(TodayCopy.boardOnThisPhone, style: type.micro.copyWith(color: colors.ink3)),
+        Text(TodayCopy.savedWhere(account: ref.watch(roadPlanProvider).onAccount), style: type.micro.copyWith(color: colors.ink3)),
       ],
     );
   }
@@ -202,7 +202,7 @@ class _MocksSheetState extends ConsumerState<_MocksSheet> {
           ),
         ],
         const SizedBox(height: MmSpace.s12),
-        Text(TodayCopy.boardOnThisPhone, style: type.micro.copyWith(color: colors.ink3)),
+        Text(TodayCopy.savedWhere(account: ref.watch(roadPlanProvider).onAccount), style: type.micro.copyWith(color: colors.ink3)),
       ],
     );
   }

@@ -16,7 +16,11 @@ import '../../onboarding/data/calendar.dart';
 
 /// What the student set for their road. Kept on this phone (`roadPlanProvider`).
 class RoadPlan {
-  const RoadPlan({this.examDate, this.mockTarget});
+  const RoadPlan({this.examDate, this.mockTarget, this.onAccount = false});
+
+  /// The account holds the road (the server has the fields): a save says "Saved to your account",
+  /// never "on this phone" (walk 1, TODAY-5).
+  final bool onAccount;
 
   /// The day they are aiming for (a UTC date), or null for the expected window.
   final DateTime? examDate;
@@ -27,13 +31,14 @@ class RoadPlan {
   RoadPlan copyWith({DateTime? examDate, bool clearDate = false, int? mockTarget, bool clearTarget = false}) => RoadPlan(
         examDate: clearDate ? null : (examDate ?? this.examDate),
         mockTarget: clearTarget ? null : (mockTarget ?? this.mockTarget),
+        onAccount: onAccount,
       );
 
   @override
-  bool operator ==(Object other) => other is RoadPlan && other.examDate == examDate && other.mockTarget == mockTarget;
+  bool operator ==(Object other) => other is RoadPlan && other.examDate == examDate && other.mockTarget == mockTarget && other.onAccount == onAccount;
 
   @override
-  int get hashCode => Object.hash(examDate, mockTarget);
+  int get hashCode => Object.hash(examDate, mockTarget, onAccount);
 }
 
 /// The latest day a student can set: the end of June after the expected window, in case NTA

@@ -128,6 +128,7 @@ class MoveHero extends TodayHero {
     this.dismissedLine,
     this.kind = MoveKind.other,
     this.whyLink,
+    this.whyAction,
     this.alternate,
   });
 
@@ -138,6 +139,10 @@ class MoveHero extends TodayHero {
 
   /// The why sentence's link words ("See why", "See all 6"); the default is "See why".
   final String? whyLink;
+
+  /// Where the why's link goes when no paper on this phone backs the claim (a Revise round whose
+  /// papers are not cached here): the link still shows, and opens this instead of the why sheet.
+  final TodayAction? whyAction;
 
   /// A pill before [secondary] when the move has no length to change ("Open the repair").
   final TodayAction? alternate;
@@ -344,7 +349,11 @@ class RoadModel {
     this.board,
     this.plannedDays,
     this.ladderSaved = 0,
+    this.onAccount = false,
   });
+
+  /// The road is kept on the account (else on this phone only): the save receipts say which.
+  final bool onAccount;
 
   /// Every college on My colleges (the ladder shows the first three): "2 more saved".
   final int ladderSaved;

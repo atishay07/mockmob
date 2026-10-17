@@ -16,7 +16,22 @@ import '../copy.dart';
 import 'hero_stage.dart';
 
 /// Height the loaded move hero usually takes, so the swap does not shift the page.
-const double heroSkeletonHeight = 392;
+const double heroSkeletonHeight = 420;
+
+/// The move card's height the last time one was laid out in this run (L03): a returning visit's
+/// skeleton is the student's own card, so the page under it does not move when the record lands.
+/// The first load uses [heroSkeletonHeight], between the repair card (about 380) and Revise (454).
+double _lastHeroHeight = heroSkeletonHeight;
+
+double get lastHeroHeight => _lastHeroHeight;
+
+/// Notes a laid-out move card's height. Heights outside a card's real range are ignored.
+void rememberHeroHeight(double h) {
+  if (h >= 280 && h <= 560) _lastHeroHeight = h;
+}
+
+/// Back to the first-load height (tests).
+void resetHeroHeight() => _lastHeroHeight = heroSkeletonHeight;
 
 class TodaySkeleton extends StatefulWidget {
   const TodaySkeleton({super.key, this.delay = const Duration(milliseconds: 400), this.onRetry, this.slowAfter = const Duration(seconds: 8)});
@@ -62,7 +77,7 @@ class _TodaySkeletonState extends State<TodaySkeleton> {
 
   @override
   Widget build(BuildContext context) {
-    if (!_visible) return const SizedBox(height: heroSkeletonHeight);
+    if (!_visible) return SizedBox(height: _lastHeroHeight);
     // Two groups, so the slow line and its key between them stay readable and reachable (a group
     // speaks only its label).
     return Column(
@@ -73,7 +88,7 @@ class _TodaySkeletonState extends State<TodaySkeleton> {
           child: HeroStage(
             lit: false,
             child: SizedBox(
-              height: heroSkeletonHeight,
+              height: _lastHeroHeight,
               child: Padding(
                 padding: const EdgeInsets.all(MmSpace.cardPadding),
                 child: Column(

@@ -3,7 +3,10 @@
 // the row sits in the glance group under the move, and the whole row opens the week. Before the
 // rhythm is read the row keeps its height with skeleton marks; a failed first read says so in the
 // same space (L03). On the week's close the row shows last week ("Last week: 4 of 4.").
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/motion/motion.dart';
@@ -11,13 +14,15 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../rhythm/logic/plan_week.dart' show PlanDay, PlanDayMark;
 import '../copy.dart';
+import '../data/week_cheers.dart';
 import '../logic/today_model.dart';
 import 'today_type.dart';
 
-/// Weeks whose goal-met cheer already played in this run: Mobi cheers once per week (4.6).
+/// Weeks whose goal-met cheer already played in this run: Mobi cheers once per week (4.6). The
+/// account's record of it is kept on the phone ([weekCheersProvider]), so a restart never replays it.
 final Set<String> _cheered = {};
 
-class TodayWeekRow extends StatelessWidget {
+class TodayWeekRow extends ConsumerWidget {
   const TodayWeekRow({
     super.key,
     this.week,
@@ -50,7 +55,7 @@ class TodayWeekRow extends StatelessWidget {
   static const double mark = 26;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.mmColors;
     final type = context.mmType;
     final w = week;
@@ -106,8 +111,14 @@ class TodayWeekRow extends StatelessWidget {
       final last = lastWeek;
       final caption = last != null ? '${TodayCopy.lastWeek(last.$1, last.$2)} ${TodayCopy.seeYourWeek}' : w.caption;
       final key = last != null ? TodayCopy.seeYourWeek : w.captionKey;
-      final cheer = w.met && allowMobi && w.weekId != null && !_cheered.contains(w.weekId);
-      if (cheer) _cheered.add(w.weekId!);
+      final seen = ref.watch(weekCheersProvider);
+      final cheer = w.met && allowMobi && w.weekId != null && seen != null && !seen.contains(w.weekId) && !_cheered.contains(w.weekId);
+      if (cheer) {
+        _cheered.add(w.weekId!);
+        final id = w.weekId!;
+        final cheers = ref.read(weekCheersProvider.notifier);
+        scheduleMicrotask(() => unawaited(cheers.mark(id)));
+      }
       body = Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
