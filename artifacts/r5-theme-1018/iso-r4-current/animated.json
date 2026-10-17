@@ -1,0 +1,12 @@
+[
+ {
+  "from": "light",
+  "animated": [
+   "mm-theme-toggle__star:transform"
+  ]
+ },
+ {
+  "from": "dark",
+  "animated": []
+ }
+]

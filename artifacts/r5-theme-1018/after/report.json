@@ -1,0 +1,378 @@
+{
+  "label": "after",
+  "route": "/privacy",
+  "runs": [
+    {
+      "tag": "390-day",
+      "frames": [
+        {
+          "f": "390-day-f00.png",
+          "ms": 0
+        },
+        {
+          "f": "390-day-f01.png",
+          "ms": 40
+        },
+        {
+          "f": "390-day-f02.png",
+          "ms": 80
+        },
+        {
+          "f": "390-day-f03.png",
+          "ms": 120
+        },
+        {
+          "f": "390-day-f04.png",
+          "ms": 160
+        },
+        {
+          "f": "390-day-f05.png",
+          "ms": 200
+        },
+        {
+          "f": "390-day-f06.png",
+          "ms": 240
+        },
+        {
+          "f": "390-day-f07.png",
+          "ms": 280
+        },
+        {
+          "f": "390-day-f08.png",
+          "ms": 320
+        },
+        {
+          "f": "390-day-f09.png",
+          "ms": 360
+        },
+        {
+          "f": "390-day-f10.png",
+          "ms": 400
+        },
+        {
+          "f": "390-day-f11.png",
+          "ms": 450
+        },
+        {
+          "f": "390-day-f12.png",
+          "ms": 500
+        },
+        {
+          "f": "390-day-f13.png",
+          "ms": 560
+        },
+        {
+          "f": "390-day-f14.png",
+          "ms": 620
+        },
+        {
+          "f": "390-day-f15.png",
+          "ms": 700
+        },
+        {
+          "f": "390-day-f16.png",
+          "ms": 800
+        },
+        {
+          "f": "390-day-f17.png",
+          "ms": 1000
+        }
+      ],
+      "after": "dark",
+      "perf": {
+        "frames": 181,
+        "avgMs": 6.16,
+        "p95Ms": 6.2,
+        "maxMs": 18.2,
+        "longOver25": 0,
+        "cls": 0,
+        "toggleMoved": 0
+      },
+      "reduced": {
+        "theme": "dark",
+        "vt": false,
+        "thumbTransform": "matrix(0.882948, -0.469472, 0.469472, 0.882948, 28, 0)",
+        "running": []
+      }
+    },
+    {
+      "tag": "390-night",
+      "frames": [
+        {
+          "f": "390-night-f00.png",
+          "ms": 0
+        },
+        {
+          "f": "390-night-f01.png",
+          "ms": 40
+        },
+        {
+          "f": "390-night-f02.png",
+          "ms": 80
+        },
+        {
+          "f": "390-night-f03.png",
+          "ms": 120
+        },
+        {
+          "f": "390-night-f04.png",
+          "ms": 160
+        },
+        {
+          "f": "390-night-f05.png",
+          "ms": 200
+        },
+        {
+          "f": "390-night-f06.png",
+          "ms": 240
+        },
+        {
+          "f": "390-night-f07.png",
+          "ms": 280
+        },
+        {
+          "f": "390-night-f08.png",
+          "ms": 320
+        },
+        {
+          "f": "390-night-f09.png",
+          "ms": 360
+        },
+        {
+          "f": "390-night-f10.png",
+          "ms": 400
+        },
+        {
+          "f": "390-night-f11.png",
+          "ms": 450
+        },
+        {
+          "f": "390-night-f12.png",
+          "ms": 500
+        },
+        {
+          "f": "390-night-f13.png",
+          "ms": 560
+        },
+        {
+          "f": "390-night-f14.png",
+          "ms": 620
+        },
+        {
+          "f": "390-night-f15.png",
+          "ms": 700
+        },
+        {
+          "f": "390-night-f16.png",
+          "ms": 800
+        },
+        {
+          "f": "390-night-f17.png",
+          "ms": 1000
+        }
+      ],
+      "after": "light",
+      "perf": {
+        "frames": 181,
+        "avgMs": 6.16,
+        "p95Ms": 6.2,
+        "maxMs": 24.2,
+        "longOver25": 0,
+        "cls": 0,
+        "toggleMoved": 0
+      },
+      "reduced": {
+        "theme": "light",
+        "vt": false,
+        "thumbTransform": "matrix(1, 0, 0, 1, 0, 0)",
+        "running": []
+      }
+    },
+    {
+      "tag": "1440-day",
+      "frames": [
+        {
+          "f": "1440-day-f00.png",
+          "ms": 0
+        },
+        {
+          "f": "1440-day-f01.png",
+          "ms": 40
+        },
+        {
+          "f": "1440-day-f02.png",
+          "ms": 80
+        },
+        {
+          "f": "1440-day-f03.png",
+          "ms": 120
+        },
+        {
+          "f": "1440-day-f04.png",
+          "ms": 160
+        },
+        {
+          "f": "1440-day-f05.png",
+          "ms": 200
+        },
+        {
+          "f": "1440-day-f06.png",
+          "ms": 240
+        },
+        {
+          "f": "1440-day-f07.png",
+          "ms": 280
+        },
+        {
+          "f": "1440-day-f08.png",
+          "ms": 320
+        },
+        {
+          "f": "1440-day-f09.png",
+          "ms": 360
+        },
+        {
+          "f": "1440-day-f10.png",
+          "ms": 400
+        },
+        {
+          "f": "1440-day-f11.png",
+          "ms": 450
+        },
+        {
+          "f": "1440-day-f12.png",
+          "ms": 500
+        },
+        {
+          "f": "1440-day-f13.png",
+          "ms": 560
+        },
+        {
+          "f": "1440-day-f14.png",
+          "ms": 620
+        },
+        {
+          "f": "1440-day-f15.png",
+          "ms": 700
+        },
+        {
+          "f": "1440-day-f16.png",
+          "ms": 800
+        },
+        {
+          "f": "1440-day-f17.png",
+          "ms": 1000
+        }
+      ],
+      "after": "dark",
+      "perf": {
+        "frames": 190,
+        "avgMs": 6.16,
+        "p95Ms": 6.2,
+        "maxMs": 24.4,
+        "longOver25": 0,
+        "cls": 0,
+        "toggleMoved": 0
+      },
+      "reduced": {
+        "theme": "dark",
+        "vt": false,
+        "thumbTransform": "matrix(0.882948, -0.469472, 0.469472, 0.882948, 28, 0)",
+        "running": []
+      }
+    },
+    {
+      "tag": "1440-night",
+      "frames": [
+        {
+          "f": "1440-night-f00.png",
+          "ms": 0
+        },
+        {
+          "f": "1440-night-f01.png",
+          "ms": 40
+        },
+        {
+          "f": "1440-night-f02.png",
+          "ms": 80
+        },
+        {
+          "f": "1440-night-f03.png",
+          "ms": 120
+        },
+        {
+          "f": "1440-night-f04.png",
+          "ms": 160
+        },
+        {
+          "f": "1440-night-f05.png",
+          "ms": 200
+        },
+        {
+          "f": "1440-night-f06.png",
+          "ms": 240
+        },
+        {
+          "f": "1440-night-f07.png",
+          "ms": 280
+        },
+        {
+          "f": "1440-night-f08.png",
+          "ms": 320
+        },
+        {
+          "f": "1440-night-f09.png",
+          "ms": 360
+        },
+        {
+          "f": "1440-night-f10.png",
+          "ms": 400
+        },
+        {
+          "f": "1440-night-f11.png",
+          "ms": 450
+        },
+        {
+          "f": "1440-night-f12.png",
+          "ms": 500
+        },
+        {
+          "f": "1440-night-f13.png",
+          "ms": 560
+        },
+        {
+          "f": "1440-night-f14.png",
+          "ms": 620
+        },
+        {
+          "f": "1440-night-f15.png",
+          "ms": 700
+        },
+        {
+          "f": "1440-night-f16.png",
+          "ms": 800
+        },
+        {
+          "f": "1440-night-f17.png",
+          "ms": 1000
+        }
+      ],
+      "after": "light",
+      "perf": {
+        "frames": 184,
+        "avgMs": 6.16,
+        "p95Ms": 6.2,
+        "maxMs": 24.2,
+        "longOver25": 0,
+        "cls": 0,
+        "toggleMoved": 0
+      },
+      "reduced": {
+        "theme": "light",
+        "vt": false,
+        "thumbTransform": "matrix(1, 0, 0, 1, 0, 0)",
+        "running": []
+      }
+    }
+  ]
+}
