@@ -34,6 +34,8 @@ import 'package:mockmob/features/review/data/review_providers.dart' show ReviewI
 import 'package:mockmob/features/review/revise/revise_data.dart' show reviseEntryProvider;
 import 'package:mockmob/features/review/again/review_again_entry.dart' show reviewAgainCountProvider;
 import 'package:mockmob/features/practice/data/practice_prefs.dart';
+import 'package:mockmob/features/social/data/mob_models.dart' show MobRead;
+import 'package:mockmob/features/social/data/mob_repository.dart' show mobRepositoryProvider;
 import 'package:mockmob/features/practice/data/practice_starter.dart';
 import 'package:mockmob/features/practice/data/result_actions.dart';
 import 'package:mockmob/features/practice/model/practice_selection.dart';
@@ -353,7 +355,13 @@ Future<GoRouter> pumpRouted(
   addTearDown(router.dispose);
   await tester.pumpWidget(
     ProviderScope(
-      overrides: overrides,
+      overrides: [
+        // The Mob's entry row on Practice reads the server through the phone's database: nothing has
+        // been read (it draws nothing) unless the test passes its own.
+        if (!overrides.any((o) => identical(o.origin, mobRepositoryProvider)))
+          mobRepositoryProvider.overrideWithBuild((ref, n) => const RemoteState<MobRead>()),
+        ...overrides,
+      ],
       child: DefaultAssetBundle(
         bundle: FileAssetBundle(),
         child: RepaintBoundary(
