@@ -291,3 +291,21 @@ html[data-theme='light'] .mobi-scrim { background: rgb(23 32 22 / 0.26); }
   }
 }
 html[data-theme='light'] .mobi-panel { box-shadow: 0 1px 2px rgb(20 32 14 / 0.12), 0 32px 80px -32px rgb(20 32 14 / 0.45); }
+
+/* D7, D12 (18 Oct dawn): Ask Mobi read as neon in Night. Measured against the last production before release 2, the one
+   new volt mass in Night was the plan's key: a solid volt bar the width of the card, on the page and in the panel (about
+   2.4 times the volt area the page had). Before, that key was an outline and the owner called Night "subtle and really
+   beautiful". So in Night the key goes back to that outline: raised ground, strong line, ink label. It is still the
+   largest control in the card and the first after the plan, the minute pick keeps its ring and wash, and Day keeps the
+   volt key unchanged. */
+html:not([data-theme='light']) .prepos-console .btn-volt[data-page-primary] {
+  border: 1px solid var(--a-line-strong, #384736);
+  background: var(--a-raised, #131a16);
+  color: var(--a-ink, #f2f4ec);
+  box-shadow: none;
+  transition: transform 140ms var(--a-ease, ease), background-color 150ms ease, border-color 150ms ease;
+}
+html:not([data-theme='light']) .prepos-console .btn-volt[data-page-primary]:hover:not(:disabled) {
+  border-color: var(--a-line-hover, rgba(244, 245, 240, 0.32));
+  background: var(--a-raised-2, #18211b);
+}

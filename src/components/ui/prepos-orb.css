@@ -74,3 +74,14 @@
   .prepos-orb__liquid { animation: none; }
 }
 html[data-motion='reduced'] .prepos-orb__liquid { animation: none; }
+
+/* D7, D12 (18 Oct dawn): in Night the orb sits in the sidebar on every page and heads the Ask Mobi panel, and its lime
+   pool read as one more neon accent. In Night the light inside is turned down to an ember: the same marble, the same
+   slow drift, about two thirds of the light, and only a trace of lime in the glass. Day is unchanged. */
+html:not([data-theme='light']) .prepos-orb__liquid { opacity: 0.56; }
+html:not([data-theme='light']) .prepos-orb--active .prepos-orb__liquid { opacity: 0.72; }
+html:not([data-theme='light']) .prepos-orb__glass {
+  background:
+    radial-gradient(ellipse 30% 19% at 36% 21%, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.08) 62%, rgba(255, 255, 255, 0) 100%),
+    radial-gradient(circle at 50% 100%, rgba(210, 240, 0, 0.08), rgba(210, 240, 0, 0) 55%);
+}
