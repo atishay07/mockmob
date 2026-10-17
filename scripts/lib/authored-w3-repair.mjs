@@ -36,6 +36,13 @@ export function parseTextRepair(q, repair) {
     if (count !== 1) problems.push(`the stem holds "${stemName[1]}" ${count} times, the repair expects once`);
     else fields.stem = String(q.stem).replace(stemName[1], stemName[2]);
   }
+  // Wave 4: one statement of a statement-based stem reworded: Statement (C) changed from "<old sentence>" to "<new sentence>" (the old sentence must occur once in the stem).
+  const statement = text.match(/Statement \(([A-Z])\)[^"]*?changed from "([^"]+)" to "([^"]+)"/);
+  if (statement) {
+    const count = String(q.stem).split(statement[2]).length - 1;
+    if (count !== 1) problems.push(`the stem holds the old text of statement (${statement[1]}) ${count} times, the repair expects once`);
+    else fields.stem = String(q.stem).replace(statement[2], () => statement[3]);
+  }
   if (/Options rewritten/.test(text)) {
     const found = [...text.matchAll(/\b([A-D]): "([^"]+)"/g)].map((m) => ({ key: m[1], text: m[2] }));
     if (found.map((o) => o.key).join('') !== 'ABCD') problems.push(`the repair names options ${found.map((o) => o.key).join('') || 'none'}, not A to D`);

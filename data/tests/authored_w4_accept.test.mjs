@@ -36,7 +36,9 @@ test('the wave config: wave 4 has its own source, files and settings, waves 2 an
   assert.deepEqual([w4.wave, w4.raw, w4.out, w4.date, w4.expert, w4.asjudged, w4.fresh, w4.resolve, w4.decisions, w4.spotcheck], ['w4', 'tmp/authored-w4s', 'docs/brain/reports/authored-w4', '2026-10-17', null, null, [], null, null, null]);
   assert.equal(w4.candidates, 'docs/brain/reports/authored-w4/wave4-candidates-2026-10-17.json');
   assert.equal(w4.manifest, 'tmp/authored-w4s/manifest.json');
-  assert.equal(WAVE_CONFIGS.w4.finalInputs, null);
+  // the final mode (after the expert pass) reads these; the accept mode keeps its null defaults above, so its output never changes
+  assert.deepEqual(WAVE_CONFIGS.w4.finalInputs, { expert: 'docs/brain/reports/authored-w4/expert', resolve: 'tmp/authored-w4s/resolve', fresh: ['tmp/authored-w4s/reword'] });
+  assert.deepEqual(WAVE_CONFIGS.w4.publishRule, { qualityMeanAtLeast: 8, fitMedianAtLeast: 8 });
   assert.equal(WAVE_CONFIGS.w4.finalMode, false);
   assert.deepEqual(WAVE_CONFIGS.w4.priorFiles.map((entry) => entry.from), ['wave2', 'wave3']);
   const w3 = parseArgs(['--wave=w3']);
