@@ -296,8 +296,10 @@ test('account deletion removes the list with the rest of the student', () => {
 // ---- the three places that read and write the one list --------------------------------------------------------------
 
 test('Today, Account and the Compass rows all use the one list', () => {
+  // Today 1017: one "Your colleges" row (the first college and its 2026 cutoff) read from the same list.
   const today = read('src/app/(app)/today/page.jsx');
-  assert.match(today, /<TodayColleges userId=\{user\?\.id\} \/>/);
+  assert.match(today, /<TodayRows papers=\{data\.papers\} userId=\{userId\}/);
+  assert.match(read('src/components/today/TodayRows.jsx'), /useMyColleges\(userId\)/);
   assert.match(read('src/app/(app)/profile/ProfilePageClient.jsx'), /<AccountColleges userId=\{user\?\.id\} \/>/);
   const calc = read('src/components/du/CutoffCalculator.jsx');
   assert.match(calc, /<AddToMyColleges userId=\{userId\} programmeId=\{group\?\.id\}/);
