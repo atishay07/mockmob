@@ -1,29 +1,42 @@
 "use client";
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { BookOpenText } from 'lucide-react';
-import { apiGet } from '@/lib/fetcher';
+import { lessonFor, lessonHref } from '@/../data/study/lesson_map.mjs';
+import { readCatalog } from '@/lib/catalogRead';
+import './concepts.css';
 
-// After a practice result: point each chapter with mistakes to its published lesson, if one exists.
-// It never claims the lesson fixes the mistake; it offers the idea behind it plus recall.
-export default function MistakeLessonLink({ subject, chapter, chapters = [], conceptIds = [] }) {
-  const [units, setUnits] = useState(null);
-  const wanted = chapters.length ? chapters : chapter ? [{ chapter, count: 0 }] : [];
-  const key = `${subject}|${wanted.map(c => c.chapter).join('|')}|${conceptIds.join(',')}`;
+// "Learn the idea first" (LEARN-REVIEW-1017 5.11): the lesson for the idea behind a mistake, offered where the mistake is. It names
+// the lesson, its time (Learn plus Lock it in) and that it is free, and it never claims the lesson fixes the mistake. The lesson is
+// found by data/study/lesson_map.mjs lessonFor (the mistake's concept first, then its chapter), the same rule on every surface:
+// the result page, Review's opened chapter and the repair entry. With no lesson it draws nothing (a failed read is not "no lesson").
+//   subject, chapter, conceptId     one mistake or one chapter
+//   chapters [{ chapter, count }]   several chapters (the result's Repair step); conceptIds the mistakes' concepts
+//   from                            where the student is: { kind: 'q', attemptId, number } | { kind: 'chapter', subject, chapter }
+export default function MistakeLessonLink({ subject, chapter, conceptId = null, chapters = [], conceptIds = [], from = null }) {
+  const [catalog, setCatalog] = useState(null);
   useEffect(() => {
     let live = true;
-    apiGet(`/api/study/catalog?subject=${encodeURIComponent(subject)}`).then(data => {
-      if (!live) return;
-      const chapterList = wanted.map(c => c.chapter);
-      const matches = (data.units || []).filter(u => chapterList.includes(u.chapter) || conceptIds.includes(u.conceptId));
-      setUnits(matches);
-    }).catch(() => { if (live) setUnits([]); });
+    readCatalog({ subject }).then((data) => { if (live) setCatalog(data); });
     return () => { live = false; };
-  }, [key]); // eslint-disable-line react-hooks/exhaustive-deps
-  if (!units?.length) return null;
-  const shown = units;
-  return <div className="srl-lessons">
-    <p className="srl-muted">Lessons cover the ideas behind {shown.length === 1 ? 'this chapter' : 'these chapters'}. Read one, lock it in with recall, then practise the chapter again.</p>
-    <ul>{shown.map(u => { const c = wanted.find(w => w.chapter === u.chapter); return <li key={u.id}><Link className="pr-link" href={`/learn/${u.id}`}><BookOpenText size={16} aria-hidden="true" />{u.title}</Link><small>{u.chapter}{c?.count ? `, ${c.count} ${c.count === 1 ? 'mistake' : 'mistakes'} here` : ''}, {u.estimatedMinutes} min{u.read ? ', read' : ''}</small></li>; })}</ul>
+  }, [subject]);
+  const wanted = useMemo(() => (chapters.length ? chapters : chapter ? [{ chapter, count: 0, conceptId }] : []), [chapters, chapter, conceptId]);
+  const concepts = conceptIds.join(',');
+  const found = useMemo(() => {
+    if (!catalog) return [];
+    const units = catalog.units || [];
+    const seen = new Set();
+    const out = [];
+    const add = (lesson, count) => { if (lesson && !seen.has(lesson.id)) { seen.add(lesson.id); out.push({ lesson, count }); } };
+    for (const w of wanted) add(lessonFor({ subject, chapter: w.chapter, conceptId: w.conceptId ?? null }, units), w.count);
+    for (const id of concepts ? concepts.split(',') : []) add(lessonFor({ subject, conceptId: id }, units), 0);
+    return out;
+  }, [catalog, wanted, subject, concepts]);
+  if (!found.length) return null;
+  const detail = ({ lesson, count }) => `${lesson.title}, ${lesson.minutes ? `${lesson.minutes}-minute lesson` : 'lesson'}, free${lesson.read ? ', read' : ''}${count ? `. ${count} ${count === 1 ? 'mistake' : 'mistakes'} in ${lesson.chapter}` : ''}`;
+  // One lesson reads as one link; several (the result's Repair step spans chapters) read as a short list under the same words.
+  if (found.length === 1) return <div className="mll"><Link className="mll__link" href={lessonHref(found[0].lesson, from)}><u>Learn the idea first</u><small>{detail(found[0])}</small></Link></div>;
+  return <div className="mll">
+    <p className="mll__head">Learn the idea first</p>
+    <ul>{found.map((item) => <li key={item.lesson.id}><Link className="mll__link" href={lessonHref(item.lesson, from)}><u>{item.lesson.title}</u><small>{detail(item).slice(item.lesson.title.length + 2)}</small></Link></li>)}</ul>
   </div>;
 }
