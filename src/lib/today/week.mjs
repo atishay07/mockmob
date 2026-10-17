@@ -160,7 +160,8 @@ export function dayReadout({ mark, index, papers = null, repairs = null, dayKey,
     const title = `Today, ${long}${!out.length && mark.state === 'planned' ? ', planned' : ''}`;
     if (failed) return { title, lines: out, note: 'Your move shows here once it loads.' };
     const m = move && move.id !== 'done' && move.title ? `Up next: ${move.title.charAt(0).toLowerCase()}${move.title.slice(1)}${move.key?.minutes ? `, about ${move.key.minutes} minutes` : ''}.` : '';
-    return { title, lines: out, note: out.length ? (m ? `Still to come: ${m.slice(9)}` : '') : m };
+    if (!out.length && mark.state === 'counted') return { title, lines: out, note: m ? `Today already counts. ${m}` : 'Today already counts toward your week.' };
+    return { title, lines: out, note: out.length ? (m ? `Still to come: ${m.slice(9)}` : '') : m || 'Any session today counts toward your week.' };
   }
   if (out.length) return { title: long, lines: out, note: '' };
   if (mark.state === 'before') return { title: long, lines: out, note: 'Before your first session.' };

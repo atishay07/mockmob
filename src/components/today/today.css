@@ -292,6 +292,8 @@ html[data-theme='light'] .app-shell .tw__day[data-state='counted'] .tw__dot { bo
 .app-shell .trd__skl--s { width: 70%; height: 12px; margin-top: 6px; }
 .app-shell .trd__skf { display: block; width: 52px; height: 28px; border-radius: 8px; background: var(--a-raised-2); }
 .app-shell .trd--wait .trd__row { cursor: default; }
+.app-shell .trd--wait .trd__ring { background: var(--a-raised-2); }
+.app-shell .trd--wait .trd__stop > .trd__row::before, .app-shell .trd--wait .trd__stop > .trd__row::after { display: none; }
 .app-shell .trd--wait .trd__row:hover { background: transparent; }
 
 /* ---------- 5. Weak chapters ---------- */

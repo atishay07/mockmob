@@ -310,9 +310,10 @@ export function weekMockShare({ target, taken, thisWeek = 0, weeks, weekStart, l
  *   target       the mock target in use (the student's, else the suggestion)
  *   taken        full and NTA mocks on the record, or null
  *   lastMockDay  the newest full mock's day key, or null
+ *   firstDay     no session saved yet: today is the first day of the plan, and no full mock is asked of this week
  * Returns { today, week, goal } or null when the week is not known yet.
  */
-export function roadLayers({ today, rhythm = null, weekdays = null, revise = null, move = null, fig, target, taken = null, lastMockDay = null }) {
+export function roadLayers({ today, rhythm = null, weekdays = null, revise = null, move = null, fig, target, taken = null, lastMockDay = null, firstDay = false }) {
   if (!rhythm?.weekStart || !isDayKey(today) || !fig) return null;
   const idx = Math.max(0, Math.min(6, daysBetween(rhythm.weekStart, today)));
   const counted = new Set(rhythm.studyDayDates || []);
@@ -322,7 +323,7 @@ export function roadLayers({ today, rhythm = null, weekdays = null, revise = nul
   // Due today: the planned session (or one already saved), and Revise when anything came back today.
   const items = [];
   const sessionDone = counted.has(today);
-  const sessionPlanned = plan ? plan.has(idx) : goal ? (rhythm.studyDays || 0) < goal : true;
+  const sessionPlanned = firstDay || Boolean(rhythm.returning) || (plan ? plan.has(idx) : goal ? (rhythm.studyDays || 0) < goal : true);
   if (sessionPlanned || sessionDone) {
     const minutes = move?.key?.minutes || null;
     items.push({
@@ -352,7 +353,7 @@ export function roadLayers({ today, rhythm = null, weekdays = null, revise = nul
 
   // Due this week: the study days of the goal, and the full mocks this week's share of the target asks for.
   const studyDone = Math.min(rhythm.studyDays || 0, goal || 0);
-  const share = weekMockShare({ target, taken, thisWeek: rhythm.mocksThisWeek || 0, weeks: fig.weeks, weekStart: rhythm.weekStart, lastMockDay });
+  const share = firstDay ? { planned: 0, nextWeek: null } : weekMockShare({ target, taken, thisWeek: rhythm.mocksThisWeek || 0, weeks: fig.weeks, weekStart: rhythm.weekStart, lastMockDay });
   const mocksDone = Math.min(rhythm.mocksThisWeek || 0, share.planned);
   const end = addDays(rhythm.weekStart, 6);
   const daysLeft = 7 - idx;

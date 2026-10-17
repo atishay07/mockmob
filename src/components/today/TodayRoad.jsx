@@ -80,6 +80,7 @@ export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, l
   const layers = roadLayers({
     today, rhythm: rhythmNow, weekdays: goalData?.weekdays || null,
     revise: revise.status === 'ready' ? revise.data : null, move: lead, fig, target, taken, lastMockDay,
+    firstDay: facts.status === 'ready' && facts.data?.sessions === 0,
   });
   const [openStop, setOpenStop] = useState(null);
   const toggle = (k) => setOpenStop((v) => (v === k ? null : k));
@@ -160,7 +161,7 @@ export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, l
               ))}
             </ul>
           ) : null}
-          <p className="trd__note">{day.rest ? 'Your plan rests today. A session still counts toward the week.' : 'Today counts once a session is saved. Any length counts.'}</p>
+          <p className="trd__note">{day.items.some((i) => i.id === 'session' && i.done) ? 'Today already counts toward your week.' : day.rest ? 'Your plan rests today. A session still counts toward the week.' : 'Today counts once a session is saved. Any length counts.'}</p>
         </Stop>
 
         <Stop

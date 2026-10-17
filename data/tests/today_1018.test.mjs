@@ -148,6 +148,11 @@ test('road layers: a rest day has nothing due; a saved session counts; Revise co
   assert.equal(done.today.items[1].detail, '6 of 6 questions');
   assert.equal(done.today.left, 'Everything due today is done.');
   assert.equal(roadLayers({ today: TODAY, rhythm: null, fig }), null);
+  // Day one: today is the first day of the plan even on a planned rest day, and no full mock is asked of the week.
+  const first = roadLayers({ today: '2026-10-13', rhythm: { ...rhythm, studyDayDates: [], studyDays: 0 }, weekdays: [0, 2, 5, 6], revise: null, move: { id: 'dayOne', title: 'Find your starting point', key: { minutes: 10 } }, fig, target: 14, taken: 0, firstDay: true });
+  assert.equal(first.today.total, 1);
+  assert.equal(first.today.left, 'Left: find your starting point, about 10 min.');
+  assert.deepEqual(first.week.items.map((i) => i.id), ['days']);
 });
 
 test('road layers: the week\'s share of the mock target, one a fortnight, never a debt', () => {
