@@ -10,6 +10,7 @@ import '../../../core/repositories/remote_state.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../ask_mobi.dart';
 import '../copy.dart';
 import '../data/evidence.dart';
 import '../data/insights_models.dart';
@@ -179,7 +180,7 @@ class InsightsScreen extends ConsumerWidget {
     final head = <Widget>[
       LedgerHero(insights: v, evidence: ev?.ledger),
       const SizedBox(height: MmSpace.s12),
-      AskMobiStrip(onTap: () => context.push(InsightsPaths.ask)),
+      AskMobiStrip(onTap: () => openAskMobi(context, const AskMobiContext.page())),
     ];
     // Sections are simply there: no fade-up as they are built or scrolled to (text never moves while
     // the record scrolls). Only the charts inside them draw, once, as they come into view.

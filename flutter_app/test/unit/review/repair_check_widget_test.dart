@@ -6,7 +6,6 @@ import 'package:flutter/semantics.dart' show SemanticsData;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/models/models.dart';
 import 'package:mockmob/core/repositories/credits_repository.dart';
@@ -18,6 +17,11 @@ import 'package:mockmob/features/review/data/repair_check_logic.dart';
 import 'package:mockmob/features/review/screens/repair_screen.dart';
 import 'package:mockmob/features/review/widgets/repair_check_section.dart';
 
+import 'package:mockmob/features/insights/data/ask_question.dart';
+import 'package:mockmob/features/insights/data/ask_sheet_controller.dart';
+import 'package:mockmob/features/insights/widgets/ask_sheet.dart';
+
+import '../../golden/insights/insights_golden_support.dart' show insightsOverrides;
 import '../../golden/review/review_golden_support.dart' show StillCredits, credits, runOf;
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
@@ -145,42 +149,35 @@ void main() {
       expect(find.text('Check it held'), findsOneWidget);
     });
 
-    testWidgets('the Ask link hands over the mistake being repaired, never the check question', (tester) async {
+    testWidgets('Ask Mobi opens over the repair about the mistake being repaired, never the check question', (tester) async {
+      // The /ask deep link still names the same mistake.
       expect(askAboutLocation(_attempt, _question), '/ask?q=m7%3Am7-q0');
-      final opened = <String>[];
-      final router = GoRouter(
-        routes: [
-          GoRoute(
-            path: '/',
-            builder: (context, state) => Scaffold(
-              body: AskAboutMistake(attemptId: _attempt, questionId: _question, number: 3),
-            ),
-          ),
-          GoRoute(
-            path: '/ask',
-            builder: (context, state) {
-              opened.add(state.uri.toString());
-              return const Scaffold(body: Text('ASK OPEN'));
-            },
-          ),
-        ],
-      );
-      addTearDown(router.dispose);
       tester.view.physicalSize = const Size(390, 800) * 2;
       tester.view.devicePixelRatio = 2;
       addTearDown(tester.view.reset);
       await tester.pumpWidget(
         ProviderScope(
-          overrides: [creditsRepositoryProvider.overrideWith(() => StillCredits(credits(9)))],
-          child: MaterialApp.router(theme: buildTheme(Brightness.dark), routerConfig: router),
+          overrides: [
+            // The record and the wallet as the sheet reads them (the wallet holds 9 credits).
+            ...insightsOverrides(realAsk: true, credits: credits(9)),
+            askSheetQuestionProvider.overrideWith(_NoQuestion.new),
+          ],
+          child: MaterialApp(
+            theme: buildTheme(Brightness.dark),
+            home: const Scaffold(body: AskAboutMistake(attemptId: _attempt, questionId: _question, number: 3)),
+          ),
         ),
       );
       await tester.pump();
       expect(find.text('Ask Mobi about Q3'), findsWidgets);
       await tester.tap(find.byType(KeyButton));
       await tester.pumpAndSettle();
-      expect(find.text('ASK OPEN'), findsOneWidget);
-      expect(opened.single, '/ask?q=m7%3Am7-q0');
+      expect(find.byType(AskMobiSheet), findsOneWidget);
+      final container = ProviderScope.containerOf(tester.element(find.byType(AskMobiSheet)));
+      final about = container.read(askSheetScopeProvider).context;
+      expect(about.question!.ref, 'm7:m7-q0');
+      expect(about.chipLabel, 'Q3');
+      await tester.pump(const Duration(seconds: 13));
     });
   });
 
@@ -487,4 +484,12 @@ void main() {
       expect(api.loads, 1, reason: 'one question is asked for, once');
     });
   });
+}
+
+class _NoQuestion extends AskQuestionController {
+  @override
+  AskQuestionHand? build() => null;
+
+  @override
+  Future<void> open(String? raw) async {}
 }

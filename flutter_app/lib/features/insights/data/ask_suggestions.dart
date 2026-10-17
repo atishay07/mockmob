@@ -15,10 +15,17 @@ import 'readout.dart';
 enum AskPrice { free, credit }
 
 class AskSuggestion {
-  const AskSuggestion({required this.text, required this.price, this.preview, this.answer});
+  const AskSuggestion({required this.text, required this.price, this.preview, this.answer, this.message});
+
+  /// The ask as the row shows it.
+  final String text;
+
+  /// What is sent when it differs from [text]: a question with no attempt behind it travels with
+  /// its own words, because the server has nothing else to read it from.
+  final String? message;
 
   /// The ask as it is sent.
-  final String text;
+  String get sent => message ?? text;
   final AskPrice price;
 
   /// One line under the ask: a record figure, or what the ask uses. Null when there is none.
@@ -88,6 +95,19 @@ List<AskSuggestion> suggestionsFor(AskMobiContext c, PrepInsights? v, {bool pro 
   switch (c.kind) {
     case AskMobiKind.question:
       final q = c.question;
+      // A question with no attempt behind it (the question stream): the server cannot read it, so
+      // the written ask carries the question's own words, and there is no pick to ask about.
+      if (q?.ref == null && q?.stem != null) {
+        return [
+          AskSuggestion(
+            text: AskSheetCopy.explainStep,
+            price: AskPrice.credit,
+            preview: AskSheetCopy.explainStepPreview,
+            message: InsightsCopy.askAboutQuestion(q!.stem!, q.keyLetter),
+          ),
+          ?_history(c.chapter, v) ?? losing,
+        ];
+      }
       final why = q?.keyText != null && q?.pickText != null ? AskSheetCopy.whyKeyNotPick(q!.keyText!, q.pickText!) : AskSheetCopy.whyWrong;
       return [
         paid(why, AskSheetCopy.usesQuestion),
@@ -190,6 +210,8 @@ abstract final class AskSheetCopy {
   static const questionFailed = 'That question could not be opened. You can still ask about your record.';
   static String whyKeyNotPick(String key, String pick) => 'Why is $key right and $pick wrong?';
   static const whyWrong = 'Why is my answer wrong?';
+  static const explainStep = 'Explain this question step by step';
+  static const explainStepPreview = 'Sends the question and its key';
   static const usesQuestion = 'Uses this question, your pick and the key';
   static const misread = 'What did I misread?';
   static const misreadPreview = 'Points to the words that decide the answer';
@@ -213,7 +235,7 @@ abstract final class AskSheetCopy {
   static String paceLine(String median, int timed) => 'Pace: a typical question takes $median, over $timed timed answers';
   static const walletPaused = 'AI replies are paused. Record questions still work.';
   static const walletUnknown = 'AI credits not loaded';
-  static const recordFree = 'Record questions are free';
+  static const recordFree = 'Record questions free';
   static const thisIsFree = 'Free, from your record';
   static const thisCosts = 'This needs a written reply: 1 AI credit';
   static String noCredits(String renew) => '0 AI credits left. They reset on $renew. Questions about your record stay free. Nothing is charged from here.';
@@ -239,4 +261,7 @@ abstract final class AskSheetCopy {
   }
 
   static const sourcePaused = 'Written replies paused · no credit used';
+
+  /// The source of a mock's own breakdown, counted by the result screen.
+  static String sourceFrom(String label) => 'From $label · no credit used';
 }

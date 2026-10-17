@@ -75,7 +75,8 @@ Future<void> showAskMobiSheet(BuildContext context) {
 /// "1 November" to "1 Nov".
 String _shortDay(String day) {
   final parts = day.split(' ');
-  return parts.length == 2 && parts[1].length > 3 ? '${parts[0]} ${parts[1].substring(0, 3)}' : day;
+  // A no-break space keeps "1 Nov" on one line when the credits line wraps.
+  return parts.length == 2 && parts[1].length > 3 ? '${parts[0]} ${parts[1].substring(0, 3)}' : day;
 }
 
 /// Ask Mobi as a sheet (ASK-MOBI-1018 sections 4 and 7): the header with Mobi's flat mark, the
@@ -113,6 +114,8 @@ class _AskMobiSheetState extends ConsumerState<AskMobiSheet> {
       // Record answers need the record, and prices need the wallet: read whichever is missing.
       if (ref.read(insightsRepositoryProvider).value == null) ref.read(insightsRepositoryProvider.notifier).refresh();
       if (ref.read(creditsRepositoryProvider).value == null) ref.read(creditsRepositoryProvider.notifier).refresh();
+      // Back to a conversation already under way: its latest turn is in view.
+      if (ref.read(askSheetControllerProvider).messages.isNotEmpty && _scroll.hasClients) _scroll.jumpTo(_scroll.position.maxScrollExtent);
     });
   }
 
@@ -280,14 +283,16 @@ class _AskMobiSheetState extends ConsumerState<AskMobiSheet> {
     final conversation = state.messages.isNotEmpty;
     final asked = {for (final m in state.messages) if (m.fromStudent) m.text};
     final opening = openingFor(ctx, record, pro: pro);
-    final suggestions = [for (final s in suggestionsFor(ctx, record, pro: pro)) if (!asked.contains(s.text)) s];
+    final suggestions = [for (final s in suggestionsFor(ctx, record, pro: pro)) if (!asked.contains(s.sent)) s];
     final shown = conversation || opening != null ? suggestions.take(2).toList() : suggestions.take(3).toList();
     final showSuggestions = shown.isNotEmpty && !state.busy && (state.messages.isEmpty || state.messages.last.failure == null);
     final suggestionsTitle = newStudent
         ? AskSheetCopy.youCanAsk
         : ctx.kind == AskMobiKind.question && !conversation
             ? AskSheetCopy.askAboutQuestion
-            : AskSheetCopy.askNext;
+            : !conversation && opening == null
+                ? AskSheetCopy.youCanAsk
+                : AskSheetCopy.askNext;
     final label = ctx.kind == AskMobiKind.question ? ctx.chipLabel : null;
     final firstCheck = InsightsPaths.locationFor(AskSheetCopy.firstCheckHref);
 
@@ -310,7 +315,10 @@ class _AskMobiSheetState extends ConsumerState<AskMobiSheet> {
         _AnswerBlock(
           reply: opening.reply,
           title: opening.title,
-          source: AskSheetCopy.sourceRecord(record?.questions, record?.sessions ?? 0),
+          // A mock's breakdown is that paper's own count; every other opening reads the record.
+          source: ctx.kind == AskMobiKind.mock && ctx.lines.isNotEmpty
+              ? AskSheetCopy.sourceFrom(ctx.label ?? 'this mock')
+              : AskSheetCopy.sourceRecord(record?.questions, record?.sessions ?? 0),
           next: _nextMove(opening.actions),
           onGo: _go,
           animate: false,
@@ -335,7 +343,7 @@ class _AskMobiSheetState extends ConsumerState<AskMobiSheet> {
               suggestion: s,
               divider: i > 0,
               disabled: !s.free && cannotWrite,
-              onTap: () => _send(s.text, local: s.answer),
+              onTap: () => _send(s.sent, local: s.answer),
             ),
           ),
       ],
@@ -430,10 +438,12 @@ class _AskMobiSheetState extends ConsumerState<AskMobiSheet> {
     } else if (m.failure != null) {
       // The failure words, the credit line and Send again, exactly as on the Ask screen: the retry
       // reuses the request id, so a reply that did arrive is never charged twice.
-      child = AskMessageView(message: m, renew: renew, onRetry: () {
-        _ask.retry(i);
-        _toEnd();
-      });
+      child = _Framed(
+        child: AskMessageView(message: m, renew: renew, indented: false, onRetry: () {
+          _ask.retry(i);
+          _toEnd();
+        }),
+      );
     } else {
       final cite = citationFor(m, record, evidence);
       final source = switch (m.origin) {
@@ -550,7 +560,7 @@ class _Chip extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: MmRadius.smallAll, side: BorderSide(color: colors.lineStrong)),
       ),
       child: Padding(
-        padding: EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s6, onDrop != null ? MmSpace.s4 : MmSpace.s12, MmSpace.s6),
+        padding: EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s6, onDrop != null ? 0 : MmSpace.s12, MmSpace.s6),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -564,7 +574,8 @@ class _Chip extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            if (onDrop != null) const SizedBox(width: MmSpace.s20),
+            // Room for the drop key laid over the chip's end.
+            if (onDrop != null) const SizedBox(width: 34),
           ],
         ),
       ),
@@ -691,11 +702,24 @@ class _NewStudent extends StatelessWidget {
         Text(AskSheetCopy.newStudent, style: context.mmType.body.copyWith(fontWeight: FontWeight.w600)),
         if (onStart != null) ...[
           const SizedBox(height: MmSpace.s16),
-          KeyButton.secondary(label: AskSheetCopy.firstCheck, expanded: false, onPressed: onStart),
+          KeyButton.secondary(label: AskSheetCopy.firstCheck, expanded: false, minHeight: MmTarget.min, onPressed: onStart),
         ],
       ],
     );
   }
+}
+
+/// A failure, framed so its words and Send again read as one notice.
+class _Framed extends StatelessWidget {
+  const _Framed({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => DecoratedBox(
+        decoration: ShapeDecoration(shape: RoundedRectangleBorder(borderRadius: MmRadius.keyAll, side: BorderSide(color: context.mmColors.lineStrong))),
+        child: Padding(padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16, MmSpace.s4), child: child),
+      );
 }
 
 class _Notice extends StatelessWidget {
@@ -816,10 +840,10 @@ class _AnswerBlock extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (title != null) ...[
-            Text(title!, style: type.body.copyWith(fontWeight: FontWeight.w700, color: colors.ink)),
+            Text(title!, style: type.small.copyWith(fontWeight: FontWeight.w700, color: colors.ink)),
             const SizedBox(height: MmSpace.s4),
           ],
-          if (reply.isNotEmpty) Text(reply, style: type.body.copyWith(color: colors.ink, height: 1.55)),
+          if (reply.isNotEmpty) Text(reply, style: type.small.copyWith(color: colors.ink, height: 1.55)),
           const SizedBox(height: MmSpace.s8),
           Row(
             children: [
@@ -841,7 +865,7 @@ class _AnswerBlock extends StatelessWidget {
           ),
           if (next case (final label, final location)) ...[
             const SizedBox(height: MmSpace.s12),
-            KeyButton.secondary(label: label, expanded: false, onPressed: () => onGo(location)),
+            KeyButton.secondary(label: label, expanded: false, minHeight: MmTarget.min, onPressed: () => onGo(location)),
           ],
         ],
       ),
@@ -1051,23 +1075,19 @@ class _ComposerState extends State<_Composer> {
                 ),
               ),
               const SizedBox(height: MmSpace.s8),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              // The credits line and the price line share one row when they fit; otherwise the
+              // price line drops under the credits, never splitting "1 Nov".
+              Wrap(
+                alignment: WrapAlignment.spaceBetween,
+                spacing: MmSpace.s12,
+                runSpacing: MmSpace.s2,
                 children: [
-                  Expanded(
-                    child: AnimatedSwitcher(
-                      duration: Motion.of(context, const Duration(milliseconds: 160)),
-                      layoutBuilder: (current, previous) => Stack(alignment: Alignment.centerLeft, children: [...previous, ?current]),
-                      child: _WalletText(widget.walletLine, key: ValueKey(widget.walletLine)),
-                    ),
+                  AnimatedSwitcher(
+                    duration: Motion.of(context, const Duration(milliseconds: 160)),
+                    layoutBuilder: (current, previous) => Stack(alignment: Alignment.centerLeft, children: [...previous, ?current]),
+                    child: _WalletText(widget.walletLine, key: ValueKey(widget.walletLine)),
                   ),
-                  const SizedBox(width: MmSpace.s12),
-                  Flexible(
-                    child: Semantics(
-                      liveRegion: true,
-                      child: Text(note, textAlign: TextAlign.end, style: type.caption.copyWith(color: colors.ink3)),
-                    ),
-                  ),
+                  Semantics(liveRegion: true, child: Text(note, style: type.caption.copyWith(color: colors.ink3))),
                 ],
               ),
             ],

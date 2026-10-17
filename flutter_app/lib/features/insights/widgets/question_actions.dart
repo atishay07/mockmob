@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/haptics/haptics.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../ask_mobi.dart';
 import '../copy.dart';
 import '../data/feed_api.dart';
 import '../data/practice_question.dart';
 import '../data/saved_repository.dart';
-import '../insights_paths.dart';
 
 void _say(BuildContext context, String text) {
   ScaffoldMessenger.maybeOf(context)
@@ -139,7 +138,16 @@ class _QuestionActionsState extends ConsumerState<QuestionActions> {
             icon: LucideIcons.messageCircleQuestion,
             label: InsightsCopy.askWhy,
             semantics: InsightsCopy.askWhy,
-            onTap: () => context.push(InsightsPaths.ask, extra: InsightsCopy.askAboutQuestion(q.body, q.correctKey)),
+            // Ask Mobi opens over the question, about it (ASK-MOBI-1018 3).
+            onTap: () => openAskMobi(
+              context,
+              AskMobiContext.question(
+                stem: q.body,
+                chapter: q.chapter,
+                keyLetter: q.correctKey,
+                keyText: q.options.where((o) => o.key == q.correctKey).firstOrNull?.text,
+              ),
+            ),
           ),
         IconButton(
           tooltip: InsightsCopy.flag,

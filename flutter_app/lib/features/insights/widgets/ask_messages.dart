@@ -44,7 +44,12 @@ class AskMessageView extends StatefulWidget {
     this.onOpenRecord,
     this.onCredits,
     this.renew,
+    this.indented = true,
   });
+
+  /// False lays a failure at the start of the line (the Ask Mobi sheet frames it instead of
+  /// indenting it beside a mark).
+  final bool indented;
 
   final AskMessage message;
   final VoidCallback onRetry;
@@ -172,7 +177,7 @@ class _AskMessageViewState extends State<AskMessageView> {
       };
       // A plain line under Mobi's face, with one retry key: never a card holding a button.
       return Padding(
-        padding: const EdgeInsets.only(left: _indent),
+        padding: EdgeInsets.only(left: widget.indented ? _indent : 0),
         child: Semantics(
           liveRegion: true,
           container: true,
