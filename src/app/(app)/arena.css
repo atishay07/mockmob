@@ -1541,7 +1541,7 @@ html[data-motion='reduced'] .app-shell .pr-nta__palette em { animation: none; }
     --dock-gutter: 16px;
     --dock-gap: 8px;
     --dock-pad: 4px;
-    --dock-glass: rgb(14 20 17 / 0.62);
+    --dock-glass: rgb(14 20 17 / 0.94); /* dense enough that no text behind the dock reads through it, even where blur is weak */
     --dock-solid: var(--a-raised);
     --dock-edge: rgb(244 245 240 / 0.14);
     --dock-rim: rgb(244 245 240 / 0.07);
@@ -1559,7 +1559,7 @@ html[data-motion='reduced'] .app-shell .pr-nta__palette em { animation: none; }
     pointer-events: none;
   }
   html[data-theme='light'] .app-shell .arena-dock {
-    --dock-glass: rgb(255 255 255 / 0.74);
+    --dock-glass: rgb(255 255 255 / 0.93);
     --dock-edge: rgb(255 255 255 / 0.85);
     --dock-rim: rgb(23 32 22 / 0.1);
     --dock-lens: rgb(23 32 22 / 0.07);
