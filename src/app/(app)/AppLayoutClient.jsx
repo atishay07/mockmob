@@ -21,8 +21,10 @@ import './arena.css';
 import './student-pages.css';
 import './explore/explore.css';
 import './arena-support.css';
+import './nav-badge.css';
 import '@/components/study/study.css';
 import { arenaNavigation, MOBILE_STUDY_NAV } from '@/lib/arenaNavigation';
+import { useReviseBadge } from '@/lib/reviewRead';
 import { VIEW_TRANSITION_PROPS } from '@/lib/motion/placeTransition';
 
 // React's <ViewTransition> (Next's experimental.viewTransition): the arena's page transitions. The type
@@ -67,6 +69,8 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   const wallet = useWalletSummary(user?.id);
   const mobOn = mobEnabled || Boolean(previewLinks?.mob);
   const TOUR_STEPS = useMemo(() => TOUR_STEPS_ALL.filter((step) => !step.mob || mobOn), [mobOn]);
+  // The Review badge is what Revise has due today (LEARN-REVIEW-1017 5.12), absent when nothing is due or the count is unknown.
+  const reviseBadge = useReviseBadge({ enabled: status === 'authenticated' && !isTestRoute });
 
   useEffect(() => {
     if (!mobileMenuOpen) return;
@@ -302,7 +306,11 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   const sheetHeadIds = new Set(['profile', 'help']);
   const sheetGroups = navGroups.map((group) => ({ ...group, items: group.items.filter((tab) => !dockIds.has(tab.id) && !sheetHeadIds.has(tab.id)) })).filter((group) => group.items.length);
   const allTabs = navGroups.flatMap((group) => group.items);
-  const isActive = (id) => activePath === `/${id}` || activePath.startsWith(`/${id}/`);
+  // Concepts runs on /learn (the library and a lesson) and /study (a lesson or recall run); both light the Concepts place.
+  const isActive = (id) => activePath === `/${id}` || activePath.startsWith(`/${id}/`) || (id === 'learn' && (activePath === '/study' || activePath.startsWith('/study/')));
+  // On a phone Concepts lives in the More sheet, so More is the current tab there (LEARN-REVIEW-1017 5.9), never Practice.
+  const moreCurrent = isActive('learn');
+  const countLabel = (tab) => (tab.id === 'review' && reviseBadge ? `Review, ${reviseBadge} due in Revise today` : undefined);
   const renderNavLink = (tab, onNavigate) => (
     <Link
       key={tab.id}
@@ -310,11 +318,13 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
       className="arena-nav-link"
       style={{ '--i': allTabs.indexOf(tab) }}
       aria-current={isActive(tab.id) ? 'page' : undefined}
+      aria-label={countLabel(tab)}
       data-tour={`nav-${tab.id}`}
       onClick={onNavigate}
     >
       <AppIcon name={tab.icon} />
       <span className="arena-nav-link__label">{tab.label}{tab.hint ? <span className="arena-nav-link__hint">, {tab.hint}</span> : null}</span>
+      {tab.id === 'review' && reviseBadge ? <i className="arena-nav-link__count" aria-hidden="true">{reviseBadge > 99 ? '99+' : reviseBadge}</i> : null}
     </Link>
   );
   const currentTitle = allTabs.find((tab) => isActive(tab.id))?.label
@@ -453,8 +463,8 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
           key is an action, so it sits outside the nav, which keeps five tabs. */}
       {!isTestRoute && <div className="arena-dock">
         <nav className="arena-bottomnav" aria-label="Quick study navigation">
-          {mobileTabs.map((tab) => <Link key={tab.id} href={previewLinks?.[tab.id] || tab.href} onClick={() => setMobileMenuOpen(false)} aria-current={isActive(tab.id) ? 'page' : undefined} data-tour={`nav-${tab.id}`}><AppIcon name={tab.icon} size={24} /><span>{tab.label}</span></Link>)}
-          <button type="button" data-tour="nav-more" aria-expanded={mobileMenuOpen} aria-controls={mobileMenuOpen ? 'arena-sheet' : undefined} onClick={toggleMenu}><AppIcon name="more" size={24} /><span>More</span></button>
+          {mobileTabs.map((tab) => <Link key={tab.id} href={previewLinks?.[tab.id] || tab.href} onClick={() => setMobileMenuOpen(false)} aria-current={isActive(tab.id) ? 'page' : undefined} aria-label={countLabel(tab)} data-tour={`nav-${tab.id}`}><AppIcon name={tab.icon} size={24} /><span>{tab.label}</span>{tab.id === 'review' && reviseBadge ? <i className="arena-badge" aria-hidden="true">{reviseBadge > 99 ? '99+' : reviseBadge}</i> : null}</Link>)}
+          <button type="button" data-tour="nav-more" aria-expanded={mobileMenuOpen} aria-current={moreCurrent && !mobileMenuOpen ? 'page' : undefined} aria-controls={mobileMenuOpen ? 'arena-sheet' : undefined} onClick={toggleMenu}><AppIcon name="more" size={24} /><span>More</span></button>
         </nav>
         <StartKey variant="bar" onOpen={() => setMobileMenuOpen(false)} />
       </div>}

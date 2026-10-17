@@ -1,0 +1,298 @@
+{
+  "about": "The result fixture \"avg\" (data/result_papers.mjs) as a Review record: one paper, no repairs (LEARN-REVIEW-1017 acceptance 5).",
+  "now": "2026-10-17T21:41:00+05:30",
+  "wallet": {
+    "aiCredits": 68,
+    "aiRenews": "2026-11-01",
+    "practiceCredits": 40,
+    "isPremium": false
+  },
+  "papers": [
+    {
+      "id": "p1",
+      "name": "Mock 1",
+      "subject": "accountancy",
+      "subjectName": "Accountancy",
+      "kind": "full mock",
+      "mode": "full",
+      "at": "2026-10-17T20:30:00+05:30",
+      "questions": 50,
+      "right": 28,
+      "wrong": 12,
+      "blank": 10,
+      "score": 128,
+      "of": 250
+    }
+  ],
+  "chapters": [
+    {
+      "id": "c1",
+      "name": "Partnership Fundamentals",
+      "subject": "accountancy",
+      "subjectName": "Accountancy",
+      "syllabus": 1
+    },
+    {
+      "id": "c2",
+      "name": "Profit & Loss Appropriation Account",
+      "subject": "accountancy",
+      "subjectName": "Accountancy",
+      "syllabus": 2
+    },
+    {
+      "id": "c3",
+      "name": "Goodwill",
+      "subject": "accountancy",
+      "subjectName": "Accountancy",
+      "syllabus": 3
+    },
+    {
+      "id": "c4",
+      "name": "Accounting Ratios",
+      "subject": "accountancy",
+      "subjectName": "Accountancy",
+      "syllabus": 4
+    },
+    {
+      "id": "c5",
+      "name": "Cash Flow Statement",
+      "subject": "accountancy",
+      "subjectName": "Accountancy",
+      "syllabus": 5
+    },
+    {
+      "id": "c6",
+      "name": "Share Capital",
+      "subject": "accountancy",
+      "subjectName": "Accountancy",
+      "syllabus": 6
+    },
+    {
+      "id": "c7",
+      "name": "Depreciation",
+      "subject": "accountancy",
+      "subjectName": "Accountancy",
+      "syllabus": 7
+    }
+  ],
+  "items": [
+    {
+      "paper": "p1",
+      "q": 7,
+      "qid": "paper-avg-q7",
+      "ch": "c1",
+      "state": "open",
+      "pick": "A",
+      "stem": "Question 7 of the illustrative paper"
+    },
+    {
+      "paper": "p1",
+      "q": 8,
+      "qid": "paper-avg-q8",
+      "ch": "c1",
+      "state": "blank",
+      "stem": "Question 8 of the illustrative paper"
+    },
+    {
+      "paper": "p1",
+      "q": 14,
+      "qid": "paper-avg-q14",
+      "ch": "c2",
+      "state": "open",
+      "pick": "D",
+      "stem": "Question 14 of the illustrative paper"
+    },
+    {
+      "paper": "p1",
+      "q": 15,
+      "qid": "paper-avg-q15",
+      "ch": "c2",
+      "state": "blank",
+      "stem": "Question 15 of the illustrative paper"
+    },
+    {
+      "paper": "p1",
+      "q": 16,
+      "qid": "paper-avg-q16",
+      "ch": "c2",
+      "state": "blank",
+      "stem": "Question 16 of the illustrative paper"
+    },
+    {
+      "paper": "p1",
+      "q": 20,
+      "qid": "paper-avg-q20",
+      "ch": "c3",
+      "state": "open",
+      "pick": "B",
+      "stem": "Question 20 of the illustrative paper"
+    },
+    {
+      "paper": "p1",
+      "q": 22,
+      "qid": "paper-avg-q22",
+      "ch": "c3",
+      "state": "blank",
+      "stem": "Question 22 of the illustrative paper"
+    },
+    {
+      "paper": "p1",
+      "q": 26,
+      "qid": "paper-avg-q26",
+      "ch": "c4",
+      "state": "open",
+      "pick": "D",
+      "stem": "Question 26 of the illustrative paper"
+    },
+    {
+      "paper": "p1",
+      "q": 27,
+      "qid": "paper-avg-q27",
+      "ch": "c4",
+      "state": "open",
+      "pick": "A",
+      "stem": "Question 27 of the illustrative paper"
+    },
+    {
+      "paper": "p1",
+      "q": 29,
+      "qid": "paper-avg-q29",
+      "ch": "c4",
+      "state": "blank",
+      "stem": "Question 29 of the illustrative paper"
+    },
+    {
+      "paper": "p1",
+      "q": 33,
+      "qid": "paper-avg-q33",
+      "ch": "c5",
+      "state": "open",
+      "pick": "C",
+      "stem": "Question 33 of the illustrative paper"
+    },
+    {
+      "paper": "p1",
+      "q": 36,
+      "qid": "paper-avg-q36",
+      "ch": "c5",
+      "state": "open",
+      "pick": "B",
+      "stem": "Question 36 of the illustrative paper"
+    },
+    {
+      "paper": "p1",
+      "q": 37,
+      "qid": "paper-avg-q37",
+      "ch": "c5",
+      "state": "blank",
+      "stem": "Question 37 of the illustrative paper"
+    },
+    {
+      "paper": "p1",
+      "q": 38,
+      "qid": "paper-avg-q38",
+      "ch": "c5",
+      "state": "blank",
+      "stem": "Question 38 of the illustrative paper"
+    },
+    {
+      "paper": "p1",
+      "q": 40,
+      "qid": "paper-avg-q40",
+      "ch": "c6",
+      "state": "open",
+      "pick": "B",
+      "stem": "Question 40 of the illustrative paper"
+    },
+    {
+      "paper": "p1",
+      "q": 41,
+      "qid": "paper-avg-q41",
+      "ch": "c6",
+      "state": "blank",
+      "stem": "Question 41 of the illustrative paper"
+    },
+    {
+      "paper": "p1",
+      "q": 42,
+      "qid": "paper-avg-q42",
+      "ch": "c6",
+      "state": "open",
+      "pick": "D",
+      "stem": "Question 42 of the illustrative paper"
+    },
+    {
+      "paper": "p1",
+      "q": 43,
+      "qid": "paper-avg-q43",
+      "ch": "c6",
+      "state": "open",
+      "pick": "A",
+      "stem": "Question 43 of the illustrative paper"
+    },
+    {
+      "paper": "p1",
+      "q": 44,
+      "qid": "paper-avg-q44",
+      "ch": "c6",
+      "state": "open",
+      "pick": "B",
+      "stem": "Question 44 of the illustrative paper"
+    },
+    {
+      "paper": "p1",
+      "q": 47,
+      "qid": "paper-avg-q47",
+      "ch": "c7",
+      "state": "open",
+      "pick": "A",
+      "stem": "Question 47 of the illustrative paper"
+    },
+    {
+      "paper": "p1",
+      "q": 49,
+      "qid": "paper-avg-q49",
+      "ch": "c7",
+      "state": "blank",
+      "stem": "Question 49 of the illustrative paper"
+    },
+    {
+      "paper": "p1",
+      "q": 50,
+      "qid": "paper-avg-q50",
+      "ch": "c7",
+      "state": "blank",
+      "stem": "Question 50 of the illustrative paper"
+    }
+  ],
+  "repairOrder": [
+    "p1:paper-avg-q42",
+    "p1:paper-avg-q14",
+    "p1:paper-avg-q43",
+    "p1:paper-avg-q7",
+    "p1:paper-avg-q20",
+    "p1:paper-avg-q26",
+    "p1:paper-avg-q27",
+    "p1:paper-avg-q33",
+    "p1:paper-avg-q36",
+    "p1:paper-avg-q40",
+    "p1:paper-avg-q44",
+    "p1:paper-avg-q47"
+  ],
+  "revise": {
+    "rotation": 0,
+    "boxes": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "cap": 10,
+    "dueToday": {
+      "questions": 0,
+      "again": 0,
+      "checks": 0,
+      "cards": 0
+    }
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "about": "The one mock student behind every Learn and Review capture (LEARN-REVIEW-1017 section 9). P-LR0 copies this as data/tests/fixtures/review_next_move/student.json. Illustrative content, not product data.",
+  "now": "2026-10-17T21:41:00+05:30",
+  "wallet": {
+    "aiCredits": 40,
+    "aiRenews": "2026-11-01",
+    "practiceCredits": 140
+  },
+  "papers": [
+    {
+      "id": "m1",
+      "name": "Mock 1",
+      "subject": "Accountancy",
+      "kind": "full mock",
+      "at": "2026-10-17T20:00:00+05:30",
+      "questions": 50,
+      "right": 50,
+      "wrong": 0,
+      "blank": 0,
+      "score": 250,
+      "of": 250
+    }
+  ],
+  "chapters": [],
+  "states": {
+    "open": "wrong, no saved repair",
+    "slipped": "saved repair, its Check it held answered wrong: open again, opens free, priced again",
+    "repaired": "saved repair, Check it held not taken",
+    "held": "saved repair, Check it held answered right",
+    "blank": "left blank: not a mistake, priced 5, Try it again is free"
+  },
+  "items": [],
+  "revise": {
+    "rotation": 0,
+    "boxes": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "cap": 10,
+    "dueToday": {
+      "questions": 0,
+      "again": 0,
+      "checks": 0,
+      "cards": 0
+    }
+  },
+  "lessons": {
+    "Accountancy": [
+      {
+        "ch": "Partnership: fundamentals",
+        "title": "Profit and loss appropriation",
+        "min": 6,
+        "read": false
+      },
+      {
+        "ch": "adm",
+        "title": "Goodwill and the new partner",
+        "min": 7,
+        "read": false
+      },
+      {
+        "ch": "adm",
+        "title": "Sacrificing and gaining ratio",
+        "min": 6,
+        "read": true,
+        "cardsDueToday": 2
+      },
+      {
+        "ch": "ret",
+        "title": "Retirement of a partner",
+        "min": 8,
+        "read": false
+      },
+      {
+        "ch": "iss",
+        "title": "Issue of shares at a premium",
+        "min": 8,
+        "read": false
+      }
+    ],
+    "Business Studies": [
+      {
+        "ch": "Nature and significance of management",
+        "title": "What management is",
+        "min": 6,
+        "read": true
+      },
+      {
+        "ch": "pom",
+        "title": "Fayol and Taylor",
+        "min": 8,
+        "read": false
+      }
+    ],
+    "English": [
+      {
+        "title": "Reading for inference",
+        "min": 7,
+        "read": false
+      },
+      {
+        "title": "Tone and attitude",
+        "min": 6,
+        "read": false
+      }
+    ],
+    "Economics": [],
+    "cardsPerLesson": 4,
+    "recalled": 23
+  },
+  "accountancySyllabus": [
+    "Not-for-profit organisations",
+    "Partnership: fundamentals",
+    "Goodwill: nature and valuation",
+    "Admission of a partner",
+    "Retirement and death of a partner",
+    "Dissolution of a partnership firm",
+    "Issue of shares",
+    "Issue of debentures",
+    "Financial statements of a company",
+    "Analysis of financial statements",
+    "Accounting ratios",
+    "Cash flow statement"
+  ]
+}

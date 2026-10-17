@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Check } from 'lucide-react';
 import { api as fetchApi, apiGet, apiPost } from '@/lib/fetcher';
 import StudyLibrary from './StudyLibrary';
@@ -13,9 +13,11 @@ import { SegmentedControl } from '@/components/ui/controls/SegmentedControl';
 import { SmoothDetails } from '@/components/ui/controls/SmoothDetails';
 import './study.css';
 
-// Routes: /learn (library), /learn/[id] (lesson overview), /study/[id] (a saved lesson or review session).
+// Routes: /learn (Concepts, the library), /learn/[id] (lesson overview), /study/[id] (a saved lesson or recall session).
+// A lesson opened from a moment carries ?from= (q:{attempt}:{n}, chapter:{subject}:{chapter}, today): the overview says why the student is there.
 export default function StudyWorkspace({ unitId = null, runId = null, preview = null, autoRecall = false, subject = null }) {
   const router = useRouter();
+  const urlFrom = useSearchParams()?.get('from') || null;
   const transport = preview?.transport;
   const api = useMemo(() => ({
     get: path => transport ? transport('GET', path) : apiGet(path),
@@ -23,10 +25,10 @@ export default function StudyWorkspace({ unitId = null, runId = null, preview = 
     put: (path, input) => transport ? transport('PUT', path, input) : fetchApi(path, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(input) }),
   }), [transport]);
   // Preview keeps navigation in memory; the real app uses URLs so reload and back always work.
-  const [view, setView] = useState({ runId, unitId });
+  const [view, setView] = useState({ runId, unitId, from: unitId ? urlFrom : null });
   const [loaded, setLoaded] = useState(null), [startError, setStartError] = useState(null), [attempt, setAttempt] = useState(0);
   const autoStarted = useRef(false);
-  const current = transport ? view : { runId, unitId };
+  const current = transport ? view : { runId, unitId, from: urlFrom };
   const viewKey = current.runId ? `run:${current.runId}` : current.unitId ? `unit:${current.unitId}` : 'library';
   const loadKey = `${viewKey}#${attempt}`;
   const path = current.runId ? `/api/study/runs/${encodeURIComponent(current.runId)}` : current.unitId ? `/api/study/units/${encodeURIComponent(current.unitId)}` : '/api/study/catalog';
@@ -40,7 +42,7 @@ export default function StudyWorkspace({ unitId = null, runId = null, preview = 
     return () => { alive = false; };
   }, [api, path, loadKey]);
   const openRun = run => { if (transport) { setLoaded({ key: `run:${run.id}#${attempt}`, value: run }); setView({ runId: run.id }); } else router.push(`/study/${run.id}`); };
-  const openUnit = transport ? id => setView({ unitId: id }) : null;
+  const openUnit = transport ? (id, from = null) => setView({ unitId: id, from }) : null;
   const back = transport ? () => setView({}) : null;
 
   // Today's "Review due cards" link lands here with ?recall=due and starts the review directly.
@@ -50,14 +52,19 @@ export default function StudyWorkspace({ unitId = null, runId = null, preview = 
     api.post('/api/study/runs', { mode: 'recall', requestKey: crypto.randomUUID().replace(/[^a-zA-Z0-9_-]/g, '') }).then(openRun).catch(e => setError(friendlyError(e)));
   }, [autoRecall, data]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (error) return <div className="sx"><div className="sx-alert" role="alert"><p>{error.text}</p><div className="sx-actions">
+  // The library says what did not load, and that the student's own record is safe (LEARN-REVIEW-1017 5.14); a lesson or a run keeps its own wording.
+  const libraryFailed = !current.runId && !current.unitId;
+  if (error) return <div className={libraryFailed ? 'sx sx-library cx' : 'sx'}>{libraryFailed ? <header className="cx-head"><h1>Concepts</h1><p className="cx-lede">Short lessons on the ideas behind your mistakes.</p></header> : null}<div className="sx-alert cx-fail" role="alert">{libraryFailed ? <p><b>Concepts did not load.</b> {/could not be saved/.test(error.text) ? 'Your saved lessons and progress are safe.' : error.text}</p> : <p>{error.text}</p>}<div className="sx-actions">
     <button type="button" className="sx-secondary" onClick={() => { setStartError(null); setAttempt(n => n + 1); }}>Try again</button>
     {error.signIn ? <Link className="sx-secondary" href="/login">Sign in</Link> : null}
-    <Link className="sx-quiet" href="/learn" onClick={back ? e => { e.preventDefault(); back(); } : undefined}>Back to Learn</Link><Link className="sx-quiet" href="/dashboard">Practise questions</Link></div></div></div>;
+    {libraryFailed ? null : <Link className="sx-quiet" href="/learn" onClick={back ? e => { e.preventDefault(); back(); } : undefined}>Back to Concepts</Link>}<Link className="sx-quiet" href="/dashboard">Practise questions</Link></div></div></div>;
+  if (!data && libraryFailed) return <div className="sx sx-library cx cx-loading" role="status" aria-label="Loading Concepts">
+    <header className="cx-head"><h1>Concepts</h1><p className="cx-lede">Short lessons on the ideas behind your mistakes.</p></header>
+    <div className="cx-board"><div className="cx-main"><section className="cx-next cx-next--wait" aria-hidden="true"><i /><i /><i /></section><div className="cx-skel" aria-hidden="true"><i /><i /><i /><i /></div></div></div></div>;
   if (!data) return <div className="sx" role="status" aria-label="Loading"><div className="sx-skeleton"><i /><i /><i /></div></div>;
   if (current.runId) return <StudyRun key={data.id} run={data} api={api} onOpenRun={openRun} onExit={back} />;
-  if (current.unitId) return <LessonOverview unit={data} api={api} onOpenRun={openRun} onBack={back} />;
-  if (data.state === 'disabled') return <div className="sx"><h1>Learn</h1><p className="sx-lede">Lessons are switched off right now. Your saved progress is kept. You can still practise questions and take mocks.</p><Link className="btn-volt md" href="/dashboard">Practise questions</Link></div>;
+  if (current.unitId) return <LessonOverview unit={data} api={api} onOpenRun={openRun} onBack={back} from={current.from} />;
+  if (data.state === 'disabled') return <div className="sx"><h1>Concepts</h1><p className="sx-lede">Lessons are switched off right now. Your saved progress is kept. You can still practise questions and take mocks.</p><Link className="btn-volt md" href="/dashboard">Practise questions</Link></div>;
   return <StudyLibrary catalog={data} api={api} onOpenRun={openRun} onOpenUnit={openUnit} initialSubject={subject}
     prefsSlot={data.preferences ? <StudyPreferences prefs={data.preferences} units={data.units} api={api} onOpenRun={openRun} /> : null} />;
 }

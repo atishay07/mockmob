@@ -64,7 +64,7 @@ export default function StudyRun({ run: initial, api, onOpenRun, onExit }) {
   };
 
   const total = run.total, step = Math.min(run.cursor + 1, total);
-  const back = <Link className="sx-back" href={unit && isLesson ? `/learn/${unit.id}` : '/learn'} onClick={onExit ? e => { e.preventDefault(); onExit(); } : undefined}><ArrowLeft size={16} aria-hidden="true" />{isLesson ? 'Lesson overview' : 'Learn'}</Link>;
+  const back = <Link className="sx-back" href={unit && isLesson ? `/learn/${unit.id}` : '/learn'} onClick={onExit ? e => { e.preventDefault(); onExit(); } : undefined}><ArrowLeft size={16} aria-hidden="true" />{isLesson ? 'Lesson overview' : 'Concepts'}</Link>;
   const errorBox = error ? <div className="sx-alert" role="alert"><p>{error.text}</p><div className="sx-actions">
     {hasPending && error.retry ? <button type="button" className="sx-secondary" onClick={() => send(pending.current)} disabled={busy}><RotateCcw size={16} aria-hidden="true" />Try again</button> : null}
     {error.reload || error.retry ? <button type="button" className="sx-quiet" onClick={reload} disabled={busy}>Reload saved step</button> : null}
@@ -74,7 +74,7 @@ export default function StudyRun({ run: initial, api, onOpenRun, onExit }) {
 
   if (run.state === 'complete') return <div className="sx sx-run">{back}<div ref={heading} tabIndex={-1} className="sx-focus">{isLesson ? <LessonDone run={run} api={api} onOpenRun={onOpenRun} /> : <ReviewDone run={run} />}</div></div>;
   if (run.state !== 'active') return <div className="sx sx-run">{back}<div className="sx-alert" role="alert"><p>{run.state === 'invalidated' ? 'This lesson was corrected after you started. Your earlier answers are kept, but this session can’t continue.' : 'You left this session to start another one. Everything you did here is saved.'}</p>
-    <div className="sx-actions">{unit ? <Link className="btn-volt md" href={`/learn/${unit.id}`}>Open the lesson</Link> : null}<Link className="sx-quiet" href="/learn">Back to Learn</Link></div></div></div>;
+    <div className="sx-actions">{unit ? <Link className="btn-volt md" href={`/learn/${unit.id}`}>Open the lesson</Link> : null}<Link className="sx-quiet" href="/learn">Back to Concepts</Link></div></div></div>;
 
   const label = isLesson ? (item.kind === 'knowledge_check' ? BLOCK_LABEL.knowledge_check : BLOCK_LABEL[item.kind] || 'Lesson') : itemLabel(item);
   const fresh = freshRev === run.revision;
@@ -116,7 +116,7 @@ export default function StudyRun({ run: initial, api, onOpenRun, onExit }) {
     </section>
     {(item.type==='reading' || run.revealed) ? <StudyHelp key={`${item.id}-${run.revision}`} runId={run.id} revision={run.revision} itemId={item.id} preview={!!onExit} /> : null}
     {run.lastReview?.lessonRecommended ? <p className="sx-alert">You’ve missed this card a few times. <Link className="sx-link" href={`/learn/${run.lastReview.unitId}`}>Reread its lesson</Link> before the next review.</p> : null}
-    <p className="sx-small sx-autosave">{busy ? 'Saving…' : 'Every answer is saved as you go. You can leave and continue later from Learn or Today.'}</p>
+    <p className="sx-small sx-autosave">{busy ? 'Saving…' : 'Every answer is saved as you go. You can leave and continue later from Concepts or Today.'}</p>
   </div>;
 }
 
@@ -158,7 +158,7 @@ function LessonDone({ run, api, onOpenRun }) {
       <Link className="sx-secondary" href={practiceHref(unit.subject, unit.chapter)}><Target size={16} aria-hidden="true" />Practise {unit.chapter}</Link>
     </div>
     <p className="sx-small">This lesson is study progress. Your marks come from practice and mocks, which are recorded separately.</p>
-    <div className="sx-actions"><Link className="sx-quiet" href="/learn">Back to Learn</Link><Link className="sx-quiet" href="/today">Today</Link></div>
+    <div className="sx-actions"><Link className="sx-quiet" href="/learn">Back to Concepts</Link><Link className="sx-quiet" href="/today">Today</Link></div>
   </section>;
 }
 

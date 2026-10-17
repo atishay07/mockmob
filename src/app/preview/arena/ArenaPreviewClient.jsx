@@ -42,6 +42,7 @@ import { FIXTURE_SUBJECTS, SYLLABUS_SUBJECTS, FULL_SUBJECTS, fixtureFeed, fixtur
 import { CIRCULAR_QUEUE_CORRECTION, answerReview } from '@/../data/answer_corrections.mjs';
 import { fixtureMock, fixtureReplayMock, fixtureRepairV3, fixtureLabLoop, fixtureAcross, fixtureRuleBook, FIXTURE_PLAYBOOK, fixtureSlice4, fixtureTrapsMeet, fixtureRevise, fixtureReviseAnswer, fixtureResultPaper, RESULT_PAPER_NAMES } from './previewMock';
 import { fixtureCheckField, fixtureCheckGet, fixtureCheckPost, fixtureAskContext, freshCheckMemory } from './previewRepairCheck';
+import { fixtureReviseQueue, fixtureReviseLegacy, fixtureStudyRun, freshCardsMemory } from './previewRevise';
 import RuleBook from '@/components/rules/RuleBook';
 import ReviseRun from '@/components/revise/ReviseRun';
 import { choosableRule, startSheetLines, bookRules } from '@/../data/rule_book';
@@ -49,6 +50,8 @@ import { withActiveRule } from '@/components/result/labLoop';
 import MobPage from '@/components/mob/MobPage';
 import JoinMob from '@/components/mob/JoinMob';
 import { previewMob } from './previewMob';
+import { previewReview } from './previewReview';
+import { previewConcepts } from './previewConcepts';
 
 const CS_SUBJECT = { id: 'computer_science', name: 'Computer Science / Informatics Practices', practice: 'supported', chapters: ['Python Revision Tour', 'Database Concepts'] };
 
@@ -168,6 +171,12 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     const accountRead = method === 'GET' && !['/api/subjects', '/api/chapters'].includes(url.pathname) && !url.pathname.startsWith('/api/auth/');
     if (accountRead && state === 'loading') return new Promise((resolve, reject) => { init.signal?.addEventListener('abort', () => reject(new DOMException('Aborted', 'AbortError')), { once: true }); });
     if (accountRead && state === 'error') return json({ error: 'Illustrative connection failure' }, 503);
+    // Review (LEARN-REVIEW-1017 P-LR1): GET /api/me/review and the papers, lessons and repairs it opens (?review=, previewReview.js).
+    const reviewed = previewReview(url, method, init, fixture, json);
+    if (reviewed) return reviewed;
+    // Concepts (P-LR3): the record behind the Review badge and Practice's Concepts panel, and the lesson catalog (previewConcepts.js).
+    const concepts = previewConcepts(url, method, fixture, json);
+    if (concepts) return concepts;
     if (fixture.get('recovery') === 'candidate' && window.__previewPathway) {
       const handled = candidateRecovery(url, method, init, fixture);
       if (handled) return handled;
@@ -424,11 +433,19 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     if (url.pathname === '/api/me/revise' && method === 'GET') {
       const kind = fixture.get('revise') || 'ready';
       if (kind === 'down' || state === 'empty') return json({ version: 1, state: 'unavailable', message: 'Revise is not available right now. Try again shortly.', items: [] }, 503);
-      return json(fixtureRevise(kind === 'empty' ? 'empty' : 'ready'));
+      if (kind === 'empty') return json(fixtureRevise('empty'));
+      if (kind === 'legacy') return json(fixtureReviseLegacy());
+      return json(fixtureReviseQueue(kind));
+    }
+    // The concept cards of the Revise queue play on the study engine's recall run (previewRevise.js, this tab's memory).
+    if (url.pathname.startsWith('/api/study/runs')) {
+      const memory = (window.__previewCards ||= freshCardsMemory());
+      const got = fixtureStudyRun(method, url.pathname, JSON.parse(init?.body || '{}'), memory);
+      return json(got.body, got.http);
     }
     if (url.pathname === '/api/me/revise/answer' && method === 'POST') {
       const body = JSON.parse(init.body || '{}');
-      const card = fixtureRevise('ready').items.find((i) => i.questionId === body.questionId);
+      const card = fixtureReviseQueue('ready').items.find((i) => i.kind !== 'card' && i.questionId === body.questionId) || fixtureRevise('ready').items.find((i) => i.questionId === body.questionId);
       return new Promise((resolve) => setTimeout(() => resolve(json(fixtureReviseAnswer(body.choice, card?.box))), 450));
     }
     if (url.pathname === '/api/recovery' && method === 'GET') {
@@ -599,7 +616,7 @@ function PreviewInner({ candidatePathway }) {
     <AuthContext.Provider value={auth}>
       <RoleProvider>
         <div className="arena-fixture-note" role="note"><b>Development preview</b><span>Illustrative data · {params.get('plan') || 'free'} · {params.get('data') || 'ready'}. No real saves, scores, credits or billing.</span><label>View<select value={view} onChange={(event) => { window.location.href = previewHref(event.target.value); }}>{views.map((name) => <option key={name} value={name}>{name}</option>)}</select></label>{view === 'test' && <ThemeToggle />}{view === 'prepos' && <button type="button" className="arena-chip" onClick={() => setDrawerOpen(true)}>Preview assistant drawer</button>}</div><AssistantDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
-        {view === 'join' ? <AuthContext.Provider value={params.get('auth') === 'out' ? { ...auth, user: null, status: 'unauthenticated', isAuthenticated: false } : auth}><JoinMob code="7KQ2M9XR" /></AuthContext.Provider> : view === 'onboarding' ? <OnboardingPageClient preview /> : <AppLayoutClient previewRoute={route} previewLinks={previewLinks} studyEnabled={params.get('study') === 'on'}>{view === 'mob' ? <MobPage user={auth.user} /> : view === 'test' ? <TestPageClient /> : view === 'prepos' ? <MockMobAIHub variant="page" initialTab={params.get('tab') || 'plan'} /> : view === 'compass' ? <AdmissionCompassPageClient /> : view === 'radar' ? <AnalyticsPageClient /> : view === 'saved' ? <SavedPageClient /> : view === 'today' ? <TodayPage /> : view === 'recovery' ? <RecoveryJourney /> : view === 'review' ? <div className="student-page student-page--review"><RecoveryOverview view="review" /></div> : view === 'rules' ? <div className="student-page student-page--review"><RuleBook /></div> : view === 'revise' ? <div className="student-page student-page--review"><ReviseRun /></div> : view === 'progress' ? <ProgressPage /> : view === 'explore' ? <DiscoveryFeed /> : view === 'upload' ? <UploadForm /> : view === 'my-uploads' ? <MyUploadsPageClient /> : view === 'profile' ? <ProfilePageClient /> : view === 'help' ? <HelpPageClient /> : view === 'ranks' ? <LeaderboardPageClient /> : view === 'result' ? <ResultPageClient previewId="fixture-attempt" /> : view === 'moderation' ? <ModerationPageClient /> : view === 'rival' ? <AIRivalArena /> : view === 'onboarding' ? <OnboardingPageClient preview /> : <DashboardPageClient />}</AppLayoutClient>}
+        {view === 'join' ? <AuthContext.Provider value={params.get('auth') === 'out' ? { ...auth, user: null, status: 'unauthenticated', isAuthenticated: false } : auth}><JoinMob code="7KQ2M9XR" /></AuthContext.Provider> : view === 'onboarding' ? <OnboardingPageClient preview /> : <AppLayoutClient previewRoute={route} previewLinks={previewLinks} studyEnabled={params.get('study') === 'on'}>{view === 'mob' ? <MobPage user={auth.user} /> : view === 'test' ? <TestPageClient /> : view === 'prepos' ? <MockMobAIHub variant="page" initialTab={params.get('tab') || 'plan'} /> : view === 'compass' ? <AdmissionCompassPageClient /> : view === 'radar' ? <AnalyticsPageClient /> : view === 'saved' ? <SavedPageClient /> : view === 'today' ? <TodayPage /> : view === 'recovery' ? <RecoveryJourney /> : view === 'review' ? <div className="student-page student-page--review"><RecoveryOverview view="review" tabParam="pane" /></div> : view === 'rules' ? <div className="student-page student-page--review"><RuleBook /></div> : view === 'revise' ? <div className="student-page student-page--review"><ReviseRun /></div> : view === 'progress' ? <ProgressPage /> : view === 'explore' ? <DiscoveryFeed /> : view === 'upload' ? <UploadForm /> : view === 'my-uploads' ? <MyUploadsPageClient /> : view === 'profile' ? <ProfilePageClient /> : view === 'help' ? <HelpPageClient /> : view === 'ranks' ? <LeaderboardPageClient /> : view === 'result' ? <ResultPageClient previewId="fixture-attempt" /> : view === 'moderation' ? <ModerationPageClient /> : view === 'rival' ? <AIRivalArena /> : view === 'onboarding' ? <OnboardingPageClient preview /> : <DashboardPageClient studyEnabled={params.get('study') === 'on'} />}</AppLayoutClient>}
       </RoleProvider>
     </AuthContext.Provider>
   );

@@ -38,7 +38,8 @@ test('the dock holds Today, Practice, Review and Colleges; Learn and Explore mov
   assert.deepEqual(sheetStudy, ['learn', 'explore', 'saved', 'progress']);
   // And Learn has a second home on the Practice page, while the lessons are on.
   const practice = read('src/app/(app)/dashboard/DashboardPageClient.jsx');
-  assert.match(practice, /\{studyEnabled && \([\s\S]{0,200}<h2 id="pr-concepts">Concepts<\/h2>[\s\S]{0,300}href="\/learn"/);
+  assert.match(practice, /\{studyEnabled && <ConceptsPanel \/>\}/);
+  assert.match(read('src/components/study/ConceptsPanel.jsx'), /<h2 id="pr-concepts">Concepts<\/h2>[\s\S]{0,900}href="\/learn"[^>]*>All concepts</);
   assert.match(read('src/app/(app)/dashboard/page.js'), /studyEnabled=\{process\.env\.STUDY_CONTENT_ENABLED === 'true'\}/);
 });
 

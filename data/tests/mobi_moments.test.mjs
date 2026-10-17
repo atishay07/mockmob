@@ -103,7 +103,7 @@ test('the lesson and review endings say only what the counts say', () => {
   assert.deepEqual(doneReaction(5, 5), { act: 'celebrate', line: 'That one stuck.' });
   assert.equal(doneReaction(3, 3).act, 'cheer');
   assert.equal(doneReaction(3, 3).line, 'That one stuck.');
-  assert.deepEqual(doneReaction(4, 5), { act: 'cheer', line: 'Most of it stuck. The rest comes back in review.' });
+  assert.deepEqual(doneReaction(4, 5), { act: 'cheer', line: 'Most of it stuck. The rest comes back in Revise.' });
   assert.equal(doneReaction(1, 4).act, 'encourage');
   assert.equal(doneReaction(0, 0).line, '');
 });
