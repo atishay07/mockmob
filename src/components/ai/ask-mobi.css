@@ -197,3 +197,23 @@ html[data-motion='reduced'] .amb :is(.amb-rise, .amb-asks li, .amb-num), html[da
 .amb .amb-chip { min-height: 40px; }
 .amb .amb-chip > button { min-height: 0; min-width: 0; width: 32px; height: 32px; }
 .amb .amb-field textarea { min-height: 32px; height: 32px; }
+
+/* The docked form narrows the page by the panel's width (the page's own media queries still read the whole window), so the
+   two pages whose wide layout needs more room fall back to their one-column layout while the panel is open: Practice (the
+   session card goes under Fine-tune, as it does at tablet width) and Account (its two columns stack). Every other page was
+   checked docked at 1440 and keeps its own layout. */
+@media (min-width: 1280px) {
+  html[data-mobi-form='dock'] .app-shell .pr .pr-layout--1017 { grid-template-columns: minmax(0, 1fr); }
+  html[data-mobi-form='dock'] .app-shell .pr .pr-layout--1017 > .pr-tail { display: grid; }
+  html[data-mobi-form='dock'] .app-shell .pr .pr-layout--1017 > .pr-tail > .pr-ticket { grid-column: auto; grid-row: auto; position: static; }
+  html[data-mobi-form='dock'] .app-shell .acct-grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (min-width: 1280px) and (max-width: 1439px) {
+  /* Today's two columns are too tight beside the panel at 1280 to 1439 px: they stack, with the road under the move. */
+  html[data-mobi-form='dock'] .app-shell .today-grid { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+}
+@media (min-width: 1280px) {
+  /* The Colleges planner's subjects pane and its results stack while the panel is open, so the results keep their width. */
+  html[data-mobi-form='dock'] .du-layout { grid-template-columns: minmax(0, 1fr); }
+  html[data-mobi-form='dock'] .du-side { position: static; max-height: none; overflow: visible; }
+}
