@@ -1,0 +1,937 @@
+{
+  "batch": "w4-phys-03",
+  "subject": "physics",
+  "questions": [
+    {
+      "id": "49cdcfd3-2f1c-4d94-8905-0f9afc4ef316",
+      "subject": "physics",
+      "unit": "Optics",
+      "chapter": "Ray Optics & Optical Instruments",
+      "type": "single_mcq",
+      "stem": "A pebble lies at the bottom of a pool of water (refractive index 4/3) that is 2.4 m deep. Seen from directly above, the pebble appears to be raised by:",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.8 m"
+        },
+        {
+          "key": "B",
+          "text": "1.8 m"
+        },
+        {
+          "key": "C",
+          "text": "0.6 m"
+        },
+        {
+          "key": "D",
+          "text": "3.2 m"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "For near-normal viewing the apparent depth is real depth/μ = 2.4/(4/3) = 1.8 m, so the pebble appears raised by 2.4 − 1.8 = 0.6 m. The value 1.8 m is the apparent depth itself, not the shift, and 0.8 m comes from wrongly using d(μ − 1) for the shift.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Physics Part II, Ch 9 Ray Optics and Optical Instruments: refraction at a plane surface and the apparent depth of an object under water",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "auditor": "claude-wave4-physics-audit-2026-10-17",
+        "key_solved_independently": "C",
+        "key_ok": true,
+        "chapter_unit_ok": true,
+        "syllabus_ok": true,
+        "giveaway_check": "passed (no stem leak, no absolute-word tell, options parallel; key longest only if noted)",
+        "explanation_ok": true,
+        "level_judged": "medium",
+        "duplicates": "live bank (select-only, production isrxrxzjocewrdureyhp, all physics rows of the five chapters) and waves 1-3 authored rows: no duplicate idea, key or figures",
+        "repairs": []
+      }
+    },
+    {
+      "id": "012b12f8-f665-4fac-87c8-1c3bbc85d59e",
+      "subject": "physics",
+      "unit": "Optics",
+      "chapter": "Ray Optics & Optical Instruments",
+      "type": "single_mcq",
+      "stem": "A point object is placed on the axis in air, 60 cm in front of a convex spherical glass surface (μ = 1.5) of radius of curvature 15 cm. The distance of the image from the surface is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "90 cm"
+        },
+        {
+          "key": "B",
+          "text": "30 cm"
+        },
+        {
+          "key": "C",
+          "text": "45 cm"
+        },
+        {
+          "key": "D",
+          "text": "60 cm"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "For refraction at a single spherical surface, μ2/v − μ1/u = (μ2 − μ1)/R. With u = −60 cm and R = +15 cm, 1.5/v + 1/60 = 0.5/15 = 1/30, so 1.5/v = 1/60 and v = +90 cm, a real image inside the glass. Writing 1/v in place of 1.5/v, as for a lens, gives the tempting 60 cm.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "NCERT Class 12 Physics Part II, Ch 9 Ray Optics and Optical Instruments: refraction at a spherical surface",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "auditor": "claude-wave4-physics-audit-2026-10-17",
+        "key_solved_independently": "A",
+        "key_ok": true,
+        "chapter_unit_ok": true,
+        "syllabus_ok": true,
+        "giveaway_check": "passed (no stem leak, no absolute-word tell, options parallel; key longest only if noted)",
+        "explanation_ok": true,
+        "level_judged": "hard",
+        "duplicates": "live bank (select-only, production isrxrxzjocewrdureyhp, all physics rows of the five chapters) and waves 1-3 authored rows: no duplicate idea, key or figures",
+        "repairs": []
+      }
+    },
+    {
+      "id": "bf760cfb-3f89-4233-8ec2-7d0588f8a8f1",
+      "subject": "physics",
+      "unit": "Optics",
+      "chapter": "Ray Optics & Optical Instruments",
+      "type": "single_mcq",
+      "stem": "A compound microscope has an objective of focal length 1.0 cm and an eyepiece of focal length 5.0 cm, and its tube length (distance between the inner focal points) is 20 cm. For the final image at infinity, the magnifying power is (D = 25 cm):",
+      "options": [
+        {
+          "key": "A",
+          "text": "120"
+        },
+        {
+          "key": "B",
+          "text": "25"
+        },
+        {
+          "key": "C",
+          "text": "130"
+        },
+        {
+          "key": "D",
+          "text": "100"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "With the final image at infinity, M = (L/fₒ)(D/fₑ) = (20/1.0)(25/5.0) = 20 × 5 = 100. The factor (1 + D/fₑ) = 6 gives 120, but that belongs to a final image at the near point, and 130 comes from using the 26 cm lens separation as if it were the tube length.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Physics Part II, Ch 9 Ray Optics and Optical Instruments: compound microscope, tube length and magnifying power",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "auditor": "claude-wave4-physics-audit-2026-10-17",
+        "key_solved_independently": "D",
+        "key_ok": true,
+        "chapter_unit_ok": true,
+        "syllabus_ok": true,
+        "giveaway_check": "passed (no stem leak, no absolute-word tell, options parallel; key longest only if noted)",
+        "explanation_ok": true,
+        "level_judged": "medium",
+        "duplicates": "live bank (select-only, production isrxrxzjocewrdureyhp, all physics rows of the five chapters) and waves 1-3 authored rows: no duplicate idea, key or figures",
+        "repairs": []
+      }
+    },
+    {
+      "id": "c83bfc1b-51a8-4c9c-ba3a-4b1b3b077998",
+      "subject": "physics",
+      "unit": "Optics",
+      "chapter": "Ray Optics & Optical Instruments",
+      "type": "single_mcq",
+      "stem": "Two thin prisms are joined with their refracting edges pointing in opposite directions. One has angle 6° and refractive index 1.5; the other has angle 4° and refractive index 1.6. The net deviation of a ray passing through the combination is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "2.0°"
+        },
+        {
+          "key": "B",
+          "text": "0.6°"
+        },
+        {
+          "key": "C",
+          "text": "5.4°"
+        },
+        {
+          "key": "D",
+          "text": "2.6°"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "A thin prism deviates a ray by δ = (μ − 1)A, giving 0.5 × 6° = 3.0° and 0.6 × 4° = 2.4°. The prisms are inverted relative to each other, so the deviations subtract: 3.0° − 2.4° = 0.6°. Adding them gives 5.4°, and using μA instead of (μ − 1)A gives 2.6°.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "NCERT Class 12 Physics Part II, Ch 9 Ray Optics and Optical Instruments: refraction through a thin prism, deviation δ = (μ − 1)A",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "auditor": "claude-wave4-physics-audit-2026-10-17",
+        "key_solved_independently": "B",
+        "key_ok": true,
+        "chapter_unit_ok": true,
+        "syllabus_ok": true,
+        "giveaway_check": "passed (no stem leak, no absolute-word tell, options parallel; key longest only if noted)",
+        "explanation_ok": true,
+        "level_judged": "medium",
+        "duplicates": "live bank (select-only, production isrxrxzjocewrdureyhp, all physics rows of the five chapters) and waves 1-3 authored rows: no duplicate idea, key or figures",
+        "repairs": [],
+        "note": "Two thin prisms in opposition: thin-prism formula is NCERT, the opposed pair is a small extension; upper medium rather than hard. Label kept."
+      }
+    },
+    {
+      "id": "a5527d87-72c4-45bc-876b-a80050540ae1",
+      "subject": "physics",
+      "unit": "Optics",
+      "chapter": "Ray Optics & Optical Instruments",
+      "type": "match_the_following",
+      "stem": "Match List-I with List-II.\nList-I: (A) Signal transmission through an optical fibre (B) Image formation by a convex lens (C) Image formation by a plane mirror (D) Splitting of white light by a glass prism\nList-II: (I) Reflection (II) Total internal reflection (III) Dispersion (IV) Refraction\nChoose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(A)-(II), (B)-(I), (C)-(IV), (D)-(III)"
+        },
+        {
+          "key": "B",
+          "text": "(A)-(I), (B)-(IV), (C)-(II), (D)-(III)"
+        },
+        {
+          "key": "C",
+          "text": "(A)-(II), (B)-(IV), (C)-(I), (D)-(III)"
+        },
+        {
+          "key": "D",
+          "text": "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "An optical fibre guides light by repeated total internal reflection, a convex lens forms its image by refraction at its two surfaces, a plane mirror forms its image by reflection, and a prism spreads white light into colours by dispersion because the refractive index varies with wavelength. Pairing the prism with refraction is tempting since the light bends at its faces, but the colour spread is specifically dispersion.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "NCERT Class 12 Physics Part II, Ch 9 Ray Optics and Optical Instruments: reflection, refraction, total internal reflection (optical fibres) and dispersion as the principles of optical devices",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "auditor": "claude-wave4-physics-audit-2026-10-17",
+        "key_solved_independently": "C",
+        "key_ok": true,
+        "chapter_unit_ok": true,
+        "syllabus_ok": true,
+        "giveaway_check": "passed (no stem leak, no absolute-word tell, options parallel; key longest only if noted)",
+        "explanation_ok": true,
+        "level_judged": "easy",
+        "duplicates": "live bank (select-only, production isrxrxzjocewrdureyhp, all physics rows of the five chapters) and waves 1-3 authored rows: no duplicate idea, key or figures",
+        "repairs": []
+      }
+    },
+    {
+      "id": "46dec6bb-4af6-40da-8a22-825f75dc52ce",
+      "subject": "physics",
+      "unit": "Optics",
+      "chapter": "Wave Optics",
+      "type": "single_mcq",
+      "stem": "A point source of light is placed at the principal focus of a thin convex lens. The wavefront of the light emerging from the lens is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "a diverging spherical wavefront"
+        },
+        {
+          "key": "B",
+          "text": "a converging spherical wavefront"
+        },
+        {
+          "key": "C",
+          "text": "a cylindrical wavefront"
+        },
+        {
+          "key": "D",
+          "text": "a plane wavefront"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "Rays from a source at the focus leave the lens parallel to the principal axis, and wavefronts are perpendicular to the rays, so the emerging wavefront is plane. A diverging spherical wavefront is what the source itself emits before the lens, while a converging one forms when a parallel beam enters the lens.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "NCERT Class 12 Physics Part II, Ch 10 Wave Optics: wavefronts and Huygens principle, wavefront shape after a lens",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "auditor": "claude-wave4-physics-audit-2026-10-17",
+        "key_solved_independently": "D",
+        "key_ok": true,
+        "chapter_unit_ok": true,
+        "syllabus_ok": true,
+        "giveaway_check": "passed (no stem leak, no absolute-word tell, options parallel; key longest only if noted)",
+        "explanation_ok": true,
+        "level_judged": "easy",
+        "duplicates": "live bank (select-only, production isrxrxzjocewrdureyhp, all physics rows of the five chapters) and waves 1-3 authored rows: no duplicate idea, key or figures",
+        "repairs": []
+      }
+    },
+    {
+      "id": "c88795fc-93b2-4e55-979a-126712390857",
+      "subject": "physics",
+      "unit": "Optics",
+      "chapter": "Wave Optics",
+      "type": "single_mcq",
+      "stem": "A plane wavefront travelling in air meets the surface of a transparent medium at an angle of incidence of 60°. The speed of light in the medium is c/√3. The angle of refraction is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "30°"
+        },
+        {
+          "key": "B",
+          "text": "45°"
+        },
+        {
+          "key": "C",
+          "text": "35°"
+        },
+        {
+          "key": "D",
+          "text": "60°"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "In Huygens’ construction the wavefront turns because its speed changes: sin i / sin r = v1/v2 = c/(c/√3) = √3. So sin r = sin 60°/√3 = (√3/2)/√3 = 1/2 and r = 30°. Dividing the angle itself, 60°/√3 ≈ 35°, treats the angle as proportional to the speed ratio, which Snell’s law does not.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Physics Part II, Ch 10 Wave Optics: refraction of a plane wave at a plane surface using Huygens principle",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "auditor": "claude-wave4-physics-audit-2026-10-17",
+        "key_solved_independently": "A",
+        "key_ok": true,
+        "chapter_unit_ok": true,
+        "syllabus_ok": true,
+        "giveaway_check": "passed (no stem leak, no absolute-word tell, options parallel; key longest only if noted)",
+        "explanation_ok": true,
+        "level_judged": "medium",
+        "duplicates": "live bank (select-only, production isrxrxzjocewrdureyhp, all physics rows of the five chapters) and waves 1-3 authored rows: no duplicate idea, key or figures",
+        "repairs": []
+      }
+    },
+    {
+      "id": "4bb38a72-4019-47e5-bdc9-26fe5bcad9a5",
+      "subject": "physics",
+      "unit": "Optics",
+      "chapter": "Wave Optics",
+      "type": "single_mcq",
+      "stem": "Light of wavelength 400 nm falls on two narrow slits 0.6 mm apart, and the fringes are viewed on a screen 1.5 m away. On one side of the central maximum, the third dark fringe lies at what distance from the centre?",
+      "options": [
+        {
+          "key": "A",
+          "text": "3.0 mm"
+        },
+        {
+          "key": "B",
+          "text": "3.5 mm"
+        },
+        {
+          "key": "C",
+          "text": "2.5 mm"
+        },
+        {
+          "key": "D",
+          "text": "1.5 mm"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "The fringe width is β = λD/d = (400 × 10⁻⁹ × 1.5)/(0.6 × 10⁻³) = 1.0 mm. Dark fringes lie at (n − ½)β from the centre, so the third (n = 3) is at 2.5β = 2.5 mm. The distance 3.0 mm marks the third bright fringe, which sits beyond the dark fringe.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Physics Part II, Ch 10 Wave Optics: Young’s double-slit experiment, positions of dark fringes and fringe width",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "auditor": "claude-wave4-physics-audit-2026-10-17",
+        "key_solved_independently": "C",
+        "key_ok": true,
+        "chapter_unit_ok": true,
+        "syllabus_ok": true,
+        "giveaway_check": "passed (no stem leak, no absolute-word tell, options parallel; key longest only if noted)",
+        "explanation_ok": true,
+        "level_judged": "medium",
+        "duplicates": "live bank (select-only, production isrxrxzjocewrdureyhp, all physics rows of the five chapters) and waves 1-3 authored rows: no duplicate idea, key or figures",
+        "repairs": []
+      }
+    },
+    {
+      "id": "a2a668aa-c16b-40c2-81b8-3d810f79d7e2",
+      "subject": "physics",
+      "unit": "Optics",
+      "chapter": "Wave Optics",
+      "type": "sequence_ordering",
+      "stem": "In a Young’s double-slit experiment the slit separation and the screen distance are kept fixed. Arrange the following monochromatic lights in increasing order of fringe width: (A) Green light (B) Red light (C) Violet light (D) Yellow light",
+      "options": [
+        {
+          "key": "A",
+          "text": "(C), (D), (A), (B)"
+        },
+        {
+          "key": "B",
+          "text": "(C), (A), (D), (B)"
+        },
+        {
+          "key": "C",
+          "text": "(B), (D), (A), (C)"
+        },
+        {
+          "key": "D",
+          "text": "(A), (C), (D), (B)"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "The fringe width β = λD/d is directly proportional to the wavelength when D and d are fixed. Wavelength increases through violet, green, yellow and red, so the fringe widths follow the same order. Swapping green and yellow reverses their true wavelength order, and the reverse of the correct ordering would give decreasing fringe width.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Physics Part II, Ch 10 Wave Optics: fringe width in Young’s experiment, dependence on wavelength and the order of colours in the visible spectrum",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "auditor": "claude-wave4-physics-audit-2026-10-17",
+        "key_solved_independently": "B",
+        "key_ok": true,
+        "chapter_unit_ok": true,
+        "syllabus_ok": true,
+        "giveaway_check": "passed (no stem leak, no absolute-word tell, options parallel; key longest only if noted)",
+        "explanation_ok": true,
+        "level_judged": "medium",
+        "duplicates": "live bank (select-only, production isrxrxzjocewrdureyhp, all physics rows of the five chapters) and waves 1-3 authored rows: no duplicate idea, key or figures",
+        "repairs": []
+      }
+    },
+    {
+      "id": "3b05fd92-2355-4441-968e-ae9c92367483",
+      "subject": "physics",
+      "unit": "Dual Nature of Matter and Radiation",
+      "chapter": "Dual Nature of Radiation & Matter",
+      "type": "single_mcq",
+      "stem": "A neutron of mass 1.65 × 10^-27 kg moves with a speed of 4.0 × 10^3 m s^-1. Taking h = 6.6 × 10^-34 J s, its de Broglie wavelength is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "2.0 × 10^-10 m"
+        },
+        {
+          "key": "B",
+          "text": "1.0 × 10^-10 m"
+        },
+        {
+          "key": "C",
+          "text": "2.5 × 10^-14 m"
+        },
+        {
+          "key": "D",
+          "text": "1.0 × 10^-9 m"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "The de Broglie wavelength is λ = h/p = h/(mv). Here p = 1.65 × 10^-27 × 4.0 × 10^3 = 6.6 × 10^-24 kg m s^-1, so λ = 6.6 × 10^-34 / 6.6 × 10^-24 = 1.0 × 10^-10 m. Treating the momentum as mv² instead of mv would give about 2.5 × 10^-14 m.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "NCERT Class 12 Physics Part II, Ch 11 Dual Nature of Radiation and Matter: matter waves and the de Broglie relation λ = h/mv",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "auditor": "claude-wave4-physics-audit-2026-10-17",
+        "key_solved_independently": "B",
+        "key_ok": true,
+        "chapter_unit_ok": true,
+        "syllabus_ok": true,
+        "giveaway_check": "passed (no stem leak, no absolute-word tell, options parallel; key longest only if noted)",
+        "explanation_ok": true,
+        "level_judged": "easy",
+        "duplicates": "live bank (select-only, production isrxrxzjocewrdureyhp, all physics rows of the five chapters) and waves 1-3 authored rows: no duplicate idea, key or figures",
+        "repairs": []
+      }
+    },
+    {
+      "id": "a8245687-1132-49a7-8ec4-306abf2aba8b",
+      "subject": "physics",
+      "unit": "Dual Nature of Matter and Radiation",
+      "chapter": "Dual Nature of Radiation & Matter",
+      "type": "single_mcq",
+      "stem": "A lamp radiates 3.3 W of monochromatic light of wavelength 600 nm. Taking h = 6.6 × 10^-34 J s and c = 3.0 × 10^8 m s^-1, the number of photons emitted per second is about:",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.0 × 10^20"
+        },
+        {
+          "key": "B",
+          "text": "3.3 × 10^19"
+        },
+        {
+          "key": "C",
+          "text": "1.0 × 10^17"
+        },
+        {
+          "key": "D",
+          "text": "1.0 × 10^19"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "The energy of one photon is E = hc/λ = (6.6 × 10^-34 × 3.0 × 10^8)/(6.0 × 10^-7) = 3.3 × 10^-19 J. The number emitted per second is N = P/E = 3.3/(3.3 × 10^-19) = 1.0 × 10^19. Writing 600 nm as 6 × 10^-6 m instead of 6 × 10^-7 m gives 1.0 × 10^20.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Physics Part II, Ch 11 Dual Nature of Radiation and Matter: particle nature of light, photon energy E = hc/λ",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "auditor": "claude-wave4-physics-audit-2026-10-17",
+        "key_solved_independently": "D",
+        "key_ok": true,
+        "chapter_unit_ok": true,
+        "syllabus_ok": true,
+        "giveaway_check": "passed (no stem leak, no absolute-word tell, options parallel; key longest only if noted)",
+        "explanation_ok": true,
+        "level_judged": "medium",
+        "duplicates": "live bank (select-only, production isrxrxzjocewrdureyhp, all physics rows of the five chapters) and waves 1-3 authored rows: no duplicate idea, key or figures",
+        "repairs": []
+      }
+    },
+    {
+      "id": "ff03fa32-f2de-4166-b312-bff3de154777",
+      "subject": "physics",
+      "unit": "Dual Nature of Matter and Radiation",
+      "chapter": "Dual Nature of Radiation & Matter",
+      "type": "statement_based",
+      "stem": "Consider the following statements about the photoelectric effect.\n(A) Photoelectrons are emitted almost immediately, with no measurable delay after the light falls on the metal.\n(B) For light of a fixed frequency above the threshold, the maximum kinetic energy of the photoelectrons increases when the intensity is increased.\n(C) For a given metal, no photoelectrons are emitted below the threshold frequency, however large the intensity.\n(D) The stopping potential depends on the frequency of the incident light.\nChoose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(A), (C) and (D) only"
+        },
+        {
+          "key": "B",
+          "text": "(A), (B) and (C) only"
+        },
+        {
+          "key": "C",
+          "text": "(B), (C) and (D) only"
+        },
+        {
+          "key": "D",
+          "text": "(A), (B) and (D) only"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "Emission is practically instantaneous, a threshold frequency exists below which nothing is emitted at any intensity, and eV0 = Kmax = hf − φ makes the stopping potential depend on frequency. Intensity only sets the number of photons arriving per second and so the photocurrent; it does not change the maximum kinetic energy, so the claim that it does is false.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Physics Part II, Ch 11 Dual Nature of Radiation and Matter: Hertz and Lenard observations and the experimental study of the photoelectric effect",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "auditor": "claude-wave4-physics-audit-2026-10-17",
+        "key_solved_independently": "A",
+        "key_ok": true,
+        "chapter_unit_ok": true,
+        "syllabus_ok": true,
+        "giveaway_check": "passed (no stem leak, no absolute-word tell, options parallel; key longest only if noted)",
+        "explanation_ok": true,
+        "level_judged": "medium",
+        "duplicates": "live bank (select-only, production isrxrxzjocewrdureyhp, all physics rows of the five chapters) and waves 1-3 authored rows: no duplicate idea, key or figures",
+        "repairs": [],
+        "note": "Partly overlaps the wave-1 to 3 statement item on intensity versus saturation current, but tests four distinct observations; allocation mandated this type. Advisory only."
+      }
+    },
+    {
+      "id": "664b7a77-53bc-4c82-889a-5731832693ac",
+      "subject": "physics",
+      "unit": "Dual Nature of Matter and Radiation",
+      "chapter": "Dual Nature of Radiation & Matter",
+      "type": "single_mcq",
+      "stem": "For a photosensitive metal, the stopping potential is V0 for light of wavelength λ and 3V0 for light of wavelength λ/2. The threshold wavelength of the metal is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "3λ"
+        },
+        {
+          "key": "B",
+          "text": "3λ/2"
+        },
+        {
+          "key": "C",
+          "text": "2λ"
+        },
+        {
+          "key": "D",
+          "text": "4λ/3"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "Einstein’s equation gives eV0 = hc/λ − φ and 3eV0 = 2hc/λ − φ. Subtracting, hc/λ = 2eV0, so φ = hc/λ − eV0 = eV0 = hc/(2λ), and the threshold wavelength is hc/φ = 2λ. Reading the 3 : 1 ratio of stopping potentials as a ratio of wavelengths gives 3λ, which ignores the work function.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "NCERT Class 12 Physics Part II, Ch 11 Dual Nature of Radiation and Matter: Einstein’s photoelectric equation, stopping potential, work function and threshold wavelength",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "auditor": "claude-wave4-physics-audit-2026-10-17",
+        "key_solved_independently": "C",
+        "key_ok": true,
+        "chapter_unit_ok": true,
+        "syllabus_ok": true,
+        "giveaway_check": "passed (no stem leak, no absolute-word tell, options parallel; key longest only if noted)",
+        "explanation_ok": true,
+        "level_judged": "hard",
+        "duplicates": "live bank (select-only, production isrxrxzjocewrdureyhp, all physics rows of the five chapters) and waves 1-3 authored rows: no duplicate idea, key or figures",
+        "repairs": []
+      }
+    },
+    {
+      "id": "59c65a4c-9cea-4a76-bbe3-dde064917db4",
+      "subject": "physics",
+      "unit": "Atoms and Nuclei",
+      "chapter": "Atoms",
+      "type": "match_the_following",
+      "stem": "Match List-I (quantity for the nth Bohr orbit of hydrogen) with List-II (dependence on n).\nList-I: (A) Radius of the orbit (B) Speed of the electron (C) Magnitude of the total energy (D) Angular momentum of the electron\nList-II: (I) Proportional to 1/n² (II) Proportional to n (III) Proportional to 1/n (IV) Proportional to n²\nChoose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(A)-(III), (B)-(IV), (C)-(I), (D)-(II)"
+        },
+        {
+          "key": "B",
+          "text": "(A)-(IV), (B)-(III), (C)-(II), (D)-(I)"
+        },
+        {
+          "key": "C",
+          "text": "(A)-(IV), (B)-(III), (C)-(I), (D)-(II)"
+        },
+        {
+          "key": "D",
+          "text": "(A)-(IV), (B)-(I), (C)-(III), (D)-(II)"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "In the Bohr model the radius varies as n², the speed as 1/n, the total energy as −13.6 eV/n² so its magnitude varies as 1/n², and the angular momentum is nh/2π, proportional to n. A student who pairs the speed with 1/n² has carried the energy dependence across, since speed falls only as 1/n.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Physics Part II, Ch 12 Atoms: Bohr model of the hydrogen atom, radius, speed, energy and angular momentum of the nth orbit",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "auditor": "claude-wave4-physics-audit-2026-10-17",
+        "key_solved_independently": "C",
+        "key_ok": true,
+        "chapter_unit_ok": true,
+        "syllabus_ok": true,
+        "giveaway_check": "passed (no stem leak, no absolute-word tell, options parallel; key longest only if noted)",
+        "explanation_ok": true,
+        "level_judged": "medium",
+        "duplicates": "live bank (select-only, production isrxrxzjocewrdureyhp, all physics rows of the five chapters) and waves 1-3 authored rows: no duplicate idea, key or figures",
+        "repairs": []
+      }
+    },
+    {
+      "id": "eab7b9e0-c086-4422-8820-f49e7701fe40",
+      "subject": "physics",
+      "unit": "Atoms and Nuclei",
+      "chapter": "Atoms",
+      "type": "single_mcq",
+      "stem": "An alpha particle of kinetic energy 7.2 MeV approaches a tin nucleus (atomic number 50) head-on. Taking e²/(4πε₀) = 1.44 MeV fm, the distance of closest approach is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "20 fm"
+        },
+        {
+          "key": "B",
+          "text": "10 fm"
+        },
+        {
+          "key": "C",
+          "text": "40 fm"
+        },
+        {
+          "key": "D",
+          "text": "5.0 fm"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "At the closest approach all the kinetic energy has become electrostatic potential energy: K = (2e)(Ze)/(4πε₀r₀), so r₀ = 2Z × 1.44 MeV fm / K = (2 × 50 × 1.44)/7.2 = 20 fm. Leaving out the charge 2e of the alpha particle gives 10 fm.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Physics Part II, Ch 12 Atoms: alpha-particle scattering, Rutherford model and the distance of closest approach",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "auditor": "claude-wave4-physics-audit-2026-10-17",
+        "key_solved_independently": "A",
+        "key_ok": true,
+        "chapter_unit_ok": true,
+        "syllabus_ok": true,
+        "giveaway_check": "passed (no stem leak, no absolute-word tell, options parallel; key longest only if noted)",
+        "explanation_ok": true,
+        "level_judged": "medium",
+        "duplicates": "live bank (select-only, production isrxrxzjocewrdureyhp, all physics rows of the five chapters) and waves 1-3 authored rows: no duplicate idea, key or figures",
+        "repairs": []
+      }
+    },
+    {
+      "id": "48be5953-0f97-438b-930b-ecac7c558cf2",
+      "subject": "physics",
+      "unit": "Atoms and Nuclei",
+      "chapter": "Atoms",
+      "type": "single_mcq",
+      "stem": "A sample of hydrogen atoms has all its electrons excited to the n = 4 level. The maximum number of different spectral lines that can be emitted as the atoms return to lower levels is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "4"
+        },
+        {
+          "key": "C",
+          "text": "10"
+        },
+        {
+          "key": "D",
+          "text": "6"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "Spectral lines arise from transitions between pairs of levels, and four levels give n(n − 1)/2 = 4 × 3/2 = 6 pairs: 4→3, 4→2, 4→1, 3→2, 3→1 and 2→1. Counting only the three drops from n = 4 (n − 1) misses the lines from the intermediate cascades.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "NCERT Class 12 Physics Part II, Ch 12 Atoms: energy level transitions and hydrogen line spectra",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "auditor": "claude-wave4-physics-audit-2026-10-17",
+        "key_solved_independently": "D",
+        "key_ok": true,
+        "chapter_unit_ok": true,
+        "syllabus_ok": true,
+        "giveaway_check": "passed (no stem leak, no absolute-word tell, options parallel; key longest only if noted)",
+        "explanation_ok": true,
+        "level_judged": "easy",
+        "duplicates": "live bank (select-only, production isrxrxzjocewrdureyhp, all physics rows of the five chapters) and waves 1-3 authored rows: no duplicate idea, key or figures",
+        "repairs": []
+      }
+    },
+    {
+      "id": "0140bbdf-feae-48b9-a3bd-5c6e16f61c30",
+      "subject": "physics",
+      "unit": "Atoms and Nuclei",
+      "chapter": "Atoms",
+      "type": "single_mcq",
+      "stem": "In the hydrogen spectrum, the ratio of the longest wavelength of the Balmer series to the shortest wavelength of the Paschen series is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "4 : 9"
+        },
+        {
+          "key": "B",
+          "text": "4 : 5"
+        },
+        {
+          "key": "C",
+          "text": "5 : 4"
+        },
+        {
+          "key": "D",
+          "text": "7 : 20"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "With E_n = -13.6/n^2 eV and wavelength inversely proportional to the photon energy, the longest Balmer wavelength comes from 3 to 2: dE = 13.6(1/4 - 1/9) = 13.6 x 5/36 eV, and the shortest Paschen wavelength from infinity to 3: dE = 13.6/9 eV. The wavelength ratio is (1/9)/(5/36) = 4/5, so 4 : 5. Comparing the two series limits (dE = 13.6/4 against 13.6/9) instead gives 4 : 9.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "NCERT Class 12 Physics Part II, Ch 12 Atoms: hydrogen line spectra, Balmer and Paschen series and the Rydberg formula",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "repaired",
+        "auditor": "claude-wave4-physics-audit-2026-10-17",
+        "key_solved_independently": "B",
+        "key_ok": true,
+        "chapter_unit_ok": true,
+        "syllabus_ok": true,
+        "giveaway_check": "passed (no stem leak, no absolute-word tell, options parallel; key longest only if noted)",
+        "explanation_ok": true,
+        "level_judged": "hard",
+        "duplicates": "live bank (select-only, production isrxrxzjocewrdureyhp, all physics rows of the five chapters) and waves 1-3 authored rows: no duplicate idea, key or figures",
+        "repairs": [
+          {
+            "field": "explanation",
+            "change": "Rewritten on Bohr energy levels (E_n = -13.6/n^2 eV, wavelength inversely proportional to photon energy) instead of the Rydberg formula; same key and numbers",
+            "changed_solver_view": false
+          }
+        ],
+        "note": "Balmer/Paschen ratio: syllabus says hydrogen line spectra qualitative only; the item needs only E_n = -13.6/n^2 (Bohr energy, in syllabus), so explanation was rewritten on energy levels, not the Rydberg formula."
+      }
+    },
+    {
+      "id": "46ac000e-cb0b-4df5-8edf-c811757f79cf",
+      "subject": "physics",
+      "unit": "Atoms and Nuclei",
+      "chapter": "Nuclei",
+      "type": "single_mcq",
+      "stem": "Which one of the following pairs of nuclides consists of isotones?",
+      "options": [
+        {
+          "key": "A",
+          "text": "H-3 and He-3"
+        },
+        {
+          "key": "B",
+          "text": "C-12 and C-14"
+        },
+        {
+          "key": "C",
+          "text": "N-14 and O-16"
+        },
+        {
+          "key": "D",
+          "text": "C-13 and N-14"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "Isotones have the same number of neutrons, N = A − Z. C-13 has 13 − 6 = 7 neutrons and N-14 has 14 − 7 = 7. H-3 and He-3 share the mass number (isobars), C-12 and C-14 share the atomic number (isotopes), and N-14 and O-16 have 7 and 8 neutrons respectively.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "NCERT Class 12 Physics Part II, Ch 13 Nuclei: composition of the nucleus, isotopes, isobars and isotones",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "auditor": "claude-wave4-physics-audit-2026-10-17",
+        "key_solved_independently": "D",
+        "key_ok": true,
+        "chapter_unit_ok": true,
+        "syllabus_ok": true,
+        "giveaway_check": "passed (no stem leak, no absolute-word tell, options parallel; key longest only if noted)",
+        "explanation_ok": true,
+        "level_judged": "easy",
+        "duplicates": "live bank (select-only, production isrxrxzjocewrdureyhp, all physics rows of the five chapters) and waves 1-3 authored rows: no duplicate idea, key or figures",
+        "repairs": []
+      }
+    },
+    {
+      "id": "97690044-9d76-4aff-a84b-f9787fd3c100",
+      "subject": "physics",
+      "unit": "Atoms and Nuclei",
+      "chapter": "Nuclei",
+      "type": "single_mcq",
+      "stem": "A nuclear reactor delivers 3.2 MW of power from the fission of uranium, each fission releasing 200 MeV. Taking 1 MeV = 1.6 × 10^-13 J, the number of fissions per second is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.0 × 10^11"
+        },
+        {
+          "key": "B",
+          "text": "2.0 × 10^17"
+        },
+        {
+          "key": "C",
+          "text": "1.0 × 10^17"
+        },
+        {
+          "key": "D",
+          "text": "1.0 × 10^23"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "The energy per fission is 200 × 1.6 × 10^-13 = 3.2 × 10^-11 J. The fission rate is P/E = 3.2 × 10^6 / 3.2 × 10^-11 = 1.0 × 10^17 per second. Treating the energy as 200 eV instead of 200 MeV (a factor of 10^6) would give 1.0 × 10^23.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Physics Part II, Ch 13 Nuclei: nuclear fission and the energy released per fission",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "auditor": "claude-wave4-physics-audit-2026-10-17",
+        "key_solved_independently": "C",
+        "key_ok": true,
+        "chapter_unit_ok": true,
+        "syllabus_ok": true,
+        "giveaway_check": "passed (no stem leak, no absolute-word tell, options parallel; key longest only if noted)",
+        "explanation_ok": true,
+        "level_judged": "easy",
+        "duplicates": "live bank (select-only, production isrxrxzjocewrdureyhp, all physics rows of the five chapters) and waves 1-3 authored rows: no duplicate idea, key or figures",
+        "repairs": [],
+        "note": "One-step conversion labelled medium; label kept (one level off)."
+      }
+    },
+    {
+      "id": "c28582fc-eedd-4ea9-a907-b938f29248ab",
+      "subject": "physics",
+      "unit": "Atoms and Nuclei",
+      "chapter": "Nuclei",
+      "type": "single_mcq",
+      "stem": "The binding energy per nucleon is 1.1 MeV for deuterium (H-2) and 7.1 MeV for helium (He-4). The energy released when two deuterium nuclei fuse to form one helium nucleus is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "24.0 MeV"
+        },
+        {
+          "key": "B",
+          "text": "6.0 MeV"
+        },
+        {
+          "key": "C",
+          "text": "28.4 MeV"
+        },
+        {
+          "key": "D",
+          "text": "32.8 MeV"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "The energy released equals the binding energy of the product minus that of the reactants. He-4 has 4 × 7.1 = 28.4 MeV and the two H-2 nuclei have 2 × (2 × 1.1) = 4.4 MeV, so Q = 28.4 − 4.4 = 24.0 MeV. Subtracting the per-nucleon values (6.0 MeV) ignores the number of nucleons, and quoting 28.4 MeV forgets that the deuterons were already bound.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "NCERT Class 12 Physics Part II, Ch 13 Nuclei: binding energy, nuclear fusion and energy released",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "auditor": "claude-wave4-physics-audit-2026-10-17",
+        "key_solved_independently": "A",
+        "key_ok": true,
+        "chapter_unit_ok": true,
+        "syllabus_ok": true,
+        "giveaway_check": "passed (no stem leak, no absolute-word tell, options parallel; key longest only if noted)",
+        "explanation_ok": true,
+        "level_judged": "medium",
+        "duplicates": "live bank (select-only, production isrxrxzjocewrdureyhp, all physics rows of the five chapters) and waves 1-3 authored rows: no duplicate idea, key or figures",
+        "repairs": [],
+        "note": "Two-step binding-energy difference labelled hard; label kept (one level off)."
+      }
+    }
+  ]
+}
