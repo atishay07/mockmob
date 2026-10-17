@@ -129,16 +129,8 @@ export function ThemeToggle({ hint = false }) {
         <i className="mm-theme-toggle__star" />
         <i className="mm-theme-toggle__star" />
         <i className="mm-theme-toggle__star" />
-        <span className="mm-theme-toggle__thumb">
-          {/* A plain sun (disc and eight rays) by day, a crescent by night: the two glyphs cross-fade on the thumb. */}
-          <svg className="mm-theme-toggle__sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <circle cx="12" cy="12" r="4.2" />
-            <path d="M12 2.6v2.6M12 18.8v2.6M2.6 12h2.6M18.8 12h2.6M5.35 5.35l1.85 1.85M16.8 16.8l1.85 1.85M5.35 18.65l1.85-1.85M16.8 7.2l1.85-1.85" />
-          </svg>
-          <svg className="mm-theme-toggle__moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6Z" />
-          </svg>
-        </span>
+        {/* The thumb is the sun by day and the crescent by night: one inset shadow eclipses it on the way across. */}
+        <span className="mm-theme-toggle__thumb" />
       </span>
       {showHint ? <span className="mm-theme-hint" aria-hidden="true">Light or dark? <b>Your call</b></span> : null}
     </button>
