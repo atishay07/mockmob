@@ -339,15 +339,15 @@ html:has(.st-sheet[open]) { overflow: hidden; scrollbar-gutter: stable; }
   cursor: pointer;
   transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, box-shadow 160ms ease, transform 420ms var(--mk-spring);
 }
-.st-chip:not([data-on]) { color: var(--a-ink-3); }
+.st-chip:not([data-on]) { color: var(--a-ink-2); }
 .st-chip input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
 .st-chip:hover { border-color: var(--a-line-strong); color: var(--a-ink); }
 .st-chip[data-on] { border-color: var(--a-select); background: var(--a-volt-wash); color: var(--a-ink); font-weight: 750; box-shadow: inset 0 0 0 1px var(--a-select); }
 .st-chip:has(input:focus-visible) { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 /* The chip's object: an 88 px stage standing 6 px above the chip's floor, so it leans about 34 px out over the top edge
    (owner F6: logos as big as the next-move card's, whose object is 112 px; the chosen one grows to about 95 px). The chosen one is sharp, rises a little and takes the lamp's shadow on
-   the settle spring. The others stand back: blurred, desaturated, dimmer and a little smaller (owner F7: "increase the
-   blur of the other subjects"). The blur sits on the small pictures only, never on a name or any content, and the names
+   the settle spring. The others stand back: softly blurred, a little desaturated, dimmer and smaller (owner F7 asked for
+   more blur; N2 then said 1.6 px read as locked, so it is back to a light 0.6 px). The blur sits on the small pictures only, never on a name or any content, and the names
    stay sharp. Going back is the exit curve (200 ms); coming forward is the settle spring. Hover lifts by a hair. */
 .st-chip .st-obj {
   position: absolute;
@@ -355,9 +355,9 @@ html:has(.st-sheet[open]) { overflow: hidden; scrollbar-gutter: stable; }
   bottom: 6px;
   pointer-events: none;
   transform-origin: 50% 92%;
-  filter: blur(1.6px) saturate(0.55);
-  opacity: 0.55;
-  scale: 0.9;
+  filter: blur(0.6px) saturate(0.75);
+  opacity: 0.74;
+  scale: 0.92;
   transition: translate var(--mm-dur-exit) var(--mm-ease-exit), scale var(--mm-dur-exit) var(--mm-ease-exit), filter var(--mm-dur-exit) var(--mm-ease-exit), opacity var(--mm-dur-exit) var(--mm-ease-exit);
 }
 .st-chip .st-obj__shadow { opacity: 0.8; }
@@ -367,7 +367,7 @@ html:has(.st-sheet[open]) { overflow: hidden; scrollbar-gutter: stable; }
 }
 .st-chip[data-on] .st-obj__img { filter: drop-shadow(0 5px 6px var(--st-shadow)); }
 @media (hover: hover) and (pointer: fine) {
-  .st-chip:not([data-on]):hover .st-obj { translate: 0 -1px; scale: 0.93; opacity: 0.7; }
+  .st-chip:not([data-on]):hover .st-obj { translate: 0 -1px; scale: 0.95; opacity: 0.9; filter: blur(0.3px) saturate(0.9); }
 }
 
 /* The next move: the one lit card. The title runs the full width; under it, the reason and the go row on the left and
@@ -445,7 +445,9 @@ html[data-theme='light'] .st-cta { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.
 /* The other sessions: every one a button (owner F5). A go disc at the trailing edge, a press that sinks the whole row or
    tile to 0.97 and the disc to 0.92, a hover that raises the surface and nudges the disc 2 px (fine pointers only), and
    a 2 px focus ring. Rows for Quick practice and Choose your own; the exam pair as two tiles. */
-.st-section { margin: 2px 0 -10px; font-size: 13px; font-weight: 650; line-height: 1.3; color: var(--a-ink-3); }
+/* Owner N11: Quick practice (the hero) stands apart from the other modes; their label sits close to the modes it names.
+   Hero to label 28 px, label to the first tile 12 px. */
+.st-section { margin: 10px 0 -6px; font-size: 13px; font-weight: 650; line-height: 1.3; color: var(--a-ink-3); }
 .st-rows { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px 10px; margin: 0; padding: 0; list-style: none; }
 .st-rows > li { grid-column: 1 / -1; }
 /* The exam-conditions pair (Full mock, NTA mode): two tiles of equal height, the object on top (the app's stopwatch and
@@ -631,7 +633,7 @@ html[data-theme='light'] .st-cta { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.
   .st-hero { padding-block: 14px; }
   .st-hero__go { margin-top: 12px; }
   .st-row { min-height: 70px; padding-block: 5px; }
-  .st-section { margin-bottom: -8px; }
+  .st-section { margin: 6px 0 -4px; }
 }
 
 /* Mobi in the header: the shared actor, sized here. */

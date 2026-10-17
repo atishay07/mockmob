@@ -172,7 +172,10 @@
   background: var(--ctl-seg-pick-bg); box-shadow: inset 0 0 0 1.5px var(--ctl-seg-pick-line);
   transform: translate3d(var(--ctl-x, 0px), var(--ctl-y, 0px), 0);
   opacity: 0; pointer-events: none;
-  transition: transform 380ms var(--ctl-spring), width 260ms var(--ctl-ease), height 260ms var(--ctl-ease), opacity 160ms ease;
+  /* One indicator, one motion (owner N5): position and size travel together on the same 240 ms ease-out, with no
+     overshoot, so the lens leaves the old option and lands on the new one without a second box arriving first. */
+  transition: transform 240ms var(--ctl-ease), width 240ms var(--ctl-ease), height 240ms var(--ctl-ease), opacity 160ms ease;
+  will-change: transform;
 }
 .ctl-seg[data-lens='on'] .ctl-seg__lens { opacity: 1; }
 .ctl-seg__lens[data-still='true'] { transition: none; }
@@ -182,19 +185,22 @@
   background: transparent; color: var(--ctl-ink-2);
   font: 700 14px/1.2 var(--font-display); font-variant-numeric: tabular-nums; white-space: nowrap;
   cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation;
-  transition: color 180ms ease, background-color 150ms ease, transform 420ms var(--mk-spring, var(--ctl-spring));
+  transition: color 200ms ease, background-color 150ms ease;
 }
+/* Press feedback squeezes the words only: the option box never moves, so the lens is the one shape that travels. */
+.ctl-seg__label, .ctl-seg__hint { transition: transform 160ms var(--ctl-ease); }
+.ctl-seg__opt:active:not(:disabled) :is(.ctl-seg__label, .ctl-seg__hint) { transform: scale(0.95); transition-duration: 90ms; }
 .ctl-seg[data-size='sm'] .ctl-seg__opt { min-width: 52px; padding: 0 14px; font: 650 13px/1.2 var(--font-body); }
 .ctl-seg__hint { font: 600 11px/1.2 var(--font-body); opacity: 0.8; }
 @media (max-width: 420px) { .ctl-seg__opt { min-width: 48px; padding: 0 12px; } }
 @media (hover: hover) {
-  .ctl-seg__opt:hover:not(:disabled):not([aria-checked='true']) { background: var(--ctl-hover); color: var(--ctl-ink); }
+  /* Hover darkens the words only: a hover fill would be a second box beside the lens while it travels. */
+  .ctl-seg__opt:hover:not(:disabled):not([aria-checked='true']) { color: var(--ctl-ink); }
 }
 /* The pick is a volt tint with a volt line and ink text, never a solid volt fill: the page's one volt is its primary. */
 .ctl-seg__opt[aria-checked='true'] { color: var(--ctl-ink); }
 /* Before the lens is measured (first paint, or no script), the checked option paints its own keycap. */
 .ctl-seg:not([data-lens='on']) .ctl-seg__opt[aria-checked='true'] { background: var(--ctl-seg-pick-bg); box-shadow: inset 0 0 0 1.5px var(--ctl-seg-pick-line); }
-.ctl-seg__opt:active:not(:disabled) { transform: scale(0.95); transition-duration: 180ms, 150ms, 90ms; transition-timing-function: ease, ease, var(--ctl-ease); }
 .ctl-seg__opt:focus-visible { outline: 2px solid var(--ctl-focus); outline-offset: 2px; }
 .ctl-seg__opt:disabled { opacity: 0.45; cursor: not-allowed; }
 .ctl-seg[aria-disabled='true'] .ctl-seg__opt { cursor: progress; }
@@ -258,11 +264,11 @@ details[data-closing='true'] > summary :is(.pr-fine__chev, svg) { transform: non
 
 /* ---------- Reduced motion: instant state, the same information ---------- */
 :root[data-motion='reduced'] :is(.ctl-pop, .ctl-scrim, .ctl-pop__check, .ctl-chip__mark path),
-:root[data-motion='reduced'] :is(.ctl-seg__lens, .ctl-pop__lens, .ctl-select, .ctl-select__chev, .ctl-details__chev, .ctl-seg__opt, .ctl-chip, .ctl-chip__mark) { animation: none !important; transition: none !important; }
+:root[data-motion='reduced'] :is(.ctl-seg__lens, .ctl-seg__label, .ctl-seg__hint, .ctl-pop__lens, .ctl-select, .ctl-select__chev, .ctl-details__chev, .ctl-seg__opt, .ctl-chip, .ctl-chip__mark) { animation: none !important; transition: none !important; }
 :root[data-motion='reduced'] .ctl-chip[aria-pressed='true'] .ctl-chip__mark path { stroke-dashoffset: 0; }
 :root[data-motion='reduced'] :is(.ctl-pop, .ctl-scrim)[data-state='closing'] { visibility: hidden; }
 @media (prefers-reduced-motion: reduce) {
-  .ctl-pop, .ctl-scrim, .ctl-pop__check, .ctl-seg__lens, .ctl-pop__lens, .ctl-select, .ctl-select__chev, .ctl-details__chev, .ctl-seg__opt, .ctl-chip, .ctl-chip__mark, .ctl-chip__mark path { animation: none !important; transition: none !important; }
+  .ctl-pop, .ctl-scrim, .ctl-pop__check, .ctl-seg__lens, .ctl-seg__label, .ctl-seg__hint, .ctl-pop__lens, .ctl-select, .ctl-select__chev, .ctl-details__chev, .ctl-seg__opt, .ctl-chip, .ctl-chip__mark, .ctl-chip__mark path { animation: none !important; transition: none !important; }
   .ctl-chip[aria-pressed='true'] .ctl-chip__mark path { stroke-dashoffset: 0; }
   :is(.ctl-pop, .ctl-scrim)[data-state='closing'] { visibility: hidden; }
 }

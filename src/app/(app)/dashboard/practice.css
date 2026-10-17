@@ -84,7 +84,7 @@ html[data-theme='light'] .app-shell .pr {
   border: 0;
   border-radius: 14px;
   background: none;
-  color: var(--a-ink-3);
+  color: var(--a-ink-2);
   text-align: center;
   cursor: pointer;
   scroll-snap-align: center;
@@ -114,9 +114,10 @@ html[data-theme='light'] .app-shell .pr {
   height: var(--pr-obj);
   margin: 0;
   transform-origin: 50% 100%;
-  filter: blur(2px) saturate(0.5);
-  opacity: 0.5;
-  scale: 0.9;
+  /* Owner N2 (17 Oct night): 2 px read as locked; back to a light step-back, a soft focus a student still reads as choosable. */
+  filter: blur(0.6px) saturate(0.75);
+  opacity: 0.74;
+  scale: 0.94;
   transition: filter var(--mm-dur-exit) var(--mm-ease-exit), opacity var(--mm-dur-exit) var(--mm-ease-exit), scale var(--mm-dur-exit) var(--mm-ease-exit);
 }
 .app-shell .pr .pr-subject[aria-pressed='true'] .pr-subject__obj.subj-obj {
@@ -126,8 +127,8 @@ html[data-theme='light'] .app-shell .pr {
   transition: filter 240ms var(--mm-ease-out), opacity 240ms var(--mm-ease-out), scale var(--mm-spring-settle-dur) var(--mm-spring-settle);
 }
 @media (hover: hover) and (pointer: fine) {
-  .app-shell .pr .pr-subject:hover { color: var(--a-ink-2); }
-  .app-shell .pr .pr-subject:not([aria-pressed='true']):hover .pr-subject__obj.subj-obj { opacity: 0.7; filter: blur(1.2px) saturate(0.7); }
+  .app-shell .pr .pr-subject:hover { color: var(--a-ink); }
+  .app-shell .pr .pr-subject:not([aria-pressed='true']):hover .pr-subject__obj.subj-obj { opacity: 0.9; filter: blur(0.3px) saturate(0.9); }
 }
 .app-shell .pr .pr-subject__name { max-width: 100%; font-family: var(--font-display); font-size: 15px; font-weight: 700; line-height: 1.2; letter-spacing: -0.015em; text-wrap: balance; overflow-wrap: normal; hyphens: manual; }
 @media (min-width: 1024px) { .app-shell .pr .pr-subject__name { font-size: 16px; } }
@@ -262,8 +263,11 @@ html[data-theme='light'] .app-shell .pr {
 .app-shell .pr .pr-fine2__mobi { position: relative; display: block; width: 40px; height: 50px; }
 .app-shell .pr .pr-fine2__mobi .pip-actor { height: 100%; }
 @keyframes pr-fade-in { from { opacity: 0; } }
-/* Selected segments (Questions, Difficulty) in Day get a fine olive edge so the volt holds its shape on white. */
-html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg [role='radio'][aria-checked='true'] { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.35); }
+/* Selected segments (Questions, Difficulty) in Day get a fine olive edge so the volt holds its shape on white. The edge
+   rides on the sliding lens, never on the option, so it travels with the one indicator (owner N5). Before the lens is
+   measured the option paints its own. */
+html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg .ctl-seg__lens,
+html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg:not([data-lens='on']) [role='radio'][aria-checked='true'] { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.35), inset 0 0 0 1.5px var(--ctl-seg-pick-line); }
 
 /* ---------- The session: a sticky card on the right from 1024 px; on phones the card after Fine-tune, with the session
    bar as its footer. ---------- */

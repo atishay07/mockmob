@@ -22,10 +22,9 @@
   .app-shell .pr-stats > div:nth-child(2) { --i: 1; } .app-shell .pr-stats > div:nth-child(3) { --i: 2; } .app-shell .pr-stats > div:nth-child(4) { --i: 3; }
   .app-shell .pr-steps > .pr-step, .app-shell .pr-steps > .pr-nta-wrap { animation: arena-rise 460ms var(--a-ease) both; animation-delay: calc(140ms + var(--i, 0) * 60ms); }
   .app-shell .pr-steps > :nth-child(2) { --i: 1; } .app-shell .pr-steps > :nth-child(3) { --i: 2; } .app-shell .pr-steps > :nth-child(4) { --i: 3; } .app-shell .pr-steps > :nth-child(n+5) { --i: 4; }
-  /* Exam-day card: idle tilt, straightens under the pointer or when chosen. Palette cells
-     blink only while the card is on screen (data-awake comes from NtaConsolePreview). */
+  /* Exam-day card: idle tilt, straightens under the pointer or when chosen. The clock and the palette ring run on
+     NtaConsolePreview's 1 s beat while the card is on screen. */
   .app-shell .pr-nta[aria-pressed='true'] .pr-nta__console { transform: rotate(0deg) translateY(-2px); }
-  .app-shell .pr-nta__console:not([data-awake='true']) .pr-nta__palette em { animation-play-state: paused; }
 }
 @media (prefers-reduced-motion: reduce) {
   /* Fewer and gentler, not none: entrances keep a short fade and lose their travel. */
@@ -141,7 +140,7 @@
 .app-shell .pr-nta__clock { flex-shrink: 0; display: inline-flex; }
 .app-shell .pr-nta__sec { display: inline-block; min-width: 2ch; }
 @media (prefers-reduced-motion: no-preference) {
-  /* A stepped tick: each new second drops 2px into place, like a split-flap, never a slide. */
+  /* A stepped tick: each new second drops 2px into place, like a split-flap, never a slide. It plays every second. */
   .app-shell .pr-nta__console[data-awake='true'] .pr-nta__sec { animation: pr-nta-tick 240ms var(--a-ease) both; }
 }
 @keyframes pr-nta-tick { from { opacity: .35; transform: translate3d(0, -2px, 0); } to { opacity: 1; transform: none; } }

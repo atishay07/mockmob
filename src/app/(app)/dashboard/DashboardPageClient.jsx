@@ -63,8 +63,9 @@ const mixLine = (mode) => {
 const SCOPE_LINE = {
   quick: 'For Quick practice you can pick the chapters and the difficulty.',
   full: 'For a Full mock you can set the difficulty. It covers every chapter, like the exam.',
-  smart: 'We choose for you: Smart practice leans on the topics where you get under 60% right, so there is nothing to set.',
-  nta: 'We choose for you: 50 questions across the syllabus in the exam’s mix, so there is nothing to set.',
+  // Owner N3: confident and plain, "we build it exactly the NTA way; you don't need to choose anything".
+  smart: 'We build it from your own answers, around the topics where you get under 60% right. You don’t need to choose anything.',
+  nta: 'We build it exactly the NTA way: 50 questions across the whole syllabus, in the exam’s own mix. You don’t need to choose anything.',
 };
 
 // Why a link's chapter was set aside, by mode.
@@ -609,7 +610,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
                   {/* NTA mode's panel: the exam screen, what the mode is in full, and the screen choice. Moved here from the
                       mode row and from the old Mobi line under the setup; nothing is dropped. */}
                   <div className="pr-nta__more">
-                    <NtaConsolePreview subject={subjectLabel || 'Accountancy'} />
+                    <NtaConsolePreview subject={subjectLabel || 'Accountancy'} subjectId={selectedSubject?.id || selSubj} />
                   </div>
                   <div className="pr-nta__screen">
                     <p className="pr-nta__about">{MODE_SPECS.nta} Mobi stays outside while you answer.</p>
@@ -732,7 +733,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
                   <span className="pr-bar__fine-edit">Edit</span>
                 </button>
               ) : (
-                <p className="pr-bar__fine" data-static=""><SlidersHorizontal size={14} strokeWidth={2} aria-hidden="true" /><span className="pr-bar__fine-text"><b>Fine-tune</b> {effectiveModeId === 'smart' ? 'we pick your weakest topics' : 'the exam’s own mix, set for you'}</span></p>
+                <p className="pr-bar__fine" data-static=""><SlidersHorizontal size={14} strokeWidth={2} aria-hidden="true" /><span className="pr-bar__fine-text"><b>Fine-tune</b> {effectiveModeId === 'smart' ? 'your weak topics, nothing to choose' : 'built the NTA way, nothing to choose'}</span></p>
               )}
               <span className="pr-bar__obj" key={selSubj}>
                 <SubjectObject id={selectedSubject?.internalId || selSubj} size={60} lit />
