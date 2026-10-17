@@ -114,14 +114,21 @@ test('Pro covers a practice set; an unknown practice balance has no number', () 
   assert.equal(nextMove({ analysis }).cost, 'This set uses 10 practice credits.');
 });
 
-test('the result page shows no sleeping Mobi, no hero pip, no reader Mobi, and one receipt', () => {
+test('the result page brings Mobi back (N12, 17 Oct night), never sleepy, with one receipt', () => {
   const page = read('src/app/(app)/result/[id]/ResultPageClient.jsx');
-  assert.doesNotMatch(page, /mobiReaction\(/);
-  assert.doesNotMatch(page, /<ReaderMobi/);
-  assert.doesNotMatch(page, /rp-hero__pip/);
+  const hero = read('src/components/result/ResultHero.jsx');
+  // The owner's newest words (N12): the reveal moment and the reader Mobi return; F11's no-sleepy rule stays.
+  assert.match(page, /mobiReaction\(attempt, \{ celebrations: prefs\.celebrations \}\)/);
+  assert.doesNotMatch(page, /mobiReaction\([^)]*hour/);
+  assert.match(page, /<ReaderMobi/);
+  assert.match(hero, /<MobiReact act=\{reaction\.act\}/);
   assert.doesNotMatch(page, /Session complete/);
   assert.doesNotMatch(page, /Key at submission/);
   assert.match(page, /receiptLine\(/);
+  // The analysis is open again: no folds on the result.
+  assert.doesNotMatch(page, /<Fold/);
+  assert.match(page, /<LabLedger[^>]*bare/);
+  assert.match(page, /<NextMove[^>]*flat/);
 });
 
 test('one volt per viewport: the next-move key marks itself the page primary; the SWOT keys are outline', () => {

@@ -1,31 +1,32 @@
 "use client";
 
-// The result, 17 Oct (docs/design-decisions/pass-1017/RESULT-1017.md; owner ledger F11, F14, F16, F17). One order for
-// practice sets and mocks:
-//   1 what happened, in one glance: one receipt line, the score with its denominator, the marks bar, the counts, and the
-//     chapter that cost the most (src/components/result/ResultHead.jsx);
-//   2 one next move, chosen by stated rules (data/result_next_move.mjs), the only volt key in view, with Repair's value
-//     and its cost before the student pays (src/components/result/NextMove.jsx);
-//   3 the mistakes in repair order, each with Repair and Check it held inline (src/components/result/MistakeList.jsx);
-//   4 everything else, folded under plain names (src/components/result/Fold.jsx): Where the marks went, Your time and
-//     changed answers, After this mock, How others answered, Your rule and proof it stuck, Every answer.
-// Then the next fresh paper and the links. Nothing was deleted: every block of the earlier page has a place (section 6).
-// No Mobi on arrival and none on the rows: his one moment is a repair that held on a new question, after the server
-// marked it. A repaired mistake opens its saved repair, free, and is never offered as a paid repair again (lab.repaired).
+// The result, restored 17 Oct night (owner N12 to N16, docs/brain/OWNER-FEEDBACK-2026-10-17-NIGHT.md). The owner
+// rejected the folded 17 Oct page ("more basic ... removed the good stuff ... There was a mascot and an entire screen
+// showing so many things"), so the earlier page is back, in its order, open, with only the 17 Oct pieces that add clarity:
+//   1 the summary card (src/components/result/ResultHero.jsx): Mobi's reveal, the receipt with 12-hour time, the score
+//     counting up, which chapter cost the most, the four counts, the answer map, and the one next move with Repair's
+//     value and its cost before paying (src/components/result/NextMove.jsx, data/result_next_move.mjs);
+//   2 the Mistake Lab, open: where the marks went (the ledger), the mistakes in repair order with Repair and Check it
+//     held inline (a saved repair opens free; each names its paper and time), Find (the replay, time and every changed
+//     answer), Prove (the rule check, same mistakes later, fresh questions, across your mocks);
+//   3 After this mock: the SWOT and the plan, open;
+//   4 Answer by answer, with the reader Mobi glancing at the answer just opened.
+// Then the next fresh paper and the links. Mobi never shows in NTA mode and is never sleepy.
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { ErrorState } from '@/components/ui/Skeleton';
 import { apiGet, apiPost } from '@/lib/fetcher';
-import { LabLedger, LabTime, LabProof, RepairTotal } from '@/components/ScoreRecoveryLab';
+import { LabLedger, LabTime, LabProof, RepairTotal, ledgerOf } from '@/components/ScoreRecoveryLab';
 import { QuestionStrip } from '@/components/result/Replay';
 import SwotPanel from '@/components/result/SwotPanel';
 import OthersAnswered, { OptionShare, shareTone } from '@/components/result/OthersAnswered';
 import TrapTag from '@/components/result/TrapTag';
-import ResultHead from '@/components/result/ResultHead';
+import ResultHero from '@/components/result/ResultHero';
 import NextMove from '@/components/result/NextMove';
 import MistakeList, { SHOWN_FIRST } from '@/components/result/MistakeList';
-import Fold, { useFolds } from '@/components/result/Fold';
+import ReaderMobi from '@/components/brand/ReaderMobi';
+import { useMobiPrefs } from '@/lib/mobiPrefs';
 import MistakeRepair from '@/components/recovery/MistakeRepair';
 import KeyReviewLog from '@/components/recovery/KeyReviewLog';
 import AnswerCorrectionNotice from '@/components/recovery/AnswerCorrectionNotice';
@@ -38,13 +39,13 @@ import { RUN_COPY, arrowIntent, runSegments, stepIndex, endingModel, retryIds as
 import { REPAIR_OUTCOMES, hasExplanation, repairLabel, repairProgress } from '@/../data/repair_presentation.mjs';
 import { analyseSession, formatDuration } from '@/../data/session_recovery';
 import { buildTimeDecisions, TIME_COPY, spentLabel, TIME_RULES } from '@/../data/time_decisions';
-import { attemptMode, costliestLine, nextMove, receiptLine, shortDuration } from '@/../data/result_next_move.mjs';
+import { attemptMode, costliestLine, nextMove, receiptLine } from '@/../data/result_next_move.mjs';
 import { AppIcon } from '@/components/ui/Glyph';
 import { MobResultRow } from '@/components/mob/MobResultRow';
 import '@/components/recovery/result.css';
 import '@/components/result/result-1017.css';
 import { plainOptionTexts } from '@/../data/option_text';
-import { repairCandidates, verdictWord } from './reaction';
+import { mobiReaction, answerReaction, repairCandidates, verdictWord } from './reaction';
 import { inRepairOrder } from '@/components/result/labLoop';
 import { useAuth } from '@/components/AuthProvider';
 import { useWalletSummary } from '@/components/useWalletSummary';
@@ -127,7 +128,9 @@ export default function ResultPageClient({ previewId = null }) {
   const [showAll, setShowAll] = useState(false);
   const [blanksOpen, setBlanksOpen] = useState(false);
   const [replayFocus, setReplayFocus] = useState(null);
-  const [folds, setFold] = useFolds();
+  const [reading, setReading] = useState(null); // the answer row the reader Mobi glances at
+  const [readerReact, setReaderReact] = useState(null); // { qid, first, then }: his reaction to the answer just opened
+  const prefs = useMobiPrefs();
   const pressRef = useRef(null);
   const suppressRef = useRef(false);
   const { user } = useAuth();
@@ -197,18 +200,19 @@ export default function ResultPageClient({ previewId = null }) {
     // blanks row, a right answer in "Every answer".
     if (row.verdict === 'wrong') { if (orderedMistakes.findIndex(m => m.q.id === row.q.id) >= SHOWN_FIRST) setShowAll(true); }
     else if (row.verdict === 'skipped') setBlanksOpen(true);
-    else { setFold('every', true, { remember: false }); setFilter(f => (f === 'all' || f === row.verdict ? f : 'all')); }
+    else setFilter(f => (f === 'all' || f === row.verdict ? f : 'all'));
     setOpen(s => new Set(s).add(row.q.id));
     setVisited(s => new Set(s).add(row.q.id));
     if (repair) setAutoRepair(row.q.id);
     if (step) { setRunCurrent(row.q.id); setHandover((h) => ({ qid: row.q.id, n: (h?.n || 0) + 1 })); }
+    setReading(row.q.id);
     setArrived((prev) => ({ number, n: (prev?.n || 0) + 1 }));
     requestAnimationFrame(() => requestAnimationFrame(() => {
       const el = document.getElementById(`q-${number}`);
       el?.scrollIntoView({ behavior: reducedMotion() || quick ? 'auto' : 'smooth', block: 'start' });
       if (!keepFocus) el?.querySelector('.rp-q__bar')?.focus({ preventScroll: true });
     }));
-  }, [analysis, runIds, engaged, orderedMistakes, setFold]);
+  }, [analysis, runIds, engaged, orderedMistakes]);
 
   const handled = useMemo(() => repairProgress(analysis?.mistakes || [], repairOutcomes).handled, [analysis, repairOutcomes]);
   const repaired = useMemo(() => new Set((analysis?.mistakes || []).filter(r => hasExplanation(repairOutcomes[r.q.id])).map(r => r.q.id)), [analysis, repairOutcomes]);
@@ -277,7 +281,6 @@ export default function ResultPageClient({ previewId = null }) {
   const answerReviews = attempt.answerReviews || {};
   const mode = attemptMode(attempt);
   const subject = subjectName(attempt.subject);
-  const isMock = mode === 'full' || mode === 'nta';
   const runModel = endingModel({ ids: runIds, outcomes: repairOutcomes, reached });
   const checkMap = Object.fromEntries(Object.entries(checks).map(([qid, c]) => [qid, c.right ? 'right' : 'wrong']));
   const aiCredits = wallet.wallet?.known ? wallet.wallet.total : null;
@@ -288,6 +291,8 @@ export default function ResultPageClient({ previewId = null }) {
     labReady: Boolean(attempt.lab) && attempt.answerReviewState !== 'unavailable', hour,
   });
   const finding = costliestLine(analysis, { answerReviews });
+  // Mobi's reveal follows the server's recap tone (the app's table); none in NTA mode, never sleepy.
+  const reaction = mobiReaction(attempt, { celebrations: prefs.celebrations });
   const receipt = receiptLine({ subjectName: subject, mode, completedAt: attempt.completedAt, durationMs: timing?.totalMs ?? null });
   const keyReviews = analysis.rows.filter(r => repairOutcomes[r.q.id] === 'held_for_recheck').map(r => ({ number: r.number, chapter: r.chapter }));
   const correctedRows = analysis.rows.filter(r => answerReviews[r.q.id]?.state === 'corrected');
@@ -298,7 +303,9 @@ export default function ResultPageClient({ previewId = null }) {
     : keyReviews.length ? { text: `Q${keyReviews[0].number}’s answer key is being re-checked${keyReviews.length > 1 ? `, with ${keyReviews.length - 1} more` : ''}. It is left out of repairs until the check ends.`, number: keyReviews[0].number }
       : attempt.answerReviewState === 'unavailable' ? { text: 'Current answer-key checks could not load. The options show the key used in your original session.', number: null } : null;
 
-  const toggle = (qid) => { setVisited(s => new Set(s).add(qid)); setOpen(s => { const n = new Set(s); if (n.has(qid)) n.delete(qid); else n.add(qid); return n; }); };
+  const toggle = (qid) => {
+    if (!open.has(qid)) { setReading(qid); const verdict = analysis.rows.find(r => r.q.id === qid)?.verdict; const react = !engaged ? answerReaction(verdict, { celebrations: prefs.celebrations, reduced: prefs.reduced }) : null; setReaderReact(react ? { qid, ...react } : null); }
+    setVisited(s => new Set(s).add(qid)); setOpen(s => { const n = new Set(s); if (n.has(qid)) n.delete(qid); else n.add(qid); return n; }); };
   // The ending reads the run's real outcomes; "Try the same mistakes again" reopens exactly those that did not settle.
   const retryRows = (ids) => analysis.rows.filter(r => ids.includes(r.q.id));
   const retryChapter = (() => { const chapters = new Set(retryRows(retryIdsOf(runModel)).map(r => r.chapter)); return chapters.size === 1 ? [...chapters][0] : ''; })();
@@ -406,6 +413,7 @@ export default function ResultPageClient({ previewId = null }) {
         ) : null}
         {review && !(isWrong && Number.isInteger(given)) ? review.state === 'corrected' || review.state === 'key_changed_unverified' ? <AnswerCorrectionNotice review={review} /> : <KeyReviewNotice chosenLetter={Number.isInteger(given) ? LETTERS[given] : null} keyLetter={LETTERS[q.correctIndex]} reviewState={review.state} /> : null}
         <div className="rp-q__foot">
+          {reaction && reading === q.id && !engaged ? <span className="rp-reader" key={`reader-${q.id}`}><ReaderMobi react={readerReact?.qid === q.id ? readerReact : null} /></span> : null}
           <button type="button" className="rp-report" disabled={!!reporting[q.id] || !!reported[q.id]} onClick={() => handleReport(row)}>
             {reported[q.id] ? 'Reported. Thank you.' : reporting[q.id] ? 'Sending…' : 'Report a problem with this question'}
           </button>
@@ -447,161 +455,147 @@ export default function ResultPageClient({ previewId = null }) {
     if ((kind === 'repair' || kind === 'check') && Number.isInteger(target?.number)) jumpTo(target.number, { repair: true });
   };
 
-  // ---------- Layer 4: the folds and their teasers (each states its finding; a fold with nothing to hold is not drawn) ----------
+  // ---------- The Lab's parts (each drawn only when it has something to hold) ----------
   const lab = attempt.lab || null;
   const swotShown = attempt.swot?.state === 'ready';
-  const largest = (lab?.groups || []).reduce((best, g) => (!best || (g.marks || 0) > (best.marks || 0) ? g : best), null);
-  const answered = marks.right + marks.wrong;
-  const marksTeaser = lab?.headline?.text
-    || (largest?.label && largest?.line ? `${largest.label}: ${largest.line}.` : null)
-    || (!lab && attempt.answerReviewState !== 'ready' && isMock ? 'Being counted. It is ready when the answer checks finish.' : null)
-    || (answered ? `${Math.round((marks.right / answered) * 100)}% of answered questions right: ${marks.right} of ${answered}.` : 'Nothing was answered on this paper.');
-  const changes = timeRead?.changes && typeof timeRead.changes === 'object' ? timeRead.changes : null;
-  const timeTeaser = [
-    Number.isFinite(timeRead?.medianMs) ? `Your median was ${shortDuration(timeRead.medianMs)} a question.` : timeRead?.summary?.pace || null,
-    changes?.count ? `${changes.count} ${changes.count === 1 ? 'answer' : 'answers'} changed, net ${changes.net > 0 ? '+' : changes.net < 0 ? '−' : ''}${Math.abs(changes.net || 0)} marks.` : null,
-  ].filter(Boolean).join(' ') || (analysis.timing ? `About ${formatDuration(analysis.timing.averageMs)} a question.` : 'The replay, your pace and every changed answer.');
   const showTime = Boolean(lab?.replay?.rows?.length || timeRead || analysis.chapters.length || analysis.observations.length);
-  const swotItem = (() => {
-    const qs = Array.isArray(attempt.swot?.quadrants) ? attempt.swot.quadrants : [];
-    for (const id of ['threat', 'opportunity']) { const q = qs.find(x => x.id === id); if (q?.items?.length) return q.items[0]; }
-    return null;
-  })();
   const showSwot = Boolean(attempt.swot && attempt.swot.state !== 'not_available' && (swotShown || attempt.swot.message));
-  const swotTeaser = swotShown ? (swotItem?.title || (attempt.swot.plan?.[0]?.label ? `Next: ${attempt.swot.plan[0].label}` : 'Your strengths, your gaps and a short plan.')) : attempt.swot?.message || null;
-  const cohort = lab?.cohort?.line ? lab.cohort : null;
-  const ruleCheck = lab?.prove?.ruleCheck || null;
-  const proofTeaser = ruleCheck?.text || (lab?.rules?.active?.text ? `Your rule: ${lab.rules.active.text}` : isMock ? 'No rule chosen for this mock.' : 'Five fresh questions show whether a repair stuck.');
-  const foldProps = (fid) => ({ id: fid, open: folds.has(fid), onToggle: setFold });
+  // The ledger already states the cohort line under its groups; without a ledger it is said here once.
+  const cohort = lab?.cohort?.line && !ledgerOf(lab) ? lab.cohort : null;
+  const labTitle = lab?.heading ? lab.heading : marks.gap ? `You missed ${marks.gap} ${marks.gap === 1 ? 'mark' : 'marks'}. Here’s where they went.` : 'You didn’t miss a mark this session.';
+  const seeReplay = (chip) => {
+    setReplayFocus((f) => ({ chip, n: (f?.n || 0) + 1 }));
+    requestAnimationFrame(() => document.getElementById('rl-find')?.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'start' }));
+  };
+  const answerMap = (
+    <ol className="rp-strip" aria-label="Answer map: press a question to open it" style={{ '--rp-step': `${rippleStep}ms` }}>
+      {analysis.rows.map(r => (
+        <li key={r.q.id} style={{ '--i': r.index }}>
+          <button type="button" data-verdict={r.verdict} data-changed={r.changed || undefined}
+            data-ripple={firstWrong >= 0 && r.index <= firstWrong ? (r.index === firstWrong ? 'end' : '') : undefined}
+            data-label={bubbleLabel(r)} data-peek={peek === r.number || undefined}
+            onPointerDown={(event) => startBubblePress(event, r.number)} onPointerUp={endBubblePress} onPointerCancel={endBubblePress} onPointerLeave={endBubblePress}
+            onContextMenu={(event) => { if (event.nativeEvent.pointerType === 'touch' || suppressRef.current) event.preventDefault(); }}
+            onClick={() => { if (suppressRef.current) { suppressRef.current = false; return; } jumpTo(r.number); }}
+            aria-label={bubbleLabel(r).replace(/^Q/, 'Question ')}>{r.number}</button>
+        </li>
+      ))}
+    </ol>
+  );
 
   return (
-    <div className="container-narrow student-page student-page--result rp rx pb-20" data-arrive={arrive || undefined}>
-      {/* ---------- 1 and 2: what happened, and the one next move (side by side on a wide screen) ---------- */}
-      <div className="rx-top">
-        <ResultHead receipt={receipt} marks={marks} finding={finding} notice={notice} onNotice={(n) => jumpTo(n)} arrive={arrive} />
-        <NextMove move={move} onAct={onAct} paperHref={next.href} arrive={arrive}
-          lesson={move?.kind === 'practise' && move.rule === 2 ? lesson : null} />
-      </div>
+    <div className="container-narrow student-page student-page--result rp rx rl-page pb-20" data-arrive={arrive || undefined}>
+      {/* ---------- 1. The summary: Mobi, the score, the finding, the counts, the answer map and the one next move ---------- */}
+      <ResultHero receipt={receipt} marks={marks} finding={finding} reaction={reaction} holdStill={engaged || reading != null}
+        notice={notice} onNotice={(n) => jumpTo(n)} arrive={arrive} strip={answerMap}
+        next={<NextMove move={move} onAct={onAct} paperHref={next.href} arrive={arrive} flat lesson={move?.kind === 'practise' && move.rule === 2 ? lesson : null} />} />
 
-      {/* ---------- 3: the mistakes, in repair order ---------- */}
-      <MistakeList
-        mistakes={orderedMistakes} blanks={blanks} openIds={open} onToggle={toggle} visited={visited}
-        statusOf={statusOf} cohortOf={cohortOf} renderBody={renderBody}
-        showAll={showAll} onShowAll={setShowAll} blanksOpen={blanksOpen} onBlanks={setBlanksOpen}
-        repairedCount={repaired.size} heldCount={heldCount} ordered={repairOrder?.state === 'cohort' ? 'repair' : 'paper'}
-        cheer={cheer} arrived={arrived} arrive={arrive} answered={marks.right + marks.wrong}
-        top={engaged && segments.length > 1 ? (
-          <div className="rt-bar">
-            <RunTrack segments={segments} onGo={goSegment} onFinish={runIds.some(id => repairOutcomes[id]) ? () => setEnding(true) : null} />
+      {/* ---------- 2. The Mistake Lab, open: where the marks went, the mistakes to repair, find, prove ---------- */}
+      <section className="srl rl" aria-labelledby="srl-title" data-in="">
+        <header className="srl-head"><h2 id="srl-title">{labTitle}</h2></header>
+        <LabLedger attempt={attempt} analysis={analysis} timeRead={timeRead} lab={lab} onJump={jumpTo} changesId="rx-time-changes" onSeeReplay={seeReplay} bare />
+        {cohort ? (
+          <div className="rl-cohort">
+            <p>{cohort.line}</p>
+            {Array.isArray(cohort.numbers) && cohort.numbers.length ? (
+              <span className="srl-qchips"><span className="srl-qchips__label">See</span>{cohort.numbers.map(n => <button key={n} type="button" onClick={() => jumpTo(n)} aria-label={`Go to question ${n}`}>Q{n}</button>)}</span>
+            ) : null}
+            {(Array.isArray(cohort.fine) ? cohort.fine : cohort.fine ? [cohort.fine] : []).map((line, i) => <p key={i} className="srl-fine">{line}</p>)}
           </div>
         ) : null}
-        after={<>
-          {reportError ? <div role="alert" className="rp-alert">{reportError}</div> : null}
-          <RepairTotal remaining={repairsLeft} />
-          {analysis.mistakes.length ? <p className="srl-fine">Reopening a repair is free. No charge if a question is held for review.</p> : null}
-          {move?.kind === 'practise' && move.rule === 2 ? null : lesson}
-        </>}
-      />
+
+        <div className="rl-part" id="rl-repair">
+          <MistakeList
+            mistakes={orderedMistakes} blanks={blanks} openIds={open} onToggle={toggle} visited={visited}
+            statusOf={statusOf} cohortOf={cohortOf} renderBody={renderBody}
+            showAll={showAll} onShowAll={setShowAll} blanksOpen={blanksOpen} onBlanks={setBlanksOpen}
+            repairedCount={repaired.size} heldCount={heldCount} ordered={repairOrder?.state === 'cohort' ? 'repair' : 'paper'}
+            cheer={cheer} arrived={arrived} arrive={arrive} answered={marks.right + marks.wrong}
+            top={engaged && segments.length > 1 ? (
+              <div className="rt-bar">
+                <RunTrack segments={segments} onGo={goSegment} onFinish={runIds.some(id => repairOutcomes[id]) ? () => setEnding(true) : null} />
+              </div>
+            ) : null}
+            after={<>
+              {reportError ? <div role="alert" className="rp-alert">{reportError}</div> : null}
+              <RepairTotal remaining={repairsLeft} />
+              {analysis.mistakes.length ? <p className="srl-fine">Reopening a repair is free. No charge if a question is held for review.</p> : null}
+              {move?.kind === 'practise' && move.rule === 2 ? null : lesson}
+            </>}
+          />
+        </div>
+
+        {showTime ? (
+          <div className="rl-part" id="rl-find">
+            <div className="srl-step__head"><h3>Find</h3><p>Where your time went and every answer you changed</p></div>
+            <LabTime attempt={attempt} analysis={analysis} timeRead={timeRead} lab={lab} onJump={jumpTo} swotShown={swotShown} focus={replayFocus} changesId="rx-time-changes" />
+          </div>
+        ) : null}
+
+        <div className="rl-part" id="rl-prove">
+          <div className="srl-step__head"><h3>Prove</h3><p>Show it stuck, on questions you haven’t seen</p></div>
+          <LabProof attempt={attempt} analysis={analysis} lab={lab} />
+        </div>
+      </section>
 
       {/* The Mob's weekly paper: one quiet row with the ring and the way back to /mob (draws nothing otherwise). */}
       {attempt.selectionMeta?.mobPaper ? <MobResultRow mobPaper={attempt.selectionMeta.mobPaper} /> : null}
 
-      {/* ---------- 4: everything else, folded and named ---------- */}
-      <section className="rx-more-from" aria-labelledby="rx-folds-title">
-        <h2 id="rx-folds-title" className="rx-section-title">More from this paper</h2>
-        <div className="rx-folds">
-          <Fold {...foldProps('marks')} title="Where the marks went" teaser={marksTeaser}>
-            <LabLedger attempt={attempt} analysis={analysis} timeRead={timeRead} lab={lab} onJump={jumpTo} changesId="rx-time-changes"
-              onSeeReplay={(chip) => { setFold('time', true, { remember: false }); setReplayFocus((f) => ({ chip, n: (f?.n || 0) + 1 })); }} />
-            <KeyReviewLog items={keyReviews} onJump={jumpTo} />
-            {correctedRows.length ? <section className="kr-log" aria-label="Answer corrections"><h2>We corrected {correctedRows.length === 1 ? 'an answer key' : `${correctedRows.length} answer keys`}. We’re sorry.</h2><p>Your original result is preserved. Applying these checked corrections gives a separate adjustment of {correctionAdjustment > 0 ? '+' : ''}{correctionAdjustment} marks. This has not changed your account or leaderboard score.</p><ul>{correctedRows.map(r => <li key={r.q.id}><button type="button" onClick={() => jumpTo(r.number)}><b>Q{r.number}</b><span>{r.chapter}</span><em>See correction</em></button></li>)}</ul></section> : null}
-          </Fold>
-          {showTime ? (
-            <Fold {...foldProps('time')} title="Your time and changed answers" teaser={timeTeaser}>
-              <LabTime attempt={attempt} analysis={analysis} timeRead={timeRead} lab={lab} onJump={jumpTo} swotShown={swotShown} focus={replayFocus} changesId="rx-time-changes" />
-            </Fold>
-          ) : null}
-          {showSwot ? (
-            <Fold {...foldProps('after')} title="After this mock: strengths, gaps and plan" teaser={swotTeaser}>
-              <SwotPanel swot={attempt.swot} attemptId={attempt.id} onJump={jumpTo} inFold />
-            </Fold>
-          ) : null}
-          {cohort ? (
-            <Fold {...foldProps('others')} title="How others answered" teaser={cohort.line}>
-              <div className="rx-others">
-                {cohort.truth ? <p>{cohort.truth}</p> : null}
-                {Array.isArray(cohort.numbers) && cohort.numbers.length ? (
-                  <span className="srl-qchips"><span className="srl-qchips__label">See</span>{cohort.numbers.map(n => <button key={n} type="button" onClick={() => jumpTo(n)} aria-label={`Go to question ${n}`}>Q{n}</button>)}</span>
-                ) : null}
-                {(Array.isArray(cohort.fine) ? cohort.fine : cohort.fine ? [cohort.fine] : []).map((line, i) => <p key={i} className="srl-fine">{line}</p>)}
-              </div>
-            </Fold>
-          ) : null}
-          <Fold {...foldProps('proof')} title="Your rule and proof it stuck" teaser={proofTeaser}>
-            <LabProof attempt={attempt} analysis={analysis} lab={lab} />
-          </Fold>
-          <Fold {...foldProps('every')} title={`Every answer, all ${attempt.total}`}
-            teaser={<span className="rx-dots" role="img" aria-label={`${marks.right} right, ${marks.wrong} wrong, ${marks.blank} blank`}>{analysis.rows.map(r => <i key={r.q.id} data-verdict={r.verdict} />)}</span>}>
-            <div className="rx-every">
-              <ol className="rp-strip" aria-label="Answer map: press a question to open it" style={{ '--rp-step': `${rippleStep}ms` }}>
-                {analysis.rows.map(r => (
-                  <li key={r.q.id} style={{ '--i': r.index }}>
-                    <button type="button" data-verdict={r.verdict} data-changed={r.changed || undefined}
-                      data-label={bubbleLabel(r)} data-peek={peek === r.number || undefined}
-                      onPointerDown={(event) => startBubblePress(event, r.number)} onPointerUp={endBubblePress} onPointerCancel={endBubblePress} onPointerLeave={endBubblePress}
-                      onContextMenu={(event) => { if (event.nativeEvent.pointerType === 'touch' || suppressRef.current) event.preventDefault(); }}
-                      onClick={() => { if (suppressRef.current) { suppressRef.current = false; return; } jumpTo(r.number); }}
-                      aria-label={bubbleLabel(r).replace(/^Q/, 'Question ')}>{r.number}</button>
-                  </li>
-                ))}
-              </ol>
-              <div className="rp-filters" role="group" aria-label="Filter answers">
-                {[
-                  { id: 'all', label: `All ${attempt.total}` },
-                  { id: 'wrong', label: `Wrong ${marks.wrong}` },
-                  { id: 'skipped', label: `Blank ${marks.blank}` },
-                  { id: 'correct', label: `Right ${marks.right}` },
-                ].map(t => (
-                  <button key={t.id} type="button" aria-pressed={filter === t.id} onClick={() => setFilter(t.id)}>{t.label}</button>
-                ))}
-              </div>
-              <ol className="rp-list">
-                {visible.length === 0 ? <li className="rp-empty">Nothing in this group.</li> : null}
-                {analysis.rows.map(row => {
-                  const { q, verdict, number } = row;
-                  // A wrong answer and a blank live in the mistakes above; here their row takes you there.
-                  const elsewhere = verdict !== 'correct';
-                  const isOpen = !elsewhere && open.has(q.id);
-                  const review = answerReviews[q.id];
-                  const timeRow = timeRead?.state === 'ready' ? timeRead.rows[row.index] : null;
-                  const rowMs = timeRow ? (timeRow.ms >= TIME_RULES.minTimedMs ? timeRow.ms : null) : row.ms;
-                  return (
-                    <li key={q.id} id={elsewhere ? `qa-${number}` : `q-${number}`} className="rp-q" hidden={filter !== 'all' && filter !== verdict} data-verdict={verdict} data-open={isOpen || undefined}>
-                      {!elsewhere && arrived?.number === number ? <span key={arrived.n} className="rp-q__ring" aria-hidden="true" /> : null}
-                      <h3 className="rp-q__h"><button type="button" className="rp-q__bar" aria-expanded={elsewhere ? undefined : isOpen} aria-controls={elsewhere ? undefined : `q-${number}-body`} onClick={() => (elsewhere ? jumpTo(number) : toggle(q.id))}>
-                        <span className="rp-q__badge" aria-hidden="true">{number}</span>
-                        <span className="rp-q__summary">
-                          <span className="rp-q__text">{displayValue(q.question ?? q.body, 'Question unavailable')}</span>
-                          <span className="rp-q__meta">
-                            <span data-verdict={verdict}>{review ? 'Recorded: ' : ''}{verdict === 'correct' ? 'Right +5' : verdict === 'wrong' ? 'Wrong −1' : 'Blank 0'}</span>
-                            <span>{row.chapter}</span>
-                            {Number.isFinite(rowMs) ? <span>{timeRow ? spentLabel(rowMs / 1000) : formatDuration(rowMs)}</span> : null}
-                            {row.changed ? <span>Answer changed</span> : null}
-                            {earlierMisses(attempt, q.id).length ? <span data-kind="twice">{RUN_COPY.missedTimes(earlierMisses(attempt, q.id).length + 1)}</span> : null}
-                            {repairLabel(repairOutcomes[q.id]) ? <span data-verdict={hasExplanation(repairOutcomes[q.id]) ? 'repaired' : 'held'}>{repairLabel(repairOutcomes[q.id])}</span> : null}
-                            {elsewhere ? <span>{verdict === 'wrong' ? 'Open it in your mistakes' : 'Open it in your blanks'}</span> : null}
-                          </span>
-                        </span>
-                        <span className="rp-q__chev" aria-hidden="true" />
-                      </button></h3>
-                      {elsewhere ? null : <div id={`q-${number}-body`} hidden={!isOpen}>{visited.has(q.id) ? renderBody(row) : null}</div>}
-                    </li>
-                  );
-                })}
-              </ol>
-            </div>
-          </Fold>
+      {/* ---------- 3. After this mock: Do these next and the SWOT (Full and NTA mocks; server-built, free) ---------- */}
+      {showSwot ? <SwotPanel swot={attempt.swot} attemptId={attempt.id} onJump={jumpTo} /> : null}
+
+      {/* Keys under re-check and corrected keys: their own notice, after the analysis, as before 17 Oct. */}
+      <KeyReviewLog items={keyReviews} onJump={jumpTo} />
+      {correctedRows.length ? <section className="kr-log" aria-label="Answer corrections"><h2>We corrected {correctedRows.length === 1 ? 'an answer key' : `${correctedRows.length} answer keys`}. We’re sorry.</h2><p>Your original result is preserved. Applying these checked corrections gives a separate adjustment of {correctionAdjustment > 0 ? '+' : ''}{correctionAdjustment} marks. This has not changed your account or leaderboard score.</p><ul>{correctedRows.map(r => <li key={r.q.id}><button type="button" onClick={() => jumpTo(r.number)}><b>Q{r.number}</b><span>{r.chapter}</span><em>See correction</em></button></li>)}</ul></section> : null}
+
+      {/* ---------- 4. Answer by answer. A wrong answer and a blank open in the Lab's list; a right one opens here. ---------- */}
+      <section className="rp-review rl-answers" aria-labelledby="rp-review-title">
+        <div className="rp-review__head">
+          <h2 id="rp-review-title">Answer by answer</h2>
+          <div className="rp-filters" role="group" aria-label="Filter answers">
+            {[
+              { id: 'all', label: `All ${attempt.total}` },
+              { id: 'wrong', label: `Wrong ${marks.wrong}` },
+              { id: 'skipped', label: `Blank ${marks.blank}` },
+              { id: 'correct', label: `Right ${marks.right}` },
+            ].map(t => (
+              <button key={t.id} type="button" aria-pressed={filter === t.id} onClick={() => setFilter(t.id)}>{t.label}</button>
+            ))}
+          </div>
         </div>
+        <ol className="rp-list">
+          {visible.length === 0 ? <li className="rp-empty">Nothing in this group.</li> : null}
+          {analysis.rows.map(row => {
+            const { q, verdict, number } = row;
+            const elsewhere = verdict !== 'correct';
+            const isOpen = !elsewhere && open.has(q.id);
+            const review = answerReviews[q.id];
+            const timeRow = timeRead?.state === 'ready' ? timeRead.rows[row.index] : null;
+            const rowMs = timeRow ? (timeRow.ms >= TIME_RULES.minTimedMs ? timeRow.ms : null) : row.ms;
+            return (
+              <li key={q.id} id={elsewhere ? `qa-${number}` : `q-${number}`} className="rp-q" hidden={filter !== 'all' && filter !== verdict} data-verdict={verdict} data-open={isOpen || undefined}>
+                {!elsewhere && arrived?.number === number ? <span key={arrived.n} className="rp-q__ring" aria-hidden="true" /> : null}
+                <h3 className="rp-q__h"><button type="button" className="rp-q__bar" aria-expanded={elsewhere ? undefined : isOpen} aria-controls={elsewhere ? undefined : `q-${number}-body`} onClick={() => (elsewhere ? jumpTo(number) : toggle(q.id))}>
+                  <span className="rp-q__badge" aria-hidden="true">{number}</span>
+                  <span className="rp-q__summary">
+                    <span className="rp-q__text">{displayValue(q.question ?? q.body, 'Question unavailable')}</span>
+                    <span className="rp-q__meta">
+                      <span data-verdict={verdict}>{review ? 'Recorded: ' : ''}{verdict === 'correct' ? 'Right +5' : verdict === 'wrong' ? 'Wrong −1' : 'Blank 0'}</span>
+                      <span>{row.chapter}</span>
+                      {Number.isFinite(rowMs) ? <span>{timeRow ? spentLabel(rowMs / 1000) : formatDuration(rowMs)}</span> : null}
+                      {row.changed ? <span>Answer changed</span> : null}
+                      {earlierMisses(attempt, q.id).length ? <span data-kind="twice">{RUN_COPY.missedTimes(earlierMisses(attempt, q.id).length + 1)}</span> : null}
+                      {repairLabel(repairOutcomes[q.id]) ? <span data-verdict={hasExplanation(repairOutcomes[q.id]) ? 'repaired' : 'held'}>{repairLabel(repairOutcomes[q.id])}</span> : null}
+                      {elsewhere ? <span>{verdict === 'wrong' ? 'Opens in your mistakes' : 'Opens in your blanks'}</span> : null}
+                    </span>
+                  </span>
+                  <span className="rp-q__chev" aria-hidden="true" />
+                </button></h3>
+                {elsewhere ? null : <div id={`q-${number}-body`} hidden={!isOpen}>{visited.has(q.id) ? renderBody(row) : null}</div>}
+              </li>
+            );
+          })}
+        </ol>
       </section>
 
       {ending ? (
