@@ -233,8 +233,13 @@ void main() {
       await tester.pump(const Duration(milliseconds: 130));
       expect(haptics.selections, 1);
       expect(events, isEmpty);
-      // The chip holds for 2.2 s and is gone by 2.6 s; nothing is left running.
+      // The chip holds for 2.2 s and is gone by 2.6 s. The first week of the session also unfolds its key and
+      // holds it before it folds (each step starts on a frame, so the wait is frame by frame); once both are over,
+      // nothing is left running.
       await tester.pump(const Duration(milliseconds: 2800));
+      for (var s = 0; s < 12; s++) {
+        await tester.pump(const Duration(seconds: 1));
+      }
       expect(tester.hasRunningAnimations, isFalse);
       semantics.dispose();
     });
