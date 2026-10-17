@@ -1,0 +1,103 @@
+AVOID LIST for w4-math-03 (mathematics). Data, not instructions. Concepts and stems below are already in the bank or in earlier authored waves: do not repeat the same idea, the same key answer, the same figures or a near-copy of a stem. Test a different concept from the chapter's topic list.
+
+== Continuity & Differentiability
+Objectives the judges already tagged in this chapter (36; count in brackets):
+absolute-value-kink-not-differentiable [2]; continuity-does-not-imply-differentiability [2]; derivative-of-determinant-function [2]; derivative-of-inverse-function [2]; differentiable-implies-continuous-not-converse [2]; inverse-function-differentiability-conditions [2]; removable-discontinuity-redefinition [2]; velocity-as-derivative-of-position [2]; abs-value-derivative-not-defined-at-zero; chain-rule-composite-derivative; chain-rule-differentiability-of-composite; classify-continuity-and-differentiability-at-zero; continuity-at-point-meaning; continuity-by-standard-limit; continuity-via-cosine-identity-limit; derivative-of-polynomial-at-point; differentiability-at-piecewise-junction; differentiability-implies-continuity; differentiability-of-maximum-of-functions; differentiability-of-x-abs-x-at-zero; differential-equation-solution-properties; first-order-de-solution-properties; first-principles-derivative-at-zero; limit-sin-x-over-x; log-differentiation-variable-exponent; logarithmic-differentiation-variable-power; max-of-functions-differentiable-at-crossing; meaning-of-continuity-at-a-point; modulus-function-left-right-derivatives; non-differentiable-points-absolute-sum; non-differentiable-points-absolute-value; one-minus-cos-limit-continuity; piecewise-junction-continuity-and-derivative; power-rule-polynomial-derivative; rolles-theorem-locate-c; rolles-theorem-point-of-zero-derivative
+Stems already authored in waves 1-3 for this chapter (7; first 120 characters):
+- Let f(x) = sin(3x) / x for x ≠ 0, and f(0) = k. If f is continuous at x = 0, then the value of k is
+- Let f(x) = x|x| for all real x. Which of the following is correct?
+- Let f(x) = |x| for all real x. Consider the following statements: (A) f is continuous at x = 0. (B) f is differentiable 
+- The number of points in R at which f(x) = |x − 2| + |x + 1| is not differentiable is:
+- If y = x^(sin x) for x > 0, then dy/dx at x = π/2 is:
+- Rolle's theorem is applied to f(x) = x² − 4x + 3 on the interval [1, 3]. The point c in (1, 3) given by the theorem is:
+- Let f(x) = (1 − cos 4x) / x² for x ≠ 0, and f(0) = k. If f is continuous at x = 0, then k equals:
+
+== Application of Derivatives
+Objectives the judges already tagged in this chapter (37; count in brackets):
+leibniz-rule-differentiation-under-integral [4]; absolute-maximum-on-closed-interval [3]; derivative-of-determinant-of-functions [3]; derivative-of-polynomial-at-point [2]; horizontal-tangent-where-derivative-zero [2]; monotonicity-of-standard-functions [2]; related-rates-sphere-surface-area [2]; absolute-maximum-closed-interval; classify-critical-points-max-min; composition-monotonicity-sign-rule; composition-monotonicity-via-chain-rule; critical-points-of-cubic; critical-points-where-derivative-vanishes; decreasing-interval-from-derivative-sign; derivative-of-2x2-determinant; derivative-of-determinant-jacobi-formula; expectation-of-score-zero; expected-score-is-zero; fundamental-theorem-derivative-of-integral; increasing-integral-function-when-integrand-positive; increasing-intervals-by-derivative-sign; increasing-intervals-from-derivative-sign; instantaneous-rate-of-change-from-derivative; jacobi-formula-derivative-of-determinant; local-maxima-and-minima-second-derivative; local-maximum-value-cubic; local-maximum-value-second-derivative; minimum-of-sum-and-reciprocal; minimum-value-by-first-derivative-test; rate-of-change-from-derivative; rate-of-change-of-circle-area; related-rates-area-of-circle; score-function-from-log-likelihood; score-function-of-power-density; strictly-decreasing-interval-sign-analysis; tangent-equation-at-given-abscissa; tangent-line-equation-at-point
+Stems already authored in waves 1-3 for this chapter (11; first 120 characters):
+- Consider the following statements: (A) f(x) = x³ is strictly increasing on R. (B) f(x) = 1/x is increasing on its domain
+- The maximum value of f(x) = x³ − 3x on the interval [−2, 2] is
+- The local maximum value of the function f(x) = 2x³ − 9x² + 12x + 1 is
+- The function f(x) = x³ − 6x² + 9x + 1 is strictly decreasing in the interval
+- The radius of a sphere increases at the rate of 0.5 cm/s. The rate of increase of its surface area, in cm²/s, when the r
+- The equation of the tangent to the curve y = x² − 4x + 3 at the point where x = 1 is
+- The maximum value of f(x) = x³ − 3x + 1 on the interval [−2, 0] is
+- The minimum value of x + 16/x for x > 0 is
+- The function f(x) = x³ − 6x² + 9x + 1 is strictly increasing in the interval(s):
+- Let f(x) = x³ − 3x² − 9x + 5. Match List-I with List-II. List-I (A) x-coordinate of the point of local maximum of f (B) 
+- The radius of a circle is increasing at the rate of 0.5 cm/s. The rate of increase of its area when the radius is 10 cm 
+
+== Integrals
+Objectives the judges already tagged in this chapter (55; count in brackets):
+integral-of-rate-gives-total [4]; rate-integral-equals-total-quantity [3]; average-value-of-function [2]; definite-integral-by-substitution [2]; even-function-symmetric-limits [2]; integration-by-parts-definite [2]; modulus-integral-split-at-sign-change [2]; odd-function-symmetric-integral-zero [2]; odd-function-symmetric-limits [2]; riemann-integrability-bounded-discontinuities [2]; riemann-integrability-discontinuities [2]; standard-antiderivative-matching [2]; arcsin-standard-integral; arctan-form-completing-square; arctan-form-definite-integral; arctan-form-integral-completing-square; chain-rule-with-integral-upper-limit; complementary-angle-symmetry; definite-integral-by-substitution-match; definite-integral-power-function; definite-integral-power-rule; definite-integral-standard-values-match; definite-integral-values-power-exponential-match; evaluate-basic-definite-integrals; evaluate-definite-integrals-with-substitution; evaluate-standard-definite-integrals; exp-times-f-plus-f-prime; exponential-f-plus-f-prime-pattern; fundamental-theorem-chain-rule-upper-limit; fundamental-theorem-derivative-of-integral; fundamental-theorem-first-part; fundamental-theorem-standard-integrals-match; half-angle-identity-definite; half-angle-identity-integrand; integration-by-parts-definite-limits; integration-by-parts-exponential-product; integration-by-parts-polynomial-trig; integration-by-parts-x-sin-x; inverse-tan-standard-integral; jacobian-change-of-variables; king-property-a-plus-b-minus-x; left-riemann-sum-overestimate; left-riemann-sum-overestimate-decreasing; logarithmic-integral-by-partial-fractions; matching-standard-integrals; net-change-from-signed-rate; partial-fractions-difference-of-squares; power-reduction-cos-squared; properties-of-definite-integrals-matching; reduce-one-plus-cos-to-sec-squared; separable-ode-integration; separation-of-variables-integration; standard-definite-integral-values; standard-integral-formula-matching; substitution-x-equals-sin-theta
+Stems already authored in waves 1-3 for this chapter (17; first 120 characters):
+- The value of the definite integral ∫₀¹ x e^(x²) dx is
+- Match List-I with List-II. List-I (A) ∫ dx / (x² + 4) (B) ∫ e^x (sin x + cos x) dx (C) ∫ dx / √(1 − x²) (D) ∫ sec² x dx 
+- The value of ∫₀¹ x eˣ dx is
+- The value of ∫₀² dx/(x² + 4) is
+- The value of ∫₀^(π/2) sin x / (sin x + cos x) dx is
+- ∫ eˣ (1/x − 1/x²) dx is equal to (where C is the constant of integration)
+- The value of ∫₀^(π/2) cos² x dx is
+- For |x| > 1, ∫ dx/(x² − 1) is equal to (where C is the constant of integration)
+- The value of ∫₋₁¹ (x² + |x|) dx is
+- Match List-I with List-II. List-I (A) ∫₀¹ x dx (B) ∫₀¹ x² dx (C) ∫₀¹ eˣ dx (D) ∫₀^(π/2) sin x dx List-II (I) e − 1 (II) 
+- Match List-I with List-II. List-I (A) ∫₀^π sin x dx (B) ∫₀¹ dx/(1 + x²) (C) ∫₀² (x + 1) dx (D) ∫₀¹ x e^(x²) dx List-II (
+- The value of ∫₀^(π/2) dx/(1 + cos x) is
+- The value of ∫ from 0 to π/2 of x sin x dx is:
+- The value of the definite integral of 1/(x² + 4x + 13) dx from x = −2 to x = 1 is:
+- Match List-I with List-II. List-I (A) ∫ from 0 to 1 of x dx (B) ∫ from 0 to π/2 of cos x dx (C) ∫ from 1 to 2 of (1/x) d
+- The value of the definite integral ∫₀² |x − 1| dx is
+- Match List-I with List-II. List-I (A) ∫₀¹ dx/(1 + x²) (B) ∫₀^(π/2) cos x dx (C) ∫₀² 2x dx (D) ∫₀^π sin x dx List-II (I) 
+
+== Application of Integrals
+Objectives the judges already tagged in this chapter (22; count in brackets):
+area-between-parabola-and-line [3]; area-under-parametric-curve [2]; rms-equals-mean-iff-constant [2]; arc-length-parametric-speed; arc-length-vector-function; area-between-curves-by-vertical-strips; area-between-curves-intersection-limits; area-between-curves-upper-minus-lower; area-of-simple-regions-as-integrals; area-parabola-and-vertical-line; areas-of-simple-regions-matching; centroid-from-moment-integral; centroid-x-coordinate-from-moment; definite-integral-properties-matching; derivative-of-integral-variable-limit; fundamental-theorem-part-one-derivative; integral-properties-matching; symmetric-region-area-about-axis; volume-disk-method-about-x-axis; volume-of-revolution-disk-method; work-done-variable-force; work-done-variable-force-integral
+Stems already authored in waves 1-3 for this chapter (3; first 120 characters):
+- The area of the region bounded by the curve y = x² and the line y = 4, in square units, is
+- The area, in square units, of the region enclosed between the parabola y = x² and the line y = x is:
+- The area of the region enclosed by the parabola y² = 4x and the line x = 3, in square units, is
+
+== Differential Equations
+Objectives the judges already tagged in this chapter (34; count in brackets):
+degree-requires-polynomial-in-derivatives [3]; degree-undefined-for-non-polynomial-form [3]; arbitrary-constants-equal-order [2]; existence-uniqueness-lipschitz-condition [2]; exponential-growth-decay-constant [2]; exponential-rate-constant-from-two-values [2]; linear-first-order-integrating-factor [2]; order-and-degree-non-polynomial [2]; cooling-exponential-approach-to-ambient; family-to-eliminate-constants; first-order-solution-method-matching; formation-from-family-eliminate-constants; general-vs-particular-solution; general-vs-particular-solutions; integrating-factor-linear-de; integrating-factor-linear-first-order; linear-de-integrating-factor; linear-first-order-model-identification; linear-ivp-integrating-factor; linear-ode-uniqueness-needs-initial-condition; newton-cooling-exponential-decay; ode-type-to-solution-method; order-and-degree; order-and-degree-definition; order-and-degree-definitions; order-and-degree-identification; order-and-degree-matching; order-and-degree-of-differential-equation; proportional-growth-is-linear-ode; uniqueness-needs-initial-condition; variable-separable-initial-value; variable-separable-solution; variables-separable-initial-condition; variables-separable-solution
+Stems already authored in waves 1-3 for this chapter (8; first 120 characters):
+- Match List-I with List-II. List-I (A) d²y/dx² + (dy/dx)³ = 0 (B) (d³y/dx³)² + (dy/dx)⁴ = 0 (C) (d²y/dx²)³ − dy/dx = 0 (D
+- The solution of the differential equation dy/dx = 2xy, given that y = 3 when x = 0, is
+- The order and degree of the differential equation (d²y/dx²)³ + (dy/dx)² + sin(dy/dx) + 1 = 0 are respectively:
+- The differential equation representing the family of curves y = A e^(2x) + B e^(−2x), where A and B are arbitrary consta
+- Consider the differential equation dy/dx + (2/x) y = x², where x > 0. Which of the following statements are correct? (A)
+- The sum of the order and the degree of the differential equation (d²y/dx²)³ + (dy/dx)⁴ + y = 0 is
+- Let y = y(x) satisfy dy/dx = 2xy with y(0) = 1. The value of y(1) is
+- The integrating factor of the linear differential equation dy/dx + y tan x = sec x is
+
+== Vector Algebra
+Objectives the judges already tagged in this chapter (17; count in brackets):
+scalar-triple-product-volume [3]; definition-of-vector-quantity [2]; dot-and-cross-product-properties [2]; vector-projection-formula [2]; angle-between-vectors-cosine; angle-between-vectors-via-dot-product; area-of-triangle-cross-product; area-of-triangle-using-cross-product; dot-product-geometric-form; dot-product-geometric-formula; scalar-projection-of-vector; scalar-projection-using-dot-product; tetrahedron-volume-by-determinant; tetrahedron-volume-one-sixth-factor; unit-vector-division-by-magnitude; unit-vector-in-direction-of-vector; volume-of-parallelepiped-by-determinant
+Stems already authored in waves 1-3 for this chapter (3; first 120 characters):
+- Let a = i + 2j + 2k and b = 3i − j + 2k. The scalar projection of b on a is
+- The area of the triangle whose two adjacent sides are the vectors a = i − j + 2k and b = 2i + 3j + k is
+- Let a and b be non-zero vectors. Consider the following statements. (A) a · b = b · a (B) a × b = b × a (C) |a × b|² + (
+
+== Three Dimensional Geometry
+Objectives the judges already tagged in this chapter (27; count in brackets):
+distance-of-point-from-plane [3]; angle-between-two-planes [2]; constant-speed-acceleration-orthogonal [2]; direction-cosines-from-two-points [2]; distance-point-to-plane [2]; vector-equation-of-plane-through-point [2]; acute-angle-between-lines; angle-between-two-lines; det-as-volume-scaling-factor; determinant-as-volume-scaling-factor; direction-cosine-angle-with-axis; distance-point-from-plane; double-integral-volume-under-plane; line-normal-to-plane-condition; line-perpendicular-to-plane-condition; plane-through-three-points; plane-through-three-points-normal; proper-rotation-eigenvalue-one; rotation-about-coordinate-axis; rotation-about-z-axis-image; rotation-fixes-axis-eigenvalue-one; shortest-distance-between-skew-lines; shortest-distance-skew-lines; speed-increase-from-velocity-acceleration; speed-increase-via-v-dot-a; velocity-angle-with-axis; volume-under-surface-double-integral
+Stems already authored in waves 1-3 for this chapter (3; first 120 characters):
+- The direction cosines of the line passing through the points (1, 2, 3) and (4, 6, 15) are
+- The acute angle θ between the lines with direction ratios 1, 2, 2 and 3, −4, 0 satisfies cos θ =
+- The distance of the point (1, 2, 3) from the plane 2x + 3y + 6z = 11 is
+
+== Inverse Trigonometric Functions
+Objectives the judges already tagged in this chapter (20; count in brackets):
+sin-cos-inverse-identity [3]; sin-inverse-plus-cos-inverse-identity [3]; arcsin-of-sine-identity-range; arcsin-sin-principal-range; arctan-addition-equation; check-principal-range-before-inverse; complementary-sine-cosine-identity; domain-check-before-inverse-sine; inverse-tan-sum-extraneous-root; inverse-trig-complementary-identity; inverse-trig-identities-matching; inverse-trig-negative-argument-identities; principal-range-of-inverse-trig; principal-ranges-of-inverse-trig; principal-value-of-composition; principal-value-of-inverse-sine; principal-value-of-sin-inverse; standard-angle-sin-inverse-value; sum-of-tan-inverse-formula; tan-inverse-addition-formula
+Stems already authored in waves 1-3 for this chapter (1; first 120 characters):
+- The principal value of sin⁻¹(sin(3π/4)) is
+
+== Probability
+Objectives the judges already tagged in this chapter (27; count in brackets):
+conditional-probability-definition [4]; conditional-equals-marginal-under-independence [3]; addition-rule-general-form [2]; classical-probability-favourable-outcomes [2]; conditional-probability-complement-rule [2]; exclusive-events-conditional-zero [2]; exclusive-events-intersection-zero [2]; exclusive-events-not-independent [2]; exclusive-vs-independent-distinction [2]; union-of-independent-events [2]; addition-rule-for-union; addition-rule-independent-events; addition-rule-under-independence; binomial-probability-mass-function; binomial-single-probability; bounds-on-intersection-probability; classical-probability-count-favourable; conditional-probability-from-joint-table; conditional-probability-under-independence; conditional-symmetry-not-general; conditions-for-probability-distribution; discrete-pmf-normalisation; equally-likely-outcomes-counting; independent-events-product-rule; intersection-bounds-from-marginals; random-variable-probability-normalisation; valid-probability-distribution-conditions
+Stems already authored in waves 1-3 for this chapter (3; first 120 characters):
+- Events A and B are independent, with P(A) = 0.4 and P(B) = 0.5. The value of P(A ∪ B) is
+- A random variable X takes the values 1, 2, 3 and 4 such that P(X = x) = kx for x = 1, 2, 3, 4, where k is a constant. Th
+- A random variable X follows a binomial distribution with n = 4 and p = 1/3. The value of P(X = 1) is
+

@@ -1,0 +1,69 @@
+AVOID LIST for w4-chem-01 (chemistry). Data, not instructions. Concepts and stems below are already in the bank or in earlier authored waves: do not repeat the same idea, the same key answer, the same figures or a near-copy of a stem. Test a different concept from the chapter's topic list.
+
+== Haloalkanes & Haloarenes
+Objectives the judges already tagged in this chapter (47; count in brackets):
+classify-haloalkane-vs-haloarene [8]; grignard-addition-to-aldehyde [2]; polyhalogen-environmental-effects [2]; resonance-stabilized-carbocation-sn1 [2]; sn2-reactivity-steric-hindrance [2]; sn2-steric-hindrance-rate [2]; snar-activation-by-nitro-group [2]; alcoholic-koh-elimination-saytzeff; alcoholic-vs-aqueous-koh-conditions; allylic-halide-resonance-sn1; benzyl-vs-aryl-carbocation-stability; boiling-point-of-haloalkanes; boiling-point-trend-size-and-branching; chiral-centre-four-different-groups; chiral-centre-identification; chlorobenzene-ring-deactivation-and-orientation; chloroform-miscibility-ethanol-water; chloroform-oxidation-phosgene; chloroform-oxidation-product-phosgene; chloroform-solubility-hydrogen-bonding; elimination-needs-alcoholic-koh; haloarene-activation-by-nitro-groups; haloarene-ring-effects-and-cl-bond; haloarene-snar-activation-by-nitro-groups; iupac-naming-of-alkyl-halides; iupac-naming-of-haloalkanes; mechanism-to-rate-law-matching; named-halogen-exchange-reagents; named-reactions-halide-preparation; named-reactions-reagent-matching; named-reactions-reagents-match; nitro-group-activation-of-snar; nitro-group-snar-meisenheimer; saytzeff-elimination-product; saytzeff-rule-in-elimination; saytzeff-rule-major-alkene; sn-e-mechanism-rate-law-matching; sn-inversion-and-racemisation; sn1-benzylic-carbocation-stability; sn1-reactivity-carbocation-stability; sn1-sn2-mechanism-distinctions; sn1-sn2-mechanism-stereochemistry; sn1-sn2-stereochemical-outcome; sn1-vs-sn2-mechanism-features; sn1-vs-sn2-mechanism-properties; sn2-rate-steric-hindrance; steric-hindrance-sn-rate-order
+Stems already authored in waves 1-3 for this chapter (15; first 120 characters):
+- The IUPAC name of (CH3)2CHCH2Br is:
+- Which of the following alkyl bromides is the most reactive towards an SN2 reaction?
+- Match List-I with List-II. List-I (Reaction): (A) Finkelstein reaction (B) Swarts reaction (C) Sandmeyer reaction (D) Wu
+- On heating with alcoholic KOH, 2-bromobutane gives which major product?
+- Which of the following statements about nucleophilic substitution in haloalkanes are correct? (A) SN1 reactions proceed 
+- Arrange the following in increasing order of boiling point: (A) 1-Chlorobutane (B) 1-Bromobutane (C) 1-Iodobutane (D) 2-
+- Chloroform is stored in dark coloured, completely filled bottles because, in the presence of light and air, it is slowly
+- Which of the following halides undergoes an SN1 reaction most readily?
+- Which of the following statements about chlorobenzene are correct? (A) It undergoes electrophilic substitution mainly at
+- Arrange the following in increasing order of reactivity towards nucleophilic substitution with aqueous NaOH: (A) 2,4-Din
+- Which of the following compounds is optically active?
+- Arrange the following alkyl bromides in decreasing order of their rate of SN2 reaction with iodide ion in acetone: (A) 2
+- Consider the following statements about nucleophilic substitution of haloalkanes. I. An SN2 reaction of a chiral haloalk
+- Match List-I with List-II. List-I: (A) Finkelstein reaction (B) Swarts reaction (C) Wurtz reaction (D) Dow process. List
+- Consider the following statements about polyhalogen compounds. I. DDT is persistent in the environment and accumulates i
+
+== Alcohols, Phenols & Ethers
+Objectives the judges already tagged in this chapter (51; count in brackets):
+ethanol-dehydration-temperature-dependence [3]; hydroboration-oxidation-anti-markovnikov [3]; hydroboration-oxidation-regiochemistry [2]; iupac-naming-of-alcohols [2]; lucas-test-alcohol-classes [2]; nitrophenol-acidity-order [2]; phenol-acidity-vs-alcohols [2]; phenol-acidity-vs-carbonic-acid [2]; phenol-bromination-without-catalyst [2]; phenol-bromine-water-tribromination [2]; williamson-synthesis-halide-choice [2]; acidity-order-with-electron-withdrawing-group; acidity-phenol-vs-alcohols-and-water; aryl-alkyl-ether-cleavage-by-hi; boiling-point-hydrogen-bonding; boiling-point-hydrogen-bonding-vs-polarity; carbocation-stability-dehydration-ease; dehydration-temperature-ethene-vs-ether; ether-cleavage-by-hi-sn1; ether-cleavage-by-hi-tertiary; grignard-formaldehyde-primary-alcohol; grignard-with-methanal-primary-alcohol; hi-cleavage-of-aryl-alkyl-ether; hydroboration-oxidation-regioselectivity; hydrogen-bonding-boiling-point; hydrogen-bonding-boiling-point-comparison; lucas-test-alcohol-classification; lucas-test-classification; lucas-test-reactivity-order; lucas-test-tertiary-alcohol; named-reactions-of-phenol; named-reactions-of-phenol-products; oxidation-products-primary-secondary-alcohols; oxidising-agent-determines-product; pcc-mild-oxidation-primary-alcohol; pcc-oxidation-needs-carbinol-hydrogen; pcc-oxidation-primary-alcohol; pcc-oxidation-selectivity; phenol-acidity-weaker-than-carbonic-acid; phenol-friedel-crafts-failure; phenol-friedel-crafts-failure-lewis-acid; phenol-nahco3-test-negative; phenoxide-more-reactive-in-nitration; phenoxide-nitration-polysubstitution; temperature-controls-ether-vs-alkene; temperature-dependence-alcohol-dehydration; tertiary-carbocation-dehydration-rate; williamson-ether-sn2-limitation; williamson-reagent-choice-sn2; williamson-synthesis-reagent-choice; williamson-tertiary-halide-failure
+Stems already authored in waves 1-3 for this chapter (24; first 120 characters):
+- Which of the following alcohols gives turbidity immediately on treatment with Lucas reagent (anhydrous ZnCl₂ and concent
+- Match List-I with List-II. List-I (A) Reimer–Tiemann reaction of phenol (B) Kolbe's reaction of sodium phenoxide (C) Dis
+- Propene undergoes hydroboration with diborane (B₂H₆) followed by oxidation with alkaline hydrogen peroxide. The main pro
+- The best choice of reactants for the Williamson synthesis of methyl tert-butyl ether, CH₃–O–C(CH₃)₃, is:
+- Arrange the following in increasing order of boiling point: (A) Ethanol (B) Ethane (C) Methoxymethane (D) Propan-1-ol Ch
+- Anisole (methoxybenzene) is heated with hydroiodic acid. The products formed are:
+- Consider the following statements about phenol. (A) Phenol reacts with bromine water to give a white precipitate of 2,4,
+- When ethanol is heated with excess concentrated sulphuric acid at 443 K, the main product is:
+- Which reagent oxidises a primary alcohol to an aldehyde without oxidising it further to a carboxylic acid?
+- The IUPAC name of (CH3)2CH-CH(OH)-CH3 is:
+- Which alcohol gives an immediate turbidity when shaken with Lucas reagent (concentrated HCl with anhydrous ZnCl2) at roo
+- Propene is treated with diborane (B2H6) in tetrahydrofuran, and the intermediate is then oxidised with alkaline hydrogen
+- Which of the following is the most acidic compound?
+- Ethylmagnesium bromide reacts with methanal (formaldehyde), and the product is hydrolysed with dilute acid. The alcohol 
+- Arrange the following in order of increasing acidity: (A) p-Nitrophenol (B) Ethanol (C) Phenol (D) Water.
+- Consider the following statements about the dehydration of ethanol with concentrated sulphuric acid. I. At about 443 K, 
+- Phenol is treated with bromine water at room temperature without any catalyst. The major organic product is:
+- 2-Methoxy-2-methylpropane, (CH3)3C-O-CH3, is treated with one equivalent of cold concentrated HI. Which pair of products
+- Consider the following statements about alcohols, phenols and ethers. I. Ethanol boils at a higher temperature than meth
+- Assertion (A): 2-Methylpropan-2-ol is dehydrated more readily than ethanol under the same acidic conditions. Reason (R):
+- Match List-I with List-II. List-I: (A) Propan-1-ol with pyridinium chlorochromate (PCC) (B) Propan-1-ol with acidified p
+- 1-Methylcyclohexene is treated with diborane in tetrahydrofuran, and the intermediate is oxidised with alkaline hydrogen
+- Methyl tert-butyl ether, (CH3)3C-O-CH3, is to be made by the Williamson synthesis. Which pair of reagents gives the best
+- Methylmagnesium iodide, prepared from CH3I and magnesium in dry ether, is treated with ethanal. The product after dilute
+
+== Aldehydes, Ketones & Carboxylic Acids
+Objectives the judges already tagged in this chapter (53; count in brackets):
+aldehyde-ketone-reactivity-factors [4]; nucleophilic-addition-reactivity-aldehyde-vs-ketone [4]; cannizzaro-reaction-no-alpha-hydrogen [3]; acidity-of-carboxylic-acids-inductive-effect [2]; alpha-hydrogen-criterion-aldol-cannizzaro [2]; cannizzaro-no-alpha-hydrogen [2]; hell-volhard-zelinsky-alpha-halogenation [2]; iodoform-test-methyl-ketones [2]; aldehyde-vs-ketone-nucleophilic-addition-rate; aldehyde-vs-ketone-oxidation-ease; aldehyde-vs-ketone-reactivity; aldehydic-hydrogen-enables-oxidation; aldol-condensation-alpha-hydrogen; alpha-halogenation-reagents; bisulfite-adduct-purification; bisulfite-adduct-purification-of-aldehyde; boiling-point-order-h-bonding-classes; boiling-point-order-hydrogen-bonding; cannizzaro-reaction-scope-and-conditions; carbonyl-reactivity-nucleophilic-addition; carbonyl-reactivity-towards-nucleophiles; carbonyl-to-methylene-reduction; carboxylate-resonance-explains-acidity; carboxylate-salt-acid-separation; carboxylic-acid-acidity-vs-phenol; carboxylic-acid-vs-phenol-acidity-resonance; clemmensen-reduction; clemmensen-reduction-identification; decarboxylation-alpha-keto-stabilization; dominant-factor-carbonyl-addition-rates; dual-acid-base-catalysis-hydration; electron-withdrawing-halogen-acidity-trend; fehling-test-cu2o-precipitate; fehlings-test-red-precipitate; grignard-addition-to-ketone; grignard-addition-to-ketone-tertiary-alcohol; hvz-alpha-halogenation-reagents; hydration-acid-base-catalysis; hydrogen-bonding-effect-on-carbonyl-electrophilicity; inductive-effect-halogen-acid-strength; inductive-effect-on-acid-strength; iodoform-test-methyl-carbonyl; keto-group-stabilizes-decarboxylation; named-preparations-of-aldehydes-reagents; named-reagents-for-aldehyde-preparation; protonation-activates-carbonyl-for-addition; sodium-salt-separation-of-carboxylic-acid; steric-vs-electronic-factors-carbonyl-reactivity; tollens-reagent-acidification; tollens-silver-mirror-chemistry; tollens-test-aldehyde-vs-ketone; tollens-test-aldehydes-vs-ketones; wolff-kishner-reduction-reagents
+Stems already authored in waves 1-3 for this chapter (13; first 120 characters):
+- The reduction of the carbonyl group of an aldehyde or a ketone to a CH₂ group using zinc amalgam and concentrated hydroc
+- Which of the following does NOT give a silver mirror with Tollens' reagent?
+- Consider the following statements about carboxylic acids. (A) Carboxylic acids are stronger acids than phenols. (B) Carb
+- Which of the following gives a positive iodoform test?
+- Which of the following aldehydes undergoes the Cannizzaro reaction on heating with concentrated NaOH?
+- Ethanoic acid is treated with chlorine in the presence of a small amount of red phosphorus, and the product is then hydr
+- Match List-I with List-II. List-I (Reaction) (A) Etard reaction (B) Gattermann–Koch reaction (C) Stephen reaction (D) Ro
+- Arrange the following acids in increasing order of acidic strength: (A) Cl₃CCOOH (B) CH₃COOH (C) ClCH₂COOH (D) Cl₂CHCOOH
+- Propanone reacts with methylmagnesium bromide, and the addition product is then hydrolysed with dilute acid. The product
+- The red-brown precipitate obtained when an aliphatic aldehyde is heated with Fehling's solution is:
+- Which reagents are used in the Hell-Volhard-Zelinsky reaction to convert a carboxylic acid into an alpha-bromo acid?
+- Which reagents are used for the Wolff-Kishner reduction of a carbonyl compound to a methylene group?
+- Which carbonyl compound is most reactive towards nucleophilic addition, for example with HCN?
+

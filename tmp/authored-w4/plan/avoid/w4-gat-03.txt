@@ -1,0 +1,99 @@
+AVOID LIST for w4-gat-03 (general_test). Data, not instructions. Concepts and stems below are already in the bank or in earlier authored waves: do not repeat the same idea, the same key answer, the same figures or a near-copy of a stem. Test a different concept from the chapter's topic list.
+
+== Logical & Analytical Reasoning
+Objectives the judges already tagged in this chapter (78; count in brackets):
+letter-shift-coding [4]; correlation-does-not-imply-causation [3]; logical-fallacy-identification [3]; circular-seating-opposite-person [2]; clock-hour-minute-angle [2]; contrapositive-of-conditional [2]; direction-sense-net-displacement [2]; inequality-chain-conclusions [2]; mutually-exclusive-events-definition [2]; number-series-doubling-differences [2]; position-from-left-and-right [2]; post-hoc-false-cause-fallacy [2]; rank-from-both-ends [2]; syllogism-conclusion-validity [2]; syllogism-particular-conclusion [2]; venn-all-no-some-matching [2]; analogy-unit-and-measured-quantity; blood-relation-paternal-uncle; blood-relation-uncle; calendar-day-of-week; calendar-day-of-week-shift; calendar-day-shift-by-days; calendar-odd-days-count; calendar-odd-days-forward; circular-seating-adjacency; circular-seating-neighbour-deduction; clock-hands-coincidence; clock-hands-coincidence-time; coefficient-of-variation-comparison; coefficient-of-variation-relative-spread; correlation-not-causation; deduction-induction-analogy-identification; dictionary-alphabetical-order; dictionary-word-ordering; direction-sense-after-right-turns; direction-sense-after-turns; implicit-assumption-identification; letter-pair-series-opposite-shift; letter-series-opposite-shift; linear-arrangement-with-adjacency-clues; linear-seating-adjacency; linear-seating-adjacency-clues; linear-seating-deduction; linear-seating-end-constraint; linear-seating-fixed-positions; linear-seating-position-deduction; linear-seating-positions-from-ends; logic-connectives-to-english; logical-connective-symbol-matching; logical-fallacy-matching; material-implication-truth-condition; mean-sensitivity-to-all-values; mean-vs-median-sensitivity; modal-strength-of-claims; number-pattern-type-matching; number-series-pattern-types; odd-days-calendar; only-conditions-one-way; only-those-conditional-conclusion; ranking-from-chained-comparisons; ranking-from-comparison-clues; search-volume-not-outbreak-proof; search-volume-not-prevalence; selection-bias-in-sampling; selection-bias-sampling-location; statement-implicit-assumption; statement-inference-height-ordering; statement-inference-on-ordering; strength-ordering-of-claims; syllogism-chaining-through-middle; syllogism-some-and-all-inference; syllogism-some-and-no-statements; syllogism-undetermined-conclusions; truth-condition-of-implication; two-set-count-neither; two-set-venn-neither-count; types-of-reasoning-matching; unit-quantity-analogy
+Stems already authored in waves 1-3 for this chapter (34; first 120 characters):
+- Statements: All roses are flowers. Some flowers are red. Conclusion I: Some roses are red. Conclusion II: All flowers ar
+- Five persons P, Q, R, S and T are sitting in a row facing north. Q is the second from the left end. R sits immediately t
+- P, Q, R and S are four persons. It is given that P is taller than Q, R is shorter than S, and Q is shorter than R. Consi
+- Find the next term in the series: AZ, BY, CX, DW, ____.
+- In a class of 60 students, 40 play cricket, 25 play football and 10 play both games. How many students play neither game
+- Ravi walks 8 m north, then turns right and walks 6 m, then turns right again and walks 8 m. In which direction, and how 
+- If MOUSE is coded as NPVTF, how is HORSE coded?
+- A is the brother of B. B is the father of E. D is the mother of E. How is A related to E?
+- In a row of 40 students, Priya is 17th from the left. Ankit is 6 places to the right of Priya, and Ravi is 4 places to t
+- Statements: No pen is a pencil. Some pencils are erasers. Conclusions: I. Some erasers are not pens. II. No eraser is a 
+- Find the next term in the series: 2, 3, 5, 9, 17, 33, ?
+- What is the smaller angle between the hour hand and the minute hand of a clock at 3:20?
+- If 1 January of a non-leap year falls on a Monday, on which day of the week does 1 December of that year fall?
+- Litre is to volume as metre is to ?
+- If TABLE is coded as UBCMF, how is CHAIR coded?
+- Arrange the following words in the order they would appear in a dictionary, from first to last: (A) Tiger (B) Tablet (C)
+- Match List-I with List-II. List-I: (A) 2, 4, 8, 16 (B) 1, 4, 9, 16 (C) 1, 1, 2, 3 (D) 5, 10, 15, 20. List-II: (I) Square
+- Match List-I with List-II. List-I: (A) All A are B (B) No A is B (C) Some A are B (D) All B are A. List-II: (I) A and B 
+- Five persons P, Q, R, S and T sit around a circular table, equidistant from each other and all facing the centre. P sits
+- Five persons P, Q, R, S and T sit in a single row facing north. Left and right are taken as seen by an observer facing t
+- In a class of 40 students, Neha ranks 12th from the top. Rohit ranks 5 places below Neha. What is Rohit's rank from the 
+- If 15 March 2026 falls on a Sunday, what day of the week will 15 April 2026 be?
+- Statement: The school has announced that all classes will be held online from tomorrow. Assumptions: I. Students have ac
+- Statement: Only those students who score above 90 per cent are selected for the advanced programme. Ravi was selected fo
+- Lata is taller than Mohan. Kiran is taller than Lata. Neha is shorter than Mohan but taller than Om. Arrange the followi
+- Statements: Some pens are inks. All inks are liquids. No liquid is a solid. Conclusions: I. Some pens are not solids. II
+- Five books (P), (Q), (R), (S) and (T) are placed on a shelf from left to right. S is at the left end. P is immediately t
+- Ravi starts from point O and walks 4 m north. He turns left and walks 3 m. He turns left again and walks 4 m. He then tu
+- After 4 o'clock, at what time do the hour hand and the minute hand of a clock first coincide?
+- Five people P, Q, R, S and T sit in a single row, all facing north. P sits at one end. Q sits immediately to the right o
+- Statements: P > Q ≥ R; S < R; T ≥ P. Conclusions: (I) T > S. (II) S > Q. (III) P > R. Which conclusions follow?
+- If 1 January 2025 was a Wednesday, what day of the week was 1 March 2025?
+- Statements: All engineers are readers. Some readers are writers. No writer is a painter. Conclusions: I. Some engineers 
+- Six people P, Q, R, S, T and U sit around a circular table, all facing the centre. P sits opposite S. Q sits immediately
+
+== Numerical Ability
+Objectives the judges already tagged in this chapter (68; count in brackets):
+compound-interest-annual-compounding [3]; area-conversion-to-hectares [2]; mean-update-using-sum-of-observations [2]; percentage-point-vs-percent-change [2]; percentage-points-vs-percent-change [2]; square-root-of-decimals [2]; successive-percent-change [2]; average-removed-element; average-removed-number; bodmas-with-negative-integers; bodmas-with-signed-integers; budget-ratio-division; chaining-ratios-via-common-term; combined-percentage-change; combined-work-rate-remaining-days; compound-interest-annual; decimal-place-value-operations; decimal-point-placement-in-operations; digit-sum-divisibility-test; discount-and-selling-price; dividing-quantity-in-given-ratio; divisibility-by-nine-digit-sum; fraction-decimal-percent-equivalence; fraction-decimal-percent-matching; fraction-ordering-descending; hcf-by-prime-factorisation; hcf-by-prime-factors; lcm-hcf-and-powers-statements; lcm-hcf-powers-statement-check; mean-change-on-adding-observation; mean-change-on-replacing-observation; odd-even-sum-assertion; odd-number-form-2k-plus-1; ordering-fractions-by-decimal-value; per-capita-emission-calculation; per-capita-value-by-division; percent-change-on-base-value; percent-increase-relative-to-base; percentage-change-base-value; percentage-change-of-combined-total; percentage-change-relative-to-original; percentage-discount-selling-price; percentage-of-a-total; percentage-of-total-count; percentage-remaining-after-diversion; percentage-residual-waste; profit-loss-markup-discount; ratio-chain-combination; ratio-of-ages-after-time; ratio-of-ages-after-years; ratio-scaling-from-known-term; ratio-share-from-sum; ratio-share-of-total-amount; ratio-unit-from-known-part; reciprocal-square-identity; reciprocal-square-sum-identity; sequential-percentage-decrease; speed-conversion-ms-to-kmh; successive-markup-and-discount-profit; successive-percentage-change; successive-percentage-changes; successive-percentage-decrease-multiplier; train-crossing-platform-speed; train-platform-crossing-distance; unit-conversion-mps-to-kmph; weighted-average-of-scores; weighted-mean-calculation; work-together-then-one-leaves
+Stems already authored in waves 1-3 for this chapter (20; first 120 characters):
+- A shopkeeper marks an article at Rs 800 and allows a discount of 15 per cent. The selling price of the article is:
+- The compound interest on Rs 5,000 for 2 years at 10 per cent per annum, compounded annually, is:
+- A train 150 m long passes a platform 250 m long in 20 seconds. The speed of the train in km/h is:
+- A shopkeeper marks an article 40% above its cost price and then allows a discount of 20% on the marked price. What is th
+- The ratio of the present ages of A and B is 3 : 5. After 6 years, the ratio of their ages becomes 9 : 13. What is B's pr
+- A can complete a piece of work in 12 days and B can complete the same work in 18 days. They work together for 4 days, af
+- What is the compound interest on ₹10,000 for 2 years at 10% per annum, compounded annually?
+- A train 150 metres long crosses a pole in 10 seconds. What is the speed of the train in kilometres per hour?
+- The average of five numbers is 24. When one of the numbers is removed, the average of the remaining four numbers is 22. 
+- Match List-I with List-II. List-I: (A) 2/5 (B) 3/4 (C) 5/4 (D) 1/8. List-II: (I) 0.125 (II) 0.4 (III) 125% (IV) 75%. Cho
+- Arrange the following in descending order of their values: (A) 3/7 (B) 5/11 (C) 2/3 (D) 4/9. Choose the correct sequence
+- Consider the statements: (A) The LCM of 4 and 6 is 12. (B) The HCF of 18 and 24 is 6. (C) 0.1 × 0.1 = 0.1. (D) 2^5 = 32.
+- Assertion (A): The sum of any two odd numbers is an even number. Reason (R): Every odd number can be written in the form
+- What is the HCF of 84 and 126?
+- What is the value of 0.6 x 0.05 + 0.3 ÷ 0.1?
+- What is the value of √1.44 + √0.0225?
+- If x + 1/x = 5, what is the value of x² + 1/x²?
+- Which of the following numbers is divisible by 9?
+- A rectangular field is 250 m long and 200 m wide. What is its area in hectares? (1 hectare = 10,000 m²)
+- Evaluate: (-2)³ x (-3)² - 4² ÷ (-8)
+
+== Quantitative Reasoning
+Objectives the judges already tagged in this chapter (53; count in brackets):
+successive-percentage-change [6]; combining-two-mixtures-ratio [2]; compound-minus-simple-interest [2]; compound-vs-linear-growth [2]; deductive-syllogism-validity [2]; nth-term-of-ap [2]; path-area-inside-rectangle [2]; per-capita-rate-comparison [2]; probability-without-replacement [2]; ratio-after-adding-constant [2]; simultaneous-equations-sum-difference [2]; average-speed-harmonic-mean; average-speed-harmonic-mean-equal-distances; boat-still-water-speed-average; classical-probability-favourable-outcomes; combinations-with-at-least-constraint; combinations-with-minimum-group-constraint; combined-average-of-groups; combined-work-partial-time; combined-work-rate-with-drain; compound-interest-annual-compounding; conditional-probability-multiplication; conditional-probability-two-stage; correlation-not-causation; correlation-vs-causation-critique; data-release-frequency-matching; doubling-time-rule-of-70; independent-events-exactly-one-success; matching-interest-speed-and-cost-price; matching-roots-ap-and-mean; minimum-overlap-of-two-sets; minimum-overlap-two-sets; pipes-and-cisterns-combined-rate; pipes-combined-work-rate; probability-exactly-one-success; probability-favourable-over-total; profit-percent-on-cost-price; profit-percentage-on-cost-price; quadratic-ap-mean-matching; relative-percent-change; relative-vs-percentage-point-change; release-frequency-of-official-statistics; rule-of-70-doubling-time; simple-interest-rate-and-time; simple-interest-time-for-multiple; speed-time-distance-calculation; still-water-speed-from-upstream-downstream; sum-cubes-of-roots-identity; sum-of-cubes-of-roots; time-from-speed-and-distance; trade-balance-exports-minus-imports; trade-balance-sign; weighted-average-of-groups
+Stems already authored in waves 1-3 for this chapter (18; first 120 characters):
+- A car covers a distance of 240 km in 4 hours at a uniform speed. At the same speed, how long will it take to cover 330 k
+- A trader buys an article for Rs 480 and sells it for Rs 540. What is the profit percentage?
+- Two numbers are in the ratio 5 : 7. When 6 is added to each of the two numbers, the ratio becomes 3 : 4. What is the lar
+- The price of an article is first increased by 20% and the new price is then decreased by 20%. What is the net effect on 
+- A certain sum of money becomes double of itself in 8 years at simple interest. In how many years will the same sum becom
+- Match List-I with List-II. List-I (A) Simple interest on Rs 2,000 at 5% per annum for 3 years (in Rs) (B) Compound inter
+- The sum of two numbers is 56 and their difference is 12. What is the larger number?
+- The 7th term of an arithmetic progression is 31 and its 12th term is 46. What is the first term?
+- If α and β are the roots of x² - 6x + 4 = 0, what is the value of α³ + β³?
+- Two cards are drawn one after another, without replacement, from a well-shuffled pack of 52 playing cards. What is the p
+- Match List-I with List-II. List-I (A) Sum of the roots of x² - 9x + 14 = 0 (B) Product of the roots of 2x² - 10x + 12 = 
+- The population of a town is 40,000. It increases by 15% in the first year and then decreases by 10% in the second year. 
+- What is the difference between the compound interest and the simple interest on Rs 8,000 for 2 years at 5% per annum, co
+- Pipe P can fill a tank alone in 20 hours and pipe Q can fill it alone in 30 hours. Both pipes are opened together, but p
+- The average marks of 12 students in section A are 40, and the average marks of 18 students in section B are 55. What is 
+- Vessel A contains 40 litres of a milk-and-water mixture in the ratio 3 : 1. Vessel B contains 60 litres of a mixture in 
+- A rectangular park is 120 m long and 80 m wide. A path of uniform width 5 m is built inside the park along its entire bo
+- A boat takes 5 hours to travel 30 km upstream and 3 hours to return 30 km downstream to the starting point. What is the 
+
+== Statistical Data Analysis
+Objectives the judges already tagged in this chapter (53; count in brackets):
+median-robust-to-outliers [4]; census-vs-sampling [2]; combined-mean-of-groups [2]; mean-after-removing-observation [2]; median-of-ungrouped-data [2]; population-weighted-average [2]; range-as-max-minus-min [2]; arithmetic-mean-from-total; arithmetic-mean-of-daily-values; categorical-vs-numerical-variables; chart-type-for-data-pattern; chart-type-for-data-type; chart-type-matching-use-case; chart-type-to-use-case; choosing-measure-of-central-tendency; compare-mean-and-median-of-data; definition-of-median; effect-of-constant-shift-on-sd; levels-of-measurement-examples; levels-of-measurement-matching; matching-quantitative-concept-definitions; mean-median-comparison-from-data; mean-median-relation-by-skewness; mean-median-rounding-definitions; mean-median-skewness-relation; measure-of-central-tendency-suitability; measures-matched-to-data-type; median-definition; median-from-frequency-distribution; median-mode-range-statements; median-of-frequency-table; median-of-ungrouped-data-odd-count; median-preferred-for-skewed-data; median-robust-to-skew; median-ungrouped-odd-count; median-vs-mean-for-skewed-data; median-vs-mean-robustness; probability-from-frequency-table; qualitative-vs-quantitative-variables; range-vs-iqr-outlier-sensitivity; range-vs-iqr-sensitivity-to-outliers; relative-frequency-probability; same-mean-different-spread; sd-invariant-under-constant-shift; sd-unchanged-under-shift; spread-not-determined-by-mean; standard-deviation-invariant-under-shift; statements-mean-median-mode-range; statistical-measure-definitions; statistical-measures-definitions; survey-sampling-bias; typical-use-of-mean-median-mode; unrepresentative-sample-bias
+Stems already authored in waves 1-3 for this chapter (5; first 120 characters):
+- The median of the observations 14, 7, 9, 21, 11, 5 and 18 is:
+- The mean weight of 20 students in a class is 46 kg and the mean weight of 30 students in another class is 52 kg. What is
+- The marks obtained by 30 students in a test are given below. Marks: 10, 20, 30, 40, 50 Number of students: 4, 7, 9, 6, 4
+- The mean of 8 observations is 15. When one observation is removed, the mean of the remaining 7 observations is 14. What 
+- Consider the data set 4, 7, 7, 9, 13. (A) The mean is 8. (B) The median is 9. (C) The mode is 7. (D) The range is 9. Cho
+

@@ -1,0 +1,26 @@
+JOB w4-chem-01: Chemistry A: Haloalkanes, Alcohols-Phenols-Ethers, Aldehydes-Ketones-Acids
+Subject: chemistry | Questions: exactly 20 | source value for every question: claude-authored-2026-10-17-w4
+Blueprint: C:\Users\atish\Desktop\mockmob copy\wt-wave4\data\nta_blueprints\chemistry.json
+Syllabus PDF: C:\Users\atish\Desktop\mockmob copy\wt-wave4\data\CUET 2026\chemistry.pdf
+Avoid list (read it): C:\Users\atish\Desktop\mockmob copy\wt-wave4\tmp\authored-w4\plan\avoid\w4-chem-01.txt
+
+1. CHAPTERS (the exact counts; use the chapter and unit strings exactly as written, they are the blueprint spellings; questions of one chapter stay together in the file in this order):
+   1. chapter "Haloalkanes & Haloarenes" | unit "Haloalkanes and Haloarenes" | 5 questions
+      Topics to draw from (one concept per question, spread across the list, no two questions on the same sub-topic): classification and IUPAC nomenclature, nature of the C-X bond, preparation of haloalkanes and haloarenes, boiling point, density and solubility trends, nucleophilic substitution SN1 and SN2 (reactivity, mechanism, solvent, rate), elimination, reactions with metals, aryl halides, stereochemistry (chirality, retention, inversion, racemisation), polyhalogen compounds (chloroform, iodoform, carbon tetrachloride, freons, DDT).
+   2. chapter "Alcohols, Phenols & Ethers" | unit "Alcohols, Phenols and Ethers" | 5 questions
+      Topics to draw from (one concept per question, spread across the list, no two questions on the same sub-topic): classification and nomenclature, preparation (hydration, hydroboration-oxidation, reduction of carbonyls, Grignard reagent, cumene process, Williamson synthesis), boiling point and solubility (hydrogen bonding), reactions involving cleavage of the C-O and O-H bonds, dehydration, oxidation of primary, secondary and tertiary alcohols, Lucas test, acidity of alcohols and phenols, electrophilic substitution in phenol (halogenation, nitration, Kolbe, Reimer-Tiemann), ether cleavage with HI, methanol and ethanol (denatured alcohol, methanol poisoning).
+   3. chapter "Aldehydes, Ketones & Carboxylic Acids" | unit "Aldehydes, Ketones and Carboxylic Acids" | 10 questions
+      Topics to draw from (one concept per question, spread across the list, no two questions on the same sub-topic): nomenclature, structure of the carbonyl and carboxyl groups, preparation of aldehydes and ketones (Rosenmund, Etard, Stephen, Friedel-Crafts acylation, oxidation of alcohols), nucleophilic addition (HCN, NaHSO3, alcohols, Grignard), reactivity order, aldol and Cannizzaro, Clemmensen and Wolff-Kishner reductions, Tollens, Fehling and iodoform tests, acidity of carboxylic acids and substituent effects, Hell-Volhard-Zelinsky reaction, esterification, decarboxylation, uses.
+
+2. TYPES (exact counts over the 20, set items included):
+   single_mcq 15, match_the_following 1, sequence_ordering 2, statement_based 2, assertion_reason 0
+   - sequence_ordering: one in Haloalkanes & Haloarenes (order of SN1 or SN2 reactivity, boiling points or reactivity of aryl against alkyl halides) and one in Aldehydes, Ketones & Carboxylic Acids (order of acidity or of reactivity towards nucleophilic addition). Label the four items (A) to (D) in the stem and say "increasing" or "decreasing" once; options are four orderings of (A) to (D).
+   - match_the_following: one in Alcohols, Phenols & Ethers (reaction or reagent with its product or test result).
+   - statement_based: one in Haloalkanes & Haloarenes (SN1, SN2 or stereochemistry statements) and one in Aldehydes, Ketones & Carboxylic Acids.
+
+3. DIFFICULTY (exact): easy 6, medium 10, hard 4. Spread each level over the chapters; do not put all the hard ones in one chapter. Use the difficulty meanings in the template; a hard item is two or three linked steps or a fine distinction at CUET level, never an Olympiad item.
+4. KEY LETTERS (exact): A 5, B 5, C 5, D 5. Decide the key letters first (a shuffled list, no pattern, no three equal in a row, no repeating cycle such as A B C D A B C D) and then build each question around its assigned letter.
+5. NUMERICALS: no minimum. This job is recall and concept based; a numerical is allowed only where the topic list calls for one.
+6. SETS: none. passage_text is null and set_id is null on every question.
+
+7. FILE: C:\Users\atish\Desktop\mockmob copy\wt-wave4\tmp\authored-w4\drafts\chemistry\w4-chem-01.json

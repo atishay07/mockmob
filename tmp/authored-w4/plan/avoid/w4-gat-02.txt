@@ -1,0 +1,48 @@
+AVOID LIST for w4-gat-02 (general_test). Data, not instructions. Concepts and stems below are already in the bank or in earlier authored waves: do not repeat the same idea, the same key answer, the same figures or a near-copy of a stem. Test a different concept from the chapter's topic list.
+
+== Current Affairs
+Objectives the judges already tagged in this chapter (39; count in brackets):
+correlation-is-not-causation [2]; index-highs-narrow-breadth [2]; inflation-rate-vs-price-level [2]; international-body-flagship-publications [2]; margin-of-error-scope [2]; population-density-comparison [2]; rule-of-70-doubling-time [2]; weighted-average-of-group-percentages [2]; weighted-average-of-group-rates [2]; adaptation-funding-reduces-vulnerability; climate-adaptation-funding-purpose; complement-of-fraction-of-area; contact-tracing-reduces-reproduction; control-measures-reduce-transmission; core-inflation-excludes-food-energy; core-inflation-exclusions; cpi-index-to-inflation-rate; economic-indicator-matching; economic-indicators-what-they-measure; fraction-of-total-remaining; green-bonds-earmarked-finance; green-bonds-purpose; green-hydrogen-definition; green-hydrogen-production-method; per-capita-for-fair-comparison; per-capita-size-comparison; percent-change-on-base-value; policy-rate-as-monetary-tool; policy-rate-tightening-tool; poll-miss-explanation; poll-result-shift-explanation; rank-change-arithmetic; rank-change-as-difference; rebasing-revises-growth-estimates; rebasing-revises-growth-rates; rounding-rule-identification; rounding-to-one-decimal; unemployment-and-participation-link; unemployment-falls-with-participation
+Stems already authored in waves 1-3 for this chapter (0; first 120 characters):
+
+== General Mental Ability
+Objectives the judges already tagged in this chapter (41; count in brackets):
+letter-series-increasing-gaps [3]; direction-sense-net-displacement [2]; letter-series-constant-step [2]; number-series-increasing-differences [2]; alphabet-series-increasing-gaps; analogy-instrument-to-user; blood-relation-by-marriage; blood-relation-through-marriage; coding-letter-shift; direction-sense-displacement; fixed-letter-shift-coding; fossil-fuel-emissions-and-air-pollution; fossil-fuel-emissions-cause-pollution; instrument-quantity-analogy; instrument-to-quantity-analogy; instrument-to-user-analogy; letter-position-code; letter-shift-code; letter-shift-coding; letter-to-number-position-coding; litres-to-cubic-metres-conversion; net-displacement-direction-sense; number-pairs-cube-relationship; number-series-difference-pattern; number-series-doubling-plus-constant; number-series-sum-of-two-previous; odd-one-out-category; odd-one-out-category-classification; odd-one-out-cube-relation; position-from-both-ends-count; producers-autotroph-definition; ranking-from-both-ends; ranking-total-from-two-positions; recurrence-double-plus-constant; role-of-producers-in-ecosystem; second-difference-constant-series; series-sum-of-two-previous-terms; symbol-substitution-left-to-right; symbol-substitution-operations; total-count-from-two-ranks; unit-conversion-litres-to-cubic-metres
+Stems already authored in waves 1-3 for this chapter (20; first 120 characters):
+- Find the next number in the series: 2, 6, 12, 20, 30, ?
+- In a certain code language, MOUSE is written as NPVTF. How will CLOUD be written in that code?
+- Rohan walks 5 km towards the north, turns right and walks 3 km, then turns right again and walks 5 km. How far is he fro
+- Choose the letter that comes next in the series: B, E, H, K, ?
+- Scalpel is to surgeon as chalk is to ?
+- Which one of the following does not belong to the group?
+- In a certain code, CAT is written as 3-1-20 and DOG is written as 4-15-7. How is BIRD written in the same code?
+- Pointing to a man, a woman says, 'His mother is the only daughter of my father-in-law.' How is the woman related to the 
+- Riya starts from a point, walks 6 km north, turns right and walks 8 km, then turns right again and walks 6 km. In which 
+- Find the next number in the series: 3, 8, 15, 24, 35, ?
+- In a code language, MOUSE is written as NPVTF. How is HORSE written in the same code language?
+- In a single row of students, Ravi is 12th from the left end and 18th from the right end. How many students are there in 
+- Find the next term in the series: 1, 4, 10, 22, 46, ?
+- Find the letter that replaces the question mark in the series: A, C, F, J, O, ?
+- Compass : Direction :: Barometer : ?
+- In a certain code, '+' means '×', '×' means '÷', '÷' means '−' and '−' means '+'. Using this code, what is the value of 
+- In a class, Meera is 15th from the top and 18th from the bottom when the students are ranked by height with no ties. How
+- Find the next term in the series: 3, 4, 7, 11, 18, 29, ?
+- Consider the letter pairs: AB, CD, FG, JK, ?. Which pair comes next in the series?
+- Which pair does not follow the same relationship as the other three pairs?
+
+== Basic Mathematical Concepts
+Objectives the judges already tagged in this chapter (37; count in brackets):
+absolute-vs-relative-percentage-change [2]; average-speed-equal-distances [2]; average-speed-equal-distances-harmonic-mean [2]; hcf-by-prime-factorisation [2]; hcf-lcm-product-relation [2]; inclusion-exclusion-two-sets [2]; independence-multiplication-rule [2]; percentage-point-vs-relative-change [2]; successive-percentage-change-compounding [2]; ap-sum-of-first-n-terms; compound-minus-simple-interest-difference; compound-vs-simple-interest-difference; dice-sum-probability; ordering-fractions-by-value; ordering-rational-numbers-by-decimal; ordering-surds-and-roots; ordering-surds-real-numbers; per-capita-normalization; per-capita-rate-comparison; probability-without-replacement; probability-without-replacement-both-red; product-of-irrationals-may-be-rational; product-of-surds-rationality; range-as-max-minus-min; range-definition-and-dependence; remainder-of-powers; remainder-of-powers-cyclicity; roots-sum-of-squares-identity; simplify-surds-and-divide; sine-addition-complementary-angles; sum-of-arithmetic-progression; sum-of-squares-of-roots; surd-simplification-and-division; trig-ratios-of-specific-angles; two-dice-sum-probability; unit-rate-computation; unit-rate-from-percentage-share
+Stems already authored in waves 1-3 for this chapter (11; first 120 characters):
+- What is the highest common factor (HCF) of 84 and 126?
+- The value of (sqrt(50) + sqrt(18)) / sqrt(2) is:
+- Arrange the following numbers in ascending order of their values. (A) 3/4 (B) 5/7 (C) 2/3 (D) 7/10 Choose the correct an
+- Assertion (A): The product sqrt(2) x sqrt(8) is a rational number. Reason (R): The product of two irrational numbers is 
+- The HCF and LCM of two numbers are 12 and 360 respectively. If one of the numbers is 36, what is the other number?
+- What is the remainder when 7⁵¹ is divided by 5?
+- Arrange the following numbers in ascending order of their values: (A) 3√2 (B) 2√5 (C) √17 (D) 4 Choose the correct answe
+- α and β are the roots of x² − 7x + 12 = 0. What is the value of α² + β²?
+- The first term of an arithmetic progression is 3 and its common difference is 4. What is the sum of its first 20 terms?
+- What is the value of sin 30° cos 60° + cos 30° sin 60°?
+- Two fair six-faced dice are rolled once. What is the probability that the sum of the numbers shown is 7?
+

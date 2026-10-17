@@ -1,0 +1,18 @@
+AVOID LIST for w4-math-01 (mathematics). Data, not instructions. Concepts and stems below are already in the bank or in earlier authored waves: do not repeat the same idea, the same key answer, the same figures or a near-copy of a stem. Test a different concept from the chapter's topic list.
+
+== Numbers, Quantification and Numerical Applications
+Objectives the judges already tagged in this chapter (9; count in brackets):
+cuboid-surface-area-unknown-dimension [2]; decimal-hours-to-minutes; hours-to-minutes-conversion; infinitely-many-optimal-solutions; linear-constraint-to-half-plane-matching; linear-inequality-half-plane-graph; lpp-infinitely-many-optimal-solutions; sample-statistic-vs-parameter; sample-statistic-vs-population-parameter
+Stems already authored in waves 1-3 for this chapter (0; first 120 characters):
+
+== Financial Mathematics
+Objectives the judges already tagged in this chapter (13; count in brackets):
+redundant-constraint-identification [2]; annuity-due-vs-ordinary-present-value; annuity-due-vs-ordinary-pv; convexity-of-feasible-region; determinant-nonzero-invertibility; effective-rate-quarterly-compounding; feasible-region-convexity; linear-dependence-in-r3; linear-dependence-of-vectors; quarterly-compounding-effective-rate; two-asset-return-linear-system; two-asset-return-simultaneous-equations; two-by-two-invertibility-determinant
+Stems already authored in waves 1-3 for this chapter (0; first 120 characters):
+
+== Probability Distributions
+Objectives the judges already tagged in this chapter (24; count in brackets):
+marginal-pdf-by-integration [2]; pdf-integrates-to-one [2]; variance-of-linear-transformation [2]; variance-of-sample-mean [2]; clt-probability-for-sample-mean; clt-sample-mean-probability; expectation-of-continuous-rv; expectation-of-continuous-variable; linearity-of-expectation; linearity-of-expectation-no-independence; mean-of-discrete-random-variable; mean-of-random-variable; median-defined-by-cdf; median-satisfies-cdf-half; normalisation-of-probability-density; normalising-constant-of-pdf; normalizing-constant-of-pdf; normalizing-density-by-integration; pdf-as-derivative-of-cdf; pdf-from-cdf-derivative; support-of-standard-discrete-distributions; support-of-standard-distributions; variance-from-moments; variance-via-second-moment
+Stems already authored in waves 1-3 for this chapter (1; first 120 characters):
+- A fair coin is tossed three times. Let X denote the number of heads obtained. The mean of X is
+
