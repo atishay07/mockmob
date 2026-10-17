@@ -148,6 +148,13 @@ void main() {
       expect(TodayCopy.dateReceipt('Sat 8 May', saved: true, account: true), 'Your date: Sat 8 May. Saved to your account.');
       expect(TodayCopy.mocksBefore(7, suggested: true), 'suggested, 7 taken');
     });
+
+    test('the road is named after a date of their own outside May', () {
+      expect(TodayCopy.roadTitleFor(null), 'Road to May');
+      expect(TodayCopy.roadTitleFor(DateTime.utc(2027, 5, 8)), 'Road to May');
+      expect(TodayCopy.roadTitleFor(DateTime.utc(2027, 4, 20)), 'Road to 20 Apr');
+      expect(TodayCopy.moreBelowCount(weeks: 26, title: 'Road to 20 Apr'), 'Road to 20 Apr, 26 weeks');
+    });
   });
 
   group('skeleton height (L03)', () {

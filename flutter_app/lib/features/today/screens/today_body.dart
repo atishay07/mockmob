@@ -654,7 +654,11 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
         label: road.phase != RoadPhase.countdown
             ? TodayCopy.moreBelow
             : road.board != null
-                ? TodayCopy.moreBelowCount(weeks: road.board!.weeksToExam, days: road.board!.daysToExam)
+                ? TodayCopy.moreBelowCount(
+                    weeks: road.board!.weeksToExam,
+                    days: road.board!.daysToExam,
+                    title: TodayCopy.roadTitleFor(road.board!.ownDate ? road.board!.examDate : null),
+                  )
                 : TodayCopy.moreBelowCount(weeks: road.weeks, days: road.daysToWindow),
       );
       // With no slot (the also block is its zero-height ease) and no weekly ending, the cue takes

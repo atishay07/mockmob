@@ -291,6 +291,10 @@ abstract final class TodayCopy {
   // The road.
   static const String roadTitle = 'Road to May';
 
+  /// The road is named after the day it counts to: "Road to May" for the expected window or a
+  /// date of their own in May, "Road to 20 Apr" for any other date (critic 17 Oct).
+  static String roadTitleFor(DateTime? ownDate) => ownDate == null || ownDate.month == 5 ? roadTitle : 'Road to ${formatDayMonthShort(ownDate)}';
+
   // The road as a strip of weeks (L05, app-today-1016 section 8).
   static const List<String> weekdayShort = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
@@ -508,9 +512,9 @@ abstract final class TodayCopy {
   static const String moreBelow = 'Your road to May';
 
   /// The cue with its number (L07): "Road to May, 28 weeks", or days in the last week.
-  static String moreBelowCount({int? weeks, int? days}) {
-    if (days != null && days < 7) return 'Road to May, ${plural(days, 'day')}';
-    if (weeks != null && weeks > 0) return 'Road to May, ${plural(weeks, 'week')}';
+  static String moreBelowCount({int? weeks, int? days, String title = roadTitle}) {
+    if (days != null && days < 7) return '$title, ${plural(days, 'day')}';
+    if (weeks != null && weeks > 0) return '$title, ${plural(weeks, 'week')}';
     return moreBelow;
   }
 

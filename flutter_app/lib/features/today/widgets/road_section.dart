@@ -436,7 +436,7 @@ class _RoadSectionState extends State<RoadSection> {
       crossAxisAlignment: CrossAxisAlignment.baseline,
       textBaseline: TextBaseline.alphabetic,
       children: [
-        Expanded(child: Semantics(header: true, child: Text(TodayCopy.roadTitle, style: type.title.copyWith(fontSize: 19)))),
+        Expanded(child: Semantics(header: true, child: Text(TodayCopy.roadTitleFor(board != null && board.ownDate ? board.examDate : null), style: type.title.copyWith(fontSize: 19)))),
         MmCountUp(
           value: n,
           fromZeroOnFirstBuild: false,

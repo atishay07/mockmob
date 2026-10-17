@@ -163,7 +163,7 @@ WeekModel _week(TodayInputs i, TodayWeek w) {
   // a debt; TODAY-1017 4.3). A counted day names the next planned one, when the week has one.
   if (todayCounted) {
     int? next;
-    for (var d = today! + 1; d < 7; d++) {
+    for (var d = today + 1; d < 7; d++) {
       if (planned == null || planned.contains(d)) {
         next = d;
         break;
