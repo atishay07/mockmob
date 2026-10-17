@@ -1,7 +1,23 @@
 {
   "mob": {
+    "id": "7b0c5d8e-1f2a-4b3c-9d4e-5f6a7b8c9d0e",
     "subject": "accountancy",
     "subjectName": "Accountancy",
+    "plan": {
+      "pro": false,
+      "maxMobs": 1,
+      "mobCount": 1,
+      "canMakeExtra": false,
+      "canStartAnother": false
+    },
+    "mobs": [
+      {
+        "id": "7b0c5d8e-1f2a-4b3c-9d4e-5f6a7b8c9d0e",
+        "subject": "accountancy",
+        "subjectName": "Accountancy",
+        "active": true
+      }
+    ],
     "you": {
       "memberId": "K7Q2M9XR4T1A",
       "name": "Riya",
@@ -29,8 +45,9 @@
         "count": 10,
         "durationSec": 720,
         "cost": {
-          "type": "allowance"
-        }
+          "type": "free"
+        },
+        "blocked": null
       },
       "sat": 0,
       "size": 1,
@@ -38,6 +55,9 @@
       "yourResultId": null
     },
     "trap": null,
+    "compare": null,
+    "extras": [],
+    "pastWeeks": 0,
     "nudge": {
       "canSend": false,
       "reason": "not_sat",

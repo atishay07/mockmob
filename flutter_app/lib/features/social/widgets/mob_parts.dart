@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/theme/theme.dart';
 import '../../../core/motion/motion.dart';
+import '../../../core/theme/theme.dart';
+import '../../../core/widgets/widgets.dart';
+import '../copy.dart';
 import '../data/mob_models.dart';
 import 'mob_ring.dart';
 
@@ -18,7 +20,7 @@ class ColourPicker extends StatelessWidget {
     Widget dot(int i) => Semantics(
       button: true,
       selected: i == value,
-      label: 'Colour ${i + 1}',
+      label: MobCopy.colourName(i),
       child: InkResponse(
         onTap: () => onChanged(i),
         radius: 24,
@@ -152,4 +154,53 @@ void showMobToast(BuildContext context, String message) {
   messenger
     ..hideCurrentSnackBar()
     ..showSnackBar(SnackBar(content: Text(message), behavior: SnackBarBehavior.floating, duration: const Duration(seconds: 3)));
+}
+
+/// A switch row: the title, a small note under it, and the switch at the end, one 48 dp target high.
+class MobSwitchRow extends StatelessWidget {
+  const MobSwitchRow({
+    super.key,
+    required this.title,
+    required this.value,
+    required this.onChanged,
+    this.note,
+    this.enabled = true,
+    this.padding = const EdgeInsets.symmetric(horizontal: MmSpace.gutter + MmSpace.s4, vertical: MmSpace.s8),
+  });
+
+  final String title;
+  final String? note;
+  final bool value;
+  final bool enabled;
+  final ValueChanged<bool> onChanged;
+  final EdgeInsetsGeometry padding;
+
+  @override
+  Widget build(BuildContext context) {
+    final type = context.mmType;
+    final colors = context.mmColors;
+    return MergeSemantics(
+      child: Padding(
+        padding: padding,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: MmTarget.min),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(title, style: type.body.copyWith(color: colors.ink)),
+                    if (note != null) Text(note!, style: type.small.copyWith(color: colors.ink2)),
+                  ],
+                ),
+              ),
+              const SizedBox(width: MmSpace.s12),
+              MmSwitch(value: value, semanticsLabel: title, onChanged: enabled ? onChanged : null),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

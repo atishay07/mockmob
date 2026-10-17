@@ -1,0 +1,28 @@
+{
+  "mobId": "7b0c5d8e-1f2a-4b3c-9d4e-5f6a7b8c9d0e",
+  "weeks": [
+    {
+      "week": "2026-10-05",
+      "closedAt": "2026-10-11T18:29:59.000Z",
+      "sat": 4,
+      "extras": 1,
+      "you": {
+        "sat": true,
+        "score": {
+          "value": 8,
+          "of": 10
+        },
+        "resultId": "practice_u2_w1"
+      }
+    },
+    {
+      "week": "2026-09-28",
+      "closedAt": "2026-10-04T18:29:59.000Z",
+      "sat": 2,
+      "extras": 0,
+      "you": {
+        "sat": false
+      }
+    }
+  ]
+}

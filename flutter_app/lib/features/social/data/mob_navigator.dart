@@ -4,22 +4,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../../../core/api/api.dart';
 import '../../../core/router/routes.dart';
 import 'mob_models.dart';
+import 'mob_paper.dart';
 import 'mob_repository.dart';
 
 /// Where the Mob's actions lead, kept behind one seam so the page is testable and the hook into
 /// the practice runner stays in one place.
 abstract class MobNavigator {
-  /// Starts this week's Mob paper (`POST /api/mob/paper/start`) and opens the runner. Null when it
-  /// opened, else why not.
-  Future<MobFailure?> sitPaper(BuildContext context, WidgetRef ref, Mob mob);
+  /// Starts or resumes this week's Mob paper (or one of the Mob's extra papers) and opens the
+  /// runner. Null when it opened, else why not.
+  Future<MobFailure?> sitPaper(BuildContext context, WidgetRef ref, Mob mob, {MobExtra? extra});
 
   void openAnswers(BuildContext context, String resultId);
 
   /// The repair for the shared trap (when the student picked it) or the reason it is wrong.
-  void openTrap(BuildContext context, MobTrap trap);
+  void openTrap(BuildContext context, MobTrap trap, {String? resultId});
 
   /// Copies the invite link. True when it was copied.
   Future<bool> copyLink(String url);
@@ -32,18 +32,32 @@ class DefaultMobNavigator implements MobNavigator {
   const DefaultMobNavigator();
 
   @override
-  Future<MobFailure?> sitPaper(BuildContext context, WidgetRef ref, Mob mob) async {
-    final override = ref.read(mobPaperStarterProvider);
-    if (override != null) return override(context, ref, mob);
-    // Without a runner hook the paper cannot open on this build: say so plainly rather than spend.
-    return MobFailure.generic;
+  Future<MobFailure?> sitPaper(BuildContext context, WidgetRef ref, Mob mob, {MobExtra? extra}) async {
+    final outcome = await ref.read(mobPaperLauncherProvider).start(mob, extra: extra);
+    switch (outcome) {
+      case MobPaperFailed(:final failure):
+        // A paper that could not start may have changed the week (closed, already sat): read it again.
+        if (failure == MobFailure.weekClosed || failure == MobFailure.alreadySat || failure == MobFailure.freePaperUsed || failure == MobFailure.extraClosed) {
+          await ref.read(mobRepositoryProvider.notifier).refresh(force: true);
+        }
+        return failure;
+      case MobPaperStarted(:final sessionId):
+        if (!context.mounted) return null;
+        context.go(AppRoutes.run(sessionId));
+        return null;
+    }
   }
 
   @override
-  void openAnswers(BuildContext context, String resultId) => GoRouter.maybeOf(context)?.push(AppRoutes.result(resultId));
+  void openAnswers(BuildContext context, String resultId) => GoRouter.maybeOf(context)?.push(AppRoutes.practiceResult(resultId));
 
   @override
-  void openTrap(BuildContext context, MobTrap trap) => GoRouter.maybeOf(context)?.push(AppRoutes.reviewMistakes);
+  void openTrap(BuildContext context, MobTrap trap, {String? resultId}) {
+    final router = GoRouter.maybeOf(context);
+    if (router == null) return;
+    // The student's own result holds the repair of each question; without one, the mistakes list.
+    router.push(resultId == null ? AppRoutes.reviewMistakes : AppRoutes.practiceResult(resultId));
+  }
 
   @override
   Future<bool> copyLink(String url) async {
@@ -67,13 +81,3 @@ class DefaultMobNavigator implements MobNavigator {
 }
 
 final mobNavigatorProvider = Provider<MobNavigator>((ref) => const DefaultMobNavigator());
-
-/// The practice runner's hook for a Mob paper. Null until the practice area wires it (it owns
-/// `practice_starter.dart`); the start route itself is [startMobPaperRequest].
-typedef MobPaperStarter = Future<MobFailure?> Function(BuildContext context, WidgetRef ref, Mob mob);
-
-final mobPaperStarterProvider = Provider<MobPaperStarter?>((ref) => null);
-
-/// `POST /api/mob/paper/start`: the same body and reply as a practice start (`/api/sessions`).
-Future<ApiResponse> startMobPaperRequest(ApiClient api, String generationKey) =>
-    api.post('/api/mob/paper/start', body: {'generationKey': generationKey}, options: const ApiOptions(retries: 0, receiveTimeout: Duration(seconds: 60)));
