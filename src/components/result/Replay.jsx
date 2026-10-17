@@ -12,9 +12,18 @@
 // step one event instead of Play. Tapping a bar opens that question below the grid (its trace from the server's
 // Time and decisions read), never over the grid. The ledger's groups are the filter chips; "See it in the replay"
 // in a ledger row arrives here with that chip on (`focus`).
+//
+// D17 (owner, 18 Oct dawn: "if there are just 10 questions, then show it according to 10 questions only"; a 58 s
+// replay was "only grey boxes going and going"):
+//   - a record that fits in one row is drawn on its own length (58 s fills the row), not on a 10-minute row;
+//   - the answer map is sized to the paper: one slot a question across the full width, each with its number, its time
+//     and a dot when the answer was changed; up to 20 questions it opens on its own, longer papers fold to one thin
+//     strip with Expand and Collapse;
+//   - Play steps through what happened (about 0.45 s an event, never longer than the record's 15 s), and a line under
+//     the clock says each event as it plays: opened, picked, changed, cleared, marked, away, submitted.
 import { memo, useCallback, useEffect, useId, useMemo, useState, useSyncExternalStore } from 'react';
 import { Pause, Play, StepBack, StepForward, X } from 'lucide-react';
-import { clockLabel } from '@/../data/paper_trace';
+import { clockLabel, spentLabel } from '@/../data/paper_trace';
 import { TIME_COPY } from '@/../data/time_decisions';
 import { withNumbers } from './MarksLedger';
 import './replay.css';
@@ -99,6 +108,8 @@ function prepare(replay) {
   for (const q of byN.values()) {
     q.picks.sort((a, b) => a.at - b.at);
     q.first = q.visits[0]?.from ?? null;
+    q.changed = q.picks.some((p) => p.change);
+    q.awaySec = q.away.reduce((sum, a) => sum + Math.max(0, a.to - a.from), 0);
   }
   // Every moment something happened, for the arrow keys and Previous and Next.
   const rec = replay.recordSec;
@@ -121,13 +132,77 @@ function prepare(replay) {
   // When each question first came on screen (replay.opened): a question of a passage set shown but never in focus has
   // no bar and is still opened. Older replays without the list fall back to the first bar.
   const opened = new Map((replay.opened || []).map((o) => [o.n, o]));
-  const out = { bars, byN, times, present, opened };
+  // What happened, in clock order, for the line under the clock while it plays (D17).
+  const events = [];
+  for (const q of byN.values()) {
+    const first = opened.get(q.n)?.at ?? q.first;
+    if (Number.isFinite(first)) events.push({ at: first, n: q.n, kind: 'open', rank: 0 });
+    let prev = null;
+    for (const p of q.picks) {
+      const cleared = p.option === null || p.option === undefined;
+      events.push({ at: p.at, n: q.n, kind: cleared ? 'clear' : p.change && prev !== null ? 'change' : 'pick', option: cleared ? null : p.option, from: prev, rank: 1 });
+      prev = cleared ? null : p.option;
+    }
+    for (const m of q.marks) events.push({ at: m, n: q.n, kind: 'mark', rank: 2 });
+    for (const a of q.away) events.push({ at: a.from, n: q.n, kind: 'away', label: a.label || null, rank: 3 });
+  }
+  for (const o of opened.values()) if (!byN.has(o.n) && Number.isFinite(o.at)) events.push({ at: o.at, n: o.n, kind: 'open', rank: 0 });
+  if (replay.end && Number.isFinite(replay.end.at)) events.push({ at: replay.end.at, n: null, kind: 'end', label: replay.end.label || null, rank: 4 });
+  // A tie on the clock (whole seconds) keeps the earlier question's moment first, then open, pick, mark, away, end.
+  const firstOf = (n) => (n === null ? Infinity : opened.get(n)?.at ?? byN.get(n)?.first ?? Infinity);
+  events.sort((a, b) => a.at - b.at || firstOf(a.n) - firstOf(b.n) || a.rank - b.rank);
+  const lastTo = bars.reduce((m, b) => Math.max(m, b.to), 0);
+  const out = { bars, byN, times, present, opened, events, lastTo };
   PREPARED.set(replay, out);
   return out;
 }
 
 const nextStop = (times, t) => times.find((x) => x > t + 0.001) ?? times.at(-1) ?? 0;
 const prevStop = (times, t) => { for (let i = times.length - 1; i >= 0; i--) if (times[i] < t - 0.001) return times[i]; return 0; };
+
+// The length one row is drawn on (D17). A record that ends inside its one row is drawn on its own length, rounded up to
+// a clean clock (58 s on 1:00, 3:17 on 3:30), never longer than the row; a longer record keeps its 10-minute rows.
+const FIT_STEPS = [30, 60, 90, 120, 150, 180, 210, 240, 300, 360, 420, 480, 540, 600];
+export function rowSpanOf(replay, prep) {
+  const rows = replay?.rows || [];
+  const rowSec = replay?.rowSec || 600;
+  if (rows.length !== 1) return rowSec;
+  const row = rows[0];
+  const room = Math.max(1, (row.to ?? rowSec) - (row.from ?? 0));
+  const need = Math.max(1, replay.recordSec || 0, replay.end?.at || 0, prep?.lastTo || 0);
+  return Math.min(room, FIT_STEPS.find((x) => x >= need) ?? room);
+}
+// Minute ticks on a 10-minute row; 10 s ticks (a longer one each 30 s) on a short one; 30 s ticks up to 6 minutes.
+const tickPlan = (span) => (span <= 120 ? { step: 10, major: 30 } : span <= 360 ? { step: 30, major: 60 } : { step: 60, major: 300 });
+
+const LETTER = 'ABCDEFGH';
+const letterOf = (i) => LETTER[i] || String(i + 1);
+// The line under the clock while it plays: what the student did at that moment.
+function eventLine(e) {
+  if (!e) return null;
+  if (e.kind === 'open') return `Q${e.n} opened`;
+  if (e.kind === 'pick') return `Q${e.n}: picked ${letterOf(e.option)}`;
+  if (e.kind === 'change') return `Q${e.n}: changed ${letterOf(e.from)} to ${letterOf(e.option)}`;
+  if (e.kind === 'clear') return `Q${e.n}: answer cleared`;
+  if (e.kind === 'mark') return `Q${e.n}: marked for review`;
+  if (e.kind === 'away') return e.label ? `Q${e.n}: ${e.label}` : `Q${e.n}: away from the paper`;
+  if (e.kind === 'end') return e.label || 'Paper ended';
+  return null;
+}
+const eventAt = (events, t) => { let last = null; for (const e of events) { if (e.at > t + 0.001) break; last = e; } return last; };
+// Time on a question up to clock time t (its visits, less its time away once the clock has passed them).
+function spentBy(q, t, settled) {
+  if (!q) return null;
+  let sum = 0;
+  for (const v of q.visits) sum += Math.max(0, Math.min(v.to, settled ? v.to : t) - v.from);
+  if (settled || q.visits.every((v) => v.to <= t)) sum -= q.awaySec;
+  return Math.max(0, sum);
+}
+// A narrow slot's time: "50s" under a minute, "2:30" above it (CSS picks it when "2m 30s" would not fit).
+const shortSpent = (sec) => { const v = Math.max(0, Math.round(sec)); return v < 60 ? `${v}s` : `${Math.floor(v / 60)}:${String(v % 60).padStart(2, '0')}`; };
+// The map opens on its own up to 20 questions; a longer paper folds to one strip until Expand. Ten slots a line.
+const MAP_OPEN_UP_TO = 20;
+const MAP_COLS = 10;
 
 // The answer map at clock time t: not yet opened, opened, answered then; after the end, each final result.
 function mapAt(prep, total, t, settled) {
@@ -175,15 +250,16 @@ const RowGrid = memo(function RowGrid({ row, width, height, rowSec, pid, sel, fi
   const { barY: BAR_Y, barH: BAR_H, dotY: DOT_Y, tickY: TICK_Y, font } = geo;
   const k = width / rowSec;
   const x = (t) => (t - row.from) * k;
+  const plan = tickPlan(rowSec);
   const ticks = [];
-  for (let m = 1; m < rowSec / 60; m++) ticks.push(m);
+  for (let at = plan.step; at < rowSec; at += plan.step) ticks.push(at);
   const awayLabels = [];
   return (
     <>
       <Patterns id={pid} />
       <rect className="rpl-track" x={0} y={BAR_Y} width={width} height={BAR_H} rx={5} />
-      {ticks.map((m) => (
-        <line key={m} className="rpl-tick" data-major={m % 5 === 0 || undefined} x1={m * 60 * k} x2={m * 60 * k} y1={TICK_Y} y2={TICK_Y + (m % 5 === 0 ? 5 : 3)} />
+      {ticks.map((at) => (
+        <line key={at} className="rpl-tick" data-major={at % plan.major === 0 || undefined} x1={at * k} x2={at * k} y1={TICK_Y} y2={TICK_Y + (at % plan.major === 0 ? 5 : 3)} />
       ))}
       {row.bars.map((b, i) => {
         const x0 = x(b.from);
@@ -264,7 +340,7 @@ function RowLive({ row, width, height, rowSec, t, settled, now, geo }) {
 }
 
 // The legend: colour always travels with a word. Result words are Time and decisions' own.
-function Legend({ present, heldLabel }) {
+function Legend({ present, heldLabel, mapOpen = false }) {
   const items = [
     present.has('right') && ['right', TIME_COPY.verdict.correct],
     present.has('wrong') && ['wrong', TIME_COPY.verdict.wrong],
@@ -272,6 +348,7 @@ function Legend({ present, heldLabel }) {
     present.has('held') && heldLabel && ['held', heldLabel],
     present.has('pick') && ['pick', 'Picked'],
     present.has('change') && ['change', 'Changed'],
+    present.has('change') && mapOpen && ['slotchange', 'Answer changed'],
     present.has('mark') && ['mark', 'Marked for review'],
   ].filter(Boolean);
   if (!items.length) return null;
@@ -282,6 +359,7 @@ function Legend({ present, heldLabel }) {
           <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
             {kind === 'pick' ? <g className="rpl-pick"><circle className="rpl-pick__dot" cx="7" cy="7" r="3.1" /></g>
               : kind === 'change' ? <g className="rpl-pick"><circle className="rpl-pick__ring" cx="7" cy="7" r="5.6" /><circle className="rpl-pick__dot" cx="7" cy="7" r="3.1" /></g>
+              : kind === 'slotchange' ? <circle className="rpl-legend__dot" cx="7" cy="7" r="4" />
               : kind === 'mark' ? <path className="rpl-flag" d="M4 13 V2 M4 2 L10.5 4.6 L4 7.2 Z" />
               : <rect className="rpl-legend__sw" data-r={kind} x="1" y="2" width="12" height="10" rx="3" />}
           </svg>
@@ -301,9 +379,11 @@ export function QuestionStrip({ replay, number }) {
   const [ref, width] = useWidth();
   const pid = useId().replace(/[^a-zA-Z0-9_-]/g, '');
   if (!replay?.rows?.length) return null;
-  const q = prepare(replay).byN.get(number);
+  const prep = prepare(replay);
+  const q = prep.byN.get(number);
   if (!q) return null;
-  const span = Math.max(replay.durationSec || 0, replay.recordSec || 0) || 1;
+  // On a one-row record the strip uses the replay's own fitted length (D17), so a 58 s paper is not a speck.
+  const span = (replay.rows.length === 1 ? rowSpanOf(replay, prep) : Math.max(replay.durationSec || 0, replay.recordSec || 0)) || 1;
   const k = width / span;
   const end = replay.end;
   return (
@@ -361,8 +441,10 @@ export default function Replay({ replay, lab = null, timeRead = null, onJump, fo
   const isPlaying = playing && !reduced;
 
   const prep = useMemo(() => (replay?.rows?.length ? prepare(replay) : null), [replay]);
-  const rowSec = replay?.rowSec || 600;
+  const rowSec = prep ? rowSpanOf(replay, prep) : replay?.rowSec || 600;
   const total = replay?.total || 0;
+  const [mapOpen, setMapOpen] = useState(() => (replay?.total || 0) <= MAP_OPEN_UP_TO);
+  const mapId = `${uid}-map`;
   const labels = replay?.labels || {};
 
   // A ledger row's "See it in the replay" wins until a chip is picked here.
@@ -374,7 +456,8 @@ export default function Replay({ replay, lab = null, timeRead = null, onJump, fo
   // Play: the clock runs from where it stands (from the start when it stands at the end) to the end in playMs.
   useEffect(() => {
     if (!isPlaying || !start) return undefined;
-    const playMs = replay?.playMs || 15000;
+    // About 0.45 s an event, between 4 s and the record's own 15 s: a short paper plays its few moments, not a long sweep.
+    const playMs = Math.min(replay?.playMs || 15000, Math.max(4000, (prep?.events.length || 0) * 450));
     let raf = 0;
     const step = (now) => {
       const next = Math.min(rec, start.from + ((now - start.at) / playMs) * rec);
@@ -384,7 +467,7 @@ export default function Replay({ replay, lab = null, timeRead = null, onJump, fo
     };
     raf = requestAnimationFrame(step);
     return () => cancelAnimationFrame(raf);
-  }, [isPlaying, start, rec, replay?.playMs]);
+  }, [isPlaying, start, rec, replay?.playMs, prep]);
 
   const togglePlay = () => {
     if (isPlaying) { setPlaying(false); return; }
@@ -452,6 +535,7 @@ export default function Replay({ replay, lab = null, timeRead = null, onJump, fo
 
   const settled = t >= rec;
   const nowBar = !settled ? prep.bars.find((b) => b.from <= t && t < b.to && Number.isInteger(b.n)) || null : null;
+  const happening = !settled && (isPlaying || t > 0) ? eventLine(eventAt(prep.events, t)) : null;
   const cells = mapAt(prep, total, t, settled);
   const lastRow = replay.rows.length - 1;
   const withPace = replay.rows.some((r) => r.evenPaceBy !== null && r.evenPaceBy !== undefined);
@@ -506,6 +590,7 @@ export default function Replay({ replay, lab = null, timeRead = null, onJump, fo
             {nowBar ? (
               <button type="button" className="rpl-now" aria-expanded={sel === nowBar.n} aria-controls={panelId} onClick={() => setSel(nowBar.n)}>Q{nowBar.n}</button>
             ) : null}
+            {happening ? <span className="rpl-event" key={happening}>{happening}</span> : null}
           </div>
           {replay.end?.label ? <p className="rpl-endline" data-lit={settled || undefined}>{replay.end.label}</p> : null}
         </div>
@@ -515,16 +600,41 @@ export default function Replay({ replay, lab = null, timeRead = null, onJump, fo
           style={{ '--p': `${(t / rec) * 100}%` }}
           onChange={(e) => seek(Number(e.target.value))} onKeyDown={onKey} />
 
-        <div className="rpl-map" aria-hidden="true" data-settled={settled || undefined}>
-          <span className="rpl-map__end">Q1</span>
-          <div className="rpl-map__cells">
-            {cells.map((c, k) => (
-              <span key={k} className="rpl-cell" data-s={c} style={{ '--i': k }}
-                data-now={nowBar?.n === k + 1 || undefined} data-sel={sel === k + 1 || undefined}
-                data-dim={filterSet && !filterSet.has(k + 1) ? '' : undefined} data-on={filterSet && filterSet.has(k + 1) ? '' : undefined} />
-            ))}
-          </div>
-          <span className="rpl-map__end">Q{total}</span>
+        <div className="rpl-mapbox" data-open={mapOpen || undefined}>
+          {mapOpen ? (
+            <ol className="rpl-slots" id={mapId} aria-hidden="true" data-settled={settled || undefined} style={{ '--cols': Math.min(Math.max(total, 1), MAP_COLS) }}>
+              {cells.map((c, k) => {
+                const q = prep.byN.get(k + 1);
+                const spent = c === 'none' || c === 'never' ? null : spentBy(q, t, settled);
+                const changed = q?.changed && (settled || q.picks.some((p) => p.change && p.at <= t));
+                return (
+                  <li key={k} className="rpl-slot" data-s={c} style={{ '--i': k }} data-changed={changed ? '' : undefined}
+                    data-now={nowBar?.n === k + 1 || undefined} data-sel={sel === k + 1 || undefined}
+                    data-dim={filterSet && !filterSet.has(k + 1) ? '' : undefined} data-on={filterSet && filterSet.has(k + 1) ? '' : undefined}>
+                    <b>{k + 1}</b>
+                    {spent === null ? <small /> : <small><span className="rpl-slot__long">{spentLabel(spent)}</span><span className="rpl-slot__short">{shortSpent(spent)}</span></small>}
+                  </li>
+                );
+              })}
+            </ol>
+          ) : (
+            <div className="rpl-map" id={mapId} aria-hidden="true" data-settled={settled || undefined}>
+              <span className="rpl-map__end">Q1</span>
+              <div className="rpl-map__cells">
+                {cells.map((c, k) => (
+                  <span key={k} className="rpl-cell" data-s={c} style={{ '--i': k }}
+                    data-now={nowBar?.n === k + 1 || undefined} data-sel={sel === k + 1 || undefined}
+                    data-dim={filterSet && !filterSet.has(k + 1) ? '' : undefined} data-on={filterSet && filterSet.has(k + 1) ? '' : undefined} />
+                ))}
+              </div>
+              <span className="rpl-map__end">Q{total}</span>
+            </div>
+          )}
+          {total > MAP_COLS ? (
+            <button type="button" className="rpl-maptoggle" aria-expanded={mapOpen} aria-controls={mapId} onClick={() => setMapOpen((o) => !o)}>
+              {mapOpen ? 'Collapse the map' : `Expand the map: ${total} questions`}
+            </button>
+          ) : null}
         </div>
 
         <div className="rpl-grid" ref={gridRef} onPointerLeave={() => setHover(null)}>
@@ -549,7 +659,7 @@ export default function Replay({ replay, lab = null, timeRead = null, onJump, fo
             );
           })}
         </div>
-        <Legend present={prep.present} heldLabel={(lab?.groups || []).find((g) => g.id === 'held')?.label || null} />
+        <Legend present={prep.present} mapOpen={mapOpen} heldLabel={(lab?.groups || []).find((g) => g.id === 'held')?.label || null} />
       </div>
 
       {selQ ? (
