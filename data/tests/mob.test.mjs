@@ -21,8 +21,13 @@ import { DELETION_STEPS } from '../../src/lib/server/accountDeletion.js';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const read = (rel) => readFileSync(resolve(root, rel), 'utf8');
-const migration = read('supabase/migrations/20261017100000_mob.sql');
-const undo = read('supabase/undo/20261017100000_mob.undo.sql');
+// The Mob's migration and the 17 Oct fix on top of it, in the order they are applied.
+const migration = `${read('supabase/migrations/20261017100000_mob.sql')}
+${read('supabase/migrations/20261017190000_mob_fix_1017.sql')}`;
+// Undo in reverse: the fix first, then the Mob.
+const fixUndo = read('supabase/undo/20261017190000_mob_fix_1017.undo.sql');
+const baseUndo = read('supabase/undo/20261017100000_mob.undo.sql');
+const undo = `${fixUndo}\n${baseUndo}`;
 const blocklist = JSON.parse(read('data/mob_name_blocklist.json'));
 const FIXTURE_DIR = resolve(root, 'data/tests/fixtures/mob');
 
@@ -221,8 +226,9 @@ async function database(users = 8) {
   return db;
 }
 const one = async (db, sql, params = []) => (await db.query(sql, params)).rows[0]?.r;
-// Free is one Mob, Pro is 3: the API passes the cap in. The helpers return the status text, as the old ones did.
-const join = async (db, user, code, name = 'Friend', max = 1) => (await one(db, 'select mob_join($1,$2,$3,0::smallint,$4::int) r', [user, code, name, max])).status;
+// Starting: free 1, Pro 3, the API passes the cap in. Joining: the API passes the safety ceiling (12). The helpers return
+// the status text, as the old ones did.
+const join = async (db, user, code, name = 'Friend', max = 12) => (await one(db, 'select mob_join($1,$2,$3,0::smallint,$4::int) r', [user, code, name, max])).status;
 const create = async (db, user, name = 'Riya', max = 1, subject = 'accountancy') => (await one(db, 'select mob_create($1,$2,$3,0::smallint,$4::int) r', [user, subject, name, max])).status;
 const mobOf = (db, user, nth = 0) => one(db, 'select mob_id::text r from mob_members where user_id = $1 order by joined_at, mob_id offset $2 limit 1', [user, nth]);
 const invite = async (db, user, code, expires = "now() + interval '7 days'", mob = null) => one(db, `select mob_invite_new($1,$2::uuid,$3,${expires}) r`, [user, mob || await mobOf(db, user), code]);
@@ -231,9 +237,9 @@ test('anon and authenticated get permission denied on every Mob table and functi
   const db = await database();
   try {
     const tables = ['mobs', 'mob_members', 'mob_invites', 'mob_papers', 'mob_sittings', 'mob_nudges', 'mob_nudge_seen', 'mob_blocks', 'mob_reports',
-      'mob_extras', 'mob_extra_sittings', 'mob_free_claims', 'mob_samples'];
-    const fns = (await db.query("select p.oid::regprocedure::text sig from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname like 'mob\\_%'")).rows.map((r) => r.sig);
-    assert.equal(fns.length, 22);
+      'mob_extras', 'mob_extra_sittings', 'mob_free_claims', 'mob_samples', 'mob_departures', 'mob_data_moves'];
+    const fns = (await db.query("select p.oid::regprocedure::text sig from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and (p.proname like 'mob\\_%' or p.proname like 'rate\\_limit\\_%')")).rows.map((r) => r.sig);
+    assert.equal(fns.length, 26, '22 Mob functions, mob_started_count and mob_metrics, and the two rate-limit helpers');
     for (const role of ['anon', 'authenticated']) {
       await db.exec(`set role ${role}`);
       for (const t of tables) await assert.rejects(db.query(`select * from public.${t}`), /permission denied/, `${role} ${t}`);
@@ -256,7 +262,7 @@ test('joining: a 6th member is full, a second Mob is already, an expired code is
   const db = await database();
   try {
     assert.equal(await create(db, 'u1'), 'created');
-    assert.equal(await create(db, 'u1'), 'limit', 'free is one Mob');
+    assert.equal(await create(db, 'u1'), 'limit', 'free starts one Mob');
     assert.equal(await invite(db, 'u1', 'AAAAAAAA'), 'ok');
     assert.equal((await one(db, "select mob_invite_lookup('AAAAAAAA') r")).seats_left, 4);
     assert.equal(await join(db, 'u2', 'AAAAAAAA'), 'joined');
@@ -272,12 +278,25 @@ test('joining: a 6th member is full, a second Mob is already, an expired code is
     // Give the code a use left; the Mob has 5, so the 6th is still refused.
     await db.exec("update mob_invites set max_uses = 4 where code = 'BBBBBBBB'");
     assert.equal(await join(db, 'u6', 'BBBBBBBB'), 'full');
-    assert.equal((await one(db, "select mob_invite_lookup('BBBBBBBB') r")).status, 'expired', 'a full Mob reads as a used-up link');
+    assert.equal((await one(db, "select mob_invite_lookup('BBBBBBBB') r")).status, 'full', 'a full Mob says full, never a used-up link');
+    // Back to 4 uses: the link is used up AND the Mob is full; full is the reason the joiner hears.
+    await db.exec("update mob_invites set max_uses = 3 where code = 'BBBBBBBB'");
+    assert.equal(await join(db, 'u6', 'BBBBBBBB'), 'full');
+    assert.equal((await one(db, "select mob_invite_lookup('BBBBBBBB') r")).status, 'full');
     assert.equal(await invite(db, 'u1', 'CCCCCCCC'), 'full');
-    // A second Mob: u6 starts one; a free member of the first cannot join it (free is one Mob at a time).
+    // A second Mob: u6 starts one; a free member of the first may join it too (free starts one and joins any).
     assert.equal(await create(db, 'u6', 'Kabir'), 'created');
     assert.equal(await invite(db, 'u6', 'DDDDDDDD'), 'ok');
-    assert.equal(await join(db, 'u2', 'DDDDDDDD'), 'limit');
+    assert.equal(await join(db, 'u2', 'DDDDDDDD'), 'joined', 'joining is open to a free student who is in a Mob');
+    assert.equal(await join(db, 'u3', 'DDDDDDDD', 'Friend', 1), 'limit', 'the ceiling the API passes still holds');
+    // A free student who joined two Mobs can still start one of their own; one they started counts, one they joined does not.
+    assert.equal(await create(db, 'u2', 'Asha'), 'created');
+    assert.equal(await create(db, 'u2', 'Asha'), 'limit');
+    assert.equal(await one(db, "select mob_started_count('u2') r"), 1);
+    // A used-up link to a Mob with seats is still a used-up link.
+    assert.equal(await invite(db, 'u2', 'FFFFFFFF', "now() + interval '7 days'", await one(db, "select id::text r from mobs where created_by = 'u2'")), 'ok');
+    await db.exec("update mob_invites set uses = max_uses where code = 'FFFFFFFF'");
+    assert.equal(await join(db, 'u8', 'FFFFFFFF'), 'expired');
     // Blocks, either way.
     await db.exec("insert into mob_blocks values ('u6','u7')");
     assert.equal(await join(db, 'u7', 'DDDDDDDD'), 'blocked');
@@ -319,10 +338,21 @@ test('leaving: the owner passes the role on, the last leave deletes the Mob and 
 test('the undo drops everything cleanly and the migration re-applies', async () => {
   const db = await database();
   try {
-    await db.exec(undo);
+    // The fix's undo on its own puts the 17 Oct 10:00 rules back: free is one Mob in all, sharing is off by default.
+    assert.equal(await create(db, 'u1'), 'created');
+    assert.equal(await invite(db, 'u1', 'AAAAAAAA'), 'ok');
+    assert.equal(await join(db, 'u2', 'AAAAAAAA'), 'joined');
+    await db.exec("update mob_members set show_score = false, share_moved_1017 = false where user_id = 'u2'");
+    await db.exec(fixUndo);
+    await db.exec(fixUndo);
+    assert.equal(await create(db, 'u2'), 'limit', 'undone: a free member of one Mob cannot start another');
+    assert.equal(await one(db, "select column_default r from information_schema.columns where table_name='mob_members' and column_name='show_score'"), 'false');
+    assert.equal(await one(db, "select count(*)::int r from information_schema.columns where table_name='mobs' and column_name='created_by'"), 0);
+    // Then the Mob's own undo drops the rest, twice over, and both migrations re-apply.
+    await db.exec(baseUndo);
     assert.equal(await one(db, "select count(*)::int r from pg_tables where schemaname='public' and tablename like 'mob%'"), 0);
-    assert.equal(await one(db, "select count(*)::int r from pg_proc where proname like 'mob\\_%'"), 0);
-    await db.exec(undo);
+    assert.equal(await one(db, "select count(*)::int r from pg_proc where proname like 'mob\\_%' or proname like 'rate\\_limit\\_%'"), 0);
+    await db.exec(baseUndo);
     await db.exec(migration);
     assert.equal(await create(db, 'u1'), 'created');
   } finally { await db.close(); }
@@ -403,7 +433,7 @@ function serviceFor(db, { clock = { now: NOW }, attempts = [], balance = 40, pre
     rpc: pgRpc(db), now: () => clock.now, secret: 'test-secret', blocklist,
     randomBytes: (n) => Uint8Array.from({ length: n }, () => (seed = (seed * 97 + 13) % 256)),
     subjectInfo: (s) => (['accountancy', 'economics'].includes(s) ? { ok: true, id: s, name: s === 'accountancy' ? 'Accountancy' : 'Economics' } : { ok: false }),
-    loadUser: async (id) => ({ isPremium: typeof premium === 'function' ? premium(id) : premium, creditBalance: balance }),
+    loadUser: async (id) => ({ subjects: ['accountancy', 'economics'], isPremium: typeof premium === 'function' ? premium(id) : premium, creditBalance: balance }),
     validChapter: (subject, chapter) => subject === 'accountancy' && ['Partnership Accounts', 'Cash Flow Statement'].includes(chapter),
     pickQuestionIds: async (_s, { count = 10 } = {}) => EXTRA_BANK.slice(0, count).map((q) => q.id),
     loadQuestions: async (ids) => ids.map((id) => EXTRA_BANK.find((q) => q.id === id)).filter(Boolean),
@@ -479,10 +509,14 @@ test('the service: start, invite, join, sit, ring, trap, nudge, leave and block,
     assert.equal(asha.mob.week.paper.cost, null, 'no cost line once you have sat');
     await assert.rejects(svc.startPaper('u2', {}), expectCode('PAPER_ALREADY_SAT'));
 
-    // Scores: only opted-in, never sorted.
-    await svc.patchMe('u3', { showScore: true });
+    // Scores: shared by default (17 Oct), never sorted; a member who turns sharing off is never shown.
+    assert.equal((await svc.view('u4')).mob.you.showScore, true, 'sharing is on for a new member');
+    assert.deepEqual((await svc.view('u4')).mob.members.map((m) => [m.name, m.score?.value ?? null]), [['Riya', 9], ['Asha', 9], ['Kabir', 10], ['Meera', null]]);
+    await svc.patchMe('u1', { showScore: false });
+    await svc.patchMe('u2', { showScore: false });
     const scores = (await svc.view('u4')).mob.members.map((m) => [m.name, m.score?.value ?? null]);
     assert.deepEqual(scores, [['Riya', null], ['Asha', null], ['Kabir', 10], ['Meera', null]]);
+    assert.equal((await svc.view('u2')).mob.members.find((m) => m.you).score.value, 9, 'your own score is always yours');
     await assert.rejects(svc.patchMe('u3', {}), expectCode('BODY_INVALID'));
     await assert.rejects(svc.patchMe('u3', { showScore: 'yes' }), expectCode('BODY_INVALID'));
     await svc.patchMe('u3', { name: 'Kabir S', colour: 4 });
@@ -548,7 +582,7 @@ test('the service: the week closing, credits and a paper the bank cannot build',
 function serviceDeps(db, clock) {
   return {
     rpc: pgRpc(db), now: () => clock.now, secret: 's', blocklist, randomBytes: (n) => new Uint8Array(n).fill(7),
-    subjectInfo: (s) => ({ ok: true, id: s, name: s }), loadUser: async () => ({ isPremium: false, creditBalance: 0 }),
+    subjectInfo: (s) => ({ ok: true, id: s, name: s }), loadUser: async () => ({ subjects: ['accountancy', 'economics'], isPremium: false, creditBalance: 0 }),
     pickQuestionIds: async () => BANK.map((q) => q.id), loadQuestions: async (ids) => ids.map((id) => EXTRA_BANK.find((q) => q.id === id)).filter(Boolean),
     findAttempts: async () => [], startPractice: async () => ({}),
   };

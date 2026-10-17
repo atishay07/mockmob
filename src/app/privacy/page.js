@@ -3,6 +3,7 @@ import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
 import { seoMetadata } from '@/lib/seo';
 import { APP_STREAM_AND_REPORT_LIVE } from '@/lib/appReleaseGates.mjs';
+import { MobPrivacySection, mobEnabledForLegal } from '@/components/mob/MobLegal';
 
 export const metadata = seoMetadata({
   title: 'Privacy Policy | MockMob',
@@ -17,7 +18,7 @@ export default function PrivacyPage() {
       <main className="container-narrow px-5 pb-20 pt-10">
         <div className="eyebrow mb-3">{'// Legal'}</div>
         <h1 className="display-lg mb-5">Privacy Policy</h1>
-        <p className="mb-10 text-zinc-400">Last updated: 16 October 2026</p>
+        <p className="mb-10 text-zinc-400">Last updated: 17 October 2026</p>
 
         <div className="legal-copy">
           <section>
@@ -43,6 +44,8 @@ export default function PrivacyPage() {
             <p>Replies written by AI in the app have a Report this reply button. When you use it, we keep the reason you chose (from a short list), the text of that reply, and the date, linked to your account, so we can check the reply and improve it. You can only report a reply you were sent. We read reports to check replies; we do not use them for advertising. They are deleted with your account.</p>
           </section>
           </>) : null}
+          {/* The Mob (SOCIAL-SPEC P12): shown in the same change that turns the Mob on. */}
+          {mobEnabledForLegal() ? <MobPrivacySection /> : null}
           <section>
             <h2>Android app</h2>
             <p>The Android app stores your push notification token so we can send reminders, plus your notification preferences and study goal. These are linked to your account and removed when your account is deleted. You can turn notifications off in the app or in your phone settings.</p>

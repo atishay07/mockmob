@@ -33,3 +33,13 @@ export const closesAtLine = (iso) => (istDateTime(iso) ? `Closes ${istDateTime(i
 
 /** Chapter of an extra paper, or the plain name of the whole subject. */
 export const extraTitle = (extra) => `${extra.chapter || 'Whole subject'}, ${extra.count} questions`;
+
+/**
+ * The line under an error card's heading. When the server's sentence only repeats the heading ("Your Mob did not load"
+ * over "Your Mob did not load. Try again shortly."), say what helps instead.
+ */
+export function errorDetail(message, heading) {
+  const norm = (t) => String(t || '').toLowerCase().replace(/[^a-z ]/g, '').trim();
+  if (!message || (heading && norm(message).startsWith(norm(heading)))) return 'Check your connection, then try again. Nothing in your Mob changed.';
+  return message;
+}

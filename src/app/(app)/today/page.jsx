@@ -10,6 +10,7 @@ import { useAuth } from '@/components/AuthProvider';
 import { useInsights } from '@/components/ai/useInsights';
 import { useMob } from '@/components/mob/useMob';
 import { useMobEnabled } from '@/components/mob/MobFlag';
+import MobEntry from '@/components/mob/MobEntry';
 import { api } from '@/lib/fetcher';
 import { getSubjectById } from '@/../data/subjects';
 import { alternatives as buildAlternatives, buildMove, clock, fitMove } from '@/lib/today/move.mjs';
@@ -127,6 +128,7 @@ export default function Today() {
           <div className="today-grid__main">
             <TodayMove phase={phase} move={move} word={hour >= 17 || hour < 4 ? 'Tonight’s move' : 'Today’s move'} slow={slow} triedAt={triedAt} onRetry={retry} alternatives={alts} chosen={chosen} onChoose={choose} saving={saving} />
             <TodayRows papers={data.papers} userId={userId} subjectName={subjectName} />
+            <MobEntry where="today" mob={mob} rhythm={data.rhythm} />
           </div>
           <div className="today-grid__side">
             <TodayWeek rhythm={data.rhythm} goal={data.goal} everSessions={everSessions} mobiFree={!(move?.art === 'mobi') && phase !== 'failed'} mob={mob} repairs={data.repairRows} onRetry={data.retryWeek} />

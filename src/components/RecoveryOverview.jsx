@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { apiGet } from '@/lib/fetcher';
 import LearningNextAction from './LearningNextAction';
 import ArenaHead from './arena/ArenaHead';
+import MobEntry from './mob/MobEntry';
 import { StatusIcon } from './ui/Glyph';
 import { ErrorState } from './ui/Skeleton';
 import { SubjectObject } from './brand/SubjectObject';
@@ -173,7 +174,7 @@ export default function RecoveryOverview({ view }) {
           </section>
         ) : null}
         {noteList}
-        {data && review.length > 0 ? <div className="ov-links rv-ways"><ReviseEntry /><RulesEntry /></div> : null}
+        {data && review.length > 0 ? <div className="ov-links rv-ways"><ReviseEntry /><RulesEntry /><MobEntry where="review" /></div> : null}
         {/* From Today (TODAY-1017 section 7): the record's finding and the paper trend live at the head of Review now. */}
         {data && review.length > 0 ? <div className="rv-record"><RecordGlimpse /></div> : null}
         {data ? (
@@ -192,7 +193,7 @@ export default function RecoveryOverview({ view }) {
         {data ? <LearningNextAction compact quiet={review.length === 0 || Boolean(openFirst)} /> : null}
         {data ? <StudyProgress review /> : null}
         {data?.reviewState === 'unavailable' ? <div className="pr-alert" data-tone="warning" role="status"><StatusIcon kind="warning" />The review queue is being prepared. Your saved attempts remain available.</div> : null}
-        {data && review.length === 0 ? <div className="ov-links rv-ways"><ReviseEntry /><RulesEntry /></div> : null}
+        {data && review.length === 0 ? <div className="ov-links rv-ways"><ReviseEntry /><RulesEntry /><MobEntry where="review" /></div> : null}
       </section>
     );
   }

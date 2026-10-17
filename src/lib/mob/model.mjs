@@ -12,15 +12,24 @@
 import { localDay, weekStart } from '../server/rhythm.js';
 
 export const MAX_MEMBERS = 5;
+// The plan caps STARTING Mobs (17 Oct CTO decision): free starts one, Pro up to 3. Joining a friend's Mob by invite is
+// open to every plan, up to one safety ceiling on how many Mobs a student is in (the migration holds the same 12).
 export const FREE_MAX_MOBS = 1;
 export const PRO_MAX_MOBS = 3;
+export const MAX_MEMBERSHIPS = 12;
 export const EXTRA_MAX_PER_WEEK = 3;
 export const EXTRA_LENGTHS = Object.freeze([5, 10, 15, 20]);
 export const EXTRA_OPEN_DAYS = 7;
+// A Mob paper is a quick practice paper: 60 seconds a question on the runner's clock (data/test_modes.js quick). The
+// window rules keep 12 seconds a question of slack for opening and submitting, so a paper started in time still counts.
 export const SECONDS_PER_QUESTION = 72;
+export const RUNNER_SECONDS_PER_QUESTION = 60;
 export const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 export const PAPER_COUNT = 10;
-export const PAPER_SECONDS = 720;
+export const PAPER_SECONDS = PAPER_COUNT * RUNNER_SECONDS_PER_QUESTION; // 600: what the runner's timer shows
+const START_WINDOW_SECONDS = PAPER_COUNT * SECONDS_PER_QUESTION; // 720: the paper plus slack, for the start cut-off
+/** "10 questions, 10 minutes": the copy every surface uses for a paper of `count` questions. */
+export const paperLine = (count = PAPER_COUNT) => `${count} questions, ${count * RUNNER_SECONDS_PER_QUESTION / 60} minutes`;
 export const INVITE_DAYS = 7;
 export const TRAP_MIN_SITTERS = 3;
 export const TRAP_MIN_PICKS = 2;
@@ -47,10 +56,19 @@ export const ERRORS = Object.freeze({
   NOT_FOUND: [404, 'That member is not in your Mob.'],
   INVITE_INVALID: [404, 'This invite can\'t be used. Ask your friend for a new link.'],
   INVITE_EXPIRED: [410, 'This invite can\'t be used. Ask your friend for a new link.'],
-  MOB_FULL: [409, 'This Mob already has 5 members.'],
+  MOB_FULL: [409, 'This Mob is full: it has 5 members, the most a Mob can have. Ask your friend to tell you if a seat opens, or start a Mob of your own.'],
   ALREADY_IN_MOB: [409, 'You are already in this Mob.'],
-  MOB_LIMIT: [409, 'Free includes one Mob. Leave yours to start or join another, or go Pro to be in up to 3.'],
-  MOB_LIMIT_PRO: [409, 'You are in 3 Mobs already. Leave one to start or join another.'],
+  MOB_LIMIT: [409, 'You already started a Mob. Free lets you start one, and join as many as friends invite you to. Pro lets you start up to 3.'],
+  MOB_LIMIT_PRO: [409, 'You already started 3 Mobs, the most Pro allows. You can still join any Mob a friend invites you to.'],
+  MOB_CEILING: [409, 'You are in 12 Mobs, the most one account can be in. Leave one to start or join another.'],
+  INVITES_PAUSED: [503, 'New invites are paused for now. Your Mob works as before.'],
+  JOIN_PAUSED: [503, 'Joining a Mob by link is paused for now. Try this link again later.'],
+  WEEK_INVALID: [404, 'There is no Mob paper for that week.'],
+  EXTRA_NOT_FOUND: [404, 'That extra paper is not in your Mob.'],
+  COMPARE_SIT_FIRST: [409, 'Sit this paper first, then you can compare it with your Mob.'],
+  NOT_SAT_THAT_WEEK: [409, 'You did not sit that week\'s paper, so there is nothing of yours to compare.'],
+  COMPARE_PAST_ALONE: [409, 'Only one member sat that week\'s paper, so there is nothing to compare.'],
+  BANK_THIN: [409, 'There are not enough questions ready for that paper.'],
   MOB_REQUIRED: [422, 'Say which Mob this is for.'],
   PRO_REQUIRED: [402, 'This part of the Mob is included with Pro.'],
   COMPARE_UNAVAILABLE: [409, 'There is nothing to compare yet. It needs one more member to sit this paper.'],
@@ -74,13 +92,15 @@ export const ERRORS = Object.freeze({
   COLOUR_INVALID: [422, 'Choose one of the 8 colours.'],
   REASON_INVALID: [422, 'Choose why you are reporting.'],
   BODY_INVALID: [422, 'Something in the request was not right. Try again.'],
-  RATE_LIMITED: [429, 'Too many tries. Wait a little and try again.'],
+  RATE_LIMITED: [429, 'Too many tries in a short time. Try again in a few minutes.'],
   PAPER_UNAVAILABLE: [503, 'This week\'s paper could not be built just now. Nothing was charged. Try again shortly.'],
   MIGRATION: [503, 'Your Mob is not available just now. Try again shortly.'],
   UNAVAILABLE: [503, 'Your Mob did not load. Try again shortly.'],
 });
 
 export class MobError extends Error {
+  /** extra.message: a sentence that says more than the code's own (the real wait, the real count); extra.detail: data
+   *  a screen can act on (the nearest paper the bank can build). Both are sent; the cause never is. */
   constructor(code, extra = {}) {
     super(code);
     this.code = ERRORS[code] ? code : 'UNAVAILABLE';
@@ -89,10 +109,10 @@ export class MobError extends Error {
   }
 }
 
-/** The error body every route sends: { error: { code, message } }. */
-export function errorBody(code) {
+/** The error body every route sends: { error: { code, message } }, plus `detail` when the screen can act on it. */
+export function errorBody(code, { message = null, detail = null } = {}) {
   const known = ERRORS[code] ? code : 'UNAVAILABLE';
-  return { error: { code: known, message: ERRORS[known][1] } };
+  return { error: { code: known, message: typeof message === 'string' && message ? message : ERRORS[known][1], ...(detail ? { detail } : {}) } };
 }
 export const errorStatus = (code) => (ERRORS[code] || ERRORS.UNAVAILABLE)[0];
 
@@ -105,8 +125,8 @@ export const mobWeek = (now) => weekStart(localDay(now, TIMEZONE));
 export const closesAt = (week) => new Date(Date.parse(`${addDays(week, 6)}T23:59:59${IST_OFFSET}`)).toISOString();
 /** The instant the next week's paper opens: Monday 12:00 AM IST. */
 export const nextOpensAt = (week) => new Date(Date.parse(`${addDays(week, 7)}T00:00:00${IST_OFFSET}`)).toISOString();
-/** A paper started now would run past the close (it lasts PAPER_SECONDS), so it could never count. */
-export const tooLateToStart = (week, now) => now + PAPER_SECONDS * 1000 > Date.parse(nextOpensAt(week));
+/** A paper started now would run past the close (its time plus slack), so it could never count. */
+export const tooLateToStart = (week, now) => now + START_WINDOW_SECONDS * 1000 > Date.parse(nextOpensAt(week));
 /** A sitting counts only when it finished before the close. */
 export const finishedInWindow = (week, finishedAt) => Number.isFinite(finishedAt) && finishedAt < Date.parse(nextOpensAt(week));
 
@@ -274,6 +294,20 @@ export function istDateTime(iso) {
 }
 export const inviteExpiryLine = (iso) => (istDateTime(iso) ? `Link works until ${istDateTime(iso)}` : '');
 
+/**
+ * The real wait, in plain words: "in a minute", "in 25 minutes", "in 3 hours", "on Fri 23 Oct, 9:40 PM" (12-hour IST).
+ * seconds: how long until the limit lets the student through; now: the clock the wait is counted from.
+ */
+export function waitPhrase(seconds, now = Date.now()) {
+  const s = Math.max(1, Math.ceil(Number(seconds) || 0));
+  if (s <= 90) return 'in a minute';
+  if (s < 3600) return `in ${Math.ceil(s / 60)} minutes`;
+  if (s < 5400) return 'in about an hour';
+  if (s < 86_400) return `in ${Math.round(s / 3600)} hours`;
+  const at = istDateTime(new Date(now + s * 1000).toISOString());
+  return at ? `on ${at}` : `in ${Math.ceil(s / 86_400)} days`;
+}
+
 // ---------- One member's view (the GET /api/mob shape) ----------
 
 /**
@@ -284,7 +318,7 @@ export const inviteExpiryLine = (iso) => (istDateTime(iso) ? `Link works until $
  *   the plan gives, from the service), extras (this week's Pro extra papers as the student sees them), freeBlocked
  * Returns { mob: null } or { mob: {...} }.
  */
-export function buildView(state, { userId, now, memberIdFor, cost = null, trap = null, together = null, subjectName = null, plan = null, mobs = null, compare = null, extras = null, freeBlocked = false } = {}) {
+export function buildView(state, { userId, now, memberIdFor, cost = null, trap = null, together = null, subjectName = null, plan = null, mobs = null, compare = null, extras = null, freeBlocked = false, started = null, invitesPaused = false } = {}) {
   if (!state || !state.mob) return { mob: null };
   const week = state.week;
   const members = Array.isArray(state.members) ? [...state.members] : [];
@@ -320,12 +354,14 @@ export function buildView(state, { userId, now, memberIdFor, cost = null, trap =
   const pro = plan?.pro === true;
   const mobList = Array.isArray(mobs) && mobs.length ? mobs : [{ id: state.mob.id, subject: state.mob.subject, subjectName: subjectName || state.mob.subject }];
   const maxMobs = pro ? PRO_MAX_MOBS : FREE_MAX_MOBS;
+  // How many of these Mobs the student started (the plan caps starting; joining is open to every plan).
+  const startedCount = Number.isInteger(started) ? started : mobList.length;
   return {
     mob: {
       id: state.mob.id,
       subject: state.mob.subject,
       subjectName: subjectName || state.mob.subject,
-      plan: { pro, maxMobs, mobCount: mobList.length, canMakeExtra: pro, canStartAnother: pro && mobList.length < maxMobs },
+      plan: { pro, maxMobs, mobCount: mobList.length, started: startedCount, canMakeExtra: pro, canStartAnother: startedCount < maxMobs && mobList.length < MAX_MEMBERSHIPS },
       mobs: mobList.map((x) => ({ id: x.id, subject: x.subject, subjectName: x.subjectName || x.subject, active: x.id === state.mob.id })),
       you: { memberId: memberIdFor(userId), name: me.display_name, colour: me.colour, role: userId === ownerId ? 'owner' : 'member', showScore: Boolean(me.show_score), nudgesMuted: Boolean(me.nudges_muted) },
       members: members.map(memberOut),
@@ -349,7 +385,10 @@ export function buildView(state, { userId, now, memberIdFor, cost = null, trap =
       extras: Array.isArray(extras) ? extras : [],
       pastWeeks: Number(state.past_weeks) || 0,
       nudge: { canSend: nudgeReason === null, reason: nudgeReason, received },
-      invite: inviteOut,
+      invite: invitesPaused ? null : inviteOut,
+      // The stop rule's switch (MOB_INVITES_ENABLED=false): sent only while invites are paused, so the shape is unchanged
+      // the rest of the time.
+      ...(invitesPaused ? { invitesPaused: true } : {}),
     },
   };
 }

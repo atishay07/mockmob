@@ -24,6 +24,7 @@ import StartRule, { useStartRule } from './StartRule';
 import ChapterPicker from './ChapterPicker';
 import { chapterUnits, chaptersForMode } from './chapterGroups.mjs';
 import { MODE_SPECS, MODE_TILE_SPECS, bankCount, freshPaperLine } from '@/lib/paperCopy.mjs';
+import MobEntry from '@/components/mob/MobEntry';
 import './practice.css';
 import './chapter-picker.css';
 
@@ -480,6 +481,8 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
           </p>
         </div>
       </header>
+
+      <MobEntry where="practice" />
 
       {creditError && <div className="pr-alert" data-tone="error" role="alert"><StatusIcon kind="error" />{creditError}</div>}
 

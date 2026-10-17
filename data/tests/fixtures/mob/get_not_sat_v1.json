@@ -7,6 +7,7 @@
       "pro": false,
       "maxMobs": 1,
       "mobCount": 1,
+      "started": 1,
       "canMakeExtra": false,
       "canStartAnother": false
     },
@@ -68,7 +69,7 @@
       "closed": false,
       "paper": {
         "count": 10,
-        "durationSec": 720,
+        "durationSec": 600,
         "cost": {
           "type": "free"
         },
