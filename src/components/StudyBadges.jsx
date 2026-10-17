@@ -176,13 +176,6 @@ function BadgesSection({ board, zone, armed }) {
   const pick = useMemo(() => pickNext(paths, entries), [paths, entries]);
   const unknown = useMemo(() => paths.flatMap((p) => p.steps).filter((s) => s.status === 'unknown').length, [paths]);
   const total = paths.reduce((n, p) => n + p.total, 0);
-  const section = useRef(null);
-
-  // Arriving from the result's "See your badges" (#badges): the section appears after its reads, so go to it then.
-  useEffect(() => {
-    if (window.location.hash === '#badges') section.current?.scrollIntoView({ block: 'start' });
-  }, []);
-
   const openDetail = useCallback((id, anchor) => setOverlay({ kind: 'detail', id, anchor, from: 'page' }), []);
   const openAll = useCallback((event) => setOverlay({ kind: 'all', anchor: event.currentTarget }), []);
   // From a row inside the All badges sheet: the detail replaces the list in the same sheet, and "All badges" brings it back.
@@ -193,7 +186,7 @@ function BadgesSection({ board, zone, armed }) {
   const closeThis = overlay ? () => setOverlay((cur) => (cur === overlay ? null : cur)) : null;
 
   return (
-    <section ref={section} className="rv-sec sb-sec" id="badges" aria-labelledby="sb-h">
+    <section className="rv-sec sb-sec" id="badges" aria-labelledby="sb-h">
       <div className="rv-sec__head">
         <h2 id="sb-h">{headLine(paths)}</h2>
         {wide ? null : <button type="button" className="sb-all" onClick={openAll} aria-haspopup="dialog">All badges</button>}
@@ -316,6 +309,17 @@ export default function StudyBadges({ rhythm = null, rhythmFailed = false }) {
       } : null,
     };
   }, [state.status, waiting, record, badges, rhythm, zone]);
+
+  // Arriving at #badges or #bests (the result's "See your badges", the Account glance): the sections appear after their
+  // reads, so the page goes to the one asked for once they are there, and only the first time.
+  const went = useRef(false);
+  const ready = !!view;
+  useEffect(() => {
+    if (!ready || went.current) return;
+    went.current = true;
+    const id = window.location.hash.replace('#', '');
+    if (id === 'badges' || id === 'bests') document.getElementById(id)?.scrollIntoView({ block: 'start' });
+  }, [ready]);
 
   if (state.status === 'error') {
     return (
