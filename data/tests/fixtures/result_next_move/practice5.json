@@ -1,0 +1,99 @@
+{
+  "name": "practice5",
+  "input": {
+    "aiCredits": 68,
+    "practiceCredits": 40,
+    "isPremium": false,
+    "subject": "business_studies",
+    "subjectName": "Business Studies",
+    "labReady": true,
+    "hour": 21,
+    "answerReviews": {},
+    "repaired": [],
+    "checks": {},
+    "mode": "quick",
+    "rows": [
+      {
+        "qid": "paper-practice5-q1",
+        "number": 1,
+        "chapter": "Nature & Significance of Management",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-practice5-q2",
+        "number": 2,
+        "chapter": "Nature & Significance of Management",
+        "key": 2,
+        "verdict": "correct",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-practice5-q3",
+        "number": 3,
+        "chapter": "Nature & Significance of Management",
+        "key": 3,
+        "verdict": "wrong",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-practice5-q4",
+        "number": 4,
+        "chapter": "Nature & Significance of Management",
+        "key": 0,
+        "verdict": "correct",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-practice5-q5",
+        "number": 5,
+        "chapter": "Nature & Significance of Management",
+        "key": 1,
+        "verdict": "skipped",
+        "givenIndex": null
+      }
+    ],
+    "repairOrder": {
+      "version": 1,
+      "state": "paper",
+      "items": [
+        {
+          "qid": "paper-practice5-q3",
+          "number": 3,
+          "reason": "paper",
+          "key": null,
+          "line": null
+        }
+      ],
+      "qids": [
+        "paper-practice5-q3"
+      ]
+    }
+  },
+  "expected": {
+    "costliest": {
+      "line": "Nature & Significance of Management cost all 11 marks you missed.",
+      "detail": "1 wrong and 1 left blank, of 5 questions."
+    },
+    "move": {
+      "kind": "repair",
+      "rule": 3,
+      "label": "Repair Q3",
+      "why": "Nature & Significance of Management. You picked A.",
+      "value": "A repair gives you why A looked right, the trap, one rule to keep, and a new question to check it held.",
+      "cost": "1 AI credit. You have 68. No charge if the repair cannot be written.",
+      "late": null,
+      "alt": {
+        "kind": "practise",
+        "label": "Practise 10 on Nature & Significance of Management instead"
+      },
+      "note": null,
+      "target": {
+        "qid": "paper-practice5-q3",
+        "number": 3,
+        "chapter": "Nature & Significance of Management"
+      }
+    }
+  }
+}

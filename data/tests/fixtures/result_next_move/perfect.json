@@ -1,0 +1,448 @@
+{
+  "name": "perfect",
+  "input": {
+    "aiCredits": 68,
+    "practiceCredits": 40,
+    "isPremium": false,
+    "subject": "accountancy",
+    "subjectName": "Accountancy",
+    "labReady": true,
+    "hour": 21,
+    "answerReviews": {},
+    "repaired": [],
+    "checks": {},
+    "mode": "full",
+    "rows": [
+      {
+        "qid": "paper-perfect-q1",
+        "number": 1,
+        "chapter": "Partnership Fundamentals",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-perfect-q2",
+        "number": 2,
+        "chapter": "Partnership Fundamentals",
+        "key": 2,
+        "verdict": "correct",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-perfect-q3",
+        "number": 3,
+        "chapter": "Partnership Fundamentals",
+        "key": 3,
+        "verdict": "correct",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-perfect-q4",
+        "number": 4,
+        "chapter": "Partnership Fundamentals",
+        "key": 0,
+        "verdict": "correct",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-perfect-q5",
+        "number": 5,
+        "chapter": "Partnership Fundamentals",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-perfect-q6",
+        "number": 6,
+        "chapter": "Partnership Fundamentals",
+        "key": 2,
+        "verdict": "correct",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-perfect-q7",
+        "number": 7,
+        "chapter": "Partnership Fundamentals",
+        "key": 3,
+        "verdict": "correct",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-perfect-q8",
+        "number": 8,
+        "chapter": "Partnership Fundamentals",
+        "key": 0,
+        "verdict": "correct",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-perfect-q9",
+        "number": 9,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-perfect-q10",
+        "number": 10,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 2,
+        "verdict": "correct",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-perfect-q11",
+        "number": 11,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 3,
+        "verdict": "correct",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-perfect-q12",
+        "number": 12,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 0,
+        "verdict": "correct",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-perfect-q13",
+        "number": 13,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-perfect-q14",
+        "number": 14,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 2,
+        "verdict": "correct",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-perfect-q15",
+        "number": 15,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 3,
+        "verdict": "correct",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-perfect-q16",
+        "number": 16,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 0,
+        "verdict": "correct",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-perfect-q17",
+        "number": 17,
+        "chapter": "Goodwill",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-perfect-q18",
+        "number": 18,
+        "chapter": "Goodwill",
+        "key": 2,
+        "verdict": "correct",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-perfect-q19",
+        "number": 19,
+        "chapter": "Goodwill",
+        "key": 3,
+        "verdict": "correct",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-perfect-q20",
+        "number": 20,
+        "chapter": "Goodwill",
+        "key": 0,
+        "verdict": "correct",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-perfect-q21",
+        "number": 21,
+        "chapter": "Goodwill",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-perfect-q22",
+        "number": 22,
+        "chapter": "Goodwill",
+        "key": 2,
+        "verdict": "correct",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-perfect-q23",
+        "number": 23,
+        "chapter": "Accounting Ratios",
+        "key": 3,
+        "verdict": "correct",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-perfect-q24",
+        "number": 24,
+        "chapter": "Accounting Ratios",
+        "key": 0,
+        "verdict": "correct",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-perfect-q25",
+        "number": 25,
+        "chapter": "Accounting Ratios",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-perfect-q26",
+        "number": 26,
+        "chapter": "Accounting Ratios",
+        "key": 2,
+        "verdict": "correct",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-perfect-q27",
+        "number": 27,
+        "chapter": "Accounting Ratios",
+        "key": 3,
+        "verdict": "correct",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-perfect-q28",
+        "number": 28,
+        "chapter": "Accounting Ratios",
+        "key": 0,
+        "verdict": "correct",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-perfect-q29",
+        "number": 29,
+        "chapter": "Accounting Ratios",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-perfect-q30",
+        "number": 30,
+        "chapter": "Accounting Ratios",
+        "key": 2,
+        "verdict": "correct",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-perfect-q31",
+        "number": 31,
+        "chapter": "Accounting Ratios",
+        "key": 3,
+        "verdict": "correct",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-perfect-q32",
+        "number": 32,
+        "chapter": "Accounting Ratios",
+        "key": 0,
+        "verdict": "correct",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-perfect-q33",
+        "number": 33,
+        "chapter": "Share Capital",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-perfect-q34",
+        "number": 34,
+        "chapter": "Share Capital",
+        "key": 2,
+        "verdict": "correct",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-perfect-q35",
+        "number": 35,
+        "chapter": "Share Capital",
+        "key": 3,
+        "verdict": "correct",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-perfect-q36",
+        "number": 36,
+        "chapter": "Share Capital",
+        "key": 0,
+        "verdict": "correct",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-perfect-q37",
+        "number": 37,
+        "chapter": "Share Capital",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-perfect-q38",
+        "number": 38,
+        "chapter": "Share Capital",
+        "key": 2,
+        "verdict": "correct",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-perfect-q39",
+        "number": 39,
+        "chapter": "Share Capital",
+        "key": 3,
+        "verdict": "correct",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-perfect-q40",
+        "number": 40,
+        "chapter": "Share Capital",
+        "key": 0,
+        "verdict": "correct",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-perfect-q41",
+        "number": 41,
+        "chapter": "Depreciation",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-perfect-q42",
+        "number": 42,
+        "chapter": "Depreciation",
+        "key": 2,
+        "verdict": "correct",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-perfect-q43",
+        "number": 43,
+        "chapter": "Depreciation",
+        "key": 3,
+        "verdict": "correct",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-perfect-q44",
+        "number": 44,
+        "chapter": "Depreciation",
+        "key": 0,
+        "verdict": "correct",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-perfect-q45",
+        "number": 45,
+        "chapter": "Depreciation",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-perfect-q46",
+        "number": 46,
+        "chapter": "Depreciation",
+        "key": 2,
+        "verdict": "correct",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-perfect-q47",
+        "number": 47,
+        "chapter": "Depreciation",
+        "key": 3,
+        "verdict": "correct",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-perfect-q48",
+        "number": 48,
+        "chapter": "Depreciation",
+        "key": 0,
+        "verdict": "correct",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-perfect-q49",
+        "number": 49,
+        "chapter": "Depreciation",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-perfect-q50",
+        "number": 50,
+        "chapter": "Depreciation",
+        "key": 2,
+        "verdict": "correct",
+        "givenIndex": 2
+      }
+    ],
+    "repairOrder": {
+      "version": 1,
+      "state": "paper",
+      "items": [],
+      "qids": []
+    }
+  },
+  "expected": {
+    "costliest": {
+      "line": "Every question right.",
+      "detail": null
+    },
+    "move": {
+      "kind": "harder",
+      "rule": 1,
+      "label": "Set up a harder full mock",
+      "why": "A harder paper finds what is left to fix.",
+      "value": null,
+      "cost": null,
+      "late": null,
+      "alt": {
+        "kind": "paper",
+        "label": "Take another fresh paper"
+      },
+      "note": null,
+      "target": {
+        "chapter": null,
+        "href": "/dashboard?subject=accountancy&mode=full"
+      }
+    }
+  }
+}

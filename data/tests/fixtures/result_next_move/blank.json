@@ -1,0 +1,445 @@
+{
+  "name": "blank",
+  "input": {
+    "aiCredits": 68,
+    "practiceCredits": 40,
+    "isPremium": false,
+    "subject": "accountancy",
+    "subjectName": "Accountancy",
+    "labReady": true,
+    "hour": 21,
+    "answerReviews": {},
+    "repaired": [],
+    "checks": {},
+    "mode": "full",
+    "rows": [
+      {
+        "qid": "paper-blank-q1",
+        "number": 1,
+        "chapter": "Partnership Fundamentals",
+        "key": 1,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q2",
+        "number": 2,
+        "chapter": "Partnership Fundamentals",
+        "key": 2,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q3",
+        "number": 3,
+        "chapter": "Partnership Fundamentals",
+        "key": 3,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q4",
+        "number": 4,
+        "chapter": "Partnership Fundamentals",
+        "key": 0,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q5",
+        "number": 5,
+        "chapter": "Partnership Fundamentals",
+        "key": 1,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q6",
+        "number": 6,
+        "chapter": "Partnership Fundamentals",
+        "key": 2,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q7",
+        "number": 7,
+        "chapter": "Partnership Fundamentals",
+        "key": 3,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q8",
+        "number": 8,
+        "chapter": "Partnership Fundamentals",
+        "key": 0,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q9",
+        "number": 9,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 1,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q10",
+        "number": 10,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 2,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q11",
+        "number": 11,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 3,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q12",
+        "number": 12,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 0,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q13",
+        "number": 13,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 1,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q14",
+        "number": 14,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 2,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q15",
+        "number": 15,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 3,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q16",
+        "number": 16,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 0,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q17",
+        "number": 17,
+        "chapter": "Goodwill",
+        "key": 1,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q18",
+        "number": 18,
+        "chapter": "Goodwill",
+        "key": 2,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q19",
+        "number": 19,
+        "chapter": "Goodwill",
+        "key": 3,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q20",
+        "number": 20,
+        "chapter": "Goodwill",
+        "key": 0,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q21",
+        "number": 21,
+        "chapter": "Goodwill",
+        "key": 1,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q22",
+        "number": 22,
+        "chapter": "Goodwill",
+        "key": 2,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q23",
+        "number": 23,
+        "chapter": "Accounting Ratios",
+        "key": 3,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q24",
+        "number": 24,
+        "chapter": "Accounting Ratios",
+        "key": 0,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q25",
+        "number": 25,
+        "chapter": "Accounting Ratios",
+        "key": 1,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q26",
+        "number": 26,
+        "chapter": "Accounting Ratios",
+        "key": 2,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q27",
+        "number": 27,
+        "chapter": "Accounting Ratios",
+        "key": 3,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q28",
+        "number": 28,
+        "chapter": "Accounting Ratios",
+        "key": 0,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q29",
+        "number": 29,
+        "chapter": "Accounting Ratios",
+        "key": 1,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q30",
+        "number": 30,
+        "chapter": "Accounting Ratios",
+        "key": 2,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q31",
+        "number": 31,
+        "chapter": "Accounting Ratios",
+        "key": 3,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q32",
+        "number": 32,
+        "chapter": "Accounting Ratios",
+        "key": 0,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q33",
+        "number": 33,
+        "chapter": "Share Capital",
+        "key": 1,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q34",
+        "number": 34,
+        "chapter": "Share Capital",
+        "key": 2,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q35",
+        "number": 35,
+        "chapter": "Share Capital",
+        "key": 3,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q36",
+        "number": 36,
+        "chapter": "Share Capital",
+        "key": 0,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q37",
+        "number": 37,
+        "chapter": "Share Capital",
+        "key": 1,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q38",
+        "number": 38,
+        "chapter": "Share Capital",
+        "key": 2,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q39",
+        "number": 39,
+        "chapter": "Share Capital",
+        "key": 3,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q40",
+        "number": 40,
+        "chapter": "Share Capital",
+        "key": 0,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q41",
+        "number": 41,
+        "chapter": "Depreciation",
+        "key": 1,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q42",
+        "number": 42,
+        "chapter": "Depreciation",
+        "key": 2,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q43",
+        "number": 43,
+        "chapter": "Depreciation",
+        "key": 3,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q44",
+        "number": 44,
+        "chapter": "Depreciation",
+        "key": 0,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q45",
+        "number": 45,
+        "chapter": "Depreciation",
+        "key": 1,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q46",
+        "number": 46,
+        "chapter": "Depreciation",
+        "key": 2,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q47",
+        "number": 47,
+        "chapter": "Depreciation",
+        "key": 3,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q48",
+        "number": 48,
+        "chapter": "Depreciation",
+        "key": 0,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q49",
+        "number": 49,
+        "chapter": "Depreciation",
+        "key": 1,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-blank-q50",
+        "number": 50,
+        "chapter": "Depreciation",
+        "key": 2,
+        "verdict": "skipped",
+        "givenIndex": null
+      }
+    ],
+    "repairOrder": {
+      "version": 1,
+      "state": "paper",
+      "items": [],
+      "qids": []
+    }
+  },
+  "expected": {
+    "costliest": {
+      "line": "All 50 were left blank: 250 marks not earned.",
+      "detail": null
+    },
+    "move": {
+      "kind": "practise",
+      "rule": 2,
+      "label": "Practise 10 in Accountancy",
+      "why": "Nothing was answered on this paper, so a short set in Accountancy comes first.",
+      "value": null,
+      "cost": "This set uses 10 practice credits. You have 40.",
+      "late": null,
+      "alt": null,
+      "note": null,
+      "target": {
+        "chapter": null,
+        "href": "/dashboard?subject=accountancy&mode=quick&count=10"
+      }
+    }
+  }
+}

@@ -4,7 +4,9 @@
 // student's Reduce motion and Celebrations settings.
 // Mobi's reaction follows the server's recap tone (src/lib/server/recap.js), the same table as the
 // app (flutter_app lib/features/result/model/recap_variant.dart): proud on a first mock, a cheer when
-// higher, encouragement when lower or held, a rest otherwise, sleepy late at night, and no Mobi in NTA mode.
+// higher, encouragement when lower or held, a rest otherwise, and no Mobi in NTA mode. Never sleepy: the late-night act
+// left the result on 17 Oct (owner ledger F11, RESULT-1017 section 3); it stays in the rig for Today and the reminder.
+// The 1017 result page itself shows no hero Mobi at all; this stays for any other caller and for parity with the app.
 // The repair key counts the same candidates the app does (lib/core/domain/repair_candidates.dart).
 import { answerAct, recapReaction } from '../../../../lib/mobiMoments.js';
 import { reactNow } from '../../../../lib/mobiRation.js';
@@ -15,19 +17,17 @@ const ALT = {
   cheer: 'Mobi cheering a higher result than last time.',
   encourage: 'Mobi encouraging you after a lower result.',
   held: 'Mobi waiting with you while some answer keys are checked.',
-  sleepy: 'Mobi, sleepy. It is late.',
   rest: 'Mobi beside your recorded result.',
 };
 
 /**
- * The hero Mobi's reaction: the app's recapReaction table (lib/mobiMoments.js). NTA none; late at
- * night sleepy with "Goodnight."; first mock proud; higher cheer; lower and held encourage; the
- * standard result rests. Under Quiet or Off the big acts become a held rest. `hour` is the local
- * hour, 0 to 23.
+ * A result's Mobi reaction: the app's recapReaction table (lib/mobiMoments.js). NTA none; first mock
+ * proud; higher cheer; lower and held encourage; the standard result rests. Under Quiet or Off the
+ * big acts become a held rest. The hour is not read: a result is never sleepy (F11).
  */
-export function mobiReaction(attempt, { celebrations = 'full', hour = 12 } = {}) {
+export function mobiReaction(attempt, { celebrations = 'full' } = {}) {
   const tone = attempt?.recap?.tone;
-  const found = recapReaction({ tone, celebrations, isNta: attempt?.selectionMeta?.mode === 'nta', hour });
+  const found = recapReaction({ tone, celebrations, isNta: attempt?.selectionMeta?.mode === 'nta', hour: 12 });
   if (!found) return null;
   const alt = found.act === 'encourage' && tone === 'held' ? ALT.held : ALT[found.act] || ALT.rest;
   return { act: found.act, alt, line: found.line || '' };

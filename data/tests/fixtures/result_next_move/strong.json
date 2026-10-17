@@ -1,0 +1,483 @@
+{
+  "name": "strong",
+  "input": {
+    "aiCredits": 68,
+    "practiceCredits": 40,
+    "isPremium": false,
+    "subject": "accountancy",
+    "subjectName": "Accountancy",
+    "labReady": true,
+    "hour": 21,
+    "answerReviews": {},
+    "repaired": [],
+    "checks": {},
+    "mode": "full",
+    "rows": [
+      {
+        "qid": "paper-strong-q1",
+        "number": 1,
+        "chapter": "Partnership Fundamentals",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-strong-q2",
+        "number": 2,
+        "chapter": "Partnership Fundamentals",
+        "key": 2,
+        "verdict": "correct",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-strong-q3",
+        "number": 3,
+        "chapter": "Partnership Fundamentals",
+        "key": 3,
+        "verdict": "correct",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-strong-q4",
+        "number": 4,
+        "chapter": "Partnership Fundamentals",
+        "key": 0,
+        "verdict": "correct",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-strong-q5",
+        "number": 5,
+        "chapter": "Partnership Fundamentals",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-strong-q6",
+        "number": 6,
+        "chapter": "Partnership Fundamentals",
+        "key": 2,
+        "verdict": "wrong",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-strong-q7",
+        "number": 7,
+        "chapter": "Partnership Fundamentals",
+        "key": 3,
+        "verdict": "correct",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-strong-q8",
+        "number": 8,
+        "chapter": "Partnership Fundamentals",
+        "key": 0,
+        "verdict": "correct",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-strong-q9",
+        "number": 9,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-strong-q10",
+        "number": 10,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 2,
+        "verdict": "correct",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-strong-q11",
+        "number": 11,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 3,
+        "verdict": "correct",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-strong-q12",
+        "number": 12,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 0,
+        "verdict": "correct",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-strong-q13",
+        "number": 13,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 1,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-strong-q14",
+        "number": 14,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 2,
+        "verdict": "correct",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-strong-q15",
+        "number": 15,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 3,
+        "verdict": "correct",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-strong-q16",
+        "number": 16,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 0,
+        "verdict": "correct",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-strong-q17",
+        "number": 17,
+        "chapter": "Goodwill",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-strong-q18",
+        "number": 18,
+        "chapter": "Goodwill",
+        "key": 2,
+        "verdict": "correct",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-strong-q19",
+        "number": 19,
+        "chapter": "Goodwill",
+        "key": 3,
+        "verdict": "correct",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-strong-q20",
+        "number": 20,
+        "chapter": "Goodwill",
+        "key": 0,
+        "verdict": "wrong",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-strong-q21",
+        "number": 21,
+        "chapter": "Goodwill",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-strong-q22",
+        "number": 22,
+        "chapter": "Goodwill",
+        "key": 2,
+        "verdict": "correct",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-strong-q23",
+        "number": 23,
+        "chapter": "Accounting Ratios",
+        "key": 3,
+        "verdict": "correct",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-strong-q24",
+        "number": 24,
+        "chapter": "Accounting Ratios",
+        "key": 0,
+        "verdict": "correct",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-strong-q25",
+        "number": 25,
+        "chapter": "Accounting Ratios",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-strong-q26",
+        "number": 26,
+        "chapter": "Accounting Ratios",
+        "key": 2,
+        "verdict": "wrong",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-strong-q27",
+        "number": 27,
+        "chapter": "Accounting Ratios",
+        "key": 3,
+        "verdict": "correct",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-strong-q28",
+        "number": 28,
+        "chapter": "Accounting Ratios",
+        "key": 0,
+        "verdict": "correct",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-strong-q29",
+        "number": 29,
+        "chapter": "Accounting Ratios",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-strong-q30",
+        "number": 30,
+        "chapter": "Accounting Ratios",
+        "key": 2,
+        "verdict": "correct",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-strong-q31",
+        "number": 31,
+        "chapter": "Accounting Ratios",
+        "key": 3,
+        "verdict": "wrong",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-strong-q32",
+        "number": 32,
+        "chapter": "Accounting Ratios",
+        "key": 0,
+        "verdict": "correct",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-strong-q33",
+        "number": 33,
+        "chapter": "Share Capital",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-strong-q34",
+        "number": 34,
+        "chapter": "Share Capital",
+        "key": 2,
+        "verdict": "correct",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-strong-q35",
+        "number": 35,
+        "chapter": "Share Capital",
+        "key": 3,
+        "verdict": "correct",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-strong-q36",
+        "number": 36,
+        "chapter": "Share Capital",
+        "key": 0,
+        "verdict": "correct",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-strong-q37",
+        "number": 37,
+        "chapter": "Share Capital",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-strong-q38",
+        "number": 38,
+        "chapter": "Share Capital",
+        "key": 2,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-strong-q39",
+        "number": 39,
+        "chapter": "Share Capital",
+        "key": 3,
+        "verdict": "correct",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-strong-q40",
+        "number": 40,
+        "chapter": "Share Capital",
+        "key": 0,
+        "verdict": "correct",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-strong-q41",
+        "number": 41,
+        "chapter": "Depreciation",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-strong-q42",
+        "number": 42,
+        "chapter": "Depreciation",
+        "key": 2,
+        "verdict": "correct",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-strong-q43",
+        "number": 43,
+        "chapter": "Depreciation",
+        "key": 3,
+        "verdict": "correct",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-strong-q44",
+        "number": 44,
+        "chapter": "Depreciation",
+        "key": 0,
+        "verdict": "correct",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-strong-q45",
+        "number": 45,
+        "chapter": "Depreciation",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-strong-q46",
+        "number": 46,
+        "chapter": "Depreciation",
+        "key": 2,
+        "verdict": "correct",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-strong-q47",
+        "number": 47,
+        "chapter": "Depreciation",
+        "key": 3,
+        "verdict": "correct",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-strong-q48",
+        "number": 48,
+        "chapter": "Depreciation",
+        "key": 0,
+        "verdict": "correct",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-strong-q49",
+        "number": 49,
+        "chapter": "Depreciation",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-strong-q50",
+        "number": 50,
+        "chapter": "Depreciation",
+        "key": 2,
+        "verdict": "correct",
+        "givenIndex": 2
+      }
+    ],
+    "repairOrder": {
+      "version": 1,
+      "state": "cohort",
+      "items": [
+        {
+          "qid": "paper-strong-q6",
+          "number": 6,
+          "reason": "most_right",
+          "key": "Repair Q6 first",
+          "line": "21 of 26 other students got it right."
+        },
+        {
+          "qid": "paper-strong-q31",
+          "number": 31,
+          "reason": "most_right",
+          "key": "Repair Q31 first",
+          "line": "16 of 21 other students got it right."
+        },
+        {
+          "qid": "paper-strong-q20",
+          "number": 20,
+          "reason": "paper",
+          "key": null,
+          "line": null
+        },
+        {
+          "qid": "paper-strong-q26",
+          "number": 26,
+          "reason": "paper",
+          "key": null,
+          "line": null
+        }
+      ],
+      "qids": [
+        "paper-strong-q6",
+        "paper-strong-q31",
+        "paper-strong-q20",
+        "paper-strong-q26"
+      ]
+    }
+  },
+  "expected": {
+    "costliest": {
+      "line": "Accounting Ratios cost 12 of the 34 marks you missed.",
+      "detail": "2 wrong, of 10 questions."
+    },
+    "move": {
+      "kind": "repair",
+      "rule": 3,
+      "label": "Repair Q31",
+      "why": "Accounting Ratios. You picked A. 16 of 21 other students got it right.",
+      "value": "A repair gives you why A looked right, the trap, one rule to keep, and a new question to check it held.",
+      "cost": "1 AI credit. You have 68. No charge if the repair cannot be written.",
+      "late": null,
+      "alt": {
+        "kind": "practise",
+        "label": "Practise 10 on Accounting Ratios instead"
+      },
+      "note": "All 4 repairs take about 15 minutes.",
+      "target": {
+        "qid": "paper-strong-q31",
+        "number": 31,
+        "chapter": "Accounting Ratios"
+      }
+    }
+  }
+}

@@ -138,7 +138,7 @@ function AnotherWay({ text, style }) {
 
 // A finished repair (spec A.1): blocks 1 to 12 in order, one column. Exported so fixture payloads can be rendered
 // on their own (data/tests/repair_wiring.test.mjs): v1, v2 and v3 payloads each keep their own set of blocks.
-export function RepairDone({ state, attemptId = null, questionId = null, chosen = null, answer = null, number = null, scheme = 'cuet', insights = null, folded = true, onToggleFold, mobi = null, nextButton = null, next = null, from = null }) {
+export function RepairDone({ state, attemptId = null, questionId = null, chosen = null, answer = null, number = null, scheme = 'cuet', insights = null, folded = true, onToggleFold, mobi = null, nextButton = null, next = null, from = null, onCheck = null }) {
   const blocks = repairBlocks(state.repair);
   if (!blocks) return null;
   const fresh = state.status === 'explained';
@@ -188,7 +188,7 @@ export function RepairDone({ state, attemptId = null, questionId = null, chosen 
       {v3 && blocks.anotherWay ? <AnotherWay text={blocks.anotherWay} style={stagger('another')} /> : null}
       {!v3 && blocks.nextStep ? <div className="mr-block mr-next" data-stagger style={stagger('nextStep')}><h5 className="mr-label">{REPAIR_COPY.doThisNext}</h5><p>{blocks.nextStep}</p></div> : null}
       {showCheck ? <RepairAsk attemptId={attemptId} questionId={questionId} number={number} askHref={state.check.askHref} balance={state.charged && state.wallet?.known !== false ? state.wallet?.total ?? null : null} style={stagger('ask')} /> : null}
-      {showCheck ? <RepairCheck attemptId={attemptId} questionId={questionId} check={state.check} style={stagger('check')} /> : null}
+      {showCheck ? <RepairCheck attemptId={attemptId} questionId={questionId} check={state.check} style={stagger('check')} onResult={onCheck ? (result) => onCheck(questionId, result) : undefined} /> : null}
       {record.length ? (
         <div className="mr-block mr-record" data-stagger style={stagger('record')}>
           <h5 className="mr-label">{REPAIR_COPY.fromRecord}</h5>
@@ -218,7 +218,9 @@ export function RepairDone({ state, attemptId = null, questionId = null, chosen 
 //   onFinish   there is nothing left to open: the last key says Finish and shows the ending
 //   handover   'a' | 'b': this panel was just brought back by the track and rises in over 160 ms
 //   insights   { lines: [{ kind, text }] } | null: this answer's "From your record" sentences, built on the server
-export default function MistakeRepair({ attemptId, questionId, chosen, answer, number = null, scheme = 'cuet', nta = false, autoStart = false, onSettled, onReview, initialReview = null, next = null, isCurrent = true, earlier = null, onStart, onStep, onFinish, handover = null, insights = null, saved = null, paper = null }) {
+//   saved      the server holds a written repair for this mistake (lab.repaired): it opens free, never offered as paid (F17)
+//   onCheck    (questionId, { right, replayed }): Check it held came back marked by the server
+export default function MistakeRepair({ attemptId, questionId, chosen, answer, number = null, scheme = 'cuet', nta = false, autoStart = false, onSettled, onReview, initialReview = null, next = null, isCurrent = true, earlier = null, onStart, onStep, onFinish, handover = null, insights = null, saved = null, paper = null, onCheck = null }) {
   const [state, setState] = useState({ status: 'idle' });
   const [slow, setSlow] = useState(false);
   const [long, setLong] = useState(false);
@@ -342,7 +344,7 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
           <PaperFrom line={paper} />
           <button type="button" className="mr-start" onClick={() => { started.current = true; run(); }}>
             <span className="mr-start__icon" aria-hidden="true"><Wrench size={18} strokeWidth={2.4} /></span>
-            <span className="mr-start__text"><b>Repair this mistake</b><small>Why {chosen ? `option ${chosen}` : 'your answer'} looked right, why the key is right and one rule to keep</small></span>
+            <span className="mr-start__text"><b>Repair this mistake</b><small>Why {chosen ? `option ${chosen}` : 'your answer'} looked right, why the key is right and one rule to keep, then a new question to check it held</small></span>
             <span className="mr-start__cost">1 AI credit</span>
           </button>
           <RepairCost />
@@ -399,7 +401,7 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
       );
     }
     return <RepairDone state={state} attemptId={attemptId} questionId={questionId} chosen={chosen} answer={answer} number={number} scheme={scheme} insights={insights}
-      folded={folded} onToggleFold={() => setFolded(f => !f)} mobi={mobi} nextButton={nextButton} next={next} from={paper} />;
+      folded={folded} onToggleFold={() => setFolded(f => !f)} mobi={mobi} nextButton={nextButton} next={next} from={paper} onCheck={onCheck} />;
   })();
   return <div className="mr-shell" data-handover={handover || undefined} {...shellProps}>{earlierEl}{content}</div>;
 }
