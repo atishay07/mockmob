@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>App review and result, pass 1018</title>
+<style>
+/* The app's own cuts (flutter_app/assets/fonts) and colours (lib/core/theme/mm_colors.dart, ui/v15-1018). No lamp wash,
+   no glow. Numbers from data.js. */
+@font-face { font-family: 'BricolageCondensed'; src: url('assets/BricolageCondensed-Bold.ttf'); font-weight: 700; }
+@font-face { font-family: 'BricolageHeadline'; src: url('assets/BricolageHeadline-SemiBold.ttf'); font-weight: 600; }
+@font-face { font-family: 'BricolageTitle'; src: url('assets/BricolageTitle-SemiBold.ttf'); font-weight: 600; }
+@font-face { font-family: 'Hanken'; src: url('assets/HankenGrotesk-Regular.ttf'); font-weight: 400; }
+@font-face { font-family: 'Hanken'; src: url('assets/HankenGrotesk-Medium.ttf'); font-weight: 500; }
+@font-face { font-family: 'Hanken'; src: url('assets/HankenGrotesk-SemiBold.ttf'); font-weight: 600; }
+@font-face { font-family: 'Hanken'; src: url('assets/HankenGrotesk-Bold.ttf'); font-weight: 700; }
+:root {
+  --ground: #12110E; --raised: #1B1A16; --raised2: #25231E; --sunken: #0D0C0A; --line: #312E27; --lineStrong: #4A453B;
+  --ink: #F4F0E6; --ink2: #BDB6A6; --ink3: #A09989;
+  --accent: #D2F000; --volt: #D2F000; --voltInk: #0B1000; --voltEdge: #9DB400;
+  --bad: #FFA396; --badWash: #2A1614; --badBorder: #7D3128; --good: #C6E86E; --warn: #EDB75A;
+  --glass: rgba(28,26,22,.66); --edgeTop: rgba(255,246,228,.14); --lit: rgba(255,246,228,.08);
+  --shadow: 0 20px 40px -22px rgba(0,0,0,.5), 0 2px 6px -2px rgba(0,0,0,.2);
+  --right-fill: color-mix(in oklab, #C6E86E 60%, #12110E); --wrong-fill: color-mix(in oklab, #FFA396 78%, #12110E);
+  --ease: cubic-bezier(0.23, 1, 0.32, 1);
+}
+html[data-theme='light'] {
+  --ground: #F3EFE6; --raised: #FFFDF8; --raised2: #E9E4D8; --sunken: #EAE5DA; --line: #D8D1C2; --lineStrong: #BDB4A2;
+  --ink: #17150F; --ink2: #454036; --ink3: #655F53;
+  --accent: #526700; --bad: #B0291F; --badWash: #FBE9E7; --badBorder: #B93225; --good: #3D6600; --warn: #845400;
+  --glass: rgba(255,253,248,.78); --edgeTop: rgba(255,255,255,.8); --lit: rgba(23,21,15,.06); --voltEdge: rgba(79,100,0,.45);
+  --shadow: 0 14px 30px -18px rgba(42,32,16,.15), 0 1px 2px rgba(42,32,16,.06);
+  --right-fill: color-mix(in oklab, #3D6600 55%, #F3EFE6); --wrong-fill: color-mix(in oklab, #B0291F 68%, #F3EFE6);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--ground); color: var(--ink); font-family: 'Hanken', sans-serif; -webkit-font-smoothing: antialiased; }
+html, body { height: 100%; overflow: hidden; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; text-align: left; }
+a { color: inherit; text-decoration: none; }
+b, .n { font-variant-numeric: tabular-nums; }
+html[data-theme='dark'] .day, html[data-theme='light'] .night { display: none !important; }
+.phone { position: relative; height: 100%; display: flex; flex-direction: column; }
+.status { flex: none; height: 28px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; font: 600 13px/1 'Hanken'; }
+.scroll { flex: 1; overflow-y: auto; scrollbar-width: none; }
+.scroll::-webkit-scrollbar { display: none; }
+.bar-top { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 12px; height: 60px; padding: 0 16px; background: var(--ground); }
+.bar-top h1 { font: 600 28px/1 'BricolageHeadline'; letter-spacing: -.015em; }
+.bar-top .t2 b { display: block; font: 600 21px/1.1 'BricolageHeadline'; }
+.bar-top .t2 span { font: 500 13px/1.2 'Hanken'; color: var(--ink3); }
+.av, .back { flex: none; width: 44px; height: 44px; border-radius: 999px; display: grid; place-items: center; background: var(--glass); box-shadow: inset 0 1px 0 var(--edgeTop), 0 0 0 1px var(--line); font: 700 15px/1 'Hanken'; }
+.back svg { width: 20px; height: 20px; stroke: var(--ink); fill: none; stroke-width: 2; }
+.page { padding: 4px 20px 150px; }
+.lede { font: 500 15px/1.5 'Hanken'; color: var(--ink2); }
+.lede b { color: var(--ink); font-weight: 600; }
+.chev { width: 18px; height: 18px; stroke: var(--ink3); fill: none; stroke-width: 2; flex: none; }
+.pill { flex: none; justify-self: end; height: 40px; min-width: 44px; padding: 0 14px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; background: var(--raised2); box-shadow: inset 0 1px 0 var(--edgeTop), 0 0 0 1px var(--lineStrong); font: 600 13.5px/1 'Hanken'; white-space: nowrap; }
+.volt { height: 56px; border-radius: 999px; display: grid; place-items: center; background: var(--volt); color: var(--voltInk); font: 600 17px/1 'Hanken'; box-shadow: inset 0 0 0 1px var(--voltEdge); }
+.lnk { min-height: 44px; display: flex; align-items: center; font: 600 14.5px/1.3 'Hanken'; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--lineStrong); }
+.fine { font: 500 13px/1.45 'Hanken'; color: var(--ink3); }
+.sec { margin-top: 30px; }
+.sec-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+.sec-head h2 { font: 600 23px/1.2 'BricolageHeadline'; letter-spacing: -.015em; }
+.sec-head p { font: 500 13.5px/1 'Hanken'; color: var(--ink3); white-space: nowrap; }
+.sub { margin-top: 8px; font: 500 14px/1.45 'Hanken'; color: var(--ink2); }
+.picks { display: inline-flex; gap: 10px; font: 600 12.5px/1 'Hanken'; color: var(--ink3); margin-top: 4px; }
+.picks span { display: inline-flex; align-items: center; gap: 5px; }
+.picks i { width: 20px; height: 20px; border-radius: 999px; display: grid; place-items: center; font: 700 11px/1 'Hanken'; font-style: normal; }
+.picks .y i { box-shadow: inset 0 0 0 1.5px var(--badBorder); color: var(--bad); }
+.picks .k i { box-shadow: inset 0 0 0 1.5px var(--good); color: var(--good); }
+
+/* bottom bar: glass capsule of five and the round lime Start key (A1); a pushed route has no bar */
+.tabbar { position: absolute; left: 14px; right: 14px; bottom: 18px; z-index: 6; display: flex; gap: 10px; align-items: center; }
+.capsule { flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); height: 66px; padding: 5px; border-radius: 999px; background: var(--glass); box-shadow: inset 0 1px 0 var(--edgeTop), 0 0 0 1px var(--line), 0 14px 30px -14px rgba(0,0,0,.55); backdrop-filter: blur(18px); }
+.capsule span { display: grid; place-items: center; align-content: center; gap: 3px; border-radius: 999px; font: 600 11.5px/1 'Hanken'; color: var(--ink2); }
+.capsule svg { width: 21px; height: 21px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+.capsule span.on { background: var(--lit); color: var(--ink); box-shadow: inset 0 1px 0 var(--edgeTop); }
+.startk { flex: none; width: 66px; height: 66px; border-radius: 999px; background: var(--volt); color: var(--voltInk); display: grid; place-items: center; align-content: center; gap: 2px; font: 700 11.5px/1 'Hanken'; box-shadow: inset 0 0 0 1px var(--voltEdge); }
+.startk svg { width: 20px; height: 20px; fill: var(--voltInk); }
+.foot { position: absolute; left: 0; right: 0; bottom: 0; z-index: 6; padding: 14px 16px 22px; background: linear-gradient(to top, var(--ground) 72%, transparent); text-align: center; }
+.foot .fine { margin-top: 8px; }
+
+/* ===== Review ===== */
+.hero { position: relative; margin-top: 18px; padding: 20px; border-radius: 26px; background: var(--raised); box-shadow: var(--shadow), inset 0 1px 0 var(--edgeTop), 0 0 0 1px var(--line); }
+.hero .lead { font: 600 14px/1.2 'Hanken'; color: var(--ink2); }
+.hero h2 { margin-top: 6px; max-width: 62%; font: 600 24px/1.12 'BricolageTitle'; letter-spacing: -.01em; }
+.hero .art { position: absolute; right: 12px; top: 12px; width: 112px; height: 112px; object-fit: contain; }
+.big { display: flex; align-items: flex-end; gap: 10px; margin-top: 12px; font-family: 'BricolageCondensed'; }
+.big b { font-size: 88px; line-height: .84; color: var(--bad); }
+.big span { font-size: 24px; line-height: 1.05; color: var(--ink2); padding-bottom: 4px; }
+.hero .src { margin-top: 12px; font: 500 14.5px/1.45 'Hanken'; color: var(--ink2); }
+.hero .src b { color: var(--ink); font-weight: 600; }
+.track { height: 6px; border-radius: 99px; background: var(--line); overflow: hidden; margin-top: 12px; }
+.track i { display: block; height: 100%; border-radius: 99px; background: var(--wrong-fill); }
+.hero .volt { margin-top: 16px; }
+.hero .cost { margin-top: 10px; text-align: center; font: 500 13.5px/1.45 'Hanken'; color: var(--ink3); }
+.mk-head { margin-top: 22px; display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 8px; border-bottom: 1px solid var(--line); font: 600 16px/1.3 'Hanken'; }
+.mk-head span { font: 500 13px/1 'Hanken'; color: var(--ink3); }
+.q { position: relative; display: grid; grid-template-columns: 36px minmax(0,1fr) auto; gap: 2px 12px; padding: 12px 0; }
+.q::before { content: ''; position: absolute; left: 17px; top: 0; bottom: 0; width: 2px; background: var(--line); }
+.q:first-of-type::before { top: 24px; }
+.q.end::before { bottom: auto; height: 24px; }
+.qb { position: relative; grid-row: span 3; align-self: start; width: 36px; height: 36px; border-radius: 999px; display: grid; place-items: center; background: var(--badWash); box-shadow: inset 0 0 0 1.5px var(--badBorder); color: var(--bad); font: 700 13px/1 'Hanken'; }
+.qb[data-k='pending'] { background: var(--ground); box-shadow: inset 0 0 0 1.5px var(--lineStrong); color: var(--ink); }
+.qb[data-k='held'] { background: var(--ground); box-shadow: inset 0 0 0 1.5px var(--good); color: var(--good); }
+.qb[data-k='slipped'] { background: var(--ground); box-shadow: inset 0 0 0 1.5px var(--warn); color: var(--warn); }
+.qb[data-k='right'] { background: var(--ground); box-shadow: inset 0 0 0 1.5px var(--good); color: var(--good); }
+.qb[data-k='blank'] { background: var(--ground); box-shadow: inset 0 0 0 1.5px var(--lineStrong); color: var(--ink3); }
+.q b { font: 600 15px/1.35 'Hanken'; }
+.q .w { font: 500 13px/1.4 'Hanken'; color: var(--ink3); }
+.q .pill { grid-column: 3; grid-row: 1 / span 2; align-self: center; }
+.q .st { font: 600 13px/1.4 'Hanken'; color: var(--ink2); }
+.q .st[data-k='slipped'] { color: var(--warn); } .q .st[data-k='held'] { color: var(--good); }
+.after { margin-top: 6px; padding-top: 12px; border-top: 1px solid var(--line); display: grid; gap: 6px; }
+.after p { font: 500 14px/1.5 'Hanken'; color: var(--ink2); }
+.after p b { color: var(--ink); font-weight: 600; }
+.ch { display: grid; grid-template-columns: 48px minmax(0,1fr) auto; gap: 2px 12px; align-items: start; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.ch img { grid-row: span 3; width: 48px; height: 48px; object-fit: contain; }
+.ch b { font: 600 16px/1.3 'Hanken'; }
+.ch .lost { font: 700 26px/1 'BricolageCondensed'; color: var(--bad); text-align: right; }
+.ch .meta { grid-column: 2 / span 2; font: 500 13.5px/1.4 'Hanken'; color: var(--ink3); }
+.ch .tr { grid-column: 2 / span 2; display: flex; align-items: center; gap: 10px; }
+.ch .tr .track { flex: 1; margin-top: 4px; }
+.row { display: grid; grid-template-columns: minmax(0,1fr) 20px; gap: 2px 12px; align-items: center; width: 100%; padding: 15px 0; border-bottom: 1px solid var(--line); }
+.row b { font: 600 16px/1.3 'Hanken'; }
+.row b span { color: var(--ink2); }
+.row > span { font: 500 13.5px/1.4 'Hanken'; color: var(--ink3); }
+.row .chev { grid-column: 2; grid-row: 1 / span 2; }
+.revise { margin-top: 26px; border-top: 1px solid var(--line); }
+.saved .q::before { display: none; }
+.saved .q { border-bottom: 1px solid var(--line); }
+.pp { display: grid; grid-template-columns: 44px minmax(0,1fr) auto; gap: 2px 12px; align-items: center; padding: 13px 0; border-bottom: 1px solid var(--line); }
+.pp img { grid-row: span 2; width: 44px; height: 44px; object-fit: contain; }
+.pp b { font: 600 15px/1.3 'Hanken'; }
+.pp span { font: 500 13px/1.4 'Hanken'; color: var(--ink3); grid-column: 2; }
+.pp .sc { grid-column: 3; grid-row: 1 / span 2; text-align: right; font: 700 26px/1 'BricolageCondensed'; color: var(--ink); }
+.pp .sc small { display: block; font: 600 12px/1.2 'Hanken'; color: var(--ink3); }
+.seeall { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 52px; font: 600 15px/1.3 'Hanken'; color: var(--ink2); border-bottom: 1px solid var(--line); }
+
+/* ===== Result ===== */
+.rec { font: 500 14.5px/1.4 'Hanken'; color: var(--ink3); }
+.score { position: relative; display: flex; align-items: flex-end; gap: 10px; margin-top: 8px; font-family: 'BricolageCondensed'; }
+.score b { font-size: 112px; line-height: .82; }
+.score span { font-size: 30px; line-height: 1; color: var(--ink2); padding-bottom: 6px; }
+.score img { position: absolute; right: 0; top: -6px; width: 64px; height: 64px; object-fit: contain; }
+.mbar { margin-top: 18px; display: flex; gap: 3px; height: 10px; }
+.mbar i { border-radius: 99px; }
+.mlegend { margin-top: 10px; display: flex; gap: 14px; font: 600 13.5px/1 'Hanken'; color: var(--ink2); }
+.mlegend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+.find { margin-top: 22px; display: grid; grid-template-columns: 76px 1fr; gap: 12px; align-items: center; }
+.find img { width: 76px; height: 76px; object-fit: contain; }
+.find b { font: 700 18px/1.3 'Hanken'; }
+.find span { display: block; margin-top: 4px; font: 500 13.5px/1.4 'Hanken'; color: var(--ink3); }
+.whycard { margin-top: 18px; padding: 16px; border-radius: 22px; background: var(--raised); box-shadow: inset 0 1px 0 var(--edgeTop), 0 0 0 1px var(--line); display: grid; gap: 8px; }
+.whycard b { font: 700 16px/1.3 'Hanken'; }
+.whycard p { font: 500 15px/1.45 'Hanken'; color: var(--ink); }
+.whycard p.v { color: var(--ink2); padding-top: 10px; border-top: 1px solid var(--line); }
+.recap { margin-top: 14px; min-height: 44px; display: flex; align-items: center; font: 700 15px/1 'Hanken'; color: var(--accent); }
+.dp-title { margin-top: 26px; font: 600 28px/1.15 'BricolageHeadline'; letter-spacing: -.015em; }
+.dp-lede { margin-top: 6px; font: 500 14px/1.45 'Hanken'; color: var(--ink2); }
+.dp-index { list-style: none; margin-top: 12px; border-top: 1px solid var(--line); }
+.dp-head { display: grid; grid-template-columns: minmax(0,1fr) auto 18px; gap: 3px 12px; align-items: center; width: 100%; min-height: 70px; padding: 12px 12px 12px 14px; border-bottom: 1px solid var(--line); }
+.dp-head b { font: 600 18px/1.2 'BricolageHeadline'; }
+.dp-head span { grid-column: 1; font: 500 13.5px/1.4 'Hanken'; color: var(--ink3); }
+.dp-head em { grid-column: 2; grid-row: 1 / span 2; font: 700 22px/1 'BricolageCondensed'; font-style: normal; color: var(--ink2); }
+.dp-head .chev { grid-column: 3; grid-row: 1 / span 2; transform: rotate(-90deg); }
+.dp-head[data-open] { background: var(--raised2); box-shadow: inset 3px 0 0 var(--ink); border-radius: 0 14px 14px 0; }
+.dp-head[data-open] span { color: var(--ink2); }
+.dp-detail { margin-top: 24px; }
+.dp-dhead { position: sticky; top: 60px; z-index: 3; display: flex; align-items: center; justify-content: space-between; min-height: 54px; background: var(--ground); border-bottom: 1px solid var(--line); margin-bottom: 10px; }
+.dp-dhead h3 { font: 600 22px/1.2 'BricolageHeadline'; }
+.dp-dhead a { font: 600 14px/1 'Hanken'; color: var(--ink2); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--lineStrong); min-height: 44px; display: flex; align-items: center; }
+.intro { font: 500 14.5px/1.5 'Hanken'; color: var(--ink2); }
+.intro b { color: var(--ink); font-weight: 600; }
+.lg { display: grid; grid-template-columns: 12px 1fr 18px; gap: 10px; align-items: start; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.lg i { width: 12px; height: 12px; border-radius: 3px; margin-top: 4px; }
+.lg b { display: block; font: 600 15px/1.3 'Hanken'; }
+.lg span { font: 500 13px/1.4 'Hanken'; color: var(--ink3); }
+.g-changed { background: var(--warn); } .g-quick { background: var(--wrong-fill); opacity: .65; } .g-long { background: repeating-linear-gradient(135deg, var(--wrong-fill) 0 3px, transparent 3px 6px); box-shadow: inset 0 0 0 1px var(--wrong-fill); }
+.g-other { background: var(--wrong-fill); } .g-blank { background: var(--lineStrong); }
+.lgbar { display: flex; gap: 2px; height: 10px; margin: 14px 0 4px; } .lgbar i { border-radius: 2px; }
+.next { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 52px; margin-top: 16px; border-top: 1px dashed var(--lineStrong); font: 600 15px/1.3 'Hanken'; color: var(--ink2); }
+.labels { margin-top: 14px; display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; font: 500 13.5px/1.4 'Hanken'; color: var(--ink2); }
+.labels dt { font-weight: 700; color: var(--ink); }
+
+/* replay (shared replay.js) in the app's voice */
+.rb { margin-top: 14px; }
+.rb-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.rb-clock b { font: 700 40px/1 'BricolageCondensed'; }
+.rb-clock span { margin-left: 8px; font: 600 13.5px/1 'Hanken'; color: var(--ink3); }
+.rb-ctl { display: flex; gap: 6px; }
+.rb-btn { min-width: 44px; height: 44px; padding: 0 12px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: var(--raised2); box-shadow: inset 0 1px 0 var(--edgeTop), 0 0 0 1px var(--lineStrong); font: 600 14.5px/1 'Hanken'; }
+.rb-btn svg { width: 18px; height: 18px; stroke: var(--ink); fill: none; stroke-width: 2; }
+.rb-play svg { fill: var(--ink); stroke: none; }
+.rb-cap { margin-top: 10px; min-height: 22px; font: 500 14.5px/1.5 'Hanken'; color: var(--ink2); }
+.rb-cap b { color: var(--ink); font-weight: 700; margin-right: 6px; }
+.rb-grid { margin-top: 14px; display: grid; gap: 12px; }
+.rb-row { position: relative; display: grid; gap: 2px; }
+.rb-q { display: grid; grid-template-rows: var(--h) 16px; padding: 0; min-width: 0; transition: opacity 180ms ease; }
+.rb-col { position: relative; display: block; height: var(--h); border-bottom: 1px solid var(--lineStrong); }
+.rb-col i { position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--h) * var(--f)); border-radius: 4px 4px 0 0; background: var(--right-fill); }
+.rb-q[data-v='wrong'] .rb-col i { background: var(--wrong-fill); }
+.rb-q[data-v='blank'] .rb-col i { background: transparent; border: 1.5px dashed var(--ink3); border-bottom: 0; }
+.rb-q[data-changed] .rb-col::before { content: ''; position: absolute; left: 50%; bottom: calc(var(--h) * var(--f) + 4px); width: 8px; height: 8px; margin-left: -4px; border-radius: 50%; border: 2px solid var(--warn); }
+.rb-q em { font: 600 11px/16px 'Hanken'; font-style: normal; color: var(--ink3); text-align: center; white-space: nowrap; }
+.rb-q[data-sel] .rb-col { background: var(--lit); box-shadow: 0 0 0 1.5px var(--ink2); border-radius: 5px 5px 0 0; }
+.rb-q[data-sel] em, .rb-q[data-now] em { color: var(--ink); font-weight: 800; }
+.rb-q[data-dim] { opacity: .2; }
+.rb-pace { position: absolute; left: 0; right: 0; bottom: calc(16px + var(--h) / 3); border-top: 1px dashed var(--ink3); opacity: .6; pointer-events: none; }
+.rb-line { display: grid; gap: 1px; height: 14px; } .rb-line i { background: var(--right-fill); border-radius: 1px; }
+.rb-line i[data-v='wrong'] { background: var(--wrong-fill); } .rb-line i[data-v='blank'] { background: transparent; box-shadow: inset 0 0 0 1px var(--ink3); }
+.rb-line-lab { display: flex; justify-content: space-between; font: 600 11.5px/1 'Hanken'; color: var(--ink3); }
+.rb-foot { margin-top: 12px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 14px; }
+.rb-key { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; font: 500 12.5px/1.4 'Hanken'; color: var(--ink3); }
+.rb-key i { display: inline-block; width: 10px; height: 10px; margin-right: -6px; border-radius: 2px; vertical-align: -1px; }
+.rb-key i[data-k='right'] { background: var(--right-fill); } .rb-key i[data-k='wrong'] { background: var(--wrong-fill); }
+.rb-key i[data-k='blank'] { border: 1.5px dashed var(--ink3); } .rb-key i[data-k='changed'] { border-radius: 50%; border: 2px solid var(--warn); }
+.rb-key i[data-k='pace'] { width: 14px; height: 0; border-top: 1px dashed var(--ink3); border-radius: 0; vertical-align: 3px; }
+.rb-toggle { min-height: 44px; font: 600 14px/1 'Hanken'; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--lineStrong); }
+.rb-detail { margin-top: 4px; font: 500 13.5px/1.5 'Hanken'; color: var(--ink2); }
+.map { margin-top: 12px; display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; }
+.map span { aspect-ratio: 1; border-radius: 999px; display: grid; place-items: center; font: 700 12px/1 'Hanken'; box-shadow: inset 0 0 0 1.5px var(--lineStrong); color: var(--ink3); }
+.map span[data-v='right'] { box-shadow: inset 0 0 0 1.5px var(--good); color: var(--good); }
+.map span[data-v='wrong'] { background: var(--badWash); box-shadow: inset 0 0 0 1.5px var(--badBorder); color: var(--bad); }
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="status"><span>9:41</span><span>5G 82%</span></div>
+  <div class="scroll" data-scroller id="scroller"></div>
+</div>
+<script src="data.js"></script>
+<script src="replay.js"></script>
+<script>
+(function () {
+  const P = new URLSearchParams(location.search);
+  const S = P.get('s') || 'review';
+  if (P.get('theme') === 'light') document.documentElement.dataset.theme = 'light';
+  const { papers, chapters, mistakes, review, result, short, fmt } = window.MM;
+  const root = document.getElementById('scroller');
+  const phone = document.querySelector('.phone');
+  const chev = (d = 'M9 6l6 6-6 6') => `<svg class="chev" viewBox="0 0 24 24"><path d="${d}"/></svg>`;
+  const obj = (o) => `assets/app-obj-${o}.webp`;
+  const picks = (m) => m.pick ? `<span class="picks"><span class="y"><i>${m.pick}</i>yours</span><span class="k"><i>${m.key}</i>answer</span></span>` : '';
+  const when = (m) => `${papers[m.paper].name}, ${papers[m.paper].at}`;
+
+  function reviewPage() {
+    const c = chapters[0];
+    const savedRow = (m) => {
+      const ch = chapters.find((x) => x.id === m.ch);
+      const st = m.state === 'slipped' ? `Slipped on a new question ${m.checked}` : m.state === 'pending' ? `Repaired ${m.repaired}. Not checked yet` : `Held on a new question`;
+      return `<div class="q"><span class="qb" data-k="${m.state}">${m.n}</span><b>${ch.name}</b><span class="w">${when(m)}</span><span class="st" data-k="${m.state}">${st}</span><span class="pill">${m.state === 'pending' ? 'Check it held' : 'See repair'}</span></div>`;
+    };
+    root.innerHTML = `
+      <div class="bar-top"><span class="av">P</span><h1>Review</h1></div>
+      <div class="page">
+        <p class="lede">Your 3 papers lost <b>${review.totalLost} marks</b>: ${review.wrong} wrong, ${review.blank} left blank. ${review.repaired.length} repaired.</p>
+        <section class="hero" aria-label="Your costliest chapter">
+          <img class="art" src="${obj(c.obj)}" alt="">
+          <p class="lead">You lose the most marks in</p>
+          <h2>${c.name}</h2>
+          <div class="big"><b>${c.lost}</b><span>of ${c.offer}<br>marks lost</span></div>
+          <p class="src"><b>${c.q} questions</b> in ${c.paperNames.join(' and ')}: ${c.w} wrong, ${c.b} left blank.</p>
+          <div class="track"><i style="width:${Math.round((c.lost / c.offer) * 100)}%"></i></div>
+          <a class="volt" href="#">Practise 10 on this chapter</a>
+          <p class="cost">10 new questions, about 10 minutes. 10 of your ${review.credits} credits.</p>
+        </section>
+        <div class="mk-head">${c.open.length} mistakes to repair<span>Newest first</span></div>
+        ${c.open.map((m, i) => `<div class="q ${i === c.open.length - 1 ? 'end' : ''}"><span class="qb">${m.n}</span><b>${m.stem}</b><span class="w">${when(m)}</span>${picks(m)}<span class="pill">Repair</span></div>`).join('')}
+        <div class="after">
+          <p><b>1 left blank:</b> Q47, Mock 3. <u>Try it again, free</u></p>
+          <p><b>1 repaired:</b> Q17 from Mock 2 slipped on a new question tonight. It is in Saved repairs.</p>
+          <p class="fine">Each repair is 1 AI credit; you have ${review.aiCredits}. Seeing the answer and trying again are free.</p>
+          <a class="lnk" href="#">Learn the idea first: Goodwill and the new partner, 7 min</a>
+        </div>
+        <section class="sec" aria-labelledby="mc">
+          <div class="sec-head"><h2 id="mc">More chapters</h2><p>Most marks first</p></div>
+          ${chapters.slice(1, 5).map((x) => `<div class="ch"><img src="${obj(x.obj)}" alt=""><b>${x.name}</b><span class="lost">−${x.lost}</span><span class="meta">${x.lost} of ${x.offer} marks lost. ${x.open.length} to repair, ${x.repaired.length} repaired.</span><span class="tr"><span class="track"><i style="width:${Math.round((x.lost / x.offer) * 100)}%"></i></span>${chev('M6 9l6 6 6-6')}</span></div>`).join('')}
+          <button class="seeall">See all ${chapters.length} chapters${chev('M6 9l6 6 6-6')}</button>
+        </section>
+        <a class="row revise" href="#"><b>Revise <span>${review.revise.due} due today</span></b><span>${review.revise.back} questions back, ${review.revise.checks} Check it held, ${review.revise.cards} concept cards. About ${review.revise.minutes} min, free.</span>${chev()}</a>
+        <section class="sec saved" data-sec="saved" aria-labelledby="sv">
+          <div class="sec-head"><h2 id="sv">Saved repairs</h2><p>${review.repaired.length}, open free</p></div>
+          <p class="sub">${review.held} held, ${review.slipped} slipped, ${review.pending} waiting for Check it held.</p>
+          ${review.repaired.slice(0, 4).map(savedRow).join('')}
+          <button class="seeall">Show all ${review.repaired.length}${chev('M6 9l6 6 6-6')}</button>
+        </section>
+        <section class="sec" aria-labelledby="pp">
+          <div class="sec-head"><h2 id="pp">Your papers</h2><p>Newest first</p></div>
+          ${[papers.m3, papers.bq, papers.m2].map((p) => `<div class="pp"><img src="${obj(p.subject === 'Accountancy' ? 'accountancy' : 'business')}" alt=""><b>${p.name}, ${p.subject}</b><span>${p.at}</span><span class="sc">${p.score}<small>of ${p.max}</small></span></div>`).join('')}
+        </section>
+      </div>`;
+    phone.insertAdjacentHTML('beforeend', `<nav class="tabbar"><div class="capsule">
+      <span><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/></svg>Today</span>
+      <span><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="7"/><path d="M12 13V9M10 3h4"/></svg>Practice</span>
+      <span class="on"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="16" rx="2"/><path d="M9 9h6M9 13h6M9 17h3"/></svg>Review</span>
+      <span><svg viewBox="0 0 24 24"><path d="M4 20V9l8-5 8 5v11"/><path d="M9 20v-5h6v5"/></svg>Colleges</span>
+      <span><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>You</span>
+    </div><a class="startk" href="#"><svg viewBox="0 0 24 24"><path d="M7 4v16l13-8z"/></svg>Start</a></nav>`);
+  }
+
+  function resultPage() {
+    const R = result, m3 = R.paper;
+    const openId = P.get('part') || ({ replay: 'time', replay10: 'time', mistakes: 'mistakes' }[S]) || 'marks';
+    const parts = [
+      { id: 'marks', name: 'Where your marks went', line: `${R.missed} marks missed. Under-20-second answers cost 18.`, count: R.missed },
+      { id: 'mistakes', name: 'Your mistakes', line: `${m3.wrong} wrong, ${m3.blank} blank. Q29 waits for Check it held.`, count: m3.wrong + m3.blank },
+      { id: 'time', name: 'Time and changes', line: `${m3.took} of ${m3.limitMin} min. 5 changes, net 0 marks.`, count: '46:36' },
+      { id: 'rule', name: 'Did your rule hold', line: 'Yes. All 50 opened before going back.', count: '' },
+      { id: 'after', name: 'After this mock', line: 'Strengths, weak spots and scores by session.', count: '' },
+      { id: 'answers', name: 'Answer by answer', line: `${m3.right} right, ${m3.wrong} wrong, ${m3.blank} blank.`, count: m3.total },
+    ];
+    const lc = { changed: 'g-changed', quick: 'g-quick', long: 'g-long', other: 'g-other', blank: 'g-blank' };
+    const body = (id) => {
+      if (id === 'marks') return `<p class="intro"><b>3</b> wrong answers took under 20 seconds each. They cost <b>18</b> of the <b>${R.missed}</b> marks you missed.</p>
+        <div class="lgbar">${R.ledger.map((g) => `<i class="${lc[g.id]}" style="flex:${g.marks}"></i>`).join('')}</div>
+        ${R.ledger.map((g) => `<div class="lg"><i class="${lc[g.id]}"></i><div><b>${g.label}</b><span>${g.marks} marks on ${g.qs.length}: ${g.qs.map((n) => `Q${n}`).join(', ')}</span></div>${chev('M6 9l6 6 6-6')}</div>`).join('')}`;
+      if (id === 'mistakes') {
+        const order = [42, 38, 9, 26, 45, 31, 22, 14, 3, 19, 49, 29];
+        const rows = mistakes.filter((m) => m.paper === 'm3' && m.state !== 'blank').sort((a, b) => order.indexOf(a.n) - order.indexOf(b.n));
+        const show = [...rows.slice(0, 5), rows.find((m) => m.n === 29)];
+        return `<p class="intro">In repair order. One action per mistake, the same words as Review.</p>
+          ${show.map((m, i) => { const ch = chapters.find((c) => c.id === m.ch); return `<div class="q ${i === show.length - 1 ? 'end' : ''}"><span class="qb" data-k="${m.state === 'pending' ? 'pending' : ''}">${m.n}</span><b>${ch.name}</b><span class="w">${m.state === 'pending' ? `Repaired ${m.repaired}` : m.stem}</span>${picks(m)}<span class="pill">${m.state === 'pending' ? 'Check it held' : 'Repair'}</span></div>`; }).join('')}
+          <button class="seeall">Show the other 6 mistakes${chev('M6 9l6 6 6-6')}</button>
+          <button class="seeall">4 left blank: Q28, Q36, Q47, Q50${chev('M6 9l6 6 6-6')}</button>
+          <dl class="labels"><dt>Repair</dt><dd>no repair yet</dd><dt>Check it held</dt><dd>repaired, not checked</dd><dt>See repair</dt><dd>checked, opens free</dd><dt>Try it again</dt><dd>a blank, free</dd></dl>`;
+      }
+      if (id === 'time') {
+        const isShort = S === 'replay10';
+        return `<p class="intro">${isShort ? `Business Studies quick practice: <b>${short.took}</b> on 10 questions.` : `<b>${m3.took}</b> on 50 questions. Even pace <b>${fmt(R.pace)}</b>.`} One bar per question: colour is the result, height the time.</p><div data-replay></div>`;
+      }
+      if (id === 'answers') return `<div class="map">${R.questions.map((q) => `<span data-v="${q.verdict}">${q.n}</span>`).join('')}</div>`;
+      return '';
+    };
+    root.innerHTML = `
+      <div class="bar-top"><a class="back" href="#"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></a><span class="t2"><b>Mock 3</b><span>Accountancy</span></span></div>
+      <div class="page">
+        <p class="rec">Accountancy full mock. Recorded 9:40 PM.</p>
+        <div class="score"><b>${m3.score}</b><span>of ${m3.max} marks</span><img src="${obj('accountancy')}" alt=""></div>
+        <div class="mbar"><i style="flex:${m3.right};background:var(--ink)"></i><i style="flex:${m3.wrong};background:var(--wrong-fill)"></i><i style="flex:${m3.blank};background:repeating-linear-gradient(135deg,var(--lineStrong) 0 3px,transparent 3px 6px)"></i></div>
+        <div class="mlegend"><span><i style="background:var(--ink)"></i>${m3.right} right</span><span><i style="background:var(--wrong-fill)"></i>${m3.wrong} wrong</span><span><i style="box-shadow:inset 0 0 0 1px var(--lineStrong)"></i>${m3.blank} blank</span></div>
+        <div class="find"><img src="assets/attentive.webp" alt="Mobi, attentive"><div><b>${R.finding.chapter} cost ${R.finding.lost} of the ${R.missed} marks you missed.</b><span>${R.finding.w} wrong and ${R.finding.b} left blank, of ${R.finding.of} questions.</span></div></div>
+        <div class="whycard"><b>Why Q42 first</b><p>${R.finding.chapter}. You picked D.</p><p class="v">A repair gives you why D looked right, the trap, and one rule to keep.</p><a class="lnk" href="#">Practise 10 on ${R.finding.chapter} instead</a></div>
+        <a class="recap" href="#">Continue recap, card 3 of 4</a>
+        <section id="depth">
+          <h2 class="dp-title">Your full analysis</h2>
+          <p class="dp-lede">Six parts, each with what it found. One opens at a time.</p>
+          <ol class="dp-index">${parts.map((p) => `<li><button class="dp-head" ${p.id === openId ? 'data-open' : ''} data-part="${p.id}"><b>${p.name}</b><span>${p.line}</span><em>${p.count}</em>${chev('M6 9l6 6 6-6')}</button></li>`).join('')}</ol>
+        </section>
+        <section class="dp-detail" id="part">
+          <div class="dp-dhead"><h3>${parts.find((p) => p.id === openId).name}</h3><a href="#depth">All parts</a></div>
+          ${body(openId)}
+          ${(() => { const i = parts.findIndex((x) => x.id === openId); const nx = parts[i + 1]; return nx ? `<button class="next">Next: ${nx.name}${chev()}</button>` : ''; })()}
+        </section>
+      </div>`;
+    phone.insertAdjacentHTML('beforeend', `<div class="foot"><a class="volt" href="#">Repair Q42</a><p class="fine">1 AI credit. No charge if the repair cannot be written.</p></div>`);
+    const host = root.querySelector('[data-replay]');
+    if (host) {
+      const paper = S === 'replay10' ? short : R;
+      window.MMReplay.mount(host, paper, { expanded: true, clockAt: S === 'replay10' ? null : window.MMReplay.changeTimes(R)[22].to_at, selected: S === 'replay10' ? 6 : 22 });
+    }
+    root.querySelectorAll('.dp-head').forEach((b) => b.addEventListener('click', () => { const u = new URL(location.href); u.searchParams.set('part', b.dataset.part); location.href = u.href; }));
+  }
+
+  if (S === "review") reviewPage(); else resultPage();
+})();
+</script>
+</body>
+</html>

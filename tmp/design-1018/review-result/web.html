@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Review and result, pass 1018</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Tokens from src/app/(app)/arena.css (identical at pre-R2 12997f5a^ and R4 9578ee66). Night stays subtle: one volt fill in
+   the content, no glow, no washes. Every number comes from data.js. */
+:root {
+  --a-bg: #0b100e; --a-raised: #131a16; --a-raised-2: #18211b; --a-sunken: #0f1512;
+  --a-line: #253026; --a-line-strong: #384736; --a-ink: #f2f4ec; --a-ink-2: #bcc5b9; --a-ink-3: #93a08f;
+  --a-accent-text: #d2f000; --a-bad-text: #ff9d92; --a-bad-wash: rgba(255,122,107,.1); --a-good-text: #b6e36e; --a-warn-text: #e0b93f;
+  --a-topbar: rgba(11,16,14,.86); --a-shadow-1: 0 1px 2px rgba(0,0,0,.35), 0 12px 32px -18px rgba(0,0,0,.6);
+  --a-sidebar: #0d120f; --glass: rgba(14,20,17,.72); --edge-top: rgba(255,255,255,.10); --lit: rgba(242,244,236,.08);
+  --volt: #d2f000; --volt-ink: #0b1000; --a-radius: 18px;
+  --right-fill: color-mix(in oklab, #b6e36e 62%, #0b100e); --wrong-fill: color-mix(in oklab, #ff9d92 80%, #0b100e);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-body: 'Hanken Grotesk', system-ui, sans-serif;
+}
+html[data-theme='light'] {
+  --a-bg: #f4f5f0; --a-raised: #ffffff; --a-raised-2: #f8f9f4; --a-sunken: #eef0e8;
+  --a-line: #dce1d4; --a-line-strong: #bcc5b0; --a-ink: #172016; --a-ink-2: #3d4a39; --a-ink-3: #56624f;
+  --a-accent-text: #4f6400; --a-bad-text: #b0291f; --a-bad-wash: rgba(176,41,31,.07); --a-good-text: #3d6600; --a-warn-text: #845400;
+  --a-topbar: rgba(244,245,240,.9); --a-shadow-1: 0 1px 2px rgba(20,32,14,.06), 0 12px 32px -18px rgba(20,32,14,.18);
+  --a-sidebar: #eef0e8; --glass: rgba(255,255,255,.8); --edge-top: rgba(255,255,255,.9); --lit: rgba(23,32,22,.06);
+  --right-fill: color-mix(in oklab, #3d6600 55%, #f4f5f0); --wrong-fill: color-mix(in oklab, #b0291f 70%, #f4f5f0);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--a-bg); color: var(--a-ink); font-family: var(--font-body); -webkit-font-smoothing: antialiased; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; text-align: left; }
+a { color: inherit; text-decoration: none; }
+b, .n { font-variant-numeric: tabular-nums; }
+[hidden] { display: none !important; }
+html[data-theme='dark'] .day, html[data-theme='light'] .night { display: none !important; }
+:focus-visible { outline: 2px solid var(--a-accent-text); outline-offset: 2px; border-radius: 8px; }
+
+/* ---------- shell ---------- */
+.side { display: none; }
+.top { position: sticky; top: 0; z-index: 6; display: flex; align-items: center; height: 60px; padding: 0 16px; background: var(--a-topbar); border-bottom: 1px solid var(--a-line); backdrop-filter: blur(12px); }
+.top .logo img { display: block; height: 24px; }
+.top .page { display: none; font: 700 16px/1 var(--font-body); }
+.pills { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+.pill { display: inline-flex; align-items: center; gap: 6px; height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--a-line); font: 700 14px/1 var(--font-body); }
+.pill svg { width: 16px; height: 16px; stroke: var(--a-ink-2); fill: none; stroke-width: 2; }
+.avatar { width: 40px; height: 40px; border-radius: 999px; background: var(--a-raised-2); border: 1px solid var(--a-line-strong); display: grid; place-items: center; font: 800 15px/1 var(--font-display); }
+main { padding: 22px 16px 140px; }
+.wrap { max-width: 1080px; margin: 0 auto; }
+h1 { font: 760 34px/1.04 var(--font-display); letter-spacing: -.035em; }
+.lede { margin-top: 8px; font: 500 15.5px/1.5 var(--font-body); color: var(--a-ink-2); max-width: 56ch; text-wrap: pretty; }
+.lede b { color: var(--a-ink); font-weight: 650; }
+
+/* phone dock (A1: glass capsule, separate round lime Start key; the lens is a neutral lit fill) */
+.dock { position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 7; display: flex; gap: 10px; align-items: center; }
+.cap { flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); height: 64px; padding: 4px; border-radius: 999px; background: var(--glass); box-shadow: inset 0 1px 0 var(--edge-top), 0 0 0 1px var(--a-line), 0 12px 30px -16px rgba(0,0,0,.5); backdrop-filter: blur(16px); }
+.cap a { display: grid; place-items: center; align-content: center; gap: 3px; border-radius: 999px; font: 650 11.5px/1 var(--font-body); color: var(--a-ink-2); }
+.cap a svg { width: 21px; height: 21px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+.cap a[aria-current] { background: var(--lit); color: var(--a-ink); }
+.startkey { flex: none; width: 64px; height: 64px; border-radius: 999px; background: var(--volt); color: var(--volt-ink); display: grid; place-items: center; align-content: center; gap: 2px; font: 750 11.5px/1 var(--font-body); }
+.startkey svg { width: 20px; height: 20px; fill: var(--volt-ink); }
+
+/* ---------- shared bits ---------- */
+.sec { margin-top: 34px; }
+.sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--a-line); }
+.sec-head h2 { font: 720 23px/1.2 var(--font-display); letter-spacing: -.02em; }
+.sec-head p { color: var(--a-ink-3); font: 500 13.5px/1.3 var(--font-body); white-space: nowrap; }
+.sub { margin-top: 10px; font: 500 14.5px/1.5 var(--font-body); color: var(--a-ink-2); text-wrap: pretty; max-width: 62ch; }
+.sub b { color: var(--a-ink); font-weight: 650; }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid var(--a-line-strong); font: 650 14.5px/1 var(--font-body); white-space: nowrap; transition: transform 160ms var(--ease-out), border-color 160ms ease; }
+.btn:active, .volt:active, .act:active { transform: scale(.97); }
+.volt { display: flex; align-items: center; justify-content: center; height: 54px; padding: 0 22px; border-radius: 16px; background: var(--volt); color: var(--volt-ink); font: 750 17.5px/1 var(--font-display); letter-spacing: -.01em; transition: transform 160ms var(--ease-out); }
+html[data-theme='light'] .volt { box-shadow: inset 0 0 0 1px rgb(82 103 0 / .28); }
+.act { flex: none; display: inline-flex; align-items: center; justify-content: center; min-height: 40px; min-width: 44px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--a-line-strong); font: 650 13.5px/1 var(--font-body); white-space: nowrap; transition: transform 160ms var(--ease-out); }
+.chev { width: 18px; height: 18px; stroke: var(--a-ink-3); fill: none; stroke-width: 2; flex: none; transition: transform 200ms var(--ease-out); }
+.fine { font: 500 13px/1.5 var(--font-body); color: var(--a-ink-3); text-wrap: pretty; }
+.link { display: inline-flex; align-items: center; min-height: 44px; font: 650 14.5px/1.3 var(--font-body); color: var(--a-ink); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--a-line-strong); }
+.qb { flex: none; width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; font: 700 13.5px/1 var(--font-display); border: 1px solid color-mix(in oklab, var(--a-bad-text) 55%, transparent); background: var(--a-bad-wash); color: var(--a-bad-text); }
+.qb[data-k='blank'] { border-style: dashed; border-color: var(--a-line-strong); background: transparent; color: var(--a-ink-3); }
+.qb[data-k='held'] { border-color: color-mix(in oklab, var(--a-good-text) 55%, transparent); background: transparent; color: var(--a-good-text); }
+.qb[data-k='slipped'] { border-color: color-mix(in oklab, var(--a-warn-text) 60%, transparent); background: transparent; color: var(--a-warn-text); }
+.qb[data-k='pending'] { border-color: var(--a-line-strong); background: transparent; color: var(--a-ink); }
+.picks { display: inline-flex; gap: 10px; flex-wrap: wrap; font: 600 13px/1 var(--font-body); color: var(--a-ink-3); }
+.picks span { display: inline-flex; align-items: center; gap: 5px; }
+.picks i { width: 20px; height: 20px; border-radius: 999px; display: grid; place-items: center; font: 700 11px/1 var(--font-body); font-style: normal; }
+.picks .y i { border: 1.5px solid color-mix(in oklab, var(--a-bad-text) 70%, transparent); color: var(--a-bad-text); }
+.picks .k i { border: 1.5px solid color-mix(in oklab, var(--a-good-text) 70%, transparent); color: var(--a-good-text); }
+
+/* ================= REVIEW ================= */
+.rv-board { display: flex; flex-direction: column; }
+.rv-board > .rv-side { display: contents; }
+.wk { order: 1; } .rv-revise { order: 2; } .saved { order: 3; } .papers { order: 4; } .also { order: 5; }
+.wk { margin-top: 26px; }
+.ch-list { list-style: none; }
+.ch { border-bottom: 1px solid var(--a-line); }
+.ch-bar { display: grid; grid-template-columns: 48px minmax(0, 1fr) auto; gap: 4px 12px; align-items: start; width: 100%; padding: 16px 0 14px; }
+.ch-bar .obj { grid-row: span 3; width: 48px; height: 48px; object-fit: contain; }
+.ch-name { font: 680 16.5px/1.3 var(--font-body); text-wrap: pretty; }
+.ch-lost { font: 740 22px/1 var(--font-display); letter-spacing: -.02em; color: var(--a-bad-text); text-align: right; white-space: nowrap; }
+.ch-lost small { display: block; margin-top: 4px; font: 600 12px/1 var(--font-body); color: var(--a-ink-3); letter-spacing: 0; }
+.ch-meta { grid-column: 2 / span 2; font: 500 13.5px/1.45 var(--font-body); color: var(--a-ink-3); text-wrap: pretty; }
+.ch-meta b { color: var(--a-ink-2); font-weight: 650; }
+.ch-track { grid-column: 2 / span 2; display: flex; align-items: center; gap: 12px; margin-top: 4px; }
+.track { flex: 1; height: 6px; border-radius: 99px; background: var(--a-line); overflow: hidden; }
+.track i { display: block; height: 100%; border-radius: 99px; background: var(--wrong-fill); transform-origin: left; }
+.ch-track .chev { margin-left: 2px; }
+.ch[data-open] .ch-track .chev { transform: rotate(180deg); }
+.ch-body { padding: 0 0 18px; }
+.ch-act { display: grid; gap: 8px; padding: 2px 0 14px; }
+.ch-act .volt { justify-self: start; }
+.ch-act p { font: 500 13.5px/1.45 var(--font-body); color: var(--a-ink-3); }
+.ch-act-quiet { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; padding: 2px 0 14px; }
+.ch-act-quiet p { font: 500 13.5px/1.45 var(--font-body); color: var(--a-ink-3); }
+.mk-head { display: flex; justify-content: space-between; align-items: baseline; padding: 10px 0 2px; border-top: 1px solid var(--a-line); font: 680 15px/1.3 var(--font-body); }
+.mk-head span { font: 500 13px/1.3 var(--font-body); color: var(--a-ink-3); }
+.mk { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 4px 12px; align-items: start; padding: 12px 0; border-bottom: 1px solid color-mix(in oklab, var(--a-line) 70%, transparent); }
+.mk:last-of-type { border-bottom: 0; }
+.mk .qb { grid-row: span 3; }
+.mk b { font: 600 15px/1.38 var(--font-body); text-wrap: pretty; }
+.mk .when { font: 500 13px/1.4 var(--font-body); color: var(--a-ink-3); }
+.mk .act { grid-column: 3; grid-row: 1 / span 2; align-self: center; }
+.mk .picks { grid-column: 2; margin-top: 2px; }
+.ch-foot { display: grid; gap: 4px; margin-top: 8px; padding-top: 12px; border-top: 1px solid var(--a-line); }
+.ch-foot p { font: 500 13.5px/1.5 var(--font-body); color: var(--a-ink-2); text-wrap: pretty; }
+.ch-foot p b { color: var(--a-ink); font-weight: 650; }
+.ch-foot .fine { margin-top: 2px; }
+.see-all { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 52px; font: 650 15px/1.3 var(--font-body); color: var(--a-ink-2); border-bottom: 1px solid var(--a-line); }
+
+.rv-revise { margin-top: 28px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 3px 14px; align-items: center; width: 100%; padding: 16px 0; border-top: 1px solid var(--a-line); border-bottom: 1px solid var(--a-line); }
+.rv-revise b { font: 700 17px/1.25 var(--font-body); }
+.rv-revise b span { font-weight: 600; color: var(--a-ink-2); }
+.rv-revise > span { grid-column: 1; font: 500 13.5px/1.45 var(--font-body); color: var(--a-ink-3); }
+.rv-revise .chev { grid-column: 2; grid-row: 1 / span 2; }
+.saved .row { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 3px 12px; align-items: start; padding: 13px 0; border-bottom: 1px solid var(--a-line); }
+.saved .row .qb { grid-row: span 3; }
+.saved .row b { font: 650 15px/1.35 var(--font-body); }
+.saved .row .when { font: 500 13px/1.4 var(--font-body); color: var(--a-ink-3); }
+.saved .row .st { font: 600 13px/1.4 var(--font-body); color: var(--a-ink-2); }
+.saved .row .st[data-k='slipped'] { color: var(--a-warn-text); }
+.saved .row .st[data-k='held'] { color: var(--a-good-text); }
+.saved .row .act { grid-column: 3; grid-row: 1 / span 2; align-self: center; }
+.pp-pair { margin-top: 12px; font: 500 14.5px/1.5 var(--font-body); color: var(--a-ink-2); }
+.pp-pair b { font: 740 30px/1 var(--font-display); letter-spacing: -.03em; color: var(--a-ink); margin-right: 6px; }
+.pp { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 2px 12px; align-items: center; padding: 13px 0; border-bottom: 1px solid var(--a-line); }
+.pp img { grid-row: span 2; width: 44px; height: 44px; object-fit: contain; }
+.pp b { font: 650 15px/1.3 var(--font-body); }
+.pp span { font: 500 13px/1.4 var(--font-body); color: var(--a-ink-3); grid-column: 2; }
+.pp .sc { grid-column: 3; grid-row: 1 / span 2; text-align: right; font: 740 20px/1 var(--font-display); color: var(--a-ink); }
+.pp .sc small { display: block; margin-top: 4px; font: 600 12px/1 var(--font-body); color: var(--a-ink-3); }
+.qrow { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; align-items: center; width: 100%; padding: 14px 0; border-bottom: 1px solid var(--a-line); }
+.qrow b { font: 650 15px/1.3 var(--font-body); }
+.qrow span { font: 500 13.5px/1.45 var(--font-body); color: var(--a-ink-3); }
+.qrow .chev { grid-column: 2; grid-row: 1 / span 2; }
+
+/* ================= RESULT ================= */
+.rs { max-width: 960px; margin: 0 auto; }
+/* front: the R4 summary card, kept exactly (ResultHero + NextMove, src/components/result) */
+.rh { position: relative; padding: 22px 18px 20px; border-radius: 22px; background: var(--a-raised); border: 1px solid var(--a-line); box-shadow: var(--a-shadow-1); }
+.rh-pip { position: absolute; right: 12px; top: 18px; width: 86px; height: 86px; }
+.rh-pip img { width: 100%; height: 100%; object-fit: contain; }
+.rh-rec { font: 500 14px/1.4 var(--font-body); color: var(--a-ink-3); max-width: 70%; }
+.rh-score { margin-top: 10px; display: flex; align-items: baseline; gap: 8px; }
+.rh-score b { font: 780 46px/1 var(--font-display); letter-spacing: -.035em; }
+.rh-score span { font: 600 19px/1 var(--font-display); color: var(--a-ink-3); }
+.rh-verdict { margin-top: 10px; font: 720 19px/1.3 var(--font-display); letter-spacing: -.015em; max-width: 30ch; }
+.rh-line { margin-top: 8px; font: 500 15px/1.45 var(--font-body); color: var(--a-ink-2); }
+.rh-stats { margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.rh-stats div { padding: 11px 12px; border-radius: 12px; border: 1px solid var(--a-line); }
+.rh-stats dt { font: 500 13px/1 var(--font-body); color: var(--a-ink-3); }
+.rh-stats dd { margin-top: 8px; display: flex; align-items: baseline; gap: 6px; }
+.rh-stats dd b { font: 760 21px/1 var(--font-display); }
+.rh-stats dd small { font: 600 12.5px/1 var(--font-body); color: var(--a-ink-3); }
+.rh-stats [data-k='right'] b { color: var(--a-good-text); } .rh-stats [data-k='wrong'] b { color: var(--a-bad-text); }
+.rh-map { margin-top: 14px; list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+.rh-map button { position: relative; width: 44px; height: 44px; border-radius: 10px; display: grid; place-items: center; font: 700 14px/1 var(--font-body); border: 1px solid var(--a-line-strong); }
+.rh-map button[data-v='right'] { background: color-mix(in oklab, var(--a-good-text) 16%, transparent); border-color: color-mix(in oklab, var(--a-good-text) 50%, transparent); }
+.rh-map button[data-v='wrong'] { background: var(--a-bad-wash); border-color: color-mix(in oklab, var(--a-bad-text) 55%, transparent); color: var(--a-bad-text); }
+.rh-map button[data-v='blank'] { color: var(--a-ink-3); border-color: var(--a-line); }
+.rh-map button[data-changed]::after { content: ''; position: absolute; top: -3px; right: -3px; width: 8px; height: 8px; border-radius: 50%; background: var(--a-warn-text); border: 2px solid var(--a-raised); }
+.rh-next { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--a-line); display: grid; gap: 10px; }
+.rh-next .lbl { font: 600 13.5px/1 var(--font-body); color: var(--a-ink-2); }
+.rh-next .why { font: 600 15px/1.45 var(--font-body); }
+.rh-next .val { font: 500 14.5px/1.5 var(--font-body); color: var(--a-ink-2); }
+.rh-next .cost { font: 500 13.5px/1.45 var(--font-body); color: var(--a-ink-3); }
+
+/* depth: one structure, six named parts, one open at a time */
+.dp { margin-top: 36px; }
+.dp-title { font: 740 26px/1.15 var(--font-display); letter-spacing: -.025em; }
+.dp-lede { margin-top: 6px; font: 500 14.5px/1.5 var(--font-body); color: var(--a-ink-2); }
+.dp-grid { margin-top: 14px; }
+.dp-index { list-style: none; border-top: 1px solid var(--a-line); }
+.dp-part { border-bottom: 1px solid var(--a-line); }
+.dp-head { display: grid; grid-template-columns: minmax(0, 1fr) auto 18px; gap: 4px 12px; align-items: center; width: 100%; min-height: 72px; padding: 14px 0; }
+.dp-head b { font: 700 17px/1.25 var(--font-display); letter-spacing: -.01em; }
+.dp-head span { grid-column: 1; font: 500 13.5px/1.45 var(--font-body); color: var(--a-ink-3); text-wrap: pretty; }
+.dp-head em { grid-column: 2; grid-row: 1 / span 2; font: 720 17px/1 var(--font-display); font-style: normal; color: var(--a-ink-2); white-space: nowrap; }
+.dp-head .chev { grid-column: 3; grid-row: 1 / span 2; }
+.dp-head { padding: 14px 12px 14px 14px; }
+.dp-head .chev { transform: rotate(-90deg); }
+.dp-part[data-open] > .dp-head { background: var(--a-raised-2); box-shadow: inset 3px 0 0 var(--a-ink); border-radius: 0 10px 10px 0; }
+.dp-part[data-open] > .dp-head span { color: var(--a-ink-2); }
+.dp-dhead { position: sticky; top: 60px; z-index: 3; display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; margin-bottom: 10px; background: var(--a-bg); border-bottom: 1px solid var(--a-line); }
+.dp-dhead h3 { font: 740 22px/1.2 var(--font-display); letter-spacing: -.02em; }
+.dp-all { display: inline-flex; align-items: center; min-height: 44px; font: 650 14px/1 var(--font-body); color: var(--a-ink-2); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--a-line-strong); white-space: nowrap; }
+.dp-next { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 52px; margin-top: 18px; padding-top: 6px; border-top: 1px dashed var(--a-line-strong); font: 650 14.5px/1.3 var(--font-body); color: var(--a-ink-2); }
+.dp-detail { margin-top: 26px; }
+
+/* part: where your marks went */
+.lg-find { display: flex; gap: 10px; font: 600 15.5px/1.45 var(--font-body); }
+.lg-find i, .lg-row i { flex: none; width: 12px; height: 12px; margin-top: 5px; border-radius: 3px; }
+.lg-bar { margin: 14px 0 6px; display: flex; gap: 2px; height: 10px; }
+.lg-bar i { border-radius: 2px; }
+.lg-row { display: flex; gap: 10px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid var(--a-line); }
+.lg-row div { flex: 1; }
+.lg-row b { display: block; font: 650 15px/1.3 var(--font-body); }
+.lg-row span { font: 500 13px/1.4 var(--font-body); color: var(--a-ink-3); }
+.lg-row .chev { margin-top: 2px; }
+.g-changed { background: var(--a-warn-text); } .g-quick { background: var(--wrong-fill); opacity: .65; } .g-long { background: repeating-linear-gradient(135deg, var(--wrong-fill) 0 3px, transparent 3px 6px); border: 1px solid var(--wrong-fill); }
+.g-other { background: var(--wrong-fill); } .g-blank { background: var(--a-line-strong); }
+.lg-note { margin-top: 14px; display: grid; gap: 6px; font: 500 14px/1.5 var(--font-body); color: var(--a-ink-2); }
+.lg-note b { color: var(--a-ink); }
+.qchips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.qchips a { min-width: 44px; height: 40px; padding: 0 10px; border-radius: 10px; border: 1px solid var(--a-line-strong); display: grid; place-items: center; font: 650 13.5px/1 var(--font-body); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--a-line-strong); }
+
+/* part: replay (D17) */
+.rp-intro { font: 500 14.5px/1.5 var(--font-body); color: var(--a-ink-2); }
+.rp-intro b { color: var(--a-ink); font-weight: 650; }
+.rb { margin-top: 14px; }
+.rb-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.rb-clock b { font: 760 30px/1 var(--font-display); letter-spacing: -.03em; }
+.rb-clock span { margin-left: 8px; font: 600 13.5px/1 var(--font-body); color: var(--a-ink-3); }
+.rb-ctl { display: flex; gap: 6px; }
+.rb-btn { min-width: 44px; height: 44px; padding: 0 12px; border-radius: 12px; border: 1px solid var(--a-line-strong); display: inline-flex; align-items: center; justify-content: center; gap: 6px; font: 650 14.5px/1 var(--font-body); transition: transform 160ms var(--ease-out); }
+.rb-btn:active { transform: scale(.97); }
+.rb-btn svg { width: 18px; height: 18px; stroke: var(--a-ink); fill: none; stroke-width: 2; }
+.rb-play svg { fill: var(--a-ink); stroke: none; }
+.rb-cap { margin-top: 10px; min-height: 22px; font: 500 14.5px/1.5 var(--font-body); color: var(--a-ink-2); }
+.rb-cap b { color: var(--a-ink); font-weight: 700; margin-right: 6px; font-variant-numeric: tabular-nums; }
+.rb-grid { margin-top: 14px; display: grid; gap: 12px; }
+.rb-row { position: relative; display: grid; gap: 2px; }
+.rb-q { display: grid; grid-template-rows: var(--h) 16px; gap: 0; padding: 0; min-width: 0; transition: opacity 180ms ease; }
+.rb-col { position: relative; display: block; height: var(--h); border-bottom: 1px solid var(--a-line-strong); }
+.rb-col i { position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--h) * var(--f)); border-radius: 3px 3px 0 0; background: var(--right-fill); transform-origin: bottom; }
+.rb-q[data-v='wrong'] .rb-col i { background: var(--wrong-fill); }
+.rb-q[data-v='blank'] .rb-col i { background: transparent; border: 1.5px dashed var(--a-ink-3); border-bottom: 0; }
+.rb-q[data-changed] .rb-col::before { content: ''; position: absolute; left: 50%; bottom: calc(var(--h) * var(--f) + 4px); width: 8px; height: 8px; margin-left: -4px; border-radius: 50%; border: 2px solid var(--a-warn-text); }
+.rb-q em { font: 600 11px/16px var(--font-body); font-style: normal; color: var(--a-ink-3); text-align: center; overflow: visible; white-space: nowrap; }
+.rb-q[data-sel] .rb-col { background: var(--lit); box-shadow: 0 0 0 1.5px var(--a-ink-2); border-radius: 4px 4px 0 0; }
+.rb-q[data-sel] em { color: var(--a-ink); font-weight: 800; }
+.rb-q[data-now] em { color: var(--a-ink); font-weight: 800; }
+.rb-q[data-now] .rb-col { box-shadow: inset 0 -2px 0 var(--a-ink); }
+.rb-q[data-dim] { opacity: .2; }
+.rb-pace { position: absolute; left: 0; right: 0; bottom: calc(16px + var(--h) / 3); border-top: 1px dashed var(--a-ink-3); opacity: .6; pointer-events: none; }
+.rb-line { display: grid; gap: 1px; height: 14px; }
+.rb-line i { border-radius: 1px; background: var(--right-fill); }
+.rb-line i[data-v='wrong'] { background: var(--wrong-fill); }
+.rb-line i[data-v='blank'] { background: transparent; box-shadow: inset 0 0 0 1px var(--a-ink-3); }
+.rb-line-lab { display: flex; justify-content: space-between; font: 600 11.5px/1 var(--font-body); color: var(--a-ink-3); }
+.rb-foot { margin-top: 12px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; }
+.rb-key { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; font: 500 12.5px/1.4 var(--font-body); color: var(--a-ink-3); }
+.rb-key i { display: inline-block; width: 10px; height: 10px; margin-right: -6px; border-radius: 2px; vertical-align: -1px; }
+.rb-key i[data-k='right'] { background: var(--right-fill); } .rb-key i[data-k='wrong'] { background: var(--wrong-fill); }
+.rb-key i[data-k='blank'] { border: 1.5px dashed var(--a-ink-3); } .rb-key i[data-k='changed'] { border-radius: 50%; border: 2px solid var(--a-warn-text); }
+.rb-key i[data-k='pace'] { width: 14px; height: 0; border-top: 1px dashed var(--a-ink-3); border-radius: 0; vertical-align: 3px; }
+.rb-toggle { min-height: 44px; font: 650 14px/1 var(--font-body); color: var(--a-ink); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--a-line-strong); }
+.rb-detail { margin-top: 6px; min-height: 20px; font: 500 13.5px/1.5 var(--font-body); color: var(--a-ink-2); }
+.rp-cut { margin-top: 6px; padding: 16px 0; border-top: 1px solid var(--a-line); border-bottom: 1px solid var(--a-line); display: grid; gap: 6px; }
+.rp-cut b { font: 700 17px/1.35 var(--font-display); }
+.rp-cut p { font: 500 14.5px/1.5 var(--font-body); color: var(--a-ink-2); }
+.rp-sub { margin-top: 26px; font: 700 17px/1.2 var(--font-display); }
+.tw { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 4px 12px; align-items: center; padding: 10px 0; }
+.tw b { font: 700 14px/1 var(--font-body); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--a-line-strong); }
+.tw .t { height: 6px; border-radius: 99px; background: var(--a-line); position: relative; }
+.tw .t i { position: absolute; inset: 0 auto 0 0; border-radius: 99px; background: var(--wrong-fill); }
+.tw .t i[data-v='right'] { background: var(--right-fill); }
+.tw .t i[data-v='blank'] { background: transparent; box-shadow: inset 0 0 0 1.5px var(--a-ink-3); }
+.tw .t s { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--a-ink); text-decoration: none; }
+.tw em { font: 700 14px/1 var(--font-body); font-style: normal; }
+.tw small { grid-column: 2 / span 2; font: 500 12.5px/1.3 var(--font-body); color: var(--a-ink-3); }
+.chg { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--a-line); font: 500 14px/1.45 var(--font-body); color: var(--a-ink-2); }
+.chg b { font: 700 14px/1.45 var(--font-body); color: var(--a-ink); }
+.chg em { font: 700 14px/1.45 var(--font-body); font-style: normal; }
+.chg em[data-k='up'] { color: var(--a-good-text); } .chg em[data-k='down'] { color: var(--a-bad-text); } .chg em[data-k='flat'] { color: var(--a-ink-3); }
+
+/* part: mistakes (D15: one action label per state) */
+.ms { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 4px 12px; align-items: start; padding: 13px 0; border-bottom: 1px solid var(--a-line); }
+.ms .qb { grid-row: span 3; }
+.ms b { font: 650 15px/1.35 var(--font-body); }
+.ms .when { font: 500 13px/1.4 var(--font-body); color: var(--a-ink-3); }
+.ms .lost { grid-column: 3; font: 720 15px/1 var(--font-display); color: var(--a-bad-text); text-align: right; }
+.ms .act { grid-column: 3; justify-self: end; }
+.ms .picks { grid-column: 2; }
+.labels { margin-top: 14px; display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; font: 500 13.5px/1.4 var(--font-body); color: var(--a-ink-2); }
+.labels dt { font-weight: 700; color: var(--a-ink); }
+
+/* parts: rule, after this mock, answers */
+.pv { display: grid; gap: 8px; padding: 6px 0 4px; }
+.pv b { font: 700 16px/1.35 var(--font-body); }
+.pv p { font: 500 14px/1.5 var(--font-body); color: var(--a-ink-2); }
+.meter { display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; margin-top: 8px; font: 600 13.5px/1 var(--font-body); }
+.meter .t { grid-column: 1 / -1; height: 6px; border-radius: 99px; background: var(--a-line); overflow: hidden; }
+.meter .t i { display: block; height: 100%; background: var(--a-ink-3); }
+.sw h3 { margin-top: 18px; font: 700 15px/1.3 var(--font-body); color: var(--a-ink-2); }
+.sw b { display: block; margin-top: 6px; font: 700 16px/1.35 var(--font-display); }
+.sw p { margin-top: 4px; font: 500 14px/1.5 var(--font-body); color: var(--a-ink-2); }
+.fl { display: flex; gap: 6px; flex-wrap: wrap; margin: 6px 0 8px; }
+.fl button { height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--a-line-strong); font: 650 13.5px/1 var(--font-body); }
+.fl button[aria-pressed='true'] { background: var(--a-ink); color: var(--a-bg); border-color: var(--a-ink); }
+.ans { display: grid; grid-template-columns: 34px minmax(0, 1fr) 18px; gap: 3px 12px; align-items: center; padding: 11px 0; border-bottom: 1px solid var(--a-line); }
+.ans .qb { width: 34px; height: 34px; border-radius: 10px; grid-row: span 2; font-size: 12.5px; }
+.ans .qb[data-k='right'] { border-color: color-mix(in oklab, var(--a-good-text) 55%, transparent); background: transparent; color: var(--a-good-text); }
+.ans b { font: 600 14.5px/1.3 var(--font-body); }
+.ans span { font: 500 12.5px/1.3 var(--font-body); color: var(--a-ink-3); }
+.ans span [data-v='right'] { color: var(--a-good-text); font-weight: 650; } .ans span [data-v='wrong'] { color: var(--a-bad-text); font-weight: 650; }
+.ans .chev { grid-column: 3; grid-row: 1 / span 2; }
+.rs-tail { margin-top: 34px; padding-top: 18px; border-top: 1px solid var(--a-line); display: grid; gap: 8px; }
+.rs-tail h2 { font: 720 21px/1.2 var(--font-display); }
+.rs-tail p { font: 500 14.5px/1.5 var(--font-body); color: var(--a-ink-2); }
+
+/* ---------- desktop ---------- */
+@media (min-width: 1024px) {
+  body { display: grid; grid-template-columns: 232px minmax(0, 1fr); }
+  .side { display: flex; flex-direction: column; gap: 4px; position: sticky; top: 0; height: 100dvh; padding: 16px 14px; background: var(--a-sidebar); border-right: 1px solid var(--a-line); }
+  .side .logo img { height: 26px; margin: 4px 6px 16px; }
+  .side .start { display: flex; align-items: center; gap: 10px; height: 48px; padding: 0 18px; border-radius: 14px; background: var(--volt); color: var(--volt-ink); font: 750 15.5px/1 var(--font-display); }
+  .side .start svg { width: 14px; height: 14px; fill: var(--volt-ink); }
+  .side h4 { margin: 14px 10px 4px; font: 600 13px/1 var(--font-body); color: var(--a-ink-3); }
+  .side a.nav { display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border-radius: 12px; font: 650 15px/1 var(--font-body); color: var(--a-ink-2); }
+  .side a.nav svg { width: 19px; height: 19px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+  .side a.nav[aria-current] { background: var(--lit); color: var(--a-ink); }
+  .top { padding: 0 28px; }
+  .top .logo { display: none; }
+  .top .page { display: block; }
+  .dock { display: none; }
+  main { padding: 34px 40px 80px; }
+  h1 { font-size: 46px; }
+  /* review: chapters lead on the left; the keep-work and the papers sit in one sticky column */
+  .rv-board { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 0 56px; align-items: start; }
+  .rv-board > .wk { grid-column: 1; grid-row: 1; }
+  .rv-board > .rv-side { display: block; grid-column: 2; grid-row: 1; position: sticky; top: 84px; margin-top: 26px; }
+  .rv-side .rv-revise { margin-top: 0; }
+  .rv-side .sec { margin-top: 30px; }
+  .ch-body { padding-left: 60px; }
+  /* result: the front stays one card; the depth is an index on the left and the open part on the right */
+  .rh { padding: 28px 28px 24px 140px; }
+  .rh-pip { left: 28px; top: 30px; width: 92px; height: 92px; }
+  .rh-rec { max-width: none; }
+  .rh-score b { font-size: 60px; }
+  .rh-verdict { max-width: none; font-size: 21px; }
+  .rh-stats { grid-template-columns: repeat(4, 1fr); margin-left: -112px; }
+  .rh-map { margin-left: -112px; }
+  .rh-next { margin-left: -112px; grid-template-columns: 1fr 1fr; gap: 10px 36px; align-items: start; }
+  .rh-next .right { border-left: 1px solid var(--a-line); padding-left: 24px; display: grid; gap: 8px; }
+  .rh-next .volt { justify-self: start; min-width: 220px; }
+  .dp-grid { display: grid; grid-template-columns: 360px minmax(0, 1fr); gap: 0 44px; align-items: start; }
+  .dp-index { position: sticky; top: 84px; }
+  .dp-head { min-height: 76px; }
+  .dp-detail { margin-top: 0; }
+  .dp-dhead { top: 60px; padding-top: 4px; }
+  .dp-all { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<aside class="side" aria-label="Main">
+  <a class="logo" href="#"><img class="night" src="assets/logo-header-dark.svg" alt="mockmob"><img class="day" src="assets/logo-header-light.svg" alt="mockmob"></a>
+  <a class="start" href="#"><svg viewBox="0 0 24 24"><path d="M7 4v16l13-8z"/></svg>Start a session</a>
+  <h4>Study</h4>
+  <a class="nav" data-nav="today" href="#"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/></svg>Today</a>
+  <a class="nav" data-nav="practice" href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="7"/><path d="M12 13V9M10 3h4"/></svg>Practice</a>
+  <a class="nav" data-nav="review" href="#"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="16" rx="2"/><path d="M9 9h6M9 13h6M9 17h3"/></svg>Review</a>
+  <a class="nav" data-nav="explore" href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M15 9l-2 4-4 2 2-4z"/></svg>Explore</a>
+  <a class="nav" data-nav="saved" href="#"><svg viewBox="0 0 24 24"><path d="M7 4h10v16l-5-4-5 4z"/></svg>Saved</a>
+  <a class="nav" data-nav="progress" href="#"><svg viewBox="0 0 24 24"><path d="M4 17l5-5 4 3 7-8"/></svg>Progress</a>
+  <h4>Planning</h4>
+  <a class="nav" href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></svg>Weak chapters</a>
+  <a class="nav" href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/></svg>Compass, DU cutoffs</a>
+</aside>
+<div class="col">
+  <header class="top">
+    <a class="logo" href="#"><img class="night" src="assets/logo-header-dark.svg" alt="mockmob"><img class="day" src="assets/logo-header-light.svg" alt="mockmob"></a>
+    <span class="page" data-page-name></span>
+    <div class="pills">
+      <span class="pill"><svg viewBox="0 0 24 24"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg><span data-credits></span></span>
+      <span class="avatar">P</span>
+    </div>
+  </header>
+  <main><div class="wrap" id="app"></div></main>
+</div>
+<nav class="dock" aria-label="Tabs">
+  <div class="cap">
+    <a href="#"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/></svg>Today</a>
+    <a href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="7"/><path d="M12 13V9M10 3h4"/></svg>Practice</a>
+    <a href="#" data-dock="review"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="16" rx="2"/><path d="M9 9h6M9 13h6M9 17h3"/></svg>Review</a>
+    <a href="#"><svg viewBox="0 0 24 24"><path d="M4 20V9l8-5 8 5v11"/><path d="M9 20v-5h6v5"/></svg>Colleges</a>
+    <a href="#"><svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="18" cy="12" r="1.3"/></svg>More</a>
+  </div>
+  <a class="startkey" href="#"><svg viewBox="0 0 24 24"><path d="M7 4v16l13-8z"/></svg>Start</a>
+</nav>
+<script src="data.js"></script>
+<script src="replay.js"></script>
+<script>
+(function () {
+  const P = new URLSearchParams(location.search);
+  const S = P.get('s') || 'review';
+  if (P.get('theme') === 'light') document.documentElement.dataset.theme = 'light';
+  const { papers, chapters, review, result, short, fmt, clock } = window.MM;
+  const app = document.getElementById('app');
+  const chev = '<svg class="chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>';
+  const objSrc = (o) => `assets/obj-${o}.v2-256.webp`;
+  document.querySelector('[data-credits]').textContent = review.credits;
+  const picks = (m) => m.pick ? `<span class="picks"><span class="y"><i>${m.pick}</i>yours</span><span class="k"><i>${m.key}</i>answer</span></span>` : '';
+  const when = (m) => `${papers[m.paper].name}, ${papers[m.paper].at}`;
+
+  // ================= REVIEW =================
+  function renderReview() {
+    document.querySelector('[data-page-name]').textContent = 'Review';
+    document.querySelector('[data-dock="review"]').setAttribute('aria-current', 'page');
+    document.querySelector('[data-nav="review"]').setAttribute('aria-current', 'page');
+    const openId = P.get('open') || chapters[0].id;
+    const shown = chapters.slice(0, 5);
+    const chapterHtml = (c, i) => {
+      const open = c.id === openId;
+      const repairedLine = c.repaired.length ? c.repaired.map((m) => `Q${m.n} from ${papers[m.paper].name}`).join(', ') : '';
+      return `<li class="ch" ${open ? 'data-open' : ''} data-ch="${c.id}">
+        <button type="button" class="ch-bar" aria-expanded="${open}">
+          <img class="obj" src="${objSrc(c.obj)}" alt="">
+          <span class="ch-name">${c.name}</span>
+          <span class="ch-lost">−${c.lost}<small>marks</small></span>
+          <span class="ch-meta">Lost <b>${c.lost} of the ${c.offer} marks</b> on offer, ${c.q} questions in ${c.paperNames.join(' and ')}. ${c.w} wrong, ${c.b ? `${c.b} left blank` : 'none blank'}.</span>
+          <span class="ch-track"><span class="track"><i style="width:${Math.round((c.lost / c.offer) * 100)}%"></i></span>${chev}</span>
+        </button>
+        ${open ? `<div class="ch-body">
+          ${open ? `<div class="ch-act"><a class="volt" href="#">Practise 10 on this chapter</a><p>10 new questions, about 10 minutes. Uses 10 of your ${review.credits} credits.</p></div>`
+                  : `<div class="ch-act-quiet"><a class="btn" href="#">Practise 10 on this chapter</a><p>About 10 minutes, 10 credits.</p></div>`}
+          <div class="mk-head">${c.open.length ? `${c.open.length} ${c.open.length === 1 ? 'mistake' : 'mistakes'} to repair` : 'Nothing left to repair'}<span>Newest first</span></div>
+          ${c.open.map((m) => `<div class="mk"><span class="qb">${m.n}</span><b>${m.stem}</b><span class="when">${when(m)}</span>${picks(m)}<a class="act" href="#">Repair</a></div>`).join('')}
+          <div class="ch-foot">
+            ${c.blanks.length ? `<p><b>${c.blanks.length} left blank:</b> ${c.blanks.map((m) => `Q${m.n}, ${papers[m.paper].name}`).join('; ')}. <a class="link" href="#">Try ${c.blanks.length === 1 ? 'it' : 'them'} again, free</a></p>` : ''}
+            ${c.repaired.length ? `<p><b>${c.repaired.length} repaired:</b> ${repairedLine}${c.repaired.some((m) => m.state === 'slipped') ? ', which slipped on a new question tonight' : ''}. ${c.repaired.length === 1 ? 'It is' : 'They are'} in Saved repairs.</p>` : ''}
+            <p class="fine">Each repair is 1 AI credit; you have ${review.aiCredits}. No charge if a repair cannot be written. Seeing the answer and trying again are free.</p>
+            ${c.id === 'adm' ? '<a class="link" href="#">Learn the idea first: Goodwill and the new partner, 7-minute lesson</a>' : ''}
+          </div>
+        </div>` : ''}
+      </li>`;
+    };
+    const savedRow = (m) => {
+      const ch = chapters.find((c) => c.id === m.ch);
+      const st = m.state === 'slipped' ? `Slipped on a new question ${m.checked}. Back in Revise tomorrow.`
+        : m.state === 'pending' ? `Repaired ${m.repaired}. One new question shows whether it held.` : `Held on a new question. Repaired ${m.repaired}.`;
+      const action = m.state === 'pending' ? 'Check it held' : 'See repair';
+      return `<div class="row"><span class="qb" data-k="${m.state}">${m.n}</span><b>${ch.name}</b><span class="when">${when(m)}</span><span class="st" data-k="${m.state}">${st}</span><a class="act" href="#">${action}</a></div>`;
+    };
+    const m3 = papers.m3, m2 = papers.m2, bq = papers.bq;
+    app.innerHTML = `
+      <h1>Review</h1>
+      <p class="lede">Your 3 papers lost <b>${review.totalLost} marks</b>: ${review.wrong} wrong answers and ${review.blank} left blank. ${review.repaired.length} are repaired.</p>
+      <div class="rv-board">
+        <section class="wk" aria-labelledby="wk-h">
+          <div class="sec-head"><h2 id="wk-h">Where you lose marks</h2><p>Most marks first</p></div>
+          <p class="sub">Each chapter across Mock 3, Quick practice and Mock 2. Practise the chapter, then repair its mistakes one at a time.</p>
+          <ul class="ch-list">${shown.map(chapterHtml).join('')}</ul>
+          <button type="button" class="see-all">See all ${chapters.length} chapters, ${chapters.slice(5).map((c) => `${c.name} −${c.lost}`).join(', ')}${chev}</button>
+        </section>
+        <div class="rv-side">
+          <a class="rv-revise" href="#"><b>Revise <span>${review.revise.due} due today</span></b><span>${review.revise.back} questions back, ${review.revise.checks} Check it held, ${review.revise.cards} concept cards. About ${review.revise.minutes} minutes, free.</span>${chev.replace('M6 9l6 6 6-6', 'M9 6l6 6-6 6')}</a>
+          <section class="sec saved" aria-labelledby="sv-h">
+            <div class="sec-head"><h2 id="sv-h">Saved repairs</h2><p>${review.repaired.length}, each opens free</p></div>
+            <p class="sub">${review.held} held on a new question, ${review.slipped} slipped, ${review.pending} waiting for Check it held.</p>
+            ${review.repaired.slice(0, 4).map(savedRow).join('')}
+            <button type="button" class="see-all">Show all ${review.repaired.length}${chev}</button>
+          </section>
+          <section class="sec papers" aria-labelledby="pp-h">
+            <div class="sec-head"><h2 id="pp-h">Your papers</h2><p>Newest first</p></div>
+            <p class="pp-pair"><b>${m3.score}</b>in Mock 3, Accountancy. Up ${m3.score - m2.score} on ${m2.score} in Mock 2. A trend line appears from your third mock.</p>
+            ${[m3, bq, m2].map((p) => `<div class="pp"><img src="${objSrc(p.subject === 'Accountancy' ? 'accountancy' : 'business')}" alt=""><b>${p.name}, ${p.subject}</b><span>${p.at}. ${p.wrong} wrong, ${p.blank} blank.</span><span class="sc">${p.score}<small>of ${p.max}</small></span></div>`).join('')}
+          </section>
+          <section class="sec also" aria-label="Also in Review">
+            <a class="qrow" href="#"><b>Your rules (7)</b><span>For your next mock: open every question once before you go deep on any.</span>${chev.replace('M6 9l6 6 6-6', 'M9 6l6 6-6 6')}</a>
+            <a class="qrow" href="#"><b>Saved questions (4)</b><span>Questions you marked to look at again.</span>${chev.replace('M6 9l6 6 6-6', 'M9 6l6 6-6 6')}</a>
+          </section>
+        </div>
+      </div>`;
+    app.querySelectorAll('.ch-bar').forEach((b) => b.addEventListener('click', () => {
+      const id = b.closest('.ch').dataset.ch; const u = new URL(location.href); u.searchParams.set('open', id); location.href = u.href;
+    }));
+  }
+
+  // ================= RESULT =================
+  const R = result, m3 = R.paper;
+  const parts = [
+    { id: 'marks', name: 'Where your marks went', line: `${R.missed} marks missed. 3 answers in under 20 seconds cost 18 of them.`, count: `${R.missed} marks` },
+    { id: 'mistakes', name: 'Your mistakes', line: `${m3.wrong} wrong and ${m3.blank} left blank. Q29 is repaired and waiting for Check it held.`, count: `${m3.wrong + m3.blank}` },
+    { id: 'time', name: 'Time and changes', line: `${m3.took} of ${m3.limitMin} minutes. 5 changed answers: 2 gained 12 marks, 2 cost 12.`, count: m3.took },
+    { id: 'rule', name: 'Did your rule hold', line: 'Yes. You opened all 50 questions before going back.', count: 'Held' },
+    { id: 'after', name: 'After this mock', line: 'Admission of a partner lost marks in Mock 2 and in Mock 3.', count: '' },
+    { id: 'answers', name: 'Answer by answer', line: `All ${m3.total}: ${m3.right} right, ${m3.wrong} wrong, ${m3.blank} blank.`, count: `${m3.total}` },
+  ];
+  const ledgerColor = { changed: 'g-changed', quick: 'g-quick', long: 'g-long', other: 'g-other', blank: 'g-blank' };
+
+  function partBody(id) {
+    if (id === 'marks') return `
+      <p class="lg-find"><i class="g-quick"></i><span><b>3</b> wrong answers took under <b>20</b> seconds each. They cost <b>18</b> of the <b>${R.missed}</b> marks you missed.</span></p>
+      <div class="lg-bar" aria-hidden="true">${R.ledger.map((g) => `<i class="${ledgerColor[g.id]}" style="flex:${g.marks}"></i>`).join('')}</div>
+      ${R.ledger.map((g) => `<div class="lg-row"><i class="${ledgerColor[g.id]}"></i><div><b>${g.label}</b><span>${g.marks} marks on ${g.qs.length} questions: ${g.qs.map((n) => `Q${n}`).join(', ')}</span></div>${chev}</div>`).join('')}
+      <div class="lg-note"><p>Changing answers: won back <b>12</b> marks on <b>2</b>, lost <b>12</b> on <b>2</b>. Net <b>0</b>.</p>
+      <p>4 questions you lost were ones most other students got right: Q42, Q38, Q9 and Q26 (<b>24 marks</b>). Each had answers from 20 or more other students.</p></div>`;
+    if (id === 'mistakes') {
+      const rows = window.MM.mistakes.filter((m) => m.paper === 'm3' && m.state !== 'blank').sort((a, b) => (a.state === 'pending') - (b.state === 'pending') || [42, 38, 9, 26].indexOf(b.n) - [42, 38, 9, 26].indexOf(a.n));
+      const order = [42, 38, 9, 26, 45, 31, 22, 14, 3, 19, 49, 29];
+      rows.sort((a, b) => order.indexOf(a.n) - order.indexOf(b.n));
+      return `<p class="rp-intro">In repair order: the ones most other students got right come first. Each mistake has one action; its label is the same on Review.</p>
+      ${rows.slice(0, 6).map((m) => { const ch = chapters.find((c) => c.id === m.ch); return `<div class="ms"><span class="qb" data-k="${m.state === 'pending' ? 'pending' : ''}">${m.n}</span><b>${ch.name}</b><span class="lost">−6</span><span class="when">${m.stem}</span>${picks(m)}<a class="act" href="#">${m.state === 'pending' ? 'Check it held' : 'Repair'}</a></div>`; }).join('')}
+      ${(() => { const m = rows.find((x) => x.n === 29); const ch = chapters.find((c) => c.id === m.ch); return `<div class="ms"><span class="qb" data-k="pending">29</span><b>${ch.name}</b><span class="lost">−6</span><span class="when">Repaired ${m.repaired}. One new question shows whether it held.</span>${picks(m)}<a class="act" href="#">Check it held</a></div>`; })()}
+      <button type="button" class="see-all">Show the other 5 mistakes${chev}</button>
+      <button type="button" class="see-all">4 left blank, 20 marks not earned: Q28, Q36, Q47, Q50${chev}</button>
+      <p class="fine" style="margin-top:10px">These 11 repairs use 11 AI credits; you have ${review.aiCredits}. Reopening a repair is free. No charge if a repair cannot be written.</p>
+      <dl class="labels"><dt>Repair</dt><dd>a wrong answer with no repair yet</dd><dt>Check it held</dt><dd>repaired; one new question checks it</dd><dt>See repair</dt><dd>repaired and checked; opens free</dd><dt>Try it again</dt><dd>a blank, free</dd></dl>`;
+    }
+    if (id === 'time') {
+      const S = P.get('s');
+      const isShort = S === 'replay10', isCut = S === 'replaycut';
+      if (isCut) return `<p class="rp-intro">Business Studies quick practice, 10 questions.</p>
+        <div class="rp-cut"><b>Nothing to replay on this paper.</b><p>You submitted after 58 seconds with 2 of 10 answered, so there is no pace or change to show. Your 2 answers and 8 blanks are in Answer by answer.</p><a class="link" href="#">Take these 10 again, no time limit</a></div>`;
+      const paper = isShort ? short : R;
+      const slow = [...paper.questions].sort((a, b) => b.sec - a.sec).slice(0, 4);
+      const ct = window.MMReplay.changeTimes(paper);
+      return `<p class="rp-intro">${isShort ? `Business Studies quick practice: <b>${short.took}</b> on 10 questions, even pace <b>${fmt(short.pace)}</b> a question.` : `<b>${m3.took}</b> on ${m3.total} questions. Even pace is <b>${fmt(R.pace)}</b> a question: 60 minutes for 50.`} Each bar is one question: its colour is the result, its height the time you spent.</p>
+        <div data-replay></div>
+        ${isShort ? '' : `<h3 class="rp-sub">Where your time went</h3>
+        ${slow.map((q) => `<div class="tw"><b>Q${q.n}</b><span class="t"><i data-v="${q.verdict}" style="width:${Math.min(100, (q.sec / (R.pace * 3)) * 100)}%"></i><s style="left:33.3%"></s></span><em>${fmt(q.sec)}</em><small>${q.verdict === 'right' ? 'Right' : q.verdict === 'wrong' ? 'Wrong' : 'Blank'}, ${(q.sec / R.pace).toFixed(1)} times the paper’s pace</small></div>`).join('')}
+        <h3 class="rp-sub">Every answer you changed</h3>
+        ${Object.entries(R.changes).map(([n, c]) => `<div class="chg"><b>Q${n}</b><span>Picked ${c.from} at ${clock(ct[n].at)}. Changed to ${c.to} at ${clock(ct[n].to_at)}${c.later ? ', on a return visit' : ', without leaving the question'}.</span><em data-k="${c.effect > 0 ? 'up' : c.effect < 0 ? 'down' : 'flat'}">${c.effect > 0 ? '+' : c.effect < 0 ? '−' : ''}${Math.abs(c.effect)}</em></div>`).join('')}`}`;
+    }
+    if (id === 'rule') return `<div class="pv"><b>Your rule: open every question once before you go deep on any.</b><p>Kept. Every question was opened on your first pass (last mock: 4 of 50 never opened).</p>
+      <div class="meter"><span>This mock, never opened</span><span>0 of 50</span><span class="t"><i style="width:0"></i></span><span>Mock 2</span><span>4 of 50</span><span class="t"><i style="width:8%"></i></span></div></div>
+      <div class="pv" style="margin-top:14px"><b>Same mistakes later</b><p>Admission of a partner came up 8 times in this mock; 3 were wrong, after 2 wrong in Mock 2.</p></div>
+      <div class="pv" style="margin-top:6px"><b>Prove it on fresh questions</b><p>10 new Admission of a partner questions you have not seen. About 10 minutes, 10 credits.</p><a class="btn" href="#" style="justify-self:start">Set up 10 fresh questions</a></div>`;
+    if (id === 'after') return `<div class="sw">
+      <h3>Costing you</h3><b>Admission of a partner in Mock 2 and Mock 3</b><p>Marks lost here: 12 and 23, oldest first. See Q42, Q38, Q45, Q47.</p>
+      <h3>Working</h3><b>Partnership fundamentals</b><p>7 of 8 right in this mock, after 6 of 8 in Mock 2.</p>
+      <h3>Room to grow</h3><b>Chapters with no recent answers</b><p>3 Accountancy chapters have no answers in your last 2 mocks: Change in profit-sharing ratio, Debentures and Financial statements.</p>
+      <h3>Watch</h3><b>Fast wrong answers</b><p>3 answers under 20 seconds were wrong in this mock, after 2 in Mock 2.</p>
+      <a class="btn" href="#" style="margin-top:14px">Practise 10 on Admission of a partner</a></div>`;
+    if (id === 'answers') return `<div class="fl" role="group" aria-label="Filter answers"><button aria-pressed="true">All 50</button><button aria-pressed="false">Wrong 12</button><button aria-pressed="false">Blank 4</button><button aria-pressed="false">Right 34</button></div>
+      ${R.questions.slice(0, 6).map((q) => `<div class="ans"><span class="qb" data-k="${q.verdict === 'right' ? 'right' : q.verdict}">${q.n}</span><b>Question ${q.n}, ${q.chapter}</b><span><span data-v="${q.verdict}">${q.verdict === 'right' ? 'Right +5' : q.verdict === 'wrong' ? 'Wrong −1' : 'Blank 0'}</span> · ${fmt(q.sec)}${q.changed ? ' · Answer changed' : ''}</span>${chev}</div>`).join('')}
+      <button type="button" class="see-all">Show all 50 answers${chev}</button>`;
+    return '';
+  }
+
+  function renderResult() {
+    document.querySelector('[data-page-name]').textContent = 'Result';
+    const openId = P.get('part') || ({ replay: 'time', replay10: 'time', replaycut: 'time', mistakes: 'mistakes' }[S]) || 'marks';
+    const acc = Math.round((m3.right / (m3.right + m3.wrong)) * 100);
+    app.innerHTML = `<div class="rs">
+      <header class="rh">
+        <div class="rh-pip"><img src="assets/attentive.webp" alt="Mobi, attentive"></div>
+        <p class="rh-rec">Accountancy full mock. Recorded 9:40 PM, ${m3.took}.</p>
+        <h1 class="rh-score"><b>${m3.score}</b><span>/ ${m3.max} marks</span></h1>
+        <p class="rh-verdict">${R.finding.chapter} cost ${R.finding.lost} of the ${R.missed} marks you missed.</p>
+        <p class="rh-line">${R.finding.w} wrong and ${R.finding.b} left blank, of ${R.finding.of} questions.</p>
+        <dl class="rh-stats">
+          <div data-k="right"><dt>Right</dt><dd><b>${m3.right}</b><small>+${m3.right * 5}</small></dd></div>
+          <div data-k="wrong"><dt>Wrong</dt><dd><b>${m3.wrong}</b><small>−${m3.wrong}</small></dd></div>
+          <div><dt>Blank</dt><dd><b>${m3.blank}</b><small>0</small></dd></div>
+          <div><dt>Accuracy</dt><dd><b>${acc}%</b><small>of answered</small></dd></div>
+        </dl>
+        <ol class="rh-map" aria-label="Answer map">${R.questions.map((q) => `<li><button data-v="${q.verdict}" ${q.changed ? 'data-changed' : ''} aria-label="Question ${q.n}">${q.n}</button></li>`).join('')}</ol>
+        <div class="rh-next">
+          <div style="display:grid;gap:10px"><span class="lbl">Do this next</span><a class="volt" href="#">Repair Q42</a><p class="why">${R.finding.chapter}. You picked D. 18 of 22 other students got it right.</p><a class="link" href="#">Practise 10 on ${R.finding.chapter} instead</a></div>
+          <div class="right"><p class="val">A repair gives you why D looked right, the trap, one rule to keep, and a new question to check it held.</p><p class="cost">1 AI credit. You have ${review.aiCredits}. No charge if the repair cannot be written.</p></div>
+        </div>
+      </header>
+      <section class="dp" id="depth" aria-labelledby="dp-h">
+        <h2 class="dp-title" id="dp-h">Your full analysis</h2>
+        <p class="dp-lede">Six parts, each with what it found. One opens at a time.</p>
+        <div class="dp-grid">
+          <ol class="dp-index">${parts.map((p) => `<li class="dp-part" data-part="${p.id}" ${p.id === openId ? 'data-open' : ''}>
+            <button type="button" class="dp-head" aria-expanded="${p.id === openId}"><b>${p.name}</b><span>${p.line}</span><em>${p.count}</em>${chev}</button>
+          </li>`).join('')}</ol>
+          <div class="dp-detail" id="part" aria-live="polite"><div class="dp-dhead"><h3>${parts.find((p) => p.id === openId).name}</h3><a class="dp-all" href="#depth">All six parts</a></div>${partBody(openId)}${(() => { const i = parts.findIndex((x) => x.id === openId); const nx = parts[i + 1]; return nx ? `<button type="button" class="dp-next" data-go="${nx.id}">Next: ${nx.name}${chev.replace('M6 9l6 6 6-6', 'M9 6l6 6-6 6')}</button>` : ''; })()}</div>
+        </div>
+      </section>
+      <section class="rs-tail" aria-labelledby="nx-h"><h2 id="nx-h">Your next ${S === 'replay10' || S === 'replaycut' ? 'Business Studies' : 'Accountancy'} paper</h2><p>Built fresh from the question bank, never a repeat of this one. 50 questions, 60 minutes, 50 credits.</p><a class="btn" href="#" style="justify-self:start">Set up a fresh full mock</a></section>
+    </div>`;
+    // Mount the replay in whichever copy is visible (phone: inside the part; desktop: in the detail pane).
+    const wide = matchMedia('(min-width: 1024px)').matches;
+    const host = app.querySelector('.dp-detail [data-replay]');
+    if (host) {
+      const paper = S === 'replay10' ? short : R;
+      const sel = S === 'replay10' ? 6 : 22;
+      const clockAt = S === 'replay10' ? null : window.MMReplay.changeTimes(R)[22].to_at;
+      window.MMReplay.mount(host, paper, { expanded: true, clockAt, selected: sel });
+    }
+    app.querySelectorAll('.dp-head, .dp-next').forEach((b) => b.addEventListener('click', () => {
+      const id = b.dataset.go || b.closest('.dp-part').dataset.part; const u = new URL(location.href); u.searchParams.set('part', id); u.hash = 'part'; location.href = u.href;
+    }));
+  }
+
+  if (S === 'review') renderReview(); else renderResult();
+})();
+</script>
+</body>
+</html>
