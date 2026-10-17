@@ -49,6 +49,8 @@ import MobPage from '@/components/mob/MobPage';
 import JoinMob from '@/components/mob/JoinMob';
 import { previewMob } from './previewMob';
 
+const CS_SUBJECT = { id: 'computer_science', name: 'Computer Science / Informatics Practices', practice: 'supported', chapters: ['Python Revision Tour', 'Database Concepts'] };
+
 // Original illustrative questions (the homepage sample set), never real bank rows.
 const SAMPLE = [
   ['Partnership Fundamentals', 'Goodwill brought in by an incoming partner is shared by old partners in:', ['New ratio', 'Old ratio', 'Sacrificing ratio', 'Equal ratio']],
@@ -170,7 +172,8 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       if (handled) return handled;
     }
     const syllabus = fixture.get('chapters') === 'syllabus';
-    if (url.pathname === '/api/subjects') return state === 'subject-error' ? json({ error: 'Fixture subject failure' }, 503) : json(syllabus ? SYLLABUS_SUBJECTS : FIXTURE_SUBJECTS);
+    // ?cs=1 adds the longest subject name (Computer Science / Informatics Practices) for overflow checks.
+    if (url.pathname === '/api/subjects') return state === 'subject-error' ? json({ error: 'Fixture subject failure' }, 503) : json([...(syllabus ? SYLLABUS_SUBJECTS : FIXTURE_SUBJECTS), ...(fixture.get('cs') === '1' ? [CS_SUBJECT] : [])]);
     if (url.pathname === '/api/chapters') return state === 'chapter-error' ? json({ error: 'Fixture chapter failure' }, 503) : json(syllabus ? syllabusChapters(url.searchParams.get('subject')) : fixtureChapters(url.searchParams.get('subject')));
     if (url.pathname === '/api/questions/feed') {
       const limit = Number(url.searchParams.get('limit')) || 12;
@@ -573,7 +576,7 @@ function PreviewInner({ candidatePathway }) {
   const previewLinks = Object.fromEntries(views.map((name) => [routeNames[name] || name, previewHref(name)]));
   const auth = useMemo(() => ({
     user: { id: 'preview-user', name: params.get('data') === 'long' ? 'An exceptionally long illustrative display name for responsive checks' : 'Preview Student', email: 'preview@example.test', role: params.get('role') === 'moderator' ? 'moderator' : 'student',
-      subjects: ['accountancy', 'economics', 'business_studies', 'english', ...(params.get('stale') === '1' ? ['hindi'] : [])],
+      subjects: ['accountancy', 'economics', 'business_studies', 'english', ...(params.get('cs') === '1' ? ['computer_science'] : []), ...(params.get('stale') === '1' ? ['hindi'] : [])],
       retiredSubjects: params.get('stale') === '1' ? ['teaching_aptitude'] : [],
       isPremium: pro, premiumUntil: pro ? '2027-07-31T18:29:59.000Z' : params.get('plan') === 'expired' ? '2026-09-01T18:29:59.000Z' : null, creditBalance: pro ? 0 : 40, ...(MONTHLY || {}) },
     status: 'authenticated', needsOnboarding: false, isAuthenticated: true,
