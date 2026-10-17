@@ -1,3 +1,58 @@
+## 18 October 2026, about 4:45 am IST - Website release 5 shipped (deploy/web-1018-r5, 09a620fa): the owner's dawn fixes
+
+**Contents (owner items in OWNER-FEEDBACK-2026-10-18-DAWN.md):**
+- Night mode is subtle again (D7/D12).
+- The light/dark switcher animation is restored (D10).
+- Help has moved to its own page, and the phone nav pulse is fixed (D11/D13).
+- Practice has Repairs and Ask Mobi entry points (D5).
+- The result uses one action label per mistake, and the answer bar is sized to the mock (D15/D17).
+- Learn and Review: F15 Revise and Concepts.
+
+**Checks:** recovery 509 pass / 3 todo / 0 fail, app 502, learning 357, auth 110, billing 153, nta 188, today 32, mob 45, subjects 30, du 42, dock 7 (1 skipped: it launches chrome.exe); eslint clean on the 66 changed files; next build --webpack exit 0. Independent visual check with before/after pictures at 390 and 1440, Night and Day: docs/brain/R5-WHERE-TO-LOOK.md. The main session renamed the nav item and page title from Concepts back to Learn (D20) and re-ran app 502, learning 357, dock 7 and eslint. The migration 20261017160000_revise_cards_mode stays on staging only for this push (the code feature-detects the column).
+
+**Approval:** the owner said "Push everything that passes" at about 4 am.
+
+**Nothing was applied to any database.**
+
+## 18 October 2026, about 1:20 am IST - Website release 4 shipped (deploy/web-1017d, main 9578ee66): the owner's night feedback N1-N13
+
+**Contents:**
+- The Today redesign (N1). The owner later called it "a huge regression" (D1); the new Today is TODAY-1018.
+- The result and Review restore (N12).
+- Practice polish (N2/N3/N5/N7/N8/N11).
+- The Mobi orb and guide (N9/N17). Later rejected (D6); the redesign is ASK-MOBI-1018.
+- The five-subject cap (N6).
+
+**Checks (independent verifier PASS):**
+
+| Suite | Passed |
+|---|---|
+| app | 502 |
+| recovery | 415 |
+| learning | 357 |
+| auth | 110 |
+| billing | 153 |
+| nta | 188 |
+| today | 32 |
+| mob | 45 |
+| subjects | 30 |
+| du | 42 |
+| dock | 74 |
+
+Vercel dpl_APxT7dGMgtBCc6CehsWmXSwuJ7cn was READY with 0 runtime errors in the hour after the push.
+
+**Nothing was applied to any database.**
+
+## 17 October 2026, about 11:55 pm IST - Website release 3 shipped (deploy/web-1017c, main 5d0c46f2): Today and nav fixes
+
+**Contents:**
+- Merged onto release 2 (12997f5a): web/fix-today-1017 (f69f8a86) and web/fix-nav-1017 (49dc3426).
+- web/fix-result-1017 was left out, because its direction was rejected. It is kept as branch deploy/web-1017c-withresult.
+
+**Checks:** independent verifier PASS. Vercel dpl_6qnQMMAKko4y82Ak65SbL3dqRdGg READY.
+
+**Nothing was applied to any database.**
+
 ## 18 October 2026 - Web release 5 (deploy/web-1018-r5): checked and made reviewable (local, not pushed, not deployed; nothing applied to any database)
 
 - Suites on the merged head (9dce83f9): test:recovery 512 tests, 509 pass, 0 fail, 3 todo (the next_move_parity known gaps); test:app 502/502; test:learning 357/357; test:auth 110/110; test:billing 153/153; test:nta 188/188; test:today 32/32; test:mob 45/45; test:subjects 30/30; test:du 42/42; test:dock 8 (7 pass, 1 skipped: the DOM measurement needs DOCK_BASE_URL). eslint clean on the 66 files changed since main 9578ee66. next build --webpack passes. No test was changed and no code was changed in this pass.
