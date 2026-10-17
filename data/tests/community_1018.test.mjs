@@ -69,10 +69,16 @@ test('every contribution surface reads the flag; routes and data stay', () => {
   assert.match(practice, /\{contributeOn && <section className="pr-panel" aria-labelledby="pr-bank">/, 'the Practice Add a question panel');
   assert.match(practice, /if \(contributeOn\) optional\('\/api\/questions\/mine'/, 'no submissions read while off');
   assert.match(read('src/components/feed/DiscoveryFeed.jsx'), /contributeOn \? <p className="ex-footnote">Community votes/);
-  // The hidden routes answer the not-found page while the flag is off (the owner's brief for release 6); the pages themselves stay.
-  assert.match(read('src/app/(app)/upload/page.js'), /if \(!contributeEnabled\(\)\) notFound\(\);\s*return <UploadPageClient \/>/);
-  assert.match(read('src/app/(app)/my-uploads/page.js'), /if \(!contributeEnabled\(\)\) notFound\(\);\s*return <MyUploadsPageClient \/>/);
-  assert.ok(existsSync(new URL('../../src/app/(app)/not-found.js', import.meta.url)), 'the app has a not-found page that keeps the sidebar and dock');
+  // The hidden routes answer the calm paused page, never a 404 (COMMUNITY-1018 W3 and W4); the pages themselves stay.
+  const paused = read('src/components/contribute/ContributionsPaused.jsx');
+  assert.match(read('src/app/(app)/upload/page.js'), /contributeEnabled\(\) \? <UploadPageClient \/> : <ContributionsPaused \/>/);
+  assert.match(read('src/app/(app)/my-uploads/page.js'), /contributeEnabled\(\) \? <MyUploadsPageClient \/> : <ContributionsPaused title="My uploads are paused with Contribute" \/>/);
+  for (const path of ['src/app/(app)/upload/page.js', 'src/app/(app)/my-uploads/page.js']) assert.doesNotMatch(read(path), /notFound/, `${path} does not 404`);
+  assert.match(paused, /title = 'Question contributions are paused'/);
+  assert.match(paused, /Anything you sent before is kept\. Practice and Explore have the full question bank\./);
+  assert.match(paused, /href="\/dashboard"[\s\S]*Back to Practice[\s\S]*href="\/explore"[\s\S]*Open Explore/, 'a way on, to two places that exist');
+  // Genuinely unknown routes still get the app's own not-found page, which keeps the sidebar and dock.
+  assert.ok(existsSync(new URL('../../src/app/(app)/not-found.js', import.meta.url)), 'the app has a not-found page for unknown routes');
   assert.match(read('src/app/api/questions/upload/route.js'), /if \(!contributeEnabled\(\)\) return contributionsPausedResponse\(\)/);
   assert.match(read('src/app/api/questions/mine/route.js'), /if \(!contributeEnabled\(\)\) return contributionsPausedResponse\(\)/);
   assert.match(read('src/app/(app)/layout.js'), /contributeEnabled=\{contributeEnabled\(\)\}/);

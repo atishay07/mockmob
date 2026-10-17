@@ -1,5 +1,5 @@
-// The not-found page inside the signed-in app (the sidebar and dock stay). A hidden feature's route lands here while its flag is
-// off, for example /upload and /my-uploads without CONTRIBUTE_ENABLED, exactly as a page that never existed would.
+// The not-found page inside the signed-in app (the sidebar and dock stay), for a route that does not exist. A hidden feature is not
+// a missing route: /upload and /my-uploads answer the calm paused page (ContributionsPaused) while CONTRIBUTE_ENABLED is off.
 import Link from 'next/link';
 import ArenaHead from '@/components/arena/ArenaHead';
 
