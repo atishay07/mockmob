@@ -14,6 +14,8 @@ const DAY_MS = 86_400_000;
 const RAW_ORDER_KEEP = ['id', 'entity', 'amount', 'amount_paid', 'amount_due', 'currency', 'receipt', 'status', 'created_at'];
 const RAW_PAYMENT_KEEP = ['id', 'entity', 'amount', 'currency', 'status', 'order_id', 'subscription_id', 'method', 'captured', 'created_at'];
 const RAW_SUBSCRIPTION_KEEP = ['id', 'entity', 'plan_id', 'status', 'total_count', 'paid_count', 'current_start', 'current_end', 'start_at', 'end_at', 'created_at'];
+// Runtime AI receipts: token counts and error fields only; the reply ('response') is the student's content.
+const RUNTIME_RECEIPT_KEEP = ['usage', 'stopReason', 'error', 'errorKind', 'status', 'code', 'type'];
 
 const own = (column = 'user_id') => [{ column }];
 const viaAttempt = (column = 'attempt_id') => [{ column, parent_table: 'attempts', parent_key: 'id', parent_user: 'user_id' }];
@@ -103,9 +105,16 @@ export const DELETION_STEPS = Object.freeze([
   { table: 'credit_transactions', action: 'keep', match: own(), why: 'credit ledger tied to purchases and spends' },
   { table: 'ai_credit_ledger', action: 'keep', match: own(), why: 'credit ledger tied to purchases and spends' },
   {
-    table: 'runtime_ai_requests', action: 'anonymise', match: own(),
-    why: 'provider cost records feed the monthly AI budget; the link to the student is removed, the cost rows stay',
-    set: [{ column: 'user_id', value: 'null' }],
+    // PrepOS calls carry the user id inside the key ('prepos:<user id>:<request id>'), and the receipt held the AI reply
+    // written for the student. Needs migration 20261017205000 (prefix match, hash value) on the database.
+    table: 'runtime_ai_requests', action: 'anonymise',
+    match: [{ column: 'user_id' }, { column: 'request_key', prefix: 'prepos:', suffix: ':' }],
+    why: 'provider cost records feed the monthly AI budget; the student link (user_id, the id inside request_key) and the reply text are removed, the cost columns stay',
+    set: [
+      { column: 'user_id', value: 'null' },
+      { column: 'request_key', value: { hash: 'deleted:' } },
+      { column: 'receipt', value: { scrub_json: RUNTIME_RECEIPT_KEEP } },
+    ],
   },
   {
     table: 'creators', action: 'anonymise', match: own(),

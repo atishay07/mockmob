@@ -72,7 +72,7 @@ export async function findReceivedReply(db, userId, requestId) {
   const key = operationKeyFor(userId, requestId);
   if (!key) return { found: false };
   const msg = await db.from('mentor_messages').select('content, session_id')
-    .eq('user_id', userId).eq('role', 'assistant').eq('structured_payload->charge->>reference', key).limit(1).maybeSingle();
+    .eq('user_id', userId).eq('role', 'assistant').eq('structured_payload->>origin', 'model').eq('structured_payload->charge->>reference', key).limit(1).maybeSingle();
   if (msg.error) throw Object.assign(new Error('REPORT_LOOKUP_FAILED'), { cause: msg.error });
   if (msg.data) return { found: true, text: typeof msg.data.content === 'string' ? msg.data.content : null, sessionId: msg.data.session_id || null };
   // The message is saved on a best-effort basis; a committed credit operation is the student's receipt too.

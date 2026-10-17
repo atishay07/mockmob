@@ -116,7 +116,7 @@ export async function POST(request) {
     // A response lost in transit can be recovered from owner-bound history without another call.
     if(studyLesson && out.status==='duplicate') {
       const key=operationKeyFor(userId,payload.requestId);
-      const {data:saved,error}=await supabaseAdmin().from('mentor_messages').select('structured_payload').eq('user_id',userId).eq('role','assistant').eq('structured_payload->charge->>reference',key).limit(1).maybeSingle();
+      const {data:saved,error}=await supabaseAdmin().from('mentor_messages').select('structured_payload').eq('user_id',userId).eq('role','assistant').eq('structured_payload->>origin','model').eq('structured_payload->charge->>reference',key).limit(1).maybeSingle();
       const previous=studyHelpReplay(saved?.structured_payload,{runId:payload.studyRunId,revision:payload.studyRevision,itemId:payload.studyItemId});
       if(!error && previous) {
         return reply(null,previous,dbUser,'replayed');

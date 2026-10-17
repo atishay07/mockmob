@@ -3,6 +3,7 @@ import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
 import { supabaseAdmin } from '@/lib/supabase';
 import { getUsageSnapshot } from '@/services/usage/getDailyUsage';
+import { historyMessages } from '@/lib/server/mentorLocal';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -53,13 +54,8 @@ export async function GET(request) {
         .order('created_at', { ascending: true })
         .limit(80);
       if (messageError) throw messageError;
-      messages = (rows || []).map((row) => ({
-        id: row.id,
-        role: row.role,
-        text: row.content,
-        response: row.structured_payload,
-        createdAt: row.created_at,
-      }));
+      // A local exchange (client-sourced) is shown as the message plus a display-only reply.
+      messages = historyMessages(rows);
     }
 
     const snapshot = await getUsageSnapshot(dbUser);

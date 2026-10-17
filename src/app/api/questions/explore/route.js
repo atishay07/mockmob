@@ -1,8 +1,10 @@
 import { readablePracticeQuestions } from '@/../data/practice_library';
+import { exploreRowOut } from '@/../data/explore_feed';
+import { checkRateLimit, rateLimitHeaders } from '@/lib/server/rateLimit';
 // FIX 4  (Critical): per-difficulty cursors replace the single shared cursor.
-// FIX 10 (High):     strip correct_answer, explanation, recommended_difficulty
-//                    from the explore response — answers must never appear in
-//                    the discovery feed.
+// Security (17 Oct 2026): this route needs no sign-in and reads question_scores with the service role, embedding every
+// questions column so the eligibility filter can run. Each row is mapped to the public shape in exploreRowOut before it
+// leaves the server: no answer key, no explanation, no contributor ids, provenance, evidence, scores or ranking internals.
 
 import { supabase } from '@/lib/supabase'
 import { auth } from '@/lib/auth'
@@ -38,7 +40,13 @@ const DIFFICULTY_QUOTAS = { easy: 0.10, medium: 0.60, hard: 0.30 }
  * Pagination: pass all three next_cursors values back on the next request.
  * A null cursor for a bucket means that bucket is exhausted.
  */
+const EXPLORE_RATE_LIMIT = 180
+
 export async function GET(request) {
+  const rateLimit = checkRateLimit(request, { route: '/api/questions/explore', limit: EXPLORE_RATE_LIMIT })
+  if (!rateLimit.allowed) {
+    return Response.json({ error: 'Too many requests' }, { status: 429, headers: rateLimitHeaders(rateLimit) })
+  }
   const { searchParams } = request.nextUrl
 
   const subject = searchParams.get('subject')
@@ -81,12 +89,9 @@ export async function GET(request) {
 
   const { result: merged, lastConsumed } = interleaveByQuota(buckets, DIFFICULTY_QUOTAS, limit)
   const session = await auth(request).catch(() => null)
-  if (session?.user?.id && merged.length > 0) {
-    const voteMap = await Database.getUserVotes(session.user.id, merged.map((row) => row.question_id))
-    for (const row of merged) {
-      if (row.questions) row.questions.userVote = voteMap.get(row.question_id) || null
-    }
-  }
+  const voteMap = session?.user?.id && merged.length > 0
+    ? await Database.getUserVotes(session.user.id, merged.map((row) => row.question_id))
+    : new Map()
 
   // Build next_cursors: the rank_score of the last item served from each bucket.
   // A null means nothing was served from that bucket this page (exhausted or target = 0).
@@ -96,7 +101,10 @@ export async function GET(request) {
     cursor_hard:   lastConsumed.hard   !== null ? String(lastConsumed.hard)   : null,
   }
 
-  return Response.json({ questions: merged, next_cursors })
+  return Response.json({
+    questions: merged.map((row) => exploreRowOut(row, voteMap.get(row.question_id))),
+    next_cursors,
+  })
 }
 
 // ---- helpers ----
