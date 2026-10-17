@@ -14,7 +14,7 @@ const LINKS = [
   { label: 'Free mock test', href: '/cuet-mock-test-free' },
   { label: 'Cutoff calculator', href: '/cuet-cutoff-calculator' },
   { label: 'Your prep tools', href: '/#your-prep' },
-  { label: 'CUET PYQs', href: '/cuet-previous-year-questions' },
+  { label: 'PYQ guide', href: '/cuet-previous-year-questions' },
   { label: 'Pricing', href: '/pricing' },
 ];
 
@@ -128,7 +128,8 @@ export function NavBar() {
         </div>
 
         <div className="mm-nav__end">
-          <ThemeToggle hint />
+          {/* No first-visit hint on the landing: it would sit over the headline while the visitor reads it. */}
+          <ThemeToggle hint={!onLanding} />
           {isAuthenticated ? (
             <Link href={homeHref} className="mm-btn mm-btn--primary mm-nav__cta">
               {homeText}

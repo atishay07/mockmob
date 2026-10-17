@@ -8,6 +8,7 @@ import { pipReact } from '@/components/brand/pipEvents';
 import { mobiMoment, runMood } from '@/lib/mobiMoments';
 import { SAMPLE_SUBJECTS, SAMPLE_SIZE, sampleSubject } from './sampleSubjects.mjs';
 import { recordSample } from './sampleRecord.mjs';
+import { nextChapter, groupMissed, sampleMove } from './sampleResult.mjs';
 
 // The landing sample, playable with no sign-up. It first asks which subjects the visitor is taking (the four
 // launch papers and the General Test as chips, every other practised subject behind "More subjects"), then
@@ -17,32 +18,9 @@ import { recordSample } from './sampleRecord.mjs';
 const KEYS = ['A', 'B', 'C', 'D'];
 const FEATURED = SAMPLE_SUBJECTS.filter((s) => s.featured);
 const MORE = SAMPLE_SUBJECTS.filter((s) => !s.featured);
-// The finished screen lists each missed chapter once: 'Partnership: admission of a partner' and 'Partnership:
-// new profit-sharing ratio' are one chapter with two topics, shown as the chapter with its topics in grey.
-function groupMissed(list) {
-  const groups = new Map();
-  for (const label of list) {
-    const cut = label.indexOf(': ');
-    const chapter = cut > 0 ? label.slice(0, cut) : label;
-    const topic = cut > 0 ? label.slice(cut + 2) : '';
-    if (!groups.has(chapter)) groups.set(chapter, []);
-    const topicsOf = groups.get(chapter);
-    topicsOf.misses = (topicsOf.misses || 0) + 1;
-    if (topic && !topicsOf.includes(topic)) topicsOf.push(topic);
-  }
-  return [...groups].map(([chapter, topics]) => ({
-    chapter,
-    misses: topics.misses,
-    topics: topics.length ? `${topics[0][0].toUpperCase()}${topics[0].slice(1)}${topics.length > 1 ? `, ${topics.slice(1).join(', ')}` : ''}` : '',
-  }));
-}
-
-// The one next move after five answers: the chapter with the most misses, ties going to the one missed first (the
-// groups keep question order). A Quick practice is 10 questions and uses 10 practice credits; Free starts with 100.
-function nextChapter(groups) {
-  return groups.reduce((best, g) => (!best || g.misses > best.misses ? g : best), null)?.chapter ?? null;
-}
-
+// The finished screen's chapters and its one next move (sampleResult.mjs): a chapter is named only when it holds
+// the most misses outright and at least two; otherwise the move is a Full mock. A Quick practice uses 10 practice
+// credits and a Full mock 50; Free starts with 100.
 let bankLoad = null;
 function loadBank() {
   if (!bankLoad) bankLoad = import('./sampleBank.mjs').catch((error) => { bankLoad = null; throw error; });
@@ -277,6 +255,9 @@ export function DemoDrill() {
           {failed ? (
             <p className="lp-pick__error" role="alert">The questions did not load. Check your connection and tap a subject again.</p>
           ) : null}
+          {/* Wide screens only (hero-v3.css): the card runs down to the hero's keys, and its foot says what the five
+              questions give back. */}
+          <p className="lp-pick__foot">After each answer you see why the key is right. At the end, the chapters your misses came from.</p>
         </div>
       </div>
     );
@@ -285,8 +266,7 @@ export function DemoDrill() {
   const subjectName = sampleSubject(subject)?.name || 'Your subject';
 
   if (done) {
-    const groups = groupMissed(missed);
-    const focus = nextChapter(groups);
+    const { groups, text: moveText } = sampleMove(missed);
     return (
       <div className="mm-screen mm-drill" aria-live="polite" ref={rootRef}>
         <div className="mm-screen__bar">
@@ -303,22 +283,22 @@ export function DemoDrill() {
             {score >= 4
               ? 'A full mock is 50 of these in 60 minutes.'
               : score >= 2
-                ? `${score} of ${set.length} is a start. A full mock of 50 shows which chapters to fix first.`
-                : 'Five questions are a small sample. A full mock of 50 shows which chapters to fix first.'}
+                ? `${score} of ${set.length} is a start. Five questions are a small sample.`
+                : 'Five questions are a small sample, so this says little yet.'}
           </p>
 
           {missed.length > 0 ? (
             <div className="mm-drill__readout">
               <p className="mm-drill__readout-head">The chapters these misses came from</p>
               <ul>
-                {groups.map(({ chapter, topics }) => (
+                {groups.map(({ chapter, topic }) => (
                   <li key={chapter}>
                     {chapter}
-                    {topics ? <span className="mm-drill__readout-topic">{topics}</span> : null}
+                    {topic ? <span className="mm-drill__readout-topic">{topic}</span> : null}
                   </li>
                 ))}
               </ul>
-              <p className="mm-drill__move"><b>Your next move:</b> 10 questions on {focus}. On Free, that set uses 10 of the 100 practice credits you start with.</p>
+              <p className="mm-drill__move"><b>Your next move:</b> {moveText}</p>
             </div>
           ) : (
             <div className="mm-drill__readout">
@@ -330,9 +310,9 @@ export function DemoDrill() {
           )}
 
           <div className="mm-drill__actions">
-            <Link href="/signup" className="mm-btn mm-btn--onnight">
-              {focus ? `Start free and practise ${focus}` : 'Start free'}
-            </Link>
+            {/* Plain "Start free": sign-up leads a new student through onboarding, which does not carry a chapter on,
+                so the key promises no chapter. The move above says what to practise. */}
+            <Link href="/signup" className="mm-btn mm-btn--onnight">Start free</Link>
             <button type="button" className="mm-drill__replay" onClick={backToPicker}>
               Try another subject
             </button>

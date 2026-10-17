@@ -35,14 +35,16 @@ html[data-theme='light'] .ml__stage { box-shadow: 0 20px 40px -24px rgba(32, 26,
 .ml__bar-top { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; padding: 0.85rem 1.1rem; border-bottom: 1px solid rgba(244, 245, 240, 0.1); font-size: 0.8125rem; font-weight: 600; color: #bcc5b9; }
 .ml__panels { position: relative; display: grid; min-height: 25.5rem; }
 .ml__reading-region { position: absolute; inset: 0 0 auto; height: min(360px, 45svh); pointer-events: none; }
-.ml__panel { grid-area: 1 / 1; min-width: 0; display: grid; align-content: start; gap: 1rem; padding: 1.25rem 1.1rem; opacity: 0; transform: translateY(6px); visibility: hidden; transition: opacity .2s ease, transform .24s var(--ease, ease), visibility 0s linear .24s; }
-.ml__panel[data-active='true'] { opacity: 1; transform: none; visibility: visible; transition-delay: 0s; }
+/* A swap, not a cross-fade: the old panel goes in 120 ms under a 2px blur, the new one comes in from 100 ms, so a fast
+   fling never stops on two panels laid over each other at half strength. */
+.ml__panel { grid-area: 1 / 1; min-width: 0; display: grid; align-content: start; gap: 1rem; padding: 1.25rem 1.1rem; opacity: 0; transform: translateY(6px); filter: blur(2px); visibility: hidden; transition: opacity 120ms ease-out, filter 120ms ease-out, transform 120ms ease-out, visibility 0s linear 120ms; }
+.ml__panel[data-active='true'] { opacity: 1; transform: none; filter: none; visibility: visible; transition: opacity 160ms ease-out 100ms, filter 160ms ease-out 100ms, transform 240ms var(--ease, ease) 100ms, visibility 0s linear 0s; }
 .ml__eyebrow { margin: 0; font-size: 0.8125rem; font-weight: 600; color: #9aa795; }
 
 /* 1. replay: the score, the counts as one sentence, the ten-question map */
 .ml__score { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem 1rem; flex-wrap: wrap; }
 .ml__marks { display: inline-flex; align-items: baseline; gap: 0.5rem; }
-.ml__marks b { font: 800 clamp(2.5rem, 5vw, 3.2rem)/1 var(--font-display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: #f2f4ec; }
+.ml__marks b { font: 800 clamp(2.5rem, 5vw, 3rem)/1 var(--font-display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: #f2f4ec; }
 /* The digits hold two places and sit against their label, so the label never moves while the replay deals. */
 .ml__marks b { min-width: 2ch; text-align: end; }
 .ml__marks small { font-size: 0.875rem; color: #9aa795; }
@@ -151,6 +153,7 @@ html[data-theme='light'] .ml__stage { box-shadow: 0 20px 40px -24px rgba(32, 26,
 @media (max-width: 420px) { .ml__tiles { gap: 0.4rem; } }
 @media (prefers-reduced-motion: reduce) {
   .ml__panel, .ml__caption p, .ml__tile { transition: none; }
+  .ml__panel { filter: none; }
   .ml__tile[data-state] , .ml__leaks li, .ml__leaks em, .ml__headline, .ml__checks li, .ml__move, .ml__strip { animation: none !important; opacity: 1 !important; transform: none !important; }
   .ml__leaks em { transform: none !important; }
 }
@@ -205,7 +208,7 @@ html[data-theme='light'] .ml__stage { box-shadow: 0 20px 40px -24px rgba(32, 26,
 .ml-story[data-pinned='true'] .ml__bar b.ss-fill { width: 100%; height: 100%; background: var(--accent-text); }
 .ml-story[data-pinned='true'] .ml__steps li .ml__bar { background: var(--line); }
 .ml-story[data-pinned='true'] .ml__stage { align-self: start; }
-.ml-story[data-reduced='true'] .ml__panel { transform: none; transition: opacity var(--mm-dur-reduced-fade, 120ms) linear, visibility 0s linear var(--mm-dur-reduced-fade, 120ms); }
+.ml-story[data-reduced='true'] .ml__panel { transform: none; filter: none; transition: opacity var(--mm-dur-reduced-fade, 120ms) linear, visibility 0s linear var(--mm-dur-reduced-fade, 120ms); }
 .ml-story[data-reduced='true'] .ml__panel[data-active='true'] { transition-delay: 0s; }
 .ml__session-label { display: flex; align-items: center; gap: 0.5rem; min-width: 0; }
 /* Wide: the rail and the stage sit side by side at their own height; ScrollStory's slack (.ss--centre)

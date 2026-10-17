@@ -102,8 +102,23 @@
   color: var(--ink-2);
   text-wrap: pretty;
 }
+/* Desktop: the statement (36px) on the left seven columns and the bank's heading on the right five, set on the
+   statement's last baseline (SLOP-AUDIT 3.3), so the right half carries the page's key difference instead of
+   standing empty beside the statement; the lineup then runs the full width under both, and its note sits under it.
+   The shelf's own box steps aside (display: contents) so its heading, row and note join the statement's grid; the
+   bank's anchor is on the heading itself, which keeps a box to scroll to. */
 @media (min-width: 960px) {
-  .mm.lp .lp-statement__grid { grid-template-columns: minmax(0, 1fr); gap: clamp(3rem, 6vw, 5rem); align-items: start; }
+  .mm.lp .lp-statement__grid {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    column-gap: clamp(2.5rem, 5vw, 5rem);
+    row-gap: 1.75rem;
+    align-items: last baseline;
+  }
+  .mm.lp .lp-statement__text { grid-column: 1; grid-row: 1; max-width: 22ch; }
+  .mm.lp .lp-statement .lp-shelf { display: contents; }
+  .mm.lp .lp-shelf__title { grid-column: 2; grid-row: 1; margin: 0; max-width: 14ch; scroll-margin-top: 6rem; }
+  .mm.lp .lp-shelf__row { grid-column: 1 / -1; grid-row: 2; align-self: end; margin-top: clamp(1rem, 2.5vw, 2.25rem); }
+  .mm.lp .lp-shelf__note { grid-column: 1 / -1; grid-row: 3; margin: 0; align-self: start; }
   .mm.lp .lp-shelf__row {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 0 clamp(1rem, 2.4vw, 2rem);
@@ -114,29 +129,20 @@
   .mm.lp .lp-shelf__name { padding-top: var(--sp-4); font-size: var(--t-lede); }
   .mm.lp .lp-shelf__fact { font-size: var(--t-label); }
 }
-/* Phones and tablets: the lineup reads as data, not tiles. Each paper is one row on its own hairline floor: the
-   object standing at the left, the paper's name, and its real question count set right in tabular figures, so
-   the four counts line up down one edge. The rows keep the held scene's rise (hero-depth.css): each object lifts
-   onto its floor as its share of the statement lights. */
+/* Phones and tablets: the lineup as a 2 by 2 on two shared floors (SLOP-AUDIT 3.9). Each object stands at about
+   a third of the width on its column's hairline, the paper's name and its real question count under the line, left-aligned, so the
+   four read as products, not as a list of thumbnails. The size is held to 15svh so the statement, the heading, both
+   rows and the note still fit the held scene between the bar and the dock (hero-depth.css); each object lifts onto
+   its floor as its share of the statement lights. */
 @media (max-width: 959px) {
-  .mm.lp .lp-statement .lp-shelf { --shelf-obj: 4.5rem; }
-  /* The held scene holds the statement, this heading, the four rows and the note between the bar and the dock. */
-  .mm.lp .lp-shelf__title { margin-bottom: var(--sp-4, 1rem); }
-  .mm.lp .lp-shelf__note { margin-top: var(--sp-4, 1rem); }
-  .mm.lp .lp-shelf__row { grid-template-columns: minmax(0, 1fr); gap: 0; }
-  .mm.lp .lp-shelf__item { align-self: stretch; }
+  .mm.lp .lp-statement .lp-shelf { --shelf-obj: min(33vw, 15svh, 9.5rem); }
+  .mm.lp .lp-shelf__title { margin-bottom: 0.75rem; }
+  .mm.lp .lp-shelf__note { margin-top: 0.75rem; font-size: var(--t-label, 0.875rem); }
+  .mm.lp .lp-shelf__row { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem var(--sp-5, 1.5rem); padding: 0; }
+  .mm.lp .lp-shelf__item:nth-child(even) { translate: none; }
   .mm.lp .lp-shelf__item:nth-child(3) { margin-top: 0; }
-  .mm.lp .lp-shelf__link {
-    grid-template-columns: var(--shelf-obj) minmax(0, 1fr) auto;
-    align-items: end;
-    column-gap: var(--sp-4, 1rem);
-    padding: 0.375rem 0 0.75rem;
-    border-bottom: 1px solid var(--line-strong);
-  }
-  .mm.lp .lp-shelf__item:first-child .lp-shelf__link { border-top: 1px solid var(--line-strong); }
-  .mm.lp .lp-shelf__float { grid-row: 1; margin-bottom: calc((var(--base, 0.9) - 1) * var(--shelf-obj) - 0.75rem + 2px); }
-  .mm.lp .lp-shelf__name { grid-row: 1; padding-top: 0; border-top: 0; font-size: var(--t-body); white-space: normal; }
-  .mm.lp .lp-shelf__fact { grid-row: 1; min-height: 0; margin-top: 0; text-align: right; font-size: var(--t-label, 0.875rem); }
+  .mm.lp .lp-shelf__name { padding-top: 0.625rem; font-size: var(--t-body); white-space: normal; }
+  .mm.lp .lp-shelf__fact { min-height: 1.45em; margin-top: 0.125rem; font-size: var(--t-fine, 0.8125rem); }
 }
 .mm.lp .lp-shelf__link:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 4px; border-radius: 4px; }
 .mm.lp .lp-shelf__link:focus-visible .lp-shelf__float { transform: translateY(-6px); }

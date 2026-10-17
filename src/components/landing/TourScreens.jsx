@@ -305,7 +305,7 @@ export function BenchmarkScreen({ play }) {
         <p><b>{BENCH_TARGET - BENCH_YOU} pts</b>short today</p>
       </div>
       <ol className="ts__ladder" data-in={on(step >= 3)} aria-label="Benchmark levels">
-        {BENCH_LADDER.map(([level, score, mark]) => <li key={level} data-mark={mark}><span>{level}</span>{mark === 'target' ? <small>Today’s target</small> : null}<b>{score}</b></li>)}
+        {BENCH_LADDER.map(([level, score, mark]) => <li key={level} data-mark={mark}><span>{level}</span>{mark === 'target' ? <small>Today’s target</small> : mark === 'soon' ? <small>Opens soon</small> : null}<b>{score}</b></li>)}
       </ol>
     </Frame>
   );

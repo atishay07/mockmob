@@ -44,10 +44,10 @@
    screens (the dark devices) may also use 12 px inside them, nowhere else. Sentence case everywhere; numbers
    use tabular figures, never a monospace face.
      --t-hero      42 -> 72   800  the hero h1 only, the page's largest words (56 and 64 between)
-     --t-close     36 -> 64   800  the close line, one step under the h1 at every width
+     --t-close     36 -> 56   800  the close line, one step under the h1 at every width
      --t-display   40 -> 64   800  the Pro price
      --t-headline  32 -> 48   800  every section h2, a clear step under the h1 (40 between)
-     --t-statement 26 -> 44   600  the statement after the hero: a display lede, a step under the h2s (36 between),
+     --t-statement 26 -> 36   600  the statement after the hero: a display lede, a step under the h2s (36 on desktop),
                                   so the order reads h1 > the bank's h2 = section h2s > statement
      --t-step      22 -> 32   800  the title of a held story's step: the Lab's scenes and the tour's tools (28 between)
      --t-title     22 -> 30   700  other h3s: plan names, row names (26 between)
@@ -111,11 +111,11 @@
    88 px band apart with the hairline in it, not a 136 px void after every block. */
 @media (max-width: 599px) { .mm.lp { --sec-top: 2.5rem; } }
 @media (min-width: 761px) { .mm.lp { --t-hero: 3.5rem; --t-close: 3rem; --t-statement: 2.25rem; --t-display: 3.5rem; --t-headline: 2.5rem; --t-step: 1.75rem; --t-title: 1.625rem; } }
-@media (min-width: 1100px) { .mm.lp { --t-headline: 3rem; --t-statement: 2.75rem; --t-step: 2rem; --t-title: 1.875rem; } }
+@media (min-width: 1100px) { .mm.lp { --t-headline: 3rem; --t-step: 2rem; --t-title: 1.875rem; } }
 /* The hero's last two steps need the height to keep its keys on the first screen; the close follows the hero. */
 @media (min-width: 1100px) and (min-height: 700px) { .mm.lp { --t-hero: 4rem; --t-close: 3.5rem; } }
 @media (min-width: 1200px) { .mm.lp { --t-display: 4rem; } }
-@media (min-width: 1360px) and (min-height: 760px) { .mm.lp { --t-hero: 4.5rem; --t-close: 4rem; } }
+@media (min-width: 1360px) and (min-height: 760px) { .mm.lp { --t-hero: 4.5rem; --t-close: 3.5rem; } }
 html:has(.lp) {
   font-size: 16px;
   color-scheme: dark;

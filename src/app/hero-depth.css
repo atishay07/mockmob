@@ -61,12 +61,13 @@
 /* Phones: the two facts stack in one column at body size, the bank first (its order in the markup), so neither
    reads as small print squeezed into half a screen. */
 @media (max-width: 599px) {
-  .lp-proof { grid-template-columns: minmax(0, 1fr); gap: 0.25rem; }
+  .lp-proof { grid-template-columns: minmax(0, 1fr); gap: 0; margin-top: 1.5rem; padding-top: 0.5rem; }
   .lp-proof a { max-width: 40ch; padding-block: 0.5rem; font-size: var(--t-body, 1rem); }
+  .lp-proof a + a { border-top: 1px solid var(--line); }
 }
 @media (min-width: 900px) {
   .lp-proof { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; }
-  .lp-proof a { max-width: none; font-size: 0.9375rem; }
+  .lp-proof a { max-width: none; font-size: var(--t-body, 1rem); }
 }
 /* Desktop: the two columns end together (the sample card's foot on the copy's last line, see hero-v3.css), so the
    facts' hairline follows close under both and runs the full content column, peeking above the fold at 1440x900. */

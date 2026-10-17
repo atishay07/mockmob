@@ -7,7 +7,7 @@ const PRODUCT_LINKS = [
   ['DU eligibility and cutoff calculator', '/cuet-cutoff-calculator'],
   ['CUET subject combination planner', '/cuet-subject-combination'],
   ['Free CUET mock test', '/cuet-mock-test-free'],
-  ['Previous year questions', '/cuet-previous-year-questions'],
+  ['How to use CUET PYQs', '/cuet-previous-year-questions'],
   ['Online practice tests', '/cuet-practice-tests-online'],
   ['Features', '/features'],
   ['Pricing', '/pricing'],

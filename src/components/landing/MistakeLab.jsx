@@ -16,7 +16,7 @@ import { pipReact } from '@/components/brand/pipEvents';
 import { useReadableRegion } from './useReadableRegion';
 import ScrollStory from './ScrollStory';
 import { durations } from '@/lib/motion/tokens.g.js';
-import { SESSION as STORY, MARK as MARKS, PAPER_PACE_SEC, chapterRecord, clock, marksLedger, nextMove } from './labStory.mjs';
+import { SESSION as STORY, MARK as MARKS, PAPER_PACE_SEC, SAMPLE_LABEL, chapterRecord, clock, marksLedger, nextMove } from './labStory.mjs';
 import { recoveryCopy } from './recoveryCopy.mjs';
 
 // The story's rows in the replay's terms ('skip' for a blank), with the clock times of every change.
@@ -31,6 +31,8 @@ const SESSION = STORY.map((r) => ({
 }));
 const MARK = { right: MARKS.right, wrong: MARKS.wrong, skip: MARKS.blank };
 const PACE = clock(PAPER_PACE_SEC);
+// The stage's title bar names the sample as the Lab's screens do (labStory.mjs, SAMPLE_LABEL): one noun on the page.
+const STAGE_LABEL = `Accountancy: ${SAMPLE_LABEL.charAt(0).toLowerCase()}${SAMPLE_LABEL.slice(1)}`;
 const LEDGER = marksLedger();
 // The sample student's one next move, the same one the Lab's SWOT puts first and the tour's Ask Mobi gives.
 const MOVE = nextMove();
@@ -48,7 +50,7 @@ const ABOUT = {
 // What the phone-width pills say; each accessible name starts with it so the spoken name holds the visible word.
 const SHORT_STEP = ['Replay', 'Find', 'Plan', 'Check'];
 const STEPS = [
-  { key: 'replay', title: 'Replay the session', body: 'Every answer and every minute, with the marks each one cost.', ms: 4800 },
+  { key: 'replay', title: 'Replay the mock', body: 'Every answer and every minute, with the marks each one cost.', ms: 4800 },
   { key: 'leak', title: 'Find where marks leaked', body: 'Every mark you missed, sorted by how it went: changed answers, wrong picks and blanks.', ms: 4800 },
   { key: 'move', title: 'Get one next move', body: 'One next step, with the record behind it.', ms: 4800 },
   { key: 'check', title: 'Check it on fresh questions', body: 'New questions, days apart, show whether the fix held.', ms: 4800 },
@@ -243,15 +245,15 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
         <button type="button" className="ml__restart" onClick={(event) => { keyboardStep.current = event.detail === 0; goTo(0); setPlaying(true); }}><RotateCcw size={15} aria-hidden="true" />Replay</button></div>
       </div>
 
-      <figure className="ml__stage" data-ss-fit="0.62" data-ss-end="" aria-label="Sample 10-question set, Accountancy">
+      <figure className="ml__stage" data-ss-fit="0.62" data-ss-end="" aria-label={STAGE_LABEL}>
         <div className="ml__bar-top">
-          <div className="ml__session-label"><span>Sample 10-question set, Accountancy</span></div>
+          <div className="ml__session-label"><span>{STAGE_LABEL}</span></div>
         </div>
 
         <div className="ml__panels">
           <span className="ml__reading-region" ref={readingRef} aria-hidden="true" />
           {/* 1. Replay */}
-          <section className="ml__panel" data-active={step === 0} aria-hidden={step !== 0} inert={step !== 0 ? true : undefined} aria-label="Replay the session">
+          <section className="ml__panel" data-active={step === 0} aria-hidden={step !== 0} inert={step !== 0 ? true : undefined} aria-label="Replay the mock">
             <div className="ml__score">
               <span className="ml__marks"><b>{marks}</b><small>/ 50 marks</small></span>
               <span className="ml__counts"><b data-k="right">{right} right</b>, <b data-k="wrong">{wrong} wrong</b>, {blank} blank</span>
@@ -306,7 +308,7 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
                 {MOVE.lost.map((n, i) => (
                   <li key={i} data-now={i === MOVE.lost.length - 1 ? 'true' : undefined}>
                     <b>{n}</b>
-                    <span>{i === MOVE.lost.length - 1 ? 'This set' : MOVE.lost.length - 1 - i === 1 ? 'Last mock' : `${MOVE.lost.length - 1 - i} mocks ago`}</span>
+                    <span>{i === MOVE.lost.length - 1 ? 'This mock' : MOVE.lost.length - 1 - i === 1 ? 'Last mock' : `${MOVE.lost.length - 1 - i} mocks ago`}</span>
                   </li>
                 ))}
               </ol>

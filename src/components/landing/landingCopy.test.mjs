@@ -109,8 +109,91 @@ test('the benchmark run is a whole number of right answers, and its clock follow
   assert.equal((BENCH_RIGHT * 100) / BENCH_COUNT, BENCH_YOU);
   const sec = (mmss) => mmss.split(':').reduce((m, s) => Number(m) * 60 + Number(s));
   assert.equal(sec(BENCH_USED), BENCH_COUNT * BENCH_PACE);
-  assert.equal(sec(BENCH_ALLOWED), BENCH_COUNT * BENCH_DAILY.avgTimePerQuestion);
+  // The clock is the time the app gives: createAIRivalBattle's default, whole minutes at the profile's pace plus two.
+  const battle = read(new URL('../../services/ai-rival/createAIRivalBattle.js', import.meta.url));
+  assert.match(battle, /Math\.max\(5, Math\.round\(\(count \* profile\.avgTimePerQuestion\) \/ 60\) \+ 2\)/, 'the app still sets the benchmark clock this way');
+  assert.equal(sec(BENCH_ALLOWED), Math.max(5, Math.round((BENCH_COUNT * BENCH_DAILY.avgTimePerQuestion) / 60) + 2) * 60);
+  assert.equal(BENCH_ALLOWED, '20:00');
   assert.ok(sec(BENCH_USED) <= sec(BENCH_ALLOWED), 'the run fits inside the time it had');
   const tour = read(new URL('TourScreens.jsx', here));
   assert.doesNotMatch(tour, /<b>52s<\/b>|useCountdown\(play, 4 \* 60/, 'no hard-coded pace or countdown');
+});
+
+// ---------- Round 12 truth checks: every claim on the page is true today, and gated claims switch with their gate ----------
+
+test('college and DU benchmarks are sold only once paid AI opens; until then they are marked as opening soon', async () => {
+  const { aiCommerceReleased } = await import('../../../data/capabilities.js');
+  const { benchCopy, benchLadder, BENCH_LADDER } = await import('./benchLadder.mjs');
+  const closed = benchCopy(false);
+  assert.doesNotMatch(`${closed.body} ${closed.levels}`, /at daily, college or DU level|college and DU levels are Pro/i);
+  assert.match(closed.levels, /college and DU levels open soon/);
+  assert.doesNotMatch(closed.body, /college|DU level/i, 'the body names no level it cannot run');
+  assert.match(PAGE, /points: \[BENCH\.levels, [^\]]*\], chip: BENCH\.levels,/);
+  const rows = Object.fromEntries(benchLadder(false).map(([level, , mark]) => [level, mark]));
+  assert.equal(rows['DU level'], 'soon');
+  assert.equal(rows['College level'], 'soon');
+  assert.ok(benchLadder(true).every(([, , mark]) => mark !== 'soon'), 'open, no level is marked soon');
+  assert.doesNotMatch(benchCopy(true).body, /open soon/);
+  // The page and the scene read the real gate, so the copy switches by itself.
+  assert.deepEqual(BENCH_LADDER, benchLadder(aiCommerceReleased()));
+  assert.match(PAGE, /const BENCH = benchCopy\(\);/);
+  assert.match(PAGE, /body: BENCH\.body,/);
+  assert.doesNotMatch(PAGE, /at daily, college or DU level/);
+  const tour = read(new URL('TourScreens.jsx', here));
+  assert.match(tour, /mark === 'soon' \? <small>Opens soon<\/small>/);
+  // createAIRivalBattle refuses charged benchmarks while paid AI is closed: the two levels are charged.
+  const { RIVAL_PROFILES } = await import('../../services/ai-rival/rivalProfiles.js');
+  assert.ok(RIVAL_PROFILES.HANSRAJ_LEVEL.creditCost > 0 && RIVAL_PROFILES.SRCC_DREAM.creditCost > 0);
+  assert.equal(RIVAL_PROFILES.NORTH_CAMPUS_RIVAL.creditCost, 0);
+});
+
+test('repairs are written from the answer key, never called "official", and their cost is the product’s', async () => {
+  for (const [name, source] of [['page.js', PAGE], ...LANDING]) assert.doesNotMatch(source, /official key/i, `${name} says "official key"`);
+  const { REPAIR_COST } = await import('./labStory.mjs');
+  const { REPAIR_CREDIT_COST } = await import('../../../data/mistake_repair.js');
+  assert.equal(REPAIR_COST.credits, REPAIR_CREDIT_COST);
+  const wallet = read(new URL('../../services/credits/aiCreditWallet.js', import.meta.url));
+  assert.match(wallet, new RegExp(`AI_FREE_MONTHLY_CREDITS = ${REPAIR_COST.freeMonthly};`));
+  assert.match(wallet, new RegExp(`AI_PRO_INCLUDED_MONTHLY_CREDITS = ${REPAIR_COST.proMonthly};`));
+  const cinema = read(new URL('LabCinema.jsx', here));
+  assert.match(cinema, /A repair uses \$\{REPAIR_COST\.credits\} AI credit; Free has \$\{REPAIR_COST\.freeMonthly\} a month\./);
+  assert.match(PAGE, /A repair uses \$\{REPAIR_COST\.credits\} AI credit/);
+});
+
+test('the Score Recovery Lab is named only once Recovery is released; until then it is the Mistake Lab across mocks', async () => {
+  const { recoveryCopy } = await import('./recoveryCopy.mjs');
+  const soon = recoveryCopy('blocked_content');
+  const text = Object.values(soon).filter((v) => typeof v === 'string').join(' ');
+  assert.doesNotMatch(text, /Score Recovery Lab/);
+  assert.equal(soon.mini, 'Across your mocks');
+  assert.match(soon.sub, /^After every mock, the Mistake Lab also follows a leak across your mocks/);
+  assert.equal(recoveryCopy('available').mini, 'Score Recovery Lab');
+  assert.match(PAGE, /mini=\{RECOVERY\.mini\}/);
+  assert.doesNotMatch(PAGE, /mini="Score Recovery Lab"/);
+  // No promise of five fresh questions: the app offers them only where the bank holds five unseen ones.
+  assert.doesNotMatch(text, /five fresh questions/i);
+  assert.match(soon.statement, /Then practise the chapter that cost you/);
+});
+
+test('the PYQ page is linked as a guide, not as a question set the site does not hold', () => {
+  const nav = read(new URL('../NavBar.jsx', import.meta.url));
+  const footer = read(new URL('../MarketingFooter.jsx', import.meta.url));
+  assert.match(nav, /label: 'PYQ guide', href: '\/cuet-previous-year-questions'/);
+  assert.match(footer, /\['How to use CUET PYQs', '\/cuet-previous-year-questions'\]/);
+  assert.doesNotMatch(nav, /label: 'CUET PYQs'/);
+  assert.doesNotMatch(footer, /'Previous year questions'/);
+});
+
+test('the exam preview counts against one paper: question n of 50, a 60:00 clock, a 50-cell palette', () => {
+  const exam = read(new URL('ExamComparator.jsx', here));
+  assert.match(exam, /const PAPER = 50;/);
+  assert.match(exam, /useState\(3600\)/);
+  assert.match(exam, /<span>of \{PAPER\}<\/span>/);
+  assert.match(exam, /Array\.from\(\{ length: PAPER \}/);
+  assert.doesNotMatch(exam, /of 5<|\/5 answered/);
+});
+
+test('no first-visit theme hint covers the landing headline', () => {
+  const nav = read(new URL('../NavBar.jsx', import.meta.url));
+  assert.match(nav, /<ThemeToggle hint=\{!onLanding\} \/>/);
 });

@@ -176,3 +176,26 @@ test('one sample student, one next move: the SWOT, the tour and the Score Recove
   const lost = chapterRecord(move.chapter);
   assert.ok(lost.lost > 0 && lost.lost <= marksLedger().gap);
 });
+
+test('the sample is named for what its clock can be: the opening of a Full mock, one name on every stage', async () => {
+  const { SAMPLE_LABEL, SAMPLE_MODE } = await import('./labStory.mjs');
+  const { getMode, resolveDurationSec, TEST_MODES } = await import('../../../data/test_modes.js');
+  const mode = getMode(SAMPLE_MODE);
+  assert.equal(mode.id, SAMPLE_MODE);
+  // The ten questions' time fits inside the mode's allowance (a Full mock: 60:00 for 50).
+  const allowance = resolveDurationSec(mode, mode.fixedCount ?? SESSION.length);
+  assert.ok(story.facts.totalSec <= allowance, `${clock(story.facts.totalSec)} fits ${clock(allowance)}`);
+  // The paper's pace the scenes print is that mode's pace.
+  assert.equal(PAPER_PACE_SEC, allowance / mode.fixedCount);
+  // A 10-question Quick practice would have ended first, so the sample may never be called a 10-question set.
+  const quick = resolveDurationSec(TEST_MODES.quick, SESSION.length);
+  assert.ok(story.facts.totalSec > quick, 'the sample ran past a Quick practice clock');
+  assert.match(SAMPLE_LABEL, /full mock/i);
+  assert.match(SAMPLE_LABEL, new RegExp(`first ${SESSION.length} questions`));
+  // One noun for the sample across the Lab and the Score Recovery stage: both print SAMPLE_LABEL, neither says "set".
+  for (const name of ['LabCinema.jsx', 'MistakeLab.jsx']) {
+    const source = readFileSync(new URL(name, import.meta.url), 'utf8');
+    assert.match(source, /SAMPLE_LABEL/, `${name} prints the shared label`);
+    assert.doesNotMatch(source, /10-question set|this set\b|'This set'|Replay the session/i, `${name} names the sample one way`);
+  }
+});

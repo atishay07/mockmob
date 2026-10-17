@@ -14,7 +14,7 @@ export const TOUR_ADVANCE_MS = 4800;
 // so a phone never says less than a laptop. A slide's own `lede` wins.
 const LEDE = {
   arena: 'A quick drill on a free evening, or a full 50-question, 60-minute mock on the real clock.',
-  repair: 'Why your pick was tempting and where it breaks, written from the official key. No repair and no charge if the AI’s working disagrees.',
+  repair: 'Why your pick was tempting and where it breaks, written from the answer key. No repair and no charge if the AI’s working disagrees.',
   learn: 'Short lessons with worked examples, then recall cards that come back before you forget.',
   replay: 'Every changed answer, every slow question and every skip, in the order it happened.',
   radar: 'Every miss traced back to its chapter, so tonight has one clear target.',

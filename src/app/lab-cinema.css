@@ -125,7 +125,7 @@ html[data-theme='light'] .lc {
 .lcp-fig[data-tone='bad'] b { color: var(--s-bad); }
 .lcp-fig[data-tone='good'] b { color: var(--s-good); }
 .lcp-fig span { color: var(--s-ink-2); font-size: 0.875rem; font-weight: 600; line-height: 1.35; max-width: 26ch; }
-.lcd-bar__title b { font-variant-numeric: tabular-nums; }
+.lcd-bar__title b { flex: none; white-space: nowrap; font-variant-numeric: tabular-nums; }
 
 /* ---------- 1. Time: every question against the pace line ----------
    One row per question in paper order. The dashed pace line runs through every track; inside it a bar
@@ -547,7 +547,7 @@ html[data-theme='light'] .lc {
    inside the held screen. The screen is clipped at the header's foot. Taps reach the screen of the scene on stage. */
 @media (max-width: 959px) and (orientation: portrait) {
   .lc .lc-scene:is([data-scene='repair'], [data-scene='swot']) .lc-scene__fit { --ss-fit-min: 0.8; }
-  /* The scene's own line above the screen already says the repair is written from the official key, so the
+  /* The scene's own line above the screen already says the repair is written from the answer key, so the
      screen's matching check line steps aside on phones and the repair fits above the action bar. */
   .lc .lcp--repair .lcp-check { display: none; }
   .lc[data-pinned='true'] .lc-scene[data-scene='repair'] .lc-scene__screen { clip-path: inset(var(--lcd-chrome) 0 0 0 round 0 0 20px 20px); }

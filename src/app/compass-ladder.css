@@ -132,16 +132,17 @@
 .mm.lp .lp-cpro__list dd { margin: 0; font-size: var(--t-label, 0.875rem); line-height: 1.5; color: var(--ink-2); }
 .mm.lp .lp-cpro__fine { margin: 0; font-size: var(--t-fine, 0.8125rem); line-height: 1.45; color: var(--ink-3); }
 
-/* Combo Planner in the DU section: a row between two hairlines, its key at the right on desktop. */
+/* Combo Planner in the DU section: one row between two hairlines, a sentence that opens in ink and a text link
+   (at the right on desktop). */
 .mm.lp .lp-combo {
   display: grid;
-  gap: var(--sp-5, 1.5rem);
+  gap: var(--sp-2, 0.5rem);
   align-items: center;
-  margin-block: var(--block-gap, 3rem);
-  padding-block: var(--sp-6, 2rem);
+  margin-block: var(--sp-7, 3rem) 0;
+  padding-block: var(--sp-4, 1rem);
   border-block: 1px solid var(--line);
 }
-.mm.lp .lp-combo > div { display: grid; gap: var(--sp-3, 0.75rem); }
-.mm.lp .lp-combo p { margin: 0; max-width: var(--measure-body, 62ch); font-size: var(--t-body, 1rem); line-height: var(--lh-body, 1.6); color: var(--ink-2); }
-.mm.lp .lp-combo .mm-btn { justify-self: start; }
+.mm.lp .lp-combo p { margin: 0; max-width: var(--measure-body, 62ch); font-size: var(--t-body, 1rem); line-height: 1.5; color: var(--ink-2); }
+.mm.lp .lp-combo p b { font-weight: 600; color: var(--ink); }
+.mm.lp .lp-combo .lp-textlink { justify-self: start; }
 @media (min-width: 900px) { .mm.lp .lp-combo { grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--sp-7, 3rem); } }

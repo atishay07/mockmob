@@ -1,4 +1,4 @@
-// The landing's Mistake Lab story: ONE illustrative 10-question Accountancy session, told in four
+// The landing's Mistake Lab story: the first ten questions of ONE sample Accountancy full mock, told in four
 // scenes (time per question, every answer change, the repair, the SWOT) and replayed step by step in
 // the interactive replay further down the page (MistakeLab.jsx imports SESSION from here). Same
 // verdicts, same 22 marks, same three changes netting -6, same clock times everywhere. Every figure
@@ -6,6 +6,15 @@
 // Clock times count from the start of the paper, as they do in the product. The times are a real
 // student's: most questions take 0:35 to 2:10, one runs past three minutes, and no change comes
 // more than about three minutes after the pick it replaces.
+
+// The sample's one name, wherever the Lab and the Score Recovery stage show it. It is the opening of a Full mock
+// (data/test_modes.js: 50 questions, 60 minutes, so 72 seconds a question), which is why ten questions can take
+// 14:59: a Quick practice gives 60 seconds a question and would have ended at 10:00 (labStory.test.mjs checks this).
+export const SAMPLE_MODE = 'full';
+export const SAMPLE_LABEL = 'Sample full mock, first 10 questions';
+// What a Mistake Repair costs, as the product charges it: data/mistake_repair.js REPAIR_CREDIT_COST, and the monthly
+// AI credits of src/services/credits/aiCreditWallet.js (Free 10, Pro 50). landingCopy.test.mjs holds them equal.
+export const REPAIR_COST = Object.freeze({ credits: 1, freeMonthly: 10, proMonthly: 50 });
 
 export const MARK = Object.freeze({ right: 5, wrong: -1, blank: 0 });
 // What a lost question cost: 6 for a wrong answer (5 not earned and 1 penalty), 5 for a blank.

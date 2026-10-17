@@ -1,5 +1,7 @@
 import Link from 'next/link';
 import { CAPABILITIES, newOfferReleased } from '@/../data/capabilities';
+import { benchCopy } from '@/components/landing/benchLadder.mjs';
+import { REPAIR_COST } from '@/components/landing/labStory.mjs';
 import { publicOffer } from '@/lib/payments/offer';
 import STUDY_RELEASE from '@/../data/study/release.json';
 import { NavBar } from '@/components/NavBar';
@@ -119,6 +121,7 @@ const SHELF = [
 // Learn is marketed only while study content is switched on; counts come from the release proof.
 const STUDY_LIVE = process.env.STUDY_CONTENT_ENABLED === 'true' && process.env.STUDY_RECALL_ENABLED === 'true';
 const STUDY_LESSONS = Object.keys(STUDY_RELEASE.units || {}).length;
+const BENCH = benchCopy();
 const STUDY_SUBJECTS = new Set(Object.keys(STUDY_RELEASE.units || {}).map(id => id.split('-')[0])).size;
 // The feature tour: every product area, one idea per slide. Screens are labelled illustrations; the
 // captions say what is true of the product. Each slide's demo screen lives in TourScreens.jsx, keyed by id.
@@ -131,8 +134,8 @@ const TOUR = [
     lede: 'A quick drill or a full 50-question, 60-minute mock, each a new paper from the question bank. Unlimited with Pro.',
     points: ['Quick drills and full mocks on the exam clock', 'NTA mode and Smart practice with Pro', 'Close the tab mid-test and pick up where you left off'], chip: 'Close the tab mid-test and pick up where you left off.', href: '/dashboard', cta: 'Start practising' },
   { id: 'repair', label: 'Mistake Repair', line: 'Fix why you got it wrong', title: 'Fix why you missed it.',
-    body: 'After a wrong answer, see why your pick tempted you, where it breaks and what to remember. Every repair is written from the official key.',
-    points: ['If the AI and the key disagree, the question is held back and you pay nothing', 'A 10-minute next step, then 5 fresh questions to test the fix'], chip: 'Then a 10-minute next step and 5 fresh questions to test the fix.', href: '/signup', cta: 'Try Mistake Repair',
+    body: `After a wrong answer, see why your pick tempted you, where it breaks and what to remember. Every repair is written from the answer key. A repair uses ${REPAIR_COST.credits} AI credit; Free has ${REPAIR_COST.freeMonthly} a month.`,
+    points: ['If the AI and the key disagree, the question is held back and you pay nothing', 'A 10-minute next step, then practice on the same chapter'], chip: 'Then a 10-minute next step and practice on the same chapter.', href: '/signup', cta: 'Try Mistake Repair',
     elsewhere: { href: '#inside-the-lab', step: 2, above: true } },
   ...(STUDY_LIVE && STUDY_LESSONS ? [{ id: 'learn', label: 'Learn', line: 'Learn the idea, then keep it', title: 'Learn the idea behind the mark, then keep it.',
     body: 'Short lessons with worked examples and the common mistake, then recall cards that return before you are likely to forget. When a chapter keeps costing you marks, its lesson is linked from your result.',
@@ -141,7 +144,7 @@ const TOUR = [
     body: 'Every answer you changed, every question that ate your time, every skip, in the order it happened. Then turn the costly ones into a short drill.',
     points: ['An answer-by-answer timeline', 'Save any question to revisit later'], chip: 'Then turn the costly questions into a short drill.', href: '/review', cta: 'Review your mistakes' },
   { id: 'radar', label: 'Weak chapters', line: 'The chapter to fix first', title: 'Know which chapter to fix first.',
-    body: 'A score is just a number. MockMob traces every miss back to its chapter, so tonight’s session has a target. Pro adds pace and changed-answer detail for every chapter.',
+    body: 'MockMob traces every miss back to its chapter, so tonight’s session has one clear target. Pro adds pace and changed-answer detail for every chapter.',
     points: ['Your weakest chapters, free after every mock', 'Built only from questions you attempted'], chip: 'Your weakest chapters, free after every mock.', href: '/analytics', cta: 'See your weak chapters' },
   { id: 'prepos', label: 'Ask Mobi', line: 'Ask what to do tonight', title: 'Ask Mobi what to do tonight.',
     body: 'Ask Mobi reads your practice record and answers with where the marks went and a single next step, with the mocks behind it.',
@@ -155,8 +158,10 @@ const TOUR = [
     points: ['Free to use', 'Compare combinations side by side'], chip: 'Compare combinations side by side, free.', href: '/cuet-subject-combination', cta: 'Plan my subjects',
     elsewhere: { href: '#du-eligibility' } },
   { id: 'rival', label: 'Benchmarks', line: 'Beat a target score under the clock', title: 'Beat the score you’re aiming for.',
-    body: 'Run a short timed set against a fixed target for accuracy and pace, at daily, college or DU level. See whether you hold the standard with the clock running.',
-    points: ['The daily benchmark is free', 'Every mock you record moves your own standing among MockMob students'], chip: 'The daily benchmark is free.', href: '/leaderboard', cta: 'See your standing' },
+    // The college and DU levels cost AI credits, which createAIRivalBattle refuses while paid AI is closed, so the
+    // words follow that gate (benchLadder.mjs, benchCopy) and switch by themselves when it opens.
+    body: BENCH.body,
+    points: [BENCH.levels, 'Every mock you record moves your own standing among MockMob students'], chip: BENCH.levels, href: '/leaderboard', cta: 'See your standing' },
 ];
 
 const faqs = [
@@ -252,8 +257,8 @@ export default async function LandingPage() {
                 and its real question count under the line. No label above: the statement is the heading. */}
             {/* The bank, said once at heading level and calmly (the owner's key difference, 16 Oct 2026), with the four
                 launch papers' real counts under it as its evidence. */}
-            <div className="lp-shelf" id="question-bank" aria-labelledby="question-bank-title">
-              <h2 className="lp-shelf__title" id="question-bank-title">One question bank. As many mocks as you want with Pro.</h2>
+            <div className="lp-shelf" aria-labelledby="question-bank">
+              <h2 className="lp-shelf__title" id="question-bank">One question bank. As many mocks as you want with Pro.</h2>
               <ul className="lp-shelf__row" aria-label="The four launch papers">
                 {SHELF.map(({ id, name, href, depth, tilt, base, sizes }, i) => (
                   <li key={id} className="lp-shelf__item" style={{ '--k': i, '--depth': depth, '--tilt': `${tilt}deg`, '--base': base }}>
@@ -297,10 +302,12 @@ export default async function LandingPage() {
         </section>
 
         {/* ------------------------- SCORE RECOVERY LAB --------------------- */}
+        {/* Named "Score Recovery Lab" only once Recovery is released (recoveryCopy.mjs); until then it is the Mistake
+            Lab's view across your mocks, the name the app's result page carries. */}
         <section className="lp-sec lp-sh-host" id="score-recovery-lab" aria-labelledby="score-recovery-lab-title">
           <SectionHeading titleId="score-recovery-lab-title" title={RECOVERY.title}
             sub={RECOVERY.sub}
-            mini="Score Recovery Lab" />
+            mini={RECOVERY.mini} />
           <div className="mm-wrap">
             <MistakeLab recoveryState={CAPABILITIES.recovery.state} recoveryReason={CAPABILITIES.recovery.reason} />
           </div>
@@ -316,7 +323,7 @@ export default async function LandingPage() {
                   Slide a score in DU Compass and see which colleges it would have cleared in 2026, by category and round.
                 </p>
               </div>
-              <Reveal delay={100}><CompassLadder data={SHOWCASE} /></Reveal>
+              <Reveal delay={100} threshold={0}><CompassLadder data={SHOWCASE} /></Reveal>
               {/* Compass Pro, the paid layer over the free ladder: a block on the page ground (title, words, three
                   defined features on hairlines, one text link), not a card. */}
               <aside className="lp-cpro" aria-labelledby="compass-pro-title">
@@ -348,14 +355,11 @@ export default async function LandingPage() {
             <Reveal>
               <EligibilityTeaser />
             </Reveal>
-            {/* Combo Planner: a row between two hairlines, not a card. Volt is kept for Start free and Pro, so this key
-                and the teaser's above are secondary. */}
+            {/* Combo Planner: one hairline row with a text link, not a third heading block with its own wide key. The
+                teaser's key above is the section's one action. */}
             <aside className="lp-combo" aria-labelledby="combo-title">
-              <div>
-                <h3 className="lp-h3" id="combo-title">Not sure which CUET subjects to pick?</h3>
-                <p>In the Combo Planner, choose your DU goals and available subjects. Compare five-paper combinations against the published 2026 rules before you fill the CUET form.</p>
-              </div>
-              <Link href="/cuet-subject-combination" className="mm-btn mm-btn--secondary">Plan my subjects</Link>
+              <p><b id="combo-title">Not sure which CUET subjects to pick?</b> The Combo Planner checks five-paper combinations against your DU goals and the published 2026 rules.</p>
+              <Link href="/cuet-subject-combination" className="lp-textlink">Plan my subjects</Link>
             </aside>
             <CollegeDestinations />
           </div>

@@ -14,6 +14,9 @@ const QUESTIONS = [
   { text: 'Complete the sentence: Neither of the answers ___ correct.', options: ['are', 'were', 'is', 'have'] },
   { text: 'Choose the meaning of “a blessing in disguise”:', options: ['An unexpected benefit', 'An obvious problem', 'A secret promise', 'A hurried decision'] },
 ];
+// The preview is the opening of a full paper: its clock is the full 60:00 and it counts against all 50 questions, so
+// the number, the palette and the clock agree. Only the first five are open here.
+const PAPER = 50;
 const LEGEND = [['unseen', 'Not visited'], ['skipped', 'Not answered'], ['answered', 'Answered'], ['review', 'Marked for review'], ['review-answered', 'Answered & marked for review']];
 
 export function ExamComparator() {
@@ -76,7 +79,7 @@ export function ExamComparator() {
           <div className="lp-exam__body">
             <div className="lp-exam__paper">
               <div className="lp-exam__meta"><span>English</span><span>+5 correct <i /> −1 incorrect</span></div>
-              <div className="lp-exam__question" aria-live="polite"><p className="lp-exam__number">Question {index + 1} <span>of 5</span></p><h3>{question.text}</h3></div>
+              <div className="lp-exam__question" aria-live="polite"><p className="lp-exam__number">Question {index + 1} <span>of {PAPER}</span></p><h3>{question.text}</h3></div>
               <fieldset className="lp-exam__options"><legend className="lp-sr">Answer for question {index + 1}</legend>
                 {question.options.map((option, i) => <label key={`${index}-${i}`} data-selected={answers[index] === i}>
                   <input type="radio" name={`preview-answer-${index}`} checked={answers[index] === i} onChange={() => { setStarted(true); pipReact('demo', Object.keys({ ...answers, [index]: i }).length === QUESTIONS.length && Object.keys(answers).length < QUESTIONS.length ? 'celebrate' : 'nod'); setAnswers((a) => ({ ...a, [index]: i })); }} />
@@ -91,14 +94,14 @@ export function ExamComparator() {
               </div>
             </div>
             <aside className="lp-exam__palette" aria-label="Preview question palette">
-              <div className="lp-exam__palette-heading"><h4>{classic ? 'Question Palette' : 'Questions'}</h4><span>{Object.keys(answers).length}/5 answered</span></div>
+              <div className="lp-exam__palette-heading"><h4>{classic ? 'Question Palette' : 'Questions'}</h4><span>{Object.keys(answers).length} of {PAPER} answered</span></div>
               {/* Five live cells, 45 decorative ones, one cell geometry. The button is the hit
                   target and focus ring; the inner cell carries the exam shape, so NTA's clipped
                   shapes can never clip the ring. */}
-              <div className="lp-exam__numbers">{Array.from({ length: 50 }, (_, i) => i < 5
+              <div className="lp-exam__numbers">{Array.from({ length: PAPER }, (_, i) => i < QUESTIONS.length
                 ? <button key={i} type="button" className="lp-exam__num" aria-current={index === i ? 'step' : undefined} aria-label={`Preview question ${i + 1}, ${LEGEND.find(([s]) => s === stateFor(i))[1]}`} onClick={() => go(i)}><span className="lp-exam__cell" data-state={stateFor(i)}>{i + 1}</span></button>
                 : <span key={i} className="lp-exam__num lp-exam__num--rest" aria-hidden="true"><span className="lp-exam__cell" data-state="unseen">{i + 1}</span></span>)}</div>
-              <p className="lp-exam__palette-note">Tap 1 to 5 here. A full mock uses all 50.</p>
+              <p className="lp-exam__palette-note">Questions 1 to 5 are open in this preview. A full mock uses all 50.</p>
               <p className="lp-exam__legend-title">Legend</p><ul className="lp-exam__legend">{LEGEND.map(([state, name]) => <li key={state}><span data-state={state} aria-hidden="true">{state === 'review-answered' ? <Check size={10} /> : ''}</span>{name}</li>)}</ul>
             </aside>
           </div>

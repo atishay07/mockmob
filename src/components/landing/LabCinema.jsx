@@ -13,7 +13,7 @@
 // the replay further down the page. Words on the screens are the product's own.
 import { useEffect, useRef } from 'react';
 import { Check, Minus, ShieldCheck, X } from 'lucide-react';
-import { labStory, REPAIR, repairRecordLine, signed } from './labStory.mjs';
+import { labStory, REPAIR, REPAIR_COST, SAMPLE_LABEL, repairRecordLine, signed } from './labStory.mjs';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import ScrollStory from './ScrollStory';
 
@@ -34,8 +34,8 @@ const SCENES = [
     body: 'Your first pick, what you changed it to and when, and the marks each change won or cost.',
     take: `${S.changes.length} changes. Net ${signed(S.net)} marks.` },
   { key: 'repair', tab: 'Repair', title: 'Repair the reason behind the miss.',
-    body: 'Written from the official key. If the AI’s own working disagrees with the key, you get no repair and no charge.',
-    bodyPhone: 'Written from the official key, never a guess.',
+    body: `Written from the answer key. If the AI’s own working disagrees with the key, you get no repair and no charge. A repair uses ${REPAIR_COST.credits} AI credit; Free has ${REPAIR_COST.freeMonthly} a month.`,
+    bodyPhone: `Written from the answer key. A repair uses ${REPAIR_COST.credits} AI credit; Free has ${REPAIR_COST.freeMonthly} a month.`,
     take: `Your pick ${REPAIR.picked}, the key ${REPAIR.key}, and the rule that tells them apart.` },
   { key: 'swot', tab: 'SWOT', title: 'Leave every mock with a plan.',
     body: 'A SWOT after every mock, built from your own answers, times and earlier mocks, with the sets to do next. The SWOT is free and uses no credits.',
@@ -308,7 +308,7 @@ function RepairSheet({ on }) {
 function SwotPanel() {
   return (
     <div className="lcp lcp--swot">
-      <p className="lcp__h">After this set</p>
+      <p className="lcp__h">After this mock</p>
       {/* One move first, then what follows it: the page promises a single next move, so the plan says which one. */}
       <div className="lcs-block">
         {S.swot.plan.map((p, i) => (
@@ -325,7 +325,7 @@ function SwotPanel() {
         ))}
       </div>
       <div className="lcs-block">
-        <p className="lcs-h">SWOT for this set</p>
+        <p className="lcs-h">SWOT for this mock</p>
         <div className="lcp-swot">
           {S.swot.quadrants.map((q, i) => (
             <div key={q.id} className="lcp-swot__q" data-q={q.id} style={{ '--i': i }}>
@@ -355,7 +355,7 @@ function ScreenBar({ label }) {
     <div className="lcd-bar">
       <div className="lcd-bar__title">
         <span className="lcd-bar__subject">
-          <span>Accountancy<small>Sample 10-question set</small></span>
+          <span>Accountancy<small>{SAMPLE_LABEL}</small></span>
         </span>
         <b>{S.facts.marks}<small> / {S.facts.outOf} marks</small></b>
       </div>

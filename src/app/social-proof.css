@@ -42,7 +42,7 @@
 .rl__sub--own { margin: 0; padding-top: 0; }
 .rl__list--own { margin-top: 0; border-top: 0; }
 .rl__list--own .rl__row { padding-top: var(--sp-3, 0.75rem); }
-.rl__row--small .rl__name { font-size: var(--t-lede, 1.125rem); color: var(--ink-2); }
+.rl__row--small .rl__name { color: var(--ink-2); }
 .rl__watch {
   display: inline-flex;
   align-items: center;

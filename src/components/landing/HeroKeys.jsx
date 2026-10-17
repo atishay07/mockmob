@@ -26,11 +26,10 @@ export function HeroKeys() {
   const tryText = sample.done ? 'Back to the sample' : sample.answered > 0 ? 'Your questions' : 'Try 5 questions';
   return (
     <div className="mm-actions lp-keys" data-visitor={kind} data-sample={sample.done ? 'done' : undefined}>
-      {/* After the sample, wide screens name its one next move on the key (the card beside it hides its own key);
-          phones keep the short label, since the card's own key names the chapter there. */}
+      {/* Plain "Start free" in every state: sign-up does not carry the sample's chapter through onboarding, so the key
+          names none. The finished card beside it says what to practise. */}
       <Link href={signupHref} className="mm-btn mm-btn--primary lp-key lp-key--go">
-        {/* One inline run of text: the key is a flex box with a gap, so a second flex item would open a double space. */}
-        <span>Start free{sample.done && sample.focus ? <span className="lp-key__move"> and practise {sample.focus}</span> : null}</span>
+        <span>Start free</span>
       </Link>
       {/* The sample is on this page: an in-page jump (DemoJump glides to it) never needs the route prefetched. */}
       <Link href="/#try-practice" prefetch={false} className="mm-btn mm-btn--secondary lp-key lp-key--try">{tryText}</Link>

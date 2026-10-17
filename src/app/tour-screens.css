@@ -52,7 +52,7 @@ html[data-theme='light'] .ts { box-shadow: 0 20px 40px -24px rgba(32,26,14,.32);
 .ts__pick b { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 6px; font-size: .75rem; }
 .ts__pick [data-tone='bad'] b { background: rgba(255,122,102,.2); color: var(--ts-bad); }
 .ts__pick [data-tone='good'] b { background: var(--ts-volt); color: #0b1000; }
-.ts__check { display: flex; align-items: center; gap: .4rem; margin: 0; color: var(--ts-volt); font: 700 .75rem/1.3 var(--font-body); }
+.ts__check { display: flex; align-items: center; gap: .4rem; margin: 0; color: var(--ts-ink); font: 700 .75rem/1.3 var(--font-body); }
 .ts__check svg { flex: none; }
 .ts__steps p { margin: 0; font-size: .75rem; line-height: 1.35; color: var(--ts-ink2); }
 .ts__steps b { display: block; font-size: .8125rem; color: var(--ts-ink); }
@@ -198,6 +198,8 @@ html[data-theme='light'] .ts { box-shadow: 0 20px 40px -24px rgba(32,26,14,.32);
 .ts__ladder li b { margin-left: auto; font: 700 .75rem var(--font-body); color: var(--ts-ink); font-variant-numeric: tabular-nums; }
 .ts__ladder small { font-size: .75rem; font-weight: 600; color: var(--ts-ink2); }
 .ts__ladder li[data-mark='target'] { color: var(--ts-ink); }
+/* A level that cannot be run yet: its target stays readable, set back a step. */
+.ts__ladder li[data-mark='soon'] b { color: var(--ts-ink2); font-weight: 600; }
 .ts__ladder li[data-mark='you'] { padding-left: .6rem; border-radius: 0; border-left: 3px solid var(--ts-volt); color: var(--ts-ink); font-weight: 700; }
 .ts__ladder li[data-mark='you'] b { color: var(--ts-volt); }
 

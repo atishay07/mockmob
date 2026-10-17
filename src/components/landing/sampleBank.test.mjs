@@ -102,3 +102,34 @@ test('a finished run names its one next move, and a later run keeps it until it 
   const clean = nextRecord(again, { answered: 5, done: true, subject: 'economics', at: 'T3', focus: null });
   assert.equal('focus' in clean, false, 'a run with no misses names no chapter');
 });
+
+test('the finished sample names a chapter only when it holds the most misses outright, and at least two', async () => {
+  const { nextChapter, groupMissed, sampleMove } = await import('./sampleResult.mjs');
+  // Three misses in three chapters: a tie says nothing, so the move is a Full mock.
+  const tie = sampleMove(['Cash flow statement', 'Accounting equation', 'Partnership: fundamentals']);
+  assert.equal(tie.focus, null);
+  assert.match(tie.text, /^a Full mock of 50 questions, to see which chapter to fix first\./);
+  // One miss is not enough either.
+  assert.equal(nextChapter(groupMissed(['Partnership: fundamentals'])), null);
+  // Two of three misses in one chapter (two topics): that chapter, with its count beside the move.
+  const two = sampleMove(['Partnership: admission of a partner', 'Cash flow statement', 'Partnership: new profit-sharing ratio']);
+  assert.equal(two.focus, 'Partnership');
+  assert.match(two.text, /^10 questions on Partnership, where 2 of your 3 misses came from\./);
+  // Each chapter is listed once, with one readable topic.
+  const groups = groupMissed(['Partnership: admission of a partner', 'Partnership: new profit-sharing ratio']);
+  assert.deepEqual(groups, [{ chapter: 'Partnership', misses: 2, topic: 'Admission of a partner' }]);
+  // A 2-2 tie names nothing.
+  assert.equal(nextChapter(groupMissed(['A: x', 'A: y', 'B: x', 'B: y'])), null);
+});
+
+test('no sign-up key promises to carry the sample chapter it cannot carry', async () => {
+  // Sign-up sends a new student through onboarding, which drops any saved return page (auth-redirect.js
+  // postSignInPath), so no key may say "Start free and practise <chapter>".
+  const { readFileSync } = await import('node:fs');
+  for (const name of ['DemoDrill.jsx', 'HeroKeys.jsx']) {
+    const source = readFileSync(new URL(name, import.meta.url), 'utf8');
+    assert.doesNotMatch(source, /Start free and practise|and practise \{/, `${name} promises a chapter through sign-up`);
+  }
+  const redirect = readFileSync(new URL('../../lib/auth-redirect.js', import.meta.url), 'utf8');
+  assert.match(redirect, /if \(needsOnboarding\) return arenaHomePath/, 'if onboarding starts keeping the return page, this key can name the chapter again');
+});

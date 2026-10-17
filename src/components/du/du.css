@@ -1329,13 +1329,23 @@
   line-height: 1.5;
   color: var(--ink-2);
 }
-/* Before the first tick the answer block is one sentence at the title step, not a figure. */
+/* Before the first tick the answer block is one sentence, not a figure. On phones it is a plain 16px empty-state line
+   in the results slot, under its hairline, so it does not read as a third heading under the section's h2. Wide
+   screens, where it stands alone in the answer column beside the chips, keep it at the title step. */
 .du-teaser__lead[data-empty='true'] {
-  max-width: 26ch;
-  font: 600 var(--t-title, 1.5rem) / 1.25 var(--font-display);
-  letter-spacing: -0.02em;
-  color: var(--ink);
-  text-wrap: balance;
+  min-height: 0;
+  font: 500 var(--t-body, 1rem) / 1.5 var(--font-body);
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+@media (min-width: 900px) {
+  .du-teaser__lead[data-empty='true'] {
+    max-width: 26ch;
+    font: 600 var(--t-title, 1.5rem) / 1.25 var(--font-display);
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-wrap: balance;
+  }
 }
 .du-teaser__streams {
   display: grid;

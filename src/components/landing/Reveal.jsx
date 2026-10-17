@@ -64,7 +64,7 @@ export function Reveal({ as: Tag = 'div', className = '', delay = 0, threshold =
         observer.disconnect();
         stopPace();
       },
-      { threshold, rootMargin: '0px 0px -8% 0px' }
+      { threshold, rootMargin: '0px 0px -5% 0px' }
     );
     observer.observe(node);
     return () => {

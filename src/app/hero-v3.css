@@ -44,7 +44,24 @@
   .mm.lp .lp-hero--v3 .lp-hero__copy { grid-area: copy; }
   .mm.lp .lp-hero--v3 .lp-stage { grid-area: stage; max-width: 32rem; padding-top: 8.25rem; align-self: start; }
   .mm.lp .lp-hero--v3 .lp-hero__fine { grid-area: fine; align-self: start; }
+  /* The card runs from under Mobi down to the keys' foot, so no empty band opens under it beside the copy; the small
+     print runs on under both columns. The picker's foot line sits at the card's bottom edge. */
+  .mm.lp .lp-hero--v3 .lp-hero__grid { grid-template-areas: 'copy stage' 'fine fine'; }
+  .mm.lp .lp-hero--v3 .lp-stage { align-self: stretch; display: flex; flex-direction: column; }
+  .mm.lp .lp-hero--v3 .lp-stage__card { flex: 1 1 auto; display: flex; flex-direction: column; }
+  .mm.lp .lp-hero--v3 .lp-stage__card > .mm-screen { flex: 1 1 auto; display: flex; flex-direction: column; }
+  .mm.lp .lp-hero--v3 .lp-stage .mm-drill--pick .mm-screen__body { flex: 1 1 auto; display: flex; flex-direction: column; }
+  .mm.lp .lp-hero--v3 .lp-stage .lp-pick__foot {
+    display: block;
+    margin: auto 0 0;
+    padding-top: 1rem;
+    border-top: 1px solid var(--slate-line, rgba(244, 245, 240, 0.13));
+    color: var(--chalk-2);
+    font-size: var(--t-fine, 0.8125rem);
+    line-height: 1.45;
+  }
 }
+.lp-pick__foot { display: none; }
 .mm.lp .lp-hero--v3 .lp-hero__fine { display: grid; justify-items: start; min-width: 0; }
 @media (max-width: 959px) {
   .mm.lp .lp-hero--v3 .lp-hero__fine { margin-top: -2.25rem; }
@@ -153,9 +170,6 @@
   /* Start free is already the volt key beside the card, so the finished card does not repeat it: one volt key, and
      one Start free, on the screen. Phones keep the card's own key (the hero's keys are off screen by then). */
   .mm.lp .lp-hero--v3:has(.lp-keys[data-sample='done']) .lp-stage .mm-drill__actions > .mm-btn--onnight { display: none; }
-}
-@media (max-width: 959px) {
-  .mm.lp .lp-hero--v3 .lp-key__move { display: none; }
 }
 .mm.lp .lp-hero--v3 .lp-key--go {
   background: var(--volt);
@@ -351,3 +365,15 @@ html[data-theme='light'] .mm.lp .lp-hero--v3 .lp-key--go { box-shadow: 0 var(--b
 :root[data-motion='reduced'] .lp-type__word[data-turn='out'] { display: none; }
 :root[data-motion='reduced'] .mm.lp .lp-hero--v3 .lp-key,
 :root[data-motion='reduced'] .lp-pick__plus { transition: none; }
+
+/* ---------- The sample's answer reveal ----------
+   The key option is marked, not filled: a volt edge and a faint volt tint, its letter on volt, the text in the
+   card's own ink. A full volt fill sat right above the volt "Next question" key and made two volt slabs; now the
+   key is the card's one solid volt. */
+.mm.lp .lp-hero--v3 .lp-stage .mm-drill__option[data-state="correct"] {
+  background: rgb(210 240 0 / 0.1);
+  border-color: rgb(210 240 0 / 0.6);
+  color: var(--chalk, #f4f5f0);
+}
+.mm.lp .lp-hero--v3 .lp-stage .mm-drill__option[data-state="correct"] .mm-drill__key { background: var(--volt); color: var(--volt-ink); }
+.mm.lp .lp-hero--v3 .lp-stage .mm-drill__option[data-state="correct"] .mm-drill__verdict-icon { color: var(--volt); }
