@@ -16,7 +16,7 @@ import 'package:mockmob/features/practice/practice_result_screen.dart' show Prac
 import 'package:mockmob/features/practice/practice_routes.dart';
 import 'package:mockmob/features/practice/widgets/numbered_sheet.dart' show NumberedSheet;
 import 'package:mockmob/features/result/widgets/fold_section.dart' show FoldMemory;
-import 'package:mockmob/features/result/widgets/mistake_row.dart' show MistakeRepairEntry, MistakeSummary;
+import 'package:mockmob/features/result/widgets/mistake_row.dart' show MistakeChip, MistakeRepairEntry, MistakeSummary;
 import 'package:mockmob/features/result/widgets/result_head.dart' show ResultHead;
 
 import '../../helpers/fonts.dart';
@@ -320,6 +320,37 @@ void main() {
     await tester.pump(const Duration(milliseconds: 500));
     expect(router.state.uri.path, '/review/repair/p1/p1-q4');
     expect(router.state.uri.queryParameters['count'], '1');
+  });
+
+  testWidgets('a tap on the Repair chip starts that repair, and does not fold the row (v13 walk, finding 5)', (tester) async {
+    final questions = <(String, V)>[
+      ('Nature of management', V.right),
+      ('Principles of management', V.wrong),
+      ('Nature of management', V.right),
+      ('Planning', V.wrong),
+    ];
+    final router = await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(questions)));
+    await tester.pump(const Duration(milliseconds: 900));
+    // Q2 is a wrong one: its chip (Repair, or Repair first when it leads) is the way to start its repair.
+    final row = find.byWidgetPredicate((w) => w is MistakeSummary && w.number == 2);
+    await bringIn(tester, row);
+    final chip = find.descendant(of: row, matching: find.byType(MistakeChip));
+    expect(chip, findsOneWidget);
+    expect(find.text('Your answer'), findsNothing);
+    await tester.tap(chip);
+    await tester.pump(const Duration(milliseconds: 500));
+    expect(router.state.uri.path, '/review/repair/p1/p1-q2');
+    expect(router.state.uri.queryParameters['count'], '1');
+  });
+
+  testWidgets('a balance read from the saved copy is not printed: "You have 40" could be from before this set (v13 walk, finding 4)', (tester) async {
+    await pumpResult(
+      tester,
+      resultOverrides(attemptId: 'p1', detail: detailOf(_mixed), credits: const CreditFigures(ai: 68, practice: 40, stale: true)),
+    );
+    await tester.pump(const Duration(milliseconds: 900));
+    expect(find.textContaining('You have'), findsNothing);
+    expect(find.text('1 AI credit.\nNo charge if the repair cannot be written.'), findsOneWidget);
   });
 
   testWidgets('with fresh questions ready the proof fold starts 5 in that chapter for this attempt', (tester) async {

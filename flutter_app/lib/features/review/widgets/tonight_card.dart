@@ -29,6 +29,7 @@ class TonightCard extends StatefulWidget {
     required this.onShowMe,
     required this.now,
     this.lateNight = false,
+    this.totalOpen,
   });
 
   final TonightPick pick;
@@ -40,6 +41,9 @@ class TonightCard extends StatefulWidget {
 
   /// After 11 PM: the source line becomes "Repair a little, then sleep." Nothing moves.
   final bool lateNight;
+
+  /// Every open mistake on the tab, so the line under the number can say how many more wait below it.
+  final int? totalOpen;
 
   @override
   State<TonightCard> createState() => _TonightCardState();
@@ -154,7 +158,7 @@ class _TonightCardState extends State<TonightCard> with SingleTickerProviderStat
           const SizedBox(height: MmSpace.s8),
           // After 11 PM the same line says it is fine to stop: the layout stays the day layout.
           Text(
-            widget.lateNight ? ReviewCopy.lateNight : ReviewCopy.tonightSource(pick.source, n, pick.chapterOpen),
+            widget.lateNight ? ReviewCopy.lateNight : ReviewCopy.tonightSource(pick.source, n, pick.chapterOpen, totalOpen: widget.totalOpen),
             style: type.small.copyWith(color: colors.ink2),
           ),
           // The row is a 48 dp target; its own slack above and below the 20 dp bubbles is counted

@@ -8,6 +8,8 @@ import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/onboarding/copy.dart';
 import 'package:mockmob/features/onboarding/data/subjects.dart' show kMaxSubjects;
 import 'package:mockmob/features/practice/copy.dart';
+import 'package:mockmob/features/result/widgets/mistake_row.dart' show MistakeStatus, chipActionOf;
+import 'package:mockmob/features/review/copy.dart' show ReviewCopy;
 import 'package:mockmob/features/you/data/profile_editor.dart' show kMaxProfileSubjects;
 import 'package:mockmob/features/you/edit_copy.dart';
 
@@ -153,6 +155,40 @@ void main() {
       const marked = BarMarked(attemptId: 'a1', paper: 'Mock 5', subject: 'Business Studies');
       expect(visibleLive(marked, dismissed: const {}, todayCovers: const {}, onToday: false, onReview: true), isNull);
       expect(visibleLive(marked, dismissed: const {}, todayCovers: const {}, onToday: false), marked);
+    });
+  });
+
+  group('finding 7: the hero and the list add up', () {
+    test('the hero says how many more wait below, so 1 and 4 more is the 5 in the list', () {
+      expect(ReviewCopy.tonightSource('Mock 5', 1, 1, totalOpen: 5), 'From Mock 5. 4 more to repair below.');
+      expect(ReviewCopy.tonightSource('Mock 5', 2, 3, totalOpen: 3), 'From Mock 5. 1 more to repair below.');
+    });
+
+    test('with nothing else open the run can stop after any one', () {
+      expect(ReviewCopy.tonightSource('Mock 5', 3, 3, totalOpen: 3), 'From Mock 5. You can stop after any one.');
+      expect(ReviewCopy.tonightSource('Mock 5', 3, 3), 'From Mock 5. You can stop after any one.');
+    });
+  });
+
+  group('finding 9: a paper nothing was answered on is not scored 0 of 250', () {
+    test('the past line says nothing attempted', () {
+      expect(ReviewCopy.pastLine('18 Oct', 0, 250, attempted: false), '18 Oct, nothing attempted');
+      expect(ReviewCopy.pastLine('18 Oct', 115, 250), '18 Oct, 115 of 250');
+    });
+  });
+
+  group('finding 5: a chip is the action it names', () {
+    test('Repair starts the repair, Check it held opens the saved repair, the rest are words', () {
+      var repair = 0, open = 0;
+      void onRepair() => repair++;
+      void onOpen() => open++;
+      chipActionOf(MistakeStatus.repairFirst, onRepair: onRepair, onOpenSaved: onOpen)!();
+      chipActionOf(MistakeStatus.repair, onRepair: onRepair, onOpenSaved: onOpen)!();
+      chipActionOf(MistakeStatus.check, onRepair: onRepair, onOpenSaved: onOpen)!();
+      expect((repair, open), (2, 1));
+      for (final s in [MistakeStatus.held, MistakeStatus.slipped, MistakeStatus.keyHeld, MistakeStatus.corrected]) {
+        expect(chipActionOf(s, onRepair: onRepair, onOpenSaved: onOpen), isNull);
+      }
     });
   });
 }
