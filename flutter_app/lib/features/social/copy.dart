@@ -37,10 +37,10 @@ abstract final class MobCopy {
 
   // The paper.
   static String sitKey(int count, int minutes) => 'Sit this week\'s paper';
-  static String sitNote(int count, int minutes) => '$count questions, about $minutes minutes. Same paper as your Mob.';
+  static String sitNote(int count, int minutes) => '$count questions, about $minutes minutes, the same for everyone.';
   static const String seeAnswers = 'See your answers';
   static const String seeMob = 'See your Mob';
-  static const String freeUsed = 'You already sat a Mob paper this week, in another Mob. Free includes one a week.';
+  static const String freeUsed = 'You already sat a Mob paper this week, in another Mob. Free includes one a week, and Pro lets you sit one in every Mob.';
   static const String includedWithPro = 'Included with Pro.';
   static const String opening = 'Opening';
   static const String openingPaper = 'Opening the paper';
@@ -259,8 +259,9 @@ abstract final class MobCopy {
   static const String joinTitle = 'You\'re invited to a Mob.';
   static String joinHeadline(MobInvitePreview p) =>
       p.inviter == null ? joinTitle : '${p.inviter} invited you to this week\'s 10-question ${p.subjectName} paper.';
-  static String joinBody(MobInvitePreview p) =>
-      'A small group sitting one 10-question ${p.subjectName} paper each week. ${p.size} of $mobMaxSize seats taken.';
+  static String joinBody(MobInvitePreview p) => p.inviter == null
+      ? 'A small group sitting one 10-question ${p.subjectName} paper each week. ${p.size} of $mobMaxSize seats taken.'
+      : 'A small group, one paper a week. ${p.size} of $mobMaxSize seats taken.';
   static const List<String> joinFacts = [
     'Same 10 questions for everyone, about 12 minutes. The paper is free of credits.',
     'You see who sat, never who didn\'t. Scores stay private unless you choose.',

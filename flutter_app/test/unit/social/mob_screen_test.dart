@@ -182,7 +182,6 @@ void main() {
         m['trap'] = null;
       }));
       expect(find.text(MobCopy.freeUsed), findsOneWidget);
-      expect(find.text(MobCopy.includedWithPro), findsOneWidget);
       expect(find.text(MobCopy.sitKey(10, 12)), findsNothing);
     });
 

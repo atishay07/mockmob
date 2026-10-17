@@ -6,8 +6,11 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
+import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
+import 'package:mockmob/features/social/data/mob_models.dart' show MobRead;
+import 'package:mockmob/features/social/data/mob_repository.dart' show mobRepositoryProvider;
 import 'package:mockmob/features/today/logic/today_model.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
 import 'package:mockmob/features/today/widgets/road_section.dart' show RoadActions;
@@ -23,7 +26,12 @@ const EdgeInsets kPhoneInsets = EdgeInsets.only(top: 32, bottom: 20);
 
 const AuthSnapshot ashaAuth = AuthSnapshot(status: AuthStatus.signedIn, userId: 'user-1', name: 'Asha Verma');
 
-List<Override> get todayOverrides => [authSnapshotProvider.overrideWithBuild((ref, notifier) => ashaAuth)];
+/// Today reads the Mob for its card: a student in no Mob (nothing read), so the card draws nothing and
+/// no network or database is touched.
+List<Override> get todayOverrides => [
+      authSnapshotProvider.overrideWithBuild((ref, notifier) => ashaAuth),
+      mobRepositoryProvider.overrideWithBuild((ref, notifier) => const RemoteState<MobRead>.idle()),
+    ];
 
 /// Saves that return at once: the road's tuners show as they do in the app.
 RoadActions get noopRoadActions => RoadActions(savePace: (_) async {}, setExamDate: (_) async {}, setMockTarget: (_) async {});

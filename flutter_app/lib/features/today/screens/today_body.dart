@@ -20,6 +20,7 @@ import '../copy.dart';
 import '../logic/today_model.dart';
 import '../logic/today_reactions.dart';
 import '../widgets/also_slots.dart';
+import '../../social/social.dart' show MobTodayBlock;
 import '../widgets/colleges_card.dart' show CollegesCardInfo, CollegesCardStatus;
 import '../widgets/move_hero.dart';
 import '../widgets/resume_hero.dart';
@@ -601,6 +602,8 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
           ),
         ),
       ],
+      // The Mob card (SOCIAL-SPEC 8, 9): only when the student is in a Mob, so it adds nothing otherwise.
+      const TodayEnter(delay: Duration(milliseconds: 260), rise: 8, child: MobTodayBlock()),
       const SizedBox(height: 28),
       TodayEnter(
         delay: const Duration(milliseconds: 280),

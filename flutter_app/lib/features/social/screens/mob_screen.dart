@@ -551,7 +551,6 @@ class _MobBodyState extends ConsumerState<MobBody> {
   List<Widget> _freeUsed() => [
         const SizedBox(height: MmSpace.s12),
         const MobNote(MobCopy.freeUsed, center: true),
-        const MobNote(MobCopy.includedWithPro, center: true),
       ];
 
   Widget _members(BuildContext context) {

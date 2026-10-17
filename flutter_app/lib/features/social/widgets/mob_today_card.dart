@@ -13,6 +13,18 @@ import '../mob_routes.dart';
 import '../screens/mob_screen.dart' show MobRingView;
 import 'mob_parts.dart';
 
+/// The card with its 28 dp lead for Today's list: nothing at all (no gap either) when the student is
+/// not in a Mob, or the Mob is off on the server.
+class MobTodayBlock extends ConsumerWidget {
+  const MobTodayBlock({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    if (ref.watch(currentMobProvider) == null) return const SizedBox.shrink();
+    return const Padding(padding: EdgeInsets.only(top: 28), child: MobTodayCard(padding: EdgeInsets.zero));
+  }
+}
+
 /// The Today Mob card (SOCIAL-SPEC section 8): only when in a Mob. The 64 dp ring, "3 of 4 sat this
 /// week", one action that does what its label says ("Sit this week's paper" opens the paper, "See
 /// your Mob" opens the page), a received note in one line, and at most one Mobi moment a week when

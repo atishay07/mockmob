@@ -160,7 +160,8 @@ void main() {
       expect(MobCopy.joinHeadline(p), MobCopy.joinTitle);
       final signedIn = MobInvitePreview.fromJson({...mobFixture('lookup_v1.json'), 'inviter': 'Riya'});
       expect(MobCopy.joinHeadline(signedIn), 'Riya invited you to this week\'s 10-question Accountancy paper.');
-      expect(MobCopy.joinBody(signedIn), 'A small group sitting one 10-question Accountancy paper each week. 3 of 5 seats taken.');
+      expect(MobCopy.joinBody(signedIn), 'A small group, one paper a week. 3 of 5 seats taken.');
+      expect(MobCopy.joinBody(p), 'A small group sitting one 10-question Accountancy paper each week. 3 of 5 seats taken.');
     });
 
     test('a blocked free paper reads as used, never as an error', () {
