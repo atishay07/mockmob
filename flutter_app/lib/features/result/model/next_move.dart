@@ -463,7 +463,7 @@ ResultMove nextMove({
       alt: top == null
           ? null
           : MoveAlt(kind: AltKind.practise, label: 'Practise ${NextMoveRules.setSize} on ${top.chapter} instead', chapter: top.chapter),
-      note: left <= NextMoveRules.fewRepairs && left > 1 ? 'All $left repairs take about ${allRepairMinutes(left)} minutes.' : null,
+      note: left <= NextMoveRules.fewRepairs && left > 1 ? '${left == 2 ? 'Both' : 'All $left'} repairs take about ${allRepairMinutes(left)} minutes.' : null,
       qid: r.qid,
       number: r.number,
       chapter: r.chapter,

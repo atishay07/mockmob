@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/domain/domain.dart';
 import 'package:mockmob/core/models/models.dart';
-import 'package:mockmob/features/result/copy.dart';
 import 'package:mockmob/features/result/data/result_providers.dart';
 import 'package:mockmob/features/result/full/full_sections.dart';
 import 'package:mockmob/features/result/model/recap_model.dart' show RecapModel;

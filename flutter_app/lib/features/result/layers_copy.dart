@@ -14,6 +14,9 @@ abstract final class LayersCopy {
     MoveKind.harder => 'Why a harder paper',
   };
 
+  /// The cost line under the foot key, broken at its sentence so the promise never leaves one word on a line.
+  static String? footNote(String? cost) => cost?.replaceFirst('. No charge', '.\nNo charge');
+
   /// The foot key while a repair needs the network and there is none.
   static const repairsNeedConnection = 'Repairs need a connection';
 
@@ -21,8 +24,7 @@ abstract final class LayersCopy {
 
   static const inRepairOrder = 'In repair order: the ones most other students got right come first. Repaired ones say whether the fix held.';
   static const inPaperOrder = 'In paper order. Repaired ones say whether the fix held.';
-  static const noAnswers = 'No answers to repair.';
-  static const noMistakes = 'No mistakes to repair.';
+  static const noAnswersTitle = 'No answers to repair';
   static String showAll(int n) => 'Show all $n';
   static const showFewer = 'Show fewer';
 
@@ -51,6 +53,7 @@ abstract final class LayersCopy {
   static String repairOffer(String? letter) =>
       'A repair gives you why ${letter ?? 'your answer'} looked right, why the answer is right and one rule to keep, then a new question to check it held.';
   static String repairKey(int number) => 'Repair Q$number';
+  static String repairBelow(int number) => 'The Repair Q$number key below starts it.';
   static const repairedLine = 'Repaired. Your repair is saved, so opening it again costs nothing.';
   static const openRepair = 'Open your repair';
   static const heldLine = 'Check it held: right. The fix held on a new question.';

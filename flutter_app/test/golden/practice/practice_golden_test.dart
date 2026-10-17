@@ -349,10 +349,11 @@ void main() {
         await _typed(tester);
         final row = find.byType(MistakeSummary).first;
         await tester.scrollUntilVisible(row, 200, scrollable: find.byType(Scrollable).first);
+        await Scrollable.ensureVisible(tester.element(row), alignment: 0.2);
+        await tester.pump();
         await tester.tap(row);
         await _settle(tester);
-        await tester.scrollUntilVisible(find.text('Correct answer'), 200, scrollable: find.byType(Scrollable).first);
-        await tester.drag(find.byType(Scrollable).first, const Offset(0, -260));
+        await Scrollable.ensureVisible(tester.element(find.byType(MistakeSummary).first), alignment: 0.0);
         await _settle(tester);
         await _shot(tester, 'result_mistake_open', b);
       });

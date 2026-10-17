@@ -106,7 +106,7 @@ void main() {
     expect(find.text('Admission of a partner. You picked B.'), findsOneWidget);
     // No check question is promised until the Lab says one is ready (RESULT-1017 4.4).
     expect(find.textContaining('A repair gives you why B looked right, the trap'), findsOneWidget);
-    expect(find.text('1 AI credit. You have 68. No charge if the repair cannot be written.'), findsOneWidget);
+    expect(find.text('1 AI credit. You have 68.\nNo charge if the repair cannot be written.'), findsOneWidget);
     // 11 PM: one plain line, never a sleeping figure.
     expect(find.text('It is late. One repair is enough for tonight.'), findsOneWidget);
     expect(find.text('Practise 10 on Admission of a partner instead'), findsOneWidget);
@@ -191,7 +191,7 @@ void main() {
     final router = await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(all)));
     await tester.pump(const Duration(milliseconds: 900));
     expect(find.text('Every question right.'), findsOneWidget);
-    expect(find.text('No mistakes to repair.'), findsOneWidget);
+    expect(find.text('No mistakes to repair'), findsOneWidget);
     expect(find.widgetWithText(KeyButton, 'Practise 10 harder in Accountancy'), findsOneWidget);
     await tester.tap(find.widgetWithText(KeyButton, 'Practise 10 harder in Accountancy'));
     await tester.pump(const Duration(milliseconds: 500));

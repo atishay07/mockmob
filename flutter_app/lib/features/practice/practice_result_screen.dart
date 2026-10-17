@@ -583,7 +583,7 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
                     primary: ResultFootAction(
                       move.label,
                       () => _go(MoveNav.forMove(move, attemptId: attempt.id, subject: subjectId)),
-                      note: move.cost,
+                      note: LayersCopy.footNote(move.cost),
                     ),
                     showFinish: !large,
                     onFinish: _finish,

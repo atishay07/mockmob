@@ -16,6 +16,7 @@ import 'package:mockmob/features/practice/data/practice_catalog.dart' show fallb
 import 'package:mockmob/features/practice/data/result_actions.dart';
 import 'package:mockmob/features/practice/practice_routes.dart';
 import 'package:mockmob/features/practice/widgets/subject_tiles.dart';
+import 'package:mockmob/features/result/widgets/mistake_row.dart' show MistakeSummary;
 
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart' show settleImages;
@@ -201,8 +202,17 @@ void main() {
         const replay = ReplayInventory(supported: true, chapters: [ReplayChapter(chapter: 'Admission of a partner', available: true)]);
         await _pump(tester, '/practice/result/p1', b, resultOverrides(attemptId: 'p1', detail: _detail(recovery: _telemetry()), replay: replay));
         await _settle(tester);
-        await tester.scrollUntilVisible(find.text('What this set shows'), 300, scrollable: find.byType(Scrollable).first);
-        await tester.drag(find.byType(Scrollable).first, const Offset(0, -120));
+        // What the set shows and the proof set live in their folds (RESULT-1017 layer 4): open both.
+        final page = find.byType(Scrollable).first;
+        for (final title in ['Where the marks went', 'Your rule and proof it stuck']) {
+          await tester.scrollUntilVisible(find.text(title), 300, scrollable: page);
+          await Scrollable.ensureVisible(tester.element(find.text(title)), alignment: 0.3);
+          await tester.pump();
+          await tester.tap(find.text(title));
+          await _settle(tester, ms: 600);
+        }
+        await tester.scrollUntilVisible(find.text('What this set shows'), 300, scrollable: page);
+        await Scrollable.ensureVisible(tester.element(find.text('What this set shows')), alignment: 0.1);
         await _settle(tester, ms: 600);
         await _shot(tester, 'result_analysis', b);
       });
@@ -210,7 +220,12 @@ void main() {
       testWidgets('result, an open wrong answer with its time, change and report key', (tester) async {
         await _pump(tester, '/practice/result/p1', b, resultOverrides(attemptId: 'p1', detail: _detail(recovery: _telemetry())));
         await _settle(tester);
-        await tester.drag(find.byType(Scrollable).first, const Offset(0, -640));
+        // A mistake opens on a tap: its time, its change, the free answer, then the repair entry.
+        final row = find.byType(MistakeSummary).first;
+        await tester.scrollUntilVisible(row, 300, scrollable: find.byType(Scrollable).first);
+        await Scrollable.ensureVisible(tester.element(row), alignment: 0.0);
+        await tester.pump();
+        await tester.tap(row);
         await _settle(tester, ms: 600);
         await _shot(tester, 'result_open_answer', b);
       });

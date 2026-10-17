@@ -55,18 +55,21 @@ class MistakesHead extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.baseline,
           textBaseline: TextBaseline.alphabetic,
           children: [
-            Expanded(child: Semantics(header: true, child: Text(head.title, style: type.title.copyWith(fontSize: 20)))),
+            Expanded(
+              child: Semantics(
+                header: true,
+                child: Text(count == 0 && nothingAnswered ? LayersCopy.noAnswersTitle : head.title, style: type.title.copyWith(fontSize: 20)),
+              ),
+            ),
             if (head.side != null)
               Text(head.side!, style: type.small.copyWith(color: colors.ink2, fontFeatures: const [FontFeature.tabularFigures()])),
           ],
         ),
-        const SizedBox(height: MmSpace.s4),
-        Text(
-          count == 0
-              ? (nothingAnswered ? LayersCopy.noAnswers : LayersCopy.noMistakes)
-              : (cohort ? LayersCopy.inRepairOrder : LayersCopy.inPaperOrder),
-          style: type.small.copyWith(color: colors.ink2),
-        ),
+        // With nothing to repair the heading says it all; a second line would only repeat it.
+        if (count > 0) ...[
+          const SizedBox(height: MmSpace.s4),
+          Text(cohort ? LayersCopy.inRepairOrder : LayersCopy.inPaperOrder, style: type.small.copyWith(color: colors.ink2)),
+        ],
       ],
     );
   }
@@ -320,6 +323,11 @@ class MistakeRepairEntry extends StatelessWidget {
       );
     }
     if (onRepair == null) return const SizedBox.shrink();
+    // The next move's own mistake: the foot's volt key repairs it, with the cost under it, so the row only says what a
+    // repair gives (one key for one action on the screen).
+    if (status == MistakeStatus.repairFirst) {
+      return Text('${LayersCopy.repairOffer(letter)} ${LayersCopy.repairBelow(number)}', style: type.small.copyWith(color: colors.ink));
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [

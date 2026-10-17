@@ -659,7 +659,7 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                       primary: ResultFootAction(
                         move.label,
                         () => _go(MoveNav.forMove(move, attemptId: id, subject: model.subjectId)),
-                        note: move.cost,
+                        note: LayersCopy.footNote(move.cost),
                       ),
                       showFinish: false,
                     ),
