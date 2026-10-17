@@ -237,9 +237,34 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 | M-001..M-027 | All | Missed asks from the 12-17 Oct corpus: `MISSED-ASKS-2026-10-18.md` (M-001 logo 3 s and M-006 "exciting copy" need his decision; M-018: end every update with "Things needed from you right now" or "Nothing needed from your side"; M-020: his stop rule is about 97-98% usage) | fold in next session |
 | D19, D8 | Progress, icons | `BADGES-ICONS-1018.md`: recommend removing badges for a dated record with real numbers; one Lucide icon family, phone bar fixed | show him |
 
-## Waiting on the owner
-- D21: community, suspend or keep.
-- D5 and D6 transcription confirms ("Repo S" = Repairs? "Ask" = Ask Mobi?).
-- Mock-up approval for the new Today (D1-D3) and Ask Mobi (D6) before building.
-- Play Console account and upload key; Anthropic key; Avast HTTPS-scanning exception (the 3 am TLS failure).
-- 112 held questions; a Hindi reviewer; free first Repair; the Mob card placement on Today.
+### Missed asks folded in, 18 Oct about 3:45 am IST (from `MISSED-ASKS-2026-10-18.md`; his words and code checks are there)
+| Id | Surface | Item | Status |
+|---|---|---|---|
+| M-001 | App, brand opening | "why is the 3-second logo not up?" The logo B opening exists at about 1.3 s | DECIDE (asked 18 Oct 3:45 am) |
+| M-002 | App, copy | Unlimited mocks from one central bank, said truthfully and quietly in the app (onboarding, plan, credits) | OPEN |
+| M-003 | App and web, NTA | A brief interruption of 3 s or less (the notification shade) is forgiven; a deliberate switch counts at once; three warnings, no other grace | OPEN (with W-023) |
+| M-004 | Both | A feature-by-feature robustness walk: no crash, dead button or lost state | OPEN (the v15 walk and the live W re-audit) |
+| M-005 | App | Every decorative dot or indicator carries real information or is reworked so it does | OPEN |
+| M-006 | Copy | "exciting copy, captions" in place of the disclaimers, versus W-093's "no hype" | DECIDE (asked 18 Oct 3:45 am) |
+| M-007 | Compass data | Verify programmes, counts and cutoffs against the CSAS and DU sources; record the source and date | OPEN |
+| M-008 | Content | His 10/10 question definition goes into the judge rubric (content runs only when he asks) | OPEN |
+| M-009 | Landing, onboarding | Video or scroll-animation ideas: storyboards for the top two, he picks | OPEN (with Higgsfield) |
+| M-010 | Backend | A migration so the repo matches production's removed AI ceiling; a rebuild must not restore the USD 25 cap | OPEN |
+| M-011 | Ops | Delete the duplicate paused Vercel projects (he said six; the records name five). He clicks, or gives a fresh go-ahead | OPEN, his click |
+| M-012 | App | The notification prompt returns on a cadence with varied wording | mostly DONE |
+| M-013 | App | Study days readable offline | OPEN, low |
+| M-027 | App | Answer once with evidence: is the low quality the emulator or the build? | OPEN |
+| M-014, M-015, M-016 | Rules | No iOS until students ask; no cap on agent-written questions per paper; any new mascot or art reads as edtech, is original and is legally safe | RULE |
+
+**Process rules from the missed asks** (apply to every session):
+- **M-018:** every update to him ends with either **"Things needed from you right now:"** followed by the items, or **"Nothing needed from your side."**
+- **M-021:** near a usage reset, with quota left, run the most parallel work. Watch for stalled agents throughout; the main session monitors them continuously.
+- **M-023:** every next-session prompt has one goal and points to NOW.md and this ledger.
+- **M-025:** never let one track eat hours while other open asks sit; app work runs in parallel with web work.
+- **M-019:** while he sleeps, never block on a question; find a workaround.
+
+## Waiting on the owner (updated 18 Oct about 3:45 am)
+- M-001 (logo opening length), M-006 (copy tone), D19 (badges), D22 (the social side's name): asked at 3:45 am.
+- D32: confirm the kept landing element when he reviews the port live (wt-land3, port 3206).
+- The icons (D8): the proposal is in BADGES-ICONS-1018; it ships with the next app nav change, unless he objects.
+- Play Console account and upload key; Anthropic key; Avast HTTPS-scanning exception; 112 held questions; a Hindi reviewer; free first Repair; M-011 Vercel duplicates (his click).
