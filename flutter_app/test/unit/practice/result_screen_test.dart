@@ -1,3 +1,5 @@
+// The practice result in four layers (RESULT-1017, packet A1): what happened in one glance, the one next move, the
+// mistakes with their repair inline, and everything else folded under plain names.
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -7,11 +9,15 @@ import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/api/api.dart';
 import 'package:mockmob/core/models/attempt.dart';
 import 'package:mockmob/core/repositories/attempts_repository.dart' show attemptDetailProvider;
-import 'package:mockmob/core/widgets/widgets.dart' show KeyButton, MobiCharacter, QuestionStrip;
-import 'package:mockmob/features/practice/practice_result_screen.dart' show PracticeResultScreen;
-import 'package:mockmob/features/practice/widgets/finish_stage.dart';
+import 'package:mockmob/core/widgets/widgets.dart' show KeyButton, Mobi, MobiCharacter;
+import 'package:mockmob/features/credits/data/credit_figures.dart' show CreditFigures;
 import 'package:mockmob/features/practice/data/result_actions.dart';
+import 'package:mockmob/features/practice/practice_result_screen.dart' show PracticeResultScreen;
 import 'package:mockmob/features/practice/practice_routes.dart';
+import 'package:mockmob/features/practice/widgets/numbered_sheet.dart' show NumberedSheet;
+import 'package:mockmob/features/result/widgets/fold_section.dart' show FoldMemory;
+import 'package:mockmob/features/result/widgets/mistake_row.dart' show MistakeRepairEntry, MistakeSummary;
+import 'package:mockmob/features/result/widgets/result_head.dart' show ResultHead;
 
 import '../../helpers/fonts.dart';
 import '../core_data/support/fixtures.dart';
@@ -24,6 +30,7 @@ List<GoRoute> _routes() => [
   stubRoute('/practice/setup/:mode'),
   stubRoute('/review/repair/:attemptId/:questionId'),
   stubRoute('/practice/start'),
+  stubRoute('/you/credits'),
 ];
 
 AttemptDetail detailOf(List<(String, V)> questions, {Map<String, dynamic>? reviews, String state = 'ready'}) => AttemptDetail.fromJson({
@@ -38,53 +45,102 @@ final _mixed = [
   ('Admission of a partner', V.blank),
 ];
 
-Future<GoRouter> pumpResult(WidgetTester tester, List<dynamic> overrides) =>
-    pumpRouted(tester, location: '/practice/result/p1', routes: _routes(), overrides: List.castFrom(overrides));
+Future<GoRouter> pumpResult(WidgetTester tester, List<dynamic> overrides) {
+  FoldMemory.instance.reset();
+  addTearDown(FoldMemory.instance.reset);
+  return pumpRouted(tester, location: '/practice/result/p1', routes: _routes(), overrides: List.castFrom(overrides));
+}
+
+Finder get _page => find.byType(Scrollable).first;
+
+/// Real frames, so a fold or a row that opens has grown to its full height.
+Future<void> frames(WidgetTester tester, {int ms = 500}) async {
+  for (var t = 0; t < ms; t += 16) {
+    await tester.pump(const Duration(milliseconds: 16));
+  }
+}
+
+/// Scrolls [finder] into the middle of the list, clear of the pinned foot.
+Future<void> bringIn(WidgetTester tester, Finder finder) async {
+  await tester.scrollUntilVisible(finder.first, 200, scrollable: _page);
+  await Scrollable.ensureVisible(tester.element(finder.first), alignment: 0.3);
+  await tester.pump(const Duration(milliseconds: 100));
+}
+
+/// Taps the closed face of mistake [number] open.
+Future<void> openMistake(WidgetTester tester, int number) async {
+  final row = find.byWidgetPredicate((w) => w is MistakeSummary && w.number == number);
+  await bringIn(tester, row);
+  await tester.tap(row);
+  await frames(tester);
+}
 
 void main() {
   setUpAll(loadAppFonts);
 
-  testWidgets('shows 8 of 10 correct, wrong and not attempted apart, the chapter and the receipt', (tester) async {
+  testWidgets('one glance: one receipt, the marks with their denominator, the counts, the costliest chapter, and no Mobi', (tester) async {
     final semantics = tester.ensureSemantics();
     await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(_mixed), chapter: 'Admission of a partner'));
-    await tester.pump(const Duration(milliseconds: 500));
-    expect(find.bySemanticsLabel(RegExp('8 of 10 correct')), findsWidgets);
-    expect(find.text('8 right, 1 wrong, 1 not attempted'), findsOneWidget);
-    expect(find.text('Accountancy practice, Admission of a partner'), findsOneWidget);
-    // A By-chapter run: the receipt names the chapter as the page does.
-    expect(find.text('Chapter practice finished, Admission of a partner. Recorded at 11:51 PM.'), findsOneWidget);
-    // 8 right, 1 wrong: 39 of 50; the wrong answer cost 6 of the 11 marks missed.
-    expect(find.text('39 of 50 marks. 1 wrong answer cost 6 of the 11 marks you missed.'), findsOneWidget);
-    expect(find.text('Repair 1 mistake'), findsWidgets);
+    await tester.pump(const Duration(milliseconds: 900));
+    // The one receipt: no "Practice finished", no "Saved", no second submitted line (F11).
+    expect(find.text('Accountancy practice. Recorded 11:51 PM.'), findsOneWidget);
+    expect(find.textContaining('finished'), findsNothing);
+    expect(find.textContaining('Submitted'), findsNothing);
+    // 8 right, 1 wrong: 39 of 50 marks.
+    expect(find.bySemanticsLabel('39 of 50 marks'), findsWidgets);
+    expect(find.bySemanticsLabel('8 right, 1 wrong, 1 blank'), findsOneWidget);
+    expect(find.text('Admission of a partner cost 11 of the 11 marks you missed.'), findsOneWidget);
+    expect(find.text('1 wrong and 1 left blank, of 10 questions.'), findsOneWidget);
+    // No Mobi on the result: no sleepy one, no speech bubble, no reader.
+    expect(find.byType(Mobi), findsNothing);
+    expect(find.byType(MobiCharacter), findsNothing);
     expect(find.text('Finish for now'), findsWidgets);
-    expect(find.text('Wrong answers (1)'), findsOneWidget);
-    expect(find.text('Not attempted (1)'), findsOneWidget);
-    expect(find.text('Correct (8)'), findsOneWidget);
     semantics.dispose();
+  });
+
+  testWidgets('one next move: the foot key, why, what a repair gives and its cost before paying, and the late hour in words', (tester) async {
+    await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(_mixed), credits: const CreditFigures(ai: 68, practice: 40)));
+    await tester.pump(const Duration(milliseconds: 900));
+    expect(find.widgetWithText(KeyButton, 'Repair Q9'), findsOneWidget);
+    expect(find.text('Why Q9 first'), findsOneWidget);
+    expect(find.text('Admission of a partner. You picked B.'), findsOneWidget);
+    // No check question is promised until the Lab says one is ready (RESULT-1017 4.4).
+    expect(find.textContaining('A repair gives you why B looked right, the trap'), findsOneWidget);
+    expect(find.text('1 AI credit. You have 68. No charge if the repair cannot be written.'), findsOneWidget);
+    // 11 PM: one plain line, never a sleeping figure.
+    expect(find.text('It is late. One repair is enough for tonight.'), findsOneWidget);
+    expect(find.text('Practise 10 on Admission of a partner instead'), findsOneWidget);
   });
 
   testWidgets('the receipt waits for the time the server acknowledged; it never shows the attempt time meanwhile', (tester) async {
     final gate = Completer<DateTime?>();
     await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(_mixed), receivedLater: gate.future));
     await tester.pump(const Duration(milliseconds: 500));
-    expect(find.textContaining('Recorded at'), findsNothing);
+    expect(find.textContaining('Recorded'), findsNothing);
     gate.complete(DateTime(2026, 10, 12, 23, 53));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 100));
-    expect(find.text('Practice finished. Recorded at 11:53 PM.'), findsOneWidget);
+    expect(find.text('Accountancy practice. Recorded 11:53 PM.'), findsOneWidget);
   });
 
-  testWidgets('the first wrong answer is open with its key and explanation, with no raster art', (tester) async {
+  testWidgets('the mistakes: in paper order, priced in marks, each opening to its key, explanation and repair entry', (tester) async {
     await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(_mixed)));
-    await tester.pump(const Duration(milliseconds: 500));
-    expect(find.text('Question 9, Wrong'), findsOneWidget);
+    await tester.pump(const Duration(milliseconds: 900));
+    expect(find.text('Your 1 mistake'), findsOneWidget);
+    expect(find.text('−6 marks'), findsOneWidget);
+    expect(find.text('In paper order. Repaired ones say whether the fix held.'), findsOneWidget);
+    expect(find.text('Repair first'), findsOneWidget, reason: 'the volt key\'s target wears its chip');
+    // Closed until tapped: the key opens it.
+    expect(find.text('Your answer'), findsNothing);
+    await openMistake(tester, 9);
     expect(find.text('Your answer'), findsOneWidget);
     expect(find.text('Correct answer'), findsOneWidget);
     expect(find.text('Because 8.'), findsOneWidget);
+    expect(find.textContaining('then a new question to check it held'), findsOneWidget);
     expect(find.byType(Image), findsNothing);
   });
 
-  testWidgets('a held review shows no key and no explanation', (tester) async {
+  testWidgets('a held review shows no key, no explanation and no repair, and the head says so once', (tester) async {
     final detail = detailOf(
       _mixed,
       reviews: {
@@ -92,35 +148,37 @@ void main() {
       },
     );
     await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detail));
-    await tester.pump(const Duration(milliseconds: 500));
+    await tester.pump(const Duration(milliseconds: 900));
+    expect(find.text("Q9's answer key is being re-checked. It is left out of repairs until the check ends."), findsOneWidget);
+    expect(find.text('Key being re-checked'), findsOneWidget);
+    expect(find.widgetWithText(KeyButton, 'Repair Q9'), findsNothing);
+    await openMistake(tester, 9);
     expect(find.text('The answer for this question is being checked, so it is not shown yet.'), findsOneWidget);
     expect(find.text('Correct answer'), findsNothing);
     expect(find.text('Because 8.'), findsNothing);
   });
 
   testWidgets('unavailable reviews mean no keys at all', (tester) async {
-    await pumpResult(
-      tester,
-      resultOverrides(
-        attemptId: 'p1',
-        detail: detailOf(_mixed, state: 'unavailable'),
-      ),
-    );
-    await tester.pump(const Duration(milliseconds: 500));
+    await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(_mixed, state: 'unavailable')));
+    await tester.pump(const Duration(milliseconds: 900));
+    await openMistake(tester, 9);
     expect(find.text('Answers and explanations are not available for this result right now.'), findsOneWidget);
     expect(find.text('Correct answer'), findsNothing);
   });
 
-  testWidgets('not attempted questions are listed apart with Try it again, never a repair key', (tester) async {
+  testWidgets('blanks fold under one priced row, open with Try it again, and never offer a repair', (tester) async {
     await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(_mixed)));
-    await tester.pump(const Duration(milliseconds: 500));
-    await tester.ensureVisible(find.text('Question 10, Not attempted'));
-    await tester.pump(const Duration(milliseconds: 300));
+    await tester.pump(const Duration(milliseconds: 900));
+    final blanks = find.text('1 left blank, 5 marks not earned');
+    await bringIn(tester, blanks);
+    expect(find.text('Question 10, Not attempted'), findsNothing);
+    await tester.tap(blanks);
+    await frames(tester);
+    await bringIn(tester, find.text('Question 10, Not attempted'));
     await tester.tap(find.text('Question 10, Not attempted'));
     await tester.pump(const Duration(milliseconds: 300));
     expect(find.text('You did not answer this question.'), findsOneWidget);
-    expect(find.text('Try it again'), findsWidgets);
-    expect(find.text('Correct answer'), findsNWidgets(1)); // only the open wrong row shows its key
+    expect(find.byType(MistakeRepairEntry), findsNothing);
     await tester.ensureVisible(find.text('Try it again').first);
     await tester.pump(const Duration(milliseconds: 300));
     await tester.tap(find.text('Try it again').first);
@@ -128,13 +186,37 @@ void main() {
     expect(find.text('This try stays on your phone.'), findsOneWidget);
   });
 
-  testWidgets('with no wrong answer the primary key is Practice another chapter', (tester) async {
+  testWidgets('every question right: a harder set is the move, and the mistakes say there are none', (tester) async {
     final all = [for (var i = 0; i < 10; i++) ('Goodwill', V.right)];
-    await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(all)));
+    final router = await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(all)));
+    await tester.pump(const Duration(milliseconds: 900));
+    expect(find.text('Every question right.'), findsOneWidget);
+    expect(find.text('No mistakes to repair.'), findsOneWidget);
+    expect(find.widgetWithText(KeyButton, 'Practise 10 harder in Accountancy'), findsOneWidget);
+    await tester.tap(find.widgetWithText(KeyButton, 'Practise 10 harder in Accountancy'));
     await tester.pump(const Duration(milliseconds: 500));
-    expect(find.text('Practice another chapter'), findsWidgets);
-    expect(find.textContaining('Review'), findsNothing);
-    expect(find.text('10 right. Nothing wrong, nothing left out.'), findsOneWidget);
+    expect(router.state.uri.path, '/practice/start');
+    expect(router.state.uri.queryParameters['difficulty'], 'hard');
+  });
+
+  testWidgets('a weak set: a chapter set before single repairs, with its cost and balance', (tester) async {
+    final weak = [
+      ('Goodwill', V.right),
+      ('Goodwill', V.right),
+      for (var i = 0; i < 6; i++) ('Goodwill', V.wrong),
+      ('Admission of a partner', V.wrong),
+      ('Admission of a partner', V.blank),
+    ];
+    final router = await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(weak), credits: const CreditFigures(ai: 68, practice: 40)));
+    await tester.pump(const Duration(milliseconds: 900));
+    expect(find.widgetWithText(KeyButton, 'Practise 10 on Goodwill'), findsOneWidget);
+    expect(find.text('Why this chapter first'), findsOneWidget);
+    expect(find.text('Goodwill: most answers in this chapter were wrong, so a chapter set comes before repairing single mistakes.'), findsOneWidget);
+    expect(find.text('This set uses 10 practice credits. You have 40.'), findsOneWidget);
+    await tester.tap(find.widgetWithText(KeyButton, 'Practise 10 on Goodwill'));
+    await tester.pump(const Duration(milliseconds: 500));
+    expect(router.state.uri.path, '/practice/start');
+    expect(router.state.uri.queryParameters, {'mode': 'chapter', 'subject': 'accountancy', 'count': '10', 'chapter': 'Goodwill'});
   });
 
   testWidgets('Finish for now ends with one plain line, then returns to Today', (tester) async {
@@ -143,7 +225,6 @@ void main() {
     await tester.tap(find.text('Finish for now'));
     await tester.pump();
     expect(find.text('Practice finished. Recorded at 11:51 PM.'), findsOneWidget);
-    expect(find.text('Review 1 wrong answer'), findsNothing);
     await tester.pump(const Duration(milliseconds: 1700));
     await tester.pump(const Duration(milliseconds: 300));
     expect(router.state.uri.path, '/today');
@@ -188,54 +269,31 @@ void main() {
     expect(find.text('Showing what was last loaded at 10:44 PM.'), findsOneWidget);
   });
 
-  testWidgets('every row is a labelled 44 dp or larger target', (tester) async {
+  testWidgets('every mistake row is a labelled 48 dp or larger target', (tester) async {
     final semantics = tester.ensureSemantics();
     await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(_mixed)));
-    await tester.pump(const Duration(milliseconds: 500));
-    final row = find.bySemanticsLabel(RegExp(r'^Question 9, Wrong'));
+    await tester.pump(const Duration(milliseconds: 900));
+    final row = find.bySemanticsLabel(RegExp(r'^Question 9, Admission of a partner, B yours'));
     expect(row, findsOneWidget);
-    expect(tester.getSize(row).height, greaterThanOrEqualTo(44));
+    expect(tester.getSize(row).height, greaterThanOrEqualTo(48));
     semantics.dispose();
   });
 
-  testWidgets('straight after the submit the sheet inks in, the figure counts up and Mobi reacts; a tap skips', (tester) async {
+  testWidgets('straight after the submit the score counts up and the layers below arrive after it', (tester) async {
     final pending = FakePendingResults()..receivedAt = DateTime(2026, 10, 12, 23, 51);
     await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(_mixed), pending: pending));
     await tester.pump();
     await tester.pump();
-    // At the start nothing is inked yet and Mobi has not spoken.
     expect(find.text('0'), findsOneWidget);
-    expect(find.textContaining('Most of this set'), findsNothing);
     await tester.pump(const Duration(milliseconds: 420));
     await tester.pump(const Duration(milliseconds: 420));
     await tester.pump(const Duration(milliseconds: 600));
-    expect(find.text('8'), findsOneWidget);
-    // Opened once: the result is marked opened only after the moment read that it was fresh.
+    expect(find.text('39'), findsOneWidget);
+    // Opened once: the result is marked opened only after the arrival read that it was fresh.
     expect(pending.opened, ['p1']);
   });
 
-  testWidgets('a tap on the moment skips to the end', (tester) async {
-    final pending = FakePendingResults()..receivedAt = DateTime(2026, 10, 12, 23, 51);
-    await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(_mixed), pending: pending));
-    await tester.pump();
-    await tester.pump();
-    await tester.tap(find.text('8 right, 1 wrong, 1 not attempted'));
-    await tester.pump();
-    expect(find.text('8'), findsOneWidget);
-  });
-
-  testWidgets('a wrong answer offers Repair, which opens Mistake Repair for this set', (tester) async {
-    final router = await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(_mixed)));
-    await tester.pump(const Duration(milliseconds: 500));
-    await tester.tap(find.text('Repair 1 mistake'));
-    await tester.pump(const Duration(milliseconds: 500));
-    expect(router.state.uri.path, '/review/repair/p1/p1-q9');
-    expect(router.state.uri.queryParameters['count'], '1');
-  });
-
-  testWidgets('5 wrong answers across chapters: the key names the one run it opens and says where the rest are', (tester) async {
-    // The demo's paper: wrong answers in three chapters. A repair run covers one chapter of one
-    // paper, so the key counts that chapter (Planning, 2) and the caption says the other 3 stay in Review.
+  testWidgets('the foot key opens that one repair; the alternative starts the chapter set', (tester) async {
     final questions = <(String, V)>[
       ('Nature of management', V.right),
       ('Principles of management', V.wrong),
@@ -249,25 +307,33 @@ void main() {
       ('Nature of management', V.right),
     ];
     final router = await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(questions)));
-    await tester.pump(const Duration(milliseconds: 500));
-    // The key says what it opens in the words every repair key uses: the count, the chapter, the
-    // minutes and what stays in Review.
-    expect(find.text('Repair 2 mistakes'), findsWidgets);
-    expect(find.text('Repair 5 mistakes'), findsNothing);
-    expect(find.text('Planning, about 10 minutes. The other 3 are in Review.'), findsOneWidget);
-    await tester.tap(find.text('Repair 2 mistakes'));
+    await tester.pump(const Duration(milliseconds: 900));
+    // Planning and Staffing each cost 12; Planning comes first in the paper, so its first mistake leads.
+    expect(find.text('Planning cost 12 of the 30 marks you missed.'), findsOneWidget);
+    expect(find.widgetWithText(KeyButton, 'Repair Q4'), findsOneWidget);
+    expect(find.text('All 5 repairs take about 15 minutes.'), findsOneWidget);
+    expect(find.text('Your 5 mistakes'), findsOneWidget);
+    expect(find.byType(MistakeSummary), findsNWidgets(4), reason: 'four show; "Show all 5" opens the last');
+    expect(find.text('Show all 5'), findsOneWidget);
+    expect(find.text('Practise 10 on Planning instead'), findsOneWidget);
+    await tester.tap(find.widgetWithText(KeyButton, 'Repair Q4'));
     await tester.pump(const Duration(milliseconds: 500));
     expect(router.state.uri.path, '/review/repair/p1/p1-q4');
-    expect(router.state.uri.queryParameters['count'], '2');
+    expect(router.state.uri.queryParameters['count'], '1');
   });
 
-  testWidgets('with fresh questions ready the Prove step starts 5 in that chapter for this attempt', (tester) async {
+  testWidgets('with fresh questions ready the proof fold starts 5 in that chapter for this attempt', (tester) async {
     const replay = ReplayInventory(supported: true, chapters: [ReplayChapter(chapter: 'Admission of a partner', available: true)]);
     final router = await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(_mixed), replay: replay));
-    await tester.pump(const Duration(milliseconds: 500));
-    await tester.scrollUntilVisible(find.text('Prove the repair'), 200, scrollable: find.byType(Scrollable).first);
-    await tester.drag(find.byType(Scrollable).first, const Offset(0, -200));
-    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 900));
+    final fold = find.text('Your rule and proof it stuck');
+    await bringIn(tester, fold);
+    expect(find.text('Five new questions on Admission of a partner show whether a fix held.'), findsOneWidget);
+    await tester.tap(fold);
+    await frames(tester);
+    await bringIn(tester, find.widgetWithText(KeyButton, 'Try 5 fresh questions'));
+    // A key that has just come into view takes taps after its short lock.
+    await tester.pump(const Duration(seconds: 1));
     await tester.tap(find.widgetWithText(KeyButton, 'Try 5 fresh questions').first);
     await tester.pump(const Duration(milliseconds: 500));
     expect(router.state.uri.path, '/practice/start');
@@ -280,35 +346,40 @@ void main() {
     });
   });
 
-  testWidgets('no fresh set ready, or an unsupported subject: no Prove step and no promise', (tester) async {
+  testWidgets('no fresh set ready, or an unsupported subject: no proof fold and no promise', (tester) async {
     await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(_mixed), replay: const ReplayInventory(supported: false)));
-    await tester.pump(const Duration(milliseconds: 500));
-    await tester.scrollUntilVisible(find.text('One question not attempted'), 200, scrollable: find.byType(Scrollable).first);
-    expect(find.text('Prove the repair'), findsNothing);
+    await tester.pump(const Duration(milliseconds: 900));
+    await tester.scrollUntilVisible(find.text('Every answer, all 10'), 200, scrollable: _page);
+    expect(find.text('Your rule and proof it stuck'), findsNothing);
   });
 
-  testWidgets('blanks are named with the questions behind them, and Show me opens the first', (tester) async {
+  testWidgets('what this set shows sits in its fold, and Show me opens the question it names', (tester) async {
     await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(_mixed)));
-    await tester.pump(const Duration(milliseconds: 500));
-    await tester.scrollUntilVisible(find.text('One question not attempted'), 200, scrollable: find.byType(Scrollable).first);
+    await tester.pump(const Duration(milliseconds: 900));
+    final fold = find.text('Where the marks went');
+    await bringIn(tester, fold);
+    expect(find.text('8 of 9 answered were right.'), findsOneWidget);
+    await tester.tap(fold);
+    await frames(tester);
+    await tester.scrollUntilVisible(find.text('One question not attempted'), 200, scrollable: _page);
     expect(find.text('What this set shows'), findsOneWidget);
-    expect(find.text('Question 10'), findsOneWidget);
-    // Sentence case, like the rest of the page: no tracked capitals (walk-through P3-5).
-    expect(find.text('Not attempted'), findsOneWidget);
     expect(find.text('BLANKS'), findsNothing);
   });
 
-  testWidgets('the answer sheet of ten bubbles sits in the middle of its card (walk-through P3-7)', (tester) async {
+  testWidgets('every answer: the sheet and the right answers, nothing lost', (tester) async {
     await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(_mixed)));
-    await tester.pump(const Duration(milliseconds: 500));
-    final strip = tester.getRect(find.byType(QuestionStrip).first);
-    final card = tester.getRect(find.ancestor(of: find.byType(QuestionStrip).first, matching: find.byType(DecoratedBox)).first);
-    const pad = 16.0;
-    expect(strip.left - card.left, closeTo(pad, 0.5), reason: 'the first bubble starts at the card padding');
-    expect(card.right - strip.right, closeTo(pad, 0.5), reason: 'and the last one ends at the same distance from the right');
+    await tester.pump(const Duration(milliseconds: 900));
+    final fold = find.text('Every answer, all 10');
+    await bringIn(tester, fold);
+    expect(find.text('8 right, 1 wrong, 1 blank. Tap a bubble to open its question.'), findsOneWidget);
+    await tester.tap(fold);
+    await frames(tester);
+    expect(find.byType(NumberedSheet), findsOneWidget);
+    await tester.scrollUntilVisible(find.text('Right answers (8)'), 200, scrollable: _page);
+    expect(find.text('Right answers (8)'), findsOneWidget);
   });
 
-  group('the finish moment never waits on a blank band (owner: "it is just loading the score")', () {
+  group('the arrival never waits on a blank band (owner: "it is just loading the score")', () {
     /// The attempt as the submit cached it, before any per-question rows are known.
     Attempt countsOnly() {
       final json = attemptJson(id: 'p1', mode: 'quick', subject: 'accountancy', questions: _mixed)
@@ -317,12 +388,11 @@ void main() {
       return Attempt.fromJson(json);
     }
 
-    testWidgets('with nothing on the phone yet, Mobi reads the sheet instead of a skeleton', (tester) async {
+    testWidgets('with nothing on the phone yet, a skeleton shaped like the result waits; no Mobi before it exists', (tester) async {
       await pumpResult(tester, resultOverrides(attemptId: 'p1', loading: true));
       await tester.pump(const Duration(milliseconds: 300));
       expect(find.text('Reading your sheet'), findsOneWidget);
-      expect(find.byType(MobiCharacter), findsOneWidget);
-      expect(find.text('Loading your answers'), findsNothing);
+      expect(find.byType(MobiCharacter), findsNothing);
     });
 
     testWidgets('a fresh result with the rows in the cache plays at once, without waiting for the result read', (tester) async {
@@ -331,32 +401,28 @@ void main() {
       await pumpResult(tester, resultOverrides(attemptId: 'p1', loading: true, cachedAttempt: cached, pending: pending));
       await tester.pump();
       await tester.pump();
-      expect(find.byType(FinishStage), findsOneWidget);
+      expect(find.byType(ResultHead), findsOneWidget);
       expect(find.text('Reading your sheet'), findsNothing);
       await tester.pump(const Duration(milliseconds: 1500));
-      expect(find.text('8'), findsOneWidget);
+      expect(find.text('39'), findsOneWidget);
     });
 
-    testWidgets('a fresh result without rows waits with Mobi, then inks the real sheet from 0 when the rows arrive', (tester) async {
+    testWidgets('a fresh result without rows waits, then counts the real score from 0 when the rows arrive', (tester) async {
       final pending = FakePendingResults()..receivedAt = DateTime(2026, 10, 12, 23, 51);
       await pumpResult(tester, resultOverrides(attemptId: 'p1', loading: true, cachedAttempt: countsOnly(), pending: pending));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 600));
-      // No moment on an empty sheet: Mobi has not reacted and nothing has inked.
-      expect(find.byType(FinishStage), findsNothing);
+      expect(find.byType(ResultHead), findsNothing);
       expect(find.text('Reading your sheet'), findsOneWidget);
-      expect(find.textContaining('Most of this set'), findsNothing);
 
       final container = ProviderScope.containerOf(tester.element(find.byType(PracticeResultScreen)));
       (container.read(attemptDetailProvider('p1').notifier) as FakeDetail).deliver(detailOf(_mixed));
       await tester.pump();
       await tester.pump();
-      expect(find.byType(FinishStage), findsOneWidget);
+      expect(find.byType(ResultHead), findsOneWidget);
       expect(find.text('0'), findsOneWidget);
-      await tester.pump(const Duration(milliseconds: 420));
-      await tester.pump(const Duration(milliseconds: 420));
-      await tester.pump(const Duration(milliseconds: 600));
-      expect(find.text('8'), findsOneWidget);
+      await tester.pump(const Duration(milliseconds: 1500));
+      expect(find.text('39'), findsOneWidget);
     });
 
     testWidgets('opened again later with the rows in the cache, the end state shows at once', (tester) async {
@@ -364,25 +430,23 @@ void main() {
       await pumpResult(tester, resultOverrides(attemptId: 'p1', loading: true, cachedAttempt: cached));
       await tester.pump();
       await tester.pump();
-      expect(find.byType(FinishStage), findsOneWidget);
-      expect(find.text('8'), findsOneWidget);
+      expect(find.byType(ResultHead), findsOneWidget);
+      expect(find.text('39'), findsOneWidget);
     });
 
-    testWidgets('opened again before the rows arrive, Mobi reads and no empty stage mounts; the full stage then shows at once', (tester) async {
+    testWidgets('opened again before the rows arrive, nothing empty mounts; the full head then shows at once', (tester) async {
       await pumpResult(tester, resultOverrides(attemptId: 'p1', loading: true, cachedAttempt: countsOnly()));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 300));
-      expect(find.byType(FinishStage), findsNothing);
+      expect(find.byType(ResultHead), findsNothing);
       expect(find.text('Reading your sheet'), findsOneWidget);
 
       final container = ProviderScope.containerOf(tester.element(find.byType(PracticeResultScreen)));
       (container.read(attemptDetailProvider('p1').notifier) as FakeDetail).deliver(detailOf(_mixed));
       await tester.pump();
       await tester.pump();
-      final stage = tester.widget<FinishStage>(find.byType(FinishStage));
-      expect(stage.cells, hasLength(10));
-      expect(stage.fresh, isFalse);
-      expect(find.text('8'), findsOneWidget);
+      expect(tester.widget<ResultHead>(find.byType(ResultHead)).arrival, isFalse);
+      expect(find.text('39'), findsOneWidget);
     });
   });
 }

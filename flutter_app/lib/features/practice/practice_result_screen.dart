@@ -100,7 +100,19 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
   PracticeResultModel? _model;
 
   @override
+  void initState() {
+    super.initState();
+    // A row opened or a blank tried changes what the page builds: rebuild the page, not only the list.
+    _list.addListener(_onListChanged);
+  }
+
+  void _onListChanged() {
+    if (mounted) setState(() {});
+  }
+
+  @override
   void dispose() {
+    _list.removeListener(_onListChanged);
     _leaveTimer?.cancel();
     _settleTimer?.cancel();
     _scroll.dispose();
@@ -386,7 +398,8 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
       labReady: detail?.lab != null,
       hour: now.hour,
     );
-    final receipt = receiptLine(subjectName: subjectName, mode: attempt.mode, at: recordedAt ?? attempt.completedAt.toLocal(), duration: timeOnPaper(attempt), now: now);
+    // The receipt waits for the time the server acknowledged; it never shows the attempt's own time meanwhile.
+    final receipt = receiptLine(subjectName: subjectName, mode: attempt.mode, at: recordedAt, duration: timeOnPaper(attempt), now: now);
     final notice = keyNotice(reviews, (qid) => model.questions.where((q) => q.qid == qid).firstOrNull?.number);
     final wrong = inRepairOrder(rows.rows.where((r) => r.verdict == RowVerdict.wrong).toList(), order);
     final byQid = {for (final q in model.questions) q.qid: q};
@@ -522,9 +535,8 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
                         Positioned.fill(
                           child: TopEdgeFade(
                             controller: _scroll,
-                            child: ListenableBuilder(
-                              listenable: _list,
-                              builder: (context, _) => ListView(
+                            child: Builder(
+                              builder: (context) => ListView(
                                 controller: _scroll,
                                 // The app owns this scroll, so it bounces (F3) instead of Android's stretch.
                                 physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),

@@ -85,7 +85,7 @@ void main() {
     expect(start.onPressed, isNull);
   });
 
-  testWidgets('a fresh result holds the answers back until the moment ends, then brings them in', (tester) async {
+  testWidgets('a fresh result holds the layers below the head back until its arrival ends, then brings them in', (tester) async {
     final pending = FakePendingResults()..receivedAt = DateTime(2026, 10, 12, 23, 51);
     await pumpRouted(
       tester,
@@ -101,7 +101,7 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 100));
     double listOpacity() => tester
-        .widget<AnimatedOpacity>(find.ancestor(of: find.text('Wrong answers (2)', skipOffstage: false), matching: find.byType(AnimatedOpacity)).first)
+        .widget<AnimatedOpacity>(find.ancestor(of: find.text('Your 2 mistakes', skipOffstage: false), matching: find.byType(AnimatedOpacity)).first)
         .opacity;
     expect(listOpacity(), 0);
     for (var i = 0; i < 40; i++) {

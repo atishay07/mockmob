@@ -175,6 +175,7 @@ class ResultScore extends StatelessWidget {
     final type = context.mmType;
     final size = sizeOf(context);
     return Semantics(
+      container: true,
       header: true,
       label: '${formatSignedNumber(finalScored)} of $max marks',
       excludeSemantics: true,
@@ -316,6 +317,7 @@ class MarksLegend extends StatelessWidget {
       ],
     );
     return Semantics(
+      container: true,
       label: '${marks.right} right, ${marks.wrong} wrong, ${marks.blank} blank',
       excludeSemantics: true,
       child: Wrap(

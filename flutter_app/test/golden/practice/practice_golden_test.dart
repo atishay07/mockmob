@@ -12,10 +12,12 @@ import 'package:mockmob/core/api/api.dart';
 import 'package:mockmob/core/connectivity/connectivity.dart';
 import 'package:mockmob/core/models/attempt.dart';
 import 'package:mockmob/core/models/practice_quote.dart';
+import 'package:mockmob/features/credits/data/credit_figures.dart' show CreditFigures;
 import 'package:mockmob/features/practice/copy.dart' show PracticeCopy;
 import 'package:mockmob/features/practice/data/practice_starter.dart';
 import 'package:mockmob/features/practice/practice_routes.dart';
 import 'package:mockmob/features/practice/practice_start_screen.dart';
+import 'package:mockmob/features/result/widgets/mistake_row.dart' show MistakeSummary;
 import 'package:mockmob/features/runner/runner_routes.dart' show ntaInstructionsScreen;
 
 import '../../helpers/fonts.dart';
@@ -321,10 +323,38 @@ void main() {
       });
 
       testWidgets('result, mixed', (tester) async {
-        await _pump(tester, '/practice/result/p1', b, resultOverrides(attemptId: 'p1', detail: _detail(_mixed), chapter: 'Admission of a partner'));
+        await _pump(tester, '/practice/result/p1', b, resultOverrides(attemptId: 'p1', detail: _detail(_mixed), chapter: 'Admission of a partner', credits: const CreditFigures(ai: 68, practice: 40)));
         await _settle(tester);
         await _typed(tester);
         await _shot(tester, 'result_mixed', b);
+      });
+
+      testWidgets('result, a weak set: a chapter set before single repairs', (tester) async {
+        final weak = [
+          for (var i = 0; i < 2; i++) ('Goodwill', V.right),
+          for (var i = 0; i < 5; i++) ('Goodwill', V.wrong),
+          ('Admission of a partner', V.right),
+          ('Admission of a partner', V.wrong),
+          ('Admission of a partner', V.blank),
+        ];
+        await _pump(tester, '/practice/result/p1', b, resultOverrides(attemptId: 'p1', detail: _detail(weak), credits: const CreditFigures(ai: 68, practice: 40)));
+        await _settle(tester);
+        await _typed(tester);
+        await _shot(tester, 'result_weak', b);
+      });
+
+      testWidgets('result, a mistake opened: the free part, then what a repair gives and its cost', (tester) async {
+        await _pump(tester, '/practice/result/p1', b, resultOverrides(attemptId: 'p1', detail: _detail(_mixed), credits: const CreditFigures(ai: 68, practice: 40)));
+        await _settle(tester);
+        await _typed(tester);
+        final row = find.byType(MistakeSummary).first;
+        await tester.scrollUntilVisible(row, 200, scrollable: find.byType(Scrollable).first);
+        await tester.tap(row);
+        await _settle(tester);
+        await tester.scrollUntilVisible(find.text('Correct answer'), 200, scrollable: find.byType(Scrollable).first);
+        await tester.drag(find.byType(Scrollable).first, const Offset(0, -260));
+        await _settle(tester);
+        await _shot(tester, 'result_mistake_open', b);
       });
 
       testWidgets('result, all correct', (tester) async {
