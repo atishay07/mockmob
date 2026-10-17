@@ -29,9 +29,20 @@ class AnswerRow extends StatefulWidget {
     this.others,
     this.othersTitle,
     this.trap,
+    this.summary,
+    this.summarySemantics,
+    this.repair,
   });
 
   final AnswerItem item;
+
+  /// The closed face of the row when the result draws it as a mistake (`MistakeSummary`); null keeps the plain face.
+  final Widget? summary;
+  final String? summarySemantics;
+
+  /// The repair entry of an opened mistake, in place of the plain repair key (what a repair gives, its cost, or the
+  /// saved repair).
+  final Widget? repair;
   final bool expanded;
   final VoidCallback onToggle;
 
@@ -89,6 +100,7 @@ class _AnswerRowState extends State<AnswerRow> {
     item: item,
     keysOff: widget.keysOff,
     onRepair: widget.onRepair,
+    repair: widget.repair,
     // The counts say which option is right, so they follow the key rule: none while keys are off
     // or while the question's key is being checked.
     others: widget.keysOff || item.verdict == Verdict.held ? null : widget.others,
@@ -117,9 +129,9 @@ class _AnswerRowState extends State<AnswerRow> {
       focusRadius: MmRadius.smallAll,
       haptic: MmPressHaptic.selection,
       highlight: true,
-      semanticsLabel: '${ResultCopy.question(item.number)}, $_status${chapter == null ? '' : ', $chapter'}',
+      semanticsLabel: widget.summarySemantics ?? '${ResultCopy.question(item.number)}, $_status${chapter == null ? '' : ', $chapter'}',
       selected: expanded,
-      builder: (context, pressed, _) => ConstrainedBox(
+      builder: (context, pressed, _) => widget.summary ?? ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 60),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
@@ -167,11 +179,12 @@ class _AnswerRowState extends State<AnswerRow> {
 }
 
 class _Body extends StatelessWidget {
-  const _Body({required this.item, required this.keysOff, this.onRepair, this.others, this.othersTitle, this.trap});
+  const _Body({required this.item, required this.keysOff, this.onRepair, this.repair, this.others, this.othersTitle, this.trap});
 
   final AnswerItem item;
   final bool keysOff;
   final VoidCallback? onRepair;
+  final Widget? repair;
   final LabOthers? others;
   final String? othersTitle;
   final TrapTag? trap;
@@ -252,7 +265,10 @@ class _Body extends StatelessWidget {
           const SizedBox(height: MmSpace.s4),
           Text(item.explanation!, style: type.body),
         ],
-        if (item.repaired) ...[
+        if (repair != null) ...[
+          const SizedBox(height: MmSpace.s16),
+          repair!,
+        ] else if (item.repaired) ...[
           const SizedBox(height: MmSpace.s12),
           ReceiptLine(text: ResultCopy.repaired),
         ] else if (onRepair != null) ...[

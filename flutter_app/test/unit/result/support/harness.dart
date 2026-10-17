@@ -11,9 +11,12 @@ import 'package:mockmob/core/platform/review_prompt.dart';
 import 'package:mockmob/core/repositories/repositories.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/theme/theme.dart';
+import 'package:mockmob/features/credits/data/credit_figures.dart' show CreditFigures, creditFiguresProvider;
 import 'package:mockmob/features/notifications/notifications.dart' show prePromptDueAtProvider;
 import 'package:mockmob/features/result/data/result_providers.dart';
 import 'package:mockmob/features/result/result_routes.dart';
+import 'package:mockmob/features/result/widgets/fold_section.dart' show FoldMemory;
+import 'package:mockmob/features/review/data/review_providers.dart' show ReviewInputs, reviewInputsProvider;
 import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show rhythmPrefsStoreProvider;
 import 'package:mockmob/features/today/data/today_providers.dart' show TodayActions, todayActionsProvider, todayNextActionProvider;
 import 'package:mockmob/features/today/logic/today_model.dart' show TodayAction;
@@ -127,6 +130,12 @@ List<Override> resultOverrides({
 
   /// Today's next move as card 4 offers it when there is nothing to repair (null: none).
   TodayAction? nextMove,
+
+  /// The two balances the result's next move states (null leaves the app's own read).
+  CreditFigures? credits,
+
+  /// The clock the result reads (the receipt's day, the late-hour line); 10:50 PM on 12 Oct by default.
+  DateTime? now,
   List<Override> extra = const [],
 }) => [
   recapDataProvider(attemptId).overrideWithValue(data),
@@ -139,13 +148,16 @@ List<Override> resultOverrides({
   reminderAskCountProvider.overrideWith((ref) async => reminderAsks),
   reviewPromptProvider.overrideWithValue(FakeReviewPrompt(log ?? ResultLog())),
   repairLocalRecordsProvider.overrideWith((ref) => Stream.value(const [])),
-  nowProvider.overrideWithValue(() => DateTime(2026, 10, 12, 22, 50)),
+  nowProvider.overrideWithValue(() => now ?? DateTime(2026, 10, 12, 22, 50)),
   studentTimezoneProvider.overrideWithValue('Asia/Kolkata'),
   userIdProvider.overrideWithValue('u1'),
   rhythmPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
   lateNightLinesProvider.overrideWith(() => PrefToggle(initial: true, read: (_) async => true, write: (_, _) async {})),
   todayNextActionProvider.overrideWithValue(nextMove),
   todayActionsProvider.overrideWith(_QuietTodayActions.new),
+  // Unknown balances unless a test names them, and Review's index settled and empty: no database or network read.
+  creditFiguresProvider.overrideWithValue(credits ?? const CreditFigures()),
+  reviewInputsProvider.overrideWithValue(ReviewInputs(attempts: RemoteState(value: const [], fetchedAt: DateTime(2026, 10, 12, 22)))),
   ...extra,
 ];
 
@@ -166,12 +178,21 @@ List<RouteBase> resultRoutes() => [
     '/practice/setup/:mode',
     '/review/repair/:a/:q',
     '/permissions/notifications',
+    '/practice/start',
+    '/you/credits',
   ])
     GoRoute(
       path: p,
       builder: (context, state) => Scaffold(body: Center(child: Text('AT ${state.uri}'))),
     ),
 ];
+
+/// Opens every fold of the full mock result.
+void openResultFolds() {
+  for (final id in const ['mock.where', 'mock.time', 'mock.plan', 'mock.proof', 'mock.every']) {
+    FoldMemory.instance.set(id, open: true);
+  }
+}
 
 /// Wraps the whole app, so goldens capture screens that have no Scaffold.
 const resultGoldenKey = ValueKey('result-golden');
@@ -186,7 +207,13 @@ Future<GoRouter> pumpResultRoute(
   bool disableAnimations = false,
   double textScale = 1,
   int hour = 14,
+
+  /// Opens every fold of the full result (RESULT-1017 layer 4), for tests that read what sits inside them.
+  bool openFolds = false,
 }) async {
+  FoldMemory.instance.reset();
+  addTearDown(FoldMemory.instance.reset);
+  if (openFolds) openResultFolds();
   // The hour decides Mobi's late-night face (the recap's one reaction table), so the tests pin it:
   // they must give the same answer at 3 AM and at 3 PM. Time still runs; only the hour is fixed.
   MobiRation.reset();

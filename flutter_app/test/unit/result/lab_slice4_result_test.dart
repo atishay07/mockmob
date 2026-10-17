@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockmob/features/result/copy.dart';
 import 'package:mockmob/features/result/data/result_providers.dart';
 
 import '../../helpers/fonts.dart';
@@ -25,6 +24,7 @@ void main() {
     final d = detail(attemptBody: {...attemptJson(), 'lab': lab});
     await pumpResultRoute(
       tester,
+      openFolds: true,
       location: location,
       overrides: resultOverrides(attemptId: 'a7', data: RecapData(model: mock7(withDetail: d), attempt: d.attempt, detail: d), log: ResultLog()),
     );
@@ -70,7 +70,7 @@ void main() {
     final w = firstWrong();
     final number = int.parse(w.qid.substring(1));
     await pump(tester, labContract('ready'), location: '/result/a7?q=$number');
-    await tester.scrollUntilVisible(find.text(ResultCopy.sectionAnswers), 400, scrollable: _page);
+    await tester.scrollUntilVisible(find.text('Every answer, all 50'), 400, scrollable: _page);
     expect(find.textContaining('Trap:'), findsNothing);
   });
 
@@ -99,7 +99,7 @@ void main() {
 
   testWidgets('an older server (no lab slice 4): none of it', (tester) async {
     await pump(tester, labContract('ready'));
-    await tester.scrollUntilVisible(find.text(ResultCopy.sectionAnswers), 400, scrollable: _page);
+    await tester.scrollUntilVisible(find.text('Every answer, all 50'), 400, scrollable: _page);
     expect(find.text('Same mistakes later'), findsNothing);
     expect(find.textContaining('Trap:'), findsNothing);
   });

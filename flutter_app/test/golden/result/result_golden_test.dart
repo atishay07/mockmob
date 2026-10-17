@@ -307,11 +307,12 @@ void main() {
     testWidgets('full result, blanks folded ($tag)', (tester) async {
       final f = _firstBusinessStudies(blanksOnly: true);
       await _open(tester, '/result/a7', f.model, d: f.detail, b: b);
-      await tester.scrollUntilVisible(find.text('Not attempted (6)'), 300, scrollable: find.byType(Scrollable).first);
-      await tester.drag(find.byType(Scrollable).first, const Offset(0, 200));
+      final blanks = find.text('6 left blank, 30 marks not earned');
+      await tester.scrollUntilVisible(blanks, 300, scrollable: find.byType(Scrollable).first);
+      await Scrollable.ensureVisible(tester.element(blanks), alignment: 0.3);
       await tester.pump(const Duration(milliseconds: 600));
       await _shot(tester, 'full_blanks_folded_$tag');
-      await tester.tap(find.text('Not attempted (6)'));
+      await tester.tap(blanks);
       await _frames(tester, 500);
       await _shot(tester, 'full_blanks_open_$tag');
     });

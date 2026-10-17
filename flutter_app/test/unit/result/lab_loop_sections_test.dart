@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/domain/domain.dart';
 import 'package:mockmob/core/models/models.dart';
-import 'package:mockmob/features/result/copy.dart';
 import 'package:mockmob/features/result/data/result_providers.dart';
 import 'package:mockmob/features/result/full/full_sections.dart';
 import 'package:mockmob/features/result/model/recap_model.dart' show RecapModel;
@@ -185,6 +184,7 @@ void main() {
       final d = detail(attemptBody: {...attemptJson(), 'lab': lab});
       await pumpResultRoute(
         tester,
+        openFolds: true,
         location: '/result/a7',
         overrides: resultOverrides(attemptId: 'a7', data: RecapData(model: mock7(withDetail: d), attempt: d.attempt, detail: d), log: ResultLog()),
       );
@@ -209,7 +209,7 @@ void main() {
 
     testWidgets('an older server: none of it, and the page as before', (tester) async {
       await pump(tester, labContract('ready'));
-      await tester.scrollUntilVisible(find.text(ResultCopy.sectionAnswers), 400, scrollable: _page);
+      await tester.scrollUntilVisible(find.text('Every answer, all 50'), 400, scrollable: _page);
       expect(find.byType(AcrossMocksView), findsNothing);
       expect(find.byType(RuleCheckView), findsNothing);
       expect(find.textContaining('Your rules'), findsNothing);

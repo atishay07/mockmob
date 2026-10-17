@@ -1,0 +1,95 @@
+import 'model/next_move.dart' show MoveKind, ResultMove;
+
+/// The words of the result's four layers (RESULT-1017 4.9), shared by the practice result and the full mock result.
+/// Sentence case, no exclamation marks, no arrows on keys, 12-hour times. The rule-made lines (the receipt, the
+/// costliest chapter, the next move's why, value and cost) come from `model/next_move.dart`.
+abstract final class LayersCopy {
+  // ---- Layer 2: the next move ---------------------------------------------------------------
+
+  /// The panel's heading names the reason: "Why Q42 first", "Why this chapter first".
+  static String whyTitle(ResultMove m) => switch (m.kind) {
+    MoveKind.repair => 'Why Q${m.number} first',
+    MoveKind.check => 'Why check Q${m.number} now',
+    MoveKind.practise => m.chapter != null ? 'Why this chapter first' : 'Why a short set first',
+    MoveKind.harder => 'Why a harder paper',
+  };
+
+  /// The cost line under the foot key, broken at its sentence so the promise never leaves one word on a line.
+  static String? footNote(String? cost) => cost?.replaceFirst('. No charge', '.\nNo charge');
+
+  /// The foot key while a repair needs the network and there is none.
+  static const repairsNeedConnection = 'Repairs need a connection';
+
+  // ---- Layer 3: the mistakes ----------------------------------------------------------------
+
+  static const inRepairOrder = 'In repair order: the ones most other students got right come first. Repaired ones say whether the fix held.';
+  static const inPaperOrder = 'In paper order. Repaired ones say whether the fix held.';
+  static const noAnswersTitle = 'No answers to repair';
+  static String showAll(int n) => 'Show all $n';
+  static const showFewer = 'Show fewer';
+
+  /// The folded row of blanks: "10 left blank, 50 marks not earned".
+  static String leftBlank(int n) => '$n left blank, ${n * 5} marks not earned';
+  static String leftBlankSpoken(int n, {required bool open}) => '${leftBlank(n)}. ${open ? 'Fold away' : 'Show them'}';
+
+  /// Answers whose key is being re-checked: no marks either way until the check ends.
+  static String heldGroup(int n) => n == 1 ? '1 answer key being re-checked' : '$n answer keys being re-checked';
+
+  static String yours(String letter) => '$letter yours';
+  static String answer(String letter) => '$letter answer';
+  static const marksLost = '−6';
+  static String spokenCost(int marks) => '$marks marks lost';
+
+  // Status chips (each from a real server state, never optimistic).
+  static const chipRepairFirst = 'Repair first';
+  static const chipRepair = 'Repair';
+  static const chipCheck = 'Check it held';
+  static const chipHeld = 'Held on a new question';
+  static const chipSlipped = 'Slipped on a new question';
+  static const chipKeyHeld = 'Key being re-checked';
+  static const chipCorrected = 'Key corrected';
+
+  // The repair entry inside an opened mistake (the free part, the pick and the answer, is already above it).
+  static String repairOffer(String? letter) =>
+      'A repair gives you why ${letter ?? 'your answer'} looked right, why the answer is right and one rule to keep, then a new question to check it held.';
+  static String repairKey(int number) => 'Repair Q$number';
+  static String repairBelow(int number) => 'The Repair Q$number key below starts it.';
+  static const repairedLine = 'Repaired. Your repair is saved, so opening it again costs nothing.';
+  static const openRepair = 'Open your repair';
+  static const heldLine = 'Check it held: right. The fix held on a new question.';
+  static const slippedLine = 'Check it held: not this time. It comes back in Revise.';
+
+  // ---- Layer 4: the folds -------------------------------------------------------------------
+
+  static const more = 'More from this paper';
+  static const foldWhere = 'Where the marks went';
+  static const foldTime = 'Your time and changed answers';
+  static const foldPlan = 'After this mock: strengths, gaps and plan';
+  static const foldProof = 'Your rule and proof it stuck';
+  static String foldEvery(int n) => 'Every answer, all $n';
+
+  static const whereCounting = 'Being counted. It is ready when the answer checks finish.';
+  static String answeredRight(int right, int answered) =>
+      answered == 0 ? 'Nothing was answered on this paper.' : '$right of $answered answered were right.';
+  static String timeTeaser({String? median, int changes = 0}) {
+    final parts = [
+      ?median,
+      if (changes > 0) changes == 1 ? '1 answer changed.' : '$changes answers changed.',
+    ];
+    return parts.isEmpty ? 'How the paper\'s time went, question by question.' : parts.join(' ');
+  }
+
+  static const planTeaserFallback = 'What went well, what cost marks, and the sets that come next.';
+  static String ruleTeaser(String? rule) => rule == null ? 'No rule chosen for this mock.' : 'Your rule: $rule';
+  static String proveTeaser(String chapter) => 'Five new questions on $chapter show whether a fix held.';
+  static String everyTeaser(int right, int wrong, int blank) => '$right right, $wrong wrong, $blank blank. Tap a bubble to open its question.';
+  static String rightAnswers(int n) => n == 1 ? '1 right answer' : 'Right answers ($n)';
+
+  static String foldSpoken(String title, {required bool open}) => '$title. ${open ? 'Fold away' : 'Open'}';
+
+  // ---- After the folds ----------------------------------------------------------------------
+
+  static const freshTitle = 'Take another fresh paper';
+  static const freshLine = 'Each paper is built new from the question bank, with no limit on how many you take.';
+  static const freshKey = 'Set up a paper';
+}

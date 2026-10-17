@@ -336,9 +336,28 @@ class ResultReading extends StatelessWidget {
           crossAxisAlignment: centered ? CrossAxisAlignment.center : CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (!centered) const SizedBox(height: MmSpace.s24),
-            const MobiCharacter(size: 112, entrance: MobiAct.read, seed: 41),
-            const SizedBox(height: MmSpace.s16),
+            if (!centered) const SizedBox(height: MmSpace.s8),
+            // Shaped like the result it waits for (RESULT-1017 4.7): the receipt, the score, the bar and two lines.
+            // No Mobi before the result exists.
+            const SkeletonGroup(
+              label: PracticeCopy.readingSheet,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Skeleton(width: 220, height: 14),
+                  SizedBox(height: MmSpace.s16),
+                  Skeleton(width: 200, height: 72, radius: MmRadius.key),
+                  SizedBox(height: MmSpace.s16),
+                  Skeleton(width: 320, height: 10, radius: 5),
+                  SizedBox(height: MmSpace.s20),
+                  Skeleton(width: 280, height: 18),
+                  SizedBox(height: MmSpace.s8),
+                  Skeleton(width: 180, height: 14),
+                ],
+              ),
+            ),
+            const SizedBox(height: MmSpace.s24),
             Text(PracticeCopy.readingSheet, style: type.title, textAlign: centered ? TextAlign.center : null),
             const SizedBox(height: MmSpace.s4),
             Text(

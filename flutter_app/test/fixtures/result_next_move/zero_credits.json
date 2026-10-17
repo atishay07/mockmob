@@ -1,0 +1,546 @@
+{
+  "name": "zero_credits",
+  "input": {
+    "aiCredits": 0,
+    "practiceCredits": 40,
+    "isPremium": false,
+    "subject": "accountancy",
+    "subjectName": "Accountancy",
+    "labReady": true,
+    "hour": 21,
+    "answerReviews": {},
+    "repaired": [],
+    "checks": {},
+    "mode": "full",
+    "rows": [
+      {
+        "qid": "paper-avg-q1",
+        "number": 1,
+        "chapter": "Partnership Fundamentals",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-avg-q2",
+        "number": 2,
+        "chapter": "Partnership Fundamentals",
+        "key": 2,
+        "verdict": "correct",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-avg-q3",
+        "number": 3,
+        "chapter": "Partnership Fundamentals",
+        "key": 3,
+        "verdict": "correct",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-avg-q4",
+        "number": 4,
+        "chapter": "Partnership Fundamentals",
+        "key": 0,
+        "verdict": "correct",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-avg-q5",
+        "number": 5,
+        "chapter": "Partnership Fundamentals",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-avg-q6",
+        "number": 6,
+        "chapter": "Partnership Fundamentals",
+        "key": 2,
+        "verdict": "correct",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-avg-q7",
+        "number": 7,
+        "chapter": "Partnership Fundamentals",
+        "key": 3,
+        "verdict": "wrong",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-avg-q8",
+        "number": 8,
+        "chapter": "Partnership Fundamentals",
+        "key": 0,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-avg-q9",
+        "number": 9,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-avg-q10",
+        "number": 10,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 2,
+        "verdict": "correct",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-avg-q11",
+        "number": 11,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 3,
+        "verdict": "correct",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-avg-q12",
+        "number": 12,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 0,
+        "verdict": "correct",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-avg-q13",
+        "number": 13,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-avg-q14",
+        "number": 14,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 2,
+        "verdict": "wrong",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-avg-q15",
+        "number": 15,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 3,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-avg-q16",
+        "number": 16,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 0,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-avg-q17",
+        "number": 17,
+        "chapter": "Goodwill",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-avg-q18",
+        "number": 18,
+        "chapter": "Goodwill",
+        "key": 2,
+        "verdict": "correct",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-avg-q19",
+        "number": 19,
+        "chapter": "Goodwill",
+        "key": 3,
+        "verdict": "correct",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-avg-q20",
+        "number": 20,
+        "chapter": "Goodwill",
+        "key": 0,
+        "verdict": "wrong",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-avg-q21",
+        "number": 21,
+        "chapter": "Goodwill",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-avg-q22",
+        "number": 22,
+        "chapter": "Goodwill",
+        "key": 2,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-avg-q23",
+        "number": 23,
+        "chapter": "Accounting Ratios",
+        "key": 3,
+        "verdict": "correct",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-avg-q24",
+        "number": 24,
+        "chapter": "Accounting Ratios",
+        "key": 0,
+        "verdict": "correct",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-avg-q25",
+        "number": 25,
+        "chapter": "Accounting Ratios",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-avg-q26",
+        "number": 26,
+        "chapter": "Accounting Ratios",
+        "key": 2,
+        "verdict": "wrong",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-avg-q27",
+        "number": 27,
+        "chapter": "Accounting Ratios",
+        "key": 3,
+        "verdict": "wrong",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-avg-q28",
+        "number": 28,
+        "chapter": "Accounting Ratios",
+        "key": 0,
+        "verdict": "correct",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-avg-q29",
+        "number": 29,
+        "chapter": "Accounting Ratios",
+        "key": 1,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-avg-q30",
+        "number": 30,
+        "chapter": "Accounting Ratios",
+        "key": 2,
+        "verdict": "correct",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-avg-q31",
+        "number": 31,
+        "chapter": "Cash Flow Statement",
+        "key": 3,
+        "verdict": "correct",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-avg-q32",
+        "number": 32,
+        "chapter": "Cash Flow Statement",
+        "key": 0,
+        "verdict": "correct",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-avg-q33",
+        "number": 33,
+        "chapter": "Cash Flow Statement",
+        "key": 1,
+        "verdict": "wrong",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-avg-q34",
+        "number": 34,
+        "chapter": "Cash Flow Statement",
+        "key": 2,
+        "verdict": "correct",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-avg-q35",
+        "number": 35,
+        "chapter": "Cash Flow Statement",
+        "key": 3,
+        "verdict": "correct",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-avg-q36",
+        "number": 36,
+        "chapter": "Cash Flow Statement",
+        "key": 0,
+        "verdict": "wrong",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-avg-q37",
+        "number": 37,
+        "chapter": "Cash Flow Statement",
+        "key": 1,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-avg-q38",
+        "number": 38,
+        "chapter": "Cash Flow Statement",
+        "key": 2,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-avg-q39",
+        "number": 39,
+        "chapter": "Share Capital",
+        "key": 3,
+        "verdict": "correct",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-avg-q40",
+        "number": 40,
+        "chapter": "Share Capital",
+        "key": 0,
+        "verdict": "wrong",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-avg-q41",
+        "number": 41,
+        "chapter": "Share Capital",
+        "key": 1,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-avg-q42",
+        "number": 42,
+        "chapter": "Share Capital",
+        "key": 2,
+        "verdict": "wrong",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-avg-q43",
+        "number": 43,
+        "chapter": "Share Capital",
+        "key": 3,
+        "verdict": "wrong",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-avg-q44",
+        "number": 44,
+        "chapter": "Share Capital",
+        "key": 0,
+        "verdict": "wrong",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-avg-q45",
+        "number": 45,
+        "chapter": "Depreciation",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-avg-q46",
+        "number": 46,
+        "chapter": "Depreciation",
+        "key": 2,
+        "verdict": "correct",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-avg-q47",
+        "number": 47,
+        "chapter": "Depreciation",
+        "key": 3,
+        "verdict": "wrong",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-avg-q48",
+        "number": 48,
+        "chapter": "Depreciation",
+        "key": 0,
+        "verdict": "correct",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-avg-q49",
+        "number": 49,
+        "chapter": "Depreciation",
+        "key": 1,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-avg-q50",
+        "number": 50,
+        "chapter": "Depreciation",
+        "key": 2,
+        "verdict": "skipped",
+        "givenIndex": null
+      }
+    ],
+    "repairOrder": {
+      "version": 1,
+      "state": "cohort",
+      "items": [
+        {
+          "qid": "paper-avg-q42",
+          "number": 42,
+          "reason": "most_right",
+          "key": "Repair Q42 first",
+          "line": "18 of 22 other students got it right."
+        },
+        {
+          "qid": "paper-avg-q14",
+          "number": 14,
+          "reason": "most_right",
+          "key": "Repair Q14 first",
+          "line": "21 of 26 other students got it right."
+        },
+        {
+          "qid": "paper-avg-q43",
+          "number": 43,
+          "reason": "most_right",
+          "key": "Repair Q43 first",
+          "line": "16 of 21 other students got it right."
+        },
+        {
+          "qid": "paper-avg-q7",
+          "number": 7,
+          "reason": "paper",
+          "key": null,
+          "line": null
+        },
+        {
+          "qid": "paper-avg-q20",
+          "number": 20,
+          "reason": "paper",
+          "key": null,
+          "line": null
+        },
+        {
+          "qid": "paper-avg-q26",
+          "number": 26,
+          "reason": "paper",
+          "key": null,
+          "line": null
+        },
+        {
+          "qid": "paper-avg-q27",
+          "number": 27,
+          "reason": "paper",
+          "key": null,
+          "line": null
+        },
+        {
+          "qid": "paper-avg-q33",
+          "number": 33,
+          "reason": "paper",
+          "key": null,
+          "line": null
+        },
+        {
+          "qid": "paper-avg-q36",
+          "number": 36,
+          "reason": "paper",
+          "key": null,
+          "line": null
+        },
+        {
+          "qid": "paper-avg-q40",
+          "number": 40,
+          "reason": "paper",
+          "key": null,
+          "line": null
+        },
+        {
+          "qid": "paper-avg-q44",
+          "number": 44,
+          "reason": "paper",
+          "key": null,
+          "line": null
+        },
+        {
+          "qid": "paper-avg-q47",
+          "number": 47,
+          "reason": "paper",
+          "key": null,
+          "line": null
+        }
+      ],
+      "qids": [
+        "paper-avg-q42",
+        "paper-avg-q14",
+        "paper-avg-q43",
+        "paper-avg-q7",
+        "paper-avg-q20",
+        "paper-avg-q26",
+        "paper-avg-q27",
+        "paper-avg-q33",
+        "paper-avg-q36",
+        "paper-avg-q40",
+        "paper-avg-q44",
+        "paper-avg-q47"
+      ]
+    }
+  },
+  "expected": {
+    "costliest": {
+      "line": "Share Capital cost 29 of the 122 marks you missed.",
+      "detail": "4 wrong and 1 left blank, of 6 questions."
+    },
+    "move": {
+      "kind": "practise",
+      "rule": 5,
+      "label": "Practise 10 on Share Capital",
+      "why": "Repairs use AI credits. You have 0.",
+      "value": null,
+      "cost": "This set uses 10 practice credits. You have 40.",
+      "late": null,
+      "alt": {
+        "kind": "credits",
+        "label": "See your AI credits"
+      },
+      "note": null,
+      "target": {
+        "chapter": "Share Capital",
+        "href": "/dashboard?subject=accountancy&mode=quick&count=10&chapter=Share+Capital"
+      }
+    }
+  }
+}

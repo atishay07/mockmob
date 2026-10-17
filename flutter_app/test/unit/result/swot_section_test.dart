@@ -49,6 +49,7 @@ void main() {
     final d = AttemptDetail.fromJson({...attemptJson(), 'answerReviews': <String, dynamic>{}, 'answerReviewState': 'ready', ...extra});
     await pumpResultRoute(
       tester,
+      openFolds: true,
       location: '/result/a7',
       brightness: brightness,
       disableAnimations: disableAnimations,

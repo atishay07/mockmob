@@ -1,0 +1,626 @@
+{
+  "name": "weak",
+  "input": {
+    "aiCredits": 68,
+    "practiceCredits": 40,
+    "isPremium": false,
+    "subject": "accountancy",
+    "subjectName": "Accountancy",
+    "labReady": true,
+    "hour": 21,
+    "answerReviews": {},
+    "repaired": [],
+    "checks": {},
+    "mode": "full",
+    "rows": [
+      {
+        "qid": "paper-weak-q1",
+        "number": 1,
+        "chapter": "Partnership Fundamentals",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-weak-q2",
+        "number": 2,
+        "chapter": "Partnership Fundamentals",
+        "key": 2,
+        "verdict": "wrong",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-weak-q3",
+        "number": 3,
+        "chapter": "Partnership Fundamentals",
+        "key": 3,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-weak-q4",
+        "number": 4,
+        "chapter": "Partnership Fundamentals",
+        "key": 0,
+        "verdict": "wrong",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-weak-q5",
+        "number": 5,
+        "chapter": "Partnership Fundamentals",
+        "key": 1,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-weak-q6",
+        "number": 6,
+        "chapter": "Partnership Fundamentals",
+        "key": 2,
+        "verdict": "correct",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-weak-q7",
+        "number": 7,
+        "chapter": "Partnership Fundamentals",
+        "key": 3,
+        "verdict": "wrong",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-weak-q8",
+        "number": 8,
+        "chapter": "Partnership Fundamentals",
+        "key": 0,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-weak-q9",
+        "number": 9,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 1,
+        "verdict": "wrong",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-weak-q10",
+        "number": 10,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 2,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-weak-q11",
+        "number": 11,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 3,
+        "verdict": "wrong",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-weak-q12",
+        "number": 12,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 0,
+        "verdict": "correct",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-weak-q13",
+        "number": 13,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 1,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-weak-q14",
+        "number": 14,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 2,
+        "verdict": "wrong",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-weak-q15",
+        "number": 15,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 3,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-weak-q16",
+        "number": 16,
+        "chapter": "Profit & Loss Appropriation Account",
+        "key": 0,
+        "verdict": "wrong",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-weak-q17",
+        "number": 17,
+        "chapter": "Goodwill",
+        "key": 1,
+        "verdict": "wrong",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-weak-q18",
+        "number": 18,
+        "chapter": "Goodwill",
+        "key": 2,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-weak-q19",
+        "number": 19,
+        "chapter": "Goodwill",
+        "key": 3,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-weak-q20",
+        "number": 20,
+        "chapter": "Goodwill",
+        "key": 0,
+        "verdict": "wrong",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-weak-q21",
+        "number": 21,
+        "chapter": "Goodwill",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-weak-q22",
+        "number": 22,
+        "chapter": "Goodwill",
+        "key": 2,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-weak-q23",
+        "number": 23,
+        "chapter": "Share Capital",
+        "key": 3,
+        "verdict": "correct",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-weak-q24",
+        "number": 24,
+        "chapter": "Share Capital",
+        "key": 0,
+        "verdict": "wrong",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-weak-q25",
+        "number": 25,
+        "chapter": "Share Capital",
+        "key": 1,
+        "verdict": "wrong",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-weak-q26",
+        "number": 26,
+        "chapter": "Share Capital",
+        "key": 2,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-weak-q27",
+        "number": 27,
+        "chapter": "Share Capital",
+        "key": 3,
+        "verdict": "wrong",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-weak-q28",
+        "number": 28,
+        "chapter": "Share Capital",
+        "key": 0,
+        "verdict": "wrong",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-weak-q29",
+        "number": 29,
+        "chapter": "Share Capital",
+        "key": 1,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-weak-q30",
+        "number": 30,
+        "chapter": "Share Capital",
+        "key": 2,
+        "verdict": "wrong",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-weak-q31",
+        "number": 31,
+        "chapter": "Share Capital",
+        "key": 3,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-weak-q32",
+        "number": 32,
+        "chapter": "Share Capital",
+        "key": 0,
+        "verdict": "wrong",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-weak-q33",
+        "number": 33,
+        "chapter": "Accounting Ratios",
+        "key": 1,
+        "verdict": "wrong",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-weak-q34",
+        "number": 34,
+        "chapter": "Accounting Ratios",
+        "key": 2,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-weak-q35",
+        "number": 35,
+        "chapter": "Accounting Ratios",
+        "key": 3,
+        "verdict": "wrong",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-weak-q36",
+        "number": 36,
+        "chapter": "Accounting Ratios",
+        "key": 0,
+        "verdict": "correct",
+        "givenIndex": 0
+      },
+      {
+        "qid": "paper-weak-q37",
+        "number": 37,
+        "chapter": "Accounting Ratios",
+        "key": 1,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-weak-q38",
+        "number": 38,
+        "chapter": "Accounting Ratios",
+        "key": 2,
+        "verdict": "wrong",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-weak-q39",
+        "number": 39,
+        "chapter": "Accounting Ratios",
+        "key": 3,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-weak-q40",
+        "number": 40,
+        "chapter": "Accounting Ratios",
+        "key": 0,
+        "verdict": "wrong",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-weak-q41",
+        "number": 41,
+        "chapter": "Depreciation",
+        "key": 1,
+        "verdict": "correct",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-weak-q42",
+        "number": 42,
+        "chapter": "Depreciation",
+        "key": 2,
+        "verdict": "wrong",
+        "givenIndex": 3
+      },
+      {
+        "qid": "paper-weak-q43",
+        "number": 43,
+        "chapter": "Depreciation",
+        "key": 3,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-weak-q44",
+        "number": 44,
+        "chapter": "Depreciation",
+        "key": 0,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-weak-q45",
+        "number": 45,
+        "chapter": "Depreciation",
+        "key": 1,
+        "verdict": "wrong",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-weak-q46",
+        "number": 46,
+        "chapter": "Depreciation",
+        "key": 2,
+        "verdict": "correct",
+        "givenIndex": 2
+      },
+      {
+        "qid": "paper-weak-q47",
+        "number": 47,
+        "chapter": "Depreciation",
+        "key": 3,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-weak-q48",
+        "number": 48,
+        "chapter": "Depreciation",
+        "key": 0,
+        "verdict": "wrong",
+        "givenIndex": 1
+      },
+      {
+        "qid": "paper-weak-q49",
+        "number": 49,
+        "chapter": "Depreciation",
+        "key": 1,
+        "verdict": "skipped",
+        "givenIndex": null
+      },
+      {
+        "qid": "paper-weak-q50",
+        "number": 50,
+        "chapter": "Depreciation",
+        "key": 2,
+        "verdict": "skipped",
+        "givenIndex": null
+      }
+    ],
+    "repairOrder": {
+      "version": 1,
+      "state": "cohort",
+      "items": [
+        {
+          "qid": "paper-weak-q24",
+          "number": 24,
+          "reason": "most_right",
+          "key": "Repair Q24 first",
+          "line": "18 of 22 other students got it right."
+        },
+        {
+          "qid": "paper-weak-q2",
+          "number": 2,
+          "reason": "most_right",
+          "key": "Repair Q2 first",
+          "line": "16 of 21 other students got it right."
+        },
+        {
+          "qid": "paper-weak-q4",
+          "number": 4,
+          "reason": "paper",
+          "key": null,
+          "line": null
+        },
+        {
+          "qid": "paper-weak-q7",
+          "number": 7,
+          "reason": "paper",
+          "key": null,
+          "line": null
+        },
+        {
+          "qid": "paper-weak-q9",
+          "number": 9,
+          "reason": "paper",
+          "key": null,
+          "line": null
+        },
+        {
+          "qid": "paper-weak-q11",
+          "number": 11,
+          "reason": "paper",
+          "key": null,
+          "line": null
+        },
+        {
+          "qid": "paper-weak-q14",
+          "number": 14,
+          "reason": "paper",
+          "key": null,
+          "line": null
+        },
+        {
+          "qid": "paper-weak-q16",
+          "number": 16,
+          "reason": "paper",
+          "key": null,
+          "line": null
+        },
+        {
+          "qid": "paper-weak-q17",
+          "number": 17,
+          "reason": "paper",
+          "key": null,
+          "line": null
+        },
+        {
+          "qid": "paper-weak-q20",
+          "number": 20,
+          "reason": "paper",
+          "key": null,
+          "line": null
+        },
+        {
+          "qid": "paper-weak-q25",
+          "number": 25,
+          "reason": "paper",
+          "key": null,
+          "line": null
+        },
+        {
+          "qid": "paper-weak-q27",
+          "number": 27,
+          "reason": "paper",
+          "key": null,
+          "line": null
+        },
+        {
+          "qid": "paper-weak-q28",
+          "number": 28,
+          "reason": "paper",
+          "key": null,
+          "line": null
+        },
+        {
+          "qid": "paper-weak-q30",
+          "number": 30,
+          "reason": "paper",
+          "key": null,
+          "line": null
+        },
+        {
+          "qid": "paper-weak-q32",
+          "number": 32,
+          "reason": "paper",
+          "key": null,
+          "line": null
+        },
+        {
+          "qid": "paper-weak-q33",
+          "number": 33,
+          "reason": "paper",
+          "key": null,
+          "line": null
+        },
+        {
+          "qid": "paper-weak-q35",
+          "number": 35,
+          "reason": "paper",
+          "key": null,
+          "line": null
+        },
+        {
+          "qid": "paper-weak-q38",
+          "number": 38,
+          "reason": "paper",
+          "key": null,
+          "line": null
+        },
+        {
+          "qid": "paper-weak-q40",
+          "number": 40,
+          "reason": "paper",
+          "key": null,
+          "line": null
+        },
+        {
+          "qid": "paper-weak-q42",
+          "number": 42,
+          "reason": "paper",
+          "key": null,
+          "line": null
+        },
+        {
+          "qid": "paper-weak-q45",
+          "number": 45,
+          "reason": "paper",
+          "key": null,
+          "line": null
+        },
+        {
+          "qid": "paper-weak-q48",
+          "number": 48,
+          "reason": "paper",
+          "key": null,
+          "line": null
+        }
+      ],
+      "qids": [
+        "paper-weak-q24",
+        "paper-weak-q2",
+        "paper-weak-q4",
+        "paper-weak-q7",
+        "paper-weak-q9",
+        "paper-weak-q11",
+        "paper-weak-q14",
+        "paper-weak-q16",
+        "paper-weak-q17",
+        "paper-weak-q20",
+        "paper-weak-q25",
+        "paper-weak-q27",
+        "paper-weak-q28",
+        "paper-weak-q30",
+        "paper-weak-q32",
+        "paper-weak-q33",
+        "paper-weak-q35",
+        "paper-weak-q38",
+        "paper-weak-q40",
+        "paper-weak-q42",
+        "paper-weak-q45",
+        "paper-weak-q48"
+      ]
+    }
+  },
+  "expected": {
+    "costliest": {
+      "line": "Share Capital cost 51 of the 232 marks you missed.",
+      "detail": "1 right of 10: 6 wrong and 3 left blank."
+    },
+    "move": {
+      "kind": "practise",
+      "rule": 2,
+      "label": "Practise 10 on Share Capital",
+      "why": "Share Capital: most answers in this chapter were wrong, so a chapter set comes before repairing single mistakes.",
+      "value": null,
+      "cost": "This set uses 10 practice credits. You have 40.",
+      "late": null,
+      "alt": {
+        "kind": "repair",
+        "label": "Or repair Q24 first, 1 AI credit"
+      },
+      "note": null,
+      "target": {
+        "chapter": "Share Capital",
+        "href": "/dashboard?subject=accountancy&mode=quick&count=10&chapter=Share+Capital"
+      }
+    }
+  }
+}

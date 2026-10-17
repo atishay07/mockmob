@@ -10,7 +10,9 @@ import 'package:mockmob/core/api/api.dart';
 import 'package:mockmob/core/models/models.dart';
 import 'package:mockmob/features/result/data/result_providers.dart';
 import 'package:mockmob/features/result/full/answer_row.dart' show AnswerRow;
-import 'package:mockmob/features/result/full/full_sections.dart' show BlankGroup;
+import 'package:mockmob/features/result/layers_copy.dart';
+import 'package:mockmob/features/result/widgets/mistake_row.dart' show LeftBlankRow, MistakeRepairEntry, MistakeSummary;
+import 'package:mockmob/features/result/widgets/next_move_panel.dart' show NextMovePanel;
 import 'package:mockmob/features/result/full/lab_ledger_section.dart' show LabLedgerSection;
 import 'package:mockmob/features/result/model/time_decisions.dart' show TimeCopy;
 import 'package:mockmob/features/result/model/recap_model.dart';
@@ -30,6 +32,7 @@ void main() {
     final d = detail();
     final router = await pumpResultRoute(
       tester,
+      openFolds: true,
       location: location,
       overrides: resultOverrides(
         attemptId: 'a7',
@@ -54,32 +57,46 @@ void main() {
     detail: d,
   );
 
-  testWidgets('summary in Lab order with denominators, and the result counts as seen', (tester) async {
+  testWidgets('what happened in one glance: one receipt, the marks with their denominator, the counts, and the result counts as seen', (tester) async {
     final (_, log) = await pump(tester);
+    // The arrival lands in under a second.
+    await tester.pump(const Duration(seconds: 1));
     // The bar: the paper's name on one line, its subject on a second.
     expect(find.text('Mock 7'), findsWidgets);
     expect(find.bySemanticsLabel('Mock 7, Accountancy'), findsWidgets);
-    expect(find.bySemanticsLabel('115 out of 250 marks'), findsWidgets);
-    expect(find.text('26 of 50 correct, 15 wrong, 9 not attempted.'), findsOneWidget);
+    expect(find.bySemanticsLabel('115 of 250 marks'), findsWidgets);
+    expect(find.bySemanticsLabel('26 right, 15 wrong, 9 blank'), findsOneWidget);
+    expect(find.textContaining('Accountancy full mock. Recorded '), findsOneWidget);
+    // The submission is said once, as that receipt (F11: "Submission is there, and the add submission is there").
+    expect(find.textContaining('Submitted'), findsNothing);
+    expect(find.textContaining('Session complete'), findsNothing);
     expect(find.text('Replay recap'), findsOneWidget);
     expect(log.seen, ['a7']);
   });
 
-  testWidgets('the first wrong answer is open with its key; not attempted rows have no repair key', (tester) async {
+  testWidgets('a mistake opens to its key and its repair, priced before paying; blank rows have no repair key', (tester) async {
     await pump(tester);
-    await tester.scrollUntilVisible(find.text('Repair this mistake').last, 300);
-    expect(find.text('Correct answer'), findsWidgets);
-    // The not attempted rows are folded under one header until it is tapped.
-    final blankRows = find.descendant(of: find.byType(BlankGroup), matching: find.byType(AnswerRow));
-    expect(blankRows, findsNothing);
-    await tester.scrollUntilVisible(find.text('Not attempted (9)'), 300);
-    await tester.tap(find.text('Not attempted (9)'));
+    final page = find.byType(Scrollable).first;
+    expect(find.text('Your 15 mistakes'), findsOneWidget);
+    expect(find.byType(MistakeSummary), findsNWidgets(4), reason: 'the first four show; "Show all 15" opens the rest');
+    expect(find.text('Show all 15'), findsOneWidget);
+    await tester.scrollUntilVisible(find.byType(MistakeSummary).first, 200, scrollable: page);
+    await tester.tap(find.byType(MistakeSummary).first);
     await tester.pumpAndSettle();
-    await tester.scrollUntilVisible(blankRows.first, 300);
+    expect(find.text('Correct answer'), findsWidgets);
+    expect(find.textContaining('then a new question to check it held'), findsOneWidget);
+    // The blank rows are folded under one row until it is tapped.
+    final blankRows = find.descendant(of: find.byType(LeftBlankRow), matching: find.byType(AnswerRow));
+    expect(blankRows, findsNothing);
+    final blanks = find.text('9 left blank, 45 marks not earned');
+    await tester.scrollUntilVisible(blanks, 300, scrollable: page);
+    await tester.tap(blanks);
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(blankRows.first, 300, scrollable: page);
     await tester.tap(blankRows.first);
-    await tester.pump();
+    await tester.pumpAndSettle();
     expect(find.text('You did not answer this question.'), findsOneWidget);
-    expect(find.text('Repair this mistake'), findsNWidgets(2)); // one key: its label plus its width reserve
+    expect(find.descendant(of: find.byType(LeftBlankRow), matching: find.byType(MistakeRepairEntry)), findsNothing);
   });
 
   group('the answer map and the reader Mobi', () {
@@ -97,6 +114,8 @@ void main() {
     testWidgets('a tap on a bubble opens that answer', (tester) async {
       await pump(tester);
       await tester.pump(const Duration(seconds: 1));
+      await tester.ensureVisible(find.byType(BubbleGrid));
+      await tester.pumpAndSettle();
       final cells = mock7().cells;
       final right = cells.indexOf(BubbleState.filled) + 1;
       AnswerRow row(int n) => tester.widget<AnswerRow>(find.byWidgetPredicate((w) => w is AnswerRow && w.item.number == n, skipOffstage: false));
@@ -109,6 +128,8 @@ void main() {
     testWidgets('a long press names the question, the subject and the verdict until the finger lifts', (tester) async {
       await pump(tester);
       await tester.pump(const Duration(seconds: 1));
+      await tester.ensureVisible(find.byType(BubbleGrid));
+      await tester.pumpAndSettle();
       final wrong = mock7().cells.indexOf(BubbleState.wrong) + 1;
       final gesture = await tester.startGesture(bubbleAt(tester, wrong));
       await tester.pump(const Duration(milliseconds: 700));
@@ -118,9 +139,9 @@ void main() {
       expect(find.text('Q$wrong, Accountancy: wrong'), findsNothing);
     });
 
-    testWidgets('one reader Mobi on a full-mode result, none on an NTA result', (tester) async {
+    testWidgets('no Mobi on a full-mode result: the result is the student moment, not Mobi (F11)', (tester) async {
       await pump(tester);
-      expect(find.byType(Mobi), findsOneWidget);
+      expect(find.byType(Mobi), findsNothing);
     });
 
     testWidgets('an NTA result has no Mobi at all', (tester) async {
@@ -140,9 +161,10 @@ void main() {
     );
     await pump(tester, data: withDetail(d), location: '/result/a7?q=6');
     await tester.pump(const Duration(milliseconds: 300));
-    // The row names its question; the group header ("Being checked") and the bubble say why.
-    expect(find.text('Question 6'), findsOneWidget);
-    expect(find.text('Being checked (1)'), findsOneWidget);
+    // The row sits under its own heading, says so on its chip, and the head carries the one notice line.
+    expect(find.text('1 answer key being re-checked'), findsOneWidget);
+    expect(find.text('Key being re-checked'), findsOneWidget);
+    expect(find.text("Q6's answer key is being re-checked. It is left out of repairs until the check ends."), findsOneWidget);
     expect(find.text('The answer for this question is being checked, so it is not shown yet.'), findsOneWidget);
   });
 
@@ -150,7 +172,11 @@ void main() {
     await pump(tester, data: withDetail(detail(state: 'unavailable')));
     expect(find.text('We could not check for answer-key updates just now. Your marks may change.'), findsOneWidget);
     expect(find.text('Try again'), findsOneWidget);
-    await tester.scrollUntilVisible(find.text('Answers and explanations are not available for this result right now.'), 300);
+    final page = find.byType(Scrollable).first;
+    await tester.scrollUntilVisible(find.byType(MistakeSummary).first, 200, scrollable: page);
+    await tester.tap(find.byType(MistakeSummary).first);
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(find.text('Answers and explanations are not available for this result right now.'), 300, scrollable: page);
     expect(find.text('Correct answer'), findsNothing);
   });
 
@@ -215,20 +241,23 @@ void main() {
 
     setUp(LabLedgerSection.debugResetSeen);
 
-    testWidgets('order: summary, the Lab, After this mock, Time and decisions, the first fix, the answers', (tester) async {
+    testWidgets('order (RESULT-1017): what happened, the next move, the mistakes, then the named folds', (tester) async {
       await pump(tester, data: withDetail(detail(attemptBody: withLabAndSwot())));
       await tester.pumpAndSettle();
       expect(find.byType(LabLedgerSection), findsOneWidget);
       double top(String t) => tester.getTopLeft(find.text(t).first).dy;
-      expect(top('26 of 50 correct, 15 wrong, 9 not attempted.') < top('Mistake Lab'), isTrue);
-      // After this mock sits right under where the marks went: what to do next is the second thing
-      // a mock's result says (Result owner's move, app-practice-review-1016.md L15).
-      expect(top('Mistake Lab') < top('After this mock'), isTrue);
-      expect(top('After this mock') < top(TimeCopy.title), isTrue);
-      expect(top(TimeCopy.title) < top('The first thing to fix'), isTrue);
-      expect(top('The first thing to fix') < top('Answer by answer'), isTrue);
-      // The old title is gone from the full result.
-      expect(find.text('Where the marks went'), findsNothing);
+      expect(tester.getTopLeft(find.byType(NextMovePanel)).dy < top('Your 15 mistakes'), isTrue);
+      expect(top('Your 15 mistakes') < top('More from this paper'), isTrue);
+      expect(top('More from this paper') < top('Where the marks went'), isTrue);
+      expect(top('Where the marks went') < top('Mistake Lab'), isTrue);
+      expect(top('Mistake Lab') < top(LayersCopy.foldTime), isTrue);
+      expect(top(LayersCopy.foldTime) < top(TimeCopy.title), isTrue);
+      expect(top(TimeCopy.title) < top(LayersCopy.foldPlan), isTrue);
+      expect(top(LayersCopy.foldPlan) < top('Every answer, all 50'), isTrue);
+      // No jargon heading: the SWOT is "After this mock: strengths, gaps and plan".
+      expect(find.text('SWOT'), findsNothing);
+      // The old second volt key ("The first thing to fix") is gone; the next move is the one volt.
+      expect(find.text('The first thing to fix'), findsNothing);
     });
 
     testWidgets('a Q chip in the ledger opens that answer, and "See every change" reaches the changes', (tester) async {

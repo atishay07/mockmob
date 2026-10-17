@@ -5,36 +5,54 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/api/api_providers.dart' show nowProvider;
+import '../../../core/art/art.dart' show SubjectEmblem;
 import '../../../core/haptics/haptics.dart';
 import '../../../core/models/models.dart' show ReplayChip;
 import '../../../core/motion/motion.dart';
-import '../../../core/repositories/repositories.dart';
+import '../../../core/repositories/repositories.dart' show attemptDetailProvider;
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../practice/widgets/result_foot.dart';
+import '../../practice/widgets/top_edge_fade.dart' show BarFade;
 import '../../rules/widgets/across_mocks_view.dart';
 import '../../rules/widgets/rule_check_view.dart';
+import '../../rules/widgets/rules_entry.dart' show LabRulesLink;
 import '../../rules/widgets/same_mistakes_later_view.dart';
 import '../../rules/widgets/traps_meet_view.dart';
-import '../../rhythm/rhythm.dart' show CelebrationMode, CelebrationScope, CelebrationSlot, celebrationControllerProvider, celebrationModeProvider;
+import '../../rhythm/rhythm.dart' show CelebrationScope, CelebrationSlot, celebrationControllerProvider;
 import '../../review/data/review_providers.dart' show reviewClockProvider;
 import '../copy.dart';
+import '../data/move_state.dart';
 import '../data/result_providers.dart';
+import '../layers_copy.dart';
 import '../model/answer_items.dart';
-import '../model/recap_variant.dart' show recapReaction;
+import '../model/move_inputs.dart';
+import '../model/next_move.dart';
 import '../model/time_decisions.dart';
+import '../move_nav.dart';
 import '../recap/recap_flow.dart' show RecapPlaceholder;
-import '../widgets/answer_reactor.dart';
 import '../widgets/evidence_link.dart';
+import '../widgets/fold_section.dart';
+import '../widgets/mistake_row.dart';
+import '../widgets/next_move_panel.dart';
+import '../widgets/result_head.dart';
+import 'answer_row.dart';
 import 'full_sections.dart';
 import 'replay_section.dart';
 import 'summary_section.dart';
 import 'swot_section.dart';
 import 'time_section.dart';
 
-/// `/result/:attemptId` (spec 5.7): the complete, readable result without the ritual. Reopening
-/// an old result always lands here, never on the seal. [focusQuestion] opens one answer (the
-/// question tiles of the recap link here).
+/// `/result/:attemptId` (RESULT-1017, packet A1): the result of a full or NTA-style mock in the same four layers as a
+/// practice set. (1) What happened in one glance: the one receipt, the marks with their denominator, the marks bar
+/// and the chapter that cost the most. (2) The one next move, chosen by stated rules, as the foot's volt key, with why
+/// and what a repair gives before paying. (3) The mistakes in repair order, each with its repair inline and its status.
+/// (4) Everything else folded under plain names: where the marks went (the Mistake Lab ledger), the time and changed
+/// answers (the Replay, Time and decisions, the traps), the plan after this mock (the SWOT), the rule and its proof,
+/// and every answer. Nothing is removed. Reopening an old result always lands here, never on the seal; there is no
+/// Mobi on it (F11). [focusQuestion] opens one answer (the question tiles of the recap link here).
 class FullResultScreen extends ConsumerStatefulWidget {
   const FullResultScreen({super.key, required this.attemptId, this.focusQuestion});
 
@@ -54,19 +72,16 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
   /// so a heading that scrolls up to it never sits flush on the title.
   bool _scrolled = false;
 
-  /// The "Not attempted" group is folded until opened (or until a link lands inside it).
+  /// The first mistakes show; "Show all" opens the rest. The blanks sit folded under one row.
+  static const int _firstRows = 4;
+  bool _showAll = false;
   bool _blankOpen = false;
-
-  /// The reader Mobi beside the answers heading, and the one-act-per-2.5-s reaction to the
-  /// answer the student opens. Left out of the tree on an NTA result.
-  final MobiController _mobi = MobiController();
-  late final AnswerReactor _reactor = AnswerReactor(_mobi);
 
   /// The answers as last built, so a bubble of the map can find its row.
   AnswerGroups? _groups;
 
-  /// Whether Mobi may act on an opened answer (full Celebrations, not sleepy): set by the build.
-  bool _mobiAllowed = false;
+  /// The mistakes in the order this page shows them, so a link knows whether its row sits past "Show all".
+  List<String> _wrongOrder = const [];
 
   @override
   void initState() {
@@ -76,14 +91,47 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
 
   @override
   void dispose() {
-    _reactor.dispose();
-    _mobi.dispose();
     _replayFilter.dispose();
     super.dispose();
   }
 
-  /// A bubble of the answer map was tapped: open that row and scroll it under the bar. A blank
-  /// one sits in the folded group, so the group opens on it first.
+  /// Opens [item] where it lives (a mistake past the first rows, the folded blanks, or the right answers inside the
+  /// "Every answer" fold) and scrolls it under the bar.
+  void _reveal(AnswerItem item, {bool animate = true}) {
+    var folded = false;
+    setState(() {
+      _open.add(item.qid);
+      switch (item.verdict) {
+        case Verdict.wrong:
+          if (_wrongOrder.indexOf(item.qid) >= _firstRows) _showAll = true;
+        case Verdict.blank:
+          folded = !_blankOpen;
+          _blankOpen = true;
+        case Verdict.correct:
+          folded = !FoldMemory.instance.isOpen(_Folds.every);
+          FoldMemory.instance.set(_Folds.every, open: true);
+        case Verdict.held:
+          break;
+      }
+    });
+    void scrollTo() {
+      if (!mounted) return;
+      final ctx = _keys[item.qid]?.currentContext;
+      if (ctx == null || !ctx.mounted) return;
+      Scrollable.ensureVisible(
+        ctx,
+        alignment: 0.08,
+        duration: animate ? Motion.of(context, Motion.emphasizedDuration) : Duration.zero,
+        curve: Motion.emphasized,
+      );
+    }
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => scrollTo());
+    // A row inside a fold arrives while the fold is still opening: look again once it has settled.
+    if (folded) Future<void>.delayed(Motion.of(context, FoldSection.openDuration) + const Duration(milliseconds: 30), scrollTo);
+  }
+
+  /// A bubble of the answer map, a Q chip or a "Show me" was tapped (1-based).
   void _openFromMap(int number) {
     final groups = _groups;
     if (groups == null) return;
@@ -93,41 +141,7 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
     }
     if (target == null) return;
     unawaited(ref.read(hapticsProvider).tick());
-    final item = target;
-    // A blank row inside the folded group mounts already open, so it never sees itself go from
-    // folded to open: Mobi is told here instead.
-    final foldedBlank = item.verdict == Verdict.blank && !_blankOpen;
-    setState(() {
-      _open.add(item.qid);
-      if (item.verdict == Verdict.blank) _blankOpen = true;
-    });
-    void scrollTo() {
-      if (!mounted) return;
-      final ctx = _keys[item.qid]?.currentContext;
-      if (ctx == null || !ctx.mounted) return;
-      Scrollable.ensureVisible(
-        ctx,
-        alignment: 0.08,
-        duration: Motion.of(context, Motion.emphasizedDuration),
-        curve: Motion.emphasized,
-      );
-    }
-
-    WidgetsBinding.instance.addPostFrameCallback((_) => scrollTo());
-    // A row inside the folded group arrives while that group's height is still opening: look
-    // again once it has settled.
-    if (item.verdict == Verdict.blank) {
-      Future<void>.delayed(Motion.of(context, Motion.card) + const Duration(milliseconds: 30), () {
-        scrollTo();
-        if (foldedBlank && mounted) _onOpened(item, allowed: _mobiAllowed);
-      });
-    }
-  }
-
-  /// An answer was opened after the page was up: Mobi turns to it (full Celebrations only, never
-  /// under reduced motion).
-  void _onOpened(AnswerItem item, {required bool allowed}) {
-    _reactor.react(item.verdict, row: _keyFor(item.qid), allowed: allowed && !Motion.reduced(context));
+    _reveal(target);
   }
 
   GlobalKey _keyFor(String qid) => _keys.putIfAbsent(qid, GlobalKey.new);
@@ -139,60 +153,51 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
   final GlobalKey _replayKey = GlobalKey();
   final ValueNotifier<String> _replayFilter = ValueNotifier<String>(ReplayChip.all);
 
+  /// Opens the time fold (where the Replay and Time and decisions live), then scrolls [key] under the bar.
+  void _scrollIntoTime(GlobalKey key, {double alignment = 0.08}) {
+    final wasOpen = FoldMemory.instance.isOpen(_Folds.time);
+    FoldMemory.instance.set(_Folds.time, open: true);
+    void go() {
+      final ctx = key.currentContext;
+      if (!mounted || ctx == null || !ctx.mounted) return;
+      unawaited(Scrollable.ensureVisible(ctx, alignment: alignment, duration: Motion.of(context, Motion.emphasizedDuration), curve: Motion.emphasized));
+    }
+
+    if (wasOpen) {
+      go();
+    } else {
+      Future<void>.delayed(Motion.of(context, FoldSection.openDuration) + const Duration(milliseconds: 30), go);
+    }
+  }
+
   /// A ledger row's "See it in the replay": the Replay with that group's chip on, under the bar.
   void _seeInReplay(String group) {
     _replayFilter.value = group;
-    final ctx = _replayKey.currentContext;
-    if (ctx == null || !ctx.mounted) return;
-    unawaited(
-      Scrollable.ensureVisible(
-        ctx,
-        alignment: 0.04,
-        duration: Motion.of(context, Motion.emphasizedDuration),
-        curve: Motion.emphasized,
-      ),
-    );
+    _scrollIntoTime(_replayKey, alignment: 0.04);
   }
 
-  /// The Lab's "See every change": scroll Time and decisions' list of changes under the bar.
-  void _seeChanges() {
-    final ctx = _changesKey.currentContext;
-    if (ctx == null || !ctx.mounted) return;
-    unawaited(
-      Scrollable.ensureVisible(
-        ctx,
-        alignment: 0.08,
-        duration: Motion.of(context, Motion.emphasizedDuration),
-        curve: Motion.emphasized,
-      ),
-    );
-  }
+  /// The Lab's "See every change": Time and decisions' list of changes, under the bar.
+  void _seeChanges() => _scrollIntoTime(_changesKey);
 
+  /// A linked question (the recap's tiles) opens on arrival.
   void _seed(AnswerGroups groups) {
     if (_seeded) return;
     _seeded = true;
     final focus = widget.focusQuestion;
-    AnswerItem? target;
-    if (focus != null) {
-      for (final a in groups.all) {
-        if (a.number == focus) target = a;
+    if (focus == null) return;
+    for (final a in groups.all) {
+      if (a.number == focus) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) _reveal(a, animate: false);
+        });
+        return;
       }
-    }
-    target ??= groups.wrong.firstOrNull;
-    if (target == null) return;
-    _open.add(target.qid);
-    // A linked blank question sits in the folded "Not attempted" group: open the group on it.
-    if (target.verdict == Verdict.blank) _blankOpen = true;
-    if (focus != null) {
-      final qid = target.qid;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        final ctx = _keys[qid]?.currentContext;
-        if (ctx != null && ctx.mounted) Scrollable.ensureVisible(ctx, alignment: 0.08);
-      });
     }
   }
 
   void _toggle(String qid) => setState(() => _open.contains(qid) ? _open.remove(qid) : _open.add(qid));
+
+  void _go(String location) => unawaited(context.push(location));
 
   void _back() {
     if (context.canPop()) {
@@ -202,9 +207,70 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
     }
   }
 
+  /// One answer row, as a mistake (with its summary face and its repair inline) when [status] is given.
+  Widget _row(
+    AnswerItem item, {
+    required bool keysOff,
+    required RecapData data,
+    required String attemptId,
+    MistakeStatus? status,
+    String? cohort,
+    String? cost,
+  }) {
+    final lab = data.detail?.lab;
+    final letters = item.question.options;
+    String? letter(int? i) => i == null || i < 0 ? null : (i < letters.length ? letters[i].key : letterOf(i));
+    final yours = letter(item.given);
+    final answer = keysOff || item.verdict == Verdict.held ? null : letter(item.keyIndex);
+    final open = _open.contains(item.qid);
+    return KeyedSubtree(
+      key: _keyFor(item.qid),
+      child: AnswerRow(
+        item: item,
+        expanded: open,
+        onToggle: () => _toggle(item.qid),
+        keysOff: keysOff,
+        others: lab?.othersFor(item.qid),
+        othersTitle: lab?.labels.othersTitle,
+        trap: lab?.traps?.tagFor(item.qid),
+        onRepair: item.repairable
+            ? () => _go(Uri(path: AppRoutes.reviewRepair(attemptId, item.qid), queryParameters: const {'count': '1'}).toString())
+            : null,
+        summary: status == null
+            ? null
+            : MistakeSummary(
+                number: item.number,
+                chapter: item.question.chapter,
+                stem: item.question.question,
+                yours: yours,
+                answer: answer,
+                cohort: cohort,
+                status: status,
+                expanded: open,
+              ),
+        summarySemantics: status == null
+            ? null
+            : MistakeSummary.spoken(number: item.number, chapter: item.question.chapter, yours: yours, answer: answer, cohort: cohort, status: status),
+        repair: status == null
+            ? null
+            : MistakeRepairEntry(
+                number: item.number,
+                status: status,
+                letter: yours,
+                cost: cost,
+                onRepair: status == MistakeStatus.keyHeld || status == MistakeStatus.corrected
+                    ? null
+                    : () => _go(Uri(path: AppRoutes.reviewRepair(attemptId, item.qid), queryParameters: const {'count': '1'}).toString()),
+                onOpenSaved: () => _go(AppRoutes.reviewRepair(attemptId, item.qid)),
+              ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
+    final type = context.mmType;
     final id = widget.attemptId;
     final data = ref.watch(recapDataProvider(id));
     final model = data.model;
@@ -212,6 +278,7 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
     final progress = model == null ? null : ref.watch(recapProgressProvider(id)).value;
 
     final Widget body;
+    ResultMove? footMove;
     if (model == null || attempt == null) {
       body = RecapPlaceholder(data: data, attemptId: id, page: true, onRetry: () => retryRecapData(ref, id));
     } else {
@@ -231,35 +298,82 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                 return i >= 0 && i < options.length ? options[i].key : String.fromCharCode(65 + i);
               },
             );
-      // The Replay (slice 2): the paper as a clock, the Lab's Find step, above Time and decisions.
+      // The Replay (slice 2): the paper as a clock.
       final replay = model.isHeld ? null : detail?.lab?.replay;
+      final rows = moveAnalysisOf(attempt);
+      final state = MoveState.watch(ref, attemptId: id, wrongQids: [for (final r in rows.mistakes) r.qid]);
       final groups = buildAnswerGroups(
         attempt,
         detail: data.detail,
-        repairedIds: {
-          for (final r in ref.watch(repairLocalRecordsProvider).value ?? const <RepairLocalRecord>[])
-            if (r.attemptId == id && r.isRepaired && r.isAcknowledged) r.questionId,
-        },
+        repairedIds: state.repaired,
         candidateIds: {for (final c in model.candidates) c.questionId},
         time: timeRead,
       );
       _seed(groups);
       _groups = groups;
-      // The same reaction table as the recap decides whether Mobi is here at all (not on an NTA
-      // result) and how it stands: late at night it sits sleepy and does not turn to answers.
-      final mode = ref.watch(celebrationModeProvider);
-      final reaction = recapReaction(variant: model.variant, mode: mode, isNta: model.isNta, hour: MobiRation.now().hour);
-      final mobiOn = reaction != null;
-      final mobiAllowed = reaction != null && mode == CelebrationMode.full && reaction.act != MobiAct.sleepy;
-      _mobiAllowed = mobiAllowed;
       final keysOff = model.keysUnavailable || data.detail == null;
-      // The Lab's slice 3 parts ride on the same read: the repair order and the Rule book's link in
-      // the Repair step, the rule check in Prove, and Across your mocks at the Lab's end.
+      // The Lab's parts ride on the same read: the repair order, the Rule book's link, the rule check in Prove, and
+      // Across your mocks.
       final lab = model.isHeld ? null : detail?.lab;
-      final fix = firstFixSection(context, model, lab: lab);
-      // One authored entrance, riding the page's own transition: the figure first, then what
-      // it means, then the sections in reading order. A page that is already up never moves,
-      // and content that loads after the page has landed is simply there.
+      final reviews = moveReviewsOf(detail);
+      final order = moveOrderOf(detail?.lab?.repairOrder);
+      final now = ref.watch(nowProvider)();
+      final move = nextMove(
+        analysis: rows,
+        reviews: reviews,
+        order: order,
+        repaired: state.repaired,
+        checks: state.checks,
+        aiCredits: state.aiCredits,
+        practiceCredits: state.practiceCredits,
+        isPremium: state.isPro,
+        mode: attempt.mode,
+        subjectName: model.subjectName,
+        labReady: detail?.lab != null,
+        hour: now.hour,
+      );
+      footMove = move;
+      final receipt = receiptLine(
+        subjectName: model.subjectName,
+        mode: attempt.mode,
+        at: (model.receivedAt ?? model.submittedAt).toLocal(),
+        duration: timeOnPaper(attempt),
+        now: now,
+      );
+      final byQid = {for (final a in groups.all) a.qid: a};
+      final wrongRows = inRepairOrder(rows.mistakes.where((r) => !keyHeld(reviews, r.qid)).toList(), order);
+      final wrong = [
+        for (final r in wrongRows)
+          if (byQid[r.qid] case final a? when a.verdict == Verdict.wrong) a,
+      ];
+      _wrongOrder = [for (final a in wrong) a.qid];
+      final shown = _showAll ? wrong : wrong.take(_firstRows).toList();
+      final repairCost = repairCostLine(state.aiCredits);
+      final m = rows.marks;
+      final swot = data.detail?.swot;
+      final firstSwot = swot == null
+          ? null
+          : [
+              for (final kind in const ['threat', 'opportunity', 'weakness', 'strength'])
+                for (final q in swot.quadrants)
+                  if (q.id == kind)
+                    for (final i in q.items) i.title,
+            ].firstOrNull;
+      final timeReady = timeRead != null && timeRead.isReady;
+      final hasTime = replay != null || timeReady || lab != null;
+      final hasProof = lab?.rules != null || lab?.ruleCheck != null || lab?.later != null || lab?.acrossMocks != null;
+      Widget row(AnswerItem a, {MistakeStatus? status}) => _row(
+        a,
+        keysOff: keysOff,
+        data: data,
+        attemptId: id,
+        status: status,
+        cohort: status == null ? null : cohortLine(order, a.qid),
+        cost: repairCost,
+      );
+
+      // One authored entrance, riding the page's own transition: the figure first, then the next move, then the
+      // mistakes. A page that is already up never moves, and content that loads after it has landed is simply there.
       var turn = 0;
       Widget item(Widget child) => MmStaggerItem(index: turn++, child: child);
       // Built in full (not lazily), so a linked question can be scrolled into view.
@@ -271,134 +385,217 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
           return false;
         },
         child: SingleChildScrollView(
-        // The first line sits 12 dp under the bar (audit X6): the recap link, then 8 to the
-        // submitted line, then 12 to the figure.
-        padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s12, MmSpace.gutter, MmSpace.s48),
-        child: MmStagger(
-          driver: MmStaggerDriver.route,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              if (data.stale && data.fetchedAt != null) ...[
-                InlineBanner(message: ResultCopy.lastLoaded(ref.watch(reviewClockProvider).local(data.fetchedAt!)), tone: BannerTone.offline, compact: true),
-                const SizedBox(height: MmRhythm.item),
-              ],
-              if (progress != null) ...[
-                // A quiet text link, flush with the page's gutter: the score leads, this only says
-                // where the recap was left.
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: EvidenceLink(
-                    label: ResultCopy.continueRecap(progress),
-                    onTap: () => context.go(AppRoutes.resultRecap(id, progress)),
-                  ),
-                ),
-                const SizedBox(height: MmSpace.s8),
-              ],
-              if (ref.watch(celebrationControllerProvider.select((s) => s.byScope[CelebrationScope.result(id)]?.showsMoment ?? false))) ...[
-                // A moment the rhythm module fired for this result; nothing is reserved without one.
-                CelebrationSlot(scope: CelebrationScope.result(id)),
-                const SizedBox(height: MmSpace.s16),
-              ],
-              item(
-                SummarySection(
-                  model: model,
-                  mobi: mobiOn ? _mobi : null,
-                  mobiPose: reaction?.act == MobiAct.sleepy ? MobiPose.sleepy : MobiPose.read,
-                  onOpenQuestion: _openFromMap,
-                  arrival: widget.focusQuestion == null,
-                  onPeek: (_) => unawaited(ref.read(hapticsProvider).tick()),
-                ),
-              ),
-              ...annotations(context, model, data, onRetry: () => ref.read(attemptDetailProvider(id).notifier).refresh(force: true)),
-              // The Mistake Lab right under the score (Mistake Lab v4, spec 3): where the marks went
-              // (the server's ledger, or today's flow without one), then how the paper's time and
-              // answer choices went, then the first fix. Time and decisions shows only with a usable
-              // record: a paper without one shows no section rather than a "not recorded" line.
-              if (!model.isHeld) ...[
-                const SizedBox(height: MmRhythm.section),
-                item(
-                  whereSection(
-                    context,
-                    model,
-                    lab: data.detail?.lab,
-                    onOpenQuestion: _openFromMap,
-                    onSeeChanges: timeRead != null && timeRead.isReady ? _seeChanges : null,
-                    onSeeInReplay: replay == null ? null : _seeInReplay,
-                  ),
-                ),
-              ],
-              // "After this mock": the plan and the read of the paper, right under where the marks went so
-              // what to do next is the second thing a mock's result says. Written by the server from
-              // stored records. Nothing when the read is missing, unavailable or a practice set's.
-              // It plays its own first-view entrance, so it is not one of the page's staggered items.
-              if (data.detail?.swot case final swot? when swot.isVisible) ...[
-                const SizedBox(height: MmRhythm.section),
-                SwotSection(attemptId: id, swot: swot, onOpenQuestion: _openFromMap),
-              ],
-              if (replay != null) ...[
-                const SizedBox(height: MmRhythm.section),
-                item(
-                  KeyedSubtree(
-                    key: _replayKey,
-                    child: ReplaySection(
-                      replay: replay,
-                      onOpenQuestion: _openFromMap,
-                      numbersOf: detail!.lab!.numbersOf,
-                      filter: _replayFilter,
+          // The app owns this scroll, so it bounces (F3) instead of Android's stretch.
+          physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+          padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s12, MmSpace.gutter, MmSpace.s32),
+          child: MmStagger(
+            driver: MmStaggerDriver.route,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if (data.stale && data.fetchedAt != null) ...[
+                  InlineBanner(message: ResultCopy.lastLoaded(ref.watch(reviewClockProvider).local(data.fetchedAt!)), tone: BannerTone.offline, compact: true),
+                  const SizedBox(height: MmRhythm.item),
+                ],
+                if (progress != null) ...[
+                  // A quiet text link, flush with the page's gutter: the score leads, this only says where the recap
+                  // was left.
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: EvidenceLink(
+                      label: ResultCopy.continueRecap(progress),
+                      icon: LucideIcons.rotateCcw,
+                      onTap: () => context.go(AppRoutes.resultRecap(id, progress)),
                     ),
                   ),
+                  const SizedBox(height: MmSpace.s8),
+                ],
+                if (ref.watch(celebrationControllerProvider.select((s) => s.byScope[CelebrationScope.result(id)]?.showsMoment ?? false))) ...[
+                  // A moment the rhythm module fired for this result; nothing is reserved without one.
+                  CelebrationSlot(scope: CelebrationScope.result(id)),
+                  const SizedBox(height: MmSpace.s16),
+                ],
+                // Layer 1: what happened.
+                item(
+                  model.isHeld
+                      ? _HeldHead(receipt: receipt, count: model.heldCount, notice: keyNotice(reviews, (q) => byQid[q]?.number))
+                      : ResultHead(
+                          receipt: receipt,
+                          marks: m,
+                          scored: model.marks,
+                          max: model.maxMarks,
+                          costliest: costliestLine(rows, reviews: reviews),
+                          notice: keyNotice(reviews, (q) => byQid[q]?.number),
+                          arrival: widget.focusQuestion == null && progress == null,
+                          // The paper's subject object stands beside the figure, still: one art piece, no loop.
+                          beside: SubjectEmblem(subject: model.subjectId, size: SummarySection.emblemSize, framed: false, animate: false),
+                        ),
+                ),
+                ...annotations(context, model, data, corrected: false, onRetry: () => ref.read(attemptDetailProvider(id).notifier).refresh(force: true)),
+                // Layer 2: the one next move.
+                const SizedBox(height: MmSpace.s24),
+                item(
+                  NextMovePanel(
+                    move: move,
+                    onAlt: switch (move.alt) {
+                      final alt? => switch (MoveNav.forAlt(alt, attemptId: id, subject: model.subjectId, mock: true)) {
+                        final to? => () => _go(to),
+                        null => null,
+                      },
+                      null => null,
+                    },
+                  ),
+                ),
+                // Layer 3: the mistakes, in repair order, each with its repair inline.
+                const SizedBox(height: MmSpace.group),
+                item(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      MistakesHead(
+                        count: wrong.length,
+                        repairedCount: wrong.where((a) => state.repaired.contains(a.qid)).length,
+                        cohort: order?.cohort ?? false,
+                        nothingAnswered: m.answered == 0,
+                      ),
+                      const SizedBox(height: MmSpace.s8),
+                      for (final a in shown) ...[
+                        Divider(height: 1, thickness: 1, color: colors.line),
+                        row(a, status: mistakeStatusOf(qid: a.qid, reviews: reviews, repaired: state.repaired, checks: state.checks, move: move)),
+                      ],
+                      if (wrong.length > _firstRows) ShowAllRow(count: wrong.length, open: _showAll, onTap: () => setState(() => _showAll = !_showAll)),
+                      if (groups.held.isNotEmpty) ...[
+                        const SizedBox(height: MmSpace.s16),
+                        Text(LayersCopy.heldGroup(groups.held.length), style: type.label.copyWith(color: colors.ink2)),
+                        for (final a in groups.held) ...[
+                          Divider(height: 1, thickness: 1, color: colors.line),
+                          row(a, status: MistakeStatus.keyHeld),
+                        ],
+                      ],
+                      if (groups.blank.isNotEmpty)
+                        LeftBlankRow(
+                          count: groups.blank.length,
+                          open: _blankOpen,
+                          onTap: () => setState(() => _blankOpen = !_blankOpen),
+                          children: [
+                            for (final a in groups.blank) ...[Divider(height: 1, thickness: 1, color: colors.line), row(a)],
+                          ],
+                        ),
+                    ],
+                  ),
+                ),
+                // Layer 4: everything else, folded under plain names.
+                const SizedBox(height: MmSpace.group),
+                const FoldsHeading(),
+                FoldSection(
+                  id: _Folds.where,
+                  title: LayersCopy.foldWhere,
+                  teaser: model.isHeld
+                      ? ResultCopy.heldBody(model.heldCount)
+                      : lab?.headline?.text ?? (detail == null ? LayersCopy.whereCounting : LayersCopy.answeredRight(m.right, m.answered)),
+                  builder: (context) => model.isHeld
+                      ? Text(ResultCopy.heldBody(model.heldCount), style: type.body.copyWith(color: colors.ink2))
+                      : whereSection(
+                          context,
+                          model,
+                          lab: data.detail?.lab,
+                          onOpenQuestion: _openFromMap,
+                          onSeeChanges: timeReady ? _seeChanges : null,
+                          onSeeInReplay: replay == null ? null : _seeInReplay,
+                        ),
+                ),
+                if (hasTime)
+                  FoldSection(
+                    id: _Folds.time,
+                    title: LayersCopy.foldTime,
+                    teaser: LayersCopy.timeTeaser(median: timeReady ? timeRead.medianLine : null, changes: timeReady ? timeRead.changeCount : 0),
+                    builder: (context) => Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        if (replay != null)
+                          KeyedSubtree(
+                            key: _replayKey,
+                            child: ReplaySection(replay: replay, onOpenQuestion: _openFromMap, numbersOf: detail!.lab!.numbersOf, filter: _replayFilter),
+                          ),
+                        if (timeReady) ...[
+                          if (replay != null) const SizedBox(height: MmRhythm.section),
+                          TimeSection(read: timeRead, onOpenQuestion: _openFromMap, changesKey: _changesKey),
+                        ],
+                        // The traps the student keeps meeting across mocks, behind a disclosure: nothing is read until
+                        // it opens.
+                        if (lab != null) ...[const SizedBox(height: MmRhythm.section), const TrapsMeetView()],
+                      ],
+                    ),
+                  ),
+                // After this mock: the plan and the read of the paper, written by the server from stored records.
+                if (swot != null && swot.isVisible)
+                  FoldSection(
+                    id: _Folds.plan,
+                    title: LayersCopy.foldPlan,
+                    teaser: firstSwot ?? swot.message ?? LayersCopy.planTeaserFallback,
+                    builder: (context) => SwotSection(attemptId: id, swot: swot, onOpenQuestion: _openFromMap),
+                  ),
+                if (hasProof)
+                  FoldSection(
+                    id: _Folds.proof,
+                    title: LayersCopy.foldProof,
+                    teaser: LayersCopy.ruleTeaser(lab?.rules?.active?.text),
+                    builder: (context) => Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        // The Rule book: every rule from the student's repairs and from how they take papers.
+                        if (lab?.rules case final rules?) LabRulesLink(countLabel: rules.countLabel, activeRule: rules.active?.text),
+                        // Prove: the rule chosen before this mock, checked on its record.
+                        if (lab?.ruleCheck case final check?) ...[const SizedBox(height: MmRhythm.group), RuleCheckView(check: check)],
+                        // Same mistakes later: which wrong answers come back in Revise, and when.
+                        if (lab?.later case final later?) ...[const SizedBox(height: MmRhythm.group), SameMistakesLaterView(later: later)],
+                        // Across your mocks: the record as it stood when this paper was taken.
+                        if (lab?.acrossMocks case final across?) ...[
+                          const SizedBox(height: MmRhythm.group),
+                          AcrossMocksView(across: across, seenKey: 'attempt:$id'),
+                        ],
+                      ],
+                    ),
+                  ),
+                FoldSection(
+                  id: _Folds.every,
+                  title: LayersCopy.foldEvery(model.questionCount),
+                  teaser: LayersCopy.everyTeaser(m.right, m.wrong, m.blank),
+                  builder: (context) => Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      ResultAnswersMap(model: model, onOpen: _openFromMap, onPeek: (_) => unawaited(ref.read(hapticsProvider).tick())),
+                      if (groups.correct.isNotEmpty) ...[
+                        const SizedBox(height: MmSpace.s20),
+                        Text(LayersCopy.rightAnswers(groups.correct.length), style: type.cardTitle.copyWith(fontSize: 16)),
+                        for (final a in groups.correct) ...[Divider(height: 1, thickness: 1, color: colors.line), row(a)],
+                      ],
+                    ],
+                  ),
+                ),
+                Divider(height: 1, thickness: 1, color: colors.line),
+                // The next fresh paper: the bank's promise, said plainly, with a quiet key.
+                const SizedBox(height: MmSpace.s32),
+                Text(LayersCopy.freshTitle, style: type.cardTitle.copyWith(fontSize: 16)),
+                const SizedBox(height: MmSpace.s4),
+                Text(LayersCopy.freshLine, style: type.small.copyWith(color: colors.ink2)),
+                const SizedBox(height: MmSpace.s12),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: KeyButton.secondary(
+                    label: LayersCopy.freshKey,
+                    expanded: false,
+                    onPressed: () => _go(Uri(path: AppRoutes.practiceSetup(model.isNta ? 'nta' : 'full'), queryParameters: {'subject': model.subjectId}).toString()),
+                  ),
                 ),
               ],
-              if (timeRead != null && timeRead.isReady) ...[
-                const SizedBox(height: MmRhythm.section),
-                item(TimeSection(read: timeRead, onOpenQuestion: _openFromMap, changesKey: _changesKey)),
-              ],
-              // Find ends with the traps the student keeps meeting across mocks (slice 4, spec 4.11), behind a
-              // disclosure: nothing is read until it opens.
-              if (lab != null) ...[
-                const SizedBox(height: MmRhythm.section),
-                item(const TrapsMeetView()),
-              ],
-              if (fix != null) ...[const SizedBox(height: MmRhythm.section), item(fix)],
-              // Prove (spec 4.8): the rule chosen before this mock, checked on its record.
-              if (lab?.ruleCheck case final check?) ...[
-                const SizedBox(height: MmRhythm.section),
-                item(RuleCheckView(check: check)),
-              ],
-              // Same mistakes later (slice 4, spec 4.8): which wrong answers come back in Revise, and when.
-              if (lab?.later case final later?) ...[
-                const SizedBox(height: MmRhythm.section),
-                item(SameMistakesLaterView(later: later)),
-              ],
-              // Across your mocks (spec 4.9): the record as it stood when this paper was taken.
-              if (lab?.acrossMocks case final across?) ...[
-                const SizedBox(height: MmRhythm.section),
-                item(AcrossMocksView(across: across, seenKey: 'attempt:$id')),
-              ],
-              const SizedBox(height: MmRhythm.section),
-              item(
-                answersSection(
-                  context,
-                  groups: groups,
-                  keysOff: keysOff,
-                  isOpen: _open.contains,
-                  keyFor: _keyFor,
-                  onToggle: _toggle,
-                  model: model,
-                  blankOpen: _blankOpen,
-                  onToggleBlank: () => setState(() => _blankOpen = !_blankOpen),
-                  onOpened: (item) => _onOpened(item, allowed: mobiAllowed),
-                  lab: data.detail?.lab,
-                ),
-              ),
-            ],
+            ),
           ),
         ),
-      ),
       );
     }
 
+    final move = footMove;
     return PopScope(
       canPop: context.canPop(),
       onPopInvokedWithResult: (didPop, _) {
@@ -452,15 +649,65 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                             ),
                           ),
                         ),
+                        if (move != null) const BarFade(),
                       ],
                     ),
                   ),
+                  // The one volt on the screen: the next move, in thumb reach, with its cost and balance under it.
+                  if (move != null && model != null)
+                    ResultFoot(
+                      primary: ResultFootAction(
+                        move.label,
+                        () => _go(MoveNav.forMove(move, attemptId: id, subject: model.subjectId)),
+                        note: LayersCopy.footNote(move.cost),
+                      ),
+                      showFinish: false,
+                    ),
                 ],
               ),
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+/// The folds' names in the session's memory.
+abstract final class _Folds {
+  static const where = 'mock.where';
+  static const time = 'mock.time';
+  static const plan = 'mock.plan';
+  static const proof = 'mock.proof';
+  static const every = 'mock.every';
+}
+
+/// Layer 1 while an answer key is being re-checked: the figure is not final, so it is not shown; the receipt, the
+/// plain line and the notice are.
+class _HeldHead extends StatelessWidget {
+  const _HeldHead({required this.receipt, required this.count, this.notice});
+
+  final String receipt;
+  final int count;
+  final String? notice;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        ResultReceipt(text: receipt),
+        const SizedBox(height: MmSpace.s12),
+        Semantics(header: true, child: Text(ResultCopy.heldTitle, style: type.headline)),
+        const SizedBox(height: MmSpace.s6),
+        Text(ResultCopy.heldBody(count), style: type.body.copyWith(color: colors.ink2)),
+        if (notice != null) ...[
+          const SizedBox(height: MmSpace.s16),
+          ResultNotice(text: notice!),
+        ],
+      ],
     );
   }
 }

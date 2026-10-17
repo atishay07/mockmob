@@ -250,14 +250,24 @@ void main() {
       overrides: resultOverrides(attemptId: 'p1', detail: detail, chapter: 'Goodwill'),
     );
     await tester.pump(const Duration(milliseconds: 500));
-    // Only the first wrong answer starts open.
-    expect(find.text('Your answer'), findsOneWidget);
+    // No row starts open: the next move's key opens one (RESULT-1017 4.5).
+    expect(find.text('Your answer'), findsNothing);
+    // What this set shows lives in the "Where the marks went" fold.
+    final fold = find.text('Where the marks went');
+    await tester.scrollUntilVisible(fold, 200, scrollable: find.byType(Scrollable).first);
+    await Scrollable.ensureVisible(tester.element(fold), alignment: 0.3);
+    await tester.pump();
+    await tester.tap(fold);
+    for (var t = 0; t < 500; t += 16) {
+      await tester.pump(const Duration(milliseconds: 16));
+    }
     await tester.scrollUntilVisible(find.text('3 of your 3 mistakes were in Goodwill'), 200, scrollable: find.byType(Scrollable).first);
     final show = find.textContaining('Show me').last;
-    await tester.ensureVisible(show);
+    await Scrollable.ensureVisible(tester.element(show), alignment: 0.3);
     await tester.pump();
     await tester.tap(show);
     await tester.pump(const Duration(milliseconds: 600));
     expect(find.text('Your answer'), findsNWidgets(3));
+    await tester.pump(const Duration(seconds: 1));
   });
 }

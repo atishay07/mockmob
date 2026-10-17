@@ -32,9 +32,19 @@ class ResultQuestionRow extends StatelessWidget {
     this.report,
     this.time,
     this.changed = false,
+    this.summary,
+    this.summarySemantics,
+    this.repair,
   });
 
   final ResultQuestion item;
+
+  /// The closed face of the row when the result draws it as a mistake (`MistakeSummary`); null keeps the plain face.
+  final Widget? summary;
+  final String? summarySemantics;
+
+  /// The repair entry under an opened mistake, after its options and explanation.
+  final Widget? repair;
 
   /// "Report a problem" under an open question, or null.
   final Widget? report;
@@ -72,7 +82,7 @@ class ResultQuestionRow extends StatelessWidget {
       expanded: expanded,
       child: MmPressable(
         onTap: onToggle,
-        semanticsLabel: [
+        semanticsLabel: summarySemantics ?? [
           '${PracticeCopy.questionNumber(item.number)}, $_status',
           ?item.chapter,
           if (time != null) ResultCopy.timeSemantics(time!),
@@ -82,7 +92,7 @@ class ResultQuestionRow extends StatelessWidget {
         pressedScale: 0.985,
         haptic: MmPressHaptic.selection,
         highlight: true,
-        builder: (context, pressed, _) => ConstrainedBox(
+        builder: (context, pressed, _) => summary ?? ConstrainedBox(
           constraints: const BoxConstraints(minHeight: 60),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4, vertical: MmSpace.s12),
@@ -132,6 +142,8 @@ class ResultQuestionRow extends StatelessWidget {
               onTryPick: onTryPick,
             ),
           ),
+        if (expanded && repair != null)
+          Padding(padding: const EdgeInsets.fromLTRB(MmSpace.s4, 0, MmSpace.s4, MmSpace.s16), child: repair),
         if (expanded && item.question != null && (save != null || report != null))
           Padding(
             padding: const EdgeInsets.only(bottom: MmSpace.s12),

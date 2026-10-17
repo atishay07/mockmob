@@ -12,6 +12,9 @@ import 'package:mockmob/core/connectivity/connectivity.dart';
 import 'package:mockmob/core/connectivity/connectivity_providers.dart' show NetworkStatusNotifier, networkRestoredProvider;
 import 'package:mockmob/core/haptics/haptics.dart';
 import 'package:mockmob/core/models/models.dart';
+import 'package:mockmob/core/repositories/repair_local_repository.dart' show repairLocalRecordsProvider;
+import 'package:mockmob/features/result/widgets/fold_section.dart' show FoldMemory;
+import 'package:mockmob/features/credits/data/credit_figures.dart' show CreditFigures, creditFiguresProvider;
 import 'package:mockmob/features/practice/widgets/suggestion_hero.dart' show draftAnsweredProvider, draftSummaryProvider;
 import 'package:mockmob/features/learn/data/catalog_repository.dart';
 import 'package:mockmob/features/learn/models/learn_catalog.dart';
@@ -340,6 +343,9 @@ Future<GoRouter> pumpRouted(
   Size size = kGoldenSize,
   double textScale = 1,
 }) async {
+  // Every case starts with the result's folds closed (the memory lasts an app session).
+  FoldMemory.instance.reset();
+  addTearDown(FoldMemory.instance.reset);
   tester.view.physicalSize = size * 2;
   tester.view.devicePixelRatio = 2;
   addTearDown(tester.view.reset);
@@ -395,8 +401,13 @@ List<Override> resultOverrides({
   FakePendingResults? pending,
   ReplayInventory? replay,
   Future<DateTime?>? receivedLater,
+
+  /// The two balances the next move states (null: unknown, never zero).
+  CreditFigures credits = const CreditFigures(),
 }) => [
   ...practiceOverrides(catalog: catalog, analytics: analytics, pending: pending, attempts: cachedAttempt == null ? null : [cachedAttempt]),
+  creditFiguresProvider.overrideWithValue(credits),
+  repairLocalRecordsProvider.overrideWith((ref) => Stream.value(const [])),
   replayInventoryProvider.overrideWith((ref, id) async => replay),
   // The repair key reads Review's index; settled and empty here, so no database stream is opened.
   reviewInputsProvider.overrideWithValue(

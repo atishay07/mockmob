@@ -6,8 +6,8 @@ import 'package:mockmob/core/models/models.dart';
 import 'package:mockmob/features/result/copy.dart';
 import 'package:mockmob/features/result/data/result_providers.dart';
 import 'package:mockmob/features/result/full/answer_row.dart' show AnswerRow;
-import 'package:mockmob/features/result/full/full_sections.dart' show BlankGroup;
 import 'package:mockmob/features/result/model/recap_model.dart';
+import 'package:mockmob/features/result/widgets/mistake_row.dart' show LeftBlankRow;
 import 'package:mockmob/features/today/logic/today_model.dart' show GoTo, TodayAction;
 
 import '../../helpers/fonts.dart';
@@ -49,6 +49,7 @@ void main() {
   }) async {
     final router = await pumpResultRoute(
       tester,
+      openFolds: true,
       location: location,
       size: size,
       textScale: textScale,
@@ -114,40 +115,41 @@ void main() {
     });
   });
 
-  // The answer rows inside the folded "Not attempted" group: none until it is opened. A row names
-  // only its question (the group header says why they are here), so they are counted by type.
-  final blankRows = find.descendant(of: find.byType(BlankGroup), matching: find.byType(AnswerRow));
+  // The blank rows inside the folded "left blank" row (RESULT-1017 4.5): none until it is opened. They are counted by
+  // type.
+  final blankRows = find.descendant(of: find.byType(LeftBlankRow), matching: find.byType(AnswerRow));
 
-  group('P3-8: the full result folds the "Not attempted" rows', () {
+  group('P3-8: the full result folds the blank rows', () {
     testWidgets('folded by default; one tap shows the rows, another folds them', (tester) async {
       final f = firstBusinessStudiesMock(paper: blanksOnlyPaper());
       await open(tester, '/result/a7', f.model, f.detail);
       expect(blankRows, findsNothing);
-      final header = find.text('Not attempted (6)');
+      final header = find.text('6 left blank, 30 marks not earned');
       await tester.scrollUntilVisible(header, 300, scrollable: find.byType(Scrollable).first);
-      expect(find.bySemanticsLabel('6 questions not attempted. Show them.'), findsOneWidget);
+      expect(find.bySemanticsLabel('6 left blank, 30 marks not earned. Show them'), findsOneWidget);
       await tester.tap(header);
       await _run(tester, 400);
       expect(blankRows, findsNWidgets(6));
-      expect(find.bySemanticsLabel('6 questions not attempted. Hide them.'), findsOneWidget);
+      expect(find.bySemanticsLabel('6 left blank, 30 marks not earned. Fold away'), findsOneWidget);
       await tester.tap(header);
       await _run(tester, 400);
       expect(blankRows, findsNothing);
     });
 
-    testWidgets('the correct answers are reachable without passing every blank', (tester) async {
+    testWidgets('the right answers are reachable without passing every blank', (tester) async {
       final f = firstBusinessStudiesMock(paper: blanksOnlyPaper());
       await open(tester, '/result/a7', f.model, f.detail);
-      final correct = find.text('Correct (10)');
+      final correct = find.text('Right answers (10)');
       await tester.scrollUntilVisible(correct, 300, scrollable: find.byType(Scrollable).first);
       expect(correct, findsOneWidget);
       expect(blankRows, findsNothing);
     });
 
-    testWidgets('a link to a blank question opens the group on it', (tester) async {
+    testWidgets('a link to a blank question opens the row on it', (tester) async {
       final f = firstBusinessStudiesMock(paper: blanksOnlyPaper());
       await open(tester, '/result/a7?q=3', f.model, f.detail);
-      expect(find.bySemanticsLabel('6 questions not attempted. Hide them.'), findsOneWidget);
+      await _run(tester, 400);
+      expect(find.bySemanticsLabel('6 left blank, 30 marks not earned. Fold away'), findsOneWidget);
       expect(find.text('You did not answer this question.'), findsOneWidget);
     });
   });
