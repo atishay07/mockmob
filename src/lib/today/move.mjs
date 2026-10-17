@@ -133,7 +133,7 @@ export function buildMove({ plan = null, planFailed = false, papers = null, rhyt
         why: `Your last paper was ${lastName} on ${lastWhen}. ${open === n ? `${open === 1 ? 'Its one mistake is' : `All ${word(open)} of its mistakes are`} still open.` : `Its ${word(open)} open mistakes are still here; start with ${word(n)}.`}`,
         key: { label: 'Start repair', href: `/result/${encodeURIComponent(last.id)}`, minutes: repairMinutes(n) },
         link: open > n ? { label: `See all ${open}`, href: `/result/${encodeURIComponent(last.id)}` } : null,
-        pills: pills(), art: 'mobi', mobiAct: 'hello', subject: last.subject, returning: true, open, aiEach: 1,
+        pills: pills(), art: 'mobi', mobiAct: 'hello', subject: last.subject, returning: true, open, aiEach: 1, paperAt: last.completedAt,
       };
     }
     return {
@@ -151,7 +151,7 @@ export function buildMove({ plan = null, planFailed = false, papers = null, rhyt
     why: `${open === last.wrong ? (open === 1 ? 'It is from' : `All ${word(open)} are from`) : `${plural(open, 'open mistake')} from`} ${lastName} on ${lastWhen}.${extra}${sparseClause}`,
     key: { label: 'Start repair', href: `/result/${encodeURIComponent(last.id)}`, minutes: repairMinutes(open) },
     link: { label: 'See why', href: `/result/${encodeURIComponent(last.id)}` },
-    pills: pills(papers.length < 2 ? 'mock' : 'else'), art: 'object', subject: last.subject, firstWeek, open,
+    pills: pills(papers.length < 2 ? 'mock' : 'else'), art: 'object', subject: last.subject, firstWeek, open, paperAt: last.completedAt,
     aiEach: 1, // each repair uses 1 AI credit; the card says so, with the balance, before the press
   });
 
@@ -212,6 +212,7 @@ export function buildMove({ plan = null, planFailed = false, papers = null, rhyt
     key: { label: `Start ${count} questions`, href: aim, minutes: length },
     link: top?.chapter ? { label: 'See why', href: '/mentor?tab=record' } : null,
     pills: pills(), art: 'object', subject: top?.subject || last?.subject || null, firstWeek,
+    chapter: top?.chapter || null, chapterOpen: top?.chapter ? top.open : null, chapterSessions: top?.chapter ? top.sessions : null,
   };
 }
 

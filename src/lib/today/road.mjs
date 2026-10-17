@@ -270,3 +270,124 @@ export function mockChoices({ weeks, taken = 0 }) {
   const seen = new Set();
   return all.filter((c) => (seen.has(c.value) ? false : (seen.add(c.value), true)));
 }
+
+// ---------- Road to CUET in three layers (owner, 18 Oct 3:30 am, D26): due today, due this week, the overall goal ----------
+// "The road to CUET can definitely be improved by respecting information like what's due today, what's due for the
+// week, and showing the overall goal." Each layer is a count with its denominator, read at a glance, and opens to its
+// detail. Same truth rules as the rest of the road: only what the record holds is counted done; a plan is a plan, never
+// a debt, and a day missed is never drawn as a miss.
+
+/**
+ * How many full mocks this week's share of the target asks for: { planned, nextWeek }.
+ * The mocks still to sit (the target less those taken before this week) spread over the weeks left, this one included.
+ * One a week or more: that many this week. Fewer: one every k weeks, due this week when the last full mock was k or more
+ * weeks ago (or there is none); else `nextWeek` is the Monday it falls due.
+ */
+export function weekMockShare({ target, taken, thisWeek = 0, weeks, weekStart, lastMockDay = null }) {
+  if (!(target > 0) || !Number.isInteger(taken)) return { planned: 0, nextWeek: null };
+  const beforeWeek = Math.max(0, taken - (thisWeek || 0));
+  const left = Math.max(0, target - beforeWeek);
+  if (left === 0) return { planned: 0, nextWeek: null };
+  const spread = Math.max(1, (Number(weeks) || 0) + 1);
+  const perWeek = left / spread;
+  if (perWeek >= 1) return { planned: Math.min(7, Math.round(perWeek)), nextWeek: null };
+  const every = Math.max(1, Math.round(1 / perWeek));
+  if (thisWeek > 0 || !lastMockDay || !isDayKey(lastMockDay) || !weekStart) return { planned: 1, nextWeek: null };
+  const lastWeek = mondayOf(lastMockDay);
+  const gap = Math.floor(daysBetween(lastWeek, weekStart) / 7);
+  if (gap >= every) return { planned: 1, nextWeek: null };
+  return { planned: 0, nextWeek: addDays(lastWeek, every * 7) };
+}
+
+/**
+ * The three layers. Inputs (each may be null while it loads; unknown is never zero):
+ *   today        today's key in the student's zone
+ *   rhythm       GET /api/me/rhythm (weekStart, studyDayDates, studyDays, daysGoal, mocksThisWeek, paused)
+ *   weekdays     the planned weekdays (0 = Monday) or null
+ *   revise       { due, answeredToday } from GET /api/me/revise (due = still to ask today), or null
+ *   move         the lead move (its title and minutes name today's session), or null
+ *   fig          roadFigures(...)
+ *   target       the mock target in use (the student's, else the suggestion)
+ *   taken        full and NTA mocks on the record, or null
+ *   lastMockDay  the newest full mock's day key, or null
+ * Returns { today, week, goal } or null when the week is not known yet.
+ */
+export function roadLayers({ today, rhythm = null, weekdays = null, revise = null, move = null, fig, target, taken = null, lastMockDay = null }) {
+  if (!rhythm?.weekStart || !isDayKey(today) || !fig) return null;
+  const idx = Math.max(0, Math.min(6, daysBetween(rhythm.weekStart, today)));
+  const counted = new Set(rhythm.studyDayDates || []);
+  const goal = Number(rhythm.daysGoal) > 0 ? Number(rhythm.daysGoal) : null;
+  const plan = Array.isArray(weekdays) && weekdays.length ? new Set(weekdays) : null;
+
+  // Due today: the planned session (or one already saved), and Revise when anything came back today.
+  const items = [];
+  const sessionDone = counted.has(today);
+  const sessionPlanned = plan ? plan.has(idx) : goal ? (rhythm.studyDays || 0) < goal : true;
+  if (sessionPlanned || sessionDone) {
+    const minutes = move?.key?.minutes || null;
+    items.push({
+      id: 'session',
+      title: sessionDone ? 'Study session' : move?.title && move.id !== 'done' ? move.title : 'A study session',
+      detail: sessionDone ? 'Saved today' : minutes ? `about ${minutes} min` : 'any length counts',
+      done: sessionDone,
+      href: !sessionDone && move?.key?.href ? move.key.href : null,
+    });
+  }
+  const asked = Number.isInteger(revise?.answeredToday) ? revise.answeredToday : 0;
+  const leftRevise = Number.isInteger(revise?.due) ? revise.due : null;
+  if (leftRevise != null && asked + leftRevise > 0) {
+    items.push({ id: 'revise', title: 'Revise', detail: `${asked} of ${asked + leftRevise} questions`, done: leftRevise === 0, href: leftRevise > 0 ? '/review/revise' : null, minutes: leftRevise > 0 ? Math.max(5, Math.ceil(leftRevise / 5) * 5) : null });
+  }
+  const open = items.filter((i) => !i.done);
+  const todayLayer = {
+    done: items.length - open.length,
+    total: items.length,
+    items,
+    rest: !items.length,
+    left: !items.length
+      ? (plan ? 'A rest day in your plan. Anything you practise still counts.' : 'Nothing is due today. Anything you practise counts.')
+      : !open.length ? 'Everything due today is done.'
+        : `Left: ${open.map((i) => (i.id === 'revise' ? `${leftRevise} Revise ${leftRevise === 1 ? 'question' : 'questions'}` : `${i.title.charAt(0).toLowerCase()}${i.title.slice(1)}${i.detail.startsWith('about') ? `, ${i.detail}` : ''}`)).join(', and ')}.`,
+  };
+
+  // Due this week: the study days of the goal, and the full mocks this week's share of the target asks for.
+  const studyDone = Math.min(rhythm.studyDays || 0, goal || 0);
+  const share = weekMockShare({ target, taken, thisWeek: rhythm.mocksThisWeek || 0, weeks: fig.weeks, weekStart: rhythm.weekStart, lastMockDay });
+  const mocksDone = Math.min(rhythm.mocksThisWeek || 0, share.planned);
+  const end = addDays(rhythm.weekStart, 6);
+  const daysLeft = 7 - idx;
+  const weekItems = [];
+  if (goal) weekItems.push({ id: 'days', title: 'Study days', done: studyDone, total: goal });
+  if (share.planned > 0) weekItems.push({ id: 'mocks', title: share.planned === 1 ? 'Full mock' : 'Full mocks', done: mocksDone, total: share.planned });
+  const weekDone = weekItems.reduce((n, i) => n + i.done, 0);
+  const weekTotal = weekItems.reduce((n, i) => n + i.total, 0);
+  const weekLayer = {
+    done: weekDone,
+    total: weekTotal,
+    items: weekItems,
+    paused: Boolean(rhythm.paused),
+    daysLeft,
+    end,
+    nextMock: share.nextWeek,
+    extraMocks: Math.max(0, (rhythm.mocksThisWeek || 0) - share.planned),
+    line: weekTotal && weekDone >= weekTotal ? 'This week’s plan is done. Anything more is extra.'
+      : daysLeft === 1 ? 'Today is the last day of this week.' : `${daysLeft} days left this week, to ${weekdayDay(end)}.`,
+  };
+
+  // The overall goal: the countdown, full mocks against the target, the study days left, the next dated step.
+  const pace = Number.isInteger(taken) && target > 0 ? mockPace({ target, taken, days: fig.days }) : null;
+  const goalLayer = {
+    phase: fig.phase,
+    count: fig.phase === 'days' ? fig.days : fig.weeks,
+    unit: fig.phase === 'days' ? (fig.days === 1 ? 'day' : 'days') : (fig.weeks === 1 ? 'week' : 'weeks'),
+    exam: fig.exam,
+    own: fig.own,
+    taken,
+    target,
+    pace,
+    studyDays: fig.studyDays,
+    goal,
+    next: fig.phase === 'window' ? null : nextMilestone({ today, exam: fig.exam, own: fig.own, goal }),
+  };
+  return { today: todayLayer, week: weekLayer, goal: goalLayer };
+}

@@ -66,6 +66,18 @@ function expandAttempt(attempt) {
   });
 }
 
+/**
+ * Up to 3 of a chapter's misses for Today's weak chapters (TODAY-1018 6.5): the newest paper first, and within a paper
+ * the wrong answers (what Repair works on) before the blanks, in question order. Pure; no new query: the stems load from
+ * GET /api/attempts/{id} when the student opens the chapter.
+ */
+export function recentMisses(misses = [], limit = 3) {
+  return [...misses]
+    .sort((a, b) => b.completedAt - a.completedAt || (a.outcome === b.outcome ? 0 : a.outcome === 'wrong' ? -1 : 1) || a.position - b.position)
+    .slice(0, limit)
+    .map(({ attemptId, qid, position, completedAt, outcome }) => ({ attemptId, qid, position, completedAt, outcome }));
+}
+
 export function computePrepOSInsights(attempts = [], { now = Date.now(), subjectNames = {} } = {}) {
   const usable = attempts.filter((a) => Array.isArray(a.details) && a.details.length > 0 && a.completedAt).sort((a, b) => b.completedAt - a.completedAt);
   if (!usable.length) return { state: 'empty', sessions: 0, questions: 0, generatedAt: new Date(now).toISOString() };
@@ -92,13 +104,15 @@ export function computePrepOSInsights(attempts = [], { now = Date.now(), subject
   const chapterMap = new Map();
   for (const r of rows) {
     const key = `${r.subject}::${r.chapter}`;
-    const c = chapterMap.get(key) || { key, subject: r.subject, subjectName: subjectNames[r.subject] || r.subject, chapter: r.chapter, right: 0, wrong: 0, skip: 0, n: 0, sessions: new Set(), last: 0 };
+    const c = chapterMap.get(key) || { key, subject: r.subject, subjectName: subjectNames[r.subject] || r.subject, chapter: r.chapter, right: 0, wrong: 0, skip: 0, n: 0, sessions: new Set(), last: 0, misses: [] };
     c[r.outcome] += 1; c.n += 1; c.sessions.add(r.attemptId); c.last = Math.max(c.last, r.completedAt);
+    if (r.outcome !== 'right') c.misses.push({ attemptId: r.attemptId, qid: r.qid, position: r.position, completedAt: r.completedAt, outcome: r.outcome });
     chapterMap.set(key, c);
   }
   const chapters = [...chapterMap.values()].map((c) => ({
     key: c.key, subject: c.subject, subjectName: c.subjectName, chapter: c.chapter, right: c.right, wrong: c.wrong, skip: c.skip, n: c.n, sessions: c.sessions.size,
     accuracy: wilson(c.right, c.right + c.wrong), open: (c.wrong + c.skip) * MARK_RIGHT, last: c.last,
+    recent: recentMisses(c.misses),
   }));
   const ranked = chapters.filter((c) => c.n >= MIN_CHAPTER_SAMPLE && (c.wrong + c.skip) > 0)
     .sort((a, b) => b.open - a.open || (a.accuracy.pct ?? 100) - (b.accuracy.pct ?? 100) || b.n - a.n);
