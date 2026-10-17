@@ -312,3 +312,30 @@ test('before the mode migration is applied (production today) the read falls bac
   assert.ok(out.body.queue.items.length > 0);
   assert.equal(out.body.queue.items.find((i) => i.questionId === 'r-q2' && i.kind !== 'check').kind, 'again', 'the split comes from the repairs, not the column');
 });
+
+test('acceptance 9 as written: 5 wrong answers, 1 repaired mistake due again, 1 pending Check it held and 2 cards say "9 due today" and play nine', () => {
+  const five = ['w1', 'w2', 'w3', 'w4', 'w5'].map((id) => due(id));
+  const q = mergeQueue({ questions: five, again: [due('r1', '2026-10-15', 2)], checks: [check('p1', 'c1', 27)], cards: 2, cap: 10 });
+  assert.equal(q.total, 9);
+  assert.match(headLine(q.total, q.minutes), /^9 due today, about \d+ minutes\.$/);
+  assert.equal(mixLine(q.counts), '6 questions back, 1 Check it held, 2 concept cards');
+  let run = startRun(q.items);
+  for (const item of q.items) run = advance(recordAnswer(run, item, { correct: true }));
+  assert.equal(answeredCount(run), 9);
+  assert.ok(isFinished(run));
+  // The same wrong answer also due as the repaired mistake plays once.
+  const twice = mergeQueue({ questions: [...five, due('r1')], again: [due('r1', '2026-10-15', 2)], checks: [check('p1', 'c1', 27)], cards: 2, cap: 10 });
+  assert.equal(twice.total, 9);
+});
+
+test('the empty state teaches: what comes back, a sample marked Example, one key to 10 questions; done today says what was done', () => {
+  const run = JSON.parse(readFileSync(resolve(here, '../mistake_lab.copy.json'), 'utf8')).revise.run;
+  assert.equal(run.empty.title, 'Nothing to revise yet');
+  assert.equal(run.empty.body, 'Questions you get wrong come back here after 1, 3, 7 and 21 days.');
+  assert.equal(run.empty.key, 'Start 10 questions');
+  assert.equal(run.empty.example, 'Example');
+  assert.match(run.empty.sampleSource, /^Mock \d, \d{1,2} [A-Z][a-z]{2}, \d{1,2}:\d{2} (AM|PM)\. /, 'the sample carries a paper and a 12-hour time');
+  assert.equal(run.empty.time.replace('{subject}', 'Accountancy'), 'About 10 minutes, Accountancy.');
+  assert.equal(run.end.doneToday.replace('{n}', '8'), '8 answered today.');
+  assert.match(run.failed.body, /Your schedule is safe/);
+});

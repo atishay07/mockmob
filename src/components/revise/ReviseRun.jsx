@@ -11,7 +11,8 @@
 //   Card   what it is ("A question you got wrong", paper and time), the stem, the options; after the answer the key and Next
 //   Fold   "How Revise schedules": the box days, the cap (5 or 10 a day), the lanes
 //   End    "6 recalled, 2 come back tomorrow", the checks and cards, Back to Review
-// While a run is under way the phone dock steps away (.rvs--run in revise.css; the page keeps its top bar and its way back), and
+// On this route the phone dock steps away, as on test routes (.app-shell:has(.rvs) in revise.css; the page keeps its top bar and
+// its way back), and
 // the Review badge counts down as each answer is confirmed by the server (src/lib/reviseDue.js).
 // ?source=cards|again|questions|checks plays one source (the old /learn?recall=due and the app's /review/again land here).
 // Motion: a card rises once on arrival (180 ms); after a recall the old and new lanes pulse once (200 ms); reduced motion
@@ -31,6 +32,7 @@ import MomentMobi from '@/components/brand/MomentMobi';
 import { EmptyMobi } from '@/components/ui/StateMobi';
 import { ErrorState } from '@/components/ui/Skeleton';
 import StudyRun from '@/components/study/StudyRun';
+import { useAuth } from '@/components/AuthProvider';
 import { useMobiGate } from '@/lib/mobiHooks';
 import { useMobiPrefs } from '@/lib/mobiPrefs';
 import { reactNow } from '@/lib/mobiRation';
@@ -39,6 +41,8 @@ import {
   CHECK_COPY, newCheckRequestId, planCheckAnswer, planCheckLoad, requestCheck, safeCheckHref, submitCheck, answeredRows, openRows,
 } from '../../../data/repair_check_client.mjs';
 import COPY from '../../../data/mistake_lab.copy.json';
+import { practiceCostLine } from '../../../data/result_next_move.mjs';
+import { SUBJECTS } from '../../../data/subjects';
 import { readCap, saveCap, useRevise } from './useRevise';
 import {
   advance, answeredCount, filterSource, footLine, headLine, isFinished, itemKey, kindLine, mergeQueue, mixParts, nextWhen, positionLine, recordAnswer,
@@ -56,9 +60,11 @@ const newKey = () => (typeof crypto !== 'undefined' && crypto.randomUUID ? crypt
 
 /** "8 recalled, 2 come back tomorrow" (the same words as data/revise.js endLine). */
 export function endText(right, wrong) {
-  if (right && wrong) return fill(R.end.both, { r: right, w: wrong });
+  // "1 comes back tomorrow", never "1 come back tomorrow".
+  const back = wrong === 1 ? RUN.end.backOne : fill(R.end.wrong, { w: wrong });
+  if (right && wrong) return `${fill(R.end.right, { r: right })}, ${back}`;
   if (right) return fill(R.end.right, { r: right });
-  if (wrong) return fill(R.end.wrong, { w: wrong });
+  if (wrong) return back;
   return null;
 }
 
@@ -322,6 +328,31 @@ function ConceptRun({ count, position, onProgress, onFinished }) {
   );
 }
 
+/**
+ * Nothing has ever been wrong, so nothing can come back (FA-10: say what will appear, show a sample of it, one key to the next
+ * step). The sample is the kind line every card carries, marked Example. The key opens a 10-question set in the student's first
+ * subject, with its time and price under it (the same set and words as Review's empty state).
+ */
+function EmptyRevise() {
+  const { user } = useAuth() || {};
+  const first = SUBJECTS.find((s) => s.id === (user?.subjects || [])[0]) || SUBJECTS.find((s) => s.id === 'accountancy');
+  const href = `/dashboard?${new URLSearchParams({ subject: first?.id || '', mode: 'quick', count: '10' })}`;
+  const E = RUN.empty;
+  return (
+    <div className="rvs-empty" aria-labelledby="rvs-empty-h">
+      <EmptyMobi act="rest" size={72} />
+      <h2 className="rvs-empty__title" id="rvs-empty-h">{E.title}</h2>
+      <p>{E.body}</p>
+      <div className="rvs-sample" aria-label={E.sampleLabel}>
+        <p className="rvs-kind"><b>{E.sampleKind}</b><span>{E.sampleSource}</span></p>
+        <em>{E.example}</em>
+      </div>
+      <Link className="rvs-next rvs-next--link rvs-next--wide" href={href}>{E.key}</Link>
+      <p className="rvs-fine">{fill(E.time, { subject: first?.name || 'your subject' })} {practiceCostLine({ isPremium: user?.isPremium === true, practiceCredits: null })}</p>
+    </div>
+  );
+}
+
 function RunView({ queue, data, cap, onCap, source, backHref, schedule }) {
   const [run, setRun] = useState(() => startRun(queue.items));
   const [moved, setMoved] = useState(null);
@@ -378,7 +409,7 @@ function RunView({ queue, data, cap, onCap, source, backHref, schedule }) {
   const last = run.at + 1 >= run.items.length;
 
   return (
-    <section className={`pr rvs${!finished ? ' rvs--run' : ''}`}>
+    <section className="pr rvs">
       <Link className="rvs-back" href={backHref}><ChevronLeft size={18} strokeWidth={2.2} aria-hidden="true" />Review</Link>
       <ArenaHead title={R.title} lede={finished ? null : headLine(queue.total, queue.minutes)} />
       {source ? (
@@ -425,7 +456,6 @@ function RunView({ queue, data, cap, onCap, source, backHref, schedule }) {
         <div className="rvs-how__body">
           <CapChoice cap={cap} onChange={onCap} disabled={false} />
           <Lanes boxes={lanes} days={data.labels?.boxes} moved={moved} />
-          <p className="rvs-fine">{data.labels?.fine || R.fine}</p>
         </div>
       </SmoothDetails>
     </section>
@@ -474,15 +504,18 @@ export default function ReviseRun() {
     );
   }
   if (!queue.total) {
+    if (data.state === 'empty' && !source) return <section className="pr rvs">{back}{head}<EmptyRevise /></section>;
+    // Coming back after today's run: what was done stays said, and when the next ones are due.
     const cappedOut = data.answeredToday >= (data.cap || 10);
+    const doneToday = Number(data.answeredToday) > 0 && !source;
     return (
       <section className="pr rvs">
         {back}{head}
-        <div className="rvs-empty">
+        <div className="rvs-empty" aria-labelledby="rvs-empty-h">
           <EmptyMobi act="rest" size={72} />
-          <p className="rvs-empty__title">{data.state === 'empty' && !source ? RUN.empty.title : RUN.headNone}</p>
-          <p>{cappedOut ? R.capReached : data.state === 'empty' && !source ? RUN.empty.body : data.next || R.nextNone}</p>
-          {data.state === 'empty' && !source ? <Link className="rvs-next rvs-next--link" href="/dashboard">{RUN.empty.key}</Link> : <Link className="rvs-next rvs-next--link" href={backHref}>{RUN.end.back}</Link>}
+          <h2 className="rvs-empty__title" id="rvs-empty-h">{doneToday ? RUN.end.title : RUN.headNone}</h2>
+          <p>{doneToday && !cappedOut ? `${fill(RUN.end.doneToday, { n: data.answeredToday })} ` : ''}{cappedOut ? R.capReached : data.next || R.nextNone}</p>
+          <Link className="rvs-next rvs-next--link" href={backHref}>{RUN.end.back}</Link>
           {source ? <p><Link className="rvs-link" href={allHref}>{RUN.filtered.all}</Link></p> : null}
         </div>
       </section>

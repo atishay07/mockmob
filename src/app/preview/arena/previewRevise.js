@@ -4,6 +4,8 @@
 //   ready (default)   the 8 above, card 1 first; the checks and cards use the preview's own /api/recovery/check and study run
 //   dedupe            a question due as a wrong answer AND as a repaired mistake plays once (revise_dedupe.json)
 //   cards             only the concept cards (the same as /review/revise?source=cards)
+//   sparse            one question due today, nothing else (a light day)
+//   done              coming back after today's run: nothing left, 8 answered today, the next ones due tomorrow
 //   legacy            an older server: the v1 body without `queue`
 //   empty | down      as before (previewMock.js fixtureRevise)
 // The questions and lessons are illustrative, written for the preview, never bank rows. Every key is B (index 1), which is what
@@ -44,14 +46,17 @@ export function fixtureReviseQueue(kind = 'ready') {
   if (kind === 'dedupe') dupes = [{ ...QUESTIONS.find((i) => i.questionId === 'rv-q11') }]; // due as a wrong answer too
   if (kind === 'dedupe') questions = [...questions, ...dupes];
   if (kind === 'cards') { questions = []; checks = []; }
-  const merged = mergeQueue({ questions, again: kind === 'cards' ? [] : again, checks, cards, cap: 10 });
+  if (kind === 'sparse') { questions = QUESTIONS.filter((i) => i.questionId === 'rv-cash'); checks = []; cards = 0; }
+  if (kind === 'done') { questions = []; checks = []; cards = 0; }
+  const noAgain = kind === 'cards' || kind === 'sparse' || kind === 'done';
+  const merged = mergeQueue({ questions, again: noAgain ? [] : again, checks, cards, cap: 10, answered: kind === 'done' ? 8 : 0 });
   const items = merged.items.filter((i) => i.kind === 'question' || i.kind === 'again').map(({ kind: _kind, dueDay: _due, source: _src, ...v1 }) => v1);
   return {
-    version: 1, state: 'ready', today: TODAY, cap: 10, due: merged.total, shown: items.length, answeredToday: 0, minutes: merged.minutes, boxes: [14, 8, 5, 3], cards: 30,
+    version: 1, state: 'ready', today: TODAY, cap: 10, due: merged.total, shown: items.length, answeredToday: kind === 'done' ? 8 : 0, minutes: merged.minutes, boxes: [14, 8, 5, 3], cards: 30,
     nextDay: '2026-10-18', nextDayLabel: 'Sun 18 Oct', head: `${items.length} questions to revise today`, summary: '30 questions in rotation, 4 recalled twice.', next: 'The next ones are due on Sun 18 Oct.', labels: LABELS, items,
     queue: {
       version: 2, today: TODAY, cap: 10, items: merged.items, counts: merged.counts, total: merged.total, minutes: merged.minutes, unknown: merged.unknown, dropped: merged.dropped,
-      cardsAvailable: 2, head: headLine(merged.total, merged.minutes), mix: mixLine(merged.counts), boxes: [14, 8, 5, 3], rotation: 30, nextDay: '2026-10-18', nextDayLabel: 'Sun 18 Oct',
+      cardsAvailable: cards, head: headLine(merged.total, merged.minutes), mix: mixLine(merged.counts), boxes: [14, 8, 5, 3], rotation: 30, nextDay: '2026-10-18', nextDayLabel: 'Sun 18 Oct',
     },
   };
 }

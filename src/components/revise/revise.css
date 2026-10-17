@@ -16,7 +16,7 @@
   min-width: 48px; min-height: 48px; padding: 0 12px; border-radius: 12px; cursor: pointer;
   border: 1px solid var(--a-line, #253026); background: transparent; color: var(--a-ink-2, #bcc5b9); font: 650 15px/1 var(--font-display, inherit); font-variant-numeric: tabular-nums;
 }
-.rvs-cap__btn[aria-pressed='true'] { border-color: var(--a-volt-line, rgba(210, 240, 0, .5)); background: var(--a-volt-wash, rgba(210, 240, 0, .07)); color: var(--a-ink, #f2f4ec); }
+.rvs-cap__btn[aria-pressed='true'] { border-color: var(--a-ink-3, #93a08f); background: var(--a-hover, rgba(244, 245, 240, .06)); color: var(--a-ink, #f2f4ec); }
 .rvs-cap__btn:hover:not(:disabled) { border-color: var(--a-line-hover, rgba(244, 245, 240, .32)); }
 .rvs-cap__btn:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; }
 .rvs-cap__btn:disabled { opacity: .5; cursor: default; }
@@ -170,11 +170,23 @@ html[data-motion='reduced'] .rvs-spin { animation: none; }
 .rvs-concept .sx-actions .btn-volt { width: auto; min-width: 0; }
 .rvs-concept .sx-actions .btn-volt svg { display: none; }
 
-/* The phone dock steps away during a run (nothing sits over the options), and the page gives its room back. */
-@media (max-width: 1023px) { html:has(.app-shell .rvs--run) { --dock-h: 0px; --dock-clear: 0px; scroll-padding-bottom: 16px; } }
-.app-shell:has(.rvs--run) .arena-dock { display: none; }
-@media (max-width: 1023px) { html .app-shell:has(.rvs--run):not(.app-shell--test) .app-main { padding-bottom: calc(32px + env(safe-area-inset-bottom)); } }
+/* The phone dock steps away on this route, as on test routes (nothing sits over the options, and it does not come and go as a
+   run loads or ends); the page keeps its top bar and its way back, and gives the dock's room back. */
+@media (max-width: 1023px) { html:has(.app-shell .rvs) { --dock-h: 0px; --dock-clear: 0px; scroll-padding-bottom: 16px; } }
+.app-shell:has(.rvs) .arena-dock { display: none; }
+@media (max-width: 1023px) { html .app-shell:has(.rvs):not(.app-shell--test) .app-main { padding-bottom: calc(32px + env(safe-area-inset-bottom)); } }
+
+/* ---------- Pass 4 (17 Oct, P-LR2 states): the empty, done and end states sit on the page, not in a box ----------
+   Empty teaches (FA-10): one line on what comes back, a sample of the line every card carries, one key, its time and price. */
+.app-shell .rvs-end, .app-shell .rvs-empty { padding: 4px 0 0; border: 0; border-radius: 0; background: none; gap: 14px; }
+.rvs-sample {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; width: 100%; max-width: 520px;
+  padding: 14px 0; border-top: 1px solid var(--a-line, #253026); border-bottom: 1px solid var(--a-line, #253026);
+}
+.rvs-sample em { font: 600 12.5px/1.3 var(--font-body, inherit); font-style: normal; color: var(--a-ink-3, #93a08f); }
+.rvs-next--wide { min-height: 54px; min-width: min(100%, 320px); border-radius: 16px; font-family: var(--font-display, inherit); font-size: 17px; }
 
 @media (prefers-reduced-motion: no-preference) {
   :root:not([data-motion='reduced']) .rvs-ticks li { transition: background-color 160ms var(--a-ease, ease-out); }
 }
+.rvs-free, .rvs-empty p, .rvs-end__sub, .rvs-result__why { text-wrap: pretty; }

@@ -618,16 +618,23 @@
         "cards": "{n} concept cards recalled",
         "reread": "Reread the lesson",
         "back": "Back to Review",
-        "nothing": "Nothing else is due today."
+        "nothing": "Nothing else is due today.",
+        "doneToday": "{n} answered today.",
+        "backOne": "1 comes back tomorrow"
       },
       "empty": {
         "title": "Nothing to revise yet",
         "body": "Questions you get wrong come back here after 1, 3, 7 and 21 days.",
-        "key": "Choose practice"
+        "sampleLabel": "An example of what comes back",
+        "sampleKind": "A question you got wrong",
+        "sampleSource": "Mock 1, 12 Oct, 8:40 PM. Admission of a partner",
+        "example": "Example",
+        "key": "Start 10 questions",
+        "time": "About 10 minutes, {subject}."
       },
       "failed": {
         "title": "Revise did not load",
-        "body": "Check your connection and try again. Your schedule is safe."
+        "body": "Your schedule is safe. Check your connection and try again."
       },
       "skip": "Skip for today",
       "checkNone": "No new question is ready for this one. It stays in Revise.",
