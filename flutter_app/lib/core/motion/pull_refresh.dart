@@ -24,6 +24,9 @@ import 'motion.dart';
 ///   from 0 to [threshold] dp, with one selection tick when it closes.
 /// - **Release past the threshold.** The ring becomes a reading arc (one turn in 1.2 s, indeterminate).
 ///   After 12 s it says so in words ("Still refreshing. Your page is safe.") and keeps turning.
+///   After [letGoAfter] it lets go: the ring empties and leaves, the page returns to its place, and
+///   the read goes on quietly (the screen shows what it brings). The words never stay pinned over
+///   the top of the page (D28: "Still refreshing" stuck at the top on v13).
 /// - **Data returns.** The ring inks volt over 160 ms and lifts away over 200 ms. The screen's
 ///   own numbers roll from their old values; this widget never replays an entrance.
 /// - **Failure.** The ring empties and leaves, and [onError] runs so the screen can show its
@@ -55,6 +58,9 @@ class MmPullRefresh extends ConsumerStatefulWidget {
 
   /// After this long the arc is joined by words.
   static const Duration slowAfter = Duration(seconds: 12);
+
+  /// After this long the pull lets go of the page even though the read has not answered.
+  static const Duration letGoAfter = Duration(seconds: 20);
 
   /// The gap held open under the status bar while the ring turns: the ring's 40 dp, its 8 dp
   /// inset and 8 dp of air, so the first line of the page starts below it.
@@ -174,15 +180,25 @@ class _MmPullRefreshState extends ConsumerState<MmPullRefresh> with TickerProvid
       if (mounted && generation == _generation) setState(() => _slow = true);
     });
     Object? failure;
+    var letGo = false;
+    final work = widget.onRefresh();
     try {
-      await widget.onRefresh();
+      await work.timeout(MmPullRefresh.letGoAfter);
+    } on TimeoutException {
+      // The read is still out: the page is let go, and a late failure still reaches the screen.
+      letGo = true;
+      unawaited(work.then<void>((_) {}, onError: (Object error) {
+        if (mounted) widget.onError?.call(error);
+      }));
     } catch (error) {
       failure = error;
     }
     _slowTimer?.cancel();
     if (!mounted || generation != _generation) return;
     _spin.stop();
-    if (failure != null) {
+    if (letGo) {
+      setState(() => _mode = _PullMode.failing);
+    } else if (failure != null) {
       setState(() => _mode = _PullMode.failing);
       widget.onError?.call(failure);
     } else {

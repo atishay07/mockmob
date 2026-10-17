@@ -16,6 +16,46 @@ final DateTime tuesdayLate = DateTime.utc(2026, 10, 13, 18, 10);
 DateTime daysBefore(DateTime now, int days, {int hour = 15}) =>
     DateTime.utc(now.year, now.month, now.day - days, hour, 40);
 
+/// CUET-style stems by chapter, so screens that show a question in full read like the real thing.
+const Map<String, List<String>> _stems = {
+  'Partnership fundamentals': [
+    'A and B share profits 3:2. C joins for a fifth share, taken equally from A and B. What is the new profit-sharing ratio?',
+    'In the absence of a partnership deed, at what rate is interest allowed on a loan a partner gives the firm?',
+    "When capitals are fixed, which of these is credited to the partner's current account?",
+  ],
+  'Company accounts': [
+    'Shares of 10 each are issued at a premium of 2. Where does the premium appear in the balance sheet?',
+    'A company forfeits 100 shares on which 6 was called and 4 paid per share. How much is credited to share forfeiture?',
+    'Under the Companies Act, 2013, the securities premium cannot be used to do which of these?',
+  ],
+  'Ratio analysis': [
+    "A firm's current ratio is 2.5 and its working capital is 60,000. What are its current liabilities?",
+    'Which ratio shows how many times inventory is sold and replaced in a year?',
+    'The quick ratio is 1.2 and current liabilities are 50,000. What are the quick assets?',
+  ],
+  'Cash flow statement': [
+    'Under the indirect method, how is an increase in trade receivables treated?',
+    'For a company that is not a finance company, interest paid is which kind of activity?',
+    'Machinery bought for 2,00,000 appears under which activity?',
+  ],
+  'Dissolution of a firm': [
+    'On dissolution, an unrecorded asset taken over by a partner is credited to which account?',
+    'Realisation expenses the firm pays on behalf of a partner are debited to which account?',
+    'When a firm is dissolved, which liability is paid first?',
+  ],
+  'Not-for-profit organisations': [
+    'How are life membership fees received by a club treated?',
+    'Subscriptions received in advance for next year appear in the balance sheet as what?',
+    'On which side of the balance sheet are specific donations shown?',
+  ],
+};
+
+/// The stem of question [n] in [chapter]: a real-looking question, or "Question n" elsewhere.
+String stemFor(String chapter, int n) {
+  final list = _stems[chapter];
+  return list == null ? 'Question $n' : list[n % list.length];
+}
+
 /// Builds a paper in the server's JSON shape from (chapter, verdict) runs.
 Attempt paper({
   required String id,
@@ -31,7 +71,7 @@ Attempt paper({
     for (var k = 0; k < count; k++) {
       n++;
       final qid = '$id-q$n';
-      snapshot.add({'id': qid, 'chapter': chapter, 'question': 'Question $n', 'correctIndex': 0, 'options': [{'key': 'A', 'text': 'A'}]});
+      snapshot.add({'id': qid, 'chapter': chapter, 'question': stemFor(chapter, n), 'correctIndex': 0, 'options': [{'key': 'A', 'text': 'A'}]});
       switch (verdict) {
         case V.right:
           correct++;

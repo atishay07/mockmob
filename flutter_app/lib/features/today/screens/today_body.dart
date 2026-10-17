@@ -18,6 +18,8 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../tools/tools_paths.dart';
 import '../copy.dart';
+import '../copy_glance.dart';
+import '../logic/move_price.dart' show priceKeyOf;
 import '../logic/today_model.dart';
 import '../logic/today_reactions.dart';
 import '../widgets/also_slots.dart';
@@ -25,8 +27,11 @@ import '../../social/social.dart' show MobTodayBlock;
 import '../widgets/colleges_card.dart' show CollegesCardInfo, CollegesCardStatus;
 import '../widgets/move_hero.dart';
 import '../widgets/resume_hero.dart';
+import '../widgets/glance_rows.dart';
+import '../widgets/road_glance.dart';
 import '../widgets/road_section.dart';
-import '../widgets/sealed_hero.dart';
+import '../widgets/weak_chapters.dart';
+import '../widgets/reel_hero.dart';
 import '../widgets/today_rows.dart';
 import '../widgets/today_week.dart';
 import '../widgets/today_header.dart';
@@ -45,6 +50,8 @@ class TodayCallbacks {
     this.road,
     this.onCollegesRetry,
     this.onWeeklyEnding,
+    this.onPlayReel,
+    this.onSkipReel,
   });
 
   final void Function(TodayAction action) onAction;
@@ -63,7 +70,20 @@ class TodayCallbacks {
 
   /// The week that just closed: the This week row opens its ending.
   final VoidCallback? onWeeklyEnding;
+
+  /// The paper reel's card (D29): play the fresh paper back, or not now. Either one clears the
+  /// card and the Up next card returns.
+  final Future<void> Function(SealedHero paper)? onPlayReel;
+  final Future<void> Function(SealedHero paper)? onSkipReel;
 }
+
+/// The student's pick among the lead card's choices, per day (TODAY-1018 6.2): kept for the run so
+/// a back navigation or a tab switch keeps it; nothing is written to the server.
+final Map<String, String> _todayPicks = {};
+
+/// Forgets the picks (tests).
+@visibleForTesting
+void debugResetTodayPicks() => _todayPicks.clear();
 
 class TodayBody extends StatefulWidget {
   const TodayBody({
@@ -77,7 +97,11 @@ class TodayBody extends StatefulWidget {
     this.mobiController,
     this.retrying = false,
     this.skeletonDelay = const Duration(milliseconds: 400),
+    this.prices = const {},
   });
+
+  /// The price line of each move the card can show, by [priceKeyOf] (the screen reads the quotes
+  /// and the wallet); a move without one shows no line.
 
   final TodayView view;
   final TodayCallbacks callbacks;
@@ -99,6 +123,7 @@ class TodayBody extends StatefulWidget {
   /// A Try again read is running: the Try again key shows it is working.
   final bool retrying;
   final Duration skeletonDelay;
+  final Map<String, String> prices;
 
   @override
   State<TodayBody> createState() => _TodayBodyState();
@@ -161,6 +186,68 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
   BarMove? _published;
 
   ScrollController get _scroll => widget.controller ?? (_ownScroll ??= ScrollController());
+
+  /// The student's pick among the lead card's choices, kept for the day (TODAY-1018 6.2: the swap
+  /// writes nothing to the server; a back navigation keeps it). Keyed by the date line.
+
+  String? get _pickKey => _todayPicks[widget.view.header.dateLine];
+
+  /// The move the card shows: the pick when there is one, else the recommended move.
+  TodayHero? get _shownHero {
+    final hero = widget.view.hero;
+    final key = _pickKey;
+    if (hero is! MoveHero || key == null) return hero;
+    for (final c in widget.view.choices) {
+      if (c.key == key && c.hero != null) return c.hero!.copyWith(overline: GlanceCopy.upNextPick(c.hero!.subjectLine));
+    }
+    return hero;
+  }
+
+  /// The two choices under the card: with a pick, the recommended move comes back among them as
+  /// "Suggested".
+  List<MoveChoice> get _shownChoices {
+    final hero = widget.view.hero;
+    final key = _pickKey;
+    final all = widget.view.choices;
+    if (hero is! MoveHero) return const [];
+    final picked = key == null ? null : all.where((c) => c.key == key && c.hero != null).firstOrNull;
+    if (picked == null) return all.take(2).toList();
+    final lead = MoveChoice(key: 'lead', title: hero.title ?? hero.summary, line: hero.summary, hero: hero, suggested: true);
+    return [lead, ...all.where((c) => c.key != key)].take(2).toList();
+  }
+
+  void _choose(MoveChoice choice) {
+    final action = choice.action;
+    if (action != null) {
+      widget.callbacks.onAction(action);
+      return;
+    }
+    setState(() {
+      if (choice.key == 'lead') {
+        _todayPicks.remove(widget.view.header.dateLine);
+      } else {
+        _todayPicks[widget.view.header.dateLine] = choice.key;
+      }
+    });
+    _cue(MobiAct.listen);
+  }
+
+  /// Today's line in the week readout, from the card on screen (a swap updates it live).
+  String? get _upNext {
+    final hero = _shownHero;
+    return switch (hero) {
+      MoveHero() when hero.kind == MoveKind.failure || hero.state == NextMoveState.historyUnavailable => null,
+      MoveHero() when hero.kind == MoveKind.done => GlanceCopy.doneUpNext,
+      MoveHero() => GlanceCopy.upNextLine(
+          hero.title ?? hero.summary,
+          hero.selectedMinutes ?? int.tryParse((TodayCopy.keyLength(hero.primary.label) ?? '').split(' ').first),
+        ),
+      SealedHero() => GlanceCopy.upNextLine(TodayCopy.reelTitle, null),
+      ResumeHero() => GlanceCopy.upNextLine(hero.keyLabel, null),
+      EndedHero() => GlanceCopy.upNextLine(hero.title, null),
+      null => null,
+    };
+  }
 
   /// Today's one page-load moment (ui-blitz/today.md 2.6). It runs only when the first build
   /// already has data (the usual open, painted from cache); a page that loads behind the
@@ -276,8 +363,21 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
     if (act != null) _cue(act);
   }
 
+  /// The paper is being read for the reel: its key shows it is working, and a second tap waits.
+  bool _reelLoading = false;
+
+  Future<void> _reel(SealedHero paper, Future<void> Function(SealedHero) run) async {
+    if (_reelLoading) return;
+    setState(() => _reelLoading = true);
+    try {
+      await run(paper);
+    } finally {
+      if (mounted) setState(() => _reelLoading = false);
+    }
+  }
+
   void _minutes(int minutes) {
-    final hero = widget.view.hero;
+    final hero = _shownHero;
     if (hero is MoveHero && hero.selectedMinutes != minutes) _cue(MobiAct.listen);
     widget.callbacks.onMinutes?.call(minutes);
   }
@@ -312,11 +412,11 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
   void _measure() {
     // The move card's resting height, so the next skeleton holds the same place (L03).
     final card = _moveKey.currentContext?.findRenderObject();
-    if (widget.view.hero is MoveHero && card is RenderBox && card.attached && card.hasSize) rememberHeroHeight(card.size.height);
+    if (_shownHero is MoveHero && card is RenderBox && card.attached && card.hasSize) rememberHeroHeight(card.size.height);
     // While the entrance plays the hero is not where it will rest (it rises 16 dp): it is judged
     // when it has landed, so the capsule never flickers in for a key that is about to be in view.
     if (_entrance.isAnimating) return;
-    final hero = widget.view.hero;
+    final hero = _shownHero;
     final key = _primaryKey.currentContext?.findRenderObject();
     final stack = _stackKey.currentContext?.findRenderObject();
     var off = false;
@@ -500,7 +600,7 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
   }
 
   Widget _hero() {
-    final hero = widget.view.hero;
+    final hero = _shownHero;
     final cb = widget.callbacks;
     return switch (hero) {
       null => TodaySkeleton(delay: widget.skeletonDelay, onRetry: cb.onRefresh == null ? null : () => unawaited(cb.onRefresh!())),
@@ -515,16 +615,23 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
           onAction: cb.onAction,
           onMinutes: cb.onMinutes == null ? null : _minutes,
           keyPulse: _keyPulse,
+          choices: _shownChoices,
+          onChoose: _choose,
+          price: widget.prices[priceKeyOf(hero)],
+          onMore: hero.kind == MoveKind.failure || hero.state == NextMoveState.historyUnavailable
+              ? null
+              : () => cb.onAction(const TodayAction(GlanceCopy.moreWays, OpenAlternatives())),
           onShowMe: hero.evidenceId != null && cb.onShowMe != null
               ? () => cb.onShowMe!(hero.evidenceId!)
               : hero.whyAction != null
                   ? () => cb.onAction(hero.whyAction!)
                   : null,
         ),
-      SealedHero() => SealedHeroCard(
+      SealedHero() => ReelHeroCard(
           sealed: hero,
-          onOpen: () => cb.onAction(TodayAction('', GoTo(AppRoutes.resultSealed(hero.attemptId)))),
-          onOpenDirectly: () => cb.onAction(TodayAction('', GoTo(AppRoutes.result(hero.attemptId)))),
+          loading: _reelLoading,
+          onPlay: () => _reel(hero, cb.onPlayReel ?? (p) async => cb.onAction(TodayAction('', GoTo(AppRoutes.result(p.attemptId))))),
+          onLater: () => _reel(hero, cb.onSkipReel ?? (_) async {}),
         ),
       ResumeHero() => ResumeHeroCard(
           resume: hero,
@@ -569,7 +676,11 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
       TodayEnter(delay: const Duration(milliseconds: 80), child: KeyedSubtree(key: _heroBoxKey, child: hero)),
     ];
     final road = view.road;
+    final glance = view.glance;
     final first = road == null || road.ladder.isEmpty ? null : road.ladder.first;
+    final loaded = view.hero != null;
+    // TODAY-1018 section 4: 40 dp between blocks on the phone.
+    const gap = SizedBox(height: 40);
     final after = <Widget>[
       // A slot that lands after the move (a draft, an ended mock's check) opens into place instead
       // of shoving the page (L03): the block is always there and eases to its height.
@@ -586,86 +697,107 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
               ),
       ),
       ?widget.weeklyEnding,
-      // The glance (4.1): This week, the Road to May, then the two record rows. No cards: space
-      // and hairlines. Each block holds its height from the first frame (L03), so nothing above
-      // the fold moves when the rhythm or the colleges land.
+      // The order of TODAY-1018 section 1: This week, Road to CUET, Weak chapters, Last paper,
+      // Repairs and Revise, Your colleges. Only the lead card is a card: the week, the chapters,
+      // the paper and the colleges sit on the ground; the road and the two tiles are outlined
+      // surfaces because the whole surface is pressable. Each block holds its height from the first
+      // frame (L03) and the page lands in one piece (W-042).
       const SizedBox(height: MmSpace.group),
       TodayEnter(
         delay: const Duration(milliseconds: 200),
         rise: 8,
-        child: TodayWeekRow(
-          week: view.header.week,
-          loading: view.header.weekLoading,
-          failed: view.header.weekFailed,
-          onTap: widget.lastWeek != null ? callbacks.onWeeklyEnding ?? callbacks.onWeek : callbacks.onWeek,
-          onRetry: callbacks.onRefresh == null ? null : () => unawaited(callbacks.onRefresh!()),
-          onSetDays: callbacks.onWeek,
-          lastWeek: widget.lastWeek,
-          allowMobi: !heroMobi,
-        ),
-      ),
-      if (road != null) ...[
-        const SizedBox(height: 28),
-        TodayEnter(
-          delay: const Duration(milliseconds: 240),
-          rise: 8,
-          child: RoadSection(
-            key: _roadKey,
-            road: road,
-            actions: callbacks.road,
-            onChooseColleges: callbacks.onChooseColleges,
-            onWeek: callbacks.onWeek,
-            onOpen: callbacks.onTarget,
+        child: KeyedSubtree(
+          key: _roadKey,
+          child: TodayWeekRow(
+            week: view.header.week,
+            loading: view.header.weekLoading,
+            failed: view.header.weekFailed,
+            onTap: widget.lastWeek != null ? callbacks.onWeeklyEnding ?? callbacks.onWeek : callbacks.onWeek,
+            onRetry: callbacks.onRefresh == null ? null : () => unawaited(callbacks.onRefresh!()),
+            onSetDays: callbacks.onWeek,
+            lastWeek: widget.lastWeek,
+            allowMobi: !heroMobi,
+            readouts: loaded ? glance?.readouts : null,
+            upNext: _upNext,
           ),
         ),
-      ],
+      ),
       // The Mob card (SOCIAL-SPEC 8, 9): only when the student is in a Mob, so it adds nothing otherwise.
       // It reads its Mob after the page: it eases open rather than appearing at full height (L03).
       const TodayEnter(
-        delay: Duration(milliseconds: 260),
+        delay: Duration(milliseconds: 220),
         rise: 8,
         child: MmSizeEase(duration: Motion.card, curve: Motion.out, alignment: Alignment.topCenter, clipBehavior: Clip.none, child: MobTodayBlock()),
       ),
-      const SizedBox(height: 28),
-      TodayEnter(
-        delay: const Duration(milliseconds: 280),
-        rise: 8,
-        child: TodayRows(
-          lastPaper: view.lastPaper,
-          firstCollege: first,
-          collegesSaved: road?.ladderSaved ?? 0,
-          collegesStatus: first != null ? CollegesCardStatus.ready : widget.colleges.status,
-          onPaper: callbacks.onTarget,
-          onColleges: () => callbacks.onTarget(const GoTo(ToolsPaths.colleges)),
-          onChoose: callbacks.onChooseColleges,
-          onRetry: callbacks.onCollegesRetry,
-          showColleges: road != null,
+      if (road != null) ...[
+        gap,
+        TodayEnter(
+          delay: const Duration(milliseconds: 240),
+          rise: 8,
+          child: loaded && glance?.road != null
+              ? RoadGlance(layers: glance!.road!, road: road, actions: callbacks.road, onOpen: callbacks.onTarget)
+              : const _RoadSkeleton(),
         ),
-      ),
+      ],
+      if (loaded && glance != null) ...[
+        gap,
+        TodayEnter(
+          delay: const Duration(milliseconds: 280),
+          rise: 8,
+          child: WeakChaptersBlock(
+            weak: glance.weak,
+            onOpen: callbacks.onTarget,
+            onRetry: callbacks.onRefresh == null ? null : () => unawaited(callbacks.onRefresh!()),
+          ),
+        ),
+        if (glance.paper != null) ...[
+          gap,
+          TodayEnter(delay: const Duration(milliseconds: 320), rise: 8, child: LastPaperBlock(detail: glance.paper!, onOpen: callbacks.onTarget)),
+        ],
+        gap,
+        TodayEnter(
+          delay: const Duration(milliseconds: 360),
+          rise: 8,
+          child: QueueTilesBlock(
+            queue: glance.queue,
+            onRepairs: () => callbacks.onTarget(const GoTo(AppRoutes.reviewRecord)),
+            onRevise: () => callbacks.onTarget(const GoTo(AppRoutes.reviewRevise)),
+          ),
+        ),
+      ],
+      if (road != null && loaded) ...[
+        gap,
+        TodayEnter(
+          delay: const Duration(milliseconds: 400),
+          rise: 8,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const GlanceHead(title: GlanceCopy.collegesTitle),
+              const SizedBox(height: MmSpace.s4),
+              TodayRows(
+                firstCollege: first,
+                collegesSaved: road.ladderSaved,
+                collegesStatus: first != null ? CollegesCardStatus.ready : widget.colleges.status,
+                onColleges: () => callbacks.onTarget(const GoTo(ToolsPaths.colleges)),
+                onChoose: callbacks.onChooseColleges,
+                onRetry: callbacks.onCollegesRetry,
+                headed: true,
+              ),
+            ],
+          ),
+        ),
+      ],
     ];
     // The cue lives in the page, in the gap under the hero (design critic 16 Oct, finding 2): it
-    // takes the place of the first block's own leading gap (at least the 32 between sections), so
-    // it can never sit over a card, a key or a line, and fading it out never moves the page.
+    // takes the place of the first block's own leading gap, so it can never sit over a card, a key
+    // or a line, and fading it out never moves the page. It leads to the week (TODAY-1018 2a).
     if (view.road != null && view.hero != null) {
-      final road = view.road!;
-      final cue = MoreBelowSlot(
-        cue: _moreCue,
-        onTap: _toRoad,
-        label: road.phase != RoadPhase.countdown
-            ? TodayCopy.moreBelow
-            : road.board != null
-                ? TodayCopy.moreBelowCount(
-                    weeks: road.board!.weeksToExam,
-                    days: road.board!.daysToExam,
-                    title: TodayCopy.roadTitleFor(road.board!.ownDate ? road.board!.examDate : null),
-                  )
-                : TodayCopy.moreBelowCount(weeks: road.weeks, days: road.daysToWindow),
-      );
-      // With no slot (the also block is its zero-height ease) and no weekly ending, the cue takes
-      // the group gap's place; otherwise it sits straight under the move.
-      final gap = view.also.isEmpty && widget.weeklyEnding == null ? 1 : 0;
-      if (after.length > gap && after[gap] is SizedBox) {
-        after[gap] = cue;
+      final cue = MoreBelowSlot(cue: _moreCue, onTap: _toRoad, label: GlanceCopy.cue);
+      final gapAt = view.also.isEmpty && widget.weeklyEnding == null ? 1 : 0;
+      if (after.length > gapAt && after[gapAt] is SizedBox) {
+        after[gapAt] = cue;
       } else {
         after.insert(0, cue);
       }
@@ -895,12 +1027,14 @@ class _MoreBelowCueState extends State<MoreBelowCue> with SingleTickerProviderSt
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       // Clamped at 1.2x so the pill stays inside its 32 dp gap at large text.
-                      Text(
-                        widget.label,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        textScaler: MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.2),
-                        style: type.caption.copyWith(color: colors.ink, fontWeight: FontWeight.w600),
+                      Flexible(
+                        child: Text(
+                          widget.label,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          textScaler: MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.2),
+                          style: type.caption.copyWith(color: colors.ink, fontWeight: FontWeight.w600),
+                        ),
                       ),
                       const SizedBox(width: MmSpace.s4),
                       AnimatedBuilder(
@@ -920,6 +1054,41 @@ class _MoreBelowCueState extends State<MoreBelowCue> with SingleTickerProviderSt
           ),
         ),
       ),
+    );
+  }
+}
+
+/// The road's resting height while the move is on its way: the page lands in one piece (W-042).
+class _RoadSkeleton extends StatelessWidget {
+  const _RoadSkeleton();
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const SkeletonGroup(child: Skeleton.line(width: 140, height: 18)),
+        const SizedBox(height: MmSpace.s12),
+        Container(
+          height: 300,
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(24), border: Border.all(color: colors.line)),
+          padding: const EdgeInsets.all(MmSpace.cardPadding),
+          child: const SkeletonGroup(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Skeleton.line(width: 180, height: 40),
+                SizedBox(height: MmSpace.s12),
+                Skeleton.line(width: 160, height: 12),
+                SizedBox(height: MmSpace.s24),
+                Row(children: [Skeleton.circle(size: 108), SizedBox(width: MmSpace.s16), Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Skeleton.line(width: 140), SizedBox(height: MmSpace.s16), Skeleton.line(width: 120), SizedBox(height: MmSpace.s16), Skeleton.line(width: 130)]))]),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

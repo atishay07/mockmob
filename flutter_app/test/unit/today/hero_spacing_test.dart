@@ -109,7 +109,9 @@ void main() {
         // between what the card shows is at most one line of body text.
         // The key and the two pills under it (TODAY-1017 4.2) are the card's controls.
         final keys = [for (final e in inCard(find.byType(KeyButton)).evaluate()) rectOf(e), for (final e in inCard(find.byType(TodayPill)).evaluate()) rectOf(e)];
-        final blocks = [art, ...digits, ...texts, ...keys]..sort((a, b) => a.top.compareTo(b.top));
+        // The choices footer under the key (TODAY-1018 6.1) is its own band, split by a hairline.
+        final lastKey = keys.fold<double>(card.top, (m, r) => math.max(m, r.bottom));
+        final blocks = [art, ...digits, ...texts, ...keys].where((r) => r.top <= lastKey).toList()..sort((a, b) => a.top.compareTo(b.top));
         var reach = card.top + MmSpace.cardPadding;
         var widest = 0.0;
         for (final r in blocks) {

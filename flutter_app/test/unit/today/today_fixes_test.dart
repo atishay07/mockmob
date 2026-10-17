@@ -9,6 +9,7 @@ import 'package:mockmob/core/models/learning_plan.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart' show KeyButton, MmSegmented;
 import 'package:mockmob/features/today/copy.dart';
+import 'package:mockmob/features/today/copy_glance.dart';
 import 'package:mockmob/features/today/data/today_providers.dart';
 import 'package:mockmob/features/today/logic/move_builder.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
@@ -167,10 +168,10 @@ void main() {
           disableAnimations: true,
           overrides: [authSnapshotProvider.overrideWithBuild((ref, notifier) => const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u'))],
         );
-        await tester.scrollUntilVisible(find.text(TodayCopy.roadTitle), 300, scrollable: find.byType(Scrollable).first);
+        await tester.scrollUntilVisible(find.text(GlanceCopy.roadTitle), 300, scrollable: find.byType(Scrollable).first);
       }
 
-      // The Road to May heading counts days in the last week (TODAY-1017 4.4).
+      // Road to CUET counts days in the last week (TODAY-1017 4.4, kept in TODAY-1018).
       await showAt(DateTime.utc(2027, 4, 26, 8));
       expect(find.text(TodayCopy.roadDaysTo(own: false, n: 5)), findsOneWidget);
       expect(find.text(TodayCopy.roadWeeksTo(own: false, n: 0)), findsNothing);

@@ -140,4 +140,21 @@ void main() {
     done.complete();
     await tester.pumpAndSettle();
   });
+
+  testWidgets('a read that never answers lets go after 20 s: no words stay pinned at the top (D28)', (tester) async {
+    final never = Completer<void>();
+    await tester.pumpWidget(_app(() => never.future, reduced: true));
+    final rest = _firstRowTop(tester);
+    await _pullPastThreshold(tester);
+    await _frames(tester);
+    expect(find.text('Refreshing'), findsOneWidget);
+    await tester.pump(MmPullRefresh.slowAfter);
+    await tester.pump();
+    expect(find.text('Still refreshing. Your page is safe.'), findsOneWidget);
+    await tester.pump(MmPullRefresh.letGoAfter - MmPullRefresh.slowAfter);
+    await _frames(tester);
+    expect(find.text('Still refreshing. Your page is safe.'), findsNothing);
+    expect(find.text('Refreshing'), findsNothing);
+    expect(_firstRowTop(tester), closeTo(rest, 1), reason: 'the page is back in its place');
+  });
 }

@@ -9,6 +9,7 @@ import 'package:mockmob/core/repositories/local_scope.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show rhythmPrefsStoreProvider;
 import 'package:mockmob/features/today/copy.dart';
+import 'package:mockmob/features/today/copy_glance.dart';
 import 'package:mockmob/features/today/data/road_plan.dart';
 import 'package:mockmob/features/today/logic/road_board.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
@@ -17,6 +18,7 @@ import 'package:mockmob/features/today/logic/today_inputs.dart';
 import 'package:mockmob/features/today/logic/today_model.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
 import 'package:mockmob/features/today/widgets/road_board.dart';
+import 'package:mockmob/features/today/widgets/today_week.dart';
 
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
@@ -195,21 +197,28 @@ void main() {
         ],
       );
 
-  testWidgets('a road below the first screen gets a cue that glides to it and goes once scrolled', (tester) async {
-    final view = buildToday(TodayInputs(now: tuesdayEvening, firstName: 'Asha', attempts: [accountancyMock('m1', daysBefore(tuesdayEvening, 1))]));
+  testWidgets('a week below the first screen gets a cue that glides to it and goes once scrolled (TODAY-1018 2a)', (tester) async {
+    final view = buildToday(TodayInputs(now: tuesdayEvening, firstName: 'Asha', attempts: [accountancyMock('m1', daysBefore(tuesdayEvening, 1))], week: tuesdayWeek));
     expect(view.road, isNotNull);
-    // The gap under the hero sits at about 461 to 485 dp and the road heading now right under it
-    // (the road moved above Recent papers, L07): a screen 500 dp tall shows the gap (so the cue
-    // can be tapped) and still has the road below it.
-    await pumpBody(tester, view, const Size(384, 500));
+    // The cue sits in the gap under the move card and leads to This week: a screen just tall
+    // enough to show the gap still has the week below it.
+    // Measure where the gap under the card and the week fall, then use a screen that shows the gap
+    // and leaves the week below its fold.
+    await pumpBody(tester, view, const Size(384, 1400));
+    await tester.pump();
+    final slot = tester.getRect(find.byType(MoreBelowSlot));
+    final week = tester.getRect(find.byType(TodayWeekRow));
+    final height = (slot.bottom + 2).ceilToDouble();
+    expect(height, lessThan(week.top + 24), reason: 'the week still starts below the fold');
+    await pumpBody(tester, view, Size(384, height));
     await tester.pump();
     await tester.pump();
-    final cue = find.bySemanticsLabel(RegExp(r'^Road to May, [0-9]+ weeks'));
+    final cue = find.bySemanticsLabel(GlanceCopy.cue);
     expect(cue.hitTestable(), findsOneWidget);
     await tester.tap(cue);
     await tester.pumpAndSettle();
-    expect(find.text(TodayCopy.roadTitle).hitTestable(), findsOneWidget, reason: 'the page glided to the road');
-    expect(find.bySemanticsLabel(RegExp(r'^Road to May, [0-9]+ weeks')).hitTestable(), findsNothing, reason: 'the cue is gone for the visit');
+    expect(find.text(TodayCopy.weekTitle).hitTestable(), findsOneWidget, reason: 'the page glided to the week');
+    expect(find.bySemanticsLabel(GlanceCopy.cue).hitTestable(), findsNothing, reason: 'the cue is gone for the visit');
   });
 
   // Design critic 16 Oct, finding 2: the cue sat over the key at late night and over the chart

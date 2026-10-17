@@ -5,23 +5,23 @@ import '../../core/auth/load_problem.dart';
 import '../../core/copy/formatters.dart' as fmt;
 import '../../core/copy/formatters.dart';
 import '../../core/domain/cuet_dates.dart';
-import '../../core/domain/next_move.dart' show isLateNightHour;
 import 'logic/today_model.dart' show DurationChoice;
 
 abstract final class TodayCopy {
   // Header.
-  /// "Good evening, Asha" (TODAY-1017 section 5). From 11 PM to 5 AM it stays "Good evening": the
-  /// "Up late" line retired with the sleepy Mobi (F11). After 7 or more days away it is "Welcome
-  /// back, Asha". Without a usable first name there is no name at all.
+  /// "Good evening, Asha" (TODAY-1017 section 5), by the student's local hour: morning from 5 AM,
+  /// afternoon from noon, evening from 5 PM to midnight. After midnight it never claims the
+  /// evening ("Good evening" at 2:41 AM, D28): until 5 AM it is a plain "Hello", with no comment on
+  /// the hour (the "Up late" line retired with the sleepy Mobi, F11). After 7 or more days away it
+  /// is "Welcome back, Asha". Without a usable first name there is no name at all.
   static String greeting(int hour, String? firstName, {bool returning = false}) {
     final who = firstName == null || firstName.isEmpty ? null : firstName;
     final String salutation;
     if (returning) {
       salutation = 'Welcome back';
-    } else if (isLateNightHour(hour)) {
-      salutation = 'Good evening';
     } else {
       salutation = switch (hour) {
+        < 5 => 'Hello',
         < 12 => 'Good morning',
         < 17 => 'Good afternoon',
         _ => 'Good evening',
@@ -248,6 +248,17 @@ abstract final class TodayCopy {
   static String sealedTitle(String label, String subject) => '$label, $subject';
   static String receivedAt(DateTime at) => 'Received at ${formatTime12(at)}. Your result is ready.';
   static const String openSheet = 'Open your sheet';
+
+  // The paper reel on Today (D29): a truthful play-back of the student's own marked paper.
+  static String reelLine(String? subject) => subject == null
+      ? 'Your paper, question by question: where the marks went and what to fix first.'
+      : 'Your $subject paper, question by question: where the marks went and what to fix first.';
+  static const String reelTitle = 'Play your paper back';
+  static const String reelKey = 'Play it back';
+  static const String reelLength = '20 s';
+  static const String reelLater = 'Not now';
+  static String reelSheetSemantics(int n) => 'Your answer sheet, $n questions, ready to play back.';
+  static const String reelNotLoaded = 'The paper did not load. Opening the result instead.';
   static const String openDirectly = 'Open results directly';
   static String moreResults(int n) => n == 1 ? '1 more result is ready to open.' : '$n more results are ready to open.';
 
@@ -600,6 +611,11 @@ abstract final class TodayCopy {
   static const String changeLength = 'Change length';
   static const String somethingElse = 'Something else';
   static const String practiseMore = 'Practise more';
+  static const String seeTonightsRepairs = "See tonight's repairs";
+
+  // The price line under the key (TODAY-1018 section 5): the wallet's and the quote's own numbers.
+  static String priceRepair(int balance) => 'Each repair uses 1 AI credit. You have $balance.';
+  static const String priceFree = 'Free. No credits.';
   static const String openTheRepair = 'Open the repair';
   static const String openTheSession = 'Open the session';
 
@@ -685,8 +701,13 @@ abstract final class TodayCopy {
   static String tonightMakes(int n) => 'Tonight makes $n.';
   static const String tonightCounts = 'Tonight counts.';
   static String weekGoalMet(int goal) => 'Goal met: $goal of $goal study days. Anything more this week is extra.';
-  static const String weekNew = 'A new week. Tonight counts.';
-  static const String weekDayOne = 'Your week starts tonight. Tonight counts.';
+  /// Back after a week or more (TODAY-1018 section 5): no shaming, no streak loss.
+  static String weekNew(int goal) => 'A new week starts with one session. ${weekNewKey(goal)}';
+  static String weekNewKey(int goal) => 'Today can be day one of $goal.';
+
+  /// Day one (TODAY-1018 section 5).
+  static String weekDayOne(int goal) => 'Your plan is ${plural(goal, 'day')} a week. $weekDayOneKey';
+  static const String weekDayOneKey = 'Today is the first.';
   static const String weekNoGoal = 'Pick how many days a week you study.';
   static const String setDays = 'Set days';
   static const String weekNotRead = 'Study days did not load.';
@@ -719,7 +740,7 @@ abstract final class TodayCopy {
   static String lastPaperName(String label, String subject) => '$label, $subject';
   static String lastPaperSub(String date, String? change) => change == null ? date : '$date, $change';
   static String collegesSub(String course, int more) => more > 0 ? '$course, 2026 Round 1. $more more saved.' : '$course, 2026 Round 1.';
-  static const String collegesEmpty = 'Pick up to 8 to see their 2026 cutoffs here';
+  static const String collegesEmpty = 'Pick up to 8 colleges to see their 2026 cutoffs here.';
   static const String choose = 'Choose';
 
   // Today 1017, second half.

@@ -3,7 +3,8 @@
 // is a 48 dp column at 360 dp.
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockmob/core/widgets/widgets.dart' show BarMove, LiveCapsule;
+import 'package:mockmob/features/today/copy_glance.dart';
+import 'package:mockmob/core/widgets/widgets.dart' show BarMove, LiveCapsule, MmPressable;
 import 'package:mockmob/features/today/copy.dart';
 import 'package:mockmob/features/today/widgets/today_week.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
@@ -61,14 +62,19 @@ void main() {
     expect(_capsule(), findsNothing);
   });
 
-  testWidgets('This week is one target, the full width and taller than 48 dp at 360 dp', (tester) async {
+  testWidgets('This week spans the width at 360 dp, and each day is its own 44 dp target (TODAY-1018 6.3)', (tester) async {
     await _pump(tester, size: const Size(360, 800), dock: false);
-    // TODAY-1017 4.3: the whole row opens the week; the marks are not separate small targets.
     final row = tester.getSize(find.byType(TodayWeekRow));
     expect(row.height, greaterThanOrEqualTo(48));
     expect(row.width, greaterThanOrEqualTo(300));
+    // Today is named Today; the other six keep their short names.
+    final today = DateTime.utc(2026, 10, 13, 15, 10).weekday - 1;
     for (var i = 0; i < 7; i++) {
-      expect(find.descendant(of: find.byType(TodayWeekRow), matching: find.text(TodayCopy.weekdayShort[i])), findsOneWidget);
+      final label = i == today ? GlanceCopy.todayWord : TodayCopy.weekdayShort[i];
+      final day = find.descendant(of: find.byType(TodayWeekRow), matching: find.text(label));
+      expect(day, findsOneWidget, reason: label);
+      final target = find.ancestor(of: day, matching: find.byType(MmPressable)).first;
+      expect(tester.getSize(target).height, greaterThanOrEqualTo(44), reason: label);
     }
   });
 }

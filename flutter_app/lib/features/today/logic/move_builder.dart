@@ -198,9 +198,9 @@ MoveHero buildMove(TodayInputs i) {
     if (done != null) return done;
     final path = _firstWeek(i, f, state);
     if (path != null) return path;
-    if (away && (state == NextMoveState.repairedCheckNotDue || state == NextMoveState.noStrongWeakness || state == NextMoveState.stale)) {
-      return _warmUp(i, f, overline);
-    }
+    // Back after a week or more (TODAY-1018 section 5, Returning): ten warm-up questions lead,
+    // and the open mistakes and Revise wait one tap away as the card's choices. No shaming.
+    if (away) return _warmUp(i, f, overline);
   }
 
   switch (state) {
@@ -470,16 +470,17 @@ MoveHero? _doneToday(TodayInputs i, MoveFacts f, NextMoveState state, String ove
     number: '$n',
     numberLabel: TodayCopy.doneRepairLabel(n),
     meaning: TodayCopy.doneRepairWhy(null),
-    // No length to change: the second pill opens the repairs instead (4.2, Tonight done).
+    // Done (TODAY-1018 section 5): the key shows tonight's repairs; the card's choices stay for a
+    // student who wants more, and "Practise more" stays one tap away as the alternate.
     selectedMinutes: count,
-    summary: TodayCopy.practiseMore,
-    primary: TodayAction(
+    summary: TodayCopy.seeTonightsRepairs,
+    primary: const TodayAction(TodayCopy.seeTonightsRepairs, GoTo(TodayLinks.repairRecord)),
+    alternate: TodayAction(
       TodayCopy.withCount(TodayCopy.practiseMore, count),
       GoTo(TodayLinks.quick(subject: b.subject, count: count)),
       startsSession: true,
       actionType: 'practice',
     ),
-    alternate: const TodayAction(TodayCopy.openTheRepair, GoTo(TodayLinks.repairRecord)),
     secondary: const TodayAction(TodayCopy.somethingElse, OpenAlternatives()),
   );
 }
@@ -710,5 +711,151 @@ MoveHero _mixed(
     primary: TodayAction(TodayCopy.startMixed(minutes), GoTo(TodayLinks.quick(subject: subject, count: minutes)), startsSession: true, actionType: 'practice'),
     secondary: const TodayAction(TodayCopy.somethingElse, OpenAlternatives()),
     dismissedLine: f.dismissed ? TodayCopy.hiddenUntilTomorrow : null,
+  );
+}
+
+// ---------------------------------------------------------------------------------------------
+// Today 1018 (TODAY-1018 6.1): the moves the lead card's two choices swap to. Each is a whole
+// move built from the same record as the lead, so a swap shows real numbers, never a promise.
+
+/// Tonight's repair as a move of its own (a choice when the lead is something else), or null when
+/// nothing is open.
+MoveHero? repairMoveFor(TodayInputs i) {
+  final f = MoveFacts(i);
+  final b = f.basis;
+  if (b == null || f.tonight == null || f.dismissed || f.candidates.isEmpty) return null;
+  return _repair(i, f, b, moodOf(i, f), TodayCopy.moveOverline(i.clock()), HeroArt.object(subject: canonicalSubject(b.subject)), null);
+}
+
+/// Open mistakes on the paper tonight's repair comes from, or 0.
+int openOnBasis(TodayInputs i) => MoveFacts(i).candidates.length;
+
+/// The date of the paper tonight's repair comes from, or null.
+DateTime? basisDate(TodayInputs i) {
+  final b = MoveFacts(i).basis;
+  return b == null ? null : i.date(b.completedAt);
+}
+
+/// Today's Revise round as a move, or null when nothing is due (or Revise is unknown).
+MoveHero? reviseMoveFor(TodayInputs i) {
+  if ((i.reviseDue ?? 0) <= 0) return null;
+  final f = MoveFacts(i);
+  final subject = f.attempts.isNotEmpty ? f.attempts.first.subject : (i.subjects.isEmpty ? launchSubjectIds.first : i.subjects.first);
+  return _revise(i, f, nextMoveState(f.table), TodayCopy.moveOverline(i.clock()), fallbackSubject: subject);
+}
+
+/// Practise the weakest chapter: [chapter] in [subject], with its marks open over [papers] papers.
+MoveHero weakestMoveFor(
+  TodayInputs i, {
+  required String subject,
+  required String chapter,
+  required int marks,
+  required int missed,
+  required int asked,
+  required int papers,
+}) {
+  final options = _practiceOptions();
+  final count = _practiceCount(i, options);
+  final name = subjectName(subject);
+  return MoveHero(
+    state: NextMoveState.ready,
+    mood: TodayMood.normal,
+    kind: MoveKind.weakest,
+    overline: TodayCopy.moveOverline(i.clock()),
+    subjectId: canonicalSubject(subject),
+    subjectLine: name,
+    art: HeroArt.object(subject: canonicalSubject(subject)),
+    number: '$count',
+    numberLabel: 'questions on\n$chapter',
+    meaning: '$chapter has $marks marks open in your record: $missed of $asked questions missed. Marked +5 and −1, the CUET way.',
+    durationPrompt: TodayCopy.practiceLength,
+    durations: options,
+    selectedMinutes: count,
+    summary: 'Practise $chapter',
+    primary: TodayAction(
+      'Start practice, $count min',
+      GoTo(TodayLinks.quick(subject: subject, count: count, chapter: chapter)),
+      startsSession: true,
+      actionType: 'practice',
+    ),
+  );
+}
+
+/// A full mock in [subject], timed like the real one.
+MoveHero mockMoveFor(TodayInputs i, {required String subject}) => MoveHero(
+      state: NextMoveState.ready,
+      mood: TodayMood.normal,
+      kind: MoveKind.mock,
+      overline: TodayCopy.moveOverline(i.clock()),
+      subjectId: canonicalSubject(subject),
+      subjectLine: subjectName(subject),
+      art: HeroArt.object(subject: canonicalSubject(subject)),
+      number: '$mockQuestionCount',
+      numberLabel: 'questions in\n60 minutes',
+      meaning: 'A full paper, timed like the real one. It shows where the marks go across every chapter at once.',
+      summary: TodayCopy.startTimedMock(60),
+      primary: TodayAction('Start full mock, 60 min', GoTo(TodayLinks.fullMock(subject: subject)), startsSession: true, actionType: 'mock'),
+    );
+
+/// The subject practised longest ago (never practised first), other than [except]; null with one
+/// subject only.
+String? otherSubjectFor(TodayInputs i, {String? except}) {
+  final attempts = i.attempts ?? const <Attempt>[];
+  final skip = except == null ? null : canonicalSubject(except);
+  final subjects = <String>[for (final s in i.subjects) canonicalSubject(s)];
+  for (final a in attempts) {
+    final s = canonicalSubject(a.subject);
+    if (!subjects.contains(s)) subjects.add(s);
+  }
+  final others = [for (final s in subjects) if (s != skip && s.isNotEmpty) s];
+  if (others.isEmpty) return null;
+  DateTime? lastOf(String s) {
+    for (final a in attempts) {
+      if (canonicalSubject(a.subject) == s) return a.completedAt;
+    }
+    return null;
+  }
+
+  others.sort((a, b) {
+    final la = lastOf(a), lb = lastOf(b);
+    if (la == null && lb == null) return 0;
+    if (la == null) return -1;
+    if (lb == null) return 1;
+    return la.compareTo(lb);
+  });
+  return others.first;
+}
+
+/// Ten questions in another subject.
+MoveHero otherSubjectMoveFor(TodayInputs i, {required String subject}) {
+  final options = _practiceOptions();
+  final count = _practiceCount(i, options);
+  final name = subjectName(subject);
+  DateTime? last;
+  for (final a in i.attempts ?? const <Attempt>[]) {
+    if (canonicalSubject(a.subject) == canonicalSubject(subject)) {
+      last = a.completedAt;
+      break;
+    }
+  }
+  final days = last == null ? null : i.daysSince(last);
+  return MoveHero(
+    state: NextMoveState.ready,
+    mood: TodayMood.normal,
+    kind: MoveKind.otherSubject,
+    overline: TodayCopy.moveOverline(i.clock()),
+    subjectId: canonicalSubject(subject),
+    subjectLine: name,
+    art: HeroArt.object(subject: canonicalSubject(subject)),
+    number: '$count',
+    numberLabel: 'questions in\n$name',
+    meaning: days == null
+        ? 'You have not practised $name yet. $count questions show where it stands.'
+        : '$name was last practised ${days <= 1 ? (days == 0 ? 'today' : 'yesterday') : '$days days ago'}. $count questions keep it warm.',
+    durationPrompt: TodayCopy.practiceLength,
+    durations: options,
+    selectedMinutes: count,
+    summary: 'Practise $name',
+    primary: TodayAction('Start practice, $count min', GoTo(TodayLinks.quick(subject: subject, count: count)), startsSession: true, actionType: 'practice'),
   );
 }

@@ -9,13 +9,14 @@ import 'package:mockmob/core/repositories/rhythm_seen_repository.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show rhythmPrefsStoreProvider;
 import 'package:mockmob/features/rhythm/rhythm.dart';
-import 'package:mockmob/features/today/widgets/today_week.dart';
 import 'package:mockmob/features/today/widgets/road_strip.dart';
 import 'package:mockmob/features/today/widgets/header_mobi.dart';
 import 'package:mockmob/features/today/widgets/length_pill.dart';
 import 'package:mockmob/features/today/widgets/today_celebration.dart';
 import 'package:mockmob/core/router/routes.dart';
 import 'package:mockmob/features/today/copy.dart';
+import 'package:mockmob/features/today/copy_glance.dart';
+import 'package:mockmob/features/today/widgets/road_section.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
 import 'package:mockmob/features/today/logic/today_inputs.dart';
 import 'package:mockmob/features/today/logic/today_model.dart';
@@ -60,6 +61,18 @@ void main() {
     return events;
   }
 
+  /// The road strip on its own (the week-by-week rail, the stops): Today 1018 shows the
+  /// three-layer road instead, and Change plan's "See every week" is where the rail lives.
+  Future<void> pumpRoad(WidgetTester tester, TodayView view) async {
+    await pumpMockmob(
+      tester,
+      Builder(builder: (context) => SingleChildScrollView(padding: const EdgeInsets.all(16), child: RoadSection(road: view.road!))),
+      size: const Size(384, 1900),
+      disableAnimations: true,
+      overrides: overrides,
+    );
+  }
+
   /// Opens the week-by-week rail in place: a tap on the strip (TODAY-1017 4.4).
   Future<void> openRail(WidgetTester tester) async {
     final strip = find.byType(RoadStrip);
@@ -71,9 +84,11 @@ void main() {
 
   testWidgets('the volt key starts the repair; See why reports back; the length sits in the key', (tester) async {
     final events = await pumpToday(tester, buildToday(ashaInputs()));
-    // TODAY-1017 4.2: "Start repair  15 min" in one key, then Change length and Something else.
-    expect(find.text(TodayCopy.changeLength), findsOneWidget, reason: 'a move with more than one length offers to change it');
-    expect(find.text(TodayCopy.somethingElse), findsOneWidget);
+    // TODAY-1018: "Start repair  15 min" in one key; the length is a token on the value line, and
+    // two choices plus More ways to practise sit under the key.
+    expect(find.text(GlanceCopy.lengthToken(15)), findsOneWidget, reason: 'a move with more than one length offers to change it');
+    expect(find.text(GlanceCopy.moreWays), findsOneWidget);
+    expect(find.textContaining('marks they cost you', findRichText: true), findsOneWidget);
     expect(find.text('15 min'), findsOneWidget, reason: 'the key says the length once, after the verb');
     expect(find.text('Start repair'), findsOneWidget);
     expect(find.bySemanticsLabel(TodayCopy.startRepair(15)), findsOneWidget, reason: 'a screen reader hears the whole key');
@@ -94,13 +109,16 @@ void main() {
     expect(events.whereType<TodayAction>(), isEmpty);
   });
 
-  testWidgets('a sheet row opens its result; the sealed one opens the sealed sheet', (tester) async {
+  testWidgets('the paper reel plays the fresh paper (its result when no reel is wired); Last paper opens its own', (tester) async {
     final events = await pumpToday(tester, buildToday(ashaInputs(unopened: [(attemptId: 'm7', receivedAt: tuesdayEvening)])));
-    await tester.tap(find.text(TodayCopy.openDirectly));
+    await tester.tap(find.byKey(const ValueKey('reel-play')));
+    await tester.pump();
     // The Last paper row is the newest opened paper (Mock 7 is still sealed): the Business
     // Studies quick paper from four days before.
-    final row = find.textContaining(', Business Studies');
-    await tester.ensureVisible(row);
+    final row = find.text(GlanceCopy.openResult);
+    await tester.scrollUntilVisible(row, 300, scrollable: find.byType(Scrollable).first);
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Business Studies', findRichText: true), findsWidgets);
     await tester.tap(row);
     await tester.pump();
     final locations = [
@@ -132,8 +150,10 @@ void main() {
     final events = await pumpToday(tester, buildToday(ashaInputs()));
     final week = find.bySemanticsLabel(RegExp('^This week, 1 of 4 study days'));
     expect(week, findsOneWidget);
-    await tester.ensureVisible(find.byType(TodayWeekRow));
-    await tester.tap(find.byType(TodayWeekRow));
+    // The heading opens the week; the days themselves select a day (TODAY-1018 6.3).
+    await tester.ensureVisible(find.text(TodayCopy.weekTitle).first);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text(TodayCopy.weekTitle).first);
     await tester.pump();
     expect(events, contains('week'));
   });
@@ -156,7 +176,7 @@ void main() {
   testWidgets('a practice move offers 5, 10 and 20 questions and the panel reports the count', (tester) async {
     final inputs = ashaInputs(attempts: [accountancyMock('clean', daysBefore(tuesdayEvening, 1))]);
     final events = await pumpToday(tester, buildToday(inputs));
-    await tester.tap(find.text(TodayCopy.changeLength));
+    await tester.tap(find.text(GlanceCopy.lengthToken(10)));
     await tester.pumpAndSettle();
     Finder row(String n) => find.descendant(of: find.byType(LengthPanel), matching: find.text(n));
     expect(find.descendant(of: find.byType(LengthPanel), matching: find.text(TodayCopy.practiceLength)), findsOneWidget);
@@ -170,7 +190,7 @@ void main() {
   });
 
   testWidgets('the road keeps every stop: a chip per stop, and its full dates in the readout once chosen', (tester) async {
-    await pumpToday(tester, buildToday(ashaInputs()));
+    await pumpRoad(tester, buildToday(ashaInputs()));
     final road = find.text(TodayCopy.roadTitle);
     await tester.scrollUntilVisible(road, 300, scrollable: find.byType(Scrollable).first);
     await openRail(tester);
@@ -189,7 +209,7 @@ void main() {
 
   testWidgets('a date that is still expected says so where its dates are shown', (tester) async {
     final view = buildToday(ashaInputs());
-    await pumpToday(tester, view);
+    await pumpRoad(tester, view);
     await tester.scrollUntilVisible(find.text(TodayCopy.roadTitle), 300, scrollable: find.byType(Scrollable).first);
     await openRail(tester);
     expect(view.road!.stops.where((s) => s.expected).length, 3);
@@ -225,6 +245,7 @@ void main() {
     await pumpToday(tester, buildToday(ashaInputs(now: DateTime.utc(2027, 5, 10, 8))));
     await tester.scrollUntilVisible(find.text(TodayCopy.windowOpen), 300, scrollable: find.byType(Scrollable).first);
     expect(find.text(TodayCopy.windowOpen), findsOneWidget);
+    await tester.scrollUntilVisible(find.text(TodayCopy.collegesRowTitle), 300, scrollable: find.byType(Scrollable).first);
     expect(find.text(TodayCopy.collegesRowTitle), findsOneWidget, reason: 'the colleges row stays');
   });
 

@@ -3,13 +3,14 @@
 // its own, the primary key stays in reach above the bar (as the capsule), and its label does not wrap at 1.3x.
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/features/today/widgets/move_choices.dart';
+import 'package:mockmob/features/today/copy_glance.dart';
 import 'package:mockmob/core/domain/next_move.dart';
 import 'package:mockmob/core/models/attempt.dart';
 import 'package:mockmob/core/theme/theme.dart' show MmBar;
 import 'package:mockmob/core/widgets/widgets.dart' show BarMove, KeyButton, LiveCapsule;
 import 'package:mockmob/features/practice/copy.dart';
 import 'package:mockmob/features/review/copy.dart';
-import 'package:mockmob/features/today/widgets/today_pill.dart';
 import 'package:mockmob/features/today/copy.dart';
 import 'package:mockmob/features/today/logic/move_builder.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
@@ -171,9 +172,11 @@ void main() {
     testWidgets('on a tall screen the card shows its own key and no capsule is added', (tester) async {
       await pump(tester, buildToday(ashaInputs()), size: const Size(384, 1100));
       expect(bar(), findsNothing);
-      // The card has its one primary key, and its two outlined pills (TODAY-1017 4.2).
+      // The card has its one primary key, and its two choices with More ways under them
+      // (TODAY-1018 6.1).
       expect(find.descendant(of: find.byType(MoveHeroCard), matching: find.byType(KeyButton)), findsOneWidget, reason: 'one primary');
-      expect(find.descendant(of: find.byType(MoveHeroCard), matching: find.byType(TodayPill)), findsNWidgets(2), reason: 'Change length and Something else');
+      expect(find.descendant(of: find.byType(MoveHeroCard), matching: find.byType(MoveChoicesFooter)), findsOneWidget, reason: 'the two choices');
+      expect(find.descendant(of: find.byType(MoveHeroCard), matching: find.text(GlanceCopy.moreWays)), findsOneWidget);
     });
 
     testWidgets('scrolling the card key into the clear hands over to it: one primary at a time', (tester) async {

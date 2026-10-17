@@ -152,8 +152,9 @@ void main() {
         disableAnimations: true,
         overrides: [auth],
       );
-      // Change length is a pill under the key that opens a small panel; choosing a row is the pick.
-      await tester.tap(find.text(TodayCopy.changeLength));
+      // The length is a token on the value line ("about 15 min") that opens a small panel;
+      // choosing a row is the pick (TODAY-1018 2.1).
+      await tester.tap(find.textContaining(RegExp(r'^about \d+ min$')).first);
       await tester.pumpAndSettle();
       await tester.tap(find.descendant(of: find.byType(LengthPanel), matching: find.text('5 min')));
       await tester.pumpAndSettle();
