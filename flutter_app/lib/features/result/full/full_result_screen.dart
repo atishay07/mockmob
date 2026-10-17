@@ -19,7 +19,6 @@ import '../../insights/widgets/trend_chart.dart' show TrendSection;
 import '../../practice/widgets/result_foot.dart';
 import '../../practice/widgets/top_edge_fade.dart' show BarFade;
 import '../../review/data/paper_when.dart' show paperWhen;
-import '../../review/widgets/answer_sheet.dart' show showAnswerSheet;
 import '../../rules/widgets/across_mocks_view.dart';
 import '../../rules/widgets/rule_check_view.dart';
 import '../../rules/widgets/rules_entry.dart' show LabRulesLink;
@@ -89,10 +88,6 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
   bool _showAll = false;
   bool _blankOpen = false;
   bool _correctOpen = false;
-
-  /// The mistakes whose key the student has seen (after a try, or by asking): until then a mistake keeps its answer back
-  /// ("Try it again before you see the answer").
-  final Set<String> _keyShown = {};
 
   /// The reader Mobi beside the answer sheet's heading, and the one-act-per-2.5-s reaction to the answer the student
   /// opens. Left out of the tree on an NTA result.
@@ -210,8 +205,6 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
     if (focus == null) return;
     for (final a in groups.all) {
       if (a.number == focus) {
-        // A question the student was sent to is shown with its key: they asked for that question.
-        _keyShown.add(a.qid);
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (mounted) _reveal(a, animate: false);
         });
@@ -232,12 +225,6 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
     }
   }
 
-  /// "Try it again": the question in a sheet with no key, not recorded. When the sheet closes the key is shown.
-  Future<void> _tryFirst(AnswerItem item, String attemptId) async {
-    await showAnswerSheet(context, attemptId: attemptId, questionId: item.qid, number: item.number, tryFirst: true);
-    if (mounted) setState(() => _keyShown.add(item.qid));
-  }
-
   /// One answer row, as a mistake (with its summary face and its repair inline) when [status] is given.
   Widget _row(
     AnswerItem item, {
@@ -253,13 +240,9 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
     final letters = item.question.options;
     String? letter(int? i) => i == null || i < 0 ? null : (i < letters.length ? letters[i].key : letterOf(i));
     final yours = letter(item.given);
-    // A mistake keeps its answer back until the student has tried it again or asked to see it. Repaired ones, held keys
-    // and rows that are not mistakes show it as the key rule allows.
-    final tryFirst = !keysOff &&
-        item.verdict == Verdict.wrong &&
-        (status == MistakeStatus.repair || status == MistakeStatus.repairFirst) &&
-        !_keyShown.contains(item.qid);
-    final answer = keysOff || tryFirst || item.verdict == Verdict.held ? null : letter(item.keyIndex);
+    // The free part shows the key as the key rule allows. The try before the key belongs to the repair, which opens on it,
+    // so a mistake here has one action (D15), never a second "try" step beside Repair.
+    final answer = keysOff || item.verdict == Verdict.held ? null : letter(item.keyIndex);
     final open = _open.contains(item.qid);
     return KeyedSubtree(
       key: _keyFor(item.qid),
@@ -269,8 +252,6 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
         onToggle: () => _toggle(item.qid),
         keysOff: keysOff,
         onOpened: () => _onOpened(item),
-        onTryFirst: tryFirst ? () => unawaited(_tryFirst(item, attemptId)) : null,
-        onShowAnswer: tryFirst ? () => setState(() => _keyShown.add(item.qid)) : null,
         others: lab?.othersFor(item.qid),
         othersTitle: lab?.labels.othersTitle,
         trap: lab?.traps?.tagFor(item.qid),
@@ -340,8 +321,10 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                 return i >= 0 && i < options.length ? options[i].key : String.fromCharCode(65 + i);
               },
             );
-      // The Replay (slice 2): the paper as a clock.
-      final replay = model.isHeld ? null : detail?.lab?.replay;
+      // The Replay (slice 2): the paper as a clock, left out when the record holds too few answers to say anything (D17:
+      // a fast blank paper replays as grey boxes only).
+      final labReplay = model.isHeld ? null : detail?.lab?.replay;
+      final replay = labReplay != null && ReplaySection.worthShowing(labReplay) ? labReplay : null;
       final rows = moveAnalysisOf(attempt);
       final state = MoveState.watch(ref, attemptId: id, wrongQids: [for (final r in rows.mistakes) r.qid]);
       final groups = buildAnswerGroups(

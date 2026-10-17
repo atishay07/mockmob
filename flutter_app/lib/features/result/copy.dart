@@ -22,12 +22,6 @@ abstract final class ResultCopy {
   static String submittedAt(DateTime at) => 'Submitted at ${formatTime12(at)}.';
   static const savedOnServer = 'Saved to your account.';
   static const answerSheet = 'Answer sheet';
-
-  /// The step before the key on a mistake (v15 spec 3.2, from the website's fix round).
-  static const tryFirstTitle = 'Try it again before you see the answer';
-  static const tryFirstLine = 'Answer the question once more with no key showing. This try is not recorded.';
-  static const tryItAgain = 'Try it again';
-  static const showTheAnswer = 'Show the answer';
   static const answers = 'Answers';
   static String range(int n) => '1 to $n';
   static const mapHint = 'Tap a bubble to open that answer.';
@@ -376,6 +370,10 @@ abstract final class ResultCopy {
       : 'By $clock: $answered of $total answered. Even pace: $evenPace.';
 
   static String replayClockSpoken(String clock) => 'Replay at $clock';
+
+  /// The replay's one toggle (D17): the whole paper on one line, or the server's rows of [minutes] each.
+  static const replayOneLine = 'Show the whole paper on one line';
+  static String replayByRows(int minutes) => 'Show $minutes minutes a line';
 
   static String replayMapSpoken(int answered, int opened, int total) => '$answered of $total questions answered and $opened opened at this moment.';
 

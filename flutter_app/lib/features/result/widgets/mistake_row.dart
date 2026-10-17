@@ -248,8 +248,7 @@ class MistakeChip extends StatelessWidget {
   final MistakeStatus status;
 
   static String label(MistakeStatus s) => switch (s) {
-    MistakeStatus.repairFirst => LayersCopy.chipRepairFirst,
-    MistakeStatus.repair => LayersCopy.chipRepair,
+    MistakeStatus.repairFirst || MistakeStatus.repair => LayersCopy.chipOpen,
     MistakeStatus.check => LayersCopy.chipCheck,
     MistakeStatus.held => LayersCopy.chipHeld,
     MistakeStatus.slipped => LayersCopy.chipSlipped,
@@ -313,7 +312,12 @@ class MistakeRepairEntry extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final repaired = status == MistakeStatus.check || status == MistakeStatus.held || status == MistakeStatus.slipped;
+    // One action per mistake, with the label it has everywhere on the screen (D15): a repaired mistake whose check is not
+    // taken checks it ("Check Q12 held", the foot's words when the check is the next move); one already checked opens its
+    // saved repair; an open one is repaired ("Repair Q12", the foot's own words when it is the next move).
     if (repaired) {
+      final check = status == MistakeStatus.check;
+      final label = check ? LayersCopy.checkKey(number) : LayersCopy.openRepair;
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -321,20 +325,20 @@ class MistakeRepairEntry extends StatelessWidget {
             switch (status) {
               MistakeStatus.held => LayersCopy.heldLine,
               MistakeStatus.slipped => LayersCopy.slippedLine,
-              _ => LayersCopy.repairedLine,
+              _ => onOpenSaved == null ? LayersCopy.repairedLine : LayersCopy.checkLine,
             },
             style: type.small.copyWith(color: colors.ink),
           ),
           if (onOpenSaved != null) ...[
             const SizedBox(height: MmSpace.s12),
-            Align(alignment: Alignment.centerLeft, child: KeyButton.secondary(label: LayersCopy.openRepair, expanded: false, onPressed: onOpenSaved)),
+            Align(alignment: Alignment.centerLeft, child: KeyButton.secondary(label: label, expanded: false, onPressed: onOpenSaved)),
           ],
         ],
       );
     }
     if (onRepair == null) return const SizedBox.shrink();
-    // The next move's own mistake: the foot's volt key repairs it, with the cost under it, so the row only says what a
-    // repair gives (one key for one action on the screen).
+    // The next move's own mistake: the foot's volt key repairs it, with the cost under it, so the row names that key in
+    // its own words instead of stacking a second key with the same label above it.
     if (status == MistakeStatus.repairFirst) {
       return Text('${LayersCopy.repairOffer(letter)} ${LayersCopy.repairBelow(number)}', style: type.small.copyWith(color: colors.ink));
     }

@@ -81,11 +81,7 @@ void main() {
     await tester.scrollUntilVisible(find.byType(MistakeSummary).first, 200, scrollable: page);
     await tester.tap(find.byType(MistakeSummary).first);
     await tester.pumpAndSettle();
-    // The answer is kept back until the student has tried again or asks for it (v15 spec 3.2).
-    expect(find.text('Try it again before you see the answer'), findsOneWidget);
-    expect(find.text('Correct answer'), findsNothing);
-    await tester.tap(find.text('Show the answer'));
-    await tester.pumpAndSettle();
+    // The free part shows the key at once; the try before the key belongs to the repair (one action per mistake, D15).
     expect(find.text('Try it again before you see the answer'), findsNothing);
     expect(find.text('Correct answer'), findsWidgets);
     expect(find.textContaining('then a new question to check it held'), findsOneWidget);

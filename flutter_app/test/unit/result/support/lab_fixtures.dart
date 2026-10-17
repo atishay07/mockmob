@@ -111,3 +111,28 @@ AnswerItem q17Item() => AnswerItem(
       keyIndex: 3,
       repairable: true,
     );
+
+/// A ten-question paper submitted at 58 s: one row of the server's 10 minutes, every visit inside its first minute.
+LabReplay shortReplay({int answered = 6}) {
+  final bars = [
+    for (var i = 0; i < 10; i++)
+      ReplayBar(
+        qid: 'q${i + 1}',
+        n: i + 1,
+        from: i * 5,
+        to: i * 5 + 5,
+        result: i < answered ? (i.isEven ? ReplayBar.right : ReplayBar.wrong) : ReplayBar.blank,
+        picks: [if (i < answered) ReplayPick(at: i * 5 + 3, option: 1)],
+      ),
+  ];
+  return LabReplay(
+    version: 1,
+    rowSec: 600,
+    durationSec: 600,
+    recordSec: 58,
+    playMs: 15000,
+    total: 10,
+    labels: const ReplayLabels(),
+    rows: [ReplayRow(from: 0, to: 600, label: 'By 0:58: $answered of 10 answered.', answeredBy: answered, bars: bars)],
+  );
+}

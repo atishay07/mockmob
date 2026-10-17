@@ -1,6 +1,6 @@
 // The v15 result (spec 3, the restore of N12): the weak-chapters list, Mobi's reveal, the open analysis, the mistakes list with
-// paper and 12-hour time, saved repairs, the try before the key, and Scores by session. Plus the same list on the record page
-// and the trap and the try-first line on Review's mistakes.
+// paper and 12-hour time, one state and one action per mistake with the foot's own label (D15), saved repairs and Scores by
+// session. Plus the same list on the record page.
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -184,29 +184,52 @@ void main() {
       expect(find.bySemanticsLabel(LayersCopy.answeredRightSpoken(26, open: true)), findsOneWidget);
     });
 
-    testWidgets('a mistake keeps its answer back until it is tried again or asked for', (tester) async {
+    testWidgets('D15: each mistake says one state and has one action, and the action has the foot key\'s own label', (tester) async {
       await pump(tester);
+      // No mixed wording: no "Repair first" chip beside "Repair" chips; every open mistake reads the same state.
+      expect(find.text('Repair first'), findsNothing);
+      expect(find.text('Not repaired'), findsNWidgets(4), reason: 'the first four mistakes show, all open');
+      final foot = tester.widgetList<KeyButton>(find.byType(KeyButton)).firstWhere((k) => k.variant == KeyVariant.primary).label;
+      expect(foot, startsWith('Repair Q'));
+      final number = int.parse(foot.substring('Repair Q'.length));
+      // The foot's own mistake, opened, offers the same key with the same words, not a second wording for the same act.
       final page = find.byType(Scrollable).first;
-      await tester.scrollUntilVisible(find.byType(MistakeSummary).first, 200, scrollable: page);
-      await tester.tap(find.byType(MistakeSummary).first);
+      final all = find.text('Show all 15');
+      await tester.scrollUntilVisible(all, 300, scrollable: page);
+      await _middle(tester, all);
+      await tester.tap(all);
       await tester.pumpAndSettle();
-      expect(find.text('Try it again before you see the answer'), findsOneWidget);
-      expect(find.text('Try it again'), findsWidgets);
-      expect(find.text('Correct answer'), findsNothing);
-      expect(find.text('Explanation'), findsNothing);
-      await tester.tap(find.text('Show the answer'));
+      expect(find.text('Not repaired'), findsNWidgets(15), reason: 'every open mistake reads the same state');
+      final target = find.byWidgetPredicate((w) => w is MistakeSummary && w.number == number);
+      await tester.scrollUntilVisible(target, 200, scrollable: page);
+      await _middle(tester, target);
+      await tester.tap(target);
       await tester.pumpAndSettle();
-      expect(find.text('Correct answer'), findsOneWidget);
-    });
-
-    testWidgets('a linked question is shown with its key: the student asked for that one', (tester) async {
-      await pump(tester, location: '/result/a7?q=6');
+      // Its one action is the foot key, named in the same words; no second key with that label is stacked above it.
+      expect(find.textContaining(LayersCopy.repairBelow(number)), findsOneWidget);
+      final same = tester.widgetList<KeyButton>(find.byType(KeyButton)).where((k) => k.label == foot).toList();
+      expect(same, hasLength(1));
+      expect(same.single.variant, KeyVariant.primary);
+      // Any other open mistake offers the same act in the same form: "Repair Q{n}".
+      final other = find.byWidgetPredicate((w) => w is MistakeSummary && w.number != number);
+      await _middle(tester, other.first);
+      await tester.tap(other.first);
       await tester.pumpAndSettle();
+      final otherNumber = tester.widget<MistakeSummary>(other.first).number;
+      expect(find.text(LayersCopy.repairKey(otherNumber)), findsWidgets);
+      // The try before the key belongs to the repair, so the row has no second "try" action and shows its key.
       expect(find.text('Try it again before you see the answer'), findsNothing);
+      expect(find.text('Show the answer'), findsNothing);
       expect(find.text('Correct answer'), findsWidgets);
     });
 
-    testWidgets('a saved repair opens free and shows no try-first: its key is already known', (tester) async {
+    testWidgets('a linked question opens with its key', (tester) async {
+      await pump(tester, location: '/result/a7?q=6');
+      await tester.pumpAndSettle();
+      expect(find.text('Correct answer'), findsWidgets);
+    });
+
+    testWidgets('a repaired mistake says Repaired and its one action is the check, which opens the saved repair free', (tester) async {
       // The first wrong answer in the fixture is the next move's target; repair it.
       final d = detail();
       final first = moveAnalysisOf(d.attempt).mistakes.first;
@@ -216,14 +239,16 @@ void main() {
         repairs: [RepairLocalRecord(attemptId: 'a7', questionId: first.qid, requestId: 'req-${first.qid}-000000000000', status: RepairLocalStatus.explained, ackedAt: DateTime.utc(2026, 10, 12, 17, 38))],
       );
       final page = find.byType(Scrollable).first;
-      await tester.scrollUntilVisible(find.text('Check it held').first, 200, scrollable: page);
-      await _middle(tester, find.text('Check it held').first);
-      await tester.tap(find.ancestor(of: find.text('Check it held').first, matching: find.byType(MistakeSummary)));
+      await tester.scrollUntilVisible(find.text(LayersCopy.chipCheck).first, 200, scrollable: page);
+      await _middle(tester, find.text(LayersCopy.chipCheck).first);
+      expect(find.text('Check it held'), findsNothing, reason: 'a chip says a state, never an action');
+      await tester.tap(find.ancestor(of: find.text(LayersCopy.chipCheck).first, matching: find.byType(MistakeSummary)));
       await tester.pumpAndSettle();
-      expect(find.text(LayersCopy.repairedLine), findsOneWidget);
-      expect(find.text('Try it again before you see the answer'), findsNothing);
-      await _middle(tester, find.text(LayersCopy.openRepair).first);
-      await tester.tap(find.text(LayersCopy.openRepair).first);
+      expect(find.text(LayersCopy.checkLine), findsOneWidget);
+      final check = find.text(LayersCopy.checkKey(first.number));
+      expect(check, findsWidgets);
+      await _middle(tester, check.last);
+      await tester.tap(check.last);
       await tester.pumpAndSettle();
       expect(find.text('AT /review/repair/a7/${first.qid}'), findsOneWidget);
     });

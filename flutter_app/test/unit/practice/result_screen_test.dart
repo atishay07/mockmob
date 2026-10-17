@@ -129,7 +129,9 @@ void main() {
     expect(find.text('Your 1 mistake'), findsOneWidget);
     expect(find.text('−6 marks'), findsOneWidget);
     expect(find.text('In paper order. Repaired ones say whether the fix held.'), findsOneWidget);
-    expect(find.text('Repair first'), findsOneWidget, reason: 'the volt key\'s target wears its chip');
+    // A chip says a state, never an action (D15): the volt key's target reads like every other open mistake.
+    expect(find.text('Not repaired'), findsOneWidget);
+    expect(find.text('Repair first'), findsNothing);
     // Closed until tapped: the key opens it.
     expect(find.text('Your answer'), findsNothing);
     await openMistake(tester, 9);

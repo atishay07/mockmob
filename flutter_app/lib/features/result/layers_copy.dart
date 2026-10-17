@@ -40,10 +40,10 @@ abstract final class LayersCopy {
   static const marksLost = '−6';
   static String spokenCost(int marks) => '$marks marks lost';
 
-  // Status chips (each from a real server state, never optimistic).
-  static const chipRepairFirst = 'Repair first';
-  static const chipRepair = 'Repair';
-  static const chipCheck = 'Check it held';
+  // Status chips (each from a real server state, never optimistic). A chip says a state, never an action (D15): the one
+  // action of a mistake is its key, and that key has one label wherever it shows ("Repair Q12", "Check Q12 held").
+  static const chipOpen = 'Not repaired';
+  static const chipCheck = 'Repaired';
   static const chipHeld = 'Held on a new question';
   static const chipSlipped = 'Slipped on a new question';
   static const chipKeyHeld = 'Key being re-checked';
@@ -55,6 +55,10 @@ abstract final class LayersCopy {
   static String repairKey(int number) => 'Repair Q$number';
   static String repairBelow(int number) => 'The Repair Q$number key below starts it.';
   static const repairedLine = 'Repaired. Your repair is saved, so opening it again costs nothing.';
+  static const checkLine = 'Repaired. One new question shows whether the fix held. Your repair is saved and opens free.';
+
+  /// The check of a repaired mistake: the same words as the foot key when the check is the next move.
+  static String checkKey(int number) => 'Check Q$number held';
   static const openRepair = 'Open your repair';
   static const heldLine = 'Check it held: right. The fix held on a new question.';
   static const slippedLine = 'Check it held: not this time. It comes back in Revise.';
