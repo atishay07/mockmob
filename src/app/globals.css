@@ -1787,12 +1787,8 @@ body:has(.mm) {
   }
 }
 .mm-screen__live {
-  width: 7px;
-  height: 7px;
-  border-radius: 999px;
-  background: var(--volt);
-  flex-shrink: 0;
-  animation: mm-breathe 2.4s ease-in-out infinite;
+  /* No breathing dot in the product stills (W-076: no dots, no constant motion). */
+  display: none;
 }
 @keyframes mm-breathe {
   0%,

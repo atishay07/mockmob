@@ -19,7 +19,7 @@ export function ArenaScreen() {
     <figure className="mm-screen lp-arena">
       <div className="mm-screen__bar">
         <span className="mm-screen__live" aria-hidden="true" />
-        Arena · Full mock
+        Full mock · Accountancy
         <span className="lp-arena__timer mm-measure">
           <Clock3 size={15} aria-hidden="true" />
           38:12

@@ -14,7 +14,6 @@ import {
   Swords,
   Timer,
   Trophy,
-  Zap,
 } from 'lucide-react';
 import { RIVAL_PROFILES } from '@/services/ai-rival/rivalProfiles';
 import { useAuth } from '@/components/AuthProvider';
@@ -261,119 +260,93 @@ export default function AIRivalArena() {
     );
   }
 
+  // The lobby (W-072, W-076, W-078): one heading, the rivals as a list to pick from (no icon tiles, no pills), the
+  // setup, and one volt action. The day's recommended benchmark is the first row and the default pick, so its old
+  // separate card and second Start button fold into the list and the one Start below it.
   return (
     <RivalShell usage={usage}>
-      <div className="grid gap-6">
-        <header className="grid gap-5 lg:grid-cols-[1.2fr_.8fr] lg:items-end">
-          <div>
-            <div className="mono-label text-volt">Shadow Benchmark</div>
-            <h1 className="mt-2 max-w-3xl font-display text-[clamp(30px,5vw,58px)] font-black leading-[1.01] text-zinc-50">
-              Check your pace against a practice rival.
-            </h1>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-zinc-400">
-              A short timed challenge comparing pace, accuracy and skipped questions.
-            </p>
-          </div>
-          <DailyChallenge profile={selectedProfile} onStart={() => startBattle(selectedRival)} disabled={!access.allowed || starting} />
+      <div className="rvl">
+        <header className="rvl-head">
+          <h1 className="display-md">Check your pace against a practice rival.</h1>
+          <p>A short timed challenge comparing pace, accuracy and skipped questions.</p>
         </header>
 
         {error ? <ErrorStrip message={error} /> : null}
 
-        <section className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-          {PROFILE_LIST.map((profile) => {
-            const cardAccess = getClientAccess({ rivalId: profile.id, profile, isPaid, usage });
-            const selected = selectedRival === profile.id;
-            return (
-              <button
-                key={profile.id}
-                type="button"
-                aria-pressed={selected}
-                onClick={() => {
-                  setSelectedRival(profile.id);
-                  setError(cardAccess.allowed ? null : lockMessage(cardAccess));
-                }}
-                className="group min-h-[230px] rounded-2xl border bg-white/[0.03] p-4 text-left hover:bg-white/[0.045]"
-                style={{
-                  borderColor: selected ? `${profile.accent}88` : 'rgba(255,255,255,0.1)',
-                  boxShadow: selected ? `0 0 0 1px ${profile.accent}44, 0 18px 60px rgba(0,0,0,0.28)` : 'none',
-                }}
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <div
-                    className="inline-flex h-10 w-10 items-center justify-center rounded-xl border"
-                    style={{ color: profile.accent, borderColor: `${profile.accent}55`, background: `${profile.accent}12` }}
-                  >
-                    {cardAccess.allowed ? <Swords size={18} /> : <Lock size={18} />}
-                  </div>
-                  <span className="rounded-full border border-white/10 bg-black/30 px-2 py-1 text-xs font-semibold text-zinc-400">
-                    {profile.creditCost > 0 ? creditCount(profile.creditCost, 'ai') : profile.freeAllowed ? 'free today' : 'Pro'}
+        <section className="rvl-pick" aria-labelledby="rvl-pick-title">
+          <h2 id="rvl-pick-title" className="rvl-h2">Choose a rival</h2>
+          <div className="rvl-list" role="radiogroup" aria-labelledby="rvl-pick-title">
+            {PROFILE_LIST.map((profile, index) => {
+              const cardAccess = getClientAccess({ rivalId: profile.id, profile, isPaid, usage });
+              const selected = selectedRival === profile.id;
+              return (
+                <button
+                  key={profile.id}
+                  type="button"
+                  role="radio"
+                  aria-checked={selected}
+                  className="rvl-row mk-press"
+                  data-locked={cardAccess.allowed ? undefined : 'true'}
+                  onClick={() => {
+                    setSelectedRival(profile.id);
+                    setError(cardAccess.allowed ? null : lockMessage(cardAccess));
+                  }}
+                >
+                  <span className="rvl-row__mark" aria-hidden="true" />
+                  <span className="rvl-row__main">
+                    <span className="rvl-row__name">{profile.name}{index === 0 ? <span className="rvl-row__hint"> · recommended today</span> : null}</span>
+                    <span className="rvl-row__desc">{profile.description}</span>
                   </span>
-                </div>
-                <h2 className="mt-4 font-display text-xl font-black text-zinc-50">{profile.name}</h2>
-                <p className="mt-2 min-h-[60px] text-xs leading-5 text-zinc-400">{profile.description}</p>
-                <div className="mt-4 grid grid-cols-2 gap-2 text-[11px]">
-                  <MiniStat label="Accuracy" value={`${Math.round(profile.targetAccuracy * 100)}%`} />
-                  <MiniStat label="Pace" value={`${profile.avgTimePerQuestion}s`} />
-                </div>
-                <div className="mt-3 text-[11px] font-semibold text-zinc-500">
-                  Strength: <span className="text-zinc-300">{profile.strength}</span>
-                </div>
-              </button>
-            );
-          })}
+                  <span className="rvl-row__nums">
+                    <span><b>{Math.round(profile.targetAccuracy * 100)}%</b> accuracy</span>
+                    <span><b>{profile.avgTimePerQuestion} s</b> a question</span>
+                  </span>
+                  <span className="rvl-row__access">
+                    {cardAccess.allowed ? null : <Lock size={14} aria-hidden="true" />}
+                    {profile.creditCost > 0 ? creditCount(profile.creditCost, 'ai') : profile.freeAllowed ? 'Free today' : 'With Pro'}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </section>
 
-        <section className="grid gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 lg:grid-cols-[1fr_auto] lg:items-end">
-          <div>
-            <div className="mono-label text-volt">Benchmark setup</div>
-            <div className="mt-3 flex flex-wrap gap-2">
+        <section className="rvl-setup" aria-labelledby="rvl-setup-title">
+          <h2 id="rvl-setup-title" className="rvl-h2">Set it up</h2>
+          <div className="rvl-field">
+            <span className="rvl-field__label" id="rvl-subjects">Subjects</span>
+            <div className="rvl-chips" role="group" aria-labelledby="rvl-subjects">
               {(user?.subjects || []).length ? (
                 user.subjects.map((subject) => (
-                  <button
-                    key={subject}
-                    type="button"
-                    aria-pressed={activeSubjects.includes(subject)}
-                    onClick={() => toggleSubject(subject)}
-                    className={`inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition ${
-                      activeSubjects.includes(subject)
-                        ? 'border-volt/40 bg-volt/10 text-volt'
-                        : 'border-white/10 bg-black/20 text-zinc-400 hover:text-zinc-100'
-                    }`}
-                  >
+                  <button key={subject} type="button" className="rvl-chip mk-press" aria-pressed={activeSubjects.includes(subject)} onClick={() => toggleSubject(subject)}>
                     {displaySubject(subject)}
                   </button>
                 ))
               ) : (
-                <Link href="/profile" className="inline-flex min-h-11 items-center text-sm font-bold text-volt no-underline">Add subjects in Profile</Link>
+                <Link href="/profile" className="rvl-chip">Add subjects in Account</Link>
               )}
             </div>
-            <div className="mt-4 flex flex-wrap items-center gap-3">
-              <span className="text-xs font-semibold text-zinc-500">Questions</span>
+          </div>
+          <div className="rvl-field">
+            <span className="rvl-field__label" id="rvl-count">Questions</span>
+            <div className="rvl-chips" role="group" aria-labelledby="rvl-count">
               {[5, 10, 15, 20].map((count) => (
-                <button
-                  key={count}
-                  type="button"
-                  aria-pressed={questionCount === count}
-                  onClick={() => setQuestionCount(count)}
-                  className={`min-h-11 rounded-full border px-4 text-xs font-black ${
-                    questionCount === count ? 'border-volt bg-volt text-black' : 'border-white/10 text-zinc-400'
-                  }`}
-                >
+                <button key={count} type="button" className="rvl-chip rvl-chip--num mk-press" aria-pressed={questionCount === count} onClick={() => setQuestionCount(count)}>
                   {count}
                 </button>
               ))}
             </div>
           </div>
-
-          <div className="flex flex-col gap-2 sm:min-w-[260px]">
+          <div className="rvl-go">
             {!access.allowed ? <LockHint access={access} /> : null}
             <button
               type="button"
+              data-page-primary
               onClick={() => startBattle(selectedRival)}
               disabled={!access.allowed || starting || !activeSubjects.length}
-              className="inline-flex min-h-14 items-center justify-center gap-2 rounded-xl bg-volt px-6 font-display text-sm font-black text-black transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-40"
+              className="btn-volt md mk-press rvl-start"
             >
-              <Play size={17} /> {starting ? 'Starting benchmark' : `Start ${selectedProfile.name}`}
+              <Play size={17} aria-hidden="true" /> {starting ? 'Starting benchmark' : `Start ${selectedProfile.name}`}
             </button>
           </div>
         </section>
@@ -385,21 +358,19 @@ export default function AIRivalArena() {
 function RivalShell({ children, usage }) {
   const wallet = usage?.aiWallet || null;
   // Unknown or paused wallets show no number; practice credits are a different ledger.
-  const total = wallet?.known ? wallet.total : '—';
+  const total = wallet?.known ? wallet.total : null;
+  const free = formatFreeRival(usage);
+  // Themed with the Arena's own tokens, Night and Day alike (W-078): no dark panel inside Daylight. The wallet is one
+  // plain line, not a row of pills.
   return (
-    <div className="arena-dark-island mx-auto w-full max-w-7xl">
-      <div className="rounded-[28px] border border-white/10 bg-[linear-gradient(180deg,rgba(18,18,16,0.96),rgba(7,8,7,0.96))] p-4 shadow-[0_28px_100px_rgba(0,0,0,0.45)] md:p-6">
-        <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-          <div className="inline-flex items-center gap-2 rounded-full border border-volt/25 bg-volt/10 px-3 py-1 text-xs font-semibold text-volt">
-            <Zap size={13} /> Daily check
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <UsagePill label="AI credits" value={total} />
-            <UsagePill label="Free daily" value={formatFreeRival(usage)} />
-          </div>
-        </div>
-        {children}
-      </div>
+    <div className="rvl-shell mx-auto w-full max-w-7xl">
+      <p className="rvl-wallet">
+        <Coins size={14} aria-hidden="true" />
+        <span>AI credits <b>{total ?? 'not available'}</b></span>
+        <span aria-hidden="true">·</span>
+        <span>Free benchmarks today <b>{free === '—' ? 'not available' : free}</b></span>
+      </p>
+      {children}
     </div>
   );
 }
@@ -411,9 +382,9 @@ function BattleScreen({ battle, question, index, answers, timeLeftMs, onSelect, 
 
   return (
     <div className="grid gap-5">
-      <header className="grid gap-4 rounded-2xl border border-white/10 bg-black/25 p-4 lg:grid-cols-[1fr_auto] lg:items-center">
+      <header className="grid gap-4 lg:grid-cols-[1fr_auto] lg:items-center">
         <div>
-          <div className="mono-label text-volt">{battle.profile.name}</div>
+          <div className="text-sm font-semibold text-zinc-400">{battle.profile.name}</div>
           <h1 className="mt-2 font-display text-3xl font-black text-zinc-50">{battle.intro?.tagline || battle.profile.archetype}</h1>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-zinc-400">{battle.intro?.introLine || battle.profile.description}</p>
         </div>
@@ -431,7 +402,7 @@ function BattleScreen({ battle, question, index, answers, timeLeftMs, onSelect, 
           <div className="text-xs font-semibold text-zinc-500">
             Question {index + 1} of {total} / {displaySubject(question.subject)}
           </div>
-          <span className="rounded-full border border-white/10 bg-black/30 px-3 py-1 text-xs font-semibold text-zinc-400">
+          <span className="text-xs font-semibold text-zinc-400">
             {question.chapter || question.difficulty || 'CUET'}
           </span>
         </div>
@@ -555,7 +526,7 @@ function ResultScreen({ result, battle, onRematch, onLobby, starting }) {
 
   return (
     <div ref={rootRef} className="rv-root grid gap-6" data-reveal-stage={stage}>
-      <header className="rv-part rv-score grid gap-5 rounded-2xl border border-white/10 bg-black/25 p-5 lg:grid-cols-[1fr_auto] lg:items-center" {...partProps('score')}>
+      <header className="rv-part rv-score grid gap-5 lg:grid-cols-[1fr_auto] lg:items-center" {...partProps('score')}>
         <div>
           <h1 className="font-display text-[clamp(30px,5vw,56px)] font-black leading-[1.02] text-zinc-50">{title}</h1>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-zinc-400">
@@ -563,7 +534,7 @@ function ResultScreen({ result, battle, onRematch, onLobby, starting }) {
           </p>
         </div>
         <div className="rounded-2xl border border-volt/25 bg-volt/10 p-5 text-center">
-          <div className="text-[13px] font-semibold text-volt">{share.rankTitle || 'Your result'}</div>
+          <div className="text-[13px] font-semibold text-zinc-300">{share.rankTitle || 'Your result'}</div>
           <div className="rv-scoreline mt-2 font-display text-4xl font-black text-zinc-50" role="img" aria-label={`You ${result.user.score}, ${battle.profile.name} ${result.rival.score}`}>
             {result.user.score}<span className="px-1 text-zinc-500" aria-hidden="true">–</span>{result.rival.score}
           </div>
@@ -580,15 +551,13 @@ function ResultScreen({ result, battle, onRematch, onLobby, starting }) {
       <section className={`rv-part grid gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-5 ${reaction ? 'grid-cols-[auto_minmax(0,1fr)] lg:grid-cols-[auto_minmax(0,1fr)_auto]' : 'lg:grid-cols-[1fr_auto]'} items-center`} {...partProps('mobi')}>
         {reaction ? (
           <div className="rv-mobi">
-            {/* Mounted when his part lands, so the act starts on the moment. The Rival console is a
-                dark island in Day too (arena.css), so his light is pinned to Night. */}
+            {/* Mounted when his part lands, so the act starts on the moment. His light follows the page's theme. */}
             {shown('mobi') ? (
               <MobiReact
                 act={mobiAct}
                 still={mobiStill}
                 mood={reaction.mood}
                 size={wide ? 106 : 86}
-                theme="night"
                 label={reaction.label}
                 onDone={() => setMobiDone(true)}
               />
@@ -659,24 +628,6 @@ function useWide() {
   return wide;
 }
 
-function DailyChallenge({ profile, onStart, disabled }) {
-  return (
-    <div className="rounded-2xl border border-volt/20 bg-volt/[0.065] p-4">
-      <div className="mono-label text-volt">Recommended benchmark today</div>
-      <h2 className="mt-2 font-display text-2xl font-black text-zinc-50">{profile.name}</h2>
-      <p className="mt-2 text-xs leading-5 text-zinc-400">{profile.description}</p>
-      <button
-        type="button"
-        onClick={onStart}
-        disabled={disabled}
-        className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-full bg-volt px-5 font-display text-xs font-black text-black disabled:opacity-40"
-      >
-        <Play size={15} /> Start challenge
-      </button>
-    </div>
-  );
-}
-
 function LockHint({ access }) {
   const href = access.kind === 'credits' || access.kind === 'paused' ? '/pricing/ai-credits' : '/pricing?reason=benchmark';
   return (
@@ -694,15 +645,6 @@ function ErrorStrip({ message }) {
   );
 }
 
-function MiniStat({ label, value }) {
-  return (
-    <div className="rounded-lg border border-white/10 bg-black/25 px-3 py-2">
-      <div className="text-xs font-semibold text-zinc-500">{label}</div>
-      <div className="mt-1 font-display text-sm font-black text-zinc-100">{value}</div>
-    </div>
-  );
-}
-
 function Metric({ label, value, icon }) {
   return (
     <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
@@ -711,14 +653,6 @@ function Metric({ label, value, icon }) {
       </div>
       <div className="mt-2 font-display text-2xl font-black text-zinc-50">{value}</div>
     </div>
-  );
-}
-
-function UsagePill({ label, value }) {
-  return (
-    <span className="inline-flex min-h-8 items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 text-xs font-semibold text-zinc-300">
-      <Coins size={12} /> {label}: <span className="text-volt">{value}</span>
-    </span>
   );
 }
 

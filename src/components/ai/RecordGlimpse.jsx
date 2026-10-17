@@ -24,7 +24,8 @@ function Mark({ id, value }) {
   return <>{rolled}</>;
 }
 
-function PaperTrend() {
+// Exported for Your standing (W-083): the same real-marks trend, so the standing page shows what moves the place.
+export function PaperTrend() {
   const [items, setItems] = useState(null);
   const [ref, inView] = useInView({ threshold: 0.3 });
   useEffect(() => {

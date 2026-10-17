@@ -114,8 +114,10 @@ export function NavBar() {
 
         <div className="mm-nav__end">
           <ThemeToggle hint />
+          {/* The nav's action is the quiet (secondary) button: the page's own call to action is the one volt on screen
+              (W-075). */}
           {isAuthenticated ? (
-            <Link href="/dashboard" className="mm-btn mm-btn--primary mm-nav__cta">
+            <Link href="/dashboard" className="mm-btn mm-btn--secondary mm-nav__cta">
               Go to Practice
             </Link>
           ) : onAuthPage ? (
@@ -128,7 +130,7 @@ export function NavBar() {
               <Link href="/login" className="mm-nav__link mm-nav__login">
                 Log in
               </Link>
-              <Link href="/signup" className="mm-btn mm-btn--primary mm-nav__cta">
+              <Link href="/signup" className="mm-btn mm-btn--secondary mm-nav__cta">
                 Start free
               </Link>
             </>

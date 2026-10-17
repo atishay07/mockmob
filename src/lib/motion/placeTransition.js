@@ -1,8 +1,8 @@
 // Which page transition a navigation gets, the app's router rules on the web. The classes are drawn
 // in motion-kit.css (PAGE TRANSITIONS); the names double as React view transition types.
 //
-//   Places, in the app's dock order: Today 0, Practice 1, (Learn, on the web's study bar), Review 2,
-//   You 3. Switching places fades through toward the side the new place lies.
+//   Places, in the dock's order (NAV-1017, web and app): Today 0, Practice 1, (Learn, in the More sheet and on
+//   Practice), Review 2, Colleges 3 (the /admission-compass page), You 4 (Account, the app's last tab). Switching places fades through toward the side the new place lies.
 //   Going deeper (a page under a place) pushes; coming back pops. A result rises; leaving it lowers.
 //   Anything else fades. The NTA runner (/test/**) never animates: exam pages stay exactly as NTA.
 //
@@ -20,8 +20,9 @@ export const VT = Object.freeze({
   fade: 'mm-fade',
 });
 
-/** The places by their first path segment, in dock order. Learn sits between Practice and Review as on the web's study bar. */
-export const PLACE_ORDER = Object.freeze({ today: 0, dashboard: 1, learn: 1.5, review: 2, profile: 3 });
+/** The places by their first path segment, in dock order. Learn sits between Practice and Review, where its sheet row
+ *  and the Practice page put it; Colleges is the dock's fourth place (W-073), so moving to it slides like any tab. */
+export const PLACE_ORDER = Object.freeze({ today: 0, dashboard: 1, learn: 1.5, review: 2, 'admission-compass': 3, profile: 4 });
 
 /** First path segments whose pages are results: they rise. */
 export const RESULT_SEGMENTS = Object.freeze(['result']);

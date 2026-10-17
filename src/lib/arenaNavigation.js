@@ -13,7 +13,7 @@ export function arenaNavigation(moderator = false, { mob = false } = {}) {
   return [
     ...(moderator ? [{ label: 'Moderation', items: [item('moderation', 'Mod queue', 'moderation')] }] : []),
     { label: 'Study', items: STUDY_NAV },
-    { label: 'Planning', items: [item('analytics', 'Weak chapters', 'radar', '/analytics'), item('admission-compass', 'Compass', 'compass', '/admission-compass', 'DU cutoffs'), item('mentor', 'Ask Mobi', 'prepos')] },
+    { label: 'Planning', items: [item('analytics', 'Weak chapters', 'radar', '/analytics'), item('admission-compass', 'Colleges', 'colleges', '/admission-compass', 'DU cutoffs'), item('mentor', 'Ask Mobi', 'prepos')] },
     { label: 'Community', items: [...(mob ? [item('mob', 'Your Mob', 'mob')] : []), item('leaderboard', 'Your standing', 'ranks'), item('upload', 'Contribute', 'contribute'), item('my-uploads', 'My uploads', 'uploads')] },
     { label: 'Account', items: [item('profile', 'Account', 'account'), item('help', 'Help', 'help')] },
   ];
@@ -25,3 +25,5 @@ export const MOBILE_STUDY_NAV = [
   ...STUDY_NAV.filter((tab) => ['today', 'dashboard', 'review'].includes(tab.id)),
   item('admission-compass', 'Colleges', 'colleges', '/admission-compass'),
 ];
+// W-067: one word for the place on every surface. The sidebar, the topbar title, the dock and the More sheet all say
+// Colleges (the sidebar adds "DU cutoffs" as its hint), and the page's own heading is Colleges, as in the app's bar.

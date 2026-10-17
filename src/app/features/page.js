@@ -3,6 +3,7 @@ import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
 import { JsonLd } from '@/components/JsonLd';
 import { breadcrumbJsonLd, seoMetadata } from '@/lib/seo';
+import { PublicHeroArt, PUBLIC_HERO_CSS } from '@/components/landing/PublicHeroArt';
 
 // What MockMob does, one plain row per part of the product, each with what it is for and where it lives.
 // The names are the ones students meet signed in. No eyebrows, orbs, badges, numbered circles or sample
@@ -75,11 +76,14 @@ export default function FeaturesPage() {
 
       <main>
         <section className="mm-section mm-section--flush" style={{ paddingTop: '2.5rem' }}>
-          <div className="mm-wrap mm-wrap--tight">
-            <h1 className="mm-h1">What MockMob does</h1>
-            <p className="mm-lead" style={{ marginTop: '1rem' }}>
-              CUET UG practice that shows where your marks went and what to do next, plus free tools for DU admissions.
-            </p>
+          <div className="mm-wrap mm-wrap--tight pub-hero">
+            <div>
+              <h1 className="mm-h1">What MockMob does</h1>
+              <p className="mm-lead" style={{ marginTop: '1rem' }}>
+                CUET UG practice that shows where your marks went and what to do next, plus free tools for DU admissions.
+              </p>
+            </div>
+            <PublicHeroArt kind="subjects" />
           </div>
         </section>
 
@@ -102,7 +106,7 @@ export default function FeaturesPage() {
       </main>
 
       <MarketingFooter />
-      <style>{`
+      <style>{`${PUBLIC_HERO_CSS}
         .ft-list { list-style: none; margin: 0; padding: 0; border-bottom: 1px solid var(--line); }
         .ft-list li { display: grid; gap: 0.375rem; padding: 1.25rem 0; border-top: 1px solid var(--line); }
         .ft-list h2 { margin: 0; font: 700 1.1875rem/1.3 var(--font-display); letter-spacing: -0.01em; color: var(--ink); }

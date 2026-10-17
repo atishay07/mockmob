@@ -15,7 +15,8 @@ const CHOICES = [
 
 const noSubscribe = () => () => {};
 
-export default function AppearanceSwitch({ className = '' }) {
+// compact: icons only (the names stay as each radio's accessible name and tooltip), for the desktop sidebar's foot row.
+export default function AppearanceSwitch({ className = '', compact = false }) {
   const mode = useThemeMode();
   // The server cannot know the stored choice, so the first paint marks none rather than the wrong one (it used to show
   // Daylight chosen under a Night page until the page woke up); the real choice is marked as soon as it is read.
@@ -35,7 +36,7 @@ export default function AppearanceSwitch({ className = '' }) {
   };
 
   return (
-    <div className={`arena-appearance ${className}`.trim()} role="radiogroup" aria-label="Appearance">
+    <div className={`arena-appearance${compact ? ' arena-appearance--compact' : ''} ${className}`.trim()} role="radiogroup" aria-label="Appearance">
       {CHOICES.map(({ id, name, Icon }, index) => (
         <button
           key={id}
@@ -46,9 +47,11 @@ export default function AppearanceSwitch({ className = '' }) {
           tabIndex={index === current ? 0 : -1}
           onClick={(event) => pick(id, event.currentTarget)}
           onKeyDown={(event) => onKey(event, index)}
+          aria-label={compact ? name : undefined}
+          title={compact ? name : undefined}
         >
           <Icon size={16} strokeWidth={1.75} aria-hidden="true" />
-          <span>{name}</span>
+          {compact ? null : <span>{name}</span>}
         </button>
       ))}
     </div>

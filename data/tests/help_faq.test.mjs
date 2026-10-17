@@ -51,5 +51,5 @@ test('the arena menu offers Night, Daylight and Match device, tied to the same s
   const src = read('src/components/AppearanceSwitch.jsx');
   for (const word of ['Night', 'Daylight', 'Match device', 'setThemeMode', 'useThemeMode']) assert.ok(src.includes(word), word);
   const shell = read('src/app/(app)/AppLayoutClient.jsx');
-  assert.equal((shell.match(/<AppearanceSwitch \/>/g) || []).length, 2, 'sidebar and More sheet');
+  assert.equal((shell.match(/<AppearanceSwitch( compact)? \/>/g) || []).length, 2, 'sidebar (compact foot row) and More sheet');
 });
