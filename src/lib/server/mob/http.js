@@ -9,6 +9,7 @@ import { MobError, errorBody, errorStatus } from '../../mob/model.mjs';
 const MIN = 60_000;
 const HOUR = 60 * MIN;
 const DAY = 24 * HOUR;
+const WEEK = 7 * DAY;
 export const LIMITS = Object.freeze({
   read: { limit: 120, windowMs: 10 * MIN, by: 'user' },
   write: { limit: 60, windowMs: HOUR, by: 'user' },
@@ -16,22 +17,29 @@ export const LIMITS = Object.freeze({
   lookup: { limit: 30, windowMs: 10 * MIN, by: 'ip' },
   join: { limit: 10, windowMs: HOUR, by: 'user' },
   report: { limit: 10, windowMs: DAY, by: 'user' },
+  // Starting Mobs is rare. A cap here is what stops leave-and-start-again from being a way to a fresh weekly paper.
+  create: { limit: 3, windowMs: WEEK, by: 'user' },
+  extra: { limit: 6, windowMs: DAY, by: 'user' },
 });
 
 // action -> [method, limits, service call, success status]
 export const ACTIONS = Object.freeze({
-  get: ['GET', ['read'], (s, u) => s.view(u)],
-  create: ['POST', ['write'], (s, u, b) => s.create(u, b), 201],
-  invite: ['POST', ['invite', 'write'], (s, u) => s.invite(u)],
-  lookup: ['GET', ['lookup'], (s, _u, _b, p) => s.lookup(p.code), 200, { public: true }],
+  get: ['GET', ['read'], (s, u, _b, p) => s.view(u, { mobId: p.query?.mob })],
+  create: ['POST', ['create', 'write'], (s, u, b) => s.create(u, b), 201],
+  invite: ['POST', ['invite', 'write'], (s, u, b) => s.invite(u, b)],
+  lookup: ['GET', ['lookup'], (s, u, _b, p) => s.lookup(p.code, { viewerId: u }), 200, { public: true }],
   join: ['POST', ['join', 'write'], (s, u, b) => s.join(u, b)],
   patchMe: ['PATCH', ['write'], (s, u, b) => s.patchMe(u, b)],
   leave: ['POST', ['write'], (s, u, b) => s.leave(u, b)],
   remove: ['POST', ['write'], (s, u, b) => s.remove(u, b)],
   report: ['POST', ['report', 'write'], (s, u, b) => s.report(u, b)],
-  nudge: ['POST', ['write'], (s, u) => s.nudge(u)],
-  nudgeSeen: ['POST', ['write'], (s, u) => s.nudgeSeen(u)],
+  nudge: ['POST', ['write'], (s, u, b) => s.nudge(u, b)],
+  nudgeSeen: ['POST', ['write'], (s, u, b) => s.nudgeSeen(u, b)],
   paperStart: ['POST', ['write'], (s, u, b) => s.startPaper(u, b)],
+  // Free and Pro (SOCIAL-SPEC section 15): the service checks the plan on every one of these.
+  compare: ['GET', ['read'], (s, u, _b, p) => s.compare(u, p.query || {})],
+  history: ['GET', ['read'], (s, u, _b, p) => s.history(u, p.query || {})],
+  extra: ['POST', ['extra', 'write'], (s, u, b) => s.createExtra(u, b), 201],
 });
 
 const MAX_BODY = 4096;
@@ -42,17 +50,17 @@ const MAX_BODY = 4096;
  */
 export async function handleMob(deps, action, request, params = {}) {
   const spec = ACTIONS[action];
+  const query = (() => { try { return Object.fromEntries(new URL(request.url).searchParams); } catch { return {}; } })();
+  params = { ...params, query };
   const headers = { ...(deps.cors ? deps.cors(request) : {}), 'Cache-Control': 'no-store' };
   const fail = (code, extra = {}) => Response.json(errorBody(code), { status: errorStatus(code), headers: { ...headers, ...extra } });
   if (!spec) return fail('UNAVAILABLE');
   const [, limits, run, okStatus = 200, flags = {}] = spec;
   if (!deps.enabled()) return fail('MOB_DISABLED');
-  let userId = null;
-  if (!flags.public) {
-    const session = await deps.auth(request).catch(() => null);
-    userId = session?.user?.id || null;
-    if (!userId) return fail('UNAUTHENTICATED');
-  }
+  // A public route still reads the session when there is one (the join page greets a signed-in student by who invited them).
+  const session = await deps.auth(request).catch(() => null);
+  const userId = session?.user?.id || null;
+  if (!flags.public && !userId) return fail('UNAUTHENTICATED');
   for (const name of limits) {
     const l = LIMITS[name];
     const result = await deps.rateLimit(request, {

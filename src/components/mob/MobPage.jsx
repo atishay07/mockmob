@@ -1,5 +1,5 @@
 "use client";
-// /mob: the Mob on the website (SOCIAL-SPEC section 7). One private group of 2 to 5 students, one shared 10-question
+// /mob: the Mob on the website (SOCIAL-SPEC sections 7 and 15). One private group of 2 to 5 students, one shared 10-question
 // paper a week, one ring that only fills. Design notes (AGENT_RULES evidence IDs):
 //   - One primary action per state: start a Mob; sit the paper; or, alone, invite (rule 7).
 //   - The name is prefilled from the account and editable (T001, rule 13). Score sharing is off until the student turns
@@ -7,9 +7,11 @@
 //   - No streak to lose, no countdown, no list of who has not sat (T005, rule 22): the ring names sitters, the roster
 //     carries no sitting state, and the nudge reply is not repeated as a count (P6). Nothing is shown as done before the
 //     server answers (standards 7).
+//   - Free and Pro (section 15) are drawn from the plan the server sent: the paper, the ring, your result and the teaser are
+//     free; the side-by-side, past weeks, extra papers and a second Mob are Pro. The one free side-by-side is the sample.
 //   - The page's volt key carries data-page-primary, so the Start key in the bar or sidebar steps back (rule 7, WB-05).
 //   - The effect of the loop is a hypothesis [I] to measure (rules 37 and 38): SOCIAL-SPEC section 13.
-import { useEffect, useId, useMemo, useState } from 'react';
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Check, Copy, Ellipsis, Share2, UserPlus } from 'lucide-react';
 import ArenaHead from '@/components/arena/ArenaHead';
@@ -21,11 +23,16 @@ import {
 } from '@/lib/mob/model.mjs';
 import { MobRing } from './MobRing';
 import { MobDialog } from './MobDialog';
+import { CompareCard, SHARE_LABEL, SideBySide } from './MobCompare';
+import { ExtrasCard } from './MobExtras';
+import { HistoryCard } from './MobHistory';
+import { MobSwitcher, ProNote } from './MobPlan';
 import { useMob } from './useMob';
 import { pendingJoin } from './JoinMob';
 import './mob.css';
 
 const COLOUR_NAMES = ['Teal', 'Sky', 'Violet', 'Rose', 'Amber', 'Green', 'Coral', 'Slate'];
+const NAME_RULE = 'Use 2 to 18 letters. Spaces, dots, apostrophes and hyphens are fine.';
 
 function subjectsFrom(user) {
   const seen = new Set();
@@ -67,9 +74,9 @@ function NameField({ value, onChange, error, id }) {
   );
 }
 
-/** No Mob yet: what it is, then subject, name and colour, then one key. */
-function StartMob({ user, mob, invited = false }) {
-  const subjects = useMemo(() => subjectsFrom(user), [user]);
+/** The fields and the one key that start a Mob: subject, name, colour. Used on the empty page and in "Start another Mob". */
+function StartForm({ user, mob, invited = false, skip = [], onStarted, name: formName = 'start' }) {
+  const subjects = useMemo(() => subjectsFrom(user).filter((s) => !skip.includes(s.id)), [user, skip]);
   const [subject, setSubject] = useState(() => subjects[0]?.id || '');
   const [name, setName] = useState(() => cleanName(user?.name || '').split(' ')[0].slice(0, 18));
   const [colour, setColour] = useState(0);
@@ -79,46 +86,67 @@ function StartMob({ user, mob, invited = false }) {
   const start = async () => {
     setError(null);
     const checked = checkName(name);
-    if (!checked.ok) { setNameError('Use 2 to 18 letters. Spaces, dots, apostrophes and hyphens are fine.'); return; }
+    if (!checked.ok) { setNameError(NAME_RULE); return; }
     setNameError(null);
     const r = await mob.run('/api/mob', { subject, name: checked.name, colour }, { name: 'create' });
-    if (!r.ok) { if (r.code?.startsWith('NAME')) setNameError(r.message); else setError(r.message); }
+    if (!r.ok) { if (r.code?.startsWith('NAME')) setNameError(r.message); else setError(r.message); return; }
+    onStarted?.();
   };
+  return (
+    <>
+      {subjects.length ? (
+        <fieldset className="mob-subjects">
+          <legend className="mob-label">Subject for the weekly paper</legend>
+          <div className="mob-chips">
+            {subjects.map((s) => (
+              <label key={s.id} className="mob-chip" data-on={subject === s.id || undefined}>
+                <input type="radio" name={`mob-subject-${formName}`} value={s.id} checked={subject === s.id} onChange={() => setSubject(s.id)} />
+                <span>{s.name}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+      ) : (
+        <p className="mob-note">{skip.length ? 'Every subject you study already has a Mob.' : <>Add a subject on <Link className="mob-link" href="/profile">Account</Link> first, then start a Mob for it.</>}</p>
+      )}
+      <NameField id={nameId} value={name} onChange={setName} error={nameError} />
+      <ColourPicker value={colour} onChange={setColour} name={`mob-colour-${formName}`} />
+      <div className="mob-actions">
+        <button type="button" className={invited ? 'mob-key mob-primary' : 'btn-volt md mob-primary'} data-page-primary={invited || formName !== 'start' ? undefined : ''} onClick={start} disabled={!subject || mob.busy === 'create'} aria-busy={mob.busy === 'create' || undefined}>
+          {mob.busy === 'create' ? 'Starting your Mob' : 'Start a Mob'}
+        </button>
+        {formName === 'start' ? <p className="mob-note">Sent a link by a friend? Open the link to join their Mob instead.</p> : null}
+      </div>
+      <p className="mob-notice" role="status" aria-live="polite">{error || ''}</p>
+    </>
+  );
+}
+
+/** No Mob yet: what it is, then subject, name and colour, then one key. */
+function StartMob({ user, mob, invited = false }) {
   return (
     <div className="mob-start">
       <ul className="mob-promises">
         <li>Same 10 questions for everyone, fresh each week.</li>
         <li>You see who sat, never who didn&apos;t.</li>
         <li>Scores stay private unless you choose.</li>
+        <li>The weekly paper is free of credits.</li>
       </ul>
       <section className="glass mob-card mob-form" aria-labelledby="mob-start-h">
         <h2 id="mob-start-h" className="mob-h2">Start your Mob</h2>
-        {subjects.length ? (
-          <fieldset className="mob-subjects">
-            <legend className="mob-label">Subject for the weekly paper</legend>
-            <div className="mob-chips">
-              {subjects.map((s) => (
-                <label key={s.id} className="mob-chip" data-on={subject === s.id || undefined}>
-                  <input type="radio" name="mob-subject" value={s.id} checked={subject === s.id} onChange={() => setSubject(s.id)} />
-                  <span>{s.name}</span>
-                </label>
-              ))}
-            </div>
-          </fieldset>
-        ) : (
-          <p className="mob-note">Add a subject on <Link className="mob-link" href="/profile">Account</Link> first, then start a Mob for it.</p>
-        )}
-        <NameField id={nameId} value={name} onChange={setName} error={nameError} />
-        <ColourPicker value={colour} onChange={setColour} name="mob-colour-start" />
-        <div className="mob-actions">
-          <button type="button" className={invited ? 'mob-key mob-primary' : 'btn-volt md mob-primary'} data-page-primary={invited ? undefined : ''} onClick={start} disabled={!subject || mob.busy === 'create'} aria-busy={mob.busy === 'create' || undefined}>
-            {mob.busy === 'create' ? 'Starting your Mob' : 'Start a Mob'}
-          </button>
-          <p className="mob-note">Sent a link by a friend? Open the link to join their Mob instead.</p>
-        </div>
-        <p className="mob-notice" role="status" aria-live="polite">{error || ''}</p>
+        <StartForm user={user} mob={mob} invited={invited} />
       </section>
     </div>
+  );
+}
+
+function StartAnotherDialog({ open, onClose, user, mob, skip }) {
+  return (
+    <MobDialog open={open} onClose={onClose} title="Start another Mob" labelId="mob-another-h">
+      <div className="mob-form mob-form--plain">
+        <StartForm user={user} mob={mob} skip={skip} onStarted={onClose} name="another" />
+      </div>
+    </MobDialog>
   );
 }
 
@@ -240,7 +268,7 @@ function RenameDialog({ open, onClose, you, run, busy }) {
   const id = useId();
   const save = async () => {
     const checked = checkName(name);
-    if (!checked.ok) { setError('Use 2 to 18 letters. Spaces, dots, apostrophes and hyphens are fine.'); return; }
+    if (!checked.ok) { setError(NAME_RULE); return; }
     const r = await run('/api/mob/me', { name: checked.name, colour }, { method: 'PATCH', name: 'rename' });
     if (!r.ok) setError(r.message); else onClose();
   };
@@ -255,14 +283,14 @@ function RenameDialog({ open, onClose, you, run, busy }) {
   );
 }
 
-function LeaveDialog({ open, onClose, run, busy, onLeft }) {
+function LeaveDialog({ open, onClose, run, busy, onLeft, several, subjectName }) {
   const [error, setError] = useState(null);
   const leave = async () => {
     const r = await run('/api/mob/leave', {}, { name: 'leave' });
     if (!r.ok) setError(r.message); else { onClose(); onLeft(); }
   };
   return (
-    <MobDialog open={open} onClose={onClose} title="Leave your Mob?" labelId="mob-leave-h">
+    <MobDialog open={open} onClose={onClose} title={several ? `Leave your ${subjectName} Mob?` : 'Leave your Mob?'} labelId="mob-leave-h">
       <div className="mob-menu">
         <p className="mob-note">Your sittings leave with you. You can start or join another Mob after.</p>
         <button type="button" className="mob-key mob-key--bad" onClick={leave} disabled={busy === 'leave'}>{busy === 'leave' ? 'Leaving' : 'Leave Mob'}</button>
@@ -285,30 +313,57 @@ function TrapCard({ trap, resultId }) {
 }
 
 /** What you and the sitters who show their score have in common (model.mjs computeTogether). No rank, no names. */
-function TogetherCard({ together, showScore, othersSat }) {
-  if (together) {
-    return (
-      <section className="glass mob-card mk-rise" aria-labelledby="mob-together-h">
-        <h2 id="mob-together-h" className="mob-h3">This week together</h2>
-        <p className="mob-note">{togetherLine(together)}</p>
-      </section>
-    );
-  }
-  // You sat with others but keep your score private: say plainly how to compare, once, quietly.
-  if (!showScore && othersSat) return <p className="mob-hint mob-together-hint">Turn on Show my score below to compare this week&apos;s paper with members who show theirs.</p>;
-  return null;
+function TogetherCard({ together }) {
+  if (!together) return null;
+  return (
+    <section className="glass mob-card mk-rise" aria-labelledby="mob-together-h">
+      <h2 id="mob-together-h" className="mob-h3">This week together</h2>
+      <p className="mob-note">{togetherLine(together)}</p>
+    </section>
+  );
 }
 
-function InMob({ data, mob }) {
+function InMob({ data, mob, user }) {
   const [inviteOpen, setInviteOpen] = useState(false);
   const [member, setMember] = useState(null);
   const [renameOpen, setRenameOpen] = useState(false);
   const [leaveOpen, setLeaveOpen] = useState(false);
+  const [anotherOpen, setAnotherOpen] = useState(false);
   const [notice, setNotice] = useState(null);
+  const [sbs, setSbs] = useState(null);
+  const [opening, setOpening] = useState(null);
+  const [cmpNotice, setCmpNotice] = useState(null);
+  const headingRef = useRef(null);
   const { week, you, members, nudge } = data;
   const alone = week.size === 1;
   const reload = mob.load;
   const run = mob.run;
+  const several = (data.mobs || []).length > 1;
+
+  useEffect(() => { if (sbs) headingRef.current?.focus({ preventScroll: false }); }, [sbs]);
+
+  const openCompare = useCallback(async (key, query) => {
+    setCmpNotice(null);
+    setOpening(key);
+    const r = await mob.compare(query);
+    setOpening(null);
+    if (!r.ok) { setCmpNotice(r.message); await reload(); return null; }
+    setSbs({ data: r.data.compare, query, key });
+    return r.data.compare;
+  }, [mob, reload]);
+
+  const closeCompare = () => {
+    const key = sbs?.key;
+    setSbs(null);
+    setTimeout(() => { document.getElementById(key === 'week' ? 'mob-compare-open' : '')?.focus(); }, 0);
+  };
+
+  const share = async () => {
+    const r = await run('/api/mob/me', { showScore: true }, { method: 'PATCH', name: 'showScore' });
+    if (!r.ok) { setCmpNotice(r.message); return; }
+    if (sbs) await openCompare(sbs.key, sbs.query);
+  };
+
   const sendNudge = async () => {
     setNotice(null);
     const r = await run('/api/mob/nudge', undefined, { name: 'nudge' });
@@ -325,8 +380,20 @@ function InMob({ data, mob }) {
   const nudgeReason = { sent: 'You asked the others this week.', everyone_sat: 'Everyone has sat this week.', closed: 'This week\'s paper has closed.' }[nudge.reason] || null;
   const cost = week.paper.cost;
   const afford = canAfford(cost);
+  const freeUsed = week.paper.blocked === 'free_used';
+  const primary = (extra = '') => `${alone ? 'mob-key' : 'btn-volt md'} mob-primary${extra}`;
+  const pageProps = alone ? {} : { 'data-page-primary': '' };
+
+  if (sbs) {
+    return (
+      <SideBySide data={sbs.data} mine={you} onBack={closeCompare} onShare={share} busy={Boolean(mob.busy)} headingRef={headingRef} />
+    );
+  }
+
   return (
     <>
+      <MobSwitcher data={data} busy={Boolean(mob.busy)} onSelect={(id) => mob.select(id)} onStartAnother={() => setAnotherOpen(true)} />
+
       <section className="glass mob-card mob-ringcard" aria-labelledby="mob-ring-h">
         <h2 id="mob-ring-h" className="sr-only">This week</h2>
         <MobRing size={week.size} sat={week.sat} week={week.start} members={members} />
@@ -337,17 +404,23 @@ function InMob({ data, mob }) {
             <p className="mob-nudge">{nudgeLine(nudge.received.fromName)} <button type="button" className="mob-link" onClick={seenNudge}>Got it</button></p>
           ) : null}
           <div className="mob-actions">
-            {!week.youSat && !week.closed ? (
+            {!week.youSat && !week.closed && !freeUsed ? (
               <>
                 {afford
-                  ? <Link className={alone ? 'mob-key mob-primary' : 'btn-volt md mob-primary'} data-page-primary={alone ? undefined : ''} href={paperHref(data)}>Sit this week&apos;s paper (10 questions, about 12 min)</Link>
-                  : <Link className={alone ? 'mob-key mob-primary' : 'btn-volt md mob-primary'} data-page-primary={alone ? undefined : ''} href="/pricing?reason=credits">Get credits to sit it</Link>}
+                  ? <Link className={primary()} {...pageProps} href={paperHref(data)}>Sit this week&apos;s paper (10 questions, about 12 min)</Link>
+                  : <Link className={primary()} {...pageProps} href="/pricing?reason=credits">Get credits to sit it</Link>}
                 <p className="mob-cost">{costLine(cost)}</p>
+              </>
+            ) : null}
+            {!week.youSat && freeUsed ? (
+              <>
+                <p className="mob-note">You already sat a Mob paper this week, in another Mob. Free includes one a week.</p>
+                <Link className="mob-key" href="/pricing">See Pro</Link>
               </>
             ) : null}
             {week.youSat ? (
               <>
-                {week.yourResultId ? <Link className={alone ? 'mob-key mob-primary' : 'btn-volt md mob-primary'} data-page-primary={alone ? undefined : ''} href={resultHref(week.yourResultId)}>See your answers</Link> : null}
+                {week.yourResultId ? <Link className={primary()} {...pageProps} href={resultHref(week.yourResultId)}>See your answers</Link> : null}
                 {!alone ? (
                   <button type="button" className="mob-key" onClick={sendNudge} disabled={!nudge.canSend || mob.busy === 'nudge'} aria-describedby={nudgeReason ? 'mob-nudge-why' : undefined}>
                     Ask the others to sit it
@@ -360,8 +433,15 @@ function InMob({ data, mob }) {
         </div>
       </section>
 
+      {week.youSat && !alone ? (
+        <CompareCard compare={data.compare} busy={Boolean(mob.busy)} opening={opening === 'week'} openId="mob-compare-open" notice={cmpNotice}
+          onOpen={() => openCompare('week', {})} onShare={share} />
+      ) : null}
       <TrapCard trap={data.trap} resultId={week.yourResultId} />
-      {week.youSat && !alone ? <TogetherCard together={data.together} showScore={you.showScore} othersSat={week.sat > 1} /> : null}
+      {week.youSat && !alone ? <TogetherCard together={data.together} /> : null}
+
+      <ExtrasCard data={data} run={run} busy={mob.busy} comparing={opening && opening !== 'week' ? opening : null}
+        onCompare={(x) => openCompare(x.id, { extra: x.id })} />
 
       <section className="glass mob-card" aria-labelledby="mob-members-h">
         <header className="mob-head">
@@ -386,12 +466,15 @@ function InMob({ data, mob }) {
         ) : <p className="mob-note">Your Mob is full: 5 of 5.</p>}
       </section>
 
+      <HistoryCard data={data} load={mob.history} comparing={opening && opening !== 'week' ? opening : null} onCompare={(w) => openCompare(w, { week: w })} />
+      <ProNote data={data} />
+
       <section className="glass mob-card" aria-labelledby="mob-settings-h">
         <h2 id="mob-settings-h" className="mob-h2">Settings</h2>
         <div className="mob-settings">
           {/* A Mob of one has nobody to show a score to or to be nudged by: the two switches arrive with the first friend. */}
           {!alone ? <>
-            <ToggleRow checked={you.showScore} onChange={(v) => toggle('showScore', v)} disabled={Boolean(mob.busy)} label="Show my score to my Mob" hint="Off by default. Your Mob sees 7 of 10 beside your name, never a ranking." />
+            <ToggleRow checked={you.showScore} onChange={(v) => toggle('showScore', v)} disabled={Boolean(mob.busy)} label={SHARE_LABEL} hint="Off by default. Your Mob sees 7 of 10 beside your name, and members who share see what each other picked. Never a ranking." />
             <ToggleRow checked={you.nudgesMuted} onChange={(v) => toggle('nudgesMuted', v)} disabled={Boolean(mob.busy)} label="Mute nudges" hint="You will not see Sit it with me notes." />
           </> : null}
           <button type="button" className="mob-row-btn" onClick={() => setRenameOpen(true)}>Change name or colour</button>
@@ -403,7 +486,8 @@ function InMob({ data, mob }) {
       <InviteDialog open={inviteOpen} onClose={() => setInviteOpen(false)} mob={{ ...data, reload }} run={run} busy={mob.busy} />
       <MemberDialog member={member} you={you} onClose={() => setMember(null)} run={run} busy={mob.busy} onLeft={reload} />
       {renameOpen ? <RenameDialog open={renameOpen} onClose={() => setRenameOpen(false)} you={you} run={run} busy={mob.busy} /> : null}
-      <LeaveDialog open={leaveOpen} onClose={() => setLeaveOpen(false)} run={run} busy={mob.busy} onLeft={reload} />
+      <LeaveDialog open={leaveOpen} onClose={() => setLeaveOpen(false)} run={run} busy={mob.busy} onLeft={reload} several={several} subjectName={data.subjectName} />
+      {anotherOpen ? <StartAnotherDialog open={anotherOpen} onClose={() => setAnotherOpen(false)} user={user} mob={mob} skip={(data.mobs || []).map((m) => m.subject)} /> : null}
     </>
   );
 }
@@ -431,18 +515,23 @@ export default function MobPage({ user }) {
     : 'Sit one paper a week with up to 4 friends. A small private group, one shared 10-question paper, about 12 minutes.';
   return (
     <div className="student-page student-page--mob">
-      <section className="pr ov mob-page">
+      <section className="pr ov mob-page" aria-busy={mob.status === 'loading' || undefined}>
         <ArenaHead title="Your Mob" lede={mob.status === 'ready' ? lede : null} />
-        {mob.status === 'idle' || mob.status === 'loading' ? <Loading /> : null}
+        {mob.status === 'idle' || mob.status === 'loading' ? (data ? null : <Loading />) : null}
         {mob.status === 'error' && !data ? (
           <section className="glass mob-card" role="alert">
+            <h2 className="mob-h3">Your Mob did not load</h2>
             <p className="mob-note">{mob.error}</p>
-            <button type="button" className="mob-key" onClick={mob.load}>Try again</button>
+            <button type="button" className="mob-key" onClick={() => mob.load()}>Try again</button>
           </section>
         ) : null}
-        {mob.status === 'disabled' ? <section className="glass mob-card"><p className="mob-note">The Mob is not available yet.</p></section> : null}
+        {mob.status === 'error' && data ? (
+          <p className="mob-banner" role="alert">{mob.error} <button type="button" className="mob-link" onClick={() => mob.load()}>Try again</button></p>
+        ) : null}
+        {mob.status === 'disabled' ?<section className="glass mob-card"><p className="mob-note">The Mob is not available yet.</p></section> : null}
         {mob.status === 'ready' && !data ? <NoMob user={user} mob={mob} /> : null}
-        {data ? <InMob data={data} mob={mob} /> : null}
+        {/* keyed by Mob: a different Mob starts clean, so no side-by-side of the one before stays open */}
+        {data ? <InMob key={data.id} data={data} mob={mob} user={user} /> : null}
       </section>
     </div>
   );

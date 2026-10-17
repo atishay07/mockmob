@@ -31,16 +31,17 @@ function writeSeen(week, n) {
  * How many of the filled segments this device had already seen. Read once when the ring first renders (the ring only
  * renders on the client, after the Mob's data arrives), so a fresh segment never paints filled and then jumps back.
  */
-function useSeen(week, sat) {
+function useSeen(week, sat, track = true) {
   const [first] = useState(() => (typeof window === 'undefined' ? sat : readSeen(week) ?? sat));
-  useEffect(() => { if (week) writeSeen(week, sat); }, [week, sat]);
+  useEffect(() => { if (week && track) writeSeen(week, sat); }, [week, sat, track]);
   return Math.min(first, sat);
 }
 
-export function MobRing({ size, sat, week, compact = false, members = [] }) {
+/** track: false draws the ring without marking its segments as seen (the result page's ring; the Mob page marks them). */
+export function MobRing({ size, sat, week, compact = false, members = [], track = true }) {
   const n = Math.max(1, size || 1);
   const filled = Math.max(0, Math.min(n, sat || 0));
-  const seen = useSeen(week, filled);
+  const seen = useSeen(week, filled, track);
   const step = 360 / n;
   const gap = n === 1 ? 0 : GAP_DEG;
   const complete = n >= 2 && filled === n;

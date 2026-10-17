@@ -147,28 +147,19 @@ html[data-theme='light'] {
 .mob-input[aria-invalid='true'] { border-color: var(--a-bad-text); }
 
 /* Dialog */
-/* The arena's margin reset takes away the native modal's auto margins, so the dialog places itself: centred from 640 px,
-   and a bottom sheet on phones (the app's MmSheet shape, within thumb reach). showModal() keeps focus, Esc and inert. */
+/* Centred at every width. The arena's margin reset takes away the native modal's auto margins, so the dialog places
+   itself: fixed, inset 0, margin auto, as tall as its content, 16 px from the sides on a phone. showModal() keeps focus,
+   Esc and inert. Enter is a short fade and a small rise from the centre (modals keep the centre as their origin). */
 .mob-dialog {
   position: fixed; inset: 0; margin: auto; height: fit-content;
-  width: min(440px, calc(100vw - 32px)); max-width: none; max-height: calc(100dvh - 48px); overflow: auto; overscroll-behavior: contain;
+  width: min(440px, calc(100vw - 32px)); max-width: none; max-height: calc(100dvh - 32px); overflow: auto; overscroll-behavior: contain;
   padding: 0; border: 1px solid var(--a-line-strong);
   border-radius: 18px; background: var(--a-raised); color: var(--a-ink); box-shadow: var(--a-shadow-2);
 }
 .mob-dialog[open] { animation: mob-dialog-in 200ms var(--mm-ease-out); }
-@keyframes mob-dialog-in { from { opacity: 0; transform: translateY(8px) scale(0.98); } to { opacity: 1; transform: none; } }
+@keyframes mob-dialog-in { from { opacity: 0; transform: translateY(8px) scale(0.97); } to { opacity: 1; transform: none; } }
 .mob-dialog::backdrop { background: rgb(0 0 0 / 0.5); }
 .mob-dialog__body { display: grid; gap: 14px; padding: 18px 20px 20px; }
-@media (max-width: 639px) {
-  .mob-dialog {
-    inset: auto 0 0 0; margin: 0 auto; width: 100%; max-height: calc(100dvh - 24px);
-    border-width: 1px 0 0; border-radius: 20px 20px 0 0;
-  }
-  .mob-dialog[open] { animation-name: mob-sheet-in; }
-  .mob-dialog__body { padding: 10px 16px calc(20px + env(safe-area-inset-bottom, 0px)); }
-  .mob-dialog__body::before { content: ''; justify-self: center; width: 36px; height: 4px; border-radius: 2px; background: var(--a-line-strong); }
-}
-@keyframes mob-sheet-in { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
 .mob-dialog__head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-right: -10px; }
 .mob-dialog__title { margin: 0; font: 800 18px/1.25 var(--font-display); color: var(--a-ink); overflow-wrap: anywhere; }
 .mob-menu { display: grid; gap: 8px; justify-items: stretch; }
@@ -233,9 +224,72 @@ html[data-theme='light'] .mob-volt { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 
 .mob-join__facts { display: grid; gap: 6px; margin: 0; padding: 0 0 0 20px; list-style: disc outside; font-size: 15px; line-height: 1.5; color: var(--a-ink); }
 .mob-join__facts li::marker { color: var(--a-accent-text); }
 
+/* The Mob switcher (Pro: up to 3 Mobs) */
+.mob-switch { display: flex; flex-wrap: wrap; gap: 8px; }
+.mob-tab {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 0 16px; border-radius: 12px;
+  border: 1px solid var(--a-line-strong); background: transparent; color: var(--a-ink); font: 650 14px/1.2 var(--font-body); cursor: pointer;
+  touch-action: manipulation; transition: border-color 150ms var(--mm-ease-out), background-color 150ms var(--mm-ease-out);
+}
+.mob-tab[aria-current='true'] { border-color: var(--a-select); background: var(--a-volt-wash); font-weight: 800; cursor: default; }
+.mob-tab--add { color: var(--a-ink-2); border-style: dashed; }
+.mob-tab:disabled { opacity: 0.6; cursor: wait; }
+.mob-tab:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) { .mob-tab:hover:not(:disabled):not([aria-current='true']) { border-color: var(--a-line-hover); background: var(--a-hover); } }
+
+.mob-banner { margin: 0; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--a-line-strong); font-size: 14px; line-height: 1.5; color: var(--a-ink); }
+.mob-select { appearance: auto; text-overflow: ellipsis; cursor: pointer; }
+.mob-select:disabled { opacity: 0.6; cursor: wait; }
+
+/* Compare card and the side-by-side */
+.mob-compare__teaser { margin: 0; font: 800 17px/1.35 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink); }
+.mob-sbs { gap: 16px; }
+.mob-sbs__head { display: grid; gap: 10px; justify-items: start; }
+.mob-sbs__head .mob-link { margin-left: -2px; }
+.mob-qs { display: grid; margin: 0; padding: 0; list-style: none; }
+.mob-q { display: grid; gap: 10px; padding: 18px 0; border-top: 1px solid var(--a-line); }
+.mob-q:first-child { border-top: 0; padding-top: 4px; }
+.mob-q__top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.mob-q__top b { font: 800 15px/1.3 var(--font-display); color: var(--a-ink); }
+.mob-q__meta { display: inline-flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: var(--a-ink-2); white-space: nowrap; }
+.mob-q__tag { padding: 2px 9px; border-radius: 7px; border: 1px solid var(--a-line-strong); color: var(--a-ink); font-size: 12.5px; font-weight: 700; }
+.mob-q__stem { margin: 0; max-width: 64ch; font-size: 14px; line-height: 1.5; color: var(--a-ink-2); overflow-wrap: anywhere; }
+.mob-q__rows { display: grid; gap: 2px; margin: 0; padding: 0; list-style: none; }
+.mob-pickrow { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px; min-height: 52px; padding: 4px 10px; border-radius: 12px; }
+.mob-pickrow[data-you] { background: var(--a-hover); }
+.mob-pickrow__who { display: grid; gap: 1px; min-width: 0; }
+.mob-pickrow__who b { font: 700 15px/1.3 var(--font-display); color: var(--a-ink); overflow-wrap: anywhere; }
+.mob-pickrow__who span { font-size: 12.5px; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+.mob-pickrow__who span:empty { display: none; }
+.mob-pickrow__pick { display: grid; justify-items: end; gap: 1px; min-width: 56px; text-align: right; }
+.mob-pickrow__pick b { font: 800 17px/1.1 var(--font-display); color: var(--a-ink); }
+.mob-pickrow__pick span { font-size: 12.5px; font-weight: 700; color: var(--a-ink-2); }
+.mob-pickrow__pick[data-verdict='right'] span { color: var(--a-good-text); }
+.mob-pickrow__pick[data-verdict='wrong'] span { color: var(--a-bad-text); }
+.mob-q__trap { display: grid; gap: 8px; justify-items: start; padding-top: 4px; }
+.mob-sbs__foot { max-width: 60ch; }
+
+/* Extra papers and past weeks */
+.mob-extras { display: grid; margin: 0; padding: 0; list-style: none; }
+.mob-extra { display: grid; gap: 10px; padding: 14px 0; border-top: 1px solid var(--a-line); }
+.mob-extra:first-child { border-top: 0; padding-top: 2px; }
+.mob-extra__text { display: grid; gap: 2px; min-width: 0; }
+.mob-extra__text b { font: 700 15px/1.35 var(--font-display); color: var(--a-ink); overflow-wrap: anywhere; }
+.mob-extra__text span { font-size: 13.5px; line-height: 1.45; color: var(--a-ink-2); }
+.mob-extra__actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.mob-extra__actions:empty { display: none; }
+@media (min-width: 720px) { .mob-extra { grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 16px; } .mob-extra__actions { justify-content: flex-end; } }
+
+/* Join: one key. The name and colour are there, and one tap changes them. */
+.mob-joinas { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.mob-joinas__name { font: 800 18px/1.2 var(--font-display); color: var(--a-ink); overflow-wrap: anywhere; }
+.mob-joinas .mob-link { margin-left: auto; }
+.mob-skel--ring72 { width: 72px; height: 72px; border-radius: 50%; }
+.mob-result--plain { grid-template-columns: minmax(0, 1fr); }
+
 @media (prefers-reduced-motion: reduce) {
   .mob-ring__fill--ink, .mob-ring[data-settle] .mob-ring__svg, .mob-dialog[open], .mob-skel { animation: none; }
-  .mob-key, .mob-chip, .mob-icon { transition: none; }
+  .mob-key, .mob-chip, .mob-icon, .mob-tab { transition: none; }
   .mob-key:active:not(:disabled) { transform: none; }
 }
 :root[data-motion='reduced'] :is(.mob-ring__fill--ink, .mob-ring[data-settle] .mob-ring__svg, .mob-dialog[open], .mob-skel) { animation: none; }
