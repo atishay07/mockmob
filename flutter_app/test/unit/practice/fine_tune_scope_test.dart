@@ -91,11 +91,12 @@ void main() {
     });
 
     for (final mode in [PracticeMode.smart, PracticeMode.nta]) {
-      testWidgets('${mode.name}: no controls, one calm line that we choose for you', (tester) async {
+      testWidgets('${mode.name}: no controls, one calm line that says nothing needs choosing', (tester) async {
         await tester.pumpWidget(_app(_block(mode)));
         await tester.pump(const Duration(milliseconds: 400));
         expect(find.text(fineTuneSentence(mode)), findsOneWidget);
-        expect(fineTuneSentence(mode), startsWith('We choose for you.'));
+        expect(fineTuneSentence(mode), endsWith("You don't need to choose anything."));
+        if (mode == PracticeMode.nta) expect(fineTuneSentence(mode), "We build it exactly the NTA way. You don't need to choose anything.");
         expect(find.text(PracticeCopy.chapterLabel), findsNothing);
         expect(find.text(PracticeCopy.difficultyLabel), findsNothing);
       });

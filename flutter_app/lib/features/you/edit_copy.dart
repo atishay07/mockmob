@@ -3,6 +3,7 @@
 /// server answered, phone-only choices called "kept on this phone".
 library;
 
+import '../../core/domain/cuet_rules.dart';
 import '../../core/copy/copy.dart';
 
 /// A category as a row or option title: the words a student says, first letter capitalised
@@ -12,9 +13,9 @@ String categoryTitle(String? category) => categoryWordsTitle(category);
 abstract final class EditCopy {
   // Subjects editor (WEB-PARITY F1).
   static const subjectsTitle = 'Your subjects';
-  static const subjectsHint = 'Pick up to 5. Your practice, Today and You follow these.';
-  static String subjectsCount(int n) => '$n of 5 chosen';
-  static const subjectsCap = 'Five is the most. Remove one to add another.';
+  static const subjectsHint = 'Pick up to $kCuetMaxSubjects. A language or the General Test uses one. Your practice, Today and You follow these.';
+  static String subjectsCount(int n) => '$n of $kCuetMaxSubjects chosen';
+  static const subjectsCap = 'Five is the most CUET allows. Remove one to add another.';
   static const subjectsNeedOne = 'Keep at least one subject.';
   static const subjectsSave = 'Save subjects';
   static const subjectsUnchanged = 'Pick or remove a subject to save.';

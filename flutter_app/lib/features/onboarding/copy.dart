@@ -3,6 +3,7 @@
 /// exclamation marks, no arrows in buttons, 12-hour times, no defensive footers.
 library;
 
+import '../../core/domain/cuet_rules.dart';
 import '../../core/copy/formatters.dart' show categoryWords;
 
 abstract final class OnboardingCopy {
@@ -120,7 +121,7 @@ abstract final class OnboardingCopy {
   // Subjects.
   static const String subjectsTitle = 'Your subjects. How solid is each, honestly?';
   static const String subjectsSupport = 'Be harsh. Your first check shows where your gut was right.';
-  static const String fiveMax = 'Five is the most a profile takes. Drop one to add another.';
+  static const String fiveMax = 'Five is the most CUET allows. Drop one to add another.';
   static const String pickOne = 'Pick at least one subject.';
   static const String pickCollege = 'Pick a college to continue, or say any college is fine.';
   static const String commonPicks = 'Common picks';
@@ -128,7 +129,7 @@ abstract final class OnboardingCopy {
   static const String addSubjectNote = 'Science, humanities and the rest of the 15 MockMob offers';
   static const String pickerTitle = 'Add a subject';
   static const String searchHint = 'Search subjects';
-  static String pickerCount(int n) => n == 0 ? 'Pick up to five.' : '$n of 5 on your sheet.';
+  static String pickerCount(int n) => n == 0 ? 'Pick up to $kCuetMaxWord. A language or the General Test uses one.' : '$n of $kCuetMaxSubjects on your sheet.';
   static const String notOfferedTitle = 'Not on MockMob yet';
   static const String notOfferedNote = "CUET has these. There's no practice for them here yet, so they can't go on your plan.";
   static const String notOfferedShort = 'No practice here yet';

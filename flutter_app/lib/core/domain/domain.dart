@@ -2,6 +2,7 @@
 library;
 
 export 'chapter_breakdown.dart';
+export 'cuet_rules.dart';
 export 'marks.dart';
 export 'mock_ordinal.dart';
 export 'next_move.dart';

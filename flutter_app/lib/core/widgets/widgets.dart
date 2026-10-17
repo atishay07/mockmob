@@ -17,6 +17,7 @@ export 'controls/chip.dart';
 export 'controls/glass_quality_picker.dart';
 export 'controls/mm_switch.dart';
 export 'controls/segmented.dart';
+export 'controls/sliding_indicator.dart';
 export 'controls/select_row.dart';
 export 'controls/selection_style.dart';
 export 'count_up.dart';

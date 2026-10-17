@@ -1,3 +1,5 @@
+import '../../../core/domain/cuet_rules.dart';
+
 /// Where a subject sits in the picker. The order here is the order of the groups.
 enum SubjectGroup {
   commerce('Commerce'),
@@ -101,8 +103,8 @@ const List<SheetSubject> kTieOrder = [
   SheetSubject.sociology,
 ];
 
-/// The API's cap on profile subjects.
-const int kMaxSubjects = 5;
+/// The API's cap on profile subjects: the CUET limit ([kCuetMaxSubjects], from the NTA bulletins).
+const int kMaxSubjects = kCuetMaxSubjects;
 
 /// [subjects] ordered weakest first by [confidence] (unrated counts as Okay), ties by [kTieOrder].
 List<SheetSubject> weakestFirst(Iterable<SheetSubject> subjects, Map<SheetSubject, Confidence> confidence) {

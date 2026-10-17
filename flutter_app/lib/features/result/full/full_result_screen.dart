@@ -248,6 +248,11 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                 cohort: cohort,
                 status: status,
                 expanded: open,
+                onChip: chipActionOf(
+                  status,
+                  onRepair: () => _go(Uri(path: AppRoutes.reviewRepair(attemptId, item.qid), queryParameters: const {'count': '1'}).toString()),
+                  onOpenSaved: () => _go(AppRoutes.reviewRepair(attemptId, item.qid)),
+                ),
               ),
         summarySemantics: status == null
             ? null

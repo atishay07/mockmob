@@ -36,6 +36,14 @@ class MoveState {
       if (view.phase == CheckPhase.answered && result != null) checks[qid] = result.right;
     }
     final credits = ref.watch(creditFiguresProvider);
-    return MoveState(repaired: repaired, checks: checks, aiCredits: credits.ai, practiceCredits: credits.practice, isPro: credits.isPro);
+    // A balance read from the saved copy (the last read failed) may be from before this paper's own charge, so it is
+    // unknown here: the line says what the action costs and leaves out "You have N" (never a wrong N).
+    return MoveState(
+      repaired: repaired,
+      checks: checks,
+      aiCredits: credits.stale ? null : credits.ai,
+      practiceCredits: credits.stale ? null : credits.practice,
+      isPro: credits.isPro,
+    );
   }
 }

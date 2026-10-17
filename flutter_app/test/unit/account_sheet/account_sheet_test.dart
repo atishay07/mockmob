@@ -308,6 +308,29 @@ void main() {
     expect(find.text(CreditsCopy.tryAgain), findsNothing);
   });
 
+  testWidgets('the Saved line holds its room: Appearance sits at the same place with it and without it (v13 walk, 8)', (tester) async {
+    double appearanceTop() => tester.getTopLeft(find.byType(MmSegmented<ThemeMode>)).dy;
+    await _pumpApp(tester);
+    await _openSheet(tester);
+    final fresh = appearanceTop();
+    expect(find.textContaining('Saved '), findsNothing);
+
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pumpAndSettle();
+    final stale = creditsState(practice: 24, ai: 18);
+    await _pumpApp(
+      tester,
+      credits: RemoteState(
+        value: stale.value,
+        fetchedAt: DateTime(2026, 10, 12, 21, 15),
+        error: const ApiError(kind: ApiErrorKind.network, code: 'network'),
+      ),
+    );
+    await _openSheet(tester);
+    expect(find.text('Saved 9:15 PM'), findsOneWidget);
+    expect(appearanceTop(), closeTo(fresh, 0.5));
+  });
+
   testWidgets('credits that did not load say so and offer Try again', (tester) async {
     final fake = FakeMeCredits(const RemoteState<CreditsOverview>(error: ApiError(kind: ApiErrorKind.network, code: 'network')));
     await _pumpApp(tester, extra: [meCreditsProvider.overrideWith(() => fake)]);

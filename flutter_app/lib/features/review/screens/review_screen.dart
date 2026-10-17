@@ -236,6 +236,7 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
               pick: tonight,
               now: clock.now(),
               lateNight: lateNight,
+              totalOpen: index.openCount,
               onRepair: () => _openRepair(tonight.items.first),
               onShowMe: () => _showEvidence(context, index, tonight),
             ),

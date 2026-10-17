@@ -238,23 +238,19 @@ class _MethodTabs extends ConsumerWidget {
                 bottom: 0,
                 child: Divider(height: 1, thickness: 1, color: colors.line),
               ),
-              AnimatedAlign(
-                alignment: Alignment(n == 1 ? 0 : -1 + 2 * index / (n - 1), 1),
-                duration: Motion.of(context, Motion.glideDuration),
-                curve: Motion.emphasized,
-                child: FractionallySizedBox(
-                  widthFactor: 1 / n,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: MmSpace.s24,
+              // One underline that slides from the old tab to the new (owner, N5).
+              MmSlidingIndicator(
+                index: index,
+                count: n,
+                verticalAlign: 1,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: MmSpace.s24),
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: colors.accentText,
+                      borderRadius: MmRadius.pillAll,
                     ),
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: colors.accentText,
-                        borderRadius: MmRadius.pillAll,
-                      ),
-                      child: const SizedBox(height: MmSpace.s4),
-                    ),
+                    child: const SizedBox(height: MmSpace.s4),
                   ),
                 ),
               ),

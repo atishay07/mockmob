@@ -124,10 +124,12 @@ class ConnectivityMonitor implements ApiNetworkObserver {
     _pingTimer?.cancel();
     _pingTimer = null;
     if (!_radio || status.value != NetworkStatus.offline) return;
-    // With nothing waiting the check only exists to clear a wrong offline verdict: use the
-    // slowest step of the back-off.
+    // With nothing waiting the check only exists to clear a wrong offline verdict. It still starts
+    // quick (a site that was down for a minute must not keep a working phone "offline" for the
+    // next minute: v13 walk, finding 3) and settles at the slowest step, so a long outage costs
+    // one light HEAD a minute.
     _recoveryOnly = !_hasPendingWork();
-    final step = _recoveryOnly ? pingBackoff.length - 1 : _pingFailures.clamp(0, pingBackoff.length - 1);
+    final step = _pingFailures.clamp(0, pingBackoff.length - 1);
     final delay = pingBackoff[step];
     _pingFailures++;
     _pingTimer = _timer(delay, () {

@@ -146,7 +146,7 @@ void main() {
     expect(timers.active, 0);
   });
 
-  test('with nothing pending any more, only the slow recovery ping remains', () async {
+  test('with nothing pending any more, only the recovery ping remains', () async {
     radio.add(true);
     await settle();
     pending = true;
@@ -157,9 +157,10 @@ void main() {
     timers.fireNext();
     await settle();
     expect(pings, 2);
-    // Nothing waiting, but the app still says offline with a radio present: one slow check,
-    // so a wrong offline verdict cannot stick (sync-storage-api-02).
-    expect(timers.delays, [const Duration(seconds: 60)]);
+    // Nothing waiting, but the app still says offline with a radio present: one more check, on
+    // the back-off's next step (not the slowest), so a wrong offline verdict clears quickly and
+    // cannot stick (sync-storage-api-02; v13 walk finding 3).
+    expect(timers.delays, [const Duration(seconds: 15)]);
   });
 
   test('online with nothing pending schedules no ping at all', () async {
@@ -242,8 +243,8 @@ void main() {
     pending = false;
     await settle();
     expect(monitor.status.value, NetworkStatus.offline);
-    // Only the slow recovery ping is left.
-    expect(timers.delays, [const Duration(seconds: 60)]);
+    // Only the recovery ping is left, on the back-off's next step.
+    expect(timers.delays, [const Duration(seconds: 15)]);
     pending = true;
     monitor.pendingWorkChanged();
     // New work brings back the quick back-off.

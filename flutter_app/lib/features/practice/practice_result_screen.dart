@@ -295,6 +295,11 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
             cohort: cohort,
             status: status,
             expanded: _list.open.contains(q.qid),
+            onChip: chipActionOf(
+              status,
+              onRepair: () => _go(Uri(path: AppRoutes.reviewRepair(attempt.id, q.qid), queryParameters: const {'count': '1'}).toString()),
+              onOpenSaved: () => _go(AppRoutes.reviewRepair(attempt.id, q.qid)),
+            ),
           );
     return KeyedSubtree(
       key: _list.keyFor(q.qid),

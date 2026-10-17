@@ -50,10 +50,14 @@ abstract final class ReviewCopy {
   }
 
   /// The line beside the hero's number, which already says how many: where they come from.
-  static String tonightSource(String source, int n, int chapterOpen) {
-    final rest = chapterOpen - n;
-    if (rest <= 0) return 'From $source. You can stop after any one.';
-    return 'From $source. ${rest == 1 ? '1 more' : '$rest more'} from earlier papers.';
+  ///
+  /// [totalOpen] is every open mistake on the tab. When it is more than tonight's run the line says how many more wait
+  /// in the list below, so the hero's number and the list's number add up (v13 walk, finding 7: the hero said 1, the
+  /// list said 5 to repair).
+  static String tonightSource(String source, int n, int chapterOpen, {int? totalOpen}) {
+    final waiting = (totalOpen ?? chapterOpen) - n;
+    if (waiting <= 0) return 'From $source. You can stop after any one.';
+    return 'From $source. ${waiting == 1 ? '1 more' : '$waiting more'} to repair below.';
   }
 
   /// The hero's key says what it does and what it costs in time: "Repair 3 mistakes, 10 min".
@@ -145,7 +149,9 @@ abstract final class ReviewCopy {
   static const tryNotRecorded = 'This try stays here. It is not recorded.';
   static const keyHidden = "This question's answer key is being checked, so it is not shown yet.";
 
-  static String pastLine(String date, int marks, int max) => '$date, ${formatSignedNumber(marks)} of $max';
+  /// A paper with nothing answered says so, not "0 of 250" as if it had been scored (v13 walk, finding 9).
+  static String pastLine(String date, int marks, int max, {bool attempted = true}) =>
+      attempted ? '$date, ${formatSignedNumber(marks)} of $max' : '$date, nothing attempted';
 
   static const recordPreviewEmpty = 'Your first repair will show here, with when it was found and when it was repaired.';
 
