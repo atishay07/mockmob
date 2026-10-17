@@ -18,6 +18,7 @@ import '../../insights/ask_mobi.dart' show AskMobiContext, AskMobiLink, askMobiA
 import '../../insights/data/ask_suggestions.dart' show AskSheetCopy;
 import '../../insights/data/trend.dart' show trendSeries;
 import '../../insights/widgets/trend_chart.dart' show TrendSection;
+import '../../paper_reel/paper_reel.dart' show PaperReel, PaperReelModel, PaperReelResultEntry, ReelMoveKind, ReelNextMove, ReelResult;
 import '../../practice/widgets/result_foot.dart';
 import '../../practice/widgets/top_edge_fade.dart' show BarFade;
 import '../../review/data/paper_when.dart' show paperWhen;
@@ -180,6 +181,9 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
   /// The "Every answer you changed" heading of Time and decisions.
   final GlobalKey _changesKey = GlobalKey();
 
+  /// The head of the mistakes list: where the reel's "Go through what you missed" lands.
+  final GlobalKey _mistakesKey = GlobalKey();
+
   /// The Replay, and the chip it has on (a ledger row's "See it in the replay" sets both).
   final GlobalKey _replayKey = GlobalKey();
   final ValueNotifier<String> _replayFilter = ValueNotifier<String>(ReplayChip.all);
@@ -199,6 +203,31 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
 
   /// The Lab's "See every change": Time and decisions' list of changes, under the bar.
   void _seeChanges() => _scrollTo(_changesKey);
+
+  /// "Play it back" (D29): this paper's reel over the whole app. Its one closing key goes where the same key goes from
+  /// Today: the repair of the costliest chapter, the mistakes below, or the next mock of this subject.
+  void _playBack(PaperReelModel reel, {required String subjectId, required bool isNta}) {
+    unawaited(ref.read(hapticsProvider).tick());
+    unawaited(PaperReel.open(context, model: reel, onNextMove: (m) => _reelMove(reel, m, subjectId: subjectId, isNta: isNta)));
+  }
+
+  void _reelMove(PaperReelModel reel, ReelNextMove m, {required String subjectId, required bool isNta}) {
+    if (!mounted) return;
+    switch (m.kind) {
+      case ReelMoveKind.repairChapter:
+        final wrong = {for (final q in reel.questions) if (q.result == ReelResult.wrong) q.qid};
+        final open = [for (final q in m.qids) if (wrong.contains(q)) q];
+        if (open.isEmpty) {
+          _scrollTo(_mistakesKey);
+        } else {
+          _go(Uri(path: AppRoutes.reviewRepair(widget.attemptId, open.first), queryParameters: {'count': '${open.length}'}).toString());
+        }
+      case ReelMoveKind.reviewMistakes:
+        _scrollTo(_mistakesKey);
+      case ReelMoveKind.nextMock:
+        _go(Uri(path: AppRoutes.practiceSetup(isNta ? 'nta' : 'full'), queryParameters: {'subject': subjectId}).toString());
+    }
+  }
 
   /// A linked question (the recap's tiles) opens on arrival.
   void _seed(AnswerGroups groups) {
@@ -393,6 +422,8 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
       final timeReady = timeRead != null && timeRead.isReady;
       // Where the lost marks went, chapter by chapter, from this paper's own counts (none while the keys are held).
       final askLines = model.isHeld || model.keysUnavailable ? const <String>[] : mockLostLines(model.chapters, lost: model.breakdown.lost);
+      // The paper played back (D29), always here: built from the paper's own record, nothing while its keys are held.
+      final reel = model.isHeld || detail == null ? null : PaperReelModel.tryFrom(detail, subjectLabel: model.subjectName);
       final hasTime = replay != null || timeReady || lab != null;
       final hasProof = lab?.rules != null || lab?.ruleCheck != null || lab?.later != null || lab?.acrossMocks != null;
 
@@ -532,12 +563,22 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                 AnalysisBlock(
                   first: true,
                   title: LayersCopy.sectionAnswerSheet,
-                  child: ResultAnswersMap(
-                    model: model,
-                    onOpen: _openFromMap,
-                    onPeek: (_) => unawaited(ref.read(hapticsProvider).tick()),
-                    mobi: reaction == null ? null : _mobi,
-                    arrival: arrival,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      ResultAnswersMap(
+                        model: model,
+                        onOpen: _openFromMap,
+                        onPeek: (_) => unawaited(ref.read(hapticsProvider).tick()),
+                        mobi: reaction == null ? null : _mobi,
+                        arrival: arrival,
+                      ),
+                      // The same sheet in motion, one quiet row: the reel's length beside it.
+                      if (reel != null) ...[
+                        const SizedBox(height: MmSpace.s16),
+                        PaperReelResultEntry(seconds: reel.seconds, onPlay: () => _playBack(reel, subjectId: model.subjectId, isNta: model.isNta)),
+                      ],
+                    ],
                   ),
                 ),
                 // 2. Where your marks went: the one list of the chapters that cost marks, then how the marks split.
@@ -626,6 +667,7 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                 const SizedBox(height: MmSpace.group),
                 item(
                   Column(
+                    key: _mistakesKey,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       MistakesHead(
