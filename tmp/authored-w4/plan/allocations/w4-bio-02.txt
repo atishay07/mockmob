@@ -1,0 +1,29 @@
+JOB w4-bio-02: Biology B: Human Health and Disease (with a case set), Microbes, Biotechnology Principles
+Subject: biology | Questions: exactly 20 | source value for every question: claude-authored-2026-10-17-w4
+Blueprint: C:\Users\atish\Desktop\mockmob copy\wt-wave4\data\nta_blueprints\biology.json
+Syllabus PDF: C:\Users\atish\Desktop\mockmob copy\wt-wave4\data\CUET 2026\biology.pdf
+Avoid list (read it): C:\Users\atish\Desktop\mockmob copy\wt-wave4\tmp\authored-w4\plan\avoid\w4-bio-02.txt
+
+1. CHAPTERS (the exact counts; use the chapter and unit strings exactly as written, they are the blueprint spellings; questions of one chapter stay together in the file in this order):
+   1. chapter "Human Health & Disease" | unit "Biology and Human Welfare" | 9 questions
+      Topics to draw from (one concept per question, spread across the list, no two questions on the same sub-topic): health and common diseases (typhoid, pneumonia, common cold, malaria, amoebiasis, ascariasis, filariasis, ringworm: causative agent, vector, symptoms), innate and acquired immunity, active and passive immunity, vaccination, allergy, auto-immunity, AIDS (HIV and its replication), cancer, drug and alcohol abuse.
+      SET: five of the nine questions form ONE case set on one concept inside this chapter (for example the malaria life cycle, vaccination and immune memory, or cancer); the other four are standalone.
+   2. chapter "Microbes in Human Welfare" | unit "Biology and Human Welfare" | 7 questions
+      Topics to draw from (one concept per question, spread across the list, no two questions on the same sub-topic): microbes in household products (curd, dough, toddy), industrial products (fermented beverages, antibiotics, enzymes such as lipase and streptokinase, bioactive molecules such as cyclosporin A and statins), sewage treatment (primary and secondary), biogas production, biocontrol agents and biofertilisers.
+   3. chapter "Biotechnology Principles & Processes" | unit "Biotechnology and its Applications" | 4 questions
+      Topics to draw from (one concept per question, spread across the list, no two questions on the same sub-topic): principles of biotechnology, tools of recombinant DNA technology (restriction enzymes, palindromic sequences, vectors such as pBR322, competent host), processes (isolation of DNA, gel electrophoresis, PCR, insertion of rDNA, selectable markers, bioreactors), downstream processing.
+
+2. TYPES (exact counts over the 20, set items included):
+   single_mcq 13, match_the_following 1, sequence_ordering 4, statement_based 2, assertion_reason 0
+   - The case set: four single_mcq items and one statement_based item (so one of the two statement_based items is inside the set).
+   - sequence_ordering (four): one in Human Health & Disease (a life cycle, an infection or an immune response arranged in order; standalone), two in Microbes in Human Welfare (stages of sewage treatment, biogas production or antibiotic or curd production), one in Biotechnology Principles & Processes (steps of an rDNA experiment or of PCR). Label the four items (A) to (D) in the stem.
+   - match_the_following: one in Human Health & Disease (disease with its causative organism or vector) or Microbes in Human Welfare (microbe with its product).
+   - statement_based: one inside the Human Health & Disease set and one in Microbes in Human Welfare.
+
+3. DIFFICULTY (exact): easy 6, medium 10, hard 4. Spread each level over the chapters; do not put all the hard ones in one chapter. Use the difficulty meanings in the template; a hard item is two or three linked steps or a fine distinction at CUET level, never an Olympiad item.
+4. KEY LETTERS (exact): A 5, B 5, C 5, D 5. Decide the key letters first (a shuffled list, no pattern, no three equal in a row, no repeating cycle such as A B C D A B C D) and then build each question around its assigned letter.
+5. NUMERICALS: no minimum. This job is recall and concept based; a numerical is allowed only where the topic list calls for one.
+6. SETS:
+   one set in chapter "Human Health & Disease": 5 questions (4 single_mcq + 1 statement_based), one passage or scenario of 150 to 250 words that you write yourself (original, factual, NCERT-level, no figure or table), every child carries the identical passage_text and the identical set_id "w4-bio-02-set-1", the 5 children are consecutive in the file, each child tests a different thing and none can be answered without reading the passage, and no child's answer is stated word for word in the passage.
+
+7. FILE: C:\Users\atish\Desktop\mockmob copy\wt-wave4\tmp\authored-w4\drafts\biology\w4-bio-02.json

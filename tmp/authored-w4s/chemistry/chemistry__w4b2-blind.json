@@ -1,0 +1,506 @@
+{
+ "batch": "chemistry__w4b2-blind",
+ "subject": "chemistry",
+ "questions": [
+  {
+   "id": "6998f236-be20-4857-8d0b-2a448825755c",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Ethanenitrile is treated with LiAlH4 in dry ether. The main organic product is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Methanamine"
+    },
+    {
+     "key": "B",
+     "text": "Ethanal"
+    },
+    {
+     "key": "C",
+     "text": "Ethanamine"
+    },
+    {
+     "key": "D",
+     "text": "Ethanamide"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "c6a775ab-00e8-4a2d-bde7-7c5e34dac7be",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Butan-1-ol and butan-1-amine have almost the same molar mass, yet butan-1-ol boils at a much higher temperature. This is mainly because:",
+   "options": [
+    {
+     "key": "A",
+     "text": "O–H···O hydrogen bonds are stronger than N–H···N hydrogen bonds"
+    },
+    {
+     "key": "B",
+     "text": "butan-1-amine molecules cannot form hydrogen bonds with each other"
+    },
+    {
+     "key": "C",
+     "text": "butan-1-ol has a longer carbon chain than butan-1-amine"
+    },
+    {
+     "key": "D",
+     "text": "nitrogen is more electronegative than oxygen, so N–H is more polar"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "a123ad3b-9488-4b25-b787-98cf51e60a84",
+   "subject": "chemistry",
+   "type": "sequence_ordering",
+   "stem": "Arrange the following in increasing order of reactivity towards electrophilic bromination of the benzene ring:\n(A) Aniline\n(B) Benzene\n(C) Acetanilide\n(D) Nitrobenzene",
+   "options": [
+    {
+     "key": "A",
+     "text": "(B), (D), (C), (A)"
+    },
+    {
+     "key": "B",
+     "text": "(D), (B), (A), (C)"
+    },
+    {
+     "key": "C",
+     "text": "(D), (C), (B), (A)"
+    },
+    {
+     "key": "D",
+     "text": "(D), (B), (C), (A)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "696bfe65-83b2-493a-a030-aba88d361ae5",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Aniline is treated with ethanoyl chloride in the presence of pyridine. The role of pyridine is to:",
+   "options": [
+    {
+     "key": "A",
+     "text": "convert ethanoyl chloride into the less reactive ethanoic anhydride"
+    },
+    {
+     "key": "B",
+     "text": "neutralise the HCl formed and shift the equilibrium towards the product"
+    },
+    {
+     "key": "C",
+     "text": "protonate aniline so that its nitrogen becomes more nucleophilic"
+    },
+    {
+     "key": "D",
+     "text": "prevent the benzene ring from undergoing Friedel-Crafts acylation"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "b01a98fe-7046-417d-b53a-52562cf973e6",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "What mass of sodium nitrite (molar mass 69 g mol−1) is needed to diazotise all the aniline used in the preparation?",
+   "options": [
+    {
+     "key": "A",
+     "text": "6.9 g"
+    },
+    {
+     "key": "B",
+     "text": "3.45 g"
+    },
+    {
+     "key": "C",
+     "text": "13.8 g"
+    },
+    {
+     "key": "D",
+     "text": "9.3 g"
+    }
+   ],
+   "passage_text": "In a laboratory preparation, 9.3 g of aniline (0.10 mol) is dissolved in an excess of dilute hydrochloric acid, and the flask is kept in an ice-salt bath so that the temperature stays between 273 K and 278 K. A cold solution containing exactly the stoichiometric amount of sodium nitrite is added slowly with stirring. The clear solution obtained is never allowed to warm up and is used at once, without isolating any solid from it. It is then divided into four equal portions, labelled P, Q, R and S.\n\nPortion P is poured into a cold alkaline solution of phenol, and an orange-red solid separates at once. Portion Q is treated with aqueous potassium iodide at room temperature; bubbles of a colourless gas escape and a dense, dark oil settles at the bottom. Portion R is added to a warm solution of cuprous cyanide and potassium cyanide; the same colourless gas is evolved, and a colourless liquid with a bitter-almond smell distils over. Portion S is simply left on the bench in a warm room for an hour; it also evolves the colourless gas, and its smell changes to that of a phenolic disinfectant.\n\nEvery reaction in this preparation goes to completion, and the organic products from P, Q and R all retain the benzene ring of the original aniline."
+  },
+  {
+   "id": "1b3b17be-c28e-4dbd-b120-3d1416eeb97f",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "The orange-red solid obtained from portion P is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "4-Aminoazobenzene"
+    },
+    {
+     "key": "B",
+     "text": "Azobenzene"
+    },
+    {
+     "key": "C",
+     "text": "Azoxybenzene"
+    },
+    {
+     "key": "D",
+     "text": "4-Hydroxyazobenzene"
+    }
+   ],
+   "passage_text": "In a laboratory preparation, 9.3 g of aniline (0.10 mol) is dissolved in an excess of dilute hydrochloric acid, and the flask is kept in an ice-salt bath so that the temperature stays between 273 K and 278 K. A cold solution containing exactly the stoichiometric amount of sodium nitrite is added slowly with stirring. The clear solution obtained is never allowed to warm up and is used at once, without isolating any solid from it. It is then divided into four equal portions, labelled P, Q, R and S.\n\nPortion P is poured into a cold alkaline solution of phenol, and an orange-red solid separates at once. Portion Q is treated with aqueous potassium iodide at room temperature; bubbles of a colourless gas escape and a dense, dark oil settles at the bottom. Portion R is added to a warm solution of cuprous cyanide and potassium cyanide; the same colourless gas is evolved, and a colourless liquid with a bitter-almond smell distils over. Portion S is simply left on the bench in a warm room for an hour; it also evolves the colourless gas, and its smell changes to that of a phenolic disinfectant.\n\nEvery reaction in this preparation goes to completion, and the organic products from P, Q and R all retain the benzene ring of the original aniline."
+  },
+  {
+   "id": "aefd3af3-ae37-410a-b5a1-aa5da54926d3",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "The colourless liquid distilled from portion R is boiled with dilute hydrochloric acid until it is completely hydrolysed. The organic product is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Benzamide"
+    },
+    {
+     "key": "B",
+     "text": "Phenylacetic acid"
+    },
+    {
+     "key": "C",
+     "text": "Benzoic acid"
+    },
+    {
+     "key": "D",
+     "text": "Benzaldehyde"
+    }
+   ],
+   "passage_text": "In a laboratory preparation, 9.3 g of aniline (0.10 mol) is dissolved in an excess of dilute hydrochloric acid, and the flask is kept in an ice-salt bath so that the temperature stays between 273 K and 278 K. A cold solution containing exactly the stoichiometric amount of sodium nitrite is added slowly with stirring. The clear solution obtained is never allowed to warm up and is used at once, without isolating any solid from it. It is then divided into four equal portions, labelled P, Q, R and S.\n\nPortion P is poured into a cold alkaline solution of phenol, and an orange-red solid separates at once. Portion Q is treated with aqueous potassium iodide at room temperature; bubbles of a colourless gas escape and a dense, dark oil settles at the bottom. Portion R is added to a warm solution of cuprous cyanide and potassium cyanide; the same colourless gas is evolved, and a colourless liquid with a bitter-almond smell distils over. Portion S is simply left on the bench in a warm room for an hour; it also evolves the colourless gas, and its smell changes to that of a phenolic disinfectant.\n\nEvery reaction in this preparation goes to completion, and the organic products from P, Q and R all retain the benzene ring of the original aniline."
+  },
+  {
+   "id": "eb154c9d-5bdc-4c88-a6a0-349b209958ef",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Portion Q releases its gas completely. What volume of the gas, measured at STP, is evolved? (Molar volume at STP = 22.4 L mol−1)",
+   "options": [
+    {
+     "key": "A",
+     "text": "140 mL"
+    },
+    {
+     "key": "B",
+     "text": "560 mL"
+    },
+    {
+     "key": "C",
+     "text": "1120 mL"
+    },
+    {
+     "key": "D",
+     "text": "2240 mL"
+    }
+   ],
+   "passage_text": "In a laboratory preparation, 9.3 g of aniline (0.10 mol) is dissolved in an excess of dilute hydrochloric acid, and the flask is kept in an ice-salt bath so that the temperature stays between 273 K and 278 K. A cold solution containing exactly the stoichiometric amount of sodium nitrite is added slowly with stirring. The clear solution obtained is never allowed to warm up and is used at once, without isolating any solid from it. It is then divided into four equal portions, labelled P, Q, R and S.\n\nPortion P is poured into a cold alkaline solution of phenol, and an orange-red solid separates at once. Portion Q is treated with aqueous potassium iodide at room temperature; bubbles of a colourless gas escape and a dense, dark oil settles at the bottom. Portion R is added to a warm solution of cuprous cyanide and potassium cyanide; the same colourless gas is evolved, and a colourless liquid with a bitter-almond smell distils over. Portion S is simply left on the bench in a warm room for an hour; it also evolves the colourless gas, and its smell changes to that of a phenolic disinfectant.\n\nEvery reaction in this preparation goes to completion, and the organic products from P, Q and R all retain the benzene ring of the original aniline."
+  },
+  {
+   "id": "a9b977b3-1415-4db5-8488-268a83327316",
+   "subject": "chemistry",
+   "type": "statement_based",
+   "stem": "Consider the following statements about the portions P, Q, R and S:\n(A) Portion Q forms iodobenzene without needing a copper(I) catalyst.\n(B) In portion P the diazonium ion attacks the phenoxide ring as a nucleophile.\n(C) The phenolic smell of portion S arises because the diazonium ion is hydrolysed on warming.\n(D) In portion R the diazonium group is replaced by CN with the help of a copper(I) salt.\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A), (B) and (D) only"
+    },
+    {
+     "key": "B",
+     "text": "(B), (C) and (D) only"
+    },
+    {
+     "key": "C",
+     "text": "(A), (B) and (C) only"
+    },
+    {
+     "key": "D",
+     "text": "(A), (C) and (D) only"
+    }
+   ],
+   "passage_text": "In a laboratory preparation, 9.3 g of aniline (0.10 mol) is dissolved in an excess of dilute hydrochloric acid, and the flask is kept in an ice-salt bath so that the temperature stays between 273 K and 278 K. A cold solution containing exactly the stoichiometric amount of sodium nitrite is added slowly with stirring. The clear solution obtained is never allowed to warm up and is used at once, without isolating any solid from it. It is then divided into four equal portions, labelled P, Q, R and S.\n\nPortion P is poured into a cold alkaline solution of phenol, and an orange-red solid separates at once. Portion Q is treated with aqueous potassium iodide at room temperature; bubbles of a colourless gas escape and a dense, dark oil settles at the bottom. Portion R is added to a warm solution of cuprous cyanide and potassium cyanide; the same colourless gas is evolved, and a colourless liquid with a bitter-almond smell distils over. Portion S is simply left on the bench in a warm room for an hour; it also evolves the colourless gas, and its smell changes to that of a phenolic disinfectant.\n\nEvery reaction in this preparation goes to completion, and the organic products from P, Q and R all retain the benzene ring of the original aniline."
+  },
+  {
+   "id": "cded2e6e-6e9e-45b1-a65b-3575d15e57ea",
+   "subject": "chemistry",
+   "type": "match_the_following",
+   "stem": "Match List-I with List-II.\nList-I: (A) Peptide bond (B) Glycosidic linkage (C) Phosphodiester linkage (D) Disulphide bridge\nList-II: (I) Joins two nucleotides (II) Joins two cysteine residues (III) Joins two amino acids (IV) Joins two monosaccharide units\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A)-(III), (B)-(IV), (C)-(I), (D)-(II)"
+    },
+    {
+     "key": "B",
+     "text": "(A)-(II), (B)-(IV), (C)-(I), (D)-(III)"
+    },
+    {
+     "key": "C",
+     "text": "(A)-(III), (B)-(I), (C)-(IV), (D)-(II)"
+    },
+    {
+     "key": "D",
+     "text": "(A)-(IV), (B)-(III), (C)-(I), (D)-(II)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "10cccaa9-4448-4fa8-8b00-e6f1b38082fc",
+   "subject": "chemistry",
+   "type": "sequence_ordering",
+   "stem": "Arrange the following in increasing order of molar mass (the same base is present in each):\n(A) Nucleotide\n(B) Polynucleotide chain\n(C) Nitrogenous base\n(D) Nucleoside",
+   "options": [
+    {
+     "key": "A",
+     "text": "(D), (C), (A), (B)"
+    },
+    {
+     "key": "B",
+     "text": "(C), (D), (A), (B)"
+    },
+    {
+     "key": "C",
+     "text": "(C), (A), (D), (B)"
+    },
+    {
+     "key": "D",
+     "text": "(C), (D), (B), (A)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "01d16929-b579-401b-9a88-81ff84f82232",
+   "subject": "chemistry",
+   "type": "statement_based",
+   "stem": "Consider the following statements about carbohydrates:\n(A) Maltose is a reducing sugar because one of its two glucose units has a free hemiacetal –OH group.\n(B) Sucrose reduces Tollens’ reagent because it contains a free aldehyde group.\n(C) The letter D in D-glucose refers to the configuration at the carbon farthest from the carbonyl group, the same as in D-glyceraldehyde.\n(D) Lactose gives D-galactose and D-glucose on hydrolysis.\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A), (B) and (C) only"
+    },
+    {
+     "key": "B",
+     "text": "(A), (B) and (D) only"
+    },
+    {
+     "key": "C",
+     "text": "(B), (C) and (D) only"
+    },
+    {
+     "key": "D",
+     "text": "(A), (C) and (D) only"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "254a9fb5-145a-423d-906e-a4c19bc5ed30",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "The high specificity of an enzyme for its substrate is best explained by:",
+   "options": [
+    {
+     "key": "A",
+     "text": "the enzyme shifting the equilibrium of the reaction towards the products"
+    },
+    {
+     "key": "B",
+     "text": "a metal ion that is present in every enzyme molecule"
+    },
+    {
+     "key": "C",
+     "text": "the complementary fit between the active site and the substrate"
+    },
+    {
+     "key": "D",
+     "text": "the high temperature at which enzymes work best"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "1a14c1f3-5a24-4f5b-87cf-4ca79535162e",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Which one of the following hormones is a steroid?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Testosterone"
+    },
+    {
+     "key": "B",
+     "text": "Norepinephrine"
+    },
+    {
+     "key": "C",
+     "text": "Insulin"
+    },
+    {
+     "key": "D",
+     "text": "Thyroxine"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "8ad575c4-7e7d-49e7-8364-51e79dd36658",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Deficiency of which vitamin leads to pernicious anaemia?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Vitamin B6 (pyridoxine)"
+    },
+    {
+     "key": "B",
+     "text": "Vitamin K (phylloquinone)"
+    },
+    {
+     "key": "C",
+     "text": "Vitamin B12 (cobalamin)"
+    },
+    {
+     "key": "D",
+     "text": "Vitamin E (tocopherol)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "010e16c1-2fa7-45d3-9044-5ab7bbe31d75",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "In reverse osmosis used for purifying water, the solvent passes from the solution to the pure solvent through a semipermeable membrane when the pressure applied on the solution is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "equal to the osmotic pressure of the solution"
+    },
+    {
+     "key": "B",
+     "text": "greater than the osmotic pressure of the solution"
+    },
+    {
+     "key": "C",
+     "text": "less than the osmotic pressure of the solution"
+    },
+    {
+     "key": "D",
+     "text": "equal to the vapour pressure of the pure solvent"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "c7147e61-c020-4ce4-9ca5-a48265b17d6e",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Two volatile liquids X and Y form an ideal solution. At a given temperature the vapour pressures of pure X and pure Y are 300 mmHg and 200 mmHg respectively. For a liquid containing equal numbers of moles of X and Y, the mole fraction of X in the vapour in equilibrium with it is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "0.60"
+    },
+    {
+     "key": "B",
+     "text": "0.50"
+    },
+    {
+     "key": "C",
+     "text": "0.40"
+    },
+    {
+     "key": "D",
+     "text": "0.75"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "2c7eb3a9-5d8d-4c73-b5cf-89a0466e0d3f",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "A non-volatile, non-electrolyte solute weighing 1.5 g is dissolved in 50 g of cyclohexane, and the freezing point falls by 3.0 K. Kf for cyclohexane is 20 K kg mol−1. The molar mass of the solute is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "100 g mol−1"
+    },
+    {
+     "key": "B",
+     "text": "400 g mol−1"
+    },
+    {
+     "key": "C",
+     "text": "200 g mol−1"
+    },
+    {
+     "key": "D",
+     "text": "50 g mol−1"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "0e4e6d2a-0b5f-45a4-8cdb-27515531620c",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "A solute AB2 dissociates in water as AB2 → A2+ + 2B−. A 0.10 molal aqueous solution of AB2 is 50% dissociated. Kb for water is 0.50 K kg mol−1. The elevation in boiling point of the solution is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "0.050 K"
+    },
+    {
+     "key": "B",
+     "text": "0.075 K"
+    },
+    {
+     "key": "C",
+     "text": "0.15 K"
+    },
+    {
+     "key": "D",
+     "text": "0.10 K"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "ef0f30c8-bde7-4adc-ab4a-0934d0197b63",
+   "subject": "chemistry",
+   "type": "statement_based",
+   "stem": "Consider the following statements about azeotropes:\n(A) The composition of an azeotropic mixture changes continuously during its distillation.\n(B) A solution showing positive deviation from Raoult’s law can form a minimum-boiling azeotrope.\n(C) An azeotropic mixture cannot be separated into its components by fractional distillation.\n(D) A mixture of nitric acid and water containing about 68% nitric acid is a maximum-boiling azeotrope.\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A), (B) and (C) only"
+    },
+    {
+     "key": "B",
+     "text": "(B), (C) and (D) only"
+    },
+    {
+     "key": "C",
+     "text": "(A), (B) and (D) only"
+    },
+    {
+     "key": "D",
+     "text": "(A), (C) and (D) only"
+    }
+   ],
+   "passage_text": null
+  }
+ ]
+}

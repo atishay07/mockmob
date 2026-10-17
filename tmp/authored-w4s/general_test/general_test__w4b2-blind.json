@@ -1,0 +1,506 @@
+{
+ "batch": "general_test__w4b2-blind",
+ "subject": "general_test",
+ "questions": [
+  {
+   "id": "01cb34e5-45c5-4924-af40-a6030c2225e6",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "The rover deployed on the Moon by India's Chandrayaan-3 mission in 2023 was named:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Vikram"
+    },
+    {
+     "key": "B",
+     "text": "Yutu"
+    },
+    {
+     "key": "C",
+     "text": "Lunokhod"
+    },
+    {
+     "key": "D",
+     "text": "Pragyan"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "07b12999-6fa2-45e5-8de5-06234037091e",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "At the G20 Leaders' Summit held in New Delhi in September 2023, which of the following was admitted as a permanent member of the G20?",
+   "options": [
+    {
+     "key": "A",
+     "text": "ASEAN"
+    },
+    {
+     "key": "B",
+     "text": "African Union"
+    },
+    {
+     "key": "C",
+     "text": "Arab League"
+    },
+    {
+     "key": "D",
+     "text": "Commonwealth"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "5d47dd9f-4620-4675-b779-b149852f8210",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "In 2025, which Indian astronaut became the first Indian to visit the International Space Station, flying on the Axiom-4 mission?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Shubhanshu Shukla"
+    },
+    {
+     "key": "B",
+     "text": "Rakesh Sharma"
+    },
+    {
+     "key": "C",
+     "text": "Ajit Krishnan"
+    },
+    {
+     "key": "D",
+     "text": "Prasanth Balakrishnan Nair"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "8626d182-95fe-44ca-a70a-2a8203b4e55e",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "The Nari Shakti Vandan Adhiniyam, passed by Parliament in 2023, provides for reservation of one-third of the seats for women in:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Lok Sabha and State Legislative Councils"
+    },
+    {
+     "key": "B",
+     "text": "Rajya Sabha and State Legislative Assemblies"
+    },
+    {
+     "key": "C",
+     "text": "Rajya Sabha and State Legislative Councils"
+    },
+    {
+     "key": "D",
+     "text": "Lok Sabha and State Legislative Assemblies"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "b1366004-d26e-490a-9191-a5fa84f02537",
+   "subject": "general_test",
+   "type": "statement_based",
+   "stem": "Consider the following statements about the three new criminal laws passed by Parliament in 2023.\n(A) The Bharatiya Nyaya Sanhita replaces the Indian Penal Code, 1860.\n(B) The Bharatiya Nagarik Suraksha Sanhita replaces the Code of Criminal Procedure, 1973.\n(C) The Bharatiya Sakshya Adhiniyam replaces the Indian Penal Code, 1860.\n(D) The three laws came into effect on 1 July 2024.\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A), (B) and (C) only"
+    },
+    {
+     "key": "B",
+     "text": "(B), (C) and (D) only"
+    },
+    {
+     "key": "C",
+     "text": "(A), (B) and (D) only"
+    },
+    {
+     "key": "D",
+     "text": "(A), (C) and (D) only"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "bfdecf7f-b1ea-4b31-8af7-2b20d1ada913",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Which Indian athlete won the only silver medal for India at the 2024 Paris Olympics?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Manu Bhaker"
+    },
+    {
+     "key": "B",
+     "text": "Neeraj Chopra"
+    },
+    {
+     "key": "C",
+     "text": "Vinesh Phogat"
+    },
+    {
+     "key": "D",
+     "text": "Aman Sehrawat"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "c059fbf2-49ab-43db-9643-b930923dcd06",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "India won the ICC Men's T20 World Cup in 2024. In which city was the final played?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Providence, Guyana"
+    },
+    {
+     "key": "B",
+     "text": "Gros Islet, Saint Lucia"
+    },
+    {
+     "key": "C",
+     "text": "Dubai, UAE"
+    },
+    {
+     "key": "D",
+     "text": "Bridgetown, Barbados"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "73597eea-a31f-4635-b7c7-fefec7cb8271",
+   "subject": "general_test",
+   "type": "match_the_following",
+   "stem": "Match List-I with List-II.\nList-I: (A) Narges Mohammadi (B) Geoffrey Hinton (C) Han Kang (D) Demis Hassabis\nList-II: (I) Nobel Prize in Chemistry, 2024 (II) Nobel Prize in Literature, 2024 (III) Nobel Peace Prize, 2023 (IV) Nobel Prize in Physics, 2024\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A)-(III), (B)-(IV), (C)-(II), (D)-(I)"
+    },
+    {
+     "key": "B",
+     "text": "(A)-(III), (B)-(I), (C)-(II), (D)-(IV)"
+    },
+    {
+     "key": "C",
+     "text": "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)"
+    },
+    {
+     "key": "D",
+     "text": "(A)-(I), (B)-(IV), (C)-(II), (D)-(III)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "29021b9a-f0fc-4108-81fb-32e7a8034824",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "In the 2024 Lok Sabha election, the BJP won 240 of the 543 seats. How many more seats would it have needed to reach a majority on its own?",
+   "options": [
+    {
+     "key": "A",
+     "text": "33"
+    },
+    {
+     "key": "B",
+     "text": "303"
+    },
+    {
+     "key": "C",
+     "text": "32"
+    },
+    {
+     "key": "D",
+     "text": "31"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "047ae2ba-36e7-4a08-bac8-797885b16045",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "The 2024 United Nations Climate Change Conference, COP29, was held in:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Dubai, UAE"
+    },
+    {
+     "key": "B",
+     "text": "Baku, Azerbaijan"
+    },
+    {
+     "key": "C",
+     "text": "Sharm el-Sheikh, Egypt"
+    },
+    {
+     "key": "D",
+     "text": "Glasgow, UK"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "a1455457-1272-4121-9faa-6777605864c9",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Which one of the following was NOT among the persons honoured with the Bharat Ratna in 2024?",
+   "options": [
+    {
+     "key": "A",
+     "text": "L. K. Advani"
+    },
+    {
+     "key": "B",
+     "text": "P. V. Narasimha Rao"
+    },
+    {
+     "key": "C",
+     "text": "Chaudhary Charan Singh"
+    },
+    {
+     "key": "D",
+     "text": "Pranab Mukherjee"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "9f9fb100-d89c-49fd-8f19-2bf893c1aaea",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "India's Ek Ped Maa Ke Naam plantation campaign, started in 2024, was launched on which day?",
+   "options": [
+    {
+     "key": "A",
+     "text": "World Environment Day"
+    },
+    {
+     "key": "B",
+     "text": "International Day of Forests"
+    },
+    {
+     "key": "C",
+     "text": "World Wildlife Day"
+    },
+    {
+     "key": "D",
+     "text": "International Mother Earth Day"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "7057b6a7-b107-49d6-99aa-297fe4687e3c",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Puppy : Dog :: Lamb : ?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Goat"
+    },
+    {
+     "key": "B",
+     "text": "Sheep"
+    },
+    {
+     "key": "C",
+     "text": "Deer"
+    },
+    {
+     "key": "D",
+     "text": "Cow"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "1d3bd0b5-6b6e-4fd0-bd61-290ebfaf79ed",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Five friends P, Q, R, S and T are ranked by weight. P is heavier than Q but lighter than R. S is lighter than T, and T is lighter than Q. Who is the second lightest?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Q"
+    },
+    {
+     "key": "B",
+     "text": "P"
+    },
+    {
+     "key": "C",
+     "text": "S"
+    },
+    {
+     "key": "D",
+     "text": "T"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "8b76423d-f6c6-47ee-8c20-69a4cdf9adab",
+   "subject": "general_test",
+   "type": "sequence_ordering",
+   "stem": "Arrange the following words as they would appear in a dictionary.\n(A) Planet\n(B) Plant\n(C) Plain\n(D) Plane\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(D), (C), (A), (B)"
+    },
+    {
+     "key": "B",
+     "text": "(C), (D), (B), (A)"
+    },
+    {
+     "key": "C",
+     "text": "(C), (D), (A), (B)"
+    },
+    {
+     "key": "D",
+     "text": "(C), (A), (D), (B)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "a5193f36-d325-4778-a34d-d84c80c9df12",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "At sunrise, Kiran stands so that his shadow falls on his left. He then turns 90° clockwise. Which direction is he facing now?",
+   "options": [
+    {
+     "key": "A",
+     "text": "East"
+    },
+    {
+     "key": "B",
+     "text": "West"
+    },
+    {
+     "key": "C",
+     "text": "North"
+    },
+    {
+     "key": "D",
+     "text": "South"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "4d5c33d3-dfc1-4b51-9295-fcce20d6674c",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Pointing to Anil, Ravi says, 'He is the son of my mother's only brother.' How is Anil related to Ravi?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Nephew"
+    },
+    {
+     "key": "B",
+     "text": "Maternal uncle"
+    },
+    {
+     "key": "C",
+     "text": "Brother-in-law"
+    },
+    {
+     "key": "D",
+     "text": "Cousin"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "0a76e5e8-c80c-42fe-8e89-05028b07cada",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "The ratio of boys to girls in a class is 3 : 5. If there are 12 more girls than boys, the total number of students in the class is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "18"
+    },
+    {
+     "key": "B",
+     "text": "48"
+    },
+    {
+     "key": "C",
+     "text": "30"
+    },
+    {
+     "key": "D",
+     "text": "96"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "52f17738-6e30-4fb6-9a77-21dbf32faded",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "The diagonal of a rectangle is 13 cm and its perimeter is 34 cm. The area of the rectangle is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "30 cm²"
+    },
+    {
+     "key": "B",
+     "text": "120 cm²"
+    },
+    {
+     "key": "C",
+     "text": "60 cm²"
+    },
+    {
+     "key": "D",
+     "text": "72 cm²"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "f7f57f20-8388-4720-a1c1-f41ca3da3e22",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "A sum of money amounts to ₹1,200 in 2 years at 10% per annum simple interest. The compound interest on the same sum for 2 years at 10% per annum, compounded annually, is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "₹210"
+    },
+    {
+     "key": "B",
+     "text": "₹200"
+    },
+    {
+     "key": "C",
+     "text": "₹220"
+    },
+    {
+     "key": "D",
+     "text": "₹1,210"
+    }
+   ],
+   "passage_text": null
+  }
+ ]
+}

@@ -417,10 +417,11 @@ export const PIPELINE_TEXT = Object.freeze({
   1: 'author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over all accepted items, blind re-solve of every repaired item; fresh judges (and solvers, for reworded items) on the final text where it changed afterwards',
   2: 'author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards',
   3: 'author, blind check of every draft (haiku_blind_verified), a stronger audit of 107 of the 294 drafts that solved them itself (opus_audited) with 28 rows repaired before scoring; then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready, repaired or dropped; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a full fresh pass (5 solvers, 2 quality judges, 3 CUET-fit judges) on the questions the engine refused that the expert repair reworded; published only where the two quality judges average 8 or more and the fit median is 8 or more',
+  4: 'author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)',
 });
 
 // Waves 1 and 2 keep their literal batch prefix (their tables are committed with it); wave 3 names its own run.
-const batchPrefixOf = (candidate) => (waveOf(candidate).wave === 3 ? 'authored-2026-10-17-w3__' : 'authored-2026-10-14__');
+const batchPrefixOf = (candidate) => ({ 3: 'authored-2026-10-17-w3__', 4: 'authored-2026-10-17-w4__' }[waveOf(candidate).wave] || 'authored-2026-10-14__');
 
 function provenanceOf(record, hashes, policy, header, candidate = null) {
   const wave = waveOf(candidate);
@@ -586,7 +587,9 @@ export function mergeAgentTable(base, entries, { subject, now, header, policy, r
   table.authored = {
     ...(table.authored || {}),
     [source]: {
-      note: waveOf(source).wave === 3
+      note: waveOf(source).wave === 4
+        ? 'Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the final wave-4 entries (docs/brain/reports/authored-w4/wave4-score-entries-final-2026-10-17.json, built by scripts/authored-w2-accept.mjs --wave=w4 --mode=final from the raw judge files, the expert verdicts and the blind re-solve). Per-question provenance says which text each judge scored.'
+        : waveOf(source).wave === 3
         ? 'Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the wave-3 entries (docs/brain/reports/authored-w3/wave3-score-entries-2026-10-17.json, built by scripts/authored-w2-accept.mjs --wave=w3 from the raw judge files). Per-question provenance says which text each judge scored.'
         : waveOf(source).wave === 2
         ? 'Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the final wave-2 entries (docs/brain/reports/authored-w2/wave2-score-entries-final-2026-10-14.json, built by scripts/authored-w2-accept.mjs --mode=final from the raw judge files). Per-question provenance says which text each judge scored.'
@@ -630,7 +633,9 @@ export function mergeFitTable(base, entries, { subject, now, header, policy, rub
   table.authored = {
     ...(table.authored || {}),
     [source]: {
-      note: waveOf(source).wave === 3
+      note: waveOf(source).wave === 4
+        ? 'Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the final wave-4 entries (built by scripts/authored-w2-accept.mjs --wave=w4 --mode=final). The measures block above describes the base merge only.'
+        : waveOf(source).wave === 3
         ? 'Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the wave-3 entries (built by scripts/authored-w2-accept.mjs --wave=w3). The measures block above describes the base merge only.'
         : waveOf(source).wave === 2
         ? 'Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the final wave-2 entries (built by scripts/authored-w2-accept.mjs --mode=final). The measures block above describes the base merge only.'

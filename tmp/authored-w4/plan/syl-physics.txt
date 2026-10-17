@@ -1,0 +1,118 @@
+For the Year 2026     Physics ­ 322
+                   Syllabus for CUET
+
+                   (UG)
+                                            PHYSICS-(322)
+
+Unit 1: Electrostatics
+ Electric charges, Conservation of charge, Coulomb's law-force between two- point
+
+   charges, forces between multiple charges; superposition principle and continuous charge
+   distribution, electric dipole.
+ Electric potential, potential difference, electric potential due to a point charge, a dipole and
+   system of charges; equipotential surfaces, electrical potential energy of a system of two-
+   point charges and of electric dipole in an electrostatic field.
+ Electric field, electric field lines electric field due to a point charge, electric field due to a
+   dipole, torque on a dipole in an uniform electric field.
+ Electric flux, statement of Gauss's theorem and its applications to find field due to infinitely
+   long straight wire, uniformly charged infinite plane sheet and uniformly charged thin
+   spherical shell (field inside and outside).
+ Conductors and insulators, free charges and bound charges inside a conductor. Dielectrics
+   and electric polarization, capacitors and capacitance, combination of capacitors in series
+   and in parallel, capacitance of a parallel plate capacitor with and without dielectric medium
+   between the plates, energy stored in a capacitor.
+
+Unit 2: Current Electricity
+ Electric current, flow of electric charges in a metallic conductor, drift velocity, mobility
+
+   and their relation with electric current; Ohm's law, V-I characteristics (linear and non-
+   linear), electrical energy and power, electrical resistivity and conductivity, temperature
+   dependence of resistance, Internal resistance of a cell, potential difference and emf of a
+   cell, combination of cells in series and in parallel.
+ Kirchhoff's rules, Wheatstone bridge.
+
+Unit 3: Magnetic Effects of Current and Magnetism
+
+ Concept of magnetic field, Oersted's experiment. Biot - Savart law and its application to
+   the current carrying circular loop.
+
+ Ampere's law and its applications to infinitely long straight wire. The solenoid, force on
+   a moving charge in uniform magnetic and electric fields.
+
+ Force on a current-carrying conductor in a uniform magnetic field, force between two
+   parallel current-carrying conductors-definition of ampere, current loop as a magnetic
+
+                                                                                                                                           2|Pa ge
+   dipole and its magnetic dipole moment, torque experienced by a current loop in uniform
+   magnetic field.
+
+ Moving coil galvanometer- its current sensitivity and conversion to ammeter and
+   voltmeter.
+
+ Bar magnet, bar magnet as an equivalent solenoid, magnetic field lines, magnetic field
+   intensity due to a magnetic dipole (bar magnet) along its axis and perpendicular to its axis,
+   torque on a magnetic dipole (bar magnet) in a uniform magnetic field.
+
+ Magnetic properties of materials- Para-, dia- and ferro ­ magnetic substances with
+   examples, Magnetization of materials, effect of temperature on magnetic properties.
+
+Unit 4: Electromagnetic Induction and Alternating Currents
+ Electromagnetic induction; Faraday's laws, induced emf and current; Lenz's Law, Self and
+
+   mutual induction.
+ Alternating currents, peak and rms value of alternating current/voltage; reactance and
+
+   impedance; LCR series circuit, phasors, resonance, power in AC circuits, power factor,
+   wattless current.
+ AC generator, Transformer.
+
+Unit 5: Electromagnetic Waves
+ Concept of displacement current.
+ Electromagnetic waves, their characteristics, and their transverse nature.
+ Electromagnetic spectrum (radio waves, microwaves, infrared, visible, ultraviolet, X-rays,
+
+   and gamma rays) including elementary facts about their uses.
+
+Unit 6: Optics
+ Reflection of light, spherical mirrors, mirror formula, refraction of light, total internal
+
+   reflection and optical fibers, refraction at spherical surfaces, lenses, thin lens formula, lens
+   maker's formula, magnification, power of a lens, combination of thin lenses in contact,
+   refraction and dispersion of light through a prism.
+ Optical instruments: Microscopes and astronomical telescopes (reflecting and refracting)
+   and their magnifying powers.
+ Wave front and Huygen's principle, reflection and refraction of plane waves at a plane
+   surface using wave fronts.
+ Proof of laws of reflection and refraction using Huygen's principle.
+
+                                                                                                                                           3|Pa ge
+    Coherent sources and interference of light, Young's double slit experiment and expression
+       for fringe width.
+
+    Diffraction due to a single slit, width of central maxima.
+Unit 7: Dual Nature of Matter and Radiation
+
+       · Matter waves-wave nature of particles, de-Broglie relation.
+       · Dual nature of radiation, Photoelectric effect, Hertz and Lenard's observations;
+
+           Einstein's photoelectric equation-particle nature of light. Experimental study of
+           photoelectric effect.
+
+   Unit 8: Atoms and Nuclei
+    Alpha-particle scattering experiment; Rutherford's model of atom; Bohr model of hydrogen
+
+       atom, Expression for radius of an orbit, velocity and energy of electron in an orbit,
+       hydrogen line spectra (qualitative treatment only).
+    Composition and size of nucleus, atomic number , atomic mass number, isotopes, isobars
+       and isotones, nuclear force, Mass-energy relation, mass defect; binding energy per nucleon
+       and its variation with mass number; nuclear fission, nuclear fusion.
+   Unit 9: Electronic Devices
+
+    Energy bands in conductors, semiconductors and insulators (qualitative ideas only).
+    Intrinsic and extrinsic semiconductors, p-type and n-type, p-n junction Semiconductor
+
+       diode its I-V characteristics in forward and reverse bias.
+    Application of junction diode -diode as a rectifier.
+
+                                                                                                                                                 4|Pa ge
+

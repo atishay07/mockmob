@@ -1,0 +1,260 @@
+{
+ "batch": "mathematics__w4b3",
+ "subject": "mathematics",
+ "allowed": {
+  "types": [
+   "single_mcq",
+   "match_the_following",
+   "sequence_ordering",
+   "statement_based",
+   "assertion_reason",
+   "passage_set_item"
+  ],
+  "units": [
+   {
+    "unit": "Section A1 (common)",
+    "chapters": [
+     "Matrices",
+     "Determinants",
+     "Continuity & Differentiability",
+     "Application of Derivatives",
+     "Integrals",
+     "Application of Integrals",
+     "Differential Equations",
+     "Linear Programming",
+     "Probability Distributions"
+    ]
+   },
+   {
+    "unit": "Relations and Functions",
+    "chapters": [
+     "Relations & Functions",
+     "Inverse Trigonometric Functions"
+    ]
+   },
+   {
+    "unit": "Algebra",
+    "chapters": [
+     "Matrices",
+     "Determinants"
+    ]
+   },
+   {
+    "unit": "Calculus",
+    "chapters": [
+     "Continuity & Differentiability",
+     "Application of Derivatives",
+     "Integrals",
+     "Application of Integrals",
+     "Differential Equations"
+    ]
+   },
+   {
+    "unit": "Vectors and Three-Dimensional Geometry",
+    "chapters": [
+     "Vector Algebra",
+     "Three Dimensional Geometry"
+    ]
+   },
+   {
+    "unit": "Linear Programming",
+    "chapters": [
+     "Linear Programming"
+    ]
+   },
+   {
+    "unit": "Probability",
+    "chapters": [
+     "Probability"
+    ]
+   },
+   {
+    "unit": "Applied Mathematics",
+    "chapters": [
+     "Numbers, Quantification and Numerical Applications",
+     "Probability Distributions",
+     "Time Based Data",
+     "Inferential Statistics",
+     "Financial Mathematics"
+    ]
+   }
+  ],
+  "excluded_chapters": []
+ },
+ "rows": {
+  "9afe3afa-ab58-487c-8b4a-7b04ef37c60a": {
+   "engine_unit_options": [
+    "Section A1 (common)",
+    "Calculus"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 27,
+   "read_seconds": 16
+  },
+  "c0d61bdc-7072-4121-a1b0-be91ad4757b6": {
+   "engine_unit_options": [
+    "Section A1 (common)",
+    "Calculus"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 32,
+   "read_seconds": 18
+  },
+  "9567d87f-af20-4df4-afd1-8656a2b1edcd": {
+   "engine_unit_options": [
+    "Section A1 (common)",
+    "Calculus"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 59,
+   "read_seconds": 26
+  },
+  "6e6c3c28-a723-4c1f-9359-8fbe3c7473b2": {
+   "engine_unit_options": [
+    "Section A1 (common)",
+    "Calculus"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 36,
+   "read_seconds": 19
+  },
+  "93acdf0c-24cc-46b2-864e-99207aceac5b": {
+   "engine_unit_options": [
+    "Section A1 (common)",
+    "Calculus"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 31,
+   "read_seconds": 17
+  },
+  "09ff07f0-c60c-46c9-bc65-88f4e0bc323e": {
+   "engine_unit_options": [
+    "Section A1 (common)",
+    "Calculus"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 22,
+   "read_seconds": 15
+  },
+  "4e3389a9-e5f6-464e-94da-097ecfa1b56a": {
+   "engine_unit_options": [
+    "Section A1 (common)",
+    "Calculus"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 50,
+   "read_seconds": 23
+  },
+  "f1fce836-0049-44b7-95a1-a2399fc7c66f": {
+   "engine_unit_options": [
+    "Section A1 (common)",
+    "Calculus"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 26,
+   "read_seconds": 16
+  },
+  "a2b66f59-7b62-4b7c-9a2b-6e36fc09b9f7": {
+   "engine_unit_options": [
+    "Section A1 (common)",
+    "Calculus"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 27,
+   "read_seconds": 16
+  },
+  "e3728829-e160-4205-abb4-b411b380a303": {
+   "engine_unit_options": [
+    "Section A1 (common)",
+    "Calculus"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 26,
+   "read_seconds": 16
+  },
+  "d724586b-c52b-43c1-b3b1-ea045c7d032f": {
+   "engine_unit_options": [
+    "Section A1 (common)",
+    "Calculus"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 27,
+   "read_seconds": 16
+  },
+  "4d8fefa8-332e-4969-a17b-0cf0f8215738": {
+   "engine_unit_options": [
+    "Section A1 (common)",
+    "Calculus"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 27,
+   "read_seconds": 16
+  },
+  "7ded8cb6-0906-4e49-84fa-82130df4cf14": {
+   "engine_unit_options": [
+    "Section A1 (common)",
+    "Calculus"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 92,
+   "read_seconds": 36
+  },
+  "7b509c66-2951-4c21-b23f-a1c74e1aafa9": {
+   "engine_unit_options": [
+    "Section A1 (common)",
+    "Calculus"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 23,
+   "read_seconds": 15
+  },
+  "6cdff47f-24b5-4a1a-9db2-057d41f22bd0": {
+   "engine_unit_options": [
+    "Vectors and Three-Dimensional Geometry"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 34,
+   "read_seconds": 18
+  },
+  "c8af2dc3-ec6e-43a1-b174-88e3969c1037": {
+   "engine_unit_options": [
+    "Vectors and Three-Dimensional Geometry"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 84,
+   "read_seconds": 33
+  },
+  "c7a6e607-a11b-4015-981a-dd1b3e7188c9": {
+   "engine_unit_options": [
+    "Vectors and Three-Dimensional Geometry"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 39,
+   "read_seconds": 20
+  },
+  "a525b67f-b222-4d47-b6dd-3f40ee01659a": {
+   "engine_unit_options": [
+    "Vectors and Three-Dimensional Geometry"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 31,
+   "read_seconds": 17
+  },
+  "8506b7fc-87af-46b8-ad02-5766ad045a34": {
+   "engine_unit_options": [
+    "Relations and Functions"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 16,
+   "read_seconds": 13
+  },
+  "fe67257f-25f9-46f8-911c-63ce57d6ed0c": {
+   "engine_unit_options": [
+    "Probability"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 49,
+   "read_seconds": 23
+  }
+ }
+}

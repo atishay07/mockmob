@@ -1,0 +1,37 @@
+JOB w4-math-03: Mathematics C: Calculus, Vectors, 3D Geometry, Probability, Inverse Trigonometric Functions
+Subject: mathematics | Questions: exactly 20 | source value for every question: claude-authored-2026-10-17-w4
+Blueprint: C:\Users\atish\Desktop\mockmob copy\wt-wave4\data\nta_blueprints\mathematics.json
+Syllabus PDF: C:\Users\atish\Desktop\mockmob copy\wt-wave4\data\CUET 2026\mathematics.pdf
+Avoid list (read it): C:\Users\atish\Desktop\mockmob copy\wt-wave4\tmp\authored-w4\plan\avoid\w4-math-03.txt
+
+1. CHAPTERS (the exact counts; use the chapter and unit strings exactly as written, they are the blueprint spellings; questions of one chapter stay together in the file in this order):
+   1. chapter "Continuity & Differentiability" | unit "Calculus" | 3 questions
+      Topics to draw from (one concept per question, spread across the list, no two questions on the same sub-topic): continuity at a point and the value of k that makes a function continuous, differentiability, chain rule, derivatives of inverse trigonometric, exponential and logarithmic functions, implicit differentiation, logarithmic differentiation, parametric differentiation, second order derivatives.
+   2. chapter "Application of Derivatives" | unit "Calculus" | 3 questions
+      Topics to draw from (one concept per question, spread across the list, no two questions on the same sub-topic): rate of change of quantities (area, volume, radius with time), increasing and decreasing functions (intervals), maxima and minima (first and second derivative tests), simple optimisation word problems.
+   3. chapter "Integrals" | unit "Calculus" | 2 questions
+      Topics to draw from (one concept per question, spread across the list, no two questions on the same sub-topic): integration as the inverse of differentiation, standard integrals, substitution, integration by parts, partial fractions, integrals of the standard forms 1/(x^2 + a^2), 1/(x^2 - a^2), 1/sqrt(a^2 - x^2) and so on, definite integrals, fundamental theorem of calculus, properties of definite integrals (a to b, symmetric limits).
+   4. chapter "Application of Integrals" | unit "Calculus" | 3 questions
+      Topics to draw from (one concept per question, spread across the list, no two questions on the same sub-topic): area under a curve between ordinates, area between a curve and an axis, area enclosed by a line and a parabola, circle or ellipse in standard form (simple cases whose integrals are polynomial).
+   5. chapter "Differential Equations" | unit "Calculus" | 3 questions
+      Topics to draw from (one concept per question, spread across the list, no two questions on the same sub-topic): order and degree of a differential equation, general and particular solutions, forming a differential equation from a family of curves (one parameter), variable separable method, homogeneous equations of first order and first degree, linear equations dy/dx + Py = Q and its integrating factor.
+   6. chapter "Vector Algebra" | unit "Vectors and Three-Dimensional Geometry" | 2 questions
+      Topics to draw from (one concept per question, spread across the list, no two questions on the same sub-topic): magnitude and direction ratios and cosines of a vector, types of vectors, position vector and section formula, addition and scalar multiplication, scalar (dot) product (angle, projection, perpendicularity), vector (cross) product (area of a parallelogram or triangle), unit vector.
+   7. chapter "Three Dimensional Geometry" | unit "Vectors and Three-Dimensional Geometry" | 2 questions
+      Topics to draw from (one concept per question, spread across the list, no two questions on the same sub-topic): direction cosines and direction ratios of a line, Cartesian and vector equations of a line through a point or two points, angle between two lines, skew lines and the shortest distance between two lines, parallel and perpendicular lines.
+   8. chapter "Inverse Trigonometric Functions" | unit "Relations and Functions" | 1 questions
+      Topics to draw from (one concept per question, spread across the list, no two questions on the same sub-topic): domain, range and principal value branches of the inverse trigonometric functions, principal values such as sin^-1(1/2) and cos^-1(-1/2), identities such as sin^-1 x + cos^-1 x = pi/2.
+   9. chapter "Probability" | unit "Probability" | 1 questions
+      Topics to draw from (one concept per question, spread across the list, no two questions on the same sub-topic): conditional probability, multiplication theorem, independent events, total probability theorem, Bayes theorem (two or three urns, machines or factories).
+
+2. TYPES (exact counts over the 20, set items included):
+   single_mcq 17, match_the_following 2, statement_based 1, sequence_ordering 0, assertion_reason 0
+   - match_the_following: one in the Calculus chapters (function with its derivative, or integral with its value, or equation with its order) and one in Vector Algebra or Three Dimensional Geometry (concept with its formula or condition).
+   - statement_based: one in Differential Equations or Continuity & Differentiability.
+
+3. DIFFICULTY (exact): easy 5, medium 10, hard 5. Spread each level over the chapters; do not put all the hard ones in one chapter. Use the difficulty meanings in the template; a hard item is two or three linked steps or a fine distinction at CUET level, never an Olympiad item.
+4. KEY LETTERS (exact): A 5, B 5, C 5, D 5. Decide the key letters first (a shuffled list, no pattern, no three equal in a row, no repeating cycle such as A B C D A B C D) and then build each question around its assigned letter.
+5. NUMERICALS: at least 15 of the 20 must be computed numericals (the answer is a number you worked out, units checked).
+6. SETS: none. passage_text is null and set_id is null on every question.
+
+7. FILE: C:\Users\atish\Desktop\mockmob copy\wt-wave4\tmp\authored-w4\drafts\mathematics\w4-math-03.json

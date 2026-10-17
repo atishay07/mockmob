@@ -1,0 +1,228 @@
+{
+ "general_test": {
+  "tableRows": 234,
+  "admit8": 180,
+  "admit9": 91,
+  "byChapter": {
+   "Basic Mathematical Concepts": 16,
+   "Current Affairs": 4,
+   "Numerical Ability": 32,
+   "General Science and Environment Literacy": 9,
+   "Quantitative Reasoning": 26,
+   "Logical & Analytical Reasoning": 39,
+   "General Knowledge": 23,
+   "Statistical Data Analysis": 13,
+   "General Mental Ability": 18
+  },
+  "byType": {
+   "single_mcq": 140,
+   "match_the_following": 19,
+   "statement_based": 11,
+   "assertion_reason": 3,
+   "sequence_ordering": 7
+  },
+  "byDiff": {
+   "easy": 74,
+   "medium": 98,
+   "hard": 8
+  },
+  "byChapter9": {
+   "Basic Mathematical Concepts": 7,
+   "Numerical Ability": 18,
+   "Current Affairs": 3,
+   "Quantitative Reasoning": 13,
+   "Logical & Analytical Reasoning": 17,
+   "General Knowledge": 7,
+   "General Science and Environment Literacy": 5,
+   "Statistical Data Analysis": 8,
+   "General Mental Ability": 13
+  }
+ },
+ "physics": {
+  "tableRows": 227,
+  "admit8": 136,
+  "admit9": 86,
+  "byChapter": {
+   "Alternating Current": 11,
+   "Current Electricity": 13,
+   "Dual Nature of Radiation & Matter": 8,
+   "Electric Charges & Fields": 6,
+   "Electrostatic Potential & Capacitance": 18,
+   "Electromagnetic Induction": 11,
+   "Electromagnetic Waves": 7,
+   "Magnetism & Matter": 5,
+   "Moving Charges & Magnetism": 18,
+   "Nuclei": 7,
+   "Ray Optics & Optical Instruments": 11,
+   "Semiconductor Electronics": 6,
+   "Wave Optics": 12,
+   "Atoms": 3
+  },
+  "byType": {
+   "single_mcq": 90,
+   "match_the_following": 7,
+   "assertion_reason": 20,
+   "statement_based": 18,
+   "sequence_ordering": 1
+  },
+  "byDiff": {
+   "easy": 52,
+   "medium": 83,
+   "hard": 1
+  },
+  "byChapter9": {
+   "Alternating Current": 7,
+   "Current Electricity": 9,
+   "Dual Nature of Radiation & Matter": 5,
+   "Electric Charges & Fields": 4,
+   "Electrostatic Potential & Capacitance": 9,
+   "Electromagnetic Induction": 2,
+   "Electromagnetic Waves": 6,
+   "Magnetism & Matter": 4,
+   "Moving Charges & Magnetism": 12,
+   "Nuclei": 4,
+   "Ray Optics & Optical Instruments": 7,
+   "Semiconductor Electronics": 6,
+   "Wave Optics": 9,
+   "Atoms": 2
+  }
+ },
+ "chemistry": {
+  "tableRows": 268,
+  "admit8": 175,
+  "admit9": 123,
+  "byChapter": {
+   "Alcohols, Phenols & Ethers": 22,
+   "Aldehydes, Ketones & Carboxylic Acids": 13,
+   "Coordination Compounds": 15,
+   "Chemical Kinetics": 15,
+   "Electrochemistry": 19,
+   "Haloalkanes & Haloarenes": 17,
+   "Solutions": 31,
+   "Biomolecules": 17,
+   "d- and f-Block Elements": 15,
+   "Amines": 11
+  },
+  "byType": {
+   "assertion_reason": 11,
+   "statement_based": 21,
+   "match_the_following": 22,
+   "single_mcq": 108,
+   "sequence_ordering": 13
+  },
+  "byDiff": {
+   "medium": 115,
+   "hard": 2,
+   "easy": 58
+  },
+  "byChapter9": {
+   "Aldehydes, Ketones & Carboxylic Acids": 11,
+   "Chemical Kinetics": 12,
+   "Coordination Compounds": 8,
+   "Electrochemistry": 12,
+   "Haloalkanes & Haloarenes": 15,
+   "Solutions": 17,
+   "Biomolecules": 14,
+   "d- and f-Block Elements": 13,
+   "Amines": 9,
+   "Alcohols, Phenols & Ethers": 12
+  }
+ },
+ "mathematics": {
+  "tableRows": 204,
+  "admit8": 139,
+  "admit9": 81,
+  "byChapter": {
+   "Integrals": 22,
+   "Application of Derivatives": 12,
+   "Continuity & Differentiability": 11,
+   "Determinants": 11,
+   "Differential Equations": 10,
+   "Linear Programming": 9,
+   "Vector Algebra": 9,
+   "Financial Mathematics": 2,
+   "Inverse Trigonometric Functions": 7,
+   "Matrices": 5,
+   "Inferential Statistics": 1,
+   "Probability Distributions": 5,
+   "Probability": 12,
+   "Relations & Functions": 10,
+   "Three Dimensional Geometry": 8,
+   "Time Based Data": 2,
+   "Application of Integrals": 3
+  },
+  "byType": {
+   "single_mcq": 113,
+   "statement_based": 10,
+   "match_the_following": 12,
+   "assertion_reason": 4
+  },
+  "byDiff": {
+   "easy": 56,
+   "medium": 80,
+   "hard": 3
+  },
+  "byChapter9": {
+   "Integrals": 12,
+   "Continuity & Differentiability": 7,
+   "Determinants": 7,
+   "Differential Equations": 8,
+   "Linear Programming": 3,
+   "Inverse Trigonometric Functions": 3,
+   "Matrices": 1,
+   "Inferential Statistics": 1,
+   "Probability Distributions": 3,
+   "Probability": 7,
+   "Relations & Functions": 6,
+   "Vector Algebra": 6,
+   "Three Dimensional Geometry": 6,
+   "Application of Derivatives": 9,
+   "Application of Integrals": 2
+  }
+ },
+ "biology": {
+  "tableRows": 235,
+  "admit8": 120,
+  "admit9": 59,
+  "byChapter": {
+   "Biodiversity & Conservation": 4,
+   "Biotechnology Principles & Processes": 16,
+   "Ecosystem": 4,
+   "Evolution": 16,
+   "Principles of Inheritance & Variation": 14,
+   "Human Health & Disease": 5,
+   "Reproductive Health": 7,
+   "Human Reproduction": 8,
+   "Microbes in Human Welfare": 4,
+   "Molecular Basis of Inheritance": 10,
+   "Organisms & Populations": 7,
+   "Sexual Reproduction in Flowering Plants": 20,
+   "Biotechnology & its Applications": 5
+  },
+  "byType": {
+   "assertion_reason": 14,
+   "match_the_following": 26,
+   "single_mcq": 64,
+   "statement_based": 9,
+   "sequence_ordering": 7
+  },
+  "byDiff": {
+   "medium": 61,
+   "easy": 59
+  },
+  "byChapter9": {
+   "Biotechnology Principles & Processes": 6,
+   "Evolution": 5,
+   "Principles of Inheritance & Variation": 8,
+   "Human Health & Disease": 3,
+   "Reproductive Health": 4,
+   "Human Reproduction": 5,
+   "Molecular Basis of Inheritance": 7,
+   "Organisms & Populations": 2,
+   "Sexual Reproduction in Flowering Plants": 12,
+   "Ecosystem": 3,
+   "Microbes in Human Welfare": 2,
+   "Biodiversity & Conservation": 2
+  }
+ }
+}

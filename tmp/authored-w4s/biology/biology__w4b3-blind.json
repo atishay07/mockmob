@@ -1,0 +1,506 @@
+{
+ "batch": "biology__w4b3-blind",
+ "subject": "biology",
+ "questions": [
+  {
+   "id": "b8374232-3875-4669-a6aa-d2a27190437b",
+   "subject": "biology",
+   "type": "single_mcq",
+   "stem": "A student isolating DNA from plant leaves wants to break the cell wall and then free the DNA of RNA and proteins. Which combination of enzymes should be used?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Cellulase for the cell wall, ribonuclease for RNA and protease for proteins"
+    },
+    {
+     "key": "B",
+     "text": "Lysozyme for the cell wall, ribonuclease for RNA and protease for proteins"
+    },
+    {
+     "key": "C",
+     "text": "Chitinase for the cell wall, ribonuclease for RNA and protease for proteins"
+    },
+    {
+     "key": "D",
+     "text": "Cellulase for the cell wall, ribonuclease for proteins and protease for RNA"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "2174cc38-ef8a-41be-9d52-6db3b89bf9a8",
+   "subject": "biology",
+   "type": "sequence_ordering",
+   "stem": "Arrange the following steps in the development of an insect-resistant transgenic plant in the correct order.\n(A) Regeneration of whole plants from the transformed cells by tissue culture\n(B) Insertion of the cry gene into the Ti plasmid\n(C) Isolation of the cry gene from Bacillus thuringiensis\n(D) Infection of plant explants with Agrobacterium carrying the recombinant plasmid",
+   "options": [
+    {
+     "key": "A",
+     "text": "(C), (D), (B), (A)"
+    },
+    {
+     "key": "B",
+     "text": "(B), (C), (D), (A)"
+    },
+    {
+     "key": "C",
+     "text": "(C), (B), (D), (A)"
+    },
+    {
+     "key": "D",
+     "text": "(C), (B), (A), (D)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "df20c45d-ee4a-4663-bf36-621580f47bca",
+   "subject": "biology",
+   "type": "single_mcq",
+   "stem": "In the first commercial production of human insulin by recombinant DNA technology, the A and B polypeptide chains were made in separate E. coli cultures and then:",
+   "options": [
+    {
+     "key": "A",
+     "text": "extracted and joined by creating disulphide bonds between them"
+    },
+    {
+     "key": "B",
+     "text": "joined end to end by peptide bonds formed by the enzyme DNA ligase"
+    },
+    {
+     "key": "C",
+     "text": "treated with enzymes to remove a C peptide from each chain"
+    },
+    {
+     "key": "D",
+     "text": "cut by restriction endonucleases and ligated into one plasmid"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "58f32816-a7bf-41db-9e06-3b4add80291a",
+   "subject": "biology",
+   "type": "single_mcq",
+   "stem": "A foreign company is granted a patent on a product made from a crop variety that farmers of another country developed over centuries, without the farmers' permission or any compensation to them. This is an example of:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Bioprospecting"
+    },
+    {
+     "key": "B",
+     "text": "Biofortification"
+    },
+    {
+     "key": "C",
+     "text": "Bioethics"
+    },
+    {
+     "key": "D",
+     "text": "Biopiracy"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "d37125e8-0209-40a9-aa19-4be3804a1682",
+   "subject": "biology",
+   "type": "single_mcq",
+   "stem": "Transgenic animals are preferred to normal animals for toxicity testing of chemicals because they:",
+   "options": [
+    {
+     "key": "A",
+     "text": "grow and reproduce much faster, so many generations can be tested quickly"
+    },
+    {
+     "key": "B",
+     "text": "carry genes that make them more sensitive to toxic substances"
+    },
+    {
+     "key": "C",
+     "text": "have a faster metabolism, so the chemical is cleared from the body quickly"
+    },
+    {
+     "key": "D",
+     "text": "carry human genes that neutralise the chemical before it can harm them"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "53f7ec15-6f15-490b-bc13-2454749bf0a1",
+   "subject": "biology",
+   "type": "single_mcq",
+   "stem": "The plate-based test described for the first patient is an example of:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Polymerase chain reaction assay"
+    },
+    {
+     "key": "B",
+     "text": "Enzyme-linked immunosorbent assay"
+    },
+    {
+     "key": "C",
+     "text": "Gel electrophoresis of serum proteins"
+    },
+    {
+     "key": "D",
+     "text": "Radioactive probe hybridisation"
+    }
+   ],
+   "passage_text": "A hospital laboratory receives blood samples from two patients. The first patient has had a fever for several days. The laboratory coats the wells of a plastic plate with a protein from the suspected virus, adds the patient's serum and washes the plate. A second antibody carrying an enzyme is then added, followed by a colourless substrate. A well turns coloured only if the serum held antibodies that stuck to the viral protein, and a deeper colour means more antibody. Because antibodies appear in the blood only some days after infection, the laboratory uses another approach for people exposed very recently: a short stretch of the pathogen's genetic material is copied millions of times in a thermal cycler, so that even a tiny number of pathogen particles can be found.\n\nThe second sample is from a newborn who is being screened for an inherited disorder caused by a mutation in one gene. A short single-stranded DNA fragment, tagged with a radioactive label, is added to the baby's denatured DNA. The fragment is complementary to the normal sequence of the gene, and it attaches only where it finds that sequence. The places where it has attached are later shown by exposing a photographic film."
+  },
+  {
+   "id": "65134122-0ff0-4601-b4e4-1dc76ae6bf66",
+   "subject": "biology",
+   "type": "single_mcq",
+   "stem": "A person exposed to the virus only a day earlier is tested by both the plate method and the copying method described. The most likely results, in that order, are:",
+   "options": [
+    {
+     "key": "A",
+     "text": "antibodies detected; pathogen genetic material not detected"
+    },
+    {
+     "key": "B",
+     "text": "antibodies not detected; pathogen genetic material not detected"
+    },
+    {
+     "key": "C",
+     "text": "antibodies detected; pathogen genetic material detected"
+    },
+    {
+     "key": "D",
+     "text": "antibodies not detected; pathogen genetic material detected"
+    }
+   ],
+   "passage_text": "A hospital laboratory receives blood samples from two patients. The first patient has had a fever for several days. The laboratory coats the wells of a plastic plate with a protein from the suspected virus, adds the patient's serum and washes the plate. A second antibody carrying an enzyme is then added, followed by a colourless substrate. A well turns coloured only if the serum held antibodies that stuck to the viral protein, and a deeper colour means more antibody. Because antibodies appear in the blood only some days after infection, the laboratory uses another approach for people exposed very recently: a short stretch of the pathogen's genetic material is copied millions of times in a thermal cycler, so that even a tiny number of pathogen particles can be found.\n\nThe second sample is from a newborn who is being screened for an inherited disorder caused by a mutation in one gene. A short single-stranded DNA fragment, tagged with a radioactive label, is added to the baby's denatured DNA. The fragment is complementary to the normal sequence of the gene, and it attaches only where it finds that sequence. The places where it has attached are later shown by exposing a photographic film."
+  },
+  {
+   "id": "ad0c0f11-adaa-4a9b-aae2-95288ca2e8e5",
+   "subject": "biology",
+   "type": "single_mcq",
+   "stem": "Which of the following babies would show no dark spot at the position of the gene on the film?",
+   "options": [
+    {
+     "key": "A",
+     "text": "A baby with the mutation in both copies of the gene"
+    },
+    {
+     "key": "B",
+     "text": "A baby with the mutation in one of the two copies of the gene"
+    },
+    {
+     "key": "C",
+     "text": "A baby with two normal copies of the gene"
+    },
+    {
+     "key": "D",
+     "text": "A baby with two normal copies of the gene and a mutation in a different gene"
+    }
+   ],
+   "passage_text": "A hospital laboratory receives blood samples from two patients. The first patient has had a fever for several days. The laboratory coats the wells of a plastic plate with a protein from the suspected virus, adds the patient's serum and washes the plate. A second antibody carrying an enzyme is then added, followed by a colourless substrate. A well turns coloured only if the serum held antibodies that stuck to the viral protein, and a deeper colour means more antibody. Because antibodies appear in the blood only some days after infection, the laboratory uses another approach for people exposed very recently: a short stretch of the pathogen's genetic material is copied millions of times in a thermal cycler, so that even a tiny number of pathogen particles can be found.\n\nThe second sample is from a newborn who is being screened for an inherited disorder caused by a mutation in one gene. A short single-stranded DNA fragment, tagged with a radioactive label, is added to the baby's denatured DNA. The fragment is complementary to the normal sequence of the gene, and it attaches only where it finds that sequence. The places where it has attached are later shown by exposing a photographic film."
+  },
+  {
+   "id": "f6532e00-b9e0-4b76-82a0-296ef910b429",
+   "subject": "biology",
+   "type": "single_mcq",
+   "stem": "Why is the baby's DNA denatured before the labelled fragment is added?",
+   "options": [
+    {
+     "key": "A",
+     "text": "To cut the DNA into short pieces that can then bind to the film"
+    },
+    {
+     "key": "B",
+     "text": "To remove proteins that would attach to the fragment"
+    },
+    {
+     "key": "C",
+     "text": "To separate the two strands so the fragment can pair with them"
+    },
+    {
+     "key": "D",
+     "text": "To label the DNA radioactively so that it shows up on the film"
+    }
+   ],
+   "passage_text": "A hospital laboratory receives blood samples from two patients. The first patient has had a fever for several days. The laboratory coats the wells of a plastic plate with a protein from the suspected virus, adds the patient's serum and washes the plate. A second antibody carrying an enzyme is then added, followed by a colourless substrate. A well turns coloured only if the serum held antibodies that stuck to the viral protein, and a deeper colour means more antibody. Because antibodies appear in the blood only some days after infection, the laboratory uses another approach for people exposed very recently: a short stretch of the pathogen's genetic material is copied millions of times in a thermal cycler, so that even a tiny number of pathogen particles can be found.\n\nThe second sample is from a newborn who is being screened for an inherited disorder caused by a mutation in one gene. A short single-stranded DNA fragment, tagged with a radioactive label, is added to the baby's denatured DNA. The fragment is complementary to the normal sequence of the gene, and it attaches only where it finds that sequence. The places where it has attached are later shown by exposing a photographic film."
+  },
+  {
+   "id": "c2cb9280-2619-4f53-91d3-a150d13d433a",
+   "subject": "biology",
+   "type": "statement_based",
+   "stem": "Consider the following statements about the two tests described.\n(A) The first test detects antibodies made against the viral protein, not the virus itself.\n(B) The enzyme that produces the colour is carried by the second antibody.\n(C) The labelled fragment used in the second test is double-stranded.\n(D) The second test depends on base pairing between the fragment and the baby's DNA.\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A), (B) and (D) only"
+    },
+    {
+     "key": "B",
+     "text": "(A), (C) and (D) only"
+    },
+    {
+     "key": "C",
+     "text": "(B), (C) and (D) only"
+    },
+    {
+     "key": "D",
+     "text": "(A), (B) and (C) only"
+    }
+   ],
+   "passage_text": "A hospital laboratory receives blood samples from two patients. The first patient has had a fever for several days. The laboratory coats the wells of a plastic plate with a protein from the suspected virus, adds the patient's serum and washes the plate. A second antibody carrying an enzyme is then added, followed by a colourless substrate. A well turns coloured only if the serum held antibodies that stuck to the viral protein, and a deeper colour means more antibody. Because antibodies appear in the blood only some days after infection, the laboratory uses another approach for people exposed very recently: a short stretch of the pathogen's genetic material is copied millions of times in a thermal cycler, so that even a tiny number of pathogen particles can be found.\n\nThe second sample is from a newborn who is being screened for an inherited disorder caused by a mutation in one gene. A short single-stranded DNA fragment, tagged with a radioactive label, is added to the baby's denatured DNA. The fragment is complementary to the normal sequence of the gene, and it attaches only where it finds that sequence. The places where it has attached are later shown by exposing a photographic film."
+  },
+  {
+   "id": "7139c5fb-2849-4497-a671-21a9c5bf2e81",
+   "subject": "biology",
+   "type": "single_mcq",
+   "stem": "Population density in the tiger census of Indian reserves is commonly estimated from:",
+   "options": [
+    {
+     "key": "A",
+     "text": "the percentage cover of grass and shrubs in each reserve"
+    },
+    {
+     "key": "B",
+     "text": "the total biomass of the prey species"
+    },
+    {
+     "key": "C",
+     "text": "a direct headcount of every tiger on a single day"
+    },
+    {
+     "key": "D",
+     "text": "indirect signs such as pug marks and faecal pellets"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "03f95952-f882-4150-acef-2ef0449a2aca",
+   "subject": "biology",
+   "type": "sequence_ordering",
+   "stem": "Arrange the following phases of a population growing in a limited habitat in the order in which they occur over time.\n(A) Phase of deceleration\n(B) Lag phase\n(C) Asymptote near the carrying capacity\n(D) Phase of acceleration",
+   "options": [
+    {
+     "key": "A",
+     "text": "(B), (A), (D), (C)"
+    },
+    {
+     "key": "B",
+     "text": "(D), (B), (A), (C)"
+    },
+    {
+     "key": "C",
+     "text": "(B), (D), (A), (C)"
+    },
+    {
+     "key": "D",
+     "text": "(B), (D), (C), (A)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "b00e6e59-df3f-43dc-80d5-338ccfb71dfa",
+   "subject": "biology",
+   "type": "match_the_following",
+   "stem": "Match List-I with List-II.\nList-I: (A) Commensalism (B) Predation (C) Competition (D) Parasitism\nList-II: (I) Cuscuta on a hedge plant (II) Orchid growing on a mango branch (III) Cactoblastis moth feeding on prickly pear (IV) Abingdon tortoise and introduced goats on Galapagos\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A)-(III), (B)-(II), (C)-(IV), (D)-(I)"
+    },
+    {
+     "key": "B",
+     "text": "(A)-(II), (B)-(III), (C)-(IV), (D)-(I)"
+    },
+    {
+     "key": "C",
+     "text": "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)"
+    },
+    {
+     "key": "D",
+     "text": "(A)-(I), (B)-(III), (C)-(IV), (D)-(II)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "dc0f5ddb-206b-4a54-acf9-c705ed8b971d",
+   "subject": "biology",
+   "type": "single_mcq",
+   "stem": "The major pathways of energy flow in a terrestrial ecosystem and in an aquatic ecosystem, respectively, are the:",
+   "options": [
+    {
+     "key": "A",
+     "text": "detritus food chain and the grazing food chain"
+    },
+    {
+     "key": "B",
+     "text": "grazing food chain and the detritus food chain"
+    },
+    {
+     "key": "C",
+     "text": "grazing food chain in both of them"
+    },
+    {
+     "key": "D",
+     "text": "detritus food chain in both of them"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "9b3560f6-3b1c-4865-ac59-98027ad40a31",
+   "subject": "biology",
+   "type": "sequence_ordering",
+   "stem": "Arrange the following events in the decomposition of dead plant litter in the correct order.\n(A) Formation of dark, amorphous humus\n(B) Release of inorganic nutrients from humus\n(C) Breakdown of detritus into smaller particles by earthworms\n(D) Degradation of detritus by bacterial and fungal enzymes",
+   "options": [
+    {
+     "key": "A",
+     "text": "(C), (A), (D), (B)"
+    },
+    {
+     "key": "B",
+     "text": "(D), (C), (A), (B)"
+    },
+    {
+     "key": "C",
+     "text": "(C), (D), (A), (B)"
+    },
+    {
+     "key": "D",
+     "text": "(C), (D), (B), (A)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "47f1daf6-2e46-4659-80ba-53388a92114f",
+   "subject": "biology",
+   "type": "sequence_ordering",
+   "stem": "Arrange the following in decreasing order of the amount of energy at each step of energy capture in a terrestrial ecosystem.\n(A) Photosynthetically active radiation\n(B) Gross primary productivity\n(C) Net primary productivity\n(D) Incident solar radiation",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A), (D), (B), (C)"
+    },
+    {
+     "key": "B",
+     "text": "(D), (A), (B), (C)"
+    },
+    {
+     "key": "C",
+     "text": "(D), (A), (C), (B)"
+    },
+    {
+     "key": "D",
+     "text": "(D), (B), (A), (C)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "cf3ce18f-6c8c-4264-8cf8-b8ebc95aee46",
+   "subject": "biology",
+   "type": "statement_based",
+   "stem": "Consider the following statements about ecological pyramids.\n(A) The pyramid of biomass in the sea is generally inverted.\n(B) A species that occupies two trophic levels is accounted for in an ecological pyramid.\n(C) Ecological pyramids assume a simple food chain and do not accommodate a food web.\n(D) Saprophytes are not given any place in ecological pyramids.\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A), (B) and (C) only"
+    },
+    {
+     "key": "B",
+     "text": "(B), (C) and (D) only"
+    },
+    {
+     "key": "C",
+     "text": "(A), (B) and (D) only"
+    },
+    {
+     "key": "D",
+     "text": "(A), (C) and (D) only"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "0269f538-ba1b-41ce-a80c-1748b986ea88",
+   "subject": "biology",
+   "type": "single_mcq",
+   "stem": "Which of the following statements about the species-area relationship is correct?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Plotted on log scales it is a straight line whose slope is steepest for very large areas such as entire continents"
+    },
+    {
+     "key": "B",
+     "text": "Plotted on arithmetic scales it is a straight line whose slope is the same for all taxonomic groups and regions"
+    },
+    {
+     "key": "C",
+     "text": "Within a region, species richness keeps rising in proportion to the area explored, with no upper limit"
+    },
+    {
+     "key": "D",
+     "text": "The slope on log scales is 0.6 to 1.2 for small areas and 0.1 to 0.2 for entire continents"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "61165895-71ee-4a42-accb-05ee502b7960",
+   "subject": "biology",
+   "type": "single_mcq",
+   "stem": "Which of the following is NOT a reason suggested for the greater species diversity of the tropics compared with temperate regions?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Tropical latitudes have remained undisturbed for millions of years, giving species a long time to evolve"
+    },
+    {
+     "key": "B",
+     "text": "Tropical regions were repeatedly covered by glaciers, which forced their species to diversify rapidly"
+    },
+    {
+     "key": "C",
+     "text": "Tropical environments are less seasonal and more constant, which promotes niche specialisation"
+    },
+    {
+     "key": "D",
+     "text": "Greater solar energy in the tropics gives higher productivity, which supports more species"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "c4a7ad38-8758-41ef-9095-d08d22ef8c74",
+   "subject": "biology",
+   "type": "single_mcq",
+   "stem": "Which of the following is an example of a broadly utilitarian argument for conserving biodiversity?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Forest plants yield timber, resin and medicines that can be sold"
+    },
+    {
+     "key": "B",
+     "text": "Every species has a right to exist whatever its use to humans"
+    },
+    {
+     "key": "C",
+     "text": "Pollinators in a forest raise the yield of crops on nearby farms"
+    },
+    {
+     "key": "D",
+     "text": "Wild relatives of crops are screened for new drugs and industrial products"
+    }
+   ],
+   "passage_text": null
+  }
+ ]
+}

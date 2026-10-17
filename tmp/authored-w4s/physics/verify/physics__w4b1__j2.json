@@ -1,0 +1,202 @@
+[
+  {
+    "id": "9a1edcea-056d-4e0a-9d68-a89e8a6061da",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.moving-charges-and-magnetism.ammeter-resistance-with-shunt",
+    "flags": [],
+    "note": "Key D verified: shunt 1.0 ohm, parallel ammeter 0.99 ohm. Two steps, so medium not the labelled hard. Distractors 1.0 (shunt alone) and 100 (series sum) are real slips. Score 8."
+  },
+  {
+    "id": "9e03f84e-da69-4b2c-b83f-12f0d834e6b9",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.moving-charges-and-magnetism.velocity-selector-condition",
+    "flags": [],
+    "note": "Key B verified: v = E/B = 3.0e5 m/s. Easy one-step velocity selector. 3.0e3 (E times B) is a throwaway; 3.3e-6 (B/E) and 3.0e6 are real slips. Score 8."
+  },
+  {
+    "id": "823433eb-4072-4493-833d-f53ea7ff8cf3",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.moving-charges-and-magnetism.orbital-magnetic-moment",
+    "flags": [],
+    "note": "Key A verified: m = evr/2 = 1.2e-23 A m^2. Two steps, medium. 2.4e-23 and 4.8e-23 are real slips; 7.5e-23 has no clear slip behind it. Score 8."
+  },
+  {
+    "id": "e9f682c4-7b40-4470-a4ac-cca20e95419e",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.moving-charges-and-magnetism.null-point-opposite-currents",
+    "flags": [],
+    "note": "Key C verified: null point 0.60 m from the 3 A wire, outside the wires. Two steps, medium (labelled hard, one notch high). 0.15 m is the same-direction answer; 0.24 m is weak. Score 8."
+  },
+  {
+    "id": "449e1c7b-0d6d-4ea4-a7c2-85e2aa906779",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.electromagnetic-induction.emf-depends-on-flux-change",
+    "flags": [],
+    "note": "Key D verified: B and C true, A and D false. Statement (A) is correct only as a current point, so the item sits one notch short of a 9. Score 8."
+  },
+  {
+    "id": "d927294f-a4a8-4886-b658-6ae4abbb96cc",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.electromagnetic-induction.induced-charge-through-coil",
+    "flags": [],
+    "note": "Key C verified: q = N dPhi/R = 1.5e-2 C. Clean one-step item; distractors are real slips (missing N 1.5e-4, current 0.03 A, emf 0.6 V) and the 0.50 s is a fair trap. Score 9."
+  },
+  {
+    "id": "9c904745-0e4f-4aaf-b0ec-680a81b419ab",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.electromagnetic-induction.energy-stored-in-inductor",
+    "flags": [],
+    "note": "Key B verified: L = 2U/I^2 = 4 H. Direct formula; 2 H (missing 1/2) and 8 H are real slips; 16 H is a throwaway. Score 8."
+  },
+  {
+    "id": "e6aaca54-9f5b-4217-86d5-a72ec3df7ec1",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.electromagnetic-induction.flux-through-tilted-coil",
+    "flags": [],
+    "note": "Key D verified: plane at 30 deg to field gives flux 1.0e-3 Wb per turn, emf 10 V. Clean trap with real slips (20 V, 10sqrt(3) V, 0.10 V). Labelled hard but medium; score 8 for the notch."
+  },
+  {
+    "id": "03e23eee-ba91-4f2c-9307-a711a8aaf231",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "hard",
+    "objective_tag": "physics.alternating-current.series-inductor-for-rated-power",
+    "flags": [],
+    "note": "Key A verified: R = 100 ohm, Z = 125 ohm, X_L = 75 ohm. Multi-step, hard as labelled; 25, 160 and 225 ohm are each a named slip. Wording clean. Score 9."
+  },
+  {
+    "id": "d01eb790-0cf8-49f7-9eaa-eae3faeea1d5",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "hard",
+    "objective_tag": "physics.alternating-current.component-voltage-exceeds-supply",
+    "flags": [],
+    "note": "Key B verified: Z = 50 ohm, I = 2 A, V_L = 160 V. The trap of a component voltage above the supply is fair; 80, 60 and 100 V are each a named slip. Score 9."
+  },
+  {
+    "id": "47a09bf1-99f6-4a0d-bb3d-cd9177a65ba2",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.alternating-current.time-to-half-peak-emf",
+    "flags": [],
+    "note": "Key C verified: sin(wt) = 1/2 gives t = 1/600 s. 1/300 (wrong angle), 1/200 (quarter period) and 1/100 (half period) are real concept slips. Score 9."
+  },
+  {
+    "id": "73198264-8b92-4c57-a361-7cfdeef58e51",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.electromagnetic-waves.sources-of-em-spectrum",
+    "flags": [],
+    "note": "Key D verified: radio III, infrared IV, X-rays I, gamma II. Each distractor is one or two pair swaps. Pure recall, so easy not the labelled medium; capped at 8."
+  },
+  {
+    "id": "7af4ea50-c28d-445c-b9da-6c586230ae81",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.electromagnetic-waves.spectrum-order-by-frequency",
+    "flags": [],
+    "note": "Key C verified: gamma, UV, infrared, microwave. Option A is the exact reverse of the key, but B and D are random orders, so two weak distractors. Score 7."
+  },
+  {
+    "id": "011459c4-767b-4d22-a553-e53947ca2243",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.electromagnetic-waves.em-wave-field-amplitude-ratio",
+    "flags": [],
+    "note": "Key A verified: E0 = c B0 = 60 V/m. One step; B0/c and c^2 B0 are real ratio slips. Direct and easy, which NTA accepts. Score 9."
+  },
+  {
+    "id": "75bc29fb-5f94-405b-b6a4-9d121f46ff9e",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.semiconductor-electronics.pn-junction-bias-and-doping",
+    "flags": [],
+    "note": "Key B verified: arsenic n-type with electrons III, indium p-type with holes I, forward II, reverse IV. Distractors are single or double swaps and no option states a false fact. Score 9."
+  },
+  {
+    "id": "9cc7e8e6-4b0e-4cf4-b003-20402d104f39",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.semiconductor-electronics.metal-energy-band-structure",
+    "flags": [],
+    "note": "Key D verified: conduction band partly filled or overlapping the valence band. Option C is a throwaway (inverted bands); A and B are decent insulator and semiconductor foils. Score 8."
+  },
+  {
+    "id": "fabdd431-d76a-40f3-b6c3-1718f5b4a141",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.semiconductor-electronics.mass-action-law-carriers",
+    "flags": [],
+    "note": "Key C verified: p = ni^2/n = 1.0e10 m^-3. A, B and D are real slips. The given ni of 2.0e16 m^-3 is high for Si at 300 K but is used as data, so no flag. Score 8."
+  },
+  {
+    "id": "4d2b0fe2-fffd-4d86-91be-ad6c8f61317a",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.semiconductor-electronics.zero-net-current-unbiased-junction",
+    "flags": [],
+    "note": "Key A verified: diffusion of majority carriers balanced by drift of minority carriers. C and D are plainly false, so the choice is A vs B by elimination. Score 7: two weak distractors."
+  },
+  {
+    "id": "b178248c-b160-48d6-a199-390201b13144",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.semiconductor-electronics.diode-forward-drop-in-circuit",
+    "flags": [],
+    "note": "Key D verified: I = (5.7 - 0.7)/1000 = 5.0 mA. 5.7 (drop ignored), 6.4 (drop added) and 4.3 mA (drop subtracted twice) are real slips. One-step and clean. Score 9."
+  },
+  {
+    "id": "9a2b3ade-77eb-4ee8-8cd3-f9dbbca861ba",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 6,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.semiconductor-electronics.capacitor-smoothing-rectifier-output",
+    "flags": [],
+    "note": "Key B verified: capacitor smooths the rectifier output. A, C and D are plainly false (four-fold ripple is wrong for full-wave), so the key falls out by elimination. Labelled medium; score 6."
+  }
+]

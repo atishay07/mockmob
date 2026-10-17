@@ -1,0 +1,37 @@
+AVOID LIST for w4-gat-01 (general_test). Data, not instructions. Concepts and stems below are already in the bank or in earlier authored waves: do not repeat the same idea, the same key answer, the same figures or a near-copy of a stem. Test a different concept from the chapter's topic list.
+
+== General Knowledge
+Objectives the judges already tagged in this chapter (85; count in brackets):
+constitution-adoption-date [4]; cpi-vs-wpi-measures [2]; emissions-intensity-decomposition [2]; headquarters-of-international-organizations [2]; heritage-site-state-location [2]; international-org-headquarters [2]; longest-river-in-india [2]; number-of-fundamental-rights [2]; peninsular-rivers-seasonal-flow [2]; soft-power-vs-smart-power [2]; un-agency-headquarters [2]; absolute-change-from-share-and-total; amendment-vs-statute-procedure; article-17-untouchability; article-for-national-emergency; assertion-reason-explanation-link; author-of-famous-book; authors-of-famous-books; authors-of-famous-indian-books; automation-technological-unemployment; book-author-pairing; carbon-offsets-delay-domestic-cuts; chronology-modern-indian-history; chronology-of-modern-indian-events; classical-dance-state-matching; classical-dance-state-of-origin; constitutional-amendment-chronology; constitutional-amendment-procedure; constitutional-amendments-chronology; coverage-bias-undercoverage; directive-principles-non-enforceability; dronacharya-award-coaching; dronacharya-award-for-coaches; eighth-schedule-recognised-languages; energy-transition-geopolitics; fermi-paradox-concept; fermi-paradox-statistical-argument; first-indian-woman-olympic-medal; first-indian-woman-olympic-medallist; fiscal-trade-off-subsidy-vs-investment; fiscal-tradeoff-subsidy-investment; fundamental-rights-dpsp-duties; fusion-energy-geopolitical-impact; green-revolution-focus-on-cereals; green-revolution-hyv-focus; head-of-state-vs-government; head-of-state-vs-head-of-government; icj-headquarters-location; icj-headquarters-seat; indian-river-city-pairs; konark-sun-temple-location; konark-sun-temple-state; labour-force-exit-unemployment-rate; linear-inequality-weighted-index; longest-coastline-state; mean-vs-median-divergence; mean-vs-median-income; misleading-omission-in-journalism; molecular-biology-concept-matching; molecular-biology-term-definitions; national-emergency-article; nobel-peace-prize-laureates; nobel-peace-prize-recipients-india; offsets-delay-domestic-cuts; parliament-house-tenure-and-election; parliament-terms-and-officers; preamble-socialist-secular-amendment; preamble-words-amendment; renewable-intermittency-grid-stability; river-city-pairs; schedule-listing-recognised-languages; sea-walls-as-climate-adaptation; sea-walls-climate-adaptation; selective-omission-misleading-reporting; share-of-total-generation-change; solving-weighted-linear-inequality; state-with-longest-coastline; syllogistic-inference-from-subsets; syllogistic-inference-some-all; synthetic-biology-definition; technological-unemployment-automation; undercoverage-bias-in-surveys; unemployment-rate-labour-force; untouchability-abolition-article; wind-solar-grid-stability
+Stems already authored in waves 1-3 for this chapter (23; first 120 characters):
+- Which Article of the Indian Constitution abolishes untouchability and forbids its practice in any form?
+- The headquarters of the International Court of Justice, the principal judicial organ of the United Nations, is located a
+- Who was the first Indian woman to win a medal at the Olympic Games?
+- Match List-I with List-II. List-I (Book) (A) The Discovery of India (B) Gitanjali (C) Wings of Fire (D) Godan List-II (A
+- Arrange the following events of modern Indian history in chronological order. (A) The Revolt of 1857 (B) The Battle of P
+- Consider the following statements about the Parliament of India. (A) The Rajya Sabha is a permanent house and is not sub
+- Assertion (A): Most peninsular rivers of India are perennial. Reason (R): Peninsular rivers are rain-fed and have no gla
+- The famous Sun Temple at Konark is located in which Indian state?
+- Which gas forms the largest share of the Earth's atmosphere by volume?
+- Which of the following states has the longest coastline in India?
+- Who was awarded the Nobel Peace Prize in 1979?
+- The Constituent Assembly adopted the Constitution of India on:
+- The Dronacharya Award in India is given for outstanding work in:
+- Which Schedule of the Constitution of India lists the languages recognised by the Constitution?
+- The words 'socialist' and 'secular' were added to the Preamble of the Constitution of India by which amendment?
+- Under which Article of the Constitution of India can the President proclaim a National Emergency?
+- Consider the following statements about the Constitution of India. (A) The right to property was removed from Part III (
+- The headquarters of the International Atomic Energy Agency (IAEA) are located in:
+- The headquarters of the United Nations Environment Programme (UNEP) is located in:
+- The Great Stupa at Sanchi, a UNESCO World Heritage Site, is located in which state?
+- The book 'The Discovery of India' was written by:
+- Match List-I with List-II. List-I: (A) Sabarmati (B) Brahmaputra (C) Yamuna (D) Mahanadi. List-II: (I) Guwahati (II) Cut
+- Arrange the following constitutional amendments of India in the chronological order of their enactment. (A) 73rd Amendme
+
+== General Science and Environment Literacy
+Objectives the judges already tagged in this chapter (31; count in brackets):
+biodiversity-hotspot-criteria [2]; cumulative-co2-warming-link [2]; dispatchability-of-renewables [2]; mean-median-outlier-effect [2]; ph-logarithmic-scale [2]; renewable-vs-sustainable-energy [2]; si-unit-of-resistance [2]; apparent-sun-motion-earth-rotation; assertion-reason-sun-apparent-motion; atmosphere-largest-gas-by-volume; biomagnification-factor-per-trophic-level; biomagnification-trophic-level-multiplication; echo-distance-round-trip; echo-round-trip-distance; environmental-monitoring-technology-matching; environmental-terms-matching; international-bodies-and-mandates; international-body-focus-areas; line-chart-for-time-trend; line-chart-for-trends; match-environmental-science-terms; monitoring-technology-application; nitrogen-largest-atmospheric-share; pollutant-to-primary-effect-matching; pollutants-and-their-effects; syllogism-cannot-be-determined; syllogism-undetermined-conclusion; ten-percent-energy-transfer-law; ten-percent-energy-transfer-two-levels; water-density-maximum-at-4c; water-maximum-density-at-4c
+Stems already authored in waves 1-3 for this chapter (2; first 120 characters):
+- Assertion (A): The Sun appears to move from east to west across the sky during the day. Reason (R): The Earth rotates on
+- The SI unit of electrical resistance is:
+

@@ -1,0 +1,32 @@
+JOB w4-bio-01: Biology A: Reproduction and Genetics and Evolution
+Subject: biology | Questions: exactly 20 | source value for every question: claude-authored-2026-10-17-w4
+Blueprint: C:\Users\atish\Desktop\mockmob copy\wt-wave4\data\nta_blueprints\biology.json
+Syllabus PDF: C:\Users\atish\Desktop\mockmob copy\wt-wave4\data\CUET 2026\biology.pdf
+Avoid list (read it): C:\Users\atish\Desktop\mockmob copy\wt-wave4\tmp\authored-w4\plan\avoid\w4-bio-01.txt
+
+1. CHAPTERS (the exact counts; use the chapter and unit strings exactly as written, they are the blueprint spellings; questions of one chapter stay together in the file in this order):
+   1. chapter "Sexual Reproduction in Flowering Plants" | unit "Reproduction" | 3 questions
+      Topics to draw from (one concept per question, spread across the list, no two questions on the same sub-topic): structure of the stamen, microsporangium and pollen grain, pistil and embryo sac, microsporogenesis and megasporogenesis, types and agents of pollination, outbreeding devices, pollen-pistil interaction, double fertilisation, development of endosperm and embryo, seed and fruit formation, parthenocarpy, apomixis and polyembryony.
+   2. chapter "Human Reproduction" | unit "Reproduction" | 5 questions
+      Topics to draw from (one concept per question, spread across the list, no two questions on the same sub-topic): male and female reproductive systems, microscopic anatomy of testis and ovary, spermatogenesis and oogenesis, hormonal control, menstrual cycle phases, fertilisation, cleavage, blastocyst and implantation, placenta and pregnancy hormones, parturition and lactation.
+   3. chapter "Reproductive Health" | unit "Reproduction" | 2 questions
+      Topics to draw from (one concept per question, spread across the list, no two questions on the same sub-topic): amniocentesis and reproductive health problems, population stabilisation and birth control methods (barrier, IUD, pills, surgical), MTP, sexually transmitted infections, infertility and assisted reproductive technologies (IVF, ZIFT, GIFT, ICSI, IUI).
+   4. chapter "Principles of Inheritance & Variation" | unit "Genetics and Evolution" | 3 questions
+      Topics to draw from (one concept per question, spread across the list, no two questions on the same sub-topic): Mendel's laws (dominance, segregation, test cross and back cross, independent assortment, dihybrid ratios), incomplete dominance and co-dominance, multiple alleles and blood groups, chromosomal theory, linkage and recombination, polygenic inheritance, pleiotropy, sex determination (humans, birds, honey bee), mutation, pedigree analysis, Mendelian disorders and chromosomal disorders (Down's, Turner's, Klinefelter's).
+   5. chapter "Molecular Basis of Inheritance" | unit "Genetics and Evolution" | 4 questions
+      Topics to draw from (one concept per question, spread across the list, no two questions on the same sub-topic): structure and packaging of DNA, transforming principle, Hershey-Chase experiment, Meselson-Stahl experiment, replication, transcription unit and gene, types of RNA, genetic code, tRNA and translation, lac operon, Human Genome Project, DNA fingerprinting (VNTR).
+   6. chapter "Evolution" | unit "Genetics and Evolution" | 3 questions
+      Topics to draw from (one concept per question, spread across the list, no two questions on the same sub-topic): Miller experiment and origin of life, Darwin's contribution, evidences (embryology, palaeontology, comparative anatomy, homology and analogy, industrial melanism), adaptive radiation, natural selection, Hardy-Weinberg principle and the factors affecting it, geological time and the evolution of plants and vertebrates, origin and evolution of man.
+
+2. TYPES (exact counts over the 20, set items included):
+   single_mcq 13, match_the_following 1, sequence_ordering 4, statement_based 2, assertion_reason 0
+   - sequence_ordering (four, one each in): Sexual Reproduction in Flowering Plants (stages of pollen or embryo sac development, or fertilisation to seed), Human Reproduction (path of sperm or stages of gametogenesis or early embryo), Molecular Basis of Inheritance (steps of replication, transcription, translation or the central dogma flow), Evolution (organisms or events arranged by time of appearance). Label the four items (A) to (D) in the stem.
+   - match_the_following: one in Reproductive Health (technique or method with its description) or Principles of Inheritance & Variation (disorder with its cause).
+   - statement_based: one in Human Reproduction (menstrual cycle or hormones) and one in Principles of Inheritance & Variation (genetic disorders or inheritance).
+
+3. DIFFICULTY (exact): easy 6, medium 10, hard 4. Spread each level over the chapters; do not put all the hard ones in one chapter. Use the difficulty meanings in the template; a hard item is two or three linked steps or a fine distinction at CUET level, never an Olympiad item.
+4. KEY LETTERS (exact): A 5, B 5, C 5, D 5. Decide the key letters first (a shuffled list, no pattern, no three equal in a row, no repeating cycle such as A B C D A B C D) and then build each question around its assigned letter.
+5. NUMERICALS: no minimum. This job is recall and concept based; a numerical is allowed only where the topic list calls for one.
+6. SETS: none. passage_text is null and set_id is null on every question.
+
+7. FILE: C:\Users\atish\Desktop\mockmob copy\wt-wave4\tmp\authored-w4\drafts\biology\w4-bio-01.json

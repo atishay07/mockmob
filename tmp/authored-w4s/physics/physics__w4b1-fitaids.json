@@ -1,0 +1,240 @@
+{
+ "batch": "physics__w4b1",
+ "subject": "physics",
+ "allowed": {
+  "types": [
+   "single_mcq",
+   "match_the_following",
+   "sequence_ordering",
+   "statement_based",
+   "assertion_reason",
+   "passage_set_item"
+  ],
+  "units": [
+   {
+    "unit": "Electrostatics",
+    "chapters": [
+     "Electric Charges & Fields",
+     "Electrostatic Potential & Capacitance"
+    ]
+   },
+   {
+    "unit": "Current Electricity",
+    "chapters": [
+     "Current Electricity"
+    ]
+   },
+   {
+    "unit": "Magnetic Effects of Current and Magnetism",
+    "chapters": [
+     "Moving Charges & Magnetism",
+     "Magnetism & Matter"
+    ]
+   },
+   {
+    "unit": "Electromagnetic Induction and Alternating Currents",
+    "chapters": [
+     "Electromagnetic Induction",
+     "Alternating Current"
+    ]
+   },
+   {
+    "unit": "Electromagnetic Waves",
+    "chapters": [
+     "Electromagnetic Waves"
+    ]
+   },
+   {
+    "unit": "Optics",
+    "chapters": [
+     "Ray Optics & Optical Instruments",
+     "Wave Optics"
+    ]
+   },
+   {
+    "unit": "Dual Nature of Matter and Radiation",
+    "chapters": [
+     "Dual Nature of Radiation & Matter"
+    ]
+   },
+   {
+    "unit": "Atoms and Nuclei",
+    "chapters": [
+     "Atoms",
+     "Nuclei"
+    ]
+   },
+   {
+    "unit": "Electronic Devices",
+    "chapters": [
+     "Semiconductor Electronics"
+    ]
+   }
+  ],
+  "excluded_chapters": [
+   "Communication Systems"
+  ]
+ },
+ "rows": {
+  "9a1edcea-056d-4e0a-9d68-a89e8a6061da": {
+   "engine_unit_options": [
+    "Magnetic Effects of Current and Magnetism"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 47,
+   "read_seconds": 22
+  },
+  "9e03f84e-da69-4b2c-b83f-12f0d834e6b9": {
+   "engine_unit_options": [
+    "Magnetic Effects of Current and Magnetism"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 61,
+   "read_seconds": 26
+  },
+  "823433eb-4072-4493-833d-f53ea7ff8cf3": {
+   "engine_unit_options": [
+    "Magnetic Effects of Current and Magnetism"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 57,
+   "read_seconds": 25
+  },
+  "e9f682c4-7b40-4470-a4ac-cca20e95419e": {
+   "engine_unit_options": [
+    "Magnetic Effects of Current and Magnetism"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 52,
+   "read_seconds": 24
+  },
+  "449e1c7b-0d6d-4ea4-a7c2-85e2aa906779": {
+   "engine_unit_options": [
+    "Electromagnetic Induction and Alternating Currents"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 102,
+   "read_seconds": 39
+  },
+  "d927294f-a4a8-4886-b658-6ae4abbb96cc": {
+   "engine_unit_options": [
+    "Electromagnetic Induction and Alternating Currents"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 57,
+   "read_seconds": 25
+  },
+  "9c904745-0e4f-4aaf-b0ec-680a81b419ab": {
+   "engine_unit_options": [
+    "Electromagnetic Induction and Alternating Currents"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 33,
+   "read_seconds": 18
+  },
+  "e6aaca54-9f5b-4217-86d5-a72ec3df7ec1": {
+   "engine_unit_options": [
+    "Electromagnetic Induction and Alternating Currents"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 53,
+   "read_seconds": 24
+  },
+  "03e23eee-ba91-4f2c-9307-a711a8aaf231": {
+   "engine_unit_options": [
+    "Electromagnetic Induction and Alternating Currents"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 50,
+   "read_seconds": 23
+  },
+  "d01eb790-0cf8-49f7-9eaa-eae3faeea1d5": {
+   "engine_unit_options": [
+    "Electromagnetic Induction and Alternating Currents"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 46,
+   "read_seconds": 22
+  },
+  "47a09bf1-99f6-4a0d-bb3d-cd9177a65ba2": {
+   "engine_unit_options": [
+    "Electromagnetic Induction and Alternating Currents"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 48,
+   "read_seconds": 23
+  },
+  "73198264-8b92-4c57-a361-7cfdeef58e51": {
+   "engine_unit_options": [
+    "Electromagnetic Waves"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 74,
+   "read_seconds": 30
+  },
+  "7af4ea50-c28d-445c-b9da-6c586230ae81": {
+   "engine_unit_options": [
+    "Electromagnetic Waves"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 46,
+   "read_seconds": 22
+  },
+  "011459c4-767b-4d22-a553-e53947ca2243": {
+   "engine_unit_options": [
+    "Electromagnetic Waves"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 44,
+   "read_seconds": 21
+  },
+  "75bc29fb-5f94-405b-b6a4-9d121f46ff9e": {
+   "engine_unit_options": [
+    "Electronic Devices"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 80,
+   "read_seconds": 32
+  },
+  "9cc7e8e6-4b0e-4cf4-b003-20402d104f39": {
+   "engine_unit_options": [
+    "Electronic Devices"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 72,
+   "read_seconds": 30
+  },
+  "fabdd431-d76a-40f3-b6c3-1718f5b4a141": {
+   "engine_unit_options": [
+    "Electronic Devices"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 47,
+   "read_seconds": 22
+  },
+  "4d2b0fe2-fffd-4d86-91be-ad6c8f61317a": {
+   "engine_unit_options": [
+    "Electronic Devices"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 71,
+   "read_seconds": 30
+  },
+  "b178248c-b160-48d6-a199-390201b13144": {
+   "engine_unit_options": [
+    "Electronic Devices"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 42,
+   "read_seconds": 21
+  },
+  "9a2b3ade-77eb-4ee8-8cd3-f9dbbca861ba": {
+   "engine_unit_options": [
+    "Electronic Devices"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 61,
+   "read_seconds": 26
+  }
+ }
+}

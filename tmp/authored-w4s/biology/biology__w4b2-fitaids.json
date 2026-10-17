@@ -1,0 +1,212 @@
+{
+ "batch": "biology__w4b2",
+ "subject": "biology",
+ "allowed": {
+  "types": [
+   "single_mcq",
+   "match_the_following",
+   "sequence_ordering",
+   "statement_based",
+   "assertion_reason",
+   "passage_set_item"
+  ],
+  "units": [
+   {
+    "unit": "Reproduction",
+    "chapters": [
+     "Sexual Reproduction in Flowering Plants",
+     "Human Reproduction",
+     "Reproductive Health"
+    ]
+   },
+   {
+    "unit": "Genetics and Evolution",
+    "chapters": [
+     "Principles of Inheritance & Variation",
+     "Molecular Basis of Inheritance",
+     "Evolution"
+    ]
+   },
+   {
+    "unit": "Biology and Human Welfare",
+    "chapters": [
+     "Human Health & Disease",
+     "Microbes in Human Welfare"
+    ]
+   },
+   {
+    "unit": "Biotechnology and its Applications",
+    "chapters": [
+     "Biotechnology Principles & Processes",
+     "Biotechnology & its Applications"
+    ]
+   },
+   {
+    "unit": "Ecology and Environment",
+    "chapters": [
+     "Organisms & Populations",
+     "Ecosystem",
+     "Biodiversity & Conservation"
+    ]
+   }
+  ],
+  "excluded_chapters": [
+   "Reproduction in Organisms",
+   "Environmental Issues"
+  ]
+ },
+ "rows": {
+  "1ed56924-fcf9-4015-8327-e71c2be3dbe5": {
+   "engine_unit_options": [
+    "Biology and Human Welfare"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 37,
+   "read_seconds": 19
+  },
+  "3434a96f-2ebc-45ae-932b-f5729c83538b": {
+   "engine_unit_options": [
+    "Biology and Human Welfare"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 36,
+   "read_seconds": 19
+  },
+  "93f0a684-7f2b-4742-81bd-b68eef0a280e": {
+   "engine_unit_options": [
+    "Biology and Human Welfare"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 79,
+   "read_seconds": 32
+  },
+  "09a87281-edba-4507-85d1-c3e313dd7071": {
+   "engine_unit_options": [
+    "Biology and Human Welfare"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 58,
+   "read_seconds": 26
+  },
+  "80acdc79-32e8-47ce-893b-76579df268fc": {
+   "engine_unit_options": [
+    "Biology and Human Welfare"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 65,
+   "read_seconds": 28
+  },
+  "7d4b6c6f-9f8e-4e6f-a243-bdcda52cb355": {
+   "engine_unit_options": [
+    "Biology and Human Welfare"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 99,
+   "read_seconds": 38
+  },
+  "89ff99c8-222d-48d8-8071-e65f3656d7cd": {
+   "engine_unit_options": [
+    "Biology and Human Welfare"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 97,
+   "read_seconds": 37
+  },
+  "f6b8e854-fac9-4ea3-8f17-24481236c2ea": {
+   "engine_unit_options": [
+    "Biology and Human Welfare"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 115,
+   "read_seconds": 43
+  },
+  "3fd2baf1-f46d-4695-90b7-8e40c62975f2": {
+   "engine_unit_options": [
+    "Biology and Human Welfare"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 143,
+   "read_seconds": 51
+  },
+  "b833fc48-2bbc-4a6c-93b6-862a27d26db6": {
+   "engine_unit_options": [
+    "Biology and Human Welfare"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 83,
+   "read_seconds": 33
+  },
+  "d97512d6-e8e1-4f10-bf26-da7b7f30b701": {
+   "engine_unit_options": [
+    "Biology and Human Welfare"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 87,
+   "read_seconds": 34
+  },
+  "9cb149e1-92bd-451d-8cd8-f092d0d7e74a": {
+   "engine_unit_options": [
+    "Biology and Human Welfare"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 54,
+   "read_seconds": 24
+  },
+  "d8c5c153-958e-43f3-83f9-1af6b137e1ce": {
+   "engine_unit_options": [
+    "Biology and Human Welfare"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 86,
+   "read_seconds": 34
+  },
+  "914f319b-fe73-4d95-ac69-112442cffdd4": {
+   "engine_unit_options": [
+    "Biology and Human Welfare"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 63,
+   "read_seconds": 27
+  },
+  "ccbe9308-e3df-46c1-a7ec-6d9c25cf9073": {
+   "engine_unit_options": [
+    "Biology and Human Welfare"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 30,
+   "read_seconds": 17
+  },
+  "569476e7-3a80-40fd-bb83-996b09c75b2c": {
+   "engine_unit_options": [
+    "Biology and Human Welfare"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 23,
+   "read_seconds": 15
+  },
+  "b52d4156-825a-4124-86e1-a4eba1f28fb5": {
+   "engine_unit_options": [
+    "Biotechnology and its Applications"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 75,
+   "read_seconds": 31
+  },
+  "66a5caed-b85f-4f55-b455-26ff8f422d8c": {
+   "engine_unit_options": [
+    "Biotechnology and its Applications"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 30,
+   "read_seconds": 17
+  },
+  "c4e0c49c-4d53-4ce3-a21f-e5a5d39da739": {
+   "engine_unit_options": [
+    "Biotechnology and its Applications"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 49,
+   "read_seconds": 23
+  }
+ }
+}

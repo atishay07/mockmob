@@ -1,0 +1,506 @@
+{
+ "batch": "chemistry__w4b1-blind",
+ "subject": "chemistry",
+ "questions": [
+  {
+   "id": "8ee1facc-2274-4141-bba7-1389a5caee34",
+   "subject": "chemistry",
+   "type": "sequence_ordering",
+   "stem": "Arrange the following alkyl halides in decreasing order of their rate of reaction with aqueous KOH:\n(A) 1-Chloropropane\n(B) 1-Iodopropane\n(C) 1-Fluoropropane\n(D) 1-Bromopropane",
+   "options": [
+    {
+     "key": "A",
+     "text": "(B), (D), (C), (A)"
+    },
+    {
+     "key": "B",
+     "text": "(C), (A), (D), (B)"
+    },
+    {
+     "key": "C",
+     "text": "(B), (D), (A), (C)"
+    },
+    {
+     "key": "D",
+     "text": "(D), (B), (A), (C)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "440d1252-fc4c-4fb5-8c77-d6ffbdd335f4",
+   "subject": "chemistry",
+   "type": "statement_based",
+   "stem": "Consider the following statements about haloalkanes and haloarenes.\n(A) The C-X bond length in haloalkanes increases from C-F to C-I.\n(B) Chlorobenzene has a lower dipole moment than cyclohexyl chloride.\n(C) Monochloroalkanes such as 1-chlorobutane are denser than water.\n(D) Among the isomeric dichlorobenzenes, the para isomer has the highest melting point.\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A), (B) and (D) only"
+    },
+    {
+     "key": "B",
+     "text": "(A), (B) and (C) only"
+    },
+    {
+     "key": "C",
+     "text": "(B), (C) and (D) only"
+    },
+    {
+     "key": "D",
+     "text": "(A), (C) and (D) only"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "77382746-bcfe-4dc8-a4f6-f5bc5d2e75d0",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Which reagent is preferred for converting propan-1-ol into 1-chloropropane because the by-products are gases?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Phosphorus pentachloride, PCl5"
+    },
+    {
+     "key": "B",
+     "text": "Phosphorus trichloride, PCl3"
+    },
+    {
+     "key": "C",
+     "text": "Concentrated HCl with anhydrous ZnCl2"
+    },
+    {
+     "key": "D",
+     "text": "Thionyl chloride, SOCl2"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "ce3ca84d-bf8b-44e6-a55b-d5c42ba29c2b",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Bromoethane is heated with silver cyanide. The main organic product is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Propanenitrile, CH3CH2CN"
+    },
+    {
+     "key": "B",
+     "text": "Isocyanoethane, CH3CH2NC"
+    },
+    {
+     "key": "C",
+     "text": "Nitroethane, CH3CH2NO2"
+    },
+    {
+     "key": "D",
+     "text": "Ethyl nitrite, CH3CH2ONO"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "83bcb2bd-fdce-4196-bbcc-daa578f27ba4",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "A mixture of bromobenzene and bromomethane is heated with sodium metal in dry ether. The number of different hydrocarbons that can form by carbon-carbon coupling is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "4"
+    },
+    {
+     "key": "B",
+     "text": "3"
+    },
+    {
+     "key": "C",
+     "text": "2"
+    },
+    {
+     "key": "D",
+     "text": "1"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "2e4f3189-8abb-4e28-8c5b-13da81ddcbed",
+   "subject": "chemistry",
+   "type": "match_the_following",
+   "stem": "Match List-I with List-II.\nList-I: (A) Phenol with bromine in carbon disulphide at low temperature (B) Phenol oxidised with chromic acid (C) Phenol treated with concentrated nitric acid (D) Phenol treated with dilute nitric acid at low temperature\nList-II: (I) Benzoquinone (II) Mixture of o- and p-nitrophenols (III) 2,4,6-Trinitrophenol (IV) Mixture of o- and p-bromophenols\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A)-(II), (B)-(I), (C)-(III), (D)-(IV)"
+    },
+    {
+     "key": "B",
+     "text": "(A)-(IV), (B)-(III), (C)-(I), (D)-(II)"
+    },
+    {
+     "key": "C",
+     "text": "(A)-(IV), (B)-(I), (C)-(II), (D)-(III)"
+    },
+    {
+     "key": "D",
+     "text": "(A)-(IV), (B)-(I), (C)-(III), (D)-(II)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "be5f0133-bd71-4e1d-97ad-742ee67fe221",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Air oxidation of isopropylbenzene, the first step in the industrial preparation of phenol, gives:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Cumene hydroperoxide"
+    },
+    {
+     "key": "B",
+     "text": "2-Phenylpropan-2-ol"
+    },
+    {
+     "key": "C",
+     "text": "Acetophenone"
+    },
+    {
+     "key": "D",
+     "text": "Benzoic acid"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "35246480-bd79-48c2-b3f9-8d6128c2a14e",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Which reagent reduces ethanoic acid directly to ethanol?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Sodium borohydride, NaBH4"
+    },
+    {
+     "key": "B",
+     "text": "Zinc amalgam with concentrated HCl"
+    },
+    {
+     "key": "C",
+     "text": "Lithium aluminium hydride, LiAlH4"
+    },
+    {
+     "key": "D",
+     "text": "Pyridinium chlorochromate, PCC"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "8e181c77-95ef-4e7c-8bf5-857cbba9f869",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Drinking methanol can cause blindness and death because in the body it is oxidised to:",
+   "options": [
+    {
+     "key": "A",
+     "text": "ethanal and ethanoic acid"
+    },
+    {
+     "key": "B",
+     "text": "methanal and ethanoic acid"
+    },
+    {
+     "key": "C",
+     "text": "ethanal and methanoic acid"
+    },
+    {
+     "key": "D",
+     "text": "methanal and methanoic acid"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "0192976d-ce4d-4ed3-9672-8b0d1578ab19",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Sodium phenoxide is treated with bromomethane to give compound X. X is then treated with bromine in ethanoic acid in the absence of iron(III) bromide. The major product is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "2,4,6-Tribromophenol"
+    },
+    {
+     "key": "B",
+     "text": "1-Bromo-4-methoxybenzene"
+    },
+    {
+     "key": "C",
+     "text": "1-Bromo-2-methoxybenzene"
+    },
+    {
+     "key": "D",
+     "text": "1-Bromo-3-methoxybenzene"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "5afc1dc3-d029-4d47-ab5c-9c7043cbd7a4",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Which one of the following is the correct name of CH3CH(Cl)CH2COOH in the IUPAC system?",
+   "options": [
+    {
+     "key": "A",
+     "text": "3-Chlorobutanoic acid"
+    },
+    {
+     "key": "B",
+     "text": "2-Chlorobutanoic acid"
+    },
+    {
+     "key": "C",
+     "text": "4-Chlorobutanoic acid"
+    },
+    {
+     "key": "D",
+     "text": "3-Chloropropanoic acid"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "a04434ca-9aad-472b-bbab-a3f1772efcdf",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Benzene reacts with ethanoyl chloride in the presence of anhydrous aluminium chloride to give:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Benzaldehyde"
+    },
+    {
+     "key": "B",
+     "text": "Ethylbenzene"
+    },
+    {
+     "key": "C",
+     "text": "Acetophenone"
+    },
+    {
+     "key": "D",
+     "text": "Benzoic acid"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "47b26e05-f8b5-44e7-a499-1078b4ff6bdd",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Ethanal is treated with HCN, and the addition product is then hydrolysed with dilute acid. The final product is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "2-Hydroxypropanoic acid"
+    },
+    {
+     "key": "B",
+     "text": "Propanoic acid"
+    },
+    {
+     "key": "C",
+     "text": "3-Hydroxypropanoic acid"
+    },
+    {
+     "key": "D",
+     "text": "2-Oxopropanoic acid"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "9f114e98-a8ab-4a14-a9e6-2ddf5d0a2729",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Sodium propanoate is heated with soda lime. The organic product formed is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Propane"
+    },
+    {
+     "key": "B",
+     "text": "Butane"
+    },
+    {
+     "key": "C",
+     "text": "Methane"
+    },
+    {
+     "key": "D",
+     "text": "Ethane"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "6fa18b54-8d1a-48ce-b3cb-8c451d1e3287",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Propanoic acid is heated with methanol in the presence of a few drops of concentrated sulphuric acid. The ester formed is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Propyl methanoate"
+    },
+    {
+     "key": "B",
+     "text": "Methyl ethanoate"
+    },
+    {
+     "key": "C",
+     "text": "Methyl propanoate"
+    },
+    {
+     "key": "D",
+     "text": "Ethyl propanoate"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "eb20eba0-98e1-4090-8320-cab801471c74",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Formalin, used for preserving biological specimens, is a 40 percent aqueous solution of:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Ethanal"
+    },
+    {
+     "key": "B",
+     "text": "Methanal"
+    },
+    {
+     "key": "C",
+     "text": "Methanoic acid"
+    },
+    {
+     "key": "D",
+     "text": "Propanone"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "359c50ec-370a-4277-a1e1-26ff626c290f",
+   "subject": "chemistry",
+   "type": "statement_based",
+   "stem": "Consider the following statements about aldehydes, ketones and carboxylic acids.\n(A) The carbonyl carbon is sp2 hybridised, and the C=O bond is polarised with a partial positive charge on carbon.\n(B) Ethanal and propanone are miscible with water in all proportions.\n(C) The boiling points of aldehydes and ketones are lower than those of alcohols of comparable molar mass.\n(D) Methanal is a liquid at room temperature.\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A), (C) and (D) only"
+    },
+    {
+     "key": "B",
+     "text": "(B), (C) and (D) only"
+    },
+    {
+     "key": "C",
+     "text": "(A), (B) and (C) only"
+    },
+    {
+     "key": "D",
+     "text": "(A), (B) and (D) only"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "b19fa8e5-08f3-47e4-8450-b40bc6631f53",
+   "subject": "chemistry",
+   "type": "sequence_ordering",
+   "stem": "Arrange the following in increasing order of acidic strength:\n(A) Benzoic acid\n(B) 4-Nitrobenzoic acid\n(C) 4-Methoxybenzoic acid\n(D) 4-Chlorobenzoic acid",
+   "options": [
+    {
+     "key": "A",
+     "text": "(C), (A), (D), (B)"
+    },
+    {
+     "key": "B",
+     "text": "(A), (C), (D), (B)"
+    },
+    {
+     "key": "C",
+     "text": "(C), (A), (B), (D)"
+    },
+    {
+     "key": "D",
+     "text": "(B), (D), (A), (C)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "5069f737-db90-4b0d-83ff-4c19643ca9a1",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Which one of the following does NOT give benzoic acid when heated with alkaline KMnO4 and then acidified?",
+   "options": [
+    {
+     "key": "A",
+     "text": "n-Butylbenzene"
+    },
+    {
+     "key": "B",
+     "text": "sec-Butylbenzene"
+    },
+    {
+     "key": "C",
+     "text": "Isobutylbenzene"
+    },
+    {
+     "key": "D",
+     "text": "tert-Butylbenzene"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "efce0722-5459-4073-8962-fe465fb5fa07",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Ethanal is treated with excess methanol in the presence of dry hydrogen chloride gas. The final organic product is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Methyl ethanoate"
+    },
+    {
+     "key": "B",
+     "text": "1,1-Dimethoxyethane"
+    },
+    {
+     "key": "C",
+     "text": "1-Methoxyethan-1-ol"
+    },
+    {
+     "key": "D",
+     "text": "Methoxymethane"
+    }
+   ],
+   "passage_text": null
+  }
+ ]
+}

@@ -1,0 +1,25 @@
+JOB w4-gat-01: General Test A: General Knowledge and General Science and Environment Literacy
+Subject: general_test | Questions: exactly 20 | source value for every question: claude-authored-2026-10-17-w4
+Blueprint: C:\Users\atish\Desktop\mockmob copy\wt-wave4\data\nta_blueprints\general_test.json
+Syllabus PDF: C:\Users\atish\Desktop\mockmob copy\wt-wave4\data\CUET 2026\general_test.pdf
+Avoid list (read it): C:\Users\atish\Desktop\mockmob copy\wt-wave4\tmp\authored-w4\plan\avoid\w4-gat-01.txt
+
+1. CHAPTERS (the exact counts; use the chapter and unit strings exactly as written, they are the blueprint spellings; questions of one chapter stay together in the file in this order):
+   1. chapter "General Knowledge" | unit "General Knowledge and Current Affairs" | 17 questions
+      Topics to draw from (one concept per question, spread across the list, no two questions on the same sub-topic): Indian polity and the Constitution (schedules, articles, fundamental rights, constitutional bodies), Indian history and the freedom movement, Indian and world geography (rivers, passes, states, capitals, boundaries), basic economy (RBI, banking terms, budget basics), awards and honours (historical, stable facts only), books and authors, sports (venues, trophies, Olympic and Commonwealth facts that do not change), international organisations (UN bodies, headquarters), important days and years, art, culture, dance forms, UNESCO sites, science and technology milestones.
+   2. chapter "General Science and Environment Literacy" | unit "General Science and Environment Literacy" | 3 questions
+      Topics to draw from (one concept per question, spread across the list, no two questions on the same sub-topic): basic physical, chemical and life science met in daily life (states of matter, acids and bases, nutrition, human body, diseases, vitamins), environmental topics (pollution, greenhouse gases and global warming, ozone layer, biodiversity, renewable energy, waste management), international environment conventions (Montreal, Kyoto, Paris, Ramsar, CITES).
+
+2. TYPES (exact counts over the 20, set items included):
+   single_mcq 16, match_the_following 1, sequence_ordering 1, statement_based 1, assertion_reason 1
+   - match_the_following: one in General Knowledge (for example organisation with headquarters, book with author, dance form with state, monument with place).
+   - sequence_ordering: one in General Knowledge (events in chronological order, label the four items (A) to (D) and do not print them in order; keep the years out of the stem).
+   - statement_based: one in General Knowledge (polity, geography or history statements).
+   - assertion_reason: one in General Science and Environment Literacy (standard four options).
+
+3. DIFFICULTY (exact): easy 8, medium 9, hard 3. Spread each level over the chapters; do not put all the hard ones in one chapter. Use the difficulty meanings in the template; a hard item is two or three linked steps or a fine distinction at CUET level, never an Olympiad item.
+4. KEY LETTERS (exact): A 6, B 4, C 4, D 6. Decide the key letters first (a shuffled list, no pattern, no three equal in a row, no repeating cycle such as A B C D A B C D) and then build each question around its assigned letter.
+5. NUMERICALS: no minimum. This job is recall and concept based; a numerical is allowed only where the topic list calls for one.
+6. SETS: none. passage_text is null and set_id is null on every question.
+
+7. FILE: C:\Users\atish\Desktop\mockmob copy\wt-wave4\tmp\authored-w4\drafts\general_test\w4-gat-01.json

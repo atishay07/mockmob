@@ -1,0 +1,506 @@
+{
+ "batch": "biology__w4b1-blind",
+ "subject": "biology",
+ "questions": [
+  {
+   "id": "2fe86fe0-ba8b-492b-942d-876c45bf78ea",
+   "subject": "biology",
+   "type": "single_mcq",
+   "stem": "Among the following, pollination takes place through the agency of water in:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Water hyacinth"
+    },
+    {
+     "key": "B",
+     "text": "Water lily"
+    },
+    {
+     "key": "C",
+     "text": "Vallisneria"
+    },
+    {
+     "key": "D",
+     "text": "Maize"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "3920888b-72d1-4cfd-ad56-301ef2e89c5f",
+   "subject": "biology",
+   "type": "sequence_ordering",
+   "stem": "Arrange the following stages in the development of a dicot embryo in the order in which they appear after fertilisation.\n(A) Heart-shaped embryo\n(B) Mature embryo\n(C) Zygote\n(D) Globular embryo",
+   "options": [
+    {
+     "key": "A",
+     "text": "(C), (D), (A), (B)"
+    },
+    {
+     "key": "B",
+     "text": "(C), (A), (D), (B)"
+    },
+    {
+     "key": "C",
+     "text": "(D), (C), (A), (B)"
+    },
+    {
+     "key": "D",
+     "text": "(C), (D), (B), (A)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "dd66dcf5-ca4a-4e15-9722-6292d102a490",
+   "subject": "biology",
+   "type": "single_mcq",
+   "stem": "In a typical angiosperm fruit, which two parts develop from tissues of the mother plant and not from the products of fertilisation?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Endosperm and embryo"
+    },
+    {
+     "key": "B",
+     "text": "Embryo and seed coat"
+    },
+    {
+     "key": "C",
+     "text": "Endosperm and pericarp"
+    },
+    {
+     "key": "D",
+     "text": "Seed coat and pericarp"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "1382b67c-0605-4d03-81fc-9fff6a87148a",
+   "subject": "biology",
+   "type": "sequence_ordering",
+   "stem": "Arrange the following structures in the order in which sperms pass through them on their way from the testis to the exterior.\n(A) Epididymis\n(B) Urethra\n(C) Vasa efferentia\n(D) Vas deferens",
+   "options": [
+    {
+     "key": "A",
+     "text": "(C), (D), (A), (B)"
+    },
+    {
+     "key": "B",
+     "text": "(C), (A), (D), (B)"
+    },
+    {
+     "key": "C",
+     "text": "(A), (C), (D), (B)"
+    },
+    {
+     "key": "D",
+     "text": "(C), (A), (B), (D)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "302af2c0-97c5-4b82-beff-ecf2d2d061bc",
+   "subject": "biology",
+   "type": "statement_based",
+   "stem": "Consider the following statements about the human menstrual cycle.\n(A) Menstruation results from the disintegration of the endometrium after the corpus luteum degenerates in a cycle without fertilisation.\n(B) Ovulation takes place in the luteal phase of the cycle.\n(C) The corpus luteum continues to secrete progesterone throughout the cycle even when fertilisation does not occur.\n(D) The secretion of LH and FSH increases gradually during the follicular phase.\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "Only (B), (C) and (D)"
+    },
+    {
+     "key": "B",
+     "text": "Only (A), (B) and (C)"
+    },
+    {
+     "key": "C",
+     "text": "Only (B) and (D)"
+    },
+    {
+     "key": "D",
+     "text": "Only (A) and (D)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "f9edc91a-cf7d-4bc9-afe7-7fc485d72a76",
+   "subject": "biology",
+   "type": "single_mcq",
+   "stem": "In a human female, the secondary oocyte completes its second meiotic division:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Only when a sperm enters its cytoplasm"
+    },
+    {
+     "key": "B",
+     "text": "Shortly before ovulation, inside the Graafian follicle"
+    },
+    {
+     "key": "C",
+     "text": "At puberty, when the menstrual cycles begin"
+    },
+    {
+     "key": "D",
+     "text": "During foetal life, before the female is born"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "84a951f7-b80d-4981-b476-3e4be990ce39",
+   "subject": "biology",
+   "type": "single_mcq",
+   "stem": "At implantation in humans, which part of the blastocyst becomes attached to the endometrium, and which part gives rise to the embryo?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Inner cell mass attaches; trophoblast forms the embryo"
+    },
+    {
+     "key": "B",
+     "text": "Trophoblast attaches; trophoblast forms the embryo"
+    },
+    {
+     "key": "C",
+     "text": "Trophoblast attaches; inner cell mass forms the embryo"
+    },
+    {
+     "key": "D",
+     "text": "Trophoblast attaches; inner cell mass forms the placenta"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "c2cf8f95-1fd1-4ac7-b523-52ed7d95dee3",
+   "subject": "biology",
+   "type": "single_mcq",
+   "stem": "Which of the following sets of hormones is produced in women only during pregnancy?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Oestrogen, progesterone and hCG"
+    },
+    {
+     "key": "B",
+     "text": "hCG, hPL and relaxin"
+    },
+    {
+     "key": "C",
+     "text": "FSH, LH and hPL"
+    },
+    {
+     "key": "D",
+     "text": "Prolactin, oxytocin and relaxin"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "4e623f32-98a2-4674-ae0b-c6fbac945b8c",
+   "subject": "biology",
+   "type": "match_the_following",
+   "stem": "Match List-I with List-II.\nList-I: (A) Amniocentesis (B) MTP (C) IUI (D) ZIFT\nList-II: (I) Transfer of a zygote or early embryo of up to eight blastomeres into the fallopian tube (II) Intentional termination of pregnancy before full term (III) Artificial introduction of semen into the vagina or uterus (IV) Analysis of foetal cells in the amniotic fluid for chromosomal abnormalities\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A)-(IV), (B)-(II), (C)-(III), (D)-(I)"
+    },
+    {
+     "key": "B",
+     "text": "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)"
+    },
+    {
+     "key": "C",
+     "text": "(A)-(IV), (B)-(II), (C)-(I), (D)-(III)"
+    },
+    {
+     "key": "D",
+     "text": "(A)-(III), (B)-(II), (C)-(IV), (D)-(I)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "b9de7d62-9120-43a8-9742-13d19f226543",
+   "subject": "biology",
+   "type": "single_mcq",
+   "stem": "Oral contraceptive pills are taken daily for 21 days in each course. When should the first pill of a course preferably be taken?",
+   "options": [
+    {
+     "key": "A",
+     "text": "On the fourteenth day, at the time of ovulation"
+    },
+    {
+     "key": "B",
+     "text": "In the luteal phase, after ovulation has occurred"
+    },
+    {
+     "key": "C",
+     "text": "Within the first five days of menstruation"
+    },
+    {
+     "key": "D",
+     "text": "Just before the expected next menstruation"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "dccaf7b2-9f8f-4112-88c7-f7850938c25a",
+   "subject": "biology",
+   "type": "statement_based",
+   "stem": "Consider the following statements about two genetic disorders of humans.\n(A) In sickle-cell anaemia, valine is replaced by glutamic acid at the sixth position of the beta globin chain.\n(B) Thalassemia results from a reduced rate of synthesis of one of the globin chains.\n(C) A person with the genotype HbAHbS is a carrier who is apparently unaffected.\n(D) Sickle-cell anaemia is an autosome-linked recessive trait.\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A), (B) and (C) only"
+    },
+    {
+     "key": "B",
+     "text": "(B), (C) and (D) only"
+    },
+    {
+     "key": "C",
+     "text": "(A), (C) and (D) only"
+    },
+    {
+     "key": "D",
+     "text": "(A), (B) and (D) only"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "d5ba952f-51c4-4b06-91b5-52233df6cd8b",
+   "subject": "biology",
+   "type": "single_mcq",
+   "stem": "A mutation in the gene for phenylalanine hydroxylase causes mental retardation as well as reduced hair and skin pigmentation. This is an example of:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Polygenic inheritance"
+    },
+    {
+     "key": "B",
+     "text": "Incomplete dominance"
+    },
+    {
+     "key": "C",
+     "text": "Co-dominance"
+    },
+    {
+     "key": "D",
+     "text": "Pleiotropy"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "a1762cac-8859-4104-b5b8-440a33eacf15",
+   "subject": "biology",
+   "type": "single_mcq",
+   "stem": "A queen honey bee has 32 chromosomes in her body cells. A drone that develops from one of her unfertilised eggs will have how many chromosomes in its body cells and in each of its sperms?",
+   "options": [
+    {
+     "key": "A",
+     "text": "32 and 16"
+    },
+    {
+     "key": "B",
+     "text": "16 and 16"
+    },
+    {
+     "key": "C",
+     "text": "16 and 8"
+    },
+    {
+     "key": "D",
+     "text": "32 and 32"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "a790d203-801b-4206-abd4-812c7135eb6a",
+   "subject": "biology",
+   "type": "sequence_ordering",
+   "stem": "Arrange the following events of protein synthesis in a cell in the order in which they occur.\n(A) Elongation of the polypeptide by the sequential addition of amino acids\n(B) Charging of tRNA with its amino acid\n(C) Binding of a release factor to the stop codon\n(D) Binding of the ribosome to mRNA at the start codon",
+   "options": [
+    {
+     "key": "A",
+     "text": "(D), (B), (A), (C)"
+    },
+    {
+     "key": "B",
+     "text": "(B), (A), (D), (C)"
+    },
+    {
+     "key": "C",
+     "text": "(B), (D), (A), (C)"
+    },
+    {
+     "key": "D",
+     "text": "(B), (D), (C), (A)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "d157c263-e53d-43ab-8a75-2f725d2f815f",
+   "subject": "biology",
+   "type": "single_mcq",
+   "stem": "The histone octamer around which DNA is wound in a nucleosome is rich in which pair of amino acids?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Lysine and arginine"
+    },
+    {
+     "key": "B",
+     "text": "Aspartic acid and glutamic acid"
+    },
+    {
+     "key": "C",
+     "text": "Cysteine and methionine"
+    },
+    {
+     "key": "D",
+     "text": "Glycine and alanine"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "787ef85b-5eb6-43a2-8f91-d91230268051",
+   "subject": "biology",
+   "type": "single_mcq",
+   "stem": "In the Hershey-Chase experiment, bacteria infected with bacteriophages labelled with radioactive sulphur (35S) were blended and then centrifuged. Where was most of the radioactivity found?",
+   "options": [
+    {
+     "key": "A",
+     "text": "In the pellet, as viral DNA that entered the bacteria"
+    },
+    {
+     "key": "B",
+     "text": "In the pellet, as viral protein that had entered the bacteria"
+    },
+    {
+     "key": "C",
+     "text": "In the supernatant, as viral DNA that stayed outside the bacteria"
+    },
+    {
+     "key": "D",
+     "text": "In the supernatant, as viral protein left outside the bacteria"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "83d1ddf7-0c21-44f5-9572-f9d1822321bc",
+   "subject": "biology",
+   "type": "single_mcq",
+   "stem": "The template strand of a gene segment reads 3'-TACGGATCC-5'. The anticodon, written 3' to 5', of the tRNA that pairs with the third codon of the mRNA transcribed from it is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "3'-AGG-5'"
+    },
+    {
+     "key": "B",
+     "text": "3'-GGA-5'"
+    },
+    {
+     "key": "C",
+     "text": "3'-UCC-5'"
+    },
+    {
+     "key": "D",
+     "text": "3'-CCU-5'"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "027483a8-5cf3-4a67-a868-8ab4fc6ccbe9",
+   "subject": "biology",
+   "type": "sequence_ordering",
+   "stem": "Arrange the following events in the history of life on Earth in the order in which they occurred, earliest first.\n(A) Disappearance of the dinosaurs\n(B) Appearance of the first cellular forms of life\n(C) Appearance of the first amphibians\n(D) Appearance of Homo habilis",
+   "options": [
+    {
+     "key": "A",
+     "text": "(C), (B), (A), (D)"
+    },
+    {
+     "key": "B",
+     "text": "(B), (C), (A), (D)"
+    },
+    {
+     "key": "C",
+     "text": "(B), (A), (C), (D)"
+    },
+    {
+     "key": "D",
+     "text": "(B), (C), (D), (A)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "43c048d0-4697-411f-9819-a9a56b1c234c",
+   "subject": "biology",
+   "type": "single_mcq",
+   "stem": "An electric discharge was passed through a closed flask containing a mixture of gases in Miller's experiment. Which gas was absent from that mixture?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Methane"
+    },
+    {
+     "key": "B",
+     "text": "Ammonia"
+    },
+    {
+     "key": "C",
+     "text": "Hydrogen"
+    },
+    {
+     "key": "D",
+     "text": "Oxygen"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "97c20f8d-1a42-4f39-aa50-3303ce3135e7",
+   "subject": "biology",
+   "type": "single_mcq",
+   "stem": "In a population of seed-eating birds, birds with very small or very large beaks feed efficiently, while birds with medium-sized beaks feed poorly. Which change in the beak-size distribution is expected over many generations?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Two peaks, with intermediate beaks becoming rare"
+    },
+    {
+     "key": "B",
+     "text": "One narrower peak around the mean beak size"
+    },
+    {
+     "key": "C",
+     "text": "One peak shifted towards larger beaks"
+    },
+    {
+     "key": "D",
+     "text": "One peak shifted towards smaller beaks"
+    }
+   ],
+   "passage_text": null
+  }
+ ]
+}

@@ -1,0 +1,218 @@
+{
+ "batch": "general_test__w4b2",
+ "subject": "general_test",
+ "allowed": {
+  "types": [
+   "single_mcq",
+   "match_the_following",
+   "sequence_ordering",
+   "statement_based",
+   "assertion_reason",
+   "passage_set_item"
+  ],
+  "units": [
+   {
+    "unit": "General Knowledge and Current Affairs",
+    "chapters": [
+     "General Knowledge",
+     "Current Affairs"
+    ]
+   },
+   {
+    "unit": "General Mental Ability",
+    "chapters": [
+     "General Mental Ability"
+    ]
+   },
+   {
+    "unit": "Numerical Ability",
+    "chapters": [
+     "Numerical Ability"
+    ]
+   },
+   {
+    "unit": "Quantitative Reasoning",
+    "chapters": [
+     "Quantitative Reasoning",
+     "Basic Mathematical Concepts",
+     "Statistical Data Analysis"
+    ]
+   },
+   {
+    "unit": "Logical and Analytical Reasoning",
+    "chapters": [
+     "Logical & Analytical Reasoning"
+    ]
+   },
+   {
+    "unit": "General Science and Environment Literacy",
+    "chapters": [
+     "General Science and Environment Literacy"
+    ]
+   }
+  ],
+  "excluded_chapters": []
+ },
+ "rows": {
+  "01cb34e5-45c5-4924-af40-a6030c2225e6": {
+   "engine_unit_options": [
+    "General Knowledge and Current Affairs"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 18,
+   "read_seconds": 13
+  },
+  "07b12999-6fa2-45e5-8de5-06234037091e": {
+   "engine_unit_options": [
+    "General Knowledge and Current Affairs"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 31,
+   "read_seconds": 17
+  },
+  "5d47dd9f-4620-4675-b779-b149852f8210": {
+   "engine_unit_options": [
+    "General Knowledge and Current Affairs"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 29,
+   "read_seconds": 17
+  },
+  "8626d182-95fe-44ca-a70a-2a8203b4e55e": {
+   "engine_unit_options": [
+    "General Knowledge and Current Affairs"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 45,
+   "read_seconds": 22
+  },
+  "b1366004-d26e-490a-9191-a5fa84f02537": {
+   "engine_unit_options": [
+    "General Knowledge and Current Affairs"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 90,
+   "read_seconds": 35
+  },
+  "bfdecf7f-b1ea-4b31-8af7-2b20d1ada913": {
+   "engine_unit_options": [
+    "General Knowledge and Current Affairs"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 23,
+   "read_seconds": 15
+  },
+  "c059fbf2-49ab-43db-9643-b930923dcd06": {
+   "engine_unit_options": [
+    "General Knowledge and Current Affairs"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 27,
+   "read_seconds": 16
+  },
+  "73597eea-a31f-4635-b7c7-fefec7cb8271": {
+   "engine_unit_options": [
+    "General Knowledge and Current Affairs"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 66,
+   "read_seconds": 28
+  },
+  "29021b9a-f0fc-4108-81fb-32e7a8034824": {
+   "engine_unit_options": [
+    "General Knowledge and Current Affairs"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 33,
+   "read_seconds": 18
+  },
+  "047ae2ba-36e7-4a08-bac8-797885b16045": {
+   "engine_unit_options": [
+    "General Knowledge and Current Affairs"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 20,
+   "read_seconds": 14
+  },
+  "a1455457-1272-4121-9faa-6777605864c9": {
+   "engine_unit_options": [
+    "General Knowledge and Current Affairs"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 29,
+   "read_seconds": 17
+  },
+  "9f9fb100-d89c-49fd-8f19-2bf893c1aaea": {
+   "engine_unit_options": [
+    "General Knowledge and Current Affairs"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 30,
+   "read_seconds": 17
+  },
+  "7057b6a7-b107-49d6-99aa-297fe4687e3c": {
+   "engine_unit_options": [
+    "General Mental Ability"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 11,
+   "read_seconds": 11
+  },
+  "1d3bd0b5-6b6e-4fd0-bd61-290ebfaf79ed": {
+   "engine_unit_options": [
+    "General Mental Ability"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 41,
+   "read_seconds": 20
+  },
+  "8b76423d-f6c6-47ee-8c20-69a4cdf9adab": {
+   "engine_unit_options": [
+    "General Mental Ability"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 44,
+   "read_seconds": 21
+  },
+  "a5193f36-d325-4778-a34d-d84c80c9df12": {
+   "engine_unit_options": [
+    "General Mental Ability"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 27,
+   "read_seconds": 16
+  },
+  "4d5c33d3-dfc1-4b51-9295-fcce20d6674c": {
+   "engine_unit_options": [
+    "General Mental Ability"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 25,
+   "read_seconds": 16
+  },
+  "0a76e5e8-c80c-42fe-8e89-05028b07cada": {
+   "engine_unit_options": [
+    "Quantitative Reasoning"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 34,
+   "read_seconds": 18
+  },
+  "52f17738-6e30-4fb6-9a77-21dbf32faded": {
+   "engine_unit_options": [
+    "Quantitative Reasoning"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 28,
+   "read_seconds": 16
+  },
+  "f7f57f20-8388-4720-a1c1-f41ca3da3e22": {
+   "engine_unit_options": [
+    "Quantitative Reasoning"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 37,
+   "read_seconds": 19
+  }
+ }
+}

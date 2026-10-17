@@ -1,0 +1,220 @@
+{
+ "batch": "biology__w4b3",
+ "subject": "biology",
+ "allowed": {
+  "types": [
+   "single_mcq",
+   "match_the_following",
+   "sequence_ordering",
+   "statement_based",
+   "assertion_reason",
+   "passage_set_item"
+  ],
+  "units": [
+   {
+    "unit": "Reproduction",
+    "chapters": [
+     "Sexual Reproduction in Flowering Plants",
+     "Human Reproduction",
+     "Reproductive Health"
+    ]
+   },
+   {
+    "unit": "Genetics and Evolution",
+    "chapters": [
+     "Principles of Inheritance & Variation",
+     "Molecular Basis of Inheritance",
+     "Evolution"
+    ]
+   },
+   {
+    "unit": "Biology and Human Welfare",
+    "chapters": [
+     "Human Health & Disease",
+     "Microbes in Human Welfare"
+    ]
+   },
+   {
+    "unit": "Biotechnology and its Applications",
+    "chapters": [
+     "Biotechnology Principles & Processes",
+     "Biotechnology & its Applications"
+    ]
+   },
+   {
+    "unit": "Ecology and Environment",
+    "chapters": [
+     "Organisms & Populations",
+     "Ecosystem",
+     "Biodiversity & Conservation"
+    ]
+   }
+  ],
+  "excluded_chapters": [
+   "Reproduction in Organisms",
+   "Environmental Issues"
+  ]
+ },
+ "rows": {
+  "b8374232-3875-4669-a6aa-d2a27190437b": {
+   "engine_unit_options": [
+    "Biotechnology and its Applications"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 77,
+   "read_seconds": 31
+  },
+  "2174cc38-ef8a-41be-9d52-6db3b89bf9a8": {
+   "engine_unit_options": [
+    "Biotechnology and its Applications"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 74,
+   "read_seconds": 30
+  },
+  "df20c45d-ee4a-4663-bf36-621580f47bca": {
+   "engine_unit_options": [
+    "Biotechnology and its Applications"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 69,
+   "read_seconds": 29
+  },
+  "58f32816-a7bf-41db-9e06-3b4add80291a": {
+   "engine_unit_options": [
+    "Biotechnology and its Applications"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 41,
+   "read_seconds": 20
+  },
+  "d37125e8-0209-40a9-aa19-4be3804a1682": {
+   "engine_unit_options": [
+    "Biotechnology and its Applications"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 61,
+   "read_seconds": 26
+  },
+  "53f7ec15-6f15-490b-bc13-2454749bf0a1": {
+   "engine_unit_options": [
+    "Biotechnology and its Applications"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 68,
+   "read_seconds": 29
+  },
+  "65134122-0ff0-4601-b4e4-1dc76ae6bf66": {
+   "engine_unit_options": [
+    "Biotechnology and its Applications"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 99,
+   "read_seconds": 38
+  },
+  "ad0c0f11-adaa-4a9b-aae2-95288ca2e8e5": {
+   "engine_unit_options": [
+    "Biotechnology and its Applications"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 110,
+   "read_seconds": 41
+  },
+  "f6532e00-b9e0-4b76-82a0-296ef910b429": {
+   "engine_unit_options": [
+    "Biotechnology and its Applications"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 101,
+   "read_seconds": 39
+  },
+  "c2cb9280-2619-4f53-91d3-a150d13d433a": {
+   "engine_unit_options": [
+    "Biotechnology and its Applications"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 133,
+   "read_seconds": 48
+  },
+  "7139c5fb-2849-4497-a671-21a9c5bf2e81": {
+   "engine_unit_options": [
+    "Ecology and Environment"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 49,
+   "read_seconds": 23
+  },
+  "03f95952-f882-4150-acef-2ef0449a2aca": {
+   "engine_unit_options": [
+    "Ecology and Environment"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 54,
+   "read_seconds": 24
+  },
+  "b00e6e59-df3f-43dc-80d5-338ccfb71dfa": {
+   "engine_unit_options": [
+    "Ecology and Environment"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 67,
+   "read_seconds": 28
+  },
+  "dc0f5ddb-206b-4a54-acf9-c705ed8b971d": {
+   "engine_unit_options": [
+    "Ecology and Environment"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 48,
+   "read_seconds": 23
+  },
+  "9b3560f6-3b1c-4865-ac59-98027ad40a31": {
+   "engine_unit_options": [
+    "Ecology and Environment"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 62,
+   "read_seconds": 27
+  },
+  "47f1daf6-2e46-4659-80ba-53388a92114f": {
+   "engine_unit_options": [
+    "Ecology and Environment"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 53,
+   "read_seconds": 24
+  },
+  "cf3ce18f-6c8c-4264-8cf8-b8ebc95aee46": {
+   "engine_unit_options": [
+    "Ecology and Environment"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 87,
+   "read_seconds": 34
+  },
+  "0269f538-ba1b-41ce-a80c-1748b986ea88": {
+   "engine_unit_options": [
+    "Ecology and Environment"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 88,
+   "read_seconds": 35
+  },
+  "61165895-71ee-4a42-accb-05ee502b7960": {
+   "engine_unit_options": [
+    "Ecology and Environment"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 76,
+   "read_seconds": 31
+  },
+  "c4a7ad38-8758-41ef-9095-d08d22ef8c74": {
+   "engine_unit_options": [
+    "Ecology and Environment"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 62,
+   "read_seconds": 27
+  }
+ }
+}

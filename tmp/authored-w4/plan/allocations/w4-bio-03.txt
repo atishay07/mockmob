@@ -1,0 +1,31 @@
+JOB w4-bio-03: Biology C: Biotechnology and its Applications (with a case set), Ecology
+Subject: biology | Questions: exactly 20 | source value for every question: claude-authored-2026-10-17-w4
+Blueprint: C:\Users\atish\Desktop\mockmob copy\wt-wave4\data\nta_blueprints\biology.json
+Syllabus PDF: C:\Users\atish\Desktop\mockmob copy\wt-wave4\data\CUET 2026\biology.pdf
+Avoid list (read it): C:\Users\atish\Desktop\mockmob copy\wt-wave4\tmp\authored-w4\plan\avoid\w4-bio-03.txt
+
+1. CHAPTERS (the exact counts; use the chapter and unit strings exactly as written, they are the blueprint spellings; questions of one chapter stay together in the file in this order):
+   1. chapter "Biotechnology & its Applications" | unit "Biotechnology and its Applications" | 9 questions
+      Topics to draw from (one concept per question, spread across the list, no two questions on the same sub-topic): applications in agriculture (tissue culture, GM crops, Bt cotton and Bt toxin, RNA interference and nematode protection), medicine (recombinant insulin, gene therapy, ELISA and molecular diagnosis), transgenic animals, ethical issues (biopiracy, patents).
+      SET: five of the nine questions form ONE case set on one concept inside this chapter (for example Bt crops and insect resistance, gene therapy, or transgenic animals); the other four are standalone.
+   2. chapter "Organisms & Populations" | unit "Ecology and Environment" | 4 questions
+      Topics to draw from (one concept per question, spread across the list, no two questions on the same sub-topic): population attributes (birth and death rates, sex ratio, age pyramids), population growth (exponential and logistic, carrying capacity, Verhulst-Pearl), life history variation, population interactions (predation, competition, parasitism, commensalism, mutualism, amensalism) with examples, adaptations.
+   3. chapter "Ecosystem" | unit "Ecology and Environment" | 4 questions
+      Topics to draw from (one concept per question, spread across the list, no two questions on the same sub-topic): ecosystem structure and function, productivity (GPP, NPP), decomposition (fragmentation, leaching, catabolism, humification, mineralisation), energy flow and the 10 per cent law, food chain and food web, ecological pyramids of number, biomass and energy.
+   4. chapter "Biodiversity & Conservation" | unit "Ecology and Environment" | 3 questions
+      Topics to draw from (one concept per question, spread across the list, no two questions on the same sub-topic): biodiversity concept and patterns (latitudinal gradient, species-area relationship), importance, causes of loss (the evil quartet), conservation approaches (narrowly utilitarian, broadly utilitarian, ethical), in situ (hotspots, sacred groves, national parks) and ex situ (zoos, seed banks, cryopreservation) methods, endemism.
+
+2. TYPES (exact counts over the 20, set items included):
+   single_mcq 13, match_the_following 1, sequence_ordering 4, statement_based 2, assertion_reason 0
+   - The case set: four single_mcq items and one statement_based item (so one of the two statement_based items is inside the set).
+   - sequence_ordering (four): one in Biotechnology & its Applications (steps of a procedure such as producing a transgenic organism or recombinant insulin; standalone), one in Organisms & Populations (phases of a growth curve or levels of organisation of interactions), one in Ecosystem (steps of decomposition, or trophic levels arranged by energy), one more anywhere in Ecosystem or Biodiversity & Conservation. Label the four items (A) to (D) in the stem.
+   - match_the_following: one in Organisms & Populations (interaction with its example) or Biodiversity & Conservation (term with its meaning).
+   - statement_based: one inside the Biotechnology & its Applications set and one anywhere in the ecology chapters.
+
+3. DIFFICULTY (exact): easy 6, medium 10, hard 4. Spread each level over the chapters; do not put all the hard ones in one chapter. Use the difficulty meanings in the template; a hard item is two or three linked steps or a fine distinction at CUET level, never an Olympiad item.
+4. KEY LETTERS (exact): A 5, B 5, C 5, D 5. Decide the key letters first (a shuffled list, no pattern, no three equal in a row, no repeating cycle such as A B C D A B C D) and then build each question around its assigned letter.
+5. NUMERICALS: no minimum. This job is recall and concept based; a numerical is allowed only where the topic list calls for one.
+6. SETS:
+   one set in chapter "Biotechnology & its Applications": 5 questions (4 single_mcq + 1 statement_based), one passage or scenario of 150 to 250 words that you write yourself (original, factual, NCERT-level, no figure or table), every child carries the identical passage_text and the identical set_id "w4-bio-03-set-1", the 5 children are consecutive in the file, each child tests a different thing and none can be answered without reading the passage, and no child's answer is stated word for word in the passage.
+
+7. FILE: C:\Users\atish\Desktop\mockmob copy\wt-wave4\tmp\authored-w4\drafts\biology\w4-bio-03.json

@@ -1,0 +1,202 @@
+[
+  {
+    "id": "9a1edcea-056d-4e0a-9d68-a89e8a6061da",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.moving-charges-and-magnetism.galvanometer-shunt-ammeter-resistance",
+    "flags": [],
+    "note": "Key D checks: shunt S = 1.0 ohm, in parallel with G gives 0.99 ohm. Distractors 1.0, 100 and 99 ohm are the standard slips. Two clean steps; held at 8 as a standard shunt item."
+  },
+  {
+    "id": "9e03f84e-da69-4b2c-b83f-12f0d834e6b9",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.moving-charges-and-magnetism.velocity-selector-undeflected-speed",
+    "flags": [],
+    "note": "Key B checks: v = E/B = 3.0e5 m/s. Explanation says charge and mass cancel, but mass never enters the balance, so that wording is loose. Distractor 3.3e-6 m/s is a throwaway. One-step recall."
+  },
+  {
+    "id": "823433eb-4072-4493-833d-f53ea7ff8cf3",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.moving-charges-and-magnetism.orbital-magnetic-moment",
+    "flags": [],
+    "note": "Key A checks: m = evr/2 = 1.2e-23 A m^2. Distractors 2.4e-23 (factor 1/2 dropped), 4.8e-23 (doubled) and 7.5e-23 (pi slip) are each a named slip. Two steps, correct level."
+  },
+  {
+    "id": "e9f682c4-7b40-4470-a4ac-cca20e95419e",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "hard",
+    "objective_tag": "physics.moving-charges-and-magnetism.null-field-outside-opposite-currents",
+    "flags": [],
+    "note": "Key C checks: the null lies outside, beyond the 3 A wire; 3(x+0.40) = 5x gives 0.60 m, the only null on the line. 0.15 m is the same-direction null and 1.0 m is the distance from the 5 A wire: designed traps."
+  },
+  {
+    "id": "449e1c7b-0d6d-4ea4-a7c2-85e2aa906779",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.electromagnetic-induction.induced-emf-needs-flux-change",
+    "flags": [],
+    "note": "Key D checks: (B) and (C) true, (A) and (D) false. Good traps in (A) and (D), but (C) is pure recall and option C is a weak combination, so 8 rather than 9."
+  },
+  {
+    "id": "d927294f-a4a8-4886-b658-6ae4abbb96cc",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.electromagnetic-induction.induced-charge-flux-over-resistance",
+    "flags": [],
+    "note": "Key C checks: q = N dPhi/R = 1.5e-2 C. The 0.50 s is a red herring, not a trap. Slip distractors 1.5e-4 (N dropped), 3.0e-2 (current, a unit confusion) and 0.6 (emf) are clean. One formula, so 8."
+  },
+  {
+    "id": "9c904745-0e4f-4aaf-b0ec-680a81b419ab",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.electromagnetic-induction.energy-stored-in-inductor",
+    "flags": [],
+    "note": "Key B checks: L = 2U/I^2 = 4 H. Short one-formula stem with no context; distractors 8, 16 and 2 H come from dropping the half or the square. Plainly below paper polish, so 7."
+  },
+  {
+    "id": "e6aaca54-9f5b-4217-86d5-a72ec3df7ec1",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.electromagnetic-induction.tilted-coil-flux-faraday-emf",
+    "flags": [],
+    "note": "Key D checks: a plane at 30 degrees to the field makes the normal 60 degrees, so flux is 1.0e-3 Wb and emf 10 V. The 10*sqrt(3) V trap depends on reading the angle as the normal's; wording is standard but needs care. Held at 8."
+  },
+  {
+    "id": "03e23eee-ba91-4f2c-9307-a711a8aaf231",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "hard",
+    "objective_tag": "physics.alternating-current.series-inductor-reactance-for-rated-power",
+    "flags": [],
+    "note": "Key A checks: R = 100 ohm, I = 1 A, Z = 125 ohm, XL = 75 ohm. Distractors 25 (subtraction), 160 (adding squares) and 225 (plain sum) are the right slips. Multi-step with clean wording."
+  },
+  {
+    "id": "d01eb790-0cf8-49f7-9eaa-eae3faeea1d5",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "hard",
+    "objective_tag": "physics.alternating-current.series-lcr-inductor-voltage-phasors",
+    "flags": [],
+    "note": "Key B checks: Z = 50 ohm, I = 2 A, VL = 160 V; the phasor check to 100 V is correct. The 100 V trap is fair; 80 V and 60 V are slips. Explanation accurate and it teaches the point."
+  },
+  {
+    "id": "47a09bf1-99f6-4a0d-bb3d-cd9177a65ba2",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.alternating-current.time-to-reach-half-peak-emf",
+    "flags": [],
+    "note": "Key C checks: wt = pi/6, t = 1/600 s. Each distractor maps to a named slip: 1/300 (pi/3), 1/200 (quarter period), 1/100 (half period). Clean two-step item at the right level."
+  },
+  {
+    "id": "73198264-8b92-4c57-a361-7cfdeef58e51",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.electromagnetic-waves.sources-of-em-spectrum",
+    "flags": [],
+    "note": "Key D checks: radio III, infrared IV, X-ray I, gamma II; explanation accurate. Option B pairs radio with vibrations, a throwaway. Recall-level matching, so 8 rather than 9."
+  },
+  {
+    "id": "7af4ea50-c28d-445c-b9da-6c586230ae81",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.electromagnetic-waves.em-spectrum-order-by-frequency",
+    "flags": [],
+    "note": "Key C checks: gamma, UV, infrared, microwave = B, D, A, C. Option A is the exact reverse, a designed trap. Direct recall; option D is a throwaway, so 8."
+  },
+  {
+    "id": "011459c4-767b-4d22-a553-e53947ca2243",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.electromagnetic-waves.electric-to-magnetic-amplitude-ratio",
+    "flags": [],
+    "note": "Key A checks: E0 = cB0 = 60 V/m. Distractors 6.7e-16 (ratio inverted), 2.0e-7 (unchanged) and 1.8e10 (c squared) are clean slips. One-step recall, so 8."
+  },
+  {
+    "id": "75bc29fb-5f94-405b-b6a4-9d121f46ff9e",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.semiconductor-electronics.dopant-carriers-and-junction-bias",
+    "flags": [],
+    "note": "Key B checks: arsenic gives n-type with electrons (III), indium p-type with holes (I), forward bias narrow with large current (II), reverse bias wide with small current (IV). Each option swaps a different pair."
+  },
+  {
+    "id": "9cc7e8e6-4b0e-4cf4-b003-20402d104f39",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.semiconductor-electronics.metal-conduction-band-overlap",
+    "flags": [],
+    "note": "Key D checks. Option C (full conduction band, empty valence band) is nonsensical, so elimination is easy; A and B cover insulators and silicon. Plain recall, held at 7."
+  },
+  {
+    "id": "fabdd431-d76a-40f3-b6c3-1718f5b4a141",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.semiconductor-electronics.mass-action-hole-concentration",
+    "flags": [],
+    "note": "Key C checks: n_h = n_i^2/n_e = 1.0e10 m^-3. Distractors 2.0e16 (no change), 8.0e38 (product) and 5.0e-7 (ratio slip) are fair. One-step, so 8."
+  },
+  {
+    "id": "4d2b0fe2-fffd-4d86-91be-ad6c8f61317a",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.semiconductor-electronics.pn-junction-diffusion-drift-balance",
+    "flags": [],
+    "note": "Key A checks: diffusion of majority carriers is balanced by drift of minority carriers. B, C and D are real misconceptions rather than throwaways. Direct recall of the equilibrium idea, so 8."
+  },
+  {
+    "id": "b178248c-b160-48d6-a199-390201b13144",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.semiconductor-electronics.diode-forward-drop-series-current",
+    "flags": [],
+    "note": "Key D checks: (5.7 - 0.7) V over 1.0 kohm = 5.0 mA. Distractors 5.7 (diode drop ignored), 6.4 (drop added) and 4.3 (drop subtracted twice) are sign slips. One-step, so 8."
+  },
+  {
+    "id": "9a2b3ade-77eb-4ee8-8cd3-f9dbbca861ba",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.semiconductor-electronics.capacitor-filter-smoothing",
+    "flags": [],
+    "note": "Key B checks. Option A (back to ac) and D (each diode conducts the whole cycle) are absurd; C (four times the input frequency) is a weak trap. Direct NCERT recall with two weak distractors, so 7."
+  }
+]

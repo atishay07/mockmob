@@ -1,0 +1,666 @@
+{
+  "batch": "w4-phys-01",
+  "subject": "physics",
+  "questions": [
+    {
+      "id": "0920b2bc-9dc7-4989-92b0-6acff1f8d6c9",
+      "subject": "physics",
+      "unit": "Electrostatics",
+      "chapter": "Electric Charges & Fields",
+      "type": "single_mcq",
+      "stem": "Three point charges are fixed on a straight line: P (+7 μC) at x = 0, Q (+5 μC) at x = 0.3 m and R (+3 μC) at x = 0.6 m. Take 1/(4πε0) = 9 × 10^9 N m² C^-2. The net electric force on Q is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "5.0 N towards R"
+        },
+        {
+          "key": "B",
+          "text": "2.0 N towards P"
+        },
+        {
+          "key": "C",
+          "text": "2.0 N towards R"
+        },
+        {
+          "key": "D",
+          "text": "5.0 N towards P"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "The force of P on Q is 9 × 10^9 × (7 × 10^-6)(5 × 10^-6)/(0.3)² = 3.5 N, repulsive, so it pushes Q towards R. The force of R on Q is 9 × 10^9 × (3 × 10^-6)(5 × 10^-6)/(0.3)² = 1.5 N, repulsive, so it pushes Q towards P. The pushes oppose, so the net is 3.5 - 1.5 = 2.0 N towards R. Adding the magnitudes to get 5.0 N forgets the opposite directions.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Physics Part I, Ch 1 Electric Charges and Fields: Coulomb's law and the superposition principle for forces on a charge",
+      "source": "claude-authored-2026-10-17-w4"
+    },
+    {
+      "id": "90420c7e-f992-4848-a1e3-b6c326d74ac3",
+      "subject": "physics",
+      "unit": "Electrostatics",
+      "chapter": "Electric Charges & Fields",
+      "type": "single_mcq",
+      "stem": "An infinite plane sheet carries a uniform surface charge density of 1.77 × 10^-7 C m^-2. Take ε0 = 8.85 × 10^-12 C² N^-1 m^-2. The electric field at a point 5 cm from the sheet is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "2 × 10^4 N C^-1"
+        },
+        {
+          "key": "B",
+          "text": "5 × 10^3 N C^-1"
+        },
+        {
+          "key": "C",
+          "text": "2 × 10^5 N C^-1"
+        },
+        {
+          "key": "D",
+          "text": "1 × 10^4 N C^-1"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "Gauss's theorem gives E = σ/(2ε0) for an infinite plane sheet, independent of the distance from it. E = 1.77 × 10^-7/(2 × 8.85 × 10^-12) = 1.77 × 10^-7/(1.77 × 10^-11) = 1 × 10^4 N C^-1. The value σ/ε0 = 2 × 10^4 N C^-1 belongs to the field just outside a charged conductor, and dividing by the 5 cm distance wrongly makes the field fall off.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Physics Part I, Ch 1 Electric Charges and Fields: Gauss's theorem applied to a uniformly charged infinite plane sheet",
+      "source": "claude-authored-2026-10-17-w4"
+    },
+    {
+      "id": "8ea6baf2-e098-4af2-bf59-7f708cb09bc1",
+      "subject": "physics",
+      "unit": "Electrostatics",
+      "chapter": "Electric Charges & Fields",
+      "type": "single_mcq",
+      "stem": "An electric dipole of moment 8 × 10^-7 C m is placed in a uniform electric field of 5 × 10^5 N C^-1 with its axis at 30° to the field. The magnitude of the torque on the dipole is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.20 N m"
+        },
+        {
+          "key": "B",
+          "text": "0.35 N m"
+        },
+        {
+          "key": "C",
+          "text": "0.40 N m"
+        },
+        {
+          "key": "D",
+          "text": "0.10 N m"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "The torque on a dipole is τ = pE sinθ = 8 × 10^-7 × 5 × 10^5 × sin 30° = 0.40 × 0.5 = 0.20 N m. Using cos 30° in place of sin 30° gives 0.35 N m, and dropping the angle factor gives 0.40 N m, which is the maximum torque at 90°.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "NCERT Class 12 Physics Part I, Ch 1 Electric Charges and Fields: torque on an electric dipole in a uniform electric field",
+      "source": "claude-authored-2026-10-17-w4"
+    },
+    {
+      "id": "d7a672d0-b4e7-4c8a-b38f-ced6b7a6a4ad",
+      "subject": "physics",
+      "unit": "Electrostatics",
+      "chapter": "Electric Charges & Fields",
+      "type": "single_mcq",
+      "stem": "A thin spherical shell of radius 25 cm carries a uniform charge of +16 μC. A point charge of −6 μC is fixed at the centre of the shell. Take 1/(4πε0) = 9 × 10^9 N m² C^-2. The magnitude of the net electric field at a point 15 cm from the centre is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "4.0 × 10^6 N C^-1"
+        },
+        {
+          "key": "B",
+          "text": "6.4 × 10^6 N C^-1"
+        },
+        {
+          "key": "C",
+          "text": "2.4 × 10^6 N C^-1"
+        },
+        {
+          "key": "D",
+          "text": "8.8 × 10^6 N C^-1"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "The field of a uniformly charged thin shell is zero at every point inside it, so only the point charge at the centre contributes. E = 9 × 10^9 × 6 × 10^-6/(0.15)² = 2.4 × 10^6 N C^-1. Using the net charge of +10 μC gives 4.0 × 10^6 N C^-1, which wrongly treats the shell's charge as sitting at the centre for an interior point.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "NCERT Class 12 Physics Part I, Ch 1 Electric Charges and Fields: Gauss's theorem and the field inside a uniformly charged thin spherical shell",
+      "source": "claude-authored-2026-10-17-w4"
+    },
+    {
+      "id": "95dce522-14a4-4452-83c5-f7192cdfdded",
+      "subject": "physics",
+      "unit": "Electrostatics",
+      "chapter": "Electric Charges & Fields",
+      "type": "statement_based",
+      "stem": "Consider the following statements about electric fields.\n(A) Electrostatic field lines do not form closed loops.\n(B) The tangent to a field line at a point gives the direction of the force on a negative test charge placed there.\n(C) The net force on an electric dipole placed in a uniform electric field is zero.\n(D) Closer field lines in a region indicate a stronger electric field there.\nChoose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(A), (B) and (D) only"
+        },
+        {
+          "key": "B",
+          "text": "(A), (C) and (D) only"
+        },
+        {
+          "key": "C",
+          "text": "(B), (C) and (D) only"
+        },
+        {
+          "key": "D",
+          "text": "(A), (B) and (C) only"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "Field lines begin on positive charges and end on negative ones, so electrostatic field lines never close on themselves. A uniform field pulls the two charges of a dipole with equal and opposite forces, so the net force is zero, and a crowded line pattern marks a strong field. The tangent gives the force direction on a positive test charge; a negative charge is pushed the opposite way, so that statement is false.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Physics Part I, Ch 1 Electric Charges and Fields: properties of electric field lines and a dipole in a uniform field",
+      "source": "claude-authored-2026-10-17-w4"
+    },
+    {
+      "id": "e3b20782-511c-44ab-b986-40d99ca257c5",
+      "subject": "physics",
+      "unit": "Electrostatics",
+      "chapter": "Electric Charges & Fields",
+      "type": "single_mcq",
+      "stem": "A body carries a net charge of −4.8 × 10^-18 C. Take the charge of an electron as 1.6 × 10^-19 C. The number of excess electrons on the body is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "300"
+        },
+        {
+          "key": "C",
+          "text": "48"
+        },
+        {
+          "key": "D",
+          "text": "30"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "Charge is quantised, so Q = ne and n = |Q|/e = 4.8 × 10^-18/(1.6 × 10^-19) = 30. The negative sign shows that the body has gained electrons. An answer of 3 comes from treating 10^-18/10^-19 as 1 instead of 10.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "NCERT Class 12 Physics Part I, Ch 1 Electric Charges and Fields: quantisation of charge, Q = ne",
+      "source": "claude-authored-2026-10-17-w4"
+    },
+    {
+      "id": "97d3de13-1ee2-4583-ba36-c96b95d94382",
+      "subject": "physics",
+      "unit": "Electrostatics",
+      "chapter": "Electrostatic Potential & Capacitance",
+      "type": "single_mcq",
+      "stem": "A charge of +4 μC and a charge of −1 μC are fixed 50 cm apart. At what distance from the +4 μC charge, on the line joining them and between the two charges, is the electric potential zero?",
+      "options": [
+        {
+          "key": "A",
+          "text": "25 cm"
+        },
+        {
+          "key": "B",
+          "text": "40 cm"
+        },
+        {
+          "key": "C",
+          "text": "10 cm"
+        },
+        {
+          "key": "D",
+          "text": "33.3 cm"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "Potential is a scalar, so the two contributions simply add: k(4 μC)/x − k(1 μC)/(0.5 − x) = 0 gives 4(0.5 − x) = x, so x = 0.4 m = 40 cm. At that point 4/0.4 = 1/0.1 in the same units. The midpoint (25 cm) is wrong because the charges differ, and 33.3 cm comes from applying the inverse-square condition that belongs to fields.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Physics Part I, Ch 2 Electrostatic Potential and Capacitance: potential due to a system of point charges",
+      "source": "claude-authored-2026-10-17-w4"
+    },
+    {
+      "id": "3cfba954-5ba0-4315-8999-3935f55ec671",
+      "subject": "physics",
+      "unit": "Electrostatics",
+      "chapter": "Electrostatic Potential & Capacitance",
+      "type": "single_mcq",
+      "stem": "An electric dipole of moment 2 × 10^-8 C m is held in a uniform electric field of 5 × 10^4 N C^-1 at an angle of 60° to the field. Taking the potential energy to be zero when the dipole is perpendicular to the field, its potential energy is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "+5.0 × 10^-4 J"
+        },
+        {
+          "key": "B",
+          "text": "−8.7 × 10^-4 J"
+        },
+        {
+          "key": "C",
+          "text": "−5.0 × 10^-4 J"
+        },
+        {
+          "key": "D",
+          "text": "−1.0 × 10^-3 J"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "For a dipole at angle θ to the field, U = −pE cosθ. Here pE = 2 × 10^-8 × 5 × 10^4 = 1 × 10^-3 J, so U = −1 × 10^-3 × cos 60° = −5 × 10^-4 J. Using sin 60° gives −8.7 × 10^-4 J, which is the torque-type factor, and −1 × 10^-3 J is the value at θ = 0.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Physics Part I, Ch 2 Electrostatic Potential and Capacitance: potential energy of an electric dipole in an external field",
+      "source": "claude-authored-2026-10-17-w4"
+    },
+    {
+      "id": "fca01a9e-a16c-44c1-bc49-2d112ea7b54a",
+      "subject": "physics",
+      "unit": "Electrostatics",
+      "chapter": "Electrostatic Potential & Capacitance",
+      "type": "single_mcq",
+      "stem": "A parallel plate capacitor with plate separation 8 mm has a capacitance of 5 pF in air. A dielectric slab of thickness 4 mm and dielectric constant 4 is then introduced between the plates, parallel to them. The new capacitance is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "20 pF"
+        },
+        {
+          "key": "B",
+          "text": "5.7 pF"
+        },
+        {
+          "key": "C",
+          "text": "10 pF"
+        },
+        {
+          "key": "D",
+          "text": "8 pF"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "With a slab of thickness t and constant K, the effective gap is (d − t) + t/K = 4 + 1 = 5 mm, so C = C0 × 8/5 = 5 × 8/5 = 8 pF. Treating the slab as a conductor (gap d − t = 4 mm) would give 10 pF, and 20 pF (K × C0) would hold only if the dielectric filled the whole gap.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "NCERT Class 12 Physics Part I, Ch 2 Electrostatic Potential and Capacitance: capacitance of a parallel plate capacitor with a dielectric slab",
+      "source": "claude-authored-2026-10-17-w4"
+    },
+    {
+      "id": "bce038d6-614c-404b-8fde-36b24501f1ad",
+      "subject": "physics",
+      "unit": "Electrostatics",
+      "chapter": "Electrostatic Potential & Capacitance",
+      "type": "sequence_ordering",
+      "stem": "Arrange the following modifications of a parallel plate capacitor of capacitance C0 in increasing order of the capacitance obtained.\n(A) Plate area halved\n(B) Plate separation doubled and the gap filled with a dielectric of constant 3\n(C) Plate separation tripled\n(D) Plate area doubled and plate separation halved\nChoose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(C), (A), (B), (D)"
+        },
+        {
+          "key": "B",
+          "text": "(A), (C), (B), (D)"
+        },
+        {
+          "key": "C",
+          "text": "(C), (A), (D), (B)"
+        },
+        {
+          "key": "D",
+          "text": "(A), (C), (D), (B)"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "Capacitance varies as KA/d. The four values are: area halved, 0.5 C0; separation doubled with K = 3, 3/2 = 1.5 C0; separation tripled, C0/3; area doubled with separation halved, 2 × 2 = 4 C0. In increasing order these are C0/3, 0.5 C0, 1.5 C0 and 4 C0. Ranking the separation-tripled case above the area-halved case is the usual slip, since 1/3 is smaller than 1/2.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "NCERT Class 12 Physics Part I, Ch 2 Electrostatic Potential and Capacitance: parallel plate capacitance C = Kε0A/d",
+      "source": "claude-authored-2026-10-17-w4"
+    },
+    {
+      "id": "8da1eb46-ed58-40cc-b1d1-9b3ce9b31f86",
+      "subject": "physics",
+      "unit": "Current Electricity",
+      "chapter": "Current Electricity",
+      "type": "single_mcq",
+      "stem": "Free electrons in a metal wire drift at 9 mm s^-1 when the electric field in the wire is 1.5 V m^-1. The mobility of the electrons, in m² V^-1 s^-1, is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.4 × 10^-2"
+        },
+        {
+          "key": "B",
+          "text": "6.0"
+        },
+        {
+          "key": "C",
+          "text": "6.0 × 10^-3"
+        },
+        {
+          "key": "D",
+          "text": "1.7 × 10^2"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "Mobility is the drift speed per unit electric field, μ = vd/E. Converting 9 mm s^-1 to 9 × 10^-3 m s^-1 gives μ = 9 × 10^-3/1.5 = 6.0 × 10^-3 m² V^-1 s^-1. Leaving the speed in millimetres gives 6.0, a slip of the unit prefix, and multiplying the speed by the field instead of dividing gives 1.4 × 10^-2.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "NCERT Class 12 Physics Part I, Ch 3 Current Electricity: drift velocity and mobility, μ = vd/E",
+      "source": "claude-authored-2026-10-17-w4"
+    },
+    {
+      "id": "7342a340-74c0-40f2-b415-b9b727337a3c",
+      "subject": "physics",
+      "unit": "Current Electricity",
+      "chapter": "Current Electricity",
+      "type": "single_mcq",
+      "stem": "A uniform wire of resistance 4 Ω is stretched uniformly to three times its original length, with its volume unchanged. Its new resistance is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "12 Ω"
+        },
+        {
+          "key": "B",
+          "text": "0.44 Ω"
+        },
+        {
+          "key": "C",
+          "text": "108 Ω"
+        },
+        {
+          "key": "D",
+          "text": "36 Ω"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "At constant volume the cross-sectional area falls by the same factor by which the length rises. With L → 3L and A → A/3, R = ρL/A becomes 9 times larger, so R' = 9 × 4 = 36 Ω. Using R ∝ L alone gives 12 Ω, which forgets that the cross-section also shrinks.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Physics Part I, Ch 3 Current Electricity: resistance R = ρL/A of a wire stretched at constant volume",
+      "source": "claude-authored-2026-10-17-w4"
+    },
+    {
+      "id": "d9105793-3f92-4159-ada8-7c55d8a096ff",
+      "subject": "physics",
+      "unit": "Current Electricity",
+      "chapter": "Current Electricity",
+      "type": "single_mcq",
+      "stem": "Four identical cells, each of emf 1.5 V and internal resistance 1 Ω, are connected in parallel across an external resistor of 2.75 Ω. The current through the resistor is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.22 A"
+        },
+        {
+          "key": "B",
+          "text": "0.50 A"
+        },
+        {
+          "key": "C",
+          "text": "0.40 A"
+        },
+        {
+          "key": "D",
+          "text": "2.0 A"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "Identical cells in parallel give the emf of a single cell, 1.5 V, with internal resistance r/n = 1/4 = 0.25 Ω. The current is I = 1.5/(2.75 + 0.25) = 0.50 A. Using the full 1 Ω of a single cell gives 0.40 A, which ignores how the parallel cells share the current.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Physics Part I, Ch 3 Current Electricity: combination of cells in parallel and internal resistance",
+      "source": "claude-authored-2026-10-17-w4"
+    },
+    {
+      "id": "880a3308-f1b2-4535-ad8a-b6d776ed6fca",
+      "subject": "physics",
+      "unit": "Current Electricity",
+      "chapter": "Current Electricity",
+      "type": "single_mcq",
+      "stem": "Kirchhoff's junction rule and loop rule respectively express the conservation of:",
+      "options": [
+        {
+          "key": "A",
+          "text": "energy and charge"
+        },
+        {
+          "key": "B",
+          "text": "charge and momentum"
+        },
+        {
+          "key": "C",
+          "text": "energy and momentum"
+        },
+        {
+          "key": "D",
+          "text": "charge and energy"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "The junction rule states that the total current entering a junction equals the total leaving it, which expresses conservation of charge. The loop rule states that the algebraic sum of potential changes around a closed loop is zero, which expresses conservation of energy. Swapping the two gives the reversed pairing, a common slip.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "NCERT Class 12 Physics Part I, Ch 3 Current Electricity: Kirchhoff's junction rule and loop rule",
+      "source": "claude-authored-2026-10-17-w4"
+    },
+    {
+      "id": "025e8410-b43b-4ad0-844e-9387e3225128",
+      "subject": "physics",
+      "unit": "Current Electricity",
+      "chapter": "Current Electricity",
+      "type": "single_mcq",
+      "stem": "In a Wheatstone bridge PQRS the arms have resistances PQ = 10 Ω, QR = 20 Ω, PS = 15 Ω and SR = 30 Ω. A galvanometer of resistance 100 Ω joins Q and S, and a battery is connected between P and R. The equivalent resistance between P and R is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "18 Ω"
+        },
+        {
+          "key": "B",
+          "text": "16.7 Ω"
+        },
+        {
+          "key": "C",
+          "text": "30 Ω"
+        },
+        {
+          "key": "D",
+          "text": "75 Ω"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "The ratio 10/20 equals 15/30, so the bridge is balanced and no current flows through the galvanometer, whose resistance is therefore irrelevant. The paths P-Q-R and P-S-R are 30 Ω and 45 Ω in parallel: 30 × 45/75 = 18 Ω. Adding all four arms in series gives 75 Ω, and counting only one path gives 30 Ω.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "NCERT Class 12 Physics Part I, Ch 3 Current Electricity: Wheatstone bridge, balance condition and equivalent resistance",
+      "source": "claude-authored-2026-10-17-w4"
+    },
+    {
+      "id": "8bc4ee3c-b0af-4a02-96b3-7f65a3a49971",
+      "subject": "physics",
+      "unit": "Current Electricity",
+      "chapter": "Current Electricity",
+      "type": "single_mcq",
+      "stem": "Two bulbs rated 60 W, 120 V and 40 W, 120 V are connected in series across a 120 V supply. The total power drawn from the supply is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "100 W"
+        },
+        {
+          "key": "B",
+          "text": "50 W"
+        },
+        {
+          "key": "C",
+          "text": "24 W"
+        },
+        {
+          "key": "D",
+          "text": "9.6 W"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "From R = V²/P the resistances are 120²/60 = 240 Ω and 120²/40 = 360 Ω. In series the total is 600 Ω, so the power drawn is V²/R = 14400/600 = 24 W. Adding the ratings gives 100 W, which is wrong because each bulb now receives less than its rated voltage; 9.6 W is only the power in the 60 W bulb (0.2² × 240).",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "NCERT Class 12 Physics Part I, Ch 3 Current Electricity: electrical power P = V²/R for bulbs in series",
+      "source": "claude-authored-2026-10-17-w4"
+    },
+    {
+      "id": "3a8c8b9d-cb31-415f-973d-d7b7143064d7",
+      "subject": "physics",
+      "unit": "Current Electricity",
+      "chapter": "Current Electricity",
+      "type": "match_the_following",
+      "stem": "Match List-I with List-II. List-I: (A) Resistivity (B) Conductivity (C) Mobility of charge carriers (D) Current density. List-II: (I) A m^-2 (II) m² V^-1 s^-1 (III) Ω m (IV) Ω^-1 m^-1. Choose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(A)-(IV), (B)-(III), (C)-(II), (D)-(I)"
+        },
+        {
+          "key": "B",
+          "text": "(A)-(III), (B)-(IV), (C)-(I), (D)-(II)"
+        },
+        {
+          "key": "C",
+          "text": "(A)-(IV), (B)-(III), (C)-(I), (D)-(II)"
+        },
+        {
+          "key": "D",
+          "text": "(A)-(III), (B)-(IV), (C)-(II), (D)-(I)"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "Resistivity has the unit Ω m and conductivity, its reciprocal, has Ω^-1 m^-1. Mobility is the drift speed per unit field, so its unit is m² V^-1 s^-1, and current density is current per unit area, A m^-2. Interchanging resistivity and conductivity is the common slip, since one is the reciprocal of the other.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Physics Part I, Ch 3 Current Electricity: resistivity, conductivity, mobility and current density with their SI units",
+      "source": "claude-authored-2026-10-17-w4"
+    },
+    {
+      "id": "f658100a-868f-4339-8d24-1d8df288590a",
+      "subject": "physics",
+      "unit": "Magnetic Effects of Current and Magnetism",
+      "chapter": "Magnetism & Matter",
+      "type": "single_mcq",
+      "stem": "A short bar magnet has a magnetic moment of 2 A m². Take μ0/4π = 10^-7 T m A^-1. The magnetic field at a point on its axis, 10 cm from its centre, is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "2 × 10^-4 T"
+        },
+        {
+          "key": "B",
+          "text": "4 × 10^-4 T"
+        },
+        {
+          "key": "C",
+          "text": "4 × 10^-5 T"
+        },
+        {
+          "key": "D",
+          "text": "8 × 10^-4 T"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "On the axis of a short bar magnet, B = (μ0/4π) × 2m/r³ = 10^-7 × 2 × 2/(0.1)³ = 4 × 10^-4 T. The equatorial field is half of this, (μ0/4π) × m/r³ = 2 × 10^-4 T, which is also what results from leaving out the factor 2. Using r² in place of r³ gives 4 × 10^-5 T.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Physics Part I, Ch 5 Magnetism and Matter: magnetic field on the axis of a bar magnet",
+      "source": "claude-authored-2026-10-17-w4"
+    },
+    {
+      "id": "1f2f520d-c52c-475f-a56a-19c362e7d6ba",
+      "subject": "physics",
+      "unit": "Magnetic Effects of Current and Magnetism",
+      "chapter": "Magnetism & Matter",
+      "type": "match_the_following",
+      "stem": "Match List-I with List-II. List-I: (A) Bismuth (B) Aluminium (C) Soft iron (D) Alnico. List-II: (I) Paramagnetic (II) Ferromagnetic, low coercivity, used in electromagnet cores (III) Diamagnetic (IV) Ferromagnetic, high coercivity, used in permanent magnets. Choose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(A)-(I), (B)-(III), (C)-(II), (D)-(IV)"
+        },
+        {
+          "key": "B",
+          "text": "(A)-(III), (B)-(I), (C)-(IV), (D)-(II)"
+        },
+        {
+          "key": "C",
+          "text": "(A)-(III), (B)-(I), (C)-(II), (D)-(IV)"
+        },
+        {
+          "key": "D",
+          "text": "(A)-(I), (B)-(III), (C)-(IV), (D)-(II)"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "Bismuth is diamagnetic and aluminium is paramagnetic. Soft iron has low coercivity and retentivity, so it makes a good electromagnet core, while alnico has high coercivity and retentivity and is used for permanent magnets. Pairing soft iron with permanent magnets is the usual slip, since both are ferromagnetic.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Physics Part I, Ch 5 Magnetism and Matter: dia-, para- and ferromagnetic substances with examples, soft and hard ferromagnets",
+      "source": "claude-authored-2026-10-17-w4"
+    },
+    {
+      "id": "5f09c265-213d-4461-85c9-92958e185d14",
+      "subject": "physics",
+      "unit": "Magnetic Effects of Current and Magnetism",
+      "chapter": "Magnetism & Matter",
+      "type": "single_mcq",
+      "stem": "The magnetic susceptibility of a paramagnetic sample is 2 × 10^-5 at 300 K. At what temperature will its susceptibility be 4 × 10^-5, if Curie's law holds?",
+      "options": [
+        {
+          "key": "A",
+          "text": "150 K"
+        },
+        {
+          "key": "B",
+          "text": "600 K"
+        },
+        {
+          "key": "C",
+          "text": "75 K"
+        },
+        {
+          "key": "D",
+          "text": "1200 K"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "Curie's law gives χ = C/T, so the susceptibility is inversely proportional to the absolute temperature. For χ to double, T must halve: 300 K becomes 150 K (check: 2 × 10^-5 × 300 = 4 × 10^-5 × 150 = 6 × 10^-3). Taking χ directly proportional to T gives 600 K, the common slip.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "NCERT Class 12 Physics Part I, Ch 5 Magnetism and Matter: Curie's law and the effect of temperature on paramagnetic susceptibility",
+      "source": "claude-authored-2026-10-17-w4"
+    }
+  ]
+}

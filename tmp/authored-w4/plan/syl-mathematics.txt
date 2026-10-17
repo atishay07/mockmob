@@ -1,0 +1,431 @@
+For the Year 2026  Mathematics/
+                      Applied
+
+                   Mathematics ­ 319
+
+                   Syllabus for
+
+                   CUET(UG)
+Section A1
+
+1. Algebra                               (iv). Application of Integration as area
+(i) Matrices and types of Matrices       under the curve (simple curve)
+
+(ii) Equality of Matrices, transpose     4. Differential Equations
+of a Matrix, Symmetric and Skew
+Symmetric Matrix                         (i) Order and degree of differential
+(iii) Algebra of Matrices                equations
+                                         (ii) Solving of differential equations
+(iv) Determinants                        with variable separable
+
+(v) Inverse of a Matrix
+
+(vi) Solving of simultaneous             5. Probability Distributions
+equations using Matrix Method            Simple Probability
+
+2. Calculus
+
+(i) Higher order derivatives upto        6. Linear Programming
+(second order)
+(ii) Increasing and Decreasing           (i) Graphical method of solution for
+Functions                                problems in two variables
+(iii). Maxima and Minima                 (ii) Feasible and infeasible regions
+                                         (iii). Optimal feasible solution
+3. Integration and its Applications
+
+(i) Indefinite integrals of simple
+functions
+
+(ii) Evaluation of indefinite integrals
+
+(iii) Definite Integrals
+                        Section B1: Mathematics
+
+UNIT I: RELATIONSAND FUNCTIONS
+
+   1. Relations and Functions
+
+           Types of relations: Reflexive, symmetric, transitive and equivalence relations. One to one and onto functions.
+
+   2. Inverse Trigonometric Functions
+
+           Definition, range, domain, principal value branches. Graphs of inverse trigonometric functions.
+
+UNIT II: ALGEBRA
+
+  1. Matrices
+
+           Concept, notation, order, equality, types of matrices, zero matrix, transpose of a matrix, symmetric and skew symmetric
+           matrices. Operations on matrices: Addition, multiplication and multiplication with a scalar. Simple properties of
+           addition, multiplication and scalar multiplication. Non-commutativity of multiplication of matrices and existence of non-
+           zero matrices whose product is the zero matrix (restrict to square matrices of order 2). Invertible matrices and proof of
+           the uniqueness of inverse,if it exists;(Here all matrices will have real entries).
+
+  2. Determinants
+
+           Determinant of a square matrix (up to 3 × 3 matrices), minors, cofactors and applications of determinants in finding the
+           area of a triangle. Adjoint and inverse of a square matrix. Consistency, inconsistency and number of solutions of system
+           of linear equations by examples, solving system of linear equations in two or three variables (having unique solution)
+           using inverse of a matrix.
+
+UNIT III: CALCULUS
+
+   1. Continuity and Differentiability
+
+        Continuity and differentiability, chain rule, derivatives of inverse trigonometric functions, like sin-1  , cos-1  and
+        tan-1 , derivative of implicit functions. Concepts of exponential, logarithmic functions. Derivatives of logarithmic and
+        exponential functions. Logarithmic differentiation, derivative of functions expressed in parametric forms. Second-order
+        derivatives.
+
+   2. Applications of derivatives: Rate of change of quantities, increasing/decreasing functions, maxima and minima (first
+
+        derivative test motivated geometrically and second derivative test given as provable tool). Simple problems (that illustrate
+        basic principles and understanding of the subject as well as real-life situations).
+3. Integrals
+
+        Integration as inverse process of differentiation. Integration of a variety of functions by substitution, by partial fractions
+       and by parts, Evaluation of simple integrals of the following types and problems based on them.
+
+           ,           ,   ,      ,                               ,  
+
+         2 + 2 2 ± 2 2 - 2 2 - 2 2 +  +  2 +  +                        ,
+
+           ( + )         ( + )
+
+           2 +  +   ,                  ,  2 ± 2  ,  2 - 2 ,  2 +  + 
+
+                         2 +  + 
+
+Fundamental Theorem of Calculus (without proof). Basic properties of definite integralsand evaluation of definite
+integrals.
+
+4. Applications of the Integrals
+
+        Applications in finding the area under simple curves, especially lines, circles/parabolas/ellipses (in standard form only)
+
+5. Differential Equations
+
+        Definition, order and degree, general and particular solutions of a differential equation. Solution of differential equations
+       by method of separation of variables, solutions of homogeneous differential equations of first order and first degree.
+       Solutions of linear differential equation of the type:
+
+         dy
+             + Py = Q , where P and Q are functions of x or constants
+
+        dx
+
+dx + Px    = Q , where P and Q are functions of y or constants
+
+dy
+UNIT IV: VECTORSAND THREE-DIMENSIONALGEOMETRY
+
+1. Vectors
+
+        Vectors and scalars, magnitude and direction of a vector. Direction cosines and direction ratios of a vector. Types of vectors
+       (equal, unit, zero, parallel and collinear vectors), position vector of a point, negative of a vector, components of a vector,
+       addition of vectors, multiplication of a vector by a scalar, position vector of a point dividing a line segment in a given
+       ratio. Definition, Geometrical interpretation, properties and application of scalar (dot) product of vectors, vector (cross)
+       product of vectors.
+
+2. Three-dimensional Geometry
+
+        Direction cosines and direction ratios of a line joining two points. Cartesian equation and vector equation of a line, skew
+       lines, shortest distance between two lines. Angle between two lines.
+
+   Unit V: Linear Programming
+
+            Introduction, related terminology such as constraints, objective function, optimization, graphical method of solution for
+            problems in two variables, feasible and infeasible regions (bounded or unbounded), feasible and infeasible solutions,
+            optimal feasible solutions (up to three non-trivial constraints).
+
+   UnitVI: Probability
+
+            Conditional probability, Multiplications theorem on probability, independent events, total probability, Baye's theorem.
+
+                       Section B2: Applied Mathematics
+
+   Unit I: Numbers, Quantification and Numerical Applications
+
+             A. Modulo Arithmetic
+
+                    · Define modulus of an integer
+                      · Apply arithmetic operations using modular arithmetic rules
+
+            B. Congruence Modulo
+
+                      · Define congruence modulo
+                      · Apply the definition in various problems
+
+            C. Allegation and Mixture
+
+                      · Understand the rule of allegation to produce a mixture at a given price
+                      · Determine the mean price of a mixture
+
+                  · Apply rule of allegation
+
+            D. Numerical Problems
+                  · Solve real life problems mathematically
+E. Boats and Streams
+
+      · Distinguish between upstream and downstream
+      · Express the problem in the form of an equation
+
+F. Pipes and Cisterns
+
+      · Determine the time taken by two or more pipes to fill or empty the tank
+
+G. Races and Games
+
+      · Compare the performance of two players w.r.t. time, distance
+
+H. Numerical Inequalities
+
+      · Describe the basic concepts of numerical inequalities
+      · Understand and write numerical inequalities
+
+UNIT II: ALGEBRA
+
+         A. Matrices and types of matrices
+               · Define matrix
+               · Identify different kinds of matrices
+
+         B. Equality of matrices, Transpose of a matrix, Symmetric and Skew symmetric matrix
+               · Determine equality of two matrices
+               · Write transpose of given matrix
+               · Define symmetric and skew symmetric matrix
+
+C. Algebra of Matrices
+
+      Perform operations like addition & subtraction on matrices of same order
+      Perform multiplication of two matrices of appropriate order
+      Perform multiplication of a scalar with matrix
+
+D. Determinant of Matrices
+
+      Determinant of a square matrix
+      Use elementary properties of determinants
+      Singular matrix, Non-singular matrix
+      |AB|=|A||B|
+      Simple problems to find determinant value
+
+E. Inverse of a Matrix
+
+· Define the inverse of a square matrix
+
+· Apply properties of inverse of matrices
+
+· Inverse of a matrix using: a) cofactors
+
+If A and B are invertible square matrices of same size,
+
+i)   (AB)-1=B-1 A-1
+
+ii)  (A-1)-1 =A
+
+iii) (AT) -1 = (A-1) T
+F. Solving system of simultaneous equations (upto three variables only (non-
+     homogeneous equations))
+
+UNIT III: CALCULUS
+
+          A. Higher Order Derivatives
+                · Determine second and higher order derivatives upto second order derivatives
+                · Understand differentiation of parametric functions and implicit functions
+
+B. Application of Derivatives
+
+     · Determine the rate of change of various quantities
+
+C. Marginal Cost and Marginal Revenue using derivatives
+    · Define marginal cost and marginal revenue
+    · Find marginal cost and marginal revenue
+
+D. Increasing/Decreasing Functions
+    · Determine whether a function is increasing or decreasing
+
+    · Determine the conditions for a function to be increasing or decreasing
+E. Maxima and Minima
+
+    · Determine critical points of the function
+    · Find the point(s) of local maxima and local minima and corresponding local maximum
+
+          and local minimum values
+
+    · Find the absolute maximum and absolute minimum value of a function
+    · Solve applied problems
+F. Integration
+
+     · Understand and determine indefinite integrals of simple functions as anti-derivative
+
+G. Indefinite integrals as family of curves
+
+· Evaluate indefinite integrals of simple algebraic functions by methods of
+
+(i)  substitution
+
+(ii) partial fraction
+
+(iii) by parts
+
+H. Definite Integral as area under the curve
+
+     · Define definite integral as area under the curve(non-trigonometric function)
+     · Understand fundamental theorem of integral calculus and apply it to evaluate the definite
+
+          integral
+     · Apply properties of definite integrals to solve problems
+
+I. Application of Integration
+
+     · Identify the region representing C.S. and P.S. graphically
+     · Apply the definite integral to find consumer surplus-producer surplus
+
+J. Differential Equations
+
+     · Recognize a differential equation
+     · Find the order and degree of a differential equation
+
+K. Formulating and solving differential equations
+
+     · Formulate differential equations
+
+                                                                                               1|P a g e
+                  · Verify the solution of differential equation
+                  · Solve simple differential equation
+
+UNIT IV: PROBABILITY DISTRIBUTIONS
+          A. Probability Distribution
+                · Understand the concept of Random Variables and its Probability Distributions
+                · Find probability distribution of discrete random variable
+          B. Mathematical Expectation
+                · Apply arithmetic mean of frequency distribution to find the expected value of a
+
+                       random variable
+
+          C. Variance
+                · Calculate the Variance and S.D. of a random variable
+
+          D. Binomial Distribution
+
+                  · Identify the Bernoulli Trials and apply Binomial Distribution
+                  · Evaluate Mean, Variance and S.D. of a Binomial Distribution
+
+          E. Poisson Distribution
+
+                  · Understand the conditions of Poisson Distribution
+                  · Evaluate the Mean and Variance of Poisson distribution
+
+          F. Normal Distribution
+
+                  · Understand normal distribution is a continuous distribution
+                  · Evaluate value of Standard normal variate
+                  · Area relationship between Mean and Standard Deviation
+
+UNIT V: TIME BASED DATA
+
+          A. Time Series
+               · Identify time series as chronological data
+
+          B. Components of Time Series
+               · Distinguish between different components of time series
+
+          C. Time Series analysis for univariate data
+
+                   · Solve practical problems based on statistical data and Interpret
+
+          D. Secular trend
+
+                   · Understand the long term tendency
+
+          E. Methods of Measuring trend
+
+                   · Demonstrate the techniques of finding trend by different methods
+
+UNIT VI: INFERENTIAL STATISTICS
+
+                                                                                                                             2|P a g e
+                A. Population and Sample
+
+                 · Define Population and Sample
+                 · Differentiate between population and sample
+                 · Define a representative sample from a population
+                 · Differentiate between a representative and a non-representative sample
+                 · Draw a representative sample using simple random sampling
+                 · Draw a representative sample using a systematic random sampling
+
+                B. Parameter and Statistics and Statistical Interferences
+
+                 · Define Parameter with reference to Population
+                 · Define Statistics with reference to Sample
+                 · Explain the relation between Parameter and Statistic
+                 · Explain the limitation of Statistic to generalize the estimation for population
+                 · Interpret the concept of Statistical Significance and Statistical Inferences
+                 · Central Limit Theorem
+
+                 · Explain the relation between Population-Sampling Distribution-Sample
+
+                 C. t-Test (one sample t-test for a small group sample )
+                       · Define a hypothesis
+                       · Differentiate between Null and Alternate hypothesis
+                       · Define and calculate degree of freedom
+                       · Test Null hypothesis and make inferences using t-test statistic for one group.
+
+UNIT VII: FINANCIAL MATHEMATICS
+
+           A. Perpetuity, Sinking Funds
+                · Explain the concept of perpetuity and sinking fund
+                · Calculate perpetuity
+                · Differentiate between sinking fund and saving account
+
+           B. Calculation of EMI
+                · Explain the concept of EMI
+                · Calculate EMI using various methods
+
+           C. Calculation of Returns, Nominal Rate of Return
+
+                 · Explain the concept of rate of return and nominal rate of return
+                 · Calculate rate of return and nominal rate of return
+
+           D. Compound Annual Growth Rate
+
+                 · Understand the concept of Compound Annual Growth Rate
+                 · Differentiate between Compound Annual Growth rate and Annual Growth Rate
+                 · Calculate Compound Annual Growth Rate
+
+           E. Linear method of Depreciation
+                · Concept of linear method of Depreciation
+                · Interpret cost, residual value and useful life of an asset from the given information
+                · Depreciation
+           F. Valuation of Bonds:
+
+                     · Concept of bond and related terms.
+                     · Value of bond using present value approach
+
+UNIT VIII: LINEAR PROGRAMMING
+
+           A. Introduction and related terminology
+
+                 · Familiarize with terms related to Linear Programming Problem
+
+           B. Mathematical formulation of Linear Programming Problem
+
+                 · Formulate Linear Programming Problem
+
+           C. Different types of Linear Programming Problems
+
+                 · Identify and formulate different types of LPP
+
+           D. Graphical Method of Solution for problems in two Variables
+
+                 · Draw the Graph for a system of linear inequalities involving two variables and to
+                       find its solution graphically
+
+           E. Feasible and Infeasible Regions
+
+                 · Identify feasible, infeasible and bounded regions
+
+           F. Feasible and infeasible solutions, optimal feasible solution
+
+                 · Understand feasible and infeasible solutions
+                 · Find optimal feasible solution
+

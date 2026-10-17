@@ -3,7 +3,7 @@
   "subject": "general_test",
   "rubric_version": "nta-agent-rubric-1",
   "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad",
-  "merged_at": "2026-10-16T22:54:15.266Z",
+  "merged_at": "2026-10-17T04:38:05.858Z",
   "models": [
     "claude-haiku-5-5",
     "claude-subagent-unrecorded"
@@ -71,7 +71,7 @@
       "wrong_key": 2
     },
     "mean_of_means": 6.98,
-    "admissible_before_row_checks": 234
+    "admissible_before_row_checks": 273
   },
   "questions": {
     "35682393-6219-4c66-b31e-7de7c707c872": {
@@ -21621,6 +21621,3686 @@
           "solver": "claude-subagent-unrecorded"
         }
       }
+    },
+    "0a76e5e8-c80c-42fe-8e89-05028b07cada": {
+      "question_id": "0a76e5e8-c80c-42fe-8e89-05028b07cada",
+      "batch": "authored-2026-10-17-w4__general_test__w4b2",
+      "chapter": "Basic Mathematical Concepts",
+      "key": "B",
+      "content_hash": "62dc9c546c7bc88fd76ff61c94f8f664ed0ebf72859784c698e8ba4083456d09",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.basic-mathematical-concepts.ratio-from-given-difference",
+          "flags": [],
+          "note": "Key B correct: k = 6, total 48. Distractors 18 and 30 are sub-results, 96 is 12 taken as one part (ratio slip).",
+          "scored_content_hash": "62dc9c546c7bc88fd76ff61c94f8f664ed0ebf72859784c698e8ba4083456d09"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.basic-mathematical-concepts.ratio-with-difference-total",
+          "flags": [],
+          "note": "Key B correct: 3:5 with a difference of 2 parts = 12 gives 6 per part and total 48. Distractors 18, 30 and 96 are the expected ratio slips. Clean one-step ratio numerical.",
+          "scored_content_hash": "62dc9c546c7bc88fd76ff61c94f8f664ed0ebf72859784c698e8ba4083456d09"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.basic-mathematical-concepts.ratio-from-given-difference",
+        "general_test.basic-mathematical-concepts.ratio-with-difference-total"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "3k and 5k with 5k - 3k = 12 gives k = 6 and a total of 48 (key B). One-step ratio item; the distractors 18, 30 and 96 are real slips. Medium.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "62dc9c546c7bc88fd76ff61c94f8f664ed0ebf72859784c698e8ba4083456d09",
+        "final_content_hash": "62dc9c546c7bc88fd76ff61c94f8f664ed0ebf72859784c698e8ba4083456d09",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "12158eee-8b40-46e8-a7c1-f41854ac32e2": {
+      "question_id": "12158eee-8b40-46e8-a7c1-f41854ac32e2",
+      "batch": "authored-2026-10-17-w4__general_test__w4b1",
+      "chapter": "General Knowledge",
+      "key": "C",
+      "content_hash": "d44bd3c4b717233927e9a0b714d7e36d80e8419ecf181cb5825297cdf427efca",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.general-knowledge.mars-orbit-arrival-year",
+          "flags": [],
+          "note": "Key C correct (orbit entry 24 September 2014; 2013 is the launch year). 2019 is a throwaway; 2008 is the Chandrayaan-1 launch year.",
+          "scored_content_hash": "d44bd3c4b717233927e9a0b714d7e36d80e8419ecf181cb5825297cdf427efca"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "general_test.general-knowledge.mars-orbit-arrival-year",
+          "flags": [],
+          "note": "Key C is right: entry into Mars orbit was in 2014 (launch 2013). 2013 and 2008 are fair distractors; 2019 is a throwaway.",
+          "scored_content_hash": "d44bd3c4b717233927e9a0b714d7e36d80e8419ecf181cb5825297cdf427efca"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "general_test.general-knowledge.mars-orbit-arrival-year",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "easy"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.general-knowledge.mars-orbit-arrival-year",
+        "general_test.general-knowledge.mars-orbit-arrival-year"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Mars Orbiter Mission reached Mars orbit on 24 September 2014 (key C); 2013 is the launch and 2008 is Chandrayaan-1, both stated correctly. One fit judge gave 6 for a dated detail but the fact is a standard science-milestone item; the fit median is 8.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "d44bd3c4b717233927e9a0b714d7e36d80e8419ecf181cb5825297cdf427efca",
+        "final_content_hash": "d44bd3c4b717233927e9a0b714d7e36d80e8419ecf181cb5825297cdf427efca",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "1d3bd0b5-6b6e-4fd0-bd61-290ebfaf79ed": {
+      "question_id": "1d3bd0b5-6b6e-4fd0-bd61-290ebfaf79ed",
+      "batch": "authored-2026-10-17-w4__general_test__w4b2",
+      "chapter": "General Mental Ability",
+      "key": "D",
+      "content_hash": "bee3aa89074c2b06494ce22e6fb3c69318b733a095bceffe434c4881b6aba8ee",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.general-mental-ability.ranking-from-comparisons",
+          "flags": [],
+          "note": "Key D correct: R > P > Q > T > S, so second lightest is T. Distractors P (counted from heavy end), Q (middle) and S (lightest) are real slip traps.",
+          "scored_content_hash": "bee3aa89074c2b06494ce22e6fb3c69318b733a095bceffe434c4881b6aba8ee"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.general-mental-ability.ranking-from-comparative-statements",
+          "flags": [],
+          "note": "Key D correct: full order R, P, Q, T, S makes T second lightest. Distractors P, Q and S map to common ranking slips. Standard item at medium difficulty.",
+          "scored_content_hash": "bee3aa89074c2b06494ce22e6fb3c69318b733a095bceffe434c4881b6aba8ee"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.general-mental-ability.ranking-from-comparisons",
+        "general_test.general-mental-ability.ranking-from-comparative-statements"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "R > P > Q and Q > T > S give R, P, Q, T, S from heaviest to lightest, so the second lightest is T (key D). Clean one-chain ranking, medium.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "bee3aa89074c2b06494ce22e6fb3c69318b733a095bceffe434c4881b6aba8ee",
+        "final_content_hash": "bee3aa89074c2b06494ce22e6fb3c69318b733a095bceffe434c4881b6aba8ee",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "1e33bc13-6ec6-4b68-99d1-f906be55b319": {
+      "question_id": "1e33bc13-6ec6-4b68-99d1-f906be55b319",
+      "batch": "authored-2026-10-17-w4__general_test__w4b1",
+      "chapter": "General Knowledge",
+      "key": "D",
+      "content_hash": "7e88ff263aac4fe5529f49ba2dbc0aeb4c1108e8b1836c7266e4258c3a50b080",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.general-knowledge.quo-warranto-writ-purpose",
+          "flags": [],
+          "note": "Key D correct. Four distinct writs with strong confusables (habeas corpus, mandamus, certiorari); clean stem, earns 9.",
+          "scored_content_hash": "7e88ff263aac4fe5529f49ba2dbc0aeb4c1108e8b1836c7266e4258c3a50b080"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "general_test.general-knowledge.writs-purpose-quo-warranto",
+          "flags": [],
+          "note": "Key D is right: quo warranto tests the authority of a holder of public office. Habeas corpus, mandamus and certiorari are strong distractors and the explanation is accurate.",
+          "scored_content_hash": "7e88ff263aac4fe5529f49ba2dbc0aeb4c1108e8b1836c7266e4258c3a50b080"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "easy"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.general-knowledge.quo-warranto-writ-purpose",
+        "general_test.general-knowledge.writs-purpose-quo-warranto"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Quo warranto asks by what authority a person holds a public office (key D); habeas corpus, mandamus and certiorari are explained correctly. Standard polity writ recall, medium.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "7e88ff263aac4fe5529f49ba2dbc0aeb4c1108e8b1836c7266e4258c3a50b080",
+        "final_content_hash": "7e88ff263aac4fe5529f49ba2dbc0aeb4c1108e8b1836c7266e4258c3a50b080",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "27227f87-6ced-4f0c-ba60-30484c8328e4": {
+      "question_id": "27227f87-6ced-4f0c-ba60-30484c8328e4",
+      "batch": "authored-2026-10-17-w4__general_test__w4b1",
+      "chapter": "General Knowledge",
+      "key": "D",
+      "content_hash": "e2096652200e8075c869475e9821f2f1db41d97fcb637540f8446918b47dea91",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "general_test.general-knowledge.folk-painting-state-origins",
+          "flags": [],
+          "note": "Key D correct (Madhubani, Mithila region of Bihar). Each wrong state is the home of a real folk art, so the distractors are fair.",
+          "scored_content_hash": "e2096652200e8075c869475e9821f2f1db41d97fcb637540f8446918b47dea91"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "general_test.general-knowledge.folk-painting-origin-state",
+          "flags": [],
+          "note": "Key D is right: Madhubani is from Bihar. Warli, Pattachitra and Phad are real folk arts from the other three states, so every distractor is plausible.",
+          "scored_content_hash": "e2096652200e8075c869475e9821f2f1db41d97fcb637540f8446918b47dea91"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.general-knowledge.folk-painting-state-origins",
+        "general_test.general-knowledge.folk-painting-origin-state"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Madhubani painting is from Mithila, Bihar (key D); Warli (Maharashtra), Pattachitra (Odisha) and Phad (Rajasthan) are correctly assigned in the explanation. Easy art-and-culture recall.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "e2096652200e8075c869475e9821f2f1db41d97fcb637540f8446918b47dea91",
+        "final_content_hash": "e2096652200e8075c869475e9821f2f1db41d97fcb637540f8446918b47dea91",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "29021b9a-f0fc-4108-81fb-32e7a8034824": {
+      "question_id": "29021b9a-f0fc-4108-81fb-32e7a8034824",
+      "batch": "authored-2026-10-17-w4__general_test__w4b2",
+      "chapter": "Current Affairs",
+      "key": "C",
+      "content_hash": "d10e6cfaf3a737dbe031a6dbfcaa8b8d6bf068e9ebfd4872f080184c7e085a13",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.current-affairs.lok-sabha-majority-mark",
+          "flags": [],
+          "note": "Key C correct: majority of 543 is 272, 272 - 240 = 32. Distractors 31 (271 slip), 33 and 303 (543 - 240) are slip-based. Clean two-step item.",
+          "scored_content_hash": "d10e6cfaf3a737dbe031a6dbfcaa8b8d6bf068e9ebfd4872f080184c7e085a13"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.current-affairs.lok-sabha-majority-mark",
+          "flags": [],
+          "note": "Key C correct: majority of 543 is 272, so 32 more seats. Distractors 31 (off by one), 33 and 303 are real slips. Clean two-step numerical.",
+          "scored_content_hash": "d10e6cfaf3a737dbe031a6dbfcaa8b8d6bf068e9ebfd4872f080184c7e085a13"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "general_test.current-affairs.lok-sabha-majority-mark",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.current-affairs.lok-sabha-majority-mark",
+        "general_test.current-affairs.lok-sabha-majority-mark"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "A majority in 543 seats needs 272; 272 - 240 = 32 (key C). The distractors 31 (271 as the mark) and 303 (seats not won) are real slips. Current-affairs fact plus one subtraction, medium.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "d10e6cfaf3a737dbe031a6dbfcaa8b8d6bf068e9ebfd4872f080184c7e085a13",
+        "final_content_hash": "d10e6cfaf3a737dbe031a6dbfcaa8b8d6bf068e9ebfd4872f080184c7e085a13",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "34d1af78-a46f-4ece-af95-77767c117d69": {
+      "question_id": "34d1af78-a46f-4ece-af95-77767c117d69",
+      "batch": "authored-2026-10-17-w4__general_test__w4b1",
+      "chapter": "General Knowledge",
+      "key": "D",
+      "content_hash": "c6477b9691c8b61e8996173941383ac414660f30eb00c5f49372b24aea132146",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "general_test.general-knowledge.social-religious-reform-founders",
+          "flags": [],
+          "note": "Key D correct (Dayanand Saraswati, Bombay 1875). Brahmo Samaj founder and Vivekananda are fair confusables; no defect.",
+          "scored_content_hash": "c6477b9691c8b61e8996173941383ac414660f30eb00c5f49372b24aea132146"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "general_test.general-knowledge.reform-society-founders",
+          "flags": [],
+          "note": "Key D is right: Dayanand Saraswati founded the Arya Samaj in 1875. The other three are real 19th-century reformers, so no distractor is a throwaway.",
+          "scored_content_hash": "c6477b9691c8b61e8996173941383ac414660f30eb00c5f49372b24aea132146"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.general-knowledge.social-religious-reform-founders",
+        "general_test.general-knowledge.reform-society-founders"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Dayanand Saraswati founded the Arya Samaj in 1875 (key D); Brahmo Samaj, Ramakrishna Mission and Vidyasagar are placed correctly in the explanation. Core reform-movement recall, easy.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "c6477b9691c8b61e8996173941383ac414660f30eb00c5f49372b24aea132146",
+        "final_content_hash": "c6477b9691c8b61e8996173941383ac414660f30eb00c5f49372b24aea132146",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "4d5c33d3-dfc1-4b51-9295-fcce20d6674c": {
+      "question_id": "4d5c33d3-dfc1-4b51-9295-fcce20d6674c",
+      "batch": "authored-2026-10-17-w4__general_test__w4b2",
+      "chapter": "General Mental Ability",
+      "key": "D",
+      "content_hash": "95c1b85a0d271b587e64f74e80827bcb4ea5d2c570f7b68bd1c5754d7965ef29",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.general-mental-ability.blood-relation-maternal-cousin",
+          "flags": [],
+          "note": "Key D correct (cousin). Labelled easy; judged medium as it takes two links. Brother-in-law is a weak distractor; the others are slip traps.",
+          "scored_content_hash": "95c1b85a0d271b587e64f74e80827bcb4ea5d2c570f7b68bd1c5754d7965ef29"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "general_test.general-mental-ability.maternal-uncle-son-relation",
+          "flags": [],
+          "note": "Key D correct: the son of the mother's only brother is a cousin. Maternal uncle and nephew are plausible confusions; brother-in-law is a throwaway. Easy label fits.",
+          "scored_content_hash": "95c1b85a0d271b587e64f74e80827bcb4ea5d2c570f7b68bd1c5754d7965ef29"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "medium",
+          "easy"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.general-mental-ability.blood-relation-maternal-cousin",
+        "general_test.general-mental-ability.maternal-uncle-son-relation"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "The son of my mother's only brother is a maternal cousin (key D). Standard blood-relation item with a one-link statement, easy.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "95c1b85a0d271b587e64f74e80827bcb4ea5d2c570f7b68bd1c5754d7965ef29",
+        "final_content_hash": "95c1b85a0d271b587e64f74e80827bcb4ea5d2c570f7b68bd1c5754d7965ef29",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "5153b673-ed1c-49d8-b75c-9f0d16943838": {
+      "question_id": "5153b673-ed1c-49d8-b75c-9f0d16943838",
+      "batch": "authored-2026-10-17-w4__general_test__w4b3",
+      "chapter": "Quantitative Reasoning",
+      "key": "A",
+      "content_hash": "57700555e45b97852f9f069c19eba1c0a8000f0fcc6891dd14788f54a7799bfe",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.quantitative-reasoning.time-and-work-workers-join",
+          "flags": [],
+          "note": "Key A is right: 120 worker-days, 30 done in 5 days, 90 left for 9 workers gives 10 days, total 15. Distractors 10 (ignores first 5 days) and 13 1/3 (all start together) are real slips.",
+          "scored_content_hash": "57700555e45b97852f9f069c19eba1c0a8000f0fcc6891dd14788f54a7799bfe"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.quantitative-reasoning.work-with-workers-joining-later",
+          "flags": [],
+          "note": "Key A verified: 120 worker-days, 30 done in 5 days, 90/9 = 10, total 15. The 10-day and 13 1/3-day traps are explained and match common slips.",
+          "scored_content_hash": "57700555e45b97852f9f069c19eba1c0a8000f0fcc6891dd14788f54a7799bfe"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.quantitative-reasoning.time-and-work-workers-join",
+        "general_test.quantitative-reasoning.work-with-workers-joining-later"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "120 worker-days; 30 done in 5 days; 90 left for 9 workers is 10 days; total 15 (key A). Distractors are real slips. Medium.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "57700555e45b97852f9f069c19eba1c0a8000f0fcc6891dd14788f54a7799bfe",
+        "final_content_hash": "57700555e45b97852f9f069c19eba1c0a8000f0fcc6891dd14788f54a7799bfe",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "52f17738-6e30-4fb6-9a77-21dbf32faded": {
+      "question_id": "52f17738-6e30-4fb6-9a77-21dbf32faded",
+      "batch": "authored-2026-10-17-w4__general_test__w4b2",
+      "chapter": "Basic Mathematical Concepts",
+      "key": "C",
+      "content_hash": "f854645106f52f0c7d930848295bcef25b073e6a8ab156c23ca24f5f8655a0fb",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "hard",
+          "objective_tag": "general_test.basic-mathematical-concepts.rectangle-area-from-perimeter-diagonal",
+          "flags": [],
+          "note": "Key C correct (lb = 60). 30 and 120 are slip traps, but 72 has no clear source, so one weak distractor: 8.",
+          "scored_content_hash": "f854645106f52f0c7d930848295bcef25b073e6a8ab156c23ca24f5f8655a0fb"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.basic-mathematical-concepts.rectangle-area-from-diagonal-perimeter",
+          "flags": [],
+          "note": "Key C correct: l+b=17 and l^2+b^2=169 give lb=60. Distractors 120 (2lb) and 30 (half the area) are the expected slips. Judged medium (one identity); label says hard.",
+          "scored_content_hash": "f854645106f52f0c7d930848295bcef25b073e6a8ab156c23ca24f5f8655a0fb"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "hard",
+          "medium"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.basic-mathematical-concepts.rectangle-area-from-perimeter-diagonal",
+        "general_test.basic-mathematical-concepts.rectangle-area-from-diagonal-perimeter"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "l + b = 17 and l squared + b squared = 169 give 2lb = 120 and area 60 (key C); sides 12 and 5 check. One fit judge flagged it as off-pattern for GAT, but it is a mensuration item in the syllabus line 'mensuration' and the 5-12-13 triple solves it fast, estimated time about 75 s. Hard stays as labelled.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "f854645106f52f0c7d930848295bcef25b073e6a8ab156c23ca24f5f8655a0fb",
+        "final_content_hash": "f854645106f52f0c7d930848295bcef25b073e6a8ab156c23ca24f5f8655a0fb",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "5a9bd18f-202f-4dec-a54e-b925fc90cc8a": {
+      "question_id": "5a9bd18f-202f-4dec-a54e-b925fc90cc8a",
+      "batch": "authored-2026-10-17-w4__general_test__w4b3",
+      "chapter": "Logical & Analytical Reasoning",
+      "key": "A",
+      "content_hash": "68e58794d37c2bac14bbae97a95f8640822fd82d3dcdfa9a987eab2e4c334e98",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "general_test.logical-and-analytical-reasoning.counting-pairs-each-once",
+          "flags": [],
+          "note": "Key A is right (C(8,2)=28). Distractors 56, 36 and 64 map to ordered-pair and sum slips. Textbook counting item, a notch below paper-ready.",
+          "scored_content_hash": "68e58794d37c2bac14bbae97a95f8640822fd82d3dcdfa9a987eab2e4c334e98"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "general_test.logical-and-analytical-reasoning.counting-pairs-in-a-group",
+          "flags": [],
+          "note": "Key A verified: 8 x 7 / 2 = 28. Distractors 56 (double count), 36 and 64 are standard slips. The explanation's reason for 36 is loosely worded.",
+          "scored_content_hash": "68e58794d37c2bac14bbae97a95f8640822fd82d3dcdfa9a987eab2e4c334e98"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.logical-and-analytical-reasoning.counting-pairs-each-once",
+        "general_test.logical-and-analytical-reasoning.counting-pairs-in-a-group"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "8 delegates, each pair once: (8 x 7) / 2 = 28 (key A); 56 counts each handshake twice and 36 is 1 + ... + 8. Standard counting item, easy.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "68e58794d37c2bac14bbae97a95f8640822fd82d3dcdfa9a987eab2e4c334e98",
+        "final_content_hash": "68e58794d37c2bac14bbae97a95f8640822fd82d3dcdfa9a987eab2e4c334e98",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "62c71845-ce4a-4284-8d4a-7a7e867a549a": {
+      "question_id": "62c71845-ce4a-4284-8d4a-7a7e867a549a",
+      "batch": "authored-2026-10-17-w4__general_test__w4b1",
+      "chapter": "General Knowledge",
+      "key": "A",
+      "content_hash": "4dc8bcf9328df938e49dcb83bb9a4331a127920483406e713c8803ac109d0a64",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "general_test.general-knowledge.hampi-vijayanagara-capital",
+          "flags": [],
+          "note": "Key A correct (Vijayanagara, founded 1336; sacked after Talikota 1565). Hoysala and Bahmani are fair Karnataka and Deccan confusables. Label medium, rated easy.",
+          "scored_content_hash": "4dc8bcf9328df938e49dcb83bb9a4331a127920483406e713c8803ac109d0a64"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "general_test.general-knowledge.vijayanagara-capital-site",
+          "flags": [],
+          "note": "Key A is right: Hampi was the Vijayanagara capital. Clean one-fact recall; the UNESCO and Karnataka cues in the stem narrow the field a little, so 8.",
+          "scored_content_hash": "4dc8bcf9328df938e49dcb83bb9a4331a127920483406e713c8803ac109d0a64"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.general-knowledge.hampi-vijayanagara-capital",
+        "general_test.general-knowledge.vijayanagara-capital-site"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "Hampi was the capital of the Vijayanagara Empire (key A); founding in 1336 and the sack after Talikota in 1565 are correct, and Halebidu and Belur are Hoysala sites. Both judges rated it easy, so the label is lowered from medium.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "difficulty_label"
+        ],
+        "judged_text": "final",
+        "judged_content_hash": "4dc8bcf9328df938e49dcb83bb9a4331a127920483406e713c8803ac109d0a64",
+        "final_content_hash": "4dc8bcf9328df938e49dcb83bb9a4331a127920483406e713c8803ac109d0a64",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "difficulty_label"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "65824eee-c3c0-48cf-a105-ecaefb1188cd": {
+      "question_id": "65824eee-c3c0-48cf-a105-ecaefb1188cd",
+      "batch": "authored-2026-10-17-w4__general_test__w4b1",
+      "chapter": "General Knowledge",
+      "key": "C",
+      "content_hash": "a96afb4575154266978e46fb837c9fdbefff8822026774fe8d266fae196c770b",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 7,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "general_test.general-knowledge.un-security-council-veto",
+          "flags": [],
+          "note": "Key C correct. Only General Assembly is a real trap; Economic and Social Council and Trusteeship Council are weak distractors for a veto question.",
+          "scored_content_hash": "a96afb4575154266978e46fb837c9fdbefff8822026774fe8d266fae196c770b"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "general_test.general-knowledge.un-security-council-veto",
+          "flags": [],
+          "note": "Key C is right: the Security Council has five permanent members with veto. General Assembly and ECOSOC are fair distractors; Trusteeship Council is the weakest.",
+          "scored_content_hash": "a96afb4575154266978e46fb837c9fdbefff8822026774fe8d266fae196c770b"
+        }
+      ],
+      "mean": 8,
+      "min": 7,
+      "spread": 2,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "general_test.general-knowledge.un-security-council-veto",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.general-knowledge.un-security-council-veto",
+        "general_test.general-knowledge.un-security-council-veto"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "The Security Council has five permanent members with veto (key C); the General Assembly has one vote each and no veto. Core UN-organs recall, easy.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "a96afb4575154266978e46fb837c9fdbefff8822026774fe8d266fae196c770b",
+        "final_content_hash": "a96afb4575154266978e46fb837c9fdbefff8822026774fe8d266fae196c770b",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "7128b424-83df-4243-b086-2d2e0c327928": {
+      "question_id": "7128b424-83df-4243-b086-2d2e0c327928",
+      "batch": "authored-2026-10-17-w4__general_test__w4b3",
+      "chapter": "Statistical Data Analysis",
+      "key": "A",
+      "content_hash": "ae9478a843219aa62f071e10170551a82a6c830a36fb89e028bd454f4b1cc776",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.statistical-data-analysis.mean-range-sum-of-middle",
+          "flags": [],
+          "note": "Key A is right: sum 90, smallest 8, middle three 52. Distractors 60 (ignores smallest), 68 (subtracts range) and 82 (ignores largest) are real slips. Label hard is a notch high.",
+          "scored_content_hash": "ae9478a843219aa62f071e10170551a82a6c830a36fb89e028bd454f4b1cc776"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.statistical-data-analysis.mean-and-range-of-data",
+          "flags": [],
+          "note": "Key A verified: sum 90, smallest 8, middle three 52. 60 and 68 are explained; 82 (dropping only the smallest) is not. Clean two-step item with fair distractors.",
+          "scored_content_hash": "ae9478a843219aa62f071e10170551a82a6c830a36fb89e028bd454f4b1cc776"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.statistical-data-analysis.mean-range-sum-of-middle",
+        "general_test.statistical-data-analysis.mean-and-range-of-data"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "Total 90, smallest 30 - 22 = 8, middle three 90 - 30 - 8 = 52 (key A). Two linked steps and both judges rated it medium, so the label is lowered from hard.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "difficulty_label"
+        ],
+        "judged_text": "final",
+        "judged_content_hash": "ae9478a843219aa62f071e10170551a82a6c830a36fb89e028bd454f4b1cc776",
+        "final_content_hash": "ae9478a843219aa62f071e10170551a82a6c830a36fb89e028bd454f4b1cc776",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "difficulty_label"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "74583f6d-5b1e-4ab4-9c9c-7e816edd8f14": {
+      "question_id": "74583f6d-5b1e-4ab4-9c9c-7e816edd8f14",
+      "batch": "authored-2026-10-17-w4__general_test__w4b1",
+      "chapter": "General Science and Environment Literacy",
+      "key": "A",
+      "content_hash": "cc0f1f7e20f7041ec84d8809a4c1aeeb70f4865c7657d91d867ae1b9998e810f",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.general-science-and-environment-literacy.wetlands-convention-ramsar",
+          "flags": [],
+          "note": "Key A correct (Ramsar Convention, 1971, wetlands). Each distractor is a real treaty with a different target; the year is redundant given the wetland clue.",
+          "scored_content_hash": "cc0f1f7e20f7041ec84d8809a4c1aeeb70f4865c7657d91d867ae1b9998e810f"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "general_test.general-science-and-environment-literacy.wetland-conservation-treaty",
+          "flags": [],
+          "note": "Key A is right: Ramsar, 1971, wetlands. Basel, Kyoto and Montreal are strong treaty distractors; the stem's treaty definition makes it one recall fact.",
+          "scored_content_hash": "cc0f1f7e20f7041ec84d8809a4c1aeeb70f4865c7657d91d867ae1b9998e810f"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "easy"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.general-science-and-environment-literacy.wetlands-convention-ramsar",
+        "general_test.general-science-and-environment-literacy.wetland-conservation-treaty"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "The Ramsar Convention (1971) concerns wetlands (key A); Basel (hazardous waste), Kyoto (greenhouse gases) and Montreal (ozone) are correctly described. Fits General Science and Environment Literacy, medium.",
+        "authoring_verdict": "claude_audited",
+        "audit_repaired": true,
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "cc0f1f7e20f7041ec84d8809a4c1aeeb70f4865c7657d91d867ae1b9998e810f",
+        "final_content_hash": "cc0f1f7e20f7041ec84d8809a4c1aeeb70f4865c7657d91d867ae1b9998e810f",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "8626d182-95fe-44ca-a70a-2a8203b4e55e": {
+      "question_id": "8626d182-95fe-44ca-a70a-2a8203b4e55e",
+      "batch": "authored-2026-10-17-w4__general_test__w4b2",
+      "chapter": "Current Affairs",
+      "key": "D",
+      "content_hash": "ac81e2c3e5d11bce971eaa22eb6345f7b7be3487f97386365f35417d63bad255",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.current-affairs.women-reservation-legislatures",
+          "flags": [],
+          "note": "Key D correct: 106th Amendment reserves seats in Lok Sabha and state assemblies (incl. Delhi), not upper houses. House-swap option pairs are fair traps.",
+          "scored_content_hash": "ac81e2c3e5d11bce971eaa22eb6345f7b7be3487f97386365f35417d63bad255"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.current-affairs.women-reservation-scope-houses",
+          "flags": [],
+          "note": "Key D correct: the 2023 Act covers Lok Sabha, State Assemblies and Delhi Assembly, not Rajya Sabha or Councils. Each option swaps one house or body, which are fair distractors.",
+          "scored_content_hash": "ac81e2c3e5d11bce971eaa22eb6345f7b7be3487f97386365f35417d63bad255"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.current-affairs.women-reservation-legislatures",
+        "general_test.current-affairs.women-reservation-scope-houses"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "The 106th Amendment (Nari Shakti Vandan Adhiniyam, 2023) reserves one-third of seats for women in the Lok Sabha and State Legislative Assemblies, not in the Rajya Sabha or Councils (key D). Medium.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "ac81e2c3e5d11bce971eaa22eb6345f7b7be3487f97386365f35417d63bad255",
+        "final_content_hash": "ac81e2c3e5d11bce971eaa22eb6345f7b7be3487f97386365f35417d63bad255",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "8b76423d-f6c6-47ee-8c20-69a4cdf9adab": {
+      "question_id": "8b76423d-f6c6-47ee-8c20-69a4cdf9adab",
+      "batch": "authored-2026-10-17-w4__general_test__w4b2",
+      "chapter": "General Mental Ability",
+      "key": "C",
+      "content_hash": "4929f57fd3b044191ee5bc0b9ee8d2489baa17bdc16e6715978336d1585a86ed",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.general-mental-ability.dictionary-order-words",
+          "flags": [],
+          "note": "Key C correct: plain, plane, planet, plant. Options A, B and D are near-arbitrary permutations, weaker than slip-built distractors.",
+          "scored_content_hash": "4929f57fd3b044191ee5bc0b9ee8d2489baa17bdc16e6715978336d1585a86ed"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.general-mental-ability.dictionary-order-of-words",
+          "flags": [],
+          "note": "Key C correct: plain, plane, planet, plant in dictionary order. Each wrong option reverses one pair. Explanation accurate; no layout defect.",
+          "scored_content_hash": "4929f57fd3b044191ee5bc0b9ee8d2489baa17bdc16e6715978336d1585a86ed"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.general-mental-ability.dictionary-order-words",
+        "general_test.general-mental-ability.dictionary-order-of-words"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Plain, Plane, Planet, Plant is the dictionary order, so (C), (D), (A), (B), key C (not the listed order). Only a shape twin of the wave-3 dictionary item, with different words; kept.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "4929f57fd3b044191ee5bc0b9ee8d2489baa17bdc16e6715978336d1585a86ed",
+        "final_content_hash": "4929f57fd3b044191ee5bc0b9ee8d2489baa17bdc16e6715978336d1585a86ed",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "8eafb85b-a7b8-4a32-b9e1-6b8df01d35a5": {
+      "question_id": "8eafb85b-a7b8-4a32-b9e1-6b8df01d35a5",
+      "batch": "authored-2026-10-17-w4__general_test__w4b1",
+      "chapter": "General Knowledge",
+      "key": "A",
+      "content_hash": "26ebad26f545c27f60cae6c8611d15a3bda5ed01a7530cf2f2f2f93632486c97",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "general_test.general-knowledge.west-flowing-peninsular-rivers",
+          "flags": [],
+          "note": "Key A correct (Tapi flows west into the Gulf of Khambhat). Three eastward rivers make it a fair recall that is partly solvable by elimination.",
+          "scored_content_hash": "26ebad26f545c27f60cae6c8611d15a3bda5ed01a7530cf2f2f2f93632486c97"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "general_test.general-knowledge.peninsular-rivers-drainage-direction",
+          "flags": [],
+          "note": "Key A is right: the Tapi drains west into the Arabian Sea; the other three are east-flowing. Clean recall with fair peninsular distractors.",
+          "scored_content_hash": "26ebad26f545c27f60cae6c8611d15a3bda5ed01a7530cf2f2f2f93632486c97"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.general-knowledge.west-flowing-peninsular-rivers",
+        "general_test.general-knowledge.peninsular-rivers-drainage-direction"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Tapi flows west into the Arabian Sea (key A); Mahanadi, Krishna and Kaveri drain east. Standard rivers recall, easy.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "26ebad26f545c27f60cae6c8611d15a3bda5ed01a7530cf2f2f2f93632486c97",
+        "final_content_hash": "26ebad26f545c27f60cae6c8611d15a3bda5ed01a7530cf2f2f2f93632486c97",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "9284a09e-a75f-4a93-89b2-7e5980be0446": {
+      "question_id": "9284a09e-a75f-4a93-89b2-7e5980be0446",
+      "batch": "authored-2026-10-17-w4__general_test__w4b3",
+      "chapter": "Quantitative Reasoning",
+      "key": "C",
+      "content_hash": "e09418f4be9a58b99f7ab3223744d6834b9cee595dc12e6dde077387cfa49405",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.quantitative-reasoning.two-articles-same-selling-price",
+          "flags": [],
+          "note": "Key C is right: cost 1,000 + 1,500 = 2,500 against sales 2,400, loss 100. Gain 100 and no loss are the classic slips; loss 96 is 4 per cent of sales. Label hard is a notch high.",
+          "scored_content_hash": "e09418f4be9a58b99f7ab3223744d6834b9cee595dc12e6dde077387cfa49405"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.quantitative-reasoning.equal-percent-gain-and-loss",
+          "flags": [],
+          "note": "Key C verified: costs 1,000 and 1,500, sales 2,400, loss 100. Gain 100 (sign slip), no profit and loss (cancel trap) and loss 96 (4% of sales) are named slips.",
+          "scored_content_hash": "e09418f4be9a58b99f7ab3223744d6834b9cee595dc12e6dde077387cfa49405"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.quantitative-reasoning.two-articles-same-selling-price",
+        "general_test.quantitative-reasoning.equal-percent-gain-and-loss"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "Costs 1,000 and 1,500, total 2,500 against 2,400: a loss of Rs 100 (key C); 'no profit no loss' and 96 are real traps. A standard profit-and-loss item and both judges rated it medium, so the label is lowered from hard.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "difficulty_label"
+        ],
+        "judged_text": "final",
+        "judged_content_hash": "e09418f4be9a58b99f7ab3223744d6834b9cee595dc12e6dde077387cfa49405",
+        "final_content_hash": "e09418f4be9a58b99f7ab3223744d6834b9cee595dc12e6dde077387cfa49405",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "difficulty_label"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "978b5a0b-af20-4e18-a7cd-081298cce2a4": {
+      "question_id": "978b5a0b-af20-4e18-a7cd-081298cce2a4",
+      "batch": "authored-2026-10-17-w4__general_test__w4b3",
+      "chapter": "Logical & Analytical Reasoning",
+      "key": "B",
+      "content_hash": "be0bf1e6c0a6abbddb9263b57ec18f6e3b7bc12289286b1d9b54472b1e3960a3",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.logical-and-analytical-reasoning.ordering-from-consecutive-clue",
+          "flags": [],
+          "note": "Key B is right and unique: the Esha-Farid pair must open, Gauri third, Dev fourth. Each distractor breaks one clue. Label hard is a notch high.",
+          "scored_content_hash": "68b06e9ec793eff021526324e79f003580e7fec8d83158457110f0f7bff27f3b"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.logical-and-analytical-reasoning.ordering-from-consecutive-clues",
+          "flags": [],
+          "note": "Key B verified as the only order meeting all clues: A puts Dev before Gauri, C separates Esha and Farid, D makes Gauri earliest. Explanation logic checks out.",
+          "scored_content_hash": "68b06e9ec793eff021526324e79f003580e7fec8d83158457110f0f7bff27f3b"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.logical-and-analytical-reasoning.ordering-from-consecutive-clue",
+        "general_test.logical-and-analytical-reasoning.ordering-from-consecutive-clues"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "Esha, Farid, Gauri, Dev is the only order (key B). Two defects: the explanation's argument said that Gauri would have to be earliest if the pair is not first, which omits the case where Dev is earliest (ruled out because Gauri arrives before Dev); the explanation now covers both. Both judges rated it medium, so the label is lowered from hard.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "explanation",
+          "difficulty_label"
+        ],
+        "judged_text": "pre_repair",
+        "judged_content_hash": "68b06e9ec793eff021526324e79f003580e7fec8d83158457110f0f7bff27f3b",
+        "final_content_hash": "be0bf1e6c0a6abbddb9263b57ec18f6e3b7bc12289286b1d9b54472b1e3960a3",
+        "hash_changed_by_repair": true,
+        "repaired_fields": [
+          "explanation",
+          "difficulty_label"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "admitted_on_expert_verdict_blind_text_unchanged",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "a5193f36-d325-4778-a34d-d84c80c9df12": {
+      "question_id": "a5193f36-d325-4778-a34d-d84c80c9df12",
+      "batch": "authored-2026-10-17-w4__general_test__w4b2",
+      "chapter": "General Mental Ability",
+      "key": "A",
+      "content_hash": "d123fbddd8dc36407374644f59546e3a43cae165c7be8867ff766b7d33555641",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "hard",
+          "objective_tag": "general_test.general-mental-ability.direction-from-shadow-and-turn",
+          "flags": [],
+          "note": "Key A correct: sunrise shadow points west, shadow on left means facing north, clockwise turn gives east. South is a sign-slip trap.",
+          "scored_content_hash": "d123fbddd8dc36407374644f59546e3a43cae165c7be8867ff766b7d33555641"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.general-mental-ability.sunrise-shadow-direction-turn",
+          "flags": [],
+          "note": "Key A correct: sunrise shadow falls west, so with the shadow on his left he faces north, and a 90 degree clockwise turn gives east. Medium rather than hard: one idea chain.",
+          "scored_content_hash": "d123fbddd8dc36407374644f59546e3a43cae165c7be8867ff766b7d33555641"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "hard",
+          "medium"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.general-mental-ability.direction-from-shadow-and-turn",
+        "general_test.general-mental-ability.sunrise-shadow-direction-turn"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Sunrise shadow falls west; shadow on his left means he faces north; a 90 degree clockwise turn gives east (key A). Two direction inferences with a trap, the judges split between hard and medium, so the hard label stays.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "d123fbddd8dc36407374644f59546e3a43cae165c7be8867ff766b7d33555641",
+        "final_content_hash": "d123fbddd8dc36407374644f59546e3a43cae165c7be8867ff766b7d33555641",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "a832f03c-904d-4957-827c-062a393b86d9": {
+      "question_id": "a832f03c-904d-4957-827c-062a393b86d9",
+      "batch": "authored-2026-10-17-w4__general_test__w4b3",
+      "chapter": "Numerical Ability",
+      "key": "C",
+      "content_hash": "c52aa3e62d6ae9a74c4211bb129da26c86e3d91263b2427243b5fc6babcfbca7",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "general_test.numerical-ability.simple-interest-months-to-years",
+          "flags": [],
+          "note": "Key C is right: 20,000 x 12 x 0.5 / 100 = 1,200. Distractors 2,400 (full year) and 14,400 (months read as years) are real slips. Label medium is a notch high.",
+          "scored_content_hash": "c52aa3e62d6ae9a74c4211bb129da26c86e3d91263b2427243b5fc6babcfbca7"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "general_test.numerical-ability.simple-interest-for-months",
+          "flags": [],
+          "note": "Key C verified: 20,000 x 12 x 1/2 / 100 = 1,200. Distractors 2,400 and 14,400 are explained slips; 120 is unexplained. Easy: one step once months are converted.",
+          "scored_content_hash": "c52aa3e62d6ae9a74c4211bb129da26c86e3d91263b2427243b5fc6babcfbca7"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.numerical-ability.simple-interest-months-to-years",
+        "general_test.numerical-ability.simple-interest-for-months"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "SI = 20,000 x 12 x (1/2) / 100 = Rs 1,200 (key C); Rs 2,400 and Rs 14,400 are the year and month slips. One formula, both judges rated it easy, so the label is lowered from medium. Same caselet as the other four children (not served in NTA mode, see note).",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "difficulty_label"
+        ],
+        "judged_text": "final",
+        "judged_content_hash": "c52aa3e62d6ae9a74c4211bb129da26c86e3d91263b2427243b5fc6babcfbca7",
+        "final_content_hash": "c52aa3e62d6ae9a74c4211bb129da26c86e3d91263b2427243b5fc6babcfbca7",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "difficulty_label"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "a84dd64b-cdcf-4aa5-9fce-284f3872474e": {
+      "question_id": "a84dd64b-cdcf-4aa5-9fce-284f3872474e",
+      "batch": "authored-2026-10-17-w4__general_test__w4b1",
+      "chapter": "General Knowledge",
+      "key": "C",
+      "content_hash": "51f97c3f4609fdede894caaea5ca68d61594fb9a7ce75e362c2fceaa073600e7",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "general_test.general-knowledge.sports-team-championship-trophies",
+          "flags": [],
+          "note": "Key C correct (Thomas Cup, men's badminton; India first won 2022). Squash is a throwaway; 'prestigious' is generic. Label medium, rated easy.",
+          "scored_content_hash": "51f97c3f4609fdede894caaea5ca68d61594fb9a7ce75e362c2fceaa073600e7"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "general_test.general-knowledge.sports-team-trophies",
+          "flags": [],
+          "note": "Key C is right: the Thomas Cup is men's team badminton. Squash is a weak distractor; the table tennis and lawn tennis trophies are fair.",
+          "scored_content_hash": "51f97c3f4609fdede894caaea5ca68d61594fb9a7ce75e362c2fceaa073600e7"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.general-knowledge.sports-team-championship-trophies",
+        "general_test.general-knowledge.sports-team-trophies"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "The Thomas Cup is the men's team championship of badminton (key C); India's first win in 2022 and the Uber, Swaythling and Davis Cups are stated correctly. Both judges rated it easy, so the label is lowered from medium.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "difficulty_label"
+        ],
+        "judged_text": "final",
+        "judged_content_hash": "51f97c3f4609fdede894caaea5ca68d61594fb9a7ce75e362c2fceaa073600e7",
+        "final_content_hash": "51f97c3f4609fdede894caaea5ca68d61594fb9a7ce75e362c2fceaa073600e7",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "difficulty_label"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "b0914cae-cd5b-4bc1-bd14-d56ad9b7ff6d": {
+      "question_id": "b0914cae-cd5b-4bc1-bd14-d56ad9b7ff6d",
+      "batch": "authored-2026-10-17-w4__general_test__w4b3",
+      "chapter": "Quantitative Reasoning",
+      "key": "B",
+      "content_hash": "571d21d2be901d459c35b900eadd2ae44607ec03f7db7f8aca69c1599cc2d44d",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.quantitative-reasoning.election-margin-total-votes",
+          "flags": [],
+          "note": "Key B is right: margin 10 per cent of valid votes = 1,200, so total 12,000. Distractors 6,600 (winner's tally), 24,000 (5 per cent margin) and 1,20,000 (decimal slip) are well built.",
+          "scored_content_hash": "571d21d2be901d459c35b900eadd2ae44607ec03f7db7f8aca69c1599cc2d44d"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.quantitative-reasoning.margin-as-percent-of-total",
+          "flags": [],
+          "note": "Key B verified: margin 10% of votes = 1,200, so 12,000. 6,600 and 24,000 are explained; 1,20,000 is a decimal slip. Clean election item.",
+          "scored_content_hash": "571d21d2be901d459c35b900eadd2ae44607ec03f7db7f8aca69c1599cc2d44d"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.quantitative-reasoning.election-margin-total-votes",
+        "general_test.quantitative-reasoning.margin-as-percent-of-total"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Margin 10 per cent of valid votes = 1,200, so 12,000 (key B); 6,600 and 24,000 are real slips. Medium, one-step percentage.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "571d21d2be901d459c35b900eadd2ae44607ec03f7db7f8aca69c1599cc2d44d",
+        "final_content_hash": "571d21d2be901d459c35b900eadd2ae44607ec03f7db7f8aca69c1599cc2d44d",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "b1366004-d26e-490a-9191-a5fa84f02537": {
+      "question_id": "b1366004-d26e-490a-9191-a5fa84f02537",
+      "batch": "authored-2026-10-17-w4__general_test__w4b2",
+      "chapter": "Current Affairs",
+      "key": "C",
+      "content_hash": "2c28464a3498735c48b93c4c87eaf2b07b37e5bc3c281e2d8d07769abb345345",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.current-affairs.criminal-law-replacement-acts",
+          "flags": [],
+          "note": "Key C correct: A, B, D true; C false (BSA replaced the Evidence Act, not the IPC). Clean statement set with well-built distractors and correct dates.",
+          "scored_content_hash": "2c28464a3498735c48b93c4c87eaf2b07b37e5bc3c281e2d8d07769abb345345"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.current-affairs.new-criminal-laws-replacements",
+          "flags": [],
+          "note": "Key C correct: BNS, BNSS and BSA replaced IPC, CrPC and the Evidence Act, and statement C is false. Explanation accurate; statement-set form is standard NTA.",
+          "scored_content_hash": "2c28464a3498735c48b93c4c87eaf2b07b37e5bc3c281e2d8d07769abb345345"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.current-affairs.criminal-law-replacement-acts",
+        "general_test.current-affairs.new-criminal-laws-replacements"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "(A) true, (B) true, (C) false (the Sakshya Adhiniyam replaces the Indian Evidence Act, not the IPC), (D) true (1 July 2024), so (A), (B) and (D) only, key C. Standard statement item, medium.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "2c28464a3498735c48b93c4c87eaf2b07b37e5bc3c281e2d8d07769abb345345",
+        "final_content_hash": "2c28464a3498735c48b93c4c87eaf2b07b37e5bc3c281e2d8d07769abb345345",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "b4607a32-bd4a-49c6-8c8f-18241ba6a26d": {
+      "question_id": "b4607a32-bd4a-49c6-8c8f-18241ba6a26d",
+      "batch": "authored-2026-10-17-w4__general_test__w4b1",
+      "chapter": "General Knowledge",
+      "key": "A",
+      "content_hash": "e7d4a25a626373e8d669fe1646b861cb10d97e23031257c2eedb08162a7ac4d7",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.general-knowledge.mughal-rulers-chronological-order",
+          "flags": [],
+          "note": "Key A correct: Humayun 1530, Akbar 1556, Jahangir 1605, Shah Jahan 1628. Father-son and Akbar-first distractors are real student errors; earns 9.",
+          "scored_content_hash": "e7d4a25a626373e8d669fe1646b861cb10d97e23031257c2eedb08162a7ac4d7"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.general-knowledge.mughal-accession-order",
+          "flags": [],
+          "note": "Key A is right: Humayun 1530, Akbar 1556, Jahangir 1605, Shah Jahan 1628. Each wrong option swaps a father and son or an early pair; clean sequence layout.",
+          "scored_content_hash": "e7d4a25a626373e8d669fe1646b861cb10d97e23031257c2eedb08162a7ac4d7"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.general-knowledge.mughal-rulers-chronological-order",
+        "general_test.general-knowledge.mughal-accession-order"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Humayun 1530, Akbar 1556, Jahangir 1605, Shah Jahan 1628, so (B), (C), (D), (A), key A; the key is not the listed order (A)-(D). Standard chronology item, medium.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "e7d4a25a626373e8d669fe1646b861cb10d97e23031257c2eedb08162a7ac4d7",
+        "final_content_hash": "e7d4a25a626373e8d669fe1646b861cb10d97e23031257c2eedb08162a7ac4d7",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "b8c38f43-06fc-4321-9e75-a99d5f40ac70": {
+      "question_id": "b8c38f43-06fc-4321-9e75-a99d5f40ac70",
+      "batch": "authored-2026-10-17-w4__general_test__w4b3",
+      "chapter": "Quantitative Reasoning",
+      "key": "D",
+      "content_hash": "30c309d39eba16bd384efcc591b028633396b6ac92036e53ad99256c1d9d3786",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.quantitative-reasoning.lcm-common-remainder",
+          "flags": [],
+          "note": "Key D is right: LCM 120 gives 3, 123, 243, so 123 is the smallest above 100. Distractors 120 (remainder 0), 117 (remainder 5 with 8) and 243 are designed slips.",
+          "scored_content_hash": "30c309d39eba16bd384efcc591b028633396b6ac92036e53ad99256c1d9d3786"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.quantitative-reasoning.lcm-with-common-remainder",
+          "flags": [],
+          "note": "Key D verified: LCM 120, so 123 is the smallest above 100 leaving 3. 120, 117 (remainder 5 with 8) and 243 are each a traceable slip. Good item.",
+          "scored_content_hash": "30c309d39eba16bd384efcc591b028633396b6ac92036e53ad99256c1d9d3786"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.quantitative-reasoning.lcm-common-remainder",
+        "general_test.quantitative-reasoning.lcm-with-common-remainder"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "LCM(6, 8, 10) = 120, so the numbers are 120k + 3 and the smallest above 100 is 123 (key D); 117 fails with 8 and 120 leaves remainder 0. Medium.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "30c309d39eba16bd384efcc591b028633396b6ac92036e53ad99256c1d9d3786",
+        "final_content_hash": "30c309d39eba16bd384efcc591b028633396b6ac92036e53ad99256c1d9d3786",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "ceb2f733-638d-4ca9-9e67-7cacc1c1cbf4": {
+      "question_id": "ceb2f733-638d-4ca9-9e67-7cacc1c1cbf4",
+      "batch": "authored-2026-10-17-w4__general_test__w4b1",
+      "chapter": "General Knowledge",
+      "key": "D",
+      "content_hash": "7e7490e4125be5d79d8fbf7daaac7d5d0b9ec3bc1ebc1115dea9704f9fc6d0f0",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "general_test.general-knowledge.rbi-repo-rate-definition",
+          "flags": [],
+          "note": "Key D correct. Reverse repo, CRR and SLR are good confusables for a plain definition recall.",
+          "scored_content_hash": "7e7490e4125be5d79d8fbf7daaac7d5d0b9ec3bc1ebc1115dea9704f9fc6d0f0"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "general_test.general-knowledge.repo-rate-meaning",
+          "flags": [],
+          "note": "Key D is right: the repo rate is the RBI lending rate against securities. Reverse repo is the strong distractor; CRR and SLR are plausible reserve ratios but not lending rates.",
+          "scored_content_hash": "7e7490e4125be5d79d8fbf7daaac7d5d0b9ec3bc1ebc1115dea9704f9fc6d0f0"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.general-knowledge.rbi-repo-rate-definition",
+        "general_test.general-knowledge.repo-rate-meaning"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "The repo rate is the rate at which the RBI lends short-term funds to banks against government securities (key D); reverse repo, CRR and SLR are explained correctly. Standard NCERT definition item, easy.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "7e7490e4125be5d79d8fbf7daaac7d5d0b9ec3bc1ebc1115dea9704f9fc6d0f0",
+        "final_content_hash": "7e7490e4125be5d79d8fbf7daaac7d5d0b9ec3bc1ebc1115dea9704f9fc6d0f0",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "d027bc08-53d8-4205-a32b-58abd2110ed5": {
+      "question_id": "d027bc08-53d8-4205-a32b-58abd2110ed5",
+      "batch": "authored-2026-10-17-w4__general_test__w4b1",
+      "chapter": "General Knowledge",
+      "key": "C",
+      "content_hash": "41d6b4b29c206eb1b2f1ac2acd2e2d2cc631aac05e6c530fef8ac660182f38df",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.general-knowledge.international-days-and-dates",
+          "flags": [],
+          "note": "Key C correct on all four dates; each wrong option swaps one pair. Well-built match list, earns 9.",
+          "scored_content_hash": "e140b6a1a5150208a95f359d76b718a746428511c7416f8f424193537d248724"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.general-knowledge.international-days-dates",
+          "flags": [],
+          "note": "Key C is right on all four pairs. Every wrong option is one or two swaps from the key, and the stem defines both lists clearly.",
+          "scored_content_hash": "e140b6a1a5150208a95f359d76b718a746428511c7416f8f424193537d248724"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.general-knowledge.international-days-and-dates",
+        "general_test.general-knowledge.international-days-dates"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "Pairs: World Environment Day 5 June, World Health Day 7 April, Women's Day 8 March, Human Rights Day 10 December, so key C is right. The explanation's last sentence was inaccurate (swapping 5 June with 7 April does not mix environment and health days with 'days of rights'); it now says exactly which two dates each wrong option swaps, without position references.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "explanation"
+        ],
+        "judged_text": "pre_repair",
+        "judged_content_hash": "e140b6a1a5150208a95f359d76b718a746428511c7416f8f424193537d248724",
+        "final_content_hash": "41d6b4b29c206eb1b2f1ac2acd2e2d2cc631aac05e6c530fef8ac660182f38df",
+        "hash_changed_by_repair": true,
+        "repaired_fields": [
+          "explanation"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "admitted_on_expert_verdict_blind_text_unchanged",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "d8b5523a-c238-437e-9304-f14c999ef06f": {
+      "question_id": "d8b5523a-c238-437e-9304-f14c999ef06f",
+      "batch": "authored-2026-10-17-w4__general_test__w4b1",
+      "chapter": "General Knowledge",
+      "key": "B",
+      "content_hash": "25d9b35794bb023891fd7767a3e6713216005f33072fbc76507af8e557894c74",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.general-knowledge.president-oath-administrator",
+          "flags": [],
+          "note": "Key B correct (Article 60: the Chief Justice administers the oath). Vice-President and Speaker are fair confusables; PM is a throwaway.",
+          "scored_content_hash": "25d9b35794bb023891fd7767a3e6713216005f33072fbc76507af8e557894c74"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "general_test.general-knowledge.president-oath-administrator",
+          "flags": [],
+          "note": "Key B is right under Article 60; the other three are real constitutional offices. One-fact recall, a shade thin for a 9.",
+          "scored_content_hash": "25d9b35794bb023891fd7767a3e6713216005f33072fbc76507af8e557894c74"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "general_test.general-knowledge.president-oath-administrator",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "easy"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.general-knowledge.president-oath-administrator",
+        "general_test.general-knowledge.president-oath-administrator"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Article 60: the President takes the oath before the Chief Justice of India or the senior-most available judge (key B); the Vice-President has no role. Standard polity recall, medium.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "25d9b35794bb023891fd7767a3e6713216005f33072fbc76507af8e557894c74",
+        "final_content_hash": "25d9b35794bb023891fd7767a3e6713216005f33072fbc76507af8e557894c74",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "da5af9e8-7676-41eb-9941-e2ef773bdf65": {
+      "question_id": "da5af9e8-7676-41eb-9941-e2ef773bdf65",
+      "batch": "authored-2026-10-17-w4__general_test__w4b1",
+      "chapter": "General Knowledge",
+      "key": "D",
+      "content_hash": "887ce5e9b01b5b2b8c65979a42eaed8f1070e72638b689af2e6abb12ff6b905e",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.general-knowledge.classical-historical-text-authors",
+          "flags": [],
+          "note": "Key D correct (Kalhana, twelfth century). Kalidasa is a throwaway; Banabhatta is a fair historical-text confusable.",
+          "scored_content_hash": "887ce5e9b01b5b2b8c65979a42eaed8f1070e72638b689af2e6abb12ff6b905e"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "general_test.general-knowledge.kashmir-chronicle-author",
+          "flags": [],
+          "note": "Key D is right: Kalhana wrote the Rajatarangini. Kalidasa is a throwaway; Banabhatta and Vishakhadatta are plausible historical authors.",
+          "scored_content_hash": "887ce5e9b01b5b2b8c65979a42eaed8f1070e72638b689af2e6abb12ff6b905e"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "easy"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.general-knowledge.classical-historical-text-authors",
+        "general_test.general-knowledge.kashmir-chronicle-author"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Kalhana wrote the Rajatarangini, a twelfth-century chronicle of Kashmir (key D); Banabhatta (Harshacharita), Kalidasa and Vishakhadatta (Mudrarakshasa) are plausible, correct distractors. Medium recall.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "887ce5e9b01b5b2b8c65979a42eaed8f1070e72638b689af2e6abb12ff6b905e",
+        "final_content_hash": "887ce5e9b01b5b2b8c65979a42eaed8f1070e72638b689af2e6abb12ff6b905e",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "dca1d6ab-a689-4b0d-aa17-43b888be3348": {
+      "question_id": "dca1d6ab-a689-4b0d-aa17-43b888be3348",
+      "batch": "authored-2026-10-17-w4__general_test__w4b3",
+      "chapter": "Numerical Ability",
+      "key": "C",
+      "content_hash": "1c8b79f4a7c54d1d8dff2b20c4eedce228835a1a215d4dcae223c5707ea64d04",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.numerical-ability.successive-price-change-profit",
+          "flags": [],
+          "note": "Key C is right: 70 x 1.1 x 0.9 = 69.30, profit 19.30. Distractors 20 (changes cancel) and 27 (no discount) are good slips. Label hard is a notch high.",
+          "scored_content_hash": "1c8b79f4a7c54d1d8dff2b20c4eedce228835a1a215d4dcae223c5707ea64d04"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.numerical-ability.successive-percentage-price-change",
+          "flags": [],
+          "note": "Key C verified: 70 x 1.1 x 0.9 = 69.30, less cost 50 = 19.30. The 20.00 cancellation trap is explained; 17.50 is unexplained. Hard label is high: medium.",
+          "scored_content_hash": "1c8b79f4a7c54d1d8dff2b20c4eedce228835a1a215d4dcae223c5707ea64d04"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.numerical-ability.successive-price-change-profit",
+        "general_test.numerical-ability.successive-percentage-price-change"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "Marked price 70 x 1.10 = 77, festival price 69.30, profit 19.30 (key C); the rise and discount do not cancel. Two chained percentage steps and both judges rated it medium, so the label is lowered from hard. Same caselet (practice only in the engine).",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "difficulty_label"
+        ],
+        "judged_text": "final",
+        "judged_content_hash": "1c8b79f4a7c54d1d8dff2b20c4eedce228835a1a215d4dcae223c5707ea64d04",
+        "final_content_hash": "1c8b79f4a7c54d1d8dff2b20c4eedce228835a1a215d4dcae223c5707ea64d04",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "difficulty_label"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "df5ce74e-79ae-4a89-adf9-2b39c6e49a1b": {
+      "question_id": "df5ce74e-79ae-4a89-adf9-2b39c6e49a1b",
+      "batch": "authored-2026-10-17-w4__general_test__w4b3",
+      "chapter": "Logical & Analytical Reasoning",
+      "key": "B",
+      "content_hash": "7f1da94bd2bc36afefd48817eb5df11cdc5e85a128d735d79d4f0c0d1bcd2bf0",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.logical-and-analytical-reasoning.linear-seating-after-exchange",
+          "flags": [],
+          "note": "Key B is right: Esha forced to chair 5, Arun to 1; after the swap Arun sits on 3, just before Divya on 4. Esha option is a throwaway since chair 5 is after Divya.",
+          "scored_content_hash": "7f1da94bd2bc36afefd48817eb5df11cdc5e85a128d735d79d4f0c0d1bcd2bf0"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.logical-and-analytical-reasoning.linear-seating-after-swap",
+          "flags": [],
+          "note": "Key B verified: Arun chair 1, Esha 5; after the swap Arun holds chair 3, just before Divya's 4. A (ignored swap) and D (direction slip) are good traps. Clean.",
+          "scored_content_hash": "7f1da94bd2bc36afefd48817eb5df11cdc5e85a128d735d79d4f0c0d1bcd2bf0"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.logical-and-analytical-reasoning.linear-seating-after-exchange",
+        "general_test.logical-and-analytical-reasoning.linear-seating-after-swap"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Chetan 3, Bela 2, Divya 4, Esha not 1 so Arun 1 and Esha 5; after Arun and Chetan swap, Arun holds chair 3, just before Divya (key B). Unique, medium.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "7f1da94bd2bc36afefd48817eb5df11cdc5e85a128d735d79d4f0c0d1bcd2bf0",
+        "final_content_hash": "7f1da94bd2bc36afefd48817eb5df11cdc5e85a128d735d79d4f0c0d1bcd2bf0",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "ea0c3adb-a6ff-4438-a863-7f937512c34b": {
+      "question_id": "ea0c3adb-a6ff-4438-a863-7f937512c34b",
+      "batch": "authored-2026-10-17-w4__general_test__w4b3",
+      "chapter": "Numerical Ability",
+      "key": "B",
+      "content_hash": "11ef5dc9ce3a1352c8d141daad27677e7297827c27cbaca6adeaae01267ad87f",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.numerical-ability.profit-percent-on-cost",
+          "flags": [],
+          "note": "Key B is right: profit 6,600 on notebook cost 20,000 is 33 per cent. The stem fixes the base as notebook cost, so loan interest is excluded. Distractor 30 is the 40-minus-10 slip.",
+          "scored_content_hash": "11ef5dc9ce3a1352c8d141daad27677e7297827c27cbaca6adeaae01267ad87f"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 7,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.numerical-ability.overall-profit-percent-on-cost",
+          "flags": [],
+          "note": "Key B verified on gross profit: 6,600/20,000 = 33%. Passage has Rs 1,200 interest and the stem does not say before interest; net 27% is not offered. Add 'before interest'.",
+          "scored_content_hash": "11ef5dc9ce3a1352c8d141daad27677e7297827c27cbaca6adeaae01267ad87f"
+        }
+      ],
+      "mean": 8,
+      "min": 7,
+      "spread": 2,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.numerical-ability.profit-percent-on-cost",
+        "general_test.numerical-ability.overall-profit-percent-on-cost"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Profit = 26,600 - 20,000 = 6,600, which is 33 per cent of the Rs 20,000 cost of the notebooks (key B); the stem says 'on the cost of the 400 notebooks', so the loan interest is not part of that cost. Medium, same caselet.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "11ef5dc9ce3a1352c8d141daad27677e7297827c27cbaca6adeaae01267ad87f",
+        "final_content_hash": "11ef5dc9ce3a1352c8d141daad27677e7297827c27cbaca6adeaae01267ad87f",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "eb8cf251-1014-400f-bbbd-4c32aeca9482": {
+      "question_id": "eb8cf251-1014-400f-bbbd-4c32aeca9482",
+      "batch": "authored-2026-10-17-w4__general_test__w4b3",
+      "chapter": "Numerical Ability",
+      "key": "D",
+      "content_hash": "06fd245a46dbb42b3db1b155a3f30e88bd80dd7d511c2be1c8e80bbcc9bb599a",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.numerical-ability.revenue-with-partial-discount",
+          "flags": [],
+          "note": "Key D is right: 200 x 63 + 200 x 70 = 26,600. Distractors 28,000 (no discount) and 25,200 (discount on all 400) are the natural slips. Clean passage item.",
+          "scored_content_hash": "06fd245a46dbb42b3db1b155a3f30e88bd80dd7d511c2be1c8e80bbcc9bb599a"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.numerical-ability.discount-on-marked-price",
+          "flags": [],
+          "note": "Key D verified: 200 x 63 + 200 x 70 = 26,600. 28,000 and 25,200 are explained slips; 27,000 is not explained. Clean two-step revenue item.",
+          "scored_content_hash": "06fd245a46dbb42b3db1b155a3f30e88bd80dd7d511c2be1c8e80bbcc9bb599a"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.numerical-ability.revenue-with-partial-discount",
+        "general_test.numerical-ability.discount-on-marked-price"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "0.9 x 70 = 63; 200 x 63 + 200 x 70 = 26,600 (key D). Medium, same caselet (practice only in the engine).",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "06fd245a46dbb42b3db1b155a3f30e88bd80dd7d511c2be1c8e80bbcc9bb599a",
+        "final_content_hash": "06fd245a46dbb42b3db1b155a3f30e88bd80dd7d511c2be1c8e80bbcc9bb599a",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "f27d1fb8-9357-4012-859e-240380f07967": {
+      "question_id": "f27d1fb8-9357-4012-859e-240380f07967",
+      "batch": "authored-2026-10-17-w4__general_test__w4b3",
+      "chapter": "Logical & Analytical Reasoning",
+      "key": "D",
+      "content_hash": "21faab16ada078ebbfd258977d504ed9ca150de585dad401574f8bd579b3d117",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.logical-and-analytical-reasoning.minimum-weighings-balance-puzzle",
+          "flags": [],
+          "note": "Key D is right: 3 v 3 then 1 v 1 finds the coin in 2 weighings, and 2 is the lower bound (3 outcomes cannot separate 8 coins in 1). 7 weighings is a throwaway.",
+          "scored_content_hash": "21faab16ada078ebbfd258977d504ed9ca150de585dad401574f8bd579b3d117"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.logical-and-analytical-reasoning.minimum-weighings-with-balance",
+          "flags": [],
+          "note": "Key D verified: each weighing has 3 outcomes; 3^2 = 9 >= 8 and 3^1 < 8. Distractor 7 (8 minus 1) is weak; 3 and 4 are plausible halving slips.",
+          "scored_content_hash": "21faab16ada078ebbfd258977d504ed9ca150de585dad401574f8bd579b3d117"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.logical-and-analytical-reasoning.minimum-weighings-balance-puzzle",
+        "general_test.logical-and-analytical-reasoning.minimum-weighings-with-balance"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Weigh 3 against 3, then at most one more weighing among 3 or 2 coins: 2 weighings (key D); splitting 4 against 4 needs 3. Classic puzzle, medium.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "21faab16ada078ebbfd258977d504ed9ca150de585dad401574f8bd579b3d117",
+        "final_content_hash": "21faab16ada078ebbfd258977d504ed9ca150de585dad401574f8bd579b3d117",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "f57d3a91-3ff8-4608-9ccf-8568eed19651": {
+      "question_id": "f57d3a91-3ff8-4608-9ccf-8568eed19651",
+      "batch": "authored-2026-10-17-w4__general_test__w4b3",
+      "chapter": "Logical & Analytical Reasoning",
+      "key": "D",
+      "content_hash": "c43c32214ea73e78f3dfa277f60a5c5f5b2a79f1db73cb5d26dab44a08a8918b",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.logical-and-analytical-reasoning.truth-teller-liar-deduction",
+          "flags": [],
+          "note": "Key D is right: if Meena told the truth Kabir's claim would contradict it, so Meena lies, Lata tells the truth, Kabir lies. Unique and clean. Label hard is a notch high.",
+          "scored_content_hash": "c43c32214ea73e78f3dfa277f60a5c5f5b2a79f1db73cb5d26dab44a08a8918b"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.logical-and-analytical-reasoning.truth-teller-liar-case-analysis",
+          "flags": [],
+          "note": "Key D verified by case check: Meena truthful is contradictory, so Meena lies, Lata truthful, Kabir lies. Clean and fair. Medium rather than hard: two cases only.",
+          "scored_content_hash": "c43c32214ea73e78f3dfa277f60a5c5f5b2a79f1db73cb5d26dab44a08a8918b"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.logical-and-analytical-reasoning.truth-teller-liar-deduction",
+        "general_test.logical-and-analytical-reasoning.truth-teller-liar-case-analysis"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "Only Lata is truthful: Meena cannot be truthful (that would make Kabir's true statement about Lata contradict his being a liar), so Meena lies, Lata is truthful, Kabir lies; key D is unique. Both judges rated it medium, so the label is lowered from hard.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "difficulty_label"
+        ],
+        "judged_text": "final",
+        "judged_content_hash": "c43c32214ea73e78f3dfa277f60a5c5f5b2a79f1db73cb5d26dab44a08a8918b",
+        "final_content_hash": "c43c32214ea73e78f3dfa277f60a5c5f5b2a79f1db73cb5d26dab44a08a8918b",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "difficulty_label"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "f7f57f20-8388-4720-a1c1-f41ca3da3e22": {
+      "question_id": "f7f57f20-8388-4720-a1c1-f41ca3da3e22",
+      "batch": "authored-2026-10-17-w4__general_test__w4b2",
+      "chapter": "Basic Mathematical Concepts",
+      "key": "A",
+      "content_hash": "4213b12be7ae88e4d6928e488d2ba6e53f31309f55a8309ac5222c5381e2cd9b",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "hard",
+          "objective_tag": "general_test.basic-mathematical-concepts.compound-interest-from-simple-amount",
+          "flags": [],
+          "note": "Key A correct: principal 1000 from SI, then CI 210. Distractors 200 (SI), 1210 (amount) and 220 (interest on 1100) are slip-based.",
+          "scored_content_hash": "4213b12be7ae88e4d6928e488d2ba6e53f31309f55a8309ac5222c5381e2cd9b"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.basic-mathematical-concepts.compound-interest-principal-from-amount",
+          "flags": [],
+          "note": "Key A correct: principal 1000 from the simple-interest amount, then CI 210. Distractors 200 (SI), 1210 (amount) and 220 are the expected slips. Judged medium (two steps); label says hard.",
+          "scored_content_hash": "4213b12be7ae88e4d6928e488d2ba6e53f31309f55a8309ac5222c5381e2cd9b"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "hard",
+          "medium"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.basic-mathematical-concepts.compound-interest-from-simple-amount",
+        "general_test.basic-mathematical-concepts.compound-interest-principal-from-amount"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "P = 1,000 from the amount under simple interest, CI = 1,210 - 1,000 = 210 (key A); distractors are real slips. A standard two-step simple/compound interest item, so the label is lowered from hard to medium. One fit judge flagged off-pattern but SI and CI are named arithmetic in the syllabus and the time is about 80 s.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "difficulty_label"
+        ],
+        "judged_text": "final",
+        "judged_content_hash": "4213b12be7ae88e4d6928e488d2ba6e53f31309f55a8309ac5222c5381e2cd9b",
+        "final_content_hash": "4213b12be7ae88e4d6928e488d2ba6e53f31309f55a8309ac5222c5381e2cd9b",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "difficulty_label"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "fd963a54-4700-44b6-b8b5-07b491494bf2": {
+      "question_id": "fd963a54-4700-44b6-b8b5-07b491494bf2",
+      "batch": "authored-2026-10-17-w4__general_test__w4b1",
+      "chapter": "General Science and Environment Literacy",
+      "key": "D",
+      "content_hash": "24444b902f2956a102a6f6b2e62c01e1855f16fd811d9d28bbb22767e6ec27f3",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "hard",
+          "objective_tag": "general_test.general-science-and-environment-literacy.ozone-depletion-not-warming-cause",
+          "flags": [],
+          "note": "Key D correct: assertion false (CO2 is the main driver), reason true (CFCs trap heat and deplete ozone). Real assertion-reason trap; earns 9.",
+          "scored_content_hash": "24444b902f2956a102a6f6b2e62c01e1855f16fd811d9d28bbb22767e6ec27f3"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "general_test.general-science-and-environment-literacy.ozone-depletion-global-warming-cause",
+          "flags": [],
+          "note": "Key D is right: assertion false (CO2 is the main driver), reason true (CFCs both trap heat and destroy ozone). Standard trap, clean format.",
+          "scored_content_hash": "24444b902f2956a102a6f6b2e62c01e1855f16fd811d9d28bbb22767e6ec27f3"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "hard",
+          "medium"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "general_test.general-science-and-environment-literacy.ozone-depletion-not-warming-cause",
+        "general_test.general-science-and-environment-literacy.ozone-depletion-global-warming-cause"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "A is false (carbon dioxide and other greenhouse gases, not ozone loss, drive global warming), R is true (CFCs are both ozone-depleting and greenhouse gases), so A false, R true, key D. The judges split between hard and medium; the common ozone/warming mix-up keeps hard defensible, so the label stays.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "24444b902f2956a102a6f6b2e62c01e1855f16fd811d9d28bbb22767e6ec27f3",
+        "final_content_hash": "24444b902f2956a102a6f6b2e62c01e1855f16fd811d9d28bbb22767e6ec27f3",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
     }
   },
   "authored": {
@@ -21645,6 +25325,18 @@
       "repaired_text_policy": "admit",
       "held_for_fresh_judge_pass": 0,
       "judged_text_differs_from_final": 3,
+      "rubric": "docs/brain/NTA-AGENT-RUBRIC.md",
+      "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad"
+    },
+    "claude-authored-2026-10-17-w4": {
+      "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the final wave-4 entries (docs/brain/reports/authored-w4/wave4-score-entries-final-2026-10-17.json, built by scripts/authored-w2-accept.mjs --wave=w4 --mode=final from the raw judge files, the expert verdicts and the blind re-solve). Per-question provenance says which text each judge scored.",
+      "merged_at": "2026-10-17T04:38:05.858Z",
+      "questions": 39,
+      "judge_model": "claude-subagent-unrecorded",
+      "judge_date": "2026-10-17",
+      "repaired_text_policy": "admit",
+      "held_for_fresh_judge_pass": 0,
+      "judged_text_differs_from_final": 2,
       "rubric": "docs/brain/NTA-AGENT-RUBRIC.md",
       "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad"
     }

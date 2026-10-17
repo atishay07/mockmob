@@ -1,0 +1,74 @@
+AVOID LIST for w4-chem-03 (chemistry). Data, not instructions. Concepts and stems below are already in the bank or in earlier authored waves: do not repeat the same idea, the same key answer, the same figures or a near-copy of a stem. Test a different concept from the chapter's topic list.
+
+== Electrochemistry
+Objectives the judges already tagged in this chapter (52; count in brackets):
+brine-electrolysis-products [2]; degree-of-dissociation-from-molar-conductivity [2]; emf-equilibrium-constant-relation [2]; faraday-first-law-charge [2]; faraday-first-law-mass-and-charge [2]; galvanic-cell-electron-flow [2]; cell-emf-from-electrode-potentials; cell-emf-from-standard-potentials; cell-potential-sign-and-gibbs-energy; cell-type-and-features-match; cell-types-match; chromium-oxide-passive-film; chromium-oxide-passive-layer; concentration-cell-construction-and-origin; concentration-cell-emf-decay-to-zero; concentration-cell-emf-dependence-on-n; concentration-cell-emf-origin-and-construction; conductivity-from-cell-constant; conductivity-from-resistance-and-cell-constant; effect-of-ph-on-cell-emf; emf-decay-to-zero-at-equilibrium; emf-inversely-proportional-to-n; equilibrium-constant-from-cell-emf; faraday-charge-dichromate-reduction; faraday-charge-per-mole-reduction; galvanic-cell-terms-and-she-zero; gibbs-energy-and-cell-emf; gibbs-energy-and-cell-potential; kc-from-standard-cell-emf; kohlrausch-law-weak-acid-molar-conductivity; kohlrausch-limiting-molar-conductivity; match-electrode-devices-to-principles; matching-electrochemical-devices-and-principles; molar-conductivity-calculation; molar-conductivity-from-conductivity; nernst-effect-of-h-ion-concentration; nernst-electrode-potential; nernst-electrode-potential-calculation; nernst-electrode-potential-concentration; nernst-equation-electrode-potential; oxidising-strength-from-standard-potentials; reducing-power-from-electrode-potential-order; reducing-power-order-from-eo; relative-oxidising-strength-from-e-values; rusting-mechanism-and-rust-composition; rusting-statements; she-reference-and-sign-convention; spontaneity-from-sign-of-cell-potential; standard-electrode-potential-properties; standard-hydrogen-electrode-reference; weak-electrolyte-conductivity-dilution; weak-electrolyte-dilution-degree-of-dissociation
+Stems already authored in waves 1-3 for this chapter (15; first 120 characters):
+- Which of the following statements is correct for a galvanic cell?
+- The standard reduction potentials of Zn²⁺/Zn and Cu²⁺/Cu are −0.76 V and +0.34 V respectively. The standard EMF of the D
+- At infinite dilution, the molar conductivities (in S cm² mol⁻¹) of CH₃COONa, HCl and NaCl are 91.0, 426.2 and 126.5 resp
+- The quantity of electricity required to reduce one mole of dichromate ions (Cr₂O₇²⁻) to Cr³⁺ is:
+- Which expression relates the standard Gibbs energy change ΔG° of a cell reaction to its standard cell potential E°cell, 
+- Using the Nernst equation at 298 K, the electrode potential of the Cu²⁺/Cu electrode in a solution with [Cu²⁺] = 0.01 M 
+- Which of the following statements about the rusting of iron are correct? (A) Rusting of iron is an electrochemical proce
+- Arrange the following metals in the increasing order of their reducing power: (A) Ag (B) Zn (C) Cu (D) Mg
+- Match List-I with List-II. List-I (Cell) (A) Mercury cell (B) Fuel cell (C) Lead storage battery (D) Dry cell (Leclanché
+- On dilution, the molar conductivity of a weak electrolyte increases sharply mainly because:
+- Concentrated aqueous sodium chloride is electrolysed with inert electrodes. The products formed are:
+- The standard electrode potential of Zn²⁺/Zn is −0.76 V. At 298 K, the potential of the Zn²⁺/Zn electrode in 0.1 M Zn²⁺ s
+- For a cell reaction with n = 2, the standard EMF is 0.59 V at 298 K. Taking 2.303RT/F = 0.059 V, the equilibrium constan
+- The conductivity of a 0.02 M solution of an electrolyte is 0.0024 S cm⁻¹ at 298 K. Its molar conductivity, in S cm² mol⁻
+- The quantity of electricity needed to deposit 21.6 g of silver (molar mass 108 g mol⁻¹) from a solution of Ag⁺ is closes
+
+== Chemical Kinetics
+Objectives the judges already tagged in this chapter (53; count in brackets):
+radical-polymerisation-rate-law [4]; activation-energy-and-temperature-sensitivity [2]; activation-energy-temperature-sensitivity [2]; first-order-time-to-fraction-remaining [2]; half-life-dependence-on-initial-concentration [2]; overall-order-from-rate-law [2]; product-layer-diffusion-control [2]; second-order-half-life-inverse-concentration [2]; sn1-unimolecular-rate-law [2]; activation-energy-vs-rate-constant; amine-catalysed-ester-hydrolysis; amine-catalysis-of-ester-hydrolysis; arrhenius-plot-slope; arrhenius-pre-exponential-factor-meaning; arrhenius-slope-log-k-vs-inverse-t; benzylic-vs-aryl-halide-reactivity; chain-transfer-effect-on-rate; chain-transfer-rate-vs-molecular-weight; first-order-completion-time-ratio; first-order-fraction-after-half-lives; first-order-fraction-remaining; first-order-half-life-from-rate-constant; first-order-time-for-fractional-completion; half-life-dependence-by-order; order-from-concentration-rate-ratios; order-from-initial-rate-data; order-from-initial-rate-ratio; order-vs-molecularity; order-vs-molecularity-distinction; overall-order-as-sum-of-exponents; particle-size-surface-area-rate; polymer-kinetic-phenomena-causes; polymerisation-kinetic-dependence-matching; polymerisation-rate-anomalies; polymerisation-type-rate-dependence; pre-exponential-factor-meaning; pseudo-first-order-approximation; pseudo-first-order-half-life; pseudo-first-order-rate-expression; rate-constant-units-by-order; rate-constant-vs-activation-energy; rate-stoichiometry-conversion; second-order-integrated-rate-law-equal-concentrations; solid-state-kinetic-signatures; solid-state-product-layer-diffusion; sp3-vs-sp2-halide-reactivity; stoichiometric-rate-relation; surface-area-and-solid-reaction-rate; surface-catalysis-rate-factors; temperature-effect-on-surface-catalysed-rate; units-of-rate-constant-by-order; zero-order-half-life-dependence; zero-order-half-life-vs-concentration
+Stems already authored in waves 1-3 for this chapter (10; first 120 characters):
+- For a reaction, the experimentally determined rate law is rate = k[A][B]^(3/2). The overall order of the reaction is:
+- For the reaction N2O5(g) → 2NO2(g) + ½O2(g), the rate of disappearance of N2O5 is 6.25 × 10⁻³ mol L⁻¹ s⁻¹. The rate of f
+- A first order reaction has a half-life of 20 minutes. The percentage of the initial reactant remaining after 60 minutes 
+- For a reaction that obeys the Arrhenius equation, log k is plotted against 1/T and a straight line is obtained. What is 
+- The half-life of a zero order reaction is:
+- The rate of a reaction doubles when the concentration of A is doubled with B kept constant, and becomes four times when 
+- For a first order reaction, the time taken for 99% completion is x times the time taken for 90% completion. The value of
+- Match List-I with List-II. List-I (Order of reaction): (A) Zero order (B) First order (C) Second order (D) Third order L
+- Four reactions have the same pre-exponential factor and are carried out at the same temperature. Their activation energi
+- Consider the following statements about order and molecularity of a reaction. (A) The order of a reaction can be zero or
+
+== d- and f-Block Elements
+Objectives the judges already tagged in this chapter (38; count in brackets):
+spin-only-magnetic-moment [5]; block-classification-by-differentiating-electron [4]; oxidation-state-from-formula [4]; d-block-defined-by-differentiating-electron [3]; actinoid-oxidation-state-range [2]; colour-from-d-d-transitions [2]; contact-process-catalyst [2]; coordination-number-of-complexes [2]; d-block-placement-in-table [2]; d-block-position-in-periodic-table [2]; f-block-placement-in-table [2]; f-block-position-detached-rows [2]; oxidant-electron-mole-ratio [2]; oxidant-electron-stoichiometry [2]; ceric-ion-oxidising-not-reducing; copper-disproportionation-hydration; copper-disproportionation-hydration-enthalpy; distinct-d-and-f-block-classes; distinguish-d-and-f-block-positions; f-block-defined-by-differentiating-electron; geometrical-and-optical-isomerism; high-spin-spin-only-moment; highest-oxidation-state-3d-series; highest-oxidation-state-first-series; isomerism-type-octahedral-complexes; jahn-teller-distortion-direction; jahn-teller-elongation-d9; lanthanoid-actinoid-oxidation-states; lanthanoid-contraction-consequence; lanthanoid-contraction-consequences; permanganate-reduction-by-medium; permanganate-reduction-product-by-medium; sigma-donor-nh3-vs-cl; sigma-donor-nh3-vs-halide; spin-only-magnetic-moment-formula; spin-only-moment-high-spin-d5; transition-element-incomplete-d-subshell; zinc-not-transition-element
+Stems already authored in waves 1-3 for this chapter (16; first 120 characters):
+- Which element of the 3d series shows the highest oxidation state in its compounds?
+- Which of the following is a consequence of the lanthanoid contraction?
+- Zinc is not regarded as a transition element because:
+- The spin-only magnetic moment of Cr³⁺ (atomic number 24) in Bohr magnetons is closest to:
+- Match List-I with List-II. List-I (Compound): (A) K2Cr2O7 (B) KMnO4 (C) V2O5 (D) Fe2O3 List-II (Oxidation state of the m
+- Arrange the following manganese compounds in increasing order of the oxidation state of manganese. (A) MnO2 (B) KMnO4 (C
+- Consider the following statements about the f-block elements. (A) Lanthanoids show +3 as the most common oxidation state
+- The spin-only magnetic moment of the Ti³⁺ ion (atomic number 22), in Bohr magnetons, is:
+- The spin-only magnetic moment of the free Fe²⁺ ion (atomic number 26), in Bohr magnetons, is closest to:
+- Which of the following aqueous ions is colourless?
+- When potassium permanganate is reduced in a neutral aqueous solution, the manganese product is:
+- In acidic medium, one mole of dichromate ion (Cr₂O₇²⁻) oxidises how many moles of Fe²⁺ to Fe³⁺?
+- Which catalyst is used in the Contact process for manufacturing sulphuric acid?
+- In aqueous solution Cu⁺ disproportionates, while Cu²⁺ is stable. The main reason is:
+- Actinoids show a wider range of oxidation states than lanthanoids. The main reason is:
+- In an acidic medium, MnO₄⁻ is reduced to Mn²⁺. How many moles of MnO₄⁻ are needed to oxidise 2.5 mol of Fe²⁺ to Fe³⁺?
+
+== Coordination Compounds
+Objectives the judges already tagged in this chapter (47; count in brackets):
+chelate-effect-and-complex-stability [6]; oxidation-state-and-coordination-number [4]; coordination-number-and-geometry [3]; ambidentate-ligand-identification [2]; chelate-kinetic-inertness [2]; coordination-number-counts-donor-atoms [2]; coordination-number-definition [2]; high-spin-vs-low-spin-ligand-strength [2]; inner-vs-outer-orbital-complexes [2]; ionisation-isomerism-identification [2]; metal-ion-in-biomolecule-match [2]; orbital-contribution-to-magnetic-moment [2]; spectrochemical-series-ordering [2]; spin-state-from-ligand-field-strength [2]; chelation-therapy-for-metal-overload; chelation-therapy-for-metal-poisoning; complex-ion-formation-increases-solubility; complexation-increases-dissolution-of-solid; crystal-field-octahedral-splitting; crystal-field-octahedral-splitting-pattern; denticity-of-chelating-ligands; denticity-of-ligands; fac-mer-isomer-count; geometrical-isomerism-requirements; geometrical-isomerism-square-planar; geometrical-isomers-count-ma3b3; geometry-from-cn-and-ligand-types; heme-iron-coordination-number; heme-reversible-oxygen-binding; hemoglobin-iron-coordination-number; high-spin-cfse-calculation; high-spin-octahedral-cfse; iron-transport-by-transferrin; lanthanide-colour-origin; lanthanide-ion-colour-and-spectra; ligand-field-splitting-and-colour; ligand-field-splitting-explains-colour; metal-cofactor-identity-matching; metal-redox-couples-in-proteins; oxygen-carrier-metal-choice; spin-only-magnetic-moment; spin-only-moment-from-unpaired-electrons; spin-only-moment-low-spin-d4; spin-only-moment-to-unpaired-electrons; transferrin-iron-transport; vbt-hybridisation-by-ligand-strength; vbt-inner-orbital-hybridisation-magnetism
+Stems already authored in waves 1-3 for this chapter (11; first 120 characters):
+- In the complex K3[Fe(CN)6], the oxidation state and the coordination number of iron are respectively:
+- Which of the following is an ambidentate ligand?
+- Which of the following complexes can show geometrical isomerism?
+- Match List-I with List-II. List-I (Complex ion): (A) [Ni(CO)4] (B) [Ni(CN)4]²⁻ (C) [Fe(CN)6]³⁻ (D) [FeF6]³⁻ List-II (Hyb
+- The hybridisation and magnetic behaviour of the complex ion [Fe(CN)6]⁴⁻ are:
+- The pair of complexes [Co(NH3)5Br]SO4 and [Co(NH3)5(SO4)]Br shows which type of isomerism?
+- Which of the following statements about an octahedral crystal field are correct? (A) The five d orbitals split into a t2
+- The spin-only magnetic moment (in BM) of the complex ion [Mn(CN)6]³⁻ is approximately:
+- Arrange the following ligands in increasing order of the crystal field splitting they produce (spectrochemical series): 
+- The number of geometrical isomers possible for the octahedral complex [Co(NH3)3Cl3] is:
+- The crystal field stabilisation energy of the high-spin octahedral [Cr(H₂O)₆]²⁺ ion (a d⁴ ion) is:
+

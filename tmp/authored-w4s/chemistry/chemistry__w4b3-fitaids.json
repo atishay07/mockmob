@@ -1,0 +1,246 @@
+{
+ "batch": "chemistry__w4b3",
+ "subject": "chemistry",
+ "allowed": {
+  "types": [
+   "single_mcq",
+   "match_the_following",
+   "sequence_ordering",
+   "statement_based",
+   "assertion_reason",
+   "passage_set_item"
+  ],
+  "units": [
+   {
+    "unit": "Solutions",
+    "chapters": [
+     "Solutions"
+    ]
+   },
+   {
+    "unit": "Electrochemistry",
+    "chapters": [
+     "Electrochemistry"
+    ]
+   },
+   {
+    "unit": "Chemical Kinetics",
+    "chapters": [
+     "Chemical Kinetics"
+    ]
+   },
+   {
+    "unit": "d and f Block Elements",
+    "chapters": [
+     "d- and f-Block Elements"
+    ]
+   },
+   {
+    "unit": "Coordination Compounds",
+    "chapters": [
+     "Coordination Compounds"
+    ]
+   },
+   {
+    "unit": "Haloalkanes and Haloarenes",
+    "chapters": [
+     "Haloalkanes & Haloarenes"
+    ]
+   },
+   {
+    "unit": "Alcohols, Phenols and Ethers",
+    "chapters": [
+     "Alcohols, Phenols & Ethers"
+    ]
+   },
+   {
+    "unit": "Aldehydes, Ketones and Carboxylic Acids",
+    "chapters": [
+     "Aldehydes, Ketones & Carboxylic Acids"
+    ]
+   },
+   {
+    "unit": "Amines",
+    "chapters": [
+     "Amines"
+    ]
+   },
+   {
+    "unit": "Biomolecules",
+    "chapters": [
+     "Biomolecules"
+    ]
+   }
+  ],
+  "excluded_chapters": [
+   "Solid State",
+   "Surface Chemistry",
+   "Isolation of Elements",
+   "p-Block Elements",
+   "Polymers",
+   "Chemistry in Everyday Life"
+  ]
+ },
+ "rows": {
+  "969ec6f8-7e52-48ce-9832-299e478417ce": {
+   "engine_unit_options": [
+    "Electrochemistry"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 50,
+   "read_seconds": 23
+  },
+  "a7758e68-699c-48a6-bc75-d2a972b4ad92": {
+   "engine_unit_options": [
+    "Electrochemistry"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 59,
+   "read_seconds": 26
+  },
+  "5c0ee5c8-3f94-4d63-b0a2-b4d994547c7e": {
+   "engine_unit_options": [
+    "Electrochemistry"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 45,
+   "read_seconds": 22
+  },
+  "e6056587-a51f-421d-a7eb-904e696e12af": {
+   "engine_unit_options": [
+    "Electrochemistry"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 39,
+   "read_seconds": 20
+  },
+  "4fced3ab-5807-43b8-8025-82d9859180a1": {
+   "engine_unit_options": [
+    "Electrochemistry"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 34,
+   "read_seconds": 18
+  },
+  "7e7b5652-225b-40a3-859f-5f1d822bfe17": {
+   "engine_unit_options": [
+    "Chemical Kinetics"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 91,
+   "read_seconds": 36
+  },
+  "973877a8-423b-40dd-847e-6e0491b45a02": {
+   "engine_unit_options": [
+    "Chemical Kinetics"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 47,
+   "read_seconds": 22
+  },
+  "a08beb87-d194-457a-81c5-2bf8b78436fe": {
+   "engine_unit_options": [
+    "Chemical Kinetics"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 41,
+   "read_seconds": 20
+  },
+  "bc99a237-d954-40cc-a95a-0320cf346f7f": {
+   "engine_unit_options": [
+    "Chemical Kinetics"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 52,
+   "read_seconds": 24
+  },
+  "38dd3ed0-f042-4470-b5b8-90886167286c": {
+   "engine_unit_options": [
+    "Chemical Kinetics"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 45,
+   "read_seconds": 22
+  },
+  "0dfb5b38-ed97-4c20-8199-41135c08395b": {
+   "engine_unit_options": [
+    "d and f Block Elements"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 48,
+   "read_seconds": 23
+  },
+  "8199b343-e47e-40e5-acdd-8e458592a4d0": {
+   "engine_unit_options": [
+    "d and f Block Elements"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 53,
+   "read_seconds": 24
+  },
+  "9796cd95-e541-4ba5-85eb-7f4b7cab45ad": {
+   "engine_unit_options": [
+    "d and f Block Elements"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 25,
+   "read_seconds": 16
+  },
+  "c459a1d2-65e0-4cd0-b071-3ec287fe0efc": {
+   "engine_unit_options": [
+    "d and f Block Elements"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 50,
+   "read_seconds": 23
+  },
+  "34a6cabf-0b12-4321-b746-76378dd8d946": {
+   "engine_unit_options": [
+    "d and f Block Elements"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 46,
+   "read_seconds": 22
+  },
+  "a58d364f-574c-424c-9ed2-0f6e4fdb5c3e": {
+   "engine_unit_options": [
+    "Coordination Compounds"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 27,
+   "read_seconds": 16
+  },
+  "bdc87aa5-3aa5-4786-9440-5aa51f0bb35d": {
+   "engine_unit_options": [
+    "Coordination Compounds"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 16,
+   "read_seconds": 13
+  },
+  "5423cc50-4ae2-487d-94b9-6da3cf15a6dd": {
+   "engine_unit_options": [
+    "Coordination Compounds"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 28,
+   "read_seconds": 16
+  },
+  "03468e44-24ac-4016-a28b-cdc361d9e934": {
+   "engine_unit_options": [
+    "Coordination Compounds"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 51,
+   "read_seconds": 23
+  },
+  "c448902e-cfe8-4f58-afca-25e26e7a5cc9": {
+   "engine_unit_options": [
+    "Coordination Compounds"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 47,
+   "read_seconds": 22
+  }
+ }
+}

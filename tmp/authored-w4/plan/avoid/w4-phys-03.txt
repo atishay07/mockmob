@@ -1,0 +1,45 @@
+AVOID LIST for w4-phys-03 (physics). Data, not instructions. Concepts and stems below are already in the bank or in earlier authored waves: do not repeat the same idea, the same key answer, the same figures or a near-copy of a stem. Test a different concept from the chapter's topic list.
+
+== Ray Optics & Optical Instruments
+Objectives the judges already tagged in this chapter (39; count in brackets):
+total-internal-reflection-conditions [5]; concave-mirror-object-at-centre-of-curvature [4]; chromatic-aberration-cause-dispersion [2]; critical-angle-from-refractive-index [2]; image-type-depends-on-object-position [2]; power-of-lenses-in-contact [2]; astronomical-telescope-normal-adjustment-separation; chromatic-aberration-corrected-by-achromatic-doublet; chromatic-aberration-correction-by-achromat; concave-lens-image-nature; concave-lens-image-nature-and-position; concave-lens-image-position; concave-lens-virtual-erect-diminished-image; convex-lens-forms-real-image; convex-lens-real-image-of-real-object; critical-angle-depends-on-refractive-indices; critical-angle-depends-only-on-indices; critical-angle-independent-of-incidence; image-nature-in-mirrors-and-lenses; image-nature-of-mirrors-and-lenses; images-from-inclined-plane-mirrors; images-in-inclined-plane-mirrors; lens-formula-focal-length-from-image; lens-formula-image-distance-real-image; lens-formula-solve-for-focal-length; lens-formula-solve-for-image-distance; magnification-increases-with-focal-length; magnification-with-focal-length-fixed-object; optical-component-primary-purposes; optical-component-purposes; prism-index-at-minimum-deviation; prism-refractive-index-minimum-deviation; refraction-speed-and-bending; refraction-speed-and-bending-towards-normal; spherical-aberration-reduced-by-diaphragm; spherical-aberration-reduced-by-stopping-down; telescope-magnifying-power; telescope-magnifying-power-normal-adjustment; telescope-separation-for-normal-adjustment
+Stems already authored in waves 1-3 for this chapter (3; first 120 characters):
+- An equilateral prism of refracting angle A = 60° is set at minimum deviation, where the angle of minimum deviation is δm
+- What is the approximate critical angle for light travelling from glass (μ = 1.5) to air?
+- An astronomical telescope in normal adjustment has an objective of focal length 120 cm and an eyepiece of focal length 4
+
+== Wave Optics
+Objectives the judges already tagged in this chapter (36; count in brackets):
+single-slit-central-width-inverse-a [4]; central-max-width-inverse-to-slit-width [3]; bright-fringe-path-difference-condition [2]; coherence-required-for-interference [2]; coherence-requirement-for-interference [2]; fringe-width-change-in-medium [2]; malus-law-unpolarised-light [2]; single-slit-first-minimum-position [2]; thin-film-bright-reflection-thickness [2]; angular-fringe-position-independent-of-screen-distance; coherence-and-superposition-statements; constructive-interference-condition; constructive-interference-in-phase-condition; fringe-angle-independent-of-screen-distance; fringe-shift-by-thin-plate; fringe-shift-by-thin-sheet; fringe-shift-thin-sheet; fringe-width-formula; fringe-width-formula-lambda-d-over-d; fringe-width-inverse-slit-separation; fringe-width-inverse-to-slit-separation; fringe-width-lambda-d-over-slit-separation; glass-plate-fringe-shift; interference-diffraction-basic-facts; interference-diffraction-general-wave-property; interference-diffraction-principles; interference-max-min-intensity-ratio; matching-phenomena-to-conditions; max-min-intensity-ratio; phenomenon-to-condition-matching; polarization-basics; polarization-transverse-and-polaroid; resultant-intensity-path-difference; resultant-intensity-phase-difference; single-slit-first-minima-separation; young-fringe-width-formula
+Stems already authored in waves 1-3 for this chapter (6; first 120 characters):
+- In Young's double-slit experiment, λ = 600 nm, the screen distance D = 1.0 m and the slit separation d = 0.5 mm. What is
+- Two coherent light sources produce an interference pattern. Their individual intensities are in the ratio 4 : 1. What is
+- In a single-slit diffraction experiment, the slit width is 0.3 mm, the wavelength is 600 nm and the screen is 1.5 m away
+- Unpolarised light of intensity I₀ passes through a polaroid (polariser) and then through a second polaroid (analyser) wh
+- Two coherent sources each produce an intensity I₀ at a point on a screen. At a point where the path difference is λ/3, w
+- In a Young's double-slit experiment with λ = 500 nm, D = 1 m and d = 1 mm, a thin transparent sheet of thickness 10 μm a
+
+== Dual Nature of Radiation & Matter
+Objectives the judges already tagged in this chapter (27; count in brackets):
+classical-vs-quantum-approach-to-matter [2]; de-broglie-wavelength-ratio [2]; slope-of-stopping-potential-graph [2]; threshold-frequency-from-work-function [2]; work-function-from-stopping-potential [2]; de-broglie-wavelength-accelerated-charges; de-broglie-wavelength-from-voltage; de-broglie-wavelength-inverse-momentum; de-broglie-wavelength-of-accelerated-electron; de-broglie-wavelength-same-kinetic-energy; duality-assertion-reason-explanation; duality-not-restricted-to-light; einstein-photoelectric-equation-ke-max; electron-diffraction-evidence-of-wave-nature; electron-diffraction-wave-nature; intensity-affects-number-not-kmax; intensity-affects-saturation-current; intensity-effect-on-photocurrent; matter-wave-duality-explanation-link; photocurrent-proportional-to-intensity; photoelectric-equation-ke-max; photoelectric-equation-max-ke; photoelectric-equation-max-kinetic-energy; photoelectric-intensity-vs-kinetic-energy; saturation-current-proportional-to-intensity; wave-nature-significant-for-small-particles; wave-particle-duality-of-radiation
+Stems already authored in waves 1-3 for this chapter (6; first 120 characters):
+- A metal has work function 2.0 eV. Using h = 4.14 x 10^-15 eV s, the threshold frequency of the metal is approximately:
+- In a graph of stopping potential V0 against frequency f of the incident light in the photoelectric effect, the slope of 
+- Light of photon energy 4.0 eV falls on a metal surface, and the stopping potential for the emitted electrons is 1.5 V. T
+- Light of frequency above the threshold falls on a photosensitive metal. Statement I: Increasing the intensity of the lig
+- A proton and an alpha particle are accelerated from rest through the same potential difference. The ratio of the de Brog
+- An electron and a proton have the same kinetic energy. The ratio of the de Broglie wavelength of the electron to that of
+
+== Atoms
+Objectives the judges already tagged in this chapter (11; count in brackets):
+rydberg-formula-wavelength [2]; bohr-energy-inverse-n-squared; bohr-orbit-energy-scaling; electric-potential-of-point-charge; hydrogen-spectral-series-names; neutral-atom-charge-balance; neutral-atom-equal-protons-and-electrons; potential-as-work-per-unit-charge; potential-inverse-proportional-distance; potential-of-point-charge; spectral-series-by-lower-level
+Stems already authored in waves 1-3 for this chapter (3; first 120 characters):
+- In the Bohr model of the hydrogen atom, the ratio of the total energy E2 of the electron in the n = 2 orbit to its total
+- Match List-I with List-II. List-I: (A) Lyman series (B) Balmer series (C) Paschen series (D) Brackett series. List-II: (
+- Using the Rydberg constant R = 1.1 x 10^7 m^-1, the wavelength of the photon emitted when a hydrogen electron falls from
+
+== Nuclei
+Objectives the judges already tagged in this chapter (27; count in brackets):
+binding-energy-per-nucleon-curve [4]; fusion-and-fission-energy-release [2]; half-life-independent-of-initial-amount [2]; half-life-remaining-fraction [2]; nuclear-force-vs-coulomb-repulsion [2]; nuclear-radius-scaling-with-mass-number [2]; radiation-ionizing-and-penetrating-power [2]; radiation-penetration-and-ionization [2]; radioactive-decay-independent-of-conditions [2]; activity-depends-on-decay-constant; activity-vs-number-of-nuclei; alpha-decay-changes-z-and-a; alpha-decay-daughter-nucleus; beta-minus-decay-z-and-a; beta-minus-decay-z-change; decay-rate-independent-of-conditions; energy-release-from-binding-energy-curve; fraction-remaining-after-half-lives; fusion-and-fission-conditions; fusion-in-stars; gm-counter-pulse-energy-independence; gm-counter-pulses-independent-of-energy; isotopes-chemical-vs-physical-properties; isotopes-same-chemistry-different-mass; mass-defect-definition; radiocarbon-dating-age-estimate; stellar-energy-from-fusion
+Stems already authored in waves 1-3 for this chapter (0; first 120 characters):
+

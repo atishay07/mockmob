@@ -1,0 +1,31 @@
+{
+ "batch": "rv-w4",
+ "subject": "mixed",
+ "questions": [
+  {
+   "id": "01d16929-b579-401b-9a88-81ff84f82232",
+   "subject": "chemistry",
+   "type": "statement_based",
+   "stem": "Consider the following statements about carbohydrates:\n(A) Maltose is a reducing sugar because one of its two glucose units has a free hemiacetal –OH group.\n(B) Sucrose reduces Tollens’ reagent because it contains a free aldehyde group.\n(C) The letter D in D-glucose refers to the configuration at the chiral carbon farthest from the carbonyl group, the same as in D-glyceraldehyde.\n(D) Lactose gives D-galactose and D-glucose on hydrolysis.\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A), (B) and (C) only"
+    },
+    {
+     "key": "B",
+     "text": "(A), (B) and (D) only"
+    },
+    {
+     "key": "C",
+     "text": "(B), (C) and (D) only"
+    },
+    {
+     "key": "D",
+     "text": "(A), (C) and (D) only"
+    }
+   ],
+   "passage_text": null
+  }
+ ]
+}

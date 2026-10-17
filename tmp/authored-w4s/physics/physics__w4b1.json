@@ -1,0 +1,666 @@
+{
+ "batch": "physics__w4b1",
+ "subject": "physics",
+ "questions": [
+  {
+   "id": "9a1edcea-056d-4e0a-9d68-a89e8a6061da",
+   "subject": "physics",
+   "unit": "Magnetic Effects of Current and Magnetism",
+   "chapter": "Moving Charges & Magnetism",
+   "type": "single_mcq",
+   "stem": "A galvanometer of resistance 99 Ω gives full-scale deflection for a current of 10 mA. It is converted into an ammeter of range 0 to 1 A by connecting a shunt. The resistance of the ammeter so formed is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "1.0 Ω"
+    },
+    {
+     "key": "B",
+     "text": "100 Ω"
+    },
+    {
+     "key": "C",
+     "text": "99 Ω"
+    },
+    {
+     "key": "D",
+     "text": "0.99 Ω"
+    }
+   ],
+   "correct_key": "D",
+   "explanation": "For the shunt, Ig × G = (I − Ig) × S, so S = (0.010 × 99)/(1 − 0.010) = 1.0 Ω. The shunt is in parallel with the galvanometer, so the ammeter resistance is G S/(G + S) = 99 × 1.0/100 = 0.99 Ω, which also equals Ig G/I = 0.99/1. Quoting 1.0 Ω gives only the shunt, 100 Ω adds the two resistances as if in series, and 99 Ω ignores the shunt altogether.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "hard",
+   "ncert_ref": "NCERT Class 12 Physics Part I, Ch 4 Moving Charges and Magnetism: moving coil galvanometer, conversion to an ammeter with a shunt and the resulting resistance",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "9e03f84e-da69-4b2c-b83f-12f0d834e6b9",
+   "subject": "physics",
+   "unit": "Magnetic Effects of Current and Magnetism",
+   "chapter": "Moving Charges & Magnetism",
+   "type": "single_mcq",
+   "stem": "A beam of singly charged ions enters a region where a uniform electric field of 3.0 × 10^4 V/m and a uniform magnetic field of 0.10 T act at right angles to each other and to the beam. Ions of which speed pass through undeflected?",
+   "options": [
+    {
+     "key": "A",
+     "text": "3.0 × 10^3 m/s"
+    },
+    {
+     "key": "B",
+     "text": "3.0 × 10^5 m/s"
+    },
+    {
+     "key": "C",
+     "text": "3.3 × 10^-6 m/s"
+    },
+    {
+     "key": "D",
+     "text": "3.0 × 10^6 m/s"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "Ions pass undeflected when the electric and magnetic forces balance, qE = qvB, so v = E/B = 3.0 × 10^4 / 0.10 = 3.0 × 10^5 m/s. The charge and the mass cancel, so every singly charged ion with this speed goes straight. The product E × B = 3.0 × 10^3 has the wrong dimensions for a speed.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "NCERT Class 12 Physics Part I, Ch 4 Moving Charges and Magnetism: motion of a charge in combined electric and magnetic fields (velocity selector)",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "823433eb-4072-4493-833d-f53ea7ff8cf3",
+   "subject": "physics",
+   "unit": "Magnetic Effects of Current and Magnetism",
+   "chapter": "Moving Charges & Magnetism",
+   "type": "single_mcq",
+   "stem": "An electron moves in a circular orbit of radius 5.0 × 10^-11 m with a speed of 3.0 × 10^6 m/s. Take e = 1.6 × 10^-19 C. The magnetic moment due to this orbital motion is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "1.2 × 10^-23 A m²"
+    },
+    {
+     "key": "B",
+     "text": "2.4 × 10^-23 A m²"
+    },
+    {
+     "key": "C",
+     "text": "7.5 × 10^-23 A m²"
+    },
+    {
+     "key": "D",
+     "text": "4.8 × 10^-23 A m²"
+    }
+   ],
+   "correct_key": "A",
+   "explanation": "One revolution takes T = 2πr/v, so the equivalent current is I = e/T = ev/(2πr). The magnetic moment is m = I × πr² = evr/2 = (1.6 × 10^-19)(3.0 × 10^6)(5.0 × 10^-11)/2 = 1.2 × 10^-23 A m². Leaving out the factor 1/2 gives 2.4 × 10^-23 A m², which is the value of evr, and 4.8 × 10^-23 doubles it.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Physics Part I, Ch 4 Moving Charges and Magnetism: current loop as a magnetic dipole, magnetic moment of a revolving electron",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "e9f682c4-7b40-4470-a4ac-cca20e95419e",
+   "subject": "physics",
+   "unit": "Magnetic Effects of Current and Magnetism",
+   "chapter": "Moving Charges & Magnetism",
+   "type": "single_mcq",
+   "stem": "Two long straight parallel wires are 0.40 m apart and carry steady currents of 3 A and 5 A in opposite directions. On the straight line through both wires, the net magnetic field is zero at a distance from the 3 A wire of:",
+   "options": [
+    {
+     "key": "A",
+     "text": "0.15 m"
+    },
+    {
+     "key": "B",
+     "text": "0.24 m"
+    },
+    {
+     "key": "C",
+     "text": "0.60 m"
+    },
+    {
+     "key": "D",
+     "text": "1.0 m"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "For opposite currents the two fields add between the wires, so a null point can only lie outside them, beyond the weaker (3 A) wire. With x measured from the 3 A wire, μ0(3)/(2πx) = μ0(5)/(2π(x + 0.40)), so 3(x + 0.40) = 5x and x = 0.60 m. The value 0.15 m is the null point for currents in the same direction, and 1.0 m is the distance of the correct point from the 5 A wire.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "hard",
+   "ncert_ref": "NCERT Class 12 Physics Part I, Ch 4 Moving Charges and Magnetism: magnetic field of a long straight current-carrying wire and superposition",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "449e1c7b-0d6d-4ea4-a7c2-85e2aa906779",
+   "subject": "physics",
+   "unit": "Electromagnetic Induction and Alternating Currents",
+   "chapter": "Electromagnetic Induction",
+   "type": "statement_based",
+   "stem": "Consider the following statements about electromagnetic induction.\n(A) The emf induced in a closed loop depends on the resistance of the loop.\n(B) An emf can be induced in a coil placed in a steady magnetic field by changing the area of the coil.\n(C) One henry is equal to one weber per ampere.\n(D) A metal rod at rest in a steady magnetic field has a motional emf between its ends.\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "Statements (A) and (B) only"
+    },
+    {
+     "key": "B",
+     "text": "Statements (A), (C) and (D) only"
+    },
+    {
+     "key": "C",
+     "text": "Statements (C) and (D) only"
+    },
+    {
+     "key": "D",
+     "text": "Statements (B) and (C) only"
+    }
+   ],
+   "correct_key": "D",
+   "explanation": "Induced emf depends on the rate of change of flux, and the resistance of the loop only decides the current, so statement (A) fails. Changing the area changes the flux and induces an emf, and since L = flux/current, 1 H = 1 Wb/A. A rod at rest has v = 0, so its motional emf Blv is zero even in a steady field.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Physics Part I, Ch 6 Electromagnetic Induction: Faraday law, motional emf and the unit of inductance",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "d927294f-a4a8-4886-b658-6ae4abbb96cc",
+   "subject": "physics",
+   "unit": "Electromagnetic Induction and Alternating Currents",
+   "chapter": "Electromagnetic Induction",
+   "type": "single_mcq",
+   "stem": "A coil of 100 turns and resistance 20 Ω is linked with a flux that falls from 4.0 × 10^-3 Wb to 1.0 × 10^-3 Wb through each turn in 0.50 s. The total charge that flows through the coil is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "1.5 × 10^-4 C"
+    },
+    {
+     "key": "B",
+     "text": "3.0 × 10^-2 C"
+    },
+    {
+     "key": "C",
+     "text": "1.5 × 10^-2 C"
+    },
+    {
+     "key": "D",
+     "text": "6.0 × 10^-1 C"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "The charge is q = NΔΦ/R = 100 × (4.0 − 1.0) × 10^-3 / 20 = 1.5 × 10^-2 C, independent of the time taken. Check: emf = 0.30/0.50 = 0.60 V, current = 0.60/20 = 0.030 A, charge = 0.030 × 0.50 = 1.5 × 10^-2 C. The value 3.0 × 10^-2 is the current in amperes, not the charge.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Physics Part I, Ch 6 Electromagnetic Induction: induced emf, current and the charge that flows through a coil",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "9c904745-0e4f-4aaf-b0ec-680a81b419ab",
+   "subject": "physics",
+   "unit": "Electromagnetic Induction and Alternating Currents",
+   "chapter": "Electromagnetic Induction",
+   "type": "single_mcq",
+   "stem": "The energy stored in the magnetic field of a coil carrying a current of 2 A is 8 J. The self-inductance of the coil is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "8 H"
+    },
+    {
+     "key": "B",
+     "text": "4 H"
+    },
+    {
+     "key": "C",
+     "text": "16 H"
+    },
+    {
+     "key": "D",
+     "text": "2 H"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "The energy stored in an inductor is U = (1/2) L I². Therefore L = 2U/I² = 2 × 8/2² = 4 H. Check: (1/2) × 4 × 2² = 8 J. Writing U = L I² forgets the factor 1/2 and would give 2 H, while 2U/I gives 8 H because the current is not squared.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "NCERT Class 12 Physics Part I, Ch 6 Electromagnetic Induction: energy stored in an inductor, U = (1/2) L I²",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "e6aaca54-9f5b-4217-86d5-a72ec3df7ec1",
+   "subject": "physics",
+   "unit": "Electromagnetic Induction and Alternating Currents",
+   "chapter": "Electromagnetic Induction",
+   "type": "single_mcq",
+   "stem": "A square coil of side 10 cm and 100 turns is placed with its plane making an angle of 30° with a uniform magnetic field of 0.20 T. The field is reduced uniformly to zero in 0.010 s. The magnitude of the induced emf is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "20 V"
+    },
+    {
+     "key": "B",
+     "text": "0.10 V"
+    },
+    {
+     "key": "C",
+     "text": "10√3 V"
+    },
+    {
+     "key": "D",
+     "text": "10 V"
+    }
+   ],
+   "correct_key": "D",
+   "explanation": "The field makes 30° with the plane, so it makes 60° with the normal and the flux per turn is BA cos 60° = 0.20 × 0.010 × 0.5 = 1.0 × 10^-3 Wb. Then ε = NΔΦ/Δt = 100 × 1.0 × 10^-3 / 0.010 = 10 V. Using cos 30° treats the given angle as the one with the normal and gives 10√3 V, while taking the field as perpendicular gives 20 V.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "hard",
+   "ncert_ref": "NCERT Class 12 Physics Part I, Ch 6 Electromagnetic Induction: magnetic flux through a tilted coil and Faraday law",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "03e23eee-ba91-4f2c-9307-a711a8aaf231",
+   "subject": "physics",
+   "unit": "Electromagnetic Induction and Alternating Currents",
+   "chapter": "Alternating Current",
+   "type": "single_mcq",
+   "stem": "A lamp rated 100 W at 100 V is to be operated from a 125 V AC supply, with a pure inductor connected in series so that the lamp works at its rated power. The inductive reactance of the inductor must be:",
+   "options": [
+    {
+     "key": "A",
+     "text": "75 Ω"
+    },
+    {
+     "key": "B",
+     "text": "25 Ω"
+    },
+    {
+     "key": "C",
+     "text": "160 Ω"
+    },
+    {
+     "key": "D",
+     "text": "225 Ω"
+    }
+   ],
+   "correct_key": "A",
+   "explanation": "The lamp resistance is R = V²/P = 100²/100 = 100 Ω and its rated current is 100/100 = 1 A. The circuit must have Z = 125/1 = 125 Ω, so X_L = √(Z² − R²) = √(125² − 100²) = 75 Ω. Subtracting the resistances gives 25 Ω, but resistance and reactance combine at right angles, and adding the squares instead of subtracting them gives 160 Ω.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "hard",
+   "ncert_ref": "NCERT Class 12 Physics Part I, Ch 7 Alternating Current: resistance and reactance in series, impedance Z = √(R² + X²)",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "d01eb790-0cf8-49f7-9eaa-eae3faeea1d5",
+   "subject": "physics",
+   "unit": "Electromagnetic Induction and Alternating Currents",
+   "chapter": "Alternating Current",
+   "type": "single_mcq",
+   "stem": "A series LCR circuit is connected to a 100 V (rms) AC source. The resistance is 30 Ω, the inductive reactance is 80 Ω and the capacitive reactance is 40 Ω. The rms voltage across the inductor is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "80 V"
+    },
+    {
+     "key": "B",
+     "text": "160 V"
+    },
+    {
+     "key": "C",
+     "text": "100 V"
+    },
+    {
+     "key": "D",
+     "text": "60 V"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "The impedance is Z = √(R² + (XL − XC)²) = √(30² + 40²) = 50 Ω, so I = 100/50 = 2 A and VL = I × XL = 2 × 80 = 160 V. This is larger than the supply because VL and VC are in antiphase: the phasor sum is √(60² + (160 − 80)²) = 100 V. Taking 100 V assumes no part can exceed the source, which holds only for in-phase voltages.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "hard",
+   "ncert_ref": "NCERT Class 12 Physics Part I, Ch 7 Alternating Current: series LCR circuit, phasors, impedance and component voltages",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "47a09bf1-99f6-4a0d-bb3d-cd9177a65ba2",
+   "subject": "physics",
+   "unit": "Electromagnetic Induction and Alternating Currents",
+   "chapter": "Alternating Current",
+   "type": "single_mcq",
+   "stem": "The emf of an AC generator varies as e = e0 sin ωt and the frequency is 50 Hz. Starting from e = 0, the time taken for the emf to first reach half of its peak value e0 is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "1/300 s"
+    },
+    {
+     "key": "B",
+     "text": "1/200 s"
+    },
+    {
+     "key": "C",
+     "text": "1/600 s"
+    },
+    {
+     "key": "D",
+     "text": "1/100 s"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "When e = e0/2, sin ωt = 1/2, so ωt = π/6. With ω = 2π × 50 = 100π rad/s, t = (π/6)/(100π) = 1/600 s. A time of 1/300 s corresponds to ωt = π/3 (the sine of 60°), 1/200 s is the quarter period needed to reach the peak, and 1/100 s is the half period.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Physics Part I, Ch 7 Alternating Current: AC generator, instantaneous emf e = e0 sin ωt",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "73198264-8b92-4c57-a361-7cfdeef58e51",
+   "subject": "physics",
+   "unit": "Electromagnetic Waves",
+   "chapter": "Electromagnetic Waves",
+   "type": "match_the_following",
+   "stem": "Match List-I with List-II.\nList-I: (A) Radio waves (B) Infrared waves (C) X-rays (D) Gamma rays\nList-II: (I) High-energy electrons striking a metal target (II) Transitions of excited atomic nuclei (III) Rapid acceleration and deceleration of electrons in an aerial (IV) Vibrations of atoms and molecules in hot bodies\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A)-(III), (B)-(I), (C)-(IV), (D)-(II)"
+    },
+    {
+     "key": "B",
+     "text": "(A)-(IV), (B)-(III), (C)-(I), (D)-(II)"
+    },
+    {
+     "key": "C",
+     "text": "(A)-(III), (B)-(IV), (C)-(II), (D)-(I)"
+    },
+    {
+     "key": "D",
+     "text": "(A)-(III), (B)-(IV), (C)-(I), (D)-(II)"
+    }
+   ],
+   "correct_key": "D",
+   "explanation": "Radio waves come from rapid acceleration and deceleration of electrons in an aerial, infrared from vibrating atoms and molecules in hot bodies, X-rays from high-energy electrons striking a metal target, and gamma rays from excited nuclei. A common slip is to swap X-rays and gamma rays, which differ in origin: electron collisions with matter against nuclear transitions.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Physics Part I, Ch 8 Electromagnetic Waves: sources of the electromagnetic spectrum",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "7af4ea50-c28d-445c-b9da-6c586230ae81",
+   "subject": "physics",
+   "unit": "Electromagnetic Waves",
+   "chapter": "Electromagnetic Waves",
+   "type": "sequence_ordering",
+   "stem": "Arrange the following electromagnetic radiations in decreasing order of frequency.\n(A) Infrared rays\n(B) Gamma rays\n(C) Microwaves\n(D) Ultraviolet rays\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(C), (A), (D), (B)"
+    },
+    {
+     "key": "B",
+     "text": "(B), (A), (D), (C)"
+    },
+    {
+     "key": "C",
+     "text": "(B), (D), (A), (C)"
+    },
+    {
+     "key": "D",
+     "text": "(D), (B), (C), (A)"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "Frequency rises along the spectrum in the order radio, microwave, infrared, visible, ultraviolet, X-rays, gamma rays. In decreasing order of frequency the four given radiations are gamma rays, ultraviolet, infrared and microwaves. Reading the spectrum from the low-frequency end gives the exact reverse, the usual slip when the direction asked for is missed.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "NCERT Class 12 Physics Part I, Ch 8 Electromagnetic Waves: the electromagnetic spectrum in order of frequency",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "011459c4-767b-4d22-a553-e53947ca2243",
+   "subject": "physics",
+   "unit": "Electromagnetic Waves",
+   "chapter": "Electromagnetic Waves",
+   "type": "single_mcq",
+   "stem": "The magnetic field amplitude of a plane electromagnetic wave in vacuum is 2.0 × 10^-7 T. Take c = 3.0 × 10^8 m/s. The amplitude of its electric field is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "60 V/m"
+    },
+    {
+     "key": "B",
+     "text": "6.7 × 10^-16 V/m"
+    },
+    {
+     "key": "C",
+     "text": "2.0 × 10^-7 V/m"
+    },
+    {
+     "key": "D",
+     "text": "1.8 × 10^10 V/m"
+    }
+   ],
+   "correct_key": "A",
+   "explanation": "In vacuum the amplitudes of an electromagnetic wave are related by E0/B0 = c, so E0 = cB0 = 3.0 × 10^8 × 2.0 × 10^-7 = 60 V/m. Dividing B0 by c gives 6.7 × 10^-16, which inverts the relation, and multiplying by c twice overshoots to 1.8 × 10^10.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "NCERT Class 12 Physics Part I, Ch 8 Electromagnetic Waves: characteristics of electromagnetic waves, E0/B0 = c",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "75bc29fb-5f94-405b-b6a4-9d121f46ff9e",
+   "subject": "physics",
+   "unit": "Electronic Devices",
+   "chapter": "Semiconductor Electronics",
+   "type": "match_the_following",
+   "stem": "Match List-I with List-II.\nList-I: (A) Silicon doped with arsenic (B) Silicon doped with indium (C) p-n junction under forward bias (D) p-n junction under reverse bias\nList-II: (I) Holes are the majority carriers (II) Narrow depletion layer and large current (III) Electrons are the majority carriers (IV) Wide depletion layer and very small current\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A)-(I), (B)-(III), (C)-(II), (D)-(IV)"
+    },
+    {
+     "key": "B",
+     "text": "(A)-(III), (B)-(I), (C)-(II), (D)-(IV)"
+    },
+    {
+     "key": "C",
+     "text": "(A)-(III), (B)-(I), (C)-(IV), (D)-(II)"
+    },
+    {
+     "key": "D",
+     "text": "(A)-(I), (B)-(III), (C)-(IV), (D)-(II)"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "Arsenic has five valence electrons and makes silicon n-type, with electrons as the majority carriers; indium has three and makes it p-type, with holes as the majority carriers. Forward bias narrows the depletion layer and gives a large current, whereas reverse bias widens it and gives only a very small current. Swapping the two dopants is the common slip.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Physics Part II, Ch 14 Semiconductor Electronics: n-type and p-type doping, p-n junction under forward and reverse bias",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "9cc7e8e6-4b0e-4cf4-b003-20402d104f39",
+   "subject": "physics",
+   "unit": "Electronic Devices",
+   "chapter": "Semiconductor Electronics",
+   "type": "single_mcq",
+   "stem": "In terms of energy bands, a metallic conductor is characterised by:",
+   "options": [
+    {
+     "key": "A",
+     "text": "a full valence band and an empty conduction band, separated by a gap of more than 3 eV"
+    },
+    {
+     "key": "B",
+     "text": "a full valence band and an empty conduction band, separated by a gap of about 1 eV"
+    },
+    {
+     "key": "C",
+     "text": "a full conduction band and an empty valence band, separated by a small gap"
+    },
+    {
+     "key": "D",
+     "text": "a conduction band that is partly filled or overlaps the valence band"
+    }
+   ],
+   "correct_key": "D",
+   "explanation": "In a metal the conduction band is partly filled, or overlaps the valence band, so electrons can move under a field without needing extra energy. A full valence band with a gap above 3 eV describes an insulator, and a gap of about 1 eV describes an intrinsic semiconductor such as silicon.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "NCERT Class 12 Physics Part II, Ch 14 Semiconductor Electronics: energy bands in conductors, semiconductors and insulators",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "fabdd431-d76a-40f3-b6c3-1718f5b4a141",
+   "subject": "physics",
+   "unit": "Electronic Devices",
+   "chapter": "Semiconductor Electronics",
+   "type": "single_mcq",
+   "stem": "In a doped silicon sample the electron concentration is 4.0 × 10^22 m^-3. The intrinsic carrier concentration of silicon is 2.0 × 10^16 m^-3. The hole concentration in the sample is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "2.0 × 10^16 m^-3"
+    },
+    {
+     "key": "B",
+     "text": "8.0 × 10^38 m^-3"
+    },
+    {
+     "key": "C",
+     "text": "1.0 × 10^10 m^-3"
+    },
+    {
+     "key": "D",
+     "text": "5.0 × 10^-7 m^-3"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "In a doped semiconductor n_e × n_h = n_i². So n_h = (2.0 × 10^16)² / (4.0 × 10^22) = 4.0 × 10^32 / 4.0 × 10^22 = 1.0 × 10^10 m^-3. Donor doping raises the electrons and suppresses the holes far below n_i, so keeping the value n_i is wrong, as is multiplying n_e by n_i.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Physics Part II, Ch 14 Semiconductor Electronics: intrinsic and extrinsic semiconductors, n_e n_h = n_i²",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "4d2b0fe2-fffd-4d86-91be-ad6c8f61317a",
+   "subject": "physics",
+   "unit": "Electronic Devices",
+   "chapter": "Semiconductor Electronics",
+   "type": "single_mcq",
+   "stem": "In an unbiased p-n junction at equilibrium, the net current across the junction is zero because:",
+   "options": [
+    {
+     "key": "A",
+     "text": "the diffusion current of majority carriers is balanced by the drift current of minority carriers"
+    },
+    {
+     "key": "B",
+     "text": "the depletion layer stops the majority carriers and the minority carriers from crossing the junction"
+    },
+    {
+     "key": "C",
+     "text": "the potential barrier across the junction vanishes once the equilibrium is reached"
+    },
+    {
+     "key": "D",
+     "text": "the p-side and the n-side contain equal numbers of holes and of electrons"
+    }
+   ],
+   "correct_key": "A",
+   "explanation": "Diffusion of majority carriers across the junction builds the depletion layer and its barrier field, and this field drives minority carriers the other way as the drift current. At equilibrium the two currents are equal and opposite, so the net current is zero. The barrier potential does not vanish, and the layer does not stop all crossing, because carriers move in both directions.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Physics Part II, Ch 14 Semiconductor Electronics: p-n junction formation, diffusion and drift currents, depletion layer",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "b178248c-b160-48d6-a199-390201b13144",
+   "subject": "physics",
+   "unit": "Electronic Devices",
+   "chapter": "Semiconductor Electronics",
+   "type": "single_mcq",
+   "stem": "A silicon diode, which drops 0.7 V when it conducts, is connected in the forward direction in series with a 1.0 kΩ resistor and a 5.7 V battery. The current in the circuit is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "5.7 mA"
+    },
+    {
+     "key": "B",
+     "text": "6.4 mA"
+    },
+    {
+     "key": "C",
+     "text": "4.3 mA"
+    },
+    {
+     "key": "D",
+     "text": "5.0 mA"
+    }
+   ],
+   "correct_key": "D",
+   "explanation": "A conducting silicon diode drops 0.7 V, so the resistor has 5.7 − 0.7 = 5.0 V across it and I = 5.0/1000 = 5.0 mA. Check: 5.0 mA × 1.0 kΩ + 0.7 V = 5.7 V. Ignoring the diode drop gives 5.7 mA, while subtracting 0.7 twice gives 4.3 mA.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Physics Part II, Ch 14 Semiconductor Electronics: p-n junction diode in forward bias, forward voltage drop",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "9a2b3ade-77eb-4ee8-8cd3-f9dbbca861ba",
+   "subject": "physics",
+   "unit": "Electronic Devices",
+   "chapter": "Semiconductor Electronics",
+   "type": "single_mcq",
+   "stem": "A capacitor is connected across the load resistor at the output of a full-wave rectifier. Its purpose is to:",
+   "options": [
+    {
+     "key": "A",
+     "text": "convert the pulsating output back into an alternating voltage"
+    },
+    {
+     "key": "B",
+     "text": "smooth the output by storing charge and releasing it through the load"
+    },
+    {
+     "key": "C",
+     "text": "increase the ripple frequency to four times the input frequency"
+    },
+    {
+     "key": "D",
+     "text": "make each diode conduct during the whole cycle of the input"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "The rectifier output is pulsating with a large ripple. A capacitor across the load charges while the output voltage rises and discharges through the load when it falls, which smooths the output towards a steady dc value. It does not restore an alternating voltage or change the ripple frequency, and the one-way conduction comes from the diodes.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Physics Part II, Ch 14 Semiconductor Electronics: diode as a rectifier, ripple and filtering",
+   "source": "claude-authored-2026-10-17-w4"
+  }
+ ]
+}

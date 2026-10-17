@@ -1,0 +1,30 @@
+JOB w4-phys-02: Physics B: Moving Charges, EMI, AC, EM Waves, Semiconductors
+Subject: physics | Questions: exactly 20 | source value for every question: claude-authored-2026-10-17-w4
+Blueprint: C:\Users\atish\Desktop\mockmob copy\wt-wave4\data\nta_blueprints\physics.json
+Syllabus PDF: C:\Users\atish\Desktop\mockmob copy\wt-wave4\data\CUET 2026\physics.pdf
+Avoid list (read it): C:\Users\atish\Desktop\mockmob copy\wt-wave4\tmp\authored-w4\plan\avoid\w4-phys-02.txt
+
+1. CHAPTERS (the exact counts; use the chapter and unit strings exactly as written, they are the blueprint spellings; questions of one chapter stay together in the file in this order):
+   1. chapter "Moving Charges & Magnetism" | unit "Magnetic Effects of Current and Magnetism" | 4 questions
+      Topics to draw from (one concept per question, spread across the list, no two questions on the same sub-topic): Biot-Savart law for a circular loop, Ampere law for a long wire and a solenoid, force on a moving charge in magnetic and electric fields (radius and period of circular motion), force on a current-carrying conductor, force between parallel wires (definition of the ampere), torque on a current loop and its magnetic moment, moving coil galvanometer and its conversion to an ammeter or a voltmeter.
+   2. chapter "Electromagnetic Induction" | unit "Electromagnetic Induction and Alternating Currents" | 4 questions
+      Topics to draw from (one concept per question, spread across the list, no two questions on the same sub-topic): Faraday laws, Lenz law and direction of induced current, motional emf, induced charge and current, self and mutual inductance (definitions, units, solenoid expressions), energy stored in an inductor.
+   3. chapter "Alternating Current" | unit "Electromagnetic Induction and Alternating Currents" | 3 questions
+      Topics to draw from (one concept per question, spread across the list, no two questions on the same sub-topic): peak and rms values, reactance and impedance, LCR series circuit and phasors, resonance (frequency, condition, current), power in an AC circuit and power factor, wattless current, transformer (turns ratio, efficiency), AC generator.
+   4. chapter "Electromagnetic Waves" | unit "Electromagnetic Waves" | 3 questions
+      Topics to draw from (one concept per question, spread across the list, no two questions on the same sub-topic): displacement current, transverse nature and characteristics of EM waves (E, B and propagation directions, speed, E/B = c), order of the EM spectrum, production, detection and uses of radio waves, microwaves, infrared, visible, ultraviolet, X-rays and gamma rays.
+   5. chapter "Semiconductor Electronics" | unit "Electronic Devices" | 6 questions
+      Topics to draw from (one concept per question, spread across the list, no two questions on the same sub-topic): energy bands in conductors, semiconductors and insulators (qualitative), intrinsic and extrinsic semiconductors, p-type and n-type doping and majority carriers, p-n junction (depletion layer, barrier potential), forward and reverse bias I-V characteristics, junction diode as a half-wave and a full-wave rectifier (output frequency, ripple). Not in the 2026 syllabus: transistors, logic gates, Zener diode, LED, photodiode, solar cell.
+
+2. TYPES (exact counts over the 20, set items included):
+   single_mcq 16, match_the_following 2, sequence_ordering 1, statement_based 1, assertion_reason 0
+   - match_the_following: one in Electromagnetic Waves (radiation with its use or source) and one in Semiconductor Electronics (material or junction condition with its property).
+   - sequence_ordering: one in Electromagnetic Waves (four named radiations arranged by wavelength or frequency; label the four items (A) to (D) in the stem).
+   - statement_based: one in Electromagnetic Induction (statements on Lenz law, induced emf or inductance).
+
+3. DIFFICULTY (exact): easy 5, medium 10, hard 5. Spread each level over the chapters; do not put all the hard ones in one chapter. Use the difficulty meanings in the template; a hard item is two or three linked steps or a fine distinction at CUET level, never an Olympiad item.
+4. KEY LETTERS (exact): A 4, B 5, C 5, D 6. Decide the key letters first (a shuffled list, no pattern, no three equal in a row, no repeating cycle such as A B C D A B C D) and then build each question around its assigned letter.
+5. NUMERICALS: at least 9 of the 20 must be computed numericals (the answer is a number you worked out, units checked).
+6. SETS: none. passage_text is null and set_id is null on every question.
+
+7. FILE: C:\Users\atish\Desktop\mockmob copy\wt-wave4\tmp\authored-w4\drafts\physics\w4-phys-02.json
