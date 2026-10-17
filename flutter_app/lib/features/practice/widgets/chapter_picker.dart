@@ -407,7 +407,7 @@ class _ChapterListState extends ConsumerState<ChapterList> {
                 // While searching, the results come first: the shortcut chips repeat rows the list
                 // has (and rarely match what was typed), and they pushed the matches under the keys.
                 if (multi && _query.isEmpty) _RecordRow(subjectId: widget.subjectId, chosen: widget.chosen.value, onToggle: (name) => _toggle(name, multi)),
-                _Units(
+                ChapterUnitsList(
                   units: catalog.units,
                   query: _query,
                   chosen: widget.chosen.value,
@@ -578,8 +578,9 @@ class _SearchField extends StatelessWidget {
 String normalizeChapterQuery(String text) =>
     text.toLowerCase().replaceAll('&', ' and ').replaceAll(RegExp(r'[^a-z0-9]+'), ' ').trim();
 
-class _Units extends StatelessWidget {
-  const _Units({required this.units, required this.query, required this.chosen, required this.full, required this.onToggle});
+@visibleForTesting
+class ChapterUnitsList extends StatelessWidget {
+  const ChapterUnitsList({super.key, required this.units, required this.query, required this.chosen, required this.full, required this.onToggle});
 
   final List<ChapterUnit> units;
   final String query;
@@ -594,9 +595,10 @@ class _Units extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final children = <Widget>[];
-    // A subject whose every unit holds one chapter (Business Studies) has nothing to group: the
-    // unit's title would only say the chapter's name twice, so the list runs flat.
-    final flat = units.every((u) => u.chapters.length <= 1);
+    // A unit that only repeats its one chapter's name (Business Studies) has nothing to group, so
+    // it gets no header. The test is per unit: one three-chapter unit must not bring the repeated
+    // headers back for all the others.
+    var afterHeaded = false;
     final q = normalizeChapterQuery(query);
     for (final unit in units) {
       // A unit that matches shows all its chapters; otherwise only the chapters that match.
@@ -606,7 +608,15 @@ class _Units extends StatelessWidget {
           if (q.isEmpty || unitHit || normalizeChapterQuery(c.name).contains(q)) c,
       ];
       if (rows.isEmpty) continue;
-      if (unit.name.isNotEmpty && !flat) {
+      final repeatsChapter = unit.chapters.length <= 1 &&
+          (unit.chapters.isEmpty || normalizeChapterQuery(unit.name) == normalizeChapterQuery(unit.chapters.first.name));
+      final headed = unit.name.isNotEmpty && !repeatsChapter;
+      if (!headed && afterHeaded) {
+        // A bare row after a headed group keeps a gap, so it does not read as part of that group.
+        children.add(const SizedBox(height: MmSpace.s12));
+      }
+      afterHeaded = headed;
+      if (headed) {
         children.add(
           Padding(
             padding: const EdgeInsets.fromLTRB(MmSpace.s4, MmSpace.s20, MmSpace.s4, MmSpace.s4),

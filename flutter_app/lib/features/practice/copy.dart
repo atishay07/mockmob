@@ -54,6 +54,7 @@ abstract final class PracticeCopy {
   /// the kind of paper is the kicker under it.
   static String subjectTitle(String subject) => subject;
   static const String subjectKicker = 'Quick practice, mixed chapters';
+  static const String mixedChapters = 'Mixed chapters';
   /// The hero's reason for a subject with no nameable chapter: the last paper's real score with its
   /// denominator and when it was ("34 of 50 right, yesterday"). A paper with no questions says only when.
   static String subjectReason(int correct, int total, String when) =>

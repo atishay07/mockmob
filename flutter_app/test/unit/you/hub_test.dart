@@ -104,7 +104,8 @@ void main() {
     for (var i = 1; i < order.length; i++) {
       expect(tester.getTopLeft(find.text(order[i]).last).dy, greaterThan(tester.getTopLeft(find.text(order[i - 1]).last).dy), reason: order[i]);
     }
-    for (final label in ['Weekly goal', 'Planned days', 'Pause study days', 'Your repair record', 'Aim']) {
+    // The pause row shows only while a pause is on (it is set on the Rhythm page).
+    for (final label in ['Weekly goal', 'Planned days', 'Your repair record', 'Aim']) {
       expect(find.text(label), findsOneWidget, reason: label);
     }
     // Moved to the account sheet (IA D5) or the Colleges tab: never repeated above the study.
@@ -178,7 +179,7 @@ void main() {
     expect(find.text('goal page'), findsOneWidget);
     router.pop();
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Pause study days'));
+    await tester.tap(find.text('See rhythm'));
     await tester.pumpAndSettle();
     expect(find.text('rhythm page'), findsOneWidget);
     router.pop();

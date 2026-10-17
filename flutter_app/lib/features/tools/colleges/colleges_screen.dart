@@ -82,6 +82,11 @@ class _MyCollegesBlockState extends ConsumerState<MyCollegesBlock> {
   /// The colleges already drawn: one added later grows in at its place; the first paint does not.
   Set<String>? _seen;
 
+  /// Past this many rungs the list folds, so the Compass card below it stays on the first screen
+  /// (L22). Nothing is cut: "Show all N" opens the rest in place.
+  static const int _foldAt = 4;
+  bool _expanded = false;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
@@ -170,6 +175,7 @@ class _MyCollegesBlockState extends ConsumerState<MyCollegesBlock> {
         children.add(ToolsPanel(
           children: [
             for (final (i, c) in rows.indexed)
+              if (_expanded || rows.length <= _foldAt || i < _foldAt - 1 || fresh.contains(c.key))
               _GrowIn(
                 key: ValueKey('rung-${c.key}'),
                 animate: fresh.contains(c.key),
@@ -178,6 +184,17 @@ class _MyCollegesBlockState extends ConsumerState<MyCollegesBlock> {
                   rank: i + 1,
                   onTap: () => context.push('${ToolsPaths.programme(c.programmeId)}?college=${Uri.encodeQueryComponent(c.college)}'),
                 ),
+              ),
+            if (!_expanded && rows.length > _foldAt && !rows.any((c) => fresh.contains(c.key)))
+              ToolsRowFrame(
+                key: const ValueKey('show-all-colleges'),
+                onTap: () => setState(() => _expanded = true),
+                semanticsLabel: CollegesCopy.showAll(rows.length),
+                padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s12),
+                child: Row(children: [
+                  Expanded(child: Text(CollegesCopy.showAll(rows.length), style: type.labelLarge.copyWith(color: colors.ink2))),
+                  Icon(LucideIcons.chevronDown, size: 18, color: colors.ink2),
+                ]),
               ),
             if (!view.list.isFull)
               ToolsRowFrame(

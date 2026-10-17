@@ -145,8 +145,11 @@ class SuggestionHero extends ConsumerWidget {
           overline: overline,
           number: '${s.count}',
           unit: PracticeCopy.questionsUnit,
-          title: PracticeCopy.subjectTitle(subject),
-          kicker: PracticeCopy.subjectKicker,
+          // On the Practice tab the lit subject tile above already names the subject, so the card
+          // says what the set is ("Mixed chapters") instead of the subject a second time (v14).
+          // Not "Quick practice": that is the first tile of the deck below.
+          title: compact ? PracticeCopy.mixedChapters : PracticeCopy.subjectTitle(subject),
+          kicker: compact ? null : PracticeCopy.subjectKicker,
           reason: PracticeCopy.subjectReason(s.attempt.correct, s.attempt.total, PracticeCopy.when(s.attempt.completedAt.toLocal(), now)),
           onShowMe: () => context.push(evidenceLocation(s.attempt)),
           actionLabel: PracticeCopy.startCount(s.count),
@@ -162,8 +165,10 @@ class SuggestionHero extends ConsumerWidget {
           overline: overline,
           number: '${s.count}',
           unit: PracticeCopy.questionsUnit,
-          title: s.firstEver ? PracticeCopy.startingTitle : PracticeCopy.subjectTitle(subject),
-          kicker: s.firstEver ? PracticeCopy.startingKicker(subject) : PracticeCopy.subjectKicker,
+          title: s.firstEver ? PracticeCopy.startingTitle : (compact ? PracticeCopy.mixedChapters : PracticeCopy.subjectTitle(subject)),
+          kicker: s.firstEver
+              ? (compact ? null : PracticeCopy.startingKicker(subject))
+              : (compact ? null : PracticeCopy.subjectKicker),
           // A student with no paper at all is told what ten questions do; a subject with no paper
           // while other papers exist says so; the tile always steers the card now (L08).
           reason: s.firstEver && s.attemptsKnown

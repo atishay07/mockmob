@@ -439,20 +439,8 @@ class _DialPainter extends CustomPainter {
       ..color = colors.line.withValues(alpha: night ? 0.9 : 1);
     final filled = math.min(done, segments.length);
 
-    // Night: the glow of a met week sits under the arcs, once the sweep is under way. Daylight has
-    // no glow (it would be a grey smudge on cream); its arcs carry the 1 dp volt edge instead.
+    // No standing glow under a met week (17 Oct: glow is banned); the closed ring and its sweep say it.
     final sw = _sweep();
-    if (met && night && sw > 0) {
-      canvas.drawCircle(
-        c,
-        r,
-        Paint()
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = stroke * 1.6
-          ..color = colors.volt.withValues(alpha: 0.30 * Curves.easeOut.transform(sw))
-          ..maskFilter = MaskFilter.blur(BlurStyle.normal, stroke * 1.1),
-      );
-    }
 
     for (final (a0, share) in segments) {
       canvas.drawArc(rect, a0, seg * share, false, track);

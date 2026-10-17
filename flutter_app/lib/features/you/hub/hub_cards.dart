@@ -152,13 +152,15 @@ class StudyDaysPanel extends ConsumerWidget {
           onTap: () => context.push(AppRoutes.youGoal),
         ),
         _PlannedDaysRow(plan: plan, onTap: () => openYouPage(context, YouPaths.sheet)),
-        YouRow(
-          flat: true,
-          icon: LucideIcons.pause,
-          title: pause == null ? YouCopy.pauseRow : YouCopy.pausedRow,
-          note: pause == null ? YouCopy.pauseRowNote : YouCopy.pausedUntil(formatDayMonth(pause)),
-          onTap: () => context.push(AppRoutes.youRhythm),
-        ),
+        // The pause is set on the Rhythm page (See rhythm); the hub shows it only while it is on, so the first screen holds the week, the goal and the badges (L17).
+        if (pause != null)
+          YouRow(
+            flat: true,
+            icon: LucideIcons.pause,
+            title: YouCopy.pausedRow,
+            note: YouCopy.pausedUntil(formatDayMonth(pause)),
+            onTap: () => context.push(AppRoutes.youRhythm),
+          ),
       ],
     );
   }

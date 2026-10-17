@@ -139,8 +139,9 @@ void main() {
       overrides: practiceOverrides(quotes: _quotes(), attempts: [practice]),
     );
     await settle(tester);
-    expect(find.descendant(of: find.byType(SuggestionCard), matching: find.text('English')), findsOneWidget);
-    expect(find.text('Quick practice, mixed chapters'), findsOneWidget);
+    // The lit tile names the subject; the card says what the set is, and says it once.
+    expect(find.descendant(of: find.byType(SuggestionCard), matching: find.text('Mixed chapters')), findsOneWidget);
+    expect(find.descendant(of: find.byType(SuggestionCard), matching: find.text('English')), findsNothing);
     expect(find.text('Last paper: 1 of 2 right, yesterday.'), findsOneWidget);
   });
 
