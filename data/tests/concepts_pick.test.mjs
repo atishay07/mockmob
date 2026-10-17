@@ -105,7 +105,7 @@ test('All chapters lists every chapter of the syllabus in order, with the same m
   assert.equal(all.chapters.find((c) => c.name === 'Admission of Partner').meta, '1 lesson, 1 read');
   assert.equal(all.chapters.find((c) => c.name === 'Debentures').meta, 'No lesson yet. Practice ready');
   assert.equal(all.lessonCount, pilot.units.filter((u) => u.subject === 'accountancy').length);
-  assert.match(all.head, new RegExp(`^${all.lessonCount} lessons? in ${all.taughtChapters} of ${syllabus.chapters.length}$`));
+  assert.match(all.head, new RegExp(`^${all.lessonCount} lessons?, ${all.taughtChapters} of ${syllabus.chapters.length} chapters$`));
 });
 
 test('every renamed fixture chapter lands on a real syllabus chapter, so no cost is lost between the two lists', () => {

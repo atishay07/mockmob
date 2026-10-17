@@ -137,7 +137,7 @@ export function allChapters({ subject, syllabus, units, review }) {
   });
   const taught = chapters.filter((c) => c.lessons.length);
   const lessonCount = taught.reduce((sum, c) => sum + c.lessons.length, 0);
-  return { chapters, lessonCount, taughtChapters: taught.length, head: `${plural(lessonCount, 'lesson')} in ${taught.length} of ${chapters.length}` };
+  return { chapters, lessonCount, taughtChapters: taught.length, head: `${plural(lessonCount, 'lesson')}, ${taught.length} of ${chapters.length} chapters` };
 }
 
 /** Lessons and chapters that match a search, across the four subjects. A query under two characters matches nothing (null). */

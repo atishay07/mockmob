@@ -11,10 +11,12 @@ export const SYLLABUS_NAMES = Object.freeze({
 });
 
 /** kind: 'student' (default, a record with open mistakes), 'empty' (no paper), 'down' (the read failed). `fixtures` is { student, empty, down }, the parsed fixture files. */
-export function conceptsReview({ student, empty, down }, kind = 'student') {
+export function conceptsReview(fixtures_, kind = 'student') {
+  const { student, empty, down } = fixtures_;
   if (kind === 'down') return { http: 503, body: reviewBody(down) };
   if (kind === 'empty') return { http: 200, body: reviewBody(empty) };
-  const record = { ...student, chapters: student.chapters.map((c) => ({ ...c, name: SYLLABUS_NAMES[c.id] || c.name })) };
+  const base = kind === 'student' ? student : fixtures_[kind] || student;
+  const record = { ...base, chapters: base.chapters.map((c) => ({ ...c, name: SYLLABUS_NAMES[c.id] || c.name })) };
   return { http: 200, body: reviewBody(record) };
 }
 
