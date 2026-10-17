@@ -59,7 +59,9 @@ export default function StartSet({ href, label, className = '', isPremium = fals
     readQuote(set.subject, set.count).then((q) => { if (alive) setQuote(q); });
     return () => { alive = false; };
   }, [set?.subject, set?.count]); // eslint-disable-line react-hooks/exhaustive-deps
-  const price = isPremium && quote?.launchable !== false ? 'Included' : priceWord(quote);
+  // A label that already names its price ("Or practise 10 in Accountancy, 10 practice credits") is not priced twice.
+  const named = /\b\d+\s+(?:practice\s+|AI\s+)?credits?\b|\bincluded\b|\bfree\b|\bPro covers\b/i.test(String(label || ''));
+  const price = named ? null : isPremium && quote?.launchable !== false ? 'Included' : priceWord(quote);
   const props = primary ? { 'data-page-primary': '' } : {};
   if (!set) return <Link href={href} className={className} {...props}>{label}</Link>;
   const start = (event) => {

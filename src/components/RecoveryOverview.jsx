@@ -127,7 +127,7 @@ function SessionRow({ a, fresh = false, index = 0 }) {
           <i className="ov-bar" aria-hidden="true"><em style={{ transform: `scaleX(${pct / 100})` }} /></i>
         </span>
         <span className="rv-session__state" data-tone={open > 0 ? 'open' : 'clear'}>
-          {open > 0 ? <><b>{open}</b> open</> : repaired > 0 ? 'All repaired' : 'All correct'}
+          {open > 0 ? <><b>{open}</b> to review</> : repaired > 0 ? 'All repaired' : 'All correct'}
         </span>
       </Link>
       {/* W-039: "Review again" opens this paper's mistakes from the first, with every saved repair opening free; the Lab
