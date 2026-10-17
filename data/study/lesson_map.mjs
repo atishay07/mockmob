@@ -13,7 +13,12 @@
 /** Minutes the "Lock it in" step takes: the low end of the lesson page's own "2–3 min". The key reads Learn plus this. */
 export const LOCK_IN_MINUTES = 2;
 
-const norm = (value) => String(value ?? '').normalize('NFKC').replace(/\s+/g, ' ').trim().toLowerCase();
+// Names are compared the way a student reads them: "Admission of a partner" is "Admission of Partner", "Retirement & Death"
+// is "Retirement and death", and the subject id business_studies is "Business Studies". Case, '&', '_', and the words
+// a, an and the do not tell two chapters apart.
+const norm = (value) => String(value ?? '').normalize('NFKC').toLowerCase().replace(/&/g, ' and ').replace(/_/g, ' ').replace(/\b(?:a|an|the)\b/g, ' ').replace(/\s+/g, ' ').trim();
+/** The comparison key for a subject or chapter name (Concepts matches the student's papers to the catalog with it). */
+export const nameKey = norm;
 const rank = (unit) => (unit.inProgress || unit.status === 'in_progress' ? 0 : unit.read ? 2 : 1); // finish what is started, then unread, then read
 const byRank = (a, b) => rank(a) - rank(b) || (Number(a.order) || 0) - (Number(b.order) || 0) || String(a.id).localeCompare(String(b.id));
 
