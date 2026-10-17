@@ -10,6 +10,10 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { exploreRowOut, publicExploreOptions } from '../explore_feed.js';
+import { computeContentHash } from '../../src/lib/moderation/hash.js';
+import {
+  UPLOAD_ANSWER_KEYS, candidateContentHashes, uploadAccepted, uploadShapeViolation, UPLOAD_ACCEPTED_STATUS,
+} from '../../src/lib/moderation/uploadDedupe.js';
 
 const read = (path) => readFileSync(new URL(`../../${path}`, import.meta.url), 'utf8');
 
@@ -60,4 +64,66 @@ test('explore route maps every row through exploreRowOut and no longer returns r
   assert.doesNotMatch(src, /questions:\s*merged\s*[,}]/, 'raw merged rows are never returned');
   assert.doesNotMatch(src, /FIX 10/, 'the false strip comment is gone');
   assert.match(src, /checkRateLimit\(request/, 'the anonymous route is rate limited like the feed');
+});
+
+// ------------------------------------------------------------------ (b) upload answer oracle
+
+const OPTIONS = (keys) => keys.map((key) => ({ key, text: `option ${key}` }));
+
+// The route's decision, reduced to what the database answers: dedupe hit -> silent accept, else insert.
+function uploadOutcome(liveHashes, body, options, answer) {
+  const violation = uploadShapeViolation(options, answer);
+  if (violation) return { status: 422, rule: violation.rule };
+  const hit = candidateContentHashes(body).some((hash) => liveHashes.has(hash));
+  return { status: UPLOAD_ACCEPTED_STATUS, body: uploadAccepted([]), stored: !hit };
+}
+
+test('a live question body gives the same outcome for every guessed answer key (no oracle)', () => {
+  const body = 'A firm earns 10% on capital. Find the interest on Rs 5,000.';
+  for (const liveKey of ['A', 'B', 'C', 'D', 'E']) {
+    const live = new Set([computeContentHash(body, liveKey)]);
+    const outcomes = ['A', 'B', 'C', 'D'].map((guess) => uploadOutcome(live, body, OPTIONS(['A', 'B', 'C', 'D']), guess));
+    for (const outcome of outcomes) assert.deepEqual(outcome, outcomes[0], `live key ${liveKey}: every guess looks the same`);
+    assert.equal(outcomes[0].stored, false, 'the existing body is deduped whichever key is marked');
+    // Shrinking or reshaping the option set cannot exclude the live key from the lookup either.
+    assert.deepEqual(uploadOutcome(live, body, OPTIONS(['E', 'F']), 'E'), outcomes[0]);
+    assert.deepEqual(uploadOutcome(live, body, OPTIONS(['a', 'b']), 'b'), outcomes[0], 'lower-case keys hash the same');
+  }
+  // A body that is not in the bank is stored whichever key is marked, with the same reply.
+  const fresh = ['A', 'B', 'C', 'D'].map((guess) => uploadOutcome(new Set(), 'A new question', OPTIONS(['A', 'B', 'C', 'D']), guess));
+  for (const outcome of fresh) assert.deepEqual(outcome, { status: 202, body: { status: 'pending_moderation', rule_violations: [] }, stored: true });
+  const { stored: _a, ...dupReply } = uploadOutcome(new Set([computeContentHash('X', 'B')]), 'X', OPTIONS(['A', 'B']), 'A');
+  const { stored: _b, ...newReply } = fresh[0];
+  assert.deepEqual(dupReply, newReply, 'the reply for a duplicate equals the reply for a new question');
+});
+
+test('candidate hashes cover every allowed key, so the submitted pair is always one of them', () => {
+  const hashes = new Set(candidateContentHashes('Body'));
+  for (const key of UPLOAD_ANSWER_KEYS) assert.ok(hashes.has(computeContentHash('Body', key)));
+  assert.ok(hashes.has(computeContentHash('Body', 'c')));
+});
+
+test('option keys outside the fixed set, repeated keys and answers outside the options are refused', () => {
+  assert.equal(uploadShapeViolation(null, 'A')?.rule, 'invalid_options_count', 'options are required');
+  assert.equal(uploadShapeViolation(OPTIONS(['A']), 'A')?.rule, 'invalid_options_count');
+  assert.equal(uploadShapeViolation(OPTIONS(['Paris', 'Rome']), 'Paris')?.rule, 'invalid_option_keys', 'free-text keys would bring back a set-membership oracle');
+  assert.equal(uploadShapeViolation(OPTIONS(['A', 'a']), 'A')?.rule, 'invalid_option_keys', 'keys that hash the same are repeats');
+  assert.equal(uploadShapeViolation(OPTIONS(['A', 'B']), 'C')?.rule, 'answer_not_in_options');
+  assert.equal(uploadShapeViolation(OPTIONS(['A', 'B', 'C', 'D']), 'D'), null);
+  assert.equal(uploadShapeViolation(OPTIONS(['1', '2']), '2'), null);
+  assert.deepEqual(uploadAccepted([{ severity: 'soft', rule: 's' }, { severity: 'hard', rule: 'h' }]).rule_violations, [{ severity: 'soft', rule: 's' }]);
+});
+
+test('upload route: no 409, no duplicate_of, no error details; candidate lookup, silent 23505 and a per-student limit', () => {
+  const src = read('src/app/api/questions/upload/route.js');
+  assert.doesNotMatch(src, /status:\s*409/);
+  assert.doesNotMatch(src, /duplicate_of|identical question/i);
+  assert.doesNotMatch(src, /detail:|err\.stack|job_error|warning:/);
+  assert.doesNotMatch(src.slice(src.indexOf('return accepted()')), /Response\.json\(\s*\{\s*question_id/, 'no question id in the reply');
+  assert.match(src, /\.in\('content_hash', candidateContentHashes\(/);
+  assert.match(src, /questionError\.code === '23505'\) return accepted\(\)/);
+  assert.match(src, /if \(existingHash\) return accepted\(\)/);
+  assert.match(src, /checkPersistentRateLimit\(request, \{ \.\.\.window, keyParts: \[author_id\]/);
+  assert.match(src, /uploadShapeViolation\(options, correct_answer\)/);
+  assert.doesNotMatch(src, /console\.log\([^)]*correct_answer/, 'the submitted answer is not logged');
 });

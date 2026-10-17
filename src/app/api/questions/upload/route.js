@@ -5,6 +5,8 @@ import { supabase } from '@/lib/supabase'
 import { auth } from '@/lib/auth'
 import { runRuleChecks } from '@/lib/moderation/rules'
 import { computeContentHash } from '@/lib/moderation/hash'
+import { candidateContentHashes, uploadAccepted, uploadShapeViolation, UPLOAD_ACCEPTED_STATUS } from '@/lib/moderation/uploadDedupe'
+import { checkPersistentRateLimit, rateLimitHeaders } from '@/lib/server/rateLimit'
 import { normalizeSubjectSelection } from '@/../data/cuet_controls'
 import { isValidTopSyllabusPair } from '@/../data/canonical_syllabus'
 
@@ -25,18 +27,20 @@ import { isValidTopSyllabusPair } from '@/../data/canonical_syllabus'
  *   tags:           string[]
  * }
  *
- * Response 201:
+ * Response 202 (the same for a new question and for a silent duplicate, so the route is no answer oracle):
  * {
- *   question_id:     string
- *   job_id:          string | null
  *   status:          "pending_moderation"
- *   rule_violations: [{rule, severity, message}]
+ *   rule_violations: [{rule, severity, message}]   (soft warnings about the submitted text only)
  * }
+ * The uploader tracks the question in My uploads (/api/questions/mine). A duplicate stores nothing.
  */
+const UPLOAD_LIMITS = [
+  { route: '/api/questions/upload', limit: 30, windowMs: 60_000 },
+  { route: '/api/questions/upload:day', limit: 200, windowMs: 86_400_000 },
+]
+
 export async function POST(request) {
   try {
-    console.log('[upload] 1. request received')
-
     // ---- Auth: derive author_id from verified JWT ----
     // In development, skip JWT validation and use a fixed test user.
     let author_id
@@ -81,13 +85,16 @@ export async function POST(request) {
       tags           = [],
     } = body
 
-    console.log('[upload] 2. parsed body:', {
-      subject, chapter, difficulty,
-      body_len: questionBody?.length,
-      correct_answer,
-      has_options: Array.isArray(options),
-      has_explanation: !!explanation,
-    })
+    // Per student: stops queue flooding (each upload is a pending question plus a moderation job).
+    for (const window of UPLOAD_LIMITS) {
+      const limited = await checkPersistentRateLimit(request, { ...window, keyParts: [author_id], identityOnly: true, fallback: 'memory' })
+      if (!limited.allowed) {
+        return Response.json(
+          { error: 'Too many uploads. Please wait before submitting more.' },
+          { status: 429, headers: rateLimitHeaders({ ...limited, retryAfterSeconds: limited.retryAfterSeconds || 60 }) }
+        )
+      }
+    }
 
     const subjectSelection = normalizeSubjectSelection({ subject })
     if (!subjectSelection.valid) {
@@ -104,9 +111,6 @@ export async function POST(request) {
       )
     }
 
-    // ---- Supabase client check ----
-    console.log('[upload] 3. supabase client:', typeof supabase?.from)
-
     // ---- Synchronous rule-based validation ----
     const { violations } = runRuleChecks({
       body: questionBody,
@@ -117,32 +121,38 @@ export async function POST(request) {
       chapter,
     })
 
-    const hardViolations = violations.filter(v => v.severity === 'hard')
+    const shapeViolation = uploadShapeViolation(options, correct_answer)
+    const hardViolations = [
+      ...violations.filter(v => v.severity === 'hard'),
+      ...(shapeViolation && !violations.some(v => v.rule === shapeViolation.rule) ? [shapeViolation] : []),
+    ]
     if (hardViolations.length > 0) {
-      console.log('[upload] rule violations (hard):', hardViolations)
       return Response.json(
         { error: 'Question failed validation.', rule_violations: hardViolations },
         { status: 422 }
       )
     }
 
-    // ---- Duplicate hash check ----
+    // ---- Duplicate check (never depends on the submitted answer; see uploadDedupe.js) ----
     const contentHash = computeContentHash(questionBody ?? '', correct_answer ?? '')
+    const accepted = () => Response.json(uploadAccepted(violations), { status: UPLOAD_ACCEPTED_STATUS })
 
-    const { data: existingHash } = await supabase
+    // Same scope as idx_questions_content_hash_unique (non-deleted rows), so the insert below cannot hit 23505 for a
+    // pair this lookup missed.
+    const { data: existingHash, error: hashError } = await supabase
       .from('questions')
       .select('id')
-      .eq('content_hash', contentHash)
+      .in('content_hash', candidateContentHashes(questionBody ?? ''))
       .eq('is_deleted', false)
       .limit(1)
       .maybeSingle()
 
-    if (existingHash) {
-      return Response.json(
-        { error: 'An identical question already exists.', duplicate_of: existingHash.id },
-        { status: 409 }
-      )
+    if (hashError) {
+      console.error('[upload] duplicate check failed:', hashError.code)
+      return Response.json({ error: 'Failed to save question.' }, { status: 500 })
     }
+    // Same reply as a new upload, nothing stored: the body already exists with one of the allowed keys.
+    if (existingHash) return accepted()
 
     // ---- Persist question as PENDING ----
     const { data: question, error: questionError } = await supabase
@@ -153,7 +163,7 @@ export async function POST(request) {
         chapter:           chapter.trim(),
         body:              questionBody.trim(),
         options:           options ?? null,
-        correct_answer:    correct_answer.trim(),
+        correct_answer:    String(correct_answer).trim(),
         explanation:       explanation?.trim() ?? null,
         difficulty,
         difficulty_weight: getDifficultyWeight(difficulty),
@@ -166,23 +176,15 @@ export async function POST(request) {
       .select('id')
       .single()
 
-    console.log('[upload] 4. insert result — question:', question, 'error:', questionError)
-
     if (questionError) {
-      if (questionError.code === '23505') {
-        return Response.json(
-          { error: 'An identical question already exists.' },
-          { status: 409 }
-        )
-      }
-      return Response.json(
-        { error: 'Failed to save question.', detail: questionError.message, code: questionError.code },
-        { status: 500 }
-      )
+      // A concurrent identical upload: the same silent reply as any other duplicate.
+      if (questionError.code === '23505') return accepted()
+      console.error('[upload] insert failed:', questionError.code)
+      return Response.json({ error: 'Failed to save question.' }, { status: 500 })
     }
 
     // ---- Enqueue moderation job ----
-    const { data: job, error: jobError } = await supabase
+    const { error: jobError } = await supabase
       .from('moderation_jobs')
       .insert({
         question_id: question.id,
@@ -192,38 +194,14 @@ export async function POST(request) {
       .select('id')
       .single()
 
-    console.log('[upload] 5. job creation — job:', job, 'error:', jobError)
+    // A missing job is picked up by the moderation recovery pass; the uploader gets the same reply either way.
+    if (jobError) console.error('[upload] moderation job not enqueued for', question.id, jobError.code)
 
-    if (jobError) {
-      return Response.json(
-        {
-          question_id:     question.id,
-          job_id:          null,
-          status:          'pending_moderation',
-          warning:         'Moderation job could not be enqueued. Will retry automatically.',
-          job_error:       jobError.message,
-          rule_violations: violations.filter(v => v.severity === 'soft'),
-        },
-        { status: 201 }
-      )
-    }
-
-    return Response.json(
-      {
-        question_id:     question.id,
-        job_id:          job.id,
-        status:          'pending_moderation',
-        rule_violations: violations.filter(v => v.severity === 'soft'),
-      },
-      { status: 201 }
-    )
+    return accepted()
 
   } catch (err) {
     console.error('[upload] unhandled error:', err)
-    return Response.json(
-      { error: 'Unexpected server error.', message: err.message, stack: err.stack },
-      { status: 500 }
-    )
+    return Response.json({ error: 'Unexpected server error.' }, { status: 500 })
   }
 }
 
