@@ -159,9 +159,21 @@ WeekModel _week(TodayInputs i, TodayWeek w) {
     }
     return (TodayCopy.weekLine(counted, TodayCopy.tonightCounts), TodayCopy.tonightCounts);
   }
-  final left = goal - done;
-  final tail = TodayCopy.weekLeft(left < 0 ? 0 : left);
-  return (TodayCopy.weekLine(counted, tail), null);
+  // Today already counted, or a rest day: never "2 more by Sunday" (a retired line that reads as
+  // a debt; TODAY-1017 4.3). A counted day names the next planned one, when the week has one.
+  if (todayCounted) {
+    int? next;
+    for (var d = today + 1; d < 7; d++) {
+      if (planned == null || planned.contains(d)) {
+        next = d;
+        break;
+      }
+    }
+    if (next == null) return (TodayCopy.weekCounted(counted), null);
+    final tail = TodayCopy.nextStudyDay(TodayCopy.weekdayShort[next]);
+    return (TodayCopy.weekLine(counted, tail), null);
+  }
+  return (TodayCopy.weekLine(counted, TodayCopy.restToday), null);
 }
 
 /// Today's "Last paper" row: the newest paper whose result has been opened, with its change on the

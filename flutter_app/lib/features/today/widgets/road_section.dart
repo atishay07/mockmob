@@ -367,10 +367,9 @@ class _RoadSectionState extends State<RoadSection> {
           ],
         ),
         const SizedBox(height: MmSpace.s8),
-        Wrap(
-          crossAxisAlignment: WrapCrossAlignment.center,
-          spacing: MmSpace.s8,
-          runSpacing: MmSpace.s4,
+        // The token and its words stay one line (walk 1, T-day-bottom-open-mock): the words sit
+        // beside the token and, at large text, wrap in their own column, never under the token.
+        Row(
           children: [
             TodayToken(
               tokenKey: const ValueKey('road-token-mocks'),
@@ -379,7 +378,8 @@ class _RoadSectionState extends State<RoadSection> {
               semanticsLabel: TodayCopy.mocksTokenSemantics(mocks, board.mocksTaken),
               onTap: () => _toggle(_Tuner.mocks),
             ),
-            Text(TodayCopy.mocksBefore(taken, suggested: target == null), style: valueStyle),
+            const SizedBox(width: MmSpace.s8),
+            Flexible(child: Text(TodayCopy.mocksBefore(taken, suggested: target == null), style: valueStyle)),
           ],
         ),
         // The open tuner, or the rail, eases open under the tokens (240 ms) and closes the same way.
@@ -436,7 +436,7 @@ class _RoadSectionState extends State<RoadSection> {
       crossAxisAlignment: CrossAxisAlignment.baseline,
       textBaseline: TextBaseline.alphabetic,
       children: [
-        Expanded(child: Semantics(header: true, child: Text(TodayCopy.roadTitle, style: type.title.copyWith(fontSize: 19)))),
+        Expanded(child: Semantics(header: true, child: Text(TodayCopy.roadTitleFor(board != null && board.ownDate ? board.examDate : null), style: type.title.copyWith(fontSize: 19)))),
         MmCountUp(
           value: n,
           fromZeroOnFirstBuild: false,
@@ -626,7 +626,7 @@ class _RoadSectionState extends State<RoadSection> {
                       child: Text(
                         failed
                             ? TodayCopy.dateFailed
-                            : TodayCopy.dateReceipt(flagDay(board.examDate), saved: _date == _Save.saved),
+                            : TodayCopy.dateReceipt(flagDay(board.examDate), saved: _date == _Save.saved, account: widget.road.onAccount),
                         key: ValueKey('$failed|${_date.name}|${board.examDate}'),
                         style: type.caption.copyWith(color: failed ? colors.ink : colors.ink2),
                       ),
@@ -699,7 +699,7 @@ class _RoadSectionState extends State<RoadSection> {
     if (taken == null) {
       caption = TodayCopy.mocksUnread;
     } else if (_mocks == _Save.saved) {
-      caption = TodayCopy.mocksSaved;
+      caption = TodayCopy.savedWhere(account: widget.road.onAccount);
     } else if (_mocks == _Save.failed) {
       caption = TodayCopy.mocksFailed;
     } else if (target == null) {

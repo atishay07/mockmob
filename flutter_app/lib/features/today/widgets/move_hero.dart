@@ -161,7 +161,7 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
       ],
     );
 
-    final evidence = m.evidenceId != null && onShowMe != null;
+    final evidence = (m.evidenceId != null || m.whyAction != null) && onShowMe != null;
     // The move can change size: its length is the pill beside the key.
     final sized = m.durations.length > 1;
     final content = Padding(

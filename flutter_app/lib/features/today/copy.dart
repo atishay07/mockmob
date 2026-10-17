@@ -54,9 +54,10 @@ abstract final class TodayCopy {
 
   // Day one and new user (brief 11.11).
   static const String questionsUnit = 'questions';
-  static String startingPointLine(String subject) =>
-      'Ten CUET-style $subject questions, marked +5 and −1. The result shows where your marks go, chapter by chapter.';
-  static String startingPointWith(String subject, String framing) => 'Ten CUET-style questions in $subject. $framing';
+  static String startingPointLine(String subject, [int n = 10]) =>
+      '${_countLead(n)} CUET-style $subject questions, marked +5 and −1. The result shows where your marks go, chapter by chapter.';
+  static String startingPointWith(String subject, String framing, [int n = 10]) => '${_countLead(n)} CUET-style questions in $subject. $framing';
+  static String _countLead(int n) => switch (n) { 5 => 'Five', 10 => 'Ten', 20 => 'Twenty', _ => '$n' };
   static String checkSetFor(DateTime at) => 'Your check is set for ${formatTime12(at)}.';
   /// One wording at every text size: the chips above already say "10 min", and the key never
   /// has to swap to a shorter sentence when the text grows.
@@ -290,6 +291,10 @@ abstract final class TodayCopy {
   // The road.
   static const String roadTitle = 'Road to May';
 
+  /// The road is named after the day it counts to: "Road to May" for the expected window or a
+  /// date of their own in May, "Road to 20 Apr" for any other date (critic 17 Oct).
+  static String roadTitleFor(DateTime? ownDate) => ownDate == null || ownDate.month == 5 ? roadTitle : 'Road to ${formatDayMonthShort(ownDate)}';
+
   // The road as a strip of weeks (L05, app-today-1016 section 8).
   static const List<String> weekdayShort = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
@@ -372,6 +377,8 @@ abstract final class TodayCopy {
   static String mocksSuggested(int taken, int suggested) => '$taken taken. Suggested: $suggested. Move the ruler to set it.';
   static const String mocksUnread = 'Your mocks did not load yet.';
   static const String mocksSaved = 'Saved on this phone.';
+  static const String savedToAccount = 'Saved to your account.';
+  static String savedWhere({required bool account}) => account ? savedToAccount : mocksSaved;
   static const String mocksFailed = 'Could not save your target. Try again.';
   static const String mocksOpenSemantics = 'Opens your mocks.';
   static String mocksSemantics(int target, int taken) => '$target, $taken taken';
@@ -387,7 +394,8 @@ abstract final class TodayCopy {
   static String readDragLine(int weeks, int? studyDays, int? goal) => studyDays == null || goal == null
       ? plural(weeks, 'week')
       : '${plural(weeks, 'week')}, ${plural(studyDays, 'study day')} at $goal a week';
-  static String dateReceipt(String day, {required bool saved}) => saved ? 'Your date: $day. Saved on this phone.' : 'Your date: $day.';
+  static String dateReceipt(String day, {required bool saved, bool account = false}) =>
+      saved ? 'Your date: $day. ${savedWhere(account: account)}' : 'Your date: $day.';
   static const String dateFailed = 'Could not save your date. Try again.';
   static const String useExpectedDate = 'Use the expected date';
   static String daysToWindowLabel(int days) => '${days == 1 ? 'day' : 'days'} to the expected\nCUET window, ${CuetDates.windowMonth}';
@@ -504,9 +512,9 @@ abstract final class TodayCopy {
   static const String moreBelow = 'Your road to May';
 
   /// The cue with its number (L07): "Road to May, 28 weeks", or days in the last week.
-  static String moreBelowCount({int? weeks, int? days}) {
-    if (days != null && days < 7) return 'Road to May, ${plural(days, 'day')}';
-    if (weeks != null && weeks > 0) return 'Road to May, ${plural(weeks, 'week')}';
+  static String moreBelowCount({int? weeks, int? days, String title = roadTitle}) {
+    if (days != null && days < 7) return '$title, ${plural(days, 'day')}';
+    if (weeks != null && weeks > 0) return '$title, ${plural(weeks, 'week')}';
     return moreBelow;
   }
 
@@ -556,6 +564,10 @@ abstract final class TodayCopy {
   static String altMockTitle(String subject) => 'A full mock, $subject';
   static String altMockNote(int questions, int minutes, String? lastPaper) =>
       '$questions questions, $minutes min. ${lastPaper == null ? 'None on your record yet.' : 'Your last was $lastPaper.'}';
+
+  static String altNtaTitle(String subject) => 'NTA mode, $subject';
+  static String altNtaNote(int questions, int minutes, {required bool pro}) =>
+      'Your next mock on the exam-day screen, as you will meet it. $questions questions, $minutes min.${pro ? '' : ' Comes with Pro.'}';
 
   /// A server alternative's reason and length: a bare "10" gets its unit.
   static String altPlanNote(String? reason, String? duration) {
@@ -679,7 +691,8 @@ abstract final class TodayCopy {
   static const String setDays = 'Set days';
   static const String weekNotRead = 'Study days did not load.';
   static const String weekPaused = 'Your week is paused. Your run is kept.';
-  static String weekLeft(int n) => n == 1 ? '1 more by Sunday.' : '$n more by Sunday.';
+  static String nextStudyDay(String day) => 'Next: $day.';
+  static const String restToday = 'Today is a rest day.';
   static String lastWeek(int done, int goal) => 'Last week: $done of $goal.';
   static const String seeYourWeek = 'See your week';
   static String weekSemantics(String figure, String marks, String caption) => 'This week, $figure. $marks. $caption Opens your week.';
@@ -693,7 +706,7 @@ abstract final class TodayCopy {
   static String studyDaysAt(int n) => '${plural(n, 'study day')} at';
   static const String studyDaysPick = 'Your study days';
   static String mocksBefore(int taken, {required bool suggested}) => suggested
-      ? (taken > 0 ? 'before your date, suggested. $taken taken' : 'before your date, suggested')
+      ? (taken > 0 ? 'suggested, $taken taken' : 'before your date, suggested')
       : 'before your date, $taken taken';
   static const String doneRail = 'Done';
   static String paceTokenSemantics(int goal) => 'Study days a week, $goal. Opens the days.';

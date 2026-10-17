@@ -310,6 +310,9 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
   /// still see. The line is measured from the bar, not from the capsule, so the capsule arriving
   /// never moves it.
   void _measure() {
+    // The move card's resting height, so the next skeleton holds the same place (L03).
+    final card = _moveKey.currentContext?.findRenderObject();
+    if (widget.view.hero is MoveHero && card is RenderBox && card.attached && card.hasSize) rememberHeroHeight(card.size.height);
     // While the entrance plays the hero is not where it will rest (it rises 16 dp): it is judged
     // when it has landed, so the capsule never flickers in for a key that is about to be in view.
     if (_entrance.isAnimating) return;
@@ -512,7 +515,11 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
           onAction: cb.onAction,
           onMinutes: cb.onMinutes == null ? null : _minutes,
           keyPulse: _keyPulse,
-          onShowMe: hero.evidenceId == null || cb.onShowMe == null ? null : () => cb.onShowMe!(hero.evidenceId!),
+          onShowMe: hero.evidenceId != null && cb.onShowMe != null
+              ? () => cb.onShowMe!(hero.evidenceId!)
+              : hero.whyAction != null
+                  ? () => cb.onAction(hero.whyAction!)
+                  : null,
         ),
       SealedHero() => SealedHeroCard(
           sealed: hero,
@@ -564,11 +571,20 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
     final road = view.road;
     final first = road == null || road.ladder.isEmpty ? null : road.ladder.first;
     final after = <Widget>[
-      if (view.also.isNotEmpty)
-        TodayEnter(
-          delay: const Duration(milliseconds: 160),
-          child: AlsoSlots(slots: view.also, onAction: callbacks.onAction, offline: view.offline, retrying: widget.retrying),
-        ),
+      // A slot that lands after the move (a draft, an ended mock's check) opens into place instead
+      // of shoving the page (L03): the block is always there and eases to its height.
+      MmSizeEase(
+        duration: Motion.card,
+        curve: Motion.out,
+        alignment: Alignment.topCenter,
+        clipBehavior: Clip.none,
+        child: view.also.isEmpty
+            ? const SizedBox(width: double.infinity)
+            : TodayEnter(
+                delay: const Duration(milliseconds: 160),
+                child: AlsoSlots(slots: view.also, onAction: callbacks.onAction, offline: view.offline, retrying: widget.retrying),
+              ),
+      ),
       ?widget.weeklyEnding,
       // The glance (4.1): This week, the Road to May, then the two record rows. No cards: space
       // and hairlines. Each block holds its height from the first frame (L03), so nothing above
@@ -604,7 +620,12 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
         ),
       ],
       // The Mob card (SOCIAL-SPEC 8, 9): only when the student is in a Mob, so it adds nothing otherwise.
-      const TodayEnter(delay: Duration(milliseconds: 260), rise: 8, child: MobTodayBlock()),
+      // It reads its Mob after the page: it eases open rather than appearing at full height (L03).
+      const TodayEnter(
+        delay: Duration(milliseconds: 260),
+        rise: 8,
+        child: MmSizeEase(duration: Motion.card, curve: Motion.out, alignment: Alignment.topCenter, clipBehavior: Clip.none, child: MobTodayBlock()),
+      ),
       const SizedBox(height: 28),
       TodayEnter(
         delay: const Duration(milliseconds: 280),
@@ -633,11 +654,18 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
         label: road.phase != RoadPhase.countdown
             ? TodayCopy.moreBelow
             : road.board != null
-                ? TodayCopy.moreBelowCount(weeks: road.board!.weeksToExam, days: road.board!.daysToExam)
+                ? TodayCopy.moreBelowCount(
+                    weeks: road.board!.weeksToExam,
+                    days: road.board!.daysToExam,
+                    title: TodayCopy.roadTitleFor(road.board!.ownDate ? road.board!.examDate : null),
+                  )
                 : TodayCopy.moreBelowCount(weeks: road.weeks, days: road.daysToWindow),
       );
-      if (after.isNotEmpty && after.first is SizedBox) {
-        after[0] = cue;
+      // With no slot (the also block is its zero-height ease) and no weekly ending, the cue takes
+      // the group gap's place; otherwise it sits straight under the move.
+      final gap = view.also.isEmpty && widget.weeklyEnding == null ? 1 : 0;
+      if (after.length > gap && after[gap] is SizedBox) {
+        after[gap] = cue;
       } else {
         after.insert(0, cue);
       }

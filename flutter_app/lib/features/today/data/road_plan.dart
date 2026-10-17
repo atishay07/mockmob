@@ -109,10 +109,13 @@ class RoadPlanStore extends Notifier<RoadPlan> {
       if (!ref.mounted || generation != _generation) return;
       _onAccount = true;
       _revision = asInt(body['revision']) ?? 0;
-      if (_touched) return;
+      if (_touched) {
+        state = RoadPlan(examDate: state.examDate, mockTarget: state.mockTarget, onAccount: true);
+        return;
+      }
       final day = _parseDay(asString(body['examDate'] ?? body['exam_date']));
       final target = asInt(body['mockTarget'] ?? body['mock_target']);
-      state = RoadPlan(examDate: day, mockTarget: target);
+      state = RoadPlan(examDate: day, mockTarget: target, onAccount: true);
       await _keepOnPhone(user, day, target);
     } on Object {
       // Offline, refused or not built yet: the phone's copy stands.

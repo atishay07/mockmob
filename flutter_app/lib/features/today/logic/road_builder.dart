@@ -81,6 +81,7 @@ RoadModel? buildRoad(TodayInputs i) {
     weekGoal: week?.goal,
   );
   return RoadModel(
+    onAccount: i.roadPlan.onAccount,
     board: board,
     weeks: weeks,
     today: today,

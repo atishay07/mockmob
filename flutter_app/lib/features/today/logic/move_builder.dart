@@ -232,6 +232,10 @@ MoveHero buildMove(TodayInputs i) {
       final name = subjectName(subject);
       final at = i.profile?.firstMoveAt;
       final scheduled = at != null && at.isAfter(i.now) && i.daysSince(at) == 0;
+      // Change length sits beside Full mock instead (TODAY-1017 4.2, day one): 10 by default.
+      final options = _practiceOptions();
+      final count = _practiceCount(i, options);
+      final framing = i.profile?.firstMoveLine;
       return MoveHero(
         state: state,
         mood: mood,
@@ -241,13 +245,19 @@ MoveHero buildMove(TodayInputs i) {
         art: state == NextMoveState.newUser ? const HeroArt.mobi(MmArt.mobiGreet) : artFor(subject),
         kind: state == NextMoveState.newUser ? MoveKind.dayOne : MoveKind.other,
         headline: state == NextMoveState.subjectChanged ? TodayCopy.subjectChanged : (scheduled ? TodayCopy.checkSetFor(i.clock(at)) : null),
-        number: '10',
+        number: '$count',
         numberLabel: 'questions to your\nstarting point',
-        meaning: i.profile?.firstMoveLine == null ? TodayCopy.startingPointLine(name) : TodayCopy.startingPointWith(name, i.profile!.firstMoveLine!),
-        summary: '10 questions to your starting point in $name',
+        meaning: framing == null ? TodayCopy.startingPointLine(name, count) : TodayCopy.startingPointWith(name, framing, count),
+        durationPrompt: TodayCopy.practiceLength,
+        durations: options,
+        selectedMinutes: count,
+        summary: '$count questions to your starting point in $name',
         primary: TodayAction(
-          TodayCopy.startNow,
-          GoTo(i.profile?.firstMoveRoute ?? TodayLinks.quick(subject: subject, purpose: 'baseline')),
+          TodayCopy.startNowFor(count),
+          // The set-up's own route carries its ten; another length builds the same start at that size.
+          GoTo(count == 10 && i.profile?.firstMoveRoute != null
+              ? i.profile!.firstMoveRoute!
+              : TodayLinks.quick(subject: subject, count: count, purpose: 'baseline')),
           startsSession: true,
           actionType: 'practice',
         ),
@@ -397,7 +407,7 @@ MoveHero _repair(TodayInputs i, MoveFacts f, Attempt b, TodayMood mood, String o
     state: NextMoveState.ready,
     mood: mood,
     kind: kind,
-    overline: kind == MoveKind.firstRepair ? TodayCopy.firstWeekOverline(i.firstWeekDay!) : overline,
+    overline: kind == MoveKind.firstRepair && firstWeekLabelFits(i) ? TodayCopy.firstWeekOverline(i.firstWeekDay!) : overline,
     subjectId: canonicalSubject(b.subject),
     subjectLine: subjectName(b.subject),
     art: art,
@@ -422,6 +432,19 @@ MoveHero _repair(TodayInputs i, MoveFacts f, Attempt b, TodayMood mood, String o
         ? TodayAction(TodayCopy.fullMockInstead, GoTo(TodayLinks.fullMock(subject: b.subject)), startsSession: true, actionType: 'mock')
         : const TodayAction(TodayCopy.somethingElse, OpenAlternatives()),
   );
+}
+
+/// The most papers a first week's path makes (the check, Revise, two smart sets, the first mock,
+/// and one spare). More than this on record is no longer a first week, whatever the calendar says.
+const int firstWeekMaxPapers = 6;
+
+/// Whether "Day N of your first week" may sit over the move: the first paper is under a week old,
+/// the record is a first week's size, and today's Revise round clears everything due (a round that
+/// covers 10 of 92 is a long record's backlog, never a first week's).
+bool firstWeekLabelFits(TodayInputs i, {int reviseDue = 0}) {
+  if (i.firstWeekDay == null) return false;
+  if ((i.attempts?.length ?? 0) > firstWeekMaxPapers) return false;
+  return reviseDue <= (i.reviseCap == 5 ? 5 : 10);
 }
 
 /// How many of the last paper's open mistakes the returning move offers first.
@@ -472,9 +495,12 @@ MoveHero? _firstWeek(TodayInputs i, MoveFacts f, NextMoveState state) {
   final latest = f.attempts.first;
   final subject = latest.subject;
   final name = subjectName(subject);
-  final overline = TodayCopy.firstWeekOverline(day);
-  final art = HeroArt.object(subject: canonicalSubject(subject));
   final due = i.reviseDue ?? 0;
+  // "Day 2 of your first week" only over a first week's record (owner walk 17 Oct): a long
+  // record's counts ("of 92 due today") under a first-week label read as a contradiction, so a
+  // record that has outgrown a first week takes the ordinary overline instead.
+  final overline = firstWeekLabelFits(i, reviseDue: due) ? TodayCopy.firstWeekOverline(day) : TodayCopy.moveOverline(i.clock());
+  final art = HeroArt.object(subject: canonicalSubject(subject));
   if (due > 0) return _revise(i, f, state, overline, fallbackSubject: subject);
   if (state == NextMoveState.ready && f.tonight != null && !f.dismissed) return null;
   final hasMock = f.attempts.any((a) => a.isMock);
@@ -581,7 +607,11 @@ MoveHero _revise(TodayInputs i, MoveFacts f, NextMoveState state, String overlin
     number: '$size',
     numberLabel: size < due ? TodayCopy.reviseOfDue(due) : TodayCopy.reviseLabel(size),
     meaning: meaning,
-    whyLink: papers.isEmpty ? null : TodayCopy.seeWhy,
+    // See why is always there (TODAY-1017 4.2): the newest paper's why sheet, or, when the round's
+    // papers are not on this phone (a fresh install, a second device), Revise itself, which shows
+    // where each question came from.
+    whyLink: TodayCopy.seeWhy,
+    whyAction: papers.isEmpty ? const TodayAction(TodayCopy.seeWhy, GoTo(TodayLinks.revise)) : null,
     evidenceId: papers.isEmpty ? null : papers.first.id,
     evidence: papers.isEmpty ? null : List.filled(size.clamp(1, 3), BubbleState.wrong),
     durationPrompt: options.isEmpty ? null : TodayCopy.reviseLength,

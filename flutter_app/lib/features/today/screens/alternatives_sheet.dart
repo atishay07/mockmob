@@ -25,6 +25,7 @@ import '../../practice/model/practice_selection.dart' show mockQuestionCount;
 import '../../practice/widgets/choice_deck.dart' show ChoiceDeck, ChoiceOption, ChoiceRow;
 import '../../practice/widgets/choice_glyphs.dart' show ChoiceGlyphKind;
 import '../../review/revise/revise_data.dart' show reviseCapProvider, reviseEntryProvider;
+import '../../runner/runner_routes.dart' show NtaRoutes;
 import '../copy.dart';
 import '../data/today_providers.dart';
 import '../logic/links.dart';
@@ -34,7 +35,7 @@ import '../logic/today_inputs.dart';
 import '../logic/today_model.dart';
 
 /// What a row is, so no two rows of the sheet are the same kind of session.
-enum AlternativeKind { repair, revise, practice, mock, plan, review }
+enum AlternativeKind { repair, revise, practice, mock, nta, plan, review }
 
 class AlternativeRow {
   const AlternativeRow({required this.title, required this.note, required this.location, required this.glyph, required this.kind});
@@ -54,8 +55,8 @@ class AlternativeRow {
 /// are due in all.
 typedef ReviseRound = ({int size, int due});
 
-/// The most rows before Review (which always ends the list).
-const int _maxRows = 3;
+/// The most rows before Review (which always ends the list): four, so NTA mode has a place (F18).
+const int _maxRows = 4;
 
 /// The rows for the student's record, leaving out whatever [moveKind] already is. Pure, so tests
 /// feed it fixtures.
@@ -159,6 +160,17 @@ List<AlternativeRow> alternativeRows(
       glyph: ChoiceGlyphKind.mock,
       kind: AlternativeKind.mock,
     ));
+    // 5. NTA mode, once a full mock in this subject is on record: the next one on the exam-day
+    // screen (FEATURE-ADOPTION FA-8, taught at the moment it is a real next step).
+    if (lastMock != null) {
+      rows.add(AlternativeRow(
+        title: TodayCopy.altNtaTitle(subjectName(subject)),
+        note: TodayCopy.altNtaNote(mockQuestionCount, 60, pro: inputs.isPro),
+        location: NtaRoutes.location(subject),
+        glyph: ChoiceGlyphKind.nta,
+        kind: AlternativeKind.nta,
+      ));
+    }
   }
 
   // The server's own alternatives fill a free place, when this app can open them and they are a
