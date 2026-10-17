@@ -9,6 +9,9 @@ const nextConfig = {
   distDir: process.env.MOCKMOB_STAGING_APP === '1' ? '.next-staging' : (process.env.NODE_ENV === 'development' ? '.next-dev' : '.next'),
   // The default bottom-left dev button intercepts the phone's Today dock link.
   devIndicators: false,
+  // Dev only: the owner reviews the dev server from this PC's LAN address and from 127.0.0.1, and without the origin
+  // allowed the dev client never connects, so the page is not interactive there. Ignored by builds.
+  allowedDevOrigins: ['192.168.1.8', '127.0.0.1'],
   experimental: {
     // Avoid restoring the stale Turbopack graph that crashed the local preview.
     turbopackFileSystemCacheForDev: false,
