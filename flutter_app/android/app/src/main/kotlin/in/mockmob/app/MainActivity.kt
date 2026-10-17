@@ -151,6 +151,20 @@ class MainActivity : FlutterActivity() {
                             )
                         )
                     }
+                    // The phone's bottom screen corner radius in dp (Android 12+), so a floating
+                    // sheet's bottom corners can be concentric with the glass (GLASS-1017 5.7).
+                    // Null below Android 12 or when the display reports no rounded corner.
+                    "cornerRadius" -> {
+                        var radiusDp: Double? = null
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                            val insets = window.decorView.rootWindowInsets
+                            val corner = insets?.getRoundedCorner(android.view.RoundedCorner.POSITION_BOTTOM_LEFT)
+                            if (corner != null && corner.radius > 0) {
+                                radiusDp = corner.radius / resources.displayMetrics.density.toDouble()
+                            }
+                        }
+                        result.success(radiusDp)
+                    }
                     else -> result.notImplemented()
                 }
             }

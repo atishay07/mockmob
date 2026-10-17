@@ -188,6 +188,9 @@ class MorphSheetRoute<T> extends PopupRoute<T> {
                   // Thin at the start (the page shows through), resting density at 55% of the
                   // morph, before the content (arriving from 38%) is legible.
                   sheetTintAlpha: reduced ? null : _tintAlpha(animation.value),
+                  // The Start sheet's title band is opaque edge to edge (device re-check, 14 Oct):
+                  // one even density, so a thinner glass rim never shows a seam under it.
+                  evenTint: true,
                   child: content!,
                 ),
                 child: _ContentReveal(animation: animation, reduced: reduced, anchor: _anchor(media.size), child: content),

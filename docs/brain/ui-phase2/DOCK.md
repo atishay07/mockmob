@@ -146,6 +146,8 @@ The baseline is 360 x 780. The Galaxy M06 is 384 x 853. Every measurement below 
 
 ## 4. Visual design and glass tiers
 
+> 17 Oct 2026: the glass numbers in this section are superseded by GLASS-1017 section 5.1 (docs/design-decisions/pass-1017/GLASS-1017.md). The material is `lib/core/widgets/materials/mm_glass.dart` (`GlassMaterialSpec.of` with `GlassKind.bar`); this section is kept for history.
+
 | Part | Night | Daylight |
 | --- | --- | --- |
 | Bar tint (Full) | `#1B1A16` at 0.72 | `#FFFDF8` at 0.80 |
