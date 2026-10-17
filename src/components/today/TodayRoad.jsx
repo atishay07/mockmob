@@ -170,14 +170,17 @@ export default function TodayRoad({ road, goal, rhythm, facts, onGoalSaved }) {
   const stripRef = useRef(null);
   const drag = useRef(null);
   const canDrag = onAccount && fig.phase === 'weeks';
+  // Relative to where the flag was picked up, so grabbing the pill off its stem never jumps the date to the pointer.
   const dayAt = (clientX) => {
     const rect = stripRef.current.getBoundingClientRect();
-    const frac = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
+    const d = drag.current;
+    const at = d ? d.at + (clientX - d.x) / rect.width : (clientX - rect.left) / rect.width;
+    const frac = Math.min(1, Math.max(0, at));
     return snapExamDay(addDays(first, Math.floor(frac * N * unit)), today);
   };
   const onFlagDown = (e) => {
     if (e.button != null && e.button !== 0) return;
-    drag.current = { x: e.clientX, moved: false };
+    drag.current = { x: e.clientX, at: examAt, moved: false };
     e.currentTarget.setPointerCapture?.(e.pointerId);
   };
   const onFlagMove = (e) => {
@@ -188,10 +191,10 @@ export default function TodayRoad({ road, goal, rhythm, facts, onGoalSaved }) {
   };
   const onFlagUp = (e) => {
     const d = drag.current;
-    drag.current = null;
     if (!d) return;
+    const day = d.moved ? dayAt(e.clientX) : null; // read while the pickup point is still known
+    drag.current = null;
     if (!d.moved) { if (onAccount) setDateSheet(true); return; }
-    const day = dayAt(e.clientX);
     if (day === (plan.examDate || dates.windowStart)) { setDraft(null); return; }
     saveDate(day === dates.windowStart ? null : day);
   };
