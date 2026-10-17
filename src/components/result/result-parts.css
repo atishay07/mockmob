@@ -1,0 +1,67 @@
+/* Your full analysis, pass 1018 (REVIEW-RESULT-1018 5.2 to 5.4). Hairline index rows (72-76 px), no cards; the open row is a
+   neutral lit fill with a 3 px ink bar (never lime). One part open: below the index on phones, beside it from 1024 px. */
+.ap { --ap-ease: cubic-bezier(0.23, 1, 0.32, 1); margin-top: 36px; min-width: 0; }
+.ap .ap-title { margin: 0; font: 740 26px/1.15 var(--font-display); letter-spacing: -0.025em; color: var(--a-ink); }
+.ap-lede { margin: 6px 0 0; font: 500 14.5px/1.5 var(--font-body); color: var(--a-ink-2); }
+.ap-grid { margin-top: 14px; min-width: 0; }
+.ap-index { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--a-line); }
+.ap-index > li { position: relative; border-bottom: 1px solid var(--a-line); }
+.ap .ap-row {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto 18px; gap: 4px 12px; align-items: center; width: 100%; min-height: 72px;
+  padding: 14px 12px 14px 14px; border: 0; background: none; color: var(--a-ink); text-align: left; cursor: pointer; border-radius: 0 10px 10px 0;
+  transition: transform 160ms var(--ap-ease), background-color 200ms var(--ap-ease), box-shadow 200ms var(--ap-ease);
+}
+.ap .ap-row:active { transform: scale(0.98); }
+.ap-row b { font: 700 17px/1.25 var(--font-display); letter-spacing: -0.01em; }
+.ap-row span { grid-column: 1; font: 500 13.5px/1.45 var(--font-body); color: var(--a-ink-3); text-wrap: pretty; }
+.ap-row em { grid-column: 2; grid-row: 1 / span 2; font: 720 17px/1 var(--font-display); font-style: normal; color: var(--a-ink-2); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.ap-chev { width: 18px; height: 18px; fill: none; stroke: var(--a-ink-3); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.ap-row .ap-chev { grid-column: 3; grid-row: 1 / span 2; }
+.ap-index > li[data-open] > .ap-row { background: var(--a-raised-2); box-shadow: inset 3px 0 0 var(--a-ink); }
+.ap-index > li[data-open] > .ap-row span { color: var(--a-ink-2); }
+@media (hover: hover) and (pointer: fine) { .ap-index > li:not([data-open]) > .ap-row:hover { background: color-mix(in oklab, var(--a-hover) 70%, transparent); } }
+.ap .ap-row:focus-visible, .ap .ap-next:focus-visible, .ap .ap-all:focus-visible { outline: 2px solid var(--a-focus, var(--a-accent-text)); outline-offset: 2px; }
+
+.ap-detail { margin-top: 26px; min-width: 0; }
+.ap-part { min-width: 0; animation: ap-in 200ms var(--ap-ease) both; }
+@keyframes ap-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.ap-dhead {
+  position: sticky; top: var(--arena-topbar-h, 63px); z-index: 4; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  min-height: 56px; margin-bottom: 10px; background: var(--a-bg); border-bottom: 1px solid var(--a-line); scroll-margin-top: var(--arena-topbar-h, 63px);
+}
+.ap-dhead h3 { margin: 0; font: 740 22px/1.2 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); scroll-margin-top: var(--arena-topbar-h, 63px); }
+.ap .ap-all { display: inline-flex; align-items: center; min-height: 44px; padding: 0; border: 0; background: none; cursor: pointer; font: 650 14px/1 var(--font-body); color: var(--a-ink-2); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--a-line-strong); white-space: nowrap; }
+.ap .ap-next {
+  display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 52px; margin-top: 18px; padding: 6px 0 0;
+  border: 0; border-top: 1px dashed var(--a-line-strong); background: none; cursor: pointer; text-align: left;
+  font: 500 14.5px/1.3 var(--font-body); color: var(--a-ink-2); transition: transform 160ms var(--ap-ease);
+}
+.ap .ap-next:active { transform: scale(0.98); }
+.ap-next b { color: var(--a-ink); font-weight: 650; }
+.ap-empty { margin: 4px 0 0; font: 500 14.5px/1.5 var(--font-body); color: var(--a-ink-2); text-wrap: pretty; }
+
+/* The parts hold the R4 blocks unchanged; only their outer spacing is settled inside a part. */
+.ap-body > :first-child { margin-top: 0; }
+.ap-body .srl { margin-top: 0; }
+.ap-body .srl-head h2 { font-size: 18px; }
+.ap-body .rl-answers { margin-top: 0; }
+.ap-body .rp-review__head h2 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Answer by answer: hairline rows instead of 50 rounded cards (the answer body is unchanged). */
+.ap-body .rl-answers .rp-list { gap: 0; border-top: 1px solid var(--a-line); }
+.ap-body .rl-answers .rp-q { border: 0; border-bottom: 1px solid var(--a-line); border-radius: 0; background: transparent; box-shadow: none; }
+.ap-body .rl-answers .rp-q__bar { padding-left: 0; padding-right: 0; }
+.ap-body .rl-answers .rp-q[data-open] { background: transparent; }
+
+@media (min-width: 1024px) {
+  .ap-grid { display: grid; grid-template-columns: 360px minmax(0, 1fr); gap: 0 44px; align-items: start; }
+  .ap-index { position: sticky; top: calc(var(--arena-topbar-h, 63px) + 20px); }
+  .ap .ap-row { min-height: 76px; }
+  .ap-detail { margin-top: 0; }
+  .ap-dhead { padding-top: 4px; }
+  .ap .ap-all { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ap-part { animation: none; }
+  .ap .ap-row, .ap .ap-next { transition: none; }
+}

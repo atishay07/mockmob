@@ -50,6 +50,9 @@ import { inRepairOrder } from '@/components/result/labLoop';
 import { useAuth } from '@/components/AuthProvider';
 import { useWalletSummary } from '@/components/useWalletSummary';
 import { bankCount, nextPaper, practiceSubjectId } from '@/lib/paperCopy.mjs';
+import AnalysisParts, { partFromUrl, writePart, scrollToPart } from '@/components/result/AnalysisParts';
+import { replayCutLine } from '@/components/result/ReplaySlots';
+import '@/components/result/result-parts.css';
 
 function displayValue(value, fallback = '') {
   if (value == null) return fallback;
@@ -127,7 +130,9 @@ export default function ResultPageClient({ previewId = null }) {
   const [cheer, setCheer] = useState(null); // the qid whose check just held: Mobi's one cheer
   const [showAll, setShowAll] = useState(false);
   const [blanksOpen, setBlanksOpen] = useState(false);
-  const [replayFocus, setReplayFocus] = useState(null);
+  // Pass 1018 (REVIEW-RESULT-1018 5.2): the one open part of Your full analysis, in the URL (?part=).
+  const [part, setPart] = useState(partFromUrl);
+  const openPart = useCallback((id) => { setPart(id); writePart(id); }, []);
   const [reading, setReading] = useState(null); // the answer row the reader Mobi glances at
   const [readerReact, setReaderReact] = useState(null); // { qid, first, then }: his reaction to the answer just opened
   const prefs = useMobiPrefs();
@@ -198,9 +203,12 @@ export default function ResultPageClient({ previewId = null }) {
     const quick = instant ?? (step && engaged);
     // Each row lives in one place: a mistake in the list (opening "Show all" when it is further down), a blank in the
     // blanks row, a right answer in "Every answer".
+    // Pass 1018: the part that owns the row opens first (a wrong answer or a blank: Your mistakes; a right one: Answer by answer).
     if (row.verdict === 'wrong') { if (orderedMistakes.findIndex(m => m.q.id === row.q.id) >= SHOWN_FIRST) setShowAll(true); }
     else if (row.verdict === 'skipped') setBlanksOpen(true);
     else setFilter(f => (f === 'all' || f === row.verdict ? f : 'all'));
+    const owner = row.verdict === 'correct' ? 'answers' : 'mistakes';
+    setPart(owner); writePart(owner);
     setOpen(s => new Set(s).add(row.q.id));
     setVisited(s => new Set(s).add(row.q.id));
     if (repair) setAutoRepair(row.q.id);
@@ -435,13 +443,13 @@ export default function ResultPageClient({ previewId = null }) {
     const out = repairOutcomes[qid];
     if (out === 'held_for_recheck') return { id: 'recheck', label: 'Key being re-checked' };
     if (out === 'not_explained') return { id: 'none', label: 'No repair, no charge' };
+    // Pass 1018 section 7: one label per state. Repaired and checked says See repair (it opens free); its state words
+    // ("Held on a new question") are said in Answer by answer. Priority is shown by order, never by a label.
     const c = checks[qid];
-    if (c) return c.right ? { id: 'held', label: 'Held on a new question' } : { id: 'slipped', label: 'Slipped on a new question' };
+    if (c) return c.right ? { id: 'held', label: 'See repair', words: 'Held on a new question' } : { id: 'slipped', label: 'See repair', words: 'Slipped on a new question' };
     if (hasExplanation(out)) return { id: 'check', label: 'Check it held' };
     if (started.has(qid)) return { id: 'writing', label: 'Writing' };
-    // Out of AI credits: the same word, quiet; the opened row offers the credits line, not a paid repair.
-    if (aiCredits === 0) return { id: 'nocredit', label: 'Repair' };
-    if (move?.kind === 'repair' && move.target?.qid === qid) return { id: 'first', label: 'Repair' };
+    // Out of AI credits: the same word; the opened row offers the credits line, not a paid repair.
     return { id: 'repair', label: 'Repair' };
   };
   const cohortItem = new Map((repairOrder?.state === 'cohort' ? repairOrder.items || [] : []).filter(x => x?.reason === 'most_right' && x.line).map(x => [x.qid, x.line]));
@@ -466,10 +474,7 @@ export default function ResultPageClient({ previewId = null }) {
   // The ledger already states the cohort line under its groups; without a ledger it is said here once.
   const cohort = lab?.cohort?.line && !ledgerOf(lab) ? lab.cohort : null;
   const labTitle = lab?.heading ? lab.heading : marks.gap ? `You missed ${marks.gap} ${marks.gap === 1 ? 'mark' : 'marks'}. Here’s where they went.` : 'You didn’t miss a mark this session.';
-  const seeReplay = (chip) => {
-    setReplayFocus((f) => ({ chip, n: (f?.n || 0) + 1 }));
-    requestAnimationFrame(() => document.getElementById('rl-find')?.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'start' }));
-  };
+  const seeReplay = () => { openPart('time'); scrollToPart('time'); };
   // D17 (owner, 18 Oct dawn): the answer bar is sized to the paper. Up to 20 questions it fills the card's width in even
   // lines (10 questions: one line of 10 on a desktop, two of 5 on a phone); a longer paper keeps the 44 px wrap.
   const mapCount = analysis.rows.length;
@@ -492,16 +497,28 @@ export default function ResultPageClient({ previewId = null }) {
     </ol>
   );
 
-  return (
-    <div className="container-narrow student-page student-page--result rp rx rl-page pb-20" data-arrive={arrive || undefined}>
-      {/* ---------- 1. The summary: Mobi, the score, the finding, the counts, the answer map and the one next move ---------- */}
-      <ResultHero receipt={receipt} marks={marks} finding={finding} reaction={reaction} holdStill={engaged || reading != null}
-        notice={notice} onNotice={(n) => jumpTo(n)} arrive={arrive} strip={answerMap}
-        next={<NextMove move={move} onAct={onAct} paperHref={next.href} arrive={arrive} flat lesson={move?.kind === 'practise' && move.rule === 2 ? lesson : null} />} />
 
-      {/* ---------- 2. The Mistake Lab, open: where the marks went, the mistakes to repair, find, prove ---------- */}
-      <section className="srl rl" aria-labelledby="srl-title" data-in="">
-        <header className="srl-head"><h2 id="srl-title">{labTitle}</h2></header>
+  // ---------- Your full analysis (pass 1018, REVIEW-RESULT-1018 5.2 and 5.3): six parts, each finding generated ----------
+  const ledgerTop = (ledgerOf(lab)?.groups || []).filter(g => g.marks > 0).sort((x, y) => y.marks - x.marks)[0] || null;
+  const waiting = orderedMistakes.find(r => statusOf(r)?.id === 'check') || null;
+  const cutLine = lab ? replayCutLine(lab.replay || null, analysis.rows.length) : null;
+  const usedMs = timing?.totalMs ?? null;
+  const paperMs = timeRead?.pace?.paperMs ?? null;
+  const changes = timeRead?.state === 'ready' ? timeRead.changes : null;
+  const signed = (n) => (n > 0 ? `+${n}` : n < 0 ? `−${-n}` : '0');
+  const ruleCheck = lab?.prove?.ruleCheck || null;
+  const ruleFigure = { kept: 'Held', not_kept: 'Slipped', counted: 'Counted' }[ruleCheck?.state] || '';
+  const threat = attempt.swot?.state === 'ready' ? (() => {
+    const quads = Array.isArray(attempt.swot.quadrants) ? attempt.swot.quadrants : [];
+    const first = (id) => quads.find(q => q.id === id)?.items?.[0]?.title || null;
+    return first('threat') || first('weakness') || attempt.swot.plan?.[0]?.label || null;
+  })() : null;
+  const parts = [
+    { id: 'marks', name: 'Where your marks went', figure: marks.gap ? `${marks.gap} marks` : '0 marks',
+      line: marks.gap ? `${marks.gap} ${marks.gap === 1 ? 'mark' : 'marks'} missed.${ledgerTop ? ` ${ledgerTop.label}: ${ledgerTop.marks} of them.` : ''}` : 'You didn’t miss a mark this session.',
+      body: (
+        <div className="srl rl" data-in="">
+          <header className="srl-head"><h2 id="srl-title">{labTitle}</h2></header>
         <LabLedger attempt={attempt} analysis={analysis} timeRead={timeRead} lab={lab} onJump={jumpTo} changesId="rx-time-changes" onSeeReplay={seeReplay} bare />
         {cohort ? (
           <div className="rl-cohort">
@@ -512,7 +529,13 @@ export default function ResultPageClient({ previewId = null }) {
             {(Array.isArray(cohort.fine) ? cohort.fine : cohort.fine ? [cohort.fine] : []).map((line, i) => <p key={i} className="srl-fine">{line}</p>)}
           </div>
         ) : null}
-
+        <KeyReviewLog items={keyReviews} onJump={jumpTo} />
+      {correctedRows.length ? <section className="kr-log" aria-label="Answer corrections"><h2>We corrected {correctedRows.length === 1 ? 'an answer key' : `${correctedRows.length} answer keys`}. We’re sorry.</h2><p>Your original result is preserved. Applying these checked corrections gives a separate adjustment of {correctionAdjustment > 0 ? '+' : ''}{correctionAdjustment} marks. This has not changed your account or leaderboard score.</p><ul>{correctedRows.map(r => <li key={r.q.id}><button type="button" onClick={() => jumpTo(r.number)}><b>Q{r.number}</b><span>{r.chapter}</span><em>See correction</em></button></li>)}</ul></section> : null}
+        </div>
+      ) },
+    { id: 'mistakes', name: 'Your mistakes', figure: String(marks.wrong + marks.blank),
+      line: `${marks.wrong} wrong and ${marks.blank} left blank.${waiting ? ` Q${waiting.number} is repaired and waiting for Check it held.` : repaired.size ? ` ${repaired.size} repaired.` : ''}`,
+      body: (
         <div className="rl-part" id="rl-repair">
           <MistakeList
             mistakes={orderedMistakes} blanks={blanks} openIds={open} onToggle={toggle} visited={visited}
@@ -533,31 +556,27 @@ export default function ResultPageClient({ previewId = null }) {
             </>}
           />
         </div>
-
-        {showTime ? (
-          <div className="rl-part" id="rl-find">
-            <div className="srl-step__head"><h3>Find</h3><p>Where your time went and every answer you changed</p></div>
-            <LabTime attempt={attempt} analysis={analysis} timeRead={timeRead} lab={lab} onJump={jumpTo} swotShown={swotShown} focus={replayFocus} changesId="rx-time-changes" />
-          </div>
-        ) : null}
-
+      ) },
+    { id: 'time', name: 'Time and changes', figure: cutLine ? '' : usedMs ? formatDuration(usedMs) : '',
+      line: cutLine || [usedMs ? `${formatDuration(usedMs)}${paperMs ? ` of ${Math.round(paperMs / 60000)} minutes` : ''}.` : null, changes?.count ? `${changes.count} changed ${changes.count === 1 ? 'answer' : 'answers'}, net ${signed(changes.net)} marks.` : null].filter(Boolean).join(' ') || 'Where your time went and every answer you changed.',
+      body: showTime || lab ? (
+        <div className="rl-part" id="rl-find">
+          <LabTime attempt={attempt} analysis={analysis} timeRead={timeRead} lab={lab} onJump={jumpTo} swotShown={swotShown} changesId="rx-time-changes" />
+        </div>
+      ) : <p className="ap-empty">This paper has no record of its time, so there is nothing to show here. Every answer is in Answer by answer.</p> },
+    { id: 'rule', name: 'Did your rule hold', figure: ruleFigure,
+      line: ruleCheck?.line ? (ruleCheck.result || ruleCheck.line) : 'Show it stuck, on questions you haven’t seen.',
+      body: (
         <div className="rl-part" id="rl-prove">
-          <div className="srl-step__head"><h3>Prove</h3><p>Show it stuck, on questions you haven’t seen</p></div>
           <LabProof attempt={attempt} analysis={analysis} lab={lab} />
         </div>
-      </section>
-
-      {/* The Mob's weekly paper: one quiet row with the ring and the way back to /mob (draws nothing otherwise). */}
-      {attempt.selectionMeta?.mobPaper ? <MobResultRow mobPaper={attempt.selectionMeta.mobPaper} /> : null}
-
-      {/* ---------- 3. After this mock: Do these next and the SWOT (Full and NTA mocks; server-built, free) ---------- */}
-      {showSwot ? <SwotPanel swot={attempt.swot} attemptId={attempt.id} onJump={jumpTo} /> : null}
-
-      {/* Keys under re-check and corrected keys: their own notice, after the analysis, as before 17 Oct. */}
-      <KeyReviewLog items={keyReviews} onJump={jumpTo} />
-      {correctedRows.length ? <section className="kr-log" aria-label="Answer corrections"><h2>We corrected {correctedRows.length === 1 ? 'an answer key' : `${correctedRows.length} answer keys`}. We’re sorry.</h2><p>Your original result is preserved. Applying these checked corrections gives a separate adjustment of {correctionAdjustment > 0 ? '+' : ''}{correctionAdjustment} marks. This has not changed your account or leaderboard score.</p><ul>{correctedRows.map(r => <li key={r.q.id}><button type="button" onClick={() => jumpTo(r.number)}><b>Q{r.number}</b><span>{r.chapter}</span><em>See correction</em></button></li>)}</ul></section> : null}
-
-      {/* ---------- 4. Answer by answer. A wrong answer and a blank open in the Lab's list; a right one opens here. ---------- */}
+      ) },
+    { id: 'after', name: 'After this mock', figure: '',
+      line: threat || (showSwot && attempt.swot?.message) || 'What to do next, and what this paper shows.',
+      body: showSwot ? <SwotPanel swot={attempt.swot} attemptId={attempt.id} onJump={jumpTo} inFold plain /> : <p className="ap-empty">This part fills in after a full mock or an NTA paper: what is costing you, what is working, and what to do next.</p> },
+    { id: 'answers', name: 'Answer by answer', figure: String(attempt.total),
+      line: `All ${attempt.total}: ${marks.right} right, ${marks.wrong} wrong, ${marks.blank} blank.`,
+      body: (
       <section className="rp-review rl-answers" aria-labelledby="rp-review-title">
         <div className="rp-review__head">
           <h2 id="rp-review-title">Answer by answer</h2>
@@ -584,7 +603,7 @@ export default function ResultPageClient({ previewId = null }) {
             // A mistake's progress in the chip's own words (D15), so the two lists never name one state twice; the plain
             // "Repair" is left to the mistakes list, where the action is.
             const chip = verdict === 'wrong' ? statusOf(row) : null;
-            const progress = chip ? (['repair', 'first', 'nocredit'].includes(chip.id) ? null : { label: chip.label, tone: ['check', 'held'].includes(chip.id) ? 'repaired' : 'held' })
+            const progress = chip ? (chip.id === 'repair' ? null : { label: chip.words || chip.label, tone: ['check', 'held'].includes(chip.id) ? 'repaired' : 'held' })
               : repairLabel(repairOutcomes[q.id]) ? { label: repairLabel(repairOutcomes[q.id]), tone: hasExplanation(repairOutcomes[q.id]) ? 'repaired' : 'held' } : null;
             return (
               <li key={q.id} id={elsewhere ? `qa-${number}` : `q-${number}`} className="rp-q" hidden={filter !== 'all' && filter !== verdict} data-verdict={verdict} data-open={isOpen || undefined}>
@@ -611,6 +630,22 @@ export default function ResultPageClient({ previewId = null }) {
           })}
         </ol>
       </section>
+      ) },
+  ];
+
+  return (
+    <div className="container-narrow student-page student-page--result rp rx rl-page pb-20" data-arrive={arrive || undefined}>
+      {/* ---------- 1. The summary: Mobi, the score, the finding, the counts, the answer map and the one next move ---------- */}
+      <ResultHero receipt={receipt} marks={marks} finding={finding} reaction={reaction} holdStill={engaged || reading != null}
+        notice={notice} onNotice={(n) => jumpTo(n)} arrive={arrive} strip={answerMap}
+        next={<NextMove move={move} onAct={onAct} paperHref={next.href} arrive={arrive} flat lesson={move?.kind === 'practise' && move.rule === 2 ? lesson : null} />} />
+
+      {/* ---------- 2. Your full analysis (pass 1018, REVIEW-RESULT-1018 5.2 and 5.3): one index of six named parts, each
+           saying what it found, exactly one open. Every R4 block lives in exactly one part, moved and not rewritten. ---------- */}
+      <AnalysisParts parts={parts} open={part} onOpen={openPart} />
+
+      {/* The Mob's weekly paper: one quiet row with the ring and the way back to /mob (draws nothing otherwise). */}
+      {attempt.selectionMeta?.mobPaper ? <MobResultRow mobPaper={attempt.selectionMeta.mobPaper} /> : null}
 
       {ending ? (
         <RepairEnding ids={runIds} numbers={runNumbers} model={runModel} ackedAt={ackedAt}

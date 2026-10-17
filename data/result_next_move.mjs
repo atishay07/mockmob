@@ -236,7 +236,7 @@ export function nextMove({ analysis, answerReviews = {}, repairOrder = null, rep
       why, value: null,
       cost: practiceCostLine({ isPremium, practiceCredits }),
       late: null,
-      alt: repairFirst ? { kind: 'repair', label: `Or repair Q${repairFirst.number} first, 1 AI credit`, target: { qid: repairFirst.q.id, number: repairFirst.number, chapter: repairFirst.chapter } }
+      alt: repairFirst ? { kind: 'repair', label: `Or repair Q${repairFirst.number}, 1 AI credit`, target: { qid: repairFirst.q.id, number: repairFirst.number, chapter: repairFirst.chapter } }
         : noAi && open.length ? { kind: 'credits', label: 'See your AI credits', target: { href: '/pricing/ai-credits' } } : null,
       note: null,
       target: { chapter, href: practiseHref({ subject, chapter }) },
