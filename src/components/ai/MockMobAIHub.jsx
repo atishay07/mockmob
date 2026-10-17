@@ -43,7 +43,7 @@ export default function MockMobAIHub(props) {
   return <Hub key={user?.id || 'guest'} {...props} />;
 }
 
-function Hub({ variant = 'drawer', initialTab = 'plan', onClose }) {
+function Hub({ variant = 'drawer', initialTab = 'plan', onClose, questionRef: askedAbout = null }) {
   const router = useRouter();
   const pathname = usePathname();
   const { user } = useAuth();
@@ -53,8 +53,9 @@ function Hub({ variant = 'drawer', initialTab = 'plan', onClose }) {
   // The full-page console honours ?tab=record; the drawer ignores the host page's query string.
   const searchParams = useSearchParams();
   const requestedTab = searchParams.get('tab');
-  // "Ask Mobi about this question" (from a repair): /mentor?tab=ask&q=<attemptId>:<questionId>. Page only, like ?tab.
-  const questionRef = variant === 'page' ? searchParams.get('q') : null;
+  // "Ask Mobi about this question" (from a repair): /mentor?tab=ask&q=<attemptId>:<questionId> on the page; in the panel
+  // the arena shell passes the same reference (askMobi.mjs), so the repair opens Mobi in place.
+  const questionRef = variant === 'page' ? searchParams.get('q') : askedAbout;
   const wanted = variant === 'page' && requestedTab ? requestedTab : initialTab;
   const [section, setSection] = useState(SECTIONS.some((s) => s.id === wanted) ? wanted : wanted === 'guide' ? 'tools' : 'plan');
   const insightsState = useInsights(user?.id);
@@ -88,9 +89,9 @@ function Hub({ variant = 'drawer', initialTab = 'plan', onClose }) {
 
   return (
     <>{!isDrawer && <ArenaHead title="Ask Mobi" lede="The same next action as Today, with the reasoning from your recorded practice." />}<div className={`prepos-console ${shellClass}`}>
-      <header className="flex items-center justify-between gap-3 border-b border-white/10 px-4 py-3 md:px-6">
-        <PrepOSOrb size={40} />
-        <div className="min-w-0">
+      <header className="flex items-center gap-3 border-b border-white/10 px-4 py-3 md:px-6">
+        <PrepOSOrb size={40} active={isDrawer} />
+        <div className="min-w-0 flex-1">
           <div className="font-display text-lg font-black text-zinc-50">Ask Mobi</div>
           <p className="text-xs text-zinc-400">Your practice record. One useful next move.</p>
         </div>

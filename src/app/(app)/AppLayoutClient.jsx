@@ -16,6 +16,12 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import AppearanceSwitch from '@/components/AppearanceSwitch';
 import { PipActor } from '@/components/brand/PipActor';
 import { StartKey, StartSheetHost } from '@/components/start';
+import { PrepOSOrb } from '@/components/ui/PrepOSOrb';
+import HelpMenu from '@/components/help/HelpMenu';
+import AskMobiHost from '@/components/ai/AskMobiHost';
+import { openAskMobi } from '@/components/ai/askMobi.mjs';
+import { HELP_DOOR } from '@/lib/helpDoor.mjs';
+import '@/components/help/help-door.css';
 import './arena.css';
 import './student-pages.css';
 import './explore/explore.css';
@@ -37,9 +43,12 @@ const TOUR_STEPS = [
   { title: 'Practice', target: 'nav-dashboard', body: 'Choose a subject, a mode and how many questions, then start a timed session. Every answer is scored on the server.' },
   { title: 'Review', target: 'nav-review', body: 'Go back over sessions that matter and check concepts again on fresh questions.' },
   { title: 'Progress', target: 'nav-progress', body: 'See which concepts have passed fresh, delayed checks, and which need more evidence.' },
+  // The last stop is where help lives (N17): the sidebar's Help door, or More on a phone.
+  { title: 'Help', target: ['guide-button', 'nav-more'], body: 'Stuck anywhere? Open Help to ask Mobi about the page you are on, take this tour again or read the common answers.',
+    bodies: { 'nav-more': 'Stuck anywhere? Help is under More: ask Mobi about the page you are on, take this tour again or read the common answers.' } },
 ];
 // Pip guides the first-run tour only (rare, so it may have character); it nods on each step.
-const TOUR_POSES = ['greeting', 'encouraging', 'thinking', 'celebrating'];
+const TOUR_POSES = ['greeting', 'encouraging', 'thinking', 'celebrating', 'greeting'];
 
 export default function AppLayoutClient({ children, previewRoute = null, previewLinks = null, studyEnabled = false, mobEnabled = false }) {
   const pathname = usePathname();
@@ -51,6 +60,8 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   const [tourOpen, setTourOpen] = useState(false);
   const [tourStep, setTourStep] = useState(0);
   const [tourTarget, setTourTarget] = useState(null);
+  // The Help door's menu: { anchor: 'sidebar' | 'dock', el } while open (N17).
+  const [help, setHelp] = useState(null);
   const tourSeenKey = user?.id ? `mockmob_app_tour_seen_${user.id}` : 'mockmob_app_tour_seen';
   const activePath = previewRoute || pathname;
   const isTestRoute = activePath.startsWith('/test');
@@ -205,7 +216,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
 
     const updateTarget = () => {
       const current = TOUR_STEPS[tourStep];
-      const node = [...document.querySelectorAll(`[data-tour="${current.target}"]`)]
+      const node = [].concat(current.target).flatMap((target) => [...document.querySelectorAll(`[data-tour="${target}"]`)])
         .find((candidate) => {
           const rect = candidate.getBoundingClientRect();
           const style = window.getComputedStyle(candidate);
@@ -231,6 +242,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
           : Math.max(16, rect.top - cardHeight - 18);
 
         setTourTarget({
+          via: node.dataset.tour,
           left: Math.max(8, rect.left - padding),
           top: Math.max(8, rect.top - padding),
           width: rect.width + padding * 2,
@@ -253,7 +265,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   // Account's "Replay the guide" asks the shell to open the tour (it falls back to pressing Guide).
   useEffect(() => {
     if (isTestRoute) return undefined;
-    const openGuide = (event) => { event.preventDefault(); setMobileMenuOpen(false); setTourStep(0); setTourOpen(true); };
+    const openGuide = (event) => { event.preventDefault(); setMobileMenuOpen(false); setHelp(null); setTourStep(0); setTourOpen(true); };
     window.addEventListener('mockmob:open-guide', openGuide);
     return () => window.removeEventListener('mockmob:open-guide', openGuide);
   }, [isTestRoute]);
@@ -327,13 +339,18 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
         ))}
         <div className="arena-sidebar__foot">
           <AppearanceSwitch />
+          {/* The Help door (N17): the one place a stuck student looks. Mobi's orb lives here now, in the shell, instead of
+              floating over the page (N9). */}
           <button
             type="button"
-            className="arena-chip"
+            className="arena-help-door"
             data-tour="guide-button"
-            onClick={() => { setTourStep(0); setTourOpen(true); }}
+            aria-haspopup="dialog"
+            aria-expanded={help?.anchor === 'sidebar'}
+            onClick={(event) => { const el = event.currentTarget; setHelp((open) => (open?.anchor === 'sidebar' ? null : { anchor: 'sidebar', el })); }}
           >
-            <AppIcon name="guide" /> Guide
+            <PrepOSOrb size={32} active={help?.anchor === 'sidebar'} />
+            <span className="arena-help-door__text"><b>{HELP_DOOR.label}</b><span>{HELP_DOOR.hint}</span></span>
           </button>
         </div>
       </aside>
@@ -419,9 +436,10 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
                   type="button"
                   className="arena-chip"
                   data-tour="guide-button"
-                  onClick={() => { setMobileMenuOpen(false); setTourStep(0); setTourOpen(true); }}
+                  aria-haspopup="dialog"
+                  onClick={() => { setMobileMenuOpen(false); setHelp({ anchor: 'dock', el: document.querySelector('.arena-dock [data-tour="nav-more"]') }); }}
                 >
-                  <AppIcon name="guide" /> Guide
+                  <AppIcon name="guide" /> {HELP_DOOR.label}
                 </button>
                 <button
                   type="button"
@@ -449,11 +467,21 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
       {!isTestRoute && <div className="arena-dock">
         <nav className="arena-bottomnav" aria-label="Quick study navigation">
           {mobileTabs.map((tab) => <Link key={tab.id} href={previewLinks?.[tab.id] || tab.href} onClick={() => setMobileMenuOpen(false)} aria-current={isActive(tab.id) ? 'page' : undefined} data-tour={`nav-${tab.id}`}><AppIcon name={tab.icon} size={24} /><span>{tab.label}</span></Link>)}
-          <button type="button" aria-expanded={mobileMenuOpen} aria-controls={mobileMenuOpen ? 'arena-sheet' : undefined} onClick={toggleMenu}><AppIcon name="more" size={24} /><span>More</span></button>
+          <button type="button" data-tour="nav-more" aria-expanded={mobileMenuOpen} aria-controls={mobileMenuOpen ? 'arena-sheet' : undefined} onClick={(event) => { setHelp(null); toggleMenu(event); }}><AppIcon name="more" size={24} /><span>More</span></button>
         </nav>
         <StartKey variant="bar" onOpen={() => setMobileMenuOpen(false)} />
       </div>}
       {!isTestRoute && <StartSheetHost previewLinks={previewLinks} />}
+      {!isTestRoute && <AskMobiHost />}
+      {!isTestRoute && help ? (
+        <HelpMenu
+          request={help}
+          links={previewLinks}
+          onClose={() => setHelp(null)}
+          onAsk={(from) => openAskMobi({ tab: 'ask', from })}
+          onTour={() => { setTourStep(0); setTourOpen(true); }}
+        />
+      ) : null}
       {!isTestRoute && tourOpen && (
         <div className="pointer-events-none fixed inset-0 z-[80]">
           {tourTarget ? (
@@ -468,7 +496,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
           )}
           {tourTarget && (
             <div
-              className="pointer-events-none fixed rounded-2xl border-2 border-volt shadow-[0_0_34px_rgba(210,240,0,0.42)]"
+              className="arena-tour-ring pointer-events-none fixed rounded-2xl border-2 border-volt"
               style={{
                 left: tourTarget.left,
                 top: tourTarget.top,
@@ -496,7 +524,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
                 <span className="text-2xl leading-none">&times;</span>
               </button>
             </div>
-            <p className="text-sm leading-6 text-zinc-300">{TOUR_STEPS[tourStep].body}</p>
+            <p className="text-sm leading-6 text-zinc-300">{TOUR_STEPS[tourStep].bodies?.[tourTarget?.via] || TOUR_STEPS[tourStep].body}</p>
             <div className="mt-5 h-1.5 overflow-hidden rounded-full bg-white/10">
               <div className="h-full rounded-full bg-volt" style={{ width: `${((tourStep + 1) / TOUR_STEPS.length) * 100}%` }} />
             </div>
@@ -510,13 +538,13 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
                 Back
               </button>
               {tourStep === TOUR_STEPS.length - 1 ? (
-                <button type="button" className="inline-flex min-h-11 items-center rounded-full bg-volt px-5 py-2 text-sm font-extrabold text-black shadow-[0_0_22px_rgba(210,240,0,0.22)] transition hover:brightness-110" onClick={closeTour}>
+                <button type="button" className="inline-flex min-h-11 items-center rounded-full bg-volt px-5 py-2 text-sm font-extrabold text-black transition hover:brightness-105" onClick={closeTour}>
                   Finish
                 </button>
               ) : (
                 <button
                   type="button"
-                  className="inline-flex min-h-11 items-center rounded-full bg-volt px-5 py-2 text-sm font-extrabold text-black shadow-[0_0_22px_rgba(210,240,0,0.22)] transition hover:brightness-110"
+                  className="inline-flex min-h-11 items-center rounded-full bg-volt px-5 py-2 text-sm font-extrabold text-black transition hover:brightness-105"
                   onClick={() => setTourStep((step) => Math.min(TOUR_STEPS.length - 1, step + 1))}
                 >
                   Next

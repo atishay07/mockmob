@@ -7,6 +7,7 @@
 // of the Mistake Lab (GET /api/me/rules), open here, with the way into the Rule book. Pass 2 (16 Oct): the marks lead
 // (the ledger is the anchor), Across sits after What stands out, and on narrow screens the trend and subjects follow
 // the marks instead of closing a 3,500 px page.
+import { isPlainClick, openAskMobi } from '@/components/ai/askMobi.mjs';
 import React, { useEffect, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { RefreshCw } from 'lucide-react';
@@ -106,7 +107,7 @@ export default function AnalyticsPageClient() {
           <h1 className="display-md">Where your marks are going</h1>
           <p>{totalAttempts} session{totalAttempts === 1 ? '' : 's'}, {totalQ} question{totalQ === 1 ? '' : 's'} answered.{data.scoring?.device > 0 ? ` Includes ${data.scoring.device} earlier attempt${data.scoring.device === 1 ? '' : 's'} scored in your browser before server scoring.` : ''}</p>
         </div>
-        <Link href="/mentor?tab=ask" className="rd-ask">Ask Mobi</Link>
+        <Link href="/mentor?tab=ask" className="rd-ask" onClick={(event) => { if (isPlainClick(event) && openAskMobi({ tab: 'ask', from: event.currentTarget })) event.preventDefault(); }}>Ask Mobi</Link>
       </header>
 
       {(() => {

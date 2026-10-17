@@ -10,6 +10,7 @@ import { CHECK_COPY, askLabel, askSeesLine, askOffer, safeAskHref } from '@/../d
 import { AuthContext } from '@/components/AuthProvider';
 import { useWalletSummary } from '@/components/useWalletSummary';
 import { usesLine } from '@/lib/creditCopy.mjs';
+import { askRequestFromHref, isPlainClick, openAskMobi } from '@/components/ai/askMobi.mjs';
 import './repair-check.css';
 
 // `balance`: the AI credits the repair's own response says are left after its charge. It is newer than the wallet read
@@ -26,7 +27,11 @@ export default function RepairAsk({ attemptId, questionId, number = null, askHre
     <div className="mr-block mr-askq" data-stagger style={style}>
       {offer.ask ? (
         <>
-          <Link className="mr-ask" href={href}>{askLabel(number)}</Link>
+          <Link className="mr-ask" href={href} onClick={(event) => {
+            // In the arena, Mobi opens over this repair (N9), so the student keeps the mistake in view; elsewhere, the link.
+            const asked = askRequestFromHref(href);
+            if (asked && isPlainClick(event) && openAskMobi({ ...asked, from: event.currentTarget })) event.preventDefault();
+          }}>{askLabel(number)}</Link>
           <p className="mr-chk__fine">{offer.line} {askSeesLine(number)}</p>
         </>
       ) : (

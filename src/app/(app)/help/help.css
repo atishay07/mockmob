@@ -31,3 +31,13 @@
 @media (hover: hover) and (pointer: fine) { .help-write:hover { background: var(--a-hover); } }
 @media (prefers-reduced-motion: reduce) { .help-q__chev, .help-q__panel { transition: none; } }
 :root[data-motion='reduced'] .help-q__chev, :root[data-motion='reduced'] .help-q__panel { transition: none; }
+/* The quickest ways (N17): Ask Mobi and the tour, ruled rows above the questions, no boxes. */
+.help-ways { display: grid; margin: 0 0 32px; border-top: 1px solid var(--a-line); }
+.help-ways__row {
+  display: flex; align-items: center; gap: 14px; width: 100%; min-height: 64px; padding: 12px 2px; border: 0; border-bottom: 1px solid var(--a-line);
+  background: transparent; color: var(--a-ink); text-align: left; text-decoration: none; cursor: pointer; font: inherit;
+  transition: background-color 0.15s ease;
+}
+.help-ways__icon { display: grid; flex: none; place-items: center; width: 32px; height: 32px; color: var(--a-accent-text); }
+.help-ways__row:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 6px; }
+@media (hover: hover) and (pointer: fine) { .help-ways__row:hover { background: var(--a-hover); } }

@@ -35,7 +35,7 @@ function Row({ row, onGuideMissing }) {
 
 export default function AccountLinks() {
   const [guideNote, setGuideNote] = useState('');
-  const missing = () => setGuideNote('The guide is in the menu, under Guide.');
+  const missing = () => setGuideNote('The tour is under Help, at the foot of the menu.');
 
   return (
     <section className="glass acct-links" aria-label="Community and help">
