@@ -54,11 +54,8 @@ export default async function OpengraphImage() {
           <span style={{ fontSize: 76, lineHeight: 1.02, letterSpacing: -2 }}>One mock tonight.</span>
           <span style={{ fontSize: 76, lineHeight: 1.02, letterSpacing: -2, color: VOLT }}>A clearer next step.</span>
         </div>
-        <div style={{ display: 'flex', gap: 14, fontSize: 22, color: '#D6D1C2' }}>
-          {['Practice', 'Mistake review', 'DU subject rules'].map((label) => (
-            <span key={label} style={{ display: 'flex', padding: '10px 18px', borderRadius: 999, border: '1.5px solid rgba(243, 239, 228, 0.18)' }}>{label}</span>
-          ))}
-        </div>
+        {/* One plain line, not a row of pills (W-076). */}
+        <span style={{ display: 'flex', fontSize: 26, lineHeight: 1.3, color: '#D6D1C2' }}>Timed practice, mistake review and DU subject rules.</span>
       </div>
 
       {/* The still life: three subject objects on a lit desk, each on its own contact shadow. */}

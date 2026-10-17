@@ -239,3 +239,10 @@ html[data-theme='light'] .prepos-console.arena-dark-island.arena-dark-island.are
 html[data-theme='light'] .prepos-console.arena-dark-island > header { background: color-mix(in srgb, var(--a-raised) 92%, transparent); }
 @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) { html[data-theme='light'] .prepos-console.arena-dark-island > header { background: var(--a-raised); } }
 html[data-theme='light'] .prepos-console .pp-ask__switch button[aria-pressed='true'] { background: var(--a-sunken); }
+
+/* Ask Mobi as a page (W-076, W-078): no console box inside the page. The sections sit on the Arena's ground and take
+   its Night and Day tokens; the tabs are the page's own row. The time chips mark the choice with the selection ring,
+   not a volt fill, so the plan's one button is the only volt on screen (W-075). */
+.app-shell .prepos-console--page { --pp-ink: var(--a-ink); --pp-ink-2: var(--a-ink-2); --pp-ink-3: var(--a-ink-3); --pp-accent: var(--a-accent-text); --pp-bad: var(--a-bad-text); --pp-line: var(--a-line); --pp-line-strong: var(--a-line-strong); --pp-wash: var(--a-sunken); color: var(--a-ink); }
+.app-shell .prepos-console--page > nav { border-color: var(--a-line); }
+.prepos-minute--on { border-color: var(--a-select, #d2f000); background: var(--a-volt-wash, rgba(210, 240, 0, 0.07)); color: var(--a-ink, #f2f4ec); box-shadow: inset 0 0 0 1px var(--a-select, #d2f000); }

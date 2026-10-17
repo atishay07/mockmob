@@ -127,7 +127,7 @@ export function AccountColleges({ userId, picker = null }) {
           </button>
         ) : mine.status === 'ready' && colleges.length ? (
           colleges.length < MAX_COLLEGES
-            ? <Link className="mc-key" href={COMPASS_HREF}><Plus size={16} aria-hidden="true" />Add from Admission Compass</Link>
+            ? <Link className="mc-key" href={COMPASS_HREF}><Plus size={16} aria-hidden="true" />Add from Colleges</Link>
             : <p className="mc-note">{FULL_LINE}</p>
         ) : null}
       </div>

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { CAPABILITIES, recoveryReleased, newOfferReleased } from '@/../data/capabilities';
 import { publicOffer } from '@/lib/payments/offer';
-import { Check, History, Timer, Wrench, Radar, Sparkles, Compass, Combine, Trophy, Monitor, Target, GraduationCap, ShieldCheck, BookOpenText } from 'lucide-react';
+import { Check, History, Timer, Wrench, Radar, Sparkles, Compass, Combine, Trophy, Monitor, BookOpenText } from 'lucide-react';
 import STUDY_RELEASE from '@/../data/study/release.json';
 import { SUBJECT_CLAIM } from '@/../data/subject_claim';
 import { NavBar } from '@/components/NavBar';
@@ -13,7 +13,7 @@ import { DemoDrill } from '@/components/landing/DemoDrill';
 import { CloseActions, DockLine } from '@/components/landing/CloseActions';
 import { DemoJump } from '@/components/landing/DemoJump';
 import { HeroBackdrop } from '@/components/landing/HeroBackdrop';
-import { HeroDockGate, DockMobi } from '@/components/landing/HeroDockGate';
+import { HeroDockGate } from '@/components/landing/HeroDockGate';
 import { Reveal } from '@/components/landing/Reveal';
 import { LiveStatsBand } from '@/components/landing/LiveStatsBand';
 import { QuestionBankLine } from '@/components/landing/QuestionBankLine';
@@ -97,7 +97,7 @@ const STUDY_SUBJECTS = new Set(Object.keys(STUDY_RELEASE.units || {}).map(id => 
 // chips say what is true of the product. Each slide's demo screen lives in TourScreens.jsx, keyed by id.
 // Add `video: '/demos/<id>.mp4'` to a slide to play a real screen recording in its place.
 const TOUR = [
-  { id: 'arena', label: 'Practice', icon: <Timer size={18} aria-hidden="true" />, line: 'Drills and full mocks on the exam clock', kicker: 'Arena', title: 'Practise the way the exam runs.',
+  { id: 'arena', label: 'Practice', icon: <Timer size={18} aria-hidden="true" />, line: 'Drills and full mocks on the exam clock', kicker: 'Practice', title: 'Practise the way the exam runs.',
     body: 'A short drill for a free evening, or a full 50-question, 60-minute mock for the weekend. Same timer, same question palette, same pressure.',
     points: ['Quick drills and full mocks', 'NTA-style screen and Smart practice with Pro', 'Close the tab mid-test and pick up where you left off'], chip: 'Marked +5 / −1, the way CUET marks it.', href: '/dashboard', cta: 'Start practising' },
   { id: 'repair', label: 'Mistake Repair', icon: <Wrench size={18} aria-hidden="true" />, line: 'Fix why you got it wrong, not just the answer', kicker: 'Score Recovery', title: 'Fix why you missed it, not just what the answer was.',
@@ -184,13 +184,13 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Second hero beat: real, linked facts on a glass dock over the hero's light. */}
+          {/* Second hero beat: real, linked facts on a glass dock. Numbers and words only, no icon per fact (W-076: no icon grids). */}
           <div className="mm-wrap">
             <nav className="lp-proof" aria-label="Why students pick MockMob" data-hero style={{ '--h': 5 }}>
-              <a href="#try-practice"><Target size={18} aria-hidden="true" /><b>5 questions</b><span>Try them before you sign up</span></a>
-              {DU_FACTS ? <a href="#du-eligibility"><GraduationCap size={18} aria-hidden="true" /><b>{DU_FACTS.programmes}</b><span>DU programmes to check against your subjects</span></a> : null}
-              <a href="#exam-experience"><Monitor size={18} aria-hidden="true" /><b>2 screens</b><span>MockMob or NTA style, your pick</span></a>
-              <a href="#your-prep"><ShieldCheck size={18} aria-hidden="true" /><b>60 min</b><span>50 questions, one full CUET mock</span></a>
+              <a href="#try-practice"><b>5 questions</b><span>Try them before you sign up</span></a>
+              {DU_FACTS ? <a href="#du-eligibility"><b>{DU_FACTS.programmes}</b><span>DU programmes to check against your subjects</span></a> : null}
+              <a href="#exam-experience"><b>2 screens</b><span>MockMob or NTA style, your pick</span></a>
+              <a href="#your-prep"><b>60 min</b><span>50 questions, one full CUET mock</span></a>
             </nav>
           </div>
         </section>
@@ -309,7 +309,7 @@ export default function LandingPage() {
                 <h3 className="lp-h3">Not sure which CUET subjects to pick?</h3>
                 <p>Choose your DU goals and available subjects. Compare five-paper combinations against the published 2026 rules before you fill the CUET form.</p>
               </div>
-              <Link href="/cuet-subject-combination" className="mm-btn mm-btn--primary">Plan my subjects</Link>
+              <Link href="/cuet-subject-combination" className="mm-btn mm-btn--secondary">Plan my subjects</Link>
             </Reveal>
             <CollegeDestinations />
           </div>
@@ -416,10 +416,10 @@ export default function LandingPage() {
       </main>
       <MarketingFooter />
       <PipGuide />
-      {/* The phone bar waits until the hero's buttons have gone, steps aside while the demo, the DU teaser or the close band's actions hold the screen, and carries Mobi. */}
+      {/* The phone bar waits until the hero's buttons have gone and steps aside while the demo, the DU teaser or the close band's actions hold the screen. It carries no Mobi: he lives in the sections' own seats, so one Mobi is ever in view (W-074). */}
       <noscript><style>{'.lp-dockgate .mm-dock{opacity:1!important;transform:none!important;pointer-events:auto!important}'}</style></noscript>
       <HeroDockGate>
-        <MobileDock note={<DockMobi line={<DockLine />} />} label="Try a CUET question" href="/#try-practice" />
+        <MobileDock note={<span className="lp-dockmobi__line"><DockLine /></span>} label="Try a CUET question" href="/#try-practice" />
       </HeroDockGate>
     </div>
   );

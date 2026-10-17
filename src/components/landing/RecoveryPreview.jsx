@@ -1,6 +1,6 @@
 "use client";
 import { useState } from 'react';
-import { ArrowRight, RotateCcw, Check, Minus } from 'lucide-react';
+import { RotateCcw, Check, Minus } from 'lucide-react';
 
 const moments=[{time:'00:42',title:'First answer',option:'B',outcome:'Correct',marks:5},
  {time:'03:18',title:'Revisited question',option:'D',outcome:'Incorrect',marks:-1}];
@@ -23,7 +23,7 @@ export default function RecoveryPreview() {
         <b data-negative={current.marks<0}>{current.marks>0?'+':''}{current.marks}<small>marks</small></b>
       </div>
       <p className="recovery-preview__insight">{position===0 ? 'Your first answer earned five marks. Select the revisit to see its effect.' : 'This change cost six marks: +5 became −1. The reason still needs your interpretation.'}</p>
-      <div className="recovery-preview__next"><Minus size={18}/><p><strong>A next move, not a verdict.</strong><span>Try a two-pass strategy on fresh questions.</span></p><ArrowRight size={20}/></div>
+      <div className="recovery-preview__next"><Minus size={18}/><p><strong>A next move, not a verdict.</strong><span>Try a two-pass strategy on fresh questions.</span></p></div>
     </div>
     <figcaption>Illustrative replay. These values are an example, not your score or predicted recoverable marks.</figcaption>
   </figure>;

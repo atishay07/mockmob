@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowRight, Check, ShieldCheck, X } from 'lucide-react';
+import { Check, ShieldCheck, X } from 'lucide-react';
 import { createDemoPlayback } from '@/../data/demo_playback.mjs';
 import { durations } from '@/lib/motion/tokens.g.js';
 import { labStory, signed } from './labStory.mjs';
@@ -117,7 +117,7 @@ export function RepairScreen({ play }) {
           </li>
         ))}
       </ol>
-      <p className="ts__cta" data-in={on(step >= 5)}>Practise 5 on this chapter<ArrowRight size={14} aria-hidden="true" /></p>
+      <p className="ts__cta" data-in={on(step >= 5)}>Practise 5 on this chapter</p>
     </Frame>
   );
 }
@@ -142,7 +142,7 @@ export function LearnScreen({ play }) {
         ))}
       </ul>
       <p className="ts__meta ts__meta--row"><span data-on={on(step >= 5)} className="ts__saved">Correct</span><span>{step >= 6 ? 'Comes back in a few days' : ' '}</span></p>
-      <p className="ts__cta" data-in={on(step >= 6)}>Then: practise Vocabulary questions<ArrowRight size={14} aria-hidden="true" /></p>
+      <p className="ts__cta" data-in={on(step >= 6)}>Then: practise Vocabulary questions</p>
     </Frame>
   );
 }
@@ -226,7 +226,7 @@ export function PrepOSScreen({ play }) {
           <ol>
             {PREP_PLAN.map(([time, what], i) => <li key={what} data-in={on(step >= 4 + i)}><b>{time}</b>{what}</li>)}
           </ol>
-          <p className="ts__replies" data-in={on(step >= 7)}><span data-main="true">Start the 10<ArrowRight size={12} aria-hidden="true" /></span><span>Why this?</span></p>
+          <p className="ts__replies" data-in={on(step >= 7)}><span data-main="true">Start the 10</span><span>Why this?</span></p>
         </div>
       </div>
     </Frame>

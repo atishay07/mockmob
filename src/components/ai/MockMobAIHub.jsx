@@ -86,7 +86,9 @@ function Hub({ variant = 'drawer', initialTab = 'plan', onClose }) {
 
   const shellClass = isDrawer
     ? 'arena-dark-island flex h-full min-h-0 flex-col bg-[#090a08] text-zinc-100'
-    : 'arena-dark-island flex min-h-[640px] w-full max-w-4xl flex-col overflow-hidden rounded-[26px] border border-white/10 bg-[#090a08] text-zinc-100';
+    // The page is not a console inside the page (W-076, W-078): its sections sit on the page itself in the Arena's own
+    // Night and Day tokens, so the plan card below is the only box. The drawer keeps its dark sheet.
+    : 'prepos-console--page flex w-full max-w-4xl flex-col';
 
   function navigate(route) {
     if (!route) return;
@@ -96,7 +98,7 @@ function Hub({ variant = 'drawer', initialTab = 'plan', onClose }) {
 
   return (
     <>{!isDrawer && <ArenaHead title="Ask Mobi" lede="The same next action as Today, with the reasoning from your recorded practice." />}{!isDrawer && isAuthenticated ? <FirstTime id="ask-mobi">Start with Ask and a question about your own record, like “Where am I losing marks?”. Those answers are free. A written reply costs 1 AI credit, and the cost shows before you send.</FirstTime> : null}<div className={`prepos-console ${shellClass}`}>
-      <header className="flex items-center justify-between gap-3 border-b border-white/10 px-4 py-3 md:px-6">
+      {isDrawer ? <header className="flex items-center justify-between gap-3 border-b border-white/10 px-4 py-3 md:px-6">
         <PrepOSOrb size={40} />
         <div className="min-w-0">
           <div className="font-display text-lg font-black text-zinc-50">Ask Mobi</div>
@@ -107,9 +109,9 @@ function Hub({ variant = 'drawer', initialTab = 'plan', onClose }) {
             <Icon name="x" />
           </button>
         ) : null}
-      </header>
+      </header> : null}
 
-      <nav className="flex gap-1 border-b border-white/10 px-2 md:px-4" aria-label="Ask Mobi sections">
+      <nav className={`flex gap-1 border-b border-white/10 ${isDrawer ? 'px-2 md:px-4' : ''}`} aria-label="Ask Mobi sections">
         {SECTIONS.map((s) => (
           <button
             key={s.id}
@@ -123,7 +125,7 @@ function Hub({ variant = 'drawer', initialTab = 'plan', onClose }) {
         ))}
       </nav>
 
-      <div className="min-h-0 flex-1 overflow-y-auto px-4 py-5 md:px-6">
+      <div className={isDrawer ? 'min-h-0 flex-1 overflow-y-auto px-4 py-5 md:px-6' : 'py-5'}>
         {!isAuthenticated ? (
           <SignedOut onNavigate={navigate} />
         ) : section === 'plan' ? (
@@ -178,7 +180,7 @@ function PlanSection({ firstName, onNavigate, insightsState, onInspect, onAsk })
         <div className="flex flex-wrap gap-2">
           {MINUTES.map((m) => (
             <button key={m} type="button" aria-pressed={minutes === m} onClick={() => setMinutes(m)}
-              className={`min-h-[44px] rounded-xl border px-4 text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-volt ${minutes === m ? 'border-volt bg-volt text-black' : 'border-white/15 text-zinc-200 hover:border-white/30'}`}>
+              className={`min-h-[44px] rounded-xl border px-4 text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-volt ${minutes === m ? 'prepos-minute--on' : 'border-white/15 text-zinc-200 hover:border-white/30'}`}>
               {m} minutes
             </button>
           ))}

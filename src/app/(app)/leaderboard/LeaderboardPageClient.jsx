@@ -13,6 +13,7 @@ import ArenaHead from '@/components/arena/ArenaHead';
 import { apiGet } from '@/lib/fetcher';
 import { useAuth } from '@/components/AuthProvider';
 import { TEST_MODES } from '@/../data/test_modes';
+import { PaperTrend } from '@/components/ai/RecordGlimpse';
 import './leaderboard.css';
 
 const count = (n) => Number(n).toLocaleString('en-IN');
@@ -205,6 +206,9 @@ export default function LeaderboardPageClient() {
         <p className="lb-note">Ranked by total points across your recorded mocks, all time, so your place moves as you practise. Equal totals share a place. Nobody else is named here, and the top places and bands show only when at least 20 students are ranked.</p>
       </>
     )}
+    {/* What moves the place (W-083): the real marks of the student's last papers of one kind, when there are three or
+        more. It draws nothing with fewer, so a new student never sees an invented line. */}
+    {state === 'ready' && standing ? <div className="lb-record"><PaperTrend /></div> : null}
     {state === 'ready' && !standing && (
       <section className="lb-stand" aria-labelledby="lb-empty">
         <p className="lb-stand__place lb-stand__place--empty" id="lb-empty">You have no recorded mocks yet.</p>

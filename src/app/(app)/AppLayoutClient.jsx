@@ -324,7 +324,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
     <div className={`view app-shell ${isTestRoute ? 'app-shell--test' : ''}`} style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       {/* Keyboard users reach the page before the fourteen navigation stops; hidden until it has focus. */}
       <a href="#app-main" className="arena-skip">Skip to content</a>
-      <aside className="arena-sidebar" aria-label="Arena navigation">
+      <aside className="arena-sidebar" aria-label="Main navigation">
         <Logo />
         {!isTestRoute && <StartKey variant="sidebar" />}
         {navGroups.map((group) => (
@@ -333,8 +333,10 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
             {group.items.map((tab) => renderNavLink(tab))}
           </nav>
         ))}
+        {/* The foot is one compact row at the end of the list, not a sticky panel: at 1440 x 900 it never covers a row
+            (W-069). Appearance keeps its three choices as icons with names; Guide sits under it. */}
         <div className="arena-sidebar__foot">
-          <AppearanceSwitch />
+          <AppearanceSwitch compact />
           <button
             type="button"
             className="arena-chip"

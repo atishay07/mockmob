@@ -77,3 +77,6 @@
 @keyframes lb-rise { from { transform: scaleY(0); } to { transform: none; } }
 @media (prefers-reduced-motion: reduce) { .app-shell .lb :is(.lb-ladder__row, .lb-ladder__bar i, .lb-spread__bar i) { animation: none; } }
 html[data-motion='reduced'] .app-shell .lb :is(.lb-ladder__row, .lb-ladder__bar i, .lb-spread__bar i) { animation: none; }
+/* What moves the place (W-083): the real-marks trend from the student's last papers, the same block Today shows. */
+.app-shell .lb-record { max-width: 640px; }
+.app-shell .lb-record:empty { display: none; }

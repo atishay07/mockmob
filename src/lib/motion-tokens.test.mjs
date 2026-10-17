@@ -217,7 +217,10 @@ test('no view transition is ever applied under /test (the NTA runner)', () => {
 });
 
 test('places fade through toward the side they lie; drill-ins push and pop; results rise', () => {
-  assert.deepEqual(Object.keys(PLACE_ORDER), ['today', 'dashboard', 'learn', 'review', 'profile']);
+  assert.deepEqual(Object.keys(PLACE_ORDER), ['today', 'dashboard', 'learn', 'review', 'admission-compass', 'profile']);
+  assert.equal(transitionFor('/review', '/admission-compass'), VT.placeFwd, 'Colleges lies after Review on the dock');
+  assert.equal(transitionFor('/admission-compass', '/dashboard'), VT.placeBack);
+  assert.equal(transitionFor('/profile', '/admission-compass'), VT.placeBack);
   assert.equal(transitionFor('/today', '/dashboard'), VT.placeFwd);
   assert.equal(transitionFor('/review', '/today'), VT.placeBack);
   assert.equal(transitionFor('/profile', '/review'), VT.placeBack);

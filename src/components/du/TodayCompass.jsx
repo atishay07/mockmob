@@ -58,7 +58,7 @@ export default function TodayCompass() {
   return (
     <section className="tcp" aria-labelledby="tcp-h" data-state={loading ? 'loading' : ready ? 'ready' : askForSubjects ? 'ask' : 'plain'}>
       <div className="tcp__text">
-        <h2 id="tcp-h" className="tcp__h">Admission Compass</h2>
+        <h2 id="tcp-h" className="tcp__h">Colleges</h2>
         {loading ? <span className="tcp__bar" aria-hidden="true" /> : null}
         {ready ? (
           <p className="tcp__line">

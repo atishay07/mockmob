@@ -10,7 +10,7 @@
 .ts[data-step='0'] *, .ts[data-step='0'] *::before, .ts[data-step='0'] *::after { transition: none !important; animation: none !important; }
 
 .ts__bar { display: flex; align-items: center; gap: .5rem; height: 40px; padding: 0 .85rem; border-bottom: 1px solid var(--ts-line); font: 700 .75rem var(--font-body); color: var(--ts-ink2); }
-.ts__live { flex: 0 0 7px; width: 7px; height: 7px; border-radius: 50%; background: var(--ts-volt); animation: ts-breathe 2.4s ease-in-out infinite; }
+.ts__live { display: none; } /* No breathing dot before the screen's title (W-076: no dots, no constant motion). */
 .ts__title { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ts__badge { padding: .12rem .45rem; border: 1px solid var(--ts-line); border-radius: 99px; font-size: .66rem; }
 .ts__timer { font: 700 .82rem var(--font-body); letter-spacing: 0; color: var(--ts-volt); font-variant-numeric: tabular-nums; }

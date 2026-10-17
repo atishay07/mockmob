@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Check, Clock3, Monitor, RotateCcw, Sparkles } from 'lucide-react';
+import { Check, Clock3, Monitor, RotateCcw, Sparkles } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
 import { MascotSeat } from '@/components/brand/Mascot';
 import { pipReact } from '@/components/brand/pipEvents';
@@ -86,7 +86,7 @@ export function ExamComparator() {
               <div className="lp-exam__actions">
                 <button type="button" className="lp-exam__review" onClick={() => next(true)}>Mark for Review & Next</button>
                 <button type="button" onClick={() => setAnswers((a) => { const copy = { ...a }; delete copy[index]; return copy; })}>Clear response</button>
-                <button type="button" className="lp-exam__save" onClick={() => next(false)}>Save & Next <ArrowRight size={15} /></button>
+                <button type="button" className="lp-exam__save" onClick={() => next(false)}>Save &amp; Next</button>
               </div>
             </div>
             <aside className="lp-exam__palette" aria-label="Preview question palette">

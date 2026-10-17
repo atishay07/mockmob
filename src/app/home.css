@@ -42,14 +42,7 @@
   text-transform: none;
   color: var(--accent-text);
 }
-.mm.lp .lp-kicker::before {
-  content: '';
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 50%;
-  background: var(--volt);
-  box-shadow: 0 0 0 4px var(--accent-wash);
-}
+/* No dot before the kicker (W-076: no eyebrow dots); it is a plain sentence-case label. */
 
 /* ---------- Statement with the subject shelf ----------
    The four launch papers as a lamp-lit still life: a staggered 2 by 2 on every screen, each object on its own

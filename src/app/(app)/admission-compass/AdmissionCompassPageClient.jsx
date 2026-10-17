@@ -51,7 +51,8 @@ export default function AdmissionCompassPageClient() {
     <main className="cmp">
       <header className="cmp-head">
         <div>
-          <h1 className="display-md">Which DU courses can your subjects get?</h1>
+                    {/* One name for this place everywhere (W-067): the dock, the sidebar, the More sheet and the app call it Colleges. */}
+          <h1 className="display-md">Colleges</h1>
           <p className="cmp-lede">
             {seed.length > 0
               ? 'Your subjects are ticked. A score is optional: see every course they open, with 2026 cutoffs.'

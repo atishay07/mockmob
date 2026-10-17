@@ -493,8 +493,10 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
     <button type="button" className={`btn-outline md ${className}`} onClick={() => setQuoteNonce((n) => n + 1)}>Check again</button>
   ) : (
     <Button key={`key-${modeNudge}`} variant="volt" size="md" className={className} data-page-primary={short ? undefined : ''} data-nudge={modeNudge > 0 || undefined}
-      disabled={isLaunching || !quoteLaunchable} aria-busy={isLaunching || quoteStatus === 'loading' || undefined} onClick={launch}>
-      {short ? <>{examPair ? <ClockGlyph size={17} /> : null}{isLaunching ? 'Starting…' : barStartLabel}</> : <>{examPair ? <ClockGlyph /> : <AppIcon name="practice" size={18} />}{startLabel}</>}
+      disabled={isLaunching || !quoteLaunchable} aria-busy={isLaunching || quoteStatus === 'loading' || undefined} aria-label={short && !isLaunching ? barStartLabel : undefined} onClick={launch}>
+      {/* Under 380 px the bar's key says "Start 10" (its name still says the whole label), so the mode's name beside it is
+          never cut to "Quick pr…" (W-068). */}
+      {short ? <>{examPair ? <ClockGlyph size={17} /> : null}{isLaunching ? 'Starting…' : keyNamesCount ? <>Start {quoteCount}<span className="pr-bar__qword"> {quoteCount === 1 ? 'question' : 'questions'}</span></> : barStartLabel}</> : <>{examPair ? <ClockGlyph /> : <AppIcon name="practice" size={18} />}{startLabel}</>}
     </Button>
   ));
 

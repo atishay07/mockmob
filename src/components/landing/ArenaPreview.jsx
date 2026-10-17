@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 
 // Auto-playing product preview: a real CUET-style question types itself out,
 // options land, the mob's answer split fills, the correct option locks in and
-// the score ticks up. Honest by design: labelled "Arena preview", no fake
+// the score ticks up. Honest by design: labelled "Practice preview", no fake
 // usernames. Pauses off-screen; reduced motion shows a solved static frame.
 const QUESTIONS = [
   {
@@ -123,7 +123,7 @@ export function ArenaPreview() {
     <div ref={hostRef} className="arena-preview" aria-label="Preview of a MockMob arena question">
       <div className="arena-preview-top">
         <span className="arena-live-dot" aria-hidden="true" />
-        <span className="arena-preview-label">Arena preview</span>
+        <span className="arena-preview-label">Practice preview</span>
         <span className="arena-preview-meta">
           {question.subject} · {question.chapter}
         </span>
