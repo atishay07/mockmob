@@ -96,6 +96,7 @@ void main() {
       final store = MemoryPrefsStore();
       ProviderContainer make() => ProviderContainer(overrides: [
             rhythmPrefsStoreProvider.overrideWithValue(store),
+            roadAccountProvider.overrideWithValue(RoadAccount.none),
             userIdProvider.overrideWithValue('u1'),
           ]);
       final first = make();
@@ -137,6 +138,7 @@ void main() {
         disableAnimations: true,
         overrides: [
           rhythmPrefsStoreProvider.overrideWithValue(store),
+            roadAccountProvider.overrideWithValue(RoadAccount.none),
           authSnapshotProvider.overrideWithBuild((ref, n) => const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u', name: 'Asha')),
         ],
       );
@@ -202,12 +204,12 @@ void main() {
     await pumpBody(tester, view, const Size(384, 500));
     await tester.pump();
     await tester.pump();
-    final cue = find.bySemanticsLabel(RegExp('^Road to May'));
+    final cue = find.bySemanticsLabel(RegExp(r'^Road to May, [0-9]+ weeks'));
     expect(cue.hitTestable(), findsOneWidget);
     await tester.tap(cue);
     await tester.pumpAndSettle();
     expect(find.text(TodayCopy.roadTitle).hitTestable(), findsOneWidget, reason: 'the page glided to the road');
-    expect(find.bySemanticsLabel(RegExp('^Road to May')).hitTestable(), findsNothing, reason: 'the cue is gone for the visit');
+    expect(find.bySemanticsLabel(RegExp(r'^Road to May, [0-9]+ weeks')).hitTestable(), findsNothing, reason: 'the cue is gone for the visit');
   });
 
   // Design critic 16 Oct, finding 2: the cue sat over the key at late night and over the chart

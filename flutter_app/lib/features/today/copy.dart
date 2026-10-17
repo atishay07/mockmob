@@ -644,7 +644,7 @@ abstract final class TodayCopy {
   static const String doneRail = 'Done';
   static String paceTokenSemantics(int goal) => 'Study days a week, $goal. Opens the days.';
   static String mocksTokenSemantics(int n, int? taken) => 'Full mocks before your date, $n${taken == null ? '' : ', $taken taken'}. Opens the target.';
-  static String stripSemantics(int weeks, String flag) => 'Road to May, $weeks weeks. $flag. Opens the week by week road.';
+  static String stripSemantics(int weeks, String flag) => 'The weeks to your exam, $weeks of them. $flag. Opens the week by week road.';
 
   // The rows (4.5).
   static const String lastPaperTitle = 'Last paper';

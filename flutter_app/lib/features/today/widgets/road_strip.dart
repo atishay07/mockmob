@@ -148,7 +148,7 @@ class _RoadStripState extends State<RoadStrip> with SingleTickerProviderStateMix
         final examX = (columns - 0.5) * col;
         final label = TodayCopy.flagLabel(widget.examDay, own: widget.ownDate);
         final labelStyle = type.small.copyWith(fontSize: 11.5, height: 1.1, fontWeight: FontWeight.w700, color: colors.ground);
-        final tp = TextPainter(text: TextSpan(text: label, style: labelStyle), textDirection: TextDirection.ltr, maxLines: 1)..layout();
+        final tp = TextPainter(text: TextSpan(text: label, style: labelStyle), textDirection: TextDirection.ltr, maxLines: 1, textScaler: MediaQuery.textScalerOf(context))..layout();
         final pillW = tp.width + 12 + 10 + 10;
         final pillRight = math.min(width, examX + pillW / 2);
         final pillLeft = math.max(0.0, pillRight - pillW);

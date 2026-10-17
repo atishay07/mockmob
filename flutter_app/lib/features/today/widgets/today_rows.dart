@@ -172,7 +172,7 @@ class _Row extends StatelessWidget {
                 children: [
                   Text(label, style: type.caption.copyWith(color: colors.ink3)),
                   const SizedBox(height: MmSpace.s2),
-                  Text(title, maxLines: 1, overflow: TextOverflow.ellipsis, style: type.labelLarge.copyWith(fontSize: 16, fontWeight: FontWeight.w600, color: colors.ink)),
+                  Text(title, maxLines: 2, overflow: TextOverflow.ellipsis, style: type.labelLarge.copyWith(fontSize: 16, fontWeight: FontWeight.w600, color: colors.ink)),
                   const SizedBox(height: MmSpace.s2),
                   Text.rich(
                     at < 0

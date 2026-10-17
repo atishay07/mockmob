@@ -41,20 +41,31 @@ class TodayPill extends StatelessWidget {
           color: pressed ? Color.alphaBlend(colors.ink.withValues(alpha: 0.04), colors.raised2) : colors.raised2,
           shape: StadiumBorder(side: BorderSide(color: colors.lineStrong)),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, size: 16, color: enabled ? colors.ink : colors.ink3),
-            const SizedBox(width: MmSpace.s8),
-            Flexible(
-              child: Text(
-                label,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: type.labelLarge.copyWith(color: enabled ? colors.ink : colors.ink3, fontWeight: FontWeight.w600),
-              ),
-            ),
-          ],
+        // A narrow pill (a 360 dp phone, large text) drops its icon before its words, and the
+        // words scale down a little rather than end in an ellipsis.
+        child: LayoutBuilder(
+          builder: (context, box) {
+            final roomy = box.maxWidth >= 150;
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (roomy) ...[
+                  Icon(icon, size: 16, color: enabled ? colors.ink : colors.ink3),
+                  const SizedBox(width: MmSpace.s8),
+                ],
+                Flexible(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      label,
+                      maxLines: 1,
+                      style: type.labelLarge.copyWith(color: enabled ? colors.ink : colors.ink3, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );

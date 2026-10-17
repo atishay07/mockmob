@@ -28,6 +28,7 @@ import 'package:mockmob/core/widgets/widgets.dart' show BarMove, LiveCapsule;
 import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart';
 import 'package:mockmob/features/rhythm/data/rhythm_providers.dart';
 import 'package:mockmob/features/rhythm/data/study_days.dart';
+import 'package:mockmob/features/today/data/road_plan.dart' show RoadAccount, roadAccountProvider;
 import 'package:mockmob/features/today/data/today_profile.dart';
 import 'package:mockmob/features/today/data/today_providers.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
@@ -160,6 +161,7 @@ void main() {
         todayProfileProvider.overrideWithValue(null),
         rhythmVisibleProvider.overrideWithValue(true),
         studyDayPlanProvider.overrideWithValue(null),
+        roadAccountProvider.overrideWithValue(RoadAccount.none),
       ]);
       addTearDown(c.dispose);
       c.listen(todayInputsProvider, (_, _) {}, fireImmediately: true);

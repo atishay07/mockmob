@@ -69,10 +69,10 @@ void main() {
     expect(move.meaning, startsWith('3 of the 4 open mistakes in '));
   });
 
-  test('the whole chapter says tonight, with the badge number', () {
+  test('the whole chapter says mistakes to repair, with the badge number', () {
     final inputs = ashaInputs(selectedMinutes: 15);
     final move = buildMove(inputs);
     expect(move.number, '${badgeFor(inputs)}');
-    expect(move.numberLabel, 'to repair\ntonight');
+    expect(move.numberLabel, 'mistakes\nto repair');
   });
 }

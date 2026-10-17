@@ -22,6 +22,31 @@ import '../logic/road_board.dart';
 /// The account endpoint that holds the road once the server has the fields.
 const String roadPreferencesPath = '/api/study/preferences';
 
+/// Where the road is read from and written to on the account. Tests use [RoadAccount.none].
+class RoadAccount {
+  const RoadAccount(this._api);
+
+  /// No account side: the phone alone (tests, and builds without the API).
+  static const RoadAccount none = RoadAccount(null);
+
+  final ApiClient Function()? _api;
+
+  /// The preferences body, or null when there is no account side.
+  Future<Map<String, Object?>?> read(String user) async {
+    final api = _api;
+    if (api == null) return null;
+    return (await api().get(roadPreferencesPath, expectUserId: user)).map;
+  }
+
+  Future<void> write(String? user, Map<String, Object?> body) async {
+    final api = _api;
+    if (api == null) return;
+    await api().put(roadPreferencesPath, body: body, expectUserId: user);
+  }
+}
+
+final roadAccountProvider = Provider<RoadAccount>((ref) => RoadAccount(() => ref.read(apiClientProvider)));
+
 class RoadPlanStore extends Notifier<RoadPlan> {
   /// Bumped on every rebuild (an account switch): a read that began for the previous account
   /// never fills the new one.
@@ -76,8 +101,8 @@ class RoadPlanStore extends Notifier<RoadPlan> {
     final user = ref.read(userIdProvider);
     if (user == null) return;
     try {
-      final body = (await ref.read(apiClientProvider).get(roadPreferencesPath, expectUserId: user)).map;
-      if (asString(body['state']) != 'ready') return;
+      final body = await ref.read(roadAccountProvider).read(user);
+      if (body == null || asString(body['state']) != 'ready') return;
       final hasDate = body.containsKey('examDate') || body.containsKey('exam_date');
       final hasTarget = body.containsKey('mockTarget') || body.containsKey('mock_target');
       if (!hasDate && !hasTarget) return;
@@ -114,16 +139,16 @@ class RoadPlanStore extends Notifier<RoadPlan> {
   Future<void> _writeAccount(Map<String, Object?> fields) async {
     if (!_onAccount) return;
     final user = ref.read(userIdProvider);
-    final api = ref.read(apiClientProvider);
+    final account = ref.read(roadAccountProvider);
     for (var attempt = 0; ; attempt++) {
       try {
-        await api.put(roadPreferencesPath, body: {...fields, 'expectedRevision': _revision}, expectUserId: user);
+        await account.write(user, {...fields, 'expectedRevision': _revision});
         _revision++;
         return;
       } on ApiError catch (e) {
-        if (e.kind != ApiErrorKind.conflict || attempt > 0) rethrow;
-        final body = (await api.get(roadPreferencesPath, expectUserId: user)).map;
-        _revision = asInt(body['revision']) ?? _revision;
+        if (e.kind != ApiErrorKind.conflict || attempt > 0 || user == null) rethrow;
+        final body = await account.read(user);
+        _revision = asInt(body?['revision']) ?? _revision;
       }
     }
   }
