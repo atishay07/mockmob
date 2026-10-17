@@ -266,3 +266,24 @@ test('the repaired mistake is promoted to mode "again" on the card when the colu
   assert.equal(out2.body.queue.items.find((i) => i.questionId === 'r-q2').kind, 'again');
   assert.ok(!db2.tables.revise_cards.some((c) => 'mode' in c));
 });
+
+// ---------------------------------------------------------------- the badge number
+
+test('the due count the badge reads: set when Revise has read it, counted down on each confirmed answer, null is unknown (never zero)', async () => {
+  const { setReviseDue, getReviseDue } = await import('../../src/lib/reviseDue.js');
+  assert.equal(getReviseDue(), undefined, 'nothing has read it yet: the badge asks /api/me/review');
+  setReviseDue(8);
+  assert.equal(getReviseDue(), 8);
+  const q = mergeQueue({ questions: [due('a'), due('b')], checks: [check('p', 'k')], cards: 5 });
+  let run = startRun(q.items);
+  run = recordAnswer(run, q.items[0], { correct: true });
+  run = recordAnswer(run, q.items[1], { correct: false });
+  setReviseDue(Math.max(0, q.total - answeredCount(run)));
+  assert.equal(getReviseDue(), 6, '8 cards, two confirmed: the badge reads 6');
+  setReviseDue(-3);
+  assert.equal(getReviseDue(), 0, 'never below zero');
+  setReviseDue(null);
+  assert.equal(getReviseDue(), null, 'unknown is kept as unknown');
+  setReviseDue('x');
+  assert.equal(getReviseDue(), undefined, 'garbage is not a number');
+});

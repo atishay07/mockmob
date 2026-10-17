@@ -51,7 +51,7 @@ export function fixtureReviseQueue(kind = 'ready') {
     nextDay: '2026-10-18', nextDayLabel: 'Sun 18 Oct', head: `${items.length} questions to revise today`, summary: '30 questions in rotation, 4 recalled twice.', next: 'The next ones are due on Sun 18 Oct.', labels: LABELS, items,
     queue: {
       version: 2, today: TODAY, cap: 10, items: merged.items, counts: merged.counts, total: merged.total, minutes: merged.minutes, unknown: merged.unknown, dropped: merged.dropped,
-      cardsAvailable: 4, head: headLine(merged.total, merged.minutes), mix: mixLine(merged.counts), boxes: [14, 8, 5, 3], rotation: 30, nextDay: '2026-10-18', nextDayLabel: 'Sun 18 Oct',
+      cardsAvailable: 2, head: headLine(merged.total, merged.minutes), mix: mixLine(merged.counts), boxes: [14, 8, 5, 3], rotation: 30, nextDay: '2026-10-18', nextDayLabel: 'Sun 18 Oct',
     },
   };
 }
