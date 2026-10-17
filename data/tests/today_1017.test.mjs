@@ -242,7 +242,9 @@ test('week: day one, goal met, returning, Monday after a week, paused', () => {
   assert.equal(metC.text, 'Goal met: 4 of 4 study days.');
   assert.equal(metC.met, true);
   const back = rhythm({ studyDays: 0, studyDayDates: [], returning: true });
-  assert.equal(weekCaption({ rhythm: back, marks: weekMarks({ rhythm: back, today: TODAY }), today: TODAY, everSessions: 9 }).text, 'A new week.');
+  // TODAY-1018 section 5 (approved): the returning caption, as the app has it.
+  const backCaption = weekCaption({ rhythm: back, marks: weekMarks({ rhythm: back, today: TODAY }), today: TODAY, everSessions: 9 });
+  assert.equal(`${backCaption.text} ${backCaption.strong}`, 'A new week starts with one session. Today can be day one of 4.');
   const monday = rhythm({ studyDays: 0, studyDayDates: [], weekStart: '2026-10-19', lastClosedWeek: { id: '2026-10-12', studyDays: 4, goal: 4, met: true } });
   assert.equal(weekCaption({ rhythm: monday, marks: weekMarks({ rhythm: monday, today: '2026-10-19' }), today: '2026-10-19', everSessions: 9 }).text, 'Last week: 4 of 4.');
   assert.equal(weekCaption({ rhythm: rhythm({ paused: true }), marks: [], today: TODAY, pausedUntil: '2026-10-18' }).text, 'Paused until Sun 18 Oct.');
@@ -256,9 +258,17 @@ import { fitMove } from '../../src/lib/today/move.mjs';
 test('greeting: time of day, welcome back, and never a handle (acceptance 11)', () => {
   assert.equal(greeting({ hour: 9, name: 'Asha Rao' }), 'Good morning, Asha');
   assert.equal(greeting({ hour: 14, name: 'Asha' }), 'Good afternoon, Asha');
-  assert.equal(greeting({ hour: 0, name: 'Asha' }), 'Good evening, Asha');
+  // By the local hour, as the app (b9a02c18): evening from 5 PM to midnight, then a plain Hello until 5 AM (owner D28:
+  // never "Good evening" at 2:41 am).
+  assert.equal(greeting({ hour: 17, name: 'Asha' }), 'Good evening, Asha');
+  assert.equal(greeting({ hour: 23, name: 'Asha' }), 'Good evening, Asha');
+  assert.equal(greeting({ hour: 0, name: 'Asha' }), 'Hello, Asha');
+  assert.equal(greeting({ hour: 2, name: 'Asha' }), 'Hello, Asha');
+  assert.equal(greeting({ hour: 4, name: 'Asha' }), 'Hello, Asha');
+  assert.equal(greeting({ hour: 5, name: 'Asha' }), 'Good morning, Asha');
+  assert.equal(greeting({ hour: 2, name: 'Asha', returning: true }), 'Welcome back, Asha');
   assert.equal(greeting({ hour: 20, name: 'Asha', returning: true }), 'Welcome back, Asha');
-  assert.equal(greeting({ hour: 0, name: 'app-e2e-student' }), 'Good evening');
+  assert.equal(greeting({ hour: 0, name: 'app-e2e-student' }), 'Hello');
   assert.equal(greetName('asha', 'asha@example.com'), '');
   assert.equal(greetName('Student42'), '');
 });

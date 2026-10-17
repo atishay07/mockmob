@@ -63,7 +63,8 @@ export function weekCaption({ rhythm, marks, today, everSessions = null, pausedU
     const w = rhythm.lastClosedWeek;
     return { text: `Last week: ${w.studyDays} of ${w.goal}.`, strong: 'Tonight starts this week.', lastWeek: true };
   }
-  if (done === 0 && rhythm.returning) return { text: 'A new week.', strong: 'Tonight counts.' };
+  // Returning (TODAY-1018 section 5, as the app): no shaming, no streak loss; the week starts again with one session.
+  if (done === 0 && rhythm.returning) return { text: 'A new week starts with one session.', strong: `Today can be day one of ${goal}.` };
   if (todayMark && todayMark.state !== 'counted') {
     if (todayMark.state === 'rest') return { text: countedNames.length ? `${dayList(countedNames)} counted. Tonight is a rest day;` : 'Tonight is a rest day;', strong: 'a session still counts.' };
     if (done + 1 === goal) return { text: `${dayList(countedNames)} counted.`, strong: `Tonight makes ${goal}.` };

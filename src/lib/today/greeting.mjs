@@ -1,5 +1,7 @@
-// Today's greeting (TODAY-1017 section 5). PURE. Morning before 12, afternoon before 5 PM, evening after (11 PM to
-// 5 AM is evening too: the "Up late" line retired with the sleepy Mobi). After 7 or more days away: "Welcome back".
+// Today's greeting (TODAY-1017 section 5), by the student's local hour, the same rule as the app (wt-v15-today2
+// b9a02c18): morning from 5 AM, afternoon from noon, evening from 5 PM to midnight. After midnight it never claims the
+// evening (owner D28: "Good evening" at 2:41 am): until 5 AM it is a plain "Hello", with no comment on the hour (the
+// "Up late" line retired with the sleepy Mobi). PURE. After 7 or more days away: "Welcome back".
 // A name that is a handle (it has a digit, '-', '_' or '.', or equals the email's local part) is left out.
 
 /** The first name to greet, or '' when there is none or it is a handle. */
@@ -14,6 +16,6 @@ export function greetName(name, email = '') {
 
 export function greeting({ hour = 18, name = '', email = '', returning = false } = {}) {
   const who = greetName(name, email);
-  const lead = returning ? 'Welcome back' : hour >= 5 && hour < 12 ? 'Good morning' : hour >= 12 && hour < 17 ? 'Good afternoon' : 'Good evening';
+  const lead = returning ? 'Welcome back' : hour < 5 ? 'Hello' : hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
   return who ? `${lead}, ${who}` : lead;
 }
