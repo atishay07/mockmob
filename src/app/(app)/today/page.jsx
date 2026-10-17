@@ -1,7 +1,8 @@
 "use client";
-// Today (TODAY-1017, owner sign-off 17 Oct: Q1 to Q4 yes). One question at a glance, "what do I do now, and why":
-// one Up next move with a one-line reason and one volt key, then the glance (This week, Road to May) and two rows
-// (Last paper, Your colleges). Every other block has a home one tap away (section 7): the record findings and the
+// Today (TODAY-1017, owner sign-off 17 Oct: Q1 to Q4 yes; the road reworked by TODAY-NIGHT-1017 after his N1 review).
+// One question at a glance, "what do I do now, and why": one Up next move with a one-line reason and one volt key, then
+// Road to May as one plain readout (weeks left, this week, full mocks, the next milestone, one Change plan sheet) and
+// two rows (Last paper, Your colleges). Every other block has a home one tap away (section 7): the record findings and the
 // paper trend are on Review, the Compass count and the colleges ladder on Compass and Account, the week ring and the
 // Mob on Progress and /mob, Add to home screen on Account. Nothing was deleted.
 // The first week is the move itself (move.mjs), never a checklist. Mobi: at most one on screen, at a real moment.
@@ -135,9 +136,11 @@ export default function Today() {
             <TodayRows papers={data.papers} userId={userId} subjectName={subjectName} subjects={user?.subjects || []} hold={landing} />
           </div>
           <div className="today-grid__side">
-            <TodayWeek hold={landing} rhythm={data.rhythm} goal={data.goal} everSessions={everSessions} mobiFree={!(move?.art === 'mobi') && phase !== 'failed'} mob={mob} repairs={data.repairRows} onRetry={data.retryWeek} />
+            <TodayRoad
+              hold={landing} road={data.road} goal={data.goal} rhythm={data.rhythm} facts={data.facts} onGoalSaved={data.retryWeek}
+              week={<TodayWeek hold={landing} rhythm={data.rhythm} goal={data.goal} everSessions={everSessions} mobiFree={!(move?.art === 'mobi') && phase !== 'failed'} mob={mob} repairs={data.repairRows} onRetry={data.retryWeek} />}
+            />
             <TodayMob enabled={mobOn && !landing} mob={mob} />
-            <TodayRoad hold={landing} road={data.road} goal={data.goal} rhythm={data.rhythm} facts={data.facts} onGoalSaved={data.retryWeek} />
           </div>
         </div>
       </section>

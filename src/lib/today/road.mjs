@@ -203,3 +203,70 @@ export const roadOut = (row) => ({
   examDate: isDayKey(row?.exam_date) ? row.exam_date : null,
   mockTarget: Number.isInteger(row?.mock_target) ? row.mock_target : null,
 });
+
+// ---------- The plain readout (TODAY-NIGHT-1017): weeks left, mocks against the target, the next milestone ----------
+// These replace the strip and the mock slider on Today. Same arithmetic, said in words a student reads in one pass.
+
+/** 'today', 'tomorrow', 'in 9 days', 'in 15 weeks' (whole weeks, the same floor as the weeks count). */
+export function inWords(days) {
+  if (!(days > 0)) return 'today';
+  if (days === 1) return 'tomorrow';
+  if (days < 14) return `in ${days} days`;
+  return `in ${Math.floor(days / 7)} weeks`;
+}
+
+/**
+ * The next dated step on the road after `today`: { id, day, title, note, days, when }. Expected dates only (NTA has not
+ * published CUET UG 2027). Board weeks ease the plan to 2 study days, and the note says so only when the goal is above 2.
+ */
+export function nextMilestone({ today, exam, own = false, goal = null }) {
+  const dates = cuetDates(Number(exam.slice(0, 4)));
+  const eases = goal > BOARD_WEEK_SESSIONS;
+  const steps = [
+    { id: 'registration', day: dates.registrationStart, title: 'CUET registration is expected to open', note: `Boards follow from ${shortDay(dates.boardsStart)}${eases ? `; your plan eases to ${BOARD_WEEK_SESSIONS} study days a week then` : ''}.` },
+    { id: 'boards', day: dates.boardsStart, title: 'Board exams are expected to begin', note: eases ? `Your plan eases to ${BOARD_WEEK_SESSIONS} study days a week until ${shortDay(dates.boardsEnd)}.` : `They run to about ${shortDay(dates.boardsEnd)}.` },
+    { id: 'boards-end', day: dates.boardsEnd, title: 'Board exams are expected to end', note: eases ? `Until then your plan is ${BOARD_WEEK_SESSIONS} study days a week. After, it is back to ${goal}.` : 'After that, the road is CUET only.' },
+    { id: 'exam', day: exam, title: own ? 'Your exam' : 'CUET UG is expected to begin', note: own ? 'The date you set.' : 'NTA has not published the 2027 dates yet.' },
+  ].filter((s) => s.day > today && s.day <= exam);
+  const next = steps[0] || null;
+  if (!next) return null;
+  const days = daysBetween(today, next.day);
+  return { ...next, days, when: inWords(days) };
+}
+
+/**
+ * The mock line under "7 of 14": how many are left and the pace that gets there, as arithmetic, never a prediction.
+ * { left, text, strong }.
+ */
+export function mockPace({ target, taken, days }) {
+  const done = Number.isInteger(taken) ? taken : 0;
+  const left = Math.max(0, target - done);
+  if (left === 0) return { left, text: 'Target reached.', strong: 'Every extra paper is more practice.' };
+  if (!(days > 0)) return { left, text: `${left} to go.`, strong: '' };
+  if (days < 7) return { left, text: `${left} to go in ${days} ${days === 1 ? 'day' : 'days'}.`, strong: '' };
+  const weeks = days / 7;
+  const perWeek = left / weeks;
+  let pace;
+  if (perWeek > 1) pace = `about ${Math.ceil(perWeek)} a week`;
+  else {
+    const every = Math.max(1, Math.floor(weeks / left));
+    pace = every === 1 ? 'about one a week' : every === 2 ? 'about one a fortnight' : `about one every ${every} weeks`;
+  }
+  return { left, text: `${left} to go:`, strong: `${pace} gets you there.` };
+}
+
+/**
+ * The plain choices for the mock target (no slider): one a week, one a fortnight (the suggestion), one a month, each
+ * never below taken + 1 and inside 1 to 60. Equal values fold into the first. [{ id, title, value, suggested }]
+ */
+export function mockChoices({ weeks, taken = 0 }) {
+  const floor = (Number(taken) || 0) + 1;
+  const fit = (n) => Math.min(MOCK_TARGET_MAX, Math.max(MOCK_TARGET_MIN, Math.max(n, floor)));
+  const all = [
+    { id: 'weekly', title: 'One a week', value: fit(Math.max(1, weeks)) },
+    { id: 'fortnight', title: 'One a fortnight', value: suggestedMockTarget({ weeks, taken }), suggested: true },
+    { id: 'monthly', title: 'One a month', value: fit(Math.ceil(Math.max(1, weeks) / 4)) },
+  ];
+  const seen = new Set();
+  return all.filter((c) => (seen.has(c.value) ? false : (seen.add(c.value), true)));
+}

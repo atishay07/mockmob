@@ -314,3 +314,49 @@ test('move overline: "Tonight’s move" from 5 PM to 4 AM IST, "Today’s move" 
   const m = buildMove(base({ now: Date.parse('2026-10-17T04:30:00Z') }));
   assert.equal(m.overline, 'Today’s move');
 });
+
+// TODAY-NIGHT-1017: the plain readout that replaced the strip and the mock slider (owner N1).
+import { inWords, nextMilestone, mockPace, mockChoices } from '../../src/lib/today/road.mjs';
+
+test('readout: words for a distance in days', () => {
+  assert.equal(inWords(0), 'today');
+  assert.equal(inWords(1), 'tomorrow');
+  assert.equal(inWords(9), 'in 9 days');
+  assert.equal(inWords(107), 'in 15 weeks');
+});
+
+test('readout: the next milestone walks registration, boards, boards end, then the exam, all expected', () => {
+  const reg = nextMilestone({ today: TODAY, exam: '2027-05-01', goal: 4 });
+  assert.equal(reg.id, 'registration');
+  assert.equal(reg.day, '2027-02-01');
+  assert.equal(reg.when, 'in 15 weeks');
+  assert.match(reg.note, /eases to 2 study days/);
+  assert.doesNotMatch(nextMilestone({ today: TODAY, exam: '2027-05-01', goal: 2 }).note, /eases/);
+  assert.equal(nextMilestone({ today: '2027-02-05', exam: '2027-05-01', goal: 4 }).id, 'boards');
+  assert.equal(nextMilestone({ today: '2027-03-01', exam: '2027-05-01', goal: 4 }).id, 'boards-end');
+  const exam = nextMilestone({ today: '2027-04-20', exam: '2027-05-01', goal: 4 });
+  assert.equal(exam.id, 'exam');
+  assert.match(exam.note, /not published/);
+  assert.equal(nextMilestone({ today: '2027-04-20', exam: '2027-05-08', own: true }).title, 'Your exam');
+  // An own date before boards end leaves out the steps after it.
+  assert.equal(nextMilestone({ today: '2027-03-01', exam: '2027-03-20', own: true }).id, 'exam');
+});
+
+test('readout: the mock pace is arithmetic in words, never a prediction', () => {
+  assert.deepEqual(mockPace({ target: 14, taken: 7, days: 203 }), { left: 7, text: '7 to go:', strong: 'about one every 4 weeks gets you there.' });
+  assert.equal(mockPace({ target: 14, taken: 0, days: 203 }).strong, 'about one a fortnight gets you there.');
+  assert.equal(mockPace({ target: 29, taken: null, days: 203 }).strong, 'about one a week gets you there.');
+  assert.equal(mockPace({ target: 40, taken: 0, days: 140 }).strong, 'about 2 a week gets you there.');
+  assert.equal(mockPace({ target: 5, taken: 5, days: 100 }).text, 'Target reached.');
+  assert.equal(mockPace({ target: 6, taken: 2, days: 3 }).text, '4 to go in 3 days.');
+});
+
+test('readout: mock choices are plain (weekly, fortnight suggested, monthly), deduped and never below taken + 1', () => {
+  const c = mockChoices({ weeks: 29, taken: 0 });
+  assert.deepEqual(c.map((x) => [x.id, x.value]), [['weekly', 29], ['fortnight', 15], ['monthly', 8]]);
+  assert.equal(c.find((x) => x.suggested).value, suggestedMockTarget({ weeks: 29, taken: 0 }));
+  assert.ok(mockChoices({ weeks: 29, taken: 20 }).every((x) => x.value >= 21));
+  const few = mockChoices({ weeks: 2, taken: 0 });
+  assert.equal(new Set(few.map((x) => x.value)).size, few.length);
+  assert.ok(mockChoices({ weeks: 400, taken: 0 }).every((x) => x.value <= 60));
+});
