@@ -106,3 +106,9 @@ Release he was looking at: **R4, main 9578ee66** (Today redesign from N1, result
 - **18 Oct:** Today redesign: "huge regression".
 
 Each time, a screen he wanted **refined** was **rebuilt**, and the useful parts were lost. Rule: when he calls something confusing, keep its information and structure and refine the UI and interaction. Show a replacement to him before shipping it.
+
+## Owner decisions, 18 Oct about 2:30 am IST (session 25ef3d95, asked from NOW.md section 4)
+- **A. v15 and the Play Store: A2, "Hold v15 for new Today".** v15 waits until the new Today is designed, approved by him as a mock-up, and built (web and app). The v15 Today packet (wt-v15-today d4c75899) is not used as is.
+- **B. D21 community: keep for now; decide after the brief.** Nothing is hidden or deleted. He sees the community inventory and the D22 social-circle concept brief first.
+- **C. D5 "Repo S":** he said: "I honestly don't know. It was said using voice dictation... Decide using the best of your capabilities." CTO decision: **Repairs** (the saved-repair queue), with an Ask Mobi entry in context on Practice.
+- **D6 "Ask section": confirmed, Ask Mobi.**
