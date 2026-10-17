@@ -1,5 +1,6 @@
 import { SUBJECTS } from '../../../data/subjects.js';
 import { toPublicSubjectId } from '../../../data/cuet_controls.js';
+import { isRetiredSubject } from '../../../data/subject_claim.js';
 
 // Accept both the internal ids and the public ids that /api/subjects sends (for example the
 // General Test is 'gat' internally and 'general_test' publicly); store whatever the client sent.
@@ -18,7 +19,7 @@ export function profilePatch(body) {
   }
   if ('subjects' in body) {
     const subjects = Array.isArray(body.subjects) ? [...new Set(body.subjects)] : null;
-    if (!subjects || subjects.length > MAX_SUBJECTS || !subjects.every((id) => typeof id === 'string' && SUBJECT_IDS.has(id))) {
+    if (!subjects || subjects.length > MAX_SUBJECTS || !subjects.every((id) => typeof id === 'string' && SUBJECT_IDS.has(id) && !isRetiredSubject(id))) {
       return { error: `Choose up to ${MAX_SUBJECTS} listed subjects.` };
     }
     patch.subjects = subjects;

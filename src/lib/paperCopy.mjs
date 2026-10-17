@@ -15,6 +15,7 @@
 // Pure, no React, so a node test can hold the words. Sentence case; no "!", no em dash, no middle dot, no arrows.
 
 import { usesLine, haveLine } from './creditCopy.mjs';
+import { SUBJECT_CLAIM } from '../../data/subject_claim.js';
 
 const PUBLIC_ID = Object.freeze({ gat: 'general_test' });
 
@@ -110,6 +111,11 @@ function creditCountShort(balance) {
 export function pricingBankLine(bankSize) {
   const bank = Number.isInteger(bankSize) && bankSize > 0 ? `a live bank of ${fmt(bankSize)} questions` : 'the live question bank';
   return `There is no fixed set of mocks: each paper is built when you start it, from ${bank}, questions you have not answered first. Pro covers as many as you take; on Free, each one uses practice credits.`;
+}
+
+/** Pricing: what the bank covers. Only the subjects Practice offers are counted, never the thin or dropped ones. */
+export function pricingSubjectLine() {
+  return `${SUBJECT_CLAIM.withSource}.`;
 }
 
 /** Pricing FAQ: the question students ask about other sites' mock counts, answered with the code's rules. */

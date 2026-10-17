@@ -7,6 +7,7 @@ import { readablePracticeQuestions } from '@/../data/practice_library';
 import { supabase } from '@/lib/supabase'
 import { auth } from '@/lib/auth'
 import { Database } from '@/../data/db'
+import { isRetiredSubject } from '@/../data/subject_claim'
 
 export const dynamic = 'force-dynamic'
 
@@ -43,6 +44,10 @@ export async function GET(request) {
   const subject = searchParams.get('subject')
   if (!subject) {
     return Response.json({ error: '"subject" query param is required.' }, { status: 400 })
+  }
+  // A paper CUET dropped in 2025 is never offered, though its rows stay in the database.
+  if (isRetiredSubject(subject)) {
+    return Response.json({ error: 'SUBJECT_NOT_SUPPORTED', subject }, { status: 422 })
   }
 
   const chapter  = searchParams.get('chapter') ?? null

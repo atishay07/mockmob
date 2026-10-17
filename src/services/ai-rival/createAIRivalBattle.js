@@ -4,6 +4,7 @@ import { getRivalProfile, quotaSlotFor, rivalAccessRule } from './rivalProfiles'
 import { getUsageSnapshot, planTierFor, rivalTypeToQuotaAction } from '@/services/usage/getDailyUsage';
 import { consumeAIAllowance } from '@/services/credits/consumeAIAllowance';
 import { aiCommerceOpen, PREPOS_PAUSED_MESSAGE } from '@/services/credits/aiCreditWallet';
+import { withoutRetiredSubjects } from '@/../data/subject_claim';
 
 /**
  * Creates a Shadow Benchmark battle. Question selection, benchmark scoring, and final
@@ -44,9 +45,10 @@ export async function createAIRivalBattle({
     };
   }
 
-  const normalizedSubjects = Array.isArray(subjects) && subjects.length
+  // A paper CUET dropped in 2025 is never a battle subject.
+  const normalizedSubjects = withoutRetiredSubjects(Array.isArray(subjects) && subjects.length
     ? subjects.slice(0, 5)
-    : (Array.isArray(user.subjects) && user.subjects.length ? user.subjects.slice(0, 1) : []);
+    : (Array.isArray(user.subjects) && user.subjects.length ? user.subjects.slice(0, 1) : []));
 
   if (!normalizedSubjects.length) {
     return { ok: false, error: 'no_subjects_configured', status: 400 };
