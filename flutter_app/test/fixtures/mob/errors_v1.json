@@ -58,7 +58,7 @@
     "body": {
       "error": {
         "code": "MOB_FULL",
-        "message": "This Mob already has 5 members."
+        "message": "This Mob is full: it has 5 members, the most a Mob can have. Ask your friend to tell you if a seat opens, or start a Mob of your own."
       }
     }
   },
@@ -76,7 +76,7 @@
     "body": {
       "error": {
         "code": "MOB_LIMIT",
-        "message": "Free includes one Mob. Leave yours to start or join another, or go Pro to be in up to 3."
+        "message": "You already started a Mob. Free lets you start one, and join as many as friends invite you to. Pro lets you start up to 3."
       }
     }
   },
@@ -85,7 +85,88 @@
     "body": {
       "error": {
         "code": "MOB_LIMIT_PRO",
-        "message": "You are in 3 Mobs already. Leave one to start or join another."
+        "message": "You already started 3 Mobs, the most Pro allows. You can still join any Mob a friend invites you to."
+      }
+    }
+  },
+  "MOB_CEILING": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "MOB_CEILING",
+        "message": "You are in 12 Mobs, the most one account can be in. Leave one to start or join another."
+      }
+    }
+  },
+  "INVITES_PAUSED": {
+    "status": 503,
+    "body": {
+      "error": {
+        "code": "INVITES_PAUSED",
+        "message": "New invites are paused for now. Your Mob works as before."
+      }
+    }
+  },
+  "JOIN_PAUSED": {
+    "status": 503,
+    "body": {
+      "error": {
+        "code": "JOIN_PAUSED",
+        "message": "Joining a Mob by link is paused for now. Try this link again later."
+      }
+    }
+  },
+  "WEEK_INVALID": {
+    "status": 404,
+    "body": {
+      "error": {
+        "code": "WEEK_INVALID",
+        "message": "There is no Mob paper for that week."
+      }
+    }
+  },
+  "EXTRA_NOT_FOUND": {
+    "status": 404,
+    "body": {
+      "error": {
+        "code": "EXTRA_NOT_FOUND",
+        "message": "That extra paper is not in your Mob."
+      }
+    }
+  },
+  "COMPARE_SIT_FIRST": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "COMPARE_SIT_FIRST",
+        "message": "Sit this paper first, then you can compare it with your Mob."
+      }
+    }
+  },
+  "NOT_SAT_THAT_WEEK": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "NOT_SAT_THAT_WEEK",
+        "message": "You did not sit that week's paper, so there is nothing of yours to compare."
+      }
+    }
+  },
+  "COMPARE_PAST_ALONE": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "COMPARE_PAST_ALONE",
+        "message": "Only one member sat that week's paper, so there is nothing to compare."
+      }
+    }
+  },
+  "BANK_THIN": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "BANK_THIN",
+        "message": "There are not enough questions ready for that paper."
       }
     }
   },
@@ -269,6 +350,15 @@
       }
     }
   },
+  "NO_SUBJECTS": {
+    "status": 422,
+    "body": {
+      "error": {
+        "code": "NO_SUBJECTS",
+        "message": "Choose your CUET subjects first. A Mob sits one paper a week in one of them."
+      }
+    }
+  },
   "COLOUR_INVALID": {
     "status": 422,
     "body": {
@@ -301,7 +391,7 @@
     "body": {
       "error": {
         "code": "RATE_LIMITED",
-        "message": "Too many tries. Wait a little and try again."
+        "message": "Too many tries in a short time. Try again in a few minutes."
       }
     }
   },

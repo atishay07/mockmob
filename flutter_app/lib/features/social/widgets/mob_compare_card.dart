@@ -46,7 +46,7 @@ class _MobCompareCardState extends ConsumerState<MobCompareCard> {
     if (!mounted) return;
     setState(() {
       _opening = false;
-      _notice = failure == null ? null : MobCopy.failure(failure);
+      _notice = failure == null ? null : ref.read(mobActionsProvider).say(failure);
     });
     if (compare != null) {
       await openMobCompare(context, compare, week: widget.week, extra: widget.extra?.id);
@@ -63,7 +63,7 @@ class _MobCompareCardState extends ConsumerState<MobCompareCard> {
     if (!mounted) return;
     setState(() {
       _sharing = false;
-      _notice = failure == null ? null : MobCopy.failure(failure);
+      _notice = failure == null ? null : ref.read(mobActionsProvider).say(failure);
     });
   }
 

@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-import '../../../core/api/api.dart';
 import '../../../core/haptics/haptics.dart';
-import '../../../core/models/subject.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
-import '../../practice/data/practice_catalog.dart' show practiceChaptersProvider, practiceSubjectsProvider;
 import '../../you/widgets/you_page.dart';
 import '../../you/widgets/you_row.dart';
 import '../copy.dart';
@@ -135,7 +132,7 @@ class _SideBySideKeyState extends ConsumerState<_SideBySideKey> {
     if (!mounted) return;
     setState(() => _busy = false);
     if (failure != null) {
-      showMobToast(context, MobCopy.failure(failure));
+      showMobToast(context, ref.read(mobActionsProvider).say(failure));
     } else if (compare != null) {
       await openMobCompare(context, compare, extra: widget.extra.id);
     }
@@ -145,7 +142,11 @@ class _SideBySideKeyState extends ConsumerState<_SideBySideKey> {
   Widget build(BuildContext context) => PillKey(label: _busy ? MobCopy.opening : MobCopy.sideBySide, onPressed: _busy ? null : _open);
 }
 
-/// Make an extra paper (Pro): a length and, optionally, one chapter of the Mob's subject.
+/// Make an extra paper (Pro): a length and, optionally, one chapter of the Mob's subject. The chapters
+/// come from the server (`GET /api/mob/extra`) and are only those the bank can really build a paper
+/// from, each with the longest paper it can make, so "10 ready" never builds nothing. The whole
+/// subject always works. If a chapter still cannot fill the paper (BANK_THIN) the server says how many
+/// questions are ready and the nearest paper that can be made, and one key makes that.
 class ExtraSheet extends ConsumerStatefulWidget {
   const ExtraSheet({super.key, required this.mob});
 
@@ -160,27 +161,53 @@ class _ExtraSheetState extends ConsumerState<ExtraSheet> {
   String? _chapter;
   bool _busy = false;
   String? _error;
+  MobSuggestion? _suggest;
+  MobChapters? _chapters;
+  bool _loading = true;
+  bool _chaptersFailed = false;
 
-  /// The stored subject id the Mob carries, as the chapters route knows it (the public id).
-  String get _publicSubject {
-    final subjects = ref.read(practiceSubjectsProvider).value ?? const <Subject>[];
-    for (final s in subjects) {
-      if (s.internalId == widget.mob.subject) return s.id;
-    }
-    return widget.mob.subject;
+  @override
+  void initState() {
+    super.initState();
+    _loadChapters();
   }
 
+  Future<void> _loadChapters() async {
+    final (chapters, failure) = await ref.read(mobActionsProvider).chapters();
+    if (!mounted) return;
+    setState(() {
+      _loading = false;
+      _chapters = chapters;
+      // A failed read leaves the whole subject, which always works.
+      _chaptersFailed = failure != null || chapters == null;
+    });
+  }
+
+  List<int> get _lengths {
+    final l = _chapters?.lengths ?? const <int>[];
+    return l.isEmpty ? MobCopy.extraLengths : l;
+  }
+
+  /// The longest paper the picked chapter can build (null: the whole subject, or nothing known).
+  int? get _longest => _chapters?.named(_chapter)?.longest;
+
   Future<void> _pickChapter() async {
+    final chapters = _chapters;
+    if (chapters == null) return;
     final picked = await showMmSheet<String>(
       context: context,
       title: MobCopy.chapterOf(widget.mob.subjectName),
       heightFactor: 0.86,
-      builder: (_) => MobChapterList(subjectId: _publicSubject, selected: _chapter),
+      builder: (_) => MobChapterList(chapters: chapters, selected: _chapter),
     );
     if (!mounted || picked == null) return;
     setState(() {
       _chapter = picked.isEmpty ? null : picked;
       _error = null;
+      _suggest = null;
+      // A shorter paper than asked is what this chapter can build.
+      final longest = _longest;
+      if (longest != null && _count > longest) _count = longest;
     });
   }
 
@@ -188,22 +215,47 @@ class _ExtraSheetState extends ConsumerState<ExtraSheet> {
     setState(() {
       _busy = true;
       _error = null;
+      _suggest = null;
     });
-    final (id, failure) = await ref.read(mobActionsProvider).createExtra(chapter: _chapter, count: _count);
+    final actions = ref.read(mobActionsProvider);
+    final (id, failure) = await actions.createExtra(chapter: _chapter, count: _count);
     if (!mounted) return;
     setState(() => _busy = false);
     if (failure != null) {
-      setState(() => _error = MobCopy.failure(failure));
+      setState(() {
+        _error = actions.say(failure);
+        _suggest = failure == MobFailure.bankThin ? actions.suggestion : null;
+      });
     } else {
       ref.read(hapticsProvider).confirm();
       Navigator.of(context).pop(id);
     }
   }
 
+  Future<void> _makeSuggested() async {
+    final s = _suggest;
+    if (s == null) return;
+    setState(() {
+      _chapter = s.chapter;
+      _count = s.count;
+    });
+    await _make();
+  }
+
+  String get _hint {
+    if (_loading) return MobCopy.chaptersLoading;
+    if (_chaptersFailed) return MobCopy.chaptersFailed;
+    final longest = _longest;
+    if (_chapter != null && longest != null) return MobCopy.chapterReady(longest);
+    return (_chapters?.chapters.isNotEmpty ?? false) ? MobCopy.chaptersOnly : MobCopy.chaptersNone;
+  }
+
   @override
   Widget build(BuildContext context) {
     final type = context.mmType;
     final colors = context.mmColors;
+    final canPick = !_busy && !_loading && !_chaptersFailed && (_chapters?.chapters.isNotEmpty ?? false);
+    final longest = _longest;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: MmSpace.sheetSide),
       child: Column(
@@ -215,8 +267,10 @@ class _ExtraSheetState extends ConsumerState<ExtraSheet> {
           MobChoiceRow(
             icon: LucideIcons.bookOpen,
             label: _chapter ?? MobCopy.wholeSubject,
-            onTap: _busy ? null : _pickChapter,
+            onTap: canPick ? _pickChapter : null,
           ),
+          const SizedBox(height: MmSpace.s4),
+          MobNote(_hint),
           const SizedBox(height: MmSpace.s16),
           Text(MobCopy.lengthLabel, style: type.label.copyWith(color: colors.ink2)),
           const SizedBox(height: MmSpace.s8),
@@ -224,7 +278,19 @@ class _ExtraSheetState extends ConsumerState<ExtraSheet> {
             spacing: MmSpace.s8,
             runSpacing: MmSpace.s4,
             children: [
-              for (final n in MobCopy.extraLengths) MmChip(label: MobCopy.questionsN(n), selected: _count == n, onTap: _busy ? null : () => setState(() => _count = n)),
+              for (final n in _lengths)
+                MmChip(
+                  label: MobCopy.questionsN(n),
+                  selected: _count == n,
+                  // A length the picked chapter cannot fill is not offered.
+                  onTap: _busy || (longest != null && n > longest)
+                      ? null
+                      : () => setState(() {
+                            _count = n;
+                            _error = null;
+                            _suggest = null;
+                          }),
+                ),
             ],
           ),
           const SizedBox(height: MmSpace.s12),
@@ -232,6 +298,10 @@ class _ExtraSheetState extends ConsumerState<ExtraSheet> {
           if (_error != null) ...[
             const SizedBox(height: MmSpace.s8),
             InlineBanner(message: _error!, tone: BannerTone.error),
+          ],
+          if (_suggest != null) ...[
+            const SizedBox(height: MmSpace.s8),
+            KeyButton.secondary(label: MobCopy.suggestKey(_suggest!), onPressed: _busy ? null : _makeSuggested),
           ],
           const SizedBox(height: MmSpace.s16),
           KeyButton(label: _busy ? MobCopy.makingPaper : MobCopy.makePaper, loading: _busy, onPressed: _busy ? null : _make),
@@ -284,77 +354,61 @@ class MobChoiceRow extends StatelessWidget {
   }
 }
 
-/// One chapter of the Mob's subject, by name (the server takes names), grouped by unit with search.
-/// A tap chooses it and closes the sheet; "Whole subject" chooses none (an empty string).
-class MobChapterList extends ConsumerStatefulWidget {
-  const MobChapterList({super.key, required this.subjectId, this.selected});
+/// The chapters of the Mob's subject the bank can build a paper from, by name (the server takes
+/// names), most questions first as the server sends them, each with the longest paper it can make,
+/// and a search. A tap chooses one and closes the sheet; "Whole subject" chooses none (an empty
+/// string).
+class MobChapterList extends StatefulWidget {
+  const MobChapterList({super.key, required this.chapters, this.selected});
 
-  final String subjectId;
+  final MobChapters chapters;
   final String? selected;
 
   @override
-  ConsumerState<MobChapterList> createState() => _MobChapterListState();
+  State<MobChapterList> createState() => _MobChapterListState();
 }
 
-class _MobChapterListState extends ConsumerState<MobChapterList> {
+class _MobChapterListState extends State<MobChapterList> {
   String _query = '';
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final chapters = ref.watch(practiceChaptersProvider(widget.subjectId));
+    final q = _query.trim().toLowerCase();
+    final shown = [for (final c in widget.chapters.chapters) if (q.isEmpty || c.chapter.toLowerCase().contains(q)) c];
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: MmSpace.sheetSide),
-      child: chapters.when(
-        loading: () => SkeletonGroup(
-          label: 'Loading chapters',
-          child: Column(children: [for (var i = 0; i < 6; i++) const Padding(padding: EdgeInsets.symmetric(vertical: MmSpace.s12), child: Skeleton.line(height: 16))]),
-        ),
-        error: (error, _) => Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(error is ApiError && error.isOffline ? 'You\'re offline, so the chapters didn\'t load.' : 'The chapters didn\'t load.', style: type.body.copyWith(color: colors.ink2)),
-            const SizedBox(height: MmSpace.s16),
-            KeyButton.secondary(label: MobCopy.tryAgain, onPressed: () => ref.invalidate(practiceChaptersProvider(widget.subjectId))),
-          ],
-        ),
-        data: (catalog) {
-          final q = _query.trim().toLowerCase();
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              TextField(
-                onChanged: (v) => setState(() => _query = v),
-                textInputAction: TextInputAction.search,
-                style: type.body.copyWith(color: colors.ink),
-                decoration: const InputDecoration(labelText: 'Search chapters', prefixIcon: Icon(LucideIcons.search, size: 18)),
-              ),
-              const SizedBox(height: MmSpace.s8),
-              if (q.isEmpty) _ChapterTile(label: MobCopy.wholeSubject, selected: widget.selected == null, onTap: () => Navigator.of(context).pop('')),
-              for (final unit in catalog.units) ...[
-                if (unit.name.isNotEmpty && unit.chapters.any((c) => q.isEmpty || c.name.toLowerCase().contains(q)))
-                  Padding(
-                    padding: const EdgeInsets.only(top: MmSpace.s16, bottom: MmSpace.s4),
-                    child: Semantics(header: true, child: Text(unit.name, style: type.label.copyWith(color: colors.ink3))),
-                  ),
-                for (final c in unit.chapters)
-                  if (q.isEmpty || c.name.toLowerCase().contains(q))
-                    _ChapterTile(label: c.name, selected: widget.selected == c.name, onTap: () => Navigator.of(context).pop(c.name)),
-              ],
-              const SizedBox(height: MmSpace.s24),
-            ],
-          );
-        },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          TextField(
+            onChanged: (v) => setState(() => _query = v),
+            textInputAction: TextInputAction.search,
+            style: type.body.copyWith(color: colors.ink),
+            decoration: const InputDecoration(labelText: MobCopy.searchChapters, prefixIcon: Icon(LucideIcons.search, size: 18)),
+          ),
+          const SizedBox(height: MmSpace.s8),
+          if (q.isEmpty) _ChapterTile(label: MobCopy.wholeSubject, selected: widget.selected == null, onTap: () => Navigator.of(context).pop('')),
+          for (final c in shown)
+            _ChapterTile(
+              label: c.chapter,
+              note: c.longest == null ? null : MobCopy.chapterUpTo(c.longest!),
+              selected: widget.selected == c.chapter,
+              onTap: () => Navigator.of(context).pop(c.chapter),
+            ),
+          const SizedBox(height: MmSpace.s24),
+        ],
       ),
     );
   }
 }
 
 class _ChapterTile extends StatelessWidget {
-  const _ChapterTile({required this.label, required this.selected, required this.onTap});
+  const _ChapterTile({required this.label, required this.selected, required this.onTap, this.note});
 
   final String label;
+  final String? note;
   final bool selected;
   final VoidCallback onTap;
 
@@ -365,7 +419,7 @@ class _ChapterTile extends StatelessWidget {
     return MmPressable(
       onTap: onTap,
       haptic: MmPressHaptic.selection,
-      semanticsLabel: label,
+      semanticsLabel: note == null ? label : '$label, $note',
       selected: selected,
       builder: (context, pressed, _) => ConstrainedBox(
         constraints: const BoxConstraints(minHeight: MmTarget.min),
@@ -373,7 +427,15 @@ class _ChapterTile extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: MmSpace.s8),
           child: Row(
             children: [
-              Expanded(child: Text(label, style: type.body.copyWith(color: colors.ink, fontWeight: selected ? FontWeight.w700 : FontWeight.w400))),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(label, style: type.body.copyWith(color: colors.ink, fontWeight: selected ? FontWeight.w700 : FontWeight.w400)),
+                    if (note != null) Text(note!, style: type.small.copyWith(color: colors.ink2)),
+                  ],
+                ),
+              ),
               if (selected) Icon(LucideIcons.check, size: 18, color: colors.accentText),
             ],
           ),

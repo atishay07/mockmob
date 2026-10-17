@@ -10,5 +10,7 @@ export 'data/mob_navigator.dart' show MobNavigator, mobNavigatorProvider;
 export 'data/mob_paper.dart' show MobPaperLauncher, MobPaperOutcome, MobPaperStarted, MobPaperFailed, mobPaperLauncherProvider, mobPaperDraftKey;
 export 'data/mob_repository.dart' show mobRepositoryProvider, mobAvailableProvider, currentMobProvider, mobActionsProvider, MobFailure;
 export 'mob_routes.dart';
+export 'logic/mob_entry.dart' show MobEntryPlace;
+export 'widgets/mob_entry_row.dart';
 export 'widgets/mob_hub_row.dart';
 export 'widgets/mob_today_card.dart';

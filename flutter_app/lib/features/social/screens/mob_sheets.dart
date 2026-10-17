@@ -51,7 +51,10 @@ class _InviteSheetState extends ConsumerState<InviteSheet> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final invite = ref.read(currentMobProvider)?.invite;
+      final mob = ref.read(currentMobProvider);
+      // Paused invites make no new link; the sheet says so instead.
+      if (mob == null || mob.invitesPaused) return;
+      final invite = mob.invite;
       final now = DateTime.now();
       if (invite == null || (invite.expiresAt != null && invite.expiresAt!.isBefore(now))) _make();
     });
@@ -64,7 +67,7 @@ class _InviteSheetState extends ConsumerState<InviteSheet> {
     if (!mounted) return;
     setState(() {
       _busy = false;
-      _note = failure == null ? null : MobCopy.failure(failure);
+      _note = failure == null ? null : ref.read(mobActionsProvider).say(failure);
     });
   }
 
@@ -75,6 +78,12 @@ class _InviteSheetState extends ConsumerState<InviteSheet> {
     final mob = ref.watch(currentMobProvider);
     final invite = mob?.invite;
     final nav = ref.read(mobNavigatorProvider);
+    if (mob?.invitesPaused ?? false) {
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(MmSpace.sheetSide, 0, MmSpace.sheetSide, MmSpace.s24),
+        child: Text(MobCopy.invitesPaused, style: type.body.copyWith(color: colors.ink2)),
+      );
+    }
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: MmSpace.sheetSide),
       child: Column(
@@ -163,7 +172,7 @@ class _EditMeSheetState extends ConsumerState<EditMeSheet> {
     if (failure == null) {
       Navigator.of(context).pop();
     } else {
-      setState(() => _error = MobCopy.failure(failure));
+      setState(() => _error = ref.read(mobActionsProvider).say(failure));
     }
   }
 
@@ -214,7 +223,7 @@ class _ReportSheetState extends ConsumerState<ReportSheet> {
     if (failure == null) {
       Navigator.of(context).pop(true);
     } else {
-      setState(() => _error = MobCopy.failure(failure));
+      setState(() => _error = ref.read(mobActionsProvider).say(failure));
     }
   }
 

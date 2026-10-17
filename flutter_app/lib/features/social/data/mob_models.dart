@@ -14,13 +14,13 @@ const int mobMaxSize = 5;
 enum MobCostType { free, included, allowance, credits, unknown }
 
 class MobPaper {
-  const MobPaper({this.count = 10, this.durationSec = 720, this.costType = MobCostType.unknown, this.credits, this.balance, this.freeUsed = false});
+  const MobPaper({this.count = 10, this.durationSec = 600, this.costType = MobCostType.unknown, this.credits, this.balance, this.freeUsed = false});
 
   factory MobPaper.fromJson(Json j) {
     final cost = asJson(j['cost']);
     return MobPaper(
       count: asInt(j['count']) ?? 10,
-      durationSec: asInt(j['durationSec']) ?? 720,
+      durationSec: asInt(j['durationSec']) ?? 600,
       costType: switch (asString(cost['type'])) {
         'free' => MobCostType.free,
         'included' => MobCostType.included,
@@ -44,8 +44,12 @@ class MobPaper {
   /// This week's one free Mob paper went to another of the student's Mobs.
   final bool freeUsed;
 
-  /// About 12 minutes for 720 seconds.
+  /// 10 minutes for 600 seconds: the runner's own clock (a Mob paper is 60 seconds a question).
   int get minutes => (durationSec / 60).round();
+
+  /// A paper whose cost is a number of credits the student cannot cover. The weekly paper costs no
+  /// credits on any plan, so this is only ever false if a server says otherwise; never sold here.
+  bool get affordable => costType != MobCostType.credits || credits == null || balance == null || balance! >= credits!;
 }
 
 class MobMember {
@@ -115,15 +119,19 @@ class MobYou {
   final bool nudgesMuted;
 }
 
-/// What the account's plan lets the student do in the Mob. Free: 1 Mob. Pro: up to 3, extra papers,
-/// the full side-by-side and the history.
+/// What the account's plan lets the student do in the Mob (17 Oct decision). Free STARTS one Mob and
+/// joins any number by invite; Pro starts up to 3 and also gets extra papers, the full side-by-side
+/// and the history. `maxMobs` is how many Mobs the plan lets the student start, `started` how many
+/// of their Mobs they started, `mobCount` how many Mobs they are in (started or joined).
 class MobPlan {
-  const MobPlan({this.pro = false, this.maxMobs = 1, this.mobCount = 1, this.canMakeExtra = false, this.canStartAnother = false});
+  const MobPlan({this.pro = false, this.maxMobs = 1, this.mobCount = 1, this.started, this.canMakeExtra = false, this.canStartAnother = false});
 
   factory MobPlan.fromJson(Json j) => MobPlan(
         pro: asBool(j['pro']) ?? false,
         maxMobs: asInt(j['maxMobs']) ?? 1,
         mobCount: asInt(j['mobCount']) ?? 1,
+        // Older servers do not send it: then the app does not guess which Mobs the student started.
+        started: asInt(j['started']),
         canMakeExtra: asBool(j['canMakeExtra']) ?? false,
         canStartAnother: asBool(j['canStartAnother']) ?? false,
       );
@@ -131,8 +139,13 @@ class MobPlan {
   final bool pro;
   final int maxMobs;
   final int mobCount;
+  final int? started;
   final bool canMakeExtra;
   final bool canStartAnother;
+
+  /// The student has started none of the Mobs they are in (they joined friends'): the key to start
+  /// their own says "Start your own Mob", not "Start another".
+  bool get startedNone => started == 0;
 }
 
 /// One of the student's Mobs, for the switcher. Every call names its Mob by this id.
@@ -434,6 +447,7 @@ class Mob {
     this.pastWeeks = 0,
     this.nudge = const MobNudge(),
     this.invite,
+    this.invitesPaused = false,
   });
 
   factory Mob.fromJson(Json j) {
@@ -455,6 +469,9 @@ class Mob {
       pastWeeks: asInt(j['pastWeeks']) ?? 0,
       nudge: MobNudge.fromJson(asJson(j['nudge'])),
       invite: MobInvite.fromJson(j['invite']),
+      // Sent only while the owner's stop rule has paused new invites (MOB_INVITES_ENABLED=false); the
+      // invite is then null and the Mob works as before.
+      invitesPaused: asBool(j['invitesPaused']) ?? false,
     );
   }
 
@@ -473,6 +490,12 @@ class Mob {
   final int pastWeeks;
   final MobNudge nudge;
   final MobInvite? invite;
+
+  /// New invite links and joining by link are paused on the server. Say so; offer no invite key.
+  final bool invitesPaused;
+
+  /// A new member may be invited now: there is a seat and the invites are not paused.
+  bool get canInvite => seatsLeft > 0 && !invitesPaused;
 
   /// "Business Studies" from `business_studies` when the server sent no label.
   String get subjectName {
@@ -755,6 +778,64 @@ class MobExtraMade {
 
   final MobRead read;
   final String? extraId;
+}
+
+/// One chapter the extra-paper chooser offers: `ready` questions the bank can really use and
+/// `longest`, the longest paper (5, 10, 15 or 20) this chapter can build.
+class MobChapter {
+  const MobChapter({required this.chapter, required this.ready, this.longest});
+
+  static MobChapter? fromJson(Json j) {
+    final name = asString(j['chapter'])?.trim();
+    if (name == null || name.isEmpty) return null;
+    return MobChapter(chapter: name, ready: asInt(j['ready']) ?? 0, longest: asInt(j['longest']));
+  }
+
+  final String chapter;
+  final int ready;
+  final int? longest;
+}
+
+/// `GET /api/mob/extra?mob=` (Pro): the lengths a paper may have and the chapters of the Mob's
+/// subject the bank can build a paper from, most questions first. A chapter the bank cannot build a
+/// paper from is not listed; the whole subject always works.
+class MobChapters {
+  const MobChapters({this.mobId = '', this.lengths = const [5, 10, 15, 20], this.chapters = const []});
+
+  factory MobChapters.fromJson(Json j) => MobChapters(
+        mobId: asStringOr(j['mobId'], ''),
+        lengths: [
+          for (final n in j['lengths'] is List ? j['lengths'] as List : const []) if (n is num) n.toInt(),
+        ].where((n) => n > 0).toList(),
+        chapters: [
+          for (final c in asJsonList(j['chapters'])) ?MobChapter.fromJson(c),
+        ],
+      );
+
+  final String mobId;
+  final List<int> lengths;
+  final List<MobChapter> chapters;
+
+  MobChapter? named(String? chapter) {
+    if (chapter == null) return null;
+    for (final c in chapters) {
+      if (c.chapter == chapter) return c;
+    }
+    return null;
+  }
+}
+
+/// The nearest paper the bank can build, when it cannot build the one asked for (BANK_THIN's
+/// `detail.suggest`): the same chapter at a shorter length, or the whole subject (`chapter` null).
+class MobSuggestion {
+  const MobSuggestion({this.chapter, required this.count, this.ready, this.asked});
+
+  final String? chapter;
+  final int count;
+
+  /// Questions ready for what was asked, and the length that was asked.
+  final int? ready;
+  final int? asked;
 }
 
 /// Display names (P3): 2 to 18 characters, a letter first, then letters, marks (vowel signs in

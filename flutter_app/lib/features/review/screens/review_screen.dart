@@ -19,6 +19,7 @@ import '../../../core/widgets/account/account_avatar.dart' show AccountLeading;
 import '../../../core/widgets/widgets.dart';
 import '../../insights/insights_routes.dart' show ReviewInsightsRows;
 import '../../rules/widgets/rules_entry.dart';
+import '../../social/social.dart' show MobEntryPlace, MobEntryRow;
 import '../../you/you_providers.dart' show lateNightLinesProvider;
 import '../copy.dart';
 import '../data/mistake_index.dart';
@@ -292,6 +293,8 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const ReviewAgainRow(),
+              // The Mob's shared trap, or where it split, once the student has sat the week's paper.
+              const MobEntryRow(place: MobEntryPlace.review),
               const ReviewInsightsRows(),
               Divider(height: 1, color: context.mmColors.line),
               const RulesEntry(),
