@@ -24,6 +24,7 @@ import 'package:mockmob/features/insights/data/ask_question.dart';
 import 'package:mockmob/features/insights/data/ask_sheet_controller.dart';
 import 'package:mockmob/features/insights/data/ask_suggestions.dart';
 import 'package:mockmob/features/insights/widgets/ask_sheet.dart';
+import 'package:mockmob/features/insights/widgets/mobi_mark.dart';
 import 'package:mockmob/features/result/full/answer_row.dart';
 import 'package:mockmob/features/result/model/answer_items.dart';
 import 'package:mockmob/features/result/model/ask_context.dart';
@@ -307,6 +308,28 @@ void main() {
       await tester.pumpAndSettle();
       expect(opened, [AppRoutes.youCredits]);
       expect(find.byType(AskMobiSheet), findsNothing);
+    });
+  });
+
+  group("Mobi's mark", () {
+    testWidgets('blinks while a reply is on its way, and holds still under reduced motion', (tester) async {
+      Future<void> pumpMark({required bool reduced}) => pumpMockmob(
+            tester,
+            const Center(child: MobiMark(size: 20, blinking: true)),
+            disableAnimations: reduced,
+          );
+      await pumpMark(reduced: false);
+      expect(tester.binding.transientCallbackCount, greaterThan(0));
+      await pumpMark(reduced: true);
+      await tester.pump();
+      expect(tester.binding.transientCallbackCount, 0);
+    });
+
+    test('the eyes close once in each 1.6 s: shut briefly near the start, open the rest', () {
+      expect(MobiMark.blinkAt(0), 0);
+      expect(MobiMark.blinkAt(0.06), 1);
+      expect(MobiMark.blinkAt(0.14), 0);
+      expect(MobiMark.blinkAt(0.7), 0);
     });
   });
 }
