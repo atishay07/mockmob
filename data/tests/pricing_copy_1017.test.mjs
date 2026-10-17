@@ -55,9 +55,10 @@ test('W-097: pricing leads with Rs 99 a month and gives each plan its renewal, p
 });
 
 test('W-099: the top-chapter finding and the next-step key each have one home', () => {
-  assert.doesNotMatch(read('src/components/RecoveryOverview.jsx').split("if (view === 'review')")[1].split('// Progress:')[0], /LearningNextAction/, 'Review');
+  // Review is review/ReviewPage.jsx since the Learn and Review packet (P-LR1); it has its own next move and never the Today key.
+  for (const file of ['ReviewPage', 'PapersView', 'ChapterRows', 'ReviewNextMove']) assert.doesNotMatch(read(`src/components/review/${file}.jsx`), /LearningNextAction/, `Review: ${file}`);
   assert.doesNotMatch(read('src/app/(app)/analytics/AnalyticsPageClient.jsx'), /LearningNextAction/, 'Weak chapters');
-  assert.match(read('src/components/RecoveryOverview.jsx'), /<RecordGlimpse finding=\{false\} \/>/, 'Review shows the trend, not the finding');
+  assert.match(read('src/components/RecoveryOverview.jsx'), /<ReviewPage /, 'Review is its own page; Progress keeps the overview');
   const hub = read('src/components/ai/MockMobAIHub.jsx');
   assert.doesNotMatch(hub, /insightsState\.findings\[0\]\.headline/, 'Ask Mobi links to the finding instead of repeating it');
   const rhythm = read('src/components/RhythmCard.jsx');
