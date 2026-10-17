@@ -50,7 +50,7 @@
 /* The site bar's soft blur tail (phones) would blur the band's words: it rests while the band is on. */
 .mm.lp:has(.lp-pos[data-on='true']) .mm-nav::after { opacity: 0; }
 
-.mm.lp .lp-pos__row { display: flex; align-items: center; min-width: 0; }
+.mm.lp .lp-pos__row { display: flex; align-items: center; width: 100%; min-width: 0; }
 /* One line of running text, so a brand word in an <em> stays one space from its neighbours. */
 .mm.lp .lp-pos__name {
   display: block;

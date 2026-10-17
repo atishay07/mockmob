@@ -15,7 +15,7 @@ export function positionPhase({ titleBottom, line, vh, end, hasTrack }) {
   return running ? 'on' : 'past';
 }
 
-const clamp01 = (n) => (n < 0 ? 0 : n > 1 ? 1 : n);
+const clamp01 = (n) => (n > 0 ? (n < 1 ? n : 1) : 0); // never -0
 
 // How far through the section the reader is, 0 to 1.
 //   hasTrack  the held track's own top and height: the hold runs while the stage is pinned, from the track's top
