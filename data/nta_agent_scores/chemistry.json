@@ -3,7 +3,7 @@
   "subject": "chemistry",
   "rubric_version": "nta-agent-rubric-1",
   "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad",
-  "merged_at": "2026-10-16T22:54:15.266Z",
+  "merged_at": "2026-10-17T04:38:05.858Z",
   "models": [
     "claude-haiku-5-5",
     "claude-subagent-unrecorded"
@@ -73,7 +73,7 @@
       "answer_in_stem": 9
     },
     "mean_of_means": 5.74,
-    "admissible_before_row_checks": 268
+    "admissible_before_row_checks": 310
   },
   "questions": {
     "01c8396e-6be9-442d-aeec-3d36a63cb1c5": {
@@ -31493,6 +31493,3967 @@
           "solver": "claude-subagent-unrecorded"
         }
       }
+    },
+    "010e16c1-2fa7-45d3-9044-5ab7bbe31d75": {
+      "question_id": "010e16c1-2fa7-45d3-9044-5ab7bbe31d75",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b2",
+      "chapter": "Solutions",
+      "key": "B",
+      "content_hash": "c32c8263adf328c1dab87f2f16a88fac00720df41d2d2cde2eefeabeb1c719e9",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "chemistry.solutions.reverse-osmosis-applied-pressure",
+          "flags": [],
+          "note": "Key B verified: pressure above osmotic pressure reverses flow. Option D (vapour pressure) is nonsense; A and C are fair distractors.",
+          "scored_content_hash": "c32c8263adf328c1dab87f2f16a88fac00720df41d2d2cde2eefeabeb1c719e9"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "chemistry.solutions.reverse-osmosis-pressure-condition",
+          "flags": [],
+          "note": "Key B correct. A (equal) and C (less) are fair traps; D is a throwaway. ncert_ref cites Ch 1 for Solutions, which is Ch 2 in NCERT Part I.",
+          "scored_content_hash": "c32c8263adf328c1dab87f2f16a88fac00720df41d2d2cde2eefeabeb1c719e9"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.solutions.reverse-osmosis-applied-pressure",
+        "chemistry.solutions.reverse-osmosis-pressure-condition"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: reverse osmosis needs applied pressure greater than the osmotic pressure. Key B correct and unique. Easy NCERT line.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "c32c8263adf328c1dab87f2f16a88fac00720df41d2d2cde2eefeabeb1c719e9",
+        "final_content_hash": "c32c8263adf328c1dab87f2f16a88fac00720df41d2d2cde2eefeabeb1c719e9",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "0192976d-ce4d-4ed3-9672-8b0d1578ab19": {
+      "question_id": "0192976d-ce4d-4ed3-9672-8b0d1578ab19",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b1",
+      "chapter": "Alcohols, Phenols & Ethers",
+      "key": "B",
+      "content_hash": "e1e7669b77c37b9514ec7682740703f1a9b110a03d7afbcacb6cb0d3e58c81b8",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.alcohols-phenols-and-ethers.anisole-para-bromination",
+          "flags": [],
+          "note": "Key B verified: Williamson gives anisole; bromine in acetic acid without catalyst gives para-bromoanisole. Tribromophenol and ortho/meta options are real traps. Labelled hard; medium fits.",
+          "scored_content_hash": "e1e7669b77c37b9514ec7682740703f1a9b110a03d7afbcacb6cb0d3e58c81b8"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.alcohols-phenols-and-ethers.anisole-para-bromination-without-catalyst",
+          "flags": [],
+          "note": "Key B confirmed: anisole then para-bromination without catalyst. Two steps; label hard, my judgement medium (one notch).",
+          "scored_content_hash": "e1e7669b77c37b9514ec7682740703f1a9b110a03d7afbcacb6cb0d3e58c81b8"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.alcohols-phenols-and-ethers.anisole-para-bromination",
+        "chemistry.alcohols-phenols-and-ethers.anisole-para-bromination-without-catalyst"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: PhONa + CH3Br gives anisole (Williamson); anisole brominates without FeBr3 in ethanoic acid, para major (NCERT). Key B correct and unique; tribromophenol is impossible because X is an ether. Two clear steps, within time.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "e1e7669b77c37b9514ec7682740703f1a9b110a03d7afbcacb6cb0d3e58c81b8",
+        "final_content_hash": "e1e7669b77c37b9514ec7682740703f1a9b110a03d7afbcacb6cb0d3e58c81b8",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "01d16929-b579-401b-9a88-81ff84f82232": {
+      "question_id": "01d16929-b579-401b-9a88-81ff84f82232",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b2",
+      "chapter": "Biomolecules",
+      "key": "D",
+      "content_hash": "d8f50151b77376186322c340f21155be5cc6d7d68c501228b6a061271a5119e4",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.biomolecules.reducing-property-of-disaccharides",
+          "flags": [],
+          "note": "Key D verified: A, C and D are true; B is false because sucrose is non-reducing. Statement set is well built and each part is checkable.",
+          "scored_content_hash": "c868be2b5e264afbe7b25a64c21c73670abfe2d9db86546ea47396d3af50553d"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.biomolecules.reducing-vs-non-reducing-sugars",
+          "flags": [],
+          "note": "Key D correct: A, C and D true; B false (sucrose is non-reducing). Explanation accurate. Multi-statement item with fair distractors.",
+          "scored_content_hash": "c868be2b5e264afbe7b25a64c21c73670abfe2d9db86546ea47396d3af50553d"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.biomolecules.reducing-property-of-disaccharides",
+        "chemistry.biomolecules.reducing-vs-non-reducing-sugars"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "Solved: (A) true, (B) false (sucrose is non-reducing), (C) true, (D) true, so (A), (C), (D). Key D correct and unique. Two defects: statement (C) says the D label refers to \"the carbon farthest from the carbonyl group\", which literally is C-6 (a CH2OH, not a stereocentre) whereas the explanation and NCERT mean the chiral carbon C-5; and the ncert_ref uses the old Biomolecules number.",
+        "authoring_verdict": "claude_audited",
+        "audit_repaired": true,
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "ncert_ref",
+          "stem"
+        ],
+        "judged_text": "pre_repair",
+        "judged_content_hash": "c868be2b5e264afbe7b25a64c21c73670abfe2d9db86546ea47396d3af50553d",
+        "final_content_hash": "d8f50151b77376186322c340f21155be5cc6d7d68c501228b6a061271a5119e4",
+        "hash_changed_by_repair": true,
+        "repaired_fields": [
+          "stem",
+          "ncert_ref"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "as_authored"
+        },
+        "blind_resolve_on_final_text": {
+          "n": 3,
+          "matched_key": 3,
+          "answers": [
+            "D",
+            "D",
+            "D"
+          ]
+        },
+        "engine_acceptance": "admitted_on_expert_verdict_and_blind_resolve",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "03468e44-24ac-4016-a28b-cdc361d9e934": {
+      "question_id": "03468e44-24ac-4016-a28b-cdc361d9e934",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b3",
+      "chapter": "Coordination Compounds",
+      "key": "B",
+      "content_hash": "b210a6ca52355d667da573b834126ac78aea72ccd0c859266e77aff69c63eefd",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.coordination-compounds.coordination-number-and-geometry",
+          "flags": [],
+          "note": "Key B verified: Fe(CO)5 trigonal bipyramidal, Cr(CO)6 octahedral, [Ni(CN)4]2- square planar, [NiCl4]2- tetrahedral. The Fe(CO)5 shape sits at the edge of NCERT wording.",
+          "scored_content_hash": "b210a6ca52355d667da573b834126ac78aea72ccd0c859266e77aff69c63eefd"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.coordination-compounds.geometry-of-metal-complexes",
+          "flags": [],
+          "note": "Key B confirmed: Fe(CO)5 TBP, Cr(CO)6 octahedral, [Ni(CN)4]2- square planar, [NiCl4]2- tetrahedral. Well-built four-pair match; C and D invert real shapes.",
+          "scored_content_hash": "b210a6ca52355d667da573b834126ac78aea72ccd0c859266e77aff69c63eefd"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.coordination-compounds.coordination-number-and-geometry",
+        "chemistry.coordination-compounds.geometry-of-metal-complexes"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: Fe(CO)5 trigonal bipyramidal, Cr(CO)6 octahedral, [Ni(CN)4]2- square planar, [NiCl4]2- tetrahedral. Key B correct and unique. All four shapes are NCERT lines (carbonyls and four-coordinate Ni(II)).",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "b210a6ca52355d667da573b834126ac78aea72ccd0c859266e77aff69c63eefd",
+        "final_content_hash": "b210a6ca52355d667da573b834126ac78aea72ccd0c859266e77aff69c63eefd",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "0dfb5b38-ed97-4c20-8199-41135c08395b": {
+      "question_id": "0dfb5b38-ed97-4c20-8199-41135c08395b",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b3",
+      "chapter": "d- and f-Block Elements",
+      "key": "C",
+      "content_hash": "a12eeb1daddf7fddcc28d6ba3783e14e576d56ea41fc9ca4d57a6f2bfc41c587",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "chemistry.d-and-f-block-elements.interstitial-compounds-properties",
+          "flags": [],
+          "note": "Key C verified: only the lower melting point claim is false, since interstitial compounds melt higher than the pure metals. A, B and D are true, so this is a fair NOT item.",
+          "scored_content_hash": "a12eeb1daddf7fddcc28d6ba3783e14e576d56ea41fc9ca4d57a6f2bfc41c587"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "chemistry.d-and-f-block-elements.interstitial-compounds-properties",
+          "flags": [],
+          "note": "Key C confirmed: interstitial compounds have higher, not lower, melting points; A, B and D are true NCERT properties. Fair NOT-recall item, well keyed.",
+          "scored_content_hash": "a12eeb1daddf7fddcc28d6ba3783e14e576d56ea41fc9ca4d57a6f2bfc41c587"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "chemistry.d-and-f-block-elements.interstitial-compounds-properties",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.d-and-f-block-elements.interstitial-compounds-properties",
+        "chemistry.d-and-f-block-elements.interstitial-compounds-properties"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: interstitial compounds are hard, conducting, inert and have higher melting points than the metal, so C is the false property. Key C correct and unique (NCERT).",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "a12eeb1daddf7fddcc28d6ba3783e14e576d56ea41fc9ca4d57a6f2bfc41c587",
+        "final_content_hash": "a12eeb1daddf7fddcc28d6ba3783e14e576d56ea41fc9ca4d57a6f2bfc41c587",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "0e4e6d2a-0b5f-45a4-8cdb-27515531620c": {
+      "question_id": "0e4e6d2a-0b5f-45a4-8cdb-27515531620c",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b2",
+      "chapter": "Solutions",
+      "key": "D",
+      "content_hash": "0cf0276f7977a44baf486ae7bca4c5052b86029d5095f097c52cd05eaa3e10ec",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.solutions.van-hoff-factor-from-dissociation",
+          "flags": [],
+          "note": "Key D verified: i = 2, so ΔTb = 0.10 K. Distractors 0.050 (i = 1) and 0.15 (i = 3) are the expected slips; the explanation's particle count checks.",
+          "scored_content_hash": "0cf0276f7977a44baf486ae7bca4c5052b86029d5095f097c52cd05eaa3e10ec"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "hard",
+          "objective_tag": "chemistry.solutions.boiling-point-elevation-with-dissociation",
+          "flags": [],
+          "note": "Key D correct: i = 2, dTb = 2 x 0.50 x 0.10 = 0.10 K. 0.050 (i=1), 0.075 (i=1.5) and 0.15 (i=3) are fair slips. Arithmetic in explanation checks.",
+          "scored_content_hash": "0cf0276f7977a44baf486ae7bca4c5052b86029d5095f097c52cd05eaa3e10ec"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "hard"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.solutions.van-hoff-factor-from-dissociation",
+        "chemistry.solutions.boiling-point-elevation-with-dissociation"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: i = 1 + 0.5 x 2 = 2, dTb = 2 x 0.50 x 0.10 = 0.10 K. Key D correct and unique; 0.15 K (i = 3) and 0.050 K (i = 1) are the slips. Within time.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "0cf0276f7977a44baf486ae7bca4c5052b86029d5095f097c52cd05eaa3e10ec",
+        "final_content_hash": "0cf0276f7977a44baf486ae7bca4c5052b86029d5095f097c52cd05eaa3e10ec",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "2c7eb3a9-5d8d-4c73-b5cf-89a0466e0d3f": {
+      "question_id": "2c7eb3a9-5d8d-4c73-b5cf-89a0466e0d3f",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b2",
+      "chapter": "Solutions",
+      "key": "C",
+      "content_hash": "46b194ffeac2b2312fbb5a532207a52a7012049fc4da64528f166a89983f64d5",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.solutions.freezing-point-depression-molar-mass",
+          "flags": [],
+          "note": "Key C verified: m = 3.0/20 = 0.15, moles 0.0075, M = 200. Distractors come from solvent-mass and inversion slips; the explanation's check is correct.",
+          "scored_content_hash": "46b194ffeac2b2312fbb5a532207a52a7012049fc4da64528f166a89983f64d5"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.solutions.molar-mass-from-freezing-point",
+          "flags": [],
+          "note": "Key C correct: M = 20 x 1.5 x 1000 / (3.0 x 50) = 200. Explanation check holds. 100 is the 100 g solvent slip. Clean one-step numerical.",
+          "scored_content_hash": "46b194ffeac2b2312fbb5a532207a52a7012049fc4da64528f166a89983f64d5"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.solutions.freezing-point-depression-molar-mass",
+        "chemistry.solutions.molar-mass-from-freezing-point"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: M = Kf x w2 x 1000 / (dTf x w1) = 20 x 1.5 x 1000 / (3.0 x 50) = 200 g/mol. Key C correct and unique; 100 is the wrong-solvent-mass slip. NCERT numerical shape.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "46b194ffeac2b2312fbb5a532207a52a7012049fc4da64528f166a89983f64d5",
+        "final_content_hash": "46b194ffeac2b2312fbb5a532207a52a7012049fc4da64528f166a89983f64d5",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "2e4f3189-8abb-4e28-8c5b-13da81ddcbed": {
+      "question_id": "2e4f3189-8abb-4e28-8c5b-13da81ddcbed",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b1",
+      "chapter": "Alcohols, Phenols & Ethers",
+      "key": "D",
+      "content_hash": "2246a7ea09ac97894fb6a17f1fd719d8d15e55429e1d5adb13e90b7d9f6bfa38",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.alcohols-phenols-and-ethers.phenol-reagent-dependent-products",
+          "flags": [],
+          "note": "Key D verified for all four pairs. Each distractor is a single swap of the true answer, a well-built match list. Explanation accurate.",
+          "scored_content_hash": "2246a7ea09ac97894fb6a17f1fd719d8d15e55429e1d5adb13e90b7d9f6bfa38"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.alcohols-phenols-and-ethers.phenol-reagent-dependent-products",
+          "flags": [],
+          "note": "Key D confirmed: A-IV, B-I, C-III, D-II. Each pairing is standard NCERT; options are clean permutations with plausible distractors.",
+          "scored_content_hash": "2246a7ea09ac97894fb6a17f1fd719d8d15e55429e1d5adb13e90b7d9f6bfa38"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "chemistry.alcohols-phenols-and-ethers.phenol-reagent-dependent-products",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.alcohols-phenols-and-ethers.phenol-reagent-dependent-products",
+        "chemistry.alcohols-phenols-and-ethers.phenol-reagent-dependent-products"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: Br2/CS2 cold gives o- and p-bromophenol (IV); chromic acid gives benzoquinone (I); conc. HNO3 gives picric acid (III); dilute HNO3 cold gives o- and p-nitrophenol (II). Key D (IV, I, III, II) correct and unique. Matches NCERT phenol reactions.",
+        "authoring_verdict": "claude_audited",
+        "audit_repaired": true,
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "2246a7ea09ac97894fb6a17f1fd719d8d15e55429e1d5adb13e90b7d9f6bfa38",
+        "final_content_hash": "2246a7ea09ac97894fb6a17f1fd719d8d15e55429e1d5adb13e90b7d9f6bfa38",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 4,
+          "answers": [
+            "B",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "34a6cabf-0b12-4321-b746-76378dd8d946": {
+      "question_id": "34a6cabf-0b12-4321-b746-76378dd8d946",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b3",
+      "chapter": "d- and f-Block Elements",
+      "key": "A",
+      "content_hash": "5f0ce40939d7c3c2f94f6055cf4c6508e6fde4f1f11137c73935d76e5a6daf14",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.d-and-f-block-elements.lanthanoid-contraction-ionic-radii",
+          "flags": [],
+          "note": "Key A verified: Lu3+ < Gd3+ < Pr3+ < La3+. Option C reverses La and Pr. Fixed by the contraction trend, a sound recall-level sequence item.",
+          "scored_content_hash": "5f0ce40939d7c3c2f94f6055cf4c6508e6fde4f1f11137c73935d76e5a6daf14"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.d-and-f-block-elements.lanthanoid-contraction-ionic-radii",
+          "flags": [],
+          "note": "Key A confirmed: Lu < Gd < Pr < La by ionic radius (lanthanoid contraction). B is the exact reverse and C a single swap, so the distractors are on-target. Explanation correct.",
+          "scored_content_hash": "5f0ce40939d7c3c2f94f6055cf4c6508e6fde4f1f11137c73935d76e5a6daf14"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "chemistry.d-and-f-block-elements.lanthanoid-contraction-ionic-radii",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.d-and-f-block-elements.lanthanoid-contraction-ionic-radii",
+        "chemistry.d-and-f-block-elements.lanthanoid-contraction-ionic-radii"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: lanthanoid contraction, radii La3+ > Pr3+ > Gd3+ > Lu3+, so increasing is C, A, D, B. Key A correct and unique.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "5f0ce40939d7c3c2f94f6055cf4c6508e6fde4f1f11137c73935d76e5a6daf14",
+        "final_content_hash": "5f0ce40939d7c3c2f94f6055cf4c6508e6fde4f1f11137c73935d76e5a6daf14",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "35246480-bd79-48c2-b3f9-8d6128c2a14e": {
+      "question_id": "35246480-bd79-48c2-b3f9-8d6128c2a14e",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b1",
+      "chapter": "Alcohols, Phenols & Ethers",
+      "key": "C",
+      "content_hash": "b9dda15504a4d3810251f66d21af02cfd545f63b36a81cde99e759cff648e629",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.alcohols-phenols-and-ethers.lialh4-reduces-carboxylic-acids",
+          "flags": [],
+          "note": "Key C verified: only LiAlH4 reduces a carboxylic acid to the primary alcohol. NaBH4 is a realistic trap; PCC is an oxidant and a throwaway.",
+          "scored_content_hash": "b9dda15504a4d3810251f66d21af02cfd545f63b36a81cde99e759cff648e629"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "chemistry.alcohols-phenols-and-ethers.hydride-reduction-of-carboxylic-acids",
+          "flags": [],
+          "note": "Key C confirmed: LiAlH4 reduces the acid to ethanol; NaBH4 does not. PCC is a throwaway distractor; the word directly is a fair hint.",
+          "scored_content_hash": "b9dda15504a4d3810251f66d21af02cfd545f63b36a81cde99e759cff648e629"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "easy"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.alcohols-phenols-and-ethers.lialh4-reduces-carboxylic-acids",
+        "chemistry.alcohols-phenols-and-ethers.hydride-reduction-of-carboxylic-acids"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: LiAlH4 reduces RCOOH to RCH2OH; NaBH4 does not reduce acids; Zn-Hg/HCl is Clemmensen; PCC oxidises. Key C correct and unique. Reduction of carboxylic acids is in the Ch 7 preparation of alcohols and the Ch 8 acid reactions (syllabus lists both).",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "b9dda15504a4d3810251f66d21af02cfd545f63b36a81cde99e759cff648e629",
+        "final_content_hash": "b9dda15504a4d3810251f66d21af02cfd545f63b36a81cde99e759cff648e629",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "38dd3ed0-f042-4470-b5b8-90886167286c": {
+      "question_id": "38dd3ed0-f042-4470-b5b8-90886167286c",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b3",
+      "chapter": "Chemical Kinetics",
+      "key": "D",
+      "content_hash": "c09c747633e0eafa284ab23a25ebf0982904aee82ad3b5be0ed1fffd99b8bd34",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "chemistry.chemical-kinetics.average-rate-from-concentration-change",
+          "flags": [],
+          "note": "Key D verified: 0.30 / 600 s = 5.0 x 10^-4. 5.0 x 10^-3 (minutes not converted), 3.0 x 10^-2 (per minute) and 1.3 x 10^-3 (0.80 used) are clean unit and ratio slips.",
+          "scored_content_hash": "c09c747633e0eafa284ab23a25ebf0982904aee82ad3b5be0ed1fffd99b8bd34"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "chemistry.chemical-kinetics.average-rate-from-concentration-change",
+          "flags": [],
+          "note": "Key D confirmed: 0.30 / 600 s = 5.0e-4. Distractors 5.0e-3 (missed x10), 1.3e-3 (initial concentration used) and 3.0e-2 (per minute) are on-target unit traps.",
+          "scored_content_hash": "c09c747633e0eafa284ab23a25ebf0982904aee82ad3b5be0ed1fffd99b8bd34"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "chemistry.chemical-kinetics.average-rate-from-concentration-change",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.chemical-kinetics.average-rate-from-concentration-change",
+        "chemistry.chemical-kinetics.average-rate-from-concentration-change"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: (0.80 - 0.50)/600 s = 5.0 x 10^-4 mol L-1 s-1. Key D correct and unique; the other values are unit-conversion slips.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "c09c747633e0eafa284ab23a25ebf0982904aee82ad3b5be0ed1fffd99b8bd34",
+        "final_content_hash": "c09c747633e0eafa284ab23a25ebf0982904aee82ad3b5be0ed1fffd99b8bd34",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "47b26e05-f8b5-44e7-a499-1078b4ff6bdd": {
+      "question_id": "47b26e05-f8b5-44e7-a499-1078b4ff6bdd",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b1",
+      "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+      "key": "A",
+      "content_hash": "f9c600aadb8aa226c4f871a3671fb28c1baefe6511d07bfaf83b80c8d3784d9a",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.cyanohydrin-hydrolysis-product",
+          "flags": [],
+          "note": "Key A verified: HCN addition then hydrolysis gives 2-hydroxypropanoic acid. C and D are plausible positional or oxidation traps; B is a throwaway.",
+          "scored_content_hash": "f9c600aadb8aa226c4f871a3671fb28c1baefe6511d07bfaf83b80c8d3784d9a"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.cyanohydrin-route-to-hydroxy-acid",
+          "flags": [],
+          "note": "Key A confirmed: cyanohydrin then hydrolysis gives lactic acid. Pyruvic acid, propanoic acid and the 3-hydroxy isomer are good traps.",
+          "scored_content_hash": "f9c600aadb8aa226c4f871a3671fb28c1baefe6511d07bfaf83b80c8d3784d9a"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.cyanohydrin-hydrolysis-product",
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.cyanohydrin-route-to-hydroxy-acid"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: HCN gives CH3CH(OH)CN; hydrolysis gives CH3CH(OH)COOH, 2-hydroxypropanoic (lactic) acid. Key A correct and unique.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "f9c600aadb8aa226c4f871a3671fb28c1baefe6511d07bfaf83b80c8d3784d9a",
+        "final_content_hash": "f9c600aadb8aa226c4f871a3671fb28c1baefe6511d07bfaf83b80c8d3784d9a",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "4fced3ab-5807-43b8-8025-82d9859180a1": {
+      "question_id": "4fced3ab-5807-43b8-8025-82d9859180a1",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b3",
+      "chapter": "Electrochemistry",
+      "key": "B",
+      "content_hash": "4ed5813db6b8e0c6069885d0428eb402f09bb5768b9cd7168d570e1a563c4616",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.electrochemistry.kohlrausch-law-limiting-molar-conductivity",
+          "flags": [],
+          "note": "Key B verified: 2 x 189 + 3 x 160 = 858. Distractors 349 (ions added once), 887 (coefficients swapped) and 538 (one SO4 missed) are each a named slip.",
+          "scored_content_hash": "4ed5813db6b8e0c6069885d0428eb402f09bb5768b9cd7168d570e1a563c4616"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.electrochemistry.kohlrausch-law-limiting-molar-conductivity",
+          "flags": [],
+          "note": "Key B confirmed: 2(189) + 3(160) = 858. Distractors 349 (ions summed once), 887 (coefficients swapped) and 538 are on-target coefficient slips. Explanation correct.",
+          "scored_content_hash": "4ed5813db6b8e0c6069885d0428eb402f09bb5768b9cd7168d570e1a563c4616"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "chemistry.electrochemistry.kohlrausch-law-limiting-molar-conductivity",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.electrochemistry.kohlrausch-law-limiting-molar-conductivity",
+        "chemistry.electrochemistry.kohlrausch-law-limiting-molar-conductivity"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: Kohlrausch, 2 x 189 + 3 x 160 = 858. Key B correct and unique; 349 and 887 are the slips. One-formula numerical, values match the NCERT ionic conductivity table.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "4ed5813db6b8e0c6069885d0428eb402f09bb5768b9cd7168d570e1a563c4616",
+        "final_content_hash": "4ed5813db6b8e0c6069885d0428eb402f09bb5768b9cd7168d570e1a563c4616",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "5069f737-db90-4b0d-83ff-4c19643ca9a1": {
+      "question_id": "5069f737-db90-4b0d-83ff-4c19643ca9a1",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b1",
+      "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+      "key": "D",
+      "content_hash": "32401dac3bb6bec8f17f13427556862d01ab27705b1f2ba7fffc86e121111536",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.alpha-hydrogen-side-chain-oxidation",
+          "flags": [],
+          "note": "Key D verified: tert-butyl has no benzylic hydrogen. The three distractors all give benzoic acid, so the NOT form tests the rule. Labelled hard; medium fits.",
+          "scored_content_hash": "32401dac3bb6bec8f17f13427556862d01ab27705b1f2ba7fffc86e121111536"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.benzylic-hydrogen-for-side-chain-oxidation",
+          "flags": [],
+          "note": "Key D confirmed: only tert-butylbenzene lacks a benzylic hydrogen. Label hard, my judgement medium (one notch).",
+          "scored_content_hash": "32401dac3bb6bec8f17f13427556862d01ab27705b1f2ba7fffc86e121111536"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.alpha-hydrogen-side-chain-oxidation",
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.benzylic-hydrogen-for-side-chain-oxidation"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: side-chain oxidation needs a benzylic H; n-, sec- and isobutyl have one, tert-butyl has none (NCERT: tertiary alkyl groups are not oxidised). Key D correct and unique.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "32401dac3bb6bec8f17f13427556862d01ab27705b1f2ba7fffc86e121111536",
+        "final_content_hash": "32401dac3bb6bec8f17f13427556862d01ab27705b1f2ba7fffc86e121111536",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "5423cc50-4ae2-487d-94b9-6da3cf15a6dd": {
+      "question_id": "5423cc50-4ae2-487d-94b9-6da3cf15a6dd",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b3",
+      "chapter": "Coordination Compounds",
+      "key": "A",
+      "content_hash": "a0b40516269bb38afa6338340b278f5748c5ac5d81c0ba8dd6defb35193e3221",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.coordination-compounds.geometrical-and-optical-isomers-octahedral",
+          "flags": [],
+          "note": "Key A verified: cis is chiral (2 isomers including the enantiomeric pair), trans is achiral (1), total 3. Answer 2 is the common slip.",
+          "scored_content_hash": "a0b40516269bb38afa6338340b278f5748c5ac5d81c0ba8dd6defb35193e3221"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.coordination-compounds.stereoisomer-count-octahedral-complex",
+          "flags": [],
+          "note": "Key A confirmed: trans (achiral) plus the cis enantiomer pair = 3. Distractor 2 is the classic miss; 4 and 5 are random. Explanation '2 + 1' is terse but correct.",
+          "scored_content_hash": "a0b40516269bb38afa6338340b278f5748c5ac5d81c0ba8dd6defb35193e3221"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.coordination-compounds.geometrical-and-optical-isomers-octahedral",
+        "chemistry.coordination-compounds.stereoisomer-count-octahedral-complex"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: [Co(en)2Cl2]+ has trans (achiral) and cis (a pair of enantiomers), 3 stereoisomers. Key A correct and unique. Named NCERT example.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "a0b40516269bb38afa6338340b278f5748c5ac5d81c0ba8dd6defb35193e3221",
+        "final_content_hash": "a0b40516269bb38afa6338340b278f5748c5ac5d81c0ba8dd6defb35193e3221",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "5afc1dc3-d029-4d47-ab5c-9c7043cbd7a4": {
+      "question_id": "5afc1dc3-d029-4d47-ab5c-9c7043cbd7a4",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b1",
+      "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+      "key": "A",
+      "content_hash": "8e2fe9fd43f1a86df5796b9b0200c7751d51dbefb009f2772c08615bbd51ba4f",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.iupac-naming-of-carboxylic-acids",
+          "flags": [],
+          "note": "Key A verified: chain is butanoic acid with chlorine on C3. Option B numbers from the methyl end; D shortens the chain. Both are realistic naming traps.",
+          "scored_content_hash": "8e2fe9fd43f1a86df5796b9b0200c7751d51dbefb009f2772c08615bbd51ba4f"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.iupac-naming-of-substituted-carboxylic-acids",
+          "flags": [],
+          "note": "Key A confirmed: butanoic acid with C-1 at COOH and Cl on C-3. Distractors are plausible numbering and chain slips. Label medium, my judgement easy.",
+          "scored_content_hash": "8e2fe9fd43f1a86df5796b9b0200c7751d51dbefb009f2772c08615bbd51ba4f"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "easy"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.iupac-naming-of-carboxylic-acids",
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.iupac-naming-of-substituted-carboxylic-acids"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: the chain of four carbons with COOH at C-1 puts Cl on C-3, so 3-chlorobutanoic acid. Key A correct and unique; B is the wrong-end numbering, D the wrong chain.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "8e2fe9fd43f1a86df5796b9b0200c7751d51dbefb009f2772c08615bbd51ba4f",
+        "final_content_hash": "8e2fe9fd43f1a86df5796b9b0200c7751d51dbefb009f2772c08615bbd51ba4f",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "6998f236-be20-4857-8d0b-2a448825755c": {
+      "question_id": "6998f236-be20-4857-8d0b-2a448825755c",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b2",
+      "chapter": "Amines",
+      "key": "C",
+      "content_hash": "8cd465669bddc79d70414fc7196952cfe1bb33ddfd28572ea45d54dbfc578021",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "chemistry.amines.nitrile-reduction-to-primary-amine",
+          "flags": [],
+          "note": "Key C verified: LiAlH4 reduces CH3CN to CH3CH2NH2. Clean recall item; distractors match named slips (carbon loss, Stephen aldehyde, partial hydrolysis).",
+          "scored_content_hash": "8cd465669bddc79d70414fc7196952cfe1bb33ddfd28572ea45d54dbfc578021"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "chemistry.amines.nitrile-reduction-to-primary-amine",
+          "flags": [],
+          "note": "Textbook nitrile reduction, C correct. Methanamine (carbon loss), ethanal (partial reduction) and ethanamide are fair slips. No defect.",
+          "scored_content_hash": "8cd465669bddc79d70414fc7196952cfe1bb33ddfd28572ea45d54dbfc578021"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "chemistry.amines.nitrile-reduction-to-primary-amine",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.amines.nitrile-reduction-to-primary-amine",
+        "chemistry.amines.nitrile-reduction-to-primary-amine"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "Solved: LiAlH4 reduces C-N triple bond to CH2NH2, so CH3CH2NH2 (ethanamine). Key C correct and unique. Defect: ncert_ref uses the old edition number for Amines.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "ncert_ref"
+        ],
+        "judged_text": "final",
+        "judged_content_hash": "8cd465669bddc79d70414fc7196952cfe1bb33ddfd28572ea45d54dbfc578021",
+        "final_content_hash": "8cd465669bddc79d70414fc7196952cfe1bb33ddfd28572ea45d54dbfc578021",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "ncert_ref"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "6fa18b54-8d1a-48ce-b3cb-8c451d1e3287": {
+      "question_id": "6fa18b54-8d1a-48ce-b3cb-8c451d1e3287",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b1",
+      "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+      "key": "C",
+      "content_hash": "b5b31c69faaa7a82200fb268d0281fc62f8567452f720ea9954d6bbe6dff7cbf",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.fischer-esterification-product-naming",
+          "flags": [],
+          "note": "Key C verified: alkyl part from the alcohol, alkanoate from the acid. Propyl methanoate is the role-swap trap; the other two are plausible wrong-part distractors.",
+          "scored_content_hash": "b5b31c69faaa7a82200fb268d0281fc62f8567452f720ea9954d6bbe6dff7cbf"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.esterification-product-naming",
+          "flags": [],
+          "note": "Key C confirmed: methyl propanoate. Propyl methanoate is a good swap trap; methyl ethanoate is weak. Label medium, my judgement easy.",
+          "scored_content_hash": "b5b31c69faaa7a82200fb268d0281fc62f8567452f720ea9954d6bbe6dff7cbf"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "easy"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.fischer-esterification-product-naming",
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.esterification-product-naming"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: acid supplies the acyl part, alcohol the alkyl part: CH3CH2COOCH3, methyl propanoate. Key C correct and unique.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "b5b31c69faaa7a82200fb268d0281fc62f8567452f720ea9954d6bbe6dff7cbf",
+        "final_content_hash": "b5b31c69faaa7a82200fb268d0281fc62f8567452f720ea9954d6bbe6dff7cbf",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "8199b343-e47e-40e5-acdd-8e458592a4d0": {
+      "question_id": "8199b343-e47e-40e5-acdd-8e458592a4d0",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b3",
+      "chapter": "d- and f-Block Elements",
+      "key": "A",
+      "content_hash": "66131e0401bfabbd8afd96dc820a7e94e36be21fc83c95979aabfb4e62425eae",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.d-and-f-block-elements.redox-spontaneity-from-standard-potentials",
+          "flags": [],
+          "note": "Key A verified (E cell -1.18 V; B +0.80, C +1.18, D +1.98 V). Stem's Mn3+/Mn2+ value of +1.57 V is above the commonly tabulated ~+1.51-1.54 V; key unaffected, check the data source.",
+          "scored_content_hash": "66131e0401bfabbd8afd96dc820a7e94e36be21fc83c95979aabfb4e62425eae"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.d-and-f-block-elements.spontaneity-from-standard-potentials",
+          "flags": [],
+          "note": "Key A confirmed: Ecell = -1.18 V; B, C, D give +0.80, +1.18, +1.98 V. Mn3+/Mn2+ is given as 1.57 V, above common tables (about 1.51-1.54 V); outcome unchanged.",
+          "scored_content_hash": "66131e0401bfabbd8afd96dc820a7e94e36be21fc83c95979aabfb4e62425eae"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.d-and-f-block-elements.redox-spontaneity-from-standard-potentials",
+        "chemistry.d-and-f-block-elements.spontaneity-from-standard-potentials"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: E0cell = E0(oxidant) - E0(reductant): A gives -0.41 - 0.77 = -1.18 V (not spontaneous); B +0.80, C +1.18, D +1.98 V. Key A correct and unique. Uses the NCERT M3+/M2+ values.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "66131e0401bfabbd8afd96dc820a7e94e36be21fc83c95979aabfb4e62425eae",
+        "final_content_hash": "66131e0401bfabbd8afd96dc820a7e94e36be21fc83c95979aabfb4e62425eae",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "8ad575c4-7e7d-49e7-8364-51e79dd36658": {
+      "question_id": "8ad575c4-7e7d-49e7-8364-51e79dd36658",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b2",
+      "chapter": "Biomolecules",
+      "key": "C",
+      "content_hash": "00811732f5a87440f5608e7a8faf8349de1559be7c09c9250913782a49e32464",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "chemistry.biomolecules.vitamin-deficiency-diseases",
+          "flags": [],
+          "note": "Key C verified. Each distractor is a different vitamin deficiency, so the item is fair direct recall with reasonable options.",
+          "scored_content_hash": "00811732f5a87440f5608e7a8faf8349de1559be7c09c9250913782a49e32464"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "chemistry.biomolecules.vitamin-deficiency-diseases",
+          "flags": [],
+          "note": "Key C correct (B12, pernicious anaemia). B6, K and E deficiency effects are fair NCERT distractors. Direct recall.",
+          "scored_content_hash": "00811732f5a87440f5608e7a8faf8349de1559be7c09c9250913782a49e32464"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "chemistry.biomolecules.vitamin-deficiency-diseases",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.biomolecules.vitamin-deficiency-diseases",
+        "chemistry.biomolecules.vitamin-deficiency-diseases"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "Solved: vitamin B12 deficiency causes pernicious anaemia; B6 convulsions, K slow clotting, E fragile red cells (NCERT vitamin table). Key C correct and unique. Defect: ncert_ref uses the old Biomolecules number.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "ncert_ref"
+        ],
+        "judged_text": "final",
+        "judged_content_hash": "00811732f5a87440f5608e7a8faf8349de1559be7c09c9250913782a49e32464",
+        "final_content_hash": "00811732f5a87440f5608e7a8faf8349de1559be7c09c9250913782a49e32464",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "ncert_ref"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "8e181c77-95ef-4e7c-8bf5-857cbba9f869": {
+      "question_id": "8e181c77-95ef-4e7c-8bf5-857cbba9f869",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b1",
+      "chapter": "Alcohols, Phenols & Ethers",
+      "key": "D",
+      "content_hash": "a7fd33f7985f51b9383e4fac683afe662d8bcbb9f543c77c1fc90185a315d8db",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "chemistry.alcohols-phenols-and-ethers.methanol-oxidation-products",
+          "flags": [],
+          "note": "Key D verified: methanol is oxidised to methanal then methanoic acid. Option A is the ethanol pattern; B and C are mixed pairs. Explanation accurate.",
+          "scored_content_hash": "a7fd33f7985f51b9383e4fac683afe662d8bcbb9f543c77c1fc90185a315d8db"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "chemistry.alcohols-phenols-and-ethers.methanol-metabolism-to-toxic-products",
+          "flags": [],
+          "note": "Key D confirmed: methanal then methanoic acid. Distractors are the ethanol-based confusion pairs. Easy recall with sound options.",
+          "scored_content_hash": "a7fd33f7985f51b9383e4fac683afe662d8bcbb9f543c77c1fc90185a315d8db"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.alcohols-phenols-and-ethers.methanol-oxidation-products",
+        "chemistry.alcohols-phenols-and-ethers.methanol-metabolism-to-toxic-products"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: methanol is oxidised to methanal then methanoic acid (NCERT methanol poisoning). Key D correct and unique; the other pairs mix ethanol's products in. Syllabus line: commercially important alcohols, methanol and ethanol.",
+        "authoring_verdict": "claude_audited",
+        "audit_repaired": true,
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "a7fd33f7985f51b9383e4fac683afe662d8bcbb9f543c77c1fc90185a315d8db",
+        "final_content_hash": "a7fd33f7985f51b9383e4fac683afe662d8bcbb9f543c77c1fc90185a315d8db",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "8ee1facc-2274-4141-bba7-1389a5caee34": {
+      "question_id": "8ee1facc-2274-4141-bba7-1389a5caee34",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b1",
+      "chapter": "Haloalkanes & Haloarenes",
+      "key": "C",
+      "content_hash": "c58a55d9108deecaeb7a86b37f21d18d9a551c908be51f05de07d3bd413038f7",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.haloalkanes-and-haloarenes.halide-leaving-group-reactivity-order",
+          "flags": [],
+          "note": "Key C verified: SN2 rate on aqueous KOH follows I > Br > Cl > F. Distractors are partial swaps of the true order. Direct NCERT recall with clean options.",
+          "scored_content_hash": "c58a55d9108deecaeb7a86b37f21d18d9a551c908be51f05de07d3bd413038f7"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.haloalkanes-and-haloarenes.reactivity-order-of-halides",
+          "flags": [],
+          "note": "Key C confirmed: SN2 with aqueous KOH gives I > Br > Cl > F. Explanation and distractors are sound; clean one-step ranking, no defect.",
+          "scored_content_hash": "c58a55d9108deecaeb7a86b37f21d18d9a551c908be51f05de07d3bd413038f7"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.haloalkanes-and-haloarenes.halide-leaving-group-reactivity-order",
+        "chemistry.haloalkanes-and-haloarenes.reactivity-order-of-halides"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: SN2/hydrolysis rate follows leaving-group ability, I > Br > Cl > F, so B, D, A, C. Key C correct and unique; A and B are the polarity-order and F-first traps. C-X energies quoted (452, 234 kJ/mol) match the NCERT table.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "c58a55d9108deecaeb7a86b37f21d18d9a551c908be51f05de07d3bd413038f7",
+        "final_content_hash": "c58a55d9108deecaeb7a86b37f21d18d9a551c908be51f05de07d3bd413038f7",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "969ec6f8-7e52-48ce-9832-299e478417ce": {
+      "question_id": "969ec6f8-7e52-48ce-9832-299e478417ce",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b3",
+      "chapter": "Electrochemistry",
+      "key": "B",
+      "content_hash": "41645fffd563f4bd7f27447a1d736419a48d9016819809c0b44daa281b2c7786",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.electrochemistry.nernst-equation-cell-emf",
+          "flags": [],
+          "note": "Key B verified: E = 1.05 - (0.059/2) x log(10^4) = 0.93 V. 1.17 (sign slip) and 0.99 (Q left unsquared) are well-chosen distractors.",
+          "scored_content_hash": "41645fffd563f4bd7f27447a1d736419a48d9016819809c0b44daa281b2c7786"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "hard",
+          "objective_tag": "chemistry.electrochemistry.nernst-equation-cell-emf",
+          "flags": [],
+          "note": "Key B confirmed: Ecell = 1.05 - (0.059/2) x log(10^4) = 0.932 V. Distractors 1.17 (sign slip) and 0.99 (Ag+ not squared) are on-target. Explanation correct.",
+          "scored_content_hash": "41645fffd563f4bd7f27447a1d736419a48d9016819809c0b44daa281b2c7786"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "chemistry.electrochemistry.nernst-equation-cell-emf",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "hard"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.electrochemistry.nernst-equation-cell-emf",
+        "chemistry.electrochemistry.nernst-equation-cell-emf"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: E0 = 1.05 V, n = 2, Q = 1.0/(0.01)^2 = 10^4, E = 1.05 - 0.0295 x 4 = 0.932 V. Key B correct and unique; 0.99 V is the unsquared-concentration slip. Three steps but all NCERT Nernst routine; about 90 s.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "41645fffd563f4bd7f27447a1d736419a48d9016819809c0b44daa281b2c7786",
+        "final_content_hash": "41645fffd563f4bd7f27447a1d736419a48d9016819809c0b44daa281b2c7786",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "973877a8-423b-40dd-847e-6e0491b45a02": {
+      "question_id": "973877a8-423b-40dd-847e-6e0491b45a02",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b3",
+      "chapter": "Chemical Kinetics",
+      "key": "D",
+      "content_hash": "b95da14d7925f18cd64b4b2b9ad2174107350c2a23ecf955f7ae73cc10132792",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 7,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.chemical-kinetics.zero-order-integrated-rate-law",
+          "flags": [],
+          "note": "Key D verified: 0.15/0.005 = 30 min. The stem names the zero order, so the formula is signposted; the half-life clause in the explanation is hard to follow.",
+          "scored_content_hash": "b95da14d7925f18cd64b4b2b9ad2174107350c2a23ecf955f7ae73cc10132792"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.chemical-kinetics.zero-order-integrated-rate-law",
+          "flags": [],
+          "note": "Key D confirmed: t = (0.20 - 0.05)/0.005 = 30 min. Distractors 15, 40 (half-life misconception) and 50 (sign slip) are on-target. Explanation check is correct.",
+          "scored_content_hash": "b95da14d7925f18cd64b4b2b9ad2174107350c2a23ecf955f7ae73cc10132792"
+        }
+      ],
+      "mean": 8,
+      "min": 7,
+      "spread": 2,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "chemistry.chemical-kinetics.zero-order-integrated-rate-law",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.chemical-kinetics.zero-order-integrated-rate-law",
+        "chemistry.chemical-kinetics.zero-order-integrated-rate-law"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: zero order, t = (0.20 - 0.05)/0.005 = 30 min. Key D correct and unique; 40 min is the repeated-half-life slip. One-formula numerical.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "b95da14d7925f18cd64b4b2b9ad2174107350c2a23ecf955f7ae73cc10132792",
+        "final_content_hash": "b95da14d7925f18cd64b4b2b9ad2174107350c2a23ecf955f7ae73cc10132792",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "9f114e98-a8ab-4a14-a9e6-2ddf5d0a2729": {
+      "question_id": "9f114e98-a8ab-4a14-a9e6-2ddf5d0a2729",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b1",
+      "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+      "key": "D",
+      "content_hash": "0bc24b7460b7664ecc41bd554ba3cb6f289d3a757ea7ea44c0ad8c42755faa3c",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.decarboxylation-with-soda-lime",
+          "flags": [],
+          "note": "Key D verified: soda-lime decarboxylation of sodium propanoate gives ethane. Butane is the Kolbe trap; propane and methane are weaker distractors.",
+          "scored_content_hash": "0bc24b7460b7664ecc41bd554ba3cb6f289d3a757ea7ea44c0ad8c42755faa3c"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.decarboxylation-with-soda-lime",
+          "flags": [],
+          "note": "Key D confirmed: decarboxylation of propanoate gives ethane; butane is the Kolbe trap. Methane is a weak distractor.",
+          "scored_content_hash": "0bc24b7460b7664ecc41bd554ba3cb6f289d3a757ea7ea44c0ad8c42755faa3c"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.decarboxylation-with-soda-lime",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.decarboxylation-with-soda-lime",
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.decarboxylation-with-soda-lime"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: RCOONa + soda lime gives R-H, so ethane from sodium propanoate. Key D correct and unique; butane is the Kolbe product, methane the ethanoate product.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "0bc24b7460b7664ecc41bd554ba3cb6f289d3a757ea7ea44c0ad8c42755faa3c",
+        "final_content_hash": "0bc24b7460b7664ecc41bd554ba3cb6f289d3a757ea7ea44c0ad8c42755faa3c",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "a08beb87-d194-457a-81c5-2bf8b78436fe": {
+      "question_id": "a08beb87-d194-457a-81c5-2bf8b78436fe",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b3",
+      "chapter": "Chemical Kinetics",
+      "key": "C",
+      "content_hash": "ff885947d2df065e8fdc78e6426d7f7c3836a549e45d1e6cf85a96eb851a533e",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.chemical-kinetics.elementary-step-rate-law-stoichiometry",
+          "flags": [],
+          "note": "Key C verified: rate = k[A]^2[B] with all concentrations x3 gives 27 times. 9 (only [A] counted), 3 and 6 are plausible slips.",
+          "scored_content_hash": "ff885947d2df065e8fdc78e6426d7f7c3836a549e45d1e6cf85a96eb851a533e"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.chemical-kinetics.elementary-reaction-rate-law",
+          "flags": [],
+          "note": "Key C confirmed: rate = k[A]^2[B] with all concentrations x3 gives 27. Distractors 9 ([A] only), 3 ([B] only) and 6 (ratio slip) are on-target. Clean elementary-step item.",
+          "scored_content_hash": "ff885947d2df065e8fdc78e6426d7f7c3836a549e45d1e6cf85a96eb851a533e"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.chemical-kinetics.elementary-step-rate-law-stoichiometry",
+        "chemistry.chemical-kinetics.elementary-reaction-rate-law"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: elementary, rate = k[A]^2[B]; volume one-third triples every concentration, 3^3 = 27. Key C correct and unique; 9 is the forgot-[B] slip.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "ff885947d2df065e8fdc78e6426d7f7c3836a549e45d1e6cf85a96eb851a533e",
+        "final_content_hash": "ff885947d2df065e8fdc78e6426d7f7c3836a549e45d1e6cf85a96eb851a533e",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "a123ad3b-9488-4b25-b787-98cf51e60a84": {
+      "question_id": "a123ad3b-9488-4b25-b787-98cf51e60a84",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b2",
+      "chapter": "Amines",
+      "key": "D",
+      "content_hash": "3776a23ee274d6fa861a366913553abd155e0ee1241a3e2e12d2c0be5ad02cb7",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.amines.substituent-effect-on-ring-reactivity",
+          "flags": [],
+          "note": "Key D verified: NO2 < benzene < acetanilide < aniline for bromination. NHCOCH3 is weaker than NH2 but still above benzene. Well-built ordering set.",
+          "scored_content_hash": "3776a23ee274d6fa861a366913553abd155e0ee1241a3e2e12d2c0be5ad02cb7"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.amines.substituent-effect-on-ring-reactivity",
+          "flags": [],
+          "note": "Correct order: nitrobenzene < benzene < acetanilide < aniline. Options B and C are good traps (acetanilide placed wrongly). Stem defines labels A-D.",
+          "scored_content_hash": "3776a23ee274d6fa861a366913553abd155e0ee1241a3e2e12d2c0be5ad02cb7"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "chemistry.amines.substituent-effect-on-ring-reactivity",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.amines.substituent-effect-on-ring-reactivity",
+        "chemistry.amines.substituent-effect-on-ring-reactivity"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "Solved: aniline > acetanilide > benzene > nitrobenzene for ring bromination, so increasing is D, B, C, A. Key D correct and unique. NCERT teaches that acetylation moderates the activation of NH2. Defect: ncert_ref uses the old Amines number.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "ncert_ref"
+        ],
+        "judged_text": "final",
+        "judged_content_hash": "3776a23ee274d6fa861a366913553abd155e0ee1241a3e2e12d2c0be5ad02cb7",
+        "final_content_hash": "3776a23ee274d6fa861a366913553abd155e0ee1241a3e2e12d2c0be5ad02cb7",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "ncert_ref"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "a58d364f-574c-424c-9ed2-0f6e4fdb5c3e": {
+      "question_id": "a58d364f-574c-424c-9ed2-0f6e4fdb5c3e",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b3",
+      "chapter": "Coordination Compounds",
+      "key": "C",
+      "content_hash": "b4a2afe661ec77c11f38eab504b3a6af9db7f43b9ce7d7e33501dbe5eca775a8",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "chemistry.coordination-compounds.ionisable-and-coordinated-ligands",
+          "flags": [],
+          "note": "Key C verified: two outer-sphere Cl- give 2 mol AgCl. Option 3 counts the bonded chloride, a fair trap; 0 is the only throwaway.",
+          "scored_content_hash": "b4a2afe661ec77c11f38eab504b3a6af9db7f43b9ce7d7e33501dbe5eca775a8"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "chemistry.coordination-compounds.werner-ionisable-chloride-precipitation",
+          "flags": [],
+          "note": "Key C confirmed: two outer-sphere Cl- give 2 mol AgCl. Distractor 3 (counts all Cl) is the classic slip; 0 is a throwaway. Direct recall, fair.",
+          "scored_content_hash": "b4a2afe661ec77c11f38eab504b3a6af9db7f43b9ce7d7e33501dbe5eca775a8"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.coordination-compounds.ionisable-and-coordinated-ligands",
+        "chemistry.coordination-compounds.werner-ionisable-chloride-precipitation"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: only the two outer-sphere Cl- precipitate, 2 mol AgCl. Key C correct and unique. NCERT Werner theory staple.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "b4a2afe661ec77c11f38eab504b3a6af9db7f43b9ce7d7e33501dbe5eca775a8",
+        "final_content_hash": "b4a2afe661ec77c11f38eab504b3a6af9db7f43b9ce7d7e33501dbe5eca775a8",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "a9b977b3-1415-4db5-8488-268a83327316": {
+      "question_id": "a9b977b3-1415-4db5-8488-268a83327316",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b2",
+      "chapter": "Amines",
+      "key": "D",
+      "content_hash": "718745c25b07075567cddaa94e4439eeb954a4794b7aafc0e3f2498a9abfcf7e",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.amines.diazonium-replacement-reaction-conditions",
+          "flags": [],
+          "note": "Key D verified: A, C and D are true; B is false because the diazonium ion is the electrophile. Four statements over one passage; clean wording.",
+          "scored_content_hash": "718745c25b07075567cddaa94e4439eeb954a4794b7aafc0e3f2498a9abfcf7e"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.amines.diazonium-replacement-vs-coupling",
+          "flags": [],
+          "note": "Key D correct: A, C and D true; B false (diazonium is the electrophile). Fair distractors; statement C relies on passage detail that is supplied.",
+          "scored_content_hash": "718745c25b07075567cddaa94e4439eeb954a4794b7aafc0e3f2498a9abfcf7e"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.amines.diazonium-replacement-reaction-conditions",
+        "chemistry.amines.diazonium-replacement-vs-coupling"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "Solved from the passage: (A) true (KI needs no Cu), (B) false (the diazonium ion is the electrophile), (C) true, (D) true. Key D (A, C, D) correct and unique. Defect: ncert_ref uses the old Amines number.",
+        "authoring_verdict": "claude_audited",
+        "audit_repaired": true,
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "ncert_ref"
+        ],
+        "judged_text": "final",
+        "judged_content_hash": "718745c25b07075567cddaa94e4439eeb954a4794b7aafc0e3f2498a9abfcf7e",
+        "final_content_hash": "718745c25b07075567cddaa94e4439eeb954a4794b7aafc0e3f2498a9abfcf7e",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "ncert_ref"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "aefd3af3-ae37-410a-b5a1-aa5da54926d3": {
+      "question_id": "aefd3af3-ae37-410a-b5a1-aa5da54926d3",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b2",
+      "chapter": "Amines",
+      "key": "C",
+      "content_hash": "89ccff2d8ae531114fea513a5db5312af2d0216e513f095dc6bcfbe1ebae8583",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.amines.nitrile-hydrolysis-to-carboxylic-acid",
+          "flags": [],
+          "note": "Key C verified: Sandmeyer gives benzonitrile, then complete hydrolysis gives benzoic acid. Distractors cover the amide intermediate, an extra CH2 and an aldehyde slip.",
+          "scored_content_hash": "89ccff2d8ae531114fea513a5db5312af2d0216e513f095dc6bcfbe1ebae8583"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.amines.sandmeyer-cyanation-and-hydrolysis",
+          "flags": [],
+          "note": "Key C correct (Sandmeyer CN, then full hydrolysis). Benzamide, phenylacetic acid and benzaldehyde are fair traps. The bitter-almond clue is loose but not wrong.",
+          "scored_content_hash": "89ccff2d8ae531114fea513a5db5312af2d0216e513f095dc6bcfbe1ebae8583"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.amines.nitrile-hydrolysis-to-carboxylic-acid",
+        "chemistry.amines.sandmeyer-cyanation-and-hydrolysis"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "Solved from the passage: CuCN (Sandmeyer) gives benzonitrile; complete acid hydrolysis gives benzoic acid via benzamide. Key C correct and unique. Defect: ncert_ref uses the old Amines number.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "ncert_ref"
+        ],
+        "judged_text": "final",
+        "judged_content_hash": "89ccff2d8ae531114fea513a5db5312af2d0216e513f095dc6bcfbe1ebae8583",
+        "final_content_hash": "89ccff2d8ae531114fea513a5db5312af2d0216e513f095dc6bcfbe1ebae8583",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "ncert_ref"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "b01a98fe-7046-417d-b53a-52562cf973e6": {
+      "question_id": "b01a98fe-7046-417d-b53a-52562cf973e6",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b2",
+      "chapter": "Amines",
+      "key": "A",
+      "content_hash": "1e74c6c0910ba35e63a80c5a84739d30ac8abb984b3675d21fcce2125c01b090",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 7,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "chemistry.amines.diazotisation-nitrite-stoichiometry",
+          "flags": [],
+          "note": "Key A verified: 1:1 NaNO2 to aniline gives 0.10 mol, so 6.9 g. Passage over-signposts ('exactly the stoichiometric amount') and is long for a one-step item.",
+          "scored_content_hash": "1e74c6c0910ba35e63a80c5a84739d30ac8abb984b3675d21fcce2125c01b090"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "chemistry.amines.diazotisation-stoichiometry",
+          "flags": [],
+          "note": "Correct: 0.10 mol x 69 = 6.9 g at 1:1 NaNO2:aniline. B (half) and C (double) are ratio slips. Passage supplies the mol. Long passage for one step.",
+          "scored_content_hash": "1e74c6c0910ba35e63a80c5a84739d30ac8abb984b3675d21fcce2125c01b090"
+        }
+      ],
+      "mean": 8,
+      "min": 7,
+      "spread": 2,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.amines.diazotisation-nitrite-stoichiometry",
+        "chemistry.amines.diazotisation-stoichiometry"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "Solved from the passage: 9.3 g aniline is 0.10 mol, one NaNO2 per NH2, so 0.10 x 69 = 6.9 g. Key A correct and unique; 13.8 g is the two-nitrite slip and 9.3 g the aniline mass. Passage-set item (set w4-chem-02-set-1, four of five questions kept); answerable only with the passage, as intended. Defect: ncert_ref uses the old Amines number.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "ncert_ref"
+        ],
+        "judged_text": "final",
+        "judged_content_hash": "1e74c6c0910ba35e63a80c5a84739d30ac8abb984b3675d21fcce2125c01b090",
+        "final_content_hash": "1e74c6c0910ba35e63a80c5a84739d30ac8abb984b3675d21fcce2125c01b090",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "ncert_ref"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "b19fa8e5-08f3-47e4-8450-b40bc6631f53": {
+      "question_id": "b19fa8e5-08f3-47e4-8450-b40bc6631f53",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b1",
+      "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+      "key": "A",
+      "content_hash": "6a6c3ef037ce8183a68d667ab1d8250595474c7bd9dfad59339beb27767420b0",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "hard",
+          "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.substituent-effect-on-benzoic-acidity",
+          "flags": [],
+          "note": "Key A verified: acidity order 4-OCH3 (weakest) < benzoic acid < 4-Cl < 4-NO2. Options swap adjacent pairs or reverse the order: realistic traps. Hard label fits.",
+          "scored_content_hash": "6a6c3ef037ce8183a68d667ab1d8250595474c7bd9dfad59339beb27767420b0"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.substituent-effects-on-benzoic-acid-acidity",
+          "flags": [],
+          "note": "Key A confirmed: ascending pKa order is nitro, chloro, benzoic, methoxy, which gives the key. Label hard, my judgement medium (one notch).",
+          "scored_content_hash": "6a6c3ef037ce8183a68d667ab1d8250595474c7bd9dfad59339beb27767420b0"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "hard",
+          "medium"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.substituent-effect-on-benzoic-acidity",
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.substituent-effects-on-benzoic-acid-acidity"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: pKa 4-OCH3 4.47 > benzoic 4.20 > 4-Cl 3.98 > 4-NO2 3.44, so increasing acidity is C, A, D, B. Key A correct and unique. Substituent effect on acidity is an NCERT Ch 8 point; at the upper edge of CUET but fair and quick.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "6a6c3ef037ce8183a68d667ab1d8250595474c7bd9dfad59339beb27767420b0",
+        "final_content_hash": "6a6c3ef037ce8183a68d667ab1d8250595474c7bd9dfad59339beb27767420b0",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "bc99a237-d954-40cc-a95a-0320cf346f7f": {
+      "question_id": "bc99a237-d954-40cc-a95a-0320cf346f7f",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b3",
+      "chapter": "Chemical Kinetics",
+      "key": "B",
+      "content_hash": "c9a7c9fcd5405b8b948ce837b0916d985006a9669ad5eb5bcb6cee5f4d48cf97",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "chemistry.chemical-kinetics.arrhenius-exponential-factor-meaning",
+          "flags": [],
+          "note": "Key B verified: Boltzmann fraction of molecules with energy at or above Ea. A (steric factor) and C (collision frequency) are throwaways; D describes Ea itself, not the factor.",
+          "scored_content_hash": "c9a7c9fcd5405b8b948ce837b0916d985006a9669ad5eb5bcb6cee5f4d48cf97"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "chemistry.chemical-kinetics.arrhenius-exponential-factor-meaning",
+          "flags": [],
+          "note": "Key B confirmed: e^(-Ea/RT) is the fraction with energy >= Ea. A (steric factor) and D are plausible confusions; C (collision number) is a throwaway. Direct recall.",
+          "scored_content_hash": "c9a7c9fcd5405b8b948ce837b0916d985006a9669ad5eb5bcb6cee5f4d48cf97"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "chemistry.chemical-kinetics.arrhenius-exponential-factor-meaning",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.chemical-kinetics.arrhenius-exponential-factor-meaning",
+        "chemistry.chemical-kinetics.arrhenius-exponential-factor-meaning"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: e^(-Ea/RT) is the fraction of molecules with energy equal to or above Ea. Key B correct and unique. NCERT staple.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "c9a7c9fcd5405b8b948ce837b0916d985006a9669ad5eb5bcb6cee5f4d48cf97",
+        "final_content_hash": "c9a7c9fcd5405b8b948ce837b0916d985006a9669ad5eb5bcb6cee5f4d48cf97",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "bdc87aa5-3aa5-4786-9440-5aa51f0bb35d": {
+      "question_id": "bdc87aa5-3aa5-4786-9440-5aa51f0bb35d",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b3",
+      "chapter": "Coordination Compounds",
+      "key": "D",
+      "content_hash": "8cced66ef68e670d248465490002b0bb6ae5292b0ef04d763d20b0287124f128",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.coordination-compounds.iupac-naming-cationic-complex",
+          "flags": [],
+          "note": "Key D verified: Co(III), cationic so no -ate, ammine before chlorido. A (order), B (-ate ending) and C (oxidation state II) are each a named naming rule error.",
+          "scored_content_hash": "8cced66ef68e670d248465490002b0bb6ae5292b0ef04d763d20b0287124f128"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.coordination-compounds.iupac-ligand-alphabetical-order",
+          "flags": [],
+          "note": "Key D confirmed: Co(III) in a +1 cation with 4 NH3 and 2 Cl-. A breaks alphabetical order (ammine before chlorido); B wrongly uses an anion -ate ending. Well keyed.",
+          "scored_content_hash": "8cced66ef68e670d248465490002b0bb6ae5292b0ef04d763d20b0287124f128"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.coordination-compounds.iupac-naming-cationic-complex",
+        "chemistry.coordination-compounds.iupac-ligand-alphabetical-order"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: ligands alphabetical (ammine before chlorido), Co(III) from x - 2 = +1, cationic so no -ate: tetraamminedichloridocobalt(III) chloride. Key D correct and unique; the names use the current IUPAC chlorido/ammine spelling of NCERT.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "8cced66ef68e670d248465490002b0bb6ae5292b0ef04d763d20b0287124f128",
+        "final_content_hash": "8cced66ef68e670d248465490002b0bb6ae5292b0ef04d763d20b0287124f128",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "c448902e-cfe8-4f58-afca-25e26e7a5cc9": {
+      "question_id": "c448902e-cfe8-4f58-afca-25e26e7a5cc9",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b3",
+      "chapter": "Coordination Compounds",
+      "key": "C",
+      "content_hash": "fc2bfb2e9f02884722f65e5a478bef37f9b19728111fe9460bc39e58baa82ead",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "hard",
+          "objective_tag": "chemistry.coordination-compounds.spin-only-magnetic-moment",
+          "flags": [],
+          "note": "Key C verified: moments 0, 2.83, 3.87, 4.90 BM give B, D, C, A. Low-spin Co(III) with NH3 is the trap that separates strong students.",
+          "scored_content_hash": "fc2bfb2e9f02884722f65e5a478bef37f9b19728111fe9460bc39e58baa82ead"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "hard",
+          "objective_tag": "chemistry.coordination-compounds.spin-only-magnetic-moment-octahedral",
+          "flags": [],
+          "note": "Key C confirmed: B 0 (low-spin Co3+), D 2.83, C 3.87, A 4.90 BM (high-spin Fe2+). Sequence distractors are well built; the hard label fits.",
+          "scored_content_hash": "fc2bfb2e9f02884722f65e5a478bef37f9b19728111fe9460bc39e58baa82ead"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "hard",
+          "hard"
+        ],
+        "agreed": "hard",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.coordination-compounds.spin-only-magnetic-moment",
+        "chemistry.coordination-compounds.spin-only-magnetic-moment-octahedral"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: [Co(NH3)6]3+ low-spin d6, 0 BM; [Ni(H2O)6]2+ d8, 2.83; [Cr(H2O)6]3+ d3, 3.87; [Fe(H2O)6]2+ high-spin d6, 4.90. Key C (B, D, C, A) correct and unique. Four species, about 90 s: upper end but fair for CUET.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "fc2bfb2e9f02884722f65e5a478bef37f9b19728111fe9460bc39e58baa82ead",
+        "final_content_hash": "fc2bfb2e9f02884722f65e5a478bef37f9b19728111fe9460bc39e58baa82ead",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "c459a1d2-65e0-4cd0-b071-3ec287fe0efc": {
+      "question_id": "c459a1d2-65e0-4cd0-b071-3ec287fe0efc",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b3",
+      "chapter": "d- and f-Block Elements",
+      "key": "B",
+      "content_hash": "7c2ab865eb4d3598f0b27baa823b7daa9c7c3f0866de0f91ea7a1b353ff4121e",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.d-and-f-block-elements.aqueous-ion-colours-transition-metals",
+          "flags": [],
+          "note": "Key B verified (Cu blue, Cr violet, Mn pink, Ni green). The explanation says other pairings only swap blue/violet or pink/green; option D does not fit that, a minor gap.",
+          "scored_content_hash": "7c2ab865eb4d3598f0b27baa823b7daa9c7c3f0866de0f91ea7a1b353ff4121e"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.d-and-f-block-elements.colour-of-aqueous-transition-ions",
+          "flags": [],
+          "note": "Key B confirmed (Cu blue, Cr violet, Mn pink, Ni green). Well-built four-pair match; Mn2+ 'pink' is very pale, the one detail a sceptic would query.",
+          "scored_content_hash": "7c2ab865eb4d3598f0b27baa823b7daa9c7c3f0866de0f91ea7a1b353ff4121e"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.d-and-f-block-elements.aqueous-ion-colours-transition-metals",
+        "chemistry.d-and-f-block-elements.colour-of-aqueous-transition-ions"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: Cu2+ blue, Cr3+ violet, Mn2+ pink, Ni2+ green (NCERT table). Key B correct and unique; each option is a clean mapping.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "7c2ab865eb4d3598f0b27baa823b7daa9c7c3f0866de0f91ea7a1b353ff4121e",
+        "final_content_hash": "7c2ab865eb4d3598f0b27baa823b7daa9c7c3f0866de0f91ea7a1b353ff4121e",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "c7147e61-c020-4ce4-9ca5-a48265b17d6e": {
+      "question_id": "c7147e61-c020-4ce4-9ca5-a48265b17d6e",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b2",
+      "chapter": "Solutions",
+      "key": "A",
+      "content_hash": "bd9973054036f7e67f9dbf7388ef0289b316a23a4b8c7391ba1b7e77af320251",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.solutions.vapour-composition-by-raoult-law",
+          "flags": [],
+          "note": "Key A verified: pX = 150, pY = 100, so X vapour fraction = 150/250 = 0.60. Distractors 0.50 (liquid fraction) and 0.40 are the classic slips.",
+          "scored_content_hash": "bd9973054036f7e67f9dbf7388ef0289b316a23a4b8c7391ba1b7e77af320251"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.solutions.vapour-composition-by-partial-pressure",
+          "flags": [],
+          "note": "Key A correct: pX 150, pY 100, total 250, yX 0.60. B (0.50, the liquid composition) and C (0.40, yY) are classic slips. Clean numerical.",
+          "scored_content_hash": "bd9973054036f7e67f9dbf7388ef0289b316a23a4b8c7391ba1b7e77af320251"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.solutions.vapour-composition-by-raoult-law",
+        "chemistry.solutions.vapour-composition-by-partial-pressure"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: pX = 0.5 x 300 = 150, pY = 100, total 250, yX = 150/250 = 0.60. Key A correct and unique; 0.50 is the liquid composition. Two quick steps, no calculator needed.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "bd9973054036f7e67f9dbf7388ef0289b316a23a4b8c7391ba1b7e77af320251",
+        "final_content_hash": "bd9973054036f7e67f9dbf7388ef0289b316a23a4b8c7391ba1b7e77af320251",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "cded2e6e-6e9e-45b1-a65b-3575d15e57ea": {
+      "question_id": "cded2e6e-6e9e-45b1-a65b-3575d15e57ea",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b2",
+      "chapter": "Biomolecules",
+      "key": "A",
+      "content_hash": "7c4f5f14ed104664af8c848a62882dd0c4a44673499f0acd417ef21abb9bc977",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.biomolecules.biomolecule-linkage-types",
+          "flags": [],
+          "note": "Key A verified: peptide-III, glycosidic-IV, phosphodiester-I, disulphide-II. Each distractor swaps one or two pairs; the layout is well formed.",
+          "scored_content_hash": "7c4f5f14ed104664af8c848a62882dd0c4a44673499f0acd417ef21abb9bc977"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.biomolecules.linkage-types-in-biopolymers",
+          "flags": [],
+          "note": "Key A correct. II and III overlap loosely (disulphide also joins amino acids), though the one-to-one match resolves it. Peptide/disulphide slip is a fair distractor.",
+          "scored_content_hash": "7c4f5f14ed104664af8c848a62882dd0c4a44673499f0acd417ef21abb9bc977"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.biomolecules.biomolecule-linkage-types",
+        "chemistry.biomolecules.linkage-types-in-biopolymers"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "Solved: peptide bond joins amino acids, glycosidic joins monosaccharides, phosphodiester joins nucleotides, disulphide joins cysteine residues. Key A correct and unique; every option is a clean mapping. Defect: ncert_ref uses the old Biomolecules number.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "ncert_ref"
+        ],
+        "judged_text": "final",
+        "judged_content_hash": "7c4f5f14ed104664af8c848a62882dd0c4a44673499f0acd417ef21abb9bc977",
+        "final_content_hash": "7c4f5f14ed104664af8c848a62882dd0c4a44673499f0acd417ef21abb9bc977",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "ncert_ref"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "ce3ca84d-bf8b-44e6-a55b-d5c42ba29c2b": {
+      "question_id": "ce3ca84d-bf8b-44e6-a55b-d5c42ba29c2b",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b1",
+      "chapter": "Haloalkanes & Haloarenes",
+      "key": "B",
+      "content_hash": "a1afe4cd55a9eb3c4cc69a51136d9efb727487f9fadc45b04c7df7de2950baa8",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "chemistry.haloalkanes-and-haloarenes.silver-cyanide-gives-isocyanide",
+          "flags": [],
+          "note": "Key B verified: covalent AgCN gives the isocyanide with bromoethane. Option A (KCN product) and C and D (nitrite products) are realistic traps. One-fact recall, so easy rather than medium.",
+          "scored_content_hash": "a1afe4cd55a9eb3c4cc69a51136d9efb727487f9fadc45b04c7df7de2950baa8"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.haloalkanes-and-haloarenes.ambident-nature-of-cyanide-ion",
+          "flags": [],
+          "note": "Key B confirmed: AgCN gives mainly the isocyanide; KCN would give the nitrile. Options A, C and D are on-target traps. No defect found.",
+          "scored_content_hash": "a1afe4cd55a9eb3c4cc69a51136d9efb727487f9fadc45b04c7df7de2950baa8"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "medium"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.haloalkanes-and-haloarenes.silver-cyanide-gives-isocyanide",
+        "chemistry.haloalkanes-and-haloarenes.ambident-nature-of-cyanide-ion"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: covalent AgCN attacks through N, giving the isocyanide CH3CH2NC. Key B correct and unique (KCN would give the nitrile, AgNO2 the nitro compound). NCERT ambident-nucleophile line.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "a1afe4cd55a9eb3c4cc69a51136d9efb727487f9fadc45b04c7df7de2950baa8",
+        "final_content_hash": "a1afe4cd55a9eb3c4cc69a51136d9efb727487f9fadc45b04c7df7de2950baa8",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "e6056587-a51f-421d-a7eb-904e696e12af": {
+      "question_id": "e6056587-a51f-421d-a7eb-904e696e12af",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b3",
+      "chapter": "Electrochemistry",
+      "key": "C",
+      "content_hash": "d25d2e5a30f5c3fe70b2537ebc7265b5271e8f3433c6c68f1c1101782857b0b0",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "chemistry.electrochemistry.molar-conductivity-on-dilution",
+          "flags": [],
+          "note": "Key C verified: kappa falls and molar conductivity rises on dilution. The both-decrease and both-increase options are real student errors; the explanation's reason is loose but not wrong.",
+          "scored_content_hash": "d25d2e5a30f5c3fe70b2537ebc7265b5271e8f3433c6c68f1c1101782857b0b0"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "chemistry.electrochemistry.molar-conductivity-on-dilution",
+          "flags": [],
+          "note": "Key C confirmed: kappa falls and Lambda_m rises on dilution. A, B and D are the usual naive patterns, so a fair direct-recall item. Explanation accurate.",
+          "scored_content_hash": "d25d2e5a30f5c3fe70b2537ebc7265b5271e8f3433c6c68f1c1101782857b0b0"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "chemistry.electrochemistry.molar-conductivity-on-dilution",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.electrochemistry.molar-conductivity-on-dilution",
+        "chemistry.electrochemistry.molar-conductivity-on-dilution"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: dilution lowers kappa but raises Lambda-m. Key C correct and unique. Easy NCERT staple.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "d25d2e5a30f5c3fe70b2537ebc7265b5271e8f3433c6c68f1c1101782857b0b0",
+        "final_content_hash": "d25d2e5a30f5c3fe70b2537ebc7265b5271e8f3433c6c68f1c1101782857b0b0",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "ef0f30c8-bde7-4adc-ab4a-0934d0197b63": {
+      "question_id": "ef0f30c8-bde7-4adc-ab4a-0934d0197b63",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b2",
+      "chapter": "Solutions",
+      "key": "B",
+      "content_hash": "96894b6a27db29cffaf276492f71c01cc7d6d65ece43b8e83493c6751750d083",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.solutions.azeotrope-properties-and-separation",
+          "flags": [],
+          "note": "Key B verified: A is false (composition fixed); B, C and D are true. Statement C is the accepted textbook claim for simple fractional distillation.",
+          "scored_content_hash": "96894b6a27db29cffaf276492f71c01cc7d6d65ece43b8e83493c6751750d083"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.solutions.azeotrope-properties-and-types",
+          "flags": [],
+          "note": "Key B correct: B, C and D true; A false (azeotrope composition is fixed). Clean statement set; C and D are standard textbook facts.",
+          "scored_content_hash": "96894b6a27db29cffaf276492f71c01cc7d6d65ece43b8e83493c6751750d083"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.solutions.azeotrope-properties-and-separation",
+        "chemistry.solutions.azeotrope-properties-and-types"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: (A) false, (B) true, (C) true, (D) true (68 percent HNO3 is the NCERT maximum-boiling azeotrope). Key B (B, C, D) correct and unique. Syllabus allows azeotropes as an elementary idea and this stays at that level.",
+        "authoring_verdict": "claude_audited",
+        "audit_repaired": true,
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "96894b6a27db29cffaf276492f71c01cc7d6d65ece43b8e83493c6751750d083",
+        "final_content_hash": "96894b6a27db29cffaf276492f71c01cc7d6d65ece43b8e83493c6751750d083",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "efce0722-5459-4073-8962-fe465fb5fa07": {
+      "question_id": "efce0722-5459-4073-8962-fe465fb5fa07",
+      "batch": "authored-2026-10-17-w4__chemistry__w4b1",
+      "chapter": "Aldehydes, Ketones & Carboxylic Acids",
+      "key": "B",
+      "content_hash": "2099c36e0c5cb3ddb14622b959dfb068a59a1b6975ee88fd438aae3d875e785e",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.acetal-formation-from-aldehydes",
+          "flags": [],
+          "note": "Key B verified: excess methanol with dry HCl gives the acetal. Hemiacetal is a real intermediate trap; methyl ethanoate needs an oxidation step. Excess alcohol is a mild cue.",
+          "scored_content_hash": "2099c36e0c5cb3ddb14622b959dfb068a59a1b6975ee88fd438aae3d875e785e"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.acetal-formation-from-aldehyde",
+          "flags": [],
+          "note": "Key B confirmed: acetal 1,1-dimethoxyethane. The hemiacetal 1-methoxyethan-1-ol is a good trap; no defect found.",
+          "scored_content_hash": "2099c36e0c5cb3ddb14622b959dfb068a59a1b6975ee88fd438aae3d875e785e"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.acetal-formation-from-aldehydes",
+        "chemistry.aldehydes-ketones-and-carboxylic-acids.acetal-formation-from-aldehyde"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Solved: dry HCl with excess CH3OH takes ethanal through the hemiacetal to the acetal CH3CH(OCH3)2, 1,1-dimethoxyethane. Key B correct and unique; the hemiacetal is only the intermediate.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "2099c36e0c5cb3ddb14622b959dfb068a59a1b6975ee88fd438aae3d875e785e",
+        "final_content_hash": "2099c36e0c5cb3ddb14622b959dfb068a59a1b6975ee88fd438aae3d875e785e",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
     }
   },
   "authored": {
@@ -31517,6 +35478,18 @@
       "repaired_text_policy": "admit",
       "held_for_fresh_judge_pass": 0,
       "judged_text_differs_from_final": 5,
+      "rubric": "docs/brain/NTA-AGENT-RUBRIC.md",
+      "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad"
+    },
+    "claude-authored-2026-10-17-w4": {
+      "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the final wave-4 entries (docs/brain/reports/authored-w4/wave4-score-entries-final-2026-10-17.json, built by scripts/authored-w2-accept.mjs --wave=w4 --mode=final from the raw judge files, the expert verdicts and the blind re-solve). Per-question provenance says which text each judge scored.",
+      "merged_at": "2026-10-17T04:38:05.858Z",
+      "questions": 42,
+      "judge_model": "claude-subagent-unrecorded",
+      "judge_date": "2026-10-17",
+      "repaired_text_policy": "admit",
+      "held_for_fresh_judge_pass": 0,
+      "judged_text_differs_from_final": 1,
       "rubric": "docs/brain/NTA-AGENT-RUBRIC.md",
       "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad"
     }

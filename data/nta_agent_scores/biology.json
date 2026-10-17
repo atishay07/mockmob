@@ -3,9 +3,10 @@
   "subject": "biology",
   "rubric_version": "nta-agent-rubric-1",
   "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad",
-  "merged_at": "2026-10-14T12:10:00.000Z",
+  "merged_at": "2026-10-17T04:38:05.858Z",
   "models": [
-    "claude-haiku-5-5"
+    "claude-haiku-5-5",
+    "claude-subagent-unrecorded"
   ],
   "calibration": {
     "status": "calibrated",
@@ -73,7 +74,7 @@
       "hedge_wording": 3
     },
     "mean_of_means": 6.38,
-    "admissible_before_row_checks": 235
+    "admissible_before_row_checks": 270
   },
   "questions": {
     "0fad5eeb-3be5-4439-bb2b-b719127d15e9": {
@@ -27364,6 +27365,3329 @@
           "solver": "claude-haiku-5-5"
         }
       }
+    },
+    "03f95952-f882-4150-acef-2ef0449a2aca": {
+      "question_id": "03f95952-f882-4150-acef-2ef0449a2aca",
+      "batch": "authored-2026-10-17-w4__biology__w4b3",
+      "chapter": "Organisms & Populations",
+      "key": "C",
+      "content_hash": "c086b64e946da09c306cc13933c2af68cc7784128674dba3d381c64477705c27",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.organisms-and-populations.sigmoid-growth-phase-sequence",
+          "flags": [],
+          "note": "Blind C matches key: lag, acceleration, deceleration, asymptote is the standard sigmoid order. Each distractor is a plausible reversal of two phases.",
+          "scored_content_hash": "c086b64e946da09c306cc13933c2af68cc7784128674dba3d381c64477705c27"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.organisms-and-populations.logistic-growth-phase-sequence",
+          "flags": [],
+          "note": "Key C confirmed: lag, acceleration, deceleration, asymptote. Distractors swap acceleration and deceleration or move a phase before the lag. Phases are listed unordered.",
+          "scored_content_hash": "c086b64e946da09c306cc13933c2af68cc7784128674dba3d381c64477705c27"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.organisms-and-populations.sigmoid-growth-phase-sequence",
+        "biology.organisms-and-populations.logistic-growth-phase-sequence"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "Logistic growth: lag phase, acceleration, deceleration, asymptote near carrying capacity: B, D, A, C (key C). Medium. NCERT chapter number corrected from 13 to 11.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "ncert_ref"
+        ],
+        "judged_text": "final",
+        "judged_content_hash": "c086b64e946da09c306cc13933c2af68cc7784128674dba3d381c64477705c27",
+        "final_content_hash": "c086b64e946da09c306cc13933c2af68cc7784128674dba3d381c64477705c27",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "ncert_ref"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "09a87281-edba-4507-85d1-c3e313dd7071": {
+      "question_id": "09a87281-edba-4507-85d1-c3e313dd7071",
+      "batch": "authored-2026-10-17-w4__biology__w4b2",
+      "chapter": "Human Health & Disease",
+      "key": "B",
+      "content_hash": "f804f4cd7d1266f4b7b3a9e04466772f2172ed8758c9015d6e5a4543f0a7f3c9",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.human-health-and-disease.heroin-source-and-effect",
+          "flags": [],
+          "note": "Heroin from acetylation of morphine, Papaver somniferum, depressant: verified. Cocaine and cannabis rows are easy eliminations.",
+          "scored_content_hash": "f804f4cd7d1266f4b7b3a9e04466772f2172ed8758c9015d6e5a4543f0a7f3c9"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.human-health-and-disease.heroin-acetylated-morphine-depressant",
+          "flags": [],
+          "note": "Heroin, Papaver somniferum and depressant effect are all correct. Each distractor fails on a different fact (cocaine on drug and plant, cannabis on plant, D on effect).",
+          "scored_content_hash": "f804f4cd7d1266f4b7b3a9e04466772f2172ed8758c9015d6e5a4543f0a7f3c9"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.human-health-and-disease.heroin-source-and-effect",
+        "biology.human-health-and-disease.heroin-acetylated-morphine-depressant"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Heroin (diacetylmorphine) is made by acetylation of morphine from Papaver somniferum and is a depressant (NCERT). Key B is unique, the other rows change the drug, plant or effect. Medium.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "f804f4cd7d1266f4b7b3a9e04466772f2172ed8758c9015d6e5a4543f0a7f3c9",
+        "final_content_hash": "f804f4cd7d1266f4b7b3a9e04466772f2172ed8758c9015d6e5a4543f0a7f3c9",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "1ed56924-fcf9-4015-8327-e71c2be3dbe5": {
+      "question_id": "1ed56924-fcf9-4015-8327-e71c2be3dbe5",
+      "batch": "authored-2026-10-17-w4__biology__w4b2",
+      "chapter": "Human Health & Disease",
+      "key": "C",
+      "content_hash": "0d700c91361233ea26b3fd9a27106453b4e2420e79a20b53d81beb0c3dd9a9ec",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "biology.human-health-and-disease.typhoid-confirmatory-test",
+          "flags": [],
+          "note": "Widal test is the standard confirmatory test for typhoid; verified. Distractors are off-topic (ELISA is the HIV test), so elimination is easy.",
+          "scored_content_hash": "0d700c91361233ea26b3fd9a27106453b4e2420e79a20b53d81beb0c3dd9a9ec"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "biology.human-health-and-disease.typhoid-confirmation-test",
+          "flags": [],
+          "note": "Widal test is the correct confirmatory test for typhoid. Biopsy and PCR are throwaway distractors; ELISA is the only plausible one. Clean direct recall.",
+          "scored_content_hash": "0d700c91361233ea26b3fd9a27106453b4e2420e79a20b53d81beb0c3dd9a9ec"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.human-health-and-disease.typhoid-confirmatory-test",
+        "biology.human-health-and-disease.typhoid-confirmation-test"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Typhoid is confirmed by the Widal test (NCERT); ELISA (HIV), biopsy (cancer) and PCR are the other NCERT tests. Key C is unique. Easy.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "0d700c91361233ea26b3fd9a27106453b4e2420e79a20b53d81beb0c3dd9a9ec",
+        "final_content_hash": "0d700c91361233ea26b3fd9a27106453b4e2420e79a20b53d81beb0c3dd9a9ec",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "2174cc38-ef8a-41be-9d52-6db3b89bf9a8": {
+      "question_id": "2174cc38-ef8a-41be-9d52-6db3b89bf9a8",
+      "batch": "authored-2026-10-17-w4__biology__w4b3",
+      "chapter": "Biotechnology & its Applications",
+      "key": "C",
+      "content_hash": "0cf0691b260ed4dda5ef6968a55435805c5ae1323dd4a03266397cfc1110a75b",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.biotechnology-and-its-applications.sequence-of-transgenic-plant-steps",
+          "flags": [],
+          "note": "Blind C matches key: only isolate, insert into Ti plasmid, infect explants, then regenerate is valid. Each distractor misplaces one step. Clean.",
+          "scored_content_hash": "0cf0691b260ed4dda5ef6968a55435805c5ae1323dd4a03266397cfc1110a75b"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.biotechnology-and-its-applications.transgenic-plant-development-steps",
+          "flags": [],
+          "note": "Key C confirmed: isolate cry gene, insert into Ti plasmid, infect explants, regenerate. Each distractor reverses one real dependency. Clean stem; order is not narrated.",
+          "scored_content_hash": "0cf0691b260ed4dda5ef6968a55435805c5ae1323dd4a03266397cfc1110a75b"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.biotechnology-and-its-applications.sequence-of-transgenic-plant-steps",
+        "biology.biotechnology-and-its-applications.transgenic-plant-development-steps"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "Isolate the cry gene, insert it into the Ti plasmid, infect explants with Agrobacterium, regenerate plants by tissue culture: C, B, D, A (key C). Unique sequence. The chapter number in the NCERT reference was 11; in the current NCERT, Biotechnology and its Applications is Chapter 10.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "ncert_ref"
+        ],
+        "judged_text": "final",
+        "judged_content_hash": "0cf0691b260ed4dda5ef6968a55435805c5ae1323dd4a03266397cfc1110a75b",
+        "final_content_hash": "0cf0691b260ed4dda5ef6968a55435805c5ae1323dd4a03266397cfc1110a75b",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "ncert_ref"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "3434a96f-2ebc-45ae-932b-f5729c83538b": {
+      "question_id": "3434a96f-2ebc-45ae-932b-f5729c83538b",
+      "batch": "authored-2026-10-17-w4__biology__w4b2",
+      "chapter": "Human Health & Disease",
+      "key": "A",
+      "content_hash": "5831da6d185717afa9bb88c9f7f19cb08a4de1740b1823b36f6dc7c0735f02c5",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.human-health-and-disease.allergy-ige-mast-cell-histamine",
+          "flags": [],
+          "note": "IgE and mast cells in allergy verified. Macrophage and IgA distractors are weak, so one correct fact decides the item.",
+          "scored_content_hash": "5831da6d185717afa9bb88c9f7f19cb08a4de1740b1823b36f6dc7c0735f02c5"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.human-health-and-disease.allergy-ige-mast-cell-histamine",
+          "flags": [],
+          "note": "Clean pair item: IgE and mast cells are correct, and the IgA and macrophage options are the common student errors. Explanation facts check out.",
+          "scored_content_hash": "5831da6d185717afa9bb88c9f7f19cb08a4de1740b1823b36f6dc7c0735f02c5"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "biology.human-health-and-disease.allergy-ige-mast-cell-histamine",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.human-health-and-disease.allergy-ige-mast-cell-histamine",
+        "biology.human-health-and-disease.allergy-ige-mast-cell-histamine"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Allergy: IgE antibodies and histamine release from mast cells (NCERT); IgA is the colostrum antibody and macrophages are phagocytes. Key A is unique, options equal in length. Medium.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "5831da6d185717afa9bb88c9f7f19cb08a4de1740b1823b36f6dc7c0735f02c5",
+        "final_content_hash": "5831da6d185717afa9bb88c9f7f19cb08a4de1740b1823b36f6dc7c0735f02c5",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "3920888b-72d1-4cfd-ad56-301ef2e89c5f": {
+      "question_id": "3920888b-72d1-4cfd-ad56-301ef2e89c5f",
+      "batch": "authored-2026-10-17-w4__biology__w4b1",
+      "chapter": "Sexual Reproduction in Flowering Plants",
+      "key": "A",
+      "content_hash": "12f3245b98f0bf01ec3abfac036bd3c6f44fd420265fe75ddc5811ba24398dcc",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.sexual-reproduction-in-flowering-plants.dicot-embryo-development-sequence",
+          "flags": [],
+          "note": "Key A correct: zygote, globular, heart-shaped, mature. Option C (globular before zygote) is a throwaway; explanation is accurate. Fair recall sequence.",
+          "scored_content_hash": "12f3245b98f0bf01ec3abfac036bd3c6f44fd420265fe75ddc5811ba24398dcc"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.sexual-reproduction-in-flowering-plants.dicot-embryo-development-stages",
+          "flags": [],
+          "note": "Key A correct: zygote, globular, heart-shaped, mature embryo. Option B puts heart-shaped before globular, a realistic error. Clean sequence with well-built distractors.",
+          "scored_content_hash": "12f3245b98f0bf01ec3abfac036bd3c6f44fd420265fe75ddc5811ba24398dcc"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.sexual-reproduction-in-flowering-plants.dicot-embryo-development-sequence",
+        "biology.sexual-reproduction-in-flowering-plants.dicot-embryo-development-stages"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Zygote, proembryo, globular, heart-shaped, mature embryo is the NCERT dicot order, so C, D, A, B (key A) is the only valid sequence; the other options each break the globular-before-heart rule or put the mature embryo early. Key is not the listed order. Medium.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "12f3245b98f0bf01ec3abfac036bd3c6f44fd420265fe75ddc5811ba24398dcc",
+        "final_content_hash": "12f3245b98f0bf01ec3abfac036bd3c6f44fd420265fe75ddc5811ba24398dcc",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "43c048d0-4697-411f-9819-a9a56b1c234c": {
+      "question_id": "43c048d0-4697-411f-9819-a9a56b1c234c",
+      "batch": "authored-2026-10-17-w4__biology__w4b1",
+      "chapter": "Evolution",
+      "key": "D",
+      "content_hash": "31c989c2bdf338c518916922a4db647cf21dea5f76cc864c5c434b2e59657dfc",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "biology.evolution.origin-of-life-reducing-atmosphere",
+          "flags": [],
+          "note": "Key D correct: Miller's mixture had methane, hydrogen, ammonia and water vapour, with no free oxygen. All distractors were present, so the item rests on one recalled fact.",
+          "scored_content_hash": "31c989c2bdf338c518916922a4db647cf21dea5f76cc864c5c434b2e59657dfc"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "biology.evolution.primitive-atmosphere-gas-composition",
+          "flags": [],
+          "note": "Key D correct: the mixture held methane, hydrogen, ammonia and water vapour, with no free oxygen. Clean recall; the other three options are all present in the mixture.",
+          "scored_content_hash": "31c989c2bdf338c518916922a4db647cf21dea5f76cc864c5c434b2e59657dfc"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.evolution.origin-of-life-reducing-atmosphere",
+        "biology.evolution.primitive-atmosphere-gas-composition"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Miller's mixture was methane, ammonia, hydrogen and water vapour with no free oxygen; key D is unique. Easy.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "31c989c2bdf338c518916922a4db647cf21dea5f76cc864c5c434b2e59657dfc",
+        "final_content_hash": "31c989c2bdf338c518916922a4db647cf21dea5f76cc864c5c434b2e59657dfc",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "47f1daf6-2e46-4659-80ba-53388a92114f": {
+      "question_id": "47f1daf6-2e46-4659-80ba-53388a92114f",
+      "batch": "authored-2026-10-17-w4__biology__w4b3",
+      "chapter": "Ecosystem",
+      "key": "B",
+      "content_hash": "8f8ef1056ae38613634d5e9023d5051abf62f2c3f1aefba87ea48aadd04ffeed",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.ecosystem.solar-energy-productivity-hierarchy",
+          "flags": [],
+          "note": "Blind B matches key: incident radiation > PAR > GPP > NPP. The explanation's less than half for PAR is loose; about half is the usual figure.",
+          "scored_content_hash": "8f8ef1056ae38613634d5e9023d5051abf62f2c3f1aefba87ea48aadd04ffeed"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.ecosystem.energy-capture-productivity-order",
+          "flags": [],
+          "note": "Key B confirmed: incident radiation > PAR > GPP > NPP. The explanation's 'less than half' for PAR is loose (about 50 per cent) but not wrong enough to flag.",
+          "scored_content_hash": "8f8ef1056ae38613634d5e9023d5051abf62f2c3f1aefba87ea48aadd04ffeed"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.ecosystem.solar-energy-productivity-hierarchy",
+        "biology.ecosystem.energy-capture-productivity-order"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "Incident solar radiation, then PAR (under 50 percent), then GPP (2 to 10 percent of PAR), then NPP: D, A, B, C (key B). Medium. NCERT chapter number corrected from 14 to 12.",
+        "authoring_verdict": "claude_audited",
+        "audit_repaired": true,
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "ncert_ref"
+        ],
+        "judged_text": "final",
+        "judged_content_hash": "8f8ef1056ae38613634d5e9023d5051abf62f2c3f1aefba87ea48aadd04ffeed",
+        "final_content_hash": "8f8ef1056ae38613634d5e9023d5051abf62f2c3f1aefba87ea48aadd04ffeed",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "ncert_ref"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "4e623f32-98a2-4674-ae0b-c6fbac945b8c": {
+      "question_id": "4e623f32-98a2-4674-ae0b-c6fbac945b8c",
+      "batch": "authored-2026-10-17-w4__biology__w4b1",
+      "chapter": "Reproductive Health",
+      "key": "A",
+      "content_hash": "bd06e1c9cf2d1a48719ea6c0ac120d2408bb12122638050441698a8bf706241a",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.reproductive-health.reproductive-technologies-definitions",
+          "flags": [],
+          "note": "Key A correct on all four pairs. Lists are run inline in the stem, hard to scan; distractors are well built, each varying two pairs. No flag.",
+          "scored_content_hash": "bd06e1c9cf2d1a48719ea6c0ac120d2408bb12122638050441698a8bf706241a"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.reproductive-health.reproductive-technique-definitions",
+          "flags": [],
+          "note": "Key A correct: Amniocentesis IV, MTP II, IUI III, ZIFT I. Distractors are swaps of IUI and ZIFT. Clean four-pair match.",
+          "scored_content_hash": "bd06e1c9cf2d1a48719ea6c0ac120d2408bb12122638050441698a8bf706241a"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.reproductive-health.reproductive-technologies-definitions",
+        "biology.reproductive-health.reproductive-technique-definitions"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Amniocentesis-IV, MTP-II, IUI-III, ZIFT-I (key A) match the NCERT definitions (ZIFT: zygote or early embryo up to 8 blastomeres into the fallopian tube). Options are real pairings, none is the listed order, A to D and I to IV are defined in the stem. Medium.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "bd06e1c9cf2d1a48719ea6c0ac120d2408bb12122638050441698a8bf706241a",
+        "final_content_hash": "bd06e1c9cf2d1a48719ea6c0ac120d2408bb12122638050441698a8bf706241a",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "61165895-71ee-4a42-accb-05ee502b7960": {
+      "question_id": "61165895-71ee-4a42-accb-05ee502b7960",
+      "batch": "authored-2026-10-17-w4__biology__w4b3",
+      "chapter": "Biodiversity & Conservation",
+      "key": "B",
+      "content_hash": "0e6f0ba3b1e9e976a5cce1f35843a74917fa18325931e16c20f7de50b477d56a",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.biodiversity-and-conservation.tropical-diversity-explanations",
+          "flags": [],
+          "note": "Blind B matches key: glaciation was a temperate, not tropical, event; A, C, D are standard reasons. The glacier cue makes it guessable.",
+          "scored_content_hash": "0e6f0ba3b1e9e976a5cce1f35843a74917fa18325931e16c20f7de50b477d56a"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.biodiversity-and-conservation.tropical-diversity-explanations",
+          "flags": [],
+          "note": "Key B confirmed: glaciation affected temperate regions, not the tropics. A, C and D are standard reasons. The NOT stem is clean.",
+          "scored_content_hash": "0e6f0ba3b1e9e976a5cce1f35843a74917fa18325931e16c20f7de50b477d56a"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "biology.biodiversity-and-conservation.tropical-diversity-explanations",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.biodiversity-and-conservation.tropical-diversity-explanations",
+        "biology.biodiversity-and-conservation.tropical-diversity-explanations"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "NCERT lists long undisturbed evolutionary time, less seasonal constant environment and more solar energy for tropical diversity; temperate regions were glaciated, not the tropics. Key B (the NOT item) is unique. Medium. NCERT chapter number corrected from 15 to 13.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "ncert_ref"
+        ],
+        "judged_text": "final",
+        "judged_content_hash": "0e6f0ba3b1e9e976a5cce1f35843a74917fa18325931e16c20f7de50b477d56a",
+        "final_content_hash": "0e6f0ba3b1e9e976a5cce1f35843a74917fa18325931e16c20f7de50b477d56a",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "ncert_ref"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "66a5caed-b85f-4f55-b455-26ff8f422d8c": {
+      "question_id": "66a5caed-b85f-4f55-b455-26ff8f422d8c",
+      "batch": "authored-2026-10-17-w4__biology__w4b2",
+      "chapter": "Biotechnology Principles & Processes",
+      "key": "D",
+      "content_hash": "99d5ce3c874f838302d05cbd1c7dba3242decf33754c0aaadf86bfd73a277219",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "biology.biotechnology-principles-and-processes.origin-of-replication-copy-number",
+          "flags": [],
+          "note": "Origin of replication controls copy number: verified. Standard direct recall with three plausible but wrong vector parts.",
+          "scored_content_hash": "99d5ce3c874f838302d05cbd1c7dba3242decf33754c0aaadf86bfd73a277219"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "biology.biotechnology-principles-and-processes.origin-of-replication-copy-number",
+          "flags": [],
+          "note": "Origin of replication controls copy number. Marker, recognition site and promoter are the standard distractors; direct recall with an accurate explanation.",
+          "scored_content_hash": "99d5ce3c874f838302d05cbd1c7dba3242decf33754c0aaadf86bfd73a277219"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "biology.biotechnology-principles-and-processes.origin-of-replication-copy-number",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.biotechnology-principles-and-processes.origin-of-replication-copy-number",
+        "biology.biotechnology-principles-and-processes.origin-of-replication-copy-number"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "The origin of replication starts replication and controls the copy number of the linked DNA (NCERT). Key D is unique. Easy.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "99d5ce3c874f838302d05cbd1c7dba3242decf33754c0aaadf86bfd73a277219",
+        "final_content_hash": "99d5ce3c874f838302d05cbd1c7dba3242decf33754c0aaadf86bfd73a277219",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "787ef85b-5eb6-43a2-8f91-d91230268051": {
+      "question_id": "787ef85b-5eb6-43a2-8f91-d91230268051",
+      "batch": "authored-2026-10-17-w4__biology__w4b1",
+      "chapter": "Molecular Basis of Inheritance",
+      "key": "D",
+      "content_hash": "3b4d02a3f3826f66e8e2fe2541234daeb9fdcc78ce799fa80a0bf1a833f31e3d",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.molecular-basis-of-inheritance.sulphur-labels-phage-protein",
+          "flags": [],
+          "note": "Key D correct: 35S labels protein, and blending moves the coats to the supernatant. A (viral DNA in pellet), B and C are real misconceptions, including the 32P confusion.",
+          "scored_content_hash": "3b4d02a3f3826f66e8e2fe2541234daeb9fdcc78ce799fa80a0bf1a833f31e3d"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.molecular-basis-of-inheritance.radiolabel-location-after-blending",
+          "flags": [],
+          "note": "Key D correct: 35S labels protein, which stays in the supernatant with the empty coats. A to C each swap the location or the molecule. Paper-ready.",
+          "scored_content_hash": "3b4d02a3f3826f66e8e2fe2541234daeb9fdcc78ce799fa80a0bf1a833f31e3d"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.molecular-basis-of-inheritance.sulphur-labels-phage-protein",
+        "biology.molecular-basis-of-inheritance.radiolabel-location-after-blending"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "35S labels the protein coat, which stays outside the bacteria and is found in the supernatant after blending and centrifugation; key D is unique. Options are of equal length. Medium.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "3b4d02a3f3826f66e8e2fe2541234daeb9fdcc78ce799fa80a0bf1a833f31e3d",
+        "final_content_hash": "3b4d02a3f3826f66e8e2fe2541234daeb9fdcc78ce799fa80a0bf1a833f31e3d",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "83d1ddf7-0c21-44f5-9572-f9d1822321bc": {
+      "question_id": "83d1ddf7-0c21-44f5-9572-f9d1822321bc",
+      "batch": "authored-2026-10-17-w4__biology__w4b1",
+      "chapter": "Molecular Basis of Inheritance",
+      "key": "C",
+      "content_hash": "1e123ac660885d39d301896bc093fc90d09ad1b65ccb313af772e1a2ed9c3e88",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "hard",
+          "objective_tag": "biology.molecular-basis-of-inheritance.anticodon-from-template-strand",
+          "flags": [],
+          "note": "Key C correct: template gives mRNA AUG CCU AGG; third codon AGG pairs with 3'-UCC-5'. Distractors are direction and codon slips. Multi-step, clean wording.",
+          "scored_content_hash": "1e123ac660885d39d301896bc093fc90d09ad1b65ccb313af772e1a2ed9c3e88"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "hard",
+          "objective_tag": "biology.molecular-basis-of-inheritance.anticodon-from-template-strand",
+          "flags": [],
+          "note": "Key C correct: mRNA 5'-AUGCCUAGG-3', third codon AGG, antiparallel anticodon 3'-UCC-5'. A is the codon itself, B is the second anticodon. Multi-step, well-built distractors.",
+          "scored_content_hash": "1e123ac660885d39d301896bc093fc90d09ad1b65ccb313af772e1a2ed9c3e88"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "biology.molecular-basis-of-inheritance.anticodon-from-template-strand",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "hard",
+          "hard"
+        ],
+        "agreed": "hard",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.molecular-basis-of-inheritance.anticodon-from-template-strand",
+        "biology.molecular-basis-of-inheritance.anticodon-from-template-strand"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Template 3'-TACGGATCC-5' gives mRNA 5'-AUGCCUAGG-3'; third codon AGG; the antiparallel anticodon is 3'-UCC-5' (key C). 3'-GGA-5' is the anticodon of codon two, 3'-AGG-5' copies the codon. Unique, all four options same length. Hard is the right label (both judges), within CUET reach with NCERT's codon-anticodon pairing.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "1e123ac660885d39d301896bc093fc90d09ad1b65ccb313af772e1a2ed9c3e88",
+        "final_content_hash": "1e123ac660885d39d301896bc093fc90d09ad1b65ccb313af772e1a2ed9c3e88",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "84a951f7-b80d-4981-b476-3e4be990ce39": {
+      "question_id": "84a951f7-b80d-4981-b476-3e4be990ce39",
+      "batch": "authored-2026-10-17-w4__biology__w4b1",
+      "chapter": "Human Reproduction",
+      "key": "C",
+      "content_hash": "6d01a9bdb0b38006d3aa37e86f67a2fe8adb43fb5635599c7cac3673a5d59799",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.human-reproduction.blastocyst-trophoblast-inner-cell-mass",
+          "flags": [],
+          "note": "Key C correct: trophoblast attaches, inner cell mass forms the embryo. Option B repeats trophoblast as the embryo-former; A reverses roles. Accurate explanation, fair NCERT item.",
+          "scored_content_hash": "6d01a9bdb0b38006d3aa37e86f67a2fe8adb43fb5635599c7cac3673a5d59799"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "biology.human-reproduction.blastocyst-implantation-roles",
+          "flags": [],
+          "note": "Key C correct: trophoblast attaches, inner cell mass forms the embryo. A and D reverse the roles as intended traps. The second half of B is a throwaway.",
+          "scored_content_hash": "6d01a9bdb0b38006d3aa37e86f67a2fe8adb43fb5635599c7cac3673a5d59799"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "easy"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.human-reproduction.blastocyst-trophoblast-inner-cell-mass",
+        "biology.human-reproduction.blastocyst-implantation-roles"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Trophoblast attaches to the endometrium, inner cell mass forms the embryo (NCERT). Key C is unique; the other rows each swap one role. Options of similar length. Medium.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "6d01a9bdb0b38006d3aa37e86f67a2fe8adb43fb5635599c7cac3673a5d59799",
+        "final_content_hash": "6d01a9bdb0b38006d3aa37e86f67a2fe8adb43fb5635599c7cac3673a5d59799",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "914f319b-fe73-4d95-ac69-112442cffdd4": {
+      "question_id": "914f319b-fe73-4d95-ac69-112442cffdd4",
+      "batch": "authored-2026-10-17-w4__biology__w4b2",
+      "chapter": "Microbes in Human Welfare",
+      "key": "C",
+      "content_hash": "a695dcce3374f74e4e0757b9fda6daccc3a26fb4bb2617b3132eabce4bdc28da",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "biology.microbes-in-human-welfare.statin-cholesterol-inhibition-mechanism",
+          "flags": [],
+          "note": "Statins as competitive inhibitors of cholesterol synthesis: verified. Other distractors are other NCERT drugs. One recall fact decides it.",
+          "scored_content_hash": "a695dcce3374f74e4e0757b9fda6daccc3a26fb4bb2617b3132eabce4bdc28da"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.microbes-in-human-welfare.statins-hmg-coa-reductase-inhibition",
+          "flags": [],
+          "note": "Key C correct: statins competitively inhibit cholesterol synthesis. The other three options give the roles of other microbial products, which are decent distractors.",
+          "scored_content_hash": "a695dcce3374f74e4e0757b9fda6daccc3a26fb4bb2617b3132eabce4bdc28da"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "easy",
+          "medium"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.microbes-in-human-welfare.statin-cholesterol-inhibition-mechanism",
+        "biology.microbes-in-human-welfare.statins-hmg-coa-reductase-inhibition"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Statins from Monascus purpureus lower blood cholesterol by competitively inhibiting the enzyme that makes it (NCERT). Key C is unique (it is the longest option, 82 against 71 to 78, no real gap). Medium.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "a695dcce3374f74e4e0757b9fda6daccc3a26fb4bb2617b3132eabce4bdc28da",
+        "final_content_hash": "a695dcce3374f74e4e0757b9fda6daccc3a26fb4bb2617b3132eabce4bdc28da",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "93f0a684-7f2b-4742-81bd-b68eef0a280e": {
+      "question_id": "93f0a684-7f2b-4742-81bd-b68eef0a280e",
+      "batch": "authored-2026-10-17-w4__biology__w4b2",
+      "chapter": "Human Health & Disease",
+      "key": "D",
+      "content_hash": "5954c61120914500783ed1039b71485f41a0ef343b461eda3c6679bb1a312557",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.human-health-and-disease.hiv-replication-sequence",
+          "flags": [],
+          "note": "Sequence D,B,C,A verified: macrophage entry, reverse transcription, integration, progeny attacking helper T. Options are fair; step A is wordy.",
+          "scored_content_hash": "5954c61120914500783ed1039b71485f41a0ef343b461eda3c6679bb1a312557"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.human-health-and-disease.hiv-replication-sequence",
+          "flags": [],
+          "note": "Key D verified: entry into macrophage, reverse transcription, integration, then progeny attack T cells. Choice between B and D rests on the integration step; explanation accurate.",
+          "scored_content_hash": "5954c61120914500783ed1039b71485f41a0ef343b461eda3c6679bb1a312557"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "biology.human-health-and-disease.hiv-replication-sequence",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.human-health-and-disease.hiv-replication-sequence",
+        "biology.human-health-and-disease.hiv-replication-sequence"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "NCERT order: HIV enters a macrophage, RNA copied to DNA by reverse transcriptase, viral DNA integrates into host DNA, progeny viruses attack helper T cells: D, B, C, A (key D). Medium.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "5954c61120914500783ed1039b71485f41a0ef343b461eda3c6679bb1a312557",
+        "final_content_hash": "5954c61120914500783ed1039b71485f41a0ef343b461eda3c6679bb1a312557",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "97c20f8d-1a42-4f39-aa50-3303ce3135e7": {
+      "question_id": "97c20f8d-1a42-4f39-aa50-3303ce3135e7",
+      "batch": "authored-2026-10-17-w4__biology__w4b1",
+      "chapter": "Evolution",
+      "key": "A",
+      "content_hash": "b0d335ecadf681104f1bd121fea17f52f1efb81936ce4a7c4f0f372c3ba02740",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.evolution.disruptive-selection-two-peaks",
+          "flags": [],
+          "note": "Key A correct: disruptive selection gives two peaks with intermediate beaks rare. Distractors are the stabilising and two directional outcomes, each a real confusion.",
+          "scored_content_hash": "b0d335ecadf681104f1bd121fea17f52f1efb81936ce4a7c4f0f372c3ba02740"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.evolution.disruptive-selection",
+          "flags": [],
+          "note": "Key A correct: both extremes favoured gives disruptive selection, two peaks and rare intermediates. B is stabilising and C, D are directional; well-built distractors.",
+          "scored_content_hash": "b0d335ecadf681104f1bd121fea17f52f1efb81936ce4a7c4f0f372c3ba02740"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.evolution.disruptive-selection-two-peaks",
+        "biology.evolution.disruptive-selection"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Both extremes favoured and the mean disfavoured is disruptive selection: two peaks (key A); stabilising gives one narrower peak, directional shifts one peak. Key A is slightly the longest (48 against 37 to 43) but not a giveaway. Medium.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "b0d335ecadf681104f1bd121fea17f52f1efb81936ce4a7c4f0f372c3ba02740",
+        "final_content_hash": "b0d335ecadf681104f1bd121fea17f52f1efb81936ce4a7c4f0f372c3ba02740",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "9b3560f6-3b1c-4865-ac59-98027ad40a31": {
+      "question_id": "9b3560f6-3b1c-4865-ac59-98027ad40a31",
+      "batch": "authored-2026-10-17-w4__biology__w4b3",
+      "chapter": "Ecosystem",
+      "key": "C",
+      "content_hash": "acd51227f91871abbd9e9125a69587b81c20f38a20b72e3fb1c53182f5946b18",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.ecosystem.decomposition-stages-sequence",
+          "flags": [],
+          "note": "Blind C matches key: fragmentation, catabolism, humification, mineralisation is the standard order. Each distractor misplaces one event.",
+          "scored_content_hash": "acd51227f91871abbd9e9125a69587b81c20f38a20b72e3fb1c53182f5946b18"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.ecosystem.decomposition-stage-sequence",
+          "flags": [],
+          "note": "Key C confirmed: fragmentation, catabolism, humification, mineralisation. Each distractor swaps one adjacent pair a student could confuse; all four events are clearly defined.",
+          "scored_content_hash": "acd51227f91871abbd9e9125a69587b81c20f38a20b72e3fb1c53182f5946b18"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.ecosystem.decomposition-stages-sequence",
+        "biology.ecosystem.decomposition-stage-sequence"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "Fragmentation, catabolism, humification, mineralisation: C, D, A, B (key C), the NCERT order of decomposition. Medium. NCERT chapter number corrected from 14 to 12.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "ncert_ref"
+        ],
+        "judged_text": "final",
+        "judged_content_hash": "acd51227f91871abbd9e9125a69587b81c20f38a20b72e3fb1c53182f5946b18",
+        "final_content_hash": "acd51227f91871abbd9e9125a69587b81c20f38a20b72e3fb1c53182f5946b18",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "ncert_ref"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "9cb149e1-92bd-451d-8cd8-f092d0d7e74a": {
+      "question_id": "9cb149e1-92bd-451d-8cd8-f092d0d7e74a",
+      "batch": "authored-2026-10-17-w4__biology__w4b2",
+      "chapter": "Microbes in Human Welfare",
+      "key": "D",
+      "content_hash": "f5541fd9d2b769c134bded71b0ea49dbb79528297a446f0937fbd4208c7b410a",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.microbes-in-human-welfare.microbe-industrial-product-match",
+          "flags": [],
+          "note": "All four pairs verified; only D fits. Explanation's 'swaps the yeast and the bacterium' is loose: the swap in option A is yeast with Streptococcus.",
+          "scored_content_hash": "f5541fd9d2b769c134bded71b0ea49dbb79528297a446f0937fbd4208c7b410a"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.microbes-in-human-welfare.microbe-product-matching",
+          "flags": [],
+          "note": "All four pairings correct: citric acid, acetic acid, ethanol, streptokinase. Each distractor is a plausible microbe-product swap, so this is a well-built match list.",
+          "scored_content_hash": "f5541fd9d2b769c134bded71b0ea49dbb79528297a446f0937fbd4208c7b410a"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.microbes-in-human-welfare.microbe-industrial-product-match",
+        "biology.microbes-in-human-welfare.microbe-product-matching"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Aspergillus niger-citric acid, Acetobacter aceti-acetic acid, Saccharomyces-ethanol, Streptococcus-streptokinase: (A)-III, (B)-IV, (C)-II, (D)-I (key D). All four pairs are NCERT. Medium.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "f5541fd9d2b769c134bded71b0ea49dbb79528297a446f0937fbd4208c7b410a",
+        "final_content_hash": "f5541fd9d2b769c134bded71b0ea49dbb79528297a446f0937fbd4208c7b410a",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "a1762cac-8859-4104-b5b8-440a33eacf15": {
+      "question_id": "a1762cac-8859-4104-b5b8-440a33eacf15",
+      "batch": "authored-2026-10-17-w4__biology__w4b1",
+      "chapter": "Principles of Inheritance & Variation",
+      "key": "B",
+      "content_hash": "700ba8aa1c8e68d8be9ccf8644522976ea943545f0b145374fc86d0d71bbfbc2",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.principles-of-inheritance-and-variation.haplodiploidy-drone-chromosome-count",
+          "flags": [],
+          "note": "Key B correct: queen 2n=32, drone haploid with 16 in body cells, sperm by mitosis keep 16. Distractor 16 and 8 is a real halving slip. Explanation accurate.",
+          "scored_content_hash": "700ba8aa1c8e68d8be9ccf8644522976ea943545f0b145374fc86d0d71bbfbc2"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.principles-of-inheritance-and-variation.honey-bee-haplodiploid-chromosomes",
+          "flags": [],
+          "note": "Key B correct: a haploid drone with 16 chromosomes makes sperm by mitosis, so 16 each. 16 and 8 is the meiosis slip; 32 and 32 is the diploid trap. Paper-ready.",
+          "scored_content_hash": "700ba8aa1c8e68d8be9ccf8644522976ea943545f0b145374fc86d0d71bbfbc2"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.principles-of-inheritance-and-variation.haplodiploidy-drone-chromosome-count",
+        "biology.principles-of-inheritance-and-variation.honey-bee-haplodiploid-chromosomes"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Queen has 32 chromosomes, the drone from an unfertilised egg is haploid with 16 and makes sperms by mitosis, so 16 and 16 (key B); 16 and 8 is the meiosis slip. NCERT haplodiploidy. Medium.",
+        "authoring_verdict": "claude_audited",
+        "audit_repaired": true,
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "700ba8aa1c8e68d8be9ccf8644522976ea943545f0b145374fc86d0d71bbfbc2",
+        "final_content_hash": "700ba8aa1c8e68d8be9ccf8644522976ea943545f0b145374fc86d0d71bbfbc2",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "a790d203-801b-4206-abd4-812c7135eb6a": {
+      "question_id": "a790d203-801b-4206-abd4-812c7135eb6a",
+      "batch": "authored-2026-10-17-w4__biology__w4b1",
+      "chapter": "Molecular Basis of Inheritance",
+      "key": "C",
+      "content_hash": "a9c75165b21b8413bd12be624b5e5b70481a9f34cec5e5ded56337a786acd8f0",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.molecular-basis-of-inheritance.translation-sequence-of-events",
+          "flags": [],
+          "note": "Key C correct: charging, initiation at the start codon, elongation, release factor. Option D (termination before elongation) is a throwaway. Explanation accurate.",
+          "scored_content_hash": "a9c75165b21b8413bd12be624b5e5b70481a9f34cec5e5ded56337a786acd8f0"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.molecular-basis-of-inheritance.translation-event-order",
+          "flags": [],
+          "note": "Key C correct: tRNA charging, ribosome binding at the start codon, elongation, release factor at the stop codon. Each distractor swaps a real step; clean ordering.",
+          "scored_content_hash": "a9c75165b21b8413bd12be624b5e5b70481a9f34cec5e5ded56337a786acd8f0"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.molecular-basis-of-inheritance.translation-sequence-of-events",
+        "biology.molecular-basis-of-inheritance.translation-event-order"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "tRNA charging, ribosome binding at AUG, elongation, release factor at the stop codon: B, D, A, C (key C). Elongation cannot precede initiation and the release factor comes last. Charging first is the NCERT order of translation. Medium.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "a9c75165b21b8413bd12be624b5e5b70481a9f34cec5e5ded56337a786acd8f0",
+        "final_content_hash": "a9c75165b21b8413bd12be624b5e5b70481a9f34cec5e5ded56337a786acd8f0",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "b00e6e59-df3f-43dc-80d5-338ccfb71dfa": {
+      "question_id": "b00e6e59-df3f-43dc-80d5-338ccfb71dfa",
+      "batch": "authored-2026-10-17-w4__biology__w4b3",
+      "chapter": "Organisms & Populations",
+      "key": "B",
+      "content_hash": "051cc704ddbf2fa7f5f103580e7ddfdd35244ae907f6f644015509fbcd154272",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.organisms-and-populations.population-interaction-types",
+          "flags": [],
+          "note": "Blind B matches key: orchid is commensal, moth is predator, tortoise and goats compete, Cuscuta is parasitic. Each distractor swaps two pairings.",
+          "scored_content_hash": "051cc704ddbf2fa7f5f103580e7ddfdd35244ae907f6f644015509fbcd154272"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.organisms-and-populations.species-interaction-examples",
+          "flags": [],
+          "note": "Key B confirmed: A-II commensalism, B-III predation, C-IV competition, D-I parasitism. Each distractor mixes one pair; the List-II examples are standard textbook cases.",
+          "scored_content_hash": "051cc704ddbf2fa7f5f103580e7ddfdd35244ae907f6f644015509fbcd154272"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.organisms-and-populations.population-interaction-types",
+        "biology.organisms-and-populations.species-interaction-examples"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "Commensalism-orchid on mango branch, predation-Cactoblastis on prickly pear, competition-Abingdon tortoise and goats, parasitism-Cuscuta: (A)-II, (B)-III, (C)-IV, (D)-I (key B). Each example is NCERT. Medium. NCERT chapter number corrected from 13 to 11.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "ncert_ref"
+        ],
+        "judged_text": "final",
+        "judged_content_hash": "051cc704ddbf2fa7f5f103580e7ddfdd35244ae907f6f644015509fbcd154272",
+        "final_content_hash": "051cc704ddbf2fa7f5f103580e7ddfdd35244ae907f6f644015509fbcd154272",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "ncert_ref"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "b52d4156-825a-4124-86e1-a4eba1f28fb5": {
+      "question_id": "b52d4156-825a-4124-86e1-a4eba1f28fb5",
+      "batch": "authored-2026-10-17-w4__biology__w4b2",
+      "chapter": "Biotechnology Principles & Processes",
+      "key": "C",
+      "content_hash": "fe5e55738fc0df206b4268777ba003a52edfb023284ed40ccbdc3dd4b1e6e09a",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.biotechnology-principles-and-processes.pcr-step-sequence",
+          "flags": [],
+          "note": "PCR order mix, denature, anneal, extend: verified. Option D swaps annealing and extension, a fair trap.",
+          "scored_content_hash": "fe5e55738fc0df206b4268777ba003a52edfb023284ed40ccbdc3dd4b1e6e09a"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.biotechnology-principles-and-processes.pcr-step-sequence",
+          "flags": [],
+          "note": "Mix, denature, anneal, extend is correct and explained. Each distractor swaps one standard pair of steps, a plausible student error; well-built sequence item.",
+          "scored_content_hash": "fe5e55738fc0df206b4268777ba003a52edfb023284ed40ccbdc3dd4b1e6e09a"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "biology.biotechnology-principles-and-processes.pcr-step-sequence",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.biotechnology-principles-and-processes.pcr-step-sequence",
+        "biology.biotechnology-principles-and-processes.pcr-step-sequence"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "PCR: mix template, primers, Taq and nucleotides, denature, anneal, extend: C, D, B, A (key C). Medium.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "fe5e55738fc0df206b4268777ba003a52edfb023284ed40ccbdc3dd4b1e6e09a",
+        "final_content_hash": "fe5e55738fc0df206b4268777ba003a52edfb023284ed40ccbdc3dd4b1e6e09a",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "b833fc48-2bbc-4a6c-93b6-862a27d26db6": {
+      "question_id": "b833fc48-2bbc-4a6c-93b6-862a27d26db6",
+      "batch": "authored-2026-10-17-w4__biology__w4b2",
+      "chapter": "Microbes in Human Welfare",
+      "key": "B",
+      "content_hash": "2b020b619f3bbbd02f6d510dbf5de948532776355c2588d1406009e2a59473c9",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "biology.microbes-in-human-welfare.milk-to-curd-conversion-sequence",
+          "flags": [],
+          "note": "Starter, bacterial multiplication, lactic acid, then protein coagulation: verified. The first step is easy to spot from its wording.",
+          "scored_content_hash": "2b020b619f3bbbd02f6d510dbf5de948532776355c2588d1406009e2a59473c9"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "biology.microbes-in-human-welfare.milk-to-curd-sequence",
+          "flags": [],
+          "note": "Starter, multiplication, lactic acid, then coagulation is correct. A and D are plausible order errors; C starts with multiplication before the starter is added, a weak one.",
+          "scored_content_hash": "2b020b619f3bbbd02f6d510dbf5de948532776355c2588d1406009e2a59473c9"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.microbes-in-human-welfare.milk-to-curd-conversion-sequence",
+        "biology.microbes-in-human-welfare.milk-to-curd-sequence"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Starter curd added, lactic acid bacteria multiply, lactic acid made from milk sugar, acid coagulates and partially digests the proteins: B, C, D, A (key B), as in NCERT. Easy.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "2b020b619f3bbbd02f6d510dbf5de948532776355c2588d1406009e2a59473c9",
+        "final_content_hash": "2b020b619f3bbbd02f6d510dbf5de948532776355c2588d1406009e2a59473c9",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "b8374232-3875-4669-a6aa-d2a27190437b": {
+      "question_id": "b8374232-3875-4669-a6aa-d2a27190437b",
+      "batch": "authored-2026-10-17-w4__biology__w4b3",
+      "chapter": "Biotechnology Principles & Processes",
+      "key": "A",
+      "content_hash": "bcdd5ad9c0f1fafd56713d19479528d06acc9b67be2ac2393ace3f2ce52adab1",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.biotechnology-principles-and-processes.dna-isolation-enzymes",
+          "flags": [],
+          "note": "Blind A matches key: cellulase for plant wall, ribonuclease for RNA, protease for protein. B and C are bacterial and fungal enzymes; D swaps the last two. Chapter label differs from rest of batch.",
+          "scored_content_hash": "bcdd5ad9c0f1fafd56713d19479528d06acc9b67be2ac2393ace3f2ce52adab1"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "biology.biotechnology-principles-and-processes.enzymes-for-dna-isolation",
+          "flags": [],
+          "note": "Key A confirmed (cellulase, ribonuclease, protease). Lysozyme and chitinase are plausible decoys; D swaps the RNase and protease roles. Direct recall.",
+          "scored_content_hash": "bcdd5ad9c0f1fafd56713d19479528d06acc9b67be2ac2393ace3f2ce52adab1"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "easy"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.biotechnology-principles-and-processes.dna-isolation-enzymes",
+        "biology.biotechnology-principles-and-processes.enzymes-for-dna-isolation"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Cellulase for plant cell walls, ribonuclease for RNA, protease for proteins (NCERT); lysozyme is bacterial and chitinase fungal, D swaps the substrates. Key A is unique, all options 74 to 75 characters. Medium.",
+        "authoring_verdict": "claude_audited",
+        "audit_repaired": true,
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "bcdd5ad9c0f1fafd56713d19479528d06acc9b67be2ac2393ace3f2ce52adab1",
+        "final_content_hash": "bcdd5ad9c0f1fafd56713d19479528d06acc9b67be2ac2393ace3f2ce52adab1",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "c4a7ad38-8758-41ef-9095-d08d22ef8c74": {
+      "question_id": "c4a7ad38-8758-41ef-9095-d08d22ef8c74",
+      "batch": "authored-2026-10-17-w4__biology__w4b3",
+      "chapter": "Biodiversity & Conservation",
+      "key": "C",
+      "content_hash": "3747d5348d496a04de9bc856ae8dba5838803c570986b88bdaf42ff35bd26070",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.biodiversity-and-conservation.broad-versus-narrow-utilitarianism",
+          "flags": [],
+          "note": "Blind C matches key: pollination is a broad ecosystem service; A and D are narrowly utilitarian. The explanation loosely lists aesthetic pleasure as broad utilitarian.",
+          "scored_content_hash": "3747d5348d496a04de9bc856ae8dba5838803c570986b88bdaf42ff35bd26070"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.biodiversity-and-conservation.broad-vs-narrow-utilitarian-value",
+          "flags": [],
+          "note": "Key C confirmed: pollination is an ecosystem service (broad). A and D are narrow direct products; B is the ethical argument. Batch label easy, judged medium.",
+          "scored_content_hash": "3747d5348d496a04de9bc856ae8dba5838803c570986b88bdaf42ff35bd26070"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.biodiversity-and-conservation.broad-versus-narrow-utilitarianism",
+        "biology.biodiversity-and-conservation.broad-vs-narrow-utilitarian-value"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "Broadly utilitarian arguments rest on ecosystem services such as pollination (NCERT); A and D are direct economic uses (narrowly utilitarian), B is the ethical argument. Key C is unique. Both quality judges rated it medium (the student must classify each argument), so easy is one notch low. NCERT chapter number corrected from 15 to 13.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "difficulty_label",
+          "ncert_ref"
+        ],
+        "judged_text": "final",
+        "judged_content_hash": "3747d5348d496a04de9bc856ae8dba5838803c570986b88bdaf42ff35bd26070",
+        "final_content_hash": "3747d5348d496a04de9bc856ae8dba5838803c570986b88bdaf42ff35bd26070",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "difficulty_label",
+          "ncert_ref"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "c4e0c49c-4d53-4ce3-a21f-e5a5d39da739": {
+      "question_id": "c4e0c49c-4d53-4ce3-a21f-e5a5d39da739",
+      "batch": "authored-2026-10-17-w4__biology__w4b2",
+      "chapter": "Biotechnology Principles & Processes",
+      "key": "B",
+      "content_hash": "a364d4ec600d2e568dd28229d50d30fea9e372592790d2e738070a14e490a062",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "biology.biotechnology-principles-and-processes.stirrer-role-in-bioreactor",
+          "flags": [],
+          "note": "Stirrer mixing and oxygen availability: verified. Other options are downstream processing or sterilisation.",
+          "scored_content_hash": "a364d4ec600d2e568dd28229d50d30fea9e372592790d2e738070a14e490a062"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "biology.biotechnology-principles-and-processes.bioreactor-stirrer-function",
+          "flags": [],
+          "note": "Stirrer mixes contents and keeps oxygen available. A and D are downstream steps and C a pre-inoculation step; plausible distractors for a student who knows the bioreactor.",
+          "scored_content_hash": "a364d4ec600d2e568dd28229d50d30fea9e372592790d2e738070a14e490a062"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.biotechnology-principles-and-processes.stirrer-role-in-bioreactor",
+        "biology.biotechnology-principles-and-processes.bioreactor-stirrer-function"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Stirrer of a stirred-tank bioreactor gives even mixing and oxygen availability throughout (NCERT). Key B is unique; the other options are other steps. Easy.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "a364d4ec600d2e568dd28229d50d30fea9e372592790d2e738070a14e490a062",
+        "final_content_hash": "a364d4ec600d2e568dd28229d50d30fea9e372592790d2e738070a14e490a062",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "ccbe9308-e3df-46c1-a7ec-6d9c25cf9073": {
+      "question_id": "ccbe9308-e3df-46c1-a7ec-6d9c25cf9073",
+      "batch": "authored-2026-10-17-w4__biology__w4b2",
+      "chapter": "Microbes in Human Welfare",
+      "key": "A",
+      "content_hash": "d17abf15823401b6f827554aa04ae80832668de2b75516eccca356d8ac5b7eaa",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "biology.microbes-in-human-welfare.biocontrol-agent-against-fungi",
+          "flags": [],
+          "note": "Trichoderma as a fungal biocontrol agent: verified. The three distractors act on insects, a clear contrast with the fungal target.",
+          "scored_content_hash": "d17abf15823401b6f827554aa04ae80832668de2b75516eccca356d8ac5b7eaa"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "biology.microbes-in-human-welfare.biocontrol-agent-fungal-pathogens",
+          "flags": [],
+          "note": "Trichoderma is the only antifungal biocontrol here. The three distractors are insect biocontrols, a clean trap for students who think biocontrol means insects.",
+          "scored_content_hash": "d17abf15823401b6f827554aa04ae80832668de2b75516eccca356d8ac5b7eaa"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.microbes-in-human-welfare.biocontrol-agent-against-fungi",
+        "biology.microbes-in-human-welfare.biocontrol-agent-fungal-pathogens"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "Trichoderma is the NCERT biocontrol agent against plant (fungal) pathogens; Bt and baculovirus act on insects, ladybird on aphids. Key A is unique. One-fact recall, both quality judges rated it easy, so medium is one notch high.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "difficulty_label"
+        ],
+        "judged_text": "final",
+        "judged_content_hash": "d17abf15823401b6f827554aa04ae80832668de2b75516eccca356d8ac5b7eaa",
+        "final_content_hash": "d17abf15823401b6f827554aa04ae80832668de2b75516eccca356d8ac5b7eaa",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "difficulty_label"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "cf3ce18f-6c8c-4264-8cf8-b8ebc95aee46": {
+      "question_id": "cf3ce18f-6c8c-4264-8cf8-b8ebc95aee46",
+      "batch": "authored-2026-10-17-w4__biology__w4b3",
+      "chapter": "Ecosystem",
+      "key": "D",
+      "content_hash": "2dc914fe2205035cbc23d466050ccb533d820a8e6f5acd5a0ca542d7d881e55c",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.ecosystem.ecological-pyramid-limitations",
+          "flags": [],
+          "note": "Blind D matches key: statement B is false (a species across two levels is not shown). A, C, D are textbook facts. The discriminating statement is subtle but fair.",
+          "scored_content_hash": "2dc914fe2205035cbc23d466050ccb533d820a8e6f5acd5a0ca542d7d881e55c"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.ecosystem.ecological-pyramid-limitations",
+          "flags": [],
+          "note": "Key D confirmed: A, C and D are true; B is false because pyramids do not accommodate a species across two levels. Batch label hard, judged medium.",
+          "scored_content_hash": "2dc914fe2205035cbc23d466050ccb533d820a8e6f5acd5a0ca542d7d881e55c"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "biology.ecosystem.ecological-pyramid-limitations",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.ecosystem.ecological-pyramid-limitations",
+        "biology.ecosystem.ecological-pyramid-limitations"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "A true (sea biomass pyramid generally inverted), B false (NCERT: pyramids do not account for a species on two trophic levels), C true, D true; key D (A, C and D only) is unique. All four are NCERT limitation lines, both quality judges rated it medium and wave 2 relabelled the same shape, so hard is too high. NCERT chapter number corrected from 14 to 12.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "difficulty_label",
+          "ncert_ref"
+        ],
+        "judged_text": "final",
+        "judged_content_hash": "2dc914fe2205035cbc23d466050ccb533d820a8e6f5acd5a0ca542d7d881e55c",
+        "final_content_hash": "2dc914fe2205035cbc23d466050ccb533d820a8e6f5acd5a0ca542d7d881e55c",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "difficulty_label",
+          "ncert_ref"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "d8c5c153-958e-43f3-83f9-1af6b137e1ce": {
+      "question_id": "d8c5c153-958e-43f3-83f9-1af6b137e1ce",
+      "batch": "authored-2026-10-17-w4__biology__w4b2",
+      "chapter": "Microbes in Human Welfare",
+      "key": "B",
+      "content_hash": "763fb92eac8181e70ee6f0b384c4d028bcb172ea1e4665cf01a93ee604db1c43",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "hard",
+          "objective_tag": "biology.microbes-in-human-welfare.fermented-beverage-distillation-statements",
+          "flags": [],
+          "note": "A and D true, B and C false (streptokinase is the clot buster): verified, option B is the only match. Four facts needed, so hard is right.",
+          "scored_content_hash": "763fb92eac8181e70ee6f0b384c4d028bcb172ea1e4665cf01a93ee604db1c43"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.microbes-in-human-welfare.fermented-beverages-distillation",
+          "flags": [],
+          "note": "Key B verified: wine and beer are undistilled, whisky, brandy and rum are distilled, lipases are not clot busters, penicillin is named after P. notatum. Each wrong option carries one false statement.",
+          "scored_content_hash": "763fb92eac8181e70ee6f0b384c4d028bcb172ea1e4665cf01a93ee604db1c43"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "hard",
+          "medium"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.microbes-in-human-welfare.fermented-beverage-distillation-statements",
+        "biology.microbes-in-human-welfare.fermented-beverages-distillation"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "A true (wine and beer are not distilled), B false (whisky, brandy and rum are distilled), C false (the clot buster is streptokinase, lipases go into detergents), D true (Penicillium notatum). Key B (Only A and D) is unique. Four recall statements: medium, not hard (the second judge said medium, and wave 2 relabelled the same shape).",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "difficulty_label"
+        ],
+        "judged_text": "final",
+        "judged_content_hash": "763fb92eac8181e70ee6f0b384c4d028bcb172ea1e4665cf01a93ee604db1c43",
+        "final_content_hash": "763fb92eac8181e70ee6f0b384c4d028bcb172ea1e4665cf01a93ee604db1c43",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "difficulty_label"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "d97512d6-e8e1-4f10-bf26-da7b7f30b701": {
+      "question_id": "d97512d6-e8e1-4f10-bf26-da7b7f30b701",
+      "batch": "authored-2026-10-17-w4__biology__w4b2",
+      "chapter": "Microbes in Human Welfare",
+      "key": "A",
+      "content_hash": "4fcae8d3e85dcd7b4fa98919324eb3391b6d92cea47bf434495e89893ef275be",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.microbes-in-human-welfare.secondary-sewage-treatment-sequence",
+          "flags": [],
+          "note": "Aeration, floc growth with BOD fall, settling to activated sludge, then anaerobic digestion: verified. Distractors are fair.",
+          "scored_content_hash": "4fcae8d3e85dcd7b4fa98919324eb3391b6d92cea47bf434495e89893ef275be"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.microbes-in-human-welfare.secondary-sewage-treatment-sequence",
+          "flags": [],
+          "note": "Key A checked against aeration, floc growth with falling BOD, settling into activated sludge, then anaerobic digestion. Distractors fail on floc-before-aeration and digestion-first errors.",
+          "scored_content_hash": "4fcae8d3e85dcd7b4fa98919324eb3391b6d92cea47bf434495e89893ef275be"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "biology.microbes-in-human-welfare.secondary-sewage-treatment-sequence",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.microbes-in-human-welfare.secondary-sewage-treatment-sequence",
+        "biology.microbes-in-human-welfare.secondary-sewage-treatment-sequence"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "NCERT secondary treatment: aerate primary effluent, aerobic flocs form and BOD falls, flocs settle as activated sludge, remaining sludge goes to anaerobic digesters: B, A, D, C (key A). Medium.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "4fcae8d3e85dcd7b4fa98919324eb3391b6d92cea47bf434495e89893ef275be",
+        "final_content_hash": "4fcae8d3e85dcd7b4fa98919324eb3391b6d92cea47bf434495e89893ef275be",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "dccaf7b2-9f8f-4112-88c7-f7850938c25a": {
+      "question_id": "dccaf7b2-9f8f-4112-88c7-f7850938c25a",
+      "batch": "authored-2026-10-17-w4__biology__w4b1",
+      "chapter": "Principles of Inheritance & Variation",
+      "key": "B",
+      "content_hash": "c2b390e46c5e8ff4ec547f9d58d5eea46ce5c6559ee8927860954fc5385b4159",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.principles-of-inheritance-and-variation.sickle-cell-thalassemia-facts",
+          "flags": [],
+          "note": "Key B correct: A is false (glutamic acid is replaced by valine, the reverse of the stem); B, C and D are true. Explanation names the reversed statement accurately.",
+          "scored_content_hash": "c2b390e46c5e8ff4ec547f9d58d5eea46ce5c6559ee8927860954fc5385b4159"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.principles-of-inheritance-and-variation.sickle-cell-thalassemia-features",
+          "flags": [],
+          "note": "Key B correct: A is false (glutamic acid is replaced by valine), while B, C and D are true. Clean statement item with the usual reversal trap.",
+          "scored_content_hash": "c2b390e46c5e8ff4ec547f9d58d5eea46ce5c6559ee8927860954fc5385b4159"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.principles-of-inheritance-and-variation.sickle-cell-thalassemia-facts",
+        "biology.principles-of-inheritance-and-variation.sickle-cell-thalassemia-features"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "A is false (glutamic acid is replaced by valine, not the reverse), B, C and D are true NCERT statements, so B, C and D only (key B) is unique. Medium, four recall statements.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "c2b390e46c5e8ff4ec547f9d58d5eea46ce5c6559ee8927860954fc5385b4159",
+        "final_content_hash": "c2b390e46c5e8ff4ec547f9d58d5eea46ce5c6559ee8927860954fc5385b4159",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "dd66dcf5-ca4a-4e15-9722-6292d102a490": {
+      "question_id": "dd66dcf5-ca4a-4e15-9722-6292d102a490",
+      "batch": "authored-2026-10-17-w4__biology__w4b1",
+      "chapter": "Sexual Reproduction in Flowering Plants",
+      "key": "D",
+      "content_hash": "3c8f131142ab498fbc0a3200a44beafd6dcb06406a2797cce5d9eada2615aa53",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.sexual-reproduction-in-flowering-plants.maternal-origin-seed-fruit-parts",
+          "flags": [],
+          "note": "Key D correct: integument-derived seed coat and ovary-wall pericarp are maternal. Distractors pair one maternal part with a fertilisation product, a real confusion. Clean.",
+          "scored_content_hash": "3c8f131142ab498fbc0a3200a44beafd6dcb06406a2797cce5d9eada2615aa53"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.sexual-reproduction-in-flowering-plants.maternal-origin-of-fruit-parts",
+          "flags": [],
+          "note": "Key D correct: seed coat (from integuments) and pericarp (from ovary wall) are maternal; endosperm and embryo are fertilisation products. Clean two-part recall.",
+          "scored_content_hash": "3c8f131142ab498fbc0a3200a44beafd6dcb06406a2797cce5d9eada2615aa53"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.sexual-reproduction-in-flowering-plants.maternal-origin-seed-fruit-parts",
+        "biology.sexual-reproduction-in-flowering-plants.maternal-origin-of-fruit-parts"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Seed coat (integuments) and pericarp (ovary wall) are maternal tissue; embryo and endosperm come from fertilisation. Key D is unique (the embryo-seed coat slip is distractor B). Options are of equal length. Medium is right.",
+        "authoring_verdict": "claude_audited",
+        "audit_repaired": true,
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "3c8f131142ab498fbc0a3200a44beafd6dcb06406a2797cce5d9eada2615aa53",
+        "final_content_hash": "3c8f131142ab498fbc0a3200a44beafd6dcb06406a2797cce5d9eada2615aa53",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "df20c45d-ee4a-4663-bf36-621580f47bca": {
+      "question_id": "df20c45d-ee4a-4663-bf36-621580f47bca",
+      "batch": "authored-2026-10-17-w4__biology__w4b3",
+      "chapter": "Biotechnology & its Applications",
+      "key": "A",
+      "content_hash": "e39dfd48d59561e4cd7110bc7697dbf1f371f23b7b857e5a9c643ad24a233fb2",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "biology.biotechnology-and-its-applications.recombinant-insulin-chain-assembly",
+          "flags": [],
+          "note": "Blind A matches key: separately made chains are joined by disulphide bonds. DNA ligase, C peptide and restriction enzymes are plausible misconceptions. Explanation accurate.",
+          "scored_content_hash": "e39dfd48d59561e4cd7110bc7697dbf1f371f23b7b857e5a9c643ad24a233fb2"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "biology.biotechnology-and-its-applications.insulin-chains-disulphide-bridges",
+          "flags": [],
+          "note": "Key A confirmed: separately made A and B chains are joined by disulphide bridges. B (DNA ligase joins amino acids) is weak; C and D are plausible. Direct recall.",
+          "scored_content_hash": "e39dfd48d59561e4cd7110bc7697dbf1f371f23b7b857e5a9c643ad24a233fb2"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.biotechnology-and-its-applications.recombinant-insulin-chain-assembly",
+        "biology.biotechnology-and-its-applications.insulin-chains-disulphide-bridges"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "Chains A and B were made in separate E. coli cultures, extracted and joined by disulphide bonds (NCERT); DNA ligase joins DNA, the C peptide is a proinsulin feature. Key A is unique. Easy. NCERT chapter number corrected from 11 to 10.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "ncert_ref"
+        ],
+        "judged_text": "final",
+        "judged_content_hash": "e39dfd48d59561e4cd7110bc7697dbf1f371f23b7b857e5a9c643ad24a233fb2",
+        "final_content_hash": "e39dfd48d59561e4cd7110bc7697dbf1f371f23b7b857e5a9c643ad24a233fb2",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "ncert_ref"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "f9edc91a-cf7d-4bc9-afe7-7fc485d72a76": {
+      "question_id": "f9edc91a-cf7d-4bc9-afe7-7fc485d72a76",
+      "batch": "authored-2026-10-17-w4__biology__w4b1",
+      "chapter": "Human Reproduction",
+      "key": "A",
+      "content_hash": "b4774890c6e2f12ed87c3afecc90711b6becfde09ff4e4769f56536fc906736f",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.human-reproduction.second-meiosis-completion-needs-sperm",
+          "flags": [],
+          "note": "Key A correct. Option C (at puberty) is a throwaway; B and D are real confusions (meiosis I, foetal arrest). Explanation accurate.",
+          "scored_content_hash": "b4774890c6e2f12ed87c3afecc90711b6becfde09ff4e4769f56536fc906736f"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "biology.human-reproduction.secondary-oocyte-meiosis-completion",
+          "flags": [],
+          "note": "Key A correct: the secondary oocyte completes meiosis II only after sperm entry. B is the meiosis I trap. Label hard; judged medium (one recall with a trap).",
+          "scored_content_hash": "b4774890c6e2f12ed87c3afecc90711b6becfde09ff4e4769f56536fc906736f"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "biology.human-reproduction.second-meiosis-completion-needs-sperm",
+        "biology.human-reproduction.secondary-oocyte-meiosis-completion"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "Secondary oocyte is arrested at metaphase II and completes meiosis II only when a sperm enters; key A is unique (B is the meiosis I step, C and D are the primary-oocyte stages). Correct and a standard board item, but both quality judges rated it medium and it is a single NCERT fact, so the label hard is too high.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "difficulty_label"
+        ],
+        "judged_text": "final",
+        "judged_content_hash": "b4774890c6e2f12ed87c3afecc90711b6becfde09ff4e4769f56536fc906736f",
+        "final_content_hash": "b4774890c6e2f12ed87c3afecc90711b6becfde09ff4e4769f56536fc906736f",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "difficulty_label"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
     }
   },
   "authored": {
@@ -27376,6 +30700,18 @@
       "repaired_text_policy": "admit",
       "held_for_fresh_judge_pass": 0,
       "judged_text_differs_from_final": 4,
+      "rubric": "docs/brain/NTA-AGENT-RUBRIC.md",
+      "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad"
+    },
+    "claude-authored-2026-10-17-w4": {
+      "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the final wave-4 entries (docs/brain/reports/authored-w4/wave4-score-entries-final-2026-10-17.json, built by scripts/authored-w2-accept.mjs --wave=w4 --mode=final from the raw judge files, the expert verdicts and the blind re-solve). Per-question provenance says which text each judge scored.",
+      "merged_at": "2026-10-17T04:38:05.858Z",
+      "questions": 35,
+      "judge_model": "claude-subagent-unrecorded",
+      "judge_date": "2026-10-17",
+      "repaired_text_policy": "admit",
+      "held_for_fresh_judge_pass": 0,
+      "judged_text_differs_from_final": 0,
       "rubric": "docs/brain/NTA-AGENT-RUBRIC.md",
       "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad"
     }

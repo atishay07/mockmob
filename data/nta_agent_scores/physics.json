@@ -3,7 +3,7 @@
   "subject": "physics",
   "rubric_version": "nta-agent-rubric-1",
   "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad",
-  "merged_at": "2026-10-16T22:54:15.266Z",
+  "merged_at": "2026-10-17T04:38:05.858Z",
   "models": [
     "claude-haiku-5-5",
     "claude-subagent-unrecorded"
@@ -72,7 +72,7 @@
       "garbled_text": 6
     },
     "mean_of_means": 6.29,
-    "admissible_before_row_checks": 227
+    "admissible_before_row_checks": 260
   },
   "questions": {
     "00b9257d-f8fb-4511-b278-6bd530625b35": {
@@ -23515,6 +23515,3112 @@
           "solver": "claude-subagent-unrecorded"
         }
       }
+    },
+    "011459c4-767b-4d22-a553-e53947ca2243": {
+      "question_id": "011459c4-767b-4d22-a553-e53947ca2243",
+      "batch": "authored-2026-10-17-w4__physics__w4b1",
+      "chapter": "Electromagnetic Waves",
+      "key": "A",
+      "content_hash": "4bb42df9c5488e557922b84f4a9d10d2df45cdf3fcf1408c96af141c05358f0a",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "physics.electromagnetic-waves.electric-to-magnetic-amplitude-ratio",
+          "flags": [],
+          "note": "Key A checks: E0 = cB0 = 60 V/m. Distractors 6.7e-16 (ratio inverted), 2.0e-7 (unchanged) and 1.8e10 (c squared) are clean slips. One-step recall, so 8.",
+          "scored_content_hash": "4bb42df9c5488e557922b84f4a9d10d2df45cdf3fcf1408c96af141c05358f0a"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "physics.electromagnetic-waves.em-wave-field-amplitude-ratio",
+          "flags": [],
+          "note": "Key A verified: E0 = c B0 = 60 V/m. One step; B0/c and c^2 B0 are real ratio slips. Direct and easy, which NTA accepts. Score 9.",
+          "scored_content_hash": "4bb42df9c5488e557922b84f4a9d10d2df45cdf3fcf1408c96af141c05358f0a"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.electromagnetic-waves.electric-to-magnetic-amplitude-ratio",
+        "physics.electromagnetic-waves.em-wave-field-amplitude-ratio"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "E0 = c B0 = 3.0e8 x 2.0e-7 = 60 V/m, key A; 6.7e-16 is B0/c, 1.8e10 is c^2 B0. One step, easy is right. Key is the shortest option, no giveaway.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "4bb42df9c5488e557922b84f4a9d10d2df45cdf3fcf1408c96af141c05358f0a",
+        "final_content_hash": "4bb42df9c5488e557922b84f4a9d10d2df45cdf3fcf1408c96af141c05358f0a",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "012b12f8-f665-4fac-87c8-1c3bbc85d59e": {
+      "question_id": "012b12f8-f665-4fac-87c8-1c3bbc85d59e",
+      "batch": "authored-2026-10-17-w4__physics__w4b2",
+      "chapter": "Ray Optics & Optical Instruments",
+      "key": "A",
+      "content_hash": "53da715f9509935e1180e4aebdb3a1d431c92a1b72e8036743301edb81a9b905",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.ray-optics-and-optical-instruments.refraction-at-spherical-surface",
+          "flags": [],
+          "note": "Key A verified with R=+15, u=-60: 1.5/v=1/60, v=+90 cm. 60 cm is the lens-style slip. Label hard judged medium (two steps, one sign convention), a notch off.",
+          "scored_content_hash": "53da715f9509935e1180e4aebdb3a1d431c92a1b72e8036743301edb81a9b905"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.ray-optics-and-optical-instruments.refraction-at-spherical-surface",
+          "flags": [],
+          "note": "Key correct: 1.5/v + 1/60 = 1/30 gives v = 90 cm. Label hard is one notch high for a single formula with sign convention. 60 (lens-formula slip) is apt.",
+          "scored_content_hash": "53da715f9509935e1180e4aebdb3a1d431c92a1b72e8036743301edb81a9b905"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "physics.ray-optics-and-optical-instruments.refraction-at-spherical-surface",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.ray-optics-and-optical-instruments.refraction-at-spherical-surface",
+        "physics.ray-optics-and-optical-instruments.refraction-at-spherical-surface"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "One use of the single-surface formula mu2/v - mu1/u = (mu2 - mu1)/R: 1.5/v + 1/60 = 1/30 so v = +90 cm, key A; 60 cm (1/v for 1.5/v) is the lens-formula slip. Refraction at spherical surfaces is a Unit 6 syllabus line. Correct and unique. A single formula with careful signs: medium, not hard.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "difficulty_label"
+        ],
+        "judged_text": "final",
+        "judged_content_hash": "53da715f9509935e1180e4aebdb3a1d431c92a1b72e8036743301edb81a9b905",
+        "final_content_hash": "53da715f9509935e1180e4aebdb3a1d431c92a1b72e8036743301edb81a9b905",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "difficulty_label"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "0140bbdf-feae-48b9-a3bd-5c6e16f61c30": {
+      "question_id": "0140bbdf-feae-48b9-a3bd-5c6e16f61c30",
+      "batch": "authored-2026-10-17-w4__physics__w4b2",
+      "chapter": "Atoms",
+      "key": "B",
+      "content_hash": "c16988e1446618205ed7d1615d68275eb84459f7ee3ef2fddbbfda04f65ff95b",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "hard",
+          "objective_tag": "physics.atoms.balmer-paschen-wavelength-ratio",
+          "flags": [],
+          "note": "Key B verified: longest Balmer 36/(5R), shortest Paschen 9/R, ratio 4:5. The 4:9 option from series limits is a well-chosen trap.",
+          "scored_content_hash": "c08325071454f4569e019066d626b2501b2aad33376b01bd70c0c337fc1c605f"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "hard",
+          "objective_tag": "physics.atoms.balmer-and-paschen-series-wavelength-ratio",
+          "flags": [],
+          "note": "Key correct: longest Balmer to shortest Paschen wavelength gives 4:5. 4:9 (series-limit confusion) and 5:4 (inverted ratio) are apt. Multi-step, fits hard label.",
+          "scored_content_hash": "c08325071454f4569e019066d626b2501b2aad33376b01bd70c0c337fc1c605f"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "hard",
+          "hard"
+        ],
+        "agreed": "hard",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.atoms.balmer-paschen-wavelength-ratio",
+        "physics.atoms.balmer-and-paschen-series-wavelength-ratio"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "E_n = -13.6/n^2 eV; longest Balmer is 3 to 2 (13.6 x 5/36 eV), shortest Paschen is infinity to 3 (13.6/9 eV); the wavelength ratio is (1/9)/(5/36) = 4/5, key B (4 : 5); 4 : 9 compares the series limits, 5 : 4 is the inverse. Correct and unique (656 nm against 820 nm). Syllabus note: the line says 'hydrogen line spectra (qualitative treatment only)', but the energy of an electron in an orbit is named in the same bullet and this item uses only E_n and hc/lambda, which is how the earlier waves treated such items, so it stays. Hard stands (both judges hard).",
+        "authoring_verdict": "claude_audited",
+        "audit_repaired": true,
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "explanation"
+        ],
+        "judged_text": "pre_repair",
+        "judged_content_hash": "c08325071454f4569e019066d626b2501b2aad33376b01bd70c0c337fc1c605f",
+        "final_content_hash": "c16988e1446618205ed7d1615d68275eb84459f7ee3ef2fddbbfda04f65ff95b",
+        "hash_changed_by_repair": true,
+        "repaired_fields": [
+          "explanation"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "admitted_on_expert_verdict_blind_text_unchanged",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "03e23eee-ba91-4f2c-9307-a711a8aaf231": {
+      "question_id": "03e23eee-ba91-4f2c-9307-a711a8aaf231",
+      "batch": "authored-2026-10-17-w4__physics__w4b1",
+      "chapter": "Alternating Current",
+      "key": "A",
+      "content_hash": "1a815ebb2401b6488a1bc372499060856a4e12c10befd172390638696e6ff1d0",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "hard",
+          "objective_tag": "physics.alternating-current.series-inductor-reactance-for-rated-power",
+          "flags": [],
+          "note": "Key A checks: R = 100 ohm, I = 1 A, Z = 125 ohm, XL = 75 ohm. Distractors 25 (subtraction), 160 (adding squares) and 225 (plain sum) are the right slips. Multi-step with clean wording.",
+          "scored_content_hash": "1a815ebb2401b6488a1bc372499060856a4e12c10befd172390638696e6ff1d0"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "hard",
+          "objective_tag": "physics.alternating-current.series-inductor-for-rated-power",
+          "flags": [],
+          "note": "Key A verified: R = 100 ohm, Z = 125 ohm, X_L = 75 ohm. Multi-step, hard as labelled; 25, 160 and 225 ohm are each a named slip. Wording clean. Score 9.",
+          "scored_content_hash": "1a815ebb2401b6488a1bc372499060856a4e12c10befd172390638696e6ff1d0"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "hard",
+          "hard"
+        ],
+        "agreed": "hard",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.alternating-current.series-inductor-reactance-for-rated-power",
+        "physics.alternating-current.series-inductor-for-rated-power"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "R = V^2/P = 100 ohm, I = 1 A, Z = 125 ohm, X_L = sqrt(125^2 - 100^2) = 75 ohm, key A; 25 ohm (subtracting) and 160 ohm (adding squares) are the slips. Choke-coil style item from the LCR line of Unit 4. Four steps and a phasor idea: hard stands (both judges hard). The fit score of 6 from one judge reflects length, not an error.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "1a815ebb2401b6488a1bc372499060856a4e12c10befd172390638696e6ff1d0",
+        "final_content_hash": "1a815ebb2401b6488a1bc372499060856a4e12c10befd172390638696e6ff1d0",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "3b05fd92-2355-4441-968e-ae9c92367483": {
+      "question_id": "3b05fd92-2355-4441-968e-ae9c92367483",
+      "batch": "authored-2026-10-17-w4__physics__w4b2",
+      "chapter": "Dual Nature of Radiation & Matter",
+      "key": "B",
+      "content_hash": "081d4878691f1f1ccf191b9c51b64ca33d07c485fa19b7f27fead68db460331d",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "physics.dual-nature-of-radiation-and-matter.de-broglie-wavelength-of-particle",
+          "flags": [],
+          "note": "Key B verified: p = 6.6e-24, lambda = h/p = 1.0e-10 m. The mv-squared slip (2.5e-14 m) is a real distractor. Clean one-step numerical.",
+          "scored_content_hash": "081d4878691f1f1ccf191b9c51b64ca33d07c485fa19b7f27fead68db460331d"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "physics.dual-nature-of-radiation-and-matter.de-broglie-wavelength-from-momentum",
+          "flags": [],
+          "note": "Key correct: h/(mv) = 1.0e-10 m. 2.5e-14 (mv squared slip) is apt; 2.0e-10 has no clear origin. Easy one-step.",
+          "scored_content_hash": "081d4878691f1f1ccf191b9c51b64ca33d07c485fa19b7f27fead68db460331d"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.dual-nature-of-radiation-and-matter.de-broglie-wavelength-of-particle",
+        "physics.dual-nature-of-radiation-and-matter.de-broglie-wavelength-from-momentum"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "p = 1.65e-27 x 4.0e3 = 6.6e-24, lambda = h/p = 1.0e-10 m, key B; 2.5e-14 m uses mv^2. One step, easy is right.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "081d4878691f1f1ccf191b9c51b64ca33d07c485fa19b7f27fead68db460331d",
+        "final_content_hash": "081d4878691f1f1ccf191b9c51b64ca33d07c485fa19b7f27fead68db460331d",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "449e1c7b-0d6d-4ea4-a7c2-85e2aa906779": {
+      "question_id": "449e1c7b-0d6d-4ea4-a7c2-85e2aa906779",
+      "batch": "authored-2026-10-17-w4__physics__w4b1",
+      "chapter": "Electromagnetic Induction",
+      "key": "D",
+      "content_hash": "f8f475446961b0d12a3a6c276b293d6f8a09cfb104ff3d98d092cbff30a5e609",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.electromagnetic-induction.induced-emf-needs-flux-change",
+          "flags": [],
+          "note": "Key D checks: (B) and (C) true, (A) and (D) false. Good traps in (A) and (D), but (C) is pure recall and option C is a weak combination, so 8 rather than 9.",
+          "scored_content_hash": "f8f475446961b0d12a3a6c276b293d6f8a09cfb104ff3d98d092cbff30a5e609"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.electromagnetic-induction.emf-depends-on-flux-change",
+          "flags": [],
+          "note": "Key D verified: B and C true, A and D false. Statement (A) is correct only as a current point, so the item sits one notch short of a 9. Score 8.",
+          "scored_content_hash": "f8f475446961b0d12a3a6c276b293d6f8a09cfb104ff3d98d092cbff30a5e609"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.electromagnetic-induction.induced-emf-needs-flux-change",
+        "physics.electromagnetic-induction.emf-depends-on-flux-change"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "(A) false (emf does not depend on resistance), (B) true (area change changes flux), (C) true (1 H = 1 Wb/A), (D) false (v = 0 gives zero motional emf). Key D = (B) and (C) only, unique. Longest option is B, not the key. Faraday's laws and self-inductance are in Unit 4.",
+        "authoring_verdict": "claude_audited",
+        "audit_repaired": true,
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "f8f475446961b0d12a3a6c276b293d6f8a09cfb104ff3d98d092cbff30a5e609",
+        "final_content_hash": "f8f475446961b0d12a3a6c276b293d6f8a09cfb104ff3d98d092cbff30a5e609",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "46ac000e-cb0b-4df5-8edf-c811757f79cf": {
+      "question_id": "46ac000e-cb0b-4df5-8edf-c811757f79cf",
+      "batch": "authored-2026-10-17-w4__physics__w4b2",
+      "chapter": "Nuclei",
+      "key": "D",
+      "content_hash": "fe93e35fe8965d3707f7e7a7a0992e0ec76290a05fb60a5abc042e656551033b",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "physics.nuclei.isotones-same-neutron-number",
+          "flags": [],
+          "note": "Key D verified: C-13 and N-14 both have 7 neutrons. Options A and B are the isobar and isotope traps. Direct recall with a near-miss in C, so 8.",
+          "scored_content_hash": "fe93e35fe8965d3707f7e7a7a0992e0ec76290a05fb60a5abc042e656551033b"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "physics.nuclei.isotones-same-neutron-number",
+          "flags": [],
+          "note": "Key correct: C-13 and N-14 both have 7 neutrons. The other pairs are isobars, isotopes and a near-miss; apt distractors. Easy direct recall.",
+          "scored_content_hash": "fe93e35fe8965d3707f7e7a7a0992e0ec76290a05fb60a5abc042e656551033b"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "physics.nuclei.isotones-same-neutron-number",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.nuclei.isotones-same-neutron-number",
+        "physics.nuclei.isotones-same-neutron-number"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Isotones share N = A - Z: C-13 (7 neutrons) and N-14 (7), key D; H-3/He-3 are isobars, C-12/C-14 isotopes, N-14/O-16 have 7 and 8 neutrons. 'Isotopes, isobars and isotones' is a Unit 8 syllabus line. Easy is right.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "fe93e35fe8965d3707f7e7a7a0992e0ec76290a05fb60a5abc042e656551033b",
+        "final_content_hash": "fe93e35fe8965d3707f7e7a7a0992e0ec76290a05fb60a5abc042e656551033b",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "46dec6bb-4af6-40da-8a22-825f75dc52ce": {
+      "question_id": "46dec6bb-4af6-40da-8a22-825f75dc52ce",
+      "batch": "authored-2026-10-17-w4__physics__w4b2",
+      "chapter": "Wave Optics",
+      "key": "D",
+      "content_hash": "8082c190a32d0fd13dfabe6c185ec114aeb21c14a4c1187f98fc5d93f9379f36",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "physics.wave-optics.wavefront-from-source-at-focus",
+          "flags": [],
+          "note": "Key D verified: a source at the focus gives parallel rays, so a plane wavefront. Cylindrical option is a throwaway; diverging and converging options are the usual misconceptions.",
+          "scored_content_hash": "8082c190a32d0fd13dfabe6c185ec114aeb21c14a4c1187f98fc5d93f9379f36"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "physics.wave-optics.wavefront-shape-after-lens",
+          "flags": [],
+          "note": "Key correct: parallel emergent beam gives a plane wavefront. Diverging-spherical distractor is apt; cylindrical is weak. Easy recall, no defect.",
+          "scored_content_hash": "8082c190a32d0fd13dfabe6c185ec114aeb21c14a4c1187f98fc5d93f9379f36"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.wave-optics.wavefront-from-source-at-focus",
+        "physics.wave-optics.wavefront-shape-after-lens"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "A source at the principal focus gives a plane wavefront after the lens, key D (NCERT Ch 10, wavefront after a lens). Key is the shortest option, no giveaway. Easy is right.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "8082c190a32d0fd13dfabe6c185ec114aeb21c14a4c1187f98fc5d93f9379f36",
+        "final_content_hash": "8082c190a32d0fd13dfabe6c185ec114aeb21c14a4c1187f98fc5d93f9379f36",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "47a09bf1-99f6-4a0d-bb3d-cd9177a65ba2": {
+      "question_id": "47a09bf1-99f6-4a0d-bb3d-cd9177a65ba2",
+      "batch": "authored-2026-10-17-w4__physics__w4b1",
+      "chapter": "Alternating Current",
+      "key": "C",
+      "content_hash": "8007ff014cdee9d89224a662e16a3c971840cd566396595b86a80f1feae10081",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.alternating-current.time-to-reach-half-peak-emf",
+          "flags": [],
+          "note": "Key C checks: wt = pi/6, t = 1/600 s. Each distractor maps to a named slip: 1/300 (pi/3), 1/200 (quarter period), 1/100 (half period). Clean two-step item at the right level.",
+          "scored_content_hash": "8007ff014cdee9d89224a662e16a3c971840cd566396595b86a80f1feae10081"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.alternating-current.time-to-half-peak-emf",
+          "flags": [],
+          "note": "Key C verified: sin(wt) = 1/2 gives t = 1/600 s. 1/300 (wrong angle), 1/200 (quarter period) and 1/100 (half period) are real concept slips. Score 9.",
+          "scored_content_hash": "8007ff014cdee9d89224a662e16a3c971840cd566396595b86a80f1feae10081"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.alternating-current.time-to-reach-half-peak-emf",
+        "physics.alternating-current.time-to-half-peak-emf"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "sin wt = 1/2, wt = pi/6, w = 100 pi so t = 1/600 s, key C; 1/300 s is pi/3, 1/200 s the quarter period, 1/100 s the half period. Correct, medium is right. AC generator and instantaneous value are in Unit 4.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "8007ff014cdee9d89224a662e16a3c971840cd566396595b86a80f1feae10081",
+        "final_content_hash": "8007ff014cdee9d89224a662e16a3c971840cd566396595b86a80f1feae10081",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "48be5953-0f97-438b-930b-ecac7c558cf2": {
+      "question_id": "48be5953-0f97-438b-930b-ecac7c558cf2",
+      "batch": "authored-2026-10-17-w4__physics__w4b2",
+      "chapter": "Atoms",
+      "key": "D",
+      "content_hash": "87d2b9eb4e2a7957339f3b71222590f5d97567300fb0dcffc2798c04adf629e1",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "physics.atoms.spectral-lines-from-excited-level",
+          "flags": [],
+          "note": "Key D verified: n(n-1)/2 = 6 lines. 3 is the naive count of drops, 10 is the n=5 count, and 4 is a throwaway. Easy recall, so 8 not 9.",
+          "scored_content_hash": "87d2b9eb4e2a7957339f3b71222590f5d97567300fb0dcffc2798c04adf629e1"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "physics.atoms.number-of-spectral-lines-from-levels",
+          "flags": [],
+          "note": "Key correct: n(n-1)/2 = 6. 3 (drops from n=4 only) and 10 (n(n+1)/2) are apt. Easy direct recall.",
+          "scored_content_hash": "87d2b9eb4e2a7957339f3b71222590f5d97567300fb0dcffc2798c04adf629e1"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.atoms.spectral-lines-from-excited-level",
+        "physics.atoms.number-of-spectral-lines-from-levels"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Four levels give 4 x 3/2 = 6 lines, key D; 3 counts only the drops from n = 4, 10 is the n = 5 count. Qualitative line spectra, within the syllabus line. Easy is right.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "87d2b9eb4e2a7957339f3b71222590f5d97567300fb0dcffc2798c04adf629e1",
+        "final_content_hash": "87d2b9eb4e2a7957339f3b71222590f5d97567300fb0dcffc2798c04adf629e1",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "49cdcfd3-2f1c-4d94-8905-0f9afc4ef316": {
+      "question_id": "49cdcfd3-2f1c-4d94-8905-0f9afc4ef316",
+      "batch": "authored-2026-10-17-w4__physics__w4b2",
+      "chapter": "Ray Optics & Optical Instruments",
+      "key": "C",
+      "content_hash": "a20625b34ae650fdfeb0dd19df99fa216c0342560558bdc74eac25df9a4474c0",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.ray-optics-and-optical-instruments.apparent-depth-of-submerged-object",
+          "flags": [],
+          "note": "Key C verified: apparent depth 2.4/(4/3)=1.8 m, shift 0.6 m. Distractors 1.8 (apparent depth itself), 0.8 (d(mu-1)) and 3.2 (d x mu) are standard slips.",
+          "scored_content_hash": "a20625b34ae650fdfeb0dd19df99fa216c0342560558bdc74eac25df9a4474c0"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.ray-optics-and-optical-instruments.apparent-depth-of-submerged-object",
+          "flags": [],
+          "note": "Key correct: 2.4 - 2.4/(4/3) = 0.6 m. Distractors 1.8 (apparent depth itself) and 0.8 (d(mu-1)) are apt. One-step classic; no defect.",
+          "scored_content_hash": "a20625b34ae650fdfeb0dd19df99fa216c0342560558bdc74eac25df9a4474c0"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "physics.ray-optics-and-optical-instruments.apparent-depth-of-submerged-object",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.ray-optics-and-optical-instruments.apparent-depth-of-submerged-object",
+        "physics.ray-optics-and-optical-instruments.apparent-depth-of-submerged-object"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Apparent depth = 2.4/(4/3) = 1.8 m, so the pebble is raised by 0.6 m, key C; 1.8 m is the apparent depth itself, 0.8 m is d(mu - 1), 3.2 m is d x mu. Refraction at a plane surface (apparent depth) is in the Unit 6 syllabus. Medium is right.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "a20625b34ae650fdfeb0dd19df99fa216c0342560558bdc74eac25df9a4474c0",
+        "final_content_hash": "a20625b34ae650fdfeb0dd19df99fa216c0342560558bdc74eac25df9a4474c0",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "4bb38a72-4019-47e5-bdc9-26fe5bcad9a5": {
+      "question_id": "4bb38a72-4019-47e5-bdc9-26fe5bcad9a5",
+      "batch": "authored-2026-10-17-w4__physics__w4b2",
+      "chapter": "Wave Optics",
+      "key": "C",
+      "content_hash": "c5090d7e407772fde34c8d356055f353138e7a6d47a377b538b04d1356e566a3",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.wave-optics.dark-fringe-position-young-experiment",
+          "flags": [],
+          "note": "Key C verified: beta = 1.0 mm, third dark fringe at 2.5 beta. 3.0 mm (third bright fringe) and 1.5 mm (second dark fringe) are good slips.",
+          "scored_content_hash": "c5090d7e407772fde34c8d356055f353138e7a6d47a377b538b04d1356e566a3"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.wave-optics.position-of-dark-fringes",
+          "flags": [],
+          "note": "Key correct: beta = 1 mm, third dark fringe at 2.5 beta. 1.5 mm (second dark) and 3.0 mm (third bright) are apt. Clean one-step numerical.",
+          "scored_content_hash": "c5090d7e407772fde34c8d356055f353138e7a6d47a377b538b04d1356e566a3"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.wave-optics.dark-fringe-position-young-experiment",
+        "physics.wave-optics.position-of-dark-fringes"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "beta = lambda D / d = 1.0 mm; dark fringes at (n - 1/2) beta, so the third is at 2.5 mm, key C; 3.0 mm is the third bright fringe, 3.5 mm the fourth dark fringe. Correct, unique, medium is right.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "c5090d7e407772fde34c8d356055f353138e7a6d47a377b538b04d1356e566a3",
+        "final_content_hash": "c5090d7e407772fde34c8d356055f353138e7a6d47a377b538b04d1356e566a3",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "59c65a4c-9cea-4a76-bbe3-dde064917db4": {
+      "question_id": "59c65a4c-9cea-4a76-bbe3-dde064917db4",
+      "batch": "authored-2026-10-17-w4__physics__w4b2",
+      "chapter": "Atoms",
+      "key": "C",
+      "content_hash": "3db3e5af2d8f314a4db159ca19b589b93b0ae78913adfb1e2ea933b3d41f9a39",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.atoms.bohr-orbit-quantities-vs-n",
+          "flags": [],
+          "note": "Key C verified: r ~ n^2, v ~ 1/n, |E| ~ 1/n^2, L ~ n. Option B swaps energy and angular momentum; option A reverses radius and speed. Well-built match list.",
+          "scored_content_hash": "3db3e5af2d8f314a4db159ca19b589b93b0ae78913adfb1e2ea933b3d41f9a39"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.atoms.bohr-orbit-quantities-dependence-on-n",
+          "flags": [],
+          "note": "Key correct: radius n^2 (IV), speed 1/n (III), energy magnitude 1/n^2 (I), angular momentum n (II). Each distractor has two or more pairs wrong. Standard NCERT table.",
+          "scored_content_hash": "3db3e5af2d8f314a4db159ca19b589b93b0ae78913adfb1e2ea933b3d41f9a39"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.atoms.bohr-orbit-quantities-vs-n",
+        "physics.atoms.bohr-orbit-quantities-dependence-on-n"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Bohr model: r proportional to n^2, v to 1/n, |E| to 1/n^2, L to n, so (A)-(IV), (B)-(III), (C)-(I), (D)-(II), key C. Unique pairing; the Bohr-orbit expressions are named in the Unit 8 syllabus line. Medium is right.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "3db3e5af2d8f314a4db159ca19b589b93b0ae78913adfb1e2ea933b3d41f9a39",
+        "final_content_hash": "3db3e5af2d8f314a4db159ca19b589b93b0ae78913adfb1e2ea933b3d41f9a39",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "664b7a77-53bc-4c82-889a-5731832693ac": {
+      "question_id": "664b7a77-53bc-4c82-889a-5731832693ac",
+      "batch": "authored-2026-10-17-w4__physics__w4b2",
+      "chapter": "Dual Nature of Radiation & Matter",
+      "key": "C",
+      "content_hash": "e8d7da0e8aa9cd06cc8355829a1ba2dd50131fb5be1f81461966bc8da18f0cc5",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.dual-nature-of-radiation-and-matter.threshold-from-two-stopping-potentials",
+          "flags": [],
+          "note": "Key C verified: subtracting the two Einstein equations gives hc/lambda = 2eV0, phi = hc/(2 lambda), lambda0 = 2 lambda. Label hard judged medium, a notch off.",
+          "scored_content_hash": "e8d7da0e8aa9cd06cc8355829a1ba2dd50131fb5be1f81461966bc8da18f0cc5"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.dual-nature-of-radiation-and-matter.work-function-from-stopping-potentials",
+          "flags": [],
+          "note": "Key correct: hc/lambda = 2eV0, work function eV0, threshold 2 lambda. 3 lambda (ratio slip) is apt. Two-step; label hard is one notch high.",
+          "scored_content_hash": "e8d7da0e8aa9cd06cc8355829a1ba2dd50131fb5be1f81461966bc8da18f0cc5"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.dual-nature-of-radiation-and-matter.threshold-from-two-stopping-potentials",
+        "physics.dual-nature-of-radiation-and-matter.work-function-from-stopping-potentials"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "e V0 = hc/lambda - phi and 3 e V0 = 2hc/lambda - phi give hc/lambda = 2 e V0, phi = e V0 = hc/(2 lambda), threshold wavelength 2 lambda, key C. Check: a photon of lambda/2 carries 4 e V0, minus phi = e V0 leaves 3 e V0. Correct and unique; 3 lambda is the ratio slip. Einstein's equation is a Unit 7 syllabus line. Two linear equations from one law: medium, not hard.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "difficulty_label"
+        ],
+        "judged_text": "final",
+        "judged_content_hash": "e8d7da0e8aa9cd06cc8355829a1ba2dd50131fb5be1f81461966bc8da18f0cc5",
+        "final_content_hash": "e8d7da0e8aa9cd06cc8355829a1ba2dd50131fb5be1f81461966bc8da18f0cc5",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "difficulty_label"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "73198264-8b92-4c57-a361-7cfdeef58e51": {
+      "question_id": "73198264-8b92-4c57-a361-7cfdeef58e51",
+      "batch": "authored-2026-10-17-w4__physics__w4b1",
+      "chapter": "Electromagnetic Waves",
+      "key": "D",
+      "content_hash": "d9a120abe4ac51dbecc13962b6d615295f37cc0df1ad2851d759c282faa6bd48",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.electromagnetic-waves.sources-of-em-spectrum",
+          "flags": [],
+          "note": "Key D checks: radio III, infrared IV, X-ray I, gamma II; explanation accurate. Option B pairs radio with vibrations, a throwaway. Recall-level matching, so 8 rather than 9.",
+          "scored_content_hash": "d9a120abe4ac51dbecc13962b6d615295f37cc0df1ad2851d759c282faa6bd48"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "physics.electromagnetic-waves.sources-of-em-spectrum",
+          "flags": [],
+          "note": "Key D verified: radio III, infrared IV, X-rays I, gamma II. Each distractor is one or two pair swaps. Pure recall, so easy not the labelled medium; capped at 8.",
+          "scored_content_hash": "d9a120abe4ac51dbecc13962b6d615295f37cc0df1ad2851d759c282faa6bd48"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "physics.electromagnetic-waves.sources-of-em-spectrum",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "easy"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.electromagnetic-waves.sources-of-em-spectrum",
+        "physics.electromagnetic-waves.sources-of-em-spectrum"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Radio: electrons accelerated in an aerial (III); infrared: vibrating atoms and molecules in hot bodies (IV); X-rays: fast electrons stopped by a metal target (I); gamma rays: nuclear transitions (II). Key D, unique pairing; NCERT Ch 8 sources of the spectrum. Distractors are single and double swaps.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "d9a120abe4ac51dbecc13962b6d615295f37cc0df1ad2851d759c282faa6bd48",
+        "final_content_hash": "d9a120abe4ac51dbecc13962b6d615295f37cc0df1ad2851d759c282faa6bd48",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "75bc29fb-5f94-405b-b6a4-9d121f46ff9e": {
+      "question_id": "75bc29fb-5f94-405b-b6a4-9d121f46ff9e",
+      "batch": "authored-2026-10-17-w4__physics__w4b1",
+      "chapter": "Semiconductor Electronics",
+      "key": "B",
+      "content_hash": "cff036621e0047b55d0117630cbf2a7bb534dc466cd1e66bb02840181a565d99",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.semiconductor-electronics.dopant-carriers-and-junction-bias",
+          "flags": [],
+          "note": "Key B checks: arsenic gives n-type with electrons (III), indium p-type with holes (I), forward bias narrow with large current (II), reverse bias wide with small current (IV). Each option swaps a different pair.",
+          "scored_content_hash": "cff036621e0047b55d0117630cbf2a7bb534dc466cd1e66bb02840181a565d99"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.semiconductor-electronics.pn-junction-bias-and-doping",
+          "flags": [],
+          "note": "Key B verified: arsenic n-type with electrons III, indium p-type with holes I, forward II, reverse IV. Distractors are single or double swaps and no option states a false fact. Score 9.",
+          "scored_content_hash": "cff036621e0047b55d0117630cbf2a7bb534dc466cd1e66bb02840181a565d99"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.semiconductor-electronics.dopant-carriers-and-junction-bias",
+        "physics.semiconductor-electronics.pn-junction-bias-and-doping"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Arsenic (five valence electrons) gives n-type, electrons majority (III); indium gives p-type, holes majority (I); forward bias gives a narrow layer and large current (II); reverse bias a wide layer and very small current (IV). Key B, unique. Inside the Unit 9 syllabus line (p-type and n-type, diode I-V in forward and reverse bias).",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "cff036621e0047b55d0117630cbf2a7bb534dc466cd1e66bb02840181a565d99",
+        "final_content_hash": "cff036621e0047b55d0117630cbf2a7bb534dc466cd1e66bb02840181a565d99",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "823433eb-4072-4493-833d-f53ea7ff8cf3": {
+      "question_id": "823433eb-4072-4493-833d-f53ea7ff8cf3",
+      "batch": "authored-2026-10-17-w4__physics__w4b1",
+      "chapter": "Moving Charges & Magnetism",
+      "key": "A",
+      "content_hash": "c6083c5977e268be78035a7d0a634847631cbd72488afd47be6bfe8641871d01",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.moving-charges-and-magnetism.orbital-magnetic-moment",
+          "flags": [],
+          "note": "Key A checks: m = evr/2 = 1.2e-23 A m^2. Distractors 2.4e-23 (factor 1/2 dropped), 4.8e-23 (doubled) and 7.5e-23 (pi slip) are each a named slip. Two steps, correct level.",
+          "scored_content_hash": "c6083c5977e268be78035a7d0a634847631cbd72488afd47be6bfe8641871d01"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.moving-charges-and-magnetism.orbital-magnetic-moment",
+          "flags": [],
+          "note": "Key A verified: m = evr/2 = 1.2e-23 A m^2. Two steps, medium. 2.4e-23 and 4.8e-23 are real slips; 7.5e-23 has no clear slip behind it. Score 8.",
+          "scored_content_hash": "c6083c5977e268be78035a7d0a634847631cbd72488afd47be6bfe8641871d01"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "physics.moving-charges-and-magnetism.orbital-magnetic-moment",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.moving-charges-and-magnetism.orbital-magnetic-moment",
+        "physics.moving-charges-and-magnetism.orbital-magnetic-moment"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "m = I A = (e v / 2 pi r) pi r^2 = e v r / 2 = 1.2e-23 A m^2, key A; 2.4e-23 is the missing-half slip, 4.8e-23 the doubling. Current loop as a magnetic dipole is in the Unit 3 syllabus. Medium is right.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "c6083c5977e268be78035a7d0a634847631cbd72488afd47be6bfe8641871d01",
+        "final_content_hash": "c6083c5977e268be78035a7d0a634847631cbd72488afd47be6bfe8641871d01",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 4,
+          "answers": [
+            "A",
+            "A",
+            "B",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "97690044-9d76-4aff-a84b-f9787fd3c100": {
+      "question_id": "97690044-9d76-4aff-a84b-f9787fd3c100",
+      "batch": "authored-2026-10-17-w4__physics__w4b2",
+      "chapter": "Nuclei",
+      "key": "C",
+      "content_hash": "d53f7dc7303b6e760167501a9d3d842e4ab852250921c89f1726e54bda56afc1",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.nuclei.fission-rate-from-power",
+          "flags": [],
+          "note": "Key C verified: E = 200 x 1.6e-13 = 3.2e-11 J, rate = 3.2e6/3.2e-11 = 1.0e17 per s. The eV slip gives 1.0e23, a clean distractor.",
+          "scored_content_hash": "d53f7dc7303b6e760167501a9d3d842e4ab852250921c89f1726e54bda56afc1"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.nuclei.fissions-per-second-from-power",
+          "flags": [],
+          "note": "Key correct: 3.2e6 / 3.2e-11 = 1.0e17 per s. 1.0e23 (200 eV unit slip) is apt. Two steps; medium label correct.",
+          "scored_content_hash": "d53f7dc7303b6e760167501a9d3d842e4ab852250921c89f1726e54bda56afc1"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.nuclei.fission-rate-from-power",
+        "physics.nuclei.fissions-per-second-from-power"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "E per fission = 200 x 1.6e-13 = 3.2e-11 J, rate = 3.2e6/3.2e-11 = 1.0e17 per second, key C; 1.0e23 is the MeV-for-eV slip. Nuclear fission and mass-energy are Unit 8 syllabus lines. Medium is right.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "d53f7dc7303b6e760167501a9d3d842e4ab852250921c89f1726e54bda56afc1",
+        "final_content_hash": "d53f7dc7303b6e760167501a9d3d842e4ab852250921c89f1726e54bda56afc1",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "9a1edcea-056d-4e0a-9d68-a89e8a6061da": {
+      "question_id": "9a1edcea-056d-4e0a-9d68-a89e8a6061da",
+      "batch": "authored-2026-10-17-w4__physics__w4b1",
+      "chapter": "Moving Charges & Magnetism",
+      "key": "D",
+      "content_hash": "4d204a2061cf696fa5f5897b1fe0ca2a6d80b321445a97cd6bf1159b53d52605",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.moving-charges-and-magnetism.galvanometer-shunt-ammeter-resistance",
+          "flags": [],
+          "note": "Key D checks: shunt S = 1.0 ohm, in parallel with G gives 0.99 ohm. Distractors 1.0, 100 and 99 ohm are the standard slips. Two clean steps; held at 8 as a standard shunt item.",
+          "scored_content_hash": "4d204a2061cf696fa5f5897b1fe0ca2a6d80b321445a97cd6bf1159b53d52605"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.moving-charges-and-magnetism.ammeter-resistance-with-shunt",
+          "flags": [],
+          "note": "Key D verified: shunt 1.0 ohm, parallel ammeter 0.99 ohm. Two steps, so medium not the labelled hard. Distractors 1.0 (shunt alone) and 100 (series sum) are real slips. Score 8.",
+          "scored_content_hash": "4d204a2061cf696fa5f5897b1fe0ca2a6d80b321445a97cd6bf1159b53d52605"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.moving-charges-and-magnetism.galvanometer-shunt-ammeter-resistance",
+        "physics.moving-charges-and-magnetism.ammeter-resistance-with-shunt"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "Galvanometer 99 ohm, Ig 10 mA: shunt = 0.99/0.99 = 1.0 ohm, ammeter resistance = 99 x 1.0/100 = 0.99 ohm (also Ig G / I), key D; 1.0 ohm is the shunt alone, 100 ohm the series sum, 99 ohm ignores the shunt. Correct and unique. The moving coil galvanometer and its conversion to an ammeter is a Unit 3 syllabus line. Two direct formulas and no hidden trap: medium, not hard.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "difficulty_label"
+        ],
+        "judged_text": "final",
+        "judged_content_hash": "4d204a2061cf696fa5f5897b1fe0ca2a6d80b321445a97cd6bf1159b53d52605",
+        "final_content_hash": "4d204a2061cf696fa5f5897b1fe0ca2a6d80b321445a97cd6bf1159b53d52605",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "difficulty_label"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "9e03f84e-da69-4b2c-b83f-12f0d834e6b9": {
+      "question_id": "9e03f84e-da69-4b2c-b83f-12f0d834e6b9",
+      "batch": "authored-2026-10-17-w4__physics__w4b1",
+      "chapter": "Moving Charges & Magnetism",
+      "key": "B",
+      "content_hash": "a8d5c939c1485cba0fc58513112c687e2f56f00deaff60b898aa9a29c1b3f6d1",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "physics.moving-charges-and-magnetism.velocity-selector-undeflected-speed",
+          "flags": [],
+          "note": "Key B checks: v = E/B = 3.0e5 m/s. Explanation says charge and mass cancel, but mass never enters the balance, so that wording is loose. Distractor 3.3e-6 m/s is a throwaway. One-step recall.",
+          "scored_content_hash": "a8d5c939c1485cba0fc58513112c687e2f56f00deaff60b898aa9a29c1b3f6d1"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "physics.moving-charges-and-magnetism.velocity-selector-condition",
+          "flags": [],
+          "note": "Key B verified: v = E/B = 3.0e5 m/s. Easy one-step velocity selector. 3.0e3 (E times B) is a throwaway; 3.3e-6 (B/E) and 3.0e6 are real slips. Score 8.",
+          "scored_content_hash": "a8d5c939c1485cba0fc58513112c687e2f56f00deaff60b898aa9a29c1b3f6d1"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.moving-charges-and-magnetism.velocity-selector-undeflected-speed",
+        "physics.moving-charges-and-magnetism.velocity-selector-condition"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "v = E/B = 3.0e4/0.10 = 3.0e5 m/s, key B. A is E x B (wrong dimensions), C is B/E. Velocity selector is the 'force on a moving charge in uniform magnetic and electric fields' line of Unit 3. One step, easy is right. Key is not the longest option.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "a8d5c939c1485cba0fc58513112c687e2f56f00deaff60b898aa9a29c1b3f6d1",
+        "final_content_hash": "a8d5c939c1485cba0fc58513112c687e2f56f00deaff60b898aa9a29c1b3f6d1",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "a5527d87-72c4-45bc-876b-a80050540ae1": {
+      "question_id": "a5527d87-72c4-45bc-876b-a80050540ae1",
+      "batch": "authored-2026-10-17-w4__physics__w4b2",
+      "chapter": "Ray Optics & Optical Instruments",
+      "key": "C",
+      "content_hash": "484a544a1d3f4dfedaeb55b228efdf0cca53c0609cec0ac32626aaa22ec15b9f",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "physics.ray-optics-and-optical-instruments.optical-phenomena-and-their-causes",
+          "flags": [],
+          "note": "Key C verified: fibre TIR, lens refraction, mirror reflection, prism dispersion. Options A, B and D each keep at most two correct pairs; the prism-refraction trap is the real discriminator.",
+          "scored_content_hash": "484a544a1d3f4dfedaeb55b228efdf0cca53c0609cec0ac32626aaa22ec15b9f"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "easy",
+          "objective_tag": "physics.ray-optics-and-optical-instruments.principles-of-optical-devices",
+          "flags": [],
+          "note": "Key correct: fibre TIR, lens refraction, mirror reflection, prism dispersion. Distractors each swap two pairs; direct recall, fit for a paper unchanged.",
+          "scored_content_hash": "484a544a1d3f4dfedaeb55b228efdf0cca53c0609cec0ac32626aaa22ec15b9f"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "easy",
+        "judges": [
+          "easy",
+          "easy"
+        ],
+        "agreed": "easy",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.ray-optics-and-optical-instruments.optical-phenomena-and-their-causes",
+        "physics.ray-optics-and-optical-instruments.principles-of-optical-devices"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Optical fibre: total internal reflection; convex lens image: refraction; plane mirror image: reflection; prism splitting: dispersion. Key C, unique (each List-II item is used once). Easy is right.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "484a544a1d3f4dfedaeb55b228efdf0cca53c0609cec0ac32626aaa22ec15b9f",
+        "final_content_hash": "484a544a1d3f4dfedaeb55b228efdf0cca53c0609cec0ac32626aaa22ec15b9f",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "a8245687-1132-49a7-8ec4-306abf2aba8b": {
+      "question_id": "a8245687-1132-49a7-8ec4-306abf2aba8b",
+      "batch": "authored-2026-10-17-w4__physics__w4b2",
+      "chapter": "Dual Nature of Radiation & Matter",
+      "key": "D",
+      "content_hash": "95ad91cae19173c2c69bc31ffad12d844c51b8b0df9932d656d9d2ae16811ebe",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.dual-nature-of-radiation-and-matter.photon-number-from-power",
+          "flags": [],
+          "note": "Key D verified: E = hc/lambda = 3.3e-19 J, N = P/E = 1.0e19. The 1.0e20 option is a nm-to-m slip. Clean two-step numerical.",
+          "scored_content_hash": "95ad91cae19173c2c69bc31ffad12d844c51b8b0df9932d656d9d2ae16811ebe"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.dual-nature-of-radiation-and-matter.photon-energy-and-emission-rate",
+          "flags": [],
+          "note": "Key correct: E = 3.3e-19 J, so N = 1.0e19 per s. 1.0e20 from a 600 nm unit slip is apt. Two clean steps.",
+          "scored_content_hash": "95ad91cae19173c2c69bc31ffad12d844c51b8b0df9932d656d9d2ae16811ebe"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.dual-nature-of-radiation-and-matter.photon-number-from-power",
+        "physics.dual-nature-of-radiation-and-matter.photon-energy-and-emission-rate"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "E = hc/lambda = 3.3e-19 J, N = P/E = 1.0e19 per second, key D; 1.0e20 is the 6e-6 m slip. Photon energy is in the Unit 7 syllabus (particle nature of light). Medium is right.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "95ad91cae19173c2c69bc31ffad12d844c51b8b0df9932d656d9d2ae16811ebe",
+        "final_content_hash": "95ad91cae19173c2c69bc31ffad12d844c51b8b0df9932d656d9d2ae16811ebe",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "b178248c-b160-48d6-a199-390201b13144": {
+      "question_id": "b178248c-b160-48d6-a199-390201b13144",
+      "batch": "authored-2026-10-17-w4__physics__w4b1",
+      "chapter": "Semiconductor Electronics",
+      "key": "D",
+      "content_hash": "c3786234f80fd3a80778402f02603284ec41696bf342a965bbd4cbe22af7c05f",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.semiconductor-electronics.diode-forward-drop-series-current",
+          "flags": [],
+          "note": "Key D checks: (5.7 - 0.7) V over 1.0 kohm = 5.0 mA. Distractors 5.7 (diode drop ignored), 6.4 (drop added) and 4.3 (drop subtracted twice) are sign slips. One-step, so 8.",
+          "scored_content_hash": "c3786234f80fd3a80778402f02603284ec41696bf342a965bbd4cbe22af7c05f"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.semiconductor-electronics.diode-forward-drop-in-circuit",
+          "flags": [],
+          "note": "Key D verified: I = (5.7 - 0.7)/1000 = 5.0 mA. 5.7 (drop ignored), 6.4 (drop added) and 4.3 mA (drop subtracted twice) are real slips. One-step and clean. Score 9.",
+          "scored_content_hash": "c3786234f80fd3a80778402f02603284ec41696bf342a965bbd4cbe22af7c05f"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.semiconductor-electronics.diode-forward-drop-series-current",
+        "physics.semiconductor-electronics.diode-forward-drop-in-circuit"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Voltage across the resistor 5.7 - 0.7 = 5.0 V, I = 5.0 mA, key D; 5.7 mA ignores the drop, 4.3 mA subtracts twice, 6.4 mA adds it. Diode I-V (forward bias) is in the Unit 9 syllabus. Medium kept (both judges medium).",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "c3786234f80fd3a80778402f02603284ec41696bf342a965bbd4cbe22af7c05f",
+        "final_content_hash": "c3786234f80fd3a80778402f02603284ec41696bf342a965bbd4cbe22af7c05f",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "bf760cfb-3f89-4233-8ec2-7d0588f8a8f1": {
+      "question_id": "bf760cfb-3f89-4233-8ec2-7d0588f8a8f1",
+      "batch": "authored-2026-10-17-w4__physics__w4b2",
+      "chapter": "Ray Optics & Optical Instruments",
+      "key": "D",
+      "content_hash": "ac61e1f150cab705288bd1fbcea7daeb0d8800323bf246c00eab0bb5d27ea789",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.ray-optics-and-optical-instruments.compound-microscope-magnifying-power",
+          "flags": [],
+          "note": "Key D verified: (20/1)(25/5)=100. 120 (near point) and 130 (26 cm separation) are good slips. Wordy stem: the inline definition of tube length costs a point.",
+          "scored_content_hash": "ac61e1f150cab705288bd1fbcea7daeb0d8800323bf246c00eab0bb5d27ea789"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.ray-optics-and-optical-instruments.compound-microscope-magnifying-power",
+          "flags": [],
+          "note": "Key correct: (20/1)(25/5) = 100. 120 (near-point formula) and 130 (26 cm used as tube length) are apt slips. Stem defines tube length; clean.",
+          "scored_content_hash": "ac61e1f150cab705288bd1fbcea7daeb0d8800323bf246c00eab0bb5d27ea789"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "physics.ray-optics-and-optical-instruments.compound-microscope-magnifying-power",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.ray-optics-and-optical-instruments.compound-microscope-magnifying-power",
+        "physics.ray-optics-and-optical-instruments.compound-microscope-magnifying-power"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "M = (L/fo)(D/fe) = 20 x 5 = 100, key D; 120 is the near-point formula, 130 uses the 26 cm separation as the tube length. The stem defines the tube length as the distance between the inner focal points, as NCERT does, so the key is unambiguous. Medium is right.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "ac61e1f150cab705288bd1fbcea7daeb0d8800323bf246c00eab0bb5d27ea789",
+        "final_content_hash": "ac61e1f150cab705288bd1fbcea7daeb0d8800323bf246c00eab0bb5d27ea789",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "c28582fc-eedd-4ea9-a907-b938f29248ab": {
+      "question_id": "c28582fc-eedd-4ea9-a907-b938f29248ab",
+      "batch": "authored-2026-10-17-w4__physics__w4b2",
+      "chapter": "Nuclei",
+      "key": "A",
+      "content_hash": "77f7c1c08f954573ab797ca34a837ef12e017a61b65f6fae9feaad28bcc75a47",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.nuclei.fusion-energy-from-binding-energy",
+          "flags": [],
+          "note": "Key A verified: 28.4 minus 4.4 = 24.0 MeV. 6.0 (per-nucleon difference) and 28.4 (helium total only) are good slips. Label hard judged medium, a notch off.",
+          "scored_content_hash": "77f7c1c08f954573ab797ca34a837ef12e017a61b65f6fae9feaad28bcc75a47"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.nuclei.q-value-from-binding-energies",
+          "flags": [],
+          "note": "Key correct: 28.4 - 4.4 = 24.0 MeV. 6.0 (per-nucleon subtraction), 28.4 and 32.8 (addition) are apt. Label hard is one notch high.",
+          "scored_content_hash": "77f7c1c08f954573ab797ca34a837ef12e017a61b65f6fae9feaad28bcc75a47"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.nuclei.fusion-energy-from-binding-energy",
+        "physics.nuclei.q-value-from-binding-energies"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "Q = B(He-4) - 2 B(H-2) = 4 x 7.1 - 2 x 2 x 1.1 = 28.4 - 4.4 = 24.0 MeV, key A; 6.0 MeV subtracts the per-nucleon values, 28.4 MeV forgets the deuterons were bound, 32.8 MeV adds. Correct and unique. Binding energy and fusion are Unit 8 syllabus lines. Two multiplications and a subtraction: medium, not hard.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "difficulty_label"
+        ],
+        "judged_text": "final",
+        "judged_content_hash": "77f7c1c08f954573ab797ca34a837ef12e017a61b65f6fae9feaad28bcc75a47",
+        "final_content_hash": "77f7c1c08f954573ab797ca34a837ef12e017a61b65f6fae9feaad28bcc75a47",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "difficulty_label"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "c83bfc1b-51a8-4c9c-ba3a-4b1b3b077998": {
+      "question_id": "c83bfc1b-51a8-4c9c-ba3a-4b1b3b077998",
+      "batch": "authored-2026-10-17-w4__physics__w4b2",
+      "chapter": "Ray Optics & Optical Instruments",
+      "key": "B",
+      "content_hash": "758ccbf4705ea8fdaa305a7cd4845603b7bd23a020cf8a64938a34b043f8ac26",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.ray-optics-and-optical-instruments.net-deviation-of-combined-prisms",
+          "flags": [],
+          "note": "Key B verified: 3.0 minus 2.4 for opposite prisms. 5.4 (sum) and 2.6 (mu x A) are good sign slips. Label hard judged medium, a notch off.",
+          "scored_content_hash": "758ccbf4705ea8fdaa305a7cd4845603b7bd23a020cf8a64938a34b043f8ac26"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.ray-optics-and-optical-instruments.deviation-of-combined-thin-prisms",
+          "flags": [],
+          "note": "Key correct: 0.5 x 6 - 0.6 x 4 = 0.6 deg. 5.4 (sum) and 2.6 (mu x A) are apt; 2.0 has no clear origin. Thin-prism approximation is implicit in the stem; accepted.",
+          "scored_content_hash": "758ccbf4705ea8fdaa305a7cd4845603b7bd23a020cf8a64938a34b043f8ac26"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.ray-optics-and-optical-instruments.net-deviation-of-combined-prisms",
+        "physics.ray-optics-and-optical-instruments.deviation-of-combined-thin-prisms"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "delta = (mu - 1)A gives 3.0 and 2.4 degrees; the edges are opposed, so they subtract: 0.6 degrees, key B; 5.4 adds them, 2.6 uses mu A. Correct and unique. Thin prism deviation is in the Unit 6 prism line; the opposed-prism combination is a direct use of it. Two direct evaluations and a subtraction: medium, not hard.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "difficulty_label"
+        ],
+        "judged_text": "final",
+        "judged_content_hash": "758ccbf4705ea8fdaa305a7cd4845603b7bd23a020cf8a64938a34b043f8ac26",
+        "final_content_hash": "758ccbf4705ea8fdaa305a7cd4845603b7bd23a020cf8a64938a34b043f8ac26",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "difficulty_label"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "c88795fc-93b2-4e55-979a-126712390857": {
+      "question_id": "c88795fc-93b2-4e55-979a-126712390857",
+      "batch": "authored-2026-10-17-w4__physics__w4b2",
+      "chapter": "Wave Optics",
+      "key": "A",
+      "content_hash": "9e03add77ef8947b968063fc6fc5e39c955676a7ebe502905a78dcbc14ab782a",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.wave-optics.snell-law-with-refractive-index",
+          "flags": [],
+          "note": "Key A verified: mu = sqrt(3) from the speed ratio, sin r = (sqrt(3)/2)/sqrt(3) = 1/2. Option 35 deg (angle divided by mu) is a clean slip distractor.",
+          "scored_content_hash": "9e03add77ef8947b968063fc6fc5e39c955676a7ebe502905a78dcbc14ab782a"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.wave-optics.refraction-of-plane-wavefront",
+          "flags": [],
+          "note": "Key correct: mu = sqrt3, sin r = 1/2, r = 30 deg. 35 (60/sqrt3 slip) is apt; 45 is weak. Single Snell step, medium.",
+          "scored_content_hash": "9e03add77ef8947b968063fc6fc5e39c955676a7ebe502905a78dcbc14ab782a"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.wave-optics.snell-law-with-refractive-index",
+        "physics.wave-optics.refraction-of-plane-wavefront"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Huygens construction: sin i / sin r = v1/v2 = sqrt3, so sin r = 1/2 and r = 30 degrees, key A; 60/sqrt3 = 35 degrees is the proportional-angle slip. Reflection and refraction of plane waves with Huygens' principle is in the Unit 6 syllabus. Medium is right.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "9e03add77ef8947b968063fc6fc5e39c955676a7ebe502905a78dcbc14ab782a",
+        "final_content_hash": "9e03add77ef8947b968063fc6fc5e39c955676a7ebe502905a78dcbc14ab782a",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "d01eb790-0cf8-49f7-9eaa-eae3faeea1d5": {
+      "question_id": "d01eb790-0cf8-49f7-9eaa-eae3faeea1d5",
+      "batch": "authored-2026-10-17-w4__physics__w4b1",
+      "chapter": "Alternating Current",
+      "key": "B",
+      "content_hash": "e6da5870c8ff1985eb824cf1180ce06a584317bb7e8b2bb0116e4efc82032e93",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "hard",
+          "objective_tag": "physics.alternating-current.series-lcr-inductor-voltage-phasors",
+          "flags": [],
+          "note": "Key B checks: Z = 50 ohm, I = 2 A, VL = 160 V; the phasor check to 100 V is correct. The 100 V trap is fair; 80 V and 60 V are slips. Explanation accurate and it teaches the point.",
+          "scored_content_hash": "e6da5870c8ff1985eb824cf1180ce06a584317bb7e8b2bb0116e4efc82032e93"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "B",
+          "key_matches": true,
+          "difficulty_check": "hard",
+          "objective_tag": "physics.alternating-current.component-voltage-exceeds-supply",
+          "flags": [],
+          "note": "Key B verified: Z = 50 ohm, I = 2 A, V_L = 160 V. The trap of a component voltage above the supply is fair; 80, 60 and 100 V are each a named slip. Score 9.",
+          "scored_content_hash": "e6da5870c8ff1985eb824cf1180ce06a584317bb7e8b2bb0116e4efc82032e93"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "hard",
+          "hard"
+        ],
+        "agreed": "hard",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.alternating-current.series-lcr-inductor-voltage-phasors",
+        "physics.alternating-current.component-voltage-exceeds-supply"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Z = 50 ohm, I = 2 A, V_L = 160 V, key B; 100 V assumes no part can exceed the source. Correct, unique, and the phasor check in the explanation holds (V_R 60 V, V_C 80 V, sqrt(60^2 + 80^2) = 100 V). Both judges say hard, label kept.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "e6da5870c8ff1985eb824cf1180ce06a584317bb7e8b2bb0116e4efc82032e93",
+        "final_content_hash": "e6da5870c8ff1985eb824cf1180ce06a584317bb7e8b2bb0116e4efc82032e93",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "B",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "d927294f-a4a8-4886-b658-6ae4abbb96cc": {
+      "question_id": "d927294f-a4a8-4886-b658-6ae4abbb96cc",
+      "batch": "authored-2026-10-17-w4__physics__w4b1",
+      "chapter": "Electromagnetic Induction",
+      "key": "C",
+      "content_hash": "1101b4f83c8663b9d352e3ab88d7ffeac2af575dbdd0046eb740493f045a1a55",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.electromagnetic-induction.induced-charge-flux-over-resistance",
+          "flags": [],
+          "note": "Key C checks: q = N dPhi/R = 1.5e-2 C. The 0.50 s is a red herring, not a trap. Slip distractors 1.5e-4 (N dropped), 3.0e-2 (current, a unit confusion) and 0.6 (emf) are clean. One formula, so 8.",
+          "scored_content_hash": "1101b4f83c8663b9d352e3ab88d7ffeac2af575dbdd0046eb740493f045a1a55"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.electromagnetic-induction.induced-charge-through-coil",
+          "flags": [],
+          "note": "Key C verified: q = N dPhi/R = 1.5e-2 C. Clean one-step item; distractors are real slips (missing N 1.5e-4, current 0.03 A, emf 0.6 V) and the 0.50 s is a fair trap. Score 9.",
+          "scored_content_hash": "1101b4f83c8663b9d352e3ab88d7ffeac2af575dbdd0046eb740493f045a1a55"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.electromagnetic-induction.induced-charge-flux-over-resistance",
+        "physics.electromagnetic-induction.induced-charge-through-coil"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "q = N dPhi / R = 100 x 3.0e-3 / 20 = 1.5e-2 C, key C; 3.0e-2 is the current in A. Time cancels, a fair CUET trap. Medium is right.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "1101b4f83c8663b9d352e3ab88d7ffeac2af575dbdd0046eb740493f045a1a55",
+        "final_content_hash": "1101b4f83c8663b9d352e3ab88d7ffeac2af575dbdd0046eb740493f045a1a55",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "e6aaca54-9f5b-4217-86d5-a72ec3df7ec1": {
+      "question_id": "e6aaca54-9f5b-4217-86d5-a72ec3df7ec1",
+      "batch": "authored-2026-10-17-w4__physics__w4b1",
+      "chapter": "Electromagnetic Induction",
+      "key": "D",
+      "content_hash": "24fe40207a565088c3de488394952fe9c87c16ea9a236d034cfa2cbcfbf381b4",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.electromagnetic-induction.tilted-coil-flux-faraday-emf",
+          "flags": [],
+          "note": "Key D checks: a plane at 30 degrees to the field makes the normal 60 degrees, so flux is 1.0e-3 Wb and emf 10 V. The 10*sqrt(3) V trap depends on reading the angle as the normal's; wording is standard but needs care. Held at 8.",
+          "scored_content_hash": "24fe40207a565088c3de488394952fe9c87c16ea9a236d034cfa2cbcfbf381b4"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "D",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.electromagnetic-induction.flux-through-tilted-coil",
+          "flags": [],
+          "note": "Key D verified: plane at 30 deg to field gives flux 1.0e-3 Wb per turn, emf 10 V. Clean trap with real slips (20 V, 10sqrt(3) V, 0.10 V). Labelled hard but medium; score 8 for the notch.",
+          "scored_content_hash": "24fe40207a565088c3de488394952fe9c87c16ea9a236d034cfa2cbcfbf381b4"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.electromagnetic-induction.tilted-coil-flux-faraday-emf",
+        "physics.electromagnetic-induction.flux-through-tilted-coil"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "repaired",
+        "expert_issue": "Angle with the plane is 30 degrees so flux per turn is BA sin 30 = 1.0e-3 Wb; emf = 100 x 1.0e-3 / 0.010 = 10 V, key D; 20 V (field taken perpendicular) and 10 root 3 V (cos 30) are the angle traps. Correct and unique. Three short steps with one angle trap: medium, not hard.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "expert_repaired_fields": [
+          "difficulty_label"
+        ],
+        "judged_text": "final",
+        "judged_content_hash": "24fe40207a565088c3de488394952fe9c87c16ea9a236d034cfa2cbcfbf381b4",
+        "final_content_hash": "24fe40207a565088c3de488394952fe9c87c16ea9a236d034cfa2cbcfbf381b4",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [
+          "difficulty_label"
+        ],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "D",
+            "D",
+            "D",
+            "D",
+            "D"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "e9f682c4-7b40-4470-a4ac-cca20e95419e": {
+      "question_id": "e9f682c4-7b40-4470-a4ac-cca20e95419e",
+      "batch": "authored-2026-10-17-w4__physics__w4b1",
+      "chapter": "Moving Charges & Magnetism",
+      "key": "C",
+      "content_hash": "30672c38bc25ebdf432ad7a17196435db595e6c0e2a87eac98da252ec93fbd62",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "hard",
+          "objective_tag": "physics.moving-charges-and-magnetism.null-field-outside-opposite-currents",
+          "flags": [],
+          "note": "Key C checks: the null lies outside, beyond the 3 A wire; 3(x+0.40) = 5x gives 0.60 m, the only null on the line. 0.15 m is the same-direction null and 1.0 m is the distance from the 5 A wire: designed traps.",
+          "scored_content_hash": "30672c38bc25ebdf432ad7a17196435db595e6c0e2a87eac98da252ec93fbd62"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.moving-charges-and-magnetism.null-point-opposite-currents",
+          "flags": [],
+          "note": "Key C verified: null point 0.60 m from the 3 A wire, outside the wires. Two steps, medium (labelled hard, one notch high). 0.15 m is the same-direction answer; 0.24 m is weak. Score 8.",
+          "scored_content_hash": "30672c38bc25ebdf432ad7a17196435db595e6c0e2a87eac98da252ec93fbd62"
+        }
+      ],
+      "mean": 8.5,
+      "min": 8,
+      "spread": 1,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "hard",
+        "judges": [
+          "hard",
+          "medium"
+        ],
+        "agreed": null,
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.moving-charges-and-magnetism.null-field-outside-opposite-currents",
+        "physics.moving-charges-and-magnetism.null-point-opposite-currents"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Opposite currents: fields add between the wires, so the null lies outside, beyond the weaker wire. 3(x + 0.40) = 5x gives x = 0.60 m, key C; 0.15 m is the same-direction null, 1.0 m the distance from the 5 A wire. Needs a physical argument plus algebra, so hard stands (judges split hard/medium).",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "30672c38bc25ebdf432ad7a17196435db595e6c0e2a87eac98da252ec93fbd62",
+        "final_content_hash": "30672c38bc25ebdf432ad7a17196435db595e6c0e2a87eac98da252ec93fbd62",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "eab7b9e0-c086-4422-8820-f49e7701fe40": {
+      "question_id": "eab7b9e0-c086-4422-8820-f49e7701fe40",
+      "batch": "authored-2026-10-17-w4__physics__w4b2",
+      "chapter": "Atoms",
+      "key": "A",
+      "content_hash": "19a4b47b366b87cade0da2b55a272e5f8d68615d9d5cf560baed1bd60dba26cb",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.atoms.distance-of-closest-approach",
+          "flags": [],
+          "note": "Key A verified: r0 = 2 x 50 x 1.44 / 7.2 = 20 fm. The 10 fm option drops the alpha charge 2e. Clean one-step item with the constant given.",
+          "scored_content_hash": "19a4b47b366b87cade0da2b55a272e5f8d68615d9d5cf560baed1bd60dba26cb"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 9,
+          "blind_answer": "A",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.atoms.distance-of-closest-approach",
+          "flags": [],
+          "note": "Key correct: r0 = 2 x 50 x 1.44 / 7.2 = 20 fm. 10 fm (alpha charge 2e left out) is an apt slip. Clean one-step numerical.",
+          "scored_content_hash": "19a4b47b366b87cade0da2b55a272e5f8d68615d9d5cf560baed1bd60dba26cb"
+        }
+      ],
+      "mean": 9,
+      "min": 9,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": "physics.atoms.distance-of-closest-approach",
+      "tag_agreement": true,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.atoms.distance-of-closest-approach",
+        "physics.atoms.distance-of-closest-approach"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "Closest approach r0 = 2Z (1.44 MeV fm)/K = 2 x 50 x 1.44/7.2 = 20 fm, key A; 10 fm drops the alpha charge. Alpha scattering and the Rutherford model are in the Unit 8 syllabus (NCERT Ch 12 works the same distance). Medium is right.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "19a4b47b366b87cade0da2b55a272e5f8d68615d9d5cf560baed1bd60dba26cb",
+        "final_content_hash": "19a4b47b366b87cade0da2b55a272e5f8d68615d9d5cf560baed1bd60dba26cb",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
+    },
+    "fabdd431-d76a-40f3-b6c3-1718f5b4a141": {
+      "question_id": "fabdd431-d76a-40f3-b6c3-1718f5b4a141",
+      "batch": "authored-2026-10-17-w4__physics__w4b1",
+      "chapter": "Semiconductor Electronics",
+      "key": "C",
+      "content_hash": "61e73720eb49de3e3f725f2dd62ed0abbd1539a94b49083731a3569f1ad78d74",
+      "judges": [
+        {
+          "judge": "j1",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.semiconductor-electronics.mass-action-hole-concentration",
+          "flags": [],
+          "note": "Key C checks: n_h = n_i^2/n_e = 1.0e10 m^-3. Distractors 2.0e16 (no change), 8.0e38 (product) and 5.0e-7 (ratio slip) are fair. One-step, so 8.",
+          "scored_content_hash": "61e73720eb49de3e3f725f2dd62ed0abbd1539a94b49083731a3569f1ad78d74"
+        },
+        {
+          "judge": "j2",
+          "model": "claude-subagent-unrecorded",
+          "date": "2026-10-17",
+          "quality_score": 8,
+          "blind_answer": "C",
+          "key_matches": true,
+          "difficulty_check": "medium",
+          "objective_tag": "physics.semiconductor-electronics.mass-action-law-carriers",
+          "flags": [],
+          "note": "Key C verified: p = ni^2/n = 1.0e10 m^-3. A, B and D are real slips. The given ni of 2.0e16 m^-3 is high for Si at 300 K but is used as data, so no flag. Score 8.",
+          "scored_content_hash": "61e73720eb49de3e3f725f2dd62ed0abbd1539a94b49083731a3569f1ad78d74"
+        }
+      ],
+      "mean": 8,
+      "min": 8,
+      "spread": 0,
+      "key_agreement": "both",
+      "blind_answers_agree": true,
+      "flags": [],
+      "blocking": false,
+      "unknown_flags": [],
+      "objective_tag": null,
+      "tag_agreement": false,
+      "difficulty": {
+        "label": "medium",
+        "judges": [
+          "medium",
+          "medium"
+        ],
+        "agreed": "medium",
+        "corrected": null
+      },
+      "objective_tags": [
+        "physics.semiconductor-electronics.mass-action-hole-concentration",
+        "physics.semiconductor-electronics.mass-action-law-carriers"
+      ],
+      "key_dispute": false,
+      "provenance": {
+        "kind": "claude-authored-2026-10-17-w4",
+        "wave": 4,
+        "pipeline": "author (Claude), every draft solved blind and checked by a second Claude pass (claude_audited; wrong keys, repeats of the live bank and weak distractors repaired or dropped before scoring); then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready or repaired; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a fresh pass on any question the expert reworded (none was needed); published only where the two quality judges average 8 or more and the fit median is 8 or more (case sets only with at least two published children)",
+        "expert_verdict": "ready",
+        "expert_issue": "n_e n_h = n_i^2, so n_h = (2.0e16)^2 / 4.0e22 = 1.0e10 m^-3, key C; keeping n_i, n_e x n_i = 8.0e38 and n_i/n_e = 5.0e-7 are the slips. The law is NCERT Ch 14 (intrinsic and extrinsic semiconductors). One step with powers of ten, medium is fair.",
+        "authoring_verdict": "claude_audited",
+        "expert_reviewed_text": "final",
+        "judged_text": "final",
+        "judged_content_hash": "61e73720eb49de3e3f725f2dd62ed0abbd1539a94b49083731a3569f1ad78d74",
+        "final_content_hash": "61e73720eb49de3e3f725f2dd62ed0abbd1539a94b49083731a3569f1ad78d74",
+        "hash_changed_by_repair": false,
+        "repaired_fields": [],
+        "blind_solvers": {
+          "n": 5,
+          "matched_key": 5,
+          "answers": [
+            "C",
+            "C",
+            "C",
+            "C",
+            "C"
+          ],
+          "on": "final"
+        },
+        "blind_resolve_on_final_text": null,
+        "engine_acceptance": "judged_text_is_final_text",
+        "repaired_text_policy": "admit",
+        "models": {
+          "quality": "claude-subagent-unrecorded",
+          "fit": "claude-subagent-unrecorded",
+          "solver": "claude-subagent-unrecorded"
+        }
+      }
     }
   },
   "authored": {
@@ -23522,6 +26628,18 @@
       "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the wave-3 entries (docs/brain/reports/authored-w3/wave3-score-entries-2026-10-17.json, built by scripts/authored-w2-accept.mjs --wave=w3 from the raw judge files). Per-question provenance says which text each judge scored.",
       "merged_at": "2026-10-16T22:54:15.266Z",
       "questions": 49,
+      "judge_model": "claude-subagent-unrecorded",
+      "judge_date": "2026-10-17",
+      "repaired_text_policy": "admit",
+      "held_for_fresh_judge_pass": 0,
+      "judged_text_differs_from_final": 1,
+      "rubric": "docs/brain/NTA-AGENT-RUBRIC.md",
+      "rubric_sha256": "90aef896f8ddde8746854de335639e452c356c555bfa1bc1074659c3053642ad"
+    },
+    "claude-authored-2026-10-17-w4": {
+      "note": "Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the final wave-4 entries (docs/brain/reports/authored-w4/wave4-score-entries-final-2026-10-17.json, built by scripts/authored-w2-accept.mjs --wave=w4 --mode=final from the raw judge files, the expert verdicts and the blind re-solve). Per-question provenance says which text each judge scored.",
+      "merged_at": "2026-10-17T04:38:05.858Z",
+      "questions": 33,
       "judge_model": "claude-subagent-unrecorded",
       "judge_date": "2026-10-17",
       "repaired_text_policy": "admit",
