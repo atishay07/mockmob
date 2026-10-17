@@ -13,6 +13,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../core/auth/auth_state.dart';
+import '../../core/motion/motion.dart' show MmOverlapSwitcher;
 import '../../core/router/routes.dart';
 import '../../core/theme/theme.dart';
 import '../../core/widgets/account/account_avatar.dart';
@@ -174,20 +175,32 @@ class _CreditsStatus extends ConsumerWidget {
     final mine = ref.watch(meCreditsProvider);
     final colors = context.mmColors;
     final Widget? line;
-    if (mine.isStale && mine.fetchedAt != null) {
-      line = Padding(
-        padding: const EdgeInsets.only(top: MmSpace.s8),
-        child: Text(AccountCopy.savedAt(mine.fetchedAt!.toLocal()), style: context.mmType.caption.copyWith(color: colors.ink2)),
-      );
-    } else if (mine.isFailedEmpty) {
+    final style = context.mmType.caption.copyWith(color: colors.ink2);
+    if (mine.isFailedEmpty) {
       line = Align(
         alignment: Alignment.centerLeft,
         child: KeyButton.quiet(label: CreditsCopy.tryAgain, onPressed: () => unawaited(ref.read(meCreditsProvider.notifier).refresh(force: true))),
       );
     } else {
-      line = null;
+      // The "Saved 9:14 PM" line arrives a moment after the sheet opens (the read comes back
+      // stale). Its room is reserved from the first frame (one caption line, 18 dp at the text
+      // scale in use), so the controls below never drop to make space for it (v13 walk, finding 8);
+      // the words fade in inside it.
+      final saved = mine.isStale && mine.fetchedAt != null;
+      line = Padding(
+        padding: const EdgeInsets.only(top: MmSpace.s8),
+        child: SizedBox(
+          height: MediaQuery.textScalerOf(context).scale(18),
+          child: MmOverlapSwitcher.fade(
+            alignment: Alignment.centerLeft,
+            child: saved
+                ? Text(AccountCopy.savedAt(mine.fetchedAt!.toLocal()), key: const ValueKey('saved'), style: style)
+                : const SizedBox.shrink(key: ValueKey('none')),
+          ),
+        ),
+      );
     }
-    return line ?? const SizedBox.shrink();
+    return line;
   }
 }
 

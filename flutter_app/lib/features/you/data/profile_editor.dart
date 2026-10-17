@@ -1,3 +1,5 @@
+import '../../../core/domain/cuet_rules.dart';
+
 // The writes You makes to the account. Every one returns only after the server acknowledged it,
 // so a screen can say "Saved" truthfully; on failure nothing local changes and the ApiError
 // reaches the screen.
@@ -26,7 +28,7 @@ import 'student_target.dart' show daysForCount;
 import 'study_length.dart';
 
 /// The most subjects a profile holds (the server's `profilePatch` cap).
-const int kMaxProfileSubjects = 5;
+const int kMaxProfileSubjects = kCuetMaxSubjects;
 
 /// The longest name the server accepts.
 const int kMaxNameLength = 80;

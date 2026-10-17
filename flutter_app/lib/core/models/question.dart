@@ -132,5 +132,14 @@ String? distinctBody(String stem, String? body) {
   String fold(String v) => v.replaceAll(RegExp(r'\s+'), ' ').trim().toLowerCase();
   final s = fold(stem), f = fold(b);
   if (f.isEmpty || f == s || s.contains(f)) return null;
+  // A body that opens with the whole stem and then adds something: print only what it adds.
+  if (s.isNotEmpty && f.startsWith(s)) {
+    for (var end = 1; end <= b.length; end++) {
+      if (fold(b.substring(0, end)) == s) {
+        final rest = b.substring(end).replaceFirst(RegExp(r'^[\s.:;,\-]+'), '').trim();
+        return rest.isEmpty ? null : rest;
+      }
+    }
+  }
   return b;
 }

@@ -412,11 +412,23 @@ class _ScrollFade extends StatefulWidget {
 
 class _ScrollFadeState extends State<_ScrollFade> {
   static const double _height = 28;
+
+  /// The fade at the top, under the progress dots: once the question has scrolled up, its first
+  /// line dissolves into the ground instead of being sliced by the header (v13 walk, finding 9).
+  static const double _topHeight = 20;
   bool _more = false;
+  bool _before = false;
 
   bool _update(ScrollMetrics metrics) {
+    if (metrics.axis != Axis.vertical) return false;
     final more = metrics.extentAfter > 1;
-    if (more != _more) setState(() => _more = more);
+    final before = metrics.extentBefore > 1;
+    if (more != _more || before != _before) {
+      setState(() {
+        _more = more;
+        _before = before;
+      });
+    }
     return false;
   }
 
@@ -428,6 +440,27 @@ class _ScrollFadeState extends State<_ScrollFade> {
         NotificationListener<ScrollMetricsNotification>(
           onNotification: (n) => _update(n.metrics),
           child: NotificationListener<ScrollNotification>(onNotification: (n) => _update(n.metrics), child: widget.child),
+        ),
+        Positioned(
+          left: 0,
+          right: 0,
+          top: 0,
+          height: _topHeight,
+          child: IgnorePointer(
+            child: AnimatedOpacity(
+              opacity: _before ? 1 : 0,
+              duration: Motion.of(context, Motion.glideDuration),
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [ground, ground.withValues(alpha: 0)],
+                  ),
+                ),
+              ),
+            ),
+          ),
         ),
         Positioned(
           left: 0,

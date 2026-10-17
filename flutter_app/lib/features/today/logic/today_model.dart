@@ -498,7 +498,7 @@ class WeekModel {
 }
 
 class HeaderModel {
-  const HeaderModel({required this.dateLine, required this.greeting, this.week, this.weekLoading = false, this.weekFailed = false, this.updatedLine, this.refreshable = false, this.mobi});
+  const HeaderModel({required this.dateLine, required this.greeting, this.week, this.weekLoading = false, this.weekFailed = false, this.updatedLine, this.refreshable = false, this.offline = false, this.mobi});
 
   final String dateLine;
   final String greeting;
@@ -516,6 +516,10 @@ class HeaderModel {
 
   /// The updated line names a refresh that failed online: a tap on it reads again (S7).
   final bool refreshable;
+
+  /// The phone is offline: the only state that may show the cloud-off mark. A stale read that is
+  /// merely being read again is not "offline" (v13 walk, finding 3).
+  final bool offline;
 
   /// Mobi beside the greeting, or null when the hero already has him.
   final HeaderMobiCue? mobi;

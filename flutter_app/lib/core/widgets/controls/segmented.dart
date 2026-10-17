@@ -3,11 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../haptics/haptics.dart';
-import '../../motion/motion.dart';
 import '../../theme/theme.dart';
 import '../materials/edge_light.dart';
 import '../hit_slop.dart';
 import 'selection_style.dart';
+import 'sliding_indicator.dart';
 
 /// One choice of an [MmSegmented].
 class MmSegment<T> {
@@ -21,8 +21,8 @@ class MmSegment<T> {
   final bool locked;
 }
 
-/// A segmented control: a sunken track with a raised thumb that glides to the chosen segment
-/// (emphasized curve, 300 ms; instant under reduced motion), and the answer-sheet bubble before
+/// A segmented control: a sunken track with a raised thumb that slides to the chosen segment
+/// (one [MmSlidingIndicator]: ease-out, 220 ms; instant under reduced motion), and the answer-sheet bubble before
 /// each label, inked on the chosen one. `selectionClick` on change.
 class MmSegmented<T> extends ConsumerWidget {
   const MmSegmented({
@@ -65,7 +65,6 @@ class MmSegmented<T> extends ConsumerWidget {
     final type = context.mmType;
     final index = segments.indexWhere((s) => s.value == value).clamp(0, segments.length - 1);
     final n = segments.length;
-    final reduced = Motion.reduced(context);
 
     // The hit slop is the outermost box: a render box between it and its parent that is only as
     // big as the track (Semantics is one) would refuse a touch in the band before it arrived.
@@ -91,25 +90,23 @@ class MmSegmented<T> extends ConsumerWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 4),
-                    child: AnimatedAlign(
-                      alignment: Alignment(n == 1 ? 0 : -1 + 2 * index / (n - 1), 0),
-                      duration: reduced ? Duration.zero : Motion.glideDuration,
-                      curve: Motion.emphasized,
-                      child: FractionallySizedBox(
-                        widthFactor: 1 / n,
-                        heightFactor: 1,
-                        child: DecoratedBox(
-                          decoration: ShapeDecoration(
-                            color: colors.selectedSurface,
-                            shape: const StadiumBorder(),
-                            shadows: colors.cardShadow,
-                          ),
-                          child: CustomPaint(
-                            foregroundPainter: EdgeLightPainter(
-                              borderRadius: MmRadius.pillAll,
-                              top: colors.edgeTop,
-                              bottom: colors.edgeBottom,
-                            ),
+                    // ONE thumb that slides from the old option to the new (owner, N5): a single
+                    // translate, ease-out 220 ms, never a second box arriving before it.
+                    child: MmSlidingIndicator(
+                      index: index,
+                      count: n,
+                      fillHeight: true,
+                      child: DecoratedBox(
+                        decoration: ShapeDecoration(
+                          color: colors.selectedSurface,
+                          shape: const StadiumBorder(),
+                          shadows: colors.cardShadow,
+                        ),
+                        child: CustomPaint(
+                          foregroundPainter: EdgeLightPainter(
+                            borderRadius: MmRadius.pillAll,
+                            top: colors.edgeTop,
+                            bottom: colors.edgeBottom,
                           ),
                         ),
                       ),

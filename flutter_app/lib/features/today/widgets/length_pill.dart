@@ -35,19 +35,18 @@ class LengthPill extends StatelessWidget {
     if (picked != null && picked != selected) onChanged?.call(picked);
   }
 
-  /// Opens the lengths panel just above [context]'s box (the Change length pill uses it too) and
-  /// returns the chosen minutes, or null when it closed without a choice.
-  static Future<int?> openPanel(BuildContext context, {required List<DurationChoice> durations, required int selected, required String title}) async {
-    final box = context.findRenderObject();
-    if (box is! RenderBox || !box.hasSize) return null;
-    final anchor = box.localToGlobal(Offset.zero) & box.size;
-    return Navigator.of(context).push<int>(
-      _LengthPanelRoute(
-        anchor: anchor,
+  /// Opens the lengths as a sheet (the one sheet style every choice in the app uses: it rises, takes
+  /// a drag or the scrim to close; v13 walk, finding 9: the old popup did not match it) and returns
+  /// the chosen minutes, or null when it closed without a choice. The Change length pill uses it too.
+  static Future<int?> openPanel(BuildContext context, {required List<DurationChoice> durations, required int selected, required String title}) {
+    return showMmSheet<int>(
+      context: context,
+      builder: (sheetContext) => LengthPanel(
         title: title,
         durations: durations,
         selected: selected,
-        barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+        inSheet: true,
+        onPick: (m) => Navigator.of(sheetContext).pop(m),
       ),
     );
   }
@@ -95,99 +94,41 @@ class LengthPill extends StatelessWidget {
   }
 }
 
-/// The panel of lengths, opened just above the pill (or below it when there is no room above).
-class _LengthPanelRoute extends PopupRoute<int> {
-  _LengthPanelRoute({required this.anchor, required this.title, required this.durations, required this.selected, required this.barrierLabel});
-
-  final Rect anchor;
-  final String title;
-  final List<DurationChoice> durations;
-  final int selected;
-
-  @override
-  final String barrierLabel;
-
-  @override
-  Color? get barrierColor => const Color(0x00000000);
-
-  @override
-  bool get barrierDismissible => true;
-
-  @override
-  Duration get transitionDuration => Motion.ui;
-
-  @override
-  Duration get reverseTransitionDuration => Motion.exitDuration;
-
-  @override
-  Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
-    final media = MediaQuery.of(context);
-    return CustomSingleChildLayout(
-      delegate: _PanelLayout(anchor: anchor, padding: media.padding, gutter: MmSpace.gutter),
-      child: LengthPanel(title: title, durations: durations, selected: selected, onPick: (m) => Navigator.of(context).pop(m)),
-    );
-  }
-
-  @override
-  Widget buildTransitions(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
-    final fade = CurvedAnimation(parent: animation, curve: Motion.glide, reverseCurve: Motion.exit);
-    if (Motion.reduced(context)) return FadeTransition(opacity: fade, child: child);
-    // The panel grows out of the pill's corner: a short scale from 0.94 with the fade.
-    final grow = Tween<double>(begin: 0.94, end: 1).animate(CurvedAnimation(parent: animation, curve: Motion.emphasized, reverseCurve: Motion.exit));
-    return FadeTransition(
-      opacity: fade,
-      child: ScaleTransition(scale: grow, alignment: _PanelLayout.growFrom, child: child),
-    );
-  }
-}
-
-/// Puts the panel's bottom right corner 8 dp above the pill's top right corner, inside the
-/// screen's gutters; it opens under the pill instead when the room above is too short.
-class _PanelLayout extends SingleChildLayoutDelegate {
-  _PanelLayout({required this.anchor, required this.padding, required this.gutter});
-
-  final Rect anchor;
-  final EdgeInsets padding;
-  final double gutter;
-
-  static const double width = 248;
-  static const double gap = 8;
-
-  /// The corner the panel scales from (its bottom right, where the pill is).
-  static const Alignment growFrom = Alignment.bottomRight;
-
-  @override
-  BoxConstraints getConstraintsForChild(BoxConstraints constraints) {
-    final w = (constraints.maxWidth - 2 * gutter).clamp(0.0, width);
-    return BoxConstraints(minWidth: w, maxWidth: w, maxHeight: constraints.maxHeight - padding.vertical - 2 * gutter);
-  }
-
-  @override
-  Offset getPositionForChild(Size size, Size child) {
-    final x = (anchor.right - child.width).clamp(gutter, size.width - gutter - child.width);
-    final above = anchor.top - gap - child.height;
-    final y = above >= padding.top + gutter ? above : anchor.bottom + gap;
-    return Offset(x.toDouble(), y.clamp(padding.top, size.height - child.height).toDouble());
-  }
-
-  @override
-  bool shouldRelayout(_PanelLayout old) => old.anchor != anchor || old.padding != padding || old.gutter != gutter;
-}
-
 /// The lengths themselves: a quiet question, then one 48 dp row per length with what it gets.
 /// Public for goldens.
 class LengthPanel extends StatelessWidget {
-  const LengthPanel({super.key, required this.title, required this.durations, required this.selected, required this.onPick});
+  const LengthPanel({super.key, required this.title, required this.durations, required this.selected, required this.onPick, this.inSheet = false});
 
   final String title;
   final List<DurationChoice> durations;
   final int selected;
   final ValueChanged<int> onPick;
 
+  /// True inside a sheet: the sheet is the surface, so the panel draws no card of its own, and the
+  /// question is the sheet's title.
+  final bool inSheet;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
+    if (inSheet) {
+      return Semantics(
+        scopesRoute: true,
+        namesRoute: true,
+        explicitChildNodes: true,
+        label: title,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            ExcludeSemantics(child: Text(title, style: type.title)),
+            const SizedBox(height: MmSpace.s12),
+            for (final d in durations) _LengthRow(choice: d, selected: d.minutes == selected, onTap: () => onPick(d.minutes)),
+          ],
+        ),
+      );
+    }
     return Semantics(
       scopesRoute: true,
       namesRoute: true,

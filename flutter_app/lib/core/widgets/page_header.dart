@@ -26,6 +26,7 @@ class MmPageHeader extends StatelessWidget {
     this.fallbackRoute = AppRoutes.today,
     this.backLabel = 'Back',
     this.showBack = true,
+    this.closes = false,
     this.statusLine,
     this.reserveStatusLine = false,
   });
@@ -46,6 +47,10 @@ class MmPageHeader extends StatelessWidget {
 
   /// False for a page that cannot go back (the title then starts on the gutter).
   final bool showBack;
+
+  /// True for a page that opens over the one under it (Ask Mobi, N9): the key is a close mark that
+  /// says "Close", not a back arrow, so the way out is as clear as the way in.
+  final bool closes;
 
   /// A live line under the row on the gutter that comes and goes ("Saved at 6:00 PM", a Sending
   /// pill). With [reserveStatusLine] its [statusLineHeight] is kept whether or not it shows, so
@@ -80,14 +85,14 @@ class MmPageHeader extends StatelessWidget {
                 MmHitSlop(
                   slop: const EdgeInsets.fromLTRB(MmSpace.gutter, 2, MmSpace.s8, 2),
                   child: MmPressable(
-                    semanticsLabel: backLabel,
+                    semanticsLabel: closes ? 'Close' : backLabel,
                     haptic: MmPressHaptic.selection,
                     focusRadius: MmRadius.smallAll,
                     onTap: onBack ?? () => context.canPop() ? context.pop() : context.go(fallbackRoute),
                     builder: (context, pressed, _) => SizedBox(
                       width: 24,
                       height: 44,
-                      child: Icon(LucideIcons.arrowLeft, size: 24, color: pressed ? colors.ink2 : colors.ink),
+                      child: Icon(closes ? LucideIcons.x : LucideIcons.arrowLeft, size: 24, color: pressed ? colors.ink2 : colors.ink),
                     ),
                   ),
                 ),

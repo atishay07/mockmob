@@ -324,6 +324,8 @@ abstract final class YouCopy {
 
   // Help and about.
   static const helpTitle = 'Help and about';
+  static const helpAskTitle = 'Ask Mobi';
+  static const helpAskNote = 'About your record, or the question you are stuck on.';
   static const supportEmail = 'support@mockmob.in';
   static const helpContactHeading = 'Still stuck?';
   static const helpContact = 'Write to us';

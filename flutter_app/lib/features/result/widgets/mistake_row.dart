@@ -89,11 +89,16 @@ class MistakeSummary extends StatelessWidget {
     this.yours,
     this.answer,
     this.cohort,
+    this.onChip,
   });
 
   final int number;
   final String? chapter;
   final String? stem;
+
+  /// A tap on the status chip does what the chip says (starts the repair, opens the check). Null leaves the chip as
+  /// words: a held or slipped mistake, a key being re-checked. The rest of the row still opens and folds it.
+  final VoidCallback? onChip;
 
   /// The student's letter, and the correct letter when the key may be shown.
   final String? yours;
@@ -136,7 +141,7 @@ class MistakeSummary extends StatelessWidget {
                     Wrap(spacing: MmSpace.s12, runSpacing: MmSpace.s6, crossAxisAlignment: WrapCrossAlignment.center, children: facts),
                   ],
                   const SizedBox(height: MmSpace.s8),
-                  MistakeChip(status: status),
+                  MistakeChip(status: status, onTap: onChip),
                 ],
               ),
             ),
@@ -233,10 +238,14 @@ class _LetterFact extends StatelessWidget {
 }
 
 /// The status chip: words first, a hairline outline, the state's colour only as a second signal.
+///
+/// With [onTap] the chip is the action it names (v13 walk, finding 5: the Repair chip only folded the row; the
+/// repair started from a link far below). The chip stays a quiet outline, and the touch target is 40 dp tall, the size of the other chips.
 class MistakeChip extends StatelessWidget {
-  const MistakeChip({super.key, required this.status});
+  const MistakeChip({super.key, required this.status, this.onTap});
 
   final MistakeStatus status;
+  final VoidCallback? onTap;
 
   static String label(MistakeStatus s) => switch (s) {
     MistakeStatus.repairFirst => LayersCopy.chipRepairFirst,
@@ -261,7 +270,7 @@ class MistakeChip extends StatelessWidget {
       MistakeStatus.keyHeld => (colors.ink3, colors.ink2, null),
       MistakeStatus.corrected => (colors.ink3, colors.ink2, null),
     };
-    return ExcludeSemantics(
+    final chip = ExcludeSemantics(
       child: MmOverlapSwitcher(
         outDuration: Motion.of(context, const Duration(milliseconds: 120)),
         duration: Motion.of(context, const Duration(milliseconds: 200)),
@@ -280,6 +289,20 @@ class MistakeChip extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+    final tap = onTap;
+    if (tap == null) return chip;
+    // The chip's own press sits inside the row's: the inner one takes the touch, so the row does not fold.
+    return MmHitSlop(
+      slop: const EdgeInsets.symmetric(horizontal: MmSpace.s4, vertical: MmSpace.s8),
+      child: MmPressable(
+        onTap: tap,
+        pressedScale: 0.96,
+        focusRadius: MmRadius.pillAll,
+        haptic: MmPressHaptic.selection,
+        semanticsLabel: label(status),
+        builder: (context, pressed, _) => chip,
       ),
     );
   }
@@ -459,3 +482,11 @@ MistakeStatus mistakeStatusOf({
   if (move != null && move.kind == MoveKind.repair && move.qid == qid) return MistakeStatus.repairFirst;
   return MistakeStatus.repair;
 }
+
+/// What a tap on a mistake's status chip does, or null when the chip is only words: "Repair" starts the repair
+/// ([onRepair]), "Check it held" opens the saved repair where its check is ([onOpenSaved]).
+VoidCallback? chipActionOf(MistakeStatus status, {VoidCallback? onRepair, VoidCallback? onOpenSaved}) => switch (status) {
+  MistakeStatus.repairFirst || MistakeStatus.repair => onRepair,
+  MistakeStatus.check => onOpenSaved,
+  _ => null,
+};

@@ -18,6 +18,7 @@ class CreditFigures {
     this.loading = false,
     this.failed = false,
     this.aiPaused = false,
+    this.stale = false,
   });
 
   final int? practice;
@@ -35,6 +36,10 @@ class CreditFigures {
 
   /// The AI wallet says replies are paused.
   final bool aiPaused;
+
+  /// The last read failed and the figures are the saved copy: they may be from before the last set or repair.
+  /// A line that says "You have 40" should not be built on them (v13 walk, finding 4).
+  final bool stale;
 }
 
 final creditFiguresProvider = Provider<CreditFigures>((ref) {
@@ -58,5 +63,6 @@ final creditFiguresProvider = Provider<CreditFigures>((ref) {
     loading: mine.isInitialLoading && auth.creditBalance == null,
     failed: mine.isFailedEmpty,
     aiPaused: wallet?.isPaused ?? false,
+    stale: mine.isStale,
   );
 });

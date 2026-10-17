@@ -92,7 +92,7 @@ class NtaPaper extends StatelessWidget {
           header: true,
           child: Text(question.question, style: qStyle.copyWith(color: colors.ink)),
         ),
-        if (question.body case final b? when b.isNotEmpty) ...[
+        if (distinctBody(question.question, question.body) case final b?) ...[
           const SizedBox(height: MmSpace.s8),
           Text(b, style: oStyle.copyWith(color: colors.ink)),
         ],

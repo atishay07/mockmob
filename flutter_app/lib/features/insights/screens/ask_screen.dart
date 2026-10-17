@@ -376,6 +376,7 @@ class _AskScreenState extends ConsumerState<AskScreen> {
                   title: InsightsCopy.askTitle,
                   caption: record != null && record.isReady ? InsightsCopy.askCaption(record.sessions) : null,
                   fallback: AppRoutes.review,
+                  closes: true,
                   trailing: AskCreditPill(onTap: _openWallet),
                 ),
                 Expanded(

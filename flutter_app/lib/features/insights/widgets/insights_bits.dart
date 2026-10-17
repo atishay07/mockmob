@@ -13,7 +13,10 @@ import '../data/subject_names.dart';
 /// The top row of a pushed insights page: the app's one page header ([MmPageHeader]), the back arrow
 /// on the gutter, the title, a caption and an optional trailing key.
 class InsightsHeader extends StatelessWidget {
-  const InsightsHeader({super.key, required this.title, required this.fallback, this.trailing, this.caption});
+  const InsightsHeader({super.key, required this.title, required this.fallback, this.trailing, this.caption, this.closes = false});
+
+  /// A page that opens over the one under it (Ask Mobi): a close mark in place of the back arrow.
+  final bool closes;
 
   final String title;
 
@@ -24,7 +27,7 @@ class InsightsHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) =>
-      MmPageHeader(title: title, caption: caption, trailing: trailing, fallbackRoute: fallback);
+      MmPageHeader(title: title, caption: caption, trailing: trailing, fallbackRoute: fallback, closes: closes);
 }
 
 /// A section title with an optional quiet caption under it.

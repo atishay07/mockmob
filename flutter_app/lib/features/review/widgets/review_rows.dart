@@ -272,7 +272,12 @@ class PastResultRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final line = ReviewCopy.pastLine(formatDayMonth(clock.local(attempt.completedAt)), attempt.marks, attempt.maxMarks);
+    final line = ReviewCopy.pastLine(
+      formatDayMonth(clock.local(attempt.completedAt)),
+      attempt.marks,
+      attempt.maxMarks,
+      attempted: attempt.correct + attempt.wrong > 0 || attempt.total == 0,
+    );
     return Row(
       children: [
         Expanded(
