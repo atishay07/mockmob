@@ -1,0 +1,910 @@
+{
+  "batch": "w4-gat-02",
+  "subject": "general_test",
+  "questions": [
+    {
+      "id": "01cb34e5-45c5-4924-af40-a6030c2225e6",
+      "subject": "general_test",
+      "unit": "General Knowledge and Current Affairs",
+      "chapter": "Current Affairs",
+      "type": "single_mcq",
+      "stem": "The rover deployed on the Moon by India's Chandrayaan-3 mission in 2023 was named:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vikram"
+        },
+        {
+          "key": "B",
+          "text": "Yutu"
+        },
+        {
+          "key": "C",
+          "text": "Lunokhod"
+        },
+        {
+          "key": "D",
+          "text": "Pragyan"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "Chandrayaan-3's lander Vikram touched down near the lunar south pole on 23 August 2023 and released the rover Pragyan, a Sanskrit word for wisdom. Vikram is the lander, not the rover, while Yutu and Lunokhod are the lunar rovers of China and the Soviet Union.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "CUET GAT syllabus, Current Affairs: Chandrayaan-3 lunar landing mission of 2023 and its lander and rover",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "D",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Knowledge, Current Affairs\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "easy",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "07b12999-6fa2-45e5-8de5-06234037091e",
+      "subject": "general_test",
+      "unit": "General Knowledge and Current Affairs",
+      "chapter": "Current Affairs",
+      "type": "single_mcq",
+      "stem": "At the G20 Leaders' Summit held in New Delhi in September 2023, which of the following was admitted as a permanent member of the G20?",
+      "options": [
+        {
+          "key": "A",
+          "text": "ASEAN"
+        },
+        {
+          "key": "B",
+          "text": "African Union"
+        },
+        {
+          "key": "C",
+          "text": "Arab League"
+        },
+        {
+          "key": "D",
+          "text": "Commonwealth"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "At the New Delhi summit in September 2023 the African Union joined the G20 as a permanent member, becoming the second regional bloc in the group after the European Union. ASEAN, the Arab League and the Commonwealth are not G20 members, so each is a regional or political grouping that students may wrongly assume sits at the table.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "CUET GAT syllabus, Current Affairs: G20 New Delhi summit of 2023 and admission of the African Union",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "repaired",
+        "blind_answer": "B",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Knowledge, Current Affairs\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "easy",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [
+          "explanation: dropped the claim that ASEAN is a regular G20 invitee (not certain); now says ASEAN, Arab League and Commonwealth are not members"
+        ],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "5d47dd9f-4620-4675-b779-b149852f8210",
+      "subject": "general_test",
+      "unit": "General Knowledge and Current Affairs",
+      "chapter": "Current Affairs",
+      "type": "single_mcq",
+      "stem": "In 2025, which Indian astronaut became the first Indian to visit the International Space Station, flying on the Axiom-4 mission?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Shubhanshu Shukla"
+        },
+        {
+          "key": "B",
+          "text": "Rakesh Sharma"
+        },
+        {
+          "key": "C",
+          "text": "Ajit Krishnan"
+        },
+        {
+          "key": "D",
+          "text": "Prasanth Balakrishnan Nair"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "Group Captain Shubhanshu Shukla flew as pilot of the private Axiom-4 mission in June 2025 and reached the International Space Station, the first Indian to do so. Rakesh Sharma flew in 1984, but to the Soviet Salyut 7 station, while Ajit Krishnan and Prasanth Balakrishnan Nair are astronaut-designates named for ISRO's Gaganyaan programme.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "CUET GAT syllabus, Current Affairs: Indian astronaut on the Axiom-4 mission to the International Space Station, 2025",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "A",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Knowledge, Current Affairs\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "medium",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "8626d182-95fe-44ca-a70a-2a8203b4e55e",
+      "subject": "general_test",
+      "unit": "General Knowledge and Current Affairs",
+      "chapter": "Current Affairs",
+      "type": "single_mcq",
+      "stem": "The Nari Shakti Vandan Adhiniyam, passed by Parliament in 2023, provides for reservation of one-third of the seats for women in:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Lok Sabha and State Legislative Councils"
+        },
+        {
+          "key": "B",
+          "text": "Rajya Sabha and State Legislative Assemblies"
+        },
+        {
+          "key": "C",
+          "text": "Rajya Sabha and State Legislative Councils"
+        },
+        {
+          "key": "D",
+          "text": "Lok Sabha and State Legislative Assemblies"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "The Constitution (106th Amendment) Act, 2023, known as the Nari Shakti Vandan Adhiniyam, reserves one-third of the seats for women in the Lok Sabha, the State Legislative Assemblies and the Delhi Assembly. It does not cover the Rajya Sabha or the Legislative Councils, so options that include them confuse the directly elected lower houses with the upper houses.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "CUET GAT syllabus, Current Affairs: Nari Shakti Vandan Adhiniyam, women's reservation law of 2023",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "D",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Knowledge, Current Affairs\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "medium",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "b1366004-d26e-490a-9191-a5fa84f02537",
+      "subject": "general_test",
+      "unit": "General Knowledge and Current Affairs",
+      "chapter": "Current Affairs",
+      "type": "statement_based",
+      "stem": "Consider the following statements about the three new criminal laws passed by Parliament in 2023.\n(A) The Bharatiya Nyaya Sanhita replaces the Indian Penal Code, 1860.\n(B) The Bharatiya Nagarik Suraksha Sanhita replaces the Code of Criminal Procedure, 1973.\n(C) The Bharatiya Sakshya Adhiniyam replaces the Indian Penal Code, 1860.\n(D) The three laws came into effect on 1 July 2024.\nChoose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(A), (B) and (C) only"
+        },
+        {
+          "key": "B",
+          "text": "(B), (C) and (D) only"
+        },
+        {
+          "key": "C",
+          "text": "(A), (B) and (D) only"
+        },
+        {
+          "key": "D",
+          "text": "(A), (C) and (D) only"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "The Bharatiya Nyaya Sanhita replaced the Indian Penal Code, the Bharatiya Nagarik Suraksha Sanhita replaced the Code of Criminal Procedure and the Bharatiya Sakshya Adhiniyam replaced the Indian Evidence Act; all three came into effect on 1 July 2024. Statement (C) is false because the Evidence Act, not the Penal Code, is the law the Sakshya Adhiniyam replaced, a slip the similar-sounding names invite.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "CUET GAT syllabus, Current Affairs: the three new criminal laws of 2023 and the Acts they replace",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "C",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Knowledge, Current Affairs\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "medium",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "bfdecf7f-b1ea-4b31-8af7-2b20d1ada913",
+      "subject": "general_test",
+      "unit": "General Knowledge and Current Affairs",
+      "chapter": "Current Affairs",
+      "type": "single_mcq",
+      "stem": "Which Indian athlete won the only silver medal for India at the 2024 Paris Olympics?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Manu Bhaker"
+        },
+        {
+          "key": "B",
+          "text": "Neeraj Chopra"
+        },
+        {
+          "key": "C",
+          "text": "Vinesh Phogat"
+        },
+        {
+          "key": "D",
+          "text": "Aman Sehrawat"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "Neeraj Chopra won silver in the men's javelin with a throw of 89.45 m, behind Arshad Nadeem of Pakistan, which gave India its only silver of the Games. Manu Bhaker and Aman Sehrawat won bronze medals, and Vinesh Phogat was disqualified on the day of her wrestling final, so she won no medal.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "CUET GAT syllabus, Current Affairs: Indian medal winners at the Paris Olympics of 2024",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "B",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Knowledge, Current Affairs\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "easy",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "c059fbf2-49ab-43db-9643-b930923dcd06",
+      "subject": "general_test",
+      "unit": "General Knowledge and Current Affairs",
+      "chapter": "Current Affairs",
+      "type": "single_mcq",
+      "stem": "India won the ICC Men's T20 World Cup in 2024. In which city was the final played?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Providence, Guyana"
+        },
+        {
+          "key": "B",
+          "text": "Gros Islet, Saint Lucia"
+        },
+        {
+          "key": "C",
+          "text": "Dubai, UAE"
+        },
+        {
+          "key": "D",
+          "text": "Bridgetown, Barbados"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "India beat South Africa by 7 runs in the final of the 2024 T20 World Cup, played at Kensington Oval in Bridgetown, Barbados, on 29 June. Providence staged a semi-final, Gros Islet hosted only earlier-round matches and Dubai held the 2021 final, so they are neighbouring but wrong venues.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "CUET GAT syllabus, Current Affairs: ICC Men's T20 World Cup 2024 final",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "D",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Knowledge, Current Affairs\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "medium",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "73597eea-a31f-4635-b7c7-fefec7cb8271",
+      "subject": "general_test",
+      "unit": "General Knowledge and Current Affairs",
+      "chapter": "Current Affairs",
+      "type": "match_the_following",
+      "stem": "Match List-I with List-II.\nList-I: (A) Narges Mohammadi (B) Geoffrey Hinton (C) Han Kang (D) Demis Hassabis\nList-II: (I) Nobel Prize in Chemistry, 2024 (II) Nobel Prize in Literature, 2024 (III) Nobel Peace Prize, 2023 (IV) Nobel Prize in Physics, 2024\nChoose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(A)-(III), (B)-(IV), (C)-(II), (D)-(I)"
+        },
+        {
+          "key": "B",
+          "text": "(A)-(III), (B)-(I), (C)-(II), (D)-(IV)"
+        },
+        {
+          "key": "C",
+          "text": "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)"
+        },
+        {
+          "key": "D",
+          "text": "(A)-(I), (B)-(IV), (C)-(II), (D)-(III)"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "Narges Mohammadi won the 2023 Peace Prize, Geoffrey Hinton shared the 2024 Physics prize for work on neural networks, Han Kang won the 2024 Literature prize and Demis Hassabis shared the 2024 Chemistry prize for protein structure prediction. Pairing Hinton with Chemistry and Hassabis with Physics is the usual slip, because both laureates are linked to artificial intelligence.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "CUET GAT syllabus, Current Affairs: Nobel Prize winners of 2023 and 2024",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "A",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Knowledge, Current Affairs\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "medium",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "29021b9a-f0fc-4108-81fb-32e7a8034824",
+      "subject": "general_test",
+      "unit": "General Knowledge and Current Affairs",
+      "chapter": "Current Affairs",
+      "type": "single_mcq",
+      "stem": "In the 2024 Lok Sabha election, the BJP won 240 of the 543 seats. How many more seats would it have needed to reach a majority on its own?",
+      "options": [
+        {
+          "key": "A",
+          "text": "33"
+        },
+        {
+          "key": "B",
+          "text": "303"
+        },
+        {
+          "key": "C",
+          "text": "32"
+        },
+        {
+          "key": "D",
+          "text": "31"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "A majority in a House of 543 needs more than half the seats, which is more than 271.5, so at least 272. The BJP needed 272 - 240 = 32 more seats. Working from 271 gives 31, which is one seat short of a majority, and 303 is simply the number of seats the party did not win (543 - 240).",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "CUET GAT syllabus, Current Affairs: 2024 general election to the Lok Sabha and the majority mark",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "C",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Knowledge, Current Affairs\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "medium",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "047ae2ba-36e7-4a08-bac8-797885b16045",
+      "subject": "general_test",
+      "unit": "General Knowledge and Current Affairs",
+      "chapter": "Current Affairs",
+      "type": "single_mcq",
+      "stem": "The 2024 United Nations Climate Change Conference, COP29, was held in:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Dubai, UAE"
+        },
+        {
+          "key": "B",
+          "text": "Baku, Azerbaijan"
+        },
+        {
+          "key": "C",
+          "text": "Sharm el-Sheikh, Egypt"
+        },
+        {
+          "key": "D",
+          "text": "Glasgow, UK"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "COP29 took place in Baku, Azerbaijan, in November 2024 and agreed a new climate finance goal for developing countries. The other cities hosted earlier conferences: Dubai held COP28 in 2023, Sharm el-Sheikh held COP27 in 2022 and Glasgow held COP26 in 2021.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "CUET GAT syllabus, Current Affairs: UN climate conference COP29 of 2024",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "B",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Knowledge, Current Affairs\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "easy",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "a1455457-1272-4121-9faa-6777605864c9",
+      "subject": "general_test",
+      "unit": "General Knowledge and Current Affairs",
+      "chapter": "Current Affairs",
+      "type": "single_mcq",
+      "stem": "Which one of the following was NOT among the persons honoured with the Bharat Ratna in 2024?",
+      "options": [
+        {
+          "key": "A",
+          "text": "L. K. Advani"
+        },
+        {
+          "key": "B",
+          "text": "P. V. Narasimha Rao"
+        },
+        {
+          "key": "C",
+          "text": "Chaudhary Charan Singh"
+        },
+        {
+          "key": "D",
+          "text": "Pranab Mukherjee"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "The Bharat Ratna was announced in 2024 for Karpoori Thakur, L. K. Advani, P. V. Narasimha Rao, Chaudhary Charan Singh and M. S. Swaminathan. Pranab Mukherjee received the award earlier, in 2019, so he is the one not honoured in 2024; Advani, Narasimha Rao and Charan Singh were all on the 2024 list.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "CUET GAT syllabus, Current Affairs: Bharat Ratna recipients of 2024",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "D",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Knowledge, Current Affairs\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "hard",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "9f9fb100-d89c-49fd-8f19-2bf893c1aaea",
+      "subject": "general_test",
+      "unit": "General Knowledge and Current Affairs",
+      "chapter": "Current Affairs",
+      "type": "single_mcq",
+      "stem": "India's Ek Ped Maa Ke Naam plantation campaign, started in 2024, was launched on which day?",
+      "options": [
+        {
+          "key": "A",
+          "text": "World Environment Day"
+        },
+        {
+          "key": "B",
+          "text": "International Day of Forests"
+        },
+        {
+          "key": "C",
+          "text": "World Wildlife Day"
+        },
+        {
+          "key": "D",
+          "text": "International Mother Earth Day"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "The Prime Minister launched the campaign on 5 June 2024, which is World Environment Day, asking people to plant a tree in their mother's name. The other days are also linked to nature but fall on different dates: forests on 21 March, wildlife on 3 March and Mother Earth Day on 22 April.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "CUET GAT syllabus, Current Affairs: Ek Ped Maa Ke Naam campaign of 2024",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "A",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Knowledge, Current Affairs\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "easy",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "7057b6a7-b107-49d6-99aa-297fe4687e3c",
+      "subject": "general_test",
+      "unit": "General Mental Ability",
+      "chapter": "General Mental Ability",
+      "type": "single_mcq",
+      "stem": "Puppy : Dog :: Lamb : ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Goat"
+        },
+        {
+          "key": "B",
+          "text": "Sheep"
+        },
+        {
+          "key": "C",
+          "text": "Deer"
+        },
+        {
+          "key": "D",
+          "text": "Cow"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "A puppy is the young one of a dog, so a lamb is the young one of a sheep. A young goat is called a kid, a young deer a fawn and a young cow a calf, so each of the other options belongs with a different young animal.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "CUET GAT syllabus, General Mental Ability: analogy (young one and its parent)",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "B",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Mental Ability, Numerical Ability\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "easy",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "1d3bd0b5-6b6e-4fd0-bd61-290ebfaf79ed",
+      "subject": "general_test",
+      "unit": "General Mental Ability",
+      "chapter": "General Mental Ability",
+      "type": "single_mcq",
+      "stem": "Five friends P, Q, R, S and T are ranked by weight. P is heavier than Q but lighter than R. S is lighter than T, and T is lighter than Q. Who is the second lightest?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Q"
+        },
+        {
+          "key": "B",
+          "text": "P"
+        },
+        {
+          "key": "C",
+          "text": "S"
+        },
+        {
+          "key": "D",
+          "text": "T"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "The first two facts give R > P > Q and the last two give Q > T > S, so the full order from heaviest to lightest is R, P, Q, T, S. The lightest is S and the second lightest is T. Choosing P comes from counting the second place from the heavy end instead, and Q is only the middle of the five.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "CUET GAT syllabus, General Mental Ability: ranking and order from comparative statements",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "D",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Mental Ability, Numerical Ability\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "medium",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "8b76423d-f6c6-47ee-8c20-69a4cdf9adab",
+      "subject": "general_test",
+      "unit": "General Mental Ability",
+      "chapter": "General Mental Ability",
+      "type": "sequence_ordering",
+      "stem": "Arrange the following words as they would appear in a dictionary.\n(A) Planet\n(B) Plant\n(C) Plain\n(D) Plane\nChoose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(D), (C), (A), (B)"
+        },
+        {
+          "key": "B",
+          "text": "(C), (D), (B), (A)"
+        },
+        {
+          "key": "C",
+          "text": "(C), (D), (A), (B)"
+        },
+        {
+          "key": "D",
+          "text": "(C), (A), (D), (B)"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "Dictionary order compares letters from the left. All four words begin with pla, and the fourth letter puts plain (i) before the other three (n). Plane is a prefix of planet, so it comes first, and planet (e as fifth letter) comes before plant (t). The order is plain, plane, planet, plant.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "CUET GAT syllabus, General Mental Ability: ordering words by dictionary order",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "C",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Mental Ability, Numerical Ability\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "medium",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false,
+        "advisory": "Concept repeat (dictionary order of four words) of live w3 row 6bbde2ac; different words, different stem, no near-duplicate; kept, one extra item for the same idea in the bank."
+      }
+    },
+    {
+      "id": "a5193f36-d325-4778-a34d-d84c80c9df12",
+      "subject": "general_test",
+      "unit": "General Mental Ability",
+      "chapter": "General Mental Ability",
+      "type": "single_mcq",
+      "stem": "At sunrise, Kiran stands so that his shadow falls on his left. He then turns 90° clockwise. Which direction is he facing now?",
+      "options": [
+        {
+          "key": "A",
+          "text": "East"
+        },
+        {
+          "key": "B",
+          "text": "West"
+        },
+        {
+          "key": "C",
+          "text": "North"
+        },
+        {
+          "key": "D",
+          "text": "South"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "The Sun rises in the east, so a shadow at sunrise falls towards the west. With the shadow on his left, west is to his left, so Kiran faces north. A 90° clockwise turn from north points him east. Facing south would put the western shadow on his right, not his left.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "CUET GAT syllabus, General Mental Ability: direction sense with shadows and turns",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "A",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Mental Ability, Numerical Ability\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "hard",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "4d5c33d3-dfc1-4b51-9295-fcce20d6674c",
+      "subject": "general_test",
+      "unit": "General Mental Ability",
+      "chapter": "General Mental Ability",
+      "type": "single_mcq",
+      "stem": "Pointing to Anil, Ravi says, 'He is the son of my mother's only brother.' How is Anil related to Ravi?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nephew"
+        },
+        {
+          "key": "B",
+          "text": "Maternal uncle"
+        },
+        {
+          "key": "C",
+          "text": "Brother-in-law"
+        },
+        {
+          "key": "D",
+          "text": "Cousin"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "Ravi's mother's brother is his maternal uncle, so Anil, the maternal uncle's son, is Ravi's cousin. Calling Anil the maternal uncle mixes up the father with the son, and a nephew would be one generation younger than Ravi, whereas Anil is of the same generation.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "CUET GAT syllabus, General Mental Ability: blood relations from a single described link",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "D",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Mental Ability, Numerical Ability\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "easy",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "0a76e5e8-c80c-42fe-8e89-05028b07cada",
+      "subject": "general_test",
+      "unit": "Quantitative Reasoning",
+      "chapter": "Basic Mathematical Concepts",
+      "type": "single_mcq",
+      "stem": "The ratio of boys to girls in a class is 3 : 5. If there are 12 more girls than boys, the total number of students in the class is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "18"
+        },
+        {
+          "key": "B",
+          "text": "48"
+        },
+        {
+          "key": "C",
+          "text": "30"
+        },
+        {
+          "key": "D",
+          "text": "96"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "Let the numbers be 3k and 5k. Their difference 2k = 12 gives k = 6, so there are 18 boys and 30 girls, and the total is 8k = 48 (check: 30 - 18 = 12). Taking 12 as the value of one part gives 96, and 18 and 30 are only the boys and only the girls.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "CUET GAT syllabus, Basic Mathematical Concepts: ratio and proportion with a given difference",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "B",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"Reasoning (Simple application of basic mathematical concepts Quantitative arithmetic / algebra geometry / mensuration / statistics)\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "medium",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "52f17738-6e30-4fb6-9a77-21dbf32faded",
+      "subject": "general_test",
+      "unit": "Quantitative Reasoning",
+      "chapter": "Basic Mathematical Concepts",
+      "type": "single_mcq",
+      "stem": "The diagonal of a rectangle is 13 cm and its perimeter is 34 cm. The area of the rectangle is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "30 cm²"
+        },
+        {
+          "key": "B",
+          "text": "120 cm²"
+        },
+        {
+          "key": "C",
+          "text": "60 cm²"
+        },
+        {
+          "key": "D",
+          "text": "72 cm²"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "Let the sides be l and b. Then l + b = 17 and l² + b² = 13² = 169, so 2lb = 17² - 169 = 289 - 169 = 120 and lb = 60 cm² (check: sides 12 and 5 give perimeter 34, diagonal 13 and area 60). The value 120 is 2lb, left without halving, and 30 is the area of the right triangle formed by half the rectangle.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "CUET GAT syllabus, Basic Mathematical Concepts: perimeter, area and diagonal of a rectangle with the identity (l + b)² = l² + b² + 2lb",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "C",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"Reasoning (Simple application of basic mathematical concepts Quantitative arithmetic / algebra geometry / mensuration / statistics)\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "hard",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "f7f57f20-8388-4720-a1c1-f41ca3da3e22",
+      "subject": "general_test",
+      "unit": "Quantitative Reasoning",
+      "chapter": "Basic Mathematical Concepts",
+      "type": "single_mcq",
+      "stem": "A sum of money amounts to ₹1,200 in 2 years at 10% per annum simple interest. The compound interest on the same sum for 2 years at 10% per annum, compounded annually, is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "₹210"
+        },
+        {
+          "key": "B",
+          "text": "₹200"
+        },
+        {
+          "key": "C",
+          "text": "₹220"
+        },
+        {
+          "key": "D",
+          "text": "₹1,210"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "Under simple interest the amount is P(1 + 2 × 0.10) = 1.2P = 1,200, so P = 1,000. With annual compounding the amount after one year is 1,100 and after two years 1,100 × 1.1 = 1,210, so the compound interest is 1,210 - 1,000 = 210. The figure 200 is the simple interest and 1,210 is the amount, not the interest.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "CUET GAT syllabus, Basic Mathematical Concepts: simple and compound interest basics",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "A",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"Reasoning (Simple application of basic mathematical concepts Quantitative arithmetic / algebra geometry / mensuration / statistics)\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "hard",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false,
+        "advisory": "CI at 10 per cent for 2 years already live (w2 x2, w3 difference item); this one first recovers the principal from a simple-interest amount, so it is a distinct two-step item; kept."
+      }
+    }
+  ]
+}

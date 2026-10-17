@@ -1,0 +1,912 @@
+{
+  "batch": "w4-gat-01",
+  "subject": "general_test",
+  "questions": [
+    {
+      "id": "b5b28434-a2ac-4345-8c7c-d9030b0a747c",
+      "subject": "general_test",
+      "unit": "General Knowledge and Current Affairs",
+      "chapter": "General Knowledge",
+      "type": "single_mcq",
+      "stem": "C. V. Raman was awarded the Nobel Prize in Physics in 1930 for his work on:",
+      "options": [
+        {
+          "key": "A",
+          "text": "the photoelectric effect"
+        },
+        {
+          "key": "B",
+          "text": "the scattering of light"
+        },
+        {
+          "key": "C",
+          "text": "the structure of the atom"
+        },
+        {
+          "key": "D",
+          "text": "the discovery of X-rays"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "Raman discovered that light scattered by a transparent substance contains extra wavelengths, now called the Raman effect, and received the 1930 Physics Nobel Prize for it. The photoelectric effect was explained by Einstein, who won the 1921 prize for it, so it is the neighbouring Nobel topic students confuse with Raman's work.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "CUET GAT syllabus, General Knowledge: Awards and honours: Indian Nobel laureates in science",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "B",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Knowledge, Current Affairs\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "easy",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "1e33bc13-6ec6-4b68-99d1-f906be55b319",
+      "subject": "general_test",
+      "unit": "General Knowledge and Current Affairs",
+      "chapter": "General Knowledge",
+      "type": "single_mcq",
+      "stem": "The writ of quo warranto is issued by a court to:",
+      "options": [
+        {
+          "key": "A",
+          "text": "secure the release of a person who has been illegally detained"
+        },
+        {
+          "key": "B",
+          "text": "compel a public official to carry out a duty he has neglected"
+        },
+        {
+          "key": "C",
+          "text": "set aside the order passed by a lower court or tribunal"
+        },
+        {
+          "key": "D",
+          "text": "ask a person by what authority he holds a public office"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "Quo warranto literally means \"by what warrant\" and is used to test the legal authority of a person holding a public office. The release of an unlawfully detained person is the work of habeas corpus, a duty is enforced by mandamus, and a lower court's order is quashed by certiorari, so those three are the writs it is most often confused with.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "CUET GAT syllabus, General Knowledge: Indian polity: fundamental rights and the writs under Articles 32 and 226",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "D",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Knowledge, Current Affairs\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "medium",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "8eafb85b-a7b8-4a32-b9e1-6b8df01d35a5",
+      "subject": "general_test",
+      "unit": "General Knowledge and Current Affairs",
+      "chapter": "General Knowledge",
+      "type": "single_mcq",
+      "stem": "Which of the following rivers of peninsular India drains into the Arabian Sea?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tapi"
+        },
+        {
+          "key": "B",
+          "text": "Mahanadi"
+        },
+        {
+          "key": "C",
+          "text": "Krishna"
+        },
+        {
+          "key": "D",
+          "text": "Kaveri"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "The Tapi, like the Narmada, flows west through a rift valley and falls into the Arabian Sea, forming an estuary instead of a delta. The Mahanadi, Krishna and Kaveri all flow east and reach the Bay of Bengal, so the Kaveri is the usual trap for students who think every southern river flows west.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "CUET GAT syllabus, General Knowledge: Indian geography: rivers and their drainage",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "A",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Knowledge, Current Affairs\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "easy",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "d027bc08-53d8-4205-a32b-58abd2110ed5",
+      "subject": "general_test",
+      "unit": "General Knowledge and Current Affairs",
+      "chapter": "General Knowledge",
+      "type": "match_the_following",
+      "stem": "Match List-I with List-II.\nList-I: (A) World Environment Day (B) World Health Day (C) International Women's Day (D) Human Rights Day\nList-II: (I) 8 March (II) 5 June (III) 10 December (IV) 7 April\nChoose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(A)-(II), (B)-(I), (C)-(IV), (D)-(III)"
+        },
+        {
+          "key": "B",
+          "text": "(A)-(IV), (B)-(II), (C)-(I), (D)-(III)"
+        },
+        {
+          "key": "C",
+          "text": "(A)-(II), (B)-(IV), (C)-(I), (D)-(III)"
+        },
+        {
+          "key": "D",
+          "text": "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "World Environment Day falls on 5 June, World Health Day on 7 April, International Women's Day on 8 March and Human Rights Day on 10 December, the date the UN General Assembly adopted the Universal Declaration in 1948. The mapping that swaps 8 March with 10 December, or 5 June with 7 April, mixes up the environmental and health days with the days of rights.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "CUET GAT syllabus, General Knowledge: Important days and years: international days and their dates",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "C",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Knowledge, Current Affairs\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "medium",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "95d55b69-54f8-42c8-bf57-51841b333358",
+      "subject": "general_test",
+      "unit": "General Knowledge and Current Affairs",
+      "chapter": "General Knowledge",
+      "type": "single_mcq",
+      "stem": "If the Rajya Sabha does not return a Money Bill to the Lok Sabha within 14 days of receiving it, the Bill is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "deemed passed by both Houses in the form the Lok Sabha passed it"
+        },
+        {
+          "key": "B",
+          "text": "referred to a joint sitting of both Houses to resolve the delay"
+        },
+        {
+          "key": "C",
+          "text": "treated as rejected and dropped by the Rajya Sabha"
+        },
+        {
+          "key": "D",
+          "text": "kept pending until the Rajya Sabha takes it up"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "Under Article 109 the Rajya Sabha can only make recommendations on a Money Bill within 14 days; if it keeps the Bill longer, the Bill is deemed passed by both Houses as the Lok Sabha passed it. A joint sitting under Article 108 is meant for ordinary Bills, so it is the tempting but wrong deadlock remedy here.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "CUET GAT syllabus, General Knowledge: Indian polity: legislative procedure, Money Bills",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "A",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Knowledge, Current Affairs\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "hard",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false,
+        "advisory": "Longest option by one character (64 v 63); not a tell because the three wrong options are all similarly worded."
+      }
+    },
+    {
+      "id": "34d1af78-a46f-4ece-af95-77767c117d69",
+      "subject": "general_test",
+      "unit": "General Knowledge and Current Affairs",
+      "chapter": "General Knowledge",
+      "type": "single_mcq",
+      "stem": "Who founded the Arya Samaj in 1875?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Raja Ram Mohan Roy"
+        },
+        {
+          "key": "B",
+          "text": "Swami Vivekananda"
+        },
+        {
+          "key": "C",
+          "text": "Ishwar Chandra Vidyasagar"
+        },
+        {
+          "key": "D",
+          "text": "Swami Dayanand Saraswati"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "Swami Dayanand Saraswati founded the Arya Samaj in Bombay in 1875 and urged a return to the Vedas. Raja Ram Mohan Roy founded the Brahmo Samaj in 1828, which is the reform society most often mixed up with it, while Vivekananda founded the Ramakrishna Mission and Vidyasagar worked for widow remarriage.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "CUET GAT syllabus, General Knowledge: Indian history: social and religious reform movements",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "D",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Knowledge, Current Affairs\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "easy",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "22d432e5-7aae-49c8-81aa-836232860258",
+      "subject": "general_test",
+      "unit": "General Knowledge and Current Affairs",
+      "chapter": "General Knowledge",
+      "type": "statement_based",
+      "stem": "Consider the following statements about the geography of India and its neighbourhood.\n(A) Chilika Lake in Odisha is a brackish water lagoon.\n(B) The Sundarbans delta is shared between India and Bangladesh.\n(C) The Tropic of Cancer passes through the state of Odisha.\n(D) The Western Ghats are more continuous than the Eastern Ghats.\nChoose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(A), (B) and (C) only"
+        },
+        {
+          "key": "B",
+          "text": "(A), (B) and (D) only"
+        },
+        {
+          "key": "C",
+          "text": "(A), (C) and (D) only"
+        },
+        {
+          "key": "D",
+          "text": "(B), (C) and (D) only"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "Chilika is a brackish lagoon joined to the Bay of Bengal, and the Sundarbans delta lies in both West Bengal and Bangladesh. The Tropic of Cancer crosses eight states from Gujarat to Mizoram but not Odisha. The Western Ghats form an almost unbroken wall, whereas the Eastern Ghats are broken by the Godavari, Krishna and other rivers.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "CUET GAT syllabus, General Knowledge: Indian and world geography: lakes, deltas, the Tropic of Cancer and the Ghats",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "B",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Knowledge, Current Affairs\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "hard",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "a84dd64b-cdcf-4aa5-9fce-284f3872474e",
+      "subject": "general_test",
+      "unit": "General Knowledge and Current Affairs",
+      "chapter": "General Knowledge",
+      "type": "single_mcq",
+      "stem": "The Thomas Cup is a prestigious international team championship in which sport?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Table tennis"
+        },
+        {
+          "key": "B",
+          "text": "Squash"
+        },
+        {
+          "key": "C",
+          "text": "Badminton"
+        },
+        {
+          "key": "D",
+          "text": "Lawn tennis"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "The Thomas Cup is the men's world team championship of badminton, and India won it for the first time in 2022. The women's counterpart is the Uber Cup. Table tennis has the Swaythling Cup and lawn tennis has the Davis Cup, which are the other team trophies students tend to swap with it.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "CUET GAT syllabus, General Knowledge: Sports: trophies and championships",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "C",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Knowledge, Current Affairs\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "medium",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "ceb2f733-638d-4ca9-9e67-7cacc1c1cbf4",
+      "subject": "general_test",
+      "unit": "General Knowledge and Current Affairs",
+      "chapter": "General Knowledge",
+      "type": "single_mcq",
+      "stem": "The rate at which the Reserve Bank of India lends short-term funds to commercial banks against government securities is called the:",
+      "options": [
+        {
+          "key": "A",
+          "text": "reverse repo rate"
+        },
+        {
+          "key": "B",
+          "text": "cash reserve ratio"
+        },
+        {
+          "key": "C",
+          "text": "statutory liquidity ratio"
+        },
+        {
+          "key": "D",
+          "text": "repo rate"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "In a repo, a bank sells government securities to the RBI and agrees to buy them back later, so the repo rate is the price of short-term borrowing from the RBI. The reverse repo rate is what the RBI pays when banks park surplus funds with it, while the cash reserve ratio and statutory liquidity ratio are reserve requirements, not lending rates.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "CUET GAT syllabus, General Knowledge: Basic economy: RBI and monetary policy rates",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "D",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Knowledge, Current Affairs\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "easy",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "b4607a32-bd4a-49c6-8c8f-18241ba6a26d",
+      "subject": "general_test",
+      "unit": "General Knowledge and Current Affairs",
+      "chapter": "General Knowledge",
+      "type": "sequence_ordering",
+      "stem": "Arrange the following Mughal emperors in the order in which they came to the throne, earliest first.\n(A) Shah Jahan\n(B) Humayun\n(C) Akbar\n(D) Jahangir",
+      "options": [
+        {
+          "key": "A",
+          "text": "(B), (C), (D), (A)"
+        },
+        {
+          "key": "B",
+          "text": "(B), (C), (A), (D)"
+        },
+        {
+          "key": "C",
+          "text": "(C), (B), (D), (A)"
+        },
+        {
+          "key": "D",
+          "text": "(B), (D), (C), (A)"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "Humayun succeeded Babur in 1530, Akbar came to the throne in 1556, Jahangir in 1605 and Shah Jahan in 1628, giving the order Humayun, Akbar, Jahangir, Shah Jahan. The ordering that puts Shah Jahan before Jahangir reverses a father and son, and the one that puts Akbar first forgets that Humayun is his father.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "CUET GAT syllabus, General Knowledge: Indian history: the Mughal dynasty and its order of rulers",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "A",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Knowledge, Current Affairs\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "medium",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "da5af9e8-7676-41eb-9941-e2ef773bdf65",
+      "subject": "general_test",
+      "unit": "General Knowledge and Current Affairs",
+      "chapter": "General Knowledge",
+      "type": "single_mcq",
+      "stem": "The Rajatarangini, a chronicle of the kings of Kashmir, was written by:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Banabhatta"
+        },
+        {
+          "key": "B",
+          "text": "Kalidasa"
+        },
+        {
+          "key": "C",
+          "text": "Vishakhadatta"
+        },
+        {
+          "key": "D",
+          "text": "Kalhana"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "Kalhana composed the Rajatarangini in Sanskrit in the twelfth century, and it is regarded as one of the earliest works of history writing in India. Banabhatta wrote the Harshacharita, a biography of Harsha, and Vishakhadatta wrote the play Mudrarakshasa, so both are authors of other historical texts that are often confused with it.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "CUET GAT syllabus, General Knowledge: Books and authors: classical historical texts",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "D",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Knowledge, Current Affairs\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "medium",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "65824eee-c3c0-48cf-a105-ecaefb1188cd",
+      "subject": "general_test",
+      "unit": "General Knowledge and Current Affairs",
+      "chapter": "General Knowledge",
+      "type": "single_mcq",
+      "stem": "Which principal organ of the United Nations has five permanent members, each holding the power of veto?",
+      "options": [
+        {
+          "key": "A",
+          "text": "General Assembly"
+        },
+        {
+          "key": "B",
+          "text": "Economic and Social Council"
+        },
+        {
+          "key": "C",
+          "text": "Security Council"
+        },
+        {
+          "key": "D",
+          "text": "Trusteeship Council"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "The Security Council has five permanent members, namely China, France, Russia, the United Kingdom and the United States, and each can block a substantive resolution by veto. The General Assembly gives every member state one vote and has no veto, so it is the body students most often pick by mistake.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "CUET GAT syllabus, General Knowledge: International organisations: principal organs of the United Nations",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "C",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Knowledge, Current Affairs\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "easy",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "62c71845-ce4a-4284-8d4a-7a7e867a549a",
+      "subject": "general_test",
+      "unit": "General Knowledge and Current Affairs",
+      "chapter": "General Knowledge",
+      "type": "single_mcq",
+      "stem": "The ruins at Hampi, a UNESCO World Heritage Site in Karnataka, are the remains of the capital of the:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vijayanagara Empire"
+        },
+        {
+          "key": "B",
+          "text": "Chola dynasty"
+        },
+        {
+          "key": "C",
+          "text": "Bahmani Sultanate"
+        },
+        {
+          "key": "D",
+          "text": "Hoysala dynasty"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "Hampi was the capital of the Vijayanagara Empire, founded in 1336 by Harihara and Bukka, and the city was sacked after the defeat at Talikota in 1565. The Hoysalas are linked with Halebidu and Belur, also in Karnataka, which is why that dynasty is the strongest distractor.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "CUET GAT syllabus, General Knowledge: UNESCO sites: world heritage monuments and the dynasties behind them",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "A",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Knowledge, Current Affairs\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "medium",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "d8b5523a-c238-437e-9304-f14c999ef06f",
+      "subject": "general_test",
+      "unit": "General Knowledge and Current Affairs",
+      "chapter": "General Knowledge",
+      "type": "single_mcq",
+      "stem": "Under the Constitution of India, the oath of office is administered to the President by the:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vice-President of India"
+        },
+        {
+          "key": "B",
+          "text": "Chief Justice of India"
+        },
+        {
+          "key": "C",
+          "text": "Speaker of the Lok Sabha"
+        },
+        {
+          "key": "D",
+          "text": "Prime Minister of India"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "Article 60 requires the President to take the oath before the Chief Justice of India or, in the Chief Justice's absence, the senior-most judge of the Supreme Court available. The Vice-President is the ex-officio Chairman of the Rajya Sabha and has no role in the oath, which is the common slip for students who link the two top offices.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "CUET GAT syllabus, General Knowledge: Indian polity: constitutional offices and the oath of the President",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "B",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Knowledge, Current Affairs\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "medium",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "27227f87-6ced-4f0c-ba60-30484c8328e4",
+      "subject": "general_test",
+      "unit": "General Knowledge and Current Affairs",
+      "chapter": "General Knowledge",
+      "type": "single_mcq",
+      "stem": "Madhubani painting, a traditional folk art form, originated in which Indian state?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Maharashtra"
+        },
+        {
+          "key": "B",
+          "text": "Odisha"
+        },
+        {
+          "key": "C",
+          "text": "Rajasthan"
+        },
+        {
+          "key": "D",
+          "text": "Bihar"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "Madhubani painting comes from the Mithila region of Bihar and is traditionally done with natural colours on walls and paper. Warli painting belongs to Maharashtra, Pattachitra to Odisha and Phad painting to Rajasthan, so each wrong state is the home of another well-known folk art.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "CUET GAT syllabus, General Knowledge: Art and culture: folk painting traditions of India",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "D",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Knowledge, Current Affairs\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "easy",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "12158eee-8b40-46e8-a7c1-f41854ac32e2",
+      "subject": "general_test",
+      "unit": "General Knowledge and Current Affairs",
+      "chapter": "General Knowledge",
+      "type": "single_mcq",
+      "stem": "India's Mars Orbiter Mission, Mangalyaan, successfully entered the orbit of Mars in which year?",
+      "options": [
+        {
+          "key": "A",
+          "text": "2019"
+        },
+        {
+          "key": "B",
+          "text": "2013"
+        },
+        {
+          "key": "C",
+          "text": "2014"
+        },
+        {
+          "key": "D",
+          "text": "2008"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "The Mars Orbiter Mission was launched in November 2013 and entered Mars orbit on 24 September 2014, making India the first Asian country to reach Mars orbit. The year 2013 marks only the launch, and 2008 is the launch year of Chandrayaan-1, so these are the two dates students mix up with the arrival.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "CUET GAT syllabus, General Knowledge: Science and technology milestones: India's space missions",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "C",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Knowledge, Current Affairs\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "medium",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false,
+        "advisory": "Event is 2014, not a current-affairs item; correctly placed in General Knowledge as a stable science and technology milestone."
+      }
+    },
+    {
+      "id": "c0bb6d07-1e8f-43fc-8b57-b69826bad86c",
+      "subject": "general_test",
+      "unit": "General Knowledge and Current Affairs",
+      "chapter": "General Knowledge",
+      "type": "single_mcq",
+      "stem": "Mount Kilimanjaro, the highest mountain in Africa, lies in:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tanzania"
+        },
+        {
+          "key": "B",
+          "text": "Kenya"
+        },
+        {
+          "key": "C",
+          "text": "Uganda"
+        },
+        {
+          "key": "D",
+          "text": "Ethiopia"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "Kilimanjaro is a dormant volcano in north-eastern Tanzania, near the border with Kenya, and rises to about 5,895 metres. Kenya is the common wrong answer because it borders Tanzania at the mountain, but Mount Kenya, the second highest peak of Africa, is a different mountain inside Kenya.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "CUET GAT syllabus, General Knowledge: World geography: major mountains and their countries",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "repaired",
+        "blind_answer": "A",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Knowledge, Current Affairs\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "easy",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [
+          "explanation: removed an unverifiable anecdote ('often photographed from the Kenyan side'); the key and every fact a solver sees are unchanged"
+        ],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "9e401dbb-3c92-489e-a692-289d4c858c38",
+      "subject": "general_test",
+      "unit": "General Science and Environment Literacy",
+      "chapter": "General Science and Environment Literacy",
+      "type": "single_mcq",
+      "stem": "Which vitamin is synthesised in the human skin on exposure to sunlight?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vitamin A"
+        },
+        {
+          "key": "B",
+          "text": "Vitamin D"
+        },
+        {
+          "key": "C",
+          "text": "Vitamin C"
+        },
+        {
+          "key": "D",
+          "text": "Vitamin K"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "Ultraviolet rays in sunlight convert a cholesterol derivative in the skin into vitamin D, and a shortage of it causes rickets in children. Vitamin K is the strongest distractor because the body also makes it, but it is made by bacteria in the intestine and not by the skin.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "CUET GAT syllabus, General Science and Environment Literacy: Basic life science: vitamins, sources and deficiency diseases",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "B",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Science and Environment Literacy\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "easy",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "74583f6d-5b1e-4ab4-9c9c-7e816edd8f14",
+      "subject": "general_test",
+      "unit": "General Science and Environment Literacy",
+      "chapter": "General Science and Environment Literacy",
+      "type": "single_mcq",
+      "stem": "Which international agreement, signed in 1971, is concerned with the conservation of wetlands?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ramsar Convention"
+        },
+        {
+          "key": "B",
+          "text": "Basel Convention"
+        },
+        {
+          "key": "C",
+          "text": "Kyoto Protocol"
+        },
+        {
+          "key": "D",
+          "text": "Montreal Protocol"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "The Ramsar Convention, signed in the Iranian city of Ramsar, protects wetlands of international importance and promotes their wise use. The Montreal Protocol deals with ozone-depleting substances, the Kyoto Protocol with greenhouse gas cuts and the Basel Convention with the movement of hazardous waste, so each wrong answer is an environmental treaty with a different target.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "CUET GAT syllabus, General Science and Environment Literacy: International environment conventions: Ramsar, Basel, Kyoto and Montreal",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "repaired",
+        "blind_answer": "A",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Science and Environment Literacy\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "medium",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [
+          "explanation: 'each wrong option' reworded to 'each wrong answer' (rubric bans the word option in explanations)"
+        ],
+        "solver_view_changed": false
+      }
+    },
+    {
+      "id": "fd963a54-4700-44b6-b8b5-07b491494bf2",
+      "subject": "general_test",
+      "unit": "General Science and Environment Literacy",
+      "chapter": "General Science and Environment Literacy",
+      "type": "assertion_reason",
+      "stem": "Assertion: Depletion of the ozone layer is the main cause of global warming.\nReason: Chlorofluorocarbons are greenhouse gases as well as ozone-depleting substances.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Both A and R are true, and R correctly explains A"
+        },
+        {
+          "key": "B",
+          "text": "Both A and R are true, but R does not explain A"
+        },
+        {
+          "key": "C",
+          "text": "A is true, but R is false"
+        },
+        {
+          "key": "D",
+          "text": "A is false, but R is true"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "The main driver of global warming is the build-up of carbon dioxide, with methane and nitrous oxide, from burning fossil fuels, and ozone depletion mainly lets more ultraviolet radiation reach the ground, so the assertion is false. The reason is true because chlorofluorocarbons both destroy ozone and trap heat, but this does not make ozone loss the main cause of warming.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "CUET GAT syllabus, General Science and Environment Literacy: Environmental topics: greenhouse gases, global warming and the ozone layer",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "blind_answer": "D",
+        "key_matches": true,
+        "syllabus": "in syllabus: \"General Science and Environment Literacy\" (2026 General Test 501)",
+        "chapter_unit_ok": true,
+        "giveaway_check": "no tell found: key not the unique longest option except noted; no listed-order key; stem does not state the key",
+        "level_check": "hard",
+        "duplicates": "none in live gat bank (select-only keyword search, 346 live rows) or waves 1-3 (validator)",
+        "repairs": [],
+        "solver_view_changed": false
+      }
+    }
+  ]
+}
