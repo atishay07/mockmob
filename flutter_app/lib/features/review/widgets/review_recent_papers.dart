@@ -9,29 +9,31 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/models/attempt.dart';
-import '../../../core/repositories/notification_prefs_repository.dart' show studentTimezoneProvider;
-import '../../../core/repositories/pending_result_repository.dart' show PendingResult, unopenedResultsProvider;
 import '../../today/logic/today_builder.dart' show buildSheet, buildTrend;
+import '../data/review_providers.dart' show reviewClockProvider;
 import '../../today/logic/today_inputs.dart';
 import '../../today/logic/today_model.dart' show GoTo;
 import '../../today/widgets/sheet_section.dart';
 
 class ReviewRecentPapers extends ConsumerWidget {
-  const ReviewRecentPapers({super.key, required this.attempts});
+  const ReviewRecentPapers({super.key, required this.attempts, this.unopened = const {}});
 
   /// Newest first, as Review's index holds them.
   final List<Attempt> attempts;
 
+  /// Results not opened yet: their rows stay sealed and the trend waits (no spoiled reveal).
+  final Set<String> unopened;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (attempts.isEmpty) return const SizedBox.shrink();
-    // Results not opened yet: their rows stay sealed and the trend waits (no spoiled reveal).
-    final pending = ref.watch(unopenedResultsProvider).value ?? const <PendingResult>[];
+    // Review's own clock and zone, so the dates match the rest of the tab.
+    final clock = ref.watch(reviewClockProvider);
     final inputs = TodayInputs(
-      now: DateTime.now(),
-      timezone: ref.watch(studentTimezoneProvider),
+      now: clock.now(),
+      timezone: clock.zone,
       attempts: attempts,
-      unopened: [for (final p in pending) (attemptId: p.attemptId, receivedAt: p.receivedAt)],
+      unopened: [for (final id in unopened) (attemptId: id, receivedAt: clock.now())],
     );
     return SheetSection(
       rows: buildSheet(inputs),

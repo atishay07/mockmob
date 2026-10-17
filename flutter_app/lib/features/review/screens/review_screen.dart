@@ -48,6 +48,9 @@ class ReviewScreen extends ConsumerStatefulWidget {
 }
 
 class _ReviewScreenState extends ConsumerState<ReviewScreen> {
+  /// Results not opened yet, for the Recent papers block (their rows stay sealed).
+  Set<String> _unopenedIds = const {};
+
   final ScrollController _scroll = ScrollController();
 
   /// The side of the tab the student chose (To repair or History); null until they choose, when
@@ -152,6 +155,7 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     Widget gutter(Widget child, {double top = 0}) =>
         Padding(padding: EdgeInsets.fromLTRB(ReviewSpace.gutter, top, ReviewSpace.gutter, 0), child: child);
 
+    _unopenedIds = {for (final p in inputs.unopened) p.attemptId};
     final unopened = [
       for (final p in inputs.unopened)
         if (index.attempt(p.attemptId) case final a?) (p.attemptId, sourceLabel(index.attempts, a)) else (p.attemptId, 'Your mock'),
@@ -328,7 +332,7 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
         gutter(FlushKey(label: ReviewCopy.seeRecord, onPressed: () => context.push(AppRoutes.reviewRecord))),
       ],
       // The trend and the newest papers, moved here from Today (TODAY-1017 section 7).
-      gutter(ReviewRecentPapers(attempts: index.attempts), top: ReviewSpace.section),
+      gutter(ReviewRecentPapers(attempts: index.attempts, unopened: _unopenedIds), top: ReviewSpace.section),
       if (mocks.isNotEmpty) ...[
         gutter(SectionHeading(ReviewCopy.pastHeading, rule: true), top: ReviewSpace.section),
         for (final a in mocks)
