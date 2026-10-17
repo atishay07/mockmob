@@ -58,7 +58,12 @@ class MistakeMap extends ConsumerStatefulWidget {
     this.leadKeyPrimary = false,
     this.changes = const {},
     this.index,
+    this.trapOf,
   });
+
+  /// The trap the server named on a mistake's wrong option, in plain words ("Trap: a look-alike term"), or null when it has
+  /// none for it. The row says it under where the mistake was found.
+  final String? Function(MistakeItem item)? trapOf;
 
   /// The whole index, so a mistake whose question was also missed in another paper says so on
   /// its row ("Missed twice"). Null: rows say nothing about other papers.
@@ -191,6 +196,7 @@ class _MistakeMapState extends ConsumerState<MistakeMap> with SingleTickerProvid
             leadKeyPrimary: widget.leadKeyPrimary,
             change: _marks[chapterSeenKey(groups[i])],
             repeats: _repeats,
+            trapOf: widget.trapOf,
             // Rows grow in one after another: the bar of row i starts 45 ms after the one above it.
             grow: _enter.drive(CurveTween(curve: _interval(i, groups.length))),
             onToggle: () => _toggle(groups[i]),
@@ -216,8 +222,10 @@ class _ChapterRow extends StatelessWidget {
     required this.onOpen,
     this.change,
     this.repeats,
+    this.trapOf,
   });
 
+  final String? Function(MistakeItem item)? trapOf;
   final ChapterGroup group;
 
   /// What changed since the last look, or null.
@@ -399,9 +407,15 @@ class _ChapterRow extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              // The step before the key, said once above the thread (v15 spec 3.2): every open mistake starts with a try.
+              if (papers.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(MmSpace.s12, 0, MmSpace.s12, MmSpace.s4),
+                  child: Text(ReviewCopy.threadTryFirst, style: context.mmType.caption.copyWith(color: colors.ink2)),
+                ),
               Padding(
                 padding: const EdgeInsets.only(bottom: MmSpace.s4),
-                child: _Thread(items: _ordered, clock: clock, onOpen: onOpen, repeats: repeats),
+                child: _Thread(items: _ordered, clock: clock, onOpen: onOpen, repeats: repeats, trapOf: trapOf),
               ),
               // One key per paper: a run covers one chapter of one paper, so the number on the
               // key is the number of mistakes the run holds. The first is the one filled key
@@ -711,8 +725,9 @@ class _TrackPainter extends CustomPainter {
 /// The chapter's mistakes as a vertical thread: a rail under the row's glyph, one bubble per
 /// mistake in its stage, the question and where it was found, the stage in words.
 class _Thread extends StatelessWidget {
-  const _Thread({required this.items, required this.clock, required this.onOpen, this.repeats});
+  const _Thread({required this.items, required this.clock, required this.onOpen, this.repeats, this.trapOf});
 
+  final String? Function(MistakeItem item)? trapOf;
   final List<MistakeItem> items;
   final ReviewClock clock;
   final ValueChanged<MistakeItem> onOpen;
@@ -732,6 +747,7 @@ class _Thread extends StatelessWidget {
               first: i == 0,
               last: i == items.length - 1,
               missedTimes: repeats?.call(items[i]) ?? 1,
+              trap: trapOf?.call(items[i]),
               onTap: () => onOpen(items[i]),
             ),
           ),
@@ -755,9 +771,13 @@ class MistakeRow extends StatelessWidget {
     this.first = true,
     this.last = true,
     this.missedTimes = 1,
+    this.trap,
   });
 
   final MistakeItem item;
+
+  /// The trap named on this mistake, in plain words, or null.
+  final String? trap;
 
   /// How many papers this question was answered wrong in, from the student's own attempts. Two or
   /// more adds "Missed twice" with a doubled bubble.
@@ -780,7 +800,7 @@ class MistakeRow extends StatelessWidget {
         ? (item.stageAt == null ? ReviewCopy.savedRepairOpens : ReviewCopy.savedRepairFrom(whenText(clock, item.stageAt!)))
         : null;
     final label =
-        '${ReviewCopy.questionLabel(item.number)}, ${item.chapter}. $found.${saved == null ? '' : ' $saved'}${repeat == null ? '' : ' $repeat.'} ${_stageWord(item.stage)}.';
+        '${ReviewCopy.questionLabel(item.number)}, ${item.chapter}. $found.${trap == null ? '' : ' $trap.'}${saved == null ? '' : ' $saved'}${repeat == null ? '' : ' $repeat.'} ${_stageWord(item.stage)}.';
     // The bubble carries the stage's colour; the word beside it stays quiet, so red crosses and
     // volt text do not compete.
     final bubble = switch (item.stage) {
@@ -831,6 +851,17 @@ class MistakeRow extends StatelessWidget {
                       const SizedBox(height: MmSpace.s2),
                       Text(found, style: type.caption.copyWith(color: colors.ink2)),
                       if (saved != null) Text(saved, style: type.caption.copyWith(color: colors.ink2)),
+                      // The trap in plain words, when the server has named one for this wrong answer.
+                      if (trap != null) ...[
+                        const SizedBox(height: MmSpace.s4),
+                        Row(
+                          children: [
+                            Icon(LucideIcons.triangleAlert, size: 12, color: colors.warnText),
+                            const SizedBox(width: MmSpace.s4),
+                            Flexible(child: Text(trap!, style: type.caption.copyWith(color: colors.ink))),
+                          ],
+                        ),
+                      ],
                       if (repeat != null) ...[
                         const SizedBox(height: MmSpace.s4),
                         Row(

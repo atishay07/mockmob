@@ -29,8 +29,19 @@ import '../model/time_decisions.dart' show clockLabel;
 ///   Under reduced motion, Play becomes Previous and Next, stepping one moment of the record.
 /// - **A chip** (the ledger's own groups) dims every other bar and lists its questions.
 /// - **Tap a bar** to open that answer below (the screen's own jump). Nothing covers text.
+///
+/// The grid is sized to the paper (D17, 18 Oct: "if there are just 10 questions, show it according to 10 questions"): a
+/// record shorter than one row fills the row's width instead of sitting in its first seconds, and a longer one can be
+/// read on one line or row by row ([ReplaySectionState.oneLine]). A record with fewer than [minAnswered] answers is only
+/// blank bars, so the page leaves the replay out ([worthShowing]).
 class ReplaySection extends StatefulWidget {
   const ReplaySection({super.key, required this.replay, required this.onOpenQuestion, this.numbersOf, this.filter});
+
+  /// The answers a record needs before a replay says anything: under it the bars are grey blanks "going and going".
+  static const int minAnswered = 3;
+
+  /// Whether [replay] holds enough of the student's own answers to be worth replaying.
+  static bool worthShowing(LabReplay replay) => replay.answeredAt(replay.recordSec) >= minAnswered;
 
   final LabReplay replay;
 
@@ -62,6 +73,23 @@ class ReplaySectionState extends State<ReplaySection> with SingleTickerProviderS
 
   LabReplay get _replay => widget.replay;
 
+  /// The whole paper on one line (a record longer than one row); false reads it row by row, the server's own rows.
+  bool oneLine = false;
+
+  /// The lines drawn, each a row and the seconds its width covers, built once per replay and mode.
+  List<ReplayLine>? _lines;
+  List<ReplayLine> get lines => _lines ??= ReplayLine.of(_replay, oneLine: oneLine);
+
+  /// Switches between one line and row by row; the moment shown stays where it was.
+  void toggleOneLine() {
+    if (_replay.rows.length < 2) return;
+    setState(() {
+      oneLine = !oneLine;
+      _lines = null;
+      _scrubRow = null;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -81,6 +109,7 @@ class ReplaySectionState extends State<ReplaySection> with SingleTickerProviderS
       _filter.addListener(_onFilter);
     }
     _play.duration = Duration(milliseconds: widget.replay.playMs);
+    if (oldWidget.replay != widget.replay) _lines = null;
   }
 
   @override
@@ -181,7 +210,7 @@ class ReplaySectionState extends State<ReplaySection> with SingleTickerProviderS
   /// Moves the moment to [sec] inside row [row] (a drag along it).
   void scrubTo(int row, double sec) {
     if (_play.isAnimating) _play.stop();
-    final r = _replay.rows[row];
+    final r = lines[row].row;
     final clamped = sec.clamp(r.from.toDouble(), math.min(r.to, _replay.recordSec).toDouble());
     cursor.value = clamped;
     final bar = _replay.barAt(clamped);
@@ -272,19 +301,35 @@ class ReplaySectionState extends State<ReplaySection> with SingleTickerProviderS
             ),
           ],
           const SizedBox(height: MmSpace.s8),
-          for (var i = 0; i < replay.rows.length; i++)
-            _RowView(
-              key: ValueKey('replay-row-$i'),
-              replay: replay,
-              index: i,
-              cursor: cursor,
-              lit: lit,
-              style: style,
-              scrubbing: _scrubRow == i,
-              onScrub: (sec) => scrubTo(i, sec),
-              onScrubEnd: _scrubEnd,
-              onOpenQuestion: widget.onOpenQuestion,
+          // One line or row by row: the height eases and the lines cross-fade, so the switch reads as one change.
+          MmSizeEase(
+            duration: Motion.of(context, const Duration(milliseconds: 260)),
+            curve: Motion.out,
+            alignment: Alignment.topCenter,
+            child: MmOverlapSwitcher(
+              outDuration: Motion.of(context, const Duration(milliseconds: 120)),
+              duration: Motion.of(context, const Duration(milliseconds: 200)),
+              child: Column(
+                key: ValueKey('replay-lines-$oneLine'),
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  for (var i = 0; i < lines.length; i++)
+                    _RowView(
+                      key: ValueKey('replay-row-$i'),
+                      line: lines[i],
+                      replay: replay,
+                      cursor: cursor,
+                      lit: lit,
+                      style: style,
+                      scrubbing: _scrubRow == i,
+                      onScrub: (sec) => scrubTo(i, sec),
+                      onScrubEnd: _scrubEnd,
+                      onOpenQuestion: widget.onOpenQuestion,
+                    ),
+                ],
+              ),
             ),
+          ),
           if (chipNumbers.isNotEmpty) ...[
             const SizedBox(height: MmSpace.s4),
             Wrap(
@@ -295,6 +340,13 @@ class ReplaySectionState extends State<ReplaySection> with SingleTickerProviderS
               ],
             ),
           ],
+          // The one toggle, after the questions a chip lists, so those stay beside the lines they light.
+          if (replay.rows.length > 1)
+            _LinesToggle(
+              key: const ValueKey('replay-lines-toggle'),
+              label: oneLine ? ResultCopy.replayByRows((replay.rowSec / 60).round()) : ResultCopy.replayOneLine,
+              onTap: toggleOneLine,
+            ),
           if (replay.facts.isNotEmpty) ...[
             const SizedBox(height: MmSpace.s16),
             for (var i = 0; i < replay.facts.length; i++) ...[
@@ -576,7 +628,7 @@ class _RowView extends StatelessWidget {
   const _RowView({
     super.key,
     required this.replay,
-    required this.index,
+    required this.line,
     required this.cursor,
     required this.lit,
     required this.style,
@@ -587,7 +639,7 @@ class _RowView extends StatelessWidget {
   });
 
   final LabReplay replay;
-  final int index;
+  final ReplayLine line;
   final ValueListenable<double?> cursor;
   final Set<int>? lit;
   final ReplayStyle style;
@@ -603,10 +655,10 @@ class _RowView extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final row = replay.rows[index];
+    final row = line.row;
     final painter = ReplayRowPainter(
       row: row,
-      rowSec: replay.rowSec,
+      rowSec: line.span,
       recordSec: replay.recordSec,
       cursor: cursor,
       lit: lit,
@@ -616,7 +668,7 @@ class _RowView extends StatelessWidget {
       awayStyle: type.label.copyWith(fontSize: 10, height: 1, fontWeight: FontWeight.w500, color: style.awayText),
       onOpen: onOpenQuestion,
     );
-    double secAt(double dx, double width) => row.from + (dx / math.max(1, width)).clamp(0.0, 1.0) * replay.rowSec;
+    double secAt(double dx, double width) => row.from + (dx / math.max(1, width)).clamp(0.0, 1.0) * line.span;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -720,10 +772,12 @@ class ReplayRowPainter extends CustomPainter {
     final mid = size.height / 2;
     final bottom = mid + barHeight / 2;
 
-    // The minute ruler under the bars: a tick each minute, a taller one each 5 minutes.
-    for (var s = 60; s < rowSec; s += 60) {
+    // The ruler under the bars, at a step that suits the time the line covers: each 10 seconds under two minutes, each
+    // minute up to 15, each 5 minutes beyond (the whole paper on one line); every fifth tick is taller.
+    final step = rowSec <= 120 ? 10 : (rowSec <= 900 ? 60 : 300);
+    for (var s = step; s < rowSec; s += step) {
       final x = _x(row.from + s, width);
-      final strong = (row.from + s) % 300 == 0;
+      final strong = (row.from + s) % (step * 5) == 0;
       canvas.drawLine(
         Offset(x, bottom + 2),
         Offset(x, bottom + (strong ? 7 : 4)),
@@ -734,7 +788,7 @@ class ReplayRowPainter extends CustomPainter {
     }
     // The record's end inside this row: a short closing rule.
     if (recordSec > row.from && recordSec < row.to) {
-      final x = _x(recordSec, width);
+      final x = _x(recordSec, width).clamp(1.0, width - 1);
       canvas.drawLine(
         Offset(x, mid - barHeight / 2 - 4),
         Offset(x, bottom + 4),
@@ -893,6 +947,83 @@ class ReplayRowPainter extends CustomPainter {
       oldDelegate.rowSec != rowSec ||
       oldDelegate.labelStyle != labelStyle ||
       oldDelegate.recordSec != recordSec;
+}
+
+/// One line of the replay: a [row] of visits and the seconds its width covers.
+@immutable
+class ReplayLine {
+  const ReplayLine({required this.row, required this.span});
+
+  final ReplayRow row;
+
+  /// Seconds across the line's width: the server's row length, or the record's own length when the line is fitted to it.
+  final int span;
+
+  /// The lines for [replay]. A record within one row is fitted to the width (a 58 s paper fills the line); a longer
+  /// one is the server's rows, or with [oneLine] the whole record on a single line under the last row's words.
+  static List<ReplayLine> of(LabReplay replay, {bool oneLine = false}) {
+    final rows = replay.rows;
+    var end = replay.recordSec;
+    for (final b in replay.bars) {
+      if (b.to > end) end = b.to;
+    }
+    if (rows.length == 1) {
+      final r = rows.first;
+      return [ReplayLine(row: r, span: math.max(1, math.min(r.to, end) - r.from))];
+    }
+    if (oneLine) {
+      final first = rows.first;
+      final last = rows.last;
+      final to = math.max(end, first.from + 1);
+      return [
+        ReplayLine(
+          row: ReplayRow(from: first.from, to: to, label: last.label, answeredBy: last.answeredBy, evenPaceBy: last.evenPaceBy, bars: replay.bars),
+          span: to - first.from,
+        ),
+      ];
+    }
+    return [for (final r in rows) ReplayLine(row: r, span: replay.rowSec)];
+  }
+}
+
+/// The replay's one toggle under its lines: an underlined text action, 48 dp tall, no icon.
+class _LinesToggle extends StatelessWidget {
+  const _LinesToggle({super.key, required this.label, required this.onTap});
+
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: MmPressable(
+        onTap: onTap,
+        pressedScale: 0.97,
+        focusRadius: MmRadius.smallAll,
+        haptic: MmPressHaptic.selection,
+        semanticsLabel: label,
+        builder: (context, pressed, _) => ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: MmTarget.min),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            widthFactor: 1,
+            child: Text(
+              label,
+              style: context.mmType.small.copyWith(
+                color: colors.ink,
+                fontWeight: FontWeight.w600,
+                decoration: TextDecoration.underline,
+                decorationColor: colors.ink3,
+                decorationThickness: 1.4,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 /// A filter chip: the ledger's word and its count. 40 dp tall in a 48 dp target.

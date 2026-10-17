@@ -312,6 +312,10 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
   List<Widget> _repairSection(BuildContext context, ReviewIndex index, List<ChapterGroup> groups, ReviewClock clock, Map<String, ChapterChange> changes) {
     Widget gutter(Widget child, {double top = 0}) =>
         Padding(padding: EdgeInsets.fromLTRB(ReviewSpace.gutter, top, ReviewSpace.gutter, 0), child: child);
+    // The trap the server named on a mistake of tonight's paper, in plain words (the paper whose read is already loaded).
+    final tonightId = index.tonight?.attemptId;
+    final traps = tonightId == null ? null : ref.watch(attemptDetailProvider(tonightId).select((s) => s.value?.lab?.traps));
+    String? trapOf(MistakeItem item) => item.attemptId == tonightId ? traps?.tagFor(item.questionId)?.text : null;
     return [
       // After the first repair: Revise, once, in the page's own flow (never a popup).
       if (index.repairedCount > 0)
@@ -339,6 +343,7 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
             onOpen: _openRepair,
             changes: changes,
             index: index,
+            trapOf: trapOf,
           ),
         ),
         if (groups.length > tabChapterLimit)

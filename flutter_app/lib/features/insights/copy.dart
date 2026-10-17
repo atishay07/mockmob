@@ -96,7 +96,7 @@ abstract final class InsightsCopy {
   static const trendFormats = 'Paper formats';
   static const savedSubjects = 'Saved subjects';
   static const streamFilters = 'Stream filters';
-  static const chaptersHeading = 'Chapters by marks left open';
+  static const chaptersHeading = 'Chapters costing you the most marks';
   static const chaptersCaption = 'Ranked once 4 or more questions are answered in a chapter.';
   static String chapterCounts(int r, int w, int b, int n) => '$r right, $w wrong, $b blank of ${_n(n, 'question')}';
   static String chapterOpen(int marks) => '${_n(marks, 'mark')} open';
@@ -272,7 +272,7 @@ abstract final class InsightsCopy {
       chapter == null ? 'Give me a 10 minute revision plan for tonight' : 'Give me a 10 minute revision plan for $chapter';
   static const costFree = 'Free';
   static const previewLosing = 'Reads your wrong and blank answers';
-  static const previewChapter = 'Ranks chapters by marks left open';
+  static const previewChapter = 'Ranks the chapters costing you the most marks';
   static const previewPace = 'Needs timed answers';
   static const previewWeek = 'Counts your last 7 days';
   static const costCredit = '1 credit';

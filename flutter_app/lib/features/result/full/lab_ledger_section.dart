@@ -36,7 +36,12 @@ class LabLedgerSection extends StatefulWidget {
     this.onSeeChanges,
     this.onSeeInReplay,
     this.outOf,
+    this.title,
   });
+
+  /// The section's title; null keeps the server's own name for the Lab. The result's open analysis names it "How the marks
+  /// split" under its own "Where your marks went" heading.
+  final String? title;
 
   /// The paper's full marks, for the hero's denominator ("marks missed, of 250"). Null keeps the
   /// server's heading sentence as the head of the section.
@@ -240,7 +245,7 @@ class _LabLedgerSectionState extends State<LabLedgerSection> with TickerProvider
     final hero = widget.outOf != null && widget.outOf! > 0 && lab.gap > 0 ? LabLedgerSection.headingRest(lab.heading, lab.gap) : null;
 
     return MmSection(
-      title: lab.labels.name,
+      title: widget.title ?? lab.labels.name,
       child: WhenInView(
         onVisible: _onVisible,
         child: Column(

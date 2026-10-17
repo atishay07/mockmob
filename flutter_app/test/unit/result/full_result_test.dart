@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/widgets.dart' show Scrollable;
 import 'package:flutter_test/flutter_test.dart';
@@ -20,7 +18,7 @@ import 'package:mockmob/features/result/model/recap_model.dart';
 import '../../helpers/fonts.dart';
 import 'support/fixtures.dart';
 import 'support/harness.dart';
-import 'support/lab_fixtures.dart' show labContract;
+import 'support/lab_fixtures.dart' show attemptWithLabAndSwot, labContract;
 
 String _at(GoRouter r) => r.routerDelegate.currentConfiguration.uri.toString();
 
@@ -83,6 +81,8 @@ void main() {
     await tester.scrollUntilVisible(find.byType(MistakeSummary).first, 200, scrollable: page);
     await tester.tap(find.byType(MistakeSummary).first);
     await tester.pumpAndSettle();
+    // The free part shows the key at once; the try before the key belongs to the repair (one action per mistake, D15).
+    expect(find.text('Try it again before you see the answer'), findsNothing);
     expect(find.text('Correct answer'), findsWidgets);
     expect(find.textContaining('then a new question to check it held'), findsOneWidget);
     // The blank rows are folded under one row until it is tapped.
@@ -119,7 +119,8 @@ void main() {
       final cells = mock7().cells;
       final right = cells.indexOf(BubbleState.filled) + 1;
       AnswerRow row(int n) => tester.widget<AnswerRow>(find.byWidgetPredicate((w) => w is AnswerRow && w.item.number == n, skipOffstage: false));
-      expect(row(right).expanded, isFalse);
+      // The right answers sit folded under their row until a bubble opens them.
+      expect(find.byWidgetPredicate((w) => w is AnswerRow && w.item.number == right, skipOffstage: false), findsNothing);
       await tester.tapAt(bubbleAt(tester, right));
       await tester.pump(const Duration(milliseconds: 600));
       expect(row(right).expanded, isTrue);
@@ -139,9 +140,9 @@ void main() {
       expect(find.text('Q$wrong, Accountancy: wrong'), findsNothing);
     });
 
-    testWidgets('no Mobi on a full-mode result: the result is the student moment, not Mobi (F11)', (tester) async {
+    testWidgets('a full-mode result has Mobi back: the reveal beside the line, and the reader by the answer sheet (N12)', (tester) async {
       await pump(tester);
-      expect(find.byType(Mobi), findsNothing);
+      expect(find.byType(Mobi), findsNWidgets(2));
     });
 
     testWidgets('an NTA result has no Mobi at all', (tester) async {
@@ -205,56 +206,28 @@ void main() {
   });
 
   group('the Mistake Lab sits right under the score (Mistake Lab v4, spec 3)', () {
-    /// The spec paper with a device record (one visit and one pick a question, a minute each, and one
-    /// changed answer), the website's lab contract and its SWOT read.
-    Map<String, dynamic> withLabAndSwot() {
-      final a = attemptJson();
-      final qs = (a['questionsSnapshot'] as List).cast<Map<String, dynamic>>();
-      final ds = (a['details'] as List).cast<Map<String, dynamic>>();
-      final changed = ds.indexWhere((d) => d['isCorrect'] == false);
-      final ev = <Map<String, dynamic>>[];
-      final changes = <Map<String, dynamic>>[];
-      var seq = 1;
-      for (var i = 0; i < qs.length; i++) {
-        final qid = qs[i]['id'] as String;
-        final at = i * 60000;
-        final given = ds[i]['givenIndex'] as int?;
-        ev.add({'seq': seq++, 'qid': qid, 'at': at, 'type': 'visit'});
-        if (i == changed) {
-          final key = qs[i]['correctIndex'] as int;
-          ev.add({'seq': seq++, 'qid': qid, 'at': at + 10000, 'type': 'answer', 'answer': key});
-          ev.add({'seq': seq++, 'qid': qid, 'at': at + 40000, 'type': 'answer', 'answer': given});
-          changes.add({'qid': qid, 'at': at + 40000, 'before': key, 'after': given, 'markEffect': -6});
-        } else if (given != null) {
-          ev.add({'seq': seq++, 'qid': qid, 'at': at + 30000, 'type': 'answer', 'answer': given});
-        }
-      }
-      ev.add({'seq': seq++, 'qid': qs.last['id'], 'at': qs.length * 60000, 'type': 'visit'});
-      (a['selectionMeta'] as Map<String, dynamic>)['recovery'] = {
-        'telemetry': 'self_reported',
-        'timeline': ev,
-        'observed': {'answerChanges': changes},
-      };
-      final swot = (jsonDecode(File('test/fixtures/swot_contract_v1.json').readAsStringSync()) as Map<String, dynamic>)['swot'];
-      return {...a, 'lab': labContract('ready'), 'swot': swot};
-    }
+    Map<String, dynamic> withLabAndSwot() => attemptWithLabAndSwot();
 
     setUp(LabLedgerSection.debugResetSeen);
 
-    testWidgets('order (RESULT-1017): what happened, the next move, the mistakes, then the named folds', (tester) async {
+    testWidgets('order (v15 spec 3.1): the reveal, the next move, the open analysis, then the mistakes', (tester) async {
       await pump(tester, data: withDetail(detail(attemptBody: withLabAndSwot())));
       await tester.pumpAndSettle();
       expect(find.byType(LabLedgerSection), findsOneWidget);
       double top(String t) => tester.getTopLeft(find.text(t).first).dy;
-      expect(tester.getTopLeft(find.byType(NextMovePanel)).dy < top('Your 15 mistakes'), isTrue);
-      expect(top('Your 15 mistakes') < top('More from this paper'), isTrue);
-      expect(top('More from this paper') < top('Where the marks went'), isTrue);
-      expect(top('Where the marks went') < top('Mistake Lab'), isTrue);
-      expect(top('Mistake Lab') < top(LayersCopy.foldTime), isTrue);
-      expect(top(LayersCopy.foldTime) < top(TimeCopy.title), isTrue);
-      expect(top(TimeCopy.title) < top(LayersCopy.foldPlan), isTrue);
-      expect(top(LayersCopy.foldPlan) < top('Every answer, all 50'), isTrue);
-      // No jargon heading: the SWOT is "After this mock: strengths, gaps and plan".
+      final panel = tester.getTopLeft(find.byType(NextMovePanel)).dy;
+      expect(panel < top(LayersCopy.analysis), isTrue, reason: 'the next move comes before the analysis');
+      expect(top(LayersCopy.analysis) < top(LayersCopy.sectionAnswerSheet), isTrue);
+      expect(top(LayersCopy.sectionAnswerSheet) < top(LayersCopy.sectionMarksWent), isTrue);
+      expect(top(LayersCopy.sectionMarksWent) < top(LayersCopy.marksSplitTitle), isTrue);
+      expect(top(LayersCopy.marksSplitTitle) < top(LayersCopy.sectionTime), isTrue);
+      expect(top(LayersCopy.sectionTime) < top(TimeCopy.title), isTrue);
+      expect(top(TimeCopy.title) < top(LayersCopy.sectionStrengths), isTrue);
+      expect(top(LayersCopy.sectionStrengths) < top('Your 15 mistakes'), isTrue, reason: 'the mistakes list closes the page');
+      // Nothing is folded away: no "More from this paper", no fold for the answers.
+      expect(find.text(LayersCopy.more), findsNothing);
+      expect(find.text('Every answer, all 50'), findsNothing);
+      // No jargon heading: the SWOT is "Strengths and weaknesses".
       expect(find.text('SWOT'), findsNothing);
       // The old second volt key ("The first thing to fix") is gone; the next move is the one volt.
       expect(find.text('The first thing to fix'), findsNothing);
@@ -285,10 +258,10 @@ void main() {
       expect(find.text(line), findsOneWidget);
     });
 
-    testWidgets('without a lab the result keeps the breakdown, under the name Mistake Lab', (tester) async {
+    testWidgets('without a lab the result keeps the breakdown, under "How the marks split"', (tester) async {
       await pump(tester);
       expect(find.byType(LabLedgerSection), findsNothing);
-      expect(find.text('Mistake Lab'), findsOneWidget);
+      expect(find.text(LayersCopy.marksSplitTitle), findsOneWidget);
       expect(find.text('How others answered'), findsNothing);
     });
   });

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/api/api.dart';
+import 'package:mockmob/core/models/models.dart' show Attempt;
 import 'package:mockmob/core/haptics/haptics.dart';
 import 'package:mockmob/core/mascot/mascot.dart' show MobiRation;
 import 'package:mockmob/core/platform/native_prefs.dart';
@@ -136,6 +137,12 @@ List<Override> resultOverrides({
 
   /// The clock the result reads (the receipt's day, the late-hour line); 10:50 PM on 12 Oct by default.
   DateTime? now,
+
+  /// The repairs this phone holds (acknowledged ones read as repaired).
+  List<RepairLocalRecord> repairRecords = const [],
+
+  /// The student's attempts, for "Scores by session" (Review's own read of them).
+  List<Attempt> reviewAttempts = const [],
   List<Override> extra = const [],
 }) => [
   recapDataProvider(attemptId).overrideWithValue(data),
@@ -147,7 +154,7 @@ List<Override> resultOverrides({
   prePromptDueAtProvider.overrideWith((ref, moment) async => reminderDue && moment.mayAsk),
   reminderAskCountProvider.overrideWith((ref) async => reminderAsks),
   reviewPromptProvider.overrideWithValue(FakeReviewPrompt(log ?? ResultLog())),
-  repairLocalRecordsProvider.overrideWith((ref) => Stream.value(const [])),
+  repairLocalRecordsProvider.overrideWith((ref) => Stream.value(repairRecords)),
   nowProvider.overrideWithValue(() => now ?? DateTime(2026, 10, 12, 22, 50)),
   studentTimezoneProvider.overrideWithValue('Asia/Kolkata'),
   userIdProvider.overrideWithValue('u1'),
@@ -157,7 +164,7 @@ List<Override> resultOverrides({
   todayActionsProvider.overrideWith(_QuietTodayActions.new),
   // Unknown balances unless a test names them, and Review's index settled and empty: no database or network read.
   creditFiguresProvider.overrideWithValue(credits ?? const CreditFigures()),
-  reviewInputsProvider.overrideWithValue(ReviewInputs(attempts: RemoteState(value: const [], fetchedAt: DateTime(2026, 10, 12, 22)))),
+  reviewInputsProvider.overrideWithValue(ReviewInputs(attempts: RemoteState(value: reviewAttempts, fetchedAt: DateTime(2026, 10, 12, 22)))),
   ...extra,
 ];
 

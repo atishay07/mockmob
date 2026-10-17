@@ -288,6 +288,9 @@ abstract final class ReviewCopy {
   // phone's on the key.
 
   static const tryTitle = 'Try it once more before the reason.';
+
+  /// Above an opened chapter's mistakes (v15 spec 3.2, from the website's fix round).
+  static const threadTryFirst = 'Try it again before you see the answer. Open a mistake to start.';
   static const tryHint = 'Pick one. Your first answer here counts.';
   static const checkMyAnswer = 'Check my answer';
   static const checkMyAnswerNeedsPick = 'Check my answer, pick an option first';

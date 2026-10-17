@@ -61,6 +61,31 @@ void main() {
       await _shot(tester, 'replay_scrub_$tag');
     });
 
+    testWidgets('replay on one line ($tag)', (tester) async {
+      final lab = labOf('replay');
+      await pumpLabHost(
+        tester,
+        ReplaySection(replay: lab.replay!, onOpenQuestion: (_) {}, numbersOf: lab.numbersOf),
+        brightness: b,
+        size: const Size(360, 760),
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('replay-lines-toggle')));
+      await tester.pumpAndSettle();
+      await _shot(tester, 'replay_one_line_$tag');
+    });
+
+    testWidgets('replay of a 58 s paper, fitted to the line ($tag)', (tester) async {
+      await pumpLabHost(
+        tester,
+        ReplaySection(replay: shortReplay(), onOpenQuestion: (_) {}),
+        brightness: b,
+        size: const Size(360, 420),
+      );
+      await tester.pumpAndSettle();
+      await _shot(tester, 'replay_short_fitted_$tag');
+    });
+
     testWidgets('ledger with crossed out the key ($tag)', (tester) async {
       await pumpLabHost(
         tester,

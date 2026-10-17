@@ -70,7 +70,7 @@ void main() {
     final w = firstWrong();
     final number = int.parse(w.qid.substring(1));
     await pump(tester, labContract('ready'), location: '/result/a7?q=$number');
-    await tester.scrollUntilVisible(find.text('Every answer, all 50'), 400, scrollable: _page);
+    await tester.scrollUntilVisible(find.text('Take another fresh paper'), 400, scrollable: _page);
     expect(find.textContaining('Trap:'), findsNothing);
   });
 
@@ -99,7 +99,7 @@ void main() {
 
   testWidgets('an older server (no lab slice 4): none of it', (tester) async {
     await pump(tester, labContract('ready'));
-    await tester.scrollUntilVisible(find.text('Every answer, all 50'), 400, scrollable: _page);
+    await tester.scrollUntilVisible(find.text('Take another fresh paper'), 400, scrollable: _page);
     expect(find.text('Same mistakes later'), findsNothing);
     expect(find.textContaining('Trap:'), findsNothing);
   });

@@ -75,9 +75,9 @@ void main() {
   group('what shows for each state', () {
     testWidgets('a ready read lays out the plan, the basis, the held line and all four groups in order', (tester) async {
       await pump(tester, _contract());
-      expect(find.text('After this mock'), findsOneWidget);
+      expect(find.text('Strengths and weaknesses'), findsOneWidget);
       expect(find.text('Do these next'), findsOneWidget);
-      expect(find.text('SWOT for this mock'), findsOneWidget);
+      expect(find.text('What this paper showed'), findsOneWidget);
       expect(find.text('From 49 of 50 questions in this paper and 212 earlier answers in Accountancy across 6 papers.'), findsOneWidget);
       expect(find.text('1 question under re-check or corrected is left out of this read.'), findsOneWidget);
       for (final word in ['Strengths', 'Weaknesses', 'Opportunities', 'Threats']) {
@@ -90,8 +90,8 @@ void main() {
       expect(top('Opportunities') < top('Threats'), isTrue);
       // The plan comes before the read, and the whole section after the Mistake Lab (spec 3: the
       // Lab answers "where did my marks go" first).
-      expect(top('Do these next') < top('SWOT for this mock'), isTrue);
-      expect(top('Mistake Lab') < top('After this mock'), isTrue);
+      expect(top('Do these next') < top('What this paper showed'), isTrue);
+      expect(top('How the marks split') < top('Strengths and weaknesses'), isTrue);
       expect(find.text('Partnership'), findsOneWidget);
       expect(find.text('14 right of 16 across 4 papers, 4 of 4 in this one.'), findsOneWidget);
       expect(find.text('Practise 10 on Accounting Ratios'), findsOneWidget);
@@ -105,9 +105,10 @@ void main() {
         'swot': {'version': 1, 'state': 'checks_pending', 'message': 'This read appears once the answer checks load.', 'basis': null, 'quadrants': <Object>[], 'plan': <Object>[]},
       });
       expect(find.text('This read appears once the answer checks load.'), findsOneWidget);
-      expect(find.text('After this mock'), findsNothing);
+      // The open analysis keeps its plain heading, with the server's line under it.
+      expect(find.text('Strengths and weaknesses'), findsOneWidget);
       expect(find.text('Do these next'), findsNothing);
-      expect(find.text('SWOT for this mock'), findsNothing);
+      expect(find.text('What this paper showed'), findsNothing);
       expect(find.text('Set up'), findsNothing);
       expect(find.text('Strengths'), findsNothing);
     });
@@ -117,7 +118,7 @@ void main() {
         'swot': {'version': 1, 'state': 'too_few', 'message': 'Answer at least 10 questions for a read of this paper.', 'basis': null, 'quadrants': <Object>[], 'plan': <Object>[]},
       });
       expect(find.text('Answer at least 10 questions for a read of this paper.'), findsOneWidget);
-      expect(find.text('After this mock'), findsNothing);
+      expect(find.text('Strengths and weaknesses'), findsOneWidget);
       expect(find.text('Set up'), findsNothing);
     });
 
@@ -129,10 +130,10 @@ void main() {
       ]) {
         SwotSection.debugResetSeen();
         await pump(tester, extra);
-        expect(find.text('After this mock'), findsNothing, reason: '$extra');
+        expect(find.text('Strengths and weaknesses'), findsNothing, reason: '$extra');
         expect(find.text('Do these next'), findsNothing);
         expect(find.text('Hello.'), findsNothing);
-        expect(find.text('Mistake Lab'), findsOneWidget, reason: 'the rest of the result is untouched');
+        expect(find.text('How the marks split'), findsOneWidget, reason: 'the rest of the result is untouched');
       }
     });
 
@@ -198,7 +199,7 @@ void main() {
           swot['basis'] = null;
         }),
       );
-      expect(find.text('SWOT for this mock'), findsOneWidget);
+      expect(find.text('What this paper showed'), findsOneWidget);
       expect(find.text('Strengths'), findsOneWidget);
     });
   });
@@ -217,7 +218,7 @@ void main() {
         }),
       );
       AnswerRow? row(int n) => tester.widgetList<AnswerRow>(find.byWidgetPredicate((w) => w is AnswerRow && w.item.number == n, skipOffstage: false)).firstOrNull;
-      expect(row(right)!.expanded, isFalse);
+      expect(row(right), isNull, reason: 'right rows are not built while their group is folded');
       expect(row(blank), isNull, reason: 'blank rows are not built while their group is folded');
       await seeInMiddle(tester, find.text('Q$right'));
       await tester.tap(find.text('Q$right'));
@@ -451,7 +452,7 @@ void main() {
         await pump(tester, raw, brightness: brightness, textScale: 1.3, size: const Size(360, 780));
         expect(tester.takeException(), isNull);
         final swot = raw['swot'] as Map<String, dynamic>;
-        expect(find.text('After this mock'), findsOneWidget);
+        expect(find.text('Strengths and weaknesses'), findsOneWidget);
         // Every sentence the server sent is on screen as many times as the server sent it (a plan
         // reason and the item it comes from can be the same sentence).
         final sent = <String>[

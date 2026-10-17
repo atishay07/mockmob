@@ -38,7 +38,7 @@ void main() {
     await pump(tester, lab: labContract('replay'));
     expect(find.byType(ReplaySection), findsOneWidget);
     double top(Finder f) => tester.getTopLeft(f.first).dy;
-    expect(top(find.text('Mistake Lab')) < top(find.text('Replay')), isTrue);
+    expect(top(find.text('How the marks split')) < top(find.text('Replay')), isTrue);
     expect(top(find.text('Replay')) < top(find.text(TimeCopy.title)), isTrue);
     // Time and decisions reads the server's sentences.
     final summary = (labContract('replay')['time'] as Map)['summary'] as Map;

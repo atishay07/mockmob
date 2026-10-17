@@ -139,7 +139,7 @@ void main() {
     testWidgets('the right answers are reachable without passing every blank', (tester) async {
       final f = firstBusinessStudiesMock(paper: blanksOnlyPaper());
       await open(tester, '/result/a7', f.model, f.detail);
-      final correct = find.text('Right answers (10)');
+      final correct = find.text('10 answered right');
       await tester.scrollUntilVisible(correct, 300, scrollable: find.byType(Scrollable).first);
       expect(correct, findsOneWidget);
       expect(blankRows, findsNothing);

@@ -59,7 +59,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 300));
   }
 
-  testWidgets('the full result shows Time and decisions after the Mistake Lab, and each answer its own time and picks', (tester) async {
+  testWidgets('the full result shows Time and decisions after how the marks split, and each answer its own time and picks', (tester) async {
     final r = _withRecord();
     await pump(tester, r.json);
     final at = r.changed * 60;
@@ -70,8 +70,8 @@ void main() {
     expect(find.text(TimeCopy.longestTitle), findsOneWidget);
     expect(find.text(TimeCopy.changesTitle), findsOneWidget);
     expect(find.text('You changed one answer. Net effect on your marks: −6.'), findsOneWidget);
-    // The section reads after the Mistake Lab.
-    expect(tester.getTopLeft(find.text('Mistake Lab')).dy < tester.getTopLeft(find.text(TimeCopy.title)).dy, isTrue);
+    // The section reads after how the marks split.
+    expect(tester.getTopLeft(find.text('How the marks split')).dy < tester.getTopLeft(find.text(TimeCopy.title)).dy, isTrue);
 
     // A mistake opens on a tap (none opens by itself, RESULT-1017 4.5): its own time and picks, in the same words.
     final summary = find.byWidgetPredicate((w) => w is MistakeSummary && w.number == r.changed + 1, skipOffstage: false);

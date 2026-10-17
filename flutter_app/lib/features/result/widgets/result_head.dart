@@ -23,6 +23,7 @@ class ResultHead extends StatefulWidget {
     this.onNotice,
     this.arrival = false,
     this.beside,
+    this.mobi,
     this.scored,
     this.max,
   });
@@ -38,6 +39,10 @@ class ResultHead extends StatefulWidget {
 
   /// Drawn at the score's right (the subject's emblem on a mock).
   final Widget? beside;
+
+  /// Mobi's reveal beside the one-line "what happened" (v15 spec 3.1: the 17 Oct cut put back, N12). Null on an NTA paper
+  /// and wherever the page carries no Mobi; the line then takes the full width.
+  final Widget? mobi;
 
   /// The server's own figure and maximum when it has them (a corrected key moves the figure); else the rows' count.
   final int? scored;
@@ -118,10 +123,25 @@ class _ResultHeadState extends State<ResultHead> with SingleTickerProviderStateM
         const SizedBox(height: MmSpace.s8),
         _Rise(animation: rise, child: MarksLegend(marks: m)),
         const SizedBox(height: MmSpace.s20),
-        _Rise(
-          animation: rise,
-          child: CostliestBlock(costliest: widget.costliest, notice: widget.notice, onNotice: widget.onNotice),
-        ),
+        if (widget.mobi == null)
+          _Rise(
+            animation: rise,
+            child: CostliestBlock(costliest: widget.costliest, notice: widget.notice, onNotice: widget.onNotice),
+          )
+        else
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              widget.mobi!,
+              const SizedBox(width: MmSpace.s12),
+              Expanded(
+                child: _Rise(
+                  animation: rise,
+                  child: CostliestBlock(costliest: widget.costliest, notice: widget.notice, onNotice: widget.onNotice),
+                ),
+              ),
+            ],
+          ),
       ],
     );
   }

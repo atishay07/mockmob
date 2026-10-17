@@ -4,6 +4,8 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/art/art.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../result/model/weak_chapters.dart' show WeakChapter;
+import '../../result/widgets/weak_chapters_list.dart' show WeakChapterRow;
 import '../copy.dart';
 import '../data/insights_models.dart';
 import '../data/subject_names.dart';
@@ -17,10 +19,10 @@ const _tabular = [FontFeature.tabularFigures()];
 
 // ---- Chapters ------------------------------------------------------------------------------
 
-/// Chapters by the marks their wrong and blank answers were worth, as a ranked bar chart: each
-/// bar is that chapter's open marks against the largest, the figure sits at its end, and the
-/// counts behind it are under it. Free accounts see the first three, as on the website. The bars
-/// grow in one after another (45 ms apart, 450 ms each) when the chart is in view, once per visit.
+/// The chapters that cost the most marks, in the one presentation the result uses for "Where your marks went" (v15 spec 3.1,
+/// N15: the old "chapters by marks left open" bar chart is gone): each chapter with the marks lost of the marks it had, a bar of
+/// that share, what happened in it and a Practise key. Free accounts see the first three, as on the website. A chapter with
+/// fewer than four answers is too thin to rank and sits under one quiet row.
 class ChaptersSection extends StatefulWidget {
   const ChaptersSection({super.key, required this.ranked, required this.thin, required this.pro, required this.onPractise});
 
@@ -43,13 +45,12 @@ class _ChaptersSectionState extends State<ChaptersSection> {
     final colors = context.mmColors;
     final shown = widget.pro ? widget.ranked : widget.ranked.take(ChaptersSection.freeLimit).toList();
     final locked = widget.ranked.length - shown.length;
-    final maxOpen = shown.fold<int>(1, (m, c) => c.open > m ? c.open : m);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         for (var i = 0; i < shown.length; i++) ...[
           if (i > 0) Divider(height: 1, color: colors.line),
-          _ChapterRow(rank: i + 1, line: shown[i], maxOpen: maxOpen, delay: Duration(milliseconds: 45 * i), onPractise: () => widget.onPractise(shown[i])),
+          WeakChapterRow(chapter: _weak(shown[i]), subtitle: subjectDisplayName(shown[i].subject), onPractise: () => widget.onPractise(shown[i])),
         ],
         if (locked > 0) ...[const SizedBox(height: MmSpace.s12), ProRow(InsightsCopy.proMore(locked))],
         if (widget.thin.isNotEmpty) ...[
@@ -69,34 +70,27 @@ class _ChaptersSectionState extends State<ChaptersSection> {
             ),
           ),
           if (_thinOpen)
-            for (final t in widget.thin.take(12)) _ChapterRow(line: t, onPractise: () => widget.onPractise(t), compact: true),
+            for (final t in widget.thin.take(12)) _ThinChapterRow(line: t, onPractise: () => widget.onPractise(t)),
         ],
       ],
     );
   }
+
+  static WeakChapter _weak(ChapterLine c) => WeakChapter(chapter: c.chapter, questions: c.n, right: c.right, wrong: c.wrong, blank: c.skip);
 }
 
-/// One chapter: the whole row is the way into practising it (48 dp or more, with a chevron), so
-/// there is no second "Practise" word to hit. The open-marks bar and its figure span the width of
-/// the text column, and the counts sit under it on one line.
-class _ChapterRow extends StatelessWidget {
-  const _ChapterRow({required this.line, required this.onPractise, this.compact = false, this.rank, this.maxOpen = 1, this.delay = Duration.zero});
+/// A chapter too thin to rank: the whole row opens its practice (48 dp or more, with a chevron); the counts sit under its name.
+class _ThinChapterRow extends StatelessWidget {
+  const _ThinChapterRow({required this.line, required this.onPractise});
 
   final ChapterLine line;
   final VoidCallback onPractise;
-  final bool compact;
-
-  /// 1-based rank in the chart; null for a chapter that is too thin to rank.
-  final int? rank;
-  final int maxOpen;
-  final Duration delay;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
     final c = line;
-    final ranked = rank != null && !compact;
     final counts = InsightsCopy.chapterCounts(c.right, c.wrong, c.skip, c.n);
     return MmPressable(
       onTap: onPractise,
@@ -106,18 +100,10 @@ class _ChapterRow extends StatelessWidget {
       highlight: true,
       pressedScale: 0.99,
       builder: (context, pressed, _) => Padding(
-        padding: EdgeInsets.symmetric(vertical: compact ? MmSpace.s8 : MmSpace.s16),
+        padding: const EdgeInsets.symmetric(vertical: MmSpace.s8),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (ranked)
-              SizedBox(
-                width: 34,
-                child: Text(
-                  '$rank',
-                  style: type.figureCompact.copyWith(fontSize: 34, height: 1, color: rank == 1 ? colors.ink : colors.ink3, fontFeatures: _tabular),
-                ),
-              ),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,29 +111,9 @@ class _ChapterRow extends StatelessWidget {
                   Text(c.chapter, style: type.labelLarge, maxLines: 2, overflow: TextOverflow.ellipsis),
                   Text(subjectDisplayName(c.subject), style: type.caption.copyWith(color: colors.ink3)),
                   const SizedBox(height: MmSpace.s12),
-                  if (ranked)
-                    Row(
-                      children: [
-                        Expanded(child: _OpenBar(fraction: c.open / maxOpen, delay: delay)),
-                        const SizedBox(width: MmSpace.s12),
-                        // The figure and its unit in one run, so they share a baseline.
-                        Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(text: '${c.open}', style: type.figureCompact.copyWith(fontSize: 26, height: 1, fontFeatures: _tabular)),
-                              TextSpan(text: ' marks', style: type.label.copyWith(color: colors.ink2)),
-                            ],
-                          ),
-                        ),
-                      ],
-                    )
-                  else
-                    MarksBar(right: c.right, wrong: c.wrong, blank: c.skip, height: 6),
+                  MarksBar(right: c.right, wrong: c.wrong, blank: c.skip, height: 6),
                   const SizedBox(height: MmSpace.s8),
-                  Text(
-                    ranked ? '$counts.' : '$counts. ${InsightsCopy.chapterOpen(c.open)}.',
-                    style: type.caption.copyWith(color: colors.ink2, fontFeatures: _tabular),
-                  ),
+                  Text('$counts. ${InsightsCopy.chapterOpen(c.open)}.', style: type.caption.copyWith(color: colors.ink2, fontFeatures: _tabular)),
                 ],
               ),
             ),
@@ -157,28 +123,6 @@ class _ChapterRow extends StatelessWidget {
               child: Icon(LucideIcons.chevronRight, size: 20, color: colors.ink3),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-/// One chapter's open marks as a bar on a track: coral, rounded, growing in from the left.
-class _OpenBar extends StatelessWidget {
-  const _OpenBar({required this.fraction, required this.delay});
-
-  final double fraction;
-  final Duration delay;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    return ExcludeSemantics(
-      child: GrowIn(
-        delay: delay,
-        builder: (context, t) => SizedBox(
-          height: 12,
-          child: CustomPaint(painter: _BarPainter(fraction: fraction * t, fill: colors.wrongMark, track: colors.sunken, line: colors.line)),
         ),
       ),
     );

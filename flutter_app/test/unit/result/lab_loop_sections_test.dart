@@ -211,7 +211,7 @@ void main() {
 
     testWidgets('an older server: none of it, and the page as before', (tester) async {
       await pump(tester, labContract('ready'));
-      await tester.scrollUntilVisible(find.text('Every answer, all 50'), 400, scrollable: _page);
+      await tester.scrollUntilVisible(find.text('Take another fresh paper'), 400, scrollable: _page);
       expect(find.byType(AcrossMocksView), findsNothing);
       expect(find.byType(RuleCheckView), findsNothing);
       expect(find.textContaining('Your rules'), findsNothing);

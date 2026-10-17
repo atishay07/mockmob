@@ -371,6 +371,10 @@ abstract final class ResultCopy {
 
   static String replayClockSpoken(String clock) => 'Replay at $clock';
 
+  /// The replay's one toggle (D17): the whole paper on one line, or the server's rows of [minutes] each.
+  static const replayOneLine = 'Show the whole paper on one line';
+  static String replayByRows(int minutes) => 'Show $minutes minutes a line';
+
   static String replayMapSpoken(int answered, int opened, int total) => '$answered of $total questions answered and $opened opened at this moment.';
 
   static String replayBarSpoken(int n, String result, String from, String to, List<String> away) {
