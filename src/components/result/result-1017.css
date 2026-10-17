@@ -260,7 +260,7 @@
 @media (max-width: 560px) {
   .rl-page .rh { grid-template-columns: minmax(0, 1fr); position: relative; }
   .rl-page .rh-pip { position: absolute; top: 14px; right: 12px; width: 68px; }
-  .rl-page .rh .rp-eyebrow, .rl-page .rh .rp-hero__score { padding-right: 76px; }
+  .rl-page .rh:not([data-mobi='none']) :is(.rp-eyebrow, .rp-hero__score) { padding-right: 76px; }
   .rl-page .rp-stats { gap: 6px; }
   .rl-page .rp-stats div { padding: 8px 8px; }
   .rl-page .rp-stats dd { font-size: 19px; gap: 2px 4px; }
