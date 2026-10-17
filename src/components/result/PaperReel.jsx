@@ -143,7 +143,10 @@ export default function PaperReel({ script, onClose, onAct, autoplay = true }) {
       <div className="pbk-stage">
         <header className="pbk-head">
           <h2 id="pbk-title">{W.title}</h2>
-          <button type="button" className="pbk-skip mk-press" ref={skip} onClick={onClose}>{finished || reduced ? W.close : W.skip}</button>
+          <div className="pbk-head__ctl">
+            {atEnd ? <button type="button" className="pbk-link" onClick={reduced ? stepThrough : again}>{reduced ? W.step : W.again}</button> : null}
+            <button type="button" className="pbk-skip mk-press" ref={skip} onClick={onClose}>{finished || reduced ? W.close : W.skip}</button>
+          </div>
         </header>
 
         <p className="pbk-score" aria-hidden="true"><b>{f.marks < 0 ? `−${-f.marks}` : f.marks}</b><span>{fill(W.marksOf, { max: script.max })}</span></p>
@@ -184,9 +187,6 @@ export default function PaperReel({ script, onClose, onAct, autoplay = true }) {
               ) : null}
               {script.next ? <h3 className="pbk-nexthead">{W.next}</h3> : null}
               <Key next={script.next} onAct={onAct} onClose={onClose} />
-              <div className="pbk-more">
-                {reduced ? <button type="button" className="pbk-link" onClick={stepThrough}>{W.step}</button> : <button type="button" className="pbk-link" onClick={again}>{W.again}</button>}
-              </div>
             </>
           ) : null}
         </div>

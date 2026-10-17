@@ -14,12 +14,13 @@
 @keyframes pbk-in { from { opacity: 0; } to { opacity: 1; } }
 .pbk-stage { width: min(100%, 520px); min-height: 100%; margin: 0 auto; padding: 4px 16px 28px; display: flex; flex-direction: column; box-sizing: border-box; }
 .pbk-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; }
+.pbk-head__ctl { display: flex; align-items: center; gap: 6px; }
 .pbk-head h2 { margin: 0; font: 650 15px/1.3 var(--font-body); color: var(--a-ink-2); }
 .pbk-scrim .pbk-skip { min-height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid var(--a-line-strong); background: none; color: var(--a-ink); font: 650 14.5px/1 var(--font-body); cursor: pointer; transition: transform 160ms var(--pbk-ease); }
 .pbk-scrim .pbk-skip:active { transform: scale(0.97); }
 .pbk-scrim :is(.pbk-skip, .pbk-key, .pbk-link):focus-visible { outline: 2px solid var(--a-focus, var(--a-accent-text)); outline-offset: 2px; }
 
-.pbk-score { margin: 14px 0 18px; display: flex; align-items: baseline; gap: 10px; }
+.pbk-score { margin: 8px 0 16px; display: flex; align-items: baseline; gap: 10px; }
 .pbk-score b { min-width: 3.4ch; font: 780 76px/1 var(--font-display); letter-spacing: -0.04em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
 .pbk-score span { font: 600 15px/1.2 var(--font-body); color: var(--a-ink-3); }
 
@@ -47,7 +48,7 @@
 .pbk-bar { height: 2px; margin-top: 18px; background: var(--a-line); }
 .pbk-bar i { display: block; height: 100%; background: var(--a-ink-3); transform-origin: left; transform: scaleX(0); }
 
-.pbk-end { margin-top: 22px; min-height: 200px; display: grid; gap: 14px; align-content: start; }
+.pbk-end { margin-top: 18px; min-height: 200px; display: grid; gap: 14px; align-content: start; }
 .pbk-end[data-show] > * { animation: pbk-rise 200ms var(--pbk-ease) both; }
 .pbk-nexthead, .pbk-moments h3 { margin: 0 0 4px; font: 650 15px/1.3 var(--font-body); color: var(--a-ink); }
 .pbk-nexthead { margin: 6px 0 -4px; }
@@ -56,7 +57,6 @@
 .pbk-moments li b { margin-right: 8px; color: var(--a-ink); font-weight: 700; font-variant-numeric: tabular-nums; }
 .pbk-scrim .pbk-key { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 52px; padding: 0 18px; border-radius: 14px; text-decoration: none; cursor: pointer; transition: transform 160ms var(--pbk-ease); }
 .pbk-scrim .pbk-key:active { transform: scale(0.97); }
-.pbk-more { display: flex; justify-content: center; }
 .pbk-scrim .pbk-link { min-height: 44px; padding: 0 8px; border: 0; background: none; cursor: pointer; font: 650 14.5px/1 var(--font-body); color: var(--a-ink); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--a-line-strong); }
 
 @media (prefers-reduced-motion: reduce) {
