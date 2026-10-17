@@ -4,6 +4,7 @@
 // the card reads top to bottom without a hole; changing the duration rolls the number and
 // reshapes the task in place without moving the pill.
 import 'dart:math' as math;
+import 'dart:ui' show ImageFilter;
 
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -15,10 +16,12 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/key_button_motion.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
+import '../copy_glance.dart';
 import '../logic/today_model.dart';
 import 'hero_stage.dart';
 import 'number_block.dart';
 import 'length_pill.dart';
+import 'move_choices.dart';
 import 'today_pill.dart';
 import 'today_entrance.dart';
 import 'today_type.dart';
@@ -36,9 +39,22 @@ class MoveHeroCard extends StatefulWidget {
     this.primaryKey,
     this.controlsKey,
     this.keyPulse,
+    this.choices = const [],
+    this.onChoose,
+    this.onMore,
   });
 
   final MoveHero move;
+
+  /// The two other moves under the key (TODAY-1018 6.1). Empty keeps the older pills (a failed
+  /// read's Practise anyway).
+  final List<MoveChoice> choices;
+
+  /// A choice was tapped: the screen swaps the card to it (or runs its action).
+  final ValueChanged<MoveChoice>? onChoose;
+
+  /// "More ways to practise": the alternatives sheet.
+  final VoidCallback? onMore;
   final void Function(TodayAction action) onAction;
   final ValueChanged<int>? onMinutes;
   final VoidCallback? onShowMe;
@@ -122,7 +138,14 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
         // A failed read has no overline: the bubble and the line under it already say so.
         if (m.overline.isNotEmpty)
           _OneLine(m.overline, style: type.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600, letterSpacing: 0.2)),
-        if (m.subjectLine != null) ...[
+        if (m.title != null) ...[
+          if (m.overline.isNotEmpty) const SizedBox(height: MmSpace.s6),
+          // The move's own title (TODAY-1018): up to two lines beside the object, never squeezed.
+          Semantics(
+            header: true,
+            child: Text(m.title!, maxLines: 2, overflow: TextOverflow.ellipsis, style: type.title.copyWith(fontSize: 22, height: 27 / 22, color: colors.ink)),
+          ),
+        ] else if (m.subjectLine != null) ...[
           if (m.overline.isNotEmpty) const SizedBox(height: MmSpace.s4),
           // The subject is the stage's title: headline size, one line. Beside the object it keeps
           // the art's 12 dp of air (heroArtClear) and scales down rather than run into it.
@@ -154,7 +177,30 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
               label: m.numberLabel,
               besideWidth: box.maxWidth - besideArt,
               // One figure per state and subject: a rebuilt hero rolls on from the count it showed.
-              memoryKey: 'today.hero.${m.state.name}.${m.subjectId ?? 'none'}',
+              memoryKey: widget.choices.isEmpty ? 'today.hero.${m.state.name}.${m.subjectId ?? 'none'}' : 'today.hero.lead',
+            ),
+          ),
+        ],
+        // The value line (TODAY-1018 section 3): what the mistakes cost, and the length as a token
+        // that opens the lengths.
+        if (widget.choices.isNotEmpty && (m.valueLine != null || m.durations.length > 1)) ...[
+          const SizedBox(height: MmSpace.s12),
+          KeyedSubtree(
+            key: widget.controlsKey,
+            child: _ValueLine(
+              text: m.valueLine,
+              minutes: m.durations.length > 1 ? (m.selectedMinutes ?? m.durations.first.minutes) : null,
+              onLength: onMinutes == null || m.durations.length < 2
+                  ? null
+                  : (pillContext) async {
+                      final picked = await LengthPill.openPanel(
+                        pillContext,
+                        durations: m.durations,
+                        selected: m.selectedMinutes ?? m.durations.first.minutes,
+                        title: _lengthTitle(m),
+                      );
+                      if (picked != null && picked != m.selectedMinutes) onMinutes(picked);
+                    },
             ),
           ),
         ],
@@ -171,7 +217,8 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           lines,
-          SizedBox(height: mobi ? MmSpace.s12 : MmSpace.s8),
+          // The value line's token carries its own touch margin, so the gap under it is smaller.
+          SizedBox(height: widget.choices.isNotEmpty && (m.valueLine != null || m.durations.length > 1) ? MmSpace.s12 : (mobi ? MmSpace.s12 : MmSpace.s8)),
           // First the number, then the details (Revolut's staging): the evidence rises in after.
           TodayEnter(
             delay: const Duration(milliseconds: 260),
@@ -247,7 +294,7 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
               ),
             ),
           ),
-          if (sized || m.alternate != null || m.secondary != null) ...[
+          if (widget.choices.isEmpty && (sized || m.alternate != null || m.secondary != null)) ...[
             const SizedBox(height: MmSpace.s12),
             KeyedSubtree(
               key: widget.controlsKey,
@@ -312,16 +359,164 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
       ),
     );
 
+    final swapKey = ValueKey('${m.choiceKey}:${m.kind.name}:${m.subjectId}');
+    final art = mobi
+        ? _MobiArt(pose: HeroArtView.poseFor(m.art.art), controller: mobiController)
+        : HeroArtView(art: m.art, react: _react, onTap: _touchObject);
+    if (widget.choices.isEmpty && widget.onMore == null) {
+      return HeroStage(subjectId: m.subjectId, react: _react, art: art, child: content);
+    }
     return HeroStage(
       subjectId: m.subjectId,
       react: _react,
-      art: mobi
-          ? _MobiArt(pose: HeroArtView.poseFor(m.art.art), controller: mobiController)
-          : HeroArtView(art: m.art, react: _react, onTap: _touchObject),
-      child: content,
+      art: MoveSwap(child: KeyedSubtree(key: swapKey, child: art)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // A choice swaps the body in place (6.2): the old one drops 6 dp and blurs out in 140 ms,
+          // the new one rises in over 240 ms, and the card's height eases between them.
+          MmSizeEase(
+            duration: Motion.ui,
+            curve: Motion.out,
+            alignment: Alignment.topCenter,
+            clipBehavior: Clip.none,
+            child: MoveSwap(child: KeyedSubtree(key: swapKey, child: content)),
+          ),
+          MoveChoicesFooter(choices: widget.choices, onChoose: widget.onChoose, onMore: widget.onMore),
+        ],
+      ),
     );
   }
 }
+
+/// The swap between two moves: the outgoing body fades, blurs 2 px and drops 6 dp in 140 ms; the
+/// incoming one rises into place in 240 ms. Reduced motion swaps at once.
+class MoveSwap extends StatelessWidget {
+  const MoveSwap({super.key, required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final reduced = Motion.reduced(context);
+    return AnimatedSwitcher(
+      duration: reduced ? Duration.zero : const Duration(milliseconds: 240),
+      reverseDuration: reduced ? Duration.zero : const Duration(milliseconds: 140),
+      switchInCurve: const Cubic(0.23, 1, 0.32, 1),
+      switchOutCurve: Curves.easeIn,
+      layoutBuilder: (current, previous) => Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          for (final p in previous) Positioned(left: 0, right: 0, top: 0, child: p),
+          ?current,
+        ],
+      ),
+      transitionBuilder: (child, animation) => AnimatedBuilder(
+        animation: animation,
+        child: child,
+        builder: (context, child) {
+          final t = animation.value.clamp(0.0, 1.0);
+          final leaving = animation.status == AnimationStatus.reverse || animation.status == AnimationStatus.dismissed;
+          // In: rises from 6 dp below. Out: drops 6 dp as it goes.
+          final dy = leaving ? (1 - t) * 6 : (1 - t) * 6;
+          final blur = (1 - t) * 2;
+          Widget out = Opacity(opacity: t, child: Transform.translate(offset: Offset(0, dy), child: child));
+          if (blur > 0.05) out = ImageFiltered(imageFilter: ImageFilter.blur(sigmaX: blur, sigmaY: blur), child: out);
+          return out;
+        },
+      ),
+      child: child,
+    );
+  }
+}
+
+/// "24 marks they cost you" with its figure in ink, and the length token beside it.
+class _ValueLine extends StatelessWidget {
+  const _ValueLine({this.text, this.minutes, this.onLength});
+
+  final String? text;
+  final int? minutes;
+  final Future<void> Function(BuildContext pillContext)? onLength;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final t = text;
+    final style = type.body.copyWith(color: colors.ink2);
+    Widget? words;
+    if (t != null) {
+      final space = t.indexOf(' ');
+      final lead = space > 0 && int.tryParse(t.substring(0, space)) != null ? t.substring(0, space) : null;
+      words = Text.rich(
+        TextSpan(children: [
+          if (lead != null)
+            TextSpan(text: lead, style: TextStyle(color: colors.ink, fontWeight: FontWeight.w700, fontFeatures: const [FontFeature.tabularFigures()])),
+          TextSpan(text: lead == null ? t : t.substring(space)),
+        ]),
+        style: style,
+      );
+    }
+    final m = minutes;
+    return Wrap(
+      spacing: MmSpace.s12,
+      runSpacing: MmSpace.s8,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: [
+        ?words,
+        if (m != null) Builder(builder: (pillContext) => _LengthToken(minutes: m, onTap: onLength == null ? null : () => onLength!(pillContext))),
+      ],
+    );
+  }
+}
+
+/// "about 12 min" as a token: the lengths open from it (TODAY-1018 2.1).
+class _LengthToken extends StatelessWidget {
+  const _LengthToken({required this.minutes, this.onTap});
+
+  final int minutes;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    // 36 dp to see, 48 dp to touch: the slop reaches past the pill without taking layout room.
+    return MmHitSlop.toTarget(
+      visual: 36,
+      child: MmPressable(
+      onTap: onTap,
+      semanticsLabel: GlanceCopy.lengthTokenSemantics(minutes),
+      focusRadius: MmRadius.pillAll,
+      pressedScale: 0.97,
+      haptic: MmPressHaptic.selection,
+      builder: (context, pressed, _) => Align(
+          widthFactor: 1,
+          heightFactor: 1,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 100),
+            height: 36,
+            padding: const EdgeInsets.only(left: MmSpace.s12, right: MmSpace.s8),
+            decoration: ShapeDecoration(
+              color: pressed ? colors.raised2 : colors.ground.withValues(alpha: colors.isNight ? 0.5 : 0.55),
+              shape: StadiumBorder(side: BorderSide(color: colors.lineStrong)),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(GlanceCopy.lengthToken(minutes), style: type.labelLarge.copyWith(fontSize: 14, fontWeight: FontWeight.w600, color: colors.ink)),
+                const SizedBox(width: MmSpace.s4),
+                Icon(LucideIcons.chevronsUpDown, size: 14, color: colors.ink2),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 
 /// The move's sentence with "Show me" as its last words: three small marks for the wrong answers
 /// it holds, then the link. The whole sentence is the touch target (at least 48 dp tall), so the

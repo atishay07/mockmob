@@ -12,6 +12,7 @@ import '../../../core/widgets/bubbles/bubble_painter.dart';
 import '../../rhythm/logic/plan_week.dart';
 import '../../rhythm/logic/week_outlook.dart';
 import '../copy.dart';
+import 'glance_builder.dart';
 import 'move_builder.dart';
 import 'road_builder.dart';
 import 'subjects.dart';
@@ -30,7 +31,9 @@ TodayView buildToday(TodayInputs i) {
     // The road draws from the calendar at once (4.4, late data), so it never arrives under the week.
     return TodayView(header: plain, offline: i.offline, road: buildRoad(i));
   }
-  final move = buildMove(i);
+  // The move in its 1018 words (TODAY-1018): the title over the number, the subject in the
+  // overline, the value line.
+  final move = presentMove(buildMove(i), i);
   final heroes = <TodayHero>[
     ?_resumeOrEnded(i),
     ?_sealed(i),
@@ -52,6 +55,8 @@ TodayView buildToday(TodayInputs i) {
     for (final h in heroes.skip(1)) _slotFor(h),
     if (hero is! MoveHero) _moveSlot(move, lead: moveLeads),
   ];
+  final road = buildRoad(i);
+  final glance = buildGlance(i, lead: move, road: road);
   return TodayView(
     header: header,
     hero: hero,
@@ -59,9 +64,11 @@ TodayView buildToday(TodayInputs i) {
     sheet: buildSheet(i),
     papers: i.attempts?.length ?? 0,
     trend: buildTrend(i),
-    road: buildRoad(i),
+    road: road,
     offline: i.offline,
     lastPaper: buildLastPaper(i),
+    glance: glance,
+    choices: hero is MoveHero ? buildChoices(i, move, weakest: glance.weak.rows.isEmpty ? null : glance.weak.rows.first) : const [],
   );
 }
 

@@ -4,7 +4,10 @@ import '../../../core/domain/next_move.dart';
 import '../../../core/widgets/bubbles/bubble_painter.dart';
 import '../../../core/widgets/art/mm_art.dart';
 import '../../rhythm/logic/plan_week.dart';
+import 'glance_model.dart';
 import 'road_board.dart' show RoadBoard;
+
+export 'glance_model.dart';
 
 /// Where a tap goes. The screen turns each into navigation or a refresh.
 sealed class TodayTarget {
@@ -57,7 +60,7 @@ enum TodayMood { normal, dayOne, returning, lateNight }
 
 /// Which move the card is (TODAY-1017 4.2, and the first-week path of FEATURE-ADOPTION 7): what
 /// the tests and the card's Mobi read, never shown as words.
-enum MoveKind { dayOne, repair, firstRepair, returning, warmUp, revise, done, firstMock, smart, practice, failure, other }
+enum MoveKind { dayOne, repair, firstRepair, returning, warmUp, revise, done, firstMock, smart, practice, failure, other, weakest, mock, otherSubject }
 
 /// One duration chip. [mistakes] is set for a repair (the task shrinks with the time).
 class DurationChoice {
@@ -130,9 +133,56 @@ class MoveHero extends TodayHero {
     this.whyLink,
     this.whyAction,
     this.alternate,
+    this.title,
+    this.valueLine,
+    this.choiceKey,
   });
 
   final NextMoveState state;
+
+  /// The move's own title over the number (TODAY-1018: "Repair your last paper"); the subject
+  /// then moves into the overline ("Up next, Accountancy"). Null keeps [subjectLine] as the title.
+  final String? title;
+
+  /// The value line under the number: the record's arithmetic ("24 marks they cost you"), beside
+  /// the length token. Null shows the token alone (or nothing).
+  final String? valueLine;
+
+  /// What kind of choice this move is ("repair", "revise", "weakest", "mock", "other"), so the
+  /// card's two choices are always a different kind from the lead.
+  final String? choiceKey;
+
+  MoveHero copyWith({String? overline, String? title, String? valueLine, String? choiceKey}) => MoveHero(
+        state: state,
+        mood: mood,
+        overline: overline ?? this.overline,
+        art: art,
+        meaning: meaning,
+        primary: primary,
+        summary: summary,
+        subjectId: subjectId,
+        subjectLine: subjectLine,
+        headline: headline,
+        number: number,
+        numberLabel: numberLabel,
+        evidenceId: evidenceId,
+        evidence: evidence,
+        durationPrompt: durationPrompt,
+        durations: durations,
+        selectedMinutes: selectedMinutes,
+        secondary: secondary,
+        caption: caption,
+        mobiLine: mobiLine,
+        basisLine: basisLine,
+        dismissedLine: dismissedLine,
+        kind: kind,
+        whyLink: whyLink,
+        whyAction: whyAction,
+        alternate: alternate,
+        title: title ?? this.title,
+        valueLine: valueLine ?? this.valueLine,
+        choiceKey: choiceKey ?? this.choiceKey,
+      );
 
   /// Which move this is (see [MoveKind]).
   final MoveKind kind;
@@ -547,7 +597,17 @@ class TodayView {
     this.road,
     this.offline = false,
     this.lastPaper,
+    this.choices = const [],
+    this.glance,
   });
+
+  /// The lead card's other moves (TODAY-1018 6.1): the best alternatives of a different kind, each
+  /// one a whole move the card swaps to in place (or an action for a choice that only opens).
+  final List<MoveChoice> choices;
+
+  /// Today 1018's blocks under the move: the week's day readouts, the three-layer road, weak
+  /// chapters, the last paper in full, and the Repairs and Revise tiles. Null while loading.
+  final TodayGlance? glance;
 
   /// The newest opened paper, or null when there is none (the row is then not there).
   final LastPaper? lastPaper;

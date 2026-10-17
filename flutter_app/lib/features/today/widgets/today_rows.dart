@@ -26,7 +26,11 @@ class TodayRows extends StatelessWidget {
     this.onChoose,
     this.onRetry,
     this.showColleges = true,
+    this.headed = false,
   });
+
+  /// A section head above says "Your colleges" already: the row drops its own small label.
+  final bool headed;
 
   final LastPaper? lastPaper;
 
@@ -83,7 +87,7 @@ class TodayRows extends StatelessWidget {
     if (first != null) {
       final more = collegesSaved - 1;
       return _Row(
-        label: TodayCopy.collegesRowTitle,
+        label: headed ? null : TodayCopy.collegesRowTitle,
         title: first.college,
         sub: TodayCopy.collegesSub(first.course, more < 0 ? 0 : more),
         figure: first.score,
@@ -118,8 +122,10 @@ class TodayRows extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(TodayCopy.collegesRowTitle, style: type.caption.copyWith(color: colors.ink3)),
-                  const SizedBox(height: MmSpace.s2),
+                  if (!headed) ...[
+                    Text(TodayCopy.collegesRowTitle, style: type.caption.copyWith(color: colors.ink3)),
+                    const SizedBox(height: MmSpace.s2),
+                  ],
                   Text(TodayCopy.collegesEmpty, style: type.body.copyWith(color: colors.ink)),
                 ],
               ),
@@ -141,7 +147,7 @@ class TodayRows extends StatelessWidget {
 class _Row extends StatelessWidget {
   const _Row({required this.label, required this.title, required this.sub, required this.figure, this.denominator, this.subAccent, this.onTap});
 
-  final String label;
+  final String? label;
   final String title;
   final String sub;
 
@@ -160,7 +166,7 @@ class _Row extends StatelessWidget {
     final at = subAccent == null ? -1 : sub.indexOf(subAccent!);
     return MmPressable(
       onTap: onTap,
-      semanticsLabel: TodayCopy.rowSemantics(label, title, sub, denominator == null ? figure : '$figure ${denominator!}'),
+      semanticsLabel: TodayCopy.rowSemantics(label ?? TodayCopy.collegesRowTitle, title, sub, denominator == null ? figure : '$figure ${denominator!}'),
       focusRadius: MmRadius.smallAll,
       pressedScale: 0.99,
       haptic: MmPressHaptic.selection,
@@ -177,8 +183,10 @@ class _Row extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(label, style: type.caption.copyWith(color: colors.ink3)),
-                  const SizedBox(height: MmSpace.s2),
+                  if (label != null) ...[
+                    Text(label!, style: type.caption.copyWith(color: colors.ink3)),
+                    const SizedBox(height: MmSpace.s2),
+                  ],
                   Text(title, maxLines: 2, overflow: TextOverflow.ellipsis, style: type.labelLarge.copyWith(fontSize: 16, fontWeight: FontWeight.w600, color: colors.ink)),
                   const SizedBox(height: MmSpace.s2),
                   Text.rich(

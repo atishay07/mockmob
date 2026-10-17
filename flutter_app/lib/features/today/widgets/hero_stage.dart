@@ -173,7 +173,9 @@ class HeroStage extends StatelessWidget {
       ),
     );
 
-    if (!lit) return framed;
+    // Night keeps no volt edge line (D7, TODAY-1018 2: a neutral edge, volt only on the key and
+    // the counted days); the warm edge painter above carries the light. Day keeps its highlight.
+    if (!lit || colors.isNight) return framed;
     // No glow under the lit edge (owner, 17 Oct): the edge line alone carries the light.
     return LitEdge(borderRadius: heroBorderRadius, child: framed);
   }
