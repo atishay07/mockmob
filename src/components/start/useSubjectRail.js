@@ -126,9 +126,11 @@ export function useSubjectRail(selected, active = true) {
     const clear = Math.max(CLEAR_PX, padStart(el));
     const left = chip.offsetLeft;
     const right = left + chip.offsetWidth;
+    // A chip out of view comes to rest with its start at the scroll padding: that is a snap position, so the row's
+    // proximity snap cannot pull it back once the glide ends (with the 88 px chips, a 'just in view' stop fell between
+    // snap positions and the row snapped back, leaving the chosen chip half off screen).
     let target = from;
-    if (left - clear < from) target = left - clear;
-    else if (right + clear > from + el.clientWidth) target = right + clear - el.clientWidth;
+    if (left - clear < from || right + clear > from + el.clientWidth) target = left - clear;
     if (Math.abs(target - from) < 1) return;
     if (instant) { stop(); el.scrollLeft = clamp(target, 0, maxScroll(el)); measure(); return; }
     glideTo(target, SETTLE_TAU_MS);

@@ -188,3 +188,22 @@
 :root[data-motion='reduced'] .pr-run .nta-option { transition: border-color 120ms linear, background-color 120ms linear; transform: none !important; }
 :root[data-motion='reduced'] .pr-run :is(.nta-option, .nta-option.is-selected)::before { clip-path: none; transition: opacity 120ms linear; }
 :root[data-motion='reduced'] .pr-run .nta-option.is-selected .nta-option-letter { animation: none; }
+
+/* The NTA paper's loading screen (TestPageClient NtaValidationSpinner): the running stopwatch beside what is happening.
+   Arena tokens, so Night and Day match; one ruled panel, no glass and no glow. */
+.nta-build { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 18px; align-items: start; padding: 22px 20px; border: 1px solid var(--a-line); border-radius: 20px; background: var(--a-raised, #151b16); }
+.nta-build__watch { display: block; margin-top: 2px; overflow: visible; }
+.nta-build__crown { fill: var(--a-ink-2, #c9cdc2); }
+.nta-build__case { fill: var(--a-sunken, #0f140f); stroke: var(--a-ink-2, #c9cdc2); stroke-width: 2.5; }
+.nta-build__face { fill: var(--a-raised-2, #1c231d); }
+.nta-build__tick { stroke: var(--a-ink-3, #9aa094); stroke-width: 1.6; stroke-linecap: round; }
+.nta-build__hand { transform-box: view-box; transform-origin: 32px 42px; animation: nta-build-turn 1.6s linear infinite; }
+.nta-build__hand line { stroke: var(--a-accent-text, #d2f000); stroke-width: 3; stroke-linecap: round; }
+.nta-build__pin { fill: var(--a-ink, #f3f4ee); }
+@keyframes nta-build-turn { to { rotate: 360deg; } }
+@media (prefers-reduced-motion: reduce) { .nta-build__hand { animation: none; } }
+:root[data-motion='reduced'] .nta-build__hand { animation: none; }
+.nta-build__title { margin: 0; font: 750 24px/1.15 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink, #f3f4ee); text-wrap: balance; }
+.nta-build__line { margin: 10px 0 0; max-width: 56ch; font-size: 15px; line-height: 1.5; color: var(--a-ink-2, #c9cdc2); }
+.nta-build__line--quiet { margin-top: 6px; font-size: 13.5px; color: var(--a-ink-3, #9aa094); }
+@media (min-width: 768px) { .nta-build { padding: 28px; gap: 24px; } .nta-build__title { font-size: 28px; } }

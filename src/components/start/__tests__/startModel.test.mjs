@@ -135,11 +135,20 @@ test('the hero is the live plan, with the chosen subject added to a bare practic
 test('rows: Quick practice folds into a hero that is already 10 questions; NTA says Pro on Free', () => {
   const plan = learningPlan({ minutes: 10 });
   const merged = startRows({ plan, subjects: ['accountancy', 'economics'], subject: 'economics', balance: 40 });
-  assert.deepEqual(merged.rows.map((r) => r.id), ['full', 'nta']);
+  // Every mode the app offers is a button in the sheet (owner F5): the exam pair, then By chapter and Smart practice.
+  assert.deepEqual(merged.rows.map((r) => r.id), ['full', 'nta', 'chapter', 'smart']);
   assert.equal(merged.choose.href, '/dashboard');
   assert.equal(merged.section, 'Or start something else');
   // Every session is a button with a go mark that says where it goes: start a session, or open Practice.
-  assert.deepEqual([...merged.rows, merged.choose].map((r) => r.go), ['start', 'start', 'open']);
+  assert.deepEqual([...merged.rows, merged.choose].map((r) => r.go), ['start', 'start', 'start', 'start', 'open']);
+  // Each one says what pressing it does.
+  assert.deepEqual([...merged.rows, merged.choose].map((r) => r.action), ['Set up', 'Set up', 'Pick chapters', 'Set up', 'Open']);
+  assert.equal(merged.rows[2].href, '/dashboard?subject=economics&mode=quick&count=10&pick=chapters');
+  assert.equal(merged.rows[3].href, '/dashboard?subject=economics&mode=smart');
+  assert.equal(merged.rows[3].cost.text, 'Needs Pro');
+  assert.equal(merged.rows[3].tag, 'Pro');
+  // The exam pair's tiles carry the short cost, two lines at most in a half-width tile on a phone.
+  assert.deepEqual(merged.rows[0].cost, { text: '50 credits. You have 40.', tone: 'short' });
   assert.equal(merged.rows[0].detail, '50 Economics questions, 60 minutes, a new paper every time');
   assert.equal(merged.rows[0].graphic, 'stopwatch');
   assert.equal(merged.rows[1].detail, 'The exam-day screen in Economics, 50 questions in 60 minutes');
@@ -148,26 +157,26 @@ test('rows: Quick practice folds into a hero that is already 10 questions; NTA s
   // A fixed hero (a resume) stays above the rail: the Quick practice row comes back and the label names the subject.
   const fixed = startRows({ plan: { primary: { kind: 'resume_session', title: 'Finish your recall session', href: '/recall?session=r1', reason: '7 cards left.' } }, subjects: ['accountancy', 'economics'], subject: 'economics', balance: 40 });
   assert.equal(fixed.hero.followsSubject, false);
-  assert.deepEqual(fixed.rows.map((r) => r.id), ['quick', 'full', 'nta']);
+  assert.deepEqual(fixed.rows.map((r) => r.id), ['quick', 'full', 'nta', 'chapter', 'smart']);
   assert.equal(fixed.section, 'Or start in Economics');
   assert.equal(startRows({ plan: null, subjects: ['economics'] }).section, 'Pick a session');
 
   const twenty = startRows({ plan: learningPlan({ minutes: 20 }), subjects: ['accountancy'], balance: 40 });
-  assert.deepEqual(twenty.rows.map((r) => r.id), ['quick', 'full', 'nta']);
+  assert.deepEqual(twenty.rows.map((r) => r.id), ['quick', 'full', 'nta', 'chapter', 'smart']);
   const quick = twenty.rows[0];
   assert.equal(quick.href, '/dashboard?subject=accountancy&mode=quick&count=10');
   assert.equal(quick.detail, '10 Accountancy questions, about 10 minutes');
 
   const loading = startRows({ plan: null, subjects: ['economics'], balance: 40 });
   assert.equal(loading.hero, null);
-  assert.deepEqual(loading.rows.map((r) => r.id), ['quick', 'full', 'nta']);
+  assert.deepEqual(loading.rows.map((r) => r.id), ['quick', 'full', 'nta', 'chapter', 'smart']);
   const nta = loading.rows.find((r) => r.id === 'nta');
   assert.equal(nta.tag, 'Pro', 'locked on Free: an outlined Pro tag on the tile, and the cost line says Needs Pro');
   assert.equal(nta.href, '/dashboard?subject=economics&mode=nta&interface=nta');
-  assert.equal(nta.cost.text, 'Needs Pro.');
+  assert.equal(nta.cost.text, 'Needs Pro');
   const ntaPro = startRows({ plan: null, subjects: ['economics'], pro: true }).rows.find((r) => r.id === 'nta');
   assert.equal(ntaPro.tag, null, 'Pro: no tag');
-  assert.equal(ntaPro.cost.text, 'Included with Pro.');
+  assert.equal(ntaPro.cost.text, 'Included with Pro');
 });
 
 test('copy rules: sentence case, no exclamation mark, no em dash', () => {

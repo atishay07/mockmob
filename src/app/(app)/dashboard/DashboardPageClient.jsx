@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Check, Target } from 'lucide-react';
+import { Check, Play, SlidersHorizontal, Target } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { AppIcon, CreditAmount, StatusIcon } from '@/components/ui/Glyph';
 import { Button } from '@/components/ui/Button';
@@ -82,10 +82,30 @@ function ModeArt({ id, subjectId, on }) {
   return <ExamPanel width={66} height={56} />;
 }
 
+// The exam pair's start moment (owner, 15 Oct: "the clock doing a 360"). Pressing Start on a Full mock or NTA mode turns
+// the stopwatch's hand once round, in the mode's tile and on the Start key, before the paper opens. 640 ms; with reduced
+// motion the key only dims for 160 ms.
+const START_TURN_MS = 640;
+const START_FADE_MS = 160;
+
+/** A small drawn stopwatch for the exam pair's Start key; its hand turns once on the start moment (practice.css). */
+function ClockGlyph({ size = 18 }) {
+  return (
+    <svg className="pr-clock" viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" focusable="false">
+      <rect x="9.5" y="1.6" width="5" height="2.6" rx="1.1" className="pr-clock__crown" />
+      <circle cx="12" cy="13.6" r="8.2" className="pr-clock__face" />
+      <g className="pr-clock__hand"><line x1="12" y1="13.6" x2="12" y2="8" /></g>
+      <circle cx="12" cy="13.6" r="1.4" className="pr-clock__pin" />
+    </svg>
+  );
+}
+
 function PracticeSkeleton() {
   // Shapes that hold the setup's places (subjects, four tiles, the length, fine-tune, the session), so nothing jumps.
   return (
-    <div className="pr view pr-skeleton" aria-busy="true" aria-label="Loading practice">
+    // data-owns-start from the first frame, so the sidebar's Start key keeps one look for the whole visit (it used to show
+    // volt while this skeleton was up and turn quiet once the page landed).
+    <div className="pr view pr-skeleton" aria-busy="true" aria-label="Loading practice" data-owns-start="">
       <div className="pr-skel pr-skel--h1 skeleton" />
       <div className="pr-skel pr-skel--line skeleton" />
       <div className="pr-layout">
@@ -141,6 +161,12 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
   // Which console NTA mode opens in: MockMob's own layout, or the conventional exam-style screen.
   const [ntaScreen, setNtaScreen] = useState(() => (searchParams.get('interface') === 'nta' ? 'nta' : 'mockmob'));
   const [isLaunching, setIsLaunching] = useState(false);
+  // 'turn' while the exam pair's start moment plays (the stopwatch hand goes once round), then the paper opens.
+  const [launchMoment, setLaunchMoment] = useState(null);
+  // Counts mode changes, so the Start key answers a tile press with a small settle (the press visibly sets the session up).
+  const [modeNudge, setModeNudge] = useState(0);
+  // ?pick=chapters (the Start sheet's By chapter row): the chapter list opens as the page lands.
+  const pickChapters = searchParams.get('pick') === 'chapters';
   // A start that takes longer than 600 ms gets Mobi thinking in the card (D9); a quick one never shows him.
   const [slowLaunch, setSlowLaunch] = useState(false);
   const launchingKeyRef = useRef(null);
@@ -326,6 +352,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
     const before = fineTuneScope(effectiveModeId);
     const after = fineTuneScope(id);
     setSelMode(id);
+    if (id !== effectiveModeId) setModeNudge((n) => n + 1);
     setCount((current) => resolveCount(next, current));
     if (!after.difficulty) setDifficultyMode('auto');
     if (!before.chapters && after.chapters && selectedChapters.length) {
@@ -433,7 +460,14 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
     toast.success('Starting your session…');
     const tonight = new URLSearchParams();
     for (const name of ['tonightKey','tonightMinutes']) if (searchParams.get(name)) tonight.set(name,searchParams.get(name));
-    router.push(`${launchHref}&generationKey=${encodeURIComponent(launchingKeyRef.current)}${tonight.size ? `&${tonight}` : ''}`);
+    const target = `${launchHref}&generationKey=${encodeURIComponent(launchingKeyRef.current)}${tonight.size ? `&${tonight}` : ''}`;
+    // A Full mock or NTA paper opens on its start moment: the clock turns once, then the paper loads. Short sessions go now.
+    if (mode.id === 'full' || mode.id === 'nta') {
+      setLaunchMoment('turn');
+      window.setTimeout(() => router.push(target), reducedMotion() ? START_FADE_MS : START_TURN_MS);
+      return;
+    }
+    router.push(target);
   }
 
   // The card's Chapters and Difficulty rows go to Fine-tune and put focus on its first control.
@@ -451,20 +485,22 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
       : `Start ${quoteCount} ${quoteCount === 1 ? 'question' : 'questions'}`;
   const keyNamesCount = !['full', 'nta'].includes(effectiveModeId) && !blocked && quoteStatus !== 'error';
   // The session card's Start (from 1024 px) and the phone bar's Start: one volt each, never both on one layout.
+  const examPair = effectiveModeId === 'full' || effectiveModeId === 'nta';
   const startKey = (className, short = false) => (blocked && quote.upgradeHref ? (
     <Link href={quote.upgradeHref} className={`btn-outline md ${className}`}>{short ? (shortfall ? `Need ${shortfall} more` : quote.reasonCode === 'access_required' ? 'See Pro' : 'See options') : blockedLabel}</Link>
   ) : quoteStatus === 'error' && short ? (
     <button type="button" className={`btn-outline md ${className}`} onClick={() => setQuoteNonce((n) => n + 1)}>Check again</button>
   ) : (
-    <Button variant="volt" size="md" className={className} data-page-primary={short ? undefined : ''} disabled={isLaunching || !quoteLaunchable} aria-busy={isLaunching || quoteStatus === 'loading' || undefined} onClick={launch}>
-      {short ? (isLaunching ? 'Starting…' : barStartLabel) : <><AppIcon name="practice" size={18} />{startLabel}</>}
+    <Button key={`key-${modeNudge}`} variant="volt" size="md" className={className} data-page-primary={short ? undefined : ''} data-nudge={modeNudge > 0 || undefined}
+      disabled={isLaunching || !quoteLaunchable} aria-busy={isLaunching || quoteStatus === 'loading' || undefined} onClick={launch}>
+      {short ? <>{examPair ? <ClockGlyph size={17} /> : null}{isLaunching ? 'Starting…' : barStartLabel}</> : <>{examPair ? <ClockGlyph /> : <AppIcon name="practice" size={18} />}{startLabel}</>}
     </Button>
   ));
 
   return (
     // data-owns-start: Practice owns the volt Start, so the bar's and the sidebar's Start key are quiet (outlined) for the
     // whole visit, never flipping as the page scrolls (owner F12; AppLayoutClient, start.css).
-    <div className="pr view" data-rule={startSheet ? '' : undefined} data-owns-start="">
+    <div className="pr view" data-rule={startSheet ? '' : undefined} data-owns-start="" data-launch={launchMoment || undefined}>
       {!isPremium && (
         <CreditsRemainingModal open={showCreditsModal} credits={user?.creditBalance ?? 0} offer={quote?.offer} onClose={() => setShowCreditsModal(false)} />
       )}
@@ -548,13 +584,18 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
                   return (
                     <button key={id} type="button" role="radio" aria-checked={on} tabIndex={on ? 0 : -1} className="pr-tile mk-press" data-mode={id} data-tone={badge.tone}
                       onClick={(event) => { answerPick(event); chooseMode(id); }}>
-                      <span className="pr-tile__ring" aria-hidden="true"><Check size={13} strokeWidth={3} /></span>
+                      <span className="pr-tile__price" data-tone={badge.tone}>{badge.tone === 'locked' ? <AppIcon name="lock" size={13} /> : null}{badge.text}</span>
                       <span className="pr-tile__art" aria-hidden="true"><ModeArt id={id} subjectId={selectedSubject?.internalId || selSubj} on={on} /></span>
                       <span className="pr-tile__text">
                         <span className="pr-tile__name">{m.label}</span>
                         <span className="pr-tile__spec">{MODE_TILE_SPECS[id]}</span>
                       </span>
-                      <span className="pr-tile__price" data-tone={badge.tone}>{badge.tone === 'locked' ? <AppIcon name="lock" size={13} /> : null}{badge.text}</span>
+                      {/* The tile says what pressing it does (owner F5): "Set up" puts this mode in the session card and on
+                          its Start key; once chosen it reads "Chosen", with the tick. */}
+                      <span className="pr-tile__act" aria-hidden="true">
+                        {on ? <Check size={14} strokeWidth={3} /> : <Play size={12} strokeWidth={0} fill="currentColor" />}
+                        <span>{on ? 'Chosen' : 'Set up'}</span>
+                      </span>
                     </button>
                   );
                 })}
@@ -582,6 +623,14 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
                 </div>
               ) : null}
             </section>
+          </div>
+
+          {/* The tail of the setup: Questions, Fine-tune, the session card and, on phones, the session bar. The bar is sticky
+              inside this block, so it arrives with Questions, rides above the tab bar while you finish the setup, lands as
+              the card's footer and leaves with it: it never sits on the subject shelf or the mode tiles on the first screen
+              (verifier W-008), and with no script it can never come back lower down (owner F12). From 1024 px this block
+              dissolves into the two-column grid (practice.css). */}
+          <div className="pr-tail">
 
             <section className="pr-step" aria-labelledby="pr-s3">
               <div className="pr-step__head"><h2 id="pr-s3">Questions</h2><span className="pr-hint">{mode.fixedCount ? 'Fixed for this mode' : `About ${minutes} minutes`}</span></div>
@@ -607,7 +656,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
               {scope.chapters ? (
                 <div className="pr-fine2__row">
                   <div className="pr-fine2__label"><span>Chapters</span><small>{sentChapters.length ? `${sentChapters.length} of ${chapterTotal}` : chapterTotal ? `All ${chapterTotal}` : ''}</small></div>
-                  <ChapterPicker key={selSubj} subjectName={subjectLabel} data={chapterData} chosen={selectedChapters}
+                  <ChapterPicker key={selSubj} subjectName={subjectLabel} data={chapterData} chosen={selectedChapters} autoOpen={pickChapters && searchParams.get('subject') === selSubj}
                     onChange={(next) => { setSelectedChapters(next); setChapterNote(null); }}
                     onRetry={() => { setChapterData({ state: 'loading', units: [], count: 0, flat: true }); setChapterNonce((n) => n + 1); }} buttonRef={chapterButtonRef} />
                   {chapterNote ? <p className="pr-fine2__note" role="status">{chapterNote}</p> : null}
@@ -622,7 +671,6 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
                 </div>
               ) : null}
             </section>
-          </div>
 
           <aside className="pr-summary pr-ticket" aria-label="Your session">
             <div className="pr-ticket__top">
@@ -636,8 +684,6 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
             <dl>
               <div><dt>Time</dt><dd>{approximate ? 'About ' : ''}{minutes} min</dd></div>
               <div><dt>Marking</dt><dd>+5 / −1</dd></div>
-              <div data-wide=""><dt>Chapters</dt><dd>{scope.chapters ? <button type="button" className="pr-ticket__go" onClick={() => goToFine('chapters')}>{chapterValue}</button> : chapterValue}</dd></div>
-              <div data-wide=""><dt>Difficulty</dt><dd>{scope.difficulty ? <button type="button" className="pr-ticket__go" onClick={() => goToFine('difficulty')}>{difficultyValue}</button> : difficultyValue}</dd></div>
               <div data-wide="" data-emph=""><dt>Cost</dt><dd data-tone={costTone}>{costLabel}</dd></div>
               {!isPremium ? <div data-wide="" data-balance=""><dt>Your practice credits</dt><dd>{balance.toLocaleString('en-IN')}</dd></div> : null}
             </dl>
@@ -653,6 +699,18 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
               )}
             </p>
             <StartRule sheet={startSheet} />
+            {/* Fine-tune, said right above Start on every width (owner F8: "above the start quick practice so that everyone
+                can see and customize it"). Edit goes to the Fine-tune block and opens what it names. */}
+            <div className="pr-ticket__fine" role="group" aria-labelledby="pr-ticket-fine">
+              <div className="pr-ticket__fine-head">
+                <span id="pr-ticket-fine"><SlidersHorizontal size={15} strokeWidth={2} aria-hidden="true" />Fine-tune</span>
+                {scope.chapters || scope.difficulty ? <button type="button" className="pr-ticket__edit" onClick={() => goToFine(scope.chapters ? 'chapters' : 'difficulty')}>Edit<span className="sr-only"> fine-tune</span></button> : null}
+              </div>
+              <dl>
+                <div><dt>Chapters</dt><dd>{scope.chapters ? <button type="button" className="pr-ticket__go" onClick={() => goToFine('chapters')}>{chapterValue}</button> : chapterValue}</dd></div>
+                <div><dt>Difficulty</dt><dd>{scope.difficulty ? <button type="button" className="pr-ticket__go" onClick={() => goToFine('difficulty')}>{difficultyValue}</button> : difficultyValue}</dd></div>
+              </dl>
+            </div>
             {startKey('pr-summary__cta')}
           </aside>
 
@@ -662,6 +720,16 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
           <div className="pr-bar" role="region" aria-label="Start this session">
             <div className="pr-bar__in">
               {startSheet ? <p className="pr-dock__rule"><Target size={14} strokeWidth={2.3} aria-hidden="true" /><span>{startSheet.rule}</span></p> : null}
+              {/* Fine-tune, one line right above Start, so nobody skips it (owner F8). */}
+              {scope.chapters || scope.difficulty ? (
+                <button type="button" className="pr-bar__fine" onClick={() => goToFine(scope.chapters ? 'chapters' : 'difficulty')}>
+                  <SlidersHorizontal size={14} strokeWidth={2} aria-hidden="true" />
+                  <span className="pr-bar__fine-text"><b>Fine-tune</b> {scope.chapters ? `${sentChapters.length ? `${sentChapters.length} of ${chapterTotal}` : chapterTotal ? `all ${chapterTotal}` : 'all'} chapters, ` : ''}{difficultyValue.toLowerCase()} level</span>
+                  <span className="pr-bar__fine-edit">Edit</span>
+                </button>
+              ) : (
+                <p className="pr-bar__fine" data-static=""><SlidersHorizontal size={14} strokeWidth={2} aria-hidden="true" /><span className="pr-bar__fine-text"><b>Fine-tune</b> {effectiveModeId === 'smart' ? 'we pick your weakest topics' : 'the exam’s own mix, set for you'}</span></p>
+              )}
               <span className="pr-bar__obj" key={selSubj}>
                 <SubjectObject id={selectedSubject?.internalId || selSubj} size={60} lit />
               </span>
@@ -672,6 +740,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
               </span>
               {startKey('pr-bar__go', true)}
             </div>
+          </div>
           </div>
         </div>
       )}

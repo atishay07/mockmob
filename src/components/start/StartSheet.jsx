@@ -91,12 +91,15 @@ function animateOut(el, fromDrag = null) {
   return el.animate([{ transform: 'none', opacity: 1 }, { transform: 'translate3d(-10px, 0, 0) scale(0.96)', opacity: 0 }], { duration: 180, easing: SETTLE, fill: 'forwards' }).finished.catch(() => {});
 }
 
-// The go disc: every session is a button and looks it (owner F5). A play mark starts a session (set up in Practice); a
-// chevron opens Practice to choose. Outlined, never volt: the hero's button is the sheet's one volt (AGENT_RULES 7).
-function GoDisc({ kind = 'start' }) {
+// The go key: every session is a button and looks it, and says what pressing it does (owner F5: "buttons that I click
+// and an action happens"). A play mark sets a session up in Practice; a chevron opens Practice to choose. Outlined, never
+// volt: the hero's button is the sheet's one volt (AGENT_RULES 7). The whole row or tile is the target; this is its face.
+function GoDisc({ kind = 'start', label = 'Set up' }) {
   return (
     <span className="st-go" data-kind={kind} aria-hidden="true">
-      {kind === 'open' ? <ChevronRight size={18} strokeWidth={2.2} /> : <Play size={15} strokeWidth={0} fill="currentColor" />}
+      {kind === 'open' ? null : <Play size={13} strokeWidth={0} fill="currentColor" />}
+      <span className="st-go__word">{label}</span>
+      {kind === 'open' ? <ChevronRight size={16} strokeWidth={2.2} /> : null}
     </span>
   );
 }
@@ -272,6 +275,10 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
       </div>
       {/* With the subject row above, the chosen chip already names the subject and the object stands on its own; a
           student with one subject has no row, so the object keeps its name. */}
+      {/* A fixed move does not change with the chips, so it says what does: the sessions under the rail (owner F6). */}
+      {!hero.followsSubject && subjects.length > 1 && subject ? (
+        <p className="st-hero__below">The sessions below are in <b key={subject} className="st-words">{subjectName(subject)}</b>. This one stays as it is.</p>
+      ) : null}
       <figure className="st-hero__art" aria-hidden="true">
         <RowArt key={hero.subject || hero.graphic} graphic={hero.graphic} subject={hero.subject} subjects={subjects} size={heroArt} priority />
         {heroName && subjects.length < 2 ? <figcaption className="st-hero__caption">{heroName}</figcaption> : null}
@@ -311,9 +318,10 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
                 {subjects.map((id) => (
                   <label key={id} className="st-chip mk-press" data-on={id === subject || undefined} data-subject={id}>
                     <input type="radio" name={`${titleId}-subject`} value={id} checked={id === subject} onChange={() => selectSubject(id)} />
-                    {/* A 64 px stage: the object leans out over the chip's top edge. The chosen one is sharp and lit; the
-                        others stand back (blurred, dimmer, smaller; start.css), so the choice reads at a glance (F6, F7). */}
-                    <SubjectObject subject={id} size={64} lit={false} floor />
+                    {/* An 88 px stage, near the next-move card's 112 px object (owner F6: "like the top card"): the object
+                        leans well out over the chip's top edge. The chosen one is sharp and lit; the others stand back
+                        (blurred, dimmer, smaller; start.css), so the choice reads at a glance (F6, F7). */}
+                    <SubjectObject subject={id} size={88} lit={false} floor />
                     <span>{subjectName(id)}</span>
                   </label>
                 ))}
@@ -349,14 +357,14 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
                   </span>
                   <span className="st-tile__foot">
                     <CostLine cost={row.cost} />
-                    <GoDisc kind={row.go} />
+                    <GoDisc kind={row.go} label={row.action} />
                   </span>
                   <span className="sr-only">, opens Practice set up for it</span>
                 </Link>
               ) : (
                 <Link className="st-row mk-press" href={linkFor(row.href)} onClick={onFollow} data-row={row.id}>
                   <span className="st-row__art">
-                    <RowArt key={row.graphic === 'subject' ? row.subject : row.graphic} graphic={row.graphic} subject={row.subject} subjects={row.subjects || subjects} size={60} />
+                    <RowArt key={['subject', 'chapters'].includes(row.graphic) ? `${row.graphic}-${row.subject}` : row.graphic} graphic={row.graphic} subject={row.subject} subjects={row.subjects || subjects} size={60} />
                     {row.badge ? <span className="st-row__badge" aria-hidden="true">{row.badge}</span> : null}
                   </span>
                   <span className="st-row__text">
@@ -364,7 +372,7 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
                     <span className="st-row__detail"><span key={row.detail} className="st-words">{row.detail}</span></span>
                     {row.cost ? <CostLine cost={row.cost} /> : <span className="st-cost" data-tone="open">Opens Practice</span>}
                   </span>
-                  <GoDisc kind={row.go} />
+                  <GoDisc kind={row.go} label={row.action} />
                   {row.cost ? <span className="sr-only">, opens Practice set up for it</span> : null}
                 </Link>
               )}
