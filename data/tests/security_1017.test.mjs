@@ -15,6 +15,7 @@ import { computeContentHash } from '../../src/lib/moderation/hash.js';
 import {
   UPLOAD_ANSWER_KEYS, candidateContentHashes, uploadAccepted, uploadShapeViolation, UPLOAD_ACCEPTED_STATUS,
 } from '../../src/lib/moderation/uploadDedupe.js';
+import { executeDeletion, planDeletion } from '../../src/lib/server/accountDeletion.js';
 import { historyMessages, localExchangeRow, sanitiseLocalReply } from '../../src/lib/server/mentorLocal.js';
 
 const read = (path) => readFileSync(new URL(`../../${path}`, import.meta.url), 'utf8');
@@ -294,4 +295,100 @@ test('local route stores no assistant row; report lookup and study replay accept
   assert.match(read('src/app/api/ai/mentor/chat/route.js'), /\.eq\('role','assistant'\)\.eq\('structured_payload->>origin','model'\)\.eq\('structured_payload->charge->>reference',key\)/);
   assert.match(read('src/app/api/ai/mentor/chat/route.js'), /origin: 'model', mode, usage/, 'model replies are still saved with origin model');
   assert.match(read('src/app/api/ai/mentor/history/route.js'), /messages = historyMessages\(rows\)/);
+});
+
+// ------------------------------------------------------------------ (e) account deletion scrubs runtime_ai_requests
+
+const DELETION_BASE = read('supabase/migrations/20261013120000_deletion_processor.sql');
+const PREFS = read('supabase/migrations/20261012121000_app_preferences_and_rhythm.sql');
+const DELETION_SCRUB = read('supabase/migrations/20261017205000_account_deletion_runtime_ai_scrub.sql');
+const DELETION_SCRUB_UNDO = read('supabase/undo/20261017205000_account_deletion_runtime_ai_scrub.undo.sql');
+
+async function deletionDb() {
+  const db = new PGlite();
+  await db.exec(`
+    create role anon; create role authenticated; create role service_role bypassrls;
+    create table public.users (id text primary key, name text not null, email text unique, username text unique,
+      image text, subjects jsonb not null default '[]'::jsonb, last_active_at timestamptz);
+    create table public.runtime_ai_requests (request_key text primary key, provider text not null, model text not null,
+      reserved_usd numeric not null, actual_usd numeric, state text not null default 'reserved', receipt jsonb,
+      created_at timestamptz not null default now(), user_id text);
+  `);
+  await db.exec(PREFS);
+  await db.exec(DELETION_BASE);
+  await db.exec(DELETION_SCRUB);
+  await db.exec(DELETION_SCRUB); // idempotent
+  await db.exec(`
+    insert into users (id, name, email, username) values ('u1','Asha','asha@example.com','asha'), ('u2','Bo','bo@example.com','bo'), ('u1x','Cy','cy@example.com','cy');
+    insert into runtime_ai_requests (request_key, provider, model, reserved_usd, actual_usd, state, receipt, user_id) values
+      ('prepos:u1:req00000000000000001', 'anthropic', 'claude-haiku-5-5', 0.01, 0.008, 'receipted',
+        '{"response":{"text":"Your accountancy marks dropped because..."},"usage":{"inputTokens":900,"outputTokens":120},"stopReason":"end_turn"}', 'u1'),
+      ('prepos:u1:req00000000000000002', 'anthropic', 'claude-haiku-5-5', 0.01, 0.009, 'receipted',
+        '{"response":{"text":"Legacy row with no user_id"},"usage":{"inputTokens":800}}', null),
+      ('repair:abc', 'openai', 'gpt-6-luna', 0.02, null, 'failed', '{"error":"physical_request_failed","errorKind":"timeout","status":504}', 'u1'),
+      ('prepos:u2:req00000000000000003', 'anthropic', 'claude-haiku-5-5', 0.01, 0.007, 'receipted', '{"response":{"text":"Bo reply"},"usage":{}}', 'u2'),
+      ('prepos:u1x:req0000000000000004', 'anthropic', 'claude-haiku-5-5', 0.01, 0.006, 'receipted', '{"response":{"text":"Cy reply"},"usage":{}}', 'u1x');
+    insert into account_deletion_requests (user_id, requested_at, source) values ('u1', now() - interval '2 days', 'android');
+  `);
+  return db;
+}
+
+const deletionAdapter = (db) => ({
+  async listPendingRequests() { return (await db.query("select id, user_id, requested_at::text requested_at, source, status from account_deletion_requests where status='pending'")).rows; },
+  async getUser(id) { return (await db.query('select id, email from users where id=$1', [id])).rows[0] || null; },
+  async run(request, steps, apply) {
+    return (await db.query('select public.account_deletion_run($1::bigint, $2, $3::jsonb, $4) as r', [request.id, request.user_id, JSON.stringify(steps), !!apply])).rows[0].r;
+  },
+});
+
+test('deletion removes the student link from request_key and the reply from receipt, keeps cost columns, touches nobody else', async () => {
+  const db = await deletionDb();
+  try {
+    const adapter = deletionAdapter(db);
+    const [request] = await adapter.listPendingRequests();
+    const plan = await planDeletion(adapter, request);
+    assert.equal(plan.steps.find((s) => s.table === 'runtime_ai_requests').rows, 3, 'user_id rows plus the prepos key with no user_id; not u1x');
+    const costBefore = (await db.query('select sum(reserved_usd)::text r, sum(actual_usd)::text a, count(*)::int n from runtime_ai_requests')).rows[0];
+    await executeDeletion({ adapter, request });
+    const rows = (await db.query('select request_key, user_id, receipt, provider, model, state, reserved_usd::text r, actual_usd::text a from runtime_ai_requests order by reserved_usd, request_key')).rows;
+    const mine = rows.filter((r) => r.request_key.startsWith('deleted:'));
+    assert.equal(mine.length, 3);
+    for (const row of mine) {
+      assert.equal(row.user_id, null);
+      assert.match(row.request_key, /^deleted:[0-9a-f]{32}$/);
+      assert.ok(!JSON.stringify(row).includes('u1'), 'no trace of the student id');
+      assert.ok(!('response' in (row.receipt || {})), 'the reply text is gone');
+    }
+    assert.deepEqual(mine.map((r) => r.receipt).sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b))), [
+      { error: 'physical_request_failed', errorKind: 'timeout', status: 504 },
+      { usage: { inputTokens: 800 } },
+      { usage: { inputTokens: 900, outputTokens: 120 }, stopReason: 'end_turn' },
+    ]);
+    const md5 = (await db.query("select 'deleted:' || md5('prepos:u1:req00000000000000001') k")).rows[0].k;
+    assert.ok(mine.some((r) => r.request_key === md5), 'one-way per-row tombstone keeps the key unique');
+    assert.deepEqual((await db.query('select sum(reserved_usd)::text r, sum(actual_usd)::text a, count(*)::int n from runtime_ai_requests')).rows[0], costBefore, 'budget sums unchanged');
+    const others = rows.filter((r) => !r.request_key.startsWith('deleted:')).map((r) => [r.request_key, r.user_id, r.receipt.response.text]);
+    assert.deepEqual(others.sort(), [['prepos:u1x:req0000000000000004', 'u1x', 'Cy reply'], ['prepos:u2:req00000000000000003', 'u2', 'Bo reply']], 'a longer id that starts with the same letters is not matched');
+  } finally { await db.close(); }
+});
+
+test('deletion scrub migration: the undo restores the old function (which refuses the new step), and re-apply works', async () => {
+  const db = await deletionDb();
+  try {
+    const adapter = deletionAdapter(db);
+    const [request] = await adapter.listPendingRequests();
+    await db.exec(DELETION_SCRUB_UNDO);
+    await assert.rejects(planDeletion(adapter, request), /bad_set_value for runtime_ai_requests\.request_key/, 'old function: apply the migration before the new code runs a deletion');
+    await db.exec(DELETION_SCRUB);
+    assert.equal((await planDeletion(adapter, request)).steps.find((s) => s.table === 'runtime_ai_requests').rows, 3);
+    const grants = (await db.query("select r.rolname, has_function_privilege(r.rolname, 'public.account_deletion_run(bigint,text,jsonb,boolean)', 'execute') ok from pg_roles r where r.rolname in ('anon','authenticated','service_role') order by 1")).rows;
+    assert.deepEqual(grants, [{ rolname: 'anon', ok: false }, { rolname: 'authenticated', ok: false }, { rolname: 'service_role', ok: true }]);
+  } finally { await db.close(); }
+});
+
+test('the prefix match is not a LIKE pattern, so % or _ in an id cannot widen it', () => {
+  assert.match(DELETION_SCRUB, /left\(%1\$s, length\(%2\$L \|\| \$1 \|\| %3\$L\)\) = %2\$L \|\| \$1 \|\| %3\$L/);
+  const branch = DELETION_SCRUB.slice(DELETION_SCRUB.indexOf("v_item ? 'prefix'"), DELETION_SCRUB.indexOf("elsif v_item ? 'parent_table'"));
+  const code = branch.split(/\r?\n/).filter((line) => !line.trim().startsWith('--')).join(' ');
+  assert.doesNotMatch(code, /like/i);
 });

@@ -390,6 +390,11 @@ test('the mentor chat route caps the context it sends, and the repair and mentor
 test('account deletion unlinks the student from the AI cost rows instead of deleting the cost record', () => {
   const step = DELETION_STEPS.find((s) => s.table === 'runtime_ai_requests');
   assert.equal(step.action, 'anonymise');
-  assert.deepEqual(step.set, [{ column: 'user_id', value: 'null' }]);
-  assert.deepEqual(step.match, [{ column: 'user_id' }]);
+  // Security round 2 (17 Oct 2026): the user id inside request_key and the reply text in receipt go too; cost columns stay.
+  assert.deepEqual(step.set, [
+    { column: 'user_id', value: 'null' },
+    { column: 'request_key', value: { hash: 'deleted:' } },
+    { column: 'receipt', value: { scrub_json: ['usage', 'stopReason', 'error', 'errorKind', 'status', 'code', 'type'] } },
+  ]);
+  assert.deepEqual(step.match, [{ column: 'user_id' }, { column: 'request_key', prefix: 'prepos:', suffix: ':' }]);
 });
