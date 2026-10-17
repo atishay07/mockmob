@@ -7,7 +7,7 @@
 // streak pressure, nothing expires. A step that landed since the last visit is the one T3 moment
 // of the screen, played once in order: the token settles, then the step's medal settles with one
 // band of light across it, then Mobi stands proud beside the token (he acts after it lands).
-// Every step row opens a sheet (`showStepSheet`); the next coin draws its real progress as a volt
+// Every step row opens a badge sheet (`showBadgeSheet`, opened by the page); the next coin draws its real progress as a volt
 // arc where the app can count it exactly.
 //
 // Sizes (SPACING.md RH2): the header token is 48 dp with 12 to its words, the rail coins are 36 dp
@@ -19,8 +19,6 @@ import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
-import '../../insights/data/subject_names.dart' show subjectDisplayName;
-import '../logic/badge_record.dart';
 import '../logic/milestone_progress.dart';
 import '../logic/milestone_tracks.dart';
 import '../logic/tokens.dart';
@@ -30,7 +28,6 @@ import 'medal.dart';
 import 'proud_mobi.dart';
 import 'rhythm_layout.dart' show FillBar;
 import 'rhythm_page.dart' show FlushQuietKey;
-import 'step_sheet.dart';
 
 /// What is engraved on the coin of each step: nine steps, nine different faces.
 ({IconData? icon, String? text}) engravingOf(String stepId) => switch (stepId) {
@@ -73,15 +70,11 @@ class MilestoneTrackCard extends StatefulWidget {
     required this.dateOf,
     this.progress = const {},
     this.freshIds = const {},
-    this.records = const {},
     this.onOpen,
-    this.onAction,
+    this.onOpenBadge,
   });
 
   final TrackView track;
-
-  /// The paper behind each badge the phone worked out (the sheet's record line).
-  final Map<String, BadgeRecord> records;
 
   /// "9 October" for an earned step.
   final String Function(DateTime) dateOf;
@@ -89,8 +82,8 @@ class MilestoneTrackCard extends StatefulWidget {
   final Set<String> freshIds;
   final VoidCallback? onOpen;
 
-  /// The key of a step's sheet: told where it goes. Null pushes the location.
-  final ValueChanged<String>? onAction;
+  /// A step was tapped: opens its badge sheet (the page that holds all four paths owns it).
+  final ValueChanged<String>? onOpenBadge;
 
   @override
   State<MilestoneTrackCard> createState() => _MilestoneTrackCardState();
@@ -198,19 +191,7 @@ class _MilestoneTrackCardState extends State<MilestoneTrackCard> with SingleTick
             // Each "next" step carries its own exact count (the best-work path has several).
             count: track.steps[i].status == StepStatus.next ? widget.progress[track.steps[i].step.id] : null,
             target: track.steps[i].status == StepStatus.next ? milestoneTargets[track.steps[i].step.id] : null,
-            onTap: () => showStepSheet(
-              context,
-              view: track.steps[i],
-              dateOf: widget.dateOf,
-              previous: i > 0 ? track.steps[i - 1] : null,
-              count: track.steps[i].status == StepStatus.next ? widget.progress[track.steps[i].step.id] : null,
-              pathLine: track.track == MilestoneTrack.best
-                  ? RhythmCopy.badgeNoSequence(track.track.title)
-                  : RhythmCopy.badgePathStep(track.track.title, i + 1, track.steps.length),
-              record: widget.records[track.steps[i].step.id]?.text(widget.dateOf, subjectDisplayName),
-              paperId: widget.records[track.steps[i].step.id]?.attemptId,
-              onAction: widget.onAction,
-            ),
+            onTap: () => widget.onOpenBadge?.call(track.steps[i].step.id),
           ),
         if (next == null)
           Padding(
@@ -356,6 +337,7 @@ class _TrailStep extends StatelessWidget {
       StepStatus.earned => RhythmCopy.stepEarned(name, date!),
       StepStatus.next => RhythmCopy.stepNext(name, view.step.condition),
       StepStatus.later => RhythmCopy.stepLater(name),
+      StepStatus.unknown => RhythmCopy.badgeCoinUnknown(name),
     };
     final counted = count != null && target != null;
 
@@ -371,14 +353,18 @@ class _TrailStep extends StatelessWidget {
             name,
             style: type.labelLarge.copyWith(
               fontSize: status == StepStatus.next ? 20 : 16,
-              fontWeight: status == StepStatus.later ? FontWeight.w500 : (status == StepStatus.next ? FontWeight.w700 : FontWeight.w600),
-              color: status == StepStatus.later ? colors.ink3 : colors.ink,
+              fontWeight: status == StepStatus.later || status == StepStatus.unknown ? FontWeight.w500 : (status == StepStatus.next ? FontWeight.w700 : FontWeight.w600),
+              color: status == StepStatus.later || status == StepStatus.unknown ? colors.ink3 : colors.ink,
             ),
           ),
           if (date != null) ...[const SizedBox(height: MmSpace.s2), Text(date, style: type.caption.copyWith(color: colors.ink2))],
           if (status == StepStatus.later) ...[
             const SizedBox(height: MmSpace.s2),
             Text(view.step.condition, style: type.small.copyWith(color: colors.ink3)),
+          ],
+          if (status == StepStatus.unknown) ...[
+            const SizedBox(height: MmSpace.s2),
+            Text(RhythmCopy.badgeUnknownLine, style: type.small.copyWith(color: colors.ink3)),
           ],
           if (status == StepStatus.next) ...[
             const SizedBox(height: MmSpace.s2),
@@ -424,7 +410,7 @@ class _TrailStep extends StatelessWidget {
                         status: switch (status) {
                           StepStatus.earned => MedalStatus.landed,
                           StepStatus.next => MedalStatus.next,
-                          StepStatus.later => MedalStatus.later,
+                          StepStatus.later || StepStatus.unknown => MedalStatus.later,
                         },
                         icon: face.icon,
                         text: face.text,

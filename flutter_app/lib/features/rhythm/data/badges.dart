@@ -1,6 +1,7 @@
 // The badge list the screens read: the server's milestones with the phone's derived badges merged
 // in (`derived_badges.dart`), and the exact counts toward the next ones. While the attempts list
-// has not loaded, the derived badges are listed as not earned (never guessed earned).
+// has not loaded, the five derived badges are "unknown" on the board (never guessed earned, and never
+// called "not yet" either).
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/models/rhythm.dart';
@@ -25,6 +26,20 @@ final badgeMilestonesProvider = Provider<List<RhythmMilestone>?>((ref) {
   final server = ref.watch(rhythmSnapshotProvider.select((s) => s.rhythm?.milestones));
   if (server == null) return null;
   return mergeDerived(server, ref.watch(derivedBadgesProvider), derivedIds: derivedBadgeIds);
+});
+
+/// The derived badges the phone cannot read yet: all of them while the attempts list has not loaded
+/// (no value, neither cached nor fresh), none once it has.
+final badgeUnreadableProvider = Provider<Set<String>>((ref) {
+  final attempts = ref.watch(attemptsRepositoryProvider.select((s) => s.value));
+  return attempts == null ? {...derivedBadgeIds} : const {};
+});
+
+/// The board: the four paths with every badge's state. Null while the rhythm has no data.
+final badgeTracksProvider = Provider<List<TrackView>?>((ref) {
+  final milestones = ref.watch(badgeMilestonesProvider);
+  if (milestones == null) return null;
+  return milestoneTracks(milestones, unreadable: ref.watch(badgeUnreadableProvider));
 });
 
 /// Exact counts toward the next badges (see `milestoneProgress`).

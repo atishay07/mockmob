@@ -27,7 +27,7 @@ import '../../rules/widgets/rule_check_view.dart';
 import '../../rules/widgets/rules_entry.dart' show LabRulesLink;
 import '../../rules/widgets/same_mistakes_later_view.dart';
 import '../../rules/widgets/traps_meet_view.dart';
-import '../../rhythm/rhythm.dart' show CelebrationMode, CelebrationScope, CelebrationSlot, celebrationControllerProvider, celebrationModeProvider;
+import '../../rhythm/rhythm.dart' show BadgeEarnedRow, CelebrationMode, CelebrationScope, CelebrationSlot, celebrationControllerProvider, celebrationModeProvider;
 import '../../review/data/review_providers.dart' show reviewClockProvider, reviewInputsProvider;
 import '../copy.dart';
 import '../data/move_state.dart';
@@ -526,6 +526,9 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                       ),
                     ),
                   ),
+                // A paper that has just earned a badge says so once, in one compact row (BADGES-REFINE-1018 3). It draws nothing,
+                // and takes no space, for a paper that earned none or a badge already shown.
+                BadgeEarnedRow(attemptId: id, completedAt: attempt.completedAt),
                 // The one next move.
                 const SizedBox(height: MmSpace.s24),
                 item(

@@ -2,7 +2,8 @@
 ///
 /// - Today: `WeekStripSection`, `WeeklyEndingSection`, `ReturningSection`, `CelebrationSlot`.
 /// - Result and Review: `celebrationControllerProvider` with `CelebrationEvent`, and a
-///   `CelebrationSlot` placed in the screen's layout.
+///   `CelebrationSlot` placed in the screen's layout. The result also places `BadgeEarnedRow`, the once-only
+///   "Badge earned" row for a paper that earned a badge.
 /// - You: `rhythmVisibleProvider`, `bestMocksProvider`, `CelebrationsPicker`, `showGoalEditor`.
 library;
 
@@ -18,6 +19,7 @@ export 'logic/late_night.dart';
 export 'logic/plan_week.dart';
 export 'logic/week_outlook.dart' show OutlookKind, WeekOutlook, weekOutlook;
 export 'logic/week_view.dart' show WeekStatus;
+export 'widgets/badge_earned_row.dart' show BadgeEarnedRow;
 export 'widgets/late_night_line.dart' show LateNightLine;
 export 'widgets/plan_week_strip.dart' show PlanWeekStrip;
 export 'widgets/goal_editor.dart' show GoalEditor, showGoalEditor;

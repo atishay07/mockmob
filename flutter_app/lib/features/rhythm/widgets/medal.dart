@@ -23,7 +23,7 @@ import 'rhythm_layout.dart' show contactShadowColor;
 enum MedalStatus { landed, next, later }
 
 class Medal extends StatefulWidget {
-  const Medal({super.key, required this.status, this.icon, this.text, this.size = 44, this.animateLanding = false, this.delay = Duration.zero, this.arc})
+  const Medal({super.key, required this.status, this.icon, this.text, this.size = 44, this.animateLanding = false, this.delay = Duration.zero, this.arc, this.sweep})
       : assert(icon != null || text != null);
 
   /// A coin without an engraving, for the small coins of a summary row.
@@ -32,7 +32,8 @@ class Medal extends StatefulWidget {
         text = null,
         animateLanding = false,
         delay = Duration.zero,
-        arc = null;
+        arc = null,
+        sweep = null;
 
   final MedalStatus status;
 
@@ -52,6 +53,10 @@ class Medal extends StatefulWidget {
   /// How far along a coin that is next is, 0 to 1, drawn as a volt arc over its dashed ring that
   /// draws in once. Only for a count the app holds exactly; null draws the ring alone.
   final double? arc;
+
+  /// One light band across a landed coin, driven from outside (0 to 1; nothing is drawn at the ends): the
+  /// result's "Badge earned" reveal owns the clock, so its scale and its light run on one controller.
+  final Animation<double>? sweep;
 
   @override
   State<Medal> createState() => _MedalState();
@@ -143,7 +148,7 @@ class _MedalState extends State<Medal> with TickerProviderStateMixin {
       dimension: s,
       child: RepaintBoundary(
         child: CustomPaint(
-          painter: _MedalPainter(colors: colors, status: widget.status, progress: _band, arc: widget.arc, arcDraw: _arcDraw),
+          painter: _MedalPainter(colors: colors, status: widget.status, progress: widget.sweep ?? _band, arc: widget.arc, arcDraw: _arcDraw),
           child: Center(child: mark),
         ),
       ),

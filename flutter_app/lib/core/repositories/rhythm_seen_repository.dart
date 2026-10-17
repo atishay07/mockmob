@@ -115,6 +115,15 @@ class RhythmSeenRepository {
     return true;
   }
 
+  /// Records that these keys were shown, in one write: the badge moment on a result (`badge-seen:<id>:<earnedAt>`) and
+  /// the plain milestone id beside it, so no other place announces the same badge again. Best effort.
+  Future<void> markAllCelebrated(Iterable<String> ids) async {
+    final current = await read();
+    final next = {...current.celebratedIds, ...ids};
+    if (next.length == current.celebratedIds.length) return;
+    await _upsert(ids: next);
+  }
+
   Future<void> setLastCelebratedWeekStart(String weekStart) => _upsert(celebratedWeekStart: weekStart);
 }
 

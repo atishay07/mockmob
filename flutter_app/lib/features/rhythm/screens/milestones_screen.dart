@@ -25,6 +25,7 @@ import '../data/badges.dart';
 import '../data/rhythm_providers.dart';
 import '../logic/dates.dart';
 import '../logic/badge_record.dart';
+import '../widgets/badge_sheet.dart';
 import '../logic/milestone_tracks.dart';
 import '../widgets/milestone_backdrop.dart';
 import '../widgets/rhythm_layout.dart';
@@ -97,7 +98,7 @@ class _YouMilestonesScreenState extends ConsumerState<YouMilestonesScreen> {
       );
     }
     final badges = ref.watch(badgeMilestonesProvider) ?? snapshot.rhythm!.milestones;
-    final tracks = milestoneTracks(badges);
+    final tracks = ref.watch(badgeTracksProvider) ?? milestoneTracks(badges);
     return RhythmPage(
       title: RhythmCopy.milestonesTitle,
       // The seam the art pass fills (see milestone_backdrop.dart); empty until then.
@@ -111,6 +112,7 @@ class _YouMilestonesScreenState extends ConsumerState<YouMilestonesScreen> {
         now: now,
         progress: ref.watch(badgeProgressProvider),
         records: ref.watch(badgeRecordsProvider),
+        unreadable: ref.watch(badgeUnreadableProvider),
         freshIds: _fresh,
         mobiSpeaks: _mobiSpeaks,
         asOf: snapshot.stale ? snapshot.fetchedAt : null,
@@ -130,6 +132,7 @@ class MilestoneTimeline extends StatelessWidget {
     required this.now,
     this.progress = const {},
     this.records = const {},
+    this.unreadable = const {},
     this.freshIds = const {},
     this.mobiSpeaks = true,
     this.asOf,
@@ -146,6 +149,9 @@ class MilestoneTimeline extends StatelessWidget {
 
   /// The paper behind each badge the phone worked out (the sheet's record line).
   final Map<String, BadgeRecord> records;
+
+  /// Badges the phone could not read yet (see `unknownSteps`): said so, never called "not yet".
+  final Set<String> unreadable;
   final Set<String> freshIds;
 
   /// Mobi says his line at the two ends of the paths. False after he has said it once this app run:
@@ -164,7 +170,7 @@ class MilestoneTimeline extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final tracks = milestoneTracks(milestones);
+    final tracks = milestoneTracks(milestones, unreadable: unreadable);
     // Mobi speaks at the two ends of the paths only: before the first step, and once all landed.
     final none = tracks.every((t) => t.earned.isEmpty);
     final all = tracks.every((t) => t.complete);
@@ -213,10 +219,9 @@ class MilestoneTimeline extends StatelessWidget {
                 track: tracks[k],
                 dateOf: (d) => formatAchievedDate(d, zone, now),
                 progress: progress,
-                records: records,
                 freshIds: freshIds,
                 onOpen: () => onOpen != null ? onOpen!(tracks[k].track.location) : context.push(tracks[k].track.location),
-                onAction: onOpen,
+                onOpenBadge: (id) => showBadgeSheet(context, tracks: tracks, id: id, progress: progress, records: records, zone: zone, onGo: onOpen),
               ),
             ),
           ],

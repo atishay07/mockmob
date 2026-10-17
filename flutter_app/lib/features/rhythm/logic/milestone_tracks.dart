@@ -1,11 +1,13 @@
 // The badges (app-you-1016 section 3): sixteen on four paths, papers, repairs, weeks at the goal
 // and your best work. Nine are the server's milestones (`GET /api/me/rhythm`), five are worked out
 // on the phone from the complete attempts list (`derived_badges.dart`, merged into the same list
-// with the attempt's date), and two are new server ids shown only once the server lists them, so
-// none is ever shown as falsely locked. Each step is earned only when a record dates it. The first step
-// not earned yet is "next" and says exactly what lands it; the ones after it are named, quietly.
-// Nothing here counts toward a step: the server sends dates, not progress, so the app never
-// guesses "2 to go".
+// with the attempt's date), and two are new server ids (`first_hold`, `run_weeks_3`). All sixteen
+// are always on the board, so the count is always "of 16" and agrees with the website. Each step is
+// earned only when a record dates it. The first step not earned yet is "next" and says exactly what
+// lands it; the ones after it are named, quietly. A step whose record could not be read (the phone's
+// attempts list has not loaded, or the server did not list a new id) is "unknown": it is never called
+// locked and never "next", exactly as the website's `unavailable` ids. Counts toward a step come from
+// `milestone_progress.dart` and are shown only where they are exact.
 import '../../../core/models/rhythm.dart';
 import '../../../core/router/routes.dart';
 import '../copy.dart';
@@ -70,14 +72,21 @@ const List<MilestoneStep> milestoneSteps = [
   MilestoneStep('new_best', MilestoneTrack.best, RhythmCopy.stepNewBest, RhythmCopy.condNewBest, source: BadgeSource.derived),
 ];
 
-/// The badges shown for [milestones]: every server and derived badge, and a new server id only
-/// once the server lists it (earned or not).
-List<MilestoneStep> shownSteps(List<RhythmMilestone> milestones) {
+/// The ids whose record could not be read: a new server id the server did not list (its own read
+/// failed, or an older server), plus [unreadable] (the derived badges while the phone's attempts
+/// list has not loaded). A badge with a date is never unknown.
+Set<String> unknownSteps(List<RhythmMilestone> milestones, {Set<String> unreadable = const {}}) {
   final listed = {for (final m in milestones) m.id};
-  return [for (final s in milestoneSteps) if (s.source != BadgeSource.newServer || listed.contains(s.id)) s];
+  return {
+    for (final s in milestoneSteps)
+      if (s.source == BadgeSource.newServer && !listed.contains(s.id)) s.id,
+    ...unreadable,
+  };
 }
 
-enum StepStatus { earned, next, later }
+/// earned: dated. next: the first not earned on its path (every one not earned on best work).
+/// later: not earned, after the next. unknown: its record could not be read, so nothing is said.
+enum StepStatus { earned, next, later, unknown }
 
 class StepView {
   const StepView(this.step, this.status, this.earnedAt);
@@ -111,14 +120,16 @@ class TrackView {
     return null;
   }
 
-  bool get complete => next == null;
+  /// Every step has landed (a step that could not be read is not called landed).
+  bool get complete => steps.every((s) => s.status == StepStatus.earned);
 }
 
 /// The four tracks in shelf order, filled from [milestones] (the server's list with the derived
 /// badges merged in, see `mergeDerived`). A step is earned only with a date. On the best-work path
-/// every badge not earned is "next", since none of them waits on another.
-List<TrackView> milestoneTracks(List<RhythmMilestone> milestones) {
-  final shown = shownSteps(milestones);
+/// every badge not earned is "next", since none of them waits on another. [unreadable] names the
+/// ids the phone could not read yet (see `unknownSteps`); they are "unknown" and never "next".
+List<TrackView> milestoneTracks(List<RhythmMilestone> milestones, {Set<String> unreadable = const {}}) {
+  final unknown = unknownSteps(milestones, unreadable: unreadable);
   final at = <String, DateTime>{
     for (final m in milestones)
       if (m.achievedAt != null) m.id: m.achievedAt!,
@@ -128,9 +139,11 @@ List<TrackView> milestoneTracks(List<RhythmMilestone> milestones) {
       () {
         var nextTaken = false;
         return TrackView(track, [
-          for (final step in shown.where((s) => s.track == track))
+          for (final step in milestoneSteps.where((s) => s.track == track))
             if (at[step.id] case final date?)
               StepView(step, StepStatus.earned, date)
+            else if (unknown.contains(step.id))
+              StepView(step, StepStatus.unknown, null)
             else if (track == MilestoneTrack.best)
               StepView(step, StepStatus.next, null)
             else if (!nextTaken && (nextTaken = true))
