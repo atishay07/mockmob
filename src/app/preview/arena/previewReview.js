@@ -1,6 +1,6 @@
 // Review fixtures for /preview/arena?view=review (LEARN-REVIEW-1017 packet P-LR1). Every number comes from the one student
 // (data/tests/fixtures/review/*.json, P-LR0) through the real reviewBody(), so the page shows what GET /api/me/review would.
-// ?review=student (default) | check | zero | held | one | nothing | dedupe | empty | down | slow.
+// ?review=student1018 (default, pass 1018) | one | done | zero | student (1017) | check | held | nothing | dedupe | empty | down | slow.
 // Repairs written here are kept in memory for this tab, so a repaired mistake reopens free and is never offered again.
 // Stems, options and explanations are illustrative, written for the preview, never real bank rows.
 import student from '@/../data/tests/fixtures/review/student.json';
@@ -12,12 +12,17 @@ import nothingMissed from '@/../data/tests/fixtures/review/nothing_missed.json';
 import reviseDedupe from '@/../data/tests/fixtures/review/revise_dedupe.json';
 import empty from '@/../data/tests/fixtures/review/empty.json';
 import recordDown from '@/../data/tests/fixtures/review/record_down.json';
+import student1018 from '@/../data/tests/fixtures/review/student-1018.json';
 import { reviewBody } from '@/../data/review_input.mjs';
 import { SUBJECTS } from '@/../data/subjects';
 import { fixtureRepairV3 } from './previewMock';
 import { fixtureCheckField } from './previewRepairCheck';
 
-const RECORDS = { student, check: checkPending, zero: zeroCredits, held: allHeld, one: onePaper, nothing: nothingMissed, dedupe: reviseDedupe, empty, down: recordDown };
+// Pass 1018 (REVIEW-RESULT-1018 P-RR1): the mocks' student and its states. ?review=student1018 (default) | one | done | zero.
+const one1018 = { ...student1018, papers: student1018.papers.filter((p) => p.id === 'm3'), items: student1018.items.filter((i) => i.paper === 'm3'), chapterQuestions: { m3: student1018.chapterQuestions.m3 } };
+const done1018 = { ...student1018, items: student1018.items.map((i) => (i.ch === 'adm' && i.state === 'open' ? { ...i, state: 'repaired', repairedAt: '2026-10-17T20:10:00+05:30' } : i)) };
+const zero1018 = { ...student1018, wallet: { ...student1018.wallet, aiCredits: 0, practiceCredits: 0 } };
+const RECORDS = { student1018, one: one1018, done: done1018, zero: zero1018, student, check: checkPending, zero1017: zeroCredits, held: allHeld, one1017: onePaper, nothing: nothingMissed, dedupe: reviseDedupe, empty, down: recordDown };
 const SAVED = new Set(['repaired', 'held', 'slipped']);
 const subjectId = (v) => { const t = String(v || '').toLowerCase(); return SUBJECTS.find((s) => s.id === t || s.name.toLowerCase() === t)?.id || t.replace(/\s+/g, '_'); };
 
@@ -35,10 +40,10 @@ const EXPLAIN = {
   'm3:42': 'Goodwill brought in cash by the new partner is shared by the old partners in the ratio in which they give up their share, the sacrificing ratio, and is credited to their capital accounts.',
 };
 
-const kind = () => new URLSearchParams(window.location.search).get('review') || 'student';
+const kind = () => new URLSearchParams(window.location.search).get('review') || 'student1018';
 function record() {
   const k = kind();
-  const base = RECORDS[k] || student;
+  const base = RECORDS[k] || student1018;
   if (base.state === 'unavailable' || base.state === 'empty') return base;
   const mem = (window.__previewReview ||= { key: null, repaired: new Map(), spent: 0 });
   if (mem.key !== k) Object.assign(mem, { key: k, repaired: new Map(), spent: 0 });

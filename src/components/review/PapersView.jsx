@@ -13,7 +13,7 @@ import { subjectId } from './ChapterRows';
 const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 const KIND_WORDS = { 'full mock': 'mocks', 'NTA paper': 'NTA papers', 'smart practice': 'smart practice sets', practice: 'practice sets' };
 
-function Pair({ papers }) {
+export function Pair({ papers, bare = false }) {
   // The biggest same-kind group of exactly two papers; three or more get the trend line instead.
   const groups = new Map();
   for (const p of papers) {
@@ -25,6 +25,13 @@ function Pair({ papers }) {
   const [now, before] = pair;
   const diff = (Number(now.score) || 0) - (Number(before.score) || 0);
   const move = diff > 0 ? `Up ${plural(diff, 'mark')}.` : diff < 0 ? `Down ${plural(-diff, 'mark')}.` : 'The same marks.';
+  // Review 1018 (Your papers, N14): the text pair in one line, "158 in Mock 3, Accountancy. Up 18 on 140 in Mock 2."
+  if (bare) {
+    const on = diff > 0 ? `Up ${diff} on` : diff < 0 ? `Down ${-diff} on` : 'The same as';
+    return (
+      <p className="rv8-pair"><b>{now.score}</b>in {now.name}, {now.subjectName || now.subject}. {on} {before.score} in {before.name}. A trend line appears from your third {now.kind === 'full mock' ? 'mock' : 'paper'}.</p>
+    );
+  }
   return (
     <section className="rvw-pairsec" aria-labelledby="rvw-pair-h">
       <div className="rvw-sechead"><h2 id="rvw-pair-h" className="rvw-h2">{now.subjectName || now.subject} {KIND_WORDS[now.kind] || 'papers'}</h2><span>Marks out of {now.of}</span></div>

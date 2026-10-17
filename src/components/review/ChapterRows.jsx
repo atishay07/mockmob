@@ -85,7 +85,7 @@ function useLesson(subject, chapter) {
   return lesson;
 }
 
-function LessonLink({ subject, chapter, from }) {
+export function LessonLink({ subject, chapter, from }) {
   const lesson = useLesson(subject, chapter);
   if (!lesson) return null;
   return (
