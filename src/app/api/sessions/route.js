@@ -5,6 +5,7 @@ import { mobileOptions } from '@/lib/server/mobileCors';
 import { startPractice, finishPractice } from '@/lib/server/practiceSessions';
 import { countStepOnce } from '@/lib/server/funnelOnceStore';
 import { funnelStepsForSession } from '@/lib/server/funnelOnce';
+import { forgetBadges } from '@/lib/server/badgesStore';
 
 const ORIGINS = new Set(['capacitor://localhost', 'https://localhost']);
 function cors(request) {
@@ -23,6 +24,9 @@ async function handle(request, operation, funnelKind = null) {
     if (text.length > 600000) return Response.json({ error: 'Payload too large' }, { status: 413, headers });
     const body = JSON.parse(text);
     const result = await operation(session.user.id, body);
+    // A saved attempt can earn a badge: drop the student's cached badge list so the result's earned row and Progress read it fresh
+    // (the list is otherwise kept for 5 minutes; BADGES-REFINE-1018).
+    if (funnelKind === 'finish') forgetBadges(session.user.id);
     // Aggregate funnel, once per person and never in the way of the answer (a no-op while FUNNEL_ENABLED is off).
     const funnelSteps = funnelStepsForSession({ kind: funnelKind, body, result });
     if (funnelSteps.length) countStepOnce(session.user.id, funnelSteps, request.headers);

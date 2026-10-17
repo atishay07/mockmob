@@ -4,6 +4,7 @@ import { supabaseAdmin } from '@/lib/supabase';
 import { listAttemptSummaries } from '@/lib/server/attemptSummary';
 import { finaliseExpiredSessionsForUser, supabaseSessionStore } from '@/lib/server/sessionFinaliser';
 import { reportFinalisedEpisodeCheck } from '@/lib/server/finaliseEpisodeCheck';
+import { forgetBadges } from '@/lib/server/badgesStore';
 
 export const dynamic = 'force-dynamic';
 const NO_STORE = { 'Cache-Control': 'no-store' };
@@ -14,7 +15,10 @@ export async function GET(request) {
   if (!session?.user?.id) return NextResponse.json({ error: 'unauthorized', message: 'Sign in to see your attempts.' }, { status: 401, headers: NO_STORE });
   const params = new URL(request.url).searchParams;
   try {
-    if (!params.get('cursor')) await finaliseExpiredSessionsForUser(supabaseSessionStore(supabaseAdmin(), { userId: session.user.id }), { onEpisodeCheck: reportFinalisedEpisodeCheck });
+    if (!params.get('cursor')) {
+      const finalised = await finaliseExpiredSessionsForUser(supabaseSessionStore(supabaseAdmin(), { userId: session.user.id }), { onEpisodeCheck: reportFinalisedEpisodeCheck });
+      if (finalised?.finalised) forgetBadges(session.user.id); // a result saved just now can earn a badge (BADGES-REFINE-1018)
+    }
     const result = await listAttemptSummaries(supabaseAdmin(), session.user.id, { cursor: params.get('cursor'), limit: params.get('limit') });
     if (result.error) return NextResponse.json({ error: 'bad_cursor', message: 'That page marker is not valid. Start again from the first page.' }, { status: 400, headers: NO_STORE });
     return NextResponse.json(result, { headers: NO_STORE });

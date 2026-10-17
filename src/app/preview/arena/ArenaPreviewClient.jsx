@@ -16,7 +16,7 @@ import { studyMilestones, tonightMetadata, tonightCompletion } from '@/../data/s
 import { previewAnalytics, previewCompass, previewInsights } from './previewRecord';
 import { computeRhythm } from '@/lib/server/rhythm';
 import { standingFor } from '@/lib/server/standing';
-import { previewStudyRecord } from './previewStudy';
+import { previewStudyRecord, previewBadgesBody } from './previewStudy';
 import { buildStudyRecord } from '@/lib/studyBadges';
 import { projectWallet, unreadableWallet, walletWindow } from '@/services/credits/aiWalletState';
 import MentorRecordPage from '@/components/ai/MentorRecordPage';
@@ -552,7 +552,15 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       return json({ state: 'ready', active: null, recallEnabled: true, queue: { dueCount: due, availableCount: due, overdueCount: 0, newAllowance: 5 }, progress: { lessonsRead: 3, lessonsAvailable: 24, cardsStarted: 12, recallReviews: 18 } });
     }
     // Badges and personal bests (Progress). ?badges=none: one set and nothing earned from papers; ?data=empty has no papers.
-    if (url.pathname === '/api/me/study-record') return json(state === 'empty' ? buildStudyRecord([], []) : previewStudyRecord(fixture.get('badges')));
+    // ?badges=none|some|all|unknown|error: the server's badge list too (previewStudy.js); error fails both reads. On the result,
+    // &earned=one|two adds the badge(s) the paper just earned, dated at the paper itself.
+    if (url.pathname === '/api/me/study-record') return fixture.get('badges') === 'error' ? json({ error: 'unavailable' }, 503) : json(state === 'empty' ? buildStudyRecord([], []) : previewStudyRecord(fixture.get('badges')));
+    if (url.pathname === '/api/me/badges') {
+      if (fixture.get('badges') === 'error') return json({ error: 'unavailable' }, 503);
+      const earned = fixture.get('earned');
+      if (earned === 'one' || earned === 'two') return window.fetch('/api/attempts/fixture-attempt').then((r) => r.json()).then((a) => json(previewBadgesBody(fixture.get('badges'), { attemptAt: new Date(a.completedAt).getTime(), earned })));
+      return json(state === 'empty' ? previewBadgesBody('none') : previewBadgesBody(fixture.get('badges')));
+    }
     // Weekly goal (Account and onboarding): read 4 days; a save echoes the choice, in memory only.
     if (url.pathname === '/api/me/goal' && method === 'GET') return json(window.__previewGoal || { daysPerWeek: 4, timezone: 'Asia/Kolkata', pausedUntil: null, weekdays: fixture.get('weekdays') === 'none' ? null : [0, 1, 3, 5] });
     if (url.pathname === '/api/me/goal' && method === 'PUT') {

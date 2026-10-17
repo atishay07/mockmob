@@ -4,13 +4,15 @@ import { auth } from '@/lib/auth';
 import { supabaseAdmin } from '@/lib/supabase';
 import { finaliseExpiredSessionsForUser, supabaseSessionStore } from '@/lib/server/sessionFinaliser';
 import { reportFinalisedEpisodeCheck } from '@/lib/server/finaliseEpisodeCheck';
+import { forgetBadges } from '@/lib/server/badgesStore';
 
 export async function GET(request) {
   try {
     const session = await auth(request);
     if (!session?.user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     // Abandoned mocks past their deadline become results the moment the student looks.
-    await finaliseExpiredSessionsForUser(supabaseSessionStore(supabaseAdmin(), { userId: session.user.id }), { onEpisodeCheck: reportFinalisedEpisodeCheck });
+    const finalised = await finaliseExpiredSessionsForUser(supabaseSessionStore(supabaseAdmin(), { userId: session.user.id }), { onEpisodeCheck: reportFinalisedEpisodeCheck });
+    if (finalised?.finalised) forgetBadges(session.user.id); // a result saved just now can earn a badge (BADGES-REFINE-1018)
     const attempts = await Database.getAttempts(session.user.id);
     return NextResponse.json(attempts);
   } catch (e) {

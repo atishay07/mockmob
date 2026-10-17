@@ -22,6 +22,7 @@ import SwotPanel from '@/components/result/SwotPanel';
 import OthersAnswered, { OptionShare, shareTone } from '@/components/result/OthersAnswered';
 import TrapTag from '@/components/result/TrapTag';
 import ResultHero from '@/components/result/ResultHero';
+import EarnedBadges from '@/components/EarnedBadges';
 import NextMove from '@/components/result/NextMove';
 import MistakeList, { SHOWN_FIRST } from '@/components/result/MistakeList';
 import ReaderMobi from '@/components/brand/ReaderMobi';
@@ -672,6 +673,10 @@ export default function ResultPageClient({ previewId = null }) {
       <ResultHero receipt={receipt} marks={marks} finding={finding} reaction={reaction} holdStill={engaged || reading != null}
         notice={notice} onNotice={(n) => jumpTo(n)} arrive={arrive} strip={answerMap}
         next={<NextMove move={move} onAct={onAct} paperHref={next.href} arrive={arrive} flat lesson={move?.kind === 'practise' && move.rule === 2 ? lesson : null} />} />
+
+      {/* A badge this scored set earned: one compact row, once, right after the summary and above the analysis (BADGES-REFINE-1018).
+           Draws nothing otherwise. */}
+      <EarnedBadges attempt={attempt} />
 
       {/* D29: the paper played back, about 20 s, from the record (sheet, real moments, costliest chapter, the one next move).
            A quiet row under the front, never inside it. */}

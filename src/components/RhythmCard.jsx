@@ -1,8 +1,9 @@
 "use client";
 
 // Your weekly study rhythm, from the real record (/api/me/rhythm) and nothing else.
-// Full form (Progress): a week ring with one arc per goal day, seven day bubbles, a 12-week
-// ribbon, then the sixteen badges on four paths and the personal bests (StudyBadges).
+// Full form (Progress): the 12-week ribbon and the line that says what a study day is. The badges and the personal
+// bests are their own section of Progress now (StudyBadges, BADGES-REFINE-1018); the week read is handed up to the
+// page through `onLoad`, so the page reads it once.
 // Compact form (Today): the ring, the seven days and one line.
 // Nothing shows, and Mobi does not react, until the server has answered. A day is "counted" only
 // when the server listed it; a week is "met" only when the server said so.
@@ -21,7 +22,6 @@ import { useInView } from '@/lib/motion/useInView';
 import { useMobiPrefs } from '@/lib/mobiPrefs';
 import { weekMobi } from '@/lib/mobiMoments';
 import { helloToday, speakOnce } from '@/lib/mobiRation';
-import StudyBadges from '@/components/StudyBadges';
 import { buildRibbon, buildWeek, dayKeyNow, shortDate, weekStatus } from '@/lib/rhythmView';
 
 const R = 46;
@@ -211,14 +211,14 @@ function pickMobi(rhythm, { cheered, hello, counted, hour }) {
 // `quietMet` (Today): the page's companion is saying the met week right now, so the card leaves out its own
 // "Week met" sentence; the ring and the day dots already show it.
 // `onError`: the page shows the failure itself (Progress's one page-level error), so the card reports it and steps aside.
-export default function RhythmCard({ compact = false, mobi = !compact, between = null, quietMet = false, onError = null }) {
+// `onLoad`: the page wants the week the card read (Progress gives it to the badges, which need the time zone and the goal).
+export default function RhythmCard({ compact = false, mobi = !compact, between = null, quietMet = false, onError = null, onLoad = null }) {
   const { reduced } = useMobiPrefs();
   const [wakeLine, setWakeLine] = useState('');
   const [state, setState] = useState({ status: 'loading', rhythm: null, cheered: true, pick: null, fresh: false });
   const [attempt, setAttempt] = useState(0);
   const [picked, setPicked] = useState(null);
   const [ref, inView] = useInView({ threshold: 0.25 });
-  const [moreRef, moreInView] = useInView({ threshold: 0.15 });
 
   useEffect(() => {
     let alive = true;
@@ -244,6 +244,8 @@ export default function RhythmCard({ compact = false, mobi = !compact, between =
 
   const failed = state.status === 'error';
   useEffect(() => { if (failed && onError) onError(); }, [failed, onError]);
+  const loaded = state.status === 'ready' ? state.rhythm : null;
+  useEffect(() => { if (loaded && onLoad) onLoad(loaded); }, [loaded, onLoad]);
 
   const rhythm = state.rhythm;
   const cheered = state.cheered;
@@ -317,13 +319,11 @@ export default function RhythmCard({ compact = false, mobi = !compact, between =
     </section>
   );
   if (compact) return card;
-  const moreArmed = moreInView || reduced;
   return (
     <>
       {card}
       {between}
-      <section ref={moreRef} className="rc rc--more" aria-label="Your weeks and milestones">
-        <StudyBadges rhythm={rhythm} armed={moreArmed} />
+      <section className="rc rc--more" aria-label="What counts as a study day">
         <p className="rc__foot">A study day is a day with a scored session of at least 5 answers or a finished Mistake Repair. <Link href="/profile#goal" className="rc__foot-link">Change your study days</Link> in Account or in the app.</p>
       </section>
     </>

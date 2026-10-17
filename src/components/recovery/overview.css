@@ -48,7 +48,8 @@
 .app-shell .rv-session__state { font-size: 14px; line-height: 1.3; color: var(--a-ink-2); white-space: nowrap; text-align: right; }
 .app-shell .rv-session__state b { font: 800 18px var(--font-display); font-variant-numeric: tabular-nums; }
 .app-shell .rv-session__state[data-tone='open'] { color: var(--a-warn-text); }
-.app-shell .rv-session__state[data-tone='clear'] { color: var(--a-accent-text); font-weight: 600; }
+/* Praise is quiet: the words carry it, in the second ink. Only a warning takes the warn colour. */
+.app-shell .rv-session__state[data-tone='clear'] { color: var(--a-ink-2); font-weight: 600; }
 @media (max-width: 520px) {
   .app-shell .rv-session { grid-template-columns: 64px minmax(0, 1fr); }
   .app-shell .rv-session__art { grid-row: 1 / span 2; width: 64px; }
