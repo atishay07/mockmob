@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../haptics/haptics.dart';
 import '../../motion/motion.dart';
 import '../../theme/theme.dart';
+import '../materials/touch_light.dart';
 import 'bar_glass.dart';
 import 'bar_live.dart';
 
@@ -47,6 +48,9 @@ class _LiveCapsuleState extends ConsumerState<LiveCapsule> with TickerProviderSt
   // dispose (a deactivated element cannot look up its TickerMode).
   late final AnimationController _present;
   late final AnimationController _swipe;
+
+  /// The light a finger puts into the capsule's glass (GLASS-1017 5.4).
+  late final TouchLightController _light;
   BarLive? _shown;
   bool _leaving = false;
 
@@ -82,6 +86,7 @@ class _LiveCapsuleState extends ConsumerState<LiveCapsule> with TickerProviderSt
   @override
   void initState() {
     super.initState();
+    _light = TouchLightController(vsync: this);
     _present = AnimationController(vsync: this, value: widget.live == null ? 0 : 1);
     _swipe = AnimationController.unbounded(vsync: this);
     _shown = widget.live;
@@ -135,6 +140,7 @@ class _LiveCapsuleState extends ConsumerState<LiveCapsule> with TickerProviderSt
   void dispose() {
     _present.dispose();
     _swipe.dispose();
+    _light.dispose();
     super.dispose();
   }
 
@@ -190,6 +196,16 @@ class _LiveCapsuleState extends ConsumerState<LiveCapsule> with TickerProviderSt
     final radius = _growRadius;
     Widget content = _CapsuleContent(live: live, present: _present, reduced: reduced, growing: growing);
     if (growing) content = FadeTransition(opacity: _growFade, child: content);
+    RRect shape(Size size) {
+      final slot = Rect.fromLTWH(0, 2, size.width, MmBar.capsuleHeight);
+      const slotRadius = MmBar.capsuleHeight / 2;
+      if (growLocal == null) return RRect.fromRectAndRadius(slot, const Radius.circular(slotRadius));
+      final g = Motion.emphasized.transform(_present.value.clamp(0.0, 1.0));
+      final rect = Rect.lerp(growLocal, slot, g)!;
+      final r = (radius + (slotRadius - radius) * g).clamp(0.0, rect.shortestSide / 2);
+      return RRect.fromRectAndRadius(rect, Radius.circular(r));
+    }
+
     Widget capsule = SizedBox(
       key: _slotKey,
       width: width,
@@ -197,16 +213,19 @@ class _LiveCapsuleState extends ConsumerState<LiveCapsule> with TickerProviderSt
       child: BarGlass(
         quality: widget.quality,
         repaint: _present,
-        shape: (size) {
-          final slot = Rect.fromLTWH(0, 2, size.width, MmBar.capsuleHeight);
-          const slotRadius = MmBar.capsuleHeight / 2;
-          if (growLocal == null) return RRect.fromRectAndRadius(slot, const Radius.circular(slotRadius));
-          final g = Motion.emphasized.transform(_present.value.clamp(0.0, 1.0));
-          final rect = Rect.lerp(growLocal, slot, g)!;
-          final r = (radius + (slotRadius - radius) * g).clamp(0.0, rect.shortestSide / 2);
-          return RRect.fromRectAndRadius(rect, Radius.circular(r));
-        },
-        child: Padding(padding: const EdgeInsets.symmetric(vertical: 2), child: content),
+        shape: shape,
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: IgnorePointer(
+                child: CustomPaint(
+                  painter: TouchLightPainter(light: _light, shape: shape, color: TouchLightPainter.colorFor(night: context.mmColors.isNight)),
+                ),
+              ),
+            ),
+            Padding(padding: const EdgeInsets.symmetric(vertical: 2), child: content),
+          ],
+        ),
       ),
     );
 
@@ -217,13 +236,19 @@ class _LiveCapsuleState extends ConsumerState<LiveCapsule> with TickerProviderSt
       onTap: live.action == null ? null : _tap,
       customSemanticsActions: {const CustomSemanticsAction(label: 'Dismiss'): () => _dismiss()},
       child: ExcludeSemantics(
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: _tap,
-          onHorizontalDragUpdate: _dragUpdate,
-          onHorizontalDragEnd: _dragEnd,
-          onHorizontalDragCancel: () => _dragEnd(DragEndDetails(primaryVelocity: 0)),
-          child: capsule,
+        child: Listener(
+          onPointerDown: (e) => _light.down(e.localPosition, reduced: reduced),
+          onPointerMove: (e) => _light.move(e.localPosition),
+          onPointerUp: (_) => _light.up(),
+          onPointerCancel: (_) => _light.up(),
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: _tap,
+            onHorizontalDragUpdate: _dragUpdate,
+            onHorizontalDragEnd: _dragEnd,
+            onHorizontalDragCancel: () => _dragEnd(DragEndDetails(primaryVelocity: 0)),
+            child: capsule,
+          ),
         ),
       ),
     );

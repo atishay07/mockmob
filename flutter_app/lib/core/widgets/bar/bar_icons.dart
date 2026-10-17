@@ -57,13 +57,12 @@ class BarIconColors {
   /// The outlined icon at rest (ink 2).
   final Color idle;
 
-  /// The filled icon when active: volt on Night; ink on Daylight, where volt on the white lens
-  /// would fail contrast.
+  /// The filled icon when active: ink in both themes. The bar's one lime is the Start key
+  /// (NAV-1017 6.2: one lime fill per viewport); selection reads from the fill, the ink and the
+  /// lens, never from colour alone.
   final Color active;
 
-  factory BarIconColors.of(MmColors colors) => colors.isNight
-      ? BarIconColors(idle: colors.ink2, active: colors.volt)
-      : BarIconColors(idle: colors.ink2, active: colors.ink);
+  factory BarIconColors.of(MmColors colors) => BarIconColors(idle: colors.ink2, active: colors.ink);
 
   @override
   bool operator ==(Object other) => other is BarIconColors && other.idle == idle && other.active == active;

@@ -363,7 +363,7 @@ void main() {
       expect(tester.hasRunningAnimations, isFalse);
     });
 
-    testWidgets('a tab switch travels and settles; reduced motion jumps', (tester) async {
+    testWidgets('a tab switch travels and settles; reduced motion jumps with a 120 ms cross-fade (NAV 6.5)', (tester) async {
       await tester.pumpWidget(bar(0));
       await tester.pumpWidget(bar(2));
       await tester.pump(const Duration(milliseconds: 60));
@@ -375,6 +375,7 @@ void main() {
       await tester.pumpWidget(bar(0, reduced: true));
       await tester.pumpWidget(bar(1, reduced: true));
       await tester.pump();
+      await tester.pump(const Duration(milliseconds: 130));
       expect(tester.hasRunningAnimations, isFalse);
     });
   });

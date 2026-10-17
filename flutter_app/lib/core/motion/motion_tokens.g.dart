@@ -42,6 +42,9 @@ abstract final class MotionDurations {
   static const Duration handOffOut = Duration(milliseconds: 180);
   static const Duration handOffIn = Duration(milliseconds: 300);
   static const Duration drawIn = Duration(milliseconds: 450);
+  static const Duration touchLightIn = Duration(milliseconds: 80);
+  static const Duration touchLightOut = Duration(milliseconds: 360);
+  static const Duration gelSquash = Duration(milliseconds: 100);
 }
 
 /// Curves (`curves`, the four control values of a CSS cubic-bezier).
@@ -81,6 +84,10 @@ abstract final class MotionSprings {
   static const double toggleBounce = 0.14;
   static const Duration liftDuration = Duration(milliseconds: 300);
   static const double liftBounce = 0;
+  static const Duration lensLiftDuration = Duration(milliseconds: 180);
+  static const double lensLiftBounce = 0;
+  static const Duration lensDropDuration = Duration(milliseconds: 320);
+  static const double lensDropBounce = 0.14;
 }
 
 /// Distances, scales and shares (`numbers`) and whole counts (`counts`).
@@ -183,6 +190,9 @@ const Map<String, Object> motionTokenTable = <String, Object>{
   'durations.handOffOut': MotionDurations.handOffOut,
   'durations.handOffIn': MotionDurations.handOffIn,
   'durations.drawIn': MotionDurations.drawIn,
+  'durations.touchLightIn': MotionDurations.touchLightIn,
+  'durations.touchLightOut': MotionDurations.touchLightOut,
+  'durations.gelSquash': MotionDurations.gelSquash,
   'curves.glide': MotionCurves.glide,
   'curves.exit': MotionCurves.exit,
   'curves.emphasized': MotionCurves.emphasized,
@@ -213,6 +223,10 @@ const Map<String, Object> motionTokenTable = <String, Object>{
   'springs.toggle.bounce': MotionSprings.toggleBounce,
   'springs.lift.ms': MotionSprings.liftDuration,
   'springs.lift.bounce': MotionSprings.liftBounce,
+  'springs.lensLift.ms': MotionSprings.lensLiftDuration,
+  'springs.lensLift.bounce': MotionSprings.lensLiftBounce,
+  'springs.lensDrop.ms': MotionSprings.lensDropDuration,
+  'springs.lensDrop.bounce': MotionSprings.lensDropBounce,
   'numbers.pressedScale': MotionNumbers.pressedScale,
   'numbers.enterRise': MotionNumbers.enterRise,
   'numbers.enterScale': MotionNumbers.enterScale,

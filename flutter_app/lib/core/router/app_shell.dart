@@ -40,9 +40,11 @@ class TabReselect extends Notifier<TabReselectEvent?> {
 final tabReselectProvider = NotifierProvider<TabReselect, TabReselectEvent?>(TabReselect.new);
 
 /// The scaffold around the five tab branches (Today, Practice, Review, Colleges, You; Start is
-/// the bar's action between Practice and Review), built to docs/brain/ui-phase2/DOCK.md and
-/// app-ia-1016.md section 4: content runs under the floating glass bar, inside one
-/// `BackdropGroup` so the bar and the live capsule share a single backdrop snapshot. Tab roots get
+/// the round key beside the tabs' capsule, not a tab), built to
+/// docs/design-decisions/pass-1017/NAV-1017.md section 6: content runs under the floating glass
+/// row, inside one `BackdropGroup` so the capsule, the key and the live capsule share a single
+/// backdrop snapshot, and one compaction controller moves all three. TalkBack and the keyboard
+/// reach the five tabs first, then the key. Tab roots get
 /// the bar's clearance added to their bottom padding through `MediaQuery` (and [MmBarInsets]),
 /// so lists and `SafeArea`s clear it without changes.
 ///
@@ -433,6 +435,7 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
       startDrag: this,
       badges: ref.watch(barBadgesProvider),
       compact: _compact,
+      collapse: _collapse,
       entrance: _entrance,
       quality: quality,
       startResumeLabel: resume == null ? null : 'Resume ${resume.paper}',
@@ -442,7 +445,8 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
 
     final capsule = LiveCapsule(
       live: live,
-      width: geo.width - 2 * MmSpace.gutter,
+      // The live capsule spans the whole row, capsule and key (NAV-1017 7.1).
+      width: geo.width,
       collapse: _collapse,
       quality: quality,
       onAction: _onCapsuleAction,

@@ -85,56 +85,93 @@ abstract final class MmElevation {
   static const double sigmaControl = 12;
 }
 
-/// The bottom bar (docs/design-decisions/app-ia-1016.md section 4, which replaces DOCK.md 3.1):
-/// one centred glass bar of six equal slots, Today, Practice, Start, Review, Colleges and You,
-/// with a live capsule that rises above it while something is in progress. Start is laid out
-/// exactly like a tab (icon over label, on a volt pill the size of the lens), so every icon,
-/// every label and the Start pill share their centre lines by construction (L31).
+/// The look of the Start key (NAV-1017 section 6.2): [volt] is the lime-filled key the owner chose
+/// on 17 Oct (A1); [glass] is the quiet glass key with a lime ring and glyph (A).
+enum StartKeyStyle { volt, glass }
+
+/// The bottom bar (docs/design-decisions/pass-1017/NAV-1017.md section 6, which replaces
+/// app-ia-1016.md section 4): one 64 dp row holding a glass capsule of five tabs (Today, Practice,
+/// Review, Colleges, You) and, 8 dp to its right, a separate 64 dp round Start key. The capsule
+/// and the key are the same 64 dp box, top and bottom, and the key's glyph and word sit in the
+/// tabs' icon and label boxes, so every icon, every label and the key share two centre lines by
+/// construction (L31). A live capsule rises above the whole row while something is in progress.
 abstract final class MmBar {
-  /// The bar's painted height, expanded and compact (scrolled down).
+  /// The row's painted height, expanded and compact (scrolled down).
   static const double height = 64;
   static const double compactHeight = 52;
 
-  /// Gap between the bar's bottom edge and the gesture inset (or the 3-button bar).
+  /// Gap between the row's bottom edge and the gesture inset (or the 3-button bar).
   static const double lift = 12;
 
-  /// Padding inside the bar, every side.
-  static const double pad = 6;
+  /// Padding inside the capsule, left and right of the five slots (3 below 360 dp).
+  static const double pad = 4;
+  static const double narrowPad = 3;
 
-  /// The bar's and the capsule's live blur (L33: stronger than the sheets' and the shared
-  /// dock sigma of 24, so what scrolls under the bar reads as frost, never as text).
+  /// The Start key: a circle as tall as the row, and its gap from the capsule (6 below 360 dp).
+  static const double keySize = 64;
+  static const double keyGap = 8;
+  static const double narrowKeyGap = 6;
+
+  /// The key's look. The owner chose the lime-filled key (A1) on 17 Oct; the glass key (A) stays
+  /// one switch away.
+  static const StartKeyStyle startKeyStyle = StartKeyStyle.volt;
+
+  /// The capsule's and the live capsule's blur (L33: frost, so what scrolls under the bar shows as
+  /// soft colour and shape, never as readable text). GLASS-1017 section 8 keeps the frost value
+  /// under this name too, so the owner's answer to its question 1 is one number.
   static const double blurSigma = 32;
+  static const double frostBlurSigma = blurSigma;
 
-  /// The six slots, all the same width (Start included).
-  static const int slots = 6;
+  /// The backdrop's saturation lift under the glass (Apple's regular material, NAV 6.2).
+  static const double saturation = 1.5;
 
-  /// The lens and the Start pill are a slot less this much on each side.
-  static const double pillInset = 2;
+  /// The five tab slots, all the same width.
+  static const int slots = 5;
 
-  /// The icon box (24 by 24) and its top, measured from the expanded bar's top: y 11 to 35,
+  /// The lens is a slot less this much on each side (1, not the 2 of NAV 6.1: the extra 2 dp of
+  /// width buy the lens's corners about 2 dp more radius around the label, see `BarLensPainter`).
+  static const double lensInset = 1;
+
+  /// The label box is the lens less this much on each side, so a word never meets the lens's
+  /// side.
+  static const double labelInset = 3;
+
+  /// The lens's height, expanded (y 4 to 60 of the row) and compact (y 16 to 60).
+  static const double lensHeight = 56;
+  static const double compactLensHeight = 44;
+
+  /// How far a finger's flick projects the lens when it lets go: `v / 1000 * d / (1 - d)` dp.
+  /// UIKit's scroll rate (0.998) sends any flick to the end of a 300 dp bar, so the bar uses
+  /// UIKit's fast rate (0.99): a 1,000 dp/s flick travels about 99 dp, a slot and a half.
+  static const double projectionDecay = 0.99;
+
+  /// The icon box (24 by 24) and its top, measured from the expanded row's top: y 11 to 35,
   /// centre 23.
   static const double icon = 24;
   static const double iconTop = 11;
 
   /// The label's line box: 11 sp, line height 14, at y 39 to 53 (centre 46). The icon, the 4 dp
-  /// gap and the label make a 42 dp group centred on y 32, the pill's centre.
+  /// gap and the label make a 42 dp group centred on y 32, the capsule's and the key's centre.
   static const double labelTop = 39;
   static const double labelHeight = 14;
   static const double labelSize = 11;
 
-  /// Compact: the icons move down this far to centre on y 38, the compact pill's centre.
-  static const double compactShift = (height - compactHeight) + (compactHeight - 2 * pad) / 2 + pad - (iconTop + icon / 2);
+  /// Compact: the icons move down this far to centre on y 38, the compact row's centre.
+  static const double compactShift = height - compactHeight / 2 - (iconTop + icon / 2);
 
-  /// The live capsule's height and its gap above the bar.
+  /// The live capsule's height and its gap above the row.
   static const double capsuleHeight = 44;
   static const double capsuleGap = 8;
 
-  /// The bar's side gutter (8 on phones narrower than 360 dp) and its widest size.
+  /// The row's side gutter (8 on phones narrower than 360 dp) and its widest size.
   static const double gutter = 16;
   static const double narrowGutter = 8;
   static const double maxWidth = 440;
 
-  /// Space between the bar's top edge and the end of a tab root's content.
+  /// Below this screen width the gutter, the key gap and the capsule padding narrow.
+  static const double narrowBelow = 360;
+
+  /// Space between the row's top edge and the end of a tab root's content.
   static const double contentGap = 20;
 
   /// What the capsule adds to a tab root's bottom padding while it shows.
@@ -144,10 +181,21 @@ abstract final class MmBar {
   /// last row scrolls clear of the expanded bar.
   static const double clearanceAbove = lift + height + contentGap;
 
-  /// The bar's width on a screen [screenWidth] wide.
+  /// The row's width on a screen [screenWidth] wide: the screen less a gutter each side, at most
+  /// 440.
   static double widthFor(double screenWidth) =>
-      (screenWidth - 2 * (screenWidth < 360 ? narrowGutter : gutter)).clamp(0.0, maxWidth);
+      (screenWidth - 2 * (screenWidth < narrowBelow ? narrowGutter : gutter)).clamp(0.0, maxWidth);
 
-  /// Each slot's width on a screen [screenWidth] wide: (W - 12) / 6.
-  static double slotFor(double screenWidth) => (widthFor(screenWidth) - 2 * pad) / slots;
+  /// The key's gap from the capsule on a screen [screenWidth] wide.
+  static double keyGapFor(double screenWidth) => screenWidth < narrowBelow ? narrowKeyGap : keyGap;
+
+  /// The capsule's inner padding on a screen [screenWidth] wide.
+  static double padFor(double screenWidth) => screenWidth < narrowBelow ? narrowPad : pad;
+
+  /// The capsule's width: the row less the key and its gap.
+  static double capsuleWidthFor(double screenWidth) => widthFor(screenWidth) - keySize - keyGapFor(screenWidth);
+
+  /// Each tab slot's width: `(row - 64 - gap - 2 x pad) / 5` (45.6 dp at 320, 49.6 at 360, 60 at
+  /// 412, 72 from 472 up).
+  static double slotFor(double screenWidth) => (capsuleWidthFor(screenWidth) - 2 * padFor(screenWidth)) / slots;
 }

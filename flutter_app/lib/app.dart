@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'core/auth/auth.dart';
 import 'core/home_widget/home_widget_sync.dart' show homeWidgetSyncProvider;
 import 'core/mascot/mascot.dart' show MobiCelebrations, celebrationLevelFor;
+import 'core/motion/mm_scroll_behavior.dart';
 import 'core/motion/reduced_motion.dart';
 import 'core/platform/native_touches.dart';
 import 'core/router/router.dart';
@@ -88,6 +89,8 @@ class _AppView extends ConsumerWidget {
       // The Night to Day switch is a deliberate 250 ms cross-fade of the old frame ([ThemeCrossFade]),
       // not a 200 ms lerp of every colour: painters and cached pictures showed muddy mid-states.
       themeAnimationDuration: Duration.zero,
+      // Every scroll the app owns bounces, iOS style, with no Android stretch (F3, GLASS 5.9).
+      scrollBehavior: const MmScrollBehavior(),
       builder: (context, child) {
         // Large text is allowed up to 2.0 so layouts must reflow, not clip.
         final scaler = MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 2.0);

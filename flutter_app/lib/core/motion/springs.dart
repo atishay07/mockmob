@@ -45,6 +45,12 @@ abstract final class Springs {
   /// card springing home or away. 300 ms, bounce 0.
   static final SpringDescription lift = _of(MotionSprings.liftDuration, MotionSprings.liftBounce);
 
+  /// The bar's lens rising out of the glass under a finger: 180 ms, bounce 0 (GLASS-1017 5.5).
+  static final SpringDescription lensLift = _of(MotionSprings.lensLiftDuration, MotionSprings.lensLiftBounce);
+
+  /// The lifted lens sinking back into the glass as it lands: 320 ms, bounce 0.14.
+  static final SpringDescription lensDrop = _of(MotionSprings.lensDropDuration, MotionSprings.lensDropBounce);
+
   /// The pressed scale of every tappable surface.
   static const double pressedScale = MotionNumbers.pressedScale;
 }
