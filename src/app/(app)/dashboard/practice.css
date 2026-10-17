@@ -495,6 +495,10 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg:not([data-lens
   .app-shell .pr .pr-lower__side { display: contents; }
   .app-shell .pr .pr-lower > .pr-panel, .app-shell .pr .pr-lower__side > .pr-panel { grid-column: 1; align-self: start; }
   .app-shell .pr .pr-lower__side > .pr-panel[aria-labelledby='pr-bank'] { grid-column: 2; grid-row: 1 / span 3; }
+  /* Add a question is hidden unless CONTRIBUTE_ENABLED (COMMUNITY-1018). Without it Concepts and Pro take the right column beside
+     Recent sessions, so the lower area stays two balanced columns instead of leaving the right one empty. */
+  .app-shell .pr .pr-lower:not(:has(.pr-panel[aria-labelledby='pr-bank'])) > .pr-panel { grid-row: 1 / span 2; }
+  .app-shell .pr .pr-lower:not(:has(.pr-panel[aria-labelledby='pr-bank'])) .pr-lower__side > .pr-panel { grid-column: 2; }
 }
 
 /* ---------- Loading: shapes that hold the new layout's places ---------- */

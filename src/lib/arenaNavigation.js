@@ -2,6 +2,8 @@ import { CAPABILITIES } from '@/../data/capabilities';
 
 // hint: a plain descriptor shown beside a branded name (WEB-REDESIGN-PLAN 5.3) until the owner settles those names (D10).
 const item = (id, label, icon = id, href = `/${id}`, hint = null) => ({ id, label, icon, href, hint });
+// sub: a link that belongs to the item above it. The desktop sidebar indents it under that item; the phone sheet lists it beside it.
+const sub = (tab) => ({ ...tab, sub: true });
 export const STUDY_NAV = [
   item('today', 'Today'), item('dashboard', 'Practice', 'practice', CAPABILITIES.practice.href),
   item('learn', 'Learn'), item('review', 'Review', 'review', CAPABILITIES.review.href),
@@ -9,12 +11,15 @@ export const STUDY_NAV = [
   item('saved', 'Saved'), item('progress', 'Progress'),
 ];
 // `mob`: the Mob is on (MOB_ENABLED, passed down from the (app) layout). Off, its item is not drawn at all.
-export function arenaNavigation(moderator = false, { mob = false } = {}) {
+// `contribute`: the contribution side is on (CONTRIBUTE_ENABLED). Off (the default), Contribute and My uploads are not drawn
+// (COMMUNITY-1018); with it on they come back, as the Contribute group. There is no Community header any more: Your standing
+// sits under Progress, and the Mob, when it is on, follows it in the Study group.
+export function arenaNavigation(moderator = false, { mob = false, contribute = false } = {}) {
   return [
     ...(moderator ? [{ label: 'Moderation', items: [item('moderation', 'Mod queue', 'moderation')] }] : []),
-    { label: 'Study', items: STUDY_NAV },
+    { label: 'Study', items: [...STUDY_NAV, sub(item('leaderboard', 'Your standing', 'ranks')), ...(mob ? [item('mob', 'Your Mob', 'mob')] : [])] },
     { label: 'Planning', items: [item('analytics', 'Weak chapters', 'radar', '/analytics'), item('admission-compass', 'Colleges', 'colleges', '/admission-compass', 'DU cutoffs'), item('mentor', 'Ask Mobi', 'prepos')] },
-    { label: 'Community', items: [...(mob ? [item('mob', 'Your Mob', 'mob')] : []), item('leaderboard', 'Your standing', 'ranks'), item('upload', 'Contribute', 'contribute'), item('my-uploads', 'My uploads', 'uploads')] },
+    ...(contribute ? [{ label: 'Contribute', items: [item('upload', 'Contribute', 'contribute'), item('my-uploads', 'My uploads', 'uploads')] }] : []),
     { label: 'Account', items: [item('profile', 'Account', 'account'), item('help', 'Help and FAQ', 'help')] },
   ];
 }

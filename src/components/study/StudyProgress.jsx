@@ -24,6 +24,10 @@ export default function StudyProgress({ review = false }) {
     <div className="study-facts"><span className="study-facts__read"><ReadRing read={record.progress.lessonsRead} total={record.progress.lessonsAvailable} /><span><b>{record.progress.lessonsRead}</b> of {record.progress.lessonsAvailable} lessons read</span></span><span><b>{record.progress.cardsStarted}</b> cards in review</span><span><b>{record.progress.recallReviews}</b> recall answers</span></div>
     <p>Lessons and recall keep ideas fresh. Marks come only from practice and mocks, so they are recorded separately; a recall rating schedules the next review and does not certify mastery.</p>
     {record.active ? <Link className="study-button" href={`/study/${record.active.id}`}>Continue your saved {record.active.mode === 'learn' ? 'lesson' : 'review'}</Link> : null}
-    <Link className="study-button" href={record.queue.availableCount ? '/learn?recall=due' : '/learn'}>{record.queue.availableCount ? (due ? 'Review due cards' : 'Lock in new cards') : 'Open Learn'}</Link>
+    {review
+      ? <Link className="study-button" href={record.queue.availableCount ? '/learn?recall=due' : '/learn'}>{record.queue.availableCount ? (due ? 'Review due cards' : 'Lock in new cards') : 'Open Learn'}</Link>
+      // Progress is a record, so it leads to Learn itself (D20): the Learn page names the due cards and starts them from its first
+      // block, with Learn marked as the place you are, instead of dropping a student into a card run from here.
+      : <>{due ? <p className="study-record__due"><b>{due}</b> {due === 1 ? 'card is' : 'cards are'} due for review in Learn.</p> : null}<Link className="study-button" href="/learn">Open Learn</Link></>}
   </section>;
 }

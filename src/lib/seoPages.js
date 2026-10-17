@@ -194,7 +194,7 @@ export const seoPages = {
         heading: 'Choosing the right online CUET test platform',
         body: [
           'The right platform should be fast, mobile-friendly, easy to navigate, and focused on preparation outcomes rather than clutter. Look for clean test flows, meaningful answer review, internal links between mocks and practice, and analytics that tell you where marks are leaking. A platform should reduce preparation friction, not add another complicated system to manage.',
-          'MockMob focuses on community-driven questions, timed practice, saved revision, performance signals, and a premium layer for students who want deeper CUET analytics and admission planning. It is built for aspirants who want a serious practice loop without waiting until the last month to discover weak areas.',
+          'MockMob focuses on timed practice from one large CUET question bank, saved revision, performance signals, and a premium layer for students who want deeper CUET analytics and admission planning. It is built for aspirants who want a serious practice loop without waiting until the last month to discover weak areas.',
           'Before committing to any routine, take one small test and judge whether the platform makes your next action obvious. If you know what to revise after finishing, the practice system is doing its job. If you only receive a score, you still need a separate method for turning that result into improvement.',
         ],
       },

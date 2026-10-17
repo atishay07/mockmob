@@ -241,6 +241,40 @@ html[data-theme='light'] :is(.app-shell .nta-runner[data-interface='nta'], .aren
 .app-shell .arena-nav-link[aria-current="page"] .icon {
   color: var(--a-accent-text);
 }
+/* A link that belongs to the one above it (Your standing under Progress, COMMUNITY-1018). In the sidebar it is indented under its
+   parent, so it reads as part of Progress; the phone sheet lists it beside Progress as an ordinary row. */
+.app-shell .arena-sidebar .arena-nav-link--sub {
+  min-height: 34px;
+  margin-left: 28px;
+  padding: 0 10px;
+  font-size: 13.5px;
+  font-weight: 550;
+}
+.app-shell .arena-sidebar .arena-nav-link--sub[aria-current="page"]::before { left: -43px; top: 8px; bottom: 8px; }
+/* Learn's own row at the top of the phone sheet (D20): the one place on a phone that says what Learn is. */
+.app-shell .arena-sheet__lead {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 64px;
+  margin: 0 0 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--a-line);
+  border-radius: 16px;
+  background: var(--a-raised-2);
+  color: var(--a-ink);
+  text-decoration: none;
+  animation: mk-rise 320ms var(--mk-settle, cubic-bezier(.23, 1, .32, 1)) backwards;
+}
+.app-shell .arena-sheet__lead .icon { flex: none; width: 22px; height: 22px; color: var(--a-accent-text); }
+.app-shell .arena-sheet__lead-text { display: grid; gap: 2px; min-width: 0; }
+.app-shell .arena-sheet__lead-name { font: 650 16px/1.2 var(--font-display); }
+.app-shell .arena-sheet__lead-note { font-size: 13px; line-height: 1.35; color: var(--a-ink-3); }
+.app-shell .arena-sheet__lead:active { transform: scale(0.98); }
+.app-shell .arena-sheet__lead[aria-current="page"] { background: var(--a-volt-wash); }
+.app-shell .arena-sheet__lead:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+html[data-motion='reduced'] .app-shell .arena-sheet__lead { animation: none; }
+@media (prefers-reduced-motion: reduce) { .app-shell .arena-sheet__lead { animation: none; } }
 .app-shell .arena-nav-link:focus-visible,
 .app-shell .arena-iconbtn:focus-visible,
 .app-shell .arena-chip:focus-visible {
@@ -1649,6 +1683,8 @@ html[data-motion='reduced'] .app-shell .pr-nta__palette em { transition: none; }
   html .app-shell .arena-bottomnav:has(> :nth-child(3)[aria-current='page']) { --abn-i: 2; --abn-on: 1; }
   html .app-shell .arena-bottomnav:has(> :nth-child(4)[aria-current='page']) { --abn-i: 3; --abn-on: 1; }
   html .app-shell .arena-bottomnav:has(> :nth-child(5)[aria-expanded='true']) { --abn-i: 4; --abn-on: 1; }
+  /* On a place that lives under More (Learn, Explore, Saved, Progress, Account, Help) the lens rests under More. */
+  html .app-shell .arena-bottomnav:has(> :nth-child(5)[data-within='true']) { --abn-i: 4; --abn-on: 1; }
   html .app-shell .arena-bottomnav :is(a, button) {
     position: relative;
     z-index: 1;
@@ -1675,7 +1711,7 @@ html[data-motion='reduced'] .app-shell .pr-nta__palette em { transition: none; }
   html .app-shell .arena-bottomnav :is(a, button) > svg { display: block; width: 24px; height: 24px; }
   html .app-shell .arena-bottomnav :is(a, button) > span { display: block; height: 14px; white-space: nowrap; }
   html .app-shell .arena-bottomnav :is(a, button):active { transform: scale(0.96); transition-duration: 100ms, 160ms; }
-  html .app-shell .arena-bottomnav :is([aria-current='page'], [aria-expanded='true']) { color: var(--a-ink); background: transparent; }
+  html .app-shell .arena-bottomnav :is([aria-current='page'], [aria-expanded='true'], [data-within='true']) { color: var(--a-ink); background: transparent; }
   html .app-shell .arena-bottomnav :is([aria-current='page'], [aria-expanded='true']) svg { animation: abn-pop 420ms var(--mk-spring); }
   html .app-shell .arena-bottomnav :is(a, button):focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; }
   /* No blur where it is unsupported or the student asked for less transparency: the capsule is the raised surface. */

@@ -33,6 +33,8 @@ import { UploadForm } from '@/components/feed/UploadForm';
 import MyUploadsPageClient from '@/app/(app)/my-uploads/MyUploadsPageClient';
 import ProfilePageClient from '@/app/(app)/profile/ProfilePageClient';
 import HelpPageClient from '@/app/(app)/help/HelpPageClient';
+import AppNotFound from '@/app/(app)/not-found';
+import ContributionsPaused from '@/components/contribute/ContributionsPaused';
 import LeaderboardPageClient from '@/app/(app)/leaderboard/LeaderboardPageClient';
 import ResultPageClient from '@/app/(app)/result/[id]/ResultPageClient';
 import AIRivalArena from '@/components/ai/AIRivalArena';
@@ -544,6 +546,11 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       }
       return json(computeRhythm({ activities, daysPerWeek: kind === 'met' ? 4 : 4, now: Date.now() }));
     }
+    // Progress's study record (D20): with ?study=on the fixture has Learn on, 5 cards due, 3 of 24 lessons read; ?study=on&due=0 has none due.
+    if (url.pathname === '/api/study/catalog' && fixture.get('study') === 'on') {
+      const due = fixture.get('due') === '0' ? 0 : 5;
+      return json({ state: 'ready', active: null, recallEnabled: true, queue: { dueCount: due, availableCount: due, overdueCount: 0, newAllowance: 5 }, progress: { lessonsRead: 3, lessonsAvailable: 24, cardsStarted: 12, recallReviews: 18 } });
+    }
     // Badges and personal bests (Progress). ?badges=none: one set and nothing earned from papers; ?data=empty has no papers.
     if (url.pathname === '/api/me/study-record') return json(state === 'empty' ? buildStudyRecord([], []) : previewStudyRecord(fixture.get('badges')));
     // Weekly goal (Account and onboarding): read 4 days; a save echoes the choice, in memory only.
@@ -597,12 +604,13 @@ function PreviewInner({ candidatePathway }) {
   const planParam = params.get('plan');
   const MONTHLY = MONTHLY_PROFILES[planParam] || null;
   const pro = planParam === 'pro' || Boolean(MONTHLY?.isPremium);
-  const views = ['dashboard', 'test', 'prepos', 'compass', 'radar', 'saved', 'today', 'review', 'rules', 'revise', 'progress', 'recovery', 'explore', 'ranks', 'profile', 'help', 'upload', 'my-uploads', 'result', 'rival', 'onboarding', 'mob', 'join', ...(params.get('role') === 'moderator' ? ['moderation'] : [])];
+  const views = ['dashboard', 'test', 'prepos', 'compass', 'radar', 'saved', 'today', 'review', 'rules', 'revise', 'progress', 'recovery', 'explore', 'ranks', 'profile', 'help', 'upload', 'my-uploads', 'paused', 'paused-uploads', 'not-found', 'result', 'rival', 'onboarding', 'mob', 'join', ...(params.get('role') === 'moderator' ? ['moderation'] : [])];
   const view = views.includes(params.get('view')) ? params.get('view') : 'dashboard';
   const routeNames = { prepos: 'mentor', compass: 'admission-compass', radar: 'analytics', ranks: 'leaderboard', rules: 'review/rules', revise: 'review/revise' };
   const route = `/${routeNames[view] || view}`;
-  const previewHref = (name) => `/preview/arena?${new URLSearchParams({ view: name, plan: params.get('plan') || 'free', data: params.get('data') || 'ready', ...(params.get('role') === 'moderator' ? { role: 'moderator' } : {}), ...(params.get('recovery') ? { recovery: params.get('recovery') } : {}) })}`;
-  const previewLinks = Object.fromEntries(views.map((name) => [routeNames[name] || name, previewHref(name)]));
+  const previewHref = (name) => `/preview/arena?${new URLSearchParams({ view: name, plan: params.get('plan') || 'free', data: params.get('data') || 'ready', ...(params.get('role') === 'moderator' ? { role: 'moderator' } : {}), ...(params.get('recovery') ? { recovery: params.get('recovery') } : {}), ...(params.get('study') ? { study: params.get('study') } : {}), ...(params.get('contribute') ? { contribute: params.get('contribute') } : {}) })}`;
+  // With ?study=on, Learn opens the Learn preview (its own fixture) instead of the signed-in route.
+  const previewLinks = { ...Object.fromEntries(views.map((name) => [routeNames[name] || name, previewHref(name)])), ...(params.get('study') === 'on' ? { learn: '/preview/study' } : {}) };
   const auth = useMemo(() => ({
     user: { id: 'preview-user', name: params.get('data') === 'long' ? 'An exceptionally long illustrative display name for responsive checks' : 'Preview Student', email: 'preview@example.test', role: params.get('role') === 'moderator' ? 'moderator' : 'student',
       subjects: ['accountancy', 'economics', 'business_studies', 'english', ...(params.get('cs') === '1' ? ['computer_science'] : []), ...(params.get('stale') === '1' ? ['hindi'] : [])],
@@ -616,7 +624,7 @@ function PreviewInner({ candidatePathway }) {
     <AuthContext.Provider value={auth}>
       <RoleProvider>
         <div className="arena-fixture-note" role="note"><b>Development preview</b><span>Illustrative data · {params.get('plan') || 'free'} · {params.get('data') || 'ready'}. No real saves, scores, credits or billing.</span><label>View<select value={view} onChange={(event) => { window.location.href = previewHref(event.target.value); }}>{views.map((name) => <option key={name} value={name}>{name}</option>)}</select></label>{view === 'test' && <ThemeToggle />}{view === 'prepos' && <button type="button" className="arena-chip" onClick={() => setDrawerOpen(true)}>Preview assistant drawer</button>}</div><AssistantDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
-        {view === 'join' ? <AuthContext.Provider value={params.get('auth') === 'out' ? { ...auth, user: null, status: 'unauthenticated', isAuthenticated: false } : auth}><JoinMob code="7KQ2M9XR" /></AuthContext.Provider> : view === 'onboarding' ? <OnboardingPageClient preview /> : <AppLayoutClient previewRoute={route} previewLinks={previewLinks} studyEnabled={params.get('study') === 'on'}>{view === 'mob' ? <MobPage user={auth.user} /> : view === 'test' ? <TestPageClient /> : view === 'prepos' ? <MockMobAIHub variant="page" initialTab={params.get('tab') || 'plan'} /> : view === 'compass' ? <AdmissionCompassPageClient /> : view === 'radar' ? <AnalyticsPageClient /> : view === 'saved' ? <SavedPageClient /> : view === 'today' ? <TodayPage /> : view === 'recovery' ? <RecoveryJourney /> : view === 'review' ? <div className="student-page student-page--review"><RecoveryOverview view="review" tabParam="pane" /></div> : view === 'rules' ? <div className="student-page student-page--review"><RuleBook /></div> : view === 'revise' ? <div className="student-page student-page--review"><ReviseRun /></div> : view === 'progress' ? <ProgressPage /> : view === 'explore' ? <DiscoveryFeed /> : view === 'upload' ? <UploadForm /> : view === 'my-uploads' ? <MyUploadsPageClient /> : view === 'profile' ? <ProfilePageClient /> : view === 'help' ? <HelpPageClient /> : view === 'ranks' ? <LeaderboardPageClient /> : view === 'result' ? <ResultPageClient previewId="fixture-attempt" /> : view === 'moderation' ? <ModerationPageClient /> : view === 'rival' ? <AIRivalArena /> : view === 'onboarding' ? <OnboardingPageClient preview /> : <DashboardPageClient studyEnabled={params.get('study') === 'on'} />}</AppLayoutClient>}
+        {view === 'join' ? <AuthContext.Provider value={params.get('auth') === 'out' ? { ...auth, user: null, status: 'unauthenticated', isAuthenticated: false } : auth}><JoinMob code="7KQ2M9XR" /></AuthContext.Provider> : view === 'onboarding' ? <OnboardingPageClient preview /> : <AppLayoutClient previewRoute={route} previewLinks={previewLinks} studyEnabled={params.get('study') === 'on'} contributeEnabled={params.get('contribute') === 'on'}>{view === 'mob' ? <MobPage user={auth.user} /> : view === 'test' ? <TestPageClient /> : view === 'prepos' ? <MockMobAIHub variant="page" initialTab={params.get('tab') || 'plan'} /> : view === 'compass' ? <AdmissionCompassPageClient /> : view === 'radar' ? <AnalyticsPageClient /> : view === 'saved' ? <SavedPageClient /> : view === 'today' ? <TodayPage /> : view === 'recovery' ? <RecoveryJourney /> : view === 'review' ? <div className="student-page student-page--review"><RecoveryOverview view="review" tabParam="pane" /></div> : view === 'rules' ? <div className="student-page student-page--review"><RuleBook /></div> : view === 'revise' ? <div className="student-page student-page--review"><ReviseRun /></div> : view === 'progress' ? <ProgressPage /> : view === 'explore' ? <DiscoveryFeed /> : view === 'upload' ? <UploadForm /> : view === 'my-uploads' ? <MyUploadsPageClient /> : view === 'paused' ? <ContributionsPaused /> : view === 'paused-uploads' ? <ContributionsPaused title="My uploads are paused with Contribute" /> : view === 'not-found' ? <AppNotFound /> : view === 'profile' ? <ProfilePageClient /> : view === 'help' ? <HelpPageClient /> : view === 'ranks' ? <LeaderboardPageClient /> : view === 'result' ? <ResultPageClient previewId="fixture-attempt" /> : view === 'moderation' ? <ModerationPageClient /> : view === 'rival' ? <AIRivalArena /> : view === 'onboarding' ? <OnboardingPageClient preview /> : <DashboardPageClient studyEnabled={params.get('study') === 'on'} />}</AppLayoutClient>}
       </RoleProvider>
     </AuthContext.Provider>
   );

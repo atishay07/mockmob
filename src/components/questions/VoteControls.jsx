@@ -3,8 +3,11 @@
 import { useCallback, useRef, useState } from 'react';
 import { AppIcon } from '@/components/ui/Glyph';
 import { voteOnQuestion } from '@/lib/services/questionService';
+import { useContributeEnabled } from '@/components/contribute/ContributeFlag';
 
+// The vote arrows are part of the contribution side: hidden unless CONTRIBUTE_ENABLED (COMMUNITY-1018). The API and the votes table stay.
 export function VoteControls({ questionId, initialScore = 0, initialUserVote = null, compact = false, onVoteApplied, onError }) {
+  const enabled = useContributeEnabled();
   const [score, setScore] = useState(Number(initialScore || 0));
   const [userVote, setUserVote] = useState(initialUserVote);
   const [pending, setPending] = useState(false);
@@ -34,6 +37,7 @@ export function VoteControls({ questionId, initialScore = 0, initialUserVote = n
     } finally { inflight.current = false; setPending(false); }
   }, [questionId, score, userVote, onVoteApplied, onError]);
 
+  if (!enabled) return null;
   return <div className={`question-vote ${compact ? 'question-vote--compact' : ''}`}>
     <div className="question-vote__controls" aria-label="Question voting" aria-busy={pending}>
       <button type="button" aria-label="Upvote" aria-pressed={userVote === 'up'} disabled={pending} onClick={() => applyVote('up')}><AppIcon name="collapse" size={16} /></button>
