@@ -58,6 +58,21 @@ int suggestedMockTarget({required int weeks, required int taken}) {
   return (base < atLeast ? atLeast : base).clamp(mockTargetMin, mockTargetMax);
 }
 
+/// The full-mock target that keeps one paper every [weeksPerMock] weeks from today to the exam:
+/// the mocks already taken plus the papers still to come at that pace, never below taken + 1.
+/// Change plan's three named paces and the road's suggested target (one a fortnight) both come
+/// from here, so "One a fortnight, 21" and "7 of 21 full mocks, one a fortnight" agree whatever
+/// the student has already taken (TODAY-1018 6.4; T001: a default only from real context).
+int paceTarget({required int weeks, required int taken, required double weeksPerMock}) {
+  final ahead = weeks <= 0 ? 1 : (weeks / weeksPerMock).ceil();
+  final n = taken + (ahead < 1 ? 1 : ahead);
+  final floor = taken + 1 > mockTargetMax ? mockTargetMax : (taken + 1 < mockTargetMin ? mockTargetMin : taken + 1);
+  return n.clamp(floor, mockTargetMax);
+}
+
+/// The suggested target: one full mock a fortnight from today.
+int fortnightTarget({required int weeks, required int taken}) => paceTarget(weeks: weeks, taken: taken, weeksPerMock: 2);
+
 class RoadBoard {
   const RoadBoard({
     required this.today,

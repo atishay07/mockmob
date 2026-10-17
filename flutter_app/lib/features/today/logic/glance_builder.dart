@@ -95,14 +95,11 @@ String formatDayMonthShortLocal(DateTime d) => '${d.day} ${const ['Jan', 'Feb', 
 
 /// The lead card's two choices (6.1): the highest-value moves of a different kind from [lead], in
 /// the order Repair, Revise, the weakest chapter, a full mock (none in 14 days), another subject.
-/// The done state offers its repairs first.
+/// Done for tonight keeps them too, for a student who wants more (its key shows the repairs).
 List<MoveChoice> buildChoices(TodayInputs i, MoveHero lead, {WeakChapter? weakest}) {
   if (lead.kind == MoveKind.failure || lead.state == NextMoveState.historyUnavailable) return const [];
   final leadKey = choiceKeyOf(lead);
   final out = <MoveChoice>[];
-  if (lead.kind == MoveKind.done && lead.alternate != null) {
-    out.add(MoveChoice(key: 'repairs', title: GlanceCopy.choiceSeeRepairs, line: GlanceCopy.choiceSeeRepairsLine(i.repairedToday), action: lead.alternate));
-  }
   void add(String key, MoveChoice? Function() build) {
     if (out.length >= 2 || key == leadKey || out.any((c) => c.key == key)) return;
     final c = build();
@@ -271,7 +268,7 @@ RoadLayers buildRoadLayers(TodayInputs i, {required RoadBoard board, MoveHero? l
   final taken = board.mocksTaken ?? 0;
   final weeks = board.weeksToExam;
   final suggested = board.mockTarget == null;
-  final target = board.mockTarget ?? suggestedMockTarget(weeks: weeks, taken: taken);
+  final target = board.mockTarget ?? fortnightTarget(weeks: weeks, taken: taken);
   final paced = RoadBoard(today: board.today, examDate: board.examDate, ownDate: board.ownDate, daysToExam: board.daysToExam, mocksTaken: taken, mockTarget: target);
   final every = paced.daysPerMock;
   final mocksThisWeek = all.where((a) => a.isMock && !i.date(a.completedAt).isBefore(monday)).length;
@@ -394,7 +391,9 @@ WeakChapters buildWeakChapters(TodayInputs i) {
               head: GlanceCopy.mistakeHead(number, paperLabel(all, a), GlanceCopy.paperWhen(i.clock(a.completedAt))),
               stem: stem,
               repaired: repaired,
-              target: GoTo(repaired ? AppRoutes.reviewRecord : TodayLinks.repair(a.id, qid, 1)),
+              // A repaired mistake opens its saved repair, never a new (paid) repair (F17, W-038):
+              // the repair route without a count is the saved one, as the result's "See repair".
+              target: GoTo(repaired ? AppRoutes.reviewRepair(a.id, qid) : TodayLinks.repair(a.id, qid, 1)),
             );
           }(),
       ],

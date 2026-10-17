@@ -108,7 +108,7 @@ void main() {
       // IST wall-clock times, as the instant the app would see.
       DateTime ist(int h, int m) => DateTime.utc(2026, 10, 13, h, m).subtract(const Duration(hours: 5, minutes: 30));
       final cases = <(int, int, bool, String)>[
-        (4, 59, true, 'Good evening, Asha'),
+        (4, 59, true, 'Hello, Asha'),
         (5, 0, false, 'Good morning, Asha'),
         (6, 58, false, 'Good morning, Asha'),
         (22, 59, false, 'Good evening, Asha'),
@@ -364,10 +364,11 @@ void main() {
       expect(TodayCopy.greeting(14, 'Asha'), 'Good afternoon, Asha');
       expect(TodayCopy.greeting(20, 'Asha'), 'Good evening, Asha');
       expect(TodayCopy.greeting(23, 'Asha'), 'Good evening, Asha');
-      expect(TodayCopy.greeting(1, 'Asha'), 'Good evening, Asha');
+      expect(TodayCopy.greeting(1, 'Asha'), 'Hello, Asha');
+      expect(TodayCopy.greeting(2, 'Asha'), 'Hello, Asha', reason: 'D28: never Good evening at 2:41 am');
       expect(TodayCopy.greeting(14, 'Asha', returning: true), 'Welcome back, Asha');
       expect(TodayCopy.greeting(14, null), 'Good afternoon');
-      expect(TodayCopy.greeting(1, null), 'Good evening');
+      expect(TodayCopy.greeting(1, null), 'Hello');
     });
 
     test('the sessions line says the pace plainly and never counts zero', () {

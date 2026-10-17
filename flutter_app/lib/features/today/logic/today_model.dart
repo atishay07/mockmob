@@ -241,16 +241,26 @@ class MoveHero extends TodayHero {
   final String? dismissedLine;
 }
 
-/// An unopened result: the sealed sheet takes over the hero.
+/// A fresh submission not yet played back: the paper reel takes over the hero once (D29, "Play
+/// your paper back, 20 s"), and the Up next card returns after a play or a skip. No marking wait
+/// and no receipt time: the paper is already marked.
 class SealedHero extends TodayHero {
-  const SealedHero({required this.attemptId, required this.title, required this.line, this.subjectId, this.moreLine});
+  const SealedHero({required this.attemptId, required this.title, required this.line, this.subjectId, this.moreLine, this.subject, this.questions});
 
   final String attemptId;
+
+  /// "Mock 7, Accountancy".
   final String title;
   final String line;
   @override
   final String? subjectId;
   final String? moreLine;
+
+  /// The subject's display name ("Accountancy"), when the paper is on the phone.
+  final String? subject;
+
+  /// The paper's question count, when known: the card's sheet has one bubble per question.
+  final int? questions;
 }
 
 /// A session still running: resume it.

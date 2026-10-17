@@ -39,9 +39,12 @@ void main() {
       expect(v.header.greeting, 'Good evening');
     });
 
-    test('late at night it stays Good evening and the object stays (no sleepy Mobi)', () {
+    test('after midnight the greeting follows the clock (D28) and the object stays (no sleepy Mobi)', () {
       final v = buildToday(ashaInputs(now: DateTime.utc(2026, 10, 17, 18, 40), attempts: ashaRecord(saturday), week: threeOfFour));
-      expect(v.header.greeting, 'Good evening, Asha');
+      expect(v.header.greeting, 'Hello, Asha');
+      // 2:41 AM IST, the hour the owner saw "Good evening" on v13.
+      final late = buildToday(ashaInputs(now: DateTime.utc(2026, 10, 17, 21, 11), attempts: ashaRecord(saturday), week: threeOfFour));
+      expect(late.header.greeting, 'Hello, Asha');
       expect(moveOf(v).art.isMobi, isFalse);
       expect(v.header.mobi, isNull);
     });
@@ -109,10 +112,11 @@ void main() {
       expect(w.captionKey, 'Tonight makes 4.');
     });
 
-    test('day one: the days before the account are dashes and the week starts tonight', () {
+    test('day one: the days before the account are dashes and today is the first of the plan', () {
       final w = buildToday(ashaInputs(now: saturday, attempts: const [], week: const TodayWeek(studied: [false, false, false, false, false, false, false], todayIndex: 5, label: '0 of 4', goal: 4, dates: [12, 13, 14, 15, 16, 17, 18]))).header.week!;
       expect(w.beforeAccount, {0, 1, 2, 3, 4});
-      expect(w.caption, TodayCopy.weekDayOne);
+      expect(w.caption, 'Your plan is 4 days a week. Today is the first.');
+      expect(w.captionKey, 'Today is the first.');
     });
   });
 

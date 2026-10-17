@@ -121,13 +121,13 @@ void main() {
       }
     });
 
-    test('a sealed result opens its sheet', () {
-      const hero = SealedHero(attemptId: 'a9', title: 'Mock 8, Accountancy', line: 'Received at 9:12 PM. Your result is ready.');
+    test('a fresh paper opens Today, where it plays back once (D29)', () {
+      const hero = SealedHero(attemptId: 'a9', title: 'Mock 8, Accountancy', line: 'Your Accountancy paper, question by question.');
       final m = widgetMoveFor(hero, _inputs());
-      expect(m.overline, TodayCopy.sealedOverline);
+      expect(m.overline, TodayCopy.reelTitle);
       expect(m.title, 'Mock 8, Accountancy');
-      expect(m.action, TodayCopy.openSheet);
-      expect(_native(m.href), AppRoutes.resultSealed('a9'));
+      expect(m.action, TodayCopy.reelKey);
+      expect(_native(m.href), AppRoutes.today);
     });
 
     test('an open session resumes, and says when it stops being open', () {

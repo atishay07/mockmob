@@ -71,12 +71,11 @@ class _PlanFlowBodyState extends State<PlanFlowBody> {
   int get _daysToExam => _exam.difference(_today).inDays.clamp(0, 9999);
   int get _weeks => _daysToExam ~/ 7;
 
-  int get _fortnight => suggestedMockTarget(weeks: _weeks, taken: _taken);
-  int get _weekly => (_weeks < _taken + 1 ? _taken + 1 : _weeks).clamp(mockTargetMin, mockTargetMax);
-  int get _monthly {
-    final m = (_weeks / 4.35).ceil();
-    return (m < _taken + 1 ? _taken + 1 : m).clamp(mockTargetMin, mockTargetMax);
-  }
+  // The three named paces as totals: what is taken plus the papers still to come at that pace,
+  // so the number beside "One a fortnight" leaves exactly one a fortnight to go.
+  int get _fortnight => fortnightTarget(weeks: _weeks, taken: _taken);
+  int get _weekly => paceTarget(weeks: _weeks, taken: _taken, weeksPerMock: 1);
+  int get _monthly => paceTarget(weeks: _weeks, taken: _taken, weeksPerMock: 4.35);
 
   _Pace _paceFor(int n) {
     if (n == _fortnight) return _Pace.fortnight;

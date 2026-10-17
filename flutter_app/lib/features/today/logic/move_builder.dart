@@ -198,9 +198,9 @@ MoveHero buildMove(TodayInputs i) {
     if (done != null) return done;
     final path = _firstWeek(i, f, state);
     if (path != null) return path;
-    if (away && (state == NextMoveState.repairedCheckNotDue || state == NextMoveState.noStrongWeakness || state == NextMoveState.stale)) {
-      return _warmUp(i, f, overline);
-    }
+    // Back after a week or more (TODAY-1018 section 5, Returning): ten warm-up questions lead,
+    // and the open mistakes and Revise wait one tap away as the card's choices. No shaming.
+    if (away) return _warmUp(i, f, overline);
   }
 
   switch (state) {
@@ -470,16 +470,17 @@ MoveHero? _doneToday(TodayInputs i, MoveFacts f, NextMoveState state, String ove
     number: '$n',
     numberLabel: TodayCopy.doneRepairLabel(n),
     meaning: TodayCopy.doneRepairWhy(null),
-    // No length to change: the second pill opens the repairs instead (4.2, Tonight done).
+    // Done (TODAY-1018 section 5): the key shows tonight's repairs; the card's choices stay for a
+    // student who wants more, and "Practise more" stays one tap away as the alternate.
     selectedMinutes: count,
-    summary: TodayCopy.practiseMore,
-    primary: TodayAction(
+    summary: TodayCopy.seeTonightsRepairs,
+    primary: const TodayAction(TodayCopy.seeTonightsRepairs, GoTo(TodayLinks.repairRecord)),
+    alternate: TodayAction(
       TodayCopy.withCount(TodayCopy.practiseMore, count),
       GoTo(TodayLinks.quick(subject: b.subject, count: count)),
       startsSession: true,
       actionType: 'practice',
     ),
-    alternate: const TodayAction(TodayCopy.openTheRepair, GoTo(TodayLinks.repairRecord)),
     secondary: const TodayAction(TodayCopy.somethingElse, OpenAlternatives()),
   );
 }

@@ -15,6 +15,8 @@ import '../../../core/repositories/repositories.dart';
 import '../../../core/router/app_shell.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/widgets/widgets.dart' show MobiAct, MobiController;
+import '../../paper_reel/paper_reel.dart';
+import '../../result/data/result_providers.dart' show resultActionsProvider;
 import '../../review/revise/revise_data.dart' show reviseCapProvider;
 import '../../rhythm/rhythm.dart';
 import '../../tools/compass/compass_controller.dart' show compassControllerProvider;
@@ -22,6 +24,7 @@ import '../../tools/data/my_colleges_actions.dart' show MyCollegesStatus, myColl
 import '../../tools/my_colleges/my_colleges_sheet.dart' show showMyCollegesSheet;
 import '../data/road_plan.dart' show roadPlanProvider;
 import '../data/today_providers.dart';
+import '../logic/links.dart';
 import '../logic/today_model.dart';
 import '../logic/visit_latch.dart';
 import '../widgets/colleges_card.dart' show CollegesCardInfo, CollegesCardStatus;
@@ -182,6 +185,51 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
     });
   }
 
+  /// "Play it back" on the paper reel's card (D29): the paper's detail (from the phone when it is
+  /// there, else one read), the reel built from it, and the paper no longer waiting, so the Up
+  /// next card is back when the reel closes. A paper that cannot be read opens its result instead.
+  Future<void> _playReel(SealedHero paper) async {
+    final id = paper.attemptId;
+    var detail = ref.read(attemptDetailProvider(id)).value;
+    if (detail == null) {
+      try {
+        await ref.read(attemptDetailProvider(id).notifier).refresh();
+      } on Object {
+        // Handled below: no detail opens the result.
+      }
+      if (!mounted) return;
+      detail = ref.read(attemptDetailProvider(id)).value;
+    }
+    final model = detail == null ? null : PaperReelModel.tryFrom(detail, subjectLabel: paper.subject);
+    unawaited(ref.read(resultActionsProvider).markSeen(id));
+    if (!mounted) return;
+    if (model == null) {
+      _go(AppRoutes.result(id));
+      return;
+    }
+    await PaperReel.open(context, model: model, onNextMove: (m) => _reelMove(paper, model, m));
+  }
+
+  /// "Not now": one tap, and the card gives way to the Up next card. The paper stays in Review.
+  Future<void> _skipReel(SealedHero paper) async {
+    await ref.read(resultActionsProvider).markSeen(paper.attemptId);
+  }
+
+  /// The reel's one closing key.
+  void _reelMove(SealedHero paper, PaperReelModel model, ReelNextMove m) {
+    final id = paper.attemptId;
+    switch (m.kind) {
+      case ReelMoveKind.repairChapter:
+        final wrong = {for (final q in model.questions) if (q.result == ReelResult.wrong) q.qid};
+        final open = [for (final q in m.qids) if (wrong.contains(q)) q];
+        _go(open.isEmpty ? AppRoutes.result(id) : TodayLinks.repair(id, open.first, open.length));
+      case ReelMoveKind.reviewMistakes:
+        _go(AppRoutes.result(id));
+      case ReelMoveKind.nextMock:
+        _go(TodayLinks.fullMock(subject: paper.subjectId));
+    }
+  }
+
   void _action(TodayAction action) {
     if (action.startsSession || action.actionType == 'resume') {
       // The length the card shows, not the raw chip: a stale or unoffered pick is never logged.
@@ -264,6 +312,8 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
           unawaited(showMyCollegesSheet(context, adding: mine.ready && mine.list.isEmpty));
         },
         onRefresh: () => ref.read(todayActionsProvider).refresh(),
+        onPlayReel: _playReel,
+        onSkipReel: _skipReel,
         onCollegesRetry: () => unawaited(ref.read(myCollegesActionsProvider.notifier).retry()),
         road: RoadActions(
           // The goal on the account, then the weekdays, then the phone; it throws on a failed

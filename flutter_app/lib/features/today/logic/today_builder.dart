@@ -52,9 +52,11 @@ TodayView buildToday(TodayInputs i) {
   // An ended mock that could not be recorded only offers a picker; tonight's move under it is
   // then the one volt key and the picker steps back to a text key.
   final moveLeads = hero is EndedHero && hero.action.target is OpenAlternatives && move.primary.target is GoTo;
+  // The paper reel stands alone (D29): play or skip is one tap, then the Up next card returns,
+  // so the move is not a second row under it (the v13 row that sat half under the bar, D28).
   final also = <AlsoSlot>[
     for (final h in heroes.skip(1)) _slotFor(h),
-    if (hero is! MoveHero) _moveSlot(move, lead: moveLeads),
+    if (hero is! MoveHero && hero is! SealedHero) _moveSlot(move, lead: moveLeads),
   ];
   final road = buildRoad(i);
   final glance = buildGlance(i, lead: move, road: road);
@@ -157,8 +159,8 @@ WeekModel _week(TodayInputs i, TodayWeek w) {
     return (line, line.substring(0, line.indexOf('.') + 1));
   }
   final all = i.attempts;
-  if (all != null && all.isEmpty) return (TodayCopy.weekDayOne, TodayCopy.tonightCounts);
-  if (done == 0 && all != null && all.isNotEmpty && isAway(i)) return (TodayCopy.weekNew, TodayCopy.tonightCounts);
+  if (all != null && all.isEmpty) return (TodayCopy.weekDayOne(goal), TodayCopy.weekDayOneKey);
+  if (done == 0 && all != null && all.isNotEmpty && isAway(i)) return (TodayCopy.weekNew(goal), TodayCopy.weekNewKey(goal));
   final todayCounted = today != null && w.studied[today];
   final todayPlanned = today != null && (planned == null || planned.contains(today));
   if (todayPlanned && !todayCounted) {
@@ -296,12 +298,16 @@ TodayHero? _sealed(TodayInputs i) {
   final a = _attempt(i, first.attemptId);
   final label = a == null ? 'Your mock' : paperLabel(i.attempts!, a);
   final subject = a?.subject;
+  final name = subject == null ? null : subjectName(subject);
   return SealedHero(
     attemptId: first.attemptId,
-    title: subject == null ? label : TodayCopy.sealedTitle(label, subjectName(subject)),
-    line: TodayCopy.receivedAt(i.clock(first.receivedAt)),
+    title: name == null ? label : TodayCopy.sealedTitle(label, name),
+    // What the reel shows, in one line (D29): no "received at", no marking wait.
+    line: TodayCopy.reelLine(name),
     subjectId: subject == null ? null : canonicalSubject(subject),
     moreLine: i.unopened.length > 1 ? TodayCopy.moreResults(i.unopened.length - 1) : null,
+    subject: name,
+    questions: a == null || a.total <= 0 ? null : a.total,
   );
 }
 

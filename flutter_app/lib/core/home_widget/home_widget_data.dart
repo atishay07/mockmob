@@ -211,11 +211,12 @@ WidgetMove widgetMoveFor(TodayHero hero, TodayInputs inputs) => switch (hero) {
           // falls back to "Open MockMob"), even if the app is not opened again until then.
           until: inputs.draft?.endsAt.add(endedNoticeWindow),
         ),
+      // The paper reel plays from Today (D29): the widget opens Today, where it waits once.
       SealedHero() => WidgetMove(
-          overline: TodayCopy.sealedOverline,
+          overline: TodayCopy.reelTitle,
           title: hero.title,
-          action: TodayCopy.openSheet,
-          href: widgetHref(GoTo(AppRoutes.resultSealed(hero.attemptId))),
+          action: TodayCopy.reelKey,
+          href: widgetHref(const GoTo(AppRoutes.today)),
         ),
     };
 

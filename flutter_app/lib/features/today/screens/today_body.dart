@@ -30,7 +30,7 @@ import '../widgets/glance_rows.dart';
 import '../widgets/road_glance.dart';
 import '../widgets/road_section.dart';
 import '../widgets/weak_chapters.dart';
-import '../widgets/sealed_hero.dart';
+import '../widgets/reel_hero.dart';
 import '../widgets/today_rows.dart';
 import '../widgets/today_week.dart';
 import '../widgets/today_header.dart';
@@ -49,6 +49,8 @@ class TodayCallbacks {
     this.road,
     this.onCollegesRetry,
     this.onWeeklyEnding,
+    this.onPlayReel,
+    this.onSkipReel,
   });
 
   final void Function(TodayAction action) onAction;
@@ -67,6 +69,11 @@ class TodayCallbacks {
 
   /// The week that just closed: the This week row opens its ending.
   final VoidCallback? onWeeklyEnding;
+
+  /// The paper reel's card (D29): play the fresh paper back, or not now. Either one clears the
+  /// card and the Up next card returns.
+  final Future<void> Function(SealedHero paper)? onPlayReel;
+  final Future<void> Function(SealedHero paper)? onSkipReel;
 }
 
 /// The student's pick among the lead card's choices, per day (TODAY-1018 6.2): kept for the run so
@@ -229,7 +236,7 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
           hero.title ?? hero.summary,
           hero.selectedMinutes ?? int.tryParse((TodayCopy.keyLength(hero.primary.label) ?? '').split(' ').first),
         ),
-      SealedHero() => GlanceCopy.upNextLine('Open ${hero.title}', null),
+      SealedHero() => GlanceCopy.upNextLine(TodayCopy.reelTitle, null),
       ResumeHero() => GlanceCopy.upNextLine(hero.keyLabel, null),
       EndedHero() => GlanceCopy.upNextLine(hero.title, null),
       null => null,
@@ -348,6 +355,19 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
     if (!mounted || _cuedSinceRefresh) return;
     final act = TodayReactions.actFor(TodayReactions.compare(before, widget.view));
     if (act != null) _cue(act);
+  }
+
+  /// The paper is being read for the reel: its key shows it is working, and a second tap waits.
+  bool _reelLoading = false;
+
+  Future<void> _reel(SealedHero paper, Future<void> Function(SealedHero) run) async {
+    if (_reelLoading) return;
+    setState(() => _reelLoading = true);
+    try {
+      await run(paper);
+    } finally {
+      if (mounted) setState(() => _reelLoading = false);
+    }
   }
 
   void _minutes(int minutes) {
@@ -600,10 +620,11 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
                   ? () => cb.onAction(hero.whyAction!)
                   : null,
         ),
-      SealedHero() => SealedHeroCard(
+      SealedHero() => ReelHeroCard(
           sealed: hero,
-          onOpen: () => cb.onAction(TodayAction('', GoTo(AppRoutes.resultSealed(hero.attemptId)))),
-          onOpenDirectly: () => cb.onAction(TodayAction('', GoTo(AppRoutes.result(hero.attemptId)))),
+          loading: _reelLoading,
+          onPlay: () => _reel(hero, cb.onPlayReel ?? (p) async => cb.onAction(TodayAction('', GoTo(AppRoutes.result(p.attemptId))))),
+          onLater: () => _reel(hero, cb.onSkipReel ?? (_) async {}),
         ),
       ResumeHero() => ResumeHeroCard(
           resume: hero,
@@ -999,12 +1020,14 @@ class _MoreBelowCueState extends State<MoreBelowCue> with SingleTickerProviderSt
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       // Clamped at 1.2x so the pill stays inside its 32 dp gap at large text.
-                      Text(
-                        widget.label,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        textScaler: MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.2),
-                        style: type.caption.copyWith(color: colors.ink, fontWeight: FontWeight.w600),
+                      Flexible(
+                        child: Text(
+                          widget.label,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          textScaler: MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.2),
+                          style: type.caption.copyWith(color: colors.ink, fontWeight: FontWeight.w600),
+                        ),
                       ),
                       const SizedBox(width: MmSpace.s4),
                       AnimatedBuilder(
