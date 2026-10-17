@@ -112,3 +112,10 @@ Each time, a screen he wanted **refined** was **rebuilt**, and the useful parts 
 - **B. D21 community: keep for now; decide after the brief.** Nothing is hidden or deleted. He sees the community inventory and the D22 social-circle concept brief first.
 - **C. D5 "Repo S":** he said: "I honestly don't know. It was said using voice dictation... Decide using the best of your capabilities." CTO decision: **Repairs** (the saved-repair queue), with an Ask Mobi entry in context on Practice.
 - **D6 "Ask section": confirmed, Ask Mobi.**
+
+## Owner answers on the mock-ups, 18 Oct about 3:30 am IST (his words)
+- **Today (TODAY-1018):** "I can't assess them completely because it's hard to judge something by backup [a mock-up]. I can properly tell only by using [it]. By the looks of it, it doesn't look like something unique. It depends on how you finally integrate it with the UI, and especially the road to CUET can definitely be improved by respecting information like what's due today, what's due for the week, and showing the overall goal. I can't explain what exactly I need, but overall, it looks like a good direction. Overall, you can proceed with it... Just keep in mind everything that I said right now and, most importantly, the direction that I gave before, and then you can put it into V15."
+  - Ledger: D25 Today proceeds into v15 (web and app). D26 Road to CUET shows due today, due this week and the overall goal. D27 Today must feel unique and premium in its final UI, not generic.
+- **Ask Mobi (ASK-MOBI-1018): build it.**
+- **Review and result (REVIEW-RESULT-1018): build it.**
+- **Community (COMMUNITY-1018): yes, hide the contribution features** (Contribute, My uploads, Add a question, vote arrows) behind one flag; keep Explore, the Mob, Your standing and the creator programme; Your standing moves under Progress.
