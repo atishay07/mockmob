@@ -142,3 +142,83 @@ export function buildReplay({ trace, questions, resultOf, groupCounts = {}, pace
     .map((q) => ({ n: numberOf.get(q.id), at: sec(trace.openedAt.get(q.id)), result: resultOf(q.id) }));
   return { version: REPLAY_VERSION, rowSec, durationSec, recordSec, playMs: REPLAY_RULES.playMs, total, labels: { ...R.labels }, end, rows, opened: openedList, facts, chips };
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+// D17, pass 1018 (docs/design-decisions/pass-1018/REVIEW-RESULT-1018.md section 6): the replay drawn as one slot per
+// question, sized to the paper. replayView() reads the replay built above (no new data is collected) and returns what the
+// slots and the play need: perQuestion, the real events, and the cut rule. The 10-minute rows are no longer drawn.
+export const SLOT_RULES = Object.freeze({
+  minSlotPhone: 12, // px, under 768 px wide
+  minSlotWide: 16,
+  gap: 2,
+  cap: 3, // a slot's height is its time over even pace, capped at 3x
+  cutEvents: 3, // fewer answer events than this: nothing to replay
+  cutSec: 120, // or submitted in under 2 minutes
+  labelsAllUpTo: 12, // Q numbers under every slot up to 12 slots a row; otherwise 1, every fifth and the last
+});
+
+/** perRow = ceil(N / ceil(N x (minSlot + 2) / width)); rows are balanced, so a short last row never strands. */
+export function slotLayout(n, width, minSlot) {
+  const count = Math.max(1, Math.ceil((n * (minSlot + SLOT_RULES.gap)) / Math.max(1, width)));
+  const perRow = Math.max(1, Math.ceil(n / count));
+  return { perRow, rows: Math.ceil(n / perRow) };
+}
+
+/**
+ * replayView(replay, { total }) -> {
+ *   perQuestion: [{ n, sec, result, changed, visits }]   seconds on the question across visits, less time away
+ *   events: [{ at, n, kind: 'pick'|'change'|'clear'|'back'|'end', from?, to? }]   in clock order
+ *   cut: null | { reason: 'none'|'short'|'few' }, recordSec, answered, total, awaySec, awayCount, firstAt: Map(n -> sec) }
+ * `replay` may be null (no usable record): the view is cut with reason 'none'.
+ */
+export function replayView(replay, { total: given = null } = {}) {
+  const total = Number(given ?? replay?.total) || 0;
+  if (!replay || !Array.isArray(replay.rows)) return { perQuestion: [], events: [], cut: { reason: 'none' }, recordSec: 0, answered: 0, total, awaySec: 0, awayCount: 0, firstAt: new Map() };
+  const rowSec = replay.rowSec || REPLAY_RULES.rowSec;
+  const byN = new Map();
+  let awaySec = 0;
+  let awayCount = 0;
+  replay.rows.forEach((row, r) => (row.bars || []).forEach((b) => {
+    if (!Number.isInteger(b.n)) return;
+    let q = byN.get(b.n);
+    if (!q) { q = { n: b.n, result: b.result, visits: [], picks: [], away: 0 }; byN.set(b.n, q); }
+    const last = q.visits.at(-1);
+    // A visit split at a row edge is one visit.
+    if (last && last.to === b.from && b.from % rowSec === 0 && r === last.row + 1) { last.to = b.to; last.row = r; } else q.visits.push({ from: b.from, to: b.to, row: r });
+    q.picks.push(...(b.picks || []));
+    for (const a of b.away || []) { const s = Math.max(0, a.to - a.from); q.away += s; awaySec += s; awayCount += 1; }
+  }));
+  const perQuestion = [];
+  const openedResult = new Map((replay.opened || []).map((o) => [o.n, o.result]));
+  for (let n = 1; n <= total; n += 1) {
+    const q = byN.get(n);
+    if (!q) { perQuestion.push({ n, sec: 0, result: openedResult.get(n) || 'blank', changed: false, visits: 0 }); continue; }
+    q.picks.sort((a, b) => a.at - b.at);
+    const spent = q.visits.reduce((s, v) => s + Math.max(0, v.to - v.from), 0) - q.away;
+    perQuestion.push({ n, sec: Math.max(0, spent), result: q.result, changed: q.picks.some((p) => p.change), visits: q.visits.length });
+  }
+  const events = [];
+  let answerEvents = 0;
+  let answered = 0;
+  const firstAt = new Map();
+  for (const q of byN.values()) {
+    firstAt.set(q.n, q.visits[0]?.from ?? null);
+    let prev = null;
+    for (const p of q.picks) {
+      const cleared = p.option === null || p.option === undefined;
+      const kind = cleared ? 'clear' : p.change && prev !== null ? 'change' : 'pick';
+      events.push({ at: p.at, n: q.n, kind, from: prev, to: cleared ? null : p.option });
+      if (!cleared) answerEvents += 1;
+      prev = cleared ? null : p.option;
+    }
+    if (prev !== null) answered += 1;
+    q.visits.slice(1).forEach((v) => events.push({ at: v.from, n: q.n, kind: 'back' }));
+  }
+  for (const o of replay.opened || []) if (!firstAt.has(o.n)) firstAt.set(o.n, o.at);
+  const recordSec = Number(replay.recordSec) || 0;
+  if (replay.end && Number.isFinite(replay.end.at)) events.push({ at: replay.end.at, n: null, kind: 'end' });
+  const rank = { back: 0, pick: 1, change: 1, clear: 1, end: 2 };
+  events.sort((a, b) => a.at - b.at || rank[a.kind] - rank[b.kind] || (a.n ?? Infinity) - (b.n ?? Infinity));
+  const cut = recordSec < SLOT_RULES.cutSec ? { reason: 'short' } : answerEvents < SLOT_RULES.cutEvents ? { reason: 'few' } : null;
+  return { perQuestion, events, cut, recordSec, answered, total, awaySec, awayCount, firstAt };
+}
