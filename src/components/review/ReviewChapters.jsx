@@ -134,7 +134,7 @@ function ChapterFoot({ row, byUid, wallet, openUid, setOpenUid, onChanged }) {
 function ChapterRow({ row, open, onToggle, wallet, byUid, openUid, setOpenUid, auto, setAuto, onChanged }) {
   const panel = `rv8-ch-${row.id.replace(/[^A-Za-z0-9_-]/g, '-')}`;
   const href = `/dashboard?${new URLSearchParams({ subject: subjectId(row.subject), mode: 'quick', count: String(NEXT_MOVE_RULES.setSize), chapter: row.name })}`;
-  const allRepaired = !row.open.length && !row.blanks.length;
+  const allRepaired = !row.open.length;
   return (
     <li className="rv8-ch" data-open={open || undefined}>
       <button type="button" className="rv8-ch__bar mk-press" aria-expanded={open} aria-controls={open ? panel : undefined} onClick={onToggle}>
