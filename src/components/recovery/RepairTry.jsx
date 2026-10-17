@@ -20,7 +20,13 @@ export function RepairVerdict({ retry, focus = true, stagger = null, noLine = fa
   const ref = useRef(null);
   const verdict = retryVerdict(retry);
   const kind = verdict?.kind;
-  useEffect(() => { if (focus && kind) ref.current?.focus({ preventScroll: true }); }, [focus, kind]);
+  // The verdict lands under the options the key just revealed, often below the fold: bring it into view with its focus (W-032).
+  useEffect(() => {
+    if (!focus || !kind || !ref.current) return;
+    ref.current.focus({ preventScroll: true });
+    const reduce = typeof window !== 'undefined' && (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.motion === 'reduced');
+    requestAnimationFrame(() => ref.current?.scrollIntoView({ block: 'center', behavior: reduce ? 'auto' : 'smooth' }));
+  }, [focus, kind]);
   if (!verdict) return null;
   return (
     <div className="mr-verdict" data-kind={verdict.kind} data-stagger={stagger ? true : undefined} style={stagger || undefined} role="status">

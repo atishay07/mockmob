@@ -117,7 +117,7 @@ function ChapterRow({ chapter, subjectName, open, onToggle, now }) {
 export function ReviewChapters({ chapters, receipt, subjectName, papers }) {
   const [openKey, setOpenKey] = useState(() => chapters[0]?.key || null);
   const [all, setAll] = useState(false);
-  const now = Date.now();
+  const [now] = useState(() => Date.now());
   if (!chapters.length) {
     return (
       <section className="rv2-chs" aria-labelledby="rv2-chs-h">
