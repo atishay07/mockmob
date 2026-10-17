@@ -470,8 +470,14 @@ export default function ResultPageClient({ previewId = null }) {
     setReplayFocus((f) => ({ chip, n: (f?.n || 0) + 1 }));
     requestAnimationFrame(() => document.getElementById('rl-find')?.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'start' }));
   };
+  // D17 (owner, 18 Oct dawn): the answer bar is sized to the paper. Up to 20 questions it fills the card's width in even
+  // lines (10 questions: one line of 10 on a desktop, two of 5 on a phone); a longer paper keeps the 44 px wrap.
+  const mapCount = analysis.rows.length;
+  const balanced = (most) => Math.ceil(mapCount / Math.ceil(mapCount / most));
+  const mapFit = mapCount > 0 && mapCount <= 20;
   const answerMap = (
-    <ol className="rp-strip" aria-label="Answer map: press a question to open it" style={{ '--rp-step': `${rippleStep}ms` }}>
+    <ol className="rp-strip" aria-label="Answer map: press a question to open it" data-fit={mapFit || undefined}
+      style={{ '--rp-step': `${rippleStep}ms`, ...(mapFit ? { '--rp-cols': balanced(10), '--rp-cols-phone': balanced(6) } : {}) }}>
       {analysis.rows.map(r => (
         <li key={r.q.id} style={{ '--i': r.index }}>
           <button type="button" data-verdict={r.verdict} data-changed={r.changed || undefined}
