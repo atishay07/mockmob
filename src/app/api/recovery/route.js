@@ -5,7 +5,8 @@ import { improvementEvidence } from '@/../data/recovery';
 import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
 import { currentEvidenceHashes } from '@/../data/question_reads';
 import { learningRecord } from '@/lib/server/learning';
-import { getRepairedCounts } from '@/lib/server/repairSaved';
+import { getRepairedByPaper } from '@/lib/server/repairSaved';
+import { paperItems, REVIEW_RULES } from '@/../data/review_mistakes.mjs';
 import { sourceLabels } from '@/components/recovery/repairRun.js';
 
 export async function GET(request) {
@@ -17,9 +18,15 @@ export async function GET(request) {
   const allAttempts=await Database.getAttempts(session.user.id,{memo});
   // F17: each session names its paper ("Mock 3") and how many of its wrong answers already hold a saved repair; a failed read
   // leaves the count at zero (the list still loads) rather than failing the record.
-  const repairedBy=await getRepairedCounts(supabaseAdmin(),session.user.id,allAttempts).catch(()=>({}));
+  const repairs=await getRepairedByPaper(supabaseAdmin(),session.user.id,allAttempts).catch(()=>({counts:{},qids:{},failed:true}));
+  const repairedBy=repairs.counts;
+  // Review's Mistakes view (LEARN-REVIEW-1017 5.5): each paper's wrong answers and blanks as small rows (chapter, number, the
+  // stem's first line, repaired or not). No key and no options leave here. When the repair lookup failed the rows are left
+  // out, so a repaired mistake is never shown as open and offered as a paid repair again (F17); the counts above still load.
+  let itemBudget=REVIEW_RULES.itemsTotal;
+  const itemsOf=(a)=>{ if(repairs.failed||itemBudget<=0)return undefined; const items=paperItems(a,repairs.qids[a.id]||[]).slice(0,itemBudget); itemBudget-=items.length; return items; };
   const papers=sourceLabels(allAttempts);
-  const ordinaryReview=allAttempts.map(a=>({id:a.id,subject:a.subject,completedAt:a.completedAt,correct:a.correct,total:a.total,scoringVersion:a.selectionMeta?.scoringVersion || 'historical_device',mistakes:(a.details || []).filter(d=>d.isCorrect!==true).length,repaired:repairedBy[a.id] || 0,source:papers.get(a.id) || 'Quick practice'}));
+  const ordinaryReview=allAttempts.map(a=>({id:a.id,subject:a.subject,completedAt:a.completedAt,correct:a.correct,total:a.total,scoringVersion:a.selectionMeta?.scoringVersion || 'historical_device',mistakes:(a.details || []).filter(d=>d.isCorrect!==true).length,repaired:repairedBy[a.id] || 0,source:papers.get(a.id) || 'Quick practice',mode:a.selectionMeta?.mode || null,items:itemsOf(a)}));
   const attempts=allAttempts.filter(a=>a.selectionMeta?.scoringVersion==='server_snapshot_v1' && a.selectionMeta?.contentEvidence !== 'legacy_bank');
   const db=supabaseAdmin();
   const [{data:reviews,error:reviewError},{data:playbook,error:playbookError}]=await Promise.all([

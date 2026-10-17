@@ -20,6 +20,7 @@ import { getSubjectById } from '../../../data/subjects.js';
 import { repairFailureForKind, composeFailureMessage, WALLET_UNAVAILABLE } from '../../../data/repair_failures.js';
 import { PREPOS_PAUSED_MESSAGE } from '../prepos/modelReply.js';
 import { usesLine } from '../../lib/creditCopy.mjs';
+import { markRetry, retryReceipt } from '../../../data/repair_retry.mjs';
 
 export const REQUEST_ID = /^[A-Za-z0-9_-]{16,64}$/;
 const out = (http, body) => ({ http, body });
@@ -91,7 +92,7 @@ async function checkFor({ deps, user, attemptId, questionId, attempt, current, c
 
 const timedOut = (stage) => ({ ok: false, data: null, raw: null, usage: null, fallbackUsed: false, failure: { stage, provider: null, model: null, kind: 'timeout', status: null, code: null } });
 
-export async function runRepair({ user, attemptId, questionId, requestId, startedAt, deps, config }) {
+export async function runRepair({ user, attemptId, questionId, requestId, startedAt, deps, config, retryPick = null }) {
   const { route, effort, fallbackRoute = null, budget = REPAIR_BUDGET, promptVersion = REPAIR_PROMPT_VERSION } = config;
   const v3 = promptVersion !== 1;
   const t0 = Number.isFinite(startedAt) ? startedAt : deps.now();
@@ -113,6 +114,10 @@ export async function runRepair({ user, attemptId, questionId, requestId, starte
   }
 
   const id = mistakeId(user.id, attemptId, questionId);
+  // The student's try before the key (data/repair_retry.mjs), marked here against the paper's own key: the client never decides. Only a
+  // fresh repair carries it; a stored one is opened again with no try. An invalid pick is no pick.
+  const marked = retryPick === null || retryPick === undefined ? null : markRetry({ pick: retryPick, keyIndex: eligible.keyIndex, chosenIndex: eligible.chosenIndex, optionCount: eligible.question.options.length });
+  const retry = marked?.ok ? marked.retry : null;
   const base = { practiceHref: practiceHref({ subject: attempt.subject, chapter: eligible.question.chapter, attemptId }), chosenIndex: eligible.chosenIndex, keyIndex: eligible.keyIndex };
 
   // A finished repair is stored on its committed reservation and reopens free.
@@ -242,6 +247,7 @@ export async function runRepair({ user, attemptId, questionId, requestId, starte
     repair, fallbackUsed: !!ai.fallbackUsed, fallbackReason: ai.fallbackReason || null,
     // For the trap pattern read (findRepairTraps): which prompt wrote it, and the subject and chapter it belongs to.
     promptVersion: v3 ? 3 : 1, subject: attempt.subject || null, chapter: eligible.question.chapter || null,
+    ...(retry ? { retry: retryReceipt(retry, deps.now()) } : {}),
   };
   const tryCommit = async () => { try { return (await deps.commit(operationKey, receipt))?.ok === true; } catch { return false; } };
   let charged = REPAIR_CREDIT_COST;
@@ -265,5 +271,5 @@ export async function runRepair({ user, attemptId, questionId, requestId, starte
     checkFor({ deps, user, attemptId, questionId, attempt, current, committed, reservation: committed ? { operation_key: operationKey, receipt } : null }),
     committed && v3 ? fillAtlas({ deps, question: eligible.question, chosenIndex: eligible.chosenIndex, keyIndex: eligible.keyIndex, trapType: repair.trap_type }) : null,
   ]);
-  return out(200, { ok: true, status: 'explained', repair: withLegacyAliases(repair), pattern, ...(check ? { check } : {}), charged, wallet: wallet ? { total: wallet.total, state: wallet.state } : null, ...base });
+  return out(200, { ok: true, status: 'explained', repair: withLegacyAliases(repair), pattern, ...(check ? { check } : {}), ...(retry ? { retry } : {}), charged, wallet: wallet ? { total: wallet.total, state: wallet.state } : null, ...base });
 }

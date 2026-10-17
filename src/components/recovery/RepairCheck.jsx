@@ -166,11 +166,11 @@ export default function RepairCheck({ attemptId, questionId, check, style, onRes
                 <button type="button" className="mr-retry" onClick={load}>{CHECK_COPY.another}</button>
               ) : (
                 <button type="submit" className="mr-chk__submit" disabled={pick === null || sending} data-sending={sending || undefined}>
-                  {sending ? <><span className="mr-chk__ring" aria-hidden="true" />{CHECK_COPY.marking}</> : view.error && view.canRetry ? CHECK_COPY.retryMark : CHECK_COPY.submit}
+                  {sending ? <><span className="mr-chk__ring" aria-hidden="true" />{CHECK_COPY.marking}</> : view.error && view.canRetry ? CHECK_COPY.retryMark : pick === null ? 'Tap an option above first' : CHECK_COPY.submit}
                 </button>
               )}
               {/* A withdrawn question has no first answer to count: the only thing on offer is another question. */}
-              {view.refetch ? null : <span className="mr-chk__fine">{pick === null ? `Pick one option. ${CHECK_COPY.firstCounts}` : CHECK_COPY.firstCounts}</span>}
+              {view.refetch ? null : <span className="mr-chk__fine">{CHECK_COPY.firstCounts}</span>}
             </div>
           ) : null}
           {view.error ? <p className="mr-chk__err" role="alert">{view.error}</p> : null}

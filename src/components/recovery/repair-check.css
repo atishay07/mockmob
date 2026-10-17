@@ -7,7 +7,7 @@
 .mr-chk__body { display: grid; gap: 12px; min-width: 0; }
 .mr-chk__basis { margin: 0; font: 650 13px/1.4 var(--font-display, inherit); color: var(--a-ink-3, #93a08f); }
 .mr-chk__stem { margin: 0; max-width: 68ch; font-size: 15px; line-height: 1.6; color: var(--a-ink, #f2f4ec); overflow-wrap: anywhere; }
-.mr-chk__fine { margin: 0; max-width: 62ch; font-size: 12px; line-height: 1.5; color: var(--a-ink-3, #93a08f); font-variant-numeric: tabular-nums; text-wrap: pretty; }
+.mr-chk__fine { margin: 0; max-width: 62ch; font-size: 13px; line-height: 1.5; color: var(--a-ink-3, #93a08f); font-variant-numeric: tabular-nums; text-wrap: pretty; }
 .mr-chk__note { margin: 0; max-width: 62ch; font-size: 14px; line-height: 1.55; color: var(--a-ink-2, #bcc5b9); text-wrap: pretty; }
 /* What the question is tied to, and how many are left, sit together above it: they say why this question, so they come first. */
 .mr-chk__tie { display: grid; gap: 2px; }

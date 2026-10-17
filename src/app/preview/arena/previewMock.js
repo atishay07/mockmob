@@ -337,4 +337,8 @@ export function fixtureRevise(kind = 'ready') {
   return { ...body, state: 'empty', items: [], shown: 0, due: 0, minutes: 0, boxes: [0, 0, 0, 0], cards: 0, head: LAB_COPY.revise.head.none, summary: null, next: LAB_COPY.revise.nextNone, nextDay: null, nextDayLabel: null };
 }
 /** POST /api/me/revise/answer: the committed right, wrong and done answers (the key of every fixture question is B). */
-export const fixtureReviseAnswer = (choice, box = 1) => JSON.parse(JSON.stringify(choice === 1 ? (box >= 4 ? LATER.answers.done : LATER.answers.right) : LATER.answers.wrong));
+export const fixtureReviseAnswer = (choice, box = 1) => ({
+  ...JSON.parse(JSON.stringify(choice === 1 ? (box >= 4 ? LATER.answers.done : LATER.answers.right) : LATER.answers.wrong)),
+  // The student's own rule from their repair of this question comes back after the answer (src/lib/server/ruleBook.js ruleForQuestion).
+  rule: { text: 'Illustrative: sacrifice = old share − new share, for each partner.', hook: 'Sacrifice is what you had, minus what you keep.', day: 'Wed 14 Oct' },
+});

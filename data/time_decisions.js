@@ -67,6 +67,8 @@ export const TIME_COPY = Object.freeze({
   changesHeld: (n) => (n === 1 ? '1 question under re-check or corrected is left out of the marks effect.' : `${n} questions under re-check or corrected are left out of the marks effect.`),
   // One question.
   rowLabel: 'Your time and picks',
+  // W-034: until enough other students have timed a question, its "others took" line is absent; this says why.
+  othersNotYet: 'How long other students took shows here once enough of them have timed this question.',
   time: (spent) => `${spent} on this question.`,
   timePace: (spent, pace) => `${spent} on this question. The paper gives ${pace} a question.`,
   timePaceMedian: (spent, pace, median) => `${spent} on this question. The paper gives ${pace} a question, and your median was ${median}.`,

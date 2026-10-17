@@ -57,7 +57,7 @@ export default function StudyWorkspace({ unitId = null, runId = null, preview = 
   if (!data) return <div className="sx" role="status" aria-label="Loading"><div className="sx-skeleton"><i /><i /><i /></div></div>;
   if (current.runId) return <StudyRun key={data.id} run={data} api={api} onOpenRun={openRun} onExit={back} />;
   if (current.unitId) return <LessonOverview unit={data} api={api} onOpenRun={openRun} onBack={back} />;
-  if (data.state === 'disabled') return <div className="sx"><h1>Learn</h1><p className="sx-lede">Lessons are switched off right now. Your saved progress is kept. You can still practise questions and take mocks.</p><Link className="btn-volt md" href="/dashboard">Practise questions</Link></div>;
+  if (data.state === 'disabled') return <div className="sx"><h1>Concepts</h1><p className="sx-lede">Lessons are switched off right now. Your saved progress is kept. You can still practise questions and take mocks.</p><Link className="btn-volt md" href="/dashboard">Practise questions</Link></div>;
   return <StudyLibrary catalog={data} api={api} onOpenRun={openRun} onOpenUnit={openUnit} initialSubject={subject}
     prefsSlot={data.preferences ? <StudyPreferences prefs={data.preferences} units={data.units} api={api} onOpenRun={openRun} /> : null} />;
 }

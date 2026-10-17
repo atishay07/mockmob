@@ -161,3 +161,29 @@
 /* Review head: the record finding and the paper trend, moved from Today (TODAY-1017 section 7). */
 .app-shell .rv-record { display: grid; gap: 16px; min-width: 0; }
 .app-shell .rv-record > :is(.rg, .pt) { margin: 0; }
+
+/* ---------- W-039, W-035: each session row carries "Review again" and its Mistake Lab, beside the row on a wide screen
+   (where the row used to end in empty space) and under it on a phone. Quiet text actions, 44 px tall; the row itself
+   stays the one control that opens the paper. ---------- */
+.app-shell .rv-item { display: grid; grid-template-columns: minmax(0, 1fr); align-items: center; }
+.app-shell .rv-item__acts { display: flex; flex-wrap: wrap; gap: 0 20px; padding: 0 0 8px 82px; }
+.app-shell .rv-act {
+  display: inline-flex; align-items: center; min-height: 44px; font: 600 14px/1.3 var(--font-body); color: var(--a-ink);
+  text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--a-line-strong);
+}
+.app-shell .rv-act:hover { text-decoration-color: currentColor; }
+.app-shell .rv-act:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 4px; }
+.app-shell .rv .ov-links > .rv-lab-entry { border: 0; border-top: 1px solid var(--a-line); }
+@media (min-width: 900px) {
+  .app-shell .rv-item { grid-template-columns: minmax(0, 1fr) auto; column-gap: 28px; }
+  .app-shell .rv-item__acts { flex-direction: column; align-items: flex-end; gap: 0; padding: 0; }
+  .app-shell .rv-act { min-height: 36px; }
+}
+@media (min-width: 1024px) {
+  /* The subject object reads as the paper's subject at a glance, not a stamp. */
+  .app-shell .rv-session { grid-template-columns: 92px minmax(0, 1fr) auto; }
+  .app-shell .rv-session__art { width: 92px; height: 72px; }
+  .app-shell .rv-session__art .subj-obj { margin: -10px; transform: none; }
+}
+/* Drawn at 92 px and shown smaller below 1024 px, so the wide screen gets a sharp picture. */
+@media (max-width: 1023.98px) { .app-shell .rv-session__art .subj-obj { margin: -20px; transform: scale(0.74); } }

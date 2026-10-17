@@ -30,12 +30,36 @@ function CountUp({ value, run }) {
  * notice    { text, number } a key under re-check or a correction, or null
  * arrive    first open: the arrival sequence plays
  */
+/**
+ * The paper's tier, for its one arrival beat (W-030): 'perfect' (nothing missed), 'strong' (70% of the marks or more),
+ * 'weak' (under 40% of answered questions right, or nothing answered) or 'steady'. Each tier plays one distinct beat on
+ * the first open, all inside a second: perfect draws a tick beside "Every question right", strong lets the scored bar
+ * settle past its mark and back, steady slides the chapter that cost most in and underlines it, weak grows the lost
+ * marks first so the student sees where they went before the score.
+ */
+export function resultTier(marks) {
+  if (!marks) return 'steady';
+  if (!marks.gap) return 'perfect';
+  const answered = marks.right + marks.wrong;
+  if (!answered || marks.right / answered < 0.4) return 'weak';
+  if (marks.max && marks.scored / marks.max >= 0.7) return 'strong';
+  return 'steady';
+}
+
+function FindingLine({ finding }) {
+  const ch = finding.chapter;
+  const at = ch ? finding.line.indexOf(ch) : -1;
+  if (at < 0) return finding.line;
+  return <>{finding.line.slice(0, at)}<span className="rx-finding__ch">{ch}</span>{finding.line.slice(at + ch.length)}</>;
+}
+
 export default function ResultHead({ receipt, marks, finding, notice = null, onNotice, arrive = false, unit = 'marks' }) {
   const pct = (v) => (marks.max ? Math.max(0, (v / marks.max) * 100) : 0);
   const scored = Math.max(marks.scored, 0);
   const tone = marks.scored < 0 ? 'bad' : undefined;
+  const tier = resultTier(marks);
   return (
-    <div className="rx-head" data-arrive={arrive || undefined}>
+    <div className="rx-head" data-arrive={arrive || undefined} data-tier={tier}>
       <p className="rx-receipt">{receipt}</p>
       <h1 className="rx-score" aria-label={`${marks.scored} of ${marks.max} ${unit}`}>
         <b data-tone={tone}>{marks.scored < 0 ? '−' : ''}<CountUp value={Math.abs(marks.scored)} run={arrive} /></b>
@@ -53,7 +77,10 @@ export default function ResultHead({ receipt, marks, finding, notice = null, onN
       </ul>
       {finding ? (
         <div className="rx-finding">
-          <p className="rx-finding__line">{finding.line}</p>
+          <p className="rx-finding__line">
+            {tier === 'perfect' ? <svg className="rx-finding__tick" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path d="M5 12.5 L10 17.5 L19 7" pathLength="1" /></svg> : null}
+            <FindingLine finding={finding} />
+          </p>
           {finding.detail ? <p className="rx-finding__detail">{finding.detail}</p> : null}
         </div>
       ) : null}

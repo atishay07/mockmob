@@ -176,6 +176,18 @@ export function repairCostLine(aiCredits) {
   return ['1 AI credit.', have, 'No charge if the repair cannot be written.'].filter(Boolean).join(' ');
 }
 
+/**
+ * The next-move card's one terms sentence for a repair (W-026: the value and the cost in one line under the key):
+ * "For 1 AI credit (you have 68): why D looked right, the trap, one rule to keep and a new question to check it held."
+ * The no-charge promise stays under the mistakes list and on the repair itself.
+ */
+export function repairTermsLine(letter, aiCredits, { checkReady = true } = {}) {
+  const pick = letter ? letter : 'your answer';
+  const have = Number.isFinite(aiCredits) ? ` (you have ${Math.max(0, Math.floor(aiCredits)).toLocaleString('en-IN')})` : '';
+  const what = checkReady ? `why ${pick} looked right, the trap, one rule to keep and a new question to check it held` : `why ${pick} looked right, the trap and one rule to keep`;
+  return `For 1 AI credit${have}: ${what}.`;
+}
+
 /** The cost of a 10-question chapter set: Pro covers it; otherwise practice credits and the balance. */
 export function practiceCostLine({ isPremium = false, practiceCredits = null } = {}) {
   if (isPremium) return 'Pro covers this set.';
@@ -302,6 +314,7 @@ export function nextMove({ analysis, answerReviews = {}, repairOrder = null, rep
       why: [`${r.chapter}.`, letter ? `You picked ${letter}.` : null, cohort].filter(Boolean).join(' '),
       value: repairValueLine(letter, { checkReady: labReady }),
       cost: repairCostLine(aiCredits),
+      terms: repairTermsLine(letter, aiCredits, { checkReady: labReady }),
       late: lateLine(hour),
       alt: top ? { kind: 'practise', label: `Practise ${NEXT_MOVE_RULES.setSize} on ${top.chapter} instead`, target: { chapter: top.chapter, href: practiseHref({ subject, chapter: top.chapter }) } } : null,
       note: left <= NEXT_MOVE_RULES.fewRepairs && left > 1 ? `All ${left} repairs take about ${repairMinutes(left)} minutes.` : null,
