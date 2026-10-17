@@ -9,6 +9,7 @@ import 'package:mockmob/features/result/data/result_providers.dart';
 import 'package:mockmob/features/result/full/full_sections.dart';
 import 'package:mockmob/features/result/model/recap_model.dart' show RecapModel;
 import 'package:mockmob/features/result/full/lab_ledger_section.dart' show LabLedgerSection;
+import 'package:mockmob/features/rules/copy.dart' show RulesCopy;
 import 'package:mockmob/features/rules/widgets/across_mocks_view.dart';
 import 'package:mockmob/features/rules/widgets/rule_check_view.dart';
 
@@ -39,21 +40,22 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('Across your mocks'), findsOneWidget);
       for (final l in across.lines) {
-        expect(find.text(l.text), findsOneWidget);
+        // "Never opened" is said as a finding (RulesCopy.neverOpenedLine); every other line as sent.
+        expect(find.text(RulesCopy.neverOpenedLine(l.text)), findsOneWidget);
       }
       for (final l in across.more) {
-        expect(find.text(l.text), findsNothing);
+        expect(find.text(RulesCopy.neverOpenedLine(l.text)), findsNothing);
       }
       expect(find.text(across.basis!), findsOneWidget);
       await tester.tap(find.text('Show all 5'));
       await tester.pumpAndSettle();
       for (final l in across.more) {
-        expect(find.text(l.text), findsOneWidget);
+        expect(find.text(RulesCopy.neverOpenedLine(l.text)), findsOneWidget);
       }
       expect(find.text('Show fewer'), findsOneWidget);
       await tester.tap(find.text('Show fewer'));
       await tester.pumpAndSettle();
-      expect(find.text(across.more.first.text), findsNothing);
+      expect(find.text(RulesCopy.neverOpenedLine(across.more.first.text)), findsNothing);
     });
 
     testWidgets('below the gate: the gate in words, no lines', (tester) async {
@@ -82,14 +84,14 @@ void main() {
       await pumpLabHost(tester, AcrossMocksView(across: across, seenKey: 't4'));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 20));
-      final early = tester.widgetList<Opacity>(find.ancestor(of: find.text(across.lines.last.text), matching: find.byType(Opacity)));
+      final early = tester.widgetList<Opacity>(find.ancestor(of: find.text(RulesCopy.neverOpenedLine(across.lines.last.text)), matching: find.byType(Opacity)));
       expect(early.any((o) => o.opacity < 1), isTrue, reason: 'the last line is still arriving');
       await tester.pumpAndSettle();
 
       AcrossMocksView.debugResetSeen();
       await pumpLabHost(tester, AcrossMocksView(key: const ValueKey('r'), across: across, seenKey: 't5'), reduced: true);
       await tester.pump();
-      final rest = tester.widgetList<Opacity>(find.ancestor(of: find.text(across.lines.last.text), matching: find.byType(Opacity)));
+      final rest = tester.widgetList<Opacity>(find.ancestor(of: find.text(RulesCopy.neverOpenedLine(across.lines.last.text)), matching: find.byType(Opacity)));
       expect(rest.every((o) => o.opacity == 1), isTrue);
     });
   });
@@ -204,7 +206,7 @@ void main() {
       double top(Finder f) => tester.getTopLeft(f.first).dy;
       expect(top(find.text('Your rules, 7')) < top(find.text(check.result)), isTrue);
       expect(top(find.text(check.result)) < top(find.text('Across your mocks')), isTrue);
-      expect(find.text(AcrossMocks.tryParse(contract('across'))!.lines.first.text), findsOneWidget);
+      expect(find.text(RulesCopy.neverOpenedLine(AcrossMocks.tryParse(contract('across'))!.lines.first.text)), findsOneWidget);
     });
 
     testWidgets('an older server: none of it, and the page as before', (tester) async {

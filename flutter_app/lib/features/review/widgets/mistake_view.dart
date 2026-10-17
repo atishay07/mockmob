@@ -13,7 +13,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/mistake_index.dart' show MistakeStage;
-import '../data/repair_check_logic.dart' show CheckReceipt;
+import '../data/repair_check_logic.dart' show CheckCopy, CheckReceipt;
 import '../data/repair_state.dart';
 import 'life_row.dart';
 import 'outcome_views.dart';

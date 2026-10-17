@@ -39,8 +39,6 @@ class CollegesScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.mmColors;
     final bottom = MediaQuery.paddingOf(context).bottom;
-    final view = ref.watch(myCollegesProvider);
-    final empty = view.ready && view.list.isEmpty;
     return Scaffold(
       backgroundColor: colors.ground,
       body: SafeArea(

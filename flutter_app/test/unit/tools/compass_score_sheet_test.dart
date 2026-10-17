@@ -50,7 +50,7 @@ void main() {
     expect(find.text(CollegesCopy.noEstimate), findsOneWidget);
     expect(find.textContaining('CSAS'), findsNothing);
     expect(find.textContaining('CUET score'), findsNothing);
-    await tester.tap(find.text(CollegesCopy.typeEstimate));
+    await tester.tap(find.text(CollegesCopy.typeEstimate).first);
     await tester.pumpAndSettle();
     expect(find.byType(EstimateSheet), findsOneWidget);
     expect(field(CollegesCopy.from), findsOneWidget);
@@ -59,7 +59,7 @@ void main() {
 
   testWidgets('a typed 600 to 650 reads "600 to 650" on Compass, and Done closes the sheet', (tester) async {
     await openCompass(tester);
-    await tester.tap(find.text(CollegesCopy.typeEstimate));
+    await tester.tap(find.text(CollegesCopy.typeEstimate).first);
     await tester.pumpAndSettle();
     await tester.enterText(field(CollegesCopy.from), '600');
     await tester.enterText(field(CollegesCopy.to), '650');
@@ -76,7 +76,7 @@ void main() {
 
   testWidgets('a figure that is not 0 to 1000 keeps the sheet open, with the reason', (tester) async {
     await openCompass(tester);
-    await tester.tap(find.text(CollegesCopy.typeEstimate));
+    await tester.tap(find.text(CollegesCopy.typeEstimate).first);
     await tester.pumpAndSettle();
     await tester.enterText(field(CollegesCopy.from), '5..');
     await tester.pump();

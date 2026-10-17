@@ -498,15 +498,17 @@ class _PracticeSheetMobiState extends State<_PracticeSheetMobi> {
     final cells = sheetCellsOf(widget.session);
     final counts = sheetCountsOf(cells);
     final line = RunnerCopy.sheetMobiLine(
-      total: counts.total,
-      notAnswered: counts.notAnswered,
-      firstOpen: cells.indexWhere((c) => !c.answered),
-      marked: counts.marked,
-      firstMarked: cells.indexWhere((c) => c.marked),
+      open: [for (var i = 0; i < cells.length; i++) if (!cells[i].answered) i],
+      marked: [for (var i = 0; i < cells.length; i++) if (cells[i].marked) i],
     );
     _mobi.glanceAtWidget(widget.sheetKey, hold: const Duration(milliseconds: 900));
     _later(const Duration(milliseconds: 500), () {
       if (widget.stage != SubmitStage.idle) return;
+      // A full sheet with nothing marked has no line (the page already says it): only the nod.
+      if (line == null) {
+        _cue(counts);
+        return;
+      }
       _mobi.say(line);
       // The act lands once the line has typed in.
       _later(Duration(milliseconds: (MobiTyping.duration(line) * 1000).round() + 250), () => _cue(counts));

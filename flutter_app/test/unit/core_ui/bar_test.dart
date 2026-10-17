@@ -396,8 +396,9 @@ void main() {
       const long = BarResume(sessionId: 's3', paper: 'Business Studies practice', total: 50, answered: 12);
       await pumpMockmob(
         tester,
-        const Center(child: LiveCapsule(live: long, width: 260, collapse: kAlwaysDismissedAnimation)),
-        size: const Size(320, 780),
+        // Wide enough that the count fits whole in the test font (every glyph one em wide).
+        const Center(child: LiveCapsule(live: long, width: 340, collapse: kAlwaysDismissedAnimation)),
+        size: const Size(400, 780),
       );
       final name = tester.renderObject<RenderParagraph>(find.text('Business Studies practice'));
       expect(name.didExceedMaxLines, isTrue);

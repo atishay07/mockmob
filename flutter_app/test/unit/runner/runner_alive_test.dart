@@ -252,7 +252,7 @@ void main() {
       await pumpRunner(tester, session: s, location: '/run/sess-1/submit');
       await settle(tester, ms: 4000);
       expect(find.byType(MobiCharacter), findsOneWidget);
-      expect(find.textContaining('8 not answered. Go to 3?', findRichText: true), findsWidgets);
+      expect(find.textContaining('Q3 to Q10 are blank and score 0.', findRichText: true), findsWidgets);
     });
 
     testWidgets('a timed mock has no reading Mobi before the hand-in', (tester) async {

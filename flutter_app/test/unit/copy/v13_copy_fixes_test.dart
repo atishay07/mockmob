@@ -39,11 +39,11 @@ void main() {
   });
 
   group('a negative score never implies more marks than the paper holds', () {
-    // 10 questions, 1 wrong and 9 blank: -1 of 50. Financial Markets: 4 questions, 1 wrong, 3 blank.
+    // 10 questions, 1 wrong and 9 blank: -1 of 50. Financial Markets: 6 questions, 1 wrong, 5 blank.
     final practice = MoveAnalysis([
       _row(1, RowVerdict.wrong, 'Financial Markets'),
-      for (var i = 2; i <= 4; i++) _row(i, RowVerdict.skipped, 'Financial Markets'),
-      for (var i = 5; i <= 10; i++) _row(i, RowVerdict.skipped, 'Planning'),
+      for (var i = 2; i <= 6; i++) _row(i, RowVerdict.skipped, 'Financial Markets'),
+      for (var i = 7; i <= 10; i++) _row(i, RowVerdict.skipped, 'Planning'),
     ]);
 
     test('the lost marks are said as two plain amounts', () {
@@ -55,7 +55,7 @@ void main() {
       expect(practice.marks.scored, -1);
       final c = costliestLine(practice);
       expect(c.line, 'You lost 6 marks to 1 wrong answer and left 45 unearned.');
-      expect(c.detail, 'Financial Markets: 4 questions, 1 wrong, 3 blank, 21 marks.');
+      expect(c.detail, 'Financial Markets: 6 questions, 1 wrong, 5 blank, 31 marks.');
       expect(c.chapter, 'Financial Markets');
       expect(c.line, isNot(contains('you missed')));
     });

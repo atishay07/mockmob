@@ -232,7 +232,7 @@ void main() {
     }
   });
 
-  group('the hero's own object', () {
+  group("the hero's own object", () {
     testWidgets('Revise draws the repeat object, never the Quick practice bolt', (tester) async {
       await _open(tester, move: _revise);
       expect(find.text('Start Revise, 10 min'), findsOneWidget);

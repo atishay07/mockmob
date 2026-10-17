@@ -148,7 +148,7 @@ void main() {
   });
 
   test('alternatives keep Review and never carry a price', () {
-    final rows = alternativeRows(subject: 'accountancy');
+    final rows = alternativeRows(ashaInputs(attempts: [accountancyMock('clean', daysBefore(tuesdayEvening, 1))]), moveSubject: 'accountancy');
     expect(rows.map((r) => r.title), contains(TodayCopy.altReview));
     expect(rows.any((r) => r.note.contains('credit') || r.note.contains('Rs')), isFalse);
   });

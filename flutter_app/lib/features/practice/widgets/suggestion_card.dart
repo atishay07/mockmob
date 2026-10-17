@@ -6,7 +6,6 @@ import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
-import 'card_motion.dart';
 
 /// A figure that rolls to a new value ([MmCountUp], from itself on first show), or the text as
 /// given when it is not a whole number.

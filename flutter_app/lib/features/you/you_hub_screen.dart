@@ -1,7 +1,8 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart' show ValueListenable;
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart' show RenderAbstractViewport;
+import 'package:flutter/rendering.dart' show RenderAbstractViewport, RenderBox, RenderObject;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -118,7 +119,7 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
   void _trackActive() {
     final header = _headerKey.currentContext?.findRenderObject();
     if (header is! RenderBox || !header.attached || !header.hasSize) return;
-    final viewport = RenderAbstractViewport.maybeOf(header);
+    final RenderObject? viewport = RenderAbstractViewport.maybeOf(header);
     if (viewport is RenderBox && viewport.attached && viewport.hasSize) {
       final stuck = header.localToGlobal(Offset.zero).dy <= viewport.localToGlobal(Offset.zero).dy + 0.5 && _scroll.hasClients && _scroll.offset > 0.5;
       if (_stuck.value != stuck) _stuck.value = stuck;
@@ -523,7 +524,7 @@ class _ChipsHeader extends SliverPersistentHeaderDelegate {
         valueListenable: stuck,
         builder: (context, isStuck, child) => AnimatedContainer(
           duration: Motion.of(context, const Duration(milliseconds: 120)),
-          curve: Curves.easeOut,
+          curve: Motion.out,
           // Clear on the ground at rest; once the row is pinned, an opaque band in the page colour
           // with a hairline under it, so nothing behind shows between or behind the chips.
           decoration: BoxDecoration(

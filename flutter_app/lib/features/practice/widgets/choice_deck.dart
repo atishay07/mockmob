@@ -761,7 +761,7 @@ class TileChoice extends StatelessWidget {
     TileWeight.even => objectSize,
     TileWeight.primary => 64,
     TileWeight.secondary => 52,
-    TileWeight.matched => 56,
+    TileWeight.matched => 52,
   };
 
   @override

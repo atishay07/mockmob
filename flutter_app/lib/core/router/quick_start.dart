@@ -727,10 +727,12 @@ class _SubjectChipsState extends ConsumerState<_SubjectChips> {
     final p = _scroll.position;
     final before = p.pixels > 1;
     final after = p.pixels < p.maxScrollExtent - 1;
-    if (before != _moreBefore || after != _moreAfter) setState(() {
-      _moreBefore = before;
-      _moreAfter = after;
-    });
+    if (before != _moreBefore || after != _moreAfter) {
+      setState(() {
+        _moreBefore = before;
+        _moreAfter = after;
+      });
+    }
   }
 
   @override
@@ -793,7 +795,8 @@ class _SubjectChipsState extends ConsumerState<_SubjectChips> {
         ],
       ),
     );
-    if (!_moreBefore && !_moreAfter) return row;
+    // Always the mask, even with nothing to fade: swapping it in and out would rebuild the scroll
+    // view and throw away the chip it has just scrolled into view.
     // A fading edge mask on the sides that have more chips behind them: the neighbour dissolves
     // into the sheet instead of ending at a hard cut.
     return ShaderMask(

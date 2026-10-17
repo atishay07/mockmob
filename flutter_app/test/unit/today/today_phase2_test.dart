@@ -89,7 +89,9 @@ void main() {
 
       final before = tester.getRect(find.byType(HeroStage).first);
       final gesture = await tester.startGesture(const Offset(192, 300));
-      for (var i = 0; i < 12; i++) {
+      // The page gives under the finger (the bounce takes about half of each move), so the pull that
+      // closes the ring is a long one: 20 moves of 12 dp.
+      for (var i = 0; i < 20; i++) {
         await gesture.moveBy(const Offset(0, 12));
         await tester.pump(const Duration(milliseconds: 16));
       }

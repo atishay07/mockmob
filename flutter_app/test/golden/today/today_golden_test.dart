@@ -198,7 +198,7 @@ void main() {
   screenGolden('today_why_sheet', () => _sheet(WhySheetBody(model: buildWhy(ashaRecord(now), 'm7', toDate: ashaInputs().date), onSeeAnswers: () {})), dock: false);
   screenGolden(
     'today_alternatives_sheet',
-    () => _sheet(AlternativesSheetBody(rows: alternativeRows(subject: 'accountancy'), onRow: (_) {}, onNotToday: () {}, animateIn: false)),
+    () => _sheet(AlternativesSheetBody(rows: alternativeRows(ashaInputs(), moveKind: MoveKind.repair, moveSubject: 'accountancy', revise: (size: 10, due: 92)), onRow: (_) {}, onNotToday: () {}, animateIn: false)),
     dock: false,
   );
 }

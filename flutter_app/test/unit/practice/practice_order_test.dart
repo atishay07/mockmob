@@ -34,7 +34,7 @@ Future<void> _settle(WidgetTester tester) async {
 void main() {
   setUpAll(loadAppFonts);
 
-  testWidgets('at 360 by 800 the strip, the card's key and the first mode share the first screen', (tester) async {
+  testWidgets("at 360 by 800 the strip, the card's key and the first mode share the first screen", (tester) async {
     final mock = attemptOf(
       id: 'm1',
       subject: 'accountancy',

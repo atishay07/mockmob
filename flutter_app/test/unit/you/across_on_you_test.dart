@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/models/lab_loop.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
+import 'package:mockmob/features/rules/copy.dart' show RulesCopy;
 import 'package:mockmob/features/rules/widgets/across_mocks_view.dart';
 import 'package:mockmob/features/you/you_hub_screen.dart';
 
@@ -37,7 +38,7 @@ void main() {
     await pump(tester, RemoteState(value: read, fetchedAt: DateTime.utc(2026, 10, 15, 9)));
     expect(find.text('Across your mocks'), findsOneWidget);
     for (final line in read.acrossMocks!.lines) {
-      expect(find.text(line.text), findsOneWidget);
+      expect(find.text(RulesCopy.neverOpenedLine(line.text)), findsOneWidget);
     }
     expect(find.text('Show all 5'), findsOneWidget);
     final across = tester.getTopLeft(find.text('Across your mocks')).dy;

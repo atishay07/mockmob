@@ -36,7 +36,7 @@ double _firstRowTop(WidgetTester tester) => tester.getTopLeft(find.text('Row 0')
 
 Future<void> _pullPastThreshold(WidgetTester tester) async {
   final gesture = await tester.startGesture(const Offset(200, 300));
-  for (var i = 0; i < 14; i++) {
+  for (var i = 0; i < 26; i++) {
     await gesture.moveBy(const Offset(0, 14));
     await tester.pump(const Duration(milliseconds: 16));
   }

@@ -21,6 +21,7 @@ import '../data/repair_run.dart';
 import '../data/repair_state.dart';
 import '../data/review_providers.dart';
 import '../widgets/mistake_view.dart';
+import '../widgets/repair_check_section.dart' show checkAnchorKey;
 import '../widgets/repair_entry_view.dart';
 import '../widgets/review_state_view.dart';
 
@@ -51,6 +52,19 @@ class _RepairScreenState extends ConsumerState<RepairScreen> {
   Timer? _recordWait;
 
   static const _recordWaitFor = Duration(seconds: 3);
+
+  /// The mistake whose "Check it held" key has been used (a saved repair opened again leads with
+  /// that key once; after it the key goes back to moving on).
+  String? _checkLedFor;
+
+  /// Brings "Check it held" into view and hands the key back to moving on.
+  void _leadCheck(String questionId) {
+    setState(() => _checkLedFor = '${widget.attemptId}/$questionId');
+    final anchor = checkAnchorKey(widget.attemptId, questionId).currentContext;
+    if (anchor != null) {
+      unawaited(Scrollable.ensureVisible(anchor, duration: Motion.of(context, Motion.card), curve: Motion.glide, alignment: 0.1));
+    }
+  }
 
   RepairRun get _run => ref.read(repairRunProvider(widget.attemptId).notifier);
 
@@ -259,6 +273,7 @@ class _RepairScreenState extends ConsumerState<RepairScreen> {
       renewDate: reset == null ? null : formatDayMonth(clock.local(reset)),
       earlier: _earlier(run),
       attempted: paperWhen(clock, run.current!.item.source, run.current!.item.foundAt),
+      checkLed: _checkLedFor == '${widget.attemptId}/${run.current!.item.questionId}',
       savedWhen: run.current!.item.stageAt == null || run.current!.item.stage != MistakeStage.repaired ? null : whenText(clock, run.current!.item.stageAt!),
       // What "Check my answer" costs, said before the paid call: the key explanation is free, an
       // unknown balance never shows as zero.
@@ -273,6 +288,7 @@ class _RepairScreenState extends ConsumerState<RepairScreen> {
         onRetry: _run.retry,
         onReadKey: _run.readKey,
         onGoTo: _goTo,
+        onLeadCheck: () => _leadCheck(run.current!.item.questionId),
         onSelectTry: _run.selectTry,
         onCheckTry: _run.confirmTry,
         onSkipTry: _run.skipTry,

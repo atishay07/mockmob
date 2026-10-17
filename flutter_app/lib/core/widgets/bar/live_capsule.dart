@@ -330,7 +330,20 @@ class _CapsuleContent extends StatelessWidget {
               if (withDetail) TextSpan(text: ', $detail', style: detailStyle),
             ],
           );
-          if (tail == null) {
+          // The row is only for a capsule wide enough to hold the count whole and a sliver of the
+          // name; narrower than that, the one line is cut at its end as before.
+          var rowFits = tail != null;
+          if (rowFits && box.maxWidth.isFinite) {
+            final painter = TextPainter(
+              text: TextSpan(children: [TextSpan(text: '…', style: titleStyle), trail]),
+              textDirection: Directionality.of(context),
+              textScaler: MediaQuery.textScalerOf(context),
+              maxLines: 1,
+            )..layout();
+            rowFits = painter.width <= box.maxWidth;
+            painter.dispose();
+          }
+          if (!rowFits) {
             return Text.rich(
               TextSpan(children: [TextSpan(text: live.title, style: titleStyle), if (withDetail) TextSpan(text: ', $detail', style: detailStyle)]),
               maxLines: 1,

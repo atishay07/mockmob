@@ -15,6 +15,7 @@ import 'package:mockmob/features/today/logic/today_builder.dart';
 import 'package:mockmob/features/today/logic/today_clock.dart';
 import 'package:mockmob/features/today/logic/today_inputs.dart';
 import 'package:mockmob/features/today/logic/today_model.dart';
+import 'package:mockmob/features/review/revise/revise_data.dart' show reviseEntryProvider;
 import 'package:mockmob/features/today/screens/alternatives_sheet.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
 import 'package:mockmob/features/today/widgets/also_slots.dart';
@@ -121,7 +122,7 @@ void main() {
       expect(buildMove(ashaInputs(attempts: record)).selectedMinutes, 20);
     });
 
-    testWidgets('the sheet shows the same chip as the card', (tester) async {
+    testWidgets('the sheet carries no length chips of its own: the length lives on the card', (tester) async {
       final inputs = ashaInputs(attempts: record, returning: true);
       await pumpMockmob(
         tester,
@@ -131,10 +132,11 @@ void main() {
         overrides: [
           authSnapshotProvider.overrideWithBuild((ref, notifier) => const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u')),
           todayInputsProvider.overrideWithValue(inputs),
+          // The sheet reads today's Revise round; this fixture has none.
+          reviseEntryProvider.overrideWith((ref) async => null),
         ],
       );
-      final chips = tester.widget<MmSegmented<int>>(find.byType(MmSegmented<int>));
-      expect(chips.value, 10, reason: 'the card says about 10 minutes');
+      expect(find.byType(MmSegmented<int>), findsNothing, reason: 'the card says about 10 minutes; the sheet never offers another length');
     });
   });
 
