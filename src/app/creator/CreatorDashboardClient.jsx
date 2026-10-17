@@ -21,12 +21,9 @@ const dateTime = (value) => {
   });
 };
 
-const paidSaleStatuses = new Set(['captured', 'completed', 'paid']);
-
+// The server decides `paid` (creatorSaleOut); the row carries no buyer or Razorpay data.
 function isPaidSale(order) {
-  return Boolean(order?.paymentId) &&
-    paidSaleStatuses.has(order?.status) &&
-    Number(order?.amountPaid) > 0;
+  return order?.paid === true;
 }
 
 function StatCard({ icon: Icon, label, value, detail }) {
@@ -144,13 +141,13 @@ export default function CreatorDashboardClient({ creator, stats, orders, payouts
               </thead>
               <tbody>
                 {successfulOrders.length === 0 ? <EmptyRow colSpan={4} label="No successful sales yet." /> : successfulOrders.map((order) => (
-                  <tr key={order.id} className="border-t border-white/[0.06]">
+                  <tr key={order.ref} className="border-t border-white/[0.06]">
                     <td className="px-3 py-3 text-xs text-zinc-400">{dateTime(order.createdAt)}</td>
                     <td className="px-3 py-3 text-white">{money(order.amountPaid)}</td>
                     <td className="px-3 py-3 text-volt">{order.creatorEarning == null ? '-' : money(order.creatorEarning)}</td>
                     <td className="px-3 py-3">
-                      <span className={`rounded-full px-2 py-1 text-xs ${order.payoutId ? 'bg-volt/10 text-volt' : 'bg-white/10 text-zinc-300'}`}>
-                        {order.payoutId ? 'Paid' : 'Pending'}
+                      <span className={`rounded-full px-2 py-1 text-xs ${order.payoutStatus === 'paid' ? 'bg-volt/10 text-volt' : 'bg-white/10 text-zinc-300'}`}>
+                        {order.payoutStatus === 'paid' ? 'Paid' : 'Pending'}
                       </span>
                     </td>
                   </tr>

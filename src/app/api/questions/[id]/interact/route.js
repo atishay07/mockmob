@@ -2,10 +2,14 @@
 // FIX 11 (High):     derive user_id from verified JWT, never from the request body.
 // FIX 16 (Medium):   require dwell_ms for skip / shallow_bounce.
 // FIX 17 (Medium):   gate report_resolved / answer_challenged on is_moderator.
+// 17 Oct 2026 (High): a report is recorded once per account per question, rate-limited per account,
+//                     and never unlists a question by itself (src/lib/server/questionReports.js).
 
 import { supabase } from '@/lib/supabase'
 import { auth } from '@/lib/auth'
 import { Database } from '@/../data/db'
+import { checkPersistentRateLimit, rateLimitHeaders } from '@/lib/server/rateLimit'
+import { REPORT_POLICY, handleQuestionReport } from '@/lib/server/questionReports'
 
 const VALID_INTERACTION_TYPES = new Set([
   'seen', 'attempted', 'like', 'unlike', 'save', 'unsave',
@@ -145,18 +149,61 @@ export async function POST(request, { params }) {
     }
   }
 
+  const interactionRow = {
+    question_id:      questionId,
+    user_id,
+    interaction_type,
+    session_id,
+    flow_context,
+    dwell_ms:  typeof dwell_ms === 'number' ? dwell_ms : null,
+    metadata:  metadata ?? {},
+  }
+
+  // ---- Reports: once per account per question, rate-limited, never unlist on their own ----
+  if (interaction_type === 'report') {
+    const limit = await checkPersistentRateLimit(request, {
+      route: '/api/questions/interact#report',
+      limit: REPORT_POLICY.rateLimit,
+      windowMs: REPORT_POLICY.rateWindowMs,
+      identityOnly: true,
+      keyParts: [user_id],
+      fallback: 'memory',
+    })
+    if (!limit.allowed) {
+      return Response.json(
+        { error: 'Too many reports. Try again later.' },
+        { status: 429, headers: rateLimitHeaders(limit) }
+      )
+    }
+    try {
+      const outcome = await handleQuestionReport({
+        db: supabase,
+        question: { id: question.id, status: question.status, live_at: question.live_at },
+        userId: user_id,
+        insertReport: async () => {
+          const { data, error } = await supabase
+            .from('question_interactions')
+            .insert(interactionRow)
+            .select('id')
+            .single()
+          if (error) throw error
+          return data
+        },
+      })
+      if (outcome.status === 'duplicate') {
+        return Response.json({ interaction_id: null, duplicate: true }, { status: 200 })
+      }
+      return Response.json({ interaction_id: outcome.interactionId }, { status: 201 })
+    } catch (error) {
+      console.error('[interact] report error:', error)
+      return Response.json({ error: 'Failed to record the report.' }, { status: 500 })
+    }
+  }
+
   // ---- Insert interaction (append-only) ----
   const { data: interaction, error: insertError } = await supabase
     .from('question_interactions')
-    .insert({
-      question_id:      questionId,
-      user_id,
-      interaction_type,
-      session_id,
-      flow_context,
-      dwell_ms:  typeof dwell_ms === 'number' ? dwell_ms : null,
-      metadata:  metadata ?? {},
-    })
+    .insert(interactionRow)
     .select('id')
     .single()
 
@@ -173,32 +220,7 @@ export async function POST(request, { params }) {
     metadata,
   })
 
-  if (interaction_type === 'report') {
-    const reportError = await queueReportedQuestion(questionId)
-    if (reportError) {
-      console.error('[interact] report queue error:', reportError)
-      return Response.json({ error: 'Report was recorded, but queueing for moderation failed.' }, { status: 500 })
-    }
-  }
-
   return Response.json({ interaction_id: interaction.id }, { status: 201 })
-}
-
-async function queueReportedQuestion(questionId) {
-  const now = new Date().toISOString()
-  const { error } = await supabase
-    .from('questions')
-    .update({
-      status: 'pending',
-      verification_state: 'disputed',
-      exploration_state: 'pending_review',
-      updated_at: now,
-    })
-    .eq('id', questionId)
-    .neq('status', 'rejected')
-
-  if (error) return error
-  return null
 }
 
 /**

@@ -58,7 +58,7 @@ export default async function CreatorPage() {
 
   const [stats, orders, payouts] = await Promise.all([
     Database.getCreatorStats(creator.id),
-    Database.listOrders({ creatorId: creator.id, limit: 100 }),
+    Database.listCreatorSales(creator.id, { limit: 100 }),
     Database.listPayouts({ creatorId: creator.id, limit: 50 }),
   ]);
 

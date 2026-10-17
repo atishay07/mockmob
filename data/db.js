@@ -11,6 +11,8 @@
 import { supabaseAdmin } from '@/lib/supabase';
 import { formatIdFor } from '@/lib/server/attemptSummary';
 import { claimWebhookEventWith } from '@/lib/server/webhookClaim';
+import { CREATOR_SALE_COLUMNS, creatorSaleOut } from '@/lib/referrals/creatorSales';
+import { escapeLikePattern, exactCodePattern } from '@/lib/referrals/codeMatch';
 import { authUserCache, invalidateAuthUser } from '@/lib/server/authUserCache';
 import {
   effectivePremiumFromRow,
@@ -790,13 +792,13 @@ export const Database = {
   },
 
   async getCreatorByCode(code) {
-    if (!code) return null;
-    const trimmed = String(code).trim().toLowerCase();
-    if (!trimmed) return null;
+    // Exact, case-insensitive: '_', '%' and '*' are escaped, punctuation-only codes rejected.
+    const pattern = exactCodePattern(code == null ? '' : String(code));
+    if (!pattern) return null;
     const { data, error } = await supabaseAdmin()
       .from('creators')
       .select('*')
-      .ilike('code', trimmed)
+      .ilike('code', pattern)
       .limit(1)
       .maybeSingle();
     if (error) {
@@ -834,7 +836,8 @@ export const Database = {
     const trimmed = String(email).trim().toLowerCase();
     if (!trimmed) return null;
     const { data, error } = await supabaseAdmin()
-      .from('creators').select('*').ilike('email', trimmed).maybeSingle();
+      // Escaped: an email with '_' or '%' must not wildcard-match another creator's email.
+      .from('creators').select('*').ilike('email', escapeLikePattern(trimmed)).maybeSingle();
     if (error) {
       if (isMissingReferralSchema(error)) return null;
       throw error;
@@ -889,6 +892,28 @@ export const Database = {
       throw updateError;
     }
     return true;
+  },
+
+  /**
+   * Sales attributed to one creator, cut down to what the creator may see (creatorSaleOut):
+   * no raw Razorpay objects, no buyer contact data, no user or Razorpay ids.
+   */
+  async listCreatorSales(creatorId, { limit = 100, offset = 0 } = {}) {
+    if (!creatorId) return [];
+    const { data, error } = await supabaseAdmin()
+      .from('payments')
+      .select(CREATOR_SALE_COLUMNS)
+      .eq('creator_id', creatorId)
+      .order('created_at', { ascending: false })
+      .range(offset, offset + limit - 1);
+    if (error) {
+      if (isMissingReferralSchema(error)) {
+        console.error('[db] listCreatorSales skipped because referral schema is missing:', error.message);
+        return [];
+      }
+      throw error;
+    }
+    return (data || []).map(creatorSaleOut);
   },
 
   async listOrders({ limit = 100, offset = 0, creatorId = null } = {}) {
