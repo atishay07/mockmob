@@ -56,7 +56,6 @@
 
 /* The lede in two lines on a phone (W-050); the note moved below the tool as a footnote. */
 .app-shell .cmp .cmp-lede { max-width: 62ch; }
-.app-shell .cmp .cmp-foot { padding-top: 14px; border-top: 1px solid var(--a-line); font-size: 13px; }
 
 /* CUET tools: one ruled row of three links, a bold lead and one line each. No icons, no boxes. */
 .app-shell .cmp .cmp-tools ul { display: grid; grid-template-columns: minmax(0, 1fr); margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--a-line-strong); }

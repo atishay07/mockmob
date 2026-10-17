@@ -93,8 +93,6 @@ export default function AdmissionCompassPageClient() {
         </SmoothDetails>
       </div>
 
-      {/* The footnote: what the numbers are and where your choices are kept, below the tool instead of before it. */}
-      <p className="cmp-note cmp-foot" role="note">Cutoffs are DU’s published 2026 history; 2027 rules stay provisional until DU publishes them. Your subjects and score stay on this device; My colleges is saved to your account.</p>
     </main>
   );
 }
