@@ -1,0 +1,14 @@
+{
+ "web-start:security": {
+  "findings": [
+   {
+    "severity": "low",
+    "file": "data/exam_integrity.mjs",
+    "line": "27, 40-43 (called from src/components/arena/ExamIntegrityGuard.jsx:43-45)",
+    "what": "The new 3 s blur grace resets on every return of focus and has no cap, so short trips out of the NTA paper can be repeated as often as a student likes without a warning. The owner's rule says a real app switch counts at once. But on desktop, switching to an app that does not fully cover the browser (a second monitor, a split screen, a floating window) fires only window blur, never visibilitychange 'hidden'. Those switches all go through lostFocus(), and returned() cancels the pending timer each time. Before this change the delay was 150 ms, so the gap is new in this diff. It only weakens a check that runs in the browser. It does not expose any data.",
+    "scenario": "A student on Pro starts NTA mode in fullscreen and keeps notes or a search window open on a second monitor. They click into it, read for about 2.5 s and click back into the test. Then they repeat this 50 times in the 60 minutes. Each blur starts a 3000 ms timer, and each return of focus calls back() -> controller.returned() -> cancelBlur(). The strike count stays at 0 and the paper is submitted as clean. Before this change, the 150 ms check would have counted the first trip.",
+    "fix": "Keep the owner's 3 s grace for a single interruption but stop it repeating for free. Option 1: in createIntegrityMonitor, count forgiven brief blurs, for example `let brief = 0`, raised in returned() when a blur was pending. Once it reaches a small limit (2 per session, or 2 within 60 s), the next lostFocus() becomes violation('blur') at once. Option 2: add up the time spent away across blurs and record a strike when the total passes briefMs. Either way, also send the brief-blur count with the submission so the server keeps a record, because the client says it is not server-verified. Add a test with the fake clock: five 2 s blurs in a row give at least one strike."
+   }
+  ]
+ }
+}

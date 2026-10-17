@@ -1,0 +1,1737 @@
+{
+ "golden-judge-7": {
+  "items": [
+   {
+    "path": "flutter_app/test/golden/art/goldens/object_art_cards_day.png",
+    "verdict": "right",
+    "reason": "Tonight hero card loses the muddy olive top rim light and its lime-tinted fill; now a clean neutral hairline and paper fill. Start the repair key and Practice cards' blue texture unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/art/goldens/object_art_cards_night.png",
+    "verdict": "right",
+    "reason": "Lime underglow beneath the Tonight hero card removed (a banned glow and a stray lime mark). Nothing else moved."
+   },
+   {
+    "path": "flutter_app/test/golden/art_scenes/goldens/milestone_first_week_day.png",
+    "verdict": "right",
+    "reason": "Copy only: 'Saved on the server.' becomes 'Saved to your account.', which drops the build talk. No layout shift."
+   },
+   {
+    "path": "flutter_app/test/golden/art_scenes/goldens/milestone_first_week_night.png",
+    "verdict": "right",
+    "reason": "Same copy fix as Day ('Saved to your account.'), so Night and Day still match. No other pixels changed."
+   },
+   {
+    "path": "flutter_app/test/golden/insights/goldens/ask_start_day.png",
+    "verdict": "right",
+    "reason": "'Where am I losing marks?' card loses its olive top rim and lime tint; now a neutral glass card like the cards next to it. Only one Mobi on screen, as before."
+   },
+   {
+    "path": "flutter_app/test/golden/insights/goldens/ask_start_full_day.png",
+    "verdict": "right",
+    "reason": "Same muddy-rim removal on the lead question card. Everything else is pixel-identical."
+   },
+   {
+    "path": "flutter_app/test/golden/insights/goldens/ask_start_text130_day.png",
+    "verdict": "right",
+    "reason": "Same rim and tint removal at 130% text, with no clipping or reflow."
+   },
+   {
+    "path": "flutter_app/test/golden/insights/goldens/record_attempts_failed_day.png",
+    "verdict": "right",
+    "reason": "Record hero card loses the olive top rim light, the lime tint and the lime glow under it; now a clean neutral card."
+   },
+   {
+    "path": "flutter_app/test/golden/insights/goldens/record_attempts_failed_night.png",
+    "verdict": "right",
+    "reason": "Lime underglow under the record hero card removed (confirmed at zoom). No layout change."
+   },
+   {
+    "path": "flutter_app/test/golden/insights/goldens/record_attempts_loading_day.png",
+    "verdict": "right",
+    "reason": "Same Day rim, tint and glow removal on the hero card. Loading state otherwise unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/insights/goldens/record_attempts_loading_night.png",
+    "verdict": "right",
+    "reason": "Lime underglow under the hero card removed. Nothing else changed."
+   },
+   {
+    "path": "flutter_app/test/golden/insights/goldens/record_full_free_day.png",
+    "verdict": "right",
+    "reason": "Hero card's muddy olive rim and lime tint and glow replaced by a neutral hairline. The other 3200 px are unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/insights/goldens/record_full_free_night.png",
+    "verdict": "right",
+    "reason": "Lime underglow under the hero card removed. No other change."
+   },
+   {
+    "path": "flutter_app/test/golden/insights/goldens/record_full_pro_day.png",
+    "verdict": "right",
+    "reason": "Same Day rim, tint and glow removal on the hero card. Pro content unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/insights/goldens/record_full_pro_night.png",
+    "verdict": "right",
+    "reason": "Lime underglow under the hero card removed. No other change."
+   },
+   {
+    "path": "flutter_app/test/golden/insights/goldens/record_sparse_day.png",
+    "verdict": "right",
+    "reason": "'Not enough answers yet' hero card loses the olive rim, lime tint and glow. The rest of the layout is identical."
+   },
+   {
+    "path": "flutter_app/test/golden/insights/goldens/record_sparse_night.png",
+    "verdict": "right",
+    "reason": "Lime underglow under the hero card removed. No other change."
+   },
+   {
+    "path": "flutter_app/test/golden/insights/goldens/record_stale_day.png",
+    "verdict": "right",
+    "reason": "Same hero-card rim, tint and glow removal, lower down because of the stale notice. No reflow."
+   },
+   {
+    "path": "flutter_app/test/golden/insights/goldens/record_stale_night.png",
+    "verdict": "right",
+    "reason": "Lime underglow under the hero card removed. No other change."
+   },
+   {
+    "path": "flutter_app/test/golden/insights/goldens/record_text130_day.png",
+    "verdict": "right",
+    "reason": "Hero-card rim, tint and glow removal at 130% text, with no clipping."
+   },
+   {
+    "path": "flutter_app/test/golden/insights/goldens/record_text130_night.png",
+    "verdict": "right",
+    "reason": "Lime underglow under the hero card removed at 130% text. No other change."
+   },
+   {
+    "path": "flutter_app/test/golden/insights/goldens/record_thin_day.png",
+    "verdict": "right",
+    "reason": "Hero card's olive rim, lime tint and glow replaced by a neutral hairline. Nothing else changed."
+   },
+   {
+    "path": "flutter_app/test/golden/insights/goldens/record_thin_night.png",
+    "verdict": "right",
+    "reason": "Lime underglow under the hero card removed. No other change."
+   },
+   {
+    "path": "flutter_app/test/golden/insights/goldens/record_top_day.png",
+    "verdict": "right",
+    "reason": "77% hero card loses the muddy olive top rim and the lime glow under it; it now reads as clean paper glass."
+   },
+   {
+    "path": "flutter_app/test/golden/insights/goldens/record_top_night.png",
+    "verdict": "right",
+    "reason": "Lime underglow under the 77% hero card removed. The rim and the rest are unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/learn/goldens/learn_tab_first_visit_light.png",
+    "verdict": "right",
+    "reason": "'cards due' hero card loses the olive top rim and lime tint; Review due cards is still the single page volt."
+   },
+   {
+    "path": "flutter_app/test/golden/learn/goldens/learn_tab_full_light.png",
+    "verdict": "right",
+    "reason": "'12 cards due' hero card loses the muddy olive rim and lime tint and is now neutral. The rest of the Concepts list is unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/learn/goldens/learn_tab_nothing_due_light.png",
+    "verdict": "right",
+    "reason": "Same hero-card rim and tint removal. No other change."
+   },
+   {
+    "path": "flutter_app/test/golden/learn/goldens/learn_tab_offline_light.png",
+    "verdict": "right",
+    "reason": "Same hero-card rim and tint removal under the offline line. No reflow."
+   },
+   {
+    "path": "flutter_app/test/golden/learn/goldens/learn_tab_resume_light.png",
+    "verdict": "right",
+    "reason": "Same hero-card rim and tint removal. No other change."
+   }
+  ],
+  "summary": "I judged all 30 of my files (insights 21, learn 5, art_scenes 2, art 2) and found every one right. None is wrong or unsure. I compared each new master with the old one from 42510757 side by side, with zooms and a pixel diff. Each changed area is a single small strip, so no text clipped, nothing reflowed or overlapped, and no new volt or Mobi appeared.\n\nThere are only two kinds of change.\n\n1. The hero-card glass fix, in 28 files.\n   - Day: the hero card's 2 px dark olive top rim, rgb(82,103,0), its lime-tinted fill and the lime glow under it are gone. In their place is a neutral hairline, rgb(216,209,194), and a near-white paper fill. This fixes the critic's \"muddy Day rim light\" and removes a banned glow.\n   - Night: the lime underglow beneath the same hero card is gone.\n\n2. A copy fix, in the 2 milestone_first_week files. \"Saved on the server.\" now reads \"Saved to your account.\", which drops the build talk. Day and Night match.\n\nTwo things to note:\n- The Practice cards' blue light and texture are intact in object_art_cards.\n- Some lime existed in the old masters and these goldens did not touch it: the 77% chart dots and the small lime dot on the selected Practice card. A later lime pass could look at those; they are not regressions from this commit.\n\nI deleted my temp folder."
+ },
+ "golden-judge-8": {
+  "summary": "Judge 8 checked 30 masters in you/ and account_sheet/. Only two changes appear across them. (1) Account sheet: the lime radio dots are gone from the Night/Day/Match phone switch. The lime \"Turn on\" and \"Open settings\" buttons are now outlined. This removes extra lime marks and is the same in Night and Day. (2) You hub: the jump chips (Week, Badges, Bests, Mocks) lost their radio dots and are tighter, so a fifth chip, Subjects, now shows faded at the edge as a scroll hint. Layout, copy, Mobi (once per screen), numbers and Night/Day parity are otherwise the same as the old masters, and nothing is clipped. Wrong (3 files): study_hub_invite_390 Day and Night still have a lime-filled \"Turn on\" in the Reminders card. That is a second lime fill on top of the ring and the day dots, and the account sheet now uses an outlined Turn on for the same action. Unsure (1 file): account_sheet_pro_offline_day. The change itself is right, but the master keeps two old faults: the Notifications row runs under the pinned Sign out button with no clearance, and the avatar rings are lime next to the lime Pro pill. These faults are just as visible at Night, but that file is marked right below, so the two modes are judged inconsistently: pro_offline_night should be unsure as well. Old faults still in masters marked right: the failed state shows \"This week\" twice (heading plus label), and the 3-day hub fills the ring and three day dots in lime. Temp folder deleted.",
+  "items": [
+   {
+    "path": "flutter_app/test/golden/account_sheet/goldens/account_sheet_day.png",
+    "verdict": "right",
+    "reason": "Lime radio dots removed from the theme switch and Turn on changed from lime fill to an outlined pill; fewer lime marks, nothing else changed."
+   },
+   {
+    "path": "flutter_app/test/golden/account_sheet/goldens/account_sheet_night.png",
+    "verdict": "right",
+    "reason": "Same as Day: switch dots removed and Turn on outlined instead of lime; Night matches Day."
+   },
+   {
+    "path": "flutter_app/test/golden/account_sheet/goldens/account_sheet_blocked_day.png",
+    "verdict": "right",
+    "reason": "Switch dots removed and Open settings changed from lime fill to outlined; the sheet no longer has a lime fill."
+   },
+   {
+    "path": "flutter_app/test/golden/account_sheet/goldens/account_sheet_blocked_night.png",
+    "verdict": "right",
+    "reason": "Same as blocked Day: Open settings outlined, switch dots gone; matches Day."
+   },
+   {
+    "path": "flutter_app/test/golden/account_sheet/goldens/account_sheet_off_day.png",
+    "verdict": "right",
+    "reason": "Switch dots removed and Turn on outlined instead of lime; layout unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/account_sheet/goldens/account_sheet_off_night.png",
+    "verdict": "right",
+    "reason": "Same as off Day; Turn on outlined, switch dots gone."
+   },
+   {
+    "path": "flutter_app/test/golden/account_sheet/goldens/account_sheet_on_day.png",
+    "verdict": "right",
+    "reason": "Only change is the theme switch losing its lime radio dots; the sheet is now calmer and correct."
+   },
+   {
+    "path": "flutter_app/test/golden/account_sheet/goldens/account_sheet_on_night.png",
+    "verdict": "right",
+    "reason": "Same as on Day: switch dots removed; matches Day."
+   },
+   {
+    "path": "flutter_app/test/golden/account_sheet/goldens/account_sheet_pro_offline_day.png",
+    "verdict": "unsure",
+    "reason": "Switch dots removed (correct), but the master keeps old faults: the Notifications row is cut off under the pinned Sign out button, and lime avatar rings sit next to the lime Pro pill."
+   },
+   {
+    "path": "flutter_app/test/golden/account_sheet/goldens/account_sheet_pro_offline_night.png",
+    "verdict": "right",
+    "reason": "Switch dots removed. The Notifications row is still cut off under Sign out and the avatar rings are still lime, so this should be unsure like the Day file."
+   },
+   {
+    "path": "flutter_app/test/golden/you/goldens/hub_day.png",
+    "verdict": "right",
+    "reason": "Jump chips lost their radio dots and are tighter, showing a faded fifth chip (Subjects) as a scroll hint; Mobi once, no clipping."
+   },
+   {
+    "path": "flutter_app/test/golden/you/goldens/hub_night.png",
+    "verdict": "right",
+    "reason": "Same chip change as Day (no dots, Subjects visible at the edge); matches Day."
+   },
+   {
+    "path": "flutter_app/test/golden/you/goldens/hub_failed_day.png",
+    "verdict": "right",
+    "reason": "Chip dots removed, Subjects chip shown; error state unchanged. The old duplicated 'This week' heading plus label is still there."
+   },
+   {
+    "path": "flutter_app/test/golden/you/goldens/hub_failed_night.png",
+    "verdict": "right",
+    "reason": "Same chip change as failed Day; the duplicated 'This week' copy remains as before."
+   },
+   {
+    "path": "flutter_app/test/golden/you/goldens/hub_full_page_day.png",
+    "verdict": "right",
+    "reason": "Full page identical except the chip row (no dots, faded Subjects chip); badges, bests and subjects unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/you/goldens/hub_full_page_night.png",
+    "verdict": "right",
+    "reason": "Same chip-only change as full-page Day; matches Day."
+   },
+   {
+    "path": "flutter_app/test/golden/you/goldens/hub_loading_day.png",
+    "verdict": "right",
+    "reason": "Loading skeleton unchanged; only the chip row lost its dots and gained the faded Subjects chip."
+   },
+   {
+    "path": "flutter_app/test/golden/you/goldens/hub_loading_night.png",
+    "verdict": "right",
+    "reason": "Same as loading Day; chip dots removed."
+   },
+   {
+    "path": "flutter_app/test/golden/you/goldens/hub_new_day.png",
+    "verdict": "right",
+    "reason": "New-account state unchanged apart from chips without dots and the Subjects scroll hint."
+   },
+   {
+    "path": "flutter_app/test/golden/you/goldens/hub_new_night.png",
+    "verdict": "right",
+    "reason": "Same as new Day; chip dots removed."
+   },
+   {
+    "path": "flutter_app/test/golden/you/goldens/study_hub_360_day.png",
+    "verdict": "right",
+    "reason": "At 360 the chips no longer clip mid-word at Mocks; four full chips plus a faded fifth. Ring and three lime day dots unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/you/goldens/study_hub_360_night.png",
+    "verdict": "right",
+    "reason": "Same as 360 Day: tighter chips without dots fit better at 360; matches Day."
+   },
+   {
+    "path": "flutter_app/test/golden/you/goldens/study_hub_390_day.png",
+    "verdict": "right",
+    "reason": "Chip dots removed and Subjects chip shown at the edge; rest unchanged. The ring and day dots still use lime, as before."
+   },
+   {
+    "path": "flutter_app/test/golden/you/goldens/study_hub_390_night.png",
+    "verdict": "right",
+    "reason": "Same chip change as 390 Day; matches Day."
+   },
+   {
+    "path": "flutter_app/test/golden/you/goldens/study_hub_full_390_day.png",
+    "verdict": "right",
+    "reason": "Full page identical except the chip row; bests show real denominators (160/250); no clipping."
+   },
+   {
+    "path": "flutter_app/test/golden/you/goldens/study_hub_full_390_night.png",
+    "verdict": "right",
+    "reason": "Same chip-only change as full 390 Day; matches Day."
+   },
+   {
+    "path": "flutter_app/test/golden/you/goldens/study_hub_invite_390_day.png",
+    "verdict": "wrong",
+    "reason": "Only the chip dots changed. The Reminders card still has a lime-filled Turn on: a second lime fill next to the ring and day dots, while the account sheet now outlines the same action."
+   },
+   {
+    "path": "flutter_app/test/golden/you/goldens/study_hub_invite_390_night.png",
+    "verdict": "wrong",
+    "reason": "Same as invite Day: chips changed, but the lime-filled Turn on remains as a second lime fill, unlike the account sheet."
+   },
+   {
+    "path": "flutter_app/test/golden/you/goldens/study_hub_new_390_day.png",
+    "verdict": "right",
+    "reason": "New-account full page identical except chips without dots and the faded Subjects chip; empty states read fine."
+   },
+   {
+    "path": "flutter_app/test/golden/you/goldens/study_hub_new_390_night.png",
+    "verdict": "right",
+    "reason": "Same as new 390 Day; chip dots removed; matches Day."
+   }
+  ]
+ },
+ "golden-judge-6": {
+  "items": [
+   {
+    "path": "flutter_app/test/golden/onboarding/goldens/after_sign_in_colleges_later_day.png",
+    "verdict": "right",
+    "reason": "The only change is that the muddy olive rim light along the top edge of the sheet card is gone (rows 203-225). This is the Day rim-light fix the critic asked for. Layout and copy are unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/onboarding/goldens/after_sign_in_colleges_later_night.png",
+    "verdict": "right",
+    "reason": "The only change is that the olive under-glow below the sheet card is gone (rows 432-436). That is a banned glow removed, and the thin Night top hairline stays, so Day and Night still match."
+   },
+   {
+    "path": "flutter_app/test/golden/onboarding/goldens/after_sign_in_failed_day.png",
+    "verdict": "right",
+    "reason": "The muddy olive top rim on the sheet card is removed. The offline sheet, warning row and Try again / Done buttons are unchanged and nothing is clipped."
+   },
+   {
+    "path": "flutter_app/test/golden/onboarding/goldens/after_sign_in_failed_night.png",
+    "verdict": "right",
+    "reason": "The olive glow under the sheet card is removed. The rest is unchanged and the offline sheet reads cleanly."
+   },
+   {
+    "path": "flutter_app/test/golden/onboarding/goldens/after_sign_in_saved_390_day.png",
+    "verdict": "right",
+    "reason": "The muddy top rim light on the sheet card is removed at 390 wide. Nothing else moved."
+   },
+   {
+    "path": "flutter_app/test/golden/onboarding/goldens/after_sign_in_saved_390_night.png",
+    "verdict": "right",
+    "reason": "The olive under-glow below the card is removed at 390 wide. Nothing else changed."
+   },
+   {
+    "path": "flutter_app/test/golden/onboarding/goldens/after_sign_in_saved_day.png",
+    "verdict": "right",
+    "reason": "The muddy top rim on the half-covered sheet card is removed. The consent toggle, See every event link and both buttons are unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/onboarding/goldens/after_sign_in_saved_night.png",
+    "verdict": "right",
+    "reason": "No pixel differs by more than 8: it is a re-render with no visible change. The card glow sits under the sheet here, so nothing was left to remove."
+   },
+   {
+    "path": "flutter_app/test/golden/onboarding/goldens/after_sign_in_saving_day.png",
+    "verdict": "right",
+    "reason": "The muddy olive top rim on the sheet card is removed. The Saving your sheet state is unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/onboarding/goldens/after_sign_in_saving_night.png",
+    "verdict": "right",
+    "reason": "The olive under-glow below the sheet card is removed. Nothing else changed."
+   },
+   {
+    "path": "flutter_app/test/golden/onboarding/goldens/first_move_390_day.png",
+    "verdict": "right",
+    "reason": "The dark olive rim along the top of the Your starting point card is removed (rows 279-304). The card now has a clean light edge, with one lime CTA and the Today dot."
+   },
+   {
+    "path": "flutter_app/test/golden/onboarding/goldens/first_move_day.png",
+    "verdict": "right",
+    "reason": "The muddy olive top rim on the starting-point card is removed. The 10-question hero, week strip and buttons are unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/onboarding/goldens/first_move_practice_day.png",
+    "verdict": "right",
+    "reason": "The muddy olive top rim on the Physics first-move card is removed. Nothing else changed."
+   },
+   {
+    "path": "flutter_app/test/golden/onboarding/goldens/large_text_first_move_day.png",
+    "verdict": "wrong",
+    "reason": "The rim removal itself is right. But at large text the top of Mobi and the top of the speech bubble are cut off under the header, and that clipping is baked into the new master. It was already there in 42510757, so it needs a layout fix rather than a golden revert."
+   },
+   {
+    "path": "flutter_app/test/golden/onboarding/goldens/save_day.png",
+    "verdict": "right",
+    "reason": "The muddy olive top rim on the sheet card is removed. The age choice, disabled Google button and email code button are unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/onboarding/goldens/save_in_browser_day.png",
+    "verdict": "unsure",
+    "reason": "The muddy top rim is correctly removed. The second line of the Practice note (the bank-size line) is half hidden by the scroll-edge fade above the age section, which the owner may read as clipped text with no clearance. It looked the same in the old master."
+   },
+   {
+    "path": "flutter_app/test/golden/onboarding/goldens/save_in_browser_night.png",
+    "verdict": "unsure",
+    "reason": "The olive under-glow below the card is correctly removed. The second line of the Practice note is still cut off by the scroll-edge fade under the age section, as in the old master."
+   },
+   {
+    "path": "flutter_app/test/golden/onboarding/goldens/save_night.png",
+    "verdict": "right",
+    "reason": "The olive glow beneath the sheet card is removed (rows 427-445). Nothing else changed."
+   },
+   {
+    "path": "flutter_app/test/golden/onboarding/goldens/save_nobank_390_day.png",
+    "verdict": "right",
+    "reason": "The muddy top rim on the sheet card is removed. The no-bank copy and layout are unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/onboarding/goldens/save_nobank_390_night.png",
+    "verdict": "right",
+    "reason": "The olive glow under the card is removed. The lime Continue with Google key is the single page volt."
+   },
+   {
+    "path": "flutter_app/test/golden/onboarding/goldens/save_ready_390_day.png",
+    "verdict": "right",
+    "reason": "The muddy top rim on the sheet card is removed at 390 wide. Nothing else changed."
+   },
+   {
+    "path": "flutter_app/test/golden/onboarding/goldens/save_ready_390_night.png",
+    "verdict": "right",
+    "reason": "The olive under-glow below the card is removed at 390 wide. Nothing else changed."
+   },
+   {
+    "path": "flutter_app/test/golden/onboarding/goldens/save_ready_day.png",
+    "verdict": "right",
+    "reason": "The muddy olive top rim on the sheet card is removed. Nothing else changed."
+   },
+   {
+    "path": "flutter_app/test/golden/onboarding/goldens/save_ready_night.png",
+    "verdict": "right",
+    "reason": "The olive glow beneath the sheet card is removed, and the lime top hairline stays. Nothing else changed."
+   },
+   {
+    "path": "flutter_app/test/golden/onboarding/goldens/small_save_ready_day.png",
+    "verdict": "right",
+    "reason": "The muddy top rim is removed at 360x780. Nothing is clipped."
+   },
+   {
+    "path": "flutter_app/test/golden/onboarding/goldens/small_save_ready_night.png",
+    "verdict": "right",
+    "reason": "A thin band of olive under-glow below the card is removed at 360x780. Nothing else changed."
+   },
+   {
+    "path": "flutter_app/test/golden/onboarding/goldens/tall_save_ready_day.png",
+    "verdict": "right",
+    "reason": "The muddy top rim on the long sheet card is removed at 430x950. Nothing else changed."
+   },
+   {
+    "path": "flutter_app/test/golden/onboarding/goldens/tall_save_ready_night.png",
+    "verdict": "right",
+    "reason": "The olive glow under the long sheet card is removed (rows 534-551). Nothing else changed."
+   },
+   {
+    "path": "flutter_app/test/golden/onboarding/goldens/tiny_save_ready_day.png",
+    "verdict": "right",
+    "reason": "The muddy top rim on the sheet card is removed at 360x640. At this height the card is cut at the scroll edge, which is expected and unchanged from the old master."
+   },
+   {
+    "path": "flutter_app/test/golden/onboarding/goldens/tiny_save_ready_night.png",
+    "verdict": "right",
+    "reason": "No pixel differs by more than 8: it is a re-render with no visible change. The card is cut at the scroll edge as before, which is expected at 640 high."
+   }
+  ],
+  "summary": "I judged all 30 onboarding masters from e92266bd: 27 right, 2 unsure, 1 wrong. In every file the change is the same and confined to one area: Day screens lose the muddy olive rim light along the top of the card (the critic's Day rim-light point), and Night screens lose the banned olive glow under the card. Two files show no visible change at all (after_sign_in_saved_night, tiny_save_ready_night). Text, layout, copy, the Night lime hairline and Day/Night matching are untouched, and none of these masters introduces a new regression.\n\nThe wrong and unsure verdicts come from problems that were already in the old masters (42510757), so reverting the goldens would not fix them:\n- large_text_first_move_day (wrong): the top of Mobi and of the speech bubble is cut off under the header at large text. This needs a layout fix.\n- save_in_browser_day and save_in_browser_night (unsure): the second line of the Practice note is half hidden by the scroll-edge fade above the age question.\n\nAlso not new in this commit: the sheet card's seven lime step dots and lime seal sit on the same screen as the lime CTA. That may count as extra volt fills under the one-volt rule.\n\nThe temp folder is deleted, and nothing in wt-v13 was edited, committed or run."
+ },
+ "golden-judge-2": {
+  "items": [
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_alternatives_sheet_day.png",
+    "verdict": "right",
+    "reason": "The Something else sheet is no longer a twin of Start. The Quick practice hero tile with its volt play button and the nested Full mock / One chapter tiles are replaced by four rows, each with a reason (Revise 10 of 92 due, Practise Economics not practised yet, Full mock with the last paper and date, Review). The olive rim on the tile is gone. This matches TODAY-1017."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_alternatives_sheet_night.png",
+    "verdict": "right",
+    "reason": "Same redesign as Day: the volt play disc, glowing lightning and tile grid give way to four reasoned rows, each 48+ dp tall. Minor leftovers: a lime ring on the Revise target icon, and a flat grey lightning icon next to the 3D objects."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_glance_active_day.png",
+    "verdict": "right",
+    "reason": "The muddy olive rim light on top of the hero card is removed, and the Mon/Tue/Thu study-day checks go from volt-filled to neutral. That leaves the hero key and the bar Start key as the only volt fills. Layout is unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_glance_active_night.png",
+    "verdict": "right",
+    "reason": "The lime glow under the hero card is removed and the week checks are now neutral grey instead of volt. The one-volt rule now holds apart from the Start key. Layout, copy, See why and Change length are intact."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_glance_active_full_day.png",
+    "verdict": "right",
+    "reason": "Rim light removed and week checks neutral. The road, tuners, last paper (204 of 250) and colleges (924.3 of 1000) are unchanged. Small olive marks remain on the road pips and in +33 on Mock 6."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_glance_active_full_night.png",
+    "verdict": "right",
+    "reason": "Card glow removed and week checks neutral. Lime marks still remain on the road pips, the May line and the +33 on Mock 6 text; these are follow-ups, not a regression."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_glance_dayone_day.png",
+    "verdict": "right",
+    "reason": "Olive rim light on top of the day-one hero card removed. Otherwise identical: Mobi appears once, 10 questions to your starting point, one volt key and an outlined Full mock instead."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_glance_dayone_night.png",
+    "verdict": "right",
+    "reason": "Lime halo under the day-one card removed. Content, the single Mobi and the outlined secondary are unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_glance_dayone_full_day.png",
+    "verdict": "right",
+    "reason": "Rim light removed. The week dashes, road, tuners and the Choose colleges row are unchanged and clean."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_glance_dayone_full_night.png",
+    "verdict": "right",
+    "reason": "Card glow removed. Nothing else changed: the road and colleges rows are intact."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_glance_done_day.png",
+    "verdict": "right",
+    "reason": "Rim removed and the done-state week checks (including Sat) are neutral, so the only volt is the Practise more key. The goal-met Mobi appears once."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_glance_done_night.png",
+    "verdict": "right",
+    "reason": "Glow removed and the four checks are neutral rather than volt. The single goal-met Mobi stays. The +33 text and road pips are still lime."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_glance_fail_day.png",
+    "verdict": "right",
+    "reason": "Rim light removed from the failed-load card and week checks neutral. Try again stays as the one volt; the 12-hour retry time (8:09 PM) is kept."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_glance_fail_night.png",
+    "verdict": "right",
+    "reason": "Glow removed and checks neutral. The failed state reads cleanly, with the Mobi once."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_glance_first_mock_day.png",
+    "verdict": "right",
+    "reason": "Rim removed and checks neutral on the first-timed-mock hero (50 questions in 60 minutes). Something else stays an outlined pill."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_glance_first_mock_night.png",
+    "verdict": "right",
+    "reason": "Glow under the card removed and week checks neutral. Layout unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_glance_handle_day.png",
+    "verdict": "right",
+    "reason": "At 360 dp: rim removed, checks neutral, and the chevron on the Road to May, 28 weeks lead-in cue goes from olive to neutral. No clipping. The cue sits close to This week but in flow."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_glance_handle_night.png",
+    "verdict": "right",
+    "reason": "At 360 dp: glow removed, checks neutral, and the lime chevron on the lead-in cue is now neutral. Nothing clipped; the greeting falls back to Good evening without a handle."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_glance_late_day.png",
+    "verdict": "right",
+    "reason": "Rim removed and checks neutral on the late (Sunday) state. The why line keeps the paper, date and See why."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_glance_late_night.png",
+    "verdict": "right",
+    "reason": "Glow removed and checks neutral. No sleeping Mobi, and copy is unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_glance_loading_day.png",
+    "verdict": "right",
+    "reason": "The skeleton is effectively identical; only the selected Today chip in the bar is slightly softer. No volt apart from the Start key; Night and Day parity holds."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_glance_offline_day.png",
+    "verdict": "right",
+    "reason": "Rim removed and checks neutral. The offline line (Updated 7:00 PM) and the disabled Start repair with Needs a connection are unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_glance_offline_night.png",
+    "verdict": "right",
+    "reason": "Glow removed and checks neutral. The offline state now has no hero volt, only the bar Start key."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_glance_returning_day.png",
+    "verdict": "right",
+    "reason": "Rim light removed. The returning copy without shame (A new week. Tonight counts.), See all 6 and the Mobi once are intact."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_glance_returning_night.png",
+    "verdict": "right",
+    "reason": "Glow under the card removed. Otherwise identical; the empty week uses no volt."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_glance_returning_full_day.png",
+    "verdict": "right",
+    "reason": "Rim removed. The road (27 weeks), tuners, last paper and colleges rows are unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_glance_returning_full_night.png",
+    "verdict": "right",
+    "reason": "Glow removed. The rest is unchanged; lime is still left on the May line and +33 text."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_glance_sparse_day.png",
+    "verdict": "right",
+    "reason": "Rim removed and checks neutral on the thin-data hero (From your one paper so far, Mock 1 on 11 Oct). Full mock instead stays outlined."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_glance_sparse_night.png",
+    "verdict": "right",
+    "reason": "Glow removed and checks neutral. The See why underline is still lime: a small leftover, not a regression."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_glance_text130_day.png",
+    "verdict": "right",
+    "reason": "At 130% text: rim removed and checks neutral. Nothing clips; the pills and the colleges row wrap cleanly."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_glance_text130_night.png",
+    "verdict": "right",
+    "reason": "At 130% text: glow removed and checks neutral. Wrapping and spacing hold; no overlap."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_open_frames_day.png",
+    "verdict": "right",
+    "reason": "In the entry-motion filmstrip the rim light is gone from every frame and the Mon check is neutral. The count-up frames (0 then 4) are unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_open_frames_night.png",
+    "verdict": "right",
+    "reason": "In the entry-motion filmstrip the Mon check is neutral instead of volt in every frame and the card glow is reduced. The motion sequence is unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_resume_day.png",
+    "verdict": "right",
+    "reason": "Rim removed and the Mon check neutral on the Still open (23 of 50 answered) resume hero. The secondary Start repair row is outlined."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_resume_night.png",
+    "verdict": "right",
+    "reason": "Glow removed and Mon check neutral. The progress-bar fill is still lime, a second volt-ish mark carried over unchanged; worth a follow-up but not a regression."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_sealed_day.png",
+    "verdict": "unsure",
+    "reason": "The change is correct: rim removed, Mon check neutral, and the cue chevron no longer olive. But the master still bakes in duplicated copy: the Road to May, 28 weeks cue and the Road to May / 28 weeks heading are both on screen, which the critic listed. Repair 1 mistake from Quick 10 orphans 10 onto its own line, and Open results directly is plain text rather than a pressable pill."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_sealed_night.png",
+    "verdict": "unsure",
+    "reason": "Glow removed, Mon check neutral, cue chevron no longer lime. The duplicated Road to May cue plus heading on one screen and the orphaned Quick / 10 wrap remain, both on the critic's list, so I would not lock this master as final."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_week_failed_day.png",
+    "verdict": "right",
+    "reason": "Rim light removed from the hero. The week-failed skeleton dots and Study days did not load are unchanged. There is no retry affordance, but that is not new."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_week_failed_night.png",
+    "verdict": "right",
+    "reason": "Glow under the hero card removed. Otherwise identical."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_why_sheet_day.png",
+    "verdict": "unsure",
+    "reason": "Only the olive rim on the card behind the scrim was removed; the sheet itself is unchanged. It still shows about 35 lime-filled correct-answer dots across four rows, which conflicts with the one-volt rule that neutralised the week checks elsewhere in this commit. Paper and date (Mock 7, 11 October) are present."
+   },
+   {
+    "path": "flutter_app/test/golden/today/goldens/today_why_sheet_night.png",
+    "verdict": "unsure",
+    "reason": "Pixel-identical to the old master. The why content is right (paper, date, 6 wrong / 42 right / 2 not attempted), but the dense lime dot rows are a large volt field the owner's rule would remove, and they are inconsistent with the now-neutral week checks."
+   }
+  ],
+  "summary": "I judged all 41 Today goldens in e92266bd against the 42510757 masters: 36 right, 5 unsure, 0 wrong. Across the glance states the regeneration does three things:\n- removes the muddy olive rim light on Day hero cards;\n- removes the lime glow under Night hero cards;\n- turns the volt-filled study-day checks (and the lime chevron on the lead-in cue) neutral.\n\nThat leaves the hero key and the A1 Start key as the only volt fills. The one real redesign is the alternatives (Something else) sheet. It drops the Start-twin layout (Quick practice hero tile with a volt play button, nested tile grid) for four list rows, each with a reason. That fixes the critic's item. I found no clipping, overlap, second Mobi or broken layout at 360 dp, 412 dp or 130% text.\n\nUnsure:\n- **today_sealed (Day and Night):** the duplicated Road to May cue sits on screen with the road heading, Quick 10 wraps with 10 orphaned, and Open results directly is plain text.\n- **today_why_sheet (Day and Night):** about 35 lime correct-answer dots remain, inconsistent with the now-neutral week checks.\n\nLeftover lime marks the commit did not address, carried over unchanged rather than regressions:\n- the road pips, the May flag line and the +33 on Mock 6 text;\n- the Night resume progress fill;\n- the Night See why underline on the sparse state;\n- the lime ring on the Revise icon in the alternatives sheet.\n\nI worked read-only in wt-v13, and my temp folder is deleted."
+ },
+ "golden-judge-5": {
+  "items": [
+   {
+    "path": "flutter_app/test/golden/review/goldens/r390_tab_day.png",
+    "verdict": "right",
+    "reason": "The muddy green rim band on the Day hero is gone. In the pip strip the lime pip became ink and the red pips became neutral, which removes one extra lime mark. Still left, unchanged: a lime dot on the To repair segment, a lime progress fill, and the Revise note card with its wrong 'Mistakes you repair come back' copy."
+   },
+   {
+    "path": "flutter_app/test/golden/review/goldens/r390_tab_full_day.png",
+    "verdict": "right",
+    "reason": "Same two changes in the full-height Day view: the hero rim band is removed and the pip strip lost its lime and red. Layout is unchanged. Still left: the lime segment dot, the lime progress fill, and 'Review again' as a separate row."
+   },
+   {
+    "path": "flutter_app/test/golden/review/goldens/r390_tab_full_night.png",
+    "verdict": "right",
+    "reason": "In Night the pip strip changed: the lime pip is now white and the red pips are dark neutral, so one lime fill is gone. Matches the Day file. The hero and everything else are unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/review/goldens/r390_tab_history_day.png",
+    "verdict": "right",
+    "reason": "Only change: the muddy green rim on the Day hero is removed. Still left, unchanged: the lime dot in Repair record, the Mistake Lab note card, and the '18 of 50 marks lost' figure that reads like a score."
+   },
+   {
+    "path": "flutter_app/test/golden/review/goldens/r390_tab_night.png",
+    "verdict": "right",
+    "reason": "The Night pip strip lost its lime and red fills; the repaired pip is now white. Nothing else changed. The lime segment dot and lime progress fill are still there."
+   },
+   {
+    "path": "flutter_app/test/golden/review/goldens/r390_tab_rows_open_day.png",
+    "verdict": "right",
+    "reason": "The hero rim band is removed and the pip strip is de-limed. The opened chapter is unchanged: the timeline, the 12-hour times and 'Opens free'. No clipping."
+   },
+   {
+    "path": "flutter_app/test/golden/review/goldens/r390_tab_rows_open_night.png",
+    "verdict": "right",
+    "reason": "The Night pip strip is de-limed and the repaired pip is now white. The opened chapter rows are identical and clean."
+   },
+   {
+    "path": "flutter_app/test/golden/review/goldens/repair_ending_moment_day.png",
+    "verdict": "wrong",
+    "reason": "The change itself is right: the muddy rim light on the 'Repair finished' strip is gone. But the master still shows the pinned lime key overlapping and clipping the 'Share a card' text, which is a floating strip over content without clearance. The grid also has about 40 lime dot fills next to the volt key."
+   },
+   {
+    "path": "flutter_app/test/golden/review/goldens/review_mistakes_day.png",
+    "verdict": "right",
+    "reason": "The pip strip changed from red and lime to neutral with an ink repaired pip. The rest is identical, including the orphan '1' wrap in 'Mock 1', which was already there. The lime progress fill is still present."
+   },
+   {
+    "path": "flutter_app/test/golden/review/goldens/review_mistakes_night.png",
+    "verdict": "right",
+    "reason": "The Night pip strip is de-limed to neutral with a white repaired pip. Matches the Day file. Nothing else changed."
+   },
+   {
+    "path": "flutter_app/test/golden/review/goldens/review_tab_all_clear_day.png",
+    "verdict": "right",
+    "reason": "Only change: the muddy green rim on the all-clear hero is removed. Still left: 'Review again' appears twice (the volt key and the bottom row), which is duplicated copy, plus the lime dot in Repair record."
+   },
+   {
+    "path": "flutter_app/test/golden/review/goldens/review_tab_day.png",
+    "verdict": "right",
+    "reason": "The hero rim band is removed and the pip strip lost its lime and red, which drops a lime mark. The layout is otherwise identical."
+   },
+   {
+    "path": "flutter_app/test/golden/review/goldens/review_tab_full_day.png",
+    "verdict": "right",
+    "reason": "Full-height Day view: the hero rim band is removed and the pip strip is de-limed. No layout change."
+   },
+   {
+    "path": "flutter_app/test/golden/review/goldens/review_tab_full_night.png",
+    "verdict": "right",
+    "reason": "Full-height Night view: the pip strip is de-limed and the repaired pip is white. Otherwise identical."
+   },
+   {
+    "path": "flutter_app/test/golden/review/goldens/review_tab_history_day.png",
+    "verdict": "right",
+    "reason": "Only change: the muddy rim on the Day hero is removed. The History content (Mistake Lab card, Repair record, Recent papers) is unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/review/goldens/review_tab_history_next_day.png",
+    "verdict": "right",
+    "reason": "Only change: the hero rim band is removed. The 'Next from Mock 2' block is unchanged, including the '18 of 50 marks lost' figure, a known issue that was already there."
+   },
+   {
+    "path": "flutter_app/test/golden/review/goldens/review_tab_late_day.png",
+    "verdict": "right",
+    "reason": "Late-night variant in Day: the hero rim band is removed and the pip strip is de-limed. The 'Repair a little, then sleep.' line is intact."
+   },
+   {
+    "path": "flutter_app/test/golden/review/goldens/review_tab_late_night.png",
+    "verdict": "right",
+    "reason": "Late-night variant in Night: the pip strip is de-limed and the repaired pip is white. Otherwise identical."
+   },
+   {
+    "path": "flutter_app/test/golden/review/goldens/review_tab_night.png",
+    "verdict": "right",
+    "reason": "The Night pip strip lost its lime and red fills. Nothing else changed."
+   },
+   {
+    "path": "flutter_app/test/golden/review/goldens/review_tab_rows_day.png",
+    "verdict": "right",
+    "reason": "The hero rim band is removed and the pip strip is de-limed. The chapter rows are unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/review/goldens/review_tab_rows_night.png",
+    "verdict": "right",
+    "reason": "The Night pip strip is de-limed and the repaired pip is white. The rows are unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/review/goldens/review_tab_stale_day.png",
+    "verdict": "right",
+    "reason": "Offline state in Day: the hero rim band is removed, and the 8 red pips are now neutral, which is calmer and still reads '0 repaired, 8 found'. The cramped offline note beside the title was already there."
+   },
+   {
+    "path": "flutter_app/test/golden/review/goldens/review_tab_stale_night.png",
+    "verdict": "right",
+    "reason": "Offline state in Night: the red pips are now neutral grey. Otherwise identical."
+   },
+   {
+    "path": "flutter_app/test/golden/review/goldens/review_tab_text130_day.png",
+    "verdict": "right",
+    "reason": "At 130% text size in Day: the hero rim band is removed and the pip strip is de-limed. Nothing clips."
+   },
+   {
+    "path": "flutter_app/test/golden/review/goldens/review_tab_text130_night.png",
+    "verdict": "right",
+    "reason": "At 130% text size in Night: the pip strip is de-limed with a white repaired pip. Nothing clips."
+   },
+   {
+    "path": "flutter_app/test/golden/review/goldens/revise_card_day.png",
+    "verdict": "right",
+    "reason": "The muddy green rim on the Revise head card is removed. Still left, unchanged: the Box 1 to 4 lanes are open instead of folded, and the head carries system-explaining copy."
+   },
+   {
+    "path": "flutter_app/test/golden/review/goldens/revise_empty_first_day.png",
+    "verdict": "right",
+    "reason": "The rim band on the 'Nothing to revise today' card is removed. The example row and the single volt key are unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/review/goldens/revise_end_day.png",
+    "verdict": "right",
+    "reason": "The head card's rim band is removed. Still left, unchanged: the grammar error '1 come back tomorrow'."
+   },
+   {
+    "path": "flutter_app/test/golden/review/goldens/revise_right_day.png",
+    "verdict": "right",
+    "reason": "The head card's rim band is removed. The right-answer state, the feedback card with Mobi once, and the volt Next key are unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/review/goldens/revise_wrong_day.png",
+    "verdict": "right",
+    "reason": "The head card's rim band is removed. The wrong-answer state is unchanged and clean."
+   },
+   {
+    "path": "flutter_app/test/golden/review/goldens/rule_book_day.png",
+    "verdict": "right",
+    "reason": "The muddy rim on the 'Your rule for your next mock' card is removed. Still left, unchanged: the lime side stripe on that card, which is a coloured side stripe."
+   },
+   {
+    "path": "flutter_app/test/golden/review/goldens/rule_book_open_day.png",
+    "verdict": "right",
+    "reason": "The rim band on the rule card is removed. The opened rule's 'Use in my next mock' and Copy controls are unchanged."
+   }
+  ],
+  "summary": "Golden judge 5, review folder: 32 files compared, each new master against its 42510757 version. I judged 31 right and 1 wrong. Every file has only two kinds of change, and both are intended fixes from the critic's list. (1) The muddy green rim light on the top edge of Day hero and head cards is removed: the Review hero, the Revise head card, the rule book card and the Repair-finished strip. (2) The pip strip under 'Mistakes to repair' no longer uses lime and red: the repaired pip is now ink in Day and white in Night, and open pips are neutral. That removes one extra lime mark per tab. Nothing new clips, overlaps or breaks in Night or Day.\n\nWRONG: repair_ending_moment_day.png. The rim fix is correct, but the master still shows the pinned lime 'Repair 1 more mistake' key overlapping and clipping the 'Share a card' text, which is a floating strip over content. Its grid also has about 40 lime dot fills.\n\nProblems still visible in the right files but not caused by this commit:\n- the lime dot on the To repair / History segment\n- lime chapter progress fills\n- the Revise note card with the wrong copy 'Mistakes you repair come back'\n- 'Review again' duplicated in the all-clear state\n- 'To repair / History' still not renamed Mistakes / Papers\n- '18 of 50 marks lost', which reads like a score\n- Revise box lanes not folded\n- the grammar error '1 come back tomorrow'\n- the lime side stripe on the rule card\n\nTemp folder deleted. Nothing in wt-v13 was edited."
+ },
+ "golden-judge-9": {
+  "items": [
+   {
+    "path": "flutter_app/test/golden/result/goldens/full_top_day.png",
+    "verdict": "right",
+    "reason": "The receipt line, the score with its denominator and the marks bar now come first, and 'Continue recap, card 3 of 4' moves below the 'Why Q23 first' panel. This is the RESULT-1017 order: what happened, then the next move. The pinned Repair Q23 key is the only volt fill and nothing is clipped."
+   },
+   {
+    "path": "flutter_app/test/golden/result/goldens/full_top_night.png",
+    "verdict": "right",
+    "reason": "Same reorder as Day: receipt and score at the top, the recap link under the why panel, one volt key in the pinned foot. The recap link is still lime text, but it is text, not a second fill."
+   },
+   {
+    "path": "flutter_app/test/golden/result/goldens/across_mocks_all_day.png",
+    "verdict": "right",
+    "reason": "Copy only: 'Never opened, last 3 Accountancy mocks...' becomes a plain sentence, 'In your last 3 Accountancy mocks you left 7, 6 and 4 of 50 questions unopened, oldest first'. Denominators kept. The image is 24 px taller and the layout is clean."
+   },
+   {
+    "path": "flutter_app/test/golden/result/goldens/across_mocks_all_night.png",
+    "verdict": "right",
+    "reason": "Same plain-sentence rewrite of the unopened-questions row as Day, with denominators. Wraps cleanly to 3 lines and nothing is clipped."
+   },
+   {
+    "path": "flutter_app/test/golden/result/goldens/across_mocks_day.png",
+    "verdict": "right",
+    "reason": "Same clearer unopened-questions sentence. The other rows and 'Show all 5' are unchanged apart from moving down 24 px."
+   },
+   {
+    "path": "flutter_app/test/golden/result/goldens/across_mocks_night.png",
+    "verdict": "right",
+    "reason": "Same copy rewrite as Day. Night parity holds and there is no layout problem."
+   },
+   {
+    "path": "flutter_app/test/golden/result/goldens/compact_sealed_day.png",
+    "verdict": "right",
+    "reason": "Only a sub-pixel change at the bottom edge of the 'Open your result' key (its lip shadow). There is no visible regression. 'Marked on the server.' is still there, unlike the new 'your account' wording elsewhere; that wording was not changed in this commit."
+   },
+   {
+    "path": "flutter_app/test/golden/result/goldens/compact_sealed_night.png",
+    "verdict": "right",
+    "reason": "The darker lip under the 'Open your result' key is gone, so the key is a little flatter. That is the only change; the sealed sheet and the gold seal are unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/result/goldens/sealed_folded_day.png",
+    "verdict": "right",
+    "reason": "Imperceptible change at the key's bottom edge only. The layout is the same."
+   },
+   {
+    "path": "flutter_app/test/golden/result/goldens/sealed_folded_night.png",
+    "verdict": "right",
+    "reason": "The key's bottom lip shadow is removed; nothing else changed."
+   },
+   {
+    "path": "flutter_app/test/golden/result/goldens/sealed_unfold25_day.png",
+    "verdict": "right",
+    "reason": "Imperceptible change at the key's bottom edge mid-unfold. The animation frame is the same."
+   },
+   {
+    "path": "flutter_app/test/golden/result/goldens/sealed_unfold25_night.png",
+    "verdict": "right",
+    "reason": "Imperceptible change at the key's bottom edge mid-unfold. Nothing else changed."
+   },
+   {
+    "path": "flutter_app/test/golden/runner/goldens/submit_ready_day.png",
+    "verdict": "right",
+    "reason": "The decorative full-width lime rule under 'Submit now?' becomes a neutral hairline. That removes a second lime mark, so the Submit mock key is the one volt fill. The content moves up 2 px with no clipping."
+   },
+   {
+    "path": "flutter_app/test/golden/runner/goldens/submit_ready_night.png",
+    "verdict": "right",
+    "reason": "Same as Day: the lime rule becomes a hairline, leaving the Submit mock key as the only volt."
+   },
+   {
+    "path": "flutter_app/test/golden/runner/goldens/submit_pending_day.png",
+    "verdict": "right",
+    "reason": "Copy: 'not on the server yet' becomes 'not in your account yet', which drops the system jargon. The rule above shifts by a hairline. One volt key (Try again)."
+   },
+   {
+    "path": "flutter_app/test/golden/runner/goldens/submit_pending_night.png",
+    "verdict": "right",
+    "reason": "Same plainer 'not in your account yet' copy as Day. It wraps cleanly in the warning card."
+   },
+   {
+    "path": "flutter_app/test/golden/runner/goldens/submit_closed_day.png",
+    "verdict": "right",
+    "reason": "Only the hairline under 'Not recorded' changes, with a 2 px upward shift. There is no volt on screen, the error card is unchanged and nothing is clipped."
+   },
+   {
+    "path": "flutter_app/test/golden/runner/goldens/submit_closed_night.png",
+    "verdict": "right",
+    "reason": "Same as Day: a hairline and a 2 px shift only, with Night parity."
+   },
+   {
+    "path": "flutter_app/test/golden/runner/goldens/submit_sending_day.png",
+    "verdict": "right",
+    "reason": "The lime rule under 'Handing in your sheet' becomes a neutral hairline, which removes a lime mark. The sending pill and the bubble grid are unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/runner/goldens/submit_sending_night.png",
+    "verdict": "right",
+    "reason": "Same as Day: the lime rule is removed and nothing else changes."
+   },
+   {
+    "path": "flutter_app/test/golden/runner/goldens/submit_received_day.png",
+    "verdict": "unsure",
+    "reason": "Both changes are good: the lime rule becomes a hairline, and 'Saved on the server' becomes 'Saved to your account'. But the screen still shows 49 lime-filled answer bubbles, a lime check and the volt 'Open your sheet' key. That is heavy lime against the rule that every other lime mark goes, so the owner should decide if the lime bubbles stay as data."
+   },
+   {
+    "path": "flutter_app/test/golden/runner/goldens/submit_received_night.png",
+    "verdict": "unsure",
+    "reason": "Same good changes as Day (hairline instead of the lime rule, 'Saved to your account'). Still present: 49 lime bubble fills, a lime check, the volt key and a soft lime glow behind Mobi. Glow is on the banned list, so this needs an owner call before it becomes the master."
+   },
+   {
+    "path": "flutter_app/test/golden/runner/goldens/nta_ended_held_day.png",
+    "verdict": "right",
+    "reason": "Copy only in the 'Session ended' dialog: 'not on the server yet' becomes 'not in your account yet'. NTA mode deliberately keeps the light exam look, the text wraps cleanly and there is one volt Continue key."
+   },
+   {
+    "path": "flutter_app/test/golden/runner/goldens/nta_ended_held_night.png",
+    "verdict": "right",
+    "reason": "Same plainer copy change as Day; nothing else changed."
+   },
+   {
+    "path": "flutter_app/test/golden/rhythm/goldens/celebration_moments_day.png",
+    "verdict": "right",
+    "reason": "The muddy olive rim light on top of the receipt and week-met cards is removed (a named critic item), and 'Saved on the server' becomes 'Saved to your account'. The cards are clean cream glass now."
+   },
+   {
+    "path": "flutter_app/test/golden/rhythm/goldens/celebration_moments_night.png",
+    "verdict": "right",
+    "reason": "Copy only: 'Saved on the server' becomes 'Saved to your account' on the week-met card. The art and layout are unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/rhythm/goldens/celebration_receipts_day.png",
+    "verdict": "right",
+    "reason": "The muddy olive rim on the 'landed while away' receipt card is removed, leaving a clean card. Text and layout are unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/rhythm/goldens/rhythm_screen_inset_0_day.png",
+    "verdict": "right",
+    "reason": "The muddy olive rim on the week-dots card is removed (critic item). The lime ring, dots and run bars are counted-data marks, which TODAY-1017 keeps in volt."
+   },
+   {
+    "path": "flutter_app/test/golden/rhythm/goldens/rhythm_screen_inset_24_day.png",
+    "verdict": "right",
+    "reason": "Same rim-light removal at the 24 dp inset. The layout is unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/rhythm/goldens/rhythm_screen_inset_47_day.png",
+    "verdict": "right",
+    "reason": "Same rim-light removal at the 47 dp inset. Nothing is clipped."
+   },
+   {
+    "path": "flutter_app/test/golden/rhythm/goldens/rhythm_screen_paused_day.png",
+    "verdict": "right",
+    "reason": "The rim light on the week card is removed. 'Resume rhythm' is the one volt key and Mobi appears once."
+   },
+   {
+    "path": "flutter_app/test/golden/rhythm/goldens/rhythm_screen_top_day.png",
+    "verdict": "right",
+    "reason": "The muddy rim on the week-dots card is removed. The rest is identical."
+   },
+   {
+    "path": "flutter_app/test/golden/rhythm/goldens/week_strip_states_day.png",
+    "verdict": "unsure",
+    "reason": "The counted-day dots change from lime fills to a faint grey fill with no tick. That fits the one-lime rule but conflicts with TODAY-1017 ('counted: volt fill with an ink tick'). On Day, counted and open days are now barely distinguishable, so the Met state's 4 counted days do not read. The full Rhythm screen still uses lime dots, which is inconsistent."
+   },
+   {
+    "path": "flutter_app/test/golden/rhythm/goldens/week_strip_states_night.png",
+    "verdict": "unsure",
+    "reason": "Same change as Day: counted days are now dark-grey fills, not lime. They are a little more legible on Night but still low contrast and without the ink tick in the TODAY spec. They no longer match the lime counted dots on the Rhythm screen."
+   },
+   {
+    "path": "flutter_app/test/golden/art/goldens/object_art_cards_day.png",
+    "verdict": "right",
+    "reason": "The muddy olive rim light across the top of the 'Tonight' hero card is removed (critic item). The Practice cards keep their tint and texture."
+   },
+   {
+    "path": "flutter_app/test/golden/art/goldens/object_art_cards_night.png",
+    "verdict": "right",
+    "reason": "The lime rim and the lime glow under the 'Tonight' hero card are removed (glow is banned). The card keeps its teal-to-dark texture, and the Start the repair key is the one volt fill."
+   },
+   {
+    "path": "flutter_app/test/golden/art_scenes/goldens/milestone_first_week_day.png",
+    "verdict": "right",
+    "reason": "Copy only: 'Saved on the server.' becomes 'Saved to your account.' under 'Your first week in rhythm is done.'"
+   },
+   {
+    "path": "flutter_app/test/golden/art_scenes/goldens/milestone_first_week_night.png",
+    "verdict": "right",
+    "reason": "The same 'Saved to your account' copy change as Day. The art is unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/learn/goldens/learn_tab_first_visit_light.png",
+    "verdict": "right",
+    "reason": "The muddy olive rim on the '3 new cards ready' card is removed. The card is clean, 'Learn new cards' is the one volt key and Mobi appears once."
+   },
+   {
+    "path": "flutter_app/test/golden/learn/goldens/learn_tab_full_light.png",
+    "verdict": "right",
+    "reason": "The muddy rim on the '12 cards due' hero card is removed. The rest of the long Concepts list is identical."
+   },
+   {
+    "path": "flutter_app/test/golden/learn/goldens/learn_tab_nothing_due_light.png",
+    "verdict": "right",
+    "reason": "The muddy rim on the hero card is removed and nothing else changed."
+   },
+   {
+    "path": "flutter_app/test/golden/learn/goldens/learn_tab_offline_light.png",
+    "verdict": "right",
+    "reason": "The muddy rim on the '12 cards due' card is removed. The offline strip sits at the top with clearance, as before."
+   },
+   {
+    "path": "flutter_app/test/golden/learn/goldens/learn_tab_resume_light.png",
+    "verdict": "right",
+    "reason": "The muddy rim on the 'Pick up where you left off' card is removed. Continue is the one volt key and the second card keeps its outline key."
+   },
+   {
+    "path": "flutter_app/test/golden/notifications/goldens/settings_paused_day.png",
+    "verdict": "right",
+    "reason": "The muddy olive rim on the 'Notifications are off' card is removed, leaving a clean card. 'Turn on' is the one volt key and Mobi appears once."
+   }
+  ],
+  "summary": "I judged 44 of the masters regenerated in e92266bd: 39 right, 5 unsure, none wrong. I did not know which folders the other judges had, so besides runner (12), result (12) and rhythm (10) I took the four small folders that looked unclaimed: art (2), art_scenes (2), learn (5) and notifications (1). I left account_sheet, core, insights, onboarding, practice, review, today, tools and you to the other judges; if any of those had no judge, they are still unchecked.\n\nFor each file I compared the old master from 42510757 with the new one, side by side and zoomed in on the changed area. My temp folder is deleted, and nothing in wt-v13 was edited, committed or run.\n\nWhat changed across the set:\n- **Rim light removed:** the muddy olive rim on Day cards is gone in rhythm, learn, art and notifications (a named critic item).\n- **Lime removed:** the lime glow under the Night 'Tonight' hero card is gone, and the decorative lime rule under the runner submit headings is now a neutral hairline.\n- **Copy:** 'on the server' now reads 'in your account' or 'to your account' in the runner, rhythm and milestone screens. 'Never opened' in Across your mocks is now a plain sentence that keeps its denominators.\n- **Result order:** in result full_top, the receipt and score now come first, and the recap link moves under the 'Why Q23 first' panel, as RESULT-1017 asks.\n- **No layout damage:** no clipped text, broken layout or floating strip, and no second Mobi or new second volt fill was introduced.\n\nUnsure (4 files):\n- **runner submit_received, Day and Night:** the changes are good, but the screen still shows 49 lime-filled bubbles, a lime check and the volt key. On Night there is also a lime glow behind Mobi, and glow is banned. The owner should decide whether those lime marks stay as data.\n- **rhythm week_strip_states, Day and Night:** counted days changed from lime to a faint grey with no tick. That fits the one-lime rule but contradicts TODAY-1017 ('counted: volt fill with an ink tick'). On Day, counted and open days are now barely distinguishable, and the full Rhythm screen still shows lime counted dots.\n\nLeftover I noticed: the sealed result screen still says 'Marked on the server.' even though the rest of the copy moved to 'your account'."
+ },
+ "golden-judge-4": {
+  "items": [
+   {
+    "path": "flutter_app/test/golden/practice/goldens/chapter_picker_day.png",
+    "verdict": "right",
+    "reason": "Only the backdrop above the sheet changed: the Quick practice and By chapter tiles behind it lost the lime bolt and the green wash and now have grain texture. The sheet itself is pixel-identical."
+   },
+   {
+    "path": "flutter_app/test/golden/practice/goldens/chapter_picker_night.png",
+    "verdict": "right",
+    "reason": "Only the backdrop tiles changed: a silver bolt instead of lime, grain texture and a warm lamp. The sheet is identical, and its only key is the disabled 'Choose at least one'."
+   },
+   {
+    "path": "flutter_app/test/golden/practice/goldens/closing_1000ms_day.png",
+    "verdict": "right",
+    "reason": "The muddy olive rim gradient along the top of the 6-of-10 card (the critic's Day rim light) is gone, leaving a clean paper edge. Everything else is unchanged, and Mobi appears once."
+   },
+   {
+    "path": "flutter_app/test/golden/practice/goldens/closing_350ms_day.png",
+    "verdict": "right",
+    "reason": "Same fix as the 1000 ms frame: the muddy olive top rim on the score card is removed. The rest of the frame is identical."
+   },
+   {
+    "path": "flutter_app/test/golden/practice/goldens/confirm_chapter_credits_day.png",
+    "verdict": "right",
+    "reason": "The page behind the sheet no longer shows a volt 'Start 10 questions' (now a quiet outlined key), so the sheet's 'Start chapter practice' is the only volt. Backdrop tiles are de-limed and textured; the sheet is unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/practice/goldens/confirm_chapter_credits_night.png",
+    "verdict": "right",
+    "reason": "The second volt fill that showed above the sheet (the page's Start 10 questions) is gone, so there is one volt per screen. Backdrop tiles are textured with a silver bolt; the sheet is identical."
+   },
+   {
+    "path": "flutter_app/test/golden/practice/goldens/confirm_mock_day.png",
+    "verdict": "right",
+    "reason": "The diff is limited to the backdrop strip (y < 181): de-limed, textured tiles. The Full-mock sheet is unchanged and keeps the difficulty-only fine-tune line. The small lime Balanced dot remains, as before."
+   },
+   {
+    "path": "flutter_app/test/golden/practice/goldens/confirm_mock_night.png",
+    "verdict": "right",
+    "reason": "Only the backdrop tiles behind the sheet changed (silver bolt, grain). The sheet is identical, with Start mock as its one volt."
+   },
+   {
+    "path": "flutter_app/test/golden/practice/goldens/confirm_quick_free_day.png",
+    "verdict": "right",
+    "reason": "The change is backdrop only (de-limed, textured tiles), and the sheet is identical. Left over, not introduced here: the lime dot meter and the lime tick next to 'Free today'."
+   },
+   {
+    "path": "flutter_app/test/golden/practice/goldens/confirm_quick_free_night.png",
+    "verdict": "right",
+    "reason": "The change is backdrop only (y < 181) and the sheet is unchanged. The lime dot meter and the lime tick are left over from before, not added here."
+   },
+   {
+    "path": "flutter_app/test/golden/practice/goldens/confirm_quick_small_large_text_day.png",
+    "verdict": "right",
+    "reason": "No visible change (0.08% sub-pixel backdrop drift). The large-text layout still wraps cleanly with Start practice pinned."
+   },
+   {
+    "path": "flutter_app/test/golden/practice/goldens/confirm_quick_small_large_text_night.png",
+    "verdict": "right",
+    "reason": "No visible change (0.06% sub-pixel drift). Nothing is clipped and the key is unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/practice/goldens/confirm_smart_day.png",
+    "verdict": "right",
+    "reason": "The change is backdrop only. The sheet is unchanged and keeps the F9 line ('We choose for you... under 60% right')."
+   },
+   {
+    "path": "flutter_app/test/golden/practice/goldens/confirm_smart_night.png",
+    "verdict": "right",
+    "reason": "Only the backdrop tiles changed (silver bolt, texture). The Smart sheet is identical, with Start practice as its one volt."
+   },
+   {
+    "path": "flutter_app/test/golden/practice/goldens/quick_start_deck_day.png",
+    "verdict": "wrong",
+    "reason": "The change itself is good: the muddy olive rim on the Quick 10 hero is gone and the bolt halo is tighter. But the master keeps two volt fills (the play disc and the solid lime 'Repair the next mistake' disc) plus a lime bolt, which breaks the one-volt / every-other-lime-mark-goes rule. This is inherited, not introduced here."
+   },
+   {
+    "path": "flutter_app/test/golden/practice/goldens/quick_start_deck_night.png",
+    "verdict": "wrong",
+    "reason": "The only change is a smaller lime halo behind the bolt. The master still has a second volt fill (the lime Repair check disc next to the volt play disc) and a lime bolt; the critic listed two or more volt fills per screen."
+   },
+   {
+    "path": "flutter_app/test/golden/practice/goldens/quick_start_deck_pressed_day.png",
+    "verdict": "wrong",
+    "reason": "Same as the resting Day deck: the olive rim is removed (good), but the volt play disc plus the solid lime Repair disc are two volt fills, and the lime bolt stays."
+   },
+   {
+    "path": "flutter_app/test/golden/practice/goldens/quick_start_deck_pressed_night.png",
+    "verdict": "wrong",
+    "reason": "The pressed Full-mock tile looks right and the bolt halo is reduced. The second volt fill (the lime Repair check disc) and the lime bolt are still there."
+   },
+   {
+    "path": "flutter_app/test/golden/practice/goldens/quick_start_deck_resume_day.png",
+    "verdict": "wrong",
+    "reason": "The muddy olive rim on the Resume hero is removed (good). But the volt play disc and the solid lime check disc on the Repair tile are two volt fills. The NTA title also sits about 40 dp lower than the Repair title in the same row. Both problems are inherited."
+   },
+   {
+    "path": "flutter_app/test/golden/practice/goldens/quick_start_deck_resume_night.png",
+    "verdict": "wrong",
+    "reason": "The only change is a smaller glow at the foot of the hero. The Repair tile's solid lime check disc is still a second volt fill next to the play disc, and the NTA and Repair titles are still misaligned."
+   },
+   {
+    "path": "flutter_app/test/golden/practice/goldens/tab_bank_390_day.png",
+    "verdict": "right",
+    "reason": "The Quick practice and By chapter tiles are equal height, with a black bolt instead of lime, warm grain texture and a lamp corner (texture kept). 'Ways to practise' is no longer clipped at the top. The rest is identical."
+   },
+   {
+    "path": "flutter_app/test/golden/practice/goldens/tab_bank_390_night.png",
+    "verdict": "right",
+    "reason": "The tiles are now textured and equal height with a silver bolt (the lime bolt and green glow are gone), and the heading is no longer cut off. Left over: the lime ring on Smart practice and the lime bookmark."
+   },
+   {
+    "path": "flutter_app/test/golden/practice/goldens/tab_chapter_late_day.png",
+    "verdict": "right",
+    "reason": "The muddy olive hero rim is gone, the hero key is now an outlined secondary (the bar's Start key holds the volt, as the code comment says), and the tiles are de-limed and textured. The layout is intact."
+   },
+   {
+    "path": "flutter_app/test/golden/practice/goldens/tab_chapter_late_night.png",
+    "verdict": "right",
+    "reason": "The page has no second volt: Start 10 questions is a glass secondary key. The tiles are textured with a silver bolt; 'Show me' and the copy are intact. Left over: the lime Smart ring."
+   },
+   {
+    "path": "flutter_app/test/golden/practice/goldens/tab_choose_concepts_day.png",
+    "verdict": "right",
+    "reason": "The content moves up about 5 dp, the tiles are de-limed and textured, and the exam pair, the fresh-paper line and More ways in are unchanged. Nothing is clipped."
+   },
+   {
+    "path": "flutter_app/test/golden/practice/goldens/tab_choose_concepts_night.png",
+    "verdict": "right",
+    "reason": "Same small shift. The tiles are textured with a silver bolt, and the Full mock and NTA objects and Concepts are intact."
+   },
+   {
+    "path": "flutter_app/test/golden/practice/goldens/tab_new_day.png",
+    "verdict": "right",
+    "reason": "The 'Up next in Accountancy' eyebrow is removed, the muddy olive rim is gone, the volt key is now an outlined secondary, and the tiles are de-limed and textured. The result is cleaner and closer to the 17 Oct rules."
+   },
+   {
+    "path": "flutter_app/test/golden/practice/goldens/tab_new_night.png",
+    "verdict": "right",
+    "reason": "The eyebrow is removed and the hero key is a glass secondary, so the page carries no extra volt fill. The tiles keep grain and a warm lamp, with a silver bolt. Left over: the lime Smart practice ring and the lime bookmark."
+   },
+   {
+    "path": "flutter_app/test/golden/practice/goldens/tab_offline_day.png",
+    "verdict": "unsure",
+    "reason": "The eyebrow and the olive rim are removed and the tiles take English's pink tint with texture (good). But the disabled 'Start 10 questions' now looks almost the same as the enabled outlined key (grey text only; the old one was a grey fill). The 'Your downloaded reviews still ...' line is still cut off with an ellipsis."
+   },
+   {
+    "path": "flutter_app/test/golden/practice/goldens/tab_offline_night.png",
+    "verdict": "unsure",
+    "reason": "The eyebrow is removed and the tiles are textured and subject-tinted. But the disabled key now differs from the enabled glass key only by dimmer text, and the offline reason line is still cut off with an ellipsis."
+   },
+   {
+    "path": "flutter_app/test/golden/practice/goldens/tab_order_390_day.png",
+    "verdict": "right",
+    "reason": "The eyebrow and the olive rim are removed, the key is outlined secondary, and the tiles are textured and equal height. One small issue: removing the eyebrow leaves a taller gap above 'It cost you 23 marks'."
+   },
+   {
+    "path": "flutter_app/test/golden/practice/goldens/tab_order_390_night.png",
+    "verdict": "right",
+    "reason": "The eyebrow is removed, there is no page volt fill, and the tiles are textured with a silver bolt. Order and layout hold at 390. Left over: the lime Smart ring."
+   },
+   {
+    "path": "flutter_app/test/golden/practice/goldens/tab_resume_day.png",
+    "verdict": "right",
+    "reason": "The muddy olive rim on the resume card is removed and the card keeps its teal (blue) light. Resume is an outlined secondary key and the tiles are textured. The lime answered dots remain as data."
+   },
+   {
+    "path": "flutter_app/test/golden/practice/goldens/tab_resume_night.png",
+    "verdict": "right",
+    "reason": "The Resume key is a glass secondary, so no second volt. The teal card light is kept and the tiles are textured with a silver bolt. The real '23 of 50 answered' and the 12-hour clock are intact."
+   }
+  ],
+  "summary": "Golden judge 4 (practice): I judged all 34 files that e92266bd changed under flutter_app/test/golden/practice/goldens, each against its 42510757 master. Result: 26 right, 6 wrong, 2 unsure.\n\nRight (26). The Practice tab masters change in a consistent, intended way:\n- the 'Up next in ...' eyebrow is removed;\n- the muddy olive Day rim on the hero cards is gone (critic item);\n- the hero's volt 'Start 10 questions' / 'Resume' becomes a glass or outlined secondary key, so the page carries no volt fill next to the bar's Start key (suggestion_card.dart, line 211);\n- the Quick practice and By chapter tiles lose the lime bolt and green glow and gain grain texture and a warm lamp (the textured cards are kept; the Economics resume card keeps its teal light);\n- tiles are equal height.\n\nThe confirm and chapter-picker sheet masters only changed in the backdrop strip above the sheet (diff box y < 181), so the sheets themselves are identical. In confirm_chapter_credits the second volt fill that showed above the sheet is gone. The closing frames lose the olive rim.\n\nWrong (6): all six quick_start_deck masters (day, night, pressed, resume). Their own changes are fine: the olive rim is removed and the bolt halo is smaller. But each master still shows two volt fills: the play disc plus the solid lime 'Repair the next mistake' check disc. They also keep the lime hero bolt. In the resume variant the NTA title sits about 40 dp below the Repair title in the same row. All of this was already in the old masters, not introduced by this commit, but accepting these masters would lock it in.\n\nUnsure (2): tab_offline day and night. The disabled Start key now differs from the enabled secondary key only by dimmer text; the old one had a grey fill. The offline reason line is still cut off with an ellipsis.\n\nLime marks that remain in masters I marked right (follow-ups, not regressions):\n- the lime ring on Smart practice;\n- the lime bookmark on By chapter;\n- the lime dot meter and the 'Free today' lime tick in the confirm sheets;\n- the lime Balanced dot.\n\nI wrote the old masters to a temp folder in my scratchpad (judge4old) and deleted it at the end. Nothing in wt-v13 was edited, committed or run."
+ },
+ "golden-judge-1": {
+  "items": [
+   {
+    "path": "flutter_app/test/golden/tools/goldens/chooser_course_ladder_day.png",
+    "verdict": "right",
+    "reason": "Volt-filled rank discs 1/2/4 become outlined number rings, the lime 'On Today' text goes neutral, and 'picked · first 3' becomes a full sentence; the sheet no longer has stray lime fills."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/chooser_course_ladder_night.png",
+    "verdict": "right",
+    "reason": "Same as Day: volt rank fills and lime 'On Today' removed, interpunct copy now a sentence; Night matches Day."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/chooser_keyboard_open_day.png",
+    "verdict": "right",
+    "reason": "With the keyboard open, the volt rank discs become outline rings, 'On Today' is neutral and the count line reads as a sentence; nothing is clipped."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/chooser_keyboard_open_night.png",
+    "verdict": "right",
+    "reason": "Night version of the same change: volt fills removed, sentence copy, layout unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/chooser_programmes_query_bcom_day.png",
+    "verdict": "right",
+    "reason": "Only the copy changes: '55 colleges · Round 1' becomes '55 colleges. Round 1'. Interpuncts replaced, nothing else moved."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/chooser_programmes_query_bcom_night.png",
+    "verdict": "right",
+    "reason": "Same interpunct-to-sentence copy fix in Night."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/colleges_empty_day.png",
+    "verdict": "right",
+    "reason": "The Compass card loses its muddy olive Day rim band and lime outer glow; 'Choose your colleges' remains the screen's one volt fill."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/colleges_empty_night.png",
+    "verdict": "right",
+    "reason": "The lime outer glow under the Compass card is removed (glow is banned); everything else is unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/colleges_error_day.png",
+    "verdict": "right",
+    "reason": "The Compass card's volt 'Open Compass' becomes a ghost pill, and the muddy rim and glow are gone, leaving no stray volt on the offline state. 'Try again >' still has an unchanged chevron, not a regression."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/colleges_error_night.png",
+    "verdict": "right",
+    "reason": "Night: volt Open Compass becomes a ghost pill and the lime glow is removed; layout intact."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/colleges_full_day.png",
+    "verdict": "right",
+    "reason": "The Colleges tab drops three volt rank discs and the volt Open Compass (now ghost), removes the muddy rim and glow, and turns interpunct copy into sentences. Mobi still appears once, with more header breathing room."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/colleges_full_night.png",
+    "verdict": "right",
+    "reason": "Night parity: rank discs become outline rings, Open Compass is a ghost pill and the glow is removed; no clipping or overlap."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/colleges_no_estimate_day.png",
+    "verdict": "right",
+    "reason": "The plain-text 'Type an estimate' becomes a real 48 dp pill button, volt rank discs become outline rings, the Compass rim is removed and the count line is a sentence."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/colleges_no_estimate_night.png",
+    "verdict": "right",
+    "reason": "Same as Day in Night: the estimate is now a pressable pill, volt fills are removed and the layout is clean."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/combo_full_day.png",
+    "verdict": "right",
+    "reason": "The Best fit card's muddy olive top rim band and glow are removed; the content is unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/combo_full_night.png",
+    "verdict": "right",
+    "reason": "Only the lime glow under the Best fit card is removed."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/compass_empty_day.png",
+    "verdict": "right",
+    "reason": "The 'Start with your subjects' card loses its muddy rim band and lime glow; Choose subjects stays the single volt fill."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/compass_empty_night.png",
+    "verdict": "right",
+    "reason": "The lime outer glow is removed; everything else is identical."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/compass_full_day.png",
+    "verdict": "right",
+    "reason": "The hero rim and glow are removed, and 'Type an estimate' is now a proper pill button, which pushes the content below down cleanly. The volt 'Open B.Com. (Hons.) colleges' stays the one page fill."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/compass_full_night.png",
+    "verdict": "right",
+    "reason": "Night parity: glow removed, the estimate is a pill button, no overlap."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/compass_mocks_full_day.png",
+    "verdict": "right",
+    "reason": "The hero rim and glow are removed, and the estimate line 'From your latest full mocks · Unreserved' now uses a comma."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/compass_mocks_full_night.png",
+    "verdict": "right",
+    "reason": "Night: glow removed and the interpunct in the estimate line becomes a comma."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/compass_none_open_day.png",
+    "verdict": "right",
+    "reason": "In the 0-of-73 state, 'Type an estimate' becomes a pill button and the hero rim and glow are removed; the list reflows without clipping."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/compass_none_open_night.png",
+    "verdict": "right",
+    "reason": "Night: same pill button and glow removal; layout intact."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/compass_picker_day.png",
+    "verdict": "right",
+    "reason": "No visible change: the largest pixel difference is 1 of 255 (anti-aliasing noise)."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/compass_picker_night.png",
+    "verdict": "right",
+    "reason": "No visible change: the largest pixel difference is 2 of 255 (anti-aliasing noise)."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/compass_pro_day.png",
+    "verdict": "right",
+    "reason": "The hero rim and glow are removed, and the estimate line 'practice projection · Unreserved' now uses a comma."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/compass_pro_night.png",
+    "verdict": "right",
+    "reason": "Night: glow removed and the interpunct becomes a comma; nothing else changes."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/compass_score_full_day.png",
+    "verdict": "right",
+    "reason": "The hero rim and glow are removed, and the estimate subline's interpunct becomes a comma."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/compass_score_full_night.png",
+    "verdict": "right",
+    "reason": "Night: glow removed and the interpunct becomes a comma."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/compass_sheet_subjects_day.png",
+    "verdict": "right",
+    "reason": "Only the hero card's muddy olive rim band and glow are removed; the rest of the page is identical."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/compass_sheet_subjects_night.png",
+    "verdict": "right",
+    "reason": "Only the hero's lime outer glow is removed."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/estimate_sheet_mocks_day.png",
+    "verdict": "right",
+    "reason": "The estimate sheet's 'your range clears · 10 more within it' now uses a comma; ring and chips unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/estimate_sheet_mocks_night.png",
+    "verdict": "right",
+    "reason": "Same interpunct-to-comma copy fix in Night."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/guide_day.png",
+    "verdict": "right",
+    "reason": "The CUET 2027 timeline card loses its muddy olive top rim band; the content is unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/guide_full_day.png",
+    "verdict": "right",
+    "reason": "The timeline card's muddy Day rim band is removed; nothing else changes."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/guide_full_night.png",
+    "verdict": "right",
+    "reason": "Only the faint lime glow is removed."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/guide_night.png",
+    "verdict": "right",
+    "reason": "Effectively no visible change (largest pixel difference 7 of 255, from the faint glow being removed)."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/hub_day.png",
+    "verdict": "right",
+    "reason": "The CUET tools hub Compass card loses its muddy olive rim band and lime outer glow; Open Compass stays the one volt fill."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/hub_night.png",
+    "verdict": "right",
+    "reason": "The lime outer glow under the Compass card is removed; Night matches Day."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/hub_no_subjects_day.png",
+    "verdict": "right",
+    "reason": "Same removal of the muddy rim and glow on the hub's no-subjects Compass card."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/hub_no_subjects_night.png",
+    "verdict": "right",
+    "reason": "Only the lime glow is removed."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/my_colleges_chooser_day.png",
+    "verdict": "right",
+    "reason": "Same change as the chooser ladder: volt rank discs become outline rings, 'On Today' is neutral and the count copy is a sentence."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/my_colleges_chooser_night.png",
+    "verdict": "right",
+    "reason": "Night: volt rank fills removed, sentence copy; Night matches Day."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/my_colleges_failed_day.png",
+    "verdict": "right",
+    "reason": "Programme rows change from 'N colleges · Round 1' to 'N colleges. Round 1'; layout unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/my_colleges_failed_night.png",
+    "verdict": "right",
+    "reason": "Same interpunct copy fix in Night."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/my_colleges_list_edit_day.png",
+    "verdict": "right",
+    "reason": "In the edit sheet, the volt discs on ranks 1-3 become outline rings, so 'Add a college' is the sheet's one volt fill; the subline is now a sentence."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/my_colleges_list_edit_night.png",
+    "verdict": "right",
+    "reason": "Night: rank fills removed, a single volt 'Add a college' remains, sentence copy."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/my_colleges_offline_copy_day.png",
+    "verdict": "right",
+    "reason": "Offline-copy chooser: volt rank discs become outline rings, 'On Today' is neutral and '3 of 8 picked.' is a sentence."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/my_colleges_offline_copy_night.png",
+    "verdict": "right",
+    "reason": "Night version of the same volt removal and copy fix."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/my_colleges_sheet_day.png",
+    "verdict": "right",
+    "reason": "Same as the chooser ladder: outline rank rings instead of volt fills, neutral 'On Today', sentence count line."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/my_colleges_sheet_night.png",
+    "verdict": "right",
+    "reason": "Night parity of the same change."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/programme_bcom_day.png",
+    "verdict": "right",
+    "reason": "The 'Open to you' pill loses its muddy rim and glow, and 'Type an estimate' becomes a real pill button; the sections reflow cleanly."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/programme_bcom_night.png",
+    "verdict": "right",
+    "reason": "Night: glow removed and the estimate becomes a pill button; no overlap."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/programme_bcom_score_day.png",
+    "verdict": "right",
+    "reason": "The 'Open to you' card loses its muddy olive rim band and lime glow; Mobi still appears once."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/programme_bcom_score_night.png",
+    "verdict": "right",
+    "reason": "Only the lime glow is removed."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/programme_cutoffs_offline_day.png",
+    "verdict": "right",
+    "reason": "The status pill's rim and glow are removed and 'Type an estimate' becomes a pill button; the offline error card is intact."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/programme_cutoffs_offline_night.png",
+    "verdict": "right",
+    "reason": "Night: same glow removal and pill button; layout intact."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/programme_not_eligible_day.png",
+    "verdict": "right",
+    "reason": "The not-eligible page's text-only 'Type an estimate' becomes a pill button and the content below shifts down cleanly; 'Edit subjects' stays the one volt fill."
+   },
+   {
+    "path": "flutter_app/test/golden/tools/goldens/programme_not_eligible_night.png",
+    "verdict": "right",
+    "reason": "Night: same estimate pill button; no clipping."
+   }
+  ],
+  "summary": "All 60 tools goldens judged right, with no regressions. The changes repeat across the folder. (1) The muddy olive Day rim band and the lime outer glow are removed from every hero or status card (hub, Compass, combo, guide, programme pages, the Colleges Compass card). (2) Extra volt fills are removed: rank discs 1-3/4 in My colleges, the chooser and the edit sheet become outline rings, the lime 'On Today' text goes neutral, and Open Compass on the Colleges tab becomes a ghost pill. Each screen keeps at most one page volt fill. (3) The text-only 'Type an estimate' becomes a real 48 dp pill button. (4) Interpunct copy becomes sentences or commas ('4 of 8. The first 3 show on Today.', '55 colleges. Round 1: ...', 'Typed by you, Unreserved'). compass_picker_day/night and guide_night show no visible change (anti-aliasing noise only). Night and Day stay at parity, Mobi appears at most once per screen, and nothing is clipped, overlapping or floating over content. Older items left in these screens (not regressions): the 'Try again' button still has a chevron; the small 'My colleges' / 'Where you stand' labels sit above headings; the Night Compass card keeps a lime top edge stroke. The temp folder has been deleted."
+ },
+ "golden-judge-3": {
+  "items": [
+   {
+    "path": "flutter_app/test/golden/core/goldens/bar_badges_day.png",
+    "verdict": "right",
+    "reason": "Only the resting lens changed: it went from solid white to a 65% white pane (bar_lens.dart Day fill 0xA6FFFFFF, from the v13 critique 'not a white tile pasted on the bar'). Badges are ink, and the A1 key is the only lime."
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/bar_capsule_day.png",
+    "verdict": "right",
+    "reason": "The live-capsule action words (Open, Resume, Start) went from olive accent to ink, which cuts a lime mark as the one-volt rule asks. Nothing clips. The lens is the new translucent pane."
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/bar_capsule_night.png",
+    "verdict": "right",
+    "reason": "Night match for Day: the capsule action words went from lime to ink, so the A1 key stays the only lime fill. No layout change. (The status glyphs are still lime; that is unchanged.)"
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/bar_frost_day.png",
+    "verdict": "unsure",
+    "reason": "The Lite tier tint dropped from 97% to 88% (fix for the near-opaque bar), but with no blur the 'Start 10 questions' line now shows as readable text behind the Review and Colleges icons. Earlier commit e4492008 said Lite blocks glyphs. Text faint on Day; needs a device check."
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/bar_frost_night.png",
+    "verdict": "wrong",
+    "reason": "The Night Lite tint dropped from 97% to 86% with no blur, so a crisp 'Sta.. 10 q..tions' line now reads between the tab icons and labels. That is text on text inside the bar, against the earlier 'Lite blocks glyphs' rule. Lite needs a blur, more tint, or glyph blocking."
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/bar_lift_day.png",
+    "verdict": "right",
+    "reason": "The resting lens in frames 1 and 6 is now the translucent 65% white pane, not a solid white tile. The lifted and dragging frames are unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/bar_split_320_day.png",
+    "verdict": "right",
+    "reason": "Only the lens fill changed (translucent pane). The 45.6 dp slots, the guide-line alignment, the labels and the A1 key are unchanged and nothing clips at 320."
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/bar_split_360_day.png",
+    "verdict": "right",
+    "reason": "Only the lens fill changed (translucent pane). Alignment by construction holds; no clipping."
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/bar_split_390_day.png",
+    "verdict": "right",
+    "reason": "Only the lens fill changed (translucent pane). Layout and alignment are unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/bar_split_412_day.png",
+    "verdict": "right",
+    "reason": "Only the lens fill changed (translucent pane). Layout and alignment are unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/bar_tabs_day.png",
+    "verdict": "right",
+    "reason": "The lens on each tab is now a soft frosted pane instead of a stark white tile, closer to Liquid Glass and as the critique asked. Icons and labels are unchanged. (Slightly cooler grey than the cream; acceptable.)"
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/bar_text_day.png",
+    "verdict": "right",
+    "reason": "The 320 / 1.3x capsule row now reads 'Business St..., 12 of 50  Resume': the count stays whole, the name takes the ellipsis, and the action is ink, not olive. Large text still scales without clipping."
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/bar_text_night.png",
+    "verdict": "right",
+    "reason": "Night match: the count is never truncated and the action word is ink, not lime. No overflow at 2x text or at 320."
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/bar_tiers_day.png",
+    "verdict": "right",
+    "reason": "Full, Lite and Off keep their roles. The lens is the translucent pane and the Lite tint is a little lighter. Labels stay clearly legible."
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/bar_tiers_night.png",
+    "verdict": "right",
+    "reason": "Night Lite is a touch less opaque (97% to 86%), which answers the critic's 'near-opaque Night bar'. On a plain background it reads well and the labels hold contrast."
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/bar_travel_left_day.png",
+    "verdict": "right",
+    "reason": "The lens travel frames now use the translucent pane at rest. Motion poses are unchanged and there is no overlap glitch."
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/bar_travel_right_day.png",
+    "verdict": "right",
+    "reason": "The lens travel frames now use the translucent pane at rest. Motion poses are unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/controls_day.png",
+    "verdict": "right",
+    "reason": "The muddy olive rim light on top of the Quick 10 card is gone, which fixes the critic's 'muddy Day rim light'. Nothing else moved."
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/glass_day.png",
+    "verdict": "right",
+    "reason": "The olive top rim and the lime glow under the 'Tonight's move' card are removed. Glow is banned and the rim was the muddy Day light."
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/glass_night.png",
+    "verdict": "right",
+    "reason": "The lime glow halo under the 'Tonight's move' card is removed (glow banned). The thin Night top rim is kept."
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/quick_start_day.png",
+    "verdict": "right",
+    "reason": "On the Quick 10 hero, the olive rim and the lime glow under the card are removed, so the card is calmer. Note: the lime-filled Repair check badge is still a second volt fill next to the play button; it is unchanged by this commit and still needs a code fix."
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/quick_start_frames_day.png",
+    "verdict": "right",
+    "reason": "The morph frames lose the olive rim on the hero card in every frame. Sequence and layout are unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/quick_start_frames_night.png",
+    "verdict": "right",
+    "reason": "The lime glow behind the bolt is removed in every morph frame. Sequence is unchanged."
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/quick_start_mobi_day.png",
+    "verdict": "right",
+    "reason": "The Mobi poses are unchanged and Mobi appears once. Only the hero card's olive rim below him is gone."
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/quick_start_mobi_night.png",
+    "verdict": "right",
+    "reason": "The Mobi poses are unchanged. Only the bolt's lime glow is gone (glow banned)."
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/quick_start_night.png",
+    "verdict": "right",
+    "reason": "The lime glow around the bolt and under the Quick 10 card is removed; nothing else moved. (The pre-existing lime Repair badge is unchanged.)"
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/start_v13_fixed_day.png",
+    "verdict": "wrong",
+    "reason": "Rim and glow removed and the subject chips enlarged (good), but the new subject-rail edge fade is broken. The fade ends about 32 dp short of the rail's end, then 'Stu' and the chip border reappear at full opacity, leaving a hard vertical seam in 'Business Stu'. Cause: the ShaderMask in quick_start.dart (_SubjectChips) is narrower than the painted rail."
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/start_v13_fixed_night.png",
+    "verdict": "wrong",
+    "reason": "Same broken rail fade at Night: the 'Business Stu' chip dissolves, then comes back solid past a visible seam where its border restarts. The glow and rim removal themselves are fine."
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/start_v13_following_day.png",
+    "verdict": "wrong",
+    "reason": "Hero glow and rim are correctly removed, but the subject rail shows the fade-then-solid seam on the right ('Business | Stu', border breaks at about x 715), which looks like a rendering glitch."
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/start_v13_following_night.png",
+    "verdict": "wrong",
+    "reason": "Bolt glow correctly removed, but the same right-edge rail seam is clearly visible on the dark sheet: the chip border and text break and resume."
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/start_v13_following_picked_day.png",
+    "verdict": "wrong",
+    "reason": "Both edges now show the seam: 'un|tancy' on the left (the fade then a solid strip at the sheet edge) and the next chip's art on the right. Old master had clean cut-offs; this is a regression from the new edge mask."
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/start_v13_following_picked_night.png",
+    "verdict": "wrong",
+    "reason": "The left and right rail seams appear at Night as well ('un|tancy', and the next chip's art breaks at the right). Glow removal is fine, but the master locks in a visual glitch."
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/status_day.png",
+    "verdict": "right",
+    "reason": "The chip copy 'Saved on the server' became 'Saved to your account', removing build talk. Layout fits. (The pre-existing chevron on the 'Turn on' button is unchanged.)"
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/status_night.png",
+    "verdict": "right",
+    "reason": "Night match: 'Saved to your account' replaces the server wording. Nothing clips."
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/strips_day.png",
+    "verdict": "right",
+    "reason": "Week-strip study days went from lime fills to neutral filled discs, removing extra volt fills. Done, rest (dashed) and future (outline) still read apart."
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/strips_night.png",
+    "verdict": "right",
+    "reason": "Night match: the done days are neutral grey discs instead of lime, and today keeps its ring. That is fewer lime marks per the one-volt rule."
+   },
+   {
+    "path": "flutter_app/test/golden/core/goldens/surfaces_day.png",
+    "verdict": "right",
+    "reason": "The olive top rim on the 'Tonight's move' hero is removed (the muddy Day rim light). Everything else is identical."
+   }
+  ],
+  "summary": "I judged all 37 core golden masters changed in e92266bd against 42510757: 29 right, 7 wrong, 1 unsure. Code under lib did not change between the two commits; the new masters show code from earlier commits (glass/lens/live-capsule/Start fixers) that was never rendered into masters.\n\nRight:\n- Day lens is now a translucent 65% white pane instead of a solid white tile (bar_lens.dart).\n- Live-capsule action words are ink instead of lime/olive.\n- Glows are gone, and the muddy olive Day rim lights are gone from the Quick 10, Tonight's move and hero cards.\n- Week-strip done days are neutral instead of lime.\n- 'Saved on the server' now reads 'Saved to your account'.\n- The bar capsule now cuts the name, never the count ('Business St..., 12 of 50').\n\nWrong:\n- All 6 start_v13_* goldens. The new subject-rail edge fade in lib/core/router/quick_start.dart (the ShaderMask in _SubjectChips, around line 802) paints a mask narrower than the rail. Chips fade, then reappear solid past a visible vertical seam ('Business | Stu', 'un|tancy'), and the chip borders break.\n- bar_frost_night. The Lite tint dropped from 97% to 86% with no blur, so crisp text ('Sta.. 10 q..tions') reads between the tab icons. That goes against the earlier 'Lite blocks glyphs' rule.\n\nUnsure:\n- bar_frost_day. Same Lite change, but the text behind the icons is fainter in Day; needs a device check.\n\nPre-existing issues these masters still carry (not caused by this commit):\n- The lime Repair check badge is a second volt fill in quick_start and start_v13.\n- The Night lime top rims on cards remain.\n- 'Turn on' keeps its chevron.\n- The live capsule says Resume while the key still says Start.\n\nTwo untracked files, bar_capsule_over_day/night.png, sit in the same folder but are not in the commit and were not judged. My temp folder is deleted."
+ }
+}

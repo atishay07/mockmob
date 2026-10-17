@@ -1,0 +1,816 @@
+{
+ "view:ranks": {
+  "defects": [
+   {
+    "severity": "high",
+    "what": "Truth: 'Average score 62%' is wrong. The server's `average` is mean raw marks per attempt (sum of attempts.score / count), but the page appends '%'. A student who averages 62 marks on 10-question sessions and 118 of 250 on full papers sees a made-up percentage. Marking can also produce negatives.",
+    "evidence": "standing.js: `average: tests ? Math.round(points / tests) : 0`, with points = sum(a.score) (migration 20261016160100). LeaderboardPageClient.jsx renders `{count(standing.average)}%`. Visible in ready, long and light/dark captures at 390 and 1440 (62%, 71%). Standards section 2: units and denominators beside every count; no false precision.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\app\\(app)\\leaderboard\\LeaderboardPageClient.jsx (line ~52); src\\lib\\server\\standing.js (line ~24); supabase\\migrations\\20261016160100_leaderboard_group_by.sql; fixture in src\\app\\preview\\arena\\ArenaPreviewClient.jsx line 183 (average: 62)",
+    "fix": "Either return a real percentage (sum(score)/sum(max_score) per attempt, which needs max marks in mm_leaderboard) or label it 'Average marks' with no percent sign. Fix the fixture to match. Flag a mean over fewer than 3 attempts as early."
+   },
+   {
+    "severity": "high",
+    "what": "Truth: 'Mocks 12' and 'students who have sat a mock' count every attempt, including 10-question quick practice. Rank is the sum of raw marks, so it rewards volume. The copy says 'where your recorded mocks place you', which implies quality over papers. A student with 148 short sessions outranks a stronger student with 20 full mocks.",
+    "evidence": "The mm_leaderboard SQL is `count(*)` over all attempts, ordered by `sum(a.score)`, with no filter on mode and no normalisation by paper. Page copy: 'Mocks', 'who have sat a mock', 'Ranked by total points across your recorded mocks'. The preview itself uses quick sessions of 10 questions next to 50-question papers (previewAttempts). The landing page claims 'Every mock earns points for accuracy and speed on the leaderboard' (see the landing defect below).",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\supabase\\migrations\\20261016160100_leaderboard_group_by.sql; src\\lib\\server\\standing.js; src\\app\\(app)\\leaderboard\\LeaderboardPageClient.jsx (lede, 'Mocks' label, .lb-note)",
+    "fix": "Rank on full mocks only (mode = full or nta) by a comparable measure, such as average percent over the last N papers with a minimum count. Or keep the all-attempts rule and relabel it truthfully ('Sessions', 'Ranked by total marks across all your sessions'). Make the lede, labels, empty state and CTA use the same word."
+   },
+   {
+    "severity": "high",
+    "what": "The view is a single hero number (14th, then two small stats, a note and a button). It is the opposite of ledger W-055 ('Leaderboard... made it very basic', 'richer earlier design') and W-083 (balanced, not sparse). At 1440 the content is a 640 px column in a 1208 px main area. The right ~45% and the lower ~260 px are empty, so it reads as a hero-metric template with a dead void. It carries no context: no percentile or band, no gap to the next place, no change since last week, no 'what moves your place', no Mob angle.",
+    "evidence": "ready-1440-dark.png, ready-1440-light.png, long-1440-dark.png, empty-1440-light.png: .lb-stand is 640 px wide and ends at y=640 of 900; right side empty. Standards sections 2 and 3: context for every number, no hero-metric template, no empty voids. FEATURE-ADOPTION: one next move with a reason. The page also removed the earlier podium and list (dead .podium and .grid-cols-12 CSS remains), which edges against W-084 (never cut) and W-055.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\app\\(app)\\leaderboard\\LeaderboardPageClient.jsx; src\\app\\(app)\\leaderboard\\leaderboard.css; src\\lib\\server\\standing.js",
+    "fix": "Keep the privacy rule (no one else is named) and enrich the view. Add 'top 7%' or a band computed server-side. Add the gap to the next place in marks (that count only, anonymous). Add the change over 7 days. Add a mini trend of the student's own papers. Add a 'what moves your place' line tied to one specific next action. Optionally add a Mob-only standing for consenting members. Use the full desktop width, with a two-column composition (the figure on one side, a ladder of anonymous bands or the trend on the other). Show a short earlier-vs-now comparison for owner sign-off. Ledger W-055, W-083, W-072, W-084."
+   },
+   {
+    "severity": "medium",
+    "what": "The landing page promises something this view does not deliver: the Benchmarks card says 'Every mock earns points for accuracy and speed on the leaderboard' with CTA 'See the leaderboard' linking to /leaderboard. There is no leaderboard (only your own rank), and speed is not in the ranking (rank = raw marks sum).",
+    "evidence": "src/app/page.js line 123-125 versus standing.js. Landing line 52 lists 'Leaderboard' as a feature name.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\app\\page.js (lines ~52, 123-125)",
+    "fix": "Rewrite to what is true (for example 'See where your mocks place you among MockMob students'). Drop 'and speed' unless speed is added to the ranking. Ledger L-items on truth and W-055."
+   },
+   {
+    "severity": "medium",
+    "what": "One volt per viewport breaks in the error state at 1440. With no data-page-primary on the page, the sidebar 'Start a session' key reverts to a lime fill, and the error card's 'Try again' is also lime. Two lime primaries are visible at once. The same happens briefly during loading, where the sidebar key flashes lime and then drops to an outline when the data arrives.",
+    "evidence": "dataerr-1440-light.png and dataerr-1440-dark.png: volt buttons are 'Start a session' @y66 and 'Try again' @y598. dbg capture during loading shows the lime sidebar key. In the ready state only the page CTA is lime.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\ui\\Skeleton.jsx (ErrorState retry button); src\\app\\(app)\\AppLayoutClient.jsx lines ~174-188 (data-startQuiet logic); src\\app\\(app)\\leaderboard\\LeaderboardPageClient.jsx (loading and error branches have no data-page-primary)",
+    "fix": "Give ErrorState's retry button data-page-primary (as TodayMove does for its retry). Mark the loading skeleton wrapper with data-owns-start so the sidebar key stays quiet until the page settles. W-075."
+   },
+   {
+    "severity": "medium",
+    "what": "The empty state does not teach, and its CTA does not match the promise. It shows one line 'You have no recorded mocks yet.' and a generic 'Start a practice session' that goes to the dashboard. There is no sample row or preview of what the standing will look like, and the copy (mock) and CTA (practice session) disagree.",
+    "evidence": "empty-390-dark.png, empty-1440-light.png. FEATURE-ADOPTION item 10 (empty states that teach: one line, a button, a sample row) and the specific-CTA rule ('Start 10 Accountancy questions'). The same generic CTA appears in the ready state, where the best move is a specific one.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\app\\(app)\\leaderboard\\LeaderboardPageClient.jsx (lines ~53-65)",
+    "fix": "Say what will appear ('Your place among 212 students, and how it moves') and show a muted sample row labelled as an example. Make the CTA specific and linked to the real counted action ('Take your first full mock' pointing to the mock start, or whichever mode counts). In the ready state, use a reason-based next move."
+   },
+   {
+    "severity": "medium",
+    "what": "Desktop sidebar at 1440x900: the nav list is clipped and partly hidden under the sticky theme switcher and Guide block. 'Contribute' is cut off at the fold; 'My uploads', 'Account' and 'Help' sit under the sticky foot. Hit-tests at their centres return the foot's BUTTON, not the link. Reaching them means scrolling the whole sidebar, which also scrolls the logo out of view.",
+    "evidence": "ranks3 measurement: items y = My uploads 748, Account 825, Help 871; Night/Guide foot occupies y 759-884; aside scrollHeight 1094 vs clientHeight 900. Report 1 hit-test: 'My uploads', 'Account' and 'Help' are covered ('BUTTON.'). sidebar-scrolled-1440-dark.png shows the logo clipped.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\app\\(app)\\arena.css (.arena-sidebar lines ~161-176, .arena-sidebar__foot lines ~250-255)",
+    "fix": "Make the nav list its own scroll region between a fixed logo and the foot. Move Account, Help and Contribute out of the long list, or collapse the foot to one 'Appearance' row so every item fits at 900 px. Test 1440x800 as well. Ledger W-065, W-068, W-087; standards: nothing floating over content."
+   },
+   {
+    "severity": "low",
+    "what": "Decorative gradients and a third lime fill. The header avatar is a lime-to-green gradient (linear-gradient(135deg, #d2f000, ...)), and the theme toggle track uses a sky gradient. At 390 that makes the dock Start key, the page CTA and the avatar all lime. The page CTA and dock Start also go to the same place, which makes the phone view repeat itself.",
+    "evidence": "ranks3 volts list: DIV.avatar sm with the gradient, SPAN.mm-theme-toggle__sky with the gradient. ready-390-dark.png shows three lime masses.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\app\\globals.css (.avatar, line ~558); src\\app\\marketing-theme.css (.mm-theme-toggle__sky, line ~33)",
+    "fix": "Use a flat neutral avatar fill (ink on surface) and a flat toggle track. Keep lime for the one page primary and the A1 dock key. W-075, W-076."
+   },
+   {
+    "severity": "low",
+    "what": "Disclaimer copy the owner dislikes: the lede ends with 'It is separate from your CUET exam rank.' and the note ends with 'Nobody else is named here.' (repeated in the empty state). They explain the privacy design rather than the number, so they read as fine print under every state.",
+    "evidence": "All captures. Owner memory: no obvious disclaimers. Standards section 7: cut decorative explanation.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\app\\(app)\\leaderboard\\LeaderboardPageClient.jsx (ArenaHead lede and .lb-note, lines ~39-41, 51, 61)",
+    "fix": "Keep one short clause where it matters (for example 'Not your CUET rank' beside the figure). Drop 'Nobody else is named here', or move it behind a small info disclosure."
+   },
+   {
+    "severity": "low",
+    "what": "The page title appears three times at 1440: the top bar, the H1 (both 'Your standing'), and the active sidebar item. The ArenaHead comment says the header bar names the page, so the H1 should carry something the bar does not (the answer, for example '14th of 212').",
+    "evidence": "ready-1440-dark.png: top bar 'Your standing', H1 'Your standing', sidebar 'Your standing'.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\app\\(app)\\leaderboard\\LeaderboardPageClient.jsx; src\\components\\arena\\ArenaHead.jsx",
+    "fix": "Make the H1 the result sentence, or drop the top-bar title on this view."
+   },
+   {
+    "severity": "low",
+    "what": "Loading and error states are thin. The loading skeleton is two bars (h-12 w-48 and h-4) that do not match the real block (a 72 px rank, two figures, a note and a button), so ~480 px of content replaces ~130 px of skeleton. The error text says 'Check your connection' for any failure, including a 401 (session ended) or a 500.",
+    "evidence": "loading and dataerr-390 captures show the short skeleton. readStanding and the catch block treat every failure as 'unreachable'. The API returns 401 when signed out and 500 on a server failure.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\app\\(app)\\leaderboard\\LeaderboardPageClient.jsx (lines ~28-45); src\\components\\ui\\Skeleton.jsx",
+    "fix": "Reserve the final block height with a skeleton shaped like the result. Branch on err.status: 401 gives 'Sign in again' with a sign-in action; otherwise the retry copy."
+   },
+   {
+    "severity": "low",
+    "what": "'1st of 1 student who has sat a mock' is filler, and a mean from one attempt is shown as an 'Average score'. The code handles the singular wording but not the small-sample case (standards section 2: flag small samples, do not headline them).",
+    "evidence": "readStanding and the render path in LeaderboardPageClient.jsx (of === 1 is special-cased only for grammar). The fixture has no 1-mock or tiny-board case.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\app\\(app)\\leaderboard\\LeaderboardPageClient.jsx (lines ~47-52)",
+    "fix": "If of < 10 or tests < 3, show 'Not enough students yet to rank you' with the count instead of a rank, and 'Average of 1 attempt' beside the figure."
+   },
+   {
+    "severity": "low",
+    "what": "The 'Mocks' / 'Average score' stat strip has no enrichment such as an age or source ('as of today, all time'). The API's `window: 'all time'` is returned but never shown, so a student cannot tell whether 14th is this week, this month or ever.",
+    "evidence": "standing.js returns window: 'all time'; the page ignores it.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\app\\(app)\\leaderboard\\LeaderboardPageClient.jsx",
+    "fix": "Show 'All time' beside the rank, and consider a weekly view."
+   },
+   {
+    "severity": "low",
+    "what": "Dead CSS and leftover class names from the removed list design: .student-page--leaderboard .podium, .grid-cols-12 and the max-width: 640px column overrides apply to nothing. 'ranks-page' and 'student-page--leaderboard' are still on the root.",
+    "evidence": "student-pages.css lines 32-44 and 107-120 versus the current JSX, which has no podium or grid-cols-12.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\app\\(app)\\student-pages.css (lines 32-44, 107-120)",
+    "fix": "Remove the rules, or reuse them if the richer board is rebuilt."
+   },
+   {
+    "severity": "low",
+    "what": "On a phone the page costs two taps: it is only reachable through More, and the More sheet wraps 'Weak chapters' to two lines. The header chips are icon plus a bare number (40, 68) with no visible unit; the unit is in the aria-label and title only, and the compass chip for AI credits is not self-evident.",
+    "evidence": "more-sheet-390-dark.png; ready-1440 header shows '40' and '68' (aria-label 'Practice credits' and 'AI credits' only).",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\app\\(app)\\AppLayoutClient.jsx (More sheet; chips around lines 353-357); src\\lib\\arenaNavigation.js (line 17)",
+    "fix": "Shorten the label ('Weak chapters' to 'Weak spots') or widen the sheet columns. Add a visible unit to the 68 chip at desktop width. This ties to W-066 and F1 and is tracked with the dock work."
+   },
+   {
+    "severity": "low",
+    "what": "Preview fixture gaps (not product defects, but they hide cases). data=sparse, plan=pro and stats=error render exactly the same as ready for this view, so there is no 1-attempt or tiny-board case to test. The CTA links to the real /dashboard, so a click leaves the fixture (it lands on 'Securing your session' at /dashboard) instead of staying in the preview; sidebar links are rewritten but this Link is not. The fixture bar 'Development preview' is focusable and takes tab stops (not product).",
+    "evidence": "report.json states ready vs sparse vs pro vs statserr are identical; cta-after-light-1440.png shows the real app load screen.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\app\\preview\\arena\\ArenaPreviewClient.jsx (line 183 and the previewLinks map at ~570)",
+    "fix": "Add a data=sparse branch to the /api/leaderboard stub ({ rank: 1, of: 1, tests: 1 }) and a ?state=tie variant. Route in-page Links through previewLinks."
+   }
+  ],
+  "notes": "Method: shared dev server on 3263 (production code f725a422, wt-audit17) at /preview/arena?view=ranks. It stalled for about 90 s on first request, then came up (I did not start or stop it). Headless Chrome through playwright-core only, with a temp profile that I deleted. All 28 capture combinations were taken: 7 states (ready, empty, long, sparse, pro, stats=error, data=error) x 390 and 1440 x Night and Day, plus fullPage versions. Extra captures: More sheet, sidebar scrolled, CTA click, error state, loading state. Saved in C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob-next\\tmp\\arena-1017d\\ranks (report.json, report3.json).\n\nChecked and fine: no horizontal overflow (scrollWidth equals clientWidth in all captures); no console or page errors; CLS at most 0.001; contrast passes at every text pairing I measured (lowest is .lb-note in Daylight at 5.89:1, and 7.0:1 in Night); the lime CTA is 44 px high and its hit-test returns itself; focus rings are present on every control (the header theme switch draws its ring on the inner track); the dock never covers the page at 390 (the bottom is padded); Night and Day layouts match; the A1 dock Start key and the page primary are the only lime fills at 390 (apart from the avatar noted above). The page is not truncated or clipped at 390.\n\nTimings under load are not trustworthy. LCP samples ranged 0.5-48 s on the shared server, and in some runs the page sat on the loading skeleton and 'Daylight' showed selected on a Night page until hydration finished. I treated those as dev-server latency, not defects, and recorded only the lime-Start flash during loading.\n\nNot verifiable here: the real mm_leaderboard output, because the migration is not applied to production and the preview uses a stub. The truth defects come from reading standing.js, the SQL and the render code.\n\nPriority for the owner: the two truth defects (average %, what 'mocks' counts) and the one-number page against W-055/W-083 come first. The landing claim and the two-volt error state are next."
+ },
+ "view:rules": {
+  "defects": [
+   {
+    "severity": "medium",
+    "what": "The 'Traps you meet' disclosure picks up Today's `.tm` (today's-move) card styles. It renders as a 28px-radius card with a lime top highlight, shadow, extra padding and a blank band under the collapsed title. Opened, it is a card (with a hover pill) inside a section. Today.css is imported only by app/(app)/today/page.jsx, so in production this should happen only if that CSS stays loaded after a client-side move from Today. The preview fixture imports every view, so it always shows here.",
+    "evidence": "Computed style of `.tm` in act-d-dark-main.json: padding '6px 28px 28px', radius 28px, border 1px, display flex, shadow starting 'rgba(210, 240, 0, 0.26) 0px 1px 0px 0px inset'. rule-book.css and traps-later.css declare no card for the inset surface. Screens: base-m-dark-full.png and base-d-dark-full.png (the traps card has dead space under its title); act-d-dark-7traps-full.png and act-m-dark-7traps.png (opened).",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\today\\today.css lines 30-36 and 269 (`.app-shell .tm`); src\\components\\result\\TrapsMeet.jsx (class `tm`); src\\components\\result\\traps-later.css line 37 onward",
+    "fix": "Rename one family. For example, move Today's card to `.tdm*`, or give TrapsMeet a unique prefix like `.trapsmeet*`. Then confirm /review/rules in a production build after visiting /today. The same collision hits Review and Result wherever TrapsMeet is used.",
+    "ledger": "W-076 (nested cards, glow), W-078, W-087"
+   },
+   {
+    "severity": "medium",
+    "what": "The empty state does not teach or lead anywhere. It has no button. The explanation is split in two (the left card says 'When a rule is here, you can choose it...' and a separate ruled line says 'Your first repair adds a rule here. Rules from how you take papers need 3 timed mocks. You have 0 of 3.'). On desktop these sit in different columns, so the right column is a floating sentence. The conditional wording ('When a rule is here') reads as an unfinished state.",
+    "evidence": "empty-m-dark.png, empty-d-light.png and empty-m-dark.txt. The page has zero controls except Back and the Traps disclosure.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\rules\\RuleBook.jsx (NowCard empty branch and the `empty` branch of RuleBook); data\\mistake_lab.copy.json (rules.repairsEmpty, rules.habitsGate)",
+    "fix": "One block: say what a rule is in one line (for example, 'A rule is one thing to do differently in your next mock'). Add one primary action matching the missing input: 'Repair a mistake' (link to Review) when there are no repairs, or 'Start a Full mock' for the timed-mock gate. Show the 0 of 3 progress once. Optionally show one sample rule row, labelled as an example.",
+    "ledger": "FEATURE-ADOPTION #10 (empty states that teach), #8; F18; W-088; W-077 (one primary action)"
+   },
+   {
+    "severity": "medium",
+    "what": "The screen has no primary action, and 'Use in my next mock' looks like a link. There are seven identical underlined text links, one per rule (slop item 3), with no filled or outlined button. After a save nothing leads to where the rule shows up (the Full mock / NTA session card on Practice). The page is a dead end.",
+    "evidence": "base-d-dark.png and base-m-dark-full.png: 7 identical underlined 'Use in my next mock'. act-d-dark-2saved.png: after saving there is only a toast and a marker. `.rb-use` is `text-decoration: underline; background: transparent`.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\rules\\RuleBook.jsx (UseButton); src\\components\\rules\\rule-book.css `.rb-use` line 101",
+    "fix": "Make Use an outlined button with a visible hover, focus and pressed state, so it reads as pressable (F5 language). Once a rule is chosen, add one next step in the 'Your rule' card: 'Start a Full mock' (link to Practice, full mode). The card says the rule shows there, so link to it.",
+    "ledger": "F5 (affordance), W-077, W-088, W-090, FEATURE-ADOPTION (one next move per screen); standards slop item 3"
+   },
+   {
+    "severity": "medium",
+    "what": "A rule whose evidence is locked can still be chosen. 'Answer the questions you mark for review.' shows 'This evidence opens at 15 marked answers. You have 4.', but its 'Use in my next mock' works and becomes 'Your rule for your next mock'. The page contradicts itself, and the Lab check afterwards may report 'could not be checked'. In the 'few' state the jump list also shows a '0' counter for the locked habits section, which mixes up zero and locked.",
+    "evidence": "act-m-dark-8gated.png and act-m-dark-gated.json (now = 'Answer the questions you mark for review.', err null). few-m-dark.png: jump row 'From how you take papers 0' beside the gate line 'You have 1 of 3.'",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\rules\\RuleBook.jsx (HabitRule, `rule.gated`; rb-jump counts); data\\rule_book.js choosableRule",
+    "fix": "Either disable Use on gated habits with the reason beside it ('Opens at 15 marked answers'), or keep it enabled and say 'Chosen before there is evidence'. Show a lock or 'Locked' instead of '0' in the jump row, or drop the counter while the section is gated.",
+    "ledger": "Standards section 2 (zero is not unknown or withheld); W-088; truth rule"
+   },
+   {
+    "severity": "medium",
+    "what": "Keyboard focus is lost on both success and failure. The Use button is `disabled` while saving, which drops focus to <body>. On success it is then replaced by a non-focusable 'Your rule' span. A keyboard user is thrown back to the top, with about 27 tab stops (the sidebar) before the rules. The save-failure error appears but focus is not on the retry control.",
+    "evidence": "act-d-dark-main.json and act-m-dark-main.json: after save, activeElement = BODY. act-m-dark-fail.json: after a failed save, active = body class 'min-h-full flex flex-col'. Tab order list: the first rule is stop 30 of the audit run on desktop.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\rules\\RuleBook.jsx (UseButton: `disabled={busy}`; the replacement `.rb-inuse` span; the `use` callback)",
+    "fix": "Use aria-disabled and aria-busy instead of `disabled`, so focus stays. On success, move focus to the new in-use marker (tabIndex -1) or the 'Your rule' card heading. On failure, keep focus on the button and tie the error with aria-describedby.",
+    "ledger": "WCAG 2.2 AA (2.4.3, 3.3.1); standards section 6 and 9"
+   },
+   {
+    "severity": "medium",
+    "what": "Lime is used for data and breaks the one-volt rule. Each Wilson band draws its dot in the accent colour with an olive range. At 390 px, after a choice, one viewport shows a lime band dot, the lime 'Your rule' check, the lime-outlined toast and the lime Start key. Each band also says the same number three times (the evidence line 'of 23 changes', the sentence under the bar '8 of 23 (35%)', and the bar itself). The bar has no 0 and 100% scale, so it is hard to read for n=8.",
+    "evidence": "act-m-dark-8gated.png (4 lime elements in the viewport); base-d-dark.png; `.rb-band__dot` background is `var(--a-accent-text)` and the range is a 30% mix of it.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\rules\\rule-book.css lines 66-72 (.rb-band__range/.rb-band__dot); src\\components\\rules\\RuleBook.jsx (Band)",
+    "fix": "Draw the band in neutral ink (ink-2 for the dot, a hairline for the range). Keep lime only for the chosen state and the dock key. Remove the repeated 'k of n (pct)' from the band caption and keep only 'Likely between 19% and 55%' or the small-sample note. Add 0% and 100% end ticks, or drop the bar when n is under 20.",
+    "ledger": "W-075 (one volt per viewport), W-076, W-077 (no pseudo-evidence / false precision)"
+   },
+   {
+    "severity": "medium",
+    "what": "Each rule row gives little to act on: 'Q37, repaired 14 Oct' names no mock, subject or time, and the row does not link to the repair it came from. The basis line 'From your device's record of 4 timed mocks, marked as each paper was scored.' reads as internal or explanatory filler. 'Your rule for your next mock' is repeated as card label, list marker and live text. Counts are repeated three times (jump list '3', section '3 rules', chapter '1 rule').",
+    "evidence": "base-m-dark.txt and base-d-dark.png; act-d-dark-2saved.png. The copy comes from data/mistake_lab.copy.json (across.basis, rules.labels.inUse).",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\rules\\RuleBook.jsx (RepairRule meta, NowCard, jump nav); data\\mistake_lab.copy.json (across.basis, rules.labels)",
+    "fix": "Meta: 'Mock 3, Accountancy, Q37. Repaired 14 Oct, 9:42 pm' with a 'See the repair' link (12-hour clock). Delete or shorten the basis line to one plain fact. Use one label ('Your next-mock rule') and 'Use for my next mock'. Show the count once (the jump list or the headings, not both).",
+    "ledger": "F17 (mock + date and time), W-096 (12-hour times), W-093 (no filler lines), W-090"
+   },
+   {
+    "severity": "low",
+    "what": "The 'jump to' list and the chosen-rule card fill the first screen at 390 px. The jump list has only two links and each is 48 px high. At 390x844 the first rule is below the fold and the section heading sits under the dock, so a student sees no rule on arrival. Combined with the basis line, the pre-list block is about 570 px.",
+    "evidence": "base-m-dark.png (heading 'From your repairs' at y=760 partly under the dock); act-m-dark-12end.png shows the end of the page does clear the dock.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\rules\\RuleBook.jsx (rb-jump nav); rule-book.css `.rb-jump`",
+    "fix": "Show the jump list only from 1024 px, or make it a one-line segmented control. Put the basis line at the end of the page. Let the first rule appear above the fold on phones.",
+    "ledger": "W-083 (balance), W-090, standards section 3 (first thing seen)"
+   },
+   {
+    "severity": "low",
+    "what": "Saving gives three confirmations and a layout jump. The toast 'Saved for your next mock: ...', the Mobi nod and the in-list marker all fire. When Mobi joins the card, the headline reflows from 2 to 3 lines and the section list moves down about 32 px (a shift caused by the user's own action). On desktop the toast covers the end of a rule row. On a phone the card with Mobi is scrolled off-screen, so only the toast is seen.",
+    "evidence": "act-d-dark-2saved.png (toast over 'Operating activities are the main revenue-...', headline now 3 lines); act-m-dark-2saved.png (scrollY 567, card not visible).",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\rules\\RuleBook.jsx (use(): toast.success, NowCard MomentMobi)",
+    "fix": "Drop the toast (the card and marker already confirm). Reserve the Mobi column so the headline does not reflow, or show Mobi only on the empty state. Keep the sr-only live line.",
+    "ledger": "W-074 (Mobi only at real moments), standards section 7 and 8"
+   },
+   {
+    "severity": "low",
+    "what": "The row menu ('...') is a disclosure with one item (Copy) and no dismissal. It has aria-expanded but no aria-controls. Escape does not close it, it stays open after Copy, and there is no outside-click close.",
+    "evidence": "act-d-dark-main.json: 'menu stays open after copy' open=1; 'after Escape menu open count' open=1. act-d-dark-4menu.png shows Copy beside the menu button.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\rules\\RuleBook.jsx (RowMenu, CopyButton)",
+    "fix": "Close on Escape, outside click and after Copy, and return focus to the trigger. Or show Copy as a labelled secondary icon button, since the menu holds one item.",
+    "ledger": "Standards section 3 and 6; WCAG 2.2 AA"
+   },
+   {
+    "severity": "low",
+    "what": "A long chapter name squeezes the '1 rule' count into one letter per line. The count span is a shrinkable flex item. There is no horizontal overflow (scrollWidth equals clientWidth), and long rule text wraps correctly.",
+    "evidence": "act-m-dark-11long.png (the count renders as '1 / r / u / l / e' beside a long chapter title). act-m-dark-long.json: sw=cw=390.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\rules\\rule-book.css line 57 (`.rb-chapter h3 span`)",
+    "fix": "Add `flex: none; white-space: nowrap` to the count span, and let the title wrap (`min-width: 0`). Or drop the per-chapter count, since it duplicates the section count.",
+    "ledger": "W-087"
+   },
+   {
+    "severity": "low",
+    "what": "The loading state is four large rounded slabs (a 210 px block and three 128 px blocks) that do not match the final flat ruled layout. The shape of the page jumps when data arrives. I saw it incidentally when the dev server was slow (the loaded page is 2611 px tall at 390). That capture file was later overwritten by a rerun.",
+    "evidence": "Observed in an early few-m-dark-full.png (four empty rounded rectangles under the header; file since overwritten). CLS measured on the loaded page is about 0.0001 to 0.0007, so the shift is small in the fixture.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\rules\\RuleBook.jsx (Loading); rule-book.css `.rb-skel`",
+    "fix": "Use ruled skeleton rows (a text line and a hairline) in the same two-column grid, with the same heights as the first rows.",
+    "ledger": "W-088; W-087; standards section 9 (no layout shift)"
+   },
+   {
+    "severity": "low",
+    "what": "The page's data states are barely testable. In the preview fixture ?data=long, ?data=sparse, ?plan=pro and ?stats=error render exactly the same page as the base (text diff is identical at 390). Only ?data=empty and ?rules=few|new|down change this view. No long-string or sparse case can be reached without editing the DOM.",
+    "evidence": "diff base-m-dark.txt long-m-dark.txt and sparse-m-dark.txt: identical. staterr-m-dark.png and pro-m-dark.png show the base content.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\app\\preview\\arena\\ArenaPreviewClient.jsx lines 343-349 (GET /api/me/rules reads only `state==='empty'` and `fixture.get('rules')`)",
+    "fix": "Map data=long to a long chapter name, a long rule and a 7-digit mark count. Map data=sparse to one repair and no habits. Document that plan and stats do not apply to this view.",
+    "ledger": "W-088; W-091 (proof)"
+   },
+   {
+    "severity": "low",
+    "what": "Desktop alignment is off by a few pixels. The left card's top hairline is at y=321 and its label at y=351, while the right column's first heading is at y=334. The two columns do not share a top line. The left column also stays a narrow card with a large empty area below (sticky) while the lede leaves the right 40% of the header empty.",
+    "evidence": "base-d-dark.png and base-d-light.png.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\rules\\rule-book.css `.rb-now` pass-2 rule (line ~173) and `.rb-section__head`",
+    "fix": "Align the first text baseline of both columns to the same line, or drop the aside card's top hairline. Consider moving the chosen-rule card above the list on narrow desktop widths.",
+    "ledger": "W-078, W-087"
+   }
+  ],
+  "notes": "CAPTURES, SAVED UNDER C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob-next\\tmp\\arena-1017d\\rules. Base, data=empty, data=long, data=sparse and plan=pro are captured at 390 and 1440, Night and Day; I opened base, empty, few and a sample of the others, but not every one of the 20 files. stats=error covers only 390 Night and 1440 Day, plus one 390 Night shot I opened; rules=few has 390 Night, 390 Day and 1440 Night. rules=new has 390 Night only (the same as data=empty). rules=down was NOT captured and the 390 Night run was never completed. The Night and Day interaction audit covers 1440 Night (act-d-dark-audit) and 390 Night (act-m-dark-audit); 390 Day and 1440 Day are not done. The 'Back' to /review click was inconclusive: the preview link goes to the real /review route, which was compiling and did not load within 7 s. I did not capture the save-failure state at 1440 and I did not test reduced motion. Server-side states for the shared dev server were slow because many critics were hitting it (some page loads took 25 to 150 s), so LCP numbers are not meaningful (1440 Night 1292 ms warm, 390 Night 20.6 s cold compile).\n\nCHECKS THAT PASSED (390 and 1440 Night, partly Day): 13 controls on the page, all at least 44 px high with an accessible name; real pointer clicks hit the intended control for Use, row menu, Copy, jump list, Traps disclosure and Back; focus ring is visible on every rules control (2 px lime); no console errors or warnings in any run; no horizontal overflow in any state, including a stress test with 160-character unbroken words and long chapter names; CLS 0.0001 to 0.0007; computed text contrast showed no failures in Night at 390 and 1440; Day tokens (ink-3 #56624f on #f4f5f0) pass by calculation; the end of the page clears the dock by 32 px at 390; the jump anchor lands at 88 px below the top; the save and save-failure states work and say so truthfully (error text 'Your rule was not saved. Try again.'); the Traps disclosure opens and shows sourced numbers; no ALL-CAPS labels, arrows on buttons or hype in the copy; no times are shown, so the 12-hour rule is untested here; the empty-state Mobi is awake (not sleeping), at most one Mobi per screen.\n\nDISCLOSURES. (1) The scratchpad is shared by several critic sessions. My first scripts reused names (cap.cjs, inter.cjs) that other sessions also use, and at least one concurrent writer rewrote base-m-dark.png/.txt in my output folder at 20:08 (content looks identical). My working scripts are in scratchpad\\rules-critic. (2) I stopped, by mistake, one process I did not start: a `node cap.cjs [\"pro\",\"prosparse\",\"proempty\",\"prodown\"]` run (PID 44152) that matched my over-broad process filter. Another critic may need to rerun it. I also deleted all unlocked playwright_chromiumdev_profile-* folders in %TEMP% (about 10 or more), some of which may have been other sessions' leftovers. All the Chrome sessions I started are closed, and I stopped only my own node chains afterwards. (3) The shared dev server on 3263 was left running, as instructed. I did not use the Claude_Browser pane (one stray screenshot call failed because no page was open) and did not launch chrome.exe directly."
+ },
+ "view:recovery": {
+  "defects": [
+   {
+    "severity": "high",
+    "what": "Reasoning-step answer options render as huge native radios. A global rule forces every input to 44x44, so the radio is a 44px grey circle with default Chrome blue-white selected state, top-aligned to the text and 76px per row. It looks unstyled and off-brand, and the selected row has no highlight and no volt accent. Only seen once the pathway is released (?recovery=candidate), but this is the core interaction of the released feature.",
+    "evidence": "Computed: input 44x44, label 76px tall, appearance auto, accent-color auto. Screenshots cand-opt-m-dark.png, cand-ep1-d-light.png, cand-after-submit-d-dark.png (all in tmp/arena-1017d/recovery). Same at 390 and 1440, Night and Day. Focus ring itself is fine (2px lime in Night, 2px olive in Day).",
+    "file": "src/app/(app)/arena-support.css:119 (.app-shell :is(button, input, select, summary) { min-height:44px; min-width:44px }); src/app/(app)/arena.css:1074-1075 (.learning-option); src/app/(app)/recovery/page.jsx:56",
+    "fix": "Exclude radio and checkbox from the 44px input rule. Make .learning-option the 44px+ target: a bordered row with padding, a custom 20px radio using accent-color var(--a-select) or appearance:none, align-items:center, and a selected-row state (border and tint, plus the radio fill so it is not colour alone).",
+    "ledger": "W-079, W-076, W-088"
+   },
+   {
+    "severity": "high",
+    "what": "Released start screen has no primary action and no button affordance. The four '... baseline' links and the concept row are plain text. The baseline links are bare anchors with no border, background or icon. The concept row is an 86px (390) or 64px (1440) full-width button that looks like a paragraph. There are 5 equal-weight starts, no volt button, and the h2 sits 0px under the lede. On 390 the baselines wrap into two ragged rows with uneven columns. The owner's F5 complaint (things that read as information, not buttons) and the one-next-move rule are both repeated here.",
+    "evidence": "candidate-m-dark-full.png, candidate-d-light-view.png. Hit test: the links are 107-170x44 and click correctly, but nothing shows they are pressable. The only lime in the content area is absent. Spacing gap between lede and 'Start with an initial signal' is 0.",
+    "file": "src/app/(app)/recovery/page.jsx:44-48; src/app/(app)/arena.css:1071 (.learning-alternatives, no link styling); src/app/globals.css:4130 (.recovery-record leftover, no affordance); src/app/(app)/arena-support.css:129-135",
+    "fix": "Lead with one decision: a single volt 'Start 5 questions' (default to the subject with the most recent mistakes) plus a quiet 'Choose another subject' disclosure. Render the baselines and concept rows as real bordered pressable rows or chips with hover, press and focus states. Give h2 and lede margins from the 4-point scale. Use real names instead of 'baseline'.",
+    "ledger": "W-002, W-064, W-075, F5, F18"
+   },
+   {
+    "severity": "medium",
+    "what": "Headline promises a feature, then withdraws it. Until /api/learning/plan resolves, `blocked` is false, so the page shows 'Check one reasoning gap.' with the lede 'Practise the missing step...'. It then swaps to 'Recovery steps open soon.' (live default) or 'This page did not load.' (error). On Try again it flips back to 'Check one reasoning gap.' first. The h1 changes up to twice per visit, with a layout change.",
+    "evidence": "MutationObserver timeline at 390 Night, default: h1 'Check one reasoning gap.' at 1.3 s, then 'Recovery steps open soon.' (781px scroll height unchanged, text changed) once the plan arrived. Error retry sequence: ['Check one reasoning gap.','This page did not load.']. Screenshots sparse-m-light-view.png, long-d-dark-view.png, loading-m-dark-view.png show the wrong headline while loading. Lab timing was inflated by dev-server contention (27 s), but the swap is deterministic.",
+    "file": "src/app/(app)/recovery/page.jsx:39-40",
+    "fix": "Do not choose the title until plan or error is known. Render a stable neutral h1 (for example 'Recovery') with a held-height skeleton, and set the state-specific title and lede only after load. Keep the error title during retry.",
+    "ledger": "W-088, W-078"
+   },
+   {
+    "severity": "medium",
+    "what": "Loading state is a bare grey paragraph 'Loading your learning record…' with no skeleton, no Mobi wait state and no timeout. With data=loading the page sits there forever under the wrong headline. The Try again path has no busy state either.",
+    "evidence": "loading-m-dark-view.png, loading-d-dark-view.png: only text under the headline, the rest of the viewport empty.",
+    "file": "src/app/(app)/recovery/page.jsx:40",
+    "fix": "Hold the layout with a skeleton of the final state (title line, one action block). After about 8 s, show the error state with Try again. Disable and relabel Try again to 'Trying…' while it runs.",
+    "ledger": "W-088"
+   },
+   {
+    "severity": "medium",
+    "what": "Live default state (recovery not released, student has history) is a coming-soon stub. 'Recovery steps open soon.' has no date and no teaching. The lede and the h2 say the same thing twice ('review your mistakes'), and 'Nothing you do now is lost.' is filler reassurance. It shows no real numbers even though the record has them (3 sessions in the fixture), the two actions are equal ('Review your mistakes' volt plus 'Start practice' link), and the first-time student never learns what Recovery is, which contradicts the Find, Fix, Keep loop. On 1440 the content fills the top 440px of 900 with the right 40% and the lower half empty.",
+    "evidence": "default-d-dark-full.png, default-d-light-full.png, default-m-dark-full.png. Text dump: 'Until then, review your mistakes or keep practising.' then 'Your mistakes are in Review / Each miss there has its explanation and a way to practise the chapter again.'",
+    "file": "src/app/(app)/recovery/page.jsx:39,43-44",
+    "fix": "Replace 'open soon' with one specific move priced in marks, such as 'You have N mistakes across M sessions. Repair the one that cost most', using the real review data. Make that the single volt action and drop the duplicate lede and the 'nothing is lost' line. Add a one-line teach of what a repair does and a sample row. If the pathway truly cannot be used, redirect to Review rather than hosting a stub.",
+    "ledger": "W-064, W-093, W-083, W-090, F18"
+   },
+   {
+    "severity": "medium",
+    "what": "Empty state (new student, no sessions) contradicts itself. The h1 says 'Recovery steps open soon.' and the lede says 'review your mistakes', while the body says 'Nothing to review yet'. The page teaches nothing about the feature and offers no sample row. Mobi (reading) is correct for an empty state, but the screen still reads as a stub.",
+    "evidence": "empty-m-dark-view.png, empty-d-light-view.png.",
+    "file": "src/app/(app)/recovery/page.jsx:39,43",
+    "fix": "For noRecord, set the heading to 'Your mistakes will show up here', add one sentence on what Repair does after the first practice session, and keep one volt 'Start 10 questions'. Do not show the 'open soon' header.",
+    "ledger": "W-064, F18"
+   },
+   {
+    "severity": "medium",
+    "what": "Raw machine error codes are shown to students. The server returns `message: error.message.replaceAll('_',' ')`, which gives ALL-CAPS strings like 'IDEMPOTENCY CONFLICT', 'INVALID RESPONSE', 'NOT FOUND' and 'LEARNING UNAVAILABLE'. The page puts `e.body.message` straight into role=alert with no mapping.",
+    "evidence": "Code path learningHttp.js catch block plus page.jsx:23,29 (`setError(e.body?.message || ...)`). The preview fixture replays the same shape (409 'IDEMPOTENCY CONFLICT'). Not exercised through the real API in this sweep.",
+    "file": "src/lib/server/learningHttp.js:19; src/app/(app)/recovery/page.jsx:23,29",
+    "fix": "Map known codes to plain sentences with a recovery action ('That answer was already saved. Continue to the next step.'). Never render error.message to the UI, and fall back to the existing friendly sentence.",
+    "ledger": "W-076, W-093"
+   },
+   {
+    "severity": "medium",
+    "what": "The disabled submit looks fully enabled. 'Check this reasoning step' is disabled until an option is picked, but .recovery-action has no :disabled style. It stays solid lime at opacity 1 with cursor default, so a student cannot tell why nothing happens. Busy only changes the label to 'Saving…'.",
+    "evidence": "Computed: disabled=true, opacity 1, background rgb(210,240,0), cursor default. Visible in cand-ep1-d-light.png (lime button above four unselected options).",
+    "file": "src/app/globals.css:4055 (.recovery-action); src/app/(app)/recovery/page.jsx:57",
+    "fix": "Add .recovery-action:disabled (muted surface, text-ink-3, no volt) plus aria-describedby 'Choose an answer to continue'. Keep a visible loading state.",
+    "ledger": "W-088, W-075"
+   },
+   {
+    "severity": "medium",
+    "what": "After answering a reasoning step the question is silently swapped for the next one. No feedback line, no 'step 2 of 3', no confirmation that the answer was saved. The episode.feedback paragraph rendered nothing in the fixture run.",
+    "evidence": "Desktop Night run: selected option A, clicked 'Check this reasoning step'. The page text changed from the A/B/C question to the P/Q/R question with the meta lines ('An initial signal...', '0 qualifying delayed checks') unchanged. cand-after-submit-d-dark.png. The 390 submit sat at y=863, below the 844 fold, and my pointer click landed outside the viewport, so I did not verify it there.",
+    "file": "src/app/(app)/recovery/page.jsx:51-58",
+    "fix": "After each response show a one-line outcome and what changed, plus a real step counter from episode data. Move focus to the new stem and keep aria-live. Put the submit button in a sticky action area above the dock on 390.",
+    "ledger": "W-088, F18"
+   },
+   {
+    "severity": "low",
+    "what": "Episode meta copy is jargon and middle-dot strings. 'An initial signal; more evidence is needed.', 'More fresh checks needed · 0 qualifying delayed checks' (a bare 0 with no denominator), plus 'baseline', 'reasoning gap', 'unassisted', 'fresh question family' and 'distinction worth investigating'. The question stem sits only 4px under the meta, bold at 600, and reads as part of it.",
+    "evidence": "cand-ep1-d-light.png, candidate text dumps. A first-time student cannot tell what a qualifying delayed check is.",
+    "file": "src/app/(app)/recovery/page.jsx:45,51-53; src/app/(app)/arena-support.css:130-131",
+    "fix": "Use plain, marks-priced names (changed a right answer, concept gap) and one sentence such as 'Answer 3 steps now, then a fresh question in 2 days.' Show 0 of N. Drop the middle dot. Add 16-24px space above the legend and style the stem as the question.",
+    "ledger": "W-076, W-093, F18"
+   },
+   {
+    "severity": "low",
+    "what": "Next-check time is printed with `toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})` plus ' IST'. That gives '17/10/2026, 8:59:00 pm IST': day-first numeric date, seconds, no relative wording.",
+    "evidence": "Code at page.jsx:58 and a node evaluation of the same call, which returned '17/10/2026, 8:59:00 pm'. The screen path (a completed episode with nextDueAt) was not reached in the fixture run.",
+    "file": "src/app/(app)/recovery/page.jsx:58",
+    "fix": "Show a relative time with a 12-hour clock without seconds ('Tomorrow, 8:30 pm') and drop the IST suffix.",
+    "ledger": "W-096"
+   },
+   {
+    "severity": "low",
+    "what": "Cost and entitlement are never stated before a student starts a pathway, yet the error copy says 'Your credits have not been used', implying credits can be consumed. Capabilities define a free allowance and plan limits (one complete episode per week on free), but the page shows neither the allowance nor a credit cost. Pro users see the identical page as free (plan=pro changes nothing).",
+    "evidence": "plan=pro captures identical to default (text diff). Error strings at page.jsx:23 and 27. data/capabilities.js:20,78.",
+    "file": "src/app/(app)/recovery/page.jsx:23,27,45-48; data/capabilities.js:20,78",
+    "fix": "Show 'Free: 1 pathway a week, 0 of 1 used' (or 'Included with Pro') beside the start action, and state any credit cost before the start button.",
+    "ledger": ""
+   },
+   {
+    "severity": "low",
+    "what": "Two volt primaries are visible in the 1440 viewport on every state: the sidebar 'Start a session' and the page's lime action ('Review your mistakes', 'Start practice' or 'Try again'). On 390 the page action plus the dock Start key is the allowed A1 pair.",
+    "evidence": "default-d-dark-view.png, empty-d-light-view.png, error-d-light-view.png. The sidebar key counts as the A1 dock key only if the owner reads it that way.",
+    "file": "src/app/(app)/AppLayoutClient.jsx:321 (StartKey sidebar); src/app/globals.css:4055",
+    "fix": "Confirm the owner's ruling that the sidebar Start key is the A1 key. If not, drop the page action to an outlined secondary when the sidebar Start is visible.",
+    "ledger": "W-075"
+   },
+   {
+    "severity": "low",
+    "what": "Orphan 'lost.' on the last line of the lede at 1440 ('...Nothing you do now is / lost.'). The 62ch max-width with no balancing leaves one dangling word.",
+    "evidence": "default-d-dark-view.png and default-d-light-view.png, line 2 of the lede.",
+    "file": "src/app/(app)/arena-support.css:131",
+    "fix": "Add text-wrap: pretty (or balance) on .app-shell .learning-journey p and the ArenaHead lede.",
+    "ledger": "W-087"
+   },
+   {
+    "severity": "low",
+    "what": "Error state copy is redundant and has no retry feedback. The title 'This page did not load.' is followed by the lede 'Your saved sessions and mistakes are safe.' and then a role=alert paragraph 'Check your connection and try again, or open Review.', so three sentences stack with no spacing before Mobi and the buttons. 'Try again' gives no busy state, and the headline flips while retrying (see the flip defect).",
+    "evidence": "error-m-dark-view.png, error-d-light-view.png, error-after-retry-m-light.png.",
+    "file": "src/app/(app)/recovery/page.jsx:39-41",
+    "fix": "One title, one sentence with the recovery action next to it, and move role=alert onto that sentence. Show 'Trying…' on the button.",
+    "ledger": "W-088, W-093"
+   },
+   {
+    "severity": "low",
+    "what": "Night and Day parity: leftover light-theme hex values in the legacy recovery styles. .recovery-record has `border-top: 1px solid #c1c5b6`, a pale rule that glows in Night. The .recovery-lab block (globals.css:4044+) hard-codes #f4f5f0 and #172126 and is only neutralised by an .app-shell override.",
+    "evidence": "candidate-m-dark-full.png: bright hairline under 'Investigate a concept' against the dark ground.",
+    "file": "src/app/globals.css:4044-4058, 4130-4135",
+    "fix": "Replace the hex values with the arena tokens (var(--a-line), var(--a-ink)) and delete the unused .recovery-lab light palette.",
+    "ledger": "W-078"
+   },
+   {
+    "severity": "low",
+    "what": "Concept title in the fixture carries build talk, 'Sacrificing and gaining ratios · candidate, not released', with a middle dot. If the server ever returns a title like this it ships to students.",
+    "evidence": "Candidate state text dump and screenshots.",
+    "file": "src/app/preview/arena/ArenaPreviewClient.jsx:112",
+    "fix": "Keep release status out of the title; the page already gates on pathwayState.",
+    "ledger": "W-076"
+   },
+   {
+    "severity": "medium",
+    "what": "Global shell, seen on this view at 1440x900: the sidebar's pinned footer (appearance switch plus Guide, y 743-892) sits on top of the nav links. 'My uploads' and 'Account' hit-test as covered by the footer buttons, and 'Help' (y 883) is below the fold. The sidebar scrolls (overflow auto, scrollHeight 1094 for 900px) but there is no scroll cue, so the last three items look cut off.",
+    "evidence": "elementFromPoint at My uploads returned BUTTON, at Account returned BUTTON.arena-chip. Sidebar measurements: foot top 743, Account y 837-881, Help y 883-927. Cut-off 'Contribute' visible in every 1440 screenshot.",
+    "file": "src/app/(app)/AppLayoutClient.jsx:319-340; src/app/(app)/arena.css:161-170",
+    "fix": "Make the nav region its own scroll area sized to the viewport minus the footer, with a bottom fade as a scroll cue. Or move the appearance switch into the Account menu so the footer is one row.",
+    "ledger": "W-065, W-079, W-069"
+   }
+  ],
+  "notes": "What I exercised. The view `recovery` was captured at 390x844 and 1440x900 in Night and Day (localStorage mm:theme:v1) for: default, data=empty, data=long, data=sparse, plan=pro, stats=error, data=loading, data=error, record=down and recovery=candidate. That is 40 combinations, with a viewport screenshot and a full-page screenshot each, saved in C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob-next\\tmp\\arena-1017d\\recovery. I read the main screenshots from every state. Reports: report-default.json and report-states.json (text, controls with elementFromPoint hit tests, CLS, LCP, console, overflow). Extra captures: cand-*.png, click-review-*.png, error-after-retry-m-light.png. Playwright-core and headless Chrome were used with temp profiles, which were deleted. I did not start or stop the dev server. Hit tests: every in-view control on the page was hit by its own element. The only failures were the shell sidebar footer items at 1440x900. I clicked the primary 'Review your mistakes' link with a real pointer, and it navigated to /review. I clicked a candidate concept row, then an option, then the submit with real mouse events at 1440. On 390 the submit sat below the fold and my click landed outside the viewport, so submit was not verified there. Results: zero console errors or warnings in all 40 captures, no horizontal overflow (scrollWidth equals clientWidth everywhere), CLS 0.000-0.001. Text contrast was computed on the candidate flow: body text at least 10.8:1 in Night and 8.57:1 in Day, headings 15-17:1, focus rings 2px lime or olive, so AA passes. LCP was 1-1.6 s on the uncontended first run and 9-26 s on later runs. Those later numbers are dev-server contention from the shared server with many critics, not product measurements, and I did not read the LCP numbers as pass or fail. Fixture limits: data=long, data=sparse, plan=pro and stats=error produce the same recovery view as default (text-identical), because the /api/learning/plan fixture only branches on data=empty and record. So those states cannot be judged here and are not defects. The captures that differed were mid-load frames showing the wrong headline. The released pathway (recovery=candidate) is gated by recoveryReleased(), so its defects (radios, start screen, disabled submit, feedback, jargon, time format) ship only once the gate opens. The live default is the blocked stub. Not verified: the real nextDueAt screen and the real server error strings (code reading only), reduced-motion behaviour, the real production build's LCP, and the wrong-order Today or Review pages. The harness banner 'Development preview' is preview chrome and is excluded. Process incident to disclose: another critic (dashboard) overwrote the shared scratchpad file cap.js while my first background run was going, so my first background batch likely executed or was disturbed by their script. I also ran `pkill -f \"node cap.js\"`, which may have killed that critic's job, so it may need a rerun. After that I used a private folder (scratchpad\\recov-critic-1017)."
+ },
+ "view:explore": {
+  "defects": [
+   {
+    "severity": "medium",
+    "what": "Explore has no next move. After a student answers, the only actions are Save, vote chevrons and Show answer. A wrong answer does not offer Ask Mobi about this question, Repair, Revise or a timed set on the same chapter. The aside leads with a slogan, not an action. There is no primary action anywhere. This breaks the adoption doc rules 'one next move per screen' and 'Ask Mobi lives in the work'. Explore also sits beside Practice as a second untimed-practice surface with no bridge between them.",
+    "evidence": "i2-1440-night-q1-answered.png and m-390-day-q1-wrong.png: the feedback card ends at the explanation, then the vote pill and Save. The aside has 'Answer first. Then ask why.' plus two plain links.",
+    "file": "src/components/feed/QuestionCard.jsx (feedback block, lines 100-103); src/components/feed/DiscoveryFeed.jsx (aside, lines 130-135)",
+    "fix": "After a wrong answer, show one prefilled 'Ask Mobi about this question' action inside the feedback card. When a chapter is picked, offer 'Practise this chapter in a timed set' (to Practice, with fine-tune). Replace the slogan aside with the student's real state: saved count against the 25 free slots, and one link to Saved.",
+    "ledger": "W-064, F18, W-041, W-099, FEATURE-ADOPTION #8-9"
+   },
+   {
+    "severity": "medium",
+    "what": "Nested boxes inside every question card. A bordered, raised card holds four bordered option boxes, a separately filled and bordered feedback panel, and a bordered vote pill and buttons. Twelve identical cards stack with nothing varying their weight. This is the nested-card pattern the owner bans.",
+    "evidence": "base-1440-night-fold.png and i2-1440-night-q1-answered.png: card, then options with their own borders and radius, then the feedback box with its own background, then the pill. The full-page captures show the same card repeated 12 times.",
+    "file": "src/app/(app)/explore/explore.css (.ex-question, .ex-option, .ex-feedback, .question-vote__controls); src/components/feed/QuestionCard.jsx",
+    "fix": "Remove the card shell: separate questions with a hairline and spacing. Make options ruled rows, not boxes. Keep the feedback as a tinted band with no border. Drop the pill border around the vote control.",
+    "ledger": "W-076, W-083, ui-ux-standards section 3 (never nest cards) and section 10 item 3"
+   },
+   {
+    "severity": "medium",
+    "what": "Defensive fine print and a slogan block. The lede ends with 'This is practice, separate from your timed mock score.' The aside footnote reads 'Community votes help organise the feed. They do not certify an answer.' Both are the disclaimer sub-remarks the owner rejected. The aside is also a kicker ('Tonight's rule') above a 30px slogan heading, which competes with the page h1. 'Tonight' is hard-coded and wrong at any other time of day.",
+    "evidence": "Text in every capture, for example base-1440-night-fold.png. DiscoveryFeed.jsx line 110 and lines 131 and 134. At 1440 the aside h2 is 30px against the 40px h1.",
+    "file": "src/components/feed/DiscoveryFeed.jsx lines 110, 131, 134; src/app/(app)/explore/explore.css line 41",
+    "fix": "Cut both disclaimer sentences. If the practice-versus-mock distinction matters, put it in the page name or the chapter line. Delete the 'Tonight's rule' kicker and slogan heading. The aside holds only real state and links (see the next-move defect).",
+    "ledger": "W-093, L-024, W-076, F11 (clutter), ui-ux-standards section 4"
+   },
+   {
+    "severity": "medium",
+    "what": "Several states show or say things that are not true. (1) While subjects load, or when the subject request fails, the page heading is the lowercase fragment 'your subject'. (2) When the first page of questions fails, the error says 'Your answers above are still here' although nothing is above. (3) The solved count is scoped to the selected subject, but the copy says '7 questions solved in your recorded untimed practice' and links to the all-subject Progress page. (4) The empty-state copy leaks pipeline words: 'Held questions stay out of practice' and 'Some questions are held for checks. Continue to the next page.'",
+    "evidence": "Item 1: suberr-1440-day-fold.png and empty-1440-night-fold.png taken before hydration, where the h2 reads 'your subject'. Item 2: feederr-390-night-full.png. Item 3: refreshSummary fetches /api/learning/summary?subject=. Item 4: state-held-1440-night.png.",
+    "file": "src/components/feed/DiscoveryFeed.jsx lines 103, 125, 126, 133",
+    "fix": "Render no heading until a subject is known, or use a skeleton. Pick the error message by whether any questions are present. Write '7 questions solved in Accountancy'. Reword the empty and held states to 'No more questions here yet' and drop 'held' and 'page'.",
+    "ledger": "W-093, W-088, ui-ux-standards sections 2 and 7 (zero or unknown is not a label; no build talk)"
+   },
+   {
+    "severity": "medium",
+    "what": "Empty states do not teach and offer no action when no filters are set. data=empty shows a large Mobi illustration and 'No questions for these filters yet', with no button, because the action only exists when a chapter or difficulty filter is on. A student with no filters is at a dead end.",
+    "evidence": "empty-1440-night-fold.png and empty-390-day-full.png. EmptyState actionLabel is {hasFilters ? 'Clear filters' : undefined}.",
+    "file": "src/components/feed/DiscoveryFeed.jsx line 126",
+    "fix": "With no filters, offer 'Try another subject' (opens the subject list) or 'Start a timed set'. Say what will appear here once questions are ready.",
+    "ledger": "W-088, FEATURE-ADOPTION #10"
+   },
+   {
+    "severity": "medium",
+    "what": "Layout shift at 390 (CLS 0.067 to 0.090 in lab, near the 0.1 limit). The aside heading 'Answer first. Then ask why.' is visible on the first screen while the feed loads, then is pushed away when the cards arrive. The 96px subject object also appears after first paint. With a real network this will cross 0.1.",
+    "evidence": "base-390-night shows a shift of 0.0668 at 6.9 s with sources ex-aside and H2. empty, long and loading at 390 measured 0.087 to 0.090. All 1440 captures stayed under 0.005.",
+    "file": "src/app/(app)/explore/explore.css (.ex-aside, .ex-loading, .ex-listhead__obj:empty); src/components/feed/DiscoveryFeed.jsx lines 120-124",
+    "fix": "Reserve the feed height with a viewport-tall skeleton. Place the aside after a ready state on narrow screens, or hide it until the feed has loaded. Always reserve the 96px object slot, not display:none when empty.",
+    "ledger": "W-042 (nothing arriving late), ui-ux-standards section 9"
+   },
+   {
+    "severity": "medium",
+    "what": "At 390 the Explore aside (saved questions, review link, solved count) is only reachable after the whole feed. It sits after 12 cards and the Load more button, and grows further with each page. Keyboard users also pass about 100 tab stops (4 options plus 4 controls per card) before reaching it, and the options are 4 separate tab stops, not a radio group.",
+    "evidence": "base-390-night-full.png (7343 px tall, aside at the very bottom) and the kbd run: tab stops 3 to 10 for the first card alone.",
+    "file": "src/components/feed/DiscoveryFeed.jsx lines 108-135; src/app/(app)/explore/explore.css line 55",
+    "fix": "On narrow screens move Saved and the solved count into a compact strip under the filters. Make each option group a roving-tabindex radio group so a card is 2 to 3 tab stops.",
+    "ledger": "W-015, W-070"
+   },
+   {
+    "severity": "low",
+    "what": "Chapter picker has no search. A real subject has a long flat chapter list. The syllabus fixture gives 17 options in a 342 px scrolling popover with no search input. A single group is headed 'Chapters', which repeats the field label.",
+    "evidence": "state-syllabus-chapters-1440-day.png; the popover holds no input; chapter-open captures show the 'Chapters' group heading.",
+    "file": "src/components/feed/DiscoveryFeed.jsx line 117; data/explore_feed.js chapterGroups (fallback group name 'Chapters'); src/components/ui/controls/Listbox.jsx",
+    "fix": "Add a search field to the Listbox when it has more than about 8 options. Do not render a group heading when there is only one group.",
+    "ledger": "W-005 and F8 (chapter search; same pattern)"
+   },
+   {
+    "severity": "low",
+    "what": "The feedback panel has a 3px coloured left border, which the standards ban, and it stays accent-coloured even after a wrong answer. The vote score and option keys use the monospace font as a label costume.",
+    "evidence": "i2-1440-night-q1-answered.png and m-390-day-q1-wrong.png show the 3px lime or olive bar. Computed font on .ex-option__key and .question-vote__score is Geist Mono.",
+    "file": "src/app/(app)/explore/explore.css line 27 (.ex-feedback border-inline-start), lines 22 and 53",
+    "fix": "Remove the 3px bar and use a tinted background and the existing correct or wrong icon. Use the body font with tabular-nums for the key and the score.",
+    "ledger": "W-076, ui-ux-standards sections 4 and 5 (T-083)"
+   },
+   {
+    "severity": "low",
+    "what": "Layout jump on Save at 390. 'Save' becomes 'Saved' and is wider, so 'Show answer' wraps onto a second row and the card grows. The action row is vote pill, Save and Show answer, all in one flex-wrap line.",
+    "evidence": "m-390-day-save-toast.png: 'Saved' sits on row 1 and 'Show answer' drops below it. m-390-day-bottom.png shows both on one row before the tap.",
+    "file": "src/app/(app)/explore/explore.css lines 31 and 56 (.ex-question__actions, .ex-question__tools); src/components/feed/QuestionCard.jsx line 111",
+    "fix": "Give the tools row a stable width: a min-width on the Save button, or put Show answer in the answer area rather than the footer.",
+    "ledger": "W-078, ui-ux-standards section 9 (no layout shift)"
+   },
+   {
+    "severity": "low",
+    "what": "Voting is unexplained and icon-only. Two chevrons around a bare '0' have no visible label saying what a vote does for the student. The only explanation is the disclaimer footnote at the bottom of the page. The up and down glyphs are the collapse and expand icons.",
+    "evidence": "All card captures. VoteControls uses AppIcon 'collapse' and 'expand', with aria-labels only.",
+    "file": "src/components/questions/VoteControls.jsx; src/components/feed/QuestionCard.jsx lines 108-110",
+    "fix": "Replace with a labelled 'Was this question good?' control, or remove it from the student feed until the vote has a visible effect.",
+    "ledger": "W-099, F11 (clutter), ui-ux-standards section 10 item 14"
+   },
+   {
+    "severity": "low",
+    "what": "Free-save limit is only revealed when it blocks. Free accounts have 25 saves (capabilities.js), but the Save button never shows the count. The limit appears only as an error toast after the 25th save fails.",
+    "evidence": "data=save-error toast: 'Your 25 free save slots are full. Remove a saved question to make room.' No count appears on the page before then.",
+    "file": "src/components/feed/QuestionCard.jsx lines 85 and 111; data/capabilities.js line 82",
+    "fix": "For free accounts show '3 of 25 saved' in the aside or on the Save button, and state the limit before it blocks.",
+    "ledger": "W-093 and W-094 (honest limits), ui-ux-standards section 11"
+   },
+   {
+    "severity": "low",
+    "what": "Page identity at 390. The phone header shows only the logo and credits. The word 'Explore' appears in the top bar at 1440 but not at 390. The h1 'One question. One useful step.' is a slogan that does not match a page showing 12 questions at once, and nothing says what Explore is for.",
+    "evidence": "base-390-night-fold.png: no page name visible. base-1440-night-fold.png: 'Explore' in the top bar.",
+    "file": "src/components/feed/DiscoveryFeed.jsx line 110; the arena top bar",
+    "fix": "Make the h1 'Explore' or 'Untimed practice' with a one-line plain lede, such as 'Pick a subject, answer, then read why'.",
+    "ledger": "W-070, W-090"
+   },
+   {
+    "severity": "low",
+    "what": "Small polish. (1) The subject object is outdented 8px from the filter and card left edge (object left 244, cards 252). (2) The solved-count link is inline-flex with min-height 44px, so the paragraph is 67px tall for two lines and the line spacing is uneven. (3) The subject image has loading=lazy although it is above the fold. (4) The h2 beside the 96px object is 20px weight 400, so the subject name is weaker than the object.",
+    "evidence": "rec.js measured objLeft 244, cardLeft 252, p height 67 against 46 expected. z-listhead captures. perf.js showed img loading=lazy.",
+    "file": "src/app/(app)/explore/explore.css lines 9, 11 and 47; src/components/brand/SubjectObject",
+    "fix": "Set the object margin-left to 0 or align it to the grid. Give the inline link display:inline with padding for the hit area. Set the above-fold object to eager loading.",
+    "ledger": "W-087, W-014"
+   }
+  ],
+  "notes": "I did not edit code. Captures and measurement JSON are in C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob-next\\tmp\\arena-1017d\\explore. They cover the base state and data=empty, long, sparse, loading, error, subject-error, held, save-error, vote-error, chapters=syllabus, plan=pro and stats=error, at 390 and 1440 in Night and Day. Interaction captures (subject, chapter and difficulty pickers, answer states, save, load more, touch sheets) are in the same folder, prefixed int-, i2-, m-390-, state- and kbd-. Playwright ran headless Chrome with temp profiles that I deleted. I used the shared server on 3263 and did not stop it. No Browser pane or DevTools MCP was used.\n\nI did not use elementFromPoint to prove the interaction outcomes below. I clicked each control with a real mouse or touch at its centre point.\n\nWhat passed:\n- The page never scrolls sideways at either width in any state; long names and long unbroken strings wrap.\n- No console errors in any state.\n- Pointer hit-tests found no covered controls on the first 60 interactive elements at 390 and 1440. The dock never covers the last content at 390.\n- No tap target under 44 px, and no text contrast failure in Night or Day (about 6.5:1 on the lowest-contrast labels).\n- Focus rings are 2px solid volt on every control in the keyboard run.\n- The Listbox is a real select-only combobox with a bottom sheet on touch.\n- Answer feedback is not colour-only: it carries an icon and words. Mobi appears at most once, on the newest answered card.\n- Volt count is one per viewport plus the dock key. The error-state Try again is the only extra lime button and sits under the sidebar key (the dock key at 390).\n- Night and Day have the same layout.\n- No arrows on buttons, no ALL-CAPS text, no glow, no decorative gradient on the page. The only gradients are the subject-art lighting layers.\n\nLimits:\n- LCP and load time cannot be judged: the dev server was heavily shared and gave LCP from 0.7 s to over 80 s.\n- The preview banner, 'Original illustrative examples' chapter group and the fixture feed repeating two questions are fixture artefacts, not production defects.\n- Vote toggling and score ignore user votes in the fixture, so I did not log them as defects.\n- stats=error has no effect on Explore: it never calls /api/stats.\n- Shell issues seen on this page but not Explore's: the sidebar item 'Contribute' is clipped by the theme panel at 1440x900, and a long profile name is truncated in the top bar.\n- The shared scratchpad file cap.js was overwritten by another critic's script after my first run; I used my own explore-critic subfolder afterwards."
+ },
+ "view:revise": {
+  "defects": [
+   {
+    "severity": "medium",
+    "what": "At 390 px the question is pushed to the bottom of the first screen. About 480 px of meta (two-line lede, 'N questions to revise today', 'About 5 minutes', summary line, the Questions-a-day control, the 'In rotation' line) sits above the card. In the first viewport only the stem and option A are clear of the dock. Option B is half under it and C and D are fully under it. The student's one job, answering a card, is not the first thing seen. At 1440 it fits.",
+    "evidence": "default-390-night.png and default-390-day.png: stem at y~660, option A y~700, dock top y=768. Same layout in the data=long, data=sparse, plan=pro and stats=error captures (Revise ignores them).",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\revise\\ReviseRun.jsx (rvs-top block ~L204-215, Lanes ~L47-63, CapChoice ~L65-73); revise.css .rvs-top, .rvs { gap: 22px }",
+    "fix": "Put the card first. Merge 'N to revise today' and 'About 5 min' into one line under the H1. Move the Questions-a-day control and the rotation line below the card (or into a small 'Settings' disclosure). Target: stem plus all four options visible at 390x844 above the dock.",
+    "ledger": "F15, W-040, W-015, W-064"
+   },
+   {
+    "severity": "medium",
+    "what": "The lede does not say what Revise is, and its second sentence reads as a defensive aside. 'Same question, so this checks memory. A check on new questions is separate.' It teaches nothing to a first-time student and references a feature they may not know. It is also the page meta description.",
+    "evidence": "Every capture of the page, e.g. default-1440-night.png. Copy at data/mistake_lab.copy.json revise.sub; the meta description is in app/(app)/review/revise/page.jsx.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\data\\mistake_lab.copy.json (revise.sub, ~L517+); labels.sub in data\\revise.js reviseBody; src\\app\\(app)\\review\\revise\\page.jsx",
+    "fix": "One plain sentence that names the payoff and the schedule, for example 'Questions you got wrong come back after 1, 3, 7 and 21 days, so they stick.' Drop the 'A check on new questions is separate' sentence, or move it to where that separate check is offered.",
+    "ledger": "W-093, W-064, F18"
+   },
+   {
+    "severity": "medium",
+    "what": "The rotation copy is jargon and contradicts itself. 'In rotation:' appears twice (the summary '7 questions in rotation, 2 recalled twice.' and the ladder lead 'In rotation: 4 back after 1 day, 1 after 3 days...'). '4 back after 1 day' sits directly under '4 questions to revise today', so it reads as 4 cards not due until tomorrow. The grammar is a fragment list, and 'recalled twice' is undefined.",
+    "evidence": "default-390-night.png / default-1440-night.png text: '7 questions in rotation, 2 recalled twice.' then 'In rotation: 4 back after 1 day, 1 after 3 days, 1 after 7 days, 1 after 21 days.'",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\revise\\ReviseRun.jsx (Lanes L47-63); data\\mistake_lab.copy.json revise.summary and revise.boxDays",
+    "fix": "Pick one line. For example '7 questions in your Revise set. 4 are due today; the others return in 3, 7 and 21 days.' Or show a small 4-step bar (1, 3, 7, 21 days) with counts under each. Explain 'recalled twice' as 'got right twice' or drop it.",
+    "ledger": "W-093, W-064, F18"
+   },
+   {
+    "severity": "medium",
+    "what": "After a run, the summary line is stale and disagrees with the ladder. 'N questions in rotation, M recalled twice.' is the server's static summary. The ladder updates locally after each answer. After finishing the fixture run the page shows '7 questions in rotation, 2 recalled twice.' above 'In rotation: 3 back after 1 day, 2 after 3 days, 1 after 7 days.' That ladder adds up to 6, because one card was retired. Two different counts for one thing on one screen.",
+    "evidence": "flow log (flow-log-*.txt) 'end text': '7 questions in rotation, 2 recalled twice. | Questions a day | 5 | 10 | In rotation: 3 back after 1 day, 2 after 3 days, 1 after 7 days. | 3 recalled, 1 come back tomorrow'. Screens flow-390-night-7end.png, flow-1440-day-7end.png.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\revise\\ReviseRun.jsx L209 (data.summary printed as-is) and L88-100/L131-152 (local boxes state)",
+    "fix": "Derive the summary from the same local state (sum of lanes, recomputing 'recalled twice' from the answers). Or hide the summary once any card has been answered this run.",
+    "ledger": "W-088, ui-ux-standards sec 2 (one definition per count)"
+   },
+   {
+    "severity": "medium",
+    "what": "The end-of-run screen is a dead end with no next move and no receipt of value. It shows only '3 recalled, 1 come back tomorrow', 'The next ones are due on Sat 17 Oct.' and a lime 'Back to Review'. There is no payoff evidence, such as 'you have held N of M repaired questions', no pointer to the one thing still wrong (Repair, Ask Mobi, or the rule), and no tie-in to the first-week path. The 'Questions a day' control and the stale summary stay on screen.",
+    "evidence": "flow-390-night-7end.png, flow-1440-day-7end.png, flow-390-day-7end.png.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\revise\\ReviseRun.jsx L218-227 (rvs-end block)",
+    "fix": "Make the end screen: result line, one receipt line from real data, and one primary move chosen by state (retry the missed card tomorrow / repair the lost-marks mistake / start a 10-question set in the weakest chapter). Hide the cap control and the summary once finished. Keep 'Back to Review' as a quiet link.",
+    "ledger": "F18, W-064, W-088; FEATURE-ADOPTION items 5, 8, 14"
+   },
+   {
+    "severity": "medium",
+    "what": "The empty state does not teach or move the student forward. 'Nothing to revise today' is shown with the pointless Questions-a-day 5/10 control. The only action is a lime 'Back to Review', which is where the student came from (ReviseEntry hides itself when empty, so this loops). There is no sample row and no action that fills Revise, such as starting a practice set.",
+    "evidence": "st-empty-390-night.png and st-empty-1440-day.png (?revise=empty). Cap-reached variant stress-cap-390-night.png shows the same loop, and the card at 390 also ends under the dock.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\revise\\ReviseRun.jsx L199-215 and L228-233 (rvs-empty block)",
+    "fix": "For state=empty: hide the cap control. Keep the one-line explanation. Add a primary 'Start a 10-question set' (or 'Review your last paper') and a sample card row showing what comes back. For cap-reached: say 'Done for today. Next ones come back [day]' and offer 'Do 5 more' (raises the cap) instead of Back to Review.",
+    "ledger": "W-088, W-064, F18; FEATURE-ADOPTION item 10"
+   },
+   {
+    "severity": "medium",
+    "what": "Pressing an option gives no visible feedback on the pressed row for the whole grading wait (450 ms in the fixture, longer on a real network). All four options just go disabled, with no pending style on the picked one. The only cue is 'Checking your answer', which renders below the options. At 390 that is off-screen or under the dock for options A to C. The Questions-a-day buttons dim instead, which is the wrong signal. The options also have no :active (pressed) state.",
+    "evidence": "flow-390-night-1busy.png (150 ms after tapping A: no option change, status line below the dock; cap buttons dimmed). The probe confirms disabled options with data-state null. Source: ReviseRun.jsx L113 (status line after the list) and revise.css .rvs-option (no pending or :active rule).",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\revise\\ReviseRun.jsx (Card L82-140, status L113); revise.css .rvs-option",
+    "fix": "Give the pressed option data-state='pending' (selected border, spinner or ellipsis in its tag slot) and an :active scale or tone. Keep the 'Checking' text only as an sr-only status. Do not disable the cap buttons visibly (or disable them without dimming).",
+    "ledger": "W-088, W-016 (one clean state change), ui-ux-standards sec 6"
+   },
+   {
+    "severity": "medium",
+    "what": "At 1440x900, after answering, the primary 'Next question' button rests partly outside the viewport. Focus moves to Next with a scroll, but the Mobi that mounts afterwards (AnswerMobi, gated by an effect) adds about 30 px above it, so the scroll computed on the shorter layout leaves Next 11 px cut off the bottom edge. The page can still scroll, so the button is simply not fully shown. At 390 it clears the dock.",
+    "evidence": "probe-log.txt: 'after answer settled {next:[867,911], vh:900, scrollY:28, sh:1027}'. Screens probe-1440-answered.png, flow-1440-day-2wrong.png and flow-1440-day-5right.png show the button cut at the bottom edge. CLS stays below 0.001.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\revise\\ReviseRun.jsx L86 (focus with preventScroll:false) and L76-82/L119 (AnswerMobi mounts after focus)",
+    "fix": "Reserve the Mobi slot (fixed min-height on .rvs-result__head), or call scrollIntoView({block:'nearest'}) after the Mobi has mounted, or add scroll-margin-bottom to .rvs-next so the button always lands fully visible with padding.",
+    "ledger": "W-087, W-024"
+   },
+   {
+    "severity": "medium",
+    "what": "Changing Questions-a-day mid-run wipes the run. changeCap resets the card index, the done list and the shown result, and clears the lane counts. The student loses the explanation they were reading, and the end line ('N recalled') later undercounts the answers already graded and saved server-side. Nothing warns or confirms.",
+    "evidence": "probe-log.txt: after answering card 1 and tapping '5', 'Question 1 of 4 / Cash Flow Statement' returns with result:false. Screens probe-1440-capclick.png, probe-390-capclick.png. Source: ReviseRun.jsx L174.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\revise\\ReviseRun.jsx L174 (changeCap)",
+    "fix": "Keep done, boxes and the current result when the cap changes. Apply the new cap to the next fetch, and only re-index when the answered cards are excluded server-side. Or disable the control while a run is in progress (and say 'changes tomorrow').",
+    "ledger": "W-088, W-024"
+   },
+   {
+    "severity": "low",
+    "what": "The end line has a grammar error: '3 recalled, 1 come back tomorrow'. It should be '1 comes back'. The template has no singular form.",
+    "evidence": "flow-1440-day-7end.png, flow-390-night-7end.png. Copy: data/mistake_lab.copy.json revise.end.both/wrong; also data/revise.js endLine.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\data\\mistake_lab.copy.json (revise.end.*); data\\revise.js endLine; src\\components\\revise\\ReviseRun.jsx endText L36-41",
+    "fix": "Add one/many forms: '{w} comes back tomorrow' vs '{w} come back tomorrow'. Also check 'right and wrong both' reads naturally ('3 recalled, 1 to retry tomorrow').",
+    "ledger": "L-025 (copy), W-093"
+   },
+   {
+    "severity": "low",
+    "what": "The fine print is a defensive disclaimer. 'Revise costs no credits. It does not change your record, your chapter numbers or any accuracy.' appears on every state in 12 px muted text. The no-credits part is a real benefit that belongs where the student decides. The rest is the obvious-disclaimer pattern the owner has rejected.",
+    "evidence": "Visible at the bottom of default-*, st-empty-* and flow-*-7end captures. Contrast is fine (5.89 to 7).",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\revise\\ReviseRun.jsx L234; data\\mistake_lab.copy.json revise.fine",
+    "fix": "Delete the second sentence. State 'No credits' once, next to the head or on the end receipt. Remove the footer line.",
+    "ledger": "W-093, L-024 pattern"
+   },
+   {
+    "severity": "low",
+    "what": "The passage box is a nested scroll region (max-height 260 px, overflow auto) that cannot be reached by keyboard (no tabindex or role) and has no scroll cue. With a long passage the text cuts off mid-line. A keyboard-only student cannot read the rest.",
+    "evidence": "stress-worst-390-night-answered-full.png and stress-worst-1440-day.png: passage height 260 px, last line cut. Source: revise.css .rvs-passage (L41).",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\revise\\ReviseRun.jsx L94; revise.css L41",
+    "fix": "Add tabIndex=0, role='region' and aria-label='Passage' to the box. Add a bottom fade or an 'N more lines' cue, or let the passage grow (page scroll) instead of nesting a scroller.",
+    "ledger": "W-077, WCAG 2.1.1 and 2.4.3"
+   },
+   {
+    "severity": "low",
+    "what": "The graded result is not announced to assistive tech. The role='status' block is mounted together with its content (live regions rarely announce content present at insertion), and focus moves straight to 'Next question', so a screen-reader user hears the button, not 'Right/Not this time' or the explanation. Not verified with a real screen reader.",
+    "evidence": "Code: ReviseRun.jsx L86 (focus effect) plus L113-124 (result block with role=status mounted on answer). Tab/focus behaviour confirmed in flow-*-2wrong captures (active element: BUTTON Next question).",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\revise\\ReviseRun.jsx L86, L113-125",
+    "fix": "Keep one persistent empty live region and write the result line into it. Or move focus to the result heading (tabIndex -1) and let Next be the next Tab stop. Same for the end line (L222).",
+    "ledger": "W-077, WCAG 4.1.3"
+   },
+   {
+    "severity": "low",
+    "what": "The ladder paragraph uses aria-label on a <p>. aria-label is prohibited on paragraph or generic roles, so it is ignored or flagged.",
+    "evidence": "Source: ReviseRun.jsx L53 (<p className='rvs-ladder' aria-label='Your cards by how long they wait'>).",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\revise\\ReviseRun.jsx L53",
+    "fix": "Remove the aria-label, or wrap the line in role='group' or a <section> with a visually-hidden heading.",
+    "ledger": "W-077"
+   },
+   {
+    "severity": "low",
+    "what": "The selected Questions-a-day value (5 or 10) is shown only by an olive border, a faint wash and slightly brighter text. There is no non-colour cue (no check, weight step or underline), and the unselected button is nearly the same grey. Colour-only state at the page's only setting.",
+    "evidence": "default-390-night.png, default-1440-night.png (10 selected). The same pattern is in Day. aria-pressed is present for assistive tech.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\revise\\revise.css .rvs-cap__btn[aria-pressed='true'] (~L26)",
+    "fix": "Add a check icon or a heavier weight and a solid 2 px border for the selected button, or use a segmented control with a filled thumb.",
+    "ledger": "ui-ux-standards sec 5 (never colour alone), W-078"
+   },
+   {
+    "severity": "low",
+    "what": "'About 5 minutes' overstates the time. The server rounds 40 s a card up to the next 5-minute step, so 1 card or 4 cards both read 'About 5 minutes' (real time about 1 min / 2.7 min).",
+    "evidence": "default-*: 'About 5 minutes' for 4 cards. Source data/revise.js minutesFor (L54-58).",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\data\\revise.js L54-58; data\\mistake_lab.copy.json revise.minutes",
+    "fix": "Round up to the next whole minute ('About 3 minutes'), or say 'Under 5 minutes' when count is small.",
+    "ledger": "ui-ux-standards sec 2 (no false precision)"
+   },
+   {
+    "severity": "low",
+    "what": "A wrong answer in Revise offers no hand-off. After 'Not this time. It comes back tomorrow.' there is only the stored explanation and 'Next question'. There is no 'Ask Mobi about this question' or Repair link, which is where the feature-adoption research wants Ask Mobi and Repair to live.",
+    "evidence": "flow-390-night-2wrong.png, flow-1440-day-2wrong.png.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\revise\\ReviseRun.jsx L120-131 (rvs-result block)",
+    "fix": "On a miss, add one quiet text action under the explanation ('Ask Mobi about this question', with the credit cost shown before the call, or 'Repair this mistake' when one exists). Keep 'Next question' as the single primary.",
+    "ledger": "F18, W-060; FEATURE-ADOPTION item 9"
+   },
+   {
+    "severity": "low",
+    "what": "Revise is not in the capability registry. data/capabilities.js has no 'revise' entry, so the 'costs no credits' claim and the 1/3/7/21-day schedule have no registered truth source, unlike practice, review and recovery.",
+    "evidence": "grep -i revise data/capabilities.js returns nothing; rules live only in data/revise.js and the copy JSON.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\data\\capabilities.js",
+    "fix": "Add a 'revise' capability (entitlement 'free', rules from REVISE_RULES) and read the page copy claims from it.",
+    "ledger": "truth (capabilities)"
+   },
+   {
+    "severity": "low",
+    "what": "On desktop two lime fills show together once the student answers: the sidebar 'Start a session' key plus the in-page primary ('Next question', 'Back to Review' or 'Try again'). At 390 the dock Start key plus the page primary is the allowed A1 pairing. At 1440 the sidebar key is the equivalent, so confirm with the owner whether it counts under the one-volt rule.",
+    "evidence": "flow-1440-day-2wrong.png, st-empty-1440-day.png, st-down-1440-day.png.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\app\\(app)\\AppLayoutClient.jsx (sidebar Start key) and src\\components\\revise\\revise.css .rvs-next",
+    "fix": "If the rule applies on desktop, make the sidebar key quiet (outline) on pages that have their own primary action, or demote 'Back to Review' to a text link.",
+    "ledger": "W-075, W-065"
+   }
+  ],
+  "notes": "Method and limits.\n\nCaptures are at C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob-next\\tmp\\arena-1017d\\revise. Prefixes: default-* and flow-* are the real flow; st-* are state captures; stress-* are worst-case captures; probe-* are the probe runs. Logs and reports are in the same folder (flow-log-*.txt, probe-log.txt, stress-log.txt, report-*.json).\n\nPlaywright-core with headless Chrome only, own temp profile (deleted), at 390x844 and 1440x900 in Night and Day. States: default, revise=empty, revise=down, data=empty, data=error, data=long, data=sparse, plan=pro, stats=error, plus injected worst-case, cap-reached and single-card responses. I opened the key captures and read every sentence. I hit-tested every control with elementFromPoint, then clicked with a real mouse through a full answer run. I checked tab order, focus rings, overflow, CLS, LCP and console, and computed contrast.\n\nPasses:\n- No console errors or warnings in any state.\n- No horizontal overflow in any state or size.\n- No control covered by another element (all hit tests OK). The dock clears the last content by 33 px at 390.\n- All targets are at least 44 px.\n- Text contrast is at least 5.89:1 in Day and 7:1 in Night for every text role, including the dimmed post-answer options (8.06:1).\n- Focus ring is visible: lime in Night, #4f6400 in Day.\n- CLS is below 0.001.\n- LCP on a warm server was about 0.7 to 1.2 s. Values of 20 to 55 s in some captures came from the dev server being loaded by the other critics, so ignore them.\n- No ALL-CAPS labels, arrows on buttons, gradients, glow or nested cards on this view. The pass-2 CSS already removed the card around the question.\n- Night and Day have the same layout.\n- Mobi appears at most once per screen.\n\nFixture limits:\n- Revise ignores data=long, data=sparse, plan=pro and stats=error. Only the shell (name chip, 'Unlimited' chip) changes.\n- data=empty makes the stub return 503 for /api/me/revise, so it shows 'Revise did not load'. Use revise=empty for the new-student empty state; I did, and reported on it.\n- The in-page 'Back to Review' and 'Review' links point to the real /review route, not the preview mapping. They did not navigate within 2.5 s in the preview, so I could not judge them. The route exists (src/app/(app)/review/page.jsx).\n- Fixture question text says 'Illustrative'. That is fixture data and I did not count it as a production defect.\n- The 'About 1 minutes' text I saw in a stress capture came from my injected response (minutes=1). The real server rounds to 5-minute steps, so it is not a defect.\n\nCollisions to know about:\n- The session scratchpad is shared between critics. My first cap.js was overwritten by the dashboard critic's script. One background run (cap.js) therefore executed the dashboard script and may have rewritten files in C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob-next\\tmp\\arena-1017d\\dashboard. They may want to re-run their capture.\n- I moved my later scripts to scratchpad\\revise-critic.\n- The dev server on 3263 was started by someone else. I did not start or stop it.\n- Under load (about 18 s per cold request) domcontentloaded-based captures showed only the skeleton. Load-event waits were reliable."
+ },
+ "view:progress": {
+  "defects": [
+   {
+    "severity": "high",
+    "what": "Progress is a wall rather than three layers. 4,610 px tall at 390 (about 5.5 screens) and 3,312 px at 1440, with 14 sections. The week and the one next step are followed by 16 badge rows (about 2.5 screens at 390; 7 of the 16 read 'Not yet.' in the ready state), then Personal bests, By mock type, a study-day footnote, the Mob card, a 4-figure record strip, a Review note, Concept checks and Playbook. Nothing is collapsed and no layer is chosen for the student. This is the 17 Oct clutter complaint (F11/F14) repeated on Progress and breaks the 'features at their moment, no stack' rule.",
+    "evidence": "progress/ready-390-dark-s1..s6.png (badges alone fill s1-s3); res-ready2.json: sh 4610 at 390 and 3312 at 1440, no horizontal overflow. 12 'Not yet.' lines in data=empty.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\StudyBadges.jsx (Badges, Bests), src\\components\\RhythmCard.jsx (rc--more block), src\\components\\RecoveryOverview.jsx lines 201-243",
+    "fix": "Layer 1 stays: ring, days, one next step. Layer 2: one 'Badges' row showing earned medals as a compact strip plus only the 'Next' badge of each path, with a labelled 'All 16 badges' disclosure for the full list. Put Personal bests and By mock type under one 'Best marks' disclosure. Keep the record strip. Do not cut any feature (W-084); only collapse.",
+    "ledger": "W-064/F18, W-083, W-070, F14 (spirit), FEATURE-ADOPTION 'stop doing: every analysis at once'"
+   },
+   {
+    "severity": "high",
+    "what": "The new-student (data=empty) Progress does not teach. It shows an empty week tile, a 'Personal bests' block whose only figure is '0 weeks', 16 locked badges (11x 'Not yet.' plus 4x 'Next.'), then three separate empty states: 'No saved session yet', 'No delayed checks yet' and 'Your playbook is empty'. Concept checks and Playbook are named before the student has anything they apply to. The page is still 3,787 px tall at 390. The only guidance is the generic '10 questions, about 10 minutes' card.",
+    "evidence": "progress/empty-390-dark-fold.png, -s1..s5.png; empty-1440-light-s1.png, -s2.png.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\RecoveryOverview.jsx (progress branch, lines 210-241), src\\components\\StudyBadges.jsx",
+    "fix": "With zero scored sessions, render only ring, one first-week step with a stated payoff ('Day 1: a 5-question check, then repair one mistake free'), the first badge, and one empty line. Hide Personal bests, Concept checks and Playbook until their first row exists. Tell the student what will appear here with a single button, not three 'nothing yet' blocks.",
+    "ledger": "W-064/F18, W-088, FEATURE-ADOPTION items 6, 7, 10 and 'naming features before the student has what they apply to'"
+   },
+   {
+    "severity": "medium",
+    "what": "Two competing next moves and a next step with no evidence. The top card says 'Your next step: 10 questions, about 10 minutes.' (the reason is only the session shape). The record section below says 'Eight questions to look at in Review' with its own Open Review link. A student with eight open mistakes is told to practise, not to repair or review.",
+    "evidence": "ready-390-dark-fold.png vs ready-390-dark-s5.png; ix-390-dark-ready.json text: 'Your next step: 10 questions, about 10 minutes.' and 'Eight questions to look at in Review / From two saved sessions. Open Review'.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\LearningNextAction.jsx (compact branch, firstSentence(plan.primary.reason)); src\\components\\RecoveryOverview.jsx lines 219-221",
+    "fix": "Make the single next-step card carry the record's reason ('8 questions from 2 sessions are still open. 6 minutes of Repair first'). When open mistakes exist, point the card at Review or Repair, and drop the second Review note or fold it into the card.",
+    "ledger": "W-064/F18, W-028, FEATURE-ADOPTION items 2 and 4"
+   },
+   {
+    "severity": "medium",
+    "what": "Volt is used as decoration. Counted-day dots, ring arcs, the week ribbon's met tile (solid volt, about 113-130 x 72 px, larger than any button), 9 solid-volt earned medals, volt progress bars and volt underlined links are all on the page. In the rhythm=met state at 1440 the fold shows ring, 4 dots, two solid lime tiles and the Start key. Down in the badges, 3-4 consecutive viewports at 390 each show 3+ solid lime medals beside the dock's Start key. 'One volt (lime) primary per viewport' is diluted, and the lime tile is the heaviest object on the page.",
+    "evidence": "progress/met-1440-dark-fold.png, ready-1440-dark-fold.png, ready-390-dark-s1.png and -s3.png; nt.js: metWeek fill rgb(210,240,0) in Night.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\app\\(app)\\student-pages.css line 256 (.rc-wk[data-met] .rc-wk__fill {background: var(--volt)}), src\\components\\study-badges.css (.sb-medal[data-status='earned'] background var(--volt)), progress.css",
+    "fix": "Earned medals: ink fill or outline with the glyph, volt only on the single 'Next' medal. Met week tile: a ring or ink fill with a volt tick, not a solid volt block. Keep volt for the study-days ring and the one primary action.",
+    "ledger": "W-075, W-076, W-083, standards 5 (one accent)"
+   },
+   {
+    "severity": "medium",
+    "what": "Keyboard focus is invisible on the current-week ribbon button. progress.css sets a permanent 1px grey outline on .rc-wk[data-current='true'], which out-specifies the shared :focus-visible rule. Focused 'This week' therefore looks identical to its resting state, while every other control shows a 2px volt ring.",
+    "evidence": "foc.js: focused '.rc-wk[data-current=true]' has :focus-visible true and computed outline 'rgb(147, 160, 143) solid 1px' (Night; Day rgb(86,98,79) 1px). Screenshots progress/focus-thisweek-dark.png vs focus-prevweek-dark.png (2px volt ring). ix-390-dark: focus stop 38 shows the same 1px.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\app\\(app)\\progress\\progress.css (the .rc-wk[data-current='true'] outline rule, last-but-two block)",
+    "fix": "Replace the resting outline with box-shadow, or add '.app-shell .student-page--progress .rc-wk[data-current=\"true\"]:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 3px; }'.",
+    "ledger": "W-077 (accessible interaction), standards 6 and 9 (visible focus, WCAG 2.4.7)"
+   },
+   {
+    "severity": "medium",
+    "what": "Disclaimer footers and build talk in the record. Production /api/recovery returns 'Fresh delayed checks provide concept evidence, not a causal score gain. {n} checks with unavailable or changed question evidence are excluded.' and the page prints it as a footer. invalidatedChecks increments for every question without a matching content hash, so n can be large for a real student, and even '0 checks ... are excluded' is noise. The preview fixture strips the count, so the fixture hides it. More of the same: 'Fresh, delayed questions only', 'Awaiting repeated evidence', 'Answers under 3 seconds are not counted...', 'A retake of a paper you have seen does not count.'",
+    "evidence": "ready-390-dark-s6.png (footer); src/app/api/recovery/route.js line 50; fixture ArenaPreviewClient.jsx line 425 shows the shortened string.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\app\\api\\recovery\\route.js line 50; src\\components\\RecoveryOverview.jsx lines 229, 237, 240; src\\components\\StudyBadges.jsx (sb-foot lines)",
+    "fix": "Drop the rv-foot paragraph and the excluded-count sentence from the student view (keep it in logs). Replace 'Fresh, delayed questions only' and 'Awaiting repeated evidence' with plain state words ('Checks come back after a few days', 'Held 1 of 1'). Move the one useful rule ('retakes do not count') into the row it applies to.",
+    "ledger": "W-093, L-024, W-076 (build talk)"
+   },
+   {
+    "severity": "medium",
+    "what": "The sentence in the empty Playbook state breaks: 'The rule you keep for your next mock is chosen in' ends the line, then the 'Your rules' link drops to its own line and the closing full stop is orphaned. The cause is .pr-link being inline-flex with min-height 44px inside a paragraph. The same pattern splits 'Open Accountancy, 16 Oct' onto its own row at 390.",
+    "evidence": "progress/empty-390-dark-s4.png and -s5.png ('...chosen in / Your rules.').",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\RecoveryOverview.jsx line 238; src\\app\\(app)\\arena.css line 1172 (.pr-link display:inline-flex; min-height 36/44)",
+    "fix": "Add '.app-shell .rv-empty p .pr-link { display: inline; min-height: 0; padding: 0 }' (and give the sentence a 44px hit area through padding), or end the sentence with the link as its own row: 'Choose your rule for the next mock'.",
+    "ledger": "W-076, W-087 (small details)"
+   },
+   {
+    "severity": "medium",
+    "what": "Tap targets under 44 px. Standalone text links 'Choose practice' (100x18) and 'Open your mistakes' (122x18) and five 'Open that paper' links (97x17 to 101x18) are 17-18 px tall at both viewports. The standalone ones also fall under the WCAG 2.5.8 24 px minimum unless the spacing exception applies.",
+    "evidence": "res-ready2.json audit.small for all four theme/size combinations: 'a.sb-link 97x17 Open that paper', 'a.sb-link 100x18 Choose practice', 'a.sb-link 122x18 Open your mistakes'.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\study-badges.css (.sb-link line 15, .sb-badge__go), src\\components\\StudyBadges.jsx lines 82-86, 119-120",
+    "fix": "Make '.sb-badge__go .sb-link' and the paper links 'display:inline-flex; align-items:center; min-height:44px'. Put 'Open that paper' on its own 44 px row under the line it belongs to.",
+    "ledger": "W-079, standards 9"
+   },
+   {
+    "severity": "medium",
+    "what": "Non-text contrast is below 3:1 in Day (and some in Night). Earned medals, counted-day dots and the met week fill are volt on cream at 1.18:1 with a same-colour border. Locked medals have a dashed border at 1.22:1 (Day) and 1.40:1 (Night). Empty day dots, ring tracks and progress-bar tracks are 1.63:1 (Day) and 1.94:1 (Night). In Day the locked/unfilled shapes nearly vanish, so only the dark glyph or the words carry state.",
+    "evidence": "nt.js contrast results; progress/ready-1440-light-s1.png (locked medals) and ready-1440-light-fold.png (empty dots).",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\study-badges.css (.sb-medal, .sb-bar), src\\app\\(app)\\student-pages.css (.rc-day__dot, .rc-ring__track)",
+    "fix": "Give earned medals and counted dots a Day border at least 3:1 (the olive --a-select already measures 3.73:1) and raise the locked/empty outlines to --a-line-strong or darker for 3:1.",
+    "ledger": "W-078, W-077 (accessible interaction), WCAG 1.4.11"
+   },
+   {
+    "severity": "medium",
+    "what": "Heading hierarchy is inconsistent and skips levels. Section heads are 15 px (H3 'Goal met in...', H3 'Personal bests'), 19 px (H3 'Badges', H2 'Your record so far', 'Concept checks', 'Your exam playbook') and 17 px (H2 'Your Mob'). 'Personal bests' is smaller than its sibling 'Badges'. The H3s sit under 'Your study days' because the 'Your weeks and milestones' section has no heading, so the outline is H1, H2, H3, H3, H3, H4, H2... Headings also read as a different system halfway down the page.",
+    "evidence": "ix-390-dark-ready.json headings: 'H3 Goal met in 1 of your 6 finished weeks fs=15px', 'H3 Badges fs=19px', 'H3 Personal bests fs=15px', 'H2 Your Mob fs=17px'; ready-390-dark-s3.png ('Personal bests' visibly smaller).",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\study-badges.css lines 10-11 (only .sb-head .rc-h is 19-20 px), src\\components\\StudyBadges.jsx (Bests h3), src\\components\\RhythmCard.jsx (Ribbon h3), src\\components\\mob\\mob.css line 190",
+    "fix": "One section-head size (19-20 px) for every top-level block: change them to h2, make '.sb-block > .rc-h' share the rule, set Mob h2 to 19 px, and give the weeks section a real h2.",
+    "ledger": "W-078, standards 4"
+   },
+   {
+    "severity": "medium",
+    "what": "Redundant rows add length with no information. 'Newest: Accountancy, 16 Oct' is followed by a link that repeats it ('Open Accountancy, 16 Oct'), directly under 'Eight questions to look at in Review ... Open Review'. The 4-figure record strip repeats two sections below it ('Concept checks 0 / None completed yet' vs 'No delayed checks yet'; 'Playbook entries 1' vs the playbook list).",
+    "evidence": "ready-390-dark-s5.png; ready-1440-dark-s3.png.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\RecoveryOverview.jsx lines 136-142 (milestoneLine) and 213-218 (Figures)",
+    "fix": "Remove the 'Newest' milestone when the Review note already links to the session, and drop the Concept checks and Playbook figures (the sections below already state them). Keep Practice sessions and Answered right.",
+    "ledger": "W-083, W-099"
+   },
+   {
+    "severity": "low",
+    "what": "Five identical link names point to different papers ('Open that paper' x5) and the accessible name does not say which one. A screen-reader links list is five identical entries.",
+    "evidence": "ix-390-dark-ready.json links: 'Open that paper -> /result/p4', '/result/p3', '/result/p5' and more.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\StudyBadges.jsx lines 82-86, 119-120",
+    "fix": "Add aria-label='Open that paper: Business Studies NTA mode, 27 September' (or visible text 'Open the Business Studies paper').",
+    "ledger": "W-077, WCAG 2.4.4"
+   },
+   {
+    "severity": "low",
+    "what": "The h1 and the first h2 say almost the same thing back to back ('Your study days and checks.' then 'Your study days'). The top bar and nav call the page 'Progress', so there are three names for one page. The lede names internal features ('recovery checks and playbook').",
+    "evidence": "ready-1440-dark-fold.png.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\RecoveryOverview.jsx line 203; src\\components\\RhythmCard.jsx (rc__title)",
+    "fix": "Title the page 'Progress' (or keep the h1) and visually hide the h2, or rename the section 'This week'. Rewrite the lede in plain words ('Your week, your badges, then what your sessions show').",
+    "ledger": "W-070, W-093"
+   },
+   {
+    "severity": "low",
+    "what": "Count definitions disagree on one screen. With the week met (rhythm=met) the ribbon heading says 'Goal met in 1 of your 7 finished weeks' while the line above says '2 weeks met in a row' (it counts the open, met week that the heading excludes). 'Practice sessions' counts every saved paper, including full mocks and NTA papers, while the badges say 'scored sets', 'full mocks' and 'papers'.",
+    "evidence": "progress/met-1440-dark-fold.png.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\RhythmCard.jsx (Ribbon title, rc__streak); src\\components\\RecoveryOverview.jsx line 214",
+    "fix": "Say 'Goal met in 1 of 7 finished weeks, and this week is met too' or count the streak the same way in both places. Use one noun per count (sessions vs papers).",
+    "ledger": "standards 2 (one definition per count), W-078"
+   },
+   {
+    "severity": "low",
+    "what": "The Mob entry sits after Personal bests and By mock type, about 3,300 px down at 390 (screen 5 of 6), under the lowest-value content, and its ring ('3 of 4') uses the same figure format as the study-days ring ('3 of 4 study days') on the same page.",
+    "evidence": "ready-390-dark-s4.png; ready-1440-dark-s3.png.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\RecoveryOverview.jsx line 208 (ProgressMob placement), src\\components\\mob\\mob.css line 190",
+    "fix": "Place the Mob card directly under the next-step card (it belongs to the week), and label it 'Mob: 3 of 4 sat' so it does not read as the same ring.",
+    "ledger": "W-062, W-061, W-064/F18"
+   },
+   {
+    "severity": "low",
+    "what": "When Mobi shows in the head (empty, sparse, returning, met), 'Your study days' and its status indent about 70 px, so that block no longer aligns with the h1, ring and next-step card (x 428 vs 357 at 1440). Other states are flush, so the left edge changes with state.",
+    "evidence": "progress/sparse-1440-dark-fold.png and met-1440-dark-fold.png vs ready-1440-dark-fold.png.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\app\\(app)\\student-pages.css lines 197-200 (.rc__head with .mobi-react)",
+    "fix": "Put Mobi in a fixed left column that both states reserve, or place him on the ring row and keep the heading flush left.",
+    "ledger": "W-078, W-074"
+   },
+   {
+    "severity": "low",
+    "what": "The 'few weeks' tile caption wraps: 'This week, 1 of 4 / days' leaves an orphan word in the 104 px column (empty and sparse, both sizes).",
+    "evidence": "progress/empty-1440-light-fold.png, sparse-390-dark-s1.png.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\RhythmCard.jsx (Ribbon label when ribbon.length < 4); src\\app\\(app)\\progress\\progress.css (.rc-ribbon[data-few])",
+    "fix": "Use 'This week' only and leave the count to the status chip, or widen the few-column to 128 px.",
+    "ledger": "W-087"
+   },
+   {
+    "severity": "low",
+    "what": "Loading shows three separate loaders (a 96 px skeleton, an outlined 'Loading your next step...' card, a record skeleton plus the heading 'Opening your saved record.'), and the page shifts when data arrives. CLS is 0.057-0.062 at 390 in every state, under 0.1 but not zero, because .rc--wait reserves 96 px for a card that is about 450 px at 390.",
+    "evidence": "progress/ready-390-light-fold.png (captured in the loading state during the first run); res-ready2.json cls 0.057 at 390 vs 0.010 at 1440.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\app\\(app)\\student-pages.css line 192 (.rc--wait min-height 96px); src\\components\\RecoveryOverview.jsx lines 154-155",
+    "fix": "Reserve about 450 px at 390 and 290 px at 1440 for the week skeleton, and show one combined skeleton instead of three messages.",
+    "ledger": "W-042 (spirit), standards 9 (no layout shift)"
+   },
+   {
+    "severity": "low",
+    "what": "The error state (record=down) puts the Mob card above the failure and uses a roughly 250 px illustration, so the one recovery action ('Try again') starts at y of about 850 at 390 and sits partly under the dock at the first view in the preview. In production (no 140 px preview bar and no Mob card) it should sit around y 560, so this is borderline.",
+    "evidence": "progress/down-390-dark-fold.png and down-390-light-fold.png.",
+    "file": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-audit17\\src\\components\\RecoveryOverview.jsx lines 205-209 (ErrorState and ProgressMob order); src\\components\\ui\\Skeleton.jsx (ErrorState scene size)",
+    "fix": "Hide the Mob card while the page is in its error state and cap the scene at about 160 px at 390 so the button is visible without scrolling.",
+    "ledger": "W-088 (states), W-077 (every state)"
+   }
+  ],
+  "notes": "Method. The shared server at 3263 was already up and was not touched. I used playwright-core with the installed Chrome (headless, temp profiles, deleted afterwards) and no visible browser. I captured every state at 390x844 and 1440x900 in Night and Day: ready, data=empty, data=sparse, data=long, plan=pro, record=down (the error state), rhythm=fresh, rhythm=returning, rhythm=met and badges=none. stats=error has no effect on this view because Progress never calls /api/stats, so it renders identically to ready. plan=pro also renders identically to ready. Captures are in C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob-next\\tmp\\arena-1017d\\progress (*-fold.png, *-full.png, *-sN.png segments, focus-*.png). Raw measurements (hit tests, 44 px audit, contrast, glow/gradient/blur scan, CLS, console, heading outline, focus order) are in the scratchpad folder pgc (res-*.json, ix-*.json, nt.js output). Server restarts were not needed.\n\nWhat passed. Zero console errors or warnings, zero failed requests, and zero horizontal overflow in any state. Hit tests passed on every interactive element after instant scroll (nothing invisible covers the page). Text contrast was 4.5:1 or better for every text node in both themes. There are no ALL-CAPS labels, glow, gradient text, arrows on buttons, emoji, middle-dot strings, eyebrows or nested cards. No infinite animations; reduced motion is respected. Night/Day layout parity is good: same height and same layout in every state. The page's last line clears the dock with about 43 px at 390, so the dock does not cover content at the end. The day and week controls work with a real pointer (captions update). Only Start key volt plus the A1 dock key counted as primary-button volt in the viewport (the error state's 'Try again' is allowed as the one page primary). No times are shown on the page, so the 12-hour rule is not exercised.\n\nCaveats. The dev server was heavily shared, so LCP numbers (1.7 s to 100 s) are meaningless and I did not report LCP. CLS is 0.057-0.062 at 390 and about 0.01 at 1440. The fixture's data are inconsistent in places (the record says 2 sessions while the badge says 10 scored sets), so I did not file that as a defect. The 'Development preview' bar is preview-only and was excluded from every audit. Two fixture-masking findings are real in production: the /api/recovery footnote count (route.js line 50) and the Mob card (only shown when MOB_ENABLED and in a Mob). Dock labels (11 px) and sidebar theme labels (11.5 px) are below 12 px, but they are shell items outside the Progress view, so I did not file them. A first, accidental capture run overwrote another critic's cap.js in the shared scratchpad; I moved to my own pgc folder and only my captures in progress/ were written.\""
+ }
+}
