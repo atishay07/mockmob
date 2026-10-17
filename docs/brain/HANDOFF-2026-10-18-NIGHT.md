@@ -1,5 +1,7 @@
 # MockMob handoff: 17-18 Oct 2026, about midnight IST (session 604ced81, Claude Opus 5.5 as CEO/CTO)
 
+> **SUPERSEDED 18 Oct about 2 am.** The current state is in `NOW.md` and the open owner asks are in `OWNER-MASTER-LEDGER.md`. This file is history.
+
 **Read this whole file first.** It replaces the stop points of HANDOFF-2026-10-17-LATE and -EVENING (read those for history, rules and key facts).
 
 **THE GOAL for this session:** **v15 ready to publish on the Play Store by about 7-8 am, 18 Oct.** In parallel, the website release train continues.
