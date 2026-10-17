@@ -191,6 +191,11 @@ export function foldedQuestionLine({ number, chosen, answer } = {}) {
 
 // Which reaction the companion shows for a repair state. Success only after the server acknowledged it.
 export function repairMood(status, { slow = false, settledFor = 0 } = {}) {
+  // The try before the key (data/repair_retry.mjs): listening while the student chooses, then the verdict's own act.
+  if (status === 'try') return 'listen';
+  if (status === 'retry_right') return 'correct';
+  if (status === 'retry_still') return 'sympathy';
+  if (status === 'retry_different') return 'encourage';
   if (status === 'loading') return slow ? 'loading' : 'think';
   if (status === 'explained') return 'correct';
   if (status === 'stored') return 'hello';

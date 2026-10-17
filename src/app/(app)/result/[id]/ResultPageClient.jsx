@@ -17,7 +17,7 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { ErrorState } from '@/components/ui/Skeleton';
 import { apiGet, apiPost } from '@/lib/fetcher';
-import { LabLedger, LabTime, LabProof, RepairTotal } from '@/components/ScoreRecoveryLab';
+import { LabLedger, LabTime, LabProof } from '@/components/ScoreRecoveryLab';
 import { QuestionStrip } from '@/components/result/Replay';
 import SwotPanel from '@/components/result/SwotPanel';
 import OthersAnswered, { OptionShare, shareTone } from '@/components/result/OthersAnswered';
@@ -38,7 +38,8 @@ import { RUN_COPY, arrowIntent, runSegments, stepIndex, endingModel, retryIds as
 import { REPAIR_OUTCOMES, hasExplanation, repairLabel, repairProgress } from '@/../data/repair_presentation.mjs';
 import { analyseSession, formatDuration } from '@/../data/session_recovery';
 import { buildTimeDecisions, TIME_COPY, spentLabel, TIME_RULES } from '@/../data/time_decisions';
-import { attemptMode, costliestLine, nextMove, receiptLine, shortDuration } from '@/../data/result_next_move.mjs';
+import { attemptMode, costliestLine, nextMove, receiptLine, shortDuration, repairMinutes, NEXT_MOVE_RULES } from '@/../data/result_next_move.mjs';
+import { usesLine } from '@/lib/creditCopy.mjs';
 import { AppIcon } from '@/components/ui/Glyph';
 import { MobResultRow } from '@/components/mob/MobResultRow';
 import '@/components/recovery/result.css';
@@ -72,6 +73,17 @@ function firstOpen(id) {
     return !reducedMotion();
   } catch { return false; }
 }
+
+// Keys shown after a try, per paper, for this browser session (W-032). Wrapped: blocked storage simply asks again.
+const revealedKey = (id) => `mm:result-revealed:${id}`;
+function readRevealed(id) {
+  try { const raw = JSON.parse(window.sessionStorage.getItem(revealedKey(id)) || '[]'); return new Set(Array.isArray(raw) ? raw : []); } catch { return new Set(); }
+}
+function writeRevealed(id, set) {
+  try { window.sessionStorage.setItem(revealedKey(id), JSON.stringify([...set])); } catch { /* storage blocked */ }
+}
+// "Mock 3" from the server; without it, the kind of paper, so a mistake always names where it came from (W-038).
+const PAPER_SOURCE = { full: 'Full mock', nta: 'NTA paper', smart: 'Smart practice', quick: 'Quick practice' };
 
 // The loading state: shaped like the result (receipt, score, bar, two lines, the panel with its key). No Mobi, no spinner.
 function ResultSkeleton() {
@@ -127,6 +139,11 @@ export default function ResultPageClient({ previewId = null }) {
   const [showAll, setShowAll] = useState(false);
   const [blanksOpen, setBlanksOpen] = useState(false);
   const [replayFocus, setReplayFocus] = useState(null);
+  // W-032: a wrong answer's key stays off screen until the student tries it again (or taps "Show the answer"). Kept for
+  // this browser session per paper, so a reload does not ask twice.
+  const [revealed, setRevealed] = useState(() => new Set());
+  // W-033: a repair that ended without one (failed, refused, released) puts its row's chip back to Repair.
+  const [failed, setFailed] = useState(() => new Set());
   const [folds, setFold] = useFolds();
   const pressRef = useRef(null);
   const suppressRef = useRef(false);
@@ -143,7 +160,7 @@ export default function ResultPageClient({ previewId = null }) {
 
   useEffect(() => {
     let alive = true;
-    queueMicrotask(() => { if (alive) { setAttempt(null); setError(null); setFilter('all'); setReporting({}); setReported({}); setReportError(null); setRepairOutcomes({}); setSavedRepairs({}); setAutoRepair(null); setStarted(new Set()); setRunCurrent(null); setHandover(null); setEnding(false); setAckedAt(null); setEpochs({}); setChecks({}); setCheer(null); setShowAll(false); setBlanksOpen(false); setOpen(new Set()); setVisited(new Set()); } });
+    queueMicrotask(() => { if (alive) { setAttempt(null); setError(null); setFilter('all'); setReporting({}); setReported({}); setReportError(null); setRepairOutcomes({}); setSavedRepairs({}); setAutoRepair(null); setStarted(new Set()); setRunCurrent(null); setHandover(null); setEnding(false); setAckedAt(null); setEpochs({}); setChecks({}); setCheer(null); setShowAll(false); setBlanksOpen(false); setOpen(new Set()); setVisited(new Set()); setRevealed(readRevealed(id)); setFailed(new Set()); } });
     apiGet(`/api/attempts/${id}`)
       .then(data => {
         if (!alive) return;
@@ -212,7 +229,9 @@ export default function ResultPageClient({ previewId = null }) {
 
   const handled = useMemo(() => repairProgress(analysis?.mistakes || [], repairOutcomes).handled, [analysis, repairOutcomes]);
   const repaired = useMemo(() => new Set((analysis?.mistakes || []).filter(r => hasExplanation(repairOutcomes[r.q.id])).map(r => r.q.id)), [analysis, repairOutcomes]);
-  const noteStart = useCallback((qid) => { setStarted(s => (s.has(qid) ? s : new Set(s).add(qid))); setRunCurrent(qid); }, []);
+  const noteStart = useCallback((qid) => { setStarted(s => (s.has(qid) ? s : new Set(s).add(qid))); setFailed(f => { if (!f.has(qid)) return f; const n = new Set(f); n.delete(qid); return n; }); setRunCurrent(qid); }, []);
+  const noteFail = useCallback((qid) => setFailed(f => (f.has(qid) ? f : new Set(f).add(qid))), []);
+  const reveal = useCallback((qid) => setRevealed((r) => { if (r.has(qid)) return r; const n = new Set(r).add(qid); writeRevealed(id, n); return n; }), [id]);
   const goSegment = useCallback((index, { keepFocus = false } = {}) => {
     const id = runIds[index];
     if (id != null) jumpTo(runNumbers[id], { instant: true, keepFocus });
@@ -270,6 +289,29 @@ export default function ResultPageClient({ previewId = null }) {
     if (result.right && !result.replayed && !isNtaAttempt) setCheer(qid);
   }, [isNtaAttempt]);
 
+  // After a full or NTA mock, "After this mock" (strengths, gaps and the topic mocks to do next) starts open (W-029); a
+  // link to /result/{id}#lab (Review's "Mistake Lab") opens the Lab's first part and scrolls to it (W-035).
+  const loadedId = attempt?.id || null;
+  useEffect(() => {
+    if (!loadedId) return;
+    const m = attemptMode(attempt);
+    if ((m === 'full' || m === 'nta') && attempt?.swot?.state === 'ready') setFold('after', true, { remember: false });
+    let hash = '';
+    try { hash = window.location.hash; } catch { /* no window */ }
+    // Review's "Review again" (W-039): every mistake shows, the first opens (a saved repair opens free), the list scrolls in.
+    if (hash === '#mistakes') {
+      const first = orderedMistakes[0];
+      queueMicrotask(() => setShowAll(true));
+      if (first) requestAnimationFrame(() => jumpTo(first.number));
+      else requestAnimationFrame(() => document.querySelector('.rx-mistakes')?.scrollIntoView({ block: 'start' }));
+    }
+    if (hash === '#lab') {
+      setFold('marks', true, { remember: false });
+      requestAnimationFrame(() => requestAnimationFrame(() => document.getElementById('lab')?.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'start' })));
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loadedId]);
+
   if (error) return <div className="container-narrow student-page student-page--result pt-8"><ErrorState scene="unreachable" title="This session did not load" message="Your recorded result is safe. Try again to see it." onRetry={() => { setError(null); setRetry((count) => count + 1); }} /></div>;
   if (!attempt || !analysis) return <ResultSkeleton />;
 
@@ -278,6 +320,9 @@ export default function ResultPageClient({ previewId = null }) {
   const mode = attemptMode(attempt);
   const subject = subjectName(attempt.subject);
   const isMock = mode === 'full' || mode === 'nta';
+  // The key of a wrong answer is held back until the try (W-032). Never for a repaired, saved, held or corrected one.
+  const keyHidden = (row) => row.verdict === 'wrong' && Number.isInteger(row.d?.givenIndex) && Number.isInteger(row.q?.correctIndex)
+    && !revealed.has(row.q.id) && !savedIds.has(row.q.id) && !answerReviews[row.q.id] && !repairOutcomes[row.q.id] && !checks[row.q.id];
   const runModel = endingModel({ ids: runIds, outcomes: repairOutcomes, reached });
   const checkMap = Object.fromEntries(Object.entries(checks).map(([qid, c]) => [qid, c.right ? 'right' : 'wrong']));
   const aiCredits = wallet.wallet?.known ? wallet.wallet.total : null;
@@ -311,7 +356,8 @@ export default function ResultPageClient({ previewId = null }) {
     if (first) { setAutoRepair(first.q.id); requestAnimationFrame(() => jumpTo(first.number, { repair: true, instant: true })); }
   };
   // F17: which paper every mistake here came from, and when it was attempted ("Mock 3, Accountancy, 16 Oct, 9:40 PM").
-  const paperLine = paperStamp({ source: attempt.paper?.source, subject: subjectName(attempt.subject), at: attempt.paper?.completedAt ?? attempt.completedAt });
+  const paperSource = attempt.paper?.source || PAPER_SOURCE[mode] || 'Practice';
+  const paperLine = paperStamp({ source: paperSource, subject: subjectName(attempt.subject), at: attempt.paper?.completedAt ?? attempt.completedAt });
   const bubbleLabel = (r) => `Q${r.number}, ${r.chapter}: ${verdictWord(r.verdict)}${r.changed ? ', answer changed' : ''}`;
   const firstWrong = analysis.rows.findIndex(r => r.verdict === 'wrong');
   const rippleStep = firstWrong > 0 ? Math.min(35, Math.round(700 / firstWrong)) : 0;
@@ -365,10 +411,22 @@ export default function ResultPageClient({ previewId = null }) {
     const others = attempt.lab?.byQuestion?.[q.id]?.others || null;
     // The trap tag under the student's own wrong option (server-built: the trap atlas, then the question format).
     const trap = isWrong ? attempt.lab?.traps?.tags?.[q.id] || null : null;
+    // Before the try the options, the key, how others answered and the book explanation wait: the try draws the options.
+    const hidden = keyHidden(row);
+    // Your time and picks: under the options normally; under the try while the try is on screen (the action comes first).
+    const timeBlock = timeRow?.lines.length ? (
+          <div className="rp-td">
+            <p className="rp-td__label">{TIME_COPY.rowLabel}</p>
+            {attempt.lab?.replay ? <QuestionStrip replay={attempt.lab.replay} number={number} /> : null}
+            {timeRow.lines.map((line, i) => <p key={i}>{line}</p>)}
+            {/* W-034: other students' time on this question shows once enough of them have timed it; until then, say so. */}
+            {others?.lines?.length ? null : <p className="rp-td__note">{TIME_COPY.othersNotYet}</p>}
+          </div>
+        ) : null;
     return (
-      <div className="rp-q__body rx-body">
-        {others ? <OthersAnswered others={others} title={attempt.lab?.labels?.othersTitle} /> : null}
-        <ul className="rp-options">
+      <div className="rp-q__body rx-body" data-key-hidden={hidden || undefined}>
+        {others && !hidden ? <OthersAnswered others={others} title={attempt.lab?.labels?.othersTitle} /> : null}
+        {hidden ? null : <ul className="rp-options">
           {q.options.map((opt, j) => {
             const mine = given === j, key = q.correctIndex === j;
             const corrected = review?.state === 'corrected' && review.currentIndex === j;
@@ -382,15 +440,9 @@ export default function ResultPageClient({ previewId = null }) {
               </li>
             );
           })}
-        </ul>
-        {timeRow?.lines.length ? (
-          <div className="rp-td">
-            <p className="rp-td__label">{TIME_COPY.rowLabel}</p>
-            {attempt.lab?.replay ? <QuestionStrip replay={attempt.lab.replay} number={number} /> : null}
-            {timeRow.lines.map((line, i) => <p key={i}>{line}</p>)}
-          </div>
-        ) : null}
-        {q.explanation && !review ? (
+        </ul>}
+        {hidden ? null : timeBlock}
+        {q.explanation && !review && !hidden ? (
           isWrong ? (
             <details className="rp-expl"><summary>Book explanation</summary><p>{displayValue(q.explanation)}</p></details>
           ) : <div className="rp-expl rp-expl--open"><span>Explanation</span><p>{displayValue(q.explanation)}</p></div>
@@ -398,12 +450,15 @@ export default function ResultPageClient({ previewId = null }) {
         {isWrong && Number.isInteger(given) ? (
           <MistakeRepair key={`${q.id}:${epochs[q.id] || 0}`} attemptId={attempt.id} questionId={q.id} number={number} nta={isNtaAttempt} chosen={LETTERS[given]} answer={Number.isInteger(q.correctIndex) ? LETTERS[q.correctIndex] : null}
             autoStart={autoRepair === q.id || savedIds.has(q.id)} saved={savedRepairs[q.id]?.repairedAt || (savedIds.has(q.id) ? 'saved' : null)} paper={paperLine || null} onSettled={settled} initialReview={review} onReview={reviewReceived} onCheck={checked}
+            question={{ text: null /* the opened row's header already shows the whole stem */, passage: typeof q.passageText === 'string' && q.passageText.trim() ? q.passageText.trim() : null, options: q.options.map((opt, j) => displayValue(plainOptionTexts(q.options)[j] ?? opt, 'Option')) }}
+            before={given} source={paperSource} tryFirst={hidden} onReveal={reveal} onFail={noteFail}
             insights={repairInsights}
             isCurrent={(!engaged || runCurrent === q.id) && cheer !== q.id} onStart={noteStart} onStep={engaged ? stepFrom : undefined} onFinish={() => setEnding(true)}
             handover={handover?.qid === q.id ? (handover.n % 2 ? 'a' : 'b') : null}
             earlier={(() => { const m = earlierMisses(attempt, q.id)[0]; return m ? { line: earlierMissAt(m), href: `/result/${m.attemptId}` } : null; })()}
             next={(() => { const at = orderedMistakes.findIndex(m => m.q.id === q.id); const n = orderedMistakes.find((m, i) => i > at && !handled.has(m.q.id)) || orderedMistakes.find(m => m.q.id !== q.id && !handled.has(m.q.id)); return n ? { number: n.number, go: () => jumpTo(n.number, { repair: true }) } : null; })()} />
         ) : null}
+        {hidden ? timeBlock : null}
         {review && !(isWrong && Number.isInteger(given)) ? review.state === 'corrected' || review.state === 'key_changed_unverified' ? <AnswerCorrectionNotice review={review} /> : <KeyReviewNotice chosenLetter={Number.isInteger(given) ? LETTERS[given] : null} keyLetter={LETTERS[q.correctIndex]} reviewState={review.state} /> : null}
         <div className="rp-q__foot">
           <button type="button" className="rp-report" disabled={!!reporting[q.id] || !!reported[q.id]} onClick={() => handleReport(row)}>
@@ -427,7 +482,7 @@ export default function ResultPageClient({ previewId = null }) {
     const c = checks[qid];
     if (c) return c.right ? { id: 'held', label: 'Held on a new question' } : { id: 'slipped', label: 'Slipped on a new question' };
     if (hasExplanation(out)) return { id: 'check', label: 'Check it held' };
-    if (started.has(qid)) return { id: 'writing', label: 'Writing' };
+    if (started.has(qid) && !failed.has(qid)) return keyHidden(row) ? { id: 'trying', label: 'Trying again' } : { id: 'writing', label: 'Writing' };
     // Out of AI credits: the chip says the price, quiet, and the opened row offers the credits line, not a paid repair.
     if (aiCredits === 0) return { id: 'nocredit', label: 'Repair, 1 AI credit' };
     if (move?.kind === 'repair' && move.target?.qid === qid) return { id: 'first', label: 'Repair first' };
@@ -438,6 +493,12 @@ export default function ResultPageClient({ previewId = null }) {
   const blanks = analysis.rows.filter(r => r.verdict === 'skipped');
   const heldCount = Object.values(checks).filter(c => c.right).length;
   const repairsLeft = orderedMistakes.filter(r => !handled.has(r.q.id) && !HELD_STATES.has(answerReviews[r.q.id]?.state)).length;
+  // The price of the whole backlog, said with the list (not fine print after it): "All 12 repairs use 12 AI credits. You have 68."
+  const backlog = repairsLeft > 0 ? [
+    usesLine({ what: repairsLeft === 1 ? 'This repair' : `All ${repairsLeft} repairs`, verb: repairsLeft === 1 ? 'uses' : 'use', cost: repairsLeft, pool: 'ai', balance: aiCredits }),
+    repairsLeft > 1 && repairsLeft <= NEXT_MOVE_RULES.fewRepairs ? `About ${repairMinutes(repairsLeft)} minutes.` : null,
+    'Reopening one is free; a repair that cannot be written costs nothing.',
+  ].filter(Boolean).join(' ') : null;
   const chapterCounts = Object.entries(analysis.mistakes.reduce((m, row) => { if (row.chapter) m[row.chapter] = (m[row.chapter] || 0) + 1; return m; }, {})).sort((x, y) => y[1] - x[1]).map(([chapter, count]) => ({ chapter, count }));
   const topChapter = move?.target?.chapter || finding?.chapter || chapterCounts[0]?.chapter || null;
   const lesson = <MistakeLessonLink subject={attempt.subject} chapter={topChapter} chapters={chapterCounts} conceptIds={analysis.mistakes.map(row => row.q.conceptId).filter(Boolean)} />;
@@ -479,7 +540,7 @@ export default function ResultPageClient({ previewId = null }) {
       {/* ---------- 1 and 2: what happened, and the one next move (side by side on a wide screen) ---------- */}
       <div className="rx-top">
         <ResultHead receipt={receipt} marks={marks} finding={finding} notice={notice} onNotice={(n) => jumpTo(n)} arrive={arrive} />
-        <NextMove move={move} onAct={onAct} paperHref={next.href} arrive={arrive}
+        <NextMove move={move} onAct={onAct} paperHref={next.href} arrive={arrive} isPremium={Boolean(user?.isPremium)} findingChapter={finding?.chapter || null}
           lesson={move?.kind === 'practise' && move.rule === 2 ? lesson : null} />
       </div>
 
@@ -490,6 +551,7 @@ export default function ResultPageClient({ previewId = null }) {
         showAll={showAll} onShowAll={setShowAll} blanksOpen={blanksOpen} onBlanks={setBlanksOpen}
         repairedCount={repaired.size} heldCount={heldCount} ordered={repairOrder?.state === 'cohort' ? 'repair' : 'paper'}
         cheer={cheer} arrived={arrived} arrive={arrive} answered={marks.right + marks.wrong}
+        from={paperLine || null} backlog={backlog} keyHidden={keyHidden}
         top={engaged && segments.length > 1 ? (
           <div className="rt-bar">
             <RunTrack segments={segments} onGo={goSegment} onFinish={runIds.some(id => repairOutcomes[id]) ? () => setEnding(true) : null} />
@@ -497,8 +559,7 @@ export default function ResultPageClient({ previewId = null }) {
         ) : null}
         after={<>
           {reportError ? <div role="alert" className="rp-alert">{reportError}</div> : null}
-          <RepairTotal remaining={repairsLeft} />
-          {analysis.mistakes.length ? <p className="srl-fine">Reopening a repair is free. No charge if a question is held for review.</p> : null}
+          {analysis.mistakes.length ? <p className="srl-fine">No charge if a question is held for review.</p> : null}
           {move?.kind === 'practise' && move.rule === 2 ? null : lesson}
         </>}
       />
@@ -507,8 +568,12 @@ export default function ResultPageClient({ previewId = null }) {
       {attempt.selectionMeta?.mobPaper ? <MobResultRow mobPaper={attempt.selectionMeta.mobPaper} /> : null}
 
       {/* ---------- 4: everything else, folded and named ---------- */}
-      <section className="rx-more-from" aria-labelledby="rx-folds-title">
-        <h2 id="rx-folds-title" className="rx-section-title">More from this paper</h2>
+      {/* W-035: the folds are the Mistake Lab, named so a student can find it (Review links here: /result/{id}#lab). */}
+      <section className="rx-more-from" id="lab" aria-labelledby="rx-folds-title">
+        <div className="rx-lab-head">
+          <h2 id="rx-folds-title" className="rx-section-title">Your Mistake Lab</h2>
+          <p className="rx-lab-head__sub">More from this paper. Each part opens in place and says its finding first.</p>
+        </div>
         <div className="rx-folds">
           <Fold {...foldProps('marks')} title="Where the marks went" teaser={marksTeaser}>
             <LabLedger attempt={attempt} analysis={analysis} timeRead={timeRead} lab={lab} onJump={jumpTo} changesId="rx-time-changes"
@@ -523,7 +588,7 @@ export default function ResultPageClient({ previewId = null }) {
           ) : null}
           {showSwot ? (
             <Fold {...foldProps('after')} title="After this mock: strengths, gaps and plan" teaser={swotTeaser}>
-              <SwotPanel swot={attempt.swot} attemptId={attempt.id} onJump={jumpTo} inFold />
+              <SwotPanel swot={attempt.swot} attemptId={attempt.id} onJump={jumpTo} inFold isPremium={Boolean(user?.isPremium)} />
             </Fold>
           ) : null}
           {cohort ? (

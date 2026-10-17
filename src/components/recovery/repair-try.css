@@ -1,0 +1,97 @@
+/* Mistake Repair, the try before the key (RepairTry.jsx). The same options language as the paper's own answers (result.css .rp-options):
+   key in the good colour, the student's wrong pick in the bad colour, always with words beside it. Arena tokens, both themes. */
+
+/* While the try is on screen the paper's own options, the book explanation and the cohort line sit above it with the key marked,
+   so they are put away until the verdict is in. The options inside the try are the same options, with no marks. */
+.rp-q__body:has(.mr--try) > :is(.rp-options, .rp-expl, .ml-others) { display: none; }
+
+.mr--try { gap: 14px; }
+.mr-try__head { display: grid; gap: 2px; }
+.mr-try__q { margin: 0; font: 650 13px/1.4 var(--font-display, inherit); color: var(--a-ink-3, #93a08f); font-variant-numeric: tabular-nums; }
+h4.mr-try__title { margin: 0; font-size: 18px; line-height: 1.3; letter-spacing: -0.01em; text-wrap: balance; }
+.mr-try__stem { margin: 0; max-width: 68ch; font-size: 16px; line-height: 1.55; font-weight: 550; color: var(--a-ink, #f2f4ec); overflow-wrap: anywhere; }
+.mr-try__passage { display: grid; gap: 4px; max-height: 14rem; overflow: auto; padding-bottom: 2px; }
+.mr-try__passage > p:not(.mr-label) { margin: 0; max-width: 68ch; font-size: 14px; line-height: 1.6; color: var(--a-ink-2, #bcc5b9); white-space: pre-line; overflow-wrap: anywhere; }
+
+/* The options: a radio group of rows at least 56 px tall. The radio itself is visually hidden; the row is the control. */
+.mr-try__options { display: grid; gap: 8px; margin: 0; padding: 0; border: 0; min-width: 0; }
+.mr-opt {
+  position: relative; display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; align-items: center; gap: 12px; min-height: 56px; padding: 10px 14px;
+  border-radius: 14px; border: 1px solid var(--a-line-strong, #384736); background: transparent; color: var(--a-ink, #f2f4ec); cursor: pointer;
+  font-size: 15px; line-height: 1.45; -webkit-tap-highlight-color: transparent;
+  transition: border-color 160ms var(--a-ease, ease), background-color 160ms var(--a-ease, ease), transform 120ms var(--a-ease, ease);
+}
+.mr-opt:active { transform: scale(0.99); }
+.mr-opt:has(input:focus-visible) { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; }
+.mr-opt__letter {
+  display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid var(--a-line-strong, #384736);
+  font: 700 13px/1 var(--font-display, inherit); color: var(--a-ink-2, #bcc5b9);
+  transition: background-color 160ms var(--a-ease, ease), border-color 160ms var(--a-ease, ease), color 160ms var(--a-ease, ease);
+}
+.mr-opt__text { overflow-wrap: anywhere; }
+.mr-opt__tag { font: 650 13px/1.4 var(--font-body, inherit); color: var(--a-ink-2, #bcc5b9); text-align: right; }
+/* The pick made in the paper: its letter is struck, and it stays pickable (picking it again is a real answer). */
+.mr-opt[data-before] .mr-opt__letter { text-decoration: line-through; text-decoration-thickness: 1.5px; }
+
+.mr-opt[data-picked] { border-color: var(--a-select, #d2f000); background: var(--a-volt-wash, rgba(210, 240, 0, .07)); }
+.mr-opt[data-picked] .mr-opt__letter { background: var(--a-select, #d2f000); border-color: var(--a-select, #d2f000); color: #10140e; }
+
+.mr-try__options:disabled .mr-opt { cursor: default; }
+.mr-try__options:disabled .mr-opt:active { transform: none; }
+.mr-try__options:disabled .mr-opt:not([data-kind]):not([data-before]) { color: var(--a-ink-2, #bcc5b9); border-color: var(--a-line, #253026); }
+.mr-opt[data-kind='key'] { border-color: color-mix(in oklab, var(--a-good-text, #b6e36e) 60%, transparent); background: color-mix(in oklab, var(--a-good-text, #b6e36e) 10%, transparent); }
+.mr-opt[data-kind='key'] .mr-opt__letter { background: var(--a-good-text, #b6e36e); border-color: var(--a-good-text, #b6e36e); color: #10140e; }
+.mr-opt[data-kind='key'] .mr-opt__tag { color: var(--a-good-text, #b6e36e); }
+.mr-opt[data-kind='mine'] { border-color: color-mix(in oklab, var(--a-bad-text, #ff9d92) 60%, transparent); background: var(--a-bad-wash, rgba(255, 157, 146, .08)); }
+.mr-opt[data-kind='mine'] .mr-opt__letter { background: var(--a-bad-text, #ff9d92); border-color: var(--a-bad-text, #ff9d92); color: #10140e; }
+.mr-opt[data-kind='mine'] .mr-opt__tag { color: var(--a-bad-text, #ff9d92); }
+html[data-theme='light'] .mr-opt:is([data-kind='key'], [data-kind='mine'], [data-picked]) .mr-opt__letter { color: #fff; }
+@media (hover: hover) and (pointer: fine) {
+  .mr-opt:not([data-picked]):hover { border-color: var(--a-ink-3, #93a08f); }
+  .mr-try__options:disabled .mr-opt:hover { border-color: inherit; }
+}
+@media (max-width: 480px) {
+  .mr-opt { grid-template-columns: 30px minmax(0, 1fr); row-gap: 2px; }
+  .mr-opt__tag { grid-column: 2; text-align: left; }
+}
+
+/* The hint with Mobi beside it, then the one primary key, what the reason costs, and the quiet skip. */
+.mr-try__hintrow { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.mr-try__hint { margin: 0; font-size: 14px; line-height: 1.5; color: var(--a-ink-2, #bcc5b9); }
+.mr-try__actions { display: grid; gap: 4px; justify-items: start; }
+.mr-try__check { min-width: 12rem; justify-content: center; }
+.mr-try__check:disabled { background: var(--a-sunken, #0f1512); color: var(--a-ink-3, #93a08f); box-shadow: none; border: 1px solid var(--a-line-strong, #384736); cursor: not-allowed; }
+.mr-try__check:not(:disabled):active { transform: scale(0.98); }
+.mr-try__actions .mr-cost { margin: 4px 0 0; }
+.mr-try__skip { margin-left: -10px; }
+.mr-try__skip:disabled { color: var(--a-ink-3, #93a08f); cursor: default; text-decoration: none; }
+@media (max-width: 480px) {
+  .mr-try__actions { justify-items: stretch; }
+  .mr-try__check { width: 100%; }
+  .mr-try__skip { justify-self: center; margin-left: 0; }
+  .mr-try__actions .mr-cost { text-align: center; }
+}
+
+/* The verdict: in words (never colour alone), with what comes next in one line. */
+.mr-try__after { display: grid; gap: 12px; }
+.mr-try__verdict { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.mr-verdict { display: grid; gap: 2px; min-width: 0; }
+.mr-verdict__title { display: flex; align-items: center; gap: 8px; margin: 0; font: 700 18px/1.3 var(--font-display, inherit); letter-spacing: -0.01em; color: var(--a-ink, #f2f4ec); }
+.mr-verdict__title:focus { outline: none; }
+.mr-verdict__title:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 3px; border-radius: 6px; }
+.mr-verdict__title svg { flex: none; color: var(--a-good-text, #b6e36e); }
+.mr-verdict__line { margin: 0; font-size: 15px; line-height: 1.5; color: var(--a-ink-2, #bcc5b9); }
+.mr--try .mr-wait { padding-left: 2px; }
+.mr--try .mr-retry { justify-self: start; }
+
+/* Motion: the verdict rises 8 px and fades in over 240 ms, with no shake for a wrong pick. Reduced motion (the device or the
+   student's own switch) is a plain 120 ms fade. */
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion='reduced']) .mr-try__verdict .mr-verdict { animation: mr-verdict-in 240ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)) both; }
+  :root:not([data-motion='reduced']) .mr-try__options:disabled .mr-opt[data-kind] { animation: mr-fade 200ms var(--ease-out, ease-out) both; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mr-try__verdict .mr-verdict { animation: mr-fade 120ms linear both; }
+}
+:root[data-motion='reduced'] .mr-try__verdict .mr-verdict { animation: mr-fade 120ms linear both; }
+@keyframes mr-verdict-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }

@@ -93,8 +93,10 @@ export default function StudyLibrary({ catalog, api, onOpenRun, onOpenUnit, init
     <section className="sx-hero" aria-labelledby="sx-hero-title">
       {hero.action ? <CardStack count={q.dueCount || q.newCount} leaving={leaving} /> : <hero.icon size={22} aria-hidden="true" className="sx-hero__icon" />}
       <div className="sx-hero__body"><h2 id="sx-hero-title">{hero.title}</h2><p>{hero.text}</p></div>
-      {hero.action ? <button className="btn-volt md" type="button" onClick={hero.action} disabled={busy || !catalog.recallEnabled}>{hero.cta}</button>
-        : <Link className="btn-volt md" href={hero.href} onClick={hero.unitId ? e => open(e, hero.unitId) : undefined}>{hero.cta}</Link>}
+      {/* The page's one volt key (data-page-primary): the sidebar's Start key steps back to its outline while Learn is open,
+          as on Practice, Today and a result, so two lime keys never stand side by side (W-040). */}
+      {hero.action ? <button className="btn-volt md" type="button" data-page-primary="" onClick={hero.action} disabled={busy || !catalog.recallEnabled}>{hero.cta}</button>
+        : <Link className="btn-volt md" data-page-primary="" href={hero.href} onClick={hero.unitId ? e => open(e, hero.unitId) : undefined}>{hero.cta}</Link>}
     </section>
     <p className="sx-flow">Each concept takes three steps. <b>Learn</b> it in 5 to 7 minutes with worked examples and quick checks. <b>Lock it in</b> from memory in 2 to 3 minutes; the reviews are scheduled for you. <b>Apply</b> it on practice questions with marks, then in mocks.</p>
 

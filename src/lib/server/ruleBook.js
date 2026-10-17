@@ -10,6 +10,7 @@ import { mistakeKey, repairIdFromOperationKey } from './repairRecord.js';
 import { repairBlocks } from '../../../data/repair_presentation.mjs';
 import { chapterOf } from '../../../data/attempt_ledger.js';
 import { RULE_RULES, buildRuleBook, ruleRows, strategyFor } from '../../../data/rule_book.js';
+import { dayLabel, istDate } from '../../../data/revise.js';
 
 const RESERVATION_WINDOW = 500; // the repair record's own window
 const PLAYBOOK_WINDOW = 200;
@@ -53,6 +54,26 @@ export function repairRulesFrom({ userId, reservations, attempts }) {
     }
   }
   return rows;
+}
+
+/**
+ * The rule of the student's own repair of one question, for Revise (the rule comes back with the question): the newest committed
+ * repair of this question across the student's papers, { rule, hook, repairedAt, day }, or null when they never repaired it or a
+ * read failed. `attemptsOf()` returns the student's attempts (Database.getAttempts). Read-only; no model, no credit.
+ */
+export async function ruleForQuestion(userId, questionId, { attemptsOf, db } = {}) {
+  if (typeof questionId !== 'string' || !questionId || typeof attemptsOf !== 'function') return null;
+  const client = db || (await import('../supabase')).supabaseAdmin();
+  const res = await client.from('ai_credit_reservations').select('operation_key,updated_at,repair:receipt->repair')
+    .eq('user_id', userId).eq('state', 'committed').eq('action', 'score_recovery_repair')
+    .not('receipt->repair', 'is', null).order('updated_at', { ascending: false }).limit(RESERVATION_WINDOW);
+  if (res.error || !res.data?.length) return null;
+  const attempts = await attemptsOf();
+  const mine = repairRulesFrom({ userId, reservations: res.data, attempts }).filter((r) => r.questionId === questionId)
+    .sort((a, b) => (a.repairedAt < b.repairedAt ? 1 : a.repairedAt > b.repairedAt ? -1 : 0));
+  const newest = mine[0];
+  if (!newest) return null;
+  return { rule: newest.rule, hook: newest.hook, repairedAt: newest.repairedAt, day: dayLabel(istDate(Date.parse(newest.repairedAt))) };
 }
 
 /** The student's repairs with rules and their playbook rule rows. Throws RULES_UNAVAILABLE when a read fails. */

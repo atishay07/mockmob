@@ -19,7 +19,7 @@ export async function GET(request) {
   // leaves the count at zero (the list still loads) rather than failing the record.
   const repairedBy=await getRepairedCounts(supabaseAdmin(),session.user.id,allAttempts).catch(()=>({}));
   const papers=sourceLabels(allAttempts);
-  const ordinaryReview=allAttempts.map(a=>({id:a.id,subject:a.subject,completedAt:a.completedAt,correct:a.correct,total:a.total,scoringVersion:a.selectionMeta?.scoringVersion || 'historical_device',mistakes:(a.details || []).filter(d=>d.isCorrect!==true).length,repaired:repairedBy[a.id] || 0,source:papers.get(a.id) || 'Quick practice'}));
+  const ordinaryReview=allAttempts.map(a=>({id:a.id,subject:a.subject,completedAt:a.completedAt,correct:a.correct,total:a.total,scoringVersion:a.selectionMeta?.scoringVersion || 'historical_device',mistakes:(a.details || []).filter(d=>d.isCorrect!==true).length,repaired:repairedBy[a.id] || 0,source:papers.get(a.id) || 'Quick practice',mode:a.selectionMeta?.mode || null}));
   const attempts=allAttempts.filter(a=>a.selectionMeta?.scoringVersion==='server_snapshot_v1' && a.selectionMeta?.contentEvidence !== 'legacy_bank');
   const db=supabaseAdmin();
   const [{data:reviews,error:reviewError},{data:playbook,error:playbookError}]=await Promise.all([

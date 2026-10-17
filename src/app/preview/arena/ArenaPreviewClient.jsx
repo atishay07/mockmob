@@ -40,7 +40,7 @@ import ModerationPageClient from '@/app/(app)/moderation/ModerationPageClient';
 import { FIXTURE_SUBJECTS, SYLLABUS_SUBJECTS, fixtureFeed, fixtureChapters, syllabusChapters, fixtureUploads, fixtureAttempt } from './previewFixtures';
 import { CIRCULAR_QUEUE_CORRECTION, answerReview } from '@/../data/answer_corrections.mjs';
 import { fixtureMock, fixtureReplayMock, fixtureRepairV3, fixtureLabLoop, fixtureAcross, fixtureRuleBook, FIXTURE_PLAYBOOK, fixtureSlice4, fixtureTrapsMeet, fixtureRevise, fixtureReviseAnswer, fixtureResultPaper, RESULT_PAPER_NAMES } from './previewMock';
-import { fixtureCheckField, fixtureCheckGet, fixtureCheckPost, fixtureAskContext, freshCheckMemory } from './previewRepairCheck';
+import { fixtureCheckField, fixtureCheckGet, fixtureCheckPost, fixtureAskContext, freshCheckMemory, fixtureRetryMark } from './previewRepairCheck';
 import RuleBook from '@/components/rules/RuleBook';
 import ReviseRun from '@/components/revise/ReviseRun';
 import { choosableRule, startSheetLines, bookRules } from '@/../data/rule_book';
@@ -219,6 +219,13 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       // leaves the answer-key check unread so the panels show their pending state; ?lab=basic|off shows the basic ledger or the
       // page without the Lab. Without ?mock the paper is the 10-question quick practice.
       const mock = fixture.get('mock');
+      // The repair's try before the key is marked against this paper (fixtureRetryMark), so the paper served last is remembered; ?repaired=1 lists
+      // every wrong answer as already repaired (the free reopen, with no try).
+      const served = (body) => {
+        const out = fixture.get('repaired') === '1' ? { ...body, savedRepairs: Object.fromEntries((body.details || []).filter((d) => d.isCorrect === false).map((d) => [d.qid, { repairedAt: '2026-10-16T16:10:00.000Z' }])) } : body;
+        window.__previewPaper = out;
+        return json(out);
+      };
       // mock=full with the Lab on shows the Replay from its contract (&paper=time_up|nta|bst|english for the others;
       // &paper=v1 for the slice 1 paper).
       // Slice 5: &cohort=time shows the nightly table's time, changes and strike lines and the ledger finding, every gate met;
@@ -235,11 +242,11 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
         return json({ ...built.attempt, answerReviews: built.answerReviews, swot: built.swot, mistakeInsights: built.mistakeInsights, lab: built.lab, missedBefore: {}, answerReviewState: built.answerReviewState });
       }
       if (mock === 'full' && fixture.get('paper') !== 'v1' && (fixture.get('checks') || 'ready') === 'ready' && (fixture.get('lab') || 'on') === 'on') {
-        return fixtureReplayMock(fixture.get('paper') || 'full', { cohortTime: fixture.get('cohort'), marks: fixture.get('marks') }).then((built) => json({ ...built.attempt, answerReviews: built.answerReviews, swot: built.swot, mistakeInsights: built.mistakeInsights, lab: loop(built), missedBefore: {}, answerReviewState: built.answerReviewState }));
+        return fixtureReplayMock(fixture.get('paper') || 'full', { cohortTime: fixture.get('cohort'), marks: fixture.get('marks') }).then((built) => served({ ...built.attempt, answerReviews: built.answerReviews, swot: built.swot, mistakeInsights: built.mistakeInsights, lab: loop(built), missedBefore: {}, answerReviewState: built.answerReviewState }));
       }
       if (mock === 'full' || mock === 'nta') {
         const built = fixtureMock(mock, { checks: fixture.get('checks') || 'ready', lab: fixture.get('lab') || 'on' });
-        return json({ ...built.attempt, answerReviews: built.answerReviews, swot: built.swot, mistakeInsights: built.mistakeInsights, lab: loop(built), missedBefore: {}, answerReviewState: built.answerReviewState });
+        return served({ ...built.attempt, answerReviews: built.answerReviews, swot: built.swot, mistakeInsights: built.mistakeInsights, lab: loop(built), missedBefore: {}, answerReviewState: built.answerReviewState });
       }
       const attempt = fixtureAttempt(); const kind = fixture.get('repair');
       // &mobpaper=1: the attempt was this week's Mob paper, so the result shows the Mob row (pair with &mob=two|ready).
@@ -261,7 +268,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       const saved = fixture.get('saved') === '1';
       const paper = { source: saved ? 'Mock 3' : 'Quick practice', completedAt: Date.parse(attempt.completedAt) };
       const savedRepairs = saved ? { 'fixture-q2': { repairedAt: '2026-10-04T18:22:00.000Z' }, 'fixture-q4': { repairedAt: '2026-10-04T18:31:00.000Z' } } : undefined;
-      return json({ ...attempt, missedBefore, paper, ...(savedRepairs ? { savedRepairs } : {}), answerReviewState: 'ready' });
+      return served({ ...attempt, missedBefore, paper, ...(savedRepairs ? { savedRepairs } : {}), answerReviewState: 'ready' });
     }
     if (url.pathname.startsWith('/api/users/') && method === 'PATCH') return state === 'save-error' ? json({ error: 'Fixture profile save failure' }, 503) : json({ ok: true });
     if (url.pathname === '/api/bookmarks' && method === 'POST') return state === 'save-error' ? json({ error: 'Save limit', limit: 25 }, 402) : json({ saved: JSON.parse(init.body || '{}').saved });
@@ -477,13 +484,29 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       return later(new Response(JSON.stringify(posted.body), { status: posted.http, headers: { 'Content-Type': 'application/json' } }), posted.delay || 25);
     }
     if (url.pathname === '/api/recovery/ask-context') return json(fixtureAskContext());
+    // The try before the key (POST /api/recovery/retry): free, marked against the paper served last. ?retry=fail loses the first call, ?retry=slow
+    // answers after 2.4 s, ?retry=declined is a key under review (the repair then explains it with no verdict).
+    if (url.pathname === '/api/recovery/retry' && method === 'POST') {
+      const mode = fixture.get('retry') || 'ok';
+      const memory = (window.__previewRetry ||= { tries: 0 });
+      memory.tries += 1;
+      if (mode === 'fail' && memory.tries === 1) return new Promise((resolve, reject) => setTimeout(() => reject(new TypeError('Illustrative: the connection dropped before the answer was marked')), 400));
+      if (mode === 'declined') return json({ ok: false, error: 'question_under_review', message: 'This question is being re-checked, so it is not explained right now. You were not charged.', charged: 0 }, 409);
+      const body = JSON.parse(init.body || '{}');
+      const marked = fixtureRetryMark(window.__previewPaper, body.questionId, body.retry_pick);
+      if (!marked.ok) return json({ ok: false, error: 'invalid_pick', message: 'Pick one of the options.', charged: 0 }, 422);
+      const reply = json({ ok: true, status: 'marked', charged: 0, retry: marked.retry });
+      return mode === 'slow' ? new Promise((resolve) => setTimeout(() => resolve(reply), 2400)) : reply;
+    }
     // Mistake Repair fixtures. Illustrative text, no model call, no credit.
     if (url.pathname === '/api/recovery/repair' && method === 'POST') {
       const kind = fixture.get('repair') === '1' ? 'v3' : fixture.get('repair') || 'explained';
       // ?repair=v3 (or repair=1) is a version 3 repair (trap, why the key is right, other options, rule with hook, another way, pattern) with its check; v3-stored is its free reopen.
       if (kind === 'v3' || kind === 'v3-stored') {
         const check = fixtureCheckField(fixture.get('check') || 'ready');
-        return json({ ...fixtureRepairV3({ stored: kind === 'v3-stored' }), ...(check ? { check } : {}) });
+        const asked = JSON.parse(init.body || '{}');
+        const marked = kind === 'v3' && Number.isInteger(asked.retry_pick) ? fixtureRetryMark(window.__previewPaper, asked.questionId, asked.retry_pick) : null;
+        return json({ ...fixtureRepairV3({ stored: kind === 'v3-stored' }), ...(check ? { check } : {}), ...(marked?.ok ? { retry: marked.retry } : {}) });
       }
       const base = { practiceHref: '/test?subject=accountancy&mode=quick&count=5&chapter=Partnership+Fundamentals&recoveryFrom=fixture-attempt', chosenIndex: 0, keyIndex: 2 };
       if (kind === 'held') return json({ ok: true, status: 'held_for_recheck', charged: 0, ...base, dispute: { ourIndex: 1, secondIndex: 1 }, message: 'Our check of this question didn’t match its answer key, so we’ve held it for review instead of explaining it. You weren’t charged, and it won’t appear in practice until it’s cleared.' });

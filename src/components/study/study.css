@@ -420,3 +420,6 @@
 @media (prefers-reduced-motion: reduce) { .sx *, .sx *::before, .sx *::after { transition: none !important; animation: none !important; } }
 :root[data-motion='reduced'] .sx *, :root[data-motion='reduced'] .sx *::before, :root[data-motion='reduced'] .sx *::after { transition: none !important; animation: none !important; }
 :root[data-motion='reduced'] .sx-ghosts { display: none; }
+
+/* W-040: the three-step line sits clear of the next-lesson card above it (it touched the card at 1440). */
+.sx-library > .sx-hero + .sx-flow { margin-top: 18px; }

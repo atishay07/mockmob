@@ -4,6 +4,7 @@ import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
 import { repairMistake } from '@/services/recovery/mistakeRepair';
 import { actionFromHref } from '@/lib/server/actionFields';
 import { countStepOnce } from '@/lib/server/funnelOnceStore';
+import { retryPickOf } from '@/../data/repair_retry.mjs';
 
 // Owner decision D1 (14 Oct 2026): the project is on Vercel Hobby with Fluid compute, which allows up to 300 s, so
 // 90 s is available. The repair plans its model work to finish by about 78 s (REPAIR_BUDGET in
@@ -11,7 +12,9 @@ import { countStepOnce } from '@/lib/server/funnelOnceStore';
 // released credit and a clear message instead of a platform kill with the credit still reserved.
 export const maxDuration = 90;
 
-// POST { attemptId, questionId, requestId } -> AI Mistake Repair for one wrong answer.
+// POST { attemptId, questionId, requestId, retry_pick? } -> AI Mistake Repair for one wrong answer. `retry_pick` is the option the student
+// chose when they tried the question again before the key (data/repair_retry.mjs). It is optional, marked here (never trusted from the
+// client) and never charged for.
 export async function POST(request) {
   const startedAt = Date.now();
   const headers = { 'Cache-Control': 'no-store' };
@@ -24,7 +27,7 @@ export async function POST(request) {
     return Response.json({ ok: false, error: 'invalid_request', message: 'That repair request was incomplete.' }, { status: 422, headers });
   const user = await Database.getUserById(session.user.id);
   if (!user) return Response.json({ ok: false, error: 'user_not_found' }, { status: 404, headers });
-  const { http, body: result } = await repairMistake({ user, attemptId: body.attemptId, questionId: body.questionId, requestId: body.requestId, startedAt });
+  const { http, body: result } = await repairMistake({ user, attemptId: body.attemptId, questionId: body.questionId, requestId: body.requestId, retryPick: retryPickOf(body), startedAt });
   // Aggregate funnel: a repair the student received (new or reopened), once per person.
   if (http === 200 && result?.ok && ['explained', 'stored'].includes(result.status)) countStepOnce(session.user.id, 'first_repair', request.headers);
   const out = result && typeof result.practiceHref === 'string' ? { ...result, practiceAction: actionFromHref(result.practiceHref) } : result;

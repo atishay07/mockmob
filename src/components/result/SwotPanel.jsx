@@ -5,16 +5,17 @@
 // On the 17 Oct result it sits inside the fold "After this mock: strengths, gaps and plan" (inFold): the fold names it,
 // so its own title is left to screen readers, and the student-facing heading is plain words, not "SWOT" (F11; adoption 11).
 import { useEffect, useId, useRef, useState } from 'react';
-import Link from 'next/link';
+import StartSet from './StartSet';
 import './swot.css';
 
 export const SWOT_UI_COPY = Object.freeze({
   title: 'After this mock',
-  next: 'Do these next',
+  // W-029: the owner's words are "the next specific topic mocks"; each row starts its set in one tap, the price on the key.
+  next: 'Topic mocks to do next',
   swot: 'Strengths, gaps and risks',
-  setUp: 'Set up',
+  setUp: 'Start',
   see: 'See',
-  setUpLabel: (label) => `Set up, ${label}`,
+  setUpLabel: (label) => `Start: ${label}`,
   goTo: (n) => `Go to question ${n}`,
 });
 
@@ -78,7 +79,7 @@ function QuestionButtons({ numbers, onJump }) {
   );
 }
 
-export default function SwotPanel({ swot, attemptId, onJump, inFold = false }) {
+export default function SwotPanel({ swot, attemptId, onJump, inFold = false, isPremium = false }) {
   const ready = swot?.state === 'ready';
   const [ref, phase] = useFirstView(attemptId, ready);
   const uid = useId();
@@ -116,7 +117,7 @@ export default function SwotPanel({ swot, attemptId, onJump, inFold = false }) {
                   {p.reason ? <p className="sw-plan__reason">{p.reason}</p> : null}
                   {p.later?.line ? <p className="sw-plan__later"><Tick />{p.later.line}</p> : null}
                 </div>
-                {p.href ? <Link className="sw-plan__go" href={p.href} aria-label={SWOT_UI_COPY.setUpLabel(p.label)}>{SWOT_UI_COPY.setUp}</Link> : null}
+                {p.href ? <StartSet className="sw-plan__go" href={p.href} label={SWOT_UI_COPY.setUp} ariaLabel={SWOT_UI_COPY.setUpLabel(p.label)} isPremium={isPremium} /> : null}
               </li>
             ))}
           </ol>

@@ -263,7 +263,7 @@ export function repairAct(mood, { cheered = false } = {}) {
 }
 
 /** The mood under the act, the app's RepairMobi: curious while it works, happy for a repair, concerned after a failure, calm otherwise. */
-export const REPAIR_MOBI_MOOD = Object.freeze({ think: 'curious', loading: 'curious', correct: 'happy', hello: 'calm', oops: 'concerned', encourage: 'concerned', rest: 'calm' });
+export const REPAIR_MOBI_MOOD = Object.freeze({ think: 'curious', loading: 'curious', correct: 'happy', hello: 'calm', oops: 'concerned', encourage: 'concerned', rest: 'calm', listen: 'calm', sympathy: 'concerned' });
 
 /** A set that says yes the first time for a key. */
 export function createOnceGate() {

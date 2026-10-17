@@ -29,7 +29,7 @@ function Chip({ status, cheer }) {
   );
 }
 
-function Row({ row, open, onToggle, status, cohort, cheer, children, arrived }) {
+function Row({ row, open, onToggle, status, cohort, cheer, children, arrived, keyHidden = false }) {
   const given = row.d?.givenIndex;
   const key = row.q?.correctIndex;
   const stem = String(row.q?.question ?? row.q?.body ?? '').trim() || 'Question unavailable';
@@ -37,7 +37,8 @@ function Row({ row, open, onToggle, status, cohort, cheer, children, arrived }) 
   // An opened row writes the two options out (RESULT-1017 4.5): what the student picked and the answer, as text.
   const texts = open ? plainOptionTexts(row.q?.options) : [];
   const mineText = open && isWrong && Number.isInteger(given) ? optionText(texts, given) : '';
-  const keyText = open && Number.isInteger(key) ? optionText(texts, key) : '';
+  // Before the try (W-032) the key is not on screen anywhere in the row; one tap on "Show the answer" brings it.
+  const keyText = open && !keyHidden && Number.isInteger(key) ? optionText(texts, key) : '';
   return (
     <li id={`q-${row.number}`} className="rx-row" data-verdict={row.verdict} data-open={open || undefined}>
       {arrived ? <span key={arrived} className="rp-q__ring" aria-hidden="true" /> : null}
@@ -50,7 +51,8 @@ function Row({ row, open, onToggle, status, cohort, cheer, children, arrived }) 
             <span className="rx-row__facts">
               {isWrong && Number.isInteger(given) ? <span className="rx-pick" data-kind="mine"><i>{LETTERS[given]}</i>yours</span> : null}
               {!isWrong ? <span className="rx-pick" data-kind="blank">left blank</span> : null}
-              {Number.isInteger(key) ? <span className="rx-pick" data-kind="key"><i>{LETTERS[key]}</i>answer</span> : null}
+              {Number.isInteger(key) && !keyHidden ? <span className="rx-pick" data-kind="key"><i>{LETTERS[key]}</i>answer</span> : null}
+              {Number.isInteger(key) && keyHidden ? <span className="rx-pick" data-kind="later"><i aria-hidden="true">?</i>try it again first</span> : null}
               {cohort ? <span className="rx-row__cohort">{cohort}</span> : null}
             </span>
             {mineText || keyText ? (
@@ -89,14 +91,14 @@ function Row({ row, open, onToggle, status, cohort, cheer, children, arrived }) 
  * top          a node at the head of the section (the repair run's track, once a run has begun)
  * after        nodes under the list (the credit line, the lesson link)
  */
-export default function MistakeList({ mistakes, blanks, openIds, onToggle, statusOf, cohortOf, renderBody, visited, showAll, onShowAll, blanksOpen, onBlanks, repairedCount = 0, heldCount = 0, ordered = 'repair', cheer = null, arrived = null, top = null, after = null, arrive = false, answered = null }) {
+export default function MistakeList({ mistakes, blanks, openIds, onToggle, statusOf, cohortOf, renderBody, visited, showAll, onShowAll, blanksOpen, onBlanks, repairedCount = 0, heldCount = 0, ordered = 'repair', cheer = null, arrived = null, top = null, after = null, arrive = false, answered = null, from = null, backlog = null, keyHidden = () => false }) {
   const listId = useId();
   const blankId = useId();
   const head = mistakesHead({ count: mistakes.length, repairedCount, heldCount, answered });
   const shown = showAll ? mistakes : mistakes.slice(0, SHOWN_FIRST);
   const rest = mistakes.length - SHOWN_FIRST;
   const row = (r) => (
-    <Row key={r.q.id} row={r} open={openIds.has(r.q.id)} onToggle={onToggle} status={statusOf(r)} cohort={cohortOf(r)} cheer={cheer === r.q.id}
+    <Row key={r.q.id} row={r} open={openIds.has(r.q.id)} onToggle={onToggle} status={statusOf(r)} cohort={cohortOf(r)} cheer={cheer === r.q.id} keyHidden={keyHidden(r)}
       arrived={arrived?.number === r.number ? arrived.n : null}>
       {visited.has(r.q.id) ? renderBody(r) : null}
     </Row>
@@ -109,8 +111,10 @@ export default function MistakeList({ mistakes, blanks, openIds, onToggle, statu
         {/* While a repair run is on, its strip carries the count; the head does not repeat it. */}
         {head.side && !top ? <span className="rx-mistakes__side">{head.side}</span> : null}
       </div>
+      {/* Which paper these came from and when it was attempted, 12-hour clock (F17, W-038). */}
+      {from && (mistakes.length || blanks.length) ? <p className="rx-mistakes__from">From {from}</p> : null}
       {mistakes.length ? (
-        <p className="rx-mistakes__sub">{ordered === 'repair' ? 'In repair order: the ones most other students got right come first. Repaired ones say whether the fix held.' : 'In paper order. Repaired ones say whether the fix held.'}</p>
+        <p className="rx-mistakes__sub">{ordered === 'repair' ? 'The ones most students got right come first.' : 'In paper order.'}{backlog ? <> <span className="rx-mistakes__backlog">{backlog}</span></> : null}</p>
       ) : null}
       {head.empty ? <p className="rx-mistakes__sub">{head.empty}</p> : null}
       {mistakes.length ? <ol className="rx-list" id={listId}>{shown.map(row)}</ol> : null}

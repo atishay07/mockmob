@@ -39,7 +39,7 @@ export const REPAIR_EFFORT = Object.freeze({ repair: 'low', secondOpinion: 'high
 // fallback is skipped and a Luna failure ends as a released credit.
 export const REPAIR_FALLBACK_ROUTE = Object.freeze({ provider: 'anthropic', model: process.env.AI_REPAIR_FALLBACK_MODEL || 'claude-haiku-5-5', reasoningEffort: 'low' });
 
-export async function repairMistake({ user, attemptId, questionId, requestId, startedAt = Date.now(), generate = generateAIResponse }) {
+export async function repairMistake({ user, attemptId, questionId, requestId, retryPick = null, startedAt = Date.now(), generate = generateAIResponse }) {
   const replyDeps = buildReplyDeps({ user });
   const deps = {
     reserve: replyDeps.reserve,
@@ -94,5 +94,5 @@ export async function repairMistake({ user, attemptId, questionId, requestId, st
     // The per-repair interpretation line is a diagnostic, not an error: stdout, so Vercel does not list it as one.
     info: (line) => console.log(line),
   };
-  return runRepair({ user, attemptId, questionId, requestId, startedAt, deps, config: { route: REPAIR_ROUTE, effort: REPAIR_EFFORT, fallbackRoute: REPAIR_FALLBACK_ROUTE } });
+  return runRepair({ user, attemptId, questionId, requestId, startedAt, deps, retryPick, config: { route: REPAIR_ROUTE, effort: REPAIR_EFFORT, fallbackRoute: REPAIR_FALLBACK_ROUTE } });
 }

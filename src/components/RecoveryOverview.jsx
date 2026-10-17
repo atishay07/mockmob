@@ -90,6 +90,23 @@ function Figures({ label, items }) {
   );
 }
 
+// W-035: Review's way into the Mistake Lab of the newest mock (a full or NTA paper; else the newest session). The Lab is
+// the named group of folds on the result; /result/{id}#lab opens its first part there.
+const isMockPaper = (a) => a?.mode === 'full' || a?.mode === 'nta' || /^Mock\b/.test(String(a?.source || ''));
+function LabEntry({ review }) {
+  const paper = review.find(isMockPaper) || review[0] || null;
+  if (!paper) return null;
+  const name = [paper.source, subjectLabel(paper.subject), when(paper.completedAt)].filter(Boolean).join(', ');
+  return (
+    <Link className="rb-entry rv-lab-entry" href={`/result/${paper.id}#lab`}>
+      <span className="rb-entry__text">
+        <b>Your Mistake Lab</b>
+        <span>{name}: where the marks went, your time and changed answers, the topic mocks to do next and how others answered.</span>
+      </span>
+    </Link>
+  );
+}
+
 function SessionRow({ a, fresh = false, index = 0 }) {
   const pct = a.total ? Math.round((a.correct / a.total) * 100) : 0;
   // "Mock 3, 16 Oct, 9:40 pm": which paper it was and when it was attempted (the subject is the title above it).
@@ -97,9 +114,9 @@ function SessionRow({ a, fresh = false, index = 0 }) {
   const open = openOf(a);
   const repaired = a.repaired || 0;
   return (
-    <li data-fresh={fresh || undefined} style={fresh ? { '--ov-i': index } : undefined}>
+    <li className="rv-item" data-fresh={fresh || undefined} style={fresh ? { '--ov-i': index } : undefined}>
       <Link className="rv-session" href={`/result/${a.id}`}>
-        <span className="rv-session__art" aria-hidden="true"><SubjectObject id={a.subject} size={68} framed={false} /></span>
+        <span className="rv-session__art" aria-hidden="true"><SubjectObject id={a.subject} size={92} framed={false} /></span>
         <span className="rv-session__main">
           <b>{subjectLabel(a.subject)}{fresh ? <span className="ov-new">New since your last look</span> : null}</b>
           {stamp ? <span className="rv-session__paper">{stamp}</span> : null}
@@ -110,6 +127,14 @@ function SessionRow({ a, fresh = false, index = 0 }) {
           {open > 0 ? <><b>{open}</b> to review</> : repaired > 0 ? 'All repaired' : 'All correct'}
         </span>
       </Link>
+      {/* W-039: "Review again" opens this paper's mistakes from the first, with every saved repair opening free; the Lab
+          link opens its Mistake Lab (W-035). Siblings of the row, never links inside a link. */}
+      {(a.mistakes || 0) > 0 ? (
+        <span className="rv-item__acts">
+          <Link className="rv-act" href={`/result/${a.id}#mistakes`} aria-label={`Review again: ${subjectLabel(a.subject)}${stamp ? `, ${stamp}` : ''}`}>Review again</Link>
+          <Link className="rv-act" href={`/result/${a.id}#lab`} aria-label={`Mistake Lab: ${subjectLabel(a.subject)}${stamp ? `, ${stamp}` : ''}`}>Mistake Lab</Link>
+        </span>
+      ) : null}
     </li>
   );
 }
@@ -173,7 +198,7 @@ export default function RecoveryOverview({ view }) {
           </section>
         ) : null}
         {noteList}
-        {data && review.length > 0 ? <div className="ov-links rv-ways"><ReviseEntry /><RulesEntry /></div> : null}
+        {data && review.length > 0 ? <div className="ov-links rv-ways"><LabEntry review={review} /><ReviseEntry /><RulesEntry /></div> : null}
         {/* From Today (TODAY-1017 section 7): the record's finding and the paper trend live at the head of Review now. */}
         {data && review.length > 0 ? <div className="rv-record"><RecordGlimpse /></div> : null}
         {data ? (
