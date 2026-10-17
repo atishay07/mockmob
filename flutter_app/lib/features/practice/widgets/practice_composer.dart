@@ -302,6 +302,32 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
     final isPro = ref.watch(authSnapshotProvider.select((a) => a.isPro));
     final lengthNote = _c.lengthNote;
 
+    // By chapter is Quick practice with the chapters asked first, so its Fine-tune leads. Every other mode
+    // puts it right above Start, under what you get and what it costs.
+    final chaptersFirst = mode == PracticeMode.chapter;
+    final Widget fineTune = KeyReveal(
+      show: !(start.gated && mode.fineTune == FineTuneScope.none),
+      child: Padding(
+        padding: EdgeInsets.only(top: chaptersFirst ? 0 : MmSpace.s20, bottom: chaptersFirst ? MmSpace.s20 : 0),
+        child: FineTune(
+          mode: mode,
+          chapters: _selection.chapters,
+          difficulty: _selection.difficulty,
+          isPro: isPro,
+          showLevel: !start.gated && !start.creditsLow,
+          onPickChapters: _pickChapter,
+          onRemoveChapter: (name) {
+            ref.read(hapticsProvider).selection();
+            _c.change(_selection.copyWith(chapters: [
+              for (final c in _selection.chapters)
+                if (c != name) c,
+            ]));
+          },
+          onDifficulty: (d) => _c.change(_selection.copyWith(difficulty: d)),
+        ),
+      ),
+    );
+
     final children = <Widget>[
       ComposerTicket(
         subjectId: _selection.subjectId,
@@ -342,30 +368,7 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
         ),
         const SizedBox(height: MmSpace.s16),
       ],
-      // Fine-tune sits above Start and the cost, open, and says what this mode lets you set (F8, F9).
-      // A mode that has nothing to set says so in one line and the quote's gate hides it.
-      KeyReveal(
-        show: !start.gated,
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: MmSpace.s20),
-          child: FineTune(
-            mode: mode,
-            chapters: _selection.chapters,
-            difficulty: _selection.difficulty,
-            isPro: isPro,
-            showLevel: !start.gated && !start.creditsLow,
-            onPickChapters: _pickChapter,
-            onRemoveChapter: (name) {
-              ref.read(hapticsProvider).selection();
-              _c.change(_selection.copyWith(chapters: [
-                for (final c in _selection.chapters)
-                  if (c != name) c,
-              ]));
-            },
-            onDifficulty: (d) => _c.change(_selection.copyWith(difficulty: d)),
-          ),
-        ),
-      ),
+      if (chaptersFirst) fineTune,
       GetPanel(
         selection: _selection,
         subjectName: subject,
@@ -378,6 +381,7 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
         onOpenConcepts: widget.exits.concepts,
         onOpenReview: widget.exits.review,
       ),
+      if (!chaptersFirst) fineTune,
       if (mode.isMock)
         KeyReveal(
           show: !start.gated,

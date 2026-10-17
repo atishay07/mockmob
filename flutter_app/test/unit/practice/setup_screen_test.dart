@@ -114,6 +114,9 @@ void main() {
     expect(text('Choose a chapter first.'), findsOneWidget);
     // The quote is the Quick practice quote: chapter practice has no price of its own.
     expect(quotes.calls.every((c) => c.mode == 'quick'), isTrue);
+    // Fine-tune sits under what you get and what it costs, just above Start: scroll to it.
+    await tester.ensureVisible(text('Choose chapters').first);
+    await tester.pump();
     await tester.tap(text('Choose chapters').first);
     await tester.pump(const Duration(milliseconds: 400));
     await tester.pump(const Duration(milliseconds: 400));

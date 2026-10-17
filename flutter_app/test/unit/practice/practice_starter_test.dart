@@ -185,10 +185,17 @@ void main() {
     expect((await notes.read('sess-9'))?.chapter, 'Admission of a partner');
   });
 
-  test('a chapter outside chapter practice is never sent', () async {
-    final sel = PracticeSelection(mode: PracticeMode.quick, subjectId: 'accountancy', chapter: 'Goodwill');
+  test('a chapter outside Quick practice is never sent (Fine-tune scope, F9)', () async {
+    final sel = PracticeSelection(mode: PracticeMode.full, subjectId: 'accountancy', chapter: 'Goodwill');
     await starter.start(sel, quote: _quote());
     expect(bodyOf(0).containsKey('chapter'), isFalse);
+    expect(bodyOf(0).containsKey('chapters'), isFalse);
+  });
+
+  test('Quick practice takes the chapters it was given', () async {
+    final sel = PracticeSelection(mode: PracticeMode.quick, subjectId: 'accountancy', chapter: 'Goodwill');
+    await starter.start(sel, quote: _quote());
+    expect(bodyOf(0)['chapter'], 'Goodwill');
   });
 
   test('a mock is 50 questions, and its number reaches the draft', () async {
