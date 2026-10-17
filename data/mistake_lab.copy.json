@@ -373,7 +373,8 @@
         "select": "Select a question to see its time and picks.",
         "open": "Open Q{n}"
       },
-      "cutLink": "Practise {n} more, no time limit"
+      "cutLink": "Practise {n} more, no time limit",
+      "mini": "Q{n}: {time} here, even pace {pace}"
     },
     "reel": {
       "open": "Play your paper back, {s} s",

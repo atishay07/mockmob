@@ -317,7 +317,7 @@ export function reelMoments({ rows = [], changes = [], view = null, paceSec = nu
 
 /**
  * reelScript({ rows, changes, view, paceSec, finding, next }) -> null | {
- *   total, durationMs, max, score, moments, chapter, next, frames }
+ *   total, durationMs, max, score, sheet: [{ n, v: 'correct'|'wrong'|'skipped' }], moments, chapter, next, frames }
  *   rows     analyseSession(attempt).rows (number, verdict 'correct'|'wrong'|'skipped', chapter, q)
  *   changes  the record's observed answerChanges
  *   view     replayView(lab.replay), or null without a trace (the sheet still plays)
@@ -354,8 +354,10 @@ export function reelScript({ rows = [], changes = [], view = null, paceSec = nul
     frames.push({ t, kind: 'chapter', n: null, lit: total, marks, caption: { at: null, text: finding.line, detail: finding.detail || null }, ring: null, chapter });
     t += REEL_RULES.chapterMs;
   }
-  frames.push({ t, kind: 'next', n: null, lit: total, marks, caption: { at: null, text: Rr.next }, ring: null, chapter, next: next || null });
-  return { total, durationMs: t + REEL_RULES.endMs, max: total * MARKS_RIGHT, score: marks, moments, chapter, next: next || null, frames };
+  // The end keeps the chapter's sentence on screen; the next move's key sits under it.
+  frames.push({ t, kind: 'next', n: null, lit: total, marks, caption: finding?.line ? { at: null, text: finding.line, detail: finding.detail || null } : { at: null, text: Rr.next }, ring: null, chapter, next: next || null });
+  const sheet = rows.map((r) => ({ n: r.number, v: r.verdict }));
+  return { total, durationMs: t + REEL_RULES.endMs, max: total * MARKS_RIGHT, score: marks, sheet, moments, chapter, next: next || null, frames };
 }
 
 /** The frame showing at clock t (ms): the last frame at or before it. */

@@ -13,13 +13,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import COPY from '@/../data/mistake_lab.copy.json';
-import { SLOT_RULES, replayView, slotLayout } from '@/../data/replay';
+import { SLOT_RULES, eventCaption, replayView, slotLayout } from '@/../data/replay';
 import { fill, spentLabel, clockLabel } from '@/../data/paper_trace';
 import './replay-slots.css';
 
 const S = COPY.replay.slots;
-const LETTER = 'ABCDEFGH';
-const letterOf = (i) => (Number.isInteger(i) ? LETTER[i] || String(i + 1) : '');
 const PLAY_MS = 12000;
 const STORE = 'mm:replay:collapsed:v1';
 const H_PHONE = 76;
@@ -48,23 +46,6 @@ const spokenTime = (sec) => { const v = Math.round(sec); return v < 60 ? fill(v 
 
 /** "the even pace" in words: "1m 12s". */
 const paceWords = (sec) => spentLabel(sec);
-
-/** The caption for one event, in words: "20:40 Q22 changed D to A, a right answer made wrong". */
-function captionOf(e, keyOf) {
-  if (!e) return null;
-  const at = clockLabel(e.at);
-  if (e.kind === 'end') return { at, text: 'Submitted.' };
-  if (e.kind === 'back') return { at, text: `Back to Q${e.n}.` };
-  if (e.kind === 'clear') return { at, text: `Q${e.n} answer cleared.` };
-  if (e.kind === 'pick') return { at, text: `Q${e.n} picked ${letterOf(e.to)}.` };
-  const key = keyOf(e.n);
-  let made = '';
-  if (Number.isInteger(key)) {
-    if (e.from === key && e.to !== key) made = `, ${S.made.rightToWrong}`;
-    else if (e.from !== key && e.to === key) made = `, ${S.made.wrongToRight}`;
-  }
-  return { at, text: `Q${e.n} changed ${letterOf(e.from)} to ${letterOf(e.to)}${made}.` };
-}
 
 function Cut({ view, cutLink }) {
   const time = spokenTime(view.recordSec);
@@ -137,7 +118,7 @@ export default function ReplaySlots({ replay, rows = [], paceSec = null, onJump,
 
   const settled = t === null;
   const current = settled ? null : [...events].reverse().find((e) => e.at <= t + 0.001) || null;
-  const caption = current ? captionOf(current, keyOf) : null;
+  const caption = current ? eventCaption(current, { key: keyOf(current.n) }) : null;
   // Seconds on each question up to the clock (at rest: the whole paper).
   const spentAt = (q) => {
     if (settled) return q.sec;
@@ -157,10 +138,12 @@ export default function ReplaySlots({ replay, rows = [], paceSec = null, onJump,
   const selected = sel ? view.perQuestion.find((q) => q.n === sel) : null;
   const detail = selected ? (() => {
     const row = byN.get(selected.n);
+    const D = S.detail;
+    const letter = (i) => (Number.isInteger(i) ? 'ABCDEFGH'[i] || String(i + 1) : '');
     const changes = events.filter((e) => e.n === selected.n && (e.kind === 'pick' || e.kind === 'change'));
-    const picks = changes.map((e, i) => (i === 0 ? `picked ${letterOf(e.to)} at ${clockLabel(e.at)}` : `changed to ${letterOf(e.to)} at ${clockLabel(e.at)}`)).join(', ');
-    const res = selected.result === 'right' ? 'right, +5' : selected.result === 'wrong' ? 'wrong, −1' : selected.result === 'held' ? 'key under re-check' : 'blank, 0';
-    return [`Q${selected.n}`, row?.chapter, `${spentLabel(selected.sec)} on it, even pace ${paceWords(pace)}`, picks || 'no answer picked', res].filter(Boolean).join(' · ');
+    const picks = changes.map((e, i) => fill(i === 0 ? D.first : D.later, { to: letter(e.to), at: clockLabel(e.at) })).join(', ');
+    const res = D[selected.result === 'right' ? 'right' : selected.result === 'wrong' ? 'wrong' : selected.result === 'held' ? 'held' : 'blank'];
+    return [`Q${selected.n}`, row?.chapter, fill(D.pace, { time: spentLabel(selected.sec), pace: paceWords(pace) }), picks || D.none, res].filter(Boolean).join(' · ');
   })() : null;
   const away = view.awayCount ? (view.awayCount === 1 ? fill(S.awayOne, { time: spentLabel(view.awaySec) }) : fill(S.awayMany, { k: view.awayCount, time: spentLabel(view.awaySec) })) : '';
   const facts = (replay.facts || []).slice(1).join(' ');
@@ -211,7 +194,7 @@ export default function ReplaySlots({ replay, rows = [], paceSec = null, onJump,
         </div>
       )}
       <p className="rs-detail" aria-live="polite">
-        {detail ? <>{detail}{onJump ? <> <button type="button" className="rs-inline" onClick={() => onJump(selected.n)}>Open Q{selected.n}</button></> : null}</> : 'Select a question to see its time and picks.'}
+        {detail ? <>{detail}{onJump ? <> <button type="button" className="rs-inline" onClick={() => onJump(selected.n)}>{fill(S.detail.open, { n: selected.n })}</button></> : null}</> : S.detail.select}
       </p>
       <div className="rs-foot">
         <p className="rs-key">
@@ -222,6 +205,39 @@ export default function ReplaySlots({ replay, rows = [], paceSec = null, onJump,
           {collapsed ? fill(S.expand, { total }) : S.collapse}
         </button>
       </div>
+    </div>
+  );
+}
+
+// One read of the replay per paper, shared by every opened answer's strip.
+const VIEWS = new WeakMap();
+function viewOf(replay) {
+  if (!replay || typeof replay !== 'object') return null;
+  if (!VIEWS.has(replay)) VIEWS.set(replay, replayView(replay));
+  return VIEWS.get(replay);
+}
+
+/**
+ * QuestionStrip({ replay, number, paceSec }): the replay in miniature inside an opened answer's "Your time and picks" (P-RR3):
+ * the paper's own slots, one a question, with this question's slot lit and the rest quiet, so its time reads against the paper
+ * and the even pace. Nothing when there is no replay to draw (a cut paper, or a question with no time).
+ */
+export function QuestionStrip({ replay, number, paceSec = null }) {
+  const view = viewOf(replay);
+  if (!view || view.cut || !view.perQuestion.length) return null;
+  const total = view.perQuestion.length;
+  const own = view.perQuestion[number - 1];
+  if (!own) return null;
+  const pace = paceSec || (replay.durationSec && total ? replay.durationSec / total : null) || (view.recordSec / total) || 60;
+  return (
+    <div className="rs-mini" aria-hidden="true">
+      <div className="rs-mini__cols" style={{ gridTemplateColumns: `repeat(${total}, minmax(0, 1fr))` }}>
+        <span className="rs-mini__pace" />
+        {view.perQuestion.map((q) => (
+          <i key={q.n} data-v={q.result} data-own={q.n === number || undefined} style={{ '--f': Math.max(0.04, Math.min(SLOT_RULES.cap, q.sec / pace) / SLOT_RULES.cap) }} />
+        ))}
+      </div>
+      <div className="rs-mini__lab"><span>Q1</span><span>{fill(S.mini, { n: number, time: spentLabel(own.sec), pace: paceWords(pace) })}</span><span>Q{total}</span></div>
     </div>
   );
 }

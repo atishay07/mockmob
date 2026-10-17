@@ -18,7 +18,6 @@ import { useParams } from 'next/navigation';
 import { ErrorState } from '@/components/ui/Skeleton';
 import { apiGet, apiPost } from '@/lib/fetcher';
 import { LabLedger, LabTime, LabProof, RepairTotal, ledgerOf } from '@/components/ScoreRecoveryLab';
-import { QuestionStrip } from '@/components/result/Replay';
 import SwotPanel from '@/components/result/SwotPanel';
 import OthersAnswered, { OptionShare, shareTone } from '@/components/result/OthersAnswered';
 import TrapTag from '@/components/result/TrapTag';
@@ -51,7 +50,8 @@ import { useAuth } from '@/components/AuthProvider';
 import { useWalletSummary } from '@/components/useWalletSummary';
 import { bankCount, nextPaper, practiceSubjectId } from '@/lib/paperCopy.mjs';
 import AnalysisParts, { partFromUrl, writePart, scrollToPart } from '@/components/result/AnalysisParts';
-import { replayCutLine } from '@/components/result/ReplaySlots';
+import { QuestionStrip, replayCutLine } from '@/components/result/ReplaySlots';
+import { ReelEntry } from '@/components/result/PaperReel';
 import '@/components/result/result-parts.css';
 
 function displayValue(value, fallback = '') {
@@ -401,7 +401,7 @@ export default function ResultPageClient({ previewId = null }) {
         {timeRow?.lines.length ? (
           <div className="rp-td">
             <p className="rp-td__label">{TIME_COPY.rowLabel}</p>
-            {attempt.lab?.replay ? <QuestionStrip replay={attempt.lab.replay} number={number} /> : null}
+            {attempt.lab?.replay ? <QuestionStrip replay={attempt.lab.replay} number={number} paceSec={timeRead?.pace?.perQuestionMs ? timeRead.pace.perQuestionMs / 1000 : null} /> : null}
             {timeRow.lines.map((line, i) => <p key={i}>{line}</p>)}
           </div>
         ) : null}
@@ -639,6 +639,10 @@ export default function ResultPageClient({ previewId = null }) {
       <ResultHero receipt={receipt} marks={marks} finding={finding} reaction={reaction} holdStill={engaged || reading != null}
         notice={notice} onNotice={(n) => jumpTo(n)} arrive={arrive} strip={answerMap}
         next={<NextMove move={move} onAct={onAct} paperHref={next.href} arrive={arrive} flat lesson={move?.kind === 'practise' && move.rule === 2 ? lesson : null} />} />
+
+      {/* D29: the paper played back, about 20 s, from the record (sheet, real moments, costliest chapter, the one next move).
+           A quiet row under the front, never inside it. */}
+      <ReelEntry analysis={analysis} attempt={attempt} timeRead={timeRead} finding={finding} move={move} onAct={onAct} />
 
       {/* ---------- 2. Your full analysis (pass 1018, REVIEW-RESULT-1018 5.2 and 5.3): one index of six named parts, each
            saying what it found, exactly one open. Every R4 block lives in exactly one part, moved and not rewritten. ---------- */}

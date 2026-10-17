@@ -62,6 +62,8 @@ test('paper50: about 20 seconds, ending on the costliest chapter and then the on
   // The chapter's bubbles are the questions of that chapter that lost marks.
   assert.deepEqual(chapter.chapter.numbers, analysis50.rows.filter((r) => r.chapter === 'Share Capital' && r.verdict !== 'correct').map((r) => r.number));
   assert.deepEqual(script50.frames.at(-1).next, NEXT);
+  assert.equal(script50.frames.at(-1).caption.text, finding50.line, 'the end keeps the chapter sentence on screen');
+  assert.equal(reelScript({ rows: rows10, next: NEXT }).frames.at(-1).caption.text, 'Your next move', 'without a costliest chapter the end says what it is');
 });
 
 test('paper50: every pause is a real moment the record shows, at most three', () => {
