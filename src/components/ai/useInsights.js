@@ -3,12 +3,14 @@
 // UI can show loading, empty, ready or unavailable instead of zeros.
 import { useEffect, useState } from 'react';
 
-export function useInsights(userId) {
+// `attempt` re-reads the record when it changes (Ask Mobi's "Record not loaded, Retry").
+export function useInsights(userId, attempt = 0) {
   const [state, setState] = useState({ userId: null, status: 'loading', insights: null, findings: [] });
   useEffect(() => {
     if (!userId) return undefined;
     let alive = true;
     const timer = window.setTimeout(() => {
+      if (attempt) setState({ userId, status: 'loading', insights: null, findings: [] });
       fetch('/api/prepos/insights', { cache: 'no-store' })
         .then(async (res) => {
           const body = await res.json().catch(() => null);
@@ -19,7 +21,7 @@ export function useInsights(userId) {
         .catch(() => { if (alive) setState({ userId, status: 'unavailable', insights: null, findings: [] }); });
     }, 0);
     return () => { alive = false; window.clearTimeout(timer); };
-  }, [userId]);
+  }, [userId, attempt]);
   return state.userId === userId ? state : { userId, status: 'loading', insights: null, findings: [] };
 }
 
