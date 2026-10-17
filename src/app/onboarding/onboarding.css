@@ -257,6 +257,7 @@ html[data-theme='light'] .ob-dial::after { background: radial-gradient(closest-s
 .ob-bar__text b { color: var(--a-ink); font-weight: 700; }
 .ob-bar__sub { font-size: 13px; color: var(--a-ink-3); }
 .ob-count { display: inline-block; min-width: 1ch; }
+.ob-rule { margin: 8px 0 0; max-width: 50ch; font-size: 14px; line-height: 1.5; color: var(--a-ink-3, var(--a-ink-2)); text-wrap: pretty; }
 .ob-cap { font-size: 13px; color: var(--a-accent-text); }
 .ob-cap:empty { display: none; }
 

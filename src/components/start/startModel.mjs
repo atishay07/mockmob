@@ -15,10 +15,11 @@
 // Logic ported from wt-web-ia (src/lib/navigation.js startActions, src/components/shell/shellModel.mjs
 // sheetRows and morphFrom, data/next_step_rules.mjs practiceHref), rebased on the live plan API.
 import { TEST_MODES } from '../../../data/test_modes.js';
+import { CUET_MAX_SUBJECTS } from '../../lib/cuetRules.mjs';
 
 export const PRACTICE_HREF = '/dashboard';
 export const SUBJECT_KEY = 'mm:start-subject:v1';
-export const MAX_SUBJECTS = 6;
+export const MAX_SUBJECTS = CUET_MAX_SUBJECTS;
 
 // ---------------------------------------------------------------------------------------------
 // Subjects: the 15 public CUET subjects (data/cuet_controls.js order) and the app's lit objects.
@@ -82,7 +83,7 @@ export function subjectArt(id) {
   return s ? SUBJECT_ART[s.art] : null;
 }
 
-/** The student's subjects the sheet can offer, in their sheet order, deduplicated, at most 6. */
+/** The student's subjects the sheet can offer, in their sheet order, deduplicated, at most the CUET cap (5). */
 export function startSubjects(userSubjects = []) {
   const out = [];
   for (const raw of Array.isArray(userSubjects) ? userSubjects : []) {

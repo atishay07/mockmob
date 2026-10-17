@@ -43,7 +43,7 @@ test('subjects: aliases, unknown ids and order', () => {
   assert.equal(subjectArt('bst').name, 'business');
   assert.equal(subjectArt('hindi'), null);
   assert.deepEqual(startSubjects(['economics', 'gat', 'economics', 'hindi', { id: 'english' }]), ['economics', 'general_test', 'english']);
-  assert.equal(startSubjects(['english', 'economics', 'accountancy', 'business_studies', 'history', 'geography', 'physics']).length, 6);
+  assert.equal(startSubjects(['english', 'economics', 'accountancy', 'business_studies', 'history', 'geography', 'physics']).length, 5);
   assert.equal(pickSubject(['economics', 'english'], 'english'), 'english');
   assert.equal(pickSubject(['economics', 'english'], 'physics'), 'economics');
   assert.equal(pickSubject([], 'physics'), null);

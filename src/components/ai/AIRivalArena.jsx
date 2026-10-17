@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { RIVAL_PROFILES } from '@/services/ai-rival/rivalProfiles';
 import { useAuth } from '@/components/AuthProvider';
+import { CUET_MAX_SUBJECTS } from '@/lib/cuetRules.mjs';
 import { creditCount, usesLine } from '@/lib/creditCopy.mjs';
 import MobiReact from '@/components/brand/MobiReact';
 import { useMobiPrefs } from '@/lib/mobiPrefs';
@@ -73,7 +74,7 @@ export default function AIRivalArena() {
     const id = window.setTimeout(() => {
       if (rivalType && RIVAL_PROFILES[rivalType]) setSelectedRival(rivalType);
       if (subjects) {
-        setSelectedSubjects(subjects.split(',').map((entry) => entry.trim()).filter(Boolean).slice(0, 5));
+        setSelectedSubjects(subjects.split(',').map((entry) => entry.trim()).filter(Boolean).slice(0, CUET_MAX_SUBJECTS));
       }
     }, 0);
     return () => window.clearTimeout(id);
@@ -115,7 +116,7 @@ export default function AIRivalArena() {
   function toggleSubject(subject) {
     setSelectedSubjects((prev) => {
       if (prev.includes(subject)) return prev.filter((entry) => entry !== subject);
-      return [...prev, subject].slice(0, 5);
+      return [...prev, subject].slice(0, CUET_MAX_SUBJECTS);
     });
   }
 

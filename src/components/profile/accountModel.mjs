@@ -6,12 +6,13 @@
 // inside the live navigation without the restructure's navigation or glossary modules.
 //
 // Copy rules: sentence case, no "!", no em dash, no middle dots, 12-hour times.
+import { CUET_MAX_SUBJECTS } from '../../lib/cuetRules.mjs';
 import { WEEKDAY_NAMES, WEEKDAY_SHORT, parseWeekdays, weekdaysLine } from '../../lib/studyWeekdays.mjs';
 
 // ---------------------------------------------------------------------------------------------
 // Your sheet: subjects (drawn with the shared SubjectObject, src/components/brand/SubjectObject.jsx)
 
-export const SUBJECT_LIMIT = 5;
+export const SUBJECT_LIMIT = CUET_MAX_SUBJECTS;
 export const SUBJECTS_EDIT_HREF = '/onboarding?edit=true';
 export const EXAM_LABEL = 'CUET UG 2027';
 

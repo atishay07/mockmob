@@ -5,6 +5,7 @@ import { getUsageSnapshot, planTierFor, rivalTypeToQuotaAction } from '@/service
 import { consumeAIAllowance } from '@/services/credits/consumeAIAllowance';
 import { aiCommerceOpen, PREPOS_PAUSED_MESSAGE } from '@/services/credits/aiCreditWallet';
 import { withoutRetiredSubjects } from '@/../data/subject_claim';
+import { CUET_MAX_SUBJECTS } from '@/lib/cuetRules.mjs';
 
 /**
  * Creates a Shadow Benchmark battle. Question selection, benchmark scoring, and final
@@ -47,7 +48,7 @@ export async function createAIRivalBattle({
 
   // A paper CUET dropped in 2025 is never a battle subject.
   const normalizedSubjects = withoutRetiredSubjects(Array.isArray(subjects) && subjects.length
-    ? subjects.slice(0, 5)
+    ? subjects.slice(0, CUET_MAX_SUBJECTS)
     : (Array.isArray(user.subjects) && user.subjects.length ? user.subjects.slice(0, 1) : []));
 
   if (!normalizedSubjects.length) {

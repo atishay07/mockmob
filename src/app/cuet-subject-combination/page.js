@@ -20,7 +20,7 @@ export const metadata = seoMetadata({
 const faqs = [
   {
     question: 'How many subjects can I choose in CUET?',
-    answer: 'In the CUET UG 2026 cycle a candidate could choose up to five subjects, counting languages and the General Aptitude Test. The 2027 limit is provisional until NTA publishes its information bulletin, so the planner lets you test three, four or five.',
+    answer: 'Up to five. The CUET UG 2026 information bulletin says a candidate may choose up to a maximum of five subjects, including languages and the General Aptitude Test, and the 2025 bulletin said the same. NTA has not published the 2027 bulletin, and press reports say a lower limit of four is being discussed, so the planner lets you test three, four or five.',
   },
   {
     question: 'How does the planner choose the best combination?',
