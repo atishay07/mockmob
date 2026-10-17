@@ -196,8 +196,8 @@ html[data-motion='reduced'] .amb :is(.amb-rise, .amb-asks li, .amb-num), html[da
 }
 
 /* The shell gives every control a 44 px floor; inside the chips and the field the 44 px target is the chip and the field. */
-.amb .amb-chip { min-height: 40px; }
-.amb .amb-chip > button { min-height: 0; min-width: 0; width: 32px; height: 32px; }
+.amb .amb-chip { min-height: 44px; }
+.amb .amb-chip > button { min-height: 0; min-width: 0; width: 44px; height: 44px; margin: 0 -4px 0 -10px; }
 .amb .amb-field textarea { min-height: 32px; height: 32px; }
 
 /* The docked form narrows the page by the panel's width (the page's own media queries still read the whole window), so the

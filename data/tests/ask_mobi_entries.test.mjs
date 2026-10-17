@@ -232,3 +232,13 @@ test('/mentor is "Your record" with no tabs, the old four-tab hub is gone, and t
   for (const gone of ['src/components/ai/MockMobAIHub.jsx', 'src/components/ai/AIMentorTerminal.jsx']) assert.equal(existsSync(new URL(`../../${gone}`, import.meta.url)), false, gone);
   assert.match(read('src/app/(app)/AppLayoutClient.jsx'), /<Link href="\/pricing\/ai-credits" className="arena-chip arena-chip--prepos"/, 'the top bar balance opens the AI credits page');
 });
+
+test('touch targets in the panel are 44 px: close, chips and their x, the ask rows, the send key; the handle cannot start a text selection', () => {
+  const css = read('src/components/ai/ask-mobi.css');
+  assert.match(css, /\.amb-icon \{[^}]*width: 44px; height: 44px;/);
+  assert.match(css, /\.amb \.amb-chip \{ min-height: 44px; \}/);
+  assert.match(css, /\.amb \.amb-chip > button \{[^}]*width: 44px; height: 44px;/);
+  assert.match(css, /\.amb-ask \{[^}]*min-height: 56px;/);
+  assert.match(css, /\.amb-send \{[^}]*min-height: 44px;/);
+  assert.match(css, /\.amb-grab \{[^}]*user-select: none;/, 'a second drag on the sheet must not be cancelled by a selection the first one made');
+});
