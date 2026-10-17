@@ -220,10 +220,15 @@ test('starting a Mob and making an extra paper count only when they succeed', as
   const extra = limiter();
   await handleMob(extra.deps(fails('BANK_THIN')), 'extra', req('POST', { count: 10 }));
   assert.deepEqual(extra.given, ['/api/mob:extra']);
-  // A later limit refusing the request gives the earlier success-only count back: nothing happened.
+  // 18 Oct: create takes write first (it counts every try, so the plan gate before create is counted). A refused write
+  // never reaches the create limit, so there is nothing to give back.
   const writes = limiter({ allow: (r) => r !== '/api/mob:write' });
   assert.equal((await handleMob(writes.deps({ create: async () => ({ mob: null }) }), 'create', req('POST', {}))).status, 429);
-  assert.deepEqual(writes.given, ['/api/mob:create']);
+  assert.deepEqual(writes.given, []);
+  // A later limit refusing the request gives the earlier success-only count back: nothing happened (extra: extra, then write).
+  const extraWrites = limiter({ allow: (r) => r !== '/api/mob:write' });
+  assert.equal((await handleMob(extraWrites.deps({ createExtra: async () => ({}) }), 'extra', req('POST', { count: 10 }))).status, 429);
+  assert.deepEqual(extraWrites.given, ['/api/mob:extra']);
   // Three typos in a row never reach the weekly cap: the fourth real start still goes through.
   const counts = new Map();
   const real = {
