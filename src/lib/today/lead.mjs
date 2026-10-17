@@ -85,7 +85,8 @@ export function choiceOf(move, now = Date.now()) {
 /** Any move, ready for the lead card: its title, kind, stake and choice line. */
 export function leadOf(move, { now = Date.now() } = {}) {
   if (!move || move.id === 'failed') return move;
-  const titled = { ...move, title: leadTitle(move, now), kind: kindOf(move) };
+  // Revise brings back every subject's mistakes, so it names no one subject and shows no subject object.
+  const titled = { ...move, ...(move.id === 'revise' ? { subject: null, art: 'glyph' } : {}), title: leadTitle(move, now), kind: kindOf(move) };
   return { ...titled, stake: stakeOf(titled), choice: choiceOf(titled, now) };
 }
 

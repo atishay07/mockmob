@@ -1,11 +1,17 @@
 "use client";
-// Today (TODAY-1017, owner sign-off 17 Oct: Q1 to Q4 yes; the road reworked by TODAY-NIGHT-1017 after his N1 review).
-// One question at a glance, "what do I do now, and why": one Up next move with a one-line reason and one volt key, then
-// Road to May as one plain readout (weeks left, this week, full mocks, the next milestone, one Change plan sheet) and
-// two rows (Last paper, Your colleges). Every other block has a home one tap away (section 7): the record findings and the
-// paper trend are on Review, the Compass count and the colleges ladder on Compass and Account, the week ring and the
-// Mob on Progress and /mob, Add to home screen on Account. Nothing was deleted.
-// The first week is the move itself (move.mjs), never a checklist. Mobi: at most one on screen, at a real moment.
+// Today, pass 1018 (docs/design-decisions/pass-1018/TODAY-1018.md; the owner's yes, 18 Oct 3:30 am, with D25 to D27).
+// The R3 Today's information and structure, refined and made to lead (D1 to D3); nothing R3 showed is lost.
+// Top to bottom on a phone:
+//   1. greeting and date
+//   2. Up next: the recommended move with its reason, its stake and its minutes, and two other moves on the same card;
+//      a tap swaps the lead live (the pick is kept for the day in this tab, never written to the server)
+//   3. This week: tappable days with a readout of what was done and what is planned
+//   4. Road to CUET in three layers: due today, due this week, the overall goal (D26); Change plan is a guided sentence
+//   5. Weak chapters, each opening to its own mistakes
+//   6. Last paper with its bar and biggest leak
+//   7. Repairs and Revise
+//   8. Your colleges and Compass
+// On a wide screen the doing (2, 5, 6) sits left and the glance (3, 4, 7, 8) right. The page lands in one piece (W-042).
 import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import { useAuth } from '@/components/AuthProvider';
 import { useInsights } from '@/components/ai/useInsights';
@@ -14,13 +20,18 @@ import { useMobEnabled } from '@/components/mob/MobFlag';
 import { api } from '@/lib/fetcher';
 import { getSubjectById } from '@/../data/subjects';
 import { alternatives as buildAlternatives, buildMove, clock, fitMove } from '@/lib/today/move.mjs';
+import { choiceMoves, leadOf, pickChoices, pickKey, refit } from '@/lib/today/lead.mjs';
 import { firstTimedMockHref } from '@/../data/first_timed_mock';
 import { greeting } from '@/lib/today/greeting.mjs';
+import { todayKeyIn } from '@/lib/today/week.mjs';
 import { useToday } from '@/components/today/useToday';
 import TodayMove from '@/components/today/TodayMove';
 import TodayWeek from '@/components/today/TodayWeek';
 import TodayRoad from '@/components/today/TodayRoad';
-import TodayRows from '@/components/today/TodayRows';
+import TodayWeak from '@/components/today/TodayWeak';
+import TodayPaper from '@/components/today/TodayPaper';
+import TodayQueue from '@/components/today/TodayQueue';
+import TodayColleges from '@/components/today/TodayColleges';
 import TodayCue from '@/components/today/TodayCue';
 import TodayMob from '@/components/today/TodayMob';
 import '@/components/today/today.css';
@@ -32,6 +43,19 @@ const dayLine = () => { const d = new Date(); return `${DAYS[d.getDay()]}, ${d.g
 const hourNow = () => new Date().getHours();
 const subjectName = (id) => getSubjectById(id)?.name || (id ? id.replace(/_/g, ' ').replace(/^\w/, (c) => c.toUpperCase()) : '');
 const LENGTH_KEY = 'mm:today-length:v1';
+const LENGTHS = [10, 20, 30];
+const reducedMotion = () => { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.motion === 'reduced'; } catch { return false; } };
+const readPick = (key) => { try { return window.sessionStorage.getItem(key) || null; } catch { return null; } };
+const keepPick = (key, id) => { try { if (id) window.sessionStorage.setItem(key, id); else window.sessionStorage.removeItem(key); } catch { /* this visit only */ } };
+
+/** What each length does to a move ("10 min, 3 mistakes"), or null when a length changes nothing. */
+function lengthsFor(move) {
+  if (!move || !move.key?.minutes) return null;
+  const fits = LENGTHS.map((n) => ({ n, f: fitMove(move, n) }));
+  if (new Set(fits.map(({ f }) => `${f?.number}|${f?.key?.minutes}`)).size < 2) return null;
+  const unit = (f) => (['repair', 'firstRepair', 'returning'].includes(move.id) && move.open > 0 ? `${f.number} ${f.number === 1 ? 'mistake' : 'mistakes'}` : move.id === 'revise' ? `${f.number} questions` : `${f.number} questions${f.review ? ' and a review' : ''}`);
+  return fits.map(({ n, f }) => ({ n, line: unit(f) }));
+}
 
 export default function Today() {
   const { user } = useAuth();
@@ -66,7 +90,7 @@ export default function Today() {
   const [saving, setSaving] = useState('');
   useEffect(() => {
     const t = window.setTimeout(() => {
-      try { const v = Number(window.localStorage.getItem(LENGTH_KEY)); if ([10, 20, 30].includes(v)) setChosen(v); } catch { /* none kept */ }
+      try { const v = Number(window.localStorage.getItem(LENGTH_KEY)); if (LENGTHS.includes(v)) setChosen(v); } catch { /* none kept */ }
     }, 0);
     return () => window.clearTimeout(t);
   }, []);
@@ -88,59 +112,107 @@ export default function Today() {
 
   const top = insights.status === 'ready' ? insights.insights?.chapters?.ranked?.[0] || null : null;
   const facts = data.facts.status === 'ready' ? data.facts.data : null;
+  const papersData = data.papers.status === 'ready' ? data.papers.data : null;
+  const reviseData = data.revise.status === 'ready' ? data.revise.data : null;
+  const repairedData = data.repaired.status === 'ready' ? data.repaired.data : null;
   const base = useMemo(() => buildMove({
     plan: data.plan.data,
     planFailed: data.plan.status === 'error',
-    papers: data.papers.status === 'ready' ? data.papers.data : null,
+    papers: papersData,
     rhythm: data.rhythm.data,
-    revise: data.revise.status === 'ready' ? data.revise.data : null,
+    revise: reviseData,
     facts,
-    repaired: data.repaired.status === 'ready' ? data.repaired.data : null,
+    repaired: repairedData,
     top,
     subjectName,
     firstSubject: Array.isArray(user?.subjects) ? user.subjects[0] || null : null,
     premium: Boolean(user?.isPremium),
     minutes: chosen,
-  }), [data.plan.data, data.plan.status, data.papers.status, data.papers.data, data.rhythm.data, data.revise.status, data.revise.data, facts, data.repaired.status, data.repaired.data, top, user?.subjects, user?.isPremium, chosen]);
-  const move = useMemo(() => {
-    if (!base || base.id === 'failed') return base;
-    const fitted = chosen ? fitMove(base, chosen) : base;
-    return { ...fitted, base, subjectName: fitted.subject ? subjectName(fitted.subject) : '', mockHref: firstTimedMockHref(facts?.subject || fitted.subject || null) };
-  }, [base, chosen, facts]);
+  }), [data.plan.data, data.plan.status, papersData, data.rhythm.data, reviseData, facts, repairedData, top, user?.subjects, user?.isPremium, chosen]);
+  const finish = useCallback((m) => {
+    if (!m || m.id === 'failed') return m;
+    const fitted = refit(chosen ? fitMove(m, chosen) : m);
+    return { ...fitted, base: m, subjectName: fitted.subject ? subjectName(fitted.subject) : '', mockHref: firstTimedMockHref(facts?.subject || fitted.subject || null) };
+  }, [chosen, facts]);
+  const rec = useMemo(() => (base && base.id !== 'failed' ? finish(leadOf(base)) : base), [base, finish]);
+  // The other moves, each a whole move (Repair, Revise, the weakest chapter, a full mock, another subject).
+  const subjects = user?.subjects;
+  const pool = useMemo(() => (rec && rec.id !== 'failed' ? choiceMoves({
+    papers: papersData, revise: reviseData, facts, repaired: repairedData, top, subjectName,
+    subjects: Array.isArray(subjects) ? subjects : [], firstSubject: Array.isArray(subjects) ? subjects[0] || null : null, length: chosen || 10,
+  }).map(finish) : []), [rec, papersData, reviseData, facts, repairedData, top, subjects, chosen, finish]);
+
+  // The student's pick for today: kept in this tab for the day (a back navigation keeps it), written nowhere else.
+  const tz = data.rhythm.data?.timeZone || 'Asia/Kolkata';
+  const storeKey = useMemo(() => pickKey(todayKeyIn(tz)), [tz]);
+  const [pickId, setPickId] = useState(null);
+  const [out, setOut] = useState(false);
+  useEffect(() => {
+    const t = window.setTimeout(() => setPickId(readPick(storeKey)), 0);
+    return () => window.clearTimeout(t);
+  }, [storeKey]);
+  const picked = rec && rec.id !== 'failed' && pickId && pickId !== rec.id ? pool.find((m) => m.id === pickId) || null : null;
+  const lead = picked || rec;
+  const choices = useMemo(() => {
+    if (!lead || lead.id === 'failed') return [];
+    return pickChoices(lead, picked ? [{ ...rec, suggested: true }, ...pool] : pool);
+  }, [lead, picked, rec, pool]);
+  const onPick = useCallback((id) => {
+    const next = rec && id === rec.id ? null : id;
+    const put = () => { setPickId(next); keepPick(storeKey, next); setOut(false); };
+    if (reducedMotion()) { put(); return; }
+    setOut(true);
+    window.setTimeout(put, 150);
+  }, [rec, storeKey]);
+
   // Failed only once every read the move needs has settled without one; while any is still on its way it is loading.
   const settled = [data.plan, data.papers, data.rhythm, data.facts].every((r) => r.status !== 'loading');
-  const phase = move && move.id !== 'failed' ? 'ready' : move?.id === 'failed' || settled ? 'failed' : 'loading';
-  // The week, the road, the Mob row and the record rows land with the move, and wait for the Mob read when the Mob is on, so no
-  // section arrives late and pushes the road down (W-042).
+  const phase = rec && rec.id !== 'failed' ? 'ready' : rec?.id === 'failed' || settled ? 'failed' : 'loading';
+  // The week, the road, the Mob row and the record rows land with the move, and wait for the Mob read when the Mob is on,
+  // so no section arrives late and pushes another down (W-042).
   const landing = phase === 'loading' || (mobOn && userId && (mob.status === 'idle' || mob.status === 'loading'));
   const mobUnsat = mob.status === 'ready' && mob.mob?.week && !mob.mob.week.youSat && !mob.mob.week.closed && mob.mob.week.size > 1;
-  const alts = useMemo(() => (move && move.id !== 'failed' ? buildAlternatives({
-    move, papers: data.papers.data, revise: data.revise.data, facts, repaired: data.repaired.data, mobUnsat, subjectName,
-  }) : []), [move, data.papers.data, data.revise.data, facts, data.repaired.data, mobUnsat]);
+  const alts = useMemo(() => (lead && lead.id !== 'failed' ? buildAlternatives({
+    move: lead, papers: papersData, revise: reviseData, facts, repaired: repairedData, mobUnsat, subjectName,
+  }) : []), [lead, papersData, reviseData, facts, repairedData, mobUnsat]);
 
   const away = data.rhythm.data?.daysSinceLastActivity;
   const hello = greeting({ hour, name: user?.name, email: user?.email, returning: Number.isInteger(away) && away >= 7 });
   const everSessions = facts && Number.isInteger(facts.sessions) ? facts.sessions : data.rhythm.data?.counts?.sessions ?? null;
+  const dayOne = everSessions === 0;
+  const word = hour >= 17 || hour < 4 ? 'Tonight’s move' : 'Today’s move';
 
   return (
     <div className="student-page student-page--today">
       <section className="pr ov today">
         <header className="today__head">
-          <p className="today__date">{day ? <time>{day}</time> : ' '}</p>
+          <p className="today__date">{day ? <time>{day}</time> : ' '}</p>
           <h1 className="today__hello">{hello}</h1>
         </header>
         <div className="today-grid">
           <div className="today-grid__main">
-            <TodayMove phase={phase} move={move} word={hour >= 17 || hour < 4 ? 'Tonight’s move' : 'Today’s move'} slow={slow} triedAt={triedAt} onRetry={retry} alternatives={alts} chosen={chosen} onChoose={choose} saving={saving} />
-            {phase !== 'failed' ? <TodayCue target="road" ready={phase === 'ready'} /> : null}
-            <TodayRows papers={data.papers} userId={userId} subjectName={subjectName} subjects={user?.subjects || []} hold={landing} />
+            <TodayMove
+              phase={phase} lead={lead} choices={choices} picked={Boolean(picked)} out={out} onPick={onPick}
+              lengths={lengthsFor(lead?.base || lead)} chosen={chosen} onChoose={choose} saving={saving}
+              alternatives={alts} word={word} slow={slow} triedAt={triedAt} onRetry={retry}
+            />
+            {phase !== 'failed' ? <TodayCue target="week" ready={phase === 'ready'} /> : null}
+            <TodayWeak insights={insights} loadAttempt={data.loadAttempt} repairRows={data.repairRows} subjectName={subjectName} hold={landing} />
+            {dayOne ? null : <TodayPaper papers={data.papers} loadAttempt={data.loadAttempt} subjectName={subjectName} hold={landing} />}
           </div>
           <div className="today-grid__side">
-            <TodayRoad
-              hold={landing} road={data.road} goal={data.goal} rhythm={data.rhythm} facts={data.facts} onGoalSaved={data.retryWeek}
-              week={<TodayWeek hold={landing} rhythm={data.rhythm} goal={data.goal} everSessions={everSessions} mobiFree={!(move?.art === 'mobi') && phase !== 'failed'} mob={mob} repairs={data.repairRows} onRetry={data.retryWeek} />}
+            <TodayWeek
+              hold={landing} rhythm={data.rhythm} goal={data.goal} everSessions={everSessions}
+              mobiFree={!(lead?.art === 'mobi') && phase !== 'failed'} mob={mob} repairs={data.repairRows} papers={data.papers}
+              lead={phase === 'ready' ? lead : null} failed={phase === 'failed'} subjectName={subjectName} onRetry={data.retryWeek}
             />
             <TodayMob enabled={mobOn && !landing} mob={mob} />
+            <TodayRoad
+              hold={landing} road={data.road} goal={data.goal} rhythm={data.rhythm} facts={data.facts} revise={data.revise} papers={data.papers}
+              lead={phase === 'ready' ? lead : null} onGoalSaved={data.retryWeek}
+            />
+            <TodayQueue papers={data.papers} repaired={data.repaired} repairRows={data.repairRows} revise={data.revise} dayOne={dayOne} hold={landing} />
+            <TodayColleges userId={userId} subjects={user?.subjects || []} hold={landing} />
           </div>
         </div>
       </section>

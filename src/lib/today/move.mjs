@@ -270,10 +270,10 @@ export function fitMove(move, chosen) {
     const n = Math.min(move.due, chosen);
     return { ...move, number: n, label: n === 1 ? 'mistake comes back today' : 'mistakes come back today', key: { ...move.key, minutes: Math.max(5, Math.ceil(n / 5) * 5) } };
   }
-  if (['practice', 'dayOne'].includes(move.id) || (move.id === 'returning' && !move.open)) {
+  if (['practice', 'dayOne', 'weakest'].includes(move.id) || (move.id === 'returning' && !move.open)) {
     const count = chosen === 10 ? 10 : 20;
     const href = move.key.href.replace(/([?&])count=\d+/, `$1count=${count}`);
-    return { ...move, number: count, key: { ...move.key, href, minutes: chosen, label: move.id === 'dayOne' ? move.key.label : `Start ${count} questions` }, review: chosen === 30 ? 10 : 0 };
+    return { ...move, number: count, key: { ...move.key, href, minutes: chosen, label: ['dayOne', 'weakest'].includes(move.id) ? move.key.label : `Start ${count} questions` }, review: chosen === 30 ? 10 : 0 };
   }
   return move;
 }

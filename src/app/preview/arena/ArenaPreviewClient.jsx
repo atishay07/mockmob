@@ -13,7 +13,7 @@ import { CURRENT_OFFER } from '@/../data/capabilities';
 import creditsContract from '@/../data/tests/fixtures/credits/contract_credits_v1.json';
 import { learningPlan, createEpisode, advanceEpisode, publicEpisode } from '@/../data/learning_engine';
 import { studyMilestones, tonightMetadata, tonightCompletion } from '@/../data/study_progress';
-import { previewAnalytics, previewCompass, previewInsights } from './previewRecord';
+import { previewAnalytics, previewCompass, previewInsights, previewRecordAttempt } from './previewRecord';
 import { computeRhythm } from '@/lib/server/rhythm';
 import { standingFor } from '@/lib/server/standing';
 import { previewStudyRecord } from './previewStudy';
@@ -228,6 +228,9 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     }
     if (url.pathname.startsWith('/api/attempts/')) {
       if (state === 'empty') return json({ error: 'No fixture attempt' }, 404);
+      // Today's weak chapters open the record's own papers (p1, p2, p3) for their stems (previewRecord.js).
+      const recordPaper = previewRecordAttempt(decodeURIComponent(url.pathname.split('/').pop()));
+      if (recordPaper) return json(recordPaper);
       // ?mock=full|nta serves a scored mock with the real SWOT, record lines and Mistake Lab (previewMock.js); ?checks=unavailable
       // leaves the answer-key check unread so the panels show their pending state; ?lab=basic|off shows the basic ledger or the
       // page without the Lab. Without ?mock the paper is the 10-question quick practice.
