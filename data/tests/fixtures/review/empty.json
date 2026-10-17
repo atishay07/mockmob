@@ -1,0 +1,30 @@
+{
+  "about": "A new account with no paper: the lamp-lit room, an example row, \"Start 10 questions\".",
+  "state": "empty",
+  "now": "2026-10-17T21:41:00+05:30",
+  "wallet": {
+    "aiCredits": 10,
+    "aiRenews": "2026-11-01",
+    "practiceCredits": 140,
+    "isPremium": false
+  },
+  "papers": [],
+  "chapters": [],
+  "items": [],
+  "revise": {
+    "rotation": 0,
+    "boxes": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "cap": 10,
+    "dueToday": {
+      "questions": 0,
+      "again": 0,
+      "checks": 0,
+      "cards": 0
+    }
+  }
+}

@@ -1,3 +1,11 @@
+## 17 October 2026 - Learn and Review P-LR0 (shared input, fixture, storage) on web/learn-review-1017 (from deploy/web-1017 f725a422; local, not pushed, not deployed)
+
+- Built: data/review_input.mjs (Review's input to the one shared nextMove(), plus chapterRows, receipt, reviseDue, reviewBody), the design student and variants in data/tests/fixtures/review/ (student.json is the unchanged copy; scripts/gen_review_fixtures.mjs writes the variants and expected.json), GET /api/me/review (read-only, src/lib/server/review.js), data/study/lesson_map.mjs, migration 20261017160000_revise_cards_mode.sql with its undo.
+- Staging only (onwkqxmjqjrhfbjjdydu): dry run rolled back clean, then applied; revise_cards 105 rows all 'question'. Production NOT migrated; the code feature-detects the column.
+- Tests added to test:recovery: review_input, next_move_parity, review_api, lesson_map. Recovery 461 pass, 3 todo (below), 0 fail; today 28, egress 29, app 498 pass; lint clean. test:study has one failure that is not from this change (wordnet LICENSE_UNAVAILABLE in study_content.test.mjs).
+- KNOWN GAPS (recorded as todo tests in next_move_parity.test.mjs, not faked): Today's repair key is a batch ("Start repair", the paper's result page, count of the newest paper), not "Repair Q42"; so Today cannot name Review's first target until the TODAY owner changes its wording (LEARN-REVIEW-1017 12 flag 2). Kind and the paper the key opens do agree.
+- Other limits: the API has no cohort repair order, so its first repair is the lowest open number in the newest paper (Q38 in the design student, not the fixture's Q42) until a repairOrder is sent; Review prices open items while the result page prices all of a paper's wrong answers (same on one paper without repairs); the Revise minutes use data/revise.js minutesFor (8 due = about 10 minutes), the design mock says 7; the Review-again answer endpoint and the merged due list belong to P-LR2.
+
 ## 17 October 2026 - deploy/web-1017: wave 4 merged and the critic's defects fixed (local, not pushed, not deployed; nothing applied to any database)
 
 - Merged content/wave4-1017 (the wave 4 rows in data/nta_agent_scores and data/nta_fit_scores, so the 200 live questions become NTA-eligible on deploy).
