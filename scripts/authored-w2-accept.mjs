@@ -12,6 +12,11 @@
 //   assembled candidates file (--candidates) and the manifest, the candidates carry that file's _verdict (haiku_blind_verified / opus_audited),
 //   wave 2's final candidates join the duplicate screen. Wave 3 has no expert pass, no fresh pass and no final mode. The default is --wave=w2: nothing changes there.
 //
+// --wave=w4 (17 Oct 2026, claude-authored-2026-10-17-w4: general_test, physics, chemistry, mathematics, biology; batches <subject>__w4b<n> under tmp/authored-w4s) is the
+//   same acceptance rule and engine check again (accept and check modes only; wave 4 has no expert pass, no fresh pass and no final mode). Files: wave4-acceptance-,
+//   wave4-candidates-scored-, wave4-score-entries-, wave4-engine-check-<label>-. The duplicate screen also reads wave 2's final and wave 3's final candidates.
+//   Wave 4 holds case sets (biology, chemistry, general_test); the engine check gives them the group ids the publisher writes (groupIdOfCandidate).
+//
 // final   (14 Oct, after the expert pass, the rewords and the spot-check) the same acceptance, now also reading
 //           --expert=<dir>        expert verdicts (docs/brain/reports/authored-w2/expert/*.json, { verdicts: [{ id, verdict, why, repair }] })
 //           --asjudged=<file>     the candidates as the first acceptance judged them (wave2-candidates-asjudged-...json), so a repair after judging is recorded
@@ -52,6 +57,7 @@ const SKIP_DIRS = new Set(['reword', 'expert', 'resolve', 'exemplars', 'prompts'
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 export const W2_SOURCE = 'claude-authored-2026-10-14-w2';
 export const W3_SOURCE = 'claude-authored-2026-10-17-w3';
+export const W4_SOURCE = 'claude-authored-2026-10-17-w4';
 const SOLVERS = ['s1', 's2', 's3', 's4', 's5'];
 const QUALITY = ['j1', 'j2'];
 const FIT = ['h1', 'h2', 'h3'];
@@ -79,6 +85,9 @@ export const WAVE_CONFIGS = {
     spotcheck: 'docs/brain/reports/authored-w2/wave2-spotcheck-2026-10-14.md', engineReasons: 'docs/brain/reports/authored-w2/wave2-engine-check-working-r5.2-2026-10-14.json',
     sourceCandidates: null, manifest: null,
     resolvePrefix: 'rv-w2', finalInputs: null, carryBlindAnswers: false,
+    batchLabel: '<subject>__w3b<n>',
+    acceptNote: 'Wave-1 acceptance rule applied to the wave-2 raw files. Questions whose solver or judge records are missing or malformed are not accepted; no result was invented. No expert pass has been run on wave 2 (candidates carry _verdict: null).',
+    entriesNote: 'One record per question the rule accepted (the acceptance rule and the duplicate screen, before the hand decisions and the expert gate), in the wave-1 entries format. Built by scripts/authored-w2-accept.mjs; --mode=final narrows it to the publication set (wave2-score-entries-final-). The first-pass pair, before the expert repairs and the rewords, is kept as wave2-candidates-asjudged- and wave2-score-entries-asjudged-.',
   },
   w3: {
     id: 'w3', wave: 3, source: W3_SOURCE, label: 'wave3', kind: 'authored_w3', modelNote: 'the model of the subagents that produced the raw files is not recorded in them',
@@ -97,6 +106,29 @@ export const WAVE_CONFIGS = {
     finalInputs: { expert: 'docs/brain/reports/authored-w3/expert', resolve: 'tmp/authored-w3s/resolve', fresh: ['tmp/authored-w3s/reword'] },
     // The owner's publish rule of 17 Oct 2026: the mean of the two quality judges and the fit median are both 8 or more; 7 to 7.9 is held.
     publishRule: { qualityMeanAtLeast: 8, fitMedianAtLeast: 8 },
+    batchLabel: '<subject>__w3b<n>',
+    acceptNote: 'Wave-1 acceptance rule applied to the wave-3 raw files (general_test, physics, chemistry; Hindi was not laid out). Questions whose solver or judge records are missing or malformed are not accepted; no result was invented. The candidates carry the authoring verdict of the assembled candidates file (haiku_blind_verified or opus_audited), not an expert verdict.',
+    entriesNote: 'One record per question the wave-3 rule accepted (the acceptance rule and the duplicate screen, no expert gate: the questions were verified by blind solvers, a few also audited), in the wave-1 entries format. Built by scripts/authored-w2-accept.mjs --wave=w3 from the raw files under tmp/authored-w3s (untracked scratch; the batch text is also in the commit that laid it out). Tables are built from it by scripts/authored-scores-merge.mjs later; nothing here is written into data/.',
+  },
+  // Wave 4 (17 Oct 2026): accept and check modes only. The same rule, the same engine check; the authoring verdict of every candidate is claude_audited.
+  w4: {
+    id: 'w4', wave: 4, source: W4_SOURCE, label: 'wave4', kind: 'authored_w4', modelNote: 'the model of the subagents that produced the raw files is not recorded in them',
+    models: { quality: 'claude-subagent-unrecorded', fit: 'claude-subagent-unrecorded', solver: 'claude-subagent-unrecorded' }, finalMode: false,
+    raw: 'tmp/authored-w4s', out: 'docs/brain/reports/authored-w4', date: '2026-10-17',
+    files: (date) => ({ acceptance: `wave4-acceptance-${date}.json`, candidates: `wave4-candidates-scored-${date}.json`, entries: `wave4-score-entries-${date}.json` }),
+    engineFile: (label, date) => `wave4-engine-check-${label}-${date}.json`,
+    blindFields: ['stem', 'options', 'passage_text', 'type', 'subject'], // the blind file carries no chapter by design (as in wave 3)
+    batchRe: /^(biology|chemistry|general_test|mathematics|physics)__w4b\d+$/,
+    priorFiles: [
+      { from: 'wave2', file: 'docs/brain/reports/authored-w2/wave2-candidates-final-2026-10-14.json' },
+      { from: 'wave3', file: 'docs/brain/reports/authored-w3/wave3-candidates-final-2026-10-17.json' },
+    ],
+    expert: null, asjudged: null, fresh: [], resolve: null, decisions: null, spotcheck: null, engineReasons: null,
+    sourceCandidates: 'docs/brain/reports/authored-w4/wave4-candidates-2026-10-17.json', manifest: 'tmp/authored-w4s/manifest.json',
+    resolvePrefix: 'rv-w4', carryBlindAnswers: false, finalInputs: null,
+    batchLabel: '<subject>__w4b<n>',
+    acceptNote: 'Wave-1 acceptance rule applied to the wave-4 raw files (general_test, physics, chemistry, mathematics, biology; Hindi stays out; the unaudited physics draft w4-phys-01 was not laid out). Questions whose solver or judge records are missing or malformed are not accepted; no result was invented. The candidates carry the authoring verdict of the assembled candidates file (claude_audited), not an expert verdict.',
+    entriesNote: 'One record per question the wave-4 rule accepted (the acceptance rule and the duplicate screen, no expert gate: every question was authored by Claude, solved blind and audited by a second Claude pass), in the wave-1 entries format. Built by scripts/authored-w2-accept.mjs --wave=w4 from the raw files under tmp/authored-w4s (the role files are committed with git add -f). Tables are built from it by scripts/authored-scores-merge.mjs later; nothing here is written into data/.',
   },
 };
 const FILES = (date, cfg = WAVE_CONFIGS.w2) => ({
@@ -109,7 +141,7 @@ const FILES = (date, cfg = WAVE_CONFIGS.w2) => ({
 export function parseArgs(argv) {
   const waveArg = argv.map((arg) => arg.match(/^--wave=(.*)$/)).find(Boolean)?.[1] || 'w2';
   const cfg = WAVE_CONFIGS[waveArg];
-  if (!cfg) throw new Error(`unknown --wave=${waveArg} (w2 or w3)`);
+  if (!cfg) throw new Error(`unknown --wave=${waveArg} (w2, w3 or w4)`);
   const out = {
     wave: cfg.id, cfg, mode: 'accept', raw: cfg.raw, out: cfg.out, root: path.resolve(HERE, '..'), date: cfg.date, label: 'working',
     wave1Final: 'docs/brain/reports/authored/wave1-candidates-final-2026-10-14.json',
@@ -246,7 +278,7 @@ function discover(rawDir, cfg = WAVE_CONFIGS.w2) {
       if (!m || !names.includes(m[1])) unexpected.push({ file: rel(path.join(verifyDir, name)), problem: m ? 'result file of a batch that has no batch file' : 'name is not <batch>__<role>.json' });
     }
     for (const batch of names) {
-      if (cfg.batchRe && !cfg.batchRe.test(batch)) { unexpected.push({ file: rel(path.join(dir, `${batch}.json`)), problem: 'batch name is not <subject>__w3b<n>; not scored' }); continue; }
+      if (cfg.batchRe && !cfg.batchRe.test(batch)) { unexpected.push({ file: rel(path.join(dir, `${batch}.json`)), problem: `batch name is not ${cfg.batchLabel}; not scored` }); continue; }
       batches.push({ subject, batch, dir, verifyDir });
     }
   }
@@ -687,7 +719,7 @@ function sourceCheck(src, batches, files, args, rows) {
       const check = { text: path.join(spec.dir, `${entry.batch}.json`), blind: path.join(spec.dir, `${entry.batch}-blind.json`), aids: path.join(spec.dir, `${entry.batch}-fitaids.json`) };
       for (const [kind, file] of Object.entries(check)) {
         if (!fs.existsSync(file)) { out.problems.push(`${rel(file)} is missing`); continue; }
-        if (sha256(fs.readFileSync(file)) !== entry.sha256?.[kind]) out.problems.push(`${rel(file)} differs from the manifest's sha256`);
+        if (![sha256(fs.readFileSync(file)), sha256Text(file)].includes(entry.sha256?.[kind])) out.problems.push(`${rel(file)} differs from the manifest's sha256`);
       }
       const onDisk = tryJson(check.text).value?.questions?.map((q) => q.id) || [];
       if (onDisk.join('|') !== (entry.ids || []).join('|')) out.problems.push(`${entry.batch}: the ids in the batch file are not the manifest's ids in the manifest's order`);
@@ -820,7 +852,7 @@ export async function runAccept(args, { write = true } = {}) {
       const completes = q.set_id ? wave1Sets.get(q.set_id) : null;
       candidates.push({
         id: q.id, subject: q.subject, unit: q.unit ?? null, chapter: q.chapter, type: q.type, stem: q.stem, options: q.options, correct_key: q.correct_key, explanation: q.explanation,
-        passage_text: q.passage_text ?? null, set_id: q.set_id ?? null, difficulty_label: q.difficulty_label, ncert_ref: q.ncert_ref ?? null, source: q.source, _verdict: cfg.id === 'w3' ? (sourceCandidates?.byId.get(q.id)?.verdict ?? null) : (extras.ctx.expert.get(q.id)?.verdict ?? sourceCandidates?.byId.get(q.id)?.verdict ?? null),
+        passage_text: q.passage_text ?? null, set_id: q.set_id ?? null, difficulty_label: q.difficulty_label, ncert_ref: q.ncert_ref ?? null, source: q.source, _verdict: cfg.id !== 'w2' ? (sourceCandidates?.byId.get(q.id)?.verdict ?? null) : (extras.ctx.expert.get(q.id)?.verdict ?? sourceCandidates?.byId.get(q.id)?.verdict ?? null),
         ...(cfg.id === 'w3' && extras.ctx.expert.get(q.id) ? { _expert: extras.ctx.expert.get(q.id).verdict } : {}),
         ...(row.fresh_pass ? { _reworded: true } : {}),
         ...(sourceCandidates?.byId.get(q.id)?.marks || {}),
@@ -870,15 +902,14 @@ export async function runAccept(args, { write = true } = {}) {
   const now = args.now || new Date().toISOString();
   const acceptance = {
     kind: `${cfg.kind}_acceptance`, source: cfg.source, date: args.date, built_at: now, models: cfg.models,
-    note: cfg.id === 'w2'
-      ? 'Wave-1 acceptance rule applied to the wave-2 raw files. Questions whose solver or judge records are missing or malformed are not accepted; no result was invented. No expert pass has been run on wave 2 (candidates carry _verdict: null).'
-      : 'Wave-1 acceptance rule applied to the wave-3 raw files (general_test, physics, chemistry; Hindi was not laid out). Questions whose solver or judge records are missing or malformed are not accepted; no result was invented. The candidates carry the authoring verdict of the assembled candidates file (haiku_blind_verified or opus_audited), not an expert verdict.',
+    note: cfg.acceptNote,
     rule: RULE,
     raw: rel(rawDir),
     ...(cfg.id === 'w2' ? {} : { wave: cfg.wave }),
     total, bySubject, files: filesSummary, sets: setChildren,
     questions: rows,
   };
+  if (cfg.id === 'w4') acceptance.qualityMeanDistribution = qualityMeanDistribution(rows);
   if (cfg.id === 'w2') acceptance.final_pass_inputs = {
     expert_files: extras.expert.files, expert_conflicts: extras.expert.conflicts, asjudged: rel(path.resolve(args.asjudged)), fresh: args.fresh,
     fresh_pass_ids: extras.rewordIds.size, fresh_pass_partial: extras.ctx.freshPartial, text_set_to_the_fresh_pass: overriddenText,
@@ -893,6 +924,33 @@ export async function runAccept(args, { write = true } = {}) {
   return { acceptance, out: { dir: rel(outDir), ...names } };
 }
 
+/**
+ * The mean of the two quality judges per question (j1 and j2 scores), by subject: how many questions sit at each mean, how many are at 8 or more,
+ * for every written question that has both scores and for the accepted ones. A question missing a judge's score is counted under "no_two_scores".
+ */
+function qualityMeanDistribution(rows) {
+  const out = {};
+  for (const row of rows) {
+    const subject = (out[row.subject] ||= { written: 0, noTwoScores: 0, byMeanAll: {}, byMeanAccepted: {}, atLeast8All: 0, atLeast8Accepted: 0, accepted: 0, below8Accepted: 0 });
+    subject.written += 1;
+    const scores = row.quality.map((judge) => judge.score);
+    if (scores.length !== 2 || scores.some((score) => !Number.isInteger(score))) { subject.noTwoScores += 1; continue; }
+    const mean = (scores[0] + scores[1]) / 2;
+    subject.byMeanAll[mean] = (subject.byMeanAll[mean] || 0) + 1;
+    if (mean >= 8) subject.atLeast8All += 1;
+    if (row.accepted) {
+      subject.accepted += 1;
+      subject.byMeanAccepted[mean] = (subject.byMeanAccepted[mean] || 0) + 1;
+      if (mean >= 8) subject.atLeast8Accepted += 1; else subject.below8Accepted += 1;
+    }
+  }
+  const sorted = (map) => Object.fromEntries(Object.entries(map).sort((a, b) => Number(a[0]) - Number(b[0])));
+  for (const subject of Object.values(out)) { subject.byMeanAll = sorted(subject.byMeanAll); subject.byMeanAccepted = sorted(subject.byMeanAccepted); }
+  const total = { written: 0, accepted: 0, atLeast8All: 0, atLeast8Accepted: 0, below8Accepted: 0 };
+  for (const subject of Object.values(out)) for (const key of Object.keys(total)) total[key] += subject[key];
+  return { note: 'mean of the two quality judges (j1, j2); the acceptance rule needs each judge at 7 or more, the publication rule of 17 Oct 2026 (wave 3) needs the mean at 8 or more', total, bySubject: out };
+}
+
 /** The acceptance file, the candidates the rule accepted and their entries (the pair is consistent: the entries name the candidates by sha256). */
 function writeAcceptanceFiles(built, args) {
   const { acceptance, candidates, records, lib, names, outDir, now } = built;
@@ -904,9 +962,7 @@ function writeAcceptanceFiles(built, args) {
   const entries = {
     kind: 'authored_score_entries', version: lib.scores.SCORES_VERSION, source: cfg.source, wave: cfg.wave, built_at: now, date: args.date, models: cfg.models,
     models_note: `The raw judge files do not record the model; ${cfg.modelNote}.`,
-    note: cfg.id === 'w2'
-      ? 'One record per question the rule accepted (the acceptance rule and the duplicate screen, before the hand decisions and the expert gate), in the wave-1 entries format. Built by scripts/authored-w2-accept.mjs; --mode=final narrows it to the publication set (wave2-score-entries-final-). The first-pass pair, before the expert repairs and the rewords, is kept as wave2-candidates-asjudged- and wave2-score-entries-asjudged-.'
-      : 'One record per question the wave-3 rule accepted (the acceptance rule and the duplicate screen, no expert gate: the questions were verified by blind solvers, a few also audited), in the wave-1 entries format. Built by scripts/authored-w2-accept.mjs --wave=w3 from the raw files under tmp/authored-w3s (untracked scratch; the batch text is also in the commit that laid it out). Tables are built from it by scripts/authored-scores-merge.mjs later; nothing here is written into data/.',
+    note: cfg.entriesNote,
     candidates_file: rel(candidatesFile), candidates_sha256: sha256Text(candidatesFile),
     counts: { candidates: candidates.length, entries: records.size },
     entries: Object.fromEntries([...records.entries()]),
@@ -1256,7 +1312,7 @@ export async function runCheck(args) {
     if (isSet) {
       const order = (nextOrder.get(c.set_id) ?? wave1SetSizes.get(c.set_id) ?? 0) + 1;
       nextOrder.set(c.set_id, order);
-      position = { groupId: wave.passageGroupIdOf(c.set_id), orderIndex: order };
+      position = { groupId: cfg.id === 'w4' ? wave.groupIdOfCandidate(c) : wave.passageGroupIdOf(c.set_id), orderIndex: order };
     }
     return { candidate: mapped, original: c, position, row: wave.toQuestionRow(mapped, position) };
   });
@@ -1334,7 +1390,7 @@ export async function runCheck(args) {
     const words = items.passageWordCount((newRows[0] || oldRows[0]));
     return {
       set_id: setId, subject, chapter: (newRows[0] || oldRows[0]).chapter, passage_words: words, passage_words_range: sets.passageWords || null, min_children: sets.size.min,
-      wave1_children: oldRows.length, wave1_children_eligible: eligibleOld.length, wave2_children: newRows.length, wave2_children_eligible: eligibleNew.length, distinct_eligible_children: kept.length,
+      wave1_children: oldRows.length, wave1_children_eligible: eligibleOld.length, [`wave${cfg.wave}_children`]: newRows.length, [`wave${cfg.wave}_children_eligible`]: eligibleNew.length, distinct_eligible_children: kept.length,
       blueprint_serves_sets: sets.count.target > 0,
       servable: (sets.count.target > 0) && (!sets.passageWords || (words >= sets.passageWords.min && words <= sets.passageWords.max)) && kept.length >= sets.size.min,
     };
