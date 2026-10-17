@@ -1,3 +1,10 @@
+## 17 October 2026 - Website release branch deploy/web-1017 assembled (from live main c3b1e215; local, not pushed, not deployed; nothing applied to any database)
+
+- Merged with --no-ff, in order: web/live-fixes-1017, web/review-f17-1017, web/subjects-claim-1017, web/result-1017, web/start-1017, web/today-1017, web/dock-1017, web/mob-split-1017, content/wave3-1017. Conflicts: result (both branches had built the F17 saved repair: kept the lab.repaired ids and the savedRepairs map with the paper line), start and dock (package.json scripts; the phone dock key stays lime and fixed, the sidebar key follows the route through data-start-quiet, the Practice start bar rides --dock-h), mob split (MOB_ENABLED gate kept with the mobId lookup), wave 3 (STATUS only).
+- Marketing: the Leaderboard feature is now Your standing on pricing and features (own rank among MockMob students, no other student's name). The landing page is another branch's.
+- Tests: lint clean; app 498, recovery 415, learning 343, auth 109, billing 118, nta 188, du 42, subjects 20, today 28, mob 45, authored-publish 128 (123 pass, 4 skipped, 1 fails only on this Windows checkout: CRLF changes the bytes of tmp/authored-w3s raw files, whose manifest sha256 matches the committed LF blobs), dock 6 (5 pass, 1 skipped: needs a running server). next build --webpack passes.
+- Migrations vs main: new 20261017150000_study_road_fields.sql (TODAY-1017 P0: exam_date and mock_target; undo file; dry-run on staging still to do); 20261017100000_mob.sql changed (Mob; must not reach production while Mob is off). Not applied anywhere.
+
 ## 17 October 2026, about 4:45 am IST - Website motion/UX pass shipped (deploy/ux-1017 onto main e192c59e)
 
 - Ships web/ux-social-1016 (independent verifier PASS on its own base, 94c172e6) merged onto main e192c59e (42b0d75b), plus: stray log removed and *.log ignored (e5c4952e), the moderation Mob reports list and the result page's Mob row send no request while MOB_ENABLED is unset (5e41b296, 1240a925), data-page-primary on the two /leaderboard CTAs (7e26abc3).
