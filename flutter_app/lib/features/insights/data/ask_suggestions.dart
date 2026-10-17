@@ -213,7 +213,9 @@ abstract final class AskSheetCopy {
   static const fullRecord = 'Full record';
   static String dropSubject(String label) => 'Stop asking about $label';
   static const practiceRow = 'Ask Mobi what to practise';
-  static String practiceLine(String chapter, int wrong, int n) => '$chapter: $wrong wrong of $n answered';
+  // A chapter name that already holds a colon ("Partnership: admission of a partner") takes a comma, so
+  // the line never reads "a: b: 4 wrong".
+  static String practiceLine(String chapter, int wrong, int n) => '$chapter${chapter.contains(':') ? ',' : ':'} $wrong wrong of $n answered';
   static const askAboutQuestion = 'Ask about this question';
   static const askNext = 'Ask next';
   static const youCanAsk = 'You can ask now';
@@ -250,6 +252,7 @@ abstract final class AskSheetCopy {
       'Net $net marks from $questions answers: $gained gained, $penalty lost to wrong answers';
   static String leakLine(String chapter, int open, int wrong, int n) => 'Biggest leak: $chapter, $open marks open, $wrong wrong of $n';
   static String paceLine(String median, int timed) => 'Pace: a typical question takes $median, over $timed timed answers';
+  static const openCredits = 'Open AI credits';
   static const walletPaused = 'AI replies are paused. Record questions still work.';
   static const walletUnknown = 'AI credits not loaded';
   static const recordFree = 'Record questions free';

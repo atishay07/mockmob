@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/mascot/mascot.dart' show MobiRation;
 import 'package:mockmob/core/models/ai_credits.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
@@ -9,6 +10,7 @@ import 'package:mockmob/features/insights/ask_mobi.dart';
 import 'package:mockmob/features/insights/data/ask_controller.dart';
 import 'package:mockmob/features/insights/data/ask_question.dart';
 import 'package:mockmob/features/insights/data/ask_sheet_controller.dart';
+import 'package:mockmob/features/insights/data/insights_models.dart';
 
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
@@ -50,9 +52,18 @@ const _mock3 = AskMobiContext.mock(
   label: 'Mock 3',
   attemptId: 'm3',
   lines: [
-    'Partnership: 36 of 78 lost marks, 6 wrong and 1 left blank',
-    'Cash flow statement: 18 marks, 3 wrong',
-    'Money and banking: 12 marks, 2 left blank',
+    'Partnership: 36 of the 78 marks lost, 6 wrong and 1 left blank',
+    'Cash flow statement: 18 of the 78 marks lost, 3 wrong',
+    'Money and banking: 10 of the 78 marks lost, 2 left blank',
+  ],
+);
+
+const _today = AskMobiContext.today(
+  reason: 'From Mock 3, Accountancy, on 12 Oct.',
+  facts: [
+    '13 wrong, 31 right, 6 not attempted.',
+    'Partnership: 6 wrong, 1 not attempted in 8 questions',
+    'Cash flow statement: 3 wrong in 7 questions',
   ],
 );
 
@@ -66,8 +77,12 @@ class _FixedSheet extends AskSheetController {
 }
 
 class _FixedHand extends AskQuestionController {
+  _FixedHand([this.fixed]);
+
+  final AskQuestionHand? fixed;
+
   @override
-  AskQuestionHand? build() => null;
+  AskQuestionHand? build() => fixed;
 
   @override
   Future<void> open(String? raw) async {}
@@ -125,6 +140,8 @@ void _sheetGolden(
   AskState ask = const AskState(),
   AiCredits? credits,
   bool emptyRecord = false,
+  bool recordFailed = false,
+  AskQuestionHand? hand,
   double textScale = 1,
 }) {
   for (final brightness in [Brightness.dark, Brightness.light]) {
@@ -136,11 +153,15 @@ void _sheetGolden(
       final List<Override> overrides = [
         ...insightsOverrides(
           credits: credits ?? _wallet(9),
-          insights: emptyRecord ? RemoteState(value: empty(), fetchedAt: DateTime.utc(2026, 10, 13)) : null,
+          insights: emptyRecord
+              ? RemoteState(value: empty(), fetchedAt: DateTime.utc(2026, 10, 13))
+              : recordFailed
+                  ? const RemoteState<PrepInsights>(error: ApiError(kind: ApiErrorKind.network, code: 'network'))
+                  : null,
           attempts: emptyRecord ? const [] : null,
         ),
         askSheetControllerProvider.overrideWith(() => _FixedSheet(ask)),
-        askSheetQuestionProvider.overrideWith(_FixedHand.new),
+        askSheetQuestionProvider.overrideWith(() => _FixedHand(hand)),
       ];
       await pumpMockmob(tester, _Host(about), brightness: brightness, size: size, textScale: textScale, disableAnimations: true, overrides: overrides, wrapInScaffold: false);
       await tester.pumpAndSettle();
@@ -191,4 +212,15 @@ void main() {
     ]),
   );
   _sheetGolden('new_student_360', const AskMobiContext.page(), size: _w360, emptyRecord: true);
+  _sheetGolden('new_student_412', const AskMobiContext.page(), emptyRecord: true);
+  _sheetGolden('page_412', const AskMobiContext.page());
+  _sheetGolden('today_412', _today);
+  _sheetGolden('practice_412', const AskMobiContext.practice());
+  _sheetGolden('paused_412', _q7, credits: _wallet(4, state: 'paused'));
+  _sheetGolden('record_not_loaded_412', const AskMobiContext.page(), recordFailed: true);
+  _sheetGolden(
+    'question_failed_412',
+    _q7,
+    hand: const AskQuestionHand(ref: 'm3:m3-q7', status: AskQuestionStatus.error, message: askQuestionOpenFailed),
+  );
 }

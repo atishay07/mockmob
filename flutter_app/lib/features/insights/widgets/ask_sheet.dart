@@ -9,6 +9,7 @@ import '../../../core/api/api_providers.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/repositories/credits_repository.dart';
+import '../../../core/router/routes.dart' show AppRoutes;
 import '../../../core/sync/sync_providers.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -413,6 +414,7 @@ class _AskMobiSheetState extends ConsumerState<AskMobiSheet> {
                 },
                 canSend: (typed) => !cannotWrite || _ask.answersOnPhone(typed),
                 onSend: (typed) => _send(typed, fromField: true),
+                onCredits: () => _go(AppRoutes.youCredits),
                 bottomPad: inset > 0 ? 0 : media.padding.bottom,
               ),
             ],
@@ -960,6 +962,7 @@ class _Composer extends StatefulWidget {
     required this.note,
     required this.canSend,
     required this.onSend,
+    required this.onCredits,
     required this.bottomPad,
   });
 
@@ -970,6 +973,9 @@ class _Composer extends StatefulWidget {
   final String Function(String typed) note;
   final bool Function(String typed) canSend;
   final void Function(String typed) onSend;
+
+  /// The credits line is a link to the AI credits page (the wallet, its rules and top-ups).
+  final VoidCallback onCredits;
   final double bottomPad;
 
   @override
@@ -996,7 +1002,7 @@ class _ComposerState extends State<_Composer> {
     final colors = context.mmColors;
     final type = context.mmType;
     return Padding(
-      padding: EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16, widget.bottomPad + MmSpace.s12),
+      padding: EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16, widget.bottomPad + MmSpace.s4),
       child: ValueListenableBuilder(
         valueListenable: widget.controller,
         builder: (context, value, _) {
@@ -1074,20 +1080,18 @@ class _ComposerState extends State<_Composer> {
                   ),
                 ),
               ),
-              const SizedBox(height: MmSpace.s8),
-              // The credits line and the price line share one row when they fit; otherwise the
-              // price line drops under the credits, never splitting "1 Nov".
+              // The credits line (a 48 dp link to the AI credits page) and the price line share one
+              // row when they fit; otherwise the price line drops under the credits, never splitting "1 Nov".
               Wrap(
                 alignment: WrapAlignment.spaceBetween,
+                crossAxisAlignment: WrapCrossAlignment.center,
                 spacing: MmSpace.s12,
-                runSpacing: MmSpace.s2,
                 children: [
-                  AnimatedSwitcher(
-                    duration: Motion.of(context, const Duration(milliseconds: 160)),
-                    layoutBuilder: (current, previous) => Stack(alignment: Alignment.centerLeft, children: [...previous, ?current]),
-                    child: _WalletText(widget.walletLine, key: ValueKey(widget.walletLine)),
+                  _WalletLink(line: widget.walletLine, onTap: widget.onCredits),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: MmSpace.s4),
+                    child: Semantics(liveRegion: true, child: Text(note, style: type.caption.copyWith(color: colors.ink3))),
                   ),
-                  Semantics(liveRegion: true, child: Text(note, style: type.caption.copyWith(color: colors.ink3))),
                 ],
               ),
             ],
@@ -1098,20 +1102,57 @@ class _ComposerState extends State<_Composer> {
   }
 }
 
-/// The wallet line, with its leading count in the ink colour.
-class _WalletText extends StatelessWidget {
-  const _WalletText(this.line, {super.key});
+/// The credits line as a link: "9 of 10 AI credits left · resets 1 Nov". It opens the AI credits page,
+/// and when a reply changes the balance the number crossfades (160 ms) instead of counting.
+class _WalletLink extends StatelessWidget {
+  const _WalletLink({required this.line, required this.onTap});
 
   final String line;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return MmPressable(
+      semanticsLabel: '$line. ${AskSheetCopy.openCredits}',
+      focusRadius: MmRadius.smallAll,
+      pressedScale: 0.97,
+      haptic: MmPressHaptic.selection,
+      onTap: onTap,
+      builder: (context, pressed, _) => ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: MmTarget.min),
+        child: Align(
+          alignment: Alignment.centerLeft,
+          widthFactor: 1,
+          child: AnimatedSwitcher(
+            duration: Motion.of(context, const Duration(milliseconds: 160)),
+            layoutBuilder: (current, previous) => Stack(alignment: Alignment.centerLeft, children: [...previous, ?current]),
+            child: _WalletText(line, pressed: pressed, key: ValueKey(line)),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// The wallet line, with its leading count in the ink colour and a quiet underline that says it opens.
+class _WalletText extends StatelessWidget {
+  const _WalletText(this.line, {required this.pressed, super.key});
+
+  final String line;
+  final bool pressed;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    final style = context.mmType.caption.copyWith(color: colors.ink3);
+    final style = context.mmType.caption.copyWith(
+      color: pressed ? colors.ink2 : colors.ink3,
+      decoration: TextDecoration.underline,
+      decorationColor: colors.lineStrong,
+    );
     final m = RegExp(r'^(\d+)(.*)$').firstMatch(line);
     if (m == null) return Text(line, style: style);
     return Text.rich(TextSpan(children: [
-      TextSpan(text: m.group(1), style: style.copyWith(color: colors.ink, fontWeight: FontWeight.w700)),
+      TextSpan(text: m.group(1), style: style.copyWith(color: pressed ? colors.ink2 : colors.ink, fontWeight: FontWeight.w700)),
       TextSpan(text: m.group(2), style: style),
     ]));
   }
