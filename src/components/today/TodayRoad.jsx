@@ -47,8 +47,10 @@ function Rail({ columns, thisWeekDone, goal }) {
   const [picked, setPicked] = useState(0);
   const listRef = useRef(null);
   useEffect(() => {
-    const el = listRef.current?.querySelector(`[data-i="${picked}"]`);
-    el?.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'auto' });
+    // Scroll the rail only (scrollIntoView would also slide the sheet sideways): centre the picked week in it.
+    const list = listRef.current;
+    const el = list?.querySelector(`[data-i="${picked}"]`)?.parentElement;
+    if (list && el) list.scrollLeft = Math.max(0, el.offsetLeft - (list.clientWidth - el.offsetWidth) / 2);
   }, [picked]);
   const c = columns[picked] || columns[0];
   if (!c) return null;

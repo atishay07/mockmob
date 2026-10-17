@@ -146,7 +146,7 @@ html[data-theme='light'] .app-shell .tw__day[data-state='counted'] .tw__dot { bo
 
 /* The plan sheet: three plain questions, each with its choices and one status line. Sheets sit outside .app-shell. */
 .tsh .tpq__list { display: grid; gap: 24px; margin-top: 4px; }
-.tsh .tpq { display: grid; gap: 10px; min-width: 0; }
+.tsh .tpq { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; min-width: 0; }
 .tsh .tpq__h { margin: 0; font: 600 16px/1.3 var(--font-display); color: var(--a-ink); }
 .tsh .tpq__note { margin: 0; font-size: 14px; line-height: 1.45; color: var(--a-ink-2); }
 .tsh .tpq__note b { color: var(--a-ink); font-weight: 600; }
@@ -171,8 +171,11 @@ html[data-theme='light'] .app-shell .tw__day[data-state='counted'] .tw__dot { bo
 .tsh .trd__step { display: grid; place-items: center; flex: 0 0 44px; width: 44px; height: 44px; border: 1px solid var(--a-line-strong); border-radius: 22px; background: var(--a-raised-2); color: var(--a-ink); cursor: pointer; transition: transform 100ms var(--ease-out); }
 .tsh .trd__step:active:not(:disabled) { transform: scale(0.96); }
 .tsh .trd__step:disabled { opacity: 0.45; cursor: default; }
-.tsh .trd__rail { margin-top: 6px; }
-.tsh .trd__rail-list { display: flex; gap: 4px; margin: 0; padding: 4px 2px 6px; list-style: none; overflow-x: auto; scroll-snap-type: x proximity; overscroll-behavior-x: contain; scrollbar-width: thin; }
+.tsh .trd__rail { min-width: 0; margin-top: 6px; }
+/* One column exactly the sheet's width, so the rail scrolls inside itself and never widens the sheet. */
+#trd-plan .tsh__body { grid-template-columns: minmax(0, 1fr); overflow-x: hidden; }
+.tsh .tpq__list { min-width: 0; }
+.tsh .trd__rail-list { position: relative; display: flex; gap: 4px; margin: 0; padding: 4px 2px 6px; list-style: none; overflow-x: auto; scroll-snap-type: x proximity; overscroll-behavior-x: contain; scrollbar-width: thin; }
 .tsh .trd__rail-list li { flex: 0 0 48px; scroll-snap-align: center; }
 .tsh .trd__rail-week { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 8px; width: 48px; height: 88px; padding: 6px 0 8px; border: 1px solid transparent; border-radius: 12px; background: none; color: inherit; cursor: pointer; }
 .tsh .trd__rail-week[data-boards] { background: var(--a-raised-2); }
