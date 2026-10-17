@@ -51,6 +51,10 @@
 .mm.lp:has(.lp-pos[data-on='true']) .mm-nav::after { opacity: 0; }
 
 .mm.lp .lp-pos__row { display: flex; align-items: center; width: 100%; min-width: 0; }
+/* On a wide window the site bar's column grows by Mobi's lane (brand-pip.css), so the band's words keep the bar's left edge. */
+@media (min-width: 1100px) and (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion='reduced']) .mm.lp .lp-pos__row { max-width: calc(75rem + var(--pip-lane)); }
+}
 /* One line of running text, so a brand word in an <em> stays one space from its neighbours. */
 .mm.lp .lp-pos__name {
   display: block;

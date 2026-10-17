@@ -68,6 +68,11 @@ test('reduced motion, reduced transparency, short landscape windows and print ar
   assert.doesNotMatch(RULES, /transition: all|ease-in[^-]/);
 });
 
+test("on a wide window the band keeps the bar's left edge, by the same lane the bar grows", () => {
+  assert.match(CSS, /@media \(min-width: 1100px\) and \(prefers-reduced-motion: no-preference\) \{\s*:root:not\(\[data-motion='reduced'\]\) \.mm\.lp \.lp-pos__row \{ max-width: calc\(75rem \+ var\(--pip-lane\)\); \}/);
+  assert.match(read('../../app/brand-pip.css'), /:is\(\.mm-nav, \.mm-foot\) > \.mm-wrap \{ max-width: calc\(75rem \+ var\(--pip-lane\)\); \}/);
+});
+
 test('the held stories start under the band and tuck up by its height, so the page reads as it did', () => {
   assert.match(CSS, /--lp-pos-h: 2\.5rem/);
   assert.match(CSS, /\.lp-pos-host \.ss \{ --ss-top: calc\(61px \+ env\(safe-area-inset-top, 0px\) \+ 0\.75rem \+ var\(--lp-pos-h\)\); \}/);
