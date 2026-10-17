@@ -16,7 +16,9 @@ const page = read('src/app/onboarding/OnboardingPageClient.jsx');
 const css = read('src/app/onboarding/onboarding.css');
 
 test('two steps; editing is subjects only; days needs saved subjects', () => {
-  assert.deepEqual([...STEPS], ['subjects', 'days']);
+  assert.deepEqual([...STEPS], ['subjects', 'days', 'colleges']);
+  assert.equal(resolveStep({ wanted: 'colleges', hasSubjects: true }), 'colleges', 'colleges are picked inside onboarding (owner, 16 Oct)');
+  assert.equal(resolveStep({ wanted: 'colleges', hasSubjects: false }), 'subjects');
   assert.equal(resolveStep({ wanted: 'subjects' }), 'subjects');
   assert.equal(resolveStep({ wanted: 'days', hasSubjects: true }), 'days');
   assert.equal(resolveStep({ wanted: 'days', hasSubjects: false }), 'subjects', 'no saved subjects: days is never shown');

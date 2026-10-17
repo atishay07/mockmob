@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { Logo } from './Logo';
 import { FooterStart } from './FooterStart';
 import { SUBJECT_CLAIM } from '../../data/subject_claim.js';
+import { NewTag } from './NavBar';
+import './new-tag.css';
 
 const PRODUCT_LINKS = [
   ['DU eligibility and cutoff calculator', '/cuet-cutoff-calculator'],
@@ -59,7 +61,7 @@ export function MarketingFooter() {
             <ul>
               {PRODUCT_LINKS.map(([label, href]) => (
                 <li key={href}>
-                  <Link href={href}>{label}</Link>
+                  <Link href={href}>{label}{href === '/cuet-cutoff-calculator' ? <NewTag /> : null}</Link>
                 </li>
               ))}
             </ul>

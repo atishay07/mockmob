@@ -41,7 +41,7 @@ function Stat({ label, children }) {
  * user: the signed-in user. mobi: the greeting Mobi (or null). mocks: { status: 'loading' | 'ready' | 'error',
  * count, average }. onRetry: reloads the mocks after a failure.
  */
-export default function YourSheet({ user, greeting, mobi = null, plan = 'Free', mocks, onRetry }) {
+export default function YourSheet({ user, greeting, mobi = null, plan = 'Free', mocks, onRetry, credits = null }) {
   const subjects = sheetSubjects(user?.subjects);
   const room = subjects.length < SUBJECT_LIMIT;
 
@@ -56,6 +56,7 @@ export default function YourSheet({ user, greeting, mobi = null, plan = 'Free', 
             <span>{EXAM_LABEL}</span>
             <span data-tone={plan === 'Pro' ? 'pro' : undefined}>{plan === 'Pro' ? 'Pro plan' : 'Free plan'}</span>
           </p>
+          {credits}
         </div>
         {/* The header already shows your initials; with Mobi greeting here, a second avatar would only repeat it. */}
         {mobi ? null : <Avatar name={user?.name || user?.email} size="lg" className="acct-sheet__avatar" />}

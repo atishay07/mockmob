@@ -12,7 +12,16 @@ import { useAuth } from '@/components/AuthProvider';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import { useInsights } from '@/components/ai/useInsights';
 import { SmoothDetails } from '@/components/ui/controls/SmoothDetails';
+import FirstTime from '@/components/arena/FirstTime';
 import './compass.css';
+
+// The CUET tools that answer the questions around this one (W-050): which subjects to put on the form, the real past
+// papers, and a full mock for a score of your own. Plain links in one ruled row; none is a second primary.
+const TOOLS = [
+  { href: '/cuet-subject-combination', title: 'Plan your subjects', short: 'Plan subjects', line: 'Combo Planner: the CUET subjects that open the courses you want' },
+  { href: '/cuet-previous-year-questions', title: 'Past CUET papers', short: 'Past papers', line: 'Real questions from earlier years, by subject' },
+  { href: '/dashboard?mode=full', title: 'Get a score of your own', short: 'Get a score', line: 'A full mock gives Compass a practice score to set beside the cutoffs' },
+];
 
 // Profile subject ids -> DU catalog ids (they match, except the aptitude test).
 const toDuId = (id) => (id === 'general_test' ? 'gat' : id);
@@ -37,31 +46,52 @@ function PracticeBridge({ userId }) {
 export default function AdmissionCompassPageClient() {
   const { user } = useAuth();
   const seed = (user?.subjects || []).map(toDuId);
+  const pro = Boolean(user?.id && user?.isPremium);
   return (
     <main className="cmp">
       <header className="cmp-head">
         <div>
           <h1 className="display-md">Which DU courses can your subjects get?</h1>
-          <p>
+          <p className="cmp-lede">
             {seed.length > 0
-              ? 'Your subjects are already ticked below. Add your category and a score to see which programmes your subjects open under DU’s 2026 rules, and the 2026 cutoff college by college.'
-              : 'Tick your CUET subjects, then add your category and a score to see which programmes they open under DU’s 2026 rules, and the 2026 cutoff college by college.'}
+              ? 'Your subjects are ticked. A score is optional: see every course they open, with 2026 cutoffs.'
+              : 'Tick your CUET subjects. A score is optional: see every course they open, with 2026 cutoffs.'}
           </p>
         </div>
       </header>
 
+      {user?.id ? <FirstTime id="compass">Open a course for its colleges and 2026 cutoffs, then Add to my colleges. The first shows on Today.</FirstTime> : null}
+
+      <nav className="cmp-tools" aria-label="CUET tools">
+        <ul>
+          {TOOLS.map((t) => (
+            <li key={t.href}><Link href={t.href} aria-label={`${t.title}. ${t.line}`}><b data-short={t.short}>{t.title}</b><span>{t.line}</span></Link></li>
+          ))}
+        </ul>
+      </nav>
+
+      {/* The Pro page is long: one row of in-page jumps to its three parts. */}
+      {pro ? (
+        <nav className="cmp-jump" aria-label="On this page">
+          <a href="#cmp-pro">Your projection</a><a href="#cmp-courses">Courses and cutoffs</a><a href="#cmp-sources">Sources</a>
+        </nav>
+      ) : null}
+
       {/* The tool comes first. Pro students get their projection and colleges above it; everyone else gets one
           quiet line about Compass Pro after the results (CompassPro renders the locked row). */}
-      {user?.id && user?.isPremium ? <CompassPro userId={user.id} seedSubjects={seed} /> : null}
+      {pro ? <div id="cmp-pro" className="cmp-anchor"><CompassPro userId={user.id} seedSubjects={seed} /></div> : null}
 
-      <CutoffCalculator seedSubjects={seed} />
+      <div id="cmp-courses" className="cmp-anchor"><CutoffCalculator seedSubjects={seed} /></div>
 
       {user?.id && !user?.isPremium ? <PracticeBridge userId={user.id} /> : null}
       {user?.id && !user?.isPremium ? <CompassPro userId={user.id} seedSubjects={seed} /> : null}
 
-      <SmoothDetails className="cmp-sources" chevron summary="Official source documents">
-        <ul>{DU_SOURCES.map((s) => <li key={s.id}><a href={s.url} target="_blank" rel="noopener noreferrer">{s.title}</a>. {s.use}</li>)}</ul>
-      </SmoothDetails>
+      <div id="cmp-sources" className="cmp-anchor">
+        <SmoothDetails className="cmp-sources" chevron summary="Official source documents">
+          <ul>{DU_SOURCES.map((s) => <li key={s.id}><a href={s.url} target="_blank" rel="noopener noreferrer">{s.title}</a>. {s.use}</li>)}</ul>
+        </SmoothDetails>
+      </div>
+
     </main>
   );
 }

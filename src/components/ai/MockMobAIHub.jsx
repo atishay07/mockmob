@@ -12,9 +12,11 @@ import { useAuth } from '@/components/AuthProvider';
 import { FEATURE_GUIDE, deterministicReplyFor, pageHelpForPath } from './assistantKnowledge';
 import { walletFromResponse, isPaidUser } from '@/services/credits/aiWalletState';
 import { CreditAmount } from '@/components/ui/Glyph';
+import { announceWallet, cachedWallet } from '@/components/useWalletSummary';
 import { answerFromInsights } from '../../../data/prepos_insights';
 import RecordView from './RecordView';
 import ArenaHead from '@/components/arena/ArenaHead';
+import FirstTime from '@/components/arena/FirstTime';
 import { PrepOSOrb } from '@/components/ui/PrepOSOrb';
 import { useInsights } from './useInsights';
 import { POOL_USE, usedLine, usesLine } from '@/lib/creditCopy.mjs';
@@ -48,6 +50,7 @@ function Hub({ variant = 'drawer', initialTab = 'plan', onClose }) {
   const pathname = usePathname();
   const { user } = useAuth();
   const isAuthenticated = Boolean(user?.id);
+  const userId = user?.id || null;
   const pro = isPaidUser(user);
   const isDrawer = variant === 'drawer';
   // The full-page console honours ?tab=record; the drawer ignores the host page's query string.
@@ -65,15 +68,20 @@ function Hub({ variant = 'drawer', initialTab = 'plan', onClose }) {
     try {
       const res = await fetch('/api/ai/credits', { cache: 'no-store' });
       const data = await res.json();
-      if (sequence === walletSequence.current) setWallet(walletFromResponse(data, {ok:res.ok}));
+      const next = walletFromResponse(data, {ok:res.ok});
+      if (sequence === walletSequence.current) setWallet(next);
+      // The top bar chip and Account take the same balance at once (W-060), so no screen shows a stale number.
+      announceWallet(userId, next);
     } catch { if (sequence === walletSequence.current) setWallet(walletFromResponse(null,{ok:false})); }
-  }, []);
+  }, [userId]);
   useEffect(() => {
     const fence = walletSequence;
     let active = true;
-    if (isAuthenticated) Promise.resolve().then(() => { if (active) readWallet(); });
+    // The balance this tab read in the last five minutes paints at once; the server's answer replaces it.
+    const cached = cachedWallet(userId);
+    if (isAuthenticated) Promise.resolve().then(() => { if (!active) return; if (cached) setWallet((prev) => prev || cached); readWallet(); });
     return () => { active = false; fence.current++; };
-  }, [isAuthenticated, readWallet]);
+  }, [isAuthenticated, readWallet, userId]);
   const firstName = useMemo(() => String(user?.name || '').trim().split(/\s+/)[0] || '', [user?.name]);
 
   const shellClass = isDrawer
@@ -87,7 +95,7 @@ function Hub({ variant = 'drawer', initialTab = 'plan', onClose }) {
   }
 
   return (
-    <>{!isDrawer && <ArenaHead title="Ask Mobi" lede="The same next action as Today, with the reasoning from your recorded practice." />}<div className={`prepos-console ${shellClass}`}>
+    <>{!isDrawer && <ArenaHead title="Ask Mobi" lede="The same next action as Today, with the reasoning from your recorded practice." />}{!isDrawer && isAuthenticated ? <FirstTime id="ask-mobi">Start with Ask and a question about your own record, like “Where am I losing marks?”. Those answers are free. A written reply costs 1 AI credit, and the cost shows before you send.</FirstTime> : null}<div className={`prepos-console ${shellClass}`}>
       <header className="flex items-center justify-between gap-3 border-b border-white/10 px-4 py-3 md:px-6">
         <PrepOSOrb size={40} />
         <div className="min-w-0">

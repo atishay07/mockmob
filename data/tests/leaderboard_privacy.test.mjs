@@ -75,7 +75,7 @@ test('a signed-in caller gets their own rank and the total, in the new shape onl
   assert.equal(response.status, 200);
   assert.match(response.headers.get('cache-control') || '', /no-store/);
   const body = await response.json();
-  assert.deepEqual(body, { you: { rank: 2, of: 5, tests: 4, average: 65 }, window: 'all time' });
+  assert.deepEqual(body, { you: { rank: 2, of: 5, tests: 4, average: 65, points: 260 }, window: 'all time', board: { toNext: 460, top: 40, ladder: null, spread: null } });
 });
 
 test('equal points share a rank: the tied student is also 2nd, not 3rd', () => {
@@ -89,7 +89,7 @@ test('the response has no name, image, userId or user_id key anywhere, and no st
   const body = await (await GET(request())).json();
   const keys = keysDeep(body);
   for (const banned of BANNED) assert.ok(!keys.has(banned), `unexpected key: ${banned}`);
-  assert.deepEqual([...keys].sort(), ['average', 'of', 'rank', 'tests', 'window', 'you']);
+  assert.deepEqual([...keys].sort(), ['average', 'board', 'ladder', 'of', 'points', 'rank', 'spread', 'tests', 'toNext', 'top', 'window', 'you']);
   const text = JSON.stringify(body);
   for (const row of ROWS) {
     assert.ok(!text.includes(row.name));
@@ -155,4 +155,24 @@ test('no client still reads a student list from /api/leaderboard', () => {
     const source = fs.readFileSync(path.join(ROOT, file), 'utf8');
     assert.doesNotMatch(source, /isSynthetic|realBoard|entries\.filter/, `${file} still reads a student list`);
   }
+});
+
+test('the board is anonymous places and counts, and a small board shows no ladder or spread (W-055)', async () => {
+  const { boardFor, LADDER_MIN, LADDER_SIZE } = await import(pathToFileURL(path.join(ROOT, 'src/lib/server/standing.js')).href);
+  const small = standingFor(ROWS, 'u-me');
+  assert.equal(small.board.ladder, null, 'five students: no ladder anyone could be read off');
+  assert.equal(small.board.spread, null);
+  const many = Array.from({ length: LADDER_MIN + 5 }, (_, i) => ({ userId: `u${i}`, name: `Student ${i}`, image: `https://img.example/${i}.png`, tests: 2, totalScore: 200 - i * 4 }));
+  const mine = standingFor(many, 'u12');
+  assert.equal(mine.you.rank, 13);
+  assert.equal(mine.board.toNext, 4, 'four points shares the next place up');
+  assert.equal(mine.board.top, Math.ceil((13 / many.length) * 100));
+  assert.equal(mine.board.ladder.length, LADDER_SIZE);
+  assert.deepEqual(mine.board.ladder[0], { place: 1, points: 200, mocks: 2 });
+  assert.equal(mine.board.spread.reduce((n, b) => n + b.students, 0), many.length, 'every ranked student is in one band');
+  const text = JSON.stringify(mine);
+  for (const row of many) { assert.ok(!text.includes(row.name)); assert.ok(!text.includes(row.image)); assert.ok(!text.includes(`"${row.userId}"`)); }
+  for (const banned of BANNED) assert.ok(!keysDeep(mine).has(banned), `unexpected key: ${banned}`);
+  assert.equal(boardFor([], 0).top, 100);
+  assert.equal(standingFor(many, 'u0').board.toNext, 0, 'first place needs nothing');
 });
