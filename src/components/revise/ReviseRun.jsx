@@ -144,6 +144,9 @@ function ResultBlock({ result, line, why, rule }) {
 /** A question you got wrong, or a mistake you repaired: the same question, the key hidden until the server has graded the answer. */
 function QuestionCard({ item, at, total, cap, onConfirmed, onNext, last }) {
   const nextRef = useRef(null);
+  const stemRef = useRef(null);
+  // A new card after the first takes focus at its stem, so a keyboard or screen reader student lands on the next question, not on nothing.
+  useEffect(() => { if (at > 0) stemRef.current?.focus({ preventScroll: true }); }, [at]);
   const [result, setResult] = useState(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
@@ -173,7 +176,7 @@ function QuestionCard({ item, at, total, cap, onConfirmed, onNext, last }) {
     <section className="rvs-card" aria-labelledby="rvs-q">
       <KindLine item={item} at={at} total={total} />
       {item.passage?.text ? <div className="rvs-passage"><p className="rvs-passage__label">Passage</p><p>{item.passage.text}</p></div> : null}
-      <h2 className="rvs-stem" id="rvs-q">{item.question}</h2>
+      <h2 className="rvs-stem" id="rvs-q" tabIndex={-1} ref={stemRef}>{item.question}</h2>
       <Options rows={rows} disabled={busy} answered={answered} onPick={choose} />
       {busy ? <p className="rvs-status" role="status"><LoaderCircle className="rvs-spin" size={16} strokeWidth={2.2} aria-hidden="true" />Checking your answer</p> : null}
       {error ? <p className="rvs-err" role="alert"><StatusIcon kind="error" size={14} />{error}</p> : null}
@@ -195,6 +198,7 @@ function CheckCard({ item, at, total, onConfirmed, onNext, onSkip, last }) {
   const requestId = useRef(null);
   const nextRef = useRef(null);
   const reported = useRef(false);
+  const stemRef = useRef(null);
   const href = safeCheckHref(null, item.attemptId, item.questionId);
 
   const load = useCallback(async () => {
@@ -215,6 +219,8 @@ function CheckCard({ item, at, total, onConfirmed, onNext, onSkip, last }) {
   }, [load]);
 
   const answeredNow = view.phase === 'answered';
+  const readyNow = view.phase === 'ready';
+  useEffect(() => { if (readyNow) stemRef.current?.focus({ preventScroll: true }); }, [readyNow]);
   useEffect(() => {
     if (!answeredNow || reported.current) return;
     reported.current = true;
@@ -240,7 +246,7 @@ function CheckCard({ item, at, total, onConfirmed, onNext, onSkip, last }) {
     <section className="rvs-card" aria-labelledby="rvs-q">
       <KindLine item={item} at={at} total={total} />
       {view.phase === 'loading' ? <div className="rvs-skel" role="status" aria-label={CHECK_COPY.loading}><span className="skeleton" /></div> : null}
-      {check ? <h2 className="rvs-stem" id="rvs-q">{check.question}</h2> : null}
+      {check ? <h2 className="rvs-stem" id="rvs-q" tabIndex={-1} ref={stemRef}>{check.question}</h2> : null}
       {check ? <Options rows={rows} disabled={busy} answered={answeredNow} onPick={choose} /> : null}
       {busy ? <p className="rvs-status" role="status"><LoaderCircle className="rvs-spin" size={16} strokeWidth={2.2} aria-hidden="true" />{CHECK_COPY.marking}</p> : null}
       {error ? <p className="rvs-err" role="alert"><StatusIcon kind="error" size={14} />{error}</p> : null}
