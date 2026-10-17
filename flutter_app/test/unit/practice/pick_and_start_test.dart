@@ -142,8 +142,9 @@ void main() {
       await tester.tap(find.text('Business Studies').first);
       await _settle(tester);
       await _toTop(tester);
-      expect(find.descendant(of: find.byType(SuggestionCard), matching: find.text('Business Studies')), findsOneWidget);
-      expect(find.text('Quick practice, mixed chapters'), findsOneWidget);
+      // The lit tile names the subject; the card says what the set is, and says it once.
+      expect(find.descendant(of: find.byType(SuggestionCard), matching: find.text('Mixed chapters')), findsOneWidget);
+      expect(find.descendant(of: find.byType(SuggestionCard), matching: find.text('Business Studies')), findsNothing);
       expect(find.text('No paper here yet. Ten questions will do.'), findsOneWidget);
 
       await tester.ensureVisible(find.widgetWithText(KeyButton, 'Start 10 questions').first);
@@ -239,8 +240,9 @@ void main() {
       await tester.tap(find.text('Business Studies').first);
       await _settle(tester);
       await _toTop(tester);
-      expect(find.descendant(of: find.byType(SuggestionCard), matching: find.text('Business Studies')), findsOneWidget);
-      expect(find.text('Quick practice, mixed chapters'), findsOneWidget);
+      // The lit tile names the subject; the card says what the set is, and says it once.
+      expect(find.descendant(of: find.byType(SuggestionCard), matching: find.text('Mixed chapters')), findsOneWidget);
+      expect(find.descendant(of: find.byType(SuggestionCard), matching: find.text('Business Studies')), findsNothing);
       expect(find.textContaining('paper yet'), findsNothing);
       expect(find.text('Ten questions shows where you stand.'), findsOneWidget);
     });

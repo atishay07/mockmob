@@ -137,12 +137,18 @@ class AnswersController extends AsyncNotifier<OnboardingAnswers> {
     _set(undecided ? next.mark(Steps.course) : next);
   }
 
+  /// After a pick is dropped the Aim step is no longer answered unless something still answers it
+  /// (a college, "any college is fine" or "undecided"). Otherwise the step stayed marked done
+  /// with nothing picked: Skip was hidden and Continue stayed off, so the student was stuck (L28).
+  OnboardingAnswers _settleAim(OnboardingAnswers a) =>
+      (a.colleges.isEmpty && !a.openToAny && !a.courseUndecided) ? a.copyWith(done: {...a.done}..remove(Steps.course)) : a;
+
   /// Picks or drops a college. Up to [kMaxColleges]; a ninth is ignored (the screen says why).
   bool toggleCollege(String college) {
     final a = _current;
     final picks = [...a.colleges];
     if (picks.remove(college)) {
-      _set(a.copyWith(colleges: picks));
+      _set(_settleAim(a.copyWith(colleges: picks)));
       return true;
     }
     if (picks.length >= kMaxColleges) return false;
@@ -152,7 +158,7 @@ class AnswersController extends AsyncNotifier<OnboardingAnswers> {
 
   void setOpenToAny(bool value) {
     final a = _current.copyWith(openToAny: value, colleges: value ? const [] : null);
-    _set(value ? a.mark(Steps.course) : a);
+    _set(value ? a.mark(Steps.course) : _settleAim(a));
   }
 
   /// The ladder shows only colleges that seated [category], so a pick that did not drops out:
@@ -163,7 +169,7 @@ class AnswersController extends AsyncNotifier<OnboardingAnswers> {
     final colleges = course == null
         ? a.colleges
         : [for (final c in a.colleges) if (course.offeringAt(c)?.scoreFor(category) != null) c];
-    _set(a.copyWith(category: category, colleges: colleges));
+    _set(_settleAim(a.copyWith(category: category, colleges: colleges)));
   }
 
   /// Adds or removes a subject. At most [kMaxSubjects]; returns false when the cap stops it.
@@ -174,7 +180,10 @@ class AnswersController extends AsyncNotifier<OnboardingAnswers> {
       if (list.length >= kMaxSubjects) return false;
       list.add(s);
     }
-    _set(a.copyWith(subjects: list, subjectsTouched: true));
+    var next = a.copyWith(subjects: list, subjectsTouched: true);
+    // With every subject dropped the step is unanswered again: its Skip comes back (L28).
+    if (list.isEmpty) next = next.copyWith(done: {...next.done}..remove(Steps.subjects));
+    _set(next);
     return true;
   }
 

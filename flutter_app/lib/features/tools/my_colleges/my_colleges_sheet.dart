@@ -589,9 +589,10 @@ class _MyCollegesSheetState extends ConsumerState<MyCollegesSheet> {
     final List<String> visible;
     var hidden = 0;
     if (q.isNotEmpty) {
-      final hits = duSearch(q, names, (n) => n).toSet();
-      // Picked rows always show, so a filter never hides what is on the list.
-      visible = [for (final n in names) if (hits.contains(n) || isPicked(n)) n];
+      // The matches, best match first. Picked colleges that do not match step aside while the
+      // field has words in it: they used to stay on top and push the real hit below the keyboard
+      // (L24). The count line above the field still says how many are picked.
+      visible = duSearch(q, names, (n) => n);
     } else if (_showAll) {
       visible = names;
     } else {

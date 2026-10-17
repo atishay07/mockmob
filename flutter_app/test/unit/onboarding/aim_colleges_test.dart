@@ -138,6 +138,20 @@ void main() {
       expect(controller.toggleCollege(names[8]), isTrue, reason: 'and makes room for another');
       expect(c.read(onboardingAnswersProvider).value!.colleges.last, names[8], reason: 'the order picked is kept');
     });
+    test('pick then drop leaves the Aim step open again, so Skip comes back (L28)', () async {
+      final c = ProviderContainer(overrides: [answersStoreProvider.overrideWithValue(AnswersStore(MemoryPrefsStore()))]);
+      addTearDown(c.dispose);
+      await c.read(onboardingAnswersProvider.future);
+      final controller = c.read(onboardingAnswersProvider.notifier)..setCourse(_course.id);
+      controller.toggleCollege(_names[0]);
+      expect(c.read(onboardingAnswersProvider).value!.isDone(Steps.course), isTrue);
+      controller.toggleCollege(_names[0]);
+      expect(c.read(onboardingAnswersProvider).value!.isDone(Steps.course), isFalse, reason: 'nothing answers the step now');
+      controller.setOpenToAny(true);
+      expect(c.read(onboardingAnswersProvider).value!.isDone(Steps.course), isTrue);
+      controller.setOpenToAny(false);
+      expect(c.read(onboardingAnswersProvider).value!.isDone(Steps.course), isFalse);
+    });
   });
 
   group('what the sheet says about the colleges', () {
