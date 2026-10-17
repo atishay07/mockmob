@@ -110,7 +110,7 @@ export const publicRoutes = [
   {
     path: '/terms',
     title: 'Terms of Service | MockMob',
-    description: 'Read the terms for using MockMob mock tests, community questions, premium features, and accounts.',
+    description: 'Read the terms for using MockMob mock tests, practice questions, premium features, and accounts.',
     priority: 0.25,
   },
   {

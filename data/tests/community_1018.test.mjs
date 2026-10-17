@@ -69,8 +69,10 @@ test('every contribution surface reads the flag; routes and data stay', () => {
   assert.match(practice, /\{contributeOn && <section className="pr-panel" aria-labelledby="pr-bank">/, 'the Practice Add a question panel');
   assert.match(practice, /if \(contributeOn\) optional\('\/api\/questions\/mine'/, 'no submissions read while off');
   assert.match(read('src/components/feed/DiscoveryFeed.jsx'), /contributeOn \? <p className="ex-footnote">Community votes/);
-  assert.match(read('src/app/(app)/upload/page.js'), /contributeEnabled\(\) \? <UploadPageClient \/> : <ContributionsPaused \/>/);
-  assert.match(read('src/app/(app)/my-uploads/page.js'), /contributeEnabled\(\) \? <MyUploadsPageClient \/> : <ContributionsPaused/);
+  // The hidden routes answer the not-found page while the flag is off (the owner's brief for release 6); the pages themselves stay.
+  assert.match(read('src/app/(app)/upload/page.js'), /if \(!contributeEnabled\(\)\) notFound\(\);\s*return <UploadPageClient \/>/);
+  assert.match(read('src/app/(app)/my-uploads/page.js'), /if \(!contributeEnabled\(\)\) notFound\(\);\s*return <MyUploadsPageClient \/>/);
+  assert.ok(existsSync(new URL('../../src/app/(app)/not-found.js', import.meta.url)), 'the app has a not-found page that keeps the sidebar and dock');
   assert.match(read('src/app/api/questions/upload/route.js'), /if \(!contributeEnabled\(\)\) return contributionsPausedResponse\(\)/);
   assert.match(read('src/app/api/questions/mine/route.js'), /if \(!contributeEnabled\(\)\) return contributionsPausedResponse\(\)/);
   assert.match(read('src/app/(app)/layout.js'), /contributeEnabled=\{contributeEnabled\(\)\}/);
@@ -88,4 +90,31 @@ test('Learn has its own row at the top of the phone sheet and its own guide stop
   assert.match(layout, /\{showStudy && \(\s*<Link href=\{previewLinks\?\.learn \|\| '\/learn'\} className="arena-sheet__lead"/);
   assert.match(layout, /title: 'Learn', target: \['nav-learn', 'nav-more'\], study: true/);
   assert.match(layout, /\(!step\.study \|\| studyOn\)/, 'the stop shows only while Learn exists');
+});
+
+test('no dead promise is left behind while the flag is off', () => {
+  // Pricing no longer says an uploaded question adds credits; the Terms description no longer says community questions.
+  assert.doesNotMatch(read('src/app/pricing/page.js'), /you upload that passes moderation/);
+  assert.match(read('src/app/pricing/page.js'), /'New accounts start with 100 practice credits\.',/);
+  assert.doesNotMatch(read('src/app/terms/page.js'), /terms for using MockMob mock tests, community questions/);
+  assert.doesNotMatch(read('src/lib/seo.js'), /terms for using MockMob mock tests, community questions/);
+  // Only the hidden pages and the flagged panels link to /upload and /my-uploads.
+  const linking = ['src/app/(app)/dashboard/DashboardPageClient.jsx', 'src/components/profile/accountModel.mjs', 'src/lib/arenaNavigation.js'];
+  for (const path of linking) assert.match(read(path), /contributeOn|CONTRIBUTE_ROW_IDS|contribute/, `${path} is gated`);
+});
+
+test('a lesson or recall run keeps Learn as the current place, and More is marked on a place that lives under it (D20)', () => {
+  const layout = read('src/app/(app)/AppLayoutClient.jsx');
+  assert.match(layout, /\(id === 'learn' && activePath\.startsWith\('\/study\/'\)\)/);
+  assert.match(layout, /const inMore = !isTestRoute && allTabs\.some\(\(tab\) => isActive\(tab\.id\) && !dockIds\.has\(tab\.id\)\)/);
+  assert.match(layout, /data-tour="nav-more" data-within=\{inMore && !mobileMenuOpen \? 'true' : undefined\}/);
+  assert.match(read('src/app/(app)/arena.css'), /\.arena-bottomnav:has\(> :nth-child\(5\)\[data-within='true'\]\) \{ --abn-i: 4; --abn-on: 1; \}/);
+});
+
+test('Progress leads to the Learn page itself, not into a card run (D20)', () => {
+  const study = read('src/components/study/StudyProgress.jsx');
+  assert.match(study, /<Link className="study-button" href="\/learn">Open Learn<\/Link>/);
+  assert.match(study, /due for review in Learn/);
+  // Review keeps its direct button for due cards.
+  assert.match(study, /review\s*\?\s*<Link className="study-button" href=\{record\.queue\.availableCount \? '\/learn\?recall=due' : '\/learn'\}>/);
 });

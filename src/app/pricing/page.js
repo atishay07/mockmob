@@ -124,7 +124,7 @@ const COMPARISON_GROUPS = newOfferReleased() ? [{ heading: 'Practice and recover
 
 const FREE_NOTES = [
   'Quick practice uses 10 practice credits a session. A Full mock uses 50.',
-  'New accounts start with 100 practice credits. Each question you upload that passes moderation adds 15.',
+  'New accounts start with 100 practice credits.',
   'Credits decide how often you practise, never what you can see: results, explanations, DU eligibility and published cutoffs stay open.',
   'Written replies from Ask Mobi use AI credits: 10 a month on Free.',
 ];

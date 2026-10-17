@@ -5,7 +5,7 @@ import { seoMetadata } from '@/lib/seo';
 
 export const metadata = seoMetadata({
   title: 'Terms of Service | MockMob',
-  description: 'Read the terms for using MockMob mock tests, community questions, premium features, and accounts.',
+  description: 'Read the terms for using MockMob mock tests, practice questions, premium features, and accounts.',
   path: '/terms',
 });
 

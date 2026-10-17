@@ -1,10 +1,12 @@
 export const dynamic = "force-dynamic";
 
+import { notFound } from 'next/navigation';
 import UploadPageClient from './UploadPageClient';
-import ContributionsPaused from '@/components/contribute/ContributionsPaused';
 import { contributeEnabled } from '@/lib/contribute';
 
-// Contributions are paused unless CONTRIBUTE_ENABLED=true (COMMUNITY-1018): the route stays and answers a calm page, never a 404.
+// Contributions are hidden unless CONTRIBUTE_ENABLED=true (COMMUNITY-1018): the page, its API and its data stay, and the route
+// answers the not-found page while the flag is off, so no link or bookmark leads to a feature that is not offered.
 export default function UploadPage() {
-  return contributeEnabled() ? <UploadPageClient /> : <ContributionsPaused />;
+  if (!contributeEnabled()) notFound();
+  return <UploadPageClient />;
 }

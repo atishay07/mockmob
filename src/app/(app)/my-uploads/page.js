@@ -1,10 +1,11 @@
 export const dynamic = "force-dynamic";
 
+import { notFound } from 'next/navigation';
 import MyUploadsPageClient from './MyUploadsPageClient';
-import ContributionsPaused from '@/components/contribute/ContributionsPaused';
 import { contributeEnabled } from '@/lib/contribute';
 
-// Hidden with Contribute (COMMUNITY-1018): the data stays, the page answers a calm "paused" while the flag is off.
+// Hidden with Contribute (COMMUNITY-1018): the data stays, and the route answers the not-found page while the flag is off.
 export default function MyUploadsPage() {
-  return contributeEnabled() ? <MyUploadsPageClient /> : <ContributionsPaused title="My uploads are paused with Contribute" />;
+  if (!contributeEnabled()) notFound();
+  return <MyUploadsPageClient />;
 }

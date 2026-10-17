@@ -309,7 +309,11 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   const sheetHeadIds = new Set(['profile', 'help', 'learn']);
   const sheetGroups = navGroups.map((group) => ({ ...group, items: group.items.filter((tab) => !dockIds.has(tab.id) && !sheetHeadIds.has(tab.id)) })).filter((group) => group.items.length);
   const allTabs = navGroups.flatMap((group) => group.items);
-  const isActive = (id) => activePath === `/${id}` || activePath.startsWith(`/${id}/`);
+  // A lesson or recall run lives at /study/<id> but belongs to Learn (D20), so Learn stays the current place while you are in one.
+  const isActive = (id) => activePath === `/${id}` || activePath.startsWith(`/${id}/`) || (id === 'learn' && activePath.startsWith('/study/'));
+  // On a phone the dock draws four places and More. When you are on a place that lives under More (Learn, Explore, Saved, Progress,
+  // Account, Help), More is marked as where you are, so the dock never shows a screen with nothing current.
+  const inMore = !isTestRoute && allTabs.some((tab) => isActive(tab.id) && !dockIds.has(tab.id));
   const renderNavLink = (tab, onNavigate) => (
     <Link
       key={tab.id}
@@ -467,7 +471,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
       {!isTestRoute && <div className="arena-dock">
         <nav className="arena-bottomnav" aria-label="Quick study navigation">
           {mobileTabs.map((tab) => <Link key={tab.id} href={previewLinks?.[tab.id] || tab.href} onClick={() => setMobileMenuOpen(false)} aria-current={isActive(tab.id) ? 'page' : undefined} data-tour={`nav-${tab.id}`}><AppIcon name={tab.icon} size={24} /><span>{tab.label}</span></Link>)}
-          <button type="button" data-tour="nav-more" aria-expanded={mobileMenuOpen} aria-controls={mobileMenuOpen ? 'arena-sheet' : undefined} onClick={toggleMenu}><AppIcon name="more" size={24} /><span>More</span></button>
+          <button type="button" data-tour="nav-more" data-within={inMore && !mobileMenuOpen ? 'true' : undefined} aria-expanded={mobileMenuOpen} aria-controls={mobileMenuOpen ? 'arena-sheet' : undefined} onClick={toggleMenu}><AppIcon name="more" size={24} /><span>More</span></button>
         </nav>
         <StartKey variant="bar" onOpen={() => setMobileMenuOpen(false)} />
       </div>}

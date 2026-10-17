@@ -1683,6 +1683,8 @@ html[data-motion='reduced'] .app-shell .pr-nta__palette em { transition: none; }
   html .app-shell .arena-bottomnav:has(> :nth-child(3)[aria-current='page']) { --abn-i: 2; --abn-on: 1; }
   html .app-shell .arena-bottomnav:has(> :nth-child(4)[aria-current='page']) { --abn-i: 3; --abn-on: 1; }
   html .app-shell .arena-bottomnav:has(> :nth-child(5)[aria-expanded='true']) { --abn-i: 4; --abn-on: 1; }
+  /* On a place that lives under More (Learn, Explore, Saved, Progress, Account, Help) the lens rests under More. */
+  html .app-shell .arena-bottomnav:has(> :nth-child(5)[data-within='true']) { --abn-i: 4; --abn-on: 1; }
   html .app-shell .arena-bottomnav :is(a, button) {
     position: relative;
     z-index: 1;
@@ -1709,7 +1711,7 @@ html[data-motion='reduced'] .app-shell .pr-nta__palette em { transition: none; }
   html .app-shell .arena-bottomnav :is(a, button) > svg { display: block; width: 24px; height: 24px; }
   html .app-shell .arena-bottomnav :is(a, button) > span { display: block; height: 14px; white-space: nowrap; }
   html .app-shell .arena-bottomnav :is(a, button):active { transform: scale(0.96); transition-duration: 100ms, 160ms; }
-  html .app-shell .arena-bottomnav :is([aria-current='page'], [aria-expanded='true']) { color: var(--a-ink); background: transparent; }
+  html .app-shell .arena-bottomnav :is([aria-current='page'], [aria-expanded='true'], [data-within='true']) { color: var(--a-ink); background: transparent; }
   html .app-shell .arena-bottomnav :is([aria-current='page'], [aria-expanded='true']) svg { animation: abn-pop 420ms var(--mk-spring); }
   html .app-shell .arena-bottomnav :is(a, button):focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; }
   /* No blur where it is unsupported or the student asked for less transparency: the capsule is the raised surface. */
