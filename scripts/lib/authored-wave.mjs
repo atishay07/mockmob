@@ -36,6 +36,7 @@ import { isNtaQuestionId } from '../../data/nta_item_checks.js';
 export const AUTHORED_SOURCE = 'claude-authored-2026-10-14';
 export const AUTHORED_SOURCE_W2 = 'claude-authored-2026-10-14-w2';
 export const AUTHORED_SOURCE_W3 = 'claude-authored-2026-10-17-w3';
+export const AUTHORED_SOURCE_W4 = 'claude-authored-2026-10-17-w4';
 export const AUTHORED_WAVE = 1;
 export const PUBLISH_VERSION = 'authored-publish-1';
 // What a wave is: its source key and the subjects it may hold. Wave 1 behaves exactly as it always did (an unknown source falls back to it).
@@ -47,6 +48,9 @@ export const WAVES = Object.freeze({
   1: Object.freeze({ wave: 1, source: AUTHORED_SOURCE, subjects: Object.freeze(['chemistry', 'english', 'history', 'political_science', 'psychology', 'sociology']), caseSetSubjects: Object.freeze([]), passageSubjects: Object.freeze([]), verdicts: Object.freeze(['ready', 'repaired']) }),
   2: Object.freeze({ wave: 2, source: AUTHORED_SOURCE_W2, subjects: Object.freeze(['biology', 'computer_science', 'english', 'general_test', 'geography', 'mathematics', 'political_science']), caseSetSubjects: Object.freeze(['geography']), passageSubjects: Object.freeze([]), verdicts: Object.freeze(['ready', 'repaired']) }),
   3: Object.freeze({ wave: 3, source: AUTHORED_SOURCE_W3, subjects: Object.freeze(['chemistry', 'general_test', 'hindi', 'physics']), caseSetSubjects: Object.freeze([]), passageSubjects: Object.freeze(['hindi']), verdicts: Object.freeze(['haiku_blind_verified', 'opus_audited']) }),
+  // Wave 4 (17 Oct 2026): five subjects; Biology, Chemistry and General Test hold case sets (a stem with a case passage and a set id, stored like a Geography case set, wave 2). Every row was authored by Claude and then solved blind and checked by a second Claude pass (the `_audit` field of the
+  // draft); that audit is the one verdict a wave-4 row carries (tag expert_review:claude_audited). Hindi stays out.
+  4: Object.freeze({ wave: 4, source: AUTHORED_SOURCE_W4, subjects: Object.freeze(['biology', 'chemistry', 'general_test', 'mathematics', 'physics']), caseSetSubjects: Object.freeze(['biology', 'chemistry', 'general_test']), passageSubjects: Object.freeze([]), verdicts: Object.freeze(['claude_audited']) }),
 });
 export const AUTHORED_SOURCES = Object.freeze(Object.values(WAVES).map((entry) => entry.source));
 /** Every subject any wave publishes (wave 1's six, then wave 2's additions). */
