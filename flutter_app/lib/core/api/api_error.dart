@@ -239,6 +239,12 @@ class ApiError implements Exception {
     }
     final error = map['error'];
     if (error is String && _machineCode.hasMatch(error)) code ??= error;
+    // The unified shape `{ error: { code, message } }` (the Mob routes, SOCIAL-APP-CONTRACT). Only
+    // the machine code is read; the app keeps its own copy for every code.
+    if (error is Map) {
+      final nested = error['code'];
+      if (nested is String && _machineCode.hasMatch(nested)) code ??= nested;
+    }
     final state = map['state'];
     if (state is String) details['state'] = state;
     final balance = map['balance'];

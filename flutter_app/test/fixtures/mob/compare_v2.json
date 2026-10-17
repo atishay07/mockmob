@@ -1,0 +1,440 @@
+{
+  "compare": {
+    "kind": "weekly",
+    "week": "2026-10-12",
+    "extraId": null,
+    "chapter": null,
+    "access": "full",
+    "youShare": true,
+    "sat": 3,
+    "size": 4,
+    "hidden": 0,
+    "teaser": {
+      "split": 3,
+      "of": 10,
+      "with": null,
+      "text": "Your Mob split on 3 of 10 questions."
+    },
+    "questions": [
+      {
+        "number": 1,
+        "id": "q1",
+        "stem": "A partner's salary is charged to which account?",
+        "key": "A",
+        "you": {
+          "picked": "A",
+          "right": true,
+          "changed": 0,
+          "seconds": 45
+        },
+        "others": [
+          {
+            "memberId": "K7Q2M9XR4T1A",
+            "name": "Riya",
+            "colour": 0,
+            "picked": "A",
+            "right": true,
+            "changed": 0,
+            "seconds": 38
+          },
+          {
+            "memberId": "H5P1R7SV2E9F",
+            "name": "Kabir",
+            "colour": 2,
+            "picked": "A",
+            "right": true,
+            "changed": 0,
+            "seconds": 30
+          }
+        ],
+        "picks": [
+          {
+            "option": "A",
+            "count": 3
+          }
+        ],
+        "split": false,
+        "trap": null
+      },
+      {
+        "number": 2,
+        "id": "q2",
+        "stem": "Goodwill is valued at 3 years' purchase of average profit.",
+        "key": "B",
+        "you": {
+          "picked": "B",
+          "right": true,
+          "changed": 0,
+          "seconds": 20
+        },
+        "others": [
+          {
+            "memberId": "K7Q2M9XR4T1A",
+            "name": "Riya",
+            "colour": 0,
+            "picked": "B",
+            "right": true,
+            "changed": 0,
+            "seconds": 22
+          },
+          {
+            "memberId": "H5P1R7SV2E9F",
+            "name": "Kabir",
+            "colour": 2,
+            "picked": "C",
+            "right": false,
+            "changed": 1,
+            "seconds": 64
+          }
+        ],
+        "picks": [
+          {
+            "option": "B",
+            "count": 2
+          },
+          {
+            "option": "C",
+            "count": 1
+          }
+        ],
+        "split": true,
+        "trap": null
+      },
+      {
+        "number": 3,
+        "id": "q3",
+        "stem": "Interest on drawings is calculated from the date of withdrawal.",
+        "key": "C",
+        "you": {
+          "picked": "C",
+          "right": true,
+          "changed": 0,
+          "seconds": 36
+        },
+        "others": [
+          {
+            "memberId": "K7Q2M9XR4T1A",
+            "name": "Riya",
+            "colour": 0,
+            "picked": "C",
+            "right": true,
+            "changed": 0,
+            "seconds": 41
+          },
+          {
+            "memberId": "H5P1R7SV2E9F",
+            "name": "Kabir",
+            "colour": 2,
+            "picked": "C",
+            "right": true,
+            "changed": 0,
+            "seconds": 29
+          }
+        ],
+        "picks": [
+          {
+            "option": "C",
+            "count": 3
+          }
+        ],
+        "split": false,
+        "trap": null
+      },
+      {
+        "number": 4,
+        "id": "q4",
+        "stem": "Which ratio compares current assets to current liabilities?",
+        "key": "D",
+        "you": {
+          "picked": "A",
+          "right": false,
+          "changed": 1,
+          "seconds": 88
+        },
+        "others": [
+          {
+            "memberId": "K7Q2M9XR4T1A",
+            "name": "Riya",
+            "colour": 0,
+            "picked": "D",
+            "right": true,
+            "changed": 0,
+            "seconds": 30
+          },
+          {
+            "memberId": "H5P1R7SV2E9F",
+            "name": "Kabir",
+            "colour": 2,
+            "picked": "D",
+            "right": true,
+            "changed": 0,
+            "seconds": 41
+          }
+        ],
+        "picks": [
+          {
+            "option": "A",
+            "count": 1
+          },
+          {
+            "option": "D",
+            "count": 2
+          }
+        ],
+        "split": true,
+        "trap": null
+      },
+      {
+        "number": 5,
+        "id": "q5",
+        "stem": "On dissolution, realisation expenses paid by a partner are debited to which account?",
+        "key": "A",
+        "you": {
+          "picked": "A",
+          "right": true,
+          "changed": 0,
+          "seconds": 31
+        },
+        "others": [
+          {
+            "memberId": "K7Q2M9XR4T1A",
+            "name": "Riya",
+            "colour": 0,
+            "picked": "A",
+            "right": true,
+            "changed": 0,
+            "seconds": 25
+          },
+          {
+            "memberId": "H5P1R7SV2E9F",
+            "name": "Kabir",
+            "colour": 2,
+            "picked": "A",
+            "right": true,
+            "changed": 0,
+            "seconds": 22
+          }
+        ],
+        "picks": [
+          {
+            "option": "A",
+            "count": 3
+          }
+        ],
+        "split": false,
+        "trap": null
+      },
+      {
+        "number": 6,
+        "id": "q6",
+        "stem": "Capital reserves are created by which transaction?",
+        "key": "C",
+        "you": {
+          "picked": "B",
+          "right": false,
+          "changed": 0,
+          "seconds": 63
+        },
+        "others": [
+          {
+            "memberId": "K7Q2M9XR4T1A",
+            "name": "Riya",
+            "colour": 0,
+            "picked": "B",
+            "right": false,
+            "changed": 1,
+            "seconds": 71
+          },
+          {
+            "memberId": "H5P1R7SV2E9F",
+            "name": "Kabir",
+            "colour": 2,
+            "picked": "B",
+            "right": false,
+            "changed": 0,
+            "seconds": 59
+          }
+        ],
+        "picks": [
+          {
+            "option": "B",
+            "count": 3
+          }
+        ],
+        "split": false,
+        "trap": {
+          "option": "B",
+          "count": 3,
+          "of": 3,
+          "trapName": "A look-alike term"
+        }
+      },
+      {
+        "number": 7,
+        "id": "q7",
+        "stem": "The profit-sharing ratio of Asha and Riya is 3 to 2. Their sacrificing ratio on admitting Kabir is",
+        "key": "C",
+        "you": {
+          "picked": "C",
+          "right": true,
+          "changed": 0,
+          "seconds": 52
+        },
+        "others": [
+          {
+            "memberId": "K7Q2M9XR4T1A",
+            "name": "Riya",
+            "colour": 0,
+            "picked": "C",
+            "right": true,
+            "changed": 0,
+            "seconds": 44
+          },
+          {
+            "memberId": "H5P1R7SV2E9F",
+            "name": "Kabir",
+            "colour": 2,
+            "picked": "C",
+            "right": true,
+            "changed": 0,
+            "seconds": 38
+          }
+        ],
+        "picks": [
+          {
+            "option": "C",
+            "count": 3
+          }
+        ],
+        "split": false,
+        "trap": null
+      },
+      {
+        "number": 8,
+        "id": "q8",
+        "stem": "A bonus issue of shares is made out of",
+        "key": "D",
+        "you": {
+          "picked": "D",
+          "right": true,
+          "changed": 0,
+          "seconds": 27
+        },
+        "others": [
+          {
+            "memberId": "K7Q2M9XR4T1A",
+            "name": "Riya",
+            "colour": 0,
+            "picked": "D",
+            "right": true,
+            "changed": 0,
+            "seconds": 19
+          },
+          {
+            "memberId": "H5P1R7SV2E9F",
+            "name": "Kabir",
+            "colour": 2,
+            "picked": "D",
+            "right": true,
+            "changed": 0,
+            "seconds": 24
+          }
+        ],
+        "picks": [
+          {
+            "option": "D",
+            "count": 3
+          }
+        ],
+        "split": false,
+        "trap": null
+      },
+      {
+        "number": 9,
+        "id": "q9",
+        "stem": "Depreciation is charged on",
+        "key": "A",
+        "you": {
+          "picked": "A",
+          "right": true,
+          "changed": 0,
+          "seconds": 40
+        },
+        "others": [
+          {
+            "memberId": "K7Q2M9XR4T1A",
+            "name": "Riya",
+            "colour": 0,
+            "picked": "A",
+            "right": true,
+            "changed": 0,
+            "seconds": 52
+          },
+          {
+            "memberId": "H5P1R7SV2E9F",
+            "name": "Kabir",
+            "colour": 2,
+            "picked": "D",
+            "right": false,
+            "changed": 2,
+            "seconds": 77
+          }
+        ],
+        "picks": [
+          {
+            "option": "A",
+            "count": 2
+          },
+          {
+            "option": "D",
+            "count": 1
+          }
+        ],
+        "split": true,
+        "trap": null
+      },
+      {
+        "number": 10,
+        "id": "q10",
+        "stem": "The accounting equation is",
+        "key": "B",
+        "you": {
+          "picked": "B",
+          "right": true,
+          "changed": 0,
+          "seconds": 33
+        },
+        "others": [
+          {
+            "memberId": "K7Q2M9XR4T1A",
+            "name": "Riya",
+            "colour": 0,
+            "picked": "B",
+            "right": true,
+            "changed": 0,
+            "seconds": 28
+          },
+          {
+            "memberId": "H5P1R7SV2E9F",
+            "name": "Kabir",
+            "colour": 2,
+            "picked": "B",
+            "right": true,
+            "changed": 0,
+            "seconds": 26
+          }
+        ],
+        "picks": [
+          {
+            "option": "B",
+            "count": 3
+          }
+        ],
+        "split": false,
+        "trap": null
+      }
+    ],
+    "mobId": "7b0c5d8e-1f2a-4b3c-9d4e-5f6a7b8c9d0e",
+    "yourResultId": "practice_u2"
+  }
+}

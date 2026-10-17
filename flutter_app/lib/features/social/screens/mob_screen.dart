@@ -5,6 +5,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/api/api.dart';
 import '../../../core/auth/auth_state.dart';
 import '../../../core/haptics/haptics.dart';
+import '../../../core/models/subject.dart' show isHiddenSubject;
 import '../../../core/motion/motion.dart';
 import '../../../core/repositories/remote_state.dart';
 import '../../../core/theme/theme.dart';
@@ -18,12 +19,18 @@ import '../data/mob_navigator.dart';
 import '../data/mob_repository.dart';
 import '../data/mob_seen.dart';
 import '../logic/mob_ring.dart';
+import '../mob_routes.dart';
+import '../widgets/mob_compare_card.dart';
+import '../widgets/mob_extras.dart';
 import '../widgets/mob_parts.dart';
+import '../widgets/mob_plan_widgets.dart';
 import '../widgets/mob_ring.dart';
 import 'mob_sheets.dart';
 
-/// The Mob page (SOCIAL-SPEC sections 7 and 8): the ring, one primary action, the shared trap,
-/// the members in join order, the invite, and the settings. Or, with no Mob, the start form.
+/// The Mob page (SOCIAL-SPEC sections 7, 8 and 15): the ring, one primary action, what the Mob has in
+/// common (the free teaser, the Pro side-by-side), the shared trap, extra papers, the members in join
+/// order, the invite, and the settings. Or, with no Mob, the start form. Every state is drawn: loading,
+/// failed, off, no Mob, alone, in a Mob, all sat, the week closed.
 class MobScreen extends ConsumerStatefulWidget {
   const MobScreen({super.key});
 
@@ -58,14 +65,18 @@ class _MobScreenState extends ConsumerState<MobScreen> {
   }
 
   List<Widget> _body(BuildContext context, RemoteState<MobRead> state, Mob? mob) {
+    if (mobDisabledError(state.error)) {
+      return const [Padding(padding: youGutter, child: _OffCard())];
+    }
     if (state.value == null && (state.loading || (state.error == null && state.fetchedAt == null))) {
       return const [Padding(padding: youGutter, child: _MobSkeleton())];
     }
-    if (state.value == null || mobDisabledError(state.error)) {
+    if (state.value == null) {
       return [Padding(padding: youGutter, child: _ErrorCard(error: state.error))];
     }
     if (mob == null) return const [StartMobForm()];
-    return [MobBody(mob: mob)];
+    // Keyed by Mob: another Mob starts clean, so nothing of the one before stays open.
+    return [MobBody(key: ValueKey(mob.id), mob: mob)];
   }
 }
 
@@ -75,7 +86,7 @@ class _MobSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const SkeletonGroup(
-      label: MobCopy.title,
+      label: MobCopy.loadingMob,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -91,6 +102,18 @@ class _MobSkeleton extends StatelessWidget {
           Skeleton(height: 48),
         ],
       ),
+    );
+  }
+}
+
+class _OffCard extends StatelessWidget {
+  const _OffCard();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: MmSpace.s16),
+      child: MobCard(child: Text(MobCopy.unavailable, style: context.mmType.body.copyWith(color: context.mmColors.ink2))),
     );
   }
 }
@@ -121,9 +144,15 @@ class _ErrorCard extends ConsumerWidget {
   }
 }
 
-/// No Mob yet: what it is in three lines, a subject, a name and a colour, and one volt key.
+/// No Mob yet (or a Pro student starting another): what it is in a few lines, a subject, a name and a
+/// colour, and one volt key. [another] drops the pitch (it sits in a sheet) and leaves out the
+/// subjects that already have a Mob.
 class StartMobForm extends ConsumerStatefulWidget {
-  const StartMobForm({super.key});
+  const StartMobForm({super.key, this.another = false, this.skip = const [], this.onStarted});
+
+  final bool another;
+  final List<String> skip;
+  final VoidCallback? onStarted;
 
   @override
   ConsumerState<StartMobForm> createState() => _StartMobFormState();
@@ -167,9 +196,10 @@ class _StartMobFormState extends ConsumerState<StartMobForm> {
     if (!mounted) return;
     setState(() => _busy = false);
     if (failure != null) {
-      setState(() => _error = MobCopy.failure(failure));
+      setState(() => _error = failure == MobFailure.nameInvalid ? MobCopy.nameRule : MobCopy.failure(failure));
     } else {
       ref.read(hapticsProvider).confirm();
+      widget.onStarted?.call();
     }
   }
 
@@ -177,8 +207,43 @@ class _StartMobFormState extends ConsumerState<StartMobForm> {
   Widget build(BuildContext context) {
     final type = context.mmType;
     final colors = context.mmColors;
-    final subjects = [for (final s in ref.watch(authSnapshotProvider.select((a) => a.subjects))) if (RegExp(r'^[a-z][a-z_]{1,40}$').hasMatch(s)) s];
-    _subject ??= subjects.isEmpty ? null : subjects.first;
+    final subjects = [
+      for (final s in ref.watch(authSnapshotProvider.select((a) => a.subjects)))
+        if (RegExp(r'^[a-z][a-z_]{1,40}$').hasMatch(s) && !isHiddenSubject(s) && !widget.skip.contains(s)) s,
+    ];
+    if (_subject == null || !subjects.contains(_subject)) _subject = subjects.isEmpty ? null : subjects.first;
+    final form = Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(MobCopy.subjectLabel, style: type.label.copyWith(color: colors.ink2)),
+        const SizedBox(height: MmSpace.s8),
+        if (subjects.isEmpty)
+          MobNote(widget.skip.isEmpty ? MobCopy.noSubjects : MobCopy.everySubjectHasMob)
+        else
+          Wrap(
+            spacing: MmSpace.s8,
+            runSpacing: MmSpace.s4,
+            children: [
+              for (final s in subjects)
+                MmChip(label: youSubjectNames[s] ?? Mob(subject: s).subjectName, selected: _subject == s, onTap: () => setState(() => _subject = s)),
+            ],
+          ),
+        const SizedBox(height: MmSpace.s24),
+        MobNameField(controller: _name, label: MobCopy.nameLabel, error: _error, onChanged: (_) => setState(() => _error = null)),
+        const SizedBox(height: MmSpace.s4),
+        const MobNote(MobCopy.nameNote),
+        const SizedBox(height: MmSpace.s16),
+        Text(MobCopy.colourLabel, style: type.label.copyWith(color: colors.ink2)),
+        ColourPicker(value: _colour, onChanged: (c) => setState(() => _colour = c)),
+        const SizedBox(height: MmSpace.s24),
+        KeyButton(label: _busy ? 'Starting your Mob' : MobCopy.startKey, loading: _busy, onPressed: _busy || _subject == null ? null : _start),
+        if (!widget.another) ...[
+          const SizedBox(height: MmSpace.s12),
+          const MobNote(MobCopy.haveLink, center: true),
+        ],
+      ],
+    );
+    if (widget.another) return Padding(padding: const EdgeInsets.symmetric(horizontal: MmSpace.sheetSide), child: form);
     return Padding(
       padding: youGutter,
       child: MmStagger(
@@ -186,10 +251,7 @@ class _StartMobFormState extends ConsumerState<StartMobForm> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const SizedBox(height: MmSpace.s8),
-            MmStaggerItem(
-              index: 0,
-              child: Text(MobCopy.pitch, style: type.headline.copyWith(color: colors.ink)),
-            ),
+            MmStaggerItem(index: 0, child: Text(MobCopy.pitch, style: type.headline.copyWith(color: colors.ink))),
             const SizedBox(height: MmSpace.s16),
             MmStaggerItem(
               index: 1,
@@ -202,10 +264,7 @@ class _StartMobFormState extends ConsumerState<StartMobForm> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 3),
-                            child: Icon(LucideIcons.check, size: 18, color: colors.accentText),
-                          ),
+                          Padding(padding: const EdgeInsets.only(top: 3), child: Icon(LucideIcons.check, size: 18, color: colors.accentText)),
                           const SizedBox(width: MmSpace.s12),
                           Expanded(child: Text(line, style: type.body.copyWith(color: colors.ink2))),
                         ],
@@ -215,38 +274,7 @@ class _StartMobFormState extends ConsumerState<StartMobForm> {
               ),
             ),
             const SizedBox(height: MmSpace.s24),
-            MmStaggerItem(
-              index: 2,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(MobCopy.subjectLabel, style: type.label.copyWith(color: colors.ink2)),
-                  const SizedBox(height: MmSpace.s8),
-                  if (subjects.isEmpty)
-                    MobNote(MobCopy.noSubjects)
-                  else
-                    Wrap(
-                      spacing: MmSpace.s8,
-                      runSpacing: MmSpace.s4,
-                      children: [
-                        for (final s in subjects)
-                          MmChip(label: youSubjectNames[s] ?? Mob(subject: s).subjectName, selected: _subject == s, onTap: () => setState(() => _subject = s)),
-                      ],
-                    ),
-                  const SizedBox(height: MmSpace.s24),
-                  MobNameField(controller: _name, label: MobCopy.nameLabel, error: _error, onChanged: (_) => setState(() => _error = null)),
-                  const SizedBox(height: MmSpace.s4),
-                  const MobNote(MobCopy.nameRule),
-                  const SizedBox(height: MmSpace.s16),
-                  Text(MobCopy.colourLabel, style: type.label.copyWith(color: colors.ink2)),
-                  ColourPicker(value: _colour, onChanged: (c) => setState(() => _colour = c)),
-                  const SizedBox(height: MmSpace.s24),
-                  KeyButton(label: MobCopy.startKey, loading: _busy, onPressed: _busy || _subject == null ? null : _start),
-                  const SizedBox(height: MmSpace.s12),
-                  const MobNote(MobCopy.haveLink, center: true),
-                ],
-              ),
-            ),
+            MmStaggerItem(index: 2, child: form),
           ],
         ),
       ),
@@ -265,18 +293,20 @@ class MobBody extends ConsumerStatefulWidget {
 }
 
 class _MobBodyState extends ConsumerState<MobBody> {
-  bool _sitting = false;
+  /// The paper being opened: the week's (`'week'`) or an extra paper's id. One start runs at a time.
+  String? _sitting;
   bool _nudging = false;
   String? _nudgeNote;
   bool _seenNudge = false;
 
   Mob get mob => widget.mob;
 
-  Future<void> _sit() async {
-    setState(() => _sitting = true);
-    final failure = await ref.read(mobNavigatorProvider).sitPaper(context, ref, mob);
+  Future<void> _sit({MobExtra? extra}) async {
+    if (_sitting != null) return;
+    setState(() => _sitting = extra?.id ?? 'week');
+    final failure = await ref.read(mobNavigatorProvider).sitPaper(context, ref, mob, extra: extra);
     if (!mounted) return;
-    setState(() => _sitting = false);
+    setState(() => _sitting = null);
     if (failure != null) showMobToast(context, MobCopy.failure(failure));
   }
 
@@ -286,13 +316,19 @@ class _MobBodyState extends ConsumerState<MobBody> {
     if (!mounted) return;
     setState(() {
       _nudging = false;
-      _nudgeNote = failure == null ? MobCopy.nudgeSent(1) : MobCopy.failure(failure);
+      _nudgeNote = failure == null ? MobCopy.nudgeSentNote : MobCopy.failure(failure);
     });
     // The success haptic only after the server's ack (haptic grammar).
     if (failure == null) ref.read(hapticsProvider).confirm();
   }
 
   Future<void> _invite() => showMmSheet<void>(context: context, title: MobCopy.inviteTitle, builder: (_) => const InviteSheet());
+
+  Future<void> _startAnother() => showMmSheet<void>(
+        context: context,
+        title: MobCopy.startAnotherTitle,
+        builder: (sheet) => StartMobForm(another: true, skip: [for (final m in mob.mobs) m.subject], onStarted: () => Navigator.of(sheet).pop()),
+      );
 
   Future<void> _memberMenu(MobMember m) async {
     final choice = await showMmSheet<String>(
@@ -325,17 +361,17 @@ class _MobBodyState extends ConsumerState<MobBody> {
         if (sent == true && mounted) showMobToast(context, MobCopy.reported);
         return;
       case 'block':
-        if (!await confirmMobSheet(context, title: MobCopy.blockTitle(m.name), body: MobCopy.blockBody, confirm: MobCopy.leaveAndBlock)) return;
+        if (!await confirmMobSheet(context, title: MobCopy.blockTitle(m.name), body: MobCopy.blockBody(m.name), confirm: MobCopy.leaveAndBlock)) return;
         failure = await actions.leave(block: m.memberId);
       case 'remove':
-        if (!await confirmMobSheet(context, title: MobCopy.removeTitle(m.name), body: MobCopy.removeBody, confirm: MobCopy.removeMember)) return;
+        if (!await confirmMobSheet(context, title: MobCopy.removeTitle(m.name), body: MobCopy.removeBody(m.name), confirm: MobCopy.removeMember)) return;
         failure = await actions.remove(m.memberId);
     }
     if (failure != null && mounted) showMobToast(context, MobCopy.failure(failure));
   }
 
   Future<void> _leave() async {
-    if (!await confirmMobSheet(context, title: MobCopy.leaveTitle, body: MobCopy.leaveBody, confirm: MobCopy.leaveConfirm)) return;
+    if (!await confirmMobSheet(context, title: MobCopy.leaveTitle(mob.several, mob.subjectName), body: MobCopy.leaveBody, confirm: MobCopy.leaveConfirm)) return;
     final failure = await ref.read(mobActionsProvider).leave();
     if (failure != null && mounted) showMobToast(context, MobCopy.failure(failure));
   }
@@ -348,18 +384,17 @@ class _MobBodyState extends ConsumerState<MobBody> {
     final closed = mob.week.closedAt(now);
     final trap = mob.visibleTrap;
     final received = mob.week.youSat ? null : mob.nudge.receivedFrom;
-    if (received != null && !_seenNudge) {
-      _seenNudge = true;
-      WidgetsBinding.instance.addPostFrameCallback((_) => ref.read(mobActionsProvider).nudgeSeen());
-    }
+    final together = mob.week.youSat && !mob.alone ? mob.together : null;
+    final compare = mob.week.youSat && !mob.alone ? mob.compare : null;
 
     var i = 0;
     return MmStagger(
-      replayKey: mob.week.key,
+      replayKey: '${mob.id}:${mob.week.key}',
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const SizedBox(height: MmSpace.s8),
+          MmStaggerItem(index: i++, child: MobSwitcher(mob: mob, onStartAnother: _startAnother)),
           MmStaggerItem(
             index: i++,
             child: Padding(
@@ -368,7 +403,7 @@ class _MobBodyState extends ConsumerState<MobBody> {
                 padding: const EdgeInsets.fromLTRB(MmSpace.s20, MmSpace.s24, MmSpace.s20, MmSpace.s20),
                 child: Column(
                   children: [
-                    Text(mob.subjectName, style: type.label.copyWith(color: colors.ink2)),
+                    Text(MobCopy.paperLine(mob.subjectName, mob.week.paper.count), style: type.label.copyWith(color: colors.ink2)),
                     const SizedBox(height: MmSpace.s16),
                     MobRingView(mob: mob, size: 168),
                     const SizedBox(height: MmSpace.s16),
@@ -378,6 +413,7 @@ class _MobBodyState extends ConsumerState<MobBody> {
                     if (received != null) ...[
                       const SizedBox(height: MmSpace.s8),
                       Text(MobCopy.nudgeReceived(received), textAlign: TextAlign.center, style: type.body.copyWith(color: colors.ink)),
+                      KeyButton.quiet(label: MobCopy.gotIt, onPressed: _gotIt),
                     ],
                   ],
                 ),
@@ -386,10 +422,19 @@ class _MobBodyState extends ConsumerState<MobBody> {
           ),
           const SizedBox(height: MmSpace.s20),
           MmStaggerItem(index: i++, child: Padding(padding: youGutter, child: _primary(context, closed))),
-          if (trap != null) ...[
+          if (compare != null) ...[
             const SizedBox(height: MmSpace.s24),
-            MmStaggerItem(index: i++, child: Padding(padding: youGutter, child: TrapCard(trap: trap))),
+            MmStaggerItem(index: i++, child: Padding(padding: youGutter, child: MobCompareCard(mob: mob, summary: compare, week: mob.week.key))),
           ],
+          if (trap != null) ...[
+            const SizedBox(height: MmSpace.s12),
+            MmStaggerItem(index: i++, child: Padding(padding: youGutter, child: TrapCard(trap: trap, resultId: mob.week.yourResultId))),
+          ],
+          if (together != null) ...[
+            const SizedBox(height: MmSpace.s12),
+            MmStaggerItem(index: i++, child: Padding(padding: youGutter, child: MobTogetherCard(together: together))),
+          ],
+          MmStaggerItem(index: i++, child: MobExtrasSection(mob: mob, busyExtra: _sitting == 'week' ? null : _sitting, onSit: (x) => _sit(extra: x))),
           MmStaggerItem(index: i++, child: _members(context)),
           if (mob.seatsLeft > 0 && !mob.alone)
             MmStaggerItem(
@@ -405,13 +450,42 @@ class _MobBodyState extends ConsumerState<MobBody> {
             ),
           if (mob.seatsLeft == 0)
             Padding(padding: const EdgeInsets.fromLTRB(youText, MmSpace.s12, youText, 0), child: MobNote(MobCopy.full)),
+          if (mob.plan.pro && mob.pastWeeks > 0)
+            MmStaggerItem(
+              index: i++,
+              child: Padding(
+                padding: const EdgeInsets.only(top: MmSpace.s24),
+                child: YouPanel(
+                  flat: true,
+                  inset: 28 + MmSpace.s16,
+                  children: [
+                    YouRow(
+                      flat: true,
+                      icon: LucideIcons.history,
+                      title: MobCopy.historyTitle,
+                      note: MobCopy.historyCount(mob.pastWeeks),
+                      onTap: () => openMobHistory(context),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          MmStaggerItem(index: i++, child: MobProNote(mob: mob)),
           MmStaggerItem(index: i++, child: _settings(context)),
         ],
       ),
     );
   }
 
+  void _gotIt() {
+    if (_seenNudge) return;
+    _seenNudge = true;
+    ref.read(mobActionsProvider).nudgeSeen();
+  }
+
   Widget _primary(BuildContext context, bool closed) {
+    final paper = mob.week.paper;
+    final sitting = _sitting == 'week';
     if (mob.alone && !mob.week.youSat) {
       // Alone: the invite is the one primary action until someone joins.
       return Column(
@@ -420,67 +494,80 @@ class _MobBodyState extends ConsumerState<MobBody> {
           KeyButton(label: MobCopy.inviteRow(mob.seatsLeft), onPressed: _invite),
           const SizedBox(height: MmSpace.s8),
           const MobNote(MobCopy.aloneLead, center: true),
-          if (!closed) ...[
+          if (!closed && !paper.freeUsed) ...[
             const SizedBox(height: MmSpace.s12),
-            KeyButton.secondary(label: MobCopy.sitKey(mob.week.paper.count, mob.week.paper.minutes), loading: _sitting, onPressed: _sitting ? null : _sit),
+            KeyButton.secondary(label: sitting ? MobCopy.openingPaper : MobCopy.sitKey(paper.count, paper.minutes), loading: sitting, onPressed: _sitting != null ? null : _sit),
           ],
+          if (paper.freeUsed && !closed) ..._freeUsed(),
         ],
       );
     }
-    if (closed) {
-      return mob.week.yourResultId == null
-          ? const SizedBox.shrink()
-          : KeyButton.secondary(label: MobCopy.seeAnswers, onPressed: () => ref.read(mobNavigatorProvider).openAnswers(context, mob.week.yourResultId!));
-    }
+    if (closed && !mob.week.youSat) return const SizedBox.shrink();
     if (!mob.week.youSat) {
-      final paper = mob.week.paper;
+      if (paper.freeUsed) return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: _freeUsed());
+      final cost = MobCopy.costLine(paper);
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          KeyButton(label: MobCopy.sitKey(paper.count, paper.minutes), loading: _sitting, onPressed: _sitting ? null : _sit),
+          KeyButton(label: sitting ? MobCopy.openingPaper : MobCopy.sitKey(paper.count, paper.minutes), loading: sitting, onPressed: _sitting != null ? null : _sit),
           const SizedBox(height: MmSpace.s8),
           MobNote(MobCopy.sitNote(paper.count, paper.minutes), center: true),
           // The contract: a null cost draws nothing (mob-v1 rules).
-          if (_costLine(paper.costType) case final line?) MobNote(line, center: true),
+          if (cost != null) MobNote(cost, center: true),
         ],
       );
     }
     final resultId = mob.week.yourResultId;
+    final reason = MobCopy.nudgeReason(mob.nudge.reason);
     final canNudge = mob.nudge.canSend && _nudgeNote == null;
+    final showNudge = !mob.alone && mob.nudge.reason != MobNudgeReason.everyoneSat && !closed;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        if (resultId != null) ...[
-          KeyButton(label: MobCopy.seeAnswers, onPressed: () => ref.read(mobNavigatorProvider).openAnswers(context, resultId)),
+        if (resultId != null)
+          if (closed)
+            KeyButton.secondary(label: MobCopy.seeAnswers, onPressed: () => ref.read(mobNavigatorProvider).openAnswers(context, resultId))
+          else
+            KeyButton(label: MobCopy.seeAnswers, onPressed: () => ref.read(mobNavigatorProvider).openAnswers(context, resultId)),
+        if (showNudge) ...[
           const SizedBox(height: MmSpace.s12),
-        ],
-        if (!mob.week.complete)
           KeyButton.secondary(
             label: MobCopy.nudgeKey,
             loading: _nudging,
-            disabledReason: canNudge ? null : MobCopy.nudgeSentReason,
+            disabledReason: canNudge ? null : (reason ?? MobCopy.nudgeSentReason),
             onPressed: canNudge && !_nudging ? _nudge : null,
           ),
-        if (_nudgeNote != null || (!mob.week.complete && !mob.nudge.canSend)) ...[
+        ],
+        // Everyone has sat: no dead key, only the line that says so.
+        if (_nudgeNote != null || (!mob.alone && reason != null)) ...[
           const SizedBox(height: MmSpace.s8),
-          MobNote(_nudgeNote ?? MobCopy.nudgeSentReason, center: true),
+          MobNote(_nudgeNote ?? reason!, center: true),
         ],
       ],
     );
   }
 
-  static String? _costLine(MobCostType t) => switch (t) {
-        MobCostType.included => MobCopy.costIncluded,
-        MobCostType.allowance => MobCopy.costAllowance,
-        MobCostType.credits => MobCopy.costConfirm,
-        MobCostType.unknown => null,
-      };
+  /// A free student's one weekly Mob paper went to another of their Mobs: say so, and sell nothing.
+  List<Widget> _freeUsed() => [
+        const SizedBox(height: MmSpace.s12),
+        const MobNote(MobCopy.freeUsed, center: true),
+        const MobNote(MobCopy.includedWithPro, center: true),
+      ];
 
   Widget _members(BuildContext context) {
+    final type = context.mmType;
+    final colors = context.mmColors;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const GroupHeading(MobCopy.membersTitle, top: MmSpace.s32),
+        GroupHeading(
+          MobCopy.membersTitle,
+          top: MmSpace.s32,
+          trailing: Padding(
+            padding: const EdgeInsets.only(right: MmSpace.gutter - MmSpace.s4),
+            child: Text(MobCopy.membersCount(mob.members.length), style: type.small.copyWith(color: colors.ink2, fontFeatures: const [FontFeature.tabularFigures()])),
+          ),
+        ),
         Padding(
           padding: youGutter,
           child: Column(
@@ -493,29 +580,31 @@ class _MobBodyState extends ConsumerState<MobBody> {
 
   Widget _settings(BuildContext context) {
     final actions = ref.read(mobActionsProvider);
+    Future<void> toggle(Future<MobFailure?> Function() write, bool v) async {
+      ref.read(hapticsProvider).toggle(v);
+      final f = await write();
+      if (f != null && context.mounted) showMobToast(context, MobCopy.failure(f));
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const GroupHeading(MobCopy.settingsTitle, top: MmSpace.s32),
-        _SwitchRow(
-          title: MobCopy.showScore,
-          note: MobCopy.showScoreNote,
-          value: mob.you.showScore,
-          onChanged: (v) async {
-            ref.read(hapticsProvider).toggle(v);
-            final f = await actions.updateMe(showScore: v);
-            if (f != null && context.mounted) showMobToast(context, MobCopy.failure(f));
-          },
-        ),
-        _SwitchRow(
-          title: MobCopy.muteNudges,
-          value: mob.you.nudgesMuted,
-          onChanged: (v) async {
-            ref.read(hapticsProvider).toggle(v);
-            final f = await actions.updateMe(nudgesMuted: v);
-            if (f != null && context.mounted) showMobToast(context, MobCopy.failure(f));
-          },
-        ),
+        // A Mob of one has nobody to show a score to or to be nudged by: the two switches arrive with the first friend.
+        if (!mob.alone) ...[
+          MobSwitchRow(
+            title: MobCopy.shareLabel,
+            note: MobCopy.showScoreNote,
+            value: mob.you.showScore,
+            onChanged: (v) => toggle(() => actions.updateMe(showScore: v), v),
+          ),
+          MobSwitchRow(
+            title: MobCopy.muteNudges,
+            note: MobCopy.muteNudgesNote,
+            value: mob.you.nudgesMuted,
+            onChanged: (v) => toggle(() => actions.updateMe(nudgesMuted: v), v),
+          ),
+        ],
         YouPanel(
           flat: true,
           inset: 28 + MmSpace.s16,
@@ -538,46 +627,9 @@ class _MobBodyState extends ConsumerState<MobBody> {
   }
 }
 
-class _SwitchRow extends StatelessWidget {
-  const _SwitchRow({required this.title, required this.value, required this.onChanged, this.note});
-
-  final String title;
-  final String? note;
-  final bool value;
-  final ValueChanged<bool> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    final type = context.mmType;
-    final colors = context.mmColors;
-    return MergeSemantics(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: youText + MmSpace.s4, vertical: MmSpace.s8),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: MmTarget.min),
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(title, style: type.body.copyWith(color: colors.ink)),
-                    if (note != null) Text(note!, style: type.small.copyWith(color: colors.ink2)),
-                  ],
-                ),
-              ),
-              const SizedBox(width: MmSpace.s12),
-              MmSwitch(value: value, semanticsLabel: title, onChanged: onChanged),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// One member, 48 dp or taller: the initial, the name, "Sat" or nothing, the score only if they
-/// chose to show it, and a menu. Rows stay in join order (P5).
+/// One member, 56 dp tall: the initial, the name, the score only if they chose to show it, and a
+/// menu. Rows stay in join order (P5) and carry no sitting state, so no row reads as "has not sat"
+/// (P6): the ring names the sitters.
 class MemberRow extends StatelessWidget {
   const MemberRow({super.key, required this.member, this.onMenu});
 
@@ -588,7 +640,7 @@ class MemberRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final type = context.mmType;
     final colors = context.mmColors;
-    final score = member.scoreLine;
+    final score = member.sat ? member.scoreLine : null;
     return ConstrainedBox(
       constraints: const BoxConstraints(minHeight: 56),
       child: Row(
@@ -609,14 +661,8 @@ class MemberRow extends StatelessWidget {
           ),
           if (score != null) ...[
             Text(score, style: type.small.copyWith(color: colors.ink2, fontFeatures: const [FontFeature.tabularFigures()])),
-            const SizedBox(width: MmSpace.s12),
+            const SizedBox(width: MmSpace.s4),
           ],
-          if (member.sat)
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8, vertical: MmSpace.s2),
-              decoration: BoxDecoration(color: colors.volt, borderRadius: MmRadius.pillAll),
-              child: Text(MobCopy.sat, style: type.small.copyWith(color: colors.voltInk, fontWeight: FontWeight.w700)),
-            ),
           if (onMenu != null)
             IconButton(
               tooltip: MobCopy.memberMenu(member.name),
@@ -634,28 +680,28 @@ class MemberRow extends StatelessWidget {
 
 /// The shared trap: aggregate only (P7), with the one way to act on it.
 class TrapCard extends ConsumerWidget {
-  const TrapCard({super.key, required this.trap});
+  const TrapCard({super.key, required this.trap, this.resultId});
 
   final MobTrap trap;
+  final String? resultId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final type = context.mmType;
     final colors = context.mmColors;
-    final picked = trap.youPickedIt ?? false;
     return MobCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(MobCopy.trapTitle, style: type.label.copyWith(color: colors.ink2)),
+          Semantics(header: true, child: Text(MobCopy.trapTitle, style: type.label.copyWith(color: colors.ink2))),
           const SizedBox(height: MmSpace.s8),
           Text(MobCopy.trapLine(trap), style: type.title.copyWith(color: colors.ink)),
           const SizedBox(height: MmSpace.s4),
           Text(MobCopy.trapName(trap), style: type.body.copyWith(color: colors.ink2)),
           const SizedBox(height: MmSpace.s16),
           PillKey(
-            label: picked ? MobCopy.repairIt : MobCopy.seeWhy(trap.option),
-            onPressed: () => ref.read(mobNavigatorProvider).openTrap(context, trap),
+            label: trap.youGotItRight ? MobCopy.seeWhy(trap.option) : MobCopy.repairIt,
+            onPressed: () => ref.read(mobNavigatorProvider).openTrap(context, trap, resultId: resultId),
           ),
         ],
       ),
@@ -675,7 +721,8 @@ class MobRingView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final type = context.mmType;
     final colors = context.mmColors;
-    final seen = ref.watch(mobSeenProvider(mob.week.key));
+    final key = '${mob.id}:${mob.week.key}';
+    final seen = ref.watch(mobSeenProvider(key));
     final reduced = Motion.reduced(context);
     final plan = ringPlan(mob, seenSat: seen.value ?? mob.week.sat, reducedMotion: reduced || !seen.hasValue);
     final line = MobCopy.ringLine(plan.sat, plan.size);
@@ -683,7 +730,7 @@ class MobRingView extends ConsumerWidget {
       plan: plan,
       size: size,
       semanticsLabel: line,
-      onInked: seen.hasValue && (seen.value ?? 0) != plan.sat ? () => ref.read(mobSeenProvider(mob.week.key).notifier).mark(plan.sat) : null,
+      onInked: seen.hasValue && (seen.value ?? 0) != plan.sat ? () => ref.read(mobSeenProvider(key).notifier).mark(plan.sat) : null,
       center: compact
           ? Text('${plan.sat}/${plan.size}', style: type.label.copyWith(color: colors.ink, fontWeight: FontWeight.w700))
           : Column(

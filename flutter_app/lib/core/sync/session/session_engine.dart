@@ -173,6 +173,7 @@ class SessionEngine extends ChangeNotifier {
     String? chapter,
     String? difficulty,
     int? mockNumber,
+    String? draftKey,
   }) async {
     final clock = services.clockFactory?.call() ?? SessionClock();
     clock.anchor(
@@ -187,17 +188,18 @@ class SessionEngine extends ChangeNotifier {
     if (view.questions.isNotEmpty && clock.remainingMs <= 0) {
       throw const ApiError(kind: ApiErrorKind.server, code: 'unusable_response');
     }
-    final draftKey = SessionDraft.keyFor(
-      userId: services.userId,
-      subject: subject,
-      chapter: chapter,
-      count: count,
-      difficulty: difficulty,
-      mode: mode,
-    );
-    await _settleEarlierDraft(services, draftKey, newSessionId: view.meta.sessionId.isNotEmpty ? view.meta.sessionId : view.id);
+    final key = draftKey ??
+        SessionDraft.keyFor(
+          userId: services.userId,
+          subject: subject,
+          chapter: chapter,
+          count: count,
+          difficulty: difficulty,
+          mode: mode,
+        );
+    await _settleEarlierDraft(services, key, newSessionId: view.meta.sessionId.isNotEmpty ? view.meta.sessionId : view.id);
     final draft = SessionDraft(
-      draftKey: draftKey,
+      draftKey: key,
       userId: services.userId,
       view: view,
       generationKey: generationKey,

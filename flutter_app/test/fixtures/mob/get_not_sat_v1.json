@@ -1,7 +1,23 @@
 {
   "mob": {
+    "id": "7b0c5d8e-1f2a-4b3c-9d4e-5f6a7b8c9d0e",
     "subject": "accountancy",
     "subjectName": "Accountancy",
+    "plan": {
+      "pro": false,
+      "maxMobs": 1,
+      "mobCount": 1,
+      "canMakeExtra": false,
+      "canStartAnother": false
+    },
+    "mobs": [
+      {
+        "id": "7b0c5d8e-1f2a-4b3c-9d4e-5f6a7b8c9d0e",
+        "subject": "accountancy",
+        "subjectName": "Accountancy",
+        "active": true
+      }
+    ],
     "you": {
       "memberId": "M2X6G4KJ8N3D",
       "name": "Meera",
@@ -54,10 +70,9 @@
         "count": 10,
         "durationSec": 720,
         "cost": {
-          "type": "credits",
-          "credits": 10,
-          "balance": 40
-        }
+          "type": "free"
+        },
+        "blocked": null
       },
       "sat": 3,
       "size": 4,
@@ -65,6 +80,9 @@
       "yourResultId": null
     },
     "trap": null,
+    "compare": null,
+    "extras": [],
+    "pastWeeks": 0,
     "nudge": {
       "canSend": false,
       "reason": "not_sat",

@@ -1,7 +1,23 @@
 {
   "mob": {
+    "id": "7b0c5d8e-1f2a-4b3c-9d4e-5f6a7b8c9d0e",
     "subject": "accountancy",
     "subjectName": "Accountancy",
+    "plan": {
+      "pro": false,
+      "maxMobs": 1,
+      "mobCount": 1,
+      "canMakeExtra": false,
+      "canStartAnother": false
+    },
+    "mobs": [
+      {
+        "id": "7b0c5d8e-1f2a-4b3c-9d4e-5f6a7b8c9d0e",
+        "subject": "accountancy",
+        "subjectName": "Accountancy",
+        "active": true
+      }
+    ],
     "you": {
       "memberId": "B3N8D2WQ6Z0C",
       "name": "Asha",
@@ -53,7 +69,8 @@
       "paper": {
         "count": 10,
         "durationSec": 720,
-        "cost": null
+        "cost": null,
+        "blocked": null
       },
       "sat": 3,
       "size": 4,
@@ -70,6 +87,20 @@
       "youPickedIt": true,
       "youGotItRight": false
     },
+    "compare": {
+      "available": true,
+      "access": "offer",
+      "youShare": true,
+      "needsShare": true,
+      "teaser": {
+        "split": 3,
+        "of": 10,
+        "with": null,
+        "text": "Your Mob split on 3 of 10 questions."
+      }
+    },
+    "extras": [],
+    "pastWeeks": 0,
     "nudge": {
       "canSend": true,
       "reason": null,

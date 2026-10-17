@@ -167,6 +167,7 @@ class StartSessionArgs {
     this.chapter,
     this.difficulty,
     this.mockNumber,
+    this.draftKey,
   });
 
   final SessionView view;
@@ -177,6 +178,10 @@ class StartSessionArgs {
   final String? chapter;
   final String? difficulty;
   final int? mockNumber;
+
+  /// Names the draft row itself, for a paper that is not a selection (a Mob paper), so it never
+  /// takes the row of an ordinary quick set of the same subject and length. Null: the selection's key.
+  final String? draftKey;
 }
 
 /// Starts a session engine from a session view the server returned. A thin wrapper so the
@@ -192,6 +197,7 @@ final sessionEngineStarterProvider = Provider<Future<SessionEngine> Function(Sta
         chapter: args.chapter,
         difficulty: args.difficulty,
         mockNumber: args.mockNumber,
+        draftKey: args.draftKey,
       );
 });
 
