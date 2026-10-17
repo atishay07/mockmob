@@ -244,8 +244,7 @@ abstract final class ReviewCopy {
   static String shortfallHeadline(int needed, int balance) => 'You have ${plural(balance, 'AI credit')}, this repair needs $needed';
   static String startWith(int n) => 'Start with ${plural(n, 'mistake')}';
   static const begin = 'Begin';
-  static const openSaved = 'Open saved repair';
-  static const reopenLead = 'Already repaired. This opens your saved repair and changes nothing on your record.';
+  static const reopenLead = 'Already repaired. Opening it again is free and changes nothing on your record.';
 
   /// What Repair gives, said on the entry before any call (L13): three lines, each with what it
   /// is and what it holds. The cost follows directly under them.
