@@ -339,11 +339,15 @@ BarLive? visibleLive(
   required Set<String> dismissed,
   required Set<BarLiveKind> todayCovers,
   required bool onToday,
+  bool onReview = false,
   BarMove? move,
 }) {
   BarLive? shown = live;
   if (shown != null && dismissed.contains(shown.identity)) shown = null;
   if (shown != null && onToday && todayCovers.contains(shown.kind)) shown = null;
+  // The Review tab already carries its own card for a result that is marked and waiting ("Mock 5 was
+  // received", with Open it): one notice, not the card and a pill over its content (v13 walk, 7).
+  if (shown != null && onReview && shown.kind == BarLiveKind.marked) shown = null;
   if (shown == null && onToday && move != null && !dismissed.contains(move.identity)) return move;
   return shown;
 }

@@ -45,7 +45,11 @@ class _SealedResultScreenState extends ConsumerState<SealedResultScreen> {
     if (model == null) {
       return RecapPlaceholder(data: data, attemptId: id, onRetry: () => retryRecapData(ref, id));
     }
-    if (ritual == null || _redirected) return RecapRoom(subjectId: model.subjectId, child: const SizedBox.expand());
+    // The ritual (has it been opened before, does the student open directly) is a read of its own. Until
+    // it answers the screen shows the sheet's skeleton, not a bare room: that read was the blank page
+    // before the envelope art (v13 walk, finding 9).
+    if (ritual == null) return RecapPlaceholder(data: data, attemptId: id, onRetry: () => retryRecapData(ref, id));
+    if (_redirected) return RecapRoom(subjectId: model.subjectId, child: const SizedBox.expand());
     if (ritual.alreadyOpened || ritual.openDirectly || model.ordinal == null) {
       _redirect();
       return RecapRoom(subjectId: model.subjectId, child: const SizedBox.expand());

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/router/action_router.dart';
 import '../../../core/router/external_link_opener.dart';
+import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -84,7 +86,20 @@ class _HelpScreenState extends ConsumerState<HelpScreen> {
       title: YouCopy.helpTitle,
       children: [
         const SizedBox(height: MmSpace.s8),
-        const GroupHeading(FaqCopy.heading, top: MmSpace.s4),
+        // Help leads with the way to a person-like answer (the website's Help door does the same,
+        // N9): Ask Mobi opens over this page and closes back to it.
+        YouPanel(
+          inset: MmSpace.gutter + 48,
+          children: [
+            YouRow(
+              icon: LucideIcons.messageCircle,
+              title: YouCopy.helpAskTitle,
+              note: YouCopy.helpAskNote,
+              onTap: () => context.push(AppRoutes.ask),
+            ),
+          ],
+        ),
+        const GroupHeading(FaqCopy.heading),
         FaqList(openId: widget.openFaq),
         const GroupHeading(YouCopy.helpContactHeading, top: MmSpace.s32),
         YouPanel(

@@ -108,4 +108,36 @@ void main() {
     await tester.pumpAndSettle();
     expect(_firstRowTop(tester), closeTo(rest, 0.5));
   });
+
+  testWidgets('a refresh still running when the page is scrolled away from the top takes its ring with it, never over content (v13 walk, 2)', (tester) async {
+    final done = Completer<void>();
+    await tester.pumpWidget(_app(() => done.future, reduced: true));
+    await _pullPastThreshold(tester);
+    await _frames(tester);
+
+    double shown() {
+      var opacity = 1.0;
+      for (final o in tester.widgetList<Opacity>(find.ancestor(of: find.text('Refreshing'), matching: find.byType(Opacity)))) {
+        opacity *= o.opacity;
+      }
+      return opacity;
+    }
+
+    expect(find.text('Refreshing'), findsOneWidget);
+    expect(shown(), 1);
+
+    // The student scrolls down the page while it is still loading.
+    await tester.drag(find.byType(CustomScrollView), const Offset(0, -400));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 200));
+    expect(shown(), 0, reason: 'no ring or words over the rows below the top');
+
+    // Back at the top it is there again.
+    await tester.drag(find.byType(CustomScrollView), const Offset(0, 600));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 600));
+    expect(shown(), greaterThan(0.9));
+    done.complete();
+    await tester.pumpAndSettle();
+  });
 }

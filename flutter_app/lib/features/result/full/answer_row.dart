@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-import '../../../core/models/models.dart' show LabLabels, LabOthers, TrapTag;
+import '../../../core/models/models.dart' show LabLabels, LabOthers, TrapTag, distinctBody;
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -217,9 +217,9 @@ class _Body extends StatelessWidget {
           const SizedBox(height: MmSpace.s12),
         ],
         Text(q.question, style: type.question),
-        if (q.body != null && q.body!.trim().isNotEmpty) ...[
+        if (distinctBody(q.question, q.body) case final body?) ...[
           const SizedBox(height: MmSpace.s8),
-          Text(q.body!, style: type.body.copyWith(color: colors.ink2)),
+          Text(body, style: type.body.copyWith(color: colors.ink2)),
         ],
         if (others != null) ...[
           const SizedBox(height: MmSpace.s16),

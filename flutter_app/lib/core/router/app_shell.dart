@@ -13,6 +13,7 @@ import '../theme/theme.dart';
 import '../widgets/bar/bar_badges.dart';
 import '../widgets/bar/bar_insets.dart';
 import '../widgets/bar/bar_live.dart';
+import '../widgets/bar/bar_tabs.dart' show BarBranch;
 import '../widgets/bar/live_capsule.dart';
 import '../widgets/bar/mm_bar.dart';
 import '../widgets/bar/morph_sheet_route.dart';
@@ -400,6 +401,7 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
       dismissed: ref.watch(barDismissalsProvider),
       todayCovers: ref.watch(todayHeroCoversProvider),
       onToday: shell.currentIndex == 0,
+      onReview: shell.currentIndex == BarBranch.review,
       // Tonight's move is never shown over the page: it repeated the hero's own action and made a
       // third floating layer at the thumb (v13 critic, clutter). Today still publishes it for its
       // own tests; the Start key's word and the hero carry the move.

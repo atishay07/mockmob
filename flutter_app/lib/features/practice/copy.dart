@@ -155,9 +155,10 @@ abstract final class PracticeCopy {
   static const String fineTuneLabel = 'Fine-tune';
   static const String fineTuneQuick = 'For Quick practice you can pick the chapters and the difficulty.';
   static const String fineTuneFull = 'For a Full mock you can set the difficulty. It covers every chapter, like the exam.';
-  static const String fineTuneSmart =
-      'We choose for you. Smart practice leans on the topics where you get under 60% right, so there is nothing to set.';
-  static const String fineTuneNta = 'We choose for you. NTA mode is 50 questions across the syllabus in the exam’s mix, so there is nothing to set.';
+  // Owner, 17 Oct night (N3): trust, not a shrug. NTA mode is built exactly as the exam is; Smart practice
+  // is built from the student's own weak topics (it is not the NTA mix, so it does not say it is).
+  static const String fineTuneSmart = "We build it from the topics where you get under 60% right. You don't need to choose anything.";
+  static const String fineTuneNta = "We build it exactly the NTA way. You don't need to choose anything.";
 
   // The summary of what starts.
   static const String summarySubject = 'Subject';

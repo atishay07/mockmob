@@ -44,6 +44,7 @@ TodayView buildToday(TodayInputs i) {
     weekFailed: plain.weekFailed,
     updatedLine: plain.updatedLine,
     refreshable: plain.refreshable,
+    offline: plain.offline,
   );
   // An ended mock that could not be recorded only offers a picker; tonight's move under it is
   // then the one volt key and the picker steps back to a text key.
@@ -79,6 +80,7 @@ HeaderModel buildHeader(TodayInputs i) {
     weekFailed: week == null && !i.weekLoading && i.weekFailed,
     updatedLine: _updatedLine(i),
     refreshable: _refreshFailed(i),
+    offline: i.offline,
   );
 }
 

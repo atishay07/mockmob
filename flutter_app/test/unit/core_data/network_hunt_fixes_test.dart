@@ -63,7 +63,7 @@ void main() {
       expect(pingTimeout, greaterThanOrEqualTo(const Duration(seconds: 10)));
     });
 
-    test('after the work clears, a slow recovery ping still lifts a wrong offline verdict', () async {
+    test('after the work clears, a recovery ping still lifts a wrong offline verdict', () async {
       final radio = StreamController<bool>();
       final timers = <_ManualTimer>[];
       var pending = true;
@@ -97,8 +97,10 @@ void main() {
       expect(pending, isFalse);
 
       // Nothing is waiting any more, but the radio is still there: a recovery ping follows.
+      // It starts on the back-off's first step, so a site that was down briefly clears the verdict in
+      // seconds, not a minute (v13 walk, finding 3).
       final next = timers.lastWhere((t) => t.active);
-      expect(next.delay, const Duration(seconds: 60));
+      expect(next.delay, const Duration(seconds: 5));
       next.active = false;
       next.cb();
       await _settle();
@@ -106,7 +108,7 @@ void main() {
       expect(restored, 1);
     });
 
-    test('a recovery ping is the slow one, and new work speeds it up', () async {
+    test('a recovery ping backs off, and new work speeds it up', () async {
       final radio = StreamController<bool>();
       final timers = <_ManualTimer>[];
       var pending = true;
@@ -133,7 +135,8 @@ void main() {
       first.cb();
       await _settle();
       final recovery = timers.lastWhere((t) => t.active);
-      expect(recovery.delay, const Duration(seconds: 60));
+      // The recovery ping backs off (5, 15, 30, then a minute) rather than sitting at a minute from the start.
+      expect(recovery.delay, const Duration(seconds: 30));
 
       pending = true;
       monitor.pendingWorkChanged();

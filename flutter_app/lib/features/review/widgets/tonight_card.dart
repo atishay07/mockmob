@@ -112,12 +112,11 @@ class _TonightCardState extends State<TonightCard> with SingleTickerProviderStat
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // One line: when the band is narrow the subject's end gives way to an ellipsis, never
-                // a second line (the subject is also the card's object).
+                // The subject is never cut ("Business St..." read as broken, v13 walk, 9): when the
+                // band is narrow the line wraps to a second line instead of ending in an ellipsis.
                 Text(
                   ReviewCopy.tonightOverline(widget.now, subjectName(pick.subjectId)),
-                  maxLines: 1,
-                  softWrap: false,
+                  maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: type.caption.copyWith(color: colors.ink2),
                 ),

@@ -95,7 +95,7 @@ class QuestionView extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final passage = question.passageText;
-    final body = question.body;
+    final body = distinctBody(question.question, question.body);
 
     // On a tall screen the cards grow (56 dp up to 72 dp), so the gap between a short question
     // and its options is spent on bigger keys, not left as air. 640 dp and shorter keeps 56.

@@ -13,6 +13,7 @@ import 'package:mockmob/features/onboarding/model/choices.dart' show Stage;
 import 'package:mockmob/features/onboarding/state/answers_controller.dart';
 import 'package:mockmob/features/you/account/account_screen.dart';
 import 'package:mockmob/features/you/data/study_length.dart';
+import 'package:mockmob/features/you/edit_copy.dart';
 import 'package:mockmob/features/you/sheet/sheet_editor_screen.dart';
 import 'package:mockmob/features/you/subjects/subjects_screen.dart';
 import 'package:mockmob/features/you/you_hub_screen.dart';
@@ -136,7 +137,7 @@ void main() {
       await _tap(tester, 'General Test');
       await _tap(tester, 'Mathematics');
       expect(find.text('5 of 5 chosen'), findsOneWidget);
-      expect(find.text('Five is the most. Remove one to add another.'), findsWidgets);
+      expect(find.text(EditCopy.subjectsCap), findsWidgets);
     });
 
     testWidgets('Back with unsaved choices asks once; Keep editing stays', (tester) async {
@@ -175,7 +176,7 @@ void main() {
       await tester.tap(find.text('Mathematics').first);
       await tester.pump();
       await tester.pump();
-      final sentence = find.text('Five is the most. Remove one to add another.');
+      final sentence = find.text(EditCopy.subjectsCap);
       expect(sentence, findsWidgets);
       final rest = tester.getTopLeft(sentence.first);
       await tester.pump(const Duration(milliseconds: 25));

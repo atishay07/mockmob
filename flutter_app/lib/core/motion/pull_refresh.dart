@@ -73,6 +73,11 @@ class _MmPullRefreshState extends ConsumerState<MmPullRefresh> with TickerProvid
   /// 0 to 1 and beyond: the pull as a share of the threshold.
   final ValueNotifier<double> _progress = ValueNotifier(0);
 
+  /// How far the page is scrolled down from its top (dp, never negative). The ring belongs to the
+  /// top of the page: once the page has scrolled away from it the ring goes with it, so it never
+  /// sits over content lower down (v13 walk, finding 2).
+  final ValueNotifier<double> _scrolled = ValueNotifier(0);
+
   /// The reading arc: one turn per 1.2 s.
   late final AnimationController _spin = AnimationController(vsync: this, duration: const Duration(milliseconds: 1200));
 
@@ -90,6 +95,7 @@ class _MmPullRefreshState extends ConsumerState<MmPullRefresh> with TickerProvid
   void dispose() {
     _slowTimer?.cancel();
     _progress.dispose();
+    _scrolled.dispose();
     _spin.dispose();
     _land.dispose();
     super.dispose();
@@ -104,6 +110,9 @@ class _MmPullRefreshState extends ConsumerState<MmPullRefresh> with TickerProvid
 
   bool _onScroll(ScrollNotification n) {
     if (!widget.enabled || n.depth != 0 || n.metrics.axis != Axis.vertical) return false;
+    // Where the page is, even while a refresh holds the ring: it follows the page up and out.
+    final scrolled = math.max(0.0, n.metrics.pixels);
+    if (scrolled != _scrolled.value) _scrolled.value = scrolled;
     if (_busy) return false;
     if (n is OverscrollNotification && n.dragDetails != null && n.overscroll < 0) {
       _setPull(_pull - n.overscroll);
@@ -227,17 +236,22 @@ class _MmPullRefreshState extends ConsumerState<MmPullRefresh> with TickerProvid
               child: IgnorePointer(
                 child: Center(
                   child: ListenableBuilder(
-                    listenable: Listenable.merge([_progress, _spin, _land]),
+                    listenable: Listenable.merge([_progress, _spin, _land, _scrolled]),
                     builder: (context, _) => _RingRide(
                       offset: _mode == _PullMode.pulling ? ringOffsetFor(_pull) : 0,
                       animate: _mode != _PullMode.pulling && !reduced,
-                      child: _PullRing(
+                      // Scrolled away from the top: the ring rides up with the page and fades out
+                      // over the held gap, so nothing of it ever overlays the content below.
+                      child: _AwayFromTop(
+                        scrolled: _scrolled.value,
+                        child: _PullRing(
                         progress: _progress.value,
                         mode: _mode,
                         spin: _spin.value,
                         land: _land.value,
                         reduced: reduced,
                         slow: _slow,
+                      ),
                       ),
                     ),
                   ),
@@ -413,4 +427,23 @@ class _RingRide extends StatelessWidget {
     builder: (context, dy, child) => Transform.translate(offset: Offset(0, dy), child: child),
     child: child,
   );
+}
+
+/// Carries the ring away with the page: up by the scroll, and faded out over the first
+/// [MmPullRefresh.holdExtent] dp of it. At the top of the page it changes nothing.
+class _AwayFromTop extends StatelessWidget {
+  const _AwayFromTop({required this.scrolled, required this.child});
+
+  final double scrolled;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    if (scrolled <= 0) return child;
+    final out = (scrolled / MmPullRefresh.holdExtent).clamp(0.0, 1.0);
+    return Opacity(
+      opacity: 1 - out,
+      child: Transform.translate(offset: Offset(0, -scrolled), child: child),
+    );
+  }
 }

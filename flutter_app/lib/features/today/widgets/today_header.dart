@@ -57,6 +57,7 @@ class _TodayHeaderState extends State<TodayHeader> {
             updatedLine: header.updatedLine,
             greeting: header.greeting,
             onRefresh: header.refreshable ? widget.onRefresh : null,
+            offline: header.offline,
             refreshing: widget.refreshing,
           ),
         ),
@@ -75,9 +76,13 @@ class _GreetingRow extends StatelessWidget {
     this.updatedLine,
     this.onRefresh,
     this.refreshing = false,
+    this.offline = false,
   });
 
   final VoidCallback? onRefresh;
+
+  /// Only a phone that is really offline gets the cloud-off mark.
+  final bool offline;
   final bool refreshing;
 
   final String dateLine;
@@ -121,10 +126,10 @@ class _GreetingRow extends StatelessWidget {
                             key: const ValueKey('updated'),
                             children: [
                               Icon(
-                                onRefresh == null ? LucideIcons.cloudOff : LucideIcons.rotateCw,
+                                offline ? LucideIcons.cloudOff : LucideIcons.rotateCw,
                                 size: 14,
                                 color: colors.ink2,
-                              ).spinning(refreshing && onRefresh != null),
+                              ).spinning(refreshing && !offline),
                               const SizedBox(width: MmSpace.s6),
                               Flexible(
                                 child: Text(

@@ -333,7 +333,9 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
     ]),
 
     // Ask your record: from the record, the tools hub and the Start sheet.
-    page(AppRoutes.ask, askScreen, root: true),
+    // Ask Mobi opens over the page (it rises 24 dp and fades in, and closes the same way) with a close
+    // mark, not a sideways push: it is a conversation on top of where you were (owner N9, web release 4).
+    page(AppRoutes.ask, askScreen, transition: MmTransition.rise, root: true),
 
     // Learn is no longer a tab: its screens stay reachable from Practice (the Concepts shelf)
     // and from the mistakes they explain.
