@@ -119,7 +119,14 @@ abstract final class MmBar {
   /// The capsule's and the live capsule's blur (L33: frost, so what scrolls under the bar shows as
   /// soft colour and shape, never as readable text). GLASS-1017 section 8 keeps the frost value
   /// under this name too, so the owner's answer to its question 1 is one number.
-  static const double blurSigma = 32;
+  ///
+  /// v14: 16, down from 32. At 32 a 64 dp bar averages Today's rail, dots and lines into one flat
+  /// tone, so the Night bar read as an opaque pill on the device walk (F3, L33, GLASS A1). The
+  /// owner's newest words (F3, 17 Oct) ask for Apple's glass, where content stays recognisable
+  /// as shape; GLASS-1017 6.1 sets the lighter blur and leaves legibility to the luminosity step
+  /// (`BarGlass.backdropMatrix`), which holds 4.5:1 over a solid volt key. Text under the bar
+  /// still never reads: an 11 to 16 sp glyph is gone at sigma 16.
+  static const double blurSigma = 16;
   static const double frostBlurSigma = blurSigma;
 
   /// The backdrop's saturation lift under the glass (Apple's regular material, NAV 6.2).

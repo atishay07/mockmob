@@ -72,4 +72,33 @@ void main() {
       expect(ratio(colors.ink, glass), greaterThanOrEqualTo(4.5), reason: 'active tab label');
     });
   }
+
+  // v14 (L33): the glass is thinner so the page shows through, so the labels are judged over the
+  // worst page there is: a solid volt key (or paper white, or black) right under the label, behind
+  // the bar's scrim at its top edge, through the backdrop's colour step and the tint. The blur
+  // only ever averages that toward the ground, which helps.
+  for (final brightness in [Brightness.dark, Brightness.light]) {
+    test('the labels hold 4.5:1 over a solid volt, white or black page under the glass, ${brightness == Brightness.dark ? 'night' : 'day'}', () {
+      final colors = brightness == Brightness.dark ? MmColors.dark : MmColors.light;
+      final spec = BarGlassSpec.of(colors, GlassQuality.full);
+      final m = BarGlass.backdropMatrix(night: colors.isNight);
+      Color through(Color page) {
+        final behind = Color.alphaBlend(colors.ground.withValues(alpha: BarScrim.atBarTop), page);
+        final rgb = [behind.r * 255, behind.g * 255, behind.b * 255];
+        double row(int i) => (m[i * 5] * rgb[0] + m[i * 5 + 1] * rgb[1] + m[i * 5 + 2] * rgb[2] + m[i * 5 + 4]).clamp(0, 255) / 255;
+        final stepped = Color.from(alpha: 1, red: row(0), green: row(1), blue: row(2));
+        return Color.alphaBlend(spec.tint, stepped);
+      }
+
+      double ratio(Color a, Color b) {
+        final la = a.computeLuminance(), lb = b.computeLuminance();
+        return (math.max(la, lb) + 0.05) / (math.min(la, lb) + 0.05);
+      }
+
+      for (final page in [colors.volt, const Color(0xFFFFFDF8), const Color(0xFF000000)]) {
+        expect(ratio(colors.ink2, through(page)), greaterThanOrEqualTo(4.5), reason: 'idle label over $page');
+        expect(ratio(colors.ink, through(page)), greaterThanOrEqualTo(4.5), reason: 'active label over $page');
+      }
+    });
+  }
 }

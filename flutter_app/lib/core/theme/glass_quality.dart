@@ -60,15 +60,25 @@ enum GlassTier {
 /// The saved glass settings, read before `runApp` so a saved Lite or Off is right on the first
 /// frame instead of flipping from Full after it.
 class GlassBoot {
-  const GlassBoot({this.chosen = GlassQuality.full, this.autoLite = false});
+  const GlassBoot({this.chosen = GlassQuality.full, this.autoLite = false, this.emulator = false});
 
   final GlassQuality chosen;
   final bool autoLite;
 
-  static Future<GlassBoot> read(AppPrefs prefs, {Future<bool> Function()? lowMemory}) async {
+  /// The app runs on an Android emulator. Its software GPU misses the raster budget whatever
+  /// glass is drawn, so [GlassPerformanceWatch] does not run there (v14: the emulator is the
+  /// owner's test phone, and a watch trip left it on Lite, the near-opaque bar of the v13 walk).
+  final bool emulator;
+
+  static Future<GlassBoot> read(
+    AppPrefs prefs, {
+    Future<bool> Function()? lowMemory,
+    Future<bool> Function()? emulator,
+  }) async {
     // The lens program loads alongside the preferences, so the first frame is already the right
     // tier (no flip from the basic glass to the lens). It never throws.
     final shader = (GlassShader.load(), DeviceCorner.load()).wait;
+    final onEmulator = (emulator ?? deviceIsEmulator)();
     try {
       // Both reads start together: each is a round trip to the platform before the first frame.
       final (savedRaw, savedAuto) = await (prefs.glassQuality(), prefs.glassAutoLite()).wait;
@@ -81,10 +91,10 @@ class GlassBoot {
         await prefs.setGlassAutoLite(true);
       }
       await shader;
-      return GlassBoot(chosen: saved ?? GlassQuality.full, autoLite: auto);
+      return GlassBoot(chosen: saved ?? GlassQuality.full, autoLite: auto, emulator: await onEmulator);
     } on Object {
       await shader;
-      return const GlassBoot();
+      return GlassBoot(emulator: await onEmulator.catchError((Object _) => false));
     }
   }
 }
@@ -103,6 +113,18 @@ Future<bool> deviceHasLowMemory() async {
     final info = await const MethodChannel('in.mockmob.app/device').invokeMapMethod<String, Object?>('memory');
     if (info == null) return false;
     return info['lowRam'] == true;
+  } on Object {
+    return false;
+  }
+}
+
+/// True on an Android emulator (the `in.mockmob.app/device` channel's `emulator` flag: a
+/// `ranchu` or `goldfish` board, or a `generic` build). False anywhere it cannot tell.
+Future<bool> deviceIsEmulator() async {
+  if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) return false;
+  try {
+    final info = await const MethodChannel('in.mockmob.app/device').invokeMapMethod<String, Object?>('memory');
+    return info?['emulator'] == true;
   } on Object {
     return false;
   }
@@ -167,16 +189,15 @@ class GlassQualitySetting extends Notifier<GlassQuality> {
     }
   }
 
-  /// Full to Lite only; never touches a choice of Lite or Off.
+  /// Full to Lite only, for this run; never touches a choice of Lite or Off.
+  ///
+  /// Not saved (v14): a trip once stuck for good, so one slow scroll (or the emulator's software
+  /// GPU) put the bar on the dense Lite tint for every launch after, which the owner saw as an
+  /// opaque pill. Each launch starts on the student's choice again and the watch re-decides.
   Future<void> downgrade() async {
     if (_chosen != GlassQuality.full || _auto) return;
     _auto = true;
     state = _effective;
-    try {
-      await ref.read(appPrefsProvider).setGlassAutoLite(true);
-    } on Object {
-      // Applies for this run.
-    }
   }
 }
 
@@ -320,6 +341,7 @@ class GlassPerformanceWatch {
 
 final glassPerformanceWatchProvider = Provider<GlassPerformanceWatch?>((ref) {
   if (!(kReleaseMode || kProfileMode)) return null;
+  if (ref.read(glassBootProvider)?.emulator ?? false) return null;
   final views = PlatformDispatcher.instance.views;
   final hz = views.isEmpty ? 60.0 : views.first.display.refreshRate;
   final watch = GlassPerformanceWatch(ref, threshold: RasterBudgetMonitor.thresholdFor(hz))..start();

@@ -148,6 +148,9 @@ class MainActivity : FlutterActivity() {
                             mapOf(
                                 "lowRam" to am.isLowRamDevice,
                                 "totalMb" to (info.totalMem / (1024 * 1024)).toInt(),
+                                // An emulator's software GPU misses any raster budget, so the
+                                // glass watch does not judge the glass there.
+                                "emulator" to isEmulator(),
                             )
                         )
                     }
@@ -221,4 +224,10 @@ class MainActivity : FlutterActivity() {
         /** The longest the splash is held if Dart never asks. */
         const val SPLASH_HOLD_MAX_MS = 3000L
     }
+
+    private fun isEmulator(): Boolean =
+        Build.HARDWARE.contains("ranchu") ||
+            Build.HARDWARE.contains("goldfish") ||
+            Build.FINGERPRINT.startsWith("generic") ||
+            Build.PRODUCT.contains("sdk_gphone")
 }
