@@ -46,7 +46,7 @@ test('the names are the words of the sections\' own headings, not the rejected b
 
 test('the band is a position readout: no link, no button, no live region, no tap', () => {
   assert.doesNotMatch(BAND, /<(a|button)\b|href=|onClick|aria-live|role="(status|alert|progressbar)"/);
-  assert.match(BAND, /role="group" aria-label="Where you are on this page"/);
+  assert.match(BAND, /view\.on \? \{ role: 'group', 'aria-label': 'Where you are on this page' \} : null/, 'a labelled group only while it is on');
   assert.match(CSS, /\.mm\.lp \.lp-pos \{[^}]*pointer-events: none;/);
   assert.doesNotMatch(CSS, /pointer-events: auto/);
   assert.match(CSS, /\.lp-pos__band \{[^}]*visibility: hidden;/, 'out of the accessibility tree while it is off');

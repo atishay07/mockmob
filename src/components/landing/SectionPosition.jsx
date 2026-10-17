@@ -12,7 +12,8 @@
 // for the next one. Nothing else is on it: no dot, no link, no action, and it never takes a tap.
 //
 // The band is a position readout, so it is not a landmark and not live: no announcement while you scroll. It is
-// a labelled group with the name as plain text, and it is out of the accessibility tree while it is off.
+// a labelled group with the name as plain text while it is on, and nothing at all to assistive technology while it
+// is off.
 //
 // One rect read per frame, only while a named section is on screen, and only the sections on screen. State is
 // written only when the band turns on or off or changes section; the rule is one transform write. Motion is opacity
@@ -98,7 +99,7 @@ export function SectionPosition({ sections }) {
   }, [key]);
 
   return (
-    <div className="lp-pos" ref={dockRef} data-on={view.on ? 'true' : 'false'} role="group" aria-label="Where you are on this page">
+    <div className="lp-pos" ref={dockRef} data-on={view.on ? 'true' : 'false'} {...(view.on ? { role: 'group', 'aria-label': 'Where you are on this page' } : null)}>
       <div className="lp-pos__band">
         <div className="mm-wrap lp-pos__row">
           <p className="lp-pos__name">{sections[view.label]?.name}</p>
