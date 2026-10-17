@@ -69,7 +69,9 @@ class _RunnerViewState extends ConsumerState<RunnerView> with RunnerHost<RunnerV
   }
 
   Future<void> _openPalette() async {
-    final showMobi = _mobiOn;
+    // Nothing moves inside a timed paper (L35): no Mobi in a mock's Questions sheet, the same rule
+    // as the leave sheet's.
+    final showMobi = _mobiOn && !session.isMock;
     final jump = await showRunnerSheet<int>(
       context: context,
       title: RunnerCopy.paletteTitle,
