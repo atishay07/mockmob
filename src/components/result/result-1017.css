@@ -233,3 +233,44 @@
   .rx .rx-row .rx-body { padding-left: 0; }
   .rx-score b { font-size: 64px; }
 }
+
+/* ---------- N12 restore (17 Oct night): the summary card and the open Mistake Lab ---------- */
+.rl-page { gap: 24px; }
+.rl-page .rh { align-items: start; }
+.rl-page .rh .rp-hero__main { gap: 8px; }
+.rh-verdict { margin: 4px 0 0; font: 650 18px/1.4 var(--font-display, inherit); color: var(--a-ink, #f2f4ec); text-wrap: pretty; max-width: 40ch; }
+.rh-next { grid-column: 1 / -1; padding-top: 18px; border-top: 1px solid var(--a-line, #253026); min-width: 0; }
+.rx .rx-next[data-flat] { padding: 0; margin: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+.rx .rx-next[data-flat] .rx-next__key { width: auto; justify-self: start; min-width: 220px; }
+.rl-page .rl { gap: 20px; }
+.rl-cohort { display: grid; gap: 8px; padding-top: 16px; border-top: 1px solid var(--a-line, #253026); }
+.rl-cohort > p:first-child { margin: 0; font-size: 15px; line-height: 1.55; color: var(--a-ink, #f2f4ec); max-width: 64ch; }
+.rl-part { display: grid; gap: 14px; min-width: 0; padding-top: 22px; border-top: 1px solid var(--a-line, #253026); scroll-margin-top: 84px; }
+.rl-part .srl-step__head h3 { font: 700 20px/1.25 var(--font-display, inherit); color: var(--a-ink, #f2f4ec); margin: 0; }
+.rl-part .srl-step__head p { margin: 0; font-size: 14px; color: var(--a-ink-3, #93a08f); }
+.rl-answers .rp-review__head h2 { font: 700 22px/1.2 var(--font-display, inherit); letter-spacing: -.01em; }
+@media (min-width: 1100px) {
+  .rx .rx-next[data-flat] { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 32px; align-items: start; }
+  .rx .rx-next[data-flat] > .rx-next__label, .rx .rx-next[data-flat] > .rx-next__key, .rx .rx-next[data-flat] > .rx-next__why { grid-column: 1; }
+  .rx .rx-next[data-flat] > .rx-next__terms { grid-column: 2; grid-row: 1 / span 3; border-top: 0; padding-top: 0; padding-left: 24px; border-left: 1px solid var(--a-line, #253026); }
+  .rx .rx-next[data-flat] > .rx-next__alt { grid-column: 1; }
+}
+/* One volt in view: the next-move key. The score reads in ink (red only below zero). */
+.rh .rp-hero__score b[data-tone='good'], .rh .rp-hero__score b[data-tone='mid'] { color: var(--a-ink, #f2f4ec); }
+@media (max-width: 560px) {
+  .rl-page .rh { grid-template-columns: minmax(0, 1fr); position: relative; }
+  .rl-page .rh-pip { position: absolute; top: 14px; right: 12px; width: 68px; }
+  .rl-page .rh .rp-eyebrow, .rl-page .rh .rp-hero__score { padding-right: 76px; }
+  .rl-page .rp-stats { gap: 6px; }
+  .rl-page .rp-stats div { padding: 8px 8px; }
+  .rl-page .rp-stats dd { font-size: 19px; gap: 2px 4px; }
+  .rx .rx-next[data-flat] .rx-next__key { width: 100%; }
+  /* On a phone the one next move comes before the 50-bubble answer map, so it is in the first screen. */
+  .rl-page .rh-next { order: 4; }
+  .rl-page .rh > .rp-strip { order: 5; padding-top: 16px; border-top: 1px solid var(--a-line, #253026); }
+}
+/* Today's card is also named .tm (src/components/today/today.css, scoped to .app-shell); "Your traps across mocks"
+   is a plain disclosure row in the Lab, so the Today card's frame is taken back off it here. */
+.app-shell .rx .tm { display: grid; animation: none; padding: 0; gap: 0; min-height: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; overflow: visible; }
+.app-shell .rx .tm[data-surface='inset'] { padding-top: 6px; border-top: 1px solid var(--a-line, #253026); }
+html[data-theme='light'] .app-shell .rx .tm { box-shadow: none; }

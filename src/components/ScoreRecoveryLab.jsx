@@ -56,7 +56,7 @@ function QChips({ numbers, onJump }) {
 export const ledgerOf = (lab) => (lab && (lab.state === 'ready' || lab.state === 'basic') && lab.groups?.length ? lab : null);
 
 /** "Where the marks went". `changesId` links the ledger's changed-answers group to Time and decisions' list. */
-export function LabLedger({ attempt, analysis, timeRead = null, lab = null, onJump, onSeeReplay = null, changesId = null }) {
+export function LabLedger({ attempt, analysis, timeRead = null, lab = null, onJump, onSeeReplay = null, changesId = null, bare = false }) {
   const { marks } = analysis;
   const ledger = ledgerOf(lab);
   const hero = lab?.hero?.label ? lab.hero
@@ -73,14 +73,15 @@ export function LabLedger({ attempt, analysis, timeRead = null, lab = null, onJu
   } : null;
   return (
     <div className="srl srl--fold" data-in="">
-      <header className="srl-head">
+      {/* `bare`: the result's Mistake Lab card states the missed marks in its own heading, so the numeral is not repeated. */}
+      {bare ? null : <header className="srl-head">
         {hero ? (
           <p className="srl-hero"><b className="srl-hero__n">{hero.value}</b><span className="srl-hero__label">{hero.label}</span></p>
         ) : (
           <p className="srl-hero__label">{lab?.heading ? lab.heading : 'You didn’t miss a mark this session.'}</p>
         )}
         {answered ? <p className="srl-fine">{Math.round((marks.right / answered) * 100)}% of answered questions right: {marks.right} of {answered}.</p> : null}
-      </header>
+      </header>}
       {ledger ? <MarksLedger lab={ledger} attemptId={attempt.id} onJump={onJump} changesId={timeRead?.state === 'ready' ? changesId : null} replay={seeReplay} />
       : marks.gap ? <>
         <div className="srl-bar" role="img" aria-label={`${Math.max(marks.scored, 0)} of ${marks.max} marks scored. ${marks.gapWrong} lost to wrong answers, ${marks.gapBlank} left on blanks.`}>
