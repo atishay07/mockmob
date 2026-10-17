@@ -212,6 +212,20 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 
 ---
 
+### Added 18 Oct 2:30-4:10 am IST (session 25ef3d95; his words in OWNER-FEEDBACK-2026-10-18-DAWN.md, end sections)
+| Id | Surface | Item | Status |
+|---|---|---|---|
+| A2 | App | Hold v15 for the new Today (decision A) | v15 waits for Today |
+| D25 | Today (web, app) | Proceed with TODAY-1018 into v15 | building (web wt-today18, app wt-v15-today2) |
+| D26 | Today | Road to CUET shows due today, due this week and the overall goal | building |
+| D27 | Today | Must feel unique and premium in the final UI, not generic | building; critic checks |
+| D5 | Practice | "Repo S" = Repairs (CTO decision; he could not confirm) | built in R5 (web/r5-practice-1018), not live |
+| D6 | Ask Mobi | Confirmed = Ask Mobi; ASK-MOBI-1018 approved | web wt-r6-askmobi, app wt-v15-askmobi |
+| D16-D18 | Review, result | REVIEW-RESULT-1018 approved | web wt-r6-review; app after v15-result |
+| D21 | Community | Keep for now; hide contributions per COMMUNITY-1018 (approved) | web wt-r6-community (with D20) |
+| D28 | Today (app) | "Back from marking": bugs seen on v13: greeting by hour ("Good evening" at 2:41 am), "Still refreshing" stuck, row under the bar | v15 integration |
+| D29 | Today, result | Replace the fake "Back from marking" wait with a truthful reel: "Play your paper back, 20 s" (same engine as the D17 replay) | app widget wt-v15-reel; web in R6 replay |
+
 ## Waiting on the owner
 - D21: community, suspend or keep.
 - D5 and D6 transcription confirms ("Repo S" = Repairs? "Ask" = Ask Mobi?).
