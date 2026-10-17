@@ -150,6 +150,53 @@ html[data-theme='light'] .app-shell .pr {
   transition: opacity var(--mm-dur-emphasized) var(--mm-ease-emphasized), scale var(--mm-spring-settle-dur) var(--mm-spring-settle);
 }
 
+/* ---------- Repairs and Ask Mobi, under the shelf (owner D5) ----------
+   One ruled line about the chosen subject: what waits to be repaired with the way into Review, the saved repairs to
+   revisit, and Ask Mobi in place. No box of its own (it sits on the page like the shelf), so the tiles stay the only cards.
+   Phones: the words, then the two keys side by side at 44 px. From 768 px: the words on the left, the keys on the right.
+   A change of subject fades the words in (200 ms), as Fine-tune's scope line does; the keys stay put. */
+.app-shell .pr .pr-fix {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+  margin-top: 14px;
+  min-height: 112px;
+  align-content: start;
+}
+@media (min-width: 768px) {
+  .app-shell .pr .pr-fix { grid-template-columns: minmax(0, 1fr) auto; column-gap: 20px; row-gap: 6px; align-items: center; min-height: 78px; }
+  .app-shell .pr .pr-fix__fine { grid-column: 1 / -1; }
+}
+.app-shell .pr .pr-fix__text { display: grid; gap: 3px; min-width: 0; animation: pr-fade-in 200ms var(--mm-ease-out) both; }
+.app-shell .pr .pr-fix__title { display: flex; align-items: center; gap: 8px; margin: 0; font: 700 16px/1.3 var(--font-display); letter-spacing: -0.012em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
+.app-shell .pr .pr-fix__title svg { flex: none; color: var(--a-accent-text); }
+.app-shell .pr .pr-fix[data-state='loading'] .pr-fix__title { color: var(--a-ink-2); }
+.app-shell .pr .pr-fix__detail { margin: 0; padding-left: 24px; font-size: 13.5px; line-height: 1.45; color: var(--a-ink-2); text-wrap: pretty; font-variant-numeric: tabular-nums; }
+.app-shell .pr .pr-fix__revisit, .app-shell .pr .pr-fix__retry {
+  display: inline-flex; align-items: center; min-height: 44px; margin: -12px 0; padding: 0 2px; border: 0; background: none;
+  color: var(--a-ink); font: 600 13.5px/1 var(--font-body); cursor: pointer; vertical-align: middle;
+  text-decoration: underline; text-decoration-color: var(--a-line-strong); text-underline-offset: 3px;
+}
+.app-shell .pr .pr-fix__revisit:hover, .app-shell .pr .pr-fix__retry:hover { text-decoration-color: var(--a-ink-2); }
+.app-shell .pr .pr-fix__acts { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 8px; }
+@media (min-width: 768px) { .app-shell .pr .pr-fix__acts { grid-auto-columns: auto; } }
+.app-shell .pr :is(.pr-fix__go, .pr-fix__ask) {
+  --mk-press-scale: 0.97;
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-width: 0; min-height: 44px; padding: 0 14px;
+  border: 1.5px solid var(--a-line-strong); border-radius: 12px; background: var(--a-raised); color: var(--a-ink);
+  font: 700 14px/1.15 var(--font-body); text-align: center; text-decoration: none; white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 160ms ease, border-color 160ms ease, transform var(--mm-press-lift-dur) var(--mm-press-lift);
+}
+.app-shell .pr .pr-fix__ask svg { flex: none; color: var(--a-accent-text); }
+@media (hover: hover) and (pointer: fine) {
+  .app-shell .pr :is(.pr-fix__go, .pr-fix__ask):hover { border-color: var(--a-ink-3); background: var(--a-hover); }
+}
+.app-shell .pr :is(.pr-fix__go, .pr-fix__ask):active { transform: scale(0.97); transition-duration: 160ms, 160ms, 100ms; }
+.app-shell .pr :is(.pr-fix__go, .pr-fix__ask, .pr-fix__revisit, .pr-fix__retry):focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.app-shell .pr .pr-fix__fine { margin: 0; padding-left: 24px; font-size: 12.5px; line-height: 1.45; color: var(--a-ink-3); text-wrap: pretty; }
+@media (max-width: 380px) { .app-shell .pr :is(.pr-fix__go, .pr-fix__ask) { padding: 0 10px; font-size: 13.5px; } }
+
 /* ---------- Mode: four pressable tiles (owner F5) ----------
    A 2 x 2 grid at every width. Each tile is a button: its object, the name, a one-line spec and the price, and a radio
    ring in the corner that fills with the select colour and a tick when chosen. The chosen tile takes a 2 px select ring and
@@ -476,7 +523,8 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg:not([data-lens
   .app-shell .pr .pr-subject .subj-obj__light { scale: 1; transition: opacity var(--mm-dur-reduced-fade) linear; }
   .app-shell .pr .pr-subject::after { transition: none; }
   .app-shell .pr :is(.pr-ticket__obj, .pr-bar__obj) > .subj-obj { animation: none; }
-  .app-shell .pr :is(.pr-fine2__scope, .pr-fine2__we) { animation-duration: 120ms; }
+  .app-shell .pr :is(.pr-fine2__scope, .pr-fine2__we, .pr-fix__text) { animation-duration: 120ms; }
+  .app-shell .pr :is(.pr-fix__go, .pr-fix__ask):active { transform: none; }
   .app-shell .pr[data-launch='turn'] :is(.pr-clock__hand, .st-watch__hand, .st-exam) { animation: none; }
   .app-shell .pr[data-launch='turn'] :is(.pr-summary__cta, .pr-bar__go) { opacity: 0.7; transition: opacity 160ms linear; }
   .app-shell .pr [data-nudge] { animation: pr-fade-in 120ms linear both; }
@@ -490,3 +538,5 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg:not([data-lens
 :root[data-motion='reduced'] .app-shell .pr[data-launch='turn'] :is(.pr-clock__hand, .st-watch__hand, .st-exam) { animation: none; }
 :root[data-motion='reduced'] .app-shell .pr [data-nudge] { animation: pr-fade-in 120ms linear both; }
 :root[data-motion='reduced'] .app-shell .pr .pr-tile:active { transform: none; }
+:root[data-motion='reduced'] .app-shell .pr :is(.pr-fix__go, .pr-fix__ask):active { transform: none; }
+:root[data-motion='reduced'] .app-shell .pr .pr-fix__text { animation-duration: 120ms; }

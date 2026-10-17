@@ -25,6 +25,7 @@ import ChapterPicker from './ChapterPicker';
 import { chapterUnits, chaptersForMode } from './chapterGroups.mjs';
 import { MODE_SPECS, MODE_TILE_SPECS, bankCount, freshPaperLine } from '@/lib/paperCopy.mjs';
 import PracticeMobChip from '@/components/mob/PracticeMobChip';
+import PracticeRepairs from './PracticeRepairs';
 import './practice.css';
 import './chapter-picker.css';
 
@@ -575,6 +576,9 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
                   );
                 })}
               </div>
+              {/* Repairs and Ask Mobi, about the subject the shelf has chosen (owner D5): what is waiting to be repaired, the
+                  saved repairs to revisit, and Mobi in place. It changes with the shelf, so it is seen on every visit. */}
+              <PracticeRepairs userId={user?.id} attempts={attempts} subjectId={selSubj} subjectName={subjectLabel} />
             </section>
 
             <section className="pr-step pr-step--modes" aria-labelledby="pr-s2">
@@ -760,7 +764,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
 
       <div className="pr-lower">
         <section className="pr-panel pr-panel--recent" aria-labelledby="pr-recent">
-          <div className="pr-panel__head"><h2 id="pr-recent">Recent sessions</h2>{attempts.length > 0 && <Link href="/review" className="pr-link">Review mistakes</Link>}</div>
+          <div className="pr-panel__head"><h2 id="pr-recent">Recent sessions</h2>{attempts.length > 0 && <Link href="/review" className="pr-link">Review and repair</Link>}</div>
           {attempts.length === 0 ? (
             <p className="pr-empty">Your sessions appear here after you submit your first one.</p>
           ) : (

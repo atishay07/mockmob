@@ -1,0 +1,168 @@
+{
+ "shots": [
+  {
+   "file": "practice-repairs-390-night.png",
+   "firstScreen": "practice-repairs-390-night-first-screen.png",
+   "fold": {
+    "top": 566.9375,
+    "bottom": 735.21875,
+    "actsBottom": 686.96875,
+    "vh": 844,
+    "dockTop": null
+   },
+   "crop": "practice-repairs-390-night-detail.png",
+   "box": {
+    "x": 15,
+    "y": 566.9375,
+    "width": 360,
+    "height": 168.28125
+   },
+   "sw": 390,
+   "text": "2 questions to repair in Accountancy\n\nFrom your one session, and 5 more in other subjects. 1 saved repair to revisit\n\nReview and repair\nAsk Mobi about Q5\n\nAbout your latest Accountancy repair, saved 18 Oct. Opening Mobi is free; a written reply costs 1 AI credit.",
+   "errors": []
+  },
+  {
+   "file": "practice-repairs-1440-night.png",
+   "firstScreen": "practice-repairs-1440-night-first-screen.png",
+   "fold": {
+    "top": 555.5625,
+    "bottom": 643.71875,
+    "actsBottom": 609.578125,
+    "vh": 900,
+    "dockTop": null
+   },
+   "crop": "practice-repairs-1440-night-detail.png",
+   "box": {
+    "x": 252,
+    "y": 555.5625,
+    "width": 781.25,
+    "height": 88.15625
+   },
+   "sw": 1440,
+   "text": "2 questions to repair in Accountancy\n\nFrom your one session, and 5 more in other subjects. 1 saved repair to revisit\n\nReview and repair\nAsk Mobi about Q5\n\nAbout your latest Accountancy repair, saved 18 Oct. Opening Mobi is free; a written reply costs 1 AI credit.",
+   "errors": []
+  },
+  {
+   "file": "practice-repairs-390-day.png",
+   "firstScreen": "practice-repairs-390-day-first-screen.png",
+   "fold": {
+    "top": 566.9375,
+    "bottom": 735.21875,
+    "actsBottom": 686.96875,
+    "vh": 844,
+    "dockTop": null
+   },
+   "crop": "practice-repairs-390-day-detail.png",
+   "box": {
+    "x": 15,
+    "y": 566.9375,
+    "width": 360,
+    "height": 168.28125
+   },
+   "sw": 390,
+   "text": "2 questions to repair in Accountancy\n\nFrom your one session, and 5 more in other subjects. 1 saved repair to revisit\n\nReview and repair\nAsk Mobi about Q5\n\nAbout your latest Accountancy repair, saved 18 Oct. Opening Mobi is free; a written reply costs 1 AI credit.",
+   "errors": []
+  },
+  {
+   "file": "practice-repairs-1440-day.png",
+   "firstScreen": "practice-repairs-1440-day-first-screen.png",
+   "fold": {
+    "top": 555.5625,
+    "bottom": 643.71875,
+    "actsBottom": 609.578125,
+    "vh": 900,
+    "dockTop": null
+   },
+   "crop": "practice-repairs-1440-day-detail.png",
+   "box": {
+    "x": 252,
+    "y": 555.5625,
+    "width": 781.25,
+    "height": 88.15625
+   },
+   "sw": 1440,
+   "text": "2 questions to repair in Accountancy\n\nFrom your one session, and 5 more in other subjects. 1 saved repair to revisit\n\nReview and repair\nAsk Mobi about Q5\n\nAbout your latest Accountancy repair, saved 18 Oct. Opening Mobi is free; a written reply costs 1 AI credit.",
+   "errors": []
+  },
+  {
+   "file": "practice-repairs-390-night-clear.png",
+   "scen": "clear",
+   "text": "Every Accountancy miss is repaired\n\nEach one holds a saved repair you can reopen for free. 2 saved repairs to revisit\n\nAsk Mobi about Q3\n\nAbout your latest Accountancy repair, saved 18 Oct. Opening Mobi is free; a written reply costs 1 AI credit.",
+   "errors": []
+  },
+  {
+   "file": "practice-repairs-390-day-clear.png",
+   "scen": "clear",
+   "text": "Every Accountancy miss is repaired\n\nEach one holds a saved repair you can reopen for free. 2 saved repairs to revisit\n\nAsk Mobi about Q3\n\nAbout your latest Accountancy repair, saved 18 Oct. Opening Mobi is free; a written reply costs 1 AI credit.",
+   "errors": []
+  },
+  {
+   "file": "practice-repairs-390-night-empty.png",
+   "scen": "empty",
+   "text": "No Accountancy sessions yet\n\nAfter a session, every question you miss waits here to be repaired.\n\nAsk Mobi\n\nAbout Accountancy or how to practise it. Opening Mobi is free; a written reply costs 1 AI credit.",
+   "errors": []
+  },
+  {
+   "file": "practice-repairs-390-day-empty.png",
+   "scen": "empty",
+   "text": "No Accountancy sessions yet\n\nAfter a session, every question you miss waits here to be repaired.\n\nAsk Mobi\n\nAbout Accountancy or how to practise it. Opening Mobi is free; a written reply costs 1 AI credit.",
+   "errors": []
+  },
+  {
+   "file": "practice-repairs-390-night-error.png",
+   "scen": "error",
+   "text": "3 questions missed in Accountancy\n\nYour saved repairs did not load, so some of these may already be repaired. Check again\n\nReview and repair\nAsk Mobi\n\nAbout your Accountancy record. Opening Mobi is free; a written reply costs 1 AI credit.",
+   "errors": []
+  },
+  {
+   "file": "practice-repairs-390-day-error.png",
+   "scen": "error",
+   "text": "3 questions missed in Accountancy\n\nYour saved repairs did not load, so some of these may already be repaired. Check again\n\nReview and repair\nAsk Mobi\n\nAbout your Accountancy record. Opening Mobi is free; a written reply costs 1 AI credit.",
+   "errors": []
+  }
+ ],
+ "clicks": [
+  {
+   "tag": "1440-night",
+   "hitEcon": true,
+   "afterEcon": "5 questions to repair in Economics",
+   "afterAcc": "2 questions to repair in Accountancy",
+   "hitAsk": true,
+   "askText": "Ask Mobi about Q5",
+   "drawer": {
+    "open": true,
+    "dialog": true,
+    "askRef": "preview-a1:q5"
+   },
+   "stayed": true,
+   "askShot": "practice-ask-mobi-open-1440-night.png",
+   "hitGo": true,
+   "goHref": "/review",
+   "goUrl": "http://localhost:3314/review"
+  },
+  {
+   "tag": "390-day",
+   "hitEcon": true,
+   "afterEcon": "5 questions to repair in Economics",
+   "afterAcc": "2 questions to repair in Accountancy",
+   "hitAsk": true,
+   "askText": "Ask Mobi about Q5",
+   "drawer": {
+    "open": true,
+    "dialog": true,
+    "askRef": "preview-a1:q5"
+   },
+   "stayed": true,
+   "askShot": "practice-ask-mobi-open-390-day.png",
+   "hitGo": true,
+   "goHref": "/review",
+   "goUrl": "http://localhost:3314/review"
+  },
+  {
+   "tag": "revisit-1440-night",
+   "hit": true,
+   "url": "http://localhost:3314/result/preview-a1",
+   "height": 44
+  }
+ ]
+}
