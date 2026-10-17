@@ -541,7 +541,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     if (url.pathname === '/api/me/badges') {
       if (fixture.get('badges') === 'error') return json({ error: 'unavailable' }, 503);
       const earned = fixture.get('earned');
-      if (earned === 'one' || earned === 'two') return window.fetch('/api/attempts/fixture-attempt').then((r) => r.json()).then((a) => json(previewBadgesBody(fixture.get('badges'), { attemptAt: Date.parse(a.completedAt), earned })));
+      if (earned === 'one' || earned === 'two') return window.fetch('/api/attempts/fixture-attempt').then((r) => r.json()).then((a) => json(previewBadgesBody(fixture.get('badges'), { attemptAt: new Date(a.completedAt).getTime(), earned })));
       return json(state === 'empty' ? previewBadgesBody('none') : previewBadgesBody(fixture.get('badges')));
     }
     // Weekly goal (Account and onboarding): read 4 days; a save echoes the choice, in memory only.
