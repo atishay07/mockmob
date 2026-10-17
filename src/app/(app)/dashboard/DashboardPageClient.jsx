@@ -408,7 +408,8 @@ export default function DashboardPageClient() {
   const blockedLabel = shortfall ? `Need ${shortfall} more practice ${shortfall === 1 ? 'credit' : 'credits'}` : quote?.reasonCode === 'access_required' ? 'See Pro' : 'See options';
   // The bar's short price: the server quote once it is in, the mode's own price until then.
   const barCost = quoteStatus === 'ready' && quoteMatches
-    ? !quote.launchable ? (quote.reasonCode === 'access_required' ? 'Needs Pro' : 'Not available')
+    ? !quote.launchable ? (quote.reasonCode === 'access_required' ? 'Needs Pro'
+      : quote.reasonCode === 'insufficient_credits' && quote.creditCost ? `${quote.creditCost} credits` : 'Not available')
       : isPremium ? 'Included'
         : quote.creditCost === 0 ? 'Free today'
           : `${quote.creditCost} ${quote.creditCost === 1 ? 'credit' : 'credits'}`
@@ -656,7 +657,7 @@ export default function DashboardPageClient() {
               <span className="pr-bar__obj" key={selSubj}>
                 <SubjectObject id={selectedSubject?.internalId || selSubj} size={60} lit />
               </span>
-              <span className="pr-bar__text">
+              <span className="pr-bar__text" data-blocked={blocked || undefined}>
                 <b>{mode.label}</b>
                 <span><span className="sr-only">{subjectLabel}, </span>{quoteCount} Q<span className="pr-bar__min"><Sep />{approximate ? 'about ' : ''}{minutes} min</span><Sep /><i data-tone={blocked ? 'locked' : undefined}>{barCost}</i></span>
               </span>

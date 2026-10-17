@@ -331,6 +331,9 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg [role='radio']
   .app-shell .pr .pr-bar__text i[data-tone='locked'] { color: var(--a-ink-3); }
   /* Under 380 px the length in minutes gives way, so the price is never cut. */
   @media (max-width: 379px) { .app-shell .pr .pr-bar__min { display: none; } }
+  /* A blocked session's bar carries the wider outlined action ("Need 10 more", "See Pro"), so the minutes give way to the
+     price there too; the card above still says the time. */
+  .app-shell .pr .pr-bar__text[data-blocked] .pr-bar__min { display: none; }
   .app-shell .pr .pr-bar__go { min-width: 96px; min-height: 48px; padding: 0 16px; border-radius: 14px; justify-content: center; gap: 7px; white-space: nowrap; }
   .app-shell .pr .pr-bar .pr-dock__rule { grid-column: 1 / -1; }
 }

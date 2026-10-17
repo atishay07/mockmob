@@ -42,27 +42,35 @@
 .pr-run .nta-option {
   position: relative; z-index: 1; overflow: hidden;
   -webkit-touch-callout: none; -webkit-user-select: none; user-select: none;
-  transition: border-color 120ms var(--pr-ease), background-color 160ms var(--pr-ease), box-shadow 120ms var(--pr-ease), transform 140ms var(--mm-press-lift, var(--pr-ease));
+  /* Leaving the selected state is instant for the outline, so the old answer's box is gone in the frame the new one starts. */
+  transition: border-color 0ms, background-color 160ms var(--pr-ease), box-shadow 120ms var(--pr-ease), transform 140ms var(--mm-press-lift, var(--pr-ease));
 }
-.pr-run .nta-option:active:not(:disabled) { transform: scale(.985); transition-duration: 120ms, 160ms, 120ms, 100ms; }
+/* The same list at the runner's own specificity, so arena.css's 180 ms border fade on .nta-option cannot bring the old box back. */
+.app-shell .nta-runner.pr-run[data-interface="mockmob"] .nta-option {
+  transition: border-color 0ms, background-color 160ms var(--pr-ease), box-shadow 120ms var(--pr-ease), transform 140ms var(--mm-press-lift, var(--pr-ease));
+}
+.pr-run .nta-option:active:not(:disabled),
+.app-shell .nta-runner.pr-run[data-interface="mockmob"] .nta-option:active:not(:disabled) { transform: scale(.985); transition-duration: 0ms, 160ms, 120ms, 100ms; }
 .pr-run .nta-option::before {
   /* Under the letter and text, over the option's own fill: the option is a stacking context (z-index 1). */
   content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
   background: color-mix(in oklab, var(--pr-accent) 9%, transparent);
   clip-path: circle(0 at 28px 50%); opacity: 0;
-  transition: opacity 120ms var(--pr-ease), clip-path 0s linear 120ms;
+  transition: opacity 90ms var(--pr-ease), clip-path 0s linear 90ms;
 }
 .app-shell .nta-runner.pr-run[data-interface="mockmob"] .nta-option.is-selected,
 .pr-run .nta-option.is-selected {
   border-color: color-mix(in oklab, var(--pr-accent) 72%, transparent);
   background: var(--a-raised-2, transparent);
   box-shadow: none;
+  transition-duration: 120ms, 160ms, 120ms, 140ms;
 }
 .pr-run .nta-option.is-selected::before {
   opacity: 1; clip-path: circle(150% at 28px 50%);
   transition: opacity 80ms var(--pr-ease), clip-path 260ms var(--mm-ease-out, var(--pr-ease));
 }
-.pr-run .nta-option-letter { transition: background-color 200ms var(--pr-ease), color 200ms var(--pr-ease); }
+.pr-run .nta-option-letter { transition: none; }
+.pr-run .nta-option.is-selected .nta-option-letter { transition: background-color 160ms var(--pr-ease), color 160ms var(--pr-ease); }
 .pr-run .nta-option.is-selected .nta-option-letter { background: var(--volt); color: #050600; animation: pr-letter-pop var(--mm-spring-icon-pop-dur, 320ms) var(--mm-spring-icon-pop, var(--pr-spring)) both; }
 @keyframes pr-letter-pop { 0% { transform: scale(1); } 45% { transform: scale(1.08); } 100% { transform: scale(1); } }
 /* The outgoing question in the hand-off keeps its answer, drawn the same way, without the ink motion. */
