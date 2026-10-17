@@ -41,7 +41,8 @@ test('the Help door copy is plain sentence case with no hype, arrows or caps lab
     assert.ok(line && line.length < 70, line);
     assert.doesNotMatch(line, /[!→←↗»]|\b[A-Z]{4,}\b/, line);
   }
-  assert.deepEqual(HELP_DOOR_ROWS.map((row) => row.id), ['ask', 'tour', 'faq', 'write']);
+  // Ask Mobi left the Help door (ASK-MOBI-1018): it is the Planning row and opens from the work itself.
+  assert.deepEqual(HELP_DOOR_ROWS.map((row) => row.id), ['tour', 'faq', 'write']);
   assert.ok(HELP_DOOR_ROWS.every((row) => row.action || row.href), 'every row does something');
 });
 
@@ -52,6 +53,8 @@ test('the floating orb is retired; Mobi lives in the shell and opens in place', 
   assert.match(shell, /<AskMobiHost \/>/);
   assert.match(shell, /<HelpMenu/);
   assert.match(shell, /className="arena-help-door"/);
+  assert.doesNotMatch(shell, /PrepOSOrb/, 'no orb under the theme switch');
+  assert.doesNotMatch(read('src/components/help/HelpMenu.jsx'), /PrepOSOrb|onAsk/, 'the Help menu no longer opens Mobi');
   assert.match(shell, /data-tour="nav-more"/);
   assert.doesNotMatch(shell, /shadow-\[0_0_/, 'no glow in the tour');
   assert.match(read('src/components/recovery/RepairAsk.jsx'), /openAskMobi\(/);

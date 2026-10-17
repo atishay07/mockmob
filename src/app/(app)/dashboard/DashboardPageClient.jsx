@@ -25,6 +25,7 @@ import ChapterPicker from './ChapterPicker';
 import { chapterUnits, chaptersForMode } from './chapterGroups.mjs';
 import { MODE_SPECS, MODE_TILE_SPECS, bankCount, freshPaperLine } from '@/lib/paperCopy.mjs';
 import PracticeMobChip from '@/components/mob/PracticeMobChip';
+import PracticeAskRow from '@/components/ai/PracticeAskRow';
 import './practice.css';
 import './chapter-picker.css';
 
@@ -575,6 +576,8 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
                   );
                 })}
               </div>
+              {/* Ask Mobi what to practise (ASK-MOBI-1018, D5): one row under the loop, which itself is unchanged. */}
+              <PracticeAskRow />
             </section>
 
             <section className="pr-step pr-step--modes" aria-labelledby="pr-s2">

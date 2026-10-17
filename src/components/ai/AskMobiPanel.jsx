@@ -8,7 +8,7 @@
 // Kept from R4 as it was: free answers from the record (answerFromInsights), the question hand-off (questionRef and
 // /api/recovery/ask-context), the price shown before every paid reply (W-060), one request id per student action that is
 // reused only after an unknown outcome so a retry can never charge twice, and the wallet broadcast to the top bar.
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
@@ -22,6 +22,11 @@ import {
   answerFree, modeFor, openingFor, paidState, priceForText, productAskFor, recordSource, recordSummary, sessionsLabel,
   suggestionsFor, walletLine,
 } from './askSuggestions.mjs';
+
+// Offline: a written reply needs a connection, so nothing is sent and nothing is charged; answers from the record already on
+// screen still work.
+const subscribeOnline = (cb) => { window.addEventListener('online', cb); window.addEventListener('offline', cb); return () => { window.removeEventListener('online', cb); window.removeEventListener('offline', cb); }; };
+const onlineNow = () => navigator.onLine !== false;
 
 const X = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" /></svg>
@@ -38,6 +43,7 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
   const { user } = useAuth();
   const userId = user?.id || null;
   const pro = isPaidUser(user);
+  const offline = !useSyncExternalStore(subscribeOnline, onlineNow, () => true);
 
   const [context, setContext] = useState(opened);
   const [recordTry, setRecordTry] = useState(0);
@@ -137,6 +143,7 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
 
   function askRow(ask) {
     if (inFlight.current || pending || retry) return;
+    if (ask.price !== 'free' && offline) return;
     setAsked((prev) => [...prev, ask.id]);
     if (ask.price === 'free') {
       const answer = answerFree(ask.id, { context: scoped, insights, pro });
@@ -158,7 +165,7 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
       pushFree(text, { reply: fromRecord.reply, actions: (fromRecord.actions || []).slice(0, 1), source: recordSource(insights) });
       return;
     }
-    if (!paid.open) return;
+    if (!paid.open || offline) return;
     setInput('');
     sendPaid(text);
   }
@@ -167,6 +174,7 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
     const finalText = String(text || '').trim();
     if (!finalText || inFlight.current || opening || (retry && !isRetry)) return;
     if (!isRetry && !paid.open) return;
+    if (!isRetry && offline) return;
     inFlight.current = true;
     if (!isRetry) setTurns((prev) => [...prev, { id: `u_${Date.now()}`, role: 'user', text: finalText }]);
     // One request id per student action. It is reused only if the last attempt ended with an unknown outcome (network
@@ -198,7 +206,7 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
   const dropQuestion = () => { setContext((prev) => ({ ...prev, kind: 'page', ref: null, number: null, pickLabel: null, keyLabel: null })); setQuestionCtx(null); setAsked([]); };
   const price = priceForText(input, { insights, status, pro, hasQuestion: questionTyping });
   const busy = Boolean(pending) || Boolean(retry);
-  const canSend = Boolean(input.trim()) && !busy && !opening && (price === 'free' || paid.open);
+  const canSend = Boolean(input.trim()) && !busy && !opening && (price === 'free' || (paid.open && !offline));
   const line = walletLine(wallet);
   const placeholder = questionTyping ? `Ask about ${qName}` : scoped.kind === 'mock' ? `Ask about ${scoped.label || 'this mock'}` : 'Ask about your record';
   const sessions = sessionsLabel(insights, status);
@@ -278,7 +286,14 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
           </div>
         ) : null}
 
-        {(withQuestion || questionRef === null) && !paid.open && wallet && asks.some((a) => a.price === 'paid') && !busy ? (
+        {offline ? (
+          <p className="amb-notice" role="status">
+            <b>You are offline.</b>
+            <span>Questions about your record still work. A written reply needs a connection, so nothing is sent and nothing is charged.</span>
+          </p>
+        ) : null}
+
+        {!offline && (withQuestion || questionRef === null) && !paid.open && wallet && asks.some((a) => a.price === 'paid') && !busy ? (
           <p className="amb-notice" role="status">{paid.why}</p>
         ) : null}
 
@@ -313,12 +328,12 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
             <h3>{turns.length || first ? 'Ask next' : withQuestion ? 'Ask about this question' : 'You can ask now'}</h3>
             <ul>
               {asks.map((ask, i) => {
-                const off = ask.price === 'paid' && !paid.open;
+                const off = ask.price === 'paid' && (!paid.open || offline);
                 return (
                   <li key={ask.id} style={{ '--i': i }}>
                     <button type="button" className="amb-ask" disabled={off} onClick={() => askRow(ask)}>
                       <b>{ask.label}</b>
-                      {off ? <span>Needs a written reply</span> : ask.line ? <span>{ask.line}</span> : null}
+                      {off ? <span>{offline && paid.open ? 'Needs a connection' : 'Needs a written reply'}</span> : ask.line ? <span>{ask.line}</span> : null}
                       <em data-price={ask.price}>{ask.price === 'free' ? 'Free' : creditCount(1)}</em>
                     </button>
                   </li>
@@ -352,7 +367,7 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
             {line.reset ? <><i aria-hidden="true"> · </i>{line.reset}</> : null}
           </span>
           <span className="amb-cost__price" aria-live="polite">
-            {!price ? 'Record questions are free' : price === 'free' ? 'Free, from your record' : paid.open ? `Needs a written reply, ${creditCount(1)}` : 'Needs a written reply. Nothing is charged from here.'}
+            {!price ? 'Record questions are free' : price === 'free' ? 'Free, from your record' : offline ? 'Needs a connection. Nothing is charged.' : paid.open ? `Needs a written reply, ${creditCount(1)}` : 'Needs a written reply. Nothing is charged from here.'}
           </span>
         </div>
       </form>

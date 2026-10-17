@@ -23,6 +23,7 @@ import TodayRoad from '@/components/today/TodayRoad';
 import TodayRows from '@/components/today/TodayRows';
 import TodayCue from '@/components/today/TodayCue';
 import TodayMob from '@/components/today/TodayMob';
+import { todayContext } from '@/components/ai/askContexts.mjs';
 import '@/components/today/today.css';
 
 const noSubscribe = () => () => {};
@@ -107,6 +108,7 @@ export default function Today() {
     const fitted = chosen ? fitMove(base, chosen) : base;
     return { ...fitted, base, subjectName: fitted.subject ? subjectName(fitted.subject) : '', mockHref: firstTimedMockHref(facts?.subject || fitted.subject || null) };
   }, [base, chosen, facts]);
+  const askContext = useMemo(() => (move && move.id !== 'failed' ? todayContext({ move, plan: data.plan.data }) : null), [move, data.plan.data]);
   // Failed only once every read the move needs has settled without one; while any is still on its way it is loading.
   const settled = [data.plan, data.papers, data.rhythm, data.facts].every((r) => r.status !== 'loading');
   const phase = move && move.id !== 'failed' ? 'ready' : move?.id === 'failed' || settled ? 'failed' : 'loading';
@@ -131,7 +133,7 @@ export default function Today() {
         </header>
         <div className="today-grid">
           <div className="today-grid__main">
-            <TodayMove phase={phase} move={move} word={hour >= 17 || hour < 4 ? 'Tonight’s move' : 'Today’s move'} slow={slow} triedAt={triedAt} onRetry={retry} alternatives={alts} chosen={chosen} onChoose={choose} saving={saving} />
+            <TodayMove askContext={askContext} phase={phase} move={move} word={hour >= 17 || hour < 4 ? 'Tonight’s move' : 'Today’s move'} slow={slow} triedAt={triedAt} onRetry={retry} alternatives={alts} chosen={chosen} onChoose={choose} saving={saving} />
             {phase !== 'failed' ? <TodayCue target="road" ready={phase === 'ready'} /> : null}
             <TodayRows papers={data.papers} userId={userId} subjectName={subjectName} subjects={user?.subjects || []} hold={landing} />
           </div>

@@ -16,10 +16,8 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import AppearanceSwitch from '@/components/AppearanceSwitch';
 import { PipActor } from '@/components/brand/PipActor';
 import { StartKey, StartSheetHost } from '@/components/start';
-import { PrepOSOrb } from '@/components/ui/PrepOSOrb';
 import HelpMenu from '@/components/help/HelpMenu';
 import AskMobiHost from '@/components/ai/AskMobiHost';
-import { openAskMobi } from '@/components/ai/askMobi.mjs';
 import { HELP_DOOR } from '@/lib/helpDoor.mjs';
 import '@/components/help/help-door.css';
 import './arena.css';
@@ -47,11 +45,11 @@ const TOUR_STEPS_ALL = [
   { title: 'Review', target: 'nav-review', body: 'Every mistake from your papers, with its explanation. Repair one to find the reason, and Revise brings it back until it holds.' },
   { title: 'Progress', target: 'nav-progress', body: 'Your study days, badges and personal bests, week by week.' },
   { title: 'Colleges', target: 'nav-admission-compass', body: 'Which DU courses your subjects open, and the 2026 cutoff college by college. Your chosen colleges show on Today.' },
-  { title: 'Ask Mobi', target: 'nav-mentor', body: 'Questions about your own record are free. A written reply on a question costs 1 AI credit, and the cost shows before you ask.' },
+  { title: 'Ask Mobi', target: 'nav-mentor', body: 'Opens beside the question, the result, Practice or Today, already about it. Questions about your own record are free. A written reply costs 1 AI credit, and the cost shows before you ask.' },
   { title: 'Your Mob', target: 'nav-mob', body: 'You and up to four friends sit the same 10-question paper each week. You see who has sat it, and your own result.', mob: true },
   // The last stop is where help lives (N17): the sidebar's Help door, or More on a phone.
-  { title: 'Help', target: ['guide-button', 'nav-more'], body: 'Stuck anywhere? Open Help to ask Mobi about the page you are on, take this tour again or read the common answers.',
-    bodies: { 'nav-more': 'Stuck anywhere? Help is under More: ask Mobi about the page you are on, take this tour again or read the common answers.' } },
+  { title: 'Help', target: ['guide-button', 'nav-more'], body: 'Stuck anywhere? Open Help to take this tour again, read the common answers or write to us.',
+    bodies: { 'nav-more': 'Stuck anywhere? Help is under More: take this tour again, read the common answers or write to us.' } },
 ];
 // Pip guides the tour only (rare, so it may have character); it nods on each step.
 const TOUR_POSES = ['greeting', 'encouraging', 'thinking', 'celebrating', 'encouraging', 'thinking', 'celebrating', 'greeting'];
@@ -349,8 +347,8 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
             (W-069). Appearance keeps its three choices as icons with names; Guide sits under it. */}
         <div className="arena-sidebar__foot">
           <AppearanceSwitch compact />
-          {/* The Help door (N17): the one place a stuck student looks. Mobi's orb lives here now, in the shell, instead of
-              floating over the page (N9). */}
+          {/* The Help door (N17): a tour, the common answers and a person. Ask Mobi is the ordinary row in Planning and opens from
+              the work itself, so nothing about Mobi sits under the theme switch any more (ASK-MOBI-1018, D6, D12). */}
           <button
             type="button"
             className="arena-help-door"
@@ -359,7 +357,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
             aria-expanded={help?.anchor === 'sidebar'}
             onClick={(event) => { const el = event.currentTarget; setHelp((open) => (open?.anchor === 'sidebar' ? null : { anchor: 'sidebar', el })); }}
           >
-            <PrepOSOrb size={32} active={help?.anchor === 'sidebar'} />
+            <span className="arena-help-door__icon" aria-hidden="true"><AppIcon name="help" size={20} /></span>
             <span className="arena-help-door__text"><b>{HELP_DOOR.label}</b><span>{HELP_DOOR.hint}</span></span>
           </button>
         </div>
@@ -488,7 +486,6 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
           request={help}
           links={previewLinks}
           onClose={() => setHelp(null)}
-          onAsk={(from) => openAskMobi({ tab: 'ask', from })}
           onTour={() => { setTourStep(0); setTourOpen(true); }}
         />
       ) : null}

@@ -44,7 +44,7 @@ export function normalizeContext(input = {}) {
   const number = Number.isInteger(raw.number) && raw.number > 0 && raw.number < 1000 ? raw.number : null;
   const lines = Array.isArray(raw.lines) ? raw.lines.map((line) => text(line, LINE_CAP)).filter(Boolean).slice(0, 4) : [];
   const out = { kind, ref, label: text(raw.label), number, chapter: text(raw.chapter, 64), lines };
-  if (kind === 'question') { out.pickLabel = text(raw.pickLabel); out.keyLabel = text(raw.keyLabel); }
+  if (kind === 'question') { out.pickLabel = text(raw.pickLabel); out.keyLabel = text(raw.keyLabel); if (raw.blank === true) out.blank = true; }
   if (kind === 'today') out.reason = text(raw.reason, LINE_CAP);
   if (raw.record === true) out.record = true;
   return out;

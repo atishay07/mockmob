@@ -71,8 +71,10 @@ function catalogue(context, insights, { pro }) {
   const p = insights?.pace;
   const q = context.number ? `Q${context.number}` : 'this question';
   return {
-    explain_key: { price: 'paid', label: context.pickLabel && context.keyLabel ? `Why is ${context.keyLabel} right and ${context.pickLabel} wrong?` : 'Why is the key right and my answer wrong?', line: 'Uses this question, your pick and the key' },
-    misread: { price: 'paid', label: 'What did I misread?', line: `Points to the words in ${q} that decide the answer` },
+    explain_key: context.blank
+      ? { price: 'paid', label: 'Why is the key right?', line: 'Uses this question and the key' }
+      : { price: 'paid', label: context.pickLabel && context.keyLabel ? `Why is ${context.keyLabel} right and ${context.pickLabel} wrong?` : 'Why is the key right and my answer wrong?', line: 'Uses this question, your pick and the key' },
+    misread: { price: 'paid', label: context.blank ? 'What should I look for first?' : 'What did I misread?', line: `Points to the words in ${q} that decide the answer` },
     quick_check: { price: 'paid', label: 'Give me a quick check for this idea', line: 'A one-line test to run before answering' },
     chapter_history: chapterName ? { price: 'free', label: `Have I missed ${chapterName} before?`, line: chapter ? chapterLine(chapter) : null } : null,
     marks_leak: { price: 'free', label: 'Where am I losing marks?', line: top ? `${top.chapter}, ${top.open} of ${insights.ledger.open} open marks` : null },
@@ -156,7 +158,7 @@ export function openingFor({ context = {}, insights = null, status = 'loading', 
   if (kind !== 'mock' && kind !== 'today' && kind !== 'practice') return null;
   const lines = context.lines || [];
   if (kind === 'today' && (context.reason || lines.length)) {
-    return { ask: 'Why this step?', reply: [context.reason, ...lines].filter(Boolean).join(' '), actions: [], source: status === 'ready' ? recordSource(insights) : 'From your record' };
+    return { ask: 'Why this step?', reply: [context.reason, ...lines].filter(Boolean).join(' '), actions: [], source: status === 'ready' ? recordSource(insights) : 'From your plan' };
   }
   if (kind === 'mock' && lines.length) {
     return { ask: `Where did the marks go in ${context.label || 'this mock'}?`, reply: lines.join(' '), actions: [], source: `From ${context.label || 'this mock'}` };

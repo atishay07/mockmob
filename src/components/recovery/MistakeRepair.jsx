@@ -162,7 +162,7 @@ function AnotherWay({ text, style }) {
 
 // A finished repair (spec A.1): blocks 1 to 12 in order, one column. Exported so fixture payloads can be rendered
 // on their own (data/tests/repair_wiring.test.mjs): v1, v2 and v3 payloads each keep their own set of blocks.
-export function RepairDone({ state, attemptId = null, questionId = null, chosen = null, answer = null, number = null, scheme = 'cuet', insights = null, folded = true, onToggleFold, mobi = null, nextButton = null, next = null, from = null, onCheck = null }) {
+export function RepairDone({ state, attemptId = null, questionId = null, chosen = null, answer = null, number = null, scheme = 'cuet', insights = null, folded = true, onToggleFold, mobi = null, nextButton = null, next = null, from = null, onCheck = null, askContext = null }) {
   const blocks = repairBlocks(state.repair);
   if (!blocks) return null;
   const fresh = state.status === 'explained';
@@ -211,7 +211,7 @@ export function RepairDone({ state, attemptId = null, questionId = null, chosen 
       <RuleCard rule={blocks.rule} hook={v3 ? blocks.hook : null} style={stagger('rule')} />
       {v3 && blocks.anotherWay ? <AnotherWay text={blocks.anotherWay} style={stagger('another')} /> : null}
       {!v3 && blocks.nextStep ? <div className="mr-block mr-next" data-stagger style={stagger('nextStep')}><h5 className="mr-label">{REPAIR_COPY.doThisNext}</h5><p>{blocks.nextStep}</p></div> : null}
-      {showCheck ? <RepairAsk attemptId={attemptId} questionId={questionId} number={number} askHref={state.check.askHref} balance={state.charged && state.wallet?.known !== false ? state.wallet?.total ?? null : null} style={stagger('ask')} /> : null}
+      {showCheck ? <RepairAsk attemptId={attemptId} questionId={questionId} number={number} askContext={askContext} askHref={state.check.askHref} balance={state.charged && state.wallet?.known !== false ? state.wallet?.total ?? null : null} style={stagger('ask')} /> : null}
       {showCheck ? <RepairCheck attemptId={attemptId} questionId={questionId} check={state.check} style={stagger('check')} onResult={onCheck ? (result) => onCheck(questionId, result) : undefined} /> : null}
       {record.length ? (
         <div className="mr-block mr-record" data-stagger style={stagger('record')}>
@@ -244,7 +244,7 @@ export function RepairDone({ state, attemptId = null, questionId = null, chosen 
 //   insights   { lines: [{ kind, text }] } | null: this answer's "From your record" sentences, built on the server
 //   saved      the server holds a written repair for this mistake (lab.repaired): it opens free, never offered as paid (F17)
 //   onCheck    (questionId, { right, replayed }): Check it held came back marked by the server
-export default function MistakeRepair({ attemptId, questionId, chosen, answer, number = null, scheme = 'cuet', nta = false, autoStart = false, onSettled, onReview, initialReview = null, next = null, isCurrent = true, earlier = null, onStart, onStep, onFinish, handover = null, insights = null, saved = null, paper = null, onCheck = null }) {
+export default function MistakeRepair({ attemptId, questionId, chosen, answer, number = null, scheme = 'cuet', nta = false, autoStart = false, onSettled, onReview, initialReview = null, next = null, isCurrent = true, earlier = null, onStart, onStep, onFinish, handover = null, insights = null, saved = null, paper = null, onCheck = null, askContext = null }) {
   const [state, setState] = useState({ status: 'idle' });
   const [slow, setSlow] = useState(false);
   const [long, setLong] = useState(false);
@@ -419,7 +419,7 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
         </div>
       );
     }
-    return <RepairDone state={state} attemptId={attemptId} questionId={questionId} chosen={chosen} answer={answer} number={number} scheme={scheme} insights={insights}
+    return <RepairDone state={state} attemptId={attemptId} questionId={questionId} chosen={chosen} answer={answer} number={number} scheme={scheme} insights={insights} askContext={askContext}
       folded={folded} onToggleFold={() => setFolded(f => !f)} mobi={mobi} nextButton={nextButton} next={next} from={paper} onCheck={onCheck} />;
   })();
   return <div className="mr-shell" data-handover={handover || undefined} {...shellProps}>{earlierEl}{content}</div>;

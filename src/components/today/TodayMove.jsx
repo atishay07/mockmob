@@ -14,6 +14,8 @@ import TodaySheet from './TodaySheet';
 import { AuthContext } from '@/components/AuthProvider';
 import { useWalletSummary } from '@/components/useWalletSummary';
 import { usesLine } from '@/lib/creditCopy.mjs';
+import AskMobiLink from '@/components/ai/AskMobiLink';
+import { ENTRY_LABELS } from '@/components/ai/askContexts.mjs';
 
 const subscribeOnline = (cb) => { window.addEventListener('online', cb); window.addEventListener('offline', cb); return () => { window.removeEventListener('online', cb); window.removeEventListener('offline', cb); }; };
 const onlineNow = () => navigator.onLine !== false;
@@ -84,7 +86,7 @@ function SomethingElse({ open, onClose, items }) {
  * `phase`: 'loading' | 'failed' | 'ready'. `move` from buildMove (fitted to the chosen length by the page).
  * `slow`: the read has taken over 8 s. `triedAt`: the time a retry also failed (a 12-hour clock string).
  */
-export default function TodayMove({ phase, move, word = 'Tonight’s move', slow = false, triedAt = '', cause = '', onRetry, alternatives = [], chosen = null, onChoose, saving = '' }) {
+export default function TodayMove({ phase, move, word = 'Tonight’s move', slow = false, triedAt = '', cause = '', onRetry, alternatives = [], chosen = null, onChoose, saving = '', askContext = null }) {
   const online = useSyncExternalStore(subscribeOnline, onlineNow, () => true);
   const [sheet, setSheet] = useState(null);
 
@@ -132,7 +134,9 @@ export default function TodayMove({ phase, move, word = 'Tonight’s move', slow
       {m.number != null ? (
         <p className="tm__figure" aria-hidden="true"><BigNumber value={m.number} /><span className="tm__label">{m.label}</span></p>
       ) : null}
-      <p className="tm__why">{keepTogether(m.why)}{m.link ? <> <Link className="tm__inline" href={m.link.href}>{m.link.label}</Link></> : null}</p>
+      {/* "Why this?" opens Mobi already on this step, with the reason and the plan's record facts answered free. It takes the place
+          of a link to the record page, so the card never carries two ways to ask why. */}
+      <p className="tm__why">{keepTogether(m.why)}{m.link && !(askContext && m.link.href.startsWith('/mentor')) ? <> <Link className="tm__inline" href={m.link.href}>{m.link.label}</Link></> : null}{askContext ? <> <AskMobiLink context={askContext} variant="inline" className="tm__inline">{ENTRY_LABELS.today}</AskMobiLink></> : null}</p>
       {offline ? <p className="tm__caption" role="status">Needs a connection to start.</p> : null}
       {offline ? (
         <span className="tm__key" aria-disabled="true" role="link">{m.key.label}{m.key.minutes ? <span className="tm__key-len">{m.key.minutes} min</span> : null}</span>

@@ -50,6 +50,8 @@ import { inRepairOrder } from '@/components/result/labLoop';
 import { useAuth } from '@/components/AuthProvider';
 import { useWalletSummary } from '@/components/useWalletSummary';
 import { bankCount, nextPaper, practiceSubjectId } from '@/lib/paperCopy.mjs';
+import AskMobiLink from '@/components/ai/AskMobiLink';
+import { canAskAboutQuestion, mockContext, mockEntryLabel, mockLabel, questionContext, questionEntryLabel } from '@/components/ai/askContexts.mjs';
 
 function displayValue(value, fallback = '') {
   if (value == null) return fallback;
@@ -405,13 +407,14 @@ export default function ResultPageClient({ previewId = null }) {
         {isWrong && Number.isInteger(given) ? (
           <MistakeRepair key={`${q.id}:${epochs[q.id] || 0}`} attemptId={attempt.id} questionId={q.id} number={number} nta={isNtaAttempt} chosen={LETTERS[given]} answer={Number.isInteger(q.correctIndex) ? LETTERS[q.correctIndex] : null}
             autoStart={autoRepair === q.id || savedIds.has(q.id)} saved={savedRepairs[q.id]?.repairedAt || (savedIds.has(q.id) ? 'saved' : null)} paper={paperLine || null} onSettled={settled} initialReview={review} onReview={reviewReceived} onCheck={checked}
-            insights={repairInsights}
+            insights={repairInsights} askContext={askContextOf(row)}
             isCurrent={(!engaged || runCurrent === q.id) && cheer !== q.id} onStart={noteStart} onStep={engaged ? stepFrom : undefined} onFinish={() => setEnding(true)}
             handover={handover?.qid === q.id ? (handover.n % 2 ? 'a' : 'b') : null}
             earlier={(() => { const m = earlierMisses(attempt, q.id)[0]; return m ? { line: earlierMissAt(m), href: `/result/${m.attemptId}` } : null; })()}
             next={(() => { const at = orderedMistakes.findIndex(m => m.q.id === q.id); const n = orderedMistakes.find((m, i) => i > at && !handled.has(m.q.id)) || orderedMistakes.find(m => m.q.id !== q.id && !handled.has(m.q.id)); return n ? { number: n.number, go: () => jumpTo(n.number, { repair: true }) } : null; })()} />
         ) : null}
         {review && !(isWrong && Number.isInteger(given)) ? review.state === 'corrected' || review.state === 'key_changed_unverified' ? <AnswerCorrectionNotice review={review} /> : <KeyReviewNotice chosenLetter={Number.isInteger(given) ? LETTERS[given] : null} keyLetter={LETTERS[q.correctIndex]} reviewState={review.state} /> : null}
+        {askAbout(row)}
         <div className="rp-q__foot">
           {reaction && reading === q.id && !engaged ? <span className="rp-reader" key={`reader-${q.id}`}><ReaderMobi react={readerReact?.qid === q.id ? readerReact : null} /></span> : null}
           <button type="button" className="rp-report" disabled={!!reporting[q.id] || !!reported[q.id]} onClick={() => handleReport(row)}>
@@ -420,6 +423,25 @@ export default function ResultPageClient({ previewId = null }) {
         </div>
       </div>
     );
+  };
+
+  // Ask Mobi about this question (ASK-MOBI-1018): one quiet text line under the repair, for a wrong answer or a blank whose key
+  // is not under re-check. Once the repair is written, the same ask sits inside it (RepairAsk), so it is not drawn twice.
+  const askContextOf = (row) => {
+    const { q, d, verdict, number } = row;
+    const review = answerReviews[q.id];
+    if (!canAskAboutQuestion({ verdict, held: Boolean(review && HELD_STATES.has(review.state)) })) return null;
+    const texts = plainOptionTexts(q.options);
+    const given = d?.givenIndex;
+    return questionContext({
+      attemptId: attempt.id, questionId: q.id, number, chapter: row.chapter,
+      pickText: Number.isInteger(given) ? texts[given] : null, keyText: Number.isInteger(q.correctIndex) ? texts[q.correctIndex] : null,
+      hasKey: Number.isInteger(q.correctIndex), blank: verdict === 'skipped',
+    });
+  };
+  const askAbout = (row) => {
+    const context = hasExplanation(repairOutcomes[row.q.id]) ? null : askContextOf(row);
+    return context ? <p className="ame-line"><AskMobiLink context={context}>{questionEntryLabel(row.number)}</AskMobiLink></p> : null;
   };
 
   // Each row's chip says a real server state, never ahead of it (RESULT-1017 4.5).
@@ -494,6 +516,8 @@ export default function ResultPageClient({ previewId = null }) {
       <section className="srl rl" aria-labelledby="srl-title" data-in="">
         <header className="srl-head"><h2 id="srl-title">{labTitle}</h2></header>
         <LabLedger attempt={attempt} analysis={analysis} timeRead={timeRead} lab={lab} onJump={jumpTo} changesId="rx-time-changes" onSeeReplay={seeReplay} bare />
+        {/* One line under the ledger: Mobi opens already on this paper, with the first answer (where the marks went) free. */}
+        <p className="ame-line"><AskMobiLink context={mockContext({ attemptId: attempt.id, label: mockLabel({ source: attempt.paper?.source, mode }), analysis })}>{mockEntryLabel(mode)}</AskMobiLink></p>
         {cohort ? (
           <div className="rl-cohort">
             <p>{cohort.line}</p>
