@@ -47,7 +47,7 @@ export async function GET(request) {
     legacyConceptChecks:Object.entries(concepts).map(([concept,checks])=>({concept,...improvementEvidence(checks)})),
     milestones:learning.milestones,
     progress:learning.episodes.map(e=>({concept:e.title,state:e.state,sampleSize:e.sampleSize,evidenceLabel:e.evidenceLabel})),
-    note:evidenceUnavailable?'Current question evidence is unavailable, so improvement claims are paused.':`Fresh delayed checks provide concept evidence, not a causal score gain. ${invalidatedChecks} checks with unavailable or changed question evidence are excluded.`},{headers:{'Cache-Control':'no-store'}});
+    note:evidenceUnavailable?'Current question evidence is unavailable, so improvement claims are paused.':(invalidatedChecks>0?`${invalidatedChecks} check${invalidatedChecks===1?'':'s'} with unavailable or changed question evidence ${invalidatedChecks===1?'is':'are'} left out.`:'')},{headers:{'Cache-Control':'no-store'}});
 }
 export async function POST(request) {
   const session=await auth(request);

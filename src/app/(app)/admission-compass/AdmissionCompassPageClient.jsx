@@ -26,8 +26,8 @@ function PracticeBridge({ userId }) {
     <aside className="cmp-bridge" aria-label="From your practice">
       <span className="cmp-bridge__obj" aria-hidden="true"><SubjectObject id={top.subject} size={56} framed={false} /></span>
       <div>
-        <b>Your practice says: {top.chapter}</b>
-        <p>{top.subjectName} has the most marks open in your record ({top.right} right, {top.wrong} wrong, {top.skip} blank over {top.n} questions{top.n < 30 ? ', a small sample so far' : ''}). Cutoffs are history, but the subjects you drill are the ones you control.</p>
+        <b>Most marks open: {top.subjectName}</b>
+        <p>Cutoffs are history, but the subjects you drill are the ones you control. <Link href="/analytics">See the chapters on Weak chapters</Link></p>
         <Link href={`/dashboard?subject=${encodeURIComponent(top.subject)}&mode=quick`}>Practise {top.subjectName}</Link>
       </div>
     </aside>
@@ -49,8 +49,6 @@ export default function AdmissionCompassPageClient() {
           </p>
         </div>
       </header>
-
-      <p className="cmp-note" role="note">Cutoffs are DU’s published 2026 history, not a prediction; 2027 rules stay provisional until DU publishes them. Your subjects and score stay on this device; colleges you add to My colleges are saved to your account.</p>
 
       {/* The tool comes first. Pro students get their projection and colleges above it; everyone else gets one
           quiet line about Compass Pro after the results (CompassPro renders the locked row). */}

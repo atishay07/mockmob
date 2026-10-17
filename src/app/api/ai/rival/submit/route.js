@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { scoreRivalBattle } from '@/services/ai-rival/scoreRivalBattle';
 import { generateAIResponse } from '@/services/ai/providers';
+import { spendUserFor } from '@/services/prepos/replyDeps';
+import { Database } from '@/../data/db';
 import { buildRivalOutroPrompt } from '@/services/ai/systemPrompt';
 import { getRivalProfile } from '@/services/ai-rival/rivalProfiles';
 import { logAIUsage } from '@/services/ai/usageLogger';
@@ -42,8 +44,11 @@ export async function POST(request) {
   const profile = getRivalProfile(result.rivalType);
   let outro = { summary: deterministicOutro(result), nextMove: result.nextMoveHint };
   try {
+    // The outro counts against this student's monthly AI limit (Rs 5 paid, Rs 1 free), like every other student-facing call.
+    const dbUser = await Database.getUserById(session.user.id).catch(() => null);
     const ai = await generateAIResponse({
       tier: 'fast',
+      ...spendUserFor(dbUser || session.user),
       systemPrompt: 'You write short post-battle summaries for AI rival matches in a CUET prep app. Reply only with JSON.',
       userMessage: buildRivalOutroPrompt({
         rivalProfile: profile,

@@ -10,7 +10,7 @@
 --   1. runtime_ai_requests.user_id (nullable text) + index (user_id, created_at). Calls without a user (scripts, the
 --      content pipeline, moderation) leave it null and behave exactly as before.
 --   2. Two cap rows in runtime_ai_budget, so the caps change with one UPDATE and no deploy:
---        student_user_paid  monthly_cap_usd 0.1136  (Rs 10 at USD 1 = Rs 88)  any active paid plan
+--        student_user_paid  monthly_cap_usd 0.0568  (Rs 5 at USD 1 = Rs 88; owner, 17 Oct 2026, 2:15 am)  any active paid plan
 --        student_user_free  monthly_cap_usd 0.0114  (Rs 1)                      everyone else
 --      Only the row id 'student_ai' carries funding, pause and spend; nothing reads these two rows except this function.
 --   3. reserve_runtime_ai takes p_user_id and p_user_tier ('paid', anything else = free) and refuses with
@@ -28,7 +28,7 @@ alter table public.runtime_ai_requests add column if not exists user_id text;
 create index if not exists runtime_ai_requests_user_month_idx on public.runtime_ai_requests(user_id, created_at);
 
 insert into public.runtime_ai_budget(id, monthly_cap_usd) values
-  ('student_user_paid', 0.1136),
+  ('student_user_paid', 0.0568),
   ('student_user_free', 0.0114)
 on conflict (id) do nothing;
 

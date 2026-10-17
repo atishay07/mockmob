@@ -212,7 +212,7 @@ export default function RecordView({ state, onNavigate, pro = false, afterLedger
             </div>
           ))}
         </div>
-        <p className="pp-note">Active on {week.activeDaysLast14} of the last 14 days. Small samples swing a lot, so read this as a description, not a verdict.</p>
+        <p className="pp-note">Active on {week.activeDaysLast14} of the last 14 days.</p>
       </section>
 
       {oneLock && !pro ? (

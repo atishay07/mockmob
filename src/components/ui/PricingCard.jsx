@@ -14,6 +14,7 @@ export function PricingCard({
   ctaElement,
   featured = false,
   footnote,
+  terms = [],
 }) {
   return (
     <article className="mm-plan" data-featured={featured ? 'true' : 'false'}>
@@ -30,6 +31,16 @@ export function PricingCard({
           </p>
         ) : null}
         <p className="mm-plan__desc">{description}</p>
+        {terms.length ? (
+          <dl className="mm-plan__terms">
+            {terms.map(([label, value]) => (
+              <div key={label}>
+                <dt>{label}</dt>
+                <dd>{value}</dd>
+              </div>
+            ))}
+          </dl>
+        ) : null}
       </div>
 
       <ul className="mm-plan__features">

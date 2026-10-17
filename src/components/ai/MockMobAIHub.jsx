@@ -202,7 +202,7 @@ function PlanSection({ firstName, onNavigate, insightsState, onInspect, onAsk })
               </ul>
             </div>
           ) : null}
-          <button type="button" className="btn-volt md self-start" onClick={() => onNavigate(plan.primary.href)}>
+          <button type="button" className="btn-outline md self-start" onClick={() => onNavigate(plan.primary.href)}>
             {plan.primary.title}
           </button>
           {plan.alternatives?.length ? (
@@ -219,7 +219,7 @@ function PlanSection({ firstName, onNavigate, insightsState, onInspect, onAsk })
       ) : null}
       <section className="pp-evidence" aria-label="Why this step">
         <div className="pp-evidence__head"><span>From your recorded practice</span><button type="button" onClick={onInspect}>Inspect your record</button></div>
-        {insightsState.status === 'ready' && insightsState.findings?.[0] ? <><h3>{insightsState.findings[0].headline}</h3><p>{insightsState.findings[0].detail}</p><small>From {insightsState.insights?.sessions} recorded sessions. A practice observation, not a diagnosis.</small></> : <p>{insightsState.status === 'error' ? 'Your record could not be read. The next step above has its own availability check.' : insightsState.status === 'loading' ? 'Reading your recorded sessions…' : 'Take a session first. Mobi will explain what your record shows, without inventing a weak chapter.'}</p>}
+        {insightsState.status === 'ready' && insightsState.findings?.[0] ? <><p>From {insightsState.insights?.sessions} recorded sessions: chapter marks, pace and changed answers.</p><button type="button" className="pp-evidence__go" onClick={() => onNavigate('/analytics')}>See what stands out on Weak chapters</button></> : <p>{insightsState.status === 'error' ? 'Your record could not be read. The next step above has its own availability check.' : insightsState.status === 'loading' ? 'Reading your recorded sessions…' : 'Take a session first. Mobi will explain what your record shows, without inventing a weak chapter.'}</p>}
       </section>
       <div className="pp-plan__handoff"><span>Want to understand the choice?</span><button type="button" onClick={onAsk}>Ask Mobi</button></div>
     </section>

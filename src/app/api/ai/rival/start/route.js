@@ -4,6 +4,7 @@ import { Database } from '@/../data/db';
 import { createAIRivalBattle } from '@/services/ai-rival/createAIRivalBattle';
 import { getRivalProfile } from '@/services/ai-rival/rivalProfiles';
 import { generateAIResponse } from '@/services/ai/providers';
+import { spendUserFor } from '@/services/prepos/replyDeps';
 import { buildRivalIntroPrompt } from '@/services/ai/systemPrompt';
 import { logAIUsage } from '@/services/ai/usageLogger';
 import { getUsageSnapshot } from '@/services/usage/getDailyUsage';
@@ -77,6 +78,7 @@ export async function POST(request) {
   try {
     const ai = await generateAIResponse({
       tier: 'fast',
+      ...spendUserFor(dbUser),
       systemPrompt: 'You write short, clear setup lines for timed CUET pressure benchmarks. No fantasy roleplay. Reply only with JSON.',
       userMessage: buildRivalIntroPrompt(profile, {
         avgScore: result.battle.rivalBenchmark.score,
