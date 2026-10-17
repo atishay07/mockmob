@@ -1,0 +1,220 @@
+{
+ "batch": "biology__w4b1",
+ "subject": "biology",
+ "allowed": {
+  "types": [
+   "single_mcq",
+   "match_the_following",
+   "sequence_ordering",
+   "statement_based",
+   "assertion_reason",
+   "passage_set_item"
+  ],
+  "units": [
+   {
+    "unit": "Reproduction",
+    "chapters": [
+     "Sexual Reproduction in Flowering Plants",
+     "Human Reproduction",
+     "Reproductive Health"
+    ]
+   },
+   {
+    "unit": "Genetics and Evolution",
+    "chapters": [
+     "Principles of Inheritance & Variation",
+     "Molecular Basis of Inheritance",
+     "Evolution"
+    ]
+   },
+   {
+    "unit": "Biology and Human Welfare",
+    "chapters": [
+     "Human Health & Disease",
+     "Microbes in Human Welfare"
+    ]
+   },
+   {
+    "unit": "Biotechnology and its Applications",
+    "chapters": [
+     "Biotechnology Principles & Processes",
+     "Biotechnology & its Applications"
+    ]
+   },
+   {
+    "unit": "Ecology and Environment",
+    "chapters": [
+     "Organisms & Populations",
+     "Ecosystem",
+     "Biodiversity & Conservation"
+    ]
+   }
+  ],
+  "excluded_chapters": [
+   "Reproduction in Organisms",
+   "Environmental Issues"
+  ]
+ },
+ "rows": {
+  "2fe86fe0-ba8b-492b-942d-876c45bf78ea": {
+   "engine_unit_options": [
+    "Reproduction"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 18,
+   "read_seconds": 13
+  },
+  "3920888b-72d1-4cfd-ad56-301ef2e89c5f": {
+   "engine_unit_options": [
+    "Reproduction"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 47,
+   "read_seconds": 22
+  },
+  "dd66dcf5-ca4a-4e15-9722-6292d102a490": {
+   "engine_unit_options": [
+    "Reproduction"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 36,
+   "read_seconds": 19
+  },
+  "1382b67c-0605-4d03-81fc-9fff6a87148a": {
+   "engine_unit_options": [
+    "Reproduction"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 48,
+   "read_seconds": 23
+  },
+  "302af2c0-97c5-4b82-beff-ecf2d2d061bc": {
+   "engine_unit_options": [
+    "Reproduction"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 96,
+   "read_seconds": 37
+  },
+  "f9edc91a-cf7d-4bc9-afe7-7fc485d72a76": {
+   "engine_unit_options": [
+    "Reproduction"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 41,
+   "read_seconds": 20
+  },
+  "84a951f7-b80d-4981-b476-3e4be990ce39": {
+   "engine_unit_options": [
+    "Reproduction"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 52,
+   "read_seconds": 24
+  },
+  "c2cf8f95-1fd1-4ac7-b523-52ed7d95dee3": {
+   "engine_unit_options": [
+    "Reproduction"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 30,
+   "read_seconds": 17
+  },
+  "4e623f32-98a2-4674-ae0b-c6fbac945b8c": {
+   "engine_unit_options": [
+    "Reproduction"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 86,
+   "read_seconds": 34
+  },
+  "b9de7d62-9120-43a8-9742-13d19f226543": {
+   "engine_unit_options": [
+    "Reproduction"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 53,
+   "read_seconds": 24
+  },
+  "dccaf7b2-9f8f-4112-88c7-f7850938c25a": {
+   "engine_unit_options": [
+    "Genetics and Evolution"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 95,
+   "read_seconds": 37
+  },
+  "d5ba952f-51c4-4b06-91b5-52233df6cd8b": {
+   "engine_unit_options": [
+    "Genetics and Evolution"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 30,
+   "read_seconds": 17
+  },
+  "a1762cac-8859-4104-b5b8-440a33eacf15": {
+   "engine_unit_options": [
+    "Genetics and Evolution"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 48,
+   "read_seconds": 23
+  },
+  "a790d203-801b-4206-abd4-812c7135eb6a": {
+   "engine_unit_options": [
+    "Genetics and Evolution"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 74,
+   "read_seconds": 30
+  },
+  "d157c263-e53d-43ab-8a75-2f725d2f815f": {
+   "engine_unit_options": [
+    "Genetics and Evolution"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 33,
+   "read_seconds": 18
+  },
+  "787ef85b-5eb6-43a2-8f91-d91230268051": {
+   "engine_unit_options": [
+    "Genetics and Evolution"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 67,
+   "read_seconds": 28
+  },
+  "83d1ddf7-0c21-44f5-9572-f9d1822321bc": {
+   "engine_unit_options": [
+    "Genetics and Evolution"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 35,
+   "read_seconds": 19
+  },
+  "027483a8-5cf3-4a67-a868-8ab4fc6ccbe9": {
+   "engine_unit_options": [
+    "Genetics and Evolution"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 61,
+   "read_seconds": 26
+  },
+  "43c048d0-4697-411f-9819-a9a56b1c234c": {
+   "engine_unit_options": [
+    "Genetics and Evolution"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 28,
+   "read_seconds": 16
+  },
+  "97c20f8d-1a42-4f39-aa50-3303ce3135e7": {
+   "engine_unit_options": [
+    "Genetics and Evolution"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 61,
+   "read_seconds": 26
+  }
+ }
+}

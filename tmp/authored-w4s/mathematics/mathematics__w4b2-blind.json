@@ -1,0 +1,506 @@
+{
+ "batch": "mathematics__w4b2-blind",
+ "subject": "mathematics",
+ "questions": [
+  {
+   "id": "875af04a-7a23-45c0-b4d5-361e69891b04",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "Sales of woollen garments rise every winter and fall every summer, year after year. This regular pattern repeating within each year is called:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Secular trend"
+    },
+    {
+     "key": "B",
+     "text": "Cyclical variation"
+    },
+    {
+     "key": "C",
+     "text": "Seasonal variation"
+    },
+    {
+     "key": "D",
+     "text": "Irregular variation"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "c88a4ac5-7a46-41a8-98f4-ee80e8c09247",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "The first two values of a time series are 10 and 15. Its 3-year moving averages for the second and third years are 17 and 19. The fourth value of the series is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "16"
+    },
+    {
+     "key": "B",
+     "text": "19"
+    },
+    {
+     "key": "C",
+     "text": "21"
+    },
+    {
+     "key": "D",
+     "text": "26"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "d5032300-ad44-4c93-a73b-a025bf921683",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "The annual output (in thousand units) of a firm over five consecutive years is 10, 14, 19, 20 and 22. A straight-line trend y = a + bt is fitted by the method of least squares with the middle year as origin and t = −2, −1, 0, 1, 2. The trend value for the last year (in thousand units) is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "17"
+    },
+    {
+     "key": "B",
+     "text": "22"
+    },
+    {
+     "key": "C",
+     "text": "29"
+    },
+    {
+     "key": "D",
+     "text": "23"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "a925a1b9-ee41-494d-b328-df3810fbd5a8",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "A list of 400 students is numbered 1 to 400. A systematic sample of 20 students is drawn by starting at the student numbered 6 and then selecting every kth student. The number of the fourth student selected is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "46"
+    },
+    {
+     "key": "B",
+     "text": "66"
+    },
+    {
+     "key": "C",
+     "text": "80"
+    },
+    {
+     "key": "D",
+     "text": "86"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "11d82cd8-6286-4725-b3bf-73accec44fda",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "A population has 6 units. The number of different simple random samples of size 3 that can be drawn without replacement, the order of selection being ignored, is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "120"
+    },
+    {
+     "key": "B",
+     "text": "18"
+    },
+    {
+     "key": "C",
+     "text": "216"
+    },
+    {
+     "key": "D",
+     "text": "20"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "23a5438b-200a-465f-b39e-aed23d8c2dae",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "A sample of 16 values has mean 53 and standard deviation 4.8. To test H0: μ = 50 against H1: μ ≠ 50 at the 5% level, the table value of t for 15 degrees of freedom is 2.13. The calculated t and the decision are:",
+   "options": [
+    {
+     "key": "A",
+     "text": "t = 2.5; reject H0"
+    },
+    {
+     "key": "B",
+     "text": "t = 2.5; do not reject H0"
+    },
+    {
+     "key": "C",
+     "text": "t = 0.625; do not reject H0"
+    },
+    {
+     "key": "D",
+     "text": "t = 10; reject H0"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "b5078728-0359-48b0-9ec0-947cc05d2988",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "The matrix [0 9 a; −9 0 7; 8 b 0] is skew-symmetric. The value of a + b is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "1"
+    },
+    {
+     "key": "B",
+     "text": "−15"
+    },
+    {
+     "key": "C",
+     "text": "15"
+    },
+    {
+     "key": "D",
+     "text": "−1"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "300047ea-3dc7-4cf4-bc6f-abcb00cd5b7f",
+   "subject": "mathematics",
+   "type": "match_the_following",
+   "stem": "Match List-I with List-II. List-I: (A) Scalar matrix (B) Skew-symmetric matrix (C) Row matrix (D) Column matrix. List-II: (I) Aᵀ = −A (II) Order 1 × n (III) Order m × 1 (IV) Diagonal matrix with all diagonal entries equal. Choose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A)-(I), (B)-(IV), (C)-(II), (D)-(III)"
+    },
+    {
+     "key": "B",
+     "text": "(A)-(IV), (B)-(I), (C)-(III), (D)-(II)"
+    },
+    {
+     "key": "C",
+     "text": "(A)-(IV), (B)-(I), (C)-(II), (D)-(III)"
+    },
+    {
+     "key": "D",
+     "text": "(A)-(IV), (B)-(II), (C)-(I), (D)-(III)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "045b9853-199e-4a62-9fd7-fc740a9daf0b",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "The matrices A = [2 1; 6 3] and B = [1 k; −2 4] satisfy AB = O, the zero matrix. The value of k is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "−2"
+    },
+    {
+     "key": "B",
+     "text": "2"
+    },
+    {
+     "key": "C",
+     "text": "−4"
+    },
+    {
+     "key": "D",
+     "text": "−8"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "2e6341d0-3c9d-4b33-9d5f-44c898973dbe",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "The inverse of the matrix [6 5; 2 2] is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "[2 −5; −2 6]"
+    },
+    {
+     "key": "B",
+     "text": "[3 −5/2; −1 1]"
+    },
+    {
+     "key": "C",
+     "text": "[1 5/2; 1 3]"
+    },
+    {
+     "key": "D",
+     "text": "[1 −5/2; −1 3]"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "3ad2e2ed-633e-48a0-bb67-00dda43613f7",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "For A = [1 2; 0 1] and B = [1 0; 2 1], the matrix (A + B)² − (A² + 2AB + B²) equals:",
+   "options": [
+    {
+     "key": "A",
+     "text": "[0 0; 0 0]"
+    },
+    {
+     "key": "B",
+     "text": "[−4 0; 0 4]"
+    },
+    {
+     "key": "C",
+     "text": "[4 0; 0 −4]"
+    },
+    {
+     "key": "D",
+     "text": "[4 0; 0 4]"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "8653f8fb-63aa-4521-9771-c25fd61bb3ac",
+   "subject": "mathematics",
+   "type": "statement_based",
+   "stem": "Consider the following statements about determinants of square matrices.\n(A) Interchanging any two rows of a determinant changes its sign.\n(B) |A + B| = |A| + |B| for any two square matrices A and B of the same order.\n(C) If A is non-singular, then |A⁻¹| = 1/|A|.\n(D) A square matrix with two identical columns is singular.\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A), (B) and (C) only"
+    },
+    {
+     "key": "B",
+     "text": "(B), (C) and (D) only"
+    },
+    {
+     "key": "C",
+     "text": "(A), (C) and (D) only"
+    },
+    {
+     "key": "D",
+     "text": "(A), (B) and (D) only"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "a9fcf18d-71e5-4e22-8a28-2668842a5f62",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "For what value of k does the system of equations 2x + 3y = 5 and 4x + ky = 9 have no solution?",
+   "options": [
+    {
+     "key": "A",
+     "text": "6"
+    },
+    {
+     "key": "B",
+     "text": "3/2"
+    },
+    {
+     "key": "C",
+     "text": "12"
+    },
+    {
+     "key": "D",
+     "text": "9"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "a901a9e5-50a3-43d6-9540-1e10fbe1e36f",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "A and B are square matrices of order 3 with |A| = 3 and |B| = 2, and B is invertible. The value of |2AB⁻¹| is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "24"
+    },
+    {
+     "key": "B",
+     "text": "3"
+    },
+    {
+     "key": "C",
+     "text": "48"
+    },
+    {
+     "key": "D",
+     "text": "12"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "f80e1ebf-e7d6-422c-b65c-8f5df6ba0725",
+   "subject": "mathematics",
+   "type": "match_the_following",
+   "stem": "Match List-I with List-II. List-I: (A) Decision variables (B) Feasible solution (C) Unbounded feasible region (D) Infeasible problem. List-II: (I) A point satisfying all the constraints and the non-negativity conditions (II) Quantities whose values are to be found to optimise the objective function (III) No point satisfies all the constraints together (IV) Region extends indefinitely in some direction. Choose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A)-(II), (B)-(I), (C)-(III), (D)-(IV)"
+    },
+    {
+     "key": "B",
+     "text": "(A)-(II), (B)-(I), (C)-(IV), (D)-(III)"
+    },
+    {
+     "key": "C",
+     "text": "(A)-(I), (B)-(II), (C)-(IV), (D)-(III)"
+    },
+    {
+     "key": "D",
+     "text": "(A)-(II), (B)-(III), (C)-(IV), (D)-(I)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "9879a378-c4e8-4fc9-adb2-8bf56840dc45",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "Which of the following points lies in the feasible region of the constraints 2x + y ≤ 10, x + 3y ≤ 15, x ≥ 0 and y ≥ 0?",
+   "options": [
+    {
+     "key": "A",
+     "text": "(4, 3)"
+    },
+    {
+     "key": "B",
+     "text": "(2, 5)"
+    },
+    {
+     "key": "C",
+     "text": "(5, 1)"
+    },
+    {
+     "key": "D",
+     "text": "(2, 3)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "19373bf0-535e-40e8-b7a0-41756d8d2981",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "A bakery makes x batches of bread and y batches of cake in a day. A batch of bread uses 3 kg of flour and a batch of cake uses 2 kg. Only 30 kg of flour is available, and at least 4 batches of bread must be made. Besides x ≥ 0 and y ≥ 0, the constraints are:",
+   "options": [
+    {
+     "key": "A",
+     "text": "3x + 2y ≥ 30 and x ≥ 4"
+    },
+    {
+     "key": "B",
+     "text": "2x + 3y ≤ 30 and x ≥ 4"
+    },
+    {
+     "key": "C",
+     "text": "3x + 2y ≤ 30 and x ≥ 4"
+    },
+    {
+     "key": "D",
+     "text": "3x + 2y ≤ 30 and x ≤ 4"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "de6a00a2-8803-4417-a2b5-061d58f92d92",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "To minimise its cost Z = 5x + 2y (in rupees), a firm must satisfy 2x + y ≥ 8, x + 2y ≥ 10, x ≥ 0 and y ≥ 0. The least possible cost is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "16"
+    },
+    {
+     "key": "B",
+     "text": "20"
+    },
+    {
+     "key": "C",
+     "text": "18"
+    },
+    {
+     "key": "D",
+     "text": "50"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "57d63f4c-db78-4fe2-9139-842ea2014063",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "How many corner points does the region defined by 0 ≤ x ≤ 4, 0 ≤ y ≤ 4, x + y ≤ 6 and x + 2y ≤ 20 have?",
+   "options": [
+    {
+     "key": "A",
+     "text": "4"
+    },
+    {
+     "key": "B",
+     "text": "6"
+    },
+    {
+     "key": "C",
+     "text": "5"
+    },
+    {
+     "key": "D",
+     "text": "3"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "9d7ba844-d9df-49d4-9bf5-1464df25413a",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "The number of reflexive relations that can be defined on a set containing 3 elements is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "512"
+    },
+    {
+     "key": "B",
+     "text": "64"
+    },
+    {
+     "key": "C",
+     "text": "8"
+    },
+    {
+     "key": "D",
+     "text": "6"
+    }
+   ],
+   "passage_text": null
+  }
+ ]
+}

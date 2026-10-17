@@ -1,0 +1,246 @@
+{
+ "batch": "chemistry__w4b1",
+ "subject": "chemistry",
+ "allowed": {
+  "types": [
+   "single_mcq",
+   "match_the_following",
+   "sequence_ordering",
+   "statement_based",
+   "assertion_reason",
+   "passage_set_item"
+  ],
+  "units": [
+   {
+    "unit": "Solutions",
+    "chapters": [
+     "Solutions"
+    ]
+   },
+   {
+    "unit": "Electrochemistry",
+    "chapters": [
+     "Electrochemistry"
+    ]
+   },
+   {
+    "unit": "Chemical Kinetics",
+    "chapters": [
+     "Chemical Kinetics"
+    ]
+   },
+   {
+    "unit": "d and f Block Elements",
+    "chapters": [
+     "d- and f-Block Elements"
+    ]
+   },
+   {
+    "unit": "Coordination Compounds",
+    "chapters": [
+     "Coordination Compounds"
+    ]
+   },
+   {
+    "unit": "Haloalkanes and Haloarenes",
+    "chapters": [
+     "Haloalkanes & Haloarenes"
+    ]
+   },
+   {
+    "unit": "Alcohols, Phenols and Ethers",
+    "chapters": [
+     "Alcohols, Phenols & Ethers"
+    ]
+   },
+   {
+    "unit": "Aldehydes, Ketones and Carboxylic Acids",
+    "chapters": [
+     "Aldehydes, Ketones & Carboxylic Acids"
+    ]
+   },
+   {
+    "unit": "Amines",
+    "chapters": [
+     "Amines"
+    ]
+   },
+   {
+    "unit": "Biomolecules",
+    "chapters": [
+     "Biomolecules"
+    ]
+   }
+  ],
+  "excluded_chapters": [
+   "Solid State",
+   "Surface Chemistry",
+   "Isolation of Elements",
+   "p-Block Elements",
+   "Polymers",
+   "Chemistry in Everyday Life"
+  ]
+ },
+ "rows": {
+  "8ee1facc-2274-4141-bba7-1389a5caee34": {
+   "engine_unit_options": [
+    "Haloalkanes and Haloarenes"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 40,
+   "read_seconds": 20
+  },
+  "440d1252-fc4c-4fb5-8c77-d6ffbdd335f4": {
+   "engine_unit_options": [
+    "Haloalkanes and Haloarenes"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 81,
+   "read_seconds": 33
+  },
+  "77382746-bcfe-4dc8-a4f6-f5bc5d2e75d0": {
+   "engine_unit_options": [
+    "Haloalkanes and Haloarenes"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 28,
+   "read_seconds": 16
+  },
+  "ce3ca84d-bf8b-44e6-a55b-d5c42ba29c2b": {
+   "engine_unit_options": [
+    "Haloalkanes and Haloarenes"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 20,
+   "read_seconds": 14
+  },
+  "83bcb2bd-fdce-4196-bbcc-daa578f27ba4": {
+   "engine_unit_options": [
+    "Haloalkanes and Haloarenes"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 30,
+   "read_seconds": 17
+  },
+  "2e4f3189-8abb-4e28-8c5b-13da81ddcbed": {
+   "engine_unit_options": [
+    "Alcohols, Phenols and Ethers"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 80,
+   "read_seconds": 32
+  },
+  "be5f0133-bd71-4e1d-97ad-742ee67fe221": {
+   "engine_unit_options": [
+    "Alcohols, Phenols and Ethers"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 20,
+   "read_seconds": 14
+  },
+  "35246480-bd79-48c2-b3f9-8d6128c2a14e": {
+   "engine_unit_options": [
+    "Alcohols, Phenols and Ethers"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 23,
+   "read_seconds": 15
+  },
+  "8e181c77-95ef-4e7c-8bf5-857cbba9f869": {
+   "engine_unit_options": [
+    "Alcohols, Phenols and Ethers"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 31,
+   "read_seconds": 17
+  },
+  "0192976d-ce4d-4ed3-9672-8b0d1578ab19": {
+   "engine_unit_options": [
+    "Alcohols, Phenols and Ethers"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 33,
+   "read_seconds": 18
+  },
+  "5afc1dc3-d029-4d47-ab5c-9c7043cbd7a4": {
+   "engine_unit_options": [
+    "Aldehydes, Ketones and Carboxylic Acids"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 23,
+   "read_seconds": 15
+  },
+  "a04434ca-9aad-472b-bbab-a3f1772efcdf": {
+   "engine_unit_options": [
+    "Aldehydes, Ketones and Carboxylic Acids"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 19,
+   "read_seconds": 14
+  },
+  "47b26e05-f8b5-44e7-a499-1078b4ff6bdd": {
+   "engine_unit_options": [
+    "Aldehydes, Ketones and Carboxylic Acids"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 27,
+   "read_seconds": 16
+  },
+  "9f114e98-a8ab-4a14-a9e6-2ddf5d0a2729": {
+   "engine_unit_options": [
+    "Aldehydes, Ketones and Carboxylic Acids"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 16,
+   "read_seconds": 13
+  },
+  "6fa18b54-8d1a-48ce-b3cb-8c451d1e3287": {
+   "engine_unit_options": [
+    "Aldehydes, Ketones and Carboxylic Acids"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 29,
+   "read_seconds": 17
+  },
+  "eb20eba0-98e1-4090-8320-cab801471c74": {
+   "engine_unit_options": [
+    "Aldehydes, Ketones and Carboxylic Acids"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 18,
+   "read_seconds": 13
+  },
+  "359c50ec-370a-4277-a1e1-26ff626c290f": {
+   "engine_unit_options": [
+    "Aldehydes, Ketones and Carboxylic Acids"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 96,
+   "read_seconds": 37
+  },
+  "b19fa8e5-08f3-47e4-8450-b40bc6631f53": {
+   "engine_unit_options": [
+    "Aldehydes, Ketones and Carboxylic Acids"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 37,
+   "read_seconds": 19
+  },
+  "5069f737-db90-4b0d-83ff-4c19643ca9a1": {
+   "engine_unit_options": [
+    "Aldehydes, Ketones and Carboxylic Acids"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 22,
+   "read_seconds": 15
+  },
+  "efce0722-5459-4073-8962-fe465fb5fa07": {
+   "engine_unit_options": [
+    "Aldehydes, Ketones and Carboxylic Acids"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 24,
+   "read_seconds": 15
+  }
+ }
+}

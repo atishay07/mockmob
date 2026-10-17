@@ -1,0 +1,506 @@
+{
+ "batch": "physics__w4b1-blind",
+ "subject": "physics",
+ "questions": [
+  {
+   "id": "9a1edcea-056d-4e0a-9d68-a89e8a6061da",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "A galvanometer of resistance 99 Ω gives full-scale deflection for a current of 10 mA. It is converted into an ammeter of range 0 to 1 A by connecting a shunt. The resistance of the ammeter so formed is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "1.0 Ω"
+    },
+    {
+     "key": "B",
+     "text": "100 Ω"
+    },
+    {
+     "key": "C",
+     "text": "99 Ω"
+    },
+    {
+     "key": "D",
+     "text": "0.99 Ω"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "9e03f84e-da69-4b2c-b83f-12f0d834e6b9",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "A beam of singly charged ions enters a region where a uniform electric field of 3.0 × 10^4 V/m and a uniform magnetic field of 0.10 T act at right angles to each other and to the beam. Ions of which speed pass through undeflected?",
+   "options": [
+    {
+     "key": "A",
+     "text": "3.0 × 10^3 m/s"
+    },
+    {
+     "key": "B",
+     "text": "3.0 × 10^5 m/s"
+    },
+    {
+     "key": "C",
+     "text": "3.3 × 10^-6 m/s"
+    },
+    {
+     "key": "D",
+     "text": "3.0 × 10^6 m/s"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "823433eb-4072-4493-833d-f53ea7ff8cf3",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "An electron moves in a circular orbit of radius 5.0 × 10^-11 m with a speed of 3.0 × 10^6 m/s. Take e = 1.6 × 10^-19 C. The magnetic moment due to this orbital motion is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "1.2 × 10^-23 A m²"
+    },
+    {
+     "key": "B",
+     "text": "2.4 × 10^-23 A m²"
+    },
+    {
+     "key": "C",
+     "text": "7.5 × 10^-23 A m²"
+    },
+    {
+     "key": "D",
+     "text": "4.8 × 10^-23 A m²"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "e9f682c4-7b40-4470-a4ac-cca20e95419e",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "Two long straight parallel wires are 0.40 m apart and carry steady currents of 3 A and 5 A in opposite directions. On the straight line through both wires, the net magnetic field is zero at a distance from the 3 A wire of:",
+   "options": [
+    {
+     "key": "A",
+     "text": "0.15 m"
+    },
+    {
+     "key": "B",
+     "text": "0.24 m"
+    },
+    {
+     "key": "C",
+     "text": "0.60 m"
+    },
+    {
+     "key": "D",
+     "text": "1.0 m"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "449e1c7b-0d6d-4ea4-a7c2-85e2aa906779",
+   "subject": "physics",
+   "type": "statement_based",
+   "stem": "Consider the following statements about electromagnetic induction.\n(A) The emf induced in a closed loop depends on the resistance of the loop.\n(B) An emf can be induced in a coil placed in a steady magnetic field by changing the area of the coil.\n(C) One henry is equal to one weber per ampere.\n(D) A metal rod at rest in a steady magnetic field has a motional emf between its ends.\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "Statements (A) and (B) only"
+    },
+    {
+     "key": "B",
+     "text": "Statements (A), (C) and (D) only"
+    },
+    {
+     "key": "C",
+     "text": "Statements (C) and (D) only"
+    },
+    {
+     "key": "D",
+     "text": "Statements (B) and (C) only"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "d927294f-a4a8-4886-b658-6ae4abbb96cc",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "A coil of 100 turns and resistance 20 Ω is linked with a flux that falls from 4.0 × 10^-3 Wb to 1.0 × 10^-3 Wb through each turn in 0.50 s. The total charge that flows through the coil is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "1.5 × 10^-4 C"
+    },
+    {
+     "key": "B",
+     "text": "3.0 × 10^-2 C"
+    },
+    {
+     "key": "C",
+     "text": "1.5 × 10^-2 C"
+    },
+    {
+     "key": "D",
+     "text": "6.0 × 10^-1 C"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "9c904745-0e4f-4aaf-b0ec-680a81b419ab",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "The energy stored in the magnetic field of a coil carrying a current of 2 A is 8 J. The self-inductance of the coil is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "8 H"
+    },
+    {
+     "key": "B",
+     "text": "4 H"
+    },
+    {
+     "key": "C",
+     "text": "16 H"
+    },
+    {
+     "key": "D",
+     "text": "2 H"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "e6aaca54-9f5b-4217-86d5-a72ec3df7ec1",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "A square coil of side 10 cm and 100 turns is placed with its plane making an angle of 30° with a uniform magnetic field of 0.20 T. The field is reduced uniformly to zero in 0.010 s. The magnitude of the induced emf is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "20 V"
+    },
+    {
+     "key": "B",
+     "text": "0.10 V"
+    },
+    {
+     "key": "C",
+     "text": "10√3 V"
+    },
+    {
+     "key": "D",
+     "text": "10 V"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "03e23eee-ba91-4f2c-9307-a711a8aaf231",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "A lamp rated 100 W at 100 V is to be operated from a 125 V AC supply, with a pure inductor connected in series so that the lamp works at its rated power. The inductive reactance of the inductor must be:",
+   "options": [
+    {
+     "key": "A",
+     "text": "75 Ω"
+    },
+    {
+     "key": "B",
+     "text": "25 Ω"
+    },
+    {
+     "key": "C",
+     "text": "160 Ω"
+    },
+    {
+     "key": "D",
+     "text": "225 Ω"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "d01eb790-0cf8-49f7-9eaa-eae3faeea1d5",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "A series LCR circuit is connected to a 100 V (rms) AC source. The resistance is 30 Ω, the inductive reactance is 80 Ω and the capacitive reactance is 40 Ω. The rms voltage across the inductor is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "80 V"
+    },
+    {
+     "key": "B",
+     "text": "160 V"
+    },
+    {
+     "key": "C",
+     "text": "100 V"
+    },
+    {
+     "key": "D",
+     "text": "60 V"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "47a09bf1-99f6-4a0d-bb3d-cd9177a65ba2",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "The emf of an AC generator varies as e = e0 sin ωt and the frequency is 50 Hz. Starting from e = 0, the time taken for the emf to first reach half of its peak value e0 is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "1/300 s"
+    },
+    {
+     "key": "B",
+     "text": "1/200 s"
+    },
+    {
+     "key": "C",
+     "text": "1/600 s"
+    },
+    {
+     "key": "D",
+     "text": "1/100 s"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "73198264-8b92-4c57-a361-7cfdeef58e51",
+   "subject": "physics",
+   "type": "match_the_following",
+   "stem": "Match List-I with List-II.\nList-I: (A) Radio waves (B) Infrared waves (C) X-rays (D) Gamma rays\nList-II: (I) High-energy electrons striking a metal target (II) Transitions of excited atomic nuclei (III) Rapid acceleration and deceleration of electrons in an aerial (IV) Vibrations of atoms and molecules in hot bodies\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A)-(III), (B)-(I), (C)-(IV), (D)-(II)"
+    },
+    {
+     "key": "B",
+     "text": "(A)-(IV), (B)-(III), (C)-(I), (D)-(II)"
+    },
+    {
+     "key": "C",
+     "text": "(A)-(III), (B)-(IV), (C)-(II), (D)-(I)"
+    },
+    {
+     "key": "D",
+     "text": "(A)-(III), (B)-(IV), (C)-(I), (D)-(II)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "7af4ea50-c28d-445c-b9da-6c586230ae81",
+   "subject": "physics",
+   "type": "sequence_ordering",
+   "stem": "Arrange the following electromagnetic radiations in decreasing order of frequency.\n(A) Infrared rays\n(B) Gamma rays\n(C) Microwaves\n(D) Ultraviolet rays\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(C), (A), (D), (B)"
+    },
+    {
+     "key": "B",
+     "text": "(B), (A), (D), (C)"
+    },
+    {
+     "key": "C",
+     "text": "(B), (D), (A), (C)"
+    },
+    {
+     "key": "D",
+     "text": "(D), (B), (C), (A)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "011459c4-767b-4d22-a553-e53947ca2243",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "The magnetic field amplitude of a plane electromagnetic wave in vacuum is 2.0 × 10^-7 T. Take c = 3.0 × 10^8 m/s. The amplitude of its electric field is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "60 V/m"
+    },
+    {
+     "key": "B",
+     "text": "6.7 × 10^-16 V/m"
+    },
+    {
+     "key": "C",
+     "text": "2.0 × 10^-7 V/m"
+    },
+    {
+     "key": "D",
+     "text": "1.8 × 10^10 V/m"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "75bc29fb-5f94-405b-b6a4-9d121f46ff9e",
+   "subject": "physics",
+   "type": "match_the_following",
+   "stem": "Match List-I with List-II.\nList-I: (A) Silicon doped with arsenic (B) Silicon doped with indium (C) p-n junction under forward bias (D) p-n junction under reverse bias\nList-II: (I) Holes are the majority carriers (II) Narrow depletion layer and large current (III) Electrons are the majority carriers (IV) Wide depletion layer and very small current\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A)-(I), (B)-(III), (C)-(II), (D)-(IV)"
+    },
+    {
+     "key": "B",
+     "text": "(A)-(III), (B)-(I), (C)-(II), (D)-(IV)"
+    },
+    {
+     "key": "C",
+     "text": "(A)-(III), (B)-(I), (C)-(IV), (D)-(II)"
+    },
+    {
+     "key": "D",
+     "text": "(A)-(I), (B)-(III), (C)-(IV), (D)-(II)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "9cc7e8e6-4b0e-4cf4-b003-20402d104f39",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "In terms of energy bands, a metallic conductor is characterised by:",
+   "options": [
+    {
+     "key": "A",
+     "text": "a full valence band and an empty conduction band, separated by a gap of more than 3 eV"
+    },
+    {
+     "key": "B",
+     "text": "a full valence band and an empty conduction band, separated by a gap of about 1 eV"
+    },
+    {
+     "key": "C",
+     "text": "a full conduction band and an empty valence band, separated by a small gap"
+    },
+    {
+     "key": "D",
+     "text": "a conduction band that is partly filled or overlaps the valence band"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "fabdd431-d76a-40f3-b6c3-1718f5b4a141",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "In a doped silicon sample the electron concentration is 4.0 × 10^22 m^-3. The intrinsic carrier concentration of silicon is 2.0 × 10^16 m^-3. The hole concentration in the sample is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "2.0 × 10^16 m^-3"
+    },
+    {
+     "key": "B",
+     "text": "8.0 × 10^38 m^-3"
+    },
+    {
+     "key": "C",
+     "text": "1.0 × 10^10 m^-3"
+    },
+    {
+     "key": "D",
+     "text": "5.0 × 10^-7 m^-3"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "4d2b0fe2-fffd-4d86-91be-ad6c8f61317a",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "In an unbiased p-n junction at equilibrium, the net current across the junction is zero because:",
+   "options": [
+    {
+     "key": "A",
+     "text": "the diffusion current of majority carriers is balanced by the drift current of minority carriers"
+    },
+    {
+     "key": "B",
+     "text": "the depletion layer stops the majority carriers and the minority carriers from crossing the junction"
+    },
+    {
+     "key": "C",
+     "text": "the potential barrier across the junction vanishes once the equilibrium is reached"
+    },
+    {
+     "key": "D",
+     "text": "the p-side and the n-side contain equal numbers of holes and of electrons"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "b178248c-b160-48d6-a199-390201b13144",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "A silicon diode, which drops 0.7 V when it conducts, is connected in the forward direction in series with a 1.0 kΩ resistor and a 5.7 V battery. The current in the circuit is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "5.7 mA"
+    },
+    {
+     "key": "B",
+     "text": "6.4 mA"
+    },
+    {
+     "key": "C",
+     "text": "4.3 mA"
+    },
+    {
+     "key": "D",
+     "text": "5.0 mA"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "9a2b3ade-77eb-4ee8-8cd3-f9dbbca861ba",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "A capacitor is connected across the load resistor at the output of a full-wave rectifier. Its purpose is to:",
+   "options": [
+    {
+     "key": "A",
+     "text": "convert the pulsating output back into an alternating voltage"
+    },
+    {
+     "key": "B",
+     "text": "smooth the output by storing charge and releasing it through the load"
+    },
+    {
+     "key": "C",
+     "text": "increase the ripple frequency to four times the input frequency"
+    },
+    {
+     "key": "D",
+     "text": "make each diode conduct during the whole cycle of the input"
+    }
+   ],
+   "passage_text": null
+  }
+ ]
+}

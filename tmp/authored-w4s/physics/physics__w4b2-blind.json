@@ -1,0 +1,506 @@
+{
+ "batch": "physics__w4b2-blind",
+ "subject": "physics",
+ "questions": [
+  {
+   "id": "49cdcfd3-2f1c-4d94-8905-0f9afc4ef316",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "A pebble lies at the bottom of a pool of water (refractive index 4/3) that is 2.4 m deep. Seen from directly above, the pebble appears to be raised by:",
+   "options": [
+    {
+     "key": "A",
+     "text": "0.8 m"
+    },
+    {
+     "key": "B",
+     "text": "1.8 m"
+    },
+    {
+     "key": "C",
+     "text": "0.6 m"
+    },
+    {
+     "key": "D",
+     "text": "3.2 m"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "012b12f8-f665-4fac-87c8-1c3bbc85d59e",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "A point object is placed on the axis in air, 60 cm in front of a convex spherical glass surface (μ = 1.5) of radius of curvature 15 cm. The distance of the image from the surface is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "90 cm"
+    },
+    {
+     "key": "B",
+     "text": "30 cm"
+    },
+    {
+     "key": "C",
+     "text": "45 cm"
+    },
+    {
+     "key": "D",
+     "text": "60 cm"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "bf760cfb-3f89-4233-8ec2-7d0588f8a8f1",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "A compound microscope has an objective of focal length 1.0 cm and an eyepiece of focal length 5.0 cm, and its tube length (distance between the inner focal points) is 20 cm. For the final image at infinity, the magnifying power is (D = 25 cm):",
+   "options": [
+    {
+     "key": "A",
+     "text": "120"
+    },
+    {
+     "key": "B",
+     "text": "25"
+    },
+    {
+     "key": "C",
+     "text": "130"
+    },
+    {
+     "key": "D",
+     "text": "100"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "c83bfc1b-51a8-4c9c-ba3a-4b1b3b077998",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "Two thin prisms are joined with their refracting edges pointing in opposite directions. One has angle 6° and refractive index 1.5; the other has angle 4° and refractive index 1.6. The net deviation of a ray passing through the combination is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "2.0°"
+    },
+    {
+     "key": "B",
+     "text": "0.6°"
+    },
+    {
+     "key": "C",
+     "text": "5.4°"
+    },
+    {
+     "key": "D",
+     "text": "2.6°"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "a5527d87-72c4-45bc-876b-a80050540ae1",
+   "subject": "physics",
+   "type": "match_the_following",
+   "stem": "Match List-I with List-II.\nList-I: (A) Signal transmission through an optical fibre (B) Image formation by a convex lens (C) Image formation by a plane mirror (D) Splitting of white light by a glass prism\nList-II: (I) Reflection (II) Total internal reflection (III) Dispersion (IV) Refraction\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A)-(II), (B)-(I), (C)-(IV), (D)-(III)"
+    },
+    {
+     "key": "B",
+     "text": "(A)-(I), (B)-(IV), (C)-(II), (D)-(III)"
+    },
+    {
+     "key": "C",
+     "text": "(A)-(II), (B)-(IV), (C)-(I), (D)-(III)"
+    },
+    {
+     "key": "D",
+     "text": "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "46dec6bb-4af6-40da-8a22-825f75dc52ce",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "A point source of light is placed at the principal focus of a thin convex lens. The wavefront of the light emerging from the lens is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "a diverging spherical wavefront"
+    },
+    {
+     "key": "B",
+     "text": "a converging spherical wavefront"
+    },
+    {
+     "key": "C",
+     "text": "a cylindrical wavefront"
+    },
+    {
+     "key": "D",
+     "text": "a plane wavefront"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "c88795fc-93b2-4e55-979a-126712390857",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "A plane wavefront travelling in air meets the surface of a transparent medium at an angle of incidence of 60°. The speed of light in the medium is c/√3. The angle of refraction is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "30°"
+    },
+    {
+     "key": "B",
+     "text": "45°"
+    },
+    {
+     "key": "C",
+     "text": "35°"
+    },
+    {
+     "key": "D",
+     "text": "60°"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "4bb38a72-4019-47e5-bdc9-26fe5bcad9a5",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "Light of wavelength 400 nm falls on two narrow slits 0.6 mm apart, and the fringes are viewed on a screen 1.5 m away. On one side of the central maximum, the third dark fringe lies at what distance from the centre?",
+   "options": [
+    {
+     "key": "A",
+     "text": "3.0 mm"
+    },
+    {
+     "key": "B",
+     "text": "3.5 mm"
+    },
+    {
+     "key": "C",
+     "text": "2.5 mm"
+    },
+    {
+     "key": "D",
+     "text": "1.5 mm"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "a2a668aa-c16b-40c2-81b8-3d810f79d7e2",
+   "subject": "physics",
+   "type": "sequence_ordering",
+   "stem": "In a Young’s double-slit experiment the slit separation and the screen distance are kept fixed. Arrange the following monochromatic lights in increasing order of fringe width: (A) Green light (B) Red light (C) Violet light (D) Yellow light",
+   "options": [
+    {
+     "key": "A",
+     "text": "(C), (D), (A), (B)"
+    },
+    {
+     "key": "B",
+     "text": "(C), (A), (D), (B)"
+    },
+    {
+     "key": "C",
+     "text": "(B), (D), (A), (C)"
+    },
+    {
+     "key": "D",
+     "text": "(A), (C), (D), (B)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "3b05fd92-2355-4441-968e-ae9c92367483",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "A neutron of mass 1.65 × 10^-27 kg moves with a speed of 4.0 × 10^3 m s^-1. Taking h = 6.6 × 10^-34 J s, its de Broglie wavelength is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "2.0 × 10^-10 m"
+    },
+    {
+     "key": "B",
+     "text": "1.0 × 10^-10 m"
+    },
+    {
+     "key": "C",
+     "text": "2.5 × 10^-14 m"
+    },
+    {
+     "key": "D",
+     "text": "1.0 × 10^-9 m"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "a8245687-1132-49a7-8ec4-306abf2aba8b",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "A lamp radiates 3.3 W of monochromatic light of wavelength 600 nm. Taking h = 6.6 × 10^-34 J s and c = 3.0 × 10^8 m s^-1, the number of photons emitted per second is about:",
+   "options": [
+    {
+     "key": "A",
+     "text": "1.0 × 10^20"
+    },
+    {
+     "key": "B",
+     "text": "3.3 × 10^19"
+    },
+    {
+     "key": "C",
+     "text": "1.0 × 10^17"
+    },
+    {
+     "key": "D",
+     "text": "1.0 × 10^19"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "ff03fa32-f2de-4166-b312-bff3de154777",
+   "subject": "physics",
+   "type": "statement_based",
+   "stem": "Consider the following statements about the photoelectric effect.\n(A) Photoelectrons are emitted almost immediately, with no measurable delay after the light falls on the metal.\n(B) For light of a fixed frequency above the threshold, the maximum kinetic energy of the photoelectrons increases when the intensity is increased.\n(C) For a given metal, no photoelectrons are emitted below the threshold frequency, however large the intensity.\n(D) The stopping potential depends on the frequency of the incident light.\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A), (C) and (D) only"
+    },
+    {
+     "key": "B",
+     "text": "(A), (B) and (C) only"
+    },
+    {
+     "key": "C",
+     "text": "(B), (C) and (D) only"
+    },
+    {
+     "key": "D",
+     "text": "(A), (B) and (D) only"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "664b7a77-53bc-4c82-889a-5731832693ac",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "For a photosensitive metal, the stopping potential is V0 for light of wavelength λ and 3V0 for light of wavelength λ/2. The threshold wavelength of the metal is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "3λ"
+    },
+    {
+     "key": "B",
+     "text": "3λ/2"
+    },
+    {
+     "key": "C",
+     "text": "2λ"
+    },
+    {
+     "key": "D",
+     "text": "4λ/3"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "59c65a4c-9cea-4a76-bbe3-dde064917db4",
+   "subject": "physics",
+   "type": "match_the_following",
+   "stem": "Match List-I (quantity for the nth Bohr orbit of hydrogen) with List-II (dependence on n).\nList-I: (A) Radius of the orbit (B) Speed of the electron (C) Magnitude of the total energy (D) Angular momentum of the electron\nList-II: (I) Proportional to 1/n² (II) Proportional to n (III) Proportional to 1/n (IV) Proportional to n²\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A)-(III), (B)-(IV), (C)-(I), (D)-(II)"
+    },
+    {
+     "key": "B",
+     "text": "(A)-(IV), (B)-(III), (C)-(II), (D)-(I)"
+    },
+    {
+     "key": "C",
+     "text": "(A)-(IV), (B)-(III), (C)-(I), (D)-(II)"
+    },
+    {
+     "key": "D",
+     "text": "(A)-(IV), (B)-(I), (C)-(III), (D)-(II)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "eab7b9e0-c086-4422-8820-f49e7701fe40",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "An alpha particle of kinetic energy 7.2 MeV approaches a tin nucleus (atomic number 50) head-on. Taking e²/(4πε₀) = 1.44 MeV fm, the distance of closest approach is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "20 fm"
+    },
+    {
+     "key": "B",
+     "text": "10 fm"
+    },
+    {
+     "key": "C",
+     "text": "40 fm"
+    },
+    {
+     "key": "D",
+     "text": "5.0 fm"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "48be5953-0f97-438b-930b-ecac7c558cf2",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "A sample of hydrogen atoms has all its electrons excited to the n = 4 level. The maximum number of different spectral lines that can be emitted as the atoms return to lower levels is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "3"
+    },
+    {
+     "key": "B",
+     "text": "4"
+    },
+    {
+     "key": "C",
+     "text": "10"
+    },
+    {
+     "key": "D",
+     "text": "6"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "0140bbdf-feae-48b9-a3bd-5c6e16f61c30",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "In the hydrogen spectrum, the ratio of the longest wavelength of the Balmer series to the shortest wavelength of the Paschen series is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "4 : 9"
+    },
+    {
+     "key": "B",
+     "text": "4 : 5"
+    },
+    {
+     "key": "C",
+     "text": "5 : 4"
+    },
+    {
+     "key": "D",
+     "text": "7 : 20"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "46ac000e-cb0b-4df5-8edf-c811757f79cf",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "Which one of the following pairs of nuclides consists of isotones?",
+   "options": [
+    {
+     "key": "A",
+     "text": "H-3 and He-3"
+    },
+    {
+     "key": "B",
+     "text": "C-12 and C-14"
+    },
+    {
+     "key": "C",
+     "text": "N-14 and O-16"
+    },
+    {
+     "key": "D",
+     "text": "C-13 and N-14"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "97690044-9d76-4aff-a84b-f9787fd3c100",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "A nuclear reactor delivers 3.2 MW of power from the fission of uranium, each fission releasing 200 MeV. Taking 1 MeV = 1.6 × 10^-13 J, the number of fissions per second is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "1.0 × 10^11"
+    },
+    {
+     "key": "B",
+     "text": "2.0 × 10^17"
+    },
+    {
+     "key": "C",
+     "text": "1.0 × 10^17"
+    },
+    {
+     "key": "D",
+     "text": "1.0 × 10^23"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "c28582fc-eedd-4ea9-a907-b938f29248ab",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "The binding energy per nucleon is 1.1 MeV for deuterium (H-2) and 7.1 MeV for helium (He-4). The energy released when two deuterium nuclei fuse to form one helium nucleus is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "24.0 MeV"
+    },
+    {
+     "key": "B",
+     "text": "6.0 MeV"
+    },
+    {
+     "key": "C",
+     "text": "28.4 MeV"
+    },
+    {
+     "key": "D",
+     "text": "32.8 MeV"
+    }
+   ],
+   "passage_text": null
+  }
+ ]
+}

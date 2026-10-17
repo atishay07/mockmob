@@ -1,0 +1,666 @@
+{
+ "batch": "mathematics__w4b3",
+ "subject": "mathematics",
+ "questions": [
+  {
+   "id": "9afe3afa-ab58-487c-8b4a-7b04ef37c60a",
+   "subject": "mathematics",
+   "unit": "Calculus",
+   "chapter": "Continuity & Differentiability",
+   "type": "single_mcq",
+   "stem": "The curve x² + xy + y² = 7 passes through the point (1, 2). For this curve, dy/dx at (1, 2) equals:",
+   "options": [
+    {
+     "key": "A",
+     "text": "4/5"
+    },
+    {
+     "key": "B",
+     "text": "−4/5"
+    },
+    {
+     "key": "C",
+     "text": "−5/4"
+    },
+    {
+     "key": "D",
+     "text": "−2/5"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "Differentiate both sides with respect to x, applying the product rule to xy: 2x + y + x(dy/dx) + 2y(dy/dx) = 0, so dy/dx = −(2x + y)/(x + 2y). At (1, 2) this is −(2 + 2)/(1 + 4) = −4/5. Dropping the y that the product rule produces gives −2/5, and inverting the fraction gives −5/4.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Mathematics Part I, Ch 5 Continuity and Differentiability: derivative of implicit functions",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "c0d61bdc-7072-4121-a1b0-be91ad4757b6",
+   "subject": "mathematics",
+   "unit": "Calculus",
+   "chapter": "Continuity & Differentiability",
+   "type": "single_mcq",
+   "stem": "A curve is given parametrically by x = t² and y = t³, where t is a real parameter. The second derivative d²y/dx² at t = 2 equals:",
+   "options": [
+    {
+     "key": "A",
+     "text": "3/2"
+    },
+    {
+     "key": "B",
+     "text": "3"
+    },
+    {
+     "key": "C",
+     "text": "6"
+    },
+    {
+     "key": "D",
+     "text": "3/8"
+    }
+   ],
+   "correct_key": "D",
+   "explanation": "Here dy/dx = (dy/dt)/(dx/dt) = 3t²/2t = 3t/2. Then d²y/dx² = [d/dt(3t/2)]/(dx/dt) = (3/2)/(2t) = 3/(4t), which is 3/8 at t = 2. Stopping at d/dt(3t/2) gives 3/2, and dividing d²y/dt² by dx/dt gives 12/4 = 3.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Mathematics Part I, Ch 5 Continuity and Differentiability: parametric differentiation and second order derivatives",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "9567d87f-af20-4df4-afd1-8656a2b1edcd",
+   "subject": "mathematics",
+   "unit": "Calculus",
+   "chapter": "Continuity & Differentiability",
+   "type": "match_the_following",
+   "stem": "Match List-I with List-II.\nList-I (function)\n(A) e^(3x)\n(B) log_e (3x)\n(C) tan⁻¹(3x)\n(D) sin⁻¹ x\nList-II (derivative with respect to x)\n(I) 1/x\n(II) 3/(1 + 9x²)\n(III) 1/√(1 − x²)\n(IV) 3e^(3x)\nChoose the correct answer from the options given below:",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A)-(IV), (B)-(I), (C)-(II), (D)-(III)"
+    },
+    {
+     "key": "B",
+     "text": "(A)-(IV), (B)-(I), (C)-(III), (D)-(II)"
+    },
+    {
+     "key": "C",
+     "text": "(A)-(I), (B)-(IV), (C)-(II), (D)-(III)"
+    },
+    {
+     "key": "D",
+     "text": "(A)-(II), (B)-(I), (C)-(IV), (D)-(III)"
+    }
+   ],
+   "correct_key": "A",
+   "explanation": "By the chain rule, d/dx e^(3x) = 3e^(3x), d/dx log_e (3x) = 3/(3x) = 1/x and d/dx tan⁻¹(3x) = 3/(1 + 9x²), while d/dx sin⁻¹ x = 1/√(1 − x²). The factor 3 from the inner function survives in the exponential and in the tan⁻¹ result but cancels in the logarithm.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "NCERT Class 12 Mathematics Part I, Ch 5 Continuity and Differentiability: derivatives of exponential, logarithmic and inverse trigonometric functions",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "6e6c3c28-a723-4c1f-9359-8fbe3c7473b2",
+   "subject": "mathematics",
+   "unit": "Calculus",
+   "chapter": "Application of Derivatives",
+   "type": "single_mcq",
+   "stem": "The edge of a cube is increasing at the rate of 2 cm/s. The rate at which its volume is increasing when the edge is 3 cm is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "27 cm³/s"
+    },
+    {
+     "key": "B",
+     "text": "36 cm³/s"
+    },
+    {
+     "key": "C",
+     "text": "54 cm³/s"
+    },
+    {
+     "key": "D",
+     "text": "18 cm³/s"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "With V = a³, dV/dt = 3a²(da/dt) = 3 × 3² × 2 = 54 cm³/s. The value 36 is 6a(da/dt), the rate of change of surface area, and 27 is 3a² with the rate da/dt left out.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "NCERT Class 12 Mathematics Part I, Ch 6 Application of Derivatives: rate of change of quantities",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "93acdf0c-24cc-46b2-864e-99207aceac5b",
+   "subject": "mathematics",
+   "unit": "Calculus",
+   "chapter": "Application of Derivatives",
+   "type": "single_mcq",
+   "stem": "The function f(x) = x² − 2 log_e x, with domain x > 0, is strictly increasing on which of the following intervals?",
+   "options": [
+    {
+     "key": "A",
+     "text": "(0, 1)"
+    },
+    {
+     "key": "B",
+     "text": "(1, ∞)"
+    },
+    {
+     "key": "C",
+     "text": "(0, ∞)"
+    },
+    {
+     "key": "D",
+     "text": "(0, e)"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "f′(x) = 2x − 2/x = 2(x² − 1)/x. For x > 0 the sign of f′ is the sign of x² − 1, which is positive only when x > 1, so f increases on (1, ∞). On (0, 1) the derivative is negative, so that is where f decreases; (0, ∞) wrongly treats x² as the only term.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Mathematics Part I, Ch 6 Application of Derivatives: increasing and decreasing functions",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "09ff07f0-c60c-46c9-bc65-88f4e0bc323e",
+   "subject": "mathematics",
+   "unit": "Calculus",
+   "chapter": "Application of Derivatives",
+   "type": "single_mcq",
+   "stem": "Two positive numbers x and y satisfy x + y = 12. The maximum value of x²y is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "256"
+    },
+    {
+     "key": "B",
+     "text": "216"
+    },
+    {
+     "key": "C",
+     "text": "128"
+    },
+    {
+     "key": "D",
+     "text": "64"
+    }
+   ],
+   "correct_key": "A",
+   "explanation": "Put y = 12 − x, so f(x) = 12x² − x³. Then f′(x) = 24x − 3x² = 3x(8 − x) = 0 gives x = 8, and f″(8) = 24 − 48 < 0, so this is a maximum. With y = 4 the value is 8² × 4 = 256. Splitting the sum equally, x = y = 6, gives only 216.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "hard",
+   "ncert_ref": "NCERT Class 12 Mathematics Part I, Ch 6 Application of Derivatives: maxima and minima, second derivative test and optimisation",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "4e3389a9-e5f6-464e-94da-097ecfa1b56a",
+   "subject": "mathematics",
+   "unit": "Calculus",
+   "chapter": "Integrals",
+   "type": "single_mcq",
+   "stem": "Suppose f is an integrable function on [0, 4] such that ∫ from 0 to 4 of f(x) dx = 7 and ∫ from 2 to 4 of f(x) dx = 3. Then ∫ from 0 to 2 of (2f(x) + 1) dx is equal to:",
+   "options": [
+    {
+     "key": "A",
+     "text": "9"
+    },
+    {
+     "key": "B",
+     "text": "16"
+    },
+    {
+     "key": "C",
+     "text": "22"
+    },
+    {
+     "key": "D",
+     "text": "10"
+    }
+   ],
+   "correct_key": "D",
+   "explanation": "By additivity, ∫ from 0 to 2 of f(x) dx = 7 − 3 = 4. Then ∫ from 0 to 2 of (2f(x) + 1) dx = 2(4) + [x] from 0 to 2 = 8 + 2 = 10. Treating the integral of the constant 1 over [0, 2] as 1 instead of 2 gives 9, and adding 7 and 3 instead of subtracting gives 22.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Mathematics Part II, Ch 7 Integrals: properties of definite integrals (additivity and linearity)",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "f1fce836-0049-44b7-95a1-a2399fc7c66f",
+   "subject": "mathematics",
+   "unit": "Calculus",
+   "chapter": "Integrals",
+   "type": "single_mcq",
+   "stem": "The integral of x log_e x with respect to x, taken from 1 to e, equals:",
+   "options": [
+    {
+     "key": "A",
+     "text": "(e² − 1)/4"
+    },
+    {
+     "key": "B",
+     "text": "e²/2"
+    },
+    {
+     "key": "C",
+     "text": "(e² + 1)/4"
+    },
+    {
+     "key": "D",
+     "text": "(e² + 1)/2"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "Integrating by parts with u = log_e x and dv = x dx gives (x²/2) log_e x − x²/4. At x = e this is e²/2 − e²/4 = e²/4, and at x = 1 it is −1/4, so the value is e²/4 + 1/4 = (e² + 1)/4. Subtracting 1/4 instead of adding it gives (e² − 1)/4.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Mathematics Part II, Ch 7 Integrals: integration by parts and evaluation of a definite integral",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "a2b66f59-7b62-4b7c-9a2b-6e36fc09b9f7",
+   "subject": "mathematics",
+   "unit": "Calculus",
+   "chapter": "Application of Integrals",
+   "type": "single_mcq",
+   "stem": "Find the area lying under the curve y = x² + 2 between the vertical lines x = 1 and x = 4.",
+   "options": [
+    {
+     "key": "A",
+     "text": "27"
+    },
+    {
+     "key": "B",
+     "text": "21"
+    },
+    {
+     "key": "C",
+     "text": "15"
+    },
+    {
+     "key": "D",
+     "text": "69"
+    }
+   ],
+   "correct_key": "A",
+   "explanation": "Area = ∫ from 1 to 4 of (x² + 2) dx = [x³/3 + 2x] from 1 to 4 = (64/3 + 8) − (1/3 + 2) = 21 + 6 = 27. Leaving out the 2x term gives only 21, and forgetting to divide x³ by 3 gives 69.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "NCERT Class 12 Mathematics Part II, Ch 8 Application of Integrals: area under a curve between two ordinates",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "e3728829-e160-4205-abb4-b411b380a303",
+   "subject": "mathematics",
+   "unit": "Calculus",
+   "chapter": "Application of Integrals",
+   "type": "single_mcq",
+   "stem": "The parabola y = 4x − x² cuts the x-axis at two points. The area between the parabola and the x-axis is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "16/3"
+    },
+    {
+     "key": "B",
+     "text": "64/3"
+    },
+    {
+     "key": "C",
+     "text": "32"
+    },
+    {
+     "key": "D",
+     "text": "32/3"
+    }
+   ],
+   "correct_key": "D",
+   "explanation": "The parabola meets the x-axis where 4x − x² = 0, that is at x = 0 and x = 4, and lies above the axis between them. Area = ∫ from 0 to 4 of (4x − x²) dx = [2x² − x³/3] from 0 to 4 = 32 − 64/3 = 32/3. Integrating only 4x gives 32, which ignores the −x² term.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Mathematics Part II, Ch 8 Application of Integrals: area between a parabola and the x-axis",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "d724586b-c52b-43c1-b3b1-ea045c7d032f",
+   "subject": "mathematics",
+   "unit": "Calculus",
+   "chapter": "Application of Integrals",
+   "type": "single_mcq",
+   "stem": "The area of the region bounded by y = x³, the x-axis and the ordinates x = −1 and x = 2 equals:",
+   "options": [
+    {
+     "key": "A",
+     "text": "15/4"
+    },
+    {
+     "key": "B",
+     "text": "17/4"
+    },
+    {
+     "key": "C",
+     "text": "4"
+    },
+    {
+     "key": "D",
+     "text": "1/4"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "The curve lies below the x-axis for −1 < x < 0 and above it for 0 < x < 2, so the two parts are added as positive areas: ∫ from −1 to 0 of |x³| dx = 1/4 and ∫ from 0 to 2 of x³ dx = 4, giving 17/4. The single integral from −1 to 2 gives 15/4, which lets the negative part cancel instead of adding.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "hard",
+   "ncert_ref": "NCERT Class 12 Mathematics Part II, Ch 8 Application of Integrals: area under a curve when the curve crosses the axis",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "4d8fefa8-332e-4969-a17b-0cf0f8215738",
+   "subject": "mathematics",
+   "unit": "Calculus",
+   "chapter": "Differential Equations",
+   "type": "single_mcq",
+   "stem": "If y = y(x) satisfies dy/dx = (x + y)/x for x > 0 with y(1) = 2, then y(e) equals:",
+   "options": [
+    {
+     "key": "A",
+     "text": "2e"
+    },
+    {
+     "key": "B",
+     "text": "e + 2"
+    },
+    {
+     "key": "C",
+     "text": "3e"
+    },
+    {
+     "key": "D",
+     "text": "3"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "Put y = vx, so v + x(dv/dx) = 1 + v and dv = dx/x, giving v = log_e x + C and y = x log_e x + Cx. The condition y(1) = 2 gives C = 2, so y(e) = e(1 + 2) = 3e. Writing y = x log_e x + 2 loses the factor x on the constant and gives e + 2.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "hard",
+   "ncert_ref": "NCERT Class 12 Mathematics Part II, Ch 9 Differential Equations: homogeneous equations of first order and first degree",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "7ded8cb6-0906-4e49-84fa-82130df4cf14",
+   "subject": "mathematics",
+   "unit": "Calculus",
+   "chapter": "Differential Equations",
+   "type": "statement_based",
+   "stem": "Consider the following statements:\n(A) Eliminating the constant A from y = Ax² gives the differential equation x(dy/dx) = 2y.\n(B) The equation dy/dx = (x² + y²)/(xy) is homogeneous.\n(C) The equation dy/dx = y/x has the solution y = x + C, where C is a constant.\n(D) Separating the variables in dy/dx = x/y leads to y² − x² = C.\nChoose the correct answer from the options given below:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Only (A), (B) and (C)"
+    },
+    {
+     "key": "B",
+     "text": "Only (B), (C) and (D)"
+    },
+    {
+     "key": "C",
+     "text": "Only (A) and (D)"
+    },
+    {
+     "key": "D",
+     "text": "Only (A), (B) and (D)"
+    }
+   ],
+   "correct_key": "D",
+   "explanation": "From y = Ax², dy/dx = 2Ax = 2y/x, so x(dy/dx) = 2y and (A) is true. Scaling x and y by the same factor leaves (x² + y²)/(xy) unchanged, so (B) is true. Separating dy/y = dx/x gives y = Cx, not y = x + C, so (C) is false. Separating y dy = x dx gives y² = x² + 2K, which is y² − x² = C, so (D) is true.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Mathematics Part II, Ch 9 Differential Equations: forming an equation from a family of curves, homogeneous equations and variable separable solutions",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "7b509c66-2951-4c21-b23f-a1c74e1aafa9",
+   "subject": "mathematics",
+   "unit": "Calculus",
+   "chapter": "Differential Equations",
+   "type": "single_mcq",
+   "stem": "For the first order differential equation y dx − (x + 2y²) dy = 0, the integrating factor is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "1/y"
+    },
+    {
+     "key": "B",
+     "text": "y"
+    },
+    {
+     "key": "C",
+     "text": "2y"
+    },
+    {
+     "key": "D",
+     "text": "e^(−y)"
+    }
+   ],
+   "correct_key": "A",
+   "explanation": "Dividing by dy gives dx/dy − x/y = 2y, which is linear in x with P = −1/y. The integrating factor is e^(∫P dy) = e^(−log_e y) = 1/y. Taking P as +1/y instead gives the factor y, a sign slip.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Mathematics Part II, Ch 9 Differential Equations: linear equation dx/dy + Px = Q and its integrating factor",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "6cdff47f-24b5-4a1a-9db2-057d41f22bd0",
+   "subject": "mathematics",
+   "unit": "Vectors and Three-Dimensional Geometry",
+   "chapter": "Vector Algebra",
+   "type": "single_mcq",
+   "stem": "The diagonals of a parallelogram are represented by the vectors i + 2j + 2k and 3i − 2j + 2k. The area of the parallelogram, in square units, is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "12"
+    },
+    {
+     "key": "B",
+     "text": "3√17/2"
+    },
+    {
+     "key": "C",
+     "text": "6"
+    },
+    {
+     "key": "D",
+     "text": "3/2"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "The cross product of the diagonals is (8, 4, −8), with magnitude √(64 + 16 + 64) = 12. The parallelogram has half this area, 12/2 = 6. Using 12 forgets the half, and 3√17/2 is half the product of the diagonal lengths, valid only when the diagonals are perpendicular.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "hard",
+   "ncert_ref": "NCERT Class 12 Mathematics Part II, Ch 10 Vector Algebra: vector (cross) product and area of a parallelogram with given diagonals",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "c8af2dc3-ec6e-43a1-b174-88e3969c1037",
+   "subject": "mathematics",
+   "unit": "Vectors and Three-Dimensional Geometry",
+   "chapter": "Vector Algebra",
+   "type": "match_the_following",
+   "stem": "Match List-I with List-II.\nList-I\n(A) Non-zero vectors a and b are perpendicular\n(B) Non-zero vectors a and b are parallel\n(C) Area of the parallelogram with adjacent sides a and b\n(D) Unit vector in the direction of a\nList-II\n(I) |a × b|\n(II) a · b = 0\n(III) a/|a|\n(IV) a × b = 0\nChoose the correct answer from the options given below:",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A)-(IV), (B)-(II), (C)-(I), (D)-(III)"
+    },
+    {
+     "key": "B",
+     "text": "(A)-(II), (B)-(IV), (C)-(I), (D)-(III)"
+    },
+    {
+     "key": "C",
+     "text": "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)"
+    },
+    {
+     "key": "D",
+     "text": "(A)-(I), (B)-(IV), (C)-(II), (D)-(III)"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "Perpendicular vectors have a zero dot product, a · b = 0, while parallel vectors have a zero cross product, a × b = 0. The magnitude |a × b| is the area of the parallelogram on a and b, and a/|a| is the unit vector along a. Swapping the dot and cross conditions is the usual mistake.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "NCERT Class 12 Mathematics Part II, Ch 10 Vector Algebra: dot product, cross product and unit vector",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "c7a6e607-a11b-4015-981a-dd1b3e7188c9",
+   "subject": "mathematics",
+   "unit": "Vectors and Three-Dimensional Geometry",
+   "chapter": "Three Dimensional Geometry",
+   "type": "single_mcq",
+   "stem": "The lines (x − 1)/4 = (y + 2)/k = (z − 3)/2 and (x + 3)/3 = (y − 1)/(−2) = (z + 5)/(−1) are perpendicular to each other. The value of k is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "7"
+    },
+    {
+     "key": "B",
+     "text": "−5"
+    },
+    {
+     "key": "C",
+     "text": "6"
+    },
+    {
+     "key": "D",
+     "text": "5"
+    }
+   ],
+   "correct_key": "D",
+   "explanation": "The direction ratios are (4, k, 2) and (3, −2, −1). Perpendicular lines have a zero dot product, so 4(3) + k(−2) + 2(−1) = 12 − 2k − 2 = 0, giving k = 5. A sign slip on the last term gives 7, and ignoring the third components gives 6.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Mathematics Part II, Ch 11 Three Dimensional Geometry: direction ratios and perpendicular lines",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "a525b67f-b222-4d47-b6dd-3f40ee01659a",
+   "subject": "mathematics",
+   "unit": "Vectors and Three-Dimensional Geometry",
+   "chapter": "Three Dimensional Geometry",
+   "type": "single_mcq",
+   "stem": "A straight line passes through the points (−2, 1, 5) and (0, 4, 9). The z-coordinate of the point on this line whose x-coordinate is 4 is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "17"
+    },
+    {
+     "key": "B",
+     "text": "13"
+    },
+    {
+     "key": "C",
+     "text": "9"
+    },
+    {
+     "key": "D",
+     "text": "21"
+    }
+   ],
+   "correct_key": "A",
+   "explanation": "The direction ratios are (0 + 2, 4 − 1, 9 − 5) = (2, 3, 4), so a general point is (−2 + 2t, 1 + 3t, 5 + 4t). Putting x = 4 gives −2 + 2t = 4, so t = 3 and z = 5 + 12 = 17. Treating the starting x as +2 gives t = 1 and z = 9, while taking t = x/2 = 2 gives 13.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "NCERT Class 12 Mathematics Part II, Ch 11 Three Dimensional Geometry: Cartesian equation of a line through two points",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "8506b7fc-87af-46b8-ad02-5766ad045a34",
+   "subject": "mathematics",
+   "unit": "Relations and Functions",
+   "chapter": "Inverse Trigonometric Functions",
+   "type": "single_mcq",
+   "stem": "Taking principal values, the value of cos⁻¹(−1/2) + sin⁻¹(−√3/2) + tan⁻¹(−1) is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "−π/4"
+    },
+    {
+     "key": "B",
+     "text": "13π/12"
+    },
+    {
+     "key": "C",
+     "text": "π/12"
+    },
+    {
+     "key": "D",
+     "text": "−11π/12"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "The principal values are cos⁻¹(−1/2) = 2π/3, sin⁻¹(−√3/2) = −π/3 and tan⁻¹(−1) = −π/4. The sum is 2π/3 − π/3 − π/4 = π/3 − π/4 = π/12. Taking tan⁻¹(−1) as 3π/4, which lies outside the principal range, gives 13π/12.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Mathematics Part I, Ch 2 Inverse Trigonometric Functions: principal value branches and values at negative arguments",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "fe67257f-25f9-46f8-911c-63ce57d6ed0c",
+   "subject": "mathematics",
+   "unit": "Probability",
+   "chapter": "Probability",
+   "type": "single_mcq",
+   "stem": "Three machines A, B and C produce 50%, 30% and 20% of the items in a factory. Of their items, 2%, 5% and 10% respectively are defective. An item chosen at random is found to be defective. The probability that machine B made it is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "3/10"
+    },
+    {
+     "key": "B",
+     "text": "1/3"
+    },
+    {
+     "key": "C",
+     "text": "4/9"
+    },
+    {
+     "key": "D",
+     "text": "2/9"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "By total probability, P(defective) = 0.5 × 0.02 + 0.3 × 0.05 + 0.2 × 0.10 = 0.010 + 0.015 + 0.020 = 0.045. By Bayes theorem, P(B | defective) = 0.015/0.045 = 1/3. The value 3/10 is only the share of output from B, ignoring the evidence, and 4/9 is the corresponding value for C.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "hard",
+   "ncert_ref": "NCERT Class 12 Mathematics Part II, Ch 13 Probability: total probability theorem and Bayes theorem",
+   "source": "claude-authored-2026-10-17-w4"
+  }
+ ]
+}

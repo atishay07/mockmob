@@ -1,0 +1,506 @@
+{
+ "batch": "general_test__w4b3-blind",
+ "subject": "general_test",
+ "questions": [
+  {
+   "id": "299f290b-fb8a-4698-9c32-75261ecc9305",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Which of the following describes the Venn diagram that correctly represents Surgeons, Doctors and Women?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Doctors and Surgeons overlap partly, and Women is a separate circle"
+    },
+    {
+     "key": "B",
+     "text": "Surgeons and Women both lie wholly inside Doctors, apart from each other"
+    },
+    {
+     "key": "C",
+     "text": "Surgeons lies wholly inside Doctors, and Women cuts across both circles"
+    },
+    {
+     "key": "D",
+     "text": "Doctors lies wholly inside Surgeons, and Women cuts across both circles"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "5a9bd18f-202f-4dec-a54e-b925fc90cc8a",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "At a meeting, each of 8 delegates shakes hands exactly once with every other delegate. How many handshakes take place in all?",
+   "options": [
+    {
+     "key": "A",
+     "text": "28"
+    },
+    {
+     "key": "B",
+     "text": "56"
+    },
+    {
+     "key": "C",
+     "text": "36"
+    },
+    {
+     "key": "D",
+     "text": "64"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "f57d3a91-3ff8-4608-9ccf-8568eed19651",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Kabir, Lata and Meena are each either a truth-teller, who always speaks the truth, or a liar, who always lies. Kabir says, \"Lata is a liar.\" Lata says, \"Meena is a liar.\" Meena says, \"Kabir and Lata are both liars.\" Who is the truth-teller?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Only Kabir"
+    },
+    {
+     "key": "B",
+     "text": "Only Meena"
+    },
+    {
+     "key": "C",
+     "text": "Kabir and Meena"
+    },
+    {
+     "key": "D",
+     "text": "Only Lata"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "df5ce74e-79ae-4a89-adf9-2b39c6e49a1b",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Five friends Arun, Bela, Chetan, Divya and Esha sit on chairs numbered 1 to 5 in a line. Chetan has chair 3. Bela has the chair just before Chetan's and Divya has the chair just after it. Esha does not have chair 1. If Arun and Chetan exchange chairs, whose chair is just before Divya's?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Chetan"
+    },
+    {
+     "key": "B",
+     "text": "Arun"
+    },
+    {
+     "key": "C",
+     "text": "Bela"
+    },
+    {
+     "key": "D",
+     "text": "Esha"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "904c750d-2575-4647-aefa-1e2f01c77bbc",
+   "subject": "general_test",
+   "type": "statement_based",
+   "stem": "Statements: All pilots are graduates. All pilots are athletes. Some singers are pilots.\nWhich of the following conclusions follow from the statements?\n(A) Some singers are graduates.\n(B) Some graduates are athletes.\n(C) All graduates are athletes.\n(D) Some athletes are singers.\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A), (B) and (D) only"
+    },
+    {
+     "key": "B",
+     "text": "(A), (C) and (D) only"
+    },
+    {
+     "key": "C",
+     "text": "(A), (B) and (C) only"
+    },
+    {
+     "key": "D",
+     "text": "(B), (C) and (D) only"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "f27d1fb8-9357-4012-859e-240380f07967",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Of 8 coins that look identical, one is slightly heavier than the others. Using only a simple balance with two pans and no weights, what is the minimum number of weighings that is certain to find the heavier coin?",
+   "options": [
+    {
+     "key": "A",
+     "text": "3 weighings"
+    },
+    {
+     "key": "B",
+     "text": "4 weighings"
+    },
+    {
+     "key": "C",
+     "text": "7 weighings"
+    },
+    {
+     "key": "D",
+     "text": "2 weighings"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "978b5a0b-af20-4e18-a7cd-081298cce2a4",
+   "subject": "general_test",
+   "type": "sequence_ordering",
+   "stem": "Four colleagues arrived at an office one after another on a morning. Farid arrived immediately after Esha. Dev arrived after Gauri, and Gauri was not the earliest to arrive. Arrange the colleagues in the order of arrival, beginning with the earliest.\n(A) Dev\n(B) Esha\n(C) Farid\n(D) Gauri\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(B), (C), (A), (D)"
+    },
+    {
+     "key": "B",
+     "text": "(B), (C), (D), (A)"
+    },
+    {
+     "key": "C",
+     "text": "(B), (D), (C), (A)"
+    },
+    {
+     "key": "D",
+     "text": "(D), (B), (C), (A)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "97bd26d3-c7f6-45e4-ae85-715b3aeed22b",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "What is the marked price of one of the 400 notebooks?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Rs 70"
+    },
+    {
+     "key": "B",
+     "text": "Rs 63"
+    },
+    {
+     "key": "C",
+     "text": "Rs 90"
+    },
+    {
+     "key": "D",
+     "text": "Rs 20"
+    }
+   ],
+   "passage_text": "Meera runs a stationery shop. At the start of a month she borrowed Rs 20,000 at 12 per cent simple interest per annum for 6 months and spent the entire amount on 400 identical notebooks. She marked each notebook at 40 per cent above its cost price. During the month she sold 200 notebooks at a discount of 10 per cent on the marked price and the remaining 200 notebooks at the marked price. In the following month she bought the same notebooks again at the same cost, raised the marked price by 10 per cent over the earlier marked price, and then announced a festival discount of 10 per cent on the new marked price."
+  },
+  {
+   "id": "a832f03c-904d-4957-827c-062a393b86d9",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "According to the passage, the simple interest payable on the loan for the 6 months is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Rs 2,400"
+    },
+    {
+     "key": "B",
+     "text": "Rs 14,400"
+    },
+    {
+     "key": "C",
+     "text": "Rs 1,200"
+    },
+    {
+     "key": "D",
+     "text": "Rs 120"
+    }
+   ],
+   "passage_text": "Meera runs a stationery shop. At the start of a month she borrowed Rs 20,000 at 12 per cent simple interest per annum for 6 months and spent the entire amount on 400 identical notebooks. She marked each notebook at 40 per cent above its cost price. During the month she sold 200 notebooks at a discount of 10 per cent on the marked price and the remaining 200 notebooks at the marked price. In the following month she bought the same notebooks again at the same cost, raised the marked price by 10 per cent over the earlier marked price, and then announced a festival discount of 10 per cent on the new marked price."
+  },
+  {
+   "id": "eb8cf251-1014-400f-bbbd-4c32aeca9482",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "According to the passage, the total amount Meera received from selling the 400 notebooks in the first month was:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Rs 28,000"
+    },
+    {
+     "key": "B",
+     "text": "Rs 25,200"
+    },
+    {
+     "key": "C",
+     "text": "Rs 27,000"
+    },
+    {
+     "key": "D",
+     "text": "Rs 26,600"
+    }
+   ],
+   "passage_text": "Meera runs a stationery shop. At the start of a month she borrowed Rs 20,000 at 12 per cent simple interest per annum for 6 months and spent the entire amount on 400 identical notebooks. She marked each notebook at 40 per cent above its cost price. During the month she sold 200 notebooks at a discount of 10 per cent on the marked price and the remaining 200 notebooks at the marked price. In the following month she bought the same notebooks again at the same cost, raised the marked price by 10 per cent over the earlier marked price, and then announced a festival discount of 10 per cent on the new marked price."
+  },
+  {
+   "id": "ea0c3adb-a6ff-4438-a863-7f937512c34b",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "According to the passage, her profit per cent on the cost of the 400 notebooks in the first month was:",
+   "options": [
+    {
+     "key": "A",
+     "text": "30%"
+    },
+    {
+     "key": "B",
+     "text": "33%"
+    },
+    {
+     "key": "C",
+     "text": "26%"
+    },
+    {
+     "key": "D",
+     "text": "40%"
+    }
+   ],
+   "passage_text": "Meera runs a stationery shop. At the start of a month she borrowed Rs 20,000 at 12 per cent simple interest per annum for 6 months and spent the entire amount on 400 identical notebooks. She marked each notebook at 40 per cent above its cost price. During the month she sold 200 notebooks at a discount of 10 per cent on the marked price and the remaining 200 notebooks at the marked price. In the following month she bought the same notebooks again at the same cost, raised the marked price by 10 per cent over the earlier marked price, and then announced a festival discount of 10 per cent on the new marked price."
+  },
+  {
+   "id": "dca1d6ab-a689-4b0d-aa17-43b888be3348",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "According to the passage, in the following month her profit on each notebook sold at the festival price is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Rs 27.00"
+    },
+    {
+     "key": "B",
+     "text": "Rs 17.50"
+    },
+    {
+     "key": "C",
+     "text": "Rs 19.30"
+    },
+    {
+     "key": "D",
+     "text": "Rs 20.00"
+    }
+   ],
+   "passage_text": "Meera runs a stationery shop. At the start of a month she borrowed Rs 20,000 at 12 per cent simple interest per annum for 6 months and spent the entire amount on 400 identical notebooks. She marked each notebook at 40 per cent above its cost price. During the month she sold 200 notebooks at a discount of 10 per cent on the marked price and the remaining 200 notebooks at the marked price. In the following month she bought the same notebooks again at the same cost, raised the marked price by 10 per cent over the earlier marked price, and then announced a festival discount of 10 per cent on the new marked price."
+  },
+  {
+   "id": "b8c38f43-06fc-4321-9e75-a99d5f40ac70",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "What is the smallest number greater than 100 that leaves a remainder of 3 when divided by 6, by 8 and by 10?",
+   "options": [
+    {
+     "key": "A",
+     "text": "117"
+    },
+    {
+     "key": "B",
+     "text": "120"
+    },
+    {
+     "key": "C",
+     "text": "243"
+    },
+    {
+     "key": "D",
+     "text": "123"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "5153b673-ed1c-49d8-b75c-9f0d16943838",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Six workers can finish a job in 20 days. After 5 days, 3 more workers join them, all working at the same rate. In how many days from the start is the job finished?",
+   "options": [
+    {
+     "key": "A",
+     "text": "15 days"
+    },
+    {
+     "key": "B",
+     "text": "10 days"
+    },
+    {
+     "key": "C",
+     "text": "20 days"
+    },
+    {
+     "key": "D",
+     "text": "13 1/3 days"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "9284a09e-a75f-4a93-89b2-7e5980be0446",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "A shopkeeper sells two articles at Rs 1,200 each, gaining 20 per cent on one and losing 20 per cent on the other. His overall result is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "A gain of Rs 100"
+    },
+    {
+     "key": "B",
+     "text": "No profit and no loss"
+    },
+    {
+     "key": "C",
+     "text": "A loss of Rs 100"
+    },
+    {
+     "key": "D",
+     "text": "A loss of Rs 96"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "b0914cae-cd5b-4bc1-bd14-d56ad9b7ff6d",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "In an election between two candidates, the winner got 55 per cent of the valid votes and won by 1,200 votes. How many valid votes were cast?",
+   "options": [
+    {
+     "key": "A",
+     "text": "6,600"
+    },
+    {
+     "key": "B",
+     "text": "12,000"
+    },
+    {
+     "key": "C",
+     "text": "24,000"
+    },
+    {
+     "key": "D",
+     "text": "1,20,000"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "df0be1fe-22a9-4421-b4b8-db273379d6b7",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "A room is 8 m long, 6 m wide and 3 m high. What is the cost of whitewashing its four walls at Rs 15 per m²?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Rs 1,980"
+    },
+    {
+     "key": "B",
+     "text": "Rs 2,700"
+    },
+    {
+     "key": "C",
+     "text": "Rs 2,160"
+    },
+    {
+     "key": "D",
+     "text": "Rs 1,260"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "a33daca3-5daa-41d3-9ff8-1bfbcd64f9bc",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "The monthly budget of a school club is Rs 1,20,000. In a pie chart of its spending, the sector for decoration has a central angle of 54°. The amount spent on decoration is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Rs 36,000"
+    },
+    {
+     "key": "B",
+     "text": "Rs 18,000"
+    },
+    {
+     "key": "C",
+     "text": "Rs 64,800"
+    },
+    {
+     "key": "D",
+     "text": "Rs 6,480"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "beabf729-d7d5-45c9-abe1-4716d75a9f4d",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "A bar chart shows the number of visitors to a science fair: 5,000 on Friday, 9,000 on Saturday and 7,200 on Sunday. Sunday's visitors were fewer than Saturday's by:",
+   "options": [
+    {
+     "key": "A",
+     "text": "25%"
+    },
+    {
+     "key": "B",
+     "text": "36%"
+    },
+    {
+     "key": "C",
+     "text": "20%"
+    },
+    {
+     "key": "D",
+     "text": "80%"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "7128b424-83df-4243-b086-2d2e0c327928",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "The mean of five numbers is 18. The largest number is 30 and the range is 22. What is the sum of the three numbers other than the largest and the smallest?",
+   "options": [
+    {
+     "key": "A",
+     "text": "52"
+    },
+    {
+     "key": "B",
+     "text": "60"
+    },
+    {
+     "key": "C",
+     "text": "68"
+    },
+    {
+     "key": "D",
+     "text": "82"
+    }
+   ],
+   "passage_text": null
+  }
+ ]
+}

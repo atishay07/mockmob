@@ -1,0 +1,666 @@
+{
+ "batch": "biology__w4b1",
+ "subject": "biology",
+ "questions": [
+  {
+   "id": "2fe86fe0-ba8b-492b-942d-876c45bf78ea",
+   "subject": "biology",
+   "unit": "Reproduction",
+   "chapter": "Sexual Reproduction in Flowering Plants",
+   "type": "single_mcq",
+   "stem": "Among the following, pollination takes place through the agency of water in:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Water hyacinth"
+    },
+    {
+     "key": "B",
+     "text": "Water lily"
+    },
+    {
+     "key": "C",
+     "text": "Vallisneria"
+    },
+    {
+     "key": "D",
+     "text": "Maize"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "In Vallisneria the pollen is released on the water surface and drifts passively to the stigma of the floating female flower, so water is the pollinating agent. The flowers of water hyacinth and water lily rise above the water and are pollinated by insects or wind, like most land plants. Maize, a grass, is wind pollinated.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "NCERT Class 12 Biology, chapter Sexual Reproduction in Flowering Plants: agents of pollination, water pollination in Vallisneria and Hydrilla",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "3920888b-72d1-4cfd-ad56-301ef2e89c5f",
+   "subject": "biology",
+   "unit": "Reproduction",
+   "chapter": "Sexual Reproduction in Flowering Plants",
+   "type": "sequence_ordering",
+   "stem": "Arrange the following stages in the development of a dicot embryo in the order in which they appear after fertilisation.\n(A) Heart-shaped embryo\n(B) Mature embryo\n(C) Zygote\n(D) Globular embryo",
+   "options": [
+    {
+     "key": "A",
+     "text": "(C), (D), (A), (B)"
+    },
+    {
+     "key": "B",
+     "text": "(C), (A), (D), (B)"
+    },
+    {
+     "key": "C",
+     "text": "(D), (C), (A), (B)"
+    },
+    {
+     "key": "D",
+     "text": "(C), (D), (B), (A)"
+    }
+   ],
+   "correct_key": "A",
+   "explanation": "The zygote divides to form a proembryo, which becomes a rounded globular mass of cells, then a heart-shaped embryo as the two cotyledons begin to form, and finally the mature embryo. The heart-shaped stage cannot come before the globular stage, because the cotyledon primordia arise only from the rounded cell mass. Placing the mature embryo before the heart-shaped stage ignores the order of cotyledon growth.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Biology, chapter Sexual Reproduction in Flowering Plants: post-fertilisation events, embryo development in dicots (zygote, proembryo, globular, heart-shaped, mature embryo)",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "dd66dcf5-ca4a-4e15-9722-6292d102a490",
+   "subject": "biology",
+   "unit": "Reproduction",
+   "chapter": "Sexual Reproduction in Flowering Plants",
+   "type": "single_mcq",
+   "stem": "In a typical angiosperm fruit, which two parts develop from tissues of the mother plant and not from the products of fertilisation?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Endosperm and embryo"
+    },
+    {
+     "key": "B",
+     "text": "Embryo and seed coat"
+    },
+    {
+     "key": "C",
+     "text": "Endosperm and pericarp"
+    },
+    {
+     "key": "D",
+     "text": "Seed coat and pericarp"
+    }
+   ],
+   "correct_key": "D",
+   "explanation": "The seed coat develops from the integuments and the pericarp from the ovary wall, and both are tissues of the mother plant. The embryo arises from the zygote and the endosperm from the primary endosperm cell, so both are products of fertilisation. Pairing the embryo with the seed coat is a common slip because both lie inside the seed.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Biology, chapter Sexual Reproduction in Flowering Plants: post-fertilisation events, seed and fruit formation (integuments to seed coat, ovary wall to pericarp)",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "1382b67c-0605-4d03-81fc-9fff6a87148a",
+   "subject": "biology",
+   "unit": "Reproduction",
+   "chapter": "Human Reproduction",
+   "type": "sequence_ordering",
+   "stem": "Arrange the following structures in the order in which sperms pass through them on their way from the testis to the exterior.\n(A) Epididymis\n(B) Urethra\n(C) Vasa efferentia\n(D) Vas deferens",
+   "options": [
+    {
+     "key": "A",
+     "text": "(C), (D), (A), (B)"
+    },
+    {
+     "key": "B",
+     "text": "(C), (A), (D), (B)"
+    },
+    {
+     "key": "C",
+     "text": "(A), (C), (D), (B)"
+    },
+    {
+     "key": "D",
+     "text": "(C), (A), (B), (D)"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "Sperms leave the seminiferous tubules, pass through the rete testis into the vasa efferentia, then through the epididymis, where they are stored and mature, and next the vas deferens. The vas deferens joins the duct of the seminal vesicle to form the ejaculatory duct, which opens into the urethra, so the urethra comes last. Putting the vas deferens before the epididymis reverses the route.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "NCERT Class 12 Biology, chapter Human Reproduction: male reproductive system, route of sperms through the testicular ducts",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "302af2c0-97c5-4b82-beff-ecf2d2d061bc",
+   "subject": "biology",
+   "unit": "Reproduction",
+   "chapter": "Human Reproduction",
+   "type": "statement_based",
+   "stem": "Consider the following statements about the human menstrual cycle.\n(A) Menstruation results from the disintegration of the endometrium after the corpus luteum degenerates in a cycle without fertilisation.\n(B) Ovulation takes place in the luteal phase of the cycle.\n(C) The corpus luteum continues to secrete progesterone throughout the cycle even when fertilisation does not occur.\n(D) The secretion of LH and FSH increases gradually during the follicular phase.\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "Only (B), (C) and (D)"
+    },
+    {
+     "key": "B",
+     "text": "Only (A), (B) and (C)"
+    },
+    {
+     "key": "C",
+     "text": "Only (B) and (D)"
+    },
+    {
+     "key": "D",
+     "text": "Only (A) and (D)"
+    }
+   ],
+   "correct_key": "D",
+   "explanation": "Without fertilisation the corpus luteum degenerates, progesterone falls and the endometrium disintegrates, which is menstruation. Secretion of LH and FSH rises gradually through the follicular phase and drives follicle growth. Ovulation occurs at mid-cycle, between the follicular and luteal phases, and the corpus luteum is not maintained in an unfertilised cycle.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Biology, chapter Human Reproduction: menstrual cycle, phases and hormones",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "f9edc91a-cf7d-4bc9-afe7-7fc485d72a76",
+   "subject": "biology",
+   "unit": "Reproduction",
+   "chapter": "Human Reproduction",
+   "type": "single_mcq",
+   "stem": "In a human female, the secondary oocyte completes its second meiotic division:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Only when a sperm enters its cytoplasm"
+    },
+    {
+     "key": "B",
+     "text": "Shortly before ovulation, inside the Graafian follicle"
+    },
+    {
+     "key": "C",
+     "text": "At puberty, when the menstrual cycles begin"
+    },
+    {
+     "key": "D",
+     "text": "During foetal life, before the female is born"
+    }
+   ],
+   "correct_key": "A",
+   "explanation": "The secondary oocyte released at ovulation is arrested at metaphase II. Only when a sperm enters does it complete the second meiotic division, forming a haploid ovum and a second polar body. Completing meiosis I shortly before ovulation inside the Graafian follicle is a different step, which produces the secondary oocyte and the first polar body.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "hard",
+   "ncert_ref": "NCERT Class 12 Biology, chapter Human Reproduction: oogenesis and fertilisation, completion of the second meiotic division of the secondary oocyte",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "84a951f7-b80d-4981-b476-3e4be990ce39",
+   "subject": "biology",
+   "unit": "Reproduction",
+   "chapter": "Human Reproduction",
+   "type": "single_mcq",
+   "stem": "At implantation in humans, which part of the blastocyst becomes attached to the endometrium, and which part gives rise to the embryo?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Inner cell mass attaches; trophoblast forms the embryo"
+    },
+    {
+     "key": "B",
+     "text": "Trophoblast attaches; trophoblast forms the embryo"
+    },
+    {
+     "key": "C",
+     "text": "Trophoblast attaches; inner cell mass forms the embryo"
+    },
+    {
+     "key": "D",
+     "text": "Trophoblast attaches; inner cell mass forms the placenta"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "The blastocyst has an outer trophoblast layer and an inner cell mass. The trophoblast cells contact and attach to the endometrium during implantation, while the inner cell mass differentiates into the embryo. The placenta is formed by trophoblast-derived tissue together with maternal tissue, so assigning it to the inner cell mass reverses the roles.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Biology, chapter Human Reproduction: cleavage, blastocyst (trophoblast and inner cell mass) and implantation",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "c2cf8f95-1fd1-4ac7-b523-52ed7d95dee3",
+   "subject": "biology",
+   "unit": "Reproduction",
+   "chapter": "Human Reproduction",
+   "type": "single_mcq",
+   "stem": "Which of the following sets of hormones is produced in women only during pregnancy?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Oestrogen, progesterone and hCG"
+    },
+    {
+     "key": "B",
+     "text": "hCG, hPL and relaxin"
+    },
+    {
+     "key": "C",
+     "text": "FSH, LH and hPL"
+    },
+    {
+     "key": "D",
+     "text": "Prolactin, oxytocin and relaxin"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "Human chorionic gonadotropin (hCG), human placental lactogen (hPL) and relaxin are produced in a woman only during pregnancy. Oestrogens and progesterone are also made by the ovary in every menstrual cycle, and FSH, LH, prolactin and oxytocin are secreted by non-pregnant women too. Any set containing one of these everyday hormones cannot be restricted to pregnancy.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Biology, chapter Human Reproduction: pregnancy and the placenta as an endocrine tissue (hCG, hPL, relaxin)",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "4e623f32-98a2-4674-ae0b-c6fbac945b8c",
+   "subject": "biology",
+   "unit": "Reproduction",
+   "chapter": "Reproductive Health",
+   "type": "match_the_following",
+   "stem": "Match List-I with List-II.\nList-I: (A) Amniocentesis (B) MTP (C) IUI (D) ZIFT\nList-II: (I) Transfer of a zygote or early embryo of up to eight blastomeres into the fallopian tube (II) Intentional termination of pregnancy before full term (III) Artificial introduction of semen into the vagina or uterus (IV) Analysis of foetal cells in the amniotic fluid for chromosomal abnormalities\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A)-(IV), (B)-(II), (C)-(III), (D)-(I)"
+    },
+    {
+     "key": "B",
+     "text": "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)"
+    },
+    {
+     "key": "C",
+     "text": "(A)-(IV), (B)-(II), (C)-(I), (D)-(III)"
+    },
+    {
+     "key": "D",
+     "text": "(A)-(III), (B)-(II), (C)-(IV), (D)-(I)"
+    }
+   ],
+   "correct_key": "A",
+   "explanation": "Amniocentesis tests foetal cells shed into the amniotic fluid for chromosomal abnormalities, and MTP is the intentional termination of pregnancy before full term. IUI places semen artificially into the vagina or uterus, whereas ZIFT transfers a zygote or early embryo of up to eight blastomeres into the fallopian tube. Swapping IUI and ZIFT is the usual slip, since both are assisted reproduction methods.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Biology, chapter Reproductive Health: amniocentesis, MTP, assisted reproductive technologies (IUI, ZIFT)",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "b9de7d62-9120-43a8-9742-13d19f226543",
+   "subject": "biology",
+   "unit": "Reproduction",
+   "chapter": "Reproductive Health",
+   "type": "single_mcq",
+   "stem": "Oral contraceptive pills are taken daily for 21 days in each course. When should the first pill of a course preferably be taken?",
+   "options": [
+    {
+     "key": "A",
+     "text": "On the fourteenth day, at the time of ovulation"
+    },
+    {
+     "key": "B",
+     "text": "In the luteal phase, after ovulation has occurred"
+    },
+    {
+     "key": "C",
+     "text": "Within the first five days of menstruation"
+    },
+    {
+     "key": "D",
+     "text": "Just before the expected next menstruation"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "Pills are started preferably within the first five days of the menstrual cycle and taken daily for 21 days, followed by a seven-day gap during which menstruation occurs, and the pattern is then repeated. Starting early lets the hormones act before the follicle matures. Beginning at mid-cycle or later would be too late to prevent ovulation in that cycle.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "NCERT Class 12 Biology, chapter Reproductive Health: birth control methods, oral contraceptive pills and their regimen",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "dccaf7b2-9f8f-4112-88c7-f7850938c25a",
+   "subject": "biology",
+   "unit": "Genetics and Evolution",
+   "chapter": "Principles of Inheritance & Variation",
+   "type": "statement_based",
+   "stem": "Consider the following statements about two genetic disorders of humans.\n(A) In sickle-cell anaemia, valine is replaced by glutamic acid at the sixth position of the beta globin chain.\n(B) Thalassemia results from a reduced rate of synthesis of one of the globin chains.\n(C) A person with the genotype HbAHbS is a carrier who is apparently unaffected.\n(D) Sickle-cell anaemia is an autosome-linked recessive trait.\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A), (B) and (C) only"
+    },
+    {
+     "key": "B",
+     "text": "(B), (C) and (D) only"
+    },
+    {
+     "key": "C",
+     "text": "(A), (C) and (D) only"
+    },
+    {
+     "key": "D",
+     "text": "(A), (B) and (D) only"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "In sickle-cell anaemia the sixth amino acid of the beta globin chain changes from glutamic acid to valine, so the substitution is stated backwards in the first statement. Thalassemia is a quantitative defect with too little globin made, the HbAHbS genotype is an apparently unaffected carrier, and sickle-cell anaemia is an autosome-linked recessive trait.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Biology, chapter Principles of Inheritance and Variation: Mendelian disorders, sickle-cell anaemia and thalassemia",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "d5ba952f-51c4-4b06-91b5-52233df6cd8b",
+   "subject": "biology",
+   "unit": "Genetics and Evolution",
+   "chapter": "Principles of Inheritance & Variation",
+   "type": "single_mcq",
+   "stem": "A mutation in the gene for phenylalanine hydroxylase causes mental retardation as well as reduced hair and skin pigmentation. This is an example of:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Polygenic inheritance"
+    },
+    {
+     "key": "B",
+     "text": "Incomplete dominance"
+    },
+    {
+     "key": "C",
+     "text": "Co-dominance"
+    },
+    {
+     "key": "D",
+     "text": "Pleiotropy"
+    }
+   ],
+   "correct_key": "D",
+   "explanation": "A single gene that affects several apparently unrelated traits shows pleiotropy. In phenylketonuria the faulty enzyme gene leads to mental retardation and also to reduced hair and skin pigmentation. Polygenic inheritance is the reverse situation, in which many genes together control one trait.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "NCERT Class 12 Biology, chapter Principles of Inheritance and Variation: pleiotropy and phenylketonuria",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "a1762cac-8859-4104-b5b8-440a33eacf15",
+   "subject": "biology",
+   "unit": "Genetics and Evolution",
+   "chapter": "Principles of Inheritance & Variation",
+   "type": "single_mcq",
+   "stem": "A queen honey bee has 32 chromosomes in her body cells. A drone that develops from one of her unfertilised eggs will have how many chromosomes in its body cells and in each of its sperms?",
+   "options": [
+    {
+     "key": "A",
+     "text": "32 and 16"
+    },
+    {
+     "key": "B",
+     "text": "16 and 16"
+    },
+    {
+     "key": "C",
+     "text": "16 and 8"
+    },
+    {
+     "key": "D",
+     "text": "32 and 32"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "An unfertilised honey bee egg is haploid, so the drone has 16 chromosomes in its body cells, half of 32. A haploid cell has no homologous pairs to separate, so the drone makes sperms by mitosis and each sperm keeps 16 chromosomes. Answering 16 and 8 wrongly assumes that meiosis halves the number again.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Biology, chapter Principles of Inheritance and Variation: sex determination in honey bee (haplodiploidy)",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "a790d203-801b-4206-abd4-812c7135eb6a",
+   "subject": "biology",
+   "unit": "Genetics and Evolution",
+   "chapter": "Molecular Basis of Inheritance",
+   "type": "sequence_ordering",
+   "stem": "Arrange the following events of protein synthesis in a cell in the order in which they occur.\n(A) Elongation of the polypeptide by the sequential addition of amino acids\n(B) Charging of tRNA with its amino acid\n(C) Binding of a release factor to the stop codon\n(D) Binding of the ribosome to mRNA at the start codon",
+   "options": [
+    {
+     "key": "A",
+     "text": "(D), (B), (A), (C)"
+    },
+    {
+     "key": "B",
+     "text": "(B), (A), (D), (C)"
+    },
+    {
+     "key": "C",
+     "text": "(B), (D), (A), (C)"
+    },
+    {
+     "key": "D",
+     "text": "(B), (D), (C), (A)"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "The tRNAs are first charged with their specific amino acids, then the ribosome binds mRNA at the start codon AUG, which only the initiator tRNA recognises. The polypeptide then lengthens codon by codon during elongation, and a release factor binding the stop codon ends translation. Elongation cannot precede initiation, because there is no chain to extend until the ribosome is assembled at the start codon.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Biology, chapter Molecular Basis of Inheritance: translation, charging of tRNA, initiation, elongation and termination",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "d157c263-e53d-43ab-8a75-2f725d2f815f",
+   "subject": "biology",
+   "unit": "Genetics and Evolution",
+   "chapter": "Molecular Basis of Inheritance",
+   "type": "single_mcq",
+   "stem": "The histone octamer around which DNA is wound in a nucleosome is rich in which pair of amino acids?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Lysine and arginine"
+    },
+    {
+     "key": "B",
+     "text": "Aspartic acid and glutamic acid"
+    },
+    {
+     "key": "C",
+     "text": "Cysteine and methionine"
+    },
+    {
+     "key": "D",
+     "text": "Glycine and alanine"
+    }
+   ],
+   "correct_key": "A",
+   "explanation": "Histones are positively charged basic proteins because they are rich in the basic amino acids lysine and arginine. This lets the octamer bind the negatively charged phosphate backbone of DNA, and about 200 base pairs of DNA wind around each octamer in a nucleosome. Aspartic and glutamic acids are acidic and would repel the DNA.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "NCERT Class 12 Biology, chapter Molecular Basis of Inheritance: structure and packaging of DNA, nucleosome and histones",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "787ef85b-5eb6-43a2-8f91-d91230268051",
+   "subject": "biology",
+   "unit": "Genetics and Evolution",
+   "chapter": "Molecular Basis of Inheritance",
+   "type": "single_mcq",
+   "stem": "In the Hershey-Chase experiment, bacteria infected with bacteriophages labelled with radioactive sulphur (35S) were blended and then centrifuged. Where was most of the radioactivity found?",
+   "options": [
+    {
+     "key": "A",
+     "text": "In the pellet, as viral DNA that entered the bacteria"
+    },
+    {
+     "key": "B",
+     "text": "In the pellet, as viral protein that had entered the bacteria"
+    },
+    {
+     "key": "C",
+     "text": "In the supernatant, as viral DNA that stayed outside the bacteria"
+    },
+    {
+     "key": "D",
+     "text": "In the supernatant, as viral protein left outside the bacteria"
+    }
+   ],
+   "correct_key": "D",
+   "explanation": "Sulphur occurs in the amino acids of proteins but not in DNA, so 35S labels the phage protein coat. Blending shakes the empty coats off the bacterial surface and they stay in the supernatant after centrifugation, while the bacteria settle in the pellet. It was the 32P-labelled DNA that was found inside the infected bacteria, which showed that DNA is the genetic material.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Biology, chapter Molecular Basis of Inheritance: search for genetic material, Hershey-Chase experiment",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "83d1ddf7-0c21-44f5-9572-f9d1822321bc",
+   "subject": "biology",
+   "unit": "Genetics and Evolution",
+   "chapter": "Molecular Basis of Inheritance",
+   "type": "single_mcq",
+   "stem": "The template strand of a gene segment reads 3'-TACGGATCC-5'. The anticodon, written 3' to 5', of the tRNA that pairs with the third codon of the mRNA transcribed from it is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "3'-AGG-5'"
+    },
+    {
+     "key": "B",
+     "text": "3'-GGA-5'"
+    },
+    {
+     "key": "C",
+     "text": "3'-UCC-5'"
+    },
+    {
+     "key": "D",
+     "text": "3'-CCU-5'"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "Transcription of the template strand 3'-TACGGATCC-5' gives the mRNA 5'-AUGCCUAGG-3', whose third codon is AGG. The anticodon pairs with its codon in an antiparallel manner, so it is 3'-UCC-5', the template triplet with U in place of T. Writing the codon itself as the anticodon is one slip, and 3'-GGA-5' is the anticodon of the second codon.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "hard",
+   "ncert_ref": "NCERT Class 12 Biology, chapter Molecular Basis of Inheritance: genetic code, tRNA anticodon and translation",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "027483a8-5cf3-4a67-a868-8ab4fc6ccbe9",
+   "subject": "biology",
+   "unit": "Genetics and Evolution",
+   "chapter": "Evolution",
+   "type": "sequence_ordering",
+   "stem": "Arrange the following events in the history of life on Earth in the order in which they occurred, earliest first.\n(A) Disappearance of the dinosaurs\n(B) Appearance of the first cellular forms of life\n(C) Appearance of the first amphibians\n(D) Appearance of Homo habilis",
+   "options": [
+    {
+     "key": "A",
+     "text": "(C), (B), (A), (D)"
+    },
+    {
+     "key": "B",
+     "text": "(B), (C), (A), (D)"
+    },
+    {
+     "key": "C",
+     "text": "(B), (A), (C), (D)"
+    },
+    {
+     "key": "D",
+     "text": "(B), (C), (D), (A)"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "The first cellular life appeared about 2000 million years ago, the first amphibians evolved from lobe-finned fishes about 350 million years ago, the dinosaurs disappeared about 65 million years ago, and Homo habilis appeared about 2 million years ago. Placing Homo habilis before the end of the dinosaurs is the usual slip, since hominids are very recent on the geological time scale.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Biology, chapter Evolution: origin of life and the history of life on Earth through geological time",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "43c048d0-4697-411f-9819-a9a56b1c234c",
+   "subject": "biology",
+   "unit": "Genetics and Evolution",
+   "chapter": "Evolution",
+   "type": "single_mcq",
+   "stem": "An electric discharge was passed through a closed flask containing a mixture of gases in Miller's experiment. Which gas was absent from that mixture?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Methane"
+    },
+    {
+     "key": "B",
+     "text": "Ammonia"
+    },
+    {
+     "key": "C",
+     "text": "Hydrogen"
+    },
+    {
+     "key": "D",
+     "text": "Oxygen"
+    }
+   ],
+   "correct_key": "D",
+   "explanation": "Miller passed an electric discharge through a closed flask containing methane, hydrogen, ammonia and water vapour at about 800 °C, imitating the primitive reducing atmosphere, and obtained amino acids. Free oxygen was left out because the early atmosphere had none. Methane, ammonia and hydrogen were all part of the mixture.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "NCERT Class 12 Biology, chapter Evolution: origin of life, Miller's experiment",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "97c20f8d-1a42-4f39-aa50-3303ce3135e7",
+   "subject": "biology",
+   "unit": "Genetics and Evolution",
+   "chapter": "Evolution",
+   "type": "single_mcq",
+   "stem": "In a population of seed-eating birds, birds with very small or very large beaks feed efficiently, while birds with medium-sized beaks feed poorly. Which change in the beak-size distribution is expected over many generations?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Two peaks, with intermediate beaks becoming rare"
+    },
+    {
+     "key": "B",
+     "text": "One narrower peak around the mean beak size"
+    },
+    {
+     "key": "C",
+     "text": "One peak shifted towards larger beaks"
+    },
+    {
+     "key": "D",
+     "text": "One peak shifted towards smaller beaks"
+    }
+   ],
+   "correct_key": "A",
+   "explanation": "When both extremes of a trait are favoured and the average is disadvantaged, the distribution splits into two peaks and the intermediate type becomes rare; this is disruptive selection. A single narrower peak at the mean is the outcome of stabilising selection, and a peak shifted to one side is directional selection, which does not fit a situation in which both extremes do well.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Biology, chapter Evolution: mechanism of evolution, natural selection and its types",
+   "source": "claude-authored-2026-10-17-w4"
+  }
+ ]
+}

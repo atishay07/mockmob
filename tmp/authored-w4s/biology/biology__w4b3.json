@@ -1,0 +1,666 @@
+{
+ "batch": "biology__w4b3",
+ "subject": "biology",
+ "questions": [
+  {
+   "id": "b8374232-3875-4669-a6aa-d2a27190437b",
+   "subject": "biology",
+   "unit": "Biotechnology and its Applications",
+   "chapter": "Biotechnology Principles & Processes",
+   "type": "single_mcq",
+   "stem": "A student isolating DNA from plant leaves wants to break the cell wall and then free the DNA of RNA and proteins. Which combination of enzymes should be used?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Cellulase for the cell wall, ribonuclease for RNA and protease for proteins"
+    },
+    {
+     "key": "B",
+     "text": "Lysozyme for the cell wall, ribonuclease for RNA and protease for proteins"
+    },
+    {
+     "key": "C",
+     "text": "Chitinase for the cell wall, ribonuclease for RNA and protease for proteins"
+    },
+    {
+     "key": "D",
+     "text": "Cellulase for the cell wall, ribonuclease for proteins and protease for RNA"
+    }
+   ],
+   "correct_key": "A",
+   "explanation": "Plant cell walls are digested by cellulase, RNA is removed by ribonuclease and proteins by protease. Lysozyme is used for bacterial cells and chitinase for fungal cells, so they suit other sources, and the last combination assigns ribonuclease and protease to the wrong substrates.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Biology, Ch 9 Biotechnology: Principles and Processes: isolation of genetic material, enzymes used to lyse cells and remove RNA and proteins",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "2174cc38-ef8a-41be-9d52-6db3b89bf9a8",
+   "subject": "biology",
+   "unit": "Biotechnology and its Applications",
+   "chapter": "Biotechnology & its Applications",
+   "type": "sequence_ordering",
+   "stem": "Arrange the following steps in the development of an insect-resistant transgenic plant in the correct order.\n(A) Regeneration of whole plants from the transformed cells by tissue culture\n(B) Insertion of the cry gene into the Ti plasmid\n(C) Isolation of the cry gene from Bacillus thuringiensis\n(D) Infection of plant explants with Agrobacterium carrying the recombinant plasmid",
+   "options": [
+    {
+     "key": "A",
+     "text": "(C), (D), (B), (A)"
+    },
+    {
+     "key": "B",
+     "text": "(B), (C), (D), (A)"
+    },
+    {
+     "key": "C",
+     "text": "(C), (B), (D), (A)"
+    },
+    {
+     "key": "D",
+     "text": "(C), (B), (A), (D)"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "The foreign gene must first be isolated, then placed in a vector such as the Ti plasmid, then delivered into plant cells by Agrobacterium, and only then can whole plants be regenerated from the transformed cells by tissue culture. Infecting explants before the gene is cloned into the plasmid would deliver nothing, since the bacterium can carry only what has already been inserted.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Biology, Ch 11 Biotechnology and its Applications: Bt crops and the steps in making a transgenic plant (Ti plasmid, Agrobacterium, tissue culture)",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "df20c45d-ee4a-4663-bf36-621580f47bca",
+   "subject": "biology",
+   "unit": "Biotechnology and its Applications",
+   "chapter": "Biotechnology & its Applications",
+   "type": "single_mcq",
+   "stem": "In the first commercial production of human insulin by recombinant DNA technology, the A and B polypeptide chains were made in separate E. coli cultures and then:",
+   "options": [
+    {
+     "key": "A",
+     "text": "extracted and joined by creating disulphide bonds between them"
+    },
+    {
+     "key": "B",
+     "text": "joined end to end by peptide bonds formed by the enzyme DNA ligase"
+    },
+    {
+     "key": "C",
+     "text": "treated with enzymes to remove a C peptide from each chain"
+    },
+    {
+     "key": "D",
+     "text": "cut by restriction endonucleases and ligated into one plasmid"
+    }
+   ],
+   "correct_key": "A",
+   "explanation": "Insulin consists of two short polypeptide chains, A and B, held together by disulphide bridges. In the first recombinant production the chains were made separately in E. coli, extracted and joined by forming these bridges. DNA ligase joins nucleotides in DNA, not amino acids in a protein, and the C peptide belongs to proinsulin, not to separately made chains.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "NCERT Class 12 Biology, Ch 11 Biotechnology and its Applications: genetically engineered insulin (chains A and B joined by disulphide bonds)",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "58f32816-a7bf-41db-9e06-3b4add80291a",
+   "subject": "biology",
+   "unit": "Biotechnology and its Applications",
+   "chapter": "Biotechnology & its Applications",
+   "type": "single_mcq",
+   "stem": "A foreign company is granted a patent on a product made from a crop variety that farmers of another country developed over centuries, without the farmers' permission or any compensation to them. This is an example of:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Bioprospecting"
+    },
+    {
+     "key": "B",
+     "text": "Biofortification"
+    },
+    {
+     "key": "C",
+     "text": "Bioethics"
+    },
+    {
+     "key": "D",
+     "text": "Biopiracy"
+    }
+   ],
+   "correct_key": "D",
+   "explanation": "Using the bioresources or traditional knowledge of a country and its people, for example by patenting a product made from a crop they developed, without proper authorisation and without compensatory payment, is called biopiracy. Bioprospecting is the exploration of biodiversity for useful products, which is not wrongful by itself, so it does not describe taking and patenting without permission.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "NCERT Class 12 Biology, Ch 11 Biotechnology and its Applications: ethical issues, biopiracy and patents",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "d37125e8-0209-40a9-aa19-4be3804a1682",
+   "subject": "biology",
+   "unit": "Biotechnology and its Applications",
+   "chapter": "Biotechnology & its Applications",
+   "type": "single_mcq",
+   "stem": "Transgenic animals are preferred to normal animals for toxicity testing of chemicals because they:",
+   "options": [
+    {
+     "key": "A",
+     "text": "grow and reproduce much faster, so many generations can be tested quickly"
+    },
+    {
+     "key": "B",
+     "text": "carry genes that make them more sensitive to toxic substances"
+    },
+    {
+     "key": "C",
+     "text": "have a faster metabolism, so the chemical is cleared from the body quickly"
+    },
+    {
+     "key": "D",
+     "text": "carry human genes that neutralise the chemical before it can harm them"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "Animals carrying genes that make them more sensitive to toxic substances than normal animals are exposed to the chemical so that its effects can be studied, which gives toxicity results in less time. Faster breeding or faster metabolism are not the basis of this test, and human genes that neutralise a chemical would hide its toxicity instead of revealing it.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Biology, Ch 11 Biotechnology and its Applications: transgenic animals and chemical safety (toxicity) testing",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "53f7ec15-6f15-490b-bc13-2454749bf0a1",
+   "subject": "biology",
+   "unit": "Biotechnology and its Applications",
+   "chapter": "Biotechnology & its Applications",
+   "type": "single_mcq",
+   "stem": "The plate-based test described for the first patient is an example of:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Polymerase chain reaction assay"
+    },
+    {
+     "key": "B",
+     "text": "Enzyme-linked immunosorbent assay"
+    },
+    {
+     "key": "C",
+     "text": "Gel electrophoresis of serum proteins"
+    },
+    {
+     "key": "D",
+     "text": "Radioactive probe hybridisation"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "The test coats a plate with antigen, captures antibodies from the serum and reveals them with an enzyme-linked second antibody and a colour-forming substrate, which is the principle of ELISA, based on antigen-antibody interaction. PCR copies nucleic acid and probe hybridisation finds a DNA sequence; neither uses an enzyme-linked antibody to give a colour.",
+   "passage_text": "A hospital laboratory receives blood samples from two patients. The first patient has had a fever for several days. The laboratory coats the wells of a plastic plate with a protein from the suspected virus, adds the patient's serum and washes the plate. A second antibody carrying an enzyme is then added, followed by a colourless substrate. A well turns coloured only if the serum held antibodies that stuck to the viral protein, and a deeper colour means more antibody. Because antibodies appear in the blood only some days after infection, the laboratory uses another approach for people exposed very recently: a short stretch of the pathogen's genetic material is copied millions of times in a thermal cycler, so that even a tiny number of pathogen particles can be found.\n\nThe second sample is from a newborn who is being screened for an inherited disorder caused by a mutation in one gene. A short single-stranded DNA fragment, tagged with a radioactive label, is added to the baby's denatured DNA. The fragment is complementary to the normal sequence of the gene, and it attaches only where it finds that sequence. The places where it has attached are later shown by exposing a photographic film.",
+   "set_id": "w4-bio-03-set-1",
+   "difficulty_label": "easy",
+   "ncert_ref": "NCERT Class 12 Biology, Ch 11 Biotechnology and its Applications: molecular diagnosis, ELISA",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "65134122-0ff0-4601-b4e4-1dc76ae6bf66",
+   "subject": "biology",
+   "unit": "Biotechnology and its Applications",
+   "chapter": "Biotechnology & its Applications",
+   "type": "single_mcq",
+   "stem": "A person exposed to the virus only a day earlier is tested by both the plate method and the copying method described. The most likely results, in that order, are:",
+   "options": [
+    {
+     "key": "A",
+     "text": "antibodies detected; pathogen genetic material not detected"
+    },
+    {
+     "key": "B",
+     "text": "antibodies not detected; pathogen genetic material not detected"
+    },
+    {
+     "key": "C",
+     "text": "antibodies detected; pathogen genetic material detected"
+    },
+    {
+     "key": "D",
+     "text": "antibodies not detected; pathogen genetic material detected"
+    }
+   ],
+   "correct_key": "D",
+   "explanation": "Antibodies appear only some days after infection, so the plate test that looks for antibodies is still negative one day after exposure. Copying a short stretch of the pathogen's genetic material can reveal even a few particles, so that test can already be positive. Expecting antibodies before the genetic material of the pathogen reverses the order in which the two signals become detectable.",
+   "passage_text": "A hospital laboratory receives blood samples from two patients. The first patient has had a fever for several days. The laboratory coats the wells of a plastic plate with a protein from the suspected virus, adds the patient's serum and washes the plate. A second antibody carrying an enzyme is then added, followed by a colourless substrate. A well turns coloured only if the serum held antibodies that stuck to the viral protein, and a deeper colour means more antibody. Because antibodies appear in the blood only some days after infection, the laboratory uses another approach for people exposed very recently: a short stretch of the pathogen's genetic material is copied millions of times in a thermal cycler, so that even a tiny number of pathogen particles can be found.\n\nThe second sample is from a newborn who is being screened for an inherited disorder caused by a mutation in one gene. A short single-stranded DNA fragment, tagged with a radioactive label, is added to the baby's denatured DNA. The fragment is complementary to the normal sequence of the gene, and it attaches only where it finds that sequence. The places where it has attached are later shown by exposing a photographic film.",
+   "set_id": "w4-bio-03-set-1",
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Biology, Ch 11 Biotechnology and its Applications: molecular diagnosis, PCR for early detection and ELISA",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "ad0c0f11-adaa-4a9b-aae2-95288ca2e8e5",
+   "subject": "biology",
+   "unit": "Biotechnology and its Applications",
+   "chapter": "Biotechnology & its Applications",
+   "type": "single_mcq",
+   "stem": "Which of the following babies would show no dark spot at the position of the gene on the film?",
+   "options": [
+    {
+     "key": "A",
+     "text": "A baby with the mutation in both copies of the gene"
+    },
+    {
+     "key": "B",
+     "text": "A baby with the mutation in one of the two copies of the gene"
+    },
+    {
+     "key": "C",
+     "text": "A baby with two normal copies of the gene"
+    },
+    {
+     "key": "D",
+     "text": "A baby with two normal copies of the gene and a mutation in a different gene"
+    }
+   ],
+   "correct_key": "A",
+   "explanation": "The probe is complementary to the normal sequence, so it attaches wherever a normal copy exists. Only a baby with no normal copy, that is with both copies mutated, leaves the film blank. A carrier still has one normal copy that binds the probe, and a mutation in a different gene does not change the probe site.",
+   "passage_text": "A hospital laboratory receives blood samples from two patients. The first patient has had a fever for several days. The laboratory coats the wells of a plastic plate with a protein from the suspected virus, adds the patient's serum and washes the plate. A second antibody carrying an enzyme is then added, followed by a colourless substrate. A well turns coloured only if the serum held antibodies that stuck to the viral protein, and a deeper colour means more antibody. Because antibodies appear in the blood only some days after infection, the laboratory uses another approach for people exposed very recently: a short stretch of the pathogen's genetic material is copied millions of times in a thermal cycler, so that even a tiny number of pathogen particles can be found.\n\nThe second sample is from a newborn who is being screened for an inherited disorder caused by a mutation in one gene. A short single-stranded DNA fragment, tagged with a radioactive label, is added to the baby's denatured DNA. The fragment is complementary to the normal sequence of the gene, and it attaches only where it finds that sequence. The places where it has attached are later shown by exposing a photographic film.",
+   "set_id": "w4-bio-03-set-1",
+   "difficulty_label": "hard",
+   "ncert_ref": "NCERT Class 12 Biology, Ch 11 Biotechnology and its Applications: molecular diagnosis, probe hybridisation and autoradiography",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "f6532e00-b9e0-4b76-82a0-296ef910b429",
+   "subject": "biology",
+   "unit": "Biotechnology and its Applications",
+   "chapter": "Biotechnology & its Applications",
+   "type": "single_mcq",
+   "stem": "Why is the baby's DNA denatured before the labelled fragment is added?",
+   "options": [
+    {
+     "key": "A",
+     "text": "To cut the DNA into short pieces that can then bind to the film"
+    },
+    {
+     "key": "B",
+     "text": "To remove proteins that would attach to the fragment"
+    },
+    {
+     "key": "C",
+     "text": "To separate the two strands so the fragment can pair with them"
+    },
+    {
+     "key": "D",
+     "text": "To label the DNA radioactively so that it shows up on the film"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "Hybridisation depends on base pairing, and the probe can pair with its complementary sequence only when the two strands of the baby's DNA have been separated by denaturation. The radioactive label is already on the probe, not on the baby's DNA, and denaturation neither cuts DNA into film-binding pieces nor removes proteins.",
+   "passage_text": "A hospital laboratory receives blood samples from two patients. The first patient has had a fever for several days. The laboratory coats the wells of a plastic plate with a protein from the suspected virus, adds the patient's serum and washes the plate. A second antibody carrying an enzyme is then added, followed by a colourless substrate. A well turns coloured only if the serum held antibodies that stuck to the viral protein, and a deeper colour means more antibody. Because antibodies appear in the blood only some days after infection, the laboratory uses another approach for people exposed very recently: a short stretch of the pathogen's genetic material is copied millions of times in a thermal cycler, so that even a tiny number of pathogen particles can be found.\n\nThe second sample is from a newborn who is being screened for an inherited disorder caused by a mutation in one gene. A short single-stranded DNA fragment, tagged with a radioactive label, is added to the baby's denatured DNA. The fragment is complementary to the normal sequence of the gene, and it attaches only where it finds that sequence. The places where it has attached are later shown by exposing a photographic film.",
+   "set_id": "w4-bio-03-set-1",
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Biology, Ch 11 Biotechnology and its Applications: molecular diagnosis, hybridisation of a labelled single-stranded probe",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "c2cb9280-2619-4f53-91d3-a150d13d433a",
+   "subject": "biology",
+   "unit": "Biotechnology and its Applications",
+   "chapter": "Biotechnology & its Applications",
+   "type": "statement_based",
+   "stem": "Consider the following statements about the two tests described.\n(A) The first test detects antibodies made against the viral protein, not the virus itself.\n(B) The enzyme that produces the colour is carried by the second antibody.\n(C) The labelled fragment used in the second test is double-stranded.\n(D) The second test depends on base pairing between the fragment and the baby's DNA.\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A), (B) and (D) only"
+    },
+    {
+     "key": "B",
+     "text": "(A), (C) and (D) only"
+    },
+    {
+     "key": "C",
+     "text": "(B), (C) and (D) only"
+    },
+    {
+     "key": "D",
+     "text": "(A), (B) and (C) only"
+    }
+   ],
+   "correct_key": "A",
+   "explanation": "Statements A, B and D agree with the description: the serum test finds antibodies, the second antibody carries the colour-forming enzyme, and the second test relies on base pairing of the probe. The probe is single-stranded, because only a single strand can pair with the separated strands of the baby's DNA, so the statement calling it double-stranded is false.",
+   "passage_text": "A hospital laboratory receives blood samples from two patients. The first patient has had a fever for several days. The laboratory coats the wells of a plastic plate with a protein from the suspected virus, adds the patient's serum and washes the plate. A second antibody carrying an enzyme is then added, followed by a colourless substrate. A well turns coloured only if the serum held antibodies that stuck to the viral protein, and a deeper colour means more antibody. Because antibodies appear in the blood only some days after infection, the laboratory uses another approach for people exposed very recently: a short stretch of the pathogen's genetic material is copied millions of times in a thermal cycler, so that even a tiny number of pathogen particles can be found.\n\nThe second sample is from a newborn who is being screened for an inherited disorder caused by a mutation in one gene. A short single-stranded DNA fragment, tagged with a radioactive label, is added to the baby's denatured DNA. The fragment is complementary to the normal sequence of the gene, and it attaches only where it finds that sequence. The places where it has attached are later shown by exposing a photographic film.",
+   "set_id": "w4-bio-03-set-1",
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Biology, Ch 11 Biotechnology and its Applications: molecular diagnosis, ELISA and probe hybridisation",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "7139c5fb-2849-4497-a671-21a9c5bf2e81",
+   "subject": "biology",
+   "unit": "Ecology and Environment",
+   "chapter": "Organisms & Populations",
+   "type": "single_mcq",
+   "stem": "Population density in the tiger census of Indian reserves is commonly estimated from:",
+   "options": [
+    {
+     "key": "A",
+     "text": "the percentage cover of grass and shrubs in each reserve"
+    },
+    {
+     "key": "B",
+     "text": "the total biomass of the prey species"
+    },
+    {
+     "key": "C",
+     "text": "a direct headcount of every tiger on a single day"
+    },
+    {
+     "key": "D",
+     "text": "indirect signs such as pug marks and faecal pellets"
+    }
+   ],
+   "correct_key": "D",
+   "explanation": "A tiger census cannot count every animal directly, so population density is estimated from indirect signs such as pug marks and faecal pellets. Vegetation cover and prey biomass say nothing about how many tigers live in a reserve, and a full headcount in one day is not practical for such secretive animals.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "NCERT Class 12 Biology, Ch 13 Organisms and Populations: population density and its estimation",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "03f95952-f882-4150-acef-2ef0449a2aca",
+   "subject": "biology",
+   "unit": "Ecology and Environment",
+   "chapter": "Organisms & Populations",
+   "type": "sequence_ordering",
+   "stem": "Arrange the following phases of a population growing in a limited habitat in the order in which they occur over time.\n(A) Phase of deceleration\n(B) Lag phase\n(C) Asymptote near the carrying capacity\n(D) Phase of acceleration",
+   "options": [
+    {
+     "key": "A",
+     "text": "(B), (A), (D), (C)"
+    },
+    {
+     "key": "B",
+     "text": "(D), (B), (A), (C)"
+    },
+    {
+     "key": "C",
+     "text": "(B), (D), (A), (C)"
+    },
+    {
+     "key": "D",
+     "text": "(B), (D), (C), (A)"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "Growth in a limited habitat is first slow (lag phase), then speeds up in the acceleration phase, slows again during deceleration as resources become limiting, and finally levels off at an asymptote near the carrying capacity. Putting acceleration before the lag phase ignores that the population needs time to adjust before it can grow rapidly.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Biology, Ch 13 Organisms and Populations: population growth, logistic (sigmoid) growth phases",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "b00e6e59-df3f-43dc-80d5-338ccfb71dfa",
+   "subject": "biology",
+   "unit": "Ecology and Environment",
+   "chapter": "Organisms & Populations",
+   "type": "match_the_following",
+   "stem": "Match List-I with List-II.\nList-I: (A) Commensalism (B) Predation (C) Competition (D) Parasitism\nList-II: (I) Cuscuta on a hedge plant (II) Orchid growing on a mango branch (III) Cactoblastis moth feeding on prickly pear (IV) Abingdon tortoise and introduced goats on Galapagos\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A)-(III), (B)-(II), (C)-(IV), (D)-(I)"
+    },
+    {
+     "key": "B",
+     "text": "(A)-(II), (B)-(III), (C)-(IV), (D)-(I)"
+    },
+    {
+     "key": "C",
+     "text": "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)"
+    },
+    {
+     "key": "D",
+     "text": "(A)-(I), (B)-(III), (C)-(IV), (D)-(II)"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "An orchid growing on a mango branch benefits without harming the tree, which is commensalism; the Cactoblastis moth feeding on prickly pear is predation; goats and the Abingdon tortoise competed for the same food; Cuscuta draws nutrients from its host, which is parasitism. Exchanging the moth and the tortoise confuses a feeding relationship with competition for a shared resource.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Biology, Ch 13 Organisms and Populations: population interactions with examples",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "dc0f5ddb-206b-4a54-acf9-c705ed8b971d",
+   "subject": "biology",
+   "unit": "Ecology and Environment",
+   "chapter": "Ecosystem",
+   "type": "single_mcq",
+   "stem": "The major pathways of energy flow in a terrestrial ecosystem and in an aquatic ecosystem, respectively, are the:",
+   "options": [
+    {
+     "key": "A",
+     "text": "detritus food chain and the grazing food chain"
+    },
+    {
+     "key": "B",
+     "text": "grazing food chain and the detritus food chain"
+    },
+    {
+     "key": "C",
+     "text": "grazing food chain in both of them"
+    },
+    {
+     "key": "D",
+     "text": "detritus food chain in both of them"
+    }
+   ],
+   "correct_key": "A",
+   "explanation": "In an aquatic ecosystem the grazing food chain is the major conduit of energy flow, since phytoplankton are eaten directly, while in a terrestrial ecosystem a much larger fraction of energy flows through the detritus food chain as dead plant matter is decomposed. Reversing the two reflects the common belief that grazing dominates on land.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Biology, Ch 14 Ecosystem: energy flow, grazing and detritus food chains",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "9b3560f6-3b1c-4865-ac59-98027ad40a31",
+   "subject": "biology",
+   "unit": "Ecology and Environment",
+   "chapter": "Ecosystem",
+   "type": "sequence_ordering",
+   "stem": "Arrange the following events in the decomposition of dead plant litter in the correct order.\n(A) Formation of dark, amorphous humus\n(B) Release of inorganic nutrients from humus\n(C) Breakdown of detritus into smaller particles by earthworms\n(D) Degradation of detritus by bacterial and fungal enzymes",
+   "options": [
+    {
+     "key": "A",
+     "text": "(C), (A), (D), (B)"
+    },
+    {
+     "key": "B",
+     "text": "(D), (C), (A), (B)"
+    },
+    {
+     "key": "C",
+     "text": "(C), (D), (A), (B)"
+    },
+    {
+     "key": "D",
+     "text": "(C), (D), (B), (A)"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "Decomposition begins with fragmentation of detritus by detritivores such as earthworms, followed by catabolism by bacterial and fungal enzymes. Humification then forms dark humus, which is finally degraded by microbes in mineralisation, releasing inorganic nutrients. Enzymes act on detritus that has already been fragmented, so catabolism cannot come before fragmentation.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Biology, Ch 14 Ecosystem: decomposition (fragmentation, leaching, catabolism, humification, mineralisation)",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "47f1daf6-2e46-4659-80ba-53388a92114f",
+   "subject": "biology",
+   "unit": "Ecology and Environment",
+   "chapter": "Ecosystem",
+   "type": "sequence_ordering",
+   "stem": "Arrange the following in decreasing order of the amount of energy at each step of energy capture in a terrestrial ecosystem.\n(A) Photosynthetically active radiation\n(B) Gross primary productivity\n(C) Net primary productivity\n(D) Incident solar radiation",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A), (D), (B), (C)"
+    },
+    {
+     "key": "B",
+     "text": "(D), (A), (B), (C)"
+    },
+    {
+     "key": "C",
+     "text": "(D), (A), (C), (B)"
+    },
+    {
+     "key": "D",
+     "text": "(D), (B), (A), (C)"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "Less than half of the incident solar radiation is photosynthetically active radiation, and plants capture only 2 to 10 per cent of that as gross primary productivity. Net primary productivity is what remains after the plants' own respiration is subtracted from GPP, so it is the smallest. Placing PAR above the incident radiation overlooks that PAR is only a fraction of total sunlight.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Biology, Ch 14 Ecosystem: productivity, PAR, GPP and NPP",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "cf3ce18f-6c8c-4264-8cf8-b8ebc95aee46",
+   "subject": "biology",
+   "unit": "Ecology and Environment",
+   "chapter": "Ecosystem",
+   "type": "statement_based",
+   "stem": "Consider the following statements about ecological pyramids.\n(A) The pyramid of biomass in the sea is generally inverted.\n(B) A species that occupies two trophic levels is accounted for in an ecological pyramid.\n(C) Ecological pyramids assume a simple food chain and do not accommodate a food web.\n(D) Saprophytes are not given any place in ecological pyramids.\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A), (B) and (C) only"
+    },
+    {
+     "key": "B",
+     "text": "(B), (C) and (D) only"
+    },
+    {
+     "key": "C",
+     "text": "(A), (B) and (D) only"
+    },
+    {
+     "key": "D",
+     "text": "(A), (C) and (D) only"
+    }
+   ],
+   "correct_key": "D",
+   "explanation": "The biomass of fishes can exceed that of phytoplankton, so the biomass pyramid of the sea is generally inverted, and pyramids assume a simple food chain and cannot represent a food web. Saprophytes are indeed given no place in them. Pyramids do not take into account one species belonging to two or more trophic levels, so the statement saying they do is false.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "hard",
+   "ncert_ref": "NCERT Class 12 Biology, Ch 14 Ecosystem: ecological pyramids and their limitations",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "0269f538-ba1b-41ce-a80c-1748b986ea88",
+   "subject": "biology",
+   "unit": "Ecology and Environment",
+   "chapter": "Biodiversity & Conservation",
+   "type": "single_mcq",
+   "stem": "Which of the following statements about the species-area relationship is correct?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Plotted on log scales it is a straight line whose slope is steepest for very large areas such as entire continents"
+    },
+    {
+     "key": "B",
+     "text": "Plotted on arithmetic scales it is a straight line whose slope is the same for all taxonomic groups and regions"
+    },
+    {
+     "key": "C",
+     "text": "Within a region, species richness keeps rising in proportion to the area explored, with no upper limit"
+    },
+    {
+     "key": "D",
+     "text": "The slope on log scales is 0.6 to 1.2 for small areas and 0.1 to 0.2 for entire continents"
+    }
+   ],
+   "correct_key": "A",
+   "explanation": "On log scales the species-area relationship is a straight line, with a slope of 0.1 to 0.2 for ordinary regions irrespective of the taxon but a much steeper 0.6 to 1.2 for entire continents. On arithmetic scales it is a rectangular hyperbola, and richness rises with area only up to a limit. Swapping the two slope ranges is the commonest error.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "hard",
+   "ncert_ref": "NCERT Class 12 Biology, Ch 15 Biodiversity and Conservation: patterns of biodiversity, species-area relationship",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "61165895-71ee-4a42-accb-05ee502b7960",
+   "subject": "biology",
+   "unit": "Ecology and Environment",
+   "chapter": "Biodiversity & Conservation",
+   "type": "single_mcq",
+   "stem": "Which of the following is NOT a reason suggested for the greater species diversity of the tropics compared with temperate regions?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Tropical latitudes have remained undisturbed for millions of years, giving species a long time to evolve"
+    },
+    {
+     "key": "B",
+     "text": "Tropical regions were repeatedly covered by glaciers, which forced their species to diversify rapidly"
+    },
+    {
+     "key": "C",
+     "text": "Tropical environments are less seasonal and more constant, which promotes niche specialisation"
+    },
+    {
+     "key": "D",
+     "text": "Greater solar energy in the tropics gives higher productivity, which supports more species"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "The accepted explanations are a long, undisturbed evolutionary time, a less seasonal and more predictable environment that promotes niche specialisation, and more solar energy giving higher productivity. It was the temperate regions that suffered repeated glaciation, which eliminated species, so glaciation of the tropics is not a proposed reason.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Biology, Ch 15 Biodiversity and Conservation: patterns of biodiversity, latitudinal gradient",
+   "source": "claude-authored-2026-10-17-w4"
+  },
+  {
+   "id": "c4a7ad38-8758-41ef-9095-d08d22ef8c74",
+   "subject": "biology",
+   "unit": "Ecology and Environment",
+   "chapter": "Biodiversity & Conservation",
+   "type": "single_mcq",
+   "stem": "Which of the following is an example of a broadly utilitarian argument for conserving biodiversity?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Forest plants yield timber, resin and medicines that can be sold"
+    },
+    {
+     "key": "B",
+     "text": "Every species has a right to exist whatever its use to humans"
+    },
+    {
+     "key": "C",
+     "text": "Pollinators in a forest raise the yield of crops on nearby farms"
+    },
+    {
+     "key": "D",
+     "text": "Wild relatives of crops are screened for new drugs and industrial products"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "Broadly utilitarian arguments rest on ecosystem services such as pollination, oxygen release and aesthetic pleasure, so crop pollination by forest insects fits. Timber, resin, medicines and screening for new products are direct economic uses, which are narrowly utilitarian, and the right of a species to exist irrespective of its use is the ethical argument.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "NCERT Class 12 Biology, Ch 15 Biodiversity and Conservation: why conserve biodiversity (narrowly utilitarian, broadly utilitarian, ethical)",
+   "source": "claude-authored-2026-10-17-w4"
+  }
+ ]
+}

@@ -1,0 +1,506 @@
+{
+ "batch": "mathematics__w4b3-blind",
+ "subject": "mathematics",
+ "questions": [
+  {
+   "id": "9afe3afa-ab58-487c-8b4a-7b04ef37c60a",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "The curve x² + xy + y² = 7 passes through the point (1, 2). For this curve, dy/dx at (1, 2) equals:",
+   "options": [
+    {
+     "key": "A",
+     "text": "4/5"
+    },
+    {
+     "key": "B",
+     "text": "−4/5"
+    },
+    {
+     "key": "C",
+     "text": "−5/4"
+    },
+    {
+     "key": "D",
+     "text": "−2/5"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "c0d61bdc-7072-4121-a1b0-be91ad4757b6",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "A curve is given parametrically by x = t² and y = t³, where t is a real parameter. The second derivative d²y/dx² at t = 2 equals:",
+   "options": [
+    {
+     "key": "A",
+     "text": "3/2"
+    },
+    {
+     "key": "B",
+     "text": "3"
+    },
+    {
+     "key": "C",
+     "text": "6"
+    },
+    {
+     "key": "D",
+     "text": "3/8"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "9567d87f-af20-4df4-afd1-8656a2b1edcd",
+   "subject": "mathematics",
+   "type": "match_the_following",
+   "stem": "Match List-I with List-II.\nList-I (function)\n(A) e^(3x)\n(B) log_e (3x)\n(C) tan⁻¹(3x)\n(D) sin⁻¹ x\nList-II (derivative with respect to x)\n(I) 1/x\n(II) 3/(1 + 9x²)\n(III) 1/√(1 − x²)\n(IV) 3e^(3x)\nChoose the correct answer from the options given below:",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A)-(IV), (B)-(I), (C)-(II), (D)-(III)"
+    },
+    {
+     "key": "B",
+     "text": "(A)-(IV), (B)-(I), (C)-(III), (D)-(II)"
+    },
+    {
+     "key": "C",
+     "text": "(A)-(I), (B)-(IV), (C)-(II), (D)-(III)"
+    },
+    {
+     "key": "D",
+     "text": "(A)-(II), (B)-(I), (C)-(IV), (D)-(III)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "6e6c3c28-a723-4c1f-9359-8fbe3c7473b2",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "The edge of a cube is increasing at the rate of 2 cm/s. The rate at which its volume is increasing when the edge is 3 cm is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "27 cm³/s"
+    },
+    {
+     "key": "B",
+     "text": "36 cm³/s"
+    },
+    {
+     "key": "C",
+     "text": "54 cm³/s"
+    },
+    {
+     "key": "D",
+     "text": "18 cm³/s"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "93acdf0c-24cc-46b2-864e-99207aceac5b",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "The function f(x) = x² − 2 log_e x, with domain x > 0, is strictly increasing on which of the following intervals?",
+   "options": [
+    {
+     "key": "A",
+     "text": "(0, 1)"
+    },
+    {
+     "key": "B",
+     "text": "(1, ∞)"
+    },
+    {
+     "key": "C",
+     "text": "(0, ∞)"
+    },
+    {
+     "key": "D",
+     "text": "(0, e)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "09ff07f0-c60c-46c9-bc65-88f4e0bc323e",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "Two positive numbers x and y satisfy x + y = 12. The maximum value of x²y is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "256"
+    },
+    {
+     "key": "B",
+     "text": "216"
+    },
+    {
+     "key": "C",
+     "text": "128"
+    },
+    {
+     "key": "D",
+     "text": "64"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "4e3389a9-e5f6-464e-94da-097ecfa1b56a",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "Suppose f is an integrable function on [0, 4] such that ∫ from 0 to 4 of f(x) dx = 7 and ∫ from 2 to 4 of f(x) dx = 3. Then ∫ from 0 to 2 of (2f(x) + 1) dx is equal to:",
+   "options": [
+    {
+     "key": "A",
+     "text": "9"
+    },
+    {
+     "key": "B",
+     "text": "16"
+    },
+    {
+     "key": "C",
+     "text": "22"
+    },
+    {
+     "key": "D",
+     "text": "10"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "f1fce836-0049-44b7-95a1-a2399fc7c66f",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "The integral of x log_e x with respect to x, taken from 1 to e, equals:",
+   "options": [
+    {
+     "key": "A",
+     "text": "(e² − 1)/4"
+    },
+    {
+     "key": "B",
+     "text": "e²/2"
+    },
+    {
+     "key": "C",
+     "text": "(e² + 1)/4"
+    },
+    {
+     "key": "D",
+     "text": "(e² + 1)/2"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "a2b66f59-7b62-4b7c-9a2b-6e36fc09b9f7",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "Find the area lying under the curve y = x² + 2 between the vertical lines x = 1 and x = 4.",
+   "options": [
+    {
+     "key": "A",
+     "text": "27"
+    },
+    {
+     "key": "B",
+     "text": "21"
+    },
+    {
+     "key": "C",
+     "text": "15"
+    },
+    {
+     "key": "D",
+     "text": "69"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "e3728829-e160-4205-abb4-b411b380a303",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "The parabola y = 4x − x² cuts the x-axis at two points. The area between the parabola and the x-axis is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "16/3"
+    },
+    {
+     "key": "B",
+     "text": "64/3"
+    },
+    {
+     "key": "C",
+     "text": "32"
+    },
+    {
+     "key": "D",
+     "text": "32/3"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "d724586b-c52b-43c1-b3b1-ea045c7d032f",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "The area of the region bounded by y = x³, the x-axis and the ordinates x = −1 and x = 2 equals:",
+   "options": [
+    {
+     "key": "A",
+     "text": "15/4"
+    },
+    {
+     "key": "B",
+     "text": "17/4"
+    },
+    {
+     "key": "C",
+     "text": "4"
+    },
+    {
+     "key": "D",
+     "text": "1/4"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "4d8fefa8-332e-4969-a17b-0cf0f8215738",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "If y = y(x) satisfies dy/dx = (x + y)/x for x > 0 with y(1) = 2, then y(e) equals:",
+   "options": [
+    {
+     "key": "A",
+     "text": "2e"
+    },
+    {
+     "key": "B",
+     "text": "e + 2"
+    },
+    {
+     "key": "C",
+     "text": "3e"
+    },
+    {
+     "key": "D",
+     "text": "3"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "7ded8cb6-0906-4e49-84fa-82130df4cf14",
+   "subject": "mathematics",
+   "type": "statement_based",
+   "stem": "Consider the following statements:\n(A) Eliminating the constant A from y = Ax² gives the differential equation x(dy/dx) = 2y.\n(B) The equation dy/dx = (x² + y²)/(xy) is homogeneous.\n(C) The equation dy/dx = y/x has the solution y = x + C, where C is a constant.\n(D) Separating the variables in dy/dx = x/y leads to y² − x² = C.\nChoose the correct answer from the options given below:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Only (A), (B) and (C)"
+    },
+    {
+     "key": "B",
+     "text": "Only (B), (C) and (D)"
+    },
+    {
+     "key": "C",
+     "text": "Only (A) and (D)"
+    },
+    {
+     "key": "D",
+     "text": "Only (A), (B) and (D)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "7b509c66-2951-4c21-b23f-a1c74e1aafa9",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "For the first order differential equation y dx − (x + 2y²) dy = 0, the integrating factor is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "1/y"
+    },
+    {
+     "key": "B",
+     "text": "y"
+    },
+    {
+     "key": "C",
+     "text": "2y"
+    },
+    {
+     "key": "D",
+     "text": "e^(−y)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "6cdff47f-24b5-4a1a-9db2-057d41f22bd0",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "The diagonals of a parallelogram are represented by the vectors i + 2j + 2k and 3i − 2j + 2k. The area of the parallelogram, in square units, is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "12"
+    },
+    {
+     "key": "B",
+     "text": "3√17/2"
+    },
+    {
+     "key": "C",
+     "text": "6"
+    },
+    {
+     "key": "D",
+     "text": "3/2"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "c8af2dc3-ec6e-43a1-b174-88e3969c1037",
+   "subject": "mathematics",
+   "type": "match_the_following",
+   "stem": "Match List-I with List-II.\nList-I\n(A) Non-zero vectors a and b are perpendicular\n(B) Non-zero vectors a and b are parallel\n(C) Area of the parallelogram with adjacent sides a and b\n(D) Unit vector in the direction of a\nList-II\n(I) |a × b|\n(II) a · b = 0\n(III) a/|a|\n(IV) a × b = 0\nChoose the correct answer from the options given below:",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A)-(IV), (B)-(II), (C)-(I), (D)-(III)"
+    },
+    {
+     "key": "B",
+     "text": "(A)-(II), (B)-(IV), (C)-(I), (D)-(III)"
+    },
+    {
+     "key": "C",
+     "text": "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)"
+    },
+    {
+     "key": "D",
+     "text": "(A)-(I), (B)-(IV), (C)-(II), (D)-(III)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "c7a6e607-a11b-4015-981a-dd1b3e7188c9",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "The lines (x − 1)/4 = (y + 2)/k = (z − 3)/2 and (x + 3)/3 = (y − 1)/(−2) = (z + 5)/(−1) are perpendicular to each other. The value of k is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "7"
+    },
+    {
+     "key": "B",
+     "text": "−5"
+    },
+    {
+     "key": "C",
+     "text": "6"
+    },
+    {
+     "key": "D",
+     "text": "5"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "a525b67f-b222-4d47-b6dd-3f40ee01659a",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "A straight line passes through the points (−2, 1, 5) and (0, 4, 9). The z-coordinate of the point on this line whose x-coordinate is 4 is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "17"
+    },
+    {
+     "key": "B",
+     "text": "13"
+    },
+    {
+     "key": "C",
+     "text": "9"
+    },
+    {
+     "key": "D",
+     "text": "21"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "8506b7fc-87af-46b8-ad02-5766ad045a34",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "Taking principal values, the value of cos⁻¹(−1/2) + sin⁻¹(−√3/2) + tan⁻¹(−1) is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "−π/4"
+    },
+    {
+     "key": "B",
+     "text": "13π/12"
+    },
+    {
+     "key": "C",
+     "text": "π/12"
+    },
+    {
+     "key": "D",
+     "text": "−11π/12"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "fe67257f-25f9-46f8-911c-63ce57d6ed0c",
+   "subject": "mathematics",
+   "type": "single_mcq",
+   "stem": "Three machines A, B and C produce 50%, 30% and 20% of the items in a factory. Of their items, 2%, 5% and 10% respectively are defective. An item chosen at random is found to be defective. The probability that machine B made it is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "3/10"
+    },
+    {
+     "key": "B",
+     "text": "1/3"
+    },
+    {
+     "key": "C",
+     "text": "4/9"
+    },
+    {
+     "key": "D",
+     "text": "2/9"
+    }
+   ],
+   "passage_text": null
+  }
+ ]
+}

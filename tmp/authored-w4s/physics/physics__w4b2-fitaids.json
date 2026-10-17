@@ -1,0 +1,240 @@
+{
+ "batch": "physics__w4b2",
+ "subject": "physics",
+ "allowed": {
+  "types": [
+   "single_mcq",
+   "match_the_following",
+   "sequence_ordering",
+   "statement_based",
+   "assertion_reason",
+   "passage_set_item"
+  ],
+  "units": [
+   {
+    "unit": "Electrostatics",
+    "chapters": [
+     "Electric Charges & Fields",
+     "Electrostatic Potential & Capacitance"
+    ]
+   },
+   {
+    "unit": "Current Electricity",
+    "chapters": [
+     "Current Electricity"
+    ]
+   },
+   {
+    "unit": "Magnetic Effects of Current and Magnetism",
+    "chapters": [
+     "Moving Charges & Magnetism",
+     "Magnetism & Matter"
+    ]
+   },
+   {
+    "unit": "Electromagnetic Induction and Alternating Currents",
+    "chapters": [
+     "Electromagnetic Induction",
+     "Alternating Current"
+    ]
+   },
+   {
+    "unit": "Electromagnetic Waves",
+    "chapters": [
+     "Electromagnetic Waves"
+    ]
+   },
+   {
+    "unit": "Optics",
+    "chapters": [
+     "Ray Optics & Optical Instruments",
+     "Wave Optics"
+    ]
+   },
+   {
+    "unit": "Dual Nature of Matter and Radiation",
+    "chapters": [
+     "Dual Nature of Radiation & Matter"
+    ]
+   },
+   {
+    "unit": "Atoms and Nuclei",
+    "chapters": [
+     "Atoms",
+     "Nuclei"
+    ]
+   },
+   {
+    "unit": "Electronic Devices",
+    "chapters": [
+     "Semiconductor Electronics"
+    ]
+   }
+  ],
+  "excluded_chapters": [
+   "Communication Systems"
+  ]
+ },
+ "rows": {
+  "49cdcfd3-2f1c-4d94-8905-0f9afc4ef316": {
+   "engine_unit_options": [
+    "Optics"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 38,
+   "read_seconds": 20
+  },
+  "012b12f8-f665-4fac-87c8-1c3bbc85d59e": {
+   "engine_unit_options": [
+    "Optics"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 46,
+   "read_seconds": 22
+  },
+  "bf760cfb-3f89-4233-8ec2-7d0588f8a8f1": {
+   "engine_unit_options": [
+    "Optics"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 50,
+   "read_seconds": 23
+  },
+  "c83bfc1b-51a8-4c9c-ba3a-4b1b3b077998": {
+   "engine_unit_options": [
+    "Optics"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 45,
+   "read_seconds": 22
+  },
+  "a5527d87-72c4-45bc-876b-a80050540ae1": {
+   "engine_unit_options": [
+    "Optics"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 71,
+   "read_seconds": 30
+  },
+  "46dec6bb-4af6-40da-8a22-825f75dc52ce": {
+   "engine_unit_options": [
+    "Optics"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 40,
+   "read_seconds": 20
+  },
+  "c88795fc-93b2-4e55-979a-126712390857": {
+   "engine_unit_options": [
+    "Optics"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 38,
+   "read_seconds": 20
+  },
+  "4bb38a72-4019-47e5-bdc9-26fe5bcad9a5": {
+   "engine_unit_options": [
+    "Optics"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 50,
+   "read_seconds": 23
+  },
+  "a2a668aa-c16b-40c2-81b8-3d810f79d7e2": {
+   "engine_unit_options": [
+    "Optics"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 54,
+   "read_seconds": 24
+  },
+  "3b05fd92-2355-4441-968e-ae9c92367483": {
+   "engine_unit_options": [
+    "Dual Nature of Matter and Radiation"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 47,
+   "read_seconds": 22
+  },
+  "a8245687-1132-49a7-8ec4-306abf2aba8b": {
+   "engine_unit_options": [
+    "Dual Nature of Matter and Radiation"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 49,
+   "read_seconds": 23
+  },
+  "ff03fa32-f2de-4166-b312-bff3de154777": {
+   "engine_unit_options": [
+    "Dual Nature of Matter and Radiation"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 106,
+   "read_seconds": 40
+  },
+  "664b7a77-53bc-4c82-889a-5731832693ac": {
+   "engine_unit_options": [
+    "Dual Nature of Matter and Radiation"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 32,
+   "read_seconds": 18
+  },
+  "59c65a4c-9cea-4a76-bbe3-dde064917db4": {
+   "engine_unit_options": [
+    "Atoms and Nuclei"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 80,
+   "read_seconds": 32
+  },
+  "eab7b9e0-c086-4422-8820-f49e7701fe40": {
+   "engine_unit_options": [
+    "Atoms and Nuclei"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 36,
+   "read_seconds": 19
+  },
+  "48be5953-0f97-438b-930b-ecac7c558cf2": {
+   "engine_unit_options": [
+    "Atoms and Nuclei"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 39,
+   "read_seconds": 20
+  },
+  "0140bbdf-feae-48b9-a3bd-5c6e16f61c30": {
+   "engine_unit_options": [
+    "Atoms and Nuclei"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 35,
+   "read_seconds": 19
+  },
+  "46ac000e-cb0b-4df5-8edf-c811757f79cf": {
+   "engine_unit_options": [
+    "Atoms and Nuclei"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 23,
+   "read_seconds": 15
+  },
+  "97690044-9d76-4aff-a84b-f9787fd3c100": {
+   "engine_unit_options": [
+    "Atoms and Nuclei"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 45,
+   "read_seconds": 22
+  },
+  "c28582fc-eedd-4ea9-a907-b938f29248ab": {
+   "engine_unit_options": [
+    "Atoms and Nuclei"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 39,
+   "read_seconds": 20
+  }
+ }
+}
