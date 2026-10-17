@@ -20,6 +20,8 @@ import TodayMove from '@/components/today/TodayMove';
 import TodayWeek from '@/components/today/TodayWeek';
 import TodayRoad from '@/components/today/TodayRoad';
 import TodayRows from '@/components/today/TodayRows';
+import TodayCue from '@/components/today/TodayCue';
+import TodayMob from '@/components/today/TodayMob';
 import '@/components/today/today.css';
 
 const noSubscribe = () => () => {};
@@ -107,6 +109,9 @@ export default function Today() {
   // Failed only once every read the move needs has settled without one; while any is still on its way it is loading.
   const settled = [data.plan, data.papers, data.rhythm, data.facts].every((r) => r.status !== 'loading');
   const phase = move && move.id !== 'failed' ? 'ready' : move?.id === 'failed' || settled ? 'failed' : 'loading';
+  // The week, the road, the Mob row and the record rows land with the move, and wait for the Mob read when the Mob is on, so no
+  // section arrives late and pushes the road down (W-042).
+  const landing = phase === 'loading' || (mobOn && userId && (mob.status === 'idle' || mob.status === 'loading'));
   const mobUnsat = mob.status === 'ready' && mob.mob?.week && !mob.mob.week.youSat && !mob.mob.week.closed && mob.mob.week.size > 1;
   const alts = useMemo(() => (move && move.id !== 'failed' ? buildAlternatives({
     move, papers: data.papers.data, revise: data.revise.data, facts, repaired: data.repaired.data, mobUnsat, subjectName,
@@ -126,11 +131,13 @@ export default function Today() {
         <div className="today-grid">
           <div className="today-grid__main">
             <TodayMove phase={phase} move={move} word={hour >= 17 || hour < 4 ? 'Tonight’s move' : 'Today’s move'} slow={slow} triedAt={triedAt} onRetry={retry} alternatives={alts} chosen={chosen} onChoose={choose} saving={saving} />
-            <TodayRows papers={data.papers} userId={userId} subjectName={subjectName} />
+            {phase !== 'failed' ? <TodayCue target="road" ready={phase === 'ready'} /> : null}
+            <TodayRows papers={data.papers} userId={userId} subjectName={subjectName} subjects={user?.subjects || []} hold={landing} />
           </div>
           <div className="today-grid__side">
-            <TodayWeek rhythm={data.rhythm} goal={data.goal} everSessions={everSessions} mobiFree={!(move?.art === 'mobi') && phase !== 'failed'} mob={mob} repairs={data.repairRows} onRetry={data.retryWeek} />
-            <TodayRoad road={data.road} goal={data.goal} rhythm={data.rhythm} facts={data.facts} onGoalSaved={data.retryWeek} />
+            <TodayWeek hold={landing} rhythm={data.rhythm} goal={data.goal} everSessions={everSessions} mobiFree={!(move?.art === 'mobi') && phase !== 'failed'} mob={mob} repairs={data.repairRows} onRetry={data.retryWeek} />
+            <TodayMob enabled={mobOn && !landing} mob={mob} />
+            <TodayRoad hold={landing} road={data.road} goal={data.goal} rhythm={data.rhythm} facts={data.facts} onGoalSaved={data.retryWeek} />
           </div>
         </div>
       </section>

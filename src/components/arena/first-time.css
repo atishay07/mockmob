@@ -1,0 +1,10 @@
+/* The first-visit line: one ruled row in the page's flow, no card, no icon box, no pill. Tokens only. */
+.app-shell .ft { display: flex; align-items: flex-start; gap: 8px; margin: 0 0 18px; padding: 10px 0 10px 14px; border-left: 2px solid var(--a-ink); animation: ft-in 240ms var(--a-ease, ease-out) both; }
+.app-shell .ft__text { flex: 1; min-width: 0; margin: 0; padding-top: 2px; font-size: 14.5px; line-height: 1.5; color: var(--a-ink-2); max-width: 70ch; }
+.app-shell .ft__text b { color: var(--a-ink); font-weight: 700; }
+.app-shell .ft__x { display: grid; place-items: center; flex: 0 0 44px; width: 44px; height: 44px; margin: -8px -6px -8px 0; border: 0; border-radius: 22px; background: none; color: var(--a-ink-3); cursor: pointer; }
+.app-shell .ft__x:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; }
+@media (hover: hover) and (pointer: fine) { .app-shell .ft__x:hover { color: var(--a-ink); background: var(--a-hover); } }
+@keyframes ft-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .app-shell .ft { animation: none; } }
+html[data-motion='reduced'] .app-shell .ft { animation: none; }

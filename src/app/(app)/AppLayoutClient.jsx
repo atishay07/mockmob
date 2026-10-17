@@ -1,7 +1,7 @@
 "use client";
 
 import { MobFlagProvider } from '@/components/mob/MobFlag';
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Logo } from '@/components/Logo';
@@ -32,14 +32,20 @@ function PageTransition({ children }) {
   return ViewTransition ? <ViewTransition {...VIEW_TRANSITION_PROPS}>{children}</ViewTransition> : children;
 }
 
-const TOUR_STEPS = [
-  { title: 'Today', target: 'nav-today', body: 'Your next useful step: what to practise now and what is due for review.' },
+// The Guide (W-064, F18): one stop per place a student uses, each saying what it is for and when it helps. Started by the
+// student only (a pressed Guide, never a popup on first open). Colleges, Ask Mobi and the Mob joined on 17 Oct so every
+// feature has a way in; the Mob stop shows only while the Mob is on.
+const TOUR_STEPS_ALL = [
+  { title: 'Today', target: 'nav-today', body: 'Your next useful step, and why: what to practise now and what is due for review.' },
   { title: 'Practice', target: 'nav-dashboard', body: 'Choose a subject, a mode and how many questions, then start a timed session. Every answer is scored on the server.' },
-  { title: 'Review', target: 'nav-review', body: 'Go back over sessions that matter and check concepts again on fresh questions.' },
-  { title: 'Progress', target: 'nav-progress', body: 'See which concepts have passed fresh, delayed checks, and which need more evidence.' },
+  { title: 'Review', target: 'nav-review', body: 'Every mistake from your papers, with its explanation. Repair one to find the reason, and Revise brings it back until it holds.' },
+  { title: 'Progress', target: 'nav-progress', body: 'Your study days, badges and personal bests, week by week.' },
+  { title: 'Colleges', target: 'nav-admission-compass', body: 'Which DU courses your subjects open, and the 2026 cutoff college by college. Your chosen colleges show on Today.' },
+  { title: 'Ask Mobi', target: 'nav-mentor', body: 'Questions about your own record are free. A written reply on a question costs 1 AI credit, and the cost shows before you ask.' },
+  { title: 'Your Mob', target: 'nav-mob', body: 'You and up to four friends sit the same 10-question paper each week. You see who has sat it, and your own result.', mob: true },
 ];
-// Pip guides the first-run tour only (rare, so it may have character); it nods on each step.
-const TOUR_POSES = ['greeting', 'encouraging', 'thinking', 'celebrating'];
+// Pip guides the tour only (rare, so it may have character); it nods on each step.
+const TOUR_POSES = ['greeting', 'encouraging', 'thinking', 'celebrating', 'encouraging', 'thinking', 'celebrating'];
 
 export default function AppLayoutClient({ children, previewRoute = null, previewLinks = null, studyEnabled = false, mobEnabled = false }) {
   const pathname = usePathname();
@@ -55,6 +61,8 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   const activePath = previewRoute || pathname;
   const isTestRoute = activePath.startsWith('/test');
   const wallet = useWalletSummary(user?.id);
+  const mobOn = mobEnabled || Boolean(previewLinks?.mob);
+  const TOUR_STEPS = useMemo(() => TOUR_STEPS_ALL.filter((step) => !step.mob || mobOn), [mobOn]);
 
   useEffect(() => {
     if (!mobileMenuOpen) return;
@@ -248,7 +256,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
       window.removeEventListener('resize', updateTarget);
       window.removeEventListener('scroll', updateTarget);
     };
-  }, [tourOpen, tourStep]);
+  }, [tourOpen, tourStep, TOUR_STEPS]);
 
   // Account's "Replay the guide" asks the shell to open the tour (it falls back to pressing Guide).
   useEffect(() => {
@@ -354,7 +362,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
               <CreditAmount kind="practice" amount={user?.isPremium ? 'unlimited' : (user?.creditBalance || 0)} unit={false} />
             </Link>
             {wallet.status !== 'idle' && (
-              <Link href="/mentor" className="arena-chip arena-chip--prepos arena-sm-up" data-state={wallet.wallet?.state || 'unknown'} aria-label={wallet.wallet?.known ? `AI credits: ${wallet.wallet.total}${wallet.wallet.state === 'paused' ? ', paused' : ''}` : 'AI credits unavailable'}>
+              <Link href="/mentor" className="arena-chip arena-chip--prepos" data-state={wallet.wallet?.state || 'unknown'} aria-label={wallet.wallet?.known ? `AI credits: ${wallet.wallet.total}${wallet.wallet.state === 'paused' ? ', paused' : ''}` : 'AI credits unavailable'}>
                 <CreditAmount kind="prepos" amount={wallet.wallet?.known ? wallet.wallet.total : null} unit={false} />
               </Link>
             )}
@@ -468,7 +476,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
           )}
           {tourTarget && (
             <div
-              className="pointer-events-none fixed rounded-2xl border-2 border-volt shadow-[0_0_34px_rgba(210,240,0,0.42)]"
+              className="pointer-events-none fixed rounded-2xl border-2 border-volt"
               style={{
                 left: tourTarget.left,
                 top: tourTarget.top,
@@ -510,13 +518,13 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
                 Back
               </button>
               {tourStep === TOUR_STEPS.length - 1 ? (
-                <button type="button" className="inline-flex min-h-11 items-center rounded-full bg-volt px-5 py-2 text-sm font-extrabold text-black shadow-[0_0_22px_rgba(210,240,0,0.22)] transition hover:brightness-110" onClick={closeTour}>
+                <button type="button" className="inline-flex min-h-11 items-center rounded-full bg-volt px-5 py-2 text-sm font-extrabold text-black transition hover:brightness-110" onClick={closeTour}>
                   Finish
                 </button>
               ) : (
                 <button
                   type="button"
-                  className="inline-flex min-h-11 items-center rounded-full bg-volt px-5 py-2 text-sm font-extrabold text-black shadow-[0_0_22px_rgba(210,240,0,0.22)] transition hover:brightness-110"
+                  className="inline-flex min-h-11 items-center rounded-full bg-volt px-5 py-2 text-sm font-extrabold text-black transition hover:brightness-110"
                   onClick={() => setTourStep((step) => Math.min(TOUR_STEPS.length - 1, step + 1))}
                 >
                   Next

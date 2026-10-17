@@ -1,6 +1,7 @@
-// The first run on the website, in two steps (ported from the restructure the owner kept, 15 Oct):
+// The first run on the website, in three steps (ported from the restructure the owner kept, 15 Oct; the colleges step
+// added 17 Oct from the owner's 16 Oct ask that picking colleges happen inside onboarding):
 //
-//   sign up  ->  1: which subjects (up to 5)  ->  2: how many study days a week  ->  Practice
+//   sign up  ->  1: which subjects (up to 5)  ->  2: how many study days a week  ->  3: target colleges (optional)  ->  Practice
 //
 // Pure helpers only, so the page stays thin and node tests can check the rules. The live auth and
 // redirect rules are unchanged: signed out goes to /signup, a member who already has subjects goes
@@ -9,7 +10,7 @@
 // Copy rules: sentence case, no "!", no em dash. Every line here is checked against the server.
 
 export const SUBJECT_CAP = 5;
-export const STEPS = Object.freeze(['subjects', 'days']);
+export const STEPS = Object.freeze(['subjects', 'days', 'colleges']);
 export const DAY_OPTIONS = Object.freeze([1, 2, 3, 4, 5, 6, 7]);
 // The server reads a missing goal as 4 days (src/lib/server/appPrefs.js goalOut), so Skip keeps 4.
 export const DEFAULT_DAYS = 4;
@@ -26,7 +27,12 @@ export const STUDY_DAY_RULE = 'A day counts when you finish a scored session of 
  */
 export function resolveStep({ wanted = null, edit = false, hasSubjects = false } = {}) {
   if (edit) return 'subjects';
-  return wanted === 'days' && hasSubjects ? 'days' : 'subjects';
+  return (wanted === 'days' || wanted === 'colleges') && hasSubjects ? wanted : 'subjects';
+}
+
+/** The step a URL asks for (?step=days or ?step=colleges), or null. */
+export function stepFromQuery(value) {
+  return value === 'days' || value === 'colleges' ? value : null;
 }
 
 /**

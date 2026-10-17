@@ -77,9 +77,11 @@ export function TodayColleges({ userId }) {
 }
 
 /** Account: the whole list, in order, with a way to reorder and remove. */
-export function AccountColleges({ userId }) {
+export function AccountColleges({ userId, picker = null }) {
   const mine = useMyColleges(userId);
   const { colleges, busy } = mine;
+  // The picker opens in place (the same one onboarding uses), so a student who skipped that step adds colleges here.
+  const [adding, setAdding] = useState(false);
   // The last removal, so it can be undone: added back, then moved to the place it had.
   const [undo, setUndo] = useState(null);
   const restore = async () => {
@@ -99,8 +101,9 @@ export function AccountColleges({ userId }) {
       <p className="mc-lede">The same list in the app. Today shows the first one with its cutoff, so put your top choice first.</p>
       {mine.status === 'loading' || mine.status === 'idle' ? <Loading /> : null}
       {mine.status === 'error' ? <Failed onRetry={mine.retry} /> : null}
-      {mine.status === 'ready' && !colleges.length ? <Empty /> : null}
-      {mine.status === 'ready' && colleges.length ? (
+      {mine.status === 'ready' && !colleges.length && !picker ? <Empty /> : null}
+      {mine.status === 'ready' && !colleges.length && picker && !adding ? <p className="mc-note">No colleges yet. Add the ones you are aiming for; the first shows on Today with its 2026 cutoff.</p> : null}
+      {mine.status === 'ready' && colleges.length && !adding ? (
         <ol className="mc-list">
           {colleges.map((c, i) => (
             <li key={entryKey(c)} className="mc-row mc-row--edit">
@@ -118,12 +121,17 @@ export function AccountColleges({ userId }) {
       ) : null}
       <div className="mc-foot">
         <p className="mc-notice" role="status" aria-live="polite">{mine.notice}{undo && mine.notice.startsWith('Removed') ? <> <button type="button" className="mc-undo" onClick={restore}>Undo</button></> : null}</p>
-        {mine.status === 'ready' && colleges.length ? (
+        {mine.status === 'ready' && picker ? (
+          <button type="button" className="mc-key" aria-expanded={adding} onClick={() => setAdding((v) => !v)}>
+            {adding ? <Check size={16} aria-hidden="true" /> : <Plus size={16} aria-hidden="true" />}{adding ? 'Done' : colleges.length < MAX_COLLEGES ? 'Add colleges' : 'Change colleges'}
+          </button>
+        ) : mine.status === 'ready' && colleges.length ? (
           colleges.length < MAX_COLLEGES
             ? <Link className="mc-key" href={COMPASS_HREF}><Plus size={16} aria-hidden="true" />Add from Admission Compass</Link>
             : <p className="mc-note">{FULL_LINE}</p>
         ) : null}
       </div>
+      {adding && picker ? <div className="mc-account-pick">{picker}</div> : null}
     </section>
   );
 }

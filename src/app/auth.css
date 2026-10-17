@@ -1,54 +1,69 @@
 /* Login and signup  —  scope: .mm.auth. Composes the .mm system. */
 
+/* Layout (W-057, 17 Oct). Phone: headline, form, then the desk and the points. Wide: headline and desk on the left,
+   the form on the right, all above the fold at 1440 x 900. */
 .auth__grid {
   display: grid;
-  gap: 2rem;
-  padding-block: 1.5rem 4rem;
+  gap: 1.5rem;
+  padding-block: 1.25rem 4rem;
 }
-.auth__copy {
-  display: grid;
-  gap: 1rem;
-  align-content: start;
+.auth__copy { display: grid; gap: 0.625rem; align-content: start; animation: auth-rise 420ms cubic-bezier(0.23, 1, 0.32, 1) both; }
+.auth .mm-h1.auth__title { font-size: clamp(2rem, 8.4vw, 3.5rem); max-width: 14ch; margin: 0; }
+.auth .auth__lead { margin: 0; max-width: 38ch; }
+.auth__card { animation: auth-rise 420ms cubic-bezier(0.23, 1, 0.32, 1) 80ms both; }
+
+/* The desk: the app's lamp-lit subject objects and Mobi on one floor line. A flat raised surface (no glow, no gradient). */
+.auth__scene { display: grid; gap: 1.25rem; align-content: start; }
+.auth__desk {
+  position: relative; height: 188px; margin: 0; border-radius: 24px; overflow: hidden;
+  background: var(--paper-raised);
+  border: 1px solid var(--line);
 }
-.auth .mm-h1 {
-  font-size: clamp(2.25rem, 9.5vw, 3.75rem);
-  max-width: 13ch;
-}
-.auth__points {
-  display: grid;
-  gap: 0.75rem;
-  margin: 0.5rem 0 0;
-  padding: 0;
-  list-style: none;
-}
+.auth__floor { position: absolute; left: 7%; right: 7%; bottom: 34px; height: 1px; background: var(--line-strong); }
+.auth__obj, .auth__mobi { position: absolute; bottom: 30px; display: block; animation: auth-settle 560ms cubic-bezier(0.23, 1, 0.32, 1) both; animation-delay: calc(160ms + var(--i, 0) * 70ms); }
+.auth__mobi { left: 7%; bottom: 32px; --i: 4; }
+.auth__obj--0 { left: 25%; }
+.auth__obj--1 { left: 45%; bottom: 33px; }
+.auth__obj--2 { left: 62%; bottom: 31px; }
+.auth__obj--3 { left: 78%; bottom: 31px; }
+.auth__obj img, .auth__obj picture { display: block; }
+
+.auth__points { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
 .auth__points li {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.625rem;
-  font-size: 0.9375rem;
-  line-height: 1.45;
-  color: var(--ink-2);
+  display: flex; align-items: flex-start; gap: 0.625rem; padding: 0.75rem 0; border-bottom: 1px solid var(--line);
+  font-size: 0.9375rem; line-height: 1.45; color: var(--ink-2);
+  animation: auth-rise 360ms cubic-bezier(0.23, 1, 0.32, 1) both; animation-delay: calc(320ms + var(--i, 0) * 60ms);
 }
-.auth__points svg {
-  margin-top: 2px;
-  flex-shrink: 0;
-  color: var(--ink);
-}
-/* Phone: the form comes first, the pitch follows. */
-.auth__card {
-  order: -1;
+.auth__points svg { margin-top: 2px; flex-shrink: 0; color: var(--ink); }
+
+@media (max-width: 560px) {
+  .auth__desk { height: 150px; }
+  .auth__obj, .auth__mobi { zoom: 0.74; }
+  .auth__mobi { left: 4%; }
+  .auth__obj--0 { left: 24%; }
+  .auth__obj--1 { left: 45%; }
+  .auth__obj--2 { left: 61%; }
+  .auth__obj--3 { left: 76%; }
 }
 @media (min-width: 900px) {
   .auth__grid {
     grid-template-columns: minmax(0, 1fr) minmax(0, 28rem);
-    gap: 5rem;
-    align-items: center;
-    padding-block: 4.5rem 6rem;
+    grid-template-areas: 'copy card' 'scene card';
+    grid-template-rows: auto 1fr;
+    gap: 1.75rem 5rem;
+    align-items: start;
+    padding-block: 3.5rem 6rem;
   }
-  .auth__card {
-    order: 0;
-  }
+  .auth__copy { grid-area: copy; }
+  .auth__card { grid-area: card; }
+  .auth__scene { grid-area: scene; }
+  .auth__desk { height: 220px; }
 }
+
+@keyframes auth-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes auth-settle { from { opacity: 0; transform: translateY(14px) scale(0.96); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .auth :is(.auth__copy, .auth__card, .auth__obj, .auth__mobi, .auth__points li) { animation: none; } }
+html[data-motion='reduced'] .auth :is(.auth__copy, .auth__card, .auth__obj, .auth__mobi, .auth__points li) { animation: none; }
 
 .auth-card {
   display: grid;

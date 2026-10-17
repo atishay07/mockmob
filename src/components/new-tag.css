@@ -1,0 +1,9 @@
+/* The New tag on the cutoff calculator (owner, 15 Oct: its "New" tag, with the green line inside the green element).
+   A lime label with a darker green line drawn inside its edge. Same in Night and Day; not a glow, not a pill badge
+   floating on its own: it sits on the link's baseline as part of the label. */
+.mm-new {
+  display: inline-flex; align-items: center; height: 18px; margin-left: 6px; padding: 0 6px; border-radius: 5px;
+  background: #d2f000; color: #1f2a00; font: 700 10.5px/1 var(--font-display, inherit); letter-spacing: 0.01em;
+  box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.7), inset 0 -2px 0 rgb(82 103 0 / 0.35);
+  vertical-align: 1px; white-space: nowrap; flex: none;
+}

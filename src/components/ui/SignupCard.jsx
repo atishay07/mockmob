@@ -26,6 +26,10 @@ export function SignupCard({ mode = 'signup' }) {
   const [resendIn, setResendIn] = useState(0);
   const inAppBrowser = useSyncExternalStore(noSubscribe, readInAppBrowser, serverInAppBrowser);
   const codeInputRef = useRef(null);
+  const emailInputRef = useRef(null);
+  // The primary key always looks ready (W-057: a dim key read as broken). Pressed with no email, it says why and
+  // puts the cursor in the field instead.
+  const [askEmail, setAskEmail] = useState(false);
   const isLogin = mode === 'login';
 
   useEffect(() => {
@@ -89,6 +93,7 @@ export function SignupCard({ mode = 'signup' }) {
 
   const handleEmailSubmit = async (event) => {
     event.preventDefault();
+    if (!email.trim()) { setAskEmail(true); emailInputRef.current?.focus(); return; }
     await sendCode();
   };
 
@@ -122,7 +127,7 @@ export function SignupCard({ mode = 'signup' }) {
   };
 
   const busy = googleLoading || emailLoading;
-  const submitDisabled = emailLoading || !email.trim() || (otpSent && otp.trim().length < MIN_CODE_LENGTH);
+  const submitDisabled = emailLoading || (otpSent && otp.trim().length < MIN_CODE_LENGTH);
 
   return (
     <div className="auth-card">
@@ -164,8 +169,11 @@ export function SignupCard({ mode = 'signup' }) {
             inputMode="email"
             autoCapitalize="none"
             spellCheck={false}
+            ref={emailInputRef}
             value={email}
-            onChange={(event) => setEmail(event.target.value)}
+            onChange={(event) => { setEmail(event.target.value); if (askEmail) setAskEmail(false); }}
+            aria-invalid={askEmail || undefined}
+            aria-describedby={askEmail ? 'auth-email-why' : undefined}
             placeholder="you@example.com"
             disabled={emailLoading}
             readOnly={otpSent}
@@ -192,8 +200,8 @@ export function SignupCard({ mode = 'signup' }) {
         <button type="submit" className="mm-btn mm-btn--primary" disabled={submitDisabled}>
           {emailLoading ? (otpSent ? 'Checking the code…' : 'Sending…') : otpSent ? 'Verify code and continue' : 'Email me a sign-in code'}
         </button>
-        {/* The only primary action says why it is waiting, instead of sitting dim with no reason. */}
-        {!emailLoading && !otpSent && !email.trim() ? <small className="auth-card__why">Enter your email to continue.</small> : null}
+        {/* Pressed with no email: the reason, once, under the key. */}
+        {askEmail && !otpSent ? <small className="auth-card__why" id="auth-email-why" role="alert">Enter your email first, and we send you a sign-in code.</small> : null}
         {otpSent ? (
           <div className="auth-card__actions">
             <button type="button" className="auth-card__textbtn" onClick={sendCode} disabled={busy || resendIn > 0}>

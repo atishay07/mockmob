@@ -296,3 +296,11 @@ html[data-theme='light'] .mob-volt { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 
   .mob-key:active:not(:disabled) { transform: none; }
 }
 :root[data-motion='reduced'] :is(.mob-ring__fill--ink, .mob-ring[data-settle] .mob-ring__svg, .mob-dialog[open], .mob-skel) { animation: none; }
+
+/* Practice's Mob chip (W-062): a pressable row under the head, outlined, never a second volt. */
+.app-shell .mob-chip { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; margin: 4px 0 0; padding: 8px 16px; border: 1px solid var(--a-line-strong); border-radius: 22px; background: var(--a-raised-2); color: var(--a-ink-2); font-size: 14px; line-height: 1.35; text-decoration: none; transition: transform 100ms var(--a-ease), border-color 150ms ease; -webkit-tap-highlight-color: transparent; }
+.app-shell .mob-chip b { color: var(--a-ink); font-weight: 650; margin-right: 4px; }
+.app-shell .mob-chip svg { flex: none; color: var(--a-ink); }
+.app-shell .mob-chip:active { transform: scale(0.98); }
+.app-shell .mob-chip:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) { .app-shell .mob-chip:hover { border-color: var(--a-line-hover); } }
