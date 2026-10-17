@@ -181,11 +181,37 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     }
     // Your standing: the one shape the server returns, only for the signed-in student. ?state=empty is a student with no mocks; ?state=long is a big board.
     if (url.pathname === '/api/leaderboard') return json(state === 'empty' ? { you: null, window: 'all time' } : state === 'long' ? { you: { rank: 1203, of: 12408, tests: 148, average: 71 }, window: 'all time' } : { you: { rank: 14, of: 212, tests: 12, average: 62 }, window: 'all time' });
-    // Recent papers (Today trend). Newest first; ?trend=few has too few to draw.
+    // Recent papers (the paper trend on Review, Today's Last paper and its move). Newest first; ?trend=few has too few to
+    // draw; ?data=empty has none; ?data=sparse has one; ?data=returning's newest is 9 days old.
     if (url.pathname === '/api/attempts/summary') {
-      const marks = fixture.get('trend') === 'few' || state === 'empty' ? [92, 88] : [76, 84, 80, 96, 104, 118];
-      const items = marks.map((m, i) => ({ id: `fxp${i}`, subject: 'accountancy', mode: 'full', correct: Math.round((m + 4) / 5.2), wrong: 4, unattempted: 0, total: 50, marks: m, maxMarks: 250, completedAt: Date.now() - (marks.length - i) * 3 * 86400000, formatId: 'full:accountancy:q50:server_snapshot_v1' })).reverse();
+      if (state === 'empty') return json({ items: [], nextCursor: null });
+      const marks = state === 'sparse' ? [92] : fixture.get('trend') === 'few' ? [92, 88] : [76, 84, 80, 96, 104, 118];
+      const away = state === 'returning' ? 8 * 86400000 : 0;
+      const items = marks.map((m, i) => ({ id: `fxp${i}`, subject: 'accountancy', mode: 'full', correct: Math.round((m + 4) / 5.2), wrong: state === 'returning' && i === marks.length - 1 ? 6 : 4, unattempted: 0, total: 50, marks: m, maxMarks: 250, completedAt: Date.now() - away - (marks.length - i) * 3 * 86400000, formatId: 'full:accountancy:q50:server_snapshot_v1' })).reverse();
       return json({ items, nextCursor: null });
+    }
+    // Today's road on the account (GET and PUT /api/me/road). ?road=set has a date and a target; ?road=off is before the
+    // migration (onAccount false); ?road=down fails the read; &save=fail refuses the next save. Kept in memory for this tab.
+    if (url.pathname === '/api/me/road') {
+      const kind = fixture.get('road') || 'on';
+      if (kind === 'down') return json({ error: 'unavailable' }, 503);
+      if (!window.__previewRoad) window.__previewRoad = kind === 'off' ? { onAccount: false, examDate: null, mockTarget: null } : kind === 'set' ? { onAccount: true, examDate: '2027-05-08', mockTarget: 14 } : { onAccount: true, examDate: null, mockTarget: null };
+      if (method === 'PUT') {
+        if (!window.__previewRoad.onAccount) return json({ error: 'road_not_on_account', message: 'Your road is kept on this device for now.' }, 409);
+        if (fixture.get('save') === 'fail') return new Promise((resolve) => setTimeout(() => resolve(json({ error: 'unavailable', message: 'Your road could not be saved. Try again.' }, 503)), 450));
+        const body = JSON.parse(init.body || '{}');
+        window.__previewRoad = { ...window.__previewRoad, ...('examDate' in body ? { examDate: body.examDate } : {}), ...('mockTarget' in body ? { mockTarget: body.mockTarget } : {}) };
+        return new Promise((resolve) => setTimeout(() => resolve(json(window.__previewRoad)), 450));
+      }
+      return json(window.__previewRoad);
+    }
+    // Repairs per paper (GET /api/me/repair-record). ?repaired=all has every mistake of the newest paper repaired;
+    // ?repaired=week has three repairs made today on two older papers (Today's weekly receipt).
+    if (url.pathname === '/api/me/repair-record' && method === 'GET') {
+      const kind = fixture.get('repaired');
+      const row = (attemptId, k) => ({ attemptId, questionId: `q${k}`, chapter: 'Partnership Fundamentals', subject: 'accountancy', foundAt: null, repairedAt: new Date().toISOString(), checkedState: 'pending', retriedAt: null });
+      if (kind === 'week') return json({ repairs: [row('fxp4', 0), row('fxp4', 1), row('fxp3', 2)] });
+      return json({ repairs: kind === 'all' ? [0, 1, 2, 3].map((k) => row('fxp5', k)) : [] });
     }
     if (url.pathname.startsWith('/api/attempts/')) {
       if (state === 'empty') return json({ error: 'No fixture attempt' }, 404);
@@ -311,7 +337,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     if (url.pathname === '/api/me/timed-mock' && method === 'GET') {
       const kind = fixture.get('timed') || 'none';
       if (kind === 'down') return json({ error: 'unavailable' }, 503);
-      const sessions = state === 'empty' ? 0 : 6;
+      const sessions = state === 'empty' ? 0 : state === 'sparse' ? 1 : 6;
       return json({ sessions, mocks: kind === 'has' || kind === 'older' ? 2 : 0, timedMocks: kind === 'has' ? 2 : 0, subject: state === 'empty' ? null : 'accountancy' });
     }
     if (url.pathname === '/api/me/rules' && method === 'GET') {
@@ -476,12 +502,12 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     }
     // Study rhythm (Today and Progress). ?rhythm=met|fresh|returning; ?data=empty has no record.
     if (url.pathname === '/api/me/rhythm') {
-      const kind = fixture.get('rhythm') || 'some';
+      const kind = fixture.get('rhythm') || (state === 'returning' ? 'returning' : state === 'sparse' ? 'first' : 'some');
       const day = 86400000;
       const at = (back, hour = 12) => { const d = new Date(Date.now() - back * day); d.setHours(hour, 0, 0, 0); return d.getTime(); };
       let activities = [];
       if (state !== 'empty' && kind !== 'fresh') {
-        const backs = kind === 'returning' ? [9, 10, 11, 16, 17, 23, 24, 30, 31, 32, 38, 45] : kind === 'met' ? [0, 1, 2, 3, 8, 9, 10, 11, 15, 16, 17, 22, 23, 24, 29, 30, 36, 44, 51] : [0, 1, 3, 8, 9, 10, 12, 16, 17, 18, 24, 25, 31, 38, 45];
+        const backs = kind === 'first' ? [0] : kind === 'returning' ? [9, 10, 11, 16, 17, 23, 24, 30, 31, 32, 38, 45] : kind === 'met' ? [0, 1, 2, 3, 8, 9, 10, 11, 15, 16, 17, 22, 23, 24, 29, 30, 36, 44, 51] : [0, 1, 3, 8, 9, 10, 12, 16, 17, 18, 24, 25, 31, 38, 45];
         activities = backs.map((back, i) => ({ id: `fx${i}`, at: at(back, back === 0 ? 0 : 9 + (i % 5)), kind: i % 4 === 3 ? 'repair' : 'session', answered: 12, fullMock: i === 9 }));
       }
       return json(computeRhythm({ activities, daysPerWeek: kind === 'met' ? 4 : 4, now: Date.now() }));
@@ -489,7 +515,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     // Badges and personal bests (Progress). ?badges=none: one set and nothing earned from papers; ?data=empty has no papers.
     if (url.pathname === '/api/me/study-record') return json(state === 'empty' ? buildStudyRecord([], []) : previewStudyRecord(fixture.get('badges')));
     // Weekly goal (Account and onboarding): read 4 days; a save echoes the choice, in memory only.
-    if (url.pathname === '/api/me/goal' && method === 'GET') return json(window.__previewGoal || { daysPerWeek: 4, timezone: 'Asia/Kolkata', pausedUntil: null, weekdays: null });
+    if (url.pathname === '/api/me/goal' && method === 'GET') return json(window.__previewGoal || { daysPerWeek: 4, timezone: 'Asia/Kolkata', pausedUntil: null, weekdays: fixture.get('weekdays') === 'none' ? null : [0, 1, 3, 5] });
     if (url.pathname === '/api/me/goal' && method === 'PUT') {
       if (state === 'save-error') return json({ error: 'Fixture goal save failure' }, 503);
       const body = JSON.parse(init.body || '{}');

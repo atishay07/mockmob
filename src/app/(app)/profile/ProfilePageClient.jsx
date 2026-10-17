@@ -30,6 +30,8 @@ import { useToast } from '@/components/ToastProvider';
 import { SignOutOtherDevicesSection } from '@/components/auth/SignOutOtherDevices';
 import { api, apiGet, apiPatch, apiPost } from '@/lib/fetcher';
 import ArenaHead from '@/components/arena/ArenaHead';
+import InstallPractice from '@/components/InstallPractice';
+import TodayCompass from '@/components/du/TodayCompass';
 import './profile-privacy.css';
 import '@/components/profile/account.css';
 
@@ -248,7 +250,14 @@ export default function ProfilePageClient() {
             onRetry={() => { setMocks((m) => ({ ...m, status: 'loading' })); setMocksTry((n) => n + 1); }}
           />
 
+          {/* The Compass line (the DU programmes your subjects open, one key to Compass) moved here from Today, above
+              the colleges it names (TODAY-1017 section 7). */}
+          {/* On a phone the column dissolves into an ordered list (account.css): the line sits with Your colleges (4). */}
+          <div className="acct-moved acct-moved--colleges"><TodayCompass /></div>
           <AccountColleges userId={user?.id} />
+          {/* Add to home screen moved here from the foot of Today (TODAY-1017 section 7); it shows only when the browser
+              offers it, at the end of the list on a phone (8), never above the account sheet. */}
+          <div className="acct-moved acct-moved--end"><InstallPractice /></div>
 
           <section className="glass acct-card" id="name" aria-labelledby="acct-name-h">
             <h2 className="acct-h2" id="acct-name-h">Your name and sign-in</h2>

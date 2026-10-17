@@ -29,6 +29,9 @@
   .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #credits { order: 3; }
   .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #appearance { order: 6; }
   .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #goal { order: 7; }
+  /* Moved from Today (TODAY-1017 section 7): the Compass line with Your colleges, Add to home screen at the end. */
+  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > .acct-moved--colleges { order: 4; }
+  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > .acct-moved--end { order: 8; }
 }
 .app-shell .acct [id] { scroll-margin-top: 88px; }
 .app-shell .acct-h2 { margin: 0; font: 800 20px/1.2 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); }

@@ -157,3 +157,7 @@
 
 /* Error: never flush to an edge */
 .app-shell .rv-alert { margin: 0; }
+
+/* Review head: the record finding and the paper trend, moved from Today (TODAY-1017 section 7). */
+.app-shell .rv-record { display: grid; gap: 16px; min-width: 0; }
+.app-shell .rv-record > :is(.rg, .pt) { margin: 0; }

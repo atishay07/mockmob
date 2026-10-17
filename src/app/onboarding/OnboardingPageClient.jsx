@@ -49,7 +49,7 @@ const COPY = {
   },
   days: {
     title: 'How many days a week can you study?',
-    lead: 'Today shows your week as a ring, one arc for each study day. Skip keeps 4.',
+    lead: 'Today shows your week as seven days, with a mark on each study day. Skip keeps 4.',
   },
 };
 
