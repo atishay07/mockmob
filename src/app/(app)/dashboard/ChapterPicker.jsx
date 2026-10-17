@@ -88,10 +88,14 @@ export default function ChapterPicker({ subjectName = '', data, chosen = [], onC
     const el = dialogRef.current;
     if (!sheet || !el) return undefined;
     if (!el.open) { try { el.showModal(); } catch { el.setAttribute('open', ''); } }
-    const onCancel = (event) => { event.preventDefault(); closeSheet(); };
+    const onCancel = (event) => {
+      event.preventDefault();
+      setSheet(false);
+      requestAnimationFrame(() => trigger.current?.focus?.({ preventScroll: true }));
+    };
     el.addEventListener('cancel', onCancel);
     return () => { el.removeEventListener('cancel', onCancel); };
-  }, [sheet]);
+  }, [sheet, trigger]);
 
   useEffect(() => { if (open) searchRef.current?.focus({ preventScroll: true }); }, [open]);
 

@@ -105,3 +105,24 @@ test('chapters from a link or a remembered choice are kept only for a mode that 
   assert.deepEqual(chaptersForMode(false, ['A', 'B'], ['A', 'B']), { chapters: [], dropped: 2 });
   assert.deepEqual(chaptersForMode(true, ['A']), { chapters: ['A'], dropped: 0 });
 });
+
+// Source guards for the two START-1017 bugs that were rules in the code, not data (F10, F12).
+test('F10: the runner draws the chosen answer on the option itself, with no second gliding box', async () => {
+  const { readFileSync } = await import('node:fs');
+  const runner = readFileSync(new URL('../../src/app/(app)/test/TestPageClient.jsx', import.meta.url), 'utf8');
+  const css = readFileSync(new URL('../../src/app/(app)/test/practice-run.css', import.meta.url), 'utf8');
+  assert.equal(/pr-glide|placeGlides|glideRefs/.test(runner), false);
+  assert.equal(/\.pr-glide/.test(css), false);
+  // The old outline clears at once (border-color 0ms), at a specificity arena.css's 180 ms fade cannot beat.
+  assert.match(css, /\.app-shell \.nta-runner\.pr-run\[data-interface="mockmob"\] \.nta-option \{\s*transition: border-color 0ms/);
+});
+
+test('F12: the phone Start key never changes look with scroll or page state', async () => {
+  const { readFileSync } = await import('node:fs');
+  const css = readFileSync(new URL('../../src/components/start/start.css', import.meta.url), 'utf8');
+  const phone = css.slice(css.indexOf('@media (max-width: 1023px)'), css.indexOf('/* Wide screens'));
+  assert.equal(/pr-dock|data-start-quiet|data-primary-shown|data-cta-shown/.test(phone), false);
+  assert.equal(/data-primary-shown|pr-dock\[data-shown\]/.test(css), false);
+  const page = readFileSync(new URL('../../src/app/(app)/dashboard/DashboardPageClient.jsx', import.meta.url), 'utf8');
+  assert.equal(/IntersectionObserver|addEventListener\('scroll'/.test(page), false);
+});
