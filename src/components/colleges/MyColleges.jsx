@@ -96,7 +96,7 @@ export function AccountColleges({ userId }) {
         <h2 id="mc-account-h" className="mc-h2">My colleges</h2>
         {mine.status === 'ready' ? <span className="mc-count">{countLine(colleges.length)}</span> : null}
       </header>
-      <p className="mc-lede">The same list in the app. Today shows your first 3, so put your top choices first.</p>
+      <p className="mc-lede">The same list in the app. Today shows the first one with its cutoff, so put your top choice first.</p>
       {mine.status === 'loading' || mine.status === 'idle' ? <Loading /> : null}
       {mine.status === 'error' ? <Failed onRetry={mine.retry} /> : null}
       {mine.status === 'ready' && !colleges.length ? <Empty /> : null}
