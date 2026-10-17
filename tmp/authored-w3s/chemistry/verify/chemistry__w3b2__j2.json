@@ -1,0 +1,192 @@
+[
+  {
+    "id": "d1014b9a-bb78-438f-ae1c-c711299f60ca",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.haloalkanes-and-haloarenes.steric-hindrance-sn-rate-order",
+    "flags": [],
+    "note": "Key B verified: SN2 order methyl > primary > secondary > tertiary. Clean four-item sequence; distractors are reversals and single swaps. No defect."
+  },
+  {
+    "id": "15079cee-dbc7-4b31-9fc5-782e04f607ec",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.haloalkanes-and-haloarenes.sn-inversion-and-racemisation",
+    "flags": [],
+    "note": "Key C verified: I and II correct, III false (tertiary substrates go SN1 or E2 with hydroxide). Clean three-statement item with plausible distractors."
+  },
+  {
+    "id": "6928e09c-a736-4373-857b-20d2758a68a8",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.haloalkanes-and-haloarenes.saytzeff-rule-major-alkene",
+    "flags": [],
+    "note": "Key C verified (Saytzeff). Buta-1,3-diene and 2-methylpropene are throwaway distractors; only but-1-ene is a real trap. Score 7 for two weak distractors."
+  },
+  {
+    "id": "cc5ce6c8-e0fe-4cc4-afbd-1c9d4b8ee681",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.haloalkanes-and-haloarenes.named-reactions-reagents-match",
+    "flags": [],
+    "note": "Key B verified: Finkelstein NaI in acetone, Swarts AgF or Hg2F2, Wurtz Na in dry ether, Dow NaOH at 623 K then acidify. Well-built four-item match with clean permutation distractors."
+  },
+  {
+    "id": "3410ab43-0000-42de-9de9-ff459717856b",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.haloalkanes-and-haloarenes.grignard-reagent-hydrolysis-product",
+    "flags": [],
+    "note": "Key D verified. Ethene and ethyne are throwaways; ethanol is the only real trap. Explanation's 'ethanol only via carbonyl or oxygen' is loose (EtMgBr with HCHO gives propanol). Not flagged."
+  },
+  {
+    "id": "d35538dc-eb46-472f-a5b6-ab3d1b3ab56d",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.haloalkanes-and-haloarenes.chlorobenzene-resists-nucleophilic-substitution",
+    "flags": [],
+    "note": "Key A verified: both statements true and R explains A (resonance C-Cl character and sp2 electronegativity, as in NCERT). Standard AR with a plausible option B trap."
+  },
+  {
+    "id": "8b780340-7494-4816-b7a4-370acc255ad6",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.haloalkanes-and-haloarenes.polyhalogen-environmental-effects",
+    "flags": [],
+    "note": "Key B verified: I and II true, III false because freons are inert in the lower atmosphere. Clean statement item; distractors are plausible combinations."
+  },
+  {
+    "id": "e993c092-300c-4155-8a22-2b5228c43b87",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.biomolecules.ketose-vs-aldose-classification",
+    "flags": [],
+    "note": "Key A verified: fructose is the only ketose. Distractors are the common aldohexoses, which are exactly the student confusions. Clean direct recall."
+  },
+  {
+    "id": "310ed34a-d49c-40d1-8e25-31332657a600",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.biomolecules.sucrose-constituent-monosaccharides",
+    "flags": [],
+    "note": "Key B verified. Maltose-type and lactose-type pairs are decent distractors; two fructose molecules is a throwaway."
+  },
+  {
+    "id": "7c42a42d-94d1-4237-b7bb-6ee28fc3beb0",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.biomolecules.non-reducing-sugar-glycosidic-linkage",
+    "flags": [],
+    "note": "Key C verified (both anomeric carbons tied up). Option D is a throwaway and the key is the longest option, a length cue; scored down one point."
+  },
+  {
+    "id": "60786e7a-49b8-49ee-91fc-afd1448ed480",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.biomolecules.branching-in-starch-and-glycogen",
+    "flags": [],
+    "note": "Key D verified (alpha-1,6 branch points). Option B is a throwaway; option C describes amylose, not amylopectin, so it does not compete."
+  },
+  {
+    "id": "6cc86979-a621-452b-8fee-72c94cb600a8",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.biomolecules.cellulose-beta-glucose-polymer",
+    "flags": [],
+    "note": "Key A verified. Options C (fructose) and D (galactose) are throwaways; only B (alpha-glucose) is a real trap. Score 7 for two weak distractors."
+  },
+  {
+    "id": "4ac72883-303e-4876-81ab-9e68dadf5eee",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.biomolecules.branching-in-starch-and-glycogen",
+    "flags": [],
+    "note": "Key B verified: glycogen is the more highly branched amylopectin-type glucan. Cellulose and amylose are decent; inulin is a weak distractor."
+  },
+  {
+    "id": "63dbe2f6-beff-4336-a8e9-435a3e28fe04",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.biomolecules.amino-acid-zwitterion-form",
+    "flags": [],
+    "note": "Key C verified: zwitterion at the isoelectric point. Options A, B and D are the neutral, anionic and cationic forms, each a common student error. Clean item."
+  },
+  {
+    "id": "d8db492b-6214-4323-88f7-e2a41b266896",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.biomolecules.protein-secondary-structure-hydrogen-bonds",
+    "flags": [],
+    "note": "Key D verified (C=O of residue n to N-H of residue n+4). Key is the longest option, a weak length cue. A, B and C are plausible tertiary or intermolecular forces."
+  },
+  {
+    "id": "fdcc5566-3c7d-47ca-94e3-9e157d3a3a25",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 3,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.biomolecules.protein-denaturation-levels-lost",
+    "flags": ["factual_error"],
+    "note": "Explanation says denaturation disrupts disulfide bonds; heat or pH change normally leaves S-S bonds intact (reducing agent needed). Key A still holds. Options C and D are throwaways."
+  },
+  {
+    "id": "2de1f429-c8fc-4cd4-9cef-cca018462809",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.biomolecules.enzyme-substrate-specificity",
+    "flags": [],
+    "note": "Key B verified. Options A, C and D are plainly false, so the answer falls by elimination; the item is correct but its distractors are weak."
+  },
+  {
+    "id": "5202c447-997b-416b-9bee-314fa03afe31",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.biomolecules.vitamin-deficiency-disease-matching",
+    "flags": [],
+    "note": "Key C verified (B1 beriberi, C scurvy, D rickets, K clotting). List-II (IV) is a symptom rather than a disease name; minor wording, not flagged."
+  },
+  {
+    "id": "487ce9df-afd7-4553-a1f2-bd61a468fe32",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.biomolecules.vitamin-d-synthesis-in-skin",
+    "flags": [],
+    "note": "Key D verified. Options A, B and C are plainly unrelated to skin synthesis, so the answer is obvious by elimination; correct but weak distractors."
+  }
+]

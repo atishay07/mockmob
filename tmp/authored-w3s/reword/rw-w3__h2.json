@@ -1,0 +1,156 @@
+[
+  {
+    "id": "6bbde2ac-85d2-4b61-a2e7-25ad64d121d3",
+    "cuet_type": "sequence_ordering",
+    "passage_skill": null,
+    "unit": "Logical and Analytical Reasoning",
+    "chapter": "Logical & Analytical Reasoning",
+    "pyq_closeness": 0,
+    "pyq_anchor": null,
+    "ten_route": null,
+    "reasoning_steps": 3,
+    "est_seconds": 80,
+    "dims": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "time_suitability": 3,
+      "discrimination_value": 2
+    },
+    "fit_score": 9,
+    "fit_flags": [],
+    "note": "Dictionary order of five words with a prefix trap (Tab, Table, Tablet); standard LAR ordering item. Key A verified."
+  },
+  {
+    "id": "f05bce07-08b2-491b-937f-d70bca9926c5",
+    "cuet_type": "sequence_ordering",
+    "passage_skill": null,
+    "unit": "Logical and Analytical Reasoning",
+    "chapter": "Logical & Analytical Reasoning",
+    "pyq_closeness": 0,
+    "pyq_anchor": null,
+    "ten_route": null,
+    "reasoning_steps": 3,
+    "est_seconds": 85,
+    "dims": {
+      "syllabus_objective": 3,
+      "format_authenticity": 2,
+      "level_calibration": 3,
+      "time_suitability": 3,
+      "discrimination_value": 2
+    },
+    "fit_score": 8,
+    "fit_flags": [],
+    "note": "Height ranking from three clues; wordier stem with labelled persons (format 2). Chain Kiran, Lata, Mohan, Neha, Om gives key C."
+  },
+  {
+    "id": "4650a47a-f12a-4916-975a-1e2bbd999de5",
+    "cuet_type": "sequence_ordering",
+    "passage_skill": null,
+    "unit": "Logical and Analytical Reasoning",
+    "chapter": "Logical & Analytical Reasoning",
+    "pyq_closeness": 0,
+    "pyq_anchor": null,
+    "ten_route": null,
+    "reasoning_steps": 4,
+    "est_seconds": 103,
+    "dims": {
+      "syllabus_objective": 3,
+      "format_authenticity": 2,
+      "level_calibration": 2,
+      "time_suitability": 2,
+      "discrimination_value": 3
+    },
+    "fit_score": 8,
+    "fit_flags": [],
+    "note": "Five-book shelf puzzle with four linked clues: several ideas combined (level 2), est 103 s (time 2). Key B is the only consistent order."
+  },
+  {
+    "id": "c397d567-7836-4f84-a2ff-2e3913967ac9",
+    "cuet_type": "statement_based",
+    "passage_skill": null,
+    "unit": "Logical and Analytical Reasoning",
+    "chapter": "Logical & Analytical Reasoning",
+    "pyq_closeness": 0,
+    "pyq_anchor": null,
+    "ten_route": null,
+    "reasoning_steps": 3,
+    "est_seconds": 73,
+    "dims": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "time_suitability": 3,
+      "discrimination_value": 2
+    },
+    "fit_score": 9,
+    "fit_flags": [],
+    "note": "Inequality chain with three conclusions: standard CUET statement item. I and III follow, II does not. Key B verified."
+  },
+  {
+    "id": "fe0417ed-5791-41de-82df-dc27964ca5bb",
+    "cuet_type": "single_mcq",
+    "passage_skill": null,
+    "unit": "Optics",
+    "chapter": "Wave Optics",
+    "pyq_closeness": 0,
+    "pyq_anchor": null,
+    "ten_route": "board",
+    "reasoning_steps": 1,
+    "est_seconds": 44,
+    "dims": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "time_suitability": 3,
+      "discrimination_value": 3
+    },
+    "fit_score": 10,
+    "fit_flags": [],
+    "note": "Huygens envelope of secondary wavelets: NCERT Class 12 Wave Optics line recall that boards repeat. Key D verified."
+  },
+  {
+    "id": "fc6098bd-ef63-4d76-8a35-0568d11957ae",
+    "cuet_type": "sequence_ordering",
+    "passage_skill": null,
+    "unit": "Electromagnetic Waves",
+    "chapter": "Electromagnetic Waves",
+    "pyq_closeness": 0,
+    "pyq_anchor": null,
+    "ten_route": null,
+    "reasoning_steps": 2,
+    "est_seconds": 64,
+    "dims": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "time_suitability": 3,
+      "discrimination_value": 2
+    },
+    "fit_score": 9,
+    "fit_flags": [],
+    "note": "Spectrum order by wavelength for four waves: direct recall in CUET style. Key D (gamma, visible, microwave, radio) verified."
+  },
+  {
+    "id": "d72339f5-bbbc-48ea-9e57-12b89e48e029",
+    "cuet_type": "match_the_following",
+    "passage_skill": null,
+    "unit": "Electromagnetic Waves",
+    "chapter": "Electromagnetic Waves",
+    "pyq_closeness": 0,
+    "pyq_anchor": null,
+    "ten_route": "cbt_staple",
+    "reasoning_steps": 2,
+    "est_seconds": 74,
+    "dims": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "time_suitability": 3,
+      "discrimination_value": 3
+    },
+    "fit_score": 10,
+    "fit_flags": [],
+    "note": "EM wave uses matched to four items, a yearly CBT recall staple. Key D (A-III, B-I, C-II, D-IV) verified."
+  }
+]

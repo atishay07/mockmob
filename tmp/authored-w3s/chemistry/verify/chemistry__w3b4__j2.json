@@ -1,0 +1,192 @@
+[
+  {
+    "id": "dc8c1ef9-3c6c-4ae0-ba28-3caf30b0c5fe",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.d-and-f-block-elements.oxidant-electron-mole-ratio",
+    "flags": [],
+    "note": "Key A correct: Cr2O7(2-) gains 6 e-, each Fe2+ gives 1 e-. Clean direct-recall ratio item with decent distractors; scored 8 as recall rather than a computed item."
+  },
+  {
+    "id": "1f660152-f757-4ce1-8e8b-08e78037c1ef",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.d-and-f-block-elements.contact-process-catalyst",
+    "flags": [],
+    "note": "Key D (V2O5) correct for the Contact process. Direct NCERT recall; Fe2O3 and MnO2 are plausible, TiCl4 is a throwaway. Explanation accurate."
+  },
+  {
+    "id": "9b644ffc-735c-4f84-ac54-623d8c0b3fc1",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.d-and-f-block-elements.interstitial-compound-identification",
+    "flags": [],
+    "note": "Key C (TiC) correct. NaCl, CaO and KCl are all non-transition ionic salts, so the transition-metal cue alone gives the key. Weak distractor set."
+  },
+  {
+    "id": "8ead33c1-64fa-464c-a683-af9dafe41340",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.d-and-f-block-elements.copper-disproportionation-hydration-enthalpy",
+    "flags": [],
+    "note": "Key A correct: Cu2+ hydration enthalpy offsets the second ionisation enthalpy. B, C, D are clearly false. Key is the longest option, a minor cue. Label hard, judged medium."
+  },
+  {
+    "id": "bbb5fa0d-3c8b-4595-81bd-15d88f61ff99",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.d-and-f-block-elements.actinoid-oxidation-state-range",
+    "flags": [],
+    "note": "Key D correct and explanation accurate. A and C are false, B is plausible. Key is the longest option, a minor cue. Label hard, judged medium."
+  },
+  {
+    "id": "12f5a5e7-81db-4ac3-97f7-3132d0850f9d",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.d-and-f-block-elements.oxidant-electron-mole-ratio",
+    "flags": [],
+    "note": "Key C correct: MnO4- gains 5 e-, 2.5 mol Fe2+ gives 2.5 mol e-, so 0.5 mol MnO4- needed. Clean one-step numerical; 1.0, 2.5 and 0.1 are electron-count and ratio slips."
+  },
+  {
+    "id": "a8352fba-9650-44d2-b07b-c049b1d5a9f1",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.electrochemistry.brine-electrolysis-products",
+    "flags": [],
+    "note": "Key B correct: water reduced at cathode, Cl- oxidised in concentrated brine. Explanation accurate. A, C, D are standard student errors; direct recall."
+  },
+  {
+    "id": "65dc1291-1d76-460f-aa26-468908793116",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.electrochemistry.sacrificial-protection-galvanising",
+    "flags": [],
+    "note": "Key A (zinc) correct. Stem word 'galvanised' names the zinc process and 'scratched' signposts sacrificial protection; lowered one point. Tin, lead, nickel are good distractors."
+  },
+  {
+    "id": "95b3813f-8e6c-46a2-9d87-159dae9088db",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.electrochemistry.nernst-electrode-potential",
+    "flags": [],
+    "note": "Key D correct: E = -0.76 - (0.059/2) log 10 = -0.79 V. Clean one-step Nernst; -0.82, -0.73, -0.70 come from sign and factor slips. Explanation rounds 0.0295 to 0.03, harmless."
+  },
+  {
+    "id": "8ed9bbe9-5c6f-4785-84d1-6d8d6625e7c6",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.electrochemistry.emf-equilibrium-constant-relation",
+    "flags": [],
+    "note": "Key C correct: log K = 2 x 0.59 / 0.059 = 20. Clean one-step numerical; 10^10 (n=1 slip) and 10^30 (factor slip) are good distractors."
+  },
+  {
+    "id": "cb9ca16d-872d-484a-ab66-2a004c0f199e",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.electrochemistry.lead-storage-battery-discharge",
+    "flags": [],
+    "note": "Key B correct: H2SO4 is consumed and water formed on discharge, so density falls. Explanation reaction is correct. 'First increases then decreases' is a throwaway distractor."
+  },
+  {
+    "id": "f36e1b45-5688-42fc-9a5a-9b5f39be20a2",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.electrochemistry.molar-conductivity-from-conductivity",
+    "flags": [],
+    "note": "Key A correct: 0.0024 x 1000 / 0.02 = 120 S cm2 mol-1. Distractors 0.12, 12 and 1.2 x 10^3 are unit-factor slips. Clean one-step item."
+  },
+  {
+    "id": "1de140e3-81b2-467b-af74-6705474ba41f",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.electrochemistry.faraday-first-law-charge",
+    "flags": [],
+    "note": "Key D correct: 0.2 mol x 96500 = 1.93 x 10^4 C. Distractors 9.7e3, 3.9e4, 4.8e3 are mole and factor slips. Clean one-step item; label easy fits."
+  },
+  {
+    "id": "9aa422d7-bff1-4412-8008-218b678d96aa",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.electrochemistry.strongest-reducing-agent-potential",
+    "flags": [],
+    "note": "Key C (Li, -3.05 V) correct. The stem lists all four potentials, so the item reduces to picking the most negative value: a lookup, lowered one point. Explanation accurate."
+  },
+  {
+    "id": "b0385c9a-67b6-4970-881c-51ffcb9dd566",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 5,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.electrochemistry.kohlrausch-law-application",
+    "flags": ["answer_in_stem"],
+    "note": "Arithmetic correct (271.5, so 2.7 x 10^2). The stem states the Kohlrausch formula and asks only to apply it, which is answer_in_stem (cap 5). Label medium, judged easy."
+  },
+  {
+    "id": "c291f0d4-25c2-408a-b0c1-87bdf36b0011",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.electrochemistry.concentration-cell-emf",
+    "flags": [],
+    "note": "Key A correct: E = 0.059 log(0.1/0.001) = 0.118 V, the 0.1 M electrode is the cathode. Distractors 0.059 (missing n), 0.18, 0.24 are slips. Label hard, judged medium."
+  },
+  {
+    "id": "fff99b39-cd2a-4a4a-a168-da9586b4c3b6",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "hard",
+    "objective_tag": "chemistry.electrochemistry.competitive-electrodeposition-order",
+    "flags": [],
+    "note": "Key D correct: 0.1 F deposits 0.1 mol Ag, 0.05 F left gives 0.025 mol Cu = 1.59 g. Two-step with a clean order-of-discharge idea; distractors are factor slips."
+  },
+  {
+    "id": "699befa6-e1f7-4cc1-9b97-42421013c718",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.coordination-compounds.chelate-effect-entropy",
+    "flags": [],
+    "note": "Key C correct: particles rise from 4 to 7, so entropy is positive. Option A is a true fact (en is stronger field) but not the thermodynamic reason. Good distractors overall."
+  },
+  {
+    "id": "3031f426-b0a1-41c2-95d3-bd80f195ae2f",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.coordination-compounds.high-spin-octahedral-cfse",
+    "flags": [],
+    "note": "Key B correct: t2g3 eg1 gives 3(-0.4) + 0.6 = -0.6 Delta o. Distractors -0.4, -1.2 and 0 are standard slips. Label hard, judged medium."
+  }
+]

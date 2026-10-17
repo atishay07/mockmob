@@ -1,0 +1,192 @@
+[
+  {
+    "id": "0392836e-9179-49bd-b40b-efb9cd1dad4e",
+    "blind_answer": "B",
+    "key_matches": false,
+    "quality_score": 3,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.wave-optics.brewster-angle-perpendicular-rays",
+    "flags": ["doubtful_key"],
+    "note": "Key A is doubtful. The explanation derives tan i_p = mu from r = 90 - i_p, so R follows from A and cannot explain it. Strict answer is B (both true, R does not explain A)."
+  },
+  {
+    "id": "5c5ecfa2-89c2-4360-ae66-4d20bc0a5239",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.wave-optics.malus-law-unpolarised-light",
+    "flags": [],
+    "note": "Correct: halving at the first polaroid then Malus gives I0/8. I0/4 is the omitted-halving trap; I0/16 is weak. Label hard is a notch high."
+  },
+  {
+    "id": "75299146-fa6b-4a36-a45e-8d012723a4ec",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.wave-optics.resultant-intensity-path-difference",
+    "flags": [],
+    "note": "Correct: I = 4I0 cos^2(pi/3) = I0. Distractors cover zero-phase (lambda/2 slip), incoherent sum 2I0 and maximum 4I0. Clean stem; 9 earned."
+  },
+  {
+    "id": "0731d7d3-671e-4714-8b36-65d0a388117c",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.wave-optics.fringe-shift-by-thin-sheet",
+    "flags": [],
+    "note": "Correct: shift 5 mm over fringe width 0.5 mm gives 10 fringes. Distractor 20 is the slip of dropping (mu-1). Clean wording; 9 earned. Label hard is a notch high."
+  },
+  {
+    "id": "4b97458d-a381-4f1a-a2b7-fcceb8a3cd94",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.electromagnetic-waves.displacement-current-definition",
+    "flags": [],
+    "note": "Correct definition item, I_d = eps0 d(phi_E)/dt. Stem does not leak the key wording. Option D (monopole density) is a throwaway; B is the conduction-current trap."
+  },
+  {
+    "id": "68e3c2d7-242d-4736-b989-93d19ef92835",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.electromagnetic-waves.speed-of-light-from-constants",
+    "flags": [],
+    "note": "Correct: c = 3.0e8 m/s. Options A (exponent slip) and B (half the speed) are weak; D is c squared. Two weak distractors, so 7."
+  },
+  {
+    "id": "fc6098bd-ef63-4d76-8a35-0568d11957ae",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.electromagnetic-waves.em-spectrum-order-by-wavelength",
+    "flags": [],
+    "note": "Correct order. Stem restates the direction redundantly ('increasing wavelength, that is, shortest first'), which over-signposts. Option B is weak; C (reversed order) is fair."
+  },
+  {
+    "id": "d72339f5-bbbc-48ea-9e57-12b89e48e029",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.electromagnetic-waves.em-waves-uses-matching",
+    "flags": [],
+    "note": "Correct: a-R, b-P, c-Q, d-S matches the standard uses. Four full-pairing options, clean stem, no narration of the order. 9 earned."
+  },
+  {
+    "id": "90eccf23-4148-4c31-b430-b3d4ab676ad3",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.electromagnetic-waves.em-wave-field-orientation",
+    "flags": [],
+    "note": "Correct: yhat x xhat = -zhat gives propagation along -z, so E is along +y. Distractors +x (parallel to B) and -z (propagation) are fair; +z is weak. One-step item."
+  },
+  {
+    "id": "3a02b025-c5f6-4fce-b1ea-065b95c32dbd",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.electromagnetic-waves.wavelength-from-frequency",
+    "flags": [],
+    "note": "Correct: lambda = c/f = 0.2 m. Distractors 0.02 (exponent slip) and 2 m (MHz/GHz slip) are fair; 0.5 m is weaker."
+  },
+  {
+    "id": "fb9cd358-0b96-4d88-948d-61c5f12549d6",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.ray-optics-and-optical-instruments.lensmaker-formula-sign-convention",
+    "flags": [],
+    "note": "Correct f = 20 cm with Cartesian signs. Options 10, 30 and 40 are not tied to a plausible slip, so two weak distractors. The infinite-f sign trap in the explanation is not offered."
+  },
+  {
+    "id": "4e2730f5-b6b5-4784-8ad4-fb9b909398de",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.ray-optics-and-optical-instruments.prism-index-at-minimum-deviation",
+    "flags": [],
+    "note": "Correct: mu = sin45/sin30 = 1.41. Distractor 1.73 (sin60/sin30 slip) is fair; 1.33 (water) is a throwaway."
+  },
+  {
+    "id": "abb95356-5484-457f-87c3-9668cd683b07",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.ray-optics-and-optical-instruments.critical-angle-from-refractive-index",
+    "flags": [],
+    "note": "Correct: sin C = 1/1.5 gives C of about 42 degrees. 48 (complement slip) is fair; 30 and 60 are throwaways."
+  },
+  {
+    "id": "ab6c6117-e474-4b8c-907a-59951e5ceb37",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.ray-optics-and-optical-instruments.telescope-magnifying-power",
+    "flags": [],
+    "note": "Correct: M = fo/fe = 30 in normal adjustment. Options 116 (fo - fe) and 480 (product) are plausible slips; 4 (fe) is a throwaway."
+  },
+  {
+    "id": "405b35f7-e06b-4e4f-a3c7-fd61928658d4",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.alternating-current.half-cycle-average-value",
+    "flags": [],
+    "note": "Correct: half-cycle mean is 2I0/pi. Option 0 (full-cycle trap) and I0/sqrt2 (rms) are good distractors; I0 is the peak."
+  },
+  {
+    "id": "2be3fcb0-30ce-427f-ae83-14e5d868f7d0",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.alternating-current.capacitive-reactance",
+    "flags": [],
+    "note": "Correct: X_C = 1/(2 pi f C) = 31.8 ohm. The other options come from exponent slips in the microfarad conversion, which are fair distractors. Clean stem."
+  },
+  {
+    "id": "f3677c62-dac9-4fbd-9c40-f3874e49b06c",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.alternating-current.only-resistance-dissipates-power",
+    "flags": [],
+    "note": "Correct: P = I_rms^2 R = 300 W, only R dissipates. Option 500 (I^2 Z) is a real trap and 400 (I^2 X_C) is fair; 150 is weaker. Label hard is a notch high. 9 earned."
+  },
+  {
+    "id": "7156b397-65f5-4272-aad7-2444451f0d72",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.alternating-current.lc-resonant-frequency",
+    "flags": [],
+    "note": "Correct: f0 = 1/(2 pi sqrt(LC)) = 503 Hz. Distractors 5.03 kHz (exponent slip) and 159 Hz (LC slip) are fair; 50 Hz is mains. Label hard is a notch high."
+  },
+  {
+    "id": "8e7f15cc-e80f-455f-81f0-fbbd13ee56b3",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.alternating-current.transformer-current-ratio",
+    "flags": [],
+    "note": "Correct: Vs = 4600 V so Ip = 10 A. Distractors 0.025 A (ratio slip, divides by 20 once) and 0.5 A (unchanged current) are fair. Clean item; 9 earned."
+  }
+]

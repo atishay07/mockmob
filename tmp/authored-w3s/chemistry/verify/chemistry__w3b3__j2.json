@@ -1,0 +1,182 @@
+[
+  {
+    "id": "c7164d89-271f-4f8d-8340-124aa636b7a2",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.biomolecules.rna-nucleotide-components",
+    "flags": [],
+    "note": "Clean direct-recall item; both DNA-type distractors are weak. Explanation says the thymine options describe DNA, but option C (ribose and thymine) is neither DNA nor RNA: loose wording only."
+  },
+  {
+    "id": "4ea4ceb5-ceb7-42eb-98f1-e189af38ba84",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.biomolecules.dna-complementary-strand-direction",
+    "flags": [],
+    "note": "Correct key 5'-GCAT-3'. Distractors map to real errors: TACG (no reversal), CGTA (template read backwards), ATGC (copy of the same strand). Explanation accurate."
+  },
+  {
+    "id": "839dd482-8e96-4b1e-8db6-c26e551ba4bb",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.hvz-alpha-halogenation-reagents",
+    "flags": [],
+    "note": "Correct key Br2 with red phosphorus. Option B (aqueous NaOH) is a weak distractor; A and D are plausible confusions. Direct NCERT recall."
+  },
+  {
+    "id": "82d50c33-6e77-4fdc-9955-8d6d3d80977a",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.aldol-addition-product",
+    "flags": [],
+    "note": "Correct key 3-hydroxybutanal; explanation accurate. Options B (butan-2-one) and C (propan-2-ol) are throwaway distractors with no link to ethanal chemistry."
+  },
+  {
+    "id": "2b8ad4d9-5b84-4089-ba12-bb46cb8fe0d9",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.wolff-kishner-reduction-reagents",
+    "flags": [],
+    "note": "Correct key. Clemmensen (B), LiAlH4 (C) and H2 with Pd/BaSO4 (D) are strong distractors; still direct recall of reagents, so 8 not 9."
+  },
+  {
+    "id": "9bc6d44a-b09b-4b8c-8e22-919b7fe6928b",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.carbonyl-reactivity-towards-nucleophiles",
+    "flags": [],
+    "note": "Correct key formaldehyde; explanation ordering HCHO > CH3CHO > acetone > benzophenone is right. Clean options, but it is a direct ranking recall, so 8."
+  },
+  {
+    "id": "617d4704-0bf0-41bb-b895-e2a6504032ab",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.iodoform-test-product",
+    "flags": [],
+    "note": "Correct key CHI3. Stem names excess iodine and a yellow precipitate, which narrows the choice (signposting, not a leak). Options B and D are not iodoform-type solids: throwaways."
+  },
+  {
+    "id": "d90fb3b0-ebc2-4edf-a790-e8d6df73df18",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.haloalkanes-and-haloarenes.resonance-stabilised-c-cl-bond",
+    "flags": [],
+    "note": "Correct key D: both statements true and the reason explains the assertion. The reason gives the mechanism outright, which is normal assertion-reason form."
+  },
+  {
+    "id": "cf7799f2-09c0-4d5e-9f13-b4cd060ef821",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.haloalkanes-and-haloarenes.alkyl-halide-leaving-group-order",
+    "flags": [],
+    "note": "Correct key RI > RBr > RCl > RF. Option B is a good reversed-order trap, but C and D are scrambled orders no student would pick: two throwaways."
+  },
+  {
+    "id": "53f31015-3913-4213-a0b1-fad4126639d6",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.haloalkanes-and-haloarenes.grignard-addition-to-aldehyde",
+    "flags": [],
+    "note": "Correct key propan-2-ol. Options are plausible carbon-count slips. Grignard addition to ethanal sits more in carbonyl chemistry than in this haloalkane chapter; the chapter label is loose, not a flag."
+  },
+  {
+    "id": "59a100d2-d92b-48ae-8b1c-773b76b35021",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.amines.sandmeyer-chloro-substitution",
+    "flags": [],
+    "note": "Correct key chlorobenzene (Sandmeyer). Strong distractors (benzene, phenol, benzonitrile). The word chloride in the stem is a mild clue, not the answer."
+  },
+  {
+    "id": "b0613d9b-0bdd-4048-b9ed-d22916eadcf8",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.amines.azo-coupling-with-phenol",
+    "flags": [],
+    "note": "Correct key p-hydroxyazobenzene; explanation accurate. Options A, B and C are non-coupling benzene derivatives, so the three distractors are weak."
+  },
+  {
+    "id": "6c9e8e40-c2e3-4240-946d-3e669d70a831",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.amines.nitrous-acid-test-amine-classes",
+    "flags": [],
+    "note": "Correct key dimethylamine (secondary). Each distractor targets a different amine class (primary, tertiary, aromatic primary). Explanation accurate."
+  },
+  {
+    "id": "846628da-e0bf-4947-b26c-5566653aee0a",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.d-and-f-block-elements.half-filled-d-subshell-exception",
+    "flags": [],
+    "note": "Correct key [Ar] 3d5 4s1. Option A is the real trap; C (3d6, no 4s) and D (4s3, impossible for one 4s orbital) are throwaways."
+  },
+  {
+    "id": "a405bec0-826f-44c5-9f84-2e908a39344b",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.d-and-f-block-elements.spin-only-magnetic-moment",
+    "flags": [],
+    "note": "Correct key 1.73 BM for one unpaired electron. Distractors 0, 2.83 and 3.87 come from wrong unpaired counts; clean one-step numerical."
+  },
+  {
+    "id": "89b11133-4e7e-4f99-8cb2-d2d84288ccc6",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.d-and-f-block-elements.spin-only-magnetic-moment",
+    "flags": [],
+    "note": "Correct key 4.90 BM (d6 with four unpaired electrons). C (5.92) is the Fe3+ value, a real confusion; the closest-to wording is acceptable."
+  },
+  {
+    "id": "c59ca92c-e396-4036-822d-1ef3fecdeda2",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.d-and-f-block-elements.colour-from-d-d-transitions",
+    "flags": [],
+    "note": "Correct key Sc3+ (d0). The three coloured distractors are real transition ions, good traps; still direct recall, so 8."
+  },
+  {
+    "id": "50a574d4-8098-483b-bac5-a7d1b5bd6741",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.d-and-f-block-elements.permanganate-reduction-product-by-medium",
+    "flags": [],
+    "note": "Correct key MnO2 for neutral medium; explanation electron counts of 5, 3 and 1 are right. Mn3+ is a weak distractor."
+  }
+]

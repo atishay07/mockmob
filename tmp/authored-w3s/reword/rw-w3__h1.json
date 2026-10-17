@@ -1,0 +1,156 @@
+[
+  {
+    "id": "6bbde2ac-85d2-4b61-a2e7-25ad64d121d3",
+    "cuet_type": "sequence_ordering",
+    "passage_skill": null,
+    "unit": "Logical and Analytical Reasoning",
+    "chapter": "Logical & Analytical Reasoning",
+    "pyq_closeness": 0,
+    "pyq_anchor": null,
+    "ten_route": null,
+    "reasoning_steps": 3,
+    "est_seconds": 79,
+    "dims": {
+      "syllabus_objective": 2,
+      "format_authenticity": 2,
+      "level_calibration": 3,
+      "time_suitability": 3,
+      "discrimination_value": 2
+    },
+    "fit_score": 8,
+    "fit_flags": [],
+    "note": "Alphabetical ordering of five words with prefix rule; a real GAT ordering item, but word-sorting leans to English skill. Keys check out."
+  },
+  {
+    "id": "f05bce07-08b2-491b-937f-d70bca9926c5",
+    "cuet_type": "sequence_ordering",
+    "passage_skill": null,
+    "unit": "Logical and Analytical Reasoning",
+    "chapter": "Logical & Analytical Reasoning",
+    "pyq_closeness": 0,
+    "pyq_anchor": null,
+    "ten_route": null,
+    "reasoning_steps": 3,
+    "est_seconds": 83,
+    "dims": {
+      "syllabus_objective": 2,
+      "format_authenticity": 3,
+      "level_calibration": 2,
+      "time_suitability": 3,
+      "discrimination_value": 2
+    },
+    "fit_score": 8,
+    "fit_flags": [],
+    "note": "Three-clue height chain combined into a five-person order; slightly above a single-clue ordering item."
+  },
+  {
+    "id": "4650a47a-f12a-4916-975a-1e2bbd999de5",
+    "cuet_type": "sequence_ordering",
+    "passage_skill": null,
+    "unit": "Logical and Analytical Reasoning",
+    "chapter": "Logical & Analytical Reasoning",
+    "pyq_closeness": 0,
+    "pyq_anchor": null,
+    "ten_route": "cbt_staple",
+    "reasoning_steps": 3,
+    "est_seconds": 84,
+    "dims": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "time_suitability": 3,
+      "discrimination_value": 2
+    },
+    "fit_score": 10,
+    "fit_flags": [],
+    "note": "Linear arrangement with block and not-adjacent clues: a standard GAT logical reasoning staple, unique answer."
+  },
+  {
+    "id": "c397d567-7836-4f84-a2ff-2e3913967ac9",
+    "cuet_type": "statement_based",
+    "passage_skill": null,
+    "unit": "Logical and Analytical Reasoning",
+    "chapter": "Logical & Analytical Reasoning",
+    "pyq_closeness": 0,
+    "pyq_anchor": null,
+    "ten_route": null,
+    "reasoning_steps": 3,
+    "est_seconds": 75,
+    "dims": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 2,
+      "time_suitability": 3,
+      "discrimination_value": 2
+    },
+    "fit_score": 8,
+    "fit_flags": [],
+    "note": "Inequality chain with three conclusions and combined options; standard GAT item, at the upper edge of level."
+  },
+  {
+    "id": "fe0417ed-5791-41de-82df-dc27964ca5bb",
+    "cuet_type": "single_mcq",
+    "passage_skill": null,
+    "unit": "Optics",
+    "chapter": "Wave Optics",
+    "pyq_closeness": 0,
+    "pyq_anchor": null,
+    "ten_route": "cbt_staple",
+    "reasoning_steps": 1,
+    "est_seconds": 47,
+    "dims": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "time_suitability": 3,
+      "discrimination_value": 2
+    },
+    "fit_score": 10,
+    "fit_flags": [],
+    "note": "Huygens principle as envelope of secondary wavelets: a direct NCERT recall CBT staple."
+  },
+  {
+    "id": "fc6098bd-ef63-4d76-8a35-0568d11957ae",
+    "cuet_type": "sequence_ordering",
+    "passage_skill": null,
+    "unit": "Electromagnetic Waves",
+    "chapter": "Electromagnetic Waves",
+    "pyq_closeness": 0,
+    "pyq_anchor": null,
+    "ten_route": null,
+    "reasoning_steps": 2,
+    "est_seconds": 59,
+    "dims": {
+      "syllabus_objective": 3,
+      "format_authenticity": 2,
+      "level_calibration": 3,
+      "time_suitability": 3,
+      "discrimination_value": 2
+    },
+    "fit_score": 8,
+    "fit_flags": [],
+    "note": "EM spectrum ordering, core content; stem wording is redundant (increasing wavelength, shortest first)."
+  },
+  {
+    "id": "d72339f5-bbbc-48ea-9e57-12b89e48e029",
+    "cuet_type": "match_the_following",
+    "passage_skill": null,
+    "unit": "Electromagnetic Waves",
+    "chapter": "Electromagnetic Waves",
+    "pyq_closeness": 0,
+    "pyq_anchor": null,
+    "ten_route": null,
+    "reasoning_steps": 2,
+    "est_seconds": 63,
+    "dims": {
+      "syllabus_objective": 2,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "time_suitability": 3,
+      "discrimination_value": 2
+    },
+    "fit_score": 9,
+    "fit_flags": [],
+    "note": "Four-pair EM wave uses list-match, a real physics list format; the uses are supporting detail."
+  }
+]

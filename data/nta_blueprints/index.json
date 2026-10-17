@@ -21,5 +21,9 @@
     "psychology": "psychology.json",
     "sociology": "sociology.json",
     "computer_science": "computer_science.json"
-  }
+  },
+  "pendingSubjects": {
+    "hindi": "hindi.json"
+  },
+  "pendingNote": "Blueprints written for subjects that are not in data/cuet_controls.js CUET_PUBLIC_ALLOWED_SUBJECTS yet. The engine knows them (so the authored-wave tools can validate their rows); no route serves them until the subject is made public."
 }

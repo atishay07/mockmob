@@ -1,0 +1,192 @@
+[
+  {
+    "id": "7fc9c9ea-2cc0-43af-91bf-099821f07bff",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "general_test.general-knowledge.international-org-headquarters",
+    "flags": [],
+    "note": "Key B (Vienna) verified; explanation facts (WHO and ILO Geneva, UNESCO Paris, ICJ The Hague) are correct. Plain headquarters recall with real UN-city distractors."
+  },
+  {
+    "id": "8d00f227-84a2-4ed5-8e30-a13421089559",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "general_test.general-knowledge.international-org-headquarters",
+    "flags": [],
+    "note": "Key A (Nairobi) verified; explanation facts (UN Secretariat and UNDP New York, FAO Rome, UNFCCC secretariat Bonn) are correct. Plain recall, fit for a mock."
+  },
+  {
+    "id": "58e99246-9e9e-45b8-a31c-31662eb1f502",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "general_test.general-knowledge.heritage-site-state-location",
+    "flags": [],
+    "note": "Key C (Madhya Pradesh) verified; explanation facts (Mauryan and Shunga phases, carved gateways, Bodh Gaya in Bihar) are correct. Plain recall with fair distractors."
+  },
+  {
+    "id": "d9f17d54-ca5e-4301-88f7-9ea53cbbf264",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "general_test.general-knowledge.author-of-famous-book",
+    "flags": [],
+    "note": "Key D (Nehru) verified; Ahmednagar Fort 1944 and the Gandhi attributions are correct. Plain author recall with distractors that are all freedom-movement figures."
+  },
+  {
+    "id": "40c5bdcc-4867-421d-85e8-b9049b3b736a",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.general-knowledge.president-impeachment-procedure",
+    "flags": [],
+    "note": "Key A holds on the usual reading (Art 61 procedure explains removal), but R states only the procedure, not the grounds; a strict student could argue B. Not flagged as defensible."
+  },
+  {
+    "id": "4d609f5a-fe44-4fbc-b574-688115b283c0",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.general-knowledge.river-city-pairs",
+    "flags": [],
+    "note": "Key B verified: Sabarmati-Ahmedabad, Brahmaputra-Guwahati, Yamuna-Delhi, Mahanadi-Cuttack. Every distractor is a swap of the pairs, so it is a well-built match item."
+  },
+  {
+    "id": "13acff28-0d34-4e66-9f98-c2db0415b060",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.general-knowledge.constitutional-amendments-chronology",
+    "flags": [],
+    "note": "Key D verified (1951, 1976, 1992, 2002 gives B, C, A, D). Distractors are plausible order swaps; the stem is clean and does not narrate the order."
+  },
+  {
+    "id": "301660c4-85f8-48f2-a8ad-07497eb84325",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "general_test.general-knowledge.constitutional-body-article-number",
+    "flags": [],
+    "note": "Key B (Art 148) verified. Label hard but true level is easy (two levels off). Explanation names Art 280 for the Finance Commission, which gives away item 015244d0 in this batch."
+  },
+  {
+    "id": "015244d0-de83-4f32-98b1-c2e293f25c58",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "general_test.general-knowledge.constitutional-body-article-number",
+    "flags": [],
+    "note": "Key C (Art 280) verified. Label hard but true level is easy (two levels off). Pure article-number recall; the other options are real articles for other bodies."
+  },
+  {
+    "id": "3f9a2c17-8b4e-4d61-9a2f-5c7e1b0d4a63",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "easy",
+    "objective_tag": "general_test.quantitative-reasoning.successive-percentage-change",
+    "flags": [],
+    "note": "Key C verified (46,000 then 41,400). Distractors 42,000 (additive percentages) and 46,000 (first year only) are real error traps. Clean numerical."
+  },
+  {
+    "id": "a81d6e42-0c9b-4f75-b3e8-2d6a9f1c7e05",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.quantitative-reasoning.mixture-water-added-ratio",
+    "flags": [],
+    "note": "Key D verified (16 litres). Distractors 14 and 20 match no common slip, so the set is weak; 8 is the one-part slip. Explanation arithmetic is correct."
+  },
+  {
+    "id": "5b2e9f08-7d13-4a6c-8e41-9c0f2b7d3a16",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "general_test.quantitative-reasoning.cost-price-from-loss",
+    "flags": [],
+    "note": "Key A verified (1,134 / 0.90 = 1,260). Distractor 1,020 is the wrong-base slip (1,134 x 0.90 = 1,020.6, shown rounded; harmless). 1,300 is arbitrary."
+  },
+  {
+    "id": "d4c71a9e-3f25-4b8d-a6e0-1e8b5c2f9d47",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.quantitative-reasoning.compound-minus-simple-interest",
+    "flags": [],
+    "note": "Key B verified (CI 820, SI 800, difference 20). Distractors 820 (CI not difference), 800 (SI) and 40 (doubling slip) are real student errors. Explanation correct."
+  },
+  {
+    "id": "27e0b6f4-9a1c-4e3d-8f72-6b4d0a9c1e58",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.quantitative-reasoning.combined-work-partial-time",
+    "flags": [],
+    "note": "Key B verified (15 hours: half the tank in 6 h, then 1/2 at 1/30 per hour). Distractor 10 is the slip of using pipe P's rate. Explanation arithmetic is correct."
+  },
+  {
+    "id": "e9a3d150-6b7f-4c28-9d4e-3f1a8c6b0e29",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 3,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.quantitative-reasoning.relative-speed-same-direction",
+    "flags": ["factual_error"],
+    "note": "Key A verified (2 h 30 min). Explanation's last sentence says the sum-of-speeds rule applies only when cars move towards each other; it also applies when they move apart. Cap applied."
+  },
+  {
+    "id": "1c8f4b7d-2e90-4a5f-b1c6-7d3e9a0f2b84",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.quantitative-reasoning.weighted-average-of-groups",
+    "flags": [],
+    "note": "Key D verified (1,470 / 30 = 49). Distractor 47.5 is the simple-average trap; the stem and explanation are correct."
+  },
+  {
+    "id": "79b5e2a3-4d6c-4f1e-8a09-c2d7b4e6f513",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.quantitative-reasoning.mixture-water-added-ratio",
+    "flags": [],
+    "note": "Key C verified (4 litres). Distractor 8 (existing water) is a fair slip; distractors 2 and 6 match no common slip. Explanation arithmetic is correct."
+  },
+  {
+    "id": "c3f08d6a-1e4b-4927-b5a8-0f9e2d7c6a31",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.quantitative-reasoning.combining-two-mixtures-ratio",
+    "flags": [],
+    "note": "Key B verified (50 litres milk and 50 litres water). Distractors 3:2, 2:3 and 5:4 are plausible but not clearly tied to slips. Explanation is correct and warns against averaging ratios."
+  },
+  {
+    "id": "4e6a1b9c-8f2d-4c03-9e7b-a5d1f3c8e620",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.quantitative-reasoning.path-area-inside-rectangle",
+    "flags": [],
+    "note": "Key D verified (9,600 - 7,700 = 1,900). Distractor 9,600 is the total-area slip and 2,000 the perimeter-times-width slip. Explanation is correct."
+  }
+]

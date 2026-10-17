@@ -36,6 +36,8 @@ import geography from './nta_blueprints/geography.json' with { type: 'json' };
 import psychology from './nta_blueprints/psychology.json' with { type: 'json' };
 import sociology from './nta_blueprints/sociology.json' with { type: 'json' };
 import computerScience from './nta_blueprints/computer_science.json' with { type: 'json' };
+// Hindi (102) has a blueprint but is not a public subject yet (data/cuet_controls.js CUET_PUBLIC_ALLOWED_SUBJECTS), so no route offers it.
+import hindi from './nta_blueprints/hindi.json' with { type: 'json' };
 
 // Owner, 13 Oct 2026: "any question which has a score above 8 or 8.5, something like this ... it
 // qualifies for NTA mode". Scores are out of 10. A factory question carries two independent judge
@@ -63,6 +65,7 @@ const BLUEPRINTS = Object.freeze({
   english, general_test: generalTest, accountancy, business_studies: businessStudies, economics,
   mathematics, physics, chemistry, biology, history, political_science: politicalScience,
   geography, psychology, sociology, computer_science: computerScience,
+  hindi,
 });
 const TYPE_DEFS = typesFile.types;
 const TYPE_ORDER = typesFile.order;

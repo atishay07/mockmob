@@ -1,0 +1,481 @@
+{
+ "batch": "chemistry__w3b2-blind",
+ "subject": "chemistry",
+ "questions": [
+  {
+   "id": "d1014b9a-bb78-438f-ae1c-c711299f60ca",
+   "subject": "chemistry",
+   "type": "sequence_ordering",
+   "stem": "Arrange the following alkyl bromides in decreasing order of their rate of SN2 reaction with iodide ion in acetone: (A) 2-Bromo-2-methylpropane (B) Bromomethane (C) 2-Bromopropane (D) Bromoethane.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A), (B), (C), (D)"
+    },
+    {
+     "key": "B",
+     "text": "(B), (D), (C), (A)"
+    },
+    {
+     "key": "C",
+     "text": "(B), (C), (D), (A)"
+    },
+    {
+     "key": "D",
+     "text": "(D), (B), (C), (A)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "15079cee-dbc7-4b31-9fc5-782e04f607ec",
+   "subject": "chemistry",
+   "type": "statement_based",
+   "stem": "Consider the following statements about nucleophilic substitution of haloalkanes. I. An SN2 reaction of a chiral haloalkane proceeds with inversion of configuration. II. An SN1 reaction of a chiral haloalkane gives a nearly racemic product. III. Tertiary haloalkanes react mainly by SN2 with strong nucleophiles such as hydroxide ion. Which statements are correct?",
+   "options": [
+    {
+     "key": "A",
+     "text": "I and III only"
+    },
+    {
+     "key": "B",
+     "text": "II and III only"
+    },
+    {
+     "key": "C",
+     "text": "I and II only"
+    },
+    {
+     "key": "D",
+     "text": "I, II and III"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "6928e09c-a736-4373-857b-20d2758a68a8",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "2-Bromobutane is heated with alcoholic potassium hydroxide. Which alkene is the major product?",
+   "options": [
+    {
+     "key": "A",
+     "text": "But-1-ene"
+    },
+    {
+     "key": "B",
+     "text": "Buta-1,3-diene"
+    },
+    {
+     "key": "C",
+     "text": "But-2-ene"
+    },
+    {
+     "key": "D",
+     "text": "2-Methylpropene"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "cc5ce6c8-e0fe-4cc4-afbd-1c9d4b8ee681",
+   "subject": "chemistry",
+   "type": "match_the_following",
+   "stem": "Match List-I with List-II. List-I: (A) Finkelstein reaction (B) Swarts reaction (C) Wurtz reaction (D) Dow process. List-II: (I) Sodium metal in dry ether (II) Sodium iodide in dry acetone (III) Silver fluoride or mercurous fluoride (IV) Sodium hydroxide at about 623 K and high pressure, followed by acidification. Choose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
+    },
+    {
+     "key": "B",
+     "text": "(A)-(II), (B)-(III), (C)-(I), (D)-(IV)"
+    },
+    {
+     "key": "C",
+     "text": "(A)-(III), (B)-(I), (C)-(IV), (D)-(II)"
+    },
+    {
+     "key": "D",
+     "text": "(A)-(IV), (B)-(II), (C)-(I), (D)-(III)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "3410ab43-0000-42de-9de9-ff459717856b",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Ethylmagnesium bromide is treated with water. The organic product is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Ethene"
+    },
+    {
+     "key": "B",
+     "text": "Ethyne"
+    },
+    {
+     "key": "C",
+     "text": "Ethanol"
+    },
+    {
+     "key": "D",
+     "text": "Ethane"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "d35538dc-eb46-472f-a5b6-ab3d1b3ab56d",
+   "subject": "chemistry",
+   "type": "assertion_reason",
+   "stem": "Assertion (A): Chlorobenzene does not undergo nucleophilic substitution with aqueous sodium hydroxide under ordinary conditions. Reason (R): In chlorobenzene the C-Cl bond has partial double-bond character due to resonance, and the sp2-hybridised carbon attached to chlorine is more electronegative.",
+   "options": [
+    {
+     "key": "A",
+     "text": "Both A and R are true, and R is the correct explanation of A"
+    },
+    {
+     "key": "B",
+     "text": "Both A and R are true, but R is not the correct explanation of A"
+    },
+    {
+     "key": "C",
+     "text": "A is true, but R is false"
+    },
+    {
+     "key": "D",
+     "text": "A is false, but R is true"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "8b780340-7494-4816-b7a4-370acc255ad6",
+   "subject": "chemistry",
+   "type": "statement_based",
+   "stem": "Consider the following statements about polyhalogen compounds. I. DDT is persistent in the environment and accumulates in the fatty tissues of organisms. II. Chlorofluorocarbons (freons) release chlorine free radicals in the stratosphere that catalyse the breakdown of ozone. III. Freons are chemically reactive in the lower atmosphere, which is why they are used as refrigerants. Which statements are correct?",
+   "options": [
+    {
+     "key": "A",
+     "text": "I and III only"
+    },
+    {
+     "key": "B",
+     "text": "I and II only"
+    },
+    {
+     "key": "C",
+     "text": "II and III only"
+    },
+    {
+     "key": "D",
+     "text": "I, II and III"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "e993c092-300c-4155-8a22-2b5228c43b87",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Which of the following monosaccharides is a ketose?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Fructose"
+    },
+    {
+     "key": "B",
+     "text": "Glucose"
+    },
+    {
+     "key": "C",
+     "text": "Galactose"
+    },
+    {
+     "key": "D",
+     "text": "Mannose"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "310ed34a-d49c-40d1-8e25-31332657a600",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "On hydrolysis, sucrose gives which pair of monosaccharides?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Two glucose molecules"
+    },
+    {
+     "key": "B",
+     "text": "One glucose and one fructose"
+    },
+    {
+     "key": "C",
+     "text": "One glucose and one galactose"
+    },
+    {
+     "key": "D",
+     "text": "Two fructose molecules"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "7c42a42d-94d1-4237-b7bb-6ee28fc3beb0",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Sucrose is a non-reducing sugar. Which feature of its structure explains this?",
+   "options": [
+    {
+     "key": "A",
+     "text": "It has a free aldehyde group at C-1 of its glucose unit"
+    },
+    {
+     "key": "B",
+     "text": "It exists only in the open-chain ketose form"
+    },
+    {
+     "key": "C",
+     "text": "The glycosidic bond joins the anomeric carbons of glucose and fructose, so no free aldehyde or ketone group can form"
+    },
+    {
+     "key": "D",
+     "text": "It contains no hydroxyl groups at all"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "60786e7a-49b8-49ee-91fc-afd1448ed480",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "How does amylopectin differ structurally from amylose?",
+   "options": [
+    {
+     "key": "A",
+     "text": "It is made of beta-D-glucose units joined by beta-1,4 linkages"
+    },
+    {
+     "key": "B",
+     "text": "It is made of fructose units joined by alpha-1,2 linkages"
+    },
+    {
+     "key": "C",
+     "text": "It is an unbranched chain of alpha-1,4 linkages"
+    },
+    {
+     "key": "D",
+     "text": "It has alpha-1,6 glycosidic branch points in addition to alpha-1,4 linkages"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "6cc86979-a621-452b-8fee-72c94cb600a8",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Cellulose is a polymer of which monosaccharide, and what linkage joins its units?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Beta-D-glucose units joined by beta-1,4 glycosidic linkages"
+    },
+    {
+     "key": "B",
+     "text": "Alpha-D-glucose units joined by alpha-1,4 glycosidic linkages"
+    },
+    {
+     "key": "C",
+     "text": "Beta-D-fructose units joined by beta-1,2 glycosidic linkages"
+    },
+    {
+     "key": "D",
+     "text": "Alpha-D-galactose units joined by alpha-1,6 glycosidic linkages"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "4ac72883-303e-4876-81ab-9e68dadf5eee",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Glycogen is the storage polysaccharide of animals. It is structurally most similar to which polysaccharide?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Cellulose"
+    },
+    {
+     "key": "B",
+     "text": "Amylopectin"
+    },
+    {
+     "key": "C",
+     "text": "Amylose"
+    },
+    {
+     "key": "D",
+     "text": "Inulin"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "63dbe2f6-beff-4336-a8e9-435a3e28fe04",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "In aqueous solution at its isoelectric point, glycine exists mainly as which species?",
+   "options": [
+    {
+     "key": "A",
+     "text": "H2N-CH2-COOH"
+    },
+    {
+     "key": "B",
+     "text": "H2N-CH2-COO-"
+    },
+    {
+     "key": "C",
+     "text": "H3N+-CH2-COO-"
+    },
+    {
+     "key": "D",
+     "text": "H3N+-CH2-COOH"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "d8db492b-6214-4323-88f7-e2a41b266896",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "In the alpha-helix, the secondary structure of a protein is stabilised mainly by which interaction?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Disulfide bonds between cysteine residues"
+    },
+    {
+     "key": "B",
+     "text": "Ionic bonds between arginine and aspartate side chains"
+    },
+    {
+     "key": "C",
+     "text": "Van der Waals forces between adjacent helices"
+    },
+    {
+     "key": "D",
+     "text": "Hydrogen bonds between the C=O of one residue and the N-H of the residue four positions along the chain"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "fdcc5566-3c7d-47ca-94e3-9e157d3a3a25",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "When a protein is denatured by heat or a change in pH, which structural levels are generally lost?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Secondary and tertiary structures"
+    },
+    {
+     "key": "B",
+     "text": "Primary structure"
+    },
+    {
+     "key": "C",
+     "text": "Peptide bonds"
+    },
+    {
+     "key": "D",
+     "text": "The N-terminal amino acid"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "2de1f429-c8fc-4cd4-9cef-cca018462809",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Which statement about enzymes is correct?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Enzymes are consumed in the reaction they catalyse"
+    },
+    {
+     "key": "B",
+     "text": "Enzymes are highly specific for their substrates"
+    },
+    {
+     "key": "C",
+     "text": "Enzymes change the equilibrium constant of the reaction"
+    },
+    {
+     "key": "D",
+     "text": "Enzymes are most active at very high temperatures"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "5202c447-997b-416b-9bee-314fa03afe31",
+   "subject": "chemistry",
+   "type": "match_the_following",
+   "stem": "Match List-I (vitamin) with List-II (deficiency disease). List-I: (A) Vitamin B1 (B) Vitamin C (C) Vitamin D (D) Vitamin K. List-II: (I) Rickets (II) Scurvy (III) Beriberi (IV) Delayed blood clotting. Choose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
+    },
+    {
+     "key": "B",
+     "text": "(A)-(II), (B)-(III), (C)-(IV), (D)-(I)"
+    },
+    {
+     "key": "C",
+     "text": "(A)-(III), (B)-(II), (C)-(I), (D)-(IV)"
+    },
+    {
+     "key": "D",
+     "text": "(A)-(IV), (B)-(I), (C)-(II), (D)-(III)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "487ce9df-afd7-4553-a1f2-bd61a468fe32",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Which vitamin is synthesised in the human skin when it is exposed to sunlight?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Vitamin A"
+    },
+    {
+     "key": "B",
+     "text": "Vitamin C"
+    },
+    {
+     "key": "C",
+     "text": "Vitamin E"
+    },
+    {
+     "key": "D",
+     "text": "Vitamin D"
+    }
+   ],
+   "passage_text": null
+  }
+ ]
+}

@@ -1,0 +1,21 @@
+[
+ { "id": "0392836e-9179-49bd-b40b-efb9cd1dad4e", "answer": "A", "confidence": "medium" },
+ { "id": "5c5ecfa2-89c2-4360-ae66-4d20bc0a5239", "answer": "C", "confidence": "high" },
+ { "id": "75299146-fa6b-4a36-a45e-8d012723a4ec", "answer": "B", "confidence": "high" },
+ { "id": "0731d7d3-671e-4714-8b36-65d0a388117c", "answer": "D", "confidence": "high" },
+ { "id": "4b97458d-a381-4f1a-a2b7-fcceb8a3cd94", "answer": "A", "confidence": "high" },
+ { "id": "68e3c2d7-242d-4736-b989-93d19ef92835", "answer": "C", "confidence": "high" },
+ { "id": "fc6098bd-ef63-4d76-8a35-0568d11957ae", "answer": "A", "confidence": "high" },
+ { "id": "d72339f5-bbbc-48ea-9e57-12b89e48e029", "answer": "B", "confidence": "high" },
+ { "id": "90eccf23-4148-4c31-b430-b3d4ab676ad3", "answer": "B", "confidence": "high" },
+ { "id": "3a02b025-c5f6-4fce-b1ea-065b95c32dbd", "answer": "D", "confidence": "high" },
+ { "id": "fb9cd358-0b96-4d88-948d-61c5f12549d6", "answer": "B", "confidence": "high" },
+ { "id": "4e2730f5-b6b5-4784-8ad4-fb9b909398de", "answer": "C", "confidence": "high" },
+ { "id": "abb95356-5484-457f-87c3-9668cd683b07", "answer": "B", "confidence": "high" },
+ { "id": "ab6c6117-e474-4b8c-907a-59951e5ceb37", "answer": "A", "confidence": "high" },
+ { "id": "405b35f7-e06b-4e4f-a3c7-fd61928658d4", "answer": "C", "confidence": "high" },
+ { "id": "2be3fcb0-30ce-427f-ae83-14e5d868f7d0", "answer": "B", "confidence": "high" },
+ { "id": "f3677c62-dac9-4fbd-9c40-f3874e49b06c", "answer": "D", "confidence": "high" },
+ { "id": "7156b397-65f5-4272-aad7-2444451f0d72", "answer": "B", "confidence": "high" },
+ { "id": "8e7f15cc-e80f-455f-81f0-fbbd13ee56b3", "answer": "C", "confidence": "high" }
+]

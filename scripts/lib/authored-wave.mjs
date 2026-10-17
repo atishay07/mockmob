@@ -35,16 +35,22 @@ import { isNtaQuestionId } from '../../data/nta_item_checks.js';
 
 export const AUTHORED_SOURCE = 'claude-authored-2026-10-14';
 export const AUTHORED_SOURCE_W2 = 'claude-authored-2026-10-14-w2';
+export const AUTHORED_SOURCE_W3 = 'claude-authored-2026-10-17-w3';
 export const AUTHORED_WAVE = 1;
 export const PUBLISH_VERSION = 'authored-publish-1';
 // What a wave is: its source key and the subjects it may hold. Wave 1 behaves exactly as it always did (an unknown source falls back to it).
+// verdicts: the `_verdict` values a candidate may carry. Waves 1 and 2 passed an expert pass (ready or repaired). Wave 3 (17 Oct 2026) did not: its
+// rows passed one blind Haiku verification (`haiku_blind_verified`), and the rows a second, stronger auditor solved itself carry `opus_audited`.
+// The verdict goes into the row tags as expert_review:<verdict>, so the stored rows say which check a question actually had.
+// passageSubjects: subjects other than English whose `passage_set_item` candidates are stored as passage sets (Hindi unseen passages, wave 3).
 export const WAVES = Object.freeze({
-  1: Object.freeze({ wave: 1, source: AUTHORED_SOURCE, subjects: Object.freeze(['chemistry', 'english', 'history', 'political_science', 'psychology', 'sociology']), caseSetSubjects: Object.freeze([]) }),
-  2: Object.freeze({ wave: 2, source: AUTHORED_SOURCE_W2, subjects: Object.freeze(['biology', 'computer_science', 'english', 'general_test', 'geography', 'mathematics', 'political_science']), caseSetSubjects: Object.freeze(['geography']) }),
+  1: Object.freeze({ wave: 1, source: AUTHORED_SOURCE, subjects: Object.freeze(['chemistry', 'english', 'history', 'political_science', 'psychology', 'sociology']), caseSetSubjects: Object.freeze([]), passageSubjects: Object.freeze([]), verdicts: Object.freeze(['ready', 'repaired']) }),
+  2: Object.freeze({ wave: 2, source: AUTHORED_SOURCE_W2, subjects: Object.freeze(['biology', 'computer_science', 'english', 'general_test', 'geography', 'mathematics', 'political_science']), caseSetSubjects: Object.freeze(['geography']), passageSubjects: Object.freeze([]), verdicts: Object.freeze(['ready', 'repaired']) }),
+  3: Object.freeze({ wave: 3, source: AUTHORED_SOURCE_W3, subjects: Object.freeze(['chemistry', 'general_test', 'hindi', 'physics']), caseSetSubjects: Object.freeze([]), passageSubjects: Object.freeze(['hindi']), verdicts: Object.freeze(['haiku_blind_verified', 'opus_audited']) }),
 });
 export const AUTHORED_SOURCES = Object.freeze(Object.values(WAVES).map((entry) => entry.source));
 /** Every subject any wave publishes (wave 1's six, then wave 2's additions). */
-export const AUTHORED_SUBJECTS = Object.freeze([...WAVES[1].subjects, 'biology', 'computer_science', 'general_test', 'geography', 'mathematics']);
+export const AUTHORED_SUBJECTS = Object.freeze([...WAVES[1].subjects, 'biology', 'computer_science', 'general_test', 'geography', 'mathematics', 'physics', 'hindi']);
 /** The wave definition of a source key, or of a candidate (its `source`); wave 1 when unknown. */
 export const waveOf = (sourceOrCandidate) => {
   const source = typeof sourceOrCandidate === 'string' ? sourceOrCandidate : sourceOrCandidate?.source;
@@ -108,6 +114,8 @@ function tagsOf(candidate) {
     `question_type:${AUTHORED_QUESTION_TYPE[candidate.type] || candidate.type}`,
     ...(text(candidate.unit) ? [`unit:${text(candidate.unit)}`] : []),
     ...(candidate._verdict ? [`expert_review:${candidate._verdict}`] : []),
+    // Wave 3 after its expert pass: the expert verdict (ready or repaired) beside the authoring check above.
+    ...(candidate._expert ? [`expert_pass:${candidate._expert}`] : []),
     ...(candidate._reworded ? ['authored_revision:reworded'] : []),
     ...(ncert ? [`ncert:${ncert.slice(0, 240)}`] : []),
   ];
@@ -235,7 +243,7 @@ export function validateCandidates(candidates) {
     if (text(c.stem).trim().length < 10) add(id, 'stem_missing_or_too_short');
     if (!text(c.explanation).trim()) add(id, 'explanation_missing');
     if (!DIFFICULTY_WEIGHT[c.difficulty_label]) add(id, 'difficulty_label_invalid');
-    if (!['ready', 'repaired'].includes(c._verdict)) add(id, 'expert_verdict_not_ready_or_repaired');
+    if (!wave.verdicts.includes(c._verdict)) add(id, wave.wave >= 3 ? `verdict_not_one_of_${wave.verdicts.join('_or_')}` : 'expert_verdict_not_ready_or_repaired');
     const options = Array.isArray(c.options) ? c.options : [];
     if (options.length !== 4 || options.some((option, i) => option?.key !== OPTION_KEYS[i] || !text(option?.text).trim())) add(id, 'options_not_four_keyed_A_to_D');
     else if (new Set(options.map((option) => text(option.text).trim().toLowerCase())).size < 4) add(id, 'duplicate_option_text');
@@ -245,7 +253,7 @@ export function validateCandidates(candidates) {
     if (c.type === 'passage_set_item') {
       if (!text(c.passage_text).trim()) add(id, 'passage_text_missing');
       if (!text(c.set_id).trim()) add(id, 'set_id_missing');
-      if (c.subject !== 'english' && !wave.caseSetSubjects.includes(c.subject)) add(id, 'passage_set_outside_english');
+      if (c.subject !== 'english' && !wave.caseSetSubjects.includes(c.subject) && !wave.passageSubjects.includes(c.subject)) add(id, 'passage_set_outside_english');
       if (c.subject === 'english' && !PASSAGE_KIND[c.chapter]) add(id, 'passage_chapter_unknown');
       if (text(c.set_id)) sets.set(c.set_id, [...(sets.get(c.set_id) || []), c]);
     } else if (isPassageChild(c)) {

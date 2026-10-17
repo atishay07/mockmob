@@ -1,0 +1,456 @@
+{
+ "batch": "physics__w3b1-blind",
+ "subject": "physics",
+ "questions": [
+  {
+   "id": "8e7aff9c-f05f-4057-9522-f15da970e0d7",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "Which of the following is a non-ohmic device, meaning its current is not proportional to the voltage applied across it at constant temperature?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Copper wire at constant temperature"
+    },
+    {
+     "key": "B",
+     "text": "Manganin resistance coil at constant temperature"
+    },
+    {
+     "key": "C",
+     "text": "Nichrome heater element at constant temperature"
+    },
+    {
+     "key": "D",
+     "text": "p-n junction diode"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "9891beba-0610-4b37-9d91-7185798e2470",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "A fuse wire should have which combination of properties?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Low resistivity and high melting point"
+    },
+    {
+     "key": "B",
+     "text": "High resistivity and low melting point"
+    },
+    {
+     "key": "C",
+     "text": "High resistivity and high melting point"
+    },
+    {
+     "key": "D",
+     "text": "Low resistivity and low melting point"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "8047d343-60de-4479-a898-a502de89b2e4",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "At a junction in a circuit in steady state, Kirchhoff's junction rule states that the sum of currents entering the junction equals the sum of currents leaving it. This rule is a statement of conservation of which quantity?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Electric charge"
+    },
+    {
+     "key": "B",
+     "text": "Energy"
+    },
+    {
+     "key": "C",
+     "text": "Linear momentum"
+    },
+    {
+     "key": "D",
+     "text": "Electric potential"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "17dddc0d-85f8-4438-aba7-5c65c48991b0",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "Why is a potentiometer preferred over a voltmeter for measuring the emf of a cell?",
+   "options": [
+    {
+     "key": "A",
+     "text": "It can measure larger currents than a voltmeter"
+    },
+    {
+     "key": "B",
+     "text": "It works only with alternating current"
+    },
+    {
+     "key": "C",
+     "text": "At the balance point no current is drawn from the cell, so the balancing length gives the true emf"
+    },
+    {
+     "key": "D",
+     "text": "It measures the internal resistance of the cell directly"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "c1e3486d-b7db-4a63-aaf1-597489351bfb",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "The galvanometer in a balanced Wheatstone bridge shows zero deflection. Which statement explains this?",
+   "options": [
+    {
+     "key": "A",
+     "text": "The current through the galvanometer is maximum"
+    },
+    {
+     "key": "B",
+     "text": "The potential difference across the galvanometer is zero, so no current flows through it"
+    },
+    {
+     "key": "C",
+     "text": "The current drawn from the battery is zero"
+    },
+    {
+     "key": "D",
+     "text": "The galvanometer has infinite resistance"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "aea26296-5917-40a2-9a7c-d9cf913a5363",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "A heater rated 220 V, 1100 W is operated at 220 V for 10 minutes. The energy it consumes is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "1.1 × 10^5 J"
+    },
+    {
+     "key": "B",
+     "text": "6.6 × 10^5 J"
+    },
+    {
+     "key": "C",
+     "text": "1.32 × 10^6 J"
+    },
+    {
+     "key": "D",
+     "text": "6.6 × 10^4 J"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "d06e022d-f926-4494-9d39-1a979e20b2e5",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "Two resistors of 3 Ω and 6 Ω are connected in parallel, and this combination is connected in series with a 4 Ω resistor. The equivalent resistance of the whole network is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "2 Ω"
+    },
+    {
+     "key": "B",
+     "text": "9 Ω"
+    },
+    {
+     "key": "C",
+     "text": "6 Ω"
+    },
+    {
+     "key": "D",
+     "text": "13 Ω"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "22940911-16a7-4f7e-be0f-515fa516f89f",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "In a meter bridge with a uniform wire, an unknown resistance X is in the left gap and a standard resistance of 12 Ω is in the right gap. The null point is found at 25 cm from the left end of the 100 cm wire. The value of X is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "4 Ω"
+    },
+    {
+     "key": "B",
+     "text": "3 Ω"
+    },
+    {
+     "key": "C",
+     "text": "12 Ω"
+    },
+    {
+     "key": "D",
+     "text": "36 Ω"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "91ad1938-d1fc-4ea4-a0d3-95d96326e2ef",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "A cell of emf 2.0 V and internal resistance 0.5 Ω is connected to an external resistor of 3.5 Ω. The terminal voltage of the cell is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "2.00 V"
+    },
+    {
+     "key": "B",
+     "text": "1.50 V"
+    },
+    {
+     "key": "C",
+     "text": "0.50 V"
+    },
+    {
+     "key": "D",
+     "text": "1.75 V"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "255e305e-85cc-4d30-a824-239c53989517",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "A copper conductor of cross-sectional area 2 mm^2 carries a steady current of 4 A. Take the free electron density as 5 × 10^28 m^-3 and e = 1.6 × 10^-19 C. The drift speed of the electrons is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "1.25 × 10^-4 m/s"
+    },
+    {
+     "key": "B",
+     "text": "2.5 × 10^-2 m/s"
+    },
+    {
+     "key": "C",
+     "text": "2.5 × 10^-4 m/s"
+    },
+    {
+     "key": "D",
+     "text": "8.0 × 10^-4 m/s"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "06fb3fe8-7f7f-463d-a602-1a5953423084",
+   "subject": "physics",
+   "type": "statement_based",
+   "stem": "Consider these changes to a potentiometer circuit. (I) Using a longer uniform wire. (II) Reducing the potential gradient along the wire by lowering the current from the driver cell. (III) Increasing the potential gradient along the wire. (IV) Using a shorter uniform wire. Which of the changes increase the sensitivity of the potentiometer?",
+   "options": [
+    {
+     "key": "A",
+     "text": "II and IV only"
+    },
+    {
+     "key": "B",
+     "text": "I and II only"
+    },
+    {
+     "key": "C",
+     "text": "III and IV only"
+    },
+    {
+     "key": "D",
+     "text": "I and III only"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "22bb7974-074f-4e40-a1b4-5d3b55052192",
+   "subject": "physics",
+   "type": "statement_based",
+   "stem": "Which statements about the temperature dependence of resistivity are correct? (I) The resistivity of a metal increases with temperature. (II) The resistivity of a pure semiconductor decreases with temperature over the normal range. (III) The resistivity of a metal decreases with temperature. (IV) The resistivity of a semiconductor increases with temperature.",
+   "options": [
+    {
+     "key": "A",
+     "text": "I and II only"
+    },
+    {
+     "key": "B",
+     "text": "III and IV only"
+    },
+    {
+     "key": "C",
+     "text": "I and IV only"
+    },
+    {
+     "key": "D",
+     "text": "II and III only"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "62c2ce5f-251f-4b6b-a2c2-be45de07dfc3",
+   "subject": "physics",
+   "type": "assertion_reason",
+   "stem": "Assertion (A): Manganin is preferred for making standard resistance coils. Reason (R): The resistivity of manganin is almost independent of temperature. Choose the correct option.",
+   "options": [
+    {
+     "key": "A",
+     "text": "Both A and R are true, and R is the correct explanation of A"
+    },
+    {
+     "key": "B",
+     "text": "Both A and R are true, but R is not the correct explanation of A"
+    },
+    {
+     "key": "C",
+     "text": "A is true but R is false"
+    },
+    {
+     "key": "D",
+     "text": "A is false but R is true"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "0f01b716-922a-4b3f-9b32-ed8ab40dc7e8",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "Two cells of emf 10 V and 4 V, each with negligible internal resistance, are connected in series opposing each other. The external resistors 2 Ω and 1 Ω are connected in series with them. The power dissipated in the external resistors is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "6 W"
+    },
+    {
+     "key": "B",
+     "text": "12 W"
+    },
+    {
+     "key": "C",
+     "text": "18 W"
+    },
+    {
+     "key": "D",
+     "text": "24 W"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "a04b8ad0-2dee-416b-9e0d-631bd2f3f25b",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "A cell of emf 2.0 V and internal resistance 0.5 Ω is connected in parallel with a cell of emf 1.0 V and internal resistance 0.25 Ω, with their positive terminals joined. The equivalent emf of the combination is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "1.00 V"
+    },
+    {
+     "key": "B",
+     "text": "1.33 V"
+    },
+    {
+     "key": "C",
+     "text": "1.50 V"
+    },
+    {
+     "key": "D",
+     "text": "0.75 V"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "c62678e0-eb15-4186-811e-45a6452e528e",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "A positive charge moves with a velocity parallel to a uniform magnetic field. The magnetic force on the charge is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Zero"
+    },
+    {
+     "key": "B",
+     "text": "Maximum and perpendicular to the field"
+    },
+    {
+     "key": "C",
+     "text": "Perpendicular to both the velocity and the field"
+    },
+    {
+     "key": "D",
+     "text": "Parallel to the field"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "b1dbbe04-24d4-49ee-83b0-ef74ef7d95f4",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "For an ideal long solenoid carrying a steady current, the magnetic field outside the solenoid is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Equal to the field inside"
+    },
+    {
+     "key": "B",
+     "text": "Approximately zero"
+    },
+    {
+     "key": "C",
+     "text": "Radial and uniform"
+    },
+    {
+     "key": "D",
+     "text": "Equal to the field inside but reversed in direction"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "4e338fa8-83d5-427e-83be-2c4b18735148",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "A circular coil of radius 0.1 m has a single turn and carries a steady current of 2 A. Take μ0 = 4π × 10^-7 T m A^-1. The magnitude of the magnetic field at the centre of the coil is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "1.26 × 10^-5 T"
+    },
+    {
+     "key": "B",
+     "text": "2.51 × 10^-5 T"
+    },
+    {
+     "key": "C",
+     "text": "6.28 × 10^-6 T"
+    },
+    {
+     "key": "D",
+     "text": "1.26 × 10^-3 T"
+    }
+   ],
+   "passage_text": null
+  }
+ ]
+}

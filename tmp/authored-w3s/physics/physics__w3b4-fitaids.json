@@ -1,0 +1,232 @@
+{
+ "batch": "physics__w3b4",
+ "subject": "physics",
+ "allowed": {
+  "types": [
+   "single_mcq",
+   "match_the_following",
+   "sequence_ordering",
+   "statement_based",
+   "assertion_reason",
+   "passage_set_item"
+  ],
+  "units": [
+   {
+    "unit": "Electrostatics",
+    "chapters": [
+     "Electric Charges & Fields",
+     "Electrostatic Potential & Capacitance"
+    ]
+   },
+   {
+    "unit": "Current Electricity",
+    "chapters": [
+     "Current Electricity"
+    ]
+   },
+   {
+    "unit": "Magnetic Effects of Current and Magnetism",
+    "chapters": [
+     "Moving Charges & Magnetism",
+     "Magnetism & Matter"
+    ]
+   },
+   {
+    "unit": "Electromagnetic Induction and Alternating Currents",
+    "chapters": [
+     "Electromagnetic Induction",
+     "Alternating Current"
+    ]
+   },
+   {
+    "unit": "Electromagnetic Waves",
+    "chapters": [
+     "Electromagnetic Waves"
+    ]
+   },
+   {
+    "unit": "Optics",
+    "chapters": [
+     "Ray Optics & Optical Instruments",
+     "Wave Optics"
+    ]
+   },
+   {
+    "unit": "Dual Nature of Matter and Radiation",
+    "chapters": [
+     "Dual Nature of Radiation & Matter"
+    ]
+   },
+   {
+    "unit": "Atoms and Nuclei",
+    "chapters": [
+     "Atoms",
+     "Nuclei"
+    ]
+   },
+   {
+    "unit": "Electronic Devices",
+    "chapters": [
+     "Semiconductor Electronics"
+    ]
+   }
+  ],
+  "excluded_chapters": [
+   "Communication Systems"
+  ]
+ },
+ "rows": {
+  "0392836e-9179-49bd-b40b-efb9cd1dad4e": {
+   "engine_unit_options": [
+    "Optics"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 66,
+   "read_seconds": 28
+  },
+  "5c5ecfa2-89c2-4360-ae66-4d20bc0a5239": {
+   "engine_unit_options": [
+    "Optics"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 34,
+   "read_seconds": 18
+  },
+  "75299146-fa6b-4a36-a45e-8d012723a4ec": {
+   "engine_unit_options": [
+    "Optics"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 32,
+   "read_seconds": 18
+  },
+  "0731d7d3-671e-4714-8b36-65d0a388117c": {
+   "engine_unit_options": [
+    "Optics"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 50,
+   "read_seconds": 23
+  },
+  "4b97458d-a381-4f1a-a2b7-fcceb8a3cd94": {
+   "engine_unit_options": [
+    "Electromagnetic Waves"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 56,
+   "read_seconds": 25
+  },
+  "68e3c2d7-242d-4736-b989-93d19ef92835": {
+   "engine_unit_options": [
+    "Electromagnetic Waves"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 43,
+   "read_seconds": 21
+  },
+  "fc6098bd-ef63-4d76-8a35-0568d11957ae": {
+   "engine_unit_options": [
+    "Electromagnetic Waves"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 63,
+   "read_seconds": 27
+  },
+  "d72339f5-bbbc-48ea-9e57-12b89e48e029": {
+   "engine_unit_options": [
+    "Electromagnetic Waves"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 68,
+   "read_seconds": 29
+  },
+  "90eccf23-4148-4c31-b430-b3d4ab676ad3": {
+   "engine_unit_options": [
+    "Electromagnetic Waves"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 34,
+   "read_seconds": 18
+  },
+  "3a02b025-c5f6-4fce-b1ea-065b95c32dbd": {
+   "engine_unit_options": [
+    "Electromagnetic Waves"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 28,
+   "read_seconds": 16
+  },
+  "fb9cd358-0b96-4d88-948d-61c5f12549d6": {
+   "engine_unit_options": [
+    "Optics"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 36,
+   "read_seconds": 19
+  },
+  "4e2730f5-b6b5-4784-8ad4-fb9b909398de": {
+   "engine_unit_options": [
+    "Optics"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 37,
+   "read_seconds": 19
+  },
+  "abb95356-5484-457f-87c3-9668cd683b07": {
+   "engine_unit_options": [
+    "Optics"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 20,
+   "read_seconds": 14
+  },
+  "ab6c6117-e474-4b8c-907a-59951e5ceb37": {
+   "engine_unit_options": [
+    "Optics"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 31,
+   "read_seconds": 17
+  },
+  "405b35f7-e06b-4e4f-a3c7-fd61928658d4": {
+   "engine_unit_options": [
+    "Electromagnetic Induction and Alternating Currents"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 37,
+   "read_seconds": 19
+  },
+  "2be3fcb0-30ce-427f-ae83-14e5d868f7d0": {
+   "engine_unit_options": [
+    "Electromagnetic Induction and Alternating Currents"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 25,
+   "read_seconds": 16
+  },
+  "f3677c62-dac9-4fbd-9c40-f3874e49b06c": {
+   "engine_unit_options": [
+    "Electromagnetic Induction and Alternating Currents"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 42,
+   "read_seconds": 21
+  },
+  "7156b397-65f5-4272-aad7-2444451f0d72": {
+   "engine_unit_options": [
+    "Electromagnetic Induction and Alternating Currents"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 27,
+   "read_seconds": 16
+  },
+  "8e7f15cc-e80f-455f-81f0-fbbd13ee56b3": {
+   "engine_unit_options": [
+    "Electromagnetic Induction and Alternating Currents"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 47,
+   "read_seconds": 22
+  }
+ }
+}

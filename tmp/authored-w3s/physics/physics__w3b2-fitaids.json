@@ -1,0 +1,232 @@
+{
+ "batch": "physics__w3b2",
+ "subject": "physics",
+ "allowed": {
+  "types": [
+   "single_mcq",
+   "match_the_following",
+   "sequence_ordering",
+   "statement_based",
+   "assertion_reason",
+   "passage_set_item"
+  ],
+  "units": [
+   {
+    "unit": "Electrostatics",
+    "chapters": [
+     "Electric Charges & Fields",
+     "Electrostatic Potential & Capacitance"
+    ]
+   },
+   {
+    "unit": "Current Electricity",
+    "chapters": [
+     "Current Electricity"
+    ]
+   },
+   {
+    "unit": "Magnetic Effects of Current and Magnetism",
+    "chapters": [
+     "Moving Charges & Magnetism",
+     "Magnetism & Matter"
+    ]
+   },
+   {
+    "unit": "Electromagnetic Induction and Alternating Currents",
+    "chapters": [
+     "Electromagnetic Induction",
+     "Alternating Current"
+    ]
+   },
+   {
+    "unit": "Electromagnetic Waves",
+    "chapters": [
+     "Electromagnetic Waves"
+    ]
+   },
+   {
+    "unit": "Optics",
+    "chapters": [
+     "Ray Optics & Optical Instruments",
+     "Wave Optics"
+    ]
+   },
+   {
+    "unit": "Dual Nature of Matter and Radiation",
+    "chapters": [
+     "Dual Nature of Radiation & Matter"
+    ]
+   },
+   {
+    "unit": "Atoms and Nuclei",
+    "chapters": [
+     "Atoms",
+     "Nuclei"
+    ]
+   },
+   {
+    "unit": "Electronic Devices",
+    "chapters": [
+     "Semiconductor Electronics"
+    ]
+   }
+  ],
+  "excluded_chapters": [
+   "Communication Systems"
+  ]
+ },
+ "rows": {
+  "39a9f1f5-675b-4aa4-961e-56b0b6be1145": {
+   "engine_unit_options": [
+    "Magnetic Effects of Current and Magnetism"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 76,
+   "read_seconds": 31
+  },
+  "9ef7bafe-2ca1-4e14-a12a-08890c27374c": {
+   "engine_unit_options": [
+    "Magnetic Effects of Current and Magnetism"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 58,
+   "read_seconds": 26
+  },
+  "118b1495-3889-49b3-8002-f805c6ca1e57": {
+   "engine_unit_options": [
+    "Magnetic Effects of Current and Magnetism"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 71,
+   "read_seconds": 30
+  },
+  "340a6c47-3d6f-42c8-a1a5-af3a9bb0830f": {
+   "engine_unit_options": [
+    "Magnetic Effects of Current and Magnetism"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 47,
+   "read_seconds": 22
+  },
+  "8172d9b4-c41c-413a-a5c2-70ea7df2adf0": {
+   "engine_unit_options": [
+    "Magnetic Effects of Current and Magnetism"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 71,
+   "read_seconds": 30
+  },
+  "704cf988-599d-49f6-a9cf-c15e4dfdda8f": {
+   "engine_unit_options": [
+    "Magnetic Effects of Current and Magnetism"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 62,
+   "read_seconds": 27
+  },
+  "80ca588c-3c3a-415f-ab76-b6b5a5cd4ec8": {
+   "engine_unit_options": [
+    "Magnetic Effects of Current and Magnetism"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 46,
+   "read_seconds": 22
+  },
+  "2686431a-ab28-4bf0-844a-4be4f88f754a": {
+   "engine_unit_options": [
+    "Electronic Devices"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 21,
+   "read_seconds": 14
+  },
+  "c9fd89c4-508e-43f3-991f-a7881e54fd72": {
+   "engine_unit_options": [
+    "Electronic Devices"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 25,
+   "read_seconds": 16
+  },
+  "4b294509-bfcb-4828-a8cd-d2513aa29da3": {
+   "engine_unit_options": [
+    "Electronic Devices"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 32,
+   "read_seconds": 18
+  },
+  "a5de8f62-b02d-4723-8192-449d5eaa6266": {
+   "engine_unit_options": [
+    "Electronic Devices"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 89,
+   "read_seconds": 35
+  },
+  "363ac2b3-431d-45f1-a7b4-d03bce246584": {
+   "engine_unit_options": [
+    "Electronic Devices"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 44,
+   "read_seconds": 21
+  },
+  "deb9beb8-bb5d-48af-b1c0-fecad65bee2b": {
+   "engine_unit_options": [
+    "Electronic Devices"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 35,
+   "read_seconds": 19
+  },
+  "48b434ae-1e86-41b4-aae0-aae582c8a520": {
+   "engine_unit_options": [
+    "Electronic Devices"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 35,
+   "read_seconds": 19
+  },
+  "3c52abd8-b99f-46ac-aa70-29811ca6fe13": {
+   "engine_unit_options": [
+    "Electronic Devices"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 82,
+   "read_seconds": 33
+  },
+  "898006b1-95b2-4d03-93dc-23c3afb8a925": {
+   "engine_unit_options": [
+    "Electronic Devices"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 32,
+   "read_seconds": 18
+  },
+  "dff97aad-a78a-4772-bb3b-335df7f6577a": {
+   "engine_unit_options": [
+    "Electronic Devices"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 36,
+   "read_seconds": 19
+  },
+  "7f417185-bf9c-48af-a21b-ea3e7a065115": {
+   "engine_unit_options": [
+    "Electronic Devices"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 81,
+   "read_seconds": 33
+  },
+  "0d5f2ae0-8dca-4ccc-aa7f-eaa1a54ab5f8": {
+   "engine_unit_options": [
+    "Electronic Devices"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 30,
+   "read_seconds": 17
+  }
+ }
+}

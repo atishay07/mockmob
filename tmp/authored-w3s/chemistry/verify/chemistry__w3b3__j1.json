@@ -1,0 +1,182 @@
+[
+  {
+    "id": "c7164d89-271f-4f8d-8340-124aa636b7a2",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.biomolecules.rna-sugar-and-bases",
+    "flags": [],
+    "note": "Key A correct (RNA has ribose and uracil). Direct recall with fair DNA-mix distractors. Label medium is one notch high."
+  },
+  {
+    "id": "4ea4ceb5-ceb7-42eb-98f1-e189af38ba84",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.biomolecules.complementary-strand-antiparallel",
+    "flags": [],
+    "note": "Key B verified: complement 3'-TACG-5' read 5' to 3' is GCAT. Option A is the classic unreversed error, option C a reversed-template slip. Label hard is one notch high."
+  },
+  {
+    "id": "839dd482-8e96-4b1e-8db6-c26e551ba4bb",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.alpha-halogenation-reagents",
+    "flags": [],
+    "note": "Key C correct (Br2 with red phosphorus). Option D (NaBr with conc. H2SO4) is a throwaway distractor; A and B are fair."
+  },
+  {
+    "id": "82d50c33-6e77-4fdc-9955-8d6d3d80977a",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.aldol-addition-product",
+    "flags": [],
+    "note": "Key D correct (aldol addition). Options B (butan-2-one) and C (propan-2-ol) are throwaway; only A, the Cannizzaro-type trap, is a real distractor."
+  },
+  {
+    "id": "2b8ad4d9-5b84-4089-ba12-bb46cb8fe0d9",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.carbonyl-to-methylene-reduction",
+    "flags": [],
+    "note": "Key A correct (hydrazine then KOH in ethylene glycol). Clemmensen, LiAlH4 and H2/Pd distractors are real reductions; direct recall, no leak."
+  },
+  {
+    "id": "9bc6d44a-b09b-4b8c-8e22-919b7fe6928b",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.carbonyl-reactivity-nucleophilic-addition",
+    "flags": [],
+    "note": "Key B correct: formaldehyde is most reactive. Explanation order matches the key. Three real competitors."
+  },
+  {
+    "id": "617d4704-0bf0-41bb-b895-e2a6504032ab",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.aldehydes-ketones-and-carboxylic-acids.iodoform-reaction-product",
+    "flags": [],
+    "note": "Key C correct (CHI3). Chloroform and CH2I2 are fair traps; CCl4 is weak. The stem's yellow describes the product only and does not give the key away."
+  },
+  {
+    "id": "d90fb3b0-ebc2-4edf-a790-e8d6df73df18",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.haloalkanes-and-haloarenes.resonance-cl-bond-strength",
+    "flags": [],
+    "note": "Key D correct: both statements true and resonance explains the lower reactivity. Standard A-R form. Label hard is one notch high."
+  },
+  {
+    "id": "cf7799f2-09c0-4d5e-9f13-b4cd060ef821",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.haloalkanes-and-haloarenes.leaving-group-ability-of-halides",
+    "flags": [],
+    "note": "Key A correct (RI > RBr > RCl > RF). Option B is a fair reverse trap, but C and D are scrambled orders and throwaway."
+  },
+  {
+    "id": "53f31015-3913-4213-a0b1-fad4126639d6",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.haloalkanes-and-haloarenes.grignard-addition-to-aldehyde",
+    "flags": [],
+    "note": "Key B correct: CH3MgI plus ethanal then hydrolysis gives propan-2-ol. Propan-1-ol and butan-2-ol are fair Grignard slips; ethanol is weaker."
+  },
+  {
+    "id": "59a100d2-d92b-48ae-8b1c-773b76b35021",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.amines.diazonium-replacement-by-chlorine",
+    "flags": [],
+    "note": "Key C correct (CuCl/HCl chlorination). Benzonitrile (CuCN) and phenol are fair traps; benzene is weaker. Explanation facts are correct."
+  },
+  {
+    "id": "b0613d9b-0bdd-4048-b9ed-d22916eadcf8",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.amines.azo-coupling-with-phenol",
+    "flags": [],
+    "note": "Key D correct (azo coupling at pH 9-10). Benzoic acid and nitrobenzene are off-topic; only aniline is a real distractor."
+  },
+  {
+    "id": "6c9e8e40-c2e3-4240-946d-3e669d70a831",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.amines.secondary-amine-nitrous-acid-reaction",
+    "flags": [],
+    "note": "Key A correct: dimethylamine gives a yellow oily nitrosamine. Each distractor is tied to a real behaviour (primary, tertiary, aromatic). Label hard is one notch high."
+  },
+  {
+    "id": "846628da-e0bf-4947-b26c-5566653aee0a",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.d-and-f-block-elements.half-filled-d-subshell-stability",
+    "flags": [],
+    "note": "Key B correct: Cr is [Ar] 3d5 4s1. A (3d4 4s2) and C are real traps; D (4s3) is an impossible throwaway."
+  },
+  {
+    "id": "a405bec0-826f-44c5-9f84-2e908a39344b",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.d-and-f-block-elements.spin-only-magnetic-moment",
+    "flags": [],
+    "note": "Key A correct: Ti3+ is 3d1, so n=1 and sqrt(3) = 1.73 BM. Distractors 0 (diamagnetic), 2.83 (n=2) and 3.87 (n=3) are the common slips."
+  },
+  {
+    "id": "89b11133-4e7e-4f99-8cb2-d2d84288ccc6",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.d-and-f-block-elements.spin-only-magnetic-moment",
+    "flags": [],
+    "note": "Key D correct: Fe2+ 3d6 has 4 unpaired, sqrt(24) = 4.90 BM. Distractors 2.83, 3.87 and 5.92 are miscounted-n values. Clean one-step item."
+  },
+  {
+    "id": "c59ca92c-e396-4036-822d-1ef3fecdeda2",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.d-and-f-block-elements.colour-from-d-d-transitions",
+    "flags": [],
+    "note": "Key C correct: Sc3+ is d0 so no d-d transition and it is colourless. Ti3+, V3+ and Fe2+ are real coloured ions, a good set of distractors."
+  },
+  {
+    "id": "50a574d4-8098-483b-bac5-a7d1b5bd6741",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.d-and-f-block-elements.permanganate-reduction-by-medium",
+    "flags": [],
+    "note": "Key B correct: neutral KMnO4 reduction gives MnO2 (Mn +4). Mn2+ (acid), MnO4 2- (alkaline) and Mn3+ are medium-dependent distractors. Explanation matches."
+  }
+]

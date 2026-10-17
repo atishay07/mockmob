@@ -1,0 +1,20 @@
+{
+  "excluded": [
+    {
+      "id": "dff97aad-a78a-4772-bb3b-335df7f6577a",
+      "subject": "physics",
+      "engine_reasons": [
+        "answer_guard_options_invalid",
+        "answer_guard_near_duplicate_options",
+        "options_invalid"
+      ],
+      "held": "Not reworded: the expert verdict is drop (logic gates are outside Unit 9 Electronic Devices of the official CUET UG 2026 Physics syllabus, see docs/brain/reports/authored-w3/expert/physics.json). Rewording its symbol-only options in words would clear the engine but leave an out-of-syllabus item."
+    },
+    {
+      "id": "19c49938-f37a-419f-975a-03e609b82cdc",
+      "subject": "general_test",
+      "engine_reasons": [],
+      "held": "Listed by the earlier audit as refused (statement_options_use_labels_not_in_stem on circular-seating options P/Q/S/T). Re-checked 2026-10-17 on this checkout's engine r5.2 and on the deployed mockmob-hotfix engine r5.2: eligible, no reason. No reword needed; unchanged text keeps its scores."
+    }
+  ]
+}

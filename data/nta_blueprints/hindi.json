@@ -1,0 +1,257 @@
+{
+  "$schema": "./_schema.json",
+  "schemaVersion": 1,
+  "blueprintVersion": "2026.10.17-1",
+  "subject": "hindi",
+  "internalSubject": "hindi",
+  "ntaCode": "102",
+  "officialName": "Hindi",
+  "kind": "language",
+  "appliesTo": "CUET UG 2026 rules (Information Bulletin 2026) and the 2026 Hindi (102) syllabus; no real Hindi paper has been counted, so every count below is inferred from the syllabus and the English paper; provisional for 2027",
+  "exam": {
+    "totalQuestions": 50,
+    "attempt": "all_compulsory",
+    "durationMinutes": 60,
+    "secondsPerQuestion": 72,
+    "optionsPerQuestion": 4,
+    "answerType": "single_correct_mcq",
+    "marking": {
+      "correct": 5,
+      "incorrect": -1,
+      "unanswered": 0,
+      "maxMarks": 250,
+      "moreThanOneCorrectOption": "award +5 only to candidates who marked any of the correct options",
+      "noCorrectOptionOrDropped": "award +5 to every candidate who appeared"
+    },
+    "mode": "CBT",
+    "medium": "Hindi (Devanagari). The bulletin's rule for how the language papers are delivered was not checked for code 102.",
+    "calculatorAllowed": false,
+    "pwbdCompensatoryMinutesPerHour": 20,
+    "sources": [
+      "S1",
+      "S2"
+    ],
+    "confidence": "high"
+  },
+  "variants": [
+    {
+      "id": "default",
+      "label": "Single paper",
+      "default": true,
+      "sections": [
+        {
+          "id": "main",
+          "label": "Whole paper",
+          "questions": 50,
+          "positions": [
+            1,
+            50
+          ],
+          "units": [
+            {
+              "name": "Reading Comprehension",
+              "questions": {
+                "min": 8,
+                "target": 10,
+                "max": 15
+              },
+              "chapters": [
+                {
+                  "name": "Apathit Gadyansh",
+                  "min": 0,
+                  "target": 5,
+                  "max": 10,
+                  "note": "Unseen prose passage: the syllabus's factual and narrative passages."
+                },
+                {
+                  "name": "Apathit Padyansh",
+                  "min": 0,
+                  "target": 5,
+                  "max": 10,
+                  "note": "Unseen verse passage: the syllabus's literary passage."
+                }
+              ],
+              "note": "Questions come only as passage sets (syllabus: passages of at most 300 words). A paper mixes at least one prose and one verse passage."
+            },
+            {
+              "name": "Verbal Ability",
+              "questions": {
+                "min": 35,
+                "target": 40,
+                "max": 42
+              },
+              "chapters": [
+                {
+                  "name": "Vyakaran",
+                  "min": 35,
+                  "target": 40,
+                  "max": 42,
+                  "note": "Syllabus items: rearranging the parts, match the following, choosing the correct word, synonyms and antonyms. Grammar items (sandhi, samas, alankar, ras, karak, upsarg, pratyay, muhavare) are accepted as 'not limited to'. Stored as one chapter, as the bank stores it."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "excludedChapters": [
+    {
+      "name": "Anuvad",
+      "reason": "Translation is not in the CUET 2026 Hindi (102) syllabus, which lists only Reading Comprehension and Verbal Ability."
+    },
+    {
+      "name": "Kavya Khand",
+      "reason": "Set-text literature (Aroh and Vitan) is not in the CUET 2026 Hindi (102) syllabus. Unseen verse is the chapter Apathit Padyansh."
+    },
+    {
+      "name": "Gadya Khand",
+      "reason": "Set-text literature (Aroh and Vitan) is not in the CUET 2026 Hindi (102) syllabus. Unseen prose is the chapter Apathit Gadyansh."
+    },
+    {
+      "name": "Rachnatmak Lekhan",
+      "reason": "Creative writing is not in the CUET 2026 Hindi (102) syllabus and a multiple-choice paper cannot test it."
+    }
+  ],
+  "typeQuotas": {
+    "single_mcq": {
+      "min": 22,
+      "target": 30,
+      "max": 36
+    },
+    "match_the_following": {
+      "min": 2,
+      "target": 5,
+      "max": 8
+    },
+    "sequence_ordering": {
+      "min": 0,
+      "target": 2,
+      "max": 4
+    },
+    "statement_based": {
+      "min": 0,
+      "target": 3,
+      "max": 6
+    },
+    "assertion_reason": {
+      "min": 0,
+      "target": 0,
+      "max": 2
+    }
+  },
+  "sets": {
+    "count": {
+      "min": 2,
+      "target": 2,
+      "max": 3
+    },
+    "size": {
+      "min": 4,
+      "target": 5,
+      "max": 5
+    },
+    "questions": {
+      "min": 8,
+      "target": 10,
+      "max": 15
+    },
+    "placement": "start",
+    "positions": [
+      [
+        1,
+        5
+      ],
+      [
+        6,
+        10
+      ]
+    ],
+    "oneChapterPerSet": true,
+    "kinds": [
+      "apathit_gadyansh",
+      "apathit_padyansh"
+    ],
+    "distinctKindsMin": 2,
+    "passageWords": {
+      "min": 80,
+      "target": 150,
+      "max": 300
+    },
+    "itemTypes": "Central idea, detail, inference, tone or mood, word meaning in context, figure of speech or rasa in the passage, \"which statement is NOT supported\".",
+    "ifUnavailable": "Do not start the paper. A paper without two complete passage sets of 4-5 questions is not built on the English pattern that this blueprint copies.",
+    "note": "The 2026 syllabus names three passage types (factual, narrative, literary) of at most 300 words. Counts of passages and questions are copied from the English paper because no Hindi paper has been counted. Verse passages are short (about 90-110 words), so the minimum is 80 words, not English's 200."
+  },
+  "order": {
+    "layout": "sets_first_then_mixed_verbal",
+    "setPositions": [
+      [
+        1,
+        5
+      ],
+      [
+        6,
+        10
+      ]
+    ],
+    "standalonePositions": [
+      11,
+      50
+    ],
+    "chapterGrouping": "mixed",
+    "maxSameTypeRun": 3,
+    "note": "Inferred from the English paper: passages first, then verbal-ability items interleaved, special types (match, sequence, statements) never in blocks."
+  },
+  "difficulty": {
+    "easy": {
+      "min": 0.25,
+      "target": 0.35,
+      "max": 0.45
+    },
+    "medium": {
+      "min": 0.4,
+      "target": 0.5,
+      "max": 0.6
+    },
+    "hard": {
+      "min": 0.1,
+      "target": 0.15,
+      "max": 0.25
+    },
+    "basis": "MockMob difficulty labels (data/cuet_controls.js CUET_DIFFICULTY_STANDARD). NTA publishes no difficulty mix.",
+    "inferred": true,
+    "note": "Copied from the English blueprint. One 2025 candidate report called the Hindi paper easy (grammar, passage, figures of speech); it is not a count."
+  },
+  "evidence": {
+    "observed": [
+      {
+        "paper": "CUET UG 2026 Hindi (102) syllabus, National Testing Agency (data/CUET 2026/hindi.pdf, 2 pages)",
+        "source": "S3",
+        "counts": {
+          "language_section": "Reading Comprehension (factual, narrative, literary passages of at most 300 words) and Verbal Ability (rearranging the parts, match the following, choosing the correct word, synonyms and antonyms)",
+          "literature": "none listed",
+          "grammar": "none listed by name (the list says 'not limited to')"
+        }
+      }
+    ],
+    "confidence": {
+      "examRules": "high",
+      "sectionStructure": "medium",
+      "unitWeights": "low",
+      "typeMix": "low",
+      "sets": "low",
+      "difficulty": "low"
+    },
+    "inferred": [
+      "unit weights, set count and size, passage positions: copied from the English blueprint",
+      "type quotas: chosen so the items the bank holds can fill them (English-only types synonym, antonym, rearrangement and fill-in-blank are single_mcq here until Hindi patterns exist in _types.json)",
+      "difficulty",
+      "the exclusion of Kavya Khand, Gadya Khand, Anuvad and Rachnatmak Lekhan follows the 2026 syllabus PDF; the older syllabus that listed Aroh and Vitan literature is not in the repository"
+    ]
+  },
+  "sources": [
+    "S1",
+    "S2",
+    "S3"
+  ]
+}

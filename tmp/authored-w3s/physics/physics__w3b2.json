@@ -1,0 +1,633 @@
+{
+ "batch": "physics__w3b2",
+ "subject": "physics",
+ "questions": [
+  {
+   "id": "39a9f1f5-675b-4aa4-961e-56b0b6be1145",
+   "subject": "physics",
+   "unit": "Magnetic Effects of Current and Magnetism",
+   "chapter": "Moving Charges & Magnetism",
+   "type": "statement_based",
+   "stem": "Two long straight parallel wires, separated by a distance d, carry steady currents I1 and I2 in the same direction. Which statements are correct? (I) The wires attract each other. (II) The force per unit length on each wire is μ0 I1 I2/(2π d). (III) The wires repel each other. (IV) The force per unit length is independent of d.",
+   "options": [
+    {
+     "key": "A",
+     "text": "I and II only"
+    },
+    {
+     "key": "B",
+     "text": "III and IV only"
+    },
+    {
+     "key": "C",
+     "text": "I and IV only"
+    },
+    {
+     "key": "D",
+     "text": "II and III only"
+    }
+   ],
+   "correct_key": "A",
+   "explanation": "Parallel currents in the same direction attract, and the force per unit length is μ0 I1 I2/(2π d), which falls as the separation increases. Currents in opposite directions repel. Statements III and IV are therefore incorrect.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Physics Part I, Ch 4 Moving Charges and Magnetism, section 4.9 Force between two parallel currents",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "9ef7bafe-2ca1-4e14-a12a-08890c27374c",
+   "subject": "physics",
+   "unit": "Magnetic Effects of Current and Magnetism",
+   "chapter": "Moving Charges & Magnetism",
+   "type": "single_mcq",
+   "stem": "A galvanometer of resistance G is to be converted into a voltmeter of range V. Which resistance must be connected, and how?",
+   "options": [
+    {
+     "key": "A",
+     "text": "A very small resistance in parallel with the galvanometer"
+    },
+    {
+     "key": "B",
+     "text": "A very large resistance in series with the galvanometer"
+    },
+    {
+     "key": "C",
+     "text": "A very large resistance in parallel with the galvanometer"
+    },
+    {
+     "key": "D",
+     "text": "A very small resistance in series with the galvanometer"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "A voltmeter needs a high resistance in series with the galvanometer so that only a small current flows at full-scale deflection. The series resistance is R = V/I_g − G, which is large because I_g is small. A shunt in parallel is used for an ammeter, not a voltmeter.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Physics Part I, Ch 4 Moving Charges and Magnetism, section 4.11 Moving coil galvanometer (conversion into ammeter and voltmeter)",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "118b1495-3889-49b3-8002-f805c6ca1e57",
+   "subject": "physics",
+   "unit": "Magnetic Effects of Current and Magnetism",
+   "chapter": "Moving Charges & Magnetism",
+   "type": "single_mcq",
+   "stem": "A rectangular current-carrying loop is placed in a uniform magnetic field. The torque on the loop is maximum when:",
+   "options": [
+    {
+     "key": "A",
+     "text": "The normal to the plane of the loop is parallel to the field"
+    },
+    {
+     "key": "B",
+     "text": "The plane of the loop is parallel to the field"
+    },
+    {
+     "key": "C",
+     "text": "The normal to the plane of the loop makes an angle of 45° with the field"
+    },
+    {
+     "key": "D",
+     "text": "The normal to the plane of the loop is antiparallel to the field"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "The torque on a loop is τ = N I A B sinθ, where θ is the angle between the normal to the loop and the field. The torque is maximum when sinθ = 1, which means the normal is perpendicular to B and the plane of the loop is parallel to B. Torque is zero when the normal is parallel or antiparallel to B.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Physics Part I, Ch 4 Moving Charges and Magnetism, section 4.10 Torque on a current loop, magnetic dipole",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "340a6c47-3d6f-42c8-a1a5-af3a9bb0830f",
+   "subject": "physics",
+   "unit": "Magnetic Effects of Current and Magnetism",
+   "chapter": "Moving Charges & Magnetism",
+   "type": "single_mcq",
+   "stem": "A proton of mass 1.6 × 10^-27 kg and charge 1.6 × 10^-19 C moves with a speed of 1.0 × 10^6 m/s perpendicular to a uniform magnetic field of 0.1 T. The radius of its circular path is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "0.01 m"
+    },
+    {
+     "key": "B",
+     "text": "0.1 m"
+    },
+    {
+     "key": "C",
+     "text": "1.0 m"
+    },
+    {
+     "key": "D",
+     "text": "0.2 m"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "A charge moving perpendicular to a uniform field follows a circle of radius r = m v/(q B). Substituting: r = (1.6 × 10^-27 × 1.0 × 10^6)/(1.6 × 10^-19 × 0.1) = 1.6 × 10^-21/1.6 × 10^-20 = 0.1 m.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Physics Part I, Ch 4 Moving Charges and Magnetism, section 4.5 Cyclotron",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "8172d9b4-c41c-413a-a5c2-70ea7df2adf0",
+   "subject": "physics",
+   "unit": "Magnetic Effects of Current and Magnetism",
+   "chapter": "Moving Charges & Magnetism",
+   "type": "single_mcq",
+   "stem": "A closed amperian loop encloses two long straight conductors. One carries 5 A out of the plane of the page and the other carries 3 A into the plane of the page. A third conductor carrying 4 A out of the plane lies outside the loop. The value of the line integral of B around the loop, ∮B · dl, is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Zero"
+    },
+    {
+     "key": "B",
+     "text": "2μ0 T m"
+    },
+    {
+     "key": "C",
+     "text": "4μ0 T m"
+    },
+    {
+     "key": "D",
+     "text": "8μ0 T m"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "Ampere's circuital law states ∮B · dl = μ0 I_enclosed. Only the currents passing through the loop count, so the 4 A conductor outside contributes nothing. Opposite-direction currents subtract, so the net enclosed current is 5 A − 3 A = 2 A, giving ∮B · dl = 2μ0 T m.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "hard",
+   "ncert_ref": "NCERT Class 12 Physics Part I, Ch 4 Moving Charges and Magnetism, section 4.7 Ampere's circuital law",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "704cf988-599d-49f6-a9cf-c15e4dfdda8f",
+   "subject": "physics",
+   "unit": "Magnetic Effects of Current and Magnetism",
+   "chapter": "Moving Charges & Magnetism",
+   "type": "single_mcq",
+   "stem": "Consider a straight wire of finite length carrying a steady current I. Compared with an infinitely long straight wire carrying the same current, the magnitude of the magnetic field at a perpendicular distance d from the midpoint of the finite wire is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "The same as for the infinite wire"
+    },
+    {
+     "key": "B",
+     "text": "Greater than for the infinite wire"
+    },
+    {
+     "key": "C",
+     "text": "Less than for the infinite wire"
+    },
+    {
+     "key": "D",
+     "text": "Zero"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "The field at a perpendicular distance d from the midpoint of a finite wire is B = (μ0 I)/(4π d) × (sinθ1 + sinθ2), where θ1 = θ2 is less than 90°. For an infinite wire both angles are 90°, giving μ0 I/(2π d). The finite wire therefore produces a smaller field.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "hard",
+   "ncert_ref": "NCERT Class 12 Physics Part I, Ch 4 Moving Charges and Magnetism, section 4.6 Biot-Savart law",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "80ca588c-3c3a-415f-ab76-b6b5a5cd4ec8",
+   "subject": "physics",
+   "unit": "Magnetic Effects of Current and Magnetism",
+   "chapter": "Moving Charges & Magnetism",
+   "type": "single_mcq",
+   "stem": "A magnetic dipole of moment M is held in a uniform magnetic field B with its moment initially along the field. The work done by an external agent in slowly rotating the dipole until its moment points antiparallel to the field is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Zero"
+    },
+    {
+     "key": "B",
+     "text": "MB"
+    },
+    {
+     "key": "C",
+     "text": "2MB"
+    },
+    {
+     "key": "D",
+     "text": "−2MB"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "The potential energy of a dipole in a field is U = −M B cosθ. At θ = 0 the energy is −MB, and at θ = 180° it is +MB. The work done by the external agent equals the change in potential energy, U(180°) − U(0) = MB − (−MB) = 2MB.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "hard",
+   "ncert_ref": "NCERT Class 12 Physics Part I, Ch 4 Moving Charges and Magnetism, section 4.10 Torque on a current loop, magnetic dipole",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "2686431a-ab28-4bf0-844a-4be4f88f754a",
+   "subject": "physics",
+   "unit": "Electronic Devices",
+   "chapter": "Semiconductor Electronics",
+   "type": "single_mcq",
+   "stem": "At absolute zero temperature, a pure (intrinsic) silicon crystal behaves as:",
+   "options": [
+    {
+     "key": "A",
+     "text": "A conductor"
+    },
+    {
+     "key": "B",
+     "text": "A superconductor"
+    },
+    {
+     "key": "C",
+     "text": "A perfect insulator"
+    },
+    {
+     "key": "D",
+     "text": "An n-type semiconductor"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "At 0 K the valence band of intrinsic silicon is completely filled and the conduction band is empty, so there are no free charge carriers. The crystal therefore acts as a perfect insulator until thermal energy excites electrons across the band gap.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "NCERT Class 12 Physics Part II, Ch 14 Semiconductor Electronics: Materials, Devices and Simple Circuits, Section 14.3 Intrinsic Semiconductor",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "c9fd89c4-508e-43f3-991f-a7881e54fd72",
+   "subject": "physics",
+   "unit": "Electronic Devices",
+   "chapter": "Semiconductor Electronics",
+   "type": "single_mcq",
+   "stem": "Among a conductor, an intrinsic semiconductor and an insulator, which has the largest forbidden energy gap?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Conductor"
+    },
+    {
+     "key": "B",
+     "text": "Intrinsic semiconductor"
+    },
+    {
+     "key": "C",
+     "text": "Insulator"
+    },
+    {
+     "key": "D",
+     "text": "Conductor and semiconductor are equal"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "In a conductor the valence and conduction bands overlap, so the gap is effectively zero. Semiconductors have a small gap of about 1 eV, while insulators have a wide gap of several eV, which is why they do not conduct at ordinary temperatures.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "NCERT Class 12 Physics Part II, Ch 14 Semiconductor Electronics: Materials, Devices and Simple Circuits, Section 14.2 Classification of Metals, Conductors and Semiconductors",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "4b294509-bfcb-4828-a8cd-d2513aa29da3",
+   "subject": "physics",
+   "unit": "Electronic Devices",
+   "chapter": "Semiconductor Electronics",
+   "type": "single_mcq",
+   "stem": "A half-wave rectifier is fed from a 60 Hz mains supply. The frequency of the output pulses is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "30 Hz"
+    },
+    {
+     "key": "B",
+     "text": "60 Hz"
+    },
+    {
+     "key": "C",
+     "text": "120 Hz"
+    },
+    {
+     "key": "D",
+     "text": "0 Hz, since the output is pure DC"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "A half-wave rectifier conducts only during the positive half of each cycle, so it produces one output pulse per input cycle. The output pulse frequency therefore equals the input frequency, 60 Hz. A full-wave rectifier would instead give 120 Hz.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "NCERT Class 12 Physics Part II, Ch 14 Semiconductor Electronics: Materials, Devices and Simple Circuits, Section 14.7 Application of Junction Diode as a Rectifier",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "a5de8f62-b02d-4723-8192-449d5eaa6266",
+   "subject": "physics",
+   "unit": "Electronic Devices",
+   "chapter": "Semiconductor Electronics",
+   "type": "statement_based",
+   "stem": "A Zener diode is used as a voltage regulator. Statement I: A Zener diode is used as a voltage regulator because it operates in reverse breakdown. Statement II: In reverse breakdown, the voltage across the Zener diode stays nearly constant over a wide range of currents.",
+   "options": [
+    {
+     "key": "A",
+     "text": "Both I and II are true, and II is the correct explanation of I"
+    },
+    {
+     "key": "B",
+     "text": "Both I and II are true, but II is not the correct explanation of I"
+    },
+    {
+     "key": "C",
+     "text": "I is true, but II is false"
+    },
+    {
+     "key": "D",
+     "text": "I is false, but II is true"
+    }
+   ],
+   "correct_key": "A",
+   "explanation": "A Zener diode is designed to break down sharply at a fixed reverse voltage, and in that region the voltage across it stays almost constant while the current changes. This constant voltage is exactly what makes it useful as a regulator, so statement II explains statement I.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Physics Part II, Ch 14 Semiconductor Electronics: Materials, Devices and Simple Circuits, Section 14.8 Special Purpose p-n Junction Diodes",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "363ac2b3-431d-45f1-a7b4-d03bce246584",
+   "subject": "physics",
+   "unit": "Electronic Devices",
+   "chapter": "Semiconductor Electronics",
+   "type": "single_mcq",
+   "stem": "In a solar cell, the electron-hole pairs produced by illumination are separated and driven across the junction mainly by:",
+   "options": [
+    {
+     "key": "A",
+     "text": "The built-in electric field of the depletion region"
+    },
+    {
+     "key": "B",
+     "text": "An external battery connected in reverse bias"
+    },
+    {
+     "key": "C",
+     "text": "Diffusion alone, with no electric field"
+    },
+    {
+     "key": "D",
+     "text": "The Earth's magnetic field"
+    }
+   ],
+   "correct_key": "A",
+   "explanation": "Light creates electron-hole pairs on both sides of the junction. The built-in electric field across the depletion region sweeps electrons to the n-side and holes to the p-side, producing a photo-voltage and current without any external battery.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Physics Part II, Ch 14 Semiconductor Electronics: Materials, Devices and Simple Circuits, Section 14.8 Special Purpose p-n Junction Diodes",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "deb9beb8-bb5d-48af-b1c0-fecad65bee2b",
+   "subject": "physics",
+   "unit": "Electronic Devices",
+   "chapter": "Semiconductor Electronics",
+   "type": "single_mcq",
+   "stem": "In a silicon p-n junction diode, the forward current becomes significant only after the applied forward voltage exceeds about 0.7 V. This voltage is called the:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Breakdown voltage"
+    },
+    {
+     "key": "B",
+     "text": "Knee (cut-in) voltage"
+    },
+    {
+     "key": "C",
+     "text": "Zener voltage"
+    },
+    {
+     "key": "D",
+     "text": "Saturation voltage"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "The forward characteristic of a silicon diode is nearly flat until about 0.7 V, after which the current rises steeply. This turn-on point is called the knee or cut-in voltage, which is about 0.3 V for germanium.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "NCERT Class 12 Physics Part II, Ch 14 Semiconductor Electronics: Materials, Devices and Simple Circuits, Section 14.6 Semiconductor Diode",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "48b434ae-1e86-41b4-aae0-aae582c8a520",
+   "subject": "physics",
+   "unit": "Electronic Devices",
+   "chapter": "Semiconductor Electronics",
+   "type": "single_mcq",
+   "stem": "A sinusoidal AC voltage with peak value 10 V is applied to an ideal half-wave rectifier with a resistive load. The average (DC) output voltage is approximately:",
+   "options": [
+    {
+     "key": "A",
+     "text": "3.18 V"
+    },
+    {
+     "key": "B",
+     "text": "6.37 V"
+    },
+    {
+     "key": "C",
+     "text": "5.00 V"
+    },
+    {
+     "key": "D",
+     "text": "10.0 V"
+    }
+   ],
+   "correct_key": "A",
+   "explanation": "For a half-wave rectifier the output over one full cycle is zero for half the time, so the average value is V_m divided by pi. Here 10/pi is about 3.18 V. The value 6.37 V would be the average for a full-wave rectifier, which is 2V_m/pi.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Physics Part II, Ch 14 Semiconductor Electronics: Materials, Devices and Simple Circuits, Section 14.7 Application of Junction Diode as a Rectifier",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "3c52abd8-b99f-46ac-aa70-29811ca6fe13",
+   "subject": "physics",
+   "unit": "Electronic Devices",
+   "chapter": "Semiconductor Electronics",
+   "type": "match_the_following",
+   "stem": "Match List-I with List-II. List-I: (A) AND gate (B) OR gate (C) NOR gate (D) NOT gate. List-II: (I) Output is the complement of the OR output (II) Output is 1 when at least one input is 1 (III) Output is 1 only when all inputs are 1 (IV) Output is the complement of the single input. Choose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
+    },
+    {
+     "key": "B",
+     "text": "(A)-(III), (B)-(II), (C)-(I), (D)-(IV)"
+    },
+    {
+     "key": "C",
+     "text": "(A)-(II), (B)-(III), (C)-(IV), (D)-(I)"
+    },
+    {
+     "key": "D",
+     "text": "(A)-(IV), (B)-(I), (C)-(II), (D)-(III)"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "An AND gate gives 1 only when all inputs are 1, so A matches III. An OR gate gives 1 when any input is 1, so B matches II. A NOR gate is the complement of OR, so C matches I. A NOT gate complements its single input, so D matches IV.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Physics Part II, Ch 14 Semiconductor Electronics: Materials, Devices and Simple Circuits, Section 14.10 Digital Electronics and Logic Gates",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "898006b1-95b2-4d03-93dc-23c3afb8a925",
+   "subject": "physics",
+   "unit": "Electronic Devices",
+   "chapter": "Semiconductor Electronics",
+   "type": "single_mcq",
+   "stem": "Two inputs A and B give the output Y for the input combinations 00, 01, 10 and 11 as 1, 1, 1 and 0 respectively. The gate is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "AND"
+    },
+    {
+     "key": "B",
+     "text": "OR"
+    },
+    {
+     "key": "C",
+     "text": "NAND"
+    },
+    {
+     "key": "D",
+     "text": "XOR"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "The output is 0 only when both inputs are 1, which is the truth table of a NAND gate. An AND gate would give 0,0,0,1, and an XOR gate would give 0,1,1,0, so both are ruled out.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "NCERT Class 12 Physics Part II, Ch 14 Semiconductor Electronics: Materials, Devices and Simple Circuits, Section 14.10 Digital Electronics and Logic Gates",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "dff97aad-a78a-4772-bb3b-335df7f6577a",
+   "subject": "physics",
+   "unit": "Electronic Devices",
+   "chapter": "Semiconductor Electronics",
+   "type": "single_mcq",
+   "stem": "In a logic circuit, inputs A and B feed an OR gate, and the output of the OR gate feeds a NOT gate. The final output Y equals:",
+   "options": [
+    {
+     "key": "A",
+     "text": "A.B"
+    },
+    {
+     "key": "B",
+     "text": "A + B"
+    },
+    {
+     "key": "C",
+     "text": "(A + B)'"
+    },
+    {
+     "key": "D",
+     "text": "(A.B)'"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "The OR gate gives A + B, and the NOT gate complements it, so Y = (A + B)'. This combination is a NOR gate. The expression (A.B)' describes a NAND gate, which is the common mistake when the OR and AND gates are confused.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "hard",
+   "ncert_ref": "NCERT Class 12 Physics Part II, Ch 14 Semiconductor Electronics: Materials, Devices and Simple Circuits, Section 14.10 Digital Electronics and Logic Gates",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "7f417185-bf9c-48af-a21b-ea3e7a065115",
+   "subject": "physics",
+   "unit": "Electronic Devices",
+   "chapter": "Semiconductor Electronics",
+   "type": "statement_based",
+   "stem": "A half-wave rectifier with a capacitor filter gives a smoother DC output. Statement I: Increasing the filter capacitance reduces the ripple voltage. Statement II: Increasing the load resistance reduces the ripple voltage, because the capacitor discharges more slowly.",
+   "options": [
+    {
+     "key": "A",
+     "text": "Both I and II are true, and II is the correct explanation of I"
+    },
+    {
+     "key": "B",
+     "text": "Both I and II are true, but II is not the correct explanation of I"
+    },
+    {
+     "key": "C",
+     "text": "I is true, but II is false"
+    },
+    {
+     "key": "D",
+     "text": "I is false, but II is true"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "The ripple voltage is approximately V_m divided by (f R C), so it falls when either C or R increases. Statement I is true. Statement II is also true, but it describes the effect of R, not the effect of C, so it does not explain statement I.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "hard",
+   "ncert_ref": "NCERT Class 12 Physics Part II, Ch 14 Semiconductor Electronics: Materials, Devices and Simple Circuits, Section 14.7 Application of Junction Diode as a Rectifier",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "0d5f2ae0-8dca-4ccc-aa7f-eaa1a54ab5f8",
+   "subject": "physics",
+   "unit": "Electronic Devices",
+   "chapter": "Semiconductor Electronics",
+   "type": "single_mcq",
+   "stem": "A light-emitting diode is made from a semiconductor of band gap 2.0 eV. The approximate wavelength of the light it emits is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "620 nm"
+    },
+    {
+     "key": "B",
+     "text": "310 nm"
+    },
+    {
+     "key": "C",
+     "text": "1240 nm"
+    },
+    {
+     "key": "D",
+     "text": "400 nm"
+    }
+   ],
+   "correct_key": "A",
+   "explanation": "The emitted photon energy is approximately equal to the band gap. Using lambda = hc / E_g, with hc about 1240 eV nm, gives lambda = 1240 / 2.0 = 620 nm, which is in the red part of the spectrum.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "NCERT Class 12 Physics Part II, Ch 14 Semiconductor Electronics: Materials, Devices and Simple Circuits, Section 14.8 Special Purpose p-n Junction Diodes",
+   "source": "claude-authored-2026-10-17-w3"
+  }
+ ]
+}

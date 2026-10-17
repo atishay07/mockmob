@@ -1,0 +1,192 @@
+[
+  {
+    "id": "39a9f1f5-675b-4aa4-961e-56b0b6be1145",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.moving-charges-and-magnetism.parallel-currents-force",
+    "flags": [],
+    "note": "Key A verified: same-direction currents attract, force per unit length mu0 I1 I2/(2 pi d). Clean statement item; distractors are reasonable."
+  },
+  {
+    "id": "9ef7bafe-2ca1-4e14-a12a-08890c27374c",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.moving-charges-and-magnetism.galvanometer-to-voltmeter",
+    "flags": [],
+    "note": "Key B verified: high series resistance R = V/I_g - G. A (shunt, ammeter confusion) and D (small series) are real student slips; clean item."
+  },
+  {
+    "id": "118b1495-3889-49b3-8002-f805c6ca1e57",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.moving-charges-and-magnetism.torque-maximum-orientation",
+    "flags": [],
+    "note": "Key B verified: torque NIAB sin(theta) is maximum when the plane is parallel to B. A and D are zero-torque traps; C (45 degrees) is decent. Label medium is one level high."
+  },
+  {
+    "id": "340a6c47-3d6f-42c8-a1a5-af3a9bb0830f",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.moving-charges-and-magnetism.radius-of-charged-particle-orbit",
+    "flags": [],
+    "note": "Key B verified: r = mv/(qB) = 0.1 m. D (0.2 m) is a factor-2 slip and A (0.01 m) a power-of-ten slip. Clean one-step numerical."
+  },
+  {
+    "id": "8172d9b4-c41c-413a-a5c2-70ea7df2adf0",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.moving-charges-and-magnetism.ampere-law-net-enclosed-current",
+    "flags": [],
+    "note": "Key B verified: net enclosed current 5 - 3 = 2 A, so the integral is 2 mu0. C (4 mu0) counts the outside conductor and D adds the currents. Label hard is one level high."
+  },
+  {
+    "id": "704cf988-599d-49f6-a9cf-c15e4dfdda8f",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.moving-charges-and-magnetism.finite-wire-field-vs-infinite",
+    "flags": [],
+    "note": "Key C verified: finite-wire field mu0 I (sin t1 + sin t2)/(4 pi d) is below mu0 I/(2 pi d). D (Zero) is weak. Label hard is one level high."
+  },
+  {
+    "id": "80ca588c-3c3a-415f-ab76-b6b5a5cd4ec8",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.moving-charges-and-magnetism.magnetic-dipole-potential-energy-change",
+    "flags": [],
+    "note": "Key C verified: W = U(180) - U(0) = MB - (-MB) = 2MB. B (MB) is a half-value slip and D (-2MB) a sign slip. Clean item."
+  },
+  {
+    "id": "2686431a-ab28-4bf0-844a-4be4f88f754a",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.semiconductor-electronics.intrinsic-silicon-at-zero-kelvin",
+    "flags": [],
+    "note": "Key C verified: intrinsic silicon at 0 K is a perfect insulator. A (conductor) and B (superconductor) are throwaways; direct recall, over-easy."
+  },
+  {
+    "id": "c9fd89c4-508e-43f3-991f-a7881e54fd72",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.semiconductor-electronics.band-gap-ordering-classes",
+    "flags": [],
+    "note": "Key C verified: the insulator has the widest gap. D ('equal') is a throwaway and the stem names only three items, so it is trivially answerable."
+  },
+  {
+    "id": "4b294509-bfcb-4828-a8cd-d2513aa29da3",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.semiconductor-electronics.half-wave-rectifier-output-frequency",
+    "flags": [],
+    "note": "Key B verified: a half-wave output pulse occurs once per cycle, so 60 Hz. C (120 Hz) and A (30 Hz) are real full-wave and misreading slips; D is a throwaway."
+  },
+  {
+    "id": "a5de8f62-b02d-4723-8192-449d5eaa6266",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.semiconductor-electronics.zener-diode-voltage-regulation",
+    "flags": [],
+    "note": "Key A verified: II explains I (constant breakdown voltage is why it regulates). The A/B boundary is soft because II restates the property; not flagged, but the assertion pair is loose."
+  },
+  {
+    "id": "363ac2b3-431d-45f1-a7b4-d03bce246584",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.semiconductor-electronics.solar-cell-charge-separation",
+    "flags": [],
+    "note": "Key A verified: the depletion-region built-in field separates the pairs. C (diffusion alone) is a plausible misconception; B is decent, D is weak. Direct recall."
+  },
+  {
+    "id": "deb9beb8-bb5d-48af-b1c0-fecad65bee2b",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.semiconductor-electronics.diode-knee-voltage-definition",
+    "flags": [],
+    "note": "Key B verified: knee or cut-in voltage. The stem spells out the definition and the 0.7 V, so it is over-signposted; A, C and D are other diode terms."
+  },
+  {
+    "id": "48b434ae-1e86-41b4-aae0-aae582c8a520",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.semiconductor-electronics.half-wave-rectifier-average-output",
+    "flags": [],
+    "note": "Key A verified: Vm/pi = 3.18 V. B (6.37 V, full-wave), C (5.00 V, Vm/2) and D (peak) are sourced slips. Clean one-step numerical."
+  },
+  {
+    "id": "3c52abd8-b99f-46ac-aa70-29811ca6fe13",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.semiconductor-electronics.gate-function-matching",
+    "flags": [],
+    "note": "Key B verified: AND-III, OR-II, NOR-I, NOT-IV. C and D pair nothing correctly and only B pairs AND with III, so the key falls out by elimination; fit, not 9."
+  },
+  {
+    "id": "898006b1-95b2-4d03-93dc-23c3afb8a925",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.semiconductor-electronics.gate-identity-from-truth-table",
+    "flags": [],
+    "note": "Key C verified: 1,1,1,0 is NAND. AND, OR and XOR are each ruled out, so the answer falls by elimination; NOR, the closest confusion, was not offered."
+  },
+  {
+    "id": "dff97aad-a78a-4772-bb3b-335df7f6577a",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.semiconductor-electronics.or-then-not-output-expression",
+    "flags": [],
+    "note": "Key C verified: (A+B)'. D (NAND) is the real OR/AND confusion and A the AND slip. The stem spells out the OR-then-NOT build, so mildly signposted. Label hard is one level high."
+  },
+  {
+    "id": "7f417185-bf9c-48af-a21b-ea3e7a065115",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.semiconductor-electronics.capacitor-filter-ripple-factors",
+    "flags": [],
+    "note": "Key B verified: I is true; II is true but concerns R, not C. Ripple about Vm/(fRC) supports both. A fair trap for a prepared student. Label hard is one level high."
+  },
+  {
+    "id": "0d5f2ae0-8dca-4ccc-aa7f-eaa1a54ab5f8",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.semiconductor-electronics.led-wavelength-from-band-gap",
+    "flags": [],
+    "note": "Key A verified: 1240/2.0 = 620 nm. B (310 nm) is a ratio slip; D (400 nm) is a throwaway. 620 nm is at the orange-red edge, so the explanation's 'red' is loose."
+  }
+]

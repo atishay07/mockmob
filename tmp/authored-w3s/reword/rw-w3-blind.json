@@ -1,0 +1,181 @@
+{
+  "batch": "rw-w3",
+  "subject": "mixed",
+  "questions": [
+    {
+      "id": "6bbde2ac-85d2-4b61-a2e7-25ad64d121d3",
+      "subject": "general_test",
+      "type": "sequence_ordering",
+      "stem": "Arrange the following words in the order they would appear in a dictionary, from first to last: (A) Tiger (B) Tablet (C) Table (D) Tail (E) Tab. Choose the correct sequence from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(E), (C), (B), (D), (A)"
+        },
+        {
+          "key": "B",
+          "text": "(E), (D), (C), (B), (A)"
+        },
+        {
+          "key": "C",
+          "text": "(C), (E), (B), (D), (A)"
+        },
+        {
+          "key": "D",
+          "text": "(E), (C), (D), (B), (A)"
+        }
+      ],
+      "passage_text": null
+    },
+    {
+      "id": "f05bce07-08b2-491b-937f-d70bca9926c5",
+      "subject": "general_test",
+      "type": "sequence_ordering",
+      "stem": "Lata is taller than Mohan. Kiran is taller than Lata. Neha is shorter than Mohan but taller than Om. Arrange the following five persons from the tallest to the shortest: (A) Neha (B) Lata (C) Om (D) Kiran (E) Mohan. Choose the correct sequence from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(D), (B), (A), (E), (C)"
+        },
+        {
+          "key": "B",
+          "text": "(B), (D), (E), (A), (C)"
+        },
+        {
+          "key": "C",
+          "text": "(D), (B), (E), (A), (C)"
+        },
+        {
+          "key": "D",
+          "text": "(D), (E), (B), (A), (C)"
+        }
+      ],
+      "passage_text": null
+    },
+    {
+      "id": "4650a47a-f12a-4916-975a-1e2bbd999de5",
+      "subject": "general_test",
+      "type": "sequence_ordering",
+      "stem": "Five books (P), (Q), (R), (S) and (T) are placed on a shelf from left to right. S is at the left end. P is immediately to the right of R. Q is to the right of P but not next to P. Which arrangement from left to right is correct?",
+      "options": [
+        {
+          "key": "A",
+          "text": "S, R, P, Q, T"
+        },
+        {
+          "key": "B",
+          "text": "S, R, P, T, Q"
+        },
+        {
+          "key": "C",
+          "text": "S, P, R, T, Q"
+        },
+        {
+          "key": "D",
+          "text": "R, S, P, T, Q"
+        }
+      ],
+      "passage_text": null
+    },
+    {
+      "id": "c397d567-7836-4f84-a2ff-2e3913967ac9",
+      "subject": "general_test",
+      "type": "statement_based",
+      "stem": "Statements: P > Q ≥ R; S < R; T ≥ P. Conclusions: (I) T > S. (II) S > Q. (III) P > R. Which conclusions follow?",
+      "options": [
+        {
+          "key": "A",
+          "text": "I only"
+        },
+        {
+          "key": "B",
+          "text": "I and III only"
+        },
+        {
+          "key": "C",
+          "text": "II and III only"
+        },
+        {
+          "key": "D",
+          "text": "I, II and III"
+        }
+      ],
+      "passage_text": null
+    },
+    {
+      "id": "fe0417ed-5791-41de-82df-dc27964ca5bb",
+      "subject": "physics",
+      "type": "single_mcq",
+      "stem": "How is the new position of a wavefront obtained from its previous position in Huygens' principle?",
+      "options": [
+        {
+          "key": "A",
+          "text": "By joining the source to the point of observation with a straight line"
+        },
+        {
+          "key": "B",
+          "text": "As the surface on which all the rays meet at a single focus point"
+        },
+        {
+          "key": "C",
+          "text": "As the locus of points where the path difference at two slits is zero"
+        },
+        {
+          "key": "D",
+          "text": "As the envelope of secondary wavelets from points of the old wavefront"
+        }
+      ],
+      "passage_text": null
+    },
+    {
+      "id": "fc6098bd-ef63-4d76-8a35-0568d11957ae",
+      "subject": "physics",
+      "type": "sequence_ordering",
+      "stem": "Arrange the following electromagnetic waves in order of increasing wavelength, shortest wavelength first.\n(A) Radio waves\n(B) Visible light\n(C) Gamma rays\n(D) Microwaves\nChoose the correct answer from the options given below:",
+      "options": [
+        {
+          "key": "A",
+          "text": "(A), (B), (C), (D)"
+        },
+        {
+          "key": "B",
+          "text": "(A), (D), (B), (C)"
+        },
+        {
+          "key": "C",
+          "text": "(C), (D), (B), (A)"
+        },
+        {
+          "key": "D",
+          "text": "(C), (B), (D), (A)"
+        }
+      ],
+      "passage_text": null
+    },
+    {
+      "id": "d72339f5-bbbc-48ea-9e57-12b89e48e029",
+      "subject": "physics",
+      "type": "match_the_following",
+      "stem": "Match List-I (electromagnetic wave) with List-II (use).\nList-I: (A) Infrared, (B) Ultraviolet, (C) X-rays, (D) Microwaves\nList-II: (I) Sterilising water and killing bacteria, (II) Radiographs of bones, (III) Thermal imaging and TV remote controls, (IV) Radar and satellite communication\nChoose the correct answer from the options given below:",
+      "options": [
+        {
+          "key": "A",
+          "text": "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
+        },
+        {
+          "key": "B",
+          "text": "(A)-(II), (B)-(IV), (C)-(I), (D)-(III)"
+        },
+        {
+          "key": "C",
+          "text": "(A)-(IV), (B)-(III), (C)-(II), (D)-(I)"
+        },
+        {
+          "key": "D",
+          "text": "(A)-(III), (B)-(I), (C)-(II), (D)-(IV)"
+        }
+      ],
+      "passage_text": null
+    }
+  ]
+}

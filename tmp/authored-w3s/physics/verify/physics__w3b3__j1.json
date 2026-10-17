@@ -1,0 +1,182 @@
+[
+  {
+    "id": "14640fcc-4496-4528-84bb-930a5d17bbae",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.dual-nature-of-radiation-and-matter.threshold-frequency-from-work-function",
+    "flags": [],
+    "note": "Key A correct: f0 = 2.0 / 4.14e-15 = 4.83e14 Hz. One-step substitution; D is a speed-of-light unit slip, B and C are factor-2 slips. Label medium, I judge easy."
+  },
+  {
+    "id": "b99f8b77-0523-4011-8194-f9f00c0c1ecb",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.dual-nature-of-radiation-and-matter.slope-of-stopping-potential-graph",
+    "flags": [],
+    "note": "Key A (h/e) correct and the explanation is accurate. Direct recall with decent distractors: e/h (inverse), h/(2e), phi/e (intercept). Fair NCERT item."
+  },
+  {
+    "id": "3238f380-53b1-4775-b76b-5576a417e983",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.dual-nature-of-radiation-and-matter.work-function-from-stopping-potential",
+    "flags": [],
+    "note": "Key A correct: K_max = 1.5 eV, phi = 4.0 - 1.5 = 2.5 eV. Distractors come from a sum slip (5.5), copying the stopping potential (1.5) and copying the photon energy (4.0). Clean two-step."
+  },
+  {
+    "id": "ff1c150d-b69e-4daf-8ea1-753dcc7ca034",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.dual-nature-of-radiation-and-matter.intensity-effect-on-photocurrent",
+    "flags": [],
+    "note": "Key C correct: intensity raises saturation current, Kmax depends on frequency only. Standard statement item; the distractors reflect the common misconception that intensity raises Kmax."
+  },
+  {
+    "id": "2c39441e-d740-4186-869a-98f8013dca61",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.dual-nature-of-radiation-and-matter.de-broglie-wavelength-ratio",
+    "flags": [],
+    "note": "Key A correct: lambda is proportional to 1/sqrt(m q V), alpha has m=4u and q=2e, so the ratio is sqrt(8) = 2 sqrt2. Distractors: inverse, ignoring charge (2), sqrt slip (1/2). Label hard is one level high."
+  },
+  {
+    "id": "3840357a-d19c-49f6-aa10-173701a99c42",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.dual-nature-of-radiation-and-matter.de-broglie-wavelength-ratio",
+    "flags": [],
+    "note": "Key A correct: ratio = sqrt(1836) = 42.85, so 42.9 is closest. Distractors: inverse (1/42.9), forgotten square root (1836). The option 1 is throwaway. Clean one-step."
+  },
+  {
+    "id": "3613d550-a4c8-426a-b3ab-2737252b2959",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.dual-nature-of-radiation-and-matter.photoelectric-equations-matching",
+    "flags": [],
+    "note": "Key B correct: A-IV, B-III, C-I, D-II, all four pairs checked. List-II (I) and (IV) are the same relation rearranged, so the list is slightly redundant. Otherwise well-formed."
+  },
+  {
+    "id": "2dd3f1b3-dd5a-4465-83a7-b8da3eb6449f",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.dual-nature-of-radiation-and-matter.threshold-independent-of-intensity",
+    "flags": [],
+    "note": "Key A correct. The Reason restates the conclusion (emission depends on single-photon energy, not photon number), so it signposts the answer. Scored down one point, not flagged."
+  },
+  {
+    "id": "f2018a0d-8361-4072-b88f-fa2b356c2a4b",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.atoms.rutherford-nuclear-model-inference",
+    "flags": [],
+    "note": "Key A correct and factual. Three distractors are plainly false (neutral alpha, insulating foil, electrons heavier), so the item is answered by elimination. Valid core NCERT recall with weak options."
+  },
+  {
+    "id": "c1e4cf45-80e1-46e1-93d0-c86e37752d8b",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.atoms.bohr-energy-inverse-n-squared",
+    "flags": [],
+    "note": "Key 1/4 correct: E2/E1 = (-3.4)/(-13.6). Distractors are ratio slips: inverse (4), 1/n instead of 1/n squared (1/2), inverse root (2). Direct formula recall."
+  },
+  {
+    "id": "3d3a5b97-0249-4275-9f58-5fd7ab90a3d3",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.atoms.spectral-series-by-lower-level",
+    "flags": [],
+    "note": "Key B correct: Lyman n=1 (III), Balmer n=2 (IV), Paschen n=3 (II), Brackett n=4 (I). Full-permutation options and consistent explanation. Plain series recall, so 8 not 9."
+  },
+  {
+    "id": "0ac2e9bd-113f-4e47-bbb4-becf5cfbd80d",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.atoms.rydberg-formula-wavelength",
+    "flags": [],
+    "note": "Key A correct: 1/lambda = R(1/4 - 1/9) gives 654.5 nm, about 655 nm. Distractors are real series lines (486 H-beta, 122 Lyman-alpha, 365 Balmer limit). Two-step, clean."
+  },
+  {
+    "id": "447cb804-4233-4e18-bd61-d45642719b58",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 5,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.atoms.ionisation-energy-hydrogen-like-ion",
+    "flags": ["answer_in_stem"],
+    "note": "Key C correct (13.6 x 4 = 54.4 eV). The stem supplies the formula and asks a direct substitution, so the key is reachable from the stem alone. Capped at 5. Label hard is two levels high."
+  },
+  {
+    "id": "c37ac200-ac31-42a5-b383-c0a8150a1771",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.wave-optics.young-fringe-width-formula",
+    "flags": [],
+    "note": "Key B correct: lambda D / d = 1.2 mm. Units clean. Distractors 0.6 and 2.4 mm are factor-2 slips; 1.8 mm is a throwaway."
+  },
+  {
+    "id": "fe0417ed-5791-41de-82df-dc27964ca5bb",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.wave-optics.huygens-envelope-construction",
+    "flags": [],
+    "note": "Key B correct and matches the explanation. Distractors are real misconceptions (source-to-point line, focal surface, zero-path-difference locus). Standard NCERT recall."
+  },
+  {
+    "id": "dc2ce9a0-e395-4cd7-8eb0-65f3f42725fe",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 6,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.wave-optics.diffraction-wavelength-comparable-to-obstacle",
+    "flags": [],
+    "note": "Key C correct and the explanation's facts check out. A, B and D are false on their face (light is transverse, sound is slower, no absorption at corners). Key is also the longest option: answered by elimination."
+  },
+  {
+    "id": "0e2ae512-b283-4e41-80ef-31ef6ac18fd1",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.wave-optics.max-min-intensity-ratio",
+    "flags": [],
+    "note": "Key B correct: amplitudes 2:1, so (a1+a2)^2 / (a1-a2)^2 = 9:1. Distractors are real slips: 4:1 ignoring interference, 5:1 adding intensities, 3:1 from an amplitude ratio."
+  },
+  {
+    "id": "ac790a10-fd25-4723-8101-0ef4ac18fde3",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.wave-optics.single-slit-first-minimum-position",
+    "flags": [],
+    "note": "Key D correct: y = lambda D / a = 3 mm. Distractors: 1.5 mm (factor-2 slip), 6 mm (full central width trap), 0.3 mm (slit width). Clean two-step with a real trap."
+  }
+]

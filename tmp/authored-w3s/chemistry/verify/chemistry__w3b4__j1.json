@@ -1,0 +1,192 @@
+[
+  {
+    "id": "dc8c1ef9-3c6c-4ae0-ba28-3caf30b0c5fe",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.d-and-f-block-elements.oxidant-electron-stoichiometry",
+    "flags": [],
+    "note": "Key 6 confirmed: Cr2O7 2- gains 6 e-, each Fe2+ gives 1 e-. Clean one-step item; distractor 3 is a ratio slip."
+  },
+  {
+    "id": "1f660152-f757-4ce1-8e8b-08e78037c1ef",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.d-and-f-block-elements.contact-process-catalyst",
+    "flags": [],
+    "note": "V2O5 correct. Fe2O3 (Haber) and TiCl4 (Ziegler-Natta) are fair distractors; MnO2 is the weak one. Direct recall."
+  },
+  {
+    "id": "9b644ffc-735c-4f84-ac54-623d8c0b3fc1",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 6,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.d-and-f-block-elements.interstitial-compounds-definition",
+    "flags": [],
+    "note": "TiC correct. The other three options (NaCl, CaO, KCl) are ionic salts with no transition metal, so the item is answered by elimination."
+  },
+  {
+    "id": "8ead33c1-64fa-464c-a683-af9dafe41340",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.d-and-f-block-elements.copper-disproportionation-hydration",
+    "flags": [],
+    "note": "Key A is the standard reason and the disproportionation equation in the explanation is correct. B is a reversal; C and D are false. Clean reasoning item."
+  },
+  {
+    "id": "bbb5fa0d-3c8b-4595-81bd-15d88f61ff99",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.d-and-f-block-elements.actinoid-oxidation-state-range",
+    "flags": [],
+    "note": "Key D matches the NCERT reason (5f, 6d, 7s close in energy). A is a reversed-shielding distractor; B and C are false. Stem is clean."
+  },
+  {
+    "id": "12f5a5e7-81db-4ac3-97f7-3132d0850f9d",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.d-and-f-block-elements.oxidant-electron-stoichiometry",
+    "flags": [],
+    "note": "Key 0.5 confirmed: MnO4- gains 5 e-, 2.5 mol Fe2+ gives 2.5 mol e-, so 2.5/5 = 0.5. Clean one-step; distractor 2.5 is the ratio slip."
+  },
+  {
+    "id": "a8352fba-9650-44d2-b07b-c049b1d5a9f1",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.electrochemistry.brine-electrolysis-products",
+    "flags": [],
+    "note": "Cl2 at anode and H2 at cathode for concentrated brine is correct. A, C and D are plausible wrong pairings. Direct NCERT recall."
+  },
+  {
+    "id": "65dc1291-1d76-460f-aa26-468908793116",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.electrochemistry.sacrificial-coating-protection",
+    "flags": [],
+    "note": "Zinc correct (E0 -0.76 V vs Fe -0.44 V, sacrificial). The scratched clause is part of the galvanising definition, not a leak. Tin, lead and nickel are fair distractors."
+  },
+  {
+    "id": "95b3813f-8e6c-46a2-9d87-159dae9088db",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.electrochemistry.nernst-electrode-potential-concentration",
+    "flags": [],
+    "note": "E = -0.76 - (0.059/2) x 1 = -0.79 V confirmed. Distractors -0.82 (missing /2) and -0.73 (sign slip) are real slips. Clean item."
+  },
+  {
+    "id": "8ed9bbe9-5c6f-4785-84d1-6d8d6625e7c6",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.electrochemistry.emf-equilibrium-constant-relation",
+    "flags": [],
+    "note": "log K = nE/0.059 = 20 gives 10^20 confirmed. The log K relation is not in the stem, so it is a two-step recall item. Options are clean."
+  },
+  {
+    "id": "cb9ca16d-872d-484a-ab66-2a004c0f199e",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.electrochemistry.lead-storage-battery-discharge",
+    "flags": [],
+    "note": "Key 'decreases' correct (H2SO4 consumed, water formed). 'Remains unchanged' and 'first increases then decreases' are weak distractors."
+  },
+  {
+    "id": "f36e1b45-5688-42fc-9a5a-9b5f39be20a2",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.electrochemistry.molar-conductivity-calculation",
+    "flags": [],
+    "note": "Lambda_m = 0.0024 x 1000 / 0.02 = 120 = 1.2 x 10^2 confirmed. Distractors 0.12 (missing x1000) and 1.2 x 10^3 (decimal slip) are real slips."
+  },
+  {
+    "id": "1de140e3-81b2-467b-af74-6705474ba41f",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.electrochemistry.faraday-first-law-charge",
+    "flags": [],
+    "note": "0.2 mol x 96500 = 1.93 x 10^4 C confirmed. Distractors 9.7 x 10^3 (0.1 mol) and 3.9 x 10^4 (doubling) are ratio slips. Clean one-step."
+  },
+  {
+    "id": "9aa422d7-bff1-4412-8008-218b678d96aa",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.electrochemistry.reducing-agent-standard-potential",
+    "flags": [],
+    "note": "Li (-3.05 V, most negative) correct. The stem lists every potential, so the item reduces to picking the lowest value; the K-reactivity remark in the explanation is loose but not false."
+  },
+  {
+    "id": "b0385c9a-67b6-4970-881c-51ffcb9dd566",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.electrochemistry.kohlrausch-law-additivity",
+    "flags": [],
+    "note": "271.5 gives 2.7 x 10^2 confirmed. The Kohlrausch formula is given in the stem, so the item is arithmetic only; options A and C are not clearly slip-based."
+  },
+  {
+    "id": "c291f0d4-25c2-408a-b0c1-87bdf36b0011",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 3,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.electrochemistry.concentration-cell-emf",
+    "flags": ["factual_error"],
+    "note": "Magnitude 0.12 V correct, but explanation says reduction at the 0.1 M electrode; notation puts 0.1 M on the anode (left), so written EMF is -0.12 V. Fix: put the 0.001 M half-cell on the left."
+  },
+  {
+    "id": "fff99b39-cd2a-4a4a-a168-da9586b4c3b6",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "hard",
+    "objective_tag": "chemistry.electrochemistry.selective-deposition-order",
+    "flags": [],
+    "note": "Ag takes 0.1 F first, 0.05 F left gives 0.025 mol Cu = 1.6 g confirmed. Multi-step item with plausible distractors from skipping the charge split."
+  },
+  {
+    "id": "699befa6-e1f7-4cc1-9b97-42421013c718",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.coordination-compounds.chelate-effect-entropy",
+    "flags": [],
+    "note": "Key C correct (particles 4 to 7, positive entropy change). A (stronger field ligand) is a fair distractor but not a thermodynamic reason; B and D are false."
+  },
+  {
+    "id": "3031f426-b0a1-41c2-95d3-bd80f195ae2f",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.coordination-compounds.high-spin-cfse-calculation",
+    "flags": [],
+    "note": "-0.6 Delta o confirmed (t2g3 eg1). Distractor -1.2 is the eg-omitted slip; 0 is a plausible wrong idea. Two-step: count electrons, then sum."
+  }
+]

@@ -369,9 +369,12 @@ test('merging wave 2 again reproduces the committed tables byte for byte and tou
   assert.deepEqual(result.report.passageSets.sets.map((set) => [set.subject, set.children, set.eligibleChildren, set.servable]), [['english', 4, 4, true], ['geography', 4, 4, true]]);
   const written = fs.readdirSync(`${dir}/agent-out`).sort();
   assert.deepEqual(written, SUBJECTS.map((s) => `${s}.json`).sort());
+  // Byte for byte up to two things a checkout and a later wave legitimately change: the line endings (core.autocrlf on Windows writes CRLF; the repository stores LF)
+  // and the table's merged_at (a later wave's merge, wave 3 on 17 Oct 2026, stamps the tables it touches with its own time; no entry is touched by it).
+  const plain = (file) => fs.readFileSync(file, 'utf8').replace(/\r\n/g, '\n').replace(/"merged_at": "[^"]*"/, '"merged_at": "-"');
   for (const subject of SUBJECTS) {
-    assert.equal(fs.readFileSync(`${dir}/agent-out/${subject}.json`, 'utf8'), fs.readFileSync(`data/nta_agent_scores/${subject}.json`, 'utf8'), `agent ${subject}`);
-    assert.equal(fs.readFileSync(`${dir}/fit-out/${subject}.json`, 'utf8'), fs.readFileSync(`data/nta_fit_scores/${subject}.json`, 'utf8'), `fit ${subject}`);
+    assert.equal(plain(`${dir}/agent-out/${subject}.json`), plain(`data/nta_agent_scores/${subject}.json`), `agent ${subject}`);
+    assert.equal(plain(`${dir}/fit-out/${subject}.json`), plain(`data/nta_fit_scores/${subject}.json`), `fit ${subject}`);
   }
 });
 

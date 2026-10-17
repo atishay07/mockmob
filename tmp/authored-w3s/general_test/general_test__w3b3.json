@@ -1,0 +1,633 @@
+{
+ "batch": "general_test__w3b3",
+ "subject": "general_test",
+ "questions": [
+  {
+   "id": "7fc9c9ea-2cc0-43af-91bf-099821f07bff",
+   "subject": "general_test",
+   "unit": "General Knowledge and Current Affairs",
+   "chapter": "General Knowledge",
+   "type": "single_mcq",
+   "stem": "The headquarters of the International Atomic Energy Agency (IAEA) are located in:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Geneva"
+    },
+    {
+     "key": "B",
+     "text": "Vienna"
+    },
+    {
+     "key": "C",
+     "text": "Paris"
+    },
+    {
+     "key": "D",
+     "text": "The Hague"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "The IAEA, the United Nations body that promotes peaceful use of nuclear energy and safeguards against its military use, has its headquarters in Vienna, Austria. Geneva hosts the WHO and ILO, Paris hosts UNESCO and The Hague hosts the International Court of Justice. Headquarters locations of UN agencies are a frequent CUET question.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "CUET GAT syllabus, General Knowledge: International organisations and their headquarters",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "8d00f227-84a2-4ed5-8e30-a13421089559",
+   "subject": "general_test",
+   "unit": "General Knowledge and Current Affairs",
+   "chapter": "General Knowledge",
+   "type": "single_mcq",
+   "stem": "The headquarters of the United Nations Environment Programme (UNEP) is located in:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Nairobi"
+    },
+    {
+     "key": "B",
+     "text": "New York"
+    },
+    {
+     "key": "C",
+     "text": "Rome"
+    },
+    {
+     "key": "D",
+     "text": "Bonn"
+    }
+   ],
+   "correct_key": "A",
+   "explanation": "UNEP, which coordinates environmental activities within the United Nations system, has its headquarters in Nairobi, Kenya. New York hosts the UN Secretariat and UNDP, Rome hosts FAO, and Bonn hosts the secretariat of the UN Framework Convention on Climate Change. Remember the headquarters of each UN agency along with its mandate.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "CUET GAT syllabus, General Knowledge: International organisations and their headquarters",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "58e99246-9e9e-45b8-a31c-31662eb1f502",
+   "subject": "general_test",
+   "unit": "General Knowledge and Current Affairs",
+   "chapter": "General Knowledge",
+   "type": "single_mcq",
+   "stem": "The Great Stupa at Sanchi, a UNESCO World Heritage Site, is located in which state?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Bihar"
+    },
+    {
+     "key": "B",
+     "text": "Gujarat"
+    },
+    {
+     "key": "C",
+     "text": "Madhya Pradesh"
+    },
+    {
+     "key": "D",
+     "text": "Uttar Pradesh"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "The Great Stupa at Sanchi, built under the Mauryan and later Shunga rule, is a Buddhist monument in Madhya Pradesh. It is known for its carved gateways and is a UNESCO World Heritage Site. Bodh Gaya, where the Buddha attained enlightenment, is in Bihar.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "CUET GAT syllabus, General Knowledge: Indian architecture and UNESCO heritage sites",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "d9f17d54-ca5e-4301-88f7-9ea53cbbf264",
+   "subject": "general_test",
+   "unit": "General Knowledge and Current Affairs",
+   "chapter": "General Knowledge",
+   "type": "single_mcq",
+   "stem": "The book 'The Discovery of India' was written by:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Mahatma Gandhi"
+    },
+    {
+     "key": "B",
+     "text": "Sardar Vallabhbhai Patel"
+    },
+    {
+     "key": "C",
+     "text": "Maulana Abul Kalam Azad"
+    },
+    {
+     "key": "D",
+     "text": "Jawaharlal Nehru"
+    }
+   ],
+   "correct_key": "D",
+   "explanation": "Jawaharlal Nehru wrote 'The Discovery of India' during his imprisonment in the Ahmednagar Fort in 1944, tracing the history and culture of the country. Gandhi wrote 'Hind Swaraj' and his autobiography, while Patel and Azad were leaders of the freedom movement who did not write this book. Keep famous books paired with their authors.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "CUET GAT syllabus, General Knowledge: Books and authors",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "40c5bdcc-4867-421d-85e8-b9049b3b736a",
+   "subject": "general_test",
+   "unit": "General Knowledge and Current Affairs",
+   "chapter": "General Knowledge",
+   "type": "assertion_reason",
+   "stem": "Assertion (A): The President of India can be removed from office before the end of the term through impeachment.\nReason (R): Article 61 lays down a procedure under which a charge may be preferred by either House of Parliament and the other House investigates it.\nIn the light of the above statements, choose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "Both (A) and (R) are true and (R) is the correct explanation of (A)"
+    },
+    {
+     "key": "B",
+     "text": "Both (A) and (R) are true but (R) is not the correct explanation of (A)"
+    },
+    {
+     "key": "C",
+     "text": "(A) is true but (R) is false"
+    },
+    {
+     "key": "D",
+     "text": "(A) is false but (R) is true"
+    }
+   ],
+   "correct_key": "A",
+   "explanation": "Under Article 61, the President can be removed only through impeachment for violation of the Constitution, and the procedure allows a charge to be preferred by either House. The other House then investigates the charge, so the procedure described in the reason is exactly how the removal in the assertion takes place. Both statements are true and the reason explains the assertion.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "hard",
+   "ncert_ref": "CUET GAT syllabus, General Knowledge: Constitution, President and impeachment",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "4d609f5a-fe44-4fbc-b574-688115b283c0",
+   "subject": "general_test",
+   "unit": "General Knowledge and Current Affairs",
+   "chapter": "General Knowledge",
+   "type": "match_the_following",
+   "stem": "Match List-I with List-II.\nList-I: (A) Sabarmati (B) Brahmaputra (C) Yamuna (D) Mahanadi.\nList-II: (I) Guwahati (II) Cuttack (III) Ahmedabad (IV) Delhi.\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A)-(I), (B)-(III), (C)-(IV), (D)-(II)"
+    },
+    {
+     "key": "B",
+     "text": "(A)-(III), (B)-(I), (C)-(IV), (D)-(II)"
+    },
+    {
+     "key": "C",
+     "text": "(A)-(II), (B)-(I), (C)-(III), (D)-(IV)"
+    },
+    {
+     "key": "D",
+     "text": "(A)-(III), (B)-(II), (C)-(I), (D)-(IV)"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "The Sabarmati flows past Ahmedabad in Gujarat, the Brahmaputra past Guwahati in Assam, the Yamuna past Delhi and the Mahanadi past Cuttack in Odisha. Only the second option pairs all four correctly. The other options swap rivers and cities; the first, for example, puts the Sabarmati at Guwahati and the Brahmaputra at Ahmedabad. Learn each major river with one or two cities on its banks.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "hard",
+   "ncert_ref": "CUET GAT syllabus, General Knowledge: Indian rivers and the cities on them",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "13acff28-0d34-4e66-9f98-c2db0415b060",
+   "subject": "general_test",
+   "unit": "General Knowledge and Current Affairs",
+   "chapter": "General Knowledge",
+   "type": "sequence_ordering",
+   "stem": "Arrange the following constitutional amendments of India in the chronological order of their enactment.\n(A) 73rd Amendment\n(B) 1st Amendment\n(C) 42nd Amendment\n(D) 86th Amendment\nChoose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(C), (B), (A), (D)"
+    },
+    {
+     "key": "B",
+     "text": "(B), (A), (C), (D)"
+    },
+    {
+     "key": "C",
+     "text": "(B), (C), (D), (A)"
+    },
+    {
+     "key": "D",
+     "text": "(B), (C), (A), (D)"
+    }
+   ],
+   "correct_key": "D",
+   "explanation": "The 1st Amendment was enacted in 1951, the 42nd in 1976, the 73rd in 1992 and the 86th in 2002. The chronological order is therefore B, C, A, D. Remembering the decade of major amendments helps in answering ordering questions.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "hard",
+   "ncert_ref": "CUET GAT syllabus, General Knowledge: Indian Constitution, amendments in order",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "301660c4-85f8-48f2-a8ad-07497eb84325",
+   "subject": "general_test",
+   "unit": "General Knowledge and Current Affairs",
+   "chapter": "General Knowledge",
+   "type": "single_mcq",
+   "stem": "Which Article of the Constitution of India provides for the appointment of the Comptroller and Auditor General of India?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Article 124"
+    },
+    {
+     "key": "B",
+     "text": "Article 148"
+    },
+    {
+     "key": "C",
+     "text": "Article 280"
+    },
+    {
+     "key": "D",
+     "text": "Article 324"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "Article 148 provides for the Comptroller and Auditor General of India, who audits the accounts of the Union and the States. Article 124 concerns the Supreme Court, Article 280 the Finance Commission and Article 324 the Election Commission. Learning the Article for each constitutional body helps in polity questions.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "hard",
+   "ncert_ref": "CUET GAT syllabus, General Knowledge: Constitutional bodies and their Articles",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "015244d0-de83-4f32-98b1-c2e293f25c58",
+   "subject": "general_test",
+   "unit": "General Knowledge and Current Affairs",
+   "chapter": "General Knowledge",
+   "type": "single_mcq",
+   "stem": "Which Article of the Constitution of India provides for the constitution of a Finance Commission?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Article 265"
+    },
+    {
+     "key": "B",
+     "text": "Article 300"
+    },
+    {
+     "key": "C",
+     "text": "Article 280"
+    },
+    {
+     "key": "D",
+     "text": "Article 324"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "Article 280 requires the President to constitute a Finance Commission at regular intervals, which recommends the distribution of tax revenues between the Union and the States. Article 265 says no tax shall be levied except by authority of law, Article 300 deals with suits against the government and Article 324 with the Election Commission. Article 280 is the key provision for fiscal federalism.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "hard",
+   "ncert_ref": "CUET GAT syllabus, General Knowledge: Centre-State finance and constitutional bodies",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "3f9a2c17-8b4e-4d61-9a2f-5c7e1b0d4a63",
+   "subject": "general_test",
+   "unit": "Quantitative Reasoning",
+   "chapter": "Quantitative Reasoning",
+   "type": "single_mcq",
+   "stem": "The population of a town is 40,000. It increases by 15% in the first year and then decreases by 10% in the second year. What is the population at the end of the second year?",
+   "options": [
+    {
+     "key": "A",
+     "text": "46,000"
+    },
+    {
+     "key": "B",
+     "text": "42,000"
+    },
+    {
+     "key": "C",
+     "text": "41,400"
+    },
+    {
+     "key": "D",
+     "text": "40,000"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "A 15% increase takes 40,000 to 46,000. A 10% decrease of 46,000 removes 4,600, leaving 41,400. Successive percentage changes apply to the new value each time, so the two percentages cannot simply be added to give 42,000.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "CUET GAT section, Quantitative Reasoning: Percentages and successive change",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "a81d6e42-0c9b-4f75-b3e8-2d6a9f1c7e05",
+   "subject": "general_test",
+   "unit": "Quantitative Reasoning",
+   "chapter": "Quantitative Reasoning",
+   "type": "single_mcq",
+   "stem": "A 56-litre mixture contains milk and water in the ratio 5 : 2. How many litres of water must be added so that the ratio of milk to water becomes 5 : 4?",
+   "options": [
+    {
+     "key": "A",
+     "text": "8 litres"
+    },
+    {
+     "key": "B",
+     "text": "14 litres"
+    },
+    {
+     "key": "C",
+     "text": "20 litres"
+    },
+    {
+     "key": "D",
+     "text": "16 litres"
+    }
+   ],
+   "correct_key": "D",
+   "explanation": "The mixture has 5 + 2 = 7 parts, so each part is 8 litres: milk is 40 litres and water is 16 litres. Milk stays at 40 litres, so a 5 : 4 ratio needs 32 litres of water. Water to add = 32 - 16 = 16 litres.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "CUET GAT section, Quantitative Reasoning: Ratio, proportion and mixtures",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "5b2e9f08-7d13-4a6c-8e41-9c0f2b7d3a16",
+   "subject": "general_test",
+   "unit": "Quantitative Reasoning",
+   "chapter": "Quantitative Reasoning",
+   "type": "single_mcq",
+   "stem": "A dealer sells a radio for Rs 1,134 and incurs a loss of 10%. What is the cost price of the radio?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Rs 1,260"
+    },
+    {
+     "key": "B",
+     "text": "Rs 1,020"
+    },
+    {
+     "key": "C",
+     "text": "Rs 1,300"
+    },
+    {
+     "key": "D",
+     "text": "Rs 1,134"
+    }
+   ],
+   "correct_key": "A",
+   "explanation": "A loss of 10% means the selling price is 90% of the cost price. So the cost price is 1,134 / 0.90 = 1,260. Taking 10% off the selling price (giving 1,020) uses the wrong base.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "CUET GAT section, Quantitative Reasoning: Profit and loss",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "d4c71a9e-3f25-4b8d-a6e0-1e8b5c2f9d47",
+   "subject": "general_test",
+   "unit": "Quantitative Reasoning",
+   "chapter": "Quantitative Reasoning",
+   "type": "single_mcq",
+   "stem": "What is the difference between the compound interest and the simple interest on Rs 8,000 for 2 years at 5% per annum, compounded annually?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Rs 820"
+    },
+    {
+     "key": "B",
+     "text": "Rs 20"
+    },
+    {
+     "key": "C",
+     "text": "Rs 40"
+    },
+    {
+     "key": "D",
+     "text": "Rs 800"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "Simple interest = 8,000 x 5% x 2 = Rs 800. Compound interest also earns interest on the first year's interest, so CI = 8,000 x 1.05 x 1.05 - 8,000 = Rs 820. The difference of Rs 20 is 5% of the Rs 400 first-year interest, which is the interest on interest.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "CUET GAT section, Quantitative Reasoning: Simple and compound interest",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "27e0b6f4-9a1c-4e3d-8f72-6b4d0a9c1e58",
+   "subject": "general_test",
+   "unit": "Quantitative Reasoning",
+   "chapter": "Quantitative Reasoning",
+   "type": "single_mcq",
+   "stem": "Pipe P can fill a tank alone in 20 hours and pipe Q can fill it alone in 30 hours. Both pipes are opened together, but pipe P is closed after 6 hours. How many more hours will pipe Q take to fill the remaining tank?",
+   "options": [
+    {
+     "key": "A",
+     "text": "12"
+    },
+    {
+     "key": "B",
+     "text": "15"
+    },
+    {
+     "key": "C",
+     "text": "10"
+    },
+    {
+     "key": "D",
+     "text": "18"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "Together the pipes fill 1/20 + 1/30 = 1/12 of the tank each hour. In 6 hours they fill 6/12 = 1/2 of the tank. Pipe Q fills 1/30 per hour, so the remaining 1/2 takes (1/2) / (1/30) = 15 hours.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "CUET GAT section, Quantitative Reasoning: Time and work",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "e9a3d150-6b7f-4c28-9d4e-3f1a8c6b0e29",
+   "subject": "general_test",
+   "unit": "Quantitative Reasoning",
+   "chapter": "Quantitative Reasoning",
+   "type": "single_mcq",
+   "stem": "Two cars start together from the same point and travel in the same direction at 60 km/h and 80 km/h. After how much time will they be 50 km apart?",
+   "options": [
+    {
+     "key": "A",
+     "text": "2 hours 30 minutes"
+    },
+    {
+     "key": "B",
+     "text": "5 hours"
+    },
+    {
+     "key": "C",
+     "text": "2 hours"
+    },
+    {
+     "key": "D",
+     "text": "2 hours 15 minutes"
+    }
+   ],
+   "correct_key": "A",
+   "explanation": "The gap grows at the difference of their speeds, 80 - 60 = 20 km/h. Covering 50 km at 20 km/h takes 50 / 20 = 2.5 hours, which is 2 hours 30 minutes. Adding the two speeds is the common error, and it applies only when the cars move towards each other.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "CUET GAT section, Quantitative Reasoning: Time, speed and distance",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "1c8f4b7d-2e90-4a5f-b1c6-7d3e9a0f2b84",
+   "subject": "general_test",
+   "unit": "Quantitative Reasoning",
+   "chapter": "Quantitative Reasoning",
+   "type": "single_mcq",
+   "stem": "The average marks of 12 students in section A are 40, and the average marks of 18 students in section B are 55. What is the average marks of all 30 students taken together?",
+   "options": [
+    {
+     "key": "A",
+     "text": "50"
+    },
+    {
+     "key": "B",
+     "text": "47.5"
+    },
+    {
+     "key": "C",
+     "text": "48"
+    },
+    {
+     "key": "D",
+     "text": "49"
+    }
+   ],
+   "correct_key": "D",
+   "explanation": "The total for section A is 12 x 40 = 480, and the total for section B is 18 x 55 = 990. The combined total is 1,470 over 30 students, so the average is 1,470 / 30 = 49. The simple average of 40 and 55 (47.5) ignores the different group sizes.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "CUET GAT section, Quantitative Reasoning: Averages",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "79b5e2a3-4d6c-4f1e-8a09-c2d7b4e6f513",
+   "subject": "general_test",
+   "unit": "Quantitative Reasoning",
+   "chapter": "Quantitative Reasoning",
+   "type": "single_mcq",
+   "stem": "A vessel contains 36 litres of a mixture of milk and water in the ratio 7 : 2. How many litres of water must be added so that the ratio of milk to water becomes 7 : 3?",
+   "options": [
+    {
+     "key": "A",
+     "text": "8 litres"
+    },
+    {
+     "key": "B",
+     "text": "2 litres"
+    },
+    {
+     "key": "C",
+     "text": "4 litres"
+    },
+    {
+     "key": "D",
+     "text": "6 litres"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "The 7 + 2 = 9 parts give 36 / 9 = 4 litres per part, so the vessel holds 28 litres of milk and 8 litres of water. Milk stays at 28 litres, so a 7 : 3 ratio needs 12 litres of water. Water to add = 12 - 8 = 4 litres.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "CUET GAT section, Quantitative Reasoning: Mixtures and alligation",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "c3f08d6a-1e4b-4927-b5a8-0f9e2d7c6a31",
+   "subject": "general_test",
+   "unit": "Quantitative Reasoning",
+   "chapter": "Quantitative Reasoning",
+   "type": "single_mcq",
+   "stem": "Vessel A contains 40 litres of a milk-and-water mixture in the ratio 3 : 1. Vessel B contains 60 litres of a mixture in the ratio 1 : 2. Both are poured into an empty third vessel. What is the ratio of milk to water in the third vessel?",
+   "options": [
+    {
+     "key": "A",
+     "text": "3 : 2"
+    },
+    {
+     "key": "B",
+     "text": "1 : 1"
+    },
+    {
+     "key": "C",
+     "text": "5 : 4"
+    },
+    {
+     "key": "D",
+     "text": "2 : 3"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "Vessel A holds 30 litres of milk and 10 litres of water. Vessel B holds 20 litres of milk and 40 litres of water. The third vessel therefore has 50 litres of milk and 50 litres of water, a ratio of 1 : 1, which is found by adding quantities rather than averaging the two ratios.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "hard",
+   "ncert_ref": "CUET GAT section, Quantitative Reasoning: Mixtures and alligation",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "4e6a1b9c-8f2d-4c03-9e7b-a5d1f3c8e620",
+   "subject": "general_test",
+   "unit": "Quantitative Reasoning",
+   "chapter": "Quantitative Reasoning",
+   "type": "single_mcq",
+   "stem": "A rectangular park is 120 m long and 80 m wide. A path of uniform width 5 m is built inside the park along its entire boundary. What is the area of the path?",
+   "options": [
+    {
+     "key": "A",
+     "text": "1,700 m²"
+    },
+    {
+     "key": "B",
+     "text": "2,000 m²"
+    },
+    {
+     "key": "C",
+     "text": "9,600 m²"
+    },
+    {
+     "key": "D",
+     "text": "1,900 m²"
+    }
+   ],
+   "correct_key": "D",
+   "explanation": "The inner rectangle (the area left after the path) is (120 - 10) x (80 - 10) = 110 x 70 = 7,700 m². The path is the full area minus this inner area: 120 x 80 - 7,700 = 9,600 - 7,700 = 1,900 m².",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "CUET GAT section, Quantitative Reasoning: Mensuration (area and perimeter)",
+   "source": "claude-authored-2026-10-17-w3"
+  }
+ ]
+}

@@ -1,0 +1,238 @@
+{
+ "batch": "chemistry__w3b4",
+ "subject": "chemistry",
+ "allowed": {
+  "types": [
+   "single_mcq",
+   "match_the_following",
+   "sequence_ordering",
+   "statement_based",
+   "assertion_reason",
+   "passage_set_item"
+  ],
+  "units": [
+   {
+    "unit": "Solutions",
+    "chapters": [
+     "Solutions"
+    ]
+   },
+   {
+    "unit": "Electrochemistry",
+    "chapters": [
+     "Electrochemistry"
+    ]
+   },
+   {
+    "unit": "Chemical Kinetics",
+    "chapters": [
+     "Chemical Kinetics"
+    ]
+   },
+   {
+    "unit": "d and f Block Elements",
+    "chapters": [
+     "d- and f-Block Elements"
+    ]
+   },
+   {
+    "unit": "Coordination Compounds",
+    "chapters": [
+     "Coordination Compounds"
+    ]
+   },
+   {
+    "unit": "Haloalkanes and Haloarenes",
+    "chapters": [
+     "Haloalkanes & Haloarenes"
+    ]
+   },
+   {
+    "unit": "Alcohols, Phenols and Ethers",
+    "chapters": [
+     "Alcohols, Phenols & Ethers"
+    ]
+   },
+   {
+    "unit": "Aldehydes, Ketones and Carboxylic Acids",
+    "chapters": [
+     "Aldehydes, Ketones & Carboxylic Acids"
+    ]
+   },
+   {
+    "unit": "Amines",
+    "chapters": [
+     "Amines"
+    ]
+   },
+   {
+    "unit": "Biomolecules",
+    "chapters": [
+     "Biomolecules"
+    ]
+   }
+  ],
+  "excluded_chapters": [
+   "Solid State",
+   "Surface Chemistry",
+   "Isolation of Elements",
+   "p-Block Elements",
+   "Polymers",
+   "Chemistry in Everyday Life"
+  ]
+ },
+ "rows": {
+  "dc8c1ef9-3c6c-4ae0-ba28-3caf30b0c5fe": {
+   "engine_unit_options": [
+    "d and f Block Elements"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 21,
+   "read_seconds": 14
+  },
+  "1f660152-f757-4ce1-8e8b-08e78037c1ef": {
+   "engine_unit_options": [
+    "d and f Block Elements"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 16,
+   "read_seconds": 13
+  },
+  "9b644ffc-735c-4f84-ac54-623d8c0b3fc1": {
+   "engine_unit_options": [
+    "d and f Block Elements"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 16,
+   "read_seconds": 13
+  },
+  "8ead33c1-64fa-464c-a683-af9dafe41340": {
+   "engine_unit_options": [
+    "d and f Block Elements"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 51,
+   "read_seconds": 23
+  },
+  "bbb5fa0d-3c8b-4595-81bd-15d88f61ff99": {
+   "engine_unit_options": [
+    "d and f Block Elements"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 55,
+   "read_seconds": 25
+  },
+  "12f5a5e7-81db-4ac3-97f7-3132d0850f9d": {
+   "engine_unit_options": [
+    "d and f Block Elements"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 28,
+   "read_seconds": 16
+  },
+  "a8352fba-9650-44d2-b07b-c049b1d5a9f1": {
+   "engine_unit_options": [
+    "Electrochemistry"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 49,
+   "read_seconds": 23
+  },
+  "65dc1291-1d76-460f-aa26-468908793116": {
+   "engine_unit_options": [
+    "Electrochemistry"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 28,
+   "read_seconds": 16
+  },
+  "95b3813f-8e6c-46a2-9d87-159dae9088db": {
+   "engine_unit_options": [
+    "Electrochemistry"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 39,
+   "read_seconds": 20
+  },
+  "8ed9bbe9-5c6f-4785-84d1-6d8d6625e7c6": {
+   "engine_unit_options": [
+    "Electrochemistry"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 32,
+   "read_seconds": 18
+  },
+  "cb9ca16d-872d-484a-ab66-2a004c0f199e": {
+   "engine_unit_options": [
+    "Electrochemistry"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 23,
+   "read_seconds": 15
+  },
+  "f36e1b45-5688-42fc-9a5a-9b5f39be20a2": {
+   "engine_unit_options": [
+    "Electrochemistry"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 33,
+   "read_seconds": 18
+  },
+  "1de140e3-81b2-467b-af74-6705474ba41f": {
+   "engine_unit_options": [
+    "Electrochemistry"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 45,
+   "read_seconds": 22
+  },
+  "9aa422d7-bff1-4412-8008-218b678d96aa": {
+   "engine_unit_options": [
+    "Electrochemistry"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 34,
+   "read_seconds": 18
+  },
+  "b0385c9a-67b6-4970-881c-51ffcb9dd566": {
+   "engine_unit_options": [
+    "Electrochemistry"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 57,
+   "read_seconds": 25
+  },
+  "c291f0d4-25c2-408a-b0c1-87bdf36b0011": {
+   "engine_unit_options": [
+    "Electrochemistry"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 36,
+   "read_seconds": 19
+  },
+  "fff99b39-cd2a-4a4a-a168-da9586b4c3b6": {
+   "engine_unit_options": [
+    "Electrochemistry"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 50,
+   "read_seconds": 23
+  },
+  "699befa6-e1f7-4cc1-9b97-42421013c718": {
+   "engine_unit_options": [
+    "Coordination Compounds"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 52,
+   "read_seconds": 24
+  },
+  "3031f426-b0a1-41c2-95d3-bd80f195ae2f": {
+   "engine_unit_options": [
+    "Coordination Compounds"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 22,
+   "read_seconds": 15
+  }
+ }
+}

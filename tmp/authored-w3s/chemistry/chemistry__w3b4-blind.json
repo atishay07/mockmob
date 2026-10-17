@@ -1,0 +1,481 @@
+{
+ "batch": "chemistry__w3b4-blind",
+ "subject": "chemistry",
+ "questions": [
+  {
+   "id": "dc8c1ef9-3c6c-4ae0-ba28-3caf30b0c5fe",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "In acidic medium, one mole of dichromate ion (Cr₂O₇²⁻) oxidises how many moles of Fe²⁺ to Fe³⁺?",
+   "options": [
+    {
+     "key": "A",
+     "text": "6"
+    },
+    {
+     "key": "B",
+     "text": "3"
+    },
+    {
+     "key": "C",
+     "text": "4"
+    },
+    {
+     "key": "D",
+     "text": "8"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "1f660152-f757-4ce1-8e8b-08e78037c1ef",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Which catalyst is used in the Contact process for manufacturing sulphuric acid?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Fe₂O₃"
+    },
+    {
+     "key": "B",
+     "text": "TiCl₄"
+    },
+    {
+     "key": "C",
+     "text": "MnO₂"
+    },
+    {
+     "key": "D",
+     "text": "V₂O₅"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "9b644ffc-735c-4f84-ac54-623d8c0b3fc1",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Which of the following is an interstitial compound of a transition metal?",
+   "options": [
+    {
+     "key": "A",
+     "text": "NaCl"
+    },
+    {
+     "key": "B",
+     "text": "CaO"
+    },
+    {
+     "key": "C",
+     "text": "TiC"
+    },
+    {
+     "key": "D",
+     "text": "KCl"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "8ead33c1-64fa-464c-a683-af9dafe41340",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "In aqueous solution Cu⁺ disproportionates, while Cu²⁺ is stable. The main reason is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "The high hydration enthalpy of Cu²⁺ more than compensates for the second ionisation enthalpy of copper"
+    },
+    {
+     "key": "B",
+     "text": "Cu⁺ has a higher hydration enthalpy than Cu²⁺"
+    },
+    {
+     "key": "C",
+     "text": "Cu⁺ has a half-filled d subshell"
+    },
+    {
+     "key": "D",
+     "text": "Cu⁺ is a stronger oxidising agent than Cu²⁺"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "bbb5fa0d-3c8b-4595-81bd-15d88f61ff99",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Actinoids show a wider range of oxidation states than lanthanoids. The main reason is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "5f electrons are more effectively shielded than 4f electrons"
+    },
+    {
+     "key": "B",
+     "text": "Actinoid ions have lower ionisation enthalpies than lanthanoid ions"
+    },
+    {
+     "key": "C",
+     "text": "Actinoids have no electrons in 6d orbitals"
+    },
+    {
+     "key": "D",
+     "text": "The 5f, 6d and 7s energy levels are close, so more electrons take part in bonding"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "12f5a5e7-81db-4ac3-97f7-3132d0850f9d",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "In an acidic medium, MnO₄⁻ is reduced to Mn²⁺. How many moles of MnO₄⁻ are needed to oxidise 2.5 mol of Fe²⁺ to Fe³⁺?",
+   "options": [
+    {
+     "key": "A",
+     "text": "0.1"
+    },
+    {
+     "key": "B",
+     "text": "1.0"
+    },
+    {
+     "key": "C",
+     "text": "0.5"
+    },
+    {
+     "key": "D",
+     "text": "2.5"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "a8352fba-9650-44d2-b07b-c049b1d5a9f1",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Concentrated aqueous sodium chloride is electrolysed with inert electrodes. The products formed are:",
+   "options": [
+    {
+     "key": "A",
+     "text": "H₂ at the anode and Na at the cathode"
+    },
+    {
+     "key": "B",
+     "text": "Cl₂ at the anode and H₂ at the cathode"
+    },
+    {
+     "key": "C",
+     "text": "O₂ at the anode and Na at the cathode"
+    },
+    {
+     "key": "D",
+     "text": "Cl₂ at the cathode and H₂ at the anode"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "65dc1291-1d76-460f-aa26-468908793116",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Iron is galvanised by coating it with a metal so that the coating protects iron even when the surface is scratched. The metal is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Zinc"
+    },
+    {
+     "key": "B",
+     "text": "Tin"
+    },
+    {
+     "key": "C",
+     "text": "Lead"
+    },
+    {
+     "key": "D",
+     "text": "Nickel"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "95b3813f-8e6c-46a2-9d87-159dae9088db",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "The standard electrode potential of Zn²⁺/Zn is −0.76 V. At 298 K, the potential of the Zn²⁺/Zn electrode in 0.1 M Zn²⁺ solution is closest to (take 2.303RT/F = 0.059 V):",
+   "options": [
+    {
+     "key": "A",
+     "text": "−0.73 V"
+    },
+    {
+     "key": "B",
+     "text": "−0.82 V"
+    },
+    {
+     "key": "C",
+     "text": "−0.70 V"
+    },
+    {
+     "key": "D",
+     "text": "−0.79 V"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "8ed9bbe9-5c6f-4785-84d1-6d8d6625e7c6",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "For a cell reaction with n = 2, the standard EMF is 0.59 V at 298 K. Taking 2.303RT/F = 0.059 V, the equilibrium constant K is approximately:",
+   "options": [
+    {
+     "key": "A",
+     "text": "10⁵"
+    },
+    {
+     "key": "B",
+     "text": "10¹⁰"
+    },
+    {
+     "key": "C",
+     "text": "10²⁰"
+    },
+    {
+     "key": "D",
+     "text": "10³⁰"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "cb9ca16d-872d-484a-ab66-2a004c0f199e",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "During discharge of a lead storage battery, the density of the sulphuric acid electrolyte:",
+   "options": [
+    {
+     "key": "A",
+     "text": "increases"
+    },
+    {
+     "key": "B",
+     "text": "decreases"
+    },
+    {
+     "key": "C",
+     "text": "remains unchanged"
+    },
+    {
+     "key": "D",
+     "text": "first increases and then decreases"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "f36e1b45-5688-42fc-9a5a-9b5f39be20a2",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "The conductivity of a 0.02 M solution of an electrolyte is 0.0024 S cm⁻¹ at 298 K. Its molar conductivity, in S cm² mol⁻¹, is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "1.2 × 10²"
+    },
+    {
+     "key": "B",
+     "text": "0.12"
+    },
+    {
+     "key": "C",
+     "text": "12"
+    },
+    {
+     "key": "D",
+     "text": "1.2 × 10³"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "1de140e3-81b2-467b-af74-6705474ba41f",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "The quantity of electricity needed to deposit 21.6 g of silver (molar mass 108 g mol⁻¹) from a solution of Ag⁺ is closest to (F = 96500 C mol⁻¹):",
+   "options": [
+    {
+     "key": "A",
+     "text": "9.7 × 10³ C"
+    },
+    {
+     "key": "B",
+     "text": "3.9 × 10⁴ C"
+    },
+    {
+     "key": "C",
+     "text": "4.8 × 10³ C"
+    },
+    {
+     "key": "D",
+     "text": "1.9 × 10⁴ C"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "9aa422d7-bff1-4412-8008-218b678d96aa",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Among Li, K, Na and Mg, which metal is the strongest reducing agent in aqueous solution? (Standard potentials: Li⁺/Li −3.05 V, K⁺/K −2.93 V, Na⁺/Na −2.71 V, Mg²⁺/Mg −2.37 V)",
+   "options": [
+    {
+     "key": "A",
+     "text": "K"
+    },
+    {
+     "key": "B",
+     "text": "Na"
+    },
+    {
+     "key": "C",
+     "text": "Li"
+    },
+    {
+     "key": "D",
+     "text": "Mg"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "b0385c9a-67b6-4970-881c-51ffcb9dd566",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Kohlrausch law gives the limiting molar conductivity of NH₄OH as λ°(NH₄Cl) + λ°(NaOH) − λ°(NaCl). With λ°(NH₄Cl) = 150.0, λ°(NaOH) = 248.0 and λ°(NaCl) = 126.5 (S cm² mol⁻¹), Λ°m(NH₄OH) is closest to:",
+   "options": [
+    {
+     "key": "A",
+     "text": "3.7 × 10² S cm² mol⁻¹"
+    },
+    {
+     "key": "B",
+     "text": "2.7 × 10² S cm² mol⁻¹"
+    },
+    {
+     "key": "C",
+     "text": "1.5 × 10² S cm² mol⁻¹"
+    },
+    {
+     "key": "D",
+     "text": "2.3 × 10² S cm² mol⁻¹"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "c291f0d4-25c2-408a-b0c1-87bdf36b0011",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "A concentration cell is Ag | Ag⁺ (0.1 M) || Ag⁺ (0.001 M) | Ag at 298 K. Taking 2.303RT/F = 0.059 V, its EMF is closest to:",
+   "options": [
+    {
+     "key": "A",
+     "text": "0.12 V"
+    },
+    {
+     "key": "B",
+     "text": "0.059 V"
+    },
+    {
+     "key": "C",
+     "text": "0.18 V"
+    },
+    {
+     "key": "D",
+     "text": "0.24 V"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "fff99b39-cd2a-4a4a-a168-da9586b4c3b6",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "A solution with 0.1 mol Ag⁺ and 0.1 mol Cu²⁺ is electrolysed with inert electrodes, and 0.15 F of charge is passed with 100% current efficiency. The mass of copper deposited is closest to (Ag = 108, Cu = 63.5 g mol⁻¹):",
+   "options": [
+    {
+     "key": "A",
+     "text": "0.80 g"
+    },
+    {
+     "key": "B",
+     "text": "3.2 g"
+    },
+    {
+     "key": "C",
+     "text": "6.4 g"
+    },
+    {
+     "key": "D",
+     "text": "1.6 g"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "699befa6-e1f7-4cc1-9b97-42421013c718",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "The chelate effect makes [Ni(en)₃]²⁺ more stable than [Ni(NH₃)₆]²⁺. The main thermodynamic reason is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "en is a stronger field ligand with a larger Δo"
+    },
+    {
+     "key": "B",
+     "text": "The enthalpy of formation of [Ni(en)₃]²⁺ is much larger"
+    },
+    {
+     "key": "C",
+     "text": "The number of particles increases on chelation, giving a positive entropy change"
+    },
+    {
+     "key": "D",
+     "text": "Chelating ligands have a lower coordination number"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "3031f426-b0a1-41c2-95d3-bd80f195ae2f",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "The crystal field stabilisation energy of the high-spin octahedral [Cr(H₂O)₆]²⁺ ion (a d⁴ ion) is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "−0.4 Δo"
+    },
+    {
+     "key": "B",
+     "text": "−0.6 Δo"
+    },
+    {
+     "key": "C",
+     "text": "−1.2 Δo"
+    },
+    {
+     "key": "D",
+     "text": "0"
+    }
+   ],
+   "passage_text": null
+  }
+ ]
+}
