@@ -17,6 +17,19 @@ export function repairLabel(status) {
   if (status === 'not_explained') return 'No explanation';
   return null;
 }
+// One action label per state (REVIEW-RESULT-1018 section 7, owner D15: "Repair first ... Repair in 1 ... Check it here: a very
+// confusing UI"). The same four words on the result, on Review and in the app; priority is shown by order, never by a label.
+//   open or wrong, no saved repair  Repair          repaired, Check it held not taken  Check it held
+//   repaired and checked (held or slipped)  See repair (opens free)          blank  Try it again (free)
+//   key held or corrected  no action (the row says "Key being re-checked" or "Key corrected")
+export const ACTION_LABELS = Object.freeze({ repair: 'Repair', check: 'Check it held', see: 'See repair', again: 'Try it again' });
+export function actionLabel(state, { keyHeld = false } = {}) {
+  if (keyHeld) return null;
+  if (state === 'blank') return ACTION_LABELS.again;
+  if (state === 'repaired' || state === 'check') return ACTION_LABELS.check;
+  if (state === 'held' || state === 'slipped' || state === 'see') return ACTION_LABELS.see;
+  return ACTION_LABELS.repair;
+}
 export function repairProgress(mistakes, outcomes) {
   const explained = mistakes.filter(r => hasExplanation(outcomes[r.q.id])).length;
   const handled = new Set(mistakes.filter(r => REPAIR_OUTCOMES.includes(outcomes[r.q.id])).map(r => r.q.id));

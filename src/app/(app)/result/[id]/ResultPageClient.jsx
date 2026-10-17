@@ -35,7 +35,7 @@ import RepairEnding from '@/components/recovery/RepairEnding';
 import { paperStamp } from '@/../data/repair_paper.mjs';
 import MistakeLessonLink from '@/components/study/MistakeLessonLink';
 import { RUN_COPY, arrowIntent, runSegments, stepIndex, endingModel, retryIds as retryIdsOf, earlierMisses, earlierMissAt } from '@/components/recovery/repairRun';
-import { REPAIR_OUTCOMES, hasExplanation, repairLabel, repairProgress } from '@/../data/repair_presentation.mjs';
+import { REPAIR_OUTCOMES, actionLabel, hasExplanation, repairLabel, repairProgress } from '@/../data/repair_presentation.mjs';
 import { analyseSession, formatDuration } from '@/../data/session_recovery';
 import { buildTimeDecisions, TIME_COPY, spentLabel, TIME_RULES } from '@/../data/time_decisions';
 import { attemptMode, costliestLine, nextMove, receiptLine } from '@/../data/result_next_move.mjs';
@@ -446,11 +446,11 @@ export default function ResultPageClient({ previewId = null }) {
     // Pass 1018 section 7: one label per state. Repaired and checked says See repair (it opens free); its state words
     // ("Held on a new question") are said in Answer by answer. Priority is shown by order, never by a label.
     const c = checks[qid];
-    if (c) return c.right ? { id: 'held', label: 'See repair', words: 'Held on a new question' } : { id: 'slipped', label: 'See repair', words: 'Slipped on a new question' };
-    if (hasExplanation(out)) return { id: 'check', label: 'Check it held' };
+    if (c) return c.right ? { id: 'held', label: actionLabel('held'), words: 'Held on a new question' } : { id: 'slipped', label: actionLabel('slipped'), words: 'Slipped on a new question' };
+    if (hasExplanation(out)) return { id: 'check', label: actionLabel('repaired') };
     if (started.has(qid)) return { id: 'writing', label: 'Writing' };
     // Out of AI credits: the same word; the opened row offers the credits line, not a paid repair.
-    return { id: 'repair', label: 'Repair' };
+    return { id: 'repair', label: actionLabel('open') };
   };
   const cohortItem = new Map((repairOrder?.state === 'cohort' ? repairOrder.items || [] : []).filter(x => x?.reason === 'most_right' && x.line).map(x => [x.qid, x.line]));
   const cohortOf = (row) => { const line = cohortItem.get(row.q.id); return line ? line.replace(' other students got it right.', ' got it right') : null; };

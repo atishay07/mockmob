@@ -13,6 +13,7 @@
 // Every number on Review comes from chapterRows(): the head line sums it, and the chapters add up to the papers' lost marks.
 import { NEXT_MOVE_RULES } from './result_next_move.mjs';
 import { istDate } from './revise.js';
+import { actionLabel } from './repair_presentation.mjs';
 
 export const REVIEW_CHAPTERS_VERSION = 1;
 const PER_RIGHT = 5;
@@ -163,11 +164,7 @@ export function savedLine(saved) {
 
 /** One action label per state (section 7), the same words on the result, Review and the app. */
 export function actionFor(item) {
-  if (keyHeld(item)) return null;
-  if (item.state === 'blank') return 'Try it again';
-  if (item.state === 'repaired') return 'Check it held';
-  if (item.state === 'held' || item.state === 'slipped') return 'See repair';
-  return 'Repair';
+  return actionLabel(item.state, { keyHeld: keyHeld(item) });
 }
 
 /** "Your 3 papers lost 220 marks: 30 wrong answers and 8 left blank. 9 are repaired." Summed from chapterRows(). */
