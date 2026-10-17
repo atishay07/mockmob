@@ -24,11 +24,19 @@ import 'today_type.dart';
 /// Where the card's list stands.
 enum CollegesCardStatus { loading, failed, ready }
 
+/// The top college against DU's own rules for the student's subjects: not known yet (Compass has
+/// no subjects, or the DU file is not on the phone), open to them, or what is still missing.
+enum CollegeFit { unknown, open, needs }
+
 /// What the card knows beyond the road: the list's state and what the subjects open in Compass.
 class CollegesCardInfo {
-  const CollegesCardInfo({this.status = CollegesCardStatus.ready, this.open, this.total});
+  const CollegesCardInfo({this.status = CollegesCardStatus.ready, this.open, this.total, this.fit = CollegeFit.unknown, this.needs});
 
   final CollegesCardStatus status;
+
+  /// The first college's standing against DU's rules, and what it still needs ("Mathematics").
+  final CollegeFit fit;
+  final String? needs;
 
   /// DU programmes open to the student's subjects, of [total]; null when not known yet.
   final int? open, total;

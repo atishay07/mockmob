@@ -509,7 +509,7 @@ abstract final class TodayCopy {
 
   /// The cue under the first screen that the road is further down (owner test 15 Oct: "something
   /// in the UI should be leading them below").
-  static const String moreBelow = 'Your road to May';
+  static const String moreBelow = roadCardTitle;
 
   /// The cue with its number (L07): "Road to May, 28 weeks", or days in the last week.
   static String moreBelowCount({int? weeks, int? days, String title = roadTitle}) {
@@ -717,8 +717,12 @@ abstract final class TodayCopy {
   static const String lastPaperTitle = 'Last paper';
   static const String collegesRowTitle = 'Your colleges';
   static String lastPaperName(String label, String subject) => '$label, $subject';
-  static String lastPaperSub(String date, String? change) => change == null ? date : '$date, $change';
+  static String lastPaperSub(String date, String? change, {String? time}) {
+    final when = time == null ? date : '$date, $time';
+    return change == null ? when : '$when, $change';
+  }
   static String collegesSub(String course, int more) => more > 0 ? '$course, 2026 Round 1. $more more saved.' : '$course, 2026 Round 1.';
+  static String collegesFitSub(String course, String status, int more) => more > 0 ? '$course, 2026 Round 1. $status. $more more saved.' : '$course, 2026 Round 1. $status.';
   static const String collegesEmpty = 'Pick up to 8 to see their 2026 cutoffs here';
   static const String choose = 'Choose';
 
@@ -741,4 +745,84 @@ abstract final class TodayCopy {
   static String ofDenominator(int n) => 'of $n';
   static const String bandRegistration = 'Registration';
   static const String bandBoards = 'Boards';
+
+  // Your road to CUET (V15 section 2): the card on Today and the Adjust plan sheet.
+  static const String roadCardTitle = 'Your road to CUET';
+  static String weeksToCuet(int n) => '${n == 1 ? 'week' : 'weeks'} to CUET';
+  static String daysToCuet(int n) => '${n == 1 ? 'day' : 'days'} to CUET';
+  static const String expectedWindowLine = 'Expected window: ${CuetDates.windowMonth}';
+  static String yourDateLine(DateTime d) => 'Your date: ${formatDayMonth(d)} ${d.year}';
+  static String windowDaysLeftLine(int n) => '${n == 1 ? 'day' : 'days'} left';
+  static const String changeDate = 'Change';
+  static const String adjustPlan = 'Adjust plan';
+  static const String thisWeekLabel = 'This week';
+  static String studyDaysCount(int done, int goal) => '$done of $goal study days';
+  static String studyDaysCounted(int done) => done == 1 ? '1 study day counted' : '$done study days counted';
+  static String studyDaysNoGoal(int done) => 'This week: ${studyDaysCounted(done)}. Choose your days in Adjust plan.';
+  static const String studyDaysPickHint = 'Pick your study days in Adjust plan.';
+  static String mocksCount(int done, int planned) => '$done of $planned full ${planned == 1 ? 'mock' : 'mocks'}';
+  static String mocksTakenThisWeek(int done) => done == 1 ? '1 full mock this week' : '$done full mocks this week';
+  static const String noMockThisWeek = 'No full mock planned this week';
+  static const String mocksNotRead = 'Full mocks did not load.';
+  static const String byTonight = 'by tonight';
+  static String byDay(String day) => 'by $day';
+  static String nextFirstMock(String by) => 'Next: your first full mock $by';
+  static String nextMock(int k, String by) => 'Next: Mock $k $by';
+  static String nextStop(String title, String when) => 'Next: $title. Expected $when.';
+  static const String mockTargetReached = 'Your mock target is met. Pick a plan to keep going.';
+  static String roadCardSemantics(int n, bool days, String window) => '$n ${days ? (n == 1 ? 'day' : 'days') : (n == 1 ? 'week' : 'weeks')} to CUET. $window.';
+  static String dotsSemantics(int done, int of, String what) => '$done of $of $what';
+  static const List<String> monthNames = [
+    'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December',
+  ];
+
+  // The Adjust plan sheet.
+  static const String adjustTitle = 'Adjust plan';
+  static const String adjustDaysTitle = 'Study days a week';
+  static const String adjustMocksTitle = 'Full mocks before CUET';
+  static const String adjustDateTitle = 'Exam date';
+  static const String planLight = 'Light';
+  static const String planLightLine = 'One every two weeks';
+  static const String planSteady = 'Steady';
+  static const String planSteadyLine = 'One a week';
+  static const String planIntense = 'Intense';
+  static const String planIntenseLine = 'Two a week';
+  static const String recommended = 'Recommended';
+  static String planNote(String line, {bool recommended = false}) => recommended ? '$line. Recommended.' : line;
+  static String planBy(DateTime exam, {required bool own}) => own ? 'by ${formatDayMonthShort(exam)}' : 'by May';
+  static String youHaveTaken(int n) => 'You have taken $n.';
+  static String takenTargetMet(int n) => 'You have taken $n. Your target is met.';
+  static String studyDaysOption(int n) => '$n study days a week';
+  static const String takenUnknown = 'Your mock count did not load.';
+  static const String dateExpected = 'Expected ${CuetDates.windowMonth}';
+  static const String datePick = 'Pick my date';
+  static String dateOwn(DateTime d) => '${formatDayMonth(d)} ${d.year}';
+  static const String dateChangeOwn = 'Pick another date';
+  static const String datesOnTheWay = 'Dates on the way';
+  static const String weekByWeek = 'Week by week';
+  static const String seeAllWeeks = 'See all weeks';
+  static const String hideAllWeeks = 'Hide weeks';
+  static const String savingPlan = 'Saving';
+  static String savedPlan({required bool account}) => account ? 'Saved to your account' : 'Saved on this phone';
+  static const String savePlanFailed = 'Not saved. Check your connection and try again.';
+  static String weekOf(DateTime monday) => 'Week of ${formatDayMonthShort(monday)}';
+  static String weekPlanned(int days, int mocks, {bool boards = false, bool registration = false}) {
+    final parts = <String>[
+      '$days study ${days == 1 ? 'day' : 'days'}',
+      mocks == 0 ? 'no full mock' : '$mocks full ${mocks == 1 ? 'mock' : 'mocks'}',
+      if (boards) 'boards',
+      if (registration) 'registration expected',
+    ];
+    return parts.join(', ');
+  }
+  static String weekCurrent(int done, int days, int mocksDone, int mocks) =>
+      '$done of $days days, $mocksDone of $mocks ${mocks == 1 ? 'mock' : 'mocks'}';
+  static String weekPast(int mocks) => mocks == 1 ? '1 full mock' : '$mocks full mocks';
+  static const String thisWeekTag = 'This week';
+  static String adjustSemantics(String goal, String mocks) => 'Adjust plan. $goal. $mocks.';
+
+  // The colleges row's status against DU's rules, and its way into Compass.
+  static const String collegesOpen = 'Open to your subjects';
+  static String collegesNeeds(String gaps) => 'Needs $gaps';
+  static const String planForIt = 'Plan for it';
 }

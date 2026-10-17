@@ -24,8 +24,9 @@ import '../data/road_plan.dart' show roadPlanProvider;
 import '../data/today_providers.dart';
 import '../logic/today_model.dart';
 import '../logic/visit_latch.dart';
-import '../widgets/colleges_card.dart' show CollegesCardInfo, CollegesCardStatus;
-import '../widgets/road_section.dart' show RoadActions;
+import '../../tools/domain/du_eligibility.dart' show duDescribeGap;
+import '../widgets/colleges_card.dart' show CollegeFit, CollegesCardInfo, CollegesCardStatus;
+import '../widgets/road_actions.dart' show RoadActions;
 import '../widgets/today_celebration.dart';
 import 'today_body.dart';
 
@@ -168,7 +169,22 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
     };
     final compass = ref.watch(compassControllerProvider).value;
     final known = compass != null && !compass.selection.isEmpty;
-    return CollegesCardInfo(status: status, open: known ? compass.eligible.length : null, total: known ? compass.total : null);
+    // The first college against DU's rules for the student's subjects (V15 2.4): open to them, or
+    // what the nearest combination still needs. Unknown without subjects or the DU file.
+    var fit = CollegeFit.unknown;
+    String? needs;
+    final programme = ref.watch(todayViewProvider.select((v) => v.road?.ladder.isEmpty ?? true ? null : v.road!.ladder.first.programmeId));
+    if (known && programme != null) {
+      final verdict = compass.verdictFor(programme);
+      if (verdict != null && verdict.eligible) {
+        fit = CollegeFit.open;
+      } else if (verdict != null) {
+        fit = CollegeFit.needs;
+        final gaps = verdict.nearest?.gaps;
+        if (gaps != null && gaps.isNotEmpty) needs = [for (final g in gaps) duDescribeGap(g, compass.catalog).replaceFirst('Add ', '')].join(', ');
+      }
+    }
+    return CollegesCardInfo(status: status, open: known ? compass.eligible.length : null, total: known ? compass.total : null, fit: fit, needs: needs);
   }
 
   /// Back online, or back in front: a failure card tries again by itself, once, a second after

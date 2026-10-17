@@ -261,7 +261,7 @@ void main() {
       expect(find.bySemanticsLabel(TodayCopy.startRepair(5)), findsOneWidget);
     });
 
-    testWidgets('the week count stays on one line when the outlook has to drop below it', (tester) async {
+    testWidgets('the weeks to CUET stay on one line with their unit at 1.3x', (tester) async {
       await pumpMockmob(
         tester,
         TodayBody(
@@ -274,10 +274,11 @@ void main() {
         disableAnimations: true,
         overrides: todayOverrides,
       );
-      // The figure ("1 of 4 study days") sits on the heading row, beside "This week", on one line.
-      final title = tester.getRect(find.text(TodayCopy.weekTitle));
-      final words = tester.getRect(find.text(TodayCopy.weekStudyDays));
-      expect(words.center.dy, closeTo(title.center.dy, 8), reason: 'one line, not two');
+      // The figure ("27") and its words ("weeks to CUET") sit on one line.
+      final view = buildToday(ashaInputs());
+      final figure = tester.getRect(find.text('${view.card!.count}').first);
+      final words = tester.getRect(find.text(TodayCopy.weeksToCuet(view.card!.count)));
+      expect(words.center.dy, closeTo(figure.center.dy, 12), reason: 'one line, not two');
     });
   });
 

@@ -1,6 +1,7 @@
-// Today v13 (TODAY-1017): one move, then the glance (This week, the Road to May strip, Last paper,
-// Your colleges). Every state of the doc's section 8 and 4.2 at 412 by 915, Night and Day, plus the
-// road strip with each tuner open and the hero states that take the card's place.
+// Today v15 (V15 2): up next, Your road to CUET, then Last paper and Your colleges. Every state at
+// 412 by 915, Night and Day, the road card in each of its states, the Adjust plan sheet (at rest,
+// after a save, with the whole road open, after a failed save) and the hero states that take the
+// move card's place.
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -8,6 +9,7 @@ import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/auth/load_problem.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
+import 'package:mockmob/features/today/copy.dart';
 import 'package:mockmob/features/today/data/today_profile.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
 import 'package:mockmob/features/today/logic/today_inputs.dart';
@@ -16,8 +18,9 @@ import 'package:mockmob/features/today/logic/why_model.dart';
 import 'package:mockmob/features/today/screens/alternatives_sheet.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
 import 'package:mockmob/features/today/screens/why_sheet.dart';
-import 'package:mockmob/features/today/widgets/road_section.dart';
-import 'package:mockmob/features/today/widgets/road_strip.dart';
+import 'package:mockmob/features/today/widgets/adjust_plan_sheet.dart';
+import 'package:mockmob/features/today/widgets/road_actions.dart';
+import 'package:mockmob/features/today/widgets/your_road_card.dart';
 
 import '../../unit/today/support/today_fixtures.dart';
 import 'today_golden_support.dart';
@@ -31,25 +34,31 @@ const Size kPhone = Size(412, 915);
 const Size kFull = Size(412, 1700);
 
 /// A glass sheet over the dimmed Today, as the routed sheet shows it.
-Widget _sheet(Widget body) => Builder(
+Widget _sheet(Widget body, {String? title}) => Builder(
       builder: (context) => Stack(
         children: [
           Positioned.fill(child: TodayBody(view: _view(ashaInputs()), callbacks: noopCallbacks)),
           Positioned.fill(child: ColoredBox(color: context.mmColors.scrim)),
-          Align(alignment: Alignment.bottomCenter, child: MmSheetGlass(child: MmSheetScaffold(child: body))),
+          Align(alignment: Alignment.bottomCenter, child: MmSheetGlass(child: MmSheetScaffold(title: title, child: body))),
         ],
       ),
     );
 
-/// The road on its own, on the ground, with saves that return at once (or [actions]).
-Widget _road(TodayInputs inputs, {RoadActions? actions}) => Builder(
+/// The road card on its own, on the ground.
+Widget _card(TodayView view, {(int, int)? lastWeek}) => Builder(
       builder: (context) => ColoredBox(
         color: context.mmColors.ground,
         child: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s16, MmSpace.gutter, MmSpace.s32),
-          child: RoadSection(road: buildRoad(inputs)!, actions: actions ?? noopRoadActions),
+          child: YourRoadCard(view: view, lastWeek: lastWeek, onAdjust: () {}, onChangeDate: () {}, onWeeklyEnding: () {}, onRetry: () {}),
         ),
       ),
+    );
+
+/// The Adjust plan sheet over the dimmed Today, as the routed sheet shows it.
+Widget _adjust(TodayInputs inputs, {bool weeksOpen = false, RoadActions? actions}) => _sheet(
+      AdjustPlanBody(road: buildRoad(inputs)!, actions: actions ?? noopRoadActions, weeksOpen: weeksOpen),
+      title: TodayCopy.adjustTitle,
     );
 
 Future<void> _tapKey(WidgetTester tester, String key) async {
@@ -139,39 +148,33 @@ void main() {
   );
   // Change length opening its panel is checked in test/unit/today/today_v13_test.dart.
 
-  // The road strip (4.4), at rest and with each thing open in place.
-  screenGolden('today_road_strip_rest', () => _road(active()), size: const Size(412, 560), dock: false);
-  screenGolden('today_road_strip_pace_open', () => _road(active()), size: const Size(412, 760), dock: false, act: (t) => _tapKey(t, 'road-token-pace'));
-  screenGolden('today_road_strip_mocks_open', () => _road(active()), size: const Size(412, 760), dock: false, act: (t) => _tapKey(t, 'road-token-mocks'));
+  // The road card (V15 2.2) on its own, in each state it has.
+  screenGolden('today_road_card_active', () => _card(_view(active())), size: const Size(412, 420), dock: false);
+  screenGolden('today_road_card_nogoal', () => _card(_view(ashaInputs(now: saturday, attempts: activeRecord, week: const TodayWeek(studied: [true, false, false, false, false, false, false], todayIndex: 5, label: '1 study day', dates: [12, 13, 14, 15, 16, 17, 18])))), size: const Size(412, 420), dock: false);
+  screenGolden('today_road_card_met', () => _card(_view(done())), size: const Size(412, 420), dock: false);
+  screenGolden('today_road_card_lastweek', () => _card(_view(active()), lastWeek: (4, 4)), size: const Size(412, 460), dock: false);
+  screenGolden('today_road_card_loading', () => _card(_view(TodayInputs(now: saturday, firstName: 'Asha', weekLoading: true))), size: const Size(412, 420), dock: false);
+  screenGolden('today_road_card_days', () => _card(_view(ashaInputs(now: DateTime.utc(2027, 4, 26, 8)))), size: const Size(412, 420), dock: false);
+  screenGolden('today_road_card_window', () => _card(_view(ashaInputs(now: DateTime.utc(2027, 5, 10, 8)))), size: const Size(412, 300), dock: false);
+  screenGolden('today_road_card_text130', () => _card(_view(active())), size: const Size(412, 520), dock: false, textScale: 1.3);
+
+  // Adjust plan (V15 2.3): the sheet, a choice saved, and the whole road open.
+  screenGolden('today_adjust_plan', () => _adjust(active()), size: const Size(412, 915), dock: false);
+  screenGolden('today_adjust_plan_saved', () => _adjust(active()), size: const Size(412, 915), dock: false, act: (t) async {
+    await _tapKey(t, 'days-5');
+    await t.pump(const Duration(milliseconds: 400));
+  });
+  screenGolden('today_adjust_plan_weeks', () => _adjust(active(), weeksOpen: true), size: const Size(412, 2300), dock: false);
   screenGolden(
-    'today_road_strip_rail_open',
-    () => _road(active()),
-    size: const Size(412, 900),
+    'today_adjust_plan_failed',
+    () => _adjust(active(), actions: RoadActions(savePace: (_) async => throw const ApiError(kind: ApiErrorKind.network, code: 'network'), setExamDate: (_) async {}, setMockTarget: (_) async {})),
+    size: const Size(412, 915),
     dock: false,
-    act: (tester) async {
-      final r = tester.getRect(find.byType(RoadStrip));
-      await tester.tapAt(Offset(r.left + r.width * 0.22, r.top + 80));
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 500));
+    act: (t) async {
+      await _tapKey(t, 'days-6');
+      await t.pump(const Duration(milliseconds: 400));
     },
   );
-  // A pace save that fails springs back and says why.
-  screenGolden(
-    'today_road_strip_save_failed',
-    () => _road(active(), actions: RoadActions(savePace: (_) async => throw const ApiError(kind: ApiErrorKind.network, code: 'network'), setExamDate: (_) async {}, setMockTarget: (_) async {})),
-    size: const Size(412, 760),
-    dock: false,
-    act: (tester) async {
-      await _tapKey(tester, 'road-token-pace');
-      final r = tester.getRect(find.byKey(const ValueKey('road-pace')));
-      await tester.tapAt(Offset(r.left + r.width * (5.5 / 7), r.center.dy));
-      await tester.pump(const Duration(milliseconds: 450));
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 300));
-    },
-  );
-  // The window is open: the road as it was.
-  screenGolden('today_road_window', () => _road(ashaInputs(now: DateTime.utc(2027, 5, 10, 8))), size: const Size(412, 720), dock: false);
 
   // The hero states that take the card's place, unchanged in kind.
   todayGolden('today_sealed', () => _view(ashaInputs(unopened: [(attemptId: 'm7', receivedAt: now.subtract(const Duration(minutes: 20)))])), size: kPhone);

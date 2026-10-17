@@ -47,7 +47,7 @@ DateTime latestExamDate(DateTime windowStart) => DateTime.utc(windowStart.year, 
 
 /// The mock target's range on the stepper.
 const int mockTargetMin = 1;
-const int mockTargetMax = 60;
+const int mockTargetMax = 120;
 
 /// A first target to offer when the student has none: one full mock a fortnight to the exam,
 /// at least five, never below what they have already taken plus one.
@@ -71,6 +71,7 @@ class RoadBoard {
     this.goal,
     this.weekDone,
     this.weekGoal,
+    this.mockDays = const [],
   });
 
   final DateTime today;
@@ -99,6 +100,10 @@ class RoadBoard {
   final int? weekDone;
   final int? weekGoal;
 
+  /// The student's calendar date (UTC midnight) of every full and NTA-style mock on the record,
+  /// newest first: the weeks of the plan count the mocks of their own week from it.
+  final List<DateTime> mockDays;
+
   int get weeksToExam => daysToExam ~/ 7;
 
   /// The same board counted to [day] instead (the exam flag while it is dragged): the days, the
@@ -117,6 +122,7 @@ class RoadBoard {
       goal: goal,
       weekDone: weekDone,
       weekGoal: weekGoal,
+      mockDays: mockDays,
     );
   }
 
@@ -133,6 +139,7 @@ class RoadBoard {
         goal: next,
         weekDone: weekDone,
         weekGoal: weekGoal,
+        mockDays: mockDays,
       );
 
   /// The same board with another mock target (the mock ruler while it moves).
@@ -148,6 +155,7 @@ class RoadBoard {
         goal: goal,
         weekDone: weekDone,
         weekGoal: weekGoal,
+        mockDays: mockDays,
       );
 
   /// Mocks still to take for the target, or null without one.
@@ -216,5 +224,6 @@ RoadBoard buildRoadBoard({
     goal: goal,
     weekDone: weekDone,
     weekGoal: weekGoal,
+    mockDays: [if (mocks != null) for (final a in mocks) dateOf(a.completedAt)],
   );
 }

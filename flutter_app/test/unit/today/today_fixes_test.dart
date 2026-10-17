@@ -167,17 +167,18 @@ void main() {
           disableAnimations: true,
           overrides: [authSnapshotProvider.overrideWithBuild((ref, notifier) => const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u'))],
         );
-        await tester.scrollUntilVisible(find.text(TodayCopy.roadTitle), 300, scrollable: find.byType(Scrollable).first);
+        await tester.scrollUntilVisible(find.text(TodayCopy.roadCardTitle), 300, scrollable: find.byType(Scrollable).first);
       }
 
-      // The Road to May heading counts days in the last week (TODAY-1017 4.4).
+      // The road card counts days in the last week, never "0 weeks" (V15 2.2).
       await showAt(DateTime.utc(2027, 4, 26, 8));
-      expect(find.text(TodayCopy.roadDaysTo(own: false, n: 5)), findsOneWidget);
-      expect(find.text(TodayCopy.roadWeeksTo(own: false, n: 0)), findsNothing);
+      expect(find.text('5'), findsWidgets);
+      expect(find.text(TodayCopy.daysToCuet(5)), findsOneWidget);
+      expect(find.text(TodayCopy.weeksToCuet(0)), findsNothing);
 
       await showAt(DateTime.utc(2027, 4, 30, 8));
-      expect(find.text(TodayCopy.roadDaysTo(own: false, n: 1)), findsOneWidget);
-      expect(TodayCopy.roadDaysTo(own: false, n: 1), startsWith('day to'));
+      expect(find.text(TodayCopy.daysToCuet(1)), findsOneWidget);
+      expect(TodayCopy.daysToCuet(1), startsWith('day to'));
     });
   });
 

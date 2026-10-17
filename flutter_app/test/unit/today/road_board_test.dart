@@ -204,12 +204,12 @@ void main() {
     await pumpBody(tester, view, const Size(384, 500));
     await tester.pump();
     await tester.pump();
-    final cue = find.bySemanticsLabel(RegExp(r'^Road to May, [0-9]+ weeks'));
+    final cue = find.bySemanticsLabel(RegExp(r'^Your road to CUET, [0-9]+ weeks'));
     expect(cue.hitTestable(), findsOneWidget);
     await tester.tap(cue);
     await tester.pumpAndSettle();
-    expect(find.text(TodayCopy.roadTitle).hitTestable(), findsOneWidget, reason: 'the page glided to the road');
-    expect(find.bySemanticsLabel(RegExp(r'^Road to May, [0-9]+ weeks')).hitTestable(), findsNothing, reason: 'the cue is gone for the visit');
+    expect(find.text(TodayCopy.roadCardTitle).hitTestable(), findsOneWidget, reason: 'the page glided to the road');
+    expect(find.bySemanticsLabel(RegExp(r'^Your road to CUET, [0-9]+ weeks')).hitTestable(), findsNothing, reason: 'the cue is gone for the visit');
   });
 
   // Design critic 16 Oct, finding 2: the cue sat over the key at late night and over the chart

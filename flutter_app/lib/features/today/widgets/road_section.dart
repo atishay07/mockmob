@@ -24,6 +24,7 @@ import '../logic/road_board.dart';
 import '../logic/road_builder.dart' show expectedWindowStart;
 import '../logic/road_weeks.dart';
 import '../logic/today_model.dart';
+import 'road_actions.dart';
 import 'road_board.dart';
 import 'road_rail.dart';
 import 'road_timeline.dart';
@@ -31,16 +32,7 @@ import 'road_strip.dart';
 import 'road_tuners.dart';
 import 'today_pill.dart';
 
-/// What the road saves through: the study-days goal and its weekdays (the account), the exam day
-/// and the mock target (this phone). Each future completes when the save has returned and throws
-/// when it did not.
-class RoadActions {
-  const RoadActions({required this.savePace, required this.setExamDate, required this.setMockTarget});
-
-  final Future<void> Function(Set<int> days) savePace;
-  final Future<void> Function(DateTime? day) setExamDate;
-  final Future<void> Function(int? target) setMockTarget;
-}
+export 'road_actions.dart';
 
 class RoadSection extends StatefulWidget {
   const RoadSection({super.key, required this.road, this.actions, this.onChooseColleges, this.onWeek, this.onOpen});

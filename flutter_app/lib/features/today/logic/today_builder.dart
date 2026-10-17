@@ -14,6 +14,7 @@ import '../../rhythm/logic/week_outlook.dart';
 import '../copy.dart';
 import 'move_builder.dart';
 import 'road_builder.dart';
+import 'road_card.dart';
 import 'subjects.dart';
 import 'today_clock.dart' show endedNoticeWindow;
 import 'today_inputs.dart';
@@ -28,7 +29,8 @@ TodayView buildToday(TodayInputs i) {
   final plain = buildHeader(i);
   if (i.attempts == null && !i.attemptsFailed) {
     // The road draws from the calendar at once (4.4, late data), so it never arrives under the week.
-    return TodayView(header: plain, offline: i.offline, road: buildRoad(i));
+    final road = buildRoad(i);
+    return TodayView(header: plain, offline: i.offline, road: road, card: road == null ? null : buildRoadCard(road, plain.week, mocksKnown: false), mocksLoading: true);
   }
   final move = buildMove(i);
   final heroes = <TodayHero>[
@@ -52,6 +54,7 @@ TodayView buildToday(TodayInputs i) {
     for (final h in heroes.skip(1)) _slotFor(h),
     if (hero is! MoveHero) _moveSlot(move, lead: moveLeads),
   ];
+  final road = buildRoad(i);
   return TodayView(
     header: header,
     hero: hero,
@@ -59,9 +62,11 @@ TodayView buildToday(TodayInputs i) {
     sheet: buildSheet(i),
     papers: i.attempts?.length ?? 0,
     trend: buildTrend(i),
-    road: buildRoad(i),
+    road: road,
     offline: i.offline,
     lastPaper: buildLastPaper(i),
+    card: road == null ? null : buildRoadCard(road, header.week, mocksKnown: i.attempts != null, mocksFailed: i.attempts == null && i.attemptsFailed),
+    mocksFailed: i.attempts == null && i.attemptsFailed,
   );
 }
 
@@ -194,7 +199,7 @@ LastPaper? buildLastPaper(TodayInputs i) {
   final date = formatDayMonthShort(i.date(a.completedAt));
   return LastPaper(
     title: TodayCopy.lastPaperName(paperLabel(all, a), subjectName(a.subject)),
-    sub: TodayCopy.lastPaperSub(date, change),
+    sub: TodayCopy.lastPaperSub(date, change, time: formatTime12(i.clock(a.completedAt))),
     marks: a.marks,
     outOf: a.maxMarks,
     target: GoTo(a.isMock ? AppRoutes.result(a.id) : AppRoutes.practiceResult(a.id)),

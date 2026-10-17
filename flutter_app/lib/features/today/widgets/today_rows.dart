@@ -10,7 +10,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../logic/today_model.dart';
-import 'colleges_card.dart' show CollegesCardStatus;
+import 'colleges_card.dart' show CollegeFit, CollegesCardStatus;
 import 'today_pill.dart';
 import 'today_type.dart';
 
@@ -26,7 +26,17 @@ class TodayRows extends StatelessWidget {
     this.onChoose,
     this.onRetry,
     this.showColleges = true,
+    this.fit = CollegeFit.unknown,
+    this.fitNeeds,
+    this.onPlan,
   });
+
+  /// The first college against DU's rules for the student's subjects, and the gap when it needs one.
+  final CollegeFit fit;
+  final String? fitNeeds;
+
+  /// "Plan for it": opens the college's programme in Compass.
+  final VoidCallback? onPlan;
 
   final LastPaper? lastPaper;
 
@@ -82,13 +92,35 @@ class TodayRows extends StatelessWidget {
     final first = firstCollege;
     if (first != null) {
       final more = collegesSaved - 1;
-      return _Row(
-        label: TodayCopy.collegesRowTitle,
-        title: first.college,
-        sub: TodayCopy.collegesSub(first.course, more < 0 ? 0 : more),
-        figure: first.score,
-        denominator: first.outOf == null ? null : TodayCopy.ofDenominator(first.outOf!),
-        onTap: onColleges,
+      final rest = more < 0 ? 0 : more;
+      final status = switch (fit) {
+        CollegeFit.open => TodayCopy.collegesFitSub(first.course, TodayCopy.collegesOpen, rest),
+        CollegeFit.needs when fitNeeds != null && fitNeeds!.isNotEmpty => TodayCopy.collegesFitSub(first.course, TodayCopy.collegesNeeds(fitNeeds!), rest),
+        _ => TodayCopy.collegesSub(first.course, rest),
+      };
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _Row(
+            label: TodayCopy.collegesRowTitle,
+            title: first.college,
+            sub: status,
+            figure: first.score,
+            denominator: first.outOf == null ? null : TodayCopy.ofDenominator(first.outOf!),
+            onTap: onColleges,
+          ),
+          if (onPlan != null)
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: MmSpace.s4),
+                // The quiet key carries 16 dp of its own side padding: pulled back so its word
+                // stands on the row's left edge.
+                child: Transform.translate(offset: const Offset(-MmSpace.s16, 0), child: KeyButton.quiet(key: const ValueKey('colleges-plan'), label: TodayCopy.planForIt, onPressed: onPlan)),
+              ),
+            ),
+        ],
       );
     }
     final Widget body;

@@ -36,7 +36,8 @@ void main() {
         tester,
         PhoneFrame(child: TodayBody(view: buildToday(ashaInputs()), callbacks: noopCallbacks, skeletonDelay: Duration.zero)),
         brightness: brightness,
-        size: kTodaySize,
+        // Tall enough that no line of the page sits under the bar's scrim (the check judges text).
+        size: const Size(384, 1400),
         disableAnimations: true,
         overrides: todayOverrides,
       );

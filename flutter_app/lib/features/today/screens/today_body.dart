@@ -21,14 +21,14 @@ import '../copy.dart';
 import '../logic/today_model.dart';
 import '../logic/today_reactions.dart';
 import '../widgets/also_slots.dart';
-import '../../social/social.dart' show MobTodayBlock;
 import '../widgets/colleges_card.dart' show CollegesCardInfo, CollegesCardStatus;
 import '../widgets/move_hero.dart';
 import '../widgets/resume_hero.dart';
-import '../widgets/road_section.dart';
+import '../widgets/adjust_plan_sheet.dart' show showAdjustPlanSheet;
+import '../widgets/road_actions.dart';
 import '../widgets/sealed_hero.dart';
 import '../widgets/today_rows.dart';
-import '../widgets/today_week.dart';
+import '../widgets/your_road_card.dart';
 import '../widgets/today_header.dart';
 import '../widgets/today_entrance.dart';
 import '../widgets/today_skeleton.dart';
@@ -539,6 +539,10 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
     };
   }
 
+  /// The Adjust plan sheet over Today: the one place the plan is changed.
+  void _adjust(RoadModel road, {bool toDate = false}) =>
+      unawaited(showAdjustPlanSheet(context, road: road, actions: widget.callbacks.road, toDate: toDate));
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
@@ -586,55 +590,41 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
               ),
       ),
       ?widget.weeklyEnding,
-      // The glance (4.1): This week, the Road to May, then the two record rows. No cards: space
-      // and hairlines. Each block holds its height from the first frame (L03), so nothing above
-      // the fold moves when the rhythm or the colleges land.
+      // The glance (V15 2): the road card, then the two record rows. No strip, no slider, no
+      // calendar. Each block holds its height from the first frame (L03), so nothing above the
+      // fold moves when the rhythm or the colleges land.
       const SizedBox(height: MmSpace.group),
-      TodayEnter(
-        delay: const Duration(milliseconds: 200),
-        rise: 8,
-        child: TodayWeekRow(
-          week: view.header.week,
-          loading: view.header.weekLoading,
-          failed: view.header.weekFailed,
-          onTap: widget.lastWeek != null ? callbacks.onWeeklyEnding ?? callbacks.onWeek : callbacks.onWeek,
-          onRetry: callbacks.onRefresh == null ? null : () => unawaited(callbacks.onRefresh!()),
-          onSetDays: callbacks.onWeek,
-          lastWeek: widget.lastWeek,
-          allowMobi: !heroMobi,
-        ),
-      ),
-      if (road != null) ...[
-        const SizedBox(height: 28),
+      if (view.card != null)
         TodayEnter(
-          delay: const Duration(milliseconds: 240),
+          delay: const Duration(milliseconds: 200),
           rise: 8,
-          child: RoadSection(
+          child: KeyedSubtree(
             key: _roadKey,
-            road: road,
-            actions: callbacks.road,
-            onChooseColleges: callbacks.onChooseColleges,
-            onWeek: callbacks.onWeek,
-            onOpen: callbacks.onTarget,
+            child: YourRoadCard(
+              view: view,
+              lastWeek: widget.lastWeek,
+              onAdjust: road == null ? null : () => _adjust(road),
+              onChangeDate: road == null ? null : () => _adjust(road, toDate: true),
+              onWeeklyEnding: callbacks.onWeeklyEnding ?? callbacks.onWeek,
+              onRetry: callbacks.onRefresh == null ? null : () => unawaited(callbacks.onRefresh!()),
+              allowMobi: !heroMobi,
+            ),
           ),
         ),
-      ],
-      // The Mob card (SOCIAL-SPEC 8, 9): only when the student is in a Mob, so it adds nothing otherwise.
-      // It reads its Mob after the page: it eases open rather than appearing at full height (L03).
-      const TodayEnter(
-        delay: Duration(milliseconds: 260),
-        rise: 8,
-        child: MmSizeEase(duration: Motion.card, curve: Motion.out, alignment: Alignment.topCenter, clipBehavior: Clip.none, child: MobTodayBlock()),
-      ),
       const SizedBox(height: 28),
       TodayEnter(
-        delay: const Duration(milliseconds: 280),
+        delay: const Duration(milliseconds: 240),
         rise: 8,
         child: TodayRows(
           lastPaper: view.lastPaper,
           firstCollege: first,
           collegesSaved: road?.ladderSaved ?? 0,
           collegesStatus: first != null ? CollegesCardStatus.ready : widget.colleges.status,
+          fit: widget.colleges.fit,
+          fitNeeds: widget.colleges.needs,
+          onPlan: first == null
+              ? null
+              : () => callbacks.onTarget(GoTo(first.programmeId != null ? ToolsPaths.programme(first.programmeId!) : ToolsPaths.compass)),
           onPaper: callbacks.onTarget,
           onColleges: () => callbacks.onTarget(const GoTo(ToolsPaths.colleges)),
           onChoose: callbacks.onChooseColleges,
@@ -646,7 +636,7 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
     // The cue lives in the page, in the gap under the hero (design critic 16 Oct, finding 2): it
     // takes the place of the first block's own leading gap (at least the 32 between sections), so
     // it can never sit over a card, a key or a line, and fading it out never moves the page.
-    if (view.road != null && view.hero != null) {
+    if (view.road != null && view.card != null && view.hero != null) {
       final road = view.road!;
       final cue = MoreBelowSlot(
         cue: _moreCue,
@@ -654,12 +644,8 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
         label: road.phase != RoadPhase.countdown
             ? TodayCopy.moreBelow
             : road.board != null
-                ? TodayCopy.moreBelowCount(
-                    weeks: road.board!.weeksToExam,
-                    days: road.board!.daysToExam,
-                    title: TodayCopy.roadTitleFor(road.board!.ownDate ? road.board!.examDate : null),
-                  )
-                : TodayCopy.moreBelowCount(weeks: road.weeks, days: road.daysToWindow),
+                ? TodayCopy.moreBelowCount(weeks: road.board!.weeksToExam, days: road.board!.daysToExam, title: TodayCopy.roadCardTitle)
+                : TodayCopy.moreBelowCount(weeks: road.weeks, days: road.daysToWindow, title: TodayCopy.roadCardTitle),
       );
       // With no slot (the also block is its zero-height ease) and no weekly ending, the cue takes
       // the group gap's place; otherwise it sits straight under the move.

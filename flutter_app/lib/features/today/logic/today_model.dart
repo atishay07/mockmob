@@ -5,6 +5,7 @@ import '../../../core/widgets/bubbles/bubble_painter.dart';
 import '../../../core/widgets/art/mm_art.dart';
 import '../../rhythm/logic/plan_week.dart';
 import 'road_board.dart' show RoadBoard;
+import 'road_card.dart' show RoadCardModel;
 
 /// Where a tap goes. The screen turns each into navigation or a refresh.
 sealed class TodayTarget {
@@ -522,6 +523,7 @@ class PaperTrend {
 class LastPaper {
   const LastPaper({required this.title, required this.sub, required this.marks, required this.outOf, required this.target, this.change, this.up});
 
+
   /// "Mock 7, Accountancy".
   final String title;
 
@@ -547,7 +549,16 @@ class TodayView {
     this.road,
     this.offline = false,
     this.lastPaper,
+    this.card,
+    this.mocksLoading = false,
+    this.mocksFailed = false,
   });
+
+  /// "Your road to CUET": the card under the move (null once the exam window has closed).
+  final RoadCardModel? card;
+
+  /// The papers are not in hand yet (loading) or did not load (failed): the card's mock line says so.
+  final bool mocksLoading, mocksFailed;
 
   /// The newest opened paper, or null when there is none (the row is then not there).
   final LastPaper? lastPaper;

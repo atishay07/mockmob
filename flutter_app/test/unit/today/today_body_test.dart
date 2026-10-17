@@ -9,8 +9,6 @@ import 'package:mockmob/core/repositories/rhythm_seen_repository.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show rhythmPrefsStoreProvider;
 import 'package:mockmob/features/rhythm/rhythm.dart';
-import 'package:mockmob/features/today/widgets/today_week.dart';
-import 'package:mockmob/features/today/widgets/road_strip.dart';
 import 'package:mockmob/features/today/widgets/header_mobi.dart';
 import 'package:mockmob/features/today/widgets/length_pill.dart';
 import 'package:mockmob/features/today/widgets/today_celebration.dart';
@@ -58,15 +56,6 @@ void main() {
       overrides: overrides,
     );
     return events;
-  }
-
-  /// Opens the week-by-week rail in place: a tap on the strip (TODAY-1017 4.4).
-  Future<void> openRail(WidgetTester tester) async {
-    final strip = find.byType(RoadStrip);
-    await tester.ensureVisible(strip);
-    final r = tester.getRect(strip);
-    await tester.tapAt(Offset(r.left + r.width * 0.3, r.top + 80));
-    await tester.pumpAndSettle();
   }
 
   testWidgets('the volt key starts the repair; See why reports back; the length sits in the key', (tester) async {
@@ -128,14 +117,17 @@ void main() {
     expect(find.byType(SnackBar), findsNothing);
   });
 
-  testWidgets('the week in the header has one spoken summary and opens the week', (tester) async {
-    final events = await pumpToday(tester, buildToday(ashaInputs()));
-    final week = find.bySemanticsLabel(RegExp('^This week, 1 of 4 study days'));
-    expect(week, findsOneWidget);
-    await tester.ensureVisible(find.byType(TodayWeekRow));
-    await tester.tap(find.byType(TodayWeekRow));
-    await tester.pump();
-    expect(events, contains('week'));
+  testWidgets('the road card says this week in words, and Adjust plan opens the sheet', (tester) async {
+    await pumpToday(tester, buildToday(ashaInputs()));
+    expect(find.bySemanticsLabel(RegExp('^This week: 1 of 4 study days')), findsOneWidget);
+    expect(find.text(TodayCopy.roadCardTitle), findsOneWidget);
+    final adjust = find.byKey(const ValueKey('road-adjust'));
+    await tester.ensureVisible(adjust);
+    await tester.tap(adjust);
+    await tester.pumpAndSettle();
+    expect(find.text(TodayCopy.adjustDaysTitle), findsOneWidget);
+    expect(find.text(TodayCopy.adjustMocksTitle), findsOneWidget);
+    expect(find.text(TodayCopy.adjustDateTitle), findsOneWidget);
   });
 
   test('why: real counts and the chapters that lost marks', () {
@@ -169,20 +161,24 @@ void main() {
     expect(events, contains('minutes:20'));
   });
 
-  testWidgets('the road keeps every stop: a chip per stop, and its full dates in the readout once chosen', (tester) async {
+  /// Opens the Adjust plan sheet and its week list, where the whole road lives now.
+  Future<void> openWeeks(WidgetTester tester) async {
+    final adjust = find.byKey(const ValueKey('road-adjust'));
+    await tester.ensureVisible(adjust);
+    await tester.tap(adjust);
+    await tester.pumpAndSettle();
+    final weeks = find.byKey(const ValueKey('adjust-weeks'));
+    await tester.ensureVisible(weeks);
+    await tester.tap(weeks);
+    await tester.pumpAndSettle();
+  }
+
+  testWidgets('the road keeps every stop: Adjust plan lists each one with its dates', (tester) async {
     await pumpToday(tester, buildToday(ashaInputs()));
-    final road = find.text(TodayCopy.roadTitle);
-    await tester.scrollUntilVisible(road, 300, scrollable: find.byType(Scrollable).first);
-    await openRail(tester);
+    await openWeeks(tester);
     final stops = buildToday(ashaInputs()).road!.stops;
     for (final stop in stops) {
-      final chip = find.textContaining('${stop.title},');
-      // The exam's chip shares its words with the strip's flag ("CUET UG, 1 May").
-      expect(chip, stop.kind == RoadStopKind.exam ? findsWidgets : findsOneWidget, reason: stop.title);
-      if (stop.kind == RoadStopKind.exam) continue;
-      await tester.ensureVisible(chip);
-      await tester.tap(chip);
-      await tester.pumpAndSettle();
+      expect(find.text(stop.title), findsWidgets, reason: stop.title);
       expect(find.textContaining(stop.when), findsWidgets, reason: '${stop.title} states its dates');
     }
   });
@@ -190,15 +186,9 @@ void main() {
   testWidgets('a date that is still expected says so where its dates are shown', (tester) async {
     final view = buildToday(ashaInputs());
     await pumpToday(tester, view);
-    await tester.scrollUntilVisible(find.text(TodayCopy.roadTitle), 300, scrollable: find.byType(Scrollable).first);
-    await openRail(tester);
+    await openWeeks(tester);
     expect(view.road!.stops.where((s) => s.expected).length, 3);
-    final boards = view.road!.stops.firstWhere((s) => s.kind == RoadStopKind.boards);
-    final chip = find.textContaining('${boards.title},');
-    await tester.ensureVisible(chip);
-    await tester.tap(chip);
-    await tester.pumpAndSettle();
-    expect(find.textContaining('${boards.when}, expected.'), findsOneWidget);
+    expect(find.text(TodayCopy.expectedDates), findsOneWidget, reason: 'every date is expected: said once above the list');
   });
 
   testWidgets('a mix of expected and published dates tags only the expected stops', (tester) async {
@@ -232,7 +222,7 @@ void main() {
     final view = buildToday(ashaInputs(now: DateTime.utc(2027, 6, 5, 8)));
     expect(view.road, isNull);
     await pumpToday(tester, view);
-    expect(find.text(TodayCopy.roadTitle), findsNothing);
+    expect(find.text(TodayCopy.roadCardTitle), findsNothing);
     expect(find.text(TodayCopy.collegesRowTitle), findsNothing);
     expect(find.textContaining('CSAS'), findsNothing);
   });
