@@ -402,7 +402,7 @@ class _PipsPainter extends CustomPainter {
       var alpha = 1.0;
       if (filled) {
         final slice = done <= 1 ? t : (t * (done + 1) - inked).clamp(0.0, 1.0);
-        scale = 0.6 + 0.4 * Curves.easeOutBack.transform(slice.clamp(0.0, 1.0)).clamp(0.0, 1.2);
+        scale = 0.6 + 0.4 * Motion.out.transform(slice.clamp(0.0, 1.0));
         alpha = slice.clamp(0.0, 1.0);
         inked++;
       }

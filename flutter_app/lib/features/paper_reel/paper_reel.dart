@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/motion/motion.dart';
 import '../../core/theme/theme.dart';
 import '../../core/widgets/widgets.dart';
 import 'copy.dart';
@@ -52,7 +53,7 @@ class PaperReel extends StatefulWidget {
           ),
         ),
       ),
-      transitionsBuilder: (context, a, _, child) => FadeTransition(opacity: CurvedAnimation(parent: a, curve: Curves.easeOut), child: child),
+      transitionsBuilder: (context, a, _, child) => FadeTransition(opacity: CurvedAnimation(parent: a, curve: Motion.out), child: child),
     ));
   }
 
@@ -131,12 +132,12 @@ class _ReelBody extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final chapterIn = switch (frame.phase) {
-      ReelPhase.chapter => Curves.easeOutCubic.transform((frame.phaseT * 2.2).clamp(0.0, 1.0)),
+      ReelPhase.chapter => Motion.out.transform((frame.phaseT * 2.2).clamp(0.0, 1.0)),
       ReelPhase.end => 1.0,
       _ => 0.0,
     };
-    final endIn = frame.isEnd ? Curves.easeOutCubic.transform((frame.phaseT * 2.5).clamp(0.0, 1.0)) : 0.0;
-    final introIn = frame.phase == ReelPhase.intro ? Curves.easeOut.transform(frame.phaseT) : 1.0;
+    final endIn = frame.isEnd ? Motion.out.transform((frame.phaseT * 2.5).clamp(0.0, 1.0)) : 0.0;
+    final introIn = frame.phase == ReelPhase.intro ? Motion.out.transform(frame.phaseT) : 1.0;
 
     return Semantics(
       container: true,
@@ -251,7 +252,7 @@ class _Sheet extends StatelessWidget {
     final ink = !lit
         ? 0.0
         : current && frame.phase == ReelPhase.sheet
-            ? Curves.easeOut.transform((frame.phaseT * 2.5).clamp(0.0, 1.0))
+            ? Motion.out.transform((frame.phaseT * 2.5).clamp(0.0, 1.0))
             : 1.0;
     return (lit: lit, ink: ink, focus: current, moment: frame.moment?.index == i);
   }
@@ -350,8 +351,9 @@ class _Ticker extends StatelessWidget {
         height: 52,
         child: Align(
           alignment: Alignment.centerLeft,
-          child: AnimatedSwitcher(
+          child: MmOverlapSwitcher.fade(
             duration: const Duration(milliseconds: 180),
+            alignment: Alignment.centerLeft,
             child: child,
           ),
         ),

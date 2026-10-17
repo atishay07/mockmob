@@ -421,7 +421,7 @@ class MoveSwap extends StatelessWidget {
       duration: reduced ? Duration.zero : const Duration(milliseconds: 240),
       reverseDuration: reduced ? Duration.zero : const Duration(milliseconds: 140),
       switchInCurve: const Cubic(0.23, 1, 0.32, 1),
-      switchOutCurve: Curves.easeIn,
+      switchOutCurve: Motion.leave,
       layoutBuilder: (current, previous) => Stack(
         alignment: Alignment.topCenter,
         children: [

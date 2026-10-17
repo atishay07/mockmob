@@ -195,7 +195,6 @@ class _PlanFlowBodyState extends State<PlanFlowBody> {
       1 => GlanceCopy.askDays,
       _ => GlanceCopy.askMocks,
     };
-    final reduced = Motion.reduced(context);
     final body = switch (_step) {
       0 => _dateStep(context),
       1 => _daysStep(context),
@@ -215,23 +214,17 @@ class _PlanFlowBodyState extends State<PlanFlowBody> {
             onStep: _go,
           ),
           const SizedBox(height: MmSpace.s20),
-          AnimatedSwitcher(
-            duration: reduced ? Duration.zero : const Duration(milliseconds: 220),
-            switchInCurve: const Cubic(0.23, 1, 0.32, 1),
-            switchOutCurve: Curves.easeIn,
-            layoutBuilder: (current, previous) => Stack(alignment: Alignment.topCenter, children: [...previous, ?current]),
-            transitionBuilder: (child, animation) {
-              final incoming = child.key == ValueKey('step-$_step');
-              final dx = (incoming ? 12.0 : -12.0) * _direction;
-              return AnimatedBuilder(
-                animation: animation,
-                child: child,
-                builder: (context, child) => Opacity(
-                  opacity: animation.value,
-                  child: Transform.translate(offset: Offset((1 - animation.value) * dx, 0), child: child),
-                ),
-              );
-            },
+          // One question at a time slides in from the side it comes from (12 dp, 220 ms), and the
+          // sheet eases to its height (a month view opening, a shorter step).
+          MmSizeEase(
+            duration: Motion.ui,
+            curve: Motion.out,
+            alignment: Alignment.topCenter,
+            clipBehavior: Clip.none,
+            child: MmOverlapSwitcher.axis(
+            direction: _direction,
+            travel: 12,
+            duration: const Duration(milliseconds: 220),
             child: Column(
               key: ValueKey('step-$_step'),
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -242,6 +235,7 @@ class _PlanFlowBodyState extends State<PlanFlowBody> {
                 body,
               ],
             ),
+          ),
           ),
           const SizedBox(height: MmSpace.s8),
           _SaveLine(state: _saves[_step] ?? _Save.idle, step: _step, onRetry: _retry),

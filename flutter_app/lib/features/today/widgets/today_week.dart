@@ -378,15 +378,10 @@ class _Readout extends StatelessWidget {
       ...readout.lines,
       if (readout.isToday) upNext ?? GlanceCopy.moveNotLoaded,
     ];
-    final reduced = Motion.reduced(context);
-    return AnimatedSwitcher(
-      duration: reduced ? Duration.zero : const Duration(milliseconds: 220),
-      switchInCurve: const Cubic(0.23, 1, 0.32, 1),
-      layoutBuilder: (current, previous) => Stack(alignment: Alignment.topLeft, children: [...previous, ?current]),
-      transitionBuilder: (child, animation) => FadeTransition(
-        opacity: animation,
-        child: SlideTransition(position: Tween<Offset>(begin: const Offset(0, 0.08), end: Offset.zero).animate(animation), child: child),
-      ),
+    // The new day's words rise into place over the old (220 ms); reduced motion keeps a short fade.
+    return MmOverlapSwitcher.rise(
+      duration: const Duration(milliseconds: 220),
+      alignment: Alignment.topLeft,
       child: Semantics(
         key: ValueKey('${readout.title}|${lines.join('|')}'),
         liveRegion: true,
@@ -506,7 +501,7 @@ class _CountedPopState extends State<_CountedPop> with SingleTickerProviderState
       animation: _c,
       builder: (context, _) {
         final t = _c.value;
-        final pop = Curves.easeOutBack.transform((t / split).clamp(0.0, 1.0));
+        final pop = Motion.out.transform((t / split).clamp(0.0, 1.0));
         final draw = Motion.out.transform(((t - split) / (1 - split)).clamp(0.0, 1.0));
         return Opacity(
           opacity: (t / split * 1.6).clamp(0.0, 1.0),
