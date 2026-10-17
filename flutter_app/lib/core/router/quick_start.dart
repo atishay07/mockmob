@@ -769,9 +769,11 @@ class _SubjectChipsState extends ConsumerState<_SubjectChips> {
       key: const ValueKey('start-subject-chips'),
       controller: _scroll,
       scrollDirection: Axis.horizontal,
-      // Two dp above and below keep a pressed chip's outline and focus ring inside the mask.
+      // Two dp above and below keep a pressed chip's outline and focus ring inside the mask. The
+      // scroll view clips to the mask's width: with Clip.none the chips painted past the mask's
+      // bounds at full strength, which left a hard seam where the fade ended ("Business | Stu").
       padding: const EdgeInsets.symmetric(vertical: 2),
-      clipBehavior: Clip.none,
+      clipBehavior: Clip.hardEdge,
       child: Row(
         children: [
           for (final (i, id) in widget.subjects.indexed) ...[

@@ -130,14 +130,14 @@ class WeekStripPainter extends CustomPainter {
       final state = day.studyDay ? BubbleState.filled : (day.rest ? BubbleState.rest : BubbleState.hollow);
       if (day.studyDay) {
         // A studied day is a neutral disc with an ink initial: the volt stays on the screen's key.
-        canvas.drawCircle(center, r, Paint()..color = colors.raised2);
+        canvas.drawCircle(center, r, Paint()..color = Color.alphaBlend(colors.ink.withValues(alpha: 0.16), colors.raised2));
         canvas.drawCircle(
           center,
           r - 0.5,
           Paint()
             ..style = PaintingStyle.stroke
             ..strokeWidth = 1
-            ..color = colors.lineStrong,
+            ..color = colors.ink3,
         );
       } else {
         bubbles.paint(canvas, center, r, state);

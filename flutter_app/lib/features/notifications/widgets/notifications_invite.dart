@@ -181,8 +181,9 @@ class _NotificationsInviteState extends ConsumerState<NotificationsInvite> {
       final pill = on
           ? null
           : blocked
-              ? InvitePill(label: NotificationsCopy.inviteOpenSettings, onPressed: () => unawaited(_openSettings()))
+              ? InvitePill(outlined: true, label: NotificationsCopy.inviteOpenSettings, onPressed: () => unawaited(_openSettings()))
               : InvitePill(
+                  outlined: true,
                   label: NotificationsCopy.inviteTurnOn,
                   semanticsLabel: NotificationsCopy.inviteTurnOnLabel,
                   loading: _phase == _Phase.asking,
