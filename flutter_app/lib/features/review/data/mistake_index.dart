@@ -299,7 +299,17 @@ MistakeStage _stageFor(RepairLocalRecord? r) {
 /// Builds the index. [attempts] is the attempts list (any order); [records] are the local repair
 /// records; [unopened] are results not opened yet. Questions the server called `not_a_mistake`
 /// are hidden quietly.
-ReviewIndex buildReviewIndex(List<Attempt> attempts, List<RepairLocalRecord> records, {Set<String> unopened = const {}}) {
+///
+/// [saved] is what the account holds as repairs (`attemptId/questionId` to when it was made, F17).
+/// A mistake in it is Repaired, at the time the server made it, whatever the phone's own record
+/// says or lacks: a repair made on another phone, on the website or before a reinstall counts here
+/// the moment it is read, and its row opens the saved repair for free.
+ReviewIndex buildReviewIndex(
+  List<Attempt> attempts,
+  List<RepairLocalRecord> records, {
+  Set<String> unopened = const {},
+  Map<String, DateTime> saved = const {},
+}) {
   final sorted = [...attempts]..sort((a, b) => b.completedAt.compareTo(a.completedAt));
   final byKey = {for (final r in records) '${r.attemptId}/${r.questionId}': r};
   final groups = <String, List<MistakeItem>>{};
@@ -320,7 +330,9 @@ ReviewIndex buildReviewIndex(List<Attempt> attempts, List<RepairLocalRecord> rec
       if (!detail.isWrong) continue;
       final record = byKey['${attempt.id}/${q.id}'];
       if (record?.status == RepairLocalStatus.notAMistake) continue;
-      final stage = _stageFor(record);
+      // The account's own record wins over a phone that has no repair (or only a key review) for it.
+      final savedAt = (record?.isRepaired ?? false) ? null : saved['${attempt.id}/${q.id}'];
+      final stage = savedAt != null ? MistakeStage.repaired : _stageFor(record);
       groups
           .putIfAbsent('${attempt.subject}|$chapter', () => [])
           .add(
@@ -334,7 +346,7 @@ ReviewIndex buildReviewIndex(List<Attempt> attempts, List<RepairLocalRecord> rec
               foundAt: attempt.completedAt,
               givenIndex: detail.givenIndex,
               stage: stage,
-              stageAt: stage == MistakeStage.found ? null : record?.ackedAt,
+              stageAt: stage == MistakeStage.found ? null : (savedAt ?? record?.ackedAt),
             ),
           );
     }

@@ -536,6 +536,36 @@ abstract final class TodayCopy {
   static const String altChapterLine = 'Pick a chapter and practise only that.';
   static const String altReview = 'Review your mistakes';
   static const String altReviewLine = 'Read the worked explanations, free.';
+  static String altRepairTitle(int n) => n == 1 ? 'Repair 1 mistake' : 'Repair $n mistakes';
+  static String altRepairNote(String paper, String? chapter, int minutes) =>
+      chapter == null ? 'From $paper. About $minutes min.' : 'From $paper, in $chapter. About $minutes min.';
+  static String altReviseTitle(int n) => n == 1 ? 'Revise 1 question' : 'Revise $n questions';
+  static String altReviseNote(int size, int due, int minutes) =>
+      size < due ? '$size of the $due due today come back. About $minutes min.' : 'Due today, so the fixes hold. About $minutes min.';
+  static String altPractiseTitle(String subject) => 'Practise $subject';
+  static String altPractiseNote(int questions, int? daysAgo) {
+    final last = switch (daysAgo) {
+      null => 'Not practised yet.',
+      0 => 'Last done today.',
+      1 => 'Last done yesterday.',
+      final d => 'Last done $d days ago.',
+    };
+    return '$questions questions, about $questions min. $last';
+  }
+
+  static String altMockTitle(String subject) => 'A full mock, $subject';
+  static String altMockNote(int questions, int minutes, String? lastPaper) =>
+      '$questions questions, $minutes min. ${lastPaper == null ? 'None on your record yet.' : 'Your last was $lastPaper.'}';
+
+  /// A server alternative's reason and length: a bare "10" gets its unit.
+  static String altPlanNote(String? reason, String? duration) {
+    final d = duration?.trim();
+    final length = d == null || d.isEmpty ? null : (RegExp(r'^\d+$').hasMatch(d) ? 'About $d min.' : d);
+    final r = reason?.trim();
+    final why = r == null || r.isEmpty ? null : (r.endsWith('.') ? r : '$r.');
+    return [?why, ?length].join(' ');
+  }
+
   static const String notToday = 'Not today';
   static const String notTodayNote = 'Hides this repair until tomorrow.';
 
@@ -587,6 +617,30 @@ abstract final class TodayCopy {
   static String reviseWhy(int n) =>
       'Revise brings back what you got wrong after 1, 3, 7 and 21 days. ${n == 1 ? 'This one is' : 'These ${countWord(n)} are'} due today, so the fix holds.';
   static String startRevise(int minutes) => 'Start Revise, $minutes min';
+
+  /// The round is smaller than what is due: "10" over "of 92 due today", so the number is the
+  /// session's own size and the key's minutes never seem to cover all 92.
+  static String reviseOfDue(int due) => 'of $due due\ntoday';
+
+  /// The round's subjects as the card's title: "Accountancy", "Accountancy and Economics",
+  /// "Accountancy and 2 more".
+  static String reviseSubjects(List<String> names) => names.length <= 2 ? joinWithAnd(names) : '${names.first} and ${names.length - 1} more';
+
+  /// Where the round's questions were missed, newest first: "Mock 3 on 17 Oct", "Quick 10 on
+  /// 15 Oct", "2 quick practices", joined into one sentence with Revise's rule after it.
+  static String revisePaper(String source, DateTime date) => '$source on ${formatDayMonthShort(date)}';
+  static String reviseQuickMany(int n) => '$n quick practices';
+  static String reviseMoreMocks(int n) => plural(n, 'more mock');
+  static String reviseFrom(List<String> parts) =>
+      'From ${joinWithAnd(parts)}. Each comes back after 1, 3, 7 and 21 days, so the fix holds.';
+
+  /// No paper on the phone matches the round's questions: the chapters say where they are from.
+  static String reviseFromChapters(String first, int more) => more == 0
+      ? 'From $first. Each comes back after 1, 3, 7 and 21 days, so the fix holds.'
+      : 'From $first and ${plural(more, 'more chapter')}. Each comes back after 1, 3, 7 and 21 days, so the fix holds.';
+
+  /// The lengths panel's question for Revise (5 or 10 questions, the Revise screen's own setting).
+  static const String reviseLength = 'How many to revise today?';
 
   // Done for today.
   static String doneRepairLabel(int total) => 'of $total repaired\ntonight';

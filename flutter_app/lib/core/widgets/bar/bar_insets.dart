@@ -73,6 +73,28 @@ class BarScrim extends StatelessWidget {
     const surfaceTop = 40.0;
     final top = surfaceTop / height;
     final bottom = ((height - bottomInset - MmBar.lift) / height).clamp(top, 1.0);
+    if (capsule) {
+      // With the live capsule up, the page fades out under it instead of showing half a row in the
+      // 8 dp between the capsule and the bar: 60% ground from the capsule's top to the bar's top,
+      // so a row never reads half-hidden there (v13 clutter fix).
+      final barTop = ((MmBar.capsuleClearance + surfaceTop) / height).clamp(top, bottom);
+      return DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: [0, top, barTop, bottom, 1],
+            colors: [
+              ground.withValues(alpha: 0),
+              ground.withValues(alpha: 0.6),
+              ground.withValues(alpha: 0.6),
+              ground.withValues(alpha: 0.45),
+              ground.withValues(alpha: 0.8),
+            ],
+          ),
+        ),
+      );
+    }
     return DecoratedBox(
       decoration: BoxDecoration(
         gradient: LinearGradient(

@@ -78,7 +78,6 @@ class LabMaterials extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         LitEdge(
-          glow: true,
           child: FakeGlass(
             child: Padding(
               padding: const EdgeInsets.all(MmSpace.cardPadding),

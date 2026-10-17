@@ -128,13 +128,26 @@ class WeekStripPainter extends CustomPainter {
         );
       }
       final state = day.studyDay ? BubbleState.filled : (day.rest ? BubbleState.rest : BubbleState.hollow);
-      bubbles.paint(canvas, center, r, state);
+      if (day.studyDay) {
+        // A studied day is a neutral disc with an ink initial: the volt stays on the screen's key.
+        canvas.drawCircle(center, r, Paint()..color = colors.raised2);
+        canvas.drawCircle(
+          center,
+          r - 0.5,
+          Paint()
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1
+            ..color = colors.lineStrong,
+        );
+      } else {
+        bubbles.paint(canvas, center, r, state);
+      }
       if (state == BubbleState.rest) continue;
       _paintInitial(
         canvas,
         center,
         weekdayInitials[i],
-        day.studyDay ? colors.voltInk : (day.isToday ? colors.ink : colors.ink3),
+        day.studyDay || day.isToday ? colors.ink : colors.ink3,
       );
     }
   }

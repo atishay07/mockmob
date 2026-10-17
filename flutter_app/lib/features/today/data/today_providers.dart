@@ -12,7 +12,7 @@ import '../../../core/auth/auth_state.dart';
 import '../../../core/connectivity/connectivity.dart';
 import '../../../core/domain/session_rules.dart';
 import '../../../core/repositories/repositories.dart';
-import '../../review/revise/revise_data.dart' show reviseEntryProvider;
+import '../../review/revise/revise_data.dart' show reviseCapProvider, reviseEntryProvider;
 import '../../rhythm/data/rhythm_providers.dart' show rhythmClockProvider;
 import '../../rhythm/logic/dates.dart' show formatIsoDate, studentDate;
 import '../../rhythm/rhythm.dart';
@@ -254,7 +254,9 @@ final todayInputsProvider = Provider<TodayInputs>((ref) {
   // an unknown count never makes Revise the move.
   final list = attempts.value;
   final firstDay = list == null || list.isEmpty ? null : TodayInputs(now: now, timezone: zone, attempts: list).firstWeekDay;
-  final reviseDue = firstDay != null && firstDay >= 2 ? ref.watch(reviseEntryProvider).value?.due : null;
+  final revise = firstDay != null && firstDay >= 2 ? ref.watch(reviseEntryProvider).value : null;
+  final reviseRead = revise != null && !revise.isUnavailable ? revise : null;
+  final reviseDue = reviseRead?.due;
   return TodayInputs(
     now: now,
     timezone: zone,
@@ -263,6 +265,9 @@ final todayInputsProvider = Provider<TodayInputs>((ref) {
     isPro: auth.isPro,
     repairedToday: repairedToday,
     reviseDue: reviseDue,
+    reviseShown: reviseRead?.shown,
+    reviseCards: [for (final c in reviseRead?.items ?? const []) (questionId: c.questionId, subject: c.subject, chapter: c.chapter)],
+    reviseCap: reviseRead == null ? 10 : ref.watch(reviseCapProvider).value ?? 10,
     subjects: auth.subjects,
     attempts: attempts.value,
     attemptsFailed: attempts.isFailedEmpty,

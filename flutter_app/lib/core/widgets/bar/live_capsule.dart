@@ -305,8 +305,9 @@ class _CapsuleContent extends StatelessWidget {
     final accent = colors.isNight ? colors.volt : colors.accentText;
     final titleStyle = type.body.copyWith(fontSize: 14, height: 18 / 14, fontWeight: FontWeight.w600, color: colors.ink);
     final detailStyle = type.body.copyWith(fontSize: 14, height: 18 / 14, fontWeight: FontWeight.w400, color: colors.ink2);
-    // The detail goes first when space runs out: whole, never cut to "23 of 50,...". Only then
-    // does the title take an ellipsis.
+    // The detail goes first when space runs out: whole, never cut to "23 of 50,...". Then the
+    // name gives way ("Business Stud..., 0 of 50"); a count is never the part that is cut.
+    final tail = live.titleTail;
     final text = MediaQuery.withClampedTextScaling(
       maxScaleFactor: 1.2,
       child: LayoutBuilder(
@@ -323,16 +324,25 @@ class _CapsuleContent extends StatelessWidget {
             withDetail = painter.width <= box.maxWidth;
             painter.dispose();
           }
-          return Text.rich(
-            TextSpan(
-              children: [
-                TextSpan(text: live.title, style: titleStyle),
-                if (withDetail) TextSpan(text: ', $detail', style: detailStyle),
-              ],
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            softWrap: false,
+          final trail = TextSpan(
+            children: [
+              if (tail != null) TextSpan(text: ', $tail', style: titleStyle),
+              if (withDetail) TextSpan(text: ', $detail', style: detailStyle),
+            ],
+          );
+          if (tail == null) {
+            return Text.rich(
+              TextSpan(children: [TextSpan(text: live.title, style: titleStyle), if (withDetail) TextSpan(text: ', $detail', style: detailStyle)]),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              softWrap: false,
+            );
+          }
+          return Row(
+            children: [
+              Flexible(child: Text(live.titleName, style: titleStyle, maxLines: 1, overflow: TextOverflow.ellipsis, softWrap: false)),
+              Text.rich(trail, maxLines: 1, softWrap: false),
+            ],
           );
         },
       ),
@@ -359,7 +369,7 @@ class _CapsuleContent extends StatelessWidget {
             2,
             MediaQuery.withClampedTextScaling(
               maxScaleFactor: 1.2,
-              child: Text(action, style: type.body.copyWith(fontSize: 14, height: 18 / 14, fontWeight: FontWeight.w700, color: accent)),
+              child: Text(action, style: type.body.copyWith(fontSize: 14, height: 18 / 14, fontWeight: FontWeight.w700, color: colors.ink)),
             ),
           ),
         ],

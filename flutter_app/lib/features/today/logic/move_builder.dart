@@ -2,6 +2,8 @@
 // precedence table (`nextMoveState`); this file gathers its inputs from the record and turns
 // the winning state into one number, one sentence and one action. Returning and late night
 // change defaults and warmth only, never the state.
+import 'dart:math' as math;
+
 import '../../../core/auth/load_problem.dart';
 import '../../../core/domain/mock_ordinal.dart';
 import '../../../core/domain/next_move.dart';
@@ -473,24 +475,7 @@ MoveHero? _firstWeek(TodayInputs i, MoveFacts f, NextMoveState state) {
   final overline = TodayCopy.firstWeekOverline(day);
   final art = HeroArt.object(subject: canonicalSubject(subject));
   final due = i.reviseDue ?? 0;
-  if (due > 0) {
-    final minutes = due <= 5 ? 5 : 10;
-    return MoveHero(
-      state: state,
-      mood: TodayMood.normal,
-      kind: MoveKind.revise,
-      overline: overline,
-      subjectId: canonicalSubject(subject),
-      subjectLine: name,
-      art: art,
-      number: '$due',
-      numberLabel: TodayCopy.reviseLabel(due),
-      meaning: TodayCopy.reviseWhy(due),
-      summary: TodayCopy.startRevise(minutes),
-      primary: TodayAction(TodayCopy.startRevise(minutes), const GoTo(TodayLinks.revise), startsSession: true, actionType: 'revise'),
-      secondary: const TodayAction(TodayCopy.somethingElse, OpenAlternatives()),
-    );
-  }
+  if (due > 0) return _revise(i, f, state, overline, fallbackSubject: subject);
   if (state == NextMoveState.ready && f.tonight != null && !f.dismissed) return null;
   final hasMock = f.attempts.any((a) => a.isMock);
   if (day >= 5 && !hasMock) {
@@ -533,6 +518,79 @@ MoveHero? _firstWeek(TodayInputs i, MoveFacts f, NextMoveState state) {
     );
   }
   return null;
+}
+
+/// Today's Revise round as the move (TODAY-1017 4.2 applied to Revise; device walk 17 Oct). The
+/// number is the round's own size at the student's cap (5 or 10), over "of 92 due today" when
+/// fewer than all are asked, so the key's minutes never seem to cover all of them. The title names
+/// the subjects the round's questions are from, not the newest paper's; the why names the papers
+/// they were missed on (matched on this phone's record) with their dates, and See why opens the
+/// newest of them. Change length switches between 5 and 10 questions.
+MoveHero _revise(TodayInputs i, MoveFacts f, NextMoveState state, String overline, {required String fallbackSubject}) {
+  final due = i.reviseDue ?? 0;
+  final remaining = math.max(1, math.min(i.reviseShown ?? due, due));
+  final cap = i.reviseCap == 5 ? 5 : 10;
+  final size = math.min(cap, remaining);
+  final minutes = size <= 5 ? 5 : 10;
+  final cards = i.reviseCards.take(size).toList();
+
+  // Subjects, most questions first (ties keep the server's order).
+  final counts = <String, int>{};
+  for (final c in cards) {
+    final s = c.subject;
+    if (s != null && s.trim().isNotEmpty) counts[canonicalSubject(s)] = (counts[canonicalSubject(s)] ?? 0) + 1;
+  }
+  final ranked = counts.keys.toList()..sort((a, b) => counts[b]!.compareTo(counts[a]!));
+  final lead = ranked.isEmpty ? canonicalSubject(fallbackSubject) : ranked.first;
+  final title = ranked.isEmpty ? subjectName(fallbackSubject) : TodayCopy.reviseSubjects([for (final s in ranked) subjectName(s)]);
+
+  // The papers the round's questions were missed on, newest first.
+  final ids = {for (final c in cards) c.questionId};
+  final papers = <Attempt>[
+    for (final a in f.attempts)
+      if (a.details.any((d) => ids.contains(d.qid) && d.isCorrect != true)) a,
+  ];
+  String meaning;
+  if (papers.isNotEmpty) {
+    final mocks = [for (final a in papers) if (a.isMock) a];
+    final quick = [for (final a in papers) if (!a.isMock) a];
+    final parts = <String>[
+      for (final a in mocks.take(2)) TodayCopy.revisePaper(paperLabel(f.attempts, a), i.date(a.completedAt)),
+      if (mocks.length > 2) TodayCopy.reviseMoreMocks(mocks.length - 2),
+      if (quick.length == 1) TodayCopy.revisePaper(paperLabel(f.attempts, quick.first), i.date(quick.first.completedAt)),
+      if (quick.length > 1) TodayCopy.reviseQuickMany(quick.length),
+    ];
+    meaning = TodayCopy.reviseFrom(parts);
+  } else {
+    final chapters = <String>[];
+    for (final c in cards) {
+      final ch = c.chapter?.trim();
+      if (ch != null && ch.isNotEmpty && !chapters.contains(ch)) chapters.add(ch);
+    }
+    meaning = chapters.isEmpty ? TodayCopy.reviseWhy(size) : TodayCopy.reviseFromChapters(chapters.first, chapters.length - 1);
+  }
+  final options = remaining > 5 ? const [DurationChoice(minutes: 5, questions: 5), DurationChoice(minutes: 10, questions: 10)] : const <DurationChoice>[];
+  return MoveHero(
+    state: state,
+    mood: TodayMood.normal,
+    kind: MoveKind.revise,
+    overline: overline,
+    subjectId: lead,
+    subjectLine: title,
+    art: HeroArt.object(subject: lead),
+    number: '$size',
+    numberLabel: size < due ? TodayCopy.reviseOfDue(due) : TodayCopy.reviseLabel(size),
+    meaning: meaning,
+    whyLink: papers.isEmpty ? null : TodayCopy.seeWhy,
+    evidenceId: papers.isEmpty ? null : papers.first.id,
+    evidence: papers.isEmpty ? null : List.filled(size.clamp(1, 3), BubbleState.wrong),
+    durationPrompt: options.isEmpty ? null : TodayCopy.reviseLength,
+    durations: options,
+    selectedMinutes: options.isEmpty ? null : size,
+    summary: TodayCopy.startRevise(minutes),
+    primary: TodayAction(TodayCopy.startRevise(minutes), const GoTo(TodayLinks.revise), startsSession: true, actionType: 'revise'),
+    secondary: const TodayAction(TodayCopy.somethingElse, OpenAlternatives()),
+  );
 }
 
 /// Back after a week with nothing open: ten questions to find the footing again.

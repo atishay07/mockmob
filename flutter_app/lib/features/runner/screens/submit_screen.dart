@@ -252,7 +252,6 @@ class _SubmitPageState extends ConsumerState<SubmitPage> with SingleTickerProvid
                                         session: _s,
                                         openRowKey: _openRowKey,
                                         pulseOpen: _pulseOpen,
-                                        lit: state.stage.index <= SubmitStage.received.index,
                                         phase: _phaseOf(state.stage),
                                         animateInk: celebrations != CelebrationMode.off,
                                         onGoTo: idle ? _goToQuestion : null,

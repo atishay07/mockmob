@@ -368,7 +368,7 @@ void main() {
       expect(keySide(tester).style, BorderStyle.none);
     });
 
-    testWidgets('the Day lit edge is a 2 dp olive line with a soft band under it; Night keeps one volt line', (tester) async {
+    testWidgets('the Day lit edge is white light over a line-colour hairline, never olive; Night keeps one volt line', (tester) async {
       List<LitEdgePainter> painters() => tester
           .widgetList<CustomPaint>(find.descendant(of: find.byType(LitEdge), matching: find.byType(CustomPaint)))
           .map((c) => c.foregroundPainter)
@@ -379,9 +379,12 @@ void main() {
       await pumpMockmob(tester, card(), brightness: Brightness.light);
       final day = painters();
       expect(day, hasLength(2));
-      expect(day.map((p) => p.color.a), contains(1.0), reason: 'the line itself is solid olive');
-      expect(day.map((p) => p.width), containsAll(<double>[2, LitEdge.dayBandWidth]));
-      expect(day.first.color.toARGB32() & 0xFFFFFF, MmColors.light.accentText.toARGB32() & 0xFFFFFF);
+      expect(day.map((p) => p.width), everyElement(1.0), reason: 'two 1 dp lines, no thick band');
+      expect(day.first.color, MmColors.light.line, reason: 'the hairline on the edge');
+      expect(day.last.color, LitEdge.dayHighlight, reason: 'white light 1 dp inside it');
+      expect(day.last.inset, 1);
+      final olive = MmColors.light.accentText.toARGB32() & 0xFFFFFF;
+      expect(day.map((p) => p.color.toARGB32() & 0xFFFFFF), isNot(contains(olive)));
 
       await pumpMockmob(tester, card(), brightness: Brightness.dark);
       final night = painters();

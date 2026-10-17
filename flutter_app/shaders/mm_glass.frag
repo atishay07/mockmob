@@ -89,16 +89,20 @@ void main() {
 
     // Core: centre plus two rings of six. A sheet passes uCore 0: its inner filter is already
     // the sigma 30 blur, so the core is the input itself (no taps).
+    // The loop's condition is the index against a constant only: SkSL (the GLES path) rejects
+    // any other loop condition, and impellerc then drops the program for that backend.
     vec4 core = base;
-    if (uCore > 0.0) core = base * 0.2;
-    float r1 = uCore * 0.5;
-    float r2 = uCore;
-    for (int i = 0; i < 6 && uCore > 0.0; i++) {
-      float a = float(i) * 1.0471976; // 60 degrees
-      vec2 dir = vec2(cos(a), sin(a));
-      vec2 dir2 = vec2(cos(a + 0.5235988), sin(a + 0.5235988)); // offset by 30 degrees
-      core += tap(frag + dir * r1) * 0.08;
-      core += tap(frag + dir2 * r2) * 0.0533333;
+    if (uCore > 0.0) {
+      core = base * 0.2;
+      float r1 = uCore * 0.5;
+      float r2 = uCore;
+      for (int i = 0; i < 6; i++) {
+        float a = float(i) * 1.0471976; // 60 degrees
+        vec2 dir = vec2(cos(a), sin(a));
+        vec2 dir2 = vec2(cos(a + 0.5235988), sin(a + 0.5235988)); // offset by 30 degrees
+        core += tap(frag + dir * r1) * 0.08;
+        core += tap(frag + dir2 * r2) * 0.0533333;
+      }
     }
 
     float w = smoothstep(uBand * 0.55, uBand, d); // 0 in the rim, 1 in the core

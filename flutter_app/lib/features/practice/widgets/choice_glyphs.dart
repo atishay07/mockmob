@@ -34,6 +34,10 @@ enum ChoiceGlyphKind {
 
   /// A solid speech bubble whose dots hop in turn: ask about your record.
   ask,
+
+  /// Two arrows chasing round one inked bubble: your own wrong answers coming back. It turns a
+  /// half turn. It never glows (the lit lead draws no pool behind it).
+  revise,
 }
 
 /// How long one glyph gesture runs. Every gesture ends where it began, so a cut-short frame never
@@ -210,6 +214,8 @@ class ChoiceGlyphPainter extends CustomPainter {
         _ask(canvas, p);
       case ChoiceGlyphKind.resume:
         _resume(canvas, p);
+      case ChoiceGlyphKind.revise:
+        _revise(canvas, p);
     }
     canvas.restore();
   }
@@ -228,20 +234,9 @@ class ChoiceGlyphPainter extends CustomPainter {
   void _quick(Canvas canvas, double p) {
     final b = bell(p);
     // The lit bolt is volt on Night; on Day pale volt on cream has no contrast, so it deepens to
-    // the darker volt (Design critic 30) and its pool of light is the same tone.
+    // the darker volt (Design critic 30).
     final litVolt = colors.isNight ? colors.volt : colors.voltEdge;
-    if (lit) {
-      // A pool of volt light the bolt sits in.
-      canvas.drawCircle(
-        const Offset(12, 12),
-        12,
-        Paint()
-          ..shader = ui.Gradient.radial(const Offset(12, 12), 12, [
-            litVolt.withValues(alpha: (colors.isNight ? 0.34 : 0.3) + 0.2 * b),
-            litVolt.withValues(alpha: 0),
-          ]),
-      );
-    }
+    // No pool of volt light behind the bolt: the owner banned glow (17 Oct).
     canvas
       ..save()
       ..translate(12, 12)
@@ -523,6 +518,57 @@ class ChoiceGlyphPainter extends CustomPainter {
     final sweep = p <= 0.001 || p >= 0.999 ? 2 * math.pi : 2 * math.pi * Curves.easeOutCubic.transform(p);
     if (sweep < 2 * math.pi) canvas.drawCircle(c, ring, _stroke(_accent.withValues(alpha: 0.2), 1.1));
     canvas.drawArc(Rect.fromCircle(center: c, radius: ring), -math.pi / 2, sweep, false, _stroke(_accent, 1.3));
+  }
+
+  // ---- revise: a question coming round again ------------------------------------------
+
+  void _revise(Canvas canvas, double p) {
+    const c = Offset(12, 12);
+    const radius = 8.2;
+    // Two arcs and two heads are the same shape half a turn apart, so a half turn ends where it began.
+    canvas
+      ..save()
+      ..translate(c.dx, c.dy)
+      ..rotate(math.pi * p)
+      ..translate(-c.dx, -c.dy);
+    final arcs = Path();
+    final heads = Path();
+    for (var i = 0; i < 2; i++) {
+      final start = i * math.pi + 0.5;
+      const sweep = math.pi - 1.0;
+      arcs.addArc(Rect.fromCircle(center: c, radius: radius), start, sweep);
+      final end = start + sweep;
+      final normal = Offset(math.cos(end), math.sin(end));
+      final tangent = Offset(-math.sin(end), math.cos(end));
+      final at = c + normal * radius;
+      final tip = at + tangent * 3.1;
+      final a = at + normal * 2.7;
+      final b = at - normal * 2.7;
+      heads
+        ..moveTo(tip.dx, tip.dy)
+        ..lineTo(a.dx, a.dy)
+        ..lineTo(b.dx, b.dy)
+        ..close();
+    }
+    final shadow = Paint()
+      ..color = _black.withValues(alpha: colors.isNight ? 0.34 : 0.19)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2.5
+      ..strokeCap = StrokeCap.round
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 0.9);
+    canvas
+      ..drawPath(arcs.shift(const Offset(0.2, 0.9)), shadow)
+      ..drawPath(heads.shift(const Offset(0.2, 0.9)), shadow..style = PaintingStyle.fill);
+    final rect = Rect.fromCircle(center: c, radius: radius + 2.7);
+    final sheen = ui.Gradient.linear(rect.topLeft, rect.bottomRight, [Color.lerp(_body, _white, 0.2)!, _body, Color.lerp(_body, _black, 0.3)!], const [0, 0.45, 1]);
+    canvas
+      ..drawPath(arcs, _stroke(_body, 2.4)..shader = sheen)
+      ..drawPath(heads, Paint()..isAntiAlias = true..shader = sheen)
+      ..restore();
+    // The question at the middle: an inked bubble that stays put while the arrows turn.
+    final disc = Path()..addOval(Rect.fromCircle(center: c, radius: 3.6));
+    _drop(canvas, disc);
+    _bubble(canvas, c, 3.6, BubbleState.filled);
   }
 
   // ---- ask: a speech bubble -------------------------------------------------------------

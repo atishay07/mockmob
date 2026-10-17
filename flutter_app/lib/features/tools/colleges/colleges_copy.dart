@@ -11,7 +11,7 @@ abstract final class CollegesCopy {
   // My colleges.
   static const String myColleges = 'My colleges';
   static const String edit = 'Edit';
-  static String caption(int n) => n >= 3 ? '$n of ${MyColleges.maxColleges} · first 3 show on Today' : '$n of ${MyColleges.maxColleges}';
+  static String caption(int n) => n >= 3 ? '$n of ${MyColleges.maxColleges}. The first 3 show on Today.' : '$n of ${MyColleges.maxColleges}';
   static const String addCollege = 'Add a college';
   static const String loading = 'Loading your colleges';
 
@@ -31,7 +31,7 @@ abstract final class CollegesCopy {
         EstimateSource.mocks => 'From your latest full mocks',
         EstimateSource.projection => 'From your practice projection',
         EstimateSource.typed => 'Typed by you',
-      }} · ${categoryLabel(category)}';
+      }}, ${categoryLabel(category)}';
   static const String noEstimate = 'Your full mocks will show here against each college.';
   static const String typeEstimate = 'Type an estimate';
 
@@ -68,7 +68,7 @@ abstract final class CollegesCopy {
   static const String dataLine = 'DU data: 2026 admission rounds and the UG Bulletin 2026-27.';
 
   // The ladder in the chooser.
-  static String picked(int n) => n >= 1 ? '$n of ${MyColleges.maxColleges} picked · first 3 show on Today' : 'Pick up to ${MyColleges.maxColleges}. The first 3 show on Today.';
+  static String picked(int n) => n >= 1 ? '$n of ${MyColleges.maxColleges} picked. The first 3 show on Today.' : 'Pick up to ${MyColleges.maxColleges}. The first 3 show on Today.';
   static const String onToday = 'On Today';
   static const String full = '8 is the most. Drop one to add another.';
   static String showAll(int n) => 'Show all $n';
@@ -79,7 +79,7 @@ abstract final class CollegesCopy {
   static String programmeNote(int colleges, String? low, String? high) {
     final n = colleges == 1 ? '1 college' : '$colleges colleges';
     if (low == null || high == null) return n;
-    return low == high ? '$n · Round 1: $low' : '$n · Round 1: $low to $high';
+    return low == high ? '$n. Round 1: $low' : '$n. Round 1: $low to $high';
   }
   static const String noList = 'No CUET cutoff list published';
   static String nothingMatches(String q) => 'Nothing matches “$q”. Try the course’s short name, like B.Com.';
@@ -111,7 +111,7 @@ abstract final class CollegesCopy {
   static const String savedEstimate = 'Saved as your estimate.';
   static String clearsOfCourse(int clears, int total, String course) => '$clears of $total $course colleges';
   static String estimateClearsLine(bool point, int within) =>
-      point ? 'your estimate clears' : (within > 0 ? 'your range clears · $within more within it' : 'your range clears');
+      point ? 'your estimate clears' : (within > 0 ? 'your range clears, $within more within it' : 'your range clears');
   static const String typeToUse = 'Type a score first.';
   static const String toWord = 'to';
 

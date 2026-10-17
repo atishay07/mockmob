@@ -222,6 +222,7 @@ class ChipRail extends StatefulWidget {
     double gap = MmSpace.s8,
     EdgeInsets padding = const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
     String? semanticLabel,
+    bool bubbles = true,
   }) {
     return ChipRail(
       key: key,
@@ -235,6 +236,7 @@ class ChipRail extends StatefulWidget {
             label: labels[i],
             selected: i == selected,
             leading: leading != null && i < leading.length ? leading[i] : null,
+            showBubble: bubbles,
             onTap: onSelected == null ? null : () => onSelected(i),
           ),
       ],

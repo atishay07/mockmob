@@ -88,7 +88,33 @@ abstract final class ReviewCopy {
   ].join('. ');
 
   /// "from Mock 2" or "from Mock 1 and Mock 2": where a chapter's open mistakes were found.
-  static String fromPapers(List<String> sources) => 'from ${_join(sources)}';
+  ///
+  /// The same source is said once: two Quick practices are "2 quick practices", never "Quick
+  /// practice and Quick practice". A mock keeps its number, and a quick practice next to a mock
+  /// is "a quick practice" ("from Mock 1 and a quick practice").
+  static String fromPapers(List<String> sources) {
+    final counts = <String, int>{};
+    for (final s in sources) {
+      counts[s] = (counts[s] ?? 0) + 1;
+    }
+    if (counts.length == 1) {
+      final only = counts.keys.single;
+      final n = counts[only]!;
+      if (n == 1) return 'from $only';
+      return only == quickPracticeSource ? 'from $n quick practices' : 'from $only, $n papers';
+    }
+    final parts = [
+      for (final e in counts.entries)
+        if (e.key == quickPracticeSource)
+          (e.value == 1 ? 'a quick practice' : '${e.value} quick practices')
+        else
+          (e.value == 1 ? e.key : '${e.key}, ${e.value} papers'),
+    ];
+    return 'from ${_join(parts)}';
+  }
+
+  /// The source label of a paper that is not a numbered mock (see `sourceLabel`).
+  static const quickPracticeSource = 'Quick practice';
 
   static String _join(List<String> parts) =>
       parts.length <= 2 ? parts.join(' and ') : '${parts.sublist(0, parts.length - 1).join(', ')} and ${parts.last}';
@@ -97,7 +123,8 @@ abstract final class ReviewCopy {
 
   /// A chapter whose open mistakes sit in several papers gets one key per paper, so the number
   /// on the key is the number of steps the run holds.
-  static String repairGroupFromKey(int n, String source) => 'Repair $n from $source';
+  static String repairGroupFromKey(int n, String source, {String? date}) =>
+      date == null ? 'Repair $n from $source' : 'Repair $n from $source, $date';
   static String groupExpandHint(bool expanded) => expanded ? 'Hide the questions' : 'Show the questions';
 
   static String questionLabel(int number) => 'Question $number';
@@ -118,7 +145,7 @@ abstract final class ReviewCopy {
   static const tryNotRecorded = 'This try stays here. It is not recorded.';
   static const keyHidden = "This question's answer key is being checked, so it is not shown yet.";
 
-  static String pastLine(String date, int marks, int max) => '$date, $marks of $max';
+  static String pastLine(String date, int marks, int max) => '$date, ${formatSignedNumber(marks)} of $max';
 
   static const recordPreviewEmpty = 'Your first repair will show here, with when it was found and when it was repaired.';
 

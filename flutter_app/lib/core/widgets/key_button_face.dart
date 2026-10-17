@@ -92,7 +92,8 @@ class KeyButtonFace extends StatelessWidget {
         if (!disabled) {
           shadow = [
             BoxShadow(
-              color: colors.isNight ? colors.voltGlow : colors.voltEdge.withValues(alpha: 0.28),
+              // A neutral drop shadow, never a coloured halo (the owner banned glow, 17 Oct).
+              color: colors.isNight ? const Color(0x59000000) : const Color(0x24000000),
               blurRadius: 22 - 8 * d,
               offset: Offset(0, 8 - 4 * d),
               spreadRadius: -10,

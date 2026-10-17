@@ -15,6 +15,7 @@ import '../../../core/repositories/repositories.dart';
 import '../../../core/router/app_shell.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/widgets/widgets.dart' show MobiAct, MobiController;
+import '../../review/revise/revise_data.dart' show reviseCapProvider;
 import '../../rhythm/rhythm.dart';
 import '../../tools/compass/compass_controller.dart' show compassControllerProvider;
 import '../../tools/data/my_colleges_actions.dart' show MyCollegesStatus, myCollegesActionsProvider, myCollegesProvider;
@@ -238,7 +239,16 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
       callbacks: TodayCallbacks(
         onAction: _action,
         onTarget: _target,
-        onMinutes: (m) => ref.read(todayMinutesProvider.notifier).choose(m),
+        onMinutes: (m) {
+          // Revise's length is the Revise screen's own setting (5 or 10 questions a day), so the
+          // round the key opens is the size the card showed.
+          final hero = ref.read(todayViewProvider).hero;
+          if (hero is MoveHero && hero.kind == MoveKind.revise) {
+            unawaited(ref.read(reviseCapProvider.notifier).set(m));
+          } else {
+            ref.read(todayMinutesProvider.notifier).choose(m);
+          }
+        },
         onShowMe: (id) {
           ref.read(todayActionsProvider).reasonOpened();
           unawaited(context.push(AppRoutes.todayWhy(id)));

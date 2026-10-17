@@ -115,7 +115,6 @@ class AnswerSheetCard extends StatelessWidget {
       label: '${OnboardingCopy.sheetTitle}, $done of ${steps.length} filled. ${lines.join('. ')}',
       excludeSemantics: true,
       child: LitEdge(
-        glow: true,
         borderRadius: radius,
         child: FakeGlass(
           borderRadius: radius,

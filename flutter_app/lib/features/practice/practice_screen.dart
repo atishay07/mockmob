@@ -372,8 +372,10 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                                 note: PracticeCopy.chapterLine,
                                 onTap: () => _chapter(subject),
                               ),
-                              // Quick practice leads; By chapter steps back (one primary, one secondary).
-                              weighted: true,
+                              // Twins: one surface, the picked subject's light, one object size. The
+                              // Start key above is the page's one volt, so neither tile leads.
+                              matched: true,
+                              light: SubjectLight.forSubject(subject),
                             ),
                             if (showSmart)
                               ChoiceRow.wide(

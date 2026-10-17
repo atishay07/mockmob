@@ -175,9 +175,8 @@ class HeroStage extends StatelessWidget {
     );
 
     if (!lit) return framed;
-    // The volt glow under the lit edge is a Night thing: on paper a glow is a grey smudge, and the
-    // olive edge alone carries the light (MOTION.md 1.4).
-    return LitEdge(glow: MmLight.glows(context), borderRadius: heroBorderRadius, child: framed);
+    // No glow under the lit edge (owner, 17 Oct): the edge line alone carries the light.
+    return LitEdge(borderRadius: heroBorderRadius, child: framed);
   }
 }
 

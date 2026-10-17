@@ -43,6 +43,24 @@ abstract final class RulesCopy {
   /// "Show all 5" when the server sent no label.
   static String showAll(int n) => 'Show all $n';
 
+  /// The server's "Never opened, last 3 Business Studies mocks, oldest first: 49, 49 and 49 of 50."
+  /// said as a finding: "You left 49 of 50 questions unopened in each of your last 3 Business Studies
+  /// mocks." Marks that differ keep their order ("7, 6 and 4 of 50 ... oldest first"). Any sentence
+  /// that does not have this shape is returned as the server wrote it.
+  static String neverOpenedLine(String serverText) {
+    final m = RegExp(r'^Never opened, last (\d+) (.+?) mocks?, oldest first: ([\d, and]+) of (\d+)\.$').firstMatch(serverText);
+    if (m == null) return serverText;
+    final mocks = int.parse(m.group(1)!);
+    final subject = m.group(2)!;
+    final counts = m.group(3)!.split(RegExp(r', | and ')).where((s) => s.isNotEmpty).toList();
+    final of = m.group(4)!;
+    if (counts.length != mocks || counts.any((c) => int.tryParse(c) == null)) return serverText;
+    if (mocks == 1) return 'You left ${counts.single} of $of questions unopened in your last $subject mock.';
+    if (counts.toSet().length == 1) return 'You left ${counts.first} of $of questions unopened in each of your last $mocks $subject mocks.';
+    final list = counts.length <= 2 ? counts.join(' and ') : '${counts.sublist(0, counts.length - 1).join(', ')} and ${counts.last}';
+    return 'In your last $mocks $subject mocks you left $list of $of questions unopened, oldest first.';
+  }
+
   /// The block's title before Across your mocks has loaded (the server's own title replaces it).
   static const String acrossTitle = 'Across your mocks';
 

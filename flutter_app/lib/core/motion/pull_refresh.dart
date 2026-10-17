@@ -14,9 +14,11 @@ import 'motion.dart';
 ///
 /// The content moves with the pull (GLASS-1017 5.9): the app's scroll views bounce, so the page
 /// rubber-bands down under the finger and the ring rides in the gap it opens, centred half the
-/// pull below the status bar (at most 36 dp down). On release the page springs back and the ring
-/// settles under the status bar. (Before the bounce, the content never moved: the views clamped
-/// and the ring alone showed the pull. A view that still clamps works as it did.)
+/// pull below the status bar (at most 36 dp down). On release past the threshold the page settles
+/// [holdExtent] dp lower and keeps that gap open while the data loads, so the ring sits in clear
+/// space and never over the title row or the greeting; when the data lands the page returns as the
+/// ring lifts away. (Before the bounce, the content never moved: the views clamped and the ring
+/// alone showed the pull. A view that still clamps works as it did.)
 ///
 /// - **Pull.** An answer-bubble ring draws its stroke from nothing to a full circle as the pull grows
 ///   from 0 to [threshold] dp, with one selection tick when it closes.
@@ -53,6 +55,13 @@ class MmPullRefresh extends ConsumerStatefulWidget {
 
   /// After this long the arc is joined by words.
   static const Duration slowAfter = Duration(seconds: 12);
+
+  /// The gap held open under the status bar while the ring turns: the ring's 40 dp, its 8 dp
+  /// inset and 8 dp of air, so the first line of the page starts below it.
+  static const double holdExtent = 56;
+
+  /// The gap while words sit under the ring (reduced motion, or a slow refresh): one more line.
+  static const double holdExtentWithWords = 76;
 
   @override
   ConsumerState<MmPullRefresh> createState() => _MmPullRefreshState();
@@ -188,12 +197,13 @@ class _MmPullRefreshState extends ConsumerState<MmPullRefresh> with TickerProvid
   Widget build(BuildContext context) {
     final reduced = Motion.reduced(context);
     final top = MediaQuery.paddingOf(context).top;
+    final hold = _mode == _PullMode.refreshing ? (reduced || _slow ? MmPullRefresh.holdExtentWithWords : MmPullRefresh.holdExtent) : 0.0;
     return Semantics(
       customSemanticsActions: {const CustomSemanticsAction(label: 'Refresh'): () => unawaited(_refresh())},
       child: NotificationListener<ScrollNotification>(
         onNotification: _onScroll,
-        // The top edge answers with the ring alone: the platform's leading stretch is dropped,
-        // the trailing edge keeps it, so the bottom of a list still feels like an edge (M16).
+        // No platform stretch or glow on the top edge: the page itself bounces (GLASS-1017 5.9) and
+        // the ring rides in the gap it opens. The bottom edge bounces the same way.
         child: NotificationListener<OverscrollIndicatorNotification>(
           onNotification: (n) {
             if (widget.enabled && n.leading && n.depth == 0) n.disallowIndicator();
@@ -201,7 +211,15 @@ class _MmPullRefreshState extends ConsumerState<MmPullRefresh> with TickerProvid
           },
           child: Stack(
           children: [
-            widget.child,
+            // The gap held open while refreshing. The Padding is always in the tree (0 at rest), so
+            // the scroll view below keeps its state.
+            TweenAnimationBuilder<double>(
+              tween: Tween(end: hold),
+              duration: reduced ? Duration.zero : Motion.ui,
+              curve: Motion.out,
+              builder: (context, gap, child) => Padding(padding: EdgeInsets.only(top: gap), child: child),
+              child: widget.child,
+            ),
             Positioned(
               top: top + MmSpace.s8,
               left: 0,

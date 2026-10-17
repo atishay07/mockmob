@@ -201,7 +201,23 @@ class MmSheetScaffold extends StatelessWidget {
 
     if (large) return SafeArea(child: SizedBox.expand(child: column));
     if (heightFactor != null) {
-      return SafeArea(top: false, child: SizedBox(height: MediaQuery.sizeOf(context).height * heightFactor!, child: column));
+      final media = MediaQuery.of(context);
+      final inset = media.viewInsets.bottom;
+      final full = media.size.height * heightFactor!;
+      if (inset <= 0) return SafeArea(top: false, child: SizedBox(height: full, child: column));
+      // With the keyboard up the sheet rises onto it: the glass runs down behind the keys and the
+      // column stops where they start, so a search field with its results shows them above the
+      // keys instead of under them (v13 device walk: one partial row showed).
+      final view = View.of(context);
+      final statusBar = view.padding.top / view.devicePixelRatio;
+      final room = media.size.height - inset - statusBar - MmSpace.s16;
+      return SafeArea(
+        top: false,
+        child: Padding(
+          padding: EdgeInsets.only(bottom: inset),
+          child: SizedBox(height: full < room ? full : room, child: column),
+        ),
+      );
     }
     return SafeArea(top: false, child: column);
   }

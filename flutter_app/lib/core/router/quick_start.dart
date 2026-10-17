@@ -15,6 +15,7 @@ import '../motion/motion.dart';
 import '../theme/theme.dart';
 import '../widgets/bar/morph_sheet_route.dart' show MorphSheetRoute;
 import '../widgets/controls/selection_style.dart';
+import '../widgets/edge_fade_scroll.dart';
 import '../widgets/bubbles/sheet_glyph.dart';
 import '../widgets/materials/edge_light.dart';
 import '../widgets/materials/light_field.dart';
@@ -397,7 +398,9 @@ class _QuickStartSheetState extends ConsumerState<QuickStartSheet> {
             Flexible(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(MmSpace.s16, 0, MmSpace.s16, MmSpace.s12),
-                child: SingleChildScrollView(
+                // At large text the rows run past the sheet's bottom: that edge dissolves so the
+                // cut tile reads as "scroll for more" (v13 device walk, FS13).
+                child: MmEdgeFadeScroll(
                   // The choices arrive with the sheet, in order, while the glass opens; a sheet
                   // that is already up never moves them.
                   child: AbsorbPointer(
@@ -528,6 +531,10 @@ class _StartRows extends ConsumerWidget {
           'repair' => 'repair',
           'mock' => 'mock',
           'resume' => 'resume',
+          // Revise and Smart practice each draw their own object, so the sheet never says "quick"
+          // for something that is not quick.
+          'revise' => 'revise',
+          'smart' => 'smart',
           _ => 'quick',
         }),
         title: move.title,
@@ -670,11 +677,13 @@ class _ChooseRow extends StatelessWidget {
   }
 }
 
-/// The subject rail: the subject the modes below start in, each as its own lit object leaning out
-/// of a chip (64 dp, F7), the name beside it. The chosen one stands sharp and lifted; every other
-/// object steps back (blurred, dimmer, smaller) so the choice reads at once. The row scrolls the
-/// chosen chip fully into view when the sheet opens and whenever the pick changes, so a chip is
-/// never left cut off at the edge (device walk-through, 14 Oct).
+/// The subject rail: the subject the modes below start in, each as its own lit object sitting
+/// inside a chip (64 dp object in a 76 dp chip, F7), the name beside it. The chosen one stands sharp
+/// and a little larger; every other object steps back (blurred, dimmer, smaller) so the choice reads
+/// at once. Nothing leans over a chip's outline (v13 critic: it read as a bug). The row scrolls the
+/// chosen chip into the middle when the sheet opens and whenever the pick changes, so the chip each
+/// side shows about 40% of itself, and each edge that has more chips behind it fades out on a mask
+/// (never a cut label) so the row reads as scrollable.
 class _SubjectChips extends ConsumerStatefulWidget {
   const _SubjectChips({required this.subjects, required this.selected, required this.mobi});
 
@@ -684,10 +693,13 @@ class _SubjectChips extends ConsumerStatefulWidget {
   /// Glances at a chip when it is picked.
   final MobiController mobi;
 
-  /// The chip's height, and how far the object leans over its top edge.
-  static const double chipHeight = 56;
-  static const double lean = 14;
+  /// The chip's height and the object inside it: 6 dp of air above and below, so the chosen one's
+  /// 6% lift (about 68 dp) stays whole inside the outline.
+  static const double chipHeight = 76;
   static const double objectSize = 64;
+
+  /// How wide the fade at a scrollable edge is.
+  static const double fade = 28;
 
   @override
   ConsumerState<_SubjectChips> createState() => _SubjectChipsState();
@@ -696,11 +708,29 @@ class _SubjectChips extends ConsumerStatefulWidget {
 class _SubjectChipsState extends ConsumerState<_SubjectChips> {
   final Map<String, GlobalKey> _chipKeys = {};
   final Map<String, ValueNotifier<int>> _picks = {};
+  final ScrollController _scroll = ScrollController();
+
+  /// Whether more chips wait behind the left and the right edge (they fade out there).
+  bool _moreBefore = false;
+  bool _moreAfter = false;
 
   @override
   void initState() {
     super.initState();
+    _scroll.addListener(_edges);
     _reveal(animate: false);
+    WidgetsBinding.instance.addPostFrameCallback((_) => _edges());
+  }
+
+  void _edges() {
+    if (!mounted || !_scroll.hasClients) return;
+    final p = _scroll.position;
+    final before = p.pixels > 1;
+    final after = p.pixels < p.maxScrollExtent - 1;
+    if (before != _moreBefore || after != _moreAfter) setState(() {
+      _moreBefore = before;
+      _moreAfter = after;
+    });
   }
 
   @override
@@ -711,6 +741,7 @@ class _SubjectChipsState extends ConsumerState<_SubjectChips> {
 
   @override
   void dispose() {
+    _scroll.dispose();
     for (final n in _picks.values) {
       n.dispose();
     }
@@ -726,15 +757,18 @@ class _SubjectChipsState extends ConsumerState<_SubjectChips> {
         alignment: 0.5,
         duration: animate && !Motion.reduced(context) ? Motion.ui : Duration.zero,
         curve: Motion.glide,
-      );
+      ).then((_) => _edges());
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    final row = SingleChildScrollView(
       key: const ValueKey('start-subject-chips'),
+      controller: _scroll,
       scrollDirection: Axis.horizontal,
+      // Two dp above and below keep a pressed chip's outline and focus ring inside the mask.
+      padding: const EdgeInsets.symmetric(vertical: 2),
       clipBehavior: Clip.none,
       child: Row(
         children: [
@@ -759,10 +793,29 @@ class _SubjectChipsState extends ConsumerState<_SubjectChips> {
         ],
       ),
     );
+    if (!_moreBefore && !_moreAfter) return row;
+    // A fading edge mask on the sides that have more chips behind them: the neighbour dissolves
+    // into the sheet instead of ending at a hard cut.
+    return ShaderMask(
+      blendMode: BlendMode.dstIn,
+      shaderCallback: (bounds) {
+        final f = (_SubjectChips.fade / bounds.width).clamp(0.0, 0.5);
+        return LinearGradient(
+          colors: [
+            if (_moreBefore) const Color(0x00FFFFFF) else const Color(0xFFFFFFFF),
+            const Color(0xFFFFFFFF),
+            const Color(0xFFFFFFFF),
+            if (_moreAfter) const Color(0x00FFFFFF) else const Color(0xFFFFFFFF),
+          ],
+          stops: [0, f, 1 - f, 1],
+        ).createShader(bounds);
+      },
+      child: row,
+    );
   }
 }
 
-/// One subject chip: a 56 dp pill with the subject's object leaning 14 dp over its top edge. Chosen
+/// One subject chip: a 76 dp pill with the subject's object sitting whole inside it. Chosen
 /// and not chosen follow the shared answer-sheet selection ([MmSelection]); the object's blur,
 /// dimming and size carry the rest, and the name stays sharp.
 class _SubjectChip extends ConsumerWidget {
@@ -817,51 +870,45 @@ class _SubjectChip extends ConsumerWidget {
           return Stack(
             clipBehavior: Clip.none,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: _SubjectChips.lean),
-                child: DecoratedBox(
-                  position: DecorationPosition.foreground,
-                  decoration: ShapeDecoration(shape: RoundedSuperellipseBorder(borderRadius: MmRadius.keyAll, side: BorderSide.lerp(rest, picked, t))),
-                  child: MmClip(
-                    borderRadius: MmRadius.keyAll,
-                    child: ColoredBox(
-                      color: Color.lerp(MmSelection.fill(colors, selected: false, pressed: pressed), MmSelection.fill(colors, selected: true, pressed: pressed), t)!,
-                      child: Stack(
-                        children: [
-                          if (light != null && t > 0)
-                            Positioned.fill(child: LightField.subject(context, light, center: const Alignment(-0.7, 0.2), strength: 0.8 * t)),
-                          SizedBox(
-                            height: _SubjectChips.chipHeight,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: _SubjectChips.objectSize + MmSpace.s12, right: MmSpace.s16 + 2),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                widthFactor: 1,
-                                child: Text(
-                                  name,
-                                  maxLines: 1,
-                                  softWrap: false,
-                                  style: type.labelLarge.copyWith(color: Color.lerp(colors.ink3, colors.ink, t)),
-                                ),
+              DecoratedBox(
+                position: DecorationPosition.foreground,
+                decoration: ShapeDecoration(shape: RoundedSuperellipseBorder(borderRadius: MmRadius.keyAll, side: BorderSide.lerp(rest, picked, t))),
+                child: MmClip(
+                  borderRadius: MmRadius.keyAll,
+                  child: ColoredBox(
+                    color: Color.lerp(MmSelection.fill(colors, selected: false, pressed: pressed), MmSelection.fill(colors, selected: true, pressed: pressed), t)!,
+                    child: Stack(
+                      children: [
+                        if (light != null && t > 0)
+                          Positioned.fill(child: LightField.subject(context, light, center: const Alignment(-0.7, 0.2), strength: 0.8 * t)),
+                        SizedBox(
+                          height: _SubjectChips.chipHeight,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: _SubjectChips.objectSize + MmSpace.s12, right: MmSpace.s16 + 2),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              widthFactor: 1,
+                              child: Text(
+                                name,
+                                maxLines: 1,
+                                softWrap: false,
+                                style: type.labelLarge.copyWith(color: Color.lerp(colors.ink3, colors.ink, t)),
                               ),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
               Positioned(
                 left: 6,
-                top: 0,
+                top: (_SubjectChips.chipHeight - _SubjectChips.objectSize) / 2,
                 width: _SubjectChips.objectSize,
                 height: _SubjectChips.objectSize,
                 child: IgnorePointer(
-                  child: Transform.translate(
-                    offset: Offset(0, -2 * t),
-                    child: Transform.scale(scale: 0.9 + 0.16 * t, child: object),
-                  ),
+                  child: Transform.scale(scale: 0.9 + 0.16 * t, child: object),
                 ),
               ),
             ],
@@ -1052,10 +1099,9 @@ class QuickStartRow extends StatelessWidget {
           radius: _heroRadius,
           pools: [
             LightPool(color: colors.lamp.withValues(alpha: colors.isNight ? 0.2 : 0.16), center: const Alignment(-1.1, -1.3), radius: 0.9, aspect: 1.6),
+            // The subject's own light only; no volt pool behind the object (the owner banned glow).
             if (light != null)
-              LightPool(color: light!.withValues(alpha: colors.isNight ? 0.9 : 0.7), center: const Alignment(1.1, 0.9), radius: 0.7, aspect: 1.5)
-            else
-              LightPool(color: (colors.isNight ? colors.volt : colors.accentText).withValues(alpha: 0.07), center: const Alignment(1.05, 0.2), radius: 0.5),
+              LightPool(color: light!.withValues(alpha: colors.isNight ? 0.9 : 0.7), center: const Alignment(1.1, 0.9), radius: 0.7, aspect: 1.5),
           ],
         ),
         foregroundPainter: EdgeLightPainter(

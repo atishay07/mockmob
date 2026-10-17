@@ -165,7 +165,8 @@ void main() {
       final lines = [
         PracticeCopy.startingReason('Accountancy'),
         PracticeCopy.pickedStartReason('Business Studies'),
-        PracticeCopy.subjectReason('Business Studies', 'yesterday'),
+        PracticeCopy.subjectReason(34, 50, 'yesterday'),
+        PracticeCopy.subjectReason(100, 100, 'on Wednesday'),
         PracticeCopy.chapterReasonPractice(12),
         PracticeCopy.chapterReasonMock(148, 'Mock 12'),
         PracticeCopy.resumeMockReason(DateTime(2026, 10, 12, 23, 47)),

@@ -37,8 +37,10 @@ class BarLensStyle {
           edge: Color(0x33FFFFFF),
           liftedShadow: Color(0x4D000000),
         )
+      // Day: a clearer pane of the same glass, not a solid white tile pasted on the bar (v13
+      // critique): 65% white over the frost, with its hairline and contact shadow.
       : const BarLensStyle(
-          fill: Color(0xFFFFFFFF),
+          fill: Color(0xA6FFFFFF),
           liftedFill: Color(0xF2FFFDF8),
           edge: Color(0xE6FFFFFF),
           hairline: Color(0xFFD8D1C2),

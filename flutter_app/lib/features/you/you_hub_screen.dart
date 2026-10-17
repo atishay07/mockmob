@@ -66,6 +66,11 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
   final List<GlobalKey> _sectionKeys = List.generate(_chipLabels.length, (_) => GlobalKey());
   final ValueNotifier<int?> _active = ValueNotifier<int?>(null);
 
+  /// True while the page has scrolled the row to the top of the viewport, so content slides under
+  /// it. A pinned header's own `overlapsContent` is false for the first pinned sliver (it only
+  /// reports what an earlier sliver pushes under it), so the row measures this itself.
+  final ValueNotifier<bool> _stuck = ValueNotifier<bool>(false);
+
   static const List<String> _chipLabels = [
     YouCopy.jumpWeek,
     YouCopy.jumpBadges,
@@ -85,6 +90,7 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
     _scroll.removeListener(_trackAfterFrame);
     _scroll.dispose();
     _active.dispose();
+    _stuck.dispose();
     super.dispose();
   }
 
@@ -112,6 +118,11 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
   void _trackActive() {
     final header = _headerKey.currentContext?.findRenderObject();
     if (header is! RenderBox || !header.attached || !header.hasSize) return;
+    final viewport = RenderAbstractViewport.maybeOf(header);
+    if (viewport is RenderBox && viewport.attached && viewport.hasSize) {
+      final stuck = header.localToGlobal(Offset.zero).dy <= viewport.localToGlobal(Offset.zero).dy + 0.5 && _scroll.hasClients && _scroll.offset > 0.5;
+      if (_stuck.value != stuck) _stuck.value = stuck;
+    }
     final line = header.localToGlobal(Offset.zero).dy + header.size.height + MmSpace.s16;
     int? active;
     for (var i = 0; i < _sectionKeys.length; i++) {
@@ -295,7 +306,7 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                       ),
                       SliverPersistentHeader(
                         pinned: true,
-                        delegate: _ChipsHeader(headerKey: _headerKey, active: _active, labels: _chipLabels, onSelected: _jumpTo),
+                        delegate: _ChipsHeader(headerKey: _headerKey, active: _active, stuck: _stuck, labels: _chipLabels, onSelected: _jumpTo),
                       ),
                       SliverPadding(
                         padding: EdgeInsets.only(bottom: MmSpace.s32 + bottom),
@@ -486,12 +497,13 @@ class _RepairRecordRow extends StatelessWidget {
 /// slides under it, so it never shows text through it. A [ChipRail] gives each chip its whole
 /// width, so none is cut mid-letter.
 class _ChipsHeader extends SliverPersistentHeaderDelegate {
-  const _ChipsHeader({required this.headerKey, required this.active, required this.labels, required this.onSelected});
+  const _ChipsHeader({required this.headerKey, required this.active, required this.stuck, required this.labels, required this.onSelected});
 
   static const double extent = 56;
 
   final GlobalKey headerKey;
   final ValueNotifier<int?> active;
+  final ValueListenable<bool> stuck;
   final List<String> labels;
   final ValueChanged<int> onSelected;
 
@@ -504,12 +516,21 @@ class _ChipsHeader extends SliverPersistentHeaderDelegate {
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     final colors = context.mmColors;
+    final clear = colors.ground.withValues(alpha: 0);
     return KeyedSubtree(
       key: headerKey,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: overlapsContent ? colors.ground : null,
-          border: overlapsContent ? Border(bottom: BorderSide(color: colors.line)) : null,
+      child: ValueListenableBuilder<bool>(
+        valueListenable: stuck,
+        builder: (context, isStuck, child) => AnimatedContainer(
+          duration: Motion.of(context, const Duration(milliseconds: 120)),
+          curve: Curves.easeOut,
+          // Clear on the ground at rest; once the row is pinned, an opaque band in the page colour
+          // with a hairline under it, so nothing behind shows between or behind the chips.
+          decoration: BoxDecoration(
+            color: isStuck ? colors.ground : clear,
+            border: Border(bottom: BorderSide(color: isStuck ? colors.line : colors.line.withValues(alpha: 0))),
+          ),
+          child: child,
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: MmSpace.s4),
@@ -520,6 +541,7 @@ class _ChipsHeader extends SliverPersistentHeaderDelegate {
               selected: selected,
               onSelected: onSelected,
               semanticLabel: YouCopy.jumpLabel,
+              bubbles: false,
             ),
           ),
         ),
@@ -528,7 +550,7 @@ class _ChipsHeader extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  bool shouldRebuild(covariant _ChipsHeader old) => old.labels != labels || old.active != active || old.onSelected != onSelected;
+  bool shouldRebuild(covariant _ChipsHeader old) => old.labels != labels || old.active != active || old.stuck != stuck || old.onSelected != onSelected;
 }
 
 /// A typeset section of the hub (SPACING.md 3.1): 32 dp of air, a hairline rule, 16 dp, the title

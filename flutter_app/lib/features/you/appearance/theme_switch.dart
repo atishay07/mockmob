@@ -32,6 +32,7 @@ class ThemeSwitch extends ConsumerWidget {
     final mode = ref.watch(themeModeProvider);
     return MmSegmented<ThemeMode>(
       semanticsLabel: YouCopy.themeHeading,
+      showBubbles: false,
       value: mode,
       segments: const [
         MmSegment(ThemeMode.dark, YouCopy.themeDark),

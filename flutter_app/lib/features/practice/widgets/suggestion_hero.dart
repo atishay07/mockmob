@@ -87,9 +87,10 @@ class SuggestionHero extends ConsumerWidget {
     // The "Late-night lines" setting turns this one off too.
     final late = isLateNight(now) && ref.watch(lateNightLinesProvider);
     final subject = subjectNameFor(suggestion.subjectId, catalog);
-    // The eyebrow names the subject the lit tile chose (L08), so the strip above and this card
-    // read as one choice; after 11 PM it points at the one set instead.
-    final String overline = late ? PracticeCopy.lateOverline : PracticeCopy.upNextIn(subject);
+    // One title, no repeat (v13 critic): the card's title already names the subject the lit tile
+    // chose (L08), so an "Up next in [subject]" line over it said the same thing twice. Only after
+    // 11 PM is there a line over the title: it points at the one set.
+    final String? overline = late ? PracticeCopy.lateOverline : null;
 
     void confirm(PracticeSelection selection) => showPracticeConfirm(context, selection: selection);
 
@@ -146,7 +147,7 @@ class SuggestionHero extends ConsumerWidget {
           unit: PracticeCopy.questionsUnit,
           title: PracticeCopy.subjectTitle(subject),
           kicker: PracticeCopy.subjectKicker,
-          reason: PracticeCopy.subjectReason(subject, PracticeCopy.when(s.attempt.completedAt.toLocal(), now)),
+          reason: PracticeCopy.subjectReason(s.attempt.correct, s.attempt.total, PracticeCopy.when(s.attempt.completedAt.toLocal(), now)),
           onShowMe: () => context.push(evidenceLocation(s.attempt)),
           actionLabel: PracticeCopy.startCount(s.count),
           onAction: () => confirm(s.selection),

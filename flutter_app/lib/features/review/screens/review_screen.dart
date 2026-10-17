@@ -145,8 +145,9 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
           Positioned(left: 0, right: 0, top: 0, height: 360, child: IgnorePointer(child: LightField.lamp(context, strength: 0.55))),
           SafeArea(
             bottom: false,
-            // Pull to refresh is the app's own ring (MOTION C10): the page never moves, numbers roll
-            // from the ones they showed, and the entrance does not replay.
+            // Pull to refresh is the app's own ring (MOTION C10): the page bounces down with the
+            // finger and holds a gap for the ring, numbers roll from the ones they showed, and the
+            // entrance does not replay.
             child: MmPullRefresh(
               onRefresh: _refresh,
               // One authored entrance when the loaded tab first shows: the hero, then the map, then

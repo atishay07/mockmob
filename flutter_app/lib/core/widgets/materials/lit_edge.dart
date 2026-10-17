@@ -6,8 +6,7 @@ import '../../theme/theme.dart';
 
 /// The lit edge (signature motif): exactly one focal element per screen carries a thin volt
 /// line along its top, as if the room's one light caught it. Brightest in the middle, fading
-/// toward the corners. Optionally a soft 14% volt glow sits beneath the element (never behind
-/// text: the element itself is opaque or glass over it).
+/// toward the corners. No glow: the owner banned halos (17 Oct), the line alone carries the light.
 ///
 /// Wrap the focal card; give the same [borderRadius] as the card.
 class LitEdge extends StatelessWidget {
@@ -15,82 +14,41 @@ class LitEdge extends StatelessWidget {
     super.key,
     required this.child,
     this.borderRadius = MmRadius.panelAll,
-    this.glow = false,
     this.width = 1.5,
   });
 
   final Widget child;
   final BorderRadius borderRadius;
-  final bool glow;
   final double width;
 
-  /// The soft band under the Day line.
-  static const double dayBandWidth = 6;
+  /// Day's highlight: white light catching the top edge, brightest in the middle.
+  static const Color dayHighlight = Color(0xCCFFFFFF);
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    final day = !colors.isNight;
-    // On Day the olive line on a white card read as a faint hairline, so the one lit element was
-    // only lit on Night (SPACING-AUDIT Y5): the line is 2 dp at least, with a soft olive band of
-    // the same light under it. Night keeps its single volt line.
-    Widget lit = CustomPaint(
-      foregroundPainter: LitEdgePainter(
-        color: day ? colors.accentText : colors.volt,
-        radius: borderRadius.topLeft.x,
-        width: day ? math.max(width, 2.0) : width,
-      ),
-      child: day
-          ? CustomPaint(
-              foregroundPainter: LitEdgePainter(
-                color: colors.accentText.withValues(alpha: 0.16),
-                radius: borderRadius.topLeft.x,
-                width: dayBandWidth,
-              ),
+    final radius = borderRadius.topLeft.x;
+    // Light on paper is white, not olive (v13 critique: the 2 dp olive line with its 6 dp olive
+    // band read as a dirty smear across the top of every Day hero). Day draws a 1 dp hairline in
+    // the line colour on the edge and a 1 dp white highlight just inside it, both fading to
+    // nothing at the corners. Night keeps its single volt line.
+    return colors.isNight
+        ? CustomPaint(
+            foregroundPainter: LitEdgePainter(color: colors.volt, radius: radius, width: width),
+            child: child,
+          )
+        : CustomPaint(
+            foregroundPainter: LitEdgePainter(color: colors.line, radius: radius, width: 1),
+            child: CustomPaint(
+              foregroundPainter: LitEdgePainter(color: dayHighlight, radius: radius, width: 1, inset: 1),
               child: child,
-            )
-          : child,
-    );
-    if (glow) {
-      lit = CustomPaint(painter: _GlowPainter(color: colors.voltGlow, borderRadius: borderRadius), child: lit);
-    }
-    return lit;
+            ),
+          );
   }
-}
-
-/// The soft volt glow beneath a lit element, painted only outside the element's shape so it
-/// never shows through glass and never sits behind text.
-class _GlowPainter extends CustomPainter {
-  const _GlowPainter({required this.color, required this.borderRadius});
-
-  final Color color;
-  final BorderRadius borderRadius;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final shape = borderRadius.toRRect(Offset.zero & size);
-    canvas.save();
-    canvas.clipPath(
-      Path()
-        ..fillType = PathFillType.evenOdd
-        ..addRect((Offset.zero & size).inflate(64))
-        ..addRRect(shape),
-    );
-    canvas.drawRRect(
-      borderRadius.toRRect(Rect.fromLTWH(10, 10, size.width - 20, size.height - 4)),
-      Paint()
-        ..color = color
-        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 16),
-    );
-    canvas.restore();
-  }
-
-  @override
-  bool shouldRepaint(_GlowPainter old) => old.color != color || old.borderRadius != borderRadius;
 }
 
 class LitEdgePainter extends CustomPainter {
-  const LitEdgePainter({required this.color, required this.radius, this.width = 1.5, this.wrap = 0.9});
+  const LitEdgePainter({required this.color, required this.radius, this.width = 1.5, this.wrap = 0.9, this.inset = 0});
 
   final Color color;
   final double radius;
@@ -99,11 +57,14 @@ class LitEdgePainter extends CustomPainter {
   /// How far down the corner arcs the light wraps, as a fraction of the radius.
   final double wrap;
 
+  /// How far inside the edge the line runs, in dp (Day's highlight sits 1 dp inside the hairline).
+  final double inset;
+
   @override
   void paint(Canvas canvas, Size size) {
     if (size.isEmpty) return;
     final r = radius.clamp(0.0, size.shortestSide / 2);
-    final inset = width / 2;
+    final inset = width / 2 + this.inset;
     final w = wrap.clamp(0.0, 1.0);
     // The straight top edge plus the upper part of both corner arcs, so the light follows the
     // shape and wraps the shoulders by [wrap] of a quarter turn.
@@ -137,5 +98,5 @@ class LitEdgePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(LitEdgePainter old) =>
-      old.color != color || old.radius != radius || old.width != width || old.wrap != wrap;
+      old.color != color || old.radius != radius || old.width != width || old.wrap != wrap || old.inset != inset;
 }

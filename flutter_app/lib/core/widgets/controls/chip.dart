@@ -18,7 +18,7 @@ export 'chip_rail.dart';
 /// need (the label is never ellipsised there), snaps the rail to chip edges, fades the edges and
 /// shows a clean peek of the next chip, so none is ever cut through a letter.
 class MmChip extends ConsumerWidget {
-  const MmChip({super.key, required this.label, required this.selected, required this.onTap, this.leading});
+  const MmChip({super.key, required this.label, required this.selected, required this.onTap, this.leading, this.showBubble = true});
 
   /// The visual height; the touch target is [targetHeight].
   static const double height = 40;
@@ -36,6 +36,11 @@ class MmChip extends ConsumerWidget {
   /// Null disables the chip.
   final VoidCallback? onTap;
   final IconData? leading;
+
+  /// False for a plain chip: no bubble; the chosen state is carried by the raised fill, the
+  /// paper-ink rim and a heavier word (the You hub's section row, where a dot in every pill
+  /// read as the dot-pill look).
+  final bool showBubble;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -63,12 +68,11 @@ class MmChip extends ConsumerWidget {
           child: SizedBox(
             height: height,
             child: Padding(
-              padding: const EdgeInsets.only(left: MmSpace.s12, right: MmSpace.s16),
+              padding: EdgeInsets.only(left: showBubble ? MmSpace.s12 : MmSpace.s16, right: MmSpace.s16),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SelectBubble(selected: selected),
-                  const SizedBox(width: MmSpace.s8),
+                  if (showBubble) ...[SelectBubble(selected: selected), const SizedBox(width: MmSpace.s8)],
                   if (leading != null) ...[Icon(leading, size: 16, color: textColor), const SizedBox(width: MmSpace.s6)],
                   Flexible(
                     child: Text(
@@ -76,7 +80,11 @@ class MmChip extends ConsumerWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       softWrap: false,
-                      style: type.labelLarge.copyWith(fontSize: 14, color: textColor),
+                      style: type.labelLarge.copyWith(
+                        fontSize: 14,
+                        color: textColor,
+                        fontWeight: showBubble ? null : (selected ? FontWeight.w700 : FontWeight.w500),
+                      ),
                     ),
                   ),
                 ],

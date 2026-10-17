@@ -26,7 +26,6 @@ class ToolsCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
       child: lit
           ? LitEdge(
-              glow: true,
               borderRadius: BorderRadius.circular(MmRhythm.heroRadius),
               child: MmSurface.hero(padding: padding, child: child),
             )

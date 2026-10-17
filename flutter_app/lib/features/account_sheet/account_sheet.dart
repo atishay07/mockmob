@@ -67,7 +67,7 @@ class _AccountSheetState extends ConsumerState<AccountSheet> {
     // each time the sheet opens, so the numbers here are the ones the server holds now. The
     // tiles show the last figures meanwhile.
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) unawaited(ref.read(meCreditsProvider.notifier).refresh());
+      if (mounted) unawaited(ref.read(meCreditsProvider.notifier).refresh(force: true).catchError((Object _) {}));
     });
   }
 

@@ -7,6 +7,7 @@
 // checks or the wallet; an unknown balance has no number.
 
 import '../../../core/copy/formatters.dart' show formatTime12;
+import '../copy.dart' show ResultCopy;
 
 /// The rules' constants, the same as the website's `NEXT_MOVE_RULES`.
 abstract final class NextMoveRules {
@@ -287,6 +288,16 @@ CostliestLine costliestLine(MoveAnalysis a, {Map<String, String> reviews = const
   if (m.gap == 0) return const CostliestLine(line: 'Every question right.');
   if (m.answered == 0) return CostliestLine(line: 'All ${m.blank} were left blank: ${m.gapBlank} marks not earned.');
   final c = costliest(a, reviews: reviews);
+  // A negative score makes the marks missed exceed the paper ("51 of 50"). Then the line says what was lost
+  // and the chapter's own counts follow, never a figure bigger than the paper.
+  if (m.scored < 0) {
+    final lost = ResultCopy.negativeLoss(m.wrong, m.blank);
+    return CostliestLine(
+      line: lost,
+      detail: c == null ? null : ResultCopy.negativeChapterDetail(c.chapter, c.n, c.wrong, c.blank, c.marks),
+      chapter: c?.chapter,
+    );
+  }
   if (c == null) {
     if (m.wrong > 0 && m.gapWrong >= m.gapBlank) {
       return CostliestLine(line: '${_plural(m.wrong, 'wrong answer')} cost ${m.gapWrong} of the ${m.gap} marks you missed.');

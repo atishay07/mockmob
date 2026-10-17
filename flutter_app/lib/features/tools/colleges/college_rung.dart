@@ -131,7 +131,8 @@ class CollegeRung extends ConsumerWidget {
   }
 }
 
-/// The rank ring. 1 to 3 are the colleges on Today: filled volt with ink text.
+/// The rank ring. 1 to 3 are the colleges on Today: an ink ring and an ink numeral (never a volt
+/// disc: the screen's volt belongs to its key). The rest are a lighter ring and a quieter numeral.
 class RungRank extends StatelessWidget {
   const RungRank(this.rank, {super.key});
 
@@ -147,14 +148,13 @@ class RungRank extends StatelessWidget {
       height: 24,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: today ? colors.volt : null,
-        border: today ? null : Border.all(color: colors.lineStrong, width: 1.4),
+        border: Border.all(color: today ? colors.ink : colors.lineStrong, width: today ? 1.6 : 1.4),
       ),
       alignment: Alignment.center,
       child: Text(
         '$rank',
         textScaler: TextScaler.noScaling,
-        style: context.mmType.caption.copyWith(fontSize: 12, height: 1, fontWeight: FontWeight.w700, color: today ? colors.voltInk : colors.ink2),
+        style: context.mmType.caption.copyWith(fontSize: 12, height: 1, fontWeight: FontWeight.w700, color: today ? colors.ink : colors.ink2),
       ),
     );
   }

@@ -18,14 +18,29 @@ import '../../learn/data/catalog_repository.dart';
 import '../../today/data/today_providers.dart' show todayDismissalsProvider;
 import '../../today/logic/move_builder.dart' show dismissalKeyFor;
 import 'mistake_index.dart';
+import 'repair_record_api.dart';
 
 /// What the Review tab reads, in one place so tests and goldens can replace it whole.
 class ReviewInputs {
-  const ReviewInputs({required this.attempts, this.records = const [], this.unopened = const []});
+  const ReviewInputs({
+    required this.attempts,
+    this.records = const [],
+    this.unopened = const [],
+    this.saved = const {},
+    this.savedLoading = false,
+  });
 
   final RemoteState<List<Attempt>> attempts;
   final List<RepairLocalRecord> records;
   final List<PendingResult> unopened;
+
+  /// The repairs the account holds (`GET /api/me/repair-record`), by [savedKey], with when each was
+  /// made (F17). Empty until it is read, or when it cannot be.
+  final Map<String, DateTime> saved;
+
+  /// The account's record is still being read for the first time. A screen that would offer a paid
+  /// repair waits a moment for it rather than offer one the account already holds.
+  final bool savedLoading;
 }
 
 final reviewInputsProvider = Provider<ReviewInputs>(
@@ -33,6 +48,8 @@ final reviewInputsProvider = Provider<ReviewInputs>(
     attempts: ref.watch(attemptsRepositoryProvider),
     records: ref.watch(repairLocalRecordsProvider).value ?? const [],
     unopened: ref.watch(unopenedResultsProvider).value ?? const [],
+    saved: ref.watch(serverRepairsProvider.select((a) => a.value)) ?? const {},
+    savedLoading: ref.watch(serverRepairsProvider.select((a) => a.isLoading && !a.hasValue)),
   ),
 );
 
@@ -41,7 +58,7 @@ final reviewIndexProvider = Provider<ReviewIndex?>((ref) {
   final inputs = ref.watch(reviewInputsProvider);
   final attempts = inputs.attempts.value;
   if (attempts == null) return null;
-  return buildReviewIndex(attempts, inputs.records, unopened: {for (final u in inputs.unopened) u.attemptId});
+  return buildReviewIndex(attempts, inputs.records, unopened: {for (final u in inputs.unopened) u.attemptId}, saved: inputs.saved);
 });
 
 /// How many of tonight's [open] mistakes a 10-minute repair holds: the same count as Today's

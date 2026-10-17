@@ -10,6 +10,7 @@ import '../models/json_helpers.dart';
 import '../models/session.dart';
 import '../models/session_draft.dart';
 import '../notifications/notification_service.dart';
+import '../../features/credits/data/credits_data.dart' show meCreditsProvider;
 import '../repositories/attempts_repository.dart';
 import '../repositories/dismissal_repository.dart';
 import '../repositories/local_scope.dart';
@@ -143,6 +144,9 @@ final sessionEngineServicesProvider = Provider<SessionEngineServices>((ref) {
         await ref.read(attemptsRepositoryProvider.notifier).upsertSubmitted(attempt);
         // New evidence: "Not today" no longer applies.
         await ref.read(dismissalRepositoryProvider).clearForNewAttempt();
+        // A set spends Practice credits on the server: read the balance again now, so the result
+        // key and the avatar sheet show what it holds and not the figure from before the set.
+        unawaited(ref.read(meCreditsProvider.notifier).refresh(force: true).catchError((Object _) {}));
       },
       // Read at the moment the reply lands, from the same live scope the stores use.
       signedInUserId: () => scope.userIdOrNull,

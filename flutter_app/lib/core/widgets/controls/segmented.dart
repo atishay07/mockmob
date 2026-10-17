@@ -33,7 +33,12 @@ class MmSegmented<T> extends ConsumerWidget {
     this.semanticsLabel,
     this.onLockedTap,
     this.lockedHint,
+    this.showBubbles = true,
   });
+
+  /// False for a plain control: no bubble before the words; the chosen segment is the raised
+  /// thumb and a heavier word.
+  final bool showBubbles;
 
   final List<MmSegment<T>> segments;
   final T value;
@@ -135,7 +140,7 @@ class MmSegmented<T> extends ConsumerWidget {
                                   children: [
                                     // A locked segment is not a choice, so it has no bubble to ink: that
                                     // room is what keeps its word whole next to the lock.
-                                    if (!segments[i].locked) ...[SelectBubble(selected: i == index), const SizedBox(width: MmSpace.s8)],
+                                    if (showBubbles && !segments[i].locked) ...[SelectBubble(selected: i == index), const SizedBox(width: MmSpace.s8)],
                                     Flexible(
                                       child: Text(
                                         segments[i].label,
@@ -144,6 +149,7 @@ class MmSegmented<T> extends ConsumerWidget {
                                         style: type.labelLarge.copyWith(
                                           fontSize: 14,
                                           color: segments[i].locked ? colors.ink.withValues(alpha: 0.6) : (i == index ? colors.ink : colors.ink2),
+                                          fontWeight: showBubbles ? null : (i == index ? FontWeight.w700 : FontWeight.w500),
                                         ),
                                       ),
                                     ),

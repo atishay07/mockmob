@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/art/art.dart' show EmblemArrive, SubjectEmblem;
 import 'package:mockmob/core/auth/auth_state.dart';
+import 'package:mockmob/core/motion/mm_scroll_behavior.dart';
 import 'package:mockmob/core/motion/motion.dart' show MmPullRefresh;
 import 'package:mockmob/features/rhythm/logic/plan_week.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
@@ -29,15 +30,19 @@ void main() {
   TodayCallbacks callbacks({Future<void> Function()? onRefresh}) =>
       TodayCallbacks(onAction: (_) {}, onTarget: (_) {}, onMinutes: (_) {}, onShowMe: (_) {}, onWeek: () {}, onRefresh: onRefresh);
 
-  Future<void> pumpToday(WidgetTester tester, {bool reduced = false, bool offline = false, Future<void> Function()? onRefresh, Brightness brightness = Brightness.dark}) =>
+  Future<void> pumpToday(WidgetTester tester, {bool reduced = false, bool offline = false, Future<void> Function()? onRefresh, Brightness brightness = Brightness.dark, Size size = const Size(384, 1400)}) =>
       pumpMockmob(
         tester,
-        TodayBody(
-          view: buildToday(ashaInputs(offline: offline, attemptsAge: offline ? const Duration(hours: 3) : const Duration(minutes: 70))),
-          callbacks: callbacks(onRefresh: onRefresh),
-          skeletonDelay: Duration.zero,
+        // The app sets its scroll behaviour once on the MaterialApp; the test frame sets it here.
+        ScrollConfiguration(
+          behavior: const MmScrollBehavior(),
+          child: TodayBody(
+            view: buildToday(ashaInputs(offline: offline, attemptsAge: offline ? const Duration(hours: 3) : const Duration(minutes: 70))),
+            callbacks: callbacks(onRefresh: onRefresh),
+            skeletonDelay: Duration.zero,
+          ),
         ),
-        size: const Size(384, 1400),
+        size: size,
         brightness: brightness,
         disableAnimations: reduced,
         overrides: [auth],
@@ -88,11 +93,30 @@ void main() {
         await gesture.moveBy(const Offset(0, 12));
         await tester.pump(const Duration(milliseconds: 16));
       }
-      expect(tester.getRect(find.byType(HeroStage).first).top, closeTo(before.top, 0.5), reason: 'the content does not move on a pull');
+      expect(tester.getRect(find.byType(HeroStage).first).top, greaterThan(before.top + 20), reason: 'the page travels down with the finger (GLASS B1)');
       await gesture.up();
       await tester.pump();
       await tester.pump(const Duration(seconds: 1));
       expect(refreshes, 1);
+      await tester.pumpAndSettle();
+      expect(tester.getRect(find.byType(HeroStage).first).top, closeTo(before.top, 0.5), reason: 'it springs back to rest');
+    });
+
+    testWidgets('the page bounces past its bottom edge too, and springs back (owner F3)', (tester) async {
+      await pumpToday(tester, onRefresh: () async {}, size: const Size(384, 640));
+      final position = tester.state<ScrollableState>(find.byType(Scrollable).first).position;
+      expect(position.maxScrollExtent, greaterThan(0), reason: 'the test frame is shorter than the page');
+      position.jumpTo(position.maxScrollExtent);
+      await tester.pump();
+      final gesture = await tester.startGesture(const Offset(192, 500));
+      for (var i = 0; i < 12; i++) {
+        await gesture.moveBy(const Offset(0, -24));
+        await tester.pump(const Duration(milliseconds: 16));
+      }
+      expect(position.pixels, greaterThan(position.maxScrollExtent + 20), reason: 'held 288 px past the end it gives under the finger');
+      await gesture.up();
+      await tester.pumpAndSettle();
+      expect(position.pixels, closeTo(position.maxScrollExtent, 0.5));
     });
 
   });

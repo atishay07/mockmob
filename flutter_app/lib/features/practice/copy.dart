@@ -1,6 +1,7 @@
 import '../../core/copy/copy.dart';
 import '../runner/nta/nta_copy.dart' show NtaRules;
 import '../../core/widgets/question_strip.dart' show QuestionCell;
+import '../result/copy.dart' show ResultCopy;
 import 'model/finish_reaction.dart';
 
 /// Every user-facing string of the practice feature. Voice: a sharp senior who has been through
@@ -25,9 +26,6 @@ abstract final class PracticeCopy {
 
   // The suggestion at the top.
   static const String suggestedOverline = 'Your next practice';
-
-  /// The suggestion's overline: it names the subject the lit tile chose, so the two always agree.
-  static String upNextIn(String subject) => 'Up next in $subject';
 
   /// The overline after 11 PM: points at the card's one set, with no length the set may not keep.
   static const String lateOverline = 'This one, then sleep';
@@ -56,7 +54,10 @@ abstract final class PracticeCopy {
   /// the kind of paper is the kicker under it.
   static String subjectTitle(String subject) => subject;
   static const String subjectKicker = 'Quick practice, mixed chapters';
-  static String subjectReason(String subject, String when) => 'Your last paper was $when.';
+  /// The hero's reason for a subject with no nameable chapter: the last paper's real score with its
+  /// denominator and when it was ("34 of 50 right, yesterday"). A paper with no questions says only when.
+  static String subjectReason(int correct, int total, String when) =>
+      total <= 0 ? 'Your last paper was $when.' : 'Last paper: $correct of $total right, $when.';
 
   static const String startingTitle = 'Your starting point';
   static String startingKicker(String subject) => '$subject, mixed chapters';
@@ -314,6 +315,8 @@ abstract final class PracticeCopy {
   /// The website's arithmetic: right +5, wrong -1; each wrong answer costs 6 of the marks missed.
   static String marksLine(FinishMarks m) {
     final head = '${formatSignedNumber(m.scored)} of ${m.max} marks.';
+    // Below zero the marks missed would exceed the paper ("18 of the 18" on 15), so say what was lost instead.
+    if (m.scored < 0) return '$head ${ResultCopy.negativeLoss(m.wrong, m.blank)}';
     if (m.wrong > 0) return '$head ${plural(m.wrong, 'wrong answer')} cost ${m.lostToWrong} of the ${m.missed} marks you missed.';
     if (m.blank > 0) return '$head ${plural(m.blank, 'question')} not attempted left ${m.leftOnBlanks} marks on the table.';
     return head;

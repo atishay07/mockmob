@@ -60,7 +60,11 @@ sealed class ChoiceRow {
   /// Two borderless tonal tiles side by side, equal height. With [weighted] the first leads (a wider,
   /// lit tile) and the second steps back to a hairline: one primary and one secondary, never two
   /// of the same weight.
-  const factory ChoiceRow.pair(ChoiceOption first, ChoiceOption second, {bool weighted}) = PairRow;
+  ///
+  /// With [matched] the two are twins: one surface (the tonal fill, the subject's [light] pooled in
+  /// it, the film grain), one object size, no lit object and no volt wash, so a pair of equals
+  /// never looks like a finished tile beside an unfinished one (the Practice tab).
+  const factory ChoiceRow.pair(ChoiceOption first, ChoiceOption second, {bool weighted, bool matched, SubjectLight? light}) = PairRow;
 
   /// A list row: no card, the object at the left, a rule under it.
   const factory ChoiceRow.wide(ChoiceOption option) = WideRow;
@@ -84,9 +88,15 @@ class LeadRow extends ChoiceRow {
 }
 
 class PairRow extends ChoiceRow {
-  const PairRow(this.first, this.second, {this.weighted = false});
+  const PairRow(this.first, this.second, {this.weighted = false, this.matched = false, this.light});
   final ChoiceOption first;
   final ChoiceOption second;
+
+  /// Two twins on one surface (see [ChoiceRow.pair]).
+  final bool matched;
+
+  /// The light the matched tiles pool in (the picked subject's), or the room's lamp when null.
+  final SubjectLight? light;
 
   /// The first tile leads and the second steps back (see [ChoiceRow.pair]).
   final bool weighted;
@@ -219,7 +229,9 @@ class ChoiceDeck extends StatelessWidget {
       case LeadRow(:final option):
         final lead = LeadChoice(option: option, key: ValueKey('choice-${option.id ?? option.title}'));
         return _rise(slot, leadKey == null ? lead : KeyedSubtree(key: leadKey, child: lead));
-      case PairRow(:final first, :final second, :final weighted):
+      case PairRow(:final first, :final second, :final weighted, :final matched, :final light):
+        final firstWeight = matched ? TileWeight.matched : (weighted ? TileWeight.primary : TileWeight.even);
+        final secondWeight = matched ? TileWeight.matched : (weighted ? TileWeight.secondary : TileWeight.even);
         return _rise(
           slot,
           IntrinsicHeight(
@@ -227,23 +239,25 @@ class ChoiceDeck extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Expanded(
-                  flex: weighted ? 11 : 10,
+                  flex: weighted && !matched ? 11 : 10,
                   child: TileChoice(
                     option: first,
                     onSheet: onSheet,
                     goMark: goMarks,
-                    weight: weighted ? TileWeight.primary : TileWeight.even,
+                    weight: firstWeight,
+                    light: light,
                     key: ValueKey('choice-${first.id ?? first.title}'),
                   ),
                 ),
                 SizedBox(width: gap),
                 Expanded(
-                  flex: weighted ? 9 : 10,
+                  flex: weighted && !matched ? 9 : 10,
                   child: TileChoice(
                     option: second,
                     onSheet: onSheet,
                     goMark: goMarks,
-                    weight: weighted ? TileWeight.secondary : TileWeight.even,
+                    weight: secondWeight,
+                    light: light,
                     key: ValueKey('choice-${second.id ?? second.title}'),
                   ),
                 ),
@@ -490,7 +504,6 @@ class LeadChoice extends StatelessWidget {
       option: o,
       entranceDelay: const Duration(milliseconds: 260),
       builder: (context, pressed, motion) => LitEdge(
-        glow: true,
         child: MmClip(
           borderRadius: MmRadius.panelAll,
           child: ColoredBox(
@@ -508,21 +521,6 @@ class LeadChoice extends StatelessWidget {
                     pools: [
                       LightPool(
                         color: colors.lamp.withValues(alpha: colors.isNight ? 0.30 : 0.24),
-                        center: Alignment.center,
-                        radius: 0.5,
-                      ),
-                    ],
-                  ),
-                ),
-                Positioned(
-                  left: -80,
-                  bottom: -90,
-                  width: 280,
-                  height: 200,
-                  child: LightField(
-                    pools: [
-                      LightPool(
-                        color: colors.volt.withValues(alpha: colors.isNight ? 0.07 : 0.14),
                         center: Alignment.center,
                         radius: 0.5,
                       ),
@@ -687,7 +685,6 @@ class _GoDisc extends StatelessWidget {
         decoration: ShapeDecoration(
           color: colors.volt,
           shape: CircleBorder(side: BorderSide(color: pressed ? colors.voltEdge : colors.volt, width: 1.5)),
-          shadows: [BoxShadow(color: colors.voltGlow, blurRadius: 18, offset: const Offset(0, 6), spreadRadius: -6)],
         ),
         child: SizedBox.square(
           dimension: size,
@@ -736,14 +733,19 @@ class ChoiceGoMark extends StatelessWidget {
 /// How much a tile of a pair weighs: [even] is two equals (the quick-start sheet), [primary] leads
 /// (a larger, lit object on a lit fill) and [secondary] steps back (the object smaller, no fill,
 /// a hairline), so a pair on the Practice tab has one first choice, never two of the same weight.
-enum TileWeight { even, primary, secondary }
+///
+/// [matched] is two twins: the same surface, light and object size on both (see [ChoiceRow.pair]).
+enum TileWeight { even, primary, secondary, matched }
 
 /// A tile of a pair: borderless, a tonal step above the ground, its object large at the top left
 /// and the title and a short note at the bottom.
 class TileChoice extends StatelessWidget {
-  const TileChoice({super.key, required this.option, this.onSheet = false, this.weight = TileWeight.even, this.goMark = false});
+  const TileChoice({super.key, required this.option, this.onSheet = false, this.weight = TileWeight.even, this.goMark = false, this.light});
 
   final ChoiceOption option;
+
+  /// The light a [TileWeight.matched] tile pools in its surface (the picked subject's).
+  final SubjectLight? light;
   final bool onSheet;
   final TileWeight weight;
 
@@ -759,6 +761,7 @@ class TileChoice extends StatelessWidget {
     TileWeight.even => objectSize,
     TileWeight.primary => 64,
     TileWeight.secondary => 52,
+    TileWeight.matched => 56,
   };
 
   @override
@@ -769,6 +772,7 @@ class TileChoice extends StatelessWidget {
     const radius = MmRadius.panelAll;
     final primary = weight == TileWeight.primary;
     final secondary = weight == TileWeight.secondary;
+    final matched = weight == TileWeight.matched;
     final glyphSize = objectFor(weight);
     return _ChoicePress(
       option: o,
@@ -790,7 +794,7 @@ class TileChoice extends StatelessWidget {
                 : EdgeLightPainter(
                     borderRadius: radius,
                     top: colors.edgeTop,
-                    bottom: primary ? colors.edgeBottom : colors.edgeBottom.withValues(alpha: 0),
+                    bottom: primary || matched ? colors.edgeBottom : colors.edgeBottom.withValues(alpha: 0),
                     boost: pressed ? MmElevation.pressedEdgeBoost : 1,
                     sheen: false,
                   ),
@@ -800,6 +804,17 @@ class TileChoice extends StatelessWidget {
                 children: [
                   // The leading tile's own light: a pool of lamp light where its object sits and a
                   // faint volt wash low on the left, as the lead of the quick-start sheet has.
+                  if (matched) ...[
+                    // Twins: the picked subject's light pooled behind the object (the Practice
+                    // card above carries the same light), and the room's lamp from the upper
+                    // left. No volt, no glow: the same two pools on both tiles.
+                    Positioned.fill(
+                      child: light != null
+                          ? LightField.subject(context, light!, center: const Alignment(-0.7, -0.8), strength: colors.isNight ? 0.9 : 0.8)
+                          : LightField.lamp(context),
+                    ),
+                    const Positioned.fill(child: IgnorePointer(child: Grain())),
+                  ],
                   if (primary) ...[
                     Positioned(
                       left: -40,
@@ -812,20 +827,9 @@ class TileChoice extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Positioned(
-                      right: -60,
-                      bottom: -70,
-                      width: 200,
-                      height: 160,
-                      child: LightField(
-                        pools: [
-                          LightPool(color: colors.volt.withValues(alpha: colors.isNight ? 0.07 : 0.14), center: Alignment.center, radius: 0.5),
-                        ],
-                      ),
-                    ),
                   ],
                   ConstrainedBox(
-                    constraints: BoxConstraints(minHeight: primary ? 156 : (secondary ? 148 : 156)),
+                    constraints: BoxConstraints(minHeight: matched ? 144 : (primary ? 156 : (secondary ? 148 : 156))),
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16, MmSpace.s16),
                       child: Column(

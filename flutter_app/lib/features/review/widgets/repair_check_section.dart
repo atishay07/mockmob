@@ -24,6 +24,9 @@ import 'review_bits.dart' show FlushKey;
 String askAboutLocation(String attemptId, String questionId) =>
     Uri(path: AppRoutes.ask, queryParameters: {'q': '$attemptId:$questionId'}).toString();
 
+/// Where "Check it held" sits on the page, so a key outside the scroll can bring it into view.
+GlobalKey checkAnchorKey(String attemptId, String questionId) => GlobalObjectKey('check-$attemptId/$questionId');
+
 /// What follows a repair's explanation, in the order the website has it (MistakeRepair.jsx):
 /// "Ask Mobi about Q3" (the follow-up about the mistake just explained), then "Check it held" (one
 /// fresh question, marked by the server, with no extra credit).
@@ -72,7 +75,10 @@ class _RepairFollowUpState extends ConsumerState<RepairFollowUp> {
           const SizedBox(height: MmSpace.s16),
           AskAboutMistake(attemptId: widget.attemptId, questionId: widget.questionId, number: widget.number),
           const SizedBox(height: MmSpace.s24),
-          CheckItHeld(attemptId: widget.attemptId, questionId: widget.questionId, receipt: widget.receipt),
+          KeyedSubtree(
+            key: checkAnchorKey(widget.attemptId, widget.questionId),
+            child: CheckItHeld(attemptId: widget.attemptId, questionId: widget.questionId, receipt: widget.receipt),
+          ),
         ],
       ),
     );

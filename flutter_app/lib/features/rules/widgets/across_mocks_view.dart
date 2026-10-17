@@ -162,7 +162,7 @@ class _LineRow extends StatelessWidget {
 
   factory _LineRow.of(AcrossLine line, {bool lead = false}) => _LineRow(
         icon: line.gated ? LucideIcons.circleDashed : _iconFor(line.id),
-        text: line.text,
+        text: line.id == AcrossLine.neverOpened && !line.gated ? RulesCopy.neverOpenedLine(line.text) : line.text,
         gated: line.gated,
         lead: lead && !line.gated,
       );

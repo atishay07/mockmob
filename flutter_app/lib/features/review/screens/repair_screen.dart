@@ -45,10 +45,25 @@ class _RepairScreenState extends ConsumerState<RepairScreen> {
   bool _missing = false;
   bool _opened = false;
 
+  /// The account's repair record is given a moment before the entry draws (so a repair it already
+  /// holds never meets a paid entry); after this long the phone's own records decide.
+  bool _waitedForRecord = false;
+  Timer? _recordWait;
+
+  static const _recordWaitFor = Duration(seconds: 3);
+
   RepairRun get _run => ref.read(repairRunProvider(widget.attemptId).notifier);
 
   void _tryOpen() {
     if (_opened || ref.read(reviewIndexProvider) == null) return;
+    if (ref.read(reviewInputsProvider).savedLoading && !_waitedForRecord) {
+      _recordWait ??= Timer(_recordWaitFor, () {
+        _waitedForRecord = true;
+        if (mounted) _tryOpen();
+      });
+      return;
+    }
+    _recordWait?.cancel();
     _opened = true;
     final ok = _run.open(widget.questionId, count: widget.count);
     if (!ok && mounted) {
@@ -58,6 +73,13 @@ class _RepairScreenState extends ConsumerState<RepairScreen> {
     _openSavedAtOnce();
     // The account may already say it holds a repair for this mistake (the detail can be on hand).
     _applySaved(ref.read(attemptDetailProvider(widget.attemptId)).value);
+    _applyRecord(ref.read(reviewInputsProvider).saved);
+  }
+
+  @override
+  void dispose() {
+    _recordWait?.cancel();
+    super.dispose();
   }
 
   /// A repair already made opens its saved repair at once: no entry that could offer a paid one,
@@ -70,8 +92,15 @@ class _RepairScreenState extends ConsumerState<RepairScreen> {
 
   /// Applies what the account says it holds (a saved repair made elsewhere) to this run and to the
   /// phone's own record.
-  void _applySaved(AttemptDetail? detail) {
-    final saved = detail?.savedRepairs;
+  void _applySaved(AttemptDetail? detail) => _adopt(detail?.savedRepairs);
+
+  /// The account's repair record (every paper): this paper's part of it.
+  void _applyRecord(Map<String, DateTime> record) {
+    final prefix = '${widget.attemptId}/';
+    _adopt({for (final e in record.entries) if (e.key.startsWith(prefix)) e.key.substring(prefix.length): e.value});
+  }
+
+  void _adopt(Map<String, DateTime>? saved) {
     if (saved == null || saved.isEmpty) return;
     unawaited(_run.recordSaved(saved, ref.read(reviewInputsProvider).records));
     if (_run.adoptSaved(saved)) _run.begin();
@@ -97,6 +126,12 @@ class _RepairScreenState extends ConsumerState<RepairScreen> {
     });
     // The account's saved repairs arrive with the paper's detail: a mistake it already holds opens
     // as a saved repair, never as a paid one.
+    ref.listen(reviewInputsProvider.select((i) => i.savedLoading), (_, loading) {
+      if (!loading) _tryOpen();
+    });
+    ref.listen(reviewInputsProvider.select((i) => i.saved), (_, next) {
+      if (_opened) _applyRecord(next);
+    });
     ref.listen(attemptDetailProvider(widget.attemptId).select((s) => s.value?.savedRepairs), (_, next) {
       if (_opened && next != null) _applySaved(ref.read(attemptDetailProvider(widget.attemptId)).value);
     });

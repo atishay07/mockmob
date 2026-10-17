@@ -19,7 +19,9 @@ typedef BarShape = RRect Function(Size size);
 ///   (Night) or 55% (Daylight). Content shows through as soft colour and shape, never as an
 ///   opaque slab, and the labels stay above 5:1 over any backdrop from black to paper white or
 ///   volt (the luminosity step does the legibility work a heavier tint used to do).
-/// * Lite: no live blur; a thicker tint and the noise tile.
+/// * Lite: no live blur; a denser tint (86% Night, 88% Day) and the noise tile, so what scrolls
+///   under the bar still shows through dimly as shape and colour (v13 device walk: at 97% the
+///   Night bar read as an opaque charcoal pill). Labels stay above 6:1 over black, paper or volt.
 /// * Off: solid, with a hairline.
 ///
 /// One analytic rounded-rect shadow sits outside the clip. Every part repaints from [shape] on
@@ -134,7 +136,7 @@ class BarGlassSpec {
       const shadow = Color(0x66000000); // black 40%
       return switch (quality) {
         GlassQuality.full => const BarGlassSpec(tint: Color(0x801B1A16), edgeTop: edgeTop, edgeMid: edgeMid, shadow: shadow),
-        GlassQuality.lite => const BarGlassSpec(tint: Color(0xF71B1A16), edgeTop: edgeTop, edgeMid: edgeMid, shadow: shadow, noise: 0.03),
+        GlassQuality.lite => const BarGlassSpec(tint: Color(0xDB1B1A16), edgeTop: edgeTop, edgeMid: edgeMid, shadow: shadow, noise: 0.04),
         GlassQuality.off => const BarGlassSpec(
           tint: Color(0xFF1B1A16),
           edgeTop: edgeTop,
@@ -151,12 +153,12 @@ class BarGlassSpec {
     return switch (quality) {
       GlassQuality.full => const BarGlassSpec(tint: Color(0x8CFFFDF8), edgeTop: edgeTop, edgeMid: edgeMid, shadow: shadow, hairline: hairline),
       GlassQuality.lite => const BarGlassSpec(
-        tint: Color(0xF7FFFDF8),
+        tint: Color(0xE0FFFDF8),
         edgeTop: edgeTop,
         edgeMid: edgeMid,
         shadow: shadow,
         hairline: hairline,
-        noise: 0.02,
+        noise: 0.03,
       ),
       GlassQuality.off => const BarGlassSpec(
         tint: Color(0xFFFFFDF8),

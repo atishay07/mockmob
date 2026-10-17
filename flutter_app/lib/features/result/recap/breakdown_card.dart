@@ -106,7 +106,7 @@ class _BreakdownCardState extends ConsumerState<BreakdownCard> with SingleTicker
             Expanded(
               child: Semantics(
                 header: true,
-                child: Text(b.lost == 0 ? ResultCopy.allScored(b.max) : ResultCopy.breakdownTitle(b.lost), style: type.moment),
+                child: Text(b.lost == 0 ? ResultCopy.allScored(b.max) : ResultCopy.breakdownTitle(b.lost, max: b.max), style: type.moment),
               ),
             ),
             if (mobi) ...[

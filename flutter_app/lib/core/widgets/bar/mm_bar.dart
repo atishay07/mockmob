@@ -185,6 +185,7 @@ class MmBottomBar extends ConsumerStatefulWidget {
     this.startResumeLabel,
     this.onStartResume,
     this.startResumeId,
+    this.startHoldsResume = false,
     this.quality,
     this.startStyle = MmBar.startKeyStyle,
   });
@@ -223,6 +224,12 @@ class MmBottomBar extends ConsumerStatefulWidget {
   /// label slides to Resume and back. Null: it never does.
   final String? startResumeId;
 
+  /// The key's word holds Resume (NAV-1017 6.3 and 6.4): a paper is open and the live capsule is
+  /// not saying so, because it has tucked away or Today's hero shows it. The live capsule tucks
+  /// into the key, so the open paper is always one glance away without anything floating over
+  /// the page. The look of the key never changes; only its word does, in the same label box.
+  final bool startHoldsResume;
+
   /// Sessions whose Resume slide has played in this app run.
   static final Set<String> _resumeSlid = <String>{};
 
@@ -236,6 +243,10 @@ class MmBottomBar extends ConsumerStatefulWidget {
   final StartKeyStyle startStyle;
 
   static const String startSemanticsLabel = 'Start. Opens quick start.';
+  static const String resumeSemanticsLabel = 'Resume. Opens quick start with your open paper first.';
+
+  /// How long the key's word takes to slide between Start and Resume when it holds (NAV 6.3).
+  static const Duration holdShift = Duration(milliseconds: 240);
 
   /// A tap's travel: the token edge springs, critically damped (no overshoot on a tap; NAV 6.5).
   static final SpringDescription tapLead = SpringDescription.withDurationAndBounce(duration: MotionSprings.edgeLeadDuration);
@@ -309,6 +320,9 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
   /// label slide (0 Start, 1 Resume).
   late final AnimationController _stretch = AnimationController.unbounded(vsync: this);
   late final AnimationController _label = AnimationController(vsync: this, duration: const Duration(milliseconds: 2200));
+
+  /// The held Resume word (0 Start, 1 Resume), while [MmBottomBar.startHoldsResume].
+  late final AnimationController _hold = AnimationController(vsync: this, duration: MmBottomBar.holdShift, value: widget.startHoldsResume ? 1 : 0);
 
   /// The touch light in the capsule and in the key.
   late final TouchLightController _capsuleLight = TouchLightController(vsync: this);
@@ -465,6 +479,14 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
       _compactChanged();
     }
     if (!_scrubbing && widget.currentBranch != _shown) _select(widget.currentBranch);
+    if (oldWidget.startHoldsResume != widget.startHoldsResume) {
+      final to = widget.startHoldsResume ? 1.0 : 0.0;
+      if (_reduced) {
+        _hold.value = to;
+      } else {
+        _hold.animateTo(to, curve: Motion.out);
+      }
+    }
     if (oldWidget.startResumeId != widget.startResumeId) {
       if (widget.startResumeId == null) {
         _label.value = 0;
@@ -474,8 +496,11 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
     }
   }
 
-  /// The label's slide as 0 (Start) to 1 (Resume): in over the first 14%, held, out over the last 18%.
-  double get _labelShift {
+  /// The key's word as 0 (Start) to 1 (Resume): the held word, or the once-a-session slide.
+  double get _labelShift => math.max(_hold.value, _slideShift);
+
+  /// The slide as 0 (Start) to 1 (Resume): in over the first 14%, held, out over the last 18%.
+  double get _slideShift {
     final t = _label.value;
     if (t <= 0 || t >= 1) return 0;
     if (t < 0.14) return Motion.glide.transform(t / 0.14);
@@ -487,7 +512,7 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
   void dispose() {
     widget.compact?.removeListener(_compactChanged);
     _edges.removeListener(_watchEdges);
-    for (final c in [_left, _right, _ownCollapse, _labelsOut, _lift, _xfade, _press, _gel, _ripple, _enter, _pop, _stretch, _label, ..._on, ..._settle]) {
+    for (final c in [_left, _right, _ownCollapse, _labelsOut, _lift, _xfade, _press, _gel, _ripple, _enter, _pop, _stretch, _label, _hold, ..._on, ..._settle]) {
       c.dispose();
     }
     _capsuleLight.dispose();
@@ -1203,7 +1228,7 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
     final onResume = widget.onStartResume;
     final style = widget.startStyle;
     final face = AnimatedBuilder(
-      animation: Listenable.merge([_press, _ripple, _pop, _gel, _stretch, _label, _capsuleLight.listenable]),
+      animation: Listenable.merge([_press, _ripple, _pop, _gel, _stretch, _label, _hold, _capsuleLight.listenable]),
       builder: (context, _) {
         final pressed = widget.startPressed ? 1.0 : Motion.out.transform(_press.value.clamp(0.0, 1.0));
         // The first appearance's pop: 1, 1.05, 1.
@@ -1246,7 +1271,7 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
     return Semantics(
       container: true,
       button: true,
-      label: MmBottomBar.startSemanticsLabel,
+      label: widget.startHoldsResume ? MmBottomBar.resumeSemanticsLabel : MmBottomBar.startSemanticsLabel,
       sortKey: OrdinalSortKey(kBarSlots.toDouble() + 1),
       onTap: _startTap,
       customSemanticsActions: resume == null || onResume == null ? null : {CustomSemanticsAction(label: resume): onResume},

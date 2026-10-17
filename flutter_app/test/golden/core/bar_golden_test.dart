@@ -321,6 +321,17 @@ void main() {
     _Shot(branch: 1, behind: true, quality: GlassQuality.off),
   ]);
 
+  // The live capsule over content: the page fades out under the capsule and the 8 dp gap, so no
+  // row reads half-hidden between it and the bar (v13 clutter fix).
+  _barSheet('bar_capsule_over', [
+    const _Shot(
+      branch: 1,
+      behind: true,
+      quality: GlassQuality.full,
+      live: BarResume(sessionId: 's1', paper: 'Business Studies mock', total: 50, answered: 12),
+    ),
+  ]);
+
   // Glass tiers: Full (live blur), Lite (tint and noise), Off (solid with a hairline).
   _barSheet('bar_tiers', const [
     _Shot(branch: 1, quality: GlassQuality.full),
@@ -334,7 +345,13 @@ void main() {
     const _Shot(branch: 1, textScale: 1.3, badges: BarBadges(reviewCount: 3)),
     const _Shot(branch: 1, textScale: 2, badges: BarBadges(reviewCount: 3)),
     const _Shot(branch: 1, width: 320, badges: BarBadges(reviewCount: 3)),
-    _Shot(branch: 1, width: 320, textScale: 1.3, live: BarMove(title: 'Business Studies practice', detail: '20 min', onStart: () {})),
+    // A long subject gives way to an ellipsis; the count after it never does.
+    const _Shot(
+      branch: 1,
+      width: 320,
+      textScale: 1.3,
+      live: BarResume(sessionId: 's2', paper: 'Business Studies practice', total: 50, answered: 12),
+    ),
     const _Shot(branch: 4, width: 320, textScale: 2, compact: true, badges: BarBadges(reviewCount: 3)),
   ]);
 

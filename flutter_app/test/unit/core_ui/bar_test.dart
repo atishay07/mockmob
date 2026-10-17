@@ -3,6 +3,7 @@
 // accessibility guidelines. Plus the Start sheet robustness fixes (today-01, today-03) and the
 // morph's content timing (C8).
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show RenderParagraph;
 import 'package:flutter/semantics.dart' show DebugSemanticsDumpOrder, SemanticsAction, SemanticsNode;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
@@ -374,6 +375,35 @@ void main() {
       expect(container(resume: _resume, offline: 3).read(barLiveProvider), isA<BarResume>());
       expect(container(offline: 3).read(barLiveProvider), isA<BarOffline>());
       expect(container().read(barLiveProvider), isNull);
+    });
+
+    test('Resume shows only once a paper has answers in it', () {
+      const none = BarResume(sessionId: 's9', paper: 'Business Studies mock', total: 50, answered: 0);
+      const unread = BarResume(sessionId: 's9', paper: 'Business Studies mock', total: 50);
+      expect(container(resume: none).read(barLiveProvider), isNull, reason: '0 of 50 is not in progress');
+      expect(container(resume: unread).read(barLiveProvider), isNull, reason: 'journal not read yet');
+      expect(container(resume: none, offline: 3).read(barLiveProvider), isA<BarOffline>());
+    });
+
+    test('the title splits into a name that can be cut and a count that cannot', () {
+      expect(_resume.titleName, 'Accountancy mock');
+      expect(_resume.titleTail, '23 of 50');
+      expect(_marked.titleName, _marked.title);
+      expect(_marked.titleTail, isNull);
+    });
+
+    testWidgets('a long subject is ellipsized, never the count', (tester) async {
+      const long = BarResume(sessionId: 's3', paper: 'Business Studies practice', total: 50, answered: 12);
+      await pumpMockmob(
+        tester,
+        const Center(child: LiveCapsule(live: long, width: 260, collapse: kAlwaysDismissedAnimation)),
+        size: const Size(320, 780),
+      );
+      final name = tester.renderObject<RenderParagraph>(find.text('Business Studies practice'));
+      expect(name.didExceedMaxLines, isTrue);
+      expect(find.textContaining('12 of 50', findRichText: true), findsOneWidget);
+      final count = tester.renderObject<RenderParagraph>(find.textContaining('12 of 50', findRichText: true));
+      expect(count.didExceedMaxLines, isFalse);
     });
 
     test("Today's hero stands the capsule down on Today only", () {

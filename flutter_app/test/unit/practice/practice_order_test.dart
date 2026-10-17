@@ -34,7 +34,7 @@ Future<void> _settle(WidgetTester tester) async {
 void main() {
   setUpAll(loadAppFonts);
 
-  testWidgets('at 360 by 800 the strip, the one Start key and the first mode share the first screen', (tester) async {
+  testWidgets('at 360 by 800 the strip, the card's key and the first mode share the first screen', (tester) async {
     final mock = attemptOf(
       id: 'm1',
       subject: 'accountancy',
@@ -58,11 +58,11 @@ void main() {
     expect(strip.bottom, lessThanOrEqualTo(card.top), reason: 'the subjects lead, the card follows');
     expect(card.bottom, lessThanOrEqualTo(quick.top), reason: 'the first mode sits under the card');
     expect(quick.bottom, lessThanOrEqualTo(barTop), reason: 'the first mode shows above the bar');
-    // One lit Start key on the whole tab: the "Edit subjects" link beside the strip's heading is a
-    // quiet key, never a second volt one.
+    // No volt key in the page body: the bar's Start key holds the screen's one volt (17 Oct), so
+    // the card's own key and the "Edit subjects" link are quieter than it.
     final lit = find.byWidgetPredicate((w) => w is KeyButton && w.variant == KeyVariant.primary);
-    expect(lit, findsOneWidget);
-    expect(tester.widget<KeyButton>(find.descendant(of: find.byType(SuggestionCard), matching: find.byType(KeyButton))).variant, KeyVariant.primary);
+    expect(lit, findsNothing);
+    expect(tester.widget<KeyButton>(find.descendant(of: find.byType(SuggestionCard), matching: find.byType(KeyButton))).variant, KeyVariant.secondary);
   });
 
   testWidgets('the compact card keeps its count in the key', (tester) async {

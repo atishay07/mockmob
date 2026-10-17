@@ -10,6 +10,10 @@ import '../../../core/repositories/dismissal_repository.dart';
 import '../data/today_profile.dart';
 import 'road_board.dart' show RoadPlan;
 
+/// One question in today's Revise round: its id (to find the paper it was missed on), subject and
+/// chapter, as the server sends them.
+typedef ReviseCard = ({String questionId, String? subject, String? chapter});
+
 /// The current week from the rhythm module: which days were study days, which one is today,
 /// the goal and the student's own planned days.
 class TodayWeek {
@@ -107,6 +111,9 @@ class TodayInputs {
     this.roadPlan = const RoadPlan(),
     this.lastTriedAt,
     this.reviseDue,
+    this.reviseShown,
+    this.reviseCards = const [],
+    this.reviseCap = 10,
     this.isPro = false,
     this.email,
     this.repairedToday = 0,
@@ -171,6 +178,17 @@ class TodayInputs {
   /// Revise questions due today (`GET /api/me/revise`), or null while unread or when Revise cannot
   /// be read: an unknown count never makes Revise the move.
   final int? reviseDue;
+
+  /// Questions today's Revise round asks at the default cap of 10 (the server's `shown`: at most
+  /// 10, less what was answered today), or null when unknown (then [reviseDue] stands in).
+  final int? reviseShown;
+
+  /// The round's questions in the order the server sends them: what the move names its subjects,
+  /// chapters and papers from.
+  final List<ReviseCard> reviseCards;
+
+  /// Questions a day the student chose for Revise: 5 or 10 (the Revise screen's own setting).
+  final int reviseCap;
 
   /// A Pro account: Smart practice is a Pro mode, so only Pro gets it as the move.
   final bool isPro;

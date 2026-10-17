@@ -209,20 +209,19 @@ class SuggestionCard extends StatelessWidget {
           ],
           KeyedSubtree(
             key: actionKey,
-            // One light sweep across Start after 4 s with nothing touched, once per card.
-            child: StartSheen(
-              enabled: !offline && onAction != null,
-              child: KeyButton(
-                label: actionLabel,
-                minHeight: compact ? compactKeyHeight : null,
-                onPressed: offline || onAction == null
-                    ? null
-                    : () {
-                        // The object flies into the confirm step's ticket (M2).
-                        MmFlight.launch(context, subjectId);
-                        onAction!();
-                      },
-              ),
+            // A glass key, not a second volt fill: the bar's Start key below already holds the
+            // screen's one volt (17 Oct), so the card's own key is the quieter of the two. No
+            // light sweep across it either; a sweep belongs to the one lit key.
+            child: KeyButton.secondary(
+              label: actionLabel,
+              minHeight: compact ? compactKeyHeight : null,
+              onPressed: offline || onAction == null
+                  ? null
+                  : () {
+                      // The object flies into the confirm step's ticket (M2).
+                      MmFlight.launch(context, subjectId);
+                      onAction!();
+                    },
             ),
           ),
         ],
@@ -269,7 +268,6 @@ class SuggestionCard extends StatelessWidget {
     );
 
     return LitEdge(
-      glow: true,
       borderRadius: borderRadius,
       child: CustomPaint(
         foregroundPainter: EdgeLightPainter(

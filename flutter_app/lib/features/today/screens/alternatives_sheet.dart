@@ -1,74 +1,201 @@
-// `/today/alternatives`: "Choose something else" (spec 5.3). The plan's own alternatives first,
-// then the usual ways to practise, then Review. "Not today" hides only tonight's repair until
-// 4:00 AM or the next submitted paper; nothing in Review or the record changes. Costs are not
-// shown here: they live on the confirm sheet (brief section 8).
+// `/today/alternatives`: "Something else instead" (TODAY-1017 4.2 and 11.3). A short plain list of
+// real alternatives to tonight's move, each with its own object, a reason from the student's
+// record and a unit ("Repair 2 mistakes" / "From Mock 1 on 15 Oct, in Partnership fundamentals.
+// About 10 min."). Whatever the move already is never appears again here.
 //
-// Design critic 16 Oct, finding 17: the sheet speaks the Start sheet's language (its deck, its
-// lit objects and their gestures, its title cut) instead of four flat grey tiles, so the two
-// sheets for the same job read as one. Quick practice leads, Full mock and One chapter pair up,
-// Review runs as a list row, and "Not today" is a full 48 dp key with its line under it.
+// Device walk 17 Oct and the visual critic: the sheet used to carry a full copy of the Start
+// sheet (a lit Quick practice card with a volt play key, then Full mock and One chapter tiles)
+// under two server rows with the same target glyph and a bare "10". That made it a third Start
+// surface. The Start key already opens Start; this sheet is three or four rows and Not today.
+// Costs are not shown here: they live on the confirm sheet (brief section 8).
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/domain/repair_candidates.dart' show repairDurationOptions, repairMinutes;
+import '../../../core/models/attempt.dart';
+import '../../../core/models/learning_plan.dart' show PlanAction;
 import '../../../core/router/action_router.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../practice/model/practice_selection.dart' show mockQuestionCount;
 import '../../practice/widgets/choice_deck.dart' show ChoiceDeck, ChoiceOption, ChoiceRow;
 import '../../practice/widgets/choice_glyphs.dart' show ChoiceGlyphKind;
+import '../../review/revise/revise_data.dart' show reviseCapProvider, reviseEntryProvider;
 import '../copy.dart';
 import '../data/today_providers.dart';
 import '../logic/links.dart';
-import '../../../core/domain/repair_candidates.dart' show repairDurationOptions;
 import '../logic/move_builder.dart';
+import '../logic/subjects.dart';
+import '../logic/today_inputs.dart';
+import '../logic/today_model.dart';
 
-/// The role a way to practise plays in the deck: the lead, one of the pair, or a list row.
-enum AlternativeRole { plan, lead, pair, row }
+/// What a row is, so no two rows of the sheet are the same kind of session.
+enum AlternativeKind { repair, revise, practice, mock, plan, review }
 
 class AlternativeRow {
-  const AlternativeRow({required this.title, required this.note, required this.location, required this.glyph, required this.role});
+  const AlternativeRow({required this.title, required this.note, required this.location, required this.glyph, required this.kind});
 
   final String title;
+
+  /// The reason and the unit: where it comes from and how long it takes.
   final String note;
   final String location;
 
-  /// The Start sheet's drawn object for this kind of session.
+  /// The Start sheet's drawn object for this kind of session: each row has its own.
   final ChoiceGlyphKind glyph;
-  final AlternativeRole role;
+  final AlternativeKind kind;
 }
 
-/// The rows for [subject] (public or internal id), with the plan's native alternatives first.
-List<AlternativeRow> alternativeRows({String? subject, List<({String title, String? note, String? href})> plan = const []}) {
+/// Today's Revise round, as the sheet needs it: the round's size at the student's cap and how many
+/// are due in all.
+typedef ReviseRound = ({int size, int due});
+
+/// The most rows before Review (which always ends the list).
+const int _maxRows = 3;
+
+/// The rows for the student's record, leaving out whatever [moveKind] already is. Pure, so tests
+/// feed it fixtures.
+List<AlternativeRow> alternativeRows(
+  TodayInputs inputs, {
+  MoveKind? moveKind,
+  String? moveSubject,
+  ReviseRound? revise,
+  List<PlanAction> plan = const [],
+}) {
+  final facts = MoveFacts(inputs);
+  final attempts = facts.attempts;
+  final rows = <AlternativeRow>[];
+  final basis = facts.basis;
+  final subject = canonicalSubject(moveSubject ?? basis?.subject ?? (attempts.isNotEmpty ? attempts.first.subject : (inputs.subjects.isEmpty ? '' : inputs.subjects.first)));
+
+  // 1. Tonight's repair, when it is not already the move.
+  final tonight = facts.tonight;
+  final repairIsMove = moveKind == MoveKind.repair || moveKind == MoveKind.firstRepair || moveKind == MoveKind.returning;
+  if (!repairIsMove && basis != null && tonight != null && !facts.dismissed && tonight.items.isNotEmpty) {
+    final options = repairDurationOptions(tonight.items.length);
+    final chosen = repairMinutesSelected(inputs, facts);
+    final option = options.where((o) => o.minutes == chosen).firstOrNull ?? options.firstOrNull;
+    final n = option?.mistakes ?? tonight.items.length;
+    final minutes = option?.minutes ?? repairMinutes(n) ?? 10;
+    rows.add(AlternativeRow(
+      title: TodayCopy.altRepairTitle(n),
+      note: TodayCopy.altRepairNote(
+        TodayCopy.revisePaper(paperLabel(attempts, basis), inputs.date(basis.completedAt)),
+        tonight.hasNamedChapter ? tonight.chapter : null,
+        minutes,
+      ),
+      location: TodayLinks.repair(basis.id, tonight.items.first.questionId, n),
+      glyph: ChoiceGlyphKind.repair,
+      kind: AlternativeKind.repair,
+    ));
+  }
+
+  // 2. Today's Revise round, when it has questions and is not already the move.
+  if (moveKind != MoveKind.revise && revise != null && revise.size > 0) {
+    final minutes = revise.size <= 5 ? 5 : 10;
+    rows.add(AlternativeRow(
+      title: TodayCopy.altReviseTitle(revise.size),
+      note: TodayCopy.altReviseNote(revise.size, revise.due, minutes),
+      location: TodayLinks.revise,
+      glyph: ChoiceGlyphKind.smart,
+      kind: AlternativeKind.revise,
+    ));
+  }
+
+  // 3. Practise the subject left longest (never practised first); with one subject, that subject.
+  final subjects = <String>[for (final s in inputs.subjects) canonicalSubject(s)];
+  for (final a in attempts) {
+    final s = canonicalSubject(a.subject);
+    if (!subjects.contains(s)) subjects.add(s);
+  }
+  final others = [for (final s in subjects) if (s != subject && s.isNotEmpty) s];
+  DateTime? lastOf(String s) => attempts.where((a) => canonicalSubject(a.subject) == s).firstOrNull?.completedAt;
+  String? practise;
+  if (others.isNotEmpty) {
+    others.sort((a, b) {
+      final la = lastOf(a);
+      final lb = lastOf(b);
+      if (la == null && lb == null) return 0;
+      if (la == null) return -1;
+      if (lb == null) return 1;
+      return la.compareTo(lb);
+    });
+    practise = others.first;
+  } else if (subject.isNotEmpty) {
+    practise = subject;
+  }
+  if (practise != null) {
+    final last = lastOf(practise);
+    rows.add(AlternativeRow(
+      title: TodayCopy.altPractiseTitle(subjectName(practise)),
+      note: TodayCopy.altPractiseNote(10, last == null ? null : inputs.daysSince(last)),
+      location: TodayLinks.quick(subject: practise),
+      glyph: ChoiceGlyphKind.quick,
+      kind: AlternativeKind.practice,
+    ));
+  }
+
+  // 4. A full mock in the move's subject, unless the move is the first full mock.
+  if (moveKind != MoveKind.firstMock && subject.isNotEmpty) {
+    Attempt? lastMock;
+    for (final a in attempts) {
+      if (a.isMock && canonicalSubject(a.subject) == subject) {
+        lastMock = a;
+        break;
+      }
+    }
+    rows.add(AlternativeRow(
+      title: TodayCopy.altMockTitle(subjectName(subject)),
+      note: TodayCopy.altMockNote(
+        mockQuestionCount,
+        60,
+        lastMock == null ? null : TodayCopy.revisePaper(paperLabel(attempts, lastMock), inputs.date(lastMock.completedAt)),
+      ),
+      location: TodayLinks.fullMock(subject: subject),
+      glyph: ChoiceGlyphKind.mock,
+      kind: AlternativeKind.mock,
+    ));
+  }
+
+  // The server's own alternatives fill a free place, when this app can open them and they are a
+  // kind of session the list does not have yet.
+  final taken = {for (final r in rows) r.kind};
+  for (final a in plan) {
+    if (rows.length >= _maxRows) break;
+    final kind = switch (a.kind) {
+      'repair' || 'investigate' => AlternativeKind.repair,
+      'ordinary_practice' || 'baseline' || 'fresh_check' => AlternativeKind.practice,
+      _ => AlternativeKind.plan,
+    };
+    if (taken.contains(kind) || a.title.trim().isEmpty) continue;
+    if (ActionRouter.resolve(a.href) case NativeTarget(:final location)) {
+      rows.add(AlternativeRow(
+        title: a.title,
+        note: TodayCopy.altPlanNote(a.reason, a.duration),
+        location: location,
+        glyph: ChoiceGlyphKind.resume,
+        kind: kind,
+      ));
+      taken.add(kind);
+    }
+  }
+
   return [
-    for (final a in plan.take(2))
-      if (ActionRouter.resolve(a.href) case NativeTarget(:final location))
-        AlternativeRow(title: a.title, note: a.note ?? '', location: location, glyph: ChoiceGlyphKind.smart, role: AlternativeRole.plan),
-    AlternativeRow(title: TodayCopy.altQuick, note: TodayCopy.altQuickLine, location: TodayLinks.quick(subject: subject), glyph: ChoiceGlyphKind.quick, role: AlternativeRole.lead),
-    AlternativeRow(title: TodayCopy.altFullMock, note: TodayCopy.altFullMockLine, location: TodayLinks.fullMock(subject: subject), glyph: ChoiceGlyphKind.mock, role: AlternativeRole.pair),
-    AlternativeRow(title: TodayCopy.altChapter, note: TodayCopy.altChapterLine, location: AppRoutes.practiceSetup('chapter'), glyph: ChoiceGlyphKind.chapter, role: AlternativeRole.pair),
-    const AlternativeRow(title: TodayCopy.altReview, note: TodayCopy.altReviewLine, location: AppRoutes.review, glyph: ChoiceGlyphKind.repair, role: AlternativeRole.row),
+    ...rows.take(_maxRows),
+    const AlternativeRow(title: TodayCopy.altReview, note: TodayCopy.altReviewLine, location: AppRoutes.review, glyph: ChoiceGlyphKind.chapter, kind: AlternativeKind.review),
   ];
 }
 
-/// The deck's rows for [rows]: plan rows and the review row as list rows, the lead as the lit
-/// hero, and the pair side by side (a lone one of a pair runs as a list row).
-List<ChoiceRow> alternativeDeck(List<AlternativeRow> rows, ValueChanged<AlternativeRow> onRow) {
-  ChoiceOption option(AlternativeRow r) => ChoiceOption(id: r.title, glyph: r.glyph, title: r.title, note: r.note, onTap: () => onRow(r));
-  final pair = [for (final r in rows) if (r.role == AlternativeRole.pair) r];
-  return [
-    for (final r in rows)
-      if (r.role == AlternativeRole.plan) ChoiceRow.wide(option(r)),
-    for (final r in rows)
-      if (r.role == AlternativeRole.lead) ChoiceRow.lead(option(r)),
-    if (pair.length >= 2) ChoiceRow.pair(option(pair[0]), option(pair[1])) else for (final r in pair) ChoiceRow.wide(option(r)),
-    for (final r in pair.skip(2)) ChoiceRow.wide(option(r)),
-    for (final r in rows)
-      if (r.role == AlternativeRole.row) ChoiceRow.wide(option(r)),
-  ];
-}
+/// The sheet's rows as plain list rows: the object at the left, the reason under the title, a rule
+/// under each. No lit card, no go disc: nothing here competes with the move's key.
+List<ChoiceRow> alternativeDeck(List<AlternativeRow> rows, ValueChanged<AlternativeRow> onRow) => [
+      for (final r in rows)
+        ChoiceRow.wide(ChoiceOption(id: r.title, glyph: r.glyph, title: r.title, note: r.note, noteLines: 2, onTap: () => onRow(r))),
+    ];
 
 class AlternativesSheet extends ConsumerWidget {
   const AlternativesSheet({super.key});
@@ -77,19 +204,24 @@ class AlternativesSheet extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final inputs = ref.watch(todayInputsProvider);
     final facts = MoveFacts(inputs);
-    final basis = facts.basis;
-    final canDismiss = basis != null && facts.candidates.isNotEmpty && !facts.dismissed;
-    final plan = inputs.plan;
+    final canDismiss = facts.basis != null && facts.candidates.isNotEmpty && !facts.dismissed;
+    final hero = ref.watch(todayViewProvider).hero;
+    final move = hero is MoveHero ? hero : null;
+    final read = ref.watch(reviseEntryProvider).value;
+    final cap = ref.watch(reviseCapProvider).value ?? 10;
+    ReviseRound? revise;
+    if (read != null && !read.isUnavailable && !read.isEmpty && read.due > 0) {
+      final left = read.shown > 0 ? read.shown : read.due;
+      revise = (size: left < cap ? left : cap, due: read.due);
+    }
     final rows = alternativeRows(
-      subject: basis?.subject ?? (inputs.subjects.isEmpty ? null : inputs.subjects.first),
-      plan: [for (final a in plan?.alternatives ?? const []) (title: a.title, note: a.duration, href: a.href)],
+      inputs,
+      moveKind: move?.kind,
+      moveSubject: move?.subjectId,
+      revise: revise,
+      plan: inputs.plan?.alternatives ?? const [],
     );
-    final durations = facts.tonight == null || facts.dismissed ? const <int>[] : [for (final o in repairDurationOptions(facts.tonight!.items.length)) o.minutes];
     return AlternativesSheetBody(
-      durations: durations,
-      // The same pick the Today card makes, so the sheet never highlights another length.
-      minutes: repairMinutesSelected(inputs, facts),
-      onMinutes: (m) => ref.read(todayMinutesProvider.notifier).choose(m),
       rows: rows,
       onRow: (row) {
         final router = GoRouter.of(context);
@@ -116,22 +248,14 @@ class AlternativesSheetBody extends StatelessWidget {
     required this.rows,
     required this.onRow,
     this.onNotToday,
-    this.durations = const [],
-    this.minutes,
-    this.onMinutes,
     this.animateIn = true,
   });
 
   final List<AlternativeRow> rows;
-
-  /// The lengths tonight's repair can take ("5 min", "10 min"), when it can change size.
-  final List<int> durations;
-  final int? minutes;
-  final ValueChanged<int>? onMinutes;
   final ValueChanged<AlternativeRow> onRow;
   final VoidCallback? onNotToday;
 
-  /// Whether the deck's rows rise in one after another (off for goldens).
+  /// Whether the rows rise in one after another (off for goldens).
   final bool animateIn;
 
   @override
@@ -144,28 +268,14 @@ class AlternativesSheetBody extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // The Start sheet's title cut, so the two sheets for one job read as one.
           Semantics(
             header: true,
             child: Text(TodayCopy.alternativesTitle, style: type.screenTitle.copyWith(fontSize: 24), maxLines: 2, overflow: TextOverflow.ellipsis),
           ),
-          const SizedBox(height: MmSpace.s16),
-          if (durations.length > 1 && minutes != null) ...[
-            Text(TodayCopy.repairLength, style: type.labelLarge),
-            const SizedBox(height: MmSpace.s8),
-            MmSegmented<int>(
-              semanticsLabel: TodayCopy.repairLength,
-              segments: [for (final d in durations) MmSegment(d, '$d min')],
-              value: minutes!,
-              onChanged: onMinutes,
-            ),
-            const SizedBox(height: MmSpace.s20),
-          ],
+          const SizedBox(height: MmSpace.s8),
           ChoiceDeck(rows: alternativeDeck(rows, onRow), onSheet: true, animateIn: animateIn),
           if (onNotToday != null) ...[
             const SizedBox(height: MmSpace.s16),
-            Divider(height: 1, thickness: 1, color: colors.line),
-            const SizedBox(height: MmSpace.s12),
             // A real key, 48 dp tall, with what it does on the line under it.
             KeyButton.secondary(label: TodayCopy.notToday, onPressed: onNotToday, minHeight: MmTarget.min),
             const SizedBox(height: MmSpace.s8),

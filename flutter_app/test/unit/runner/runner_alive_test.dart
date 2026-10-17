@@ -61,13 +61,19 @@ void main() {
       expect(sheetMobiCue(full), SheetMobiCue.nod);
     });
 
-    test('his line is plain facts from the sheet', () {
-      expect(RunnerCopy.sheetMobiLine(total: 10, notAnswered: 3, firstOpen: 6, marked: 1, firstMarked: 2), '3 not answered. Go to 7?');
-      expect(
-        RunnerCopy.sheetMobiLine(total: 10, notAnswered: 0, firstOpen: -1, marked: 2, firstMarked: 3),
-        '2 marked for review. Go to 4?',
-      );
-      expect(RunnerCopy.sheetMobiLine(total: 10, notAnswered: 0, firstOpen: -1, marked: 0, firstMarked: -1), 'All 10 answered.');
+    test('his line says what the sheet means, never the count printed above him', () {
+      expect(RunnerCopy.sheetMobiLine(open: [1, 2, 3, 4, 5, 6, 7, 8, 9], marked: [2]), 'Q2 to Q10 are blank and score 0.');
+      expect(RunnerCopy.sheetMobiLine(open: [6], marked: const []), 'Q7 is blank and scores 0.');
+      expect(RunnerCopy.sheetMobiLine(open: [2, 6, 8], marked: const []), 'Blanks score 0. The first is Q3.');
+      expect(RunnerCopy.sheetMobiLine(open: const [], marked: [3]), 'Q4 is marked. Its answer still counts.');
+      expect(RunnerCopy.sheetMobiLine(open: const [], marked: [3, 5]), 'Marked answers still count. The first is Q4.');
+      expect(RunnerCopy.sheetMobiLine(open: const [], marked: const []), isNull);
+      for (final line in [
+        RunnerCopy.sheetMobiLine(open: [1, 2, 3, 4, 5, 6, 7, 8, 9], marked: const []),
+        RunnerCopy.sheetMobiLine(open: [2, 6, 8], marked: const []),
+      ]) {
+        expect(line, isNot(contains('not answered')));
+      }
     });
   });
 

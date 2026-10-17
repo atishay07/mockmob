@@ -141,7 +141,7 @@ void main() {
     await settle(tester);
     expect(find.descendant(of: find.byType(SuggestionCard), matching: find.text('English')), findsOneWidget);
     expect(find.text('Quick practice, mixed chapters'), findsOneWidget);
-    expect(find.text('Your last paper was yesterday.'), findsOneWidget);
+    expect(find.text('Last paper: 1 of 2 right, yesterday.'), findsOneWidget);
   });
 
   testWidgets('a mock still running is the suggestion, with its fixed end time, and Resume opens it', (tester) async {

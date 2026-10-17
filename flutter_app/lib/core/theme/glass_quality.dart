@@ -74,8 +74,8 @@ class GlassBoot {
       final (savedRaw, savedAuto) = await (prefs.glassQuality(), prefs.glassAutoLite()).wait;
       final saved = GlassQuality.parse(savedRaw);
       var auto = savedAuto;
-      // First launch, nothing chosen yet: a phone with little memory (a weak GPU with it)
-      // starts on Lite, as the automatic step, never as the student's choice.
+      // First launch, nothing chosen yet: an Android Go class phone starts on Lite, as the
+      // automatic step, never as the student's choice.
       if (saved == null && !auto && await (lowMemory ?? deviceHasLowMemory)()) {
         auto = true;
         await prefs.setGlassAutoLite(true);
@@ -89,15 +89,20 @@ class GlassBoot {
   }
 }
 
-/// True on an Android phone that reports itself low on RAM or has under 4.5 GB in all (the
-/// 3 to 4 GB MediaTek phones many students use). False anywhere it cannot tell.
+/// True on an Android phone that reports itself as a low-RAM device (Android Go class, about
+/// 1 to 2 GB). False anywhere it cannot tell.
+///
+/// Memory size alone no longer starts a phone on Lite (v13 device walk): the old rule (under
+/// 4.5 GB in all) put most students' 3 to 4 GB phones, and the test emulator, on the dense tint,
+/// so the bar read as a flat opaque pill and the glass the owner asked for was never seen.
+/// Whether glass is too slow is measured instead: [GlassPerformanceWatch] steps Full down to
+/// Lite once the raster thread keeps missing its budget while scrolling.
 Future<bool> deviceHasLowMemory() async {
   if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) return false;
   try {
     final info = await const MethodChannel('in.mockmob.app/device').invokeMapMethod<String, Object?>('memory');
     if (info == null) return false;
-    final total = info['totalMb'];
-    return info['lowRam'] == true || (total is int && total > 0 && total < 4500);
+    return info['lowRam'] == true;
   } on Object {
     return false;
   }

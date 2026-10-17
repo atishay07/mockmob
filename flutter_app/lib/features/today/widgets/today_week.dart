@@ -228,8 +228,9 @@ class _Mark extends StatelessWidget {
       face = Container(
           width: size,
           height: size,
-          decoration: BoxDecoration(color: colors.volt, shape: BoxShape.circle, border: Border.all(color: colors.voltEdge)),
-          child: Icon(LucideIcons.check, size: 15, color: colors.voltInk),
+          // An ink check on a neutral disc: the screen's one volt belongs to its key (17 Oct).
+          decoration: BoxDecoration(color: colors.raised2, shape: BoxShape.circle, border: Border.all(color: colors.lineStrong)),
+          child: Icon(LucideIcons.check, size: 15, color: colors.ink),
       );
     } else {
       face = CustomPaint(

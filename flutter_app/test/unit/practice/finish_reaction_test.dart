@@ -44,6 +44,7 @@ void main() {
   });
 
   test('a negative score uses the minus sign', () {
-    expect(PracticeCopy.marksLine(m(0, 3, 0)), '−3 of 15 marks. 3 wrong answers cost 18 of the 18 marks you missed.');
+    expect(PracticeCopy.marksLine(m(0, 3, 0)), '−3 of 15 marks. You lost 18 marks to 3 wrong answers.');
+    expect(PracticeCopy.marksLine(m(0, 1, 9)), '−1 of 50 marks. You lost 6 marks to 1 wrong answer and left 45 unearned.');
   });
 }

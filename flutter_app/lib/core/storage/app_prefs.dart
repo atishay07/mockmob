@@ -33,7 +33,9 @@ class AppPrefs {
   static const _pendingWithdrawal = 'consent_withdrawal_pending';
   static const _notifLedger = 'notif_ledger';
   static const _glassQuality = 'glass_quality';
-  static const _glassAutoLite = 'glass_auto_lite';
+  // v2 (v13): the old flag was mostly set by the memory-size guess, which no longer steps glass
+  // down; a fresh key lets those phones start on Full again, and the raster watch re-decides.
+  static const _glassAutoLite = 'glass_auto_lite_v2';
   static const _coldOpenSeen = 'cold_open_seen';
 
   Future<bool> welcomeSeen() async => await _prefs.getBool(_welcomeSeen) ?? false;

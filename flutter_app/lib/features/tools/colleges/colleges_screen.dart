@@ -58,7 +58,7 @@ class CollegesScreen extends ConsumerWidget {
                     sliver: SliverToBoxAdapter(child: TabRootHeader(title: CollegesCopy.title)),
                   ),
                   const SliverToBoxAdapter(child: MmStaggerItem(index: 0, child: MyCollegesBlock())),
-                  SliverToBoxAdapter(child: MmStaggerItem(index: 1, child: CompassCard(primary: !empty))),
+                  SliverToBoxAdapter(child: MmStaggerItem(index: 1, child: const CompassCard())),
                   const SliverToBoxAdapter(child: MmStaggerItem(index: 2, child: _ToolsList())),
                   const SliverToBoxAdapter(child: ToolsNote(CollegesCopy.dataLine, top: MmRhythm.group)),
                   SliverToBoxAdapter(child: SizedBox(height: bottom + MmRhythm.section)),
@@ -101,10 +101,8 @@ class _MyCollegesBlockState extends ConsumerState<MyCollegesBlock> {
     final fresh = <String>{if (seen != null) for (final c in rows) if (!seen.contains(c.key)) c.key};
     if (view.ready) _seen = {for (final c in rows) c.key};
     final children = <Widget>[
-      ToolsHeading(
-        CollegesCopy.myColleges,
-        top: MmRhythm.group,
-        note: view.ready ? CollegesCopy.caption(view.list.count) : null,
+      _MyCollegesHeading(
+        caption: view.ready ? CollegesCopy.caption(view.list.count) : null,
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -228,6 +226,42 @@ class _MyCollegesBlockState extends ConsumerState<MyCollegesBlock> {
   }
 }
 
+/// "My colleges" with Edit centred on the title's line (the caption sits under both), so the key
+/// never floats beside the caption.
+class _MyCollegesHeading extends StatelessWidget {
+  const _MyCollegesHeading({required this.caption, required this.trailing});
+
+  final String? caption;
+  final Widget trailing;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmRhythm.group, MmSpace.s8, MmRhythm.item),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(child: Semantics(header: true, child: Text(CollegesCopy.myColleges, style: type.title))),
+              trailing,
+            ],
+          ),
+          if (caption != null) ...[
+            const SizedBox(height: MmSpace.s4),
+            Padding(
+              padding: const EdgeInsets.only(right: MmSpace.s8),
+              child: Text(caption!, style: type.caption.copyWith(color: colors.ink2)),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
 /// The student's estimate in one line, or what will fill it. Never a field.
 class EstimateBar extends ConsumerWidget {
   const EstimateBar({super.key, required this.estimate, required this.category, this.padding = const EdgeInsets.symmetric(horizontal: MmSpace.gutter)});
@@ -256,11 +290,9 @@ class EstimateBar extends ConsumerWidget {
               partial == null ? CollegesCopy.noEstimate : CollegesCopy.partial(partial.filled, [for (final m in partial.missing) subject(m)]),
               style: type.small.copyWith(color: colors.ink2),
             ),
-            // The quiet key's own padding pulled back, so its words line up with the line above.
-            Transform.translate(
-              offset: const Offset(-MmSpace.s16, 0),
-              child: KeyButton.quiet(label: CollegesCopy.typeEstimate, onPressed: () => showEstimateSheet(context)),
-            ),
+            // A real key (glass pill, 48 dp) under the line, so it reads as the way to act on it.
+            const SizedBox(height: MmSpace.s12),
+            KeyButton.secondary(label: CollegesCopy.typeEstimate, expanded: false, minHeight: 48, onPressed: () => showEstimateSheet(context)),
           ],
         ),
       );
@@ -379,12 +411,10 @@ class _EmptyColleges extends StatelessWidget {
   }
 }
 
-/// Admission Compass: what the student's subjects open, and the key in. The page's primary while
-/// the list has colleges; secondary while the primary is Choose your colleges.
+/// Admission Compass: what the student's subjects open, and the key in. Always a secondary key:
+/// the bar's Start key already holds the screen's volt (17 Oct).
 class CompassCard extends ConsumerWidget {
-  const CompassCard({super.key, this.primary = true});
-
-  final bool primary;
+  const CompassCard({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -435,10 +465,7 @@ class CompassCard extends ConsumerWidget {
               ],
             ),
             const SizedBox(height: MmSpace.s16),
-            if (primary)
-              KeyButton(label: CollegesCopy.openCompass, onPressed: open)
-            else
-              KeyButton.secondary(label: CollegesCopy.openCompass, onPressed: open),
+            KeyButton.secondary(label: CollegesCopy.openCompass, onPressed: open),
           ],
         ),
       ),

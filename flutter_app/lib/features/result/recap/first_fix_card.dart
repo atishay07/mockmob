@@ -54,14 +54,14 @@ class _FirstFixCardState extends ConsumerState<FirstFixCard> {
     if (leader != null && blanksOnly) {
       title = ResultCopy.startWithBlanks(leader.chapter);
       evidence = [
-        if (!m.isHeld) ...[_Cost(stat: leader, missed: m.breakdown.lost, roll: roll), const SizedBox(height: MmSpace.s12)],
+        if (!m.isHeld) ...[_Cost(stat: leader, missed: m.breakdown.lost, max: m.breakdown.max, roll: roll), const SizedBox(height: MmSpace.s12)],
         _Line(ResultCopy.blanksEvidence(leader.unattempted, leader.questions)),
       ];
       tiles = [for (final n in leader.blankNumbers) (n, BubbleState.blank)];
     } else if (leader != null) {
       title = ResultCopy.startWith(leader.chapter);
       evidence = [
-        if (!m.isHeld) ...[_Cost(stat: leader, missed: m.breakdown.lost, roll: roll), const SizedBox(height: MmSpace.s12)],
+        if (!m.isHeld) ...[_Cost(stat: leader, missed: m.breakdown.lost, max: m.breakdown.max, roll: roll), const SizedBox(height: MmSpace.s12)],
         _Line(ResultCopy.costMost),
         const SizedBox(height: MmSpace.s4),
         // The four counts, once, in one line: they are the evidence, not a second figure.
@@ -596,10 +596,13 @@ class _QuestionTile extends StatelessWidget {
 /// and a meter of the missed marks with this chapter's share lit. Both observed, never a forecast.
 /// The figure is the card's hero.
 class _Cost extends StatefulWidget {
-  const _Cost({required this.stat, required this.missed, required this.roll});
+  const _Cost({required this.stat, required this.missed, required this.max, required this.roll});
 
   final ChapterStat stat;
   final int missed;
+
+  /// What the paper holds: a negative score makes [missed] exceed it, and the words then drop the denominator.
+  final int max;
 
   /// The figure counts up (celebratory results only; a lower result is simply shown).
   final bool roll;
@@ -649,7 +652,7 @@ class _CostState extends State<_Cost> with SingleTickerProviderStateMixin {
     final blanks = widget.stat.wrong == 0;
     return Semantics(
       container: true,
-      label: ResultCopy.costLabel(cost, missed),
+      label: ResultCopy.costLabel(cost, missed, max: widget.max),
       excludeSemantics: true,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -661,7 +664,7 @@ class _CostState extends State<_Cost> with SingleTickerProviderStateMixin {
               // The figure rolls once its block has risen into place, landing with the meter.
               child: MonumentalNumber(
                 value: '$cost',
-                unit: ResultCopy.costUnit(missed),
+                unit: ResultCopy.costUnit(missed, max: widget.max),
                 style: type.figureHero,
                 roll: widget.roll,
                 delay: _CostState.settle,

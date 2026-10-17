@@ -117,7 +117,22 @@ abstract final class ResultCopy {
 
   // ---- Card 2, where the marks went ---------------------------------------------------------
 
-  static String breakdownTitle(int lost) => 'Where the other $lost marks went';
+  /// A negative score makes the lost marks exceed the paper (5 not earned and 1 taken off for a wrong
+  /// answer), so a paper of 50 would read "the other 51". There the title names no figure.
+  static String breakdownTitle(int lost, {int? max}) =>
+      max != null && lost > max ? 'Where the marks went' : 'Where the other $lost marks went';
+
+  /// A negative score, in one sentence that never counts more marks than the paper holds as one
+  /// total: "You lost 6 marks to 1 wrong answer and left 45 unearned." Blanks are said only when there are some.
+  static String negativeLoss(int wrong, int blank) {
+    final wrongPart = 'You lost ${wrong * 6} marks to ${plural(wrong, 'wrong answer')}';
+    return blank > 0 ? '$wrongPart and left ${blank * 5} unearned.' : '$wrongPart.';
+  }
+
+  /// The chapter behind it, with its marks and no denominator that is bigger than the paper:
+  /// "Financial Markets: 4 questions, 1 wrong, 3 blank, 21 marks."
+  static String negativeChapterDetail(String chapter, int questions, int wrong, int blank, int marks) =>
+      '$chapter: ${plural(questions, 'question')}, $wrong wrong, $blank blank, ${plural(marks, 'mark')}.';
   static String allScored(int max) => 'All $max marks scored.';
   static const rowScored = 'Scored';
   static const rowTakenOff = 'Taken off by wrong answers';
@@ -165,8 +180,12 @@ abstract final class ResultCopy {
   static const costMost = 'This chapter cost the most marks in this mock.';
 
   /// Beside the chapter's cost figure: "of 135 missed".
-  static String costUnit(int missed) => 'of $missed missed';
-  static String costLabel(int cost, int missed) => '$cost of the $missed marks you missed were in this chapter.';
+  ///
+  /// When the score is negative the marks missed exceed the paper, so the unit is just "marks".
+  static String costUnit(int missed, {int? max}) => max != null && missed > max ? 'marks' : 'of $missed missed';
+  static String costLabel(int cost, int missed, {int? max}) => max != null && missed > max
+      ? '${plural(cost, 'mark')} cost in this chapter.'
+      : '$cost of the $missed marks you missed were in this chapter.';
   static String chapterCounts(int q, int c, int w, int u) => '${plural(q, 'question')}: $c correct, $w wrong, $u not attempted.';
   static String blanksEvidence(int u, int q) => 'You did not attempt $u of $q questions here. Blank answers are not mistakes to repair.';
   static String wrongByNumber(int n) =>

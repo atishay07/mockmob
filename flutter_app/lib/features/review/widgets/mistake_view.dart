@@ -7,6 +7,7 @@ import '../../../core/domain/marks_at_stake.dart';
 import '../../../core/models/attempt.dart';
 import '../../../core/models/question.dart';
 import '../../../core/models/repair.dart';
+import '../../../core/models/repair_check.dart' show RepairCheckStatus;
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -31,6 +32,7 @@ class MistakeActions {
     required this.onRetry,
     required this.onReadKey,
     this.onGoTo,
+    this.onLeadCheck,
     this.onSelectTry,
     this.onCheckTry,
     this.onSkipTry,
@@ -50,6 +52,10 @@ class MistakeActions {
   /// Shows a step already reached (the run track, a swipe). Returns whether it moved. Null: the
   /// track is a picture only.
   final bool Function(int index)? onGoTo;
+
+  /// A saved repair opened again leads with "Check it held": its key brings the check question into
+  /// view (once). Null leaves the key as it was.
+  final VoidCallback? onLeadCheck;
 }
 
 /// "You also missed this question in Mock 3 on 12 October.", from the student's own record, with
@@ -77,6 +83,7 @@ class MistakeView extends StatelessWidget {
     this.tryNote,
     this.attempted,
     this.savedWhen,
+    this.checkLed = false,
   });
 
   final RepairRunState run;
@@ -87,6 +94,9 @@ class MistakeView extends StatelessWidget {
 
   /// When the saved repair on screen was made ("15 Oct, 8:05 PM"), or null.
   final String? savedWhen;
+
+  /// The saved repair's "Check it held" key has been used: the key goes back to moving on.
+  final bool checkLed;
 
   /// The cost line under "Check my answer" ("The reason uses 1 AI credit. You have 43.", "The key
   /// explanation is free."), or null when the balance is not known.
@@ -139,6 +149,12 @@ class MistakeView extends StatelessWidget {
     // quiet text under it. Nothing else on this screen is a second button.
     final retryHere = outcome is OutcomeFailed && outcome.failure.canRetry;
     final moveOn = run.isLast ? ReviewCopy.finish : ReviewCopy.nextMistake;
+    // A saved repair opened again: what is left to do on it is the check, so that is the key.
+    final leadCheck = !checkLed &&
+        savedWhen != null &&
+        actions.onLeadCheck != null &&
+        outcome is OutcomeExplained &&
+        outcome.response.check?.status == RepairCheckStatus.ready;
 
     // A checked try: the pick now leads, the paper's pick is the quiet earlier one, and the key is
     // known from the phone at once (the server's answer, when it comes, wins).
@@ -178,6 +194,11 @@ class MistakeView extends StatelessWidget {
                 key: PageStorageKey(step.item.key),
                 padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s48),
                 children: [
+                  // A saved repair says when it was made before anything else (F17).
+                  if (savedWhen != null) ...[
+                    Semantics(header: true, child: Text(ReviewCopy.repairedOn(savedWhen!), style: type.cardTitle)),
+                    const SizedBox(height: MmSpace.s4),
+                  ],
                   Text('${ReviewCopy.questionLabel(step.item.number)}, ${attempted ?? step.item.source}', style: type.caption.copyWith(color: colors.ink2)),
                   if (earlier case final e?) _EarlierLine(miss: e),
                   const SizedBox(height: MmSpace.s8),
@@ -273,11 +294,11 @@ class MistakeView extends StatelessWidget {
                   // While the explanation is made the key holds its place and shows its spinner: a
                   // working key, not a grey one that looks broken.
                   KeyButton(
-                    label: retryHere ? ReviewCopy.tryAgainKey : moveOn,
+                    label: retryHere ? ReviewCopy.tryAgainKey : (leadCheck ? CheckCopy.title : moveOn),
                     loading: loading,
-                    onPressed: retryHere ? actions.onRetry : actions.onNext,
+                    onPressed: retryHere ? actions.onRetry : (leadCheck ? actions.onLeadCheck : actions.onNext),
                   ),
-                  if (retryHere) Align(child: KeyButton.quiet(label: moveOn, onPressed: actions.onNext)),
+                  if (retryHere || leadCheck) Align(child: KeyButton.quiet(label: moveOn, onPressed: actions.onNext)),
                 ],
               ],
             ),
@@ -367,7 +388,8 @@ class MistakeView extends StatelessWidget {
           ),
         ];
       case OutcomeExplained(:final response, :final reopened, :final requestId):
-        final fine = finePrint(response, reopened: reopened, savedWhen: savedWhen);
+        // The header already says when it was made, so the small print says only that it cost nothing.
+        final fine = finePrint(response, reopened: reopened);
         return [
           // A repair made earlier and opened again is repaired too: its thread is simply there,
           // with no draw, since nothing new happened.

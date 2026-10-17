@@ -175,17 +175,23 @@ abstract final class RunnerCopy {
   static String received(DateTime at) => 'Saved on the server at ${formatTime12(at)}.';
   static String openResult(bool isMock) => isMock ? 'Open your sheet' : 'See your answers';
 
-  /// Mobi's one line on a practice's submit page: plain facts from the sheet, nothing more.
-  static String sheetMobiLine({
-    required int total,
-    required int notAnswered,
-    required int firstOpen,
-    required int marked,
-    required int firstMarked,
-  }) {
-    if (notAnswered > 0) return '$notAnswered not answered. Go to ${firstOpen + 1}?';
-    if (marked > 0) return '$marked marked for review. Go to ${firstMarked + 1}?';
-    return 'All $total answered.';
+  /// Mobi's one line on a practice's submit page: what the sheet means, never what the page
+  /// already prints (the counts and "Go to question 2" are right above him). [open] and [marked]
+  /// are zero-based question indexes. A full sheet with nothing marked gets no line, only a nod.
+  static String? sheetMobiLine({required List<int> open, required List<int> marked}) {
+    if (open.isNotEmpty) {
+      final first = open.first + 1;
+      final last = open.last + 1;
+      final inOneRun = open.last - open.first + 1 == open.length;
+      if (open.length == 1) return 'Q$first is blank and scores 0.';
+      if (inOneRun) return 'Q$first to Q$last are blank and score 0.';
+      return 'Blanks score 0. The first is Q$first.';
+    }
+    if (marked.isNotEmpty) {
+      final first = marked.first + 1;
+      return marked.length == 1 ? 'Q$first is marked. Its answer still counts.' : 'Marked answers still count. The first is Q$first.';
+    }
+    return null;
   }
 
   /// One honest line for answers the server does not have yet: where they are, and that they go

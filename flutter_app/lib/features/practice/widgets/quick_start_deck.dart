@@ -32,13 +32,15 @@ class QuickStartDeck extends StatelessWidget {
   static const String askId = 'ask';
 
   /// The glyph each quick-start choice draws, by id: `resume`, `quick`, `mock`, `nta`, `repair`,
-  /// `ask`.
+  /// `revise`, `smart`, `ask`.
   static ChoiceGlyphKind glyphFor(String id) => switch (id) {
     'resume' => ChoiceGlyphKind.resume,
     'quick' => ChoiceGlyphKind.quick,
     'mock' => ChoiceGlyphKind.mock,
     'nta' => ChoiceGlyphKind.nta,
     'repair' => ChoiceGlyphKind.repair,
+    'revise' => ChoiceGlyphKind.revise,
+    'smart' => ChoiceGlyphKind.smart,
     _ => ChoiceGlyphKind.ask,
   };
 

@@ -299,7 +299,8 @@ class _WhereYouStand extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(CollegesCopy.noEstimate, style: type.small.copyWith(color: colors.ink2)),
-            KeyButton.quiet(label: CollegesCopy.typeEstimate, onPressed: () => showEstimateSheet(context)),
+            const SizedBox(height: MmSpace.s12),
+            KeyButton.secondary(label: CollegesCopy.typeEstimate, expanded: false, minHeight: 48, onPressed: () => showEstimateSheet(context)),
           ],
         ),
       );

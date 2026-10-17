@@ -31,7 +31,6 @@ class OpenTab extends StatelessWidget {
               colors: [Color.lerp(colors.volt, Colors.white, pressed ? 0.04 : 0.14)!, colors.volt],
             ),
             shadows: [
-              BoxShadow(color: colors.voltGlow, blurRadius: 24, offset: const Offset(0, 8), spreadRadius: -6),
               const BoxShadow(color: Color(0x40000000), blurRadius: 2, offset: Offset(0, 1)),
             ],
           ),

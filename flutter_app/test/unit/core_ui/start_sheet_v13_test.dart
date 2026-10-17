@@ -8,7 +8,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/router/quick_start.dart';
 import 'package:mockmob/core/theme/theme.dart';
+import 'package:mockmob/core/widgets/widgets.dart' show MmPressable;
 import 'package:mockmob/features/practice/widgets/choice_deck.dart';
+import 'package:mockmob/features/practice/widgets/choice_glyphs.dart';
+import 'package:mockmob/core/art/art.dart' show SubjectEmblem;
 
 const _subjects = ['accountancy', 'business_studies', 'economics', 'english', 'general_test'];
 
@@ -18,6 +21,7 @@ const _following = StartMove(
   kind: 'practice',
 );
 const _repair = StartMove(title: 'Repair 4 mistakes in Ledgers', location: '/review/repair/a/q?count=4', kind: 'repair');
+const _revise = StartMove(title: 'Start Revise, 10 min', location: '/review/revise', kind: 'revise');
 
 Future<List<Uri>> _open(
   WidgetTester tester, {
@@ -228,6 +232,18 @@ void main() {
     }
   });
 
+  group('the hero's own object', () {
+    testWidgets('Revise draws the repeat object, never the Quick practice bolt', (tester) async {
+      await _open(tester, move: _revise);
+      expect(find.text('Start Revise, 10 min'), findsOneWidget);
+      final kinds = [for (final g in tester.widgetList<ChoiceGlyph>(find.byType(ChoiceGlyph))) g.kind];
+      expect(kinds, contains(ChoiceGlyphKind.revise));
+      // The one bolt on the sheet is the Quick 10 row's own, never the lead's.
+      final lead = find.descendant(of: find.byKey(const ValueKey('choice-tonight')), matching: find.byType(ChoiceGlyph));
+      expect(tester.widget<ChoiceGlyph>(lead.first).kind, ChoiceGlyphKind.revise);
+    });
+  });
+
   group('the subject rail', () {
     testWidgets('the chosen object is sharp; every other one is blurred, dimmer and smaller', (tester) async {
       await _open(tester, move: _following);
@@ -235,11 +251,25 @@ void main() {
       expect(find.descendant(of: find.byKey(const ValueKey('start-subject-chips')), matching: find.byType(ImageFiltered)), findsNWidgets(_subjects.length - 1));
     });
 
-    testWidgets('a chip is 56 dp tall with a 64 dp object, and its target is at least 48 dp', (tester) async {
+    testWidgets('a chip is 76 dp tall and its 64 dp object sits whole inside the outline', (tester) async {
       await _open(tester, move: _following);
-      final chip = tester.getRect(find.byKey(const ValueKey('start-subject-chips')));
-      expect(chip.height, greaterThanOrEqualTo(56 + 14), reason: 'the object leans 14 dp over the chip');
+      final rail = tester.getRect(find.byKey(const ValueKey('start-subject-chips')));
+      expect(rail.height, closeTo(76 + 4, 0.5), reason: 'the chip plus 2 dp of air above and below, nothing leaning out');
       expect(tester.getSize(find.text('Accountancy')).height, lessThan(56));
+      // The chosen object (scaled to 106%) stays inside its chip: no briefcase over the outline.
+      final chosen = find.descendant(of: find.byKey(const ValueKey('start-subject-chips')), matching: find.byType(SubjectEmblem)).first;
+      final chip = find.ancestor(of: chosen, matching: find.byType(MmPressable)).first;
+      final emblem = tester.getRect(chosen);
+      final box = tester.getRect(chip);
+      expect(emblem.top, greaterThanOrEqualTo(box.top), reason: 'the object never rises over the chip top');
+      expect(emblem.bottom, lessThanOrEqualTo(box.bottom));
+    });
+
+    testWidgets('the rail fades the edge that has more chips behind it, never a hard cut', (tester) async {
+      await _open(tester, move: _following);
+      // Accountancy is first, so more chips wait on the right only: one fading mask, not two.
+      final mask = find.descendant(of: find.byType(QuickStartSheet), matching: find.byType(ShaderMask));
+      expect(mask, findsWidgets);
     });
 
     testWidgets('the rail keeps the chosen chip in view and its name sharp at 1.3x', (tester) async {

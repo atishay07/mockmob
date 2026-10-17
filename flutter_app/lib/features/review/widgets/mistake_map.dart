@@ -243,7 +243,12 @@ class _ChapterRow extends StatelessWidget {
   Widget _paperKey(List<PaperOpen> papers, int i) {
     final label = papers.length == 1
         ? ReviewCopy.repairGroupKey(papers[i].items.length)
-        : ReviewCopy.repairGroupFromKey(papers[i].items.length, papers[i].source);
+        : ReviewCopy.repairGroupFromKey(
+            papers[i].items.length,
+            papers[i].source,
+            // Two papers with the same name (two Quick practices) are told apart by their day.
+            date: papers.where((p) => p.source == papers[i].source).length > 1 ? formatDayMonthShort(papers[i].foundAt) : null,
+          );
     void go() => onOpen(papers[i].items.first);
     if (i == 0 && leadKeyPrimary) return KeyButton(label: label, onPressed: go);
     if (i == 0) return KeyButton.secondary(label: label, onPressed: go);

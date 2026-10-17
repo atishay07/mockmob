@@ -11,6 +11,7 @@ import 'package:flutter/rendering.dart' show RenderAbstractViewport, RenderParag
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/domain/next_move.dart' show NextMoveState;
+import '../../../core/motion/mm_scroll_behavior.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
@@ -653,9 +654,9 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
 
     final scroll = CustomScrollView(
       controller: _scroll,
-      // The content never moves on a pull (MOTION.md C10): the platform's clamping physics, with
-      // the pull drawn as a ring under the status bar.
-      physics: const AlwaysScrollableScrollPhysics(),
+      // The page bounces at both ends (GLASS-1017 B1, the owner's F3): it travels with the finger,
+      // springs back, and a pull from the top opens a gap for the refresh ring.
+      physics: MmScrollBehavior.page,
       slivers: [
         SliverPadding(
           padding: EdgeInsets.fromLTRB(
@@ -682,9 +683,9 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
               constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
               child: refresh == null
                   ? scroll
-                  // The app's own pull (C10): changed numbers roll from the values they showed, and
-                  // the page's entrance never replays (it belongs to the page, not to the data).
-                  // The top edge answers with the ring alone; the bottom keeps the stretch (M16).
+                  // The app's own pull (C10): the page travels down with the finger, the ring rides in
+                  // the gap, changed numbers roll from the values they showed, and the page's entrance
+                  // never replays (it belongs to the page, not to the data).
                   : MmPullRefresh(
                       onRefresh: _refresh,
                       child: scroll,
@@ -881,7 +882,7 @@ class _MoreBelowCueState extends State<MoreBelowCue> with SingleTickerProviderSt
                           final y = math.sin(_bob.value * math.pi) * 2;
                           return Transform.translate(offset: Offset(0, y), child: child);
                         },
-                        child: Icon(LucideIcons.chevronDown, size: 16, color: colors.isNight ? colors.volt : colors.accentText),
+                        child: Icon(LucideIcons.chevronDown, size: 16, color: colors.ink2),
                       ),
                     ],
                   ),

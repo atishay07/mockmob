@@ -166,7 +166,6 @@ class _LedgerHeroState extends ConsumerState<LedgerHero> {
     final counts = SheetCounts.of(l.right, l.wrong, l.blank);
     final haptics = mmHapticsOf(context);
     return LitEdge(
-      glow: true,
       child: FakeGlass(
         lamp: true,
         opacity: colors.isNight ? 0.5 : 0.8,

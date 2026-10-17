@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockmob/core/widgets/widgets.dart' show MmChip;
+import 'package:mockmob/core/widgets/widgets.dart' show ChipRail, MmChip, SelectBubble;
 import 'package:mockmob/features/you/you_hub_screen.dart';
 
 import '../../helpers/golden_harness.dart';
@@ -64,5 +64,24 @@ void main() {
     // The last section cannot rise past the page's end: it shows whole, with its chip lit.
     expect(tester.getTopLeft(find.text('My subjects')).dy, lessThan(853 - 200));
     expect(tester.widget<MmChip>(find.widgetWithText(MmChip, 'Subjects')).selected, isTrue);
+  });
+
+  testWidgets("the section chips carry no bubble: chosen is a fill and a heavier word", (tester) async {
+    await pump(tester);
+    expect(find.descendant(of: find.byType(MmChip), matching: find.byType(SelectBubble)), findsNothing);
+  });
+
+  testWidgets("the pinned row is clear at rest and an opaque band with a hairline once content slides under it", (tester) async {
+    await pump(tester);
+    BoxDecoration band() => tester.widget<AnimatedContainer>(find.ancestor(of: find.byType(ChipRail), matching: find.byType(AnimatedContainer)).first).decoration! as BoxDecoration;
+    expect(band().color!.a, 0, reason: "at rest the row sits clear on the ground");
+    await tester.tap(find.widgetWithText(MmChip, "Week"));
+    await tester.pumpAndSettle();
+    final scrollable = tester.state<ScrollableState>(find.byWidgetPredicate((w) => w is Scrollable && w.axisDirection == AxisDirection.down).first);
+    scrollable.position.jumpTo(scrollable.position.maxScrollExtent);
+    await tester.pumpAndSettle();
+    final stuck = band();
+    expect(stuck.color!.a, 1, reason: "nothing behind the chips shows through the pinned row");
+    expect((stuck.border! as Border).bottom.color.a, greaterThan(0), reason: "a hairline closes the band");
   });
 }

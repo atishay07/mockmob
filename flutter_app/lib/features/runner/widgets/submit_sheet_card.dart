@@ -13,8 +13,8 @@ import 'answer_sheet_view.dart';
 
 /// The whole answer sheet on the submit page: the answered count, every bubble as it will be
 /// handed in, and the two counts that matter before letting go. It sits on the page itself, no
-/// box around it: one full-width volt rule above it is the page's one lit edge (grey once the
-/// sheet could not be handed in), and the sheet, the counts and their hairlines carry the rest.
+/// box around it: one full-width hairline rule above it (never volt: the submit key is the page's
+/// one volt), and the sheet, the counts and their hairlines carry the rest.
 ///
 /// While the student can still change their mind ([onGoTo] given) each count is also a way back:
 /// "5 not answered" takes them to question 9, the first without an answer. The counts are a
@@ -23,7 +23,6 @@ class SubmitSheetCard extends StatelessWidget {
   const SubmitSheetCard({
     super.key,
     required this.session,
-    this.lit = true,
     this.phase = SheetPhase.review,
     this.onGoTo,
     this.animateInk = true,
@@ -38,9 +37,6 @@ class SubmitSheetCard extends StatelessWidget {
   final bool pulseOpen;
 
   final RunnerSession session;
-
-  /// The volt edge; off once the sheet could not be handed in.
-  final bool lit;
 
   /// What the sheet is showing: pencil marks, the scan while sending, or the ink once received.
   final SheetPhase phase;
@@ -71,7 +67,7 @@ class SubmitSheetCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         // A whole rule, edge to edge (never a gradient that fades out at its ends).
-        SizedBox(height: 2, child: ColoredBox(color: lit ? colors.volt : colors.line)),
+        SizedBox(height: 1, child: ColoredBox(color: colors.line)),
         const SizedBox(height: MmSpace.s16),
         Text(paper, style: type.caption.copyWith(color: colors.ink3)),
         const SizedBox(height: MmSpace.s8),

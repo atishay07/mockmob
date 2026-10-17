@@ -7,9 +7,10 @@ import '../../copy/formatters.dart' show formatTime12;
 
 /// What the live capsule above the bar can say (DOCK.md section 5.3). One at most, built only
 /// from real state, highest priority first: [BarSending] (and [BarSaved] after the server's
-/// 200), [BarMarked], [BarResume], [BarOffline] (and [BarSynced] once the queue drains), and
-/// last [BarMove]: tonight's move, on Today only, while the hero's own key is off-screen
-/// (MOTION.md 5.1, which retires the old sticky move bar so one thing floats above the bar).
+/// 200), [BarMarked], [BarResume] (only once a paper has real answers in it), and
+/// [BarOffline] (and [BarSynced] once the queue drains). The shell no longer shows [BarMove]
+/// (tonight's move): it repeated the hero's own action and made a third floating layer at the
+/// thumb (v13 clutter fix, 17 Oct); the type stays for the Today publisher and its tests.
 enum BarLiveKind { sending, saved, marked, resume, offline, synced, move }
 
 @immutable
@@ -24,6 +25,14 @@ sealed class BarLive {
 
   /// The rest of the line, cut first when space runs out ("41 min left"), or null.
   String? get detail;
+
+  /// The part of [title] that gives way to an ellipsis when the line is too long ("Business
+  /// Studies mock"); by default the whole title.
+  String get titleName => title;
+
+  /// The part of [title] that is never cut ("0 of 50"), or null. The line reads
+  /// "[titleName], [titleTail]".
+  String? get titleTail => null;
 
   /// The action word at the end ("Resume"), or null when the capsule only reports.
   String? get action => null;
@@ -138,6 +147,10 @@ class BarResume extends BarLive {
   BarLiveKind get kind => BarLiveKind.resume;
   @override
   String get title => answered == null ? paper : '$paper, $answered of $total';
+  @override
+  String get titleName => paper;
+  @override
+  String? get titleTail => answered == null ? null : '$answered of $total';
   @override
   String? get detail {
     final left = minutesLeft;
@@ -288,7 +301,10 @@ final barLiveProvider = Provider<BarLive?>((ref) {
   final marked = ref.watch(barMarkedInputProvider);
   if (marked != null) return marked;
   final resume = ref.watch(barResumeInputProvider);
-  if (resume != null) {
+  // Only a paper with real answers in it is "in progress". An opened paper with none yet (or one
+  // whose journal has not been read) is not worth a floating strip: the Start key already offers
+  // Resume, and Today's hero names it.
+  if (resume != null && (resume.answered ?? 0) > 0) {
     final now = resume.endsAt == null ? null : ref.watch(barMinuteProvider);
     return BarResume(
       sessionId: resume.sessionId,

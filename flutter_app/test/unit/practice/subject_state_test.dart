@@ -74,7 +74,7 @@ void main() {
     expect(tiles.selectedId, 'accountancy');
     final card = tester.widget<SuggestionCard>(find.byType(SuggestionCard));
     expect(card.subjectId, 'accountancy');
-    expect(card.overline, PracticeCopy.upNextIn('Accountancy'));
+    expect(card.overline, isNull, reason: 'one title: the card names the subject once, with no "Up next in" line over it');
   });
 
   testWidgets('picking another tile moves the card to that subject; the modes stay and do not rise again', (tester) async {
@@ -101,7 +101,7 @@ void main() {
 
     final cards = tester.widgetList<SuggestionCard>(find.byType(SuggestionCard)).toList();
     expect(cards.last.subjectId, 'english');
-    expect(cards.last.overline, PracticeCopy.upNextIn('English'));
+    expect(cards.last.overline, isNull);
     // The same Quick practice element: the deck was not rebuilt for the new subject.
     expect(find.text(PracticeCopy.quickTitle).evaluate().single, same(quickBefore));
     expect(tester.widget<SubjectTiles>(find.byType(SubjectTiles)).selectedId, 'english');

@@ -404,7 +404,9 @@ class _ChapterListState extends ConsumerState<ChapterList> {
                     style: type.small.copyWith(color: _capTaps.value > 0 && widget.chosen.value.length >= maxChapters ? colors.ink : colors.ink3),
                   ),
                 ),
-                if (multi) _RecordRow(subjectId: widget.subjectId, chosen: widget.chosen.value, onToggle: (name) => _toggle(name, multi)),
+                // While searching, the results come first: the shortcut chips repeat rows the list
+                // has (and rarely match what was typed), and they pushed the matches under the keys.
+                if (multi && _query.isEmpty) _RecordRow(subjectId: widget.subjectId, chosen: widget.chosen.value, onToggle: (name) => _toggle(name, multi)),
                 _Units(
                   units: catalog.units,
                   query: _query,
@@ -569,6 +571,13 @@ class _SearchField extends StatelessWidget {
   }
 }
 
+/// A search string or a name as the picker compares them: lower case, "&" read as "and", and
+/// anything that is not a letter or digit folded to one space ("Nature & Significance" and
+/// "nature and significance" meet).
+@visibleForTesting
+String normalizeChapterQuery(String text) =>
+    text.toLowerCase().replaceAll('&', ' and ').replaceAll(RegExp(r'[^a-z0-9]+'), ' ').trim();
+
 class _Units extends StatelessWidget {
   const _Units({required this.units, required this.query, required this.chosen, required this.full, required this.onToggle});
 
@@ -585,13 +594,19 @@ class _Units extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final children = <Widget>[];
+    // A subject whose every unit holds one chapter (Business Studies) has nothing to group: the
+    // unit's title would only say the chapter's name twice, so the list runs flat.
+    final flat = units.every((u) => u.chapters.length <= 1);
+    final q = normalizeChapterQuery(query);
     for (final unit in units) {
+      // A unit that matches shows all its chapters; otherwise only the chapters that match.
+      final unitHit = q.isNotEmpty && normalizeChapterQuery(unit.name).contains(q);
       final rows = [
         for (final c in unit.chapters)
-          if (query.isEmpty || c.name.toLowerCase().contains(query)) c,
+          if (q.isEmpty || unitHit || normalizeChapterQuery(c.name).contains(q)) c,
       ];
       if (rows.isEmpty) continue;
-      if (unit.name.isNotEmpty) {
+      if (unit.name.isNotEmpty && !flat) {
         children.add(
           Padding(
             padding: const EdgeInsets.fromLTRB(MmSpace.s4, MmSpace.s20, MmSpace.s4, MmSpace.s4),

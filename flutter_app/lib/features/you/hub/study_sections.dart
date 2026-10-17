@@ -84,8 +84,9 @@ class BestsRows extends ConsumerWidget {
 
     final run = rhythm == null ? 0 : math.max(rhythm.bestRun, rhythm.weeksMetStreak);
     if (rhythm != null) {
+      // Until a run is at least a week there is nothing to measure: no "0 weeks", only the empty line.
       rows.add(_BestRow(
-        value: plural(run, 'week'),
+        value: run == 0 ? null : plural(run, 'week'),
         label: YouCopy.bestRunLabel,
         note: run == 0 ? YouCopy.bestRunFirst : YouCopy.bestRunNow(rhythm.weeksMetStreak),
       ));
@@ -131,7 +132,8 @@ class BestsRows extends ConsumerWidget {
 class _BestRow extends StatelessWidget {
   const _BestRow({required this.value, required this.label, required this.note});
 
-  final String value;
+  /// Null where nothing is measured yet: the row is then its label and one empty line.
+  final String? value;
   final String label;
   final String note;
 
@@ -139,27 +141,30 @@ class _BestRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
+    final figure = value;
     return MmPressable(
       onTap: () => context.push(AppRoutes.youBests),
       haptic: MmPressHaptic.selection,
       highlight: true,
       pressedScale: 0.985,
       focusRadius: MmRadius.smallAll,
-      semanticsLabel: '$label: $value. $note',
+      semanticsLabel: figure == null ? '$label. $note.' : '$label: $figure. $note',
       builder: (context, pressed, focused) => ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 64),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: youText, vertical: MmSpace.s8),
           child: Row(
             children: [
-              ConstrainedBox(
-                constraints: const BoxConstraints(minWidth: 112),
-                child: Text(
-                  value,
-                  style: type.figure.copyWith(fontSize: 28, height: 32 / 28, fontFeatures: const [FontFeature.tabularFigures()]),
+              if (figure != null) ...[
+                ConstrainedBox(
+                  constraints: const BoxConstraints(minWidth: 112),
+                  child: Text(
+                    figure,
+                    style: type.figure.copyWith(fontSize: 28, height: 32 / 28, fontFeatures: const [FontFeature.tabularFigures()]),
+                  ),
                 ),
-              ),
-              const SizedBox(width: MmSpace.s12),
+                const SizedBox(width: MmSpace.s12),
+              ],
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

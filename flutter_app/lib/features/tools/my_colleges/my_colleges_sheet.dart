@@ -667,7 +667,7 @@ class _MyCollegesSheetState extends ConsumerState<MyCollegesSheet> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(e.college, style: type.labelLarge.copyWith(color: on ? colors.ink : colors.ink2)),
-                    if (n != null && n <= 3) Text(CollegesCopy.onToday, style: type.caption.copyWith(color: colors.accentText)),
+                    if (n != null && n <= 3) Text(CollegesCopy.onToday, style: type.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600)),
                     if (verdict != null) Text(verdictWords(verdict), style: type.caption.copyWith(color: colors.ink3)),
                   ],
                 ),
@@ -696,7 +696,9 @@ class _MyCollegesSheetState extends ConsumerState<MyCollegesSheet> {
   }
 }
 
-/// The ladder's rail bubble: an empty ring, or volt with the pick number (it grows in on a spring).
+/// The ladder's rail bubble: an empty ring, or an ink ring with the pick number (it grows in on a
+/// spring). Ink, not a volt disc: the screen's volt belongs to its key. The first three (the
+/// colleges on Today) take the heavier ring.
 class _PickBubble extends StatelessWidget {
   const _PickBubble({required this.n});
 
@@ -713,15 +715,15 @@ class _PickBubble extends StatelessWidget {
       height: 28,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: on ? colors.volt : Colors.transparent,
-        border: on ? null : Border.all(color: colors.lineStrong, width: 1.4),
+        color: Colors.transparent,
+        border: Border.all(color: on ? ((n ?? 9) <= 3 ? colors.ink : colors.ink2) : colors.lineStrong, width: on && (n ?? 9) <= 3 ? 1.6 : 1.4),
       ),
       alignment: Alignment.center,
       child: MmOverlapSwitcher.rise(
         duration: Motion.card,
         alignment: Alignment.center,
         child: on
-            ? Text('$n', key: ValueKey(n), textScaler: TextScaler.noScaling, style: context.mmType.caption.copyWith(fontSize: 13, height: 1, fontWeight: FontWeight.w700, color: colors.voltInk))
+            ? Text('$n', key: ValueKey(n), textScaler: TextScaler.noScaling, style: context.mmType.caption.copyWith(fontSize: 13, height: 1, fontWeight: FontWeight.w700, color: (n ?? 9) <= 3 ? colors.ink : colors.ink2))
             : Icon(LucideIcons.plus, key: const ValueKey('plus'), size: 14, color: colors.ink3),
       ),
     );
