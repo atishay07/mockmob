@@ -1,139 +1,145 @@
 "use client";
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, BookOpenText, Brain, Target, Timer, ChevronRight } from 'lucide-react';
-import { SubjectIcon } from '@/components/ui/Glyph';
+import { ChevronRight, Search } from 'lucide-react';
+import { SmoothDetails } from '@/components/ui/controls/SmoothDetails';
 import { SubjectObject } from '@/components/brand/SubjectObject';
-import { useInView } from '@/lib/motion';
-import { SUBJECTS, STATUS, friendlyError, practiceHref, subjectName, whenDue } from './studyCopy';
+import { conceptsPick, lessonRow, loseMarks, allChapters, searchConcepts, recordLine } from '@/../data/study/concepts_pick.mjs';
+import { lessonHref } from '@/../data/study/lesson_map.mjs';
+import { invalidateReview, useReview } from '@/lib/reviewRead';
+import UnitRing from './UnitRing';
+import { SUBJECTS, friendlyError, practiceHref, subjectName } from './studyCopy';
+import './concepts.css';
 
 const newKey = () => crypto.randomUUID().replace(/[^a-zA-Z0-9_-]/g, '');
+const MINUS = '−';
+const LOSE_ROWS = 4;
+// The switch lists the four subjects by name, so the order does not move with the student's data.
+const SWITCH = [...SUBJECTS].sort((a, b) => a[1].localeCompare(b[1]));
 
-// What a lesson row's ring shows, from the real status: New (empty ring), In progress (an arc of the
-// steps already done), Read (a full arc, recall still to do), Review due (a badge), Done (a tick).
-function ringShape(u) {
-  if (u.status === 'in_progress' && u.inProgress?.total) return { k: 'arc', f: Math.max(0, Math.min(1, (u.inProgress.step - 1) / u.inProgress.total)) };
-  if (u.status === 'lock_in') return { k: 'read', f: 1 };
-  if (u.status === 'due') return { k: 'due', f: 1, n: u.memory?.due || 0 };
-  if (u.status === 'learned') return { k: 'done', f: 1 };
-  return { k: 'new', f: 0 };
+const Lost = ({ marks }) => <span className="cx-lost">{MINUS}{marks}<span className="cx-sr"> marks lost</span></span>;
+const fromText = (from) => (from ? `chapter:${from.subject}:${from.chapter}` : null);
+const fromChapter = (unit) => ({ kind: 'chapter', subject: unit.subject, chapter: unit.chapter });
+
+// One lesson in a list: its ring, title, one line of what is true about it, and its time (or Read). `from` says which moment it was
+// opened from, so the lesson page can say why the student is there (5.10).
+function Lesson({ unit, from = null, sub = null, onOpen }) {
+  const row = lessonRow(unit);
+  return <li><Link className="cx-lesson" href={lessonHref({ href: `/learn/${encodeURIComponent(unit.id)}` }, from)} onClick={(e) => onOpen(e, unit.id, fromText(from))}>
+    <UnitRing unit={unit} /><span className="cx-lesson__main"><b>{row.title}</b><span>{sub || row.line}</span></span>{row.trailing ? <em>{row.trailing}</em> : null}
+  </Link></li>;
 }
 
-// The ring remembers what it showed last time in this browser, so it only plays its move when
-// the lesson really changed since (after a run), and stays still otherwise.
-const RING_KEY = 'mm:unit-ring:v1';
-function readRing(id) {
-  try { const map = JSON.parse(window.localStorage.getItem(RING_KEY) || '{}'); return map[id] || null; } catch { return null; }
-}
-function writeRing(id, shape) {
-  try {
-    const map = JSON.parse(window.localStorage.getItem(RING_KEY) || '{}');
-    map[id] = { k: shape.k, f: shape.f };
-    window.localStorage.setItem(RING_KEY, JSON.stringify(map));
-  } catch { /* Without storage the ring just does not animate. */ }
-}
-
-function UnitRing({ unit }) {
-  const shape = ringShape(unit);
-  const [prev] = useState(() => (typeof window === 'undefined' ? null : readRing(unit.id)));
-  const [ref, seen] = useInView({ threshold: 0.6 });
-  const changed = Boolean(prev) && (prev.k !== shape.k || Math.abs((prev.f || 0) - shape.f) > 0.001);
-  useEffect(() => { if (seen) writeRing(unit.id, shape); }, [seen, unit.id, shape.k, shape.f]); // eslint-disable-line react-hooks/exhaustive-deps
-  const from = changed ? (prev.k === 'new' ? 0 : prev.f || 0) : shape.f;
-  return <span ref={ref} className="sx-ring" data-k={shape.k} data-changed={changed && seen ? 'true' : undefined} role={shape.k === 'new' ? 'img' : undefined} aria-label={shape.k === 'new' ? 'Not started' : undefined} aria-hidden={shape.k === 'new' ? undefined : true}>
-    <svg viewBox="0 0 36 36" width="36" height="36" aria-hidden="true">
-      <circle className="sx-ring__track" cx="18" cy="18" r="14" />
-      {shape.k !== 'new' && shape.k !== 'done' ? <circle className="sx-ring__arc" cx="18" cy="18" r="14" pathLength="1" transform="rotate(-90 18 18)" style={{ '--to': shape.f, '--from': from }} /> : null}
-      {shape.k === 'done' ? <><circle className="sx-ring__arc" cx="18" cy="18" r="14" pathLength="1" transform="rotate(-90 18 18)" style={{ '--to': 1, '--from': changed ? 0 : 1 }} /><path className="sx-ring__tick" d="M11.5 18.5l4.4 4.4 8.6-9.4" pathLength="1" /></> : null}
-    </svg>
-    {shape.k === 'due' && shape.n ? <i className="sx-ring__badge">{shape.n > 9 ? '9+' : shape.n}</i> : null}
-  </span>;
-}
-
-// A small stack of recall cards beside the review call to action. It breathes while it waits and
-// the top card slides off when the review starts.
-function CardStack({ count, leaving }) {
-  const depth = Math.max(1, Math.min(3, count || 1));
-  return <span className="sx-stack" data-leaving={leaving ? 'true' : undefined} aria-hidden="true">
-    {Array.from({ length: depth }, (_, i) => <i key={i} style={{ '--d': i }} />).reverse()}
-  </span>;
-}
-
+// Concepts, the lesson library (LEARN-REVIEW-1017 5.9). Lessons come to the student: the one lesson to read next is chosen from
+// where marks are being lost (data/study/concepts_pick.mjs, from GET /api/me/review), then the chapters that cost marks with
+// their lessons, then every chapter of the subject. Due recall cards are Revise's now, so they are a quiet row here, never the key.
 export default function StudyLibrary({ catalog, api, onOpenRun, onOpenUnit, initialSubject, prefsSlot }) {
-  const firstSubject = SUBJECTS.some(s => s[0] === initialSubject) ? initialSubject : (catalog.nextUnit?.subject || catalog.preferences?.subjects?.[0] || 'english');
-  const [subject, setSubject] = useState(firstSubject), [busy, setBusy] = useState(false), [error, setError] = useState(null);
-  const [reviewKey, setReviewKey] = useState(newKey), [leaving, setLeaving] = useState(false);
+  const review = useReview({ get: api.get });
+  const [chosen, setChosen] = useState(SUBJECTS.some((s) => s[0] === initialSubject) ? initialSubject : null);
+  const [busy, setBusy] = useState(null), [error, setError] = useState(null), [query, setQuery] = useState('');
+  const keys = useRef({});
+  const loading = review === undefined;
+  const pick = loading ? null : conceptsPick({ catalog, review });
+  const firstSubject = catalog.nextUnit?.subject || catalog.preferences?.subjects?.[0] || 'english';
+  // The subject follows the lesson on the panel until the student picks one themselves, so the two never disagree.
+  const subject = chosen || pick?.unit?.subject || firstSubject;
+  const units = catalog.units;
+  const syllabus = catalog.subjects.find((s) => s.subject === subject);
+  const rec = recordLine(catalog);
   const q = catalog.queue;
-  const startReview = async () => {
-    setBusy(true); setError(null); setLeaving(true);
-    try { onOpenRun(await api.post('/api/study/runs', { mode: 'recall', requestKey: reviewKey })); }
-    catch (e) { setReviewKey(newKey()); setError(friendlyError(e)); setLeaving(false); } finally { setBusy(false); }
-  };
-  const open = (e, id) => { if (onOpenUnit) { e.preventDefault(); onOpenUnit(id); } };
-  const bySubject = useMemo(() => Object.fromEntries(SUBJECTS.map(([id]) => [id, catalog.units.filter(u => u.subject === id)])), [catalog.units]);
-
-  // One clear next action: unfinished work, then due reviews, then the recommended lesson.
   const active = catalog.active;
-  const next = catalog.nextUnit && catalog.units.find(u => u.id === catalog.nextUnit.id);
-  const hero = active ? { title: active.mode === 'learn' ? `Finish “${active.title}”` : 'Finish your review', text: `You stopped at ${active.mode === 'learn' ? 'step' : 'card'} ${active.step} of ${active.total}. Everything before it is saved.`, cta: 'Continue', href: `/study/${active.id}`, icon: BookOpenText }
-    : q.dueCount ? { title: `${q.dueCount} ${q.dueCount === 1 ? 'card is' : 'cards are'} due for review`, text: `About ${Math.max(2, Math.ceil(Math.min(q.dueCount, 10) * 0.5))} minutes. Reviewing on time is what keeps lessons from fading before the exam.`, cta: 'Start review', action: startReview, icon: Brain }
-    : next ? { title: catalog.progress.lessonsRead ? `Next lesson: ${next.title}` : `Start here: ${next.title}`, text: `${catalog.nextUnit.reason}, ${next.estimatedMinutes} min`, cta: 'Open lesson', href: `/learn/${next.id}`, unitId: next.id, icon: BookOpenText }
-    : q.availableCount ? { title: `Lock in ${q.newCount} new ${q.newCount === 1 ? 'card' : 'cards'}`, text: 'From lessons you have already read.', cta: 'Start', action: startReview, icon: Brain }
-    : { title: 'You’re up to date', text: 'Every published lesson is read and nothing is due. Practise a chapter or take a mock to find what to study next.', cta: 'Practise questions', href: '/dashboard', icon: Target };
 
-  const units = bySubject[subject] || [];
-  const syllabus = catalog.subjects.find(s => s.subject === subject);
-  const taught = syllabus?.chapters.filter(c => units.some(u => u.chapter === c.title)) || [];
-  const untaught = syllabus?.chapters.filter(c => !units.some(u => u.chapter === c.title)) || [];
-  return <div className="sx sx-library">
-    <header className="sx-library__head">
-      <h1>Learn</h1>
-      <p className="sx-lede">Short lessons on CUET chapters. Learn one concept, lock it in from memory, then prove it on exam-style questions.</p>
+  const open = (event, id, from) => { if (onOpenUnit) { event.preventDefault(); onOpenUnit(id, from); } };
+  const run = async (name, body, key) => {
+    setBusy(name); setError(null); keys.current[key] ||= newKey();
+    try { onOpenRun(await api.post('/api/study/runs', { ...body, requestKey: keys.current[key] })); }
+    catch (e) { keys.current[key] = null; setError(friendlyError(e)); } finally { setBusy(null); }
+  };
+  const startLesson = () => run('lesson', { mode: 'learn', unitId: pick.run.unitId }, `learn:${pick.run.unitId}`);
+  const startRecall = () => run('recall', { mode: 'recall' }, 'recall');
+
+  const results = useMemo(() => searchConcepts(query, { units, subjects: catalog.subjects }), [query, units, catalog.subjects]);
+  const lose = useMemo(() => (loading ? [] : loseMarks({ review, units, subject })), [loading, review, units, subject]);
+  const all = useMemo(() => allChapters({ subject, syllabus, units, review: loading ? null : review }), [subject, syllabus, units, review, loading]);
+
+  const dueCards = q?.dueCount || 0;
+  const recallMinutes = Math.max(2, Math.ceil(Math.min(dueCards, 10) * 0.5));
+
+  return <div className="sx sx-library cx">
+    <header className="cx-head">
+      <h1>Concepts</h1>
+      <p className="cx-lede">Short lessons on the ideas behind your mistakes.</p>
     </header>
-    <section className="sx-hero" aria-labelledby="sx-hero-title">
-      {hero.action ? <CardStack count={q.dueCount || q.newCount} leaving={leaving} /> : <hero.icon size={22} aria-hidden="true" className="sx-hero__icon" />}
-      <div className="sx-hero__body"><h2 id="sx-hero-title">{hero.title}</h2><p>{hero.text}</p></div>
-      {hero.action ? <button className="btn-volt md" type="button" onClick={hero.action} disabled={busy || !catalog.recallEnabled}>{hero.cta}</button>
-        : <Link className="btn-volt md" href={hero.href} onClick={hero.unitId ? e => open(e, hero.unitId) : undefined}>{hero.cta}</Link>}
-    </section>
-    <p className="sx-flow">Each concept takes three steps. <b>Learn</b> it in 5 to 7 minutes with worked examples and quick checks. <b>Lock it in</b> from memory in 2 to 3 minutes; the reviews are scheduled for you. <b>Apply</b> it on practice questions with marks, then in mocks.</p>
+    <div className="cx-board">
+      <div className="cx-main">
+        {loading ? <section className="cx-next cx-next--wait" aria-busy="true" aria-label="Finding your next lesson"><i /><i /><i /></section> : <section className="cx-next" aria-labelledby="cx-next-title" data-kind={pick.kind}>
+          <h2 id="cx-next-title" className="cx-next__title">{pick.title}</h2>
+          <p className="cx-next__line">{pick.lead ? <b>{pick.lead} </b> : null}{pick.reason}</p>
+          {pick.run
+            ? <button className="btn-volt cx-next__key" type="button" onClick={startLesson} disabled={Boolean(busy)} data-page-primary="">{pick.key}</button>
+            : <Link className="btn-volt cx-next__key" href={pick.href} data-page-primary="">{pick.key}</Link>}
+          {pick.cost ? <p className="cx-next__cost">{pick.cost}</p> : null}
+        </section>}
+        {error ? <div className="sx-alert" role="alert"><p>{error.text}</p></div> : null}
 
-    {active && q.dueCount ? <p className="sx-small">Also: {q.dueCount} {q.dueCount === 1 ? 'card is' : 'cards are'} due. <button type="button" className="sx-link" onClick={startReview} disabled={busy}>Review them</button></p> : null}
-    {error ? <div className="sx-alert" role="alert"><p>{error.text}</p></div> : null}
+        {active && active.mode === 'recall' ? <Link className="cx-row" href={`/study/${active.id}`}><b>Finish your Revise session</b><span>You stopped at card {active.step} of {active.total}. Everything before it is saved.</span><ChevronRight size={18} aria-hidden="true" /></Link> : null}
+        {dueCards && catalog.recallEnabled && !(active && active.mode === 'recall') ? <button className="cx-row" type="button" onClick={startRecall} disabled={Boolean(busy)}><b>Revise {dueCards} concept {dueCards === 1 ? 'card' : 'cards'}</b><span>From lessons you have read. About {recallMinutes} minutes, free.</span><ChevronRight size={18} aria-hidden="true" /></button> : null}
 
-    <div className="sx-tabs" role="tablist" aria-label="Subject">{SUBJECTS.map(([id, title]) => <button key={id} role="tab" id={`sx-tab-${id}`} aria-controls="sx-subject-panel" aria-selected={id === subject} tabIndex={id === subject ? 0 : -1} type="button" onClick={() => setSubject(id)}
-      onKeyDown={e => { const i = SUBJECTS.findIndex(s => s[0] === id); const to = e.key === 'ArrowRight' ? (i + 1) % 4 : e.key === 'ArrowLeft' ? (i + 3) % 4 : null; if (to !== null) { e.preventDefault(); setSubject(SUBJECTS[to][0]); document.getElementById(`sx-tab-${SUBJECTS[to][0]}`)?.focus(); } }}>
-      <SubjectIcon id={id} size={18} /><span>{title}</span><small>{bySubject[id].length}</small></button>)}</div>
+        <label className="cx-search"><Search size={18} aria-hidden="true" /><span className="cx-sr">Search chapters and lessons</span>
+          <input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search chapters and lessons" autoComplete="off" enterKeyHint="search" /></label>
 
-    <section id="sx-subject-panel" role="tabpanel" aria-labelledby={`sx-tab-${subject}`} className="sx-subject">
-      <div className="sx-subject__head">
-        <span key={subject} className="sx-subject__obj mk-pop" aria-hidden="true"><SubjectObject id={subject} size={112} framed={false} lit /></span>
-        <p className="sx-small">{units.length ? `${units.length} ${units.length === 1 ? 'lesson' : 'lessons'} across ${taught.length} of ${syllabus?.chapters.length || 0} chapters in ${subjectName(subject)}. More are added as each one passes its source checks.` : `${subjectName(subject)} lessons are still being prepared. Practice questions are available now.`}</p>
+        {results ? <section className="cx-sec" aria-labelledby="cx-results" aria-live="polite">
+          <div className="cx-sec__head"><h2 id="cx-results">Results</h2><p>{results.lessons.length + results.chapters.length ? `${results.lessons.length} ${results.lessons.length === 1 ? 'lesson' : 'lessons'}${results.chapters.length ? `, ${results.chapters.length} ${results.chapters.length === 1 ? 'chapter' : 'chapters'} without one` : ''}` : ''}</p></div>
+          {results.lessons.length || results.chapters.length ? <>
+            {results.lessons.length ? <ul className="cx-lessons">{results.lessons.map((u) => <Lesson key={u.id} onOpen={open} unit={u} from={fromChapter(u)} sub={`${subjectName(u.subject)}, ${u.chapter}`} />)}</ul> : null}
+            {results.chapters.length ? <ul className="cx-chapters">{results.chapters.map((c) => <li key={`${c.subject}:${c.id}`}><Link className="cx-row" href={practiceHref(c.subject, c.name)}><b>{c.name}</b><span>{subjectName(c.subject)}. No lesson yet. Practise the chapter</span><ChevronRight size={18} aria-hidden="true" /></Link></li>)}</ul> : null}
+          </> : <p className="cx-empty">Nothing matches that. Try a chapter name or a topic.</p>}
+        </section> : <>
+          <div className="cx-subjects" role="tablist" aria-label="Subject">{SWITCH.map(([id, title]) => <button key={id} role="tab" id={`cx-tab-${id}`} aria-controls="cx-subject-panel" aria-selected={id === subject} tabIndex={id === subject ? 0 : -1} type="button" onClick={() => setChosen(id)}
+            onKeyDown={(e) => { const i = SWITCH.findIndex((s) => s[0] === id); const to = e.key === 'ArrowRight' ? (i + 1) % 4 : e.key === 'ArrowLeft' ? (i + 3) % 4 : null; if (to !== null) { e.preventDefault(); setChosen(SWITCH[to][0]); document.getElementById(`cx-tab-${SWITCH[to][0]}`)?.focus(); } }}>
+            <SubjectObject id={id} size={36} framed={false} life={false} /><span>{title}</span></button>)}</div>
+
+          <div id="cx-subject-panel" role="tabpanel" aria-labelledby={`cx-tab-${subject}`} key={subject} className="cx-switch">
+            {loading ? <div className="cx-skel" aria-hidden="true"><i /><i /><i /></div> : <>
+              {review?.state === 'unavailable' ? <div className="cx-note" role="status"><p>Your mistakes did not load, so lessons are not ordered by marks yet.</p><button type="button" className="cx-text" onClick={invalidateReview}>Try again</button></div> : null}
+              {lose.length ? <section className="cx-sec" aria-labelledby="cx-lose">
+                <div className="cx-sec__head"><h2 id="cx-lose">Where you lose marks</h2><p>From your papers</p></div>
+                {lose.slice(0, LOSE_ROWS).map((row) => <div className="cx-lose" key={row.id}>
+                  {row.lessons.length ? <div className="cx-chhead"><b>{row.name}</b><Lost marks={row.marks} /><span className="cx-chmeta">{row.meta}</span></div>
+                    : <Link className="cx-row cx-row--lose" href={practiceHref(subject, row.name)}><b>{row.name}<Lost marks={row.marks} /></b><span>{row.meta}</span><ChevronRight size={18} aria-hidden="true" /></Link>}
+                  {row.lessons.length ? <ul className="cx-lessons">{row.lessons.map((u) => <Lesson key={u.id} onOpen={open} unit={u} from={fromChapter(u)} />)}</ul> : null}
+                </div>)}
+              </section> : null}
+
+              <section className="cx-sec" aria-labelledby="cx-all">
+                <div className="cx-sec__head"><h2 id="cx-all">All {subjectName(subject)} chapters</h2><p>{all.lessonCount ? all.head : 'Lessons are still being prepared'}</p></div>
+                {all.chapters.length ? <ul className="cx-chapters">{all.chapters.map((c) => <li key={c.id}>
+                  <SmoothDetails className="cx-ch" chevron summary={<span className="cx-ch__sum"><b>{c.name}</b>{c.marks ? <Lost marks={c.marks} /> : null}<span className="cx-chmeta">{c.meta}</span></span>}>
+                    <div className="cx-ch__body">
+                      {c.lessons.length ? <ul className="cx-lessons">{c.lessons.map((u) => <Lesson key={u.id} onOpen={open} unit={u} from={c.marks ? fromChapter(u) : null} />)}</ul> : null}
+                      <div className="cx-ch__links">
+                        <Link className="cx-text" href={practiceHref(subject, c.name)}>Practise this chapter</Link>
+                        {c.lessons.length ? <Link className="cx-text" href={`/learn/summary?${new URLSearchParams({ subject, chapter: c.name })}`}>Read or print the chapter summary</Link> : null}
+                      </div>
+                    </div>
+                  </SmoothDetails></li>)}</ul> : <p className="cx-empty">{subjectName(subject)} lessons are still being prepared. Practice questions are available now.</p>}
+                {all.chapters.length ? <p className="cx-foot">Chapter list from the CUET UG 2026 syllabus; the 2027 syllabus is provisional until NTA publishes it.</p> : null}
+              </section>
+            </>}
+          </div>
+        </>}
       </div>
-      {taught.map(chapter => <div key={chapter.id} className="sx-chapter">
-        <div className="sx-chapter__head"><h2>{chapter.title}</h2><Link className="sx-link" href={practiceHref(subject, chapter.title)}>Practise</Link></div>
-        <Link className="sx-link sx-small" href={`/learn/summary?${new URLSearchParams({subject,chapter:chapter.title})}`}>Read or print the chapter summary</Link>
-        <ul className="sx-units">{units.filter(u => u.chapter === chapter.title).map(u => <li key={u.id}>
-          <Link href={`/learn/${u.id}`} onClick={e => open(e, u.id)} className="sx-unit">
-            <UnitRing unit={u} />
-            <span className="sx-unit__main"><b>{u.title}</b><span className="sx-unit__summary">{String(u.summary || '').replaceAll(' · ', ', ')}</span>
-              <span className="sx-unit__meta"><Timer size={14} aria-hidden="true" />{u.estimatedMinutes} min{u.skill ? `, ${u.skill}` : ''}, {u.cardCount} recall {u.cardCount === 1 ? 'card' : 'cards'}</span></span>
-            {u.status !== 'new' ? <span className="sx-unit__status" data-status={u.status}>{u.status === 'in_progress' ? `Step ${u.inProgress.step}/${u.inProgress.total}` : u.status === 'due' ? `${u.memory.due} due` : u.status === 'learned' && u.memory.nextDue ? `Review ${whenDue(u.memory.nextDue)}` : STATUS[u.status]?.label}</span> : null}
-            <ChevronRight size={18} aria-hidden="true" />
-          </Link></li>)}</ul>
-      </div>)}
-      {untaught.length ? <details className="sx-untaught"><summary>{untaught.length} more {untaught.length === 1 ? 'chapter' : 'chapters'}, practice available, lessons later</summary>
-        <ul>{untaught.map(c => <li key={c.id}><span>{c.title}</span><Link className="sx-link" href={practiceHref(subject, c.title)}>Practise</Link></li>)}</ul>
-        <p className="sx-small">Chapter list from the CUET UG 2026 syllabus; the 2027 syllabus is provisional until NTA publishes it.</p></details> : null}
-    </section>
 
-    <section className="sx-record" aria-label="Your study record">
-      <p><b>{catalog.progress.lessonsRead}</b> of {catalog.progress.lessonsAvailable} lessons read</p>
-      <p><b>{catalog.progress.cardsStarted}</b> cards in review</p>
-      <p><b>{catalog.progress.recallReviews}</b> recall answers</p>
-      <Link className="sx-link" href="/progress">See your marks in Progress</Link>
-    </section>
-    <Link className="sx-mock" href="/dashboard?mode=full"><span><b>Ready to test yourself?</b><small>A full mock shows which chapters are costing you marks. Access and cost are shown first.</small></span><ArrowRight size={18} aria-hidden="true" /></Link>
-    {prefsSlot}
+      <aside className="cx-side" aria-label="Your study record">
+        <div className="cx-record">
+          <span><b>{rec.read}</b> of {rec.of} lessons read</span>
+          <span><b>{rec.cards}</b> {rec.cards === 1 ? 'card' : 'cards'} in Revise</span>
+          <span><b>{rec.recalled}</b> {rec.recalled === 1 ? 'card' : 'cards'} recalled</span>
+        </div>
+        <Link className="cx-text" href="/progress">See your marks in Progress</Link>
+        {prefsSlot}
+        <Link className="cx-row" href="/dashboard?mode=full"><b>Test it in a full mock</b><span>50 questions, 60 minutes. Shows which chapters still cost marks. Access and cost are shown first.</span><ChevronRight size={18} aria-hidden="true" /></Link>
+      </aside>
+    </div>
   </div>;
 }

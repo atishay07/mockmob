@@ -1,0 +1,21 @@
+/* The Review count and More as the current tab (LEARN-REVIEW-1017 5.12 and 5.9; NAV-1017 badge position: centre at the icon's right + 2, icon top + 1).
+   The count is Revise due today, a plain neutral disc (ink on the dock's own colour, never lime: the Start key is the dock's one
+   lime fill). It appears with a small pop and is absent when nothing is due. Nothing here touches the Start key or the dock's size. */
+html .app-shell .arena-bottomnav a > i.arena-badge {
+  position: absolute; top: 3px; left: calc(50% + 5px);
+  min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px;
+  background: var(--a-ink); color: var(--a-bg);
+  font: 700 11px/18px var(--font-body); font-style: normal; text-align: center; font-variant-numeric: tabular-nums;
+  box-shadow: 0 0 0 2px var(--dock-solid, var(--a-bg)); pointer-events: none;
+  animation: arena-badge-pop 220ms var(--mk-spring, cubic-bezier(0.34, 1.56, 0.64, 1)) both;
+}
+@keyframes arena-badge-pop { from { transform: scale(0.8); opacity: 0; } to { transform: none; opacity: 1; } }
+html[data-motion='reduced'] .app-shell .arena-bottomnav a > i.arena-badge { animation: none; }
+@media (prefers-reduced-motion: reduce) { html .app-shell .arena-bottomnav a > i.arena-badge { animation: none; } }
+
+/* The sidebar's count sits at the row's right edge, quiet. */
+.app-shell .arena-nav-link > i.arena-nav-link__count { margin-left: auto; font: 700 12px/1 var(--font-body); font-style: normal; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+.app-shell .arena-nav-link[aria-current='page'] > i.arena-nav-link__count { color: var(--a-ink-2); }
+
+/* More is the current tab on Concepts: the lens sits under it, as when the sheet is open. */
+html .app-shell .arena-bottomnav:has(> :nth-child(5)[aria-current='page']) { --abn-i: 4; --abn-on: 1; }

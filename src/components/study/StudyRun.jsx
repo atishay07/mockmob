@@ -64,7 +64,7 @@ export default function StudyRun({ run: initial, api, onOpenRun, onExit }) {
   };
 
   const total = run.total, step = Math.min(run.cursor + 1, total);
-  const back = <Link className="sx-back" href={unit && isLesson ? `/learn/${unit.id}` : '/learn'} onClick={onExit ? e => { e.preventDefault(); onExit(); } : undefined}><ArrowLeft size={16} aria-hidden="true" />{isLesson ? 'Lesson overview' : 'Learn'}</Link>;
+  const back = <Link className="sx-back" href={unit && isLesson ? `/learn/${unit.id}` : '/learn'} onClick={onExit ? e => { e.preventDefault(); onExit(); } : undefined}><ArrowLeft size={16} aria-hidden="true" />{isLesson ? 'Lesson overview' : 'Concepts'}</Link>;
   const errorBox = error ? <div className="sx-alert" role="alert"><p>{error.text}</p><div className="sx-actions">
     {hasPending && error.retry ? <button type="button" className="sx-secondary" onClick={() => send(pending.current)} disabled={busy}><RotateCcw size={16} aria-hidden="true" />Try again</button> : null}
     {error.reload || error.retry ? <button type="button" className="sx-quiet" onClick={reload} disabled={busy}>Reload saved step</button> : null}

@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
 import { getRevise } from '@/lib/server/revise';
+import { loadReviewRecord } from '@/lib/server/review';
+import { studyRecord } from '@/lib/server/study';
 import { capFrom } from '@/../data/revise';
 import COPY from '@/../data/mistake_lab.copy.json';
 
@@ -12,6 +14,8 @@ const NO_STORE = { 'Cache-Control': 'no-store' };
 // after 1, 3, 7 and 21 days, at most 10 a day (`?cap=5` for 5). GET seeds the cards from the student's newest wrong answers
 // (idempotent) and returns today's questions with the stem and options and NO key. It costs no credits and writes no attempts
 // row. If the table is missing the body says state 'unavailable' and every surface hides itself.
+// With `?queue=1` the body also carries `queue` (LEARN-REVIEW-1017 5.8, src/components/revise/reviseQueue.js): Revise as one queue over the due
+// questions, the repaired mistakes, the pending Check it held and the lesson cards due, deduped by question and capped.
 export async function GET(request) {
   const session = await auth(request);
   if (!session?.user?.id) return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers: NO_STORE });
@@ -20,7 +24,23 @@ export async function GET(request) {
   }
   try {
     const cap = capFrom(new URL(request.url).searchParams.get('cap'));
-    const out = await getRevise(session.user.id, { cap });
+    const userId = session.user.id;
+    // `?queue=1` (the Revise run) adds the merged queue; Review's entry row reads the plain body and stays cheap.
+    const wantsQueue = new URL(request.url).searchParams.get('queue') === '1';
+    const out = await getRevise(userId, {
+      cap,
+      queue: !wantsQueue ? null : {
+        loadRecord: (id, deps) => loadReviewRecord(id, deps),
+        // Lesson cards due today, and how many a recall run would play (due plus new cards of lessons already read, for
+        // ?source=cards: Today's "Lock in new cards" lands there). None when Concepts is off, unknown (null) when the read fails.
+        readDueCards: async () => {
+          const record = await studyRecord(userId, { allSubjects: true });
+          if (record?.state === 'disabled') return { due: 0, available: 0 };
+          if (!Number.isFinite(record?.progress?.dueCards)) return null;
+          return { due: record.progress.dueCards, available: Array.isArray(record.queue?.items) ? record.queue.items.length : record.progress.dueCards };
+        },
+      },
+    });
     return NextResponse.json(out.body, { status: out.http, headers: NO_STORE });
   } catch (e) {
     console.warn('[api/me/revise] GET failed:', e?.message);

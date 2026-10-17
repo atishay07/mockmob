@@ -2,7 +2,7 @@
    card sits beside the lanes. Colour always comes with words or an icon. Only opacity and transform move; reduced motion
    lands every change at once. Targets are 48 px. */
 
-.app-shell .rvs { gap: 22px; }
+.app-shell .rvs { gap: 22px; max-width: 720px; }
 .rvs :is(p, h2, ol, ul) { margin: 0; }
 .rvs-back {
   display: inline-flex; align-items: center; gap: 4px; align-self: flex-start; min-height: 44px; margin: -8px 0 -16px -6px; padding: 0 10px 0 4px;
@@ -11,17 +11,12 @@
 .rvs-back:hover { color: var(--a-ink, #f2f4ec); background: var(--a-hover, rgba(244, 245, 240, .04)); }
 .rvs-back:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; }
 
-.rvs-top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 24px; }
-.rvs-top__text { display: grid; gap: 4px; min-width: 0; }
-.rvs-top__head { font: 700 clamp(19px, 2.4vw, 24px)/1.3 var(--font-display, inherit); letter-spacing: -.015em; color: var(--a-ink, #f2f4ec); }
-.rvs-top__sub { font-size: 14px; line-height: 1.5; color: var(--a-ink-2, #bcc5b9); font-variant-numeric: tabular-nums; }
-
 .rvs-cap { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--a-ink-3, #93a08f); }
 .rvs-cap__btn {
   min-width: 48px; min-height: 48px; padding: 0 12px; border-radius: 12px; cursor: pointer;
   border: 1px solid var(--a-line, #253026); background: transparent; color: var(--a-ink-2, #bcc5b9); font: 650 15px/1 var(--font-display, inherit); font-variant-numeric: tabular-nums;
 }
-.rvs-cap__btn[aria-pressed='true'] { border-color: var(--a-volt-line, rgba(210, 240, 0, .5)); background: var(--a-volt-wash, rgba(210, 240, 0, .07)); color: var(--a-ink, #f2f4ec); }
+.rvs-cap__btn[aria-pressed='true'] { border-color: var(--a-ink-3, #93a08f); background: var(--a-hover, rgba(244, 245, 240, .06)); color: var(--a-ink, #f2f4ec); }
 .rvs-cap__btn:hover:not(:disabled) { border-color: var(--a-line-hover, rgba(244, 245, 240, .32)); }
 .rvs-cap__btn:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; }
 .rvs-cap__btn:disabled { opacity: .5; cursor: default; }
@@ -37,10 +32,10 @@
   display: grid; gap: 14px; min-width: 0; padding: clamp(16px, 3vw, 24px); border-radius: 20px;
   border: 1px solid var(--a-line-strong, #384736); background: var(--a-raised, #131a16); box-shadow: var(--a-shadow-1);
 }
-.rvs-card__meta { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 13px; color: var(--a-ink-3, #93a08f); font-variant-numeric: tabular-nums; }
 .rvs-passage { display: grid; gap: 4px; padding: 12px 14px; border-radius: 12px; background: var(--a-sunken, #0f1512); border: 1px solid var(--a-line, #253026); font-size: 14px; line-height: 1.6; color: var(--a-ink-2, #bcc5b9); max-height: 260px; overflow: auto; }
 .rvs-passage__label { font: 650 12.5px/1.3 var(--font-body, inherit); color: var(--a-ink-3, #93a08f); }
 .rvs-stem { font: 650 clamp(17px, 2.2vw, 20px)/1.45 var(--font-display, inherit); letter-spacing: -.01em; color: var(--a-ink, #f2f4ec); text-wrap: pretty; overflow-wrap: anywhere; }
+.rvs-stem:focus { outline: none; }
 .rvs-options { list-style: none; padding: 0; display: grid; gap: 8px; }
 .rvs-option {
   width: 100%; min-height: 48px; display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 12px; align-items: start; text-align: left; cursor: pointer;
@@ -120,7 +115,7 @@ html[data-motion='reduced'] .rvs-spin { animation: none; }
 
 /* ---------- Pass 2 (16 Oct): the question sits on the page, not in a card ----------
    The options are the controls, so they keep their edges; the box around them goes (no card holding cards). */
-.app-shell .rvs-card { gap: 16px; padding: 20px 0 0; border: 0; border-top: 1px solid var(--a-line, #253026); border-radius: 0; background: none; box-shadow: none; }
+.app-shell .rvs-card { gap: 14px; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
 .app-shell .rvs-result { padding: 14px 0 0; border: 0; border-top: 1px solid var(--a-line, #253026); border-radius: 0; background: none; }
 
 /* Mobi (lib/mobiScreens.js): beside a graded answer, at the end of a run, and once in an empty or failed state. */
@@ -129,3 +124,69 @@ html[data-motion='reduced'] .rvs-spin { animation: none; }
 .rvs-end__top { display: flex; align-items: center; gap: 14px; }
 .rvs-end__top .rvs-end__line { margin: 0; }
 .rvs-empty .pip-state, .rvs-fail .pip-state { margin-bottom: 0; }
+
+/* ---------- Pass 3 (17 Oct, LEARN-REVIEW-1017 5.8): one queue, one run ----------
+   Progress is a row of ticks, one per card; the line under it says what is in the queue. While a run is under way the phone dock
+   steps away (the page keeps its top bar and its way back), so nothing sits over the options. */
+.rvs-ticks { list-style: none; padding: 0; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 4px; margin-top: -6px; }
+.rvs-ticks li { height: 6px; border-radius: 99px; background: var(--a-line-strong, #384736); }
+.rvs-ticks li[data-state='done'] { background: var(--a-ink-3, #93a08f); }
+.rvs-ticks li[data-state='now'] { background: var(--a-ink, #f2f4ec); }
+.rvs-mix { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: -10px; font-size: 13.5px; line-height: 1.4; color: var(--a-ink-3, #93a08f); font-variant-numeric: tabular-nums; }
+.rvs-mix b { color: var(--a-ink, #f2f4ec); font-weight: 650; }
+.rvs-kind { display: grid; gap: 2px; font-size: 13.5px; line-height: 1.45; color: var(--a-ink-2, #bcc5b9); }
+.rvs-kind b { font-weight: 650; font-variant-numeric: tabular-nums; }
+.rvs-kind span { color: var(--a-ink-3, #93a08f); }
+.rvs-free { font-size: 13.5px; line-height: 1.5; color: var(--a-ink-3, #93a08f); max-width: 62ch; }
+.rvs-note { font-size: 14px; line-height: 1.55; color: var(--a-ink-2, #bcc5b9); max-width: 62ch; }
+.rvs-filter { font-size: 14px; line-height: 1.5; color: var(--a-ink-2, #bcc5b9); }
+.rvs-link { color: var(--a-ink, #f2f4ec); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; text-decoration-color: var(--a-line-strong, #384736); }
+.rvs-link:hover { text-decoration-color: currentColor; }
+.rvs-link:focus-visible, .rvs-quiet:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; border-radius: 6px; }
+.rvs-quiet { justify-self: start; min-height: 44px; padding: 0 4px; background: none; border: 0; cursor: pointer; color: var(--a-ink-2, #bcc5b9); font: 650 14.5px/1 var(--font-body, inherit); text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.rvs-quiet:hover { color: var(--a-ink, #f2f4ec); }
+.rvs-empty__title { font: 700 clamp(19px, 2.4vw, 24px)/1.3 var(--font-display, inherit); letter-spacing: -.015em; color: var(--a-ink, #f2f4ec); }
+
+/* How Revise schedules: the box days and the cap, folded (S014). The lanes and the 5 or 10 a day choice live inside. */
+.rvs-how { border-top: 1px solid var(--a-line, #253026); border-bottom: 1px solid var(--a-line, #253026); }
+.rvs-how > summary { list-style: none; display: flex; align-items: center; gap: 12px; min-height: 64px; padding: 14px 2px; cursor: pointer; }
+.rvs-how > summary::-webkit-details-marker { display: none; }
+.rvs-how > summary:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; border-radius: 6px; }
+.rvs-how__sum { display: grid; gap: 2px; min-width: 0; }
+.rvs-how__sum b { font: 650 15.5px/1.3 var(--font-display, inherit); letter-spacing: -.01em; color: var(--a-ink, #f2f4ec); }
+.rvs-how__sum span { font-size: 13.5px; line-height: 1.45; color: var(--a-ink-3, #93a08f); font-variant-numeric: tabular-nums; }
+.rvs-how__body { display: grid; gap: 14px; padding: 2px 2px 18px; }
+
+/* The concept cards play in Revise's frame: the study run keeps its own steps, but its page header, back link and pips give way
+   to Revise's (one way back, one progress line). */
+.rvs-concept { display: grid; gap: 10px; min-width: 0; }
+.rvs-concept .sx { max-width: none; padding: 0; margin: 0; }
+.rvs-concept :is(.sx-back, .sx-run__head, .sx-pips, .sx-autosave, .sx-stage__label) { display: none; }
+/* The card is the page, not a box on it (no card holding a card): the recall prompt reads like a question, its answer sits in its one panel. */
+.rvs-concept .sx-memory-card { border: 0; border-radius: 0; padding: 0; background: none; box-shadow: none; }
+.rvs-concept .sx-stage { margin-top: 0; }
+.rvs-concept .sx-stage h1 { font: 650 clamp(17px, 2.2vw, 20px)/1.45 var(--font-display, inherit); letter-spacing: -.01em; }
+.rvs-concept .sx-actions--sticky { position: static; padding-block: 0; margin-top: 16px; background: none; }
+.rvs-concept .sx-actions .btn-volt { width: auto; min-width: 0; }
+.rvs-concept .sx-actions .btn-volt svg { display: none; }
+
+/* The phone dock steps away on this route, as on test routes (nothing sits over the options, and it does not come and go as a
+   run loads or ends); the page keeps its top bar and its way back, and gives the dock's room back. */
+@media (max-width: 1023px) { html:has(.app-shell .rvs) { --dock-h: 0px; --dock-clear: 0px; scroll-padding-bottom: 16px; } }
+.app-shell:has(.rvs) .arena-dock { display: none; }
+@media (max-width: 1023px) { html .app-shell:has(.rvs):not(.app-shell--test) .app-main { padding-bottom: calc(32px + env(safe-area-inset-bottom)); } }
+
+/* ---------- Pass 4 (17 Oct, P-LR2 states): the empty, done and end states sit on the page, not in a box ----------
+   Empty teaches (FA-10): one line on what comes back, a sample of the line every card carries, one key, its time and price. */
+.app-shell .rvs-end, .app-shell .rvs-empty { padding: 4px 0 0; border: 0; border-radius: 0; background: none; gap: 14px; }
+.rvs-sample {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; width: 100%; max-width: 520px;
+  padding: 14px 0; border-top: 1px solid var(--a-line, #253026); border-bottom: 1px solid var(--a-line, #253026);
+}
+.rvs-sample em { font: 600 12.5px/1.3 var(--font-body, inherit); font-style: normal; color: var(--a-ink-3, #93a08f); }
+.rvs-next--wide { min-height: 54px; min-width: min(100%, 320px); border-radius: 16px; font-family: var(--font-display, inherit); font-size: 17px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion='reduced']) .rvs-ticks li { transition: background-color 160ms var(--a-ease, ease-out); }
+}
+.rvs-free, .rvs-empty p, .rvs-end__sub, .rvs-result__why { text-wrap: pretty; }
