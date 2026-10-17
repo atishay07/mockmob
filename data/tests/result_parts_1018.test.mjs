@@ -9,6 +9,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { ACTION_LABELS, actionLabel } from '../repair_presentation.mjs';
 import { actionFor, chapterRows, chaptersBody, reviewLine } from '../review_chapters.mjs';
+import { analysisFromRows, leadMistake, nextMove } from '../result_next_move.mjs';
 
 const root = new URL('../../', import.meta.url);
 const read = (path) => readFileSync(new URL(path, root), 'utf8');
@@ -141,4 +142,26 @@ test('every saved repair opens free: a repaired, held or slipped mistake is neve
   const sheet = read('src/components/review/AnswerSheet.jsx');
   assert.match(sheet, /A mistake that already has a saved repair/);
   assert.match(sheet, /const SAVED = new Set\(\['repaired', 'held', 'slipped'\]\)/);
+});
+
+// D15: the key says "Repair Q6", so the list leads with Q6 (priority by order, never by a label).
+test('the mistake the next move names is the one the list leads with, on every shared paper', () => {
+  const dir = new URL('data/tests/fixtures/result_next_move/', root);
+  let named = 0;
+  for (const f of readdirSync(dir).filter((x) => x.endsWith('.json'))) {
+    const { name, input } = JSON.parse(readFileSync(new URL(f, dir), 'utf8'));
+    const analysis = analysisFromRows(input.rows);
+    const repaired = new Set(input.repaired);
+    const move = nextMove({ ...input, analysis, repaired });
+    const lead = leadMistake({ analysis, answerReviews: input.answerReviews, repairOrder: input.repairOrder, repaired });
+    const named_ = move.kind === 'repair' ? move.target?.number : move.alt?.kind === 'repair' ? move.alt.target?.number : null;
+    if (named_ != null) { named += 1; assert.equal(lead?.number, named_, `${name}: the key names Q${named_}, the list leads with Q${lead?.number}`); }
+  }
+  assert.ok(named >= 3, 'at least three shared papers name a mistake');
+});
+
+test('the result page leads its list with that mistake, read once at load so rows do not shuffle', () => {
+  assert.match(source, /const leadQid = useMemo\(/);
+  assert.match(source, /inRepairOrder\(analysis\?\.mistakes, listOrder\)/);
+  assert.match(source, /lead=\{leadMoved \? runNumbers\[leadQid\] : null\}/);
 });

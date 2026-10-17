@@ -128,6 +128,17 @@ export function costliestLine(analysis, { answerReviews = {} } = {}) {
   return { line, detail, chapter: c.chapter };
 }
 
+/**
+ * The mistake a repair move points at: the first open one inside the costliest chapter when there is one, else the first in
+ * repair order. The result's list leads with it (D15: priority is shown by order, never by a label), so the key and the
+ * first row name the same question.
+ */
+export function leadMistake({ analysis, answerReviews = {}, repairOrder = null, repaired = new Set() } = {}) {
+  const top = costliest(analysis, { answerReviews });
+  const open = openMistakes(analysis, { answerReviews, repairOrder, repaired });
+  return (top ? open.find((r) => r.chapter === top.chapter) : null) || open[0] || null;
+}
+
 /** The wrong answers repair can open, in the server's repair order: not held, not repaired yet. */
 export function openMistakes(analysis, { answerReviews = {}, repairOrder = null, repaired = new Set() } = {}) {
   const list = (analysis?.mistakes || []).filter((r) => !isHeld(answerReviews, r.q?.id) && !repaired.has(r.q?.id));
@@ -225,7 +236,7 @@ export function nextMove({ analysis, answerReviews = {}, repairOrder = null, rep
   const open = openMistakes(analysis, { answerReviews, repairOrder, repaired });
   const noAi = Number.isFinite(aiCredits) && aiCredits < 1;
   const repairable = open.length > 0 && !noAi;
-  const pickRepair = () => (top ? open.find((r) => r.chapter === top.chapter) : null) || open[0];
+  const pickRepair = () => leadMistake({ analysis, answerReviews, repairOrder, repaired });
   // Nothing answered: the set is in the subject (a chapter picked by blanks alone would only be the longest one).
   const practise = ({ rule, why }) => {
     const chapter = answered === 0 ? null : top?.chapter || null;

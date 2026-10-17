@@ -38,7 +38,7 @@ import { RUN_COPY, arrowIntent, runSegments, stepIndex, endingModel, retryIds as
 import { REPAIR_OUTCOMES, actionLabel, hasExplanation, repairLabel, repairProgress } from '@/../data/repair_presentation.mjs';
 import { analyseSession, formatDuration } from '@/../data/session_recovery';
 import { buildTimeDecisions, TIME_COPY, spentLabel, TIME_RULES } from '@/../data/time_decisions';
-import { attemptMode, costliestLine, nextMove, receiptLine } from '@/../data/result_next_move.mjs';
+import { attemptMode, costliestLine, leadMistake, nextMove, receiptLine } from '@/../data/result_next_move.mjs';
 import { AppIcon } from '@/components/ui/Glyph';
 import { MobResultRow } from '@/components/mob/MobResultRow';
 import '@/components/recovery/result.css';
@@ -186,14 +186,22 @@ export default function ResultPageClient({ previewId = null }) {
   // each repair's "next" all follow the same order; without one, paper order as before.
   const repairOrder = attempt?.lab?.repairOrder || null;
   const savedIds = useMemo(() => new Set([...(Array.isArray(attempt?.lab?.repaired) ? attempt.lab.repaired : []), ...Object.keys(attempt?.savedRepairs && typeof attempt.savedRepairs === 'object' ? attempt.savedRepairs : {})]), [attempt]);
-  const runIds = useMemo(() => (attempt && analysis ? repairCandidates(analysis, new Set(), attempt.answerReviews, attempt.lab?.repairOrder).map(r => r.q.id) : []),
+  // D15 (owner, 18 Oct dawn): the key says Repair Q6, so the list leads with Q6. Priority is shown by order, never by a label.
+  // The lead is read once when the result loads, so rows do not shuffle while the student repairs.
+  const leadQid = useMemo(() => (attempt && analysis ? leadMistake({ analysis, answerReviews: attempt.answerReviews || {}, repairOrder, repaired: savedIds })?.q?.id ?? null : null),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [attempt?.id, analysis?.rows.length]);
+  const listOrder = useMemo(() => (leadQid ? { ...(repairOrder || {}), qids: [leadQid, ...(Array.isArray(repairOrder?.qids) ? repairOrder.qids : []).filter((q) => q !== leadQid)] } : repairOrder), [leadQid, repairOrder]);
+  const runIds = useMemo(() => (attempt && analysis ? repairCandidates(analysis, new Set(), attempt.answerReviews, listOrder).map(r => r.q.id) : []),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [attempt?.id, analysis?.rows.length]);
   const runNumbers = useMemo(() => Object.fromEntries((analysis?.rows || []).map(r => [r.q.id, r.number])), [analysis]);
   const reached = useMemo(() => new Set([...started, ...runIds.filter(id => repairOutcomes[id] && !savedIds.has(id))]), [started, runIds, repairOutcomes, savedIds]);
   const engaged = started.size > 0;
   const segments = useMemo(() => runSegments({ ids: runIds, numbers: runNumbers, outcomes: repairOutcomes, reached, current: runCurrent }), [runIds, runNumbers, repairOutcomes, reached, runCurrent]);
-  const orderedMistakes = useMemo(() => inRepairOrder(analysis?.mistakes, repairOrder), [analysis, repairOrder]);
+  const orderedMistakes = useMemo(() => inRepairOrder(analysis?.mistakes, listOrder), [analysis, listOrder]);
+  // Said above the list only when the move pulled a mistake ahead of the order the list would otherwise follow.
+  const leadMoved = useMemo(() => { const natural = inRepairOrder(analysis?.mistakes, repairOrder); return Boolean(leadQid) && natural.length > 1 && natural[0]?.q?.id !== leadQid; }, [analysis, repairOrder, leadQid]);
 
   const jumpTo = useCallback((number, { repair = false, instant, keepFocus = false } = {}) => {
     const row = analysis?.rows.find(r => r.number === number);
@@ -541,7 +549,7 @@ export default function ResultPageClient({ previewId = null }) {
             mistakes={orderedMistakes} blanks={blanks} openIds={open} onToggle={toggle} visited={visited}
             statusOf={statusOf} cohortOf={cohortOf} renderBody={renderBody}
             showAll={showAll} onShowAll={setShowAll} blanksOpen={blanksOpen} onBlanks={setBlanksOpen}
-            repairedCount={repaired.size} heldCount={heldCount} ordered={repairOrder?.state === 'cohort' ? 'repair' : 'paper'}
+            repairedCount={repaired.size} heldCount={heldCount} ordered={repairOrder?.state === 'cohort' ? 'repair' : 'paper'} lead={leadMoved ? runNumbers[leadQid] : null}
             cheer={cheer} arrived={arrived} arrive={arrive} answered={marks.right + marks.wrong}
             top={engaged && segments.length > 1 ? (
               <div className="rt-bar">
