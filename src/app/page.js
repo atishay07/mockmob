@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { CAPABILITIES, recoveryReleased, newOfferReleased } from '@/../data/capabilities';
 import { publicOffer } from '@/lib/payments/offer';
-import { Check, History, Timer, Wrench, Radar, Sparkles, Compass, Combine, Trophy, Monitor, Target, GraduationCap, ShieldCheck, BookOpenText } from 'lucide-react';
+import { Check, History, Timer, Wrench, Radar, Sparkles, Compass, Combine, Trophy, Monitor, BookOpenText } from 'lucide-react';
 import STUDY_RELEASE from '@/../data/study/release.json';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
@@ -184,13 +184,13 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Second hero beat: real, linked facts on a glass dock over the hero's light. */}
+          {/* Second hero beat: real, linked facts on a glass dock. Numbers and words only, no icon per fact (W-076: no icon grids). */}
           <div className="mm-wrap">
             <nav className="lp-proof" aria-label="Why students pick MockMob" data-hero style={{ '--h': 5 }}>
-              <a href="#try-practice"><Target size={18} aria-hidden="true" /><b>5 questions</b><span>Try them before you sign up</span></a>
-              {DU_FACTS ? <a href="#du-eligibility"><GraduationCap size={18} aria-hidden="true" /><b>{DU_FACTS.programmes}</b><span>DU programmes to check against your subjects</span></a> : null}
-              <a href="#exam-experience"><Monitor size={18} aria-hidden="true" /><b>2 screens</b><span>MockMob or NTA style, your pick</span></a>
-              <a href="#your-prep"><ShieldCheck size={18} aria-hidden="true" /><b>60 min</b><span>50 questions, one full CUET mock</span></a>
+              <a href="#try-practice"><b>5 questions</b><span>Try them before you sign up</span></a>
+              {DU_FACTS ? <a href="#du-eligibility"><b>{DU_FACTS.programmes}</b><span>DU programmes to check against your subjects</span></a> : null}
+              <a href="#exam-experience"><b>2 screens</b><span>MockMob or NTA style, your pick</span></a>
+              <a href="#your-prep"><b>60 min</b><span>50 questions, one full CUET mock</span></a>
             </nav>
           </div>
         </section>

@@ -4,6 +4,7 @@ import { MarketingFooter } from '@/components/MarketingFooter';
 import { MobileDock } from '@/components/MobileDock';
 import { JsonLd } from '@/components/JsonLd';
 import { breadcrumbJsonLd, seoMetadata } from '@/lib/seo';
+import { PublicHeroArt, PUBLIC_HERO_CSS } from '@/components/landing/PublicHeroArt';
 
 export const metadata = seoMetadata({
   title: 'About MockMob — The CUET-First Mock Test Platform',
@@ -45,13 +46,16 @@ export default function AboutPage() {
 
       <main>
         <section className="mm-section mm-section--flush" style={{ paddingTop: '2.5rem' }}>
-          <div className="mm-wrap mm-wrap--tight">
-            <h1 className="mm-h1">Built for one exam: CUET.</h1>
-            <p className="mm-lead" style={{ marginTop: '1rem', maxWidth: '52ch' }}>
-              CUET preparation brings subject practice, review, and university requirements into
-              one demanding season. We are a small independent team, founded by Atishay Jain,
-              building the platform we wished existed.
-            </p>
+          <div className="mm-wrap mm-wrap--tight pub-hero">
+            <div>
+              <h1 className="mm-h1">Built for one exam: CUET.</h1>
+              <p className="mm-lead" style={{ marginTop: '1rem', maxWidth: '52ch' }}>
+                CUET preparation brings subject practice, review, and university requirements into
+                one demanding season. We are a small independent team, founded by Atishay Jain,
+                building the platform we wished existed.
+              </p>
+            </div>
+            <PublicHeroArt kind="campus" />
           </div>
         </section>
 
@@ -95,6 +99,7 @@ export default function AboutPage() {
 
       <MarketingFooter />
       <MobileDock note="One exam. Done properly." />
+      <style>{PUBLIC_HERO_CSS}</style>
     </div>
   );
 }

@@ -212,9 +212,12 @@ button.lp-exam__num:active .lp-exam__cell { transform: scale(.94); }
 @media (hover: hover) { .lp .lp-subject:hover { box-shadow: var(--sh-2); } }
 @media (prefers-reduced-motion: reduce) { .lp-exam-switch button, .lp-college { transition: none; } .lp-stage__live::after { animation: none; } }
 
-/* Touch tablets keep the two-column console, so give the five live palette cells the same
-   44px, two-column-wide targets phones get. Mouse users keep the exact exam-sized grid. */
-@media (pointer: coarse) and (min-width: 761px) {
+/* The two-column console gives the five live palette cells the same 44 px, two-column-wide targets phones get, for mouse
+   and touch alike (W-079: every control on the web is at least 44 px). The other 45 cells stay as the exam's grid below
+   them, ten to a row. */
+@media (min-width: 761px) {
+  .lp-exam__numbers, .lp-exam[data-interface='nta'] .lp-exam__numbers { grid-template-columns: repeat(10, minmax(0, 1fr)); }
+  .lp-exam__numbers .lp-exam__num--rest { --cell-h: 26px; }
   .lp-exam__numbers button.lp-exam__num { --cell-h: 44px; grid-column: span 2; }
   .lp-exam[data-interface] .lp-exam__numbers button.lp-exam__num::before { inset: 0 -2px; }
 }
