@@ -248,7 +248,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(repo.saved.single['channels'], {'study_window': true});
       expect(repo.saved.single['studyWindow'], '20:00-21:00');
-      expect(find.textContaining('Settings saved on the server at 6:00 PM'), findsOneWidget);
+      expect(find.textContaining('Settings saved to your account at 6:00 PM'), findsOneWidget);
     });
 
     testWidgets('a failed save keeps the old setting and offers Try again', (tester) async {
@@ -291,7 +291,7 @@ void main() {
       expect(find.textContaining('Saved on this phone at 6:00 PM.'), findsOneWidget);
     });
 
-    testWidgets('the weekly cap is saved on the server and on this phone', (tester) async {
+    testWidgets('the weekly cap is saved to your account and on this phone', (tester) async {
       await pumpScreen(tester, prefs: prefsWith());
       await tester.tap(find.text('2'));
       await tester.pumpAndSettle();

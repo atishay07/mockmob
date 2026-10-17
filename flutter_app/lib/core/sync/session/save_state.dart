@@ -28,7 +28,7 @@ class SaveSnapshot {
   /// Questions with an answer change the server has not acknowledged (the hollow dots).
   final int unsyncedAnswers;
 
-  /// When the server last acknowledged (device clock), for "Saved on the server at 10:03 PM".
+  /// When the server last acknowledged (device clock), for "Saved to your account at 10:03 PM".
   final DateTime? lastAckAt;
 
   static const initial = SaveSnapshot(state: SaveState.saved);

@@ -1,5 +1,5 @@
 // The study days editor (spec 5.11, owner feedback 13 Oct): the student taps the weekdays they
-// plan to study. Their number is the weekly goal, saved on the server first; which days they are
+// plan to study. Their number is the weekly goal, saved to your account first; which days they are
 // stays on this phone and draws the rest days in the week. Rest is part of the plan, never a miss.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

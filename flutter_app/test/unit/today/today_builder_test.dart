@@ -296,7 +296,7 @@ void main() {
     test('an open session wins, and the sealed result and the move follow as slots', () {
       final view = buildToday(ashaInputs(draft: draft, unopened: [(attemptId: 'm7', receivedAt: now)]));
       expect(view.hero, isA<ResumeHero>());
-      expect((view.hero! as ResumeHero).line, 'Ends at 9:10 PM. Saved on the server at 8:38 PM.');
+      expect((view.hero! as ResumeHero).line, 'Ends at 9:10 PM. Saved to your account at 8:38 PM.');
       expect(view.also.map((s) => s.action.label), [TodayCopy.openSheet, 'Start repair']);
     });
 

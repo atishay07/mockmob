@@ -112,7 +112,15 @@ class _TonightCardState extends State<TonightCard> with SingleTickerProviderStat
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(ReviewCopy.tonightOverline(widget.now, subjectName(pick.subjectId)), style: type.caption.copyWith(color: colors.ink2)),
+                // One line: when the band is narrow the subject's end gives way to an ellipsis, never
+                // a second line (the subject is also the card's object).
+                Text(
+                  ReviewCopy.tonightOverline(widget.now, subjectName(pick.subjectId)),
+                  maxLines: 1,
+                  softWrap: false,
+                  overflow: TextOverflow.ellipsis,
+                  style: type.caption.copyWith(color: colors.ink2),
+                ),
                 const SizedBox(height: MmSpace.s4),
                 Semantics(
                   header: true,

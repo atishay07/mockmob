@@ -159,7 +159,7 @@ void main() {
       for (final entry in {
         SaveState.onThisPhone: 'On this phone',
         SaveState.sending: 'Sending',
-        SaveState.saved: 'Saved on the server',
+        SaveState.saved: 'Saved to your account',
       }.entries) {
         await pumpMockmob(tester, Center(child: SavePill(state: entry.key)), disableAnimations: true);
         expect(find.text(entry.value), findsOneWidget);

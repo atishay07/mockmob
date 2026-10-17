@@ -339,7 +339,7 @@ class TargetFields extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final type = context.mmType;
-    // The colleges are My colleges (one list, saved on the server): the colleges named in the setup
+    // The colleges are My colleges (one list, saved to your account): the colleges named in the setup
     // stand in until it is known.
     final hasColleges = myCollegesHaveAny(ref.watch(myCollegesProvider), target.colleges);
     final missingTarget = target.course == null && !hasColleges;

@@ -216,8 +216,8 @@ abstract final class TodayCopy {
   static String resumeTitle(String label, String subject) => '$label, $subject';
   static String answeredLabel(int total) => 'of $total\nanswered';
   static String endsAt(DateTime at) => 'Ends at ${formatTime12(at)}.';
-  static String savedAt(DateTime at) => 'Saved on the server at ${formatTime12(at)}.';
-  /// How long ago the answers were last saved on the server, in words that stay true: a minute
+  static String savedAt(DateTime at) => 'Saved to your account at ${formatTime12(at)}.';
+  /// How long ago the answers were last saved to your account, in words that stay true: a minute
   /// is "a minute ago", an hour "an hour ago". Said from the real save time.
   static String savedAgo(Duration since) {
     final s = since.inSeconds;

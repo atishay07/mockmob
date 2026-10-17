@@ -199,7 +199,7 @@ void main() {
 
       await tester.tap(find.text('Submit mock'));
       await _flush(tester);
-      expect(find.text('Saved on the server at 10:42 PM.'), findsOneWidget);
+      expect(find.text('Saved to your account at 10:42 PM.'), findsOneWidget);
       expect(h.afterSubmit, [s]);
       // The success pattern only after the 200: medium then light.
       await tester.pump(const Duration(milliseconds: 100));
@@ -253,7 +253,7 @@ void main() {
       // The key showed for about 0.4 s on the device, then the result replaced it.
       await tester.pump(const Duration(milliseconds: 1500));
       expect(h.location, isNot(startsWith('/practice/result')), reason: 'still on the receipt, so it can be read');
-      expect(find.text('Saved on the server at 10:42 PM.'), findsOneWidget);
+      expect(find.text('Saved to your account at 10:42 PM.'), findsOneWidget);
       expect(find.text('See your answers'), findsOneWidget);
 
       await tester.pump(SubmitPage.handOffDelay);
@@ -293,14 +293,14 @@ void main() {
       expect(s.submits, 1);
       expect(find.text('Not sent yet'), findsOneWidget);
       // One message, not two: where the answers are and what happens next.
-      expect(find.text('Saved on this phone, not on the server yet. We send it when you are online.'), findsOneWidget);
+      expect(find.text('Saved on this phone, not in your account yet. We send it when you are online.'), findsOneWidget);
       expect(find.text('Not on the server yet'), findsNothing);
 
       s.nextOutcome = SubmitReceived(attempt: const {'id': 'att-9'}, receivedAt: DateTime(2026, 10, 13, 22, 50));
       await tester.tap(find.text('Try again'));
       await _flush(tester);
       expect(s.submits, 2);
-      expect(find.text('Saved on the server at 10:50 PM.'), findsOneWidget);
+      expect(find.text('Saved to your account at 10:50 PM.'), findsOneWidget);
       await tester.pump(SubmitPage.handOffDelay);
       await settle(tester);
       expect(h.location, '/result/att-9/sealed');

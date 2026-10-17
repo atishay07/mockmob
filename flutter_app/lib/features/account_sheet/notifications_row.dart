@@ -133,9 +133,10 @@ class _AccountNotificationsRowState extends ConsumerState<AccountNotificationsRo
         ),
         const SizedBox(width: MmSpace.s8),
         if (blocked)
-          InvitePill(label: NotificationsCopy.inviteOpenSettings, onPressed: () => unawaited(_openSettings()))
+          InvitePill(outlined: true, label: NotificationsCopy.inviteOpenSettings, onPressed: () => unawaited(_openSettings()))
         else
           InvitePill(
+            outlined: true,
             label: NotificationsCopy.inviteTurnOn,
             semanticsLabel: NotificationsCopy.inviteTurnOnLabel,
             loading: _asking,

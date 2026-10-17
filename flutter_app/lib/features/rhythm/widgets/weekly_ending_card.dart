@@ -201,7 +201,7 @@ class _WeeklyEndingSectionState extends ConsumerState<WeeklyEndingSection> {
     try {
       await actions.dismissWeeklyEnding(data);
     } on Object {
-      // Nothing was lost: the goal or pause above is already saved on the server.
+      // Nothing was lost: the goal or pause above is already saved to your account.
     }
     if (mounted) setState(() => _busy = false);
   }

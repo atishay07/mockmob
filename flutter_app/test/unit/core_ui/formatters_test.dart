@@ -99,12 +99,12 @@ void main() {
     test('the three words', () {
       expect(StateWords.onThisPhone, 'On this phone');
       expect(StateWords.sending, 'Sending');
-      expect(StateWords.savedOnServer, 'Saved on the server');
+      expect(StateWords.savedOnServer, 'Saved to your account');
     });
 
     test('receipt lines', () {
       final at = DateTime(2026, 10, 12, 23, 42);
-      expect(Receipts.mockSaved('Mock 7', at), 'Mock 7 saved on the server at 11:42 PM.');
+      expect(Receipts.mockSaved('Mock 7', at), 'Mock 7 saved to your account at 11:42 PM.');
       expect(Receipts.repairFinished(DateTime(2026, 10, 12, 23, 51)), 'Repair finished. Recorded at 11:51 PM.');
       expect(Receipts.notRecordedYet, 'On this phone. Not recorded yet.');
     });

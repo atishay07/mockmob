@@ -14,7 +14,12 @@ class InvitePill extends StatelessWidget {
     required this.onPressed,
     this.loading = false,
     this.semanticsLabel,
+    this.outlined = false,
   });
+
+  /// An outlined pill, for a place where the screen's one volt belongs to another key (the account
+  /// sheet, 17 Oct): ink words on a hairline instead of the volt fill.
+  final bool outlined;
 
   final String label;
 
@@ -39,7 +44,8 @@ class InvitePill extends StatelessWidget {
           widthFactor: 1,
           child: DecoratedBox(
             decoration: BoxDecoration(
-              color: enabled || loading ? colors.volt : colors.sunken,
+              color: outlined ? null : (enabled || loading ? colors.volt : colors.sunken),
+              border: outlined ? Border.all(color: colors.lineStrong) : null,
               borderRadius: MmRadius.pillAll,
             ),
             child: SizedBox(
@@ -57,13 +63,13 @@ class InvitePill extends StatelessWidget {
                           label,
                           maxLines: 1,
                           style: type.label.copyWith(
-                            color: enabled ? colors.voltInk : colors.ink3,
+                            color: enabled ? (outlined ? colors.ink : colors.voltInk) : colors.ink3,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
                       ),
                     ),
-                    if (loading) MmSpinner(color: colors.voltInk, size: 16, strokeWidth: 2),
+                    if (loading) MmSpinner(color: outlined ? colors.ink : colors.voltInk, size: 16, strokeWidth: 2),
                   ],
                 ),
               ),

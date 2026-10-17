@@ -128,7 +128,7 @@ void main() {
       final week = await controller().celebrate(CelebrationEvent.weekMet(weekStart: '2026-10-05', studyDays: 4, goal: 4));
       expect(week!.ring, isTrue);
       expect(week.mobiHop, isFalse);
-      expect(week.receipt, '4 of 4 study days. Saved on the server.');
+      expect(week.receipt, '4 of 4 study days. Saved to your account.');
       // The success pattern (a medium then a light), once, after the server's acknowledgement.
       expect(driver.calls, ['medium', 'light']);
       final first = await controller().celebrate(CelebrationEvent.weekMet(weekStart: '2026-10-12', studyDays: 4, goal: 4, firstEver: true));

@@ -101,7 +101,7 @@ abstract final class RunnerCopy {
 
   // Return after an interruption.
   static String awayFor(Duration d) => 'You were away for ${durationWords(d)}. The timer kept running.';
-  static const String awaySaved = 'All answers are saved on the server.';
+  static const String awaySaved = 'All answers are saved to your account.';
   static const String awayOnPhone = 'Your answers are on this phone and will be sent when you are online.';
   static const String awayDismiss = 'Got it';
 
@@ -172,7 +172,7 @@ abstract final class RunnerCopy {
 
   /// After 12 seconds of sending: the wait settles into words, so nothing spins without saying why.
   static const String stillSending = 'Still sending. Your answers are safe on this phone.';
-  static String received(DateTime at) => 'Saved on the server at ${formatTime12(at)}.';
+  static String received(DateTime at) => 'Saved to your account at ${formatTime12(at)}.';
   static String openResult(bool isMock) => isMock ? 'Open your sheet' : 'See your answers';
 
   /// Mobi's one line on a practice's submit page: what the sheet means, never what the page
@@ -196,7 +196,7 @@ abstract final class RunnerCopy {
 
   /// One honest line for answers the server does not have yet: where they are, and that they go
   /// by themselves (the engine retries when the phone is back online; "Try again" asks at once).
-  static const String pendingBody = 'Saved on this phone, not on the server yet. We send it when you are online.';
+  static const String pendingBody = 'Saved on this phone, not in your account yet. We send it when you are online.';
   static const String timeUpPending = pendingBody;
   static const String sendingTitle = 'Handing in your sheet';
   static const String receivedTitle = 'Your sheet is in.';

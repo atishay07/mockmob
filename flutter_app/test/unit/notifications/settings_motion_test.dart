@@ -104,7 +104,7 @@ void main() {
       await release(tester, 0);
       expect(switchOn(tester, 'Weekly plan'), isTrue);
       expect(find.byType(SavePill), findsNothing);
-      expect(find.textContaining('Settings saved on the server'), findsOneWidget);
+      expect(find.textContaining('Settings saved to your account'), findsOneWidget);
     });
 
     testWidgets('a save that fails puts the switch back and says so, with Try again', (tester) async {
@@ -186,7 +186,7 @@ void main() {
       expect(tester.getTopLeft(find.text('Your day')).dy, dayBefore);
 
       await release(tester, 0);
-      expect(find.textContaining('Settings saved on the server'), findsOneWidget);
+      expect(find.textContaining('Settings saved to your account'), findsOneWidget);
       expect(tester.getTopLeft(find.text('Notifications')).dy, titleBefore);
       expect(tester.getTopLeft(find.text('Your day')).dy, dayBefore);
     });

@@ -104,7 +104,7 @@ abstract final class NotificationsCopy {
       'Showing settings from ${formatTime12(at)}. We could not refresh them. Try again soon.';
   static const String saveFailed =
       'We could not save that. Your earlier setting is still in place.';
-  static String savedOnServer(DateTime at) => 'Settings saved on the server at ${formatTime12(at)}.';
+  static String savedOnServer(DateTime at) => 'Settings saved to your account at ${formatTime12(at)}.';
   static String savedOnPhone(DateTime at) => 'Saved on this phone at ${formatTime12(at)}.';
 
   // System permission.

@@ -20,7 +20,7 @@ abstract final class ResultCopy {
       minutes == null ? '${plural(questions, 'question')}.' : '${plural(questions, 'question')}, ${plural(minutes, 'minute')}.';
 
   static String submittedAt(DateTime at) => 'Submitted at ${formatTime12(at)}.';
-  static const savedOnServer = 'Saved on the server.';
+  static const savedOnServer = 'Saved to your account.';
   static const answerSheet = 'Answer sheet';
   static const answers = 'Answers';
   static String range(int n) => '1 to $n';
@@ -327,7 +327,7 @@ abstract final class ResultCopy {
   static const keysOff = 'Answers and explanations are not available for this result right now.';
   static const changedAnswer = 'You changed this answer during the mock.';
   static const repairThis = 'Repair this mistake';
-  static const repaired = 'Repaired. Recorded on the server.';
+  static const repaired = 'Repaired. Recorded in your account.';
   static const explanation = 'Explanation';
   static const passage = 'Passage';
   static String repairN(int n) => 'Repair ${plural(n, 'mistake')}';
@@ -338,7 +338,7 @@ abstract final class ResultCopy {
   static const notFound = 'This result is not on this account.';
   static const loading = 'Loading your result';
   static const slowTitle = 'Your result is taking longer to load';
-  static const slowBody = 'It is saved on the server. Try again, or find it later in Review.';
+  static const slowBody = 'It is saved to your account. Try again, or find it later in Review.';
   static const backToReview = 'Go to Review';
 
   // ---- After this mock: the plan and the read of the paper (SWOT) --------------------------------

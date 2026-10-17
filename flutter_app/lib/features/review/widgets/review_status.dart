@@ -8,9 +8,9 @@ import '../data/mistake_index.dart';
 import 'mistake_map.dart' show MistakeBar;
 
 /// "3 repaired, 12 found": how many of the mistakes found so far are repaired, read from the index
-/// and nothing else. The bar beside it is the map's own: one segment per mistake, volt where
-/// repaired, coral where open, a ring where set aside, so it teaches the bars below it. It fills
-/// in over 420 ms on the emphasized curve when the tab opens.
+/// and nothing else. The bar beside it is the map's own shape, one segment per mistake, drawn
+/// quietly here: ink where repaired, a neutral rail where open, a ring where set aside (the map
+/// below keeps coral and volt). It fills in over 420 ms on the emphasized curve when the tab opens.
 class RepairsProgress extends StatefulWidget {
   const RepairsProgress({super.key, required this.repaired, required this.found, this.setAside = 0});
 
@@ -68,7 +68,7 @@ class _RepairsProgressState extends State<RepairsProgress> with SingleTickerProv
           ),
           const SizedBox(width: MmSpace.s12),
           Expanded(
-            child: MistakeBar(open: open, repaired: widget.repaired, setAside: widget.setAside, scale: found, grow: _grow, height: 10),
+            child: MistakeBar(open: open, repaired: widget.repaired, setAside: widget.setAside, scale: found, grow: _grow, height: 10, quiet: true),
           ),
         ],
       ),

@@ -88,7 +88,7 @@ class _SetPasswordFormState extends ConsumerState<SetPasswordForm> {
       _failed(AccessCopy.problem(AccessFailure.unknown));
       return;
     }
-    // Saved on the server. Nothing below may stop the other devices being signed out.
+    // Saved to your account. Nothing below may stop the other devices being signed out.
     try {
       await hints.markPasswordSet();
     } on Object {

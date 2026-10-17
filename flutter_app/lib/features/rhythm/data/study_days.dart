@@ -34,7 +34,7 @@ class PlannedDays extends Notifier<Set<int>?> {
     }
   }
 
-  /// Keeps [days] on this phone. Call only after the goal they imply was saved on the server.
+  /// Keeps [days] on this phone. Call only after the goal they imply was saved to your account.
   Future<void> save(Set<int> days) async {
     state = {...days};
     await ref.read(rhythmPrefsStoreProvider).setStringList(_key, encodeDays(days));

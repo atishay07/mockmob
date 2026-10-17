@@ -34,6 +34,14 @@ Widget _app(Future<void> Function() onRefresh, {bool reduced = false}) => Provid
 
 double _firstRowTop(WidgetTester tester) => tester.getTopLeft(find.text('Row 0')).dy;
 
+/// Time passing in frames, as on a phone: the gap's tween starts on the frame after the refresh
+/// begins, so one long pump would not play it (a ring that spins never settles either).
+Future<void> _frames(WidgetTester tester, {int count = 12}) async {
+  for (var i = 0; i < count; i++) {
+    await tester.pump(const Duration(milliseconds: 100));
+  }
+}
+
 Future<void> _pullPastThreshold(WidgetTester tester) async {
   final gesture = await tester.startGesture(const Offset(200, 300));
   for (var i = 0; i < 26; i++) {
@@ -67,7 +75,7 @@ void main() {
     final rest = _firstRowTop(tester);
 
     await _pullPastThreshold(tester);
-    await tester.pump(const Duration(seconds: 1));
+    await _frames(tester);
     expect(_firstRowTop(tester), closeTo(rest + MmPullRefresh.holdExtent, 1), reason: 'the first line starts below the ring, not under it');
 
     done.complete();
@@ -81,7 +89,7 @@ void main() {
     await tester.pumpWidget(_app(() => done.future, reduced: true));
     final rest = _firstRowTop(tester);
     await _pullPastThreshold(tester);
-    await tester.pump(const Duration(milliseconds: 100));
+    await _frames(tester);
     expect(find.text('Refreshing'), findsOneWidget);
     expect(_firstRowTop(tester), closeTo(rest + MmPullRefresh.holdExtentWithWords, 1));
     done.complete();
@@ -94,7 +102,7 @@ void main() {
     await tester.pumpWidget(_app(() => failed.future));
     final rest = _firstRowTop(tester);
     await _pullPastThreshold(tester);
-    await tester.pump(const Duration(seconds: 1));
+    await _frames(tester);
     failed.completeError(StateError('offline'));
     await tester.pump();
     await tester.pumpAndSettle();

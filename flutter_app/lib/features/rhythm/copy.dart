@@ -202,7 +202,7 @@ abstract final class RhythmCopy {
   static const String otherBests = 'Other mock types';
   static const String bestsEmptyTitle = 'Nothing to compare yet';
   static const String bestsEmptyBody =
-      'Once a full mock is saved on the server, its marks show here. A second one of the same type shows your change.';
+      'Once a full mock is saved to your account, its marks show here. A second one of the same type shows your change.';
   static const String bestsLoadFailedTitle = 'We could not load your marks';
   static const String bestsFootnote =
       'These are marks from your own mocks of the same type. A retake of a paper you have seen does not count.';

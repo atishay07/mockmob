@@ -19,7 +19,7 @@ class SubmitReceived extends SubmitOutcome {
   /// The scored attempt as the server returned it.
   final Map<String, dynamic> attempt;
 
-  /// When the acknowledgement arrived ("Saved on the server at 10:42 PM").
+  /// When the acknowledgement arrived ("Saved to your account at 10:42 PM").
   final DateTime receivedAt;
 
   /// The server created the attempt itself at expiry (or a background job submitted it).

@@ -214,7 +214,7 @@ void main() {
       );
       await pumpRunner(tester, session: s, location: '/run/sess-1/submit', size: const Size(360, 780));
       await settle(tester);
-      expect(find.text('Saved on this phone, not on the server yet. We send it when you are online.'), findsOneWidget);
+      expect(find.text('Saved on this phone, not in your account yet. We send it when you are online.'), findsOneWidget);
       expect(find.text('Not on the server yet'), findsNothing);
       expect(find.text('Try again'), findsOneWidget);
     });
@@ -228,7 +228,7 @@ void main() {
       );
       await pumpRunner(tester, session: s, location: '/run/sess-1/submit', size: const Size(360, 780));
       await settle(tester, ms: 1600);
-      final line = tester.renderObject<RenderParagraph>(find.text('Saved on the server at 10:42 PM.'));
+      final line = tester.renderObject<RenderParagraph>(find.text('Saved to your account at 10:42 PM.'));
       expect(line.size.height, lessThan(30), reason: 'one line: no orphaned time');
     });
   });

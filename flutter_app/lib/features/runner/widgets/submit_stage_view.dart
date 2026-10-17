@@ -215,7 +215,7 @@ class _ArriveState extends State<_Arrive> with SingleTickerProviderStateMixin {
   }
 }
 
-/// "Answers received. Saved on the server at 10:42 PM." with the inked, checked bubble that
+/// "Answers received. Saved to your account at 10:42 PM." with the inked, checked bubble that
 /// means the server has it.
 class _Receipt extends StatelessWidget {
   const _Receipt({required this.at});

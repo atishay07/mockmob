@@ -98,7 +98,7 @@ class SessionDraft {
   /// Highest event `seq` the server confirmed.
   final int acknowledgedSequence;
 
-  /// When the last acknowledgement arrived (device wall clock), for "Saved on the server at 10:03 PM".
+  /// When the last acknowledgement arrived (device wall clock), for "Saved to your account at 10:03 PM".
   final int? lastAckAtMs;
 
   /// The server said the submission window ended and no attempt exists.

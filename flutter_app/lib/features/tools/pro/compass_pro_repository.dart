@@ -32,7 +32,7 @@ final compassProRepositoryProvider = NotifierProvider<CompassProRepository, Remo
 final compassProAccessProvider = Provider<bool>((ref) => ref.watch(authSnapshotProvider.select((s) => s.isPro)));
 
 /// The DU programmes and colleges the student is aiming for: the Compass view of My colleges, the
-/// one list saved on the server and shared with Today, You and the website. Empty until the list
+/// one list saved to your account and shared with Today, You and the website. Empty until the list
 /// has loaded (the Compass section says so; it never shows an empty list that did not load).
 final shortlistProvider = Provider<List<ShortlistTarget>>((ref) {
   final view = ref.watch(myCollegesProvider);

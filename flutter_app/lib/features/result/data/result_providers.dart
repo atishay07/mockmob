@@ -54,7 +54,7 @@ class RecapData {
   bool get revealPending => detailPending || listPending;
 }
 
-/// When this phone received the acknowledgment for the attempt ("Saved on the server at ...").
+/// When this phone received the acknowledgment for the attempt ("Saved to your account at ...").
 final resultReceivedProvider = FutureProvider.autoDispose.family<PendingResult?, String>((ref, attemptId) async {
   try {
     return await ref.watch(pendingResultRepositoryProvider).find(attemptId);

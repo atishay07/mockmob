@@ -397,19 +397,6 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                   InlineBanner(message: ResultCopy.lastLoaded(ref.watch(reviewClockProvider).local(data.fetchedAt!)), tone: BannerTone.offline, compact: true),
                   const SizedBox(height: MmRhythm.item),
                 ],
-                if (progress != null) ...[
-                  // A quiet text link, flush with the page's gutter: the score leads, this only says where the recap
-                  // was left.
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: EvidenceLink(
-                      label: ResultCopy.continueRecap(progress),
-                      icon: LucideIcons.rotateCcw,
-                      onTap: () => context.go(AppRoutes.resultRecap(id, progress)),
-                    ),
-                  ),
-                  const SizedBox(height: MmSpace.s8),
-                ],
                 if (ref.watch(celebrationControllerProvider.select((s) => s.byScope[CelebrationScope.result(id)]?.showsMoment ?? false))) ...[
                   // A moment the rhythm module fired for this result; nothing is reserved without one.
                   CelebrationSlot(scope: CelebrationScope.result(id)),
@@ -446,6 +433,19 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                     },
                   ),
                 ),
+                if (progress != null) ...[
+                  const SizedBox(height: MmSpace.s12),
+                  // A quiet text link, flush with the page's gutter, under the one next move: what happened
+                  // and what to do come first, this only says where the recap was left (v13 critic).
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: EvidenceLink(
+                      label: ResultCopy.continueRecap(progress),
+                      icon: LucideIcons.rotateCcw,
+                      onTap: () => context.go(AppRoutes.resultRecap(id, progress)),
+                    ),
+                  ),
+                ],
                 // Layer 3: the mistakes, in repair order, each with its repair inline.
                 const SizedBox(height: MmSpace.group),
                 item(

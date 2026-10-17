@@ -53,7 +53,7 @@ class MyCollege {
   int get hashCode => Object.hash(key, programme, position);
 }
 
-/// The student's one ordered list of colleges, up to [maxColleges], saved on the server and shared
+/// The student's one ordered list of colleges, up to [maxColleges], saved to your account and shared
 /// by Today (the first [ladderSize]), Compass and You. The contract is
 /// `GET/PUT/POST/DELETE /api/me/colleges` (test/fixtures/colleges/contract_colleges_v1.json).
 class MyColleges {

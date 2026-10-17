@@ -508,6 +508,7 @@ class MistakeBar extends StatelessWidget {
     required this.scale,
     this.grow = const AlwaysStoppedAnimation(1),
     this.height = 10,
+    this.quiet = false,
   });
 
   final int open;
@@ -516,6 +517,11 @@ class MistakeBar extends StatelessWidget {
   final int scale;
   final Animation<double> grow;
   final double height;
+
+  /// The page-level read (the top of Review): open mistakes are a neutral rail and repaired ones
+  /// ink, so a student with nothing repaired yet is not shown a wall of red and the screen's one
+  /// volt stays on its key (17 Oct). The map below keeps the coral and the volt.
+  final bool quiet;
 
   @override
   Widget build(BuildContext context) {
@@ -531,9 +537,11 @@ class MistakeBar extends StatelessWidget {
             scale: scale,
             grow: grow,
             // Night: a cooler, deeper coral than the bubble's, so a long bar does not shout.
-            wrong: colors.isNight ? Color.lerp(colors.wrongBorder, colors.wrongMark, 0.72)! : colors.wrongMark,
-            volt: colors.volt,
-            voltEdge: colors.isNight ? null : colors.voltEdge,
+            wrong: quiet
+                ? colors.lineStrong
+                : (colors.isNight ? Color.lerp(colors.wrongBorder, colors.wrongMark, 0.72)! : colors.wrongMark),
+            volt: quiet ? colors.ink : colors.volt,
+            voltEdge: quiet || colors.isNight ? null : colors.voltEdge,
             ring: colors.ink3,
           ),
         ),

@@ -605,7 +605,7 @@ void main() {
         title: 'Mock 8, Accountancy',
         answered: 12,
         total: 50,
-        line: 'Ends at 9:10 PM. Saved on the server at 8:38 PM.',
+        line: 'Ends at 9:10 PM. Saved to your account at 8:38 PM.',
         lead: 'Ends at 9:10 PM.',
         savedAt: saved,
         subjectId: 'accountancy',
@@ -619,7 +619,7 @@ void main() {
       expect(find.byType(AnsweredLine), findsOneWidget);
       expect(find.text('Saved a minute ago'), findsOneWidget);
       expect(find.text('Ends at 9:10 PM.'), findsOneWidget);
-      expect(find.textContaining('Saved on the server'), findsNothing);
+      expect(find.textContaining('Saved to your account'), findsNothing);
       await tester.tap(find.text(hero.keyLabel));
       await tester.pump(const Duration(milliseconds: 200));
       expect(continued, 1);
@@ -645,7 +645,7 @@ void main() {
       final resume = view.hero! as ResumeHero;
       expect(resume.savedAt, tuesdayEvening.subtract(const Duration(minutes: 2)));
       expect(resume.lead, startsWith('Ends at'));
-      expect(resume.line, contains('Saved on the server at'));
+      expect(resume.line, contains('Saved to your account at'));
     });
   });
 }
