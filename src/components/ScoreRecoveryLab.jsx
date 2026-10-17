@@ -17,9 +17,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { apiGet } from '@/lib/fetcher';
 import { TIME_COPY } from '@/../data/time_decisions';
+import { fill } from '@/../data/paper_trace';
 import TimeDecisions from './result/TimeDecisions';
 import MarksLedger from './result/MarksLedger';
-import Replay from './result/Replay';
+import ReplaySlots from './result/ReplaySlots';
 import AcrossMocks from './result/AcrossMocks';
 import RuleCheck from './result/RuleCheck';
 import SameMistakesLater from './result/SameMistakesLater';
@@ -103,7 +104,7 @@ export function LabLedger({ attempt, analysis, timeRead = null, lab = null, onJu
 }
 
 /** "Your time and changed answers". `focus` brings the Replay in with a ledger group's chip on. */
-export function LabTime({ attempt, analysis, timeRead = null, lab = null, onJump, swotShown = false, focus = null, changesId = null }) {
+export function LabTime({ attempt, analysis, timeRead = null, lab = null, onJump, swotShown = false, changesId = null }) {
   const { chapters } = analysis;
   const ledger = ledgerOf(lab);
   // With the ledger on the page its groups state the observations with marks, so the cards are left out. Without it,
@@ -118,7 +119,9 @@ export function LabTime({ attempt, analysis, timeRead = null, lab = null, onJump
   return (
     <div className="srl srl--fold srl-find" data-in="" data-expanded={expanded}>
       {firstTimed ? <FirstTimedMock prompt={firstTimed} /> : null}
-      {replay ? <Replay replay={replay} lab={lab} timeRead={timeRead} onJump={onJump} focus={focus} /> : null}
+      {/* D17, pass 1018: one slot per question sized to the paper, play over real events, or one sentence when there is nothing to replay. */}
+      {<ReplaySlots replay={replay} rows={analysis.rows} paceSec={timeRead?.pace?.perQuestionMs ? timeRead.pace.perQuestionMs / 1000 : null} onJump={onJump}
+        cutLink={{ href: `/dashboard?${new URLSearchParams({ subject: attempt?.subject || '', mode: 'quick', count: String(analysis.rows.length || 10) })}`, label: fill(COPY.replay.slots.cutLink, { n: analysis.rows.length || 10 }) }} />}
       {replay && swotShown ? <h4 className="td-h srl-find__time">{TIME_COPY.title}</h4> : null}
       {swotShown ? null : <>
         {chapters.length ? (

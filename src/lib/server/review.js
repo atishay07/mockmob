@@ -104,9 +104,19 @@ export function buildReviewRecord({ userId, slim = [], heavy = new Map(), reserv
 
   const chapters = new Map();
   const items = [];
+  // Pass 1018: how many questions of each chapter each paper asked (right answers included), so Review prices a chapter
+  // against the marks it had on offer. Only the papers with a miss are read in full; a paper with none lost no marks.
+  const chapterQuestions = {};
   for (const a of window) {
     const body = heavy.get(a.id);
     if (!body) continue;
+    const asked = {};
+    for (const q of Array.isArray(body.questions_snapshot) ? body.questions_snapshot : []) {
+      if (!q || typeof q.id !== 'string') continue;
+      const name = typeof q.chapter === 'string' && q.chapter.trim() ? q.chapter.trim() : 'Chapter';
+      asked[`${a.subject}:${name}`] = (asked[`${a.subject}:${name}`] || 0) + 1;
+    }
+    chapterQuestions[a.id] = asked;
     const details = new Map((Array.isArray(body.details) ? body.details : []).filter((d) => d && typeof d.qid === 'string').map((d) => [d.qid, d]));
     (Array.isArray(body.questions_snapshot) ? body.questions_snapshot : []).forEach((q, index) => {
       if (!q || typeof q.id !== 'string') return;
@@ -155,7 +165,7 @@ export function buildReviewRecord({ userId, slim = [], heavy = new Map(), reserv
   const state = papers.length ? 'ready' : 'empty';
   return {
     state, now: new Date(now).toISOString(), wallet,
-    papers, chapters: [...chapters.values()], items, revise,
+    papers, chapters: [...chapters.values()], chapterQuestions, items, revise,
     partial: slim.length > window.length || slim.length >= SLIM_PAGE,
     papersTotal: slim.length,
   };

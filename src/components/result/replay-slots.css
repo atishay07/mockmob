@@ -1,0 +1,72 @@
+/* The replay, pass 1018 (REVIEW-RESULT-1018 section 6). Arena tokens, Night and Day; transform and opacity only, 180-200 ms.
+   Slots are buttons in a grid sized to the paper; the dashed line is even pace (1x of a 3x cap). No glow, no washes. */
+.rs { --rs-ease: cubic-bezier(0.23, 1, 0.32, 1); --rs-right: color-mix(in oklab, var(--a-good-text) 60%, var(--a-bg)); --rs-wrong: color-mix(in oklab, var(--a-bad-text) 80%, var(--a-bg)); margin-top: 6px; min-width: 0; }
+.rs-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.rs-clock { margin: 0; display: flex; align-items: baseline; gap: 8px; }
+.rs-clock b { font: 760 30px/1 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
+.rs-clock span { font: 600 13.5px/1 var(--font-body); color: var(--a-ink-3); }
+.rs-ctl { display: flex; gap: 6px; }
+.rs .rs-btn { min-width: 44px; height: 44px; padding: 0 12px; border-radius: 12px; border: 1px solid var(--a-line-strong); background: none; color: var(--a-ink); display: inline-flex; align-items: center; justify-content: center; gap: 6px; font: 650 14.5px/1 var(--font-body); cursor: pointer; transition: transform 160ms var(--rs-ease), border-color 160ms ease; }
+.rs .rs-btn:active { transform: scale(0.97); }
+.rs-btn svg { width: 18px; height: 18px; stroke: var(--a-ink); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.rs-play svg { fill: var(--a-ink); stroke: none; }
+.rs-cap { margin: 10px 0 0; min-height: 22px; font: 500 14.5px/1.5 var(--font-body); color: var(--a-ink-2); text-wrap: pretty; }
+.rs-cap b { margin-right: 8px; color: var(--a-ink); font-weight: 700; font-variant-numeric: tabular-nums; }
+
+.rs-grid { margin-top: 14px; display: grid; gap: 14px; }
+.rs-row { position: relative; display: grid; gap: 2px; }
+.rs-pace { position: absolute; left: 0; right: 0; bottom: calc(16px + var(--h) / 3); border-top: 1px dashed var(--a-ink-3); opacity: 0.6; pointer-events: none; z-index: 1; }
+.rs .rs-q { display: grid; grid-template-rows: var(--h) 16px; padding: 0; min-width: 0; border: 0; background: none; cursor: pointer; transition: opacity 180ms ease; border-radius: 4px; }
+.rs-col { position: relative; display: block; height: var(--h); border-bottom: 1px solid var(--a-line-strong); border-radius: 4px 4px 0 0; }
+.rs-col i { position: absolute; left: 0; right: 0; bottom: 0; height: 100%; border-radius: 3px 3px 0 0; background: var(--rs-right); transform-origin: bottom; transition: transform 200ms var(--rs-ease); }
+.rs-q[data-v='wrong'] .rs-col i { background: var(--rs-wrong); }
+.rs-q[data-v='blank'] .rs-col i { background: transparent; box-shadow: inset 0 0 0 1.5px var(--a-ink-3); border-radius: 3px 3px 0 0; }
+.rs-q[data-v='held'] .rs-col i { background: transparent; box-shadow: inset 0 0 0 1.5px var(--a-ink-3); outline: 1.5px dotted var(--a-ink-3); outline-offset: -3px; }
+.rs-q[data-changed] .rs-col::before { content: ''; position: absolute; left: 50%; bottom: calc(var(--h) * var(--f, 0) + 4px); transition: bottom 200ms var(--rs-ease); width: 8px; height: 8px; margin-left: -4px; border-radius: 50%; border: 2px solid var(--a-warn-text); box-sizing: border-box; z-index: 2; }
+.rs-q em { font: 600 11px/16px var(--font-body); font-style: normal; color: var(--a-ink-3); text-align: center; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.rs-q[data-sel] .rs-col { background: color-mix(in oklab, var(--a-ink) 8%, transparent); box-shadow: 0 0 0 1.5px var(--a-ink-2); }
+.rs-q[data-sel] em, .rs-q[data-now] em { color: var(--a-ink); font-weight: 800; }
+.rs-q[data-now] .rs-col { box-shadow: inset 0 -2px 0 var(--a-ink); }
+.rs-q[data-dim] { opacity: 0.2; }
+.rs .rs-q:focus-visible { outline: 2px solid var(--a-focus, var(--a-accent-text)); outline-offset: 2px; }
+
+.rs-line { margin-top: 14px; }
+.rs-line__ticks { display: grid; gap: 1px; height: 14px; }
+.rs-line__ticks i { border-radius: 1px; background: var(--rs-right); transition: opacity 180ms ease; }
+.rs-line__ticks i[data-v='wrong'] { background: var(--rs-wrong); }
+.rs-line__ticks i[data-v='blank'], .rs-line__ticks i[data-v='held'] { background: transparent; box-shadow: inset 0 0 0 1px var(--a-ink-3); }
+.rs-line__ticks i[data-dim] { opacity: 0.2; }
+.rs-line__lab { margin-top: 4px; display: flex; justify-content: space-between; font: 600 11.5px/1 var(--font-body); color: var(--a-ink-3); }
+
+.rs-detail { margin: 8px 0 0; min-height: 20px; font: 500 13.5px/1.5 var(--font-body); color: var(--a-ink-2); text-wrap: pretty; }
+.rs .rs-inline { padding: 0; border: 0; background: none; font: inherit; font-weight: 650; color: var(--a-ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--a-line-strong); cursor: pointer; }
+.rs-foot { margin-top: 10px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; }
+.rs-key { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; font: 500 12.5px/1.4 var(--font-body); color: var(--a-ink-3); }
+.rs-key span { display: inline-flex; align-items: center; gap: 6px; }
+.rs-key i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; }
+.rs-key i[data-k='right'] { background: var(--rs-right); }
+.rs-key i[data-k='wrong'] { background: var(--rs-wrong); }
+.rs-key i[data-k='blank'] { box-shadow: inset 0 0 0 1.5px var(--a-ink-3); }
+.rs-key i[data-k='changed'] { border-radius: 50%; border: 2px solid var(--a-warn-text); box-sizing: border-box; }
+.rs-key i[data-k='pace'] { width: 14px; height: 0; border-top: 1px dashed var(--a-ink-3); border-radius: 0; }
+.rs .rs-toggle { min-height: 44px; padding: 0; border: 0; background: none; cursor: pointer; font: 650 14px/1 var(--font-body); color: var(--a-ink); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--a-line-strong); }
+
+.rs-cut { margin-top: 6px; padding: 16px 0; border-top: 1px solid var(--a-line); border-bottom: 1px solid var(--a-line); display: grid; gap: 6px; }
+.rs-cut b { font: 700 17px/1.35 var(--font-display); color: var(--a-ink); }
+.rs-cut p { margin: 0; font: 500 14.5px/1.5 var(--font-body); color: var(--a-ink-2); text-wrap: pretty; }
+.rs-link { justify-self: start; display: inline-flex; align-items: center; min-height: 44px; font: 650 14.5px/1.3 var(--font-body); color: var(--a-ink); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--a-line-strong); }
+
+@media (prefers-reduced-motion: reduce) {
+  .rs .rs-q, .rs-col i, .rs-line__ticks i, .rs .rs-btn { transition: none; }
+}
+
+/* The replay in miniature, inside an opened answer: this question's slot lit, the rest quiet. */
+.rs-mini { margin: 6px 0 4px; min-width: 0; --rs-right: color-mix(in oklab, var(--a-good-text) 60%, var(--a-bg)); --rs-wrong: color-mix(in oklab, var(--a-bad-text) 80%, var(--a-bg)); }
+.rs-mini__cols { position: relative; display: grid; align-items: end; gap: 1px; height: 30px; border-bottom: 1px solid var(--a-line-strong); }
+.rs-mini__cols i { display: block; height: calc(100% * var(--f)); min-height: 2px; border-radius: 1px 1px 0 0; background: var(--rs-right); opacity: 0.28; }
+.rs-mini__cols i[data-v='wrong'] { background: var(--rs-wrong); }
+.rs-mini__cols i[data-v='blank'], .rs-mini__cols i[data-v='held'] { background: transparent; box-shadow: inset 0 0 0 1px var(--a-ink-3); }
+.rs-mini__cols i[data-own] { opacity: 1; min-height: 4px; outline: 1.5px solid var(--a-ink); outline-offset: 1px; }
+.rs-mini__pace { position: absolute; left: 0; right: 0; bottom: 33.3%; border-top: 1px dashed var(--a-ink-3); opacity: 0.6; pointer-events: none; }
+.rs-mini__lab { margin-top: 4px; display: flex; justify-content: space-between; gap: 8px; font: 600 11.5px/1.3 var(--font-body); color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+.rs-mini__lab span:nth-child(2) { color: var(--a-ink-2); text-align: center; flex: 1; }

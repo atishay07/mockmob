@@ -72,7 +72,7 @@ function ProLock({ what, onNavigate }) {
 // Radar passes `afterLedger` (its trend and subjects on narrow screens, right under the marks), `afterFindings`
 // (Across your mocks), `oneLock` (the free plan's two Pro rows said once, at the end) and `emptyAction={false}`
 // (its page already offers the next step) and `chaptersFirst` (the ranked chapters straight under the next step). The Mentor record tab passes none of them and is unchanged.
-export default function RecordView({ state, onNavigate, pro = false, afterLedger = null, afterFindings = null, oneLock = false, emptyAction = true, chaptersFirst = false }) {
+export default function RecordView({ state, onNavigate, pro = false, afterLedger = null, afterFindings = null, oneLock = false, emptyAction = true, chaptersFirst = false, chaptersInReview = false }) {
   const [showThin, setShowThin] = useState(false);
   const [changesRef, changesSeen] = useInView({ threshold: 0.4 });
   const { status, insights, findings } = state;
@@ -110,7 +110,18 @@ export default function RecordView({ state, onNavigate, pro = false, afterLedger
   const shownChapters = chapters.ranked.slice(0, pro ? 8 : FREE_CHAPTERS);
   const chapterFinding = findings.find((f) => f.id === 'chapter') || null;
   const shownFindings = chaptersFirst && chapters.ranked.length ? findings.filter((f) => f.id !== 'chapter') : findings;
-  const chaptersSection = (
+  // Review 1018 (REVIEW-RESULT-1018 4.6, P-RR1): on Weak chapters the ranked list moved to Review, which leads with where you
+  // lose marks; one row says so and links there. The trend and the subjects stay on this page.
+  const chaptersSection = chaptersInReview ? (
+      <section aria-labelledby="pp-c" className="pp-inreview">
+        <h3 id="pp-c" className="sr-only">Your weak chapters</h3>
+        <a className="pp-inreview__row" href="/review" onClick={(e) => { e.preventDefault(); onNavigate('/review'); }}>
+          <b>Your weak chapters are in Review</b>
+          <span>Each chapter with the marks it lost across your papers, its mistakes and a practice set for it.</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
+        </a>
+      </section>
+  ) : (
       <section aria-labelledby="pp-c">
         <h3 id="pp-c" className="pp-h">Chapters costing you the most marks</h3>
         {chapters.ranked.length === 0 ? (

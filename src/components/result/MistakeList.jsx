@@ -91,7 +91,7 @@ function Row({ row, open, onToggle, status, cohort, cheer, children, arrived }) 
  * top          a node at the head of the section (the repair run's track, once a run has begun)
  * after        nodes under the list (the credit line, the lesson link)
  */
-export default function MistakeList({ mistakes, blanks, openIds, onToggle, statusOf, cohortOf, renderBody, visited, showAll, onShowAll, blanksOpen, onBlanks, repairedCount = 0, heldCount = 0, ordered = 'repair', cheer = null, arrived = null, top = null, after = null, arrive = false, answered = null }) {
+export default function MistakeList({ mistakes, blanks, openIds, onToggle, statusOf, cohortOf, renderBody, visited, showAll, onShowAll, blanksOpen, onBlanks, repairedCount = 0, heldCount = 0, ordered = 'repair', lead = null, cheer = null, arrived = null, top = null, after = null, arrive = false, answered = null }) {
   const listId = useId();
   const blankId = useId();
   const head = mistakesHead({ count: mistakes.length, repairedCount, heldCount, answered });
@@ -112,7 +112,7 @@ export default function MistakeList({ mistakes, blanks, openIds, onToggle, statu
         {head.side && !top ? <span className="rx-mistakes__side">{head.side}</span> : null}
       </div>
       {mistakes.length ? (
-        <p className="rx-mistakes__sub">{ordered === 'repair' ? 'In repair order: the ones most other students got right come first. ' : 'In paper order. '}{STEPS_LINE}</p>
+        <p className="rx-mistakes__sub">{lead ? `Q${lead} first, the one your next move names. Then ${ordered === 'repair' ? 'in repair order' : 'in paper order'}. ` : ordered === 'repair' ? 'In repair order: the ones most other students got right come first. ' : 'In paper order. '}{STEPS_LINE}</p>
       ) : null}
       {head.empty ? <p className="rx-mistakes__sub">{head.empty}</p> : null}
       {mistakes.length ? <ol className="rx-list" id={listId}>{shown.map(row)}</ol> : null}

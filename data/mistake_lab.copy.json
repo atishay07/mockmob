@@ -323,6 +323,82 @@
       "long_stay": "2 minutes or more",
       "quick_wrong": "Under 20 seconds",
       "never_opened": "Never opened"
+    },
+    "slots": {
+      "rest": "{a} of {total} answered in {time}.",
+      "awayOne": "Away from the paper once, {time}.",
+      "awayMany": "Away from the paper {k} times, {time} in all.",
+      "cutTitle": "Nothing to replay on this paper.",
+      "cutShort": "You submitted after {time} with {a} of {total} answered, so there is no pace or change to show. {where}",
+      "cutFew": "This paper has {k} answer events in {time}, so there is no pace or change to show. Every answer is in Answer by answer.",
+      "cutNone": "There is no record of how this paper was taken, so there is no pace or change to show. Every answer is in Answer by answer.",
+      "cutIndex": "{time}. Nothing to replay.",
+      "made": {
+        "rightToWrong": "a right answer made wrong",
+        "wrongToRight": "a wrong answer made right",
+        "wrongToWrong": "still wrong"
+      },
+      "collapse": "Collapse",
+      "expand": "Expand all {total}",
+      "of": "of {time}",
+      "key": {
+        "right": "Right",
+        "wrong": "Wrong",
+        "blank": "Blank",
+        "changed": "Changed",
+        "pace": "Even pace"
+      },
+      "whereBoth": "Your {a} answers and {b} blanks are in Answer by answer.",
+      "whereAll": "Every answer is in Answer by answer.",
+      "seconds": {
+        "one": "1 second",
+        "many": "{n} seconds"
+      },
+      "caption": {
+        "end": "Submitted.",
+        "back": "Back to Q{n}.",
+        "clear": "Q{n} answer cleared.",
+        "pick": "Q{n} picked {to}.",
+        "change": "Q{n} changed {from} to {to}{made}."
+      },
+      "detail": {
+        "first": "picked {to} at {at}",
+        "later": "changed to {to} at {at}",
+        "none": "no answer picked",
+        "pace": "{time} on it, even pace {pace}",
+        "right": "right, +5",
+        "wrong": "wrong, −1",
+        "held": "key under re-check",
+        "blank": "blank, 0",
+        "select": "Select a question to see its time and picks.",
+        "open": "Open Q{n}"
+      },
+      "cutLink": "Practise {n} more, no time limit",
+      "mini": "Q{n}: {time} here, even pace {pace}"
+    },
+    "reel": {
+      "open": "Play your paper back, {s} s",
+      "openLine": "Your sheet question by question, the moments that cost you, then your next move.",
+      "openButton": "Play it back",
+      "title": "Your paper, played back",
+      "start": "Your paper, question by question.",
+      "marksOf": "of {max} marks",
+      "skip": "Skip",
+      "again": "Play again",
+      "close": "Close",
+      "step": "Next moment",
+      "standout": "What stood out",
+      "next": "Your next move",
+      "moments": {
+        "lost": "Q{n}: you changed a right answer to wrong. It cost {m} marks.",
+        "won": "Q{n}: you changed a wrong answer to right. It earned {m} marks.",
+        "long": "Q{n}: {time} on it, {x} times the even pace of {pace}. It was {result}."
+      },
+      "results": {
+        "wrong": "wrong",
+        "blank": "left blank"
+      },
+      "none": "Nothing stood out in how this paper was taken. The marks are the story."
     }
   },
   "across": {

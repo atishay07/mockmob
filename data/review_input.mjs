@@ -20,6 +20,7 @@
 // An item's uid is `${paper}:${qid ?? q}`; it is the id the shared function sees, and the target of a move names the paper.
 import { NEXT_MOVE_RULES, nextMove } from './result_next_move.mjs';
 import { REVISE_RULES, addDays, dayLabel, istDate, minutesFor } from './revise.js';
+import { chaptersBody } from './review_chapters.mjs';
 
 export const REVIEW_INPUT_VERSION = 1;
 export const ITEM_STATES = Object.freeze(['open', 'slipped', 'repaired', 'held', 'blank']);
@@ -363,5 +364,9 @@ export function reviewBody(record) {
       dueToday: { questions: due.unknown.includes('questions') ? null : due.questions, again: due.unknown.includes('again') ? null : due.again, checks: due.checks, cards: due.unknown.includes('cards') ? null : due.cards },
     } : null,
     repairOrder: record.repairOrder ?? null,
+    // Pass 1018 (REVIEW-RESULT-1018 4.1 to 4.4): the weak chapters priced against their marks on offer, the saved repairs
+    // and the head line, from data/review_chapters.mjs (one function feeds every number on the page).
+    chapterQuestions: record.chapterQuestions ?? null,
+    lose: chaptersBody(record),
   };
 }

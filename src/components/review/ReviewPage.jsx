@@ -22,6 +22,7 @@ import ReviewNextMove from './ReviewNextMove';
 import ReceiptStrip from './ReceiptStrip';
 import ChapterRows, { ItemList } from './ChapterRows';
 import PapersView from './PapersView';
+import ReviewChapters from './ReviewChapters';
 import './review-1017.css';
 
 const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
@@ -37,14 +38,12 @@ function causeOf(error) {
 }
 
 function Loading() {
-  // The control, the panel, the strip and three rows: no figure and no sentence that could turn out wrong.
+  // Pass 1018 (4.7): the head line and three chapter rows, no figure and no sentence that could turn out wrong.
   return (
-    <div className="rvw-skel" role="status" aria-label="Loading your mistakes">
-      <i className="rvw-skel__seg" />
-      <div className="rvw-skel__board">
-        <i className="rvw-skel__panel" />
-        <div><i className="rvw-skel__strip" /><i className="rvw-skel__row" /><i className="rvw-skel__row" /><i className="rvw-skel__row" /></div>
-      </div>
+    <div className="rvw-skel rv8-skel" role="status" aria-label="Loading your chapters">
+      <i className="rv8-skel__line" />
+      <i className="rv8-skel__head" />
+      <i className="rv8-skel__row" /><i className="rv8-skel__row" /><i className="rv8-skel__row" />
     </div>
   );
 }
@@ -233,6 +232,9 @@ function ReviewInner({ tabParam }) {
   if (read.status === 'down') return <><h1 className="display-md rvw-title">Review</h1><Failed cause={read.cause} at={read.at} onRetry={() => { setRetrying(true); load(); }} retrying={retrying} /></>;
   if (body.state === 'empty') return <><h1 className="display-md rvw-title">Review</h1><Empty wallet={body.wallet} /></>;
 
+  // Pass 1018 (REVIEW-RESULT-1018 4.1): Review leads with where you lose marks. A body without the 1018 part (an older
+  // server mid-deploy) keeps the 1017 page below, so a deploy order never breaks Review.
+  if (body.lose && Array.isArray(body.lose.rows)) return <ReviewChapters body={body} onChanged={onChanged} />;
   const counts = body.counts || {};
   return (
     <>

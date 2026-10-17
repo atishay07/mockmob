@@ -210,7 +210,8 @@ export async function fixtureReplayMock(paperName = 'full', { cohortTime = null,
 // practice10 (preview only, D17 in docs/brain/OWNER-FEEDBACK-2026-10-18-DAWN.md): the owner's own case, a 10-question
 // Accountancy practice answered in 58 seconds, 5 right and 5 wrong (20 of 50), Q1 and Q3 among the mistakes, Q3 changed
 // from the key to a wrong option. It is how the replay looks on a short paper.
-const PREVIEW_PAPERS = Object.freeze({ practice10: [['Admission of a Partner', 'WRWRR'], ['Goodwill', 'WRWWR']] });
+// practice10slow (preview only, pass 1018 D17): the same ten questions taken in about 15 minutes, so the replay draws its ten slots.
+const PREVIEW_PAPERS = Object.freeze({ practice10: [['Admission of a Partner', 'WRWRR'], ['Goodwill', 'WRWWR']], practice10slow: [['Admission of a Partner', 'WRWRR'], ['Goodwill', 'WRWWR']] });
 const PRACTICE10_SECONDS = [4, 7, 5, 6, 8, 5, 6, 4, 7, 6];
 export const RESULT_PAPER_NAMES = Object.freeze([...Object.keys(RESULT_PAPERS), ...Object.keys(PREVIEW_PAPERS)]);
 
@@ -223,10 +224,10 @@ export const RESULT_PAPER_NAMES = Object.freeze([...Object.keys(RESULT_PAPERS), 
  */
 export function fixtureResultPaper(name = 'avg', { held = false, repaired = false } = {}) {
   const now = Date.now();
-  const practice = name === 'practice5' || name === 'practice10';
-  const short = name === 'practice10';
+  const practice = name === 'practice5' || name === 'practice10' || name === 'practice10slow';
+  const short = name === 'practice10' || name === 'practice10slow';
   const attempt = paper({ id: 'fixture-attempt', prefix: `paper-${name}`, mode: practice ? 'quick' : 'full', completedAt: now - 3_600_000, blocks: RESULT_PAPERS[name] || PREVIEW_PAPERS[name] || RESULT_PAPERS.avg,
-    ...(short ? { secondsAt: (i) => PRACTICE10_SECONDS[i] ?? 6, firstPicks: { 3: 'key' } } : {}) });
+    ...(short ? { secondsAt: (i) => (PRACTICE10_SECONDS[i] ?? 6) * (name === 'practice10slow' ? 16 : 1), firstPicks: { 3: 'key' } } : {}) });
   if (practice && !short) attempt.subject = 'business_studies';
   attempt.mode = attempt.selectionMeta.mode;
   if (practice) attempt.selectionMeta = { ...attempt.selectionMeta, scoringVersion: 'server_practice_v1' };

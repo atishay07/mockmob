@@ -183,7 +183,7 @@ test('rule 2 reads the newest paper: under 40 percent right there sends the stud
   const move = reviewMove(r);
   assert.equal(move.rule, 2);
   assert.equal(move.label, 'Practise 10 on Admission of a partner');
-  assert.equal(move.alt.label, 'Or repair Q42 first, 1 AI credit');
+  assert.equal(move.alt.label, 'Or repair Q42, 1 AI credit');
   // the same record with an older weak paper and a strong newest one still repairs
   const old = copy(student);
   Object.assign(old.papers.find((p) => p.id === 'm2'), { right: 5, wrong: 15, blank: 30 });

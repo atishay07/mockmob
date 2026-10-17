@@ -78,7 +78,11 @@ function QuestionButtons({ numbers, onJump }) {
   );
 }
 
-export default function SwotPanel({ swot, attemptId, onJump, inFold = false }) {
+// Pass 1018 (REVIEW-RESULT-1018 5.3): inside "After this mock" the SWOT reads under plain headings, in this order.
+const PLAIN = { weakness: 'Costing you', strength: 'Working', opportunity: 'Room to grow', threat: 'Watch' };
+const PLAIN_ORDER = ['weakness', 'strength', 'opportunity', 'threat'];
+
+export default function SwotPanel({ swot, attemptId, onJump, inFold = false, plain = false }) {
   const ready = swot?.state === 'ready';
   const [ref, phase] = useFirstView(attemptId, ready);
   const uid = useId();
@@ -96,7 +100,8 @@ export default function SwotPanel({ swot, attemptId, onJump, inFold = false }) {
   // Groups with findings come first, in SWOT order; an empty group is one quiet full-width line after them, so it never
   // leaves a tall empty cell beside a long one.
   const hasItems = (q) => Array.isArray(q.items) && q.items.length > 0;
-  const quadrants = [...kept.filter(hasItems), ...kept.filter((q) => !hasItems(q))];
+  const ordered = plain ? [...kept].sort((a, b) => PLAIN_ORDER.indexOf(a.id) - PLAIN_ORDER.indexOf(b.id)) : kept;
+  const quadrants = [...ordered.filter(hasItems), ...ordered.filter((q) => !hasItems(q))];
   const basis = swot.basis || null;
   const titleId = `${uid}-title`;
 
@@ -138,7 +143,7 @@ export default function SwotPanel({ swot, attemptId, onJump, inFold = false }) {
               const headId = `${uid}-${q.id}`;
               return (
                 <section key={q.id} className="sw-q" data-q={q.id} data-empty={items.length ? undefined : ''} aria-labelledby={headId} style={{ '--i': plan.length + gi }}>
-                  <h4 id={headId} className="sw-q__h">{q.label}</h4>
+                  <h4 id={headId} className="sw-q__h">{plain ? PLAIN[q.id] || q.label : q.label}</h4>
                   {items.length ? (
                     <ul className="sw-items">
                       {items.map((item) => (

@@ -155,7 +155,7 @@ export default function AnalyticsPageClient() {
         return (
           <div className="rd-cols">
             <div className="pp-arena rd-main">
-              <RecordView state={record} pro={pro} oneLock chaptersFirst emptyAction={false} afterLedger={narrowSide} afterFindings={across} onNavigate={(href) => { window.location.assign(href); }} />
+              <RecordView state={record} pro={pro} oneLock chaptersFirst chaptersInReview emptyAction={false} afterLedger={narrowSide} afterFindings={across} onNavigate={(href) => { window.location.assign(href); }} />
               {record.status !== 'ready' ? across : null}
             </div>
             {!inline ? <aside className="rd-side" aria-label="Score by session and by subject">{side}</aside> : null}
