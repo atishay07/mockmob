@@ -1864,8 +1864,9 @@ html[data-motion='reduced'] .app-shell .rc-caption .rc-chip { animation: none; }
 }
 .app-shell .student-page--today .rc-ring__fill[data-met='true'] { filter: none; }
 
-/* Chosen segments and checks are flat volt in the arena: no keycap edge under them. */
-.app-shell :is(.ctl-seg__lens, .ctl-seg:not([data-lens='on']) .ctl-seg__opt[aria-checked='true'], .ctl-pop__option[aria-selected='true'] .ctl-pop__check) { box-shadow: none; }
+/* Checks are flat volt in the arena: no keycap edge under them. A chosen segment keeps its 1.5 px volt line over
+   its tint (controls.css): it is not a fill. */
+.app-shell .ctl-pop__option[aria-selected='true'] .ctl-pop__check { box-shadow: none; }
 .app-shell .student-page--today .pr-head p { max-width: 66ch; }
 
 /* Night, Daylight, Match device: three choices in one ruled row, in the sidebar and the More sheet. */

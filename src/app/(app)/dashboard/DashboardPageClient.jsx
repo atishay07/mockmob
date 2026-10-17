@@ -449,6 +449,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
   const barStartLabel = effectiveModeId === 'full' ? 'Start full mock'
     : effectiveModeId === 'nta' ? 'Start NTA paper'
       : `Start ${quoteCount} ${quoteCount === 1 ? 'question' : 'questions'}`;
+  const keyNamesCount = !['full', 'nta'].includes(effectiveModeId) && !blocked && quoteStatus !== 'error';
   // The session card's Start (from 1024 px) and the phone bar's Start: one volt each, never both on one layout.
   const startKey = (className, short = false) => (blocked && quote.upgradeHref ? (
     <Link href={quote.upgradeHref} className={`btn-outline md ${className}`}>{short ? (shortfall ? `Need ${shortfall} more` : quote.reasonCode === 'access_required' ? 'See Pro' : 'See options') : blockedLabel}</Link>
@@ -666,7 +667,8 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
               </span>
               <span className="pr-bar__text" data-blocked={blocked || undefined}>
                 <b>{mode.label}</b>
-                <span><span className="sr-only">{subjectLabel}, </span>{quoteCount} Q<span className="pr-bar__min"><Sep />{approximate ? 'about ' : ''}{minutes} min</span><Sep /><i data-tone={blocked ? 'locked' : undefined}>{barCost}</i></span>
+                {/* The key already names the count ("Start 10 questions"), so the line does not repeat it; full and NTA papers keep it. */}
+                <span><span className="sr-only">{subjectLabel}, {keyNamesCount ? `${quoteCount} questions, ` : ''}</span>{keyNamesCount ? null : <>{quoteCount} Q<Sep /></>}<span className="pr-bar__min">{approximate ? 'about ' : ''}{minutes} min<Sep /></span><i data-tone={blocked ? 'locked' : undefined}>{barCost}</i></span>
               </span>
               {startKey('pr-bar__go', true)}
             </div>
