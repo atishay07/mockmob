@@ -106,7 +106,7 @@ export default function StudyLibrary({ catalog, api, onOpenRun, onOpenUnit, init
                 <div className="cx-sec__head"><h2 id="cx-lose">Where you lose marks</h2><p>From your papers</p></div>
                 {lose.slice(0, LOSE_ROWS).map((row) => <div className="cx-lose" key={row.id}>
                   {row.lessons.length ? <div className="cx-chhead"><b>{row.name}</b><Lost marks={row.marks} /><span className="cx-chmeta">{row.meta}</span></div>
-                    : <Link className="cx-row cx-row--lose" href={practiceHref(subject, row.name)}><b>{row.name}<Lost marks={row.marks} /></b><span>{row.meta}</span><ChevronRight size={18} aria-hidden="true" /></Link>}
+                    : <Link className="cx-row cx-row--lose" href={practiceHref(subject, row.name)}><b>{row.name}</b><Lost marks={row.marks} /><span>{row.meta}</span><ChevronRight size={18} aria-hidden="true" /></Link>}
                   {row.lessons.length ? <ul className="cx-lessons">{row.lessons.map((u) => <Lesson key={u.id} onOpen={open} unit={u} from={fromChapter(u)} />)}</ul> : null}
                 </div>)}
               </section> : null}

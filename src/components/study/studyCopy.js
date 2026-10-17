@@ -1,5 +1,5 @@
-// Shared student-facing language for Learn, lessons and review. One word per concept:
-// "lesson" (understand), "lock in" (first recall of a lesson), "review" (scheduled recall),
+// Shared student-facing language for Concepts, lessons and Revise. One word per concept:
+// "lesson" (understand), "lock it in" (first recall of a lesson), "Revise" (everything that comes back),
 // "practise" (exam-style questions with marks), "mock" (full timed paper).
 import { runMood } from '../../lib/mobiMoments.js';
 
@@ -33,8 +33,8 @@ export const STATUS = {
   new: { label: 'Not started' },
   in_progress: { label: 'In progress' },
   lock_in: { label: 'Read, lock it in' },
-  due: { label: 'Review due' },
-  learned: { label: 'In review' },
+  due: { label: 'Due in Revise' },
+  learned: { label: 'In Revise' },
 };
 
 export function friendlyError(error) {
@@ -42,12 +42,12 @@ export function friendlyError(error) {
   if (error?.kind === 'network') return { text: 'You seem to be offline. Your last saved step is safe; reconnect and try again.', retry: true };
   if (error?.status === 401) return { text: 'Your sign-in has expired. Sign in again to continue from your last saved step.', signIn: true };
   if (error?.status === 409 || /CONFLICT/.test(code)) return { text: 'This session moved on in another tab or device. Reload to continue from the latest saved step.', reload: true };
-  if (/DAILY_NEW_LIMIT_REACHED/.test(code)) return { text: 'You have started today’s 5 new cards. These cards join your reviews tomorrow; anything already due can still be reviewed.' };
+  if (/DAILY_NEW_LIMIT_REACHED/.test(code)) return { text: 'You have started today’s 5 new cards. These cards join Revise tomorrow; anything already due can still be revised.' };
   if (/NOTHING_DUE/.test(code)) return { text: 'Nothing is due right now. Read a lesson to add new cards, or practise questions.' };
-  if (/LESSON_NOT_READ/.test(code)) return { text: 'Read the lesson first. Its recall cards become available when you finish; reviews and practice remain available.' };
+  if (/LESSON_NOT_READ/.test(code)) return { text: 'Read the lesson first. Its cards join Revise when you finish; Revise and practice remain available.' };
   if (/CONTENT_CHANGED/.test(code)) return { text: 'This lesson has been updated since you started. Your earlier answers are kept; open the current version to continue.', updated: true };
-  if (/PREMIUM_REQUIRED/.test(code)) return { text: 'Saved weekly plans and custom mixed revision are part of Pro. Lessons and reviews stay free.' };
-  if (/NOT_FOUND|UNAVAILABLE/.test(code)) return { text: 'This activity isn’t available right now. Choose another lesson from Learn, or practise questions.' };
+  if (/PREMIUM_REQUIRED/.test(code)) return { text: 'Saved weekly plans and custom mixed revision are part of Pro. Lessons and Revise stay free.' };
+  if (/NOT_FOUND|UNAVAILABLE/.test(code)) return { text: 'This activity isn’t available right now. Choose another lesson from Concepts, or practise questions.' };
   if (error?.status === 429) return { text: 'Too many requests at once. Wait a few seconds and try again.', retry: true };
   return { text: 'That action could not be saved. Your answer is still here. Try again.', retry: true };
 }
@@ -63,6 +63,6 @@ export function doneReaction(kept, total) {
   if (!(total > 0)) return { act: runMood(0, 0), line: '' };
   const act = runMood(kept, total);
   if (kept >= total) return { act, line: 'That one stuck.' };
-  if (act === 'encourage') return { act, line: 'Some of it needs another pass. Review brings it back.' };
-  return { act, line: 'Most of it stuck. The rest comes back in review.' };
+  if (act === 'encourage') return { act, line: 'Some of it needs another pass. Revise brings it back.' };
+  return { act, line: 'Most of it stuck. The rest comes back in Revise.' };
 }

@@ -31,6 +31,12 @@
 @media (prefers-reduced-motion: no-preference) { .cx-next--wait i, .cx-skel i { animation: cx-pulse 1.4s ease-in-out infinite; } }
 @keyframes cx-pulse { 50% { opacity: 0.5; } }
 
+/* The library while it loads: the head is real, the panel and three rows hold their places so nothing jumps when they arrive. */
+.cx-loading .cx-skel { margin-top: 30px; }
+.cx-loading .cx-skel i:nth-child(n+2) { height: 56px; width: 100%; border-radius: 10px; }
+
+.cx .cx-fail { margin-top: 22px; max-width: 680px; }
+
 /* Quiet rows: the whole row is the control, a hairline under it. */
 .sx a.cx-row, .sx button.cx-row, .cx-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 16px; align-items: center; width: 100%; min-height: 44px; padding: 15px 0; border: 0; border-bottom: 1px solid var(--a-line); background: none; color: var(--a-ink); font: inherit; text-align: left; text-decoration: none; cursor: pointer; }
 .cx-row b { grid-column: 1; font: 650 15.5px/1.3 var(--font-body); }
@@ -38,7 +44,11 @@
 .cx-row > svg { grid-column: 2; grid-row: 1 / span 2; color: var(--a-ink-3); }
 @media (hover: hover) and (pointer: fine) { .cx-row:hover b { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--a-line-strong); } }
 .cx-row:disabled { opacity: 0.5; cursor: not-allowed; }
-.cx-row--lose b .cx-lost { margin-left: 8px; font-size: 15px; }
+.sx a.cx-row--lose { grid-template-columns: minmax(0, 1fr) auto 18px; padding: 14px 0 15px; }
+.cx-row--lose b { grid-column: 1; grid-row: 1; font-size: 16px; }
+.cx-row--lose > .cx-lost { grid-column: 2; grid-row: 1; font: 720 17px/1 var(--font-display); color: var(--a-bad-text); }
+.cx-row--lose > span { grid-column: 1 / span 2; grid-row: 2; }
+.cx-row--lose > svg { grid-column: 3; grid-row: 1 / span 2; }
 
 /* Search and subject switch. */
 .cx-search { margin-top: 22px; display: flex; align-items: center; gap: 10px; height: 48px; padding: 0 14px; border-radius: 14px; border: 1px solid var(--a-line-strong); background: var(--a-sunken); color: var(--a-ink-3); }
@@ -156,3 +166,8 @@ button.cx-key { border: 0; cursor: pointer; }
 .cpn__lesson span { font: 500 13.5px/1.45 var(--font-body); color: var(--a-ink-3); text-wrap: pretty; }
 @media (hover: hover) and (pointer: fine) { .cpn__lesson:hover b { text-decoration-color: var(--a-ink-2); } }
 .cpn__lesson:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 3px; border-radius: 6px; }
+
+/* Lesson page details: the quiet links start on the content edge, and "How CUET asks this" is a plain line, not a box in the page. */
+.cx-lesson-page .sx-actions { margin-top: 8px; }
+.cx-lesson-page .sx-actions .sx-quiet { padding-inline: 0; text-decoration: underline; text-decoration-color: var(--a-line-strong); text-underline-offset: 4px; }
+.cx-lesson-page .sx-examlink { padding: 0; border-radius: 0; background: none; }
