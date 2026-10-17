@@ -550,25 +550,49 @@ class LeadChoice extends StatelessWidget {
                           child: Align(alignment: Alignment.topLeft, child: o.tag == null ? null : _Tag(o.tag!)),
                         ),
                         const SizedBox(height: MmSpace.s8),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  _leadTitle(context, o, type.headline.copyWith(fontSize: 30, height: 32 / 30)),
-                                  const SizedBox(height: MmSpace.s4),
-                                  _note(context, o.note, type.small.copyWith(fontSize: 15, color: colors.ink2), o.noteLines),
-                                  if (o.facts.isNotEmpty) ...[const SizedBox(height: MmSpace.s8), _facts(o.facts)],
-                                ],
+                        if ((o.titleLines ?? 1) > 1) ...[
+                          // A title that follows the subject runs the card's full width, and the go disc
+                          // sits with the note: "10 Business Studies questions" needs the room, and a
+                          // longer name then never takes a third line (F6).
+                          _leadTitle(context, o, type.headline.copyWith(fontSize: 30, height: 32 / 30)),
+                          const SizedBox(height: MmSpace.s4),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    _note(context, o.note, type.small.copyWith(fontSize: 15, color: colors.ink2), o.noteLines),
+                                    if (o.facts.isNotEmpty) ...[const SizedBox(height: MmSpace.s8), _facts(o.facts)],
+                                  ],
+                                ),
                               ),
-                            ),
-                            const SizedBox(width: MmSpace.s12),
-                            _GoDisc(pressed: pressed),
-                          ],
-                        ),
+                              const SizedBox(width: MmSpace.s12),
+                              _GoDisc(pressed: pressed),
+                            ],
+                          ),
+                        ] else
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    _leadTitle(context, o, type.headline.copyWith(fontSize: 30, height: 32 / 30)),
+                                    const SizedBox(height: MmSpace.s4),
+                                    _note(context, o.note, type.small.copyWith(fontSize: 15, color: colors.ink2), o.noteLines),
+                                    if (o.facts.isNotEmpty) ...[const SizedBox(height: MmSpace.s8), _facts(o.facts)],
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: MmSpace.s12),
+                              _GoDisc(pressed: pressed),
+                            ],
+                          ),
                       ],
                     ),
                   ),
@@ -595,9 +619,52 @@ Widget _leadTitle(BuildContext context, ChoiceOption o, TextStyle style) {
       duration: duration,
       curve: Motion.out,
       alignment: Alignment.topLeft,
-      child: MmOverlapSwitcher(duration: duration, alignment: Alignment.topLeft, child: Text(o.title, key: ValueKey(o.title), style: style)),
+      child: MmOverlapSwitcher(duration: duration, alignment: Alignment.topLeft, child: _FitTitle(o.title, key: ValueKey(o.title), style: style, maxLines: lines)),
     ),
   );
+}
+
+/// A title that steps down in size, never in lines, until it fits [maxLines] without breaking a
+/// word ("10 Business Studies questions" is three lines at 30 and two at 25), so the card keeps one
+/// height for every subject and a long name never wraps to a third line.
+class _FitTitle extends StatelessWidget {
+  const _FitTitle(this.text, {super.key, required this.style, required this.maxLines});
+
+  final String text;
+  final TextStyle style;
+  final int maxLines;
+
+  static const List<double> _steps = [1, 0.92, 0.84, 0.76];
+
+  @override
+  Widget build(BuildContext context) {
+    final scaler = MediaQuery.textScalerOf(context);
+    final direction = Directionality.of(context);
+    return LayoutBuilder(
+      builder: (context, box) {
+        var fitted = style.copyWith(fontSize: style.fontSize! * _steps.last);
+        if (box.maxWidth.isFinite) {
+          for (final step in _steps) {
+            final candidate = style.copyWith(fontSize: style.fontSize! * step);
+            final painter = TextPainter(text: TextSpan(text: text, style: candidate), textDirection: direction, textScaler: scaler, maxLines: maxLines)..layout(maxWidth: box.maxWidth);
+            final longest = text.split(' ').fold<double>(0, (w, word) {
+              final one = TextPainter(text: TextSpan(text: word, style: candidate), textDirection: direction, textScaler: scaler)..layout();
+              final width = one.width;
+              one.dispose();
+              return width > w ? width : w;
+            });
+            final fits = !painter.didExceedMaxLines && longest <= box.maxWidth;
+            painter.dispose();
+            if (fits) {
+              fitted = candidate;
+              break;
+            }
+          }
+        }
+        return Text(text, style: fitted);
+      },
+    );
+  }
 }
 
 /// The volt disc that says "this one starts": a play glyph on volt. It sinks a little further
@@ -772,10 +839,29 @@ class TileChoice extends StatelessWidget {
                                 child: ChoiceGlyph(kind: o.glyph, size: glyphSize, lit: primary, motion: motion),
                               ),
                               if (goMark) ...[
-                                const Spacer(),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: MmSpace.s4),
-                                  child: ChoiceGoMark(pressed: pressed),
+                                // The go disc, and the "Pro" tag under it: the title row stays the same
+                                // width in both tiles of a pair, so both titles keep one size (L09). The
+                                // pair takes what the object leaves and scales down to fit rather than
+                                // run past the tile's edge on a narrow phone at large text.
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: MmSpace.s4),
+                                    child: Align(
+                                      alignment: Alignment.topRight,
+                                      child: FittedBox(
+                                        fit: BoxFit.scaleDown,
+                                        alignment: Alignment.topRight,
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment: CrossAxisAlignment.end,
+                                          children: [
+                                            ChoiceGoMark(pressed: pressed),
+                                            if (o.tag != null) ...[const SizedBox(height: MmSpace.s4), _Tag(o.tag!)],
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ] else if (o.tag != null) ...[
                                 // The tag takes what the object leaves: on a 360 dp phone at large text a
@@ -799,7 +885,10 @@ class TileChoice extends StatelessWidget {
                           if (!goMark) const Spacer(),
                           if (goMark)
                             // One line at every width and text size: it scales down before it wraps (L09).
-                            Row(
+                            // One row height, tagged or not, so the two titles of a pair share a baseline.
+                            ConstrainedBox(
+                              constraints: BoxConstraints(minHeight: MediaQuery.textScalerOf(context).scale(28)),
+                              child: Row(
                               children: [
                                 Flexible(
                                   child: FittedBox(
@@ -808,8 +897,8 @@ class TileChoice extends StatelessWidget {
                                     child: Text(o.title, maxLines: 1, softWrap: false, style: type.cardTitle.copyWith(fontSize: 17)),
                                   ),
                                 ),
-                                if (o.tag != null) ...[const SizedBox(width: MmSpace.s8), _Tag(o.tag!)],
                               ],
+                            ),
                             )
                           else
                             Text(o.title, style: type.cardTitle.copyWith(fontSize: primary ? 19 : (secondary ? 16 : 17))),

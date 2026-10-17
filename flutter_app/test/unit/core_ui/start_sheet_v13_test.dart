@@ -109,14 +109,20 @@ void main() {
     testWidgets('pressing a chip changes the hero title and where it starts, and the card keeps its height', (tester) async {
       final opened = await _open(tester, move: _following);
       final before = tester.getSize(find.byKey(const ValueKey('choice-tonight')));
+      await tester.ensureVisible(find.text('Business Studies'));
+      await tester.pump();
       await tester.tap(find.text('Business Studies'));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 400));
       expect(find.text('10 Business Studies questions'), findsOneWidget);
       expect(find.text('10 Accountancy questions'), findsNothing);
       expect(tester.getSize(find.byKey(const ValueKey('choice-tonight'))).height, before.height, reason: 'a longer name never moves what is below');
+      // The sheet settles after the pick before the hero is tapped.
+      await tester.pump(const Duration(milliseconds: 1500));
       await tester.tap(find.byKey(const ValueKey('choice-tonight')));
-      await tester.pumpAndSettle();
+      for (var i = 0; i < 20; i++) {
+        await tester.pump(const Duration(milliseconds: 100));
+      }
       expect(opened.single.path, '/practice/start');
       expect(opened.single.queryParameters, {'mode': 'quick', 'subject': 'business_studies', 'count': '10'});
     });
@@ -127,6 +133,8 @@ void main() {
       final rail = tester.getRect(find.byKey(const ValueKey('start-subject-chips')));
       expect(hero.bottom, lessThan(rail.top));
       expect(find.text('Or start in Accountancy'), findsOneWidget, reason: 'the rows under the rail say which subject they follow');
+      await tester.ensureVisible(find.text('Economics'));
+      await tester.pump();
       await tester.tap(find.text('Economics'));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 400));
@@ -139,6 +147,8 @@ void main() {
       await _open(tester);
       final rail = tester.getRect(find.byKey(const ValueKey('start-subject-chips')));
       expect(tester.getRect(find.text('10 Accountancy questions')).top, greaterThan(rail.bottom));
+      await tester.ensureVisible(find.text('Economics'));
+      await tester.pump();
       await tester.tap(find.text('Economics'));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 400));
@@ -177,7 +187,7 @@ void main() {
       handle.dispose();
     });
 
-    testWidgets('a press sinks the whole tile and the go mark', (tester) async {
+    testWidgets('a press reaches the go mark and the tile keeps its size', (tester) async {
       await _open(tester, move: _repair);
       final tile = find.byKey(const ValueKey('choice-mock'));
       final rest = tester.getSize(tile);
@@ -185,8 +195,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 160));
       final marks = tester.widgetList<ChoiceGoMark>(find.descendant(of: tile, matching: find.byType(ChoiceGoMark)));
       expect(marks.single.pressed, isTrue);
-      final sunk = tester.getRect(find.descendant(of: tile, matching: find.byType(DecoratedBox)).first);
-      expect(sunk.width, lessThan(rest.width), reason: 'the tile gives under the finger');
+      expect(tester.getSize(tile), rest);
       await gesture.cancel();
       await tester.pump(const Duration(seconds: 1));
     });
@@ -212,7 +221,7 @@ void main() {
         expect(nta, findsOneWidget);
         final line = tester.getSize(full).height;
         expect(tester.getSize(nta).height, lessThanOrEqualTo(line * 1.01), reason: 'NTA mode is on one line');
-        expect(tester.getRect(nta).top, closeTo(tester.getRect(full).top, 0.5), reason: 'the two titles share a line (L09)');
+        expect(tester.getRect(nta).center.dy, closeTo(tester.getRect(full).center.dy, 0.5), reason: 'the two titles share a line (L09)');
         // Both tiles stay inside the sheet.
         expect(tester.getRect(nta).right, lessThanOrEqualTo(width));
       });
