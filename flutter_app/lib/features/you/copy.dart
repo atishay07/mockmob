@@ -77,6 +77,18 @@ abstract final class YouCopy {
   static String bestRunNow(int weeks) => 'Now: ${plural(weeks, 'week')}';
   static const bestFastestLabel = 'Fastest right answer';
   static const bestsEmpty = 'Your bests show after your first scored set.';
+
+  /// The sample row under it (tagged "Example") and the key to the next action.
+  static const bestsSampleValue = '172 / 250';
+  static const bestsSampleNote = 'Your subject and the date show here.';
+  static const bestsStart = 'Start a practice set';
+
+  /// Across your mocks, before there is anything across: what will show, a sample (tagged
+  /// "Example") and the next action.
+  static const acrossEmpty = 'Habits that repeat across your mocks, like changing a right answer, show here once you have a few.';
+  static const acrossSampleTitle = 'Changed a right answer';
+  static const acrossSampleNote = '8 of 23 (35%)';
+  static const acrossStart = 'Start a full mock';
   static const aimTitle = 'Aim';
   static const aimEmpty = 'Choose a course and colleges';
   static const planFree = 'Free plan';

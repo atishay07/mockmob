@@ -182,6 +182,52 @@ class RepairRun extends Notifier<RepairRunState?> {
     return items.first.questionId;
   }
 
+  /// The server's saved repairs for this paper (F17: [AttemptDetail.savedRepairs]), applied to a run
+  /// still at its entry. A mistake the account already repaired (on another phone, the website, or
+  /// before a reinstall) is a saved repair, not an open one: the tapped mistake opens alone as a
+  /// reopen and never offers a paid repair again, and a saved mistake among the others leaves the
+  /// run. Returns true when the first mistake is a saved repair, so the screen opens it at once.
+  bool adoptSaved(Map<String, DateTime> saved) {
+    final s = state;
+    if (s == null || s.phase != RepairPhase.entry || s.retry || saved.isEmpty || s.steps.isEmpty) return false;
+    final first = s.steps.first.item;
+    final firstAt = saved[first.questionId];
+    if (firstAt != null && first.stage.isOpen) {
+      state = RepairRunState(
+        attemptId: attemptId,
+        chapter: s.chapter,
+        subjectId: s.subjectId,
+        source: s.source,
+        steps: [RepairStep(first.atStage(MistakeStage.repaired, firstAt))],
+        repairedBefore: true,
+      );
+      return true;
+    }
+    final keep = [
+      for (final st in s.steps)
+        if (!(saved.containsKey(st.item.questionId) && st.item.stage.isOpen)) st,
+    ];
+    if (keep.isNotEmpty && keep.length != s.steps.length) state = s.copyWith(steps: keep);
+    return false;
+  }
+
+  /// Keeps the phone's own record in step with the account: every saved repair the server lists for
+  /// this paper that the phone does not hold as repaired is recorded as one, at the time the server
+  /// made it, so Review shows it as repaired at once (its row opens the saved repair, free).
+  Future<void> recordSaved(Map<String, DateTime> saved, List<RepairLocalRecord> records) async {
+    if (saved.isEmpty) return;
+    final byQuestion = {for (final r in records) if (r.attemptId == attemptId) r.questionId: r};
+    for (final e in saved.entries) {
+      final r = byQuestion[e.key];
+      if (r != null && (r.isRepaired || r.status == RepairLocalStatus.notAMistake)) continue;
+      try {
+        await _repo.recordOutcome(attemptId: attemptId, questionId: e.key, status: RepairLocalStatus.stored, at: e.value);
+      } on Object {
+        // The saved repair still opens from the account; only the phone's copy is missing.
+      }
+    }
+  }
+
   /// "Finish for now" or the last mistake: go to the ending.
   void finish() {
     final s = state;

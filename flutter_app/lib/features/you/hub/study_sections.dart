@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/copy/copy.dart';
+import '../../../core/notes/sample_row.dart';
 import '../../../core/repositories/repositories.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
@@ -102,9 +103,23 @@ class BestsRows extends ConsumerWidget {
     // Nothing true to show yet: no paper, no timed answer and no week at the goal. A run of weeks
     // stands on its own, so a student who studies without a scored set still sees it.
     if (paper == null && fastest == null && run == 0) {
+      // An empty state that teaches: what will appear, one sample row (tagged "Example"), and the
+      // key to the next action.
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: youText),
-        child: Text(YouCopy.bestsEmpty, style: type.body.copyWith(color: colors.ink2)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(YouCopy.bestsEmpty, style: type.body.copyWith(color: colors.ink2)),
+            const SizedBox(height: MmSpace.s12),
+            const SampleRow(value: YouCopy.bestsSampleValue, title: YouCopy.bestMockLabel, note: YouCopy.bestsSampleNote),
+            const SizedBox(height: MmSpace.s4),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: KeyButton.quiet(label: YouCopy.bestsStart, onPressed: () => context.push(AppRoutes.practiceStart)),
+            ),
+          ],
+        ),
       );
     }
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: rows);

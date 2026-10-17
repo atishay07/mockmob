@@ -13,6 +13,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/art/hybrid/hybrid.dart';
 import '../../../core/motion/motion.dart';
+import '../../../core/notes/sample_row.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../onboarding/onboarding.dart' as ob show DuCatalog;
@@ -336,6 +337,16 @@ class _EmptyColleges extends StatelessWidget {
               ),
               const ExcludeSemantics(child: MobiCharacter(size: 56, entrance: MobiAct.point, shadow: false, watchTaps: false)),
             ],
+          ),
+        ),
+        // What a chosen college will look like here, tagged "Example" (an empty state that teaches).
+        const SizedBox(height: MmSpace.s16),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: MmSpace.gutter),
+          child: SampleRow(
+            leading: SampleRank(1),
+            title: CollegesCopy.sampleTitle,
+            note: CollegesCopy.sampleNote,
           ),
         ),
         const SizedBox(height: MmSpace.s16),

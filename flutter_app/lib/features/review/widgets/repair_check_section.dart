@@ -6,10 +6,13 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/api/api_providers.dart' show nowProvider;
 import '../../../core/models/repair_check.dart';
 import '../../../core/motion/motion.dart';
+import '../../../core/notes/feature_note_view.dart';
+import '../../../core/notes/feature_notes.dart';
 import '../../../core/repositories/credits_repository.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../copy.dart';
 import '../data/repair_check_controller.dart';
 import '../data/repair_check_logic.dart';
 import 'outcome_views.dart' show ExplanationBlock;
@@ -28,7 +31,10 @@ String askAboutLocation(String attemptId, String questionId) =>
 /// Both are drawn only for a repair whose response carried a `check` (an older server, a held repair
 /// and one that was not explained have none, and nothing is drawn).
 class RepairFollowUp extends ConsumerStatefulWidget {
-  const RepairFollowUp({super.key, required this.attemptId, required this.questionId, required this.number, required this.check});
+  const RepairFollowUp({super.key, required this.attemptId, required this.questionId, required this.number, required this.check, this.receipt});
+
+  /// What the receipt under an answered check says (the paper, the marks, the trap, the run's checks).
+  final CheckReceipt? receipt;
 
   final String attemptId;
   final String questionId;
@@ -66,7 +72,7 @@ class _RepairFollowUpState extends ConsumerState<RepairFollowUp> {
           const SizedBox(height: MmSpace.s16),
           AskAboutMistake(attemptId: widget.attemptId, questionId: widget.questionId, number: widget.number),
           const SizedBox(height: MmSpace.s24),
-          CheckItHeld(attemptId: widget.attemptId, questionId: widget.questionId),
+          CheckItHeld(attemptId: widget.attemptId, questionId: widget.questionId, receipt: widget.receipt),
         ],
       ),
     );
@@ -97,13 +103,23 @@ class AskAboutMistake extends ConsumerWidget {
     if (!offer.ask) {
       return Semantics(liveRegion: true, child: Text(offer.line!, style: type.small.copyWith(color: colors.ink2)));
     }
+    // The first time, one line says Mobi can be asked about any question under review (F18): it
+    // sits right above the key that does it, and using the key closes it.
+    final intro = ref.watch(featureNotesProvider).visible(FeatureNote.askMobi);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        if (intro) ...[
+          const FeatureNoteView(note: FeatureNote.askMobi, lead: ReviewCopy.noteAskLead, text: ReviewCopy.noteAsk, gotIt: false),
+          const SizedBox(height: MmSpace.s12),
+        ],
         KeyButton.secondary(
           label: CheckCopy.askLabel(number),
           expanded: false,
-          onPressed: () => context.push(askAboutLocation(attemptId, questionId)),
+          onPressed: () {
+            ref.read(featureNotesProvider.notifier).done(FeatureNote.askMobi);
+            context.push(askAboutLocation(attemptId, questionId));
+          },
         ),
         const SizedBox(height: MmSpace.s8),
         Text('${offer.line} ${CheckCopy.askSees(number)}', style: type.caption.copyWith(color: colors.ink2)),
@@ -114,10 +130,11 @@ class AskAboutMistake extends ConsumerWidget {
 
 /// "Check it held": one new question that was not seen, picked in place, marked by the server.
 class CheckItHeld extends ConsumerWidget {
-  const CheckItHeld({super.key, required this.attemptId, required this.questionId});
+  const CheckItHeld({super.key, required this.attemptId, required this.questionId, this.receipt});
 
   final String attemptId;
   final String questionId;
+  final CheckReceipt? receipt;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -151,17 +168,18 @@ class CheckItHeld extends ConsumerWidget {
               ],
             ),
           ),
-        if (open != null && !quiet && !loading) _Body(view: view, controller: controller),
+        if (open != null && !quiet && !loading) _Body(view: view, controller: controller, receipt: receipt),
       ],
     );
   }
 }
 
 class _Body extends ConsumerWidget {
-  const _Body({required this.view, required this.controller});
+  const _Body({required this.view, required this.controller, this.receipt});
 
   final CheckView view;
   final RepairCheckController controller;
+  final CheckReceipt? receipt;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -174,6 +192,14 @@ class _Body extends ConsumerWidget {
     // The app's own clock (India days, like Revise), so the day label is the same in a test.
     final nowUtc = ref.watch(nowProvider)().toUtc();
     final revise = result == null ? null : CheckCopy.reviseLine(result.revise, right: result.right, nowUtc: nowUtc);
+    // The receipt counts only the checks of this repair's own run that were answered, each one a
+    // real answer the server marked: nothing is claimed beyond them.
+    String? receiptLine;
+    if (answered && result != null && receipt != null) {
+      final r = receipt!;
+      final tally = HeldTally.of([for (final k in r.runKeys) ref.watch(repairCheckProvider(k))]);
+      receiptLine = CheckCopy.receipt(right: result.right, source: r.source, marks: r.marks, trap: r.trap, held: tally.held, answered: tally.answered);
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -235,7 +261,7 @@ class _Body extends ConsumerWidget {
             Semantics(liveRegion: true, child: Text(view.error!, style: type.small.copyWith(color: colors.badText, fontWeight: FontWeight.w600))),
           ],
         ],
-        if (answered && result != null) _Result(result: result, replayed: view.replayed, revise: revise),
+        if (answered && result != null) _Result(result: result, replayed: view.replayed, revise: revise, receipt: receiptLine),
       ],
     );
   }
@@ -275,11 +301,14 @@ class _AnsweredRow extends StatelessWidget {
 /// The answer: the verdict in words first, then the bank's explanation, the rule when it was
 /// missed, and the Revise line only when the server wrote cards.
 class _Result extends StatelessWidget {
-  const _Result({required this.result, required this.replayed, required this.revise});
+  const _Result({required this.result, required this.replayed, required this.revise, this.receipt});
 
   final CheckResult result;
   final bool replayed;
   final String? revise;
+
+  /// "Fixed. This trap cost you 6 marks in Mock 3. Held 1 of 1.", or null.
+  final String? receipt;
 
   @override
   Widget build(BuildContext context) {
@@ -316,6 +345,14 @@ class _Result extends StatelessWidget {
             ),
           ),
         ),
+        if (receipt != null)
+          rise(
+            1,
+            Padding(
+              padding: const EdgeInsets.only(top: MmSpace.s8),
+              child: Text(receipt!, key: const ValueKey('check-receipt'), style: type.small.copyWith(color: colors.ink2)),
+            ),
+          ),
         if (replayed) ...[
           const SizedBox(height: MmSpace.s8),
           Text(CheckCopy.answeredEarlier, style: type.caption.copyWith(color: colors.ink2)),

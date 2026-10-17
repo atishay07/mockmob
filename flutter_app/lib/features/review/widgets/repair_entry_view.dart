@@ -19,7 +19,7 @@ import 'review_moment.dart';
 
 /// How the run can start, from the explanation wallet (spec 5.8 entry).
 class EntryPlan {
-  const EntryPlan({this.headline, this.line, required this.primary, this.limit, this.keyOnly = false, this.offerKeys = false});
+  const EntryPlan({this.headline, this.line, this.after, required this.primary, this.limit, this.keyOnly = false, this.offerKeys = false});
 
   /// Built from `GET /api/ai/credits`. An unknown balance shows no credit line and never
   /// counts as zero.
@@ -43,7 +43,12 @@ class EntryPlan {
         offerKeys: true,
       );
     }
-    return EntryPlan(line: ReviewCopy.creditLine(balance), primary: ReviewCopy.begin);
+    return EntryPlan(
+      line: ReviewCopy.creditLine(balance),
+      // What the whole repair takes, said once it holds more than one mistake.
+      after: mistakes > 1 ? ReviewCopy.costAfter(mistakes, balance) : null,
+      primary: ReviewCopy.begin,
+    );
   }
 
   /// A one-line headline when the wallet changes what the run can do (short, empty or paused).
@@ -51,6 +56,9 @@ class EntryPlan {
 
   /// The line under it, or the whole credit line when the wallet covers the run.
   final String? line;
+
+  /// What the whole repair takes and leaves ("This repair takes 3 and leaves 6."), or null.
+  final String? after;
   final String primary;
   final int? limit;
   final bool keyOnly;
@@ -60,6 +68,9 @@ class EntryPlan {
 
   /// Whether there is anything to say above the key.
   bool get hasWords => headline != null || line != null;
+
+  /// Whether the repair is asked for with AI credits (false: the key explanations only).
+  bool get usesCredits => !keyOnly;
 }
 
 /// The threshold of a repair, on the moment layer: the subject's light and object in the header
@@ -76,7 +87,11 @@ class RepairEntryView extends StatefulWidget {
     required this.onBegin,
     required this.onReadKeys,
     required this.onClose,
+    this.attempted,
   });
+
+  /// When the paper was attempted, in the student's own time ("12 Oct, 11:08 PM"), or null.
+  final String? attempted;
 
   final RepairRunState run;
   final EntryPlan plan;
@@ -175,6 +190,7 @@ class _RepairEntryViewState extends State<RepairEntryView> with SingleTickerProv
                             '${run.source}, ${subjectName(run.subjectId)}',
                             style: type.caption.copyWith(color: colors.ink2),
                           ),
+                          if (widget.attempted != null) Text(widget.attempted!, style: type.caption.copyWith(color: colors.ink2)),
                           const SizedBox(height: MmSpace.s4),
                           Semantics(
                             header: true,
@@ -230,25 +246,19 @@ class _RepairEntryViewState extends State<RepairEntryView> with SingleTickerProv
                 reopen ? ReviewCopy.reopenLead : ReviewCopy.entryMeaning(repairMinutes(n)),
                 style: type.lead.copyWith(color: colors.ink2),
               ),
-              const SizedBox(height: MmSpace.s32),
+              const SizedBox(height: MmSpace.s24),
               MistakeRun(numbers: numbers, state: reopen ? BubbleState.filled : BubbleState.wrong, inkIn: true),
-              const SizedBox(height: MmSpace.s32),
+              // What Repair gives, before any call, high enough to be read without scrolling. What it
+              // costs and what is left is pinned above the key.
+              if (!reopen) ...[
+                const SizedBox(height: MmSpace.s24),
+                _Gives(keyOnly: widget.plan.keyOnly),
+              ],
+              const SizedBox(height: MmSpace.s24),
               // The thread, flat on the ground: where each of these is headed.
               LifeRow(stage: reopen ? MistakeStage.repaired : MistakeStage.found, animate: false),
               const SizedBox(height: MmSpace.s12),
               Text(ReviewCopy.lifeCaption, style: type.small.copyWith(color: colors.ink2)),
-              // What it costs, in words, directly under the thread.
-              if (widget.plan.hasWords && !reopen) ...[
-                const SizedBox(height: MmSpace.s24),
-                if (widget.plan.headline != null)
-                  Semantics(
-                    header: true,
-                    child: Text(widget.plan.headline!, style: type.title.copyWith(fontSize: 20, height: 24 / 20)),
-                  ),
-                if (widget.plan.headline != null && widget.plan.line != null) const SizedBox(height: MmSpace.s4),
-                if (widget.plan.line != null)
-                  Text(widget.plan.line!, style: type.body.copyWith(color: widget.plan.headline == null ? colors.ink : colors.ink2)),
-              ],
             ],
           ),
           // The pinned band holds the one volt key and, when the wallet is short, the quiet way to
@@ -258,6 +268,20 @@ class _RepairEntryViewState extends State<RepairEntryView> with SingleTickerProv
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                // What it costs and what is left, in words, directly above the key that spends it:
+                // pinned with the key, so it is on screen whenever the key is, never below the fold.
+                if (widget.plan.hasWords && !reopen) ...[
+                  if (widget.plan.headline != null)
+                    Semantics(
+                      header: true,
+                      child: Text(widget.plan.headline!, style: type.title.copyWith(fontSize: 20, height: 24 / 20)),
+                    ),
+                  if (widget.plan.headline != null && widget.plan.line != null) const SizedBox(height: MmSpace.s4),
+                  if (widget.plan.line != null)
+                    Text(widget.plan.line!, style: type.body.copyWith(color: widget.plan.headline == null ? colors.ink : colors.ink2)),
+                  if (widget.plan.after != null) Text(widget.plan.after!, style: type.small.copyWith(color: colors.ink2)),
+                  const SizedBox(height: MmSpace.s12),
+                ],
                 KeyButton(label: reopen ? ReviewCopy.begin : widget.plan.primary, onPressed: widget.onBegin),
                 if (widget.plan.offerKeys && !reopen)
                   Align(
@@ -268,6 +292,50 @@ class _RepairEntryViewState extends State<RepairEntryView> with SingleTickerProv
           ),
         ),
       ],
+    );
+  }
+}
+
+
+/// What Repair gives, as three plain lines on the ground (no boxes, no icons): the lead words in
+/// ink, what they hold in the quiet ink. A repair that can only read the key says so in one line.
+class _Gives extends StatelessWidget {
+  const _Gives({required this.keyOnly});
+
+  final bool keyOnly;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final lines = keyOnly
+        ? const [(ReviewCopy.givesTryLead, ReviewCopy.givesTry), (ReviewCopy.givesKeyLead, ReviewCopy.givesKey)]
+        : const [
+            (ReviewCopy.givesTryLead, ReviewCopy.givesTry),
+            (ReviewCopy.givesReasonLead, ReviewCopy.givesReason),
+            (ReviewCopy.givesCheckLead, ReviewCopy.givesCheck),
+          ];
+    return Semantics(
+      container: true,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Semantics(header: true, child: Text(ReviewCopy.givesHeading, style: type.cardTitle)),
+          const SizedBox(height: MmSpace.s8),
+          for (final (lead, rest) in lines)
+            Padding(
+              padding: const EdgeInsets.only(bottom: MmSpace.s4),
+              child: Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(text: '$lead ', style: type.body.copyWith(fontWeight: FontWeight.w600)),
+                    TextSpan(text: rest, style: type.body.copyWith(color: colors.ink2)),
+                  ],
+                ),
+              ),
+            ),
+        ],
+      ),
     );
   }
 }

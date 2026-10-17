@@ -11,6 +11,8 @@ import '../../../core/haptics/haptics.dart';
 import '../../../core/models/mistake_lab_traps.dart';
 import '../../../core/motion/mm_light.dart';
 import '../../../core/motion/motion.dart';
+import '../../../core/notes/feature_notes.dart';
+import '../../../core/notes/sample_row.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -18,6 +20,7 @@ import '../../learn/widgets/feedback_mobi.dart';
 import '../again/review_again_copy.dart';
 import '../again/review_again_entry.dart' show reviewAgainCountProvider;
 import '../widgets/page_header.dart';
+import '../widgets/review_load_failure.dart' show startQuickTen;
 import '../widgets/review_state_view.dart';
 import 'revise_copy.dart';
 import 'revise_data.dart';
@@ -63,6 +66,15 @@ class _ReviseScreenState extends ConsumerState<ReviseScreen> {
   /// The lanes a recall just moved a card between, and how many recalls have happened (the key of
   /// the pulse, so each recall pulses once).
   ({int from, int to, int n})? _moved;
+
+  @override
+  void initState() {
+    super.initState();
+    // The student is in Revise: its introduction on Review has done its job.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) ref.read(featureNotesProvider.notifier).done(FeatureNote.revise);
+    });
+  }
 
   void _reset() {
     _at = 0;
@@ -289,10 +301,15 @@ class _Run extends StatelessWidget {
         ),
       );
     } else {
+      // No card at all yet: the first time here. The page teaches what will
+      // appear, shows one sample card and goes to the next action. A cap reached, or a day when
+      // the next ones are named, keeps the server's own sentence.
+      final firstTime = read.answeredToday == 0 && (read.state == ReviseRead.empty || (read.cards == 0 && read.nextDay == null));
       stage = _Empty(
         text: read.answeredToday >= read.cap
             ? ReviseCopy.capReached
             : (read.next ?? ReviseCopy.nextNone),
+        teaches: firstTime,
       );
     }
 
@@ -1045,23 +1062,35 @@ class ReviseEnd extends StatelessWidget {
 
 /// Nothing is due: the server's sentence (when the next ones come, or the cap), and the way back.
 class _Empty extends StatelessWidget {
-  const _Empty({required this.text});
+  const _Empty({required this.text, this.teaches = false});
 
   final String text;
+
+  /// The first-time state that teaches: one sample card, and the next action first.
+  final bool teaches;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
+    void back() => context.canPop() ? context.pop() : context.go(AppRoutes.review);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(text, style: context.mmType.body.copyWith(color: colors.ink2)),
-        const SizedBox(height: MmSpace.s24),
-        KeyButton(
-          label: ReviseCopy.backToReview,
-          onPressed: () =>
-              context.canPop() ? context.pop() : context.go(AppRoutes.review),
-        ),
+        if (teaches) ...[
+          const SizedBox(height: MmSpace.s20),
+          const SampleRow(
+            leading: Bubble(state: BubbleState.wrong, size: 14, animate: false),
+            title: ReviseCopy.sampleTitle,
+            note: ReviseCopy.sampleNote,
+          ),
+          const SizedBox(height: MmSpace.s20),
+          KeyButton(label: ReviseCopy.startAction, onPressed: () => startQuickTen(context)),
+          Align(child: KeyButton.quiet(label: ReviseCopy.backToReview, onPressed: back)),
+        ] else ...[
+          const SizedBox(height: MmSpace.s24),
+          KeyButton(label: ReviseCopy.backToReview, onPressed: back),
+        ],
       ],
     );
   }

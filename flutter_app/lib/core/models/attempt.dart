@@ -235,6 +235,7 @@ class AttemptDetail {
     this.mistakeInsights = const {},
     this.swot,
     this.lab,
+    this.savedRepairs = const {},
   });
 
   factory AttemptDetail.fromJson(Json j) {
@@ -250,7 +251,22 @@ class AttemptDetail {
       mistakeInsights: MistakeInsights.mapFrom(j['mistakeInsights']),
       swot: j['swot'] is Map ? Swot.fromJson(asJson(j['swot'])) : null,
       lab: MistakeLab.tryParse(j['lab']),
+      savedRepairs: _savedRepairsFrom(j['savedRepairs']),
     );
+  }
+
+  /// `savedRepairs` of the server (F17): the wrong answers of this paper that already hold a saved
+  /// repair, by question id, with when it was made. Absent on an older server: the app then goes by
+  /// its own records on the phone. A row with no readable time is left out, never guessed.
+  static Map<String, DateTime> _savedRepairsFrom(Object? raw) {
+    if (raw is! Map) return const {};
+    final out = <String, DateTime>{};
+    raw.forEach((qid, v) {
+      if (qid is! String || v is! Map) return;
+      final at = DateTime.tryParse('${v['repairedAt'] ?? ''}');
+      if (at != null) out[qid] = at.toUtc();
+    });
+    return out;
   }
 
   final Attempt attempt;
@@ -271,6 +287,11 @@ class AttemptDetail {
   /// null when the server omits it (an older server, answer checks not ready, a failed step) or
   /// sends one that does not add up.
   final MistakeLab? lab;
+
+  /// Question ids of this paper with a saved repair on the account, and when each was made. Empty
+  /// when the server does not say (an older server). A mistake listed here opens its saved repair
+  /// and never offers a paid one again.
+  final Map<String, DateTime> savedRepairs;
 
   bool get reviewsUnavailable => answerReviewState == 'unavailable';
 

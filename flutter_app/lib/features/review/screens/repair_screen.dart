@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -6,12 +8,15 @@ import '../../../core/domain/marks_at_stake.dart';
 import '../../../core/copy/formatters.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
+import '../../../core/models/attempt.dart' show AttemptDetail;
 import '../../../core/repositories/attempts_repository.dart';
 import '../../../core/repositories/credits_repository.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
+import '../data/paper_when.dart';
+import '../data/mistake_index.dart' show MistakeStage;
 import '../data/repair_run.dart';
 import '../data/repair_state.dart';
 import '../data/review_providers.dart';
@@ -46,7 +51,30 @@ class _RepairScreenState extends ConsumerState<RepairScreen> {
     if (_opened || ref.read(reviewIndexProvider) == null) return;
     _opened = true;
     final ok = _run.open(widget.questionId, count: widget.count);
-    if (!ok && mounted) setState(() => _missing = true);
+    if (!ok && mounted) {
+      setState(() => _missing = true);
+      return;
+    }
+    _openSavedAtOnce();
+    // The account may already say it holds a repair for this mistake (the detail can be on hand).
+    _applySaved(ref.read(attemptDetailProvider(widget.attemptId)).value);
+  }
+
+  /// A repair already made opens its saved repair at once: no entry that could offer a paid one,
+  /// no try step, the free reopen (F17).
+  void _openSavedAtOnce() {
+    final run = ref.read(repairRunProvider(widget.attemptId));
+    if (run == null || run.phase != RepairPhase.entry || run.retry || run.steps.length != 1 || run.steps.first.item.stage.isOpen) return;
+    _run.begin();
+  }
+
+  /// Applies what the account says it holds (a saved repair made elsewhere) to this run and to the
+  /// phone's own record.
+  void _applySaved(AttemptDetail? detail) {
+    final saved = detail?.savedRepairs;
+    if (saved == null || saved.isEmpty) return;
+    unawaited(_run.recordSaved(saved, ref.read(reviewInputsProvider).records));
+    if (_run.adoptSaved(saved)) _run.begin();
   }
 
   @override
@@ -67,6 +95,11 @@ class _RepairScreenState extends ConsumerState<RepairScreen> {
     ref.listen(reviewIndexProvider, (_, next) {
       if (next != null) _tryOpen();
     });
+    // The account's saved repairs arrive with the paper's detail: a mistake it already holds opens
+    // as a saved repair, never as a paid one.
+    ref.listen(attemptDetailProvider(widget.attemptId).select((s) => s.value?.savedRepairs), (_, next) {
+      if (_opened && next != null) _applySaved(ref.read(attemptDetailProvider(widget.attemptId)).value);
+    });
     ref.listen(repairRunProvider(widget.attemptId).select((s) => s?.phase), (prev, phase) {
       if (phase == RepairPhase.ending && prev != RepairPhase.ending && mounted) {
         context.pushReplacement(AppRoutes.reviewRepairEnding(widget.attemptId));
@@ -85,7 +118,7 @@ class _RepairScreenState extends ConsumerState<RepairScreen> {
         title: ReviewCopy.notFound,
         primary: StateAction(ReviewCopy.backToReview, () => context.go(AppRoutes.review)),
       );
-    } else if (!active || run.phase == RepairPhase.ending) {
+    } else if (!active || run.phase == RepairPhase.ending || _isReopenEntry(run)) {
       body = Center(
         child: Semantics(label: ReviewCopy.loadingRepair, liveRegion: true, child: MmSpinner(color: context.mmColors.ink2)),
       );
@@ -117,11 +150,16 @@ class _RepairScreenState extends ConsumerState<RepairScreen> {
     );
   }
 
+  /// A saved repair waiting at the entry: it opens at once, so the entry (which could talk about a
+  /// cost) is never drawn for it.
+  bool _isReopenEntry(RepairRunState run) =>
+      run.phase == RepairPhase.entry && !run.retry && run.steps.length == 1 && !run.steps.first.item.stage.isOpen;
+
   /// What the screen is showing, for the hand-over between its stages: a new mistake of the run is
   /// not a new stage.
   String _stage(RepairRunState? run, bool active) {
     if (_missing) return 'missing';
-    if (run == null || !active || run.phase == RepairPhase.ending) return 'loading';
+    if (run == null || !active || run.phase == RepairPhase.ending || _isReopenEntry(run)) return 'loading';
     return run.phase.name;
   }
 
@@ -138,9 +176,11 @@ class _RepairScreenState extends ConsumerState<RepairScreen> {
   Widget _entry(RepairRunState run) {
     final credits = ref.watch(creditsRepositoryProvider).value;
     final plan = EntryPlan.of(run.steps.length, credits, ref.watch(reviewClockProvider));
+    final clock = ref.watch(reviewClockProvider);
     return RepairEntryView(
       run: run,
       plan: plan,
+      attempted: run.steps.isEmpty ? null : ReviewCopy.attemptedAt(whenText(clock, run.steps.first.item.foundAt)),
       onClose: _close,
       onBegin: () => _run.begin(limit: plan.limit, keyOnly: plan.keyOnly),
       onReadKeys: () => _run.begin(keyOnly: true),
@@ -183,6 +223,8 @@ class _RepairScreenState extends ConsumerState<RepairScreen> {
       scheme: markingSchemeOf(index?.attempt(widget.attemptId)),
       renewDate: reset == null ? null : formatDayMonth(clock.local(reset)),
       earlier: _earlier(run),
+      attempted: paperWhen(clock, run.current!.item.source, run.current!.item.foundAt),
+      savedWhen: run.current!.item.stageAt == null || run.current!.item.stage != MistakeStage.repaired ? null : whenText(clock, run.current!.item.stageAt!),
       // What "Check my answer" costs, said before the paid call: the key explanation is free, an
       // unknown balance never shows as zero.
       tryNote: run.keyOnly

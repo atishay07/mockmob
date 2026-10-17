@@ -24,6 +24,7 @@ class ReviewStateView extends StatefulWidget {
     this.pose = MobiPose.idle,
     this.scene,
     this.pointAtKey = false,
+    this.sample,
   }) : assert(primary != null || secondary == null, 'A secondary action needs a primary action.');
 
   final StateViewKind kind;
@@ -43,6 +44,10 @@ class ReviewStateView extends StatefulWidget {
 
   /// An empty state points Mobi at its key once, 600 ms after it arrives.
   final bool pointAtKey;
+
+  /// A sample row under the words, tagged "Example": what will appear here, drawn as it will look
+  /// (an empty state that teaches). Null leaves the state as it was.
+  final Widget? sample;
 
   StateScene? get shownScene => switch (kind) {
         StateViewKind.offline => StateScene.offline,
@@ -172,8 +177,12 @@ class _ReviewStateViewState extends State<ReviewStateView> {
                             ),
                           ),
                         ],
+                        if (widget.sample != null) ...[
+                          const SizedBox(height: MmSpace.s20),
+                          MmStaggerItem(index: 3, child: widget.sample!),
+                        ],
                         if (widget.primary != null) ...[
-                          const SizedBox(height: MmSpace.s24),
+                          SizedBox(height: widget.sample != null ? MmSpace.s20 : MmSpace.s24),
                           MmStaggerItem(
                             index: 3,
                             child: KeyedSubtree(

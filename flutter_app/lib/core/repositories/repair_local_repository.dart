@@ -101,7 +101,17 @@ class RepairLocalRepository {
 
   /// Records a server outcome (`explained`, `stored`, `held_for_recheck`, `not_explained`,
   /// `not_a_mistake`) with the acknowledgement time, or a local `reviewed` entry.
-  Future<void> recordOutcome({required String attemptId, required String questionId, required String status, String? requestId, bool acknowledged = true}) async {
+  ///
+  /// [at] is the moment the server made the repair, when it says so (a saved repair read from the
+  /// account): the record then carries that time and not the time it was found on this phone.
+  Future<void> recordOutcome({
+    required String attemptId,
+    required String questionId,
+    required String status,
+    String? requestId,
+    bool acknowledged = true,
+    DateTime? at,
+  }) async {
     final existing = await _row(attemptId, questionId);
     await _db.into(_db.repairLocal).insertOnConflictUpdate(
           RepairLocalCompanion.insert(
@@ -110,7 +120,7 @@ class RepairLocalRepository {
             questionId: questionId,
             requestId: requestId ?? existing?.requestId ?? _newRequestId(),
             status: status,
-            ackedAtMs: Value(acknowledged ? _scope.now().millisecondsSinceEpoch : existing?.ackedAtMs),
+            ackedAtMs: Value(acknowledged ? (at ?? _scope.now()).millisecondsSinceEpoch : existing?.ackedAtMs),
           ),
         );
   }

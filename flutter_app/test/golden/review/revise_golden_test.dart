@@ -44,6 +44,31 @@ class _Api implements ReviseApi {
   }
 }
 
+/// A student with no card yet: the server says "empty".
+class _EmptyApi implements ReviseApi {
+  @override
+  Future<ReviseRead> read({required int cap}) async => ReviseRead.parse({
+    'state': 'empty',
+    'today': '2026-10-16',
+    'cap': cap,
+    'due': 0,
+    'shown': 0,
+    'answeredToday': 0,
+    'minutes': 0,
+    'boxes': [0, 0, 0, 0],
+    'cards': 0,
+    'nextDay': null,
+    'nextDayLabel': null,
+    'head': 'Nothing to revise today',
+    'summary': null,
+    'next': 'Questions you get wrong in a paper or a practice set come back here after 1, 3, 7 and 21 days.',
+    'items': <dynamic>[],
+  });
+
+  @override
+  Future<ReviseAnswer> answer({required String questionId, required int choice, required int cap}) => throw StateError('no card to answer');
+}
+
 class _TrapsApi implements TrapsApi {
   @override
   Future<TrapsMeet> read() async => TrapsMeet.tryParse(_traps()['sheet'])!;
@@ -78,6 +103,14 @@ void main() {
     () => const ReviseScreen(),
     overrides: () => [...reviewOverrides(), reviseApiProvider.overrideWithValue(_Api([])), revisePrefsStoreProvider.overrideWithValue(MemoryPrefsStore())],
     size: size,
+    after: _settle,
+  );
+
+  reviewGolden(
+    'revise_empty_first',
+    () => const ReviseScreen(),
+    overrides: () => [...reviewOverrides(), reviseApiProvider.overrideWithValue(_EmptyApi()), revisePrefsStoreProvider.overrideWithValue(MemoryPrefsStore())],
+    size: const Size(360, 780),
     after: _settle,
   );
 

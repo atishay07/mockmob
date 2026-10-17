@@ -12,6 +12,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/mistake_index.dart';
+import '../data/paper_when.dart';
 import '../data/review_providers.dart';
 import 'answer_sheet.dart';
 import 'collapsible.dart';
@@ -353,11 +354,18 @@ class _MarksBar extends StatelessWidget {
 
 /// The evidence behind tonight's repair: the exact questions, in full, each opening its repair.
 class EvidenceList extends StatelessWidget {
-  const EvidenceList({super.key, required this.items, required this.questionText, required this.onOpen});
+  const EvidenceList({super.key, required this.items, required this.questionText, required this.onOpen, this.clock});
 
+  /// The student's clock, for the paper line's date and time. Without one the paper's name stands alone.
+  final ReviewClock? clock;
   final List<MistakeItem> items;
   final String Function(MistakeItem) questionText;
   final ValueChanged<MistakeItem> onOpen;
+
+  String _paper(MistakeItem item) {
+    final c = clock;
+    return c == null ? item.source : paperWhen(c, item.source, item.foundAt);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -373,7 +381,7 @@ class EvidenceList extends StatelessWidget {
             focusRadius: MmRadius.keyAll,
             haptic: MmPressHaptic.selection,
             highlight: true,
-            semanticsLabel: '${ReviewCopy.questionLabel(item.number)}, ${item.source}. ${questionText(item)}',
+            semanticsLabel: '${ReviewCopy.questionLabel(item.number)}, ${_paper(item)}. ${questionText(item)}',
             builder: (context, pressed, _) => Padding(
               padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
               child: Row(
@@ -388,7 +396,7 @@ class EvidenceList extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('${ReviewCopy.questionLabel(item.number)}, ${item.source}', style: type.label.copyWith(color: colors.ink2)),
+                        Text('${ReviewCopy.questionLabel(item.number)}, ${_paper(item)}', style: type.label.copyWith(color: colors.ink2)),
                         const SizedBox(height: MmSpace.s4),
                         Text(questionText(item), style: type.body),
                       ],
