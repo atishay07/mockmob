@@ -6,6 +6,8 @@ import 'data/ask_sheet_controller.dart';
 import 'widgets/ask_sheet.dart';
 
 export 'data/ask_mobi_context.dart';
+export 'data/ask_mock_lines.dart';
+export 'widgets/ask_entries.dart' show AskMobiLink, AskMobiPracticeRow;
 
 /// Opens Ask Mobi over the screen the student is on, already about [about] (ASK-MOBI-1018 3).
 ///
@@ -31,3 +33,6 @@ String askMobiAboutLabel(int? number) => number == null ? 'Ask Mobi about this q
 
 /// "Ask Mobi about this mock".
 const String askMobiAboutMock = 'Ask Mobi about this mock';
+
+/// Today's entry, in the same words.
+const String askMobiAboutToday = 'Ask Mobi about today';

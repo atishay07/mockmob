@@ -9,8 +9,10 @@ import '../../../core/repositories/repositories.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../insights/ask_mobi.dart' show AskMobiLink, askMobiAboutToday, openAskMobi;
 import '../copy.dart';
 import '../data/today_providers.dart';
+import '../logic/why_ask.dart';
 import '../logic/why_model.dart';
 
 class WhySheet extends ConsumerWidget {
@@ -32,15 +34,20 @@ class WhySheet extends ConsumerWidget {
               Navigator.of(context).maybePop();
               router.push(model.isMock ? AppRoutes.result(model.attemptId) : AppRoutes.practiceResult(model.attemptId));
             },
+      // Mobi opens over this sheet, already about it: the paper's own counts are the first answer.
+      onAsk: model == null ? null : () => openAskMobi(context, askContextOfWhy(model)),
     );
   }
 }
 
 class WhySheetBody extends StatelessWidget {
-  const WhySheetBody({super.key, required this.model, this.onSeeAnswers});
+  const WhySheetBody({super.key, required this.model, this.onSeeAnswers, this.onAsk});
 
   final WhyModel? model;
   final VoidCallback? onSeeAnswers;
+
+  /// "Ask Mobi about today": a quiet line under See my answers. Null shows nothing.
+  final VoidCallback? onAsk;
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +80,10 @@ class WhySheetBody extends StatelessWidget {
             ],
             const SizedBox(height: MmSpace.s20),
             KeyButton.secondary(label: TodayCopy.seeMyAnswers, onPressed: onSeeAnswers),
+            if (onAsk != null) ...[
+              const SizedBox(height: MmSpace.s4),
+              Center(child: AskMobiLink(label: askMobiAboutToday, onTap: onAsk!)),
+            ],
           ],
         ],
       ),

@@ -108,7 +108,12 @@ List<AskSuggestion> suggestionsFor(AskMobiContext c, PrepInsights? v, {bool pro 
           ?_history(c.chapter, v) ?? losing,
         ];
       }
-      final why = q?.keyText != null && q?.pickText != null ? AskSheetCopy.whyKeyNotPick(q!.keyText!, q.pickText!) : AskSheetCopy.whyWrong;
+      // Short options are asked by their words ("19:11:10"), long ones by their letters.
+      final why = q?.keyText != null && q?.pickText != null && q!.keyText!.length <= 28 && q.pickText!.length <= 28
+          ? AskSheetCopy.whyKeyNotPick(q.keyText!, q.pickText!)
+          : q?.keyLetter != null && q?.pickLetter != null
+              ? AskSheetCopy.whyLetters(q!.keyLetter!, q.pickLetter!)
+              : AskSheetCopy.whyWrong;
       return [
         paid(why, AskSheetCopy.usesQuestion),
         paid(AskSheetCopy.misread, AskSheetCopy.misreadPreview),
@@ -163,6 +168,15 @@ AskOpening? openingFor(AskMobiContext c, PrepInsights? v, {bool pro = false}) {
   }
 }
 
+/// The line under Practice's "Ask Mobi what to practise": the weakest chapter's own figures from the
+/// record, or null when the record has none (nothing is invented).
+String? practicePreview(PrepInsights? v) {
+  if (v == null || !v.isReady || v.ranked.isEmpty) return null;
+  final c = v.ranked.first;
+  if (c.n <= 0) return null;
+  return AskSheetCopy.practiceLine(c.chapter, c.wrong, c.n);
+}
+
 /// The record chip's three lines: the marks ledger, the biggest leak and pace (pace only on Pro
 /// with timed answers). Empty when the record has nothing yet.
 List<String> recordSummary(PrepInsights? v, {bool pro = false}) {
@@ -198,6 +212,8 @@ abstract final class AskSheetCopy {
   static const retry = 'Retry';
   static const fullRecord = 'Full record';
   static String dropSubject(String label) => 'Stop asking about $label';
+  static const practiceRow = 'Ask Mobi what to practise';
+  static String practiceLine(String chapter, int wrong, int n) => '$chapter: $wrong wrong of $n answered';
   static const askAboutQuestion = 'Ask about this question';
   static const askNext = 'Ask next';
   static const youCanAsk = 'You can ask now';
@@ -209,6 +225,7 @@ abstract final class AskSheetCopy {
   static const openingQuestion = 'Opening your question.';
   static const questionFailed = 'That question could not be opened. You can still ask about your record.';
   static String whyKeyNotPick(String key, String pick) => 'Why is $key right and $pick wrong?';
+  static String whyLetters(String key, String pick) => 'Why is $key right and $pick wrong?';
   static const whyWrong = 'Why is my answer wrong?';
   static const explainStep = 'Explain this question step by step';
   static const explainStepPreview = 'Sends the question and its key';

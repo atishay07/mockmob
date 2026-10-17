@@ -47,9 +47,9 @@ class AskMobiContext {
           stem: _clean(stem),
           chapter: _clean(chapter),
           pickLetter: _clean(pickLetter),
-          pickText: _clean(pickText),
+          pickText: _option(pickText),
           keyLetter: _clean(keyLetter),
-          keyText: _clean(keyText),
+          keyText: _option(keyText),
         ),
         chapter: _clean(chapter),
         seed: _clean(seed),
@@ -116,4 +116,14 @@ class AskMobiContext {
     final t = s?.trim();
     return t == null || t.isEmpty ? null : t;
   }
+
+  /// An option's words, only when short enough to read in a chip line ("9:6:5"): a long option is
+  /// shown by its letter alone, never cut off in the middle.
+  static String? _option(String? s) {
+    final t = _clean(s)?.replaceAll(RegExp(r'\s+'), ' ');
+    return t == null || t.length > maxOptionChars ? null : t;
+  }
+
+  /// The longest option text the sheet quotes.
+  static const int maxOptionChars = 40;
 }
