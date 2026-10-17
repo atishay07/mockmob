@@ -447,7 +447,7 @@ test('the side-by-side on a real Mob: reciprocal sharing, nobody named who keeps
     assert.deepEqual(quiet.questions[1].you, { picked: 'D', right: false, changed: 1, seconds: 10 });
     assert.deepEqual(quiet.questions[1].others, []);
     // 18 Oct: the counts and the split are over the sitters you can read. Nobody shares, so only you: no counts, no split.
-    assert.equal(quiet.questions[1].picks, null, 'a member who keeps answers private is in nobody else's counts');
+    assert.equal(quiet.questions[1].picks, null, "a member who keeps answers private is in nobody else's counts");
     assert.equal(quiet.questions[1].trap.trapName, 'A look-alike term');
     assert.deepEqual([quiet.questions[1].trap.option, quiet.questions[1].trap.count, quiet.questions[1].trap.of], ['D', 3, 3]);
     assert.equal(quiet.questions[4].split, null, 'a split needs 2 readable sitters');
@@ -464,7 +464,7 @@ test('the side-by-side on a real Mob: reciprocal sharing, nobody named who keeps
     for (const leak of ['Kabir', 'Meera', '"u1"', '"u2"', 'u3', 'u4', 'att_u2', 'att_u3', 'att_u4', 'user_id', 'session_id']) assert.equal(everything.includes(leak), false, leak);
     assert.equal(shared.questions[3].others[0].right, true);
     // Kabir (private) is the one who missed question 5: neither the split nor the counts of the two who share show it.
-    assert.equal(shared.questions[4].split, false, 'Kabir's miss is not in the split of Riya and Asha');
+    assert.equal(shared.questions[4].split, false, "Kabir's miss is not in the split of Riya and Asha");
     assert.equal(shared.questions[1].picks, null, 'two readable sitters are too few for counts');
     // Free students: the teaser always, the side-by-side once.
     assert.equal((await svc.view('u2')).mob.compare.access, 'offer');
