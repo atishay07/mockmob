@@ -72,7 +72,7 @@ test('the Benchmarks scene shows the real benchmark levels and a question count 
   assert.doesNotMatch(tour, /\b25 questions\b|'88%'|'82%'/, 'no hard-coded benchmark numbers in the scene');
 });
 
-test('no leaderboard of other students: the product shows only the student's own standing', () => {
+test('no leaderboard of other students: the product shows only the student’s own standing', () => {
   // /leaderboard answers only the caller's own rank (the privacy hotfix of 17 Oct 2026), so the landing never sells a
   // board of other students: the feature is "Your standing".
   assert.doesNotMatch(PAGE, /'Leaderboard'|to the leaderboard|See the leaderboard|leaderboard points/i);

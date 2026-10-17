@@ -30,7 +30,7 @@ export function HeroLive({ initial = null }) {
     <p className="lp-live" data-ready={counts ? 'true' : 'false'}>
       {counts ? (
         <span className="lp-live__text">
-          <b>{formatCount(counts.questions)}</b> questions to practise{counts.subjects === COVERED_SUBJECTS ? ` in the ${COVERED_SUBJECTS} subjects behind 19 of every 20 CUET papers in 2026.` : ` across ${counts.subjects} CUET subjects.`}
+          <b>{formatCount(counts.questions)}</b> questions to practise{counts.subjects === COVERED_SUBJECTS ? ` in the ${COVERED_SUBJECTS} subjects behind 19 of every 20 CUET papers.` : ` across ${counts.subjects} CUET subjects.`}
         </span>
       ) : null}
     </p>

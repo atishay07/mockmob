@@ -19,9 +19,9 @@ const SOON = {
   title: 'Find the leak. Make one move.',
   sub: 'The Mistake Lab reads one mock. The Score Recovery Lab follows one leak across your mocks: it replays the answers, finds the chapter behind them and sets one next move. Fresh checks, a few days apart, open soon.',
   checkTitle: 'Fresh checks, opening soon',
-  checkBody: 'Checks on new questions, a few days apart. Not open yet.',
-  checkHead: 'When it opens: questions you have not answered before',
-  checkStatus: 'Opens soon. Until then, practise five fresh questions on the chapter after any mock.',
+  checkBody: 'Checks on new questions, a few days apart. They open soon.',
+  checkHead: 'Questions you have not answered before',
+  checkStatus: 'Until then, practise five fresh questions on a chapter you missed, after any mock.',
   soon: true,
 };
 
