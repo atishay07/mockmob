@@ -9,6 +9,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+import { PGlite } from '@electric-sql/pglite';
 import { exploreRowOut, publicExploreOptions } from '../explore_feed.js';
 import { computeContentHash } from '../../src/lib/moderation/hash.js';
 import {
@@ -126,4 +127,126 @@ test('upload route: no 409, no duplicate_of, no error details; candidate lookup,
   assert.match(src, /checkPersistentRateLimit\(request, \{ \.\.\.window, keyParts: \[author_id\]/);
   assert.match(src, /uploadShapeViolation\(options, correct_answer\)/);
   assert.doesNotMatch(src, /console\.log\([^)]*correct_answer/, 'the submitted answer is not logged');
+});
+
+// ------------------------------------------------------------------ (c) create_pending_payout serialised per creator
+
+const PAYOUT_MIGRATION = read('supabase/migrations/20261017200000_create_pending_payout_lock.sql');
+const PAYOUT_UNDO = read('supabase/undo/20261017200000_create_pending_payout_lock.undo.sql');
+const PAYOUT_FIXTURE = `
+create role anon; create role authenticated; create role service_role;
+create table public.creators (id text primary key);
+create table public.payouts (id text primary key default ('pyt_' || replace(gen_random_uuid()::text, '-', '')), creator_id text not null references public.creators(id),
+  amount integer not null, payment_count integer not null default 0, status text not null default 'pending', paid_at timestamptz, marked_paid_by text);
+create table public.payments (id text primary key, creator_id text, payout_id text, payment_id text, amount_paid int, status text, creator_earning int);
+insert into creators values ('c1'), ('c2');
+insert into payments values ('p1','c1',null,'pay_1',100,'captured',30), ('p2','c1',null,'pay_2',200,'paid',60), ('p3','c2',null,'pay_3',100,'captured',10),
+  ('p4','c1',null,null,100,'captured',99), ('p5','c1',null,'pay_5',100,'failed',99);
+`;
+
+test('create_pending_payout takes a per-creator advisory lock before it reads the unpaid sum', () => {
+  const body = PAYOUT_MIGRATION.slice(PAYOUT_MIGRATION.indexOf('BEGIN'));
+  const lock = body.indexOf("pg_advisory_xact_lock(hashtextextended('create_pending_payout:' || coalesce(p_creator_id, ''), 0))");
+  assert.ok(lock > 0, 'transaction-scoped lock keyed on the creator');
+  assert.ok(lock < body.indexOf('SELECT COALESCE(SUM(creator_earning)'), 'the lock comes before the sum');
+  assert.match(PAYOUT_MIGRATION, /REVOKE ALL ON FUNCTION public\.create_pending_payout\(text, text\) FROM PUBLIC, anon, authenticated;/);
+  assert.match(PAYOUT_MIGRATION, /GRANT EXECUTE ON FUNCTION public\.create_pending_payout\(text, text\) TO service_role;/);
+  assert.doesNotMatch(PAYOUT_UNDO, /pg_advisory_xact_lock/, 'the undo restores the production body without the lock');
+});
+
+test('payout migration: one payout per creator, the repeat finds nothing, the lock is held inside the transaction; undo and re-apply work', async () => {
+  const db = new PGlite();
+  try {
+    await db.exec(PAYOUT_FIXTURE);
+    await db.exec(PAYOUT_MIGRATION);
+    await db.exec(PAYOUT_MIGRATION); // idempotent
+    await db.exec('begin');
+    const first = (await db.query("select public.create_pending_payout('c1','admin') id")).rows[0].id;
+    const locks = Number((await db.query("select count(*) n from pg_locks where locktype = 'advisory' and pid = pg_backend_pid() and granted")).rows[0].n);
+    await db.exec('commit');
+    assert.equal(locks, 1, 'the advisory lock is held until commit');
+    assert.equal(Number((await db.query("select count(*) n from pg_locks where locktype = 'advisory' and pid = pg_backend_pid()")).rows[0].n), 0, 'and released after');
+    const payout = (await db.query('select creator_id, amount, payment_count, status from payouts where id=$1', [first])).rows[0];
+    assert.deepEqual(payout, { creator_id: 'c1', amount: 90, payment_count: 2, status: 'paid' });
+    assert.equal(Number((await db.query('select count(*) n from payments where payout_id=$1', [first])).rows[0].n), 2);
+    await assert.rejects(db.query("select public.create_pending_payout('c1','admin')"), /No unpaid earnings for creator c1/, 'a second run pays nothing twice');
+    assert.equal(Number((await db.query("select count(*) n from payouts where creator_id='c1'")).rows[0].n), 1);
+    assert.ok((await db.query("select public.create_pending_payout('c2','admin') id")).rows[0].id, 'another creator is unaffected');
+    const grants = (await db.query("select r.rolname, has_function_privilege(r.rolname, 'public.create_pending_payout(text,text)', 'execute') ok from pg_roles r where r.rolname in ('anon','authenticated','service_role') order by 1")).rows;
+    assert.deepEqual(grants, [{ rolname: 'anon', ok: false }, { rolname: 'authenticated', ok: false }, { rolname: 'service_role', ok: true }]);
+    await db.exec(PAYOUT_UNDO);
+    assert.doesNotMatch((await db.query("select pg_get_functiondef('public.create_pending_payout(text,text)'::regprocedure) d")).rows[0].d, /advisory/);
+    await db.exec(PAYOUT_MIGRATION);
+    assert.match((await db.query("select pg_get_functiondef('public.create_pending_payout(text,text)'::regprocedure) d")).rows[0].d, /pg_advisory_xact_lock/);
+  } finally { await db.close(); }
+});
+
+// ------------------------------------------------------------------ (g) default privileges server-only
+
+const DEFAULTS_MIGRATION = read('supabase/migrations/20261017210000_default_privileges_server_only.sql');
+const DEFAULTS_UNDO = read('supabase/undo/20261017210000_default_privileges_server_only.undo.sql');
+// The Supabase defaults as read on staging and production on 17 Oct 2026 (pg_default_acl rows postgres/public r, S, f).
+const SUPABASE_DEFAULTS = `
+create role anon; create role authenticated; create role service_role; create role supabase_admin;
+alter default privileges for role postgres in schema public grant all on tables to anon, authenticated, service_role;
+alter default privileges for role postgres in schema public grant all on sequences to anon, authenticated, service_role;
+alter default privileges for role postgres in schema public grant execute on functions to anon, authenticated, service_role;
+create table public.old_table (id bigint generated by default as identity primary key);
+create sequence public.old_seq;
+`;
+
+async function grantsOnNewObjects(db, suffix) {
+  await db.exec(`
+    create table public.t_${suffix} (id bigserial primary key);
+    create sequence public.s_${suffix};
+    create function public.f_${suffix}() returns int language sql as 'select 1';
+  `);
+  const q = await db.query(`
+    select r.rolname,
+      has_table_privilege(r.rolname, 'public.t_${suffix}', 'select') t,
+      has_sequence_privilege(r.rolname, 'public.s_${suffix}', 'usage') s,
+      has_function_privilege(r.rolname, 'public.f_${suffix}()', 'execute') f
+    from pg_roles r where r.rolname in ('anon','authenticated','service_role') order by 1`);
+  const acl = (await db.query(`select proacl is null builtin,
+      coalesce((select bool_or(a.grantee = 0) from aclexplode(proacl) a), false) pub
+    from pg_proc where oid = 'public.f_${suffix}()'::regprocedure`)).rows[0];
+  return { roles: q.rows.map((r) => [r.rolname, r.t, r.s, r.f]), publicExecute: acl.builtin || acl.pub };
+}
+
+test('default privileges: new public tables, sequences and functions reach service_role only; undo restores the old defaults', async () => {
+  const db = new PGlite();
+  try {
+    await db.exec(SUPABASE_DEFAULTS);
+    const before = await grantsOnNewObjects(db, 'before');
+    assert.deepEqual(before.roles, [['anon', true, true, true], ['authenticated', true, true, true], ['service_role', true, true, true]], 'fixture matches the Supabase defaults');
+    assert.equal(before.publicExecute, true, 'PUBLIC executes new functions through the built-in default');
+
+    await db.exec(DEFAULTS_MIGRATION);
+    await db.exec(DEFAULTS_MIGRATION); // idempotent
+    const after = await grantsOnNewObjects(db, 'after');
+    assert.deepEqual(after.roles, [['anon', false, false, false], ['authenticated', false, false, false], ['service_role', true, true, true]]);
+    assert.equal(after.publicExecute, false, 'no EXECUTE for PUBLIC on a new function');
+    const seq = (await db.query(`select r.rolname, has_sequence_privilege(r.rolname, 'public.old_seq', 'usage') o, has_sequence_privilege(r.rolname, 'public.old_table_id_seq', 'update') i
+      from pg_roles r where r.rolname in ('anon','authenticated','service_role') order by 1`)).rows;
+    assert.deepEqual(seq, [{ rolname: 'anon', o: false, i: false }, { rolname: 'authenticated', o: false, i: false }, { rolname: 'service_role', o: true, i: true }], 'leftover sequence grants are gone, service_role keeps its own');
+
+    await db.exec(DEFAULTS_UNDO);
+    const undone = await grantsOnNewObjects(db, 'undone');
+    assert.deepEqual(undone.roles, before.roles);
+    assert.equal(undone.publicExecute, true);
+    assert.equal((await db.query("select has_sequence_privilege('anon', 'public.old_seq', 'usage') ok")).rows[0].ok, true);
+
+    await db.exec(DEFAULTS_MIGRATION);
+    const again = await grantsOnNewObjects(db, 'again');
+    assert.deepEqual(again.roles, after.roles);
+    assert.equal(again.publicExecute, false);
+  } finally { await db.close(); }
+});
+
+test('default privileges migration skips supabase_admin with a notice when the running role cannot act for it', () => {
+  assert.match(DEFAULTS_MIGRATION, /pg_has_role\(current_user, 'supabase_admin', 'MEMBER'\)/);
+  assert.match(DEFAULTS_MIGRATION, /RAISE NOTICE 'default privileges of supabase_admin left unchanged/);
+  assert.match(DEFAULTS_MIGRATION, /ALTER DEFAULT PRIVILEGES FOR ROLE postgres REVOKE EXECUTE ON FUNCTIONS FROM PUBLIC;/, 'the global PUBLIC grant is revoked too');
+  const statements = DEFAULTS_MIGRATION.split('\n').filter((line) => !line.startsWith('--')).join('\n');
+  assert.doesNotMatch(statements, /FROM [^;]*service_role/, 'service_role defaults are unchanged');
 });
