@@ -10,8 +10,11 @@ const reduced = () => {
   try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.motion === 'reduced'; } catch { return false; }
 };
 
-/** `weeks`: the road's own figure ("28 weeks to CUET UG"), or null while it is not known. */
-export default function TodayCue({ target = 'road', weeks = null }) {
+/**
+ * `weeks`: the road's own figure ("28 weeks to CUET UG"), or null while it is not known. `ready`: the move has landed;
+ * until then the row holds its place unseen, so it never pushes the week and the road down when it appears (W-042).
+ */
+export default function TodayCue({ target = 'road', weeks = null, ready = true }) {
   const [seen, setSeen] = useState(false);
   useEffect(() => {
     const el = document.getElementById(target);
@@ -33,9 +36,10 @@ export default function TodayCue({ target = 'road', weeks = null }) {
     if (heading) { heading.setAttribute('tabindex', '-1'); heading.focus({ preventScroll: true }); }
   };
 
+  const hidden = seen || !ready;
   return (
-    <div className="tcue" data-seen={seen || undefined}>
-      <button type="button" className="tcue__key" onClick={go} tabIndex={seen ? -1 : 0} aria-hidden={seen || undefined}>
+    <div className="tcue" data-seen={seen || undefined} data-wait={ready ? undefined : ''}>
+      <button type="button" className="tcue__key" onClick={go} tabIndex={hidden ? -1 : 0} aria-hidden={hidden || undefined}>
         <span className="tcue__text">Your week and Road to May{weeks ? <span className="tcue__fig">, {weeks}</span> : null}</span>
         <span className="tcue__chev" aria-hidden="true"><ChevronDown size={18} strokeWidth={2} /></span>
       </button>

@@ -119,7 +119,8 @@ function DateSheet({ open, onClose, today, exam, own, onSave }) {
   );
 }
 
-export default function TodayRoad({ road, goal, rhythm, facts, onGoalSaved }) {
+/** `hold`: the move is still on its way; the road keeps its place unseen and appears with the rest of the page (W-042). */
+export default function TodayRoad({ road, goal, rhythm, facts, onGoalSaved, hold = false }) {
   const id = useId().replace(/[^a-zA-Z0-9_-]/g, '');
   const tz = rhythm.data?.timeZone || 'Asia/Kolkata';
   const today = useMemo(() => todayKeyIn(tz), [tz]);
@@ -249,7 +250,7 @@ export default function TodayRoad({ road, goal, rhythm, facts, onGoalSaved }) {
 
   if (fig.phase === 'window') {
     return (
-      <section className="trd" id="road" aria-labelledby={`${id}-h`}>
+      <section className="trd" id="road" aria-labelledby={`${id}-h`} data-hold={hold || undefined} aria-busy={hold || undefined}>
         <header className="tg__row"><h2 id={`${id}-h`} className="tg__h">Road to May</h2></header>
         <p className="trd__window">The CUET UG window is expected to run {shortDay(dates.windowStart)} to {shortDay(dates.windowEnd)}. Each paper you sit now is the last practice before yours.</p>
       </section>
@@ -264,7 +265,7 @@ export default function TodayRoad({ road, goal, rhythm, facts, onGoalSaved }) {
   // "before your date, 7 taken" once there is a target; day one says "suggested" and leaves out "0 taken".
   const mockTail = `${plan.mockTarget == null ? ', suggested' : ''}${taken ? `, ${taken} taken` : ''}`;
   return (
-    <section className="trd" id="road" aria-labelledby={`${id}-h`}>
+    <section className="trd" id="road" aria-labelledby={`${id}-h`} data-hold={hold || undefined} aria-busy={hold || undefined}>
       <header className="tg__row">
         <h2 id={`${id}-h`} className="tg__h">Road to May</h2>
         <p className="tg__fig"><b>{weeksWord}</b><span>{fig.phase === 'days' ? 'days' : fig.weeks === 1 ? 'week' : 'weeks'} to {fig.own ? 'your date' : 'CUET UG'}</span></p>

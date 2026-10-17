@@ -254,7 +254,9 @@ html[data-theme='light'] .app-shell .acct-glance__ring-on { stroke: var(--a-sele
 .app-shell .acct-glance__note { margin: 0; font-size: 14px; line-height: 1.5; color: var(--a-ink-2); }
 .app-shell .acct-sk--glance { display: block; width: 100%; height: 56px; border-radius: 12px; }
 .app-shell .acct-link--inline { min-height: 0; display: inline; }
-@media (min-width: 640px) {
+/* Three cells side by side while the page is one column (640 to 1023); in the narrower right column of a wide screen the
+   cells stay stacked rows. */
+@media (min-width: 640px) and (max-width: 1023px) {
   .app-shell .acct-glance__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 20px; }
   .app-shell .acct-glance__cell { padding: 0; border-top: 0; border-left: 1px solid var(--a-line); padding-left: 20px; }
   .app-shell .acct-glance__cell:first-child { border-left: 0; padding-left: 0; }

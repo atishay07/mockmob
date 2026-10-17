@@ -116,6 +116,8 @@ html[data-theme='light'] .app-shell .tw__day[data-state='counted'] .tw__dot { bo
 
 /* ---------- Road to May ---------- */
 .app-shell .trd { animation: today-rise-8 240ms var(--ease-out) 80ms both; }
+/* Held until the move lands (W-042): the road keeps its height, unseen; dropping the hold starts its rise. */
+.app-shell .trd[data-hold] { visibility: hidden; animation: none; }
 .app-shell .trd__strip { position: relative; height: 118px; margin-top: 14px; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
 .app-shell .trd__lane-flag { position: absolute; inset: 0 0 auto; height: 26px; z-index: 2; pointer-events: none; }
 .app-shell .trd__lane-flag .trd__flag { pointer-events: auto; }
@@ -239,6 +241,7 @@ html[data-theme='light'] .app-shell .trd__pips i[data-on] { box-shadow: 0 0 0 1p
 /* ---------- The lead below the fold (phones) ---------- */
 .app-shell .tcue { display: flex; justify-content: center; margin: -14px 0 -8px; transition: opacity 240ms var(--ease-out), transform 240ms var(--ease-out); }
 .app-shell .tcue[data-seen] { opacity: 0; transform: translateY(-4px); pointer-events: none; }
+.app-shell .tcue[data-wait] { visibility: hidden; pointer-events: none; }
 .app-shell .tcue__key {
   display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border: 0; border-radius: 22px;
   background: none; color: var(--a-ink-2); font: 600 14px/1.2 inherit; cursor: pointer; -webkit-tap-highlight-color: transparent;

@@ -256,9 +256,6 @@ export default function ProfilePageClient() {
             credits={<AccountCredits user={user} />}
           />
 
-          {/* "You" leads with your study days, badges and best work (W-053); plan and billing sit lower. */}
-          <AccountGlance userId={user?.id} />
-
           {/* The Compass line (the DU programmes your subjects open, one key to Compass) moved here from Today, above
               the colleges it names (TODAY-1017 section 7). */}
           {/* On a phone the column dissolves into an ordered list (account.css): the line sits with Your colleges (4). */}
@@ -302,6 +299,9 @@ export default function ProfilePageClient() {
         </div>
 
         <div className="acct-col">
+          {/* "You" leads with your study days, badges and best work (W-053): first in this column on a wide screen, right
+              under your sheet on a phone (account.css order); plan and billing sit lower. */}
+          <AccountGlance userId={user?.id} />
           <section className="glass acct-card" id="goal" aria-labelledby="acct-goal-h">
             <h2 className="acct-h2" id="acct-goal-h">Weekly goal</h2>
             <GoalControl />

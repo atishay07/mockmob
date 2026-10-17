@@ -518,13 +518,13 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
                 Back
               </button>
               {tourStep === TOUR_STEPS.length - 1 ? (
-                <button type="button" className="inline-flex min-h-11 items-center rounded-full bg-volt px-5 py-2 text-sm font-extrabold text-black shadow-[0_0_22px_rgba(210,240,0,0.22)] transition hover:brightness-110" onClick={closeTour}>
+                <button type="button" className="inline-flex min-h-11 items-center rounded-full bg-volt px-5 py-2 text-sm font-extrabold text-black transition hover:brightness-110" onClick={closeTour}>
                   Finish
                 </button>
               ) : (
                 <button
                   type="button"
-                  className="inline-flex min-h-11 items-center rounded-full bg-volt px-5 py-2 text-sm font-extrabold text-black shadow-[0_0_22px_rgba(210,240,0,0.22)] transition hover:brightness-110"
+                  className="inline-flex min-h-11 items-center rounded-full bg-volt px-5 py-2 text-sm font-extrabold text-black transition hover:brightness-110"
                   onClick={() => setTourStep((step) => Math.min(TOUR_STEPS.length - 1, step + 1))}
                 >
                   Next
