@@ -151,7 +151,7 @@ export default function JoinMob({ code: rawCode }) {
             </div>
             <div className="mob-join__copy">
               <h1 className="mob-join__h1">{signedIn && info.inviter ? `${info.inviter} invited you to this week's ${info.subjectName} paper.` : "You're invited to a Mob."}</h1>
-              <p className="mob-join__lede">A small private group that sits one 10-question {info.subjectName} paper each week. {info.size} of 5 seats are taken.</p>
+              <p className="mob-join__lede">A small private group that sits one 10-question {info.subjectName} paper each week. {info.size} of 5 seats taken.</p>
               <Promises items={JOIN_PROMISES} />
               {!signedIn ? (
                 <div className="mob-join__actions">

@@ -36,6 +36,8 @@ import './mob.css';
 
 const COLOUR_NAMES = ['Teal', 'Sky', 'Violet', 'Rose', 'Amber', 'Green', 'Coral', 'Slate'];
 const NAME_RULE = 'Use 2 to 18 letters. Spaces, dots, apostrophes and hyphens are fine.';
+// Choosing subjects comes back here when it is saved (onboarding honours back=/mob only).
+const SUBJECTS_HREF = '/onboarding?edit=true&back=/mob';
 
 function subjectsFrom(user) {
   const seen = new Set();
@@ -85,6 +87,7 @@ function StartForm({ user, mob, invited = false, skip = [], onStarted, onPreview
   const [colour, setColour] = useState(0);
   const [error, setError] = useState(null);
   const [nameError, setNameError] = useState(null);
+  const [subjectsFirst, setSubjectsFirst] = useState(false);
   const nameId = useId();
   useEffect(() => { onPreview?.({ initial: initialOf(name || '?'), colour }); }, [name, colour, onPreview]);
   const start = async () => {
@@ -93,16 +96,27 @@ function StartForm({ user, mob, invited = false, skip = [], onStarted, onPreview
     if (!checked.ok) { setNameError(NAME_RULE); return; }
     setNameError(null);
     const r = await mob.run('/api/mob', { subject, name: checked.name, colour }, { name: 'create' });
-    if (!r.ok) { if (r.code?.startsWith('NAME')) setNameError(r.message); else setError(r.message); return; }
+    if (!r.ok) {
+      if (r.code?.startsWith('NAME')) setNameError(r.message);
+      else { setError(r.message); setSubjectsFirst(r.code === 'NO_SUBJECTS' || r.code === 'SUBJECT_INVALID'); }
+      return;
+    }
     onStarted?.();
   };
   // No subject to start a Mob for: the way forward is the one key, not a disabled button.
   if (!subjects.length) {
-    if (skip.length) return <p className="mob-note">Every subject you study already has a Mob. Add a subject to start another.</p>;
+    if (skip.length) {
+      return (
+        <div className="mob-empty">
+          <p className="mob-note">Each of your subjects already has one of your Mobs. Add a subject to start another.</p>
+          <Link className="mob-key" href={SUBJECTS_HREF}>Add a subject</Link>
+        </div>
+      );
+    }
     return (
       <div className="mob-empty">
         <p className="mob-note">A Mob sits one paper a week in one of your subjects. Choose your CUET subjects first. It takes a minute, and you come back here after.</p>
-        <Link className={formName === 'start' ? 'btn-volt md mob-primary' : 'mob-key'} data-page-primary={formName === 'start' ? '' : undefined} href="/onboarding?edit=true">Choose your subjects</Link>
+        <Link className={formName === 'start' ? 'btn-volt md mob-primary' : 'mob-key'} data-page-primary={formName === 'start' ? '' : undefined} href={SUBJECTS_HREF}>Choose your subjects</Link>
       </div>
     );
   }
@@ -127,7 +141,9 @@ function StartForm({ user, mob, invited = false, skip = [], onStarted, onPreview
         </button>
         <p className="mob-cost">Free. The weekly paper costs no credits.</p>
       </div>
-      <p className="mob-notice" role="status" aria-live="polite">{error || ''}</p>
+      <p className="mob-notice" role="status" aria-live="polite">
+        {error || ''}{error && subjectsFirst ? <> <Link className="mob-link" href={SUBJECTS_HREF}>Choose your subjects</Link></> : null}
+      </p>
     </>
   );
 }

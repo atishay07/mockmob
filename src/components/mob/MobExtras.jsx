@@ -11,8 +11,9 @@ import { closesAtLine, countLabel } from './mobFormat';
 import { mobFetch } from './useMob';
 
 /**
- * The chapters of the Mob's subject the bank can make a paper from, with how many questions are ready (GET
- * /api/mob/extra). Loaded only when the dialog opens. A failed read leaves the whole subject, which always works.
+ * The chapters of the Mob's subject the bank can make a paper from, each with the longest paper it can really build
+ * (GET /api/mob/extra, probed with the paper's own selector). Loaded only when the dialog opens. A failed read leaves the
+ * whole subject, which always works.
  */
 function useChapters(mobId, open) {
   const [state, setState] = useState({ status: 'idle', chapters: [] });
@@ -69,12 +70,12 @@ export function ExtraDialog({ open, onClose, data, run, busy }) {
           <label className="mob-label" htmlFor={selectId}>Chapter of {data.subjectName}</label>
           <select id={selectId} className="mob-input mob-select" value={chapter} onChange={(e) => choose(e.target.value)} disabled={list.status === 'idle'} aria-describedby={`${selectId}-hint`}>
             <option value="">Whole subject</option>
-            {list.chapters.map((c) => <option key={c.chapter} value={c.chapter}>{c.chapter}, {c.ready} ready</option>)}
+            {list.chapters.map((c) => <option key={c.chapter} value={c.chapter}>{c.chapter}, up to {c.longest} questions</option>)}
           </select>
           <p id={`${selectId}-hint`} className="mob-hint">
             {list.status === 'idle' ? 'Checking which chapters have questions ready.'
               : list.status === 'error' ? 'Chapters did not load. The whole subject still works.'
-                : picked ? `${picked.ready} questions ready in this chapter, enough for up to ${picked.longest}.`
+                : picked ? `Enough questions are ready in this chapter for a paper of up to ${picked.longest}.`
                   : list.chapters.length ? 'Only chapters with enough questions ready for a paper are listed.' : 'No single chapter has enough questions ready yet. The whole subject does.'}
           </p>
         </div>

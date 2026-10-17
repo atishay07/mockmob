@@ -137,7 +137,9 @@ html[data-theme='light'] {
 }
 .mob-chip[data-on] { border-color: var(--a-select); background: var(--a-volt-wash); }
 .mob-chip input, .mob-colour input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
-.mob-colours__row { display: flex; flex-wrap: wrap; gap: 4px; }
+.mob-colours__row { display: grid; grid-template-columns: repeat(auto-fill, 44px); gap: 4px; }
+/* A phone holds the 8 colours as two even rows of 4, never 6 and an orphaned 2. */
+@media (max-width: 520px) { .mob-colours__row { grid-template-columns: repeat(4, 44px); gap: 6px 16px; } }
 .mob-colour { position: relative; display: inline-grid; place-items: center; width: 44px; height: 44px; cursor: pointer; }
 .mob-disc--pick { width: 32px; height: 32px; }
 .mob-colour:has(input:checked) .mob-disc { box-shadow: 0 0 0 2px var(--a-raised), 0 0 0 4px var(--a-ink); }
@@ -301,7 +303,8 @@ html[data-theme='light'] .mob-volt { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 
    17 Oct: first impressions (no Mob, /join), the Pro line, entry lines
    ========================================================================== */
 .mob-pro-line { margin: 0; padding: 16px 2px 0; border-top: 1px solid var(--a-line); max-width: 72ch; font-size: 14px; line-height: 1.55; color: var(--a-ink-2); }
-.mob-pro-line .mob-link { display: inline; min-height: 0; padding: 12px 0; margin: -12px 0; }
+/* Inline in the sentence, with a 44 px tall hit area that does not move the line. */
+.mob-pro-line .mob-link { display: inline-block; min-height: 0; padding: 14px 2px; margin: -14px -2px; }
 
 /* No Mob: the story (seats, the paper in numbers, three promises) beside the form. One column on a phone. */
 .mob-intro { display: grid; gap: 28px; align-items: start; }
@@ -334,7 +337,10 @@ html[data-theme='light'] .mob-volt { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 
 
 /* The paper in four numbers: value large, label small, hairlines between, never boxes */
 .mob-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0; border-top: 1px solid var(--a-line); }
-@media (min-width: 560px) { .mob-facts { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+/* Four across only when the column holding them is wide enough for "Sun 11:59 PM" (a container, not the window: the
+   no-Mob story and the join card are narrow columns on a wide screen). Otherwise 2 by 2. */
+.mob-intro__story, .mob-join__visual { container-type: inline-size; }
+@container (min-width: 600px) { .mob-facts { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .mob-facts__item { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 4px; min-width: 0; padding: 14px 14px 14px 0; border-bottom: 1px solid var(--a-line); }
 .mob-facts__value { margin: 0; font: 800 22px/1.15 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .mob-facts__label { margin: 0; font-size: 12.5px; line-height: 1.4; color: var(--a-ink-2); }
@@ -349,11 +355,13 @@ html[data-theme='light'] .mob-volt { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 
 .mob-join__inner--wide { width: min(1040px, 100%); gap: 28px; }
 .mob-join__grid { display: grid; gap: 28px; align-items: start; }
 @media (min-width: 960px) { .mob-join__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; align-items: center; } }
-.mob-join__copy { display: grid; gap: 16px; align-content: start; min-width: 0; }
-.mob-join__visual { display: grid; gap: 24px; justify-items: start; min-width: 0; }
+/* The words and the key come first on a phone, so the key is in the first screen; the seats and numbers follow. */
+.mob-join__copy { order: 1; display: grid; gap: 16px; align-content: start; min-width: 0; }
+.mob-join__visual { order: 2; display: grid; gap: 24px; justify-items: stretch; min-width: 0; }
+.mob-join__visual > .mob-seats { justify-self: start; }
 @media (min-width: 960px) {
-  .mob-join__visual { order: 2; padding: 32px; border-radius: 24px; border: 1px solid var(--a-line); background: var(--a-raised); justify-items: center; }
-  .mob-join__visual .mob-facts { width: 100%; }
+  .mob-join__visual { padding: 32px; border-radius: 24px; border: 1px solid var(--a-line); background: var(--a-raised); }
+  .mob-join__visual > .mob-seats { justify-self: center; }
 }
 .mob-join__lede { margin: 0; max-width: 46ch; font-size: 16px; line-height: 1.55; color: var(--a-ink-2); }
 .mob-join__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
@@ -361,6 +369,8 @@ html[data-theme='light'] .mob-volt { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 
 .mob-join__skel { display: grid; gap: 14px; }
 
 /* Entry lines on Today, Practice and Review: one calm line, an outlined key or a text link, never the page's volt */
+/* On Today the line comes after the move, the glance and the rows (today.css orders them 1 to 4): never above the move. */
+.app-shell .today-grid .mob-entry { order: 5; }
 .mob-entry { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; min-width: 0; padding: 14px 0; border-block: 1px solid var(--a-line); }
 .mob-entry__text { display: grid; gap: 2px; flex: 1 1 240px; min-width: 0; }
 .mob-entry__text b { font: 750 15px/1.35 var(--font-display); color: var(--a-ink); overflow-wrap: anywhere; }

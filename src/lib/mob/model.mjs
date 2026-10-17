@@ -89,6 +89,8 @@ export const ERRORS = Object.freeze({
   NAME_INVALID: [422, 'Use 2 to 18 letters for your name. Spaces, dots, apostrophes and hyphens are fine.'],
   NAME_REFUSED: [422, 'Choose a different name. Your Mob sees it.'],
   SUBJECT_INVALID: [422, 'Choose one of your subjects.'],
+  // No subjects on the account: the way forward is to choose them (the web sends /onboarding?edit=true&back=/mob).
+  NO_SUBJECTS: [422, 'Choose your CUET subjects first. A Mob sits one paper a week in one of them.'],
   COLOUR_INVALID: [422, 'Choose one of the 8 colours.'],
   REASON_INVALID: [422, 'Choose why you are reporting.'],
   BODY_INVALID: [422, 'Something in the request was not right. Try again.'],

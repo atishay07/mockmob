@@ -18,7 +18,7 @@ export default function PrivacyPage() {
       <main className="container-narrow px-5 pb-20 pt-10">
         <div className="eyebrow mb-3">{'// Legal'}</div>
         <h1 className="display-lg mb-5">Privacy Policy</h1>
-        <p className="mb-10 text-zinc-400">Last updated: 17 October 2026</p>
+        <p className="mb-10 text-zinc-400">Last updated: {mobEnabledForLegal() ? '17 October 2026' : '16 October 2026'}</p>
 
         <div className="legal-copy">
           <section>

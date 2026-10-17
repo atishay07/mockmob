@@ -270,10 +270,12 @@ export function createMobService(deps) {
     view,
 
     async create(userId, body) {
-      const subject = typeof body.subject === 'string' ? deps.subjectInfo(body.subject) : null;
-      if (!subject?.ok) throw new MobError('SUBJECT_INVALID');
       const user = await loadUser(userId);
-      if (!ownSubjects(user).has(subject.id)) throw new MobError('SUBJECT_INVALID');
+      if (!user) throw new MobError('UNAVAILABLE'); // the account did not load: never blame the student's subjects for it
+      const own = ownSubjects(user);
+      if (!own.size) throw new MobError('NO_SUBJECTS');
+      const subject = typeof body.subject === 'string' ? deps.subjectInfo(body.subject) : null;
+      if (!subject?.ok || !own.has(subject.id)) throw new MobError('SUBJECT_INVALID');
       const { name, colour } = nameAndColour(body, { required: true });
       const plan = startLimit(user);
       const r = await call('mob_create', { p_user_id: userId, p_subject: subject.id, p_name: name, p_colour: colour, p_max_mobs: plan.max });
@@ -519,7 +521,18 @@ export function createMobService(deps) {
       if (chapter && (chapter.length > 120 || !deps.validChapter || !deps.validChapter(state.mob.subject, chapter))) throw new MobError('CHAPTER_INVALID');
       const key = `x${Array.from(deps.randomBytes(6), (b) => b.toString(16).padStart(2, '0')).join('')}`;
       const picked = await deps.pickQuestionIds(state.mob.subject, { mobId: state.mob.id, week: state.week, count, chapter, key }).catch(() => []);
-      if (!Array.isArray(picked) || picked.length < count) throw thinBank({ ready: Array.isArray(picked) ? picked.length : 0, count, chapter, subjectName: subjectName(state.mob.subject) || 'This subject' });
+      if (!Array.isArray(picked) || picked.length < count) {
+        // The selector answers all or nothing for a length it cannot fill, so its count says little. The chooser's
+        // probe says the longest paper this chapter can build; if even that claimed this length, it is stale: drop it
+        // and say what really happened.
+        let ready = Array.isArray(picked) ? picked.length : 0;
+        if (chapter && deps.chapterCounts) {
+          const known = (await deps.chapterCounts(state.mob.subject).catch(() => null))?.find((r) => r.chapter === chapter);
+          if (known && Number(known.ready) < count) ready = Number(known.ready) || 0;
+          else if (deps.forgetChapterCounts) deps.forgetChapterCounts(state.mob.subject);
+        }
+        throw thinBank({ ready, count, chapter, subjectName: subjectName(state.mob.subject) || 'This subject' });
+      }
       const r = await call('mob_extra_put', {
         p_user_id: userId, p_mob_id: state.mob.id, p_week: state.week, p_chapter: chapter, p_ids: picked.slice(0, count),
         p_closes_at: new Date(now() + EXTRA_OPEN_DAYS * DAY_MS).toISOString(), p_max_per_week: EXTRA_MAX_PER_WEEK,

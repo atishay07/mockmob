@@ -350,6 +350,15 @@
       }
     }
   },
+  "NO_SUBJECTS": {
+    "status": 422,
+    "body": {
+      "error": {
+        "code": "NO_SUBJECTS",
+        "message": "Choose your CUET subjects first. A Mob sits one paper a week in one of them."
+      }
+    }
+  },
   "COLOUR_INVALID": {
     "status": 422,
     "body": {

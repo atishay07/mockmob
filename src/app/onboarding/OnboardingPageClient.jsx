@@ -82,10 +82,15 @@ function WeekDial({ days }) {
   );
 }
 
+// Pages that send a student to Edit subjects and want them back after the save (the Mob needs a subject to start).
+const BACK_PATHS = ['/mob'];
+
 export default function OnboardingPageClient({ preview = false }) {
   const router = useRouter();
   const query = useSearchParams();
   const edit = query?.get('edit') === 'true';
+  // Edit subjects can return to the page that asked for them. Only known pages: never a path from the address bar.
+  const back = edit && BACK_PATHS.includes(query?.get('back')) ? query.get('back') : null;
   const { user, status, refreshSession } = useAuth();
   const [subjects, setSubjects] = useState([]);
   const [selected, setSelected] = useState([]);
@@ -218,8 +223,8 @@ export default function OnboardingPageClient({ preview = false }) {
     setFinishing(true);
     mobiAct(SCOPE, act);
     try { await refreshing.current; } catch { /* the next page checks the session itself */ }
-    window.setTimeout(() => { if (!preview) router.push(DONE_PATH); }, reducedMotion() ? 0 : 700);
-  }, [preview, router]);
+    window.setTimeout(() => { if (!preview) router.push(back || DONE_PATH); }, reducedMotion() ? 0 : 700);
+  }, [preview, router, back]);
 
   const saveSubjects = async () => {
     if (selected.length === 0 || !user?.id || saveLock.current) return;

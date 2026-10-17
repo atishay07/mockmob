@@ -373,3 +373,55 @@ test('entry lines: one per page for a member, the invitation only on Today and o
   const entry = read('src/components/mob/MobEntry.jsx');
   assert.doesNotMatch(entry, /btn-volt|data-page-primary/, 'an entry line never takes the page\'s volt');
 });
+
+test('a student with no subjects gets NO_SUBJECTS and a way to choose them that comes back to the Mob', () => {
+  assert.equal(ERRORS.NO_SUBJECTS[0], 422);
+  assert.match(ERRORS.NO_SUBJECTS[1], /subjects first/);
+  const page = read('src/components/mob/MobPage.jsx');
+  assert.match(page, /SUBJECTS_HREF = '\/onboarding\?edit=true&back=\/mob'/);
+  assert.match(page, /r\.code === 'NO_SUBJECTS'/);
+  const onboarding = read('src/app/onboarding/OnboardingPageClient.jsx');
+  assert.match(onboarding, /const BACK_PATHS = \['\/mob'\];/, 'only known pages, never a path from the address bar');
+  assert.match(onboarding, /router\.push\(back \|\| DONE_PATH\)/);
+});
+
+test('the join page promises exactly as many sample questions as the guest sample has', () => {
+  const join = read('src/components/mob/JoinMob.jsx');
+  const count = Number(/export const SAMPLE_COUNT = (\d+);/.exec(join)?.[1]);
+  const drill = read('src/components/landing/DemoDrill.jsx');
+  const block = drill.slice(drill.indexOf('const DRILL = ['), drill.indexOf('\n];', drill.indexOf('const DRILL = [')));
+  assert.equal((block.match(/^ {4}subject:/gm) || []).length, count, 'DemoDrill.jsx DRILL and JoinMob SAMPLE_COUNT must agree');
+  assert.match(join, /href="\/#try-practice"/);
+  assert.doesNotMatch(join, /} of 5 seats are taken/);
+});
+
+test('first-impression layout: 8 colours as two rows of 4 on a phone, the paper numbers 4 across only in a wide column, a 44 px Pro link', () => {
+  const css = read('src/components/mob/mob.css');
+  assert.match(css, /@media \(max-width: 520px\) \{ \.mob-colours__row \{ grid-template-columns: repeat\(4, 44px\)/);
+  assert.match(css, /\.mob-intro__story, \.mob-join__visual \{ container-type: inline-size; \}/);
+  assert.match(css, /@container \(min-width: 600px\) \{ \.mob-facts \{ grid-template-columns: repeat\(4, minmax\(0, 1fr\)\); \} \}/);
+  assert.doesNotMatch(css, /@media \(min-width: 560px\) \{ \.mob-facts/, 'never 4 across by window width');
+  assert.match(css, /\.mob-pro-line \.mob-link \{ display: inline-block; min-height: 0; padding: 14px 2px; margin: -14px -2px; \}/);
+  assert.match(css, /\.app-shell \.today-grid \.mob-entry \{ order: 5; \}/, 'Today: the Mob line after the move, never above it');
+});
+
+test('the chooser lengths come from the paper selector itself, and a stale length is dropped, never offered again', async () => {
+  const wiring = read('src/lib/server/mob/deps.js');
+  assert.match(wiring, /readablePracticeQuestions\(rows\.filter\(\(row\) => row\.chapter && !isPassageLinkedQuestion\(row\)\)/, 'the same filters as the selector');
+  assert.match(wiring, /pickWithConstraints\(ranked, n, mode\)\.length >= n/, 'the same constraints as the selector, per length');
+  assert.match(wiring, /forgetChapterCounts/);
+  const db = await database(6);
+  const forgot = [];
+  const svc = createMobService(deps(db, {
+    // The bank changed since the chooser looked: Cash Flow Statement no longer fills 10.
+    pickQuestionIds: async (_s, { count = 10, chapter = null } = {}) => (chapter === 'Cash Flow Statement' ? [] : BANK.slice(0, count).map((q) => q.id)),
+    chapterCounts: async () => [{ chapter: 'Cash Flow Statement', ready: 10 }],
+    forgetChapterCounts: (subject) => forgot.push(subject),
+  }));
+  try {
+    await svc.create('u1', { subject: 'accountancy', name: 'Riya', colour: 0 });
+    await assert.rejects(svc.createExtra('u1', { chapter: 'Cash Flow Statement', count: 10 }), (e) => e.code === 'BANK_THIN'
+      && e.extra.detail.suggest.chapter === null && /too few for a paper\. Make it from the whole subject/.test(e.extra.message));
+    assert.deepEqual(forgot, ['accountancy'], 'the next chooser read is fresh');
+  } finally { await db.close(); }
+});

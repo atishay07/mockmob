@@ -210,7 +210,7 @@ test('a Mob is for one of your own subjects; with no subjects there is nothing t
   try {
     await assert.rejects(mobStart(svc, 'u1', 'economics'), expectCode('SUBJECT_INVALID'), 'a launchable subject that is not yours');
     await assert.rejects(svc.create('u1', { subject: ['accountancy'], name: 'Riya', colour: 0 }), expectCode('SUBJECT_INVALID'));
-    await assert.rejects(mobStart(svc, 'u2', 'accountancy'), expectCode('SUBJECT_INVALID'));
+    await assert.rejects(mobStart(svc, 'u2', 'accountancy'), expectCode('NO_SUBJECTS'), 'no subjects: its own code, so the screen offers the way forward');
     assert.ok((await mobStart(svc, 'u1', 'accountancy')).mob.id);
   } finally { await db.close(); }
 });
