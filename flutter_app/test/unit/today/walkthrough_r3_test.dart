@@ -9,6 +9,7 @@ import 'package:mockmob/core/theme/theme.dart' show MmBar;
 import 'package:mockmob/core/widgets/widgets.dart' show BarMove, KeyButton, LiveCapsule;
 import 'package:mockmob/features/practice/copy.dart';
 import 'package:mockmob/features/review/copy.dart';
+import 'package:mockmob/features/today/widgets/today_pill.dart';
 import 'package:mockmob/features/today/copy.dart';
 import 'package:mockmob/features/today/logic/move_builder.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
@@ -170,9 +171,9 @@ void main() {
     testWidgets('on a tall screen the card shows its own key and no capsule is added', (tester) async {
       await pump(tester, buildToday(ashaInputs()), size: const Size(384, 1100));
       expect(bar(), findsNothing);
-      // The road under the card has quiet text keys of its own (Week, Change days); the card has
-      // its primary and its quiet alternative.
-      expect(find.descendant(of: find.byType(MoveHeroCard), matching: find.byType(KeyButton)), findsNWidgets(2), reason: 'the card has its primary and its quiet alternative');
+      // The card has its one primary key, and its two outlined pills (TODAY-1017 4.2).
+      expect(find.descendant(of: find.byType(MoveHeroCard), matching: find.byType(KeyButton)), findsOneWidget, reason: 'one primary');
+      expect(find.descendant(of: find.byType(MoveHeroCard), matching: find.byType(TodayPill)), findsNWidgets(2), reason: 'Change length and Something else');
     });
 
     testWidgets('scrolling the card key into the clear hands over to it: one primary at a time', (tester) async {
@@ -273,15 +274,10 @@ void main() {
         disableAnimations: true,
         overrides: todayOverrides,
       );
-      // The count is one run of text (the figure in the condensed cut, then its words).
-      final count = find.text('1 of 4 study days', findRichText: true);
-      expect(count, findsOneWidget);
-      final painter = TextPainter(
-        text: tester.widget<RichText>(count).text,
-        textDirection: TextDirection.ltr,
-        textScaler: const TextScaler.linear(1.3),
-      )..layout();
-      expect(tester.getSize(count).height, closeTo(painter.height, 1), reason: 'one line, not two');
+      // The figure ("1 of 4 study days") sits on the heading row, beside "This week", on one line.
+      final title = tester.getRect(find.text(TodayCopy.weekTitle));
+      final words = tester.getRect(find.text(TodayCopy.weekStudyDays));
+      expect(words.center.dy, closeTo(title.center.dy, 8), reason: 'one line, not two');
     });
   });
 

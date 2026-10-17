@@ -168,14 +168,14 @@ void main() {
         await tester.scrollUntilVisible(find.text(TodayCopy.roadTitle), 300, scrollable: find.byType(Scrollable).first);
       }
 
+      // The Road to May heading counts days in the last week (TODAY-1017 4.4).
       await showAt(DateTime.utc(2027, 4, 26, 8));
-      expect(find.text(TodayCopy.daysToWindowLabel(5)), findsOneWidget);
-      expect(find.text('5'), findsOneWidget);
-      expect(find.text(TodayCopy.weeksLabel(0)), findsNothing);
+      expect(find.text(TodayCopy.roadDaysTo(own: false, n: 5)), findsOneWidget);
+      expect(find.text(TodayCopy.roadWeeksTo(own: false, n: 0)), findsNothing);
 
       await showAt(DateTime.utc(2027, 4, 30, 8));
-      expect(find.text(TodayCopy.daysToWindowLabel(1)), findsOneWidget);
-      expect(TodayCopy.daysToWindowLabel(1), startsWith('day to'));
+      expect(find.text(TodayCopy.roadDaysTo(own: false, n: 1)), findsOneWidget);
+      expect(TodayCopy.roadDaysTo(own: false, n: 1), startsWith('day to'));
     });
   });
 

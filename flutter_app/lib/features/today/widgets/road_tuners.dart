@@ -106,9 +106,9 @@ class _PaceStripState extends State<PaceStrip> {
                       height: 40,
                       child: DecoratedBox(
                         decoration: BoxDecoration(
-                          color: colors.volt,
+                          // An ink pill, never volt: the move key keeps the screen's one fill (TODAY-1017 4.4).
+                          color: colors.ink,
                           borderRadius: BorderRadius.circular(20),
-                          border: colors.isNight ? null : Border.all(color: colors.ink, width: 1),
                         ),
                       ),
                     ),
@@ -120,7 +120,7 @@ class _PaceStripState extends State<PaceStrip> {
                             child: Text(
                               '$n',
                               style: type.labelLarge.copyWith(
-                                color: n == shown && enabled ? colors.voltInk : (enabled ? colors.ink2 : colors.ink3),
+                                color: n == shown && enabled ? colors.ground : (enabled ? colors.ink2 : colors.ink3),
                                 fontWeight: n == shown ? FontWeight.w700 : FontWeight.w500,
                                 fontFeatures: const [FontFeature.tabularFigures()],
                               ),

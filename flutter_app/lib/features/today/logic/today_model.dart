@@ -51,8 +51,13 @@ class TodayAction {
   final String? actionType;
 }
 
-/// The mood changes the defaults and the warmth, never the state (spec 5.3).
+/// The mood changes the defaults and the warmth, never the state (spec 5.3). Late night only
+/// shortens the default length: it no longer changes the art or the words (F11).
 enum TodayMood { normal, dayOne, returning, lateNight }
+
+/// Which move the card is (TODAY-1017 4.2, and the first-week path of FEATURE-ADOPTION 7): what
+/// the tests and the card's Mobi read, never shown as words.
+enum MoveKind { dayOne, repair, firstRepair, returning, warmUp, revise, done, firstMock, smart, practice, failure, other }
 
 /// One duration chip. [mistakes] is set for a repair (the task shrinks with the time).
 class DurationChoice {
@@ -121,9 +126,24 @@ class MoveHero extends TodayHero {
     this.mobiLine,
     this.basisLine,
     this.dismissedLine,
+    this.kind = MoveKind.other,
+    this.whyLink,
+    this.alternate,
   });
 
   final NextMoveState state;
+
+  /// Which move this is (see [MoveKind]).
+  final MoveKind kind;
+
+  /// The why sentence's link words ("See why", "See all 6"); the default is "See why".
+  final String? whyLink;
+
+  /// A pill before [secondary] when the move has no length to change ("Open the repair").
+  final TodayAction? alternate;
+
+  /// The move can change size: the "Change length" pill shows.
+  bool get canChangeLength => durations.length > 1;
   final TodayMood mood;
   final String overline;
 
@@ -323,7 +343,11 @@ class RoadModel {
     this.weekNeeds,
     this.board,
     this.plannedDays,
+    this.ladderSaved = 0,
   });
+
+  /// Every college on My colleges (the ladder shows the first three): "2 more saved".
+  final int ladderSaved;
 
   /// The weekdays the student plans to study (0 = Monday), when the plan matches the goal: the
   /// pace strip keeps these picks when the count changes.
@@ -370,9 +394,40 @@ class RoadModel {
 
 /// Today's week row: seven days as planned, the count and what the rest of the week asks.
 class WeekModel {
-  const WeekModel({required this.days, required this.count, this.outlook, this.met = false, this.paused = false});
+  const WeekModel({
+    required this.days,
+    required this.count,
+    this.outlook,
+    this.met = false,
+    this.paused = false,
+    this.done = 0,
+    this.goal,
+    this.caption = '',
+    this.captionKey,
+    this.beforeAccount = const {},
+    this.weekId,
+    this.counted = const [],
+  });
 
   final List<PlanDay> days;
+
+  /// The weekdays the server counted (0 = Monday).
+  final List<int> counted;
+
+  /// Study days counted this week, and the goal ("3 of 4"); the goal is null when none is set.
+  final int done;
+  final int? goal;
+
+  /// The one line under the marks (4.3's table), and the clause in it set in ink 600 ("Tonight
+  /// makes 4."), when there is one.
+  final String caption;
+  final String? captionKey;
+
+  /// Days before the account had any paper (0 = Monday): a short dash, never a miss.
+  final Set<int> beforeAccount;
+
+  /// The week's Monday as `YYYY-MM-DD` (the goal-met cheer plays once per week).
+  final String? weekId;
 
   /// "1 of 4 study days".
   final String count;
@@ -454,6 +509,24 @@ class PaperTrend {
   final String kind;
 }
 
+/// Today's "Last paper" row: the newest opened paper, which opens its result.
+class LastPaper {
+  const LastPaper({required this.title, required this.sub, required this.marks, required this.outOf, required this.target, this.change, this.up});
+
+  /// "Mock 7, Accountancy".
+  final String title;
+
+  /// "11 Oct, +33 on Mock 6".
+  final String sub;
+  final int marks;
+  final int outOf;
+  final TodayTarget target;
+
+  /// "+33 on Mock 6", set in the accent when it went up.
+  final String? change;
+  final bool? up;
+}
+
 class TodayView {
   const TodayView({
     required this.header,
@@ -464,7 +537,11 @@ class TodayView {
     this.trend,
     this.road,
     this.offline = false,
+    this.lastPaper,
   });
+
+  /// The newest opened paper, or null when there is none (the row is then not there).
+  final LastPaper? lastPaper;
 
   final HeaderModel header;
 

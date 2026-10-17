@@ -46,7 +46,10 @@ void main() {
       disableAnimations: true,
     );
     await tester.pumpAndSettle();
-    expect(find.text(TodayCopy.readThisWeek(2, 3)), findsOneWidget);
+    // The pace is a token under the strip; it opens the tuner in place (TODAY-1017 4.4).
+    expect(find.text(TodayCopy.tokenPace(3)), findsOneWidget);
+    await tester.tap(find.byKey(const ValueKey('road-token-pace')));
+    await tester.pumpAndSettle();
 
     final change = find.text(TodayCopy.changeDays);
     await tester.ensureVisible(change);
@@ -74,7 +77,7 @@ void main() {
     // The saved goal comes back through the rhythm read: the road says it.
     road.value = buildRoad(ashaInputs(week: _week(4, {0, 2, 3, 4})))!;
     await tester.pumpAndSettle();
-    expect(find.text(TodayCopy.readThisWeek(2, 4)), findsOneWidget);
+    expect(find.text(TodayCopy.tokenPace(4)), findsOneWidget);
     expect(tester.widget<PaceStrip>(find.byType(PaceStrip)).value, 4);
   });
 }

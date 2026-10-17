@@ -50,7 +50,8 @@ void main() {
     expect(move.number, '${tonight.items.length}');
     // The sentence no longer repeats the count the big number shows (critic 1): "Every open mistake".
     expect(tonight.items.length, greaterThan(1));
-    expect(move.meaning, 'Every open mistake in Admission of a partner, from Mock 7 on ${move.meaning.split(' on ').last}');
+    // TODAY-1017 4.2: the why names the paper, its date and the same chapter Review shows.
+    expect(move.meaning, allOf(startsWith('All '), contains('from Mock 7 on '), endsWith(', in Admission of a partner.')));
   });
 
   test('every demo question belongs to its own chapter, and Business Studies has twenty', () {

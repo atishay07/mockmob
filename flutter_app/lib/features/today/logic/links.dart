@@ -25,4 +25,16 @@ abstract final class TodayLinks {
       '${AppRoutes.reviewRepair(attemptId, questionId)}?count=$count';
 
   static String why(String attemptId) => AppRoutes.todayWhy(attemptId);
+
+  /// Smart practice started straight from Today (Pro): questions from the weak chapters.
+  static String smart({String? subject, int count = 10}) => Uri(
+        path: AppRoutes.practiceStart,
+        queryParameters: {'mode': 'smart', if (subject != null) 'subject': canonicalSubject(subject), 'count': '$count'},
+      ).toString();
+
+  /// Today's Revise round.
+  static const String revise = AppRoutes.reviewRevise;
+
+  /// The repair record in Review (the done state's "Open the repair").
+  static const String repairRecord = AppRoutes.reviewRecord;
 }

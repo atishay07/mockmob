@@ -70,8 +70,9 @@ void main() {
       // Partnership holds 4 of Mock 7's 6; a repair run covers one chapter, and the longest chip
       // holds the whole chapter, as Review offers it.
       expect(m.number, '4');
-      expect(m.numberLabel, 'to repair\ntonight');
-      expect(m.meaning, 'Every open mistake in Partnership fundamentals, from Mock 7 on 11 Oct.');
+      // TODAY-1017 4.2: "4 mistakes to repair", and the why names the paper, its date and the chapter.
+      expect(m.numberLabel, 'mistakes\nto repair');
+      expect(m.meaning, 'All four are from Mock 7 on 11 Oct, in Partnership fundamentals.');
       expect(m.selectedMinutes, 15);
       expect(m.durations.map((d) => d.minutes), [5, 10, 15]);
       expect(m.evidenceId, 'm7');
@@ -89,29 +90,29 @@ void main() {
 
     test('in the morning it says today, never tonight', () {
       final m = _move(ashaInputs(now: DateTime.utc(2026, 10, 13, 2, 0)));
-      expect(m.numberLabel, 'to repair\ntoday');
+      expect(m.numberLabel, 'mistakes\nto repair');
       expect(m.overline, "Today's move");
     });
 
-    test('late at night the default is shorter and Mobi is sleepy', () {
+    test('late at night the default is shorter and the object stays (the sleepy Mobi retired, F11)', () {
       final m = _move(ashaInputs(now: tuesdayLate));
       expect(m.mood, TodayMood.lateNight);
       expect(m.selectedMinutes, 10);
       expect(m.number, '3');
-      expect(m.art.art, MmArt.mobiSleepy);
+      expect(m.art.isMobi, isFalse);
       expect(m.headline, isNull);
-      expect(MoveHeroCard.moodLine(m), TodayCopy.lateNight);
+      expect(MoveHeroCard.moodLine(m), isNull);
     });
 
     test('the greeting, Mobi and the default length share one late-night window (11 PM to 5 AM)', () {
       // IST wall-clock times, as the instant the app would see.
       DateTime ist(int h, int m) => DateTime.utc(2026, 10, 13, h, m).subtract(const Duration(hours: 5, minutes: 30));
       final cases = <(int, int, bool, String)>[
-        (4, 59, true, 'Up late, Asha'),
+        (4, 59, true, 'Good evening, Asha'),
         (5, 0, false, 'Good morning, Asha'),
         (6, 58, false, 'Good morning, Asha'),
         (22, 59, false, 'Good evening, Asha'),
-        (23, 0, true, 'Up late, Asha'),
+        (23, 0, true, 'Good evening, Asha'),
       ];
       for (final (h, m, late, greeting) in cases) {
         final inputs = ashaInputs(now: ist(h, m));
@@ -122,23 +123,27 @@ void main() {
         expect(move.mood == TodayMood.lateNight, late, reason: reason);
         if (late) expect(move.selectedMinutes, 10, reason: reason);
         expect(isLateNight(inputs.clock()), late, reason: reason);
-        final cue = view.header.mobi;
-        if (view.hero is MoveHero && !(view.hero as MoveHero).art.isMobi) {
-          expect(cue?.kind == HeaderMobiKind.sleepy, late, reason: reason);
-        }
-        expect(MoveHeroCard.moodLine(move) == TodayCopy.lateNight, late, reason: reason);
+        // No header Mobi and no bubble on Today (TODAY-1017 4.6).
+        expect(view.header.mobi, isNull, reason: reason);
+        expect(MoveHeroCard.moodLine(move), isNull, reason: reason);
       }
     });
 
-    test('returning after days away asks how long without repeating the name, says nothing was lost', () {
+    test('the rhythm says returning (under a week away): a shorter default, the object stays', () {
       final m = _move(ashaInputs(returning: true));
       expect(m.mood, TodayMood.returning);
       expect(m.headline, isNull);
-      expect(MoveHeroCard.moodLine(m), TodayCopy.mobiWelcomeBack);
-      expect(m.headline, isNot(contains('Asha')), reason: 'the greeting above already says the name');
-      expect(m.durationPrompt, 'How long have you got tonight?');
+      expect(MoveHeroCard.moodLine(m), isNull);
       expect(m.selectedMinutes, 10);
-      expect(m.meaning, contains('Its 6 mistakes are still here.'));
+      expect(m.art.isMobi, isFalse);
+    });
+
+    test('back after a week: pick up where you left off, three first, Mobi greets', () {
+      final m = _move(ashaInputs(now: now.add(const Duration(days: 6)), attempts: ashaRecord(now), returning: true));
+      expect(m.kind, MoveKind.returning);
+      expect(m.overline, TodayCopy.returningOverline);
+      expect(m.number, '3');
+      expect(m.meaning, contains('Its six open mistakes are still here; start with three.'));
       expect(m.art.art, MmArt.mobiGreet);
     });
 
@@ -222,53 +227,12 @@ void main() {
     });
   });
 
-  group('header Mobi cheers only for a result that improved or held', () {
-    final todayAt = daysBefore(now, 0);
+  test('no Mobi in the header on any day (TODAY-1017 4.6): the move card or the week holds him', () {
     final record = ashaRecord(now);
-
-    HeaderMobiCue? cue(List<Attempt> attempts, {List<({String attemptId, DateTime receivedAt})> unopened = const []}) =>
-        buildToday(ashaInputs(attempts: attempts, unopened: unopened)).header.mobi;
-
-    // Mock 7 scored 6 wrong and 2 blank. Mock 8 today: fewer wrong is up, the same is held.
-    Attempt mock8(Set<int> wrongAt, Set<int> blankAt) => accountancyMock('m8', todayAt, wrongAt: wrongAt, blankAt: blankAt);
-
-    test('a sealed paper from today gets a neutral wave that says nothing about the marks', () {
-      final c = cue([mock8(const {}, const {}), ...record], unopened: [(attemptId: 'm8', receivedAt: now)])!;
-      expect(c.kind, HeaderMobiKind.idle);
-      expect(c.lines, TodayCopy.mobiSealed);
-    });
-
-    test('a lower result gets a neutral wave, not a cheer', () {
-      final c = cue([mock8({for (var q = 1; q <= 20; q++) q}, const {}), ...record])!;
-      expect(c.kind, HeaderMobiKind.idle);
-      expect(c.lines, TodayCopy.mobiRecorded);
-    });
-
-    test('a first paper has nothing to beat, so it gets the neutral wave', () {
-      final c = cue([mock8(const {}, const {})])!;
-      expect(c.kind, HeaderMobiKind.idle);
-    });
-
-    test('an improved result cheers', () {
-      final c = cue([mock8({3}, const {}), ...record])!;
-      expect(c.kind, HeaderMobiKind.cheer);
-      expect(c.lines, TodayCopy.mobiCheer);
-    });
-
-    test('a held result cheers', () {
-      final c = cue([mock8({3, 5, 7, 8, 22, 31}, {40, 47}), ...record])!;
-      expect(c.kind, HeaderMobiKind.cheer);
-    });
-
-    test('no line for a sealed or lower result says Nice', () {
-      for (final lines in [TodayCopy.mobiSealed, TodayCopy.mobiRecorded, TodayCopy.mobiCheer]) {
-        expect(lines.any((l) => l.contains('Nice')), isFalse);
-      }
-    });
-
-    test('no paper today: Mobi points at the move', () {
-      expect(buildToday(ashaInputs()).header.mobi!.kind, HeaderMobiKind.point);
-    });
+    final todayAt = daysBefore(now, 0);
+    for (final attempts in [record, [accountancyMock('m8', todayAt, wrongAt: const {3}), ...record], const <Attempt>[]]) {
+      expect(buildToday(ashaInputs(attempts: attempts)).header.mobi, isNull);
+    }
   });
 
   group('plain copy: no verdict hedges', () {
@@ -297,7 +261,8 @@ void main() {
       expect(m.number, '10');
       expect(m.subjectLine, 'Accountancy');
       expect(m.art.isMobi, isTrue);
-      expect(m.mobiLine, TodayCopy.mobiDayOne);
+      expect(m.mobiLine, isNull, reason: 'no bubble: the title carries the words');
+      expect(m.kind, MoveKind.dayOne);
       final link = Uri.parse((m.primary.target as GoTo).location);
       expect(link.path, AppRoutes.practiceStart);
       expect(link.queryParameters, containsPair('purpose', 'baseline'));
@@ -398,10 +363,11 @@ void main() {
       expect(TodayCopy.greeting(8, 'Asha'), 'Good morning, Asha');
       expect(TodayCopy.greeting(14, 'Asha'), 'Good afternoon, Asha');
       expect(TodayCopy.greeting(20, 'Asha'), 'Good evening, Asha');
-      expect(TodayCopy.greeting(23, 'Asha'), 'Up late, Asha');
-      expect(TodayCopy.greeting(1, 'Asha'), 'Up late, Asha');
+      expect(TodayCopy.greeting(23, 'Asha'), 'Good evening, Asha');
+      expect(TodayCopy.greeting(1, 'Asha'), 'Good evening, Asha');
+      expect(TodayCopy.greeting(14, 'Asha', returning: true), 'Welcome back, Asha');
       expect(TodayCopy.greeting(14, null), 'Good afternoon');
-      expect(TodayCopy.greeting(1, null), 'Up late tonight');
+      expect(TodayCopy.greeting(1, null), 'Good evening');
     });
 
     test('the sessions line says the pace plainly and never counts zero', () {

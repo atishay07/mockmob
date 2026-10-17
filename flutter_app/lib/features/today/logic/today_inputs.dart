@@ -106,6 +106,10 @@ class TodayInputs {
     this.selectedMinutes,
     this.roadPlan = const RoadPlan(),
     this.lastTriedAt,
+    this.reviseDue,
+    this.isPro = false,
+    this.email,
+    this.repairedToday = 0,
   });
 
   final DateTime now;
@@ -163,6 +167,34 @@ class TodayInputs {
   /// When the last Try again ended with the record still not loaded, or null (L01: the failure
   /// card says "Tried again at 10:41 PM. Still not loading.", so a repeated tap visibly ran).
   final DateTime? lastTriedAt;
+
+  /// Revise questions due today (`GET /api/me/revise`), or null while unread or when Revise cannot
+  /// be read: an unknown count never makes Revise the move.
+  final int? reviseDue;
+
+  /// A Pro account: Smart practice is a Pro mode, so only Pro gets it as the move.
+  final bool isPro;
+
+  /// The account's email: a first name equal to its local part is a handle, never a name.
+  final String? email;
+
+  /// Mistakes whose repair the server acknowledged today (the student's date): the done state.
+  final int repairedToday;
+
+  /// Whole days since the newest paper, or null with no paper on record.
+  int? get daysAway {
+    final all = attempts;
+    if (all == null || all.isEmpty) return null;
+    return daysSince(all.first.completedAt);
+  }
+
+  /// The day of the first week (1 to 7) while the first paper is under 7 days old, else null.
+  int? get firstWeekDay {
+    final all = attempts;
+    if (all == null || all.isEmpty) return null;
+    final day = daysSince(all.last.completedAt) + 1;
+    return day >= 1 && day <= 7 ? day : null;
+  }
 
   tz.Location get _location => locationFor(timezone);
 

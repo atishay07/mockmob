@@ -17,10 +17,9 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../logic/today_model.dart';
 import 'hero_stage.dart';
-import 'mobi_moment.dart';
-import 'move_keys.dart';
 import 'number_block.dart';
 import 'length_pill.dart';
+import 'today_pill.dart';
 import 'today_entrance.dart';
 import 'today_type.dart';
 
@@ -62,14 +61,8 @@ class MoveHeroCard extends StatefulWidget {
   /// back into view after the bar's capsule stood in for it.
   final Animation<double>? keyPulse;
 
-  /// Mobi's line for a mood when the move did not set one.
-  static String? moodLine(MoveHero m) =>
-      m.mobiLine ??
-      switch (m.mood) {
-        TodayMood.returning => TodayCopy.mobiWelcomeBack,
-        TodayMood.lateNight => TodayCopy.lateNight,
-        _ => null,
-      };
+  /// Mobi never speaks in a bubble on Today (TODAY-1017 4.6): the title carries the words.
+  static String? moodLine(MoveHero m) => null;
 
   @override
   State<MoveHeroCard> createState() => _MoveHeroCardState();
@@ -119,8 +112,9 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
     final headlineBelow = m.state == NextMoveState.newUser && m.headline != null;
     // A failed read says so in full contrast; every other body is the quieter second ink.
     final bodyColor = m.state == NextMoveState.historyUnavailable ? colors.ink : colors.ink2;
-    // Beside the object: the overline, the subject and the number. Under Mobi: the full width.
-    final besideArt = mobi ? 0.0 : heroArtClear - MmSpace.cardPadding;
+    // Beside the art box (the object, or Mobi at a real moment): the overline, the subject and the
+    // number keep clear of it.
+    const besideArt = heroArtClear - MmSpace.cardPadding;
 
     final top = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,7 +126,7 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
           if (m.overline.isNotEmpty) const SizedBox(height: MmSpace.s4),
           // The subject is the stage's title: headline size, one line. Beside the object it keeps
           // the art's 12 dp of air (heroArtClear) and scales down rather than run into it.
-          _OneLine(m.subjectLine!, style: mobi ? type.stageSubject : type.headline),
+          _OneLine(m.subjectLine!, style: type.headline),
         ],
       ],
     );
@@ -141,7 +135,7 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
       children: [
         Padding(
           padding: EdgeInsets.only(right: besideArt),
-          child: mobi ? MobiMoment(pose: HeroArtView.poseFor(m.art.art), say: MoveHeroCard.moodLine(m), controller: mobiController, lines: top) : top,
+          child: top,
         ),
         if (m.headline != null && !headlineBelow) ...[
           const SizedBox(height: MmSpace.s8),
@@ -182,7 +176,10 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
           TodayEnter(
             delay: const Duration(milliseconds: 260),
             rise: 8,
-            child: Column(
+            // With no number beside the art (a failed read), the words keep clear of the art box.
+            child: Padding(
+              padding: EdgeInsets.only(right: m.number == null ? besideArt : 0),
+              child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 // The line under the number changes with the length ("3 of the 4 open mistakes"
@@ -197,7 +194,7 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
                   child: MmOverlapSwitcher.fade(
                     alignment: Alignment.topLeft,
                     child: evidence
-                        ? MeaningWithShowMe(key: ValueKey(m.meaning), text: m.meaning, color: bodyColor, marks: m.evidence, onShowMe: onShowMe)
+                        ? MeaningWithShowMe(key: ValueKey(m.meaning), text: m.meaning, color: bodyColor, marks: m.evidence, onShowMe: onShowMe, link: m.whyLink ?? TodayCopy.seeWhy)
                         : Text(m.meaning, key: ValueKey(m.meaning), style: type.body.copyWith(color: bodyColor)),
                   ),
                 ),
@@ -216,86 +213,100 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
                 ],
               ],
             ),
+            ),
           ),
           const SizedBox(height: MmSpace.s16),
           // Offline, the reason stands above the key where the eye is, not under it (that part
           // of the card sits behind the dock at rest).
           // It opens and closes with the connection instead of cutting in above the key.
           KeyReveal(show: blocked, child: const Padding(padding: EdgeInsets.only(bottom: MmSpace.s8), child: _NeedsConnection())),
-          // One primary: the key says the verb, and when the move can change size the quiet pill
-          // beside it says the length and opens the three lengths (design critic 16 Oct, 1).
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: LayoutBuilder(
-                  key: primaryKey,
-                  builder: (context, box) => _Pulse(
-                    pulse: widget.keyPulse,
-                    child: KeyButton(
-                      label: sized ? TodayCopy.keyVerb(m.primary.label) : fitKeyLabel(context, m.primary, box.maxWidth),
-                      semanticsLabel: m.primary.label,
-                      onPressed: blocked
-                          ? null
-                          : () {
-                              // The card grows into the page it opens (MOTION.md C4): the router's
-                              // container pages take this rect; any other page ignores it. Its object
-                              // flies on into the page when that page shows the same subject (M2).
-                              if (m.primary.target is GoTo) {
-                                MmLaunchRect.capture(context);
-                                if (!mobi && m.subjectId != null) MmFlight.launch(this.context, m.subjectId);
-                              }
-                              onAction(m.primary);
-                            },
-                      loading: retrying && m.primary.target is RetryLoad,
-                    ),
-                  ),
-                ),
+          // One primary: the key says the verb and, in the same key, the length at a quieter weight
+          // ("Start repair  15 min", TODAY-1017 4.2). Two outlined pills under it: Change length
+          // (or the move's alternate) and Something else.
+          LayoutBuilder(
+            key: primaryKey,
+            builder: (context, box) => _Pulse(
+              pulse: widget.keyPulse,
+              child: KeyButton(
+                label: TodayCopy.keyVerb(m.primary.label),
+                detail: TodayCopy.keyLength(m.primary.label),
+                semanticsLabel: m.primary.label,
+                onPressed: blocked
+                    ? null
+                    : () {
+                        // The card grows into the page it opens (MOTION.md C4): the router's
+                        // container pages take this rect; any other page ignores it. Its object
+                        // flies on into the page when that page shows the same subject (M2).
+                        if (m.primary.target is GoTo) {
+                          MmLaunchRect.capture(context);
+                          if (!mobi && m.subjectId != null) MmFlight.launch(this.context, m.subjectId);
+                        }
+                        onAction(m.primary);
+                      },
+                loading: retrying && m.primary.target is RetryLoad,
               ),
-              if (sized) ...[
-                const SizedBox(width: MmSpace.s8),
-                KeyedSubtree(
-                  key: widget.controlsKey,
-                  child: LengthPill(
-                    durations: m.durations,
-                    selected: m.selectedMinutes ?? m.durations.first.minutes,
-                    title: m.durationPrompt ?? (m.durations.first.questions == null ? TodayCopy.repairLength : TodayCopy.practiceLength),
-                    onChanged: onMinutes,
-                  ),
-                ),
-              ],
-            ],
+            ),
           ),
-          // What sits under the key (the quiet second action, the caption) eases in and out with the
-          // move's state: a key that was retrying, or a dismissed line, never makes the card jump.
+          if (sized || m.alternate != null || m.secondary != null) ...[
+            const SizedBox(height: MmSpace.s12),
+            KeyedSubtree(
+              key: widget.controlsKey,
+              child: Row(
+                children: [
+                  if (sized)
+                    Expanded(
+                      child: Builder(
+                        builder: (pillContext) => TodayPill(
+                          label: TodayCopy.changeLength,
+                          icon: LucideIcons.clock3,
+                          semanticsLabel: TodayCopy.lengthPillSemantics(_lengthTitle(m), TodayCopy.lengthWords(_chosen(m))),
+                          onTap: onMinutes == null
+                              ? null
+                              : () async {
+                                  final picked = await LengthPill.openPanel(
+                                    pillContext,
+                                    durations: m.durations,
+                                    selected: m.selectedMinutes ?? m.durations.first.minutes,
+                                    title: _lengthTitle(m),
+                                  );
+                                  if (picked != null && picked != m.selectedMinutes) onMinutes(picked);
+                                },
+                        ),
+                      ),
+                    )
+                  else if (m.alternate != null)
+                    Expanded(
+                      child: TodayPill(
+                        label: m.alternate!.label,
+                        icon: LucideIcons.bookCheck,
+                        onTap: offline && m.alternate!.startsSession ? null : () => onAction(m.alternate!),
+                      ),
+                    ),
+                  if ((sized || m.alternate != null) && m.secondary != null) const SizedBox(width: 10),
+                  if (m.secondary != null)
+                    Expanded(
+                      child: TodayPill(
+                        label: m.secondary!.label,
+                        icon: _secondaryIcon(m.secondary!),
+                        onTap: offline && m.secondary!.startsSession ? null : () => onAction(m.secondary!),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ],
+          // A dismissed move says until when, quietly, under the pills; it eases in and out.
           MmSizeEase(
             duration: Motion.ui,
             curve: Motion.out,
             alignment: Alignment.topCenter,
             clipBehavior: Clip.none,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (m.secondary != null) ...[
-                  const SizedBox(height: MmSpace.s4),
-                  Center(
-                    child: KeyButton.quiet(
-                      label: m.secondary!.label,
-                      onPressed: offline && m.secondary!.startsSession ? null : () => onAction(m.secondary!),
-                    ),
-                  ),
-                ],
-                if (m.caption != null || m.dismissedLine != null) ...[
-                  const SizedBox(height: MmSpace.s4),
-                  Text(
-                    m.dismissedLine ?? m.caption!,
-                    textAlign: TextAlign.center,
-                    style: type.caption.copyWith(color: colors.ink3),
-                  ),
-                ],
-              ],
-            ),
+            child: m.caption != null || m.dismissedLine != null
+                ? Padding(
+                    padding: const EdgeInsets.only(top: MmSpace.s8),
+                    child: Text(m.dismissedLine ?? m.caption!, textAlign: TextAlign.center, style: type.caption.copyWith(color: colors.ink3)),
+                  )
+                : const SizedBox(width: double.infinity),
           ),
         ],
       ),
@@ -304,7 +315,9 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
     return HeroStage(
       subjectId: m.subjectId,
       react: _react,
-      art: mobi ? null : HeroArtView(art: m.art, react: _react, onTap: _touchObject),
+      art: mobi
+          ? _MobiArt(pose: HeroArtView.poseFor(m.art.art), controller: mobiController)
+          : HeroArtView(art: m.art, react: _react, onTap: _touchObject),
       child: content,
     );
   }
@@ -314,7 +327,10 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
 /// it holds, then the link. The whole sentence is the touch target (at least 48 dp tall), so the
 /// link never needs a pill of its own; a screen reader hears the sentence, then what opens.
 class MeaningWithShowMe extends StatelessWidget {
-  const MeaningWithShowMe({super.key, required this.text, required this.color, required this.onShowMe, this.marks});
+  const MeaningWithShowMe({super.key, required this.text, required this.color, required this.onShowMe, this.marks, this.link = TodayCopy.seeWhy});
+
+  /// The link's words at the end of the sentence ("See why", "See all 6").
+  final String link;
 
   final String text;
   final Color color;
@@ -325,10 +341,10 @@ class MeaningWithShowMe extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final link = colors.isNight ? colors.volt : colors.accentText;
+    final linkColor = colors.isNight ? colors.volt : colors.accentText;
     final shown = (marks ?? const <BubbleState>[]).take(3).toList();
     return MmPressable(
-      semanticsLabel: '$text ${TodayCopy.showMeSemantics}',
+      semanticsLabel: '$text $link. ${TodayCopy.showMeSemantics}',
       focusRadius: MmRadius.smallAll,
       pressedScale: 0.99,
       haptic: MmPressHaptic.selection,
@@ -356,12 +372,12 @@ class MeaningWithShowMe extends StatelessWidget {
                           child: BubbleRow(states: shown, bubbleSize: 6, gap: 3),
                         ),
                       Text(
-                        TodayCopy.showMe,
+                        link,
                         style: type.body.copyWith(
                           color: pressed ? colors.ink2 : colors.ink,
                           fontWeight: FontWeight.w600,
                           decoration: TextDecoration.underline,
-                          decorationColor: link,
+                          decorationColor: linkColor,
                           decorationThickness: 2,
                         ),
                       ),
@@ -427,4 +443,37 @@ class _Pulse extends StatelessWidget {
       builder: (context, child) => Transform.scale(scale: 1 + 0.04 * math.sin(math.pi * p.value), child: child),
     );
   }
+}
+
+/// What the lengths panel asks.
+String _lengthTitle(MoveHero m) => m.durationPrompt ?? (m.durations.first.questions == null ? TodayCopy.repairLength : TodayCopy.practiceLength);
+
+/// The length the key shows.
+DurationChoice _chosen(MoveHero m) => m.durations.firstWhere((d) => d.minutes == m.selectedMinutes, orElse: () => m.durations.first);
+
+/// The icon a pill's action reads with.
+IconData _secondaryIcon(TodayAction a) => switch (a.target) {
+      OpenAlternatives() => LucideIcons.listFilter,
+      GoTo() when a.actionType == 'mock' => LucideIcons.fileText,
+      _ => LucideIcons.layoutGrid,
+    };
+
+/// Mobi in the art box at a real moment (day one, coming back, a failed read): his entrance act
+/// once, then the rig's idle; no bubble. The screen's controller lets him answer events.
+class _MobiArt extends StatelessWidget {
+  const _MobiArt({required this.pose, this.controller});
+
+  final MobiPose pose;
+  final MobiController? controller;
+
+  @override
+  Widget build(BuildContext context) => Center(
+    child: MobiCharacter(
+      controller: controller,
+      size: 104,
+      entrance: pose.act,
+      interactive: true,
+      seed: 7 + pose.index * 13,
+    ),
+  );
 }

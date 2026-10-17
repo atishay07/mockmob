@@ -1,5 +1,5 @@
-// The first load (spec 5.3): shapes at the real heights of the hero and the paper rows, so
-// nothing jumps when the record arrives. It appears only after 400 ms; a fast load never
+// The first load (spec 5.3, TODAY-1017 4.2): the move card's shape at its resting height, so
+// nothing jumps when the record arrives (the glance under it holds its own heights). It appears only after 400 ms; a fast load never
 // flashes it. The group's warm light band (on app-wide from main) sweeps across the hero bars
 // and the rows as one field (ui-blitz/motion.md 3.8), at most four times, then holds still;
 // reduced motion is static.
@@ -16,7 +16,7 @@ import '../copy.dart';
 import 'hero_stage.dart';
 
 /// Height the loaded move hero usually takes, so the swap does not shift the page.
-const double heroSkeletonHeight = 496;
+const double heroSkeletonHeight = 392;
 
 class TodaySkeleton extends StatefulWidget {
   const TodaySkeleton({super.key, this.delay = const Duration(milliseconds: 400), this.onRetry, this.slowAfter = const Duration(seconds: 8)});
@@ -96,15 +96,21 @@ class _TodaySkeletonState extends State<TodaySkeleton> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: MmSpace.s20),
+                    const SizedBox(height: MmSpace.s16),
                     const Skeleton.line(),
                     const SizedBox(height: MmSpace.s8),
                     const Skeleton.line(width: 180),
                     const Spacer(),
-                    const Skeleton(height: 48, radius: 24),
-                    const SizedBox(height: MmSpace.s20),
+                    // The key, then the two pills under it.
                     const Skeleton(height: 56, radius: 28),
-                    const SizedBox(height: MmSpace.s20),
+                    const SizedBox(height: MmSpace.s12),
+                    const Row(
+                      children: [
+                        Expanded(child: Skeleton(height: 48, radius: 24)),
+                        SizedBox(width: 10),
+                        Expanded(child: Skeleton(height: 48, radius: 24)),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -128,19 +134,6 @@ class _TodaySkeletonState extends State<TodaySkeleton> {
                     ),
                   ),
           ),
-        const SizedBox(height: MmRhythm.section),
-        // "Recent papers" and its rows, on the ground as the loaded section is.
-        const SkeletonGroup(
-          label: TodayCopy.loading,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Skeleton.line(width: 132, height: 22),
-              SizedBox(height: MmRhythm.tight),
-              MmSkeletonRows(rows: 3),
-            ],
-          ),
-        ),
       ],
     );
   }

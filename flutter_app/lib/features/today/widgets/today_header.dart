@@ -1,21 +1,16 @@
-// Today's masthead (brief 12, ui-blitz/today.md 2.1): the date and a
-// greeting by first name with the living Mobi beside it, then the week as a ledger on the
-// ground (see WeekLedger). When Today shows what it last loaded, a quiet time line takes the date
-// line's place, so a Wi-Fi flip never moves the page (audit T6).
-import 'package:flutter/foundation.dart' show ValueListenable;
+// Today's masthead (TODAY-1017 4.1): the date line and a greeting by first name, the account
+// avatar on the left. No Mobi here and no week: the week is "This week" under the move. When
+// Today shows what it last loaded, a quiet time line takes the date line's place, so a Wi-Fi flip
+// never moves the page (audit T6).
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-import '../../../core/mascot/mascot.dart' show MobiBubble, MobiSpeech, MobiTail;
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/account/account_avatar.dart' show AccountLeading;
 import '../copy.dart';
 import '../logic/today_model.dart';
-import 'header_mobi.dart';
 import 'today_entrance.dart';
-import 'week_ledger.dart';
-import 'week_ledger_skeleton.dart';
 
 class TodayHeader extends StatefulWidget {
   const TodayHeader({super.key, required this.header, this.onWeek, this.aim, this.bleed = 0, this.onRefresh, this.refreshing = false});
@@ -26,7 +21,7 @@ class TodayHeader extends StatefulWidget {
   final bool refreshing;
 
   /// How far the masthead's box reaches past the content edge on each side: the week rail's day
-  /// columns use it to be 48 dp wide on a 360 dp phone (see [WeekLedger.bleed]). Everything drawn
+  /// columns use it to be 48 dp wide on a 360 dp phone (the road rail uses it). Everything drawn
   /// stays inset by it. The screen takes the same amount off its own gutter and pads every other
   /// block by it.
   final double bleed;
@@ -45,58 +40,27 @@ class TodayHeader extends StatefulWidget {
 }
 
 class _TodayHeaderState extends State<TodayHeader> {
-  /// The header Mobi's line while it is up. It is set in its own room under the greeting row (never
-  /// over the greeting or the date), growing from Mobi and closing when the line goes.
-  final ValueNotifier<MobiSpeech?> _speech = ValueNotifier<MobiSpeech?>(null);
-
-  @override
-  void dispose() {
-    _speech.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     final header = widget.header;
-    final onWeek = widget.onWeek;
-    final aim = widget.aim;
-    final week = header.week;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        // The greeting and date fade in over 200 ms with no rise (MOTION.md 4.3).
-        TodayEnter(
-          delay: Duration.zero,
-          rise: 0,
-          length: const Duration(milliseconds: 200),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: widget.bleed),
-            child: AccountLeading(child: _GreetingRow(
-              dateLine: header.dateLine,
-              updatedLine: header.updatedLine,
-              greeting: header.greeting,
-              onRefresh: header.refreshable ? widget.onRefresh : null,
-              refreshing: widget.refreshing,
-              trailing: header.mobi == null
-                  ? null
-                  : HeaderMobi(cue: header.mobi!, aim: aim, speech: _speech),
-            )),
+    // The date line and the greeting, with the account avatar on the left (L16). No Mobi in the
+    // header (TODAY-1017 4.6), and the week moved under the move as "This week" (4.3).
+    return TodayEnter(
+      delay: Duration.zero,
+      rise: 0,
+      length: const Duration(milliseconds: 200),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: widget.bleed),
+        child: AccountLeading(
+          child: _GreetingRow(
+            dateLine: header.dateLine,
+            updatedLine: header.updatedLine,
+            greeting: header.greeting,
+            onRefresh: header.refreshable ? widget.onRefresh : null,
+            refreshing: widget.refreshing,
           ),
         ),
-        if (header.mobi != null) Padding(padding: EdgeInsets.symmetric(horizontal: widget.bleed), child: _SpeechRoom(speech: _speech)),
-        if (week != null) ...[
-          // Header to the week: 12 (SPACING.md 3.1, audit T3).
-          const SizedBox(height: MmSpace.s12),
-          TodayEnter(
-            delay: const Duration(milliseconds: 60),
-            child: WeekLedger(week: week, onTap: onWeek, bleed: widget.bleed),
-          ),
-        ] else if (header.weekLoading || header.weekFailed) ...[
-          const SizedBox(height: MmSpace.s12),
-          WeekLedgerSkeleton(bleed: widget.bleed, failed: header.weekFailed),
-        ],
-      ],
+      ),
     );
   }
 }
@@ -109,7 +73,6 @@ class _GreetingRow extends StatelessWidget {
     required this.dateLine,
     required this.greeting,
     this.updatedLine,
-    this.trailing,
     this.onRefresh,
     this.refreshing = false,
   });
@@ -123,7 +86,6 @@ class _GreetingRow extends StatelessWidget {
   /// its height whether or not it is shown.
   final String? updatedLine;
   final String greeting;
-  final Widget? trailing;
 
   @override
   Widget build(BuildContext context) {
@@ -194,54 +156,14 @@ class _GreetingRow extends StatelessWidget {
               ),
             ),
           ),
-          if (trailing != null) ...[
-            const SizedBox(width: MmSpace.s12),
-            trailing!,
-          ],
         ],
       ),
     );
   }
 }
 
-/// The room for Mobi's line, under the greeting row and below Mobi at the right: it opens while he
-/// speaks and closes after, so the line never covers the greeting, the date or the week (MOTION.md
-/// 1.3: a bubble never covers text). Under reduced motion it simply is or is not there.
-class _SpeechRoom extends StatelessWidget {
-  const _SpeechRoom({required this.speech});
-
-  final ValueListenable<MobiSpeech?> speech;
-
-  @override
-  Widget build(BuildContext context) {
-    return ValueListenableBuilder<MobiSpeech?>(
-      valueListenable: speech,
-      builder: (context, line, _) => MmSizeEase(
-        duration: Motion.of(context, Motion.crossFade),
-        curve: Motion.out,
-        alignment: Alignment.topRight,
-        child: line == null
-            ? const SizedBox(width: double.infinity)
-            : Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: MmSpace.s4),
-                  child: MobiBubble(
-                    key: ValueKey(line.id),
-                    speech: line,
-                    tail: MobiTail.up,
-                    tailInset: HeaderMobi.tailInset,
-                    maxWidth: 236,
-                  ),
-                ),
-              ),
-      ),
-    );
-  }
-}
-
-/// The header's text, tappable while a refresh has failed: the whole date and greeting block is
-/// the target (at least 48 dp tall), so the line needs no key of its own.
+/// The date line when a refresh failed online: the whole line runs Try again and is the target
+/// (at least 48 dp tall), so the line needs no key of its own.
 class _Refreshable extends StatelessWidget {
   const _Refreshable({required this.child, this.onRefresh, this.label});
 

@@ -94,6 +94,7 @@ RoadModel? buildRoad(TodayInputs i) {
     goal: goal,
     plannedDays: week?.planned,
     category: profile?.category,
+    ladderSaved: profile?.ladder.length ?? 0,
     ladder: [
       for (var k = 0; k < picks.length; k++)
         LadderRung(

@@ -16,7 +16,6 @@ import '../../../core/router/app_shell.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/widgets/widgets.dart' show MobiAct, MobiController;
 import '../../rhythm/rhythm.dart';
-import '../../insights/data/insights_repository.dart' show insightsRepositoryProvider;
 import '../../tools/compass/compass_controller.dart' show compassControllerProvider;
 import '../../tools/data/my_colleges_actions.dart' show MyCollegesStatus, myCollegesActionsProvider, myCollegesProvider;
 import '../../tools/my_colleges/my_colleges_sheet.dart' show showMyCollegesSheet;
@@ -30,13 +29,7 @@ import '../widgets/today_celebration.dart';
 import 'today_body.dart';
 
 class TodayScreen extends ConsumerStatefulWidget {
-  const TodayScreen({super.key, this.insights, this.roadFooter});
-
-  /// The integrator's record finding card (Insights), shown under the hero when given.
-  final Widget? insights;
-
-  /// A quiet line under the road to May (the CUET tools link), when given.
-  final Widget? roadFooter;
+  const TodayScreen({super.key});
 
   @override
   ConsumerState<TodayScreen> createState() => _TodayScreenState();
@@ -215,17 +208,17 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
       if (next != null && ref.read(attemptsRepositoryProvider).value != null) debugPrint('Today: plan read failed, move built from the papers ($next)');
     });
     final view = ref.watch(todayViewProvider);
-    final insightsLoading = ref.watch(insightsRepositoryProvider.select((s) => s.value == null && (s.loading || s.error == null)));
-    final hasEnding = _endingFor(has: ref.watch(weeklyEndingProvider) != null, painted: view.hero != null);
+    final ending = ref.watch(weeklyEndingProvider);
+    final hasEnding = _endingFor(has: ending != null, painted: view.hero != null);
     return TodayBody(
       view: view,
       retrying: _retrying,
       controller: _scroll,
       mobiController: _mobi,
-      insights: widget.insights,
-      insightsLoading: widget.insights != null && insightsLoading,
-      roadFooter: widget.roadFooter,
       colleges: _collegesInfo(),
+      // The week that just closed is a state of the This week row (TODAY-1017 4.3), shown only if
+      // it was known before the page settled (L03).
+      lastWeek: hasEnding && ending != null ? (ending.studyDays, ending.goal) : null,
       // "Last week" is the week that just closed (rhythm loads a moment after the hero), so it
       // opens into place rather than appearing as a new section that shoves the page down (owner
       // test 15 Oct: Home "added another section").
@@ -237,7 +230,6 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (hasEnding) const Padding(padding: EdgeInsets.only(top: 12), child: WeeklyEndingSection()),
             // The first repair and the first met week land here, directly under the ending card.
             const TodayCelebration(),
           ],
@@ -252,6 +244,7 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
           unawaited(context.push(AppRoutes.todayWhy(id)));
         },
         onWeek: () => unawaited(context.push(AppRoutes.todayWeek)),
+        onWeeklyEnding: () => unawaited(context.push(AppRoutes.todayWeeklyEnding)),
         // My colleges itself: one sheet over Today (the same list Compass and You read and write).
         // The old route pushed the You sheet page, which stacked a second You inside Today's own
         // branch (owner test 15 Oct), and edited a list Today no longer reads. An empty list opens

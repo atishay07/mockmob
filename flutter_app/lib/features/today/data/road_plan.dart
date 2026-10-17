@@ -1,14 +1,51 @@
-// The student's own road (the board under "The road to May"): the exam day they aim for and how
-// many full mocks they want behind them. Their choice, kept on this phone under keys of their own
-// per account, in the same store as the rhythm choices. No server endpoint holds them, and the
-// sheets say so ("Saved on this phone").
+// The student's own road (the Road to May): the exam day they aim for and how many full mocks
+// they want behind them. Owner decision Q4 (17 Oct): both belong on the account, so the website
+// shows the same road. The server fields (`examDate`, `mockTarget` on `/api/study/preferences`,
+// TODAY-1017 P0) are built by the website track; this store feature-detects them:
+//
+// * Always: the choice is kept on this phone, per account, in the same store as the rhythm
+//   choices. That is the whole store until the server has the fields, and the offline cache after.
+// * When the preferences read answers `state: ready` and carries either field, the account wins on
+//   read (the phone copy is refreshed from it) and every change is written to the account too,
+//   naming the revision it read. A failed account write throws, so the road says it did not save;
+//   the phone keeps the choice for the next try.
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/api/api.dart';
+import '../../../core/models/json_helpers.dart';
 import '../../../core/repositories/local_scope.dart';
 import '../../rhythm/data/rhythm_prefs.dart' show rhythmPrefsStoreProvider;
 import '../logic/road_board.dart';
+
+/// The account endpoint that holds the road once the server has the fields.
+const String roadPreferencesPath = '/api/study/preferences';
+
+/// Where the road is read from and written to on the account. Tests use [RoadAccount.none].
+class RoadAccount {
+  const RoadAccount(this._api);
+
+  /// No account side: the phone alone (tests, and builds without the API).
+  static const RoadAccount none = RoadAccount(null);
+
+  final ApiClient Function()? _api;
+
+  /// The preferences body, or null when there is no account side.
+  Future<Map<String, Object?>?> read(String user) async {
+    final api = _api;
+    if (api == null) return null;
+    return (await api().get(roadPreferencesPath, expectUserId: user)).map;
+  }
+
+  Future<void> write(String? user, Map<String, Object?> body) async {
+    final api = _api;
+    if (api == null) return;
+    await api().put(roadPreferencesPath, body: body, expectUserId: user);
+  }
+}
+
+final roadAccountProvider = Provider<RoadAccount>((ref) => RoadAccount(() => ref.read(apiClientProvider)));
 
 class RoadPlanStore extends Notifier<RoadPlan> {
   /// Bumped on every rebuild (an account switch): a read that began for the previous account
@@ -18,6 +55,10 @@ class RoadPlanStore extends Notifier<RoadPlan> {
   /// A choice made while the stored plan was still being read wins over the read.
   bool _touched = false;
 
+  /// The account holds the road (the preferences read carried the fields), with the revision read.
+  bool _onAccount = false;
+  int _revision = 0;
+
   static String _key(String? user, String name) => 'road_${name}_${user ?? 'none'}';
 
   @override
@@ -25,9 +66,20 @@ class RoadPlanStore extends Notifier<RoadPlan> {
     ref.watch(userIdProvider);
     _generation++;
     _touched = false;
+    _onAccount = false;
     final generation = _generation;
     scheduleMicrotask(() => _load(generation));
     return const RoadPlan();
+  }
+
+  static DateTime? _parseDay(String? s) {
+    final parsed = s == null ? null : DateTime.tryParse(s);
+    return parsed == null ? null : DateTime.utc(parsed.year, parsed.month, parsed.day);
+  }
+
+  static String _iso(DateTime day) {
+    final m = day.month.toString().padLeft(2, '0'), d = day.day.toString().padLeft(2, '0');
+    return '${day.year}-$m-$d';
   }
 
   Future<void> _load(int generation) async {
@@ -37,13 +89,67 @@ class RoadPlanStore extends Notifier<RoadPlan> {
       final date = await store.getString(_key(user, 'exam_date'));
       final target = await store.getInt(_key(user, 'mock_target'));
       if (!ref.mounted || generation != _generation || _touched) return;
-      final parsed = date == null ? null : DateTime.tryParse(date);
-      state = RoadPlan(
-        examDate: parsed == null ? null : DateTime.utc(parsed.year, parsed.month, parsed.day),
-        mockTarget: target,
-      );
+      state = RoadPlan(examDate: _parseDay(date), mockTarget: target);
     } on Object {
       // Nothing stored, or unreadable: the expected window and no target.
+    }
+    await _readAccount(generation);
+  }
+
+  /// The account's road, when the server has the fields; otherwise nothing changes.
+  Future<void> _readAccount(int generation) async {
+    final user = ref.read(userIdProvider);
+    if (user == null) return;
+    try {
+      final body = await ref.read(roadAccountProvider).read(user);
+      if (body == null || asString(body['state']) != 'ready') return;
+      final hasDate = body.containsKey('examDate') || body.containsKey('exam_date');
+      final hasTarget = body.containsKey('mockTarget') || body.containsKey('mock_target');
+      if (!hasDate && !hasTarget) return;
+      if (!ref.mounted || generation != _generation) return;
+      _onAccount = true;
+      _revision = asInt(body['revision']) ?? 0;
+      if (_touched) return;
+      final day = _parseDay(asString(body['examDate'] ?? body['exam_date']));
+      final target = asInt(body['mockTarget'] ?? body['mock_target']);
+      state = RoadPlan(examDate: day, mockTarget: target);
+      await _keepOnPhone(user, day, target);
+    } on Object {
+      // Offline, refused or not built yet: the phone's copy stands.
+    }
+  }
+
+  Future<void> _keepOnPhone(String? user, DateTime? day, int? target) async {
+    final store = ref.read(rhythmPrefsStoreProvider);
+    final dateKey = _key(user, 'exam_date'), targetKey = _key(user, 'mock_target');
+    if (day == null) {
+      await store.remove(dateKey);
+    } else {
+      await store.setString(dateKey, _iso(day));
+    }
+    if (target == null) {
+      await store.remove(targetKey);
+    } else {
+      await store.setInt(targetKey, target);
+    }
+  }
+
+  /// Writes the road to the account when it holds it. A 409 (another device wrote first) reads
+  /// the revision again and retries once.
+  Future<void> _writeAccount(Map<String, Object?> fields) async {
+    if (!_onAccount) return;
+    final user = ref.read(userIdProvider);
+    final account = ref.read(roadAccountProvider);
+    for (var attempt = 0; ; attempt++) {
+      try {
+        await account.write(user, {...fields, 'expectedRevision': _revision});
+        _revision++;
+        return;
+      } on ApiError catch (e) {
+        if (e.kind != ApiErrorKind.conflict || attempt > 0 || user == null) rethrow;
+        final body = await account.read(user);
+        _revision = asInt(body?['revision']) ?? _revision;
+      }
     }
   }
 
@@ -57,9 +163,9 @@ class RoadPlanStore extends Notifier<RoadPlan> {
     if (day == null) {
       await store.remove(key);
     } else {
-      final m = day.month.toString().padLeft(2, '0'), d = day.day.toString().padLeft(2, '0');
-      await store.setString(key, '${day.year}-$m-$d');
+      await store.setString(key, _iso(day));
     }
+    await _writeAccount({'examDate': day == null ? null : _iso(day)});
   }
 
   /// How many full mocks the student wants before the exam, or null to clear it.
@@ -73,6 +179,7 @@ class RoadPlanStore extends Notifier<RoadPlan> {
     } else {
       await store.setInt(key, state.mockTarget!);
     }
+    await _writeAccount({'mockTarget': state.mockTarget});
   }
 }
 

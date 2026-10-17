@@ -10,21 +10,32 @@ import 'logic/today_model.dart' show DurationChoice;
 
 abstract final class TodayCopy {
   // Header.
-  static String greeting(int hour, String? firstName) {
+  /// "Good evening, Asha" (TODAY-1017 section 5). From 11 PM to 5 AM it stays "Good evening": the
+  /// "Up late" line retired with the sleepy Mobi (F11). After 7 or more days away it is "Welcome
+  /// back, Asha". Without a usable first name there is no name at all.
+  static String greeting(int hour, String? firstName, {bool returning = false}) {
     final who = firstName == null || firstName.isEmpty ? null : firstName;
-    // Late night comes from the one shared definition, so the greeting and Mobi's late-night
-    // line change at the same minute.
-    final part = isLateNightHour(hour)
-        ? 'Up late'
-        : switch (hour) {
-            < 12 => 'Morning',
-            < 17 => 'Afternoon',
-            _ => 'Evening',
-          };
-    // One pattern: "Good morning, Asha". From 11 PM to 5 AM the line is "Up late, Asha".
-    final salutation = part == 'Up late' ? 'Up late' : 'Good ${part.toLowerCase()}';
-    if (who == null) return part == 'Up late' ? 'Up late tonight' : salutation;
-    return '$salutation, $who';
+    final String salutation;
+    if (returning) {
+      salutation = 'Welcome back';
+    } else if (isLateNightHour(hour)) {
+      salutation = 'Good evening';
+    } else {
+      salutation = switch (hour) {
+        < 12 => 'Good morning',
+        < 17 => 'Good afternoon',
+        _ => 'Good evening',
+      };
+    }
+    return who == null ? salutation : '$salutation, $who';
+  }
+
+  /// A first name that is really a handle ("app-e2e-student", "asha_v", "asha.v", "asha07") or the
+  /// email's own local part is never used in the greeting (acceptance 11).
+  static bool isHandleName(String name, {String? email}) {
+    if (RegExp(r'[0-9_.\-@]').hasMatch(name)) return true;
+    final local = email?.split('@').first.toLowerCase();
+    return local != null && local.isNotEmpty && name.toLowerCase() == local;
   }
 
   static String updatedAt(DateTime time) => 'Updated ${formatTime12(time)}';
@@ -44,19 +55,23 @@ abstract final class TodayCopy {
   // Day one and new user (brief 11.11).
   static const String questionsUnit = 'questions';
   static String startingPointLine(String subject) =>
-      'Ten CUET-style questions in $subject. The result shows where your marks go, chapter by chapter.';
+      'Ten CUET-style $subject questions, marked +5 and −1. The result shows where your marks go, chapter by chapter.';
   static String startingPointWith(String subject, String framing) => 'Ten CUET-style questions in $subject. $framing';
   static String checkSetFor(DateTime at) => 'Your check is set for ${formatTime12(at)}.';
   /// One wording at every text size: the chips above already say "10 min", and the key never
   /// has to swap to a shorter sentence when the text grows.
   static const String startNow = 'Start now, 10 min';
-  static const String fullMockInstead = 'Sit a full mock instead';
+  static String startNowFor(int minutes) => 'Start now, $minutes min';
+  static const String fullMockInstead = 'Full mock instead';
   static const String subjectChanged = 'You changed your subjects. Earlier results stay under the old ones.';
 
   // Ready (client-built repair).
   /// "to repair\ntonight": the big number is tonight's batch, not mistakes made today. Said only
   /// when the run holds the whole chapter, the number Review's badge shows.
-  static String mistakesLabel(int n, DateTime now) => 'to repair\n${tonightOrToday(now)}';
+  static String mistakesLabel(int n, DateTime now) => n == 1 ? 'mistake\nto repair' : 'mistakes\nto repair';
+
+  /// After 7 or more days away: the first few of the last paper's open mistakes.
+  static String mistakesFirstLabel(int n) => n == 1 ? 'mistake to\nrepair first' : 'mistakes to\nrepair first';
 
   /// "to repair\nin 10 min": a shorter run than the whole chapter names its length, so its number
   /// never reads as tonight's total next to Review's badge.
@@ -71,8 +86,13 @@ abstract final class TodayCopy {
     if (n < chapterOpen) return '$n of the $chapterOpen open mistakes in $chapter, $from.';
     // The whole chapter: the big number already says how many, so the line never repeats it
     // (design critic 16 Oct, finding 1). "Every" keeps the denominator: all of them.
-    return n == 1 ? 'The one open mistake in $chapter, $from.' : 'Every open mistake in $chapter, $from.';
+    final when = '$source on ${formatDayMonthShort(marked)}';
+    return n == 1 ? 'It is from $when, in $chapter.' : 'All ${countWord(n)} are from $when, in $chapter.';
   }
+
+  /// "four" for 4, up to ten; the figure itself above that.
+  static String countWord(int n) =>
+      n >= 0 && n <= 10 ? const ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'][n] : '$n';
 
   // The hero's length pill and its panel (design critic 16 Oct, finding 1).
   /// What the pill and a panel row say: "15 min" for a repair, "10 questions" for practice.
@@ -268,7 +288,7 @@ abstract final class TodayCopy {
   static String splitLine(int right, int wrong, int blank) => '$right right, $wrong wrong, $blank blank';
 
   // The road.
-  static const String roadTitle = 'The road to May';
+  static const String roadTitle = 'Road to May';
 
   // The road as a strip of weeks (L05, app-today-1016 section 8).
   static const List<String> weekdayShort = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -525,4 +545,133 @@ abstract final class TodayCopy {
 
   // Loading.
   static const String loading = 'Loading Today';
+
+  // ---------------------------------------------------------------------------------------------
+  // Today 1017 (TODAY-1017 sections 4 and 5): one move, then the glance.
+
+  // The move.
+  static String firstWeekOverline(int day) => 'Day $day of your first week';
+  static const String returningOverline = 'Pick up where you left off';
+  static const String doneOverline = 'Done for today';
+  static const String seeWhy = 'See why';
+  static String seeAll(int n) => 'See all $n';
+  static const String changeLength = 'Change length';
+  static const String somethingElse = 'Something else';
+  static const String practiseMore = 'Practise more';
+  static const String openTheRepair = 'Open the repair';
+  static const String openTheSession = 'Open the session';
+
+  /// The sparse clause (AGENT_RULES overlay: say when data is thin). One paper replaces the why's
+  /// source sentence; two add a clause.
+  static String sparseOne(String source, DateTime marked) =>
+      'From your one paper so far, $source on ${formatDayMonthShort(marked)}. A full mock gives a fuller picture.';
+  static String sparseFew(int papers) => 'From your ${countWord(papers)} papers so far.';
+
+  /// The first Repair of the first week names what Repair does, in the move itself (F18).
+  static const String firstRepairTeach = 'Repair shows why your answer went wrong and gives you one like it to try.';
+
+  /// After 7 or more days away, with open mistakes on the last paper.
+  static String returningWhy(String source, DateTime marked, int open, int shown) {
+    final lead = 'Your last paper was $source on ${formatDayMonthShort(marked)}.';
+    if (open == shown) return open == 1 ? '$lead Its one mistake is still open.' : '$lead All ${countWord(open)} of its mistakes are still open.';
+    return '$lead Its ${countWord(open)} open mistakes are still here; start with ${countWord(shown)}.';
+  }
+
+  /// After 7 or more days away with nothing open: a warm-up.
+  static String warmUpLabel(int n) => 'questions\nto warm up';
+  static String warmUpWhy(int days) => 'Your last session was $days days ago. Ten questions find your footing again, marked the CUET way.';
+  static String startQuestions(int n) => 'Start $n questions';
+
+  // Revise (first week, day 2, and any day it has questions due).
+  static String reviseLabel(int n) => n == 1 ? 'mistake comes\nback today' : 'mistakes come\nback today';
+  static String reviseWhy(int n) =>
+      'Revise brings back what you got wrong after 1, 3, 7 and 21 days. ${n == 1 ? 'This one is' : 'These ${countWord(n)} are'} due today, so the fix holds.';
+  static String startRevise(int minutes) => 'Start Revise, $minutes min';
+
+  // Done for today.
+  static String doneRepairLabel(int total) => 'of $total repaired\ntonight';
+  static String doneRepairWhy(String? chapter) => chapter == null
+      ? 'Every repair is saved in Review. Check it held opens there when a fix is due.'
+      : '$chapter is clear for now. Check it held opens in Review when a fix is due.';
+  static const String donePracticeLabel = 'minutes\npractised tonight';
+  static String donePracticeWhy(DateTime at) => "Saved at ${formatTime12(at)}. Tomorrow's move is planned from it.";
+
+  // The first full mock (first week, days 5 to 7).
+  static String firstMockLabel(int minutes) => 'questions in\n$minutes minutes';
+  static const String firstMockWhy = 'Your first full mock, timed like the real paper. It shows where you stand across the whole syllabus.';
+  static String startTimedMock(int minutes) => 'Start a timed mock, $minutes min';
+
+  // Smart practice (first week, days 3 and 4, Pro).
+  static const String smartLabel = 'questions from your\nweak chapters';
+  static String smartWhy(String subject, int sessions) =>
+      'Smart practice picks questions from the chapters where your $subject marks went, from ${plural(sessions, 'saved session')}.';
+  static String startSmart(int n) => 'Start smart practice, $n questions';
+  static String startSmartFor(int n) => startSmart(n);
+  static String warmUpKey(int n) => 'Start practice, $n questions';
+
+  /// Under a failure's cause: what is still safe.
+  static const String safeLine = 'Your papers and mistakes are safe; Review still opens them.';
+
+  // This week (4.3).
+  static const String weekTitle = 'This week';
+  static const String weekStudyDays = 'study days';
+  static String weekCounted(Iterable<int> days) => '${dayList(days)} counted.';
+  static String tonightMakes(int n) => 'Tonight makes $n.';
+  static const String tonightCounts = 'Tonight counts.';
+  static String weekGoalMet(int goal) => 'Goal met: $goal of $goal study days. Anything more this week is extra.';
+  static const String weekNew = 'A new week. Tonight counts.';
+  static const String weekDayOne = 'Your week starts tonight. Tonight counts.';
+  static const String weekNoGoal = 'Pick how many days a week you study.';
+  static const String setDays = 'Set days';
+  static const String weekNotRead = 'Study days did not load.';
+  static const String weekPaused = 'Your week is paused. Your run is kept.';
+  static String weekLeft(int n) => n == 1 ? '1 more by Sunday.' : '$n more by Sunday.';
+  static String lastWeek(int done, int goal) => 'Last week: $done of $goal.';
+  static const String seeYourWeek = 'See your week';
+  static String weekSemantics(String figure, String marks, String caption) => 'This week, $figure. $marks. $caption Opens your week.';
+
+  // Road to May (4.4).
+  static String roadWeeksTo({required bool own, required int n}) => '${n == 1 ? 'week' : 'weeks'} to ${own ? 'your date' : 'CUET UG'}';
+  static String roadDaysTo({required bool own, required int n}) => '${n == 1 ? 'day' : 'days'} to ${own ? 'your date' : 'CUET UG'}';
+  static String flagLabel(DateTime day, {required bool own}) => '${own ? 'Your date' : 'CUET UG'}, ${formatDayMonthShort(day)}';
+  static String tokenPace(int goal) => '$goal a week';
+  static String tokenMocks(int n) => '$n full mocks';
+  static String studyDaysAt(int n) => '${plural(n, 'study day')} at';
+  static const String studyDaysPick = 'Your study days';
+  static String mocksBefore(int taken, {required bool suggested}) => suggested
+      ? (taken > 0 ? 'before your date, suggested. $taken taken' : 'before your date, suggested')
+      : 'before your date, $taken taken';
+  static const String doneRail = 'Done';
+  static String paceTokenSemantics(int goal) => 'Study days a week, $goal. Opens the days.';
+  static String mocksTokenSemantics(int n, int? taken) => 'Full mocks before your date, $n${taken == null ? '' : ', $taken taken'}. Opens the target.';
+  static String stripSemantics(int weeks, String flag) => 'The weeks to your exam, $weeks of them. $flag. Opens the week by week road.';
+
+  // The rows (4.5).
+  static const String lastPaperTitle = 'Last paper';
+  static const String collegesRowTitle = 'Your colleges';
+  static String lastPaperName(String label, String subject) => '$label, $subject';
+  static String lastPaperSub(String date, String? change) => change == null ? date : '$date, $change';
+  static String collegesSub(String course, int more) => more > 0 ? '$course, 2026 Round 1. $more more saved.' : '$course, 2026 Round 1.';
+  static const String collegesEmpty = 'Pick up to 8 to see their 2026 cutoffs here';
+  static const String choose = 'Choose';
+
+  // Today 1017, second half.
+  /// The key's length, drawn inside the key after the verb ("Start repair  15 min"): what comes
+  /// after the first comma of every move key. Null when the label has none.
+  static String? keyLength(String label) {
+    final at = label.indexOf(', ');
+    return at <= 0 ? null : label.substring(at + 2);
+  }
+
+  static String weekLine(Iterable<int> counted, String tail) => counted.isEmpty ? tail : '${weekCounted(counted)} $tail';
+  static String weekFigureSemantics(int done, int? goal) => goal == null ? plural(done, 'study day') : '$done of ${plural(goal, 'study day')}';
+  static const String markCounted = 'counted';
+  static const String markPlanned = 'planned';
+  static const String markRest = 'rest day';
+  static const String markBefore = 'before your account';
+  static const String markOpen = 'not counted';
+  static String rowSemantics(String label, String title, String sub, String figure) => '$label. $title. $sub. $figure.';
+  static String ofDenominator(int n) => 'of $n';
+  static const String bandRegistration = 'Registration';
+  static const String bandBoards = 'Boards';
 }
