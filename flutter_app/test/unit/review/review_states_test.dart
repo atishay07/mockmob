@@ -5,6 +5,7 @@ import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/auth/load_problem.dart';
 import 'package:mockmob/core/mascot/mascot.dart' show MobiCharacter;
 import 'package:mockmob/core/models/attempt.dart';
+import 'package:mockmob/core/models/mistake_lab_traps.dart' show ReviseRead;
 import 'package:mockmob/core/notes/sample_row.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/repositories/repair_local_repository.dart';
@@ -24,13 +25,14 @@ Future<void> _pump(
   List<Attempt>? attempts,
   RemoteState<List<Attempt>>? state,
   List<RepairLocalRecord> records = const [],
+  ReviseRead? revise,
 }) => pumpMockmob(
   tester,
   const ReviewScreen(),
   size: const Size(384, 1800),
   disableAnimations: true,
   wrapInScaffold: false,
-  overrides: reviewOverrides(attempts: attempts, attemptsState: state, records: records),
+  overrides: reviewOverrides(attempts: attempts, attemptsState: state, records: records, revise: revise),
 );
 
 const _server = ApiError(kind: ApiErrorKind.server, code: 'server_error', status: 500);
@@ -116,6 +118,20 @@ void main() {
       await _pump(tester, records: [repaired]);
       expect(find.text('Review again'), findsOneWidget);
       expect(find.textContaining('you repaired, answered before the key shows'), findsOneWidget);
+    });
+
+    testWidgets('cards that exist but are not due do not turn the row into Revise', (tester) async {
+      await _pump(tester, records: [repaired], revise: const ReviseRead(state: ReviseRead.ready, due: 0, cards: 7, head: 'Nothing to revise today'));
+      expect(find.text('Review again'), findsOneWidget);
+      expect(find.text('Revise'), findsNothing);
+      expect(find.textContaining('you repaired, answered before the key shows'), findsOneWidget);
+    });
+
+    testWidgets('cards due today name the row Revise and say how many', (tester) async {
+      await _pump(tester, records: [repaired], revise: const ReviseRead(state: ReviseRead.ready, due: 4, cards: 7, head: '4 questions to revise today'));
+      expect(find.text('Revise'), findsOneWidget);
+      expect(find.text('Review again'), findsNothing);
+      expect(find.text('4 questions to revise today'), findsOneWidget);
     });
 
     testWidgets('no repaired mistake, no row: it never points at nothing', (tester) async {

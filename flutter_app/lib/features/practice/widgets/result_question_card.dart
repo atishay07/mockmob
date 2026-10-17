@@ -197,7 +197,7 @@ class _Body extends StatelessWidget {
           const SizedBox(height: MmSpace.s12),
         ],
         Text(q.question, style: type.question),
-        if (q.body != null && q.body!.isNotEmpty) ...[const SizedBox(height: MmSpace.s8), Text(q.body!, style: type.body)],
+        if (distinctBody(q.question, q.body) case final body?) ...[const SizedBox(height: MmSpace.s8), Text(body, style: type.body)],
         const SizedBox(height: MmSpace.s16),
         if (isBlank && blankMode == BlankMode.question)
           Padding(

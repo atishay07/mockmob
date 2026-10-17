@@ -38,6 +38,7 @@ import '../widgets/fold_section.dart';
 import '../widgets/mistake_row.dart';
 import '../widgets/next_move_panel.dart';
 import '../widgets/result_head.dart';
+import '../widgets/result_space.dart';
 import 'answer_row.dart';
 import 'full_sections.dart';
 import 'replay_section.dart';
@@ -415,7 +416,7 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                           notice: keyNotice(reviews, (q) => byQid[q]?.number),
                           arrival: widget.focusQuestion == null && progress == null,
                           // The paper's subject object stands beside the figure, still: one art piece, no loop.
-                          beside: SubjectEmblem(subject: model.subjectId, size: SummarySection.emblemSize, framed: false, animate: false),
+                          beside: SubjectEmblem(subject: model.subjectId, size: ResultSpace.emblem, framed: false, animate: false),
                         ),
                 ),
                 ...annotations(context, model, data, corrected: false, onRetry: () => ref.read(attemptDetailProvider(id).notifier).refresh(force: true)),
@@ -580,13 +581,10 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                 const SizedBox(height: MmSpace.s4),
                 Text(LayersCopy.freshLine, style: type.small.copyWith(color: colors.ink2)),
                 const SizedBox(height: MmSpace.s12),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: KeyButton.secondary(
-                    label: LayersCopy.freshKey,
-                    expanded: false,
-                    onPressed: () => _go(Uri(path: AppRoutes.practiceSetup(model.isNta ? 'nta' : 'full'), queryParameters: {'subject': model.subjectId}).toString()),
-                  ),
+                // The screen's secondary is the same underlined text action as the next move's way out, not a raised pill.
+                TextAction(
+                  label: LayersCopy.freshKey,
+                  onTap: () => _go(Uri(path: AppRoutes.practiceSetup(model.isNta ? 'nta' : 'full'), queryParameters: {'subject': model.subjectId}).toString()),
                 ),
               ],
             ),

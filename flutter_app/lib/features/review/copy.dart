@@ -152,7 +152,7 @@ abstract final class ReviewCopy {
   // ---- Features introduced at their moment (F18): one inline note each, never a tour ---------------
 
   static const noteReviseLead = 'Revise';
-  static const noteRevise = 'Mistakes you repair come back after 1, 3, 7 and 21 days, so they stay fixed.';
+  static const noteRevise = 'Wrong answers come back after 1, 3, 7 and 21 days, so they stay fixed.';
   static const noteReviseAction = 'Open Revise';
   static const noteLabLead = 'Mistake Lab';
   static String noteLab(String mock) => 'The result of $mock shows where its marks went and which mistakes cost the most.';
@@ -244,7 +244,8 @@ abstract final class ReviewCopy {
   static String shortfallHeadline(int needed, int balance) => 'You have ${plural(balance, 'AI credit')}, this repair needs $needed';
   static String startWith(int n) => 'Start with ${plural(n, 'mistake')}';
   static const begin = 'Begin';
-  static const reopenLead = 'Already repaired. Opening it again is free and changes nothing on your record.';
+  static const openSaved = 'Open saved repair';
+  static const reopenLead = 'Already repaired. This opens your saved repair and changes nothing on your record.';
 
   /// What Repair gives, said on the entry before any call (L13): three lines, each with what it
   /// is and what it holds. The cost follows directly under them.

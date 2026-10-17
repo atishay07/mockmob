@@ -230,6 +230,11 @@ class _RepairScreenState extends ConsumerState<RepairScreen> {
       run: run,
       plan: plan,
       attempted: run.steps.isEmpty ? null : ReviewCopy.attemptedAt(whenText(clock, run.steps.first.item.foundAt)),
+      savedLine: run.steps.length == 1 && !run.steps.first.item.stage.isOpen
+          ? (run.steps.first.item.stageAt == null
+              ? ReviewCopy.savedRepairOpens
+              : ReviewCopy.savedRepairFrom(whenText(clock, run.steps.first.item.stageAt!)))
+          : null,
       onClose: _close,
       onBegin: () => _run.begin(limit: plan.limit, keyOnly: plan.keyOnly),
       onReadKeys: () => _run.begin(keyOnly: true),

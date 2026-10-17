@@ -37,7 +37,10 @@ class AiWallet {
   final DateTime? resetAt;
 
   /// Explanation credits the student can spend now, or null when the balance is not known.
-  int? get balance => known == false ? null : spendable;
+  /// The server sends `spendable` as a yes or no and the count as `total`; an older payload
+  /// (and some test fakes) carry the count in `spendable`, so `total` wins and `spendable` is the
+  /// fallback only when it is a number.
+  int? get balance => known == false ? null : (total ?? spendable);
 
   bool get isKnown => balance != null;
 }

@@ -19,8 +19,10 @@ final reviewAgainCountProvider = Provider<int>((ref) {
 });
 
 /// Review's one way into re-practising what was repaired. It replaces Revise's row on the tab:
-/// when Revise is live and has cards due today the row names them and opens Revise (server-marked);
-/// otherwise it opens Review again, which works from the phone. It is shown only when there is
+/// when Revise is live and has cards DUE today the row is called Revise, names them and opens Revise
+/// (server-marked); otherwise, with something repaired, it is Review again and opens the key-hidden
+/// run, which works from the phone. Cards that exist but are not due never route to a Revise page
+/// that says nothing is due. It is shown only when there is
 /// something to ask, so it never points at nothing, and it opens into place (the tab does not jump).
 class ReviewAgainRow extends ConsumerWidget {
   const ReviewAgainRow({super.key, this.divider = true});
@@ -33,7 +35,7 @@ class ReviewAgainRow extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final repaired = ref.watch(reviewAgainCountProvider);
     final revise = ref.watch(reviseEntryProvider).value;
-    final reviseDue = revise != null && !revise.isUnavailable && !revise.isEmpty;
+    final reviseDue = revise != null && !revise.isUnavailable && !revise.isEmpty && revise.due > 0;
     final show = reviseDue || repaired > 0;
     return MmSizeEase(
       duration: Motion.of(context, Motion.card),
@@ -46,8 +48,8 @@ class ReviewAgainRow extends ConsumerWidget {
               children: [
                 EntryRow(
                   icon: LucideIcons.rotateCcw,
-                  title: ReviewAgainCopy.title,
-                  note: reviseDue ? (revise.summary ?? ReviewAgainCopy.rowNote(repaired)) : ReviewAgainCopy.rowNote(repaired),
+                  title: reviseDue ? ReviewAgainCopy.reviseTitle : ReviewAgainCopy.title,
+                  note: reviseDue ? (revise.head ?? ReviewAgainCopy.rowNoteDue(revise.due, revise.cards)) : ReviewAgainCopy.rowNote(repaired),
                   onTap: () => context.push(reviseDue ? AppRoutes.reviewRevise : AppRoutes.reviewAgain),
                 ),
                 if (divider) Divider(height: 1, color: context.mmColors.line),

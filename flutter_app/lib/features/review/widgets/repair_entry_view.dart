@@ -88,7 +88,12 @@ class RepairEntryView extends StatefulWidget {
     required this.onReadKeys,
     required this.onClose,
     this.attempted,
+    this.savedLine,
   });
+
+  /// "Saved repair from 17 Oct, 11:13 AM. Opens free." for a repair already on the record, said
+  /// above the key so a student knows it costs nothing before tapping. Null for a new repair.
+  final String? savedLine;
 
   /// When the paper was attempted, in the student's own time ("12 Oct, 11:08 PM"), or null.
   final String? attempted;
@@ -270,6 +275,10 @@ class _RepairEntryViewState extends State<RepairEntryView> with SingleTickerProv
               children: [
                 // What it costs and what is left, in words, directly above the key that spends it:
                 // pinned with the key, so it is on screen whenever the key is, never below the fold.
+                if (reopen) ...[
+                  Text(widget.savedLine ?? ReviewCopy.savedRepairOpens, style: type.body),
+                  const SizedBox(height: MmSpace.s12),
+                ],
                 if (widget.plan.hasWords && !reopen) ...[
                   if (widget.plan.headline != null)
                     Semantics(
@@ -282,7 +291,7 @@ class _RepairEntryViewState extends State<RepairEntryView> with SingleTickerProv
                   if (widget.plan.after != null) Text(widget.plan.after!, style: type.small.copyWith(color: colors.ink2)),
                   const SizedBox(height: MmSpace.s12),
                 ],
-                KeyButton(label: reopen ? ReviewCopy.begin : widget.plan.primary, onPressed: widget.onBegin),
+                KeyButton(label: reopen ? ReviewCopy.openSaved : widget.plan.primary, onPressed: widget.onBegin),
                 if (widget.plan.offerKeys && !reopen)
                   Align(
                     child: KeyButton.quiet(label: ReviewCopy.readKeys, onPressed: widget.onReadKeys),

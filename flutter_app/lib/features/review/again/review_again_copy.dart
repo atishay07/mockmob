@@ -10,6 +10,9 @@ abstract final class ReviewAgainCopy {
 
   static const title = 'Review again';
 
+  /// The row's name while Revise has cards due today: it opens Revise, so it says so.
+  static const reviseTitle = 'Revise';
+
   /// The quiet link under a repair's ending keys: this run's repaired mistakes, asked once more.
   static const reviewThese = 'Review these again';
 
