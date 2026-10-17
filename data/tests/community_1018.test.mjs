@@ -2,7 +2,7 @@
 // sidebar loses its Community header, Your standing sits under Progress, Learn has its place (D20), and the SEO line is true.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, existsSync, readdirSync } from 'node:fs';
 
 const read = (path) => readFileSync(new URL(`../../${path}`, import.meta.url), 'utf8');
 const navSource = read('src/lib/arenaNavigation.js').replace("'@/../data/capabilities'", `'${new URL('../capabilities.js', import.meta.url).href}'`);
@@ -98,9 +98,18 @@ test('no dead promise is left behind while the flag is off', () => {
   assert.match(read('src/app/pricing/page.js'), /'New accounts start with 100 practice credits\.',/);
   assert.doesNotMatch(read('src/app/terms/page.js'), /terms for using MockMob mock tests, community questions/);
   assert.doesNotMatch(read('src/lib/seo.js'), /terms for using MockMob mock tests, community questions/);
-  // Only the hidden pages and the flagged panels link to /upload and /my-uploads.
-  const linking = ['src/app/(app)/dashboard/DashboardPageClient.jsx', 'src/components/profile/accountModel.mjs', 'src/lib/arenaNavigation.js'];
-  for (const path of linking) assert.match(read(path), /contributeOn|CONTRIBUTE_ROW_IDS|contribute/, `${path} is gated`);
+  // Only the hidden pages, the flagged panel, the flagged Account rows and the flagged nav group may point at /upload or /my-uploads.
+  const walk = (dir) => readdirSync(new URL(`../../${dir}/`, import.meta.url), { withFileTypes: true }).flatMap((e) => e.isDirectory() ? walk(`${dir}/${e.name}`) : [`${dir}/${e.name}`]);
+  const referencing = walk('src').filter((f) => /\.(jsx?|mjs)$/.test(f) && !f.includes('/api/') && /['"`]\/(upload|my-uploads)\b/.test(read(f))).sort();
+  assert.deepEqual(referencing, [
+    'src/app/(app)/dashboard/DashboardPageClient.jsx',
+    'src/app/(app)/my-uploads/MyUploadsPageClient.jsx',
+    'src/app/robots.js',
+    'src/components/feed/UploadForm.jsx',
+    'src/components/profile/accountModel.mjs',
+  ].sort(), 'a new link to a hidden page must be added to this list and gated');
+  assert.match(read('src/app/(app)/dashboard/DashboardPageClient.jsx'), /\{contributeOn && <section[^>]*aria-labelledby="pr-bank">[\s\S]*?href="\/upload"/);
+  assert.match(read('src/app/robots.js'), /'\/upload'/, 'search engines are still told to skip the hidden pages');
 });
 
 test('a lesson or recall run keeps Learn as the current place, and More is marked on a place that lives under it (D20)', () => {
@@ -117,4 +126,8 @@ test('Progress leads to the Learn page itself, not into a card run (D20)', () =>
   assert.match(study, /due for review in Learn/);
   // Review keeps its direct button for due cards.
   assert.match(study, /review\s*\?\s*<Link className="study-button" href=\{record\.queue\.availableCount \? '\/learn\?recall=due' : '\/learn'\}>/);
+});
+
+test('Practice keeps two balanced lower columns while Add a question is hidden', () => {
+  assert.match(read('src/app/(app)/dashboard/practice.css'), /\.pr-lower:not\(:has\(\.pr-panel\[aria-labelledby='pr-bank'\]\)\) \.pr-lower__side > \.pr-panel \{ grid-column: 2; \}/);
 });
