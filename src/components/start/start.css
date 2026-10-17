@@ -96,8 +96,8 @@ html[data-theme='light'] .app-shell .stk--sidebar { box-shadow: inset 0 0 0 1px 
 /* ---------- The sheet ---------- */
 .st-sheet {
   --st-pad: 20px;
-  --st-lamp: rgb(222 245 120 / 0.2);
-  --st-lamp-soft: rgb(210 240 0 / 0.07);
+  --st-lamp: rgb(255 216 168 / 0.08); /* a neutral warm light, never lime (glow is banned) */
+  --st-lamp-soft: rgb(255 216 168 / 0.05);
   --st-shadow: rgb(0 0 0 / 0.5);
   position: fixed;
   inset: auto 0 0 0;
@@ -140,8 +140,8 @@ html[data-theme='light'] .app-shell .stk--sidebar { box-shadow: inset 0 0 0 1px 
   pointer-events: none;
 }
 html[data-theme='light'] .st-sheet {
-  --st-lamp: rgb(198 226 40 / 0.26);
-  --st-lamp-soft: rgb(160 190 0 / 0.08);
+  --st-lamp: rgb(240 190 120 / 0.08);
+  --st-lamp-soft: rgb(240 190 120 / 0.05);
   --st-shadow: rgb(20 32 14 / 0.26);
   box-shadow: inset 0 1px 0 var(--a-edge), 0 -24px 56px -28px rgb(20 32 14 / 0.3);
 }
@@ -585,7 +585,7 @@ html[data-theme='light'] .st-cta { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.
 :root[data-motion='reduced'] .st-sheet :is(.st-obj__img, .st-obj__lamp) { animation: none; }
 @media (prefers-reduced-motion: reduce) { .st-sheet :is(.st-obj__img, .st-obj__lamp) { animation: none; } }
 .st-obj__shadow { position: absolute; z-index: 0; height: 8px; border-radius: 50%; background: radial-gradient(closest-side, var(--st-shadow, rgb(0 0 0 / 0.45)), transparent); }
-.st-obj__lamp { position: absolute; inset: -14% -12% -2%; z-index: 0; background: radial-gradient(52% 50% at 50% 40%, var(--st-lamp, rgb(222 245 120 / 0.2)), transparent 74%); }
+.st-obj__lamp { position: absolute; inset: -14% -12% -2%; z-index: 0; background: radial-gradient(52% 50% at 50% 40%, var(--st-lamp, rgb(255 216 168 / 0.08)), transparent 74%); }
 
 .st-draw { display: inline-grid; place-items: center; flex: none; }
 .st-draw svg { display: block; overflow: visible; }
