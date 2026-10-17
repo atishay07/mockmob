@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { BADGE_STEPS, badgePathsFromApi, countEntries } from '../../src/lib/studyBadges.js';
+import { BADGE_DEFS } from '../../src/lib/server/badges.js';
 import {
   MATCH_MS, RECENT_MS, SEEN_PREFIX, actionFor, countLeft, detailOf, earnedByAttempt, earnedShelf, ghostLine, headLine, isSeen, markSeen,
   momentWords, nextOnPath, paperLine, pickNext, shortDay, toMs, unseen, whenLine,
@@ -372,4 +373,9 @@ test('Progress rows carry their status as quiet text, not as pills', () => {
   const css = read('src/components/recovery/overview.css');
   assert.match(css, /rv-session__state\[data-tone='open'\] \{ color: var\(--a-warn-text\)/);
   assert.match(css, /rv-session__state\[data-tone='clear'\] \{ color: var\(--a-ink-2\)/);
+});
+
+test('the sixteen ids, names, conditions and paths are the same on the page and on the server', () => {
+  assert.equal(BADGE_STEPS.length, 16);
+  assert.deepEqual(BADGE_STEPS.map((s) => [s.id, s.path, s.name, s.condition]), BADGE_DEFS.map((d) => [d.id, d.path, d.name, d.condition]));
 });

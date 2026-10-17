@@ -34,7 +34,7 @@
 .app-shell .sb-shelf { list-style: none; display: flex; gap: 4px; margin: 0 -16px; padding: 0 16px 4px; overflow-x: auto; scroll-snap-type: x proximity; scroll-padding-inline: 16px; scrollbar-width: none; overscroll-behavior-x: contain; }
 .app-shell .sb-shelf::-webkit-scrollbar { display: none; }
 .app-shell .sb-shelf > li { flex: none; scroll-snap-align: start; }
-.app-shell .sb-shelf__item { display: grid; justify-items: center; align-content: start; gap: 8px; box-sizing: border-box; width: 92px; min-height: 44px; padding: 10px 4px 8px; border: 0; border-radius: 14px; background: none; color: var(--a-ink); text-align: center; cursor: pointer; transition: background-color 150ms ease-out; }
+.app-shell .sb-shelf__item { display: grid; justify-items: center; align-content: start; gap: 8px; box-sizing: border-box; width: 80px; min-height: 44px; padding: 10px 2px 8px; border: 0; border-radius: 14px; background: none; color: var(--a-ink); text-align: center; cursor: pointer; transition: background-color 150ms ease-out; }
 .app-shell .sb-shelf__item:active { background: var(--a-hover); }
 @media (hover: hover) and (pointer: fine) { .app-shell .sb-shelf__item:hover { background: var(--a-hover); } }
 .app-shell .sb-shelf__item:focus-visible, .app-shell .sb-next__btn:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 0; }
@@ -42,7 +42,7 @@
 .app-shell .sb-shelf__date { font-size: 12px; line-height: 1.2; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
 @media (min-width: 761px) {
   .app-shell .sb-shelf { flex-wrap: wrap; margin: 0 -4px; padding: 0; overflow: visible; scroll-padding-inline: 0; }
-  .app-shell .sb-shelf__item { width: 112px; }
+  .app-shell .sb-shelf__item { width: 112px; padding: 10px 4px 8px; }
 }
 
 /* The next badge: a ghost medal (dashed, never a padlock) in a thin ring that fills with the exact count, and one line. */
