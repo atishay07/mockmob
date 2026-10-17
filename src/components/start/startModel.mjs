@@ -138,10 +138,12 @@ export const SESSION = Object.freeze({
   ntaCount: TEST_MODES.nta.fixedCount,
   ntaMinutes: Math.round(TEST_MODES.nta.fixedDurationSec / 60),
   ntaPro: TEST_MODES.nta.premium === true,
+  smartCount: TEST_MODES.smart.defaultCount,
+  smartPro: TEST_MODES.smart.premium === true,
 });
 
 /** /dashboard set up for a session. Nothing is charged there until Start. */
-export function practiceHref({ subject = null, mode = 'quick', count = null, chapter = null, screen = null } = {}) {
+export function practiceHref({ subject = null, mode = 'quick', count = null, chapter = null, screen = null, pick = null } = {}) {
   const q = new URLSearchParams();
   const s = subjectFor(subject);
   if (s) q.set('subject', s.id);
@@ -149,6 +151,8 @@ export function practiceHref({ subject = null, mode = 'quick', count = null, cha
   if (count) q.set('count', String(count));
   if (chapter) q.set('chapter', chapter);
   if (screen) q.set('interface', screen);
+  // ?pick=chapters: Practice opens with the chapter picker already open (the sheet's By chapter row).
+  if (pick === 'chapters') q.set('pick', 'chapters');
   return `${PRACTICE_HREF}?${q.toString()}`;
 }
 
@@ -165,14 +169,15 @@ export function sessionCost(mode, { pro = false } = {}) {
  * 'Needs Pro.' / 'Uses 50 practice credits. You have 40.' (not enough) / 'Uses 10 practice credits.'
  * (balance unknown). `short` drops the trailing sentence for narrow rows.
  */
-export function costLine(mode, { pro = false, balance = null } = {}) {
+export function costLine(mode, { pro = false, balance = null, short = false } = {}) {
   const cost = sessionCost(mode, { pro });
-  if (cost === null) return { text: 'Needs Pro.', tone: 'locked' };
-  if (pro) return { text: 'Included with Pro.', tone: 'included' };
+  if (cost === null) return { text: short ? 'Needs Pro' : 'Needs Pro.', tone: 'locked' };
+  if (pro) return { text: short ? 'Included with Pro' : 'Included with Pro.', tone: 'included' };
   const have = whole(balance);
-  if (have === null) return { text: `Uses ${plural(cost, 'practice credit')}.`, tone: 'cost' };
-  if (have < cost) return { text: `Uses ${plural(cost, 'practice credit')}. You have ${have}.`, tone: 'short' };
-  return { text: `Uses ${cost} of your ${plural(have, 'practice credit')}.`, tone: 'cost' };
+  // The short form fits a half-width tile on a 390 px phone in two lines at most: '50 credits. You have 40.'
+  if (have === null) return { text: short ? plural(cost, 'credit') : `Uses ${plural(cost, 'practice credit')}.`, tone: 'cost' };
+  if (have < cost) return { text: short ? `${plural(cost, 'credit')}. You have ${have}.` : `Uses ${plural(cost, 'practice credit')}. You have ${have}.`, tone: 'short' };
+  return { text: short ? `${cost} of your ${plural(have, 'credit')}` : `Uses ${cost} of your ${plural(have, 'practice credit')}.`, tone: 'cost' };
 }
 
 /** The header's balance line: what the cost lines are measured against. */
@@ -305,19 +310,27 @@ export function startRows({ plan = null, subjects = [], subject = null, pro = fa
   const name = subjectName(chosen);
   const hero = heroFromPlan(plan, { subject: chosen, pro, balance, tonightKey });
   const rows = [];
+  // Every session names what pressing it does (owner F5): 'Set up' opens Practice set up for it (nothing is spent there),
+  // 'Pick chapters' opens it with the chapter list open, 'Open Practice' opens it to choose.
   // A hero that is already "10 questions" in the chosen subject is Quick practice: one row, not two. A fixed hero (a
   // resume, a repair, a linked subject) does not follow the chips, so the Quick practice row comes back under them.
   if (!(hero?.quick && hero?.followsSubject)) {
     rows.push({ id: 'quick', title: 'Quick practice', detail: `${SESSION.quickCount} ${name ? `${name} ` : ''}questions, about ${SESSION.quickMinutes} minutes`,
-      href: practiceHref({ subject: chosen, mode: 'quick', count: SESSION.quickCount }), graphic: 'subject', subject: chosen, cost: costLine('quick', { pro, balance }), badge: String(SESSION.quickCount), go: 'start' });
+      href: practiceHref({ subject: chosen, mode: 'quick', count: SESSION.quickCount }), graphic: 'subject', subject: chosen, cost: costLine('quick', { pro, balance, short: true }), badge: String(SESSION.quickCount), go: 'start', action: 'Set up' });
   }
   rows.push({ id: 'full', title: 'Full mock', detail: `${SESSION.fullCount} ${name ? `${name} ` : ''}questions, ${SESSION.fullMinutes} minutes, a new paper every time`,
-    href: practiceHref({ subject: chosen, mode: 'full' }), graphic: 'stopwatch', subject: chosen, cost: costLine('full', { pro, balance }), go: 'start' });
+    href: practiceHref({ subject: chosen, mode: 'full' }), graphic: 'stopwatch', subject: chosen, cost: costLine('full', { pro, balance, short: true }), go: 'start', action: 'Set up' });
   rows.push({ id: 'nta', title: 'NTA mode', detail: `The exam-day screen${name ? ` in ${name}` : ''}, ${SESSION.ntaCount} questions in ${SESSION.ntaMinutes} minutes`,
     // Locked: Practice shows the screen preview and what Pro adds, so the row still opens it. The outlined Pro tag
     // marks the lock on the tile; the cost line says it in words.
-    href: practiceHref({ subject: chosen, mode: 'nta', screen: 'nta' }), graphic: 'exam', subject: chosen, cost: costLine('nta', { pro, balance }), tag: SESSION.ntaPro && !pro ? 'Pro' : null, go: 'start' });
-  const choose = { id: 'choose', title: 'Choose your own', detail: 'Any subject, chapters, mode and length', href: PRACTICE_HREF, graphic: 'fan', subjects: subjects.slice(0, 3), go: 'open' };
+    href: practiceHref({ subject: chosen, mode: 'nta', screen: 'nta' }), graphic: 'exam', subject: chosen, cost: costLine('nta', { pro, balance, short: true }), tag: SESSION.ntaPro && !pro ? 'Pro' : null, go: 'start', action: 'Set up' });
+  // By chapter is Quick practice with the chapters asked first (the app's entry, START-1017 A-rule 2): it opens Practice
+  // with the chapter list open.
+  rows.push({ id: 'chapter', title: 'By chapter', detail: `Pick ${name ? `${name} ` : ''}chapters, then ${SESSION.quickCount} questions`,
+    href: practiceHref({ subject: chosen, mode: 'quick', count: SESSION.quickCount, pick: 'chapters' }), graphic: 'chapters', subject: chosen, cost: costLine('quick', { pro, balance, short: true }), go: 'start', action: 'Pick chapters' });
+  rows.push({ id: 'smart', title: 'Smart practice', detail: `${SESSION.smartCount} ${name ? `${name} ` : ''}questions on the topics you miss most`,
+    href: practiceHref({ subject: chosen, mode: 'smart' }), graphic: 'weights', subject: chosen, cost: costLine('smart', { pro, balance, short: true }), tag: SESSION.smartPro && !pro ? 'Pro' : null, go: 'start', action: 'Set up' });
+  const choose = { id: 'choose', title: 'Choose your own', detail: 'Any subject, chapters, mode and length', href: PRACTICE_HREF, graphic: 'fan', subjects: subjects.slice(0, 3), go: 'open', action: 'Open' };
   // What the label over the rows says: under a fixed hero the rows are the chosen subject's ("Or start in Economics").
   const section = !hero ? 'Pick a session' : hero.followsSubject ? 'Or start something else' : name ? `Or start in ${name}` : 'Or start something else';
   return { hero, rows, choose, section };

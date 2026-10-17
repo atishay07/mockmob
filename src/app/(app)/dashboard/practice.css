@@ -7,6 +7,26 @@
    Reduced motion: no movement; state changes are short fades.
    ========================================================================== */
 
+/* ---------- The card surface (owner W-013: "some blue light and texture on the cards") ----------
+   Every Practice card (the mode tiles, Fine-tune, the session card and bar) is lit the way the pre-15 Oct cards and the
+   app's cards were: a soft cool-blue light falling from the top edge, and a fine static film grain under the type. The
+   light lives inside the card (no glow outside it); the grain is a tiny SVG tile, painted once, never animated. Day keeps
+   both, quieter, with a darker grain so it reads on white. */
+.app-shell .pr {
+  --pr-cool: rgb(118 168 255 / 0.13);
+  --pr-cool-edge: rgb(160 196 255 / 0.22);
+  --pr-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 -.18'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='.16'/%3E%3C/svg%3E");
+  --pr-surface:
+    radial-gradient(120% 90px at 30% 0%, var(--pr-cool), transparent 100%),
+    var(--pr-grain),
+    var(--a-raised);
+}
+html[data-theme='light'] .app-shell .pr {
+  --pr-cool: rgb(70 120 220 / 0.09);
+  --pr-cool-edge: rgb(255 255 255 / 0.9);
+  --pr-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .1 0 0 0 0 .12 0 0 0 0 .1 0 0 0 .55 -.18'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='.12'/%3E%3C/svg%3E");
+}
+
 /* Plain step headings (no numbered badges: slop list item 12), a little larger than before. */
 .app-shell .pr .pr-layout--1017 .pr-step__head h2 { font-size: 20px; font-weight: 750; letter-spacing: -0.02em; }
 .app-shell .pr .pr-layout--1017 { gap: 30px; }
@@ -14,6 +34,15 @@
 /* arena.css reorders the old layout on phones (card first); this one reads in its own order: setup, card, bar. */
 .app-shell .pr .pr-layout--1017 > * { order: 0; }
 @media (min-width: 1024px) { .app-shell .pr .pr-layout--1017 { grid-template-columns: minmax(0, 1fr) 352px; column-gap: 36px; } }
+/* The setup's tail (Questions, Fine-tune, the card and the phone bar). Phones: one column, and the sticky bar's container,
+   so the bar arrives with Questions and never covers the shelf or the tiles on the first screen. From 1024 px it dissolves
+   into the grid: Subject and Mode, Questions and Fine-tune on the left, the card beside them on the right. */
+.app-shell .pr .pr-layout--1017 > .pr-tail { display: grid; gap: 30px; min-width: 0; }
+@media (min-width: 1024px) {
+  .app-shell .pr .pr-layout--1017 > .pr-tail { display: contents; }
+  .app-shell .pr .pr-layout--1017 > .pr-steps, .app-shell .pr .pr-layout--1017 > .pr-tail > .pr-step { grid-column: 1; }
+  .app-shell .pr .pr-layout--1017 > .pr-tail > .pr-ticket { grid-column: 2; grid-row: 1 / span 3; align-self: start; }
+}
 
 /* ---------- The subject shelf ----------
    Each subject is its object standing on one shared shelf line, with its name and chapter count under it. No box per
@@ -135,8 +164,8 @@
   padding: 12px 12px 12px 14px;
   border: 0;
   border-radius: 20px;
-  background: var(--a-raised);
-  box-shadow: inset 0 0 0 1px var(--a-line), inset 0 1px 0 var(--a-edge);
+  background: var(--pr-surface);
+  box-shadow: inset 0 0 0 1px var(--a-line), inset 0 1px 0 var(--pr-cool-edge);
   color: var(--a-ink);
   text-align: left;
   cursor: pointer;
@@ -154,43 +183,49 @@
   transition: opacity var(--mm-dur-exit) var(--mm-ease-exit);
   pointer-events: none;
 }
-.app-shell .pr .pr-tile[aria-checked='true'] { box-shadow: inset 0 0 0 2px var(--a-select), inset 0 1px 0 var(--a-edge); }
+.app-shell .pr .pr-tile[aria-checked='true'] { box-shadow: inset 0 0 0 2px var(--a-select), inset 0 1px 0 var(--pr-cool-edge); }
 .app-shell .pr .pr-tile[aria-checked='true']::before { opacity: 1; transition: opacity var(--mm-dur-glide) var(--mm-ease-out); }
 .app-shell .pr .pr-tile:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 3px; }
 @media (hover: hover) and (pointer: fine) {
-  .app-shell .pr .pr-tile:not([aria-checked='true']):hover { box-shadow: inset 0 0 0 1px var(--a-line-strong), inset 0 1px 0 var(--a-edge); translate: 0 -1px; }
+  .app-shell .pr .pr-tile:not([aria-checked='true']):hover { box-shadow: inset 0 0 0 1px var(--a-line-strong), inset 0 1px 0 var(--pr-cool-edge); translate: 0 -1px; }
+  .app-shell .pr .pr-tile:not([aria-checked='true']):hover .pr-tile__act { border-color: var(--a-ink-3); background: var(--a-hover); }
 }
 .app-shell .pr .pr-tile { transition: box-shadow 160ms ease, translate 160ms ease, transform var(--mm-press-lift-dur) var(--mm-press-lift); }
-.app-shell .pr .pr-tile__ring {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  display: grid;
-  place-items: center;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  box-shadow: inset 0 0 0 2px var(--a-line-strong);
-  color: #182000;
-  transition: background-color 120ms var(--mm-ease-out), box-shadow 120ms var(--mm-ease-out);
+/* Pressed: the tile sinks to 0.97, darkens a step (the app's pressed fill) and its action key sinks with it, so a press
+   reads as a button going down, not only a shrink (verifier W-002). */
+.app-shell .pr .pr-tile::after { content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: var(--a-ink); opacity: 0; pointer-events: none; transition: opacity 140ms ease; }
+.app-shell .pr .pr-tile:active { transform: scale(0.97); transition-duration: 160ms, 160ms, 100ms; }
+.app-shell .pr .pr-tile:active::after { opacity: 0.07; transition-duration: 60ms; }
+.app-shell .pr .pr-tile:active .pr-tile__act { scale: 0.94; }
+/* The price, top right where a radio ring used to sit. */
+.app-shell .pr .pr-tile__price { position: absolute; top: 12px; right: 12px; }
+/* The action key at the tile's foot: "Set up" with a play mark; once chosen it fills with the select colour and reads
+   "Chosen" with a tick (owner F5: buttons that do something, with a clear action label). */
+.app-shell .pr .pr-tile__act {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px; justify-self: stretch;
+  min-height: 38px; padding: 0 14px; border: 1.5px solid var(--a-line-strong); border-radius: 12px;
+  background: var(--a-raised); color: var(--a-ink); font: 700 14px/1 var(--font-body);
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, scale 120ms var(--mm-ease-out);
 }
-.app-shell .pr .pr-tile__ring svg { opacity: 0; scale: 0.6; transition: opacity 120ms var(--mm-ease-out), scale 120ms var(--mm-ease-out); }
-.app-shell .pr .pr-tile[aria-checked='true'] .pr-tile__ring { background: var(--a-select); box-shadow: none; transition-duration: 200ms; }
-.app-shell .pr .pr-tile[aria-checked='true'] .pr-tile__ring svg { opacity: 1; scale: 1; transition: opacity 160ms var(--mm-ease-out), scale var(--mm-spring-icon-pop-dur) var(--mm-spring-icon-pop); }
-html[data-theme='light'] .app-shell .pr .pr-tile__ring { color: #fff; }
+.app-shell .pr .pr-tile__act svg { flex: none; }
+.app-shell .pr .pr-tile[aria-checked='true'] .pr-tile__act { border-color: var(--a-select); background: var(--a-volt-wash); color: var(--a-ink); }
+.app-shell .pr .pr-tile[aria-checked='true'] .pr-tile__act svg { color: var(--a-accent-text); }
+.app-shell .pr .pr-tile[aria-checked='true'] .pr-tile__act svg { animation: pr-tick-pop var(--mm-spring-icon-pop-dur) var(--mm-spring-icon-pop) both; }
+@keyframes pr-tick-pop { from { opacity: 0; scale: 0.6; } }
 .app-shell .pr .pr-tile__art { display: flex; align-items: flex-end; height: 64px; }
 .app-shell .pr .pr-tile__art .subj-obj { width: 64px; height: 64px; }
 .app-shell .pr .pr-tile__text { display: grid; gap: 3px; align-content: start; min-width: 0; }
-.app-shell .pr .pr-tile__name { padding-right: 26px; font: 750 18px/1.2 var(--font-display); letter-spacing: -0.015em; }
+.app-shell .pr .pr-tile__name { padding-right: 0; font: 750 18px/1.2 var(--font-display); letter-spacing: -0.015em; }
 .app-shell .pr .pr-tile__spec { font-size: 13px; line-height: 1.42; color: var(--a-ink-2); }
-.app-shell .pr .pr-tile__price { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+.app-shell .pr .pr-tile__price { display: inline-flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 700; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
 .app-shell .pr .pr-tile__price[data-tone='included'] { color: var(--a-accent-text); }
 .app-shell .pr .pr-tile__price:is([data-tone='locked'], [data-tone='muted']) { font-weight: 600; color: var(--a-ink-3); }
 @media (min-width: 1024px) {
-  .app-shell .pr .pr-tile { grid-template-columns: 72px minmax(0, 1fr); grid-template-rows: 1fr auto; column-gap: 16px; min-height: 132px; padding: 16px 18px; }
+  .app-shell .pr .pr-tile { grid-template-columns: 72px minmax(0, 1fr); grid-template-rows: 1fr auto; column-gap: 16px; row-gap: 12px; min-height: 132px; padding: 16px 18px; }
   .app-shell .pr .pr-tile__art { grid-row: 1 / span 2; height: auto; align-items: center; }
-  .app-shell .pr .pr-tile__ring { top: 14px; right: 14px; }
-  .app-shell .pr .pr-tile__name { padding-right: 30px; }
+  .app-shell .pr .pr-tile__price { top: 16px; right: 16px; }
+  .app-shell .pr .pr-tile__name { padding-right: 96px; }
+  .app-shell .pr .pr-tile__act { justify-self: start; min-width: 112px; }
 }
 @media (max-width: 359px) { .app-shell .pr .pr-tile__name { font-size: 16px; } }
 
@@ -206,8 +241,8 @@ html[data-theme='light'] .app-shell .pr .pr-tile__ring { color: #fff; }
   gap: 0;
   padding: 18px 16px;
   border-radius: 22px;
-  background: var(--a-raised);
-  box-shadow: inset 0 0 0 1px var(--a-line), inset 0 1px 0 var(--a-edge);
+  background: var(--pr-surface);
+  box-shadow: inset 0 0 0 1px var(--a-line), inset 0 1px 0 var(--pr-cool-edge);
   scroll-margin-top: 96px;
 }
 @media (min-width: 1024px) { .app-shell .pr .pr-fine2 { padding: 20px 22px; } }
@@ -237,8 +272,8 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg [role='radio']
   padding: 16px;
   border: 0;
   border-radius: 22px;
-  background: var(--a-raised);
-  box-shadow: inset 0 0 0 1px var(--a-line-strong), inset 0 1px 0 var(--a-edge);
+  background: var(--pr-surface);
+  box-shadow: inset 0 0 0 1px var(--a-line-strong), inset 0 1px 0 var(--pr-cool-edge);
 }
 @media (min-width: 1024px) { .app-shell .pr .pr-ticket.pr-summary { position: sticky; top: 84px; } }
 .app-shell .pr .pr-ticket.pr-summary > * { grid-row: auto; grid-column: auto; }
@@ -270,6 +305,34 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg [role='radio']
 .app-shell .pr .pr-ticket.pr-summary .pr-summary__reason:empty { display: none; }
 .app-shell .pr .pr-ticket.pr-summary .pr-summary__cta { width: 100%; min-height: 52px; justify-content: center; gap: 10px; }
 .app-shell .pr .pr-summary__reason:focus { outline: none; }
+/* Fine-tune, right above Start (owner F8). A ruled block inside the card, not a card in the card. */
+.app-shell .pr .pr-ticket__fine { display: grid; gap: 4px; padding: 10px 0 2px; border-top: 1px solid var(--a-line); }
+.app-shell .pr .pr-ticket__fine-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.app-shell .pr .pr-ticket__fine-head > span { display: inline-flex; align-items: center; gap: 7px; font: 700 15px/1.2 var(--font-display); color: var(--a-ink); }
+.app-shell .pr .pr-ticket__fine-head svg { color: var(--a-accent-text); }
+.app-shell .pr .pr-ticket__edit { min-height: 36px; padding: 0 12px; margin-right: -4px; border: 1px solid var(--a-line-strong); border-radius: 10px; background: transparent; color: var(--a-ink); font: 700 13.5px/1 var(--font-body); cursor: pointer; transition: background-color 160ms ease, border-color 160ms ease; }
+.app-shell .pr .pr-ticket__edit:hover { background: var(--a-hover); border-color: var(--a-ink-3); }
+.app-shell .pr .pr-ticket__edit:active { transform: scale(0.97); }
+.app-shell .pr .pr-ticket__edit:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.app-shell .pr .pr-ticket.pr-summary .pr-ticket__fine dl { grid-template-columns: 1fr; }
+.app-shell .pr .pr-ticket.pr-summary .pr-ticket__fine dl > div { padding: 6px 0; border-top: 0; }
+@media (max-width: 1023px) { .app-shell .pr .pr-ticket__fine { display: none; } }
+
+/* The exam pair's Start key carries a small stopwatch; on the start moment its hand goes once round, with the Full mock
+   tile's own stopwatch hand, and then the paper opens (owner, 15 Oct: "the clock doing a 360"). */
+.app-shell .pr .pr-clock { flex: none; overflow: visible; }
+.app-shell .pr .pr-clock__face { fill: none; stroke: currentColor; stroke-width: 2.1; }
+.app-shell .pr .pr-clock__crown, .app-shell .pr .pr-clock__pin { fill: currentColor; }
+.app-shell .pr .pr-clock__hand { transform-box: view-box; transform-origin: 12px 13.6px; }
+.app-shell .pr .pr-clock__hand line { stroke: currentColor; stroke-width: 2.3; stroke-linecap: round; }
+.app-shell .pr[data-launch='turn'] .pr-clock__hand { animation: pr-turn 640ms cubic-bezier(0.65, 0, 0.35, 1) both; }
+.app-shell .pr[data-launch='turn'] .pr-tile[data-mode='full'] .st-watch__hand { transform-box: view-box; transform-origin: 281px 465px; animation: pr-turn 640ms cubic-bezier(0.65, 0, 0.35, 1) both; }
+.app-shell .pr[data-launch='turn'] .pr-tile[data-mode='nta'] .st-exam { animation: pr-exam-go 640ms var(--mm-ease-out) both; }
+@keyframes pr-turn { from { rotate: 0deg; } to { rotate: 360deg; } }
+@keyframes pr-exam-go { 40% { scale: 1.06; } }
+/* A mode press answers on the Start key: the key settles in with its new words, so the press visibly set the session up. */
+.app-shell .pr [data-nudge] { animation: pr-key-settle 420ms var(--mm-spring-settle, cubic-bezier(0.2, 0.9, 0.25, 1.15)) both; }
+@keyframes pr-key-settle { from { scale: 0.94; opacity: 0.6; } }
 /* Phones and tablets: the card has no Start of its own; the bar under it is its footer and carries Start. */
 @media (max-width: 1023px) {
   .app-shell .pr .pr-ticket.pr-summary .pr-summary__cta { display: none; }
@@ -295,12 +358,12 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg [role='radio']
     display: grid;
     grid-template-columns: 52px minmax(0, 1fr) auto;
     align-items: center;
-    gap: 8px;
+    gap: 6px 8px;
     min-height: 64px;
-    padding: 7px 7px 7px 10px;
+    padding: 4px 7px 7px 10px;
     border: 1px solid var(--a-line-strong);
     border-radius: 20px;
-    background: var(--a-raised);
+    background: radial-gradient(120% 70px at 30% 0%, var(--pr-cool), transparent 100%), var(--pr-grain), var(--a-raised);
     color: var(--a-ink);
     box-shadow: 0 18px 40px -16px rgb(0 0 0 / 0.6);
     transition: border-radius 200ms var(--mm-ease-out), box-shadow 200ms var(--mm-ease-out);
@@ -330,6 +393,19 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg [role='radio']
   .app-shell .pr .pr-bar__text[data-blocked] .pr-bar__min { display: none; }
   .app-shell .pr .pr-bar__go { min-width: 96px; min-height: 48px; padding: 0 14px; border-radius: 14px; justify-content: center; gap: 7px; white-space: nowrap; }
   .app-shell .pr .pr-bar .pr-dock__rule { grid-column: 1 / -1; }
+  /* Fine-tune, one line right above Start: what is set, and Edit (owner F8). 36 px tall, the whole line is the target. */
+  .app-shell .pr .pr-bar__fine {
+    grid-column: 1 / -1; display: flex; align-items: center; gap: 8px; min-width: 0; min-height: 36px; margin: 0 -3px 0 -6px; padding: 0 6px;
+    border: 0; border-bottom: 1px solid var(--a-line); border-radius: 0; background: none; color: var(--a-ink-2);
+    font: 500 13px/1.25 var(--font-body); text-align: left; cursor: pointer; -webkit-tap-highlight-color: transparent;
+  }
+  .app-shell .pr .pr-bar__fine[data-static] { cursor: default; }
+  .app-shell .pr .pr-bar__fine > svg { flex: none; color: var(--a-accent-text); }
+  .app-shell .pr .pr-bar__fine-text { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .app-shell .pr .pr-bar__fine-text b { margin-right: 4px; font-weight: 700; color: var(--a-ink); }
+  .app-shell .pr .pr-bar__fine-edit { flex: none; padding: 4px 10px; border: 1px solid var(--a-line-strong); border-radius: 8px; font-weight: 700; color: var(--a-ink); }
+  .app-shell .pr .pr-bar__fine:active:not([data-static]) .pr-bar__fine-edit { background: var(--a-hover); scale: 0.96; }
+  .app-shell .pr .pr-bar__fine:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; border-radius: 8px; }
 }
 
 /* ---------- Head: the balance and the two prices, one line under the lede ---------- */
@@ -356,9 +432,16 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg [role='radio']
 .app-shell .pr .pr-stats[data-count='3'] > div + div { padding-left: 14px; border-left: 1px solid var(--a-line); }
 @media (min-width: 768px) { .app-shell .pr .pr-stats[data-count='3'] > div + div { padding-left: 20px; } }
 
-/* ---------- Lower panels: each as tall as its own content, never a tall empty box ---------- */
+/* ---------- Lower panels: each as tall as its own content, never a tall empty box ----------
+   From 1024 px two balanced columns (verifier W-008: the left held only Recent sessions beside a long right column):
+   Recent sessions, Concepts and Pro on the left; Add a question with My submissions on the right. */
 .app-shell .pr .pr-lower { align-items: start; }
-@media (min-width: 1024px) { .app-shell .pr .pr-lower { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); } }
+@media (min-width: 1024px) {
+  .app-shell .pr .pr-lower { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-auto-flow: row dense; }
+  .app-shell .pr .pr-lower__side { display: contents; }
+  .app-shell .pr .pr-lower > .pr-panel, .app-shell .pr .pr-lower__side > .pr-panel { grid-column: 1; align-self: start; }
+  .app-shell .pr .pr-lower__side > .pr-panel[aria-labelledby='pr-bank'] { grid-column: 2; grid-row: 1 / span 3; }
+}
 
 /* ---------- Loading: shapes that hold the new layout's places ---------- */
 .app-shell .pr-skeleton { display: grid; gap: 14px; }
@@ -387,9 +470,16 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg [role='radio']
   .app-shell .pr .pr-subject::after { transition: none; }
   .app-shell .pr :is(.pr-ticket__obj, .pr-bar__obj) > .subj-obj { animation: none; }
   .app-shell .pr :is(.pr-fine2__scope, .pr-fine2__we) { animation-duration: 120ms; }
+  .app-shell .pr[data-launch='turn'] :is(.pr-clock__hand, .st-watch__hand, .st-exam) { animation: none; }
+  .app-shell .pr[data-launch='turn'] :is(.pr-summary__cta, .pr-bar__go) { opacity: 0.7; transition: opacity 160ms linear; }
+  .app-shell .pr [data-nudge] { animation: pr-fade-in 120ms linear both; }
+  .app-shell .pr .pr-tile:active { transform: none; }
 }
 :root[data-motion='reduced'] .app-shell .pr :is(.pr-subject, .pr-tile, .pr-subject .pr-subject__obj.subj-obj, .pr-tile__ring svg) { transform: none !important; scale: none !important; translate: none !important; }
 :root[data-motion='reduced'] .app-shell .pr .pr-subject .pr-subject__obj.subj-obj { transition: filter 120ms linear, opacity 120ms linear; }
 :root[data-motion='reduced'] .app-shell .pr .pr-subject .subj-obj__light { scale: 1; transition: opacity var(--mm-dur-reduced-fade) linear; }
 :root[data-motion='reduced'] .app-shell .pr .pr-subject::after { transition: none; }
 :root[data-motion='reduced'] .app-shell .pr :is(.pr-ticket__obj, .pr-bar__obj) > .subj-obj { animation: none; }
+:root[data-motion='reduced'] .app-shell .pr[data-launch='turn'] :is(.pr-clock__hand, .st-watch__hand, .st-exam) { animation: none; }
+:root[data-motion='reduced'] .app-shell .pr [data-nudge] { animation: pr-fade-in 120ms linear both; }
+:root[data-motion='reduced'] .app-shell .pr .pr-tile:active { transform: none; }

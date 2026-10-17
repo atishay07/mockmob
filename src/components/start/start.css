@@ -238,8 +238,8 @@ html:has(.st-sheet[open]) { overflow: hidden; scrollbar-gutter: stable; }
   position: relative;
   display: flex;
   gap: 8px;
-  margin: -18px calc(var(--st-pad) * -1) 0;
-  padding: 20px var(--st-pad) 6px;
+  margin: -6px calc(var(--st-pad) * -1) 0;
+  padding: 38px var(--st-pad) 6px;
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scroll-snap-type: x proximity;
@@ -270,7 +270,7 @@ html:has(.st-sheet[open]) { overflow: hidden; scrollbar-gutter: stable; }
    their end is reached. */
 .st-rail__arrow {
   position: absolute;
-  top: 3px;
+  top: 40px;
   z-index: 2;
   display: none;
   place-items: center;
@@ -328,9 +328,9 @@ html:has(.st-sheet[open]) { overflow: hidden; scrollbar-gutter: stable; }
   gap: 8px;
   flex: none;
   --mk-press-scale: 0.97;
-  min-height: 56px;
-  /* The object stands at the left on its own 64 px stage (absolutely placed, below), so the words start past it. */
-  padding: 0 18px 0 76px;
+  min-height: 60px;
+  /* The object stands at the left on its own 88 px stage (absolutely placed, below), so the words start past it. */
+  padding: 0 20px 0 98px;
   border: 1px solid var(--a-line);
   border-radius: 999px;
   background: var(--a-raised-2);
@@ -344,8 +344,8 @@ html:has(.st-sheet[open]) { overflow: hidden; scrollbar-gutter: stable; }
 .st-chip:hover { border-color: var(--a-line-strong); color: var(--a-ink); }
 .st-chip[data-on] { border-color: var(--a-select); background: var(--a-volt-wash); color: var(--a-ink); font-weight: 750; box-shadow: inset 0 0 0 1px var(--a-select); }
 .st-chip:has(input:focus-visible) { outline: 2px solid var(--a-focus); outline-offset: 2px; }
-/* The chip's object: a 64 px stage standing 6 px above the chip's floor, so it leans about 14 px out over the top edge
-   (owner F6: logos as big as the next-move card's). The chosen one is sharp, rises a little and takes the lamp's shadow on
+/* The chip's object: an 88 px stage standing 6 px above the chip's floor, so it leans about 34 px out over the top edge
+   (owner F6: logos as big as the next-move card's, whose object is 112 px; the chosen one grows to about 95 px). The chosen one is sharp, rises a little and takes the lamp's shadow on
    the settle spring. The others stand back: blurred, desaturated, dimmer and a little smaller (owner F7: "increase the
    blur of the other subjects"). The blur sits on the small pictures only, never on a name or any content, and the names
    stay sharp. Going back is the exit curve (200 ms); coming forward is the settle spring. Hover lifts by a hair. */
@@ -362,7 +362,7 @@ html:has(.st-sheet[open]) { overflow: hidden; scrollbar-gutter: stable; }
 }
 .st-chip .st-obj__shadow { opacity: 0.8; }
 .st-chip[data-on] .st-obj {
-  translate: 0 -2px; scale: 1.08; filter: none; opacity: 1;
+  translate: 0 -3px; scale: 1.08; filter: none; opacity: 1;
   transition: translate var(--mm-spring-settle-dur) var(--mm-spring-settle), scale var(--mm-spring-settle-dur) var(--mm-spring-settle), filter 240ms var(--mm-ease-out), opacity 240ms var(--mm-ease-out);
 }
 .st-chip[data-on] .st-obj__img { filter: drop-shadow(0 5px 6px var(--st-shadow)); }
@@ -395,6 +395,9 @@ html:has(.st-sheet[open]) { overflow: hidden; scrollbar-gutter: stable; }
 .st-hero__reason { margin: 8px 0 0; max-width: 46ch; font-size: 14px; line-height: 1.5; color: var(--a-ink-2); text-wrap: pretty; }
 .st-hero__go { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-top: 16px; }
 .st-hero__art { position: relative; grid-column: 2; grid-row: 2; display: grid; justify-items: center; gap: 2px; margin: 0 -2px -6px 0; align-self: end; }
+.st-hero__below { grid-column: 1 / -1; grid-row: 3; margin: 12px -14px -16px -18px; padding: 10px 18px 12px; border-top: 1px solid var(--a-line); font-size: 13.5px; line-height: 1.4; color: var(--a-ink-3); }
+.st-hero__below b { font-weight: 700; color: var(--a-ink); }
+@media (max-width: 479px) { .st-hero__below { margin: 12px -12px -16px -16px; padding-inline: 16px; } }
 .st-hero__caption { font-size: 12px; font-weight: 600; line-height: 1.2; color: var(--a-ink-3); text-align: center; }
 .st-cta {
   display: inline-flex;
@@ -471,7 +474,8 @@ html[data-theme='light'] .st-cta { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.
 .st-tile__text { display: grid; gap: 3px; align-content: start; min-width: 0; }
 .st-tile .st-row__title { font-size: 18px; font-weight: 750; letter-spacing: -0.015em; }
 .st-tile .st-row__detail { font-size: 13px; line-height: 1.42; }
-.st-tile__foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 8px; }
+.st-tile__foot { display: grid; gap: 10px; }
+.st-tile__foot .st-go { width: 100%; }
 .st-tile__foot .st-cost { align-items: flex-start; margin-top: 0; font-size: 12.5px; line-height: 1.3; }
 .st-tile__foot .st-cost svg { margin-top: 1px; }
 .st-tile .st-tag { height: 22px; }
@@ -492,16 +496,20 @@ html[data-theme='light'] .st-cta { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.
 .st-row:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; }
 /* The go disc: outlined, never volt (the hero's button is the sheet's one volt). */
 .st-go {
-  display: grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: 50%;
-  border: 1.5px solid var(--a-line-strong); background: var(--a-raised); color: var(--a-ink);
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px; flex: none; min-height: 40px; padding: 0 14px;
+  border-radius: 12px; border: 1.5px solid var(--a-line-strong); background: var(--a-raised); color: var(--a-ink);
+  font: 700 14px/1 var(--font-body); white-space: nowrap;
   transition: transform 200ms var(--mm-ease-out), background-color 160ms ease, border-color 160ms ease;
 }
-.st-go[data-kind='start'] svg { margin-left: 2px; }
-.st-row:active .st-go, .st-tile:active .st-go { transform: scale(0.92); transition-duration: 100ms; }
+.st-go[data-kind='open'] { padding-right: 10px; }
+/* Pressed: the row or tile darkens a step as it sinks (the app's pressed fill), and its key sinks further. */
+.st-row:active, .st-tile:active { background: color-mix(in srgb, var(--a-ink) 6%, transparent); }
+.st-tile:active { background: color-mix(in srgb, var(--a-ink) 6%, var(--a-sunken)); }
+.st-row:active .st-go, .st-tile:active .st-go { transform: scale(0.94); background: var(--a-hover); transition-duration: 100ms; }
 @media (hover: hover) and (pointer: fine) {
   .st-row:hover, .st-tile:hover { background: var(--a-hover); }
   .st-tile:hover { box-shadow: inset 0 0 0 1px var(--a-line-strong), inset 0 1px 0 var(--a-edge); }
-  .st-row:hover .st-go, .st-tile:hover .st-go { border-color: var(--a-ink-3); background: var(--a-hover); transform: translateX(2px); }
+  .st-row:hover .st-go, .st-tile:hover .st-go { border-color: var(--a-ink-3); background: var(--a-hover); }
   .st-tile:hover .st-tile__art > * { transform: translateY(-2px); }
 }
 
@@ -598,6 +606,7 @@ html[data-theme='light'] .st-cta { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.
 .st-dial { fill: var(--a-raised); stroke: var(--a-accent-text); stroke-width: 2; }
 .st-dial-hand { stroke: var(--a-ink); stroke-width: 2.2; }
 .st-accent-fill { fill: var(--volt); }
+.st-tick--drawn { stroke-width: 1.6; }
 .st-tick { stroke: #182000; stroke-width: 2.6; stroke-dasharray: 1; stroke-dashoffset: 1; animation: st-ink 420ms var(--mk-settle) 280ms forwards; }
 @keyframes st-ink { to { stroke-dashoffset: 0; } }
 :root[data-motion='reduced'] .st-tick { animation: none; stroke-dashoffset: 0; }

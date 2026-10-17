@@ -104,6 +104,24 @@ export function DrawnGraphic({ kind, size = 64 }) {
       </span>
     );
   }
+  if (kind === 'chapters') {
+    // By chapter: a short list of chapters with a tick against two of them (the picker itself, drawn).
+    return (
+      <span className="st-draw st-draw--chapters" style={{ width: size, height: size }} aria-hidden="true">
+        <svg viewBox="0 0 64 64" width={size} height={size} focusable="false">
+          <rect x="10" y="10" width="44" height="44" rx="7" className="st-ink-surface" />
+          {[0, 1, 2].map((i) => (
+            <g key={i}>
+              <rect x="16" y={18 + i * 11} width="8" height="8" rx="2.5" className={i === 2 ? 'st-ink-faint' : 'st-accent-fill'} />
+              <rect x="28" y={20.5 + i * 11} width={i === 1 ? 14 : 19} height="3" rx="1.5" className={i === 2 ? 'st-ink-faint' : 'st-ink-line'} />
+            </g>
+          ))}
+          <path d="M17.6 22.4 L19.4 24.1 L22.6 20.4" className="st-tick st-tick--drawn" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M17.6 33.4 L19.4 35.1 L22.6 31.4" className="st-tick st-tick--drawn" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </span>
+    );
+  }
   if (kind === 'resume') {
     return (
       <span className="st-draw st-draw--resume" style={{ width: size, height: size }} aria-hidden="true">
@@ -176,6 +194,7 @@ export function RowArt({ graphic, subject, subjects, size = 64, height, priority
   if (graphic === 'fan') return <SubjectFan subjects={subjects} size={size} />;
   if (graphic === 'stopwatch') return <Stopwatch width={Math.round(size * 0.8)} />;
   if (graphic === 'exam') return <ExamPanel width={Math.round(size * 1.15)} height={Math.round(size * 0.97)} />;
+  if (graphic === 'weights') return <WeightsGlyph width={Math.round(size * 0.8)} height={Math.round(size * 0.74)} />;
   return <DrawnGraphic kind={graphic === 'subject' ? 'check' : graphic} size={size} />;
 }
 

@@ -54,6 +54,7 @@
 .app-shell .cp-chap[data-on] i { background: var(--a-select); box-shadow: none; }
 .app-shell .cp-chap[data-on] i svg { opacity: 1; stroke-dashoffset: 0; }
 html[data-theme='light'] .app-shell .cp-chap i { color: #fff; }
+.app-shell .cp-mark { padding: 0 1px; border-radius: 3px; background: var(--a-volt-wash); box-shadow: inset 0 -2px 0 var(--a-select); color: inherit; font-weight: 700; }
 .app-shell .cp-chap[aria-disabled='true'] { opacity: 0.45; cursor: not-allowed; }
 .app-shell .cp-none { margin: 4px 2px; font-size: 14px; line-height: 1.45; color: var(--a-ink-2); }
 .app-shell .cp-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding-top: 10px; border-top: 1px solid var(--a-line); font-size: 14px; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }

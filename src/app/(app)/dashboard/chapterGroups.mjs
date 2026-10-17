@@ -58,17 +58,31 @@ export function searchKey(value) {
 }
 
 /**
- * The units that match a search, each with only its matching chapters. A unit whose name matches keeps all of its
- * chapters; units with no match fold away. An empty query returns the units as they are.
+ * The units that match a search, each with only its matching chapters. Matching is on the chapter's own name, so every
+ * chapter shown contains what was typed (owner F8: find a chapter by typing it). Only when no chapter name matches does a
+ * unit's name count, and then that unit shows all its chapters ("reconstitution" finds the four chapters of that unit).
+ * Units with no match fold away. An empty query returns the units as they are.
  */
 export function filterUnits(units = [], query = '') {
   const needle = searchKey(query);
   if (!needle) return units;
-  return units.map((unit) => {
-    if (unit.name && searchKey(unit.name).includes(needle)) return unit;
+  const byChapter = units.map((unit) => {
     const chapters = unit.chapters.filter((chapter) => searchKey(chapter.name).includes(needle));
     return chapters.length ? { ...unit, chapters } : null;
   }).filter(Boolean);
+  if (byChapter.length) return byChapter;
+  return units.filter((unit) => unit.name && searchKey(unit.name).includes(needle));
+}
+
+/**
+ * Where the typed text sits in a chapter name, for the highlight: [start, end] in the name's own characters, or null.
+ * Case-insensitive on the raw text ("&" and punctuation forgiveness only decide the match, not the highlight).
+ */
+export function matchRange(name = '', query = '') {
+  const needle = String(query || '').trim().toLowerCase();
+  if (!needle) return null;
+  const at = String(name).toLowerCase().indexOf(needle);
+  return at >= 0 ? [at, at + needle.length] : null;
 }
 
 /** Adds or removes one chapter; never past MAX_CHAPTERS. Returns the new list (the same list when nothing changes). */

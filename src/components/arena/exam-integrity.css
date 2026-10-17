@@ -19,7 +19,6 @@
 .ei-btn:active { transform: translateY(1px); }
 .ei-btn:disabled { opacity: .65; cursor: wait; }
 .ei-btn:focus-visible { outline: 3px solid var(--a-focus, #d2f000); outline-offset: 3px; }
-.ei-card .ei-fine { font-size: 12px; line-height: 1.5; color: var(--a-ink-3, #a1a1aa); }
 .ei-card .ei-error, .ei-dialog[data-phase='terminated'] .ei-submission { color: var(--a-bad-text, #fca5a5); }
 .nta-runner:fullscreen { height: 100dvh; width: 100%; overflow: auto; padding-bottom: env(safe-area-inset-bottom); }
 .nta-integrity-status { display: flex; justify-content: flex-end; padding: 8px clamp(18px, 2vw, 28px); background: var(--a-raised, #131a16); }

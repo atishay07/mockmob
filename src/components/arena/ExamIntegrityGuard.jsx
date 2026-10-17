@@ -16,7 +16,7 @@ export function useExamIntegrity({ enabled, storageKey, fullscreenTarget, onTerm
 
   useEffect(() => {
     if (!enabled) return undefined;
-    let stored = 0; let disposed = false; let blurTimer;
+    let stored = 0; let disposed = false;
     try { stored = readStoredStrikes(window.localStorage.getItem(storageKey)); } catch {}
     const fullscreenSupported = !!fullscreenTarget.current?.requestFullscreen && document.fullscreenEnabled !== false;
     const controller = createIntegrityMonitor({ count: stored,
@@ -36,10 +36,13 @@ export function useExamIntegrity({ enabled, storageKey, fullscreenTarget, onTerm
     const back = () => {
       if (!document.hidden && document.hasFocus() && (!fullscreenSupported || document.fullscreenElement === fullscreenTarget.current)) controller.returned();
     };
+    // A hidden tab (another tab or app in front) counts at once. A lost focus with the test still showing counts only after
+    // 3 s away (a notification or a system prompt taking focus for a moment is not a warning); focus coming back sooner
+    // cancels it. Fullscreen exits count at once (data/exam_integrity.mjs, owner W-023).
     const onVis = () => document.hidden ? controller.violation('hidden') : back();
     const onBlur = () => {
-      clearTimeout(blurTimer);
-      blurTimer = setTimeout(() => { if (!disposed && !requesting.current && !document.hasFocus()) controller.violation('blur'); }, 150);
+      if (requesting.current) return;
+      controller.lostFocus(() => !disposed && !requesting.current && !document.hasFocus());
     };
     const onFullscreen = () => {
       if (!requesting.current && document.fullscreenElement !== fullscreenTarget.current) controller.violation('fullscreen');
@@ -50,7 +53,7 @@ export function useExamIntegrity({ enabled, storageKey, fullscreenTarget, onTerm
     window.addEventListener('blur', onBlur); window.addEventListener('focus', back);
     for (const type of ['copy', 'cut', 'paste', 'contextmenu']) document.addEventListener(type, stop);
     return () => {
-      disposed = true; controller.stop(); clearTimeout(blurTimer);
+      disposed = true; controller.stop();
       document.removeEventListener('fullscreenchange', onFullscreen);
       document.removeEventListener('visibilitychange', onVis);
       window.removeEventListener('blur', onBlur); window.removeEventListener('focus', back);
@@ -77,7 +80,7 @@ export function useExamIntegrity({ enabled, storageKey, fullscreenTarget, onTerm
 }
 
 export function IntegrityPill({ strikes }) {
-  return <span className="ei-pill" data-strikes={strikes} title="Fullscreen exit or leaving the test is a warning. Warning 3 submits your answers."><Eye size={14} aria-hidden="true" />Warnings {strikes}/{INTEGRITY_STRIKES}</span>;
+  return <span className="ei-pill" data-strikes={strikes} title="Leaving fullscreen or switching tabs or apps is a warning. Warning 3 submits your answers."><Eye size={14} aria-hidden="true" />Warnings {strikes}/{INTEGRITY_STRIKES}</span>;
 }
 
 export function IntegrityOverlay({ alert, onResume, onRetry, submitting, error, supported, entering, fullscreenError }) {
@@ -93,11 +96,10 @@ export function IntegrityOverlay({ alert, onResume, onRetry, submitting, error, 
       {entry ? <Maximize size={28} aria-hidden="true" /> : <ShieldAlert size={28} aria-hidden="true" />}
       <h2 id="ei-title">{entry ? 'Enter your exam space' : ended ? 'Session ended' : `Warning ${alert.count} of ${INTEGRITY_STRIKES}`}</h2>
       <p id="ei-body">{entry ? supported ? 'NTA mode uses the entire screen. Enter fullscreen to answer. Your session timer is already running.' : 'This browser does not support fullscreen. Stay in this test window; leaving it still counts as a warning.' : ended ? 'You reached three warnings. Answering is locked. We will submit the answers you already saved.' : `${VIOLATION_LABEL[alert.reason] || 'You left the test'}. The timer keeps running. ${alert.remaining === 1 ? 'One more warning will end and submit your session.' : 'Two more warnings will end and submit your session.'}`}</p>
-      {!ended ? <ul className="ei-rules"><li>Fullscreen exits, tab switches and leaving the window count as warnings.</li><li>Copy, paste and right-click are disabled.</li><li>The third warning submits your current answers.</li></ul> : null}
+      {!ended ? <ul className="ei-rules"><li>Leaving fullscreen or switching tabs or apps is a warning at once. Losing focus for under 3 seconds is not.</li><li>Copy, paste and right-click are off.</li><li>The third warning submits your current answers.</li></ul> : null}
       <ol className="ei-strikes" aria-label={`${alert.count} of ${INTEGRITY_STRIKES} warnings`}>{Array.from({ length: INTEGRITY_STRIKES }, (_, i) => <li key={i} data-on={i < alert.count} aria-hidden="true" />)}</ol>
       {fullscreenError ? <p className="ei-error" role="alert">{fullscreenError}</p> : null}
       {ended ? <><p className="ei-submission" role="status">{submitting ? 'Submitting your saved answers…' : error || 'Confirming your result…'}</p>{!submitting && error ? <button type="button" className="ei-btn" onClick={onRetry}>Retry submission</button> : null}</> : <button type="button" className="ei-btn" disabled={entering} onClick={onResume}>{entering ? 'Opening fullscreen…' : supported ? entry ? 'Enter fullscreen' : 'Return to fullscreen' : 'Continue in this window'}</button>}
-      <p className="ei-fine">Browser safeguards let you exit with Escape or switch apps. These exits are detected here; this is not server-verified proctoring.</p>
     </div>
   </dialog>;
 }

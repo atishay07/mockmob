@@ -7,7 +7,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as h from './nta_e2e_harness.mjs';
 import { TEST_MODES, fineTuneScope, fineTuneViolation } from '../test_modes.js';
-import { MAX_CHAPTERS, chapterUnits, chaptersForMode, filterUnits, searchKey, toggleChapter, toggleUnit } from '../../src/app/(app)/dashboard/chapterGroups.mjs';
+import { MAX_CHAPTERS, chapterUnits, chaptersForMode, filterUnits, matchRange, searchKey, toggleChapter, toggleUnit } from '../../src/app/(app)/dashboard/chapterGroups.mjs';
 
 test('the scope table: chapters for Quick practice only, difficulty for Quick practice and Full mock', () => {
   assert.deepEqual(fineTuneScope('quick'), { chapters: true, difficulty: true });
@@ -78,14 +78,20 @@ test('grouped bodies keep their units; one chapter per unit renders flat', () =>
   assert.deepEqual(empty, { units: [], count: 0, flat: true });
 });
 
-test('search ignores case and punctuation, reads & as and, matches unit names, and folds empty units away', () => {
+test('search ignores case and punctuation, reads & as and, matches chapter names first (unit names only as a fallback), and folds empty units away', () => {
   const { units } = chapterUnits(ACCOUNTANCY_FLAT, 'accountancy');
   assert.equal(searchKey('Profit & Loss'), 'profit and loss');
   const goodwill = filterUnits(units, 'GOODWILL');
   assert.deepEqual(goodwill.map((unit) => unit.name), ['Reconstitution of a Partnership firm']);
   assert.deepEqual(goodwill[0].chapters.map((c) => c.name), ['Goodwill Valuation']);
   assert.ok(filterUnits(units, 'and').some((unit) => unit.chapters.some((c) => c.name === 'Profit & Loss Appropriation Account')));
-  assert.equal(filterUnits(units, 'reconstitution')[0].chapters.length, 4, 'a unit name match keeps the whole unit');
+  assert.equal(filterUnits(units, 'reconstitution')[0].chapters.length, 4, 'with no chapter match, a unit name match keeps the whole unit');
+  // A chapter-name match wins: every chapter shown contains what was typed (verifier W-005: 'partn' listed unit-only hits).
+  const partn = filterUnits(units, 'partn');
+  assert.ok(partn.length > 0);
+  for (const unit of partn) for (const c of unit.chapters) assert.ok(searchKey(c.name).includes('partn'), c.name);
+  assert.deepEqual(matchRange('Admission of Partner', 'partn'), [13, 18]);
+  assert.equal(matchRange('Goodwill Valuation', 'xyz'), null);
   assert.deepEqual(filterUnits(units, 'xyz'), []);
   assert.equal(filterUnits(units, '  '), units);
 });

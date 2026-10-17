@@ -60,35 +60,33 @@ function fullMockHref(subjectId, isPremium, key) {
 }
 
 const NTA_LOADING_STEPS = [
-  'Checking available evidence',
-  'Selecting your question mix',
-  'Creating your session',
+  'checking the evidence behind each question',
+  'choosing your question mix',
+  'creating your session',
 ];
 
+// The NTA paper's loading screen: the stopwatch the Full mock and NTA start key carries (drawn, so the runner loads no
+// image), its hand going round while the paper is built (owner, 15 Oct: "the clock doing a 360"). No glowing dot, no numbered badges; the steps are said once,
+// in order, as what is happening (never ticked off, because the page cannot see which one the server is on).
 function NtaValidationSpinner({ subjectId }) {
   return (
-    <div className="container-narrow max-w-3xl px-4 pt-16">
-      <div className="glass p-6 md:p-8">
-        <div className="flex items-start gap-4">
-          <div className="w-3 h-3 mt-2 rounded-full bg-volt animate-pulse-slow shadow-[0_0_18px_var(--volt)]" />
-          <div className="min-w-0">
-            <div className="mono-label mb-2">Preparing practice</div>
-            <h1 className="heading text-2xl md:text-3xl text-white">Building your verified {displayLabel(subjectId)} mock.</h1>
-            <p className="text-sm text-zinc-400 mt-3 max-w-xl">
-              Selecting questions with current verification evidence before the timer starts.
-            </p>
-            <div className="grid gap-2 mt-6">
-              {NTA_LOADING_STEPS.map((step, index) => (
-                <div key={step} className="flex items-center gap-3 rounded-md border border-white/10 bg-white/[0.03] px-3 py-2 text-sm text-zinc-300">
-                  <span className="flex h-6 w-6 items-center justify-center rounded-full border border-volt/40 text-[11px] font-bold text-volt">
-                    {index + 1}
-                  </span>
-                  <span>{step}</span>
-                </div>
-              ))}
-            </div>
-            <p className="mono-label mt-5 text-zinc-500">This can take up to 30 seconds.</p>
-          </div>
+    <div className="container-narrow max-w-3xl px-4 pt-10">
+      <div className="nta-build" role="status" aria-live="polite">
+        <svg className="nta-build__watch" viewBox="0 0 64 72" width="56" height="63" aria-hidden="true" focusable="false">
+          <rect x="26" y="2" width="12" height="7" rx="2.5" className="nta-build__crown" />
+          <rect x="30" y="8" width="4" height="6" className="nta-build__crown" />
+          <circle cx="32" cy="42" r="27" className="nta-build__case" />
+          <circle cx="32" cy="42" r="22.5" className="nta-build__face" />
+          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((i) => (
+            <line key={i} x1="32" y1={i % 3 ? 22.5 : 21.5} x2="32" y2={i % 3 ? 25 : 27} transform={`rotate(${i * 30} 32 42)`} className="nta-build__tick" />
+          ))}
+          <g className="nta-build__hand"><line x1="32" y1="42" x2="32" y2="24.5" /></g>
+          <circle cx="32" cy="42" r="2.6" className="nta-build__pin" />
+        </svg>
+        <div className="min-w-0">
+          <h1 className="nta-build__title">Building your {displayLabel(subjectId)} paper</h1>
+          <p className="nta-build__line">Right now we are {NTA_LOADING_STEPS.join(', then ')}.</p>
+          <p className="nta-build__line nta-build__line--quiet">This can take up to 30 seconds. Your timer starts when the questions are ready.</p>
         </div>
       </div>
     </div>
@@ -1196,7 +1194,7 @@ function TestRunner() {
 
   return (
     <div ref={fullscreenTarget} className={practiceRun ? 'nta-runner pr-run' : 'nta-runner'} data-interface={classicInterface ? 'nta' : 'mockmob'}>
-      <div role="status" className="runner-sync-state">{pendingSubmission ? 'Waiting for server confirmation. Answers are held on this device until the submission window ends.' : !online ? 'You are offline. Answers stay on this device and the timer continues. Reconnect before submitting.' : selectionMeta?.sessionTicket ? 'Answers are saved on this device. Stay online when submitting. Existing practice-bank content is still being audited.' : syncStatus === 'pending' ? 'Waiting for connection. Answers stay on this device; synchronize before the timer ends.' : 'Practice saves to your account while online.'}</div>
+      <div role="status" className="runner-sync-state">{pendingSubmission ? 'Waiting for server confirmation. Answers are held on this device until the submission window ends.' : !online ? 'You are offline. Answers stay on this device and the timer continues. Reconnect before submitting.' : selectionMeta?.sessionTicket ? 'Saved on this device. Stay online to submit. Bank in review.' : syncStatus === 'pending' ? 'Waiting for connection. Answers stay on this device; synchronize before the timer ends.' : 'Practice saves to your account while online.'}</div>
       {isNtaMode ? <IntegrityOverlay alert={integrity.alert} onResume={integrity.resume} onRetry={submitTest} submitting={submitting} error={error} supported={integrity.supported} entering={integrity.entering} fullscreenError={integrity.fullscreenError} /> : null}
       {error && integrity.alert?.phase !== 'terminated' && <div role="alert" className="runner-submit-error">{error}<button type="button" onClick={submitTest}>Retry submission</button></div>}
       {showVoteCoach && (

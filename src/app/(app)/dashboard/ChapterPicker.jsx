@@ -8,10 +8,17 @@
 // The rules (grouping, search, the 12-chapter limit) are pure, in chapterGroups.mjs, and tested.
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { Check, Search, X } from 'lucide-react';
-import { MAX_CHAPTERS, filterUnits, toggleChapter, toggleUnit } from './chapterGroups.mjs';
+import { MAX_CHAPTERS, filterUnits, matchRange, toggleChapter, toggleUnit } from './chapterGroups.mjs';
 
 function wideLayout() {
   try { return window.matchMedia('(min-width: 1024px)').matches; } catch { return true; }
+}
+
+// The typed text, marked inside the chapter's name, so a match reads at a glance.
+function Marked({ text, query }) {
+  const range = matchRange(text, query);
+  if (!range) return text;
+  return <>{text.slice(0, range[0])}<mark className="cp-mark">{text.slice(range[0], range[1])}</mark>{text.slice(range[1])}</>;
 }
 
 function ChapterList({ units, flat, chosen, onToggle, onUnit, query, onClearQuery }) {
@@ -48,7 +55,7 @@ function ChapterList({ units, flat, chosen, onToggle, onUnit, query, onClearQuer
                   <button key={chapter.id || chapter.name} type="button" role="checkbox" aria-checked={on} aria-disabled={blocked || undefined}
                     className="cp-chap" data-on={on || undefined} onClick={() => { if (!blocked) onToggle(chapter.name); }}>
                     <i aria-hidden="true"><Check size={13} strokeWidth={3} /></i>
-                    <span>{chapter.name}</span>
+                    <span><Marked text={chapter.name} query={query} /></span>
                   </button>
                 );
               })}
@@ -60,7 +67,7 @@ function ChapterList({ units, flat, chosen, onToggle, onUnit, query, onClearQuer
   );
 }
 
-export default function ChapterPicker({ subjectName = '', data, chosen = [], onChange, onRetry, buttonRef }) {
+export default function ChapterPicker({ subjectName = '', data, chosen = [], onChange, onRetry, buttonRef, autoOpen = false }) {
   const { state = 'loading', units = [], count = 0, flat = false } = data || {};
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
@@ -98,6 +105,19 @@ export default function ChapterPicker({ subjectName = '', data, chosen = [], onC
   }, [sheet, trigger]);
 
   useEffect(() => { if (open) searchRef.current?.focus({ preventScroll: true }); }, [open]);
+
+  // ?pick=chapters (the Start sheet's By chapter row): once the chapters are in, the list opens by itself, one time.
+  const autoOpened = useRef(false);
+  useEffect(() => {
+    if (!autoOpen || autoOpened.current || state !== 'ready' || !count) return undefined;
+    autoOpened.current = true;
+    const id = window.setTimeout(() => {
+      trigger.current?.scrollIntoView?.({ block: 'center' });
+      if (wideLayout()) setOpen(true);
+      else { setDraft(chosen); setSheet(true); }
+    }, 0);
+    return () => window.clearTimeout(id);
+  }, [autoOpen, state, count, chosen, trigger]);
 
   const live = sheet ? draft : chosen;
   // Updates go through a function of the current choice, so quick presses in a row each count.
