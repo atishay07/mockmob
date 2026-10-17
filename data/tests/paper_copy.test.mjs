@@ -108,8 +108,10 @@ test('the prices the copy names are the prices the code charges', () => {
   assert.equal(TEST_MODES.full.fixedDurationSec, 3600);
   // Pro spends nothing on any mode; Free pays the mode's credit action per paper.
   const sessions = read('src/lib/server/practiceSessions.js');
-  assert.match(sessions, /p_credit_action: user\?\.isPremium \? null : mode\.creditAction/);
-  assert.match(sessions, /if \(!user\?\.isPremium && mode\.creditAction\)/);
+  assert.match(sessions, /p_credit_action: charge\.creditAction/);
+  assert.match(read('data/practice_charge.js'), /if \(isPremium\) return \{ creditAction: null, quota: null \}/);
+  assert.match(read('data/practice_charge.js'), /creditAction: creditAction \|\| null/);
+  assert.match(sessions, /if \(charge\.creditAction\)/);
   // No per-day or per-subject count of papers: the only guard on starting is the request rate limit.
   assert.doesNotMatch(sessions, /max(Mocks|Papers)|papersPerDay|mockLimit/i);
   // New accounts start with 100 practice credits, and an approved upload grants 15.
