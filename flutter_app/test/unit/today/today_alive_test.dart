@@ -20,12 +20,12 @@ import 'package:mockmob/features/today/logic/week_chip.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
 import 'package:mockmob/features/today/widgets/header_mobi.dart';
 import 'package:mockmob/features/today/widgets/hero_stage.dart';
-import 'package:mockmob/features/today/widgets/length_pill.dart' show LengthPanel, LengthPill;
+import 'package:mockmob/features/today/widgets/length_pill.dart' show LengthPanel;
 import 'package:mockmob/features/today/widgets/paper_trend.dart' show trendDot;
 import 'package:mockmob/features/today/widgets/resume_hero.dart';
 import 'package:mockmob/features/today/widgets/road_timeline.dart';
 import 'package:mockmob/features/today/widgets/sealed_hero.dart';
-import 'package:mockmob/features/today/widgets/sheet_section.dart' show CountedMarks;
+import 'package:mockmob/features/today/widgets/sheet_section.dart' show CountedMarks, SheetSection;
 import 'package:mockmob/features/today/widgets/week_ledger.dart';
 
 import '../../golden/today/today_golden_support.dart';
@@ -152,8 +152,8 @@ void main() {
         disableAnimations: true,
         overrides: [auth],
       );
-      // The length is a pill that opens a small panel; choosing a row is the pick.
-      await tester.tap(find.byType(LengthPill));
+      // Change length is a pill under the key that opens a small panel; choosing a row is the pick.
+      await tester.tap(find.text(TodayCopy.changeLength));
       await tester.pumpAndSettle();
       await tester.tap(find.descendant(of: find.byType(LengthPanel), matching: find.text('5 min')));
       await tester.pumpAndSettle();
@@ -305,13 +305,11 @@ void main() {
     testWidgets('the strip names itself, and a tap on a dot opens that paper', (tester) async {
       final semantics = tester.ensureSemantics();
       final events = <Object>[];
+      // The trend and the papers moved from Today to Review's History (TODAY-1017 section 7).
+      final view = buildToday(ashaInputs());
       await pumpMockmob(
         tester,
-        TodayBody(
-          view: buildToday(ashaInputs()),
-          callbacks: TodayCallbacks(onAction: events.add, onTarget: events.add, onMinutes: (_) {}),
-          skeletonDelay: Duration.zero,
-        ),
+        SingleChildScrollView(child: SheetSection(rows: view.sheet, papers: view.papers, trend: view.trend, onOpen: events.add)),
         size: const Size(384, 2400),
         disableAnimations: true,
         overrides: [auth],

@@ -25,9 +25,14 @@ class TodayRows extends StatelessWidget {
     this.onColleges,
     this.onChoose,
     this.onRetry,
+    this.showColleges = true,
   });
 
   final LastPaper? lastPaper;
+
+  /// The colleges row shows while the admission season is ahead (the road is on screen); after
+  /// the window closes Today carries no CSAS figures.
+  final bool showColleges;
 
   /// The first of My colleges, or null when the list is empty.
   final LadderRung? firstCollege;
@@ -62,9 +67,11 @@ class TodayRows extends StatelessWidget {
             onTap: onPaper == null ? null : () => onPaper!(paper.target),
           ),
         ],
-        rule,
-        _colleges(context),
-        rule,
+        if (showColleges) ...[
+          rule,
+          _colleges(context),
+        ],
+        if (paper != null || showColleges) rule,
       ],
     );
   }

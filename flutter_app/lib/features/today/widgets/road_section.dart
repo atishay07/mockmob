@@ -281,6 +281,10 @@ class _RoadSectionState extends State<RoadSection> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _heading(road, board),
+          if (road.phase == RoadPhase.window) ...[
+            const SizedBox(height: MmSpace.s4),
+            Text(TodayCopy.windowOpen, style: type.labelLarge.copyWith(color: colors.ink)),
+          ],
           const SizedBox(height: MmSpace.s16),
           RoadTimeline(today: road.today, stops: road.stops, end: road.end),
           if (road.stops.isNotEmpty) ...[

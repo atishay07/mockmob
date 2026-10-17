@@ -614,6 +614,7 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
           onColleges: () => callbacks.onTarget(const GoTo(ToolsPaths.colleges)),
           onChoose: callbacks.onChooseColleges,
           onRetry: callbacks.onCollegesRetry,
+          showColleges: road != null,
         ),
       ),
     ];

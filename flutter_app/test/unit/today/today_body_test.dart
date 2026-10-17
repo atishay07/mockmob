@@ -9,9 +9,10 @@ import 'package:mockmob/core/repositories/rhythm_seen_repository.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show rhythmPrefsStoreProvider;
 import 'package:mockmob/features/rhythm/rhythm.dart';
+import 'package:mockmob/features/today/widgets/today_week.dart';
+import 'package:mockmob/features/today/widgets/road_strip.dart';
 import 'package:mockmob/features/today/widgets/header_mobi.dart';
 import 'package:mockmob/features/today/widgets/length_pill.dart';
-import 'package:mockmob/features/today/widgets/week_ledger.dart';
 import 'package:mockmob/features/today/widgets/today_celebration.dart';
 import 'package:mockmob/core/router/routes.dart';
 import 'package:mockmob/features/today/copy.dart';
@@ -59,14 +60,25 @@ void main() {
     return events;
   }
 
-  testWidgets('the volt pill starts the repair; Show me reports back; the length pill is beside the key', (tester) async {
+  /// Opens the week-by-week rail in place: a tap on the strip (TODAY-1017 4.4).
+  Future<void> openRail(WidgetTester tester) async {
+    final strip = find.byType(RoadStrip);
+    await tester.ensureVisible(strip);
+    final r = tester.getRect(strip);
+    await tester.tapAt(Offset(r.left + r.width * 0.3, r.top + 80));
+    await tester.pumpAndSettle();
+  }
+
+  testWidgets('the volt key starts the repair; See why reports back; the length sits in the key', (tester) async {
     final events = await pumpToday(tester, buildToday(ashaInputs()));
-    expect(find.byType(LengthPill), findsOneWidget, reason: 'a move with more than one length shows its length every day');
-    expect(find.text('15 min'), findsOneWidget, reason: 'the pill says the length once');
-    expect(find.text('Start repair'), findsOneWidget, reason: 'the key says the verb, not the length again');
-    expect(find.bySemanticsLabel(TodayCopy.startRepair(15)), findsOneWidget, reason: 'a screen reader still hears the length on the key');
+    // TODAY-1017 4.2: "Start repair  15 min" in one key, then Change length and Something else.
+    expect(find.text(TodayCopy.changeLength), findsOneWidget, reason: 'a move with more than one length offers to change it');
+    expect(find.text(TodayCopy.somethingElse), findsOneWidget);
+    expect(find.text('15 min'), findsOneWidget, reason: 'the key says the length once, after the verb');
+    expect(find.text('Start repair'), findsOneWidget);
+    expect(find.bySemanticsLabel(TodayCopy.startRepair(15)), findsOneWidget, reason: 'a screen reader hears the whole key');
     await tester.tap(find.text('Start repair'));
-    await tester.tap(find.textContaining(TodayCopy.showMe, findRichText: true));
+    await tester.tap(find.textContaining(TodayCopy.seeWhy, findRichText: true));
     await tester.pump();
     final action = events.whereType<TodayAction>().single;
     expect((action.target as GoTo).location, startsWith(AppRoutes.reviewRepair('m7', 'm7-q3')));
@@ -85,13 +97,17 @@ void main() {
   testWidgets('a sheet row opens its result; the sealed one opens the sealed sheet', (tester) async {
     final events = await pumpToday(tester, buildToday(ashaInputs(unopened: [(attemptId: 'm7', receivedAt: tuesdayEvening)])));
     await tester.tap(find.text(TodayCopy.openDirectly));
-    await tester.tap(find.text('Mock 6'));
+    // The Last paper row is the newest opened paper (Mock 7 is still sealed): the Business
+    // Studies quick paper from four days before.
+    final row = find.textContaining(', Business Studies');
+    await tester.ensureVisible(row);
+    await tester.tap(row);
     await tester.pump();
     final locations = [
       for (final e in events)
         if (e is TodayAction) (e.target as GoTo).location else if (e is GoTo) e.location,
     ];
-    expect(locations, [AppRoutes.result('m7'), AppRoutes.result('m6')]);
+    expect(locations, [AppRoutes.result('m7'), AppRoutes.practiceResult('q1')]);
   });
 
   testWidgets('the error state names what did not load, offers Try again and a way to practise', (tester) async {
@@ -114,9 +130,10 @@ void main() {
 
   testWidgets('the week in the header has one spoken summary and opens the week', (tester) async {
     final events = await pumpToday(tester, buildToday(ashaInputs()));
-    final week = find.bySemanticsLabel(RegExp('^1 of 4 study days'));
+    final week = find.bySemanticsLabel(RegExp('^This week, 1 of 4 study days'));
     expect(week, findsOneWidget);
-    await tester.tap(find.descendant(of: find.byType(WeekLedger), matching: find.textContaining('study days')));
+    await tester.ensureVisible(find.byType(TodayWeekRow));
+    await tester.tap(find.byType(TodayWeekRow));
     await tester.pump();
     expect(events, contains('week'));
   });
@@ -139,7 +156,7 @@ void main() {
   testWidgets('a practice move offers 5, 10 and 20 questions and the panel reports the count', (tester) async {
     final inputs = ashaInputs(attempts: [accountancyMock('clean', daysBefore(tuesdayEvening, 1))]);
     final events = await pumpToday(tester, buildToday(inputs));
-    await tester.tap(find.byType(LengthPill));
+    await tester.tap(find.text(TodayCopy.changeLength));
     await tester.pumpAndSettle();
     Finder row(String n) => find.descendant(of: find.byType(LengthPanel), matching: find.text(n));
     expect(find.descendant(of: find.byType(LengthPanel), matching: find.text(TodayCopy.practiceLength)), findsOneWidget);
@@ -156,10 +173,12 @@ void main() {
     await pumpToday(tester, buildToday(ashaInputs()));
     final road = find.text(TodayCopy.roadTitle);
     await tester.scrollUntilVisible(road, 300, scrollable: find.byType(Scrollable).first);
+    await openRail(tester);
     final stops = buildToday(ashaInputs()).road!.stops;
     for (final stop in stops) {
       final chip = find.textContaining('${stop.title},');
-      expect(chip, findsOneWidget, reason: stop.title);
+      // The exam's chip shares its words with the strip's flag ("CUET UG, 1 May").
+      expect(chip, stop.kind == RoadStopKind.exam ? findsWidgets : findsOneWidget, reason: stop.title);
       if (stop.kind == RoadStopKind.exam) continue;
       await tester.ensureVisible(chip);
       await tester.tap(chip);
@@ -172,6 +191,7 @@ void main() {
     final view = buildToday(ashaInputs());
     await pumpToday(tester, view);
     await tester.scrollUntilVisible(find.text(TodayCopy.roadTitle), 300, scrollable: find.byType(Scrollable).first);
+    await openRail(tester);
     expect(view.road!.stops.where((s) => s.expected).length, 3);
     final boards = view.road!.stops.firstWhere((s) => s.kind == RoadStopKind.boards);
     final chip = find.textContaining('${boards.title},');
@@ -205,7 +225,7 @@ void main() {
     await pumpToday(tester, buildToday(ashaInputs(now: DateTime.utc(2027, 5, 10, 8))));
     await tester.scrollUntilVisible(find.text(TodayCopy.windowOpen), 300, scrollable: find.byType(Scrollable).first);
     expect(find.text(TodayCopy.windowOpen), findsOneWidget);
-    expect(find.text(TodayCopy.collegesTitle), findsOneWidget, reason: 'the colleges card stays');
+    expect(find.text(TodayCopy.collegesRowTitle), findsOneWidget, reason: 'the colleges row stays');
   });
 
   testWidgets('once the exam window has closed Today shows no road and no CSAS wording', (tester) async {
@@ -213,21 +233,23 @@ void main() {
     expect(view.road, isNull);
     await pumpToday(tester, view);
     expect(find.text(TodayCopy.roadTitle), findsNothing);
-    expect(find.text(TodayCopy.collegesTitle), findsNothing);
+    expect(find.text(TodayCopy.collegesRowTitle), findsNothing);
     expect(find.textContaining('CSAS'), findsNothing);
   });
 
-  testWidgets('the college ladder caption uses plain words, not portal names', (tester) async {
+  testWidgets('the colleges row uses plain words, not portal names, and no estimate', (tester) async {
     await pumpToday(tester, buildToday(ashaInputs()));
-    await tester.scrollUntilVisible(find.text(TodayCopy.ladderCaption('UR')), 300, scrollable: find.byType(Scrollable).first);
+    await tester.scrollUntilVisible(find.text(TodayCopy.collegesRowTitle), 300, scrollable: find.byType(Scrollable).first);
     expect(find.textContaining('CSAS'), findsNothing);
     expect(find.textContaining('admission.uod'), findsNothing);
-    expect(find.text(TodayCopy.ladderCaption('UR')), findsOneWidget);
+    expect(find.text('Shri Ram College of Commerce'), findsOneWidget);
+    expect(find.text('B.Com (Hons), 2026 Round 1. 2 more saved.'), findsOneWidget);
   });
 
   testWidgets('the header Mobi keeps pointing at the move card through a scroll and a text-size change', (tester) async {
+    // TODAY-1017 4.6: no header Mobi on Today; the page still survives a scroll and a text-size change.
     final view = buildToday(ashaInputs());
-    expect(view.header.mobi!.kind, HeaderMobiKind.point);
+    expect(view.header.mobi, isNull);
     await pumpToday(tester, view);
     final list = find.byType(CustomScrollView);
     await tester.drag(list, const Offset(0, -300));
@@ -238,7 +260,7 @@ void main() {
     addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
     await tester.pump(const Duration(milliseconds: 100));
     expect(tester.takeException(), isNull);
-    expect(find.byType(HeaderMobi), findsOneWidget);
+    expect(find.byType(HeaderMobi), findsNothing);
   });
 
   testWidgets('the first repair milestone renders its sentence under the week ending', (tester) async {

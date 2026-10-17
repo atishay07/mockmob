@@ -12,6 +12,7 @@ import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/theme/theme.dart' show MmSpace;
 import 'package:mockmob/core/mascot/mobi_character.dart' show MobiCharacter;
 import 'package:mockmob/core/widgets/widgets.dart' show KeyButton;
+import 'package:mockmob/features/today/widgets/today_pill.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
 import 'package:mockmob/features/today/widgets/hero_stage.dart';
@@ -106,7 +107,8 @@ void main() {
 
         // The empty band rule: from the top padding down to the card's last control, every gap
         // between what the card shows is at most one line of body text.
-        final keys = [for (final e in inCard(find.byType(KeyButton)).evaluate()) rectOf(e)];
+        // The key and the two pills under it (TODAY-1017 4.2) are the card's controls.
+        final keys = [for (final e in inCard(find.byType(KeyButton)).evaluate()) rectOf(e), for (final e in inCard(find.byType(TodayPill)).evaluate()) rectOf(e)];
         final blocks = [art, ...digits, ...texts, ...keys]..sort((a, b) => a.top.compareTo(b.top));
         var reach = card.top + MmSpace.cardPadding;
         var widest = 0.0;
