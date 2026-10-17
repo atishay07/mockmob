@@ -210,6 +210,44 @@ void main() {
       }
     }
 
+    // v14: the same promise through the motion, not only at rest. A finger lifts the lens (it grows
+    // 8%) while the icon under it magnifies 10%; a landing squashes it 5% wide and short; a
+    // compact bar holds the icon alone. The widest label the bar allows is assumed.
+    for (final width in const [320.0, 360.0, 390.0, 412.0]) {
+      test('${width.toInt()} dp: a lifted, landing or compact lens never cuts into its icon', () {
+        final geo = BarGeometry(width);
+        for (var slot = 0; slot < kBarSlots; slot++) {
+          final (l, r) = geo.lensEdges(slot);
+          LensShape shape({double lift = 0, double squash = 0, double collapse = 0}) => BarLensPainter.shapeFor(
+            left: l,
+            right: r,
+            collapse: collapse,
+            labelsOut: collapse,
+            restWidth: geo.lensWidth,
+            labelWidth: geo.labelBoxWidth,
+            lift: lift,
+            squash: squash,
+          );
+          Rect icon(double scale, {double collapse = 0}) {
+            final box = geo.iconRect(slot, collapse: collapse);
+            return Rect.fromCenter(center: box.center, width: box.width * scale, height: box.height * scale);
+          }
+
+          final cases = <String, (LensShape, Rect)>{
+            'lifted': (shape(lift: 1), icon(1 + MmBottomBar.magnify)),
+            'landing': (shape(squash: 0.05), icon(1)),
+            'compact': (shape(collapse: 1), icon(1, collapse: 1)),
+            'compact and lifted': (shape(collapse: 1, lift: 1), icon(1 + MmBottomBar.magnify, collapse: 1)),
+          };
+          for (final MapEntry(key: name, value: (lens, box)) in cases.entries) {
+            for (final corner in [box.topLeft, box.topRight, box.bottomLeft, box.bottomRight]) {
+              expect(_insideBy(lens, corner, 2), isTrue, reason: '$name, slot $slot at ${width.toInt()} dp: icon corner $corner, lens $lens');
+            }
+          }
+        }
+      });
+    }
+
     test('the corner radius: a pill when it can be, never under 10, rounder when compact', () {
       // A label far inside: the lens is a full pill.
       expect(BarLensPainter.cornerRadiusFor(width: 70, height: 56, labelWidth: 20, labelsOut: 0), 28);
