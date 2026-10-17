@@ -203,7 +203,9 @@ export default async function LandingPage() {
                 </h1>
               </div>
               <TypeLine lead="Down to" phrases={['the chapter.', 'the minute.', 'the changed answer.', 'the reason.']} label="the chapter, the minute, the changed answer and the reason." />
-              <p className="lp-lead">Then it picks the chapter for tonight and keeps your DU shortlist in sight, all the way to CUET 2027.</p>
+              {/* The exam's name in the brand colour (owner, 15 Oct: "CUET 2027 was colored"): a word in the lead, not a
+                  kicker above the headline and not a button, so it does nothing when tapped. */}
+              <p className="lp-lead">Then it picks the chapter for tonight and keeps your DU shortlist in sight, all the way to <b className="lp-lead__exam">CUET 2027</b>.</p>
               <div className="lp-cta">
                 <HeroKeys />
               </div>
@@ -254,12 +256,13 @@ export default async function LandingPage() {
               ))}
             </p>
             {/* The four launch papers as a lineup: each object stands on one shared floor (a hairline), its name
-                and its real question count under the line. No label above: the statement is the heading. */}
+                and its real question count under the line. No label above: the statement is the heading. The note under
+                the lineup opens with the commerce-first line (owner, L-023), in the hierarchy rather than as stray subtext. */}
             {/* The bank, said once at heading level and calmly (the owner's key difference, 16 Oct 2026), with the four
                 launch papers' real counts under it as its evidence. */}
             <div className="lp-shelf" aria-labelledby="question-bank">
               <h2 className="lp-shelf__title" id="question-bank">One question bank. As many mocks as you want with Pro.</h2>
-              <ul className="lp-shelf__row" aria-label="The four launch papers">
+              <ul className="lp-shelf__row" aria-label="The four commerce launch papers">
                 {SHELF.map(({ id, name, href, depth, tilt, base, sizes }, i) => (
                   <li key={id} className="lp-shelf__item" style={{ '--k': i, '--depth': depth, '--tilt': `${tilt}deg`, '--base': base }}>
                     <Link href={href} className="lp-shelf__link">
@@ -274,7 +277,7 @@ export default async function LandingPage() {
                   fixed set to run out of. On repeats it says only what the selector does: it ranks unanswered questions
                   ahead of answered ones within an evidence tier, and promises nothing more
                   (data/mock_question_selector.js rankCandidates), so an answered question can come back. */}
-              <p className="lp-shelf__note">Every mock is a fresh paper drawn from these questions, not one of a fixed set to run out of. It favours questions you have not answered, though one you have answered can come back.</p>
+              <p className="lp-shelf__note"><b>Commerce papers first.</b> Every mock is a fresh paper drawn from these questions, not a fixed set to run out of. It favours questions you have not answered, though an answered one can come back.</p>
             </div>
           </div>
         </section>
@@ -295,7 +298,7 @@ export default async function LandingPage() {
         <section className="lp-sec lp-sec--tour lp-sh-host" id="your-prep" aria-labelledby="your-prep-title">
           <SectionHeading titleId="your-prep-title" title="What’s inside MockMob."
             sub="Practice, replay, your weak chapters and the plan that ties them together."
-            mini="What’s inside MockMob" />
+            mini={<>What’s inside <em>MockMob</em></>} />
           <div className="mm-wrap">
             <FeatureTour slides={TOUR} />
           </div>

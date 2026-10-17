@@ -68,7 +68,7 @@ html[data-theme='light'] .ml__stage { box-shadow: 0 20px 40px -24px rgba(32, 26,
 .ml__swap[data-tone='bad'] svg { color: #c23a2c; }
 @keyframes ml-pop { 0% { transform: scale(0.82); opacity: 0.2; } 60% { transform: scale(1.06); } 100% { transform: scale(1); opacity: 1; } }
 /* What happened on the tapped question: a plain line under a hairline. */
-.ml__inspect { margin: 0; min-height: 3.6rem; padding: 0.85rem 0 0; border-top: 1px solid rgba(244, 245, 240, 0.1); font-size: 0.9375rem; line-height: 1.55; color: #e3e8dc; }
+.ml__inspect { margin: 0; min-height: 3.6rem; padding: 0.85rem 0 0; border-top: 1px solid rgba(244, 245, 240, 0.1); font-size: 0.875rem; line-height: 1.55; color: #e3e8dc; }
 
 /* 2. leak */
 .ml__leaks { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.05rem; }

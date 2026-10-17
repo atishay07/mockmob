@@ -377,3 +377,7 @@ html[data-theme='light'] .mm.lp .lp-hero--v3 .lp-key--go { box-shadow: 0 var(--b
 }
 .mm.lp .lp-hero--v3 .lp-stage .mm-drill__option[data-state="correct"] .mm-drill__key { background: var(--volt); color: var(--volt-ink); }
 .mm.lp .lp-hero--v3 .lp-stage .mm-drill__option[data-state="correct"] .mm-drill__verdict-icon { color: var(--volt); }
+
+/* The exam's name in the lead, in the brand colour (volt on Night, the deep olive accent on Day for contrast). Plain
+   text weight, no underline and no pointer: it reads as a name, never as a control. */
+.mm.lp .lp-hero--v3 .lp-lead__exam { font-weight: 600; color: var(--accent-text); }

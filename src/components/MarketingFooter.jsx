@@ -87,8 +87,9 @@ export function MarketingFooter() {
 
         <div className="mm-foot__base">
           <p>
-            &copy; {new Date().getFullYear()} MockMob. An independent CUET preparation platform, not
-            affiliated with NTA, the University of Delhi or any official exam body.
+            {/* Plain and positive (owner, L-024: no defensive fine print on public pages). The FAQ answers the
+                affiliation question for anyone who asks it; the terms carry the legal wording. */}
+            &copy; {new Date().getFullYear()} MockMob. An independent CUET preparation platform.
           </p>
         </div>
       </div>

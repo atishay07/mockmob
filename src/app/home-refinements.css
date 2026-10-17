@@ -95,7 +95,7 @@ html[data-theme='light'] .lp .lp-stage .mm-screen { border-color: rgb(16 24 12 /
 /* The preview's Next is a demo control, not the page's action: ink, not volt, so the page keeps one volt key on screen. */
 .lp-exam__actions .lp-exam__save { margin-left: auto; background: var(--exam-ink); border-color: var(--exam-ink); color: var(--exam-panel); }
 .lp-exam__palette { padding: 1.5rem 1.25rem; border-left: 1px solid var(--exam-line); background: var(--exam-panel); }
-.lp-exam__palette-heading h4 { margin: 0 0 .3rem; font-size: .9375rem; font-weight: 600; }
+.lp-exam__palette-heading h4 { margin: 0 0 .3rem; font-size: .875rem; font-weight: 600; }
 .lp-exam__palette-heading > span { font-size: .75rem; color: var(--exam-muted); }
 /* Palette: five live cells and 45 decorative ones share one geometry. minmax(0, 1fr) keeps any
    item from widening a track; the hit slop (::before) reaches the gap midline, never a neighbour. */

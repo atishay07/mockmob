@@ -102,6 +102,8 @@
   color: var(--ink-2);
   text-wrap: pretty;
 }
+/* Its opening words carry the commerce-first line in the note's own size, set in ink. */
+.mm.lp .lp-shelf__note b { font-weight: 600; color: var(--ink); }
 /* Desktop: the statement (36px) on the left seven columns and the bank's heading on the right five, set on the
    statement's last baseline (SLOP-AUDIT 3.3), so the right half carries the page's key difference instead of
    standing empty beside the statement; the lineup then runs the full width under both, and its note sits under it.

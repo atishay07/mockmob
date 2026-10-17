@@ -31,7 +31,7 @@ test('the question bank and unlimited mocks are said at heading level, and alway
   assert.ok(facts.indexOf('Full mocks') >= 0 && facts.indexOf('Full mocks') < facts.indexOf('Two exam screens'), 'the full-mock fact comes first');
   assert.doesNotMatch(facts, /Unlimited/, 'the hero facts do not repeat the shelf heading');
   // The shelf's note is honest that an answered question can come back.
-  assert.match(PAGE, /one you have answered can come back/);
+  assert.match(PAGE, /an answered one can come back/);
 });
 
 test('the bank counts are in the server HTML, read from the stored snapshot', () => {
@@ -196,4 +196,25 @@ test('the exam preview counts against one paper: question n of 50, a 60:00 clock
 test('no first-visit theme hint covers the landing headline', () => {
   const nav = read(new URL('../NavBar.jsx', import.meta.url));
   assert.match(nav, /<ThemeToggle hint=\{!onLanding\} \/>/);
+});
+
+test('the owner’s hero and heading asks hold: CUET 2027 in the brand colour, MockMob green in the docked band, commerce first', () => {
+  // L-017: "CUET 2027" is coloured, as a name in the lead (not a kicker above the headline, not a button).
+  assert.match(PAGE, /all the way to <b className="lp-lead__exam">CUET 2027<\/b>\./);
+  const hero = read(new URL('../../app/hero-v3.css', import.meta.url));
+  assert.match(hero, /\.lp-lead__exam \{ font-weight: 600; color: var\(--accent-text\); \}/);
+  assert.doesNotMatch(PAGE, /<(a|button|Link)[^>]*>\s*CUET 2027/, 'CUET 2027 is not a control');
+  // L-030: the tour heading's docked short form carries MockMob in green; the full h2 stays one ink.
+  assert.match(PAGE, /mini=\{<>What’s inside <em>MockMob<\/em><\/>\}/);
+  assert.match(PAGE, /title="What’s inside MockMob\."/);
+  // L-023: commerce first, said in the lineup's own note rather than as stray subtext.
+  assert.match(PAGE, /<p className="lp-shelf__note"><b>Commerce papers first\.<\/b>/);
+  assert.doesNotMatch(PAGE, /Built first for commerce/i);
+});
+
+test('no defensive fine print in the landing or its footer (owner, L-024)', () => {
+  const footer = read(new URL('../MarketingFooter.jsx', import.meta.url));
+  for (const [name, source] of [['page.js', PAGE], ['MarketingFooter.jsx', footer], ...LANDING]) {
+    assert.doesNotMatch(source.replace(/\/\/.*$|\/\*[\s\S]*?\*\/|\{\/\*[\s\S]*?\*\/\}/gm, ''), /not affiliated|illustrative|not a prediction|example only|just a diagnostic/i, `${name} carries defensive fine print`);
+  }
 });
