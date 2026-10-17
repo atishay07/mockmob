@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Progress badges</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@500;600;700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="tokens.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--ink); font-family: 'Hanken Grotesk', system-ui, sans-serif; font-size: 15px; line-height: 1.45; -webkit-font-smoothing: antialiased; }
+  .page { padding: 20px 16px 48px; }
+  .tag { display: block; font-size: 13px; font-weight: 600; color: var(--ink3); margin-bottom: 6px; }
+  h1 { font-family: 'Gabarito', sans-serif; font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
+  .lede { color: var(--ink2); font-size: 14px; margin-top: 4px; }
+  .block { margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--line); }
+  .block__name { font-family: 'Gabarito', sans-serif; font-size: 18px; font-weight: 600; }
+  .block__why { font-size: 13.5px; color: var(--ink2); margin: 4px 0 16px; }
+  .rec { color: var(--accent); font-weight: 700; }
+  .num { font-variant-numeric: tabular-nums; }
+  h2 { font-family: 'Gabarito', sans-serif; font-size: 17px; font-weight: 600; }
+  .row-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+  .meta { font-size: 13px; color: var(--ink3); }
+  .ic { flex: none; display: block; }
+
+  /* Current: web pills */
+  .cur-row { display: grid; grid-template-columns: 1fr; gap: 6px; padding: 14px; border: 1px solid var(--line); border-radius: 18px; background: var(--raised); margin-bottom: 8px; }
+  .cur-row b { font-size: 15px; }
+  .cur-row span.t { font-size: 13.5px; color: var(--ink2); }
+  .pill { justify-self: start; display: inline-flex; align-items: center; padding: 3px 8px; border-radius: 999px; border: 1px solid var(--lineStrong); background: var(--sunken); font-size: 11.5px; font-weight: 700; color: var(--ink2); white-space: nowrap; }
+  .pill.mid { color: var(--warn); } .pill.good { color: var(--accent); border-color: var(--voltLine); background: var(--voltWash); }
+  .cur-sess { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 18px; background: var(--raised); margin-bottom: 8px; }
+  .cur-sess .m { flex: 1; min-width: 0; } .cur-sess .m b { display: block; font-size: 15px; } .cur-sess .m span { font-size: 13px; color: var(--ink3); }
+  .note { font-size: 12.5px; color: var(--ink3); margin-top: 8px; }
+
+  /* Current: app brass shelf */
+  .shelf { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 18px 8px 12px; border-bottom: 1px solid var(--lineStrong); }
+  .coin { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+  .coin i { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-family: 'Gabarito'; font-weight: 700; font-size: 18px; color: #5a3f12; background: radial-gradient(circle at 35% 30%, #f6dc93, #c9973f 55%, #8a6223); box-shadow: inset 0 0 0 3px #b0832f, 0 8px 14px -6px rgba(0,0,0,.45); }
+  .coin i.ghost { background: none; box-shadow: none; border: 1.5px dashed var(--lineStrong); color: var(--ink4); }
+  .coin small { font-size: 11.5px; color: var(--ink3); line-height: 1.3; }
+
+  /* Option A: dated record */
+  .next { padding: 14px 0 16px; border-bottom: 1px solid var(--line); }
+  .next__top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .next__top b { font-size: 15px; }
+  .next__top span { font-size: 15px; font-weight: 700; }
+  .bar { height: 4px; border-radius: 4px; background: var(--sunken); margin: 10px 0 8px; overflow: hidden; }
+  .bar em { display: block; height: 100%; width: 60%; background: var(--accent); border-radius: 4px; }
+  .next p { font-size: 13.5px; color: var(--ink2); }
+  .ms { list-style: none; }
+  .ms li { display: grid; grid-template-columns: 52px 1fr; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .ms time { font-size: 13px; color: var(--ink3); padding-top: 1px; }
+  .ms b { display: block; font-size: 15px; font-weight: 600; }
+  .ms span { display: block; font-size: 13.5px; color: var(--ink2); margin-top: 2px; }
+  .link { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; font-weight: 600; font-size: 14px; color: var(--accent); }
+  .sess { display: flex; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .sess .m { flex: 1; min-width: 0; } .sess .m b { display: block; font-size: 15px; } .sess .m span { font-size: 13px; color: var(--ink3); }
+  .sess .s { font-size: 13px; font-weight: 600; color: var(--ink2); white-space: nowrap; }
+  .sess .s.warn { color: var(--warn); }
+  .sess .ic { color: var(--ink3); }
+  .sub { margin-top: 22px; }
+
+  /* Option B: flat numbered marks */
+  .marks { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px 8px; }
+  .mark { text-align: center; }
+  .mark i { width: 60px; height: 60px; margin: 0 auto 8px; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-family: 'Gabarito'; font-weight: 700; font-size: 17px; border: 2px solid var(--accent); color: var(--ink); font-variant-numeric: tabular-nums; }
+  .mark i.no { border: 1px solid var(--lineStrong); color: var(--ink4); font-weight: 600; }
+  .mark b { display: block; font-size: 12.5px; font-weight: 600; line-height: 1.3; }
+  .mark small { display: block; font-size: 11.5px; color: var(--ink3); margin-top: 2px; }
+  .risk { margin-top: 14px; font-size: 13px; color: var(--ink2); padding-left: 12px; border-left: 2px solid var(--lineStrong); }
+</style>
+</head>
+<body>
+<main class="page">
+  <span class="tag" id="surf"></span>
+  <h1>Progress badges</h1>
+  <p class="lede">D19: "the badges are weird". What a badge should mean for a CUET student: a real step, with its number and its date.</p>
+
+  <section class="block" id="current"></section>
+
+  <section class="block">
+    <div class="block__name">Option A: milestones as a dated record <span class="rec">· recommended</span></div>
+    <p class="block__why">No badges at all. One "next" line with the exact count left, then plain dated rows. Status pills on rows become plain words.</p>
+
+    <div class="row-head"><h2>Milestones</h2><span class="meta num">6 reached</span></div>
+    <div class="next">
+      <div class="next__top"><b>Full mocks</b><span class="num">3 of 5</span></div>
+      <div class="bar" role="progressbar" aria-valuenow="3" aria-valuemin="0" aria-valuemax="5" aria-label="Full mocks, 3 of 5"><em></em></div>
+      <p>2 more full mocks (50 questions, 60 minutes) to reach 5.</p>
+    </div>
+    <ul class="ms">
+      <li><time class="num">12 Oct</time><div><b>Accountancy best: 38 of 50</b><span class="num">+152 of 250 marks. Up from 31 on 4 Oct.</span></div></li>
+      <li><time class="num">9 Oct</time><div><b>500 questions answered</b><span>Across 4 subjects. Next at 1,000.</span></div></li>
+      <li><time class="num">6 Oct</time><div><b>4 weeks at your goal</b><span>4 study days a week, every week.</span></div></li>
+      <li><time class="num">2 Oct</time><div><b>10 mistakes repaired</b><span>Each one passed a fresh check later.</span></div></li>
+    </ul>
+    <a class="link" href="#">All milestones <span id="chev1"></span></a>
+
+    <div class="sub">
+      <div class="row-head"><h2>Your sessions</h2><span class="meta">Newest first</span></div>
+      <div class="sess"><span id="si1"></span><div class="m"><b>Accountancy</b><span class="num">12 Oct · 38/50 correct</span></div><span class="s warn num">12 to review</span><span id="sc1"></span></div>
+      <div class="sess"><span id="si2"></span><div class="m"><b>Business Studies</b><span class="num">10 Oct · 20/20 correct</span></div><span class="s">All correct</span><span id="sc2"></span></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block__name">Option B: flat numbered marks</div>
+    <p class="block__why">Keep a small set, but drawn as numerals in a plain ring. No metal, no lamp light, no locks. The numeral is the milestone.</p>
+    <div class="row-head"><h2>Milestones</h2><span class="meta num">6 of 16</span></div>
+    <div class="marks">
+      <div class="mark"><i class="num">500</i><b>Questions</b><small class="num">9 Oct</small></div>
+      <div class="mark"><i class="num">3</i><b>Full mocks</b><small class="num">12 Oct</small></div>
+      <div class="mark"><i class="num">10</i><b>Repairs</b><small class="num">2 Oct</small></div>
+      <div class="mark"><i class="num">4</i><b>Weeks at goal</b><small class="num">6 Oct</small></div>
+      <div class="mark"><i class="num no">1k</i><b>Questions</b><small class="num">500 to go</small></div>
+      <div class="mark"><i class="num no">5</i><b>Full mocks</b><small class="num">2 to go</small></div>
+      <div class="mark"><i class="num no">25</i><b>Repairs</b><small class="num">15 to go</small></div>
+      <div class="mark"><i class="num no">8</i><b>Weeks at goal</b><small class="num">4 to go</small></div>
+    </div>
+    <p class="risk">Risk: a grid of empty rings still reads as a collection to fill. That is the "badges" pattern he called cringe in D22, made quieter.</p>
+  </section>
+</main>
+<script>
+  var app = MM.surface === 'app';
+  document.getElementById('surf').textContent = (app ? 'App, Progress in You' : 'Web, Progress at phone width') + ' · ' + (MM.theme === 'day' ? 'Day' : 'Night');
+  var cur = document.getElementById('current');
+  if (app) {
+    cur.innerHTML = '<div class="block__name">Now: the brass token shelf</div>' +
+      '<p class="block__why">Brass coins in lamp light, dashed ghost coins for steps not earned. A collectible metaphor: it reads as a game reward, not as study evidence, and the coin says nothing a student can act on.</p>' +
+      '<div class="shelf"><div class="coin"><i>1</i><small>First set</small></div><div class="coin"><i>10</i><small>Ten sets</small></div><div class="coin"><i class="ghost">5</i><small>Repair five</small></div><div class="coin"><i class="ghost">4</i><small>Four weeks</small></div></div>' +
+      '<p class="note">Drawn from medal.dart, token_shelf.dart and locked_coin.dart (approximation).</p>';
+  } else {
+    cur.innerHTML = '<div class="block__name">Now: status pills on every row</div>' +
+      '<p class="block__why">Bordered pills that say system words ("Awaiting repeated evidence", "2 delayed checks"). They wrap under the title at 390, look like stickers, and the same shape means both praise and warning.</p>' +
+      '<div class="cur-row"><b>Accrual Concept</b><span class="t">Held on fresh questions after 3 days</span><span class="pill">2 delayed checks</span></div>' +
+      '<div class="cur-row"><b>Eliminate Then Guess</b><span class="t">No reflection yet</span><span class="pill">Awaiting repeated evidence</span></div>' +
+      '<div class="cur-sess"><div class="m"><b>Accountancy</b><span>12 Oct · 38/50 correct</span></div><span class="pill mid">12 to review</span></div>' +
+      '<p class="note">Drawn from RecoveryOverview.jsx (pr-badge) and arena.css 1093-1097.</p>';
+  }
+  var sz = app ? 20 : 20;
+  document.getElementById('chev1').innerHTML = icon('chevron', 16, 1.75);
+  document.getElementById('si1').innerHTML = '<span style="color:var(--ink2)">' + icon('book', 20, 1.75) + '</span>';
+  document.getElementById('si2').innerHTML = '<span style="color:var(--ink2)">' + icon('book', 20, 1.75) + '</span>';
+  document.getElementById('sc1').innerHTML = icon('chevron', 16, 1.75);
+  document.getElementById('sc2').innerHTML = icon('chevron', 16, 1.75);
+</script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Icon family</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@500;600;700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="tokens.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--ink); font-family: 'Hanken Grotesk', system-ui, sans-serif; font-size: 15px; line-height: 1.45; -webkit-font-smoothing: antialiased; }
+  .page { padding: 20px 16px 48px; }
+  .tag { display: block; font-size: 13px; font-weight: 600; color: var(--ink3); margin-bottom: 6px; }
+  h1 { font-family: 'Gabarito', sans-serif; font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
+  .lede { color: var(--ink2); font-size: 14px; margin-top: 4px; }
+  .block { margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--line); }
+  h2 { font-family: 'Gabarito', sans-serif; font-size: 17px; font-weight: 600; }
+  .why { font-size: 13.5px; color: var(--ink2); margin: 4px 0 12px; }
+  .lab { font-size: 13px; font-weight: 600; color: var(--ink3); margin: 12px 0 6px; }
+  .lab.after { color: var(--accent); }
+  .ic { flex: none; display: block; }
+  .num { font-variant-numeric: tabular-nums; }
+  .bar { display: grid; grid-template-columns: repeat(4, 1fr); padding: 8px 4px 10px; border: 1px solid var(--line); border-radius: 22px; background: var(--raised); }
+  .tab { display: flex; flex-direction: column; align-items: center; gap: 4px; min-height: 52px; justify-content: center; color: var(--ink3); font-size: 11.5px; font-weight: 600; }
+  .tab.on { color: var(--ink); }
+  .tab.on.after-on { color: var(--accent); }
+  .tab.on.after-on span { color: var(--ink); font-weight: 700; }
+  .strip { display: flex; align-items: flex-end; gap: 14px; flex-wrap: wrap; padding: 14px; border: 1px solid var(--line); border-radius: 18px; background: var(--raised); color: var(--ink2); }
+  .cell { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .cell small { font-size: 11px; color: var(--ink3); }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th { text-align: left; font-weight: 600; color: var(--ink3); font-size: 12.5px; padding: 6px 8px 6px 0; border-bottom: 1px solid var(--line); }
+  td { padding: 10px 8px 10px 0; border-bottom: 1px solid var(--line); vertical-align: middle; color: var(--ink2); }
+  td:first-child { color: var(--ink); font-weight: 600; }
+  td .ic { color: var(--ink); }
+  .rule { display: flex; gap: 10px; align-items: flex-start; font-size: 13.5px; color: var(--ink2); padding: 8px 0; }
+  .rule .ic { color: var(--accent); margin-top: 2px; }
+  .rowdemo { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 18px; background: var(--raised); }
+  .rowdemo b { flex: 1; font-size: 15px; font-weight: 600; }
+  .rowdemo .lead { color: var(--ink2); }
+  .rowdemo .tail { color: var(--ink3); }
+</style>
+</head>
+<body>
+<main class="page">
+  <span class="tag" id="surf"></span>
+  <h1>One icon family</h1>
+  <p class="lede">D8: "the icons in the UI can be improved". Both apps already use Lucide; the problem is the exceptions, the stroke drift and too many sizes.</p>
+
+  <section class="block">
+    <h2>1. The phone bar uses a second family</h2>
+    <p class="why">The app's bottom bar draws Material Rounded glyphs and swaps to a filled shape when active (bar_icons.dart). Every other icon in the app, and every web nav icon, is Lucide outline. Same tab, different picture on web and app.</p>
+    <div class="lab">Before: Material Rounded, filled when active</div>
+    <div class="bar" id="barBefore"></div>
+    <div class="lab after">After: Lucide 24, stroke 1.75, active in accent with a bold label</div>
+    <div class="bar" id="barAfter"></div>
+  </section>
+
+  <section class="block">
+    <h2>2. Stroke drift</h2>
+    <p class="why">Glyph.jsx sets 1.75, but 44 web files import lucide-react directly and get 2.0; a few hand-set 2.3, 2.4 and 3. The app draws Lucide at its default weight.</p>
+    <div class="lab">Before: same icon, four weights in use</div>
+    <div class="strip" id="strokeBefore"></div>
+    <div class="lab after">After: 1.75 everywhere from 16 to 24</div>
+    <div class="strip" id="strokeAfter"></div>
+  </section>
+
+  <section class="block">
+    <h2>3. Too many sizes</h2>
+    <p class="why">Web uses 13 icon sizes (10 to 40 px), the app 15 or more. Sizes 13, 15 and 17 sit next to 14, 16 and 18 and look like mistakes.</p>
+    <div class="lab">Before: sizes found in web code</div>
+    <div class="strip" id="sizeBefore"></div>
+    <div class="lab after">After: three sizes</div>
+    <div class="strip" id="sizeAfter"></div>
+  </section>
+
+  <section class="block">
+    <h2>4. A row, before and after</h2>
+    <div class="lab">Before: 18 at 2.0 lead, 14 chevron</div>
+    <div class="rowdemo" id="rowBefore"></div>
+    <div class="lab after">After: 20 at 1.75 lead in ink 2, 16 chevron in ink 3</div>
+    <div class="rowdemo" id="rowAfter" style="margin-top:0"></div>
+  </section>
+
+  <section class="block">
+    <h2>Sizing rules</h2>
+    <table>
+      <tr><th>Size</th><th>Use</th><th>Stroke</th></tr>
+      <tr><td class="num">16</td><td>Inline with 13 to 15 px text, chevrons, meta lines</td><td class="num">1.75</td></tr>
+      <tr><td class="num">20</td><td>List rows, buttons, web sidebar, stat labels</td><td class="num">1.75</td></tr>
+      <tr><td class="num">24</td><td>Phone bar, top-bar actions, empty states</td><td class="num">1.75</td></tr>
+      <tr><td class="num">32+</td><td>Not an icon: use subject art or Mobi</td><td>n/a</td></tr>
+    </table>
+    <div class="rule" id="r1"></div>
+    <div class="rule" id="r2"></div>
+    <div class="rule" id="r3"></div>
+    <div class="rule" id="r4"></div>
+  </section>
+</main>
+<script>
+  document.getElementById('surf').textContent = (MM.surface === 'app' ? 'App, 412 dp' : 'Web, 390 px') + ' · ' + (MM.theme === 'day' ? 'Day' : 'Night');
+  var tabs = [['Today', 'home', 'calendarCheck'], ['Practice', 'quiz', 'timer'], ['Review', 'fact', 'notebook'], ['You', 'person', 'user']];
+  document.getElementById('barBefore').innerHTML = tabs.map(function (t, i) { return '<div class="tab' + (i === 0 ? ' on' : '') + '">' + micon(t[1], 24) + '<span>' + t[0] + '</span></div>'; }).join('');
+  document.getElementById('barAfter').innerHTML = tabs.map(function (t, i) { return '<div class="tab' + (i === 0 ? ' on after-on' : '') + '">' + icon(t[2], 24, 1.75) + '<span>' + t[0] + '</span></div>'; }).join('');
+  document.getElementById('strokeBefore').innerHTML = [1.75, 2, 2.4, 3].map(function (s) { return '<div class="cell">' + icon('notebook', 24, s) + '<small class="num">' + s + '</small></div>'; }).join('') + [1.75, 2, 2.4, 3].map(function (s) { return '<div class="cell">' + icon('check', 24, s) + '<small class="num">' + s + '</small></div>'; }).join('');
+  document.getElementById('strokeAfter').innerHTML = [16, 20, 24].map(function (z) { return '<div class="cell">' + icon('notebook', z, 1.75) + '<small class="num">' + z + '</small></div>'; }).join('') + [16, 20, 24].map(function (z) { return '<div class="cell">' + icon('check', z, 1.75) + '<small class="num">' + z + '</small></div>'; }).join('');
+  document.getElementById('sizeBefore').innerHTML = [10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 22].map(function (z) { return '<div class="cell">' + icon('timer', z, 2) + '<small class="num">' + z + '</small></div>'; }).join('');
+  document.getElementById('sizeAfter').innerHTML = [16, 20, 24].map(function (z) { return '<div class="cell">' + icon('timer', z, 1.75) + '<small class="num">' + z + '</small></div>'; }).join('');
+  document.getElementById('rowBefore').innerHTML = '<span class="lead">' + icon('book', 18, 2) + '</span><b>Accountancy</b><span class="tail">' + icon('chevron', 14, 2.4) + '</span>';
+  document.getElementById('rowAfter').innerHTML = '<span class="lead">' + icon('book', 20, 1.75) + '</span><b>Accountancy</b><span class="tail">' + icon('chevron', 16, 1.75) + '</span>';
+  var rules = [
+    'Lucide only, outline only. No Material, no emoji, no text glyphs, no filled swap for active.',
+    'Every icon goes through one wrapper: Glyph.jsx on web, one MmIcon widget in the app. No direct imports.',
+    'Icons take currentColor: ink 2 for lead icons, ink 3 for chevrons and meta, accent only for the active tab or a selected state.',
+    'An icon sits on the text it labels: optical centre on the cap height, 8 gap at 16, 12 gap at 20 and 24, a 44 touch target around it.'
+  ];
+  ['r1', 'r2', 'r3', 'r4'].forEach(function (id, i) { document.getElementById(id).innerHTML = icon('check', 16, 1.75) + '<span>' + rules[i] + '</span>'; });
+</script>
+</body>
+</html>
