@@ -4,10 +4,11 @@
 // chance against a cutoff here: the practice score and the DU score are different scales, and Compass owns that.
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { ChevronRight, Plus } from 'lucide-react';
+import { ChevronRight, Compass, Plus } from 'lucide-react';
 import { useMyColleges } from '@/components/colleges/useMyColleges';
-import { loadOfferings, formatScore } from '@/lib/du/client';
-import { roundOneCutoff } from '@/lib/du/compassLine.mjs';
+import { decodeSelection, loadOfferings, loadRules, formatScore, readSaved } from '@/lib/du/client';
+import { roundOneCutoff, startingList } from '@/lib/du/compassLine.mjs';
+import { evaluateGroup, gapSize } from '@/lib/du/eligibility';
 import { paperDay } from '@/lib/today/move.mjs';
 import { TEST_MODES } from '@/../data/test_modes';
 
@@ -27,7 +28,14 @@ function Row({ href, label, title, sub, figure, of, aria }) {
   );
 }
 
+// A row's resting shape while its read is on its way: the same 76 px as the row it becomes, so nothing below moves
+// when it lands (W-042: no section arrives late and shifts the page).
+function Waiting({ label }) {
+  return <li className="tr__note tr__note--wait" aria-hidden="true"><span className="tr__text"><span className="tr__label">{label}</span><span className="tr__bar" /></span><span className="tr__figbar" /></li>;
+}
+
 function LastPaper({ papers, subjectName }) {
+  if (papers.status === 'loading') return <Waiting label="Last paper" />;
   if (papers.status !== 'ready' || !papers.data?.length) return null;
   const [last, ...rest] = papers.data;
   const before = rest.find((p) => p.formatId === last.formatId);
@@ -35,49 +43,86 @@ function LastPaper({ papers, subjectName }) {
   const mode = TEST_MODES[last.mode]?.label || 'Practice';
   const title = `${subjectName(last.subject)} ${mode.charAt(0).toLowerCase()}${mode.slice(1)}`;
   const change = delta == null ? '' : delta === 0 ? ', level with the one before' : `, ${delta > 0 ? '+' : '−'}${Math.abs(delta)} on the one before`;
-  const sub = `${paperDay(last.completedAt)}${change}`;
+  // The first paper's receipt (W-064, FEATURE-ADOPTION 5): what it gave the student, in the record's own numbers.
+  const firstReceipt = !rest.length && Number(last.wrong) > 0 ? `. Your first paper: its ${last.wrong} ${Number(last.wrong) === 1 ? 'mistake is' : 'mistakes are'} in Review, each with its explanation` : '';
+  const sub = `${paperDay(last.completedAt)}${change}${firstReceipt}`;
   return <Row href={`/result/${encodeURIComponent(last.id)}`} label="Last paper" title={title} sub={sub} figure={last.marks} of={`of ${last.maxMarks}`} aria={`Last paper: ${title}, ${sub}, ${last.marks} of ${last.maxMarks} marks. Open it.`} />;
 }
 
-function Colleges({ userId }) {
+// Does the student's subject list meet the programme's DU subject rules? The same engine and the same starting subjects
+// as the Compass page (a choice kept on this device, else the profile), so Today never disagrees with Compass.
+function fitFor(rules, programmeId, subjects) {
+  const group = Array.isArray(rules?.groups) ? rules.groups.find((g) => g.id === programmeId) : null;
+  if (!group) return null;
+  let saved = null;
+  try { saved = readSaved(); } catch { saved = null; }
+  const selection = decodeSelection(startingList({ saved, profile: subjects }), rules);
+  if (selection.languages.length + selection.domains.length === 0 && !selection.gat) return { kind: 'none' };
+  const r = evaluateGroup(group, selection);
+  return r.eligible ? { kind: 'meets' } : { kind: 'short', by: r.nearest ? gapSize(r.nearest.gaps) : null };
+}
+
+const fitLine = (fit) => (!fit ? '' : fit.kind === 'meets' ? 'Your subjects meet its DU subject rules.'
+  : fit.kind === 'none' ? 'Add your subjects to check its DU subject rules.'
+    : fit.by ? `Your subjects are ${fit.by} ${fit.by === 1 ? 'subject' : 'subjects'} short of its DU subject rules.` : 'Your subjects do not meet its DU subject rules yet.');
+
+function Colleges({ userId, subjects }) {
   const mine = useMyColleges(userId);
   const first = mine.status === 'ready' && mine.colleges.length ? mine.colleges[0] : null;
   const firstKey = first ? `${first.programmeId}::${first.college}` : '';
-  const [offer, setOffer] = useState({ key: '', cut: null });
+  const [offer, setOffer] = useState({ key: '', cut: null, fit: null });
+  const subjectKey = (subjects || []).join(',');
   useEffect(() => {
     if (!first) return undefined;
     let alive = true;
-    loadOfferings(first.programmeId)
-      .then((data) => alive && setOffer({ key: firstKey, cut: roundOneCutoff(data, first, 'UR') }))
-      .catch(() => alive && setOffer({ key: firstKey, cut: null }));
+    // The cutoff and the subject check arrive together, so the row lands once.
+    Promise.all([loadOfferings(first.programmeId).catch(() => null), Promise.resolve(loadRules()).catch(() => null)])
+      .then(([data, rules]) => alive && setOffer({ key: firstKey, cut: data ? roundOneCutoff(data, first, 'UR') : null, fit: rules ? fitFor(rules, first.programmeId, subjects) : null }));
     return () => { alive = false; };
     // The key stands for the entry; the object is a new one on every list change.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [firstKey]);
+  }, [firstKey, subjectKey]);
   if (mine.status === 'error') {
     return <li className="tr__note"><span className="tr__label">Your colleges</span><span>Your colleges did not load. <button type="button" className="tm__inline" onClick={mine.retry}>Try again</button></span></li>;
   }
-  if (mine.status !== 'ready') return <li className="tr__note tr__note--wait" aria-hidden="true"><span className="tr__label">Your colleges</span><span className="tr__bar" /></li>;
+  if (mine.status !== 'ready') return <Waiting label="Your colleges" />;
   if (!first) {
+    // Colleges are picked in onboarding (owner, 16 Oct); a student who skipped it adds them on Account's one list.
     return (
       <li className="tr__note">
         <span className="tr__text"><span className="tr__label">Your colleges</span><span className="tr__sub">Pick up to 8 to see their 2026 cutoffs here.</span></span>
-        <Link className="tm__pill tr__choose" href="/admission-compass"><Plus size={17} strokeWidth={1.75} aria-hidden="true" />Choose</Link>
+        <Link className="tm__pill tr__choose" href="/profile#colleges"><Plus size={17} strokeWidth={1.75} aria-hidden="true" />Choose</Link>
       </li>
     );
   }
+  // The row waits for its cutoff, so the figure never pops in after the name.
+  if (offer.key !== firstKey) return <Waiting label="Your colleges" />;
   const more = mine.colleges.length - 1;
-  const cut = offer.key === firstKey ? offer.cut : null;
+  const cut = offer.cut;
   const cat = cut ? (cut.category === 'UR' ? 'unreserved' : cut.category) : '';
   const sub = `${first.programme ? `${first.programme}, ` : ''}2026 Round 1${cat ? `, ${cat}` : ''}.${more > 0 ? ` ${more} more saved.` : ''}`;
-  return <Row href="/admission-compass" label="Your colleges" title={first.college} sub={sub} figure={cut ? formatScore(cut.cutoff) : null} of={cut ? 'of 1000' : null} aria={`Your colleges: ${first.college}, ${sub}${cut ? ` Cutoff ${formatScore(cut.cutoff)} of 1000.` : ''} Open Colleges.`} />;
+  const fit = fitLine(offer.fit);
+  // The college's next step (W-047): the course opened in Compass, with its rules checked against your subjects and its
+  // cutoffs college by college. A plain link, so it always does something.
+  const planHref = `/admission-compass?course=${encodeURIComponent(first.programmeId)}`;
+  return (
+    <>
+      <Row href="/admission-compass" label="Your colleges" title={first.college} sub={sub} figure={cut ? formatScore(cut.cutoff) : null} of={cut ? 'of 1000' : null} aria={`Your colleges: ${first.college}, ${sub}${cut ? ` Cutoff ${formatScore(cut.cutoff)} of 1000.` : ''} Open Colleges.`} />
+      {fit ? (
+        <li className="tr__plan">
+          <p className="tr__fit" data-fit={offer.fit?.kind}>{fit}</p>
+          <Link className="tm__pill tr__plan-key" href={planHref}><Compass size={17} strokeWidth={1.75} aria-hidden="true" />Plan for it</Link>
+        </li>
+      ) : null}
+    </>
+  );
 }
 
-export default function TodayRows({ papers, userId, subjectName }) {
+export default function TodayRows({ papers, userId, subjectName, subjects = [] }) {
   return (
     <ul className="tr" aria-label="Your record">
       <LastPaper papers={papers} subjectName={subjectName} />
-      {userId ? <Colleges userId={userId} /> : null}
+      {userId ? <Colleges userId={userId} subjects={subjects} /> : null}
     </ul>
   );
 }

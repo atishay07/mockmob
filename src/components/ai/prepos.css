@@ -214,3 +214,27 @@
 .as__legend button[aria-pressed='true'] { border-color: var(--pp-accent, #d2f000); color: var(--pp-ink, #f2f4ec); }
 .as__legend button:focus-visible { outline: 2px solid var(--pp-accent, #d2f000); outline-offset: 3px; }
 @media (min-width: 640px) { .as i { width: 18px; height: 18px; } }
+
+/* Ask Mobi in Daylight (W-060, W-078): the console was a dark island inside the Day page. In Day it now takes the page's
+   own Day tokens (every --a-* and the remapped Tailwind palette inherit from the page again), its ground is the raised
+   surface, and the PrepOS --pp-* inks follow the arena tokens. Night is unchanged. Volt keys stay volt. */
+html[data-theme='light'] .prepos-console.arena-dark-island.arena-dark-island.arena-dark-island {
+  --a-bg: inherit; --a-raised: inherit; --a-raised-2: inherit; --a-sunken: inherit;
+  --a-line: inherit; --a-line-strong: inherit; --a-line-hover: inherit;
+  --a-ink: inherit; --a-ink-2: inherit; --a-ink-3: inherit; --a-ink-4: inherit;
+  --a-volt-line: inherit; --a-volt-wash: inherit; --a-accent-text: inherit; --a-select: inherit; --a-focus: inherit; --a-hover: inherit;
+  --text-primary: inherit; --text-muted: inherit; --text-subtle: inherit; --text-faint: inherit; --focus-ring: inherit;
+  --color-zinc-50: inherit; --color-zinc-100: inherit; --color-zinc-200: inherit; --color-zinc-300: inherit; --color-zinc-400: inherit;
+  --color-zinc-500: inherit; --color-zinc-600: inherit; --color-zinc-700: inherit; --color-zinc-800: inherit; --color-zinc-900: inherit;
+  --color-zinc-950: inherit; --color-white: inherit;
+  --pp-ink: var(--a-ink); --pp-ink-2: var(--a-ink-2); --pp-ink-3: var(--a-ink-3); --pp-accent: var(--a-accent-text);
+  --pp-bad: var(--a-bad-text); --pp-line: var(--a-line); --pp-line-strong: var(--a-line-strong); --pp-wash: var(--a-sunken);
+  color-scheme: light;
+  background-color: var(--a-raised) !important;
+  color: var(--a-ink);
+  border-color: var(--a-line) !important;
+  box-shadow: var(--a-shadow-1);
+}
+html[data-theme='light'] .prepos-console.arena-dark-island > header { background: color-mix(in srgb, var(--a-raised) 92%, transparent); }
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) { html[data-theme='light'] .prepos-console.arena-dark-island > header { background: var(--a-raised); } }
+html[data-theme='light'] .prepos-console .pp-ask__switch button[aria-pressed='true'] { background: var(--a-sunken); }

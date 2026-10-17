@@ -1,6 +1,8 @@
 "use client";
 
-// Account: the live page, with the restructure's You page brought inside it. Your sheet first (who you
+// Account: the live page, with the restructure's You page brought inside it. 17 Oct (W-052, W-053): your sheet carries
+// both balances at a glance, Your progress (study days, badges, best work) follows it, and the weekly goal now sits above
+// plan and credits. Your sheet first (who you
 // are, the exam, your subjects as the app's objects, your mocks), then your name and sign-in. Beside
 // them: plan and credits, appearance (the Night, Daylight and Match device switch) and your weekly goal. On a wide screen the
 // columns are sheet, name and appearance | plan, credits and goal, which keeps them level once the credits history is open;
@@ -18,6 +20,9 @@ import { WAIT_LONG_MS, greeting, oopsRun } from '@/lib/mobiRation';
 import LookAndFeelCard from './LookAndFeelCard';
 import { lookMobiActive, lookMobiServer, subscribeLookMobi } from '@/components/profile/lookMobiStore';
 import YourSheet from '@/components/profile/YourSheet';
+import AccountCredits from '@/components/profile/AccountCredits';
+import AccountGlance from '@/components/profile/AccountGlance';
+import CollegePicker from '@/components/colleges/CollegePicker';
 import { AccountColleges } from '@/components/colleges/MyColleges';
 import PlanCredits from '@/components/profile/PlanCredits';
 import CreditsSection from '@/components/profile/CreditsSection';
@@ -248,13 +253,17 @@ export default function ProfilePageClient() {
             plan={user?.isPremium ? 'Pro' : 'Free'}
             mocks={mocks}
             onRetry={() => { setMocks((m) => ({ ...m, status: 'loading' })); setMocksTry((n) => n + 1); }}
+            credits={<AccountCredits user={user} />}
           />
+
+          {/* "You" leads with your study days, badges and best work (W-053); plan and billing sit lower. */}
+          <AccountGlance userId={user?.id} />
 
           {/* The Compass line (the DU programmes your subjects open, one key to Compass) moved here from Today, above
               the colleges it names (TODAY-1017 section 7). */}
           {/* On a phone the column dissolves into an ordered list (account.css): the line sits with Your colleges (4). */}
           <div className="acct-moved acct-moved--colleges"><TodayCompass /></div>
-          <AccountColleges userId={user?.id} />
+          <AccountColleges userId={user?.id} picker={<CollegePicker userId={user?.id} compact />} />
           {/* Add to home screen moved here from the foot of Today (TODAY-1017 section 7); it shows only when the browser
               offers it, at the end of the list on a phone (8), never above the account sheet. */}
           <div className="acct-moved acct-moved--end"><InstallPractice /></div>
@@ -293,12 +302,12 @@ export default function ProfilePageClient() {
         </div>
 
         <div className="acct-col">
-          <PlanCredits userId={user?.id} />
-          <CreditsSection userId={user?.id} />
           <section className="glass acct-card" id="goal" aria-labelledby="acct-goal-h">
             <h2 className="acct-h2" id="acct-goal-h">Weekly goal</h2>
             <GoalControl />
           </section>
+          <PlanCredits userId={user?.id} />
+          <CreditsSection userId={user?.id} />
         </div>
       </div>
 

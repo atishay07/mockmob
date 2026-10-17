@@ -8,14 +8,21 @@ import { useAuth } from '@/components/AuthProvider';
 import { Icon } from '@/components/ui/Icons';
 import { ThemeToggle } from './ThemeToggle';
 import '@/app/nav-motion.css';
+import './new-tag.css';
 
 const LINKS = [
   { label: 'Free mock test', href: '/cuet-mock-test-free' },
-  { label: 'Cutoff calculator', href: '/cuet-cutoff-calculator' },
+  // The calculator is the newest tool, so it keeps its New tag (owner, 15 Oct).
+  { label: 'Cutoff calculator', href: '/cuet-cutoff-calculator', isNew: true },
   { label: 'Your prep tools', href: '/#your-prep' },
   { label: 'CUET PYQs', href: '/cuet-previous-year-questions' },
   { label: 'Pricing', href: '/pricing' },
 ];
+
+/** The small New tag: a lime label with a darker green line inside it. */
+export function NewTag() {
+  return <span className="mm-new"><span aria-hidden="true">New</span><span className="sr-only">, new</span></span>;
+}
 
 export function NavBar() {
   const router = useRouter();
@@ -53,6 +60,7 @@ export function NavBar() {
   const aim = (event) => { const link = event.target.closest?.('a.mm-nav__link'); if (link) place(link); };
 
   const closeMenu = () => setMenuOpen(false);
+  const onAuthPage = pathname === '/login' || pathname === '/signup';
 
   // Hairline only appears once the page has actually moved, so the top of the
   // page reads as one uninterrupted sheet of paper.
@@ -99,6 +107,7 @@ export function NavBar() {
               aria-current={pathname === link.href ? 'page' : undefined}
             >
               {link.label}
+              {link.isNew ? <NewTag /> : null}
             </Link>
           ))}
         </div>
@@ -108,6 +117,11 @@ export function NavBar() {
           {isAuthenticated ? (
             <Link href="/dashboard" className="mm-btn mm-btn--primary mm-nav__cta">
               Go to Practice
+            </Link>
+          ) : onAuthPage ? (
+            // On Log in and Sign up the form's own key is the page's one volt: the bar offers the other door, quietly.
+            <Link href={pathname === '/login' ? '/signup' : '/login'} className="mm-nav__link mm-nav__login">
+              {pathname === '/login' ? 'Create an account' : 'Log in'}
             </Link>
           ) : (
             <>
@@ -152,6 +166,7 @@ export function NavBar() {
           {LINKS.map((link) => (
             <Link key={link.href} href={link.href} onClick={closeMenu}>
               {link.label}
+              {link.isNew ? <NewTag /> : null}
               <Icon name="chevR" style={{ width: '18px', height: '18px', marginLeft: 'auto' }} />
             </Link>
           ))}

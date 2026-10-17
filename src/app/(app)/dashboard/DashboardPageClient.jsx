@@ -24,6 +24,7 @@ import StartRule, { useStartRule } from './StartRule';
 import ChapterPicker from './ChapterPicker';
 import { chapterUnits, chaptersForMode } from './chapterGroups.mjs';
 import { MODE_SPECS, MODE_TILE_SPECS, bankCount, freshPaperLine } from '@/lib/paperCopy.mjs';
+import PracticeMobChip from '@/components/mob/PracticeMobChip';
 import './practice.css';
 import './chapter-picker.css';
 
@@ -478,6 +479,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
             <CreditAmount kind="practice" amount={isPremium ? 'unlimited' : balance} unit={!isPremium} unitLabel="practice credits" size={15} />
             <span>{isPremium ? 'Quick practice and Full mock are included with your access.' : `Quick practice costs ${TEST_MODES.quick.creditCost} practice credits and Full mock costs ${TEST_MODES.full.creditCost}.`}</span>
           </p>
+          <PracticeMobChip userId={user?.id} />
         </div>
       </header>
 

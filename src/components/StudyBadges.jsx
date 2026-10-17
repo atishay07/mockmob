@@ -26,7 +26,7 @@ const GLYPHS = {
   clean_set: CircleCheckBig, four_subjects: LayoutGrid, new_best: TrendingUp,
 };
 
-function Medal({ id, status }) {
+export function Medal({ id, status }) {
   const Glyph = GLYPHS[id];
   return (
     <span className="sb-medal" data-status={status} aria-hidden="true">

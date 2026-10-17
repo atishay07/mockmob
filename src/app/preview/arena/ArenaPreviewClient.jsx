@@ -15,6 +15,7 @@ import { learningPlan, createEpisode, advanceEpisode, publicEpisode } from '@/..
 import { studyMilestones, tonightMetadata, tonightCompletion } from '@/../data/study_progress';
 import { previewAnalytics, previewCompass, previewInsights } from './previewRecord';
 import { computeRhythm } from '@/lib/server/rhythm';
+import { standingFor } from '@/lib/server/standing';
 import { previewStudyRecord } from './previewStudy';
 import { buildStudyRecord } from '@/lib/studyBadges';
 import { projectWallet, unreadableWallet, walletWindow } from '@/services/credits/aiWalletState';
@@ -180,7 +181,16 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       return json({ questions: state === 'held' && offset === 0 ? [] : raw, total: null, nextOffset: offset + raw.length, hasMore: raw.length === limit });
     }
     // Your standing: the one shape the server returns, only for the signed-in student. ?state=empty is a student with no mocks; ?state=long is a big board.
-    if (url.pathname === '/api/leaderboard') return json(state === 'empty' ? { you: null, window: 'all time' } : state === 'long' ? { you: { rank: 1203, of: 12408, tests: 148, average: 71 }, window: 'all time' } : { you: { rank: 14, of: 212, tests: 12, average: 62 }, window: 'all time' });
+    // Your standing: the real reducer over an illustrative, anonymous board (no names), so the ladder and spread are the
+    // server's own shapes. ?data=long is a big board; ?data=sparse a board of 6 (no ladder or spread, as on a small board).
+    if (url.pathname === '/api/leaderboard') {
+      if (state === 'empty') return json({ you: null, window: 'all time' });
+      const size = state === 'long' ? 12408 : state === 'sparse' ? 6 : 212;
+      // Averages run from about 90 down to 20 per mock; mock counts vary, so totals (the ranking) do too.
+      const rows = Array.from({ length: size }, (_, i) => { const tests = 6 + ((i * 7) % 11); return { userId: `fx${i}`, tests, totalScore: Math.round(tests * (90 - (i / size) * 70)) }; });
+      rows.push({ userId: 'preview-user', tests: 12, totalScore: 12 * (state === 'long' ? 71 : 62) });
+      return json(standingFor(rows, 'preview-user'));
+    }
     // Recent papers (the paper trend on Review, Today's Last paper and its move). Newest first; ?trend=few has too few to
     // draw; ?data=empty has none; ?data=sparse has one; ?data=returning's newest is 9 days old.
     if (url.pathname === '/api/attempts/summary') {
@@ -311,7 +321,9 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       const profile = MONTHLY_PROFILES[page.get('plan')] || null;
       const paid = page.get('plan') === 'pro' || Boolean(profile?.isPremium);
       const until = page.get('plan') === 'pro' ? '2027-07-31' : profile?.isPremium ? '2026-11-16' : null;
-      return json({ ...creditsContract, plan: { name: paid ? 'Pro' : 'Free', until } });
+      // The AI balance is the same wallet the top bar and Ask Mobi read, so the page never shows two numbers for one pool.
+      const ai = projectWallet({ included_monthly_credits: 50, included_credits_used: 12 + replyReceipts.size, bonus_credits: 30, period_start: walletWindow().periodStart, reset_at: walletWindow().resetAt }, { paid, includedMonthlyCredits: 50, paidAiOpen: true });
+      return json({ ...creditsContract, ai: { ...creditsContract.ai, balance: ai.known ? ai.total : creditsContract.ai.balance }, plan: { name: paid ? 'Pro' : 'Free', until } });
     }
     if (url.pathname === '/api/compass/pro') {
       const page = new URLSearchParams(window.location.search);

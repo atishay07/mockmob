@@ -20,6 +20,8 @@ import TodayMove from '@/components/today/TodayMove';
 import TodayWeek from '@/components/today/TodayWeek';
 import TodayRoad from '@/components/today/TodayRoad';
 import TodayRows from '@/components/today/TodayRows';
+import TodayCue from '@/components/today/TodayCue';
+import TodayMob from '@/components/today/TodayMob';
 import '@/components/today/today.css';
 
 const noSubscribe = () => () => {};
@@ -126,10 +128,12 @@ export default function Today() {
         <div className="today-grid">
           <div className="today-grid__main">
             <TodayMove phase={phase} move={move} word={hour >= 17 || hour < 4 ? 'Tonight’s move' : 'Today’s move'} slow={slow} triedAt={triedAt} onRetry={retry} alternatives={alts} chosen={chosen} onChoose={choose} saving={saving} />
-            <TodayRows papers={data.papers} userId={userId} subjectName={subjectName} />
+            {phase === 'ready' ? <TodayCue target="road" /> : null}
+            <TodayRows papers={data.papers} userId={userId} subjectName={subjectName} subjects={user?.subjects || []} />
           </div>
           <div className="today-grid__side">
-            <TodayWeek rhythm={data.rhythm} goal={data.goal} everSessions={everSessions} mobiFree={!(move?.art === 'mobi') && phase !== 'failed'} mob={mob} repairs={data.repairRows} onRetry={data.retryWeek} />
+            <TodayWeek hold={phase === 'loading'} rhythm={data.rhythm} goal={data.goal} everSessions={everSessions} mobiFree={!(move?.art === 'mobi') && phase !== 'failed'} mob={mob} repairs={data.repairRows} onRetry={data.retryWeek} />
+            <TodayMob enabled={mobOn} mob={mob} />
             <TodayRoad road={data.road} goal={data.goal} rhythm={data.rhythm} facts={data.facts} onGoalSaved={data.retryWeek} />
           </div>
         </div>

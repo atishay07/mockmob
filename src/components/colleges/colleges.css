@@ -97,3 +97,44 @@
 }
 /* Signed out, on the public calculator: a quiet text link in place of the add key. */
 .mc-signin { display: inline-flex; align-items: center; min-height: 44px; font-size: 0.8125rem; font-weight: 600; color: inherit; text-decoration: underline; text-underline-offset: 4px; }
+
+/* ---------- The picker (onboarding and Account): a course, then its colleges ---------- */
+.app-shell .mc-pick { display: grid; gap: 16px; min-width: 0; }
+.app-shell .mc-pick__chosen { display: grid; gap: 10px; }
+.app-shell .mc-pick__count { margin: 0; font-size: 14px; line-height: 1.45; color: var(--a-ink-2); }
+.app-shell .mc-pick__count b { font: 700 18px/1 var(--font-display); color: var(--a-ink); font-variant-numeric: tabular-nums; }
+.app-shell .mc-pick__tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.app-shell .mc-pick__tags li { display: inline-flex; align-items: center; gap: 2px; min-height: 44px; padding: 0 2px 0 14px; border: 1px solid var(--a-line-strong); border-radius: 22px; background: var(--a-raised-2); font-size: 14px; font-weight: 600; color: var(--a-ink); animation: mc-pick-in 200ms var(--a-ease) both; }
+.app-shell .mc-pick__tags li span { max-width: 26ch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.app-shell .mc-pick__x { display: grid; place-items: center; width: 40px; height: 40px; border: 0; border-radius: 20px; background: none; color: var(--a-ink-2); cursor: pointer; }
+.app-shell .mc-pick__x:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; }
+.app-shell .mc-pick__field { display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 14px; border: 1px solid var(--a-line-strong); border-radius: 16px; background: var(--a-raised); color: var(--a-ink-3); transition: border-color 150ms ease; }
+.app-shell .mc-pick__field:focus-within { border-color: var(--a-ink); }
+.app-shell .mc-pick__field input { flex: 1; min-width: 0; height: 48px; border: 0; background: none; color: var(--a-ink); font: 500 16px/1.2 inherit; outline: none; }
+.app-shell .mc-pick__field input::placeholder { color: var(--a-ink-3); }
+.app-shell .mc-pick__field--small { min-height: 46px; border-radius: 14px; }
+.app-shell .mc-pick__field--small input { height: 44px; font-size: 15px; }
+.app-shell .mc-pick__courses { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); gap: 8px; }
+.app-shell .mc-pick__course {
+  display: grid; gap: 3px; min-height: 60px; padding: 10px 14px; border: 1px solid var(--a-line-strong); border-radius: 14px;
+  background: var(--a-raised-2); color: var(--a-ink); text-align: left; font: inherit; cursor: pointer;
+  transition: transform 100ms var(--a-ease), border-color 150ms ease, background-color 150ms ease;
+}
+.app-shell .mc-pick__course b { font: 700 15px/1.25 var(--font-display); }
+.app-shell .mc-pick__course span { font-size: 13px; color: var(--a-ink-3); }
+.app-shell .mc-pick__course[aria-pressed='true'] { border-color: var(--a-ink); box-shadow: inset 0 0 0 1px var(--a-ink); }
+.app-shell .mc-pick__course:active { transform: scale(0.98); }
+.app-shell .mc-pick__course:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) { .app-shell .mc-pick__course:hover { border-color: var(--a-line-hover); } }
+.app-shell .mc-pick__course--wait { min-height: 60px; cursor: default; background: var(--a-raised-2); border-color: var(--a-line); }
+.app-shell .mc-pick__colleges { display: grid; gap: 10px; padding-top: 4px; scroll-margin: 96px; }
+.app-shell .mc-pick__head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.app-shell .mc-pick__head h3 { margin: 0; font: 700 18px/1.2 var(--font-display); color: var(--a-ink); }
+.app-shell .mc-pick__head span { font-size: 13px; color: var(--a-ink-3); }
+.app-shell .mc-pick__list { max-height: 420px; overflow-y: auto; overscroll-behavior: contain; padding-right: 4px; }
+.app-shell .mc-pick__list .mc-add { flex: 0 0 auto; min-width: 112px; }
+.app-shell .mc-pick__list .mc-add[aria-disabled='true'] { opacity: 0.5; cursor: not-allowed; }
+.app-shell .mc-pick__notice { margin: 0; font-size: 13.5px; color: var(--a-ink-2); }
+@keyframes mc-pick-in { from { opacity: 0; transform: scale(0.94); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .app-shell .mc-pick__tags li { animation: none; } .app-shell .mc-pick__course { transition: none; } }
+html[data-motion='reduced'] .app-shell .mc-pick__tags li { animation: none; }

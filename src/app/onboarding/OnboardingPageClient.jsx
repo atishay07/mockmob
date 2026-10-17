@@ -1,6 +1,7 @@
 "use client";
 
-// The first run, in two steps: which subjects, then how many study days a week (firstRun.js).
+// The first run, in three steps: which subjects, how many study days a week, then the colleges you are aiming for
+// (optional, saved to My colleges as you pick; firstRun.js).
 // One primary per screen. Subjects save on Next and the server confirms before the page moves on;
 // the days step saves the weekly goal Today's week ring is drawn from. Then the student lands on
 // Practice, as before. /onboarding?edit=true (Edit subjects on Practice and You) is subjects only.
@@ -16,6 +17,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Logo } from '@/components/Logo';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { Button } from '@/components/ui/Button';
+import CollegePicker from '@/components/colleges/CollegePicker';
 import { useAuth } from '@/components/AuthProvider';
 import { ErrorState, PageSpinner } from '@/components/ui/Skeleton';
 import MobiReact from '@/components/brand/MobiReact';
@@ -26,7 +28,7 @@ import { getMobiPrefs } from '@/lib/mobiPrefs';
 import { ONBOARDING_LEAD, bankCount, tileCount } from '@/lib/paperCopy.mjs';
 import {
   DAY_OPTIONS, DEFAULT_DAYS, DONE_PATH, GOAL_PATH, SIGNUP_PATH, STUDY_DAY_RULE, SUBJECT_CAP,
-  cleanDays, dayRhythm, daysLine, goalBody, mobiForDays, onboardingEntry, pickedLine, pickedSlots, resolveStep, ringArcs, thumbIndex,
+  cleanDays, dayRhythm, daysLine, goalBody, mobiForDays, onboardingEntry, pickedLine, pickedSlots, resolveStep, ringArcs, stepFromQuery, thumbIndex,
 } from './firstRun';
 import '@/app/(app)/arena.css';
 import '@/app/(app)/arena-support.css';
@@ -50,6 +52,10 @@ const COPY = {
   days: {
     title: 'How many days a week can you study?',
     lead: 'Today shows your week as seven days, with a mark on each study day. Skip keeps 4.',
+  },
+  colleges: {
+    title: 'Which colleges are you aiming for?',
+    lead: 'Pick a course, then up to 8 colleges. Today shows your first with its 2026 cutoff. You can change them on Account.',
   },
 };
 
@@ -97,9 +103,9 @@ export default function OnboardingPageClient({ preview = false }) {
   const [capHit, setCapHit] = useState(false);
   const [shaking, setShaking] = useState(false);
   const [finishing, setFinishing] = useState(false);
-  // ?step=days reopens the second step after a reload (the subjects are saved by then).
-  const [arrivedForDays] = useState(() => query?.get('step') === 'days');
-  const [wanted, setWanted] = useState(() => (arrivedForDays ? 'days' : 'subjects'));
+  // ?step=days or ?step=colleges reopens that step after a reload (the subjects are saved by then).
+  const [arrivedForDays] = useState(() => stepFromQuery(query?.get('step')) !== null);
+  const [wanted, setWanted] = useState(() => stepFromQuery(query?.get('step')) || 'subjects');
   const [dir, setDir] = useState('in');
   const [savedThisVisit, setSavedThisVisit] = useState(false);
   const [days, setDays] = useState(DEFAULT_DAYS);
@@ -260,7 +266,7 @@ export default function OnboardingPageClient({ preview = false }) {
 
   const saveDays = async () => {
     if (saveLock.current) return;
-    if (preview) { setNotice('Preview only: your days were checked here. No account was changed.'); mobiAct(SCOPE, 'nod'); return; }
+    if (preview) { setNotice('Preview only: your days were checked here. No account was changed.'); toColleges('nod'); return; }
     saveLock.current = true;
     setSaving(true);
     setError(null);
@@ -274,7 +280,7 @@ export default function OnboardingPageClient({ preview = false }) {
         body: JSON.stringify(goalBody(days, pausedUntil.current)),
       });
       if (!response.ok) throw new Error(DAYS_FAILED);
-      await finish('cheer');
+      toColleges('cheer');
     } catch {
       setError(DAYS_FAILED);
       mobiAct(SCOPE, 'oops');
@@ -284,11 +290,34 @@ export default function OnboardingPageClient({ preview = false }) {
     }
   };
 
+  // The colleges step comes after the days, saved or skipped. Its picks save one by one as they are made.
+  const toColleges = (act = 'nod') => {
+    setError(null);
+    setNotice(null);
+    setDir('fwd');
+    setWanted('colleges');
+    mobiAct(SCOPE, act);
+    setUrl('/onboarding?step=colleges');
+  };
+
   const skipDays = () => {
     if (saveLock.current) return;
+    toColleges('nod');
+  };
+
+  const backToDays = () => {
+    if (saveLock.current) return;
     setError(null);
-    if (preview) { setNotice('Preview only: skipping keeps 4 days. No account was changed.'); return; }
-    finish('nod');
+    setNotice(null);
+    setDir('back');
+    setWanted('days');
+    setUrl('/onboarding?step=days');
+  };
+
+  const finishColleges = () => {
+    if (saveLock.current) return;
+    if (preview) { setNotice('Preview only: the first run ends here and Practice opens.'); mobiAct(SCOPE, 'cheer'); return; }
+    finish('cheer');
   };
 
   const backToSubjects = () => {
@@ -312,7 +341,7 @@ export default function OnboardingPageClient({ preview = false }) {
   const supported = subjects.filter((s) => s.practice === 'supported');
   // Saved choices MockMob cannot launch stay visible so they can be removed; never offered as new picks.
   const stale = selected.filter((id) => find(id)?.practice !== 'supported');
-  const stepIndex = step === 'days' ? 2 : 1;
+  const stepIndex = step === 'colleges' ? 3 : step === 'days' ? 2 : 1;
   const rhythm = dayRhythm(days);
 
   return (
@@ -320,11 +349,12 @@ export default function OnboardingPageClient({ preview = false }) {
       <header className="ob-top">
         <Logo />
         {!edit && (
-          <div className="ob-progress" role="img" aria-label={`Step ${stepIndex} of 2`}>
-            <span className="ob-progress__text" aria-hidden="true">Step {stepIndex} of 2</span>
+          <div className="ob-progress" role="img" aria-label={`Step ${stepIndex} of 3`}>
+            <span className="ob-progress__text" aria-hidden="true">Step {stepIndex} of 3</span>
             <span className="ob-progress__bar" aria-hidden="true">
               <span><i data-on="" /></span>
               <span><i data-on={stepIndex >= 2 ? '' : undefined} /></span>
+              <span><i data-on={stepIndex >= 3 ? '' : undefined} /></span>
             </span>
           </div>
         )}
@@ -334,10 +364,10 @@ export default function OnboardingPageClient({ preview = false }) {
       <main id="main-content" className="ob-main">
         <div className="ob-head">
           <div className="ob-step" data-dir={dir} key={`head-${step}`}>
-            {step === 'days' && (
-              <button type="button" className="ob-back" onClick={backToSubjects} disabled={busy}>
+            {step !== 'subjects' && (
+              <button type="button" className="ob-back" onClick={step === 'colleges' ? backToDays : backToSubjects} disabled={busy}>
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
-                Back to subjects
+                {step === 'colleges' ? 'Back to study days' : 'Back to subjects'}
               </button>
             )}
             <h1 ref={headingRef} tabIndex={-1} className="ob-title">{copy.title}</h1>
@@ -403,6 +433,10 @@ export default function OnboardingPageClient({ preview = false }) {
                 })}
               </div>
             </>
+          ) : step === 'colleges' ? (
+            <section className="ob-colleges" aria-label="Your target colleges">
+              <CollegePicker userId={user?.id} />
+            </section>
           ) : (
             <section className="ob-days" aria-labelledby="ob-days-title">
               <div className="ob-track" role="radiogroup" aria-label="Study days a week" aria-disabled={busy || undefined} style={{ '--ob-pick': thumbIndex(days) }}>
@@ -462,6 +496,13 @@ export default function OnboardingPageClient({ preview = false }) {
                 <span className="ob-cap" role="status">{capHit && selected.length >= SUBJECT_CAP ? "That's five. Remove one to swap." : ''}</span>
               </span>
             </div>
+          ) : step === 'colleges' ? (
+            <div className="ob-bar__status">
+              <span className="ob-bar__text">
+                <b>Optional</b>
+                <span className="ob-bar__sub">Each college saves as you choose it</span>
+              </span>
+            </div>
           ) : (
             <div className="ob-bar__status">
               <span className="ob-bar__text">
@@ -474,7 +515,11 @@ export default function OnboardingPageClient({ preview = false }) {
             {step === 'days' && (
               <button type="button" className="ob-quiet" onClick={skipDays} disabled={busy}>Skip for now</button>
             )}
-            {step === 'subjects' ? (
+            {step === 'colleges' ? (
+              <Button variant="volt" size="lg" className="ob-primary" disabled={busy} onClick={finishColleges}>
+                {finishing ? 'Saved' : 'Finish'}
+              </Button>
+            ) : step === 'subjects' ? (
               <Button variant="volt" size="lg" className="ob-primary" disabled={selected.length === 0 || busy} onClick={saveSubjects}>
                 {saving ? 'Saving subjects…' : finishing ? 'Saved' : edit ? 'Save subjects' : 'Next'}
               </Button>

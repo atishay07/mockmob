@@ -28,7 +28,7 @@ function Mark({ m, i }) {
  * `rhythm`, `goal`: the reads ({ status, data }). `everSessions`: saved sessions (0 = day one). `mobiFree`: no other
  * Mobi is on screen (the move card is not showing one). `mob`: the Mob state, for the ring-complete moment.
  */
-export default function TodayWeek({ rhythm, goal, everSessions = null, mobiFree = true, mob = null, repairs = null, onRetry }) {
+export default function TodayWeek({ rhythm, goal, everSessions = null, mobiFree = true, mob = null, repairs = null, onRetry, hold = false }) {
   const r = rhythm.data;
   const today = useMemo(() => (r ? todayKeyIn(r.timeZone) : null), [r]);
   const firstDay = useMemo(() => {
@@ -66,7 +66,8 @@ export default function TodayWeek({ rhythm, goal, everSessions = null, mobiFree 
       </section>
     );
   }
-  if (!r) {
+  // `hold`: the move is still on its way, so the week waits with it and the two land together (W-042).
+  if (!r || hold) {
     return (
       <section className="tw tw--wait" aria-labelledby="tw-h" aria-busy="true">
         <header className="tw__head"><h2 id="tw-h" className="tg__h">This week</h2><span className="tw__fig tw__fig--wait" /></header>

@@ -205,3 +205,59 @@
 :root[data-motion='reduced'] .app-shell .acct-object__add,
 :root[data-motion='reduced'] .app-shell .acct-object__plus { transition: none !important; transition-delay: 0ms !important; }
 :root[data-motion='reduced'] .app-shell .acct-object__add:hover .acct-object__plus { transform: none; }
+
+/* ---------- 17 Oct (W-052, W-053): balances at a glance, then Your progress; plan and billing lower ---------- */
+@media (max-width: 1023px) {
+  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #sheet { order: 1; }
+  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #progress-glance { order: 2; }
+  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > .acct-moved--colleges { order: 3; }
+  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #colleges { order: 3; }
+  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #goal { order: 4; }
+  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #plan { order: 5; }
+  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #credits { order: 6; }
+  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #name { order: 7; }
+  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #appearance { order: 8; }
+  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > .acct-moved--end { order: 9; }
+}
+
+/* The two balances under your name: two pressable figures, no pill fills, 44 px targets. */
+.app-shell .acct-credits { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 12px; }
+.app-shell .acct-credits__item { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 2px; color: var(--a-ink); text-decoration: none; border-radius: 10px; }
+.app-shell .acct-credits__item .credit-amount__value { font-size: 20px; }
+.app-shell .acct-credits__label { font-size: 13px; color: var(--a-ink-3); }
+.app-shell .acct-credits__item:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) { .app-shell .acct-credits__item:hover .acct-credits__label { color: var(--a-ink); text-decoration: underline; text-underline-offset: 3px; } }
+.app-shell .acct-sk--chip { display: inline-block; width: 44px; height: 20px; border-radius: 6px; }
+
+/* Your progress: one card, three ruled cells (week ring, badges, best). No nested cards. */
+.app-shell .acct-glance { display: grid; gap: 14px; }
+.app-shell .acct-glance__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.app-shell .acct-glance__grid { display: grid; grid-template-columns: minmax(0, 1fr); }
+.app-shell .acct-glance__cell { min-width: 0; padding: 12px 0; border-top: 1px solid var(--a-line); }
+.app-shell .acct-glance__cell:first-child { border-top: 0; padding-top: 0; }
+.app-shell .acct-glance :is(.acct-glance__week, .acct-glance__badges, .acct-glance__best) { display: flex; align-items: center; gap: 14px; min-height: 56px; color: inherit; text-decoration: none; border-radius: 10px; }
+.app-shell .acct-glance :is(.acct-glance__week, .acct-glance__badges, .acct-glance__best):focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) { .app-shell .acct-glance :is(.acct-glance__week, .acct-glance__badges, .acct-glance__best):hover .acct-glance__text b { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; } }
+.app-shell .acct-glance__ring-wrap { position: relative; display: grid; place-items: center; flex: 0 0 56px; width: 56px; height: 56px; }
+.app-shell .acct-glance__ring-wrap b { position: absolute; font: 800 20px/1 var(--font-display); color: var(--a-ink); font-variant-numeric: tabular-nums; }
+.app-shell .acct-glance__ring { width: 56px; height: 56px; transform: rotate(-90deg); }
+.app-shell .acct-glance__ring-base { fill: none; stroke: var(--a-line-strong); stroke-width: 5; }
+.app-shell .acct-glance__ring-on { fill: none; stroke: var(--volt, #d2f000); stroke-width: 5; stroke-linecap: round; transition: stroke-dasharray 600ms var(--a-ease); }
+html[data-theme='light'] .app-shell .acct-glance__ring-on { stroke: var(--a-select); }
+.app-shell .acct-glance__text { display: grid; gap: 2px; min-width: 0; }
+.app-shell .acct-glance__text b { font: 700 16px/1.3 var(--font-display); color: var(--a-ink); font-variant-numeric: tabular-nums; }
+.app-shell .acct-glance__text span { font-size: 13.5px; line-height: 1.4; color: var(--a-ink-2); overflow-wrap: anywhere; }
+.app-shell .acct-glance__medals { display: flex; flex: 0 0 auto; }
+.app-shell .acct-glance__medals .sb-medal { margin-left: -8px; box-shadow: 0 0 0 3px var(--a-raised); }
+.app-shell .acct-glance__medals .sb-medal:first-child { margin-left: 0; }
+.app-shell .acct-glance__fig { flex: 0 0 auto; min-width: 56px; font: 800 26px/1 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
+.app-shell .acct-glance__note { margin: 0; font-size: 14px; line-height: 1.5; color: var(--a-ink-2); }
+.app-shell .acct-sk--glance { display: block; width: 100%; height: 56px; border-radius: 12px; }
+.app-shell .acct-link--inline { min-height: 0; display: inline; }
+@media (min-width: 640px) {
+  .app-shell .acct-glance__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 20px; }
+  .app-shell .acct-glance__cell { padding: 0; border-top: 0; border-left: 1px solid var(--a-line); padding-left: 20px; }
+  .app-shell .acct-glance__cell:first-child { border-left: 0; padding-left: 0; }
+  .app-shell .acct-glance :is(.acct-glance__week, .acct-glance__badges, .acct-glance__best) { flex-direction: column; align-items: flex-start; gap: 10px; }
+}
+.app-shell .mc-account-pick { padding-top: 6px; border-top: 1px solid var(--a-line); }

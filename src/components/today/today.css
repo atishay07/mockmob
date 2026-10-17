@@ -12,9 +12,11 @@
 .app-shell .today-grid { display: flex; flex-direction: column; gap: 28px; min-width: 0; }
 .app-shell .today-grid__main, .app-shell .today-grid__side { display: contents; }
 .app-shell .today-grid .tm { order: 1; }
-.app-shell .today-grid .tw { order: 2; margin-top: 4px; }
-.app-shell .today-grid .trd { order: 3; }
-.app-shell .today-grid .tr { order: 4; }
+.app-shell .today-grid .tcue { order: 2; }
+.app-shell .today-grid .tw { order: 3; margin-top: 4px; }
+.app-shell .today-grid .tmob { order: 4; }
+.app-shell .today-grid .trd { order: 5; scroll-margin-top: calc(var(--arena-topbar-h, 63px) + 16px); }
+.app-shell .today-grid .tr { order: 6; }
 .app-shell .today-grid > * > * { min-width: 0; }
 
 /* Shared glance type. */
@@ -225,6 +227,49 @@ html[data-theme='light'] .app-shell .trd__pips i[data-on] { box-shadow: 0 0 0 1p
 .app-shell .tr__choose { flex: 0 0 auto; }
 .app-shell .tr__bar { display: block; width: 50%; height: 14px; border-radius: 6px; background: var(--a-raised-2); }
 
+/* Waiting rows hold the 76 px a row takes, with a bar where the figure goes, so nothing moves when they land. */
+.app-shell .tr__note--wait .tr__text { gap: 8px; }
+.app-shell .tr__figbar { display: block; flex: 0 0 56px; height: 26px; border-radius: 8px; background: var(--a-raised-2); }
+/* The college's next step: one line on how your subjects stand against its rules, and one pressable pill. */
+.app-shell .tr > li.tr__plan { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 2px 14px; border-top: 0; }
+.app-shell .tr__fit { margin: 0; font-size: 13.5px; line-height: 1.4; color: var(--a-ink-2); }
+.app-shell .tr__fit[data-fit='meets'] { color: var(--a-ink); }
+.app-shell .tr__plan-key { flex: 0 0 auto; }
+
+/* ---------- The lead below the fold (phones) ---------- */
+.app-shell .tcue { display: flex; justify-content: center; margin: -14px 0 -8px; transition: opacity 240ms var(--ease-out), transform 240ms var(--ease-out); }
+.app-shell .tcue[data-seen] { opacity: 0; transform: translateY(-4px); pointer-events: none; }
+.app-shell .tcue__key {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border: 0; border-radius: 22px;
+  background: none; color: var(--a-ink-2); font: 600 14px/1.2 inherit; cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: color 150ms ease, background-color 150ms ease; animation: today-fade 240ms ease 320ms both;
+}
+.app-shell .tcue__fig { font-weight: 500; color: var(--a-ink-3); }
+.app-shell .tcue__chev { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 13px; box-shadow: inset 0 0 0 1px var(--a-line-strong); color: var(--a-ink); animation: tcue-nudge 1400ms var(--ease-out) 900ms 2 both; }
+.app-shell .tcue__key:active { background: var(--a-hover); }
+@media (hover: hover) and (pointer: fine) { .app-shell .tcue__key:hover { color: var(--a-ink); } }
+.app-shell .tcue__key:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+@keyframes tcue-nudge { 0%, 100% { transform: none; } 40% { transform: translateY(4px); } 70% { transform: translateY(-1px); } }
+.app-shell .trd h2[tabindex='-1']:focus { outline: none; }
+
+/* ---------- Your Mob (one slim row under the week) ---------- */
+.app-shell .tmob { margin-top: -10px; animation: today-rise-8 240ms var(--ease-out) 60ms both; }
+.app-shell .tmob__row { display: flex; align-items: center; gap: 14px; min-height: 60px; padding: 10px 2px; border-top: 1px solid var(--a-line); border-bottom: 1px solid var(--a-line); color: inherit; text-decoration: none; -webkit-tap-highlight-color: transparent; }
+.app-shell .tmob__row:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 6px; }
+@media (hover: hover) and (pointer: fine) { .app-shell .tmob__row:hover b { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; } }
+.app-shell .tmob__ring { display: flex; flex: 0 0 auto; }
+.app-shell .tmob__ring i { width: 20px; height: 20px; margin-left: -6px; border-radius: 50%; background: var(--a-raised-2); box-shadow: 0 0 0 2px var(--a-bg), inset 0 0 0 1.5px var(--a-line-strong); }
+.app-shell .tmob__ring i:first-child { margin-left: 0; }
+.app-shell .tmob__ring i[data-on] { background: var(--a-ink); box-shadow: 0 0 0 2px var(--a-bg); }
+.app-shell .tmob__text { display: grid; gap: 2px; flex: 1; min-width: 0; font-size: 13.5px; line-height: 1.4; color: var(--a-ink-2); }
+.app-shell .tmob__text b { font-size: 15px; font-weight: 600; color: var(--a-ink); }
+
+/* The dock's glass on Today is a little denser (owner, 15 Oct: the existing blur slightly stronger), so the road and the
+   week read as further down, under the glass, rather than cut off. */
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  html .app-shell:has(.student-page--today) .arena-bottomnav { -webkit-backdrop-filter: blur(40px) saturate(1.6); backdrop-filter: blur(40px) saturate(1.6); }
+}
+
 /* ---------- The sheet ---------- */
 .tsh { position: fixed; inset: auto 0 0 0; width: 100%; max-width: 100%; max-height: 86dvh; margin: 0; padding: 0; border: 0; background: transparent; color: var(--a-ink); overflow: visible; }
 .tsh::backdrop { background: rgb(4 7 5 / 0.56); animation: today-fade 200ms ease both; }
@@ -266,6 +311,8 @@ html[data-theme='light'] .app-shell .trd__pips i[data-on] { box-shadow: 0 0 0 1p
   .app-shell .today-grid__main, .app-shell .today-grid__side { display: grid; gap: 24px; min-width: 0; }
   .app-shell .today-grid__side { gap: 28px; padding-top: 6px; }
   .app-shell .today-grid .tw { margin-top: 0; }
+  .app-shell .today-grid .tcue { display: none; }
+  .app-shell .tmob { margin-top: -12px; }
   .app-shell .tm { padding: 28px; }
   .app-shell .tm--wait { min-height: 470px; }
   .app-shell .tm__top { min-height: 136px; }
@@ -288,10 +335,10 @@ html[data-theme='light'] .app-shell .trd__pips i[data-on] { box-shadow: 0 0 0 1p
 .app-shell .trd__col { animation-delay: calc(var(--k, 0) * 8ms); }
 
 @media (prefers-reduced-motion: reduce) {
-  .app-shell :is(.today__head, .tm, .tw, .trd, .tr, .trd__col, .tw__dot), .tsh__body { animation: today-fade 120ms ease both !important; transform: none !important; }
+  .app-shell :is(.today__head, .tm, .tw, .trd, .tr, .trd__col, .tw__dot, .tcue__key, .tmob, .tcue__chev), .tsh__body { animation: today-fade 120ms ease both !important; transform: none !important; }
   .app-shell .tw__dot path { animation: none; stroke-dashoffset: 0; }
   .app-shell .trd__panel { transition: none; }
 }
-html[data-motion='reduced'] .app-shell :is(.today__head, .tm, .tw, .trd, .tr, .trd__col, .tw__dot), html[data-motion='reduced'] .tsh__body { animation: today-fade 120ms ease both !important; transform: none !important; }
+html[data-motion='reduced'] .app-shell :is(.today__head, .tm, .tw, .trd, .tr, .trd__col, .tw__dot, .tcue__key, .tmob, .tcue__chev), html[data-motion='reduced'] .tsh__body { animation: today-fade 120ms ease both !important; transform: none !important; }
 html[data-motion='reduced'] .app-shell .tw__dot path { animation: none; stroke-dashoffset: 0; }
 html[data-motion='reduced'] .app-shell .trd__panel { transition: none; }
