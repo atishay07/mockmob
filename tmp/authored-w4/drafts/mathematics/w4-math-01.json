@@ -1,0 +1,925 @@
+{
+  "batch": "w4-math-01",
+  "subject": "mathematics",
+  "questions": [
+    {
+      "id": "1413fb21-57bd-4f2a-a970-c87ad9f10e22",
+      "subject": "mathematics",
+      "unit": "Applied Mathematics",
+      "chapter": "Numbers, Quantification and Numerical Applications",
+      "type": "single_mcq",
+      "stem": "The remainder when 345 × 29 is divided by 8 is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "6"
+        },
+        {
+          "key": "B",
+          "text": "1"
+        },
+        {
+          "key": "C",
+          "text": "5"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "345 = 43 × 8 + 1, so 345 ≡ 1 (mod 8), and 29 = 3 × 8 + 5, so 29 ≡ 5 (mod 8). The remainder of a product is the product of the remainders: 1 × 5 = 5 (check: 345 × 29 = 10005 = 1250 × 8 + 5). Adding the remainders gives 6, which is the remainder of the sum 345 + 29 = 374, not of the product.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "CUET 2026 Applied Mathematics syllabus, Unit I Numbers, Quantification and Numerical Applications: modulo arithmetic, remainder of a product",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "solved_key": "C",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "easy",
+        "label": "easy",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": []
+      }
+    },
+    {
+      "id": "df8f1dc2-817f-4beb-94d7-79fa21ae35e5",
+      "subject": "mathematics",
+      "unit": "Applied Mathematics",
+      "chapter": "Numbers, Quantification and Numerical Applications",
+      "type": "single_mcq",
+      "stem": "How many integers x with 1 ≤ x ≤ 60 satisfy x ≡ 3 (mod 7)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "9"
+        },
+        {
+          "key": "B",
+          "text": "8"
+        },
+        {
+          "key": "C",
+          "text": "10"
+        },
+        {
+          "key": "D",
+          "text": "7"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "x ≡ 3 (mod 7) means x = 7m + 3 for an integer m. The values from 1 to 60 are 3, 10, 17, 24, 31, 38, 45, 52 and 59, that is m = 0 to 8, so there are 9. Taking the integer part of 60 ÷ 7 gives 8, which forgets that m = 0 also counts, and m = 9 would give 66, beyond 60.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "CUET 2026 Applied Mathematics syllabus, Unit I Numbers, Quantification and Numerical Applications: congruence modulo, integers in a residue class",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "repaired",
+        "solved_key": "A",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "medium",
+        "label": "medium",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": [
+          {
+            "field": "stem, options, explanation, ncert_ref",
+            "what": "Replaced the linear congruence 5x ≡ 3 (mod 7) with a count of integers in a residue class, because a live question already asks to solve a linear congruence (7x ≡ 3 mod 11).",
+            "changed_solver_view": true,
+            "old_stem": "The least positive integer x satisfying the congruence 5x ≡ 3 (mod 7) is:"
+          }
+        ]
+      }
+    },
+    {
+      "id": "0588bad0-9280-44b9-bc61-2dc16a9f8eb1",
+      "subject": "mathematics",
+      "unit": "Applied Mathematics",
+      "chapter": "Numbers, Quantification and Numerical Applications",
+      "type": "single_mcq",
+      "stem": "In what ratio must tea costing ₹ 60 per kg be mixed with tea costing ₹ 80 per kg so that the mixture is worth ₹ 72 per kg?",
+      "options": [
+        {
+          "key": "A",
+          "text": "3 : 2"
+        },
+        {
+          "key": "B",
+          "text": "1 : 1"
+        },
+        {
+          "key": "C",
+          "text": "2 : 1"
+        },
+        {
+          "key": "D",
+          "text": "2 : 3"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "By the rule of allegation, cheaper : dearer = (dearer price − mean price) : (mean price − cheaper price) = (80 − 72) : (72 − 60) = 8 : 12 = 2 : 3. Check: 2 kg at ₹ 60 and 3 kg at ₹ 80 cost 120 + 240 = ₹ 360, and 360 ÷ 5 = ₹ 72 per kg. The ratio 3 : 2 writes the two differences the wrong way round, and 1 : 1 would give a mean price of ₹ 70.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "CUET 2026 Applied Mathematics syllabus, Unit I Numbers, Quantification and Numerical Applications: allegation and mixture, ratio of mixing",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "repaired",
+        "solved_key": "D",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "easy",
+        "label": "easy",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": [
+          {
+            "field": "options, explanation",
+            "what": "Two throwaway options (6 : 5, 10 : 9) replaced by 1 : 1 (midpoint slip) and 2 : 1 (percentage-difference slip).",
+            "changed_solver_view": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "c6aed432-8bcf-47f4-838d-0fcf91e6b87f",
+      "subject": "mathematics",
+      "unit": "Applied Mathematics",
+      "chapter": "Numbers, Quantification and Numerical Applications",
+      "type": "single_mcq",
+      "stem": "A boat takes 6 hours to cover 24 km upstream and 4 hours to cover the same distance downstream. The speed of the stream is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "2 km/h"
+        },
+        {
+          "key": "B",
+          "text": "1 km/h"
+        },
+        {
+          "key": "C",
+          "text": "5 km/h"
+        },
+        {
+          "key": "D",
+          "text": "10 km/h"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "Upstream speed = 24 ÷ 6 = 4 km/h and downstream speed = 24 ÷ 4 = 6 km/h. Speed of the stream = (downstream − upstream) ÷ 2 = (6 − 4) ÷ 2 = 1 km/h, while the speed of the boat in still water is (6 + 4) ÷ 2 = 5 km/h. Answering 2 km/h forgets to halve the difference, and 5 km/h is the boat’s own speed.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "CUET 2026 Applied Mathematics syllabus, Unit I Numbers, Quantification and Numerical Applications: boats and streams, speed of the current",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "solved_key": "B",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "medium",
+        "label": "medium",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": []
+      }
+    },
+    {
+      "id": "61688b26-9f1d-4fe8-af95-fcb90ccff688",
+      "subject": "mathematics",
+      "unit": "Applied Mathematics",
+      "chapter": "Numbers, Quantification and Numerical Applications",
+      "type": "single_mcq",
+      "stem": "Pipe A can fill an empty tank in 12 hours and pipe B can fill it in 20 hours, while an outlet pipe C can empty the full tank in 30 hours. If all three pipes are opened together, the empty tank will be filled in:",
+      "options": [
+        {
+          "key": "A",
+          "text": "7.5 hours"
+        },
+        {
+          "key": "B",
+          "text": "6 hours"
+        },
+        {
+          "key": "C",
+          "text": "10 hours"
+        },
+        {
+          "key": "D",
+          "text": "2 hours"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "In one hour A fills 1/12, B fills 1/20 and C empties 1/30 of the tank. Net rate = 1/12 + 1/20 − 1/30 = (5 + 3 − 2)/60 = 1/10 of the tank per hour, so the tank fills in 10 hours. Ignoring the outlet gives 60/8 = 7.5 hours, and treating the outlet as another inlet gives 6 hours.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "CUET 2026 Applied Mathematics syllabus, Unit I Numbers, Quantification and Numerical Applications: pipes and cisterns, filling and emptying together",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "solved_key": "C",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "medium",
+        "label": "medium",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": []
+      }
+    },
+    {
+      "id": "80d1f709-f1db-4e6a-86d3-426cef7fa59c",
+      "subject": "mathematics",
+      "unit": "Applied Mathematics",
+      "chapter": "Numbers, Quantification and Numerical Applications",
+      "type": "single_mcq",
+      "stem": "In a 500 m race A beats B by 50 m, and in another 500 m race B beats C by 50 m. If each runner keeps a constant speed, by how many metres does A beat C in a 500 m race?",
+      "options": [
+        {
+          "key": "A",
+          "text": "100 m"
+        },
+        {
+          "key": "B",
+          "text": "95 m"
+        },
+        {
+          "key": "C",
+          "text": "405 m"
+        },
+        {
+          "key": "D",
+          "text": "50 m"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "When A runs 500 m, B runs 450 m; when B runs 500 m, C runs 450 m. So when B runs 450 m, C runs 450 × 450/500 = 405 m. Hence C covers only 405 m while A covers 500 m, and A wins by 500 − 405 = 95 m (the speed ratios 10 : 9 and 10 : 9 give A : C = 100 : 81, the same result). Adding the two margins to get 100 m ignores that B’s second 50 m lead is measured over 500 m, not over the 450 m it runs here.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "CUET 2026 Applied Mathematics syllabus, Unit I Numbers, Quantification and Numerical Applications: races and games, beating by a distance",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "solved_key": "B",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "hard",
+        "label": "hard",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": [],
+        "advisory": "Hard label is generous (two ratios chained); fair CUET range."
+      }
+    },
+    {
+      "id": "0e1790f3-7da1-462b-9088-8fd54ec251fd",
+      "subject": "mathematics",
+      "unit": "Applied Mathematics",
+      "chapter": "Numbers, Quantification and Numerical Applications",
+      "type": "statement_based",
+      "stem": "Consider the following statements about numerical inequalities, where a, b and c are real numbers.\n(A) If a > b, then a + c > b + c for every value of c.\n(B) If a > b, then ac > bc for every value of c.\n(C) If a > b and c < 0, then ac < bc.\n(D) If a > b > 0, then 1/a < 1/b.\nChoose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(A), (B) and (C) only"
+        },
+        {
+          "key": "B",
+          "text": "(B), (C) and (D) only"
+        },
+        {
+          "key": "C",
+          "text": "(A), (B) and (D) only"
+        },
+        {
+          "key": "D",
+          "text": "(A), (C) and (D) only"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "Adding the same number to both sides never changes an inequality, so (A) is true, and multiplying both sides by a negative number reverses it, so (C) is true. For positive numbers the larger one has the smaller reciprocal (2 > 1 but 1/2 < 1), so (D) is true. Statement (B) fails for c = 0 and for every negative c, which is the common slip of forgetting that the sign reverses for a negative multiplier.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "CUET 2026 Applied Mathematics syllabus, Unit I Numbers, Quantification and Numerical Applications: numerical inequalities, properties of inequalities",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "solved_key": "D",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "medium",
+        "label": "medium",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": []
+      }
+    },
+    {
+      "id": "05715cc3-5ce9-4a38-b4c3-18ce7e19913f",
+      "subject": "mathematics",
+      "unit": "Applied Mathematics",
+      "chapter": "Numbers, Quantification and Numerical Applications",
+      "type": "single_mcq",
+      "stem": "A is 50% more efficient than B. Working together, A and B can complete a piece of work in 12 days. How many days would B alone take to complete the work?",
+      "options": [
+        {
+          "key": "A",
+          "text": "30 days"
+        },
+        {
+          "key": "B",
+          "text": "20 days"
+        },
+        {
+          "key": "C",
+          "text": "18 days"
+        },
+        {
+          "key": "D",
+          "text": "24 days"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "The efficiencies of A and B are in the ratio 150 : 100 = 3 : 2, so together they do 3 + 2 = 5 units of work a day. Total work = 5 × 12 = 60 units, and B alone does 2 units a day, so B takes 60 ÷ 2 = 30 days. Check: 1/20 + 1/30 = 5/60 = 1/12. The 20 days is the time A alone would take, not B.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "CUET 2026 Applied Mathematics syllabus, Unit I Numbers, Quantification and Numerical Applications: numerical problems, time and work with relative efficiency",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "solved_key": "A",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "medium",
+        "label": "hard",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": [],
+        "advisory": "Time and work is read under Applied Mathematics Unit I section D (Numerical Problems: solve real life problems); the blueprint allocation lists it.",
+        "level_note": "label hard, my estimate medium; label left as authored (one notch, does not change the key)"
+      }
+    },
+    {
+      "id": "692b21ba-8a97-4c40-a18b-7e596ef70759",
+      "subject": "mathematics",
+      "unit": "Applied Mathematics",
+      "chapter": "Financial Mathematics",
+      "type": "single_mcq",
+      "stem": "A perpetuity pays ₹ 6,000 at the end of every year for ever. If the rate of interest is 8% per annum, its present value is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "₹ 480"
+        },
+        {
+          "key": "B",
+          "text": "₹ 7,500"
+        },
+        {
+          "key": "C",
+          "text": "₹ 75,000"
+        },
+        {
+          "key": "D",
+          "text": "₹ 48,000"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "The present value of a perpetuity is the payment divided by the rate of interest: 6,000 ÷ 0.08 = ₹ 75,000. Check: ₹ 75,000 invested at 8% earns exactly ₹ 6,000 a year with the capital left intact. Multiplying 6,000 by 0.08 gives ₹ 480, which is a year’s interest on the payment and not the sum needed to fund it.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "CUET 2026 Applied Mathematics syllabus, Unit VII Financial Mathematics: perpetuity, present value of a perpetuity",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "solved_key": "C",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "easy",
+        "label": "easy",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": []
+      }
+    },
+    {
+      "id": "73fd584b-e7ae-410e-9954-92afabb63682",
+      "subject": "mathematics",
+      "unit": "Applied Mathematics",
+      "chapter": "Financial Mathematics",
+      "type": "single_mcq",
+      "stem": "A loan of ₹ 60,000 is taken at 10% per annum flat rate for 2 years and is repaid in equal monthly instalments. The EMI under the flat rate method is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "₹ 2,500"
+        },
+        {
+          "key": "B",
+          "text": "₹ 2,750"
+        },
+        {
+          "key": "C",
+          "text": "₹ 6,000"
+        },
+        {
+          "key": "D",
+          "text": "₹ 3,000"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "Under the flat rate method interest is charged on the original principal for the whole period: 60,000 × 10% × 2 = ₹ 12,000. Total repayment = 60,000 + 12,000 = ₹ 72,000, and spreading it over 2 × 12 = 24 months gives 72,000 ÷ 24 = ₹ 3,000. The figure ₹ 2,500 is the principal alone divided by 24, leaving out the interest.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "CUET 2026 Applied Mathematics syllabus, Unit VII Financial Mathematics: EMI by the flat rate method",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "solved_key": "D",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "medium",
+        "label": "medium",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": []
+      }
+    },
+    {
+      "id": "89e2254f-528c-499b-99db-452c534573b0",
+      "subject": "mathematics",
+      "unit": "Applied Mathematics",
+      "chapter": "Financial Mathematics",
+      "type": "single_mcq",
+      "stem": "A firm deposits an equal amount at the end of each year for 2 years in a sinking fund that earns 10% per annum compound interest, so as to have ₹ 46,200 at the end of the 2nd year. The yearly deposit is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "₹ 22,000"
+        },
+        {
+          "key": "B",
+          "text": "₹ 23,100"
+        },
+        {
+          "key": "C",
+          "text": "₹ 20,000"
+        },
+        {
+          "key": "D",
+          "text": "₹ 21,000"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "The first deposit earns one year’s interest, so the fund after 2 years is P × 1.1 + P = 2.1P. Setting 2.1P = 46,200 gives P = ₹ 22,000; check: 22,000 × 1.1 + 22,000 = 24,200 + 22,000 = 46,200. Dividing 46,200 by 2 gives ₹ 23,100, which ignores the interest the fund earns.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "CUET 2026 Applied Mathematics syllabus, Unit VII Financial Mathematics: sinking fund, periodic deposit",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "solved_key": "A",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "medium",
+        "label": "medium",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": []
+      }
+    },
+    {
+      "id": "fe53af95-1c40-4ab0-ac4a-33300a6485f5",
+      "subject": "mathematics",
+      "unit": "Applied Mathematics",
+      "chapter": "Financial Mathematics",
+      "type": "match_the_following",
+      "stem": "Match List-I with List-II.\nList-I:\n(A) Perpetuity\n(B) Sinking fund\n(C) Rate of return\n(D) Straight-line depreciation\nList-II:\n(I) Gain on an investment, income plus rise in value, as a percentage of the amount invested\n(II) Equal amount written off an asset’s cost in every year of its useful life\n(III) Money built up by regular deposits to meet a liability on a future date\n(IV) Equal payments continuing for ever at regular intervals\nChoose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(A)-(IV), (B)-(III), (C)-(II), (D)-(I)"
+        },
+        {
+          "key": "B",
+          "text": "(A)-(IV), (B)-(III), (C)-(I), (D)-(II)"
+        },
+        {
+          "key": "C",
+          "text": "(A)-(III), (B)-(IV), (C)-(I), (D)-(II)"
+        },
+        {
+          "key": "D",
+          "text": "(A)-(IV), (B)-(II), (C)-(I), (D)-(III)"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "A perpetuity is a stream of equal payments with no end, a sinking fund is built from regular deposits so that a liability can be met on a fixed date, the rate of return compares income plus change in value with the sum invested, and straight-line depreciation writes off (cost − residual value) ÷ life equally each year. Linking the sinking fund with the equal yearly write-off confuses a fund that is built up with an expense that is charged.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "CUET 2026 Applied Mathematics syllabus, Unit VII Financial Mathematics: perpetuity, sinking fund, rate of return and linear depreciation terms",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "solved_key": "B",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "easy",
+        "label": "easy",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": []
+      }
+    },
+    {
+      "id": "4413281e-b267-4c9e-b508-d943bdc632b7",
+      "subject": "mathematics",
+      "unit": "Applied Mathematics",
+      "chapter": "Financial Mathematics",
+      "type": "single_mcq",
+      "stem": "The value of a fund grows by 25% in the first year and by 80% in the second year. Its compound annual growth rate (CAGR) over the two years is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "62.5%"
+        },
+        {
+          "key": "B",
+          "text": "125%"
+        },
+        {
+          "key": "C",
+          "text": "52.5%"
+        },
+        {
+          "key": "D",
+          "text": "50%"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "Over two years the value is multiplied by 1.25 × 1.80 = 2.25. CAGR is the constant yearly rate that gives this growth: (1 + g)² = 2.25, so 1 + g = 1.5 and g = 50%. Check: 1.5 × 1.5 = 2.25. The average of 25% and 80% is 52.5%, and the total gain of 125% divided by 2 is 62.5%; neither is a compound rate.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "CUET 2026 Applied Mathematics syllabus, Unit VII Financial Mathematics: compound annual growth rate versus simple annual growth rate",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "solved_key": "D",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "medium",
+        "label": "hard",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": [],
+        "level_note": "label hard, my estimate medium; label left as authored (one notch, does not change the key)"
+      }
+    },
+    {
+      "id": "8a51bea6-7f2e-45de-acf0-4dbd4ab9d672",
+      "subject": "mathematics",
+      "unit": "Applied Mathematics",
+      "chapter": "Financial Mathematics",
+      "type": "single_mcq",
+      "stem": "A bond of face value ₹ 1,200 pays an annual coupon of 5% at the end of each year and is redeemed at its face value at the end of 2 years. If the required rate of return is 20% per annum, the present value of the bond is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "₹ 1,100"
+        },
+        {
+          "key": "B",
+          "text": "₹ 875"
+        },
+        {
+          "key": "C",
+          "text": "₹ 925"
+        },
+        {
+          "key": "D",
+          "text": "₹ 1,200"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "The annual coupon is 5% of 1,200 = ₹ 60. Present value = 60/1.2 + (60 + 1,200)/1.44 = 50 + 875 = ₹ 925, because 1.44 × 875 = 1,260. Discounting only the final payment gives ₹ 875, which leaves out the present value of the first coupon.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "CUET 2026 Applied Mathematics syllabus, Unit VII Financial Mathematics: valuation of bonds by the present value approach",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "solved_key": "C",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "hard",
+        "label": "hard",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": []
+      }
+    },
+    {
+      "id": "23fda7f6-04bb-43cf-8611-002db1847e7c",
+      "subject": "mathematics",
+      "unit": "Applied Mathematics",
+      "chapter": "Financial Mathematics",
+      "type": "single_mcq",
+      "stem": "A machine bought for ₹ 1,80,000 has a residual value of ₹ 30,000 and a useful life of 5 years. Using the straight-line method, its book value at the end of 2 years is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "₹ 1,20,000"
+        },
+        {
+          "key": "B",
+          "text": "₹ 60,000"
+        },
+        {
+          "key": "C",
+          "text": "₹ 1,08,000"
+        },
+        {
+          "key": "D",
+          "text": "₹ 1,50,000"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "Annual depreciation = (cost − residual value) ÷ useful life = (1,80,000 − 30,000) ÷ 5 = ₹ 30,000. After 2 years the total depreciation is ₹ 60,000, so the book value is 1,80,000 − 60,000 = ₹ 1,20,000. The figure ₹ 60,000 is only the depreciation charged so far, and ignoring the residual value gives ₹ 36,000 a year and a book value of 1,80,000 − 72,000 = ₹ 1,08,000.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "CUET 2026 Applied Mathematics syllabus, Unit VII Financial Mathematics: linear (straight line) depreciation, cost, residual value and useful life",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "repaired",
+        "solved_key": "A",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "medium",
+        "label": "medium",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": [
+          {
+            "field": "stem, options, explanation",
+            "what": "At 3 years the key (₹ 90,000) equalled the accumulated depreciation, so a student who confused book value with depreciation charged still hit the key. Changed to 2 years: key ₹ 1,20,000, accumulated depreciation ₹ 60,000 is now a distractor.",
+            "changed_solver_view": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "d1c6ce3a-f7fe-480a-b211-4b242271ae06",
+      "subject": "mathematics",
+      "unit": "Applied Mathematics",
+      "chapter": "Probability Distributions",
+      "type": "single_mcq",
+      "stem": "A discrete random variable X takes the values 1, 2 and 3 with probabilities 0.2, 0.5 and 0.3 respectively. The variance of X is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "0.70"
+        },
+        {
+          "key": "B",
+          "text": "4.90"
+        },
+        {
+          "key": "C",
+          "text": "2.10"
+        },
+        {
+          "key": "D",
+          "text": "0.49"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "The mean is E(X) = 1(0.2) + 2(0.5) + 3(0.3) = 2.1 and E(X²) = 1(0.2) + 4(0.5) + 9(0.3) = 4.9. The variance is E(X²) − [E(X)]² = 4.9 − 4.41 = 0.49. The value 4.90 is E(X²) before the squared mean is subtracted, and 0.70 is the standard deviation, not the variance.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "CUET 2026 Applied Mathematics syllabus, Unit IV Probability Distributions: variance and standard deviation of a discrete random variable",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "repaired",
+        "solved_key": "D",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "medium",
+        "label": "medium",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": [
+          {
+            "field": "stem, options, explanation, ncert_ref",
+            "what": "Near-copy of a live Probability question (probabilities k, 2k, 3k, 4k with key 0.7 and distractors 0.3 and 0.4). Replaced by the variance of a discrete distribution from a table.",
+            "changed_solver_view": true,
+            "old_stem": "A discrete random variable X takes the values 0, 1, 2 and 3 with probabilities k, 2k, 3k and 4k respectively. Then P(X ≥ 2) equals:"
+          }
+        ]
+      }
+    },
+    {
+      "id": "c4f775b9-10e7-422b-a200-45fbcdaa9efc",
+      "subject": "mathematics",
+      "unit": "Applied Mathematics",
+      "chapter": "Probability Distributions",
+      "type": "single_mcq",
+      "stem": "The mean and variance of a binomial distribution are 6 and 4.5 respectively. The number of trials n is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "8"
+        },
+        {
+          "key": "B",
+          "text": "24"
+        },
+        {
+          "key": "C",
+          "text": "12"
+        },
+        {
+          "key": "D",
+          "text": "18"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "For a binomial distribution the mean is np and the variance is npq, so q = variance ÷ mean = 4.5/6 = 3/4 and p = 1 − q = 1/4. Then n = mean ÷ p = 6 ÷ (1/4) = 24; check: npq = 24 × 1/4 × 3/4 = 4.5. Taking 3/4 as p, which swaps p and q, gives n = 6 ÷ (3/4) = 8.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "CUET 2026 Applied Mathematics syllabus, Unit IV Probability Distributions: binomial distribution, mean np and variance npq",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "solved_key": "B",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "medium",
+        "label": "hard",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": [],
+        "advisory": "Same binomial formulas as the live binomial items but a different unknown (n from mean and variance); no live item shares figures.",
+        "level_note": "label hard, my estimate medium; label left as authored (one notch, does not change the key)"
+      }
+    },
+    {
+      "id": "7da4d02e-7b39-468a-8c49-74a862dd16b8",
+      "subject": "mathematics",
+      "unit": "Applied Mathematics",
+      "chapter": "Probability Distributions",
+      "type": "match_the_following",
+      "stem": "Match List-I with List-II.\nList-I:\n(A) Mean of a binomial distribution with n = 10 and p = 0.4\n(B) Variance of a binomial distribution with n = 12 and p = 0.5\n(C) Variance of a Poisson distribution with mean 6\n(D) Variance of the standard normal distribution\nList-II:\n(I) 3\n(II) 6\n(III) 1\n(IV) 4\nChoose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(A)-(I), (B)-(IV), (C)-(II), (D)-(III)"
+        },
+        {
+          "key": "B",
+          "text": "(A)-(IV), (B)-(II), (C)-(I), (D)-(III)"
+        },
+        {
+          "key": "C",
+          "text": "(A)-(IV), (B)-(I), (C)-(II), (D)-(III)"
+        },
+        {
+          "key": "D",
+          "text": "(A)-(IV), (B)-(I), (C)-(III), (D)-(II)"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "The binomial mean is np = 10 × 0.4 = 4 and the binomial variance is npq = 12 × 0.5 × 0.5 = 3. A Poisson distribution has variance equal to its mean, so 6, and the standard normal variate has mean 0 and variance 1. Using np = 6 for the binomial with n = 12 gives its mean rather than its variance.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "CUET 2026 Applied Mathematics syllabus, Unit IV Probability Distributions: mean and variance of binomial, Poisson and standard normal distributions",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "solved_key": "C",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "medium",
+        "label": "medium",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": []
+      }
+    },
+    {
+      "id": "b0e6bcaf-f295-4a35-b480-e6dd158bc133",
+      "subject": "mathematics",
+      "unit": "Applied Mathematics",
+      "chapter": "Probability Distributions",
+      "type": "single_mcq",
+      "stem": "A Poisson variate X satisfies E(X²) = 12. The variance of X is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "9"
+        },
+        {
+          "key": "C",
+          "text": "12"
+        },
+        {
+          "key": "D",
+          "text": "4"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "For a Poisson distribution the mean and the variance both equal λ, so E(X²) = variance + (mean)² = λ + λ². Then λ² + λ − 12 = 0, that is (λ + 4)(λ − 3) = 0, and since λ > 0, λ = 3 and the variance is 3. The value 12 is E(X²) itself, and 9 is λ² rather than the variance.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "CUET 2026 Applied Mathematics syllabus, Unit IV Probability Distributions: Poisson distribution, mean and variance both equal to λ",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "repaired",
+        "solved_key": "A",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "medium",
+        "label": "medium",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": [
+          {
+            "field": "stem, options, explanation, ncert_ref",
+            "what": "Same idea as a live question (Poisson with P(X = 2) = P(X = 3), find the variance), with the key also equal to an index in the stem. Replaced by E(X²) = 12 for a Poisson variate.",
+            "changed_solver_view": true,
+            "old_stem": "A Poisson variate X satisfies P(X = 1) = P(X = 2). The variance of X is:"
+          }
+        ]
+      }
+    },
+    {
+      "id": "68fa91db-5fc7-494a-848d-e39d802d467d",
+      "subject": "mathematics",
+      "unit": "Applied Mathematics",
+      "chapter": "Probability Distributions",
+      "type": "single_mcq",
+      "stem": "The heights of plants in a nursery are normally distributed with mean 40 cm and standard deviation 5 cm. Approximately what percentage of the plants have heights between 35 cm and 45 cm?",
+      "options": [
+        {
+          "key": "A",
+          "text": "95%"
+        },
+        {
+          "key": "B",
+          "text": "68%"
+        },
+        {
+          "key": "C",
+          "text": "34%"
+        },
+        {
+          "key": "D",
+          "text": "99.7%"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "The limits 35 cm and 45 cm give z = (35 − 40)/5 = −1 and z = (45 − 40)/5 = +1, so they lie within one standard deviation of the mean. About 68% of a normal distribution lies within μ ± σ. The figure 95% belongs to μ ± 2σ, which would be 30 cm to 50 cm.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "CUET 2026 Applied Mathematics syllabus, Unit IV Probability Distributions: normal distribution, standard normal variate and the 68-95-99.7 area relationship",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "solved_key": "B",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "easy",
+        "label": "easy",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": []
+      }
+    }
+  ]
+}

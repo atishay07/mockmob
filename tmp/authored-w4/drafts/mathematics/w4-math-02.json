@@ -1,0 +1,906 @@
+{
+  "batch": "w4-math-02",
+  "subject": "mathematics",
+  "questions": [
+    {
+      "id": "875af04a-7a23-45c0-b4d5-361e69891b04",
+      "subject": "mathematics",
+      "unit": "Applied Mathematics",
+      "chapter": "Time Based Data",
+      "type": "single_mcq",
+      "stem": "Sales of woollen garments rise every winter and fall every summer, year after year. This regular pattern repeating within each year is called:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Secular trend"
+        },
+        {
+          "key": "B",
+          "text": "Cyclical variation"
+        },
+        {
+          "key": "C",
+          "text": "Seasonal variation"
+        },
+        {
+          "key": "D",
+          "text": "Irregular variation"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "Seasonal variation is the regular rise and fall that repeats within a year because of weather, festivals or customs, so woollen sales peaking every winter fit it. Cyclical variation spreads over several years like a business cycle, a secular trend is the long-term movement, and irregular variation is random, such as a flood or a strike. Repetition inside each year rules out cyclical variation.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "CUET 2026 Applied Mathematics syllabus, Unit V Time Based Data: components of a time series, seasonal variation",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "solved_key": "C",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "easy",
+        "label": "easy",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": []
+      }
+    },
+    {
+      "id": "c88a4ac5-7a46-41a8-98f4-ee80e8c09247",
+      "subject": "mathematics",
+      "unit": "Applied Mathematics",
+      "chapter": "Time Based Data",
+      "type": "single_mcq",
+      "stem": "The first two values of a time series are 10 and 15. Its 3-year moving averages for the second and third years are 17 and 19. The fourth value of the series is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "16"
+        },
+        {
+          "key": "B",
+          "text": "19"
+        },
+        {
+          "key": "C",
+          "text": "21"
+        },
+        {
+          "key": "D",
+          "text": "26"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "A 3-year moving average is the mean of three consecutive values. From the second average, 3 × 17 = 51 = 10 + 15 + third value, so the third value is 26. From the third average, 3 × 19 = 57 = 15 + 26 + fourth value, so the fourth value is 16. Adding 3 × (19 − 17) = 6 to the second value gives 21, which is wrong because the first value is the one that drops out of the window.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "CUET 2026 Applied Mathematics syllabus, Unit V Time Based Data: moving average method of measuring trend",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "solved_key": "A",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "medium",
+        "label": "medium",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": []
+      }
+    },
+    {
+      "id": "d5032300-ad44-4c93-a73b-a025bf921683",
+      "subject": "mathematics",
+      "unit": "Applied Mathematics",
+      "chapter": "Time Based Data",
+      "type": "single_mcq",
+      "stem": "The annual output (in thousand units) of a firm over five consecutive years is 10, 14, 19, 20 and 22. A straight-line trend y = a + bt is fitted by the method of least squares with the middle year as origin and t = −2, −1, 0, 1, 2. The trend value for the last year (in thousand units) is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "17"
+        },
+        {
+          "key": "B",
+          "text": "22"
+        },
+        {
+          "key": "C",
+          "text": "29"
+        },
+        {
+          "key": "D",
+          "text": "23"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "Here a = Σy/5 = 85/5 = 17 and b = Σty/Σt² = (−20 − 14 + 0 + 20 + 44)/10 = 3, so the trend line is y = 17 + 3t. For the last year t = 2, the trend value is 17 + 6 = 23. The value 22 is the observed output, not the trend value, and dividing Σty by 5 instead of Σt² gives b = 6 and the wrong value 29.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "CUET 2026 Applied Mathematics syllabus, Unit V Time Based Data: least squares linear trend and interpreting trend values",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "solved_key": "D",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "hard",
+        "label": "hard",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": []
+      }
+    },
+    {
+      "id": "a925a1b9-ee41-494d-b328-df3810fbd5a8",
+      "subject": "mathematics",
+      "unit": "Applied Mathematics",
+      "chapter": "Inferential Statistics",
+      "type": "single_mcq",
+      "stem": "A list of 400 students is numbered 1 to 400. A systematic sample of 20 students is drawn by starting at the student numbered 6 and then selecting every kth student. The number of the fourth student selected is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "46"
+        },
+        {
+          "key": "B",
+          "text": "66"
+        },
+        {
+          "key": "C",
+          "text": "80"
+        },
+        {
+          "key": "D",
+          "text": "86"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "In systematic sampling the interval is k = N/n = 400/20 = 20. Starting at 6, the selected students are numbered 6, 26, 46 and 66, so the fourth is 66. The number 46 is only the third student selected, and 80 comes from ignoring the starting point (4 × 20).",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "CUET 2026 Applied Mathematics syllabus, Unit VI Inferential Statistics: systematic sampling, selecting every kth unit",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "solved_key": "B",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "easy",
+        "label": "easy",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": []
+      }
+    },
+    {
+      "id": "11d82cd8-6286-4725-b3bf-73accec44fda",
+      "subject": "mathematics",
+      "unit": "Applied Mathematics",
+      "chapter": "Inferential Statistics",
+      "type": "single_mcq",
+      "stem": "A population has 6 units. The number of different simple random samples of size 3 that can be drawn without replacement, the order of selection being ignored, is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "120"
+        },
+        {
+          "key": "B",
+          "text": "18"
+        },
+        {
+          "key": "C",
+          "text": "216"
+        },
+        {
+          "key": "D",
+          "text": "20"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "A sample drawn without replacement is a subset of the population, so the number of samples is 6C3 = (6 × 5 × 4) ÷ (3 × 2 × 1) = 20. The value 120 = 6 × 5 × 4 counts ordered selections, 216 = 6³ is the count when each unit is put back after a draw, and 18 is 6 × 3.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "CUET 2026 Applied Mathematics syllabus, Unit VI Inferential Statistics: simple random sampling, number of possible samples",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "repaired",
+        "solved_key": "D",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "medium",
+        "label": "medium",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": [
+          {
+            "field": "stem, options, explanation, ncert_ref",
+            "what": "Standard error of the sample mean (σ/√n) is already in the bank four times (avoid list: standard-error-of-sample-mean, variance-of-sample-mean). Replaced by counting simple random samples.",
+            "changed_solver_view": true,
+            "old_stem": "A population has mean 80 and standard deviation 12. Many random samples of size 36 are drawn and the mean of each sample is recorded. By the central limit theorem, the distribution of these sample means has:"
+          }
+        ]
+      }
+    },
+    {
+      "id": "23a5438b-200a-465f-b39e-aed23d8c2dae",
+      "subject": "mathematics",
+      "unit": "Applied Mathematics",
+      "chapter": "Inferential Statistics",
+      "type": "single_mcq",
+      "stem": "A sample of 16 values has mean 53 and standard deviation 4.8. To test H0: μ = 50 against H1: μ ≠ 50 at the 5% level, the table value of t for 15 degrees of freedom is 2.13. The calculated t and the decision are:",
+      "options": [
+        {
+          "key": "A",
+          "text": "t = 2.5; reject H0"
+        },
+        {
+          "key": "B",
+          "text": "t = 2.5; do not reject H0"
+        },
+        {
+          "key": "C",
+          "text": "t = 0.625; do not reject H0"
+        },
+        {
+          "key": "D",
+          "text": "t = 10; reject H0"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "The standard error is s/√n = 4.8/4 = 1.2, so t = (53 − 50)/1.2 = 2.5. This exceeds the table value 2.13, so H0 is rejected. Dividing by s instead of s/√n gives 0.625, and dividing by s/n = 0.3 gives 10; neither is the t statistic.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "CUET 2026 Applied Mathematics syllabus, Unit VI Inferential Statistics: one-sample t statistic and testing a null hypothesis",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "solved_key": "A",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "hard",
+        "label": "hard",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": []
+      }
+    },
+    {
+      "id": "b5078728-0359-48b0-9ec0-947cc05d2988",
+      "subject": "mathematics",
+      "unit": "Algebra",
+      "chapter": "Matrices",
+      "type": "single_mcq",
+      "stem": "The matrix [0 9 a; −9 0 7; 8 b 0] is skew-symmetric. The value of a + b is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "1"
+        },
+        {
+          "key": "B",
+          "text": "−15"
+        },
+        {
+          "key": "C",
+          "text": "15"
+        },
+        {
+          "key": "D",
+          "text": "−1"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "In a skew-symmetric matrix aij = −aji and the diagonal entries are zero. Here a13 = a and a31 = 8 give a = −8, while a23 = 7 and a32 = b give b = −7, so a + b = −15. Keeping the signs equal, as in a symmetric matrix, would give a = 8 and b = 7 and the wrong sum 15.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "NCERT Class 12 Mathematics Part I, Ch 3 Matrices: skew-symmetric matrices, Aᵀ = −A",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "solved_key": "B",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "easy",
+        "label": "easy",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": []
+      }
+    },
+    {
+      "id": "300047ea-3dc7-4cf4-bc6f-abcb00cd5b7f",
+      "subject": "mathematics",
+      "unit": "Algebra",
+      "chapter": "Matrices",
+      "type": "match_the_following",
+      "stem": "Match List-I with List-II. List-I: (A) Scalar matrix (B) Skew-symmetric matrix (C) Row matrix (D) Column matrix. List-II: (I) Aᵀ = −A (II) Order 1 × n (III) Order m × 1 (IV) Diagonal matrix with all diagonal entries equal. Choose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(A)-(I), (B)-(IV), (C)-(II), (D)-(III)"
+        },
+        {
+          "key": "B",
+          "text": "(A)-(IV), (B)-(I), (C)-(III), (D)-(II)"
+        },
+        {
+          "key": "C",
+          "text": "(A)-(IV), (B)-(I), (C)-(II), (D)-(III)"
+        },
+        {
+          "key": "D",
+          "text": "(A)-(IV), (B)-(II), (C)-(I), (D)-(III)"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "A scalar matrix is a diagonal matrix whose diagonal entries are all equal, a skew-symmetric matrix satisfies Aᵀ = −A, a row matrix has a single row so its order is 1 × n, and a column matrix has a single column so its order is m × 1. Swapping the row and column matrices is the usual slip, because both have only one line of entries.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "NCERT Class 12 Mathematics Part I, Ch 3 Matrices: types of matrices and their defining properties",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "solved_key": "C",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "easy",
+        "label": "easy",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": [],
+        "advisory": "Matrix type-property match repeats the avoid-list objective matrix-type-property-matching, but the allocation asks for exactly this match; the list members differ from the live matches."
+      }
+    },
+    {
+      "id": "045b9853-199e-4a62-9fd7-fc740a9daf0b",
+      "subject": "mathematics",
+      "unit": "Algebra",
+      "chapter": "Matrices",
+      "type": "single_mcq",
+      "stem": "The matrices A = [2 1; 6 3] and B = [1 k; −2 4] satisfy AB = O, the zero matrix. The value of k is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "−2"
+        },
+        {
+          "key": "B",
+          "text": "2"
+        },
+        {
+          "key": "C",
+          "text": "−4"
+        },
+        {
+          "key": "D",
+          "text": "−8"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "AB has first row (2 × 1 + 1 × (−2), 2 × k + 1 × 4) = (0, 2k + 4) and second row (6 × 1 + 3 × (−2), 6 × k + 3 × 4) = (0, 6k + 12). Both vanish only when k = −2. The product of two non-zero matrices can be the zero matrix because A is singular, and k = −4 comes from dropping the factor 2 in 2k + 4 = 0.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Mathematics Part I, Ch 3 Matrices: product of non-zero matrices can be the zero matrix",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "solved_key": "A",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "medium",
+        "label": "medium",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": []
+      }
+    },
+    {
+      "id": "2e6341d0-3c9d-4b33-9d5f-44c898973dbe",
+      "subject": "mathematics",
+      "unit": "Algebra",
+      "chapter": "Matrices",
+      "type": "single_mcq",
+      "stem": "The inverse of the matrix [6 5; 2 2] is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "[2 −5; −2 6]"
+        },
+        {
+          "key": "B",
+          "text": "[3 −5/2; −1 1]"
+        },
+        {
+          "key": "C",
+          "text": "[1 5/2; 1 3]"
+        },
+        {
+          "key": "D",
+          "text": "[1 −5/2; −1 3]"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "For the given matrix A, |A| = 6 × 2 − 5 × 2 = 2. The inverse is (1/|A|) × adj A, and adj A swaps the diagonal entries and changes the signs of the off-diagonal ones, so A⁻¹ = (1/2) × [2 −5; −2 6]. Leaving out the factor 1/|A| gives the adjoint itself, which is not the inverse.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Mathematics Part I, Ch 3 Matrices: inverse of a 2 × 2 matrix using the adjoint",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "solved_key": "D",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "medium",
+        "label": "medium",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": []
+      }
+    },
+    {
+      "id": "3ad2e2ed-633e-48a0-bb67-00dda43613f7",
+      "subject": "mathematics",
+      "unit": "Algebra",
+      "chapter": "Matrices",
+      "type": "single_mcq",
+      "stem": "For A = [1 2; 0 1] and B = [1 0; 2 1], the matrix (A + B)² − (A² + 2AB + B²) equals:",
+      "options": [
+        {
+          "key": "A",
+          "text": "[0 0; 0 0]"
+        },
+        {
+          "key": "B",
+          "text": "[−4 0; 0 4]"
+        },
+        {
+          "key": "C",
+          "text": "[4 0; 0 −4]"
+        },
+        {
+          "key": "D",
+          "text": "[4 0; 0 4]"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "Since (A + B)² = A² + AB + BA + B², the required difference is BA − AB. Here AB = [5 2; 2 1] and BA = [1 2; 2 5], so BA − AB = [−4 0; 0 4]. The zero matrix would hold only if AB = BA, but matrix multiplication is not commutative in general.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "NCERT Class 12 Mathematics Part I, Ch 3 Matrices: non-commutativity of matrix multiplication",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "solved_key": "B",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "medium",
+        "label": "hard",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": [],
+        "level_note": "label hard, my estimate medium; label left as authored (one notch, does not change the key)"
+      }
+    },
+    {
+      "id": "8653f8fb-63aa-4521-9771-c25fd61bb3ac",
+      "subject": "mathematics",
+      "unit": "Algebra",
+      "chapter": "Determinants",
+      "type": "statement_based",
+      "stem": "Consider the following statements about determinants of square matrices.\n(A) Interchanging any two rows of a determinant changes its sign.\n(B) |A + B| = |A| + |B| for any two square matrices A and B of the same order.\n(C) If A is non-singular, then |A⁻¹| = 1/|A|.\n(D) A square matrix with two identical columns is singular.\nChoose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(A), (B) and (C) only"
+        },
+        {
+          "key": "B",
+          "text": "(B), (C) and (D) only"
+        },
+        {
+          "key": "C",
+          "text": "(A), (C) and (D) only"
+        },
+        {
+          "key": "D",
+          "text": "(A), (B) and (D) only"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "Swapping two rows flips the sign of a determinant, |A||A⁻¹| = |I| = 1 gives |A⁻¹| = 1/|A|, and two equal columns make the determinant 0, so that matrix is singular. The sum rule is false: determinants multiply, |AB| = |A||B|, but |A + B| is not |A| + |B|; for order 2, |I + I| = 4 while |I| + |I| = 2.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Mathematics Part I, Ch 4 Determinants: properties of determinants, singular matrices and |A⁻¹|",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "solved_key": "C",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "medium",
+        "label": "medium",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": []
+      }
+    },
+    {
+      "id": "a9fcf18d-71e5-4e22-8a28-2668842a5f62",
+      "subject": "mathematics",
+      "unit": "Algebra",
+      "chapter": "Determinants",
+      "type": "single_mcq",
+      "stem": "For what value of k does the system of equations 2x + 3y = 5 and 4x + ky = 9 have no solution?",
+      "options": [
+        {
+          "key": "A",
+          "text": "6"
+        },
+        {
+          "key": "B",
+          "text": "3/2"
+        },
+        {
+          "key": "C",
+          "text": "12"
+        },
+        {
+          "key": "D",
+          "text": "9"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "The coefficient determinant is 2k − 12, which is zero only for k = 6. For k = 6 the second equation reads 4x + 6y = 9, while twice the first gives 4x + 6y = 10, so the two equations contradict and there is no solution. Any other k gives a non-zero determinant and a unique solution; k = 3/2 comes from inverting the ratio of coefficients.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Mathematics Part I, Ch 4 Determinants: consistency and number of solutions of a system of linear equations",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "solved_key": "A",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "medium",
+        "label": "medium",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": []
+      }
+    },
+    {
+      "id": "a901a9e5-50a3-43d6-9540-1e10fbe1e36f",
+      "subject": "mathematics",
+      "unit": "Algebra",
+      "chapter": "Determinants",
+      "type": "single_mcq",
+      "stem": "A and B are square matrices of order 3 with |A| = 3 and |B| = 2, and B is invertible. The value of |2AB⁻¹| is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "24"
+        },
+        {
+          "key": "B",
+          "text": "3"
+        },
+        {
+          "key": "C",
+          "text": "48"
+        },
+        {
+          "key": "D",
+          "text": "12"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "For order n = 3, |kM| = k^n |M|, so |2AB⁻¹| = 2³ × |A| × |B⁻¹| = 8 × 3 × (1/2) = 12, because |B⁻¹| = 1/|B|. Taking the factor as 2 instead of 2³ gives 3, treating |B⁻¹| as |B| gives 48, and leaving out B⁻¹ altogether gives 24.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "hard",
+      "ncert_ref": "NCERT Class 12 Mathematics Part I, Ch 4 Determinants: |kA| = k^n |A|, |AB| = |A||B| and the determinant of an inverse",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "solved_key": "D",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "hard",
+        "label": "hard",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": [],
+        "advisory": "The k^n step overlaps live |2A| items (determinant-of-scalar-multiple); this item adds |B^-1| = 1/|B|, so it is a composite, not a repeat."
+      }
+    },
+    {
+      "id": "f80e1ebf-e7d6-422c-b65c-8f5df6ba0725",
+      "subject": "mathematics",
+      "unit": "Linear Programming",
+      "chapter": "Linear Programming",
+      "type": "match_the_following",
+      "stem": "Match List-I with List-II. List-I: (A) Decision variables (B) Feasible solution (C) Unbounded feasible region (D) Infeasible problem. List-II: (I) A point satisfying all the constraints and the non-negativity conditions (II) Quantities whose values are to be found to optimise the objective function (III) No point satisfies all the constraints together (IV) Region extends indefinitely in some direction. Choose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(A)-(II), (B)-(I), (C)-(III), (D)-(IV)"
+        },
+        {
+          "key": "B",
+          "text": "(A)-(II), (B)-(I), (C)-(IV), (D)-(III)"
+        },
+        {
+          "key": "C",
+          "text": "(A)-(I), (B)-(II), (C)-(IV), (D)-(III)"
+        },
+        {
+          "key": "D",
+          "text": "(A)-(II), (B)-(III), (C)-(IV), (D)-(I)"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "Decision variables are the quantities to be found to optimise the objective function, a feasible solution satisfies every constraint including non-negativity, an unbounded feasible region extends indefinitely in some direction, and an infeasible problem has no point satisfying all the constraints. Confusing a feasible solution with an infeasible problem is the common slip: the first is one valid point, the second means there is none.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Mathematics Part II, Ch 12 Linear Programming: terminology: decision variables, feasible and infeasible solutions, unbounded region",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "solved_key": "B",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "easy",
+        "label": "medium",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": [],
+        "level_note": "label medium, my estimate easy; label left as authored (one notch, does not change the key)"
+      }
+    },
+    {
+      "id": "9879a378-c4e8-4fc9-adb2-8bf56840dc45",
+      "subject": "mathematics",
+      "unit": "Linear Programming",
+      "chapter": "Linear Programming",
+      "type": "single_mcq",
+      "stem": "Which of the following points lies in the feasible region of the constraints 2x + y ≤ 10, x + 3y ≤ 15, x ≥ 0 and y ≥ 0?",
+      "options": [
+        {
+          "key": "A",
+          "text": "(4, 3)"
+        },
+        {
+          "key": "B",
+          "text": "(2, 5)"
+        },
+        {
+          "key": "C",
+          "text": "(5, 1)"
+        },
+        {
+          "key": "D",
+          "text": "(2, 3)"
+        }
+      ],
+      "correct_key": "D",
+      "explanation": "A point is feasible only if it satisfies every constraint. The point (2, 3) gives 2 × 2 + 3 = 7 ≤ 10 and 2 + 3 × 3 = 11 ≤ 15. Both (4, 3) and (5, 1) break the first constraint (11 > 10), and (2, 5) breaks the second (17 > 15), so each of them passes only one of the two checks.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "easy",
+      "ncert_ref": "NCERT Class 12 Mathematics Part II, Ch 12 Linear Programming: feasible solutions and the feasible region",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "solved_key": "D",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "easy",
+        "label": "easy",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": []
+      }
+    },
+    {
+      "id": "19373bf0-535e-40e8-b7a0-41756d8d2981",
+      "subject": "mathematics",
+      "unit": "Linear Programming",
+      "chapter": "Linear Programming",
+      "type": "single_mcq",
+      "stem": "A bakery makes x batches of bread and y batches of cake in a day. A batch of bread uses 3 kg of flour and a batch of cake uses 2 kg. Only 30 kg of flour is available, and at least 4 batches of bread must be made. Besides x ≥ 0 and y ≥ 0, the constraints are:",
+      "options": [
+        {
+          "key": "A",
+          "text": "3x + 2y ≥ 30 and x ≥ 4"
+        },
+        {
+          "key": "B",
+          "text": "2x + 3y ≤ 30 and x ≥ 4"
+        },
+        {
+          "key": "C",
+          "text": "3x + 2y ≤ 30 and x ≥ 4"
+        },
+        {
+          "key": "D",
+          "text": "3x + 2y ≤ 30 and x ≤ 4"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "The flour used, 3x + 2y, cannot exceed the 30 kg available, so 3x + 2y ≤ 30. The phrase \"at least 4 batches of bread\" is a lower limit, so x ≥ 4. Writing 3x + 2y ≥ 30 reverses the resource limit, and x ≤ 4 reverses the minimum requirement; 2x + 3y swaps the flour used per batch.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Mathematics Part II, Ch 12 Linear Programming: mathematical formulation of a linear programming problem from words",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "solved_key": "C",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "medium",
+        "label": "medium",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": []
+      }
+    },
+    {
+      "id": "de6a00a2-8803-4417-a2b5-061d58f92d92",
+      "subject": "mathematics",
+      "unit": "Linear Programming",
+      "chapter": "Linear Programming",
+      "type": "single_mcq",
+      "stem": "To minimise its cost Z = 5x + 2y (in rupees), a firm must satisfy 2x + y ≥ 8, x + 2y ≥ 10, x ≥ 0 and y ≥ 0. The least possible cost is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "16"
+        },
+        {
+          "key": "B",
+          "text": "20"
+        },
+        {
+          "key": "C",
+          "text": "18"
+        },
+        {
+          "key": "D",
+          "text": "50"
+        }
+      ],
+      "correct_key": "A",
+      "explanation": "The feasible region is unbounded, but Z has positive coefficients, so a minimum exists and lies at a corner point. The corners are (0, 8), (2, 4) and (10, 0), where Z = 16, 18 and 50, so the minimum is 16. The value 18 comes from using only the intersection of the two lines and ignoring the corner on the y-axis.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Mathematics Part II, Ch 12 Linear Programming: corner point method on an unbounded feasible region",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "solved_key": "A",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "medium",
+        "label": "medium",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": []
+      }
+    },
+    {
+      "id": "57d63f4c-db78-4fe2-9139-842ea2014063",
+      "subject": "mathematics",
+      "unit": "Linear Programming",
+      "chapter": "Linear Programming",
+      "type": "single_mcq",
+      "stem": "How many corner points does the region defined by 0 ≤ x ≤ 4, 0 ≤ y ≤ 4, x + y ≤ 6 and x + 2y ≤ 20 have?",
+      "options": [
+        {
+          "key": "A",
+          "text": "4"
+        },
+        {
+          "key": "B",
+          "text": "6"
+        },
+        {
+          "key": "C",
+          "text": "5"
+        },
+        {
+          "key": "D",
+          "text": "3"
+        }
+      ],
+      "correct_key": "C",
+      "explanation": "The lines x + y = 6, x = 4 and y = 4 with the two axes enclose a region with corner points (0, 0), (4, 0), (4, 2), (2, 4) and (0, 4), so there are 5. The inequality x + 2y ≤ 20 holds at all of them (its largest value is 10 at (2, 4)), so it cuts nothing off; counting every inequality that is written (6 in all) would give 6.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Mathematics Part II, Ch 12 Linear Programming: feasible region, corner points and a redundant constraint",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "repaired",
+        "solved_key": "C",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "medium",
+        "label": "medium",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": [
+          {
+            "field": "stem, options, explanation, difficulty_label",
+            "what": "Multiple optimal solutions (objective parallel to a constraint) is tagged three times in the live bank and the avoid list. Replaced by counting the corner points of a feasible region that carries one redundant constraint. Label moved from hard to medium: two steps, so the file now has 4 hard, 11 medium.",
+            "changed_solver_view": true,
+            "old_stem": "Maximise Z = 2x + 4y subject to x + 2y ≤ 10, x ≤ 8, y ≤ 4, x ≥ 0 and y ≥ 0. The number of points at which Z attains its maximum value is:",
+            "old_label": "hard"
+          }
+        ],
+        "label_changed": true
+      }
+    },
+    {
+      "id": "9d7ba844-d9df-49d4-9bf5-1464df25413a",
+      "subject": "mathematics",
+      "unit": "Relations and Functions",
+      "chapter": "Relations & Functions",
+      "type": "single_mcq",
+      "stem": "The number of reflexive relations that can be defined on a set containing 3 elements is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "512"
+        },
+        {
+          "key": "B",
+          "text": "64"
+        },
+        {
+          "key": "C",
+          "text": "8"
+        },
+        {
+          "key": "D",
+          "text": "6"
+        }
+      ],
+      "correct_key": "B",
+      "explanation": "A reflexive relation on a 3-element set must contain the 3 pairs (a, a), while each of the other 3 × 3 − 3 = 6 ordered pairs may be included or left out freely. So there are 2^6 = 64 reflexive relations. The value 512 = 2^9 counts every relation on the set, and 8 = 2^3 wrongly counts choices on the three pairs that are compulsory.",
+      "passage_text": null,
+      "set_id": null,
+      "difficulty_label": "medium",
+      "ncert_ref": "NCERT Class 12 Mathematics Part I, Ch 1 Relations and Functions: reflexive relations on a small finite set",
+      "source": "claude-authored-2026-10-17-w4",
+      "_audit": {
+        "verdict": "kept",
+        "solved_key": "B",
+        "key_ok": true,
+        "syllabus": "in 2026 syllabus (checked against the Mathematics / Applied Mathematics PDF and the blueprint chapter)",
+        "level_check": "medium",
+        "label": "medium",
+        "options_check": "no listed-order key, no sorted-middle key, no absolute-word tell, options parallel",
+        "bank_duplicate_check": "no stem equal or near-equal in the live production bank (select-only, mathematics, not deleted) or in waves 1-3 (validator)",
+        "repairs": []
+      }
+    }
+  ]
+}
