@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart' show Scrollable, ValueKey;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mockmob/core/models/models.dart';
 import 'package:mockmob/features/paper_reel/paper_reel.dart';
 import 'package:mockmob/features/result/data/result_providers.dart';
 
