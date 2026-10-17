@@ -2,11 +2,11 @@ import { NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/admin/roles';
 import { writeAudit } from '@/lib/admin/audit';
 import { Database } from '@/../data/db';
+import { isValidCreatorCode } from '@/lib/referrals/codeMatch';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
-const CODE_PATTERN = /^[a-z0-9._-]{1,64}$/;
 const OFFER_PATTERN = /^offer_[A-Za-z0-9]{6,40}$/;
 
 export async function PATCH(request, { params }) {
@@ -28,8 +28,8 @@ export async function PATCH(request, { params }) {
   }
   if ('code' in body) {
     const code = String(body.code || '').trim().toLowerCase();
-    if (!CODE_PATTERN.test(code)) {
-      return NextResponse.json({ error: 'code must be 1-64 chars [a-z0-9._-]' }, { status: 400 });
+    if (!isValidCreatorCode(code)) {
+      return NextResponse.json({ error: 'code must be 1-64 chars [a-z0-9._-] with at least one letter or digit' }, { status: 400 });
     }
     updates.code = code;
   }

@@ -12,6 +12,7 @@ import { supabaseAdmin } from '@/lib/supabase';
 import { formatIdFor } from '@/lib/server/attemptSummary';
 import { claimWebhookEventWith } from '@/lib/server/webhookClaim';
 import { CREATOR_SALE_COLUMNS, creatorSaleOut } from '@/lib/referrals/creatorSales';
+import { escapeLikePattern, exactCodePattern } from '@/lib/referrals/codeMatch';
 import { authUserCache, invalidateAuthUser } from '@/lib/server/authUserCache';
 import {
   effectivePremiumFromRow,
@@ -791,13 +792,13 @@ export const Database = {
   },
 
   async getCreatorByCode(code) {
-    if (!code) return null;
-    const trimmed = String(code).trim().toLowerCase();
-    if (!trimmed) return null;
+    // Exact, case-insensitive: '_', '%' and '*' are escaped, punctuation-only codes rejected.
+    const pattern = exactCodePattern(code == null ? '' : String(code));
+    if (!pattern) return null;
     const { data, error } = await supabaseAdmin()
       .from('creators')
       .select('*')
-      .ilike('code', trimmed)
+      .ilike('code', pattern)
       .limit(1)
       .maybeSingle();
     if (error) {
@@ -835,7 +836,8 @@ export const Database = {
     const trimmed = String(email).trim().toLowerCase();
     if (!trimmed) return null;
     const { data, error } = await supabaseAdmin()
-      .from('creators').select('*').ilike('email', trimmed).maybeSingle();
+      // Escaped: an email with '_' or '%' must not wildcard-match another creator's email.
+      .from('creators').select('*').ilike('email', escapeLikePattern(trimmed)).maybeSingle();
     if (error) {
       if (isMissingReferralSchema(error)) return null;
       throw error;

@@ -1,5 +1,6 @@
 import 'server-only';
 import { supabaseAdmin } from '@/lib/supabase';
+import { cleanCreatorCode, exactCodePattern } from './codeMatch';
 
 /**
  * Resolve a user-entered creator code to a Razorpay offer_id and creator id.
@@ -32,7 +33,6 @@ const STATIC_OFFER_MAP = {
   flash69: { offerId: FLASH_69_OFFER_ID, creatorId: null },
 };
 
-const CODE_PATTERN = /^[a-z0-9._-]{1,64}$/;
 const OFFER_ID_PATTERN = /^offer_[A-Za-z0-9]{6,64}$/;
 const DIRECT_OFFER_IDS = new Set([FLASH_69_OFFER_ID]);
 
@@ -42,9 +42,8 @@ export function normalizeCode(raw) {
   if (!trimmed) return null;
   if (OFFER_ID_PATTERN.test(trimmed)) return trimmed;
 
-  const code = trimmed.toLowerCase().replace(/\s+/g, '');
-  if (!CODE_PATTERN.test(code)) return null;
-  return code;
+  // Letters, digits and . _ - only, with at least one letter or digit ('_____' is no code).
+  return cleanCreatorCode(trimmed);
 }
 
 /**
@@ -65,12 +64,13 @@ export async function resolveCreatorCode(rawCode) {
     };
   }
 
-  // 1) DB lookup — case-insensitive on the trimmed code.
+  // 1) DB lookup: exact and case-insensitive. The pattern escapes '_' (and every other LIKE
+  //    metacharacter), so a code can only ever match itself, never a wildcard of it.
   try {
     const { data, error } = await supabaseAdmin()
       .from('creators')
       .select('id, code, offer_id, is_active')
-      .ilike('code', code)
+      .ilike('code', exactCodePattern(code))
       .limit(1)
       .maybeSingle();
 
