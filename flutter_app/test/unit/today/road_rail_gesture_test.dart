@@ -14,6 +14,7 @@ import 'package:mockmob/features/today/logic/today_builder.dart';
 import 'package:mockmob/features/today/logic/today_model.dart';
 import 'package:mockmob/features/today/widgets/road_rail.dart';
 import 'package:mockmob/features/today/widgets/road_section.dart';
+import 'package:mockmob/features/today/widgets/road_strip.dart';
 
 import '../../helpers/golden_harness.dart';
 import 'support/today_fixtures.dart';
@@ -37,7 +38,9 @@ class _Saves {
 void main() {
   late ScrollController page;
 
-  Future<RoadModel> pumpRoad(WidgetTester tester, _Saves saves) async {
+  /// Pumps the road and opens what the test drives (TODAY-1017 4.4: the strip shows by default; the
+  /// week-by-week rail opens from a tap on the strip at its first week, the tuners from their tokens).
+  Future<RoadModel> pumpRoad(WidgetTester tester, _Saves saves, {String open = 'rail'}) async {
     RoadRail.debugResetPeek();
     final road = buildRoad(ashaInputs())!;
     page = ScrollController();
@@ -57,6 +60,13 @@ void main() {
       size: const Size(390, 844),
       disableAnimations: true,
     );
+    await tester.pumpAndSettle();
+    if (open == 'rail') {
+      final r = tester.getRect(find.byType(RoadStrip));
+      await tester.tapAt(Offset(r.left + 4, r.top + 80));
+    } else {
+      await tester.tap(find.byKey(ValueKey('road-token-$open')));
+    }
     await tester.pumpAndSettle();
     return road;
   }
@@ -156,7 +166,7 @@ void main() {
 
   testWidgets('a tap on a pace stop saves that many days once, and says Saved only after it returns', (tester) async {
     final saves = _Saves();
-    await pumpRoad(tester, saves);
+    await pumpRoad(tester, saves, open: 'pace');
     final strip = find.byKey(const ValueKey('road-pace'));
     await tester.ensureVisible(strip);
     await tester.pumpAndSettle();
@@ -173,7 +183,7 @@ void main() {
 
   testWidgets('a pace save that fails springs back and names the cause', (tester) async {
     final saves = _Saves()..failPace = TimeoutException('slow');
-    final road = await pumpRoad(tester, saves);
+    final road = await pumpRoad(tester, saves, open: 'pace');
     final strip = find.byKey(const ValueKey('road-pace'));
     await tester.ensureVisible(strip);
     await tester.pumpAndSettle();
@@ -188,7 +198,7 @@ void main() {
 
   testWidgets('scrolling the mock ruler sets the target on the phone when it comes to rest', (tester) async {
     final saves = _Saves();
-    await pumpRoad(tester, saves);
+    await pumpRoad(tester, saves, open: 'mocks');
     final ruler = find.byKey(const ValueKey('road-ruler'));
     await tester.ensureVisible(ruler);
     await tester.pumpAndSettle();
@@ -242,6 +252,10 @@ void main() {
       size: const Size(390, 844),
       disableAnimations: true,
     );
+    await tester.pump(const Duration(milliseconds: 700));
+    // The rail (and its walker) opens in place from a tap on the strip (TODAY-1017 4.6).
+    final strip = tester.getRect(find.byType(RoadStrip));
+    await tester.tapAt(Offset(strip.left + 4, strip.top + 80));
     await tester.pump(const Duration(milliseconds: 700));
     final mobi = find.byKey(const ValueKey('road-mobi'));
     expect(find.byKey(const ValueKey('road-mobi'), skipOffstage: false), findsOneWidget);

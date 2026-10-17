@@ -9,7 +9,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/art/art.dart' show SubjectEmblem;
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/haptics/haptics.dart';
-import 'package:mockmob/core/mascot/mascot.dart' show MobiBubble, MobiRation;
 import 'package:mockmob/core/widgets/count_up.dart' show MmNumberMemory;
 import 'package:mockmob/features/today/copy.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
@@ -19,7 +18,6 @@ import 'package:mockmob/features/today/widgets/header_mobi.dart';
 import 'package:mockmob/features/today/widgets/hero_stage.dart';
 import 'package:mockmob/features/today/widgets/resume_hero.dart';
 import 'package:mockmob/features/today/widgets/today_entrance.dart';
-import 'package:mockmob/features/today/widgets/week_ledger.dart';
 
 import '../../golden/today/today_golden_support.dart';
 import '../../helpers/fonts.dart';
@@ -77,156 +75,19 @@ void main() {
     }
   }
 
-  group('the header Mobi nudges toward the move card after 4 s, once a day (MOTION 1.3, P0-9)', () {
-    late int nudges;
-    setUp(() {
-      nudges = 0;
-      MobiRation.reset();
-      HeaderMobi.debugOnNudge = () => nudges++;
-    });
-    tearDown(() {
-      HeaderMobi.debugOnNudge = null;
-      MobiRation.reset();
-    });
-
-    testWidgets('only after 4 s with nothing touched; never twice', (tester) async {
-      HeaderMobi.resetGreeting();
-      await pumpToday(tester);
-      await wait(tester, const Duration(seconds: 3));
-      expect(nudges, 0, reason: 'at 3.6 s it is too soon: sooner reads as nagging');
-      await wait(tester, const Duration(seconds: 6));
-      expect(nudges, 1);
-      await wait(tester, const Duration(seconds: 6));
-      expect(nudges, 1, reason: 'once per screen');
-    });
-
-    testWidgets('once a day: a second visit the same day does not nudge again', (tester) async {
-      await pumpToday(tester);
-      await wait(tester, const Duration(seconds: 8));
-      expect(nudges, 1);
-      await tester.pumpWidget(const SizedBox());
-      await pumpToday(tester);
-      await wait(tester, const Duration(seconds: 8));
-      expect(nudges, 1, reason: 'the gate is per screen per day');
-    });
-
-    testWidgets('a touch before 4 s cancels it for good', (tester) async {
-      await pumpToday(tester);
-      await wait(tester, const Duration(seconds: 2));
-      final gesture = await tester.startGesture(const Offset(192, 1500));
-      await gesture.up();
-      await wait(tester, const Duration(seconds: 8));
-      expect(nudges, 0);
-    });
-
-    testWidgets('never under reduced motion', (tester) async {
-      await pumpToday(tester, reduced: true);
-      await wait(tester, const Duration(seconds: 8));
-      expect(nudges, 0);
-    });
-  });
-
-  group("the header Mobi's line never covers the greeting (22 Oct finding 22, round 3)", () {
-    setUp(() {
-      MobiRation.reset();
-      HeaderMobi.resetGreeting();
-    });
-    tearDown(MobiRation.reset);
-
-    /// Pumps Today at [width] dp and [scale] text scale, in either theme.
-    Future<void> pumpAt(WidgetTester tester, double width, double scale, {Brightness brightness = Brightness.light}) =>
-        pumpMockmob(
-          tester,
-          TodayBody(view: buildToday(ashaInputs()), callbacks: noopCallbacks, skeletonDelay: Duration.zero),
-          size: Size(width, 1900),
-          textScale: scale,
-          brightness: brightness,
-          overrides: [auth],
-        );
-
-    testWidgets('nothing is said at first paint or in the first 3 s', (tester) async {
-      await pumpToday(tester);
-      await wait(tester, const Duration(seconds: 3));
-      expect(find.byType(MobiBubble), findsNothing, reason: 'the 4 s idle rule decides when he speaks, not the first paint');
-      expect(find.text('Good evening, Asha'), findsOneWidget);
-    });
-
-    testWidgets('after 4 s idle he says his line, the greeting stays, and the line goes after a while', (tester) async {
-      await pumpToday(tester);
-      await wait(tester, const Duration(seconds: 5));
-      expect(find.byType(MobiBubble), findsOneWidget);
-      expect(find.text('Good evening, Asha'), findsOneWidget);
-      await wait(tester, const Duration(seconds: 8));
-      expect(find.byType(MobiBubble), findsNothing);
-    });
-
-    for (final brightness in [Brightness.dark, Brightness.light]) {
-      for (final width in [320.0, 360.0, 411.0]) {
-        for (final scale in [1.0, 1.3]) {
-          testWidgets('the line sits below the header text and never over it at $width dp, ${scale}x, ${brightness.name}',
-              (tester) async {
-            await pumpAt(tester, width, scale, brightness: brightness);
-            await wait(tester, const Duration(seconds: 3));
-            expect(find.byType(MobiBubble), findsNothing, reason: 'nothing at first paint, nothing before 4 s idle');
-            await wait(tester, const Duration(seconds: 2));
-            expect(find.byType(MobiBubble), findsOneWidget);
-            final bubble = tester.getRect(find.byType(MobiBubble));
-            final greeting = tester.getRect(find.text('Good evening, Asha'));
-            final date = tester.getRect(find.text(buildToday(ashaInputs()).header.dateLine));
-            final mobi = tester.getRect(find.byType(HeaderMobi));
-            final week = tester.getRect(find.byType(WeekLedger));
-            expect(bubble.overlaps(greeting), isFalse, reason: 'bubble $bubble vs greeting $greeting');
-            expect(bubble.overlaps(date), isFalse, reason: 'bubble $bubble vs date $date');
-            expect(bubble.overlaps(mobi), isFalse, reason: 'the bubble is below Mobi, not on him');
-            expect(bubble.overlaps(week), isFalse, reason: 'the week steps down; the bubble never sits on it');
-            expect(bubble.left, greaterThanOrEqualTo(0));
-            expect(bubble.right, lessThanOrEqualTo(width));
-            await wait(tester, const Duration(seconds: 8));
-            expect(find.byType(MobiBubble), findsNothing);
-          });
-        }
-      }
-    }
-
-    testWidgets('a touch before 4 s means he stays quiet, and the greeting is never dimmed', (tester) async {
-      await pumpToday(tester);
-      await wait(tester, const Duration(seconds: 2));
-      final gesture = await tester.startGesture(const Offset(192, 1500));
-      await gesture.up();
-      await wait(tester, const Duration(seconds: 8));
-      expect(find.byType(MobiBubble), findsNothing);
-    });
-
-    testWidgets('under reduced motion he never speaks on his own', (tester) async {
-      await pumpToday(tester, reduced: true);
-      await wait(tester, const Duration(seconds: 8));
-      expect(find.byType(MobiBubble), findsNothing);
-    });
-
-    testWidgets('while the opening still covers the app (tickers muted) his clock does not run', (tester) async {
-      var live = false;
-      late StateSetter set;
-      await pumpMockmob(
-        tester,
-        StatefulBuilder(builder: (context, setState) {
-          set = setState;
-          return TickerMode(
-            enabled: live,
-            child: TodayBody(view: buildToday(ashaInputs()), callbacks: noopCallbacks, skeletonDelay: Duration.zero),
-          );
-        }),
-        size: const Size(384, 1900),
-        overrides: [auth],
-      );
-      await wait(tester, const Duration(seconds: 6));
-      expect(find.byType(MobiBubble), findsNothing, reason: 'nothing is said out of sight');
-      set(() => live = true);
-      await tester.pump();
-      await wait(tester, const Duration(seconds: 3));
-      expect(find.byType(MobiBubble), findsNothing, reason: 'his 4 s start when the app is seen');
-      await wait(tester, const Duration(seconds: 3));
-      expect(find.byType(MobiBubble), findsOneWidget);
-    });
+  // TODAY-1017 4.6: no Mobi in Today's header, so nothing nudges from it and no line can cover the
+  // greeting. Mobi appears only in the move card's art box or beside the week at a real moment.
+  testWidgets('Today has no header Mobi: no nudge, and the greeting stays clear', (tester) async {
+    await pumpMockmob(
+      tester,
+      PhoneFrame(child: TodayBody(view: buildToday(ashaInputs()), callbacks: noopCallbacks, skeletonDelay: Duration.zero)),
+      size: kTodaySize,
+      disableAnimations: true,
+      overrides: todayOverrides,
+    );
+    await tester.pump(const Duration(seconds: 5));
+    expect(find.byType(HeaderMobi), findsNothing);
+    expect(find.text('Good evening, Asha'), findsOneWidget);
   });
 
   group('the hero number (MOTION-08)', () {
@@ -276,7 +137,7 @@ void main() {
       );
       final handle = tester.ensureSemantics();
       await tester.pump();
-      final alternative = TodayCopy.chooseSomethingElse;
+      final alternative = TodayCopy.somethingElse;
       expect(announced(tester).where((l) => l == alternative), hasLength(1), reason: 'the capsule replaced the pinned bar: one key, not two');
       final quiet = find.text(alternative);
       expect(quiet, findsOneWidget);
