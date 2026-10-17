@@ -37,7 +37,8 @@
 .app-shell .cp-units { display: grid; gap: 10px; }
 .app-shell .cp-unit { display: grid; gap: 4px; }
 .app-shell .cp-unit__head { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 4px 2px; }
-.app-shell .cp-unit__head b { font: 700 14.5px/1.3 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink); }
+.app-shell .cp-unit__head .cp-link { flex: none; }
+.app-shell .cp-unit__head b { min-width: 0; font: 700 14.5px/1.3 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink); }
 .app-shell .cp-unit__head b small { margin-left: 6px; font: 600 12.5px/1 var(--font-body); color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
 .app-shell .cp-chaps { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2px; }
 @media (min-width: 1024px) { .app-shell .cp-panel .cp-chaps { grid-template-columns: 1fr 1fr; column-gap: 8px; } }
