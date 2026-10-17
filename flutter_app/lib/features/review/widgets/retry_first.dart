@@ -71,7 +71,7 @@ class RetryFirstBody extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final passage = question.passageText?.trim();
-    final body = question.body?.trim();
+    final body = distinctBody(question.question, question.body);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [

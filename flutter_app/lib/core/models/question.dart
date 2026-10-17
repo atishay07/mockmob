@@ -120,3 +120,17 @@ class SnapshotQuestion {
     return asString(v);
   }
 }
+
+
+/// The text printed under a question's stem, or null when there is none worth printing. A bank row
+/// often repeats the stem in its body; printing both showed the question twice, bright then
+/// dimmed. Compared with whitespace and case folded, so a body that only restates the stem (or sits
+/// inside it) is dropped.
+String? distinctBody(String stem, String? body) {
+  final b = body?.trim();
+  if (b == null || b.isEmpty) return null;
+  String fold(String v) => v.replaceAll(RegExp(r'\s+'), ' ').trim().toLowerCase();
+  final s = fold(stem), f = fold(b);
+  if (f.isEmpty || f == s || s.contains(f)) return null;
+  return b;
+}

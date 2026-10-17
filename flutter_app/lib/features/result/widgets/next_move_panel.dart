@@ -62,6 +62,7 @@ class NextMovePanel extends StatelessWidget {
             if (m.alt != null && onAlt != null) ...[
               const SizedBox(height: MmSpace.s4),
               TextAction(label: m.alt!.label, onTap: onAlt!),
+              if (m.alt!.detail != null) Text(m.alt!.detail!, style: type.small.copyWith(color: colors.ink2)),
             ],
           ],
         ),

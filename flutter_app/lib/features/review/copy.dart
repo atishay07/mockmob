@@ -152,7 +152,7 @@ abstract final class ReviewCopy {
   // ---- Features introduced at their moment (F18): one inline note each, never a tour ---------------
 
   static const noteReviseLead = 'Revise';
-  static const noteRevise = 'Mistakes you repair come back after 1, 3, 7 and 21 days, so they stay fixed.';
+  static const noteRevise = 'Wrong answers come back after 1, 3, 7 and 21 days, so they stay fixed.';
   static const noteReviseAction = 'Open Revise';
   static const noteLabLead = 'Mistake Lab';
   static String noteLab(String mock) => 'The result of $mock shows where its marks went and which mistakes cost the most.';

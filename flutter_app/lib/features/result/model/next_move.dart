@@ -150,10 +150,14 @@ enum AltKind { repair, practise, paper, credits }
 
 /// The quieter way out under the panel: one text action.
 class MoveAlt {
-  const MoveAlt({required this.kind, required this.label, this.qid, this.number, this.chapter});
+  const MoveAlt({required this.kind, required this.label, this.detail, this.qid, this.number, this.chapter});
 
   final AltKind kind;
   final String label;
+
+  /// One line under the link on what it gives and costs, said before it is tapped (a repair offered
+  /// beside a chapter set). Not part of the cross-platform fixtures; null when the label says it all.
+  final String? detail;
   final String? qid;
   final int? number;
   final String? chapter;
@@ -360,6 +364,11 @@ String repairValueLine(String? letter, {bool checkReady = true}) {
       : '${repairValueLead}why $pick looked right, the trap, and one rule to keep.';
 }
 
+/// What the repair offered beside a chapter set gives: "It gives you why C looked right, the trap and one rule to
+/// keep. You have 9." The link already says "1 AI credit", so the line carries the value and the balance.
+String repairAltDetail(String? letter, int? aiCredits) =>
+    ['It gives you why ${letter ?? 'your answer'} looked right, the trap and one rule to keep.', ?haveLine(aiCredits)].join(' ');
+
 /// "You have 68." or null when the balance is unknown (never "You have 0" for unknown).
 String? haveLine(int? balance) => balance == null ? null : 'You have $balance.';
 
@@ -413,8 +422,17 @@ ResultMove nextMove({
   ResultMove practise(int rule, String why) {
     final chapter = m.answered == 0 ? null : top?.chapter;
     final first = repairable ? pickRepair() : null;
+    final given = first?.givenIndex;
+    final firstLetter = given != null && given >= 0 && given < _letters.length ? _letters[given] : null;
     final MoveAlt? alt = first != null
-        ? MoveAlt(kind: AltKind.repair, label: 'Or repair Q${first.number} first, 1 AI credit', qid: first.qid, number: first.number, chapter: first.chapter)
+        ? MoveAlt(
+            kind: AltKind.repair,
+            label: 'Or repair Q${first.number} first, 1 AI credit',
+            detail: repairAltDetail(firstLetter, aiCredits),
+            qid: first.qid,
+            number: first.number,
+            chapter: first.chapter,
+          )
         : noAi && open.isNotEmpty
         ? const MoveAlt(kind: AltKind.credits, label: 'See your AI credits')
         : null;
