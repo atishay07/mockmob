@@ -315,11 +315,15 @@ class _AskMobiSheetState extends ConsumerState<AskMobiSheet> {
       ] else if (opening != null) ...[
         _AnswerBlock(
           reply: opening.reply,
+          lines: opening.lines,
           title: opening.title,
-          // A mock's breakdown is that paper's own count; every other opening reads the record.
+          // A mock's breakdown is that paper's own count and Today's facts are its own figures; only an
+          // opening read from the whole record names how much of the record it read.
           source: ctx.kind == AskMobiKind.mock && ctx.lines.isNotEmpty
               ? AskSheetCopy.sourceFrom(ctx.label ?? 'this mock')
-              : AskSheetCopy.sourceRecord(record?.questions, record?.sessions ?? 0),
+              : ctx.kind == AskMobiKind.today && ctx.lines.isNotEmpty
+                  ? AskSheetCopy.sourceRecord(null, 0)
+                  : AskSheetCopy.sourceRecord(record?.questions, record?.sessions ?? 0),
           next: _nextMove(opening.actions),
           onGo: _go,
           animate: false,
@@ -405,7 +409,7 @@ class _AskMobiSheetState extends ConsumerState<AskMobiSheet> {
                   total: wallet?.total,
                   includedMonthly: wallet?.includedMonthly,
                   bonus: wallet?.bonus,
-                  paused: wallet?.paused ?? false,
+                  // A pause is said once, in the notice above; the credits themselves are untouched.
                   resetsOn: renew,
                 ),
                 note: (typed) {
@@ -822,9 +826,12 @@ class _WaitingState extends State<_Waiting> {
 /// A reply: the words, the line saying where they came from and what they used, and at most one
 /// next move as an outline key.
 class _AnswerBlock extends StatelessWidget {
-  const _AnswerBlock({required this.reply, required this.source, required this.onGo, this.title, this.next, this.onAbout, this.animate = false});
+  const _AnswerBlock({required this.reply, required this.source, required this.onGo, this.lines = const [], this.title, this.next, this.onAbout, this.animate = false});
 
   final String reply;
+
+  /// Figures shown one to a line, in place of [reply].
+  final List<String> lines;
   final String? title;
   final String source;
   final (String, String)? next;
@@ -845,7 +852,13 @@ class _AnswerBlock extends StatelessWidget {
             Text(title!, style: type.small.copyWith(fontWeight: FontWeight.w700, color: colors.ink)),
             const SizedBox(height: MmSpace.s4),
           ],
-          if (reply.isNotEmpty) Text(reply, style: type.small.copyWith(color: colors.ink, height: 1.55)),
+          if (lines.isNotEmpty)
+            for (final (i, l) in lines.indexed) ...[
+              if (i > 0) const SizedBox(height: MmSpace.s8),
+              Text(l, style: type.small.copyWith(color: colors.ink, height: 1.5)),
+            ]
+          else if (reply.isNotEmpty)
+            Text(reply, style: type.small.copyWith(color: colors.ink, height: 1.55)),
           const SizedBox(height: MmSpace.s8),
           Row(
             children: [
@@ -1002,7 +1015,7 @@ class _ComposerState extends State<_Composer> {
     final colors = context.mmColors;
     final type = context.mmType;
     return Padding(
-      padding: EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16, widget.bottomPad + MmSpace.s4),
+      padding: EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16, widget.bottomPad + MmSpace.s8),
       child: ValueListenableBuilder(
         valueListenable: widget.controller,
         builder: (context, value, _) {
@@ -1088,10 +1101,7 @@ class _ComposerState extends State<_Composer> {
                 spacing: MmSpace.s12,
                 children: [
                   _WalletLink(line: widget.walletLine, onTap: widget.onCredits),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: MmSpace.s4),
-                    child: Semantics(liveRegion: true, child: Text(note, style: type.caption.copyWith(color: colors.ink3))),
-                  ),
+                  Semantics(liveRegion: true, child: Text(note, style: type.caption.copyWith(color: colors.ink3))),
                 ],
               ),
             ],

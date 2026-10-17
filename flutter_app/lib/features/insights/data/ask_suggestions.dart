@@ -40,7 +40,11 @@ class AskSuggestion {
 /// The answer a sheet opens with, already there and free: where a mock's marks went, why Today
 /// chose its lead, or what to practise.
 class AskOpening {
-  const AskOpening({required this.reply, this.title, this.actions = const []});
+  const AskOpening({required this.reply, this.title, this.actions = const [], this.lines = const []});
+
+  /// The figures as separate lines (a mock's chapters, Today's counts), when the opening is a list
+  /// of them; [reply] holds the same words joined, for a screen reader and for tests.
+  final List<String> lines;
 
   /// One plain line above the figures ("Where the 78 lost marks went"), or null.
   final String? title;

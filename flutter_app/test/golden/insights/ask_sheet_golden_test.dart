@@ -59,7 +59,7 @@ const _mock3 = AskMobiContext.mock(
 );
 
 const _today = AskMobiContext.today(
-  reason: 'From Mock 3, Accountancy, on 12 Oct.',
+  reason: 'From Mock 3, Accountancy, on 12 October.',
   facts: [
     '13 wrong, 31 right, 6 not attempted.',
     'Partnership: 6 wrong, 1 not attempted in 8 questions',
