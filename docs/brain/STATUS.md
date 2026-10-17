@@ -12,6 +12,7 @@
 - Deploy order: apply the migration to production BEFORE the code (the old function has no p_user_id).
 - Code: providerCore allowlist (an env override such as AI_LUNA_MODEL to another model is refused, logged, nothing called), at most 2 physical calls per action (the third Luna fallback after a failed JSON retry is gone), 'low' reasoning headroom 2,500 to 1,000, user_budget kind and the limit message, Ask Mobi context capped at 12 KB (src/services/ai/contextBudget.js), account deletion unlinks runtime_ai_requests.user_id.
 - Tests: data/tests/ai_user_cap.test.mjs (in test:learning). Recovery 352, app 343, auth 109, billing 118, learning 323 pass.
+
 ## 17 October 2026, about 4:35 am IST - Authored wave 3 published on production (153 questions; chemistry 48, general_test 56, physics 49)
 
 - Applied by Claude (session 25ef3d95) under the owner's standing database grant and his 17 Oct publish rule: only questions whose two quality judges average 8 or more AND whose fit median is 8 or more, after the full wave 1-2 process (5 blind Haiku solvers with 4 of 5 on the key, 2 rubric judges, 3 fit judges, the acceptance rule, a Sonnet expert pass, 3-solver blind re-solves of every repair that changed solver-visible text (16 of 16 held 3 of 3), a full fresh pass on 7 reworded rows). Hindi stays out.
