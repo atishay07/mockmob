@@ -1,18 +1,43 @@
 "use client";
 import { useMemo } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { AuthContext } from '@/components/AuthProvider';
 import { RoleProvider } from '@/lib/roleContext';
 import AppLayoutClient from '@/app/(app)/AppLayoutClient';
 import StudyWorkspace from '@/components/study/StudyWorkspace';
 import { createStudyRun, studyTransition, publicStudyItem, DEFAULT_PREFERENCES, preferences, recallQueue, taughtRecallCards, cardItem, istDay, NEW_CARDS_PER_DAY } from '@/../data/study_engine';
 import { scheduleReview } from '@/../data/study_scheduler.mjs';
+import { conceptsReview, conceptsAttempt } from '@/../data/study/preview_review.mjs';
+import studentRecord from '@/../data/tests/fixtures/review/student.json';
+import emptyRecord from '@/../data/tests/fixtures/review/empty.json';
+import downRecord from '@/../data/tests/fixtures/review/record_down.json';
+
+const RECORDS = { student: studentRecord, empty: emptyRecord, down: downRecord };
+// ?review=student (default) | empty | down: the record behind Concepts' lesson to read next, Where you lose marks and the Review badge.
+// ?unit=<lesson id>&from=q:m3:42 (or chapter:accountancy:Admission of Partner, or today) opens a lesson as it opens from a moment.
+// ?read=a,b marks lessons as read. The same record answers the layout's badge read through a small fetch stub on this page only.
+const reviewFor = (kind) => conceptsReview(RECORDS, RECORDS[kind] ? kind : 'student');
+if (typeof window !== 'undefined' && !window.__studyPreviewFetch) {
+  const real = window.fetch.bind(window);
+  window.__studyPreviewFetch = true;
+  window.fetch = (input, init) => {
+    const url = new URL(typeof input === 'string' ? input : input.url, window.location.origin);
+    if (window.location.pathname.startsWith('/preview/study') && url.pathname === '/api/me/review') {
+      const out = reviewFor(new URLSearchParams(window.location.search).get('review'));
+      return Promise.resolve(new Response(JSON.stringify(out.body), { status: out.http, headers: { 'Content-Type': 'application/json' } }));
+    }
+    return real(input, init);
+  };
+}
 
 // Development-only, in-memory mirror of src/lib/server/study.js. No student storage, payment, AI or
 // assessment calls. It uses the real engine and scheduler so the journey behaves like production.
 export default function StudyPreview({ content }) {
+  const params = useSearchParams();
+  const reviewKind = params.get('review'), unitParam = params.get('unit'), readParam = params.get('read');
   const auth = useMemo(() => ({ user: { id: 'study-preview', name: 'Preview Student', subjects: ['english', 'accountancy', 'business_studies', 'economics'], isPremium: false, creditBalance: 40 }, status: 'authenticated', isAuthenticated: true, needsOnboarding: false, signOut: async () => {}, refreshSession: async () => {} }), []);
   const fixture = useMemo(() => {
-    const store = { runs: new Map(), events: new Map(), states: new Map(), read: new Set(), prefs: { ...DEFAULT_PREFERENCES, premium: false, state: 'ready' }, reviews: 0 };
+    const store = { runs: new Map(), events: new Map(), states: new Map(), read: new Set((readParam || '').split(',').filter(Boolean)), prefs: { ...DEFAULT_PREFERENCES, premium: false, state: 'ready' }, reviews: 0 };
     const states = () => [...store.states.values()];
     const today = () => states().filter(s => s.introduced_day === istDay(Date.now())).length;
     const memory = unit => {
@@ -35,6 +60,8 @@ export default function StudyPreview({ content }) {
           queue: { dueCount: q.dueCount, overdueCount: q.overdueCount, newAllowance: q.newAllowance, availableCount: q.items.length, newCount: q.items.length - Math.min(q.dueCount, q.items.length), pausedNew: q.pausedNew },
           progress: { lessonsRead: store.read.size, lessonsAvailable: content.units.length, recallReviews: store.reviews, cardsStarted: store.states.size }, recallEnabled: true, preferences: store.prefs, newCardsPerDay: NEW_CARDS_PER_DAY };
       }
+      if (method === 'GET' && path === '/api/me/review') { const out = reviewFor(reviewKind); if (out.http !== 200) { const e = new Error('unavailable'); e.status = out.http; throw e; } return out.body; }
+      if (method === 'GET' && path.startsWith('/api/attempts/')) { const attempt = conceptsAttempt(studentRecord, decodeURIComponent(path.split('/').at(-1))); if (!attempt) { const e = new Error('not found'); e.status = 404; throw e; } return attempt; }
       if (method === 'GET' && path.startsWith('/api/study/units/')) {
         const unit = content.units.find(u => u.id === decodeURIComponent(path.split('/').at(-1)));
         if (!unit) { const e = new Error('UNIT_NOT_FOUND'); e.status = 404; throw e; }
@@ -77,6 +104,6 @@ export default function StudyPreview({ content }) {
       const response = view(row); store.events.set(input.requestKey, response); return response;
     };
     return { transport };
-  }, [content]);
-  return <AuthContext.Provider value={auth}><RoleProvider><div className="arena-fixture-note" role="note"><b>Development study preview</b><span>Illustrative only. Content candidates · no real saves, scores, credits or model calls.</span></div><AppLayoutClient previewRoute="/learn" previewLinks={{ learn: '/preview/study' }}><StudyWorkspace preview={fixture} /></AppLayoutClient></RoleProvider></AuthContext.Provider>;
+  }, [content, reviewKind, readParam]);
+  return <AuthContext.Provider value={auth}><RoleProvider><div className="arena-fixture-note" role="note"><b>Development study preview</b><span>Illustrative only. Content candidates · no real saves, scores, credits or model calls.</span></div><AppLayoutClient previewRoute="/learn" previewLinks={{ learn: '/preview/study' }}><StudyWorkspace preview={fixture} unitId={unitParam} /></AppLayoutClient></RoleProvider></AuthContext.Provider>;
 }

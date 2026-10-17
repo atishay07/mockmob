@@ -22,6 +22,7 @@ import { MODE_CAPABILITIES } from '@/../data/capabilities';
 import { retiredSubjectEntry } from '@/../data/subject_claim';
 import StartRule, { useStartRule } from './StartRule';
 import ChapterPicker from './ChapterPicker';
+import ConceptsPanel from '@/components/study/ConceptsPanel';
 import { chapterUnits, chaptersForMode } from './chapterGroups.mjs';
 import { MODE_SPECS, MODE_TILE_SPECS, bankCount, freshPaperLine } from '@/lib/paperCopy.mjs';
 import './practice.css';
@@ -101,8 +102,8 @@ function PracticeSkeleton() {
   );
 }
 
-// studyEnabled: the Learn lessons are on (STUDY_CONTENT_ENABLED, read by page.js). Learn left the phone dock for the More
-// sheet and this page (NAV-1017 8.2), so its Concepts panel is drawn here only while Learn exists.
+// studyEnabled: the Concepts lessons are on (STUDY_CONTENT_ENABLED, read by page.js). Concepts left the phone dock for the More
+// sheet and this page (NAV-1017 8.2), so its panel is drawn here only while Concepts exists. The panel is personalised (ConceptsPanel).
 export default function DashboardPageClient({ studyEnabled = false } = {}) {
   const { user, status: authStatus } = useAuth();
   const toast = useToast();
@@ -709,13 +710,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
         </section>
 
         <div className="pr-lower__side">
-        {studyEnabled && (
-          <section className="pr-panel" aria-labelledby="pr-concepts">
-            <div className="pr-panel__head"><h2 id="pr-concepts">Concepts</h2></div>
-            <p className="pr-panel__lead">Short lessons: learn a concept, lock it in with recall, then apply it on practice questions.</p>
-            <Link href="/learn" className="pr-link pr-link--strong"><AppIcon name="learn" size={16} />Open Learn</Link>
-          </section>
-        )}
+        {studyEnabled && <ConceptsPanel />}
         <section className="pr-panel" aria-labelledby="pr-access">
           <div className="pr-panel__head"><h2 id="pr-access">{isPremium ? 'Your access' : 'MockMob Pro'}</h2></div>
           <p className="pr-panel__lead">{isPremium

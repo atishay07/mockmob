@@ -17,6 +17,8 @@ const SUBJECT_IDS = ['english', 'accountancy', 'business_studies', 'economics'];
 const NAMES = { english: 'English', accountancy: 'Accountancy', business_studies: 'Business Studies', economics: 'Economics' };
 const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 const clean = (text) => String(text ?? '').replaceAll(' · ', ', ').replace(/\s+/g, ' ').trim();
+// A catalog summary read as a sentence: a capital first, and a full stop.
+const sentence = (text) => { const t = clean(text); return t ? `${t[0].toUpperCase()}${t.slice(1)}${/[.!?]$/.test(t) ? '' : '.'}` : ''; };
 
 /** The subject id for an id or a display name ("business_studies", "Business Studies"); null when it is neither. */
 export function subjectId(value) {
@@ -89,7 +91,7 @@ export function conceptsPick({ catalog, review = null } = {}) {
   if (next) {
     const read = Number(catalog?.progress?.lessonsRead) || 0;
     return {
-      kind: 'next', unit: next, title: next.title, lead: read ? 'Read this next.' : 'Start here.', reason: clean(next.summary),
+      kind: 'next', unit: next, title: next.title, lead: read ? 'Read this next.' : 'Start here.', reason: sentence(next.summary),
       key: key(next), cost: cost(next), href: `/learn/${encodeURIComponent(next.id)}`,
       run: { mode: 'learn', unitId: next.id }, minutes: Number(next.estimatedMinutes) || null, chapter: next.chapter, open: 0,
     };

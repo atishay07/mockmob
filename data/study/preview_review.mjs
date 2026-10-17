@@ -17,3 +17,18 @@ export function conceptsReview({ student, empty, down }, kind = 'student') {
   const record = { ...student, chapters: student.chapters.map((c) => ({ ...c, name: SYLLABUS_NAMES[c.id] || c.name })) };
   return { http: 200, body: reviewBody(record) };
 }
+
+/** The attempt a lesson opened from a question reads (`from=q:{paper}:{n}`): the paper's name and, for the questions the record knows, the pick and the key. */
+export function conceptsAttempt(student, paperId) {
+  const paper = (student.papers || []).find((p) => p.id === paperId);
+  if (!paper) return null;
+  const items = (student.items || []).filter((i) => i.paper === paperId);
+  const questions = Number(paper.questions) || 0;
+  const at = (n) => items.find((i) => i.q === n);
+  return {
+    id: paperId, subject: String(paper.subject || '').toLowerCase().replace(/\s+/g, '_'),
+    questionsSnapshot: Array.from({ length: questions }, (_, n) => ({ id: `${paperId}-q${n + 1}`, correctIndex: at(n + 1)?.key ? 'ABCD'.indexOf(at(n + 1).key) : null })),
+    details: Array.from({ length: questions }, (_, n) => ({ qid: `${paperId}-q${n + 1}`, givenIndex: at(n + 1)?.pick ? 'ABCD'.indexOf(at(n + 1).pick) : null, isCorrect: !at(n + 1) })),
+    paper: { source: paper.name, completedAt: Date.parse(paper.at) || null },
+  };
+}
