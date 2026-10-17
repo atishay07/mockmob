@@ -274,3 +274,12 @@
 .app-shell .rx .tm { display: grid; animation: none; padding: 0; gap: 0; min-height: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; overflow: visible; }
 .app-shell .rx .tm[data-surface='inset'] { padding-top: 6px; border-top: 1px solid var(--a-line, #253026); }
 html[data-theme='light'] .app-shell .rx .tm { box-shadow: none; }
+
+/* D17 (owner, 18 Oct dawn): the answer bar is sized to the paper. A paper of up to 20 questions fills the card's width in
+   even lines, so a 10-question practice reads as ten slots, not a cluster at the left; a longer paper keeps the 44 px wrap. */
+.rp-strip[data-fit] { display: grid; grid-template-columns: repeat(var(--rp-cols, 10), minmax(44px, 1fr)); gap: 8px; }
+.rp-strip[data-fit] button { width: 100%; }
+@media (max-width: 640px) {
+  .rp-strip[data-fit] { grid-template-columns: repeat(var(--rp-cols-phone, 5), minmax(44px, 1fr)); }
+  .rp-strip[data-fit] button { width: 100%; }
+}

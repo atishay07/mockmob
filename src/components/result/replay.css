@@ -123,6 +123,55 @@ html[data-theme='light'] :is(.rpl, .rpl-strip) {
 .rpl-cell[data-dim] { opacity: 0.22; }
 .rpl-cell[data-on] { box-shadow: 0 0 0 1.5px var(--rpl-head); }
 
+/* ---------- The answer map sized to the paper (D17): one slot a question, ten a line, across the full width ----------
+   Each slot carries its number, its time so far and, once it happened, a dot for a changed answer. Up to 20 questions
+   it is open on its own; a longer paper folds to the thin strip above until Expand. */
+.rpl-mapbox { display: grid; gap: 8px; min-width: 0; }
+.rpl-slots {
+  list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; min-width: 0;
+  grid-template-columns: repeat(var(--cols, 10), minmax(0, 1fr));
+}
+.rpl .rpl-slots { margin: 0; container-type: inline-size; }
+.rpl-slot__short { display: none; }
+/* Under about 56 px a slot, "2m 30s" would be cut: the slot says "2:30" instead. */
+@container (max-width: 560px) {
+  .rpl-slot__long { display: none; }
+  .rpl-slot__short { display: inline; }
+}
+.rpl-slot {
+  position: relative; display: grid; justify-items: center; align-content: center; gap: 3px; min-width: 0; min-height: 46px;
+  padding: 6px 2px; border-radius: 8px; background: var(--rpl-cell); color: var(--a-ink-3, #93a08f);
+}
+.rpl-slot b { font: 700 14px/1 var(--font-display, inherit); font-variant-numeric: tabular-nums; }
+.rpl-slot small { min-height: 12px; font: 600 11.5px/1 var(--font-body, inherit); font-variant-numeric: tabular-nums; white-space: nowrap; opacity: 0.86; }
+.rpl-slot[data-s='open'] { background: transparent; box-shadow: inset 0 0 0 1px var(--a-ink-3, #93a08f); color: var(--a-ink-2, #bcc5b9); }
+.rpl-slot[data-s='ans'] { background: color-mix(in oklab, var(--a-ink-2, #bcc5b9) 26%, transparent); color: var(--a-ink, #f2f4ec); }
+.rpl-slot[data-s='right'] { background: var(--rpl-right); color: var(--rpl-label); }
+.rpl-slot[data-s='wrong'] { background: var(--rpl-wrong); color: var(--rpl-label); }
+.rpl-slot[data-s='blank'] { background: var(--rpl-blank); color: var(--rpl-label-blank); }
+.rpl-slot[data-s='held'] { background: transparent; outline: 1px dashed var(--rpl-held-dot); outline-offset: -1px; color: var(--a-ink-2, #bcc5b9); }
+.rpl-slot[data-s='never'] { background: repeating-linear-gradient(135deg, var(--rpl-hatch) 0 1.5px, transparent 1.5px 4px); box-shadow: inset 0 0 0 1px var(--a-line, #253026); }
+/* A changed answer: the same small dot the summary's answer map uses on a changed question. */
+.rpl-slot[data-changed]::after {
+  content: ''; position: absolute; top: -3px; right: -3px; width: 9px; height: 9px; border-radius: 50%;
+  background: var(--a-warn-text, #e0b93f); border: 2px solid var(--rpl-stage);
+}
+.rpl-slot[data-now] { box-shadow: 0 0 0 2px var(--rpl-head); }
+.rpl-slot[data-sel] { box-shadow: 0 0 0 2px var(--a-ink, #f2f4ec); }
+.rpl-slot[data-on] { box-shadow: 0 0 0 2px var(--rpl-head); }
+.rpl-slot[data-dim] { opacity: 0.22; }
+.rpl-maptoggle {
+  justify-self: start; display: inline-flex; align-items: center; min-height: 44px; padding: 0 2px; border: 0; background: none;
+  color: var(--a-ink-2, #bcc5b9); font: 650 13px/1.2 var(--font-body, inherit); cursor: pointer; text-decoration: underline;
+  text-decoration-color: var(--a-line-strong, #384736); text-underline-offset: 4px;
+}
+.rpl-maptoggle:hover { color: var(--a-ink, #f2f4ec); text-decoration-color: currentColor; }
+.rpl-maptoggle:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; border-radius: 4px; }
+/* The legend's swatch for the slot dot. */
+.rpl-legend__dot { fill: var(--a-warn-text, #e0b93f); }
+/* What is happening at the clock's time while it plays: one plain line beside the clock. */
+.rpl-event { font: 600 14px/1.3 var(--font-body, inherit); color: var(--a-ink-2, #bcc5b9); font-variant-numeric: tabular-nums; min-width: 0; }
+
 /* ---------- The grid ---------- */
 .rpl-grid { display: grid; gap: 6px; min-width: 0; }
 .rpl-row { display: grid; gap: 0; min-width: 0; }
@@ -263,6 +312,11 @@ html[data-theme='light'] .rpl-sw[data-g='other_wrong'] { background: #7a1d15; }
   .rpl-chip { min-width: 0; }
   .rpl-clock__time { font-size: 24px; }
   .rpl .rpl-endline { flex-basis: 100%; margin: -4px 0 0; }
+  .rpl-clock { flex-wrap: wrap; row-gap: 4px; }
+  .rpl-event { font-size: 13px; }
+  .rpl-slot { min-height: 44px; padding: 5px 1px; border-radius: 6px; }
+  .rpl-slot b { font-size: 13px; }
+  .rpl-slot small { font-size: 10.5px; }
   .rpl-panel { padding: 12px 14px; }
   .rpl-facts li { font-size: 14px; }
 }
@@ -282,6 +336,10 @@ html[data-theme='light'] .rpl-sw[data-g='other_wrong'] { background: #7a1d15; }
   /* At the end of a play the map settles into each final result, left to right. */
   .rpl-map[data-settled] .rpl-cell { transition: background-color 260ms var(--rpl-ease) calc(var(--i, 0) * 12ms), opacity 180ms var(--rpl-ease), transform 140ms var(--rpl-ease); }
   .rpl-clock__time { transition: color 200ms var(--rpl-ease); }
+  .rpl-slot { transition: background-color 160ms var(--rpl-ease), color 160ms var(--rpl-ease), opacity 180ms var(--rpl-ease), box-shadow 140ms var(--rpl-ease); }
+  .rpl-slots[data-settled] .rpl-slot { transition: background-color 260ms var(--rpl-ease) calc(var(--i, 0) * 18ms), color 260ms var(--rpl-ease) calc(var(--i, 0) * 18ms), opacity 180ms var(--rpl-ease), box-shadow 140ms var(--rpl-ease); }
+  .rpl-slot[data-changed]::after { animation: rpl-dot 220ms var(--rpl-ease) both; }
+  .rpl-event { animation: rpl-fade 180ms var(--rpl-ease) both; }
   .rpl-btn, .rpl-chip { transition: border-color 150ms var(--rpl-ease), background-color 150ms var(--rpl-ease), transform 100ms var(--rpl-ease); }
   :is(.rpl-btn, .rpl-chip, .rpl-now):active { transform: scale(0.96); }
   .rpl-panel { animation: rpl-open 200ms var(--rpl-ease) both; }
@@ -292,5 +350,6 @@ html[data-motion='reduced'] .rpl .rpl-row__plot { clip-path: none !important; }
 html[data-motion='reduced'] .rpl .rpl-row__end { opacity: 1 !important; }
 @keyframes rpl-sweep { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
 @keyframes rpl-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes rpl-dot { from { transform: scale(0.4); opacity: 0; } to { transform: none; opacity: 1; } }
 @keyframes rpl-open { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
 @keyframes rpl-arrive { 0% { box-shadow: 0 0 0 0 rgba(210, 240, 0, 0.5); } 100% { box-shadow: 0 0 0 10px rgba(210, 240, 0, 0); } }

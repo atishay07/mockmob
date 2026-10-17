@@ -10,6 +10,8 @@ import { mistakesHead } from '@/../data/result_next_move.mjs';
 import { plainOptionTexts } from '@/../data/option_text';
 
 export const SHOWN_FIRST = 4;
+// D15: one action a mistake, said once with the same words the chips use.
+const STEPS_LINE = 'Each mistake has one next step: Repair, then Check it held on a new question.';
 const LETTERS = 'ABCDEFGH';
 const optionText = (texts, i) => {
   const t = texts[i];
@@ -110,7 +112,7 @@ export default function MistakeList({ mistakes, blanks, openIds, onToggle, statu
         {head.side && !top ? <span className="rx-mistakes__side">{head.side}</span> : null}
       </div>
       {mistakes.length ? (
-        <p className="rx-mistakes__sub">{ordered === 'repair' ? 'In repair order: the ones most other students got right come first. Repaired ones say whether the fix held.' : 'In paper order. Repaired ones say whether the fix held.'}</p>
+        <p className="rx-mistakes__sub">{ordered === 'repair' ? 'In repair order: the ones most other students got right come first. ' : 'In paper order. '}{STEPS_LINE}</p>
       ) : null}
       {head.empty ? <p className="rx-mistakes__sub">{head.empty}</p> : null}
       {mistakes.length ? <ol className="rx-list" id={listId}>{shown.map(row)}</ol> : null}

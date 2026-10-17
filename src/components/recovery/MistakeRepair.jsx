@@ -36,7 +36,7 @@ function RepairCost() {
 }
 
 // The paid start, or, with a known balance of 0 AI credits, the credits line and the free way forward instead.
-function RepairStart({ chosen, onStart }) {
+function RepairStart({ chosen, number = null, onStart }) {
   const auth = useContext(AuthContext);
   const wallet = useWalletSummary(auth?.user?.id, { reuseFresh: true });
   if (wallet.wallet?.known && wallet.wallet.total === 0) {
@@ -51,7 +51,7 @@ function RepairStart({ chosen, onStart }) {
     <>
       <button type="button" className="mr-start" onClick={onStart}>
         <span className="mr-start__icon" aria-hidden="true"><Wrench size={18} strokeWidth={2.4} /></span>
-        <span className="mr-start__text"><b>Repair this mistake</b><small>Why {chosen ? `option ${chosen}` : 'your answer'} looked right, why the key is right and one rule to keep, then a new question to check it held</small></span>
+        <span className="mr-start__text"><b>{Number.isInteger(number) ? `Repair Q${number}` : 'Repair this mistake'}</b><small>Why {chosen ? `option ${chosen}` : 'your answer'} looked right, why the key is right and one rule to keep, then a new question to check it held</small></span>
         <span className="mr-start__cost">1 AI credit</span>
       </button>
       <RepairCost />
@@ -366,7 +366,7 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
       return (
         <div className="mr">
           <PaperFrom line={paper} />
-          <RepairStart chosen={chosen} onStart={() => { started.current = true; run(); }} />
+          <RepairStart chosen={chosen} number={number} onStart={() => { started.current = true; run(); }} />
         </div>
       );
     }

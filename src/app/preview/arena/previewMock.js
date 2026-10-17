@@ -56,7 +56,7 @@ const EARLIER_PAPERS = [
   [['Partnership Fundamentals', 'RRRRWR'], ['Profit & Loss Appropriation Account', 'RRRRRR'], ['Share Capital', 'WWRWWW'], ['Accounting Ratios', 'RWRRRR'], ['Depreciation', 'RRRWRR']],
 ];
 
-function paper({ id, prefix, mode, completedAt, blocks, firstPicks = {}, quickWrong = true }) {
+function paper({ id, prefix, mode, completedAt, blocks, firstPicks = {}, quickWrong = true, secondsAt = null }) {
   const rows = [];
   blocks.forEach(([chapter, outcomes]) => {
     [...outcomes].forEach((outcome) => {
@@ -79,7 +79,7 @@ function paper({ id, prefix, mode, completedAt, blocks, firstPicks = {}, quickWr
     events.push({ seq: seq++, qid: r.id, at, type: 'visit' });
     const final = r.outcome === 'R' ? r.key : r.outcome === 'W' ? (r.key + 1) % 4 : null;
     // Wrong answers alternate between a fast pick and a slow one; every fifth question is slower.
-    const seconds = r.outcome === 'W' ? (quickWrong && i % 2 === 0 ? 11 + (i % 7) : 52) : 38 + (i % 5) * 4;
+    const seconds = secondsAt ? secondsAt(i) : r.outcome === 'W' ? (quickWrong && i % 2 === 0 ? 11 + (i % 7) : 52) : 38 + (i % 5) * 4;
     // A first pick that was later changed (the paper's two key-to-wrong changes are set by the caller).
     const changed = firstPicks[r.n];
     if (changed !== undefined) events.push({ seq: seq++, qid: r.id, at: at + seconds * 400, type: 'answer', answer: changed === 'key' ? r.key : changed });
@@ -207,7 +207,12 @@ export async function fixtureReplayMock(paperName = 'full', { cohortTime = null,
 
 // ---------- The 17 Oct result papers (RESULT-1017 section 5, data/result_papers.mjs) ----------
 
-export const RESULT_PAPER_NAMES = Object.freeze(Object.keys(RESULT_PAPERS));
+// practice10 (preview only, D17 in docs/brain/OWNER-FEEDBACK-2026-10-18-DAWN.md): the owner's own case, a 10-question
+// Accountancy practice answered in 58 seconds, 5 right and 5 wrong (20 of 50), Q1 and Q3 among the mistakes, Q3 changed
+// from the key to a wrong option. It is how the replay looks on a short paper.
+const PREVIEW_PAPERS = Object.freeze({ practice10: [['Admission of a Partner', 'WRWRR'], ['Goodwill', 'WRWWR']] });
+const PRACTICE10_SECONDS = [4, 7, 5, 6, 8, 5, 6, 4, 7, 6];
+export const RESULT_PAPER_NAMES = Object.freeze([...Object.keys(RESULT_PAPERS), ...Object.keys(PREVIEW_PAPERS)]);
 
 /**
  * One of the result screen's illustrative papers (weak, avg, strong, perfect, blank: Accountancy full mocks of 50;
@@ -218,9 +223,11 @@ export const RESULT_PAPER_NAMES = Object.freeze(Object.keys(RESULT_PAPERS));
  */
 export function fixtureResultPaper(name = 'avg', { held = false, repaired = false } = {}) {
   const now = Date.now();
-  const practice = name === 'practice5';
-  const attempt = paper({ id: 'fixture-attempt', prefix: `paper-${name}`, mode: practice ? 'quick' : 'full', completedAt: now - 3_600_000, blocks: RESULT_PAPERS[name] || RESULT_PAPERS.avg });
-  if (practice) attempt.subject = 'business_studies';
+  const practice = name === 'practice5' || name === 'practice10';
+  const short = name === 'practice10';
+  const attempt = paper({ id: 'fixture-attempt', prefix: `paper-${name}`, mode: practice ? 'quick' : 'full', completedAt: now - 3_600_000, blocks: RESULT_PAPERS[name] || PREVIEW_PAPERS[name] || RESULT_PAPERS.avg,
+    ...(short ? { secondsAt: (i) => PRACTICE10_SECONDS[i] ?? 6, firstPicks: { 3: 'key' } } : {}) });
+  if (practice && !short) attempt.subject = 'business_studies';
   attempt.mode = attempt.selectionMeta.mode;
   if (practice) attempt.selectionMeta = { ...attempt.selectionMeta, scoringVersion: 'server_practice_v1' };
   const answerReviews = held ? { [`paper-${name}-q42`]: { state: 'under_review', originalIndex: 42 % 4 } } : {};
@@ -228,7 +235,7 @@ export function fixtureResultPaper(name = 'avg', { held = false, repaired = fals
   const built = buildMistakeLab({ attempt, answerReviews, cohort: null });
   const order = paperRepairOrder(name);
   const live = order ? { ...order, items: order.items.filter((x) => !answerReviews[x.qid]), qids: order.qids.filter((q) => !answerReviews[q]) } : null;
-  const lab = built ? { ...fixtureLabLoop({ lab: built, attempt, answerReviews }), repairOrder: live, repaired: repaired === 'all' ? mistakeIds(attempt, answerReviews) : repaired && live?.qids?.length ? [live.qids[0]] : [] } : null;
+  const lab = built ? { ...fixtureLabLoop({ lab: built, attempt, answerReviews }), repairOrder: live, repaired: repaired === 'all' ? mistakeIds(attempt, answerReviews) : repaired && live?.qids?.length ? [live.qids[0]] : repaired && short ? mistakeIds(attempt, answerReviews).slice(0, 2) : [] } : null;
   const ledgerGroups = lab && (lab.state === 'ready' || lab.state === 'basic') ? lab.groups.map((g) => g.id) : null;
   const swot = buildSwot({ attempt, allAttempts: earlier, answerReviews, answerReviewState: 'ready', missedBefore: {}, now, ledgerGroups });
   const mistakeInsights = buildMistakeInsights({ attempt, allAttempts: earlier, missedBefore: {}, answerReviews });
