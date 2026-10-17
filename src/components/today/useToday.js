@@ -44,7 +44,14 @@ const reviseDue = (body) => (body?.state === 'unavailable' ? null : {
   answeredToday: Number.isInteger(body?.answeredToday) ? body.answeredToday : 0,
   minutes: Number.isInteger(body?.minutes) ? body.minutes : null,
   nextDayLabel: typeof body?.nextDayLabel === 'string' ? body.nextDayLabel : null,
+  // The subjects of today's questions, most first: the lead card shows their objects (what comes back, not a guess).
+  subjects: Array.isArray(body?.items) ? subjectsByCount(body.items) : [],
 });
+function subjectsByCount(items) {
+  const n = new Map();
+  for (const i of items) if (i?.subject) n.set(i.subject, (n.get(i.subject) || 0) + 1);
+  return [...n.entries()].sort((a, b) => b[1] - a[1]).map(([s]) => s);
+}
 
 export function useToday(userId) {
   const [planKey, setPlanKey] = useState(0);

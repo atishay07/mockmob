@@ -249,7 +249,9 @@ export function mockPace({ target, taken, days }) {
   let pace;
   if (perWeek > 1) pace = `about ${Math.ceil(perWeek)} a week`;
   else {
-    const every = Math.max(1, Math.floor(weeks / left));
+    // This week counts as one of the weeks (as weekMockShare spreads them), so 14 over 27 weeks and a part is one a
+    // fortnight, the choice it came from, and never a pace that falls short of the target.
+    const every = Math.max(1, Math.floor((Math.floor(weeks) + 1) / left));
     pace = every === 1 ? 'about one a week' : every === 2 ? 'about one a fortnight' : `about one every ${every} weeks`;
   }
   return { left, text: `${left} to go:`, strong: `${pace} gets you there.` };

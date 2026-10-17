@@ -22,6 +22,8 @@ import { getSubjectById } from '@/../data/subjects';
 import { alternatives as buildAlternatives, buildMove, clock, fitMove } from '@/lib/today/move.mjs';
 import { choiceMoves, leadOf, pickChoices, pickKey, refit } from '@/lib/today/lead.mjs';
 import { firstTimedMockHref } from '@/../data/first_timed_mock';
+import { TEST_MODES } from '@/../data/test_modes';
+import { usesLine } from '@/lib/creditCopy.mjs';
 import { greeting } from '@/lib/today/greeting.mjs';
 import { todayKeyIn } from '@/lib/today/week.mjs';
 import { useToday } from '@/components/today/useToday';
@@ -129,11 +131,26 @@ export default function Today() {
     premium: Boolean(user?.isPremium),
     minutes: chosen,
   }), [data.plan.data, data.plan.status, papersData, data.rhythm.data, reviseData, facts, repairedData, top, user?.subjects, user?.isPremium, chosen]);
+  // The price before the press (W-060): a repair names its AI credit; Revise is free; a practice set or a full mock on a
+  // free account names its practice credits and the balance (Pro includes both, so nothing is printed).
+  const premium = Boolean(user?.isPremium);
+  const balance = Number.isFinite(Number(user?.creditBalance)) ? Number(user.creditBalance) : null;
+  const priceOf = useCallback((m) => {
+    if (m.id === 'revise') return 'Free. No credits.';
+    if (premium || m.aiEach || ['resume', 'check', 'done'].includes(m.id) || (m.id === 'returning' && m.open > 0)) return null;
+    const mock = m.kind === 'mock' || m.id === 'firstMock';
+    const cost = (mock ? TEST_MODES.full : TEST_MODES.quick)?.creditCost;
+    return cost > 0 ? usesLine({ what: mock ? 'This mock' : 'This set', cost, pool: 'practice', balance }) : null;
+  }, [premium, balance]);
+  const reviseSubjects = reviseData?.subjects;
   const finish = useCallback((m) => {
     if (!m || m.id === 'failed') return m;
     const fitted = refit(chosen ? fitMove(m, chosen) : m);
-    return { ...fitted, base: m, subjectName: fitted.subject ? subjectName(fitted.subject) : '', mockHref: firstTimedMockHref(facts?.subject || fitted.subject || null) };
-  }, [chosen, facts]);
+    // Revise names no one subject; the lead card shows the objects of the subjects whose questions come back today.
+    const extra = fitted.id === 'revise' ? { subjects: (reviseSubjects || []).slice(0, 3), free: true } : {};
+    const out = { ...fitted, ...extra, base: m, subjectName: fitted.subject ? subjectName(fitted.subject) : '', mockHref: firstTimedMockHref(facts?.subject || fitted.subject || null) };
+    return { ...out, priceLine: priceOf(out) };
+  }, [chosen, facts, reviseSubjects, priceOf]);
   const rec = useMemo(() => (base && base.id !== 'failed' ? finish(leadOf(base)) : base), [base, finish]);
   // The other moves, each a whole move (Repair, Revise, the weakest chapter, a full mock, another subject).
   const subjects = user?.subjects;

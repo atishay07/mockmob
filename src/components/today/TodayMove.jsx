@@ -25,8 +25,9 @@ const subscribeOnline = (cb) => { window.addEventListener('online', cb); window.
 const onlineNow = () => navigator.onLine !== false;
 
 function BigNumber({ value }) {
-  // Remembered, so a return visit draws it at once; a swap rolls from the old number to the new one (380 ms).
-  const { value: rolled } = useCountUpState(value, { memoryKey: 'today-move-number', duration: 380 });
+  // The first landing climbs from 0 with the card (part of the page's one load moment); remembered for the visit, so a
+  // return draws it at once; a swap rolls from the old number to the new one (380 ms, ease-out).
+  const { value: rolled } = useCountUpState(value, { memoryKey: 'today-move-number', duration: 380, from: 0 });
   return <span className="tm__num"><span aria-hidden="true">{rolled}</span><span className="sr-only">{value}</span></span>;
 }
 
@@ -41,7 +42,17 @@ function Art({ move, failed }) {
   if (failed) return <span className="tm__art tm__art--mobi" aria-hidden="true"><MobiReact act="oops" size={96} /></span>;
   if (!move) return null;
   if (move.art === 'mobi') return <span className="tm__art tm__art--mobi" aria-hidden="true"><MobiReact act={move.mobiAct || 'hello'} size={96} /></span>;
-  if (move.subject) return <span className="tm__art" aria-hidden="true"><SubjectObject id={move.subject} size={112} lit life={false} framed={false} /></span>;
+  // Revise: the objects of the subjects whose questions come back today, most first (one, or a small stack of up to three).
+  if (move.id === 'revise' && move.subjects?.length) {
+    return (
+      <span className="tm__art tm__art--stack" data-n={move.subjects.length} aria-hidden="true">
+        {move.subjects.map((s, i) => <span key={s} className="tm__stack-i" style={{ '--k': i }}><SubjectObject id={s} size={[96, 64, 56][i]} lit={i === 0} life={false} framed={false} /></span>)}
+      </span>
+    );
+  }
+  // The subject's object is alive here (the brand's ObjectLife: a slow breath and a lean toward the pointer), the page's
+  // one living object; reduced motion keeps the still picture.
+  if (move.subject) return <span className="tm__art" key={move.subject} aria-hidden="true"><SubjectObject id={move.subject} size={112} lit life framed={false} /></span>;
   return <span className="tm__glyph" aria-hidden="true">{move.id === 'done' ? <Check size={36} strokeWidth={1.5} /> : <RotateCcw size={34} strokeWidth={1.5} />}</span>;
 }
 
@@ -107,7 +118,7 @@ export default function TodayMove({ phase, lead, choices = [], picked = false, o
   const subject = m.subjectName || '';
   const over = m.id === 'done' ? 'Today' : picked ? 'Up next, your pick' : m.firstWeek && m.firstWeek > 1 ? `Day ${m.firstWeek} of your first week` : 'Up next';
   const heading = `${over}${subject ? `, ${subject}` : ''}: ${m.title}${m.number != null ? `, ${m.number} ${m.label}` : ''}`;
-  const price = m.aiEach && m.open > 0 ? <RepairPrice each={m.aiEach} /> : m.free ? <p className="tm__price">Free. No credits.</p> : null;
+  const price = m.aiEach && m.open > 0 ? <RepairPrice each={m.aiEach} /> : m.priceLine ? <p className="tm__price">{m.priceLine}</p> : m.free ? <p className="tm__price">Free. No credits.</p> : null;
 
   return (
     <section className="tm" data-move={m.id} aria-labelledby="tm-title">

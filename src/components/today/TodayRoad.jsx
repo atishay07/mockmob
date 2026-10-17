@@ -1,17 +1,26 @@
 "use client";
-// Road to CUET on Today, in three layers read at a glance (owner, 18 Oct 3:30 am, D26: "respecting information like
-// what's due today, what's due for the week, and showing the overall goal"). One road, three stops on one line:
-//   Due today       1 of 2      what is left today (the planned session and today's Revise), done over total
-//   Due this week   4 of 5      the study days of the goal and this week's share of the mock target
-//   Overall goal    27 weeks    full mocks over the target with the pace, and the next dated step
-// Each stop opens in place to its detail (no new page). Change plan stays one guided sentence (TodayPlanFlow), opened
-// from the header and from the goal's detail; after a save, a receipt line shows under the road.
-// The exam date and mock target live on the account (GET and PUT /api/me/road, the study_goals columns); the planned
-// weekdays are the weekly goal (PUT /api/me/goal), which the week shares. Every date says "expected" until NTA
-// publishes; nothing here predicts marks or chances, and a plan is never a debt.
+// Road to CUET on Today (owner, 18 Oct 3:30 am, D26: "respecting information like what's due today, what's due for the
+// week, and showing the overall goal"; D27: unique and premium, never generic).
+//
+// One outlined block, read at a glance, top to bottom:
+//   the goal's headline   "27 weeks to CUET UG", "Expected from Sat 1 May 2027. 94 study days at 4 a week."
+//   the road              three stops side by side, each a count with its denominator drawn as its own stretch of road:
+//                           Due today      1 of 2   one segment for each thing due today, filled when done
+//                           This week      3 of 4   one segment for each planned study day (and this week's mock)
+//                           Overall goal   2 of 14  one segment for each full mock of the target, filled when taken
+//                         so the road runs near to far, and the student sees how much of each stretch is behind them.
+//   the readout           the tapped stop's detail (today's by default), swapped in place under one sliding indicator,
+//                         as the week does: today's items with their Start, the week's plan, the goal's pace, study
+//                         days, next dated step and Change plan.
+// Change plan stays one guided sentence (TodayPlanFlow), opened from the header and from the goal's readout; after a
+// save a receipt line shows under the road.
+// Reads: the exam date and mock target on the account (GET and PUT /api/me/road), the planned weekdays (the weekly goal,
+// PUT /api/me/goal), the rhythm, today's Revise, the full mocks on the record. Unknown is never zero: a read that failed
+// says so in words. Every date says "expected" until NTA publishes; nothing here predicts marks or chances, and a plan
+// is never a debt.
 import { useCallback, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { Check, Plus, SlidersHorizontal } from 'lucide-react';
+import { Check, Flag, SlidersHorizontal } from 'lucide-react';
 import { api } from '@/lib/fetcher';
 import { roadFigures, roadLayers, stripColumns, weekdayDay, shortDay } from '@/lib/today/road.mjs';
 import { todayKeyIn } from '@/lib/today/week.mjs';
@@ -21,46 +30,42 @@ import TodayPlanFlow from './TodayPlanFlow';
 const JSON_HEADERS = { 'Content-Type': 'application/json' };
 // 'Board exams ...' reads mid-sentence in lower case; an acronym ('CUET ...') keeps its capitals.
 const lowerFirst = (t) => (/^[A-Z]{2}/.test(t) ? t : `${t.charAt(0).toLowerCase()}${t.slice(1)}`);
-const R = 17;
-const C = 2 * Math.PI * R;
+const MAX_SEGMENTS = 30;
+const LONG_DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-/** The stop's ring: the share done, drawn in ink on a quiet track; a full ring holds a tick. Never volt (one per view). */
-function Ring({ done, total, kind }) {
-  const share = total > 0 ? Math.min(1, done / total) : 0;
-  const full = total > 0 && done >= total;
+/** One stretch of road: `total` segments, the first `done` filled; `groups` splits it (study days, then a mock). */
+function Stretch({ done, total, order, groups = null, flag = false }) {
+  if (!(total > 0)) return <span className="trd__stretch" data-none aria-hidden="true"><i /></span>;
+  const n = Math.min(total, MAX_SEGMENTS);
+  const filled = Math.min(n, Math.round((Math.min(done, total) / total) * n));
+  const cut = groups ? new Set(groups) : null;
   return (
-    <span className="trd__ring" data-kind={kind} data-full={full || undefined} data-none={!total || undefined} aria-hidden="true">
-      <svg viewBox="0 0 40 40" focusable="false">
-        <circle className="trd__track" cx="20" cy="20" r={R} />
-        {total > 0 ? <circle className="trd__arc" cx="20" cy="20" r={R} style={{ '--len': C, '--off': C * (1 - share) }} /> : null}
-      </svg>
-      {full ? <Check className="trd__tick" size={16} strokeWidth={2.4} /> : null}
+    <span className="trd__stretch" data-dense={n > 16 || undefined} aria-hidden="true">
+      {Array.from({ length: n }, (_, k) => (
+        <i key={k} data-on={k < filled || undefined} data-gap={cut?.has(k) || undefined} style={{ '--d': `${order * 90 + k * (n > 16 ? 12 : 30)}ms` }} />
+      ))}
+      {flag ? <Flag className="trd__flag" size={14} strokeWidth={2} /> : null}
     </span>
   );
 }
 
-function Stop({ id, kind, open, onToggle, label, sub, figure, of, ring, children, aria }) {
+function Stop({ id, index, selected, onSelect, label, figure, of, unit, stretch, aria }) {
   return (
-    <li className="trd__stop" data-kind={kind} data-open={open || undefined}>
-      <button type="button" className="trd__row" aria-expanded={open} aria-controls={`${id}-more`} onClick={onToggle} aria-label={aria}>
-        {ring}
-        <span className="trd__text" aria-hidden="true">
-          <span className="trd__label">{label}</span>
-          <span className="trd__sub">{sub}</span>
-        </span>
+    <li>
+      <button type="button" className="trd__stop" id={`trd-stop-${id}`} aria-pressed={selected} aria-controls="trd-readout" onClick={() => onSelect(index)} aria-label={aria}>
+        <span className="trd__label" aria-hidden="true">{label}</span>
         <span className="trd__fig" aria-hidden="true"><b>{figure}</b>{of ? <small>{of}</small> : null}</span>
-        <Plus className="trd__plus" size={18} strokeWidth={1.75} aria-hidden="true" />
+        {stretch}
+        <span className="trd__unit" aria-hidden="true">{unit}</span>
       </button>
-      <div className="trd__more" id={`${id}-more`} data-open={open || undefined}>
-        <div><div className="trd__detail">{children}</div></div>
-      </div>
     </li>
   );
 }
 
 /**
  * Reads: `road`, `goal`, `rhythm`, `facts`, `revise`, `papers` ({ status, data }). `lead`: the move on the card (it names
- * today's session). `hold`: the move is still on its way; the road keeps its place and lands with the page (W-042).
+ * today's session, live with a swap). `hold`: the move is still on its way; the road keeps its place and lands with the
+ * page (W-042).
  */
 export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, lead = null, onGoalSaved, hold = false }) {
   const tz = rhythm.data?.timeZone || 'Asia/Kolkata';
@@ -77,13 +82,14 @@ export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, l
   const lastMock = papers.status === 'ready' ? (papers.data || []).find((p) => ['full', 'nta'].includes(p?.mode)) : null;
   const lastMockDay = lastMock ? todayKeyIn(tz, Number(lastMock.completedAt)) : null;
   const rhythmNow = rhythm.data && goalSaved ? { ...rhythm.data, daysGoal: goalSaved.daysPerWeek } : rhythm.data;
+  const dayOne = facts.status === 'ready' && facts.data?.sessions === 0;
   const layers = roadLayers({
     today, rhythm: rhythmNow, weekdays: goalData?.weekdays || null,
-    revise: revise.status === 'ready' ? revise.data : null, move: lead, fig, target, taken, lastMockDay,
-    firstDay: facts.status === 'ready' && facts.data?.sessions === 0,
+    revise: revise.status === 'ready' ? revise.data : null, move: lead, fig, target, taken, lastMockDay, firstDay: dayOne,
   });
-  const [openStop, setOpenStop] = useState(null);
-  const toggle = (k) => setOpenStop((v) => (v === k ? null : k));
+  const [sel, setSel] = useState(0);
+  const [swapKey, setSwapKey] = useState(0);
+  const select = (i) => { setSel(i); setSwapKey((k) => k + 1); };
   const [flow, setFlow] = useState(null); // the step Change plan opens on, or null
   const [receipt, setReceipt] = useState('');
 
@@ -125,85 +131,132 @@ export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, l
     return (
       <section className="trd trd--wait" id="road" aria-labelledby="trd-h" aria-busy="true">
         {header}
-        <ol className="trd__stops" aria-hidden="true">{[0, 1, 2].map((i) => <li key={i} className="trd__stop"><span className="trd__row"><span className="trd__ring" data-none /><span className="trd__text"><span className="trd__skl" /><span className="trd__skl trd__skl--s" /></span><span className="trd__skf" /></span></li>)}</ol>
+        <div className="trd__box" aria-hidden="true">
+          <div className="trd__goal"><span className="trd__skl trd__skl--big" /><span className="trd__skl" /></div>
+          <ol className="trd__stops">{[0, 1, 2].map((i) => <li key={i}><span className="trd__stop"><span className="trd__skl trd__skl--s" /><span className="trd__skl trd__skl--fig" /><span className="trd__stretch" data-none><i /></span></span></li>)}</ol>
+          <div className="trd__readout"><span className="trd__skl" /><span className="trd__skl trd__skl--s" /></div>
+        </div>
       </section>
     );
   }
 
   const { today: day, week, goal: g } = layers;
-  const dayOne = taken === 0 && (facts.data?.sessions ?? null) === 0;
-  const examLine = g.own ? `Your date, ${weekdayDay(g.exam)} ${g.exam.slice(0, 4)}` : `Expected from ${weekdayDay(g.exam)} ${g.exam.slice(0, 4)}`;
-  const paceWords = g.pace ? (g.pace.left === 0 ? 'target reached' : g.pace.strong ? g.pace.strong.replace(/ gets you there\.$/, '') : `${g.pace.left} to go`) : '';
-  const mocksLine = taken == null ? 'Full mocks did not load' : `${taken} of ${target} full mocks${plan.mockTarget == null ? ', suggested' : `, ${paceWords}`}`;
+  const inWindow = g.phase === 'window';
+  const year = g.exam.slice(0, 4);
+  const examLine = g.own ? `Your date, ${weekdayDay(g.exam)} ${year}` : `Expected from ${weekdayDay(g.exam)} ${year}`;
+  const paceWords = g.pace ? (g.pace.left === 0 ? 'target reached' : g.pace.strong ? g.pace.strong.replace(/^about /, '').replace(/ gets you there\.$/, '') : `${g.pace.left} to go`) : '';
   const nextLine = g.next ? `Next, ${g.next.when}: ${lowerFirst(g.next.title)}, ${weekdayDay(g.next.day)}.` : '';
-  const weekSub = week.items.length ? week.items.map((i) => `${i.title.toLowerCase()} ${i.done} of ${i.total}`).join(', ') : 'Your weekly goal did not load';
-  const weekSubCap = weekSub.charAt(0).toUpperCase() + weekSub.slice(1);
+  const days = g.studyDays != null && g.goal ? `${g.studyDays} study ${g.studyDays === 1 ? 'day' : 'days'} at ${g.goal} a week` : '';
+  const todayName = `${LONG_DAYS[new Date(`${today}T00:00:00Z`).getUTCDay()]} ${shortDay(today)}`;
+  const daysItem = week.items.find((i) => i.id === 'days');
+  const mocksItem = week.items.find((i) => i.id === 'mocks');
+  const weekUnit = mocksItem ? (mocksItem.total === 1 ? 'days and a mock' : 'days and mocks') : 'study days';
 
-  return (
-    <section className="trd" id="road" aria-labelledby="trd-h">
-      {header}
-      <ol className="trd__stops">
-        <Stop
-          id="trd-today" kind="today" open={openStop === 'today'} onToggle={() => toggle('today')}
-          label="Due today" sub={day.left}
-          figure={day.rest ? 'Rest' : day.done} of={day.rest ? 'day' : `of ${day.total}`}
-          ring={<Ring done={day.done} total={day.total} kind="today" />}
-          aria={`Due today: ${day.rest ? 'nothing, a rest day' : `${day.done} of ${day.total} done`}. ${day.left} Show the detail.`}
-        >
-          {day.items.length ? (
-            <ul className="trd__items">
-              {day.items.map((i) => (
-                <li key={i.id} data-done={i.done || undefined}>
-                  <span className="trd__mark" aria-hidden="true">{i.done ? <Check size={13} strokeWidth={2.6} /> : null}</span>
-                  <span className="trd__item-t"><b>{i.title}</b><span>{i.done ? (i.id === 'revise' ? `${i.detail}, done` : i.detail) : i.detail}</span></span>
-                  {!i.done && i.href ? <Link className="tm__inline trd__go" href={i.href}>{i.id === 'revise' ? 'Revise now' : 'Start'}</Link> : null}
-                </li>
-              ))}
-            </ul>
-          ) : null}
-          <p className="trd__note">{day.items.some((i) => i.id === 'session' && i.done) ? 'Today already counts toward your week.' : day.rest ? 'Your plan rests today. A session still counts toward the week.' : 'Today counts once a session is saved. Any length counts.'}</p>
-        </Stop>
+  // The three stops, near to far.
+  const stops = [
+    {
+      id: 'today', label: 'Due today',
+      figure: day.rest ? 'Rest' : day.done, of: day.rest ? '' : `of ${day.total}`, unit: day.rest ? 'nothing due' : 'done',
+      stretch: <Stretch done={day.done} total={day.rest ? 0 : day.total} order={0} />,
+      aria: `Due today: ${day.rest ? 'nothing, a rest day' : `${day.done} of ${day.total} done`}. ${day.left}`,
+    },
+    {
+      id: 'week', label: 'This week',
+      figure: week.total ? week.done : '?', of: week.total ? `of ${week.total}` : '', unit: weekUnit,
+      stretch: <Stretch done={week.done} total={week.total} order={1} groups={daysItem && mocksItem ? [daysItem.total] : null} />,
+      aria: `This week: ${week.total ? `${week.done} of ${week.total} planned done` : 'your weekly goal did not load'}. ${week.line}`,
+    },
+    {
+      id: 'goal', label: 'Overall goal',
+      figure: inWindow ? 'Now' : taken == null ? target : taken, of: inWindow || taken == null ? '' : `of ${target}`, unit: inWindow ? 'the window is open' : taken == null ? 'full mocks planned' : 'full mocks',
+      stretch: <Stretch done={taken ?? 0} total={inWindow ? 0 : target} order={2} flag />,
+      aria: `Overall goal: ${taken == null ? `${target} full mocks planned; your full mocks did not load` : `${taken} of ${target} full mocks`}${plan.mockTarget == null ? ', suggested' : ''}. ${inWindow ? 'The CUET UG window is open.' : `${g.count} ${g.unit} to CUET UG. ${examLine}.`}`,
+    },
+  ];
+  const stop = stops[sel];
 
-        <Stop
-          id="trd-week" kind="week" open={openStop === 'week'} onToggle={() => toggle('week')}
-          label="Due this week" sub={`${weekSubCap}. ${week.line}`}
-          figure={week.done} of={`of ${week.total}`}
-          ring={<Ring done={week.done} total={week.total} kind="week" />}
-          aria={`Due this week: ${week.done} of ${week.total} planned done. ${weekSubCap}. ${week.line} Show the detail.`}
-        >
+  let readout;
+  if (stop.id === 'today') {
+    readout = (
+      <>
+        <h3>Today, {todayName}</h3>
+        {day.items.length ? (
+          <ul className="trd__items">
+            {day.items.map((i) => (
+              <li key={i.id} data-done={i.done || undefined}>
+                <span className="trd__mark" aria-hidden="true">{i.done ? <Check size={13} strokeWidth={2.6} /> : null}</span>
+                <span className="trd__item-t"><b>{i.title}</b><span>{i.done ? (i.id === 'revise' ? `${i.detail}, done` : i.detail) : i.detail}</span></span>
+                {!i.done && i.href ? <Link className="tm__pill trd__go" href={i.href}>{i.id === 'revise' ? 'Revise now' : 'Start'}</Link> : null}
+              </li>
+            ))}
+          </ul>
+        ) : null}
+        <p className="trd__note">{day.items.some((i) => i.id === 'session' && i.done) ? 'Today already counts toward your week.' : day.rest ? 'Your plan rests today. A session still counts toward the week.' : 'Today counts once a session is saved. Any length counts.'}</p>
+      </>
+    );
+  } else if (stop.id === 'week') {
+    readout = (
+      <>
+        <h3>This week, to {weekdayDay(week.end)}</h3>
+        {week.items.length ? (
           <ul className="trd__items">
             {week.items.map((i) => (
               <li key={i.id} data-done={i.done >= i.total || undefined}>
-                <span className="trd__pips" aria-hidden="true">{Array.from({ length: Math.min(i.total, 7) }, (_, k) => <i key={k} data-on={k < i.done || undefined} />)}</span>
+                <span className="trd__mark" aria-hidden="true">{i.done >= i.total ? <Check size={13} strokeWidth={2.6} /> : null}</span>
                 <span className="trd__item-t"><b>{i.title}</b><span>{i.done} of {i.total}{i.id === 'days' ? ' this week' : ' planned this week'}</span></span>
               </li>
             ))}
           </ul>
-          {week.nextMock ? <p className="trd__note">Your next full mock falls in the week of {shortDay(week.nextMock)}, at {paceWords || 'your pace'}.</p> : null}
-          {week.extraMocks > 0 ? <p className="trd__note">{week.extraMocks} more full {week.extraMocks === 1 ? 'mock' : 'mocks'} than planned this week. Extra is extra.</p> : null}
-          <p className="trd__note">Any day you practise counts, planned or not. <Link className="tm__inline" href="/progress">Your weeks</Link></p>
-        </Stop>
+        ) : <p className="trd__note">Your weekly goal did not load.</p>}
+        <p className="trd__note">{week.line}</p>
+        {week.nextMock ? <p className="trd__note">Your next full mock falls in the week of {shortDay(week.nextMock)}, at {paceWords || 'your pace'}.</p> : null}
+        {week.extraMocks > 0 ? <p className="trd__note">{week.extraMocks} more full {week.extraMocks === 1 ? 'mock' : 'mocks'} than planned this week. Extra is extra.</p> : null}
+        <p className="trd__note">Any day you practise counts, planned or not. <Link className="tm__inline" href="/progress">Your weeks</Link></p>
+      </>
+    );
+  } else {
+    readout = (
+      <>
+        <h3>{inWindow ? 'The CUET UG window is open' : `To CUET UG, ${weekdayDay(g.exam)} ${year}${g.own ? '' : ', expected'}`}</h3>
+        {inWindow ? <p className="trd__note">Each paper now is the last practice before yours.</p> : (
+          <>
+            <p className="trd__note">
+              {taken == null ? 'Your full mocks did not load. ' : <><b>{taken} of {target} full mocks</b>{plan.mockTarget == null ? ', suggested' : ''}. </>}
+              {g.pace && taken != null ? <>{g.pace.text} <b>{g.pace.strong}</b></> : null}
+            </p>
+            {days ? <p className="trd__note"><b>{days}.</b> Board weeks count as 2.</p> : null}
+            {g.next ? <p className="trd__note"><b>{nextLine}</b> {g.next.note}</p> : null}
+            {g.own ? null : <p className="trd__note">NTA has not published the {year} dates yet.</p>}
+            {dayOne ? <p className="trd__note">Set your date and days. It takes three taps.</p> : null}
+          </>
+        )}
+        <button type="button" className="tm__pill trd__plan" aria-haspopup="dialog" onClick={() => setFlow(1)}><SlidersHorizontal size={16} strokeWidth={1.75} aria-hidden="true" />Change plan</button>
+      </>
+    );
+  }
 
-        <Stop
-          id="trd-goal" kind="goal" open={openStop === 'goal'} onToggle={() => toggle('goal')}
-          label="Overall goal"
-          sub={g.phase === 'window' ? 'The CUET UG window is open. Each paper now is the last practice before yours.' : <>{mocksLine}.{nextLine ? <span className="trd__next">{nextLine}</span> : null}</>}
-          figure={g.phase === 'window' ? 'Now' : g.count} of={g.phase === 'window' ? '' : `${g.unit} to go`}
-          ring={<Ring done={taken ?? 0} total={target} kind="goal" />}
-          aria={`Overall goal: ${g.phase === 'window' ? 'the window is open' : `${g.count} ${g.unit} to CUET UG`}. ${mocksLine}. ${nextLine} Show the detail.`}
-        >
-          <p className="trd__date">{examLine}{g.own ? '' : `. NTA has not published the ${g.exam.slice(0, 4)} dates yet`}.</p>
-          {taken != null ? (
-            <div className="trd__mocks">
-              <span className="trd__bar" aria-hidden="true">{Array.from({ length: Math.min(target, 30) }, (_, k) => <i key={k} data-on={k < taken || undefined} />)}</span>
-              <p className="trd__note">{g.pace ? <>{g.pace.text} <b>{g.pace.strong}</b></> : null}{dayOne ? ' Set your date and days. It takes three taps.' : ''}</p>
-            </div>
-          ) : null}
-          {g.studyDays != null ? <p className="trd__note"><b>{g.studyDays} study days</b> left at {g.goal} a week. Board weeks count as 2.</p> : null}
-          {g.next ? <p className="trd__note"><b>{g.next.title}, {weekdayDay(g.next.day)}.</b> {g.next.note}</p> : null}
-          <button type="button" className="tm__pill trd__plan" aria-haspopup="dialog" onClick={() => setFlow(1)}><SlidersHorizontal size={16} strokeWidth={1.75} aria-hidden="true" />Change plan</button>
-        </Stop>
-      </ol>
+  return (
+    <section className="trd" id="road" aria-labelledby="trd-h">
+      {header}
+      <div className="trd__box">
+        <div className="trd__goal">
+          {inWindow ? (
+            <p className="trd__weeks"><b>Now</b><span>the CUET UG window is open</span></p>
+          ) : (
+            <p className="trd__weeks"><b>{g.count}</b><span>{g.unit} to {g.own ? 'your date' : 'CUET UG'}</span></p>
+          )}
+          <p className="trd__when">{examLine}.{days ? <> <span className="trd__nowrap">{days}.</span></> : null}</p>
+        </div>
+        <div className="trd__road" style={{ '--sel': sel }}>
+          <span className="trd__sel" aria-hidden="true" />
+          <ol className="trd__stops" aria-label="Your road, near to far">
+            {stops.map((s, i) => <Stop key={s.id} {...s} index={i} selected={i === sel} onSelect={select} />)}
+          </ol>
+        </div>
+        <div className="trd__readout" id="trd-readout" key={swapKey} data-swap={swapKey > 0 || undefined} aria-live="polite">
+          {readout}
+        </div>
+      </div>
       {road.status === 'error' ? <p className="trd__note trd__warn">Your saved date and mock target did not load, so the expected date is shown.</p> : null}
       {receipt ? <p className="trd__receipt" role="status">{receipt}</p> : null}
       <TodayPlanFlow

@@ -12,7 +12,7 @@
 // read-only ("Set on the app for now") and the days still save.
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Check, Minus, Plus } from 'lucide-react';
+import { Minus, Plus } from 'lucide-react';
 import { WEEKDAY_SHORT } from '@/lib/studyWeekdays.mjs';
 import {
   addDays, cuetDates, cuetYear, mockChoices, mockPace, sessionsUntil, shortDay, weekdayDay, roadFigures,
@@ -22,7 +22,7 @@ import TodaySheet from './TodaySheet';
 
 const MONTHS_LONG = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const MOCK_WHY = {
-  fortnight: 'Suggested. Steady practice alongside your chapters.',
+  fortnight: 'Steady practice alongside your chapters.',
   weekly: 'The most practice: a full paper every week.',
   monthly: 'Lighter: more of your time on chapters.',
 };
@@ -117,8 +117,8 @@ export default function TodayPlanFlow({ open, onClose, startStep = 1, today, pla
   const floor = (Number(taken) || 0) + 1;
   const choices = useMemo(() => {
     const all = mockChoices({ weeks: fig.weeks, taken: taken ?? 0 });
-    const order = ['fortnight', 'weekly', 'monthly'];
-    return [...all].sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
+    // Light to heavy, so the suggestion sits in the middle of a scale.
+    return [...all].sort((a, b) => a.value - b.value);
   }, [fig.weeks, taken]);
   const isChoice = choices.some((c) => c.value === target);
   const pace = mockPace({ target, taken: taken ?? 0, days: fig.days });
@@ -197,14 +197,16 @@ export default function TodayPlanFlow({ open, onClose, startStep = 1, today, pla
         {step === 1 ? (
           <>
             <p className="tpf__q" id="tpf-q1">When do you sit CUET UG?</p>
-            <div className="tpf__opts" role="radiogroup" aria-labelledby="tpf-q1">
-              <button type="button" role="radio" className="tpf__opt" aria-checked={!exam && !ownOpen} disabled={locked} onClick={() => { setOwnOpen(false); pickExam(null); }}>
-                <span className="tpf__radio" aria-hidden="true" />
-                <span className="tpf__opt-t"><b>The expected start</b><span>{weekdayDay(dates.windowStart)} {dates.year}. NTA has not published the {dates.year} dates yet.</span></span>
+            <div className="tpf__answers" role="radiogroup" aria-labelledby="tpf-q1">
+              <button type="button" role="radio" className="tpf__ans" aria-checked={!exam && !ownOpen} disabled={locked} onClick={() => { setOwnOpen(false); pickExam(null); }}>
+                <b className="tpf__ans-big">{weekdayDay(dates.windowStart)}</b>
+                <span className="tpf__ans-t">The expected start</span>
+                <span className="tpf__ans-s">NTA has not published the {dates.year} dates yet.</span>
               </button>
-              <button type="button" role="radio" className="tpf__opt" aria-checked={Boolean(exam) || ownOpen} disabled={locked} onClick={() => setOwnOpen(true)}>
-                <span className="tpf__radio" aria-hidden="true" />
-                <span className="tpf__opt-t"><b>My own date</b><span>{exam ? `Set to ${weekdayDay(exam)} ${dates.year}.` : 'Once your admit card shows it.'}</span></span>
+              <button type="button" role="radio" className="tpf__ans" aria-checked={Boolean(exam) || ownOpen} disabled={locked} onClick={() => setOwnOpen(true)}>
+                <b className="tpf__ans-big">{exam ? weekdayDay(exam) : 'Your day'}</b>
+                <span className="tpf__ans-t">My own date</span>
+                <span className="tpf__ans-s">{exam ? `Set for ${dates.year}.` : 'Once your admit card shows it.'}</span>
               </button>
             </div>
             {ownOpen && !locked ? (
@@ -220,7 +222,6 @@ export default function TodayPlanFlow({ open, onClose, startStep = 1, today, pla
             <div className="tpf__days" role="group" aria-labelledby="tpf-q2">
               {WEEKDAY_SHORT.map((n, i) => (
                 <button key={n} type="button" className="tpf__day" aria-pressed={days.includes(i)} onClick={() => toggleDay(i)}>
-                  <i aria-hidden="true">{days.includes(i) ? <Check size={14} strokeWidth={2.6} /> : null}</i>
                   <span>{n}</span>
                 </button>
               ))}
@@ -233,23 +234,23 @@ export default function TodayPlanFlow({ open, onClose, startStep = 1, today, pla
         {step === 3 ? (
           <>
             <p className="tpf__q" id="tpf-q3">How many full mocks before your exam?</p>
-            <div className="tpf__opts" role="radiogroup" aria-labelledby="tpf-q3">
+            <div className="tpf__answers tpf__answers--3" role="radiogroup" aria-labelledby="tpf-q3">
               {choices.map((c) => (
-                <button key={c.id} type="button" role="radio" className="tpf__opt" data-mocks={c.id} aria-checked={c.value === target} disabled={locked} onClick={() => pickTarget(c.value)}>
-                  <span className="tpf__radio" aria-hidden="true" />
-                  <span className="tpf__opt-t"><b>{c.title}</b><span>{MOCK_WHY[c.id]}</span></span>
-                  <span className="tpf__opt-n">{c.value}</span>
+                <button key={c.id} type="button" role="radio" className="tpf__ans" data-mocks={c.id} aria-checked={c.value === target} disabled={locked} onClick={() => pickTarget(c.value)} aria-label={`${c.title}, ${c.value} full mocks${c.suggested ? ', suggested' : ''}`}>
+                  {c.suggested ? <span className="tpf__ans-tag">Suggested</span> : <span className="tpf__ans-tag" aria-hidden="true" />}
+                  <b className="tpf__ans-big">{c.value}</b>
+                  <span className="tpf__ans-t">{c.title}</span>
                 </button>
               ))}
-              <div className="tpf__opt tpf__opt--own" role="radio" aria-checked={!isChoice} aria-label={`Your own number: ${target}`}>
-                <span className="tpf__radio" aria-hidden="true" />
-                <span className="tpf__opt-t"><b>Your own number</b><span>{taken != null ? <><Link className="tm__inline" href="/review">{taken} taken</Link> so far. </> : null}A fresh paper from the bank each time.</span></span>
-                <span className="tpf__stepper">
-                  <button type="button" aria-label="One fewer full mock" disabled={locked || target <= floor} onClick={() => pickTarget(target - 1)}><Minus size={16} strokeWidth={2} aria-hidden="true" /></button>
-                  <output aria-live="polite">{target}</output>
-                  <button type="button" aria-label="One more full mock" disabled={locked || target >= MOCK_TARGET_MAX} onClick={() => pickTarget(target + 1)}><Plus size={16} strokeWidth={2} aria-hidden="true" /></button>
-                </span>
-              </div>
+            </div>
+            <p className="tpf__hint">{isChoice ? MOCK_WHY[choices.find((c) => c.value === target)?.id] : 'Your own number.'} A fresh paper from the bank each time{taken != null ? <>, and <Link className="tm__inline" href="/review">{taken} taken</Link> so far</> : null}.</p>
+            <div className="tpf__own" role="group" aria-label="Your own number" data-on={!isChoice || undefined}>
+              <span>Or your own number</span>
+              <span className="tpf__stepper">
+                <button type="button" aria-label="One fewer full mock" disabled={locked || target <= floor} onClick={() => pickTarget(target - 1)}><Minus size={16} strokeWidth={2} aria-hidden="true" /></button>
+                <output aria-live="polite">{target}</output>
+                <button type="button" aria-label="One more full mock" disabled={locked || target >= MOCK_TARGET_MAX} onClick={() => pickTarget(target + 1)}><Plus size={16} strokeWidth={2} aria-hidden="true" /></button>
+              </span>
             </div>
             {locked ? <p className="tpf__hint">Your mock target is set on the app for now.</p> : null}
           </>
@@ -259,7 +260,7 @@ export default function TodayPlanFlow({ open, onClose, startStep = 1, today, pla
       <div className="tpf__preview" aria-live="polite">
         <div><Bump value={fig.phase === 'days' ? fig.days : fig.weeks} /><span>{fig.phase === 'days' ? 'days' : 'weeks'} to {exam ? 'your date' : 'CUET UG'}</span></div>
         <div><Bump value={sessionsUntil(today, fig.exam, days.length)} /><span>study days at {days.length} a week</span></div>
-        <div><Bump value={pace.left} /><span>mocks to go, {paceWords}</span></div>
+        <div><Bump value={pace.left} /><span>full mocks to go, {paceWords}</span></div>
       </div>
       <p className="tpf__status" role="status">{status}</p>
       <div className="tpf__foot">
