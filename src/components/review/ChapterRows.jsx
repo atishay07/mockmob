@@ -100,7 +100,9 @@ function LessonLink({ subject, chapter, from }) {
  * "Repair 3 from Mock 3": the questions and the total first, then the repairs one at a time on the existing per-question
  * endpoint, in order. Each is charged only when written; the first one that is not written stops the run and costs nothing.
  */
-function PaperRepairs({ paper, items, wallet, onChanged, onOpen }) {
+function PaperRepairs({ paper, items: given, wallet, onChanged, onOpen }) {
+  // The list is fixed when the entry opens, so the receipt of what was repaired stays while the page refreshes under it.
+  const [items] = useState(given);
   const [run, setRun] = useState({ status: 'ready', done: {}, failed: null, at: null });
   const busy = run.status === 'running';
   const balance = Number.isFinite(wallet?.aiCredits) ? wallet.aiCredits : null;
@@ -232,6 +234,8 @@ function ChapterRow({ row, open, onToggle, children }) {
 
 export default function ChapterRows({ body, wallet, focus, openUid, setOpenUid, onChanged }) {
   const rows = body.chapters || [];
+  const counts = body.counts || {};
+  const noneOpen = counts.open === 0;
   const byUid = useMemo(() => new Map((body.items || []).map((i) => [i.uid, i])), [body.items]);
   const [opened, setOpened] = useState(() => new Set(focus?.chapter ? [focus.chapter] : []));
   const [all, setAll] = useState(() => (focus?.chapter ? rows.findIndex((r) => r.id === focus.chapter) >= SHOWN_CHAPTERS : false));
@@ -250,16 +254,24 @@ export default function ChapterRows({ body, wallet, focus, openUid, setOpenUid, 
     }, 280);
     return () => clearTimeout(t);
   }, [focus?.n, focus?.chapter]); // eslint-disable-line react-hooks/exhaustive-deps
-  const shown = all ? rows : rows.slice(0, SHOWN_CHAPTERS);
-  const rest = rows.slice(SHOWN_CHAPTERS);
+  // While a chapter is open the order holds still, so a repair never moves the rows you are reading; it is re-ranked,
+  // costliest first again, once every chapter is closed.
+  const [frozen, setFrozen] = useState(null);
+  if (opened.size && !frozen) setFrozen(rows.map((r) => r.id));
+  if (!opened.size && frozen) setFrozen(null);
+  const ids = frozen ? [...frozen.filter((id) => rows.some((r) => r.id === id)), ...rows.filter((r) => !frozen.includes(r.id)).map((r) => r.id)] : rows.map((r) => r.id);
+  const ranked = ids.map((id) => rows.find((r) => r.id === id));
+  const shown = all ? ranked : ranked.filter((r, i) => i < SHOWN_CHAPTERS || opened.has(r.id));
+  const rest = ranked.filter((r) => !shown.includes(r));
   const toggle = (id) => setOpened((o) => { const n = new Set(o); if (n.has(id)) n.delete(id); else n.add(id); return n; });
   return (
     <section className="rvw-chap" aria-labelledby="rvw-chap-h">
       <div className="rvw-sechead">
-        <h2 id="rvw-chap-h" className="rvw-h2">{body.head?.title}</h2>
+        <h2 id="rvw-chap-h" className="rvw-h2">{noneOpen ? 'No open mistakes' : body.head?.title}</h2>
         <span>Costliest first</span>
       </div>
-      {body.head?.sub ? <p className="rvw-sub">{body.head.sub}</p> : null}
+      {noneOpen ? <p className="rvw-sub">{counts.blanks ? `${counts.blanks} left blank cost you ${counts.marks} marks. A blank costs 5. Try any of them again, free.` : 'Every wrong answer is repaired.'}</p>
+        : body.head?.sub ? <p className="rvw-sub">{body.head.sub}</p> : null}
       <ul className="rvw-chs">
         {shown.map((row) => (
           <ChapterRow key={row.id} row={row} open={opened.has(row.id)} onToggle={() => toggle(row.id)}>
@@ -267,7 +279,7 @@ export default function ChapterRows({ body, wallet, focus, openUid, setOpenUid, 
           </ChapterRow>
         ))}
       </ul>
-      {rest.length && !all ? (
+      {rest.length ? (
         <button type="button" className="rvw-row mk-press" aria-expanded={false} onClick={() => setAll(true)}>
           <b>See all {rows.length} chapters</b>
           <span>{rest.map((r) => (r.marks > 0 ? `${r.name} ${MINUS}${r.marks}` : `${r.name}, all repaired`)).join(', ')}</span>

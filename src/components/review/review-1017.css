@@ -30,7 +30,7 @@
 }
 .app-shell .rvw-seg[data-tab='papers'] .rvw-seg__lens { transform: translateX(100%); }
 .app-shell .rvw .rvw-seg button {
-  position: relative; z-index: 1; min-height: 40px; border-radius: 10px; text-align: center;
+  position: relative; z-index: 1; min-height: 44px; border-radius: 10px; text-align: center;
   font: 650 15px/1 var(--font-body); color: var(--a-ink-3); transition: color 180ms ease;
 }
 .app-shell .rvw .rvw-seg button[aria-selected='true'] { color: var(--a-ink); }
@@ -261,9 +261,11 @@
   .app-shell .rvw-title { font-size: 44px; }
   .app-shell .rvw-board {
     display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 0 56px; align-items: start;
-    grid-template-areas: 'next side' 'chap side';
+    grid-template-areas: 'next side' 'chap side'; grid-template-rows: auto 1fr;
   }
   .app-shell .rvw-board > .rvw-side { display: block; grid-area: side; position: sticky; top: 84px; min-width: 0; }
+  /* An opened list makes the column taller than the screen: it scrolls with the page then, so nothing is out of reach. */
+  .app-shell .rvw-board > .rvw-side:has(.rvw-qs--flat) { position: static; }
   .app-shell .rvw-next { grid-area: next; padding: 26px; }
   .app-shell .rvw-chap { grid-area: chap; }
   .app-shell .rvw-strip { margin-top: 18px; }

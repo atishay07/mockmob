@@ -90,7 +90,7 @@ export function previewReview(url, method, init, fixture, json) {
   }
   const rec = record();
   if (rec.state === 'unavailable' || rec.state === 'empty') return null;
-  const att = /^\/api\/attempts\/([^/]+)$/.exec(url.pathname);
+  const att = url.pathname === '/api/attempts/summary' ? null : /^\/api\/attempts\/([^/]+)$/.exec(url.pathname);
   if (att && method === 'GET') {
     const a = attemptFor(rec, decodeURIComponent(att[1]));
     return a ? json(a) : null;
