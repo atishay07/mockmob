@@ -9,11 +9,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import ArenaHead from '@/components/arena/ArenaHead';
 import { AppIcon } from '@/components/ui/Glyph';
-import Link from 'next/link';
 import { FAQ_ITEMS, HELP_HEADING, HELP_LEDE, SUPPORT_ROW, faqIdFrom } from '@/lib/helpFaq.mjs';
 import { HELP_DOOR_ROWS } from '@/lib/helpDoor.mjs';
-import { PrepOSOrb } from '@/components/ui/PrepOSOrb';
-import { isPlainClick, openAskMobi } from '@/components/ai/askMobi.mjs';
 import { GUIDE_EVENT } from '@/components/profile/accountModel.mjs';
 import './help.css';
 
@@ -39,18 +36,16 @@ export default function HelpPageClient() {
   return (
     <div className="student-page help">
       <ArenaHead title="Help" lede={HELP_LEDE} />
-      {/* The two quickest ways first (N17): Mobi answers about any page in place, and the tour shows the arena once. */}
+      {/* The quickest way first (N17): the tour shows the arena once. Ask Mobi is the Planning row now, not a Help row (ASK-MOBI-1018). */}
       <div className="help-ways">
         {HELP_DOOR_ROWS.filter((row) => row.action).map((row) => {
           const body = (
             <>
-              <span className="help-ways__icon" aria-hidden="true">{row.id === 'ask' ? <PrepOSOrb size={30} /> : <AppIcon name="guide" size={20} />}</span>
+              <span className="help-ways__icon" aria-hidden="true"><AppIcon name="guide" size={20} /></span>
               <span className="help-write__text"><b>{row.label}</b><span>{row.note}</span></span>
             </>
           );
-          return row.action === 'ask' ? (
-            <Link key={row.id} className="help-ways__row" href="/mentor?tab=ask" onClick={(event) => { if (isPlainClick(event) && openAskMobi({ tab: 'ask', from: event.currentTarget })) event.preventDefault(); }}>{body}</Link>
-          ) : (
+          return (
             <button key={row.id} type="button" className="help-ways__row" onClick={() => window.dispatchEvent(new CustomEvent(GUIDE_EVENT, { cancelable: true }))}>{body}</button>
           );
         })}

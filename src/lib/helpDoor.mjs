@@ -7,7 +7,7 @@ import { SUPPORT_ROW } from './helpFaq.mjs';
 
 export const HELP_DOOR = Object.freeze({
   label: 'Help',
-  hint: 'A tour, answers and a person',
+  hint: 'Tour, answers, contact',
   title: 'How can we help?',
 });
 
