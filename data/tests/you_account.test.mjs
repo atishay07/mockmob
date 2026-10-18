@@ -45,14 +45,14 @@ test('mocks at a glance never invent a zero average', () => {
   assert.deepEqual(mocksSummary([{ score: undefined }]), { count: 1, average: null });
 });
 
-test('the AI credits line: loading, unknown and known are three different things', () => {
+test('the credits line: loading, unknown and known are three different things', () => {
   assert.equal(walletLine({ status: 'idle', wallet: null }).state, 'loading');
   const unknown = walletLine({ status: 'unavailable', wallet: { known: false, total: null } });
   assert.equal(unknown.state, 'unknown');
   assert.equal(unknown.total, null);
   assert.match(unknown.line, /did not load/);
-  assert.deepEqual(walletLine({ status: 'fresh', wallet: { known: true, total: 9, state: 'available' } }), { state: 'known', total: 9, line: 'AI credits left this month.' });
-  assert.equal(walletLine({ status: 'fresh', wallet: { known: true, total: 0, state: 'empty' } }).line, 'No AI credits left this month.');
+  assert.deepEqual(walletLine({ status: 'fresh', wallet: { known: true, total: 9, state: 'available' } }), { state: 'known', total: 9, line: 'Credits left. The free ones are used first.' });
+  assert.equal(walletLine({ status: 'fresh', wallet: { known: true, total: 0, state: 'empty' } }).line, 'No credits left.');
   assert.match(walletLine({ status: 'cached', wallet: { known: true, total: 4, state: 'paused' } }).line, /paused/);
 });
 

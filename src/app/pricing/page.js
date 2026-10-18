@@ -41,12 +41,11 @@ const buildPlans = (offer) => [
     ctaLabel: 'Create a free account',
     terms: [
       ['Renewal', 'None, and no card needed'],
-      ['Practice credits', '100 to start: 1 a question in Quick practice, 50 a Full mock'],
-      ['AI credits', '50 a month for written replies from Ask Mobi'],
+      ['Credits', '100 to start, plus 50 free every month: 1 a question in Quick practice, 50 a Full mock, 1 an Ask Mobi reply'],
     ],
     features: newOfferReleased() ? ['One five-question baseline per launch subject', 'One included daily 10-question practice set', 'One new complete recovery episode per week', 'Delayed checks for every started episode', '25 saved questions', 'Free DU eligibility and historical cutoffs'] : [
-      'Quick practice, 5 to 20 questions, 1 practice credit a question',
-      'Full mock, 50 questions in 60 minutes, 50 practice credits a mock',
+      'Quick practice, 5 to 20 questions, 1 credit a question',
+      'Full mock, 50 questions in 60 minutes, 50 credits a mock',
       'Every paper built fresh from the live question bank',
       'Weekly progress tracking',
       '25 saved questions',
@@ -62,8 +61,7 @@ const buildPlans = (offer) => [
       : `Every mode, no limits. The ₹${offer.oneTime.rupees} you pay today is one payment: it covers you through ${offer.oneTime.expires} and does not renew.`,
     terms: [
       ['Renewal', offer.purchasable === 'monthly' ? 'Every month on the same date until you cancel in Account' : `None on this payment, which runs through ${offer.oneTime.expires}`],
-      ['Practice credits', 'Nothing to spend: every mode is included'],
-      ['AI credits', '50 a month, kept apart from practice credits'],
+      ['Credits', 'Practice needs none: every mode is included. 50 free a month for Ask Mobi'],
     ],
     ctaLabel: offer.purchasable === 'monthly' ? `Start Pro for ₹${offer.monthly.rupees}/month` : `Get access for ₹${offer.oneTime.rupees}`,
     planId: offer.purchasable === 'monthly' ? offer.monthly.planId : offer.oneTime.planId,
@@ -125,28 +123,28 @@ const COMPARISON_GROUPS = newOfferReleased() ? [{ heading: 'Practice and recover
 
 const FREE_NOTES = [
   PRACTICE_PRICE_LINE,
-  'New accounts start with 100 practice credits.',
+  'New accounts start with 100 credits.',
   'Credits decide how often you practise, never what you can see: results, explanations, DU eligibility and published cutoffs stay open.',
-  'Written replies from Ask Mobi use AI credits: 50 a month on Free, kept apart from practice credits.',
+  'Practice and Ask Mobi replies share one credits balance: 50 free a month, used first.',
 ];
 
 const AI_PACKS = [
   {
     name: 'AI Boost',
     price: '₹10',
-    credits: '50 AI credits',
+    credits: '50 credits',
     desc: 'New purchases paused. Existing credit balances are preserved.',
   },
   {
     name: 'Prep Pack',
     price: '₹20',
-    credits: '150 AI credits',
+    credits: '150 credits',
     desc: 'Shared learning plans and core recovery do not require paid model calls.',
   },
   {
     name: 'Power Pack',
     price: '₹50',
-    credits: '400 AI credits',
+    credits: '400 credits',
     desc: 'Paid AI remains gated on durable spending and wallet checks.',
     popular: true,
     flag: 'Most credits per rupee',
@@ -341,16 +339,16 @@ export default async function PricingPage() {
 
         <section className="mm-section">
           <div className="mm-wrap mm-wrap--tight">
-            <h2 className="mm-h2">Ask Mobi, and its own credits.</h2>
+            <h2 className="mm-h2">Ask Mobi, on the same credits.</h2>
             <p className="mm-body mm-section__intro">
               Ask Mobi reads your own practice record and shows your next step, your leaks and your weekly report. The basics are free for everyone and use no credits. Pro adds every ranked chapter, pace and changed-answer detail.
             </p>
             <p className="mm-body">
-              Model replies use AI credits: 50 a month on Free and 50 on Pro, kept apart from Practice credits. Practice credits are what Free spends on mocks; Pro has no limit there.
-              AI credits you have already bought stay in your account.
+              One credits balance pays for practice and Ask Mobi: 1 credit a question, 1 credit a reply. Everyone gets 50 free credits a month, used first. On Pro, practice needs no credits, so they all go to Ask Mobi.
+              Credits you have already bought stay in your account.
             </p>
             <p style={{ marginTop: '1rem' }}>
-              <Link href="/pricing/ai-credits" className="mm-btn mm-btn--secondary">See your AI credits</Link>
+              <Link href="/pricing/ai-credits" className="mm-btn mm-btn--secondary">See your credits</Link>
             </p>
           </div>
         </section>

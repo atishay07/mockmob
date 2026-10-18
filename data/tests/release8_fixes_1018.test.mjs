@@ -125,7 +125,7 @@ test('D53: a tapped ask in Ask Mobi sends at once, with no confirmation step bet
   assert.doesNotMatch(read('src/app/api/ai/mentor/chat/route.js'), /acknowledg|payload\.consent|payload\.ack/i);
 });
 
-test('D53: one quiet inline line says an AI service writes the reply and that it uses 1 AI credit (the credit wording is still usesLine)', () => {
+test('D53: one quiet inline line says an AI service writes the reply and that it uses 1 credit (the credit wording is still usesLine)', () => {
   const panel = read('src/components/ai/AskMobiPanel.jsx');
   assert.match(panel, /An AI service writes it\. \$\{usesLine\(\{ what: 'This reply', cost: 1, pool: 'ai' \}\)\}/);
   assert.match(panel, /className="amb-cost__price" aria-live="polite"/);
@@ -163,7 +163,7 @@ test('W-032: a Review row\'s Repair opens the sealed sheet (Try it again, Show t
   assert.match(page, /onRepair=\{\(\) => setOpenUid\(m\.uid\)\}/);
   assert.match(page, /className="rv8-act mk-press" onClick=\{onRepair\}/);
   // The sealed sheet carries the priced key; nothing on the row itself reserves a credit.
-  assert.match(read('src/components/review/AnswerSheet.jsx'), /Repair Q\{item\.number\}, 1 AI credit/);
+  assert.match(read('src/components/review/AnswerSheet.jsx'), /Repair Q\{item\.number\}, 1 credit/);
 });
 
 test('W-032: reopening a saved repair is quiet and free: the server answers "stored" before it reserves, whatever the request id', () => {

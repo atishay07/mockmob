@@ -1,7 +1,7 @@
 // What starting a practice session costs: a credit action and a daily allowance kind, or neither. PURE, so the rule is
 // tested in data/tests/mob.test.mjs without a database (src/lib/server/practiceSessions.js calls it on both start paths).
 //
-// A Mob paper (SOCIAL-SPEC section 15) is free of practice credits for every member: no credit action and no daily
+// A Mob paper (SOCIAL-SPEC section 15) is free of credits for every member: no credit action and no daily
 // allowance. Who may start one (a free student gets one weekly Mob paper a week, Pro has no such limit) is decided by
 // the Mob service before this is ever asked, and `mobPaper` can only come from the server, never from a request body.
 const FREE_SAMPLE_SUBJECTS = ['english', 'accountancy', 'economics', 'business_studies'];

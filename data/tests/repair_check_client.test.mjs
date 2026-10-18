@@ -203,17 +203,17 @@ test('Ask Mobi is about the mistake and says so: its number is in the label and 
 });
 
 test("the repair promises Ask Mobi's credit only while written replies can be bought; paused, empty or unreadable says nothing is charged and offers no link", () => {
-  const price = 'One written reply uses 1 AI credit. You have 68.';
+  const price = 'One written reply uses 1 credit. You have 68.';
   assert.deepEqual(askOffer({ state: 'available', known: true, total: 68 }, price), { ask: true, line: price });
   assert.deepEqual(askOffer(null, price), { ask: false, pending: true, line: null }, 'before the wallet is read there is neither a link nor a price, so nothing appears and is then taken back');
   assert.deepEqual(askOffer(undefined, price), { ask: false, pending: true, line: null });
   const paused = askOffer({ state: 'paused', known: true, total: 68 }, price);
   assert.equal(paused.ask, false); assert.equal(paused.line, 'Written replies are paused right now. Nothing is charged.');
   const empty = askOffer({ state: 'empty', known: true, total: 0 }, price);
-  assert.equal(empty.ask, false); assert.match(empty.line, /no AI credits left/); assert.match(empty.line, /Nothing is charged\.$/);
+  assert.equal(empty.ask, false); assert.match(empty.line, /no credits left/); assert.match(empty.line, /Nothing is charged\.$/);
   const unreadable = askOffer({ state: 'error', known: false, total: null }, price);
   assert.equal(unreadable.ask, false); assert.match(unreadable.line, /could not be read/); assert.match(unreadable.line, /Nothing is charged\.$/);
-  for (const w of [paused, empty, unreadable]) assert.doesNotMatch(w.line, /1 AI credit|free/i, 'no price and no promise of free asking');
+  for (const w of [paused, empty, unreadable]) assert.doesNotMatch(w.line, /1 credit|free/i, 'no price and no promise of free asking');
 });
 
 test('the lead names what the question is tied to only when the server said so', () => {

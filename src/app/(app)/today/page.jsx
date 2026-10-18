@@ -143,8 +143,8 @@ export default function Today() {
     premium: Boolean(user?.isPremium),
     minutes: chosen,
   }), [data.plan.data, data.plan.status, papersData, data.rhythm.data, reviseData, facts, repairedData, top, user?.subjects, user?.isPremium, chosen]);
-  // The price before the press (W-060): a repair names its AI credit; Revise is free; a practice set or a full mock on a
-  // free account names its practice credits and the balance (Pro includes both, so nothing is printed).
+  // The price before the press (W-060): a repair names its credit; Revise is free; a practice set or a full mock on a
+  // free account names its credits and the balance (Pro includes both, so nothing is printed).
   const premium = Boolean(user?.isPremium);
   const balance = Number.isFinite(Number(user?.creditBalance)) ? Number(user.creditBalance) : null;
   // Today's included 10-question set, read from the server quote like Practice does (src/lib/dailySet.mjs).

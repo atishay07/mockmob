@@ -35,7 +35,7 @@ test('the three papers add up as the design says', () => {
   assert.deepEqual(sum('practice5'), [3, 1, 1, 14, 11]);
 });
 
-test('acceptance check 6: weak practises, average and strong repair, perfect goes harder, 0 AI credits practises, all repaired checks', () => {
+test('acceptance check 6: weak practises, average and strong repair, perfect goes harder, 0 credits practises, all repaired checks', () => {
   const by = Object.fromEntries(fixtures.map((f) => [f.name, f.expected.move]));
   assert.equal(by.weak.label, 'Practise 10 on Share Capital');
   assert.equal(by.avg.label, 'Repair Q42');
@@ -43,7 +43,7 @@ test('acceptance check 6: weak practises, average and strong repair, perfect goe
   assert.equal(by.strong.note, 'All 4 repairs take about 15 minutes.');
   assert.equal(by.perfect.label, 'Take another full mock', 'a free student is not promised a set level');
   assert.equal(by.zero_credits.label, 'Practise 10 on Share Capital');
-  assert.equal(by.zero_credits.why, 'Repairs use AI credits. You have 0.');
+  assert.equal(by.zero_credits.why, 'Repairs use credits. You have 0.');
   assert.equal(by.all_repaired.label, 'Check Q42 held');
   assert.equal(by.blank.label, 'Practise 10 in Accountancy');
   assert.equal(by.held.label, 'Repair Q43', 'a key under re-check is never the repair, and leaves the chapter count');
@@ -89,8 +89,8 @@ test('late at night is one plain line, never a figure', () => {
 test('repair value and cost: the four parts before paying, the balance, the no-charge promise; unknown balance has no number', () => {
   assert.equal(repairValueLine('D'), 'A repair gives you why D looked right, the trap, one rule to keep, and a new question to check it held.');
   assert.equal(repairValueLine('D', { checkReady: false }), 'A repair gives you why D looked right, the trap, and one rule to keep.');
-  assert.equal(repairCostLine(68), '1 AI credit. You have 68. No charge if the repair cannot be written.');
-  assert.equal(repairCostLine(null), '1 AI credit. No charge if the repair cannot be written.');
+  assert.equal(repairCostLine(68), '1 credit. You have 68. No charge if the repair cannot be written.');
+  assert.equal(repairCostLine(null), '1 credit. No charge if the repair cannot be written.');
 });
 
 test('the mistakes head: marks at stake, then repaired and held counts', () => {
@@ -111,7 +111,7 @@ test('a return visit recomputes the move: after Q42 the next repair in Share Cap
 test('Pro covers a practice set; an unknown practice balance has no number', () => {
   const analysis = analysisFromRows(paperRows('weak'));
   assert.equal(nextMove({ analysis, isPremium: true }).cost, 'Pro covers this set.');
-  assert.equal(nextMove({ analysis }).cost, 'This set uses 10 practice credits.');
+  assert.equal(nextMove({ analysis }).cost, 'This set uses 10 credits.');
 });
 
 test('the result page brings Mobi back (N12, 17 Oct night), never sleepy, with one receipt', () => {

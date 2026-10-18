@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
-import { isPaidUser, readAIWallet } from '@/services/credits/aiCreditWallet';
+import { isPaidUser } from '@/services/credits/aiCreditWallet';
+import { getUnifiedWallet } from '@/services/credits/unifiedWallet';
 import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
 import { getReview } from '@/lib/server/review';
 import { studyRecord } from '@/lib/server/study';
@@ -29,12 +30,24 @@ export async function GET(request) {
     // The wallet and the lesson cards are best effort: unknown is null, never zero.
     const wallet = await Database.getUserById(userId).then(async (user) => {
       if (!user) return null;
-      const ai = await readAIWallet(user);
-      const known = Boolean(ai?.known) && Number.isFinite(Number(ai.total));
+      // One credits balance (18 Oct 2026, D78): AI and practice prices read the same one total.
+      const credits = await getUnifiedWallet(user);
+      const known = Boolean(credits?.known) && Number.isFinite(Number(credits.total));
+      // A database without the one credits balance migration keeps the two old figures (AI wallet, users.credit_balance).
+      const legacy = !known && credits?.wallet?.known && credits.wallet.oneBalance === false;
+      if (legacy) {
+        const held = Number(user.creditBalance);
+        return {
+          aiCredits: Math.trunc(Number(credits.wallet.total) || 0),
+          aiRenews: credits.wallet.resetAt ? istDate(credits.wallet.resetAt) : null,
+          practiceCredits: Number.isFinite(held) ? Math.trunc(held) : null,
+          isPremium: isPaidUser(user),
+        };
+      }
       return {
-        aiCredits: known ? Math.trunc(Number(ai.total)) : null,
-        aiRenews: known && ai.resetAt ? istDate(ai.resetAt) : null,
-        practiceCredits: Number.isFinite(Number(user.creditBalance)) ? Math.trunc(Number(user.creditBalance)) : null,
+        aiCredits: known ? Math.trunc(Number(credits.total)) : null,
+        aiRenews: known && credits.resetAt ? istDate(credits.resetAt) : null,
+        practiceCredits: known ? Math.trunc(Number(credits.total)) : null,
         isPremium: isPaidUser(user),
       };
     }).catch(() => null);

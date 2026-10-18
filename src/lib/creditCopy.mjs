@@ -1,25 +1,27 @@
-// The two credit names and the one way a spend line is written (audit findings 12 and 13).
-// Two names only, everywhere on the website: "Practice credits" (mocks and practice) and "AI credits" (Ask Mobi and
-// repairs). Every spend line names its pool and its total: "This repair uses 3 AI credits. You have 9."
+// The credit name and the one way a spend line is written (audit findings 12 and 13).
+// One credits balance (owner, 18 Oct 2026, D78): one name, "credits", for everything. 1 credit = 1 question or 1 Ask Mobi
+// reply; a full mock is 50. The `pool` arguments are kept for older callers and no longer change the words.
+// Every spend line names its total: "This repair uses 1 credit. You have 9."
 // Pure, no React, so the words can be held by a test. Plain sentence case: no "!", no em dash, no middle dot.
 
 import { TEST_MODES, practiceCreditCost } from '../../data/test_modes.js';
 
-export const PRACTICE_CREDITS = 'Practice credits';
-export const AI_CREDITS = 'AI credits';
-export const POOL_NAMES = Object.freeze({ practice: PRACTICE_CREDITS, ai: AI_CREDITS });
-export const POOL_USE = Object.freeze({
-  practice: 'Practice credits are for mocks and practice.',
-  ai: 'AI credits are for Ask Mobi and repair explanations.',
-});
+export const CREDITS = 'Credits';
+/** What one credit buys, said one way everywhere. */
+export const ONE_CREDIT_LINE = '1 credit = 1 question or 1 Ask Mobi reply; a full mock is 50.';
+// Kept for older imports: both names are now the one name.
+export const PRACTICE_CREDITS = CREDITS;
+export const AI_CREDITS = CREDITS;
+export const POOL_NAMES = Object.freeze({ practice: CREDITS, ai: CREDITS });
+export const POOL_USE = Object.freeze({ practice: ONE_CREDIT_LINE, ai: ONE_CREDIT_LINE });
 
 const whole = (n) => (typeof n === 'number' || (typeof n === 'string' && n.trim() !== '')) && Number.isFinite(Number(n)) ? Math.max(0, Math.trunc(Number(n))) : null;
 const fmt = (n) => n.toLocaleString('en-IN');
 
-/** "1 AI credit", "3 AI credits", "10 practice credits". An unknown count has no number to write. */
+/** "1 credit", "3 credits". An unknown count has no number to write. `pool` is kept for older callers. */
 export function creditCount(n, pool = 'ai') {
   const v = whole(n);
-  const noun = pool === 'practice' ? 'practice credit' : 'AI credit';
+  const noun = 'credit';
   return v === null ? `${noun}s` : `${fmt(v)} ${noun}${v === 1 ? '' : 's'}`;
 }
 
@@ -43,7 +45,7 @@ export function usedLine({ cost, pool = 'ai', balance = null }) {
   return have ? `${head} ${have}` : head;
 }
 
-/** "AI credits 9" style label for a balance chip or aria-label, or "AI credits unavailable". */
+/** "Credits: 9" style label for a balance chip or aria-label, or "AI credits unavailable". */
 export function balanceLabel(balance, pool = 'ai') {
   const v = whole(balance);
   return v === null ? `${POOL_NAMES[pool]} unavailable` : `${POOL_NAMES[pool]}: ${fmt(v)}`;
@@ -58,8 +60,8 @@ export const PRACTICE_PRICE = Object.freeze({
   setQuestions: SET,
   full: practiceCreditCost('full', TEST_MODES.full.fixedCount),
 });
-/** "Practice credits: 1 a question. A 10-question set is 10, a full mock 50." */
-export const PRACTICE_PRICE_LINE = `${PRACTICE_CREDITS}: ${PRACTICE_PRICE.perQuestion} a question. A ${PRACTICE_PRICE.setQuestions}-question set is ${PRACTICE_PRICE.set}, a full mock ${PRACTICE_PRICE.full}.`;
+/** "1 credit a question. A 10-question set is 10, a full mock 50." (one credits balance, D78) */
+export const PRACTICE_PRICE_LINE = `${PRACTICE_PRICE.perQuestion} credit a question. A ${PRACTICE_PRICE.setQuestions}-question set is ${PRACTICE_PRICE.set}, a full mock ${PRACTICE_PRICE.full}.`;
 /** The same, for a place that already says "practice credits" before it: "1 a question. A 10-question set is 10, a full mock 50." */
 export const PRACTICE_PRICE_TAIL = `${PRACTICE_PRICE.perQuestion} a question. A ${PRACTICE_PRICE.setQuestions}-question set is ${PRACTICE_PRICE.set}, a full mock ${PRACTICE_PRICE.full}.`;
 

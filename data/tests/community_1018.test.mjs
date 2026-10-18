@@ -103,7 +103,7 @@ test('Learn has its own row at the top of the phone sheet and its own guide stop
 test('no dead promise is left behind while the flag is off', () => {
   // Pricing no longer says an uploaded question adds credits; the Terms description no longer says community questions.
   assert.doesNotMatch(read('src/app/pricing/page.js'), /you upload that passes moderation/);
-  assert.match(read('src/app/pricing/page.js'), /'New accounts start with 100 practice credits\.',/);
+  assert.match(read('src/app/pricing/page.js'), /'New accounts start with 100 credits\.',/);
   assert.doesNotMatch(read('src/app/terms/page.js'), /terms for using MockMob mock tests, community questions/);
   assert.doesNotMatch(read('src/lib/seo.js'), /terms for using MockMob mock tests, community questions/);
   // Only the hidden pages, the flagged panel, the flagged Account rows and the flagged nav group may point at /upload or /my-uploads.

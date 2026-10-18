@@ -18,8 +18,8 @@ export const NEXT_MOVE_RULES = Object.freeze({
   fewRight: 0.15, // a chapter with under 15 percent right leads its detail with the right count ("1 right of 10: ...")
   weakShare: 0.4, // under 40 percent of answered questions right: a chapter set before single repairs
   setSize: SET_SIZE, // "Practise 10 on {chapter}"
-  practiceCost: practiceCreditCost('quick', SET_SIZE), // practice credits for this 10-question Quick practice: 1 a question (data/test_modes.js)
-  fullMockCost: practiceCreditCost('full', TEST_MODES.full.fixedCount), // practice credits for a Full mock (data/test_modes.js)
+  practiceCost: practiceCreditCost('quick', SET_SIZE), // credits for this 10-question Quick practice: 1 a question (data/test_modes.js)
+  fullMockCost: practiceCreditCost('full', TEST_MODES.full.fixedCount), // credits for a Full mock (data/test_modes.js)
   fewRepairs: 5, // with 5 or fewer left, the time for all of them is said
   lateFrom: 23, // 11 PM to 5 AM: one plain line, no figure
   lateUntil: 5,
@@ -187,14 +187,14 @@ export function repairValueLine(letter, { checkReady = true } = {}) {
     : `A repair gives you why ${pick} looked right, the trap, and one rule to keep.`;
 }
 
-/** "1 AI credit. You have 68. No charge if the repair cannot be written." */
+/** "1 credit. You have 68. No charge if the repair cannot be written." */
 export function repairCostLine(aiCredits) {
   const have = haveLine(aiCredits);
-  return ['1 AI credit.', have, 'No charge if the repair cannot be written.'].filter(Boolean).join(' ');
+  return ['1 credit.', have, 'No charge if the repair cannot be written.'].filter(Boolean).join(' ');
 }
 
 /**
- * The cost of a 10-question chapter set: Pro covers it; otherwise practice credits and the balance. `dailySet` is what the
+ * The cost of a 10-question chapter set: Pro covers it; otherwise credits and the balance. `dailySet` is what the
  * server quote said about today's included 10-question set (src/lib/dailySet.mjs): 'free' says the set is free and names no
  * number, 'unknown' names no number and says Practice shows the price; 'priced' (the default) is the price as it was.
  */
@@ -233,10 +233,10 @@ const practiseHref = ({ subject, chapter = null }) => {
  * The one next move (RESULT-1017 4.3), first rule that applies:
  *   1 nothing missed                      harder paper
  *   2 under 40% of answered right, or nothing answered        practise the costliest chapter
- *   3 a wrong answer can be repaired and AI credits are 1+ or unknown   repair the first in repair order (inside the
+ *   3 a wrong answer can be repaired and credits are 1+ or unknown   repair the first in repair order (inside the
  *     costliest chapter when one is there)
  *   4 every wrong answer repaired, a check not taken                   check it held (free)
- *   5 otherwise (0 AI credits, keys held, only blanks, all done)       practise the costliest chapter
+ *   5 otherwise (0 credits, keys held, only blanks, all done)       practise the costliest chapter
  *
  * Input:
  *   analysis       analyseSession(attempt)
@@ -277,8 +277,8 @@ export function nextMove({ analysis, answerReviews = {}, repairOrder = null, rep
       why, value: null,
       cost: practiceCostLine({ isPremium, practiceCredits, dailySet }),
       late: null,
-      alt: repairFirst ? { kind: 'repair', label: `Or repair Q${repairFirst.number}, 1 AI credit`, target: { qid: repairFirst.q.id, number: repairFirst.number, chapter: repairFirst.chapter } }
-        : noAi && open.length ? { kind: 'credits', label: 'See your AI credits', target: { href: '/pricing/ai-credits' } } : null,
+      alt: repairFirst ? { kind: 'repair', label: `Or repair Q${repairFirst.number}, 1 credit`, target: { qid: repairFirst.q.id, number: repairFirst.number, chapter: repairFirst.chapter } }
+        : noAi && open.length ? { kind: 'credits', label: 'See your credits', target: { href: '/pricing/ai-credits' } } : null,
       note: null,
       target: { chapter, href: practiseHref({ subject, chapter }) },
     };
@@ -310,8 +310,8 @@ export function nextMove({ analysis, answerReviews = {}, repairOrder = null, rep
       short ? `Need ${short} more.` : null,
       'A set level comes with Pro.',
     ].filter(Boolean).join(' ');
-    // "Or practise 10 in X, 10 practice credits" is the same set under the full mock: it follows the allowance too.
-    const altPrice = daily === DAILY_SET.free ? ', free today' : daily === DAILY_SET.unknown ? '' : `, ${NEXT_MOVE_RULES.practiceCost} practice credits`;
+    // "Or practise 10 in X, 10 credits" is the same set under the full mock: it follows the allowance too.
+    const altPrice = daily === DAILY_SET.free ? ', free today' : daily === DAILY_SET.unknown ? '' : `, ${NEXT_MOVE_RULES.practiceCost} credits`;
     return {
       kind: 'harder', rule: 1,
       label: mock ? 'Take another full mock' : `Practise ${NEXT_MOVE_RULES.setSize} more in ${subjectLabel}`,
@@ -370,7 +370,7 @@ export function nextMove({ analysis, answerReviews = {}, repairOrder = null, rep
   }
 
   // 5. Practise the costliest chapter.
-  const why = noAi && open.length ? `Repairs use AI credits. ${haveLine(0)}`
+  const why = noAi && open.length ? `Repairs use credits. ${haveLine(0)}`
     : mistakes.length && done.length === mistakes.length ? `Every mistake on this paper is repaired. A set on ${top?.chapter || subjectLabel} keeps it.`
       : top ? `${top.chapter} cost the most marks on this paper.` : `A short set in ${subjectLabel} comes next.`;
   return practise({ rule: 5, why });

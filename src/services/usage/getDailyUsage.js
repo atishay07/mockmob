@@ -197,7 +197,7 @@ export async function getUsageSnapshot(user, { wallet } = {}) {
     aiCreditBalance: aiWallet.total,
     aiWallet,
     aiWalletState: aiWallet.state,
-    // Normal MockMob practice credits are a separate ledger, kept for legacy screens.
+    // Normal MockMob credits are a separate ledger, kept for legacy screens.
     normalCreditBalance: user?.creditBalance || 0,
     creditBalance: aiWallet.total,
     creditCosts: CREDIT_COSTS,

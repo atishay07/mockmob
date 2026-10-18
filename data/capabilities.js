@@ -47,9 +47,9 @@ export function differentiatorClaimable(id, registry = DIFFERENTIATORS) {
 // give access and selection rules; they do not make the free library academically inferior.
 export const MODE_CAPABILITIES = Object.freeze({
   quick: { id: 'mode.quick', version: 1, state: 'available', entitlement: 'credits_or_access', inventoryPolicy: 'ordinary',
-    free: '1 practice credit a question. The launch check shows any included set you can use.', pro: 'Included with Pro' },
+    free: '1 credit a question. The launch check shows any included set you can use.', pro: 'Included with Pro' },
   full: { id: 'mode.full', version: 1, state: 'available', entitlement: 'credits_or_access', inventoryPolicy: 'ordinary',
-    free: '50 practice credits a mock', pro: 'Included with Pro' },
+    free: '50 credits a mock', pro: 'Included with Pro' },
   smart: { id: 'mode.smart', version: 1, state: 'available', entitlement: 'access', inventoryPolicy: 'ordinary',
     free: 'Needs Pro', pro: 'Included: weights selection toward chapters you have missed' },
   nta: { id: 'mode.nta', version: 1, state: 'available', entitlement: 'access', inventoryPolicy: 'ordinary',

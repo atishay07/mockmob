@@ -15,10 +15,10 @@ test('Help carries the same six questions as the app, with unique ids', () => {
   for (const item of FAQ_ITEMS) assert.ok(item.question.endsWith('?') && item.answer.length >= 1, item.id);
 });
 
-test('credit words are the two names the site uses, and Practice credits are not said to renew', () => {
+test('credit words are the two names the site uses, and Credits are not said to renew', () => {
   const credits = FAQ_ITEMS.find((i) => i.id === 'credits').answer.join(' ');
   assert.ok(credits.includes(PRACTICE_CREDITS) && credits.includes(AI_CREDITS));
-  assert.match(credits, /Practice credits do not renew/);
+  assert.match(credits, /Credits do not renew/);
   assert.doesNotMatch(credits, /each shows when it renews/i);
 });
 

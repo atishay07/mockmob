@@ -133,7 +133,7 @@ const whole = (value) => (value === null || value === undefined || value === '' 
 export const SESSION = Object.freeze({
   quickCount: 10,
   quickMinutes: Math.round((10 * TEST_MODES.quick.durationPerQuestionSec) / 60),
-  quickCost: practiceCreditCost('quick', 10),         // the 10-question set; Quick practice is 1 practice credit a question
+  quickCost: practiceCreditCost('quick', 10),         // the 10-question set; Quick practice is 1 credit a question
   quickCostPerQuestion: TEST_MODES.quick.creditPerQuestion,
   fullCount: TEST_MODES.full.fixedCount,
   fullMinutes: Math.round(TEST_MODES.full.fixedDurationSec / 60),
@@ -160,7 +160,7 @@ export function practiceHref({ subject = null, mode = 'quick', count = null, cha
 }
 
 /**
- * Practice credits a session uses on Free, 0 on Pro, or null when the mode needs Pro. Quick practice is 1 a question, so
+ * Credits a session uses on Free, 0 on Pro, or null when the mode needs Pro. Quick practice is 1 a question, so
  * `count` (the set's size) decides it; without one the 10-question set is meant, as on the Start sheet's rows.
  */
 export function sessionCost(mode, { pro = false, count = null } = {}) {
@@ -174,8 +174,8 @@ export function sessionCost(mode, { pro = false, count = null } = {}) {
 }
 
 /**
- * The cost line under a row. 'Uses 10 of your 40 practice credits.' / 'Included with Pro.' /
- * 'Needs Pro.' / 'Uses 50 practice credits. You have 40.' (not enough) / 'Uses 10 practice credits.'
+ * The cost line under a row. 'Uses 10 of your 40 credits.' / 'Included with Pro.' /
+ * 'Needs Pro.' / 'Uses 50 credits. You have 40.' (not enough) / 'Uses 10 credits.'
  * (balance unknown). `short` drops the trailing sentence for narrow rows.
  *
  * Today's included 10-question set (src/lib/dailySet.mjs): when the server quote said it is free, a Quick set of 10 reads
@@ -196,16 +196,16 @@ export function costLine(mode, { pro = false, balance = null, short = false, cou
   }
   const have = whole(balance);
   // The short form fits a half-width tile on a 390 px phone in two lines at most: '50 credits. You have 40.'
-  if (have === null) return { text: short ? plural(cost, 'credit') : `Uses ${plural(cost, 'practice credit')}.`, tone: 'cost' };
-  if (have < cost) return { text: short ? `${plural(cost, 'credit')}. You have ${have}.` : `Uses ${plural(cost, 'practice credit')}. You have ${have}.`, tone: 'short' };
-  return { text: short ? `${cost} of your ${plural(have, 'credit')}` : `Uses ${cost} of your ${plural(have, 'practice credit')}.`, tone: 'cost' };
+  if (have === null) return { text: short ? plural(cost, 'credit') : `Uses ${plural(cost, 'credit')}.`, tone: 'cost' };
+  if (have < cost) return { text: short ? `${plural(cost, 'credit')}. You have ${have}.` : `Uses ${plural(cost, 'credit')}. You have ${have}.`, tone: 'short' };
+  return { text: short ? `${cost} of your ${plural(have, 'credit')}` : `Uses ${cost} of your ${plural(have, 'credit')}.`, tone: 'cost' };
 }
 
 /** The header's balance line: what the cost lines are measured against. */
 export function balanceLine({ pro = false, balance = null } = {}) {
   if (pro) return 'Pro: practice and mocks are included';
   const have = whole(balance);
-  return have === null ? null : `You have ${plural(have, 'practice credit')}`;
+  return have === null ? null : `You have ${plural(have, 'credit')}`;
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -322,7 +322,7 @@ export function heroFromPlan(plan, { subject = null, pro = false, balance = null
  * @param {string[]} o.subjects    startSubjects() of the student
  * @param {string|null} o.subject  the chosen subject id
  * @param {boolean} o.pro
- * @param {number|null} o.balance  practice credits, null when unknown
+ * @param {number|null} o.balance  credits, null when unknown
  * @param {string|null} o.tonightKey the key Today's plan uses to record tonight's practice
  * @param {'free'|'priced'|'unknown'} [o.dailySet] what the server quote said about today's included 10-question set
  * @returns {{ hero: object|null, rows: object[], choose: object }}

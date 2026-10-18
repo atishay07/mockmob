@@ -136,7 +136,7 @@ export async function createAIRivalBattle({
     return {
       ok: false,
       error: 'battle_insert_failed',
-      message: 'Rival could not create the battle record. No AI credits were charged. Try again in a moment.',
+      message: 'Rival could not create the battle record. No credits were charged. Try again in a moment.',
       status: 500,
     };
   }
@@ -158,7 +158,7 @@ export async function createAIRivalBattle({
         ok: false,
         error: allowance.error || 'credit_charge_failed',
         message: allowance.message
-          || (allowance.planRequired ? 'This Rival needs Pro.' : 'This premium Rival needs AI credits before it can start. Your AI credits have not been used.'),
+          || (allowance.planRequired ? 'This Rival needs Pro.' : 'This premium Rival needs credits before it can start. Your credits have not been used.'),
         planRequired: Boolean(allowance.planRequired),
         balance: allowance.balance,
         required: allowance.required,

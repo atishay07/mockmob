@@ -26,7 +26,7 @@ export const RETRY_COPY = Object.freeze({
   notRecorded: 'This try is not recorded.',
   bookExplanation: 'Book explanation',
   // Said under the keys of a wrong answer: where the paid step went, and what it costs, before anything is tried.
-  repairComes: (number) => `Repair${Number.isInteger(number) ? ` Q${number}` : ''} comes after, for 1 AI credit.`,
+  repairComes: (number) => `Repair${Number.isInteger(number) ? ` Q${number}` : ''} comes after, for 1 credit.`,
   // A question with no book explanation says so; only a wrong answer has a repair to point at.
   noExplanation: (repairable) => `This question has no book explanation yet.${repairable ? ' A repair writes why your pick looked right and why the key is right.' : ''}`,
 });

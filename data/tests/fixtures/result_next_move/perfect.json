@@ -432,11 +432,11 @@
       "label": "Take another full mock",
       "why": "Another fresh paper finds what is left to fix.",
       "value": null,
-      "cost": "A full mock uses 50 practice credits. You have 40. Need 10 more. A set level comes with Pro.",
+      "cost": "A full mock uses 50 credits. You have 40. Need 10 more. A set level comes with Pro.",
       "late": null,
       "alt": {
         "kind": "practise",
-        "label": "Or practise 10 in Accountancy, 10 practice credits"
+        "label": "Or practise 10 in Accountancy, 10 credits"
       },
       "note": null,
       "target": {

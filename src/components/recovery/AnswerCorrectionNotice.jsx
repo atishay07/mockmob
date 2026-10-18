@@ -16,7 +16,7 @@ export default function AnswerCorrectionNotice({ review, next = null }) {
       {review.source ? <a className="kr-source" href={review.source.url} target="_blank" rel="noreferrer">Read the supporting source</a> : null}
       <p className="kr-note">{review.chosenIndex === null ? 'You left this question blank, so it remains 0 marks.' : review.chosenIndex === review.currentIndex ? `Your pick ${letter(review.chosenIndex)} is correct under the corrected key.` : `Your pick ${letter(review.chosenIndex)} still differs from the correct answer ${letter(review.currentIndex)}.`} Correction adjustment: {review.adjustment > 0 ? '+' : ''}{review.adjustment} marks.</p>
     </> : null}
-    <p className="kr-note">No AI credit is charged for this notice. Your original result is preserved; any adjustment here is a separate calculation and has not changed your leaderboard or account record.</p>
+    <p className="kr-note">No credit is charged for this notice. Your original result is preserved; any adjustment here is a separate calculation and has not changed your leaderboard or account record.</p>
     {next ? <footer className="kr-foot">{next}</footer> : null}
   </section>;
 }

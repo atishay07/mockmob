@@ -11,6 +11,7 @@ import {
   readAIWallet,
 } from '@/services/credits/aiCreditWallet';
 import { CREDIT_COSTS } from '@/services/usage/getDailyUsage';
+import { unifiedFromWallet } from '@/services/credits/aiWalletState';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -29,6 +30,9 @@ export async function GET(request) {
   }
 
   const wallet = await readAIWallet(dbUser);
+  // One credits balance (18 Oct 2026): wallet.total is the one total (free this month + bonus + users.credit_balance).
+  // On a database without that migration (wallet.oneBalance === false) there is no one total: credits is unknown.
+  const credits = unifiedFromWallet(wallet, wallet.known && wallet.oneBalance !== false ? wallet.balanceCredits : null);
   const paid = isPaidUser(dbUser);
   const checkoutOpen = aiCommerceOpen();
 
@@ -38,18 +42,19 @@ export async function GET(request) {
     state: wallet.state,
     message: wallet.message,
     wallet,
+    credits,
     isPaid: paid,
     tier: paid ? 'paid' : 'free',
     creditCosts: CREDIT_COSTS,
-    // Practice credits are a separate ledger from the PrepOS wallet.
-    practiceCredits: { balance: dbUser.creditBalance || 0, label: 'Practice credits (Quick practice and Full mock)' },
+    // Kept for older readers: users.credit_balance, now one part of the one credits balance (credits.parts.balance).
+    practiceCredits: { balance: dbUser.creditBalance || 0, label: 'Credits held (part of your one balance)' },
     normalCreditBalance: dbUser.creditBalance || 0,
     budget: {
       freeMonthlyCredits: AI_FREE_MONTHLY_CREDITS,
       proMonthlyCredits: AI_PRO_INCLUDED_MONTHLY_CREDITS,
       freeBudgetInrCap: AI_FREE_BUDGET_INR_CAP,
     },
-    checkout: { open: checkoutOpen, reason: checkoutOpen ? null : 'New PrepOS top-ups are paused. Existing wallets are preserved.' },
+    checkout: { open: checkoutOpen, reason: checkoutOpen ? null : 'New credit packs are paused. Your credits are kept.' },
     buyPacks: AI_CREDIT_PACKS,
   }, { headers });
 }

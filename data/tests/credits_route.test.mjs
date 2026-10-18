@@ -7,13 +7,14 @@ import { readFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  PAGE_SIZE, aiWhat, buildHistory, creditsBody, encodeCursor, istDate, loadHistory, parseCursor, planOf, practiceWhat,
+  PAGE_SIZE, aiWhat, buildHistory, creditsBody, encodeCursor, istDate, loadHistory, oneBalanceBlock, parseCursor, planOf, practiceWhat,
   repairDetails, repairIdsIn, tsKey,
 } from '../../src/lib/server/credits.js';
 import { mistakeKey } from '../../src/lib/server/repairRecord.js';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const FIXTURE = resolve(root, 'data/tests/fixtures/credits/contract_credits_v1.json');
+const read = (rel) => readFileSync(resolve(root, rel), 'utf8');
 const U = 'user_1';
 const id = (n) => `00000000-0000-4000-8000-${String(n).padStart(12, '0')}`;
 
@@ -275,4 +276,47 @@ test('the route needs a signed-in student, refuses a bad cursor, and exports onl
   assert.match(src, /no-store/);
   assert.doesNotMatch(src, /export async function (POST|PUT|PATCH|DELETE)/);
   assert.doesNotMatch(src, /\.(insert|update|upsert|delete|rpc)\(/);
+});
+
+// ---- One credits balance (owner, 18 Oct 2026, D78) -------------------------------------------------------------------
+test('one balance: every line states the one total after it, across both ledgers, counted back from the live total', () => {
+  const { history } = buildHistory({ practiceRows: PRACTICE_ROWS, aiRows: AI_ROWS, total: 49, periodStart: '2026-09-30T18:30:00.000Z' });
+  assert.deepEqual(history.map((l) => l.pool), ['practice', 'ai', 'practice', 'ai', 'ai', 'practice', 'practice']);
+  // 49 now; before the -10 set it was 59; before the -1 repair 60; before the +10 bonus 50; and so on.
+  assert.deepEqual(history.map((l) => l.balanceAfter), [49, 59, 60, 50, 49, 50, 100]);
+  for (let i = 1; i < history.length; i += 1) assert.equal(history[i].balanceAfter, history[i - 1].balanceAfter - history[i - 1].delta);
+});
+
+test('one balance: a line from before this IST month has no balance to state (the free credits came back silently)', () => {
+  const { history, next } = buildHistory({ practiceRows: PRACTICE_ROWS, aiRows: AI_ROWS, total: 49, periodStart: '2026-10-13T00:00:00.000Z', pageSize: 6 });
+  assert.deepEqual(history.map((l) => l.balanceAfter), [49, 59, 60, 50, 49, null]);
+  assert.equal(parseCursor(next).practice, null, 'the next page stays unknown too');
+  assert.deepEqual(buildHistory({ practiceRows: PRACTICE_ROWS, aiRows: [], total: null }).history.map((l) => l.balanceAfter), [null, null, null, null]);
+});
+
+test('one balance: the cursor carries the one running total, so page two continues it', () => {
+  const rows = practiceLedger(40);
+  const first = buildHistory({ practiceRows: rows.slice(0, PAGE_SIZE + 1), aiRows: [], total: 400 });
+  const cursor = parseCursor(first.next);
+  assert.equal(cursor.ai, null);
+  const last = first.history[first.history.length - 1];
+  assert.equal(cursor.practice, last.balanceAfter - last.delta);
+  const rest = rows.filter((r) => tsKey(r.created_at) < tsKey(cursor.at) || (tsKey(r.created_at) === tsKey(cursor.at) && r.id < cursor.id));
+  const second = buildHistory({ practiceRows: rest, aiRows: [], total: 400, cursor });
+  assert.equal(second.history[0].balanceAfter, cursor.practice);
+});
+
+test('one balance: the body adds total (free left, allowance, held, renew date) and keeps the two stored parts', () => {
+  const unified = { known: true, total: 49, freeLeft: 9, freeAllowance: 50, held: 40, resetAt: '2026-10-31T18:30:00.000Z' };
+  const body = creditsBody({ practiceBalance: 40, wallet: { ...WALLET, balanceCredits: 40, total: 49 }, paid: false, premiumUntil: null, history: [], next: null, unified });
+  assert.deepEqual(body.total, { balance: 49, freeLeft: 9, freeAllowance: 50, held: 40, renewsOn: '2026-11-01', label: 'Credits' });
+  assert.equal(body.practice.balance + body.ai.balance, body.total.balance, 'the two parts add up to the one total, never counted twice');
+  assert.deepEqual(oneBalanceBlock({ known: false }), { balance: null, freeLeft: null, freeAllowance: null, held: null, renewsOn: null, label: 'Credits' });
+});
+
+test('one balance: the route reads getUnifiedWallet and passes the total and the month start to the history', () => {
+  const src = read('src/app/api/me/credits/route.js');
+  assert.match(src, /getUnifiedWallet\(user\)/);
+  assert.match(src, /total: unified\.known \? unified\.total : null/);
+  assert.match(src, /periodStart: wallet\?\.known \? wallet\.periodStart : null/);
 });

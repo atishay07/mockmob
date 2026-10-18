@@ -190,7 +190,7 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
       setRetry(null);
       const response = res.ok ? { ...normalizeResponse({ ...(data.response || data), runtimeState: data.runtimeState }), about } : {
         reply: data.message || (res.status === 429 ? 'Too many questions in a short time. Wait a minute and try again.' : 'Mobi could not answer just now. Nothing is charged for a reply that fails.'),
-        origin: 'status', actions: res.status === 402 ? [{ label: 'See your AI credits', route: '/pricing/ai-credits' }] : [],
+        origin: 'status', actions: res.status === 402 ? [{ label: 'See your credits', route: '/pricing/ai-credits' }] : [],
       };
       setTurns((prev) => [...prev, { id: `a_${Date.now()}`, role: 'assistant', response }]);
       if (data.sessionId) setSessionId(data.sessionId);
@@ -307,7 +307,7 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
         {retry ? (
           <div className="amb-notice" role="alert" data-last="">
             <b>The reply could not be confirmed.</b>
-            <span>Retry sends the same request, so you will not be charged twice. Your AI credits page shows any credit used.</span>
+            <span>Retry sends the same request, so you will not be charged twice. Your credits page shows any credit used.</span>
             <button type="button" className="amb-btn amb-btn--line" disabled={Boolean(pending)} onClick={() => sendPaid(retry.message, true)}>Retry this question</button>
           </div>
         ) : null}
@@ -363,7 +363,7 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
           <button type="submit" className="amb-send" disabled={!canSend}>Ask</button>
         </div>
         <div className="amb-cost">
-          {/* The balance, with the AI credits page one tap away (the wallet and its rules live there). */}
+          {/* The balance, with the credits page one tap away (the wallet and its rules live there). */}
           <Link href="/pricing/ai-credits" className="amb-cost__wallet" onClick={() => onClose?.()}>
             {line.count !== null ? <b key={line.count} className="amb-num">{line.count}</b> : null}{line.count !== null ? ' ' : ''}{line.rest}
             {line.reset ? <><i aria-hidden="true"> · </i>{line.reset}</> : null}
@@ -388,7 +388,7 @@ function Answer({ response, qName = 'this question', wallet = null, onNavigate, 
   let source = response.source || null;
   if (response.origin === 'model') {
     const what = response.about ? `Written reply on ${qName} and its key` : 'Written reply';
-    const spent = response.charged ? usedLine({ cost: response.charged, pool: 'ai', balance: wallet?.known ? wallet.total : null }) : 'No AI credit used.';
+    const spent = response.charged ? usedLine({ cost: response.charged, pool: 'ai', balance: wallet?.known ? wallet.total : null }) : 'No credit used.';
     source = `${what}. ${spent}`;
   } else if (response.origin === 'status') source = null;
   else if (!source) source = 'From your record';

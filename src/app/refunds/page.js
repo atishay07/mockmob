@@ -26,7 +26,7 @@ export default function RefundsPage() {
         <div className="legal-copy">
           <section>
             <h2>No refunds</h2>
-            <p>MockMob does not allow refunds for completed payments, monthly Pro renewals, one-time Pro access, AI credit packs, or billing periods you have already used. Please review the plan, price, and feature details before you pay.</p>
+            <p>MockMob does not allow refunds for completed payments, monthly Pro renewals, one-time Pro access, credit packs, or billing periods you have already used. Please review the plan, price, and feature details before you pay.</p>
           </section>
           {monthlyOpen ? (
             <>

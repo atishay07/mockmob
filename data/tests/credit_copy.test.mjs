@@ -1,5 +1,5 @@
-// The two credit names and the one spend line (audit findings 12 and 13), on the website. Two names only:
-// "Practice credits" and "AI credits". Every spend line names its pool and its total.
+// The one credit name and the one spend line (audit findings 12 and 13; one credits balance, D78, 18 Oct 2026).
+// One name: "credits", for practice and AI alike. Every spend line names its price and the one total.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -11,24 +11,24 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const read = (rel) => readFileSync(resolve(root, rel), 'utf8');
 
 test('the spend line names its pool and its total', () => {
-  assert.equal(usesLine({ what: 'This repair', cost: 3, pool: 'ai', balance: 9 }), 'This repair uses 3 AI credits. You have 9.');
-  assert.equal(usesLine({ what: 'This repair', cost: 1, pool: 'ai', balance: 9 }), 'This repair uses 1 AI credit. You have 9.');
-  assert.equal(usesLine({ what: 'These 3 repairs', verb: 'use', cost: 3, pool: 'ai', balance: 9 }), 'These 3 repairs use 3 AI credits. You have 9.');
-  assert.equal(usesLine({ what: 'A Quick practice', cost: 10, pool: 'practice', balance: 40 }), 'A Quick practice uses 10 practice credits. You have 40.');
-  assert.equal(usedLine({ cost: 1, pool: 'ai', balance: 43 }), '1 AI credit used. You have 43.');
+  assert.equal(usesLine({ what: 'This repair', cost: 3, pool: 'ai', balance: 9 }), 'This repair uses 3 credits. You have 9.');
+  assert.equal(usesLine({ what: 'This repair', cost: 1, pool: 'ai', balance: 9 }), 'This repair uses 1 credit. You have 9.');
+  assert.equal(usesLine({ what: 'These 3 repairs', verb: 'use', cost: 3, pool: 'ai', balance: 9 }), 'These 3 repairs use 3 credits. You have 9.');
+  assert.equal(usesLine({ what: 'A Quick practice', cost: 10, pool: 'practice', balance: 40 }), 'A Quick practice uses 10 credits. You have 40.');
+  assert.equal(usedLine({ cost: 1, pool: 'ai', balance: 43 }), '1 credit used. You have 43.');
 });
 
 test('an unknown balance writes no number, and 0 is a real number', () => {
-  assert.equal(usesLine({ what: 'This repair', cost: 1, pool: 'ai', balance: null }), 'This repair uses 1 AI credit.');
-  assert.equal(usesLine({ what: 'This repair', cost: 1, pool: 'ai', balance: undefined }), 'This repair uses 1 AI credit.');
-  assert.equal(usesLine({ what: 'This repair', cost: 1, pool: 'ai', balance: 0 }), 'This repair uses 1 AI credit. You have 0.');
+  assert.equal(usesLine({ what: 'This repair', cost: 1, pool: 'ai', balance: null }), 'This repair uses 1 credit.');
+  assert.equal(usesLine({ what: 'This repair', cost: 1, pool: 'ai', balance: undefined }), 'This repair uses 1 credit.');
+  assert.equal(usesLine({ what: 'This repair', cost: 1, pool: 'ai', balance: 0 }), 'This repair uses 1 credit. You have 0.');
   assert.equal(haveLine(null), null);
   assert.equal(haveLine(''), null);
-  assert.equal(usedLine({ cost: 1, pool: 'ai' }), '1 AI credit used.');
-  assert.equal(balanceLabel(null, 'ai'), 'AI credits unavailable');
-  assert.equal(balanceLabel(12, 'practice'), 'Practice credits: 12');
-  assert.equal(creditCount(null, 'ai'), 'AI credits');
-  assert.equal(creditCount(1200, 'practice'), '1,200 practice credits');
+  assert.equal(usedLine({ cost: 1, pool: 'ai' }), '1 credit used.');
+  assert.equal(balanceLabel(null, 'ai'), 'Credits unavailable');
+  assert.equal(balanceLabel(12, 'practice'), 'Credits: 12');
+  assert.equal(creditCount(null, 'ai'), 'credits');
+  assert.equal(creditCount(1200, 'practice'), '1,200 credits');
 });
 
 test('the lines are plain: no "!", no em dash, no middle dot', () => {

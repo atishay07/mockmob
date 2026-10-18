@@ -35,9 +35,9 @@ test('a bank count is a number only when the counts are known; unknown is never 
   assert.equal(tileCount(null), null);
 });
 
-test('Practice says no cap on papers, and on Free that each one uses practice credits', () => {
+test('Practice says no cap on papers, and on Free that each one uses credits', () => {
   const free = freshPaperLine({ count: 1404, subjectName: 'Accountancy', isPremium: false });
-  assert.equal(free, 'Every paper is built fresh from the 1,404 Accountancy questions in the bank, questions you have not answered first. There is no cap on how many you take, only the practice credits each one uses.');
+  assert.equal(free, 'Every paper is built fresh from the 1,404 Accountancy questions in the bank, questions you have not answered first. There is no cap on how many you take, only the credits each one uses.');
   const pro = freshPaperLine({ count: 1404, subjectName: 'Accountancy', isPremium: true });
   assert.match(pro, /There is no cap on how many you take\.$/);
   assert.doesNotMatch(freshPaperLine({ count: null, subjectName: 'Accountancy' }), /\d/);
@@ -53,7 +53,7 @@ test('the result page links to Practice with the same subject and mode, and pric
   assert.equal(full.title, 'Take another fresh paper');
   assert.equal(full.href, '/dashboard?subject=accountancy&mode=full');
   assert.equal(full.fresh, 'Your next Full mock in Accountancy is built new from the 1,404 questions in the bank, questions you have not answered first.');
-  assert.equal(full.price, 'There is no cap on how many papers you take. A Full mock uses 50 practice credits. You have 40.');
+  assert.equal(full.price, 'There is no cap on how many papers you take. A Full mock uses 50 credits. You have 40.');
   assert.equal(full.action, 'Set up another Full mock');
 
   const pro = nextPaper({ mode: 'nta', subject: 'gat', subjectName: 'Gat', count: 227, isPremium: true });
@@ -65,7 +65,7 @@ test('the result page links to Practice with the same subject and mode, and pric
   const quick = nextPaper({ mode: 'quick', subject: 'economics', subjectName: 'Economics', count: 466, total: 15, isPremium: false, balance: null });
   assert.equal(quick.href, '/dashboard?subject=economics&mode=quick&count=15');
   assert.equal(quick.price, 'There is no cap on how many papers you take. Practice shows the price before it starts.');
-  assert.match(nextPaper({ mode: 'quick', subject: 'economics', isPremium: false, balance: 1 }).price, /You have 1 practice credit\.$/);
+  assert.match(nextPaper({ mode: 'quick', subject: 'economics', isPremium: false, balance: 1 }).price, /You have 1 credit\.$/);
 
   const unknown = nextPaper({ mode: undefined, subject: 'english', subjectName: 'English' });
   assert.equal(unknown.href, '/dashboard?subject=english');
@@ -75,11 +75,11 @@ test('the result page links to Practice with the same subject and mode, and pric
 
 test('pricing says no limit on papers without calling Free unlimited, and names the bank only when counted', () => {
   assert.match(pricingBankLine(8197), /from a live bank of 8,197 questions/);
-  assert.match(pricingBankLine(8197), /Pro covers as many as you take; on Free, each one uses practice credits\./);
+  assert.match(pricingBankLine(8197), /Pro covers as many as you take; on Free, each one uses credits\./);
   assert.doesNotMatch(pricingBankLine(null), /\d/);
   const faq = pricingBankFaq(8197);
   assert.equal(faq.q, 'How many mocks do I get per subject?');
-  assert.match(faq.a, /On Free, each paper uses practice credits\. Practice credits: 1 a question\. A 10-question set is 10, a full mock 50\./);
+  assert.match(faq.a, /On Free, each paper uses credits: 1 credit a question\. A 10-question set is 10, a full mock 50\./);
   assert.match(faq.a, /can bring back questions you have answered before/);
   assert.match(ONBOARDING_LEAD, /^Pick up to 5\./);
 });
@@ -100,7 +100,7 @@ test('every line is plain: no "never repeats", no "unlimited" for Free, no "!", 
 
 // The facts behind the words. If one of these changes, the copy above must change with it.
 test('the prices the copy names are the prices the code charges', () => {
-  // Quick practice is 1 practice credit a question (owner D65, 18 Oct); a full mock stays 50. There is no flat Quick price.
+  // Quick practice is 1 credit a question (owner D65, 18 Oct); a full mock stays 50. There is no flat Quick price.
   assert.equal(TEST_MODES.quick.creditPerQuestion, 1);
   assert.equal(TEST_MODES.quick.creditCost, undefined);
   assert.equal(TEST_MODES.full.creditCost, 50);
@@ -119,7 +119,7 @@ test('the prices the copy names are the prices the code charges', () => {
   assert.match(sessions, /if \(charge\.creditAction\)/);
   // No per-day or per-subject count of papers: the only guard on starting is the request rate limit.
   assert.doesNotMatch(sessions, /max(Mocks|Papers)|papersPerDay|mockLimit/i);
-  // New accounts start with 100 practice credits, and an approved upload grants 15.
+  // New accounts start with 100 credits, and an approved upload grants 15.
   assert.match(read('data/db.js'), /credit_balance: 100,/);
   assert.match(read('supabase/migrations/0027_enforce_credit_integrity.sql'), /v_amount INTEGER := 15;/);
 });
@@ -141,14 +141,14 @@ test('NTA papers build unseen first, keep earlier NTA questions out while they c
   assert.match(engine, /repeat\$\{repeats === 1 \? '' : 's'\}|repeats' : 's repeat'\} from your earlier NTA papers/);
 });
 
-test('Pro-only modes never quote practice credits on Free, and the pricing count covers only subjects Practice offers', () => {
+test('Pro-only modes never quote credits on Free, and the pricing count covers only subjects Practice offers', () => {
   // Smart practice and NTA mode are premium in the code, so a Free student selecting one is told it is part of Pro.
   assert.equal(TEST_MODES.nta.premium, true);
   assert.equal(TEST_MODES.smart.premium, true);
   for (const mode of ['nta', 'smart']) {
     const line = freshPaperLine({ count: 1404, subjectName: 'Accountancy', isPremium: false, mode });
     assert.match(line, /is part of Pro, which has no cap on how many you take\.$/);
-    assert.doesNotMatch(line, /practice credits/);
+    assert.doesNotMatch(line, /credits/);
   }
   assert.equal(nextPaper({ mode: 'nta', subject: 'english', isPremium: true }).action, 'Set up another NTA paper');
   // The stored bankSize also holds subjects Practice does not offer (not_offered, retired); the pricing sentence sums

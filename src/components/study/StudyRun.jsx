@@ -144,7 +144,7 @@ function LessonDone({ run, api, onOpenRun }) {
     {info?.objectives?.length ? <><h2 className="sx-h3">This lesson covered</h2><ul className="sx-ticks">{info.objectives.map(o => <li key={o}><Check size={16} aria-hidden="true" />{o}</li>)}</ul></> : null}
     <div className="sx-next">
       <h2 className="sx-h3">Next: lock it in</h2>
-      <p className="sx-small">Your lesson’s recall cards are ready. Answer from memory, then we’ll bring them back when they’re due. Included, no AI credits.</p>
+      <p className="sx-small">Your lesson’s recall cards are ready. Answer from memory, then we’ll bring them back when they’re due. Included, no credits.</p>
       {!info ? <p className="sx-small" role="status">Checking your review cards…</p>
         : available ? <><p>Answer {available} {available === 1 ? 'card' : 'cards'} from this lesson from memory, about {Math.max(2, Math.ceil(available * 0.6))} minutes. Each answer sets when you’ll see that card again, so the idea is still there on exam day.</p>
           <button className="btn-volt md" type="button" onClick={lockIn} disabled={busy}>Lock it in with {available} {available === 1 ? 'card' : 'cards'}</button></>

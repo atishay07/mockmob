@@ -35,7 +35,7 @@ export function enforceMentorActionPolicy(action, { isPaid }) {
     case 'start_revision_queue':
       return { ...safe, creditCost: 0, requiresPaid: false };
     case 'buy_credits':
-      return { ...safe, creditCost: 0, requiresPaid: false, label: safe.label || 'Buy AI credits' };
+      return { ...safe, creditCost: 0, requiresPaid: false, label: safe.label || 'Buy credits' };
     case 'upgrade_plan':
       return { ...safe, creditCost: 0, requiresPaid: !isPaid, label: safe.label || 'Upgrade plan' };
     default:

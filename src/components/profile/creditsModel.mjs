@@ -1,9 +1,10 @@
-// Account > Credits: the pure rules behind the two balances, their renew dates and the history list. No React and no
-// browser, so data/tests/credits_section.test.mjs can hold every word a student reads.
+// Account > Credits: the pure rules behind the ONE credits balance (owner, 18 Oct 2026, D78), when the free credits come
+// back, and the history list. No React and no browser, so data/tests/credits_section.test.mjs can hold every word a
+// student reads.
 // The body comes from GET /api/me/credits (data/tests/fixtures/credits/contract_credits_v1.json). Unknown is never 0:
 // a balance that could not be read has no figure, and the line says so.
 // Copy rules: sentence case, no "!", no em dash, no middle dot, 12-hour times.
-import { AI_CREDITS, PRACTICE_CREDITS, POOL_USE } from '../../lib/creditCopy.mjs';
+import { CREDITS, ONE_CREDIT_LINE } from '../../lib/creditCopy.mjs';
 
 export const CREDITS_URL = '/api/me/credits';
 export const CREDITS_COPY = Object.freeze({
@@ -48,30 +49,37 @@ export function whenLabel(iso) {
 }
 
 /**
- * The two balance tiles. Each is { pool, name, figure, state, lines } where figure is a string or null,
- * state is 'known' | 'unlimited' | 'unknown', and lines are the sentences under it.
+ * The one balance, as a list of one tile { pool: 'total', name, figure, state, lines } so the section renders it like
+ * before. figure is a string or null; state is 'known' | 'unknown'. The figure is body.total.balance, or, from an older
+ * server without `total`, the two stored parts added (both must be known: an unknown part is an unknown total).
  */
+export function oneBalance(body) {
+  const t = body?.total && typeof body.total === 'object' ? body.total : null;
+  if (t) {
+    return { balance: whole(t.balance), freeLeft: whole(t.freeLeft), freeAllowance: whole(t.freeAllowance), renewsOn: t.renewsOn || null };
+  }
+  const p = whole(body?.practice?.balance);
+  const a = whole(body?.ai?.balance);
+  return { balance: p === null || a === null ? null : p + a, freeLeft: null, freeAllowance: null, renewsOn: body?.ai?.renewsOn || null };
+}
+
 export function creditTiles(body) {
   const plan = body?.plan || {};
   const pro = plan.name === 'Pro';
-  const practiceBalance = whole(body?.practice?.balance);
-  const aiBalance = whole(body?.ai?.balance);
-  const renews = longDate(body?.ai?.renewsOn);
   const until = longDate(plan.until, { year: true });
-
-  const practice = pro
-    ? { state: 'unlimited', figure: 'Unlimited', lines: [until ? `Included with Pro until ${until}.` : 'Included with Pro.'] }
-    : practiceBalance === null
-      ? { state: 'unknown', figure: null, lines: [CREDITS_COPY.unavailable] }
-      : { state: 'known', figure: fmt(practiceBalance), lines: [`${POOL_USE.practice} They do not renew.`] };
-  const ai = aiBalance === null
-    ? { state: 'unknown', figure: null, lines: [CREDITS_COPY.unavailable, POOL_USE.ai] }
-    : { state: 'known', figure: fmt(aiBalance), lines: [POOL_USE.ai, ...(renews ? [`Renews on ${renews}.`] : [])] };
-  return [
-    { pool: 'practice', name: PRACTICE_CREDITS, ...practice },
-    { pool: 'ai', name: AI_CREDITS, ...ai },
-  ];
+  const one = oneBalance(body);
+  const renews = longDate(one.renewsOn);
+  const proLine = pro ? [until ? `Practice needs no credits with Pro, until ${until}.` : 'Practice needs no credits with Pro.'] : [];
+  if (one.balance === null) {
+    return [{ pool: 'total', name: CREDITS, state: 'unknown', figure: null, lines: [CREDITS_COPY.unavailable, ONE_CREDIT_LINE, ...proLine] }];
+  }
+  const free = one.freeLeft !== null && one.freeAllowance
+    ? [`${fmt(one.freeLeft)} of your ${fmt(one.freeAllowance)} free credits left this month${renews ? `; ${fmt(one.freeAllowance)} more on ${renews}` : ''}. They are used first.`]
+    : renews ? [`Free credits come back on ${renews}.`] : [];
+  return [{ pool: 'total', name: CREDITS, state: 'known', figure: fmt(one.balance), lines: [ONE_CREDIT_LINE, ...free, ...proLine] }];
 }
+
+const KIND_NAMES = Object.freeze({ practice: 'Practice', ai: 'Ask Mobi and repairs' });
 
 /** One history line, ready to print. */
 export function historyLine(line, index = 0) {
@@ -87,12 +95,12 @@ export function historyLine(line, index = 0) {
     changeText: `${sign}${fmt(delta)}`,
     spokenChange: delta < 0 ? `${fmt(-delta)} used` : delta > 0 ? `${fmt(delta)} added` : 'no change',
     pool,
-    poolName: pool === 'ai' ? AI_CREDITS : PRACTICE_CREDITS,
+    poolName: KIND_NAMES[pool],
     after: after === null ? null : `${fmt(after)} left`,
   };
 }
 
-/** The lines to show for a name filter ('all' | 'practice' | 'ai'). */
+/** The lines to show for a kind filter ('all' | 'practice' | 'ai'). One balance; the filter is what it paid for. */
 export function filterHistory(history, filter) {
   const list = Array.isArray(history) ? history : [];
   return filter === 'practice' || filter === 'ai' ? list.filter((l) => l?.pool === filter) : list;
@@ -113,6 +121,7 @@ export function creditsFromResponse(body) {
   return {
     practice: body.practice,
     ai: body.ai,
+    ...(body.total && typeof body.total === 'object' ? { total: body.total } : {}),
     plan: body.plan && typeof body.plan === 'object' ? body.plan : { name: 'Free', until: null },
     history: body.history.filter((l) => l && typeof l === 'object'),
     nextCursor: typeof body.nextCursor === 'string' && body.nextCursor ? body.nextCursor : null,
@@ -121,6 +130,6 @@ export function creditsFromResponse(body) {
 
 export const FILTERS = Object.freeze([
   { id: 'all', label: 'All' },
-  { id: 'practice', label: PRACTICE_CREDITS },
-  { id: 'ai', label: AI_CREDITS },
+  { id: 'practice', label: KIND_NAMES.practice },
+  { id: 'ai', label: KIND_NAMES.ai },
 ]);

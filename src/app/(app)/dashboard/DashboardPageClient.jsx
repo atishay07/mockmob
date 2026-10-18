@@ -440,10 +440,10 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
   // A blocked session still states its real price; the reason line and the action say what is missing.
   const shortfall = quoteStatus === 'ready' && quoteMatches && quote.reasonCode === 'insufficient_credits' ? Math.max(0, (quote.creditCost || 0) - balance) : 0;
   const costLabel = quoteStatus === 'ready' && quoteMatches
-    ? !quote.launchable ? (quote.reasonCode === 'access_required' ? 'Needs Pro' : quote.creditCost ? `${quote.creditCost} practice credits` : 'Not available')
+    ? !quote.launchable ? (quote.reasonCode === 'access_required' ? 'Needs Pro' : quote.creditCost ? `${quote.creditCost} credits` : 'Not available')
       : isPremium ? 'Included with access'
         : quote.creditCost === 0 ? 'Free: today’s included set'
-          : `${quote.creditCost} practice credits`
+          : `${quote.creditCost} credits`
     : 'Checking';
   const costTone = quoteStatus === 'ready' && quoteMatches && !quote.launchable ? 'locked' : 'cost';
   const startLabel = isLaunching ? 'Starting…'
@@ -533,7 +533,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
           {/* The balance under the lede at every width. The price is said once, on the mode tiles (and the card's own Cost line),
               not again here (release 9: it was stated about four times in the first fold). */}
           <p className="pr-head__credits">
-            <CreditAmount kind="practice" amount={isPremium ? 'unlimited' : balance} unit={!isPremium} unitLabel="practice credits" size={15} />
+            <CreditAmount kind="practice" amount={isPremium ? 'unlimited' : balance} unit={!isPremium} unitLabel="credits" size={15} />
             {isPremium ? <span>Quick practice and Full mock are included with your access.</span> : null}
           </p>
           <PracticeMobChip userId={user?.id} />
@@ -810,17 +810,17 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
           <p className="pr-panel__lead">{isPremium
             ? `Quick practice, Full mock, Smart practice and NTA mode are included${user?.premiumUntil ? ` until ${new Date(user.premiumUntil).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}` : ''}.`
             : proEnded
-              ? `Your Pro access ended on ${new Date(user.premiumUntil).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}. Quick practice and Full mock now use practice credits; your history and saved questions stay.`
-              : 'Pro adds Smart practice and NTA mode, and Quick practice and Full mock stop costing practice credits.'}</p>
+              ? `Your Pro access ended on ${new Date(user.premiumUntil).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}. Quick practice and Full mock now use credits; your history and saved questions stay.`
+              : 'Pro adds Smart practice and NTA mode, and Quick practice and Full mock stop costing credits.'}</p>
           <div className="pr-panel__row">
-            <CreditAmount kind="practice" amount={isPremium ? 'unlimited' : balance} unit={!isPremium} unitLabel="practice credits" />
+            <CreditAmount kind="practice" amount={isPremium ? 'unlimited' : balance} unit={!isPremium} unitLabel="credits" />
             {!isPremium && <Link className="pr-link" href="/pricing">{proEnded ? 'See Pro to renew' : 'See Pro'}</Link>}
           </div>
         </section>
 
         {contributeOn && <section className="pr-panel" aria-labelledby="pr-bank">
           <div className="pr-panel__head"><h2 id="pr-bank">Add a question</h2></div>
-          <p className="pr-panel__lead">Upload a question. If it passes moderation, you earn practice credits for Quick practice and Full mock.</p>
+          <p className="pr-panel__lead">Upload a question. If it passes moderation, you earn credits for Quick practice and Full mock.</p>
           <Link href="/upload" className="pr-link pr-link--strong"><AppIcon name="contribute" size={16} />Upload a question</Link>
           {submissions.length > 0 && (
             <>

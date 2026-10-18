@@ -1,6 +1,6 @@
 // ?q=N on the result page (release 7; Today's weak chapters, Last paper and the reel's last key link to /result/{id}?q=N).
 // It opens that question's row in Your mistakes and brings it into view, and it NEVER starts a repair: a repair can spend an
-// AI credit, so it is only ever the student's own press (coordinator decision, 18 Oct).
+// credit, so it is only ever the student's own press (coordinator decision, 18 Oct).
 // Run: node --test data/tests/result_question_param.test.mjs
 import test from 'node:test';
 import assert from 'node:assert/strict';

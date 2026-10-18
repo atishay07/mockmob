@@ -436,7 +436,7 @@ function TestRunner() {
         if (!alive) return;
         if (e?.status === 402 && e?.body?.upgrade) {
           try { await refreshSession({ silent: true }); } catch {}
-          setError('Not enough practice credits. Upgrade to Pro for unlimited mocks.');
+          setError('Not enough credits. Upgrade to Pro for unlimited mocks.');
           setLoading(false);
           router.replace('/pricing?reason=insufficient_credits');
           return;

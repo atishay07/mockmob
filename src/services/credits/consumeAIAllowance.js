@@ -11,7 +11,7 @@ import { consumeAIWalletCredits, paidAiOpen, PREPOS_PAUSED_MESSAGE } from './aiC
  *   3. Spend the dedicated AI wallet through the atomic RPC with the caller's stable
  *      operation key. The same key must be passed on every retry of one operation.
  *
- * Normal MockMob practice credits are never read or mutated here.
+ * Normal MockMob credits are never read or mutated here.
  */
 export async function consumeAIAllowance({ user, action, params = {}, operationKey }) {
   if (!user?.id) {

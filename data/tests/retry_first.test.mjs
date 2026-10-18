@@ -73,8 +73,8 @@ test('the words: the step label is actionLabel\'s, and nothing says what the own
     assert.doesNotMatch(line, /[!—·]/, `no exclamation mark, em dash or middle dot: ${line}`);
     assert.doesNotMatch(line, /\b[A-Z]{4,}\b/, `no ALL-CAPS word: ${line}`);
   }
-  assert.equal(RETRY_COPY.repairComes(7), 'Repair Q7 comes after, for 1 AI credit.');
-  assert.equal(RETRY_COPY.repairComes(null), 'Repair comes after, for 1 AI credit.');
+  assert.equal(RETRY_COPY.repairComes(7), 'Repair Q7 comes after, for 1 credit.');
+  assert.equal(RETRY_COPY.repairComes(null), 'Repair comes after, for 1 credit.');
   assert.equal(RETRY_COPY.noExplanation(false), 'This question has no book explanation yet.', 'a blank has no repair to point at');
   assert.match(RETRY_COPY.noExplanation(true), /A repair writes why your pick looked right and why the key is right\.$/);
 });
@@ -270,12 +270,12 @@ test('the sealed body offers Try it again and Show the answer, and says Repair c
   assert.match(wrong, /<b>The answer stays hidden until you ask\.<\/b> Try it again first, or see the correct answer and the book explanation\. Both are free\./);
   const keys = [...wrong.matchAll(/<button[^>]*class="rvw-key[^"]*"[^>]*>([^<]+)<\/button>/g)].map((m) => m[1]);
   assert.deepEqual(keys, ['Try it again', 'Show the answer'], 'Try it again first');
-  assert.match(wrong, /Repair Q2 comes after, for 1 AI credit\./);
+  assert.match(wrong, /Repair Q2 comes after, for 1 credit\./);
   assert.ok(!wrong.includes(KEY_TEXT) && !/Correct/.test(wrong), 'nothing about the key');
   assert.ok(!/Old ratio|New ratio/.test(wrong), 'the options wait for Try it again');
   assert.ok(!/mr-start|Repair this mistake/.test(wrong), 'no paid key while sealed');
   const blank = html(RetryFirst, { q: questionModel(BLANK_ROW.q, null), number: 9, repairable: false, onTried() {}, onShow() {} });
-  assert.doesNotMatch(blank, /AI credit/);
+  assert.doesNotMatch(blank, /Credit/);
   assert.match(blank, /Try it again/);
 });
 
@@ -298,12 +298,12 @@ test('Try it again lists the options with the first pick tagged and no mark of t
 test("Review's answer sheet keeps its exact markup through the move: the note, the keys in every mode and the first view of Try it again", async () => {
   const { React, html, FreeKeys, HiddenNote, TryAgain, questionModel } = await load();
   assert.equal(html(HiddenNote, {}), '<p class="rvw-sheet__note"><b>The answer stays hidden until you ask.</b> Try it again first, or see the correct answer and the book explanation. Both are free.</p>');
-  const repair = React.createElement('button', { type: 'button', className: 'rvw-key mk-press' }, 'Repair Q', 2, ', 1 AI credit');
+  const repair = React.createElement('button', { type: 'button', className: 'rvw-key mk-press' }, 'Repair Q', 2, ', 1 credit');
   const key = (label) => `<button type="button" class="rvw-key mk-press">${label}</button>`;
   const keys = (mode, extra = {}) => html(FreeKeys, { mode, onTry() {}, onShow() {}, ...extra });
-  assert.equal(keys('hidden', { children: repair }), `<div class="rvw-sheet__keys">${key('Try it again')}${key('Show the answer')}${key('Repair Q2, 1 AI credit')}</div>`);
-  assert.equal(keys('try', { children: repair }), `<div class="rvw-sheet__keys">${key('Show the answer')}${key('Repair Q2, 1 AI credit')}</div>`);
-  assert.equal(keys('answer', { children: repair }), `<div class="rvw-sheet__keys">${key('Try it again')}${key('Repair Q2, 1 AI credit')}</div>`);
+  assert.equal(keys('hidden', { children: repair }), `<div class="rvw-sheet__keys">${key('Try it again')}${key('Show the answer')}${key('Repair Q2, 1 credit')}</div>`);
+  assert.equal(keys('try', { children: repair }), `<div class="rvw-sheet__keys">${key('Show the answer')}${key('Repair Q2, 1 credit')}</div>`);
+  assert.equal(keys('answer', { children: repair }), `<div class="rvw-sheet__keys">${key('Try it again')}${key('Repair Q2, 1 credit')}</div>`);
   assert.equal(keys('hidden', { showAnswer: false }), `<div class="rvw-sheet__keys">${key('Try it again')}</div>`, 'a key under re-check offers no answer');
   const q = questionModel(WRONG_ROW.q, WRONG_ROW.d);
   const opt = (letter, text) => `<li><button type="button" class="rvw-opt mk-press"><i>${letter}</i><span>${text}</span></button></li>`;

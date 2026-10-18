@@ -90,15 +90,15 @@ test('no preview is invented: without a record line the preview is omitted, and 
 
 test('a new student gets the free product asks, answered from the help answers', () => {
   const asks = suggestionsFor({ context: normalizeContext({ kind: 'page' }), insights: EMPTY, status: 'empty' });
-  assert.deepEqual(asks.map((a) => [a.label, a.price]), [['How do AI credits work?', 'free'], ['What is NTA mode?', 'free']]);
-  assert.match(answerFree('credits_help', {}).reply, /AI credits pay for Ask Mobi replies/);
+  assert.deepEqual(asks.map((a) => [a.label, a.price]), [['How do credits work?', 'free'], ['What is NTA mode?', 'free']]);
+  assert.match(answerFree('credits_help', {}).reply, /One balance pays for everything: practice sets, full mocks, Ask Mobi replies and repair explanations\./);
   assert.match(answerFree('nta_help', {}).reply, /real CUET screen/);
   assert.equal(sessionsLabel(EMPTY, 'empty'), 'no sessions yet');
   assert.equal(sessionsLabel(INSIGHTS, 'ready'), '9 sessions');
   assert.equal(sessionsLabel(null, 'unavailable'), null);
 });
 
-test('prices match answerFromInsights: record questions are free, anything else is 1 AI credit, a question attached is always paid', () => {
+test('prices match answerFromInsights: record questions are free, anything else is 1 credit, a question attached is always paid', () => {
   for (const text of ['Where am I losing marks?', 'Which chapter is weak?', 'Where am I losing time?', 'How did this week go?']) {
     assert.ok(answerFromInsights(text, INSIGHTS), text);
     assert.equal(priceForText(text, { insights: INSIGHTS, status: 'ready', pro: true }), 'free', text);
@@ -109,7 +109,7 @@ test('prices match answerFromInsights: record questions are free, anything else 
     assert.equal(priceForText(text, { insights: INSIGHTS, status: 'ready', pro: true }), 'paid', text);
   }
   assert.equal(priceForText('Where am I losing marks?', { insights: null, status: 'unavailable' }), 'paid', 'unknown is shown as the price, never as free');
-  assert.equal(priceForText('How do AI credits work?', {}), 'free');
+  assert.equal(priceForText('How do credits work?', {}), 'free');
   assert.equal(productAskFor('what is nta mode'), 'nta_help');
   assert.equal(priceForText('   ', {}), null);
 });
@@ -146,12 +146,12 @@ test('the record chip summary: marks ledger, biggest leak, pace', () => {
 
 test('the wallet line and the paid state say the truth, and unknown is never 0', () => {
   const w = { known: true, state: 'available', total: 8, includedRemaining: 8, includedMonthlyCredits: 10, bonusCredits: 0, resetAt: '2026-10-31T18:30:00.000Z' };
-  assert.deepEqual(walletLine(w), { count: 8, rest: 'of 10 AI credits left', reset: 'resets 1 Nov' });
-  assert.deepEqual(walletLine({ ...w, total: 38, bonusCredits: 30 }), { count: 38, rest: 'AI credits left', reset: 'resets 1 Nov' }, 'purchased credits make "of 10" untrue');
+  assert.deepEqual(walletLine(w), { count: 8, rest: 'of 10 credits left', reset: 'resets 1 Nov' });
+  assert.deepEqual(walletLine({ ...w, total: 38, bonusCredits: 30 }), { count: 38, rest: 'credits left', reset: 'resets 1 Nov' }, 'purchased credits make "of 10" untrue');
   assert.equal(walletLine(null).count, null);
   assert.equal(walletLine({ known: false, state: 'error' }).count, null);
   assert.equal(paidState(w).open, true);
-  assert.match(paidState({ ...w, total: 0, includedRemaining: 0, state: 'empty' }).why, /^0 of 10 AI credits left\. They reset on 1 Nov\. Questions about your record stay free\. Nothing is charged from here\.$/);
+  assert.match(paidState({ ...w, total: 0, includedRemaining: 0, state: 'empty' }).why, /^0 of 10 credits left\. They reset on 1 Nov\. Questions about your record stay free\. Nothing is charged from here\.$/);
   assert.match(paidState({ known: true, state: 'paused', total: 5 }).why, /paused/);
   assert.equal(paidState(null).open, false);
 });

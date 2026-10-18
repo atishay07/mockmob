@@ -3,7 +3,7 @@
 // /mentor, after the redesign (ASK-MOBI-1018, P4): the page is "Your record" (the marks ledger, the chapters costing the most,
 // pace) with Mobi's earlier questions under it, and no tabs. Mobi's composer is the panel, which this page opens beside the
 // record. Deep links keep working: ?tab=record is this page, ?tab=ask&q=<attempt>:<question> opens the panel on that question,
-// ?tab=plan goes to Today (where the next step lives) and ?tab=tools to the AI credits page (where the wallet and its rules live).
+// ?tab=plan goes to Today (where the next step lives) and ?tab=tools to the credits page (where the wallet and its rules live).
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -72,11 +72,11 @@ export default function MentorRecordPage() {
       <AskMobiLink context={{ kind: 'page' }} variant="row" className="mrp-ask">
         <span className="ame__icon" aria-hidden="true"><AppIcon name="prepos" size={20} /></span>
         <b>Ask Mobi about your record</b>
-        <span>Questions about your record are free. A written reply costs 1 AI credit.</span>
+        <span>Questions about your record are free. A written reply costs 1 credit.</span>
       </AskMobiLink>
       <RecordView state={insightsState} onNavigate={(route) => router.push(route)} pro={pro} />
       <History />
-      <p className="mrp-foot"><Link href="/pricing/ai-credits" className="ame ame--text">Your AI credits and how they work</Link></p>
+      <p className="mrp-foot"><Link href="/pricing/ai-credits" className="ame ame--text">Your credits and how they work</Link></p>
     </div>
   );
 }

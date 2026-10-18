@@ -1,9 +1,10 @@
 "use client";
 
-// Account > Credits (audit findings 12 and 13): both balances with what they are for and when the AI credits renew,
+// Account > Credits (audit findings 12 and 13; one credits balance, D78): the one balance, what a credit buys and when the
+// free credits come back,
 // then the history, newest first. The server sends 30 lines a page; the list opens on 10 and "Show more" reveals 10 at a
 // time, then asks for the next page when the ones it holds are all showing, so the account page stays short beside the
-// plan. Two names only: "Practice credits" and "AI credits".
+// plan. One name: "Credits".
 // Reads GET /api/me/credits once, then ?cursor= for "Show more". Unknown is never shown as 0.
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { CreditMark } from '@/components/ui/Glyph';
@@ -71,7 +72,6 @@ export default function CreditsSection({ userId }) {
       {state.status === 'loading' ? (
         <div className="cr-tiles" role="status" aria-label={CREDITS_COPY.loading}>
           <span className="cr-sk skeleton" aria-hidden="true" />
-          <span className="cr-sk skeleton" aria-hidden="true" />
         </div>
       ) : null}
 
@@ -87,7 +87,7 @@ export default function CreditsSection({ userId }) {
           <div className="cr-tiles">
             {tiles.map((tile) => (
               <div className="cr-tile" key={tile.pool} data-pool={tile.pool} data-state={tile.state}>
-                <p className="cr-tile__name"><CreditMark kind={tile.pool === 'ai' ? 'prepos' : 'practice'} size={16} />{tile.name}</p>
+                <p className="cr-tile__name"><CreditMark kind="practice" size={16} />{tile.name}</p>
                 <p className="cr-tile__figure">{tile.figure ?? <span className="cr-tile__unknown">Unknown</span>}</p>
                 {tile.lines.map((text) => <p className="cr-tile__line" key={text}>{text}</p>)}
               </div>

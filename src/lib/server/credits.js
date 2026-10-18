@@ -136,7 +136,11 @@ export function repairDetails({ userId, ids, attempts }) {
  * what is older than the cursor and fetched newest first (PAGE_SIZE + 1 of each is enough). Returns { history, next }
  * where next is the cursor for the page after this one, or null.
  */
-export function buildHistory({ practiceRows, aiRows, practiceBalance, aiBalance, cursor = null, details = new Map(), pageSize = PAGE_SIZE }) {
+export function buildHistory({ practiceRows, aiRows, practiceBalance, aiBalance, total, periodStart = null, cursor = null, details = new Map(), pageSize = PAGE_SIZE }) {
+  // One credits balance (18 Oct 2026, D78): with `total` passed, every line states the ONE balance after it, counted back
+  // from the live total across both ledgers. The free monthly credits come back silently at the IST month start (no ledger
+  // row), so a line older than `periodStart` has no balance to state (null, never a guessed number).
+  if (total !== undefined) return buildOneBalanceHistory({ practiceRows, aiRows, total, periodStart, cursor, details, pageSize });
   const lines = [];
   for (const r of practiceRows || []) {
     const delta = int(r?.credit_delta ?? r?.amount);
@@ -175,6 +179,47 @@ export function buildHistory({ practiceRows, aiRows, practiceBalance, aiBalance,
   return { history, next };
 }
 
+function mergedLines(practiceRows, aiRows) {
+  const lines = [];
+  for (const r of practiceRows || []) {
+    const delta = int(r?.credit_delta ?? r?.amount);
+    if (delta === null || !r?.id || !r.created_at) continue;
+    lines.push({ pool: 'practice', id: String(r.id).toLowerCase(), raw: r.created_at, key: tsKey(r.created_at), delta, row: r });
+  }
+  for (const r of aiRows || []) {
+    const delta = int(r?.amount);
+    if (delta === null || !r?.id || !r.created_at) continue;
+    lines.push({ pool: 'ai', id: String(r.id).toLowerCase(), raw: r.created_at, key: tsKey(r.created_at), delta, row: r });
+  }
+  return lines.sort(newer);
+}
+
+function buildOneBalanceHistory({ practiceRows, aiRows, total, periodStart, cursor, details, pageSize }) {
+  const lines = mergedLines(practiceRows, aiRows);
+  const page = lines.slice(0, pageSize);
+  const since = periodStart ? tsKey(periodStart) : '';
+  // The cursor's `p` carries the one running balance (its `a` stays null in this mode).
+  let running = cursor ? cursor.practice : int(total);
+  const history = [];
+  for (const line of page) {
+    if (since && line.key < since) running = null;
+    const balanceAfter = running;
+    running = running === null ? null : running - line.delta;
+    if (line.pool === 'practice') {
+      history.push({ at: new Date(line.raw).toISOString(), pool: 'practice', what: practiceWhat(line.row), delta: line.delta, balanceAfter });
+    } else {
+      const repairId = String(line.row.feature) === 'score_recovery_repair' ? repairIdFromOperationKey(line.row.reference) : null;
+      history.push({ at: new Date(line.raw).toISOString(), pool: 'ai', what: aiWhat(line.row, repairId ? details.get(repairId) || null : null), delta: line.delta, balanceAfter });
+    }
+  }
+  let next = null;
+  if (lines.length > pageSize) {
+    const last = page[page.length - 1];
+    next = encodeCursor({ at: last.raw, id: last.id, practice: running, ai: null });
+  }
+  return { history, next };
+}
+
 /** The ids of the repair lines in a set of ledger rows, for the one attempts read that names them. */
 export function repairIdsIn(aiRows) {
   const ids = new Set();
@@ -195,17 +240,45 @@ export function planOf({ paid, premiumUntil }) {
 }
 
 /**
+ * The AI-wallet pool only (this month's free credits + bonus credits), or null when unknown. Since the one credits balance
+ * (18 Oct 2026) readAIWallet's total also counts users.credit_balance; the contract's two pools must not count it twice,
+ * so practice.balance + ai.balance is the one total.
+ */
+export function aiPoolBalance(wallet) {
+  if (!wallet?.known || int(wallet.total) === null) return null;
+  return int(wallet.total) - (int(wallet.balanceCredits) ?? 0);
+}
+
+/**
  * The whole response. wallet is readAIWallet's view (known: false when it could not be read).
  * Practice credits do not renew, so their renewsOn is null.
  */
-export function creditsBody({ practiceBalance, wallet, paid, premiumUntil, history, next }) {
-  const aiKnown = Boolean(wallet?.known) && int(wallet.total) !== null;
-  return {
+export function creditsBody({ practiceBalance, wallet, paid, premiumUntil, history, next, unified }) {
+  const aiBalance = aiPoolBalance(wallet);
+  const aiKnown = aiBalance !== null;
+  const body = {
     practice: { balance: int(practiceBalance), renewsOn: null, label: PRACTICE_LABEL },
-    ai: { balance: aiKnown ? int(wallet.total) : null, renewsOn: aiKnown ? istDate(wallet.resetAt) : null, label: AI_LABEL },
+    ai: { balance: aiBalance, renewsOn: aiKnown ? istDate(wallet.resetAt) : null, label: AI_LABEL },
     plan: planOf({ paid, premiumUntil }),
     history,
     nextCursor: next,
+  };
+  // One credits balance (18 Oct 2026, D78): the one figure every screen shows, from getUnifiedWallet. Additive: older
+  // readers keep the two stored parts above (practice.balance + ai.balance = total.balance).
+  if (unified !== undefined) body.total = oneBalanceBlock(unified);
+  return body;
+}
+
+/** { balance, freeLeft, freeAllowance, held, renewsOn, label } from getUnifiedWallet's view; every number null when unknown. */
+export function oneBalanceBlock(unified) {
+  const known = Boolean(unified?.known) && int(unified.total) !== null;
+  return {
+    balance: known ? int(unified.total) : null,
+    freeLeft: known ? int(unified.freeLeft) : null,
+    freeAllowance: known ? int(unified.freeAllowance) : null,
+    held: known ? int(unified.held) : null,
+    renewsOn: known ? istDate(unified.resetAt) : null,
+    label: 'Credits',
   };
 }
 
@@ -223,7 +296,7 @@ function olderThan(query, cursor) {
 }
 
 /** One page of the history for a student: { history, next }. Throws CREDITS_UNAVAILABLE on a read failure. */
-export async function loadHistory({ userId, practiceBalance, aiBalance, cursor = null, db }) {
+export async function loadHistory({ userId, practiceBalance, aiBalance, total, periodStart = null, cursor = null, db }) {
   const client = db || (await import('../supabase')).supabaseAdmin();
   const take = PAGE_SIZE + 1;
   const practiceQuery = olderThan(client.from('credit_transactions')
@@ -248,5 +321,5 @@ export async function loadHistory({ userId, practiceBalance, aiBalance, cursor =
       if (!att.error) details = repairDetails({ userId, ids, attempts: att.data || [] });
     } catch { /* keep the plain line */ }
   }
-  return buildHistory({ practiceRows, aiRows, practiceBalance, aiBalance, cursor, details });
+  return buildHistory({ practiceRows, aiRows, practiceBalance, aiBalance, total, periodStart, cursor, details });
 }

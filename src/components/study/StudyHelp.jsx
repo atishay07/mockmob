@@ -21,17 +21,17 @@ export default function StudyHelp({runId,revision,itemId,preview=false}) {
     try { const out=await apiPost('/api/ai/mentor/chat',request.current);setReply(out.reply || out.response?.reply || 'Open Ask Mobi to continue.');setSent(true); }
     catch(e){
       const code=e.message || '';
-      setError(e.body?.message || (/insufficient|402/.test(code) ? 'You have no AI credits left. The lesson and recall cards remain free.' : 'The reply could not be confirmed. Retry this same request; it will not start a second paid reply.'));
+      setError(e.body?.message || (/insufficient|402/.test(code) ? 'You have no credits left. The lesson and recall cards remain free.' : 'The reply could not be confirmed. Retry this same request; it will not start a second paid reply.'));
       if(e.body?.status==='resend' || e.body?.status==='failed') {request.current=null;setPending(false);}
     }finally{flight.current=false;setBusy(false);}
   };
-  if(preview) return <p className="sx-small">AI help is available in a saved, signed-in lesson. Standard cards use no AI credits.</p>;
-  return <details className="sx-tutor"><summary><Sparkles size={18} aria-hidden="true" />Need another explanation? <span>1 AI credit</span></summary>
+  if(preview) return <p className="sx-small">AI help is available in a saved, signed-in lesson. Standard cards use no credits.</p>;
+  return <details className="sx-tutor"><summary><Sparkles size={18} aria-hidden="true" />Need another explanation? <span>1 credit</span></summary>
     <p className="sx-small">{credits}</p>
     <p className="sx-small">Optional AI help uses this lesson’s published content. It does not change your marks or create review cards.</p>
     {reply ? <p className="sx-tutor__reply" role="status">{reply}</p> : <form onSubmit={ask}><label className="sx-field"><span>Your question</span><textarea value={question} onChange={e=>setQuestion(e.target.value)} disabled={busy || pending} maxLength={500} rows={3} /></label>
-      <button type="submit" className="sx-secondary" disabled={busy || !question.trim()}>{busy ? 'Preparing your explanation…' : pending ? 'Retry the same request' : 'Ask AI, 1 AI credit'}</button></form>}
-    {error ? <p className="sx-alert" role="alert">{error} <Link className="sx-link" href="/mentor">Check your AI credits</Link></p> : null}
-    <p className="sx-small">Use the source lesson to check the reply. Lessons and scheduled review use no AI credits.</p>
+      <button type="submit" className="sx-secondary" disabled={busy || !question.trim()}>{busy ? 'Preparing your explanation…' : pending ? 'Retry the same request' : 'Ask AI, 1 credit'}</button></form>}
+    {error ? <p className="sx-alert" role="alert">{error} <Link className="sx-link" href="/mentor">Check your credits</Link></p> : null}
+    <p className="sx-small">Use the source lesson to check the reply. Lessons and scheduled review use no credits.</p>
   </details>;
 }

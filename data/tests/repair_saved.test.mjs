@@ -229,5 +229,5 @@ test('the saved-repair words: Repaired, a free open and the saved footer; none o
   assert.equal(REPAIR_COPY.savedFoot('yesterday, 9:52 PM'), 'Saved repair from yesterday, 9:52 PM. No credit used.');
   assert.equal(REPAIR_COPY.savedFoot(''), 'Saved repair. No credit used.');
   assert.equal(REPAIR_LOADING.opening(3), 'Opening your saved repair for Q3.');
-  for (const t of [REPAIR_COPY.openSaved, REPAIR_COPY.savedFree('x'), REPAIR_COPY.savedFoot('x'), REPAIR_LOADING.opening(3), REPAIR_LOADING.openingSlow]) assert.doesNotMatch(t, /1 AI credit|uses 1|charged only/i);
+  for (const t of [REPAIR_COPY.openSaved, REPAIR_COPY.savedFree('x'), REPAIR_COPY.savedFoot('x'), REPAIR_LOADING.opening(3), REPAIR_LOADING.openingSlow]) assert.doesNotMatch(t, /1 credit|uses 1|charged only/i);
 });

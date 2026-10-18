@@ -1,7 +1,7 @@
 // ?q=N on the result page (Today's weak chapters, Last paper and the reel's last key link to /result/{id}?q=N). PURE.
 // N is the question's number on the paper, counted from 1. Anything else (missing, not a whole number, 0, past the last
 // question) is no question, and the page opens as usual. The link only opens and scrolls to the mistake's row: it never
-// starts a repair, which can spend an AI credit and is always the student's own press.
+// starts a repair, which can spend a credit and is always the student's own press.
 
 /** The question number named in a query string, or null when it names none on a paper of `total` questions. */
 export function questionFromSearch(search, total) {

@@ -8,7 +8,7 @@
         "rule": 3,
         "label": "Repair Q42",
         "why": "Admission of a partner. You picked D.",
-        "cost": "1 AI credit. You have 40. No charge if the repair cannot be written.",
+        "cost": "1 credit. You have 40. No charge if the repair cannot be written.",
         "late": null,
         "alt": {
           "kind": "practise",
@@ -266,12 +266,12 @@
         "kind": "practise",
         "rule": 5,
         "label": "Practise 10 on Admission of a partner",
-        "why": "Repairs use AI credits. You have 0.",
-        "cost": "This set uses 10 practice credits. You have 140.",
+        "why": "Repairs use credits. You have 0.",
+        "cost": "This set uses 10 credits. You have 140.",
         "late": null,
         "alt": {
           "kind": "credits",
-          "label": "See your AI credits"
+          "label": "See your credits"
         },
         "note": null,
         "target": {
@@ -280,7 +280,7 @@
         },
         "panel": {
           "title": "Admission of a partner",
-          "line": "Repairs use AI credits. You have 0. They renew on 1 Nov."
+          "line": "Repairs use credits. You have 0. They renew on 1 Nov."
         }
       },
       "receipt": {
@@ -394,7 +394,7 @@
         "rule": 5,
         "label": "Practise 10 on Issue of shares",
         "why": "Every mistake on this paper is repaired. A set on Issue of shares keeps it.",
-        "cost": "This set uses 10 practice credits. You have 140.",
+        "cost": "This set uses 10 credits. You have 140.",
         "late": null,
         "alt": null,
         "note": null,
@@ -518,7 +518,7 @@
         "rule": 3,
         "label": "Repair Q42",
         "why": "Share Capital. You picked D.",
-        "cost": "1 AI credit. You have 68. No charge if the repair cannot be written.",
+        "cost": "1 credit. You have 68. No charge if the repair cannot be written.",
         "late": null,
         "alt": {
           "kind": "practise",
@@ -649,7 +649,7 @@
         "rule": 3,
         "label": "Repair Q42",
         "why": "Admission of a partner. You picked D.",
-        "cost": "1 AI credit. You have 40. No charge if the repair cannot be written.",
+        "cost": "1 credit. You have 40. No charge if the repair cannot be written.",
         "late": null,
         "alt": {
           "kind": "practise",
@@ -788,11 +788,11 @@
         "rule": 1,
         "label": "Take another full mock",
         "why": "Another fresh paper finds what is left to fix.",
-        "cost": "A full mock uses 50 practice credits. You have 140. A set level comes with Pro.",
+        "cost": "A full mock uses 50 credits. You have 140. A set level comes with Pro.",
         "late": null,
         "alt": {
           "kind": "practise",
-          "label": "Or practise 10 in Accountancy, 10 practice credits"
+          "label": "Or practise 10 in Accountancy, 10 credits"
         },
         "note": null,
         "target": {
