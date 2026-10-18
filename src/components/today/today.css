@@ -204,9 +204,10 @@ html[data-theme='light'] .app-shell .tm__key:not([aria-disabled='true']) { box-s
 .app-shell .tcue { position: sticky; bottom: calc(84px + env(safe-area-inset-bottom)); z-index: 5; display: flex; justify-content: center; margin: -28px 0 -12px; pointer-events: none; transition: opacity 240ms var(--t-out), transform 240ms var(--t-out); }
 @media (min-width: 1024px) { .app-shell .tcue { bottom: calc(16px + env(safe-area-inset-bottom)); } }
 .app-shell .tcue[data-seen] { opacity: 0; transform: translateY(-4px); pointer-events: none; }
+.app-shell .tcue[data-over] { opacity: 0; pointer-events: none; }
 .app-shell .tcue[data-wait] { visibility: hidden; pointer-events: none; }
 .app-shell .tcue__key { display: flex; align-items: center; justify-content: center; gap: 10px; max-width: 100%; min-height: 44px; padding: 0 6px 0 16px; border: 0; border-radius: 22px; background: var(--a-raised); box-shadow: inset 0 0 0 1px var(--a-line), var(--a-shadow-1); color: var(--a-ink-2); font: 500 14px/1.3 var(--font-body); cursor: pointer; pointer-events: auto; -webkit-tap-highlight-color: transparent; }
-.app-shell .tcue[data-seen] .tcue__key, .app-shell .tcue[data-wait] .tcue__key { pointer-events: none; }
+.app-shell .tcue[data-seen] .tcue__key, .app-shell .tcue[data-over] .tcue__key, .app-shell .tcue[data-wait] .tcue__key { pointer-events: none; }
 .app-shell .tcue__chev { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 13px; box-shadow: inset 0 0 0 1px var(--a-line-strong); color: var(--a-ink-2); animation: tcue-nudge 1400ms var(--t-out) 900ms 2 both; }
 .app-shell .tcue__key:active { background: var(--a-hover); }
 @media (hover: hover) and (pointer: fine) { .app-shell .tcue__key:hover { color: var(--a-ink); } }

@@ -12,7 +12,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { greeting, greetingAt } from '../../src/lib/today/greeting.mjs';
-import { weekDays } from '../../src/lib/today/week.mjs';
+import { weekDays, weekCaption, weekMarks, dayReadout } from '../../src/lib/today/week.mjs';
 import { buildMove } from '../../src/lib/today/move.mjs';
 import { firstWeekPath, pathLeads, railCaption } from '../../src/lib/today/firstWeek.mjs';
 import { todayContext, todayAnswer } from '../../src/components/ai/askContexts.mjs';
@@ -82,6 +82,17 @@ test('W-044: the cue is sticky just above the dock (dock 12 px above the safe ar
   const key = sheet.match(/\.app-shell \.tcue__key \{([^}]*)\}/)[1];
   assert.match(key, /min-height: 44px/);
   assert.doesNotMatch(key, /accent|volt|glow/);
+});
+
+test('W-044 (audit): the cue steps aside while it would sit on the card footer row, and comes back once the card is clear', () => {
+  const cue = read('src/components/today/TodayCue.jsx');
+  assert.match(cue, /previousElementSibling/, 'it measures against the card before it');
+  assert.match(cue, /\.tm__more/, 'the footer row (More ways to practise) is the thing it must not cover');
+  assert.match(cue, /data-over=\{over \|\| undefined\}/);
+  assert.match(cue, /const hidden = seen \|\| over \|\| !ready/, 'stepped aside means out of the tab order and the reading order too');
+  const sheet = css('src/components/today/today.css');
+  assert.match(sheet, /\.app-shell \.tcue\[data-over\] \{ opacity: 0; pointer-events: none; \}/);
+  assert.match(sheet, /\.app-shell \.tcue\[data-over\] \.tcue__key/, 'the key takes no tap while it steps aside');
 });
 
 // ---- D27: the Road card -------------------------------------------------------------------------------------------------------
@@ -237,4 +248,18 @@ test('Why this?: the answer leads with what the card does not say, and every cou
   assert.equal(none.reply, 'Ten questions.');
   assert.equal(none.source, 'From your plan');
   assert.equal(todayAnswer({ context: {}, insights: null }), null);
+});
+
+test('D27 (audit): This week says "counts" once. The readout has "Today already counts"; the caption gives only the count left', () => {
+  const rhythm = { studyDays: 3, daysGoal: 4, metThisWeek: false, weekStart: '2026-10-12', paused: false, returning: false, weekdays: null, milestones: [] };
+  const today = '2026-10-18';
+  const marks = weekMarks({ rhythm: { ...rhythm, days: ['2026-10-12', '2026-10-14', '2026-10-18'], studyDayKeys: ['2026-10-12', '2026-10-14', '2026-10-18'] }, today });
+  const todayMark = { ...(marks.find((m) => m.today) || { today: true, key: today, name: 'Sun' }), state: 'counted', today: true };
+  const caption = weekCaption({ rhythm, marks: marks.map((m) => (m.today ? todayMark : m)), today, everSessions: 9 });
+  assert.equal(`${caption.text} ${caption.strong}`.trim(), '1 more to meet 4.');
+  assert.doesNotMatch(`${caption.text} ${caption.strong}`, /counted|counts/);
+  const readout = dayReadout({ mark: todayMark, index: 6, papers: [], repairs: [], dayKey: (at) => String(at).slice(0, 10), clockOf: () => '', subjectName, move: { id: 'revise', title: 'Revise what came back' }, failed: false, goal: 4, today });
+  assert.match(readout.note, /^Today already counts\. Up next: revise what came back/);
+  const joined = `${readout.note} ${caption.text} ${caption.strong}`;
+  assert.equal((joined.match(/counts|counted/g) || []).length, 1, 'one clause between the two lines');
 });

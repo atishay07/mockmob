@@ -83,7 +83,8 @@ export function weekCaption({ rhythm, marks, today, everSessions = null, pausedU
     return { text: countedNames.length ? `${dayList(countedNames)} counted.` : 'No study day yet this week.', strong: 'Tonight counts.' };
   }
   const left = Math.max(0, goal - done);
-  return { text: 'Today is counted.', strong: `${left} more to meet ${goal}.` };
+  // The readout under the days already says "Today already counts" (D27), so this line gives only the count still to meet.
+  return { text: '', strong: `${left} more to meet ${goal}.` };
 }
 
 /**
