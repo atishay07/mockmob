@@ -111,8 +111,8 @@ String formatDayMonthShortLocal(DateTime d) => '${d.day} ${const ['Jan', 'Feb', 
 ///
 /// 19 Oct, G12 (R1): every one of those but the mock and another subject needs a paper, so a fresh
 /// account got one card. With no paper yet the deck is the starter cards ([starterChoices], up to
-/// [starterDeckSize]), built from the subjects alone; a light record that leaves fewer than
-/// [deckMinimum] is topped up from them.
+/// [starterDeckSize]), built from the subjects alone; a light record that makes fewer than
+/// [recordDeckFloor] cards of its own is topped up from them to [deckMinimum].
 List<MoveChoice> buildChoices(TodayInputs i, MoveHero lead, {WeakChapter? weakest, int limit = 4}) {
   if (lead.kind == MoveKind.failure || lead.state == NextMoveState.historyUnavailable) return const [];
   if ((i.attempts ?? const <Attempt>[]).isEmpty) return starterChoices(i, lead);
@@ -155,7 +155,9 @@ List<MoveChoice> buildChoices(TodayInputs i, MoveHero lead, {WeakChapter? weakes
     if (other == null) return null;
     return MoveChoice(key: 'other', title: GlanceCopy.titleOtherSubject, line: GlanceCopy.choiceOtherLine(subjectName(other)), hero: presentMove(otherSubjectMoveFor(i, subject: other), i));
   });
-  if (out.length < math.min(limit, deckMinimum)) out.addAll(starterChoices(i, lead, existing: out, limit: math.min(limit, deckMinimum) - out.length));
+  // A light record (one or two cards of its own) is topped up to four; a record that already
+  // makes three or more keeps its approved deck as it is.
+  if (out.length < recordDeckFloor) out.addAll(starterChoices(i, lead, existing: out, limit: math.min(limit, deckMinimum) - out.length));
   return out;
 }
 

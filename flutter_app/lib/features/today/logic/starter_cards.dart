@@ -34,6 +34,10 @@ const int starterDeckSize = 5;
 /// before showing nothing else").
 const int deckMinimum = 4;
 
+/// A record that makes fewer cards of its own than this (one paper, two) is topped up to
+/// [deckMinimum]; one that makes this many keeps the deck it has.
+const int recordDeckFloor = 3;
+
 /// The language paper's subject id.
 const String languageSubject = 'english';
 

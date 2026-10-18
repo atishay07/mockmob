@@ -247,6 +247,7 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
         onUndoChoose: _undoChoose,
         leadKey: _moveKey,
         closeBar: _leadActed,
+        onLanded: _landed,
         onMore: () => widget.callbacks.onAction(const TodayAction(GlanceCopy.moreWays, OpenAlternatives())),
       ),
     );
@@ -255,6 +256,23 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
   /// The pick before the last one from the deck (null: the recommended move), for its Undo.
   String? _pickBefore;
 
+  /// The lead card's next swap is a card landing from the deck (G13): its words wait for the flying
+  /// card. Cleared after the landing, so any later swap moves as it always has.
+  bool _landing = false;
+  Timer? _landingTimer;
+
+  /// The lead card settling under the card that landed in it: its scale, 1 at rest.
+  late final AnimationController _settle = AnimationController.unbounded(vsync: this, value: 1);
+
+  /// How fast the lead card gives as the card lands: with [Springs.release] (300 ms, bounce 0.1)
+  /// it dips to about 0.985 (the approved receive, SWIPE-V2 section 7) and springs back.
+  static const double _settleKick = -0.8;
+
+  void _landed() {
+    if (!mounted || Motion.reduced(context)) return;
+    _settle.animateWith(Motion.spring(Springs.release, 1, 1, velocity: _settleKick));
+  }
+
   void _choose(MoveChoice choice) {
     final action = choice.action;
     if (action != null) {
@@ -262,6 +280,9 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
       return;
     }
     _pickBefore = _pickKey;
+    _landing = true;
+    _landingTimer?.cancel();
+    _landingTimer = Timer(const Duration(milliseconds: 700), () => _landing = false);
     setState(() {
       // The card's body swaps with an overlap (MoveSwap): the leaving body keeps its keys, so the
       // arriving one gets fresh ones (two bodies never hold one GlobalKey).
@@ -275,6 +296,8 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
   /// Undo of an Up next from the deck (SWIPE-V2-1018): the lead card goes back to the move it showed
   /// before, and the deck returns the card to its top.
   void _undoChoose() {
+    _landing = false;
+    _landingTimer?.cancel();
     setState(() {
       _primaryKey = GlobalKey(debugLabel: 'today-primary');
       _controlsKey = GlobalKey(debugLabel: 'today-controls');
@@ -443,6 +466,8 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
     _ownScroll?.dispose();
     _publish(null);
     _settleMobi?.cancel();
+    _landingTimer?.cancel();
+    _settle.dispose();
     _keyPulse.dispose();
     _entrance.dispose();
     _moreCue.dispose();
@@ -679,6 +704,7 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
           mobiController: widget.mobiController,
           primaryKey: _primaryKey,
           controlsKey: _controlsKey,
+          landing: _landing,
           onAction: _leadAction,
           onMinutes: cb.onMinutes == null ? null : _minutes,
           keyPulse: _keyPulse,
@@ -749,7 +775,18 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
       // Header to the move: 18 (TODAY-1017 4.1).
       const SizedBox(height: 18),
       // The move rises 12 dp and fades (4.8); its object then scales in place and the number lands.
-      TodayEnter(delay: const Duration(milliseconds: 80), child: KeyedSubtree(key: _heroBoxKey, child: hero)),
+      TodayEnter(
+        delay: const Duration(milliseconds: 80),
+        child: KeyedSubtree(
+          key: _heroBoxKey,
+          // The lead card settles under a card that lands in it from the deck (G13).
+          child: AnimatedBuilder(
+            animation: _settle,
+            builder: (context, child) => Transform.scale(scale: _settle.value, child: child),
+            child: hero,
+          ),
+        ),
+      ),
       // The Suggested stack follows the card on the ground (D51), never inside it.
       if (view.hero is MoveHero || view.hero == null) TodayEnter(delay: const Duration(milliseconds: 140), rise: 8, child: _suggested()),
     ];

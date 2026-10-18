@@ -124,11 +124,9 @@ void main() {
       expect(_keys(v).toSet().length, v.choices.length);
     });
 
-    test('a heavy record keeps its own cards first, in their order, and is only topped up to four', () {
+    test('a heavy record keeps its approved deck as it is (three cards of its own: nothing added, nothing lost)', () {
       final v = buildToday(ashaInputs(now: _sunday, attempts: ashaRecord(_sunday), reviseDue: 6, mobInvite: true));
-      expect(_keys(v).take(3), ['revise', 'weakest', 'other'], reason: 'the cards from the record lead, as approved');
-      expect(_keys(v).length, deckMinimum);
-      expect(_keys(v).toSet().length, _keys(v).length);
+      expect(_keys(v), ['revise', 'weakest', 'other']);
     });
 
     test('a test builds the deck from an empty history directly', () {

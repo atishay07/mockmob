@@ -30,6 +30,8 @@ import 'package:mockmob/features/review/data/review_providers.dart' show reviewI
 import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart';
 import 'package:mockmob/features/rhythm/data/rhythm_providers.dart';
 import 'package:mockmob/features/rhythm/data/study_days.dart';
+import 'package:mockmob/features/social/data/mob_models.dart' show MobRead;
+import 'package:mockmob/features/social/data/mob_repository.dart' show mobRepositoryProvider;
 import 'package:mockmob/features/today/data/road_plan.dart' show RoadAccount, roadAccountProvider;
 import 'package:mockmob/features/today/data/today_profile.dart';
 import 'package:mockmob/features/today/data/today_providers.dart';
@@ -107,6 +109,8 @@ void main() {
 
     ProviderContainer containerFor(Rhythm rhythm, {List<Override> extra = const []}) => ProviderContainer(overrides: [
           ...extra,
+          // Today's inputs read whether the Mob is on (the deck's Mob card, 19 Oct): nothing read here.
+          mobRepositoryProvider.overrideWithBuild((ref, n) => const RemoteState<MobRead>()),
           nowProvider.overrideWithValue(() => now),
           studentTimezoneProvider.overrideWithValue(kolkata),
           ...noOpenPaperOverrides,

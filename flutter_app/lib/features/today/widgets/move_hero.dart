@@ -42,9 +42,14 @@ class MoveHeroCard extends StatefulWidget {
     this.choices = const [],
     this.onMore,
     this.price,
+    this.landing = false,
   });
 
   final MoveHero move;
+
+  /// The move about to arrive is a card landing from the Suggested deck: its words wait for the
+  /// flying card ([MoveSwap.landing], 19 Oct G13).
+  final bool landing;
 
   /// What the key costs, in the server's own numbers ("Each repair uses 1 AI credit. You have
   /// 38."), or null while it is not known (then the line's place is kept, empty).
@@ -390,7 +395,7 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
       subjectId: m.subjectId,
       react: _react,
       // The art box has a fixed size: the outgoing object keeps the whole box while it leaves.
-      art: MoveSwap(fill: true, child: KeyedSubtree(key: swapKey, child: art)),
+      art: MoveSwap(fill: true, landing: widget.landing, child: KeyedSubtree(key: swapKey, child: art)),
       // A suggested card swaps the body in place (6.2): the old one drops 6 dp and blurs out in
       // 140 ms, the new one rises in over 240 ms, and the card's height eases between them. The
       // card ends at its price line: the other moves are the Suggested stack under it (D51).
@@ -399,7 +404,7 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
         curve: Motion.out,
         alignment: Alignment.topCenter,
         clipBehavior: Clip.none,
-        child: MoveSwap(child: KeyedSubtree(key: swapKey, child: content)),
+        child: MoveSwap(landing: widget.landing, child: KeyedSubtree(key: swapKey, child: content)),
       ),
     );
   }
@@ -407,8 +412,16 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
 
 /// The swap between two moves: the outgoing body fades, blurs 2 px and drops 6 dp in 140 ms; the
 /// incoming one rises into place in 240 ms. Reduced motion swaps at once.
-class MoveSwap extends StatelessWidget {
-  const MoveSwap({super.key, required this.child, this.fill = false});
+///
+/// A [landing] swap is a card from the Suggested deck arriving in the lead (19 Oct, G13): the words
+/// wait for it, so the card and the lead read as one move. The old words leave from
+/// [MoveSwap.landingOutDelay] and the new ones rise in from [MoveSwap.landingInDelay], as the flying
+/// card reaches the lead and fades into it. Reduced motion: a plain 120 ms crossfade.
+///
+/// Each swap decides its own timing when it starts (a stock AnimatedSwitcher fixes a child's exit
+/// when the child arrives), so a landing never changes how other swaps move.
+class MoveSwap extends StatefulWidget {
+  const MoveSwap({super.key, required this.child, this.fill = false, this.landing = false});
 
   final Widget child;
 
@@ -416,38 +429,139 @@ class MoveSwap extends StatelessWidget {
   /// its own height from the top (the body, whose height eases).
   final bool fill;
 
+  /// The next swap is a deck card landing in the lead.
+  final bool landing;
+
+  static const Duration outDuration = Duration(milliseconds: 140);
+  static const Duration inDuration = Duration(milliseconds: 240);
+  static const Duration landingOutDelay = Duration(milliseconds: 60);
+  static const Duration landingInDelay = Duration(milliseconds: 160);
+  static const Cubic inCurve = Cubic(0.23, 1, 0.32, 1);
+
   @override
-  Widget build(BuildContext context) {
+  State<MoveSwap> createState() => _MoveSwapState();
+}
+
+/// One child of the swap: the one on show, or one on its way out.
+class _SwapEntry {
+  _SwapEntry({required this.child, required this.controller, required this.curve, required this.number, this.fadeOnly = false});
+
+  Widget child;
+  final AnimationController controller;
+
+  /// From 0 to 1 over the controller's run (any delay is the curve's flat start).
+  final Curve curve;
+  final int number;
+
+  /// Reduced motion's crossfade: opacity only, no drop and no blur.
+  final bool fadeOnly;
+  bool leaving = false;
+}
+
+class _MoveSwapState extends State<MoveSwap> with TickerProviderStateMixin {
+  late _SwapEntry _current = _SwapEntry(
+    child: widget.child,
+    controller: AnimationController(vsync: this, value: 1),
+    curve: Curves.linear,
+    number: 0,
+  );
+  final List<_SwapEntry> _outgoing = [];
+  int _count = 0;
+
+  @override
+  void didUpdateWidget(MoveSwap old) {
+    super.didUpdateWidget(old);
+    if (Widget.canUpdate(widget.child, _current.child)) {
+      _current.child = widget.child;
+      return;
+    }
     final reduced = Motion.reduced(context);
-    return AnimatedSwitcher(
-      duration: reduced ? Duration.zero : const Duration(milliseconds: 240),
-      reverseDuration: reduced ? Duration.zero : const Duration(milliseconds: 140),
-      switchInCurve: const Cubic(0.23, 1, 0.32, 1),
-      switchOutCurve: Motion.leave,
-      layoutBuilder: (current, previous) => Stack(
-        alignment: Alignment.topCenter,
-        children: [
-          for (final p in previous) fill ? Positioned.fill(child: p) : Positioned(left: 0, right: 0, top: 0, child: p),
-          ?current,
-        ],
-      ),
-      transitionBuilder: (child, animation) => AnimatedBuilder(
-        animation: animation,
-        child: child,
+    final landing = widget.landing;
+    final leaving = _current;
+    if (reduced && !landing) {
+      // At once, as before.
+      for (final e in _outgoing) {
+        e.controller.dispose();
+      }
+      _outgoing.clear();
+      leaving.controller.dispose();
+      _current = _SwapEntry(child: widget.child, controller: AnimationController(vsync: this, value: 1), curve: Curves.linear, number: ++_count);
+      return;
+    }
+    final Duration outDelay = landing && !reduced ? MoveSwap.landingOutDelay : Duration.zero;
+    final Duration inDelay = landing && !reduced ? MoveSwap.landingInDelay : Duration.zero;
+    final Duration outRun = reduced ? Motion.reducedFade : MoveSwap.outDuration;
+    final Duration inRun = reduced ? Motion.reducedFade : MoveSwap.inDuration;
+    Curve delayed(Duration delay, Duration run, Curve curve) {
+      final total = delay + run;
+      if (delay == Duration.zero) return curve;
+      return Interval(delay.inMicroseconds / total.inMicroseconds, 1, curve: curve);
+    }
+
+    // The leaving child runs on a fresh controller of its own, so its timing is this swap's. A child
+    // still rising in (two swaps close together) leaves from where it is, straight away.
+    final shown = leaving.curve.transform(leaving.controller.value.clamp(0.0, 1.0));
+    final midway = shown < 1;
+    final out = _SwapEntry(
+      child: leaving.child,
+      controller: AnimationController(vsync: this, duration: midway ? outRun : outDelay + outRun, value: midway ? 1 - shown : 0),
+      curve: midway ? Curves.linear : delayed(outDelay, outRun, reduced ? Curves.linear : Motion.leave),
+      number: leaving.number,
+      fadeOnly: reduced || leaving.fadeOnly,
+    )..leaving = true;
+    leaving.controller.dispose();
+    _outgoing.add(out);
+    out.controller.forward().whenCompleteOrCancel(() {
+      if (!mounted) return;
+      setState(() {
+        _outgoing.remove(out);
+        out.controller.dispose();
+      });
+    });
+    _current = _SwapEntry(
+      child: widget.child,
+      controller: AnimationController(vsync: this, duration: inDelay + inRun),
+      curve: delayed(inDelay, inRun, reduced ? Curves.linear : MoveSwap.inCurve),
+      number: ++_count,
+      fadeOnly: reduced,
+    );
+    _current.controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _current.controller.dispose();
+    for (final e in _outgoing) {
+      e.controller.dispose();
+    }
+    super.dispose();
+  }
+
+  Widget _transition(_SwapEntry e) => AnimatedBuilder(
+        key: ValueKey<int>(e.number),
+        animation: e.controller,
+        child: e.child,
         builder: (context, child) {
-          final t = animation.value.clamp(0.0, 1.0);
-          final leaving = animation.status == AnimationStatus.reverse || animation.status == AnimationStatus.dismissed;
+          final p = e.curve.transform(e.controller.value.clamp(0.0, 1.0));
           // In: rises from 6 dp below. Out: drops 6 dp as it goes.
-          final dy = leaving ? (1 - t) * 6 : (1 - t) * 6;
+          final t = e.leaving ? 1 - p : p;
+          if (e.fadeOnly) return Opacity(opacity: t, child: child);
+          final dy = (1 - t) * 6;
           final blur = (1 - t) * 2;
           Widget out = Opacity(opacity: t, child: Transform.translate(offset: Offset(0, dy), child: child));
           if (blur > 0.05) out = ImageFiltered(imageFilter: ImageFilter.blur(sigmaX: blur, sigmaY: blur), child: out);
           return out;
         },
-      ),
-      child: child,
-    );
-  }
+      );
+
+  @override
+  Widget build(BuildContext context) => Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          for (final e in _outgoing) widget.fill ? Positioned.fill(child: _transition(e)) : Positioned(left: 0, right: 0, top: 0, child: _transition(e)),
+          _transition(_current),
+        ],
+      );
 }
 
 /// "24 marks they cost you" with its figure in ink, and the length token beside it.

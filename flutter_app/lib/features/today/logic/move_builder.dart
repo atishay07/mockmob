@@ -40,7 +40,7 @@ List<DurationChoice> _practiceOptions() => [
     ];
 
 const String _mockNumberLabel = 'questions in\n60 minutes';
-const String _mockMeaning = 'A full paper, timed like the real one. It shows where the marks go across every chapter at once.';
+const String _mockMeaning = 'It is timed like the real exam, so you see how you do against the clock. It shows where your marks go across every chapter at once.';
 const String _mockKey = 'Start full mock, 60 min';
 
 /// A practice move whose pill reads "Full mock" is the full mock: its number, its sentence and its
@@ -837,7 +837,7 @@ MoveHero mockMoveFor(TodayInputs i, {required String subject}) => MoveHero(
       art: HeroArt.object(subject: canonicalSubject(subject)),
       number: '$mockQuestionCount',
       numberLabel: 'questions in\n60 minutes',
-      meaning: 'A full paper, timed like the real one. It shows where the marks go across every chapter at once.',
+      meaning: _mockMeaning,
       summary: TodayCopy.startTimedMock(60),
       primary: TodayAction('Start full mock, 60 min', GoTo(TodayLinks.fullMock(subject: subject)), startsSession: true, actionType: 'mock'),
     );

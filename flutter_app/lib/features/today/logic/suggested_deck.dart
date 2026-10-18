@@ -56,7 +56,7 @@ class SuggestedCard {
   final String? cost;
   final String title;
 
-  /// One line of evidence from the record ("Partnership fundamentals: 15 of 63 missed, 80 marks lost.").
+  /// One line of evidence from the record ("You missed 15 of 63 in Partnership fundamentals, and that cost you 80 marks.").
   final String line;
   final SuggestedArt art;
   final String? subjectId;
@@ -163,7 +163,7 @@ SuggestedCard _card(MoveChoice c, TodayGlance? glance) {
         cost: SuggestedCopy.costMock(subject, int.tryParse(m.number ?? '') ?? 50, minutes),
         // A title that stands on its own, never "instead": the lead card shows it once it swaps.
         title: kind == MoveKind.mock ? SuggestedCopy.titleMock : (m.title ?? SuggestedCopy.titleMock),
-        line: _first(m.meaning),
+        line: SuggestedCopy.mockLine,
         art: SuggestedArt.stopwatch,
         subjectId: m.subjectId,
       );
@@ -174,7 +174,7 @@ SuggestedCard _card(MoveChoice c, TodayGlance? glance) {
         // price line: "Each repair uses 1 AI credit").
         cost: SuggestedCopy.costRepair(minutes),
         title: m.title ?? SuggestedCopy.titleRepair,
-        line: _first(m.meaning),
+        line: SuggestedCopy.repairLine(int.tryParse(m.number ?? '')) ?? _first(m.meaning),
         // Mobi reading the paper back: a repair is about one paper, and the subject's object is
         // the practice card's (and often the lead card's) already.
         art: SuggestedArt.mobi,

@@ -23,7 +23,7 @@ abstract final class SuggestedCopy {
   static const String noneLeft = 'All seen';
 
   /// First run only, under the heading: what the cards are.
-  static const String intro = 'More ways to win back marks today, one card at a time.';
+  static const String intro = 'Here are more ways to win marks today, one card at a time.';
 
   // The coach line (first run).
   static const String coachIdle = 'Drag the card, or tap a button.';
@@ -45,14 +45,17 @@ abstract final class SuggestedCopy {
   static const String suggestedTag = 'Suggested';
 
   // The confirmation bar after Up next.
-  static const String barLineFirst = 'Up next, in the card above. Nothing starts until you tap Start.';
-  static const String barLine = 'Up next, in the card above.';
+  static const String barLineFirst = "It's up next in the card above. Nothing starts until you tap Start.";
+  static const String barLine = "It's up next in the card above.";
 
   // Fallbacks only: a card takes its move's own title, the words the lead card shows once it swaps.
   static const String titleWeakest = 'Practise your weakest chapter';
   static const String titleRevise = 'Revise what is due';
   static const String titleRepair = 'Repair a mistake';
-  static const String titleMock = 'A full mock';
+  static const String titleMock = 'Sit a full mock';
+
+  /// The full mock card's evidence line: what a timed paper gives that a short set does not.
+  static const String mockLine = 'It is timed like the real exam, so you see how you do against the clock.';
 
   /// What a card costs and how long it is: "Accountancy, 10 questions", "Free, about 10 min".
   static String costQuestions(String subject, int questions) => '$subject, $questions questions';
@@ -70,7 +73,15 @@ abstract final class SuggestedCopy {
   static String costMock(String subject, int questions, int minutes) => '$subject, $questions questions, $minutes min';
 
   /// The one evidence line.
-  static String weakestLine(String chapter, int missed, int asked, int marks) => '$chapter: $missed of $asked missed, $marks marks lost.';
+  static String weakestLine(String chapter, int missed, int asked, int marks) => 'You missed $missed of $asked in $chapter, and that cost you $marks marks.';
+
+  /// A repair card's evidence line: how many mistakes the repair fixes, and why now (19 Oct, D114:
+  /// the card used to repeat the lead card's source fragment). Null without a count.
+  static String? repairLine(int? n) => n == null || n <= 0
+      ? null
+      : n == 1
+          ? 'Fix this mistake now, before it costs you marks again.'
+          : 'Fix these $n mistakes now, before they cost you marks again.';
 
   /// The lead card's own noun ("6 mistakes come back today"), so the move reads the same in both.
   static String reviseLine(int due) => due == 1 ? '1 mistake you repaired comes back today.' : '$due mistakes you repaired come back today.';
@@ -126,17 +137,17 @@ abstract final class StarterCopy {
   static const String titleSubjectsNone = 'Add your subjects';
 
   /// The subject the student rated weakest in the setup.
-  static String weakestWhy(String subject, int n) => 'You rated $subject as your weakest subject. $n questions show where it stands today.';
+  static String weakestWhy(String subject, int n) => 'You rated $subject your weakest subject, so it has the most marks waiting for you. $n questions show where it stands today.';
 
   /// Any other subject, before a paper exists.
-  static String quickWhy(String subject, int n) => 'A quick $n in $subject shows where it stands right now.';
+  static String quickWhy(String subject, int n) => 'A quick $n in $subject shows where you stand in about $n minutes.';
 
   /// The language paper (English).
   static String languageWhy(String subject, int n) => 'Most DU courses count a language paper, and $subject is the usual one. $n questions keep it sharp.';
 
   /// The first chapter of a subject in MockMob's order, and the one after it.
-  static String chapterWhy(String chapter, String subject, int n) => 'Start $subject with $chapter. $n questions on that chapter alone.';
-  static String nextChapterWhy(String chapter, int n) => 'Try $chapter next. $n questions on that chapter alone.';
+  static String chapterWhy(String chapter, String subject, int n) => 'Start $subject with $chapter. $n questions on one chapter make an easy first step.';
+  static String nextChapterWhy(String chapter, int n) => 'Try $chapter next. $n questions on one chapter keep the set short and focused.';
 
   /// The Mob (it opens the Mob page; nothing starts from the deck).
   static const String mobCost = '10 questions a week, with friends';
