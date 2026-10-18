@@ -257,4 +257,10 @@ void main() {
     expect(tester.getRect(line).bottom, lessThanOrEqualTo(tileTop), reason: 'never cut mid-word under the tiles');
     expect(tester.takeException(), isNull);
   });
+
+  testWidgets('The strip counts the step the student is on, not the answers', (tester) async {
+    await _flowAt(tester, studentUpTo(Steps.course, step: Steps.subjects).copyWith(subjects: const []));
+    expect(find.text('3 of 7'), findsOneWidget, reason: 'the ringed third bubble');
+    expect(find.text('2 of 7'), findsNothing);
+  });
 }
