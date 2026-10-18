@@ -5,6 +5,7 @@ import { AppIcon, StatusIcon } from '@/components/ui/Glyph';
 import { interactWithQuestion, setQuestionBookmark } from '@/lib/services/questionService';
 import { VoteControls } from '@/components/questions/VoteControls';
 import { useToast } from '@/components/ToastProvider';
+import { openUpgrade } from '@/components/pro/proNudgeStore';
 import { questionFeedback,feedOptions } from '@/../data/explore_feed';
 import { formatQuestionText } from '@/../data/question_presentation.mjs';
 import MobiReact from '@/components/brand/MobiReact';
@@ -82,7 +83,9 @@ export const QuestionCard = memo(function QuestionCard({ row, onProgressChange, 
       if (result.saved) { try { window.sessionStorage.setItem('mm:just-saved:v1', JSON.stringify({ id: q.id, at: Date.now() })); } catch { /* storage off: Saved simply skips its first-save line */ } }
       if (result.saved) toast.success({ message: 'Saved for another go.', actionLabel: 'Open saved', href: '/saved' });
     } catch (error) {
-      toast.error(error.status === 402 ? 'Your 25 free save slots are full. Remove a saved question to make room.' : 'Could not update saved questions. Check your connection and try again.');
+      // The 25 free saves are full: the Upgrade sheet says so and what Pro keeps (D80), in place of a toast.
+      if (error.status === 402) openUpgrade({ trigger: 'saves' });
+      else toast.error('Could not update saved questions. Check your connection and try again.');
     } finally { saveLock.current = false; setSaving(false); }
   }
 

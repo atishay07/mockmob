@@ -146,7 +146,7 @@ export default function JoinMob({ code: rawCode }) {
                 ) : null}
                 <button type="button" className="mob-volt" onClick={join} disabled={joining} aria-busy={joining || undefined}>{joining ? 'Joining' : 'Join'}</button>
                 {errorCode === 'MOB_LIMIT' || errorCode === 'MOB_LIMIT_PRO' || errorCode === 'ALREADY_IN_MOB' ? (
-                  <p className="mob-notice" role="status">{error} <Link className="mob-link" href="/mob">Open your Mob</Link>{errorCode === 'MOB_LIMIT' ? <> <Link className="mob-link" href="/pricing">See Pro</Link></> : null}</p>
+                  <p className="mob-notice" role="status">{error} <Link className="mob-link" href="/mob">Open your Mob</Link>{errorCode === 'MOB_LIMIT' ? <> <Link className="mob-link" href="/pricing" data-pro-feature="mob">See Pro</Link></> : null}</p>
                 ) : <p className="mob-notice" role="status" aria-live="polite">{error || ''}</p>}
               </section>
             )}

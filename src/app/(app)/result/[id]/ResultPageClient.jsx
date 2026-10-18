@@ -27,6 +27,7 @@ import ResultHero from '@/components/result/ResultHero';
 import EarnedBadges from '@/components/EarnedBadges';
 import NextMove from '@/components/result/NextMove';
 import { InlineNudge, ProFacts, reportFirstAction } from '@/components/pro';
+import { weakestChapter } from '@/lib/proNudge.mjs';
 import MistakeList, { SHOWN_FIRST } from '@/components/result/MistakeList';
 import RetryFirst, { RetrySaid } from '@/components/result/RetryFirst';
 import { questionModel } from '@/components/review/freeSteps';
@@ -787,8 +788,8 @@ export default function ResultPageClient({ previewId = null }) {
         <Link href={next.href} className="btn-outline md rp-next__go mk-press"><AppIcon name="practice" size={16} />{next.action}</Link>
       </section>
       {/* Free only, after a scored set (D79): one quiet line beside the next paper's price. */}
-      <ProFacts facts={{ weakChapter: chapterCounts[0]?.chapter || null, balance: user ? user.creditBalance ?? null : null, subjects: user?.subjects || [] }} />
-      {attempt.total > 0 ? <InlineNudge placement="result" facts={{ weakChapter: chapterCounts[0]?.chapter || null }} className="rp-nudge" /> : null}
+      <ProFacts facts={{ weakChapter: weakestChapter(chapterCounts), balance: user ? user.creditBalance ?? null : null, subjects: user?.subjects || [] }} />
+      {attempt.total > 0 ? <InlineNudge placement="result" facts={{ weakChapter: weakestChapter(chapterCounts) }} className="rp-nudge" /> : null}
 
       <nav className="rp-links" aria-label="More from your record">
         <Link href="/mentor?tab=record"><AppIcon name="prepos" size={16} />Your full record</Link>

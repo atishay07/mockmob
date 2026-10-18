@@ -41,7 +41,7 @@ export function ProNote({ data }) {
       <ul className="mob-promises">
         {PRO_ITEMS.map((t) => <li key={t}>{t}</li>)}
       </ul>
-      <Link className="mob-key" href="/pricing">See Pro</Link>
+      <Link className="mob-key" href="/pricing" data-pro-feature="mob">See Pro</Link>
     </section>
   );
 }

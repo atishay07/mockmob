@@ -5,7 +5,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
-  FIRST_SESSION_MS, QUIET_MS, PLACEMENTS, HEADLINE_OPTIONS, KEY_LABEL_OPTIONS, CHECKOUT_HREF,
+  FIRST_SESSION_MS, QUIET_MS, PLACEMENTS, ONBOARDING_GAP_MS, DECLINE_QUIET_MS, quietRoute, firstSheetMayOpen, markDeclined, HEADLINE_OPTIONS, KEY_LABEL_OPTIONS, CHECKOUT_HREF,
   nudgesAllowed, emptyRecord, readRecord, noteOnboarded, inFirstSession, firstActionOpens, markFirstShown,
   inlineAllowed, quietInline, claimScreen, releaseScreen, inlineCopy, sheetHead, benefitLines, sheetPrice, keyLabel,
   practiceSpentWeek, fullMocksIn, weakestChapter, mergeFacts, triggerForReason,
@@ -42,8 +42,13 @@ test('first session: opens only after the first real action, in the session that
 
 test('first session: never on onboarding, never for an action from before onboarding, never without onboarding', () => {
   const r = onboarded();
-  assert.equal(firstActionOpens(r, { now: T0 + 1000, session: S, user: FREE, route: '/onboarding', action: paper() }), false);
-  assert.equal(firstActionOpens(r, { now: T0 + 1000, session: S, user: FREE, route: '/onboarding?step=days', action: paper() }), false);
+  assert.equal(firstActionOpens(r, { now: T0 + 600_000, session: S, user: FREE, route: '/onboarding', action: paper() }), false);
+  assert.equal(firstActionOpens(r, { now: T0 + 600_000, session: S, user: FREE, route: '/onboarding?step=days', action: paper() }), false);
+  // Never right after onboarding: inside the first 2 minutes it waits for the next action, and the record stays unmarked.
+  assert.equal(firstActionOpens(r, { now: T0 + ONBOARDING_GAP_MS - 1, session: S, user: FREE, route: '/result/a', action: paper(T0 + 30_000) }), false);
+  assert.equal(firstActionOpens(r, { now: T0 + ONBOARDING_GAP_MS, session: S, user: FREE, route: '/result/a', action: paper(T0 + 90_000) }), true);
+  // Never on a paper.
+  assert.equal(firstActionOpens(r, { now: T0 + 600_000, session: S, user: FREE, route: '/test?mode=quick', action: paper() }), false);
   assert.equal(firstActionOpens(r, { now: T0 + 600_000, session: S, user: FREE, route: '/result/old', action: paper(T0 - 3_600_000) }), false);
   // An account that onboarded before this shipped (no record) never gets it.
   assert.equal(firstActionOpens(emptyRecord(), { now: T0, session: S, user: FREE, route: '/result/a', action: paper(T0) }), false);
@@ -92,14 +97,16 @@ test('inline nudges: at most one per screen', () => {
 test('inline copy: one line and one action; credits_low only when the balance is known and under a Full mock', () => {
   assert.equal(inlineCopy('credits_low', { balance: null }), null);
   assert.equal(inlineCopy('credits_low', { balance: 50 }), null);
-  assert.match(inlineCopy('credits_low', { balance: 40 }).text, /^Only 40 practice credits left, not enough for a Full mock/);
-  assert.match(inlineCopy('credits_low', { balance: 1 }).text, /^Only 1 practice credit left/);
+  assert.match(inlineCopy('credits_low', { balance: 40 }).text, /^40 credits left, short of a 50-credit Full mock\. With Pro, practice needs no credits at all\.$/);
+  assert.match(inlineCopy('credits_low', { balance: 1 }).text, /^1 credit left/);
   for (const placement of PLACEMENTS) {
     const c = inlineCopy(placement, { balance: 10 });
     assert.ok(c && c.text && c.action && c.trigger, placement);
   }
   assert.match(inlineCopy('start_sheet').text, /unlimited mocks/i);
-  assert.match(inlineCopy('practice_cost').text, /without counting credits/i);
+  // The owner's own words (D79).
+  assert.match(inlineCopy('practice_cost').text, /^No credits needed for practice with Pro\./);
+  assert.equal(inlineCopy('result').action, 'Get unlimited mocks');
 });
 
 test('dynamic benefits: personal lines only when their fact is true; never an invented number', () => {
@@ -111,16 +118,18 @@ test('dynamic benefits: personal lines only when their fact is true; never an in
   const mine = benefitLines('first_session', { fullMocks: 3, subjects: ['accountancy', 'economics', 'english'], weakChapter: 'Partnership Fundamentals', spentWeek: 42 });
   const text = mine.map((l) => l.text).join(' | ');
   assert.match(text, /You have sat 3 full mocks/);
-  assert.match(text, /You spent 42 practice credits this week/);
+  assert.match(text, /You spent 42 credits on practice this week/);
   assert.match(text, /NTA mode in all 3 of your subjects/);
-  assert.match(text, /Partnership Fundamentals cost you the most/);
+  assert.match(text, /Partnership Fundamentals had the most mistakes on your paper/);
 
   // Zero, unknown and junk are never shown as facts.
   const zero = benefitLines('first_session', { fullMocks: 0, sessions: 0, spentWeek: 0, weakChapter: '  ', subjects: [], balance: null });
   assert.ok(zero.every((l) => !l.personal));
   // A known balance at or above a Full mock is not "only N left".
   assert.ok(!benefitLines('credits', { balance: 120 })[0].personal);
-  assert.match(benefitLines('credits', { balance: 12 })[0].text, /Only 12 practice credits left/);
+  assert.match(benefitLines('credits', { balance: 12 })[0].text, /^12 credits left\. With Pro, practice never runs out\./);
+  // A chapter the student opened is not called their weakest.
+  assert.match(benefitLines('smart', { focusChapter: 'Money and Banking' })[0].text, /^Smart practice weights your sets toward chapters like Money and Banking\.$/);
   // One subject is named.
   assert.match(benefitLines('nta', { subjects: ['accountancy'] })[0].text, /^NTA mode in Accountancy/);
 });
@@ -151,6 +160,8 @@ test('facts from pages: credits spent this week, mocks taken, weakest chapter', 
   assert.equal(fullMocksIn([{ id: 'a' }, { id: 'b' }]), null, 'attempts that do not say their mode are unknown, not 0');
   assert.equal(fullMocksIn([]), 0);
   assert.equal(weakestChapter([{ chapter: 'A', count: 1 }, { chapter: 'B', count: 3 }]), 'B');
+  assert.equal(weakestChapter([{ chapter: 'A', count: 1 }]), null, 'one mistake is not the most');
+  assert.equal(weakestChapter([{ chapter: 'A', count: 2 }, { chapter: 'B', count: 2 }]), null, 'a tie has no single top');
   assert.equal(weakestChapter([]), null);
   assert.deepEqual(mergeFacts({ balance: 40, subjects: ['x'] }, { balance: null, subjects: [] }, { fullMocks: 2 }), { balance: 40, subjects: ['x'], fullMocks: 2 });
   assert.equal(triggerForReason('credits'), 'credits');
@@ -173,7 +184,7 @@ test('price and key follow offer.js: the one framing on sale today', () => {
 });
 
 test('copy is true and in house style: no "!", no emoji, no countdown or scarcity, no AI cliches', () => {
-  const triggers = ['generic', 'first_session', 'result', 'credits', 'nta', 'smart', 'difficulty', 'review', 'compass', 'saves'];
+  const triggers = ['generic', 'first_session', 'result', 'credits', 'nta', 'smart', 'difficulty', 'review', 'compass', 'saves', 'mob'];
   const all = [
     ...HEADLINE_OPTIONS, ...KEY_LABEL_OPTIONS,
     ...triggers.flatMap((t) => [sheetHead(t).title, sheetHead(t).lede, ...benefitLines(t, { fullMocks: 2, spentWeek: 10, subjects: ['accountancy'], weakChapter: 'X' }).map((l) => l.text)]),
@@ -184,6 +195,9 @@ test('copy is true and in house style: no "!", no emoji, no countdown or scarcit
     assert.ok(!/\p{Extended_Pictographic}/u.test(line), line);
     assert.ok(!/hurry|limited time|only today|ends soon|last chance|countdown|elevate|seamless|unleash|game.?changer|guarantee/i.test(line), line);
     assert.ok(!/—/.test(line), `no em dash: ${line}`);
+    // One credits balance (D78): never 'practice credits'; a 'never runs out' is always about practice.
+    assert.ok(!/practice credits?/i.test(line), line);
+    assert.ok(!/never runs? out/i.test(line) || /practice never runs out/i.test(line), line);
   }
   assert.equal(HEADLINE_OPTIONS.length, 3);
   assert.equal(KEY_LABEL_OPTIONS.length, 3);
@@ -197,9 +211,12 @@ test('wiring: Pro renders nothing; every Pro tap opens the sheet; onboarding nev
   assert.match(host, /if \(!allowed \|\| !state\.open\) return null;/);
   assert.match(host, /if \(!allowed\) return undefined;[\s\S]*addEventListener\('click'/);
   assert.match(host, /firstActionOpens\(record, \{ now, session, user, route: window\.location\.pathname/);
-  assert.match(host, /saveRecord\(userId, markFirstShown\(record, now\)\)/, 'marked once before it opens');
+  assert.match(host, /firstSheetMayOpen\(latest, \{ user, route: window\.location\.pathname, otherSheetOpen \}\)/, 'checked again when it is due');
+  assert.match(host, /if \(!saveRecord\(userId, markFirstShown\(latest, Date\.now\(\)\)\)\) return;\s*openUpgrade\(\{ trigger: 'first_session' \}\)/, 'marked as it opens, never shown unmarked');
+  assert.match(host, /window\.clearTimeout\(timer\.current\);\s*closeUpgrade\(\);/, 'a route change cancels a waiting sheet');
+  assert.match(host, /markDeclined\(loadRecord\(userId\), Date\.now\(\)\)/);
   const nudge = read('src/components/pro/InlineNudge.jsx');
-  assert.match(nudge, /inlineAllowed\(loadRecord\(userId\)/);
+  assert.match(nudge, /inlineAllowed\(loadRecord\(userId\), \{ placement, now: Date\.now\(\), user, route: pathname \}\)/);
   assert.match(nudge, /claimScreen\(claims, key, placement\)/);
   const shell = read('src/app/(app)/AppLayoutClient.jsx');
   assert.match(shell, /<ProNudgeHost offer=\{offer\}/);
@@ -222,4 +239,37 @@ test('wiring: Pro renders nothing; every Pro tap opens the sheet; onboarding nev
   const upgrade = read('src/components/pro/UpgradeSheet.jsx');
   assert.match(upgrade, /href=\{linkFor\(CHECKOUT_HREF\)\} data-pro-checkout=""/);
   assert.match(upgrade, />Not now</);
+});
+
+test('frequency caps: nothing on a paper, a day of quiet after Not now, the due-time check', () => {
+  assert.equal(quietRoute('/test'), true);
+  assert.equal(quietRoute('/test?mode=nta'), true);
+  assert.equal(quietRoute('/onboarding'), true);
+  assert.equal(quietRoute('/testimonials'), false);
+  assert.equal(quietRoute('/result/a'), false);
+  for (const placement of PLACEMENTS) assert.equal(inlineAllowed(emptyRecord(), { placement, now: T0, user: FREE, route: '/test' }), false, placement);
+  const declined = markDeclined(emptyRecord(), T0);
+  assert.equal(inlineAllowed(declined, { placement: 'result', now: T0 + DECLINE_QUIET_MS - 1, user: FREE, route: '/result/a' }), false);
+  assert.equal(inlineAllowed(declined, { placement: 'result', now: T0 + DECLINE_QUIET_MS, user: FREE, route: '/result/a' }), true);
+  assert.equal(readRecord(declined).declinedAt, T0);
+  // When the first-session sheet is due: never over another sheet, never on a paper, never twice, never for Pro.
+  const r = onboarded();
+  assert.equal(firstSheetMayOpen(r, { user: FREE, route: '/result/a' }), true);
+  assert.equal(firstSheetMayOpen(r, { user: FREE, route: '/result/a', otherSheetOpen: true }), false);
+  assert.equal(firstSheetMayOpen(r, { user: FREE, route: '/test' }), false);
+  assert.equal(firstSheetMayOpen(markFirstShown(r, T0 + 1), { user: FREE, route: '/result/a' }), false);
+  assert.equal(firstSheetMayOpen(r, { user: PRO, route: '/result/a' }), false);
+});
+
+test('every Pro gate opens the sheet: Compass Pro, the Mob, full saves', () => {
+  assert.match(read('src/components/du/CompassPro.jsx'), /data-pro-feature="compass"/);
+  assert.match(read('src/components/mob/MobPlan.jsx'), /data-pro-feature="mob"/);
+  assert.match(read('src/components/mob/MobCompare.jsx'), /data-pro-feature="mob"/);
+  assert.match(read('src/components/feed/QuestionCard.jsx'), /if \(error\.status === 402\) openUpgrade\(\{ trigger: 'saves' \}\)/);
+  assert.equal(benefitLines('mob', {})[0].id, 'mob');
+  assert.match(sheetHead('saves').title, /25 free saves are full/);
+  assert.match(sheetHead('saves').lede, /^This question was not saved\./);
+  // The result page names a chapter only when it truly had the most mistakes.
+  assert.match(read('src/app/(app)/result/[id]/ResultPageClient.jsx'), /weakChapter: weakestChapter\(chapterCounts\)/);
+  assert.match(read('src/components/review/ReviewChapters.jsx'), /facts=\{\{ focusChapter: row\.name \}\}/);
 });

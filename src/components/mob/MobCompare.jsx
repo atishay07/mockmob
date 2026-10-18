@@ -36,7 +36,7 @@ export function CompareCard({ compare, busy = false, opening = false, onOpen, on
       {canOpen || access === 'locked' ? (
         <div className="mob-actions mob-actions--row">
           {canOpen ? <button type="button" id={openId} className="mob-key" onClick={onOpen} disabled={opening} aria-busy={opening || undefined}>{opening ? 'Opening' : 'See the side-by-side'}</button> : null}
-          {access === 'locked' ? <Link className="mob-key" href="/pricing">See Pro</Link> : null}
+          {access === 'locked' ? <Link className="mob-key" href="/pricing" data-pro-feature="mob">See Pro</Link> : null}
         </div>
       ) : null}
       <p className="mob-notice" role="status" aria-live="polite">{notice || ''}</p>

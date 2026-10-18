@@ -5,13 +5,16 @@
 //     in the app (every "See Pro" on a Pro-gated control), with the trigger the link names (data-pro-feature) or its
 //     ?reason=;
 //   - opens the first-session sheet once ever, after the student's first real action in the first usage session after
-//     onboarding (src/lib/proNudge.mjs firstActionOpens), a short beat after the result is on screen.
+//     onboarding (src/lib/proNudge.mjs firstActionOpens), a short beat after the result is on screen. It is marked as
+//     shown only when it really opens: if the student has already moved on to a paper, or another sheet is open, it waits
+//     for the next real action in that session instead;
+//   - remembers a "Not now" (any close without Get Pro), so inline nudges rest for a day after it.
 // For a Pro student it renders nothing and listens to nothing.
 import { useCallback, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
 import { CURRENT_OFFER } from '@/../data/capabilities';
-import { FIRST_ACTION_DELAY_MS, firstActionOpens, markFirstShown, nudgesAllowed, triggerForReason } from '@/lib/proNudge.mjs';
+import { FIRST_ACTION_DELAY_MS, firstActionOpens, firstSheetMayOpen, markDeclined, markFirstShown, nudgesAllowed, triggerForReason } from '@/lib/proNudge.mjs';
 import UpgradeSheet from './UpgradeSheet';
 import { FIRST_ACTION_EVENT, browserSession, closeUpgrade, loadRecord, openUpgrade, saveRecord, shareProFacts, useUpgradeState } from './proNudgeStore';
 import './pro-nudge.css';
@@ -66,24 +69,41 @@ export default function ProNudgeHost({ offer = null, previewLinks = null }) {
       const record = loadRecord(userId);
       const session = browserSession();
       if (!firstActionOpens(record, { now, session, user, route: window.location.pathname, action: event.detail })) return;
-      // Marked before it opens, so a reload or a second result in the same moment never shows it twice.
-      saveRecord(userId, markFirstShown(record, now));
+      const from = window.location.pathname;
       window.clearTimeout(timer.current);
-      timer.current = window.setTimeout(() => openUpgrade({ trigger: 'first_session' }), FIRST_ACTION_DELAY_MS);
+      timer.current = window.setTimeout(() => {
+        const latest = loadRecord(userId);
+        const otherSheetOpen = Boolean(document.querySelector('dialog[open]'));
+        // Still on the page that reported it, nothing else open, never on a paper, and still not shown.
+        if (window.location.pathname !== from || !firstSheetMayOpen(latest, { user, route: window.location.pathname, otherSheetOpen })) return;
+        // Marked as it opens, so a reload or a second result never shows it twice.
+        if (!saveRecord(userId, markFirstShown(latest, Date.now()))) return;
+        openUpgrade({ trigger: 'first_session' });
+      }, FIRST_ACTION_DELAY_MS);
     };
     window.addEventListener(FIRST_ACTION_EVENT, onAction);
     return () => { window.removeEventListener(FIRST_ACTION_EVENT, onAction); window.clearTimeout(timer.current); };
   }, [allowed, userId, user]);
 
-  // A route change closes it.
+  // A route change closes it, and a first-session sheet still waiting never follows the student to the next page.
   const lastPath = useRef(pathname);
   useEffect(() => {
     if (lastPath.current === pathname) return;
     lastPath.current = pathname;
+    window.clearTimeout(timer.current);
     closeUpgrade();
   }, [pathname]);
 
+  // Any close without Get Pro is a "Not now": inline nudges rest for a day (src/lib/proNudge.mjs DECLINE_QUIET_MS).
+  const tookPro = useRef(false);
+  const onGetPro = useCallback(() => { tookPro.current = true; }, []);
+  const onClose = useCallback(() => {
+    if (!tookPro.current && userId) saveRecord(userId, markDeclined(loadRecord(userId), Date.now()));
+    tookPro.current = false;
+    closeUpgrade();
+  }, [userId]);
+
   const linkFor = useCallback((href) => previewLinks?.pricing || href, [previewLinks]);
   if (!allowed || !state.open) return null;
-  return <UpgradeSheet key={state.at} open trigger={state.trigger} facts={state.facts} offer={offer || FALLBACK_OFFER} onClose={closeUpgrade} returnFocus={state.opener} linkFor={linkFor} />;
+  return <UpgradeSheet key={state.at} open trigger={state.trigger} facts={state.facts} offer={offer || FALLBACK_OFFER} onClose={onClose} onGetPro={onGetPro} returnFocus={state.opener} linkFor={linkFor} />;
 }

@@ -408,14 +408,14 @@ function InMob({ data, mob, user }) {
               <>
                 {afford
                   ? <Link className={primary()} {...pageProps} href={paperHref(data)}>Sit this week&apos;s paper (10 questions, about 12 min)</Link>
-                  : <Link className={primary()} {...pageProps} href="/pricing?reason=credits">Get credits to sit it</Link>}
+                  : <Link className={primary()} {...pageProps} href="/pricing?reason=credits" data-pro-direct="">Get credits to sit it</Link>}
                 <p className="mob-cost">{costLine(cost)}</p>
               </>
             ) : null}
             {!week.youSat && freeUsed ? (
               <>
                 <p className="mob-note">You already sat a Mob paper this week, in another Mob. Free includes one a week.</p>
-                <Link className="mob-key" href="/pricing">See Pro</Link>
+                <Link className="mob-key" href="/pricing" data-pro-feature="mob">See Pro</Link>
               </>
             ) : null}
             {week.youSat ? (

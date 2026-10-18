@@ -153,7 +153,7 @@ function ChapterRow({ row, open, onToggle, wallet, byUid, openUid, setOpenUid, o
             <Link className="btn-volt rv8-volt mk-press" data-page-primary="" href={href}>Practise {NEXT_MOVE_RULES.setSize} on this chapter</Link>
             <p>{practiseLine(wallet, allRepaired, dailySet)}</p>
             {/* Free only (D79): one quiet line under the chapter's practice key. */}
-            {wallet?.isPremium ? null : <InlineNudge placement="review_chapter" facts={{ weakChapter: row.name }} />}
+            {wallet?.isPremium ? null : <InlineNudge placement="review_chapter" facts={{ focusChapter: row.name }} />}
           </div>
           <div className="rv8-mkhead"><span>{row.open.length ? `${plural(row.open.length, 'mistake')} to repair` : 'Nothing left to repair'}</span>{row.open.length ? <small>Newest first</small> : null}</div>
           {row.open.length ? (

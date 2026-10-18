@@ -1,15 +1,19 @@
 // Pro nudges and the Upgrade sheet (owner, 18 Oct 2026, D79 to D81): the rules and the words, pure so node tests can hold them.
 //
 //   1. Inline nudges: one quiet line with one action at a natural moment (credits low, a set's cost, a scored result,
-//      Review's chapter practice, the Start sheet). At most one per screen, never for Pro, and a dismissed one stays
-//      quiet for 7 days.
+//      Review's chapter practice, the Start sheet). At most one per screen, never for Pro, never on a paper (the runner,
+//      a Mob paper), a dismissed one stays quiet for 7 days, and after a "Not now" on the sheet every inline nudge stays
+//      quiet for a day (a no is never answered with another ask).
 //   2. The Upgrade sheet: opens whenever a Free student taps a Pro feature (their choice, so no cap), and once ever in
-//      the first usage session after onboarding, only after the student's first real action (a scored set submitted).
+//      the first usage session after onboarding, only after the student's first real action (a scored set submitted),
+//      never on onboarding, never in the first 2 minutes after it, never over a paper or another open sheet.
 //   3. Its benefit lines come from the student's own record (D81). A personal line is shown only when its fact is
 //      known and true; otherwise the plain line for that benefit stands in. Numbers are never invented.
 //
 // Every line here is true for the offer on sale today (src/lib/payments/offer.js, data/capabilities.js MODE_CAPABILITIES,
-// /pricing). No "!", no emoji, no countdown, no scarcity.
+// /pricing, src/lib/paperCopy.mjs for "one central bank"). Pro makes practice need no credits; Ask Mobi replies still
+// use credits on Pro, so no line says Pro means "no credits" without "for practice" beside it. One credits balance (D78):
+// the words say "credits", never "practice credits". No "!", no emoji, no countdown, no scarcity.
 import { TEST_MODES } from '../../data/test_modes.js';
 import { subjectName } from '../components/start/startModel.mjs';
 
@@ -20,6 +24,16 @@ export const QUIET_MS = QUIET_DAYS * 86_400_000;
 export const FIRST_SESSION_MS = 6 * 3_600_000;
 // The sheet waits this long after the first action lands, so the student sees their result before it.
 export const FIRST_ACTION_DELAY_MS = 1800;
+// Never right after onboarding: an action that lands this soon after it waits for the next one.
+export const ONBOARDING_GAP_MS = 2 * 60_000;
+// After a "Not now" on the sheet, inline nudges stay quiet this long.
+export const DECLINE_QUIET_MS = 86_400_000;
+// Routes where nothing may ask unprompted: a paper being sat (the runner, which also runs Mob papers) and onboarding.
+const QUIET_ROUTES = Object.freeze(['/test', '/onboarding']);
+export function quietRoute(route = '') {
+  const path = String(route || '').split(/[?#]/)[0];
+  return QUIET_ROUTES.some((p) => path === p || path.startsWith(`${p}/`));
+}
 export const CHECKOUT_HREF = '/pricing#plans';
 export const FULL_MOCK_COST = TEST_MODES.full.creditCost;
 const NTA_COUNT = TEST_MODES.nta.fixedCount;
@@ -44,12 +58,12 @@ export function nudgesAllowed(user) {
 }
 
 // ---------------------------------------------------------------------------------------------------------------
-// The record kept per student on this device: { v, onboardedAt, session, firstShownAt, quiet: { placement: at } }.
+// The record kept per student on this device: { v, onboardedAt, session, firstShownAt, declinedAt, quiet: { placement: at } }.
 // The account has no profile field for it (a server column would need a production migration), so it lives in
 // localStorage, read and written inside try/catch by the client store.
 
 export function emptyRecord() {
-  return { v: NUDGE_STORE_VERSION, onboardedAt: null, session: null, firstShownAt: null, quiet: {} };
+  return { v: NUDGE_STORE_VERSION, onboardedAt: null, session: null, firstShownAt: null, declinedAt: null, quiet: {} };
 }
 
 export function readRecord(raw) {
@@ -60,6 +74,7 @@ export function readRecord(raw) {
     onboardedAt: Number.isFinite(raw.onboardedAt) ? raw.onboardedAt : null,
     session: clean(raw.session),
     firstShownAt: Number.isFinite(raw.firstShownAt) ? raw.firstShownAt : null,
+    declinedAt: Number.isFinite(raw.declinedAt) ? raw.declinedAt : null,
     quiet,
   };
 }
@@ -85,14 +100,31 @@ export function inFirstSession(record, { now, session }) {
  */
 export function firstActionOpens(record, { now, session, user, route = '', action = null }) {
   if (!nudgesAllowed(user)) return false;
-  if (String(route).startsWith('/onboarding')) return false;
+  if (quietRoute(route)) return false;
   if (!action || !['paper', 'move'].includes(action.kind)) return false;
   const r = readRecord(record);
   if (!inFirstSession(r, { now, session })) return false;
+  // Never right after onboarding: an action this soon waits for the next one (the record stays unmarked).
+  if (now - r.onboardedAt < ONBOARDING_GAP_MS) return false;
   const at = Number(action.at);
   // An action finished before onboarding ended is not this session's first action (60 s of clock slack).
   if (Number.isFinite(at) && at < r.onboardedAt - 60_000) return false;
   return true;
+}
+
+/**
+ * At the moment the first-session sheet is due to open (a beat after the result lands): still a Free student, still not
+ * shown, not on a paper or onboarding, and no other sheet open. A false here leaves the record unmarked, so the next
+ * real action in the same first session tries again.
+ */
+export function firstSheetMayOpen(record, { user, route = '', otherSheetOpen = false }) {
+  if (!nudgesAllowed(user) || quietRoute(route) || otherSheetOpen) return false;
+  return !readRecord(record).firstShownAt;
+}
+
+/** "Not now" (or the close) on the sheet: inline nudges rest for a day. */
+export function markDeclined(record, now) {
+  return { ...readRecord(record), declinedAt: now };
 }
 
 export function markFirstShown(record, now) {
@@ -102,10 +134,12 @@ export function markFirstShown(record, now) {
 // ---------------------------------------------------------------------------------------------------------------
 // Inline nudges
 
-/** Whether an inline nudge may show at this placement now: Free only, and not within 7 days of being dismissed. */
-export function inlineAllowed(record, { placement, now, user }) {
-  if (!nudgesAllowed(user) || !PLACEMENTS.includes(placement)) return false;
-  const at = readRecord(record).quiet[placement];
+/** Whether an inline nudge may show at this placement now: Free only, never on a paper, not within a day of a "Not now" on the sheet, and not within 7 days of being dismissed. */
+export function inlineAllowed(record, { placement, now, user, route = '' }) {
+  if (!nudgesAllowed(user) || !PLACEMENTS.includes(placement) || quietRoute(route)) return false;
+  const r = readRecord(record);
+  if (Number.isFinite(r.declinedAt) && now - r.declinedAt < DECLINE_QUIET_MS) return false;
+  const at = r.quiet[placement];
   return !(Number.isFinite(at) && now - at < QUIET_MS);
 }
 
@@ -132,22 +166,23 @@ export function releaseScreen(claims, screen, placement) {
 
 /**
  * The line and action for a placement, from facts the page has. Returns null when the placement's condition is not met
- * (credits_low needs a known balance under a Full mock's price).
+ * (credits_low needs a known balance under a Full mock's price). The owner's own words lead (D79): "Get unlimited mocks"
+ * and "No credits needed for practice with Pro".
  */
 export function inlineCopy(placement, facts = {}) {
   const balance = whole(facts.balance);
   switch (placement) {
     case 'credits_low':
       if (balance === null || balance >= FULL_MOCK_COST) return null;
-      return { text: `Only ${plural(balance, 'practice credit')} left, not enough for a Full mock. Pro practice never runs out.`, action: 'Go unlimited', trigger: 'credits' };
+      return { text: `${plural(balance, 'credit')} left, short of a ${FULL_MOCK_COST}-credit Full mock. With Pro, practice needs no credits at all.`, action: 'Get unlimited mocks', trigger: 'credits' };
     case 'practice_cost':
-      return { text: 'Practise without counting credits. Pro includes every set and every mock.', action: 'Go unlimited', trigger: 'credits' };
+      return { text: 'No credits needed for practice with Pro. Every set and every Full mock, included.', action: 'Get unlimited mocks', trigger: 'credits' };
     case 'result':
-      return { text: 'Keep the momentum. With Pro, your next mock and every one after it cost no credits.', action: 'Go unlimited', trigger: 'result' };
+      return { text: 'Your next paper is built fresh from the bank. With Pro, it and every one after it cost no credits.', action: 'Get unlimited mocks', trigger: 'result' };
     case 'review_chapter':
-      return { text: 'Pro aims Smart practice at chapters like this one, with no credits to spend.', action: 'See Pro', trigger: 'smart' };
+      return { text: 'Smart practice in Pro weights every set toward chapters like this one.', action: 'See Smart practice', trigger: 'smart' };
     case 'start_sheet':
-      return { text: 'Unlimited mocks, NTA mode and Smart practice, all in Pro.', action: 'See Pro', trigger: 'generic' };
+      return { text: 'Unlimited mocks, NTA mode and Smart practice. One Pro price, no credits needed for practice.', action: 'See Pro', trigger: 'generic' };
     default:
       return null;
   }
@@ -156,32 +191,32 @@ export function inlineCopy(placement, facts = {}) {
 // ---------------------------------------------------------------------------------------------------------------
 // The Upgrade sheet's words. Owner D84 (18 Oct, 7:12 pm): nudge and paywall copy is persuasive marketing English,
 // benefit-led and specific, and still true: no invented numbers, no fake scarcity, no countdowns, no "!", no emoji.
+// docs/brain/PRO-NUDGE-COPY-1018.md holds the options with the reasons; the first of each is the one in use.
 
-// The owner's three headline options for the generic sheet; the first is the one in use.
 export const HEADLINE_OPTIONS = Object.freeze([
-  'Practise without limits',
-  'Every mock you need. No credits, no cap.',
-  'Rehearse CUET until it feels familiar',
+  'Unlimited mocks. No credits needed.',
+  'Practise until exam day feels familiar',
+  'Every mock you need, from one central bank',
 ]);
-// The owner's three key-label options; the first is the one in use (keyLabel fills in the price on sale).
-export const KEY_LABEL_OPTIONS = Object.freeze(['Get Pro for ₹99', 'Unlock unlimited practice', 'Go Pro']);
+// The key's options; the first is the one in use. keyLabel fills in the price on sale, so the key always names it.
+export const KEY_LABEL_OPTIONS = Object.freeze(['Get Pro for ₹99', 'Get unlimited mocks for ₹99', 'Unlock Pro for ₹99']);
 
 const GENERIC = Object.freeze({
   title: HEADLINE_OPTIONS[0],
-  lede: 'Unlimited mocks, NTA mode on the exam-day screen, and Smart practice that hunts down your weak chapters. One price, no credits to count.',
+  lede: 'Every paper is built fresh from one central question bank, so there is no fixed set of mocks to run out of. Pro adds NTA mode, Smart practice and full chapter review, all for one price.',
 });
 
 const HEADS = Object.freeze({
-  nta: { title: 'Sit the exam before the exam', lede: 'Rehearse on the exam-day screen, against the clock, as many times as you want. Original practice papers, not official ones.' },
-  smart: { title: 'Stop guessing what to practise', lede: 'Smart practice reads your record and aims every set at the chapters you miss.' },
-  difficulty: { title: 'Train at the level you choose', lede: 'Pick easy, medium or hard for Quick practice and Full mocks. Warm up, or push where it is hardest.' },
-  review: { title: 'See every chapter that costs you marks', lede: 'Full chapter review ranks every chapter, with your pace and the answers you changed.' },
-  compass: { title: 'See where your practice puts you', lede: 'Compass Pro projects your practice paper by paper against your DU shortlist. A projection, not a prediction.' },
-  saves: { title: 'Keep every question worth keeping', lede: 'Free keeps 25 saved questions. Pro keeps all of them.' },
-  credits: { title: 'Never ration practice again', lede: 'With Pro, Quick practice and Full mocks use no credits. Take the set you need, when you need it.' },
-  first_session: { title: 'One paper down. Keep going without limits.', lede: 'Pro takes the cap off: unlimited mocks, NTA mode and Smart practice, for one price.' },
-  result: { title: 'Keep the momentum going', lede: 'Your next paper is ready. With Pro it costs no credits, and neither does the one after it.' },
-  mob: GENERIC,
+  nta: { title: 'Sit CUET before CUET', lede: `NTA mode puts you on an exam-day style screen, ${NTA_COUNT} questions against a ${NTA_MINUTES}-minute clock, as often as you like. Original practice papers, not official ones.` },
+  smart: { title: 'Practise what is costing you marks', lede: 'Smart practice reads your record and weights every set toward the chapters you miss, so more of your time goes where your marks leak.' },
+  difficulty: { title: 'Choose how hard it gets', lede: 'Set easy, medium or hard for Quick practice and Full mocks. Warm up gently, or train where it is toughest.' },
+  review: { title: 'See every chapter that costs you marks', lede: 'Full chapter review ranks every chapter, with your pace and the answers you changed, so you know exactly what to fix next.' },
+  compass: { title: 'Know what your practice is worth', lede: 'Compass Pro projects each CUET paper from your own practice, with a range, and checks it against your DU shortlist. A projection, not a prediction.' },
+  saves: { title: 'Your 25 free saves are full', lede: 'This question was not saved. Remove one to make room, or keep every question worth keeping with Pro, ready for revision.' },
+  credits: { title: 'Stop rationing your practice', lede: 'With Pro, Quick practice and Full mocks need no credits. Take the paper you need, the moment you need it.' },
+  mob: { title: 'See your whole Mob, every week', lede: 'Pro opens the full side-by-side: who picked what, who changed an answer and how long each question took. Plus past weeks and up to 3 Mobs.' },
+  first_session: { title: 'First paper done. Now take the limits off.', lede: 'Pro gives you unlimited mocks from one central bank, NTA mode and Smart practice, for one price. No credits needed for practice.' },
+  result: { title: 'Keep the momentum going', lede: 'Your next paper is built fresh from the bank. With Pro it needs no credits, and neither does the one after it.' },
   generic: GENERIC,
 });
 
@@ -200,52 +235,55 @@ export function keyLabel(offer) {
 // Each benefit: a plain line (always true) and, when the student's own fact is known, a personal line in its place.
 const BENEFITS = Object.freeze({
   unlimited: {
-    plain: () => 'Unlimited Quick practice and Full mocks, a fresh paper every time.',
+    plain: () => 'Unlimited Quick practice and Full mocks, each paper built fresh from one central bank.',
     personal: (f) => {
       const mocks = whole(f.fullMocks);
       if (mocks) return `You have sat ${plural(mocks, 'full mock')}. With Pro, sit as many as it takes.`;
       const sets = whole(f.sessions);
-      if (sets) return `${plural(sets, 'practice set')} done. With Pro, the next ones cost no credits.`;
+      if (sets) return `${plural(sets, 'practice set')} done. With Pro, the next ones need no credits.`;
       return null;
     },
   },
   credits: {
-    plain: () => 'Zero credits to count: every set and every mock is included.',
+    plain: () => 'No credits needed for practice: every set and every Full mock is included.',
     personal: (f) => {
       const spent = whole(f.spentWeek);
-      if (spent) return `You spent ${plural(spent, 'practice credit')} this week. On Pro, that is 0.`;
+      if (spent) return `You spent ${plural(spent, 'credit')} on practice this week. With Pro, that would be 0.`;
       const balance = whole(f.balance);
-      if (balance !== null && balance < FULL_MOCK_COST) return `Only ${plural(balance, 'practice credit')} left. On Pro, you never run out.`;
+      if (balance !== null && balance < FULL_MOCK_COST) return `${plural(balance, 'credit')} left. With Pro, practice never runs out.`;
       return null;
     },
   },
   nta: {
-    plain: () => `NTA mode: rehearse on the exam-day screen, ${NTA_COUNT} questions in ${NTA_MINUTES} minutes.`,
+    plain: () => `NTA mode: the exam-day style screen, ${NTA_COUNT} questions in ${NTA_MINUTES} minutes.`,
     personal: (f) => {
       const subjects = Array.isArray(f.subjects) ? f.subjects.filter(Boolean) : [];
-      if (subjects.length === 1) return `NTA mode in ${subjectName(subjects[0])}: the exam-day screen, ${NTA_COUNT} questions in ${NTA_MINUTES} minutes.`;
-      if (subjects.length > 1) return `NTA mode in all ${subjects.length} of your subjects: the exam-day screen, ${NTA_COUNT} questions in ${NTA_MINUTES} minutes.`;
+      if (subjects.length === 1) return `NTA mode in ${subjectName(subjects[0])}: the exam-day style screen, ${NTA_COUNT} questions in ${NTA_MINUTES} minutes.`;
+      if (subjects.length > 1) return `NTA mode in all ${subjects.length} of your subjects: the exam-day style screen, ${NTA_COUNT} questions in ${NTA_MINUTES} minutes.`;
       return null;
     },
   },
   smart: {
-    plain: () => 'Smart practice aims every set at the chapters you miss.',
+    plain: () => 'Smart practice weights every set toward the chapters you miss.',
     personal: (f) => {
-      const chapter = clean(f.weakChapter);
-      return chapter ? `${chapter} cost you the most. Smart practice aims your sets at chapters like it.` : null;
+      const weak = clean(f.weakChapter);
+      if (weak) return `${weak} had the most mistakes on your paper. Smart practice weights your sets toward chapters like it.`;
+      const focus = clean(f.focusChapter);
+      return focus ? `Smart practice weights your sets toward chapters like ${focus}.` : null;
     },
   },
   difficulty: { plain: () => 'Set the level for any session: easy, medium or hard.', personal: () => null },
-  review: { plain: () => 'Full chapter review: every ranked chapter, your pace and changed answers.', personal: () => null },
+  review: { plain: () => 'Full chapter review: every chapter ranked, with your pace and changed answers.', personal: () => null },
   compass: { plain: () => 'Compass Pro: your practice projected against your DU shortlist.', personal: () => null },
   saves: { plain: () => 'Unlimited saved questions. Free keeps 25.', personal: () => null },
+  mob: { plain: () => 'The Mob in full: the weekly side-by-side, past weeks and up to 3 Mobs.', personal: () => null },
 });
 
 // The order each trigger leads with; the rest follow in the default order. Four lines at most.
 const DEFAULT_ORDER = ['unlimited', 'credits', 'nta', 'smart'];
 const LEAD = Object.freeze({
   nta: ['nta'], smart: ['smart'], difficulty: ['difficulty'], review: ['review'], compass: ['compass'], saves: ['saves'],
-  credits: ['credits'], result: ['unlimited'], first_session: [], mob: ['unlimited'], generic: [],
+  credits: ['credits'], result: ['unlimited'], first_session: [], mob: ['mob'], generic: [],
 });
 export const MAX_BENEFITS = 4;
 
@@ -306,11 +344,15 @@ export function fullMocksIn(attempts) {
   return attempts.filter((a) => ['full', 'nta'].includes(modeOf(a))).length;
 }
 
-/** The chapter with the most mistakes in a list of { chapter, count }, or null. */
+/**
+ * The chapter with the most mistakes in a list of { chapter, count }, or null. Only a clear top counts: at least 2
+ * mistakes and more than any other chapter, so "had the most mistakes" is always true.
+ */
 export function weakestChapter(chapterCounts) {
   if (!Array.isArray(chapterCounts) || !chapterCounts.length) return null;
-  const top = [...chapterCounts].filter((c) => clean(c?.chapter) && whole(c?.count)).sort((a, b) => b.count - a.count)[0];
-  return top ? top.chapter : null;
+  const rows = chapterCounts.filter((c) => clean(c?.chapter) && whole(c?.count)).sort((a, b) => b.count - a.count);
+  if (!rows.length || rows[0].count < 2 || (rows[1] && rows[1].count === rows[0].count)) return null;
+  return rows[0].chapter;
 }
 
 /** Merge facts: later known values win, unknown values never overwrite known ones. */
