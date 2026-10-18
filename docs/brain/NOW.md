@@ -19,7 +19,7 @@ When both are published and checked, send him ONE message with the links, the AP
 
 | Track | Worktree, branch | State | Next |
 |---|---|---|---|
-| **R7 web: the new Today** | wt-rel7, deploy/web-1018-r7, c46d1dcd | Integrated (Today 1018, "Why this?" Ask Mobi, the reel card, ?q=N). The independent verifier is running (captures in wt-rel7/tmp/verify-r7). | GO → push (fast-forward from 70c4598c) + STATUS. NO-GO → a fix round. |
+| **R7 web: the new Today** | wt-rel7, deploy/web-1018-r7, c46d1dcd and on | Verifier NO-GO on 1 HIGH: the Change plan receipt states a stale mock target (TodayPlanFlow.jsx). **A fix round is running** (H1, M1-M3, M5-M7, L4, L5; captures in tmp/fix-r7). | GO → push (fast-forward from 70c4598c) + STATUS. NO-GO → a fix round. |
 | **R8 web fixes** | wt-r8-fixes, web/r8-fixes-1018 (from c46d1dcd) | W-078 /mentor Day contrast (LIVE bug), W-075 the dock Start goes quiet while the page primary is visible, W-079 targets, W-093 copy (Help "Five stops"), W-089 copying the design notes | Merge into R8 |
 | **R8 adoption** | wt-r8-adopt, web/r8-adopt-1018 | W-064: the first-week path on Today; the "of the N you repaired, M did not come back" receipt | Merge into R8 |
 | **R8 retry** | wt-r8-retry, web/r8-retry-1018 | W-032: "Try it again" before the key on the result | Merge into R8 |
