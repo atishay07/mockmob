@@ -61,6 +61,13 @@ class RecapModel {
   /// When this phone received the server's acknowledgment; null when no acknowledgment is on
   /// this phone (a result submitted elsewhere), so no "saved at" time is ever invented.
   final DateTime? receivedAt;
+
+  /// The one time every receipt of this paper shows: when this phone was told it was recorded, else when it was
+  /// submitted. It is already the student's own wall clock (both fields went through `toLocal` of
+  /// [buildRecapModel], the saved time zone), so it must never be converted again: a zone-aware time's own
+  /// `toLocal()` lands in the timezone package's default zone, UTC, and printed 7:04 AM as 1:34 AM (v15 walk, H1).
+  DateTime get recordedAt => receivedAt ?? submittedAt;
+
   final MarkBreakdown breakdown;
 
   /// One bubble per question in paper order: filled (correct), wrong, blank, marked (held).

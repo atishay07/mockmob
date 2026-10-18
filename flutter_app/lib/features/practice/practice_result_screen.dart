@@ -13,6 +13,7 @@ import '../../core/repositories/pending_result_repository.dart';
 import '../../core/router/routes.dart';
 import '../../core/theme/theme.dart';
 import '../../core/widgets/widgets.dart';
+import '../review/data/review_providers.dart' show reviewClockProvider;
 import '../insights/data/saved_repository.dart'
     show SaveDone, SaveLimitReached, SaveFailed, saveControllerProvider, savedRepositoryProvider;
 import '../result/data/move_state.dart';
@@ -361,12 +362,13 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
     _onFirstData(attempt);
     // The receipt waits for the time the server acknowledged on this phone; only a result with
     // no record here (opened later from Review) falls back to the attempt's own time.
-    final recordedAt = receivedState.hasValue ? (receivedState.value ?? attempt.completedAt).toLocal() : null;
+    final clock = ref.watch(reviewClockProvider);
+    final recordedAt = receivedState.hasValue ? clock.local(receivedState.value ?? attempt.completedAt) : null;
     final chapter = ref.watch(practiceNoteProvider(id)).value?.chapter;
 
     if (_finished) {
       return ResultClosing(
-        text: PracticeCopy.finished(recordedAt ?? attempt.completedAt.toLocal(), chapter: chapter),
+        text: PracticeCopy.finished(recordedAt ?? clock.local(attempt.completedAt), chapter: chapter),
         cells: model.cells,
         marks: FinishMarks(correct: attempt.correct, wrong: attempt.wrong, blank: attempt.unattempted, total: attempt.total),
       );
@@ -417,7 +419,7 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
       hour: now.hour,
     );
     // The receipt waits for the time the server acknowledged; it never shows the attempt's own time meanwhile.
-    final receipt = receiptLine(subjectName: subjectName, mode: attempt.mode, at: recordedAt, duration: timeOnPaper(attempt), now: now);
+    final receipt = receiptLine(subjectName: subjectName, mode: attempt.mode, at: recordedAt, duration: timeOnPaper(attempt), now: clock.now());
     final notice = keyNotice(reviews, (qid) => model.questions.where((q) => q.qid == qid).firstOrNull?.number);
     final wrong = inRepairOrder(rows.rows.where((r) => r.verdict == RowVerdict.wrong).toList(), order);
     final byQid = {for (final q in model.questions) q.qid: q};

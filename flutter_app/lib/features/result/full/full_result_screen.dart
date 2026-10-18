@@ -397,16 +397,16 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
         hour: now.hour,
       );
       footMove = move;
-      final receivedAt = (model.receivedAt ?? model.submittedAt).toLocal();
+      // Already the student's own clock (see [RecapModel.recordedAt]): no second conversion, and "today" is theirs too.
+      final clock = ref.watch(reviewClockProvider);
       final receipt = receiptLine(
         subjectName: model.subjectName,
         mode: attempt.mode,
-        at: receivedAt,
+        at: model.recordedAt,
         duration: timeOnPaper(attempt),
-        now: now,
+        now: clock.now(),
       );
-      final clock = ref.watch(reviewClockProvider);
-      final when = paperWhen(clock, model.mockLabel, model.receivedAt ?? model.submittedAt);
+      final when = paperWhen(clock, model.mockLabel, model.recordedAt);
       final byQid = {for (final a in groups.all) a.qid: a};
       final wrongRows = inRepairOrder(rows.mistakes.where((r) => !keyHeld(reviews, r.qid)).toList(), order);
       final wrong = [
