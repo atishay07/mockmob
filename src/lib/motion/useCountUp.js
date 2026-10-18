@@ -8,8 +8,9 @@ import { cubicAt } from './swap';
 import { planCountUp } from './countUpPlan.js';
 
 const useIsoLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
-// The count-up curve: ease-out (pass 1016e, the app's M15). Usable information never waits on a long tail.
-const easeOut = (t) => cubicAt(curves.out, t);
+// The count-up curve: emphasized over 720 ms, as deploy/1015-night and the app (restored 19 Oct, owner G31: the
+// 420 ms ease-out roll of pass 1016e read as rushed).
+const emphasized = (t) => cubicAt(curves.emphasized, t);
 
 /**
  * A number that rolls to its new value, with its tint: { value, ink }.
@@ -17,7 +18,7 @@ const easeOut = (t) => cubicAt(curves.out, t);
  * It rolls from whatever it is showing right now, so a change that arrives mid-roll carries on
  * smoothly. The first value is shown as it is, unless `from` is given (then it rolls up from it).
  * The server and the first paint always show the real value: a count never reads as a made-up zero.
- * Reduced motion shows the value at once. It rolls on ease-out over the countUp token (420 ms) unless told
+ * Reduced motion shows the value at once. It rolls on the app's emphasized curve over the countUp token (720 ms, the app's value; restored 19 Oct, owner G31) unless told
  * (countUpPlan.js holds the rules, with its unit test).
  *
  * With a `memoryKey` it remembers (the app's number memory, see numberMemory.js): coming back to a
@@ -26,7 +27,7 @@ const easeOut = (t) => cubicAt(curves.out, t);
  * data-ink with the .mk-num class, and the colour settles back over 200 ms). Without a memoryKey,
  * ink is always null. Under reduced motion there is no roll and no tint.
  *
- *   useCountUpState(value, { from, duration = 420, decimals = 0, enabled = true, memoryKey })
+ *   useCountUpState(value, { from, duration = 720, decimals = 0, enabled = true, memoryKey })
  */
 export function useCountUpState(value, { from, duration = durations.countUp, decimals = 0, enabled = true, memoryKey } = {}) {
   const { reduced } = useMobiPrefs();
@@ -66,7 +67,7 @@ export function useCountUpState(value, { from, duration = durations.countUp, dec
     const frame = (now) => {
       if (!begin) begin = now;
       const t = Math.min(1, (now - begin) / span);
-      const next = t >= 1 ? target : origin + (target - origin) * easeOut(t);
+      const next = t >= 1 ? target : origin + (target - origin) * emphasized(t);
       shownRef.current = next;
       setShown(next);
       if (t < 1) raf = requestAnimationFrame(frame);
@@ -83,7 +84,7 @@ export function useCountUpState(value, { from, duration = durations.countUp, dec
 /**
  * The rolling value only (see useCountUpState for the rules and the memoryKey option).
  *
- *   useCountUp(value, { from, duration = 420, decimals = 0, enabled = true, memoryKey })
+ *   useCountUp(value, { from, duration = 720, decimals = 0, enabled = true, memoryKey })
  */
 export function useCountUp(value, options) {
   return useCountUpState(value, options).value;

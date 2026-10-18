@@ -36,14 +36,15 @@ const vars = declared();
 const SPRING_TABLE = {
   smooth: [1.003, 662], snappy: [1.0, 449], dock: [1.0111, 609], settle: [1.0, 809], release: [1.0015, 566],
   edgeLead: [1.003, 488], edgeTrail: [1.0, 706], iconPop: [1.0111, 707], celebrate: [1.0199, 1047], toggle: [1.005, 440], lift: [1.0, 596],
+  lensLift: [1.0, 373], lensDrop: [1.005, 579],
 };
 
 test('the shared JSON is byte for byte the app\'s copy (LF), so app and web read one source', () => {
   const bytes = lf(readFileSync(TOKENS_PATH, 'utf8'));
   const sha = createHash('sha256').update(bytes, 'utf8').digest('hex');
-  assert.equal(sha, '6aca08535cf448f711d09521a2bdc75013312776fede46763b45e32c4ac6a957',
+  assert.equal(sha, 'dfc7f040322b92b8deaa01d355c109216f13bb6d1112c0163948cdbbff562171',
     'shared/motion-tokens.json changed: change the app\'s copy in the same commit (they must stay identical), then update this hash');
-  assert.equal(Buffer.byteLength(bytes), 4183);
+  assert.equal(Buffer.byteLength(bytes), 4346);
   // When the app lives in the same checkout, its copy is this file.
   const appTokens = path.join(ROOT, 'flutter_app', '..', 'shared', 'motion-tokens.json');
   if (existsSync(path.join(ROOT, 'flutter_app'))) assert.equal(lf(readFileSync(appTokens, 'utf8')), bytes);
@@ -151,13 +152,15 @@ test('motion-kit.css adopts the app\'s values and drops the 1.56 overshoot', () 
   };
   assert.match(rule('.mk-press'), /transform var\(--mm-press-lift-dur\) var\(--mm-press-lift\)/);
   assert.match(rule('.mk-press:active:not(:disabled):not([aria-disabled=\'true\'])'), /scale\(var\(--mk-press-scale, var\(--mm-pressed-scale\)\)\)/);
-  assert.match(css, /--mk-spring: var\(--mm-spring-release\);/);
+  // 19 Oct (owner G31): keys, pills and the dock settle on the app's dock spring (a calm 1 percent overshoot).
+  assert.match(css, /--mk-spring: var\(--mm-spring-dock\);/);
+  assert.match(css, /--mk-spring-dur: var\(--mm-spring-dock-dur\);/);
   assert.match(css, /--mk-settle: var\(--mm-ease-out\);/);
   assert.match(css, /@keyframes mk-pop \{ from \{ transform: scale\(var\(--mm-enter-scale\)\); opacity: 0; \}/);
   assert.match(css, /@keyframes mk-rise \{ from \{ transform: translate3d\(0, var\(--mm-enter-rise\), 0\); opacity: 0; \}/);
   assert.match(css, /\.mk-pop \{ animation: mk-pop var\(--mm-dur-enter\) var\(--mm-ease-emphasized\)/);
-  // One stagger (pass 1016e WA-05): the lead rises on the enter values; the rest are in motion-pass-1016e.test.mjs.
-  assert.match(css, /\.mk-stagger > :nth-child\(1\) \{ animation: mk-rise var\(--mm-dur-enter\) var\(--mm-ease-emphasized\) backwards; \}/);
+  // The stagger (restored 19 Oct from deploy/1015-night, owner G31): every child rises on the enter values, 45 ms apart.
+  assert.match(css, /\.mk-stagger > \* \{ animation: mk-rise var\(--mm-dur-enter\) var\(--mm-ease-emphasized\) calc\(min\(var\(--i, 0\), var\(--mm-stagger-cap\)\) \* var\(--mm-dur-stagger-step\)\) backwards; \}/);
   assert.match(css, /\.mk-swipe\[data-swipe='settle'\] \{ transition: transform var\(--mm-spring-smooth-dur\) var\(--mm-spring-smooth\); \}/);
   // A committed swipe keeps its speed on the lift spring (pass 1016e WA-06); without the Web Animations API it eases out.
   assert.match(css, /\.mk-swipe\[data-swipe='fling'\] \{ transition: none; \}/);

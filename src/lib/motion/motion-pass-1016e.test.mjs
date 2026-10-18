@@ -49,25 +49,25 @@ test('the arena frame holds still, and the leaving page is gone before the new o
   assert.match(css, /::view-transition-old\(\.mm-fade\) \{ animation: mm-vt-fade-out /);
 });
 
-test('count-up: 420 ms on the countUp token, and an unchanged value never rolls', () => {
-  assert.equal(durations.countUp, 420);
-  assert.deepEqual(planCountUp({ value: 128, first: true, from: 0 }), { origin: 0, target: 128, span: 420, roll: true }, 'first ever view climbs from 0 in 420 ms');
+test('count-up: 720 ms on the countUp token (the app value, restored 19 Oct, owner G31), and an unchanged value never rolls', () => {
+  assert.equal(durations.countUp, 720);
+  assert.deepEqual(planCountUp({ value: 128, first: true, from: 0 }), { origin: 0, target: 128, span: 720, roll: true }, 'first ever view climbs from 0 in 720 ms');
   assert.equal(planCountUp({ value: 128, first: true }).roll, false, 'no from: shown as it is');
-  assert.deepEqual(planCountUp({ value: 128, first: true, from: 0, remembered: 128 }), { origin: 128, target: 128, span: 420, roll: false }, 'remembered and unchanged: no roll, not from 0');
-  assert.deepEqual(planCountUp({ value: 140, first: true, from: 0, remembered: 128 }), { origin: 128, target: 140, span: 420, roll: true }, 'remembered and changed: rolls from the old figure');
+  assert.deepEqual(planCountUp({ value: 128, first: true, from: 0, remembered: 128 }), { origin: 128, target: 128, span: 720, roll: false }, 'remembered and unchanged: no roll, not from 0');
+  assert.deepEqual(planCountUp({ value: 140, first: true, from: 0, remembered: 128 }), { origin: 128, target: 140, span: 720, roll: true }, 'remembered and changed: rolls from the old figure');
   assert.equal(planCountUp({ value: 140, first: false, shown: 140 }).roll, false);
   assert.equal(planCountUp({ value: 140, first: true, from: 0, reduced: true }).roll, false, 'reduced motion: the value at once');
   assert.equal(planCountUp({ value: 140, first: true, from: 0, duration: 20 }).span, COUNT_UP_MIN_MS);
   assert.equal(planCountUp({ value: 'n/a', first: true, from: 0 }).roll, false);
 });
 
-test('count-up callers no longer ask for long climbs, and the roll eases out', () => {
+test('count-up callers take the token, and the roll is on the emphasized curve', () => {
   for (const file of ['../../components/ai/RecordGlimpse.jsx', '../../components/ai/RecordView.jsx', '../../components/profile/YourSheet.jsx', '../../components/ui/number-ticker.jsx']) {
     const src = readFileSync(new URL(file, import.meta.url), 'utf8');
     assert.doesNotMatch(src, /duration: ?(7|8|9|1[0-9])\d\d\b/, file);
   }
   const hook = readFileSync(new URL('./useCountUp.js', import.meta.url), 'utf8');
-  assert.match(hook, /cubicAt\(curves\.out, t\)/);
+  assert.match(hook, /cubicAt\(curves\.emphasized, t\)/, 'the roll is on the emphasized curve again (deploy/1015-night)');
 });
 
 test('a committed swipe keeps its speed on the lift spring and leaves within the app leave', () => {
@@ -95,12 +95,10 @@ test('a committed swipe keeps its speed on the lift spring and leaves within the
   assert.doesNotMatch(css, /\.mk-swipe\[data-swipe='commit'\][^}]*ease-leave/, 'no ease-in commit');
 });
 
-test('one stagger: a lead rises, two fade up, the rest arrive together', () => {
-  assert.match(css, /\.mk-stagger > :nth-child\(1\) \{ animation: mk-rise var\(--mm-dur-enter\) var\(--mm-ease-emphasized\) backwards; \}/);
-  assert.match(css, /\.mk-stagger > :nth-child\(2\) \{ animation: mk-rise-near [^}]* 60ms backwards; \}/);
-  assert.match(css, /\.mk-stagger > :nth-child\(3\) \{ animation: mk-rise-near [^}]* 120ms backwards; \}/);
-  assert.match(css, /\.mk-stagger > \* \{ animation: mk-fade var\(--mm-dur-ui\) var\(--mm-ease-out\) 160ms backwards; \}/);
-  assert.match(css, /@keyframes mk-rise-near \{ from \{ transform: translate3d\(0, 6px, 0\); opacity: 0; \}/);
+test('the stagger: every child rises 45 ms after the one before, capped at the eighth (restored 19 Oct, owner G31)', () => {
+  assert.match(css, /\.mk-stagger > \* \{ animation: mk-rise var\(--mm-dur-enter\) var\(--mm-ease-emphasized\) calc\(min\(var\(--i, 0\), var\(--mm-stagger-cap\)\) \* var\(--mm-dur-stagger-step\)\) backwards; \}/);
+  assert.match(css, /\.mk-stagger > :nth-child\(2\) \{ --i: 1; \}/);
+  assert.match(css, /\.mk-stagger > :nth-child\(n\+9\) \{ --i: 8; \}/);
   assert.match(css, /\.mk-stagger--flat > :nth-child\(n\) \{ animation: mk-fade /);
 });
 

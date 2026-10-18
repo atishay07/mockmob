@@ -1,6 +1,6 @@
 // Where a count-up starts and how long it runs (the app's M15). Pure: useCountUpState plays it.
 //
-// - The roll takes the countUp token (420 ms) on ease-out unless a caller asks otherwise; never under 180 ms.
+// - The roll takes the countUp token (720 ms, the app's value) on the emphasized curve unless a caller asks otherwise; never under 180 ms.
 // - The first time a number is ever shown it rolls from `from` (0 for a "climb"), or shows as it is.
 // - Seen before (a memoryKey that remembers): it rolls from the remembered value, and an unchanged value
 //   does not roll at all.

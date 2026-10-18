@@ -26,7 +26,7 @@
     "enter": 360,
     "fadeThroughOut": 90,
     "fadeThroughIn": 210,
-    "countUp": 420,
+    "countUp": 720,
     "shimmerSweep": 1400,
     "shimmerRest": 250,
     "leave": 180,
@@ -34,7 +34,10 @@
     "momentT3": 2000,
     "handOffOut": 180,
     "handOffIn": 300,
-    "drawIn": 450
+    "drawIn": 450,
+    "touchLightIn": 80,
+    "touchLightOut": 360,
+    "gelSquash": 100
   },
   "curves": {
     "glide": [0.15, 0.5, 0.5, 1],
@@ -57,7 +60,9 @@
     "iconPop": { "ms": 420, "bounce": 0.18 },
     "celebrate": { "ms": 520, "bounce": 0.22 },
     "toggle": { "ms": 240, "bounce": 0.14 },
-    "lift": { "ms": 300, "bounce": 0 }
+    "lift": { "ms": 300, "bounce": 0 },
+    "lensLift": { "ms": 180, "bounce": 0 },
+    "lensDrop": { "ms": 320, "bounce": 0.14 }
   },
   "numbers": {
     "pressedScale": 0.96,

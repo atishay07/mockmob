@@ -33,7 +33,7 @@
   --mm-dur-enter: 360ms;
   --mm-dur-fade-through-out: 90ms;
   --mm-dur-fade-through-in: 210ms;
-  --mm-dur-count-up: 420ms;
+  --mm-dur-count-up: 720ms;
   --mm-dur-shimmer-sweep: 1400ms;
   --mm-dur-shimmer-rest: 250ms;
   --mm-dur-leave: 180ms;
@@ -42,6 +42,9 @@
   --mm-dur-hand-off-out: 180ms;
   --mm-dur-hand-off-in: 300ms;
   --mm-dur-draw-in: 450ms;
+  --mm-dur-touch-light-in: 80ms;
+  --mm-dur-touch-light-out: 360ms;
+  --mm-dur-gel-squash: 100ms;
   /* Curves */
   --mm-ease-glide: cubic-bezier(0.15, 0.5, 0.5, 1);
   --mm-ease-exit: cubic-bezier(0.4, 0.3, 0.8, 0.6);
@@ -94,6 +97,12 @@
   /* lift: 300 ms, bounce 0, peak 1.0000 */
   --mm-spring-lift: linear(0, 0.0264, 0.09, 0.173, 0.2637, 0.3547, 0.4415, 0.5214, 0.5932, 0.6567, 0.712, 0.7596, 0.8002, 0.8346, 0.8636, 0.8878, 0.908, 0.9248, 0.9386, 0.95, 0.9593, 0.967, 0.9733, 0.9784, 0.9825, 0.9859, 0.9886, 0.9909, 0.9926, 0.9941, 0.9953, 0.9962, 0.997, 0.9976, 0.998, 0.9984, 0.9988, 0.999, 0.9992, 0.9994, 0.9995, 0.9996, 0.9997, 0.9997, 0.9998, 0.9998, 0.9999, 0.9999, 0.9999, 0.9999, 1);
   --mm-spring-lift-dur: 596ms;
+  /* lensLift: 180 ms, bounce 0, peak 1.0000 */
+  --mm-spring-lens-lift: linear(0, 0.0447, 0.1447, 0.2648, 0.3857, 0.4971, 0.5948, 0.6776, 0.746, 0.8015, 0.846, 0.8812, 0.9089, 0.9304, 0.947, 0.9598, 0.9696, 0.9771, 0.9828, 0.9871, 0.9903, 0.9928, 0.9946, 0.996, 0.997, 0.9978, 0.9984, 0.9988, 0.9991, 0.9993, 0.9995, 0.9996, 0.9997, 0.9998, 0.9999, 0.9999, 0.9999, 0.9999, 1, 1);
+  --mm-spring-lens-lift-dur: 373ms;
+  /* lensDrop: 320 ms, bounce 0.14, peak 1.0050 */
+  --mm-spring-lens-drop: linear(0, 0.0236, 0.0825, 0.1626, 0.2534, 0.3472, 0.4391, 0.5255, 0.6044, 0.6749, 0.7365, 0.7895, 0.8343, 0.8718, 0.9025, 0.9275, 0.9474, 0.9631, 0.9753, 0.9846, 0.9915, 0.9965, 1, 1.0023, 1.0038, 1.0046, 1.005, 1.005, 1.0048, 1.0044, 1.004, 1.0035, 1.0031, 1.0026, 1.0022, 1.0018, 1.0015, 1.0012, 1.0009, 1.0007, 1.0006, 1.0004, 1.0003, 1.0002, 1.0002, 1.0001, 1.0001, 1, 1, 1);
+  --mm-spring-lens-drop-dur: 579ms;
   /* A committed press lets go with a lift: up to 1.033 from 0.96 on snappy, then release to 1 (progress space) */
   --mm-press-lift: linear(0, 0.0471, 0.1627, 0.317, 0.4895, 0.6666, 0.8391, 1.0017, 1.1513, 1.2864, 1.4069, 1.5129, 1.6056, 1.6858, 1.7549, 1.8027, 1.8191, 1.8117, 1.7868, 1.7496, 1.7041, 1.6536, 1.6005, 1.5468, 1.494, 1.4431, 1.3947, 1.3495, 1.3076, 1.2692, 1.2343, 1.2029, 1.1747, 1.1497, 1.1276, 1.1081, 1.0911, 1.0764, 1.0636, 1.0526, 1.0432, 1.0352, 1.0284, 1.0227, 1.018, 1.014, 1.0108, 1.0081, 1.0059, 1.0041, 1.0027, 1.0016, 1.0008, 1.0001, 0.9996, 0.9993, 1);
   --mm-press-lift-dur: 445ms;
@@ -174,18 +183,23 @@
     --mm-spring-toggle-dur: 240ms;
     --mm-spring-lift: var(--mm-ease-out);
     --mm-spring-lift-dur: 300ms;
+    --mm-spring-lens-lift: var(--mm-ease-out);
+    --mm-spring-lens-lift-dur: 180ms;
+    --mm-spring-lens-drop: var(--mm-ease-out);
+    --mm-spring-lens-drop-dur: 320ms;
     --mm-press-lift: var(--mm-ease-out);
     --mm-press-lift-dur: 300ms;
   }
 }
 /* motion-tokens:end */
 
-/* The kit's own names, kept for the pages that already use them. They are the app's now: the old
-   overshooting cubic-bezier is gone; --mk-spring is the app's release spring (a short physical
-   give) and --mk-settle its out curve. */
+/* The kit's own names, kept for the pages that already use them. They are the app's now. --mk-spring is the
+   app's dock spring (bounce 0.18, a calm 1 percent overshoot): keys, pills and the dock pill settle with the
+   same small give as the app's bar (owner G31, 19 Oct: the web had gone flatter than the app; the release
+   spring it used peaks at 0.15 percent, which reads as no spring at all). --mk-settle is its out curve. */
 :root {
-  --mk-spring: var(--mm-spring-release);
-  --mk-spring-dur: var(--mm-spring-release-dur);
+  --mk-spring: var(--mm-spring-dock);
+  --mk-spring-dur: var(--mm-spring-dock-dur);
   --mk-settle: var(--mm-ease-out);
   /* A remembered number that moved: volt text when it rose, dimmed ink when it fell (Night) */
   --mk-ink-rise: #d2f000;
@@ -238,15 +252,15 @@ html[data-theme='light'] {
 @keyframes mk-pop { from { transform: scale(var(--mm-enter-scale)); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 .mk-rise { animation: mk-rise var(--mm-dur-enter) var(--mm-ease-emphasized) var(--mk-delay, 0ms) backwards; }
 @keyframes mk-rise { from { transform: translate3d(0, var(--mm-enter-rise), 0); opacity: 0; } to { transform: none; opacity: 1; } }
-/* One stagger for everything (pass 1016e WA-05, the app's M13; standards s8 T-024, T-112, T-114, anti-slop
-   item 10): never the same fade-up on every child. The lead rises 14 px over 360 ms on emphasized; the next two
-   fade up 6 px at 60 and 120 ms; the rest arrive together, opacity only, from 160 ms. --i is no longer read.
+/* The stagger (restored 19 Oct, owner G31, from deploy/1015-night): every child rises 14 px on the emphasized
+   curve over 360 ms, 45 ms after the one before, and children past the eighth arrive with the eighth, so a long
+   list never keeps anyone waiting. --i comes from nth-child below (an inline --i still wins).
    .mk-stagger--flat is for lists: every item fades in at once, no travel.
    backwards, not both: once it has arrived, the element is free to press and transition again. */
-.mk-stagger > * { animation: mk-fade var(--mm-dur-ui) var(--mm-ease-out) 160ms backwards; }
-.mk-stagger > :nth-child(1) { animation: mk-rise var(--mm-dur-enter) var(--mm-ease-emphasized) backwards; }
-.mk-stagger > :nth-child(2) { animation: mk-rise-near var(--mm-dur-card) var(--mm-ease-out) 60ms backwards; }
-.mk-stagger > :nth-child(3) { animation: mk-rise-near var(--mm-dur-card) var(--mm-ease-out) 120ms backwards; }
+.mk-stagger > * { animation: mk-rise var(--mm-dur-enter) var(--mm-ease-emphasized) calc(min(var(--i, 0), var(--mm-stagger-cap)) * var(--mm-dur-stagger-step)) backwards; }
+.mk-stagger > :nth-child(2) { --i: 1; } .mk-stagger > :nth-child(3) { --i: 2; } .mk-stagger > :nth-child(4) { --i: 3; }
+.mk-stagger > :nth-child(5) { --i: 4; } .mk-stagger > :nth-child(6) { --i: 5; } .mk-stagger > :nth-child(7) { --i: 6; }
+.mk-stagger > :nth-child(8) { --i: 7; } .mk-stagger > :nth-child(n+9) { --i: 8; }
 .mk-stagger--flat > :nth-child(n) { animation: mk-fade var(--mm-dur-ui) var(--mm-ease-out) backwards; }
 @keyframes mk-rise-near { from { transform: translate3d(0, 6px, 0); opacity: 0; } to { transform: none; opacity: 1; } }
 @keyframes mk-fade { from { opacity: 0; } to { opacity: 1; } }
