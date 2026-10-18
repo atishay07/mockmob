@@ -142,12 +142,12 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
           _OneLine(m.overline, style: type.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600, letterSpacing: 0.2)),
         if (m.title != null) ...[
           if (m.overline.isNotEmpty) const SizedBox(height: MmSpace.s6),
-          // The move's own title (TODAY-1018): up to two lines beside the object, never squeezed. A
-          // failed read's title ("Tonight's move did not load") takes a third line beside Mobi at
-          // 360 dp rather than lose its last words (v15.1 walk: "Tonight's / move did no...").
+          // The move's own title (TODAY-1018): two lines beside the object where it fits, a third when it takes one, and
+          // never an ellipsis: a title cut to "Practise your weakest cha..." or "...did no..." lost the words that said
+          // what the card is (v15.1 walk, 360 dp). The titles are our own short words, so the card only grows by a line.
           Semantics(
             header: true,
-            child: Text(m.title!, maxLines: m.kind == MoveKind.failure ? 3 : 2, overflow: TextOverflow.ellipsis, style: type.title.copyWith(fontSize: 22, height: 27 / 22, color: colors.ink)),
+            child: Text(m.title!, style: type.title.copyWith(fontSize: 22, height: 27 / 22, color: colors.ink)),
           ),
         ] else if (m.subjectLine != null) ...[
           if (m.overline.isNotEmpty) const SizedBox(height: MmSpace.s4),

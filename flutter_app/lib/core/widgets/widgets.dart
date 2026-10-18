@@ -52,6 +52,7 @@ export 'mm_sheet.dart';
 export 'mm_spinner.dart';
 export 'mobi.dart';
 export 'mobi_loader.dart';
+export 'one_line_notice.dart';
 export 'monumental_number.dart';
 export 'pressable.dart';
 export 'question_strip.dart';
