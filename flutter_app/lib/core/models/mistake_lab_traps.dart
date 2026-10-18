@@ -488,6 +488,9 @@ class ReviseRead {
     return q.back;
   }
 
+  /// The Check it held this run plays after the questions back (none from an older server).
+  List<ReviseCheck> get runChecks => queue?.checks ?? const [];
+
   bool get isUnavailable => state == unavailable;
 
   /// No card at all: the entry stays out of the way.
@@ -554,46 +557,81 @@ class ReviseItem {
 /// questions back (wrong answers and repaired mistakes), the pending Check it held and the lesson
 /// cards due, deduped by question and capped by the server.
 class ReviseQueue {
-  const ReviseQueue({this.back = const [], this.counts = const ReviseQueueCounts(), this.total = 0, this.minutes = 0, this.checkNumbers = const []});
+  const ReviseQueue({this.back = const [], this.checks = const [], this.counts = const ReviseQueueCounts(), this.total = 0, this.minutes = 0});
 
   static ReviseQueue? tryParse(Json j) {
     final raw = asJsonList(j['items']);
     final back = <ReviseItem>[];
-    final checks = <int>[];
+    final checks = <ReviseCheck>[];
+    final seen = <String>{};
     for (final i in raw) {
       final kind = asStringOr(i['kind'], '');
       if (kind == ReviseItem.kindQuestion || kind == ReviseItem.kindAgain) {
         final item = ReviseItem.tryParse(i);
-        if (item != null) back.add(item);
-      } else if (kind == 'check') {
-        checks.add(asInt(i['number']) ?? 0);
+        // One card per question per day: the server dedupes, and so does the phone.
+        if (item != null && seen.add('q:${item.questionId}')) back.add(item);
+      } else if (kind == ReviseCheck.kind) {
+        final check = ReviseCheck.tryParse(i);
+        if (check != null && seen.add('check:${check.key}')) checks.add(check);
       }
     }
     final c = asJson(j['counts']);
+    final cards = (asInt(c['cards']) ?? 0).clamp(0, cardCap);
     return ReviseQueue(
       back: back,
+      checks: checks,
       counts: ReviseQueueCounts(
         back: back.length,
         again: back.where((i) => i.kind == ReviseItem.kindAgain).length,
-        checks: asInt(c['checks']) ?? checks.length,
-        cards: (asInt(c['cards']) ?? 0).clamp(0, 5),
+        checks: checks.length,
+        cards: cards,
       ),
-      total: asInt(j['total']) ?? raw.length,
+      // The head counts what the phone will show, so "8 due today" and the mix line always agree.
+      total: back.length + checks.length + cards,
       minutes: asInt(j['minutes']) ?? 0,
-      checkNumbers: checks,
     );
   }
 
+  /// Lesson cards add at most this many a day (the website's `CARD_CAP`).
+  static const int cardCap = 5;
+
   /// The questions back, in play order.
   final List<ReviseItem> back;
+
+  /// The pending Check it held, played after the questions back.
+  final List<ReviseCheck> checks;
   final ReviseQueueCounts counts;
 
   /// Everything due today across the four sources (the head's number).
   final int total;
   final int minutes;
+}
 
-  /// The question numbers of the pending checks (0 when the server did not name one).
-  final List<int> checkNumbers;
+/// A pending Check it held in the merged queue (Revise source 3): a NEW question on the rule of a
+/// repair, asked and marked by `/api/recovery/check` (no credit, no model). From the day after the
+/// repair; the mistake's own paper and number name it.
+class ReviseCheck {
+  const ReviseCheck({required this.attemptId, required this.questionId, this.number, this.paper, this.chapter});
+
+  static const kind = 'check';
+
+  static ReviseCheck? tryParse(Json j) {
+    final attemptId = asStringOr(j['attemptId'], '');
+    final questionId = asStringOr(j['questionId'], '');
+    if (attemptId.isEmpty || questionId.isEmpty) return null;
+    final n = asInt(j['number']);
+    return ReviseCheck(attemptId: attemptId, questionId: questionId, number: n != null && n > 0 ? n : null, paper: _text(j['paper']), chapter: _text(j['chapter']));
+  }
+
+  final String attemptId;
+  final String questionId;
+
+  /// The mistake's question number in its paper, when the server names it.
+  final int? number;
+  final String? paper;
+  final String? chapter;
+
+  String get key => '$attemptId/$questionId';
 }
 
 class ReviseQueueCounts {

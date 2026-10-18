@@ -10,11 +10,13 @@ import 'package:mockmob/core/models/mistake_lab_traps.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/widgets/widgets.dart' show KeyButton;
+import 'package:mockmob/features/review/data/repair_check_api.dart';
 import 'package:mockmob/features/review/revise/revise_data.dart';
 import 'package:mockmob/features/review/revise/revise_screen.dart';
 import 'package:mockmob/features/rules/data/traps_data.dart';
 import 'package:mockmob/features/rules/screens/rule_book_screen.dart';
 
+import '../../unit/review/support/repair_check_fixtures.dart' as check_fx;
 import 'review_golden_support.dart';
 
 Map<String, dynamic> _later() => jsonDecode(File('test/fixtures/mistake_lab/contract_later_v1.json').readAsStringSync()) as Map<String, dynamic>;
@@ -77,6 +79,57 @@ class _TrapsApi implements TrapsApi {
 ReviseAnswer _answer(String which, {bool? correct, int? box}) {
   final base = Map<String, dynamic>.from((_later()['answers'] as Map)[which] as Map);
   return ReviseAnswer.tryParse({...base, 'correct': ?correct, 'box': ?box})!;
+}
+
+
+/// The website's merged queue (`?queue=1`, LEARN-REVIEW-1017 5.8): a repaired mistake due again, a wrong answer,
+/// a pending Check it held and two concept cards.
+Map<String, dynamic> _queueBody() {
+  final revise = (_later()['revise'] as Map).cast<String, dynamic>();
+  final items = (revise['items'] as List).cast<Map<String, dynamic>>();
+  return {
+    ...revise,
+    'queue': {
+      'version': 2,
+      'items': [
+        {...items[0], 'kind': 'again', 'source': 'Mock 2, 12 Oct, 10:42 PM'},
+        {...items[1], 'kind': 'question', 'source': 'Mock 3, 14 Oct, 9:05 PM'},
+        {'kind': 'check', 'attemptId': 'm7', 'questionId': 'm7-q0', 'number': 42, 'paper': 'Mock 3', 'chapter': 'Admission of a partner'},
+        {'kind': 'card', 'slot': 1},
+        {'kind': 'card', 'slot': 2},
+      ],
+      'counts': {'questions': 1, 'again': 1, 'checks': 1, 'cards': 2, 'back': 2},
+      'total': 5,
+      'minutes': 4,
+    },
+  };
+}
+
+class _QueueApi implements ReviseApi {
+  _QueueApi(this.answers);
+
+  final List<ReviseAnswer> answers;
+
+  @override
+  Future<ReviseRead> read({required int cap}) async => ReviseRead.parse({..._queueBody(), 'cap': cap});
+
+  @override
+  Future<ReviseAnswer> answer({required String questionId, required int choice, required int cap}) async => answers.removeAt(0);
+}
+
+Finder _keyLabelled(String label) => find.byWidgetPredicate((w) => w is KeyButton && w.label == label);
+
+/// Answers the two questions back and lands on the run's Check it held.
+Future<void> _toCheck(WidgetTester tester) async {
+  _freshGates();
+  await _settle(tester);
+  for (final pick in ['B. Illustrative option 5b', 'A. Illustrative option 1a']) {
+    await tester.tap(find.text(pick));
+    await _settle(tester);
+    await tester.ensureVisible(_keyLabelled('Next question'));
+    await tester.tap(_keyLabelled('Next question'));
+    await _settle(tester);
+  }
 }
 
 /// Mobi answers a graded recall at most once every 2.5 s across the run: each frame starts with
@@ -171,6 +224,60 @@ void main() {
         await _settle(tester);
       }
       tester.view.physicalSize = const Size(360, 640) * 2;
+      await _settle(tester);
+    },
+  );
+
+  // Revise as one queue (P-LR5) at the owner's phone width: the head and mix line, a repaired mistake's kind line.
+  reviewGolden(
+    'revise_queue_card',
+    () => const ReviseScreen(),
+    overrides: () => [...reviewOverrides(), reviseApiProvider.overrideWithValue(_QueueApi([])), revisePrefsStoreProvider.overrideWithValue(MemoryPrefsStore())],
+    size: const Size(360, 800),
+    after: _settle,
+  );
+
+  // The Check it held inside the run, its new question open.
+  reviewGolden(
+    'revise_queue_check',
+    () => const ReviseScreen(),
+    overrides: () => [
+      ...reviewOverrides(),
+      reviseApiProvider.overrideWithValue(_QueueApi([_answer('right'), _answer('wrong', correct: false)])),
+      revisePrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
+      repairCheckApiProvider.overrideWithValue(check_fx.FakeCheckApi()),
+    ],
+    size: const Size(360, 1100),
+    after: (tester) async {
+      await _toCheck(tester);
+      await tester.scrollUntilVisible(find.text('3 of 3'), 200, scrollable: find.byType(Scrollable).first);
+      await _settle(tester);
+    },
+  );
+
+  // The end: the questions back, the check held, the concept cards next.
+  reviewGolden(
+    'revise_queue_end',
+    () => const ReviseScreen(),
+    overrides: () => [
+      ...reviewOverrides(),
+      reviseApiProvider.overrideWithValue(_QueueApi([_answer('right'), _answer('wrong', correct: false)])),
+      revisePrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
+      repairCheckApiProvider.overrideWithValue(check_fx.FakeCheckApi(onSubmit: (_, _) => check_fx.answer(right: true))),
+    ],
+    size: const Size(360, 1400),
+    after: (tester) async {
+      await _toCheck(tester);
+      await tester.tap(find.text('Debit Goodwill, credit the sacrificing partners'));
+      await tester.pump();
+      final submit = find.widgetWithText(KeyButton, 'Check my answer').first;
+      await tester.ensureVisible(submit);
+      await tester.tap(submit);
+      await _settle(tester);
+      await tester.ensureVisible(_keyLabelled('Finish'));
+      await tester.tap(_keyLabelled('Finish'));
+      await _settle(tester);
+      tester.view.physicalSize = const Size(360, 800) * 2;
       await _settle(tester);
     },
   );

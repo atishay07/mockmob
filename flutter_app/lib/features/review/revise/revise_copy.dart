@@ -102,6 +102,24 @@ abstract final class ReviseCopy {
   static String cardsKey(int n) => 'Revise ${mixCards(n)}';
   static const String cardsNote = 'From lessons you have read. Free.';
 
-  /// The end's line for a Check it held still waiting (asked from Review, on a new question).
-  static String checksWaiting(int n) => n == 1 ? '1 Check it held waits in Review.' : '$n Check it held wait in Review.';
+  /// A Check it held's line above its question: the mistake whose rule it checks.
+  static String checkRule(int n) => 'Your Q$n rule';
+
+  /// The website's `revise.run.skip`: leave a Check it held for later (it stays due).
+  static const String skipCheck = 'Skip for today';
+
+  /// The end's line for the checks this run marked, in the website's words (`revise.run.end.held`
+  /// and `.slipped`). Null when none was marked.
+  static String? checksEnd({required int held, required int slipped}) {
+    final parts = [
+      if (held > 0) '$held held on a new question',
+      if (slipped > 0) '$slipped slipped on a new question, so ${slipped == 1 ? 'it is' : 'they are'} open again',
+    ];
+    if (parts.isEmpty) return null;
+    final text = parts.join('. ');
+    return '${text[0].toUpperCase()}${text.substring(1)}.';
+  }
+
+  /// The end's line for a Check it held left for later.
+  static String checksLeft(int n) => n == 1 ? '1 Check it held is still due. It stays in Revise.' : '$n Check it held are still due. They stay in Revise.';
 }

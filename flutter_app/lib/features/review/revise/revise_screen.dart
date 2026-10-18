@@ -20,6 +20,9 @@ import '../../learn/data/run_starter.dart';
 import '../../learn/widgets/feedback_mobi.dart';
 import '../again/review_again_copy.dart';
 import '../again/review_again_entry.dart' show reviewAgainCountProvider;
+import '../data/repair_check_controller.dart';
+import '../data/repair_check_logic.dart' show CheckPhase;
+import '../widgets/repair_check_section.dart' show CheckItHeld;
 import '../widgets/page_header.dart';
 import '../widgets/review_load_failure.dart' show startQuickTen;
 import '../widgets/review_state_view.dart';
@@ -266,9 +269,14 @@ class _Run extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final items = read.runItems;
+    final checks = read.runChecks;
     final queue = read.queue;
-    final finished = items.isNotEmpty && at >= items.length;
+    // One run: the questions back first, then the Check it held (5.8). Concept cards follow in
+    // the lesson recall run, offered at the end.
+    final total = items.length + checks.length;
+    final finished = total > 0 && at >= total;
     final current = at < items.length ? items[at] : null;
+    final check = current == null && at < total ? checks[at - items.length] : null;
     final right = done.where((d) => d).length;
     final wrong = done.length - right;
 
@@ -281,14 +289,28 @@ class _Run extends StatelessWidget {
           child: ReviseCard(
             item: current,
             number: at + 1,
-            total: items.length,
+            total: total,
             result: result,
             chosen: chosen,
             busy: busy,
             error: error,
             queued: queue != null,
-            last: at + 1 >= items.length,
+            last: at + 1 >= total,
             onChoose: onChoose,
+            onNext: onNext,
+          ),
+        ),
+      );
+    } else if (check != null) {
+      stage = KeyedSubtree(
+        key: ValueKey('check:${check.key}'),
+        child: MmEntrance(
+          rise: 8,
+          child: ReviseCheckStep(
+            check: check,
+            number: at + 1,
+            total: total,
+            last: at + 1 >= total,
             onNext: onNext,
           ),
         ),
@@ -296,17 +318,34 @@ class _Run extends StatelessWidget {
     } else if (finished) {
       // Only the end needs the phone's repaired count, so only the end reads it.
       stage = Consumer(
-        builder: (context, ref, _) => ReviseEnd(
-          line: ReviseCopy.end(right: right, wrong: wrong),
-          next: read.next,
-          right: right,
-          wrong: wrong,
-          // The repaired mistakes due today are in the queue now; the phone's own list is offered
-          // only by an older server that does not merge them.
-          repaired: queue == null ? ref.watch(reviewAgainCountProvider) : 0,
-          cards: queue?.counts.cards ?? 0,
-          checks: queue?.counts.checks ?? 0,
-        ),
+        builder: (context, ref, _) {
+          // The checks this run asked, as the server marked them (a check left for later is
+          // still due, so it is counted apart).
+          final marked = [
+            for (final c in checks)
+              ref.watch(
+                repairCheckProvider((
+                  attemptId: c.attemptId,
+                  questionId: c.questionId,
+                )).select((v) => v.result?.right),
+              ),
+          ];
+          final held = marked.where((r) => r == true).length;
+          final slipped = marked.where((r) => r == false).length;
+          return ReviseEnd(
+            line: ReviseCopy.end(right: right, wrong: wrong),
+            next: read.next,
+            right: right + held,
+            wrong: wrong + slipped,
+            // The repaired mistakes due today are in the queue now; the phone's own list is offered
+            // only by an older server that does not merge them.
+            repaired: queue == null ? ref.watch(reviewAgainCountProvider) : 0,
+            cards: queue?.counts.cards ?? 0,
+            held: held,
+            slipped: slipped,
+            checksLeft: checks.length - held - slipped,
+          );
+        },
       );
     } else {
       // No card at all yet: the first time here. The page teaches what will
@@ -319,7 +358,6 @@ class _Run extends StatelessWidget {
             : (read.next ?? ReviseCopy.nextNone),
         teaches: firstTime && (queue?.total ?? 0) == 0,
         cards: queue?.counts.cards ?? 0,
-        checks: queue?.counts.checks ?? 0,
       );
     }
 
@@ -375,7 +413,9 @@ class _Run extends StatelessWidget {
                   style: type.small.copyWith(color: colors.ink2),
                 ),
               ],
-              if (read.summary != null) ...[
+              // With the queue the head and the mix line say it all (5.8: "nothing more"); the old
+              // summary counts only the questions, and the old sub says checks are elsewhere.
+              if (queue == null && read.summary != null) ...[
                 const SizedBox(height: MmSpace.s4),
                 Text(
                   read.summary!,
@@ -385,12 +425,15 @@ class _Run extends StatelessWidget {
                   ),
                 ),
               ],
-              const SizedBox(height: MmSpace.s16),
-              Text(
-                read.labels.sub,
-                style: type.body.copyWith(color: colors.ink2),
-              ),
-              const SizedBox(height: MmSpace.s16),
+              if (queue == null) ...[
+                const SizedBox(height: MmSpace.s16),
+                Text(
+                  read.labels.sub,
+                  style: type.body.copyWith(color: colors.ink2),
+                ),
+              ],
+              if (queue == null || !finished && queue.total > 0)
+                const SizedBox(height: MmSpace.s16),
               _CapChoice(cap: cap, onChanged: onCap, disabled: busy),
             ],
           ),
@@ -1028,14 +1071,19 @@ class ReviseEnd extends StatelessWidget {
     required this.wrong,
     this.repaired = 0,
     this.cards = 0,
-    this.checks = 0,
+    this.held = 0,
+    this.slipped = 0,
+    this.checksLeft = 0,
   });
 
   /// Lesson recall cards due today (source 4): above 0 the end's key plays them.
   final int cards;
 
-  /// Check it held still pending (asked from Review on a new question).
-  final int checks;
+  /// The Check it held this run asked: held and slipped on the new question, and those left for
+  /// later (no new question was ready, or the student moved on), which stay due.
+  final int held;
+  final int slipped;
+  final int checksLeft;
 
   final String? line;
   final String? next;
@@ -1122,12 +1170,12 @@ class ReviseEnd extends StatelessWidget {
           const SizedBox(height: MmSpace.s8),
           Text(next!, style: type.body.copyWith(color: colors.ink2)),
         ],
-        if (checks > 0) ...[
+        for (final l in [
+          ?ReviseCopy.checksEnd(held: held, slipped: slipped),
+          if (checksLeft > 0) ReviseCopy.checksLeft(checksLeft),
+        ]) ...[
           const SizedBox(height: MmSpace.s8),
-          Text(
-            ReviseCopy.checksWaiting(checks),
-            style: type.body.copyWith(color: colors.ink2),
-          ),
+          Text(l, style: type.body.copyWith(color: colors.ink2)),
         ],
         const SizedBox(height: MmSpace.s24),
         if (cards > 0) ...[
@@ -1164,12 +1212,10 @@ class _Empty extends StatelessWidget {
     required this.text,
     this.teaches = false,
     this.cards = 0,
-    this.checks = 0,
   });
 
   final String text;
   final int cards;
-  final int checks;
 
   /// The first-time state that teaches: one sample card, and the next action first.
   final bool teaches;
@@ -1193,13 +1239,6 @@ class _Empty extends StatelessWidget {
           KeyButton(label: ReviseCopy.startAction, onPressed: () => startQuickTen(context)),
           Align(child: KeyButton.quiet(label: ReviseCopy.backToReview, onPressed: back)),
         ] else ...[
-          if (checks > 0) ...[
-            const SizedBox(height: MmSpace.s8),
-            Text(
-              ReviseCopy.checksWaiting(checks),
-              style: context.mmType.body.copyWith(color: colors.ink2),
-            ),
-          ],
           const SizedBox(height: MmSpace.s24),
           if (cards > 0) ...[
             ReviseCardsKey(cards: cards),
@@ -1284,6 +1323,98 @@ class _ScheduleFoldState extends State<_ScheduleFold> {
           const SizedBox(height: MmSpace.s8),
           MmEntrance(rise: 8, child: widget.child),
         ],
+      ],
+    );
+  }
+}
+
+/// A pending Check it held inside the run (Revise source 3): a new question on the rule of a
+/// repair, asked and marked by the repair check (`/api/recovery/check`, no credit, no model). The
+/// position and the mistake it checks sit above Review's own Check it held block; the student
+/// moves on once it is marked, or leaves it for later, when it stays due.
+class ReviseCheckStep extends ConsumerStatefulWidget {
+  const ReviseCheckStep({
+    super.key,
+    required this.check,
+    required this.number,
+    required this.total,
+    required this.last,
+    required this.onNext,
+  });
+
+  final ReviseCheck check;
+  final int number;
+  final int total;
+  final bool last;
+  final VoidCallback onNext;
+
+  @override
+  ConsumerState<ReviseCheckStep> createState() => _ReviseCheckStepState();
+}
+
+class _ReviseCheckStepState extends ConsumerState<ReviseCheckStep> {
+  CheckKey get _key => (attemptId: widget.check.attemptId, questionId: widget.check.questionId);
+
+  @override
+  void initState() {
+    super.initState();
+    // Ask for the question once (free). A check already open or marked on this phone keeps its
+    // question and the student's answer.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      if (ref.read(repairCheckProvider(_key)).phase == CheckPhase.idle) {
+        unawaited(ref.read(repairCheckProvider(_key).notifier).load());
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final view = ref.watch(repairCheckProvider(_key));
+    final c = widget.check;
+    final detail = [
+      if (c.number != null) ReviseCopy.checkRule(c.number!),
+      ?c.paper,
+      ?c.chapter,
+    ].join('. ');
+    final marked = view.phase == CheckPhase.answered;
+    final nothing = view.phase == CheckPhase.none;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          ReviseCopy.position(widget.number, widget.total),
+          style: type.label.copyWith(
+            color: colors.ink2,
+            fontFeatures: const [FontFeature.tabularFigures()],
+          ),
+        ),
+        if (detail.isNotEmpty) ...[
+          const SizedBox(height: MmSpace.s2),
+          Text(
+            detail,
+            style: type.small.copyWith(color: colors.ink3),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+        const SizedBox(height: MmSpace.s12),
+        CheckItHeld(attemptId: c.attemptId, questionId: c.questionId),
+        const SizedBox(height: MmSpace.s16),
+        if (marked || nothing)
+          KeyButton(
+            label: widget.last ? ReviseCopy.finish : ReviseCopy.nextQuestion,
+            onPressed: widget.onNext,
+          )
+        else
+          Align(
+            child: KeyButton.quiet(
+              label: ReviseCopy.skipCheck,
+              onPressed: widget.onNext,
+            ),
+          ),
       ],
     );
   }
