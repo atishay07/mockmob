@@ -373,6 +373,13 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 | D73 | A plan for selling Pro and credits in the Play app, and build it | BUILDING 6:30 pm: server (wt-play-server, web/play-billing-1018: verify + RTDN + play_purchases migration, flag PLAY_BILLING_ENABLED) and app (wt-play-app, ui/play-billing-1018: in_app_purchase, Get Pro sheet, flag PLAY_BILLING); plan doc docs/brain/PLAY-BILLING-PLAN-1018.md; a real purchase needs his Play Console setup |
 | D74 | Everything by 10:30 pm, more parallel agents | Chain in chat: R9 live ~7:30, final app ~8, Play billing built and checked ~9:30, v15.2 APK ~10:15, final message 10:30 |
 
+### Owner at about 6:38 pm, 18 Oct (D75-D77)
+| D | Item | Status |
+|---|---|---|
+| D75 | Pro on Google Play: Rs 150 FINAL (web stays Rs 99) | Recorded; set in Play Console; play-server plan doc updated |
+| D76 | One credits wallet on web AND app (practice + AI credits, reload packs); build now, he wires Razorpay today | BUILDING 6:42 pm: web wt-wallet-web (web/wallet-1018: /wallet, /api/wallet, /api/wallet/order + verify, flag WALLET_COMMERCE_OPEN, note WALLET-RAZORPAY.md); app Wallet screen added to the Play billing app agent. Packs (CEO proposal, constants): AI Rs 10/50, Rs 20/150, Rs 50/400 (existing ids, labels renamed); practice NEW Rs 19/100, Rs 49/300; Play prices about 1.5x (AI 15/30/75, practice 29/75) for him to confirm |
+| D77 | "No agent is running / stalled": stay on top, more parallel | 6:38 pm check: all 4 agents wrote within 1-5 min; 2 more agents added (wallet web, wallet app scope) |
+
 ## Waiting on the owner (updated 18 Oct about 3:45 am)
 - Answered 3:50 am: M-001 first launch 3 s; M-006 bolder copy; D19 keep badges, refine; D22 Mob.
 - D32: confirm the kept landing element when he reviews the port live (wt-land3, port 3206).
