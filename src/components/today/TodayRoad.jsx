@@ -20,16 +20,14 @@
 // is never a debt.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Check, Flag, SlidersHorizontal } from 'lucide-react';
+import { Check, ChevronDown, Flag, SlidersHorizontal } from 'lucide-react';
 import { api } from '@/lib/fetcher';
-import { roadFigures, roadLayers, stripColumns, targetFor, weekdayDay, shortDay } from '@/lib/today/road.mjs';
+import { roadFigures, roadLayers, stripColumns, targetFor, weekdayDay, shortDay, goalLines } from '@/lib/today/road.mjs';
 import { todayKeyIn, weekDays } from '@/lib/today/week.mjs';
 import { clock } from '@/lib/today/move.mjs';
 import TodayPlanFlow from './TodayPlanFlow';
 
 const JSON_HEADERS = { 'Content-Type': 'application/json' };
-// 'Board exams ...' reads mid-sentence in lower case; an acronym ('CUET ...') keeps its capitals.
-const lowerFirst = (t) => (/^[A-Z]{2}/.test(t) ? t : `${t.charAt(0).toLowerCase()}${t.slice(1)}`);
 // Up to 16 things get a segment each; more (a target of 27 full mocks) are one continuous stretch filled to the share.
 const MAX_SEGMENTS = 16;
 const LONG_DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -67,7 +65,7 @@ function Stop({ id, index, selected, onSelect, label, figure, of, unit, also = '
   return (
     <li>
       <button type="button" className="trd__stop" id={`trd-stop-${id}`} aria-pressed={selected} aria-controls="trd-readout" onClick={() => onSelect(index)} aria-label={aria}>
-        <span className="trd__label" aria-hidden="true">{label}</span>
+        <span className="trd__label" aria-hidden="true">{label}<ChevronDown className="trd__chev" size={14} strokeWidth={2} /></span>
         <span className="trd__fig" aria-hidden="true"><b>{figure}</b>{of ? <small>{of}</small> : null}</span>
         {stretch}
         <span className="trd__unit" aria-hidden="true">{unit}{also ? <span className="trd__also">{also}</span> : null}</span>
@@ -173,7 +171,6 @@ export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, l
   const year = g.exam.slice(0, 4);
   const examLine = g.own ? `Your date, ${weekdayDay(g.exam)} ${year}` : `Expected from ${weekdayDay(g.exam)} ${year}`;
   const paceWords = g.pace ? (g.pace.left === 0 ? 'target reached' : g.pace.strong ? g.pace.strong.replace(/^about /, '').replace(/ gets you there\.$/, '') : `${g.pace.left} to go`) : '';
-  const nextLine = g.next ? `Next, ${g.next.when}: ${lowerFirst(g.next.title)}, ${weekdayDay(g.next.day)}.` : '';
   const days = g.studyDays != null && g.goal ? `${g.studyDays} study ${g.studyDays === 1 ? 'day' : 'days'} at ${g.goal} a week` : '';
   const todayName = `${LONG_DAYS[new Date(`${today}T00:00:00Z`).getUTCDay()]} ${shortDay(today)}`;
   // This week's stop prints the same count and words as the This week block (weekDays: "4 of 4 study days"); the full mock the plan
@@ -259,13 +256,8 @@ export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, l
         <h3>{inWindow ? 'The CUET UG window is open' : `To CUET UG, ${weekdayDay(g.exam)} ${year}${g.own ? '' : ', expected'}`}</h3>
         {inWindow ? <p className="trd__note">Each paper now is the last practice before yours.</p> : (
           <>
-            <p className="trd__note">
-              {taken == null ? 'Your full mocks did not load. ' : <><b>{taken} of {target} full mocks</b>{plan.mockTarget == null ? ', suggested' : ''}. </>}
-              {g.pace && taken != null ? <>{g.pace.text} <b>{g.pace.strong}</b></> : null}
-            </p>
-            {days ? <p className="trd__note"><b>{days}.</b> Board weeks count as 2.</p> : null}
-            {g.next ? <p className="trd__note"><b>{nextLine}</b> {g.next.note}</p> : null}
-            {g.own ? null : <p className="trd__note">NTA has not published the {year} dates yet.</p>}
+            {/* Release 10 (D6, no disclaimers): three plain lines, the caveat folded into "expected". */}
+            {goalLines({ goal: g, taken }).map((line) => <p key={line} className="trd__note">{line}</p>)}
             {dayOne ? <p className="trd__note">Set your date and days. It takes three taps.</p> : null}
           </>
         )}

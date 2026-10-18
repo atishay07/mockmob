@@ -412,3 +412,31 @@ export function roadLayers({ today, rhythm = null, weekdays = null, revise = nul
   };
   return { today: todayLayer, week: weekLayer, goal: goalLayer };
 }
+
+const NEXT_WORDS = { registration: 'CUET registration expected', boards: 'Board exams expected to begin', 'boards-end': 'Board exams expected to end' };
+
+/**
+ * The overall goal's readout in three plain lines (release 10, owner D6: no clutter, no standalone disclaimer; the caveat lives in
+ * the word "expected"). `goal` is roadLayers' goal layer; `taken` the full mocks on the record (null when unread).
+ *   "14 full mocks to go: about one a fortnight."
+ *   "94 study days at 4 a week; board-exam weeks ease to 2."
+ *   "Next: CUET registration expected Mon 1 Feb, in 15 weeks."
+ */
+export function goalLines({ goal: g, taken = null }) {
+  if (!g) return [];
+  const out = [];
+  const p = g.pace;
+  if (taken == null) out.push('Your full mocks did not load.');
+  else if (p) {
+    const mocks = (n) => `${n} full ${n === 1 ? 'mock' : 'mocks'}`;
+    if (p.left === 0) out.push(`${mocks(taken)} taken: target reached. Every extra paper is more practice.`);
+    else if (p.strong) out.push(`${mocks(p.left)} to go: ${p.strong.replace(/ gets you there\.$/, '')}.`);
+    else out.push(`${mocks(p.left)} to go${p.text.replace(/^\d+ to go/, '').replace(/\.$/, '')}.`);
+  }
+  if (g.studyDays != null && g.goal) out.push(`${g.studyDays} study ${g.studyDays === 1 ? 'day' : 'days'} at ${g.goal} a week${g.goal > BOARD_WEEK_SESSIONS ? `; board-exam weeks ease to ${BOARD_WEEK_SESSIONS}` : ''}.`);
+  if (g.next) {
+    const what = g.next.id === 'exam' ? (g.own ? 'your exam' : 'CUET UG expected to begin') : NEXT_WORDS[g.next.id] || g.next.title;
+    out.push(`Next: ${what} ${weekdayDay(g.next.day)}, ${g.next.when}.`);
+  }
+  return out;
+}

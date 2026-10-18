@@ -120,3 +120,22 @@ test('first week: a tapped mark says its own line; from 1024 px the marks carry 
   assert.match(sheet, /@media \(min-width: 1024px\) \{\s*\.app-shell \.tm__rail \{ width: min\(100%, 392px\); \}\s*\.app-shell \.tm__step\[data-day\]::before \{ content: attr\(data-short\);/);
   assert.match(sheet, /\.tm__step-hit \{[^}]*width: 28px; height: 44px;/);
 });
+
+// ---- Road to CUET (#4, D6): the stops look openable; the goal readout is three plain lines with no disclaimer line -------------
+
+import { goalLines, mockPace } from '../../src/lib/today/road.mjs';
+
+test('Road: the overall goal reads as three lines, the NTA caveat folded into "expected"', () => {
+  const g = { pace: mockPace({ target: 14, taken: 0, days: 196 }), studyDays: 94, goal: 4, own: false, next: { id: 'registration', day: '2027-02-01', when: 'in 15 weeks', title: 'CUET registration is expected to open' } };
+  assert.deepEqual(goalLines({ goal: g, taken: 0 }), [
+    '14 full mocks to go: about one a fortnight.',
+    '94 study days at 4 a week; board-exam weeks ease to 2.',
+    'Next: CUET registration expected Mon 1 Feb, in 15 weeks.',
+  ]);
+  assert.equal(goalLines({ goal: { ...g, goal: 2 }, taken: 0 })[1], '94 study days at 2 a week.', 'no easing to mention at 2 a week');
+  assert.equal(goalLines({ goal: g, taken: null })[0], 'Your full mocks did not load.');
+  const road = read('src/components/today/TodayRoad.jsx');
+  assert.doesNotMatch(road, /NTA has not published|Board weeks count as 2/);
+  assert.match(road, /<ChevronDown className="trd__chev" size=\{14\}/);
+  assert.match(css('src/components/today/today.css'), /\.trd__stop\[aria-pressed='true'\] \.trd__chev \{ transform: rotate\(180deg\);/);
+});
