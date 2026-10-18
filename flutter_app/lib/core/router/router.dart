@@ -323,21 +323,28 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
             page('start', practiceStartScreen, transition: MmTransition.container, root: true),
             page('result/:attemptId', practiceResultScreen, transition: MmTransition.container, root: true),
             // Your papers (D105, G20): the Review screen, inside Practice with the bar under it, and
-            // its own pages under it, so Back from a mistake lands on Your papers, then Practice.
+            // its own pages with the bar under them, so Back from a mistake lands on Your papers,
+            // then Practice.
             page('papers', reviewScreen, routes: [
               page('mistakes', reviewMistakesScreen),
               page('record', reviewRecordScreen),
-              // The Rule book: over the dock, so the result page (outside the shell) can push it too.
-              page('rules', reviewRulesScreen, root: true),
-              page('revise', reviewReviseScreen, root: true),
-              // Review again: repaired mistakes asked once more, key hidden. Over the dock like Revise.
-              page('again', reviewAgainScreen, root: true),
               page('insights', reviewInsightsScreen),
               page('saved', reviewSavedScreen),
-              // Literal "ending" before the :questionId pattern.
-              page('repair/:attemptId/ending', reviewRepairEndingScreen, transition: MmTransition.rise, root: true),
-              page('repair/:attemptId/:questionId', reviewRepairScreen, transition: MmTransition.container, root: true),
             ]),
+            // Your papers' pages that cover the bar sit on Practice itself, not on Your papers: a link
+            // or a result opens them over a page that already covers the tab, and a tab out of sight
+            // must not gain a page under them (its navigator is not laid out, so the page flight that
+            // a new top page starts would have no size). Opened from Your papers they are pushed, so
+            // Back still returns there; opened by a link, Back lands on Practice, whose first row is
+            // Your papers.
+            // The Rule book: over the dock, so the result page (outside the shell) can push it too.
+            page('papers/rules', reviewRulesScreen, root: true),
+            page('papers/revise', reviewReviseScreen, root: true),
+            // Review again: repaired mistakes asked once more, key hidden. Over the dock like Revise.
+            page('papers/again', reviewAgainScreen, root: true),
+            // Literal "ending" before the :questionId pattern.
+            page('papers/repair/:attemptId/ending', reviewRepairEndingScreen, transition: MmTransition.rise, root: true),
+            page('papers/repair/:attemptId/:questionId', reviewRepairScreen, transition: MmTransition.container, root: true),
           ]),
         ]),
         // The Mob (D105, SOCIAL-SPEC section 8): your Mob, this week's paper and the invite, or the

@@ -119,6 +119,9 @@ Finder _tab(String label) => find.descendant(of: find.byType(MmBottomBar), match
 
 String _location(ProviderContainer container) => _router(container).routerDelegate.currentConfiguration.uri.toString();
 
+/// The top page's own location: a push leaves [_location] (the base) as it was.
+String _top(ProviderContainer container) => _router(container).state.uri.toString();
+
 String _sample(String template) => template.replaceAllMapped(RegExp(r':(\w+)'), (m) {
   return switch (m[1]) {
     'i' => '2',
@@ -313,6 +316,36 @@ void main() {
     expect(_location(container), '/practice');
   });
 
+  _test("Your papers' covering pages: pushed from Your papers, Back returns there; opened by a link, Back lands on Practice", (tester) async {
+    final container = await _pump(tester);
+    final router = _router(container);
+    router.go(AppRoutes.papers);
+    await _settle(tester);
+    unawaited(router.push(AppRoutes.reviewRepair('att1', 'q1')));
+    await _settle(tester);
+    expect(_top(container), '/practice/papers/repair/att1/q1', reason: 'the old path, pushed, lands inside Practice');
+    expect(find.byType(MmBottomBar), findsNothing, reason: 'a repair covers the bar');
+    expect(tester.takeException(), isNull);
+    await tester.binding.handlePopRoute();
+    await _settle(tester);
+    expect(_top(container), AppRoutes.papers);
+    expect(find.byType(MmBottomBar), findsOneWidget);
+
+    // A link (or a notification) over a page that already covers the tab: no page is slotted in
+    // under it, and Back lands on Practice, whose first row is Your papers.
+    router.go(AppRoutes.practiceSetup('full'));
+    await _settle(tester);
+    router.go('/review/repair/att1/q1?count=2');
+    await _settle(tester);
+    expect(_location(container), '/practice/papers/repair/att1/q1?count=2');
+    expect(tester.takeException(), isNull, reason: 'no page flight in a tab that is out of sight');
+    final handled = await tester.binding.handlePopRoute();
+    await _settle(tester);
+    expect(handled, isTrue, reason: 'never out of the app');
+    expect(Uri.parse(_location(container)).path, AppRoutes.practice);
+    expect(find.byType(MmBottomBar), findsOneWidget);
+  });
+
   test('papersLocationFor keeps the tail and the query, and leaves other paths alone', () {
     expect(papersLocationFor(Uri.parse('/review')), '/practice/papers');
     expect(papersLocationFor(Uri.parse('/review/')), '/practice/papers');
@@ -371,7 +404,7 @@ void main() {
     final router = _router(container);
     unawaited(router.push(AppRoutes.colleges));
     await _settle(tester);
-    expect(_location(container), AppRoutes.colleges);
+    expect(_top(container), AppRoutes.colleges);
     expect(find.byType(MmBottomBar), findsNothing, reason: 'a page over the bar');
     expect(find.byType(PushedBackKey), findsOneWidget, reason: 'the way back is in sight');
     expect(find.byType(AccountAvatarButton), findsNothing);
@@ -382,21 +415,21 @@ void main() {
     expect(find.byType(CompassScreen), findsOneWidget);
     await tester.binding.handlePopRoute();
     await _settle(tester);
-    expect(_location(container), AppRoutes.colleges);
+    expect(_top(container), AppRoutes.colleges);
     await tester.binding.handlePopRoute();
     await _settle(tester);
-    expect(_location(container), AppRoutes.today);
+    expect(_top(container), AppRoutes.today);
     expect(find.byType(MmBottomBar), findsOneWidget);
 
     // Reached with nothing under it (/tools, or a go from a page outside the shell), Back goes to Today.
     router.go(AppRoutes.tools);
     await _settle(tester);
-    expect(_location(container), AppRoutes.colleges, reason: '/tools is Colleges');
+    expect(_top(container), AppRoutes.colleges, reason: '/tools is Colleges');
     expect(find.byType(PushedBackKey), findsOneWidget);
     final handled = await tester.binding.handlePopRoute();
     await _settle(tester);
     expect(handled, isTrue, reason: 'never out of the app (L04)');
-    expect(_location(container), AppRoutes.today);
+    expect(_top(container), AppRoutes.today);
   });
 
   _test('a link to a CUET tool opens it over Colleges, so Back never leaves the app (L04)', (tester) async {
@@ -408,11 +441,11 @@ void main() {
     final handled = await tester.binding.handlePopRoute();
     await _settle(tester);
     expect(handled, isTrue);
-    expect(_location(container), AppRoutes.colleges);
+    expect(_top(container), AppRoutes.colleges);
     final again = await tester.binding.handlePopRoute();
     await _settle(tester);
     expect(again, isTrue);
-    expect(_location(container), AppRoutes.today);
+    expect(_top(container), AppRoutes.today);
     expect(find.byType(MmBottomBar), findsOneWidget);
   });
 
@@ -756,7 +789,7 @@ void main() {
       final calls = <String>[];
       await _pump(tester, extra: [todayActionsProvider.overrideWith((ref) => _ShownSpy(ref, calls))]);
       expect(calls, isEmpty, reason: 'the first show is the first read, not a return');
-      await tester.tap(_tab('Review'));
+      await tester.tap(_tab('Mob'));
       await _settle(tester);
       expect(calls, isEmpty, reason: 'leaving Today reads nothing');
       await tester.tap(_tab('Today'));
@@ -849,7 +882,8 @@ void main() {
 
       container.read(_testAuth.notifier).set(_signedIn);
       await _settle(tester);
-      expect(_location(container), '/review');
+      // The old Review path lands on Your papers inside Practice (D105).
+      expect(_location(container), '/practice/papers');
     });
   });
 }

@@ -17,12 +17,15 @@ import 'package:mockmob/core/models/practice_quote.dart';
 import 'package:mockmob/core/repositories/credits_repository.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/router/quick_start.dart' show quickStartNtaProvider;
-import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/credits/data/credits_data.dart';
 import 'package:mockmob/features/practice/copy.dart';
 import 'package:mockmob/features/practice/data/start_entries.dart';
 import 'package:mockmob/features/practice/model/cost_line.dart';
 import 'package:mockmob/features/practice/practice_routes.dart';
+import 'package:mockmob/core/storage/prefs_store.dart';
+import 'package:mockmob/features/pro_nudge/data/pro_benefits.dart' show ProFacts;
+import 'package:mockmob/features/pro_nudge/data/pro_facts_provider.dart';
+import 'package:mockmob/features/pro_nudge/data/pro_nudge_controller.dart' show proNudgePrefsProvider;
 import 'package:mockmob/features/pro_nudge/pro_nudge.dart' show ProNudgeCopy, ProReason, proNudgesOnProvider;
 
 import '../../helpers/fonts.dart';
@@ -220,6 +223,9 @@ void main() {
           meCreditsProvider.overrideWith(() => FakeMeCredits(creditsState())),
           creditsRepositoryProvider.overrideWithBuild((ref, n) => const RemoteState<AiCredits>()),
           ...rig.overrides,
+          // The nudges remember what they showed in the phone's preferences: in memory here.
+          proNudgePrefsProvider.overrideWithValue(MemoryPrefsStore()),
+          proFactsProvider.overrideWithValue(ProFacts.empty),
         ],
         size: const Size(360, 800),
       );

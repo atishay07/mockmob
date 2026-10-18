@@ -4,6 +4,7 @@
 // Mob block only while the student is in no Mob.
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/theme/theme.dart' show MmBar;
 import 'package:mockmob/core/widgets/account/account_avatar.dart' show AccountAvatarButton;
 import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/social/copy.dart';
@@ -54,6 +55,8 @@ void main() {
     expect(find.text(MobCopy.joinCodeWrong), findsOneWidget);
     expect(codes, isEmpty);
 
+    // The key holds still for a moment after a tap (its tap lock), as on the phone.
+    await tester.pump(const Duration(seconds: 1));
     await tester.enterText(find.byKey(const ValueKey('mob-join-code-field')), 'k7p2 m9qx');
     await tester.pump();
     expect(find.text(MobCopy.joinCodeWrong), findsNothing, reason: 'typing clears the error');
@@ -61,6 +64,7 @@ void main() {
     await tester.pump();
     expect(codes, ['K7P2M9QX']);
 
+    await tester.pump(const Duration(seconds: 1));
     await tester.enterText(find.byKey(const ValueKey('mob-join-code-field')), 'https://www.mockmob.in/join/K7P2M9QX');
     await tester.tap(find.text(MobCopy.joinCodeKey));
     await tester.pump();
