@@ -367,6 +367,9 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg:not([data-lens
 .app-shell .pr .pr-ticket__fine-head > span { display: inline-flex; align-items: center; gap: 7px; font: 700 15px/1.2 var(--font-display); color: var(--a-ink); }
 .app-shell .pr .pr-ticket__fine-head svg { color: var(--a-accent-text); }
 .app-shell .pr .pr-ticket__edit { min-height: 36px; padding: 0 12px; margin-right: -4px; border: 1px solid var(--a-line-strong); border-radius: 10px; background: transparent; color: var(--a-ink); font: 700 13.5px/1 var(--font-body); cursor: pointer; transition: background-color 160ms ease, border-color 160ms ease; }
+/* The drawn button stays 36 px; its target is 44 (W-079): 8 px more, all of it above (the Start button sits right below), from an invisible layer. */
+.app-shell .pr .pr-ticket__edit { position: relative; }
+.app-shell .pr .pr-ticket__edit::after { content: ''; position: absolute; inset: -8px -2px 0; }
 .app-shell .pr .pr-ticket__edit:hover { background: var(--a-hover); border-color: var(--a-ink-3); }
 .app-shell .pr .pr-ticket__edit:active { transform: scale(0.97); }
 .app-shell .pr .pr-ticket__edit:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }

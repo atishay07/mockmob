@@ -130,3 +130,8 @@ test('D53: one quiet inline line says an AI service writes the reply and that it
   assert.match(panel, /An AI service writes this reply\. \$\{creditCount\(1\)\} is used\./);
   assert.match(panel, /className="amb-cost__price" aria-live="polite"/);
 });
+
+test('W-079: the desktop "Edit" on the Practice ticket keeps its 36 px look and has a 44 px target, all of it above the button', () => {
+  const css = stripComments(read('src/app/(app)/dashboard/practice.css'));
+  assert.match(css, /\.pr-ticket__edit::after\s*\{[^}]*inset:\s*-8px -2px 0/);
+});
