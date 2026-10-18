@@ -32,6 +32,8 @@ A network drop at about 11:40 am killed 10 agents. Their commits and edits were 
 - **On an R7 GO:** the main session pushes deploy/web-1018-r7 to main (a fast-forward from 70c4598c), checks Vercel and writes STATUS.
 - **Then R8 integration:** a new worktree from the R7 head merges r8-fixes, r8-adopt, r8-retry and land3; suites run, an independent verifier checks it, the owner sees it live, then it is pushed.
 
+**Early release APK, built at 2:33 pm:** tmp/apk/mockmob-v15-final-628f3612.apk (1.0.15+4, versionCode 4, debug-signed like the APK on his phone; sha256 1f5d795c...). Built in wt-v15-rel at the integrator's bump commit 628f3612. Deliver it ONLY if the walk passes at that same head. If the walk-fixer changes the head, use the workflow's own release instead.
+
 **Workflow v15-final-1218 (wf_57a36e4c-275, task w2sbl0z25):**
 - **Build:** 10 packets run at once:
   - review (D18), polish2 (with the WALK.md 1018b items), icons (D8 plus D57 visible bar glass plus D56 restoring the Start key), mob and learn, all resumed;
