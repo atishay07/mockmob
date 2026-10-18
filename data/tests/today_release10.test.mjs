@@ -173,3 +173,11 @@ test('copy (#9, D84): the hero never repeats the title, and the stake reads as p
   assert.deepEqual(stakeOf({ id: 'revise', number: 5 }), { value: 30, word: 'marks lost to them the first time' });
   for (const p of ['src/lib/today/move.mjs', 'src/lib/today/lead.mjs']) assert.doesNotMatch(read(p), /come back today'|comes back today'|cost you then/);
 });
+
+test('Done for tonight: Mobi cheers once a visit, then stands proud; the week keeps one Mobi on screen', () => {
+  const move = read('src/components/today/TodayMove.jsx');
+  assert.match(move, /if \(move\.id === 'done'\) return <DoneMobi \/>;/);
+  assert.match(move, /act=\{first \? 'cheer' : 'proud'\}/);
+  assert.match(move, /recallNumber\(DONE_CHEER\) == null/);
+  assert.match(read('src/app/(app)/today/page.jsx'), /mobiFree=\{!\(lead\?\.art === 'mobi' \|\| lead\?\.id === 'done'\)/);
+});

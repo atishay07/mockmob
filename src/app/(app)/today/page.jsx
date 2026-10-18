@@ -291,7 +291,7 @@ export default function Today() {
           <div className="today-grid__side">
             <TodayWeek
               hold={landing} rhythm={data.rhythm} goal={data.goal} everSessions={everSessions}
-              mobiFree={!(lead?.art === 'mobi') && phase !== 'failed'} mob={mob} repairs={data.repairRows} papers={data.papers}
+              mobiFree={!(lead?.art === 'mobi' || lead?.id === 'done') && phase !== 'failed'} mob={mob} repairs={data.repairRows} papers={data.papers}
               failed={phase === 'failed'} subjectName={subjectName} onRetry={data.retryWeek}
             />
             <TodayMob enabled={mobOn && !landing} mob={mob} />

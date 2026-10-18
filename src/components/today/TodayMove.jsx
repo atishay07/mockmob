@@ -15,6 +15,7 @@ import { ChevronsUpDown, RotateCcw, Check, Repeat2, ChevronRight, Timer, Layers,
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import MobiReact from '@/components/brand/MobiReact';
 import { useCountUpState } from '@/lib/motion/useCountUp';
+import { recallNumber, rememberNumber } from '@/lib/motion/numberMemory';
 import { keepTogether } from '@/lib/today/move.mjs';
 import { markLine, pathLeads, railCaption, railLine } from '@/lib/today/firstWeek.mjs';
 import TodaySheet from './TodaySheet';
@@ -41,9 +42,19 @@ function RepairPrice({ each }) {
   return <p className="tm__price">{usesLine({ what: 'Each repair', cost: each, pool: 'ai', balance: wallet.wallet?.known ? wallet.wallet.total : null })}</p>;
 }
 
+// "Done for tonight" is the day's best moment, so Mobi cheers once a visit (the number memory the count-up uses), then stands proud
+// on a return (release 10, owner D45, D48: Mobi reacting, in every scene).
+const DONE_CHEER = 'today-done-cheer';
+function DoneMobi() {
+  const [first] = useState(() => recallNumber(DONE_CHEER) == null);
+  useEffect(() => { rememberNumber(DONE_CHEER, 1); }, []);
+  return <span className="tm__art tm__art--mobi" aria-hidden="true"><MobiReact act={first ? 'cheer' : 'proud'} size={96} /></span>;
+}
+
 function Art({ move, failed }) {
   if (failed) return <span className="tm__art tm__art--mobi" aria-hidden="true"><MobiReact act="oops" size={96} /></span>;
   if (!move) return null;
+  if (move.id === 'done') return <DoneMobi />;
   if (move.art === 'mobi') return <span className="tm__art tm__art--mobi" aria-hidden="true"><MobiReact act={move.mobiAct || 'hello'} size={96} /></span>;
   // Revise: the objects of the subjects whose questions come back today, most first (one, or a small stack of up to three).
   if (move.id === 'revise' && move.subjects?.length) {
