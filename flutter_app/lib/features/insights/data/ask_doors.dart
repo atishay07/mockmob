@@ -117,7 +117,7 @@ abstract final class AskDoorCopy {
   static const offline = 'You are offline. Answers from your record still work. Written answers wait until you are back online.';
 
   // While a written reply is on its way.
-  static const writingNote = 'Writing a reply. This one uses 1 credit.';
+  static const writingNote = 'This reply uses 1 credit. A reply that fails uses none.';
   static const followUpHint = 'Ask a follow-up';
 
   // The Practice card.
@@ -131,6 +131,20 @@ abstract final class AskDoorCopy {
   // The header key.
   static const button = 'Ask Mobi';
   static const buttonShort = 'Ask';
+}
+
+/// The first name Mobi greets the student by, or null to greet without one. A student who never
+/// gave a name has their email's first part stored as it (the server's default), and "Hi
+/// g16-fresh-1019a" reads as broken (G16 baseline, findings 4 and 38). So a name equal to that part,
+/// or with an @ or a digit in it, is not a first name; Mobi says "Hi." until the student gives one.
+String? askGreetName(String? name, String? email) {
+  final full = name?.trim() ?? '';
+  if (full.isEmpty) return null;
+  final local = email?.trim().split('@').first;
+  if (local != null && local.isNotEmpty && full.toLowerCase() == local.toLowerCase()) return null;
+  if (full.contains('@') || full.contains(RegExp(r'\d'))) return null;
+  final first = full.split(RegExp(r'\s+')).first;
+  return first.isEmpty ? null : first;
 }
 
 // ---- Ask now ------------------------------------------------------------------------------
@@ -187,10 +201,7 @@ List<String> askNowStarters({PrepInsights? record, List<String> subjects = const
   final top = record != null && record.isReady && record.ranked.isNotEmpty ? record.ranked.first.chapter.trim() : null;
   if (top != null && top.isNotEmpty) add('Explain $top in simple words');
 
-  final lists = [
-    for (final s in subjects)
-      if (askNowBank[canonicalSubjectId(s)] case final l?) l,
-  ];
+  final lists = [for (final s in subjects) ?askNowBank[canonicalSubjectId(s)]];
   if (lists.isEmpty) lists.addAll([askNowBank['accountancy']!, askNowBank['economics']!, askNowBank['english']!]);
   for (var round = 0; out.length < 3 && round < 3; round++) {
     for (final l in lists) {

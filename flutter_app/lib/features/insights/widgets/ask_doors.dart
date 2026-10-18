@@ -102,13 +102,12 @@ class _BubbleTail extends CustomPainter {
 
 /// One big door: a glass panel with its 30 sp headline, a line under it and its own art.
 class _Door extends StatelessWidget {
-  const _Door({required this.title, required this.children, this.line, this.art, this.semanticsTitle});
+  const _Door({required this.title, required this.children, this.line, this.art});
 
   final String title;
   final String? line;
   final Widget? art;
   final List<Widget> children;
-  final String? semanticsTitle;
 
   @override
   Widget build(BuildContext context) {

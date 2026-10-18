@@ -23,6 +23,7 @@ import '../data/ask_citation.dart';
 import '../data/ask_controller.dart';
 import '../data/ask_doors.dart';
 import '../data/ask_question.dart';
+import '../data/ask_suggestions.dart' show AskSheetCopy;
 import '../data/ask_wallet.dart';
 import '../data/evidence.dart';
 import '../data/insights_models.dart';
@@ -36,7 +37,6 @@ import '../widgets/answer_text.dart';
 import '../widgets/ask_prompts.dart';
 import '../widgets/ask_question_card.dart';
 import '../widgets/ask_wallet.dart';
-import '../widgets/insights_bits.dart';
 import '../widgets/motion_bits.dart';
 import 'insights_screen.dart';
 
@@ -137,16 +137,16 @@ class _AskScreenState extends ConsumerState<AskScreen> {
   void _openAtDoor() {
     final door = widget.door;
     if (door == null || cleanQuestionRef(widget.questionRef) != null) return;
-    Future<void>.delayed(Motion.of(context, const Duration(milliseconds: 320)), () {
+    final wait = Motion.of(context, const Duration(milliseconds: 320));
+    final glide = Motion.of(context, const Duration(milliseconds: 360));
+    Future<void>.delayed(wait, () {
       if (!mounted || ref.read(askControllerProvider).messages.isNotEmpty) return;
       switch (door) {
         case AskDoor.now:
           _doorField.requestFocus();
         case AskDoor.record:
           final target = _recordKey.currentContext;
-          if (target != null) {
-            Scrollable.ensureVisible(target, duration: Motion.of(context, const Duration(milliseconds: 360)), curve: Motion.glide, alignment: 0.04);
-          }
+          if (target != null && target.mounted) Scrollable.ensureVisible(target, duration: glide, curve: Motion.glide, alignment: 0.04);
       }
     });
   }
@@ -238,6 +238,9 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     if (ref.read(askQuestionProvider)?.ready ?? false) return wallet?.empty ?? false ? InsightsCopy.askNoteEmpty(renew) : InsightsCopy.askNoteCost(balance);
     if (text.isEmpty) return wallet?.empty ?? false ? InsightsCopy.askNoteEmpty(renew) : InsightsCopy.askNoteIdle(balance);
     if (ref.read(askControllerProvider.notifier).answersOnPhone(text)) return InsightsCopy.askNoteFree;
+    if (text == AskDoorCopy.lastPaper && lastPaper(ref.read(insightsInputsProvider).attempts, ref.read(nowProvider)()) != null) {
+      return InsightsCopy.askNoteFree;
+    }
     return wallet?.empty ?? false ? InsightsCopy.askNoteEmpty(renew) : InsightsCopy.askNoteCost(balance);
   }
 
@@ -246,9 +249,13 @@ class _AskScreenState extends ConsumerState<AskScreen> {
   String? _waitingNote(AskState state) {
     if (!state.busy) return null;
     final i = state.messages.indexWhere((m) => m.sending);
+    return i >= 0 && _waitsOnRecord(state, i) ? InsightsCopy.askNoteFree : AskDoorCopy.writingNote;
+  }
+
+  /// The pending reply at [i] answers a record ask that is waiting for the record to load.
+  static bool _waitsOnRecord(AskState state, int i) {
     final asked = i > 0 && state.messages[i - 1].fromStudent ? state.messages[i - 1].text : null;
-    if (asked != null && AskController.isRecordAsk(asked)) return AskSheetCopy.reading(null);
-    return AskDoorCopy.writingNote;
+    return asked != null && AskController.isRecordAsk(asked);
   }
 
   /// Report this reply: the flag sheet, then the report through the outbox. The line after it
@@ -365,8 +372,8 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     final inputs = ref.watch(insightsInputsProvider);
     final record = inputs.insights.value;
     final pro = inputs.pro;
-    final auth = ref.watch(authSnapshotProvider.select((s) => (s.name, s.subjects)));
-    final name = _firstName(auth.$1);
+    final auth = ref.watch(authSnapshotProvider.select((s) => (s.name, s.subjects, s.email)));
+    final name = askGreetName(auth.$1, auth.$3);
     final pad = MediaQuery.paddingOf(context);
     final size = MediaQuery.sizeOf(context);
     final compact = size.width < 380 || size.height < 760;
@@ -496,6 +503,7 @@ class _AskScreenState extends ConsumerState<AskScreen> {
                                     AskMessageView(
                                       message: m,
                                       animate: i >= settled,
+                                      pendingWords: m.sending && _waitsOnRecord(state, i) ? InsightsCopy.askReading : null,
                                       citation: citationFor(m, record, evidence),
                                       onReport: m.isModel && canReport ? () => _report(m) : null,
                                       onOpenRecord: m.isModel ? () => context.push(InsightsPaths.insights) : null,
@@ -637,12 +645,6 @@ class _AskScreenState extends ConsumerState<AskScreen> {
         ),
       ),
     ];
-  }
-
-  static String? _firstName(String? full) {
-    final t = full?.trim() ?? '';
-    if (t.isEmpty) return null;
-    return t.split(RegExp(r'\s+')).first;
   }
 }
 
