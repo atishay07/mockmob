@@ -465,6 +465,11 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 |---|---|---|
 | D99 | The 10:30-10:45 pm promise was missed: finish the last bit now and say honestly what the holdup is | 11:32 pm: answered with the real chain; no new scope; APK next |
 
+### Owner at about 11:45 pm, 18 Oct (D100)
+| # | Ask | Status |
+|---|---|---|
+| D100 | Finish everything in THIS session (no 10th carry-over to another agent); speed up | 11:47 pm: APK builds in parallel with tests; release 10 verifier started in parallel with the suites; one round plus fixes; production dry runs done ahead |
+
 ## Waiting on the owner (updated 18 Oct about 3:45 am)
 - Answered 3:50 am: M-001 first launch 3 s; M-006 bolder copy; D19 keep badges, refine; D22 Mob.
 - D32: confirm the kept landing element when he reviews the port live (wt-land3, port 3206).

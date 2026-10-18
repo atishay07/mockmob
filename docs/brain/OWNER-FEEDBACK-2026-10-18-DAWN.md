@@ -411,3 +411,8 @@ His message was the pasted next-session prompt (resume from 25ef3d95, follow NOW
 > "The last agent told me the entire thing will be done by 10:30 or 10:45 max. Now it's 11:30, so is the entire app and everything still done? Even you yourself said the last message will be at 10:30, and everything will be done by then. Do the last bit. What's the holdup now?"
 
 **Ledger D99:** the 10:30-10:45 pm promise was missed. He wants the last bit done now and an honest account of the holdup. Answer honestly with what is done, what is left and a time backed by evidence; stop adding scope.
+
+## Owner, 18 Oct about 11:45 pm IST (verbatim)
+> "So you mean, in any case, it will take 1 to 2 hours at least, or more? Why is that happening, and can you increase the speed? I want it finished in this session only, rather than having to carry over the 10th time to another agent."
+
+**Ledger D100:** finish everything in THIS session, with no handoff to another agent; speed up wherever it is safe. Done by cutting waits: the APK builds while the tests run; the release 10 verifier starts now, in parallel with the integrator's suites; one verifier round plus a fix (the main session checks the fixes); production dry runs done by the main session in advance.
