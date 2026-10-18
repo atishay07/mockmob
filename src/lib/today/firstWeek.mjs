@@ -226,7 +226,9 @@ function labLead(c) {
   const mock = newestMock(c.papers);
   if (!mock) return null;
   const made = pick(choiceMoves({ papers: [mock], repaired: c.repaired, subjectName: c.subjectName, now: c.now }), 'repair');
-  return made ? { ...made, title: 'Repair what your mock found' } : null;
+  // Its cell carries the same title when the student picks another move (release 10, D15: one name for one move).
+  const title = 'Repair what your mock found';
+  return made ? { ...made, title, choice: { ...made.choice, title } } : null;
 }
 
 function planLead(c) {

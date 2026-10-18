@@ -70,19 +70,23 @@ export function paperWhen(at, now = Date.now()) {
   return paperDay(t);
 }
 
-/** The line a move shows when it sits in the footer as a choice: { title, value }. */
+/**
+ * The line a move shows when it sits in the footer as a choice: { title, value }. The title is the move's lead title, word for word
+ * (release 10, D15: the card, its cell and the More ways sheet give one move one name, so the cell a student taps is the card that
+ * arrives); the variable part ("5 due, about 5 min") is the value line.
+ */
 export function choiceOf(move, now = Date.now()) {
   if (!move) return null;
   if (move.choice) return move.choice;
+  const title = leadTitle(move, now);
   const k = kindOf(move);
-  if (k === 'repair') return { title: 'Repair a mistake', value: `${move.open ?? move.number} open${move.paperAt ? ` from ${paperWhen(move.paperAt, now)}` : ''}` };
-  if (move.id === 'revise') return { title: 'Revise what is due', value: `${move.number} due${move.key?.minutes ? `, about ${move.key.minutes} min` : ''}` };
-  if (k === 'practice') return { title: move.chapter ? 'Practise your weakest' : 'Practise a fresh set', value: move.chapter || `${move.number} questions` };
-  if (move.id === 'dayOne') return { title: 'Your starting point', value: `${move.number} questions` };
-  if (move.id === 'returning') return { title: 'Warm up', value: `${move.number} questions, ${move.key?.minutes || 10} min` };
-  if (move.id === 'done') return { title: leadTitle(move, now), value: `${move.number} minutes` };
-  if (move.id === 'firstMock') return { title: 'Your first full mock', value: `${move.number} ${move.label}` };
-  return { title: leadTitle(move, now), value: move.number != null ? `${move.number} ${move.label}` : '' };
+  if (k === 'repair') return { title, value: `${move.open ?? move.number} open${move.paperAt ? ` from ${paperWhen(move.paperAt, now)}` : ''}` };
+  if (move.id === 'revise') return { title, value: `${move.number} due${move.key?.minutes ? `, about ${move.key.minutes} min` : ''}` };
+  if (k === 'practice') return { title, value: move.chapter || `${move.number} questions` };
+  if (move.id === 'dayOne') return { title, value: `${move.number} questions` };
+  if (move.id === 'returning') return { title, value: `${move.number} questions, ${move.key?.minutes || 10} min` };
+  if (move.id === 'done') return { title, value: `${move.number} minutes` };
+  return { title, value: move.number != null ? `${move.number} ${move.label}` : '' };
 }
 
 /** Any move, ready for the lead card: its title, kind, stake and choice line. */
@@ -121,7 +125,7 @@ export function choiceMoves({ papers = null, revise = null, facts = null, repair
       key: { label: 'Start Revise', href: '/review/revise', minutes: Math.max(5, Math.ceil(due / 5) * 5) },
       pills: pills(), art: 'object', subject: null, due, free: true,
     }, { now });
-    m.choice = { title: 'Revise what is due', value: total > due ? `${due} of ${total} due today` : `${due} due, about ${m.key.minutes} min` };
+    m.choice = { title: m.title, value: total > due ? `${due} of ${total} due today` : `${due} due, about ${m.key.minutes} min` };
     out.push(m);
   }
   if (top?.chapter && top?.subject) {
@@ -144,7 +148,7 @@ export function choiceMoves({ papers = null, revise = null, facts = null, repair
       key: { label: 'Start full mock', href: firstTimedMockHref(subject, paper), minutes: paper.minutes },
       pills: pills(), art: 'object', subject,
     }, { now });
-    m.choice = { title: 'Full mock instead', value: `${paper.questions} questions, ${paper.minutes} min` };
+    m.choice = { title: m.title, value: `${paper.questions} questions, ${paper.minutes} min` };
     out.push(m);
   }
   const anchor = last?.subject || firstSubject;
@@ -160,7 +164,7 @@ export function choiceMoves({ papers = null, revise = null, facts = null, repair
       key: { label: 'Start', href: `/dashboard?${new URLSearchParams({ subject: others[0], mode: 'quick', count: '10' })}`, minutes: 10 },
       pills: pills(), art: 'object', subject: others[0],
     }, { now });
-    m.choice = { title: 'Another subject', value: short.length > 1 ? `${short[0]} and ${short.length - 1} more` : short[0], full: others.map(subjectName).join(', ') };
+    m.choice = { title: m.title, value: short.length > 1 ? `${short[0]} and ${short.length - 1} more` : short[0], full: others.map(subjectName).join(', ') };
     out.push(m);
   }
   return out;
@@ -174,6 +178,8 @@ export function choiceMoves({ papers = null, revise = null, facts = null, repair
 export function pickChoices(lead, pool = []) {
   if (!lead || lead.id === 'failed') return [];
   const seen = new Set([kindOf(lead)]);
+  // "Done" with mistakes still due back carries Revise on its own key, so Revise is not offered again beside it.
+  if (lead.id === 'done' && lead.due > 0) seen.add('revise');
   const out = [];
   for (const m of pool) {
     if (!m || m.id === lead.id) continue;

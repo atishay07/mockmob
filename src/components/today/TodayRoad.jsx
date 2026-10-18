@@ -104,13 +104,14 @@ export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, l
   const [swapKey, setSwapKey] = useState(0);
   const select = (i) => { setSel(i); setSwapKey((k) => k + 1); };
   const [flow, setFlow] = useState(null); // the step Change plan opens on, or null
+  const [fromKey, setFromKey] = useState(false); // opened by the first week's day 7 key ("Plan my weeks")
   const [asked, setAsked] = useState(planAsk);
-  if (planAsk !== asked) { setAsked(planAsk); if (!hold && layers) setFlow(1); }
+  if (planAsk !== asked) { setAsked(planAsk); if (!hold && layers) { setFromKey(true); setFlow(1); } }
   const [receipt, setReceipt] = useState('');
   // Change plan is re-keyed on open and close, so the browser has nothing to give focus back to: return it to the button
   // that opened the sheet (the header's, or the goal readout's), however the sheet closed (Esc, X, Done, backdrop).
   const openerRef = useRef(null);
-  const openFlow = (event) => { openerRef.current = event.currentTarget; setFlow(1); };
+  const openFlow = (event) => { openerRef.current = event.currentTarget; setFromKey(false); setFlow(1); };
   useEffect(() => {
     if (flow || !openerRef.current) return;
     const opener = openerRef.current;
@@ -202,6 +203,9 @@ export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, l
     },
   ];
   const stop = stops[sel];
+  // The plan sheet is named for what the student came to do (release 10, D15): "Plan your weeks" from the day 7 key ("Plan my weeks") or
+  // on day one, when there is no plan yet to change; "Change plan" otherwise, as the button that opened it says.
+  const planTitle = fromKey || dayOne ? 'Plan your weeks' : 'Change plan';
 
   let readout;
   if (stop.id === 'today') {
@@ -211,7 +215,7 @@ export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, l
         {day.items.length || day.unknown.length ? (
           <ul className="trd__items">
             {day.items.map((i) => (
-              <li key={i.id} data-done={i.done || undefined}>
+              <li key={i.id} data-done={i.done || undefined} data-extra={i.extra || undefined}>
                 <span className="trd__mark" aria-hidden="true">{i.done ? <Check size={13} strokeWidth={2.6} /> : null}</span>
                 <span className="trd__item-t"><b>{i.title}</b><span>{i.done ? (i.id === 'revise' ? `${i.detail}, done` : i.detail) : i.detail}</span></span>
                 {/* One label per action (release 10, D15): the row's key is the lead card's own key and length ("Start Revise 5 min"). */}
@@ -292,7 +296,7 @@ export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, l
       {receipt ? <p className="trd__receipt" role="status">{receipt}</p> : null}
       <TodayPlanFlow
         key={flow ? `open-${flow}` : 'closed'}
-        open={Boolean(flow)} onClose={() => setFlow(null)} startStep={flow || 1}
+        open={Boolean(flow)} onClose={() => setFlow(null)} startStep={flow || 1} title={planTitle}
         today={today} plan={plan} weekdays={goalData?.weekdays || null} daysPerWeek={goalNow} taken={taken} onAccount={onAccount}
         columns={columns} thisWeekDone={rhythm.data?.studyDays ?? null}
         saveRoad={saveRoad} saveDays={saveDays}

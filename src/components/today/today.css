@@ -184,15 +184,36 @@ html[data-theme='light'] .app-shell .tm__key:not([aria-disabled='true']) { box-s
 .app-shell .tm__choice + .tm__choice { padding-left: 18px; }
 .app-shell .tm__choice + .tm__choice::before { content: ''; position: absolute; left: 0; top: 10px; bottom: 16px; width: 1px; background: var(--a-line); }
 .app-shell .tm__choice-i { position: absolute; top: 12px; right: 16px; color: var(--a-ink-3); transition: color 150ms ease, transform 220ms var(--t-out); }
-.app-shell .tm__choice:active { background: var(--a-hover); transform: scale(0.98); }
+.app-shell .tm__choice:active { transform: scale(0.98); }
+.app-shell .tm__choice:active::after { opacity: 1; background: var(--a-hover); }
 .app-shell .tm__choice:active .tm__choice-i { transform: rotate(-90deg); }
-@media (hover: hover) and (pointer: fine) { .app-shell .tm__choice:hover { background: var(--a-hover); } .app-shell .tm__choice:hover .tm__choice-i { color: var(--a-ink); } }
+@media (hover: hover) and (pointer: fine) { .app-shell .tm__choice:hover::after { opacity: 1; background: var(--a-hover); } .app-shell .tm__choice:hover .tm__choice-i { color: var(--a-ink); } }
 .app-shell .tm__choice:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -3px; }
-/* The first-run hint: both cells nudge up 3 px twice (180 ms each), edged in the strong line, then settle. */
-.app-shell .tm__or[data-hint] .tm__choice { animation: tm-nudge 720ms var(--t-out) both; box-shadow: inset 0 0 0 1px var(--a-line-strong); }
-.app-shell .tm__or[data-hint] .tm__choice + .tm__choice { animation-delay: 60ms; }
-.app-shell .tm__or[data-hint] .tm__choice-i { color: var(--a-ink); }
-@keyframes tm-nudge { 0%, 50%, 100% { transform: none; } 25%, 75% { transform: translateY(-3px); } }
+/* The first-run coach (release 10, D90): one cell only (the Suggested one, else the right). A 2 px ring in the accent at 40% draws in 6 px
+   inside the cell's edges (never on them, so it never runs into the card's border), and the cell's title lifts 8 px and springs back,
+   twice (360 ms each); then the ring fades. */
+/* The same inset shape carries the hover and press fill, so no state draws a box that runs into the card's border. */
+.app-shell .tm__choice { isolation: isolate; }
+.app-shell .tm__choice::after { content: ''; position: absolute; z-index: -1; inset: 6px; border-radius: 12px; box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--a-accent-text) 40%, transparent); opacity: 0; pointer-events: none; transition: opacity 150ms ease, background-color 150ms ease; }
+.app-shell .tm__choice:is(:hover, :active)::after { box-shadow: none; }
+.app-shell .tm__or[data-hint] .tm__choice[data-coach]::after { box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--a-accent-text) 40%, transparent); }
+.app-shell .tm__or[data-hint] .tm__choice[data-coach]::after { animation: tm-coach-ring 1000ms ease both; }
+.app-shell .tm__or[data-hint] .tm__choice[data-coach] .tm__choice-t { animation: tm-coach-lift 360ms cubic-bezier(0.2, 0.9, 0.25, 1.1) 2; }
+.app-shell .tm__or[data-hint] .tm__choice[data-coach] .tm__choice-i { color: var(--a-accent-text); }
+.app-shell .tm__choice-t { display: block; }
+@keyframes tm-coach-ring { 0% { opacity: 0; transform: scale(0.97); } 16% { opacity: 1; transform: none; } 78% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes tm-coach-lift { 0%, 100% { transform: none; } 45% { transform: translateY(-8px); } }
+.app-shell .tm__or-h { animation: today-fade 200ms ease both; }
+/* Desktop: the pointer on a cell previews the swap; the card's title leans 12 px toward that cell, and back when the pointer leaves. */
+.app-shell .tm__body .tm__title { transition: transform 220ms var(--t-out); }
+@media (hover: hover) and (pointer: fine) {
+  .app-shell .tm__body[data-lean='l'] .tm__title { transform: translateX(-12px); }
+  .app-shell .tm__body[data-lean='r'] .tm__title { transform: translateX(12px); }
+}
+/* "Done": its key (Revise still due, or one more session) is an outline, never the volt; the day's work is already saved. */
+.app-shell .tm__key[data-outline] { background: transparent; color: var(--a-ink); box-shadow: inset 0 0 0 1.5px var(--a-line-strong); }
+html[data-theme='light'] .app-shell .tm__key[data-outline]:not([aria-disabled='true']) { box-shadow: inset 0 0 0 1.5px var(--a-line-strong); }
+@media (hover: hover) and (pointer: fine) { .app-shell .tm__key[data-outline]:not([aria-disabled='true']):hover { background: var(--a-hover); } }
 @keyframes tm-cell-in { from { opacity: 0; } to { opacity: 1; } }
 .app-shell .tm__choice-s { font-size: 12.5px; font-weight: 600; color: var(--a-accent-text); }
 .app-shell .tm__choice-t { font: 600 15px/1.3 var(--font-body); color: var(--a-ink); }
@@ -235,16 +256,19 @@ html[data-theme='light'] .app-shell .tm__key:not([aria-disabled='true']) { box-s
    above the safe area, so the circle keeps 20 px clear of it). It is out of the page's flow, so it leaves no band between the card
    and This week. For its first 2.4 s it carries the words "Your week and road", then the words fold away (240 ms, ease-out) and it
    is a circle. It steps away while the card's key or footer is under it (TodayCue measures that) and once the week is on screen. */
-.app-shell .tcue { position: fixed; right: 16px; bottom: calc(96px + env(safe-area-inset-bottom)); z-index: 5; display: flex; justify-content: flex-end; pointer-events: none; transition: opacity 200ms var(--t-out), transform 240ms var(--t-out); }
+.app-shell .tcue { position: fixed; left: 50%; bottom: calc(92px + env(safe-area-inset-bottom)); z-index: 5; display: flex; justify-content: center; transform: translateX(-50%); pointer-events: none; transition: opacity 200ms var(--t-out), transform 240ms var(--t-out); }
 @media (min-width: 1024px) { .app-shell .tcue { bottom: calc(16px + env(safe-area-inset-bottom)); } }
-.app-shell .tcue[data-seen] { opacity: 0; transform: translateY(8px) scale(0.92); pointer-events: none; }
+.app-shell .tcue[data-seen] { opacity: 0; transform: translate(-50%, 8px) scale(0.92); pointer-events: none; }
 .app-shell .tcue[data-wait] { visibility: hidden; pointer-events: none; }
+/* Release 10 (W-044 restored): a 40 px glass circle centred above the dock, with the dock's own glass and blur so it reads over the
+   card's cells; its tap area reaches 44 px. */
 .app-shell .tcue__key {
-  display: flex; align-items: center; justify-content: flex-end; min-width: 44px; min-height: 44px; padding: 0; border: 0; border-radius: 22px;
+  position: relative; display: flex; align-items: center; justify-content: flex-end; min-width: 40px; min-height: 40px; padding: 0; border: 0; border-radius: 20px;
   background: var(--dock-solid, var(--a-raised)); box-shadow: inset 0 0 0 1px var(--a-line), var(--a-shadow-1); color: var(--a-ink);
   font: 600 13.5px/1 var(--font-body); cursor: pointer; pointer-events: auto; -webkit-tap-highlight-color: transparent;
   transition: transform 120ms var(--t-out), background-color 150ms ease;
 }
+.app-shell .tcue__key::before { content: ''; position: absolute; inset: -2px; border-radius: 22px; }
 @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .app-shell .tcue__key { background: var(--dock-glass, var(--a-raised)); -webkit-backdrop-filter: blur(32px) saturate(1.5); backdrop-filter: blur(32px) saturate(1.5); }
 }
@@ -253,7 +277,7 @@ html[data-theme='light'] .app-shell .tm__key:not([aria-disabled='true']) { box-s
 .app-shell .tcue__text { display: grid; grid-template-columns: 0fr; overflow: hidden; white-space: nowrap; transition: grid-template-columns 240ms var(--t-out), opacity 160ms ease; opacity: 0; }
 .app-shell .tcue__text > span { min-width: 0; overflow: hidden; }
 .app-shell .tcue[data-wide] .tcue__text { grid-template-columns: 1fr; opacity: 1; padding-left: 16px; }
-.app-shell .tcue__chev { display: grid; place-items: center; flex: 0 0 44px; width: 44px; height: 44px; color: var(--a-ink); animation: tcue-nudge 1400ms var(--t-out) 900ms 2 both; }
+.app-shell .tcue__chev { display: grid; place-items: center; flex: 0 0 40px; width: 40px; height: 40px; color: var(--a-ink); animation: tcue-nudge 1400ms var(--t-out) 900ms 2 both; }
 .app-shell .tcue__key:active { transform: scale(0.94); }
 @media (hover: hover) and (pointer: fine) { .app-shell .tcue__key:hover { background: var(--a-hover); } }
 .app-shell .tcue__key:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
@@ -370,6 +394,8 @@ html[data-theme='light'] .app-shell .tw__day[data-state='counted'] .tw__dot { bo
 .app-shell .trd__items li:first-child { border-top: 0; }
 .app-shell .trd__mark { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--a-line-strong); color: var(--a-bg); }
 .app-shell .trd__items li[data-done] .trd__mark { background: var(--a-ink); box-shadow: none; }
+/* Extra tonight (release 10): Revise after "Done" is listed with its key, drawn as a dashed ring because it is not owed. */
+.app-shell .trd__items li[data-extra] .trd__mark { box-shadow: none; border: 1.5px dashed var(--a-ink-3); }
 .app-shell .trd__item-t { display: grid; gap: 1px; min-width: 0; }
 .app-shell .trd__item-t b { font: 600 14.5px/1.3 var(--font-body); color: var(--a-ink); }
 .app-shell .trd__item-t span { font-size: 13px; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
@@ -687,8 +713,12 @@ html[data-theme='light'] .tsh .tpf__done { box-shadow: inset 0 0 0 1px rgb(82 10
   .app-shell .tm__step path { stroke-dashoffset: 0; }
   .app-shell .tw__dot path { stroke-dashoffset: 0; }
   .app-shell :is(.tm__body, .tw__sel, .trd__sel, .tm__lengths, .twk__more, .twk__plus, .tcue, .tcue__text, .trd__chev) { transition-duration: 1ms !important; }
+  .app-shell :is(.tm__choice-t, .tm__choice::after) { animation: none !important; }
+  .app-shell .tm__body .tm__title { transform: none !important; transition: none; }
 }
 html[data-motion='reduced'] .app-shell :is(.today__head, .tm, .tw, .trd, .twk, .tpp, .tq, .tc, .tmob, .tw__readout, .trd__readout, .trd__receipt, .tpp__receipt, .tcue__chev), html[data-motion='reduced'] .tsh__body, html[data-motion='reduced'] .tsh .tpf__step { animation: today-fade 150ms ease both !important; transform: none !important; }
 html[data-motion='reduced'] .app-shell :is(.tw__dot, .tm__step, .trd__stretch i::after, .trd__stretch i b, .tpp__bar i, .tm__choice, .tm__body) { animation: none !important; }
 html[data-motion='reduced'] .app-shell :is(.tw__dot path, .tm__step path) { animation: none; stroke-dashoffset: 0; }
 html[data-motion='reduced'] .app-shell :is(.tm__body, .tw__sel, .trd__sel, .tm__lengths, .twk__more, .tcue, .tcue__text) { transition-duration: 1ms !important; }
+html[data-motion='reduced'] .app-shell :is(.tm__choice-t, .tm__choice::after) { animation: none !important; }
+html[data-motion='reduced'] .app-shell .tm__body .tm__title { transform: none !important; transition: none; }

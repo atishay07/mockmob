@@ -98,7 +98,7 @@ function Rail({ columns, thisWeekDone, goal }) {
  * `saveRoad(body)` and `saveDays(weekdays)` return promises that resolve only once the server has answered.
  * `onDone(summary)`: closed with Done after at least one save.
  */
-export default function TodayPlanFlow({ open, onClose, startStep = 1, today, plan, weekdays, daysPerWeek, taken, onAccount, columns = [], thisWeekDone = null, saveRoad, saveDays, onDone }) {
+export default function TodayPlanFlow({ open, onClose, title = 'Change plan', startStep = 1, today, plan, weekdays, daysPerWeek, taken, onAccount, columns = [], thisWeekDone = null, saveRoad, saveDays, onDone }) {
   const dates = cuetDates(cuetYear(today));
   const [step, setStep] = useState(startStep);
   const [exam, setExam] = useState(plan.examDate || null); // null = the expected start
@@ -188,7 +188,7 @@ export default function TodayPlanFlow({ open, onClose, startStep = 1, today, pla
   );
 
   return (
-    <TodaySheet open={open} onClose={onClose} id="trd-plan" title="Change plan">
+    <TodaySheet open={open} onClose={onClose} id="trd-plan" title={title}>
       <p className="tpf__sentence">
         I sit CUET UG on {token(1, examWords)}, study {token(2, `${days.length} ${days.length === 1 ? 'day' : 'days'}`)} a week, and take {token(3, `${target} full ${target === 1 ? 'mock' : 'mocks'}`)} before it.
       </p>

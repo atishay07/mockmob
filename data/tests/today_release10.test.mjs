@@ -13,7 +13,7 @@ const css = (path) => read(path).replace(/\/\*[\s\S]*?\*\//g, '');
 
 test('D90: the two choices say they swap the lead, carry a swap mark, and press in', () => {
   const move = read('src/components/today/TodayMove.jsx');
-  assert.match(move, /<p className="tm__or-h" id="tm-or-h">Or make one of these your move<\/p>/);
+  assert.match(move, /<p className="tm__or-h" id="tm-or-h" key=\{coach \? 'coach' : 'plain'\}>\{coach \? 'Tap one to swap it in as your move' : 'Or make one of these your move'\}<\/p>/);
   assert.match(move, /aria-labelledby="tm-or-h"/);
   assert.match(move, /<Repeat2 className="tm__choice-i" size=\{16\}/);
   const sheet = css('src/components/today/today.css');
@@ -21,16 +21,25 @@ test('D90: the two choices say they swap the lead, carry a swap mark, and press 
   assert.match(sheet, /\.tm__choice:active \{[^}]*transform: scale\(0\.98\)/);
 });
 
-test('D90: the first-run nudge plays 1.2 s after landing until the first swap, at most 3 visits, storage guarded', () => {
+test('D90: the first-run coach plays 1.2 s after landing on ONE cell, until the first swap, at most 3 visits, storage guarded', () => {
   const move = read('src/components/today/TodayMove.jsx');
   assert.match(move, /SWAP_HINT_KEY = 'mm:today-swap-hint:v1'/);
   assert.match(move, /if \(seen >= 3\) return undefined;/);
   assert.match(move, /\}, 1200\);/);
   assert.match(move, /try \{ const v = window\.localStorage\.getItem\(SWAP_HINT_KEY\)/);
   assert.match(read('src/app/(app)/today/page.jsx'), /swapLearned\(\);/, 'a swap clears the hint for good');
+  // The Suggested cell, else the right one; the line says what a tap does for that visit.
+  assert.match(move, /const coached = choices\.findIndex\(\(c\) => c\.suggested\) >= 0 \? choices\.findIndex\(\(c\) => c\.suggested\) : choices\.length - 1;/);
+  assert.match(move, /data-coach=\{i === coached \|\| undefined\}/);
   const sheet = css('src/components/today/today.css');
-  assert.match(sheet, /\.tm__or\[data-hint\] \.tm__choice \{ animation: tm-nudge 720ms[^}]*box-shadow: inset 0 0 0 1px var\(--a-line-strong\)/);
-  assert.match(sheet, /@keyframes tm-nudge \{ 0%, 50%, 100% \{ transform: none; \} 25%, 75% \{ transform: translateY\(-3px\); \} \}/);
+  assert.doesNotMatch(sheet, /\.tm__or\[data-hint\] \.tm__choice \{[^}]*box-shadow/, 'no outline on the cells (it read as two boxes cut off in the card)');
+  assert.doesNotMatch(sheet, /\.tm__choice:(?:hover|active) \{[^}]*background/, 'hover and press fill the same inset shape, never the whole cell');
+  assert.match(sheet, /\.app-shell \.tm__choice::after \{ content: ''; position: absolute; z-index: -1; inset: 6px; border-radius: 12px; box-shadow: inset 0 0 0 2px color-mix\(in srgb, var\(--a-accent-text\) 40%, transparent\);/);
+  assert.match(sheet, /\.tm__choice\[data-coach\] \.tm__choice-t \{ animation: tm-coach-lift 360ms cubic-bezier\(0\.2, 0\.9, 0\.25, 1\.1\) 2; \}/);
+  assert.match(sheet, /@keyframes tm-coach-lift \{ 0%, 100% \{ transform: none; \} 45% \{ transform: translateY\(-8px\); \} \}/);
+  // Desktop: hovering a cell previews the swap; the title leans 12 px toward it. Touch never leans.
+  assert.match(move, /onPointerEnter=\{\(e\) => \{ if \(e\.pointerType === 'mouse'\) setLean\(i === 0 \? 'l' : 'r'\); \}\}/);
+  assert.match(sheet, /@media \(hover: hover\) and \(pointer: fine\) \{\s*\.app-shell \.tm__body\[data-lean='l'\] \.tm__title \{ transform: translateX\(-12px\); \}\s*\.app-shell \.tm__body\[data-lean='r'\] \.tm__title \{ transform: translateX\(12px\); \}/);
 });
 
 test('D90: the swap is direction-aware, has no blur, and the move that left sits in the tapped cell', () => {
@@ -223,4 +232,72 @@ test('preview fixture agrees with itself: full mocks counted from its papers, th
   assert.match(read('src/app/preview/arena/previewMob.js'), /fixture\.get\('firstweek'\) === '1' \|\| fixture\.get\('data'\) === 'empty' \? 'notsat' : 'ready'/);
   // Production reads the bar (the summary item) and the leak (loadAttempt of that item's id) from one attempt.
   assert.match(read('src/components/today/TodayPaper.jsx'), /loadAttempt\(last\.id\)/);
+});
+
+// ---- Release 10, critic round 2: one name per move, and "Done" agrees with Road (D15, #10) ------------------------------------
+
+import { alternatives } from '../../src/lib/today/move.mjs';
+import { leadTitle, pickChoices } from '../../src/lib/today/lead.mjs';
+
+const R2_NOW = Date.parse('2026-10-18T15:26:00Z'); // 8:56 PM IST
+const r2name = (id) => ({ accountancy: 'Accountancy', economics: 'Economics', business_studies: 'Business Studies' }[id] || id);
+const r2paper = (over = {}) => ({ id: 'p9', subject: 'accountancy', mode: 'full', correct: 27, wrong: 4, unattempted: 19, total: 50, completedAt: R2_NOW - DAY10, ...over });
+const r2top = { subject: 'accountancy', chapter: 'Admission of a partner', open: 45, wrong: 6, skip: 3, n: 21, sessions: 4 };
+
+test('D15: every choice cell carries its card title word for word, so the cell tapped is the card that arrives', () => {
+  const pool = choiceMoves({ papers: [r2paper({ mode: 'quick' })], revise: { due: 5, dueTotal: 8 }, facts: { mocks: 0 }, repaired: new Map(), top: r2top, subjectName: r2name, subjects: ['accountancy', 'economics', 'business_studies'], now: R2_NOW });
+  assert.deepEqual(pool.map((m) => m.id), ['repair', 'revise', 'weakest', 'mock', 'another']);
+  for (const m of pool) assert.equal(m.choice.title, leadTitle(m, R2_NOW), `${m.id}: the cell title is the lead title`);
+  assert.deepEqual(pool.map((m) => m.choice.title), ['Repair your last paper', 'Revise what came back', 'Practise your weakest chapter', 'A full mock instead', 'Start with another subject']);
+  assert.equal(pool[1].choice.value, '5 of 8 due today', 'the variable part lives in the value line');
+  for (const id of ['dayOne', 'returning', 'smart', 'practice', 'firstMock']) {
+    const m = leadOf({ id, number: 10, label: 'questions', key: { minutes: 10 }, chapter: id === 'practice' ? 'X' : null }, { now: R2_NOW });
+    assert.equal(m.choice.title, m.title, `${id}: the cell title is the lead title`);
+  }
+  // The More ways sheet says the same names.
+  const alts = alternatives({ move: { id: 'practice', key: { href: '/x' } }, papers: [r2paper()], revise: { due: 5 }, subjectName: r2name });
+  const titles = Object.fromEntries(alts.map((a) => [a.id, a.title]));
+  assert.equal(titles.repair, 'Repair your last paper');
+  assert.equal(titles.revise, 'Revise what came back');
+  assert.equal(titles.mock, 'A full mock instead');
+  assert.equal(titles.another, 'Start with another subject');
+  // Day 6's lab card keeps its own title on its cell too.
+  const lab = pathOn(6, { papers: [r2paper({ completedAt: NOW10 - DAY10 })], repaired: new Map(), mocks: 1 });
+  if (lab?.move?.id === 'repair') assert.equal(lab.move.choice.title, lab.move.title);
+});
+
+test('#10: "Done for tonight" with mistakes still due says so, keys Revise in outline, and Road lists it as extra, 1 of 1 done', () => {
+  const plan = { primary: { kind: 'ordinary_practice', href: '/dashboard?mode=quick&count=10' }, tonight: { state: 'recorded', sessionId: 's1', minutes: 30, completedAt: '2026-10-18T15:26:00Z' } };
+  const input = { plan, papers: [r2paper({ wrong: 0 })], rhythm: { ...RHYTHM, counts: { sessions: 9, repairs: 3 }, daysSinceLastActivity: 0 }, revise: { due: 5 }, facts: { sessions: 9, mocks: 2 }, repaired: new Map(), subjectName: r2name, now: R2_NOW };
+  const done = leadOf(buildMove(input), { now: R2_NOW });
+  assert.equal(done.id, 'done');
+  assert.equal(done.title, 'Done for tonight');
+  assert.equal(done.why, 'Saved at 8:56 PM. 5 mistakes are also due back today: 5\u00a0more minutes keeps them.');
+  assert.deepEqual(done.key, { label: 'Start Revise', href: '/review/revise', minutes: 5 }, 'the Road row key says the same: Start Revise, 5 min');
+  const one = leadOf(buildMove({ ...input, revise: { due: 1 } }), { now: R2_NOW });
+  assert.equal(one.why, 'Saved at 8:56 PM. 1 mistake is also due back today: 5\u00a0more minutes keeps it.');
+  const none = buildMove({ ...input, revise: { due: 0 } });
+  assert.equal(none.key.label, 'Practise more');
+  assert.match(none.why, /^Saved at 8:56 PM\. Tomorrow/);
+  // Revise is on the key, so it is not offered again as a cell.
+  const pool = choiceMoves({ papers: input.papers, revise: { due: 5 }, facts: { mocks: 2 }, top: r2top, subjectName: r2name, subjects: ['accountancy', 'economics'], now: R2_NOW });
+  assert.ok(!pickChoices(done, pool).some((m) => m.id === 'revise'));
+  // Road: the session is done, Revise is extra tonight and not counted.
+  const fig = roadFigures({ today: TODAY, plan: {}, goal: 4, taken: 2 });
+  const layers = roadLayers({ today: TODAY, rhythm: RHYTHM, weekdays: null, revise: { due: 5, answeredToday: 0 }, move: done, fig, target: 14, taken: 2 });
+  assert.equal(layers.today.done, 1);
+  assert.equal(layers.today.total, 1, 'Due today 1 of 1');
+  const rev = layers.today.items.find((i) => i.id === 'revise');
+  assert.equal(rev.extra, true);
+  assert.equal(rev.detail, '0 of 5 questions, extra tonight');
+  assert.equal(rev.minutes, 5);
+  assert.equal(layers.today.left, 'Everything due today is done. 5 Revise questions are extra tonight, about 5 min.');
+  // With any other lead, Revise counts as before.
+  const plain = roadLayers({ today: TODAY, rhythm: RHYTHM, weekdays: null, revise: { due: 5, answeredToday: 0 }, move: null, fig, target: 14, taken: 2 });
+  assert.equal(plain.today.total, 2);
+  const road = read('src/components/today/TodayRoad.jsx');
+  assert.match(road, /data-extra=\{i\.extra \|\| undefined\}/);
+  const move = read('src/components/today/TodayMove.jsx');
+  assert.match(move, /data-outline=\{done \|\| undefined\}/);
+  assert.match(css('src/components/today/today.css'), /\.app-shell \.tm__key\[data-outline\] \{ background: transparent; color: var\(--a-ink\);/);
 });

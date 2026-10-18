@@ -95,7 +95,8 @@ test('wired on Today: the path leads through withFirstWeek, the rail rides on th
   assert.doesNotMatch(move, /Flag size=\{34\}/, 'release 10: Mobi points the way on day 7, not a flat flag tile');
   const road = read('src/components/today/TodayRoad.jsx');
   assert.match(road, /planAsk = 0, onPlanSaved/);
-  assert.match(road, /if \(planAsk !== asked\) \{ setAsked\(planAsk\); if \(!hold && layers\) setFlow\(1\); \}/, 'it opens once per ask, and only once the road has loaded');
+  assert.match(road, /if \(planAsk !== asked\) \{ setAsked\(planAsk\); if \(!hold && layers\) \{ setFromKey\(true\); setFlow\(1\); \} \}/, 'it opens once per ask, and only once the road has loaded');
+  assert.match(road, /const planTitle = fromKey \|\| dayOne \? 'Plan your weeks' : 'Change plan';/, 'release 10 (D15): the sheet opened by "Plan my weeks" is "Plan your weeks"');
   assert.match(road, /onDone=\{\(s\) => \{ onPlanSaved\?\.\(\); setReceipt\(/);
   const hook = read('src/components/today/useToday.js');
   assert.match(hook, /recalled: reviseRecalled\(body\)/);

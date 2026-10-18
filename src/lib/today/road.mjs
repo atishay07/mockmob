@@ -351,23 +351,30 @@ export function roadLayers({ today, rhythm = null, weekdays = null, revise = nul
   }
   const asked = Number.isInteger(revise?.answeredToday) ? revise.answeredToday : 0;
   const leftRevise = Number.isInteger(revise?.due) ? revise.due : null;
+  // Once tonight's session is saved the lead says "Done" (release 10, #10): Revise still due is then extra tonight, listed with its key
+  // but never counted against Due today, so the stop reads "1 of 1 done" beside a card that says done.
+  const when = /today$/.test(move?.label || '') ? 'today' : 'tonight';
+  const extraRevise = move?.id === 'done' && leftRevise > 0;
   if (leftRevise != null && asked + leftRevise > 0) {
-    items.push({ id: 'revise', title: 'Revise', detail: `${asked} of ${asked + leftRevise} questions`, done: leftRevise === 0, href: leftRevise > 0 ? '/review/revise' : null, minutes: leftRevise > 0 ? Math.max(5, Math.ceil(leftRevise / 5) * 5) : null });
+    items.push({ id: 'revise', title: 'Revise', detail: `${asked} of ${asked + leftRevise} questions${extraRevise ? `, extra ${when}` : ''}`, done: leftRevise === 0, extra: extraRevise || undefined, href: leftRevise > 0 ? '/review/revise' : null, minutes: leftRevise > 0 ? Math.max(5, Math.ceil(leftRevise / 5) * 5) : null });
   }
   const reviseUnknown = leftRevise == null && (reviseState === 'failed' || reviseState === 'loading');
   const unknown = reviseUnknown ? [{ id: 'revise', title: 'Revise', detail: reviseState === 'failed' ? 'Did not load' : 'Loading' }] : [];
   const unknownLine = reviseState === 'failed' ? 'Revise did not load, so it is not counted.' : 'Checking Revise.';
-  const open = items.filter((i) => !i.done);
+  const owed = items.filter((i) => !i.extra);
+  const open = owed.filter((i) => !i.done);
+  const extra = items.find((i) => i.extra);
+  const extraLine = extra ? ` ${leftRevise} Revise ${leftRevise === 1 ? 'question is' : 'questions are'} extra ${when}, about ${extra.minutes} min.` : '';
   const todayLayer = {
     unknown,
-    done: items.length - open.length,
-    total: items.length,
+    done: owed.length - open.length,
+    total: owed.length,
     items,
     rest: !items.length && !reviseUnknown,
     left: reviseUnknown && !open.length ? (items.length ? `Done so far. ${unknownLine}` : unknownLine)
       : !items.length
       ? (plan ? 'A rest day in your plan. Anything you practise still counts.' : 'Nothing is due today. Anything you practise counts.')
-      : !open.length ? 'Everything due today is done.'
+      : !open.length ? `Everything due today is done.${extraLine}`
         : `Left: ${open.map((i) => (i.id === 'revise' ? `${leftRevise} Revise ${leftRevise === 1 ? 'question' : 'questions'}` : `${i.title.charAt(0).toLowerCase()}${i.title.slice(1)}${i.detail.startsWith('about') ? `, ${i.detail}` : ''}`)).join(', and ')}.`,
   };
 

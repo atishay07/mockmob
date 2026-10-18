@@ -26,7 +26,7 @@ test('lead: a repair move carries its title, kind and stake (6 marks a mistake, 
   assert.equal(move.kind, 'repair');
   assert.equal(move.number, 4);
   assert.deepEqual(move.stake, { value: 24, word: 'marks they cost you' });
-  assert.deepEqual(move.choice, { title: 'Repair a mistake', value: '4 open from yesterday' });
+  assert.deepEqual(move.choice, { title: 'Repair your last paper', value: '4 open from yesterday' });
   // A shorter length keeps the stake honest.
   const short = refit(fitMove(move, 10));
   assert.equal(short.number, 3);
@@ -46,8 +46,8 @@ test('choices: two of a different kind from the lead, in the order Repair, Revis
   const lead = { id: 'repair', open: 4, number: 4 };
   const two = pickChoices(lead, pool);
   assert.deepEqual(two.map((m) => m.id), ['revise', 'weakest']);
-  assert.deepEqual(two[0].choice, { title: 'Revise what is due', value: '6 due, about 10 min' });
-  assert.deepEqual(two[1].choice, { title: 'Practise your weakest', value: 'Admission of a partner' });
+  assert.deepEqual(two[0].choice, { title: 'Revise what came back', value: '6 due, about 10 min' });
+  assert.deepEqual(two[1].choice, { title: 'Practise your weakest chapter', value: 'Admission of a partner' });
   assert.equal(two[1].title, 'Practise your weakest chapter');
   assert.match(two[1].key.href, /chapter=Admission\+of\+a\+partner/);
 });
@@ -57,7 +57,7 @@ test('choices: day one offers a full mock and another subject; a pick keeps the 
   const rec = leadOf({ id: 'dayOne', number: 10, label: 'questions to your starting point', key: { minutes: 10 } }, { now: NOW });
   const two = pickChoices(rec, pool);
   assert.deepEqual(two.map((m) => m.id), ['mock', 'another']);
-  assert.deepEqual(two[0].choice, { title: 'Full mock instead', value: '50 questions, 60 min' });
+  assert.deepEqual(two[0].choice, { title: 'A full mock instead', value: '50 questions, 60 min' });
   assert.equal(two[1].choice.value, 'Business Studies and 2 more', 'release 10: short and capped');
   assert.equal(two[1].choice.full, 'Business Studies, Economics, English');
   // The student picks the mock: the suggested move comes first in the pool and is offered, then the next kind.

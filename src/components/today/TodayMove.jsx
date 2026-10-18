@@ -98,8 +98,11 @@ function SomethingElse({ open, onClose, items, when = 'tonight' }) {
   );
 }
 
-// The swap hint (release 10, owner D90: a first-time student "won't know what cards actually do"): until the student has swapped
-// once, at most 3 visits, the two choices nudge up twice 1.2 s after the card lands, their edges drawn, like a first-run card hint.
+// The swap coach (release 10, owner D90: a first-time student "won't know what cards actually do"; Tinder's first run shows the gesture
+// on one card). Until the student has swapped once, at most 3 visits, 1.2 s after the card lands ONE cell is coached: the Suggested
+// cell, else the right one. A ring inset 6 px from its edges draws in and its title lifts 8 px and springs back, twice; for that
+// visit the line above says what a tap does ("Tap one to swap it in as your move"). No outline on the cells, so nothing reads as a box
+// cut off inside the card.
 export const SWAP_HINT_KEY = 'mm:today-swap-hint:v1';
 const hintVisits = () => { try { const v = window.localStorage.getItem(SWAP_HINT_KEY); return v === 'done' ? Infinity : Number(v) || 0; } catch { return Infinity; } };
 const countHint = (n) => { try { window.localStorage.setItem(SWAP_HINT_KEY, String(n)); } catch { /* this visit only */ } };
@@ -116,9 +119,13 @@ export default function TodayMove({ phase, lead, choices = [], picked = false, o
   const online = useSyncExternalStore(subscribeOnline, onlineNow, () => true);
   const [sheet, setSheet] = useState(false);
   const [lenOpen, setLenOpen] = useState(false);
-  const [hint, setHint] = useState(false);
+  const [hint, setHint] = useState(false); // the coached cell is moving now
+  const [coach, setCoach] = useState(false); // this visit coaches the swap: the line says what a tap does
+  const [lean, setLean] = useState(null); // desktop: the cell under the pointer ('l' or 'r'); the title leans 12 px toward it
   const [mark, setMark] = useState(null); // the rail's tapped mark (its day), or null for the caption
   const hasChoices = phase === 'ready' && choices.length > 0;
+  // The one cell the coach points at: the Suggested one, else the right one.
+  const coached = choices.findIndex((c) => c.suggested) >= 0 ? choices.findIndex((c) => c.suggested) : choices.length - 1;
   useEffect(() => {
     if (!hasChoices) return undefined;
     const seen = hintVisits();
@@ -126,8 +133,9 @@ export default function TodayMove({ phase, lead, choices = [], picked = false, o
     let off = 0;
     const t = window.setTimeout(() => {
       countHint(seen + 1);
+      setCoach(true);
       setHint(true);
-      off = window.setTimeout(() => setHint(false), 900);
+      off = window.setTimeout(() => setHint(false), 1000);
     }, 1200);
     return () => { window.clearTimeout(t); window.clearTimeout(off); };
   }, [hasChoices]);
@@ -176,13 +184,15 @@ export default function TodayMove({ phase, lead, choices = [], picked = false, o
   // the card's footer beside More ways to practise, so the two never read as one phrase ("See all 6 Why this?"); a link to the record
   // page is "Why this?" itself.
   const moved = Boolean(askContext && m.link && !m.link.href.startsWith('/mentor'));
+  // "Done" keeps its key an outline (one more session is extra, never owed) and shows no length beside its minutes practised.
+  const done = m.id === 'done';
   const price = m.aiEach && m.open > 0 ? <RepairPrice each={m.aiEach} /> : m.priceLine ? <p className="tm__price">{m.priceLine}</p> : m.free ? <p className="tm__price">Free. No credits.</p> : null;
 
   return (
     <section className="tm" data-move={m.id} aria-labelledby="tm-title">
       <h2 id="tm-title" className="sr-only">{heading}</h2>
       {path?.day ? <p className="sr-only">{railLine(path)}{caption && !week ? ` ${caption}` : ''}</p> : null}
-      <div className="tm__body" data-out={out || undefined} data-dir={swapDir} data-in={enter || undefined} aria-live="polite">
+      <div className="tm__body" data-out={out || undefined} data-dir={swapDir} data-in={enter || undefined} data-lean={lean || undefined} aria-live="polite">
         <div className="tm__top" aria-hidden="true">
           <div className="tm__head">
             <p className="tm__over">{picked ? <>Up next, <b>your pick</b></> : over}{subject && !week ? `, ${subject}` : ''}</p>
@@ -208,14 +218,14 @@ export default function TodayMove({ phase, lead, choices = [], picked = false, o
         {m.number != null ? (
           <p className="tm__figure" aria-hidden="true"><BigNumber value={m.number} /><span className="tm__label">{m.label}</span></p>
         ) : null}
-        {m.stake || minutes ? (
+        {m.stake || (minutes && !done) ? (
           <div className="tm__value">
             {m.stake ? <span><b>{m.stake.value}</b> {m.stake.word}</span> : null}
             {minutes && lengths ? (
               <button type="button" className="tm__token" aria-expanded={lenOpen} aria-controls="tm-lengths" onClick={() => setLenOpen((v) => !v)}>
                 about {minutes} min<ChevronsUpDown size={15} strokeWidth={1.75} aria-hidden="true" />
               </button>
-            ) : minutes ? <span>about <b>{minutes}</b> min</span> : null}
+            ) : minutes && !done ? <span>about <b>{minutes}</b> min</span> : null}
           </div>
         ) : null}
         {lengths ? (
@@ -242,15 +252,20 @@ export default function TodayMove({ phase, lead, choices = [], picked = false, o
         ) : offline ? (
           <span className="tm__key" aria-disabled="true" role="link">{m.key.label}{minutes ? <span className="tm__key-len">{minutes} min</span> : null}</span>
         ) : (
-          <Link className="tm__key" data-page-primary href={m.key.href}>{m.key.label}{minutes ? <span className="tm__key-len">{minutes} min</span> : null}</Link>
+          <Link className="tm__key" data-page-primary data-outline={done || undefined} href={m.key.href}>{m.key.label}{minutes ? <span className="tm__key-len">{minutes} min</span> : null}</Link>
         )}
         {price}
       </div>
       {choices.length ? (
         <div className="tm__or" role="group" aria-labelledby="tm-or-h" data-hint={hint || undefined}>
-          <p className="tm__or-h" id="tm-or-h">Or make one of these your move</p>
+          <p className="tm__or-h" id="tm-or-h" key={coach ? 'coach' : 'plain'}>{coach ? 'Tap one to swap it in as your move' : 'Or make one of these your move'}</p>
           {choices.map((c, i) => (
-            <button key={c.id} type="button" className="tm__choice" data-arrived={c.arrived || undefined} onClick={() => onPick?.(c.id, i)} aria-label={`${c.suggested ? 'Suggested. ' : ''}${c.choice.title}: ${c.choice.full || c.choice.value}. Make it your move.`}>
+            <button
+              key={c.id} type="button" className="tm__choice" data-arrived={c.arrived || undefined} data-coach={i === coached || undefined}
+              onClick={() => { setLean(null); onPick?.(c.id, i); }}
+              onPointerEnter={(e) => { if (e.pointerType === 'mouse') setLean(i === 0 ? 'l' : 'r'); }} onPointerLeave={() => setLean(null)}
+              aria-label={`${c.suggested ? 'Suggested. ' : ''}${c.choice.title}: ${c.choice.full || c.choice.value}. Make it your move.`}
+            >
               <Repeat2 className="tm__choice-i" size={16} strokeWidth={1.75} aria-hidden="true" />
               {c.suggested ? <span className="tm__choice-s">Suggested</span> : null}
               <span className="tm__choice-t">{c.choice.title}</span>
