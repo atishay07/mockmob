@@ -257,3 +257,11 @@ test('Today keeps its colleges card, so Colleges leaving the bar costs no door (
   assert.match(read('src/components/today/TodayColleges.jsx'), /href="\/admission-compass"/);
   assert.match(read('src/app/(app)/today/page.jsx'), /TodayColleges/);
 });
+
+test('R4: the rail still fills top to bottom on entry and the You sheet’s rows still rise one after another (each row’s --i)', () => {
+  assert.match(layout, /const railIndex = new Map\(navGroups\.flatMap\(\(group\) => group\.items\)\.map\(\(tab, i\) => \[tab\.id, i\]\)\);/);
+  assert.match(layout, /group\.items\.map\(\(tab\) => renderNavLink\(tab, undefined, railIndex\.get\(tab\.id\)\)\)/);
+  assert.match(layout, /renderNavLink\(tab, \(\) => setMobileMenuOpen\(false\), sheetIndex\.get\(tab\.id\)\)/);
+  assert.match(layout, /style=\{\{ '--i': index \}\}/, 'the row carries its index');
+  assert.match(read('src/app/(app)/arena-support.css'), /\.arena-sidebar \.arena-nav-link[^{]*\{ animation: arena-nav-in 380ms var\(--a-ease\) both; animation-delay: calc\(60ms \+ var\(--i, 0\) \* 22ms\)/);
+});

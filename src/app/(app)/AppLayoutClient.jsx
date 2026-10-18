@@ -323,6 +323,10 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   const dockPlace = isTestRoute ? null : dockPlaceOf(activePath, { mob: mobOn });
   const tabRow = isTestRoute ? null : placeTabs(activePath, { mob: mobOn, study: showStudy });
   const allTabs = [...navGroups.flatMap((group) => group.items), ...sheetGroups.flatMap((group) => group.items), ASK_MOBI_NAV];
+  // The rail fills top to bottom once on entering the Arena, and the You sheet's rows rise one after another: each row's place in
+  // its own list is its --i (the stagger the release 10 rail had, kept across the places).
+  const railIndex = new Map(navGroups.flatMap((group) => group.items).map((tab, i) => [tab.id, i]));
+  const sheetIndex = new Map(sheetGroups.flatMap((group) => group.items).map((tab, i) => [tab.id, i]));
   // A lesson or recall run lives at /study/<id> but belongs to Learn (D20), so Learn stays the current place while you are in one.
   const isActive = (id) => activePath === `/${id}` || activePath.startsWith(`/${id}/`) || (id === 'learn' && activePath.startsWith('/study/'));
   // The Revise count, in words, wherever it is drawn as a number.
@@ -379,10 +383,10 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
         {navGroups.map((group) => (
           <nav key={group.id} className={group.place ? 'arena-nav-group arena-nav-group--place' : 'arena-nav-group'} aria-label={group.label}>
             {group.place ? null : <p className="arena-nav-label">{group.label}</p>}
-            {group.items.map((tab) => renderNavLink(tab))}
+            {group.items.map((tab) => renderNavLink(tab, undefined, railIndex.get(tab.id)))}
             {/* The tour, under You's Guide row (N17): a student who is lost finds it without knowing to open Guide. */}
             {group.id === 'you' && !isTestRoute ? (
-              <button type="button" className="arena-nav-link arena-nav-link--sub arena-nav-link--tour" onClick={startTour}>
+              <button type="button" className="arena-nav-link arena-nav-link--sub arena-nav-link--tour" style={{ '--i': railIndex.size }} onClick={startTour}>
                 <AppIcon name="guide" />
                 <span className="arena-nav-link__label">{TOUR_LABEL}</span>
               </button>
@@ -505,7 +509,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
             {sheetGroups.map((group) => (
               <nav key={group.id} className="arena-nav-group" aria-label={group.label}>
                 <p className="arena-nav-label">{group.label}</p>
-                {group.items.map((tab, index) => renderNavLink(tab, () => setMobileMenuOpen(false), index))}
+                {group.items.map((tab) => renderNavLink(tab, () => setMobileMenuOpen(false), sheetIndex.get(tab.id)))}
               </nav>
             ))}
             {/* Night and Day comes last, so the places come first; it is still below Ask Mobi (D6). */}
