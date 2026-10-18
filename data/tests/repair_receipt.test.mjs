@@ -48,11 +48,13 @@ test('the same chapter: one, all, and a single repaired mistake read as sentence
 });
 
 test('a clean chapter needs an answer: a chapter left blank, or not asked, is never counted as clean or as not', () => {
-  // Ratios: 1 right, 3 blank, none wrong: clean. Cash flow: not asked. Make a chapter that is all blank.
+  // Ratios: 1 right, 3 blank, none wrong: one answer, so not clean. Cash flow: not asked. Make a chapter that is all blank.
   const blankPaper = attempt({ questionsSnapshot: [{ id: 'b1', chapter: 'Ratios' }, { id: 'b2', chapter: 'Ratios' }], details: [{ qid: 'b1', isCorrect: null }, { qid: 'b2', isCorrect: null }] });
   assert.equal(repairReceipt({ attempt: blankPaper, repairs: [row('x1', 'Ratios')] }), null, 'only blanks: nothing was answered, so nothing can be said');
   assert.equal(repairReceipt({ attempt: attempt(), repairs: [row('x1', 'Cash flow statement')] }), null, 'the paper did not ask about that chapter');
   assert.equal(repairReceipt({ attempt: attempt(), repairs: [row('x1', 'Goodwill'), row('x2', 'Goodwill')] }), null, 'every repaired chapter had wrong answers: no good news, no line');
+  // Ratios: one right and three blank. A single answer is not evidence of a chapter, so it is not counted (MIN_ANSWERED is two).
+  assert.equal(repairReceipt({ attempt: attempt(), repairs: [row('x1', 'Ratios')] }), null, 'one answer in the chapter is too thin to say anything');
 });
 
 test('the same question comes first: those that came up again, and how many were right', () => {
@@ -120,7 +122,7 @@ test('matching is by subject and chapter, tolerant of case and spacing, and a re
   // A repair row with no subject takes the paper's.
   assert.equal(repairReceipt({ attempt: attempt(), repairs: [row('x1', 'Partnership Fundamentals', 3, { subject: null })] }).count, 1);
   // A question carrying its own subject (a mixed paper) is matched on it.
-  const mixed = attempt({ questionsSnapshot: [{ id: 'm1', chapter: 'Money', subject: 'economics' }], details: [{ qid: 'm1', isCorrect: true }] });
+  const mixed = attempt({ questionsSnapshot: [{ id: 'm1', chapter: 'Money', subject: 'economics' }, { id: 'm2', chapter: 'Money', subject: 'economics' }], details: [{ qid: 'm1', isCorrect: true }, { qid: 'm2', isCorrect: true }] });
   assert.equal(repairReceipt({ attempt: mixed, repairs: [row('x1', 'Money', 3, { subject: 'economics' })] }).count, 1);
   assert.equal(repairReceipt({ attempt: mixed, repairs: [row('x1', 'Money', 3, { subject: 'accountancy' })] }), null);
 });

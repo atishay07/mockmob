@@ -11,7 +11,7 @@
 //      questions that came up was right, nothing is said (a receipt reports what held; it never scolds, and it never
 //      swaps to a kinder count).
 //   2. The same chapter. If no repaired question came up, the repaired questions are grouped by subject and chapter. A
-//      chapter is "clean" when this paper asked about it, the student answered at least one question there, and got none
+//      chapter is "clean" when this paper asked about it, the student answered at least two questions there, and got none
 //      wrong. The line counts the repaired mistakes that sit in clean chapters: "Of the 6 mistakes you repaired, 4 are in
 //      chapters where you got nothing wrong on this paper." A chapter the paper did not ask about, or left blank, is
 //      simply not counted either way.
@@ -21,6 +21,8 @@
 // the paper cannot be matched to, no clean chapter, or no right answer among the questions that came back. A page of rows
 // as long as the page asked for may hide older repairs, so then the line says "most recently".
 export const DEFAULT_LIMIT = 100;
+// A chapter counts as clean only on this many answers (one lucky answer is not evidence of a chapter).
+export const MIN_ANSWERED = 2;
 
 const key = (s) => String(s ?? '').trim().toLowerCase().replace(/\s+/g, ' ');
 const stamp = (v) => (typeof v === 'number' ? v : Date.parse(v || ''));
@@ -79,7 +81,7 @@ export function repairReceipt({ attempt, repairs, limit = DEFAULT_LIMIT } = {}) 
     return { kind: 'question', repaired: n, count: a, right, lead, strong, text: `${lead} ${strong}` };
   }
 
-  // 2. The same chapter: clean = asked, answered at least once, none wrong.
+  // 2. The same chapter: clean = asked, answered at least MIN_ANSWERED times, none wrong.
   const chapters = new Map();
   for (const q of asked.values()) {
     if (!q.chapter) continue;
@@ -92,7 +94,7 @@ export function repairReceipt({ attempt, repairs, limit = DEFAULT_LIMIT } = {}) 
   const clean = before.filter((r) => {
     if (!r.chapter) return false;
     const c = chapters.get(`${r.subject || key(attempt.subject)}|${r.chapter}`);
-    return Boolean(c) && c.right + c.wrong >= 1 && c.wrong === 0;
+    return Boolean(c) && c.right + c.wrong >= MIN_ANSWERED && c.wrong === 0;
   }).length;
   if (!clean) return null;
   const where = clean === 1 ? 'a chapter where' : 'chapters where';
