@@ -125,13 +125,18 @@ test('D53: a tapped ask in Ask Mobi sends at once, with no confirmation step bet
   assert.doesNotMatch(read('src/app/api/ai/mentor/chat/route.js'), /acknowledg|payload\.consent|payload\.ack/i);
 });
 
-test('D53: one quiet inline line says an AI service writes the reply and that it uses 1 AI credit', () => {
+test('D53: one quiet inline line says an AI service writes the reply and that it uses 1 AI credit (the credit wording is still usesLine)', () => {
   const panel = read('src/components/ai/AskMobiPanel.jsx');
-  assert.match(panel, /An AI service writes this reply\. \$\{creditCount\(1\)\} is used\./);
+  assert.match(panel, /An AI service writes it\. \$\{usesLine\(\{ what: 'This reply', cost: 1, pool: 'ai' \}\)\}/);
   assert.match(panel, /className="amb-cost__price" aria-live="polite"/);
 });
 
 test('W-079: the desktop "Edit" on the Practice ticket keeps its 36 px look and has a 44 px target, all of it above the button', () => {
   const css = stripComments(read('src/app/(app)/dashboard/practice.css'));
   assert.match(css, /\.pr-ticket__edit::after\s*\{[^}]*inset:\s*-8px -2px 0/);
+});
+
+test('D53: the cost row\'s wallet link keeps a 44 px target without growing the row', () => {
+  const css = stripComments(read('src/components/ai/ask-mobi.css'));
+  assert.match(css, /a\.amb-cost__wallet\s*\{[^}]*padding-block:\s*13px;\s*margin-block:\s*-13px/);
 });
