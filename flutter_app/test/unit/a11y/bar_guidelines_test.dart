@@ -73,6 +73,23 @@ void main() {
     });
   }
 
+  // D8: the active icon is the accent stroke (volt on Night, the olive text colour on Day). A
+  // stroke is a graphic, so 3:1 against the glass over the ground (WCAG 1.4.11).
+  for (final brightness in [Brightness.dark, Brightness.light]) {
+    test('the active icon stroke clears 3:1 on the glass over the ground, ${brightness == Brightness.dark ? 'night' : 'day'}', () {
+      final colors = brightness == Brightness.dark ? MmColors.dark : MmColors.light;
+      final spec = BarGlassSpec.of(colors, GlassQuality.full);
+      final glass = Color.alphaBlend(spec.tint, colors.ground);
+      double ratio(Color a, Color b) {
+        final la = a.computeLuminance(), lb = b.computeLuminance();
+        return (math.max(la, lb) + 0.05) / (math.min(la, lb) + 0.05);
+      }
+
+      expect(ratio(BarIconColors.of(colors).active, glass), greaterThanOrEqualTo(3), reason: 'active icon');
+      expect(ratio(BarIconColors.of(colors).idle, glass), greaterThanOrEqualTo(3), reason: 'idle icon');
+    });
+  }
+
   // v14 (L33): the glass is thinner so the page shows through, so the labels are judged over the
   // worst page there is: a solid volt key (or paper white, or black) right under the label, behind
   // the bar's scrim at its top edge, through the backdrop's colour step and the tint. The blur

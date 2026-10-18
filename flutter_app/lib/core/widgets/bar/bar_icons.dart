@@ -1,68 +1,68 @@
-import 'package:flutter/material.dart' show Icons;
 import 'package:flutter/widgets.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../theme/theme.dart';
 
-/// A tab's two glyphs from the Material icon font that ships with Flutter: [active] filled
-/// (the Rounded set), [idle] outlined.
+/// A tab's glyph: one Lucide outline shape, the same family the rest of the app and the web draw
+/// (D8, BADGES-ICONS-1018: one icon family, no filled swap). Active reads from the accent colour,
+/// the bold label and the lens, never from the shape changing.
 @immutable
 class BarGlyph {
-  const BarGlyph({required this.active, required this.idle});
+  const BarGlyph(this.icon);
 
-  final IconData active;
-  final IconData idle;
-
-  @override
-  bool operator ==(Object other) => other is BarGlyph && other.active == active && other.idle == idle;
+  final IconData icon;
 
   @override
-  int get hashCode => Object.hash(active, idle);
+  bool operator ==(Object other) => other is BarGlyph && other.icon == icon;
+
+  @override
+  int get hashCode => icon.hashCode;
 }
 
-/// The bar's five icons (DOCK.md section 4, revised 14 Oct 2026 after the owner's review, and
-/// app-ia-1016.md 4.4): familiar silhouettes a student reads in a split second, from one family,
-/// filled when active and outlined at rest. The bar's character comes from its glass, the lens
-/// and the motion, not the glyphs.
+/// The bar's five icons (DOCK.md section 4, revised 18 Oct 2026 for D8): the Lucide names the web
+/// uses for the same places (Glyph.jsx), outlined at rest and when active. The bar's character
+/// comes from its glass, the lens and the motion, not the glyphs.
 enum BarIconKind {
-  /// Home: the student's day.
-  today(BarGlyph(active: Icons.home_rounded, idle: Icons.home_outlined)),
+  /// CalendarCheck: the student's day.
+  today(BarGlyph(LucideIcons.calendarCheck)),
 
-  /// A question sheet: practice questions.
-  practice(BarGlyph(active: Icons.quiz_rounded, idle: Icons.quiz_outlined)),
+  /// Timer: timed practice.
+  practice(BarGlyph(LucideIcons.timer)),
 
-  /// A checked sheet: going back over answers and mistakes.
-  review(BarGlyph(active: Icons.fact_check_rounded, idle: Icons.fact_check_outlined)),
+  /// NotebookText: going back over answers and mistakes.
+  review(BarGlyph(LucideIcons.notebookText)),
 
-  /// A building with columns: the colleges the marks lead to.
-  colleges(BarGlyph(active: Icons.account_balance_rounded, idle: Icons.account_balance_outlined)),
+  /// Landmark, a building with columns: the colleges the marks lead to.
+  colleges(BarGlyph(LucideIcons.landmark)),
 
-  /// A person: the student's own study. Never their initial: the initial is the header avatar,
+  /// UserRound: the student's own study. Never their initial: the initial is the header avatar,
   /// which opens the account sheet, and two initials on one screen would point to two places.
-  you(BarGlyph(active: Icons.person_rounded, idle: Icons.person_outlined));
+  you(BarGlyph(LucideIcons.userRound));
 
   const BarIconKind(this.glyph);
 
   final BarGlyph glyph;
 }
 
-/// Start's glyph: a rounded play triangle (never the retired bolt), in the same 24 dp box as
-/// the tab icons.
-const IconData kStartGlyph = Icons.play_arrow_rounded;
+/// Start's glyph: the Lucide play triangle (never the retired bolt), in the same 24 dp box as the
+/// tab icons.
+const IconData kStartGlyph = LucideIcons.play;
 
 /// The colours an icon is drawn with.
 @immutable
 class BarIconColors {
   const BarIconColors({required this.idle, required this.active});
 
-  /// The outlined icon at rest (ink 2).
+  /// The icon at rest (ink 2).
   final Color idle;
 
-  /// The filled icon when active: ink in both themes. The bar's one lime is the Start key
-  /// (NAV-1017 6.2: one lime fill per viewport); selection reads from the fill, the ink and the
-  /// lens, never from colour alone.
+  /// The icon when active: the accent as a stroke (volt on Night, the darker olive on Day, so it
+  /// holds on the ground; MmColors.accentText). The bar's one lime fill is still the Start key
+  /// (NAV-1017 6.2: one lime fill per viewport); a stroke is not a fill. Selection never reads
+  /// from colour alone: the bold label and the lens say it too.
   final Color active;
 
-  factory BarIconColors.of(MmColors colors) => BarIconColors(idle: colors.ink2, active: colors.ink);
+  factory BarIconColors.of(MmColors colors) => BarIconColors(idle: colors.ink2, active: colors.accentText);
 
   @override
   bool operator ==(Object other) => other is BarIconColors && other.idle == idle && other.active == active;
@@ -73,9 +73,9 @@ class BarIconColors {
 
 /// Paints one bar icon in its 24 dp box.
 ///
-/// [on] (0 to 1) cross-fades the outlined glyph in ink 2 into the filled glyph in the active
-/// colour; the bar drives it (200 ms in as the lens arrives, 160 ms out). [on] is a listenable,
-/// so a frame of motion repaints this icon alone and never rebuilds the bar.
+/// [on] (0 to 1) moves the colour from ink 2 to the accent; the bar drives it (200 ms in as the
+/// lens arrives, 160 ms out). The shape never changes. [on] is a listenable, so a frame of motion
+/// repaints this icon alone and never rebuilds the bar.
 class BarIconPainter extends CustomPainter {
   BarIconPainter({required this.glyph, required this.colors, required this.on}) : super(repaint: on);
 
@@ -83,31 +83,28 @@ class BarIconPainter extends CustomPainter {
   final BarIconColors colors;
   final Animation<double> on;
 
-  /// The icon box.
+  /// The icon box (the 24 of the 16, 20, 24 icon sizes).
   static const double box = 24;
 
-  /// How far the outline has gone and the fill has come at [t]: the fill leads, the outline
-  /// holds until the fill is half in, so the shape never thins mid-way.
-  static double fillAt(double t) => const Interval(0, 0.7).transform(t.clamp(0.0, 1.0));
-  static double outlineAt(double t) => 1 - const Interval(0.35, 1).transform(t.clamp(0.0, 1.0));
+  // Text laid out once per colour; laid out again only while the colour moves.
+  TextPainter? _cache;
 
-  // Text laid out once per glyph and colour; laid out again only while a colour cross-fades.
-  final List<TextPainter?> _cache = [null, null];
-
-  TextPainter _text(int slot, String text, TextStyle style) {
-    final cached = _cache[slot];
+  TextPainter _text(String text, TextStyle style) {
+    final cached = _cache;
     if (cached != null && cached.text!.style == style && (cached.text! as TextSpan).text == text) return cached;
     cached?.dispose();
-    return _cache[slot] = TextPainter(
+    return _cache = TextPainter(
       text: TextSpan(text: text, style: style),
       textDirection: TextDirection.ltr,
       textScaler: TextScaler.noScaling,
     )..layout();
   }
 
-  void _glyph(Canvas canvas, Size size, int slot, IconData icon, Color color) {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final t = on.value.clamp(0.0, 1.0);
+    final icon = glyph.icon;
     final text = _text(
-      slot,
       String.fromCharCode(icon.codePoint),
       TextStyle(
         inherit: false,
@@ -116,20 +113,10 @@ class BarIconPainter extends CustomPainter {
         fontFamilyFallback: icon.fontFamilyFallback,
         fontSize: box,
         height: 1,
-        color: color,
+        color: Color.lerp(colors.idle, colors.active, t),
       ),
     );
     text.paint(canvas, Offset((size.width - text.width) / 2, (size.height - text.height) / 2));
-  }
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final t = on.value.clamp(0.0, 1.0);
-    final color = Color.lerp(colors.idle, colors.active, t)!;
-    final fill = fillAt(t);
-    final outline = outlineAt(t);
-    if (outline > 0) _glyph(canvas, size, 0, glyph.idle, color.withValues(alpha: color.a * outline));
-    if (fill > 0) _glyph(canvas, size, 1, glyph.active, color.withValues(alpha: color.a * fill));
   }
 
   @override
