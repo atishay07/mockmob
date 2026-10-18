@@ -305,6 +305,11 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
   const [message, setMessage] = useState('');
   const sideRef = useRef(null);
   const resultsRef = useRef(null);
+  // W-075 (release 9): one lime key per viewport. The sticky "View courses" key steps back to outlined while the page's own
+  // closing key is on screen (signed out: "Start a free mock"); signed in, that closing key is not lime at all (the app's
+  // Start key is the one lime action there).
+  const ctaRef = useRef(null);
+  const [ctaInView, setCtaInView] = useState(false);
 
   // Load the data, then take the starting selection from the link (teaser, chapter review, a shared URL)
   // or from this device. After applying a link we remove its parameters, so a later reload
@@ -432,6 +437,14 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
     }
   };
 
+  useEffect(() => {
+    const el = ctaRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return undefined;
+    const io = new IntersectionObserver(([entry]) => setCtaInView(entry.isIntersecting), { threshold: 0.05 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [data]);
+
   const goTo = (ref) => ref.current?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' });
 
   if (error) return <div className="du-state du-state--error" role="alert"><p>{error}</p><button type="button" className="du-link" onClick={() => { setError(''); setLoadAttempt((value) => value + 1); }}>Try again</button></div>;
@@ -464,7 +477,7 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
           </p>
           <div>
             <button type="button" onClick={() => goTo(sideRef)}>Edit<span className="du-sum__long"> subjects</span></button>
-            <button type="button" data-primary data-phone-primary onClick={() => goTo(resultsRef)}>View courses</button>
+            <button type="button" data-primary={ctaInView ? undefined : ''} data-phone-primary={ctaInView ? undefined : ''} onClick={() => goTo(resultsRef)}>View courses</button>
           </div>
         </div>
       ) : null}
@@ -665,7 +678,7 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
       </div>
 
       {/* ------------------------------ CTA ------------------------------ */}
-      <section className="du-cta" aria-labelledby="du-cta-title">
+      <section className="du-cta" aria-labelledby="du-cta-title" ref={ctaRef}>
         <div>
           <h2 id="du-cta-title" className="du-h2">Cutoffs are only half the plan.</h2>
           <p className="du-sub">
@@ -680,10 +693,11 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
           ) : null}
         </div>
         <div className="du-cta__actions">
-          <Link href={isAuthenticated ? '/dashboard' : '/signup'} className="mm-btn mm-btn--primary">
+          {/* Signed in, the sidebar's and the dock's Start key are the app's lime action, so Go to Practice is outlined (W-075). */}
+          <Link href={isAuthenticated ? '/dashboard' : '/signup'} className={isAuthenticated ? 'mm-btn mm-btn--secondary' : 'mm-btn mm-btn--primary'}>
             {isAuthenticated ? 'Go to Practice' : 'Start a free mock'}
           </Link>
-          <Link href={isAuthenticated ? '/analytics' : '/features'} className="mm-btn mm-btn--secondary">
+          <Link href={isAuthenticated ? '/review' : '/features'} className={isAuthenticated ? 'mm-btn mm-btn--quiet' : 'mm-btn mm-btn--secondary'}>
             {isAuthenticated ? 'Open my chapter review' : 'See how chapter review works'}
           </Link>
         </div>

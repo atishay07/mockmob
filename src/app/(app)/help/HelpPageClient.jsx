@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable react-hooks/set-state-in-effect */
 
-// Help: the app's common questions as an accordion, one open at a time. Each question is a real
+// Guide and questions (the /help route; the nav label is Guide, D11): the app's common questions as an accordion, one open at a time. Each question is a real
 // heading holding a button, so a screen reader can list them. ?q=<id> (or #<id>) opens one. The open
 // answer eases its height; under reduced motion it changes at once. "Write to us" is a mailto row.
 // A search box over the questions and answers (W-083) narrows the list as the student types; with no match it says so and
@@ -10,7 +10,7 @@ import { useEffect, useMemo, useState } from 'react';
 import ArenaHead from '@/components/arena/ArenaHead';
 import { AppIcon } from '@/components/ui/Glyph';
 import { FAQ_ITEMS, HELP_HEADING, HELP_LEDE, SUPPORT_ROW, faqIdFrom } from '@/lib/helpFaq.mjs';
-import { HELP_DOOR_ROWS, tourNote } from '@/lib/helpDoor.mjs';
+import { GUIDE_PAGE_TITLE, HELP_DOOR_ROWS, tourNote } from '@/lib/helpDoor.mjs';
 import { useTourStops } from '@/components/help/TourStops';
 import { GUIDE_EVENT } from '@/components/profile/accountModel.mjs';
 import './help.css';
@@ -37,7 +37,7 @@ export default function HelpPageClient() {
 
   return (
     <div className="student-page help">
-      <ArenaHead title="Help and FAQ" lede={HELP_LEDE} />
+      <ArenaHead title={GUIDE_PAGE_TITLE} lede={HELP_LEDE} />
       {/* The quickest way first (N17): the tour shows the arena once. Ask Mobi is the Planning row now, not a Help row (ASK-MOBI-1018). */}
       <div className="help-ways">
         {HELP_DOOR_ROWS.filter((row) => row.action).map((row) => {

@@ -7,13 +7,13 @@ import {
   Atom, BadgeIndianRupee, BookOpenText, Bookmark, Briefcase, Calculator, CalendarCheck, Check, ChefHat, ChevronDown,
   ChevronUp, X as CloseIcon, CircleCheck, CircleHelp, CircleX, Cpu, Compass, Dna, Dumbbell, FilePlus2, FlaskConical, Globe2, GraduationCap,
   Home, Info, Infinity as InfinityIcon, LifeBuoy, Mail, ListChecks, MonitorCheck, Landmark, Languages, Layers, Leaf, Library, Lightbulb, LogOut, Map, Mic,
-  Music, Newspaper, NotebookText, Orbit, Palette, Radar, RefreshCw, Scale, Scroll, ShieldCheck, Telescope, Timer,
+  Music, Newspaper, NotebookText, Palette, Radar, RefreshCw, Scale, Scroll, ShieldCheck, Telescope, Timer,
   TrendingUp, Trophy, TriangleAlert, UserRound, Users, Wheat, Brain, Ruler, Gavel, Sprout, Lock, Clock, Wallet,
 } from 'lucide-react';
 // The phone dock's Colleges tab and its More key (NAV-1017 section 8).
 import { Ellipsis, University } from 'lucide-react';
-// Help's question search (W-083).
-import { Search } from 'lucide-react';
+// Help's question search (W-083), and Ask Mobi's mark (D8: the Orbit read as a "not allowed" sign at 14 px).
+import { Search, Sparkles } from 'lucide-react';
 
 const STROKE = 1.75;
 
@@ -28,7 +28,7 @@ const APP_ICONS = {
   radar: Radar,
   saved: Bookmark,
   compass: Compass,
-  prepos: Orbit,
+  prepos: Sparkles,
   explore: Telescope,
   ranks: Trophy,
   mob: Users,
@@ -97,7 +97,8 @@ export function SubjectIcon({ id, size = 20, className = '', ...rest }) {
  * The two currencies, drawn as two coins so they are never confused:
  *   practice: a paper coin (spent on Quick practice and Full mock); a small question sheet, never a bolt, so it cannot
  *             read as the retired bolt mark
- *   prepos:   an orbit coin (the PrepOS wallet)
+ *   prepos:   a sparkle coin (the AI wallet; the Ask Mobi row draws the same sparkle). It was an orbit, which at 14 px read as
+ *             a circle with a slash, the "not allowed" sign (D8)
  */
 export function CreditMark({ kind = 'practice', size = 18, className = '' }) {
   return (
@@ -105,10 +106,7 @@ export function CreditMark({ kind = 'practice', size = 18, className = '' }) {
       stroke="currentColor" strokeWidth={STROKE} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
       <circle cx="12" cy="12" r="9.25" />
       {kind === 'prepos' ? (
-        <>
-          <ellipse cx="12" cy="12" rx="5.2" ry="2.2" transform="rotate(-28 12 12)" />
-          <circle cx="12" cy="12" r="1.15" fill="currentColor" stroke="none" />
-        </>
+        <path className="credit-mark__spark" d="M12 6.2Q12.9 11.1 17.8 12Q12.9 12.9 12 17.8Q11.1 12.9 6.2 12Q11.1 11.1 12 6.2Z" />
       ) : (
         <>
           <rect x="8.6" y="7" width="6.8" height="10" rx="1.3" />

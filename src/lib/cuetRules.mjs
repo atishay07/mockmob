@@ -21,7 +21,8 @@ export const CUET_RULE_SOURCE = 'https://cuet.nta.nic.in/information-bulletin/';
 export const pickUpToLine = (cap = CUET_MAX_SUBJECTS) => `Pick up to ${cap}.`;
 
 /** The plain rule, for the line under a picker: languages and the General Test count. */
-export const SUBJECT_RULE_NOTE = 'That is the CUET limit, five papers in all. A language or the General Test uses one of the five.';
+// It names its cycle (N6): five is the 2026 bulletin's rule, and the 2027 bulletin is not out. One line, no disclaimer.
+export const SUBJECT_RULE_NOTE = `That is the CUET UG ${CUET_RULE_CYCLE} limit: five papers in all (a language or the General Test counts as one).`;
 
 /** Cap a list of subject ids at the rule, keeping order. */
 export function capSubjects(list, cap = CUET_MAX_SUBJECTS) {

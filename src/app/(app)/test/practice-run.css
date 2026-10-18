@@ -107,7 +107,7 @@
 /* ---------- Palette legend filter ---------- */
 .pr-legend { display: grid; gap: 4px; }
 .pr-legend button {
-  min-height: 36px; display: flex; align-items: center; gap: 8px; width: 100%; padding: 0 8px;
+  min-height: 44px; display: flex; align-items: center; gap: 8px; width: 100%; padding: 0 8px;
   border: 1px solid transparent; border-radius: 7px; background: transparent; cursor: pointer; text-align: left;
   color: var(--text-subtle); font: 800 10px/1.2 var(--font-mono); letter-spacing: .05em;
   transition: background-color 160ms var(--pr-ease), border-color 160ms var(--pr-ease), color 160ms var(--pr-ease);
@@ -119,7 +119,7 @@
 .pr-run .nta-palette-chip { transition: opacity 200ms var(--pr-ease), transform 200ms var(--pr-ease); }
 .pr-run .nta-palette-chip.is-dimmed { opacity: .28; transform: scale(.92); }
 .pr-goto {
-  min-height: 40px; width: 100%; border-radius: 8px; cursor: pointer;
+  min-height: 44px; width: 100%; border-radius: 8px; cursor: pointer;
   border: 1px solid color-mix(in oklab, var(--pr-accent) 50%, transparent); background: transparent;
   color: var(--a-ink, #f4f6ed); font: 800 12px/1 var(--font-display); animation: pr-rise 220ms var(--pr-ease) both;
 }
@@ -133,7 +133,7 @@
   transform: translate3d(-50%, 0, 0); animation: pr-toast 260ms var(--pr-spring) both;
 }
 .pr-undo button {
-  min-height: 40px; padding: 0 14px; border-radius: 8px; border: 0; cursor: pointer;
+  min-height: 44px; padding: 0 14px; border-radius: 8px; border: 0; cursor: pointer;
   background: var(--a-hover, rgba(255,255,255,.08)); color: var(--pr-accent); font: 800 13px/1 var(--font-display);
 }
 .pr-undo i { position: absolute; left: 12px; right: 12px; bottom: 3px; height: 2px; border-radius: 2px; background: var(--pr-accent); opacity: .5; transform-origin: left; animation: pr-drain 4s linear both; }

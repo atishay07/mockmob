@@ -28,12 +28,13 @@ test('the dock holds Today, Practice, Review and Colleges; Learn and Explore mov
   assert.ok(STUDY_NAV.some((tab) => tab.id === 'learn'), 'Learn stays in the Study group');
   // The More sheet lists the places that are not in the dock, so its Study group opens on Learn (NAV-1017 10, check 4);
   // the desktop sidebar still draws every group in full.
-  // Account and Help and FAQ head the sheet (the name row, and a link beside the sign-out key) instead of sitting at its foot.
+  // Account and the Guide head the sheet (the name row, then Show me around and Guide) instead of sitting at its foot; Ask Mobi has
+  // its own row above the theme control (D6, release 9).
   assert.match(layout, /const sheetGroups = navGroups\.map\(\(group\) => \(\{ \.\.\.group, items: group\.items\.filter\(\(tab\) => !dockIds\.has\(tab\.id\) && !sheetHeadIds\.has\(tab\.id\)\) \}\)\)/);
-  assert.match(layout, /const sheetHeadIds = new Set\(\['profile', 'help', 'learn'\]\)/);
+  assert.match(layout, /const sheetHeadIds = new Set\(\['profile', 'help', 'learn', 'mentor'\]\)/);
   // D20: Learn leads the sheet in a row of its own, so the Study group does not list it twice.
   assert.match(layout, /className="arena-sheet__lead" data-tour="nav-learn"/);
-  assert.match(layout, /<Link href=\{previewLinks\?\.help \|\| '\/help'\} className="arena-sheet__help"[\s\S]{0,160}?>\s*<AppIcon name="help" \/> Help and FAQ/);
+  assert.match(layout, /<Link href=\{previewLinks\?\.help \|\| '\/help'\} className="arena-sheet__help"[\s\S]{0,160}?>\s*<AppIcon name="help" \/> \{HELP_DOOR\.label\}/);
   assert.match(layout, /<AppearanceSwitch \/>[\s\S]{0,900}?\{sheetGroups\.map/);
   const dockIds = new Set(MOBILE_STUDY_NAV.map((tab) => tab.id));
   const sheetStudy = STUDY_NAV.filter((tab) => !dockIds.has(tab.id)).map((tab) => tab.id);

@@ -17,7 +17,9 @@ test('the rule is five in all', () => {
   assert.deepEqual(capSubjects(SEVEN), SEVEN.slice(0, 5));
   assert.equal(pickUpToLine(), 'Pick up to 5.');
   assert.match(SUBJECT_RULE_NOTE, /five papers in all/);
-  assert.match(SUBJECT_RULE_NOTE, /language or the General Test uses one/);
+  assert.match(SUBJECT_RULE_NOTE, /language or the General Test counts as one/);
+  assert.match(SUBJECT_RULE_NOTE, /CUET UG 2026 limit/, 'the note names the cycle it is true for (N6)');
+  assert.equal(SUBJECT_RULE_NOTE.split('. ').length, 1, 'one sentence on one line, no second disclaimer');
 });
 
 test('every picker and check shares the one number', () => {

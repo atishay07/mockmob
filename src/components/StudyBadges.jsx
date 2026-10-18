@@ -68,17 +68,23 @@ function BadgeRow({ step, path, record, progress, zone, armed, linkShown, onOpen
   );
 }
 
-/** The four paths, as before: two ruled columns on a desktop, one on a phone. */
-function Paths({ paths, records, progress, zone, armed, onOpen }) {
+/**
+ * The four paths, as before: two ruled columns on a desktop, one on a phone. `hideEarned` is the page's inline copy (desktop),
+ * where the shelf right above already shows every earned medal: nothing is shown twice (release 9), so the lists keep the next,
+ * the locked and the unknown rows, and the header keeps the count ("3 of 4"). The All badges sheet lists everything.
+ */
+function Paths({ paths, records, progress, zone, armed, onOpen, hideEarned = false }) {
   return (
-    <div className="sb-paths">
+    <div className="sb-paths" data-earned-hidden={hideEarned ? 'true' : undefined}>
       {paths.map((path) => {
         const firstNext = path.steps.find((s) => s.status === 'next');
+        const steps = hideEarned ? path.steps.filter((s) => s.status !== 'earned') : path.steps;
         return (
           <section key={path.id} className="sb-path" aria-label={`${path.title} badges`}>
             <header><b>{path.title}</b><span>{path.earned} of {path.total}</span></header>
+            {steps.length === 0 ? <p className="sb-path__done">All {path.total} earned.</p> : (
             <ol className="sb-list">
-              {path.steps.map((step) => (
+              {steps.map((step) => (
                 <BadgeRow
                   key={step.id}
                   step={step}
@@ -92,6 +98,7 @@ function Paths({ paths, records, progress, zone, armed, onOpen }) {
                 />
               ))}
             </ol>
+            )}
           </section>
         );
       })}
@@ -196,7 +203,7 @@ function BadgesSection({ board, zone, armed }) {
       {pick ? <NextBadge pick={pick} entries={entries} armed={armed} onOpen={openDetail} /> : shelf.length === total ? <p className="sb-note">You have earned every badge.</p> : null}
       {unknown ? <p className="sb-note">{unknown === 1 ? 'One badge' : `${unknown} badges`} could not be checked just now, so {unknown === 1 ? 'it is' : 'they are'} not counted above.</p> : null}
 
-      {wide ? <Paths paths={paths} records={records} progress={progress} zone={zone} armed={armed} onOpen={openDetail} /> : null}
+      {wide ? <Paths paths={paths} records={records} progress={progress} zone={zone} armed={armed} onOpen={openDetail} hideEarned /> : null}
 
       {showLayer ? (
         <BadgeLayer

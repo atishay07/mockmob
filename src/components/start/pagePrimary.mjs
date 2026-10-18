@@ -10,22 +10,26 @@
 // The dock key follows one thing: whether the page's own key is in view. The owner's F12 complaint ("what state is it really
 // following?") was a rule that could not tell a key not reached yet from one already passed, and flipped with the scroll
 // position; here the answer is always "is that key in the viewport right now", and three things keep it from flickering:
-//   1. the view is the band between the top bar and the dock, since a key under either is not seen;
-//   2. a key counts as in view once a third of it is (SHOW_AT) and as gone once almost all of it has left (HIDE_AT), so a
-//      key resting on an edge cannot flip it back and forth;
-//   3. a change waits SETTLE_MS and is dropped if the key moves back first, so a fast flick past a key changes nothing.
+//   1. the view is the band between the top bar and the dock, since a key under either is not seen, plus the strip of page
+//      that shows below the dock's capsule (a second, thin observer): a key rising from the bottom edge peeks out there first,
+//      and a lime sliver under a lime dock key is two keys on screen;
+//   2. a key counts as in view as soon as any of it is above the dock (SHOW_AT, 5 percent: the sliver that first peeks out) and
+//      as gone once all but a sliver of it has left (HIDE_AT), so a key resting on an edge cannot flip it back and forth;
+//   3. the dock key goes quiet AT ONCE, the moment a key counts as in view: waiting out a settle time let a key rise 80 px
+//      over a still-lime dock key at a normal scroll speed (the 18 Oct audit's two-lime band on Practice). Only the return to
+//      lime waits SETTLE_MS, and is dropped if the key comes back first, so a key resting on the band's edge does not flicker it.
 // The first reading after a page opens is applied at once, so a page that opens with its key on screen never shows two lime
 // keys for even a moment. Pure logic: the browser objects come in through `env`, so a test can drive every case.
 
 export const PRIMARY_SELECTOR = '[data-page-primary], [data-phone-primary]';
-export const SHOW_AT = 0.3;
-export const HIDE_AT = 0.1;
+export const SHOW_AT = 0.05;
+export const HIDE_AT = 0.02;
 export const SETTLE_MS = 140;
 // Every edge of the dead band is a threshold, so the observer reports each crossing.
-export const THRESHOLDS = Object.freeze([0, HIDE_AT, 0.2, SHOW_AT, 0.5, 0.75, 1]);
+export const THRESHOLDS = Object.freeze([0, HIDE_AT, SHOW_AT, 0.2, 0.5, 0.75, 1]);
 
 /** The hysteresis: in view from SHOW_AT up, gone at HIDE_AT and below, and whatever it was in between. The key counts as in
- *  view early (a third of it) so two lime keys are never on screen for long, and as gone late (almost all of it). */
+ *  view as soon as a sliver of it is above the dock, so two lime keys are never on screen together, and as gone late. */
 export function nextInView(previous, ratio) {
   if (!(ratio >= 0)) return Boolean(previous);
   if (ratio >= SHOW_AT) return true;
@@ -38,6 +42,14 @@ export function bandMargin({ topEdge = 0, dockTop = null, viewportHeight = 0 } =
   const top = Math.max(0, Math.round(Number(topEdge) || 0));
   const bottom = dockTop == null || !viewportHeight ? 0 : Math.max(0, Math.round(viewportHeight - dockTop));
   return `-${top}px 0px -${bottom}px 0px`;
+}
+
+/** The second band: the strip of viewport under the dock, where a key rising from the bottom edge shows first. Null when the dock
+ *  reaches the bottom edge (no strip) or is not drawn. */
+export function stripMargin({ dockBottom = null, viewportHeight = 0 } = {}) {
+  if (dockBottom == null || !viewportHeight) return null;
+  const top = Math.round(Number(dockBottom) || 0);
+  return viewportHeight - top >= 1 && top > 0 ? `-${top}px 0px 0px 0px` : null;
 }
 
 /**
@@ -66,7 +78,8 @@ export function createPrimaryWatch({ onChange, settleMs = SETTLE_MS, setTimer = 
       first = false;
       return;
     }
-    if (first) { first = false; apply(); return; }
+    // Going quiet is applied at once (a lime key must never sit over a lime dock key); going lime waits out the settle time.
+    if (first || wanted) { if (timer !== null) { clearTimer(timer); timer = null; } first = false; apply(); return; }
     if (timer === null) timer = setTimer(apply, settleMs);
   }
   return {
@@ -98,13 +111,21 @@ export function watchPagePrimary(main, { onChange, env = {}, settleMs = SETTLE_M
   const watch = createPrimaryWatch({ onChange, settleMs, setTimer: env.setTimeout, clearTimer: env.clearTimeout });
   const observed = new Set();
   let io = null;
+  let ioStrip = null;
   let margin = null;
+  const mainRatios = new Map();
+  const stripRatios = new Map();
   let syncFrame = 0;
   let sizeFrame = 0;
   let stopped = false;
 
-  const onEntries = (entries) => {
-    for (const entry of entries) if (observed.has(entry.target)) watch.report(entry.target, entry.isIntersecting ? entry.intersectionRatio : 0);
+  // A key is in view if it shows in either band; the better of the two readings counts.
+  const onEntries = (store) => (entries) => {
+    for (const entry of entries) {
+      if (!observed.has(entry.target)) continue;
+      store.set(entry.target, entry.isIntersecting ? entry.intersectionRatio : 0);
+      watch.report(entry.target, Math.max(mainRatios.get(entry.target) || 0, stripRatios.get(entry.target) || 0));
+    }
   };
   const styleOf = env.getComputedStyle || ((el) => win.getComputedStyle(el));
   // The top bar hides what is under it only where it sticks (top 0, 63 px tall), not where it rests when the page is at its
@@ -118,23 +139,32 @@ export function watchPagePrimary(main, { onChange, env = {}, settleMs = SETTLE_M
   const measure = () => {
     const dock = doc.querySelector('.arena-dock');
     const dockRect = dock?.getBoundingClientRect();
-    return bandMargin({ topEdge: barEdge(doc.querySelector('.arena-topbar')), dockTop: dockRect && dockRect.height ? dockRect.top : null, viewportHeight: win.innerHeight });
+    const drawn = dockRect && dockRect.height;
+    return {
+      main: bandMargin({ topEdge: barEdge(doc.querySelector('.arena-topbar')), dockTop: drawn ? dockRect.top : null, viewportHeight: win.innerHeight }),
+      strip: stripMargin({ dockBottom: drawn ? (dockRect.bottom ?? dockRect.top + dockRect.height) : null, viewportHeight: win.innerHeight }),
+    };
   };
   // The observer is rebuilt only when the band really moved (a rotation, a taller bar), never on every resize event: a phone
   // browser fires them as its address bar slides, and the band does not change when it does.
   const build = () => {
     const next = measure();
-    if (io && next === margin) return;
-    margin = next;
+    const key = `${next.main}|${next.strip}`;
+    if (io && key === margin) return;
+    margin = key;
     io?.disconnect();
-    io = new IO(onEntries, { rootMargin: margin, threshold: [...THRESHOLDS] });
-    for (const el of observed) io.observe(el);
+    ioStrip?.disconnect();
+    mainRatios.clear();
+    stripRatios.clear();
+    ioStrip = next.strip ? new IO(onEntries(stripRatios), { rootMargin: next.strip, threshold: [...THRESHOLDS] }) : null;
+    io = new IO(onEntries(mainRatios), { rootMargin: next.main, threshold: [...THRESHOLDS] });
+    for (const el of observed) { io.observe(el); ioStrip?.observe(el); }
   };
   const sync = () => {
     if (stopped) return;
     const now = new Set(main.querySelectorAll(PRIMARY_SELECTOR));
-    for (const el of [...observed]) if (!now.has(el)) { observed.delete(el); io.unobserve(el); watch.forget(el); }
-    for (const el of now) if (!observed.has(el)) { observed.add(el); io.observe(el); }
+    for (const el of [...observed]) if (!now.has(el)) { observed.delete(el); io.unobserve(el); ioStrip?.unobserve(el); mainRatios.delete(el); stripRatios.delete(el); watch.forget(el); }
+    for (const el of now) if (!observed.has(el)) { observed.add(el); io.observe(el); ioStrip?.observe(el); }
   };
 
   build();
@@ -148,6 +178,7 @@ export function watchPagePrimary(main, { onChange, env = {}, settleMs = SETTLE_M
     stopped = true;
     mo.disconnect();
     io?.disconnect();
+    ioStrip?.disconnect();
     win.removeEventListener('resize', onResize);
     if (syncFrame) caf(syncFrame);
     if (sizeFrame) caf(sizeFrame);

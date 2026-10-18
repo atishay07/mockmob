@@ -8,7 +8,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
   HIDE_AT, PRIMARY_SELECTOR, SETTLE_MS, SHOW_AT, THRESHOLDS,
-  bandMargin, createPrimaryWatch, nextInView, watchPagePrimary,
+  bandMargin, createPrimaryWatch, nextInView, stripMargin, watchPagePrimary,
 } from '../../src/components/start/pagePrimary.mjs';
 
 const root = new URL('../../', import.meta.url);
@@ -38,22 +38,23 @@ function clock() {
   };
 }
 
-test('the dead band: in view from 30 percent, gone at 10 percent, and unchanged in between', () => {
-  assert.equal(SHOW_AT, 0.3, 'a third of the key on screen is enough: two lime keys are never on screen for long');
-  assert.equal(HIDE_AT, 0.1, 'it counts as gone only when almost all of it has left');
+test('the dead band: in view from the first sliver (5 percent), gone at 2 percent, and unchanged in between', () => {
+  assert.equal(SHOW_AT, 0.05, 'as soon as any of the key is above the dock: two lime keys are never on screen together (release 9)');
+  assert.equal(HIDE_AT, 0.02, 'it counts as gone only when all but a sliver has left');
   assert.ok(HIDE_AT < SHOW_AT);
   assert.equal(nextInView(false, 1), true);
   assert.equal(nextInView(false, SHOW_AT), true);
   assert.equal(nextInView(false, SHOW_AT - 0.01), false, 'not yet in view');
-  assert.equal(nextInView(false, 0.2), false);
-  assert.equal(nextInView(true, 0.2), true, 'a key leaving stays counted until almost all of it is gone');
-  assert.equal(nextInView(true, HIDE_AT + 0.01), true);
+  assert.equal(nextInView(false, 0.03), false);
+  assert.equal(nextInView(true, 0.03), true, 'a key leaving stays counted until all but a sliver is gone');
+  assert.equal(nextInView(true, HIDE_AT + 0.005), true);
   assert.equal(nextInView(true, HIDE_AT), false);
   assert.equal(nextInView(true, 0), false);
   assert.equal(nextInView(true, Number.NaN), true, 'a bad reading changes nothing');
   assert.equal(nextInView(false, undefined), false);
-  // Every edge of the band is a threshold, so the observer reports each crossing.
+  // Every edge of the band is a threshold, so the observer reports each crossing, and the list is sorted.
   assert.ok(THRESHOLDS.includes(SHOW_AT) && THRESHOLDS.includes(HIDE_AT) && THRESHOLDS.includes(0) && THRESHOLDS.includes(1));
+  assert.deepEqual([...THRESHOLDS], [...THRESHOLDS].sort((a, b) => a - b));
 });
 
 test('the band is what a student sees: under the top bar and above the dock', () => {
@@ -62,6 +63,14 @@ test('the band is what a student sees: under the top bar and above the dock', ()
   assert.equal(bandMargin({ topEdge: 0, dockTop: null, viewportHeight: 900 }), '-0px 0px -0px 0px', 'no dock drawn (from 1024 px)');
   assert.equal(bandMargin({ topEdge: -5, dockTop: 900, viewportHeight: 844 }), '-0px 0px -0px 0px', 'never a negative band');
   assert.equal(bandMargin(), '-0px 0px -0px 0px');
+});
+
+test('the strip under the dock is a band of its own: where a key rising from the bottom edge shows first', () => {
+  assert.equal(stripMargin({ dockBottom: 832, viewportHeight: 844 }), '-832px 0px 0px 0px');
+  assert.equal(stripMargin({ dockBottom: 832.4, viewportHeight: 844 }), '-832px 0px 0px 0px', 'whole pixels');
+  assert.equal(stripMargin({ dockBottom: 844, viewportHeight: 844 }), null, 'a dock that reaches the bottom edge leaves no strip');
+  assert.equal(stripMargin({ dockBottom: null, viewportHeight: 844 }), null, 'no dock drawn (from 1024 px)');
+  assert.equal(stripMargin(), null);
 });
 
 test('the first reading is applied at once: a page that opens with its key on screen never shows two lime keys', () => {
@@ -87,14 +96,26 @@ test('a key leaving the screen brings the lime key back, after the settle time a
   assert.deepEqual(seen, [true], 'still settling');
   t.advance(1);
   assert.deepEqual(seen, [true, false], 'lime again once it has been gone for the settle time');
-  // And coming back into view is settled the same way.
+  // Coming back into view is NOT settled: the dock key goes quiet in the same frame the key shows (release 9), so a lime key
+  // never rises over a lime dock key while a timer runs.
   watch.report(key, 0.9);
-  assert.deepEqual(seen, [true, false]);
-  t.advance(SETTLE_MS);
-  assert.deepEqual(seen, [true, false, true]);
+  assert.deepEqual(seen, [true, false, true], 'quiet at once');
+  assert.equal(t.pending, 0);
 });
 
-test('a fast flick past the key changes nothing: a move that reverses inside the settle time is dropped', () => {
+test('the key peeking above the dock quiets the dock key at once, and the sliver is enough', () => {
+  const t = clock();
+  const seen = [];
+  const watch = createPrimaryWatch({ onChange: (v) => seen.push(v), setTimer: t.setTimeout, clearTimer: t.clearTimeout });
+  const key = {};
+  watch.report(key, 0);
+  assert.deepEqual(seen, [], 'nothing yet: the key is under the dock');
+  watch.report(key, SHOW_AT); // 5 percent of the key (about 2 px of a 48 px key) is above the dock
+  assert.deepEqual(seen, [true], 'quiet in the same frame, with no timer');
+  assert.equal(t.pending, 0);
+});
+
+test('a key that leaves and returns inside the settle time never brings the lime key back', () => {
   const t = clock();
   const seen = [];
   const watch = createPrimaryWatch({ onChange: (v) => seen.push(v), setTimer: t.setTimeout, clearTimer: t.clearTimeout });
@@ -106,29 +127,33 @@ test('a fast flick past the key changes nothing: a move that reverses inside the
   assert.equal(t.pending, 0, 'the waiting change was dropped');
   t.advance(SETTLE_MS * 4);
   assert.deepEqual(seen, [true], 'the dock key never flickered');
-  // The other direction: lime, a key crosses the band in less than the settle time.
+  // The other direction: lime, a key crosses the band in less than the settle time. The dock key is quiet while the key is on
+  // screen (it never shares the screen with a lime key), and lime again one settle time after the key is gone.
   watch.report(key, 0);
   t.advance(SETTLE_MS);
   assert.deepEqual(seen, [true, false]);
   watch.report(key, 0.7);
+  assert.deepEqual(seen, [true, false, true], 'quiet at once');
   t.advance(60);
   watch.report(key, 0);
-  t.advance(SETTLE_MS * 4);
-  assert.deepEqual(seen, [true, false], 'a key that was in view for 60 ms did not quiet the dock key');
+  t.advance(SETTLE_MS - 1);
+  assert.deepEqual(seen, [true, false, true], 'still quiet: the return to lime is settled');
+  t.advance(1);
+  assert.deepEqual(seen, [true, false, true, false]);
 });
 
-test('a key resting on an edge cannot flip the dock key: between 10 and 30 percent nothing changes', () => {
+test('a key resting on an edge cannot flip the dock key: between 2 and 5 percent nothing changes', () => {
   const t = clock();
   const seen = [];
   const watch = createPrimaryWatch({ onChange: (v) => seen.push(v), setTimer: t.setTimeout, clearTimer: t.clearTimeout });
   const key = {};
   watch.report(key, 0.9);
-  for (const ratio of [0.2, 0.15, 0.29, 0.11, 0.25, 0.12, 0.28]) { watch.report(key, ratio); t.advance(SETTLE_MS * 2); }
+  for (const ratio of [0.04, 0.03, 0.049, 0.021, 0.045, 0.025, 0.035]) { watch.report(key, ratio); t.advance(SETTLE_MS * 2); }
   assert.deepEqual(seen, [true], 'in view, then only readings inside the dead band');
-  watch.report(key, 0.05);
+  watch.report(key, 0.01);
   t.advance(SETTLE_MS);
   assert.deepEqual(seen, [true, false]);
-  for (const ratio of [0.12, 0.2, 0.29, 0.15, 0.25]) { watch.report(key, ratio); t.advance(SETTLE_MS * 2); }
+  for (const ratio of [0.022, 0.04, 0.049, 0.03, 0.045]) { watch.report(key, ratio); t.advance(SETTLE_MS * 2); }
   assert.deepEqual(seen, [true, false], 'lime, then only readings inside the dead band');
 });
 
@@ -140,7 +165,7 @@ test('with several keys the best one decides: one leaving while another arrives 
   const b = {};
   watch.report(a, 0.9);
   watch.report(b, 0);
-  watch.report(a, 0.1);
+  watch.report(a, 0.01);
   watch.report(b, 0.8);
   t.advance(SETTLE_MS * 2);
   assert.deepEqual(seen, [true]);
@@ -239,16 +264,38 @@ test('the glue watches the marked keys inside the band, and reports through onCh
   assert.equal(s.main.asked, PRIMARY_SELECTOR, 'it asks for both marks');
   assert.match(PRIMARY_SELECTOR, /data-page-primary/);
   assert.match(PRIMARY_SELECTOR, /data-phone-primary/);
-  assert.equal(s.made.length, 1);
+  assert.equal(s.made.length, 2, 'the band between the bar and the dock, and the strip under the dock');
+  assert.equal(s.made[0].options.rootMargin, '-832px 0px 0px 0px', 'the strip under the dock capsule');
   assert.equal(s.io().options.rootMargin, '-63px 0px -76px 0px', 'the band between the top bar and the dock');
   assert.deepEqual(s.io().options.threshold, [...THRESHOLDS]);
-  assert.ok(s.io().targets.has(key));
+  assert.ok(s.io().targets.has(key) && s.made[0].targets.has(key), 'a key is watched in both bands');
   assert.deepEqual(s.mutation.observed.options, { childList: true, subtree: true, attributes: true, attributeFilter: ['data-page-primary', 'data-phone-primary'] });
   s.io().see(key, 0.92);
   assert.deepEqual(seen, [true]);
   s.io().see(key, 0);
   s.t.advance(SETTLE_MS);
   assert.deepEqual(seen, [true, false]);
+  stop();
+});
+
+test('a key that shows only in the strip under the dock quiets the dock key at once, and the better of the two readings counts', () => {
+  const s = shell();
+  const key = { id: 'bar-key' };
+  s.keys.push(key);
+  const seen = [];
+  const stop = watchPagePrimary(s.main, { onChange: (v) => seen.push(v), env: s.env });
+  const [strip, band] = s.made;
+  band.see(key, 0); // under the dock capsule: not seen
+  assert.deepEqual(seen, []);
+  strip.see(key, 0.27); // 13 px of a 48 px key peek out under the dock
+  assert.deepEqual(seen, [true], 'the lime sliver under the dock never sits beside a lime dock key');
+  band.see(key, 0.6); // it rises above the dock
+  strip.see(key, 0);
+  s.t.advance(SETTLE_MS * 3);
+  assert.deepEqual(seen, [true], 'still quiet: the band reading carries it');
+  band.see(key, 0);
+  s.t.advance(SETTLE_MS);
+  assert.deepEqual(seen, [true, false], 'lime again once it is in neither band');
   stop();
 });
 
@@ -313,15 +360,16 @@ test('the observer is rebuilt only when the band really moved', () => {
   // The address bar slides: a resize event, the same band.
   s.listeners.get('resize')();
   s.flush();
-  assert.equal(s.made.length, 1, 'the same band keeps the same observer');
+  assert.equal(s.made.length, 2, 'the same band keeps the same observers (the strip and the band)');
   // A rotation: a different viewport and dock position.
   s.geometry.dockTop = 330;
   s.env.window.innerHeight = 400;
   s.listeners.get('resize')();
   s.flush();
-  assert.equal(s.made.length, 2);
-  assert.ok(first.closed, 'the old observer is disconnected');
+  assert.equal(s.made.length, 4);
+  assert.ok(first.closed && s.made[0].closed, 'the old observers are disconnected');
   assert.equal(s.io().options.rootMargin, '-63px 0px -70px 0px');
+  assert.equal(s.made[2].options.rootMargin, '-394px 0px 0px 0px');
   assert.ok(s.io().targets.has(key), 'the key is observed again');
   stop();
 });
@@ -335,7 +383,7 @@ test('stopping disconnects everything and leaves the dock key lime', () => {
   s.io().see(key, 1);
   stop();
   assert.deepEqual(seen, [true, false]);
-  assert.ok(s.io().closed);
+  assert.ok(s.io().closed && s.made[0].closed);
   assert.equal(s.mutation.disconnected, true);
   assert.equal(s.listeners.has('resize'), false);
   // Late callbacks after the stop do nothing.
@@ -415,7 +463,7 @@ test('the phone-only lime keys carry data-phone-primary, so they quiet the dock 
   const practice = read('src/app/(app)/dashboard/DashboardPageClient.jsx');
   assert.match(practice, /data-page-primary=\{short \? undefined : ''\} data-phone-primary=\{short \? '' : undefined\}/, 'the session bar key (phones) is marked; the card key (desktop) keeps data-page-primary');
   const calculator = read('src/components/du/CutoffCalculator.jsx');
-  assert.match(calculator, /<button type="button" data-primary data-phone-primary onClick=\{\(\) => goTo\(resultsRef\)\}>View courses<\/button>/);
+  assert.match(calculator, /<button type="button" data-primary=\{ctaInView \? undefined : ''\} data-phone-primary=\{ctaInView \? undefined : ''\} onClick=\{\(\) => goTo\(resultsRef\)\}>View courses<\/button>/);
   // The summary bar is hidden from 1100 px, which is exactly why it must not use data-page-primary.
   assert.match(stripComments(read('src/components/du/du.css')), /@media \(min-width: 1100px\)\s*\{\s*\.du-sum\s*\{\s*display: none;/);
 });
