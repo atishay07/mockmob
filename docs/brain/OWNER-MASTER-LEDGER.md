@@ -399,6 +399,12 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 | D84 | Nudge, paywall, Pro and pack copy in persuasive marketing English (not generic or flat); truth kept | Sent to the web and app nudge agents 7:14 pm |
 | D85 | He switches accounts himself near 95% | RULE for tonight |
 
+### Status at 7:15 pm, 18 Oct (session 604ced81 handoff, stopped at 95% usage)
+- **DONE, live:** release 8 (00328e54); production migrations free_ai_wallet_50, practice_credit_per_question, mob + mob_fix (code not yet live for the last three).
+- **Built, final checks pending:** release 9 (wt-rel9b 31c4dd21: audit fixes, per-question credits, the Mob); final app 1.0.15+6 (wt-v15-1 01dd7770, walk r1 fixes in); Play billing server (DONE, 9b6cd30b).
+- **Mid-build:** one credits balance core (5c553d3a + STOP POINT), web wallet (6237ada2), web Pro nudges (b281ea9a), app billing + wallet (STOP POINT 5ae50007), app Pro nudges (STOP POINT a00ddfe1).
+- None of D65, D66, D76, D78-D81 is DONE until live (web) or on a walked APK in his hands (app). Next steps: NOW.md section 4.
+
 ## Waiting on the owner (updated 18 Oct about 3:45 am)
 - Answered 3:50 am: M-001 first launch 3 s; M-006 bolder copy; D19 keep badges, refine; D22 Mob.
 - D32: confirm the kept landing element when he reviews the port live (wt-land3, port 3206).
