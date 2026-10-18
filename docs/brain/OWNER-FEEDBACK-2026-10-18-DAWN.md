@@ -406,3 +406,8 @@ His message was the pasted next-session prompt (resume from 25ef3d95, follow NOW
 > "Rules: you think, agents do (Sonnet by default, Opus for taste and money). Release 9 is live (2e45a92c) with the Mob ON; do not redo it. ... Separate fast and slow work into separate workflows. Honest times on a 12-hour clock. Record my words verbatim and fold them into the ledger the same hour."
 
 **Ledger D98:** the order tonight: (1) the final app v15.2: review fae1d928, merge the taste commits, ONE fix pass on the remaining HIGH and MEDIUM items plus quick LOWs, analyze and unit tests of the changes only, then the release APK and one phone install; (2) release 10 with the two production migrations and one Opus verifier, at most 2 rounds; (3) ONE message. Fast and slow work go in separate workflows.
+
+## Owner, 18 Oct about 11:30 pm IST (verbatim)
+> "The last agent told me the entire thing will be done by 10:30 or 10:45 max. Now it's 11:30, so is the entire app and everything still done? Even you yourself said the last message will be at 10:30, and everything will be done by then. Do the last bit. What's the holdup now?"
+
+**Ledger D99:** the 10:30-10:45 pm promise was missed. He wants the last bit done now and an honest account of the holdup. Answer honestly with what is done, what is left and a time backed by evidence; stop adding scope.

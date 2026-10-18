@@ -460,6 +460,11 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 |---|---|---|
 | D98 | Order: final app v15.2 first (review fae1d928, merge taste dec4e083 + c2e950ba, ONE fix pass on the remaining HIGH/MEDIUM + quick LOWs, analyze + unit tests of changes, release APK, one install), then release 10 (two production migrations, one Opus verifier capped at 2 rounds), then ONE message; fast and slow work in separate workflows | BUILDING 10:45 pm |
 
+### Owner at about 11:30 pm, 18 Oct (D99)
+| # | Ask | Status |
+|---|---|---|
+| D99 | The 10:30-10:45 pm promise was missed: finish the last bit now and say honestly what the holdup is | 11:32 pm: answered with the real chain; no new scope; APK next |
+
 ## Waiting on the owner (updated 18 Oct about 3:45 am)
 - Answered 3:50 am: M-001 first launch 3 s; M-006 bolder copy; D19 keep badges, refine; D22 Mob.
 - D32: confirm the kept landing element when he reviews the port live (wt-land3, port 3206).
