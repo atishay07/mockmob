@@ -67,9 +67,9 @@
       "do": "Where you can rule out one of four options, choosing among the other three averages 1 mark a question under +5 for right and −1 for wrong."
     },
     "held": {
-      "label": "Under re-check or corrected",
-      "bar": "{m} under re-check or corrected",
-      "do": "These are being re-checked or were corrected, so they are not sorted by how they were lost."
+      "label": "Not sorted",
+      "bar": "{m} not sorted",
+      "do": "Their answer keys are held, so these are not sorted by how they were lost."
     }
   },
   "groupLine": {

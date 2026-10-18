@@ -85,7 +85,7 @@ test('the Full mock: every group, in order, with the headline group open', () =>
   assert.deepEqual(lab.headline, { group: 'never_opened', text: 'You never opened 6 of the 50 questions. That is 30 of the 112 marks you missed.' });
   assert.deepEqual(lab.groups.filter((g) => g.open).map((g) => g.id), ['never_opened']);
   assert.equal(lab.groups.find((g) => g.id === 'other_blank').line, '5 marks on 1 question');
-  assert.equal(lab.barLabel, '112 marks missed: 12 right then changed, 30 never opened, 17 at 2 minutes or more, 18 wrong in under 20 seconds, 24 other wrong answers, 5 opened and left blank, 6 under re-check or corrected.');
+  assert.equal(lab.barLabel, '112 marks missed: 12 right then changed, 30 never opened, 17 at 2 minutes or more, 18 wrong in under 20 seconds, 24 other wrong answers, 5 opened and left blank, 6 not sorted.');
   assert.deepEqual(lab.fine, [LAB_COPY.fineReady]);
   assert.deepEqual(lab.labels, { name: 'Mistake Lab', othersTitle: 'How others answered', showMore: 'Show {k} more', seeChanges: 'See every change' });
   assert.deepEqual(LAB_GROUPS.map((g) => g.id), [...LAB_RULES.groupOrder, 'wrong', 'blank']);

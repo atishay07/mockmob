@@ -101,6 +101,6 @@ export function buildPracticeQuote({ user, subject, mode: modeId, count, purpose
     ? `Included with your Pro access${entitlement.expiresAt ? ` (valid until ${new Date(entitlement.expiresAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })})` : ''}.`
     : allowanceOut?.state === 'available'
       ? 'Uses today’s included 10-question set. No credits are charged.'
-      : `${creditCost} credits are charged only after a complete set is built.`;
+      : 'You are charged only after a complete set is built.';
   return { ...base, ...out, state: 'available', launchable: true, reasonCode: 'ok', reason, idempotencyToken: token };
 }

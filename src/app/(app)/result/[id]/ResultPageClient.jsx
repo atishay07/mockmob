@@ -33,7 +33,6 @@ import { RETRY_COPY, retryEligible, retrySaid } from '@/../data/retry_first.mjs'
 import ReaderMobi from '@/components/brand/ReaderMobi';
 import { useMobiPrefs } from '@/lib/mobiPrefs';
 import MistakeRepair from '@/components/recovery/MistakeRepair';
-import KeyReviewLog from '@/components/recovery/KeyReviewLog';
 import AnswerCorrectionNotice from '@/components/recovery/AnswerCorrectionNotice';
 import KeyReviewNotice from '@/components/recovery/KeyReviewNotice';
 import RunTrack from '@/components/recovery/RunTrack';
@@ -635,7 +634,7 @@ export default function ResultPageClient({ previewId = null }) {
             {(Array.isArray(cohort.fine) ? cohort.fine : cohort.fine ? [cohort.fine] : []).map((line, i) => <p key={i} className="srl-fine">{line}</p>)}
           </div>
         ) : null}
-        <KeyReviewLog items={keyReviews} onJump={jumpTo} />
+        {/* A key under re-check is said once, in the line under the score (the notice) and on its own row; the old second list is gone (release 9). */}
       {correctedRows.length ? <section className="kr-log" aria-label="Answer corrections"><h2>We corrected {correctedRows.length === 1 ? 'an answer key' : `${correctedRows.length} answer keys`}. We’re sorry.</h2><p>Your original result is preserved. Applying these checked corrections gives a separate adjustment of {correctionAdjustment > 0 ? '+' : ''}{correctionAdjustment} marks. This has not changed your account or leaderboard score.</p><ul>{correctedRows.map(r => <li key={r.q.id}><button type="button" onClick={() => jumpTo(r.number)}><b>Q{r.number}</b><span>{r.chapter}</span><em>See correction</em></button></li>)}</ul></section> : null}
         </div>
       ) },
@@ -780,7 +779,7 @@ export default function ResultPageClient({ previewId = null }) {
       <nav className="rp-links" aria-label="More from your record">
         <Link href="/mentor?tab=record"><AppIcon name="prepos" size={16} />Your full record</Link>
         <Link href="/review"><AppIcon name="review" size={16} />All saved mistakes</Link>
-        <Link href="/analytics"><AppIcon name="radar" size={16} />Open weak chapters</Link>
+        <Link href="/analytics"><AppIcon name="radar" size={16} />See your marks trend</Link>
         <Link href="/dashboard"><AppIcon name="practice" size={16} />Back to Practice</Link>
       </nav>
     </div>

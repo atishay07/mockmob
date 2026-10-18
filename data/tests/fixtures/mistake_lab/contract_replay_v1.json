@@ -104,18 +104,18 @@
     },
     {
       "id": "held",
-      "label": "Under re-check or corrected",
+      "label": "Not sorted",
       "marks": 6,
       "count": 1,
       "numbers": [
         14
       ],
       "line": "6 marks on 1 question",
-      "doLine": "These are being re-checked or were corrected, so they are not sorted by how they were lost.",
+      "doLine": "Their answer keys are held, so these are not sorted by how they were lost.",
       "open": false
     }
   ],
-  "barLabel": "105 marks missed: 12 right then changed, 12 crossed out the key, 17 at 2 minutes or more, 18 wrong in under 20 seconds, 30 other wrong answers, 10 opened and left blank, 6 under re-check or corrected.",
+  "barLabel": "105 marks missed: 12 right then changed, 12 crossed out the key, 17 at 2 minutes or more, 18 wrong in under 20 seconds, 30 other wrong answers, 10 opened and left blank, 6 not sorted.",
   "remark": {
     "first": 151,
     "final": 146,

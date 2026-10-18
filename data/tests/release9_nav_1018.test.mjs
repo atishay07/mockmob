@@ -162,8 +162,8 @@ test('the plan card names the plan in quiet meta text, not a pr-badge pill (BADG
   assert.doesNotMatch(plan, /pr-badge/);
   assert.match(plan, /<span className="plan-card__meta">\{pro \? 'Pro' : 'Free'\}<\/span>/);
   assert.match(arenaCss, /\.plan-card__meta\s*\{[^}]*color:\s*var\(--a-ink-2\)/);
-  // The credit amounts and copy are another packet's: untouched here.
-  assert.match(plan, /Quick practice costs 10 practice credits and Full mock costs 50\./);
+  // The credit amounts and copy are another packet's (perq owns the wording): the plan card says the one price sentence.
+  assert.match(plan, /Free uses practice credits\. \$\{PRACTICE_PRICE_LINE\}/);
 });
 
 test('Progress at 1440: the path lists under the shelf drop the earned rows (nothing shown twice) and keep next, locked and the counts', () => {

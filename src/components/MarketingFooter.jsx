@@ -44,6 +44,7 @@ export function MarketingFooter() {
             <Logo />
             <p className="mm-foot__blurb">
               Timed CUET practice, a clear read of every mistake, and one next step for tonight.
+              {' '}
               {SUBJECT_CLAIM.short}.
             </p>
             <FooterStart />

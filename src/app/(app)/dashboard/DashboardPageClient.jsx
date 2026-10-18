@@ -19,7 +19,6 @@ import { SubjectObject } from '@/components/brand/SubjectObject';
 import { ExamPanel, Stopwatch, WeightsGlyph } from '@/components/start/StartArt';
 import { LIFE, tapKeyframes } from '@/components/brand/ObjectLifeModel.mjs';
 import { TEST_MODES, fineTuneScope, resolveCount, practiceCreditCost } from '@/../data/test_modes';
-import { PRACTICE_PRICE_TAIL } from '@/lib/creditCopy.mjs';
 import { MODE_CAPABILITIES } from '@/../data/capabilities';
 import { retiredSubjectEntry } from '@/../data/subject_claim';
 import StartRule, { useStartRule } from './StartRule';
@@ -522,10 +521,11 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
         <div>
           <h1 className="display-md">{user?.name ? `${user.name.split(' ')[0]}, what are we practising?` : 'What are we practising?'}</h1>
           <p>Pick a subject and a mode. Timed, marked +5 / −1, saved to your record.</p>
-          {/* The balance and the two prices, one line under the lede at every width (the session panel repeats the balance). */}
+          {/* The balance under the lede at every width. The price is said once, on the mode tiles (and the card's own Cost line),
+              not again here (release 9: it was stated about four times in the first fold). */}
           <p className="pr-head__credits">
             <CreditAmount kind="practice" amount={isPremium ? 'unlimited' : balance} unit={!isPremium} unitLabel="practice credits" size={15} />
-            <span>{isPremium ? 'Quick practice and Full mock are included with your access.' : PRACTICE_PRICE_TAIL}</span>
+            {isPremium ? <span>Quick practice and Full mock are included with your access.</span> : null}
           </p>
           <PracticeMobChip userId={user?.id} />
         </div>
@@ -702,7 +702,6 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
               <div><dt>Time</dt><dd>{approximate ? 'About ' : ''}{minutes} min</dd></div>
               <div><dt>Marking</dt><dd>+5 / −1</dd></div>
               <div data-wide="" data-emph=""><dt>Cost</dt><dd data-tone={costTone}>{costLabel}</dd></div>
-              {!isPremium ? <div data-wide="" data-balance=""><dt>Your practice credits</dt><dd>{balance.toLocaleString('en-IN')}</dd></div> : null}
             </dl>
             {/* The bank behind every paper, said once and quietly (owner, 16 Oct; START-1017 D10): no fixed set of mocks,
                 each paper built fresh, unseen questions first. Count from /api/stats; unknown is not 0. */}

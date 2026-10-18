@@ -66,7 +66,7 @@ test('Your full analysis names six parts, in the order of section 5.2', () => {
 
 test('every R4 block lives in exactly the part section 5.3 gives it (nothing lost, nothing twice)', () => {
   const homes = {
-    marks: ['<LabLedger', '<KeyReviewLog', 'rl-cohort', 'Answer corrections'],
+    marks: ['<LabLedger', 'rl-cohort', 'Answer corrections'],
     mistakes: ['<MistakeList', '<RepairTotal', 'Reopening a repair is free', ': lesson}', '<RunTrack'],
     time: ['<LabTime'],
     rule: ['<LabProof'],
@@ -78,7 +78,7 @@ test('every R4 block lives in exactly the part section 5.3 gives it (nothing los
     for (const needle of needles) assert.ok(body.includes(needle), `${needle} is in part ${id}`);
   }
   // Each block appears in one part only.
-  for (const tag of ['<LabLedger', '<LabTime', '<LabProof', '<SwotPanel', '<MistakeList', '<KeyReviewLog']) {
+  for (const tag of ['<LabLedger', '<LabTime', '<LabProof', '<SwotPanel', '<MistakeList']) {
     const where = IDS.filter((id) => bodyOf(id).includes(tag));
     assert.equal(where.length, 1, `${tag} is in ${where.join(', ')}`);
   }
