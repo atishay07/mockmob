@@ -82,13 +82,13 @@ test('wired on Today: the path leads through withFirstWeek, the rail rides on th
   // The card lands once: it holds, for 1.5 s at most, while the reads that decide today's step are loading.
   assert.match(page, /const stepReads = \{ revise: \[data\.revise\], aim: \[insights\], lab: \[data\.repaired\], plan: \[data\.road, data\.goal\] \}\[stepOfDay\(weekDay\)\] \|\| \[\]/);
   assert.match(page, /window\.setTimeout\(\(\) => setWaitedOut\(true\), 1500\)/);
-  assert.match(page, /const phase = holdForStep \? 'loading' :/);
+  assert.match(page, /const phase = holdForStep \|\| holdForPage \? 'loading' :/);
   assert.doesNotMatch(page, /const \[nowMs\][\s\S]*const \[nowMs\]/, 'one clock for the page');
   const move = read('src/components/today/TodayMove.jsx');
   assert.match(move, /Day \$\{path\.day\} of your first week/);
   assert.match(move, /<ol className="tm__rail">/);
-  assert.match(move, /className="tm__step" data-state=\{s\.state\}/);
-  assert.match(move, /\{path\?\.day \? <p className="sr-only">\{railLine\(path\)\}<\/p> : null\}/, 'a screen reader hears the rail once, in words');
+  assert.match(move, /className="tm__step" data-state=\{s\.state\} data-day=\{s\.day\}/);
+  assert.match(move, /\{path\?\.day \? <p className="sr-only">\{railLine\(path\)\}\{caption && !week \? ` \$\{caption\}` : ''\}<\/p> : null\}/, 'a screen reader hears the rail once, in words');
   // The one volt key: Change plan is a button, a link is a link, offline is disabled; exactly one of them is drawn.
   assert.match(move, /\{isPlan \? \(\s*<button type="button" className="tm__key" data-page-primary aria-haspopup="dialog" onClick=\{onPlan\}>\{m\.key\.label\}<\/button>\s*\) : offline \? \(/);
   assert.match(move, /Flag size=\{34\}/, 'the road\'s flag is the plan\'s picture');

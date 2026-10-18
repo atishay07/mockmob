@@ -123,8 +123,10 @@ test('free answers carry real figures and one next move; the opening is there fo
   assert.equal(findChapter(INSIGHTS, 'partnership').chapter, 'Partnership');
   assert.equal(openingFor({ context: normalizeContext({ kind: 'question', ref: 'a1:q2' }), insights: INSIGHTS, status: 'ready' }), null);
   assert.equal(openingFor({ context: normalizeContext({ kind: 'page' }), insights: INSIGHTS, status: 'ready' }), null);
-  const today = openingFor({ context: normalizeContext({ kind: 'today', reason: 'Partnership leaks most.', lines: ['11 wrong of 34 answered.'] }), insights: INSIGHTS, status: 'ready' });
-  assert.equal(today.reply, 'Partnership leaks most. 11 wrong of 34 answered.');
+  // Release 9: Today's opening leads with the context's own lines, then the chapter's record from this read; the card's reason is not restated.
+  const today = openingFor({ context: normalizeContext({ kind: 'today', reason: 'Partnership leaks most.', chapter: 'Partnership', lines: ["Today's 3: 3 from Partnership."] }), insights: INSIGHTS, status: 'ready' });
+  assert.match(today.reply, /^Today's 3: 3 from Partnership\. Partnership: 11 wrong, of 34 questions over 4 sessions\./);
+  assert.ok(!today.reply.includes('Partnership leaks most.'));
   const mock = openingFor({ context: normalizeContext({ kind: 'mock', ref: 'att1', label: 'Mock 3', lines: ['Partnership: 36 of 78 marks lost.'] }), insights: INSIGHTS, status: 'ready' });
   assert.equal(mock.source, 'From Mock 3');
   const practice = openingFor({ context: normalizeContext({ kind: 'practice' }), insights: INSIGHTS, status: 'ready', pro: true });

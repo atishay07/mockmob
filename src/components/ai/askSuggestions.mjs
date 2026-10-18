@@ -6,6 +6,7 @@
 // model call). Anything that needs a written reply costs 1 AI credit, and says so before it is sent (W-060).
 import { answerFromInsights, readout } from '../../../data/prepos_insights.js';
 import { FAQ_ITEMS } from '../../lib/helpFaq.mjs';
+import { todayAnswer } from './askContexts.mjs';
 
 export const ASK_COST = 1;
 
@@ -163,8 +164,11 @@ export function openingFor({ context = {}, insights = null, status = 'loading', 
   const kind = context.kind;
   if (kind !== 'mock' && kind !== 'today' && kind !== 'practice') return null;
   const lines = context.lines || [];
-  if (kind === 'today' && (context.reason || lines.length)) {
-    return { ask: 'Why this step?', reply: [context.reason, ...lines].filter(Boolean).join(' '), actions: [], source: status === 'ready' ? recordSource(insights) : 'From your plan' };
+  if (kind === 'today' && (context.reason || lines.length || context.chapter)) {
+    // Today's answer leads with what the card does not say, and takes every record count from this panel's own insights read, the
+    // same read as the "Your record" chip (askContexts.mjs todayAnswer), so the two never disagree.
+    const answer = todayAnswer({ context, insights: status === 'ready' ? insights : null });
+    if (answer) return { ask: 'Why this step?', reply: answer.reply, actions: [], source: answer.record ? recordSource(insights) : 'From your plan' };
   }
   if (kind === 'mock' && lines.length) {
     // One line each, so the chapters read as a short list and not as one long sentence (the panel keeps line breaks).

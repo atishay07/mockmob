@@ -137,10 +137,12 @@ test('lead card: "Why this?" sits beside the reason line, a real link with a 44 
   const move = read('src/components/today/TodayMove.jsx');
   assert.match(move, /import AskMobiLink from '@\/components\/ai\/AskMobiLink'/);
   assert.match(move, /<p className="tm__why">\{keepTogether\(m\.why\)\}[\s\S]*?<AskMobiLink context=\{askContext\} variant="inline" className="tm__inline">\{ENTRY_LABELS\.today\}<\/AskMobiLink><\/> : null\}<\/p>/, 'inside the reason paragraph');
-  assert.match(move, /m\.link && !\(askContext && m\.link\.href\.startsWith\('\/mentor'\)\)/, 'it takes the place of a link to the record page');
+  // Release 9: with "Why this?" in the reason, a link to the record page is dropped and any other link moves to the value line.
+  assert.match(move, /\{m\.link && !askContext \?/, 'it takes the place of a link to the record page');
+  assert.match(move, /const moved = Boolean\(askContext && m\.link && !m\.link\.href\.startsWith\('\/mentor'\)\)/);
   assert.match(move, /askContext = null/);
   const page = read('src/app/(app)/today/page.jsx');
-  assert.match(page, /todayContext\(\{ move: lead, plan: data\.plan\.data \}\)/, 'the context follows the lead, swapped or recommended');
+  assert.match(page, /todayContext\(\{ move: lead, revise: reviseData \}\)/, 'the context follows the lead, swapped or recommended');
   assert.match(page, /askContext=\{askContext\}/);
   // 44 px: the inline entry pads 12 px above and below its line (24 + the 21 px line); the sentence link rule does the same.
   assert.match(read('src/components/ai/ask-entry.css'), /\.ame\.ame--inline \{[^}]*padding: 12px 0/);
@@ -156,7 +158,7 @@ test('greeting: Hello from midnight to 5 AM survives the merge', () => {
   assert.equal(greeting({ hour: 5, name: 'Asha' }), 'Good morning, Asha');
   assert.equal(greeting({ hour: 23, name: 'Asha' }), 'Good evening, Asha');
   assert.equal(greeting({ hour: 2, name: 'Asha', returning: true }), 'Welcome back, Asha');
-  assert.match(read('src/app/(app)/today/page.jsx'), /greeting\(\{ hour, name: user\?\.name, email: user\?\.email, returning:/);
+  assert.match(read('src/app/(app)/today/page.jsx'), /greetingAt\(\{ hour, name: user\?\.name, email: user\?\.email, returning:/);
 });
 
 // ---- The release 5 and 6 pieces the merge keeps ------------------------------------------------------------------------------

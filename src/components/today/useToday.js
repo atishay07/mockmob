@@ -47,10 +47,17 @@ const reviseDue = (body) => (body?.state === 'unavailable' ? null : {
   nextDayLabel: typeof body?.nextDayLabel === 'string' ? body.nextDayLabel : null,
   // The subjects of today's questions, most first: the lead card shows their objects (what comes back, not a guess).
   subjects: Array.isArray(body?.items) ? subjectsByCount(body.items) : [],
+  // The chapters of today's questions, most first ({ chapter, n }): "Why this?" names which mistakes come back (release 9).
+  chapters: Array.isArray(body?.items) ? chaptersByCount(body.items) : [],
   // Revise has been used: a question asked today, or an active card above box 1 (a right recall moved it up; a wrong one drops it back).
   // Unknown (null) when the body has no box counts and nothing was asked today: the first-week path ticks Revise only on a true.
   recalled: reviseRecalled(body),
 });
+function chaptersByCount(items) {
+  const n = new Map();
+  for (const i of items) if (i?.chapter && typeof i.chapter === 'string') n.set(i.chapter, (n.get(i.chapter) || 0) + 1);
+  return [...n.entries()].sort((a, b) => b[1] - a[1]).map(([chapter, count]) => ({ chapter, n: count }));
+}
 function subjectsByCount(items) {
   const n = new Map();
   for (const i of items) if (i?.subject) n.set(i.subject, (n.get(i.subject) || 0) + 1);

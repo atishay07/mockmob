@@ -23,7 +23,7 @@ import Link from 'next/link';
 import { Check, Flag, SlidersHorizontal } from 'lucide-react';
 import { api } from '@/lib/fetcher';
 import { roadFigures, roadLayers, stripColumns, targetFor, weekdayDay, shortDay } from '@/lib/today/road.mjs';
-import { todayKeyIn } from '@/lib/today/week.mjs';
+import { todayKeyIn, weekDays } from '@/lib/today/week.mjs';
 import { clock } from '@/lib/today/move.mjs';
 import TodayPlanFlow from './TodayPlanFlow';
 
@@ -63,14 +63,14 @@ function Stretch({ done, total, order, groups = null, flag = false }) {
   );
 }
 
-function Stop({ id, index, selected, onSelect, label, figure, of, unit, stretch, aria }) {
+function Stop({ id, index, selected, onSelect, label, figure, of, unit, also = '', stretch, aria }) {
   return (
     <li>
       <button type="button" className="trd__stop" id={`trd-stop-${id}`} aria-pressed={selected} aria-controls="trd-readout" onClick={() => onSelect(index)} aria-label={aria}>
         <span className="trd__label" aria-hidden="true">{label}</span>
         <span className="trd__fig" aria-hidden="true"><b>{figure}</b>{of ? <small>{of}</small> : null}</span>
         {stretch}
-        <span className="trd__unit" aria-hidden="true">{unit}</span>
+        <span className="trd__unit" aria-hidden="true">{unit}{also ? <span className="trd__also">{also}</span> : null}</span>
       </button>
     </li>
   );
@@ -176,9 +176,11 @@ export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, l
   const nextLine = g.next ? `Next, ${g.next.when}: ${lowerFirst(g.next.title)}, ${weekdayDay(g.next.day)}.` : '';
   const days = g.studyDays != null && g.goal ? `${g.studyDays} study ${g.studyDays === 1 ? 'day' : 'days'} at ${g.goal} a week` : '';
   const todayName = `${LONG_DAYS[new Date(`${today}T00:00:00Z`).getUTCDay()]} ${shortDay(today)}`;
-  const daysItem = week.items.find((i) => i.id === 'days');
+  // This week's stop prints the same count and words as the This week block (weekDays: "4 of 4 study days"); the full mock the plan
+  // asks of the week is its own line under it, never added into the days (D27: "4 of 4 study days" against "5 of 5 days and a mock").
+  const weekCount = weekDays(rhythmNow);
   const mocksItem = week.items.find((i) => i.id === 'mocks');
-  const weekUnit = mocksItem ? (mocksItem.total === 1 ? 'days and a mock' : 'days and mocks') : 'study days';
+  const mockLine = mocksItem ? `and ${mocksItem.done} of ${mocksItem.total} full ${mocksItem.total === 1 ? 'mock' : 'mocks'}` : '';
 
   // The three stops, near to far.
   const stops = [
@@ -191,9 +193,9 @@ export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, l
     },
     {
       id: 'week', label: 'This week',
-      figure: week.total ? week.done : '?', of: week.total ? `of ${week.total}` : '', unit: weekUnit,
-      stretch: <Stretch done={week.done} total={week.total} order={1} groups={daysItem && mocksItem ? [daysItem.total] : null} />,
-      aria: `This week: ${week.total ? `${week.done} of ${week.total} planned done` : 'your weekly goal did not load'}. ${week.line}`,
+      figure: weekCount ? weekCount.done : '?', of: weekCount ? `of ${weekCount.total}` : '', unit: weekCount ? `study ${weekCount.total === 1 ? 'day' : 'days'}` : 'study days unknown', also: mockLine,
+      stretch: <Stretch done={weekCount ? Math.min(weekCount.done, weekCount.total) : 0} total={weekCount ? weekCount.total : 0} order={1} />,
+      aria: `This week: ${weekCount ? `${weekCount.text}${mockLine ? `, ${mockLine}` : ''}` : 'your weekly goal did not load'}. ${week.line}`,
     },
     {
       id: 'goal', label: 'Overall goal',
@@ -226,7 +228,8 @@ export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, l
             ))}
           </ul>
         ) : null}
-        <p className="trd__note">{day.items.some((i) => i.id === 'session' && i.done) ? 'Today already counts toward your week.' : day.rest ? 'Your plan rests today. A session still counts toward the week.' : 'Today counts once a session is saved. Any length counts.'}</p>
+        {/* What is left today. "Today already counts toward your week" is This week's to say, so the road does not repeat it (D27). */}
+        <p className="trd__note">{day.items.some((i) => i.id === 'session' && i.done) ? day.left : day.rest ? 'Your plan rests today. A session still counts toward the week.' : 'Today counts once a session is saved. Any length counts.'}</p>
       </>
     );
   } else if (stop.id === 'week') {

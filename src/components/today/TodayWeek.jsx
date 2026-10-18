@@ -9,7 +9,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import MobiReact from '@/components/brand/MobiReact';
 import { weekCheerKey, weekGoalAct, mobCheerKey, mobRingAct } from '@/lib/mobiScreens';
-import { clockIn, dayReadout, weekCaption, weekMarks, todayKeyIn, weekReceipt } from '@/lib/today/week.mjs';
+import { clockIn, dayReadout, weekCaption, weekDays, weekMarks, todayKeyIn, weekReceipt } from '@/lib/today/week.mjs';
 import { keepTogether } from '@/lib/today/move.mjs';
 
 const read = (key) => { try { return window.localStorage.getItem(key) === '1'; } catch { return false; } };
@@ -44,6 +44,7 @@ export default function TodayWeek({ rhythm, goal, everSessions = null, mobiFree 
     return at && r ? todayKeyIn(tz, Date.parse(at)) : today;
   }, [r, today, tz]);
   const marks = useMemo(() => (r ? weekMarks({ rhythm: r, today, weekdays: goal.data?.weekdays || null, firstDay }) : []).map((m) => ({ ...m, look: m.state === 'planned' && m.key < today ? 'missed' : m.state })), [r, today, goal.data, firstDay]);
+  const count = weekDays(r);
   const caption = r ? weekCaption({ rhythm: r, marks, today, everSessions, pausedUntil: goal.data?.pausedUntil || null }) : null;
   const receipt = useMemo(() => (r ? weekReceipt({ repairs, weekStart: r.weekStart, dayKey: (at) => todayKeyIn(tz, Date.parse(at)) }) : null), [r, repairs, tz]);
   const todayIndex = Math.max(0, marks.findIndex((m) => m.today));
@@ -97,7 +98,8 @@ export default function TodayWeek({ rhythm, goal, everSessions = null, mobiFree 
     <section className="tw" id="week" aria-labelledby="tw-h">
       <header className="tg__row">
         <h2 id="tw-h" className="tg__h">This week</h2>
-        <p className="tg__fig"><b>{r.studyDays}</b><span className="tg__of">of {r.daysGoal}</span><span>study days</span></p>
+        {/* The one count of the week's study days; Road to CUET's This week prints the same figure and words (weekDays). */}
+        {count ? <p className="tg__fig"><b>{count.done}</b><span className="tg__of">of {count.total}</span><span>study {count.total === 1 ? 'day' : 'days'}</span></p> : null}
       </header>
       <div className="tw__track" style={{ '--sel': sel }}>
         <span className="tw__sel" aria-hidden="true" />

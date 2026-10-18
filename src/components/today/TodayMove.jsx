@@ -16,7 +16,7 @@ import { SubjectObject } from '@/components/brand/SubjectObject';
 import MobiReact from '@/components/brand/MobiReact';
 import { useCountUpState } from '@/lib/motion/useCountUp';
 import { keepTogether } from '@/lib/today/move.mjs';
-import { railLine } from '@/lib/today/firstWeek.mjs';
+import { pathLeads, railCaption, railLine } from '@/lib/today/firstWeek.mjs';
 import TodaySheet from './TodaySheet';
 import { AuthContext } from '@/components/AuthProvider';
 import { useWalletSummary } from '@/components/useWalletSummary';
@@ -119,30 +119,40 @@ export default function TodayMove({ phase, lead, choices = [], picked = false, o
   const minutes = m.key?.minutes || null;
   const current = chosen || minutes || 10;
   const subject = m.subjectName || '';
-  // The first week (release 8): the overline says the day, and the rail under it draws the path's seven steps, each ticked when done. With the
-  // day in the overline the subject object and the title already say the subject, so the overline stays one line.
-  const week = path?.day && m.id !== 'done' && !picked;
-  const over = m.id === 'done' ? 'Today' : picked ? 'Up next, your pick' : path?.day ? `Day ${path.day} of your first week` : 'Up next';
+  // The first week (release 8): the rail under the overline draws the path's seven steps, each ticked when done, with the day numbers
+  // under the marks and one line that names today's step and the next (F18, release 9). The overline says the day only when the card
+  // shows today's step; a check, a session waiting or the student's pick says "Up next", and the line names the step that waits.
+  // With the day in the overline the subject object and the title already say the subject, so the overline stays one line.
+  const week = pathLeads(path, m, { picked });
+  const over = m.id === 'done' ? 'Today' : picked ? 'Up next, your pick' : week ? `Day ${path.day} of your first week` : 'Up next';
+  const caption = path?.day ? railCaption(path, week) : '';
   const isPlan = m.key?.action === 'plan';
   const heading = `${over}${subject && !week ? `, ${subject}` : ''}: ${m.title}${m.number != null ? `, ${m.number} ${m.label}` : ''}`;
+  // The reason line carries one link. With "Why this?" there, the move's own link ("See all 6 mistakes" on a returning card) moves to
+  // the card's footer beside More ways to practise, so the two never read as one phrase ("See all 6 Why this?"); a link to the record
+  // page is "Why this?" itself.
+  const moved = Boolean(askContext && m.link && !m.link.href.startsWith('/mentor'));
   const price = m.aiEach && m.open > 0 ? <RepairPrice each={m.aiEach} /> : m.priceLine ? <p className="tm__price">{m.priceLine}</p> : m.free ? <p className="tm__price">Free. No credits.</p> : null;
 
   return (
     <section className="tm" data-move={m.id} aria-labelledby="tm-title">
       <h2 id="tm-title" className="sr-only">{heading}</h2>
-      {path?.day ? <p className="sr-only">{railLine(path)}</p> : null}
+      {path?.day ? <p className="sr-only">{railLine(path)}{caption && !week ? ` ${caption}` : ''}</p> : null}
       <div className="tm__body" data-out={out || undefined} aria-live="polite">
         <div className="tm__top" aria-hidden="true">
           <div className="tm__head">
             <p className="tm__over">{picked ? <>Up next, <b>your pick</b></> : over}{subject && !week ? `, ${subject}` : ''}</p>
             {path?.day ? (
-              <ol className="tm__rail">
-                {path.steps.map((s, i) => (
-                  <li key={s.id} className="tm__step" data-state={s.state} style={{ '--i': i }}>
-                    {s.state === 'done' ? <svg viewBox="0 0 24 24" focusable="false"><path d="M6.5 12.5l3.6 3.6 7.4-8.2" pathLength="1" /></svg> : null}
-                  </li>
-                ))}
-              </ol>
+              <>
+                <ol className="tm__rail">
+                  {path.steps.map((s, i) => (
+                    <li key={s.id} className="tm__step" data-state={s.state} data-day={s.day} style={{ '--i': i }}>
+                      {s.state === 'done' ? <svg viewBox="0 0 24 24" focusable="false"><path d="M6.5 12.5l3.6 3.6 7.4-8.2" pathLength="1" /></svg> : null}
+                    </li>
+                  ))}
+                </ol>
+                {caption ? <p className="tm__path">{caption}</p> : null}
+              </>
             ) : null}
             <p className="tm__title">{m.title}</p>
           </div>
@@ -178,7 +188,7 @@ export default function TodayMove({ phase, lead, choices = [], picked = false, o
         {/* "Why this?" (ASK-MOBI-1018, owner D36) sits beside the reason line and opens Mobi already on this step, with the reason
             and the plan's record facts answered free. It follows the lead, so a swapped card asks about the swapped move. It takes
             the place of a link to the record page, so the card never carries two ways to ask why. */}
-        <p className="tm__why">{keepTogether(m.why)}{m.link && !(askContext && m.link.href.startsWith('/mentor')) ? <> <Link className="tm__inline" href={m.link.href}>{m.link.label}</Link></> : null}{askContext ? <> <AskMobiLink context={askContext} variant="inline" className="tm__inline">{ENTRY_LABELS.today}</AskMobiLink></> : null}</p>
+        <p className="tm__why">{keepTogether(m.why)}{m.link && !askContext ? <> <Link className="tm__inline" href={m.link.href}>{m.link.label}</Link></> : null}{askContext ? <> <AskMobiLink context={askContext} variant="inline" className="tm__inline">{ENTRY_LABELS.today}</AskMobiLink></> : null}</p>
         {offline && !isPlan ? <p className="tm__note" role="status">Needs a connection to start.</p> : null}
         {isPlan ? (
           <button type="button" className="tm__key" data-page-primary aria-haspopup="dialog" onClick={onPlan}>{m.key.label}</button>
@@ -200,8 +210,11 @@ export default function TodayMove({ phase, lead, choices = [], picked = false, o
           ))}
         </div>
       ) : null}
-      {alternatives.length ? (
-        <div className="tm__more"><button type="button" aria-haspopup="dialog" onClick={() => setSheet(true)}>More ways to practise</button></div>
+      {alternatives.length || moved ? (
+        <div className="tm__more" data-split={moved && alternatives.length ? '' : undefined}>
+          {moved ? <Link className="tm__all" href={m.link.href}>{m.link.label}</Link> : null}
+          {alternatives.length ? <button type="button" aria-haspopup="dialog" onClick={() => setSheet(true)}>More ways to practise</button> : null}
+        </div>
       ) : null}
       <SomethingElse open={sheet} onClose={() => setSheet(false)} items={alternatives} />
     </section>
