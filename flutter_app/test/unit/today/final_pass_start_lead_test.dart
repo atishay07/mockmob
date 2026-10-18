@@ -10,7 +10,7 @@ import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/models/models.dart' show Subject;
 import 'package:mockmob/core/router/quick_start.dart';
 import 'package:mockmob/core/theme/theme.dart';
-import 'package:mockmob/features/practice/data/practice_catalog.dart' show practiceSubjectsProvider;
+import 'package:mockmob/features/practice/data/practice_catalog.dart' show PracticeSubject, practiceSubjectProvider, practiceSubjectsProvider;
 import 'package:mockmob/features/today/data/lead_pick.dart';
 import 'package:mockmob/features/today/data/today_providers.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
@@ -40,6 +40,12 @@ ProviderContainer _container(TodayInputs inputs, {List<String> subjects = const 
   addTearDown(c.dispose);
   addTearDown(todayPicks.clear);
   return c;
+}
+
+/// Practice's subject without its stores (the default needs the database): the tab's own pick.
+class _PracticeAt extends PracticeSubject {
+  @override
+  String build() => 'accountancy';
 }
 
 void main() {
@@ -108,6 +114,7 @@ void main() {
     final c = _container(
       inputs,
       more: [
+        practiceSubjectProvider.overrideWith(_PracticeAt.new),
         practiceSubjectsProvider.overrideWith(
           (ref) async => [for (final id in ['english', 'accountancy', 'biology', 'economics', 'business_studies']) subject(id)],
         ),

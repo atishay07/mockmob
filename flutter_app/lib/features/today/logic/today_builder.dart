@@ -230,12 +230,12 @@ String? _updatedLine(TodayInputs i) {
   final cached = i.offline || i.readOffline || i.planStale || i.attemptsStale;
   if (!cached) return null;
   final papersAt = papersDataAt(i);
-  // Only the plan is a saved copy (the papers were read, or a paper was just added): the plan feeds
-  // nothing on screen but the server's own repair hint, so the line names the newest data Today
-  // shows, the papers', not the plan's older read (final walk: "Updated 9:53 PM" over a paper
-  // recorded at 10:11 PM).
-  final papersAreFresh = !i.offline && !i.readOffline && !i.attemptsStale && papersAt != null;
-  final times = papersAreFresh ? [papersAt] : [?i.planFetchedAt, ?papersAt];
+  // Online, the line names the newest data Today shows, the papers' (the card, the week and the sheet
+  // are all built from them; the plan only adds the server's own repair hint): never the plan's older
+  // read (final walk: "Updated 9:53 PM" over a paper recorded at 10:11 PM). A phone that is offline holds
+  // a saved copy of both, so the older of the two stands.
+  final papersOnly = !i.offline && !i.readOffline && papersAt != null;
+  final times = papersOnly ? [papersAt] : [?i.planFetchedAt, ?papersAt];
   if (times.isEmpty) return i.offline ? TodayCopy.offlineSuffix : null;
   // The older read, as on the home widget: the papers are the list's last full read, served from
   // the phone while the plan is read again, so the newer time would call days-old papers fresh.
