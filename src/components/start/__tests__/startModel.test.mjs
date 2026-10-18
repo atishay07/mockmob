@@ -281,3 +281,10 @@ test('G27 cue: the Start rail, the Practice shelf and Review share it; the nudge
   const practice = readFileSync(join(startDir, '..', '..', 'app', '(app)', 'dashboard', 'DashboardPageClient.jsx'), 'utf8');
   assert.match(practice, /useRailCue\(shelfRef, \{[^}]*items: '\.pr-subject'[^}]*nudgeKey: 'mm:cue:practice-shelf:v1'/);
 });
+
+test('G27 peek: no width is forced when the peek would need items wider than allowed', async () => {
+  const { peekWidth } = await import('../railPeek.mjs');
+  // Review's text chips: one chip and a cut would need 229 px pills, over the 180 px they may be, so the row stays natural.
+  assert.equal(peekWidth({ avail: 374, gap: 8, n: 5, min: 170, max: 180 }), null);
+  assert.equal(peekWidth({ avail: 374, gap: 8, n: 5, min: 200, max: 150 }), null);
+});

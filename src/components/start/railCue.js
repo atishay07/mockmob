@@ -107,11 +107,13 @@ function markSeen(key) {
  *   hintRef     an element (the chevron hint) that leans with the nudge
  *   count       how many items there are (a change re-measures)
  *   edges       track overflow / start / end (default true)
+ *   uniform     give the items the shared peek width (default true; Review's text chips keep their own widths)
  */
-export function useRailCue(ref, { active = true, items, min = 'content', max = Infinity, endInset = 0, nudgeKey = null, nudgeDelay = 560, hintRef = null, count = 0, edges: track = true } = {}) {
+export function useRailCue(ref, { active = true, items, min = 'content', max = Infinity, endInset = 0, nudgeKey = null, nudgeDelay = 560, hintRef = null, count = 0, edges: track = true, uniform = true } = {}) {
   const [edges, setEdges] = useState({ overflow: false, start: true, end: true });
   const opts = useRef({ items, min, max, endInset });
-  opts.current = { items, min, max, endInset };
+  // The latest options, for the measuring below (set before it runs, never during render).
+  useLayoutEffect(() => { opts.current = { items, min, max, endInset }; });
 
   const measure = useCallback(() => {
     const el = ref.current;
@@ -126,7 +128,7 @@ export function useRailCue(ref, { active = true, items, min = 'content', max = I
   useLayoutEffect(() => {
     const el = ref.current;
     if (!active || !el) return undefined;
-    const fit = () => { fitPeek(el, opts.current); measure(); };
+    const fit = () => { if (uniform) fitPeek(el, opts.current); measure(); };
     fit();
     let width = el.clientWidth;
     const resize = typeof ResizeObserver === 'function' ? new ResizeObserver(() => {
@@ -136,7 +138,7 @@ export function useRailCue(ref, { active = true, items, min = 'content', max = I
     }) : null;
     resize?.observe(el);
     return () => { resize?.disconnect(); el.style.removeProperty('--rail-item-w'); delete el.dataset.peek; };
-  }, [active, count, ref, measure]);
+  }, [active, count, ref, measure, uniform]);
 
   // Edges follow the scroll.
   useEffect(() => {

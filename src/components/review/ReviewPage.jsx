@@ -234,8 +234,9 @@ function ReviewInner({ tabParam }) {
   if (read.status === 'down') return <><h1 className="display-md rvw-title">Review</h1><Failed cause={read.cause} at={read.at} onRetry={() => { setRetrying(true); load(); }} retrying={retrying} /></>;
   if (body.state === 'empty') return <><h1 className="display-md rvw-title">Review</h1><Empty wallet={body.wallet} dailySet={dailySet} /></>;
 
-  // Pass 1018 (REVIEW-RESULT-1018 4.1): Review leads with where you lose marks. A body without the 1018 part (an older
-  // server mid-deploy) keeps the 1017 page below, so a deploy order never breaks Review.
+  // 19 Oct (owner G25, D106): the stats strip, the subject filter, Your papers, then Mistakes to repair by chapter
+  // (ReviewChapters.jsx). A body without the 1018 part (an older server mid-deploy) keeps the 1017 page below, with its
+  // own receipt strip and Papers tab, so a deploy order never breaks Review.
   if (body.lose && Array.isArray(body.lose.rows)) return <ReviewChapters body={body} onChanged={onChanged} />;
   const counts = body.counts || {};
   return (

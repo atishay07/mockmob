@@ -9,14 +9,15 @@ export const PEEK = 0.6;
  * Arithmetic over measured numbers:
  *   avail  the row's visible width from the first item's start to the place the peek is measured to
  *   gap    the space between items;  n  how many items;  min / max  the allowed item width
- * The largest k (items fully in view) whose width W = (avail - k * gap) / (k + peek) is at least `min` wins; W is then
- * held under `max`. k stops at n - 1, so the row always still overflows.
+ * The largest k (items fully in view) whose width W = (avail - k * gap) / (k + peek) is at least `min` wins, when W is
+ * also no wider than `max`; otherwise there is no width that gives the peek and the row keeps its natural widths. k stops
+ * at n - 1, so the row always still overflows.
  */
 export function peekWidth({ avail, gap = 0, n, min, max = Infinity, peek = PEEK }) {
-  if (!(avail > 0) || !(n > 1)) return null;
+  if (!(avail > 0) || !(n > 1) || min > max) return null;
   for (let k = n - 1; k >= 1; k -= 1) {
     const w = (avail - k * gap) / (k + peek);
-    if (w >= min) return Math.round(Math.min(w, max) * 10) / 10;
+    if (w >= min) return w <= max ? Math.round(w * 10) / 10 : null;
   }
   return null;
 }

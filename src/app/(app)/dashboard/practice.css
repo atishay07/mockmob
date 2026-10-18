@@ -73,6 +73,8 @@ html[data-theme='light'] .app-shell .pr {
    last one in view is cut at about 60%, nudges the shelf 24 px once, and the chevron hint sits over the trailing fade while
    subjects wait past the edge (a tap moves the shelf on). None of it exists from 1024 px, where every subject is in view. */
 .app-shell .pr .pr-shelf { position: relative; min-width: 0; }
+/* The page's phone gutter is 15 px, so the shelf bleeds by exactly that (16 px left the page 1 px wider than the screen). */
+@media (max-width: 1023px) { .app-shell .pr .pr-shelf > .pr-subjects { margin-inline: -15px; padding-left: 15px; } }
 .app-shell .pr .pr-subjects[data-peek] > .pr-subject { width: var(--rail-item-w); }
 .app-shell .pr .pr-shelf__hint {
   position: absolute; top: 30px; right: -12px; z-index: 2; display: grid; place-items: center; width: 44px; height: 44px; min-height: 44px; padding: 0;
