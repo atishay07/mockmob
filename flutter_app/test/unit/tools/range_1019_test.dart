@@ -7,7 +7,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/api/api_providers.dart' show nowProvider;
 import 'package:mockmob/core/models/attempt.dart';
 import 'package:mockmob/core/models/practice_quote.dart';
+import 'package:mockmob/core/models/subject.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
+import 'package:mockmob/features/practice/data/practice_catalog.dart' show practiceSubjectsProvider;
 import 'package:mockmob/features/tools/domain/du_models.dart';
 import 'package:mockmob/features/tools/estimate/estimate.dart';
 import 'package:mockmob/features/tools/estimate/estimate_copy.dart';
@@ -310,6 +312,19 @@ void main() {
       expect(shown, isA<RangeCardSteps>());
       expect((shown as RangeCardSteps).progress.total, 5);
       expect(shown.progress.next, 'english');
+    });
+
+    test('a subject practice does not offer is left out of the way, so the card never dead-ends on it', () async {
+      final c = ProviderContainer(overrides: toolsOverrides(sheet: _five, attempts: _fourMocks(), practiceSubjects: [
+        for (final id in ['english', 'accountancy', 'economics', 'business_studies']) Subject(id: id, internalId: id, name: id, practice: 'supported'),
+        const Subject(id: 'mathematics', internalId: 'mathematics', name: 'Mathematics', practice: 'not_offered'),
+      ]));
+      addTearDown(c.dispose);
+      await c.read(practiceSubjectsProvider.future);
+      await c.read(rangeChoiceProvider.future);
+      final shown = c.read(rangeCardProvider);
+      expect(shown, isA<RangeCardReady>(), reason: 'four subjects, all with a full mock: the estimate is ready');
+      expect((shown as RangeCardReady).progress.total, 4);
     });
 
     test('no subjects, a typed range or a taken estimate: nothing', () async {

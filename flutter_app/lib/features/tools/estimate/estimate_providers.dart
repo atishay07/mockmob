@@ -111,7 +111,15 @@ final rangeProgressProvider = Provider<RangeProgress?>((ref) {
   if (selection == null) return null;
   final attempts = ref.watch(compassAttemptsProvider) ?? const [];
   final publicOf = ref.watch(_publicIdsProvider);
-  return rangeProgress(attempts, selection, publicIdOf: (internal) => publicOf[internal] ?? internal);
+  // A subject practice does not offer cannot be sat, so the way leaves it out instead of dead-ending
+  // on it. Read only once the subject list is up (the card never starts that fetch itself).
+  final offered = ref.exists(practiceSubjectsProvider) ? ref.watch(practiceSubjectsProvider).value : null;
+  return rangeProgress(
+    attempts,
+    selection,
+    publicIdOf: (internal) => publicOf[internal] ?? internal,
+    canSit: offered == null || offered.isEmpty ? null : (id) => offered.any((s) => s.id == id && s.isOffered),
+  );
 });
 
 /// What Today's range card shows.

@@ -103,6 +103,7 @@ List<Override> toolsOverrides({
   ComboRunner? comboRunner,
   List<Attempt> attempts = const [],
   FakeMyColleges? myColleges,
+  List<Subject>? practiceSubjects,
 }) =>
     [
       myCollegesOverride(myColleges ?? FakeMyColleges()),
@@ -114,7 +115,7 @@ List<Override> toolsOverrides({
       authSnapshotProvider.overrideWithBuild(
         (ref, n) => AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', name: 'Riya', subjects: sheet, isPro: pro),
       ),
-      practiceSubjectsProvider.overrideWith((ref) async => _practiceSubjects),
+      practiceSubjectsProvider.overrideWith((ref) async => practiceSubjects ?? _practiceSubjects),
       comboRunnerProvider.overrideWithValue(
         comboRunner ?? (groups, pool, targets, maxPapers) async => duPlanCombos(groups: groups, pool: pool, targets: targets, maxPapers: maxPapers),
       ),
