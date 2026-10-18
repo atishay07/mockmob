@@ -41,7 +41,15 @@ A network drop at about 11:40 am killed 10 agents. Their commits and edits were 
 **D54 credits (approved 12:28 pm): the Free AI wallet goes from 10 to 50 a month.**
 - **credits-web-1018** (wf_8a0722bb-80c, task wir0nm4ir) builds the server and website side in wt-credits50 (web/credits50-1018, from c46d1dcd). Staging dry-run only. It merges into R8. Any production database step is the main session's, under the grant.
 - **credits-app-1018** (wf_b95e2cfe-c49, task wer8pk8ho) builds the app copy in wt-v15-credits (ui/v15-credits).
-- **The main session merges ui/v15-credits into wt-v15 BEFORE the v15 integrator starts.** If the integrator has already started, it waits and merges after the integration instead.
+- **WEB DONE at about 1 pm: web/credits50-1018 at d8bc38d8** (wt-credits50).
+  - Migration `supabase/migrations/20261018130000_free_ai_wallet_50.sql` plus its undo.
+  - What it changes: consume syncs the allowance mid-month; reserve falls back to 50; the Free per-student cap goes from Rs 1 to Rs 2.50.
+  - Staging dry-run passed, and the undo was proven.
+  - Tests: billing 161/161, learning 357, recovery 556; app 595/596, the one failure being CRLF-only.
+  - **Deploy order: apply the migration on production FIRST (under the grant, with STATUS), then push the R8 code.** The R8 verifier must review the migration SQL.
+  - The global student-AI row is 1000000, the ceiling removed on 17 Oct; it is untouched.
+  - Free practice: 100 credits at signup, no refill. Quick costs 10, a Full mock 50.
+- **ui/v15-credits is MERGED into wt-v15 (06b6af85).** If the integrator has already started, it waits and merges after the integration instead.
 - **Speed-up:** when the integrator commits the build bump, the main session builds the release APK in a separate worktree at that head while the walker walks.
 
 **D50 (CTO decision): d50-length-1018** (wf_9e30dcc2-023, task wjsb1xkn5) builds in wt-v15-length (ui/v15-length).
