@@ -1993,23 +1993,28 @@ html[data-motion='reduced'] .app-shell .rc-caption .rc-chip { animation: none; }
    volt wash and volt outline. The rail already has a volt key and a volt current page; a third volt mark at the foot is
    what read as "in your face". The sheet's full row keeps its own pick. */
 .app-shell .arena-appearance--compact::before { background: var(--a-raised-2); box-shadow: inset 0 0 0 1px var(--a-line-strong); }
-/* Rail rows are 44 px (W-079), including the indented "Your standing". Where the whole rail would not fit at 44, a mouse
-   window brings the rows down to 38 px and tightens the gaps, so the Account group and the appearance row never need a
-   scroll; touch screens keep 44 and the rail scrolls when the window is shorter still. Measured at 1440 wide, the rail needs
-   823 px with 12 rows and 46 more for each further row: Learn on and the Mob off (the live set) needs 869, so 1440 x 900 keeps
-   44; Learn and the Mob together need 915 and compact up to there. The Contribute group (off) would add 111 more. Those
-   figures hold with the 6 px gaps below, which the rail now has at every desktop height. */
+/* Rail rows are 44 px (W-079), the indented pages included. Where the whole rail would not fit at 44, a mouse window brings
+   the rows down to 38 px so the places, Mobi's door and the appearance row never need a scroll; touch screens keep 44 and
+   the rail scrolls when the window is shorter still. The five places have no group headers, so the rail is a column of rows
+   (WEB-NAV-1019 option A), measured at 1440 wide with the 6 px gaps below: Learn and the Mob together (16 rows and Mobi's
+   door) need 980 px at 44 and 890 at 38, so 1440 x 900 shows 38 and fits; one of the two (15 rows, or the Mob off with Learn
+   on: 926) needs 934 at 44 and 850 at 38; neither (13 rows) needs 880 at 44 and 802 at 38. The Moderation group (73 more)
+   and the Contribute group (119 more, off) are rare; with either the rail simply scrolls a little sooner. */
 @media (min-width: 1024px) {
   .app-shell .arena-sidebar { gap: 6px; }
   .app-shell .arena-sidebar__foot { padding-top: 8px; }
 }
-@media (min-width: 1024px) and (max-height: 869px) and (hover: hover) and (pointer: fine) {
-  .app-shell .arena-sidebar .arena-nav-link { min-height: 38px; }
-  .app-shell .arena-sidebar .arena-nav-link[aria-current="page"]::before { top: 8px; bottom: 8px; }
-}
-@media (min-width: 1024px) and (min-height: 870px) and (max-height: 915px) and (hover: hover) and (pointer: fine) {
+@media (min-width: 1024px) and (max-height: 979px) and (hover: hover) and (pointer: fine) {
   .app-shell .arena-sidebar:has([data-tour="nav-learn"]):has([data-tour="nav-mob"]) .arena-nav-link { min-height: 38px; }
   .app-shell .arena-sidebar:has([data-tour="nav-learn"]):has([data-tour="nav-mob"]) .arena-nav-link[aria-current="page"]::before { top: 8px; bottom: 8px; }
+}
+@media (min-width: 1024px) and (max-height: 933px) and (hover: hover) and (pointer: fine) {
+  .app-shell .arena-sidebar:is(:has([data-tour="nav-learn"]), :has([data-tour="nav-mob"])) .arena-nav-link { min-height: 38px; }
+  .app-shell .arena-sidebar:is(:has([data-tour="nav-learn"]), :has([data-tour="nav-mob"])) .arena-nav-link[aria-current="page"]::before { top: 8px; bottom: 8px; }
+}
+@media (min-width: 1024px) and (max-height: 879px) and (hover: hover) and (pointer: fine) {
+  .app-shell .arena-sidebar .arena-nav-link { min-height: 38px; }
+  .app-shell .arena-sidebar .arena-nav-link[aria-current="page"]::before { top: 8px; bottom: 8px; }
 }
 .app-shell .arena-sheet .arena-appearance { margin: 0 0 12px; }
 
