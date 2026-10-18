@@ -39,7 +39,7 @@ void main() {
     expect(verdictFor(e, 907.5).v, Verdict.below);
     expect(verdictWords(verdictFor(e, 907.5)), 'Needs 267.5 more');
     expect(verdictWords(verdictFor(e, 600)), 'In reach if you score 600');
-    expect(verdictWords(verdictFor(e, 575.6)), 'Safe, clears by 12.4');
+    expect(verdictWords(verdictFor(e, 575.6)), 'Safe, with 12.4 marks to spare');
     expect(verdictFor(e, null).v, Verdict.noSeat);
     expect(estimateRange(e), '588 to 640');
     expect(estimateRange(const Estimate(source: EstimateSource.typed, low: 612, high: 612)), '612');

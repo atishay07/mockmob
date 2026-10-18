@@ -159,7 +159,8 @@ void main() {
     interact: (tester) async {
       await tester.tap(find.text('open'));
       await _settle(tester);
-      await tester.scrollUntilVisible(find.text(EstimateCopy.unknownBody), 200, scrollable: find.byType(Scrollable).last);
+      final down = find.byWidgetPredicate((w) => w is Scrollable && w.axisDirection == AxisDirection.down);
+      await tester.scrollUntilVisible(find.text(EstimateCopy.unknownBody), 200, scrollable: down.last);
     },
   );
 

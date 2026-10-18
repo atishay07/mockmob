@@ -3,7 +3,7 @@
 // Your plan. Full sentences in plain English; real figures with their scale; an estimate is always
 // called one, with its spread, and never a prediction of admission.
 
-import '../copy.dart' show categoryLabel;
+import '../../../core/copy/formatters.dart' show categoryWords;
 import 'estimate.dart';
 
 abstract final class EstimateCopy {
@@ -58,13 +58,13 @@ abstract final class EstimateCopy {
 
   /// What the two words mean, with the student's own figures, under the headline.
   static String meaning(Estimate e, String category) => e.isPoint
-      ? 'Safe means ${estimateFigure(e.low)} clears the Round 1, 2026 cutoff for ${categoryLabel(category)}.'
-      : 'Safe means even ${estimateFigure(e.low)} clears the Round 1, 2026 cutoff for ${categoryLabel(category)}. '
+      ? 'Safe means ${estimateFigure(e.low)} clears the Round 1, 2026 cutoff (${categoryWords(category)}).'
+      : 'Safe means even ${estimateFigure(e.low)} clears the Round 1, 2026 cutoff (${categoryWords(category)}). '
           'In reach means ${estimateFigure(e.high)} does.';
 
   // ---- Typing a range.
 
-  static const String fieldHelp = 'A score out of 1000, or a range like 900 to 920. Most students aren’t sure yet, and that’s fine.';
+  static const String fieldHelp = 'Type a score out of 1000, or a range like 900 to 920. Most students aren’t sure yet, and that’s fine.';
   static const String fieldNotANumber = 'Enter a number from 0 to 1000, or a range like 900 to 920.';
   static const String fieldTooWide = 'That range is wider than 200 marks, so it can’t tell you much. Try one like 850 to 950.';
   static const String fieldFromFirst = 'Type the low end of your range in From.';
@@ -78,7 +78,7 @@ abstract final class EstimateCopy {
   // ---- From your mocks.
 
   static const String mocksTruth =
-      'Raw marks out of 250 a paper, the average of your last 3 full mocks in each. The range is how far one paper usually swings.';
+      'These are raw marks out of 250 a paper, the average of your last 3 full mocks in each. The range shows how far one paper usually swings.';
 
   // ---- "I don't know my range yet".
 
@@ -89,7 +89,7 @@ abstract final class EstimateCopy {
 
   // ---- Today's range card.
 
-  static const String stepsTitle = 'Find your score range';
+  static const String stepsTitle = 'Don’t know your score range yet?';
   static const String readyTitle = 'Your estimated range';
   static const String of1000 = 'out of 1000';
   static const String knowKey = 'I know my range';
@@ -126,7 +126,7 @@ abstract final class EstimateCopy {
   static String soFar(Estimate e) => 'Your four papers so far add up to about ${estimateRange(e)} out of 1000.';
 
   static String readyTruth(int mocks) =>
-      'An estimate from your ${mocks == 1 ? 'full mock' : '$mocks full mocks'}. One paper can swing either way, so it’s a range, and it gets sharper with every mock you sit.';
+      'We estimated this from your ${mocks == 1 ? 'full mock' : '$mocks full mocks'}. One paper can swing either way, so it’s a range, and it gets sharper with every mock you sit.';
 
   // ---- Your plan's row.
 
@@ -139,5 +139,5 @@ abstract final class EstimateCopy {
         EstimateSource.projection => 'from your practice projection',
       }}';
 
-  static String planFinding(int done, int total) => 'Not sure yet. $done of $total full mocks done.';
+  static String planFinding(int done, int total) => 'Your mocks are finding it: $done of $total done.';
 }

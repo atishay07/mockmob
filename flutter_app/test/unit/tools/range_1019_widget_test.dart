@@ -129,7 +129,7 @@ void main() {
     expect(find.text('Of your 4 colleges, 2 are safe and 2 are in reach.'), findsOneWidget);
     await tester.tap(find.widgetWithText(KeyButton, CollegesCopy.done));
     await settle(tester);
-    expect(find.descendant(of: find.byType(CollegeRung), matching: find.textContaining('Safe, clears by')), findsNWidgets(2));
+    expect(find.descendant(of: find.byType(CollegeRung), matching: find.textContaining('Safe, with')), findsNWidgets(2));
     expect(find.descendant(of: find.byType(CollegeRung), matching: find.textContaining('In reach if you score')), findsNWidgets(2));
   });
 

@@ -37,7 +37,7 @@ void main() {
 
     test('safe by the low end, in reach by the high end, needs by the gap to the high end', () {
       expect(verdictFor(range, 575.6).v, Verdict.clears);
-      expect(verdictWords(verdictFor(range, 575.6)), 'Safe, clears by 12.4');
+      expect(verdictWords(verdictFor(range, 575.6)), 'Safe, with 12.4 marks to spare');
       expect(verdictWords(verdictFor(range, 612)), 'In reach if you score 612');
       expect(verdictWords(verdictFor(range, 907.5)), 'Needs 267.5 more');
       expect(verdictFor(range, null).v, Verdict.noSeat);

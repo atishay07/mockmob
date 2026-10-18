@@ -110,8 +110,8 @@ void main() {
       final reach = reachOf(e, mine);
       expect(reach, const Reach(safe: 2, inReach: 2));
       expect(EstimateCopy.yourColleges(reach), 'Of your 4 colleges, 2 are safe and 2 are in reach.');
-      expect(verdictWords(verdictFor(e, kmc)), 'Safe, clears by 6.3');
-      expect(verdictWords(verdictFor(e, hansraj)), 'Safe, clears by 2.5');
+      expect(verdictWords(verdictFor(e, kmc)), 'Safe, with 6.3 marks to spare');
+      expect(verdictWords(verdictFor(e, hansraj)), 'Safe, with 2.5 marks to spare');
       expect(verdictWords(verdictFor(e, lsr)), 'In reach if you score 912.5');
       expect(verdictWords(verdictFor(e, hindu)), 'In reach if you score 919.9');
     });
@@ -120,7 +120,8 @@ void main() {
       const point = Estimate(source: EstimateSource.typed, low: 910, high: 910);
       expect(reachOf(point, [...mine, null]), const Reach(safe: 2, below: 2));
       expect(verdictWords(verdictFor(point, hindu)), 'Needs 9.9 more');
-      expect(EstimateCopy.meaning(point, 'UR'), contains('Safe means 910 clears the Round 1, 2026 cutoff'));
+      expect(EstimateCopy.meaning(point, 'UR'), 'Safe means 910 clears the Round 1, 2026 cutoff (unreserved).');
+      expect(verdictWords(verdictFor(point, 910)), 'Safe, right at the cutoff');
       const range = Estimate(source: EstimateSource.typed, low: 900, high: 920);
       expect(EstimateCopy.meaning(range, 'UR'), endsWith('In reach means 920 does.'));
     });
@@ -225,13 +226,13 @@ void main() {
 
   group('G19: the copy is honest', () {
     test('the estimate is called one, with its spread and the mocks behind it', () {
-      expect(EstimateCopy.readyTruth(5), 'An estimate from your 5 full mocks. One paper can swing either way, so it’s a range, and it gets sharper with every mock you sit.');
+      expect(EstimateCopy.readyTruth(5), 'We estimated this from your 5 full mocks. One paper can swing either way, so it’s a range, and it gets sharper with every mock you sit.');
       expect(EstimateCopy.mocksTruth, contains('how far one paper usually swings'));
       expect(EstimateCopy.sitKey('Economics'), 'Sit a full Economics mock');
       expect(EstimateCopy.count(2, 5), '2 of 5 subjects done');
       expect(EstimateCopy.planNote(const Estimate(source: EstimateSource.mocks, low: 665, high: 765)), '665 to 765 out of 1000, from your full mocks');
       expect(EstimateCopy.planNote(const Estimate(source: EstimateSource.typed, low: 900, high: 920)), '900 to 920 out of 1000, typed by you');
-      expect(EstimateCopy.planFinding(2, 5), 'Not sure yet. 2 of 5 full mocks done.');
+      expect(EstimateCopy.planFinding(2, 5), 'Your mocks are finding it: 2 of 5 done.');
     });
 
     test('no line promises admission or calls the estimate certain', () {
@@ -353,7 +354,7 @@ void main() {
       final c = container(attempts: _fourMocks().take(2).toList());
       // Today has read the mocks by the time Your plan opens.
       expect(await card(c), isA<RangeCardSteps>());
-      expect(c.read(rangePlanNoteProvider), 'Not sure yet. 2 of 5 full mocks done.');
+      expect(c.read(rangePlanNoteProvider), 'Your mocks are finding it: 2 of 5 done.');
       // A range typed earlier reads from this phone without starting Compass.
       final typed = container(prefs: savedCompass('english,accountancy,business_studies,economics', score: '900')..values['mm.tools.compass.v1'] = '{"s":"english","c":"UR","score":"900","scoreHigh":"920"}');
       await typed.read(savedTypedEstimateProvider.future);

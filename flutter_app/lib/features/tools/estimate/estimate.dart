@@ -77,7 +77,7 @@ String estimateRange(Estimate e) => e.isPoint ? estimateFigure(e.low) : '${estim
 
 /// The verdict in words, always with real figures, in the same words as the headline.
 String verdictWords(CollegeVerdict r) => switch (r.v) {
-      Verdict.clears => 'Safe, clears by ${estimateFigure(r.by)}',
+      Verdict.clears => r.by < 0.05 ? 'Safe, right at the cutoff' : 'Safe, with ${estimateFigure(r.by)} marks to spare',
       Verdict.within => 'In reach if you score ${estimateFigure(r.cutoff)}',
       Verdict.below => 'Needs ${estimateFigure(r.by)} more',
       Verdict.noSeat => 'No Round 1 seat for this category',
