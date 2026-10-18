@@ -578,7 +578,7 @@ abstract final class TodayCopy {
       chapter == null ? 'From $paper. About $minutes min.' : 'From $paper, in $chapter. About $minutes min.';
   static String altReviseTitle(int n) => n == 1 ? 'Revise 1 question' : 'Revise $n questions';
   static String altReviseNote(int size, int due, int minutes) =>
-      size < due ? '$size of the $due due today come back. About $minutes min.' : 'Due today, so the fixes hold. About $minutes min.';
+      'Due today, so the fixes hold. About $minutes min.';
   static String altPractiseTitle(String subject) => 'Practise $subject';
   static String altPractiseNote(int questions, int? daysAgo) {
     final last = switch (daysAgo) {

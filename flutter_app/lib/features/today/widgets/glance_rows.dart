@@ -340,7 +340,7 @@ class QueueTilesBlock extends StatelessWidget {
                 GlanceCopy.revise,
                 // The round the lead card names (10 of 92), never the whole backlog as if it were today's round.
                 (q.reviseRound ?? due) < due ? q.reviseRound : due,
-                (q.reviseRound ?? due) < due ? GlanceCopy.ofDueToday(due) : GlanceCopy.dueToday,
+                GlanceCopy.dueToday,
                 due == 0 ? GlanceCopy.reviseNothing : GlanceCopy.reviseFree(q.reviseMinutes),
               );
     return Column(

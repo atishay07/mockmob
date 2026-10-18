@@ -107,7 +107,8 @@ SuggestedCard _card(MoveChoice c, TodayGlance? glance) {
         subjectId: m.subjectId,
       );
     case MoveKind.revise:
-      final due = glance?.queue.reviseDue;
+      // The round's own size, the number the lead card and the Revise page print (final walk, H3).
+      final due = glance?.queue.reviseRound ?? glance?.queue.reviseDue;
       return SuggestedCard(
         choice: c,
         cost: SuggestedCopy.costFree(minutes),
