@@ -165,7 +165,7 @@ Future<void> showCategorySheet(BuildContext context, WidgetRef ref) => _pickOne<
       },
     );
 
-/// Up to three colleges of the chosen course, highest Round 1 figure first for the category.
+/// Up to eight colleges of the chosen course, highest Round 1 figure first for the category.
 Future<void> showCollegesSheet(BuildContext context) => showMmSheet<void>(
       context: context,
       title: EditCopy.collegesSheet,

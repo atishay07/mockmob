@@ -1,5 +1,9 @@
 import 'json_helpers.dart';
 
+/// A college's closing marks in last year's DU CSAS Round 1 for the student's course and category
+/// (out of 1000), or null when the published list has no number for it. Never estimated.
+typedef ClosingMarks = num? Function(MyCollege college);
+
 /// One college in one programme on the student's list ("My colleges"). `programmeId` is the DU
 /// catalogue id (`b-com-hons`), `college` is the name as the offerings file spells it, and
 /// `programme` is the name to show ("B.Com. (Hons.)", possibly empty).
@@ -78,6 +82,25 @@ class MyColleges {
 
   /// How many colleges are past the ladder.
   int get more => colleges.length > ladderSize ? colleges.length - ladderSize : 0;
+
+  /// The same colleges ordered by last year's closing marks, highest first, so the hardest to
+  /// reach leads (owner, 19 Oct, D103). [closing] gives a college's Round 1 closing marks for the
+  /// student's course and category (out of 1000), or null when there is no number for it: those
+  /// go last, and ties keep the student's order. Positions are numbered again from 1; [ladder] and
+  /// [more] on the result are then "your top 3 of N" (D104).
+  MyColleges byClosing(ClosingMarks closing) {
+    final rows = [for (final (i, c) in colleges.indexed) (i, c, closing(c))];
+    rows.sort((a, b) {
+      final x = a.$3, y = b.$3;
+      if (x == null || y == null) return x == y ? a.$1.compareTo(b.$1) : (x == null ? 1 : -1);
+      final byMarks = y.compareTo(x);
+      return byMarks != 0 ? byMarks : a.$1.compareTo(b.$1);
+    });
+    return MyColleges(colleges: _numbered([for (final r in rows) r.$2]), max: max);
+  }
+
+  /// The [ladderSize] colleges that need the highest marks by [closing] (Today's "top 3").
+  List<MyCollege> ladderBy(ClosingMarks closing) => byClosing(closing).ladder;
 
   bool contains(MyCollege entry) => colleges.any(entry.sameAs);
 

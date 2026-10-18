@@ -145,6 +145,9 @@ class AnswersController extends AsyncNotifier<OnboardingAnswers> {
       (a.colleges.isEmpty && !a.openToAny && !a.courseUndecided) ? a.copyWith(done: {...a.done}..remove(Steps.course)) : a;
 
   /// Picks or drops a college. Up to [kMaxColleges]; a ninth is ignored (the screen says why).
+  /// The picks are kept in order of last year's closing marks for the category, highest first
+  /// (D103), not in the order tapped: the first three are the ones that need the most, which is
+  /// what Today shows as "your top 3".
   bool toggleCollege(String college) {
     final a = _current;
     final picks = [...a.colleges];
@@ -153,9 +156,12 @@ class AnswersController extends AsyncNotifier<OnboardingAnswers> {
       return true;
     }
     if (picks.length >= kMaxColleges) return false;
-    _set(a.copyWith(colleges: [...picks, college], openToAny: false).mark(Steps.course));
+    _set(a.copyWith(colleges: _byMarks(a, [...picks, college], a.category), openToAny: false).mark(Steps.course));
     return true;
   }
+
+  static List<String> _byMarks(OnboardingAnswers a, List<String> colleges, String category) =>
+      a.course?.byMarks(colleges, category) ?? colleges;
 
   void setOpenToAny(bool value) {
     final a = _current.copyWith(openToAny: value, colleges: value ? const [] : null);
@@ -169,7 +175,7 @@ class AnswersController extends AsyncNotifier<OnboardingAnswers> {
     final course = a.course;
     final colleges = course == null
         ? a.colleges
-        : [for (final c in a.colleges) if (course.offeringAt(c)?.scoreFor(category) != null) c];
+        : course.byMarks([for (final c in a.colleges) if (course.offeringAt(c)?.scoreFor(category) != null) c], category);
     _set(_settleAim(a.copyWith(category: category, colleges: colleges)));
   }
 

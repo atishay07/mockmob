@@ -194,10 +194,10 @@ void main() {
       final a = studentUpTo(Steps.worry).copyWith(worries: const [Worry.time, Worry.passages]);
       expect(FirstMove.of(a).subject, SheetSubject.english);
       expect(FirstMove.of(a).framing, 'Answer at exam pace, about a minute each.', reason: 'the primary frames it');
-      expect(PlanSummary.worriesLine(a), 'Where your marks go: the last 10 questions first, then English passages.');
+      expect(PlanSummary.worriesLine(a), 'You said you lose marks on the last 10 questions first, then on English passages.');
       expect(
         PlanSummary.worriesLine(a.copyWith(worries: const [Worry.passages, Worry.knewIt])),
-        "Where your marks go: English passages first, then 'knew it, still got it wrong'.",
+        "You said you lose marks on English passages first, then on 'knew it, still got it wrong'.",
         reason: "the student's own words, never 'traps'",
       );
       expect(PlanSummary.of(a, kNow).lines, contains(PlanSummary.worriesLine(a)));
@@ -207,7 +207,7 @@ void main() {
     test('a swap: Mobi names the pick that went', () {
       final before = studentUpTo(Steps.subjects, step: Steps.worry).copyWith(worries: const [Worry.knewIt, Worry.passages, Worry.time]);
       final after = before.copyWith(worries: const [Worry.knewIt, Worry.passages, Worry.syllabus]);
-      expect(mobiCueFor(before, after)?.line, "Swapped out 'The last 10 questions'. Three is the most.");
+      expect(mobiCueFor(before, after)?.line, "I swapped out 'The last 10 questions'. You can pick three at most.");
     });
 
     testWidgets('the step marks each pick with its place and Mobi names a swap', (tester) async {

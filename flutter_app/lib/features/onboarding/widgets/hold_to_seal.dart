@@ -46,7 +46,7 @@ class HoldToSeal extends StatelessWidget {
             final label = p > 0 ? OnboardingCopy.sealing : OnboardingCopy.holdToSeal;
             final text = Padding(
               padding: const EdgeInsets.only(left: _seal + MmSpace.s16),
-              child: Center(child: Text(label, maxLines: 1, style: type.button.copyWith(color: colors.ink))),
+              child: Center(child: FittedBox(fit: BoxFit.scaleDown, child: Text(label, maxLines: 1, style: type.button.copyWith(color: colors.ink)))),
             );
             return SizedBox(
               height: MmTarget.primaryKey,
@@ -62,7 +62,7 @@ class HoldToSeal extends StatelessWidget {
                       clipper: _LeftOf(p),
                       child: Padding(
                         padding: const EdgeInsets.only(left: _seal + MmSpace.s16),
-                        child: Center(child: Text(label, maxLines: 1, style: type.button.copyWith(color: colors.voltInk))),
+                        child: Center(child: FittedBox(fit: BoxFit.scaleDown, child: Text(label, maxLines: 1, style: type.button.copyWith(color: colors.voltInk)))),
                       ),
                     ),
                     Positioned(

@@ -1,5 +1,5 @@
 /// DU CSAS 2026 data for the onboarding's course and college steps: the six Commerce and
-/// Economics programmes shown as tiles ([DuCatalog.courses], most chosen first), every other course
+/// Economics programmes shown as tiles ([DuCatalog.courses], by aspirant demand), every other course
 /// with Round 1 seats for "More courses" ([DuCatalog.more]), their eligibility combinations from
 /// the Bulletin, and the Round 1 minimum allocation score of every college for every category,
 /// out of 1000.
@@ -7,6 +7,8 @@
 /// The figures are real Round 1 minimums from 2026: always shown with that label and the scale.
 /// They say nothing about 2027 and never stand for a chance of admission.
 library;
+
+import '../../../core/models/my_colleges.dart' show ClosingMarks;
 
 part 'du_2026_data.dart';
 
@@ -118,6 +120,20 @@ class DuCourse {
     return null;
   }
 
+  /// [colleges] (full names) ordered by their Round 1 closing marks for [category], highest first
+  /// (D103): the hardest to reach leads. A college with no number for [category] goes last; ties
+  /// keep the order given.
+  List<String> byMarks(List<String> colleges, String category) {
+    final rows = [for (final (i, c) in colleges.indexed) (i, c, offeringAt(c)?.scoreFor(category))];
+    rows.sort((a, b) {
+      final x = a.$3, y = b.$3;
+      if (x == null || y == null) return x == y ? a.$1.compareTo(b.$1) : (x == null ? 1 : -1);
+      final byScore = y.compareTo(x);
+      return byScore != 0 ? byScore : a.$1.compareTo(b.$1);
+    });
+    return [for (final r in rows) r.$2];
+  }
+
   /// True when every combination needs [subject] (so it is pre-ticked on the subjects step).
   bool requires(String subject) => combos.every((c) => c.slots.any((s) => s.kind == DuSlotKind.domain && s.subject == subject));
 
@@ -144,7 +160,9 @@ abstract final class DuCatalog {
 
   static const List<String> categories = _categories;
 
-  /// The six Commerce and Economics programmes, most chosen first: the course step's tiles.
+  /// The six Commerce and Economics programmes in order of aspirant demand (B.Com (Hons), B.A.
+  /// (Hons) Economics, B.Com, BMS, BBA (FIA), B.A. (Hons) Business Economics; plan 19 Oct, G4):
+  /// the course step's tiles. Never called "top" anywhere.
   static const List<DuCourse> courses = _courses;
 
   /// Every other course with Round 1 seats in 2026, A to Z ("More courses"). B.A. (Programme)
@@ -170,4 +188,13 @@ abstract final class DuCatalog {
 
   /// A score as DU prints it, to one decimal ("924.3").
   static String format(double score) => score.toStringAsFixed(1);
+
+  /// Last year's Round 1 closing marks for [college] in the course [programmeId], for [category]
+  /// (out of [scale]), or null when the published list has none.
+  static double? closing(String programmeId, String college, String category) =>
+      course(programmeId)?.offeringAt(college)?.scoreFor(category);
+
+  /// The order My colleges takes for [category] ([MyColleges.byClosing]): Today's top 3 and the
+  /// lists that show every pick read it, so all of them agree with the onboarding's ladder.
+  static ClosingMarks closingFor(String category) => (c) => closing(c.programmeId, c.college, category);
 }

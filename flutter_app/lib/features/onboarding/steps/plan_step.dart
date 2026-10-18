@@ -53,7 +53,7 @@ class PlanStep extends ConsumerStatefulWidget {
   static const Key tapToSealKey = ValueKey('plan-tap-to-seal');
 
   /// The guide Mobi of the flow's top bar. Given, he follows the hold: he looks at the seal when
-  /// it starts, braces as it charges (at each third), breathes out with "Still yours to seal."
+  /// it starts, braces as it charges (at each third), breathes out with "It's still yours to seal."
   /// when it is let go early, and nods when it strikes under Quiet. The full celebration at the
   /// stamp is the flow's own. Never an obstacle: the hold works the same without him.
   final MobiController? mobi;

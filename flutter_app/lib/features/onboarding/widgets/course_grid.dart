@@ -9,7 +9,8 @@ import 'choice_tile.dart';
 import 'entrance.dart';
 import 'glyphs.dart';
 
-/// The six most chosen courses as tiles (B.Com (Hons) first): the real count of colleges that
+/// The six courses commerce aspirants aim for most, as tiles in that order (B.Com (Hons), B.A.
+/// (Hons) Economics, B.Com, BMS, BBA (FIA), B.A. (Hons) Business Economics; G4): the real count of colleges that
 /// took each through CUET in 2026, in condensed figures, the shape of its college ladder, the
 /// course name and its CUET subject combination from the Bulletin. Two columns, equal heights.
 class CourseGrid extends StatelessWidget {

@@ -79,6 +79,7 @@ class SubjectRow extends ConsumerWidget {
                         child: ConfidenceBubbles(
                           subject: subject.label,
                           value: confidence ?? Confidence.okay,
+                          rated: confidence != null,
                           onChanged: onConfidence,
                           pulse: pulseShaky ? Confidence.shaky : null,
                         ),

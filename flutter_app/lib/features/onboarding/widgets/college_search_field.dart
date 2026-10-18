@@ -16,6 +16,10 @@ class CollegeSearchField extends StatelessWidget {
   final ValueChanged<String> onChanged;
   final FocusNode? focusNode;
 
+  /// The room kept around the field when the keyboard brings it into view: 20 dp above, and room
+  /// for about three ladder rows below it.
+  static const EdgeInsets scrollPadding = EdgeInsets.fromLTRB(20, 20, 20, 220);
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
@@ -30,6 +34,9 @@ class CollegeSearchField extends StatelessWidget {
         // The search key puts the keyboard away: the pinned Continue comes back.
         onSubmitted: (_) => FocusScope.of(context).unfocus(),
         textInputAction: TextInputAction.search,
+        // When the keyboard opens, the list scrolls so the field and about three results under it
+        // stay above the keyboard, never the field alone at the bottom edge (G3).
+        scrollPadding: scrollPadding,
         textCapitalization: TextCapitalization.words,
         autocorrect: false,
         enableSuggestions: false,

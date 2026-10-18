@@ -33,7 +33,7 @@ void main() {
     final size = e.value;
     final tag = e.key;
 
-    // D41: the most chosen first, each with its Bulletin combination; More courses under them.
+    // D41, G4: in order of aspirant demand, each with its Bulletin combination; More courses under them.
     onboardingGolden('choices_course_$tag', _flow, size: size, overrides: () => onboardingOverrides(answers: studentUpTo(Steps.stage, step: Steps.course)));
     onboardingGolden(
       'choices_course_more_$tag',

@@ -275,6 +275,21 @@ class _SaveViewState extends ConsumerState<SaveView> {
     VoidCallback? live(VoidCallback? go) => asks ? _askFirst : go;
     Widget waiting(Widget key) => asks ? Semantics(hint: OnboardingCopy.ageFirst, child: key) : key;
 
+    // The key that is primary once the age is answered waits in the glass style until then (never
+    // dimmed like a dead control, it still answers a tap by asking the question): volt on a key that
+    // cannot work yet read as "broken" when it did nothing visible (walk 19 Oct, #17). The volt
+    // comes back to it as the age is answered.
+    Widget signInKey({required String label, required VoidCallback? onPressed, bool loading = false}) => AnimatedSwitcher(
+          duration: Motion.of(context, Motion.fadeThroughIn),
+          child: KeyButton(
+            key: ValueKey(asks ? KeyVariant.secondary : KeyVariant.primary),
+            label: label,
+            loading: loading,
+            variant: asks ? KeyVariant.secondary : KeyVariant.primary,
+            onPressed: onPressed,
+          ),
+        );
+
     // Back stands left of the primary key, as on every step (D43).
     final onBack = w.onBack;
     Widget withBack(Widget key) => onBack == null
@@ -294,7 +309,7 @@ class _SaveViewState extends ConsumerState<SaveView> {
         ageBlock,
         const SizedBox(height: MmSpace.s20),
         if (w.googleEnabled) ...[
-          withBack(waiting(KeyButton(
+          withBack(waiting(signInKey(
             label: w.googleBusy ? OnboardingCopy.googleBusy : OnboardingCopy.continueWithGoogle,
             loading: w.googleBusy,
             onPressed: live(w.offline || w.busy || w.googleInBrowser ? null : w.onGoogle),
@@ -321,7 +336,7 @@ class _SaveViewState extends ConsumerState<SaveView> {
         if (w.googleEnabled)
           waiting(KeyButton.secondary(label: OnboardingCopy.useEmailCode, onPressed: live(w.offline || w.busy ? null : w.onEmail)))
         else
-          withBack(waiting(KeyButton(label: OnboardingCopy.useEmailCode, onPressed: live(w.offline || w.busy ? null : w.onEmail)))),
+          withBack(waiting(signInKey(label: OnboardingCopy.useEmailCode, onPressed: live(w.offline || w.busy ? null : w.onEmail)))),
         const SizedBox(height: MmSpace.s4),
         Center(child: KeyButton.quiet(label: OnboardingCopy.notNow, onPressed: w.busy ? null : w.onNotNow)),
       ],

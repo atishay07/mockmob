@@ -3,8 +3,8 @@ public/du/2026 (the repo's own copy of the Bulletin rules and the Round 1 minimu
 scores): each course's eligibility combinations and, per college, the Round 1 minimum score for
 each category.
 
-- `_courses`: the six Commerce and Economics programmes the course step shows as tiles, most
-  chosen first (owner, 18 Oct, D41).
+- `_courses`: the six Commerce and Economics programmes the course step shows as tiles, in order
+  of aspirant demand (owner, 18 Oct, D41; plan 19 Oct, G4).
 - `_moreCourses`: every other course with Round 1 seats in 2026, for "More courses". Left out:
   courses with no Round 1 rows, and B.A. (Programme), whose rows are per pair of disciplines
   (one college appears dozens of times), so it has no single college ladder to show.
@@ -19,14 +19,15 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 SRC = ROOT / "public" / "du" / "2026"
 OUT = pathlib.Path(__file__).resolve().parents[1] / "lib" / "features" / "onboarding" / "data" / "du_2026_data.dart"
 
-# (id in the DU index, short display name), in the order the onboarding shows them: the most
-# chosen first (owner, 18 Oct: B.Com (Hons), B.A. (Hons) Economics, B.Com, BBA, BMS).
+# (id in the DU index, short display name), in the order the onboarding shows them: by how many
+# DU commerce aspirants aim for each, never alphabetical and never labelled "top" (plan 19 Oct, G4:
+# B.Com (Hons), B.A. (Hons) Economics, B.Com, BMS, BBA (FIA), then B.A. (Hons) Business Economics).
 COURSES = [
     ("b-com-hons", "B.Com (Hons)"),
     ("b-a-hons-economics", "B.A. (Hons) Economics"),
     ("b-com", "B.Com"),
-    ("bachelor-of-business-administration-financial-investment-analysis-bba-fia", "BBA (FIA)"),
     ("bachelor-of-management-studies-bms", "BMS"),
+    ("bachelor-of-business-administration-financial-investment-analysis-bba-fia", "BBA (FIA)"),
     ("b-a-hons-business-economics", "B.A. (Hons) Business Economics"),
 ]
 

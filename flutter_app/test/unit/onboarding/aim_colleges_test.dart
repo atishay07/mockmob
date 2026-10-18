@@ -164,9 +164,9 @@ void main() {
     });
 
     test('the plan aims at the first and names the next two, then counts the rest', () {
-      expect(PlanSummary.aimLine(_with(_names.take(8).toList())), startsWith('Aim: SRCC. It took 924.3 of'));
-      expect(PlanSummary.alsoLine(_with(_names.take(8).toList())), 'Also on your list: Hindu 919.9, LSR 912.5 and 5 more.');
-      expect(PlanSummary.alsoLine(_with(_names.take(2).toList())), 'Also on your list: Hindu 919.9.');
+      expect(PlanSummary.aimLine(_with(_names.take(8).toList())), startsWith('Your aim is SRCC. It took 924.3 of'));
+      expect(PlanSummary.alsoLine(_with(_names.take(8).toList())), 'Your list also has Hindu at 919.9 and LSR at 912.5, plus 5 more.');
+      expect(PlanSummary.alsoLine(_with(_names.take(2).toList())), 'Your list also has Hindu at 919.9.');
       expect(PlanSummary.alsoLine(_with(_names.take(1).toList())), isNull);
     });
 
@@ -234,7 +234,7 @@ void main() {
 
   group('copy', () {
     test('the Aim step has no filler or defensive line, and says what it means', () {
-      expect(OnboardingCopy.ladderSupport, 'Lowest Round 1 score in 2026, out of 1000.');
+      expect(OnboardingCopy.ladderSupport, 'Each number is the lowest score that won a seat in Round 1 last year (2026), out of 1000.');
       expect(OnboardingCopy.eightIsMost, '8 is the most. Drop one to add another.');
       expect(OnboardingCopy.notSureNote, 'You can pick one later in Colleges.');
       expect(OnboardingCopy.savedWhat, isNot(contains('stay on this phone')));

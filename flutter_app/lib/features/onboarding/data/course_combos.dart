@@ -24,6 +24,9 @@ abstract final class CourseCombos {
     return _capitalise('$text$tail');
   }
 
+  /// The course's ways in, merged as [line] merges them: per way, the alternatives at each place.
+  static List<List<List<DuSlot>>> ways(DuCourse course) => _merge(course.combos);
+
   /// The plain name of a List B subject, as students say it.
   static String subjectName(String id) => switch (id) {
         'mathematics' => 'Maths',

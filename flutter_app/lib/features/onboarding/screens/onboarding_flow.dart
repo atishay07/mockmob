@@ -405,6 +405,18 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
                           showBack: !(step.kind == StepKind.reveal && answers.sealed),
                           onBack: () => _back(answers),
                           onSkip: step.skippable && !answers.isDone(step.id) ? () => _skip(answers) : null,
+                          // The timed question has no room for the strip under the bar, so its
+                          // progress rides in the bar (#19: it must not vanish on step 5).
+                          center: step.kind == StepKind.check
+                              ? AnswerSheetCard(
+                                  key: const ValueKey('sheet-in-bar'),
+                                  answers: answers,
+                                  now: ref.watch(nowProvider)(),
+                                  current: step.id,
+                                  compact: true,
+                                  slim: true,
+                                )
+                              : null,
                         ),
                         // The sheet stays put from step to step (only its bubbles and lines
                         // change); it folds away, rather than vanishing, where a step shows

@@ -14,7 +14,13 @@ class GuideBar extends StatelessWidget {
     required this.onBack,
     required this.onSkip,
     this.showBack = true,
+    this.center,
   });
+
+  /// Where the student is, in the bar itself, on a step that has no room for the sheet strip under
+  /// it (the timed question, 19 Oct #19): the strip costs no height there, so the question keeps its
+  /// room and the progress stays.
+  final Widget? center;
 
   /// Off once the plan is sealed: the icon would sit on the painted sheet, and the labelled Back
   /// pill stays at the foot (v15 taste pass, D40).
@@ -51,7 +57,7 @@ class GuideBar extends StatelessWidget {
                 child: Center(child: Icon(LucideIcons.arrowLeft, size: 22, color: pressed ? colors.ink2 : colors.ink)),
               ),
             ),
-            const Spacer(),
+            if (center != null) Expanded(child: Center(child: center)) else const Spacer(),
             if (onSkip != null) KeyButton.quiet(label: OnboardingCopy.skip, onPressed: onSkip),
           ],
         ),

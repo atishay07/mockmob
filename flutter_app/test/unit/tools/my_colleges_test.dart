@@ -274,6 +274,30 @@ void main() {
       await Future<void>.delayed(const Duration(milliseconds: 20));
       expect(second.read(myCollegesProvider).colleges.any((c) => c.college == 'Hansraj College'), isFalse);
     });
+
+    test("five colleges picked in the setup all reach the account, in order of last year's marks (walk 19 Oct: You said 3)", () async {
+      fake = FakeMyColleges();
+      prefs = MemoryPrefsStore();
+      container = ProviderContainer(overrides: toolsOverrides(myColleges: fake, prefs: prefs));
+      addTearDown(container.dispose);
+      await container.read(onboardingAnswersProvider.future);
+      final answers = container.read(onboardingAnswersProvider.notifier)..setCourse('b-com-hons');
+      // The order the walk tapped them: Hansraj, SRCC, Hindu, LSR, Kirori Mal.
+      for (final name in ['Hansraj College', 'Shri Ram College of Commerce', 'Hindu College', 'Lady Shri Ram College for Women (W)', 'Kirori Mal College']) {
+        answers.toggleCollege(name);
+      }
+      container.listen(myCollegesProvider, (_, _) {});
+      await _until(() => prefs.values.containsKey(MyCollegesActions.movedKey('u1')));
+      expect(fake.server.length, 5, reason: 'picks 4 and 5 must not be dropped');
+      expect(fake.server.map((c) => c.college), [
+        'Shri Ram College of Commerce',
+        'Hindu College',
+        'Lady Shri Ram College for Women (W)',
+        'Hansraj College',
+        'Kirori Mal College',
+      ]);
+      expect(container.read(myCollegesProvider).list.count, 5);
+    });
   });
 
   group('the widgets', () {
