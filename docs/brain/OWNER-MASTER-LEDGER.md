@@ -455,6 +455,11 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 - **Release 10 tracks (C/D/E/F and web taste):** paused at their heads (NOW.md section 4).
 - **Taste experiment (D93):** an interim positive result (the critics found real bugs that the walk confirmed). The blind evaluation was not run. Interim call: a lighter version (NOW.md section 5).
 
+### Owner at about 10:40 pm, 18 Oct (D98; new account, session 604ced81 resumed)
+| # | Ask | Status |
+|---|---|---|
+| D98 | Order: final app v15.2 first (review fae1d928, merge taste dec4e083 + c2e950ba, ONE fix pass on the remaining HIGH/MEDIUM + quick LOWs, analyze + unit tests of changes, release APK, one install), then release 10 (two production migrations, one Opus verifier capped at 2 rounds), then ONE message; fast and slow work in separate workflows | BUILDING 10:45 pm |
+
 ## Waiting on the owner (updated 18 Oct about 3:45 am)
 - Answered 3:50 am: M-001 first launch 3 s; M-006 bolder copy; D19 keep badges, refine; D22 Mob.
 - D32: confirm the kept landing element when he reviews the port live (wt-land3, port 3206).
