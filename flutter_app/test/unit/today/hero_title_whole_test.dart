@@ -32,12 +32,19 @@ void main() {
   setUpAll(loadAppFonts);
   setUp(() {
     debugResetTodayPicks();
-    SuggestedHint.debugReset();
-    SuggestedHint.store = MemoryPrefsStore();
+    DeckCoach.debugReset();
+    DeckMemoryStore.debugReset();
+    SuggestedStack.debugReset();
+    DeckCoach.store = MemoryPrefsStore();
+    DeckMemoryStore.store = MemoryPrefsStore();
+    DeckMemoryStore.clock = () => _sunday;
   });
   tearDown(() {
-    SuggestedHint.debugReset();
-    SuggestedHint.store = null;
+    DeckCoach.debugReset();
+    DeckMemoryStore.debugReset();
+    SuggestedStack.debugReset();
+    DeckCoach.store = null;
+    DeckMemoryStore.store = null;
   });
 
   for (final scale in const [1.0, 1.3]) {
