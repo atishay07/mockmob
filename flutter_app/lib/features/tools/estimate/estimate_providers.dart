@@ -6,10 +6,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/auth/auth_state.dart';
+import '../../../core/repositories/attempts_repository.dart' show attemptsRepositoryProvider;
 import '../../onboarding/data/subjects.dart' show SheetSubject;
 import '../../practice/data/practice_catalog.dart';
 import '../compass/compass_controller.dart';
 import '../compass/score_sources.dart';
+import '../data/tools_store.dart' show toolsStoreProvider;
+import '../domain/du_helpers.dart' show duParseScore;
 import '../domain/du_mock_score.dart';
 import '../domain/du_models.dart';
 import '../pro/compass_pro_repository.dart';
@@ -41,9 +44,10 @@ final rangeSelectionProvider = Provider<DuSelection?>((ref) {
   return ref.watch(ownRangeSelectionProvider) ?? ref.watch(compassControllerProvider.select((s) => s.value?.selection));
 });
 
-/// Attempt subject ids (internal) to the public ids the selection uses.
+/// Attempt subject ids (internal) to the public ids the selection uses. Read only once the subject
+/// list is up (the two differ for a few subjects only), so a screen never starts that fetch for it.
 final _publicIdsProvider = Provider<Map<String, String>>((ref) {
-  final subjects = ref.watch(practiceSubjectsProvider).value ?? const [];
+  final subjects = (ref.exists(practiceSubjectsProvider) ? ref.watch(practiceSubjectsProvider).value : null) ?? const [];
   return {for (final s in subjects) s.internalId: s.id};
 });
 
@@ -147,8 +151,8 @@ final rangeCardProvider = Provider<RangeCard>((ref) {
     case RangeChoice.accepted || RangeChoice.typed:
       return const RangeCardHidden();
     case RangeChoice.none:
-      // A range typed in Compass before this card existed: read only when Compass is already up, so
-      // Today never loads the DU catalogue for it.
+      // A range typed in Compass's own score field (which says no choice): read only when Compass is
+      // already up, so Today never loads the DU catalogue for it.
       if (ref.exists(compassControllerProvider) && ref.watch(typedEstimateProvider) != null) return const RangeCardHidden();
     case RangeChoice.unknown:
       break;
@@ -160,12 +164,32 @@ final rangeCardProvider = Provider<RangeCard>((ref) {
   return RangeCardSteps(progress);
 });
 
+/// The typed estimate as saved on this phone, read without starting Compass (and so without the DU
+/// catalogue). Read again whenever the range choice changes.
+final savedTypedEstimateProvider = FutureProvider<Estimate?>((ref) async {
+  ref.watch(rangeChoiceProvider);
+  final saved = await ref.read(toolsStoreProvider).compass();
+  final low = duParseScore(saved?.score ?? '');
+  if (saved == null || low == null) return null;
+  final high = duParseScore(saved.scoreHigh) ?? low;
+  return Estimate(source: EstimateSource.typed, low: low < high ? low : high, high: low < high ? high : low, at: saved.scoreAt);
+});
+
 /// The note on Your plan's "Score range" row: the range and where it came from, else how far the
-/// mocks have got, else "Not set".
+/// mocks have got, else "Not set". It reads what the app has already loaded (Today loads the
+/// attempts, Colleges starts Compass), so opening Your plan never starts the attempts database or
+/// the DU catalogue itself; the typed range comes from this phone until Compass is up.
 final rangePlanNoteProvider = Provider<String>((ref) {
-  final e = ref.watch(estimateProvider);
+  final compassUp = ref.exists(compassControllerProvider);
+  final attemptsUp = ref.exists(attemptsRepositoryProvider) || ref.exists(compassAttemptsProvider);
+  final progress = attemptsUp ? ref.watch(rangeProgressProvider) : null;
+  final e = compassUp && attemptsUp
+      ? ref.watch(estimateProvider)
+      : pickEstimate(
+          typed: compassUp ? ref.watch(typedEstimateProvider) : ref.watch(savedTypedEstimateProvider).value,
+          mocks: progress?.estimate?.estimate,
+        );
   if (e != null) return EstimateCopy.planNote(e);
-  final p = ref.watch(rangeProgressProvider);
-  if (p != null && p.total > 0) return EstimateCopy.planFinding(p.done, p.total);
+  if (progress != null && progress.total > 0) return EstimateCopy.planFinding(progress.done, progress.total);
   return EstimateCopy.planNotSet;
 });

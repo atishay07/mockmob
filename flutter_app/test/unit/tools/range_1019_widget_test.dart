@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/models/attempt.dart';
+import 'package:mockmob/core/models/practice_quote.dart';
+import 'package:mockmob/core/repositories/quote_repository.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/tools/colleges/college_rung.dart';
@@ -52,6 +54,26 @@ final _fiveMocks = [
 ];
 
 const _five = ['english', 'accountancy', 'economics', 'business_studies', 'mathematics'];
+
+/// The quote for any full mock: free as the first in its subject, or 50 credits.
+class _Quotes implements QuoteRepository {
+  _Quotes({this.firstFree = true});
+
+  final bool firstFree;
+
+  @override
+  Future<PracticeQuote> quote({required String subject, required String mode, int? count, String? purpose}) async => PracticeQuote(
+        state: 'available',
+        launchable: true,
+        reasonCode: firstFree ? 'first_full_mock_free' : 'ok',
+        creditCost: firstFree ? 0 : 50,
+        creditBalance: 90,
+        subjectId: subject,
+        subjectName: subject,
+        modeId: mode,
+        count: count,
+      );
+}
 
 void main() {
   setUpAll(loadAppFonts);
@@ -150,13 +172,14 @@ void main() {
       ),
       size: const Size(390, 1400),
       disableAnimations: true,
-      overrides: toolsOverrides(sheet: _five, prefs: prefs),
+      overrides: [...toolsOverrides(sheet: _five, prefs: prefs), quoteRepositoryProvider.overrideWithValue(_Quotes())],
     );
     await settle(tester);
-    // A fresh account with five subjects: the way, English first.
+    // A fresh account with five subjects: the way, English first, free as the quote says.
     expect(find.text(EstimateCopy.stepsTitle), findsOneWidget);
     expect(find.text('Sit one full mock in each subject and we’ll estimate your range. Start with English.'), findsOneWidget);
-    expect(find.text(EstimateCopy.sitKey('English')), findsOneWidget);
+    expect(find.text(EstimateCopy.sitFreeKey('English')), findsOneWidget);
+    expect(find.text(EstimateCopy.firstMockFree), findsOneWidget);
     expect(find.text(EstimateCopy.count(0, 5)), findsOneWidget);
 
     // A typed range puts the card away.
@@ -190,7 +213,7 @@ void main() {
       ListView(padding: const EdgeInsets.all(16), children: const [RangeTodayBlock()]),
       size: const Size(390, 1000),
       disableAnimations: true,
-      overrides: toolsOverrides(sheet: _five, prefs: prefs, attempts: _fiveMocks, myColleges: ownersFour()),
+      overrides: [...toolsOverrides(sheet: _five, prefs: prefs, attempts: _fiveMocks, myColleges: ownersFour()), quoteRepositoryProvider.overrideWithValue(_Quotes())],
     );
     await settle(tester);
     expect(find.text(EstimateCopy.readyTitle), findsOneWidget);
@@ -203,5 +226,20 @@ void main() {
     final c = ProviderScope.containerOf(tester.element(find.byType(ListView)));
     expect(c.read(rangeChoiceProvider).value?.choice, RangeChoice.accepted);
     expect(c.read(estimateProvider)?.source.name, 'mocks', reason: 'the mocks\' range is the one every screen uses');
+  });
+
+  testWidgets('a priced mock keeps the Practice cost line under the key, and never says free', (tester) async {
+    await pumpMockmob(
+      tester,
+      ListView(padding: const EdgeInsets.all(16), children: const [RangeTodayBlock()]),
+      size: const Size(390, 1000),
+      disableAnimations: true,
+      overrides: [...toolsOverrides(sheet: _five), quoteRepositoryProvider.overrideWithValue(_Quotes(firstFree: false))],
+    );
+    await settle(tester);
+    expect(find.text(EstimateCopy.sitKey('English')), findsOneWidget);
+    expect(find.text('50 credits. You have 90.'), findsOneWidget);
+    expect(find.text(EstimateCopy.firstMockFree), findsNothing);
+    expect(find.textContaining('free'), findsNothing);
   });
 }

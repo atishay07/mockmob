@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/api/api_providers.dart' show nowProvider;
 import 'package:mockmob/core/models/attempt.dart';
+import 'package:mockmob/core/models/practice_quote.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/tools/domain/du_models.dart';
 import 'package:mockmob/features/tools/estimate/estimate.dart';
@@ -13,6 +14,7 @@ import 'package:mockmob/features/tools/estimate/estimate_copy.dart';
 import 'package:mockmob/features/tools/estimate/estimate_providers.dart';
 import 'package:mockmob/features/tools/estimate/mock_estimate.dart';
 import 'package:mockmob/features/tools/estimate/range_choice.dart';
+import 'package:mockmob/features/tools/estimate/range_price.dart';
 
 import 'tools_test_support.dart';
 
@@ -249,6 +251,43 @@ void main() {
     });
   });
 
+  group('G19: the price of the next mock comes only from its quote', () {
+    PracticeQuote q({bool launchable = true, String reasonCode = 'ok', int? cost = 50, int? balance = 90, QuoteAllowance? allowance}) => PracticeQuote(
+          state: launchable ? 'available' : 'blocked',
+          launchable: launchable,
+          reasonCode: reasonCode,
+          creditCost: cost,
+          creditBalance: balance,
+          subjectName: 'English',
+          modeId: 'full',
+          count: 50,
+          allowance: allowance,
+        );
+
+    test('the first full mock free: the key says free and one true line says why', () {
+      final p = rangeMockPrice(q(reasonCode: firstFullMockFree, cost: 0));
+      expect(p.kind, RangeMockPriceKind.firstFree);
+      expect(p.isFree, isTrue);
+      expect(p.line, 'Your first full mock in each subject is free, so the estimate costs you nothing.');
+      expect(EstimateCopy.sitFreeKey('English'), 'Sit your free full mock in English');
+      expect(rangeMockPrice(q(allowance: const QuoteAllowance(kind: 'first_full_mock:english', state: 'available'), cost: 0)).kind, RangeMockPriceKind.firstFree);
+    });
+
+    test('a priced mock prints the Practice cost line; an unknown quote prints nothing; never free without the quote', () {
+      final priced = rangeMockPrice(q());
+      expect(priced.kind, RangeMockPriceKind.other);
+      expect(priced.isFree, isFalse);
+      expect(priced.line, '50 credits. You have 90.');
+      expect(rangeMockPrice(null).kind, RangeMockPriceKind.unknown);
+      expect(rangeMockPrice(null).line, isNull);
+      // The reason alone is not enough: it must also charge nothing and be able to start.
+      expect(rangeMockPrice(q(reasonCode: firstFullMockFree)).isFree, isFalse);
+      expect(rangeMockPrice(q(reasonCode: firstFullMockFree, cost: 0, launchable: false)).isFree, isFalse);
+      // A Pro account (no credit balance) is never told a mock is "free".
+      expect(rangeMockPrice(q(reasonCode: firstFullMockFree, cost: 0, balance: null)).kind, isNot(RangeMockPriceKind.firstFree));
+    });
+  });
+
   group('G19: when Today shows the range card', () {
     ProviderContainer container({List<String> sheet = _five, List<Attempt> attempts = const [], MemoryPrefsStore? prefs, DateTime? now}) {
       final c = ProviderContainer(overrides: [
@@ -310,10 +349,15 @@ void main() {
       expect(await card(newer), isA<RangeCardReady>());
     });
 
-    test('Your plan says how far the mocks have got before there is a range', () async {
+    test('Your plan says how far the mocks have got before there is a range, and a saved typed range', () async {
       final c = container(attempts: _fourMocks().take(2).toList());
-      await c.read(rangeChoiceProvider.future);
+      // Today has read the mocks by the time Your plan opens.
+      expect(await card(c), isA<RangeCardSteps>());
       expect(c.read(rangePlanNoteProvider), 'Not sure yet. 2 of 5 full mocks done.');
+      // A range typed earlier reads from this phone without starting Compass.
+      final typed = container(prefs: savedCompass('english,accountancy,business_studies,economics', score: '900')..values['mm.tools.compass.v1'] = '{"s":"english","c":"UR","score":"900","scoreHigh":"920"}');
+      await typed.read(savedTypedEstimateProvider.future);
+      expect(typed.read(rangePlanNoteProvider), '900 to 920 out of 1000, typed by you');
     });
   });
 }

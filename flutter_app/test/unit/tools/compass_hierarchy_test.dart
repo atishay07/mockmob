@@ -141,11 +141,14 @@ void main() {
       await c.read(practiceSubjectsProvider.future);
       expect(c.read(compassMockScoreProvider)?.total, 200 + 150 + 210 + 180);
       expect(ToolsCopy.categorySummaryMocks('UR', 740), 'Unreserved. Your latest full mocks: 740 of 1000');
-      // The one estimate every screen reads: one mock per paper is a single figure, from mocks.
+      // The one estimate every screen reads, from mocks: one mock per paper is the total plus and
+      // minus its spread (19 Oct, D109), never a single figure that claims more than it knows.
       final e = c.read(estimateProvider);
       expect(e?.source, EstimateSource.mocks);
-      expect(e?.low, 740);
-      expect(e?.isPoint, isTrue);
+      expect(e!.isPoint, isFalse);
+      expect(e.low, lessThan(740));
+      expect(e.high, greaterThan(740));
+      expect((e.low + e.high) / 2, closeTo(740, 5));
     });
   });
 }

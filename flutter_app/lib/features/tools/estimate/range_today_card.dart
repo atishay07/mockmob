@@ -12,6 +12,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/router/quick_start.dart' show StartLocations;
+import '../../practice/data/practice_quote.dart' show practiceQuoteProvider;
+import '../../practice/model/practice_selection.dart' show QuoteQuery;
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -23,6 +25,7 @@ import 'estimate_providers.dart';
 import 'estimate_sheet.dart' show showEstimateSheet;
 import 'mock_estimate.dart';
 import 'range_choice.dart';
+import 'range_price.dart';
 import 'range_steps_bar.dart';
 
 /// Today's block: the 40 dp gap above it and the card, or nothing.
@@ -53,17 +56,18 @@ class _Head extends StatelessWidget {
   Widget build(BuildContext context) => Semantics(header: true, child: Text(title, style: context.mmType.title.copyWith(fontSize: 19)));
 }
 
-/// One full mock in each subject still to go.
-class RangeStepsCard extends StatelessWidget {
+/// One full mock in each subject still to go. The key's price is the next mock's quote.
+class RangeStepsCard extends ConsumerWidget {
   const RangeStepsCard({super.key, required this.progress});
 
   final RangeProgress progress;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.mmColors;
     final type = context.mmType;
     final next = progress.next;
+    final price = rangeMockPrice(next == null ? null : ref.watch(practiceQuoteProvider(QuoteQuery(subject: next, apiMode: 'full', count: 50))).value);
     final soFar = progress.estimate;
     final line = EstimateCopy.progressLine(
       done: [for (final id in progress.doneIds) rangeSubjectName(id)],
@@ -87,10 +91,22 @@ class RangeStepsCard extends StatelessWidget {
           const SizedBox(height: MmSpace.s12),
           Text(EstimateCopy.soFar(soFar.estimate), style: type.small.copyWith(fontSize: 14, height: 20 / 14, color: colors.ink2)),
         ],
+        if (price.kind == RangeMockPriceKind.firstFree) ...[
+          const SizedBox(height: MmSpace.s12),
+          Text(EstimateCopy.firstMockFree, style: type.small.copyWith(fontSize: 14, height: 20 / 14, color: colors.ink)),
+        ],
         const SizedBox(height: MmSpace.s16),
-        if (next != null)
-          KeyButton.secondary(label: EstimateCopy.sitKey(rangeSubjectName(next)), onPressed: sit)
-        else
+        if (next != null) ...[
+          KeyButton.secondary(
+            label: price.isFree ? EstimateCopy.sitFreeKey(rangeSubjectName(next)) : EstimateCopy.sitKey(rangeSubjectName(next)),
+            onPressed: sit,
+          ),
+          // Practice's own cost line, under the key, before the press (W-060); none while unknown.
+          if (price.kind != RangeMockPriceKind.firstFree && price.line != null) ...[
+            const SizedBox(height: MmSpace.s6),
+            Text(price.line!, textAlign: TextAlign.center, style: type.caption.copyWith(color: colors.ink2)),
+          ],
+        ] else
           KeyButton.secondary(label: EstimateCopy.addSubjectsKey, onPressed: addSubjects),
         Center(
           child: next != null && !progress.canTotal

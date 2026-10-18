@@ -195,9 +195,21 @@ class _EstimateSheetState extends ConsumerState<EstimateSheet> {
     };
   }
 
+  /// Set by Done: the fields are read strictly, even a To still shorter than From.
+  bool _strict = false;
+
+  /// To is still being typed: fewer figures than From ("92" on the way to "920"), so it is not
+  /// read yet and no problem shows for it until Done.
+  bool get _toStillTyping {
+    if (_strict) return false;
+    final f = RegExp(r'\d+').firstMatch(_from.text)?.group(0) ?? '';
+    final t = RegExp(r'\d+').firstMatch(_to.text)?.group(0) ?? '';
+    return t.isNotEmpty && t.length < f.length;
+  }
+
   /// The two fields read as one range (G18): "900", "900 to 920", "900-920", a pasted range in
   /// From, or a lower To that swaps. Over 200 marks apart is too wide to say anything.
-  ParsedRange get _parsed => parseRangeFields(_from.text, _to.text);
+  ParsedRange get _parsed => _toStillTyping ? parseRange(_from.text) : parseRangeFields(_from.text, _to.text);
 
   bool get _typing => _from.text.trim().isNotEmpty || _to.text.trim().isNotEmpty;
 
@@ -229,7 +241,10 @@ class _EstimateSheetState extends ConsumerState<EstimateSheet> {
       _from.value = TextEditingValue(text: estimateFigure(r.low!), selection: TextSelection.collapsed(offset: estimateFigure(r.low!).length));
       _to.text = estimateFigure(r.high!);
     }
-    setState(() => _saved = false);
+    setState(() {
+      _saved = false;
+      _strict = false;
+    });
   }
 
   /// The courses to show it against: the programmes on My colleges, then the onboarding course,
@@ -268,6 +283,7 @@ class _EstimateSheetState extends ConsumerState<EstimateSheet> {
     final choice = ref.read(rangeChoiceProvider.notifier);
     switch (_source) {
       case _Source.typed || null:
+        setState(() => _strict = true);
         if (_fromError) {
           _fromShake.value++;
           _fromFocus.requestFocus();
@@ -296,8 +312,11 @@ class _EstimateSheetState extends ConsumerState<EstimateSheet> {
   }
 
   void _useAsEstimate() {
-    final t = _typed;
-    if (t == null) return;
+    final t = parseRangeFields(_from.text, _to.text).estimate();
+    if (t == null) {
+      setState(() => _strict = true);
+      return;
+    }
     final c = ref.read(compassControllerProvider.notifier);
     c.setCategory(_categoryNow());
     c.setEstimate(t.low, t.isPoint ? null : t.high);
@@ -621,7 +640,12 @@ class _EstimateSheetState extends ConsumerState<EstimateSheet> {
             ? [FilteringTextInputFormatter.allow(RegExp(r'[0-9. \-–—~toTO]')), LengthLimitingTextInputFormatter(16)]
             : [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')), LengthLimitingTextInputFormatter(6)],
         textInputAction: TextInputAction.done,
-        onChanged: whole ? _fromChanged : (_) => setState(() => _saved = false),
+        onChanged: whole
+            ? _fromChanged
+            : (_) => setState(() {
+                  _saved = false;
+                  _strict = false;
+                }),
         // Embedded, the host does not lift itself over the keyboard: ask for the keys' room too.
         scrollPadding: EdgeInsets.fromLTRB(120, 120, 120, 120 + (widget.embedded ? MediaQuery.viewInsetsOf(context).bottom : 0)),
         style: context.mmType.body.copyWith(fontFeatures: const [FontFeature.tabularFigures()]),
