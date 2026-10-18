@@ -224,10 +224,13 @@ const reviseCard = { id: 'revise', number: 5, why: 'Revise brings back what you 
 
 test('Why this?: the context names which mistakes come back, from the Revise read, and sends no plan facts', () => {
   const ctxt = todayContext({ move: reviseCard, revise: { due: 5, chapters: [{ chapter: 'Partnership Fundamentals', n: 3 }, { chapter: 'Goodwill', n: 2 }] } });
-  assert.deepEqual(ctxt.lines, ["Today's 5: 3 from Partnership Fundamentals and 2 from Goodwill."]);
-  assert.equal(ctxt.chapter, 'Partnership Fundamentals');
+  // Release 10: Revise says why it comes first, then which mistakes come back; it names no chapter of its own.
+  assert.deepEqual(ctxt.lines, ['Revise comes first because these 5 reach their 1, 3, 7 or 21-day mark today, and Revise asks each on its day.', "Today's 5: 3 from Partnership Fundamentals and 2 from Goodwill."]);
+  assert.equal(ctxt.chapter, null);
+  assert.equal(ctxt.focus, 'revise');
   // The chapters must account for the card's own count, or the line is left out (counts that agree).
-  assert.deepEqual(todayContext({ move: reviseCard, revise: { chapters: [{ chapter: 'Goodwill', n: 2 }] } }).lines, []);
+  assert.deepEqual(todayContext({ move: reviseCard, revise: { chapters: [{ chapter: 'Goodwill', n: 2 }] } }).lines, ['Revise comes first because these 5 reach their 1, 3, 7 or 21-day mark today, and Revise asks each on its day.']);
+  assert.match(todayContext({ move: { ...reviseCard, stake: { value: 30 } } }).lines[0], / They cost 30 marks the first time\.$/);
   assert.equal(todayContext({ move: { id: 'failed' } }), null);
   assert.equal(todayContext({ move: { id: 'weakest', why: 'x', chapter: 'Goodwill' } }).chapter, 'Goodwill');
   assert.match(read('src/components/ai/askContexts.mjs'), /export function todayContext\(\{ move = null, revise = null \} = \{\}\)/, 'no plan parameter: the plan\'s fact lines ("2 saved sessions") are not sent');
@@ -237,7 +240,7 @@ test('Why this?: the answer leads with what the card does not say, and every cou
   const ctxt = normalizeContext(todayContext({ move: reviseCard, revise: { due: 5, chapters: [{ chapter: 'Partnership Fundamentals', n: 3 }, { chapter: 'Goodwill', n: 2 }] } }));
   const first = openingFor({ context: ctxt, insights: INSIGHTS, status: 'ready' });
   assert.equal(first.ask, 'Why this step?');
-  assert.equal(first.reply, "Today's 5: 3 from Partnership Fundamentals and 2 from Goodwill. Partnership Fundamentals: 6 wrong, of 10 questions over 3 sessions. The last miss there was on Thu 15 Oct. Those 6 questions were worth 30 marks, of the 120 open in your record.");
+  assert.equal(first.reply, "Revise comes first because these 5 reach their 1, 3, 7 or 21-day mark today, and Revise asks each on its day. Today's 5: 3 from Partnership Fundamentals and 2 from Goodwill. Next after this: Partnership Fundamentals, where 30 of your open marks are.", 'release 10: why now first; the weakest chapter only as what comes next');
   assert.ok(!first.reply.includes(reviseCard.why), 'the card\'s reason is not restated');
   assert.equal(first.source, recordSource(INSIGHTS), 'the source line is the chip\'s read');
   assert.equal(sessionsLabel(INSIGHTS, 'ready'), '3 sessions');

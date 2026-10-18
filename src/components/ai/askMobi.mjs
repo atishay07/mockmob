@@ -46,6 +46,8 @@ export function normalizeContext(input = {}) {
   const out = { kind, ref, label: text(raw.label), number, chapter: text(raw.chapter, 64), lines };
   if (kind === 'question') { out.pickLabel = text(raw.pickLabel); out.keyLabel = text(raw.keyLabel); if (raw.blank === true) out.blank = true; }
   if (kind === 'today') out.reason = text(raw.reason, LINE_CAP);
+  // Today's Revise card answers "why now" first and names the weakest chapter only as what comes next (release 10).
+  if (kind === 'today' && raw.focus === 'revise') out.focus = 'revise';
   if (raw.record === true) out.record = true;
   return out;
 }

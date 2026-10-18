@@ -110,6 +110,11 @@ export function todayContext({ move = null, revise = null } = {}) {
   const lines = [];
   const due = move.id === 'revise' && whole(move.number) && move.number > 0 ? move.number : null;
   const parts = Array.isArray(revise?.chapters) ? revise.chapters.filter((c) => clean(c?.chapter) && whole(c?.n) && c.n > 0) : [];
+  // Revise: why it comes first, before anything else (release 10: the answer explains the card's own move, not another one).
+  if (due) {
+    const stake = whole(move.stake?.value) && move.stake.value > 0 ? ` They cost ${move.stake.value} marks the first time.` : '';
+    lines.push(`Revise comes first because ${due === 1 ? 'this one reaches its' : `these ${due} reach their`} 1, 3, 7 or 21-day mark today, and Revise asks each on its day.${stake}`);
+  }
   // Only when the chapters account for every question on the card, so the count in the line is the card's own count.
   if (due && parts.length && parts.reduce((t, c) => t + c.n, 0) === due) {
     const named = parts.slice(0, 3).map((c) => `${c.n} from ${clean(c.chapter)}`);
@@ -117,8 +122,8 @@ export function todayContext({ move = null, revise = null } = {}) {
     if (rest) named.push(`${rest} from other chapters`);
     lines.push(`Today's ${due}: ${named.length > 1 ? `${named.slice(0, -1).join(', ')} and ${named[named.length - 1]}` : named[0]}.`);
   }
-  const chapter = clean(move.chapter) || (due && parts.length ? clean(parts[0].chapter) : '') || null;
-  return { kind: 'today', label: 'Today', reason: reason || null, chapter, lines };
+  const chapter = clean(move.chapter) || null;
+  return { kind: 'today', label: 'Today', reason: reason || null, chapter, lines, ...(due ? { focus: 'revise' } : {}) };
 }
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -147,6 +152,13 @@ export function todayAnswer({ context = {}, insights = null } = {}) {
   const named = want ? rows.find((c) => clean(c?.chapter).toLowerCase() === want) || null : null;
   const c = named || insights.chapters?.ranked?.[0] || null;
   const lines = [...own];
+  // Revise leads with why now; the chapter with the most marks open is only what comes after it.
+  if (context.focus === 'revise') {
+    const next = insights.chapters?.ranked?.[0] || null;
+    if (next && clean(next.chapter) && whole(next.open) && next.open > 0) lines.push(`Next after this: ${clean(next.chapter)}, where ${next.open} of your open marks are.`);
+    const reply = lines.join(' ') || clean(context.reason);
+    return reply ? { reply, record: lines.length > own.length } : null;
+  }
   if (c && whole(c.wrong) && whole(c.skip) && whole(c.n) && c.n > 0) {
     const missed = c.wrong + c.skip;
     const how = [c.wrong ? `${c.wrong} wrong` : null, c.skip ? `${c.skip} left blank` : null].filter(Boolean).join(' and ') || 'nothing missed';
