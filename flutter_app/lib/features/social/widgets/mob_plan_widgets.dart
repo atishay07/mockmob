@@ -54,8 +54,9 @@ class MobSwitcher extends ConsumerWidget {
   }
 }
 
-/// Free only: one quiet line near the end of the page, so the paper and the ring come first. It says
-/// what Pro adds in one sentence and sells nothing: no price, no button, no count-down (T005, T009).
+/// One quiet line near the end of the page, so the paper and the ring come first. Free: what Pro adds,
+/// in one sentence, selling nothing: no price, no button, no count-down (T005, T009). Pro at its cap of
+/// Mobs it started: the server's own sentence for it (MOB_LIMIT_PRO), where the start key would be.
 class MobProNote extends StatelessWidget {
   const MobProNote({super.key, required this.mob});
 
@@ -63,12 +64,12 @@ class MobProNote extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (mob.plan.pro) return const SizedBox.shrink();
+    if (mob.plan.pro && !mob.plan.atProCap) return const SizedBox.shrink();
     final type = context.mmType;
     final colors = context.mmColors;
     return Padding(
       padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s32, MmSpace.gutter, 0),
-      child: Text(MobCopy.proLine, style: type.small.copyWith(color: colors.ink2)),
+      child: Text(mob.plan.pro ? MobCopy.proCapLine : MobCopy.proLine, style: type.small.copyWith(color: colors.ink2)),
     );
   }
 }

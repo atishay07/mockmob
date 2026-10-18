@@ -146,6 +146,9 @@ class MobPlan {
   /// The student has started none of the Mobs they are in (they joined friends'): the key to start
   /// their own says "Start your own Mob", not "Start another".
   bool get startedNone => started == 0;
+
+  /// Pro, and every Mob the plan lets them start is started: no start key, and one quiet line says why.
+  bool get atProCap => pro && started != null && started! >= maxMobs && !canStartAnother;
 }
 
 /// One of the student's Mobs, for the switcher. Every call names its Mob by this id.

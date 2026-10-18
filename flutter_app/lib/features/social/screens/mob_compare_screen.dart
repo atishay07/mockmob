@@ -109,6 +109,7 @@ class _MobCompareScreenState extends ConsumerState<MobCompareScreen> {
               you: you,
               first: i == 0,
               resultId: d.yourResultId,
+              partial: d.hidden > 0,
             ),
         Padding(
           padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s16, MmSpace.gutter, 0),
@@ -120,12 +121,15 @@ class _MobCompareScreenState extends ConsumerState<MobCompareScreen> {
 }
 
 class _QuestionBlock extends ConsumerWidget {
-  const _QuestionBlock({required this.question, required this.you, required this.first, this.resultId});
+  const _QuestionBlock({required this.question, required this.you, required this.first, this.resultId, this.partial = false});
 
   final MobCompareQuestion question;
   final MobYou you;
   final bool first;
   final String? resultId;
+
+  /// A member keeps their answers private: the counts are over you and the members who share.
+  final bool partial;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -164,7 +168,7 @@ class _QuestionBlock extends ConsumerWidget {
               if (rows.isNotEmpty) ...[const SizedBox(height: MmSpace.s8), ...rows],
               if (q.picks != null && q.picks!.isNotEmpty) ...[
                 const SizedBox(height: MmSpace.s4),
-                MobNote(MobCopy.howPicked(q.picks!)),
+                MobNote(MobCopy.howPicked(q.picks!, partial: partial)),
               ],
               if (trap != null) ...[
                 const SizedBox(height: MmSpace.s12),

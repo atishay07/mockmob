@@ -175,4 +175,69 @@ void main() {
     height: 400,
     scaffold: true,
   );
+
+  // The gate-1018 states: Pro at its cap of Mobs (no start key, the plan's own sentence), a free
+  // student with extra papers waiting (the open-to-all line), a side-by-side with a member who keeps
+  // answers private (the counts say who they cover), the member menu and the leave confirmation.
+  _golden(
+    'mob_pro_capped',
+    () => const MobScreen(),
+    () => proState((m) {
+      (m['plan'] as Map<String, dynamic>)
+        ..['started'] = 3
+        ..['mobCount'] = 3
+        ..['canStartAnother'] = false;
+    }),
+    height: 2700,
+    widths: const [360],
+  );
+  _golden(
+    'mob_free_extras',
+    () => const MobScreen(),
+    () => mobState((m) {
+      m['extras'] = (mobJson('get_pro_v2.json')['mob'] as Map<String, dynamic>)['extras'];
+      m['trap'] = null;
+    }),
+    height: 2400,
+    widths: const [360],
+  );
+  _golden(
+    'mob_compare_partial',
+    () => MobCompareScreen(data: _compare((c) {
+      c['hidden'] = 1;
+      c['sat'] = (c['sat'] as int) + 1;
+    })),
+    mobState,
+    height: 1300,
+    widths: const [360],
+  );
+
+  for (final brightness in [Brightness.dark, Brightness.light]) {
+    final tag = brightness == Brightness.dark ? 'night' : 'day';
+    for (final flow in ['member_menu', 'block_confirm', 'leave_confirm']) {
+      testWidgets('mob_$flow 360 $tag', (tester) async {
+        await pumpMockmob(
+          tester,
+          const MobScreen(),
+          brightness: brightness,
+          size: const Size(360, 1700),
+          wrapInScaffold: false,
+          disableAnimations: true,
+          overrides: mobOverrides(mobState()),
+        );
+        await tester.pumpAndSettle();
+        if (flow == 'leave_confirm') {
+          await tester.drag(find.byType(Scrollable).first, const Offset(0, -900));
+          await tester.pumpAndSettle();
+          await tester.tap(find.text('Leave Mob'));
+        } else {
+          await tester.tap(find.byTooltip('More for Riya'));
+          await tester.pumpAndSettle();
+          if (flow == 'block_confirm') await tester.tap(find.text('Leave and block'));
+        }
+        await tester.pumpAndSettle();
+        await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/mob_${flow}_360_$tag.png'));
+      });
+    }
+  }
 }

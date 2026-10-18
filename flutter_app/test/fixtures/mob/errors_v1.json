@@ -296,6 +296,15 @@
       }
     }
   },
+  "EXTRA_ALREADY_SAT": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "EXTRA_ALREADY_SAT",
+        "message": "You already sat this extra paper. Your answers are under See your answers."
+      }
+    }
+  },
   "WEEK_CLOSED": {
     "status": 410,
     "body": {
