@@ -141,7 +141,8 @@ final creditFiguresProvider = Provider<CreditFigures>((ref) {
     final freeAllowance = useWallet ? w!.freeAllowance : t?.freeAllowance;
     final held = useWallet ? w!.held : t?.held;
     final renews = useWallet ? _indiaDay(w!.resetAt) : t?.renewsOn;
-    final aiWallet = ref.watch(creditsRepositoryProvider).value;
+    // A pause is Ask's own read's to report; it is not started here.
+    final aiWallet = ref.exists(creditsRepositoryProvider) ? ref.watch(creditsRepositoryProvider).value : null;
     return CreditFigures(
       mode: mode,
       total: total,
