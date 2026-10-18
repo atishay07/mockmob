@@ -196,8 +196,11 @@ class _HeaderMobi extends StatelessWidget {
     const figure = Mobi(pose: MobiPose.greet, size: TodayHeader.mobiSize);
     final tap = onTap;
     if (tap == null) return const ExcludeSemantics(child: figure);
-    return MmHitSlop.toTarget(
-      visual: TodayHeader.mobiSize,
+    // His figure is about 38 dp wide: the target reaches 10 dp towards the greeting (the right edge stays
+    // flush with the margin) and 1 dp above and below, so it is 48 x 48.
+    const vertical = (48 - TodayHeader.mobiSize) / 2;
+    return MmHitSlop(
+      slop: const EdgeInsets.fromLTRB(10, vertical, 0, vertical),
       child: MmPressable(
         onTap: tap,
         semanticsLabel: AheadCopy.askMobi,

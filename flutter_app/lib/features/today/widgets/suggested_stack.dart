@@ -566,7 +566,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
                 final t = Motion.inOut.transform(_fly.value);
                 final at = Offset.lerp(flight.from, flight.to, t)!;
                 final scale = 1 - 0.38 * t;
-                final fade = 1 - const Interval(0.4, 1, curve: Curves.easeIn).transform(_fly.value);
+                final fade = 1 - const Interval(0.4, 1, curve: Motion.exit).transform(_fly.value);
                 return Opacity(
                   opacity: fade,
                   child: Transform(
@@ -830,16 +830,20 @@ class _DeckCard extends StatelessWidget {
         fit: StackFit.passthrough,
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(MmSpace.cardPadding, 18, MmSpace.cardPadding, MmSpace.s12),
+            padding: const EdgeInsets.fromLTRB(MmSpace.cardPadding, 18, MmSpace.cardPadding, 0),
+            // The foot's room sits inside the clip, so the buttons' 48 dp targets are not cut at the card's foot.
             child: ClipRect(
-              child: Opacity(
-                opacity: contentOpacity,
-                child: Semantics(
-                  container: true,
-                  label: interactive ? SuggestedCopy.cardSemantics(at, of, card.cost, card.title, card.line, suggested: card.suggested) : null,
-                  // The words from the top, the buttons pinned to the foot (the mock's acts at
-                  // margin-top auto): a shorter card's room sits above its buttons, never under them.
-                  child: _PinFoot(gap: MmSpace.s12, body: words, foot: buttons),
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: MmSpace.s12),
+                child: Opacity(
+                  opacity: contentOpacity,
+                  child: Semantics(
+                    container: true,
+                    label: interactive ? SuggestedCopy.cardSemantics(at, of, card.cost, card.title, card.line, suggested: card.suggested) : null,
+                    // The words from the top, the buttons pinned to the foot (the mock's acts at
+                    // margin-top auto): a shorter card's room sits above its buttons, never under them.
+                    child: _PinFoot(gap: MmSpace.s12, body: words, foot: buttons),
+                  ),
                 ),
               ),
             ),

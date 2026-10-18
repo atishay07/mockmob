@@ -10,6 +10,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../copy_ahead.dart';
 import '../logic/marks_trend.dart';
@@ -182,7 +183,7 @@ class MarksPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final n = marks.length;
     if (n < 2 || size.width <= left + right) return;
-    final t = Curves.easeOut.transform(draw.value.clamp(0.0, 1.0));
+    final t = Motion.out.transform(draw.value.clamp(0.0, 1.0));
     final pts = [for (var i = 0; i < n; i++) point(size, marks, outOf, i)];
 
     final ref = referenceFor(marks);
