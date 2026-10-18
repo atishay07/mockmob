@@ -475,6 +475,39 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 - **Release 10 live** (main 75ac3f23, STATUS 23a7c090): one credits balance (D78), wallet, web Pro nudges (D79-D81, D84), Play billing server (off), Today taste fixes, light attempts list. Production migrations play_purchases, one_credits_balance, attempts_list_summary_fn applied with pre/post md5 checks and undo files. Flags WALLET_COMMERCE_OPEN, PLAY_BILLING_ENABLED, PERSISTENT_LIMITS_ENABLED stay off (his steps).
 - **Waiting on him:** Razorpay test-card run, Play Console setup, PERSISTENT_LIMITS_ENABLED, W-044 (glass-circle Today cue), his v15.2 hand check.
 
+### Owner at about 1:15 am, 19 Oct: v15.2 and release 10 hand check (G1-G33, verbatim in OWNER-FEEDBACK-2026-10-19.md)
+| # | Ask (short) | Status |
+|---|---|---|
+| G1 | First-open Mobi line and sub-line are broken English; rewrite in proper marketing English | OPEN |
+| G3 | College search: keyboard keeps cutting off, cannot search | OPEN |
+| G4 | Course list: BA (Hons) Business Economics listed as if a top DU course | OPEN |
+| G5 | Question: target multiple courses? | ANSWER |
+| G6 | College order: SRCC, Hindu, Hansraj, LSR (he says); we put LSR above Hansraj; check the data, show the basis | OPEN |
+| G7 | Only the first 3 colleges show on Today; 4th+ show nothing | OPEN |
+| G9 | Show "BCom (Hons) needs English + 3" before a pick, with the course's common sets (nice to have) | OPEN |
+| G11 | Bottom nav Today pill not evenly rounded | OPEN |
+| G12 | Suggested deck: a fresh account gets 1 card; bad end copy; clock animation; need 3-4 real cards | OPEN |
+| G13 | "Do this next" accepted animation: make it better | OPEN |
+| G15 | Practice lacks Smart mock and NTA mock (v15.2 hid NTA with billing off) | OPEN |
+| G16 | Fresh account is incomplete vs his old account: "bare minimum" for testing | OPEN |
+| G17 | The Mob is hidden inside You | OPEN |
+| G18 | Own range input: 900-920 fails, shows "0 of 4 clear" then "Within your range" | OPEN |
+| G19 | "I don't know my range": estimate from about 5 NTA mocks | OPEN |
+| G20 | Review: no subject choice, cluttered, no recent mocks, no clear history path | OPEN |
+| G21 | Ask Mobi: "Ask now" and "Ask your record", big and useful | OPEN |
+| G22 | No completion moment; weak result screen on mobile; reveal animation gone (regression) | OPEN |
+| G23 | PRINCIPLE: 16-17-year-olds, many new to apps and CBT; simple, obvious, guided | RULE |
+| G24 | Web IA: Mob inside Study, everything in Study, Planning inside Marks trends | OPEN |
+| G25 | Web: core stats gone from the top; Review order weird; "something is broken" | OPEN |
+| G26 | Web Practice: picking a subject shows "5 questions ... Biology" at the top instead of the mode | OPEN |
+| G27 | Web Start: sideways-scroll cue for the subject selector (asked before) | OPEN |
+| G28 | Web feels like an OLDER version: Full mock / NTA button gradient, textures and gradients gone | OPEN, investigate first |
+| G29 | Web: no visible "Sign out of this browser" | OPEN |
+| G30 | Homepage morphing text: basic; start the timed change only after the first screen settles | OPEN |
+| G31 | All animations feel faster and less refined than before | OPEN |
+| G32-G33 | Not satisfied; agents must think through every point, exceed it, and act, not loop | RULE |
+| KEEP | G2 first onboarding screen, G9 common sets and picks, G10 the bigger bar and animation, G14 Today | KEEP |
+
 ## Waiting on the owner (updated 18 Oct about 3:45 am)
 - Answered 3:50 am: M-001 first launch 3 s; M-006 bolder copy; D19 keep badges, refine; D22 Mob.
 - D32: confirm the kept landing element when he reviews the port live (wt-land3, port 3206).
