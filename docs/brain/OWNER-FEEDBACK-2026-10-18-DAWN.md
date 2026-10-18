@@ -395,3 +395,8 @@ His message was the pasted next-session prompt (resume from 25ef3d95, follow NOW
 > At the end, I have to manually only verify most of the things, so so many steps are just a waste of time. Most of the time should only be given to building the actual app, which has, I think, already been done. Keep that in mind and increase the pace of the development."
 
 **Ledger D96:** ONE goal: the final app (everything from these days in one build) within about 1 hour. Skip the separate 1.0.15+6 APK and everything else. The flow: merge everything, verify the features, ONE final walk that finds all the issues, then ONE fix pass, then the APK, installed on his phone. He verifies the rest himself.
+
+## Owner, 18 Oct about 8:55 pm IST (his choice)
+> "Keep swipe v2 in the final build, even if it lands around 10:30-10:45 pm."
+
+**Ledger D97:** swipe v2 stays in the final build. The target for the final APK is about 10:30-10:45 pm.
