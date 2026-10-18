@@ -17,7 +17,7 @@ export const STUDY_NAV = [
 export function arenaNavigation(moderator = false, { mob = false, contribute = false } = {}) {
   return [
     ...(moderator ? [{ label: 'Moderation', items: [item('moderation', 'Mod queue', 'moderation')] }] : []),
-    { label: 'Study', items: [...STUDY_NAV, sub(item('leaderboard', 'Your standing', 'ranks')), ...(mob ? [item('mob', 'Your Mob', 'mob')] : [])] },
+    { label: 'Study', items: [...STUDY_NAV, sub(item('leaderboard', 'Your standing', 'ranks')), ...(mob ? [item('mob', 'Mob', 'mob')] : [])] },
     { label: 'Planning', items: [item('analytics', 'Weak chapters', 'radar', '/analytics'), item('admission-compass', 'Colleges', 'colleges', '/admission-compass', 'DU cutoffs'), item('mentor', 'Ask Mobi', 'prepos')] },
     ...(contribute ? [{ label: 'Contribute', items: [item('upload', 'Contribute', 'contribute'), item('my-uploads', 'My uploads', 'uploads')] }] : []),
     { label: 'Account', items: [item('profile', 'Account', 'account'), item('help', 'Help and FAQ', 'help')] },
