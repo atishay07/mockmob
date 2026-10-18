@@ -171,6 +171,10 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
   /// visit (owner test 15 Oct: "something in the UI should be leading them below").
   final GlobalKey _roadKey = GlobalKey(debugLabel: 'today-road');
   final ValueNotifier<bool> _moreCue = ValueNotifier(false);
+
+  /// The cue's own slot: with the Suggested stack under the card (D51) it can sit below the bar
+  /// line, where nobody would see it; then it stays away.
+  final GlobalKey _cueKey = GlobalKey(debugLabel: 'today-cue');
   bool _cueDone = false;
   ScrollController? _ownScroll;
   bool _measureQueued = false;
@@ -222,6 +226,8 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
   /// there swaps the lead card exactly as a choice did; it never starts anything.
   Widget _suggested() {
     final hero = _shownHero;
+    // While Today loads, the stack's place is held (L03), so the week does not jump when it lands.
+    if (hero == null) return Padding(padding: const EdgeInsets.only(top: 28), child: SuggestedStackSkeleton(delay: widget.skeletonDelay));
     if (hero is! MoveHero || hero.kind == MoveKind.failure || hero.state == NextMoveState.historyUnavailable) return const SizedBox(width: double.infinity);
     final cards = buildSuggestedDeck(_shownChoices, glance: widget.view.glance);
     return Padding(
@@ -522,6 +528,11 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
       final top = road.localToGlobal(Offset.zero, ancestor: stack).dy;
       below = top > stack.size.height - _barTop - 24;
     }
+    final slot = _cueKey.currentContext?.findRenderObject();
+    if (below && slot is RenderBox && slot.attached && slot.hasSize) {
+      final bottom = slot.localToGlobal(Offset(0, slot.size.height), ancestor: stack).dy;
+      below = bottom <= stack.size.height - _barTop;
+    }
     _moreCue.value = below;
   }
 
@@ -697,7 +708,7 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
       // The move rises 12 dp and fades (4.8); its object then scales in place and the number lands.
       TodayEnter(delay: const Duration(milliseconds: 80), child: KeyedSubtree(key: _heroBoxKey, child: hero)),
       // The Suggested stack follows the card on the ground (D51), never inside it.
-      if (view.hero is MoveHero) TodayEnter(delay: const Duration(milliseconds: 140), rise: 8, child: _suggested()),
+      if (view.hero is MoveHero || view.hero == null) TodayEnter(delay: const Duration(milliseconds: 140), rise: 8, child: _suggested()),
     ];
     final road = view.road;
     final glance = view.glance;
@@ -818,7 +829,7 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
     // takes the place of the first block's own leading gap, so it can never sit over a card, a key
     // or a line, and fading it out never moves the page. It leads to the week (TODAY-1018 2a).
     if (view.road != null && view.hero != null) {
-      final cue = MoreBelowSlot(cue: _moreCue, onTap: _toRoad, label: GlanceCopy.cue);
+      final cue = KeyedSubtree(key: _cueKey, child: MoreBelowSlot(cue: _moreCue, onTap: _toRoad, label: GlanceCopy.cue));
       final gapAt = view.also.isEmpty && widget.weeklyEnding == null ? 1 : 0;
       if (after.length > gapAt && after[gapAt] is SizedBox) {
         after[gapAt] = cue;

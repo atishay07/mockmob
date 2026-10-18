@@ -181,9 +181,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
     if (!_dragging) return;
     _dragging = false;
     final top = _card(_pass.top);
-    final side = top == null
-        ? null
-        : MmDragPolicy.commits(_x.value, velocity, distance: _threshold, left: true, right: top.swipeable);
+    final side = top == null ? null : MmDragPolicy.commits(_x.value, velocity, distance: _threshold, left: true, right: top.swipeable);
     if (_past) setState(() => _past = false);
     switch (side) {
       case MmDragSide.right:
@@ -247,14 +245,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
       return;
     }
     final x = _x.value;
-    _flight = _Flight(
-      card: card,
-      from: Offset(x, _liftY(x)),
-      lean: x / deckLeanPer,
-      to: _leadOffset(),
-      at: _pass.skips + 1,
-      of: _pass.length,
-    );
+    _flight = _Flight(card: card, from: Offset(x, _liftY(x)), lean: x / deckLeanPer, to: _leadOffset(), at: _pass.skips + 1, of: _pass.length);
     _fly.forward(from: 0).whenCompleteOrCancel(() {
       if (mounted) setState(() => _flight = null);
     });
@@ -286,16 +277,16 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
   static double _peek(double depth) => depth <= 0
       ? 0
       : depth <= 1
-          ? deckPeek1 * depth
-          : depth <= 2
-              ? deckPeek1 + (deckPeek2 - deckPeek1) * (depth - 1)
-              : deckPeek2;
+      ? deckPeek1 * depth
+      : depth <= 2
+      ? deckPeek1 + (deckPeek2 - deckPeek1) * (depth - 1)
+      : deckPeek2;
   static double _scale(double depth) => 1 - 0.05 * depth.clamp(0.0, 2.0);
   static double _opacity(double depth) => depth <= 1
       ? 1 - 0.25 * depth
       : depth <= 2
-          ? 0.75 - 0.30 * (depth - 1)
-          : math.max(0, 0.45 * (3 - depth));
+      ? 0.75 - 0.30 * (depth - 1)
+      : math.max(0, 0.45 * (3 - depth));
 
   String get _hintLine {
     if (!_past) return SuggestedCopy.hint;
@@ -310,19 +301,30 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
     final type = context.mmType;
     if (widget.cards.isEmpty) {
       final more = widget.onMore;
-      return more == null ? const SizedBox.shrink() : Center(child: GlanceLink(label: GlanceCopy.moreWays, onTap: more));
+      return more == null
+          ? const SizedBox.shrink()
+          : Center(
+              child: GlanceLink(label: GlanceCopy.moreWays, onTap: more),
+            );
     }
     final ended = _pass.ended;
     final head = Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        Expanded(child: Semantics(header: true, child: Text(SuggestedCopy.title, style: type.title.copyWith(fontSize: 19)))),
+        Expanded(
+          child: Semantics(header: true, child: Text(SuggestedCopy.title, style: type.title.copyWith(fontSize: 19))),
+        ),
         const SizedBox(width: MmSpace.s12),
         Padding(
           padding: const EdgeInsets.only(bottom: 2),
           child: MmOverlapSwitcher.fade(
             alignment: Alignment.centerRight,
-            child: Text(_pass.countLine, key: ValueKey(_pass.countLine), textAlign: TextAlign.right, style: type.caption.copyWith(fontSize: 14, color: colors.ink3)),
+            child: Text(
+              _pass.countLine,
+              key: ValueKey(_pass.countLine),
+              textAlign: TextAlign.right,
+              style: type.caption.copyWith(fontSize: 14, color: colors.ink3),
+            ),
           ),
         ),
       ],
@@ -358,7 +360,12 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
               ? Padding(
                   padding: const EdgeInsets.only(top: MmSpace.s8),
                   child: MmOverlapSwitcher.fade(
-                    child: Text(_hintLine, key: ValueKey(_hintLine), textAlign: TextAlign.center, style: type.caption.copyWith(fontSize: 14, color: colors.ink3)),
+                    child: Text(
+                      _hintLine,
+                      key: ValueKey(_hintLine),
+                      textAlign: TextAlign.center,
+                      style: type.caption.copyWith(fontSize: 14, color: colors.ink3),
+                    ),
                   ),
                 )
               : const SizedBox(width: double.infinity),
@@ -417,15 +424,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
           );
         },
         child: RepaintBoundary(
-          child: _DeckCard(
-            key: SuggestedStack.topKey,
-            card: top,
-            at: _pass.skips + 1,
-            of: n,
-            interactive: true,
-            onSkip: _leaving ? null : () => _skip(),
-            onDo: _leaving ? null : () => _choose(top),
-          ),
+          child: _DeckCard(key: SuggestedStack.topKey, card: top, at: _pass.skips + 1, of: n, interactive: true, onSkip: _leaving ? null : () => _skip(), onDo: _leaving ? null : () => _choose(top)),
         ),
       ),
     );
@@ -451,7 +450,11 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
                 ),
               );
             },
-            child: _Stamped(yes: 1, no: 0, child: _DeckCard(card: flight.card, at: flight.at, of: flight.of)),
+            child: _Stamped(
+              yes: 1,
+              no: 0,
+              child: _DeckCard(card: flight.card, at: flight.at, of: flight.of),
+            ),
           ),
         ),
       );
@@ -475,8 +478,60 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
           excludeFromSemantics: true,
           behavior: HitTestBehavior.opaque,
           onTap: _leaving || !top.swipeable ? null : () => _choose(top),
-          child: IntrinsicHeight(child: Stack(fit: StackFit.expand, clipBehavior: Clip.none, children: children)),
+          child: IntrinsicHeight(
+            child: Stack(fit: StackFit.expand, clipBehavior: Clip.none, children: children),
+          ),
         ),
+      ),
+    );
+  }
+}
+
+/// The stack's place while Today loads (L03): the heading, one card with the peek under it, and
+/// the dots, at their resting heights. Today's skeleton already says it is loading.
+class SuggestedStackSkeleton extends StatefulWidget {
+  const SuggestedStackSkeleton({super.key, this.delay = const Duration(milliseconds: 400)});
+
+  /// Like Today's own skeleton, the bars show only after [delay]: a fast load never flashes them,
+  /// but the place is held from the first frame.
+  final Duration delay;
+
+  /// The skeleton's height: the heading, the card, the peek and the dots.
+  static const double height = 22 + MmSpace.s12 + 188 + deckPeek2 + MmSpace.s8 + 6;
+
+  @override
+  State<SuggestedStackSkeleton> createState() => _SuggestedStackSkeletonState();
+}
+
+class _SuggestedStackSkeletonState extends State<SuggestedStackSkeleton> {
+  Timer? _timer;
+  late bool _visible = widget.delay == Duration.zero;
+
+  @override
+  void initState() {
+    super.initState();
+    if (!_visible) _timer = Timer(widget.delay, () => mounted ? setState(() => _visible = true) : null);
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (!_visible) return const SizedBox(height: SuggestedStackSkeleton.height);
+    return const ExcludeSemantics(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Align(alignment: Alignment.centerLeft, child: Skeleton.line(width: 168, height: 22)),
+          SizedBox(height: MmSpace.s12),
+          Skeleton(height: 188, radius: MmRadius.panel),
+          SizedBox(height: deckPeek2 + MmSpace.s8 + 6),
+        ],
       ),
     );
   }
@@ -484,16 +539,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
 
 /// One card: what it costs, its title, its evidence, its art, and the two buttons.
 class _DeckCard extends StatelessWidget {
-  const _DeckCard({
-    super.key,
-    required this.card,
-    required this.at,
-    required this.of,
-    this.interactive = false,
-    this.contentOpacity = 1,
-    this.onSkip,
-    this.onDo,
-  });
+  const _DeckCard({super.key, required this.card, required this.at, required this.of, this.interactive = false, this.contentOpacity = 1, this.onSkip, this.onDo});
 
   final SuggestedCard card;
   final int at;
@@ -519,32 +565,54 @@ class _DeckCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               if (card.suggested) ...[
-                Text(SuggestedCopy.suggestedTag, style: type.micro.copyWith(color: accent, fontWeight: FontWeight.w700, letterSpacing: 0.2)),
+                Text(
+                  SuggestedCopy.suggestedTag,
+                  style: type.micro.copyWith(color: accent, fontWeight: FontWeight.w700, letterSpacing: 0.2),
+                ),
                 const SizedBox(height: MmSpace.s2),
               ],
-              if (card.cost != null) Text(card.cost!, maxLines: 2, overflow: TextOverflow.ellipsis, style: type.caption.copyWith(fontSize: 14, color: colors.ink3)),
+              if (card.cost != null)
+                Text(
+                  card.cost!,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: type.caption.copyWith(fontSize: 14, color: colors.ink3),
+                ),
               const SizedBox(height: MmSpace.s2),
-              Text(card.title, maxLines: 2, overflow: TextOverflow.ellipsis, style: type.title.copyWith(fontSize: 19, height: 24 / 19, letterSpacing: -0.2, color: colors.ink)),
+              Text(
+                card.title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: type.title.copyWith(fontSize: 19, height: 24 / 19, letterSpacing: -0.2, color: colors.ink),
+              ),
             ],
           ),
         ),
         const SizedBox(height: MmSpace.s6),
         Padding(
           padding: const EdgeInsets.only(right: MmSpace.s24),
-          child: Text(card.line, maxLines: 3, overflow: TextOverflow.ellipsis, style: type.small.copyWith(color: colors.ink2)),
+          child: Text(
+            card.line,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+            style: type.small.copyWith(color: colors.ink2),
+          ),
         ),
         // The buttons sit at the card's foot: every card in the deck is the tallest one's height.
         const SizedBox(height: MmSpace.s12),
         const Spacer(),
         // Side by side at the card's ends; under each other when large text cannot fit both.
-        Wrap(
-          alignment: WrapAlignment.spaceBetween,
-          crossAxisAlignment: WrapCrossAlignment.center,
-          runSpacing: MmSpace.s4,
-          children: [
-            _SkipButton(onTap: interactive ? onSkip : null, semanticsLabel: SuggestedCopy.skipSemantics(card.title)),
-            _DoButton(onTap: interactive ? onDo : null, semanticsLabel: SuggestedCopy.doThisSemantics(card.title)),
-          ],
+        SizedBox(
+          width: double.infinity,
+          child: Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            runSpacing: MmSpace.s4,
+            children: [
+              _SkipButton(onTap: interactive ? onSkip : null, semanticsLabel: SuggestedCopy.skipSemantics(card.title)),
+              _DoButton(onTap: interactive ? onDo : null, semanticsLabel: SuggestedCopy.doThisSemantics(card.title)),
+            ],
+          ),
         ),
       ],
     );
@@ -557,7 +625,13 @@ class _DeckCard extends StatelessWidget {
           label: interactive ? SuggestedCopy.cardSemantics(at, of, card.cost, card.title, card.line, suggested: card.suggested) : null,
           child: words,
         ),
-        Positioned(top: -4, right: -6, child: ExcludeSemantics(child: SizedBox(width: 76, height: 72, child: _Art(card: card)))),
+        Positioned(
+          top: -4,
+          right: -6,
+          child: ExcludeSemantics(
+            child: SizedBox(width: 76, height: 72, child: _Art(card: card)),
+          ),
+        ),
       ],
     );
     Widget out = DecoratedBox(
@@ -595,8 +669,18 @@ class _Stamped extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
         child,
-        if (yes > 0.01) Positioned(top: 16, left: 18, child: _Stamp(label: SuggestedCopy.doThis, color: accent, edge: accent, lean: -8, strength: yes)),
-        if (no > 0.01) Positioned(top: 16, right: 18, child: _Stamp(label: SuggestedCopy.skip, color: colors.ink2, edge: colors.ink3, lean: 8, strength: no)),
+        if (yes > 0.01)
+          Positioned(
+            top: 16,
+            left: 18,
+            child: _Stamp(label: SuggestedCopy.doThis, color: accent, edge: accent, lean: -8, strength: yes),
+          ),
+        if (no > 0.01)
+          Positioned(
+            top: 16,
+            right: 18,
+            child: _Stamp(label: SuggestedCopy.skip, color: colors.ink2, edge: colors.ink3, lean: 8, strength: no),
+          ),
       ],
     );
   }
@@ -610,12 +694,12 @@ class _Art extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Center(
-        child: switch (card.art) {
-          SuggestedArt.mobi => Mobi(pose: HeroArtView.poseFor(card.pose), size: 64),
-          SuggestedArt.stopwatch => const HybridStopwatch(height: 60),
-          SuggestedArt.subject => SubjectEmblem(subject: card.subjectId, size: EmblemSizes.tile, framed: false),
-        },
-      );
+    child: switch (card.art) {
+      SuggestedArt.mobi => Mobi(pose: HeroArtView.poseFor(card.pose), size: 64),
+      SuggestedArt.stopwatch => const HybridStopwatch(height: 60),
+      SuggestedArt.subject => SubjectEmblem(subject: card.subjectId, size: EmblemSizes.tile, framed: false),
+    },
+  );
 }
 
 /// "Do this instead" or "Skip", pressed onto the card as it crosses the threshold.
@@ -640,10 +724,17 @@ class _Stamp extends StatelessWidget {
         alignment: Alignment.center,
         transform: Matrix4.rotationZ(lean * math.pi / 180)..scaleByDouble(s, s, 1, 1),
         child: DecoratedBox(
-          decoration: BoxDecoration(color: colors.raised, borderRadius: const BorderRadius.all(Radius.circular(8)), border: Border.all(color: edge, width: 2)),
+          decoration: BoxDecoration(
+            color: colors.raised,
+            borderRadius: const BorderRadius.all(Radius.circular(8)),
+            border: Border.all(color: edge, width: 2),
+          ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-            child: Text(label, style: type.labelLarge.copyWith(fontSize: 15, height: 24 / 15, fontWeight: FontWeight.w700, color: color)),
+            child: Text(
+              label,
+              style: type.labelLarge.copyWith(fontSize: 15, height: 24 / 15, fontWeight: FontWeight.w700, color: color),
+            ),
           ),
         ),
       ),
@@ -678,7 +769,14 @@ class _SkipButton extends StatelessWidget {
             children: [
               Icon(LucideIcons.x, size: 18, color: colors.ink2),
               const SizedBox(width: MmSpace.s6),
-              Flexible(child: Text(SuggestedCopy.skip, maxLines: 1, overflow: TextOverflow.ellipsis, style: type.labelLarge.copyWith(fontSize: 14, fontWeight: FontWeight.w600, color: colors.ink2))),
+              Flexible(
+                child: Text(
+                  SuggestedCopy.skip,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: type.labelLarge.copyWith(fontSize: 14, fontWeight: FontWeight.w600, color: colors.ink2),
+                ),
+              ),
             ],
           ),
         ),
@@ -717,7 +815,14 @@ class _DoButton extends StatelessWidget {
             children: [
               Icon(LucideIcons.arrowUp, size: 18, color: colors.ink),
               const SizedBox(width: MmSpace.s8),
-              Flexible(child: Text(SuggestedCopy.doThis, maxLines: 1, overflow: TextOverflow.ellipsis, style: type.labelLarge.copyWith(fontSize: 14, fontWeight: FontWeight.w600, color: colors.ink))),
+              Flexible(
+                child: Text(
+                  SuggestedCopy.doThis,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: type.labelLarge.copyWith(fontSize: 14, fontWeight: FontWeight.w600, color: colors.ink),
+                ),
+              ),
             ],
           ),
         ),
@@ -787,7 +892,11 @@ class _EndCard extends StatelessWidget {
             children: [
               const Mobi(pose: MobiPose.think, size: 64),
               const SizedBox(height: MmSpace.s6),
-              Text(SuggestedCopy.allSeen(count), textAlign: TextAlign.center, style: type.labelLarge.copyWith(fontSize: 16, fontWeight: FontWeight.w600, color: colors.ink)),
+              Text(
+                SuggestedCopy.allSeen(count),
+                textAlign: TextAlign.center,
+                style: type.labelLarge.copyWith(fontSize: 16, fontWeight: FontWeight.w600, color: colors.ink),
+              ),
               Wrap(
                 alignment: WrapAlignment.center,
                 crossAxisAlignment: WrapCrossAlignment.center,

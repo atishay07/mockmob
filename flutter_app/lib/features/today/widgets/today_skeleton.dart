@@ -94,38 +94,47 @@ class _TodaySkeletonState extends State<TodaySkeleton> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   // The loaded hero's shape: overline and subject, the number with its meaning,
-                  // the sentence, the length chooser and the key, at their real heights.
+                  // the sentence, then the key and its price line at the foot (D51: the card ends
+                  // there; its other moves are the Suggested stack under it). The upper bars give
+                  // way first on a short card, so the key never overflows the card.
                   children: [
-                    const Skeleton.line(width: 96, height: 12),
-                    const SizedBox(height: MmSpace.s8),
-                    const Skeleton.line(width: 150, height: 24),
-                    const SizedBox(height: MmSpace.s16),
-                    const Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Skeleton(width: 68, height: 100, radius: 14),
-                        SizedBox(width: MmSpace.s12),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [Skeleton.line(width: 96, height: 18), SizedBox(height: 6), Skeleton.line(width: 72, height: 18)],
+                    const Expanded(
+                      child: ClipRect(
+                        child: OverflowBox(
+                          alignment: Alignment.topLeft,
+                          maxHeight: double.infinity,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Skeleton.line(width: 96, height: 12),
+                              SizedBox(height: MmSpace.s8),
+                              Skeleton.line(width: 150, height: 24),
+                              SizedBox(height: MmSpace.s16),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Skeleton(width: 68, height: 100, radius: 14),
+                                  SizedBox(width: MmSpace.s12),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [Skeleton.line(width: 96, height: 18), SizedBox(height: 6), Skeleton.line(width: 72, height: 18)],
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: MmSpace.s16),
+                              Skeleton.line(),
+                              SizedBox(height: MmSpace.s8),
+                              Skeleton.line(width: 180),
+                            ],
+                          ),
                         ),
-                      ],
+                      ),
                     ),
                     const SizedBox(height: MmSpace.s16),
-                    const Skeleton.line(),
-                    const SizedBox(height: MmSpace.s8),
-                    const Skeleton.line(width: 180),
-                    const Spacer(),
-                    // The key, then the two pills under it.
                     const Skeleton(height: 56, radius: 28),
-                    const SizedBox(height: MmSpace.s12),
-                    const Row(
-                      children: [
-                        Expanded(child: Skeleton(height: 48, radius: 24)),
-                        SizedBox(width: 10),
-                        Expanded(child: Skeleton(height: 48, radius: 24)),
-                      ],
-                    ),
+                    const SizedBox(height: MmSpace.s8),
+                    const Skeleton.line(width: 220, height: 13),
                   ],
                 ),
               ),
