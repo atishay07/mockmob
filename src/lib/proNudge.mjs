@@ -220,7 +220,7 @@ const HEADS = Object.freeze({
   mob: { title: 'See your whole Mob, every week', lede: 'Pro opens the full side-by-side: who picked what, who changed an answer and how long each question took. Plus past weeks and up to 3 Mobs.' },
   // The Mob limit the student just hit (one Mob, or one Mob paper a week, on Free): the sheet answers that limit first.
   // src/lib/mob/model.mjs PRO_MAX_MOBS = 3; src/lib/server/mob/service.js gives Pro every Mob's weekly paper.
-  mob_limit: { title: 'Join up to 3 Mobs, one for each subject', lede: "Free includes one Mob and one Mob paper a week. With Pro, be in up to 3 Mobs and sit every Mob's weekly paper, with the full side-by-side after each one." },
+  mob_limit: { title: 'Join up to 3 Mobs at once', lede: "Free includes one Mob and one Mob paper a week. With Pro, be in up to 3 Mobs and sit every Mob's weekly paper, with the full side-by-side after each one." },
   // Study preferences (src/components/study/StudyWorkspace.jsx): the weekly plan and mixed revision are Pro; lessons stay free.
   study: { title: 'Plan your week, day by day', lede: "Pro saves a weekly plan, a subject and the minutes for each day, and mixes up to 20 concepts you have learned into one revision session. Lessons, reviews and Today's plan stay free." },
   // The benchmark rivals (src/components/ai/AIRivalArena.jsx, src/services/usage/getDailyUsage.js LIMITS.paid).

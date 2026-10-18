@@ -28,7 +28,7 @@ const PRO_ITEMS = [
   'Your Mob\'s shared trap, with its repair.',
   'Past weeks of your Mob.',
   'Extra papers on a chapter and length you choose.',
-  'Up to 3 Mobs, one for each subject.',
+  'Up to 3 Mobs at once.',
 ];
 
 /** Free only. One section, near the end of the page, so the paper and the ring come first. */
