@@ -117,6 +117,7 @@ List<Override> reviewOverrides({
   Map<String, AttemptDetail> details = const {},
   List<PendingResult> unopened = const [],
   CreditFigures? figures,
+  bool unknownFigures = true,
   Map<String, CheckOutcome>? checks,
 }) => [
   authSnapshotProvider.overrideWithBuild((ref, n) => const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', name: 'Riya')),
@@ -131,8 +132,9 @@ List<Override> reviewOverrides({
       unopened: unopened,
     ),
   ),
-  // The wallet figures the lead's cost lines read: unknown unless a test says (no cache or network behind them here).
-  creditFiguresProvider.overrideWithValue(figures ?? const CreditFigures()),
+  // The wallet figures the lead's cost lines read: unknown unless a test says (no cache or network behind them here). The repair
+  // ending's goldens pass [unknownFigures] false: their next-move line was drawn from the wallet read, not from unknown figures.
+  if (figures != null || unknownFigures) creditFiguresProvider.overrideWithValue(figures ?? const CreditFigures()),
   if (checks != null) reviewCheckOutcomesProvider.overrideWithValue(checks),
   creditsRepositoryProvider.overrideWith(() => StillCredits(credits)),
   rhythmRepositoryProvider.overrideWith(StillRhythm.new),

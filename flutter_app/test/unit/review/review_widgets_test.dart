@@ -55,7 +55,11 @@ void main() {
 
   testWidgets('a skipped question is a free "Try it again" in the foot of its chapter, never a repair', (tester) async {
     await pump(tester, const ReviewScreen());
-    // Mock 7 skipped three questions; the lead chapter's foot names the ones it holds as 44 dp chips.
+    // The costliest chapter (Partnership) skipped nothing, so no blank sentence leads the tab.
+    expect(find.textContaining('left blank. Try'), findsNothing);
+    // A chapter that holds a skipped question (Issue of shares, Q29 in Mock 2) opens on tap, and its foot names it as a 44 dp chip.
+    await tester.tap(find.text('Issue of shares').first);
+    await tester.pumpAndSettle();
     expect(find.textContaining('left blank. Try'), findsWidgets);
     final chips = find.bySemanticsLabel(RegExp(r'^Try it again, question \d+, Mock \d\. Free\.$'));
     expect(chips, findsWidgets);
