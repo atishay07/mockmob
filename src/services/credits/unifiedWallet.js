@@ -7,7 +7,8 @@ import { readAIWallet } from './aiCreditWallet';
  *   included = this month's free credits left (the AI wallet's included-left),
  *   bonus    = credits bought (the AI wallet's bonus credits),
  *   balance  = users.credit_balance (the starting credits and credits earned).
- * Returns { total, freeLeft, freeAllowance, resetAt, held, parts: { included, bonus, balance } }.
+ * Returns { known, total, freeLeft, freeAllowance, resetAt, held, parts: { included, bonus, balance } } (the same shape as the credits
+ * core's version, which replaces this file at the release merge; the core's also returns the AI wallet as `wallet`).
  * held = bonus + balance. A part that cannot be read makes the total null: unknown is never 0. Nothing here writes.
  */
 export async function getUnifiedWallet(user) {
@@ -23,11 +24,13 @@ export async function getUnifiedWallet(user) {
   const bonus = wallet?.known ? Number(wallet.bonusCredits) : null;
   const known = included !== null && bonus !== null && balance !== null;
   return {
+    known,
     total: known ? included + bonus + balance : null,
     freeLeft: included,
     freeAllowance: wallet?.known ? Number(wallet.includedMonthlyCredits) : null,
     resetAt: wallet?.known ? wallet.resetAt : null,
     held: bonus !== null && balance !== null ? bonus + balance : null,
     parts: { included, bonus, balance },
+    wallet,
   };
 }

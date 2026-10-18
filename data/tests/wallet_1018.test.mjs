@@ -4,8 +4,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
-import { CREDIT_PACKS, LEGACY_PACKS, getCreditPack, getCreditPackByPlanId } from '../../src/services/credits/creditPacks.mjs';
-import { packViews, walletCommerceOpen, perCreditInr } from '../../src/lib/wallet/walletPacks.mjs';
+import { CREDIT_PACKS, LEGACY_AI_PACKS, PLAY_PRODUCT_IDS, findCreditPack, findBuyableCreditPack } from '../../src/services/credits/creditPacks.mjs';
+import { packViews, walletCommerceOpen, perCreditInr, creditsLabel } from '../../src/lib/wallet/walletPacks.mjs';
 import { createWalletOrder, createPackOrder, verifyWalletPayment } from '../../src/lib/server/walletCheckout.js';
 import { walletBody, unifyHistory, creditsBuyLine } from '../../src/lib/server/wallet.js';
 import { buildHistory } from '../../src/lib/server/credits.js';
@@ -19,32 +19,31 @@ const OPEN = { WALLET_COMMERCE_OPEN: 'true' };
 
 // ---- the catalog -----------------------------------------------------------------------------------------------------
 test('pack catalog: one set, usable for everything: Rs 10 for 50, Rs 29 for 150, Rs 49 for 300 (featured)', () => {
-  assert.deepEqual(CREDIT_PACKS.map((p) => [p.packId, p.amountInr, p.credits, p.featured]), [
+  assert.deepEqual(CREDIT_PACKS.map((p) => [p.key, p.amountInr, p.credits, Boolean(p.featured)]), [
     ['credits_10_50', 10, 50, false], ['credits_29_150', 29, 150, false], ['credits_49_300', 49, 300, true],
   ]);
   assert.equal(CREDIT_PACKS.filter((p) => p.featured).length, 1);
   for (const p of CREDIT_PACKS) {
-    assert.equal(p.planId, p.packId);
+    assert.equal(p.planId, p.key);
     assert.equal(p.amountPaise, p.amountInr * 100);
-    assert.match(p.label, /^\d+ credits$/);
+    assert.equal(creditsLabel(p), `${p.credits} credits`);
   }
   assert.equal(perCreditInr(CREDIT_PACKS[0]), '0.20');
   assert.equal(perCreditInr(CREDIT_PACKS[2]), '0.16');
-  assert.deepEqual(packViews().map((p) => Object.keys(p)), CREDIT_PACKS.map(() => ['packId', 'label', 'credits', 'priceInr', 'pricePaise', 'perCreditInr', 'featured']));
-  assert.equal(CREDIT_PACKS.some((p) => /practice/.test(p.packId)), false, 'no separate practice packs');
+  assert.deepEqual(packViews().map((p) => Object.keys(p)), CREDIT_PACKS.map(() => ['packId', 'label', 'credits', 'priceInr', 'pricePaise', 'perCreditInr', 'fullMocks', 'featured']));
+  assert.equal(CREDIT_PACKS.some((p) => /practice/.test(p.key)), false, 'no separate practice packs');
 });
 
 test('retired AI packs cannot be ordered but a payment already taken for one still settles', () => {
-  assert.deepEqual(LEGACY_PACKS.map((p) => p.planId), ['ai_credits_prepos_10_50', 'ai_credits_prepos_20_150', 'ai_credits_prepos_50_400']);
-  for (const p of LEGACY_PACKS) {
-    assert.equal(getCreditPack(p.planId), null);
-    assert.equal(getCreditPack(p.key), null);
-    assert.equal(getCreditPackByPlanId(p.planId).credits, p.credits);
-    assert.doesNotMatch(p.label, /PrepOS/i);
+  assert.deepEqual(LEGACY_AI_PACKS.map((p) => p.planId), ['ai_credits_prepos_10_50', 'ai_credits_prepos_20_150', 'ai_credits_prepos_50_400']);
+  for (const p of LEGACY_AI_PACKS) {
+    assert.equal(findBuyableCreditPack(p.planId), null);
+    assert.equal(findBuyableCreditPack(p.key), null);
+    assert.equal(findCreditPack(p.planId).credits, p.credits);
   }
-  assert.equal(getCreditPackByPlanId('credits_29_150').amountPaise, 2900);
-  assert.equal(getCreditPackByPlanId('pro_monthly_99'), null);
-  assert.equal(getCreditPackByPlanId(''), null);
+  assert.equal(findCreditPack('credits_29_150').amountPaise, 2900);
+  assert.equal(findCreditPack('pro_monthly_99'), null);
+  assert.equal(findCreditPack(''), null);
 });
 
 test('the AI wallet service builds its packs from the one catalog and grants any pack into the held balance', () => {
@@ -53,6 +52,24 @@ test('the AI wallet service builds its packs from the one catalog and grants any
   assert.doesNotMatch(svc, /PrepOS top-up/);
   assert.match(file('src/lib/server/walletDeps.js'), /grantPurchasedAICredits/);
   assert.doesNotMatch(file('src/lib/server/walletDeps.js'), /practice/i);
+});
+
+test('compat with the credits core: the wallet reads only the core catalog names and the unified wallet keeps the core shape', () => {
+  // On the release merge the core's creditPacks.mjs and unifiedWallet.js replace these two files. Every wallet file may import only
+  // names the core exports, and the wallet only reads key, planId, amountInr, amountPaise, credits, featured and legacy from a pack.
+  const CORE_NAMES = ['CREDIT_PACKS', 'LEGACY_AI_PACKS', 'PLAY_PRODUCT_IDS', 'findCreditPack', 'findBuyableCreditPack'];
+  const importers = ['src/lib/wallet/walletPacks.mjs', 'src/lib/server/walletCheckout.js', 'src/services/credits/aiCreditWallet.js', 'data/tests/wallet_1018.test.mjs'];
+  for (const rel of importers) {
+    const matches = [...file(rel).matchAll(/import \{([^}]*)\} from '[^']*creditPacks\.mjs'/g)];
+    assert.ok(matches.length > 0, `${rel} imports the catalog`);
+    for (const m of matches) {
+      for (const name of m[1].split(',').map((n) => n.trim()).filter(Boolean)) assert.ok(CORE_NAMES.includes(name), `${rel} imports ${name}, which the core does not export`);
+    }
+  }
+  assert.deepEqual(Object.keys(PLAY_PRODUCT_IDS).sort(), CREDIT_PACKS.map((p) => p.key).sort());
+  for (const p of CREDIT_PACKS) assert.ok(findBuyableCreditPack(p.key) && findCreditPack(p.planId));
+  assert.match(file('src/services/credits/unifiedWallet.js'), /known,\n\s+total/);
+  assert.doesNotMatch(file('src/lib/wallet/walletPacks.mjs') + file('src/lib/server/walletCheckout.js'), /\.packId\b|getCreditPack\b|LEGACY_PACKS/, 'no pack.packId: the core catalog names a pack by key');
 });
 
 test('the flag is closed unless WALLET_COMMERCE_OPEN is exactly true', () => {
@@ -85,7 +102,7 @@ test('closed flag: no order, no payment row, no Razorpay call, for every pack', 
   for (const env of [{}, { WALLET_COMMERCE_OPEN: 'false' }]) {
     for (const pack of CREDIT_PACKS) {
       const deps = fakeDeps();
-      const r = await createWalletOrder({ userId: 'u1', packId: pack.packId, deps, env });
+      const r = await createWalletOrder({ userId: 'u1', packId: pack.key, deps, env });
       assert.equal(r.status, 503);
       assert.equal(r.body.error, 'WALLET_COMMERCE_CLOSED');
       assert.equal(r.body.message, 'Top-ups open soon.');
@@ -288,26 +305,28 @@ test('the balance: one figure, what a credit buys, the free allowance with its r
   assert.ok(unknown.lines.includes(WALLET_COPY.unknownLine));
 
   const zero = balanceTile(bodyOf({ unified: { total: 0, freeLeft: 0, freeAllowance: 50, held: 0, resetAt: '2026-10-31T18:30:00.000Z', parts: {} } }));
-  assert.deepEqual([zero.figure, zero.state, zero.lines[0]], ['0', 'zero', 'You have no credits left.']);
+  assert.deepEqual([zero.figure, zero.state, zero.lines[0]], ['0', 'zero', WALLET_COPY.zeroLine]);
 
   const pro = balanceTile(bodyOf({ paid: true, premiumUntil: '2027-07-31T18:29:59.000Z' }));
-  assert.ok(pro.lines.includes('Practice is included with your Pro plan until 31 July 2027.'));
+  assert.ok(pro.lines.includes('Practice is included with your Pro plan until 31 July 2027, so your credits go to Ask Mobi replies.'));
 });
 
 test('packs: price, size and value per credit; closed keys say Top-ups open soon, open keys say Add for; the featured pack is marked', () => {
   const closed = packRows(PAGE);
-  assert.deepEqual(closed.map((r) => [r.title, r.price, r.value, r.key, r.disabled, r.featured]), [
-    ['50 credits', '₹10', '₹0.20 a credit', 'Top-ups open soon', true, false],
-    ['150 credits', '₹29', '₹0.19 a credit', 'Top-ups open soon', true, false],
-    ['300 credits', '₹49', '₹0.16 a credit', 'Top-ups open soon', true, true],
+  assert.deepEqual(closed.map((r) => [r.title, r.price, r.value, r.perCredit, r.key, r.disabled, r.featured]), [
+    ['50 credits', '₹10', '1 full mock, or 50 questions', '₹0.20 a credit', 'Top-ups open soon', true, false],
+    ['150 credits', '₹29', '3 full mocks, or 150 questions', '₹0.19 a credit', 'Top-ups open soon', true, false],
+    ['300 credits', '₹49', '6 full mocks, or 300 questions', '₹0.16 a credit', 'Top-ups open soon', true, true],
   ]);
+  // An older server without the mock count still reads: the value falls back to the per-credit price.
+  assert.equal(packRows({ ...PAGE, packs: [{ ...PAGE.packs[0], fullMocks: undefined }] })[0].value, '₹0.20 a credit');
   const open = packRows({ ...PAGE, commerce: { open: true } });
   assert.deepEqual(open.map((r) => [r.key, r.disabled]), [['Add for ₹10', false], ['Add for ₹29', false], ['Add for ₹49', false]]);
   assert.equal(packRows({ ...PAGE, commerce: { open: true } }, { credits_10_50: { status: 'working' } })[0].disabled, true);
 });
 
 test('the Pro row shows for Free students only, in one quiet line', () => {
-  assert.equal(proRow(PAGE).text, 'Practice is included with Pro, ₹99 through 31 July 2027.');
+  assert.equal(proRow(PAGE).text, 'Get unlimited mocks: with Pro, practice never uses a credit. ₹99 through 31 July 2027.');
   assert.equal(proRow({ ...PAGE, plan: { name: 'Pro', until: '2027-07-31' } }), null);
   assert.equal(proRow(null), null);
 });
@@ -328,7 +347,7 @@ test('copy rules: sentence case, no exclamation mark, no em dash, no middle dot,
     assert.doesNotMatch(t, /!/, t);
     assert.doesNotMatch(t, /—|·/, t);
     assert.doesNotMatch(t, /\p{Extended_Pictographic}/u, t);
-    assert.doesNotMatch(t, /\b(amazing|unlock|boost|supercharge|incredible|limited time)\b/i, t);
+    assert.doesNotMatch(t, /\b(amazing|unlock|boost|supercharge|incredible|limited time|hurry|last chance|ends soon|only today|selling fast|countdown)\b/i, t);
     assert.doesNotMatch(t, /PrepOS|practice credits|AI credits/i, t);
   }
 });

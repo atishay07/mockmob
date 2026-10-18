@@ -8,8 +8,8 @@
 //     client), then createPackOrder. Closed flag = no order, no payment row, no Razorpay call.
 //   verifyWalletPayment: signature, then Razorpay's own record of the payment (amount, currency, captured), then one grant,
 //     idempotent on the payment id. Not gated by the flag: a payment already taken is always settled.
-import { getCreditPack, getCreditPackByPlanId } from '../../services/credits/creditPacks.mjs';
-import { walletCommerceOpen, WALLET_COMMERCE_CLOSED_MESSAGE } from '../wallet/walletPacks.mjs';
+import { findBuyableCreditPack, findCreditPack } from '../../services/credits/creditPacks.mjs';
+import { creditsLabel, walletCommerceOpen, WALLET_COMMERCE_CLOSED_MESSAGE } from '../wallet/walletPacks.mjs';
 
 /** One Razorpay order and its payment row for a validated pack. Returns { order, pack }. */
 export async function createPackOrder({ userId, pack, deps }) {
@@ -17,7 +17,7 @@ export async function createPackOrder({ userId, pack, deps }) {
     amount: pack.amountPaise,
     currency: 'INR',
     receipt: `credits_${userId}_${(deps.now || Date.now)()}`.slice(0, 40),
-    notes: { kind: 'credit_topup', userId, packKey: pack.key, packId: pack.packId, credits: String(pack.credits) },
+    notes: { kind: 'credit_topup', userId, packKey: pack.key, packId: pack.key, credits: String(pack.credits) },
   });
   await deps.createPayment({
     userId,
@@ -38,7 +38,7 @@ export async function createWalletOrder({ userId, packId, deps, env }) {
   if (!walletCommerceOpen(env)) {
     return { status: 503, body: { error: 'WALLET_COMMERCE_CLOSED', message: WALLET_COMMERCE_CLOSED_MESSAGE } };
   }
-  const pack = getCreditPack(packId);
+  const pack = findBuyableCreditPack(packId);
   if (!pack) return { status: 400, body: { error: 'Invalid credit pack' } };
   if (!(await deps.userExists(userId))) return { status: 404, body: { error: 'User not found' } };
   const { order } = await createPackOrder({ userId, pack, deps });
@@ -48,7 +48,7 @@ export async function createWalletOrder({ userId, packId, deps, env }) {
       ok: true,
       keyId: deps.keyId(),
       order,
-      pack: { packId: pack.packId, label: pack.label, credits: pack.credits, priceInr: pack.amountInr, pricePaise: pack.amountPaise },
+      pack: { packId: pack.key, label: creditsLabel(pack), credits: pack.credits, priceInr: pack.amountInr, pricePaise: pack.amountPaise },
     },
   };
 }
@@ -65,7 +65,7 @@ export async function verifyWalletPayment({ userId, input, deps }) {
 
   const record = await deps.getPaymentByOrderId(orderId);
   if (!record || record.userId !== userId) return { status: 404, body: { error: 'Credit order not found' } };
-  const pack = getCreditPackByPlanId(record.planId);
+  const pack = findCreditPack(record.planId);
   if (!pack) return { status: 400, body: { error: 'Payment is not a credit pack' } };
 
   if (!deps.verifySignature({ orderId, paymentId, signature })) {
@@ -83,12 +83,12 @@ export async function verifyWalletPayment({ userId, input, deps }) {
   }
 
   if (sameCapturedPayment(record, paymentId, pack.amountPaise)) {
-    return { status: 200, body: { ok: true, pack: pack.packId, granted: 0, balance: null, idempotent: true, alreadyCaptured: true } };
+    return { status: 200, body: { ok: true, pack: pack.key, granted: 0, balance: null, idempotent: true, alreadyCaptured: true } };
   }
 
   const grant = await deps.grant({ pack, userId, paymentId, orderId });
   if (!grant.ok) return { status: grant.status || 500, body: { error: grant.error || 'Failed to grant credits' } };
 
   await deps.updatePaymentByOrderId(orderId, { paymentId, status: 'captured', amountPaid: payment.amount, rawPayment: payment });
-  return { status: 200, body: { ok: true, pack: pack.packId, granted: grant.granted, balance: grant.balance, idempotent: Boolean(grant.idempotent) } };
+  return { status: 200, body: { ok: true, pack: pack.key, granted: grant.granted, balance: grant.balance, idempotent: Boolean(grant.idempotent) } };
 }

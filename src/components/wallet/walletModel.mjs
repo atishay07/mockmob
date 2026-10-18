@@ -26,24 +26,25 @@ export function longDate(ymd, { year = false } = {}) {
 
 export const WALLET_COPY = Object.freeze({
   title: 'Wallet',
-  lede: 'Your credits, what they buy, and how to add more.',
+  lede: 'One balance pays for every practice question and every Ask Mobi reply. Credits you buy never expire.',
   loading: 'Reading your wallet',
   failed: 'Your wallet did not load. Nothing was spent.',
   retry: 'Try again',
   unknown: 'Unknown',
   unknownLine: 'This balance could not be read just now. Nothing was spent.',
   openSoon: 'Top-ups open soon',
-  openSoonNote: 'Top-ups are not open yet. The prices are shown so you can plan.',
+  openSoonNote: 'Top-ups open soon. Your free credits keep working until then.',
   historyHeading: 'Recent activity',
   historyEmpty: 'No credit activity yet. Your first question or Ask Mobi reply shows up here.',
   historyFailed: 'Your activity did not load. Your balances above are current.',
   heading: 'Credits',
-  packsHeading: 'Add credits',
+  packsHeading: 'Top up and keep going',
   proLink: 'See Pro',
-  proLine: (offer) => `Practice is included with Pro${offer?.rupees ? `, ₹${offer.rupees}${offer.expires ? ` through ${offer.expires}` : ''}` : ''}.`,
+  zeroLine: 'You are out of credits. Top up to keep practising, or ask Mobi again when your free credits return.',
+  proLine: (offer) => `Get unlimited mocks: with Pro, practice never uses a credit${offer?.rupees ? `. ₹${offer.rupees}${offer.expires ? ` through ${offer.expires}` : ''}` : ''}.`,
   proNow: (until) => {
     const d = longDate(until, { year: true });
-    return d ? `Practice is included with your Pro plan until ${d}.` : 'Practice is included with your Pro plan.';
+    return d ? `Practice is included with your Pro plan until ${d}, so your credits go to Ask Mobi replies.` : 'Practice is included with your Pro plan, so your credits go to Ask Mobi replies.';
   },
 });
 
@@ -97,11 +98,11 @@ export function balanceTile(data) {
     ...(held !== null ? [`Credits you hold: ${fmt(held)}. They do not expire.`] : []),
     ...(data?.plan?.name === 'Pro' ? [WALLET_COPY.proNow(data.plan.until)] : []),
   ];
-  if (total === 0) lines.unshift('You have no credits left.');
+  if (total === 0) lines.unshift(WALLET_COPY.zeroLine);
   return { state: total === 0 ? 'zero' : 'known', figure: fmt(total), lines };
 }
 
-/** The packs as rows: the price, the size, the value per credit and the key's state. */
+/** The packs as rows: the price, the size, what it buys (full mocks or questions), the value per credit and the key's state. */
 export function packRows(data, phases = {}) {
   const open = Boolean(data?.commerce?.open);
   return (data?.packs || []).map((p) => {
@@ -110,7 +111,10 @@ export function packRows(data, phases = {}) {
       packId: p.packId,
       title: `${fmt(p.credits)} credits`,
       price: `₹${fmt(p.priceInr)}`,
-      value: `₹${p.perCreditInr} a credit`,
+      value: whole(p.fullMocks) !== null && whole(p.credits) !== null
+        ? `${p.fullMocks === 1 ? '1 full mock' : `${fmt(p.fullMocks)} full mocks`}, or ${questions(p.credits)}`
+        : `₹${p.perCreditInr} a credit`,
+      perCredit: `₹${p.perCreditInr} a credit`,
       featured: Boolean(p.featured),
       featuredLabel: 'Best value',
       disabled: !open || phase.status === 'working',

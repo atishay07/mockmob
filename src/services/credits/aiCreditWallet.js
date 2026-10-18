@@ -1,7 +1,7 @@
 import 'server-only';
 import { supabaseAdmin } from '@/lib/supabase';
 import { CAPABILITIES } from '@/../data/capabilities';
-import { CREDIT_PACKS, getCreditPackByPlanId } from './creditPacks.mjs';
+import { CREDIT_PACKS, findCreditPack } from './creditPacks.mjs';
 import {
   PREPOS_PAUSED_MESSAGE,
   isPaidUser,
@@ -32,19 +32,16 @@ export function aiCommerceOpen() {
   return paidAiOpen() && CAPABILITIES.aiTopUps.state === 'available';
 }
 
-// The packs (one set, usable for everything) live in ./creditPacks.mjs. `status` reflects whether the older AI top-up checkout is
-// open; it never makes a pack look live while paused. A purchase of any pack is granted below, into the held (bonus) balance.
-export const AI_CREDIT_PACKS = CREDIT_PACKS.map((pack) => Object.freeze({
-  ...pack,
-  status: aiCommerceOpen() ? 'live' : 'paused',
-  description: `${pack.credits} credits that do not expire.`,
-}));
+// One set of credit packs, usable for everything (owner, 18 Oct 2026, D78); the catalog lives in ./creditPacks.mjs.
+// Plan IDs of the packs sold before (ai_credits_prepos_*) still resolve, so historical orders, late verifies and webhooks
+// grant exactly what was sold; they are never offered again. `status` reflects whether new purchases are open; it never
+// makes a pack look live while paused.
+const withStatus = (pack) => Object.freeze({ ...pack, status: pack.legacy ? 'retired' : aiCommerceOpen() ? 'live' : 'paused' });
+export const AI_CREDIT_PACKS = CREDIT_PACKS.map(withStatus);
 
-/** A pack by id or plan id for verify and the webhook: the current packs and the retired AI packs (old orders still settle). */
 export function getAICreditPack(packKeyOrPlanId) {
-  const pack = getCreditPackByPlanId(packKeyOrPlanId);
-  if (!pack) return null;
-  return AI_CREDIT_PACKS.find((p) => p.packId === pack.packId) || Object.freeze({ ...pack, status: 'retired', description: `${pack.credits} credits that do not expire.` });
+  const pack = findCreditPack(packKeyOrPlanId);
+  return pack ? withStatus(pack) : null;
 }
 
 export function isAICreditPackPlanId(planId) {

@@ -108,6 +108,7 @@ export default function WalletPageClient() {
                       <div className="wl-pack__what">
                         <b>{row.title}{row.featured ? <span className="wl-pack__tag">{row.featuredLabel}</span> : null}</b>
                         <span>{row.value}</span>
+                        <span>{row.perCredit}</span>
                       </div>
                       <div className="wl-pack__buy">
                         <span className="wl-pack__price">{row.price}</span>

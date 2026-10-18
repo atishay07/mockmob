@@ -2,7 +2,7 @@ import WalletPageClient from './WalletPageClient';
 
 export const metadata = {
   title: 'Wallet | MockMob',
-  description: 'Your practice credits and AI credits, and how to add more.',
+  description: 'One credits balance for every practice question and Ask Mobi reply, and how to top up.',
 };
 
 export default function WalletPage() {
