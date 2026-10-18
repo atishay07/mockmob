@@ -44,6 +44,17 @@ void main() {
       expect(sample.text, 'Free, your first one in Economics');
     });
 
+    // C-dec 1 (release 11): the first full mock in each subject is free; the server prices it at 0 with this allowance.
+    test('the first full mock in a subject says it is on us, not "Free today"', () {
+      final line = costLineFor(q(cost: 0, balance: 100, allowance: {'kind': 'first_full_mock:accountancy', 'state': 'available'}));
+      expect(line.kind, CostKind.freeFirst);
+      expect(line.isFree, isTrue);
+      expect(line.text, 'Free: your first full mock in this subject is on us.');
+      // Used up, it is an ordinary Full mock again.
+      final used = costLineFor(q(cost: 50, balance: 120, allowance: {'kind': 'first_full_mock:accountancy', 'state': 'used'}));
+      expect(used.text, '50 credits. You have 120.');
+    });
+
     test('credits are quoted with the balance', () {
       final line = costLineFor(q(cost: 50, balance: 120));
       expect(line.kind, CostKind.credits);

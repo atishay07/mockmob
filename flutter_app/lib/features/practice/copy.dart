@@ -262,6 +262,8 @@ abstract final class PracticeCopy {
   // Costs and free paths (the numbers always come from the quote).
   static const String freeToday = 'Free today';
   static String freeFirstIn(String subject) => 'Free, your first one in $subject';
+  /// C-dec 1 (release 11): the first full mock in each subject costs nothing (allowance `first_full_mock:<subject>`).
+  static const String freeFirstFullMock = 'Free: your first full mock in this subject is on us.';
   static String usesCredits(int cost, int? balance) =>
       balance == null ? '${plural(cost, 'credit')}.' : '${plural(cost, 'credit')}. You have $balance.';
   static const String unavailableFallback = 'This is not open right now.';
