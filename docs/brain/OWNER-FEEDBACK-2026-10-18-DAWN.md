@@ -278,3 +278,15 @@ His message was the pasted next-session prompt (resume from 25ef3d95, follow NOW
 **Ledger D70-D71:**
 - **D70** A full progress update, plus anything needed from his side.
 - **D71** Bring Pro, credits and pricing into the Play Store app (not website-only). Questions: does Google take 30%? Can Play prices be higher than the web? Is there a legitimate grey area? Answer with current, sourced Play policy for India, then a recommended plan.
+
+## Owner, 18 Oct about 6:25 pm IST (verbatim)
+> "I have seen many brands do this, and if we can also do it, maybe we can set the higher price at 150, but 150 doesn't sound as good as 99. I don't want to set it to something like 199 because that's almost double what we are normally charging. Is there any way around?
+>
+> I can't just increase it by ₹15 and say it's ₹115 here. I can't retain the same price. That's also a huge loss, giving away like 15%. When it sounds like ₹50, people will be happy to pay a premium on the Google Play app. Many people are in the ecosystem: they have many in the Google Play wallet, or they just trust apps more than websites. They won't find ₹50 extra.
+>
+> How exactly do you do it? Can you make some plan? Overall, I want everything that you said to be done by 10:30. You have not been running enough parallel agents and tasks. That's why it's been so slow."
+
+**Ledger D72-D74:**
+- **D72** Play price: higher than the web, by about ₹50; not ₹115 (too small), not ₹199 (almost double); "150 doesn't sound as good as 99". CTO answer: ₹149 on Google Play (a familiar app price point), ₹99 stays on the website.
+- **D73** A concrete plan for selling Pro and credits inside the Play app, and build it.
+- **D74** Everything said (release 9 with the Mob and credits per question, the final app, the Play billing build) done by 10:30 pm tonight; run more in parallel.
