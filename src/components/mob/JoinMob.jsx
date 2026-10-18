@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation';
 import { Logo } from '@/components/Logo';
 import { useAuth } from '@/components/AuthProvider';
 import { loginPathFor } from '@/lib/auth-redirect';
-import { ERRORS, COLOUR_COUNT, checkName, cleanName, initialOf, inviteExpiryLine, normalizeCode } from '@/lib/mob/model.mjs';
+import { ERRORS, COLOUR_COUNT, checkName, cleanName, initialOf, suggestName, inviteExpiryLine, normalizeCode } from '@/lib/mob/model.mjs';
 import { mobFetch } from './useMob';
 import { MobSeats, PaperFacts, Promises } from './MobIntro';
 import { errorDetail } from './mobFormat';
@@ -84,9 +84,9 @@ export default function JoinMob({ code: rawCode }) {
   useEffect(() => {
     if (!user?.name) return undefined;
     let cancelled = false;
-    Promise.resolve().then(() => { if (!cancelled) setName((n) => n || cleanName(user.name).split(' ')[0].slice(0, 18)); });
+    Promise.resolve().then(() => { if (!cancelled) setName((n) => n || suggestName(user.name, user.email)); });
     return () => { cancelled = true; };
-  }, [user?.name]);
+  }, [user?.name, user?.email]);
 
   // The sign-in page can take a moment to open; the key says so and takes no second tap until the route changes.
   const [opening, setOpening] = useState(false);

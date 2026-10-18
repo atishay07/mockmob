@@ -147,6 +147,24 @@ export function checkName(raw, blocklist = null) {
   return { ok: true, name };
 }
 
+/**
+ * The name to pre-fill on the join and start forms, or '' when there is no honest one. It is the first word of the
+ * account name when that passes checkName, else its first run of letters when that does. An account created by email
+ * code takes the email's local part as its name (cookieSession ensureDbUser), so a name equal to the local part is
+ * not offered at all: it is an address fragment, not a name the student chose to show friends ("rahul2007" would
+ * also fail NAME_RE, and the form must never fill in a name its own check refuses).
+ */
+export function suggestName(raw, email = '') {
+  const full = cleanName(raw);
+  if (!full) return '';
+  const local = typeof email === 'string' ? email.split('@')[0].trim().toLowerCase() : '';
+  if (local && full.toLowerCase() === local) return '';
+  const word = full.split(' ')[0].slice(0, NAME_MAX);
+  if (checkName(word).ok) return word;
+  const run = word.match(/^[\p{L}][\p{L}\p{M}]*/u)?.[0] || '';
+  return checkName(run).ok ? run : '';
+}
+
 export function nameBlocked(name, { contains = [], words = [] } = {}) {
   const lower = cleanName(name).toLowerCase();
   const folded = lower.replace(/[\s.'-]+/g, '');

@@ -2,6 +2,7 @@
 //   HIGH: data/evidence_registry.js must read its JSON relative to the file (import.meta.url), never process.cwd().
 //   LOW: the runner header for a Mob paper says "Mob paper"; a create that happened keeps its count when only the view after
 //        it fails; GET ?mob= with an empty value is a 400, not NOT_IN_MOB.
+//   MEDIUM (release 9 audit): the join and start forms pre-filled the email local part ("rahul2007"), which their own check refuses.
 // Run: node --test data/tests/release9b_mob_merge_1018.test.mjs
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -12,6 +13,7 @@ import { fileURLToPath } from 'node:url';
 import { PGlite } from '@electric-sql/pglite';
 import { createMobService } from '../../src/lib/server/mob/service.js';
 import { handleMob } from '../../src/lib/server/mob/http.js';
+import { checkName, suggestName } from '../../src/lib/mob/model.mjs';
 import { takePersistent } from '../../src/lib/server/rateLimitCore.js';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -114,4 +116,29 @@ test('LOW: GET ?mob= with an empty value is a 400 bad request; a real id that is
   const other = await handleMob(d, 'chapters', get('?mob=00000000-0000-4000-8000-000000000000'));
   assert.equal(other.status, 404);
   assert.equal((await other.json()).error.code, 'NOT_IN_MOB');
+});
+
+test('MEDIUM: the name pre-filled on the join and start forms always passes the form own check, and is never the email local part', () => {
+  const cases = [
+    ['Ananya Sharma', 'ananya.s@example.com', 'Ananya'],
+    ['rahul2007', 'rahul2007@example.com', ''],
+    ['Rahul2007', 'someone@example.com', 'Rahul'],
+    ['rahul_k', 'other@example.com', 'rahul'],
+    ['12345', 'x@example.com', ''],
+    ['A', 'a@example.com', ''],
+    ['', 'rahul@example.com', ''],
+    ['Priya', 'priya@example.com', ''],
+    [null, null, ''],
+    ['अनन्या Rao', 'x@example.com', 'अनन्या'],
+  ];
+  for (const [name, email, want] of cases) {
+    const got = suggestName(name, email);
+    assert.equal(got, want, `${name} / ${email}`);
+    if (got) assert.equal(checkName(got).ok, true, `${got} must pass checkName`);
+  }
+  const join = read('src/components/mob/JoinMob.jsx');
+  const page = read('src/components/mob/MobPage.jsx');
+  assert.match(join, /suggestName\(user\.name, user\.email\)/);
+  assert.match(page, /suggestName\(user\?\.name \|\| '', user\?\.email \|\| ''\)/);
+  assert.doesNotMatch(join + page, /cleanName\((user\??\.name)[^)]*\)\.split/, 'no raw first-word pre-fill is left');
 });

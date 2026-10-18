@@ -19,7 +19,7 @@ import ArenaHead from '@/components/arena/ArenaHead';
 import { ToggleRow } from '@/components/ui/controls/ToggleRow';
 import { resolveSubject } from '@/../data/subject_registry';
 import {
-  CLOSED_LINE, CLOSES_LINE, COLOUR_COUNT, MAX_MEMBERS, canAfford, checkName, cleanName, costLine, initialOf,
+  CLOSED_LINE, CLOSES_LINE, COLOUR_COUNT, MAX_MEMBERS, canAfford, checkName, cleanName, costLine, initialOf, suggestName,
   inviteExpiryLine, nudgeLine, paperHref, paperLine, resultHref, seatsLine, togetherLine, trapLine,
 } from '@/lib/mob/model.mjs';
 import { MobRing } from './MobRing';
@@ -83,7 +83,7 @@ function NameField({ value, onChange, error, id }) {
 function StartForm({ user, mob, invited = false, skip = [], onStarted, onPreview, name: formName = 'start' }) {
   const subjects = useMemo(() => subjectsFrom(user).filter((s) => !skip.includes(s.id)), [user, skip]);
   const [subject, setSubject] = useState(() => subjects[0]?.id || '');
-  const [name, setName] = useState(() => cleanName(user?.name || '').split(' ')[0].slice(0, 18));
+  const [name, setName] = useState(() => suggestName(user?.name || '', user?.email || ''));
   const [colour, setColour] = useState(0);
   const [error, setError] = useState(null);
   const [nameError, setNameError] = useState(null);
