@@ -246,7 +246,7 @@ export function firstWeekPath(c = {}) {
   const lead = today && today.done === false && today.ready === true && LEAD[today.step.id] ? mark(LEAD[today.step.id](c), today.step, day) : null;
   return {
     day,
-    steps: rows.map((r) => ({ id: r.step.id, day: r.step.day, name: r.step.name, state: markState(r, day), done: r.done === true })),
+    steps: rows.map((r) => ({ id: r.step.id, day: r.step.day, name: r.step.name, state: markState(r, day), done: r.done === true, ready: r.ready === true })),
     done: live.filter((r) => r.done === true).length,
     total: live.length,
     today: today?.step.id || null,
@@ -267,4 +267,37 @@ export function railLine(path) {
   const names = path.steps.filter((s) => s.state === 'done').map((s) => s.name);
   const todays = path.steps.find((s) => s.state === 'today');
   return `Your first week, day ${path.day}. ${path.done} of ${path.total} steps done${names.length ? `: ${names.join(', ')}` : ''}.${todays ? ` Today: ${todays.name}.` : ''}`;
+}
+
+/**
+ * Whether the move on the lead card is today's step of the path (F18, release 9). Only then does the card's overline say the day
+ * ("Day 3 of your first week"); a check, a session waiting, a returning card, the student's own pick, or a regular move that leads
+ * because today's step is done or cannot run now, says "Up next" and the rail names today's step instead. Day 1's step (find, then
+ * fix) is led by the regular move itself (the starting set or the first Repair), so it counts while that step is undone.
+ */
+export function pathLeads(path, move, { picked = false } = {}) {
+  if (!path?.day || !move || picked || KEEPS_THE_LEAD.includes(move.id) || move.id === 'done') return false;
+  if (path.step) return move.step === path.step;
+  const today = path.steps?.find((s) => s.day === path.day);
+  return path.day === 1 && today?.id === 'start' && today.state !== 'done';
+}
+
+/**
+ * The one line under the rail that makes it read as a path (F18): it always names today's step, and what comes next.
+ *   leads   the card shows today's step: "Tomorrow: A second subject." (the overline already says the day and the title the step)
+ *   else    "Day 3 of 7: Weak chapters next." when the step is ready behind another move (a check, a pick); ", done." when it is
+ *           done; the step's name alone when it cannot run yet; the day alone when it does not apply
+ * The last day says so instead of a tomorrow. '' with no path.
+ */
+export function railCaption(path, leads = false) {
+  if (!path?.day) return '';
+  const steps = Array.isArray(path.steps) ? path.steps : [];
+  const today = steps.find((s) => s.day === path.day) || null;
+  const ahead = steps.find((s) => s.day > path.day && s.state !== 'na' && !s.done) || null;
+  const next = ahead ? (ahead.day === path.day + 1 ? `Tomorrow: ${ahead.name}.` : `Day ${ahead.day}: ${ahead.name}.`) : path.day >= FIRST_WEEK_DAYS ? 'The last step of your first week.' : '';
+  if (leads) return next || 'The last step of your first week.';
+  const of = `Day ${path.day} of ${FIRST_WEEK_DAYS}`;
+  if (!today || today.state === 'na') return `${of}.${next ? ` ${next}` : ''}`;
+  if (today.done) return `${of}: ${today.name}, done.${next ? ` ${next}` : ''}`;
+  return today.ready ? `${of}: ${today.name} next.` : `${of}: ${today.name}.${next ? ` ${next}` : ''}`;
 }

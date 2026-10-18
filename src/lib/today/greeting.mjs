@@ -19,3 +19,11 @@ export function greeting({ hour = 18, name = '', email = '', returning = false }
   const lead = returning ? 'Welcome back' : hour < 5 ? 'Hello' : hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
   return who ? `${lead}, ${who}` : lead;
 }
+
+/**
+ * The greeting only once the hour is known (D28, release 9): `hour` null (the server render, before this device's clock is read)
+ * gives null, so no screen ever draws a time-of-day greeting the server guessed. A known hour gives `greeting(...)`.
+ */
+export function greetingAt({ hour = null, ...rest } = {}) {
+  return Number.isInteger(hour) && hour >= 0 && hour < 24 ? greeting({ hour, ...rest }) : null;
+}

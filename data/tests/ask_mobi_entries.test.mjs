@@ -103,21 +103,17 @@ test('a mock opens with where the marks went, from the paper itself, and says no
   assert.equal(mockLabel({ mode: 'quick' }), 'This session');
 });
 
-test('Why this? opens with the card’s own reason and only the record facts the reason does not already say', () => {
+test('Why this? (release 9): the context carries the card’s reason and chapter, never the plan’s fact lines; the answer counts from the record', () => {
   const move = { id: 'check', why: 'Missed in 2 separate sessions. Start with a fresh check.' };
-  const plan = { primary: { facts: [
-    { basis: 'record', text: 'Missed in 2 separate sessions.' },
-    { basis: 'record', text: '3 of 9 answered right in Goodwill.' },
-    { basis: 'rule', text: 'Fresh checks open after a day.' },
-    { basis: 'record', text: '3 of 9 answered right in Goodwill.' },
-  ] } };
-  const ctx = todayContext({ move, plan });
-  assert.deepEqual(ctx, { kind: 'today', label: 'Today', reason: move.why, lines: ['3 of 9 answered right in Goodwill.'] });
-  assert.equal(todayContext({ move: { id: 'failed' }, plan }), null, 'nothing to explain when Today did not load');
+  const ctx = todayContext({ move });
+  assert.deepEqual(ctx, { kind: 'today', label: 'Today', reason: move.why, chapter: null, lines: [] });
+  assert.equal(todayContext({ move: { id: 'failed' } }), null, 'nothing to explain when Today did not load');
   assert.equal(todayContext({ move: null }), null);
-  assert.deepEqual(todayContext({ move: { id: 'dayOne', why: 'Ten questions.' }, plan: null }).lines, [], 'a new student has no record facts, and none are invented');
+  assert.deepEqual(todayContext({ move: { id: 'dayOne', why: 'Ten questions.' } }).lines, [], 'a new student has no record facts, and none are invented');
   const first = openingFor({ context: normalizeContext(ctx), insights: INSIGHTS, status: 'ready' });
-  assert.equal(first.reply, `${move.why} 3 of 9 answered right in Goodwill.`);
+  assert.ok(!first.reply.startsWith(move.why), 'the answer does not restate the card');
+  assert.match(first.reply, /^Most of your open marks are in Partnership: 11 wrong, of 34 questions over 4 sessions\./, 'counted from the same read as the chip');
+  assert.equal(first.source, 'From your record, 9 sessions and 250 questions');
   assert.equal(openingFor({ context: normalizeContext(todayContext({ move: { id: 'dayOne', why: 'Ten questions.' } })), insights: { state: 'empty' }, status: 'empty' }).source, 'From your plan', 'no record is claimed for a student who has none');
 });
 
@@ -146,7 +142,7 @@ test('every entry is wired once, with its one label, and none adds a card or an 
   assert.match(repairAsk, /openAskMobi\(\{ context, from: event\.currentTarget \}\)/);
   assert.match(read('src/components/today/TodayMove.jsx'), /ENTRY_LABELS\.today/);
   // Release 7: the 1018 lead card carries the entry; the context follows the lead (a swapped card asks about the swapped move).
-  assert.match(read('src/app/(app)/today/page.jsx'), /todayContext\(\{ move: lead, plan: data\.plan\.data \}\)/);
+  assert.match(read('src/app/(app)/today/page.jsx'), /todayContext\(\{ move: lead, revise: reviseData \}\)/);
   assert.match(read('src/app/(app)/today/page.jsx'), /askContext=\{askContext\}/);
   // Practice has one entry (release 6 merge): the Repairs and Ask Mobi line under the subject shelf (owner D5) carries "Ask Mobi what to practise".
   assert.match(read('src/app/(app)/dashboard/DashboardPageClient.jsx'), /<PracticeRepairs /);

@@ -159,7 +159,7 @@ test('move: returning after 7 days starts with the 3 open mistakes, says how man
   assert.equal(m.label, 'mistakes to repair');
   assert.match(m.why, /Your last paper was your Accountancy full mock on 9 Oct\. Its six open mistakes are still here; start with three\./);
   assert.equal(m.key.minutes, 10);
-  assert.equal(m.link.label, 'See all 6');
+  assert.equal(m.link.label, 'See all 6 mistakes');
   assert.equal(m.art, 'mobi');
   const warm = buildMove(base({ rhythm: rhythm({ daysSinceLastActivity: 9 }), repaired: new Map([['p7', 4]]) }));
   assert.equal(warm.label, 'questions to warm up');

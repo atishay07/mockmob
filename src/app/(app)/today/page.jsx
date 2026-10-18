@@ -26,7 +26,7 @@ import { firstWeekClock, firstWeekPath, stepOfDay, withFirstWeek } from '@/lib/t
 import { firstTimedMockHref } from '@/../data/first_timed_mock';
 import { TEST_MODES } from '@/../data/test_modes';
 import { usesLine } from '@/lib/creditCopy.mjs';
-import { greeting } from '@/lib/today/greeting.mjs';
+import { greetingAt } from '@/lib/today/greeting.mjs';
 import { freshPaper, reelSeen } from '@/lib/today/paperReel.mjs';
 import { todayKeyIn } from '@/lib/today/week.mjs';
 import { useToday } from '@/components/today/useToday';
@@ -70,8 +70,10 @@ function lengthsFor(move) {
 export default function Today() {
   const { user } = useAuth();
   const userId = user?.id || null;
-  const day = useSyncExternalStore(noSubscribe, dayLine, () => '');
-  const hour = useSyncExternalStore(noSubscribe, hourNow, () => 18);
+  // The date and the greeting come from this device's clock only (D28): the server has no hour, so its snapshot is null and the
+  // first paint draws a blank line of the same height, never a greeting for the wrong time of day ("Good evening" at 2:41 am).
+  const day = useSyncExternalStore(noSubscribe, dayLine, () => null);
+  const hour = useSyncExternalStore(noSubscribe, hourNow, () => null);
   const data = useToday(userId);
   const insights = useInsights(userId);
   const mobOn = useMobEnabled();
@@ -190,6 +192,10 @@ export default function Today() {
     return () => window.clearTimeout(t);
   }, []);
   const holdForStep = !waitedOut && stepReads.some((r) => r.status === 'loading');
+  // The first screen lands in one piece (W-042): the lead also waits for the reads This week, Road to CUET and Weak chapters draw
+  // from (the rhythm, the road, the study days, the record), under the same 1.5 s cap, so the lead, the week, the road and the
+  // weak chapters appear together instead of the glance column arriving 240 to 400 ms after the lead.
+  const holdForPage = !waitedOut && [data.rhythm, data.road, data.goal, insights].some((r) => r.status === 'loading');
   // The other moves, each a whole move (Repair, Revise, the weakest chapter, a full mock, another subject).
   const subjects = user?.subjects;
   const pool = useMemo(() => (rec && rec.id !== 'failed' ? choiceMoves({
@@ -208,9 +214,10 @@ export default function Today() {
   }, [storeKey]);
   const picked = rec && rec.id !== 'failed' && pickId && pickId !== rec.id ? pool.find((m) => m.id === pickId) || null : null;
   const lead = picked || rec;
-  // "Why this?" on the lead card (ASK-MOBI-1018, owner D36): Mobi opens already on the card's own reason, with the plan's record
-  // facts answered free. It follows the lead, so a swapped card asks about the swapped move.
-  const askContext = useMemo(() => (lead && lead.id !== 'failed' ? todayContext({ move: lead, plan: data.plan.data }) : null), [lead, data.plan.data]);
+  // "Why this?" on the lead card (ASK-MOBI-1018, owner D36): Mobi opens already answering, free. The answer leads with what the card
+  // does not say (which mistakes, when, the marks at stake), with every record count from the panel's own insights read, the same
+  // read as its record chip (release 9). It follows the lead, so a swapped card asks about the swapped move.
+  const askContext = useMemo(() => (lead && lead.id !== 'failed' ? todayContext({ move: lead, revise: reviseData }) : null), [lead, reviseData]);
   const choices = useMemo(() => {
     if (!lead || lead.id === 'failed') return [];
     return pickChoices(lead, picked ? [{ ...rec, suggested: true }, ...pool] : pool);
@@ -225,7 +232,7 @@ export default function Today() {
 
   // Failed only once every read the move needs has settled without one; while any is still on its way it is loading.
   const settled = [data.plan, data.papers, data.rhythm, data.facts].every((r) => r.status !== 'loading');
-  const phase = holdForStep ? 'loading' : rec && rec.id !== 'failed' ? 'ready' : rec?.id === 'failed' || settled ? 'failed' : 'loading';
+  const phase = holdForStep || holdForPage ? 'loading' : rec && rec.id !== 'failed' ? 'ready' : rec?.id === 'failed' || settled ? 'failed' : 'loading';
   // D29: after a fresh submission the paper's reel takes the lead's place once ("Play your paper back"), then Up next returns. The
   // paper is latched when the lead is ready, so the card stays for the visit (its own seen mark is written once it is on screen).
   const [reelId, setReelId] = useState(null);
@@ -242,16 +249,16 @@ export default function Today() {
   }) : []), [lead, papersData, reviseData, facts, repairedData, mobUnsat]);
 
   const away = data.rhythm.data?.daysSinceLastActivity;
-  const hello = greeting({ hour, name: user?.name, email: user?.email, returning: Number.isInteger(away) && away >= 7 });
+  const hello = greetingAt({ hour, name: user?.name, email: user?.email, returning: Number.isInteger(away) && away >= 7 });
   const dayOne = everSessions === 0;
-  const word = hour >= 17 || hour < 4 ? 'Tonight’s move' : 'Today’s move';
+  const word = hour != null && (hour >= 17 || hour < 4) ? 'Tonight’s move' : 'Today’s move';
 
   return (
     <div className="student-page student-page--today">
       <section className="pr ov today">
         <header className="today__head">
-          <p className="today__date">{day ? <time>{day}</time> : ' '}</p>
-          <h1 className="today__hello">{hello}</h1>
+          <p className="today__date">{day ? <time className="today__in">{day}</time> : ' '}</p>
+          <h1 className="today__hello">{hello ? <span className="today__in">{hello}</span> : <span className="sr-only">Today</span>}</h1>
         </header>
         <div className="today-grid">
           <div className="today-grid__main">

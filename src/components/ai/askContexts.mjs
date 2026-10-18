@@ -98,18 +98,67 @@ export function mockLabel({ source = null, mode = null } = {}) {
 export const mockEntryLabel = (mode) => (mode === 'full' || mode === 'nta' ? ENTRY_LABELS.mock : ENTRY_LABELS.session);
 
 /**
- * Today's "Why this?": the reason already on the card, then the plan's own record facts (basis: record) that the reason does
- * not already say, with their denominators. A fact is never repeated. Up to three.
+ * Today's "Why this?" (release 9). The card already shows the reason, so the answer leads with what the card does not say: which
+ * mistakes (the chapters of today's Revise questions, from the Revise read), and the chapter's own record (how many wrong and blank,
+ * when it was last missed, the marks at stake). Every record count in the answer comes from the same insights read as the panel's
+ * "Your record" chip (todayAnswer, called by the panel with its own read), so the answer and the chip can never disagree; the plan's
+ * separate fact lines ("2 saved sessions") are no longer sent. `revise` is Today's Revise read ({ due, chapters: [{ chapter, n }] }).
  */
-export function todayContext({ move = null, plan = null } = {}) {
+export function todayContext({ move = null, revise = null } = {}) {
   if (!move || move.id === 'failed') return null;
   const reason = clean(move.why);
-  const said = reason.toLowerCase();
-  const facts = (plan?.primary?.facts || [])
-    .filter((f) => f && f.basis === 'record' && clean(f.text))
-    .map((f) => clean(f.text))
-    .filter((text) => !said.includes(text.toLowerCase().replace(/\.$/, '')));
-  return { kind: 'today', label: 'Today', reason: reason || null, lines: [...new Set(facts)].slice(0, 3) };
+  const lines = [];
+  const due = move.id === 'revise' && whole(move.number) && move.number > 0 ? move.number : null;
+  const parts = Array.isArray(revise?.chapters) ? revise.chapters.filter((c) => clean(c?.chapter) && whole(c?.n) && c.n > 0) : [];
+  // Only when the chapters account for every question on the card, so the count in the line is the card's own count.
+  if (due && parts.length && parts.reduce((t, c) => t + c.n, 0) === due) {
+    const named = parts.slice(0, 3).map((c) => `${c.n} from ${clean(c.chapter)}`);
+    const rest = parts.slice(3).reduce((t, c) => t + c.n, 0);
+    if (rest) named.push(`${rest} from other chapters`);
+    lines.push(`Today's ${due}: ${named.length > 1 ? `${named.slice(0, -1).join(', ')} and ${named[named.length - 1]}` : named[0]}.`);
+  }
+  const chapter = clean(move.chapter) || (due && parts.length ? clean(parts[0].chapter) : '') || null;
+  return { kind: 'today', label: 'Today', reason: reason || null, chapter, lines };
+}
+
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+/** 'Thu 15 Oct' in India time, or '' for an unknown time. */
+function dayIn(at) {
+  const t = typeof at === 'number' ? at : Date.parse(at || '');
+  if (!Number.isFinite(t) || t < Date.UTC(2020, 0, 1)) return ''; // no real paper is older: anything earlier is not a time
+  const d = new Date(t + 19800000);
+  return `${DAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`;
+}
+
+/**
+ * The opening answer for Today's "Why this?": { reply, record } where `record` says the counts came from the insights read. With the
+ * record unreadable it is the card's reason and the context's own lines (nothing invented), else the context's lines then the
+ * chapter's record: the chapter named by the card, else the chapter with the most marks open.
+ */
+export function todayAnswer({ context = {}, insights = null } = {}) {
+  const own = (context.lines || []).map(clean).filter(Boolean);
+  if (insights?.state !== 'ready') {
+    const reply = [context.reason, ...own].filter(Boolean).join(' ');
+    return reply ? { reply, record: false } : null;
+  }
+  const rows = [...(insights.chapters?.ranked || []), ...(insights.chapters?.thin || [])];
+  const want = clean(context.chapter).toLowerCase();
+  const named = want ? rows.find((c) => clean(c?.chapter).toLowerCase() === want) || null : null;
+  const c = named || insights.chapters?.ranked?.[0] || null;
+  const lines = [...own];
+  if (c && whole(c.wrong) && whole(c.skip) && whole(c.n) && c.n > 0) {
+    const missed = c.wrong + c.skip;
+    const how = [c.wrong ? `${c.wrong} wrong` : null, c.skip ? `${c.skip} left blank` : null].filter(Boolean).join(' and ') || 'nothing missed';
+    const over = whole(c.sessions) && c.sessions > 0 ? ` over ${plural(c.sessions, 'session')}` : '';
+    lines.push(`${named ? '' : 'Most of your open marks are in '}${clean(c.chapter)}: ${how}, of ${plural(c.n, 'question')}${over}.`);
+    const last = dayIn(c.recent?.[0]?.completedAt ?? c.last);
+    if (missed > 0 && last) lines.push(`The last miss there was on ${last}.`);
+    const open = insights.ledger?.open;
+    if (missed > 0 && whole(c.open)) lines.push(`Those ${plural(missed, 'question')} were worth ${c.open} marks${whole(open) && open >= c.open ? `, of the ${open} open in your record` : ''}.`);
+  }
+  const reply = lines.join(' ') || clean(context.reason);
+  return reply ? { reply, record: lines.length > own.length } : null;
 }
 
 /** The weakest chapter's record line for Practice's row: "Partnership: 11 wrong of 34 answered", or null without one. */

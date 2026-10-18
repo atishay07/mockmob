@@ -11,6 +11,11 @@
 .app-shell .today__date { margin: 0; font-size: 13.5px; font-weight: 500; color: var(--a-ink-3); }
 .app-shell .today__date time { color: inherit; }
 .app-shell .today__hello { margin: 4px 0 0; font: 600 28px/1.12 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); overflow-wrap: anywhere; }
+/* D28: the server draws no greeting and no date (it has no hour); both lines keep their height, and the words fade in once this
+   device's clock is read, so the head never jumps and never shows the wrong time of day. */
+.app-shell .today__date { min-height: 1.5em; line-height: 1.5; }
+.app-shell .today__hello { min-height: 1.12em; }
+.app-shell .today__in { animation: today-fade 180ms var(--t-out) both; }
 
 /* Phone order is the reading order 1 to 8; wide screens split the doing (left) and the glance (right). */
 .app-shell .today-grid { display: flex; flex-direction: column; gap: 40px; min-width: 0; }
@@ -78,6 +83,12 @@
 .app-shell .tm__step[data-state='open'] { box-shadow: inset 0 0 0 1.5px var(--a-line-strong); }
 .app-shell .tm__step[data-state='ahead']::after { content: ''; width: 4px; height: 4px; border-radius: 50%; background: var(--a-line-strong); }
 .app-shell .tm__step[data-state='na']::after { content: ''; width: 8px; height: 2px; border-radius: 1px; background: var(--a-line-strong); }
+/* F18 (release 9): the rail reads as a path. Each mark has its day under it (today's in ink), and one line under the rail names
+   today's step and the next one. Quiet type, no fill, no volt. */
+.app-shell .tm__rail:has(.tm__step[data-day]) { margin-bottom: 20px; }
+.app-shell .tm__step[data-day]::before { content: attr(data-day); position: absolute; top: 19px; left: 50%; transform: translateX(-50%); font: 500 10.5px/1 var(--font-body); color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+.app-shell .tm__step[data-state='today']::before { color: var(--a-ink); font-weight: 700; }
+.app-shell .tm__path { margin: 0 0 8px; font-size: 13px; line-height: 1.4; color: var(--a-ink-2); text-wrap: balance; }
 .app-shell .tm__title { margin: 2px 0 0; font: 600 23px/1.2 var(--font-display); letter-spacing: -0.015em; color: var(--a-ink); text-wrap: balance; overflow-wrap: anywhere; }
 .app-shell .tm__art { position: absolute; top: -10px; right: -8px; display: grid; place-items: center; width: 112px; height: 112px; pointer-events: none; }
 .app-shell .tm__art img, .app-shell .tm__art picture, .app-shell .tm__art > * { max-width: 100%; max-height: 100%; }
@@ -158,9 +169,21 @@ html[data-theme='light'] .app-shell .tm__key:not([aria-disabled='true']) { box-s
 .app-shell .tm__more button:active { background: var(--a-hover); }
 @media (hover: hover) and (pointer: fine) { .app-shell .tm__more button:hover { background: var(--a-hover); color: var(--a-ink); } }
 .app-shell .tm__more button:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -3px; }
+/* A returning card's "See all 6 mistakes" shares the footer row with More ways to practise, split by a hairline (D27, release 9). */
+.app-shell .tm__more[data-split] { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.app-shell .tm__more .tm__all { display: flex; align-items: center; justify-content: center; min-height: 50px; padding: 0 12px; color: var(--a-ink-2); font: 600 14px/1.2 var(--font-body); text-align: center; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; transition: background-color 150ms ease, color 150ms ease; }
+.app-shell .tm__more[data-split] .tm__all { border-right: 1px solid var(--a-line); }
+.app-shell .tm__more .tm__all:active { background: var(--a-hover); }
+@media (hover: hover) and (pointer: fine) { .app-shell .tm__more .tm__all:hover { background: var(--a-hover); color: var(--a-ink); } }
+.app-shell .tm__more .tm__all:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -3px; }
 
 /* Loading: the skeleton holds the card's resting height and shows only after 400 ms. */
-.app-shell .tm--wait { min-height: 470px; gap: 14px; padding-bottom: 22px; animation: today-fade 200ms ease 400ms both; }
+/* W-042: each skeleton holds the height its loaded block usually has (the lead with a number, its two choices and More ways; the
+   week with its readout and caption; the road with today's two items), so the page lands in place with nothing pushed down. */
+.app-shell .tm--wait { min-height: 600px; gap: 14px; padding-bottom: 22px; animation: today-fade 200ms ease 400ms both; }
+.app-shell .tw--wait { min-height: 255px; }
+.app-shell .trd--wait .trd__readout { min-height: 240px; }
+@media (min-width: 1100px) { .app-shell .tm--wait { min-height: 540px; } }
 .app-shell .tm__sk { display: block; border-radius: 10px; background: var(--a-raised-2); }
 .app-shell .tm__sk--a { width: 34%; height: 14px; }
 .app-shell .tm__sk--b { width: 54%; height: 24px; }
@@ -175,10 +198,15 @@ html[data-theme='light'] .app-shell .tm__key:not([aria-disabled='true']) { box-s
 .app-shell .tm--failed .tm__or { margin-top: 20px; }
 
 /* ---------- The cue below the fold (W-044): phones only ---------- */
-.app-shell .tcue { display: flex; margin: -28px 0 -12px; transition: opacity 240ms var(--t-out), transform 240ms var(--t-out); }
+/* W-044: the cue stays in the page's flow under the lead card, and is sticky just above the dock's safe area (the dock is 64 px,
+   12 px above the safe area; the cue keeps 8 px clear of it), so at 390 x 844, where its own place falls behind the dock, it rests
+   on the fold above the dock at scroll 0 and settles back into its place as the page scrolls. It takes no extra room (no shift). */
+.app-shell .tcue { position: sticky; bottom: calc(84px + env(safe-area-inset-bottom)); z-index: 5; display: flex; justify-content: center; margin: -28px 0 -12px; pointer-events: none; transition: opacity 240ms var(--t-out), transform 240ms var(--t-out); }
+@media (min-width: 1024px) { .app-shell .tcue { bottom: calc(16px + env(safe-area-inset-bottom)); } }
 .app-shell .tcue[data-seen] { opacity: 0; transform: translateY(-4px); pointer-events: none; }
 .app-shell .tcue[data-wait] { visibility: hidden; pointer-events: none; }
-.app-shell .tcue__key { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 44px; padding: 0 4px; border: 0; border-radius: 12px; background: transparent; color: var(--a-ink-3); font: 500 14px/1.3 var(--font-body); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.app-shell .tcue__key { display: flex; align-items: center; justify-content: center; gap: 10px; max-width: 100%; min-height: 44px; padding: 0 6px 0 16px; border: 0; border-radius: 22px; background: var(--a-raised); box-shadow: inset 0 0 0 1px var(--a-line), var(--a-shadow-1); color: var(--a-ink-2); font: 500 14px/1.3 var(--font-body); cursor: pointer; pointer-events: auto; -webkit-tap-highlight-color: transparent; }
+.app-shell .tcue[data-seen] .tcue__key, .app-shell .tcue[data-wait] .tcue__key { pointer-events: none; }
 .app-shell .tcue__chev { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 13px; box-shadow: inset 0 0 0 1px var(--a-line-strong); color: var(--a-ink-2); animation: tcue-nudge 1400ms var(--t-out) 900ms 2 both; }
 .app-shell .tcue__key:active { background: var(--a-hover); }
 @media (hover: hover) and (pointer: fine) { .app-shell .tcue__key:hover { color: var(--a-ink); } }
@@ -255,7 +283,8 @@ html[data-theme='light'] .app-shell .tw__day[data-state='counted'] .tw__dot { bo
 .app-shell .trd__nowrap { white-space: nowrap; }
 .app-shell .trd__road { position: relative; margin: 2px 8px 8px; }
 .app-shell .trd__sel { position: absolute; z-index: 0; top: 0; bottom: 0; left: 0; width: calc(100% / 3); transform: translateX(calc(var(--sel, 0) * 100%)); transition: transform 240ms var(--t-io); pointer-events: none; }
-.app-shell .trd__sel::before { content: ''; position: absolute; inset: 0 3px; border-radius: 16px; background: var(--a-raised-2); box-shadow: inset 0 0 0 1px var(--a-line); }
+/* The tapped stop is marked by an ink underline that slides under it, not a raised tile: no card inside the road's outlined card (D27). */
+.app-shell .trd__sel::before { content: ''; position: absolute; left: 13px; right: 13px; bottom: 0; height: 2px; border-radius: 1px; background: var(--a-ink); }
 .app-shell .trd__stops { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 0; padding: 0; list-style: none; }
 .app-shell .trd__stop {
   display: grid; align-content: start; gap: 6px; width: 100%; min-height: 108px; padding: 12px 13px; border: 0; border-radius: 16px;
@@ -271,6 +300,7 @@ html[data-theme='light'] .app-shell .tw__day[data-state='counted'] .tw__dot { bo
 .app-shell .trd__fig b { font: 700 30px/1 var(--font-display); letter-spacing: -0.04em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
 .app-shell .trd__fig small { font: 600 14px/1 var(--font-body); color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
 .app-shell .trd__unit { font-size: 12.5px; line-height: 1.3; color: var(--a-ink-3); }
+.app-shell .trd__also { display: block; }
 /* A stretch: one segment for each thing counted, filled when done. The fill draws once, near to far, after the week's
    ticks (the page's one load moment); later changes fill in place. */
 .app-shell .trd__stretch { display: flex; align-items: center; gap: 3px; height: 14px; margin-top: 2px; }

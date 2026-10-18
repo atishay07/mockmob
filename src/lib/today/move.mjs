@@ -132,7 +132,7 @@ export function buildMove({ plan = null, planFailed = false, papers = null, rhyt
         id: 'returning', overline: 'Pick up where you left off', number: n, label: n === 1 ? 'mistake to repair' : 'mistakes to repair',
         why: `Your last paper was ${lastName} on ${lastWhen}. ${open === n ? `${open === 1 ? 'Its one mistake is' : `All ${word(open)} of its mistakes are`} still open.` : `Its ${word(open)} open mistakes are still here; start with ${word(n)}.`}`,
         key: { label: 'Start repair', href: `/result/${encodeURIComponent(last.id)}`, minutes: repairMinutes(n) },
-        link: open > n ? { label: `See all ${open}`, href: `/result/${encodeURIComponent(last.id)}` } : null,
+        link: open > n ? { label: `See all ${open} mistakes`, href: `/result/${encodeURIComponent(last.id)}` } : null,
         pills: pills(), art: 'mobi', mobiAct: 'hello', subject: last.subject, returning: true, open, aiEach: 1, paperAt: last.completedAt,
       };
     }

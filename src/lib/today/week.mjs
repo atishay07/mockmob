@@ -39,6 +39,18 @@ export function weekMarks({ rhythm, today, weekdays = null, firstDay = null }) {
   });
 }
 
+/**
+ * This week's study days, the one count This week and Road to CUET both print (D27, release 9): { done, total, text } from the
+ * rhythm's own figures ("4 of 4 study days"), or null while the goal is unknown. The full mocks the plan asks of the week are a
+ * separate count, never folded into this one.
+ */
+export function weekDays(rhythm) {
+  const total = Number(rhythm?.daysGoal);
+  if (!rhythm || !(total > 0) || !Number.isInteger(rhythm.studyDays)) return null;
+  const done = rhythm.studyDays;
+  return { done, total, text: `${done} of ${total} study ${total === 1 ? 'day' : 'days'}` };
+}
+
 /** One sentence for the marks, for a screen reader: "Monday counted, Tuesday counted, ...". */
 export function marksWords(marks) {
   const say = { counted: 'counted', planned: 'planned', open: 'not counted yet', rest: 'a rest day', before: 'before your first session' };
