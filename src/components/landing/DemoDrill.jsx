@@ -148,8 +148,8 @@ export function DemoDrill() {
           </p>
           <p className="mm-drill__verdict">
             {score >= 4
-              ? 'Sharp. A full mock is 50 of these in 60 minutes.'
-              : 'Good. Now you know where to start.'}
+              ? 'Sharp. Ready for 50 of these in 60 minutes?'
+              : 'Good. Now you know exactly where to start.'}
           </p>
 
           {missed.length > 0 ? (

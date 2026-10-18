@@ -64,8 +64,8 @@ export function ExamComparator() {
     <section className="lp-sec lp-exam-section" id="exam-experience" aria-labelledby="exam-title">
       <div className="mm-wrap">
         <div className="lp-exam-intro">
-          <div><h2 className="lp-h2" id="exam-title">Your practice space.<br />Your exam-day rehearsal.</h2>
-            <p className="lp-sub">Practise on MockMob’s calm screen. As exam day gets close, switch to the NTA-style screen and rehearse the real thing. Same questions, either way.</p></div>
+          <div><h2 className="lp-h2" id="exam-title">Practise calm.<br />Rehearse exam day.</h2>
+            <p className="lp-sub">Build speed in MockMob. As exam day gets close, flip to the NTA-style screen and rehearse. Same questions, either way.</p></div>
           <div className="lp-exam-switch" role="group" aria-label="Preview interface">
             <button type="button" aria-pressed={!classic} onClick={() => setMode('mockmob')}><Sparkles size={17} />MockMob</button>
             <button type="button" aria-pressed={classic} onClick={() => setMode('nta')}><Monitor size={17} />NTA style<span>Pro</span></button>

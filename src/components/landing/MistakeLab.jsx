@@ -292,7 +292,7 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
 
           {/* 4. Check */}
           <section className="ml__panel" data-active={step === 3} aria-hidden={step !== 3} inert={step !== 3 ? true : undefined} aria-label="Check it on fresh questions">
-            <p className="ml__eyebrow">Fresh questions, never repeats</p>
+            <p className="ml__eyebrow">Fresh questions, days apart</p>
             <ol className="ml__checks">
               {[['Tomorrow', 'First check'], ['In 3 days', 'Second check'], ['In a week', 'Does it hold?']].map(([when, what], i) => (
                 <li key={when} style={{ '--i': i }}>

@@ -42,7 +42,7 @@ Branch `web/land3-1018`, worktree `wt-land3`. This changes copy only. Layout, se
 | Bank line, after the subject claim | Every mock is drawn fresh from one live bank of N questions, so there is no fixed set to run out of, and Pro covers as many as you take. | Every mock is built fresh from one live bank of **N questions**: no fixed set to run out of, and no cap on Pro. | T-bank, T-pro. N is live from /api/stats; without it the line drops the number |
 | Exam link | Meet the exam before exam day | Try the exam-day screen | The NTA-style preview on this page (T-exam) |
 | Sample heading | Your first question starts here | Your first question. Go. | |
-| Sample note | Five original CUET-style questions, each with the reasoning behind the answer. | Five original CUET-style questions. Every answer explained. | DemoDrill `why` on all five |
+| Sample note | Five original CUET-style questions, each with the reasoning behind the answer. | Five original CUET-style questions. Every answer comes with the why. | DemoDrill `why` on all five |
 | Drill result, 4 or 5 right | Sharp. A full mock is 50 of these in 60 minutes. | Sharp. Ready for 50 of these in 60 minutes? | T-exam |
 | Drill result, fewer | Good. Now you know where to start. | Good. Now you know exactly where to start. | |
 | Proof 1 | 5 questions / Try them before you sign up | 5 questions / Free to try, no signup | |
@@ -71,7 +71,7 @@ Kept word for word. The statement is the owner's praised line, and the shelf not
 | Repair, body | Written from the official key. If the AI's own working disagrees with the key, you get no repair and no charge. | Why your pick was tempting, where it breaks, and the rule to keep. Written from the official key, or not written at all. | T-key |
 | Repair, take | If the two disagree, the question waits. You never get a guess. | If the AI can't match the key, the question waits. You never pay for a guess. | T-key |
 | SWOT, body | A SWOT after every mock, built from your own answers, times and earlier mocks, with the sets to do next. Free, no credits. | A SWOT after every mock, built from your answers, your times and your earlier mocks, with the exact sets to do next. Free. No credits. | T-swot |
-| SWOT, take | Partnership cost marks in each of your last 3 mocks. That is the first set. | Partnership cost marks in each of your last 3 mocks. It goes first. | `labStory.mjs` |
+| SWOT, take | Partnership cost marks in each of your last 3 mocks. That is the first set. | Partnership cost marks in each of your last 3 mocks. That set goes first. | `labStory.mjs` |
 
 **Kept as they are:**
 - Kicker "Mistake Lab" (the band name).
@@ -89,7 +89,7 @@ Kept word for word. The statement is the owner's praised line, and the shelf not
 | Repair, title | Fix why you missed it, not just what the answer was. | Fix why you missed it. Not just the answer. | |
 | Repair, body | …written from the official key. If the AI's own working disagrees with the key, you get no repair and no charge. | …all written from the official key. If the AI's working can't match the key, there's no repair and no charge. | T-key |
 | Repair, phone lede | Why your pick was tempting and where it breaks, written from the official key. No repair and no charge if the AI's working disagrees. | Why your pick was tempting, where it breaks, and the rule to keep. From the official key, or not at all. | T-key |
-| Replay, title | Replay a mock, answer by answer. | Replay your mock, answer by answer. | |
+| Replay, title | Replay a mock, answer by answer. | Replay your mock, move by move. | The replay timeline, in order |
 | Chapter review, title | Know which chapter to fix first. | Know the chapter to fix first. | |
 | Chapter review, body | …traces every miss back to its chapter, so tonight's session has a target… | …traces every miss to its chapter, so tonight has a target… | |
 | Combo, title | Choosing five papers? Check the combination first. | Picking five papers? Test the combination first. | `/cuet-subject-combination` |
@@ -127,12 +127,12 @@ Kept word for word. The statement is the owner's praised line, and the shelf not
 | Element | Current | New | Truth |
 |---|---|---|---|
 | H2 | Your practice space. / Your exam-day rehearsal. | Practise calm. / Rehearse exam day. | T-exam |
-| Sub | Practise on MockMob's calm screen. As exam day gets close, switch to the NTA-style screen and rehearse the real thing. Same questions, either way. | Build speed on MockMob's calm screen. As exam day gets close, flip to the NTA-style screen and rehearse. Same questions, either way. | T-exam |
+| Sub | Practise on MockMob's calm screen. As exam day gets close, switch to the NTA-style screen and rehearse the real thing. Same questions, either way. | Build speed in MockMob. As exam day gets close, flip to the NTA-style screen and rehearse. Same questions, either way. | T-exam |
 
 ### Stats band
 | Element | Current | New | Truth |
 |---|---|---|---|
-| Bank note | Every mock draws from this bank, so there is no set number of mocks. Scored +5 right, −1 wrong. | Every mock is built from this bank: no set number of mocks, and no cap on Pro. Marked +5 right, −1 wrong. | T-bank, T-pro |
+| Bank note | Every mock draws from this bank, so there is no set number of mocks. Scored +5 right, −1 wrong. | Every mock is built from this bank: no set number, no cap on Pro. Marked +5 right, −1 wrong. | T-bank, T-pro |
 
 ### Instagram
 | Element | Current | New |
@@ -174,3 +174,15 @@ The footer tagline lives in `MarketingFooter.jsx`, outside the landing files, an
 
 ## Seen while checking, not changed (data, not copy)
 The Changes scene still shows a change made 10:35 after the first pick (Q4, 3:45 to 14:20). L-033 bans "10:35 change times" as unrealistic. This is the session data in `labStory.mjs`, which `labStory.test.mjs` holds. Changing it is a data change for the owner's next landing pass.
+
+## Verified (18 Oct, against the running dev server on port 3206)
+- **Tests.** No existing test asserted the replaced lines, so none were edited.
+  - New: `src/components/landing/landingCopy.test.mjs` (6 tests). It locks the bold claims to the code that makes them true:
+    - Pro "unlimited mocks" holds only while the Pro list says unlimited.
+    - "Or not at all" holds only while a disagreement gives no repair and no charge.
+    - "Free. No credits." holds only while the SWOT uses no model and no credit.
+    - No landing source says "never repeats", "41 subjects", a guarantee or a hype word.
+  - Results: `node --test src/components/landing/*.test.mjs` passes 34 of 34. `npm run test:subjects` passes 30 of 30. `landing_content` and `sample_import` pass 12 of 12. eslint is clean on the changed files.
+- **Headless walk.** Headless Chrome via playwright-core, with its own profile. It covered every section and every held-story scene, at 390x844 and 1440x900, in Night and Day. Screenshots are in `tmp/land3-copy/` (before: `tmp/land3-copy/before/`).
+  - No horizontal overflow and no page errors.
+  - No text element gained a line against the before run; 4 elements at 390 and 7 at 1440 got shorter.

@@ -25,18 +25,18 @@ const timeTake = S.time.wrongAllOver && S.time.underAllRight
   : `${S.time.overCount} questions ran over pace.`;
 
 const SCENES = [
-  { key: 'time', tab: 'Time', Icon: Timer, title: 'See where every minute went.',
-    body: `Each question runs against CUET’s pace of ${S.pace}. The minutes past the line stand out, and so does what they bought.`,
+  { key: 'time', tab: 'Time', Icon: Timer, title: 'Find the minutes that cost you.',
+    body: `Every question runs against CUET’s pace of ${S.pace}. The overruns light up, and so does what they bought you.`,
     take: timeTake },
-  { key: 'changes', tab: 'Changes', Icon: ArrowLeftRight, title: 'Every answer you changed, on the clock.',
-    body: 'Your first pick, what you changed it to and when, and the marks each change won or cost.',
+  { key: 'changes', tab: 'Changes', Icon: ArrowLeftRight, title: 'Every second thought, on the clock.',
+    body: 'Your first pick, what you switched to and when, and the marks every switch won or cost.',
     take: `${S.changes.length} changes. Net ${signed(S.net)} marks.` },
   { key: 'repair', tab: 'Repair', Icon: Wrench, title: 'Repair the reason, not just the answer.',
-    body: 'Written from the official key. If the AI’s own working disagrees with the key, you get no repair and no charge.',
-    take: 'If the two disagree, the question waits. You never get a guess.' },
+    body: 'Why your pick was tempting, where it breaks, and the rule to keep. Written from the official key, or not written at all.',
+    take: 'If the AI can’t match the key, the question waits. You never pay for a guess.' },
   { key: 'swot', tab: 'SWOT', Icon: LayoutGrid, title: 'Leave every mock with a plan.',
-    body: 'A SWOT after every mock, built from your own answers, times and earlier mocks, with the sets to do next. Free, no credits.',
-    take: `Partnership cost marks in each of your last ${S.swot.partnershipLost.length} mocks. That is the first set.` },
+    body: 'A SWOT after every mock, built from your answers, your times and your earlier mocks, with the exact sets to do next. Free. No credits.',
+    take: `Partnership cost marks in each of your last ${S.swot.partnershipLost.length} mocks. That set goes first.` },
 ];
 
 const verdictIcon = (v, size = 12) => (v === 'right' ? <Check size={size} aria-hidden="true" /> : v === 'wrong' ? <X size={size} aria-hidden="true" /> : <Minus size={size} aria-hidden="true" />);

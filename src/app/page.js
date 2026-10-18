@@ -105,20 +105,20 @@ const STUDY_SUBJECTS = new Set(Object.keys(STUDY_RELEASE.units || {}).map(id => 
 // chips say what is true of the product. Each slide's demo screen lives in TourScreens.jsx, keyed by id.
 // Add `video: '/demos/<id>.mp4'` to a slide to play a real screen recording in its place.
 const TOUR = [
-  { id: 'arena', label: 'Practice', icon: <Timer size={18} aria-hidden="true" />, line: 'Drills and full mocks on the exam clock', kicker: 'Practice', title: 'Practise the way the exam runs.',
+  { id: 'arena', label: 'Practice', icon: <Timer size={18} aria-hidden="true" />, line: 'Drills and full mocks on the exam clock', kicker: 'Practice', title: 'Train on the exam’s own clock.',
     body: 'A short drill for a free evening, or a full 50-question, 60-minute mock for the weekend. Same timer, same question palette, same pressure.',
     points: ['Quick drills and full mocks', 'NTA-style screen and Smart practice with Pro', 'Close the tab mid-test and pick up where you left off'], chip: 'Marked +5 / −1, the way CUET marks it.', href: '/dashboard', cta: 'Start practising' },
-  { id: 'repair', label: 'Mistake Repair', icon: <Wrench size={18} aria-hidden="true" />, line: 'Fix why you got it wrong, not just the answer', kicker: 'Score Recovery', title: 'Fix why you missed it, not just what the answer was.',
-    body: 'After a wrong answer, see why your pick was tempting, where it breaks and what to remember, written from the official key. If the AI’s own working disagrees with the key, you get no repair and no charge.',
+  { id: 'repair', label: 'Mistake Repair', icon: <Wrench size={18} aria-hidden="true" />, line: 'Fix why you got it wrong, not just the answer', kicker: 'Score Recovery', title: 'Fix why you missed it. Not just the answer.',
+    body: 'After a wrong answer, see why your pick was tempting, where it breaks and what to remember, all written from the official key. If the AI’s working can’t match the key, there’s no repair and no charge.',
     points: ['If the AI and the key disagree, we hold the question back and you pay nothing', 'A 10-minute next step, then 5 fresh questions to test the fix'], chip: 'The AI explains only once its answer matches the official key.', href: '/signup', cta: 'Try Mistake Repair' },
   ...(STUDY_LIVE && STUDY_LESSONS ? [{ id: 'learn', label: 'Learn', icon: <BookOpenText size={18} aria-hidden="true" />, line: 'Learn the idea, then keep it', kicker: 'Learn', title: 'Learn the idea behind the mark, then keep it.',
     body: 'Short lessons with worked examples and the common mistake, then recall cards that return before you are likely to forget. When a chapter keeps costing you marks, its lesson is linked from your result.',
     points: [`${STUDY_LESSONS} lessons across ${STUDY_SUBJECTS} subjects, with more on the way`, 'Lessons and recall are free and use no credits', 'Then practise the same chapter with marks'], chip: 'Made to sit beside your NCERT.', href: '/learn', cta: 'Open Learn' }] : []),
-  { id: 'replay', label: 'Replay', icon: <History size={18} aria-hidden="true" />, line: 'See where the marks actually went', kicker: 'Mistake Replay', title: 'Replay a mock, answer by answer.',
+  { id: 'replay', label: 'Replay', icon: <History size={18} aria-hidden="true" />, line: 'See where the marks actually went', kicker: 'Mistake Replay', title: 'Replay your mock, move by move.',
     body: 'Every answer you changed, every question that ate your time, every skip, in the order it happened. Then turn the costly ones into a short drill.',
     points: ['An answer-by-answer timeline', 'Save any question to revisit later'], chip: 'The whole mock in order, so you pick what to fix.', href: '/review', cta: 'Review your mistakes' },
-  { id: 'radar', label: 'Chapter review', icon: <Radar size={18} aria-hidden="true" />, line: 'The chapter to fix first', kicker: 'Chapter review', title: 'Know which chapter to fix first.',
-    body: 'A score is just a number. Chapter review traces every miss back to its chapter, so tonight’s session has a target. Pro adds pace and changed-answer detail for every chapter.',
+  { id: 'radar', label: 'Chapter review', icon: <Radar size={18} aria-hidden="true" />, line: 'The chapter to fix first', kicker: 'Chapter review', title: 'Know the chapter to fix first.',
+    body: 'A score is just a number. Chapter review traces every miss to its chapter, so tonight has a target. Pro adds pace and changed-answer detail for every chapter.',
     points: ['Your weakest chapters, free after every mock', 'Built only from questions you attempted'], chip: 'Built from your attempts alone.', href: '/analytics', cta: 'See chapter review' },
   { id: 'prepos', label: 'Ask Mobi', icon: <Sparkles size={18} aria-hidden="true" />, line: 'Ask what to do tonight', kicker: 'Ask Mobi', title: 'Ask what to do tonight. Get one clear step.',
     body: 'Mobi reads your practice record and answers with the leak, the pace problem and a single next step: the same one you see on Today and in chapter review.',
@@ -126,7 +126,7 @@ const TOUR = [
   { id: 'compass', label: 'DU Compass', icon: <Compass size={18} aria-hidden="true" />, line: 'Your shortlist against real DU cutoffs', kicker: 'Admission Compass', title: 'Test your DU shortlist against real cutoffs.',
     body: 'Compare a score with published 2026 DU cutoffs by college, category and round, free. With Pro, Compass turns your practice into a paper-by-paper range for your shortlist.',
     points: ['Programme eligibility rules, free', 'Pro: your practice projected onto your shortlist, and the paper to improve first'], chip: 'Your practice, set against DU’s published cutoffs.', href: '/admission-compass', cta: 'Open Compass' },
-  { id: 'combo', label: 'Combo Planner', icon: <Combine size={18} aria-hidden="true" />, line: 'Choose your five CUET papers', kicker: 'Subject Combo Planner', title: 'Choosing five papers? Check the combination first.',
+  { id: 'combo', label: 'Combo Planner', icon: <Combine size={18} aria-hidden="true" />, line: 'Choose your five CUET papers', kicker: 'Subject Combo Planner', title: 'Picking five papers? Test the combination first.',
     body: 'Pick your DU goals and the subjects you can take, then see which five-paper combinations the published 2026 rules keep open.',
     points: ['Free to use', 'Compare combinations side by side'], chip: 'Tested against DU’s published 2026 rules.', href: '/cuet-subject-combination', cta: 'Plan my subjects' },
   { id: 'rival', label: 'Benchmarks', icon: <Trophy size={18} aria-hidden="true" />, line: 'Beat a target score under the clock', kicker: 'Benchmarks and leaderboard', title: 'Beat the score you’re aiming for.',
@@ -136,7 +136,7 @@ const TOUR = [
 
 const faqs = [
   { question: 'Can I try it before signing up?', answer: 'Yes. Answer five CUET-style questions at the top of this page, each with the reasoning behind the answer. No account needed.' },
-  { question: 'What is MockMob built for?', answer: 'Timed CUET UG practice, a clear read of every mistake, and one next step you can act on tonight. It covers the 15 subjects behind 19 of every 20 CUET papers, with DU eligibility and published cutoffs alongside.' },
+  { question: 'What is MockMob built for?', answer: 'Timed CUET UG practice, a clear read of every mistake, and one next step you can act on tonight. It covers the 15 subjects behind 19 of every 20 CUET papers, with DU eligibility and published cutoffs alongside. Every mock is built fresh from one live question bank, and Pro puts no cap on how many you take.' },
   { question: 'What is the Mistake Lab?', answer: 'After every mock, the Lab shows where your marks went: the time on each question, every answer you changed, the reason behind each miss, and a SWOT with the set to do next. Mistake Repair then fixes the reasoning, one mistake at a time.' },
   { question: 'What does Pro cost?', answer: OFFER.purchasable === 'monthly' ? `₹${OFFER.monthly.rupees} a month. It renews until you cancel in Account, and you keep Pro to the end of the month you paid for.` : `Monthly Pro at ₹${OFFER.monthly.rupees} a month is opening soon. Until then, ₹${OFFER.oneTime.rupees} once covers access through ${OFFER.oneTime.expires}, with no auto-renewal. Whoever pays now keeps the full term.` },
 ];
@@ -162,11 +162,11 @@ export default function LandingPage() {
                 {recoveryReleased() ? <><span className="lp-title__line">Find the mistake</span><span className="lp-title__line">behind the marks.</span></> : <>
                 <span className="lp-title__line">CUET 2027.</span>
                 <span className="lp-title__line">One mock.</span>
-                <span className="lp-title__line lp-title__morph">A clearer next step.</span>
+                <span className="lp-title__line lp-title__morph">No more guessing.</span>
                 </>}
               </h1>
               <p className="lp-lead" data-hero style={{ '--h': 1 }}>
-                {recoveryReleased() ? 'Find the missing step. Practise it. Check it on fresh questions. Built for CUET Commerce and English.' : 'Take a timed mock. See where every mark went. Know what to practise tonight.'}
+                {recoveryReleased() ? 'Find the missing step. Practise it. Check it on fresh questions. Built for CUET Commerce and English.' : 'Take a timed mock. See exactly where every mark went. Fix the right chapter tonight.'}
               </p>
               <QuestionBankLine className="lp-bank" data-hero style={{ '--h': 1 }} />
               <div className="lp-cta" data-hero style={{ '--h': 2 }}>
@@ -180,26 +180,26 @@ export default function LandingPage() {
               <Link href="/cuet-cutoff-calculator" className="lp-link lp-hero__tool" data-hero style={{ '--h': 4 }}>
                 Free DU eligibility and cutoff calculator
               </Link>
-              <a href="#exam-experience" className="lp-hero__exam-link"><Monitor size={16} aria-hidden="true" />Meet the exam before exam day</a>
+              <a href="#exam-experience" className="lp-hero__exam-link"><Monitor size={16} aria-hidden="true" />Try the exam-day screen</a>
             </div>
 
             <div className="lp-stage" id="try-practice" data-hero style={{ '--h': 2 }}>
-              <div className="lp-stage__heading"><span>Your first question starts here</span><span>No signup</span></div>
+              <div className="lp-stage__heading"><span>Your first question. Go.</span><span>No signup</span></div>
               <div className="lp-stage__card">
                 <DemoDrill />
               </div>
               <div className="lp-stage__path"><span>Answer</span><i /><span>Read why it’s right</span></div>
-              <p className="lp-stage__note">Five original CUET-style questions, each with the reasoning behind the answer.</p>
+              <p className="lp-stage__note">Five original CUET-style questions. Every answer comes with the why.</p>
             </div>
           </div>
 
           {/* Second hero beat: real, linked facts on a glass dock. Numbers and words only, no icon per fact (W-076: no icon grids). */}
           <div className="mm-wrap">
             <nav className="lp-proof" aria-label="Why students pick MockMob" data-hero style={{ '--h': 5 }}>
-              <a href="#try-practice"><b>5 questions</b><span>Try them before you sign up</span></a>
-              {DU_FACTS ? <a href="#du-eligibility"><b>{DU_FACTS.programmes}</b><span>DU programmes to check against your subjects</span></a> : null}
-              <a href="#exam-experience"><b>2 screens</b><span>MockMob or NTA style, your pick</span></a>
-              <a href="#your-prep"><b>60 min</b><span>50 questions, one full CUET mock</span></a>
+              <a href="#try-practice"><b>5 questions</b><span>Free to try, no signup</span></a>
+              {DU_FACTS ? <a href="#du-eligibility"><b>{DU_FACTS.programmes}</b><span>DU programmes, matched to your subjects</span></a> : null}
+              <a href="#exam-experience"><b>2 screens</b><span>Practise calm. Rehearse NTA style.</span></a>
+              <a href="#your-prep"><b>60 min</b><span>50 questions on the full CUET clock</span></a>
             </nav>
           </div>
         </section>
@@ -238,7 +238,7 @@ export default function LandingPage() {
             <Reveal className="lp-head lp-head--left lp-cinema-head">
               <p className="lp-kicker">Mistake Lab</p>
               <h2 className="lp-h2" id="inside-the-lab-title">Every mark, traced back to a moment.</h2>
-              <p className="lp-sub">A score tells you how it went. The Lab shows why: the minutes, the second thoughts, the reason behind each miss, and the plan for the next mock.</p>
+              <p className="lp-sub">Your score says how it went. The Lab says why: every minute, every second thought, the reason behind each miss, and the plan for your next mock.</p>
             </Reveal>
           </div>
           <LabCinema />
@@ -249,7 +249,7 @@ export default function LandingPage() {
           <div className="mm-wrap">
             <Reveal className="lp-head lp-head--left">
               <h2 className="lp-h2">What’s inside MockMob.</h2>
-              <p className="lp-sub">Practice, repair, replay and the plan that ties them together.</p>
+              <p className="lp-sub">Practise. Replay. Repair. Then one plan that ties it all together.</p>
             </Reveal>
             <FeatureTour slides={TOUR} />
           </div>
@@ -275,9 +275,9 @@ export default function LandingPage() {
             <div className="mm-wrap">
               <div className="lp-guide-head lp-guide-head--lead"><Reveal className="lp-head lp-head--left">
                 <p className="lp-kicker">DU Compass</p>
-                <h2 className="lp-h2">Put your shortlist beside the numbers.</h2>
+                <h2 className="lp-h2">Hold your shortlist up to real cutoffs.</h2>
                 <p className="lp-sub">
-                  Slide a score and see which colleges it would have cleared in 2026, by category and round.
+                  Slide a score. See which colleges it would have cleared in 2026, by category and round.
                 </p>
               </Reveal><MascotSeat station="compass" pose="pointing" label="Got a dream college? Let’s look." /></div>
               <Reveal delay={100}><CompassLadder data={SHOWCASE} /></Reveal>
@@ -285,7 +285,7 @@ export default function LandingPage() {
                 <div className="lp-cpro__copy">
                   <p className="lp-cpro__badge">Compass Pro</p>
                   <h3 className="lp-h3">Your practice, mapped to the colleges you want.</h3>
-                  <p>Turn your recorded practice into a paper-by-paper range. Compare it with your DU shortlist and see which paper has the most room to improve.</p>
+                  <p>Turn your practice into a paper-by-paper range. Set it against your DU shortlist and see which paper has the most marks open.</p>
                   <Link href="/pricing" className="lp-link">See what Pro includes</Link>
                 </div>
                 <ul className="lp-cpro__list">
@@ -304,9 +304,9 @@ export default function LandingPage() {
           <div className="mm-wrap">
             <MascotSeat station="eligibility" pose="pointing" label="Leave the counting to me." className="pip-seat--utility" />
             <Reveal className="lp-head">
-              <h2 className="lp-h2">Which DU courses fit your subjects?</h2>
+              <h2 className="lp-h2">Which DU courses are open to you?</h2>
               <p className="lp-sub">
-                Tick your subjects to see every DU programme they open under the 2026 rules, then compare college cutoffs in your category. Free, no signup.
+                Tick your subjects. See every DU programme they open under the 2026 rules, then compare college cutoffs in your category. Free, no signup.
               </p>
             </Reveal>
             <Reveal>
@@ -315,8 +315,8 @@ export default function LandingPage() {
             <Reveal as="aside" className="lp-combo" aria-label="CUET subject combination planner">
               <div>
                 <p className="lp-cpro__badge">Combo Planner</p>
-                <h3 className="lp-h3">Not sure which CUET subjects to pick?</h3>
-                <p>Choose your DU goals and available subjects. Compare five-paper combinations against the published 2026 rules before you fill the CUET form.</p>
+                <h3 className="lp-h3">Five CUET subjects. Pick them right.</h3>
+                <p>Set your DU goals and the subjects you can take. Compare five-paper combinations against the published 2026 rules before you fill the CUET form.</p>
               </div>
               <Link href="/cuet-subject-combination" className="mm-btn mm-btn--secondary">Plan my subjects</Link>
             </Reveal>
@@ -341,7 +341,7 @@ export default function LandingPage() {
             <Reveal className="lp-head lp-head--left">
               <p className="lp-kicker">MockMob on Instagram</p>
               <h2 className="lp-h2">Featured by CUET creators.</h2>
-              <p className="lp-sub">DU seniors and admissions creators have put MockMob in front of their audiences. Tap a reel to watch it here.</p>
+              <p className="lp-sub">DU seniors and admissions creators have put MockMob in front of their followers. Tap a reel and watch it right here.</p>
             </Reveal>
             <Reveal delay={100}><CreatorReels items={rankedReels()} profileUrl={INSTAGRAM.url} handle={INSTAGRAM.handle} asOf={STATS_AS_OF} /></Reveal>
           </div>
@@ -365,8 +365,8 @@ export default function LandingPage() {
           <div className="mm-wrap">
             <MascotSeat station="pricing" pose="attentive" label="No rush. Free stays free." className="pip-seat--utility" />
             <Reveal className="lp-head">
-              <h2 className="lp-h2">Start free. Go Pro when you want more room.</h2>
-              <p className="lp-sub">{OFFER.purchasable === 'monthly' ? `Pro is ₹${OFFER.monthly.rupees} a month. Cancel any month and keep what you paid for.` : `One payment of ₹${OFFER.oneTime.rupees} covers you through ${OFFER.oneTime.expires}. Monthly Pro at ₹${OFFER.monthly.rupees} is coming. Pay once now and keep every day you paid for.`}</p>
+              <h2 className="lp-h2">Start free. Go Pro for unlimited mocks.</h2>
+              <p className="lp-sub">{OFFER.purchasable === 'monthly' ? `Pro is ₹${OFFER.monthly.rupees} a month. Cancel any month and keep what you paid for.` : `₹${OFFER.oneTime.rupees} once covers Pro through ${OFFER.oneTime.expires}. Monthly Pro at ₹${OFFER.monthly.rupees} is on the way. Pay once now and keep every day you paid for.`}</p>
             </Reveal>
             <Reveal className="lp-plans">
               <div className="lp-plan">
@@ -415,8 +415,8 @@ export default function LandingPage() {
           </div>
           <Reveal className="mm-wrap lp-close__inner">
             <MascotSeat station="close" pose="greeting" label="See you at your first mock." />
-            <h2 className="lp-h2 lp-h2--xl">Five questions. Then your next move.</h2>
-            <p className="lp-sub">Answer five now. Sign up when you want MockMob to keep your record.</p>
+            <h2 className="lp-h2 lp-h2--xl">Five questions. Your move.</h2>
+            <p className="lp-sub">Answer five now. Sign up when you’re ready to keep score.</p>
             <CloseActions />
           </Reveal>
           {/* Every same-page "Try a CUET question" link lands on the live sample question, every time. */}
