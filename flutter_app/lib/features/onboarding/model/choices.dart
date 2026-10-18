@@ -4,9 +4,10 @@ import '../../../core/models/consent.dart';
 enum Stage {
   // The answers say only the stage: the CUET year is the tile's caption, so no title repeats
   // it (v15 taste pass; at 1.3x the old titles wrapped to four lines).
-  classTwelve('In Class 12', 'Class 12, writing in 2027', 2027, boards: true),
-  passedTwelve('Passed Class 12', 'Passed Class 12, writing in 2027', 2027),
-  classEleven('In Class 11', 'Class 11, writing in 2028', 2028),
+  // A no-break space keeps "Class 12" together when a large text size wraps the title.
+  classTwelve('In Class 12', 'Class 12, writing in 2027', 2027, boards: true),
+  passedTwelve('Passed Class 12', 'Passed Class 12, writing in 2027', 2027),
+  classEleven('In Class 11', 'Class 11, writing in 2028', 2028),
   notSure('Not sure yet', 'Writing in 2027, probably', 2027);
 
   const Stage(this.option, this.sheetLine, this.cuetYear, {this.boards = false});
