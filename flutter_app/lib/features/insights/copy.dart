@@ -312,14 +312,17 @@ abstract final class InsightsCopy {
   /// Under the field, before anything is sent: what the question in the field will cost, and who
   /// writes the reply. Said quietly, never in the way: a tap or Send goes straight to the answer.
   static const aiWrites = "An AI service writes Mobi's replies";
-  static String askNoteIdle(int? balance) => balance == null
-      ? 'Questions about your record are free. $aiWrites · 1 credit.'
-      : 'Questions about your record are free. $aiWrites · 1 of your $balance credits.';
+
+  // The price tail never splits across lines (non-breaking spaces): "1 of your 18 credits" stays whole.
+  static const _tail1 = '\u00a0·\u00a01\u00a0credit';
+  /// Before anything is typed the line says the same: record questions are marked Free on their own
+  /// tiles, and a typed record question swaps this for [askNoteFree].
+  static String askNoteIdle(int? balance) => askNoteCost(balance);
   static const askNoteFree = 'Free. Mobi answers this from your record.';
   static String askNoteCost(int? balance) => switch (balance) {
-        null => '$aiWrites · 1 credit',
-        1 => '$aiWrites · your last credit',
-        final n => '$aiWrites · 1 of your $n credits',
+        null => '$aiWrites$_tail1',
+        1 => '$aiWrites\u00a0·\u00a0your\u00a0last\u00a0credit',
+        final n => '$aiWrites\u00a0·\u00a01\u00a0of\u00a0your\u00a0$n\u00a0credits',
       };
   static String askNoteEmpty(String renew) => 'No AI credits left. They renew on $renew. Questions about your record stay free.';
 

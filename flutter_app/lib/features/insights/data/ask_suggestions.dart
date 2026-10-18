@@ -259,9 +259,9 @@ abstract final class AskSheetCopy {
   static const openCredits = 'Open AI credits';
   static const walletPaused = 'AI replies are paused. Record questions still work.';
   static const walletUnknown = 'AI credits not loaded';
-  static const recordFree = "Record questions free. An AI service writes the rest · 1 credit";
+  static const recordFree = thisCosts;
   static const thisIsFree = 'Free, from your record';
-  static const thisCosts = "An AI service writes Mobi's replies · 1 credit";
+  static const thisCosts = "An AI service writes Mobi's replies\u00a0·\u00a01\u00a0credit";
   static String noCredits(String renew) => '0 AI credits left. They reset on $renew. Questions about your record stay free. Nothing is charged from here.';
   static const paused = 'Written replies are paused just now. Questions about your record stay free. Nothing is charged from here.';
   static const blocked = 'Mobi cannot write replies right now. Questions about your record stay free. Nothing is charged from here.';
