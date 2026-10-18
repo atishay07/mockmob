@@ -352,6 +352,14 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 | C4 | Release 9 (the Mob, credits per question, the audited website fixes) ships on suites + independent verifier GO without waiting for his live look. | His 4 pm "should now be shipped" and D69 |
 | C5 | His phone gets the final APK when he is back and plugs it in (only the main session installs). | Nothing touches his phone without him |
 
+### Audit reconciliation: website release 8 (live 00328e54), 18 Oct about 4:45 pm (read-only, 5 surface auditors; evidence in tmp/ledger-audit-1018/results.json and screenshots)
+**Totals:** DONE 83, PARTIAL 31, NEEDS_DECISION 7, NOT_TESTABLE 1.
+
+- **DONE (verified on release 8):** D1, D10, D12, D13, D15, D16, D17, D19, D2, D21, D26, D29, D3, D32, D35, D38, D5, D53, D54, F12, F13, F15, F17, F2, L-004, L-014, L-016, L-017, L-018, L-019, M-002, N1, N11, N12, N15, N2, N3, N5, N7, N8, N9, W-002, W-003, W-005, W-008, W-012, W-013, W-017, W-018, W-023, W-026, W-029, W-030, W-032, W-034, W-035, W-038, W-040, W-041, W-047, W-050, W-051, W-052, W-055, W-057, W-060, W-061, W-062, W-064, W-067, W-068, W-069, W-070, W-074, W-076, W-078, W-082, W-083, W-093, W-094, W-095, W-097
+- **PARTIAL -> fixed in release 9 (wt-rel9, verifying; DONE only once live):** D28, W-042, W-044, D27 nits, F18, D18 and LOST-X-OF-Y, D15, F11 (one stem, one Repair), D6, D11 (Help -> Guide), N17 (Show me around), W-075, W-079, N6, D8 glyph, D7 badges in Night, M-006 (web onboarding), the /pricing/ai-credits false claim, the onboarding no-cap line, landing 'leaderboard' -> 'Your standing', one price framing, L-013 footer Help for guests, L-019 aurora removed, W-087 details.
+- **Still open after release 9:** D25 and W-085 app halves (the final app build), W-033 (needs a signed-in repair walk), W-042 real-account timing, D31 (his landing verdict), W-072/W-073/W-077 (broad premium sweeps), D9 and W-053 (Progress order), M-007 (Compass source check), D20 (Learn one tap on phones is a dock change), D22 (Mob mechanics beyond M1).
+- **Closed by the owner (D64):** W-099, W-046. **Decided (D65):** FLAT-10 -> 1 credit a question. **Open design question:** N4 (fine-tune).
+
 ## Waiting on the owner (updated 18 Oct about 3:45 am)
 - Answered 3:50 am: M-001 first launch 3 s; M-006 bolder copy; D19 keep badges, refine; D22 Mob.
 - D32: confirm the kept landing element when he reviews the port live (wt-land3, port 3206).
