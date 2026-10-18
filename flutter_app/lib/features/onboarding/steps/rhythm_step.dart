@@ -20,10 +20,11 @@ import '../widgets/step_layout.dart';
 
 /// Step 8: a pace the student can keep: minutes as three big bubbles (full mocks stay in Practice),
 /// study days as a "days a week" slider synced both ways with the seven day bubbles, and a time of
-/// day as four tiles with their sky. What the choice adds up to rolls live: the sessions and the
-/// hours before May (plain arithmetic on their own choices, board weeks at two, "about" because the
-/// exam date is expected), over a runway of the weeks left that fills or empties as the days change
-/// (owner, 18 Oct, D46 and D47).
+/// day as four tiles with their sky. What the choice adds up to rolls live, as the step's hero
+/// right under the title (v15 taste pass: below the fold the student dragged the slider and saw
+/// nothing change): the sessions and the hours before May (plain arithmetic on their own choices,
+/// board weeks at two, "about" because the exam date is expected). The runway of the weeks left
+/// fills or empties under the days (owner, 18 Oct, D46 and D47).
 class RhythmStep extends ConsumerWidget {
   const RhythmStep({super.key, required this.answers, required this.onNext});
 
@@ -54,8 +55,15 @@ class RhythmStep extends ConsumerWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          if (sessions > 0) ...[
+            EntranceItem.answer(
+              0,
+              child: _PaceHero(sessions: sessions, minutes: answers.minutes, weekly: weekly, year: stage.cuetYear),
+            ),
+            const SizedBox(height: MmSpace.s24),
+          ],
           EntranceItem.answer(
-            0,
+            1,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -69,7 +77,7 @@ class RhythmStep extends ConsumerWidget {
           ),
           const SizedBox(height: MmSpace.s32),
           EntranceItem.answer(
-            1,
+            2,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -85,19 +93,13 @@ class RhythmStep extends ConsumerWidget {
           if (sessions > 0) ...[
             const SizedBox(height: MmSpace.s32),
             EntranceItem.answer(
-              2,
-              child: _Readout(
-                sessions: sessions,
-                minutes: answers.minutes,
-                weekly: weekly,
-                year: stage.cuetYear,
-                boards: stage.boards,
-              ),
+              3,
+              child: _Readout(weekly: weekly, year: stage.cuetYear, boards: stage.boards),
             ),
           ],
           const SizedBox(height: MmSpace.s32),
           EntranceItem.answer(
-            3,
+            4,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -195,19 +197,19 @@ class _DaysSlider extends ConsumerWidget {
   }
 }
 
-/// What the pace adds up to: the sessions before May as a rolling figure, the hours they make
-/// from the chosen session length, and the runway of weeks with the chosen days lit.
-class _Readout extends StatelessWidget {
-  const _Readout({required this.sessions, required this.minutes, required this.weekly, required this.year, required this.boards});
+/// What the pace adds up to, the step's hero under the title: the sessions before May as a
+/// rolling figure and the hours they make, beside it. It rolls whenever the minutes or the days
+/// change, and a selection tick lands with it (the control's own tick comes first).
+class _PaceHero extends ConsumerWidget {
+  const _PaceHero({required this.sessions, required this.minutes, required this.weekly, required this.year});
 
   final int sessions;
   final int minutes;
   final List<int> weekly;
   final int year;
-  final bool boards;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.mmColors;
     final type = context.mmType;
     // The window's date is expected, not published: every count here is "about".
@@ -219,33 +221,56 @@ class _Readout extends StatelessWidget {
       label: '${ChoicesCopy.sessionsSpoken(sessions: shown, minutes: minutes, estimate: estimate)} '
           '${ChoicesCopy.runwaySpoken(weekly.length, weekly.isEmpty ? 0 : weekly.first)}',
       excludeSemantics: true,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              MonumentalNumber(value: '$shown', unit: ChoicesCopy.sessionsUnit, style: type.figure),
-              const SizedBox(width: MmSpace.s12),
-              Expanded(
-                child: Text(
-                  ChoicesCopy.sessionsLine(sessions: sessions, minutes: minutes, estimate: estimate, year: year, boards: boards),
-                  style: type.small.copyWith(color: colors.ink2),
-                ),
-              ),
-            ],
+          MonumentalNumber(
+            value: '$shown',
+            unit: ChoicesCopy.sessionsUnit,
+            style: type.figure,
+            onLanded: () => ref.read(hapticsProvider).selection(),
           ),
-          const SizedBox(height: MmSpace.s16),
-          RunwayStrip(weeks: weekly),
-          const SizedBox(height: MmSpace.s8),
-          Row(
-            children: [
-              Expanded(child: Text('${weekly.length} ${ChoicesCopy.weeksLeft}', style: type.caption.copyWith(color: colors.ink3))),
-              Text('May $year', style: type.caption.copyWith(color: colors.ink3)),
-            ],
+          const SizedBox(width: MmSpace.s12),
+          Expanded(
+            child: Text(
+              ChoicesCopy.sessionsHours(sessions: sessions, minutes: minutes, estimate: estimate, year: year),
+              style: type.body.copyWith(color: colors.ink2),
+            ),
           ),
         ],
       ),
+    );
+  }
+}
+
+/// The runway of weeks left, with the chosen days lit, under the days; how board weeks count.
+class _Readout extends StatelessWidget {
+  const _Readout({required this.weekly, required this.year, required this.boards});
+
+  final List<int> weekly;
+  final int year;
+  final bool boards;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        RunwayStrip(weeks: weekly),
+        const SizedBox(height: MmSpace.s8),
+        Row(
+          children: [
+            Expanded(child: Text('${weekly.length} ${ChoicesCopy.weeksLeft}', style: type.caption.copyWith(color: colors.ink3))),
+            Text('May $year', style: type.caption.copyWith(color: colors.ink3)),
+          ],
+        ),
+        if (boards) ...[
+          const SizedBox(height: MmSpace.s4),
+          Text(ChoicesCopy.boardsCount, style: type.caption.copyWith(color: colors.ink3)),
+        ],
+      ],
     );
   }
 }

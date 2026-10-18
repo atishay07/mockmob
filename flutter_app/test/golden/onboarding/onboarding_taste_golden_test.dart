@@ -10,6 +10,7 @@ import 'package:mockmob/features/onboarding/widgets/swipe_preview.dart';
 import 'package:mockmob/features/onboarding/model/answers.dart';
 import 'package:mockmob/features/onboarding/model/deck.dart';
 import 'package:mockmob/features/onboarding/screens/onboarding_flow.dart';
+import 'package:mockmob/features/onboarding/steps/plan_step.dart';
 
 import 'support.dart';
 
@@ -74,6 +75,12 @@ Future<void> _holdPreview(WidgetTester tester, double dx) async {
   await tester.pump();
 }
 
+/// Seals the plan with the tap path and lets the moment settle.
+Future<void> _seal(WidgetTester tester) async {
+  await _tap(tester, find.byKey(PlanStep.tapToSealKey));
+  await tester.pump(const Duration(seconds: 2));
+}
+
 void main() {
   for (final e in _sizes.entries) {
     // Subjects: a set tap brings the ratings up under the chosen set; the other sets fold.
@@ -100,6 +107,10 @@ void main() {
       overrides: () => onboardingOverrides(answers: studentUpTo(Steps.plan, step: Steps.save).copyWith(age: AgeAnswer.minor)),
       act: (tester) => _holdPreview(tester, -110),
     );
+    // Sealed: the sheet clear of the status bar, close above the bolder words.
+    onboardingGolden('taste_sealed_${e.key}', _flow, size: e.value, overrides: () => onboardingOverrides(answers: studentUpTo(Steps.rhythm, step: Steps.plan)), act: _seal);
+    // Pace: the live readout is the hero under the title.
+    onboardingGolden('taste_pace_${e.key}', _flow, size: e.value, overrides: () => onboardingOverrides(answers: studentUpTo(Steps.question, step: Steps.rhythm)));
     // Stage: short titles, the tick clear of them, the caption the only year.
     onboardingGolden('taste_stage_${e.key}', _flow, size: e.value, overrides: () => onboardingOverrides(answers: studentUpTo(Steps.stage)));
     // Marks: a fourth pick replaces the Third and Mobi names it.
@@ -129,6 +140,8 @@ void main() {
     textScale: 1.3,
     overrides: () => onboardingOverrides(answers: studentUpTo(Steps.plan, step: Steps.save).copyWith(age: AgeAnswer.minor)),
   );
+  onboardingGolden('taste_sealed_large_text', _flow, size: _sizes['360']!, textScale: 1.3, overrides: () => onboardingOverrides(answers: studentUpTo(Steps.rhythm, step: Steps.plan)), act: _seal);
+  onboardingGolden('taste_pace_large_text', _flow, size: _sizes['360']!, textScale: 1.3, overrides: () => onboardingOverrides(answers: studentUpTo(Steps.question, step: Steps.rhythm)));
   onboardingGolden('taste_stage_large_text', _flow, size: _sizes['360']!, textScale: 1.3, overrides: () => onboardingOverrides(answers: studentUpTo(Steps.stage)));
   onboardingGolden(
     'taste_subjects_set_large_text',

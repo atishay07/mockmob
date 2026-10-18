@@ -192,6 +192,9 @@ abstract final class OnboardingCopy {
   static const String change = 'Change';
   static const String sealed = 'Sealed';
   static const String planSet = 'Your plan is set.';
+
+  /// The seal moment's headline (v15 taste pass: bolder, and it says what was sealed).
+  static String sealedHeadline(String chapter) => 'Sealed. Week one: $chapter.';
   static const String changeSomething = 'Change something';
   static const String sharpens = 'It sharpens after your first check.';
   static const String changeTitle = 'What do you want to change?';

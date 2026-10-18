@@ -54,6 +54,18 @@ abstract final class ChoicesCopy {
     return '$time of practice $when, if you keep this.${boards ? ' During boards we count two a week.' : ''}';
   }
 
+  /// The hero line beside the sessions figure at the top of the pace step (v15 taste pass): what
+  /// the pace adds up to, in a few words. "About 31 hours before May".
+  static String sessionsHours({required int sessions, required int minutes, required bool estimate, required int year}) {
+    final hours = (sessions * minutes / 60).round();
+    final about = estimate ? 'About ' : '';
+    final time = hours >= 2 ? '$about$hours hours' : '$about${sessions * minutes} minutes';
+    return '$time before May${year == 2028 ? ' 2028' : ''}';
+  }
+
+  /// Under the runway: how the count treats the board weeks.
+  static const String boardsCount = 'During boards we count two a week.';
+
   static String sessionsSpoken({required int sessions, required int minutes, required bool estimate}) =>
       '${estimate ? 'About ' : ''}$sessions sessions of $minutes minutes before CUET.';
   static const String sessionsUnit = 'sessions';

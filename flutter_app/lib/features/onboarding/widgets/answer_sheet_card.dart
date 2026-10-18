@@ -88,6 +88,7 @@ class AnswerSheetCard extends StatelessWidget {
     // around them, so the progress is not a box above the step's own boxes). The 8 dp above and
     // below hold the strip's old height, so nothing under it moves.
     if (slim) {
+      final here = steps.indexWhere((s) => s.id == current);
       return _Grow(
         child: Semantics(
           container: true,
@@ -101,7 +102,9 @@ class AnswerSheetCard extends StatelessWidget {
                   child: _BubbleTrack(key: trackKey, steps: steps, answers: answers, current: current, animate: animate, labels: false),
                 ),
                 const SizedBox(width: MmSpace.s12),
-                Text('$done of ${steps.length}', style: type.caption.copyWith(color: colors.ink2)),
+                // Where the student is, not how many are answered (v15 taste pass): on step 3 the
+                // ringed third bubble reads "3 of 7", never "2 of 7".
+                _StepCount(at: here < 0 ? done : here + 1, of: steps.length, style: type.caption.copyWith(color: colors.ink2)),
               ],
             ),
           ),
@@ -192,6 +195,39 @@ class AnswerSheetCard extends StatelessWidget {
         ),
       ),
       ),
+    );
+  }
+}
+
+/// "3 of 7" on the slim strip: the number slides up 6 dp and fades in when the step changes
+/// (200 ms), the old one leaving the same way.
+class _StepCount extends StatelessWidget {
+  const _StepCount({required this.at, required this.of, required this.style});
+
+  final int at;
+  final int of;
+  final TextStyle style;
+
+  @override
+  Widget build(BuildContext context) {
+    final reduced = Motion.reduced(context);
+    return AnimatedSwitcher(
+      duration: reduced ? Duration.zero : const Duration(milliseconds: 200),
+      switchInCurve: Motion.glide,
+      switchOutCurve: Motion.exit,
+      layoutBuilder: (current, previous) => Stack(alignment: Alignment.centerRight, children: [...previous, ?current]),
+      transitionBuilder: (child, animation) {
+        final up = child.key == ValueKey(at);
+        return FadeTransition(
+          opacity: animation,
+          child: AnimatedBuilder(
+            animation: animation,
+            child: child,
+            builder: (context, child) => Transform.translate(offset: Offset(0, (up ? 6 : -6) * (1 - animation.value)), child: child),
+          ),
+        );
+      },
+      child: Text('$at of $of', key: ValueKey(at), style: style),
     );
   }
 }
