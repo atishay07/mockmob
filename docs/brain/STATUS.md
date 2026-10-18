@@ -133,6 +133,27 @@ Counts: API gate 98 of 98, end to end 18 of 18, flag-off 33 of 33, kill switch 7
 
 **Production plan (main session applies):** migrations 20261017100000_mob.sql then 20261017190000_mob_fix_1017.sql (production has no mob tables, persistent_rate_limits and take_rate_limit exist, users.id is text); env MOB_ENABLED=true, PERSISTENT_LIMITS_ENABLED=true (production has neither; without it the weekly create limit is per instance), optionally MOB_ID_SECRET; then redeploy. Undo: unset MOB_ENABLED and redeploy; schema undo files are in supabase/undo.
 
+## 18 October 2026, about 4:05 pm IST - Website release 8 shipped (main 00328e54) and production migration 20261018130000_free_ai_wallet_50 applied (owner: "Ship it", about 3:55 pm)
+
+**Order:** the migration first, under the owner's standing production grant, then the code (the code is backward compatible with the old database; "50 on Free" is true only with both).
+
+**Migration on production (isrxrxzjocewrdureyhp), about 3:57 pm:**
+- **Pre-check:** `runtime_ai_budget.student_user_free` = 0.0114; `md5(prosrc)` of `mm_ai_consume_credits` c0b40176... and `mm_ai_reserve_credits` 75c8ea15... equal the bodies in `supabase/undo/20261018130000_free_ai_wallet_50.undo.sql` (LF endings).
+- **Applied:** `apply_migration free_ai_wallet_50`, the file's SQL unchanged.
+- **Post-check:** the two bodies hash c1ce92df... and 499b44d1..., equal to the migration file's; `student_user_free` = 0.0284; the global `student_ai` row is untouched (1000000).
+- **Dry spend (in a DO block that raises, so everything rolled back):** a real Free wallet stored at 10 (4 used, a May period) read 50 left at amount 0, then 49 after consuming 1, then 47 after reserving 2. Afterwards: 0 ledger rows and 0 reservations with the dry-run keys; 811 wallets still store 10 and sync to 50 on their next spend.
+- **Undo:** `supabase/undo/20261018130000_free_ai_wallet_50.undo.sql` (roll the code back first).
+
+**Code:** `git push origin 00328e54:refs/heads/main`, a fast-forward from fc9e1f6b (release 7). Contents are in the "Web release 8 integrated" entry below: W-078, W-075, W-079, W-093, W-089, W-064 (first-week path, repair receipt), W-032 (sealed mistake rows, Try it again before the key), the D38 landing hero, D53 (the quiet AI line), D54 (Free AI wallet 50), plus the post-verify fixes (desktop hero Mobi flash, Review Repair through the sealed sheet, Lab Cinema glow removed L-019, hero buttons at 761-899 px L-013). The independent re-verify said GO; the owner had the live preview from about 2:30 pm.
+
+**Deploy:** Vercel dpl_3THyGFBktbdxcAuwhfN2sLNsHmrT READY at about 4 pm, aliased to www.mockmob.in. Runtime errors in the 20 minutes after: none. Smoke: /, /pricing, /pricing/ai-credits, /features, /today, /review, /help, /api/stats 200; an unknown path 404 (themed). Live /pricing reads "50 a month on Free"; no "10 AI credits" left.
+
+## 18 October 2026, about 1:10 pm IST - Website release 7 shipped (main fc9e1f6b): the new Today, Road to CUET, the Change plan receipt fixes
+
+**What:** deploy/web-1018-r7 (contents and conflict notes in "Web release 7 integrated" below), plus the verifier fix round for H1 (the Change plan receipt seeded a stale mock target), M1-M3, M5-M7, L4 and L5. The owner approved the new Today at 8:40 am ("the today page is better now").
+
+**Checks:** independent verifier GO after the fix round. Vercel dpl_FYgR76nTTSeX5uV4ShJed1u1Rq5A READY, 0 runtime errors at 1:20 pm. Nothing was applied to any database.
+
 ## 18 October 2026 - Web release 8 integrated (deploy/web-1018-r8, from live main fc9e1f6b = release 7; local, not pushed, not deployed; nothing applied to any database)
 
 **Merged, --no-ff, in order:** web/r8-fixes-1018 (cb672f6b), web/r8-adopt-1018 (dfc6797e), web/r8-retry-1018 (f9fa1d82), web/land3-1018 (42b51dd3), web/credits50-1018 (d8bc38d8). Every R7 fix is kept.
