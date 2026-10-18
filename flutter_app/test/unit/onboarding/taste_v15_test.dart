@@ -22,7 +22,6 @@ import 'package:mockmob/core/storage/storage_providers.dart';
 import 'package:mockmob/features/onboarding/screens/after_sign_in_sheet.dart';
 import 'package:mockmob/features/onboarding/widgets/swipe_preview.dart';
 import 'package:flutter/rendering.dart';
-import 'package:mockmob/core/widgets/art/scene_art.dart';
 import 'package:mockmob/features/onboarding/model/plan.dart';
 import 'package:mockmob/features/onboarding/steps/plan_step.dart';
 import 'package:mockmob/features/onboarding/widgets/plan_seal_moment.dart';

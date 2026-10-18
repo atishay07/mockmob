@@ -199,8 +199,8 @@ class AnswerSheetCard extends StatelessWidget {
   }
 }
 
-/// "3 of 7" on the slim strip: the number slides up 6 dp and fades in when the step changes
-/// (200 ms), the old one leaving the same way.
+/// "3 of 7" on the slim strip: the new number rises and fades in when the step changes (200 ms),
+/// over the app's overlap switch, so the ground never flashes between the two.
 class _StepCount extends StatelessWidget {
   const _StepCount({required this.at, required this.of, required this.style});
 
@@ -210,23 +210,9 @@ class _StepCount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final reduced = Motion.reduced(context);
-    return AnimatedSwitcher(
-      duration: reduced ? Duration.zero : const Duration(milliseconds: 200),
-      switchInCurve: Motion.glide,
-      switchOutCurve: Motion.exit,
-      layoutBuilder: (current, previous) => Stack(alignment: Alignment.centerRight, children: [...previous, ?current]),
-      transitionBuilder: (child, animation) {
-        final up = child.key == ValueKey(at);
-        return FadeTransition(
-          opacity: animation,
-          child: AnimatedBuilder(
-            animation: animation,
-            child: child,
-            builder: (context, child) => Transform.translate(offset: Offset(0, (up ? 6 : -6) * (1 - animation.value)), child: child),
-          ),
-        );
-      },
+    return MmOverlapSwitcher.rise(
+      duration: const Duration(milliseconds: 200),
+      alignment: Alignment.centerRight,
       child: Text('$at of $of', key: ValueKey(at), style: style),
     );
   }
