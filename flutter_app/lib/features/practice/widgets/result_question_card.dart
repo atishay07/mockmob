@@ -4,6 +4,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/models/question.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../insights/ask_mobi.dart' show AskMobiLink, askMobiAboutLabel;
 import '../copy.dart';
 import '../result_copy.dart';
 import '../model/practice_result_model.dart';
@@ -35,9 +36,14 @@ class ResultQuestionRow extends StatelessWidget {
     this.summary,
     this.summarySemantics,
     this.repair,
+    this.onAsk,
   });
 
   final ResultQuestion item;
+
+  /// "Ask Mobi about Q4": the one quiet line under a wrong answer's action (the full result's rows carry the same
+  /// line). Null for right and blank answers, and while the question is not on the phone.
+  final VoidCallback? onAsk;
 
   /// The closed face of the row when the result draws it as a mistake (`MistakeSummary`); null keeps the plain face.
   final Widget? summary;
@@ -142,8 +148,19 @@ class ResultQuestionRow extends StatelessWidget {
               onTryPick: onTryPick,
             ),
           ),
-        if (expanded && repair != null)
-          Padding(padding: const EdgeInsets.fromLTRB(MmSpace.s4, 0, MmSpace.s4, MmSpace.s16), child: repair),
+        // The mistake's one action, then (once) the quiet Ask Mobi line under it. Nothing else here asks.
+        if (expanded && (repair != null || onAsk != null))
+          Padding(
+            padding: const EdgeInsets.fromLTRB(MmSpace.s4, 0, MmSpace.s4, MmSpace.s16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                ?repair,
+                if (repair != null && onAsk != null) const SizedBox(height: MmSpace.s4),
+                if (onAsk != null) AskMobiLink(label: askMobiAboutLabel(item.number), onTap: onAsk!),
+              ],
+            ),
+          ),
         if (expanded && item.question != null && (save != null || report != null))
           Padding(
             padding: const EdgeInsets.only(bottom: MmSpace.s12),

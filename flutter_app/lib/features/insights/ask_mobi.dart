@@ -34,5 +34,8 @@ String askMobiAboutLabel(int? number) => number == null ? 'Ask Mobi about this q
 /// "Ask Mobi about this mock".
 const String askMobiAboutMock = 'Ask Mobi about this mock';
 
+/// The same entry on a Quick, Smart or chapter set's result, in the same words with the paper's own noun.
+const String askMobiAboutSet = 'Ask Mobi about this set';
+
 /// Today's entry, in the same words.
 const String askMobiAboutToday = 'Ask Mobi about today';

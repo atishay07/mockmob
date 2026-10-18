@@ -9,6 +9,11 @@ import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/api/api.dart';
 import 'package:mockmob/core/models/attempt.dart';
 import 'package:mockmob/core/repositories/attempts_repository.dart' show attemptDetailProvider;
+import 'package:mockmob/core/storage/prefs_store.dart' show MemoryPrefsStore;
+import 'package:mockmob/features/insights/ask_mobi.dart' show AskMobiKind;
+import 'package:mockmob/features/insights/data/ask_sheet_controller.dart' show askSheetScopeProvider;
+import 'package:mockmob/features/paper_reel/data/reel_seen.dart' show reelPrefsStoreProvider;
+import 'package:mockmob/features/paper_reel/paper_reel.dart' show PaperReel, PaperReelResultEntry, reelSeenProvider;
 import 'package:mockmob/core/widgets/widgets.dart' show KeyButton, Mobi, MobiCharacter;
 import 'package:mockmob/features/credits/data/credit_figures.dart' show CreditFigures;
 import 'package:mockmob/features/practice/data/result_actions.dart';
@@ -480,6 +485,123 @@ void main() {
       await tester.pump();
       expect(tester.widget<ResultHead>(find.byType(ResultHead)).arrival, isFalse);
       expect(find.text('39'), findsOneWidget);
+    });
+  });
+
+  // M4 of the v15 emulator walk: the Quick-set result had none of the full result's new pieces.
+  group('a set has what a mock has: Ask Mobi, an Ask line per wrong answer, and Play it back', () {
+    final twoWrong = [
+      for (var i = 0; i < 6; i++) ('Admission of a partner', V.right),
+      ('Admission of a partner', V.wrong),
+      ('Goodwill', V.wrong),
+      ('Goodwill', V.blank),
+      ('Goodwill', V.right),
+    ];
+
+    testWidgets('one "Ask Mobi about this set" under the marks, free, and one "Play it back" row', (tester) async {
+      await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(twoWrong)));
+      await tester.pump(const Duration(milliseconds: 900));
+      expect(find.text('Ask Mobi about this set'), findsOneWidget);
+      expect(find.text('Free'), findsWidgets);
+      // The foot's volt key is still the one action; the link is a quiet line above the next move.
+      final link = tester.getTopLeft(find.text('Ask Mobi about this set')).dy;
+      final move = tester.getTopLeft(find.textContaining('Why Q')).dy;
+      expect(link, lessThan(move));
+      await bringIn(tester, find.byType(PaperReelResultEntry));
+      expect(find.byType(PaperReelResultEntry), findsOneWidget);
+      expect(find.text('Play it back'), findsOneWidget);
+    });
+
+    testWidgets('a wrong answer opens to its one action and, under it, one Ask line; right answers and blanks have none', (tester) async {
+      await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(twoWrong)));
+      await tester.pump(const Duration(milliseconds: 900));
+      await openMistake(tester, 7);
+      expect(find.text('Ask Mobi about Q7'), findsOneWidget);
+      expect(find.text('Ask Mobi about Q8'), findsNothing, reason: 'a closed row has none');
+      await openMistake(tester, 8);
+      expect(find.text('Ask Mobi about Q7'), findsOneWidget);
+      expect(find.text('Ask Mobi about Q8'), findsOneWidget);
+      expect(find.textContaining('Ask Mobi about Q'), findsNWidgets(2), reason: 'one per wrong answer, never two on one');
+      // The blank row (Q9) carries none.
+      final blanks = find.text('1 left blank, 5 marks not earned');
+      await bringIn(tester, blanks);
+      await tester.tap(blanks);
+      await frames(tester);
+      await bringIn(tester, find.text('Question 9, Not attempted'));
+      await tester.tap(find.text('Question 9, Not attempted'));
+      await frames(tester);
+      expect(find.textContaining('Ask Mobi about Q'), findsNWidgets(2));
+    });
+
+    testWidgets('the Ask line sits under the mistake\'s action', (tester) async {
+      await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(twoWrong)));
+      await tester.pump(const Duration(milliseconds: 900));
+      await openMistake(tester, 7);
+      final ask = tester.getTopLeft(find.text('Ask Mobi about Q7')).dy;
+      final action = find.byType(MistakeRepairEntry);
+      expect(action, findsOneWidget);
+      expect(ask, greaterThanOrEqualTo(tester.getBottomLeft(action).dy - 1));
+    });
+
+    testWidgets('the Ask line hands Mobi this paper\'s own reference, number, chapter, what was picked and the key', (tester) async {
+      await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(twoWrong)));
+      await tester.pump(const Duration(milliseconds: 900));
+      await openMistake(tester, 7);
+      await bringIn(tester, find.text('Ask Mobi about Q7'));
+      await tester.tap(find.text('Ask Mobi about Q7'));
+      await tester.pump(const Duration(milliseconds: 300));
+      final container = ProviderScope.containerOf(tester.element(find.byType(PracticeResultScreen)));
+      final about = container.read(askSheetScopeProvider).effective;
+      expect(about.kind, AskMobiKind.question);
+      expect(about.question?.number, 7);
+      expect(about.question?.ref, 'p1:p1-q7');
+      expect(about.question?.chapter, 'Admission of a partner');
+      expect(about.question?.pickLetter, isNotNull);
+      expect(about.question?.keyLetter, isNotNull);
+      await tester.pump(const Duration(seconds: 13));
+    });
+
+    testWidgets('the set link hands Mobi where this set\'s marks went, by chapter, from its own counts', (tester) async {
+      await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(twoWrong)));
+      await tester.pump(const Duration(milliseconds: 900));
+      await bringIn(tester, find.text('Ask Mobi about this set'));
+      await tester.tap(find.text('Ask Mobi about this set'));
+      await tester.pumpAndSettle();
+      final container = ProviderScope.containerOf(tester.element(find.byType(PracticeResultScreen)));
+      final about = container.read(askSheetScopeProvider).effective;
+      expect(about.kind, AskMobiKind.mock);
+      expect(about.attemptId, 'p1');
+      expect(about.label, 'Quick 10');
+      // One wrong in Admission of a partner (6 marks), one wrong and one blank in Goodwill (6 + 5): 17 marks lost.
+      expect(about.lines, ['Goodwill: 11 of the 17 marks lost, 1 wrong and 1 left blank', 'Admission of a partner: 6 of the 17 marks lost, 1 wrong']);
+      await tester.pump(const Duration(seconds: 13));
+    });
+
+    testWidgets('while a key is held or keys are unavailable there is no set link and no reel', (tester) async {
+      final held = detailOf(twoWrong, reviews: {'p1-q7': {'state': 'under_review'}});
+      await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: held));
+      await tester.pump(const Duration(milliseconds: 900));
+      expect(find.text('Ask Mobi about this set'), findsNothing);
+      expect(find.byType(PaperReelResultEntry), findsNothing);
+    });
+
+    testWidgets('unavailable keys: no set link', (tester) async {
+      await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(twoWrong, state: 'unavailable')));
+      await tester.pump(const Duration(milliseconds: 900));
+      expect(find.text('Ask Mobi about this set'), findsNothing);
+    });
+
+    testWidgets('Play it back opens the reel and ends Today\'s card for this paper', (tester) async {
+      final store = MemoryPrefsStore();
+      await pumpResult(tester, [...resultOverrides(attemptId: 'p1', detail: detailOf(twoWrong)), reelPrefsStoreProvider.overrideWithValue(store)]);
+      await tester.pump(const Duration(milliseconds: 900));
+      await bringIn(tester, find.byType(PaperReelResultEntry));
+      await tester.tap(find.byType(PaperReelResultEntry));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 400));
+      expect(find.byType(PaperReel), findsOneWidget);
+      final container = ProviderScope.containerOf(tester.element(find.byType(PaperReel)));
+      expect(await container.read(reelSeenProvider.future), {'p1'});
     });
   });
 }

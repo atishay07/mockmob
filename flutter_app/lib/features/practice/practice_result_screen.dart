@@ -6,6 +6,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/analytics/analytics.dart';
 import '../../core/api/api_providers.dart' show nowProvider;
+import '../../core/domain/chapter_breakdown.dart' show observedChapterBreakdown;
+import '../../core/domain/marks.dart' show markBreakdownOf;
 import '../../core/models/models.dart';
 import '../../core/motion/motion.dart';
 import '../../core/repositories/attempts_repository.dart';
@@ -14,8 +16,11 @@ import '../../core/router/routes.dart';
 import '../../core/theme/theme.dart';
 import '../../core/widgets/widgets.dart';
 import '../review/data/review_providers.dart' show reviewClockProvider;
+import '../insights/ask_mobi.dart' show AskMobiContext, AskMobiLink, askMobiAboutSet, mockLostLines, openAskMobi;
+import '../insights/data/ask_suggestions.dart' show AskSheetCopy;
 import '../insights/data/saved_repository.dart'
     show SaveDone, SaveLimitReached, SaveFailed, saveControllerProvider, savedRepositoryProvider;
+import '../paper_reel/paper_reel.dart' show PaperReel, PaperReelModel, PaperReelResultEntry, ReelMoveKind, ReelNextMove, ReelResult, reelSeenProvider;
 import '../result/data/move_state.dart';
 import '../result/layers_copy.dart';
 import '../result/model/move_inputs.dart';
@@ -31,6 +36,7 @@ import 'data/practice_catalog.dart';
 import 'data/practice_notes.dart';
 import 'data/result_actions.dart';
 import 'model/finish_reaction.dart' show FinishMarks, FinishTone, finishToneFor;
+import 'model/practice_ask.dart';
 import 'model/practice_result_model.dart';
 import 'model/session_analysis.dart';
 import 'widgets/numbered_sheet.dart';
@@ -263,6 +269,40 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
     unawaited(context.push(location));
   }
 
+  /// "Play it back" (D29), as on the full result: this set's reel over the whole app. Today does not offer the same
+  /// reel again afterwards. Its one closing key goes where the same key goes from Today: the repair of the costliest
+  /// chapter, the mistakes below, or the next full mock of this subject.
+  void _playBack(PaperReelModel reel, {required String subjectId, required Attempt attempt}) {
+    unawaited(ref.read(reelSeenProvider.notifier).mark(attempt.id));
+    unawaited(PaperReel.open(context, model: reel, onNextMove: (m) => _reelMove(reel, m, subjectId: subjectId, attempt: attempt)));
+  }
+
+  void _reelMove(PaperReelModel reel, ReelNextMove m, {required String subjectId, required Attempt attempt}) {
+    if (!mounted) return;
+    switch (m.kind) {
+      case ReelMoveKind.repairChapter:
+        final wrong = {for (final q in reel.questions) if (q.result == ReelResult.wrong) q.qid};
+        final open = [for (final q in m.qids) if (wrong.contains(q)) q];
+        if (open.isEmpty) {
+          _showMistakes();
+        } else {
+          _go(Uri(path: AppRoutes.reviewRepair(attempt.id, open.first), queryParameters: {'count': '${open.length}'}).toString());
+        }
+      case ReelMoveKind.reviewMistakes:
+        _showMistakes();
+      case ReelMoveKind.nextMock:
+        _go(Uri(path: AppRoutes.practiceSetup('full'), queryParameters: {'subject': subjectId}).toString());
+    }
+  }
+
+  /// The first mistake (else the first blank) opens and scrolls into view.
+  void _showMistakes() {
+    final model = _model;
+    if (model == null) return;
+    final first = model.wrong.firstOrNull ?? model.blank.firstOrNull;
+    if (first != null) _jumpTo(first);
+  }
+
   /// The arrival ends 520 ms in (the panel's cue in RESULT-1017 4.8); the layers below then rise in.
   void _scheduleSettle(bool staged) {
     if (!staged || _settleTimer != null) return;
@@ -318,6 +358,11 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
         report: _reportFor(attempt, detail, q),
         time: analysis.timeLabel(q.qid),
         changed: analysis.changed(q.qid),
+        // A wrong answer carries Ask Mobi as the quiet line under its action, the same line the full result's rows
+        // carry (v15 walk, M4). Right answers and blanks have none.
+        onAsk: isBlank || q.verdict != Verdict.wrong || status == null
+            ? null
+            : () => openAskMobi(context, askContextOfSetAnswer(q, keyView, attemptId: attempt.id)),
         summary: summary,
         summarySemantics: status == null
             ? null
@@ -427,6 +472,12 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
     final repairCost = repairCostLine(state.aiCredits);
     final proveChapter = model.wrong.isEmpty ? null : ref.watch(replayInventoryProvider(attempt.id)).value?.firstAvailable;
     final m = rows.marks;
+    // Where the lost marks went, from this set's own counts (Ask Mobi's first answer, free), and the set played back:
+    // both as the full result has them, neither while a key is held or keys are unavailable (v15 walk, M4).
+    final held = detail?.heldQuestionIds.toSet() ?? const <String>{};
+    final keysOff = held.isNotEmpty || (detail?.reviewsUnavailable ?? false);
+    final askLines = keysOff ? const <String>[] : mockLostLines(observedChapterBreakdown(attempt, excludeQuestionIds: held), lost: markBreakdownOf(attempt).lost);
+    final reel = detail == null || held.isNotEmpty ? null : PaperReelModel.tryFrom(detail, subjectLabel: subjectName);
     final tone = finishToneFor(
       FinishMarks(correct: attempt.correct, wrong: attempt.wrong, blank: attempt.unattempted, total: attempt.total),
       previousAccuracy: _previousAccuracy(attempt),
@@ -445,6 +496,18 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
     );
 
     final layers = <Widget>[
+      // One quiet line under the marks: Mobi opens on where this set's lost marks went, free (as on a mock).
+      if (askLines.isNotEmpty) ...[
+        const SizedBox(height: MmSpace.s12),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: AskMobiLink(
+            label: askMobiAboutSet,
+            note: AskSheetCopy.free,
+            onTap: () => openAskMobi(context, AskMobiContext.mock(label: 'Quick ${attempt.total}', attemptId: attempt.id, lines: askLines)),
+          ),
+        ),
+      ],
       // Layer 2: the one next move, why, and what a repair gives before paying.
       const SizedBox(height: MmSpace.s24),
       NextMovePanel(
@@ -491,6 +554,11 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
             ],
           ],
         ),
+      // The set in motion, one quiet row (D29), as under the full result's answer sheet: the reel's length beside it.
+      if (reel != null) ...[
+        const SizedBox(height: MmSpace.group),
+        PaperReelResultEntry(seconds: reel.seconds, onPlay: () => _playBack(reel, subjectId: subjectId, attempt: attempt)),
+      ],
       // Layer 4: everything else, folded under plain names.
       const SizedBox(height: MmSpace.group),
       const FoldsHeading(),
