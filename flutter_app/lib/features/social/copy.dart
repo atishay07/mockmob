@@ -253,7 +253,7 @@ abstract final class MobCopy {
   static const String newLinkNote = 'A new link turns this one off.';
   static const String makeLink = 'Make an invite link';
   static const String shareText = 'Sit one 10-question paper a week with me on MockMob:';
-  static const String aloneLead = 'Invite a friend to start your ring.';
+  static const String aloneLead = 'Invite a friend to sit this week\'s paper with you.';
 
   static const String settingsTitle = 'Settings';
   static const String showScoreNote = shareHint;

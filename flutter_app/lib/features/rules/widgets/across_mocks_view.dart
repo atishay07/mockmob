@@ -19,6 +19,20 @@ import '../copy.dart';
 /// Motion: the first time a block comes into view in this app run, its lines rise in one after
 /// another (180 ms each on the ease-out curve, 60 ms apart). Opening "Show all" grows the block
 /// to fit and the new lines fade in after it. Under reduced motion everything is at rest at once.
+/// The line shown while Across your mocks is not open yet: the app's own plain words for no timed
+/// mock yet and for the mocks still to go (the gate read from the server's sentence, "opens at 2"),
+/// else the server's sentence as it is.
+String acrossGateLine(AcrossMocks across) {
+  if (across.state == AcrossMocks.none) return RulesCopy.acrossNone;
+  final message = across.message ?? '';
+  if (across.state == AcrossMocks.belowGate) {
+    final gate = int.tryParse(RegExp(r'opens at (\d+)').firstMatch(message)?.group(1) ?? '');
+    final have = across.mocks;
+    if (gate != null && have != null && have < gate) return RulesCopy.acrossBelowGate(gate - have);
+  }
+  return message;
+}
+
 class AcrossMocksView extends StatefulWidget {
   const AcrossMocksView({super.key, required this.across, required this.seenKey, this.titled = true});
 
@@ -107,7 +121,7 @@ class _AcrossMocksViewState extends State<AcrossMocksView> with SingleTickerProv
     if (!across.isReady) {
       body = _Rise(
         animation: _rowArrival(0),
-        child: _LineRow(icon: LucideIcons.circleDashed, text: across.message ?? '', gated: true),
+        child: _LineRow(icon: LucideIcons.circleDashed, text: acrossGateLine(across), gated: true),
       );
     } else {
       body = Column(

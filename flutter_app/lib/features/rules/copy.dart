@@ -64,6 +64,15 @@ abstract final class RulesCopy {
   /// The block's title before Across your mocks has loaded (the server's own title replaces it).
   static const String acrossTitle = 'Across your mocks';
 
+  /// Before the block opens, the plain line of the app instead of the one from the server ("... your first Full or
+  /// NTA mock that your device records", fresh-account walk 19 Oct): no timed mock yet.
+  static const String acrossNone = 'Sit your first Full mock to start this. It shows the habits that cost you marks from one mock to the next.';
+
+  /// [left] more timed mocks open the block.
+  static String acrossBelowGate(int left) => left == 1
+      ? 'One more Full mock opens this. It compares your mocks to show the habits that cost you marks.'
+      : '$left more Full mocks open this. It compares your mocks to show the habits that cost you marks.';
+
   /// A habit's Wilson interval in words (the same sentence as the website's Rule book band):
   /// "8 of 23 (35%). At this count, the 95% interval runs from 19% to 55%."
   static String intervalLine(int k, int n, int pct, int low, int high) =>

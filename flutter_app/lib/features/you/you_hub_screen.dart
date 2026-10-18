@@ -7,7 +7,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/auth/auth_state.dart';
+import '../../core/auth/display_name.dart';
+import '../../core/api/api_providers.dart' show nowProvider;
 import '../../core/copy/copy.dart';
+import '../../core/domain/study_day.dart';
 import '../../core/motion/motion.dart';
 import '../../core/notes/sample_row.dart';
 import '../../core/repositories/repositories.dart';
@@ -196,8 +199,15 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
     }
     final paused = week.status == WeekStatus.paused;
     final days = [for (final d in week.days) WeekBubbleDay(mark: d.studyDay ? WeekDayMark.done : WeekDayMark.open, isToday: d.isToday)];
+    // A paper finished today that did not count (under 5 answers) is named, so the week never reads 0
+    // right after a paper with no reason (fresh-account walk, 19 Oct).
+    final todayCounted = week.days.any((d) => d.isToday && d.studyDay);
+    final attempts = ref.watch(attemptsRepositoryProvider.select((s) => s.value));
+    final short = todayCounted || attempts == null ? null : shortPaperToday(attempts, ref.watch(nowProvider)());
     final note = paused
         ? week.label
+        : short != null
+        ? YouCopy.shortPaperToday(short)
         : week.studyDays == 0
             ? YouCopy.studyDayDefinition
             : rhythm.weeksMetStreak > 0
@@ -294,7 +304,8 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                       MmStaggerItem(
                         index: 0,
                         child: SheetCard(
-                          name: auth.name,
+                          // Never the email prefix a fresh account starts with: the card asks for a name.
+                          name: shownName(auth.name, email: auth.email),
                           // The email lives in the account sheet's identity block.
                           email: null,
                           target: target,

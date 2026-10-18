@@ -6,6 +6,7 @@
 // does not win the hero becomes a compact slot under it, so nothing real is hidden.
 import '../../../core/copy/formatters.dart';
 import '../../../core/domain/session_rules.dart';
+import '../../../core/domain/study_day.dart';
 import '../../../core/models/attempt.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/widgets/bubbles/bubble_painter.dart';
@@ -165,6 +166,12 @@ WeekModel _week(TodayInputs i, TodayWeek w) {
   if (done == 0 && all != null && all.isNotEmpty && isAway(i)) return (TodayCopy.weekNew(goal), TodayCopy.weekNewKey(goal));
   final todayCounted = today != null && w.studied[today];
   final todayPlanned = today != null && (planned == null || planned.contains(today));
+  // A paper finished today that did not count says why (under 5 answers; fresh-account walk, 19 Oct).
+  final short = today == null || todayCounted || all == null ? null : shortPaperToday(all, i.now);
+  if (short != null) {
+    final line = TodayCopy.shortPaperToday(short);
+    return (TodayCopy.weekLine(counted, line), line);
+  }
   if (todayPlanned && !todayCounted) {
     if (done + 1 >= goal) {
       final key = TodayCopy.tonightMakes(done + 1);

@@ -244,7 +244,7 @@ void main() {
       expect(find.descendant(of: find.byType(SuggestionCard), matching: find.text('Mixed chapters')), findsOneWidget);
       expect(find.descendant(of: find.byType(SuggestionCard), matching: find.text('Business Studies')), findsNothing);
       expect(find.textContaining('paper yet'), findsNothing);
-      expect(find.text('Ten questions shows where you stand.'), findsOneWidget);
+      expect(find.text('Ten questions show where you stand.'), findsOneWidget);
     });
 
     testWidgets('it starts in the subject the student picked last time', (tester) async {

@@ -29,10 +29,14 @@ abstract final class PracticeCopy {
   /// What the row says: every paper is kept here, newest first; with papers, how many and the open
   /// mistakes, in one sentence each.
   static String papersNote({required int papers, required int open}) {
-    if (papers <= 0) return 'Every paper you sit is kept here, newest first, with its answers.';
+    final mistakes = open == 1 ? '1 mistake' : '$open mistakes';
+    if (papers <= 0) {
+      // The papers are not on the phone yet, but the open count of the account is known: say that.
+      return open > 0 ? '$mistakes to repair, with the papers they came from.' : 'Every paper you sit is kept here, newest first, with its answers.';
+    }
     final kept = papers == 1 ? '1 paper so far, with its answers.' : '$papers papers so far, newest first.';
     if (open <= 0) return kept;
-    return '$kept ${open == 1 ? '1 mistake' : '$open mistakes'} still to repair.';
+    return '$kept $mistakes still to repair.';
   }
 
   /// The Learn row under the suggestion (D20): the lesson Learn would open next, and why.
@@ -106,12 +110,12 @@ abstract final class PracticeCopy {
 
   static const String startingTitle = 'Your starting point';
   static String startingKicker(String subject) => '$subject, mixed chapters';
-  static String startingReason(String subject) => 'Ten questions shows where you stand.';
+  static String startingReason(String subject) => 'Ten questions show where you stand.';
   static String firstOnListReason(String subject) => '$subject is first on your list.';
   static String pickedStartReason(String subject) => 'No paper here yet. Ten questions will do.';
 
   /// The picked subject while the attempts have not loaded: it claims nothing about papers.
-  static const String pickedUnknownReason = 'Ten questions shows where you stand.';
+  static const String pickedUnknownReason = 'Ten questions show where you stand.';
 
   static String heroSemantics(String title, String reason) => '$title. $reason';
 

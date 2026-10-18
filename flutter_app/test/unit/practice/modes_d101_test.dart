@@ -287,8 +287,13 @@ void main() {
         size: const Size(360, 800),
       );
       await _settle(tester);
+      // With nothing to repair yet it leads "More ways in", so the first screen stays the subjects, the start and the
+      // modes (v15.2's layout); it is on the page for every account (R3).
+      await tester.scrollUntilVisible(find.text(PracticeCopy.papersTitle), 200, scrollable: find.byType(Scrollable).first);
+      await tester.pump();
       expect(find.text(PracticeCopy.papersTitle), findsOneWidget);
       expect(find.text(PracticeCopy.papersNote(papers: 0, open: 0)), findsOneWidget);
+      expect(tester.getTopLeft(find.text(PracticeCopy.papersTitle)).dy, greaterThan(tester.getTopLeft(find.text(PracticeCopy.moreHeading)).dy));
       await tester.tap(find.text(PracticeCopy.papersTitle));
       await tester.pump(const Duration(milliseconds: 600));
       expect(router.state.uri.path, '/practice/papers');

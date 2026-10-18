@@ -103,7 +103,7 @@ void main() {
   // right under the suggestion, so at first view a 360 by 800 phone shows the suggestion, Repairs and Ask Mobi whole above
   // the bar, and the quick pair begins under them. No layout can hold both asks: the pair needed the whole first view on a
   // 780 phone. The pair stays reachable with one short scroll and then rests whole above the bar.
-  testWidgets('at first view the suggestion, Repairs and Ask Mobi are above the bar; the quick pair follows and is one short scroll away', (tester) async {
+  testWidgets('at first view the suggestion, Your papers and Ask Mobi are above the bar; the quick pair follows and is one short scroll away', (tester) async {
     const phone = Size(360, 800);
     tester.view.padding = const FakeViewPadding(top: 48, bottom: _gesture * 2);
     await pumpRouted(tester, location: '/practice', routes: _routes(), overrides: practiceOverrides(quotes: _quotes(), attempts: const [], openRepairs: 98), size: phone);
@@ -111,7 +111,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 150));
     }
     final barTop = phone.height - _gesture - MmBar.lift - MmBar.height;
-    expect(tester.getRect(find.text('Repairs')).bottom, lessThanOrEqualTo(barTop), reason: 'Repairs is whole above the bar at first view');
+    expect(tester.getRect(find.text('Your papers')).bottom, lessThanOrEqualTo(barTop), reason: 'Your papers (where Repairs was, D105) is whole above the bar at first view');
     expect(tester.getRect(find.text('Ask Mobi what to practise')).bottom, lessThanOrEqualTo(barTop), reason: 'so is Ask Mobi');
     final pair = tester.getRect(find.byKey(const ValueKey('choice-quick')));
     expect(pair.top, greaterThan(tester.getRect(find.text('Ask Mobi what to practise')).bottom), reason: 'the pair comes after the two rows');

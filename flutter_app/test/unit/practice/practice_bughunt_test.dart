@@ -216,7 +216,7 @@ void main() {
                 unit: PracticeCopy.questionsUnit,
                 title: PracticeCopy.subjectTitle('Business Studies'),
                 kicker: PracticeCopy.subjectKicker,
-                reason: 'Ten questions shows where you stand.',
+                reason: 'Ten questions show where you stand.',
                 actionLabel: 'Start',
                 onAction: () {},
               ),

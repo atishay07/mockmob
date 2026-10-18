@@ -84,9 +84,10 @@ void main() {
       expect(find.text(MobCopy.hubRow), findsOneWidget);
     });
 
-    testWidgets('Today: the Mob card for a student in one', (tester) async {
+    // D105 (19 Oct): a member has the Mob tab one tap away, so Today keeps no Mob card for them (mob_tab_test).
+    testWidgets('Today: no Mob card for a student in one (the Mob tab holds it)', (tester) async {
       await _pump(tester, const MobTodayBlock(), mobState());
-      expect(find.byType(MobTodayCard), findsOneWidget);
+      expect(find.byType(MobTodayCard), findsNothing);
     });
   });
 }

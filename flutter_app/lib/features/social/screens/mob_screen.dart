@@ -4,6 +4,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/api/api.dart';
 import '../../../core/auth/auth_state.dart';
+import '../../../core/auth/display_name.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/models/subject.dart' show isHiddenSubject;
 import '../../../core/motion/motion.dart';
@@ -189,7 +190,10 @@ class _StartMobFormState extends ConsumerState<StartMobForm> {
   void initState() {
     super.initState();
     // Only a name that passes the screen's own rule is prefilled; otherwise the field starts empty.
-    final first = mobNameFrom(ref.read(authSnapshotProvider).name);
+    // Never a name made from the email (a fresh account's "g16-fresh-1019a" became "Fresh"): only a
+    // name the student gave is a prefill (fresh-account walk, 19 Oct).
+    final auth = ref.read(authSnapshotProvider);
+    final first = mobNameFrom(shownName(auth.name, email: auth.email));
     _name = TextEditingController(text: first);
     // A stable colour from the name, so two friends rarely start on the same one.
     _colour = first.isEmpty ? 0 : first.codeUnits.fold<int>(0, (a, b) => a + b) % MobColours.count;
