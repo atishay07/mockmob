@@ -125,16 +125,6 @@ bool _boardWeek(DateTime monday, DateTime exam) {
   return !m.isBefore(start) && m.isBefore(end);
 }
 
-/// The day a suggested mock lands on in its week: its own day when planned, else the next planned
-/// day that week, else the last planned day before it, else its own day.
-int _snap(int weekday, Set<int>? planned) {
-  if (planned == null || planned.isEmpty || planned.contains(weekday)) return weekday;
-  final after = [for (var d = weekday + 1; d < 7; d++) if (planned.contains(d)) d];
-  if (after.isNotEmpty) return after.first;
-  final before = [for (var d = weekday - 1; d >= 0; d--) if (planned.contains(d)) d];
-  return before.isNotEmpty ? before.first : weekday;
-}
-
 /// The weeks ahead for [board] (Road to CUET's own board). [reviseByWeek] is what the server says
 /// comes back in Revise each week, by the week's Monday, when it says it; nothing is shown without it.
 WeeksAhead buildWeeksAhead(TodayInputs i, {required RoadBoard board, Map<DateTime, int>? reviseByWeek}) {
@@ -188,9 +178,10 @@ WeeksAhead buildWeeksAhead(TodayInputs i, {required RoadBoard board, Map<DateTim
       final days = boards && perWeek > CuetCalendar.boardWeekSessions ? CuetCalendar.boardWeekSessions : perWeek;
       // The weekdays are named only when the plan names exactly that many (a board week does not).
       final named = planned != null && planned.length == days ? planned : null;
+      // The mock keeps the pace's own day, the one Road to CUET names ("Next full mock Tue 20 Oct").
       final inWeek = [
         for (final m in mocks)
-          if (!m.on.isBefore(start) && !m.on.isAfter(end)) AheadMock(number: m.number, on: start.add(Duration(days: _snap(m.on.weekday - 1, named)))),
+          if (!m.on.isBefore(start) && !m.on.isAfter(end)) m,
       ];
       weeks.add(AheadWeek(
         monday: start,

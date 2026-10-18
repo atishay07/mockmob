@@ -52,7 +52,7 @@ void main() {
   setUp(debugResetTodayPicks);
 
   group('the weeks ahead', () {
-    test('three dated weeks from the plan, the pace\'s mock suggested on a planned day, then the milestones', () {
+    test('three dated weeks from the plan, the pace\'s mock suggested on its own day, then the milestones', () {
       final a = buildToday(_inputs()).glance!.ahead!;
       expect(a.perWeek, 4);
       expect(a.weeks, hasLength(3));
@@ -62,7 +62,7 @@ void main() {
       expect([for (final w in a.weeks) w.studyDays], [4, 4, 4]);
       expect(a.weeks.first.days, {0, 3, 5, 6});
       // 7 of 21 full mocks, the rest spread to Sat 1 May from Fri 16 Oct: every 13 days, so the
-      // next is Thu 29 Oct (a planned day), full mock 8.
+      // next is Thu 29 Oct, full mock 8.
       expect(a.mockTarget, 21);
       expect(a.weeks[0].mocks, isEmpty);
       expect(a.weeks[1].mocks.single.number, 8);
@@ -123,6 +123,15 @@ void main() {
       expect(find.text(AheadCopy.planTitle(DateTime.utc(2026, 10, 26))), findsOneWidget);
       expect(find.text(GlanceCopy.askDays), findsOneWidget);
     });
+  });
+
+  test("a mock keeps the pace's own day, the one Road to CUET names, even on a day not planned", () {
+    // Last full mock 11 days ago (Wed 7 Oct): the next is due Tue 20 Oct, which Asha does not plan.
+    final i = ashaInputs(now: sunday, attempts: ashaRecord(DateTime.utc(2026, 10, 9, 14, 10)), week: sundayWeek, reviseDue: 6);
+    final v = buildToday(i);
+    final next = v.glance!.ahead!.weeks.first;
+    expect(next.mocks.single.on, DateTime.utc(2026, 10, 20));
+    expect(v.glance!.road!.nextMockOn, DateTime.utc(2026, 10, 20));
   });
 
   group('your marks', () {
