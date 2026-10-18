@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/theme/theme.dart';
+import '../../../core/copy/sentences.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy_glance.dart';
 import '../logic/today_model.dart';
@@ -114,7 +115,7 @@ class LastPaperBlock extends StatelessWidget {
         ],
         MmPressable(
           onTap: onOpen == null ? null : () => onOpen!(p.target),
-          semanticsLabel: '${p.title}. $sub. ${p.marks} ${GlanceCopy.paperBar(d.right, d.wrong, d.blank, d.total)}. ${GlanceCopy.openResult}.',
+          semanticsLabel: joinSentences([p.title, sub, '${p.marks} ${GlanceCopy.paperBar(d.right, d.wrong, d.blank, d.total)}', GlanceCopy.openResult]),
           focusRadius: MmRadius.smallAll,
           pressedScale: 0.99,
           builder: (context, pressed, _) => Row(

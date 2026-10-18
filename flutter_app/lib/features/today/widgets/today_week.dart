@@ -11,6 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/motion/motion.dart';
+import '../../../core/copy/sentences.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../rhythm/logic/plan_week.dart' show PlanDay, PlanDayMark;
@@ -115,7 +116,7 @@ class _TodayWeekRowState extends ConsumerState<TodayWeekRow> {
           );
     final heading = MmPressable(
       onTap: widget.onTap,
-      semanticsLabel: w == null ? TodayCopy.weekTitle : '${TodayCopy.weekTitle}. ${TodayCopy.weekFigureSemantics(w.done, w.goal)}.',
+      semanticsLabel: w == null ? TodayCopy.weekTitle : joinSentences([TodayCopy.weekTitle, TodayCopy.weekFigureSemantics(w.done, w.goal)]),
       focusRadius: MmRadius.smallAll,
       pressedScale: 0.99,
       haptic: MmPressHaptic.selection,

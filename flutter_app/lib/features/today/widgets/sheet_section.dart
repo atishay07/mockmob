@@ -12,6 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/copy/formatters.dart' show minusSign;
+import '../../../core/copy/sentences.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
@@ -74,9 +75,15 @@ class _PaperRow extends ConsumerWidget {
   final VoidCallback onTap;
 
   String get _semantics {
-    if (row.sealed) return '${row.label}, ${row.subject}, ${row.date}. ${TodayCopy.sealed}. Opens your sheet.';
-    return '${row.label}, ${row.subject}, ${row.date}. ${row.marks} of ${row.outOf} marks. '
-        '${row.right} right, ${row.wrong} wrong, ${row.blank} not attempted.${row.change == null ? '' : ' ${row.change}.'} Opens the result.';
+    final head = '${row.label}, ${row.subject}, ${row.date}';
+    if (row.sealed) return joinSentences([head, TodayCopy.sealed, 'Opens your sheet']);
+    return joinSentences([
+      head,
+      '${row.marks} of ${row.outOf} marks',
+      '${row.right} right, ${row.wrong} wrong, ${row.blank} not attempted',
+      row.change,
+      'Opens the result',
+    ]);
   }
 
   @override

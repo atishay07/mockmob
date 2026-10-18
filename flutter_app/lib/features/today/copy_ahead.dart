@@ -3,6 +3,7 @@
 // count with its denominator. A planned full mock is "suggested", never promised; NTA's dates keep
 // the word "expected".
 import '../../core/copy/formatters.dart';
+import '../../core/copy/sentences.dart';
 
 abstract final class AheadCopy {
   // Mobi in the header.
@@ -85,7 +86,7 @@ abstract final class AheadCopy {
   /// "Sat 1 May".
   static String dayShort(DateTime d) => '${_weekdayShort[d.weekday - 1]} ${d.day} ${_month[d.month - 1]}';
 
-  static String weekSemantics(String when, String title, String? line) => '$when. $title.${line == null ? '' : ' $line'} Change plan.';
+  static String weekSemantics(String when, String title, String? line) => joinSentences([when, title, line, 'Change plan']);
   static String dayChip(int weekday, {required bool planned, required bool mock}) =>
       '${_weekdayLong[weekday]}${mock ? ', full mock suggested' : (planned ? ', planned' : ', not planned')}';
 

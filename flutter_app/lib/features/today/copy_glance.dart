@@ -3,6 +3,7 @@
 // as a guided sentence, Weak chapters, Last paper, Repairs and Revise. Sentence case, no arrows,
 // no exclamation marks, 12-hour times, real dates, every count with its denominator.
 import '../../core/copy/formatters.dart';
+import '../../core/copy/sentences.dart';
 
 abstract final class GlanceCopy {
   // The lead card.
@@ -60,7 +61,7 @@ abstract final class GlanceCopy {
   static const String choiceSeeRepairs = "See tonight's repairs";
   static String choiceSeeRepairsLine(int n) => '${plural(n, 'repair')} saved today';
   static String choiceSemantics(String title, String line, bool suggested) =>
-      '${suggested ? 'Suggested. ' : ''}$title. $line. Shows it in the card.';
+      joinSentences([if (suggested) 'Suggested', title, line, 'Shows it in the card']);
 
   // The cue.
   static const String cue = 'Your week, the road and weak chapters';
@@ -132,7 +133,7 @@ abstract final class GlanceCopy {
     return '$head ${plural(studyLeft, 'study day')} left at $perWeek a week.';
   }
 
-  static String roadHeadSemantics(String figure, String date) => '$figure. $date. Change plan.';
+  static String roadHeadSemantics(String figure, String date) => joinSentences([figure, date, 'Change plan']);
   static String studyDaysOf(int done, int goal) => '$done of $goal study days';
   static String studyDaysNoGoal(int done) => plural(done, 'study day');
   static String plannedDone(int done, int planned) => '$done of $planned planned done';
@@ -178,7 +179,7 @@ abstract final class GlanceCopy {
   static String planSaved(DateTime at, int weeks, int perWeek, int mocks) =>
       'Plan saved at ${formatTime12(at)}: ${plural(weeks, 'week')}, $perWeek days a week, $mocks full mocks.';
   static String layerSemantics(String layer, String figure, String line, bool open) =>
-      '$layer. $figure. $line. ${open ? 'Hide details' : 'Show details'}.';
+      joinSentences([layer, figure, line, open ? 'Hide details' : 'Show details']);
 
   // Change plan.
   static const String planTitle = 'Change plan';
@@ -245,7 +246,7 @@ abstract final class GlanceCopy {
   static const String weakNone = 'No chapter stands out yet. Every chapter you have answered is holding.';
   static const String weakFailed = 'Your weak chapters did not load.';
   static String weakRowSemantics(String chapter, String line, int marks, bool open) =>
-      '$chapter. $line. $marks marks. ${open ? 'Hide mistakes' : 'Show mistakes'}.';
+      joinSentences([chapter, line, '$marks marks', open ? 'Hide mistakes' : 'Show mistakes']);
 
   // Last paper.
   static const String paperTitle = 'Last paper';
@@ -278,7 +279,7 @@ abstract final class GlanceCopy {
   static const String reviseUnknown = 'Open Revise to see what is due.';
   static const String queueDayOneRepairs = 'Wrong answers wait here, so each one gets a repair.';
   static const String queueDayOneRevise = 'Repaired questions come back here on their day.';
-  static String tileSemantics(String title, String figure, String line) => '$title. $figure. $line.';
+  static String tileSemantics(String title, String figure, String line) => joinSentences([title, figure, line]);
 
   // Your colleges.
   static const String collegesTitle = 'Your colleges';

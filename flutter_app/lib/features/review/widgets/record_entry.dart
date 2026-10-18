@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/theme.dart';
+import '../../../core/copy/sentences.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/mistake_index.dart';
@@ -70,7 +71,7 @@ class RecordEntry extends StatelessWidget {
     };
     return Semantics(
       container: true,
-      label: '$title. $chip. ${lines.join('. ')}.',
+      label: joinSentences([title, chip, ...lines]),
       excludeSemantics: true,
       child: IntrinsicHeight(
         child: Row(

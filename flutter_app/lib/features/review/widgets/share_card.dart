@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/copy/formatters.dart';
+import '../../../core/copy/sentences.dart';
 import '../../../core/platform/share_image.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/brand/wordmark.dart';
@@ -84,7 +85,7 @@ class ShareCard extends StatelessWidget {
             child: SizedBox.fromSize(
               size: size,
               child: Semantics(
-                label: '${data.number} ${data.unit}. ${data.kicker}. ${data.dateLine}.',
+                label: joinSentences(['${data.number} ${data.unit}', data.kicker, data.dateLine]),
                 excludeSemantics: true,
                 child: ColoredBox(
                   color: colors.ground,

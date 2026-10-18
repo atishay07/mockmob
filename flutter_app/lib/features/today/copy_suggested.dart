@@ -8,6 +8,8 @@
 // Every line that teaches the right action says the verb and its outcome, the screen reader's own
 // words ("Do this next. It moves into the card above."); "Up next" stays only where the result is
 // shown: the bar, the lead card's overline and what a screen reader hears after it (round 2, item 3).
+import '../../core/copy/sentences.dart';
+
 abstract final class SuggestedCopy {
   static const String title = 'Suggested for you';
 
@@ -78,7 +80,7 @@ abstract final class SuggestedCopy {
 
   // Screen readers: the row is the path, so each button says what it does.
   static String cardSemantics(int at, int of, String? cost, String title, String line, {required bool suggested}) =>
-      'Card $at of $of. ${suggested ? '$suggestedTag. ' : ''}$title. ${cost == null ? '' : '$cost. '}$line';
+      joinSentences(['Card $at of $of', if (suggested) suggestedTag, title, cost, line]);
   static String notNowSemantics(String title) => 'Not now: $title. It waits at the back.';
   static String upNextSemantics(String title) => 'Do this next: $title. It moves into the card above. Nothing starts until you tap Start.';
   static String undoSemantics(String title) => 'Undo: brings back $title.';
