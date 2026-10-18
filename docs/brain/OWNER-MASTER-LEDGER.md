@@ -425,6 +425,11 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 | D92 | Taste = independent UI/UX knowledge + his research brain + his records, combined (not only his preferences) | OWNER-TASTE-PROFILE.md section 0 added 7:55 pm; it governs the build and re-check stages |
 | D93 | The taste loop is an experiment: real results on usefulness, regressions and agent confusion; keep it only if clearly useful | A blind A/B evaluation after the taste workflow (before vs after, order hidden), plus regressions, skipped or confused items, merge conflicts and cost, in docs/brain/TASTE-LOOP-EVAL-1018.md with a keep/drop call |
 
+### Owner at about 8:15 pm, 18 Oct (D94)
+| D | Item | Status |
+|---|---|---|
+| D94 | Swipe v2 approved as drawn (Up next / Not now, buttons under the deck, first-time demo, undo, honest learning) | BUILDING: ui/v15-swipe2 (wt-v15-swipe2), Opus critic loop, ships in v15.2 |
+
 ## Waiting on the owner (updated 18 Oct about 3:45 am)
 - Answered 3:50 am: M-001 first launch 3 s; M-006 bolder copy; D19 keep badges, refine; D22 Mob.
 - D32: confirm the kept landing element when he reviews the port live (wt-land3, port 3206).

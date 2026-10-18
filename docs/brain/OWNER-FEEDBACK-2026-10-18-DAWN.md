@@ -368,3 +368,8 @@ His message was the pasted next-session prompt (resume from 25ef3d95, follow NOW
 **Ledger D92-D93:**
 - **D92** "Taste" means general UI/UX taste: the model's independent knowledge, plus his research brain, plus his records, combined. It is not only his preferences.
 - **D93** The taste agents are an EXPERIMENT. Report real results: whether they are useful, whether they cause regressions or confuse agents, and whether to keep them. If they are not clearly useful, go back to the normal flow from next time.
+
+## Owner, 18 Oct about 8:15 pm IST (his choice on the swipe v2 frames)
+> "Yes, build swipe v2 as drawn: Up next / Not now with the buttons under the deck and the first-time demo."
+
+**Ledger D94:** swipe v2 is APPROVED as drawn in docs/design-decisions/pass-1018/SWIPE-V2-1018.md. It ships in v15.2.
