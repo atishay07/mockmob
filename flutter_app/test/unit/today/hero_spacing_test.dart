@@ -39,7 +39,7 @@ void main() {
       TodayBody(
         // Day one has no papers: Mobi stands in the card. Asha's record gives the object hero.
         view: buildToday(mobi ? ashaInputs(attempts: const []) : ashaInputs()),
-        callbacks: TodayCallbacks(onAction: (_) {}, onTarget: (_) {}, onMinutes: (_) {}, onShowMe: (_) {}, onWeek: () {}),
+        callbacks: TodayCallbacks(onAction: (_) {}, onTarget: (_) {}, onMinutes: (_, _) {}, onShowMe: (_) {}, onWeek: () {}),
         skeletonDelay: Duration.zero,
       ),
       size: Size(width, 1600),

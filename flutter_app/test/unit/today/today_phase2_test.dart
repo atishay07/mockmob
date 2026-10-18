@@ -28,7 +28,7 @@ void main() {
   );
 
   TodayCallbacks callbacks({Future<void> Function()? onRefresh}) =>
-      TodayCallbacks(onAction: (_) {}, onTarget: (_) {}, onMinutes: (_) {}, onShowMe: (_) {}, onWeek: () {}, onRefresh: onRefresh);
+      TodayCallbacks(onAction: (_) {}, onTarget: (_) {}, onMinutes: (_, _) {}, onShowMe: (_) {}, onWeek: () {}, onRefresh: onRefresh);
 
   Future<void> pumpToday(WidgetTester tester, {bool reduced = false, bool offline = false, Future<void> Function()? onRefresh, Brightness brightness = Brightness.dark, Size size = const Size(384, 1400)}) =>
       pumpMockmob(

@@ -406,7 +406,20 @@ class TodayActions {
     }
   }
 
-  /// Pull to refresh and Try again: the record, the plan and the week, read again.
+  /// A length picked on the card on screen, whose kind is [shown]. Revise's length is the Revise
+  /// screen's own setting (5 or 10 questions a day), so only a Revise card on screen writes it and
+  /// the round its key opens is the size the card showed. Every other card takes the visit's
+  /// length, which the lead and the Suggested stack's moves are built with, so a card swapped in
+  /// from the stack follows the pick too (C / D51 walk).
+  void chooseLength(int minutes, MoveKind shown) {
+    if (shown == MoveKind.revise) {
+      unawaited(_ref.read(reviseCapProvider.notifier).set(minutes));
+    } else {
+      _ref.read(todayMinutesProvider.notifier).choose(minutes);
+    }
+  }
+
+    /// Pull to refresh and Try again: the record, the plan and the week, read again.
   Future<void> refresh() async {
     // Ask the server about an ended mock first, in parallel with the record reads, so a slow
     // attempts read does not hold back "Checking what reached the server".
@@ -447,7 +460,7 @@ final todayActionsProvider = Provider<TodayActions>(TodayActions.new);
 const Duration todayReconnectDebounce = Duration(seconds: 1);
 
 /// Today refreshes itself when the network returns (v15 walk, M1): one read of the record, the plan and the week
-/// about a second after the connection settles, so the header never keeps saying "Could not refresh" over a problem
+/// about a second after the connection settles, so the header never keeps saying "Not refreshed" over a problem
 /// that is gone and the student never has to find the line to tap. Debounced: a flapping connection reads once.
 /// Watched by the Today screen; it does nothing while nobody is listening.
 final todayReconnectRefreshProvider = Provider<void>((ref) {

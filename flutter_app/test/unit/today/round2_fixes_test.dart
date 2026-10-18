@@ -257,7 +257,7 @@ void main() {
             view: buildToday(ashaInputs(now: tuesdayLate)),
             skeletonDelay: Duration.zero,
             controller: controller,
-            callbacks: TodayCallbacks(onAction: (_) {}, onTarget: (_) {}, onMinutes: (_) {}, onShowMe: (_) {}, onWeek: () {}),
+            callbacks: TodayCallbacks(onAction: (_) {}, onTarget: (_) {}, onMinutes: (_, _) {}, onShowMe: (_) {}, onWeek: () {}),
           ),
         ),
         // A phone short enough that the key and the length selector are both below the bar: the

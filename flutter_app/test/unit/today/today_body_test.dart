@@ -50,7 +50,7 @@ void main() {
         callbacks: TodayCallbacks(
           onAction: events.add,
           onTarget: events.add,
-          onMinutes: (m) => events.add('minutes:$m'),
+          onMinutes: (m, _) => events.add('minutes:$m'),
           onShowMe: (id) => events.add('why:$id'),
           onWeek: () => events.add('week'),
         ),

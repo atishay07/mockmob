@@ -64,7 +64,11 @@ class TodayCallbacks {
 
   final void Function(TodayAction action) onAction;
   final void Function(TodayTarget target) onTarget;
-  final ValueChanged<int>? onMinutes;
+
+  /// A length picked on the card on screen: [shown] is that card's kind, which is the student's
+  /// pick from the Suggested stack when there is one, not the recommended move (C / D51 walk: a
+  /// pick on the swapped-in card went to Revise's round size and the card never changed).
+  final void Function(int minutes, MoveKind shown)? onMinutes;
   final void Function(String attemptId)? onShowMe;
   final VoidCallback? onWeek;
   final VoidCallback? onChooseColleges;
@@ -418,8 +422,9 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
 
   void _minutes(int minutes) {
     final hero = _shownHero;
-    if (hero is MoveHero && hero.selectedMinutes != minutes) _cue(MobiAct.listen);
-    widget.callbacks.onMinutes?.call(minutes);
+    if (hero is! MoveHero) return;
+    if (hero.selectedMinutes != minutes) _cue(MobiAct.listen);
+    widget.callbacks.onMinutes?.call(minutes, hero.kind);
   }
 
   @override

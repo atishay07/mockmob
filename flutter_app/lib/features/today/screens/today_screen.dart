@@ -14,7 +14,6 @@ import '../../../core/router/routes.dart';
 import '../../../core/widgets/widgets.dart' show MobiAct, MobiController;
 import '../../paper_reel/paper_reel.dart';
 import '../../result/data/result_providers.dart' show resultActionsProvider;
-import '../../review/revise/revise_data.dart' show reviseCapProvider;
 import '../../rhythm/rhythm.dart';
 import '../../tools/compass/compass_controller.dart' show compassControllerProvider;
 import '../../tools/data/my_colleges_actions.dart' show MyCollegesStatus, myCollegesActionsProvider, myCollegesProvider;
@@ -161,7 +160,7 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
   /// Still not loading." The time changes on every tap, so a repeated tap visibly ran (L01; the
   /// 5-second snackbar is retired). Once the record is in hand the line is cleared.
   void _noteTry() {
-    // The failure card, or the header's "Could not refresh" line (S7), says when it last tried.
+    // The failure card, or the header's "Not refreshed" line (S7), says when it last tried.
     ref.read(todayActionsProvider).noteTry();
   }
 
@@ -268,7 +267,11 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
   void _action(TodayAction action) {
     if (action.startsSession || action.actionType == 'resume') {
       // The length the card shows, not the raw chip: a stale or unoffered pick is never logged.
-      final hero = ref.read(todayViewProvider).hero;
+      // The card on screen may be a pick from the Suggested stack: its key is the one tapped.
+      final view = ref.read(todayViewProvider);
+      final lead = view.hero;
+      final moves = <MoveHero>[if (lead is MoveHero) lead, for (final c in view.choices) ?c.hero];
+      final hero = moves.where((m) => m.primary.label == action.label).firstOrNull ?? lead;
       ref.read(todayActionsProvider).started(action, minutes: hero is MoveHero ? hero.selectedMinutes : null);
     }
     _target(action.target);
@@ -284,7 +287,7 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
       unawaited(MmScroll.toTop(context, _scroll));
     });
     // The network came back: one read of everything Today shows, a second after the connection settles (a failure
-    // card, a "Could not refresh" line and a plain stale copy are all read again; the student never has to find
+    // card, a "Not refreshed" line and a plain stale copy are all read again; the student never has to find
     // the line to tap).
     ref.watch(todayReconnectRefreshProvider);
     // Only the plan failed (the papers are fresh): it is read again twice, quietly, so "Updated 10:18 AM" does not stay over the greeting.
@@ -326,16 +329,7 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
       callbacks: TodayCallbacks(
         onAction: _action,
         onTarget: _target,
-        onMinutes: (m) {
-          // Revise's length is the Revise screen's own setting (5 or 10 questions a day), so the
-          // round the key opens is the size the card showed.
-          final hero = ref.read(todayViewProvider).hero;
-          if (hero is MoveHero && hero.kind == MoveKind.revise) {
-            unawaited(ref.read(reviseCapProvider.notifier).set(m));
-          } else {
-            ref.read(todayMinutesProvider.notifier).choose(m);
-          }
-        },
+        onMinutes: (m, shown) => ref.read(todayActionsProvider).chooseLength(m, shown),
         onShowMe: (id) {
           ref.read(todayActionsProvider).reasonOpened();
           unawaited(context.push(AppRoutes.todayWhy(id)));

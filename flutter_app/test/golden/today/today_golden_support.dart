@@ -44,7 +44,7 @@ TodayCallbacks get noopCallbacks =>
     TodayCallbacks(
       onAction: (_) {},
       onTarget: (_) {},
-      onMinutes: (_) {},
+      onMinutes: (_, _) {},
       onShowMe: (_) {},
       onWeek: () {},
       onChooseColleges: () {},

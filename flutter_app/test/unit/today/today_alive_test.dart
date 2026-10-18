@@ -142,7 +142,7 @@ void main() {
             set = setState;
             return TodayBody(
               view: view,
-              callbacks: TodayCallbacks(onAction: (_) {}, onTarget: (_) {}, onMinutes: (_) {}),
+              callbacks: TodayCallbacks(onAction: (_) {}, onTarget: (_) {}, onMinutes: (_, _) {}),
               mobiController: MobiController(),
               skeletonDelay: Duration.zero,
             );
