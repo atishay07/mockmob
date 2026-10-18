@@ -41,7 +41,9 @@ The emulator is SHARED, so only one agent uses it at a time.
   - point the app with `adb -e reverse tcp:3101 tcp:3103`, and restore it afterwards.
 
 ### Web
-- node_modules is a junction to `mockmob-hotfix\node_modules`. Create it with PowerShell `New-Item -ItemType Junction`. Never run npm install.
+- node_modules is a junction to `mockmob-next
+ode_modules` (19 Oct 3:30 am: `mockmob-hotfix
+ode_modules` lost its scoped packages; never link there). Create it with PowerShell `New-Item -ItemType Junction`. Never run npm install.
 - `.env.local` comes from `wt-batch2` and points at PRODUCTION. Use the preview fixtures (`/preview/...`) only. Never sign in or write data with it.
 - Run `NODE_OPTIONS=--max-old-space-size=4096 npx next dev --webpack -p <your port>`. Next refuses a second dev server in the same folder.
 - Headless Chrome only, through playwright-core at `C:\Users\atish\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\node_modules\playwright-core`, with your own temp profile. Never chrome.exe directly, a visible browser or the chrome-devtools MCP.
