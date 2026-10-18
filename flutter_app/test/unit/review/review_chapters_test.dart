@@ -139,6 +139,33 @@ void main() {
     expect([for (final i in adm.open) i.number], [38, 45, 11]);
   });
 
+  test('a chapter of mostly wrong answers never prints more marks lost than it had on offer (v15 final walk)', () {
+    // 10 questions: 9 wrong and 1 blank lose 59 marks, 5 a question is 50 on offer. "Lost 59 of the 50" cannot be true.
+    final rec = _custom(
+      papers: [
+        {'id': 'p1', 'name': 'Mock 1', 'at': '2026-10-17T20:00:00+05:30'},
+      ],
+      chapters: [
+        {'id': 'c1', 'name': 'Financial Markets'},
+      ],
+      chapterQuestions: {
+        'p1': {'c1': 10},
+      },
+      items: [
+        for (var q = 1; q <= 9; q++) {'paper': 'p1', 'q': q, 'ch': 'c1', 'state': 'open'},
+        {'paper': 'p1', 'q': 10, 'ch': 'c1', 'state': 'blank'},
+      ],
+    );
+    final row = chapterRows(rec).single;
+    expect((row.lost, row.offer, row.scored), (59, 50, -9));
+    expect(row.overOffer, isTrue);
+    expect(row.line.text, 'Lost 59 marks, 10 questions in Mock 1. 9 wrong, 1 left blank.');
+    expect(row.line.text, isNot(contains(' of the ')));
+    expect(row.share, 1);
+    // Under the line the sentence keeps its "of N".
+    expect(chapterRows(_record())[0].overOffer, isFalse);
+  });
+
   test('without chapterQuestions (an older server) the line states the marks lost alone, and no denominator is invented', () {
     final adm = chapterRows(_record().withoutChapterQuestions())[0];
     expect(adm.offer, isNull);

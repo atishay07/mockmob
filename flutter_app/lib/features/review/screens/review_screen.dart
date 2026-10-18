@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/connectivity/connectivity.dart' show NetworkStatus, networkStatusProvider;
 import '../../../core/notes/feature_note_view.dart';
 import '../../../core/notes/feature_notes.dart';
 import '../../../core/notes/sample_row.dart';
@@ -102,7 +103,7 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
       padding: const EdgeInsets.fromLTRB(ReviewSpace.gutter, MmSpace.s8, ReviewSpace.gutter, MmSpace.s16),
       child: AccountLeading(child: ReviewTabHeader(
         title: ReviewCopy.title,
-        notice: HeaderNotice.forAttempts(attempts, ref.watch(reviewClockProvider)),
+        notice: HeaderNotice.forAttempts(attempts, ref.watch(reviewClockProvider), offline: ref.watch(networkStatusProvider) == NetworkStatus.offline),
         // Ask answers from the record, so it lives here (DOCK.md 6), not on the bar or the Start sheet.
         onAsk: () => openAskMobi(context, const AskMobiContext.page()),
         showMobi: !sceneMobi,

@@ -126,7 +126,7 @@ abstract final class OnboardingCopy {
   static const String pickCollege = 'Pick a college to continue, or say any college is fine.';
   static const String commonPicks = 'Common picks';
   static const String addSubject = 'Add a subject';
-  static const String addSubjectNote = 'Science, humanities and the rest of the 15 MockMob offers';
+  static const String addSubjectNote = 'Science, humanities and the rest';
   static const String pickerTitle = 'Add a subject';
   static const String searchHint = 'Search subjects';
   static String pickerCount(int n) => n == 0 ? 'Pick up to $kCuetMaxWord. A language or the General Test uses one.' : '$n of $kCuetMaxSubjects on your sheet.';

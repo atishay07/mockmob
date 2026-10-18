@@ -373,6 +373,17 @@ class TodayActions {
     }
   }
 
+  /// The reads Today shows are still a saved copy although the connection is back (the read after the reconnect failed, or
+  /// ended behind one that was hung while the radio was down): the line over the greeting would keep saying so.
+  bool stillSaved() {
+    try {
+      final i = _ref.read(todayInputsProvider);
+      return !i.offline && (i.attemptsStale || i.planStale);
+    } on Object {
+      return false;
+    }
+  }
+
   /// Pull to refresh and Try again: the record, the plan and the week, read again.
   Future<void> refresh() async {
     // Ask the server about an ended mock first, in parallel with the record reads, so a slow
@@ -419,12 +430,30 @@ const Duration todayReconnectDebounce = Duration(seconds: 1);
 /// Watched by the Today screen; it does nothing while nobody is listening.
 final todayReconnectRefreshProvider = Provider<void>((ref) {
   Timer? pending;
+  var retries = 0;
+
+  Future<void> read() async {
+    try {
+      await ref.read(todayActionsProvider).refreshAfterReconnect();
+    } on Object {
+      // The record keeps its error; the retry below (or the student's pull) reads again.
+    }
+    if (!ref.mounted || retries >= todayReconnectRetries.length) return;
+    if (!ref.read(todayActionsProvider).stillSaved()) return;
+    pending?.cancel();
+    pending = Timer(todayReconnectRetries[retries++], () {
+      pending = null;
+      if (ref.mounted) unawaited(read());
+    });
+  }
+
   void soon() {
     pending?.cancel();
+    retries = 0;
     pending = Timer(todayReconnectDebounce, () {
       pending = null;
       if (!ref.mounted) return;
-      unawaited(ref.read(todayActionsProvider).refreshAfterReconnect().catchError((Object _) {}));
+      unawaited(read());
     });
   }
 
@@ -436,6 +465,10 @@ final todayReconnectRefreshProvider = Provider<void>((ref) {
   });
   ref.onDispose(() => pending?.cancel());
 });
+
+/// After the read that follows a reconnect, Today looks again if the copy on screen is still a saved one, twice and then stops
+/// (v15 final walk: "Offline. Last loaded" stayed over Today for a minute with the network back, until the line was tapped).
+const List<Duration> todayReconnectRetries = [Duration(seconds: 8), Duration(seconds: 25)];
 
 /// How long Today waits before it reads the plan again by itself, after the plan alone failed (the papers are fresh).
 /// Two quiet tries, then it stops: a pull or the line's tap is still there. Never a timer that runs for ever.

@@ -204,8 +204,9 @@ class _AddRow extends ConsumerWidget {
         ),
         child: ConstrainedBox(
           constraints: const BoxConstraints(minHeight: 56),
+          // Vertical room too: a note that wraps (a large text size) grows the card instead of sitting on its border.
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16),
+            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s8),
             child: Row(
               children: [
                 SizedBox.square(

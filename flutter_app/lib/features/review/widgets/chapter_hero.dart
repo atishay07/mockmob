@@ -116,7 +116,7 @@ class ChapterHero extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    if (offer != null) Text(ReviewCopy.ofOffer(offer), style: _unit(type, colors)),
+                                    if (offer != null && !row.overOffer) Text(ReviewCopy.ofOffer(offer), style: _unit(type, colors)),
                                     Text(ReviewCopy.marksLostWord, style: _unit(type, colors)),
                                   ],
                                 ),

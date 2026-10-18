@@ -23,10 +23,13 @@ class HeaderNotice extends StatelessWidget {
 
   /// The header line over the attempts list the screen holds, or null while that list is fresh: offline or refresh
   /// failed by the failed read's own cause, and the time of the last GOOD read in the student's own clock.
-  static String? forAttempts(RemoteState<List<Attempt>> attempts, ReviewClock clock) {
-    if (!attempts.isStale) return null;
+  ///
+  /// [offline] is the connection monitor's word, so the line shows the moment the radio drops (Today does the same), not only
+  /// after a read has failed: the list on screen is then the last copy, whatever the next read does.
+  static String? forAttempts(RemoteState<List<Attempt>> attempts, ReviewClock clock, {bool offline = false}) {
+    if (!attempts.isStale && !(offline && attempts.value != null)) return null;
     final at = attempts.fetchedAt;
-    return forFailure(offline: attempts.error?.isOffline ?? false, lastGoodRead: at == null ? null : clock.local(at));
+    return forFailure(offline: offline || (attempts.error?.isOffline ?? false), lastGoodRead: at == null ? null : clock.local(at));
   }
 
   final String message;
@@ -53,6 +56,9 @@ class HeaderNotice extends StatelessWidget {
 /// The notice on one line wherever it can be, so the header never grows when it appears (v15 walk: next to the Ask pill the
 /// line wrapped to two and the card under it moved down 26 dp). It is drawn a step smaller, never under [_floor] of its size,
 /// when that is what it takes; only a line that still does not fit (a large system text size) wraps.
+/// The smallest share of its size the header notice is drawn at before it wraps (and before the Ask pill gives it room).
+const double noticeFloor = 0.84;
+
 class _OneLine extends StatelessWidget {
   const _OneLine(this.message, {required this.style});
 
@@ -60,7 +66,7 @@ class _OneLine extends StatelessWidget {
   final TextStyle style;
 
   /// The smallest share of its size the line is drawn at before it wraps instead.
-  static const double _floor = 0.84;
+  static const double _floor = noticeFloor;
 
   @override
   Widget build(BuildContext context) {
@@ -100,26 +106,64 @@ class ReviewTabHeader extends StatelessWidget {
   /// Mobi of the screen (the empty state, the all-clear hero, a load failure).
   final bool showMobi;
 
+  /// The width the offline line needs next to the title: its glyph, a gap and the text at its smallest drawn size.
+  static double _noticeNeeds(BuildContext context, String notice) {
+    final painter = TextPainter(
+      text: TextSpan(text: notice, style: context.mmType.small),
+      textDirection: Directionality.of(context),
+      textScaler: MediaQuery.textScalerOf(context),
+      maxLines: 1,
+    )..layout();
+    final width = painter.width;
+    painter.dispose();
+    return 14 + MmSpace.s4 + width * noticeFloor;
+  }
+
+  /// The width of the labelled Ask pill: its padding, Mobi's face, the gap and the word.
+  static double _pillWidth(BuildContext context) {
+    final painter = TextPainter(
+      text: TextSpan(text: ReviewCopy.askKey, style: context.mmType.labelLarge),
+      textDirection: Directionality.of(context),
+      textScaler: MediaQuery.textScalerOf(context),
+      maxLines: 1,
+    )..layout();
+    final width = painter.width;
+    painter.dispose();
+    return MmSpace.s16 * 2 + 24 + MmSpace.s8 + width;
+  }
+
   @override
   Widget build(BuildContext context) {
     final type = context.mmType;
-    return ConstrainedBox(
-      constraints: const BoxConstraints(minHeight: 56),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Semantics(header: true, child: Text(title, style: type.screenTitle, maxLines: 1, overflow: TextOverflow.ellipsis)),
-                if (notice != null) HeaderNotice(notice!),
+    return LayoutBuilder(
+      builder: (context, box) {
+        // The pill loses its word, and keeps Mobi's face, only when the offline line cannot sit on one line beside the
+        // labelled pill (a 360 dp phone with its account key on the left): the header keeps its height and the line its
+        // one row, so the hero under it never moves when the line appears (v15 final walk).
+        final compactAsk =
+            onAsk != null && notice != null && _noticeNeeds(context, notice!) > box.maxWidth - _pillWidth(context) - MmSpace.s12;
+        return ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 56),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Semantics(header: true, child: Text(title, style: type.screenTitle, maxLines: 1, overflow: TextOverflow.ellipsis)),
+                    if (notice != null) HeaderNotice(notice!),
+                  ],
+                ),
+              ),
+              if (onAsk != null) ...[
+                const SizedBox(width: MmSpace.s12),
+                _AskPill(onTap: onAsk!, showMobi: showMobi, compact: compactAsk),
               ],
-            ),
+            ],
           ),
-          if (onAsk != null) ...[const SizedBox(width: MmSpace.s12), _AskPill(onTap: onAsk!, showMobi: showMobi)],
-        ],
-      ),
+        );
+      },
     );
   }
 }
@@ -127,10 +171,13 @@ class ReviewTabHeader extends StatelessWidget {
 /// "Ask Mobi" in the Review header: a ghost pill (a 1 dp line, no fill, so the one volt key on the
 /// screen stays the hero's), drawn 40 dp tall and answering a finger anywhere in a 48 dp box.
 class _AskPill extends StatelessWidget {
-  const _AskPill({required this.onTap, this.showMobi = true});
+  const _AskPill({required this.onTap, this.showMobi = true, this.compact = false});
 
   final VoidCallback onTap;
   final bool showMobi;
+
+  /// Mobi's face alone in the same 40 dp pill outline, while the offline line needs the room.
+  final bool compact;
 
   @override
   Widget build(BuildContext context) {
@@ -152,7 +199,7 @@ class _AskPill extends StatelessWidget {
           child: SizedBox(
             height: 40,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16),
+              padding: EdgeInsets.symmetric(horizontal: compact ? MmSpace.s8 : MmSpace.s16),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -166,8 +213,10 @@ class _AskPill extends StatelessWidget {
                           )
                         : Icon(LucideIcons.messageCircle, size: 16, color: colors.ink),
                   ),
-                  const SizedBox(width: MmSpace.s8),
-                  Text(ReviewCopy.askKey, style: type.labelLarge.copyWith(color: colors.ink)),
+                  if (!compact) ...[
+                    const SizedBox(width: MmSpace.s8),
+                    Text(ReviewCopy.askKey, style: type.labelLarge.copyWith(color: colors.ink)),
+                  ],
                 ],
               ),
             ),

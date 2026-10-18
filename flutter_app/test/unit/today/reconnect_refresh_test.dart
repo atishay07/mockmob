@@ -38,6 +38,12 @@ class _CountingActions extends TodayActions {
 
   @override
   void noteTry() => log.add('noteTry');
+
+  /// What the copy on screen looks like after each read: true while the test says it is still a saved one.
+  bool saved = false;
+
+  @override
+  bool stillSaved() => saved;
 }
 
 void main() {
@@ -118,6 +124,40 @@ void main() {
         async.elapse(todayReconnectDebounce * 3);
         async.flushMicrotasks();
         expect(log, isEmpty);
+        close();
+      });
+    });
+
+    test('a copy that is still a saved one after the read is read again at 8 s and 25 s, then left alone', () {
+      fakeAsync((async) {
+        open();
+        (container.read(todayActionsProvider) as _CountingActions).saved = true;
+        network.set(NetworkStatus.online);
+        async.elapse(todayReconnectDebounce + const Duration(milliseconds: 50));
+        async.flushMicrotasks();
+        expect(log.where((e) => e == 'refresh'), hasLength(1));
+        async.elapse(todayReconnectRetries[0] + const Duration(milliseconds: 50));
+        async.flushMicrotasks();
+        expect(log.where((e) => e == 'refresh'), hasLength(2), reason: 'the first quiet look');
+        async.elapse(todayReconnectRetries[1] + const Duration(milliseconds: 50));
+        async.flushMicrotasks();
+        expect(log.where((e) => e == 'refresh'), hasLength(3), reason: 'the second quiet look');
+        async.elapse(const Duration(minutes: 10));
+        async.flushMicrotasks();
+        expect(log.where((e) => e == 'refresh'), hasLength(3), reason: 'never a timer that runs for ever');
+        close();
+      });
+    });
+
+    test('a copy that came back fresh is not read again', () {
+      fakeAsync((async) {
+        open();
+        network.set(NetworkStatus.online);
+        async.elapse(todayReconnectDebounce + const Duration(milliseconds: 50));
+        async.flushMicrotasks();
+        async.elapse(const Duration(minutes: 2));
+        async.flushMicrotasks();
+        expect(log.where((e) => e == 'refresh'), hasLength(1));
         close();
       });
     });

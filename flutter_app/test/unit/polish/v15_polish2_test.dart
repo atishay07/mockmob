@@ -202,6 +202,40 @@ void main() {
     }
   });
 
+  group('the offline line beside the account key (v15 final walk)', () {
+    // A 360 dp phone: 16 dp gutters and the 40 dp account key with its gap leave the header 280 dp.
+    testWidgets('the Ask pill gives way to Mobi alone, the line stays on one line and the header keeps its height', (tester) async {
+      const line = 'Offline. Last loaded 3:05 PM.';
+      Future<Size> pumpHeader(String? notice) async {
+        await pumpMockmob(
+          tester,
+          Align(alignment: Alignment.topLeft, child: SizedBox(width: 280, child: ReviewTabHeader(title: 'Review', notice: notice, onAsk: () {}))),
+          size: const Size(360, 400),
+          disableAnimations: true,
+        );
+        return tester.getSize(find.byType(ReviewTabHeader));
+      }
+
+      final plain = await pumpHeader(null);
+      expect(find.text('Ask Mobi'), findsOneWidget);
+      final offline = await pumpHeader(line);
+      expect(offline.height, plain.height);
+      expect(find.text('Ask Mobi'), findsNothing, reason: 'the word steps aside only while the line needs the room');
+      expect(find.bySemanticsLabel('Ask Mobi, a question about your record'), findsOneWidget);
+      expect(tester.getSize(find.text(line)).height, lessThan(24), reason: 'one line');
+    });
+
+    testWidgets('with room to spare the pill keeps its word', (tester) async {
+      await pumpMockmob(
+        tester,
+        ReviewTabHeader(title: 'Review', notice: 'Offline. Last loaded 3:05 PM.', onAsk: () {}),
+        size: const Size(600, 400),
+        disableAnimations: true,
+      );
+      expect(find.text('Ask Mobi'), findsOneWidget);
+    });
+  });
+
   group('the Sunday week promises no day that is gone', () {
     SheetWeek week({required List<WeekDayMark> marks, required int today, required int done, int goal = 4}) => SheetWeek.ready(
           days: [for (var d = 0; d < 7; d++) WeekBubbleDay(mark: marks[d], isToday: d == today)],
