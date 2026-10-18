@@ -11,6 +11,7 @@ import { apiGet } from '@/lib/fetcher';
 import {
   CREDITS_COPY, CREDITS_URL, FILTERS, appendPage, creditTiles, creditsFromResponse, filterHistory, historyLine,
 } from './creditsModel.mjs';
+import { InlineNudge, ProFacts } from '@/components/pro';
 import './credits.css';
 
 const EMPTY = { status: 'loading', data: null, history: [], next: null, moreStatus: 'idle' };
@@ -93,6 +94,14 @@ export default function CreditsSection({ userId }) {
               </div>
             ))}
           </div>
+
+          {/* Free only, when practice credits run under a Full mock's price (D79). */}
+          {state.data.plan?.name === 'Free' ? (
+            <>
+              <ProFacts facts={{ balance: state.data.practice?.balance ?? null }} history={state.history} />
+              <InlineNudge placement="credits_low" facts={{ balance: state.data.practice?.balance ?? null }} />
+            </>
+          ) : null}
 
           <div className="cr-history">
             <div className="cr-history__head">

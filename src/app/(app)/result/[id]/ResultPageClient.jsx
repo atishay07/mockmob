@@ -26,6 +26,7 @@ import TrapTag from '@/components/result/TrapTag';
 import ResultHero from '@/components/result/ResultHero';
 import EarnedBadges from '@/components/EarnedBadges';
 import NextMove from '@/components/result/NextMove';
+import { InlineNudge, ProFacts, reportFirstAction } from '@/components/pro';
 import MistakeList, { SHOWN_FIRST } from '@/components/result/MistakeList';
 import RetryFirst, { RetrySaid } from '@/components/result/RetryFirst';
 import { questionModel } from '@/components/review/freeSteps';
@@ -321,6 +322,13 @@ export default function ResultPageClient({ previewId = null }) {
     if (status === 'explained') setAckedAt(Date.now());
     if (status === 'explained' || status === 'stored') setSavedRepairs(s => (s[qid] ? s : { ...s, [qid]: { repairedAt: new Date().toISOString() } }));
   }, []);
+  // D81: a scored set has landed. In the first usage session after onboarding this is the student's first real action, and
+  // the shell may then open the Upgrade sheet once (src/components/pro/ProNudgeHost.jsx decides; Pro never sees it).
+  const firstActionAttempt = attempt?.id && Number(attempt.total) > 0 && !user?.isPremium ? attempt.id : null;
+  useEffect(() => {
+    if (!firstActionAttempt) return;
+    reportFirstAction({ kind: 'paper', at: Date.parse(attempt?.completedAt) || Date.now() });
+  }, [firstActionAttempt]); // eslint-disable-line react-hooks/exhaustive-deps
   const isNtaAttempt = attempt?.selectionMeta?.mode === 'nta';
   // Check it held came back marked by the server. A right answer marked now (not one read back from earlier) is Mobi's
   // one moment on the page; never in NTA mode.
@@ -778,6 +786,9 @@ export default function ResultPageClient({ previewId = null }) {
         </div>
         <Link href={next.href} className="btn-outline md rp-next__go mk-press"><AppIcon name="practice" size={16} />{next.action}</Link>
       </section>
+      {/* Free only, after a scored set (D79): one quiet line beside the next paper's price. */}
+      <ProFacts facts={{ weakChapter: chapterCounts[0]?.chapter || null, balance: user ? user.creditBalance ?? null : null, subjects: user?.subjects || [] }} />
+      {attempt.total > 0 ? <InlineNudge placement="result" facts={{ weakChapter: chapterCounts[0]?.chapter || null }} className="rp-nudge" /> : null}
 
       <nav className="rp-links" aria-label="More from your record">
         <Link href="/mentor?tab=record"><AppIcon name="prepos" size={16} />Your full record</Link>

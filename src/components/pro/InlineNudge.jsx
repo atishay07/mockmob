@@ -24,11 +24,12 @@ export default function InlineNudge({ placement, facts = {}, screen = null, clas
   const factsKey = JSON.stringify(facts);
 
   useEffect(() => {
-    if (!copy || !inlineAllowed(loadRecord(userId), { placement, now: Date.now(), user })) { setShown(false); return undefined; }
-    if (!claimScreen(claims, key, placement)) { setShown(false); return undefined; }
-    shareProFacts(JSON.parse(factsKey));
-    setShown(true);
-    return () => releaseScreen(claims, key, placement);
+    const ok = Boolean(copy) && inlineAllowed(loadRecord(userId), { placement, now: Date.now(), user }) && claimScreen(claims, key, placement);
+    if (ok) shareProFacts(JSON.parse(factsKey));
+    // Read on the client after mount (storage and the screen claim are client-only), then shown.
+    let alive = true;
+    queueMicrotask(() => { if (alive) setShown(ok); });
+    return () => { alive = false; if (ok) releaseScreen(claims, key, placement); };
     // copy follows facts; factsKey stands in for them.
   }, [placement, key, userId, user, factsKey, Boolean(copy)]); // eslint-disable-line react-hooks/exhaustive-deps
 

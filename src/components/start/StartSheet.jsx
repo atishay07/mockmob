@@ -21,6 +21,7 @@ import { PipActor } from '@/components/brand/PipActor';
 import { RowArt, SubjectObject } from './StartArt';
 import { balanceLine, dragOffset, dragOutcome, sheetTitle, springEasing, subjectName } from './startModel.mjs';
 import { useSubjectRail } from './useSubjectRail';
+import { InlineNudge, openUpgrade } from '@/components/pro';
 
 // Full mock and NTA mode are the two exam-conditions sessions: they sit side by side as tiles (the app's deck);
 // the rest run as rows.
@@ -249,6 +250,12 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
   };
   // Following a link: the sheet steps aside while the next page loads.
   const onFollow = () => requestClose();
+  // A Pro-only row on Free (NTA mode, Smart practice) opens the Upgrade sheet over this one instead of Practice (D79).
+  const onRow = (row) => (event) => {
+    if (row.cost?.tone !== 'locked' || pro) { onFollow(); return; }
+    event.preventDefault();
+    openUpgrade({ trigger: row.id, opener: event.currentTarget });
+  };
   const balanceText = balanceLine({ pro, balance });
   const heroName = hero?.subject ? subjectName(hero.subject) : '';
   // START-1017 D3: what follows the subject sits under the rail, and nothing above it does. A fixed move (a resume, a
@@ -346,7 +353,7 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
               {PAIRED.has(row.id) ? (
                 // Full mock and NTA mode: two tiles of equal height, the object on top (the app's stopwatch and the exam
                 // screen, F4), the name and note, then the cost and the go disc at the foot.
-                <Link className="st-tile mk-press" href={linkFor(row.href)} onClick={onFollow} data-row={row.id}>
+                <Link className="st-tile mk-press" href={linkFor(row.href)} onClick={onRow(row)} data-row={row.id}>
                   <span className="st-tile__top">
                     <span className="st-tile__art"><RowArt graphic={row.graphic} subject={row.subject} subjects={row.subjects || subjects} size={84} /></span>
                     {row.tag ? <span className="st-tag">{row.tag}</span> : null}
@@ -362,7 +369,7 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
                   <span className="sr-only">, opens Practice set up for it</span>
                 </Link>
               ) : (
-                <Link className="st-row mk-press" href={linkFor(row.href)} onClick={onFollow} data-row={row.id}>
+                <Link className="st-row mk-press" href={linkFor(row.href)} onClick={onRow(row)} data-row={row.id}>
                   <span className="st-row__art">
                     <RowArt key={['subject', 'chapters'].includes(row.graphic) ? `${row.graphic}-${row.subject}` : row.graphic} graphic={row.graphic} subject={row.subject} subjects={row.subjects || subjects} size={60} />
                     {row.badge ? <span className="st-row__badge" aria-hidden="true">{row.badge}</span> : null}
@@ -380,6 +387,7 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
           ))}
         </ul>
         <p className="st-note" data-rise>Nothing is spent here. Practice shows the cost again before you start.</p>
+        {pro ? null : <InlineNudge placement="start_sheet" screen="start-sheet" facts={{ balance, subjects }} className="st-nudge" />}
       </div>
     </dialog>
   );
