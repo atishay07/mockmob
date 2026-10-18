@@ -2,7 +2,8 @@
 // bodies the routes answer with. Development only: writes change this tab's copy and nothing else.
 //   Free and Pro (SOCIAL-SPEC section 15): ?mob=ready (free, you sat, your first side-by-side is free) | sample (free, the sample week
 //   open: trap and side-by-side) | locked (free, the sample went to another week: teaser and the Pro line) | pro (two Mobs,
-//   extra papers, past weeks) | blocked (free, you already sat this week in another Mob)
+//   extra papers, past weeks) | blocked (free, you already sat this week in another Mob) | extras (free, extra papers waiting)
+//   | partial (the sample week, a fourth sitter keeps answers private: the counts are over you and the members who share)
 //   ?mob=ready (default, you sat) | notsat (a nudge waiting, cost line) | alone | none | full | closed | error | loading
 //   | complete (4 of 4 sat: the ring settles, Today's Mobi moment) | two (a Mob of two who both sat and show their score:
 //   the Together card) | private (a Mob of two, both sat, your score private: the hint to compare)
@@ -21,12 +22,14 @@ const clone = (v) => JSON.parse(JSON.stringify(v));
 function initial(kind) {
   if (kind === 'none') return { mob: null };
   if (kind === 'pro') return clone(getProV2);
-  if (kind === 'sample' || kind === 'locked') {
+  if (kind === 'sample' || kind === 'locked' || kind === 'partial') {
     const m = clone(getV1);
-    if (kind === 'sample') { m.mob.compare.access = 'sample'; m.mob.compare.needsShare = false; } else { m.mob.compare.access = 'locked'; m.mob.trap = null; }
+    if (kind === 'sample' || kind === 'partial') { m.mob.compare.access = 'sample'; m.mob.compare.needsShare = false; } else { m.mob.compare.access = 'locked'; m.mob.trap = null; }
     return m;
   }
   if (kind === 'blocked') { const m = clone(getNotSat); m.mob.week.paper.cost = null; m.mob.week.paper.blocked = 'free_used'; m.mob.nudge.received = null; return m; }
+  // extras: free, with this week's extra papers a Pro member made (any member sits them)
+  if (kind === 'extras') { const m = clone(getV1); m.mob.trap = null; m.mob.extras = clone(getProV2).mob.extras; return m; }
   if (kind === 'alone') return clone(getAlone);
   if (kind === 'notsat') return clone(getNotSat);
   if (kind === 'closed') { const m = clone(getNotSat); m.mob.week.closed = true; m.mob.nudge.received = null; return m; }
@@ -89,6 +92,8 @@ export function previewMob(url, method, init, fixture, json) {
     if (kind === 'locked') return fail('PRO_REQUIRED');
     const c = clone(compareV2);
     if (kind === 'sample' || kind === 'ready') c.compare.access = 'sample';
+    // partial: a fourth sitter keeps answers private. The server counts only the rows you can read, so the counts stay as they are.
+    if (kind === 'partial') { c.compare.hidden = 1; c.compare.sat += 1; }
     if (url.searchParams.get('extra')) { c.compare.kind = 'extra'; c.compare.chapter = null; c.compare.questions = c.compare.questions.slice(0, 5); }
     else if (url.searchParams.get('week')) c.compare.week = url.searchParams.get('week');
     c.compare.yourResultId = 'practice_u2';

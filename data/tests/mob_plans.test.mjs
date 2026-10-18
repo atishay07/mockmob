@@ -11,7 +11,7 @@ import { PGlite } from '@electric-sql/pglite';
 import { readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { EXTRA_LENGTHS, EXTRA_MAX_PER_WEEK, FREE_MAX_MOBS, PRO_MAX_MOBS, closesAt, costLine, teaserLine } from '../../src/lib/mob/model.mjs';
+import { EXTRA_LENGTHS, EXTRA_MAX_PER_WEEK, FREE_MAX_MOBS, MAX_MEMBERSHIPS, PRO_MAX_MOBS, closesAt, costLine, teaserLine } from '../../src/lib/mob/model.mjs';
 import { buildCompare, compareSummary, computeTeaser, sharingSet } from '../../src/lib/mob/compare.mjs';
 import { createMobService } from '../../src/lib/server/mob/service.js';
 import { LIMITS, handleMob } from '../../src/lib/server/mob/http.js';
@@ -20,7 +20,9 @@ import { practiceCharge } from '../../data/practice_charge.js';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const read = (rel) => readFileSync(resolve(root, rel), 'utf8');
-const migration = read('supabase/migrations/20261017100000_mob.sql');
+// The Mob's migration and the 17 Oct fix on top of it, in the order they are applied.
+const migration = `${read('supabase/migrations/20261017100000_mob.sql')}
+${read('supabase/migrations/20261017190000_mob_fix_1017.sql')}`;
 const blocklist = JSON.parse(read('data/mob_name_blocklist.json'));
 
 // Tuesday 13 Oct 2026, 7:30 PM IST. The week is Monday 12 Oct.
@@ -112,15 +114,15 @@ test('the Mob has no age gate: nothing in the Mob code reads an age band or an a
   }
 });
 
-test('plans: free is one Mob, Pro is three, on start and on join; several Mobs are named on every write', async () => {
+test('plans: free starts one Mob, Pro starts three; several Mobs are named on every write', async () => {
   assert.deepEqual([FREE_MAX_MOBS, PRO_MAX_MOBS], [1, 3]);
   const db = await database(8);
   const pro = new Set(['u2']);
   const clock = { now: NOW };
-  const svc = createMobService({ ...baseDeps(db, clock), loadUser: async (id) => ({ isPremium: pro.has(id) }), startPractice: async () => ({}) });
+  const svc = createMobService({ ...baseDeps(db, clock), loadUser: async (id) => ({ subjects: ['accountancy', 'economics'], isPremium: pro.has(id) }), startPractice: async () => ({}) });
   try {
     const free = await mobStart(svc, 'u1');
-    assert.deepEqual(free.mob.plan, { pro: false, maxMobs: 1, mobCount: 1, canMakeExtra: false, canStartAnother: false });
+    assert.deepEqual(free.mob.plan, { pro: false, maxMobs: 1, mobCount: 1, started: 1, canMakeExtra: false, canStartAnother: false });
     await assert.rejects(mobStart(svc, 'u1', 'economics'), expectCode('MOB_LIMIT'));
     const a = await mobStart(svc, 'u2', 'accountancy', 'Asha');
     const b = await mobStart(svc, 'u2', 'economics', 'Asha');
@@ -130,7 +132,7 @@ test('plans: free is one Mob, Pro is three, on start and on join; several Mobs a
     const all = await svc.view('u2');
     assert.deepEqual(all.mob.mobs.map((m) => m.id), [a.mob.id, b.mob.id, c.mob.id], 'in the order you joined');
     assert.equal(all.mob.id, a.mob.id, 'the earliest Mob is the default');
-    assert.deepEqual(all.mob.plan, { pro: true, maxMobs: 3, mobCount: 3, canMakeExtra: true, canStartAnother: false });
+    assert.deepEqual(all.mob.plan, { pro: true, maxMobs: 3, mobCount: 3, started: 3, canMakeExtra: true, canStartAnother: false });
     assert.deepEqual(all.mob.mobs.map((m) => m.subjectName), ['Accountancy', 'Economics', 'Accountancy']);
     assert.equal((await svc.view('u2', { mobId: c.mob.id })).mob.id, c.mob.id);
     assert.equal((await svc.view('u2', { mobId: '00000000-0000-4000-8000-000000000000' })).mob.id, a.mob.id, 'a Mob you left falls back to one you have');
@@ -142,9 +144,12 @@ test('plans: free is one Mob, Pro is three, on start and on join; several Mobs a
     await assert.rejects(svc.invite('u3', { mob: a.mob.id }), expectCode('NOT_IN_MOB'));
     await assert.rejects(svc.invite('u2', { mob: 'not-a-uuid' }), expectCode('NOT_IN_MOB'));
     await assert.rejects(svc.patchMe('u3', { mob: b.mob.id, showScore: true }), expectCode('NOT_IN_MOB'));
-    // A free student already in a Mob cannot join another; a friend with no Mob can.
+    // A free student who started a Mob may still join a friend's (17 Oct): free starts one and joins any.
     const inv = await svc.invite('u2', { mob: b.mob.id });
-    await assert.rejects(svc.join('u1', { code: inv.code, name: 'Riya', colour: 1 }), expectCode('MOB_LIMIT'));
+    const joined = await svc.join('u1', { code: inv.code, name: 'Riya', colour: 1 });
+    assert.equal(joined.mob.id, b.mob.id);
+    assert.deepEqual(joined.mob.plan, { pro: false, maxMobs: 1, mobCount: 2, started: 1, canMakeExtra: false, canStartAnother: false });
+    await svc.leave('u1', { mob: b.mob.id });
     assert.equal((await svc.join('u3', { code: inv.code, name: 'Kabir', colour: 2 })).mob.id, b.mob.id);
     assert.equal((await svc.join('u3', { code: inv.code, name: 'Kabir', colour: 2 })).mob.id, b.mob.id, 'opening the link of a Mob you are in just takes you there');
     // Leaving one Mob leaves the others.
@@ -163,19 +168,50 @@ test('plans: free is one Mob, Pro is three, on start and on join; several Mobs a
   } finally { await db.close(); }
 });
 
-test('Pro can be in 3 Mobs by joining too; the cap is the same number on join', async () => {
-  const db = await database(8);
+test('joining is open to every plan: a free student joins 4 Mobs and still starts one; the ceiling is 12', async () => {
+  const db = await database(16);
   const clock = { now: NOW };
-  const svc = createMobService({ ...baseDeps(db, clock), loadUser: async (id) => ({ isPremium: id === 'u1' }), startPractice: async () => ({}) });
+  const svc = createMobService({ ...baseDeps(db, clock), loadUser: async (id) => ({ subjects: ['accountancy', 'economics'], isPremium: id === 'u14' }), startPractice: async () => ({}) });
   try {
+    assert.equal(MAX_MEMBERSHIPS, 12);
     const invites = [];
     for (const [u, subject] of [['u2', 'accountancy'], ['u3', 'economics'], ['u4', 'accountancy'], ['u5', 'economics']]) {
       await mobStart(svc, u, subject, 'Host');
       invites.push(await svc.invite(u, {}));
     }
-    for (const inv of invites.slice(0, 3)) await svc.join('u1', { code: inv.code, name: 'Pro', colour: 3 });
-    await assert.rejects(svc.join('u1', { code: invites[3].code, name: 'Pro', colour: 3 }), expectCode('MOB_LIMIT_PRO'));
-    assert.equal((await svc.view('u1')).mob.mobs.length, 3);
+    for (const inv of invites) await svc.join('u1', { code: inv.code, name: 'Riya', colour: 3 });
+    const v = await svc.view('u1');
+    assert.equal(v.mob.mobs.length, 4);
+    assert.deepEqual([v.mob.plan.started, v.mob.plan.canStartAnother], [0, true], 'joined Mobs do not count toward starting');
+    await mobStart(svc, 'u1', 'economics', 'Riya');
+    await assert.rejects(mobStart(svc, 'u1', 'accountancy', 'Riya'), expectCode('MOB_LIMIT'));
+    // Pro starts 3. Leaving a Mob you started gives the start back.
+    const p1 = await mobStart(svc, 'u14', 'accountancy', 'Kabir');
+    await mobStart(svc, 'u14', 'economics', 'Kabir');
+    await mobStart(svc, 'u14', 'accountancy', 'Kabir');
+    await assert.rejects(mobStart(svc, 'u14', 'economics', 'Kabir'), expectCode('MOB_LIMIT_PRO'));
+    await svc.leave('u14', { mob: p1.mob.id });
+    assert.ok(await mobStart(svc, 'u14', 'economics', 'Kabir'));
+    // The safety ceiling: 12 Mobs in all, whatever the plan.
+    await db.exec(`insert into mobs (id, subject) select gen_random_uuid(), 'accountancy' from generate_series(1, 12)`);
+    await db.exec(`insert into mob_members (mob_id, user_id, display_name) select id, 'u15', 'Meera' from mobs where created_by is null limit 12`);
+    const host = await mobStart(svc, 'u16', 'accountancy', 'Host');
+    const inv = await svc.invite('u16', { mob: host.mob.id });
+    await assert.rejects(svc.join('u15', { code: inv.code, name: 'Meera', colour: 1 }), expectCode('MOB_CEILING'));
+    await assert.rejects(mobStart(svc, 'u15', 'accountancy', 'Meera'), expectCode('MOB_CEILING'));
+  } finally { await db.close(); }
+});
+
+test('a Mob is for one of your own subjects; with no subjects there is nothing to start it for', async () => {
+  const db = await database(4);
+  const clock = { now: NOW };
+  const subjects = { u1: ['accountancy'], u2: [] };
+  const svc = createMobService({ ...baseDeps(db, clock), loadUser: async (id) => ({ subjects: subjects[id] || [], isPremium: false }), startPractice: async () => ({}) });
+  try {
+    await assert.rejects(mobStart(svc, 'u1', 'economics'), expectCode('SUBJECT_INVALID'), 'a launchable subject that is not yours');
+    await assert.rejects(svc.create('u1', { subject: ['accountancy'], name: 'Riya', colour: 0 }), expectCode('SUBJECT_INVALID'));
+    await assert.rejects(mobStart(svc, 'u2', 'accountancy'), expectCode('NO_SUBJECTS'), 'no subjects: its own code, so the screen offers the way forward');
+    assert.ok((await mobStart(svc, 'u1', 'accountancy')).mob.id);
   } finally { await db.close(); }
 });
 
@@ -186,7 +222,7 @@ test('the weekly Mob paper is free of credits, once a week per free student whic
   const pro = new Set(['u5']);
   let failNext = null;
   const svc = createMobService({
-    ...baseDeps(db, clock), loadUser: async (id) => ({ isPremium: pro.has(id), creditBalance: 0 }),
+    ...baseDeps(db, clock), loadUser: async (id) => ({ subjects: ['accountancy', 'economics'], isPremium: pro.has(id), creditBalance: 0 }),
     startPractice: async (userId, input, server) => {
       if (failNext) { const e = failNext; failNext = null; throw e; }
       started.push({ userId, input, server });
@@ -239,7 +275,7 @@ test('extra papers: only Pro makes them, any member sits them, 3 a Mob and week,
   const started = [];
   const pro = new Set(['u1']);
   const svc = createMobService({
-    ...baseDeps(db, clock), loadUser: async (id) => ({ isPremium: pro.has(id) }),
+    ...baseDeps(db, clock), loadUser: async (id) => ({ subjects: ['accountancy', 'economics'], isPremium: pro.has(id) }),
     startPractice: async (userId, input, server) => { started.push({ userId, input, server }); return { id: 'practice_x', meta: {} }; },
   });
   try {
@@ -268,8 +304,8 @@ test('extra papers: only Pro makes them, any member sits them, 3 a Mob and week,
     assert.equal(started.at(-1).server.mobPaper.questions.length, 5);
     assert.equal(started.at(-1).input.count, 5);
     assert.equal(await one(db, "select count(*)::int r from mob_free_claims where user_id = 'u2'"), 0);
-    await assert.rejects(svc.startPaper('u2', { extra: '00000000-0000-4000-8000-000000000000' }), expectCode('NOT_FOUND'));
-    await assert.rejects(svc.startPaper('u2', { extra: 'bad' }), expectCode('NOT_FOUND'));
+    await assert.rejects(svc.startPaper('u2', { extra: '00000000-0000-4000-8000-000000000000' }), expectCode('EXTRA_NOT_FOUND'));
+    await assert.rejects(svc.startPaper('u2', { extra: 'bad' }), expectCode('EXTRA_NOT_FOUND'));
     await assert.rejects(svc.startPaper('u4', { extra: r.extraId }), expectCode('NOT_IN_MOB'));
     // Recording: through the finish hook, once, and a sitting after the window is not recorded.
     const bank5 = EXTRA_BANK.slice(0, 5);
@@ -277,7 +313,7 @@ test('extra papers: only Pro makes them, any member sits them, 3 a Mob and week,
     assert.equal(await svc.recordFromAttempt('u2', att), 'recorded');
     assert.equal(await svc.recordFromAttempt('u2', att), 'exists');
     assert.equal(await svc.recordFromAttempt('u3', { ...att, userId: 'u3', completedAt: NOW + 8 * DAY }), 'late');
-    await assert.rejects(svc.startPaper('u2', { extra: r.extraId }), expectCode('PAPER_ALREADY_SAT'));
+    await assert.rejects(svc.startPaper('u2', { extra: r.extraId }), expectCode('EXTRA_ALREADY_SAT'));
     const after = (await svc.view('u2')).mob.extras[0];
     assert.deepEqual([after.youSat, after.sat, after.yourResultId], [true, 1, `att_u2_${r.extraId}`]);
     // 3 a Mob and week.
@@ -297,7 +333,7 @@ test('a durable-path extra sitting is credited when a member next reads the Mob'
   const db = await database(8);
   const clock = { now: NOW };
   const attempts = [];
-  const svc = createMobService({ ...baseDeps(db, clock), loadUser: async (id) => ({ isPremium: id === 'u1' }), startPractice: async () => ({}), findAttempts: async (users, q) => attempts.filter((a) => users.includes(a.userId) && Boolean(a.selectionMeta.mobPaper.extraId) === Boolean(q.extraId)) });
+  const svc = createMobService({ ...baseDeps(db, clock), loadUser: async (id) => ({ subjects: ['accountancy', 'economics'], isPremium: id === 'u1' }), startPractice: async () => ({}), findAttempts: async (users, q) => attempts.filter((a) => users.includes(a.userId) && Boolean(a.selectionMeta.mobPaper.extraId) === Boolean(q.extraId)) });
   try {
     const made = await mobStart(svc, 'u1');
     const link = await svc.invite('u1', {});
@@ -373,7 +409,7 @@ test('the side-by-side on a real Mob: reciprocal sharing, nobody named who keeps
   const clock = { now: NOW };
   const pro = new Set(['u1']);
   const svc = createMobService({
-    ...baseDeps(db, clock), loadUser: async (id) => ({ isPremium: pro.has(id) }), startPractice: async () => ({}),
+    ...baseDeps(db, clock), loadUser: async (id) => ({ subjects: ['accountancy', 'economics'], isPremium: pro.has(id) }), startPractice: async () => ({}),
     trapNameFor: async (q, i) => (q.id === 'q2' && i === 3 ? 'A look-alike term' : null),
   });
   const right = BANK.map((q) => q.correctIndex);
@@ -386,7 +422,7 @@ test('the side-by-side on a real Mob: reciprocal sharing, nobody named who keeps
     for (const [u, name] of [['u2', 'Asha'], ['u3', 'Kabir'], ['u4', 'Meera']]) await svc.join(u, { code: link.code, name, colour: 1 });
     await svc.startPaper('u1', {}); // freezes the paper
     // Before anyone sat, and with one sitter.
-    await assert.rejects(svc.compare('u1', {}), expectCode('NOT_SAT_YET'));
+    await assert.rejects(svc.compare('u1', {}), expectCode('COMPARE_SIT_FIRST'));
     assert.equal(await svc.recordFromAttempt('u1', sat(mob, WEEK, 'u1', trap, { changed: { q2: 1 } })), 'recorded');
     await assert.rejects(svc.compare('u1', {}), expectCode('COMPARE_UNAVAILABLE'));
     await svc.recordFromAttempt('u2', sat(mob, WEEK, 'u2', trap));
@@ -397,9 +433,11 @@ test('the side-by-side on a real Mob: reciprocal sharing, nobody named who keeps
     assert.equal(v1.compare.access, 'full');
     assert.deepEqual(v1.compare.teaser, { split: 1, of: 10, with: null, text: 'Your Mob split on 1 of 10 questions.' });
     assert.equal((await svc.view('u4')).mob.compare, null);
-    await assert.rejects(svc.compare('u4', {}), expectCode('NOT_SAT_YET'));
+    await assert.rejects(svc.compare('u4', {}), expectCode('COMPARE_SIT_FIRST'));
     await assert.rejects(svc.compare('u5', {}), expectCode('NOT_IN_MOB'));
 
+    // Sharing is on by default (17 Oct); here every sitter turns it off to read the private path.
+    for (const u of ['u1', 'u2', 'u3']) await svc.patchMe(u, { showScore: false });
     // Pro, nobody sharing: your own row and how the Mob picked, with the others counted, never named.
     const quiet = (await svc.compare('u1', {})).compare;
     assert.equal(quiet.access, 'full');
@@ -408,10 +446,11 @@ test('the side-by-side on a real Mob: reciprocal sharing, nobody named who keeps
     assert.equal(quiet.questions.length, 10);
     assert.deepEqual(quiet.questions[1].you, { picked: 'D', right: false, changed: 1, seconds: 10 });
     assert.deepEqual(quiet.questions[1].others, []);
-    assert.deepEqual(quiet.questions[1].picks, [{ option: 'D', count: 3 }], 'counts per option, no names');
+    // 18 Oct: the counts and the split are over the sitters you can read. Nobody shares, so only you: no counts, no split.
+    assert.equal(quiet.questions[1].picks, null, "a member who keeps answers private is in nobody else's counts");
     assert.equal(quiet.questions[1].trap.trapName, 'A look-alike term');
     assert.deepEqual([quiet.questions[1].trap.option, quiet.questions[1].trap.count, quiet.questions[1].trap.of], ['D', 3, 3]);
-    assert.equal(quiet.questions[4].split, true);
+    assert.equal(quiet.questions[4].split, null, 'a split needs 2 readable sitters');
     assert.equal(quiet.questions[0].stem, 'Question 1 stem');
     assert.equal(quiet.questions[1].key, 'B');
     // Sharing is reciprocal: Riya shares, Asha shares, Kabir keeps his private.
@@ -424,6 +463,9 @@ test('the side-by-side on a real Mob: reciprocal sharing, nobody named who keeps
     const everything = JSON.stringify(shared);
     for (const leak of ['Kabir', 'Meera', '"u1"', '"u2"', 'u3', 'u4', 'att_u2', 'att_u3', 'att_u4', 'user_id', 'session_id']) assert.equal(everything.includes(leak), false, leak);
     assert.equal(shared.questions[3].others[0].right, true);
+    // Kabir (private) is the one who missed question 5: neither the split nor the counts of the two who share show it.
+    assert.equal(shared.questions[4].split, false, "Kabir's miss is not in the split of Riya and Asha");
+    assert.equal(shared.questions[1].picks, null, 'two readable sitters are too few for counts');
     // Free students: the teaser always, the side-by-side once.
     assert.equal((await svc.view('u2')).mob.compare.access, 'offer');
     assert.equal((await svc.view('u2')).mob.trap, null, 'the shared trap is part of the side-by-side, not the teaser');
@@ -445,7 +487,9 @@ test('the side-by-side on a real Mob: reciprocal sharing, nobody named who keeps
     assert.equal((await svc.compare('u2', { week: WEEK })).compare.access, 'sample', 'the sample week stays openable');
     assert.equal((await svc.compare('u1', {})).compare.week, WEEK2);
     assert.equal((await svc.compare('u1', { week: WEEK })).compare.week, WEEK);
-    for (const bad of ['2026-10-13', 'abc', '2030-01-05', '2026-10-26']) await assert.rejects(svc.compare('u1', { week: bad }), expectCode('NOT_FOUND'), bad);
+    for (const bad of ['2026-10-13', 'abc', '2030-01-05', '2026-10-26']) await assert.rejects(svc.compare('u1', { week: bad }), expectCode('WEEK_INVALID'), bad);
+    await assert.rejects(svc.compare('u1', { week: '2026-10-05' }), expectCode('WEEK_INVALID'), 'a past week with no paper');
+    await assert.rejects(svc.compare('u4', { week: WEEK }), expectCode('NOT_SAT_THAT_WEEK'), 'a past week you did not sit');
     const hist = await svc.history('u1', {});
     assert.deepEqual(hist.weeks.map((w) => [w.week, w.sat, w.you.sat, w.you.score]), [[WEEK, 3, true, { value: 9, of: 10 }]]);
     assert.equal(hist.weeks[0].closedAt, closesAt(WEEK));
@@ -458,8 +502,9 @@ test('the side-by-side on a real Mob: reciprocal sharing, nobody named who keeps
     const ex = (await svc.compare('u1', { extra: extra.extraId })).compare;
     assert.deepEqual([ex.kind, ex.extraId, ex.chapter, ex.questions.length], ['extra', extra.extraId, 'Partnership Accounts', 5]);
     await assert.rejects(svc.compare('u2', { extra: extra.extraId }), expectCode('PRO_REQUIRED'), 'the sample was spent on the weekly paper of week 1');
-    await assert.rejects(svc.compare('u4', { extra: extra.extraId }), expectCode('NOT_SAT_YET'));
-    await assert.rejects(svc.compare('u5', { extra: extra.extraId }), expectCode('NOT_FOUND'));
+    await assert.rejects(svc.compare('u4', { extra: extra.extraId }), expectCode('COMPARE_SIT_FIRST'));
+    await assert.rejects(svc.compare('u5', { extra: extra.extraId }), expectCode('EXTRA_NOT_FOUND'));
+    await assert.rejects(svc.compare('u1', { extra: 'nope' }), expectCode('EXTRA_NOT_FOUND'));
   } finally { await db.close(); }
 });
 
@@ -529,7 +574,7 @@ test('routes: the new routes, the mob query, and the limits that stop a free pap
 test('the join page greets a signed-in student with who invited them, and the public page never names anyone', async () => {
   const db = await database(8);
   const clock = { now: NOW };
-  const svc = createMobService({ ...baseDeps(db, clock), loadUser: async () => ({ isPremium: false }), startPractice: async () => ({}) });
+  const svc = createMobService({ ...baseDeps(db, clock), loadUser: async () => ({ subjects: ['accountancy', 'economics'], isPremium: false }), startPractice: async () => ({}) });
   try {
     await mobStart(svc, 'u1', 'accountancy', 'Riya Sharma');
     const inv = await svc.invite('u1', {});

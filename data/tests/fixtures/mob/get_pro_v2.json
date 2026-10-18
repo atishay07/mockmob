@@ -7,6 +7,7 @@
       "pro": true,
       "maxMobs": 3,
       "mobCount": 2,
+      "started": 2,
       "canMakeExtra": true,
       "canStartAnother": true
     },
@@ -74,7 +75,7 @@
       "closed": false,
       "paper": {
         "count": 10,
-        "durationSec": 720,
+        "durationSec": 600,
         "cost": null,
         "blocked": null
       },

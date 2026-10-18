@@ -3,8 +3,16 @@
 //   - MOB_ENABLED not 'true': every route answers 404 MOB_DISABLED, the public lookup included.
 //   - Signed out: 401, except the public code lookup.
 //   - Errors: { error: { code, message } }. Successes: JSON, Cache-Control: no-store.
-//   - Rate limits (P11), persistent through checkPersistentRateLimit; a 429 carries Retry-After.
-import { MobError, errorBody, errorStatus } from '../../mob/model.mjs';
+//   - Rate limits (P11), persistent through checkPersistentRateLimit; a 429 carries Retry-After and says the real wait in
+//     plain words. Starting a Mob and making an extra paper count only when they succeed: a request that fails (a typo
+//     in the name, a thin chapter, any error) gives its count back, so mistakes never lock a student out. Joining counts
+//     only joins that happen too (18 Oct go/no-go: a failed join used to count toward the 10 an hour, so a student who
+//     mistyped a code was locked out). Guessing codes stays bounded: every join try still counts toward write (60 an
+//     hour per student) and every invite read toward lookup (per network), against a 40-bit code. A wrong code and a
+//     block give the count back alike, so the count says nothing about a block (P10).
+//   - A gate can answer before a limit is taken (create: the plan's own cap of Mobs runs before the weekly create
+//     limit, so a student at the cap hears that, never the limit's wait; write is taken first, so the gate is counted).
+import { MobError, errorBody, errorStatus, waitPhrase } from '../../mob/model.mjs';
 
 const MIN = 60_000;
 const HOUR = 60 * MIN;
@@ -14,18 +22,36 @@ export const LIMITS = Object.freeze({
   read: { limit: 120, windowMs: 10 * MIN, by: 'user' },
   write: { limit: 60, windowMs: HOUR, by: 'user' },
   invite: { limit: 5, windowMs: DAY, by: 'user' },
-  lookup: { limit: 30, windowMs: 10 * MIN, by: 'ip' },
-  join: { limit: 10, windowMs: HOUR, by: 'user' },
+  // Per network, not per student: a class sharing one connection opens one link (30 a window ran out at 30 students).
+  // 120 tries in 10 minutes from one network is still nowhere near guessing a 40-bit code.
+  lookup: { limit: 120, windowMs: 10 * MIN, by: 'ip' },
+  join: { limit: 10, windowMs: HOUR, by: 'user', success: true },
   report: { limit: 10, windowMs: DAY, by: 'user' },
   // Starting Mobs is rare. A cap here is what stops leave-and-start-again from being a way to a fresh weekly paper.
-  create: { limit: 3, windowMs: WEEK, by: 'user' },
-  extra: { limit: 6, windowMs: DAY, by: 'user' },
+  // Both count successful actions only (success: true).
+  create: { limit: 3, windowMs: WEEK, by: 'user', success: true },
+  extra: { limit: 6, windowMs: DAY, by: 'user', success: true },
 });
+
+/** The 429 sentence for each limit, with the real wait ("in 25 minutes", "on Fri 23 Oct, 9:40 PM"). */
+export function limitMessage(name, wait) {
+  const l = LIMITS[name];
+  switch (name) {
+    case 'create': return `You started ${l.limit} Mobs in the last 7 days, the most a week allows. You can start another ${wait}.`;
+    case 'extra': return `You made ${l.limit} extra papers today, the most a day allows. You can make another ${wait}.`;
+    case 'invite': return `You made ${l.limit} invite links today, the most a day allows. Your latest link still works. You can make a new one ${wait}.`;
+    case 'join': return `That was a lot of tries to join in an hour. You can try again ${wait}.`;
+    case 'report': return `You sent ${l.limit} reports today, the most a day allows. You can send another ${wait}. To stop sharing a Mob with someone now, use Leave and block.`;
+    case 'lookup': return `This invite was checked too many times from your network. Try again ${wait}.`;
+    default: return `Too many tries in a short time. Try again ${wait}.`;
+  }
+}
 
 // action -> [method, limits, service call, success status]
 export const ACTIONS = Object.freeze({
   get: ['GET', ['read'], (s, u, _b, p) => s.view(u, { mobId: p.query?.mob })],
-  create: ['POST', ['create', 'write'], (s, u, b) => s.create(u, b), 201],
+  // write first: it counts every try, so the plan gate (before create) is never an uncounted read.
+  create: ['POST', ['write', 'create'], (s, u, b) => s.create(u, b), 201, { gate: (s, u) => s.createGate?.(u), gateBefore: 'create' }],
   invite: ['POST', ['invite', 'write'], (s, u, b) => s.invite(u, b)],
   lookup: ['GET', ['lookup'], (s, u, _b, p) => s.lookup(p.code, { viewerId: u }), 200, { public: true }],
   join: ['POST', ['join', 'write'], (s, u, b) => s.join(u, b)],
@@ -40,20 +66,23 @@ export const ACTIONS = Object.freeze({
   compare: ['GET', ['read'], (s, u, _b, p) => s.compare(u, p.query || {})],
   history: ['GET', ['read'], (s, u, _b, p) => s.history(u, p.query || {})],
   extra: ['POST', ['extra', 'write'], (s, u, b) => s.createExtra(u, b), 201],
+  chapters: ['GET', ['read'], (s, u, _b, p) => s.chapters(u, p.query || {})],
 });
 
 const MAX_BODY = 4096;
 
 /**
  * deps: { enabled() -> boolean, auth(request) -> session | null, rateLimit(request, opts) -> { allowed, retryAfterSeconds? },
- *         service, cors(request) -> headers }
+ *         giveBack(request, opts)  (optional) returns the count a success-only limit took,
+ *         waitFor(request, opts) -> seconds | null  (optional) the real wait on a refused limit,
+ *         now() -> ms (optional), service, cors(request) -> headers }
  */
 export async function handleMob(deps, action, request, params = {}) {
   const spec = ACTIONS[action];
   const query = (() => { try { return Object.fromEntries(new URL(request.url).searchParams); } catch { return {}; } })();
   params = { ...params, query };
   const headers = { ...(deps.cors ? deps.cors(request) : {}), 'Cache-Control': 'no-store' };
-  const fail = (code, extra = {}) => Response.json(errorBody(code), { status: errorStatus(code), headers: { ...headers, ...extra } });
+  const fail = (code, extra = {}, more = {}) => Response.json(errorBody(code, more), { status: errorStatus(code), headers: { ...headers, ...extra } });
   if (!spec) return fail('UNAVAILABLE');
   const [, limits, run, okStatus = 200, flags = {}] = spec;
   if (!deps.enabled()) return fail('MOB_DISABLED');
@@ -61,28 +90,58 @@ export async function handleMob(deps, action, request, params = {}) {
   const session = await deps.auth(request).catch(() => null);
   const userId = session?.user?.id || null;
   if (!flags.public && !userId) return fail('UNAUTHENTICATED');
+  // `?mob=` with nothing after it is a malformed request, not a Mob the student is not in (a client with no id leaves the key out).
+  if (request.method === 'GET' && !flags.public && typeof query.mob === 'string' && !query.mob.trim()) {
+    return Response.json({ error: { code: 'BAD_REQUEST', message: 'Something in the request was not right. Try again.' } }, { status: 400, headers });
+  }
+  const optsFor = (name) => {
+    const l = LIMITS[name];
+    return { route: `/api/mob:${name}`, limit: l.limit, windowMs: l.windowMs, keyParts: l.by === 'user' ? [userId] : [], identityOnly: l.by === 'user' };
+  };
+  const taken = [];
+  // A request that fails, for any reason, gives back every success-only count it took.
+  const giveBack = async () => {
+    for (const name of taken) if (LIMITS[name].success && deps.giveBack) await Promise.resolve(deps.giveBack(request, optsFor(name))).catch(() => null);
+  };
   for (const name of limits) {
     const l = LIMITS[name];
-    const result = await deps.rateLimit(request, {
-      route: `/api/mob:${name}`, limit: l.limit, windowMs: l.windowMs,
-      keyParts: l.by === 'user' ? [userId] : [], identityOnly: l.by === 'user',
-    }).catch(() => ({ allowed: false }));
-    if (!result?.allowed) return fail('RATE_LIMITED', { 'Retry-After': String(result?.retryAfterSeconds || Math.ceil(l.windowMs / 1000)) });
+    // The plan's own answer comes before the limit it would otherwise meet (a gate throws a MobError, or says nothing and
+    // the request goes on). The limits before it still count, so a gated request is never a free read.
+    if (flags.gate && flags.gateBefore === name) {
+      try { await flags.gate(deps.service, userId); } catch (error) {
+        if (error instanceof MobError) { await giveBack(); return fail(error.code, {}, { message: error.extra?.message, detail: error.extra?.detail }); }
+      }
+    }
+    const result = await deps.rateLimit(request, optsFor(name)).catch(() => ({ allowed: false }));
+    if (!result?.allowed) {
+      await giveBack(); // an earlier limit of this request counted it; the request does not happen
+      const read = deps.waitFor ? await Promise.resolve(deps.waitFor(request, optsFor(name))).catch(() => null) : null;
+      const seconds = Number.isFinite(read) && read > 0 ? read : Number(result?.retryAfterSeconds) || Math.ceil(l.windowMs / 1000);
+      const now = deps.now ? deps.now() : Date.now();
+      return fail('RATE_LIMITED', { 'Retry-After': String(Math.ceil(seconds)) }, { message: limitMessage(name, waitPhrase(seconds, now)) });
+    }
+    taken.push(name);
   }
   let body = {};
   if (request.method !== 'GET') {
     const text = await request.text().catch(() => '');
-    if (text.length > MAX_BODY) return fail('BODY_INVALID');
+    if (text.length > MAX_BODY) { await giveBack(); return fail('BODY_INVALID'); }
     if (text.trim()) {
-      try { body = JSON.parse(text); } catch { return fail('BODY_INVALID'); }
-      if (!body || typeof body !== 'object' || Array.isArray(body)) return fail('BODY_INVALID');
+      try { body = JSON.parse(text); } catch { await giveBack(); return fail('BODY_INVALID'); }
+      if (!body || typeof body !== 'object' || Array.isArray(body)) { await giveBack(); return fail('BODY_INVALID'); }
     }
   }
   try {
     const out = await run(deps.service, userId, body, params);
     return Response.json(out, { status: okStatus, headers });
   } catch (error) {
-    if (error instanceof MobError) return fail(error.code);
+    // The write itself went through and only the read after it failed: the count it took stays (a create that happened is a create).
+    const done = error instanceof MobError && error.extra?.committed === true;
+    if (error instanceof MobError) {
+      if (!done) await giveBack();
+      return fail(error.code, {}, { message: error.extra?.message, detail: error.extra?.detail });
+    }
+    await giveBack();
     console.error('[mob]', action, error?.message || error);
     return fail('UNAVAILABLE');
   }

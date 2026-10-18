@@ -540,6 +540,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
         </div>
       </header>
 
+
       {creditError && <div className="pr-alert" data-tone="error" role="alert"><StatusIcon kind="error" />{creditError}</div>}
 
       {launchSuccess && <div className="pr-alert" data-tone="success" role="status"><StatusIcon kind="success" />{launchSuccess}</div>}

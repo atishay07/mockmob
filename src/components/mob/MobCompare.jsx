@@ -2,8 +2,8 @@
 // The Mob's comparison (SOCIAL-SPEC section 15). Free: the teaser (where the Mob split, one line) and one free
 // side-by-side. Pro: the side-by-side every week. What a student may open is decided on the server (/api/mob/compare);
 // this file only draws what it was given and says plainly what is waiting behind Pro.
-//   - Sharing is reciprocal and the student's own choice (rule 14): the switch is off until they turn it on, and it says
-//     who sees what. Members who keep their answers private are counted, never named (P6). Nothing ranks anyone (P5).
+//   - Sharing is reciprocal and the student's own choice (rule 14): on by default inside the Mob (17 Oct CTO decision),
+//     one switch turns it off, and it says who sees what. Members who keep their answers private are counted, never named (P6). Nothing ranks anyone (P5).
 //   - One primary action per state (rule 7): the key here is outlined; the page's volt stays on the paper itself.
 //   - The Pro line says what Pro adds and never counts down, discounts or shames (T005, T009).
 import Link from 'next/link';
@@ -12,7 +12,7 @@ import { initialOf, resultHref } from '@/lib/mob/model.mjs';
 import { changedLabel, countLabel, secLabel, verdictWord, weekLabel } from './mobFormat';
 
 export const SHARE_LABEL = 'Share my score and answers with my Mob';
-export const SHARE_HINT = 'Off by default. Members who share see what each other picked and how they scored, never a ranking.';
+export const SHARE_HINT = 'On by default. Members who share see what each other picked, how long it took and how they scored, only inside this Mob, never a ranking. Turn it off to keep yours to yourself.';
 export const LOCKED_NOTE = 'The full side-by-side is included with Pro: who picked what, who changed an answer, and how long each question took.';
 
 /** The teaser, and the one key that opens the side-by-side when this plan may. `compare` is the view's summary. */
@@ -58,7 +58,7 @@ const Row = ({ m, you }) => (
   </li>
 );
 
-function Question({ q, mine, resultId }) {
+function Question({ q, mine, resultId, partial = false }) {
   const youRow = q.you ? { ...q.you, name: mine.name, colour: mine.colour } : null;
   return (
     <li className="mob-q" data-split={q.split || undefined} data-trap={q.trap ? '' : undefined}>
@@ -74,7 +74,7 @@ function Question({ q, mine, resultId }) {
         {youRow ? <Row m={youRow} you /> : null}
         {q.others.map((o) => <Row key={o.memberId} m={o} />)}
       </ul>
-      {q.picks && q.picks.length ? <p className="mob-hint">How your Mob picked: {q.picks.map((p) => `${p.option || 'No answer'} ${p.count}`).join(', ')}.</p> : null}
+      {q.picks && q.picks.length ? <p className="mob-hint">{partial ? 'How you and the members who share picked' : 'How your Mob picked'}: {q.picks.map((p) => `${p.option || 'No answer'} ${p.count}`).join(', ')}.</p> : null}
       {q.trap ? (
         <div className="mob-q__trap">
           <p className="mob-note"><b>Your Mob&apos;s trap:</b> {q.trap.count} of {q.trap.of} picked {q.trap.option}. {q.trap.trapName ? `Trap: ${q.trap.trapName}.` : 'A common wrong pick.'}</p>
@@ -106,7 +106,7 @@ export function SideBySide({ data, mine, onBack, onShare, busy, headingRef }) {
       </header>
       {data.questions.length ? (
         <ol className="mob-qs">
-          {data.questions.map((q) => <Question key={q.id} q={q} mine={mine} resultId={data.yourResultId} />)}
+          {data.questions.map((q) => <Question key={q.id} q={q} mine={mine} resultId={data.yourResultId} partial={data.hidden > 0} />)}
         </ol>
       ) : <p className="mob-note">The questions of this paper are not available to show just now. Your result is still yours to open.</p>}
       <p className="mob-hint mob-sbs__foot">Seconds come from your device&apos;s own record of the paper. A question shows no time when the record did not keep one.</p>

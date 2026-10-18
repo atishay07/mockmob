@@ -17,7 +17,7 @@ export async function mobFetch(path, { method = 'GET', body } = {}) {
   }
   let data = null;
   try { data = await res.json(); } catch { data = null; }
-  if (!res.ok) return { ok: false, status: res.status, code: data?.error?.code || 'UNAVAILABLE', message: messageFor(res.status, data) };
+  if (!res.ok) return { ok: false, status: res.status, code: data?.error?.code || 'UNAVAILABLE', message: messageFor(res.status, data), detail: data?.error?.detail || null };
   return { ok: true, status: res.status, data };
 }
 

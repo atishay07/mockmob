@@ -7,7 +7,11 @@
 //     reciprocal, so nobody reads a friend without being readable.
 //   - A member who keeps their answers private is counted ("1 member keeps their answers private"), never named, and
 //     is never drawn as a gap or a rank.
-//   - How the whole Mob picked a question (counts per option, no names) needs 3 sitters, like the shared trap (P7).
+//   - How the Mob picked a question (counts per option, no names) is counted over the sitters this student can read: themselves
+//     and the members shown to them. A member who keeps their answers private is never counted in it, so subtracting the
+//     rows you can read from the counts never leaves their pick (18 Oct fix: with 3 sitters, "you A, Gita B, counts A 1
+//     B 2" used to give the hidden member's B). It needs 3 readable sitters, like the shared trap (P7); the per-question
+//     "Split" tag follows the same rule (2 readable sitters are enough, since each shows their own picks).
 //   - The teaser needs 3 sitters, or every sitter sharing: with two sitters who both keep answers private, even "you
 //     split on 3 questions" would tell one student something about the other.
 // Nothing here ranks members or says who did better.
@@ -101,6 +105,8 @@ export function buildCompare({ members, sittings, ids, questions, userId, member
   const memberOrder = [...(Array.isArray(members) ? members : [])].sort((a, b) => (Date.parse(a.joined_at) || 0) - (Date.parse(b.joined_at) || 0) || String(a.user_id).localeCompare(String(b.user_id)));
   const shown = memberOrder.filter((m) => m.user_id !== userId && byUser.has(m.user_id) && youShare && share.has(m.user_id));
   const otherSitters = list.filter((s) => s.user_id !== userId);
+  // The sitters this student can read: themselves, and the members shown to them (who share, when they share).
+  const readable = [...(mine ? [mine] : []), ...shown.map((m) => byUser.get(m.user_id))];
   const qs = new Map((questions || []).map((q) => [q.id, q]));
   const keys = (ids || []).map((id) => (Number.isInteger(qs.get(id)?.correctIndex) ? qs.get(id).correctIndex : -1));
   const trapRaw = list.length >= TRAP_MIN_SITTERS ? computeTrap(list, keys) : null;
@@ -120,11 +126,11 @@ export function buildCompare({ members, sittings, ids, questions, userId, member
     const info = qs.get(id);
     if (!info) return;
     const key = keys[q];
+    // Only the sitters this student can read are counted: a private member's pick is in neither the counts nor the split.
     const counts = new Map();
-    for (const s of list) { const p = picksOf(s, q); counts.set(p, (counts.get(p) || 0) + 1); }
-    const first = picksOf(list[0], q);
-    const split = list.length >= TRAP_MIN_SITTERS || (list.length >= 2 && list.every((s) => share.has(s.user_id)))
-      ? list.some((s) => picksOf(s, q) !== first) : null;
+    for (const s of readable) { const p = picksOf(s, q); counts.set(p, (counts.get(p) || 0) + 1); }
+    const first = picksOf(readable[0], q);
+    const split = readable.length >= 2 ? readable.some((s) => picksOf(s, q) !== first) : null;
     questionsOut.push({
       number: q + 1,
       id,
@@ -132,8 +138,8 @@ export function buildCompare({ members, sittings, ids, questions, userId, member
       key: key >= 0 ? letterFor(key) : null,
       you: mine ? row(mine, q, key) : null,
       others: shown.map((m) => ({ memberId: memberIdFor(m.user_id), name: m.display_name, colour: m.colour, ...row(byUser.get(m.user_id), q, key) })),
-      // How the whole Mob picked: counts per option, no names, only with 3 or more sitters (P7).
-      picks: list.length >= TRAP_MIN_SITTERS
+      // How the readable members picked: counts per option, no names, only with 3 or more of them (P7).
+      picks: readable.length >= TRAP_MIN_SITTERS
         ? [...counts].filter(([p]) => p >= 0).sort((a, b) => a[0] - b[0]).map(([p, n]) => ({ option: letterFor(p), count: n })).concat(counts.get(-1) ? [{ option: null, count: counts.get(-1) }] : [])
         : null,
       split,

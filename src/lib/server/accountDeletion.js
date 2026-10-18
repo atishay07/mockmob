@@ -80,6 +80,10 @@ export const DELETION_STEPS = Object.freeze([
     set: [{ column: 'created_by', value: 'null' }],
   },
   { table: 'mob_members', action: 'delete', match: own(), why: 'Mob membership and display name' },
+  {
+    table: 'mobs', action: 'anonymise', match: own('created_by'), why: 'a Mob keeps no record of who started it',
+    set: [{ column: 'created_by', value: 'null' }],
+  },
   { table: 'mob_blocks', action: 'delete', match: [{ column: 'blocker_id' }, { column: 'blocked_id' }], why: 'Mob blocks' },
   {
     table: 'mob_invites', action: 'anonymise', match: own('created_by'), why: 'invite links keep no creator',
