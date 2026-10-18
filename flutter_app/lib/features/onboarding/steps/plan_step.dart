@@ -21,6 +21,7 @@ import '../widgets/answer_sheet_card.dart';
 import '../widgets/hold_to_seal.dart';
 import '../widgets/plan_seal_moment.dart';
 import '../widgets/plan_sheet.dart';
+import '../widgets/step_frame.dart';
 
 /// Step 9, the climax: the sheet flips over (640 ms, a light tap at the halfway point) and its
 /// back is the plan, engraved line by line, including what the student did not tell us (the
@@ -87,11 +88,11 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
 
   static const Duration _flipTime = Duration(milliseconds: 640);
 
-  /// More of the sheet lies below the scroll area's foot (drives the fade above the key).
-  final ValueNotifier<bool> _moreBelow = ValueNotifier<bool>(true);
-
-  /// Under this much room the sheet tightens (small phones).
+  /// Under this much room for the card (the screen less the bars and Mobi) the sheet tightens.
   static const double _compactBelow = 640;
+
+  /// The screen height the bars, the hold row and the smallest plan Mobi take from the card.
+  static const double _chrome = 380;
 
   /// Every plan line is shown ("See all 6"), not just the three that lead.
   bool _allLines = false;
@@ -270,7 +271,6 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
     _hold.dispose();
     _stamp.dispose();
     _burst.dispose();
-    _moreBelow.dispose();
     // The flow outlives this step: leave its room dark for the next visit (silently: the tree is
     // locked while this step is torn down, and the room fades out with the step anyway).
     widget.moment?.clear();
@@ -431,91 +431,30 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
           )
         : null;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Expanded(
-          // A short window (a small phone, or the hold row taking its room) tightens the sheet so
-          // it fits; if it still runs long, it scrolls, and a fade at the foot says so.
-          child: LayoutBuilder(
-            builder: (context, box) {
-              final compact = box.maxHeight < _compactBelow;
-              final top = compact ? MmSpace.s12 : MmSpace.s24;
-              return NotificationListener<ScrollMetricsNotification>(
-                onNotification: (n) {
-                  final more = n.metrics.extentAfter > 1;
-                  if (more != _moreBelow.value) _moreBelow.value = more;
-                  return false;
-                },
-                child: NotificationListener<ScrollNotification>(
-                  onNotification: (n) {
-                    final more = n.metrics.extentAfter > 1;
-                    if (more != _moreBelow.value) _moreBelow.value = more;
-                    return false;
-                  },
-                  child: Stack(
-                    children: [
-                      Positioned.fill(
-                        child: SingleChildScrollView(
-                          padding: EdgeInsets.only(top: top, bottom: MmSpace.s16),
-                          // The sheet sits in the middle of the room it has, so a tall phone
-                          // gets an even margin above and below it, not a gap under it only.
-                          child: ConstrainedBox(
-                            constraints: BoxConstraints(minHeight: math.max(0, box.maxHeight - top - MmSpace.s16)),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [giveWay(card(compact))],
-                            ),
-                          ),
-                        ),
-                      ),
-                      // A short fade into the ground while there is more sheet below, so a card
-                      // taller than the screen reads as scrolling, not cut off behind the key.
-                      Positioned(
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        height: MmSpace.s32,
-                        child: IgnorePointer(
-                          child: ValueListenableBuilder<bool>(
-                            valueListenable: _moreBelow,
-                            builder: (context, more, child) => AnimatedOpacity(
-                              opacity: more ? 1 : 0,
-                              duration: Motion.reduced(context) ? Duration.zero : const Duration(milliseconds: 160),
-                              child: child,
-                            ),
-                            child: DecoratedBox(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                  colors: [context.mmColors.ground.withValues(alpha: 0), context.mmColors.ground],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      if (momentWords != null) Positioned(left: 0, right: 0, bottom: MmSpace.s24, child: momentWords),
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: MmSpace.s8, bottom: MediaQuery.paddingOf(context).bottom + MmSpace.s12),
-          child: sealed
-              ? KeyButton(label: OnboardingCopy.next, onPressed: widget.onNext)
+    // The plan stands in the shared frame (D48): a bigger Mobi above the card, up to 30% of the
+    // free height and giving back what the card needs, the group balanced in the room, and the
+    // hold row with Back pinned at the thumb. A card taller than the room scrolls under a fade.
+    final compact = MediaQuery.sizeOf(context).height - _chrome < _compactBelow;
+    // Back stands left of the hold (or of Continue once sealed); the hint line runs the whole
+    // width under them, so it reads on one line.
+    final onBack = StepGuide.of(context)?.onBack;
+    Widget withBack(Widget key) => onBack == null
+        ? key
+        : Row(children: [StepBackKey(onPressed: onBack), const SizedBox(width: MmSpace.s12), Expanded(child: key)]);
+    return StepFrame(
+      mobi: MobiSizing.plan,
+      backInRow: false,
+      content: giveWay(card(compact)),
+      overlay: momentWords,
+      bottom: sealed
+              ? withBack(KeyButton(label: OnboardingCopy.next, onPressed: widget.onNext))
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     // One dominant control: hold the pill (the ceremony). Anyone who cannot hold
                     // steadily taps the link under it; TalkBack's double tap on the pill seals too.
-                    HoldToSeal(
+                    withBack(HoldToSeal(
                       key: _holdKey,
                       progress: _hold,
                       onHoldStart: () {
@@ -533,15 +472,13 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
                         _released(held);
                       },
                       onSeal: _seal,
-                    ),
+                    )),
                     const SizedBox(height: MmSpace.s4),
                     // Not a second key: one hint line on how the hold works, and the whole line
                     // is the tap for anyone who cannot hold (design critic 20).
                     _SealHint(key: PlanStep.tapToSealKey, onTap: _seal),
                   ],
                 ),
-        ),
-      ],
     );
   }
 }

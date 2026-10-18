@@ -13,6 +13,7 @@ import '../model/plan.dart';
 import '../state/answers_controller.dart';
 import '../widgets/entrance.dart';
 import '../widgets/first_move_hero.dart';
+import '../widgets/step_frame.dart';
 import '../widgets/week_ahead.dart';
 
 /// Step 11 for a student who chose "Not now": the first move, ready. Practice is marked on the
@@ -109,89 +110,66 @@ class _FirstMoveStepState extends ConsumerState<FirstMoveStep> {
     final type = context.mmType;
     final move = FirstMove.of(widget.answers);
     _queuePoint();
+    // The shared frame (D40, D43, D44): his own Mobi heads the group, sized to the phone, the
+    // group balanced in the room, and Back pinned at the foot (the start key is in the card).
     return StepEntrance(
       child: Listener(
         onPointerDown: _touched,
-        child: Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Expanded(
-          child: NotificationListener<Notification>(
-            // A scroll or a change in the card's size: check the aim once things settle.
-            onNotification: (n) {
-              if (n is ScrollEndNotification || n is SizeChangedLayoutNotification) _queuePoint();
-              return false;
-            },
-            child: SingleChildScrollView(
-              padding: EdgeInsets.only(top: MmSpace.s8, bottom: MediaQuery.paddingOf(context).bottom + MmSpace.s32),
-              child: SizeChangedLayoutNotifier(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        KeyedSubtree(
-                          key: _figure,
-                          child: MobiCharacter(controller: _mobi, size: 120, entrance: MobiAct.hello, interactive: true, seed: 5),
-                        ),
-                        const SizedBox(width: MmSpace.s4),
-                        Expanded(
-                          child: ValueListenableBuilder<MobiSpeech?>(
-                            valueListenable: _mobi.speech,
-                            builder: (context, speech, _) => speech == null
-                                ? const SizedBox.shrink()
-                                : Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: MobiBubble(key: ValueKey(speech.id), speech: speech, tail: MobiTail.left, maxWidth: 220),
-                                  ),
-                          ),
-                        ),
-                      ],
+        child: NotificationListener<Notification>(
+          // A scroll or a change in the card's size: check the aim once things settle.
+          onNotification: (n) {
+            if (n is ScrollEndNotification || n is SizeChangedLayoutNotification) _queuePoint();
+            return false;
+          },
+          child: StepFrame(
+            guideController: _mobi,
+            guideKey: _figure,
+            guideEntrance: MobiAct.hello,
+            content: SizeChangedLayoutNotifier(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // The title lifts with the step (only Welcome and the plan rise word by word).
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: MmSpace.s12),
+                    child: EntranceItem(
+                      at: Entrance.headline,
+                      child: Semantics(header: true, child: Text(move.title, style: type.headline)),
                     ),
-                    // The title lifts with the step (only Welcome and the plan rise word by word).
-                    Padding(
-                      padding: const EdgeInsets.only(top: MmSpace.s20, bottom: MmSpace.s16),
-                      child: EntranceItem(
-                        at: Entrance.headline,
-                        child: Semantics(header: true, child: Text(move.title, style: type.headline)),
-                      ),
+                  ),
+                  // Faded in only: Mobi aims at its start key as it lays out, so it never moves.
+                  EntranceItem(
+                    at: Entrance.answer(0),
+                    rise: 0,
+                    scale: false,
+                    child: FirstMoveHeroFor(
+                      answers: widget.answers,
+                      now: ref.watch(nowProvider)(),
+                      onStart: widget.onStart,
+                      onLater: () => ref.read(onboardingAnswersProvider.notifier).setTonight(true),
+                      startKey: _start,
+                      // The 10 rolls once the card has lifted in, and lands with a tick.
+                      numberDelay: Entrance.answer(0) + const Duration(milliseconds: 80),
+                      onNumberLanded: () => ref.read(hapticsProvider).selection(),
                     ),
-                    // Faded in only: Mobi aims at its start key as it lays out, so it never moves.
-                    EntranceItem(
-                      at: Entrance.answer(0),
-                      rise: 0,
-                      scale: false,
-                      child: FirstMoveHeroFor(
-                        answers: widget.answers,
-                        now: ref.watch(nowProvider)(),
-                        onStart: widget.onStart,
-                        onLater: () => ref.read(onboardingAnswersProvider.notifier).setTonight(true),
-                        startKey: _start,
-                        // The 10 rolls once the card has lifted in, and lands with a tick.
-                        numberDelay: Entrance.answer(0) + const Duration(milliseconds: 80),
-                        onNumberLanded: () => ref.read(hapticsProvider).selection(),
-                      ),
+                  ),
+                  // Group gap from the hero to the next block (SPACING.md 3.1), a step tighter
+                  // now that Back is pinned under it.
+                  const SizedBox(height: MmSpace.s20),
+                  EntranceItem.answer(
+                    2,
+                    child: WeekAhead(
+                      days: widget.answers.days,
+                      minutes: widget.answers.minutes,
+                      window: widget.answers.window,
+                      now: ref.watch(nowProvider)(),
                     ),
-                    // Group gap from the hero to the next block (SPACING.md 3.1).
-                    const SizedBox(height: MmSpace.s24),
-                    EntranceItem.answer(
-                      2,
-                      child: WeekAhead(
-                        days: widget.answers.days,
-                        minutes: widget.answers.minutes,
-                        window: widget.answers.window,
-                        now: ref.watch(nowProvider)(),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
         ),
-      ],
-      ),
       ),
     );
   }

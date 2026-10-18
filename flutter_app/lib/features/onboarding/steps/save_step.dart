@@ -23,6 +23,7 @@ import '../state/bank_size.dart';
 import '../widgets/answer_sheet_card.dart';
 import '../widgets/choice_tile.dart';
 import '../widgets/entrance.dart';
+import '../widgets/step_frame.dart';
 import '../widgets/step_layout.dart';
 
 /// Step 10: keep the sheet. Age first (held on the phone until sign-in), then Google when it is
@@ -75,6 +76,7 @@ class _SaveStepState extends ConsumerState<SaveStep> {
       onGoogle: () => ref.read(signInControllerProvider.notifier).signInWithGoogle(),
       onEmail: () => context.push(AppRoutes.signIn),
       onNotNow: widget.onNotNow,
+      onBack: StepGuide.of(context)?.onBack,
       note: widget.note,
       bankLine: OnboardingCopy.bankLine(bank),
       // The whole sealed sheet where the phone has the height for it (and no note above it);
@@ -111,6 +113,7 @@ class SaveView extends StatefulWidget {
     required this.onGoogle,
     required this.onEmail,
     required this.onNotNow,
+    this.onBack,
     this.offline = false,
     this.googleEnabled = true,
     this.googleBusy = false,
@@ -139,6 +142,9 @@ class SaveView extends StatefulWidget {
   final VoidCallback onGoogle;
   final VoidCallback onEmail;
   final VoidCallback onNotNow;
+
+  /// The labelled Back (D43), set beside whichever key is primary. Null hides it.
+  final VoidCallback? onBack;
   final bool offline;
   final bool googleEnabled;
   final bool googleBusy;
@@ -214,6 +220,14 @@ class _SaveViewState extends State<SaveView> {
             child: Semantics(hint: OnboardingCopy.ageFirst, child: key),
           );
 
+    // Back stands left of the primary key, as on every step (D43).
+    final onBack = w.onBack;
+    Widget withBack(Widget key) => onBack == null
+        ? key
+        : Row(
+            children: [StepBackKey(onPressed: onBack), const SizedBox(width: MmSpace.s12), Expanded(child: key)],
+          );
+
     // The keys are always laid out, so answering the age moves nothing.
     final keys = Column(
       key: const ValueKey('buttons'),
@@ -225,11 +239,11 @@ class _SaveViewState extends State<SaveView> {
         ageBlock,
         const SizedBox(height: MmSpace.s20),
         if (w.googleEnabled) ...[
-          waiting(KeyButton(
+          withBack(waiting(KeyButton(
             label: w.googleBusy ? OnboardingCopy.googleBusy : OnboardingCopy.continueWithGoogle,
             loading: w.googleBusy,
             onPressed: !answered || w.offline || w.busy || w.googleInBrowser ? null : w.onGoogle,
-          )),
+          ))),
           if (w.googleInBrowser) ...[
             const SizedBox(height: MmSpace.s8),
             // What to do in the browser, and the way to stop waiting, on one line.
@@ -249,9 +263,10 @@ class _SaveViewState extends State<SaveView> {
           ],
           const SizedBox(height: MmSpace.s12),
         ],
-        waiting(w.googleEnabled
-            ? KeyButton.secondary(label: OnboardingCopy.useEmailCode, onPressed: !answered || w.offline || w.busy ? null : w.onEmail)
-            : KeyButton(label: OnboardingCopy.useEmailCode, onPressed: !answered || w.offline || w.busy ? null : w.onEmail)),
+        if (w.googleEnabled)
+          waiting(KeyButton.secondary(label: OnboardingCopy.useEmailCode, onPressed: !answered || w.offline || w.busy ? null : w.onEmail))
+        else
+          withBack(waiting(KeyButton(label: OnboardingCopy.useEmailCode, onPressed: !answered || w.offline || w.busy ? null : w.onEmail))),
         const SizedBox(height: MmSpace.s4),
         Center(child: KeyButton.quiet(label: OnboardingCopy.notNow, onPressed: w.busy ? null : w.onNotNow)),
       ],
@@ -271,24 +286,19 @@ class _SaveViewState extends State<SaveView> {
       ],
     );
 
-    // A moment, not a top-stacked form (SPACING-AUDIT O4): the sealed sheet sits at the optical
-    // centre of the room; the age question and the keys are pinned at the thumb, "Not now" under
-    // them. When the room is too short, the sheet scrolls and the keys stay put.
+    // A moment, not a top-stacked form (SPACING-AUDIT O4): Mobi and the sealed sheet sit in the
+    // balanced room of the shared frame; the age question and the keys are pinned at the thumb,
+    // "Not now" under them. When the room is too short, the group scrolls and the keys stay put.
     return StepLayout(
       title: OnboardingCopy.saveTitle,
       support: OnboardingCopy.saveSupport,
-      scroll: false,
       // The sheet, the quiet bank line, the age question and two keys all want the room.
       tight: true,
-      body: LayoutBuilder(
-        builder: (context, box) => SingleChildScrollView(
-          padding: const EdgeInsets.only(bottom: StepLayout.fade + MmSpace.s4),
-          child: ConstrainedBox(
-            constraints: BoxConstraints(minHeight: (box.maxHeight - StepLayout.fade - MmSpace.s4).clamp(0, double.infinity)),
-            child: Align(alignment: SaveView.weight, child: content),
-          ),
-        ),
-      ),
+      backInRow: false,
+      // Mobi stands beside the title here, so the sealed sheet and the bank line (every paper
+      // is built fresh from the live bank) stay above the fold on a 390 by 844 phone.
+      guideBesideTitle: true,
+      body: content,
       bottom: keys,
     );
   }

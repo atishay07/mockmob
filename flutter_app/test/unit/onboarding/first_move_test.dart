@@ -61,7 +61,9 @@ void main() {
   testWidgets('a scroll keeps the aim (Mobi and the key move together) and a resize re-aims', (tester) async {
     final mobi = await pump(tester, student, size: const Size(360, 560));
     final before = mobi.points.length;
-    await tester.drag(find.byType(SingleChildScrollView), const Offset(0, -120));
+    // Within the scroll's extent (the frame balances the group, so a 360 by 560 phone scrolls about
+    // 70 dp): an overscroll's stretch would skew the two apart for a frame.
+    await tester.drag(find.byType(SingleChildScrollView), const Offset(0, -40));
     for (var i = 0; i < 10; i++) {
       await tester.pump(const Duration(milliseconds: 50));
     }
