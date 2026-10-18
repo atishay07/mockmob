@@ -181,7 +181,7 @@ final Set<String> _verbs = {
   'writing', 'stand', 'aim', 'come', 'comes', 'slip', 'losing', 'offers', 'knew', 'lost', 'left', 'tells',
   'pays', 'counts', 'opens', 'fix', 'lose', 'confirm', 'confirmed', 'swipe', 'skip', 'run', 'runs', 'hold', 'wait', 'waits',
   'follow', 'count', 'connect', 'open', 'move', 'moves', 'stay', 'said', 'send', 'save', 'saved', 'use', 'uses', 'turn',
-  'collect', 'stays',
+  'collect',
 };
 
 bool _hasVerb(String sentence) {
