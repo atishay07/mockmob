@@ -439,7 +439,7 @@ function InMob({ data, mob, user }) {
               <>
                 {afford
                   ? <Link className={primary()} {...pageProps} href={paperHref(data)}>Sit this week&apos;s paper ({paperLine()})</Link>
-                  : <Link className={primary()} {...pageProps} href="/pricing?reason=credits" data-pro-direct="">Get credits to sit it</Link>}
+                  : <Link className={primary()} {...pageProps} href="/wallet" data-pro-direct="">See your credits</Link>}
                 <p className="mob-cost">{costLine(cost)}</p>
               </>
             ) : null}

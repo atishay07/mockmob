@@ -22,7 +22,8 @@ import {
 import { breadcrumbJsonLd, faqJsonLd, seoMetadata } from '@/lib/seo';
 import { runtimeAiReleased } from '@/../data/capabilities';
 import { walletCommerceOpen } from '@/lib/wallet/walletPacks.mjs';
-import { aiCreditsRules, aiCreditsStatusLine } from './aiCreditsCopy.mjs';
+import { aiCreditsBreakdown, aiCreditsFaqs, aiCreditsRules, aiCreditsStatusLine } from './aiCreditsCopy.mjs';
+import { ONE_CREDIT_LINE } from '@/lib/creditCopy.mjs';
 
 export const metadata = seoMetadata({
   title: 'Credits',
@@ -31,29 +32,19 @@ export const metadata = seoMetadata({
   path: '/pricing/ai-credits',
 });
 
-const faqs = [
-  {
-    q: 'Do purchased credits expire?',
-    a: 'No. Monthly included credits reset every month, but purchased credits stay in your account until you spend them.',
-  },
-  {
-    q: 'What is the difference between monthly and purchased credits?',
-    a: 'Monthly credits are included with Free or Pro and are used first. Purchased credits are bonus credits and only spend after your monthly allowance is used.',
-  },
-  {
-    q: 'Is Pro still separate?',
-    a: 'Yes. Pro is billed separately from the optional credits. New top-ups are currently paused and existing balances are preserved.',
-  },
-];
 
 export default async function AICreditsPage() {
   const session = await auth();
   const currentUser = session?.user?.id ? await Database.getUserById(session.user.id) : null;
   const wallet = currentUser ? await readAIWallet(currentUser) : null;
   const isPaid = isPaidUser(currentUser);
-  // One switch for selling (release 10): the wallet's WALLET_COMMERCE_OPEN, on top of the AI top-up capability, so no pack here
-  // looks buyable while the order route would refuse it.
-  const checkoutOpen = aiCommerceOpen() && walletCommerceOpen();
+  // One switch for selling (release 10): the wallet's WALLET_COMMERCE_OPEN, which the order route sells on. Every open or paused
+  // word here follows it. Packs are listed on this page only when the AI top-up capability is on as well; otherwise the wallet
+  // sells them.
+  const checkoutOpen = walletCommerceOpen();
+  const packsHere = checkoutOpen && aiCommerceOpen();
+  const faqs = aiCreditsFaqs(checkoutOpen);
+  const breakdown = aiCreditsBreakdown(wallet);
   const monthly = isPaid ? AI_PRO_INCLUDED_MONTHLY_CREDITS : AI_FREE_MONTHLY_CREDITS;
 
   return (
@@ -74,17 +65,15 @@ export default async function AICreditsPage() {
           <div className="mm-wrap mm-wrap--tight">
             <h1 className="mm-h1">Credits</h1>
             <p className="mm-lead" style={{ marginTop: '1rem' }}>
-              Practice and Ask Mobi share one credits balance: 1 credit a question or a written reply, a full mock 50. Everyone gets {AI_FREE_MONTHLY_CREDITS} free credits a month on Free and {AI_PRO_INCLUDED_MONTHLY_CREDITS} on Pro, used first.
-              {' '}{aiCreditsStatusLine({ checkoutOpen, repliesOpen: runtimeAiReleased() })}
+              Practice and Ask Mobi share one credits balance. {ONE_CREDIT_LINE} Everyone gets {AI_FREE_MONTHLY_CREDITS} free credits a month on Free and {AI_PRO_INCLUDED_MONTHLY_CREDITS} on Pro, used first.
+              {' '}{aiCreditsStatusLine({ checkoutOpen, repliesOpen: runtimeAiReleased(), packsHere })}
             </p>
 
             {/* The balance: a signed-in student sees their own figures with their labels; a visitor gets one line. */}
             {wallet ? (
-              wallet.known ? (
+              breakdown ? (
                 <dl className="aic-balance">
-                  <div><dt>Your balance</dt><dd>{wallet.total}<small>Credits</small></dd></div>
-                  <div><dt>Monthly included</dt><dd>{wallet.includedRemaining}<small>of {wallet.includedMonthlyCredits} left this month</small></dd></div>
-                  <div><dt>Purchased</dt><dd>{wallet.bonusCredits}<small>never expire</small></dd></div>
+                  {breakdown.map((row) => <div key={row.key}><dt>{row.label}</dt><dd>{row.figure}<small>{row.note}</small></dd></div>)}
                 </dl>
               ) : <p className="aic-line" role="status">{wallet.message || 'Your credit balance could not be read just now.'}</p>
             ) : (
@@ -97,7 +86,7 @@ export default async function AICreditsPage() {
         </section>
 
         {/* Packs are listed only while checkout is open; paused packs never look purchasable. */}
-        {checkoutOpen ? (
+        {packsHere ? (
           <section className="mm-section">
             <div className="mm-wrap mm-wrap--tight">
               <h2 className="mm-h2">Buy credits</h2>

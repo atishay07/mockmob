@@ -66,7 +66,7 @@ export const FEATURE_GUIDE = [
     key: 'credits',
     name: 'Credits',
     route: '/pricing/ai-credits',
-    description: 'One credits balance pays for practice and Ask Mobi: 1 credit a question or a reply, a full mock 50. Everyone gets 50 free a month, used first.',
+    description: 'One credits balance pays for practice and Ask Mobi: 1 credit a question or a chat reply, a full mock 50, deeper analysis 3. Everyone gets 50 free a month, used first.',
     whenToUse: 'Use it to see your credits and what they pay for.',
     actionLabel: 'See your credits',
   },
@@ -101,7 +101,7 @@ export function deterministicReplyFor({ text, pathname }) {
     return reply(
       paused
         ? `${PREPOS_PAUSED_MESSAGE} Your credits still pay for practice sets and full mocks.`
-        : 'One credits balance pays for practice and Ask Mobi: 1 credit a question or a reply, a full mock 50. The 50 free credits each month are used first.',
+        : 'One credits balance pays for practice and Ask Mobi: 1 credit a question or a chat reply, a full mock 50, deeper analysis 3. The 50 free credits each month are used first.',
       'Wallet state comes from the server.',
       { label: 'See your credits', type: 'navigate', route: '/pricing/ai-credits' },
     );

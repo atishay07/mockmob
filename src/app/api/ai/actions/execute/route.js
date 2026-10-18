@@ -2,7 +2,8 @@ import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
 import { getUsageSnapshot, planTierFor } from '@/services/usage/getDailyUsage';
-import { AI_CREDIT_PACKS, aiCommerceOpen, PREPOS_PAUSED_MESSAGE } from '@/services/credits/aiCreditWallet';
+import { AI_CREDIT_PACKS } from '@/services/credits/aiCreditWallet';
+import { walletCommerceOpen, WALLET_COMMERCE_CLOSED_MESSAGE } from '@/lib/wallet/walletPacks.mjs';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -174,8 +175,9 @@ export async function POST(request) {
       return NextResponse.json({
         ok: true,
         kind: 'redirect',
-        target: '/pricing/ai-credits',
-        message: aiCommerceOpen() ? 'Open credit packs to top up without changing your subscription.' : `${PREPOS_PAUSED_MESSAGE} New top-ups are paused; your credits are kept.`,
+        // The wallet sells credits on WALLET_COMMERCE_OPEN alone (the order route's switch), so this action follows it too.
+        target: '/wallet',
+        message: walletCommerceOpen() ? 'Open your wallet to add credits without changing your plan.' : `${WALLET_COMMERCE_CLOSED_MESSAGE} Your credits are kept.`,
         params: { reason: 'ai_credits', balance: snapshot.aiWallet?.known ? snapshot.aiWallet.total : null },
         packs: AI_CREDIT_PACKS,
       });

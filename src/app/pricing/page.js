@@ -18,7 +18,7 @@ import { breadcrumbJsonLd, faqJsonLd, seoMetadata } from '@/lib/seo';
 import { publicInventory } from '@/lib/server/inventory';
 import { pricingBankFaq, pricingBankLine, pricingSubjectLine } from '@/lib/paperCopy.mjs';
 import { practiceBankSize } from '@/lib/practiceBank.mjs';
-import { PRACTICE_PRICE_LINE } from '@/lib/creditCopy.mjs';
+import { ONE_CREDIT_LINE, PRACTICE_PRICE_LINE } from '@/lib/creditCopy.mjs';
 
 export function generateMetadata() {
   const offer = publicOffer();
@@ -41,7 +41,7 @@ const buildPlans = (offer) => [
     ctaLabel: 'Create a free account',
     terms: [
       ['Renewal', 'None, and no card needed'],
-      ['Credits', '100 to start, plus 50 free every month: 1 a question in Quick practice, 50 a Full mock, 1 an Ask Mobi reply'],
+      ['Credits', '100 to start, plus 50 free every month: 1 a question in Quick practice, 50 a Full mock, 1 an Ask Mobi reply, 3 a deeper analysis'],
     ],
     features: newOfferReleased() ? ['One five-question baseline per launch subject', 'One included daily 10-question practice set', 'One new complete recovery episode per week', 'Delayed checks for every started episode', '25 saved questions', 'Free DU eligibility and historical cutoffs'] : [
       'Quick practice, 5 to 20 questions, 1 credit a question',
@@ -321,7 +321,7 @@ export default async function PricingPage() {
               Ask Mobi reads your own practice record and shows your next step, your leaks and your weekly report. The basics are free for everyone and use no credits. Pro adds every ranked chapter, pace and changed-answer detail.
             </p>
             <p className="mm-body">
-              One credits balance pays for practice and Ask Mobi: 1 credit a question, 1 credit a reply. Everyone gets 50 free credits a month, used first. On Pro, practice needs no credits, so they all go to Ask Mobi.
+              One credits balance pays for practice and Ask Mobi. {ONE_CREDIT_LINE} Everyone gets 50 free credits a month, used first. On Pro, practice needs no credits, so they all go to Ask Mobi.
               Credits you have already bought stay in your account.
             </p>
             <p style={{ marginTop: '1rem' }}>

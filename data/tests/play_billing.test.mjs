@@ -634,7 +634,7 @@ async function database() {
   const d = new PGlite();
   await d.exec(`create role anon;create role authenticated;create role service_role;
     create table public.users(id text primary key, is_premium boolean not null default false, subscription_status text not null default 'free', premium_until timestamptz, razorpay_subscription_id text);
-    create table public.payments(id text primary key, user_id text references public.users(id), payment_id text, amount_paid int, status text, access_until timestamptz);
+    create table public.payments(id text primary key, user_id text references public.users(id), payment_id text, amount_paid int, status text, access_until timestamptz, plan_id text);
     create table public.ai_credit_wallets(user_id text primary key references public.users(id) on delete cascade, included_monthly_credits int default 50, included_credits_used int default 0 check(included_credits_used>=0), bonus_credits int default 0 check(bonus_credits>=0), period_start timestamptz, reset_at timestamptz, metadata jsonb, created_at timestamptz default now(), updated_at timestamptz default now());
     create table public.ai_credit_ledger(id uuid primary key default gen_random_uuid(), user_id text, amount int, reason text check (reason = any (array['monthly_grant','pack_purchase','admin_adjustment','ai_spend','expiry','ai_reserve','ai_release'])), feature text, reference text, metadata jsonb, expires_at timestamptz, created_at timestamptz default now(), wallet_source text, balance_after int, idempotency_key text);`);
   await d.exec(GRANT_MIGRATION);
@@ -752,7 +752,7 @@ test('SQL revoke, Pro: a void switches Pro off, once; a late verify of the voide
 test('SQL revoke, Pro: other paid access keeps Pro (a captured web payment, or another Play Pro still in force)', async () => {
   const d = await database();
   try {
-    await d.query("insert into public.payments values ('p1','u1','pay_1',9900,'captured','2027-07-31T18:29:59Z')");
+    await d.query("insert into public.payments values ('p1','u1','pay_1',9900,'captured','2027-07-31T18:29:59Z','pro_cuet_2027')");
     await grant(d, 'u1', 'tok-pro-0000000000020', 'pro_cuet_2027');
     const r = await revoke(d, 'tok-pro-0000000000020');
     assert.equal(r.revoked.keptForOtherPaidAccess, true);
@@ -900,4 +900,30 @@ test('data/db.js counts a Play Pro purchase as other paid access', () => {
   assert.match(src, /razorpayEvidence \|\| \(await this\.getPlayProAccess\(userId\)\)\.hasPlayPro/);
   assert.match(src, /const play = await this\.getPlayProAccess\(userId\);/);
   assert.match(src, /\.from\('play_purchases'\)/);
+});
+
+test('SQL revoke, Pro: a captured CREDIT-PACK payment is not Pro evidence; a captured Pro payment is (release 10 verifier M1)', async () => {
+  const d = await database();
+  try {
+    await d.query("insert into public.payments values ('pc1','u4','pay_c1',4900,'captured',null,'credits_49_300')");
+    await d.query("insert into public.payments values ('pc2','u4','pay_c2',1000,'captured',null,'ai_credits_prepos_10_50')");
+    await grant(d, 'u4', 'tok-pro-0000000000040', 'pro_cuet_2027');
+    const r = await revoke(d, 'tok-pro-0000000000040');
+    assert.deepEqual([r.revoked.proSwitchedOff, r.revoked.keptForOtherPaidAccess], [true, false]);
+    assert.equal((await userRow(d, 'u4')).is_premium, false, 'credit packs bought credits, not Pro');
+
+    await d.query("insert into public.payments values ('pp5','u5','pay_p5',6900,'captured',null,'pro_monthly')");
+    await grant(d, 'u5', 'tok-pro-0000000000050', 'pro_cuet_2027');
+    const r5 = await revoke(d, 'tok-pro-0000000000050');
+    assert.equal(r5.revoked.keptForOtherPaidAccess, true);
+    assert.equal((await userRow(d, 'u5')).is_premium, true, 'a captured Pro payment keeps Pro');
+  } finally { await d.close(); }
+});
+
+test('data/db.js counts only Pro plan payments as Pro evidence (release 10 verifier M1)', () => {
+  const src = file('data/db.js');
+  assert.match(src, /export const isProPlanPayment = \(row\) => \/\^pro_\/\.test\(String\(row\?\.plan_id \|\| ''\)\);/);
+  assert.equal(src.match(/\.like\('plan_id', 'pro%'\)/g)?.length, 2, 'both readers ask only for Pro plan payments');
+  assert.match(src, /const razorpayEvidence = \(data \|\| \[\]\)\.filter\(isProPlanPayment\)\.some/);
+  assert.match(src, /if \(!isProPlanPayment\(row\)\) continue;/);
 });

@@ -5,6 +5,7 @@
 //   ?wallet=unknown       the balance could not be read       ?history=down|empty
 //   ?plan=pro             Pro: one line says practice is included, no Pro row
 import { packViews } from '@/lib/wallet/walletPacks.mjs';
+import { ONE_CREDIT_LINE } from '@/lib/creditCopy.mjs';
 
 const at = (daysAgo, h, m) => new Date(Date.UTC(2026, 9, 18 - daysAgo, h, m)).toISOString();
 
@@ -20,10 +21,10 @@ export function previewWallet(url, method, init, fixture, json) {
   const open = fixture.get('commerce') === 'open';
   const total = zero ? 0 : 108;
   const credits = unknown
-    ? { total: null, freeLeft: null, freeAllowance: null, held: null, resetAt: null, renewsOn: null, parts: { included: null, bonus: null, balance: null }, label: 'Credits', buys: '1 credit = 1 question or 1 Ask Mobi reply. A full mock is 50.' }
+    ? { total: null, freeLeft: null, freeAllowance: null, held: null, resetAt: null, renewsOn: null, parts: { included: null, bonus: null, balance: null }, label: 'Credits', buys: ONE_CREDIT_LINE }
     : zero
-      ? { total: 0, freeLeft: 0, freeAllowance: 50, held: 0, resetAt: '2026-10-31T18:30:00.000Z', renewsOn: '2026-11-01', parts: { included: 0, bonus: 0, balance: 0 }, label: 'Credits', buys: '1 credit = 1 question or 1 Ask Mobi reply. A full mock is 50.' }
-      : { total: 108, freeLeft: 38, freeAllowance: 50, held: 70, resetAt: '2026-10-31T18:30:00.000Z', renewsOn: '2026-11-01', parts: { included: 38, bonus: 30, balance: 40 }, label: 'Credits', buys: '1 credit = 1 question or 1 Ask Mobi reply. A full mock is 50.' };
+      ? { total: 0, freeLeft: 0, freeAllowance: 50, held: 0, resetAt: '2026-10-31T18:30:00.000Z', renewsOn: '2026-11-01', parts: { included: 0, bonus: 0, balance: 0 }, label: 'Credits', buys: ONE_CREDIT_LINE }
+      : { total: 108, freeLeft: 38, freeAllowance: 50, held: 70, resetAt: '2026-10-31T18:30:00.000Z', renewsOn: '2026-11-01', parts: { included: 38, bonus: 30, balance: 40 }, label: 'Credits', buys: ONE_CREDIT_LINE };
   const fullRows = [
     { at: at(0, 9, 40), pool: 'practice', what: 'Practice set', delta: -10 },
     { at: at(0, 7, 5), pool: 'ai', what: 'Repair, Q2 Accountancy', delta: -1 },

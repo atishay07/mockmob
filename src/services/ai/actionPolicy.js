@@ -1,4 +1,5 @@
 import { getCreditCostForAction, rivalTypeToQuotaAction } from '@/services/usage/getDailyUsage';
+import { walletCommerceOpen } from '@/lib/wallet/walletPacks.mjs';
 
 const BASIC_RIVALS = new Set(['NORTH_CAMPUS_RIVAL', 'SPEED_DEMON', 'ACCURACY_MONSTER', 'COMEBACK_RIVAL']);
 
@@ -35,7 +36,8 @@ export function enforceMentorActionPolicy(action, { isPaid }) {
     case 'start_revision_queue':
       return { ...safe, creditCost: 0, requiresPaid: false };
     case 'buy_credits':
-      return { ...safe, creditCost: 0, requiresPaid: false, label: safe.label || 'Buy credits' };
+      // Selling follows the wallet's switch (WALLET_COMMERCE_OPEN); while it is closed the key never says Buy.
+      return { ...safe, creditCost: 0, requiresPaid: false, label: walletCommerceOpen() ? (safe.label || 'Buy credits') : 'See your credits' };
     case 'upgrade_plan':
       return { ...safe, creditCost: 0, requiresPaid: !isPaid, label: safe.label || 'Upgrade plan' };
     default:

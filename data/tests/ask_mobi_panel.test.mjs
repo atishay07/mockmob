@@ -147,7 +147,7 @@ test('the record chip summary: marks ledger, biggest leak, pace', () => {
 test('the wallet line and the paid state say the truth, and unknown is never 0', () => {
   const w = { known: true, state: 'available', total: 8, includedRemaining: 8, includedMonthlyCredits: 10, bonusCredits: 0, resetAt: '2026-10-31T18:30:00.000Z' };
   assert.deepEqual(walletLine(w), { count: 8, rest: 'of 10 credits left', reset: 'resets 1 Nov' });
-  assert.deepEqual(walletLine({ ...w, total: 38, bonusCredits: 30 }), { count: 38, rest: 'credits left', reset: 'resets 1 Nov' }, 'purchased credits make "of 10" untrue');
+  assert.deepEqual(walletLine({ ...w, total: 38, bonusCredits: 30 }), { count: 38, rest: 'credits left', reset: '8 free, back to 10 on 1 Nov' }, 'purchased credits make "of 10" untrue');
   assert.equal(walletLine(null).count, null);
   assert.equal(walletLine({ known: false, state: 'error' }).count, null);
   assert.equal(paidState(w).open, true);

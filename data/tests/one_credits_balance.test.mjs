@@ -465,3 +465,22 @@ test('an Ask Mobi reply always costs exactly 1 credit, whatever the mode or mode
   for (const c of costs) assert.equal(c, '1', `creditCost: ${c}`);
   assert.match(file('src/services/prepos/modelReply.js'), /creditCost = 1,/);
 });
+
+test('headroom left by bought credits never pays for a held-credit reply above the cap; the lift serves only a reply paid from bought credits (release 10 verifier M4)', async () => {
+  const d = await database();
+  try {
+    // The free 50 used, 20 bought credits, 100 held credits, and already at the owner's cap.
+    await user(d, 'mix', { balance: 100, used: 50, bonus: 20 });
+    await q(d, "insert into runtime_ai_requests(request_key,provider,model,reserved_usd,actual_usd,state,user_id) values('mix-old-000001','openai','gpt-6-luna',0.0284,0.0284,'receipted','mix')");
+    // Every reply paid from a bought credit dispatches at the cap edge.
+    for (let n = 1; n <= 20; n++) assert.deepEqual(await reply(d, 'mix', n), { ok: true }, `bought reply ${n}`);
+    assert.deepEqual(await state(d, 'mix'), { free: 0, bonus: 0, balance: 100 });
+    assert.equal((await one(d, "select public.mm_bought_ai_credits_spent('mix', public.runtime_ai_month_start()) n")).n, 20, 'USD 0.40 of lift was earned, about 0.007 used');
+    // The next reply is paid from held credits: no open bought reservation, so the plain cap refuses it and the credit goes back.
+    assert.deepEqual(await reply(d, 'mix', 21), { runtime: 'user_limit' }, 'leftover bought headroom does not buy unpaid AI');
+    assert.deepEqual(await state(d, 'mix'), { free: 0, bonus: 0, balance: 100 });
+    // A newly bought credit lifts the cap again, for its own reply.
+    await q(d, "update ai_credit_wallets set bonus_credits=1 where user_id='mix'");
+    assert.deepEqual(await reply(d, 'mix', 22), { ok: true });
+  } finally { await d.close(); }
+});

@@ -135,7 +135,7 @@ function PaperRepairs({ paper, items: given, wallet, onChanged, onOpen }) {
   }
   return (
     <div className="rvw-batch" aria-label={`Repair ${items.length} from ${paper}`}>
-      <p><b>{plural(items.length, 'repair')}, {plural(items.length, 'Credit')}.</b> {haveLine(balance) || ''} Each is charged only when it is written. If one cannot be written it costs nothing and the rest wait.</p>
+      <p><b>{plural(items.length, 'repair')}, {plural(items.length, 'credit')}.</b> {haveLine(balance) || ''} Each is charged only when it is written. If one cannot be written it costs nothing and the rest wait.</p>
       <ol>
         {items.map((item) => {
           const state = run.done[item.uid] ? 'done' : run.failed?.uid === item.uid ? 'failed' : run.at === item.uid ? 'writing' : 'waiting';
@@ -158,7 +158,7 @@ function PaperRepairs({ paper, items: given, wallet, onChanged, onOpen }) {
           {busy ? 'Repairing' : run.status === 'stopped' ? `Repair the ${plural(left.length, 'question')} left` : `Begin ${plural(left.length, 'repair')}`}
         </button>
       ) : null}
-      {short && !busy ? <p className="rvw-sheet__fine">This needs {plural(items.length, 'Credit')}. {haveLine(balance)} <Link href="/wallet">See your credits</Link></p> : null}
+      {short && !busy ? <p className="rvw-sheet__fine">This needs {plural(items.length, 'credit')}. {haveLine(balance)} <Link href="/wallet">See your credits</Link></p> : null}
     </div>
   );
 }

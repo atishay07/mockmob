@@ -26,7 +26,8 @@ export function longDate(ymd, { year = false } = {}) {
 
 export const WALLET_COPY = Object.freeze({
   title: 'Wallet',
-  lede: 'One balance pays for every practice question and every Ask Mobi reply. Credits you buy never expire.',
+  // True whether or not selling is open (release 10 verifier L5): held credits, bought or given, never expire.
+  lede: 'One balance pays for every practice question and every Ask Mobi reply. Credits you hold stay until you use them.',
   loading: 'Reading your wallet',
   failed: 'Your wallet did not load. Nothing was spent.',
   retry: 'Try again',
@@ -39,8 +40,15 @@ export const WALLET_COPY = Object.freeze({
   historyFailed: 'Your activity did not load. Your balances above are current.',
   heading: 'Credits',
   packsHeading: 'Top up and keep going',
+  packsHeadingClosed: 'Credit packs',
   proLink: 'See Pro',
-  zeroLine: 'You are out of credits. Top up to keep practising, or ask Mobi again when your free credits return.',
+  // Out of credits (release 10 verifier M5): a top-up is offered only while selling is open (commerce.open), and a Pro student,
+  // whose practice needs no credits, is never told to top up to practise.
+  zeroLine: ({ open = false, pro = false, renews = null } = {}) => {
+    const back = renews ? `Your free credits come back on ${renews}.` : 'Your free credits come back next month.';
+    if (pro) return `You are out of credits for Ask Mobi replies; practice needs no credits with Pro. ${back}${open ? ' You can also top up for more replies.' : ''}`;
+    return open ? `You are out of credits. Top up to keep practising, or wait: ${back}` : `You are out of credits. ${back}`;
+  },
   proLine: (offer) => `Get unlimited mocks: with Pro, practice never uses a credit${offer?.rupees ? `. ₹${offer.rupees}${offer.expires ? ` through ${offer.expires}` : ''}` : ''}.`,
   proNow: (until) => {
     const d = longDate(until, { year: true });
@@ -98,7 +106,7 @@ export function balanceTile(data) {
     ...(held !== null ? [`Credits you hold: ${fmt(held)}. They do not expire.`] : []),
     ...(data?.plan?.name === 'Pro' ? [WALLET_COPY.proNow(data.plan.until)] : []),
   ];
-  if (total === 0) lines.unshift(WALLET_COPY.zeroLine);
+  if (total === 0) lines.unshift(WALLET_COPY.zeroLine({ open: data?.commerce?.open === true, pro: data?.plan?.name === 'Pro', renews: longDate(c.renewsOn) }));
   return { state: total === 0 ? 'zero' : 'known', figure: fmt(total), lines };
 }
 

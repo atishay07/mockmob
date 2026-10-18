@@ -101,7 +101,7 @@ export default function WalletPageClient() {
 
             <section className="wl-col" aria-labelledby="wl-packs-h">
               <div className="wl-packs">
-                <h2 className="wl-packs__h" id="wl-packs-h">{WALLET_COPY.packsHeading}</h2>
+                <h2 className="wl-packs__h" id="wl-packs-h">{data.commerce.open ? WALLET_COPY.packsHeading : WALLET_COPY.packsHeadingClosed}</h2>
                 <ul className="wl-packlist">
                   {rows.map((row) => (
                     <li key={row.packId} className="wl-pack" data-featured={row.featured || undefined}>

@@ -16,7 +16,7 @@ export const FAQ_ITEMS = Object.freeze([
     answer: Object.freeze([
       'One balance pays for everything: practice sets, full mocks, Ask Mobi replies and repair explanations. Every account gets 50 free credits each month, and they are used first. Credits you buy or earn are used after them and stay in your account.',
       PRACTICE_PRICE_LINE,
-      'One Ask Mobi reply is 1 credit. On Pro, practice needs no credits at all, so your credits go to Ask Mobi.',
+      'One Ask Mobi chat reply is 1 credit; deeper analysis, like a mock autopsy or a trap drill, is 3. The cost shows before you start. On Pro, practice needs no credits at all, so your credits go to Ask Mobi.',
     ]),
   }),
   Object.freeze({

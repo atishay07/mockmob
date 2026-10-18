@@ -182,7 +182,8 @@ test('the database function is used when it exists; a missing function falls bac
   console.warn = () => {};
   try {
     const failing = fakeDb(ROWS, { rpc: () => ({ data: null, error: { code: '57014', message: 'canceling statement due to statement timeout' } }) });
-    assert.deepEqual(await readAttemptListSummary(failing, 'u1'), viaTable, 'any other failure still answers from the table');
+    await assert.rejects(readAttemptListSummary(failing, 'u1'), (e) => e.code === 'attempts_summary_unavailable', 'a timeout is returned, never a full table read');
+    assert.deepEqual(failing.calls.table, [], 'the heavy table is not read on a timeout');
   } finally { console.warn = warn; }
   resetSummaryRpcState();
 });

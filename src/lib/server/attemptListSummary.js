@@ -91,10 +91,14 @@ const RPC_RETRY_MS = 5 * 60 * 1000;
 let rpcMissingAt = 0;
 const PAGE = 1000;
 
-function rpcIsMissing(error) {
-  const text = `${error?.code || ''} ${error?.message || ''}`;
-  return /PGRST202|42883|could not find the function|does not exist/i.test(text);
+// Only a function that is not there (PostgREST PGRST202, Postgres 42883) falls back to the table read (release 10 verifier M6,
+// L6). Any other failure, a statement timeout (57014) above all, is the database under load: reading the whole heavy table then
+// would make it worse, so the error goes back and the route answers 503 with a retry message.
+export function rpcIsMissing(error) {
+  return error?.code === 'PGRST202' || error?.code === '42883';
 }
+
+export const SUMMARY_UNAVAILABLE = 'attempts_summary_unavailable';
 
 async function readViaRpc(db, userId) {
   const rows = [];
@@ -108,14 +112,18 @@ async function readViaRpc(db, userId) {
   return { rows };
 }
 
-/** Every attempt of the user, newest first (completed_at desc, id asc), as summary items. Throws the database error. */
+/** Every attempt of the user, newest first (completed_at desc, id asc), as summary items. Throws the database error, and
+ * SUMMARY_UNAVAILABLE when the function exists but failed (a timeout): the caller answers 503. */
 export async function readAttemptListSummary(db, userId, { now = Date.now } = {}) {
   if (!userId) throw new Error('attempt_owner_required');
   if (typeof db.rpc === 'function' && now() - rpcMissingAt >= RPC_RETRY_MS) {
     const viaRpc = await readViaRpc(db, userId);
     if (viaRpc.rows) return viaRpc.rows.map(summaryAttempt);
-    if (rpcIsMissing(viaRpc.error)) rpcMissingAt = now();
-    else console.warn('[api/attempts] summary function failed, reading the table:', viaRpc.error?.message || viaRpc.error);
+    if (!rpcIsMissing(viaRpc.error)) {
+      console.warn('[api/attempts] summary function failed:', viaRpc.error?.code || '', viaRpc.error?.message || viaRpc.error);
+      throw Object.assign(new Error(SUMMARY_UNAVAILABLE), { code: SUMMARY_UNAVAILABLE, cause: viaRpc.error });
+    }
+    rpcMissingAt = now();
   }
   return (await readAttemptRows(db, userId)).map(summaryAttempt);
 }

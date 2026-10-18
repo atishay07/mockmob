@@ -34,7 +34,11 @@
 --      = USD per bought credit, 0.02). users.credit_balance credits do NOT raise it: on production they are the signup grant
 --      (column default 100) and community rewards, not purchases (18 Oct: 1,541 users hold 111,961 of them, 1,427 users hold
 --      some; credit_transactions has no purchase into it). They pay for AI like any credit (D78), under the owner's cap.
---      So a student who buys credits is never refused by the cap for what they paid for (bought credits are spent before
+--      The lift applies only to a call made while that student has an open credit reservation with a bonus part, that is a
+--      reply being paid from bought credits now (release 10 verifier M4, 19 Oct 2026); a reply paid from held or free credits
+--      meets the plain cap even after earlier bought replies left headroom. Charge-first AI (mm_ai_consume_credits, before the
+--      call; no open reservation) gets no lift: the plain cap, as on production today.
+--      So a student who buys credits is never refused by the cap for a reply paid from them (bought credits are spent before
 --      held ones), everything unpaid is capped exactly as before, a failed call (credit released, provider reservation kept)
 --      still eats into the cap, and each bought credit can add at most that bound.
 --      Everything else in reserve_runtime_ai (model allowlist, global cap, idempotency, price check) is production's.
@@ -499,8 +503,13 @@ begin
    if user_cap is null then raise exception 'runtime funding unavailable'; end if;
    -- One credits balance (18 Oct 2026): the cap above covers everything unpaid. AI credits this student paid this month
    -- from BOUGHT credits (bonus) each add 'student_bought_credit' USD. No row: the cap is exactly as before.
+   -- The lift serves only a call whose reply is being paid from bought credits right now: an open (reserved or executing,
+   -- unexpired) credit reservation of this student with a bonus part (release 10 verifier M4). A reply paid from held or free
+   -- credits gets the plain cap, so headroom left over from bought credits never buys unpaid AI above the owner's cap.
    select monthly_cap_usd into bought_credit_usd from public.runtime_ai_budget where id='student_bought_credit';
-   if coalesce(bought_credit_usd,0)>0 then
+   if coalesce(bought_credit_usd,0)>0 and exists (
+        select 1 from public.ai_credit_reservations x
+         where x.user_id=p_user_id and x.state in ('reserved','executing') and x.from_bonus>0 and x.expires_at>now()) then
      user_cap=user_cap+public.mm_bought_ai_credits_spent(p_user_id,public.runtime_ai_month_start())*bought_credit_usd;
    end if;
    select coalesce(sum(coalesce(actual_usd,reserved_usd)),0) into user_spend

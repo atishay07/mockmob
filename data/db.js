@@ -41,6 +41,8 @@ const newUserId = () => `usr_${Date.now()}_${rid()}`;
 const newAttemptId = () => `att_${Date.now()}_${rid()}`;
 const newQuestionId = () => `q_${Date.now()}_${rid()}`;
 const newPaymentId = () => `payrec_${Date.now()}_${rid()}`;
+/** A payment for a Pro plan (plan_id 'pro_...'), not a credit pack ('credits_...', 'ai_credits_...'): only these are Pro evidence. */
+export const isProPlanPayment = (row) => /^pro_/.test(String(row?.plan_id || ''));
 
 // ---------- row <-> app-shape mappers ----------
 const userOut = (r) => r && ({
@@ -647,15 +649,17 @@ export const Database = {
     if (!userId) return false;
     const { data, error } = await supabaseAdmin()
       .from('payments')
-      .select('id, subscription_id, payment_id, status, amount_paid')
+      .select('id, subscription_id, payment_id, status, amount_paid, plan_id')
       .eq('user_id', userId)
       .not('payment_id', 'is', null)
       .gt('amount_paid', 0)
       .in('status', ['captured', 'completed', 'paid'])
+      .like('plan_id', 'pro%')
       .limit(20);
     if (error) throw error;
 
-    const razorpayEvidence = (data || []).some((row) => {
+    // Only a Pro plan payment is Pro evidence: a credit pack bought credits, not Pro (release 10 verifier M1).
+    const razorpayEvidence = (data || []).filter(isProPlanPayment).some((row) => {
       if (excludingSubscriptionId && row.subscription_id === excludingSubscriptionId) return false;
       if (excludingPaymentId && row.payment_id === excludingPaymentId) return false;
       return true;
@@ -700,11 +704,12 @@ export const Database = {
     if (!userId) return { hasOtherPaid: false, accessUntil: null };
     const { data, error } = await supabaseAdmin()
       .from('payments')
-      .select('id, subscription_id, payment_id, status, amount_paid, access_until')
+      .select('id, subscription_id, payment_id, status, amount_paid, access_until, plan_id')
       .eq('user_id', userId)
       .not('payment_id', 'is', null)
       .gt('amount_paid', 0)
       .in('status', ['captured', 'completed', 'paid'])
+      .like('plan_id', 'pro%')
       .limit(50);
     if (error) {
       if (isMissingEntitlementSchema(error)) return { hasOtherPaid: await this.hasOtherPaidSubscriptionEvidence({ userId, excludingSubscriptionId, excludingPaymentId }), accessUntil: null };
@@ -713,6 +718,7 @@ export const Database = {
     let accessUntil = null;
     let hasOtherPaid = false;
     for (const row of data || []) {
+      if (!isProPlanPayment(row)) continue; // a credit-pack payment is not Pro access (release 10 verifier M1)
       if (excludingSubscriptionId && row.subscription_id === excludingSubscriptionId) continue;
       if (excludingPaymentId && row.payment_id === excludingPaymentId) continue;
       hasOtherPaid = true;

@@ -12,18 +12,17 @@
 // today's total; pool ("practice" or "ai") only says which ledger the line came from.
 import { istDate, planOf } from './credits.js';
 import { packViews, walletCommerceOpen, WALLET_COMMERCE_CLOSED_MESSAGE } from '../wallet/walletPacks.mjs';
-import { TEST_MODES, practiceCreditCost } from '../../../data/test_modes.js';
 import { CURRENT_OFFER } from '../../../data/capabilities.js';
+import { ONE_CREDIT_LINE } from '../creditCopy.mjs';
 
 export const WALLET_HISTORY_SIZE = 20;
 export const CREDITS_LABEL = 'Credits';
 
 const int = (v) => (typeof v === 'number' || (typeof v === 'string' && v.trim() !== '')) && Number.isFinite(Number(v)) ? Math.trunc(Number(v)) : null;
 
-/** What one credit buys, in one sentence. The numbers come from the practice price list, so the words and the price move together. */
+/** What one credit buys: the one line (src/lib/creditCopy.mjs), whose numbers come from the practice price list. */
 export function creditsBuyLine() {
-  const full = practiceCreditCost('full', TEST_MODES.full.fixedCount);
-  return `1 credit = 1 question or 1 Ask Mobi reply. A full mock is ${full}.`;
+  return ONE_CREDIT_LINE;
 }
 
 const WHAT = Object.freeze({

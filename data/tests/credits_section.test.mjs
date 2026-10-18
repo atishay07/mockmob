@@ -21,8 +21,10 @@ test('the one balance: one tile, the total, what a credit buys and when the free
   assert.equal(tiles.length, 1);
   const [one] = tiles;
   assert.deepEqual([one.name, one.figure, one.state], ['Credits', '49', 'known']);
-  assert.ok(one.lines.includes('1 credit = 1 question or 1 Ask Mobi reply; a full mock is 50.'));
-  assert.ok(one.lines.includes('9 of your 50 free credits left this month; 50 more on 1 November. They are used first.'));
+  assert.ok(one.lines.includes('1 credit is 1 practice question or 1 chat reply; a full mock is 50 and deeper analysis is 3. The cost shows before you start.'));
+  assert.ok(one.lines.includes('9 of your 50 free credits left this month. They are used first.'));
+  assert.ok(one.lines.includes('Your free credits go back to 50 on 1 November.'), 'the free part goes back to 50, never "50 more"');
+  assert.ok(!one.lines.some((l) => /more on/.test(l)));
   // An older server without `total`: the two stored parts are added (40 + 9), never shown as two numbers.
   const [old] = creditTiles(FIXTURE);
   assert.deepEqual([old.name, old.figure], ['Credits', '49']);

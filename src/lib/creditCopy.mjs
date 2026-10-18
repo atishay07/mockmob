@@ -1,14 +1,17 @@
 // The credit name and the one way a spend line is written (audit findings 12 and 13).
-// One credits balance (owner, 18 Oct 2026, D78): one name, "credits", for everything. 1 credit = 1 question or 1 Ask Mobi
-// reply; a full mock is 50. The `pool` arguments are kept for older callers and no longer change the words.
+// One credits balance (owner, 18 Oct 2026, D78): one name, "credits", for everything. ONE_CREDIT_LINE says what a credit
+// buys. The `pool` arguments are kept for older callers and no longer change the words.
 // Every spend line names its total: "This repair uses 1 credit. You have 9."
 // Pure, no React, so the words can be held by a test. Plain sentence case: no "!", no em dash, no middle dot.
 
 import { TEST_MODES, practiceCreditCost } from '../../data/test_modes.js';
 
 export const CREDITS = 'Credits';
-/** What one credit buys, said one way everywhere. */
-export const ONE_CREDIT_LINE = '1 credit = 1 question or 1 Ask Mobi reply; a full mock is 50.';
+/** What deeper AI analysis costs (a mock autopsy, a trap drill, a plan, a rival analysis): CREDIT_COSTS in
+ *  src/services/usage/getDailyUsage.js; data/tests/release10_verifier_1019.test.mjs holds the two together. */
+export const DEEP_AI_CREDITS = 3;
+/** What one credit buys, said one way everywhere (release 10 verifier M3: deeper analysis is 3, never "1 reply"). */
+export const ONE_CREDIT_LINE = `1 credit is 1 practice question or 1 chat reply; a full mock is ${practiceCreditCost('full', TEST_MODES.full.fixedCount)} and deeper analysis is ${DEEP_AI_CREDITS}. The cost shows before you start.`;
 // Kept for older imports: both names are now the one name.
 export const PRACTICE_CREDITS = CREDITS;
 export const AI_CREDITS = CREDITS;

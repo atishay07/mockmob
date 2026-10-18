@@ -5,7 +5,7 @@ import { supabaseAdmin } from '@/lib/supabase';
 import { finaliseExpiredSessionsForUser, supabaseSessionStore } from '@/lib/server/sessionFinaliser';
 import { reportFinalisedEpisodeCheck } from '@/lib/server/finaliseEpisodeCheck';
 import { forgetBadges } from '@/lib/server/badgesStore';
-import { isSummaryView, readAttemptListSummary } from '@/lib/server/attemptListSummary';
+import { isSummaryView, readAttemptListSummary, SUMMARY_UNAVAILABLE } from '@/lib/server/attemptListSummary';
 
 export async function GET(request) {
   try {
@@ -20,6 +20,9 @@ export async function GET(request) {
     const attempts = await Database.getAttempts(session.user.id);
     return NextResponse.json(attempts);
   } catch (e) {
+    if (e?.code === SUMMARY_UNAVAILABLE) {
+      return NextResponse.json({ error: 'Your attempts are taking longer than usual to load. Try again in a moment.', retryable: true }, { status: 503, headers: { 'Retry-After': '5' } });
+    }
     console.error('[api/attempts] GET failed:', e);
     return NextResponse.json({ error: 'Failed to load attempts' }, { status: 500 });
   }

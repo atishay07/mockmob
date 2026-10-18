@@ -197,7 +197,7 @@ export function inlineCopy(placement, facts = {}) {
 // docs/brain/PRO-NUDGE-COPY-1018.md holds the options with the reasons; the first of each is the one in use.
 
 export const HEADLINE_OPTIONS = Object.freeze([
-  'Unlimited mocks. No credits needed.',
+  'Unlimited mocks. No credits needed for practice.',
   'Practise until exam day feels familiar',
   'Every mock you need, from one central bank',
 ]);

@@ -43,7 +43,7 @@ test('Credits: while runtimeAi is on, the page never says written replies are pa
 
 test('Credits: the page reads the real gates (runtimeAi for replies, aiCommerce for top-ups) and today says top-ups only', () => {
   const page = read('src/app/pricing/ai-credits/page.js');
-  assert.match(page, /aiCreditsStatusLine\(\{ checkoutOpen, repliesOpen: runtimeAiReleased\(\) \}\)/);
+  assert.match(page, /aiCreditsStatusLine\(\{ checkoutOpen, repliesOpen: runtimeAiReleased\(\), packsHere \}\)/);
   assert.match(page, /aiCreditsRules\(checkoutOpen\)/);
   assert.doesNotMatch(stripComments(page), /Written replies and new top-ups are paused/, 'the old fixed sentence is gone');
   // The live gates, as release 9 ships them: replies on, top-ups closed.

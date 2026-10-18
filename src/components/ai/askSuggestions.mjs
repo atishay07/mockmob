@@ -219,7 +219,7 @@ export function shortDate(iso) {
 
 /**
  * The one wallet line under the composer: { count, rest, reset }. "8 of 10 credits left", "resets 1 Nov". Purchased
- * credits make "of 10" untrue, so then it is the total alone. Unknown is never written as 0.
+ * credits make "of 10" untrue, so then it is the total with the free part named: "38 free, back to 50 on 1 Nov". Unknown is never written as 0.
  */
 export function walletLine(wallet) {
   if (!wallet) return { count: null, rest: 'Reading credits', reset: null };
@@ -227,7 +227,12 @@ export function walletLine(wallet) {
   const reset = shortDate(wallet.resetAt);
   // One credits balance (D78): bought or held credits (bonus or users.credit_balance) make "of 50" untrue too.
   if (wallet.bonusCredits > 0 || wallet.balanceCredits > 0 || wallet.heldCredits > 0 || !Number.isFinite(wallet.includedMonthlyCredits)) {
-    return { count: wallet.total, rest: `credit${wallet.total === 1 ? '' : 's'} left`, reset: reset ? `resets ${reset}` : null };
+    // Only the free part comes back each month; held and bought credits never reset or expire, so the date is said of the
+    // free part alone (release 10 verifier H1): "138 credits left · 38 free, back to 50 on 1 Nov".
+    const free = Number.isFinite(wallet.includedRemaining) && Number.isFinite(wallet.includedMonthlyCredits)
+      ? `${wallet.includedRemaining} free, back to ${wallet.includedMonthlyCredits}${reset ? ` on ${reset}` : ' next month'}`
+      : null;
+    return { count: wallet.total, rest: `credit${wallet.total === 1 ? '' : 's'} left`, reset: free };
   }
   return { count: wallet.includedRemaining, rest: `of ${wallet.includedMonthlyCredits} credits left`, reset: reset ? `resets ${reset}` : null };
 }

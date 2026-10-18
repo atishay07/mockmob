@@ -74,7 +74,9 @@ export function creditTiles(body) {
     return [{ pool: 'total', name: CREDITS, state: 'unknown', figure: null, lines: [CREDITS_COPY.unavailable, ONE_CREDIT_LINE, ...proLine] }];
   }
   const free = one.freeLeft !== null && one.freeAllowance
-    ? [`${fmt(one.freeLeft)} of your ${fmt(one.freeAllowance)} free credits left this month${renews ? `; ${fmt(one.freeAllowance)} more on ${renews}` : ''}. They are used first.`]
+    // The free part goes BACK TO the allowance on the reset date; it is not added on top (release 10 verifier H2).
+    ? [`${fmt(one.freeLeft)} of your ${fmt(one.freeAllowance)} free credits left this month. They are used first.`,
+      ...(renews ? [`Your free credits go back to ${fmt(one.freeAllowance)} on ${renews}.`] : [])]
     : renews ? [`Free credits come back on ${renews}.`] : [];
   return [{ pool: 'total', name: CREDITS, state: 'known', figure: fmt(one.balance), lines: [ONE_CREDIT_LINE, ...free, ...proLine] }];
 }

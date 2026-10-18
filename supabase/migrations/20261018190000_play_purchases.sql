@@ -187,12 +187,14 @@ begin
   end if;
 
   if v_row.kind = 'pro' then
-    -- The web refund rule: Pro stays when the student has other paid evidence (a captured Razorpay payment, or another
-    -- Play Pro purchase that is still in force); otherwise Pro is switched off.
+    -- The web refund rule: Pro stays when the student has other paid PRO evidence (a captured Razorpay payment for a Pro plan,
+    -- plan_id 'pro_...', or another Play Pro purchase that is still in force); otherwise Pro is switched off. A credit-pack
+    -- payment (plan_id 'credits_...' or 'ai_credits_...') bought credits, not Pro, so it never keeps Pro (release 10 verifier M1).
     select exists (
              select 1 from public.payments
               where user_id = v_row.user_id and payment_id is not null and amount_paid > 0
                 and status in ('captured', 'completed', 'paid')
+                and plan_id like 'pro\_%'
            ) or exists (
              select 1 from public.play_purchases
               where user_id = v_row.user_id and kind = 'pro' and state = 'granted' and id <> v_row.id

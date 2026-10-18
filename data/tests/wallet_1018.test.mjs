@@ -264,7 +264,7 @@ test('GET /api/wallet body: ONE credits balance, the stable field names, the pac
   assert.deepEqual(body.credits.parts, { included: 38, bonus: 30, balance: 40 });
   assert.equal(body.credits.renewsOn, '2026-11-01');
   assert.equal(body.credits.label, 'Credits');
-  assert.equal(body.credits.buys, '1 credit = 1 question or 1 Ask Mobi reply. A full mock is 50.');
+  assert.equal(body.credits.buys, '1 credit is 1 practice question or 1 chat reply; a full mock is 50 and deeper analysis is 3. The cost shows before you start.');
   assert.equal('practice' in body, false);
   assert.equal('ai' in body, false);
   assert.deepEqual(body.plan, { name: 'Free', until: null });
@@ -336,7 +336,7 @@ test('the balance: one figure, what a credit buys, the free allowance with its r
   const t = balanceTile(PAGE);
   assert.equal(t.figure, '108');
   assert.deepEqual(t.lines, [
-    '1 credit = 1 question or 1 Ask Mobi reply. A full mock is 50.',
+    '1 credit is 1 practice question or 1 chat reply; a full mock is 50 and deeper analysis is 3. The cost shows before you start.',
     'Free credits this month: 38 of 50 left, reset on 1 November, 12:00 AM.',
     'Credits you hold: 70. They do not expire.',
   ]);
@@ -351,7 +351,7 @@ test('the balance: one figure, what a credit buys, the free allowance with its r
   assert.ok(unknown.lines.includes(WALLET_COPY.unknownLine));
 
   const zero = balanceTile(bodyOf({ unified: { total: 0, freeLeft: 0, freeAllowance: 50, held: 0, resetAt: '2026-10-31T18:30:00.000Z', parts: {} } }));
-  assert.deepEqual([zero.figure, zero.state, zero.lines[0]], ['0', 'zero', WALLET_COPY.zeroLine]);
+  assert.deepEqual([zero.figure, zero.state, zero.lines[0]], ['0', 'zero', 'You are out of credits. Your free credits come back on 1 November.']);
 
   const pro = balanceTile(bodyOf({ paid: true, premiumUntil: '2027-07-31T18:29:59.000Z' }));
   assert.ok(pro.lines.includes('Practice is included with your Pro plan until 31 July 2027, so your credits go to Ask Mobi replies.'));
