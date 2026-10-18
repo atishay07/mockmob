@@ -17,6 +17,8 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import AppearanceSwitch from '@/components/AppearanceSwitch';
 import { PipActor } from '@/components/brand/PipActor';
 import { StartKey, StartSheetHost } from '@/components/start';
+import { watchPagePrimary } from '@/components/start/pagePrimary.mjs';
+import { setStartQuiet } from '@/components/start/startQuietStore';
 import AskMobiHost from '@/components/ai/AskMobiHost';
 import './arena.css';
 import './student-pages.css';
@@ -194,8 +196,9 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
 
   // One volt per viewport (AGENT_RULES 7, WB-05): a page that owns a volt action marks it data-page-primary (or marks its
   // root data-owns-start). While such a page is mounted, #app-main carries data-start-quiet and the sidebar's Start key (from
-  // 1024 px) is outlined for the whole visit (start.css); the phone bar's key keeps its lime disc everywhere (nav A1). The key's look follows the route and what the page holds, never the
+  // 1024 px) is outlined for the whole visit (start.css). The sidebar key follows the route and what the page holds, never the
   // scroll position: a key that flips as the page scrolls is the bug the owner saw on Practice (F12, START-1017 section 5).
+  // The phone dock's key is handled by the effect below this one, which follows whether the page's key is on screen (W-075).
   useEffect(() => {
     // <main> exists only once the session is known, so this waits for it.
     const main = status === 'authenticated' ? document.getElementById('app-main') : null;
@@ -210,6 +213,18 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
     sync();
     return () => { mo.disconnect(); cancelAnimationFrame(frame); delete main.dataset.startQuiet; };
   }, [activePath, status]);
+
+  // The phone dock's Start key (W-075, release 8): while the page's own volt key is on screen it steps back to its quiet look,
+  // so a phone never holds two lime fills, and when that key has scrolled away it is lime again. It follows one thing, whether
+  // that key is in view (pagePrimary.mjs: the band between the top bar and the dock, a dead band at its edges and a short
+  // settle, so a fast scroll never flickers it), not the route and not the scroll position itself. Keys that exist only on a
+  // phone mark data-phone-primary, so they never quiet the desktop sidebar. The timed runner has no dock and no watch.
+  useEffect(() => {
+    const main = status === 'authenticated' && !isTestRoute ? document.getElementById('app-main') : null;
+    if (!main) return undefined;
+    const stop = watchPagePrimary(main, { onChange: setStartQuiet });
+    return () => { stop(); setStartQuiet(false); };
+  }, [activePath, status, isTestRoute]);
 
   useEffect(() => {
     if (status !== 'authenticated') return;

@@ -52,12 +52,17 @@ test('the Start key is a sibling of the nav, so the nav keeps five tabs', () => 
   assert.match(layout, /document\.querySelector\('\.arena-dock'\)/, 'the More sheet measures the whole dock');
 });
 
-test('the dock key never follows page state (F12, NAV-1017 6.8)', () => {
+test('the dock key follows no page state but one: whether the page’s own lime key is on screen (F12 kept, W-075)', () => {
   const rules = startCss.split('}').filter((rule) => rule.includes('stk--bar'));
   assert.ok(rules.length > 0);
   for (const rule of rules) {
     assert.doesNotMatch(rule, /:has\(|data-shown|data-primary-shown|data-cta-shown|student-page--result|aria-expanded/, `no page-state selector on the dock key: ${rule.trim().slice(0, 120)}`);
   }
+  // The one page-dependent look is the key's own data-quiet attribute (StartKey draws it from the shell's watch of the
+  // page's lime key, pagePrimary.mjs). It changes colours only, so the box and the place the rows above measure are the same.
+  const quiet = rules.filter((rule) => rule.includes('[data-quiet]'));
+  assert.ok(quiet.length >= 2, 'the quiet look exists, for the key and its mark');
+  for (const rule of quiet) assert.doesNotMatch(rule.slice(rule.lastIndexOf('{')), /\b(width|height|padding|margin|top|left|position|display|grid-template|border-radius)\s*:/, 'quiet changes colours only');
   assert.doesNotMatch(startCss, /stk__disc[^{]*\{[^}]*top:\s*-/, 'no disc rising out of the bar');
 });
 
@@ -175,17 +180,43 @@ test('DOM measurement in headless Chrome', { skip: BASE ? false : 'set DOCK_BASE
             }
           });
         }
-        await t.test(`${theme} the key never changes look with scroll or the session dock`, async () => {
+        await t.test(`${theme} the key is lime until the session bar's own lime key is on screen, then quiet, the same way down and up (F12 kept, W-075)`, async () => {
           await page.viewport(390, 844, 1);
           await page.goto(view('dashboard'), '.arena-dock nav a');
-          const looks = [];
-          for (const y of [0, 400, 1200, 99999]) {
+          await hydrate(page);
+          // The look of the dock key and how much of Practice's session-bar key is inside the band a student sees.
+          const probe = `(() => {
+            const key = document.querySelector('[data-start-key="bar"]'); const s = getComputedStyle(key);
+            const bar = document.querySelector('.pr-bar__go'); const r = bar.getBoundingClientRect();
+            const top = document.querySelector('.arena-topbar').getBoundingClientRect().height; const dock = document.querySelector('.arena-dock').getBoundingClientRect().top;
+            const seen = Math.max(0, Math.min(r.bottom, dock) - Math.max(r.top, top)) / r.height;
+            return { look: [s.backgroundColor, s.color, s.boxShadow].join('|'), quiet: key.hasAttribute('data-quiet'), seen, w: key.getBoundingClientRect().width, h: key.getBoundingClientRect().height };
+          })()`;
+          const down = new Map();
+          const ys = [0, 400, 800, 1200, 99999];
+          for (const y of ys) {
             await page.eval(`scrollTo({ top: ${y}, behavior: 'instant' })`);
-            await new Promise((r) => setTimeout(r, 450));
-            looks.push(await page.eval(`(() => { const s = getComputedStyle(document.querySelector('[data-start-key="bar"]')); return [s.backgroundColor, s.color, s.boxShadow].join('|'); })()`));
+            await new Promise((r) => setTimeout(r, 600));
+            down.set(y, await page.eval(probe));
           }
-          assert.equal(new Set(looks).size, 1, looks.join('\n'));
-          assert.match(looks[0], /rgb\(210, 240, 0\)/, 'the volt key (A1)');
+          for (const y of [...ys].reverse()) {
+            await page.eval(`scrollTo({ top: ${y}, behavior: 'instant' })`);
+            await new Promise((r) => setTimeout(r, 600));
+            const again = await page.eval(probe);
+            const first = down.get(y);
+            // A function of what is on screen, not of the direction or the history: the same look at the same place.
+            assert.equal(again.quiet, first.quiet, `at ${y} the key is the same going down and coming back`);
+            assert.equal(again.look, first.look, `at ${y} the look is the same going down and coming back`);
+          }
+          for (const [y, m] of down) {
+            assert.ok(near(m.w, 64) && near(m.h, 64), `at ${y} the key keeps its 64 px box`);
+            if (m.seen >= 0.5) assert.equal(m.quiet, true, `at ${y} the session bar's key is on screen, so the dock key is quiet`);
+            if (m.seen <= 0.05) assert.equal(m.quiet, false, `at ${y} no session key is on screen, so the dock key is lime`);
+          }
+          const lime = [...down.values()].find((m) => !m.quiet);
+          assert.ok(lime, 'the page has a place where the dock key is lime');
+          assert.match(lime.look, /rgb(210, 240, 0)/, 'the volt key (A1) when the page has no key of its own on screen');
+          assert.ok([...down.values()].some((m) => m.quiet), 'and a place where it is quiet');
         });
         await t.test(`${theme} a real pointer on each tab goes to its place, and on the key opens the Start sheet`, async () => {
           await page.viewport(390, 844, 1);

@@ -123,12 +123,15 @@ test('F10: the runner draws the chosen answer on the option itself, with no seco
   assert.match(css, /\.app-shell \.nta-runner\.pr-run\[data-interface="mockmob"\] \.nta-option \{\s*transition: border-color 0ms/);
 });
 
-test('F12: the phone Start key never changes look with scroll or page state', async () => {
+test('F12 (kept) and W-075: the phone Start key is not tied to the old scroll rules; its one page-dependent look is data-quiet', async () => {
   const { readFileSync } = await import('node:fs');
   const css = readFileSync(new URL('../../src/components/start/start.css', import.meta.url), 'utf8');
   const phone = css.slice(css.indexOf('@media (max-width: 1023px)'), css.indexOf('/* Wide screens'));
+  // The selectors that made it flip on a page's own scroll state stay gone. Since release 8 it also follows exactly one
+  // thing, whether the page's own volt key is on screen (data-quiet, drawn by StartKey from the shell's watch).
   assert.equal(/pr-dock|data-start-quiet|data-primary-shown|data-cta-shown/.test(phone), false);
   assert.equal(/data-primary-shown|pr-dock\[data-shown\]/.test(css), false);
+  assert.match(phone, /\.stk--bar\[data-quiet\]/);
   const page = readFileSync(new URL('../../src/app/(app)/dashboard/DashboardPageClient.jsx', import.meta.url), 'utf8');
   assert.equal(/IntersectionObserver|addEventListener\('scroll'/.test(page), false);
 });

@@ -464,7 +464,7 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
           </p>
           <div>
             <button type="button" onClick={() => goTo(sideRef)}>Edit<span className="du-sum__long"> subjects</span></button>
-            <button type="button" data-primary onClick={() => goTo(resultsRef)}>View courses</button>
+            <button type="button" data-primary data-phone-primary onClick={() => goTo(resultsRef)}>View courses</button>
           </div>
         </div>
       ) : null}
