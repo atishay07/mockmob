@@ -483,6 +483,8 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       // Start sheet shows it above the subject rail (START-1017 D3).
       const plan = learningPlan({ minutes: Number(url.searchParams.get('minutes')) || 10, attempts: noRecord ? [] : PREVIEW_ATTEMPTS });
       if (fixture.get('move') === 'resume') plan.primary = { kind: 'resume_session', title: 'Finish your recall session', reason: '7 cards left from this afternoon. Recall is free and uses no credits.', href: '/review/revise' };
+      // ?move=check: a fresh check is due (the plan's primary is a time-sensitive check), so Today's check move outranks the first-week step (W-064).
+      if (fixture.get('move') === 'check') plan.primary = { kind: 'fresh_check', title: 'Check it held: Goodwill', reason: 'One new question on the idea you repaired. It uses no credits.', href: '/review', facts: [] };
       return json({ ...plan, tonight: tonightCompletion(attempts), episodes: [], supportedConcepts: [], pathwayState: 'blocked_content', recordState: 'ready', ordinaryAttemptCount: noRecord ? 0 : 3 });
     }
     if (url.pathname === '/api/recovery/replay') return json({ chapters: state === 'empty' ? [] : [{ chapter: 'Partnership Fundamentals', state: fixture.get('replay') === 'ready' ? 'available' : 'unavailable', href: '/test?subject=accountancy&mode=quick&count=5&chapter=Partnership+Fundamentals&recoveryFrom=fixture-attempt' }], state: 'ready' });
