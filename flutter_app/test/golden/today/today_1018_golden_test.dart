@@ -273,6 +273,13 @@ void main() {
     () => buildToday(TodayInputs(now: sunday, firstName: 'Asha', attemptsFailed: true, readProblem: LoadProblem.busy, week: sundayWeek)),
     size: const Size(360, 800),
   );
+  // A failed refresh at 360 (v15.1 walk): the saved-copy line holds one whole line beside Mobi, never "Last loaded 7:39 P...".
+  todayGolden(
+    'today1018_notrefreshed_360',
+    () => buildToday(ashaInputs(now: sunday, attempts: ashaRecord(sunday), week: sundayWeek, reviseDue: 6, attemptsStale: true)),
+    size: const Size(360, 800),
+    prices: fixturePrices,
+  );
   todayGolden('today1018_offline', () => buildToday(activeInputs(offline: true)), size: kPhone, prices: fixturePrices);
 
   // The paper reel's card after a fresh paper (D29): one volt key, Not now, no move row under it.

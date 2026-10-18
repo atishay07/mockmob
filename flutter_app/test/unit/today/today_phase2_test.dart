@@ -8,6 +8,8 @@ import 'package:mockmob/core/art/art.dart' show EmblemArrive, SubjectEmblem;
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/motion/mm_scroll_behavior.dart';
 import 'package:mockmob/core/motion/motion.dart' show MmPullRefresh;
+import 'package:mockmob/core/widgets/widgets.dart' show Mobi;
+import 'package:mockmob/features/today/logic/today_model.dart' show HeaderModel;
 import 'package:mockmob/features/rhythm/logic/plan_week.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
@@ -136,6 +138,28 @@ void main() {
     expect(find.textContaining('Offline. Last loaded'), findsOneWidget);
     expect(tester.getSize(find.byType(TodayHeader)).height, online.height);
   });
+
+  // 360 dp is the phone of the walk; 330 forces the scaled path in the test's font the way the walk's phone did at 360.
+  for (final width in const [360.0, 330.0]) {
+    testWidgets('at ${width.toInt()} dp a failed refresh keeps its whole line beside Mobi: a step smaller, never "7:39 P..." (v15.1 walk)', (tester) async {
+      const line = 'Not refreshed. Last loaded 7:39 PM.';
+      await pumpMockmob(
+        tester,
+        TodayHeader(header: const HeaderModel(dateLine: 'Sunday, 18 October', greeting: 'Good evening', updatedLine: line, refreshable: true), bleed: TodayHeader.gutterBleed),
+        size: Size(width, 400),
+        disableAnimations: true,
+        overrides: [auth],
+      );
+      final text = tester.widget<Text>(find.text(line));
+      expect(text.overflow, isNot(TextOverflow.ellipsis));
+      expect(text.maxLines, 1, reason: 'one line: the header keeps its height');
+      expect(tester.renderObject<RenderBox>(find.text(line)).size.height, lessThan(24));
+      // Drawn scaled when it must be, so its right edge (through the transform) must clear Mobi's figure.
+      expect(tester.getTopRight(find.text(line)).dx, lessThanOrEqualTo(tester.getTopLeft(find.byType(Mobi)).dx));
+      expect(tester.getSize(find.byType(TodayHeader)).height, lessThan(64));
+      if (width < 340) expect(find.ancestor(of: find.text(line), matching: find.byType(FittedBox)), findsWidgets, reason: 'the scaled path was the one exercised');
+    });
+  }
 
   test('the week key only takes a row when a mark needs words (T3)', () {
     PlanDay day(PlanDayMark mark) => PlanDay(index: 0, mark: mark);

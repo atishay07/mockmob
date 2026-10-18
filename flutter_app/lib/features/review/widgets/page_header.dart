@@ -47,7 +47,7 @@ class HeaderNotice extends StatelessWidget {
         children: [
           ExcludeSemantics(child: Icon(LucideIcons.wifiOff, size: 14, color: colors.ink)),
           const SizedBox(width: MmSpace.s4),
-          Expanded(child: _OneLine(message, style: style)),
+          Expanded(child: OneLineNotice(message, style: style)),
         ],
       ),
     );
@@ -69,43 +69,6 @@ class _NoticeSlot extends StatelessWidget {
       curve: Motion.out,
       alignment: Alignment.topLeft,
       child: notice == null ? const SizedBox.shrink() : HeaderNotice(notice!),
-    );
-  }
-}
-
-/// The smallest share of its size the header notice is drawn at before it wraps (and before the Ask pill gives it room).
-const double noticeFloor = 0.84;
-
-/// The notice on one line wherever it can be, so the header never grows when it appears (v15 walk: next to the Ask pill the
-/// line wrapped to two and the card under it moved down 13 dp). It is drawn a step smaller, never under [noticeFloor] of its
-/// size, when that is what it takes; only a line that still does not fit (a large system text size) wraps.
-class _OneLine extends StatelessWidget {
-  const _OneLine(this.message, {required this.style});
-
-  final String message;
-  final TextStyle style;
-
-  /// The smallest share of its size the line is drawn at before it wraps instead.
-  static const double _floor = noticeFloor;
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, box) {
-        final painter = TextPainter(
-          text: TextSpan(text: message, style: style),
-          textDirection: Directionality.of(context),
-          textScaler: MediaQuery.textScalerOf(context),
-          maxLines: 1,
-        )..layout();
-        final natural = painter.width;
-        painter.dispose();
-        if (natural <= box.maxWidth) return Text(message, style: style, maxLines: 1);
-        if (natural * _floor <= box.maxWidth) {
-          return FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerLeft, child: Text(message, style: style, maxLines: 1, softWrap: false));
-        }
-        return Text(message, style: style);
-      },
     );
   }
 }

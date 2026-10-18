@@ -11,7 +11,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/account/account_avatar.dart' show AccountLeading;
-import '../../../core/widgets/widgets.dart' show Mobi, MobiPose, MmHitSlop, MmPressable, MmPressHaptic;
+import '../../../core/widgets/widgets.dart' show Mobi, MobiPose, MmHitSlop, MmPressable, MmPressHaptic, OneLineNotice;
 import '../copy.dart';
 import '../copy_ahead.dart';
 import '../logic/today_model.dart';
@@ -149,14 +149,9 @@ class _GreetingRow extends StatelessWidget {
                               ).spinning(refreshing && !offline),
                               const SizedBox(width: MmSpace.s6),
                               Flexible(
-                                child: Text(
-                                  updatedLine!,
-                                  style: type.caption.copyWith(
-                                    color: colors.ink2,
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
+                                // One line beside Mobi, a step smaller when it must be: the time at the end is what
+                                // the line is for, so it never ends in an ellipsis (v15.1 walk, 360 dp).
+                                child: OneLineNotice(updatedLine!, style: type.caption.copyWith(color: colors.ink2)),
                               ),
                             ],
                           ),

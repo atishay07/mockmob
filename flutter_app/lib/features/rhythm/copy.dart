@@ -33,7 +33,7 @@ abstract final class RhythmCopy {
   static const String keyRest = 'Rest';
   static const String keyOpen = 'Not counted';
   static const String setStudyDays = 'Set your study days';
-  static const String noPlanYet = 'No study days chosen yet. Every day you study still counts.';
+  static const String noPlanYet = 'You have not planned your days yet. Every day you study still counts.';
 
   static String stripOpen(int days, int goal) => '$days of ${plural(goal, 'study day')}';
 
