@@ -12,7 +12,6 @@ import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/practice/copy.dart';
 import 'package:mockmob/features/today/copy.dart';
-import 'package:mockmob/features/today/copy_suggested.dart';
 import 'package:mockmob/features/today/data/today_profile.dart';
 import 'package:mockmob/features/today/logic/move_price.dart';
 import 'package:mockmob/features/today/logic/road_board.dart';
@@ -233,10 +232,9 @@ void main() {
 
   // The swap (6.2): Practise your weakest picked; the recommended repair comes back as Suggested,
   // and the price line follows the card.
-  // D51: the weakest chapter, on top of the Suggested stack, is chosen with Do this instead.
+  // D51: the weakest chapter, on top of the Suggested stack, is chosen with Up next (SWIPE-V2-1018).
   todayGolden('today1018_swap_weakest', activeView, size: kPhone, prices: fixturePrices, act: (t) async {
-    Finder onTop(String text) => find.descendant(of: find.byKey(SuggestedStack.topKey), matching: find.text(text));
-    await _tapIn(t, onTop(SuggestedCopy.doThis));
+    await _tapIn(t, find.byKey(SuggestedStack.upNextKey));
   });
 
   // Day one, returning, done, loading, error, offline.

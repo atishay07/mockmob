@@ -11,7 +11,6 @@ import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/widgets/key_button.dart';
 import 'package:mockmob/features/review/revise/revise_data.dart' show reviseCapProvider, revisePrefsStoreProvider;
 import 'package:mockmob/features/today/copy_glance.dart';
-import 'package:mockmob/features/today/copy_suggested.dart';
 import 'package:mockmob/features/today/data/today_providers.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
 import 'package:mockmob/features/today/logic/today_inputs.dart';
@@ -96,10 +95,10 @@ void main() {
     // Bring the weakest chapter to the top of the stack and make it the lead card.
     final top = find.byKey(SuggestedStack.topKey);
     for (var i = 0; i < 5 && find.descendant(of: top, matching: find.text(GlanceCopy.titleWeakest)).evaluate().isEmpty; i++) {
-      await tester.tap(find.descendant(of: top, matching: find.text(SuggestedCopy.skip)));
+      await tester.tap(find.byKey(SuggestedStack.notNowKey));
       await tester.pumpAndSettle();
     }
-    await tester.tap(find.descendant(of: top, matching: find.text(SuggestedCopy.doThis)));
+    await tester.tap(find.byKey(SuggestedStack.upNextKey));
     await tester.pumpAndSettle();
     expect(_key('Start practice, 10 min'), findsOneWidget, reason: 'the weakest chapter ($chapter) is the lead card now');
     expect(find.text(GlanceCopy.lengthToken(10)), findsOneWidget);

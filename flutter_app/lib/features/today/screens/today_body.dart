@@ -21,7 +21,7 @@ import '../../tools/tools_paths.dart';
 import '../copy.dart';
 import '../copy_glance.dart';
 import '../logic/move_price.dart' show priceKeyOf;
-import '../logic/suggested_deck.dart' show buildSuggestedDeck, deckSize;
+import '../logic/suggested_deck.dart' show DeckCoach, DeckMemoryStore, buildSuggestedDeck, deckSize;
 import '../logic/today_model.dart';
 import '../logic/today_reactions.dart';
 import '../widgets/also_slots.dart';
@@ -249,11 +249,15 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
       child: SuggestedStack(
         cards: cards,
         onChoose: _choose,
+        onUndoChoose: _undoChoose,
         leadKey: _moveKey,
         onMore: () => widget.callbacks.onAction(const TodayAction(GlanceCopy.moreWays, OpenAlternatives())),
       ),
     );
   }
+
+  /// The pick before the last one from the deck (null: the recommended move), for its Undo.
+  String? _pickBefore;
 
   void _choose(MoveChoice choice) {
     final action = choice.action;
@@ -261,6 +265,7 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
       widget.callbacks.onAction(action);
       return;
     }
+    _pickBefore = _pickKey;
     setState(() {
       // The card's body swaps with an overlap (MoveSwap): the leaving body keeps its keys, so the
       // arriving one gets fresh ones (two bodies never hold one GlobalKey).
@@ -273,6 +278,21 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
       }
     });
     _cue(MobiAct.listen);
+  }
+
+  /// Undo of an Up next from the deck (SWIPE-V2-1018): the lead card goes back to the move it showed
+  /// before, and the deck returns the card to its top.
+  void _undoChoose() {
+    setState(() {
+      _primaryKey = GlobalKey(debugLabel: 'today-primary');
+      _controlsKey = GlobalKey(debugLabel: 'today-controls');
+      final before = _pickBefore;
+      if (before == null) {
+        _todayPicks.remove(widget.view.header.dateLine);
+      } else {
+        _todayPicks[widget.view.header.dateLine] = before;
+      }
+    });
   }
 
   /// Today's line in the week readout, from the card on screen (a swap updates it live).
@@ -319,6 +339,9 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
     super.initState();
     _scroll.addListener(_queueMeasure);
     _watchFrames();
+    // The deck's first run and its memory, read early so its first frame already knows them.
+    unawaited(DeckCoach.load());
+    unawaited(DeckMemoryStore.load());
   }
 
   /// The line is judged after every frame, not only after a scroll or a rebuild: the hero's key

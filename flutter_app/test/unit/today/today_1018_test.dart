@@ -19,6 +19,7 @@ import 'package:mockmob/features/today/logic/today_inputs.dart';
 import 'package:mockmob/features/today/logic/today_model.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
 import 'package:mockmob/features/today/widgets/plan_flow_sheet.dart';
+import 'package:mockmob/features/today/widgets/move_hero.dart' show MoveHeroCard;
 import 'package:mockmob/features/today/widgets/reel_hero.dart';
 import 'package:mockmob/features/today/widgets/road_glance.dart';
 import 'package:mockmob/features/today/widgets/road_section.dart' show RoadActions;
@@ -65,24 +66,25 @@ void main() {
       await _pump(tester, TodayBody(view: view, skeletonDelay: Duration.zero, callbacks: TodayCallbacks(onAction: events.add, onTarget: events.add)));
       expect(find.text(GlanceCopy.titleRepair), findsOneWidget);
       expect(find.text(GlanceCopy.suggested), findsNothing);
-      // The weakest chapter is on top (the approved deck); Skip sends it away and Revise comes up.
+      // The weakest chapter is on top (the approved deck); Not now sends it away and Revise comes up.
       expect(onTop(GlanceCopy.titleWeakest), findsOneWidget);
-      await tester.tap(onTop(SuggestedCopy.skip));
+      await tester.tap(find.byKey(SuggestedStack.notNowKey));
       await tester.pumpAndSettle();
       expect(onTop(GlanceCopy.titleRevise), findsOneWidget);
-      await tester.tap(onTop(SuggestedCopy.doThis));
+      await tester.tap(find.byKey(SuggestedStack.upNextKey));
       await tester.pumpAndSettle();
       // The swap writes nothing and starts nothing.
       expect(events, isEmpty);
-      expect(find.text(GlanceCopy.titleRevise), findsOneWidget);
+      // The lead card shows it (the Up next bar names it too, with Undo).
+      expect(find.descendant(of: find.byType(MoveHeroCard), matching: find.text(GlanceCopy.titleRevise)), findsOneWidget);
       expect(find.text(GlanceCopy.suggested), findsOneWidget);
       expect(find.textContaining('Up next, your pick'), findsOneWidget);
       expect(find.textContaining('Up next: revise what came back'), findsOneWidget);
       // The way back is one tap: the recommended move is on top of the deck.
       expect(onTop(GlanceCopy.suggested), findsOneWidget);
-      await tester.tap(onTop(SuggestedCopy.doThis));
+      await tester.tap(find.byKey(SuggestedStack.upNextKey));
       await tester.pumpAndSettle();
-      expect(find.text(GlanceCopy.titleRepair), findsOneWidget);
+      expect(find.descendant(of: find.byType(MoveHeroCard), matching: find.text(GlanceCopy.titleRepair)), findsOneWidget);
       expect(find.text(GlanceCopy.suggested), findsNothing);
     });
 

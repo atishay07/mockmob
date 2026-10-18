@@ -139,11 +139,11 @@ void main() {
       );
       final handle = tester.ensureSemantics();
       await tester.pump();
-      // D51: the card's quiet way out is the Suggested stack under it, whose top card's
-      // "Do this instead" is announced once (the cards behind are not read).
+      // D51 (SWIPE-V2-1018): the card's quiet way out is the Suggested stack under it, whose
+      // row's "Up next" for the top card is announced once (the cards behind are not read).
       final view = buildToday(ashaInputs());
-      final alternative = SuggestedCopy.doThisSemantics(buildSuggestedDeck(view.choices, glance: view.glance).first.title);
-      final quiet = find.descendant(of: find.byKey(SuggestedStack.topKey), matching: find.text(SuggestedCopy.doThis));
+      final alternative = SuggestedCopy.upNextSemantics(buildSuggestedDeck(view.choices, glance: view.glance).first.title);
+      final quiet = find.byKey(SuggestedStack.upNextKey);
       expect(quiet, findsOneWidget);
       await tester.ensureVisible(quiet);
       await tester.pumpAndSettle();
