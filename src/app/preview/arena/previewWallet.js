@@ -24,7 +24,7 @@ export function previewWallet(url, method, init, fixture, json) {
     : zero
       ? { total: 0, freeLeft: 0, freeAllowance: 50, held: 0, resetAt: '2026-10-31T18:30:00.000Z', renewsOn: '2026-11-01', parts: { included: 0, bonus: 0, balance: 0 }, label: 'Credits', buys: '1 credit = 1 question or 1 Ask Mobi reply. A full mock is 50.' }
       : { total: 108, freeLeft: 38, freeAllowance: 50, held: 70, resetAt: '2026-10-31T18:30:00.000Z', renewsOn: '2026-11-01', parts: { included: 38, bonus: 30, balance: 40 }, label: 'Credits', buys: '1 credit = 1 question or 1 Ask Mobi reply. A full mock is 50.' };
-  const rows = [
+  const fullRows = [
     { at: at(0, 9, 40), pool: 'practice', what: 'Practice set', delta: -10 },
     { at: at(0, 7, 5), pool: 'ai', what: 'Repair, Q2 Accountancy', delta: -1 },
     { at: at(1, 14, 30), pool: 'ai', what: 'Ask Mobi', delta: -1 },
@@ -32,6 +32,8 @@ export function previewWallet(url, method, init, fixture, json) {
     { at: at(3, 18, 0), pool: 'ai', what: 'Credits added', delta: 150 },
     { at: at(9, 0, 0), pool: 'ai', what: 'Free credits for the month', delta: 50 },
   ];
+  // A balance of 0 reads back to a believable start: the free credits came in and a full mock spent them.
+  const rows = zero ? [{ at: at(0, 9, 40), pool: 'practice', what: 'Full mock', delta: -50 }, { at: at(9, 0, 0), pool: 'ai', what: 'Free credits for the month', delta: 50 }] : fullRows;
   let running = total;
   const history = fixture.get('history') === 'down' ? null : fixture.get('history') === 'empty' ? [] : rows.map((r) => { const line = { ...r, balanceAfter: unknown ? null : running }; running -= r.delta; return line; });
   return json({

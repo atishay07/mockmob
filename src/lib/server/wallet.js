@@ -5,7 +5,7 @@
 // Field names are a contract with the app (documented in docs/brain/WALLET-RAZORPAY.md): add fields, never rename or remove.
 //   { ok, credits:{ total, freeLeft, freeAllowance, held, resetAt, renewsOn, parts:{ included, bonus, balance }, label, buys },
 //     plan:{ name, until }, proOffer:{ rupees, expires, planId } | null,
-//     packs:[ { packId, label, credits, priceInr, pricePaise, perCreditInr, featured } ],
+//     packs:[ { packId, label, credits, priceInr, pricePaise, perCreditInr, fullMocks, featured } ],
 //     commerce:{ open, message },
 //     history:[ { at, pool, what, delta, balanceAfter } ] | null, historyState:'ready'|'unavailable' }
 // A balance that cannot be read is null, never 0. history[].balanceAfter is the running total of this one balance, counted back from
