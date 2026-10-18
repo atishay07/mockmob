@@ -38,12 +38,15 @@ export default function InlineNudge({ placement, facts = {}, screen = null, clas
 
   if (!shown || !copy) return null;
   return (
-    <div className={`pn-inline ${className}`} data-placement={placement} role="note">
+    // The outer box is a size container: in a narrow column (Practice's session card) the action drops under the line.
+    <div className={`pn-inline-box ${className}`}>
+    <div className="pn-inline" data-placement={placement} role="note">
       <p className="pn-inline__text">{copy.text}</p>
       <button type="button" className="pn-inline__go mk-press" onClick={(event) => openUpgrade({ trigger: copy.trigger, facts, opener: event.currentTarget })}>{copy.action}</button>
       <button type="button" className="pn-inline__x mk-press" aria-label="Hide this for a week" onClick={() => { quietNudge(userId, placement); setShown(false); }}>
         <X size={16} strokeWidth={2} aria-hidden="true" />
       </button>
+    </div>
     </div>
   );
 }

@@ -38,6 +38,9 @@ export const CHECKOUT_HREF = '/pricing#plans';
 export const FULL_MOCK_COST = TEST_MODES.full.creditCost;
 const NTA_COUNT = TEST_MODES.nta.fixedCount;
 const NTA_MINUTES = Math.round(TEST_MODES.nta.fixedDurationSec / 60);
+// Subjects with an NTA mode blueprint (data/nta_blueprints/index.json "subjects"; a test holds the two in step). A personal
+// NTA line names only these, so it never promises NTA mode in a subject that has none.
+export const NTA_SUBJECTS = Object.freeze(['english', 'general_test', 'accountancy', 'business_studies', 'economics', 'mathematics', 'physics', 'chemistry', 'biology', 'computer_science', 'geography', 'history', 'political_science', 'psychology', 'sociology']);
 
 // The places an inline nudge may stand. Each has one line and one action (the action opens the Upgrade sheet).
 export const PLACEMENTS = Object.freeze(['credits_low', 'practice_cost', 'result', 'review_chapter', 'start_sheet']);
@@ -178,7 +181,7 @@ export function inlineCopy(placement, facts = {}) {
     case 'practice_cost':
       return { text: 'No credits needed for practice with Pro. Every set and every Full mock, included.', action: 'Get unlimited mocks', trigger: 'credits' };
     case 'result':
-      return { text: 'Your next paper is built fresh from the bank. With Pro, it and every one after it cost no credits.', action: 'Get unlimited mocks', trigger: 'result' };
+      return { text: 'Keep the momentum. With Pro, your next paper and every one after it need no credits.', action: 'Get unlimited mocks', trigger: 'result' };
     case 'review_chapter':
       return { text: 'Smart practice in Pro weights every set toward chapters like this one.', action: 'See Smart practice', trigger: 'smart' };
     case 'start_sheet':
@@ -207,7 +210,7 @@ const GENERIC = Object.freeze({
 });
 
 const HEADS = Object.freeze({
-  nta: { title: 'Sit CUET before CUET', lede: `NTA mode puts you on an exam-day style screen, ${NTA_COUNT} questions against a ${NTA_MINUTES}-minute clock, as often as you like. Original practice papers, not official ones.` },
+  nta: { title: 'Sit CUET before CUET', lede: 'Rehearse the whole paper on an exam-day style screen, against the clock, as often as you like. Original practice papers, not official ones.' },
   smart: { title: 'Practise what is costing you marks', lede: 'Smart practice reads your record and weights every set toward the chapters you miss, so more of your time goes where your marks leak.' },
   difficulty: { title: 'Choose how hard it gets', lede: 'Set easy, medium or hard for Quick practice and Full mocks. Warm up gently, or train where it is toughest.' },
   review: { title: 'See every chapter that costs you marks', lede: 'Full chapter review ranks every chapter, with your pace and the answers you changed, so you know exactly what to fix next.' },
@@ -257,7 +260,10 @@ const BENEFITS = Object.freeze({
   nta: {
     plain: () => `NTA mode: the exam-day style screen, ${NTA_COUNT} questions in ${NTA_MINUTES} minutes.`,
     personal: (f) => {
-      const subjects = Array.isArray(f.subjects) ? f.subjects.filter(Boolean) : [];
+      const all = Array.isArray(f.subjects) ? f.subjects.filter(Boolean) : [];
+      const subjects = all.filter((id) => NTA_SUBJECTS.includes(id === 'gat' ? 'general_test' : id));
+      // Every one of the student's subjects must have NTA mode before "all N" is said; otherwise one named, or the plain line.
+      if (subjects.length > 1 && subjects.length < all.length) return null;
       if (subjects.length === 1) return `NTA mode in ${subjectName(subjects[0])}: the exam-day style screen, ${NTA_COUNT} questions in ${NTA_MINUTES} minutes.`;
       if (subjects.length > 1) return `NTA mode in all ${subjects.length} of your subjects: the exam-day style screen, ${NTA_COUNT} questions in ${NTA_MINUTES} minutes.`;
       return null;
@@ -276,7 +282,7 @@ const BENEFITS = Object.freeze({
   review: { plain: () => 'Full chapter review: every chapter ranked, with your pace and changed answers.', personal: () => null },
   compass: { plain: () => 'Compass Pro: your practice projected against your DU shortlist.', personal: () => null },
   saves: { plain: () => 'Unlimited saved questions. Free keeps 25.', personal: () => null },
-  mob: { plain: () => 'The Mob in full: the weekly side-by-side, past weeks and up to 3 Mobs.', personal: () => null },
+  mob: { plain: () => "Your Mob's shared trap with its repair, and extra papers on a chapter you choose.", personal: () => null },
 });
 
 // The order each trigger leads with; the rest follow in the default order. Four lines at most.

@@ -8,7 +8,7 @@ import {
   FIRST_SESSION_MS, QUIET_MS, PLACEMENTS, ONBOARDING_GAP_MS, DECLINE_QUIET_MS, quietRoute, firstSheetMayOpen, markDeclined, HEADLINE_OPTIONS, KEY_LABEL_OPTIONS, CHECKOUT_HREF,
   nudgesAllowed, emptyRecord, readRecord, noteOnboarded, inFirstSession, firstActionOpens, markFirstShown,
   inlineAllowed, quietInline, claimScreen, releaseScreen, inlineCopy, sheetHead, benefitLines, sheetPrice, keyLabel,
-  practiceSpentWeek, fullMocksIn, weakestChapter, mergeFacts, triggerForReason,
+  practiceSpentWeek, fullMocksIn, weakestChapter, mergeFacts, triggerForReason, NTA_SUBJECTS,
 } from '../../src/lib/proNudge.mjs';
 import { publicOffer, priceTag } from '../../src/lib/payments/offer.js';
 
@@ -272,4 +272,13 @@ test('every Pro gate opens the sheet: Compass Pro, the Mob, full saves', () => {
   // The result page names a chapter only when it truly had the most mistakes.
   assert.match(read('src/app/(app)/result/[id]/ResultPageClient.jsx'), /weakChapter: weakestChapter\(chapterCounts\)/);
   assert.match(read('src/components/review/ReviewChapters.jsx'), /facts=\{\{ focusChapter: row\.name \}\}/);
+});
+
+test('NTA lines name only subjects with an NTA mode blueprint', () => {
+  const index = JSON.parse(read('data/nta_blueprints/index.json'));
+  assert.deepEqual([...NTA_SUBJECTS].sort(), Object.keys(index.subjects).sort());
+  // A subject without NTA mode means no "all N of your subjects" claim.
+  assert.ok(!benefitLines('nta', { subjects: ['accountancy', 'economics', 'legal_studies'] })[0].personal);
+  assert.match(benefitLines('nta', { subjects: ['accountancy', 'economics'] })[0].text, /^NTA mode in all 2 of your subjects/);
+  assert.match(benefitLines('nta', { subjects: ['legal_studies', 'accountancy'] })[0].text, /^NTA mode in Accountancy/);
 });

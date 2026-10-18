@@ -3,6 +3,7 @@
    gradient, no nested cards; 44 px targets; motion is ease-out 150-300 ms and a fade under reduced motion. */
 
 /* ---------- The sheet ---------- */
+/* Inline selectors below carry .pn-inline-box .pn-inline so page resets (Review's .app-shell .rvw :where(button)) never strip them. */
 .pn-sheet {
   position: fixed;
   inset: auto 0 0 0;
@@ -174,8 +175,8 @@ html:has(.pn-sheet[open]) { overflow: hidden; }
   color: var(--a-ink-2);
   animation: pn-inline-in 220ms cubic-bezier(0.23, 1, 0.32, 1) both;
 }
-.pn-inline__text { flex: 1 1 auto; min-width: 0; margin: 0; font-size: 14px; line-height: 1.45; text-wrap: pretty; }
-.pn-inline__go {
+.pn-inline-box .pn-inline .pn-inline__text { flex: 1 1 auto; min-width: 0; margin: 0; font-size: 14px; line-height: 1.45; text-wrap: pretty; }
+.pn-inline-box .pn-inline .pn-inline__go {
   flex: none;
   min-height: 44px;
   padding: 0 14px;
@@ -188,8 +189,8 @@ html:has(.pn-sheet[open]) { overflow: hidden; }
   cursor: pointer;
   transition: border-color 150ms ease-out, background-color 150ms ease-out;
 }
-.pn-inline__go:hover { border-color: var(--a-line-hover); background: var(--a-hover); }
-.pn-inline__x {
+.pn-inline-box .pn-inline .pn-inline__go:hover { border-color: var(--a-line-hover); background: var(--a-hover); }
+.pn-inline-box .pn-inline .pn-inline__x {
   flex: none;
   display: inline-grid;
   place-items: center;
@@ -203,13 +204,16 @@ html:has(.pn-sheet[open]) { overflow: hidden; }
   cursor: pointer;
   transition: background-color 150ms ease-out, color 150ms ease-out;
 }
-.pn-inline__x:hover { background: var(--a-hover); color: var(--a-ink-2); }
+.pn-inline-box .pn-inline .pn-inline__x:hover { background: var(--a-hover); color: var(--a-ink-2); }
 @keyframes pn-inline-in { from { opacity: 0; transform: translate3d(0, 4px, 0); } }
-@media (max-width: 479px) {
+.pn-inline-box { container: pn-inline / inline-size; }
+/* Under 460 px of room (a phone, or Practice's session card): the line takes the width beside the close, and the action
+   sits under it, so the line never wraps a word to a row. */
+@container pn-inline (max-width: 459px) {
   .pn-inline { flex-wrap: wrap; }
-  .pn-inline__text { flex-basis: calc(100% - 44px); }
-  .pn-inline__x { order: 2; }
-  .pn-inline__go { order: 3; }
+  .pn-inline-box .pn-inline .pn-inline__text { flex-basis: calc(100% - 54px); }
+  .pn-inline-box .pn-inline .pn-inline__x { order: 2; }
+  .pn-inline-box .pn-inline .pn-inline__go { order: 3; }
 }
 
 @media (prefers-reduced-motion: reduce) {

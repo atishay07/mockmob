@@ -387,7 +387,8 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
           ))}
         </ul>
         <p className="st-note" data-rise>Nothing is spent here. Practice shows the cost again before you start.</p>
-        {pro ? null : <InlineNudge placement="start_sheet" screen="start-sheet" facts={{ balance, subjects }} className="st-nudge" />}
+        {/* Shares the page's screen claim: over a page that already shows a nudge (Practice, a result), the sheet shows none. */}
+        {pro ? null : <InlineNudge placement="start_sheet" facts={{ balance, subjects }} className="st-nudge" />}
       </div>
     </dialog>
   );
