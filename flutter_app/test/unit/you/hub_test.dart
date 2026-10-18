@@ -97,7 +97,7 @@ void main() {
 
   testWidgets('lists the study sections in order, with plan and credits one row at the bottom', (tester) async {
     await _pumpHub(tester);
-    final order = ['This week', 'Badges', 'Personal bests', 'My subjects', 'Free plan'];
+    final order = ['This week', 'Badges, 0 of 16', 'Personal bests', 'My subjects', 'Free plan'];
     for (final label in order) {
       expect(find.text(label), findsWidgets, reason: label);
     }
@@ -160,14 +160,14 @@ void main() {
     await _pumpHub(tester, rhythm: FakeRhythm(rhythmState(milestones: earnedMilestones)));
     expect(find.bySemanticsLabel(RegExp(r', earned 27 September$')), findsOneWidget);
     expect(find.bySemanticsLabel(RegExp(r', earned 9 October$')), findsOneWidget);
-    expect(find.bySemanticsLabel(RegExp(r', not yet\. Lands ')), findsWidgets);
-    expect(find.textContaining('of 14 earned'), findsOneWidget);
+    expect(find.bySemanticsLabel(RegExp(r'^Next badge: .*Lands ')), findsOneWidget, reason: 'the next coin says plainly what earns it');
+    expect(find.text('Badges, 3 of 16'), findsOneWidget);
   });
 
   testWidgets('a failed rhythm read says so in the week field and in badges, with a retry', (tester) async {
     await _pumpHub(tester, rhythm: FakeRhythm(const RemoteState<Rhythm>(error: ApiError(kind: ApiErrorKind.network, code: 'network'))));
     expect(find.text('This week did not load.'), findsOneWidget);
-    expect(find.text('Could not load your badges.'), findsOneWidget);
+    expect(find.text('We could not read your badges.'), findsOneWidget);
     expect(find.text('Try again'), findsNWidgets(2));
     expect(find.textContaining('not yet'), findsNothing, reason: 'unknown is not shown as empty');
   });
@@ -190,8 +190,8 @@ void main() {
     expect(find.text('record page'), findsOneWidget);
     router.pop();
     await tester.pumpAndSettle();
-    await tester.ensureVisible(find.textContaining('See all 1'));
-    await tester.tap(find.textContaining('See all 1'));
+    await tester.ensureVisible(find.text('All badges'));
+    await tester.tap(find.text('All badges'));
     await tester.pumpAndSettle();
     expect(find.text('milestones page'), findsOneWidget);
     router.pop();
@@ -241,7 +241,7 @@ void main() {
     expect(tester.getTopLeft(find.text('You')).dx, 16 + AccountAvatarButton.visual + 12);
     expect(tester.getTopLeft(find.text('CUET UG 2027, Commerce')).dx, edge);
     expect(tester.getTopLeft(find.text('Asha Verma')).dx, edge);
-    expect(tester.getTopLeft(find.text('Badges').last).dx, edge);
+    expect(tester.getTopLeft(find.text('Badges, 0 of 16')).dx, edge);
     expect(tester.getTopLeft(find.text('Personal bests')).dx, edge);
   });
 
@@ -249,7 +249,7 @@ void main() {
     await _pumpHub(tester, rhythm: FakeRhythm(rhythmState(milestones: earnedMilestones)));
     await tester.tap(find.bySemanticsLabel(RegExp(r', earned 27 September$')));
     await tester.pumpAndSettle();
-    expect(find.text('Earned on 27 September'), findsOneWidget);
+    expect(find.textContaining('Earned Sun 27 Sep, '), findsOneWidget);
   });
 
   testWidgets('L06: the ring names what it counts, inside the ring', (tester) async {

@@ -75,7 +75,10 @@ class _BadgeEarnedRowState extends ConsumerState<BadgeEarnedRow> {
     final fresh = [for (final b in candidates) if (!seen.celebratedIds.contains(badgeSeenKey(b.id, b.earnedAt!))) b];
     if (fresh.isEmpty) return;
     try {
-      await repo.markAllCelebrated([for (final b in fresh) ...[badgeSeenKey(b.id, b.earnedAt!), b.id]]);
+      for (final b in fresh) {
+        await repo.markCelebrated(badgeSeenKey(b.id, b.earnedAt!));
+        await repo.markCelebrated(b.id);
+      }
       ref.invalidate(rhythmSeenProvider);
     } on Object {
       // Shown again next time at worst; the moment itself is not lost.

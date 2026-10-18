@@ -82,12 +82,27 @@ void main() {
   });
 
   group('the sixteen badges', () {
-    test('new server ids show only once the server lists them', () {
+    test('all sixteen are always on the board; a new server id the server did not list is unknown, never locked', () {
       final merged = mergeDerived(const [RhythmMilestone(id: 'first_scored_session')], const {}, derivedIds: const ['first_nta', 'full_mocks_5', 'clean_set', 'four_subjects', 'new_best']);
-      final shown = milestoneTracks(merged).fold<int>(0, (n, t) => n + t.steps.length);
-      expect(shown, 14);
+      final tracks = milestoneTracks(merged);
+      expect(tracks.fold<int>(0, (n, t) => n + t.steps.length), 16);
+      StepStatus statusOf(String id) => [for (final t in tracks) ...t.steps].firstWhere((s) => s.step.id == id).status;
+      expect(statusOf('first_hold'), StepStatus.unknown);
+      expect(statusOf('run_weeks_3'), StepStatus.unknown);
       final listed = [...merged, const RhythmMilestone(id: 'first_hold'), const RhythmMilestone(id: 'run_weeks_3')];
-      expect(milestoneTracks(listed).fold<int>(0, (n, t) => n + t.steps.length), 16);
+      final read = milestoneTracks(listed);
+      expect([for (final t in read) ...t.steps].where((s) => s.status == StepStatus.unknown), isEmpty);
+    });
+
+    test('the derived badges are unknown, not "not yet", while the attempts list has not loaded', () {
+      final merged = mergeDerived(const [], const {}, derivedIds: const ['first_nta', 'full_mocks_5', 'clean_set', 'four_subjects', 'new_best']);
+      final tracks = milestoneTracks(merged, unreadable: const {'first_nta', 'full_mocks_5', 'clean_set', 'four_subjects', 'new_best'});
+      final unknown = [for (final t in tracks) ...t.steps].where((s) => s.status == StepStatus.unknown).map((s) => s.step.id).toSet();
+      expect(unknown, containsAll(['first_nta', 'full_mocks_5', 'clean_set', 'four_subjects', 'new_best']));
+      // An unreadable badge never takes the "next" place on its path: the first readable one does.
+      final papers = tracks.firstWhere((t) => t.track == MilestoneTrack.papers);
+      expect(papers.next!.step.id, 'first_scored_session');
+      expect(papers.complete, isFalse);
     });
 
     test('the server date wins over the derived one', () {
