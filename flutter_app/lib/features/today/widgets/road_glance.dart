@@ -142,6 +142,12 @@ class _RoadGlanceState extends State<RoadGlance> {
       weekLine = GlanceCopy.setDaysHint;
     } else if (daysLeft == 0 && mocksLeft == 0) {
       weekLine = l.nextMockOn == null ? GlanceCopy.weekPlanDone : GlanceCopy.weekPlanDoneNext(l.nextMockOn!);
+    } else if (daysLeft > 0 && l.weekDaysOpen != null && daysLeft > l.weekDaysOpen!) {
+      // More study days are asked than there are days to come (Sunday already counted, say): "Left: 1 study day by Sun"
+      // promised a day that does not exist (v15 walk). The full mock, if one is due, is still said.
+      weekLine = mocksLeft == 0
+          ? GlanceCopy.weekGoalOutOfReach
+          : '${GlanceCopy.weekLeft(days: 0, mocks: mocksLeft, by: l.weekEnds)} ${GlanceCopy.weekGoalOutOfReach}';
     } else {
       final left = GlanceCopy.weekLeft(days: daysLeft, mocks: mocksLeft, by: l.weekEnds);
       weekLine = mocksLeft == 0 && l.nextMockOn != null ? GlanceCopy.weekLeftNext(left, l.nextMockOn!) : left;

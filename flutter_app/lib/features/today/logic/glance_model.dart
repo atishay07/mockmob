@@ -78,6 +78,7 @@ class RoadLayers {
     this.weekMocksDone = 0,
     this.nextMockOn,
     this.weekEnds,
+    this.weekDaysOpen,
     this.weekKnown = true,
   });
 
@@ -93,6 +94,9 @@ class RoadLayers {
 
   /// The last day of this week (Sunday): "a full mock by Sun".
   final DateTime? weekEnds;
+
+  /// Days that can still count toward the week: today, while it is not counted, and the days after it. Null when the week is unknown.
+  final int? weekDaysOpen;
 
   /// The record was read, so the full mocks taken are known (else the goal says so, never 0).
   final bool mocksKnown;

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/motion/motion.dart';
 import '../../../core/sync/session/save_state.dart';
@@ -483,7 +484,49 @@ class _ScrollFadeState extends State<_ScrollFade> {
             ),
           ),
         ),
+        // The fade alone read as a stray smudge on a long stem (v15 walk: only A and B showed, C clipped, and nothing said
+        // there was more). One small word and an arrow say it, until the first scroll: the student who has scrolled knows.
+        Positioned(
+          left: 0,
+          right: 0,
+          bottom: MmSpace.s8,
+          child: IgnorePointer(
+            child: AnimatedOpacity(
+              key: const ValueKey('runner-more-options'),
+              opacity: _more && !_before ? 1 : 0,
+              duration: Motion.of(context, Motion.ui),
+              curve: Motion.out,
+              child: const Center(child: _MoreBelow()),
+            ),
+          ),
+        ),
       ],
+    );
+  }
+}
+
+/// "More options below" with a down arrow: a small solid capsule, no glow, no motion of its own.
+class _MoreBelow extends StatelessWidget {
+  const _MoreBelow();
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    return ExcludeSemantics(
+      child: DecoratedBox(
+        decoration: ShapeDecoration(color: colors.raised, shape: StadiumBorder(side: BorderSide(color: colors.line))),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s6),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(RunnerCopy.moreOptions, style: context.mmType.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600)),
+              const SizedBox(width: MmSpace.s4),
+              Icon(LucideIcons.chevronDown, size: 14, color: colors.ink2),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

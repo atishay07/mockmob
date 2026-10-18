@@ -9,6 +9,7 @@ import 'reduced_motion.dart';
 export 'draw.dart';
 export 'drag_commit.dart';
 export 'entrance.dart';
+export 'fade_through.dart';
 export 'fold_exit.dart';
 export 'launch_rect.dart';
 export 'object_react.dart';

@@ -17,6 +17,7 @@ import 'package:mockmob/features/today/widgets/road_section.dart' show RoadActio
 
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
+import '../../helpers/no_open_paper.dart';
 
 /// The Night Sheet golden frame: 384 by 853 logical px at DPR 2.
 const Size kTodaySize = Size(384, 853);
@@ -29,6 +30,7 @@ const AuthSnapshot ashaAuth = AuthSnapshot(status: AuthStatus.signedIn, userId: 
 /// Today reads the Mob for its card: a student in no Mob (nothing read), so the card draws nothing and
 /// no network or database is touched.
 List<Override> get todayOverrides => [
+      ...noOpenPaperOverrides,
       authSnapshotProvider.overrideWithBuild((ref, notifier) => ashaAuth),
       mobRepositoryProvider.overrideWithBuild((ref, notifier) => const RemoteState<MobRead>.idle()),
     ];

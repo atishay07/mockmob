@@ -224,7 +224,7 @@ String? _updatedLine(TodayInputs i) {
   // The older read, as on the home widget: the papers are the list's last full read, served from
   // the phone while the plan is read again, so the newer time would call days-old papers fresh.
   // Both are the time of the last GOOD read (a failed try leaves them alone, see RemoteNotifier), never
-  // of the failed try: that one has its own words below ("Tried 7:32 AM") and is never the "Last loaded".
+  // of the failed try: that one has its own words below ("Still not loading") and is never the "Last loaded".
   final oldest = times.reduce((a, b) => a.isBefore(b) ? a : b);
   final at = i.clock(oldest);
   // The monitor says offline, or the read itself could not reach the server: one condition, the words Review
@@ -232,7 +232,7 @@ String? _updatedLine(TodayInputs i) {
   if (i.offline || i.readOffline) return TodayCopy.updatedOffline(at);
   if (_refreshFailed(i)) {
     final tried = i.lastTriedAt;
-    return tried == null ? TodayCopy.updatedNotRefreshed(at) : TodayCopy.updatedTried(at, i.clock(tried));
+    return tried == null ? TodayCopy.updatedNotRefreshed(at) : TodayCopy.updatedTried(at);
   }
   return TodayCopy.updatedAt(at);
 }

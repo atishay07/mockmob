@@ -34,7 +34,7 @@ abstract final class SavedCopy {
   static String refreshFailed(DateTime? lastGoodRead) =>
       lastGoodRead == null ? 'Could not refresh. Showing your saved record.' : 'Could not refresh. Last loaded ${formatTime12(lastGoodRead)}.';
 
-  /// After a Try again that changed nothing: both times, each named for what it is.
-  static String triedAgain(DateTime lastGoodRead, DateTime tried) =>
-      'Tried ${formatTime12(tried)}, still not loading. Last loaded ${formatTime12(lastGoodRead)}.';
+  /// After a Try again that changed nothing: it still says the last good read, and fits one line (the old "Tried 10:18 AM, still
+  /// not loading. Last loaded 10:14 AM." ran off a phone's width and cut the time that mattered, v15 walk).
+  static String triedAgain(DateTime lastGoodRead) => 'Still not loading. Last loaded ${formatTime12(lastGoodRead)}.';
 }

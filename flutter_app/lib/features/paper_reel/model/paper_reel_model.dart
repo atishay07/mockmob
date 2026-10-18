@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import '../../../core/domain/marks.dart' show markBreakdownOf, missedMarksDenominator;
 import '../../../core/models/models.dart';
 import '../copy.dart';
@@ -237,19 +239,30 @@ class PaperReelModel {
   int get wrong => questions.where((q) => q.result == ReelResult.wrong).length;
   int get blank => questions.where((q) => q.result == ReelResult.blank).length;
 
-  // Timeline budget: about 20 s with three moments, never under 15 s.
+  // Timeline budget: the length depends on the paper's size and nothing else (v15 walk: the Today card said 20 s, the
+  // result row 15 s and the reel ran 16 s). A moment's pause comes out of the sheet's time, so the card, the row and the
+  // reel are one number whatever the paper holds.
   static const introMs = 1000;
-  static const sheetMs = 10000;
+  static const minSheetMs = 3000;
   static const pauseMs = 1800;
   static const chapterMs = 2800;
   static const endMs = 1200;
   static const maxMoments = 3;
 
+  /// The whole reel for a paper of [questions]: 16 s for a short set, 20 s for a longer one. Known from the question
+  /// count alone, so Today's card can say it before the paper is read.
+  static int lengthMsFor(int questions) => questions <= 12 ? 16000 : 20000;
+
+  /// [lengthMsFor] in whole seconds: the one figure the entry cards print.
+  static int secondsFor(int questions) => (lengthMsFor(questions) / 1000).round();
+
   static List<ReelSegment> _timeline(int n, List<ReelMoment> moments) {
     final out = <ReelSegment>[];
     var t = 0;
     out.add(ReelSegment(phase: ReelPhase.intro, startMs: 0, endMs: t += introMs));
-    final byIndex = {for (final m in moments) m.index: m};
+    final byIndex = {for (final m in moments) if (m.index < n) m.index: m};
+    // What is left of the length once the intro, the pauses, the chapter and the end are paid for goes to the sheet.
+    final sheetMs = math.max(minSheetMs, lengthMsFor(n) - introMs - pauseMs * byIndex.length - chapterMs - endMs);
     // Each question gets an even share of the sheet time; the pauses come on top.
     for (var i = 0; i < n; i++) {
       final len = ((i + 1) * sheetMs / n).round() - (i * sheetMs / n).round();

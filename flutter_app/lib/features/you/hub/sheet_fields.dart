@@ -313,10 +313,12 @@ class WeekField extends StatelessWidget {
     if (done == null || goal == null) return null;
     if (done >= goal) return YouCopy.weekReached;
     if (done == 0) return YouCopy.weekNone;
-    // Days still to come this week, today included; a goal that cannot be reached says so.
+    // Days that can still count this week: today and the days after it that are not counted yet. Today counts only while it
+    // is open (on a Sunday already counted nothing is left, and "1 more study day" promised a day that does not exist, v15 walk).
+    // A goal that cannot be reached says so.
     final today = week.days.indexWhere((d) => d.isToday);
-    final left = today < 0 ? null : 7 - today;
-    if (left != null && goal - done > left) return YouCopy.weekDaysLeft(left);
+    final left = today < 0 ? null : [for (var d = today; d < week.days.length; d++) if (week.days[d].mark != WeekDayMark.done) d].length;
+    if (left != null && goal - done > left) return left == 0 ? YouCopy.weekNoDaysLeft : YouCopy.weekDaysLeft(left);
     return YouCopy.weekToGo(goal - done);
   }
 

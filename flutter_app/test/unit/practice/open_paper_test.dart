@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/api/api_client.dart';
 import 'package:mockmob/core/api/api_error.dart';
-import 'package:mockmob/core/models/learning_plan.dart';
 import 'package:mockmob/core/models/models.dart';
 import 'package:mockmob/core/repositories/local_scope.dart';
 import 'package:mockmob/core/repositories/pending_result_repository.dart';

@@ -138,8 +138,10 @@ class _ReelHeroCardState extends State<ReelHeroCard> {
             KeyButton(
               key: const ValueKey('reel-play'),
               label: TodayCopy.reelKey,
-              detail: TodayCopy.reelLength,
-              semanticsLabel: '${TodayCopy.reelKey}, ${TodayCopy.reelLength.replaceAll(' s', ' seconds')}',
+              detail: TodayCopy.reelLength(n),
+              semanticsLabel: TodayCopy.reelLength(n) == null
+                  ? TodayCopy.reelKey
+                  : '${TodayCopy.reelKey}, ${TodayCopy.reelLength(n)!.replaceAll(' s', ' seconds')}',
               loading: loading,
               onPressed: onPlay,
             ),

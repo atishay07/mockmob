@@ -89,6 +89,9 @@ abstract final class RunnerCopy {
 
   /// A practice has no visible timer: the one line at the start says when marks come.
   static const String practiceNote = 'Marks come after you submit.';
+
+  /// The quiet cue at the foot of a question whose options run below the screen: gone with the first scroll.
+  static const String moreOptions = 'More options below';
   static String openUntil(DateTime at) => 'Open until ${formatTime12(at)}';
 
   // Bottom bar.

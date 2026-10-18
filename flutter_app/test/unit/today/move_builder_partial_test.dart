@@ -53,7 +53,7 @@ void main() {
       expect(view.header.refreshable, isTrue);
       expect(view.header.updatedLine, startsWith('Could not refresh. Last loaded '));
       final tried = buildToday(withPlan(readyPlan(), attemptsStale: true, lastTried: at.add(const Duration(minutes: 2))));
-      expect(tried.header.updatedLine, contains('still not loading'));
+      expect(tried.header.updatedLine, contains('Still not loading'));
     });
 
     test('offline with the cache, the header says offline and is not a retry line', () {

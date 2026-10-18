@@ -109,6 +109,9 @@ abstract final class GlanceCopy {
   }
 
   static const String weekPlanDone = "This week's plan is done.";
+
+  /// The study-day goal cannot be reached any more this week (no open day is left, or fewer than it needs): no promise of a day that does not exist.
+  static const String weekGoalOutOfReach = 'This week cannot reach your goal now. Every study day still counts.';
   static String weekPlanDoneNext(DateTime next) => "This week's plan is done. The next full mock is due ${_dayShort(next)}.";
   static String weekLeftNext(String left, DateTime next) => '$left Next full mock ${_dayShort(next)}.';
   static String weekFigure(int done, int planned) => '$done of $planned done';

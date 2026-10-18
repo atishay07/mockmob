@@ -269,17 +269,16 @@ class _PlanFlowBodyState extends State<PlanFlowBody> {
             onStep: _go,
           ),
           const SizedBox(height: MmSpace.s20),
-          // One question at a time slides in from the side it comes from (12 dp, 220 ms), and the
-          // sheet eases to its height (a month view opening, a shorter step).
+          // One question at a time: the old one leaves, then the new one slides in from the side it comes from (12 dp, 240 ms); never both
+          // readable at once. The sheet eases to its height (a month view opening, a shorter step).
           MmSizeEase(
             duration: Motion.ui,
             curve: Motion.out,
             alignment: Alignment.topCenter,
             clipBehavior: Clip.none,
-            child: MmOverlapSwitcher.axis(
-            direction: _direction,
-            travel: 12,
-            duration: const Duration(milliseconds: 220),
+            child: MmFadeThrough(
+            slide: 12.0 * _direction,
+            duration: const Duration(milliseconds: 240),
             child: Column(
               key: ValueKey('step-$_step'),
               crossAxisAlignment: CrossAxisAlignment.stretch,

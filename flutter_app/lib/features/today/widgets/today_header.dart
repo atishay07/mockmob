@@ -108,12 +108,10 @@ class _GreetingRow extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  AnimatedSwitcher(
-                    duration: Motion.of(context, Motion.crossFade),
-                    layoutBuilder: (current, previous) => Stack(
-                      alignment: Alignment.centerLeft,
-                      children: [...previous, ?current],
-                    ),
+                  // The date and the freshness line stand at one spot: one leaves, then the other arrives (the spinner used to
+                  // sit over the date for a frame when a read ended).
+                  MmFadeThrough(
+                    alignment: Alignment.centerLeft,
                     child: updatedLine == null
                         ? Text(
                             dateLine,
