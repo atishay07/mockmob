@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/features/billing/billing_copy.dart';
-import 'package:mockmob/features/credits/data/credits_models.dart';
-import 'package:mockmob/features/wallet/data/wallet_view.dart';
+import 'package:mockmob/features/wallet/data/wallet_data.dart';
 import 'package:mockmob/features/wallet/wallet_copy.dart';
 import 'package:mockmob/features/wallet/wallet_screen.dart';
 
 import '../../golden/you/you_golden_kit.dart' show setUpGoldenFonts;
 import '../../helpers/golden_harness.dart';
 import '../billing/billing_test_support.dart';
-import '../you/you_test_support.dart';
 import 'wallet_test_support.dart';
 
 Future<void> _settle(WidgetTester tester) async {
@@ -21,7 +19,7 @@ Future<void> _settle(WidgetTester tester) async {
   }
 }
 
-Future<void> _pump(WidgetTester tester, {required BillingRig rig, bool pro = false, double textScale = 1, bool aiUnread = false, RemoteState<CreditsOverview>? credits, bool history = true}) async {
+Future<void> _pump(WidgetTester tester, {required BillingRig rig, bool pro = false, double textScale = 1, RemoteState<WalletRead>? read}) async {
   await pumpMockmob(
     tester,
     const WalletScreen(),
@@ -29,7 +27,7 @@ Future<void> _pump(WidgetTester tester, {required BillingRig rig, bool pro = fal
     wrapInScaffold: false,
     disableAnimations: true,
     textScale: textScale,
-    overrides: walletOverrides(pro: pro, rig: rig, aiUnread: aiUnread, credits: credits, history: history),
+    overrides: walletOverrides(pro: pro, rig: rig, read: read),
   );
   await _settle(tester);
 }
@@ -38,76 +36,60 @@ void main() {
   setUpGoldenFonts();
   tearDown(disposeContainers);
 
-  testWidgets('both balances side by side, what each is for, and when the AI credits reset', (tester) async {
+  testWidgets('one Credits number, what a credit buys, the free allowance with its reset, and what is held', (tester) async {
     await _pump(tester, rig: BillingRig());
     expect(find.text('Wallet'), findsOneWidget);
-    expect(find.text('Practice credits'), findsWidgets);
-    expect(find.text('AI credits'), findsWidgets);
-    expect(find.text('38'), findsOneWidget);
-    expect(find.text('46'), findsOneWidget);
-    expect(find.text('About 38 questions'), findsOneWidget);
-    expect(find.text(WalletCopy.practiceFor), findsOneWidget);
-    expect(find.text('40 of 50 included this month'), findsOneWidget);
-    expect(find.text('6 bought, no expiry'), findsOneWidget);
-    expect(find.text('Resets 1 November, 12:00 AM'), findsOneWidget);
-    expect(find.text(WalletCopy.aiFor), findsOneWidget);
-    // Side by side: the two figures share a row, practice on the left.
-    final practice = tester.getTopLeft(find.text('38'));
-    final ai = tester.getTopLeft(find.text('46'));
-    expect((practice.dy - ai.dy).abs(), lessThan(2));
-    expect(practice.dx, lessThan(ai.dx));
+    expect(find.text('Credits'), findsOneWidget);
+    expect(find.text('46'), findsWidgets);
+    expect(find.text('1 credit = 1 question or 1 Ask Mobi reply. A full mock is 50.'), findsOneWidget);
+    expect(find.text('40 of 50 free credits left this month'), findsOneWidget);
+    expect(find.text('Free credits reset 1 November, 12:00 AM'), findsOneWidget);
+    expect(find.text('6 held credits. Held credits do not expire.'), findsOneWidget);
+    // No second balance and no pool names.
+    expect(find.text('Practice credits'), findsNothing);
+    expect(find.text('AI credits'), findsNothing);
   });
 
   testWidgets('a balance that did not load is Not loaded, never 0', (tester) async {
-    await _pump(
-      tester,
-      rig: BillingRig(),
-      aiUnread: true,
-      credits: RemoteState<CreditsOverview>(value: CreditsOverview.fromJson({
-        'practice': {'balance': null},
-        'ai': {'balance': null},
-        'plan': {'name': 'Free'},
-        'history': <Object?>[],
-      })),
-    );
-    expect(find.text('Not loaded'), findsNWidgets(2));
+    await _pump(tester, rig: BillingRig(), read: walletState({'history': <Object?>[]}));
+    expect(find.text('Not loaded'), findsOneWidget);
     expect(find.text('0'), findsNothing);
-    expect(find.textContaining('About'), findsNothing);
+    expect(find.textContaining('free credits left'), findsNothing);
   });
 
-  testWidgets('Pro: practice is Unlimited, no Practice packs, no Pro row', (tester) async {
-    await _pump(tester, rig: BillingRig(), pro: true);
-    expect(find.text('Unlimited'), findsOneWidget);
-    expect(find.text(WalletCopy.practiceUnlimitedNote), findsOneWidget);
-    expect(find.text('100 practice credits'), findsNothing);
-    expect(find.text('50 AI credits'), findsOneWidget);
-    expect(find.text(WalletCopy.proRowNote), findsNothing);
+  test('the total is the free credits left plus held when the server sends no total', () {
+    expect(WalletRead.fromJson({'freeLeft': 12, 'held': 8, 'freeAllowance': 50}).total, 20);
+    expect(WalletRead.fromJson({'freeLeft': 12}).total, isNull);
+    expect(WalletRead.fromJson({'total': 7, 'freeLeft': 12, 'held': 8}).total, 7);
   });
 
-  testWidgets('flag on: AI and Practice packs with Google Play prices, and a quiet Pro row', (tester) async {
-    final rig = BillingRig();
-    await _pump(tester, rig: rig);
-    for (final label in ['50 AI credits', '150 AI credits', '400 AI credits', '100 practice credits', '300 practice credits']) {
+  testWidgets('flag on: one set of packs with Google Play prices, a quiet Pro row, no pool rows', (tester) async {
+    await _pump(tester, rig: BillingRig());
+    for (final label in ['50 credits', '150 credits', '300 credits']) {
       expect(find.text(label), findsOneWidget, reason: label);
     }
     expect(find.text('₹15.00'), findsOneWidget);
+    expect(find.text('₹30.00'), findsOneWidget);
     expect(find.text('₹75.00'), findsOneWidget);
-    expect(find.text('₹25.00'), findsOneWidget);
-    expect(find.text('₹60.00'), findsOneWidget);
     expect(find.text(WalletCopy.proRowNote), findsOneWidget);
+    expect(find.textContaining('AI credits'), findsNothing);
+    expect(find.textContaining('practice credits'), findsNothing);
+    // The website's own prices in the read are never shown.
+    expect(find.text('₹29'), findsNothing);
+    expect(find.text('29'), findsNothing);
   });
 
   testWidgets('flag on: a pack starts a consumable purchase; the added line appears only after the server confirms', (tester) async {
     final rig = BillingRig();
     rig.store.onBuy = (p) => rig.store.emit(purchase(p.id));
     await _pump(tester, rig: rig);
-    await tester.ensureVisible(find.text('300 practice credits'));
-    await tester.tap(find.text('300 practice credits'));
+    await tester.ensureVisible(find.text('300 credits'));
+    await tester.tap(find.text('300 credits'));
     await _settle(tester);
-    expect(rig.store.buys.single.productId, 'practice_credits_49_300');
+    expect(rig.store.buys.single.productId, 'credits_49_300');
     expect(rig.store.buys.single.consumable, isTrue);
-    expect(rig.verifier.calls.single.productId, 'practice_credits_49_300');
-    expect(find.text('300 practice credits added'), findsOneWidget);
+    expect(rig.verifier.calls.single.productId, 'credits_49_300');
+    expect(find.text('300 credits added'), findsOneWidget);
     expect(rig.refreshes, 1);
   });
 
@@ -120,12 +102,19 @@ void main() {
     expect(find.text('Pro includes'), findsOneWidget);
   });
 
-  testWidgets('flag off: balances and history as ever, top-ups open soon, no key that does nothing, no price', (tester) async {
+  testWidgets('Pro: no Pro row, practice is unlimited, the packs are still there', (tester) async {
+    await _pump(tester, rig: BillingRig(), pro: true);
+    expect(find.text(WalletCopy.proRowNote), findsNothing);
+    expect(find.text(WalletCopy.practiceUnlimitedNote), findsOneWidget);
+    expect(find.text('50 credits'), findsOneWidget);
+  });
+
+  testWidgets('flag off: balance and history as ever, top-ups open soon, no key that does nothing, no price', (tester) async {
     final rig = BillingRig(on: false);
     await _pump(tester, rig: rig);
-    expect(find.text('38'), findsOneWidget);
+    expect(find.text('46'), findsWidgets);
     expect(find.text(BillingCopy.topUpsSoon), findsOneWidget);
-    expect(find.text('50 AI credits'), findsNothing);
+    expect(find.text('50 credits'), findsNothing);
     expect(find.text('Get Pro'), findsNothing);
     expect(find.text(WalletCopy.proRowNote), findsNothing);
     expect(find.textContaining('₹'), findsNothing);
@@ -133,44 +122,41 @@ void main() {
     expect(rig.store.listened, isFalse);
   });
 
-  testWidgets('history: the latest lines first, Show earlier opens the rest', (tester) async {
+  testWidgets('history: the latest lines with their time, the change and what is left', (tester) async {
     await _pump(tester, rig: BillingRig(on: false));
-    expect(find.text('Repair, Q7 Accountancy'), findsOneWidget);
-    expect(find.text('Monthly AI credits'), findsOneWidget);
+    expect(find.text('Ask Mobi reply'), findsOneWidget);
+    expect(find.text('Monthly free credits'), findsOneWidget);
+    expect(find.text('−10'), findsOneWidget);
+    expect(find.text('46 left'), findsOneWidget);
+    expect(find.text('+50'), findsOneWidget);
   });
 
   testWidgets('no history yet says so plainly', (tester) async {
-    await _pump(tester, rig: BillingRig(on: false), history: false);
+    await _pump(tester, rig: BillingRig(on: false), read: walletState(walletBody(history: false)));
     expect(find.text(WalletCopy.historyEmptyTitle), findsOneWidget);
   });
 
-  testWidgets('large text stacks the two balances and nothing overflows', (tester) async {
-    await _pump(tester, rig: BillingRig(), textScale: 1.6);
-    expect(tester.takeException(), isNull);
-    final practice = tester.getTopLeft(find.text('38'));
-    final ai = tester.getTopLeft(find.text('46'));
-    expect(ai.dy, greaterThan(practice.dy));
+  testWidgets('a read that failed offers Try again and never shows a zero', (tester) async {
+    await _pump(
+      tester,
+      rig: BillingRig(on: false),
+      read: const RemoteState<WalletRead>(error: ApiError(kind: ApiErrorKind.network, code: 'network')),
+    );
+    expect(find.text(WalletCopy.historyFailedTitle), findsOneWidget);
+    expect(find.text('Not loaded'), findsOneWidget);
+    expect(find.text(WalletCopy.tryAgain), findsWidgets);
   });
 
-  test('the adapter reads the Wallet from the existing credits reads', () {
-    final c = ProviderContainer(overrides: walletOverrides());
-    addTearDown(c.dispose);
-    final v = c.read(walletViewProvider);
-    expect(v.practice, 38);
-    expect(v.aiTotal, 46);
-    expect(v.aiIncludedLeft, 40);
-    expect(v.aiIncludedOf, 50);
-    expect(v.aiBought, 6);
-    expect(v.aiResetsAt, DateTime(2026, 11, 1));
-    expect(v.isPro, isFalse);
+  testWidgets('large text: nothing overflows', (tester) async {
+    await _pump(tester, rig: BillingRig(), textScale: 1.6);
+    expect(tester.takeException(), isNull);
   });
 
   test('the words of the Wallet carry no price, no exclamation mark and no web pointer', () {
     final all = [
-      WalletCopy.practiceFor, WalletCopy.practiceUnlimitedNote, WalletCopy.aiFor, WalletCopy.aiPaused, WalletCopy.stale,
-      WalletCopy.proRowNote, WalletCopy.historyEmptyBody, WalletCopy.historyFailedBody, WalletCopy.moreFailed,
-      BillingCopy.topUpsSoon, BillingCopy.aiPacksNote,
-      WalletCopy.aboutQuestions(38), WalletCopy.aiIncluded(40, 50), WalletCopy.aiBought(6), WalletCopy.resets(DateTime(2026, 11, 1)),
+      WalletCopy.creditsFor, WalletCopy.practiceUnlimitedNote, WalletCopy.heldNote, WalletCopy.stale, WalletCopy.proRowNote,
+      WalletCopy.historyEmptyBody, WalletCopy.historyFailedBody, BillingCopy.topUpsSoon, BillingCopy.topUpsNote,
+      WalletCopy.freeLeft(40, 50), WalletCopy.held(6), WalletCopy.resets(DateTime(2026, 11, 1)),
     ];
     for (final s in all) {
       final lower = s.toLowerCase();

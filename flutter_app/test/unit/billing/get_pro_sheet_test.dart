@@ -6,10 +6,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:in_app_purchase_platform_interface/in_app_purchase_platform_interface.dart';
 import 'package:mockmob/core/widgets/widgets.dart' show KeyButton;
 import 'package:mockmob/features/billing/billing.dart';
-import 'package:mockmob/features/billing/data/billing_controller.dart';
 import 'package:mockmob/features/billing/data/play_products.dart';
 import 'package:mockmob/features/billing/widgets/get_pro_sheet.dart';
-import 'package:mockmob/features/credits/data/credits_models.dart';
 
 import '../../golden/you/you_golden_kit.dart' show setUpGoldenFonts;
 import '../../helpers/golden_harness.dart';
@@ -58,6 +56,16 @@ void main() {
     expect(find.text('Get Pro'), findsWidgets);
     expect(find.text('Restore purchases'), findsWidgets);
     expect(find.text('Payment is handled by Google Play.'), findsOneWidget);
+  });
+
+  testWidgets('another screen can pass a reason line and its own benefit lines', (tester) async {
+    final rig = BillingRig();
+    await _pump(tester, rig, child: const SingleChildScrollView(padding: EdgeInsets.all(20), child: GetProSheetBody(reason: 'This comes with Pro.', benefits: ['One benefit line.'])));
+    await _settle(tester);
+    expect(find.text('This comes with Pro.'), findsOneWidget);
+    expect(find.text('One benefit line.'), findsOneWidget);
+    expect(find.text(BillingCopy.proIncludes.first), findsNothing);
+    expect(find.text('₹149.00'), findsOneWidget);
   });
 
   testWidgets('the price on screen is whatever Google Play returns, not a number from the app', (tester) async {
@@ -214,7 +222,7 @@ void main() {
       ...BillingCopy.proIncludes,
       BillingCopy.proTerms, BillingCopy.googlePlayNote, BillingCopy.pending, BillingCopy.verifying, BillingCopy.cancelled,
       BillingCopy.failStore, BillingCopy.failCouldNotConfirm, BillingCopy.failOffline, BillingCopy.failNotOpenYet,
-      BillingCopy.proOnBody, BillingCopy.creditsAddedBody, BillingCopy.aiPacksNote, BillingCopy.storeUnavailable,
+      BillingCopy.proOnBody, BillingCopy.creditsAddedBody, BillingCopy.topUpsNote, BillingCopy.storeUnavailable,
       BillingCopy.storeUnreachable, BillingCopy.productUnavailable, BillingCopy.nothingToRestore,
     ];
     for (final s in all) {

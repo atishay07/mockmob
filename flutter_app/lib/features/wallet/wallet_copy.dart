@@ -1,4 +1,4 @@
-/// Every word of the Wallet. Two credit names only, "Practice credits" and "AI credits". Sentence
+/// Every word of the Wallet. One balance, "Credits". Sentence
 /// case, no exclamation marks, no emoji, no middle dots, 12-hour times. No price is written here:
 /// a price on this screen is only ever Google Play's own string (lib/features/billing).
 library;
@@ -8,22 +8,16 @@ import '../../core/copy/copy.dart';
 abstract final class WalletCopy {
   static const title = 'Wallet';
 
-  // Practice credits.
-  static const practiceName = 'Practice credits';
-  static const practiceFor = 'For mocks and practice sets. One credit is one question.';
-  static String aboutQuestions(int n) => n == 1 ? 'About 1 question' : 'About $n questions';
-  static const practiceUnlimited = 'Unlimited';
+  // The one balance.
+  static const creditsName = 'Credits';
+  static const creditsFor = '1 credit = 1 question or 1 Ask Mobi reply. A full mock is 50.';
+  static String freeLeft(int left, int of) => '$left of $of free credits left this month';
+  static String held(int n) => n == 1 ? '1 held credit' : '$n held credits';
+  static const heldNote = 'Held credits do not expire.';
   static const practiceUnlimitedNote = 'Practice is unlimited on Pro.';
 
-  // AI credits.
-  static const aiName = 'AI credits';
-  static const aiFor = 'For Ask Mobi and repair explanations.';
-  static String aiIncluded(int left, int of) => '$left of $of included this month';
-  static String aiBought(int n) => '$n bought, no expiry';
-  static const aiPaused = 'AI replies are paused just now.';
-
   /// "Resets 1 November, 12:00 AM".
-  static String resets(DateTime at) => 'Resets ${formatDayMonth(at)}, ${formatTime12(at)}';
+  static String resets(DateTime at) => 'Free credits reset ${formatDayMonth(at)}, ${formatTime12(at)}';
 
   // Loading and failure. A balance that did not load is never zero.
   static const notLoaded = 'Not loaded';
@@ -42,7 +36,7 @@ abstract final class WalletCopy {
   // History.
   static const recent = 'Recent';
   static const historyEmptyTitle = 'Nothing spent yet';
-  static const historyEmptyBody = 'When you use Practice credits or AI credits, each line shows here with what is left.';
+  static const historyEmptyBody = 'When you spend credits, each line shows here with what is left.';
   static const historyFailedTitle = 'History did not load';
   static const historyFailedBody = 'Check your connection and try again.';
   static const showEarlier = 'Show earlier';

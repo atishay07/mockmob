@@ -50,7 +50,7 @@ void main() {
       final c = await ready(BillingRig());
       expect(st(c).store, StoreAvailability.available);
       expect(st(c).priceOf(PlayProducts.proId), '₹149.00');
-      expect(st(c).priceOf('ai_credits_prepos_50_400'), '₹75.00');
+      expect(st(c).priceOf('credits_49_300'), '₹75.00');
       expect(st(c).priceOf('nope'), isNull);
     });
 
@@ -69,7 +69,7 @@ void main() {
       await ctl(c).loadProducts(force: true);
       expect(st(c).productsFailed, isFalse);
       expect(st(c).priceOf(PlayProducts.proId), isNull);
-      expect(st(c).priceOf('ai_credits_prepos_10_50'), isNotNull);
+      expect(st(c).priceOf('credits_10_50'), isNotNull);
     });
   });
 
@@ -100,10 +100,10 @@ void main() {
       final rig = BillingRig();
       final c = await ready(rig);
       rig.store.onBuy = (p) => rig.store.emit(purchase(p.id));
-      await ctl(c).buy('ai_credits_prepos_20_150');
+      await ctl(c).buy('credits_29_150');
       await settle();
       expect(rig.store.buys.single.consumable, isTrue);
-      expect(rig.store.finished.single, (productId: 'ai_credits_prepos_20_150', consumable: true));
+      expect(rig.store.finished.single, (productId: 'credits_29_150', consumable: true));
       expect(st(c).stage, BillingStage.confirmed);
     });
 
@@ -300,12 +300,12 @@ void main() {
     });
 
     test('a pack that is still owned is consumed on the quiet check, so it can be bought again', () async {
-      final rig = BillingRig(store: FakePlayStore()..owned = [purchase('ai_credits_prepos_10_50', status: PurchaseStatus.restored, pendingComplete: false)]);
+      final rig = BillingRig(store: FakePlayStore()..owned = [purchase('credits_10_50', status: PurchaseStatus.restored, pendingComplete: false)]);
       final c = rig.container();
       c.listen(playBillingProvider, (_, _) {});
       await settle();
-      expect(rig.verifier.calls.single.productId, 'ai_credits_prepos_10_50');
-      expect(rig.store.finished.single, (productId: 'ai_credits_prepos_10_50', consumable: true));
+      expect(rig.verifier.calls.single.productId, 'credits_10_50');
+      expect(rig.store.finished.single, (productId: 'credits_10_50', consumable: true));
     });
 
     test('a failure on the quiet check shows nothing and is tried again next launch', () async {

@@ -3,7 +3,6 @@
 // out-of-credits band. With PLAY_BILLING off none of them shows anything.
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
@@ -18,7 +17,6 @@ import 'package:mockmob/features/practice/practice_routes.dart';
 import 'package:mockmob/features/you/account/plan_card.dart';
 
 import '../../golden/you/you_golden_kit.dart' show setUpGoldenFonts;
-import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
 import '../../golden/insights/insights_golden_support.dart' show insightsOverrides;
 import '../practice/support/harness.dart';
@@ -130,7 +128,7 @@ void main() {
         expect(find.textContaining('You have 8 credits, and this takes 10.'), findsOneWidget);
         expect(find.text(BillingCopy.proRemovesLimit), on ? findsOneWidget : findsNothing);
         expect(find.text('Get Pro'), on ? findsWidgets : findsNothing);
-        expect(find.text(BillingCopy.addPracticeCredits), on ? findsWidgets : findsNothing);
+        expect(find.text(BillingCopy.getCredits), on ? findsWidgets : findsNothing);
       });
     }
   });

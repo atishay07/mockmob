@@ -29,11 +29,9 @@ ProductDetails productDetails(String id, String price) => ProductDetails(
 /// writes a price.
 Map<String, String> fixturePrices() => {
       PlayProducts.proId: '₹149.00',
-      'ai_credits_prepos_10_50': '₹15.00',
-      'ai_credits_prepos_20_150': '₹30.00',
-      'ai_credits_prepos_50_400': '₹75.00',
-      'practice_credits_19_100': '₹25.00',
-      'practice_credits_49_300': '₹60.00',
+      'credits_10_50': '₹15.00',
+      'credits_29_150': '₹30.00',
+      'credits_49_300': '₹75.00',
     };
 
 PurchaseDetails purchase(

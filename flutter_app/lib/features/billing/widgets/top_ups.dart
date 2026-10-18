@@ -10,18 +10,14 @@ import '../data/billing_controller.dart';
 import '../data/play_products.dart';
 import 'billing_notice.dart';
 
-/// The Wallet's top-ups: the AI credit packs and (for a student who is not on Pro) the Practice
-/// credit packs, each as plain rows with the credits on the left and Google Play's own price on
-/// the right. Nothing is added until the server confirms the purchase; the pack that was bought is
+/// The Wallet's top-ups: one set of credit packs for the one credits balance, as plain rows with
+/// the credits on the left and Google Play's own price on the right. Nothing is added until the server confirms the purchase; the pack that was bought is
 /// named afterwards. A balance is never edited here.
 ///
 /// With `PLAY_BILLING` off the rows are not drawn at all: one calm line says top-ups open soon, so
 /// there is no key that does nothing.
 class WalletTopUps extends ConsumerStatefulWidget {
-  const WalletTopUps({super.key, this.showPractice = true});
-
-  /// False on Pro, where practice is unlimited and has no credits to add.
-  final bool showPractice;
+  const WalletTopUps({super.key});
 
   @override
   ConsumerState<WalletTopUps> createState() => _WalletTopUpsState();
@@ -50,50 +46,33 @@ class _WalletTopUpsState extends ConsumerState<WalletTopUps> {
     }
     final s = ref.watch(playBillingProvider);
     final ctl = ref.read(playBillingProvider.notifier);
-    final packs = [...PlayProducts.aiPacks, if (widget.showPractice) ...PlayProducts.practicePacks];
+    final packs = PlayProducts.packs;
     final ids = {for (final p in packs) p.id};
     final loading = s.productsLoading || (s.store == StoreAvailability.checking && s.products.isEmpty);
     final anyPrice = packs.any((p) => s.priceOf(p.id) != null);
     final bought = s.stage == BillingStage.confirmed ? PlayProducts.byId(s.productId ?? '') : null;
     final boughtPack = bought != null && bought.kind != PlayProductKind.pro ? bought : null;
 
-    Widget group(String heading, String? note, List<PlayProduct> list) => Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Semantics(header: true, child: Text(heading, style: type.labelLarge)),
-            if (note != null) ...[
-              const SizedBox(height: MmSpace.s4),
-              Text(note, style: type.small.copyWith(color: colors.ink2)),
-            ],
-            const SizedBox(height: MmSpace.s8),
-            YouPanel(
-              flat: true,
-              margin: EdgeInsets.zero,
-              inset: 0,
-              children: [
-                for (final pack in list)
-                  _PackRow(
-                    pack: pack,
-                    price: s.priceOf(pack.id),
-                    enabled: !s.busy && s.priceOf(pack.id) != null,
-                    working: s.productId == pack.id && (s.stage == BillingStage.starting || s.stage == BillingStage.verifying),
-                    onTap: () => ctl.buy(pack.id),
-                  ),
-              ],
-            ),
-          ],
-        );
-
     final Widget body;
     if (anyPrice) {
       body = Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          group(BillingCopy.aiPacksHeading, BillingCopy.aiPacksNote, PlayProducts.aiPacks),
-          if (widget.showPractice) ...[
-            const SizedBox(height: MmSpace.s24),
-            group(BillingCopy.practicePacksHeading, null, PlayProducts.practicePacks),
-          ],
+          YouPanel(
+            flat: true,
+            margin: EdgeInsets.zero,
+            inset: 0,
+            children: [
+              for (final pack in packs)
+                _PackRow(
+                  pack: pack,
+                  price: s.priceOf(pack.id),
+                  enabled: !s.busy && s.priceOf(pack.id) != null,
+                  working: s.productId == pack.id && (s.stage == BillingStage.starting || s.stage == BillingStage.verifying),
+                  onTap: () => ctl.buy(pack.id),
+                ),
+            ],
+          ),
         ],
       );
     } else if (loading) {
@@ -153,7 +132,7 @@ class _WalletTopUpsState extends ConsumerState<WalletTopUps> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(BillingCopy.creditsAddedTitle(boughtPack.kind, boughtPack.credits), style: type.labelLarge),
+                        Text(BillingCopy.creditsAddedTitle(boughtPack.credits), style: type.labelLarge),
                         Text(BillingCopy.creditsAddedBody, style: type.small.copyWith(color: colors.ink2)),
                       ],
                     ),
@@ -182,10 +161,10 @@ class _PackRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final label = BillingCopy.packLabel(pack.kind, pack.credits ?? 0);
+    final label = BillingCopy.packLabel(pack.credits ?? 0);
     return RowFrame(
       onTap: enabled ? onTap : null,
-      semanticsLabel: BillingCopy.packSemantics(pack.kind, pack.credits ?? 0, price),
+      semanticsLabel: BillingCopy.packSemantics(pack.credits ?? 0, price),
       padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
       child: Row(
         children: [

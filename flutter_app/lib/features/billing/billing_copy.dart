@@ -9,7 +9,6 @@
 library;
 
 import '../../core/copy/copy.dart';
-import 'data/play_products.dart' show PlayProductKind;
 
 abstract final class BillingCopy {
   // The Pro sheet.
@@ -53,12 +52,7 @@ abstract final class BillingCopy {
   // Success: only ever shown after the server confirmed.
   static const proOnTitle = 'Pro is on';
   static const proOnBody = 'Your plan is up to date. Everything Pro includes is open.';
-  static String creditsAddedTitle(PlayProductKind kind, int? credits) {
-    final pool = kind == PlayProductKind.practiceCreditPack ? 'practice credit' : 'AI credit';
-    return credits == null ? '${_cap(pool)}s added' : '$credits $pool${credits == 1 ? '' : 's'} added';
-  }
-
-  static String _cap(String s) => s[0].toUpperCase() + s.substring(1);
+  static String creditsAddedTitle(int? credits) => credits == null ? 'Credits added' : '$credits ${credits == 1 ? 'credit' : 'credits'} added';
   static const creditsAddedBody = 'Your balance is up to date.';
 
   // Failures, each with a way out.
@@ -69,19 +63,11 @@ abstract final class BillingCopy {
   static const failNotOpenYet =
       'Your payment went through with Google Play, but MockMob cannot confirm purchases just now. It stays with Google Play and we check again each time you open the app.';
 
-  // Top-ups on the Wallet.
+  // Top-ups on the Wallet: one set of packs for the one credits balance.
   static const topUpsTitle = 'Top up';
   static const topUpsSoon = 'Top-ups open soon.';
-  static const aiPacksHeading = 'AI credits';
-  static const aiPacksNote = 'Bought credits do not expire.';
-  static const practicePacksHeading = 'Practice credits';
+  static const topUpsNote = 'Held credits do not expire.';
   static const getCredits = 'Add credits';
-  static const addPracticeCredits = 'Add practice credits';
-  static String packLabel(PlayProductKind kind, int credits) {
-    final pool = kind == PlayProductKind.practiceCreditPack ? 'practice credit' : 'AI credit';
-    return '$credits $pool${credits == 1 ? '' : 's'}';
-  }
-
-  static String packSemantics(PlayProductKind kind, int credits, String? price) =>
-      price == null ? packLabel(kind, credits) : '${packLabel(kind, credits)}, $price';
+  static String packLabel(int credits) => credits == 1 ? '1 credit' : '$credits credits';
+  static String packSemantics(int credits, String? price) => price == null ? packLabel(credits) : '${packLabel(credits)}, $price';
 }

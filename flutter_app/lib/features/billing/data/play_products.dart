@@ -2,14 +2,14 @@
 /// grants the same entitlement for a Play purchase as for a web one:
 ///
 /// * Pro: `pro_cuet_2027`, a non-consumable (bought once, owned until the server says otherwise).
-/// * AI credit packs and Practice credit packs: the website's top-ups, consumables (bought again any
-///   time).
+/// * Credit packs: the website's top-ups of the one credits balance (owner D78, 18 Oct 2026: one
+///   balance, one set of packs, usable for everything), consumables (bought again any time).
 ///
 /// Nothing about a price lives here. The price a student sees is Google Play's own localized
 /// string for the product ([ProductDetails.price]); the app never writes one.
 library;
 
-enum PlayProductKind { pro, aiCreditPack, practiceCreditPack }
+enum PlayProductKind { pro, creditPack }
 
 class PlayProduct {
   const PlayProduct({required this.id, required this.kind, this.credits, this.featured = false});
@@ -34,20 +34,12 @@ abstract final class PlayProducts {
 
   static const PlayProduct pro = PlayProduct(id: proId, kind: PlayProductKind.pro);
 
-  /// The website's three AI credit top-ups, smallest first (`ai_credits_prepos_<rupees>_<credits>`).
-  static const List<PlayProduct> aiPacks = [
-    PlayProduct(id: 'ai_credits_prepos_10_50', kind: PlayProductKind.aiCreditPack, credits: 50),
-    PlayProduct(id: 'ai_credits_prepos_20_150', kind: PlayProductKind.aiCreditPack, credits: 150),
-    PlayProduct(id: 'ai_credits_prepos_50_400', kind: PlayProductKind.aiCreditPack, credits: 400, featured: true),
+  /// The website's three credit packs, smallest first (`credits_<rupees>_<credits>`).
+  static const List<PlayProduct> packs = [
+    PlayProduct(id: 'credits_10_50', kind: PlayProductKind.creditPack, credits: 50),
+    PlayProduct(id: 'credits_29_150', kind: PlayProductKind.creditPack, credits: 150),
+    PlayProduct(id: 'credits_49_300', kind: PlayProductKind.creditPack, credits: 300, featured: true),
   ];
-
-  /// The website's two Practice credit top-ups (`practice_credits_<rupees>_<credits>`).
-  static const List<PlayProduct> practicePacks = [
-    PlayProduct(id: 'practice_credits_19_100', kind: PlayProductKind.practiceCreditPack, credits: 100),
-    PlayProduct(id: 'practice_credits_49_300', kind: PlayProductKind.practiceCreditPack, credits: 300, featured: true),
-  ];
-
-  static const List<PlayProduct> packs = [...aiPacks, ...practicePacks];
 
   static const List<PlayProduct> all = [pro, ...packs];
 

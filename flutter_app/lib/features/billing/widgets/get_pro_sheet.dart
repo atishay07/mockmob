@@ -13,13 +13,17 @@ import 'billing_notice.dart';
 
 /// Opens the Get Pro sheet. Does nothing with `PLAY_BILLING` off, so a caller never needs its own
 /// check.
-Future<void> showGetProSheet(BuildContext context) async {
+///
+/// [reason] is one line above the price saying why the sheet opened (what the student was about to
+/// do); [benefits] replace the default list of what Pro includes with lines that fit that moment.
+/// Both are optional and plain sentences. The price and the keys are always Google Play's.
+Future<void> showGetProSheet(BuildContext context, {String? reason, List<String>? benefits}) async {
   final container = ProviderScope.containerOf(context, listen: false);
   if (!container.read(playBillingEnabledProvider)) return;
   await showMmSheet<void>(
     context: context,
     title: BillingCopy.proTitle,
-    builder: (sheet) => const GetProSheetBody(),
+    builder: (sheet) => GetProSheetBody(reason: reason, benefits: benefits),
   );
 }
 
@@ -28,7 +32,13 @@ Future<void> showGetProSheet(BuildContext context) async {
 /// Google Play open, a pending payment, the server confirming, a cancel, a failure with Try again.
 /// "Pro is on" appears only after the server confirmed the purchase.
 class GetProSheetBody extends ConsumerStatefulWidget {
-  const GetProSheetBody({super.key});
+  const GetProSheetBody({super.key, this.reason, this.benefits});
+
+  /// One line above the price: why the sheet opened.
+  final String? reason;
+
+  /// Replaces the default "Pro includes" lines when non-empty.
+  final List<String>? benefits;
 
   @override
   ConsumerState<GetProSheetBody> createState() => _GetProSheetBodyState();
@@ -87,6 +97,10 @@ class _GetProSheetBodyState extends ConsumerState<GetProSheetBody> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
+        if (widget.reason != null && widget.reason!.trim().isNotEmpty) ...[
+          Text(widget.reason!, style: type.body),
+          const SizedBox(height: MmSpace.s16),
+        ],
         MmOverlapSwitcher.fade(
           alignment: Alignment.topLeft,
           child: KeyedSubtree(key: ValueKey(price != null ? 'price' : (loadingStore ? 'loading' : 'unavailable')), child: priceArea),
@@ -94,7 +108,7 @@ class _GetProSheetBodyState extends ConsumerState<GetProSheetBody> {
         const SizedBox(height: MmSpace.s24),
         Semantics(header: true, child: Text(BillingCopy.proIncludesHeading, style: type.labelLarge.copyWith(color: colors.ink2))),
         const SizedBox(height: MmSpace.s8),
-        for (final line in BillingCopy.proIncludes) _IncludeRow(text: line),
+        for (final line in (widget.benefits != null && widget.benefits!.isNotEmpty ? widget.benefits! : BillingCopy.proIncludes)) _IncludeRow(text: line),
         BillingNotice(ids: {PlayProducts.proId}, showRestore: true),
         const SizedBox(height: MmSpace.s20),
         KeyButton(
