@@ -159,3 +159,38 @@ Every brief is in `docs/brain/briefs-1019/`.
 - **Usage:** 13-16 Opus agents burned about 88% of a 5-hour window in about 1 hour. Size waves to the account.
 - **The acceptance checklist caught a real product gap** (the range finder was unaffordable) before the build. Write acceptance steps first.
 - **Agents told to "commit and report"** at handoff leave usable WIP commits and exact continue-here notes. Prefer that over hard stops.
+
+## 4b. FINAL heads at about 3:05 am (all agents stopped; these supersede section 4's states)
+| Worktree | Head | Note |
+|---|---|---|
+| wt-1019-a1 | a07c9484 | STOP POINT over the A1 work. It was at "Now the Mob tab test". Review first. |
+| wt-1019-a2a | 4d557855 | "Onboarding copy pass and item tests (G1, G4, G6, G9)". Next: run the item tests, the emulator check of G3, the report. |
+| wt-1019-a2b | 8dac41bf | STOP POINT. It was adding the G13 tests. |
+| wt-1019-a3 | f0a4f21e | STOP POINT. It was adding goldens for the finish moment and Your papers. |
+| wt-1019-a5 | 1d99057c | G18 done in code (re-run test/unit/tools); G19 built. Next: range_1019 goldens, update the tools goldens, the emulator walk. Open: should the Today range card show by default on accounts with no range, or only on opt-in? |
+| wt-1019-c2 | 99431022 | WIP: Ask Mobi B; next steps in section 4. |
+| wt-1019-a4a | 25821e85 | **DONE**. Merge first. |
+| wt-1019-a4b | 0b395873 | All 4 items done in code. Lint passes; the new tests pass (startModel 16, review_page 15). Next: run test:app, today, recovery, auth and the build, the final captures and R4 against 23a7c090, the R2 lines and the copy list. Open: the one-line marks comparison above the papers was removed (the strip shows it); the trend chart shows only for All subjects. |
+| wt-1019-c1 | b7d71d72 | WIP: nav A built, unverified. Next: update the 7 old nav tests, a new web_nav_a_1019 test, sidebar compaction thresholds, trim the You sheet by 15 px (it scrolls at 390), the checks, the captures, a merge-tree check against a4a and a4b. "Practice" kept in place of "Practise". The Mobi door line is "He explains any answer." |
+| wt-1019-c3 | 1c0957af | WIP: hero C behind the flag; the CSS and tests are NOT done (section 4). |
+| wt-1019-w5 | 2cc8ff9e | WIP: the free first mock rule is done in code; tests and web copy are NOT done (section 4). |
+
+**G16 baseline walk** (partial, Night only): `tmp/walk-1019/BASELINE-FINDINGS.md` has 39 findings (9 HIGH, 18 MEDIUM, 12 LOW), 23 of them NEW. **The NEW HIGHs to fix:**
+1. **The staging OTP sign-in fails.** RESEND_API_KEY is blank on staging. The walker used a throwaway proxy (scratchpad). The rig needs a staging Resend key, or a documented test-login path.
+2. **The Suggested deck disappears from Today after the first paper.** A2b must fix it.
+
+**Also NEW (MEDIUM):**
+- the name shows as the email prefix;
+- "0 of 4 study days" after a paper;
+- Google looks active before the age question;
+- the fresh Weak chapters block has no action;
+- the confusing after-sign-in deck line;
+- the result's "proof it stuck" names an unrelated chapter;
+- "credits" means two pools with no label, and the practice balance still read 100 after a 10-credit set (check the server);
+- a Review chapter title breaks mid-word at 360;
+- the empty Repair button leads to an empty Review;
+- Ask Mobi is missing a full stop.
+
+**G7 evidence:** picks 4 and 5 look dropped from the ACCOUNT (You says 3 colleges), not just hidden on Today.
+
+**Web baseline:** captures of release 10 in tmp/walk-1019/baseline-web-r10 (partial; stopped at Practice).
