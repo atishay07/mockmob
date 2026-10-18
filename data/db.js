@@ -655,11 +655,40 @@ export const Database = {
       .limit(20);
     if (error) throw error;
 
-    return (data || []).some((row) => {
+    const razorpayEvidence = (data || []).some((row) => {
       if (excludingSubscriptionId && row.subscription_id === excludingSubscriptionId) return false;
       if (excludingPaymentId && row.payment_id === excludingPaymentId) return false;
       return true;
     });
+    // A Google Play Pro purchase still in force is paid evidence too (a Razorpay refund or cancel must not switch it off).
+    return razorpayEvidence || (await this.getPlayProAccess(userId)).hasPlayPro;
+  },
+
+  /**
+   * Google Play Pro purchases still in force for a user (play_purchases, kind pro, state granted): whether any exist and the
+   * latest date they run to. Read-only; a database without the table (migration 20261018190000 not applied) has none.
+   */
+  async getPlayProAccess(userId) {
+    if (!userId) return { hasPlayPro: false, accessUntil: null };
+    const { data, error } = await supabaseAdmin()
+      .from('play_purchases')
+      .select('access_until')
+      .eq('user_id', userId)
+      .eq('kind', 'pro')
+      .eq('state', 'granted')
+      .limit(20);
+    if (error) {
+      if (error.code === '42P01' || error.code === 'PGRST205' || /play_purchases|schema cache|relation .* does not exist/i.test(error.message || '')) {
+        return { hasPlayPro: false, accessUntil: null };
+      }
+      throw error;
+    }
+    let accessUntil = null;
+    for (const row of data || []) {
+      const ms = row.access_until ? new Date(row.access_until).getTime() : NaN;
+      if (Number.isFinite(ms) && (accessUntil === null || ms > new Date(accessUntil).getTime())) accessUntil = new Date(ms).toISOString();
+    }
+    return { hasPlayPro: (data || []).length > 0, accessUntil };
   },
 
   /**
@@ -689,6 +718,12 @@ export const Database = {
       hasOtherPaid = true;
       const ms = row.access_until ? new Date(row.access_until).getTime() : NaN;
       if (Number.isFinite(ms) && (accessUntil === null || ms > new Date(accessUntil).getTime())) accessUntil = new Date(ms).toISOString();
+    }
+    // Google Play Pro purchases in force count as other paid access: a Razorpay event must never shorten them.
+    const play = await this.getPlayProAccess(userId);
+    if (play.hasPlayPro) {
+      hasOtherPaid = true;
+      if (play.accessUntil && (accessUntil === null || new Date(play.accessUntil).getTime() > new Date(accessUntil).getTime())) accessUntil = play.accessUntil;
     }
     return { hasOtherPaid, accessUntil };
   },

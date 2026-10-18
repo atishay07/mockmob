@@ -14,6 +14,8 @@ const DAY_MS = 86_400_000;
 const RAW_ORDER_KEEP = ['id', 'entity', 'amount', 'amount_paid', 'amount_due', 'currency', 'receipt', 'status', 'created_at'];
 const RAW_PAYMENT_KEEP = ['id', 'entity', 'amount', 'currency', 'status', 'order_id', 'subscription_id', 'method', 'captured', 'created_at'];
 const RAW_SUBSCRIPTION_KEEP = ['id', 'entity', 'plan_id', 'status', 'total_count', 'paid_count', 'current_start', 'current_end', 'start_at', 'end_at', 'created_at'];
+// Google Play purchase records keep what ties a Google order to what was granted; the account hash and developer payload go.
+const PLAY_RAW_KEEP = ['kind', 'orderId', 'productId', 'quantity', 'purchaseTimeMillis', 'purchaseState', 'consumptionState', 'acknowledgementState', 'purchaseType', 'regionCode', 'voided'];
 // Runtime AI receipts: token counts and error fields only; the reply ('response') is the student's content.
 const RUNTIME_RECEIPT_KEEP = ['usage', 'stopReason', 'error', 'errorKind', 'status', 'code', 'type'];
 
@@ -105,6 +107,11 @@ export const DELETION_STEPS = Object.freeze([
       { column: 'raw_payment', value: { scrub_json: RAW_PAYMENT_KEEP } },
       { column: 'raw_subscription', value: { scrub_json: RAW_SUBSCRIPTION_KEEP } },
     ],
+  },
+  {
+    table: 'play_purchases', action: 'anonymise', match: own(),
+    why: 'Google Play purchase records are required by law; the stored Google response is cut to non-personal fields (migration 20261018190000)',
+    set: [{ column: 'raw', value: { scrub_json: PLAY_RAW_KEEP } }],
   },
   { table: 'credit_transactions', action: 'keep', match: own(), why: 'credit ledger tied to purchases and spends' },
   { table: 'ai_credit_ledger', action: 'keep', match: own(), why: 'credit ledger tied to purchases and spends' },
