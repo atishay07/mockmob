@@ -11,6 +11,7 @@ import '../domain/du_models.dart';
 import '../combo/combo_controller.dart';
 import '../colleges/colleges_copy.dart';
 import '../estimate/estimate.dart';
+import '../estimate/estimate_copy.dart';
 import '../estimate/estimate_providers.dart';
 import '../estimate/estimate_sheet.dart';
 import '../tools_paths.dart';
@@ -310,25 +311,16 @@ class _WhereYouStand extends ConsumerWidget {
     if (offerings == null || catalog == null) return const SizedBox.shrink();
     final ci = catalog.categoryIndex(category);
     final seen = <String>{};
-    var total = 0;
-    var clears = 0;
-    var within = 0;
+    final cutoffs = <double>[];
     for (final seat in offerings.seats) {
       if (!seen.add(seat.college)) continue;
       final c = duEffectiveCutoff(seat.rounds[0], ci);
-      if (c == null) continue;
-      total++;
-      switch (verdictFor(e, c).v) {
-        case Verdict.clears:
-          clears++;
-        case Verdict.within:
-          within++;
-        case Verdict.below || Verdict.noSeat:
-          break;
-      }
+      if (c != null) cutoffs.add(c);
     }
-    if (total == 0) return const SizedBox.shrink();
-    final act = clears > 0 ? MobiAct.nod : (within > 0 ? MobiAct.think : MobiAct.encourage);
+    // Counted with the rows' own rule and said in their words, safe and in reach (G18).
+    final reach = reachOf(e, cutoffs);
+    if (reach.total == 0) return const SizedBox.shrink();
+    final act = reach.safe > 0 ? MobiAct.nod : (reach.inReach > 0 ? MobiAct.think : MobiAct.encourage);
     return Padding(
       padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s16, MmSpace.gutter, 0),
       child: Row(
@@ -342,7 +334,7 @@ class _WhereYouStand extends ConsumerWidget {
                 children: [
                   Text(ToolsCopy.whereYouStand, style: type.caption.copyWith(color: colors.ink2)),
                   const SizedBox(height: MmSpace.s4),
-                  Text(CollegesCopy.programmeStands(clears, total, within), style: type.body.copyWith(color: colors.ink)),
+                  Text(EstimateCopy.programmeReach(reach), style: type.body.copyWith(color: colors.ink)),
                 ],
               ),
             ),

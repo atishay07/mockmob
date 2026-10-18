@@ -127,14 +127,8 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
   /// The Check a score preview is on show (until dismissed or saved).
   late bool _preview = _previewEstimate != null;
 
-  Estimate? get _previewEstimate {
-    final parts = widget.previewScore?.split('-');
-    if (parts == null) return null;
-    final lo = double.tryParse(parts.first.trim());
-    final hi = parts.length > 1 ? double.tryParse(parts[1].trim()) : lo;
-    if (lo == null || hi == null || lo < 0 || hi > 1000) return null;
-    return Estimate(source: EstimateSource.typed, low: lo < hi ? lo : hi, high: lo < hi ? hi : lo);
-  }
+  /// The link's score read with the sheet's own parser ("600-650", "600 to 650", "600–650").
+  Estimate? get _previewEstimate => widget.previewScore == null ? null : parseRange(widget.previewScore).estimate();
 
   @override
   void initState() {

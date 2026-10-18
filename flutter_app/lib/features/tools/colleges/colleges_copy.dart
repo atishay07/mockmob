@@ -99,19 +99,12 @@ abstract final class CollegesCopy {
   static const String category = 'Category';
   static const String from = 'From';
   static const String to = 'To';
-  static const String fieldHelp = 'Out of 1000. A range is fine; most students aren’t sure yet.';
-  static const String fieldError = 'Enter a number from 0 to 1000.';
-  static const String typeToSee = 'Type a score to see what it clears';
-  static String clearsOf(int clears, int total) => '$clears of $total';
-  static String clearsLine(String range, String category, int within) =>
-      'A score of $range clears these in Round 1, 2026 (${categoryLabel(category)}).${within > 0 ? ' $within more are within the range.' : ''}';
-  static String yourCollegesClear(int n, int of) => 'Your colleges: $n of $of clear';
+  // The field's help and problems, and the headline's words, live in EstimateCopy (one parser and
+  // one pair of words, "safe" and "in reach", for every screen: owner, 19 Oct, G18).
+  static const String typeToSee = 'Type a score to see which colleges it reaches.';
   static const String seeEvery = 'See every programme';
   static const String useAsEstimate = 'Use as my estimate';
   static const String savedEstimate = 'Saved as your estimate.';
-  static String clearsOfCourse(int clears, int total, String course) => '$clears of $total $course colleges';
-  static String estimateClearsLine(bool point, int within) =>
-      point ? 'your estimate clears' : (within > 0 ? 'your range clears, $within more within it' : 'your range clears');
   static const String typeToUse = 'Type a score first.';
   static const String toWord = 'to';
 
@@ -119,7 +112,6 @@ abstract final class CollegesCopy {
   static const String fromMocks = 'From your latest full mocks';
   static const String fromProjection = 'From your practice projection';
   static const String typeOwn = 'Type your own';
-  static const String mocksTruth = 'Raw marks, out of 250 a paper. Your last 3 mocks in each paper set the range.';
   static const String clearEstimate = 'Clear my estimate';
   static String partial(int filled, List<String> missing) {
     final need = missing.isEmpty
@@ -131,8 +123,6 @@ abstract final class CollegesCopy {
   static String practise(String subject) => 'Practise $subject';
   static String _and(List<String> xs) => xs.length <= 1 ? xs.join() : '${xs.sublist(0, xs.length - 1).join(', ')} and ${xs.last}';
 
-  static String programmeStands(int clears, int total, int within) =>
-      'Your estimate clears $clears of $total colleges here.${within > 0 ? ' $within more ${within == 1 ? 'is' : 'are'} within your range.' : ''}';
   static const String loadingCutoffs = 'Loading DU cutoffs';
   static const String cutoffsOffline = 'Cutoffs load once with a connection, then stay on this phone.';
   static const String tryAgain = 'Try again';

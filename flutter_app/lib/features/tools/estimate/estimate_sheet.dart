@@ -1,8 +1,9 @@
 // Your estimate, and Check a score (L26). One sheet, two modes:
 //
-// - estimate: opened from "Change" or "Type an estimate" on any estimate bar. The student picks
-//   where their estimate comes from (their latest full mocks, the practice projection, or a range
-//   they type) and sees, live, how many of their course's colleges it clears. Done saves.
+// - estimate: opened from "Change" or "Type an estimate" on any estimate bar, from Your plan and
+//   from Today's range card. The student picks where their estimate comes from (their latest full
+//   mocks, the practice projection, a range they type, or "I don't know my range yet") and sees,
+//   live, how many of their course's colleges it makes safe and how many it puts in reach. Done saves.
 // - check (`/colleges/cutoff`, the website's /cuet-cutoff-calculator): a typed score or range
 //   against one course's 2026 Round 1 cutoffs. Nothing is kept unless they tap "Use as my estimate".
 //
@@ -34,17 +35,23 @@ import '../tools_paths.dart';
 import '../widgets/size_reveal.dart';
 import '../widgets/tools_parts.dart' show ToolsRing;
 import 'estimate.dart';
+import 'estimate_copy.dart';
 import 'estimate_providers.dart';
+import 'mock_estimate.dart' show RangeProgress;
+import 'range_choice.dart';
+import 'range_steps_bar.dart';
 
 enum EstimateMode { estimate, check }
 
-/// Opens the sheet over the current screen. [initialScore] ("612" or "600-650") and
-/// [initialCategory] prefill check mode (a web link's `?score=`).
+/// Opens the sheet over the current screen. [initialScore] ("612", "600-650" or "600 to 650") and
+/// [initialCategory] prefill check mode (a web link's `?score=`). [typeOwn] opens on "Type your own"
+/// (Today's "I know my range").
 Future<void> showEstimateSheet(
   BuildContext context, {
   EstimateMode mode = EstimateMode.estimate,
   String? initialScore,
   String? initialCategory,
+  bool typeOwn = false,
 }) {
   final colors = context.mmColors;
   final reduced = Motion.reduced(context);
@@ -65,7 +72,7 @@ Future<void> showEstimateSheet(
       curve: reduced ? Curves.linear : Motion.emphasized,
       reverseCurve: reduced ? Curves.linear : Motion.drawer,
     ),
-    builder: (context) => EstimateSheet(mode: mode, initialScore: initialScore, initialCategory: initialCategory),
+    builder: (context) => EstimateSheet(mode: mode, initialScore: initialScore, initialCategory: initialCategory, typeOwn: typeOwn),
   );
 }
 
@@ -98,14 +105,17 @@ class CheckScorePage extends Page<void> {
   }
 }
 
-enum _Source { mocks, projection, typed }
+enum _Source { mocks, projection, typed, unknown }
 
 class EstimateSheet extends ConsumerStatefulWidget {
-  const EstimateSheet({super.key, this.mode = EstimateMode.estimate, this.initialScore, this.initialCategory, this.embedded = false});
+  const EstimateSheet({super.key, this.mode = EstimateMode.estimate, this.initialScore, this.initialCategory, this.embedded = false, this.typeOwn = false});
 
   final EstimateMode mode;
   final String? initialScore;
   final String? initialCategory;
+
+  /// Opens on "Type your own".
+  final bool typeOwn;
 
   /// Inside a host sheet that brings its own glass, handle and scroll (the router's `sheet(...)`):
   /// only the body and the keys, with room under them for the keyboard so the fields can scroll
@@ -138,19 +148,18 @@ class _EstimateSheetState extends ConsumerState<EstimateSheet> {
     super.initState();
     final current = ref.read(estimateProvider);
     final typed = ref.read(typedEstimateProvider);
-    final given = widget.initialScore?.split('-');
+    // A link's score ("600-650", "600 to 650", "600–650") reads with the same parser as the fields.
+    final given = widget.initialScore == null ? null : parseRange(widget.initialScore);
     // Check mode starts from the estimate the student has; estimate mode from what they typed.
-    final Estimate? seed = _check ? current : typed;
-    _from = TextEditingController(text: given != null ? given.first.trim() : (seed == null ? '' : estimateFigure(seed.low)));
-    _to = TextEditingController(
-      text: given != null && given.length > 1 ? given[1].trim() : (seed == null || seed.isPoint ? '' : estimateFigure(seed.high)),
-    );
+    final Estimate? seed = given?.estimate() ?? (_check ? current : typed);
+    _from = TextEditingController(text: seed == null ? (widget.initialScore ?? '') : estimateFigure(seed.low));
+    _to = TextEditingController(text: seed == null || seed.isPoint ? '' : estimateFigure(seed.high));
     if (!_check) {
-      _source = switch (current?.source) {
-        EstimateSource.mocks => _Source.mocks,
-        EstimateSource.projection => _Source.projection,
-        _ => _Source.typed,
-      };
+      _source = _sourceNow(current);
+      if (widget.typeOwn) {
+        _source = _Source.typed;
+        _picked = true;
+      }
     }
     final category = widget.initialCategory;
     if (category != null) {
@@ -174,21 +183,53 @@ class _EstimateSheetState extends ConsumerState<EstimateSheet> {
     super.dispose();
   }
 
-  double? _parse(String t) {
-    final v = double.tryParse(t.trim());
-    if (v == null || v < 0 || v > 1000) return null;
-    return v;
+  /// Which row the sheet opens on: what the student said, else the estimate that wins.
+  _Source _sourceNow(Estimate? current) => _sourceFor(current, ref.read(rangeChoiceProvider).value, ref.read(typedEstimateProvider));
+
+  static _Source _sourceFor(Estimate? current, RangeMemory? memory, Estimate? typed) {
+    if (memory?.choice == RangeChoice.unknown && typed == null) return _Source.unknown;
+    return switch (current?.source) {
+      EstimateSource.mocks => _Source.mocks,
+      EstimateSource.projection => _Source.projection,
+      _ => _Source.typed,
+    };
   }
 
-  bool get _fromError => _from.text.trim().isNotEmpty && _parse(_from.text) == null;
-  bool get _toError => _to.text.trim().isNotEmpty && _parse(_to.text) == null;
+  /// The two fields read as one range (G18): "900", "900 to 920", "900-920", a pasted range in
+  /// From, or a lower To that swaps. Over 200 marks apart is too wide to say anything.
+  ParsedRange get _parsed => parseRangeFields(_from.text, _to.text);
 
-  /// The typed range, or null while it is empty or out of range. To is optional; a lower To swaps.
-  Estimate? get _typed {
-    final low = _parse(_from.text);
-    if (low == null || _toError) return null;
-    final high = _to.text.trim().isEmpty ? low : _parse(_to.text)!;
-    return Estimate(source: EstimateSource.typed, low: math.min(low, high), high: math.max(low, high));
+  bool get _typing => _from.text.trim().isNotEmpty || _to.text.trim().isNotEmpty;
+
+  /// The problem to show, once something is typed.
+  RangeProblem? get _problem => _typing ? _parsed.problem : null;
+
+  /// From is at fault when it is empty under a To, or holds something that is not a score.
+  bool get _fromError {
+    final p = _problem;
+    if (p == null || p == RangeProblem.tooWide) return false;
+    if (p == RangeProblem.empty) return true;
+    final f = _from.text.trim();
+    return f.isNotEmpty && !parseRange(f).ok;
+  }
+
+  bool get _toError => _problem != null && !_fromError;
+
+  /// The typed range, or null while it is empty or has a problem.
+  Estimate? get _typed => _parsed.estimate();
+
+  /// A whole range typed or pasted into From moves its high end into To, so the two fields always
+  /// show what is read. Only once the second figure is as long as the first: "100-12" is still
+  /// being typed, "100-120" is a range.
+  void _fromChanged(String text) {
+    final r = parseRange(text);
+    final figures = RegExp(r'\d+').allMatches(text).map((m) => m.group(0)!.length).toList();
+    final finished = figures.length >= 2 && figures.last >= figures.first;
+    if (r.ok && !r.isPoint && finished && _to.text.trim().isEmpty) {
+      _from.value = TextEditingValue(text: estimateFigure(r.low!), selection: TextSelection.collapsed(offset: estimateFigure(r.low!).length));
+      _to.text = estimateFigure(r.high!);
+    }
+    setState(() => _saved = false);
   }
 
   /// The courses to show it against: the programmes on My colleges, then the onboarding course,
@@ -213,9 +254,10 @@ class _EstimateSheetState extends ConsumerState<EstimateSheet> {
     }
   }
 
-  /// The estimate the ring shows: in check mode the typed one; in estimate mode the chosen source.
+  /// The estimate the ring shows: in check mode the typed one; in estimate mode the chosen source
+  /// ("I don't know my range yet" shows the mocks' estimate once there is one).
   Estimate? _shown(Estimate? mocks, Estimate? projection) => switch (_check ? _Source.typed : _source) {
-        _Source.mocks => mocks,
+        _Source.mocks || _Source.unknown => mocks,
         _Source.projection => projection,
         _ => _typed,
       };
@@ -223,22 +265,32 @@ class _EstimateSheetState extends ConsumerState<EstimateSheet> {
   /// Done with an invalid field focuses it and shakes it; Done with nothing typed changes nothing.
   void _done(Estimate? mocks, Estimate? projection) {
     final c = ref.read(compassControllerProvider.notifier);
-    if (_source == _Source.typed) {
-      if (_fromError || (_from.text.trim().isEmpty && _to.text.trim().isNotEmpty)) {
-        _fromShake.value++;
-        _fromFocus.requestFocus();
-        return;
-      }
-      if (_toError) {
-        _toShake.value++;
-        _toFocus.requestFocus();
-        return;
-      }
-      final t = _typed;
-      if (t != null) c.setEstimate(t.low, t.isPoint ? null : t.high);
-    } else {
-      // Mocks or the projection: a typed figure would outrank them, so it goes.
-      c.clearEstimate();
+    final choice = ref.read(rangeChoiceProvider.notifier);
+    switch (_source) {
+      case _Source.typed || null:
+        if (_fromError) {
+          _fromShake.value++;
+          _fromFocus.requestFocus();
+          return;
+        }
+        if (_toError) {
+          _toShake.value++;
+          _toFocus.requestFocus();
+          return;
+        }
+        final t = _typed;
+        if (t != null) {
+          c.setEstimate(t.low, t.isPoint ? null : t.high);
+          choice.chooseTyped();
+        }
+      case _Source.mocks || _Source.projection:
+        // Mocks or the projection: a typed figure would outrank them, so it goes.
+        c.clearEstimate();
+        choice.accept();
+      case _Source.unknown:
+        // Their mocks will find it: Today shows the way, one full mock in each subject.
+        c.clearEstimate();
+        choice.chooseUnknown();
     }
     Navigator.of(context).maybePop();
   }
@@ -249,16 +301,16 @@ class _EstimateSheetState extends ConsumerState<EstimateSheet> {
     final c = ref.read(compassControllerProvider.notifier);
     c.setCategory(_categoryNow());
     c.setEstimate(t.low, t.isPoint ? null : t.high);
+    ref.read(rangeChoiceProvider.notifier).chooseTyped();
     HapticFeedback.selectionClick();
     setState(() => _saved = true);
   }
 
   void _seeEvery() {
-    final t = _typed;
     final q = <String, String>{
       'from': 'colleges',
       'category': _categoryNow(),
-      if (t != null) 'score': t.isPoint ? estimateFigure(t.low) : '${estimateFigure(t.low)}-${estimateFigure(t.high)}',
+      'score': ?_parsed.link,
     };
     final router = GoRouter.of(context);
     Navigator.of(context).maybePop();
@@ -272,11 +324,7 @@ class _EstimateSheetState extends ConsumerState<EstimateSheet> {
     final mocks = ref.watch(mocksEstimateProvider);
     final projection = mocks == null ? ref.watch(projectionEstimateProvider) : null;
     if (!_check && !_picked) {
-      _source = switch (ref.watch(estimateProvider)?.source) {
-        EstimateSource.mocks => _Source.mocks,
-        EstimateSource.projection => _Source.projection,
-        _ => _Source.typed,
-      };
+      _source = _sourceFor(ref.watch(estimateProvider), ref.watch(rangeChoiceProvider).value, ref.watch(typedEstimateProvider));
     }
     final shown = _shown(mocks, projection);
     final colors = context.mmColors;
@@ -348,6 +396,7 @@ class _EstimateSheetState extends ConsumerState<EstimateSheet> {
               label: CollegesCopy.clearEstimate,
               onPressed: () {
                 ref.read(compassControllerProvider.notifier).clearEstimate();
+                ref.read(rangeChoiceProvider.notifier).clear();
                 Navigator.of(context).maybePop();
               },
             ),
@@ -398,7 +447,7 @@ class _EstimateSheetState extends ConsumerState<EstimateSheet> {
             ),
             const SizedBox(height: MmSpace.s12),
           ];
-    final result = _Result(course: course, category: category, estimate: shown, catalog: catalog, check: _check);
+    final result = _Result(course: course, category: category, estimate: shown, catalog: catalog, unknown: !_check && _source == _Source.unknown);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
@@ -444,7 +493,7 @@ class _EstimateSheetState extends ConsumerState<EstimateSheet> {
             const SizedBox(height: MmSpace.s4),
             Text([for (final p in mocks.papers) '${subject(p.id)} ${p.marks}'].join(' · '), style: type.caption.copyWith(color: colors.ink2)),
             const SizedBox(height: MmSpace.s4),
-            Text(CollegesCopy.mocksTruth, style: type.caption.copyWith(color: colors.ink3)),
+            Text(EstimateCopy.mocksTruth, style: type.caption.copyWith(color: colors.ink3)),
           ],
         )
       else if (partial != null)
@@ -494,7 +543,42 @@ class _EstimateSheetState extends ConsumerState<EstimateSheet> {
           ),
         ],
       ),
+      // "I don't know my range yet" (D109): their mocks find it, one full mock in each subject.
+      _SourceRow(
+        selected: _source == _Source.unknown,
+        title: EstimateCopy.unknownTitle,
+        onTap: () => setState(() {
+          _picked = true;
+          _source = _Source.unknown;
+        }),
+        children: [
+          SizeReveal(
+            duration: Motion.card,
+            child: _source == _Source.unknown ? _unknownBody(context) : const SizedBox(width: double.infinity),
+          ),
+        ],
+      ),
     ];
+  }
+
+  Widget _unknownBody(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final RangeProgress? progress = ref.watch(rangeProgressProvider);
+    return Padding(
+      padding: const EdgeInsets.only(top: MmSpace.s4, bottom: MmSpace.s8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(EstimateCopy.unknownBody, style: type.caption.copyWith(color: colors.ink2)),
+          if (progress != null && progress.total > 0) ...[
+            const SizedBox(height: MmSpace.s12),
+            RangeStepsBar(progress: progress),
+          ],
+        ],
+      ),
+    );
   }
 
   Widget _fields(BuildContext context) {
@@ -508,7 +592,7 @@ class _EstimateSheetState extends ConsumerState<EstimateSheet> {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(child: MmShake(pulse: _fromShake, child: _field(_from, _fromFocus, CollegesCopy.from, _fromError))),
+            Expanded(child: MmShake(pulse: _fromShake, child: _field(_from, _fromFocus, CollegesCopy.from, _fromError, whole: true))),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8, vertical: 16),
               child: Text(CollegesCopy.toWord, style: type.body.copyWith(color: colors.ink2)),
@@ -520,7 +604,7 @@ class _EstimateSheetState extends ConsumerState<EstimateSheet> {
         Semantics(
           liveRegion: error,
           child: Text(
-            error ? CollegesCopy.fieldError : CollegesCopy.fieldHelp,
+            error ? EstimateCopy.problem(_problem!) : EstimateCopy.fieldHelp,
             style: type.caption.copyWith(color: error ? colors.badText : colors.ink3),
           ),
         ),
@@ -528,13 +612,16 @@ class _EstimateSheetState extends ConsumerState<EstimateSheet> {
     );
   }
 
-  Widget _field(TextEditingController c, FocusNode focus, String label, bool error) => TextField(
+  /// [whole]: From also takes a whole range ("900-920", "900 to 920"), typed or pasted.
+  Widget _field(TextEditingController c, FocusNode focus, String label, bool error, {bool whole = false}) => TextField(
         controller: c,
         focusNode: focus,
         keyboardType: const TextInputType.numberWithOptions(decimal: true),
-        inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')), LengthLimitingTextInputFormatter(6)],
+        inputFormatters: whole
+            ? [FilteringTextInputFormatter.allow(RegExp(r'[0-9. \-–—~toTO]')), LengthLimitingTextInputFormatter(16)]
+            : [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')), LengthLimitingTextInputFormatter(6)],
         textInputAction: TextInputAction.done,
-        onChanged: (_) => setState(() => _saved = false),
+        onChanged: whole ? _fromChanged : (_) => setState(() => _saved = false),
         // Embedded, the host does not lift itself over the keyboard: ask for the keys' room too.
         scrollPadding: EdgeInsets.fromLTRB(120, 120, 120, 120 + (widget.embedded ? MediaQuery.viewInsetsOf(context).bottom : 0)),
         style: context.mmType.body.copyWith(fontFeatures: const [FontFeature.tabularFigures()]),
@@ -600,16 +687,19 @@ class _SourceRow extends StatelessWidget {
   }
 }
 
-/// The ring: how many of the course's colleges the estimate clears in Round 1, and how many more it
-/// is within; then the student's own colleges.
+/// The ring: how many of the course's colleges the estimate makes safe or puts in reach in Round 1
+/// (the ring's figure is both together), the same two words the rows use, what they mean in the
+/// student's own figures, then their own colleges counted the same way (G18).
 class _Result extends ConsumerWidget {
-  const _Result({required this.course, required this.category, required this.estimate, required this.catalog, required this.check});
+  const _Result({required this.course, required this.category, required this.estimate, required this.catalog, this.unknown = false});
 
   final String course;
   final String category;
   final Estimate? estimate;
   final DuCatalog? catalog;
-  final bool check;
+
+  /// "I don't know my range yet" is chosen and the mocks have no estimate yet.
+  final bool unknown;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -643,35 +733,26 @@ class _Result extends ConsumerWidget {
     }
     final total = figures.length;
     final e = estimate;
-    var clears = 0;
-    var within = 0;
-    if (e != null) {
-      for (final f in figures) {
-        final v = verdictFor(e, f).v;
-        if (v == Verdict.clears) clears++;
-        if (v == Verdict.within) within++;
-      }
-    }
+    final reach = e == null ? const Reach() : reachOf(e, figures);
     final name = cat.group(course)?.name ?? course;
     final view = ref.watch(myCollegesProvider);
-    var mineClear = 0;
-    var mineKnown = 0;
+    final mine = <double?>[];
     if (e != null && view.ready) {
       for (final c in view.colleges) {
         final f = ref.watch(collegeFigureProvider((c.programmeId, c.college, category)));
         if (!f.known || f.figure == null) continue;
-        mineKnown++;
-        if (verdictFor(e, f.figure).v == Verdict.clears) mineClear++;
+        mine.add(f.figure);
       }
     }
+    final mineReach = e == null ? const Reach() : reachOf(e, mine);
     return MergeSemantics(
       child: Row(
         children: [
           ToolsRing(
             size: 88,
             stroke: 7,
-            fraction: total == 0 || e == null ? 0 : clears / total,
-            child: Text(e == null ? '–' : '$clears', style: type.figureCompact.copyWith(color: colors.ink)),
+            fraction: total == 0 || e == null ? 0 : reach.reachable / total,
+            child: Text(e == null ? '–' : '${reach.reachable}', style: type.figureCompact.copyWith(color: colors.ink)),
           ),
           const SizedBox(width: MmSpace.s16),
           Expanded(
@@ -679,17 +760,14 @@ class _Result extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (e == null)
-                  Text(CollegesCopy.typeToSee, style: type.body.copyWith(color: colors.ink2))
+                  Text(unknown ? EstimateCopy.unknownRing : CollegesCopy.typeToSee, style: type.body.copyWith(color: colors.ink2))
                 else ...[
-                  Text(CollegesCopy.clearsOfCourse(clears, total, name), style: type.labelLarge.copyWith(color: colors.ink)),
+                  Text(EstimateCopy.courseReach(reach, name), style: type.labelLarge.copyWith(color: colors.ink)),
                   const SizedBox(height: MmSpace.s4),
-                  Text(
-                    check ? CollegesCopy.clearsLine(estimateRange(e), category, within) : CollegesCopy.estimateClearsLine(e.isPoint, within),
-                    style: type.caption.copyWith(color: colors.ink2),
-                  ),
-                  if (mineKnown > 0) ...[
+                  Text(EstimateCopy.meaning(e, category), style: type.caption.copyWith(color: colors.ink2)),
+                  if (mineReach.total > 0) ...[
                     const SizedBox(height: MmSpace.s4),
-                    Text(CollegesCopy.yourCollegesClear(mineClear, mineKnown), style: type.caption.copyWith(color: colors.accentText)),
+                    Text(EstimateCopy.yourColleges(mineReach), style: type.caption.copyWith(color: colors.accentText)),
                   ],
                 ],
               ],

@@ -27,6 +27,7 @@ import '../logic/today_model.dart';
 import '../logic/today_reactions.dart';
 import '../widgets/also_slots.dart';
 import '../../social/social.dart' show MobTodayBlock;
+import '../../tools/estimate/range_today_card.dart' show RangeTodayBlock;
 import '../widgets/colleges_card.dart' show CollegesCardInfo, CollegesCardStatus;
 import '../widgets/move_hero.dart';
 import '../widgets/open_paper_hero.dart';
@@ -799,6 +800,7 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
           ),
         ),
       ),
+      const TodayEnter(delay: Duration(milliseconds: 210), rise: 8, child: MmSizeEase(duration: Motion.card, curve: Motion.out, alignment: Alignment.topCenter, clipBehavior: Clip.none, child: RangeTodayBlock())), // A5 (D109): the way to a score range; draws nothing once the student has one.
       // The Mob card (SOCIAL-SPEC 8, 9): only when the student is in a Mob, so it adds nothing otherwise.
       // It reads its Mob after the page: it eases open rather than appearing at full height (L03).
       const TodayEnter(

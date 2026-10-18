@@ -11,6 +11,9 @@ import '../../../core/widgets/widgets.dart';
 import '../../onboarding/model/answers.dart' show OnboardingAnswers;
 import '../../onboarding/state/answers_controller.dart' show onboardingAnswersProvider;
 import '../../tools/data/my_colleges_actions.dart' show myCollegesProvider;
+import '../../tools/estimate/estimate_copy.dart' show EstimateCopy;
+import '../../tools/estimate/estimate_providers.dart' show rangePlanNoteProvider;
+import '../../tools/estimate/estimate_sheet.dart' show showEstimateSheet;
 import '../account/name_sheet.dart';
 import '../copy.dart';
 import '../data/sheet_editor.dart' show CourseSnapshot, sheetEditorProvider;
@@ -164,6 +167,14 @@ class _SheetEditorScreenState extends ConsumerState<SheetEditorScreen> {
               note: _collegesNote(ref, target.colleges),
               // Colleges have one home, the Colleges tab (IA D2): the row goes there.
               onTap: () => context.go(AppRoutes.colleges),
+            ),
+            // The score range (G18, G19): typed, from the mocks, or "I don't know my range yet".
+            YouRow(
+              flat: true,
+              icon: LucideIcons.chartColumnIncreasing,
+              title: EstimateCopy.planRow,
+              note: ref.watch(rangePlanNoteProvider),
+              onTap: () => showEstimateSheet(context),
             ),
             YouRow(
               flat: true,
