@@ -3,7 +3,9 @@
 // what's due for the week, and showing the overall goal"). Built by `buildGlance` (pure, unit
 // tested) and rendered by the glance widgets. Unknown is never zero: a block that could not be
 // read says so instead of showing a count.
+import 'marks_trend.dart';
 import 'today_model.dart';
+import 'weeks_ahead.dart';
 
 /// One of the lead card's other moves: a tap swaps the card to [hero] in place, or runs [action]
 /// when the choice only opens something (the done state's "See tonight's repairs").
@@ -250,7 +252,13 @@ class QueueTiles {
 }
 
 class TodayGlance {
-  const TodayGlance({this.readouts, this.road, this.weak = const WeakChapters(), this.paper, this.queue = const QueueTiles()});
+  const TodayGlance({this.readouts, this.road, this.weak = const WeakChapters(), this.paper, this.queue = const QueueTiles(), this.ahead, this.marks});
+
+  /// The weeks ahead after Road to CUET (D52), or null without the road.
+  final WeeksAhead? ahead;
+
+  /// The marks of the last full mocks in the move's subject (D52), or null with fewer than two.
+  final MarksTrend? marks;
 
   /// One readout per weekday (Monday first), or null without the week.
   final List<DayReadout>? readouts;

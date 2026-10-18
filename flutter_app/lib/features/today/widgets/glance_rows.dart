@@ -76,10 +76,14 @@ class GlanceLink extends StatelessWidget {
 }
 
 class LastPaperBlock extends StatelessWidget {
-  const LastPaperBlock({super.key, required this.detail, this.onOpen});
+  const LastPaperBlock({super.key, required this.detail, this.onOpen, this.headed = true});
 
   final PaperDetail detail;
   final void Function(TodayTarget target)? onOpen;
+
+  /// False inside Your marks (D52): the block keeps everything but says "Last paper" as a quiet
+  /// caption under the marks line instead of a section title of its own.
+  final bool headed;
 
   @override
   Widget build(BuildContext context) {
@@ -95,8 +99,13 @@ class LastPaperBlock extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        const GlanceHead(title: GlanceCopy.paperTitle),
-        const SizedBox(height: MmSpace.s12),
+        if (headed) ...[
+          const GlanceHead(title: GlanceCopy.paperTitle),
+          const SizedBox(height: MmSpace.s12),
+        ] else ...[
+          Semantics(header: true, child: Text(GlanceCopy.paperTitle, style: type.caption.copyWith(fontSize: 13, color: colors.ink3))),
+          const SizedBox(height: 2),
+        ],
         MmPressable(
           onTap: onOpen == null ? null : () => onOpen!(p.target),
           semanticsLabel: '${p.title}. ${p.sub}. ${p.marks} ${GlanceCopy.paperBar(d.right, d.wrong, d.blank, d.total)}. ${GlanceCopy.openResult}.',

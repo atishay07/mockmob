@@ -16,6 +16,7 @@ import '../copy.dart';
 import '../copy_glance.dart';
 import '../../../core/copy/formatters.dart' show formatTime12;
 import 'links.dart';
+import 'marks_trend.dart';
 import 'move_builder.dart';
 import 'road_board.dart';
 import 'road_builder.dart' show expectedWindowStart;
@@ -23,6 +24,7 @@ import 'subjects.dart';
 import 'today_builder.dart' show buildLastPaper;
 import 'today_inputs.dart';
 import 'today_model.dart';
+import 'weeks_ahead.dart';
 import '../../../core/domain/cuet_dates.dart';
 
 /// Marks a wrong answer cost: 5 not gained plus 1 taken (CUET marking).
@@ -173,6 +175,8 @@ TodayGlance buildGlance(TodayInputs i, {MoveHero? lead, RoadModel? road}) {
     weak: weak,
     paper: buildPaperDetail(i),
     queue: buildQueue(i),
+    ahead: road?.board == null ? null : buildWeeksAhead(i, board: road!.board!),
+    marks: buildMarksTrend(i, subject: lead?.subjectId),
   );
 }
 
