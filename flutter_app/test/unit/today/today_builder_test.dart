@@ -242,7 +242,7 @@ void main() {
 
   group('plain copy: no verdict hedges', () {
     test('the thin and early lines say what to do next', () {
-      expect(TodayCopy.thinLine, 'From one paper. Ten more questions sharpen this.');
+      expect(TodayCopy.thinLine, 'You have only one paper so far. Ten more questions will sharpen the picture.');
       for (final line in [TodayCopy.thinLine, TodayCopy.whyEarly, TodayCopy.earlySignal]) {
         expect(line.toLowerCase(), isNot(contains('verdict')));
         expect(line.toLowerCase(), isNot(contains('signal')));

@@ -154,14 +154,14 @@ abstract final class TodayCopy {
   static String startRepair(int minutes) => 'Start repair, $minutes min';
   static String aajKaRepair(int minutes, String chapter) => 'Aaj ka repair: $minutes minutes, $chapter.';
   static String basedOn(DateTime date) => 'Marked on ${formatDayMonth(date)}.';
-  static const String earlySignal = 'From one paper. Another mock sharpens this.';
+  static const String earlySignal = 'This comes from one paper so far. Another mock will sharpen it.';
 
   // Other next-move states (spec 5.3 table, in this voice).
   static String staleLabel(int days) => '${pluralWord(days, 'day')}\nsince a mock';
   static String staleLine(DateTime date) => 'Your last mock was on ${formatDayMonth(date)}. A fresh set will update this.';
   static const String practiseToRefresh = 'Practise to refresh';
   static String thinLabel(int n) => '${pluralWord(n, 'question')}\nso far';
-  static const String thinLine = 'From one paper. Ten more questions sharpen this.';
+  static const String thinLine = 'You have only one paper so far. Ten more questions will sharpen the picture.';
   static const String checkThisSkill = 'Check this skill';
   static String repairedLabel(int n) => 'repaired\nfrom $n';
   static String repairedNumberLabel(String source) => 'repaired\nfrom $source';
@@ -558,7 +558,7 @@ abstract final class TodayCopy {
     if (wrong == 0) return '$blank not attempted';
     return '$wrong wrong, $blank not attempted';
   }
-  static const String whyEarly = 'One paper so far. Each mock you add sharpens it.';
+  static const String whyEarly = 'You have one paper so far. Each mock you add sharpens the picture.';
   static const String whyRepair =
       'A repair walks you through each mistake with a worked explanation, then lets you try a similar question.';
   static const String seeMyAnswers = 'See my answers';

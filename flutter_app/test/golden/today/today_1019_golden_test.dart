@@ -63,6 +63,37 @@ TodayView _heavyFive() => buildToday(ashaInputs(
       profile: const TodayProfile(ladder: _five, weakestSubject: 'accountancy', restWeekdays: {7}),
     ));
 
+
+/// One Quick 10 in Accountancy three hours ago, its result not yet opened: the paper's reel leads Today.
+TodayView _afterPaper() => buildToday(ashaInputs(
+      now: _sunday,
+      attempts: [
+        paper(
+          id: 'q1',
+          subject: 'accountancy',
+          mode: 'quick',
+          completedAt: _sunday.subtract(const Duration(hours: 3)),
+          runs: const [('Partnership', V.right, 2), ('Partnership', V.wrong, 1), ('Partnership', V.blank, 7)],
+        ),
+      ],
+      week: _newWeek,
+      mobInvite: true,
+      subjects: const ['english', 'accountancy', 'business_studies', 'economics'],
+      profile: const TodayProfile(
+        ladder: _five,
+        weakestSubject: 'accountancy',
+        weakestRated: 'accountancy',
+        subjects: ['accountancy', 'economics', 'business_studies', 'english'],
+      ),
+      unopened: [(attemptId: 'q1', receivedAt: _sunday.subtract(const Duration(minutes: 3)))],
+    ));
+
+Future<void> _toWeak(WidgetTester tester) async {
+  await tester.scrollUntilVisible(find.text('Weak chapters'), 300, scrollable: find.byType(Scrollable).first);
+  await tester.drag(find.byType(Scrollable).first, const Offset(0, -140));
+  await tester.pumpAndSettle();
+}
+
 const double _toStack = 420;
 
 Future<void> _tap(WidgetTester tester, Key key) async {
@@ -117,6 +148,19 @@ void main() {
   // through them again.
   todayGolden('today1019_fresh_end', _fresh, size: _phone, scrollTo: _toStack, act: _passAll);
   todayGolden('today1019_fresh_end_360_text130', _fresh, size: _small, scrollTo: _toStack + 200, textScale: 1.3, act: _passAll);
+
+  // After the first paper the reel leads and the deck is still under it (the walk's HIGH); a card
+  // picked there takes the lead and the paper waits in a row under it.
+  todayGolden('today1019_after_paper_reel', _afterPaper, size: _phone, scrollTo: 380);
+  todayGolden('today1019_after_paper_reel_360_text130', _afterPaper, size: _small, textScale: 1.3, scrollTo: 560);
+  todayGolden('today1019_after_paper_picked', _afterPaper, size: _phone, act: (t) async {
+    await t.tap(find.byKey(SuggestedStack.upNextKey));
+    await t.pumpAndSettle();
+  });
+
+  // The fresh "Weak chapters" block: where to start, and the key that starts there.
+  todayGolden('today1019_weak_dayone', _fresh, size: _phone, act: _toWeak);
+  todayGolden('today1019_weak_dayone_360_text130', _fresh, size: _small, textScale: 1.3, act: _toWeak);
 
   // Your colleges with five picks: the top 3 of 5, labelled, and See all 5 colleges.
   todayGolden('today1019_colleges5', _heavyFive, size: _phone, act: _toColleges);
