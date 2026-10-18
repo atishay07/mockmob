@@ -65,19 +65,19 @@ void main() {
       await _pump(tester, TodayBody(view: view, skeletonDelay: Duration.zero, callbacks: TodayCallbacks(onAction: events.add, onTarget: events.add)));
       expect(find.text(GlanceCopy.titleRepair), findsOneWidget);
       expect(find.text(GlanceCopy.suggested), findsNothing);
-      // Revise is on top; Skip sends it to the back and the weakest chapter comes up.
-      expect(onTop(SuggestedCopy.titleRevise), findsOneWidget);
+      // The weakest chapter is on top (the approved deck); Skip sends it away and Revise comes up.
+      expect(onTop(GlanceCopy.titleWeakest), findsOneWidget);
       await tester.tap(onTop(SuggestedCopy.skip));
       await tester.pumpAndSettle();
-      expect(onTop(SuggestedCopy.titleWeakest), findsOneWidget);
+      expect(onTop(GlanceCopy.titleRevise), findsOneWidget);
       await tester.tap(onTop(SuggestedCopy.doThis));
       await tester.pumpAndSettle();
       // The swap writes nothing and starts nothing.
       expect(events, isEmpty);
-      expect(find.text(GlanceCopy.titleWeakest), findsOneWidget);
+      expect(find.text(GlanceCopy.titleRevise), findsOneWidget);
       expect(find.text(GlanceCopy.suggested), findsOneWidget);
       expect(find.textContaining('Up next, your pick'), findsOneWidget);
-      expect(find.textContaining('Up next: practise your weakest chapter'), findsOneWidget);
+      expect(find.textContaining('Up next: revise what came back'), findsOneWidget);
       // The way back is one tap: the recommended move is on top of the deck.
       expect(onTop(GlanceCopy.suggested), findsOneWidget);
       await tester.tap(onTop(SuggestedCopy.doThis));

@@ -225,10 +225,9 @@ void main() {
 
   // The swap (6.2): Practise your weakest picked; the recommended repair comes back as Suggested,
   // and the price line follows the card.
-  // D51: the weakest chapter is chosen from the Suggested stack (Skip past Revise, then Do this instead).
+  // D51: the weakest chapter, on top of the Suggested stack, is chosen with Do this instead.
   todayGolden('today1018_swap_weakest', activeView, size: kPhone, prices: fixturePrices, act: (t) async {
     Finder onTop(String text) => find.descendant(of: find.byKey(SuggestedStack.topKey), matching: find.text(text));
-    await _tapIn(t, onTop(SuggestedCopy.skip));
     await _tapIn(t, onTop(SuggestedCopy.doThis));
   });
 

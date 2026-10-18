@@ -12,6 +12,7 @@ abstract final class SuggestedCopy {
   static const String skip = 'Skip';
   static const String doThis = 'Do this instead';
   static const String suggestedTag = 'Suggested';
+  // Fallbacks only: a card takes its move's own title, the words the lead card shows once it swaps.
   static const String titleWeakest = 'Practise your weakest chapter';
   static const String titleRevise = 'Revise what is due';
   static const String titleRepair = 'Repair a mistake';
@@ -25,7 +26,8 @@ abstract final class SuggestedCopy {
 
   /// The one evidence line.
   static String weakestLine(String chapter, int missed, int asked, int marks) => '$chapter: $missed of $asked missed, $marks marks open.';
-  static String reviseLine(int due) => due == 1 ? '1 question you repaired comes back today.' : '$due questions you repaired come back today.';
+  /// The lead card's own noun ("6 mistakes come back today"), so the move reads the same in both.
+  static String reviseLine(int due) => due == 1 ? '1 mistake you repaired comes back today.' : '$due mistakes you repaired come back today.';
 
   // The gesture.
   static const String hint = 'Swipe right to do it instead, left to skip';

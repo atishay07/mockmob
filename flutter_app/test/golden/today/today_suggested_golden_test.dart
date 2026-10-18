@@ -6,6 +6,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/features/today/copy_glance.dart';
 import 'package:mockmob/features/today/copy_suggested.dart';
 import 'package:mockmob/features/today/logic/suggested_deck.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
@@ -23,7 +24,7 @@ const double _toStack = 420;
 Finder _onTop(String text) => find.descendant(of: find.byKey(SuggestedStack.topKey), matching: find.text(text));
 
 Future<void> _hold(WidgetTester tester, double dx) async {
-  final at = tester.getCenter(_onTop(SuggestedCopy.titleRevise));
+  final at = tester.getCenter(_onTop(GlanceCopy.titleWeakest));
   final g = await tester.startGesture(at);
   await g.moveBy(Offset(dx.sign * 14, 0));
   await tester.pump();
@@ -32,10 +33,12 @@ Future<void> _hold(WidgetTester tester, double dx) async {
   await tester.pump(const Duration(milliseconds: 300));
 }
 
-Future<void> _skipAll(WidgetTester tester) async {
+/// Skips every card, or all but the last [leave].
+Future<void> _skipAll(WidgetTester tester, {int leave = 0}) async {
   for (var k = 0; k < 4; k++) {
     final skip = _onTop(SuggestedCopy.skip);
     if (skip.evaluate().isEmpty) break;
+    if (leave > 0 && find.text(SuggestedCopy.moreAfter(leave - 1, 3)).evaluate().isNotEmpty) break;
     await tester.tap(skip);
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 400));
@@ -56,7 +59,7 @@ void main() {
   });
   tearDown(SuggestedHint.debugReset);
 
-  // At rest (d51-stack-rest): the first card on top, two behind, the count, the dots, the hint.
+  // At rest (d51-stack-rest): the weakest chapter on top, two behind, the count, the dots, the hint.
   todayGolden('today_suggested_rest', activeView, size: _phone, scrollTo: _toStack, prices: fixturePrices);
   todayGolden('today_suggested_rest_360', activeView, size: _small, scrollTo: _toStack, prices: fixturePrices);
   todayGolden('today_suggested_rest_text130', activeView, size: _phone, scrollTo: _toStack + 160, textScale: 1.3, prices: fixturePrices);
@@ -66,9 +69,13 @@ void main() {
   todayGolden('today_suggested_right', activeView, size: _phone, scrollTo: _toStack, prices: fixturePrices, act: (t) => _hold(t, 150));
   todayGolden('today_suggested_left', activeView, size: _phone, scrollTo: _toStack, prices: fixturePrices, act: (t) => _hold(t, -150));
 
+  // The last card of the pass: the cards already skipped have left, so nothing peeks behind it.
+  todayGolden('today_suggested_last', activeView, size: _phone, scrollTo: _toStack, prices: fixturePrices, act: (t) => _skipAll(t, leave: 1));
+
   // Every card skipped once: the dashed end card with Mobi thinking.
   todayGolden('today_suggested_end', activeView, size: _phone, scrollTo: _toStack, prices: fixturePrices, act: _skipAll);
 
-  // Do this instead: the lead card swaps to Revise; the repair comes back on top marked Suggested.
+  // Do this instead: the lead card swaps to the weakest chapter; the repair comes back on top
+  // marked Suggested.
   todayGolden('today_suggested_chosen', activeView, size: const Size(412, 1300), dock: false, prices: fixturePrices, act: _doThis);
 }

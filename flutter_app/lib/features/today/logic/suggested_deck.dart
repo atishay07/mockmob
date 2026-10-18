@@ -2,8 +2,10 @@
 // cards (what each costs, its title, one line of evidence, its art), the pass through them (skip
 // sends the top card to the back; after every card was skipped once the end card shows), and how
 // many times the swipe hint has shown (twice, then never). Pure except the hint's store: the stack
-// widget renders the result and the tests feed fixtures. The order is the choices' own ranking
-// (`buildChoices`), so the deck never invents a move the lead card could not swap to.
+// widget renders the result and the tests feed fixtures. The cards are the choices' own
+// (`buildChoices`), so the deck never invents a move the lead card could not swap to; the weakest
+// chapter opens the deck when it is there (the approved d51-stack-rest: its object and its counts
+// are the strongest evidence), and the rest keep the choices' ranking.
 import 'dart:async';
 
 import '../../../core/storage/prefs_store.dart';
@@ -30,15 +32,7 @@ enum SuggestedArt {
 
 /// One card of the deck.
 class SuggestedCard {
-  const SuggestedCard({
-    required this.choice,
-    required this.title,
-    required this.line,
-    this.cost,
-    this.art = SuggestedArt.subject,
-    this.subjectId,
-    this.pose,
-  });
+  const SuggestedCard({required this.choice, required this.title, required this.line, this.cost, this.art = SuggestedArt.subject, this.subjectId, this.pose});
 
   /// The choice behind the card: "Do this instead" swaps the lead card to it (or runs its action).
   final MoveChoice choice;
@@ -66,12 +60,28 @@ class SuggestedCard {
   bool get swipeable => choice.hero != null || !(choice.action?.startsSession ?? false);
 }
 
-/// The deck for [choices] (already in the lead card's order, the recommended move first after a
-/// pick), at most [deckSize] cards. [glance] gives the weakest chapter's counts and Revise's due
-/// count; without it a card says what its move says.
-List<SuggestedCard> buildSuggestedDeck(List<MoveChoice> choices, {TodayGlance? glance}) => [
-      for (final c in choices.take(deckSize)) _card(c, glance),
-    ];
+/// The deck for [choices] (in the lead card's order, the recommended move first after a pick), at
+/// most [deckSize] cards: the recommended move stays first, then the weakest chapter, then the
+/// rest in their order. [glance] gives the weakest chapter's counts and Revise's due count;
+/// without it a card says what its move says.
+List<SuggestedCard> buildSuggestedDeck(List<MoveChoice> choices, {TodayGlance? glance}) {
+  final shown = choices.take(deckSize).toList();
+  final suggested = [
+    for (final c in shown)
+      if (c.suggested) c,
+  ];
+  final weakest = [
+    for (final c in shown)
+      if (!c.suggested && c.key == 'weakest') c,
+  ];
+  final rest = [
+    for (final c in shown)
+      if (!c.suggested && c.key != 'weakest') c,
+  ];
+  return [
+    for (final c in [...suggested, ...weakest, ...rest]) _card(c, glance),
+  ];
+}
 
 SuggestedCard _card(MoveChoice c, TodayGlance? glance) {
   final m = c.hero;
@@ -86,7 +96,7 @@ SuggestedCard _card(MoveChoice c, TodayGlance? glance) {
       return SuggestedCard(
         choice: c,
         cost: questions == null ? SuggestedCopy.costMinutes(subject, minutes) : SuggestedCopy.costQuestions(subject, questions),
-        title: c.key == 'lead' ? (m.title ?? SuggestedCopy.titleWeakest) : SuggestedCopy.titleWeakest,
+        title: m.title ?? SuggestedCopy.titleWeakest,
         line: w != null && w.chapter == _chapterOf(m)
             ? SuggestedCopy.weakestLine(w.chapter, w.missed, w.asked, w.marks)
             : '${_chapterOf(m) ?? subject}: ${m.valueLine ?? _first(m.meaning)}${(m.valueLine ?? '').endsWith('.') ? '' : '.'}',
@@ -97,7 +107,7 @@ SuggestedCard _card(MoveChoice c, TodayGlance? glance) {
       return SuggestedCard(
         choice: c,
         cost: SuggestedCopy.costFree(minutes),
-        title: c.key == 'lead' ? (m.title ?? SuggestedCopy.titleRevise) : SuggestedCopy.titleRevise,
+        title: m.title ?? SuggestedCopy.titleRevise,
         line: due != null && due > 0 ? SuggestedCopy.reviseLine(due) : _first(m.meaning),
         art: SuggestedArt.mobi,
         pose: MmArt.mobiPoint,
@@ -107,7 +117,7 @@ SuggestedCard _card(MoveChoice c, TodayGlance? glance) {
       return SuggestedCard(
         choice: c,
         cost: SuggestedCopy.costMock(subject, int.tryParse(m.number ?? '') ?? 50, minutes),
-        title: c.key == 'lead' ? (m.title ?? SuggestedCopy.titleMock) : SuggestedCopy.titleMock,
+        title: m.title ?? SuggestedCopy.titleMock,
         line: _first(m.meaning),
         art: SuggestedArt.stopwatch,
         subjectId: m.subjectId,
@@ -116,7 +126,7 @@ SuggestedCard _card(MoveChoice c, TodayGlance? glance) {
       return SuggestedCard(
         choice: c,
         cost: SuggestedCopy.costMinutes(subject, minutes),
-        title: c.key == 'lead' ? (m.title ?? SuggestedCopy.titleRepair) : SuggestedCopy.titleRepair,
+        title: m.title ?? SuggestedCopy.titleRepair,
         line: _first(m.meaning),
         art: m.art.isMobi ? SuggestedArt.mobi : SuggestedArt.subject,
         pose: m.art.art,
@@ -126,7 +136,7 @@ SuggestedCard _card(MoveChoice c, TodayGlance? glance) {
       return SuggestedCard(
         choice: c,
         cost: subject.isEmpty ? null : (questions == null ? SuggestedCopy.costMinutes(subject, minutes) : SuggestedCopy.costQuestions(subject, questions)),
-        title: c.key == 'lead' ? (m.title ?? m.summary) : (m.title ?? c.title),
+        title: m.title ?? c.title,
         line: _first(m.meaning),
         art: m.art.isMobi ? SuggestedArt.mobi : SuggestedArt.subject,
         pose: m.art.art,
@@ -135,8 +145,11 @@ SuggestedCard _card(MoveChoice c, TodayGlance? glance) {
   }
 }
 
-/// The move's length in minutes: the chosen length, else what its key says, else 10.
+/// The move's length in minutes, as the lead card's length pill would show it once this move is
+/// the lead: with a choice of lengths, the chosen one (else the first); else what its key says,
+/// else 10. (The pill and the key can still differ inside the lead card; that is the move's own.)
 int _minutes(MoveHero m) {
+  if (m.durations.length > 1) return m.selectedMinutes ?? m.durations.first.minutes;
   final picked = m.durations.where((d) => d.minutes == m.selectedMinutes).firstOrNull;
   if (picked != null) return picked.minutes;
   return int.tryParse((TodayCopy.keyLength(m.primary.label) ?? '').split(' ').first) ?? (m.durations.isEmpty ? 10 : m.durations.first.minutes);
@@ -194,9 +207,8 @@ class DeckPass {
 
   /// The page dots: the one on is the card on top; those before it were seen.
   List<DotState> get dots => [
-        for (var k = 0; k < _keys.length; k++)
-          ended ? DotState.seen : (k < _skips ? DotState.seen : (k == _skips ? DotState.on : DotState.ahead)),
-      ];
+    for (var k = 0; k < _keys.length; k++) ended ? DotState.seen : (k < _skips ? DotState.seen : (k == _skips ? DotState.on : DotState.ahead)),
+  ];
 
   /// Whether this pass is over the same deck as [keys] (a pick changes the deck and starts anew).
   bool sameDeck(List<String> keys) => keys.length == _keys.length && Iterable<int>.generate(keys.length).every((k) => keys[k] == _keys[k]);
