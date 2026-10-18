@@ -147,3 +147,11 @@ Each time, a screen he wanted **refined** was **rebuilt**, and the useful parts 
 - **D19, badges, his words:** "What I meant here was that badges are not incorporated properly but they look cool so keep them don't remove just refine the UI and functionality around them." Option A in BADGES-ICONS-1018 (remove the badges) is **rejected**. Keep the badges; refine how they are presented and what they do (where they appear, what earning one feels like, how they lead to the next thing).
 - **D22, the name:** **Mob.** "Community" is retired as a word; "Your standing" keeps its name.
 - **Overnight deploys, about 4 am:** he chose "Push everything that passes". R5 and the release 6 redesigns (Review/result with the reel, Ask Mobi, community/Learn) go live once their suites and an independent visual check pass. **The landing and the new Today still wait for his live review in the morning.** He went to sleep at about 4 am.
+
+## Owner, 18 Oct about 8:40 am IST (after opening the web Today preview on port 3207)
+> "So some things are really good in this, like the today page is better now, but many things like the ask mobi integration and all, I don't see all that, like it's the same as before only. But keep going with the other things. Once everything is done and perfected from your side, both the app and the website and the final versions are published and ready, let me know, then I'll see both and give my final feedback."
+
+**Ledger:**
+- **D35:** the new web Today is **better**. Proceed to ship it.
+- **D36:** he did not see the Ask Mobi redesign. Cause: the 3207 preview is built on the release 4 code, and the Ask Mobi redesign is in release 6 (live on mockmob.in). After the merge, the Today on release 6 must show the new Ask Mobi entry ("Why this?") on the lead card. Every release note must say where Ask Mobi is now.
+- **D37 (process):** finish and perfect everything, publish the final website and app versions, then tell him. He then reviews both and gives his final feedback. His go-ahead covers publishing the final web versions (Today, landing) once they pass the suites and an independent visual check. The app is "published" as a delivered APK and AAB; Play Store upload needs his Console account and upload key.

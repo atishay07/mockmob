@@ -275,6 +275,13 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 | App: Today 1018 (D1-D3, D26-D29), Ask Mobi (D6), Play it back (D29), M-001 logo, D19 badges | **BUILT** in v15 (wt-v15 fecc6a73 + ui/v15-badges a85f0e50); emulator walk running |
 | Production migration revise_cards_mode | Applied at 4:50 am (grant); STATUS text pending in the R6 push |
 
+### Owner at about 8:40 am, 18 Oct
+| Id | Item | Status |
+|---|---|---|
+| D35 | The web Today is "better now". Ship it on top of release 6 | OPEN (R7) |
+| D36 | Ask Mobi redesign not seen (the preview was built on R4). On R7, the Today lead card carries Ask Mobi "Why this?"; release notes say where Ask Mobi is | OPEN (R7) |
+| D37 | Finish and perfect everything, publish the final web and app versions, then tell him; he reviews both and gives final feedback | RULE / in progress |
+
 ## Waiting on the owner (updated 18 Oct about 3:45 am)
 - Answered 3:50 am: M-001 first launch 3 s; M-006 bolder copy; D19 keep badges, refine; D22 Mob.
 - D32: confirm the kept landing element when he reviews the port live (wt-land3, port 3206).
