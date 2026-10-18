@@ -178,7 +178,12 @@ RemoteState<Rhythm> rhythmState({
         paused: false,
         weeksMetStreak: streak,
         bestRun: best,
-        milestones: milestones,
+        // The server always lists the two newer badges (a date once earned), so none of the sixteen is "not read".
+        milestones: [
+          ...milestones,
+          if (!milestones.any((m) => m.id == 'first_hold')) const RhythmMilestone(id: 'first_hold'),
+          if (!milestones.any((m) => m.id == 'run_weeks_3')) const RhythmMilestone(id: 'run_weeks_3'),
+        ],
       ),
       fetchedAt: DateTime(2026, 10, 12, 21, 15),
     );

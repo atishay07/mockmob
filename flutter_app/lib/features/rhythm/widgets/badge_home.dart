@@ -35,6 +35,7 @@ import 'locked_coin.dart';
 import 'medal.dart';
 import 'milestone_track_card.dart' show engravingOf;
 import 'rhythm_layout.dart' show SectionBreak;
+import 'rhythm_page.dart' show FlushQuietKey;
 
 /// The Badges section of You: its rule, its head with "All badges", and the home itself.
 class BadgeHomeSection extends ConsumerWidget {
@@ -137,15 +138,10 @@ class BadgeHome extends StatelessWidget {
             container: true,
             label: RhythmCopy.badgesShelfLabel,
             child: _Shelf(
-              coins: [
-                for (final b in shelf)
-                  _ShelfCoin(
-                    badge: b,
-                    day: _shortDay(b.earnedAt!, zone, now),
-                    label: RhythmCopy.badgeCoinEarned(b.step.name, formatAchievedDate(b.earnedAt!, zone, now)),
-                    onTap: () => _open(context, b.id),
-                  ),
-              ],
+              badges: shelf,
+              dayOf: (b) => _shortDay(b.earnedAt!, zone, now),
+              labelOf: (b) => RhythmCopy.badgeCoinEarned(b.step.name, formatAchievedDate(b.earnedAt!, zone, now)),
+              onOpen: (id) => _open(context, id),
             ),
           ),
         if (next != null) ...[
@@ -167,8 +163,8 @@ class BadgeHome extends StatelessWidget {
         // Before the first badge, the one thing to do is a scored set.
         if (shelf.isEmpty && onStart != null)
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4),
-            child: Align(alignment: Alignment.centerLeft, child: KeyButton.quiet(label: RhythmCopy.startQuick, onPressed: onStart)),
+            padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
+            child: FlushQuietKey(label: RhythmCopy.startQuick, onPressed: onStart),
           ),
       ],
     );
@@ -183,56 +179,68 @@ String _shortDay(DateTime instant, String zone, DateTime now) {
 }
 
 /// The earned coins in a row that scrolls sideways, newest first, on a hairline ledge that runs the full
-/// width. The next coin past the edge peeks in when there are more than fit.
+/// width. The coin past the edge peeks in when there are more than fit.
 class _Shelf extends StatelessWidget {
-  const _Shelf({required this.coins});
+  const _Shelf({required this.badges, required this.dayOf, required this.labelOf, required this.onOpen});
 
-  final List<Widget> coins;
+  final List<BoardBadge> badges;
+  final String Function(BoardBadge) dayOf;
+  final String Function(BoardBadge) labelOf;
+  final ValueChanged<String> onOpen;
+
+  /// A slot is 88 dp, or 80 on a narrow phone, so that the coin past the edge always peeks in on a phone
+  /// that has more than fit (412: four slots and a half; 360: three and a half).
+  static double slotFor(double width) => width < 380 ? 80 : 88;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     return LayoutBuilder(
-      builder: (context, box) => SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        physics: const BouncingScrollPhysics(),
-        // The first coin's edge sits on the 16 dp gutter: the slot is wider than the coin by `air` each side.
-        padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter - _ShelfCoin.air),
-        child: ConstrainedBox(
-          constraints: BoxConstraints(minWidth: math.max(0, box.maxWidth - (MmSpace.gutter - _ShelfCoin.air) * 2)),
-          child: Stack(
-            children: [
-              // The ledge the coins stand on: under the coins, above their names.
-              Positioned(
-                left: _ShelfCoin.air,
-                right: _ShelfCoin.air,
-                top: _ShelfCoin.ledgeTop,
-                height: 1.5,
-                child: ColoredBox(color: colors.line),
-              ),
-              Row(crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.min, children: coins),
-            ],
+      builder: (context, box) {
+        final slot = slotFor(box.maxWidth);
+        // The slot is wider than the coin by `air` each side, so the first coin's edge sits on the 16 dp gutter.
+        final air = (slot - _ShelfCoin.coin) / 2;
+        final pad = MmSpace.gutter - air;
+        return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          physics: const BouncingScrollPhysics(),
+          padding: EdgeInsets.symmetric(horizontal: pad),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minWidth: math.max(0, box.maxWidth - pad * 2)),
+            child: Stack(
+              children: [
+                // The ledge the coins stand on: under the coins, above their names.
+                Positioned(left: air, right: air, top: _ShelfCoin.ledgeTop, height: 1.5, child: ColoredBox(color: colors.line)),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    for (final b in badges)
+                      _ShelfCoin(badge: b, width: slot, day: dayOf(b), label: labelOf(b), onTap: () => onOpen(b.id)),
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
 
 class _ShelfCoin extends StatelessWidget {
-  const _ShelfCoin({required this.badge, required this.day, required this.label, required this.onTap});
+  const _ShelfCoin({required this.badge, required this.width, required this.day, required this.label, required this.onTap});
 
   final BoardBadge badge;
+  final double width;
   final String day;
   final String label;
   final VoidCallback onTap;
 
   static const double coin = 56;
-  static const double width = 84;
 
-  /// The air each side of the coin inside its slot, and the padding of the name under it.
-  static const double air = (width - coin) / 2;
-  static const double inset = 4;
+  /// The name under the coin is 16 dp wider than the coin, so it wraps at a word rather than reaching toward the screen edge.
+  static const double nameWidth = coin + 16;
 
   /// The ledge sits 6 dp under the coin.
   static const double ledgeTop = 4 + coin + 6;
@@ -251,7 +259,7 @@ class _ShelfCoin extends StatelessWidget {
       builder: (context, pressed, focused) => SizedBox(
         width: width,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: inset),
+          padding: EdgeInsets.symmetric(horizontal: (width - nameWidth) / 2),
           child: Column(
             children: [
               const SizedBox(height: 4),

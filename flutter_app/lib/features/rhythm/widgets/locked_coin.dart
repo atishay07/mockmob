@@ -72,7 +72,7 @@ class _DashedRing extends CustomPainter {
         false,
         Paint()
           ..style = PaintingStyle.stroke
-          ..strokeWidth = 2.4
+          ..strokeWidth = 2
           ..strokeCap = StrokeCap.round
           ..color = arcColor!,
       );

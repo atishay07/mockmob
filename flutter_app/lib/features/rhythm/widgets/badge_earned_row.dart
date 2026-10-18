@@ -33,6 +33,7 @@ import '../data/rhythm_providers.dart' show rhythmSeenProvider;
 import '../logic/badge_shelf.dart';
 import 'medal.dart';
 import 'milestone_track_card.dart' show engravingOf;
+import 'rhythm_page.dart' show FlushQuietKey;
 
 /// The reveal's whole length (scale and light), and its length under reduced motion.
 const Duration kBadgeReveal = Duration(milliseconds: 600);
@@ -140,6 +141,8 @@ class _Row extends StatelessWidget {
       ],
     );
     final key = KeyButton.quiet(label: RhythmCopy.seeYourBadges, onPressed: onSee);
+    // A quiet key carries 16 dp of padding inside its box; the row gives it back so its words sit on the gutter.
+    final flushKey = FlushQuietKey(label: RhythmCopy.seeYourBadges, onPressed: onSee);
     // The coins and the words are said once, as one live line; the key keeps its own label.
     Widget said(Widget child) => Semantics(
           container: true,
@@ -169,7 +172,7 @@ class _Row extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: MmSpace.s4),
-                  key,
+                  Transform.translate(offset: const Offset(FlushQuietKey.inset, 0), child: key),
                 ],
               )
             : Column(
@@ -188,7 +191,7 @@ class _Row extends StatelessWidget {
                       ],
                     ),
                   ),
-                  key,
+                  flushKey,
                 ],
               ),
       ),

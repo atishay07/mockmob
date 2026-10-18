@@ -5,7 +5,6 @@
 // nothing and spends nothing.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/haptics/haptics.dart';
 import 'package:mockmob/core/models/attempt.dart';
@@ -24,40 +23,6 @@ import '../../golden/rhythm/rhythm_test_kit.dart';
 import '../../helpers/fonts.dart';
 import '../result/support/fixtures.dart' as result_fixtures;
 import '../result/support/harness.dart';
-
-/// `rhythm_seen` in memory.
-class MemorySeen implements RhythmSeenRepository {
-  final Set<String> ids = {};
-  bool unreadable = false;
-
-  @override
-  Future<RhythmSeenState> read() async {
-    if (unreadable) throw StateError('no storage');
-    return RhythmSeenState(celebratedIds: {...ids});
-  }
-
-  @override
-  Future<bool> markCelebrated(String id) async => ids.add(id);
-
-  @override
-  Future<bool> hasCelebrated(String id) async => ids.contains(id);
-
-  @override
-  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
-}
-
-class CountingDriver implements HapticDriver {
-  final List<String> calls = [];
-
-  @override
-  Future<void> selectionClick() async => calls.add('selection');
-
-  @override
-  Future<void> lightImpact() async => calls.add('light');
-
-  @override
-  Future<void> mediumImpact() async => calls.add('medium');
-}
 
 /// 11:30 AM in India on Wednesday 14 October 2026; the fixture clock (`kNow`) is an hour later.
 final _done = DateTime.utc(2026, 10, 14, 3, 30);

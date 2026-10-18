@@ -56,8 +56,6 @@ void main() {
   });
 
   group('the badge sheet', () {
-    StepView view(String id, StepStatus status, {DateTime? at}) => StepView(milestoneSteps.firstWhere((s) => s.id == id), status, at);
-
     /// A board where [earned] have dates and the rest follow the path rules.
     List<TrackView> board(Map<String, DateTime> earned) => milestoneTracks([for (final e in earned.entries) RhythmMilestone(id: e.key, achievedAt: e.value), const RhythmMilestone(id: 'first_hold'), const RhythmMilestone(id: 'run_weeks_3')]);
 
