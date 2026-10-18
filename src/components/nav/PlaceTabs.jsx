@@ -68,16 +68,31 @@ export default function PlaceTabs({ group, hrefOf, isActive, count = 0, countLab
     return () => resize?.disconnect();
   }, [group.id, tabs.length, count, measure]);
 
-  // The current tab is in view on arrival (Saved sits past the edge at 390 px), with no movement.
+  // The current tab is in view on arrival (Saved sits past the edge at 390 px), with no movement. The Revise count arrives a moment
+  // after the page and widens "Your papers", so the row is placed again when the count lands (the peek above is refitted then too);
+  // once the student has touched the row, only a change of the current tab moves it.
   const currentId = tabs.find((tab) => isActive(tab.id))?.id || null;
+  const touched = useRef(false);
+  const placedFor = useRef(null);
+  useEffect(() => {
+    const el = row.current;
+    if (!el) return undefined;
+    const mark = () => { touched.current = true; };
+    el.addEventListener('pointerdown', mark, { passive: true });
+    el.addEventListener('wheel', mark, { passive: true });
+    el.addEventListener('touchstart', mark, { passive: true });
+    return () => { el.removeEventListener('pointerdown', mark); el.removeEventListener('wheel', mark); el.removeEventListener('touchstart', mark); };
+  }, [group.id]);
   useLayoutEffect(() => {
     const el = row.current;
     const current = el?.querySelector('[aria-current="page"]');
     if (!el || !current) return;
+    if (touched.current && placedFor.current === currentId) { measure(); return; }
+    placedFor.current = currentId;
     // The row is the tabs' offset parent (position: relative), so offsetLeft is in its scroll coordinates.
     el.scrollLeft = scrollToShow({ left: current.offsetLeft, width: current.offsetWidth, view: el.clientWidth, scrollWidth: el.scrollWidth });
     measure();
-  }, [currentId, measure]);
+  }, [currentId, count, measure]);
 
   useEffect(() => {
     const el = row.current;

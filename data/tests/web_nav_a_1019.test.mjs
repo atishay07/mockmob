@@ -265,3 +265,12 @@ test('R4: the rail still fills top to bottom on entry and the You sheet’s rows
   assert.match(layout, /style=\{\{ '--i': index \}\}/, 'the row carries its index');
   assert.match(read('src/app/(app)/arena-support.css'), /\.arena-sidebar \.arena-nav-link[^{]*\{ animation: arena-nav-in 380ms var\(--a-ease\) both; animation-delay: calc\(60ms \+ var\(--i, 0\) \* 22ms\)/);
 });
+
+test('the current tab is placed in view again when the Revise count lands, and a student’s own scroll is kept', () => {
+  const row = read('src/components/nav/PlaceTabs.jsx');
+  assert.match(row, /\}, \[currentId, count, measure\]\);/, 'the count widens Your papers a moment after the page, so the row is placed again');
+  assert.match(row, /if \(touched\.current && placedFor\.current === currentId\) \{ measure\(\); return; \}/, 'after a touch only a new current tab moves the row');
+  // Placing the last tab (Saved) at the end of the row leaves it whole: view 374, the row 500 wide, the tab 70 wide at 430.
+  const end = scrollToShow({ left: 430, width: 70, view: 374, scrollWidth: 500 });
+  assert.equal(end, 500 - 374, 'clamped to the end of the row');
+});
