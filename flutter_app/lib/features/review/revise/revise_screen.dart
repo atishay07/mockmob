@@ -16,6 +16,7 @@ import '../../../core/notes/sample_row.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../learn/data/run_starter.dart';
 import '../../learn/widgets/feedback_mobi.dart';
 import '../again/review_again_copy.dart';
 import '../again/review_again_entry.dart' show reviewAgainCountProvider;
@@ -88,7 +89,8 @@ class _ReviseScreenState extends ConsumerState<ReviseScreen> {
   }
 
   Future<void> _choose(ReviseRead read, int cap, int index) async {
-    final item = _at < read.items.length ? read.items[_at] : null;
+    final items = read.runItems;
+    final item = _at < items.length ? items[_at] : null;
     if (item == null || _busy || _result != null) return;
     setState(() {
       _busy = true;
@@ -263,7 +265,8 @@ class _Run extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final items = read.items;
+    final items = read.runItems;
+    final queue = read.queue;
     final finished = items.isNotEmpty && at >= items.length;
     final current = at < items.length ? items[at] : null;
     final right = done.where((d) => d).length;
@@ -283,6 +286,7 @@ class _Run extends StatelessWidget {
             chosen: chosen,
             busy: busy,
             error: error,
+            queued: queue != null,
             last: at + 1 >= items.length,
             onChoose: onChoose,
             onNext: onNext,
@@ -297,7 +301,11 @@ class _Run extends StatelessWidget {
           next: read.next,
           right: right,
           wrong: wrong,
-          repaired: ref.watch(reviewAgainCountProvider),
+          // The repaired mistakes due today are in the queue now; the phone's own list is offered
+          // only by an older server that does not merge them.
+          repaired: queue == null ? ref.watch(reviewAgainCountProvider) : 0,
+          cards: queue?.counts.cards ?? 0,
+          checks: queue?.counts.checks ?? 0,
         ),
       );
     } else {
@@ -309,7 +317,9 @@ class _Run extends StatelessWidget {
         text: read.answeredToday >= read.cap
             ? ReviseCopy.capReached
             : (read.next ?? ReviseCopy.nextNone),
-        teaches: firstTime,
+        teaches: firstTime && (queue?.total ?? 0) == 0,
+        cards: queue?.counts.cards ?? 0,
+        checks: queue?.counts.checks ?? 0,
       );
     }
 
@@ -332,12 +342,33 @@ class _Run extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              if (!finished && read.head != null)
+              if (!finished && queue != null && queue.total > 0) ...[
+                // One head over the four sources, then what is in it (5.8).
+                Semantics(
+                  header: true,
+                  child: Text(
+                    ReviseCopy.runHead(queue.total, queue.minutes),
+                    style: type.title,
+                  ),
+                ),
+                const SizedBox(height: MmSpace.s4),
+                Text(
+                  ReviseCopy.mix(
+                    back: queue.counts.back,
+                    checks: queue.counts.checks,
+                    cards: queue.counts.cards,
+                  ),
+                  style: type.small.copyWith(
+                    color: colors.ink2,
+                    fontFeatures: const [FontFeature.tabularFigures()],
+                  ),
+                ),
+              ] else if (!finished && read.head != null)
                 Semantics(
                   header: true,
                   child: Text(read.head!, style: type.title),
                 ),
-              if (!finished && read.shown > 0) ...[
+              if (!finished && queue == null && read.shown > 0) ...[
                 const SizedBox(height: MmSpace.s4),
                 Text(
                   ReviseCopy.minutes(read.minutes),
@@ -365,15 +396,25 @@ class _Run extends StatelessWidget {
           ),
         ),
         const SizedBox(height: MmSpace.s16),
-        _Lanes(boxes: boxes, labels: read.labels, moved: moved),
-        const SizedBox(height: MmSpace.s24),
+        if (queue == null)
+          _Lanes(boxes: boxes, labels: read.labels, moved: moved)
+        else
+          // The four box lanes fold into "How Revise schedules" (5.8): the card comes first.
+          _ScheduleFold(
+            cap: cap,
+            child: _Lanes(boxes: boxes, labels: read.labels, moved: moved),
+          ),
+        SizedBox(height: queue == null ? MmSpace.s24 : MmSpace.s16),
         MmOverlapSwitcher.fade(
           duration: Motion.card,
           alignment: Alignment.center,
           child: stage,
         ),
         const SizedBox(height: MmSpace.s24),
-        Text(read.labels.fine, style: type.small.copyWith(color: colors.ink3)),
+        Text(
+          queue == null ? read.labels.fine : ReviseCopy.foot,
+          style: type.small.copyWith(color: colors.ink3),
+        ),
       ],
     );
   }
@@ -664,7 +705,11 @@ class ReviseCard extends StatelessWidget {
     required this.last,
     required this.onChoose,
     required this.onNext,
+    this.queued = false,
   });
+
+  /// From the merged queue: the card says what it is and where it came from (5.8 kind line).
+  final bool queued;
 
   final ReviseItem item;
   final int number;
@@ -685,9 +730,29 @@ class ReviseCard extends StatelessWidget {
     final type = context.mmType;
     final answered = result != null;
     final r = result;
+    final detail = [?item.source, ?item.chapter].join('. ');
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        if (queued) ...[
+          Text(
+            '${ReviseCopy.position(number, total)}. '
+            '${item.kind == ReviseItem.kindAgain ? ReviseCopy.kindAgain : ReviseCopy.kindQuestion}',
+            style: type.label.copyWith(
+              color: colors.ink2,
+              fontFeatures: const [FontFeature.tabularFigures()],
+            ),
+          ),
+          if (detail.isNotEmpty) ...[
+            const SizedBox(height: MmSpace.s2),
+            Text(
+              detail,
+              style: type.small.copyWith(color: colors.ink3),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ] else
         Row(
           children: [
             Text(
@@ -955,7 +1020,22 @@ class _Option extends StatelessWidget {
 /// ring that draws itself in. Reduced motion holds his pose still (the character does that).
 /// He is the only Mobi on the Revise screen.
 class ReviseEnd extends StatelessWidget {
-  const ReviseEnd({super.key, required this.line, required this.next, required this.right, required this.wrong, this.repaired = 0});
+  const ReviseEnd({
+    super.key,
+    required this.line,
+    required this.next,
+    required this.right,
+    required this.wrong,
+    this.repaired = 0,
+    this.cards = 0,
+    this.checks = 0,
+  });
+
+  /// Lesson recall cards due today (source 4): above 0 the end's key plays them.
+  final int cards;
+
+  /// Check it held still pending (asked from Review on a new question).
+  final int checks;
 
   final String? line;
   final String? next;
@@ -1042,12 +1122,30 @@ class ReviseEnd extends StatelessWidget {
           const SizedBox(height: MmSpace.s8),
           Text(next!, style: type.body.copyWith(color: colors.ink2)),
         ],
+        if (checks > 0) ...[
+          const SizedBox(height: MmSpace.s8),
+          Text(
+            ReviseCopy.checksWaiting(checks),
+            style: type.body.copyWith(color: colors.ink2),
+          ),
+        ],
         const SizedBox(height: MmSpace.s24),
-        KeyButton(
-          label: ReviseCopy.backToReview,
-          onPressed: () =>
-              context.canPop() ? context.pop() : context.go(AppRoutes.review),
-        ),
+        if (cards > 0) ...[
+          ReviseCardsKey(cards: cards),
+          Align(
+            child: KeyButton.quiet(
+              label: ReviseCopy.backToReview,
+              onPressed: () => context.canPop()
+                  ? context.pop()
+                  : context.go(AppRoutes.review),
+            ),
+          ),
+        ] else
+          KeyButton(
+            label: ReviseCopy.backToReview,
+            onPressed: () =>
+                context.canPop() ? context.pop() : context.go(AppRoutes.review),
+          ),
         if (repaired > 0)
           Align(
             child: KeyButton.quiet(
@@ -1062,9 +1160,16 @@ class ReviseEnd extends StatelessWidget {
 
 /// Nothing is due: the server's sentence (when the next ones come, or the cap), and the way back.
 class _Empty extends StatelessWidget {
-  const _Empty({required this.text, this.teaches = false});
+  const _Empty({
+    required this.text,
+    this.teaches = false,
+    this.cards = 0,
+    this.checks = 0,
+  });
 
   final String text;
+  final int cards;
+  final int checks;
 
   /// The first-time state that teaches: one sample card, and the next action first.
   final bool teaches;
@@ -1088,9 +1193,149 @@ class _Empty extends StatelessWidget {
           KeyButton(label: ReviseCopy.startAction, onPressed: () => startQuickTen(context)),
           Align(child: KeyButton.quiet(label: ReviseCopy.backToReview, onPressed: back)),
         ] else ...[
+          if (checks > 0) ...[
+            const SizedBox(height: MmSpace.s8),
+            Text(
+              ReviseCopy.checksWaiting(checks),
+              style: context.mmType.body.copyWith(color: colors.ink2),
+            ),
+          ],
           const SizedBox(height: MmSpace.s24),
-          KeyButton(label: ReviseCopy.backToReview, onPressed: back),
+          if (cards > 0) ...[
+            ReviseCardsKey(cards: cards),
+            Align(
+              child: KeyButton.quiet(
+                label: ReviseCopy.backToReview,
+                onPressed: back,
+              ),
+            ),
+          ] else
+            KeyButton(label: ReviseCopy.backToReview, onPressed: back),
         ],
+      ],
+    );
+  }
+}
+
+/// "How Revise schedules": the four box lanes behind one quiet line, closed until asked for.
+class _ScheduleFold extends StatefulWidget {
+  const _ScheduleFold({required this.cap, required this.child});
+
+  final int cap;
+  final Widget child;
+
+  @override
+  State<_ScheduleFold> createState() => _ScheduleFoldState();
+}
+
+class _ScheduleFoldState extends State<_ScheduleFold> {
+  bool _open = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        MmPressable(
+          semanticsLabel:
+              '${ReviseCopy.scheduleTitle}. '
+              '${_open ? ReviseCopy.hideSchedule : ReviseCopy.showSchedule}',
+          focusRadius: MmRadius.panelAll,
+          haptic: MmPressHaptic.selection,
+          highlight: true,
+          onTap: () => setState(() => _open = !_open),
+          builder: (context, pressed, _) => ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 48),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        ReviseCopy.scheduleTitle,
+                        style: type.body.copyWith(fontWeight: FontWeight.w500),
+                      ),
+                      Text(
+                        ReviseCopy.scheduleLine(widget.cap),
+                        style: type.small.copyWith(color: colors.ink2),
+                      ),
+                    ],
+                  ),
+                ),
+                AnimatedRotation(
+                  turns: _open ? 0.5 : 0,
+                  duration: Motion.of(context, Motion.ui),
+                  curve: Motion.out,
+                  child: Icon(
+                    LucideIcons.chevronDown,
+                    size: 16,
+                    color: colors.ink3,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        if (_open) ...[
+          const SizedBox(height: MmSpace.s8),
+          MmEntrance(rise: 8, child: widget.child),
+        ],
+      ],
+    );
+  }
+}
+
+/// The lesson recall cards due today, played by the Learn recall run (Revise source 4).
+class ReviseCardsKey extends ConsumerStatefulWidget {
+  const ReviseCardsKey({super.key, required this.cards});
+
+  final int cards;
+
+  @override
+  ConsumerState<ReviseCardsKey> createState() => _ReviseCardsKeyState();
+}
+
+class _ReviseCardsKeyState extends ConsumerState<ReviseCardsKey> {
+  bool _busy = false;
+  String? _message;
+
+  Future<void> _start() async {
+    if (_busy) return;
+    setState(() {
+      _busy = true;
+      _message = null;
+    });
+    final result = await ref.read(runStarterProvider).start(mode: 'recall');
+    if (!mounted) return;
+    setState(() {
+      _busy = false;
+      _message = result.message;
+    });
+    final run = result.run;
+    if (run != null) unawaited(context.push<void>(AppRoutes.learnRun(run.id)));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        KeyButton(
+          label: ReviseCopy.cardsKey(widget.cards),
+          onPressed: _busy ? null : _start,
+        ),
+        const SizedBox(height: MmSpace.s8),
+        Text(
+          _message ?? ReviseCopy.cardsNote,
+          style: type.small.copyWith(color: colors.ink3),
+          textAlign: TextAlign.center,
+        ),
       ],
     );
   }

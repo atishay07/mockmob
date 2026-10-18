@@ -66,4 +66,42 @@ abstract final class ReviseCopy {
   static String capSpoken(int n) => '$n questions a day';
   static String optionSpoken(String letter, String text) => 'Option $letter. $text';
   static String laneSpoken(int n, int count, String? days) => '${box(n)}: $count${days == null ? '' : ', $days'}';
+
+  // Revise as one queue (LEARN-REVIEW-1017 5.8, the website's `revise.run` strings).
+
+  /// The website's `revise.run.head`: "8 due today, about 7 minutes."
+  static String runHead(int n, int m) => '$n due today, about $m minutes.';
+
+  /// The website's `revise.run.mix`: the parts that exist, in play order.
+  static String mixBack(int n) => n == 1 ? '1 question back' : '$n questions back';
+  static String mixChecks(int n) => '$n Check it held';
+  static String mixCards(int n) => n == 1 ? '1 concept card' : '$n concept cards';
+  static String mix({required int back, required int checks, required int cards}) => [
+    if (back > 0) mixBack(back),
+    if (checks > 0) mixChecks(checks),
+    if (cards > 0) mixCards(cards),
+  ].join(', ');
+
+  /// The website's `revise.run.kind`.
+  static const String kindQuestion = 'A question you got wrong';
+  static const String kindAgain = 'A mistake you repaired';
+
+  /// The website's `revise.run.position`: "3 of 8".
+  static String position(int k, int n) => '$k of $n';
+
+  /// The website's `revise.run.foot`.
+  static const String foot = 'Free. Not counted in your marks or accuracy.';
+
+  /// The website's `revise.run.schedule.title`.
+  static const String scheduleTitle = 'How Revise schedules';
+  static String scheduleLine(int cap) => 'Back after 1, 3, 7 and 21 days. Up to $cap a day.';
+  static const String showSchedule = 'Show the schedule';
+  static const String hideSchedule = 'Hide the schedule';
+
+  /// The end's next step: the lesson recall cards due today, played by the Learn recall run.
+  static String cardsKey(int n) => 'Revise ${mixCards(n)}';
+  static const String cardsNote = 'From lessons you have read. Free.';
+
+  /// The end's line for a Check it held still waiting (asked from Review, on a new question).
+  static String checksWaiting(int n) => n == 1 ? '1 Check it held waits in Review.' : '$n Check it held wait in Review.';
 }
