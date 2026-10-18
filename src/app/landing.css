@@ -1190,6 +1190,9 @@ body:has(.mm.lp) {
   color: var(--ink-2);
 }
 
+/* The public questions: the footer's Help sends guests here (/#faq), so the heading lands clear of the sticky nav. */
+#faq { scroll-margin-top: 64px; }
+
 /* ---------- Close ---------- */
 
 .lp-close {

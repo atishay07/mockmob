@@ -12,6 +12,7 @@ import { LandingActions } from '@/components/LandingActions';
 import { DemoDrill } from '@/components/landing/DemoDrill';
 import { CloseActions, DockLine } from '@/components/landing/CloseActions';
 import { DemoJump } from '@/components/landing/DemoJump';
+import { HashSettle } from '@/components/landing/HashSettle';
 import { HeroBackdrop } from '@/components/landing/HeroBackdrop';
 import { HeroDockGate } from '@/components/landing/HeroDockGate';
 import { HeroMorph } from '@/components/landing/HeroMorph';
@@ -424,6 +425,8 @@ export default function LandingPage() {
           </Reveal>
           {/* Every same-page "Try a CUET question" link lands on the live sample question, every time. */}
           <DemoJump />
+          {/* The footer's Help sends guests to /#faq from any page: land on the questions once the page has settled. */}
+          <HashSettle />
         </section>
       </main>
       <MarketingFooter />

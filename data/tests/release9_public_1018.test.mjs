@@ -64,6 +64,7 @@ test('onboarding: "no cap" is said for Pro, and Free is told each mock uses prac
 });
 
 test('onboarding (M-006): every step has a bolder headline and lead, true and plain: no "!", no hype words, no emoji', () => {
+  assert.equal(ONBOARDING_STEPS.subjects.title, 'Your papers. Your mocks.');
   const plainBefore = ['Which subjects are you taking?', 'Your subjects', 'How many days a week can you study?', 'Which colleges are you aiming for?'];
   const hype = /\b(revolutionary|ultimate|game.?chang|supercharge|unleash|insane|amazing|best ever|guaranteed)\b/i;
   for (const [step, { title, lead }] of Object.entries(ONBOARDING_STEPS)) {
@@ -221,6 +222,13 @@ test('footer Help: a guest goes to the landing’s public questions, a signed-in
   assert.match(link, /href=\{isAuthenticated \? STUDENT_HELP_HREF : GUEST_HELP_HREF\}/);
   assert.match(read('src/components/MarketingFooter.jsx'), /href === '\/help' \? <FooterHelpLink>\{label\}<\/FooterHelpLink>/);
   assert.match(read('src/app/page.js'), /<section className="lp-sec lp-sec--band" id="faq">/, 'the public questions have the anchor');
+  // Arriving from another page (/pricing -> /#faq), the landing settles on the questions after its sections grow,
+  // and the heading lands clear of the sticky nav. The student's own scroll stops the settle.
+  assert.match(read('src/app/page.js'), /<HashSettle \/>/);
+  const settle = read('src/components/landing/HashSettle.jsx');
+  assert.match(settle, /const DEFAULT_IDS = \['faq'\];/);
+  assert.match(settle, /USER_INPUT\.forEach\(\(type\) => window\.addEventListener\(type, stop/);
+  assert.match(read('src/app/landing.css'), /#faq \{ scroll-margin-top: 64px; \}/);
   // /help itself is still behind sign-in: it lives in the (app) group.
   assert.ok(readdirSync(new URL('src/app/(app)/help/', root)).includes('page.js'));
 });

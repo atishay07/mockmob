@@ -143,7 +143,7 @@ export const ONBOARDING_LEAD = 'Pick up to 5. Every mock is built fresh from one
 
 /** Onboarding: each step's headline and lead (M-006, 18 Oct: bolder and punchier, still true, no exclamation marks). */
 export const ONBOARDING_STEPS = Object.freeze({
-  subjects: Object.freeze({ title: 'Pick your papers. We build the mocks.', lead: ONBOARDING_LEAD }),
+  subjects: Object.freeze({ title: 'Your papers. Your mocks.', lead: ONBOARDING_LEAD }),
   edit: Object.freeze({ title: 'Your papers, your call.', lead: 'Up to 5. Practice and every mock run on these.' }),
   days: Object.freeze({ title: 'How many days a week can you give?', lead: 'Today keeps your week in view: seven days, a mark on every study day. Skip and we start you on 4.' }),
   colleges: Object.freeze({ title: 'Which colleges are you chasing?', lead: 'Pick a course, then up to 8 colleges. Today puts your first one up front with its 2026 cutoff. Change them any time on Account.' }),
