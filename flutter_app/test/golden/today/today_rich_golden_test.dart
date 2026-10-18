@@ -8,6 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
 import 'package:mockmob/features/today/logic/today_inputs.dart';
+import 'package:mockmob/features/today/logic/weeks_ahead.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
 import 'package:mockmob/features/today/widgets/weak_chapters.dart';
 import 'package:mockmob/features/today/widgets/weeks_ahead.dart';
@@ -62,12 +63,32 @@ void main() {
     dock: false,
     textScale: 1.3,
   );
+  // 412 dp at 1.3x: every week row stacked alike (the block decides once, with the widest trailing).
+  screenGolden(
+    'today_rich_ahead_412_text130',
+    () => _onGround(WeeksAheadBlock(ahead: activeView().glance!.ahead!, onWeek: (_) {})),
+    size: const Size(412, 1150),
+    dock: false,
+    textScale: 1.3,
+  );
+  // A high goal (60 full mocks): two in a week, each on its own planned day and both named.
+  screenGolden(
+    'today_rich_ahead_many_360',
+    () {
+      final i = activeInputs();
+      final board = buildToday(i).road!.board!.withTarget(60);
+      return _onGround(WeeksAheadBlock(ahead: buildWeeksAhead(i, board: board), onWeek: (_) {}));
+    },
+    size: const Size(360, 1000),
+    dock: false,
+  );
   // The last mock 11 days ago: full mock 8 lands next week on a planned day (the stopwatch beside the
   // chips), the week of 26 Oct is bare, full mock 9 the week of 2 Nov, as the approved mock.
   for (final (name, size, scale) in const [
     ('today_rich_ahead_mock_next_360', Size(360, 900), 1.0),
     ('today_rich_ahead_mock_next_412', Size(412, 915), 1.0),
     ('today_rich_ahead_mock_next_360_text130', Size(360, 1250), 1.3),
+    ('today_rich_ahead_mock_next_412_text130', Size(412, 1250), 1.3),
   ]) {
     screenGolden(name, () => _onGround(WeeksAheadBlock(ahead: buildToday(_mockNext()).glance!.ahead!, onWeek: (_) {})), size: size, dock: false, textScale: scale);
   }
