@@ -328,3 +328,10 @@ His message was the pasted next-session prompt (resume from 25ef3d95, follow NOW
 **Ledger D82-D83:**
 - **D82** APPROVED: the proposed packs (50 credits ₹10, 150 ₹29, 300 ₹49 on the web; Play ₹15 / ₹45 / ₹75) and Pro ₹150 on Play.
 - **D83** Report the worst-case cost of 50 credits against ₹10, and the margin across packs, from real cost data.
+
+## Owner, 18 Oct about 7:12 pm IST (verbatim)
+> "And the words which you aren't sure about: I was trying to mention some ad copies, but the voice decoration messed it up. I was urging you to use proper marketing English terms to market properly in English, because many times he uses a very generic or non-hyped, non-persuasive manner. That was what I was saying. I won't switch accounts right now. I'll do it myself. I'll tell you when to do it, around 95%. You can keep going for now."
+
+**Ledger D84-D85:**
+- **D84** (resolves the 6:50 pm "(confirm)" guesses) Marketing copy for nudges, the paywall, Pro and packs must be proper persuasive marketing English, never generic or flat. Truth rules still hold: no false claims, no fake scarcity. This extends M-006 ("exciting, bolder copy").
+- **D85** He switches accounts himself at about 95% and will say when. Keep going.
