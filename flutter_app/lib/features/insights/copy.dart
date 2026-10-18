@@ -99,7 +99,8 @@ abstract final class InsightsCopy {
   static const chaptersHeading = 'Chapters costing you the most marks';
   static const chaptersCaption = 'Ranked once 4 or more questions are answered in a chapter.';
   static String chapterCounts(int r, int w, int b, int n) => '$r right, $w wrong, $b blank of ${_n(n, 'question')}';
-  static String chapterOpen(int marks) => '${_n(marks, 'mark')} open';
+  /// A chapter's marks lost, Review's figure (6 a wrong answer, 5 a blank).
+  static String chapterLost(int marks) => '${_n(marks, 'mark')} lost';
   static String thinToggle(int n) => '${_n(n, 'chapter')} with fewer than 4 answered';
   static const practiseChapter = 'Practise';
   static const practiseThisChapter = 'Practise this chapter';

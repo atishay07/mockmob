@@ -564,8 +564,10 @@ abstract final class ReviewCopy {
     return '$lead$base Uses $cost of your $credits credits.';
   }
 
-  static String chapterMistakes(int n) => n == 1 ? '1 mistake to repair' : '$n mistakes to repair';
-  static const chapterNothingToRepair = 'Nothing left to repair';
+  /// The open chapter's header names its chapter: "19 to repair in Share Capital". Unnamed, "19 mistakes to repair" read as
+  /// the account's total beside Today's and Practice's 139 (final walk, H7).
+  static String chapterMistakes(int n, String chapter) => '$n to repair in $chapter';
+  static String chapterNothingToRepair(String chapter) => 'Nothing left to repair in $chapter';
   static const newestFirst = 'Newest first';
   static String showMoreMistakes(int n) => 'Show $n more';
   /// What a screen reader says on a mistake row: the action first, then which question, then where it is from.

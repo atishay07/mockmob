@@ -86,6 +86,13 @@ class ChapterLine {
 
   /// What the wrong and blank questions were worth (5 each). Never "marks you could recover".
   final int open;
+
+  /// Marks lost, Review's arithmetic for a chapter: 6 a wrong answer (5 not earned and 1 taken off) and 5 a blank. Ask Mobi
+  /// prints this, never [open], so its figure for a chapter is the one Review and Today print (final walk, H6).
+  int get lost => wrong * 6 + skip * 5;
+
+  /// Marks on offer: 5 a question asked.
+  int get offer => n * 5;
 }
 
 class ChangesSummary {
@@ -289,7 +296,7 @@ class PrepInsights {
       ledger: Ledger.fromJson(j['ledger']),
       accuracy: Rate.fromJson(j['accuracy']),
       attemptRate: asInt(j['attemptRate']),
-      ranked: [for (final c in asJsonList(chapters['ranked'])) ChapterLine.fromJson(c)],
+      ranked: rankByLost([for (final c in asJsonList(chapters['ranked'])) ChapterLine.fromJson(c)]),
       thin: [for (final c in asJsonList(chapters['thin'])) ChapterLine.fromJson(c)],
       difficulty: [for (final d in asJsonList(j['difficulty'])) DifficultyLine.fromJson(d)],
       pace: Pace.fromJson(j['pace']),
@@ -323,4 +330,13 @@ class PrepInsights {
   final List<Finding> findings;
 
   bool get isReady => state == 'ready' && sessions > 0;
+}
+
+/// [lines] most marks lost first ([ChapterLine.lost], the order Review ranks chapters in); ties keep the server's order.
+List<ChapterLine> rankByLost(List<ChapterLine> lines) {
+  final order = [for (var k = 0; k < lines.length; k++) k]..sort((a, b) {
+      final byLost = lines[b].lost.compareTo(lines[a].lost);
+      return byLost != 0 ? byLost : a.compareTo(b);
+    });
+  return [for (final k in order) lines[k]];
 }
