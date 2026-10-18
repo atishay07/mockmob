@@ -264,6 +264,8 @@ abstract final class TodayCopy {
   static String sealedTitle(String label, String subject) => '$label, $subject';
   static String receivedAt(DateTime at) => 'Received at ${formatTime12(at)}. Your result is ready.';
   static const String openSheet = 'Open your sheet';
+  /// The row under the lead while a paper's result waits there (a card picked from the deck took the lead): one whole sentence that fits the row.
+  static const String sealedWaiting = 'Your result is waiting for you.';
 
   // The paper reel on Today (D29): a truthful play-back of the student's own marked paper.
   static String reelLine(String? subject) => subject == null

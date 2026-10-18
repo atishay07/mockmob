@@ -73,7 +73,8 @@ abstract final class SuggestedCopy {
   static String costMock(String subject, int questions, int minutes) => '$subject, $questions questions, $minutes min';
 
   /// The one evidence line.
-  static String weakestLine(String chapter, int missed, int asked, int marks) => 'You lost $marks marks in $chapter by missing $missed of $asked.';
+  static String weakestLine(String chapter, int missed, int asked, int marks) =>
+      'You lost $marks marks in $chapter by missing ${missed >= asked ? 'every question' : '$missed of $asked'}.';
 
   /// A repair card's evidence line: how many mistakes the repair fixes, and why now (19 Oct, D114:
   /// the card used to repeat the lead card's source fragment). Null without a count.

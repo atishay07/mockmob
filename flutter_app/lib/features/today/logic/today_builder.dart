@@ -366,7 +366,7 @@ TodayHero? _sealed(TodayInputs i) {
 AlsoSlot alsoSlotFor(TodayHero h) => switch (h) {
       SealedHero() => AlsoSlot(
           title: h.title,
-          line: h.line,
+          line: TodayCopy.sealedWaiting,
           action: TodayAction(TodayCopy.openSheet, GoTo(AppRoutes.resultSealed(h.attemptId))),
         ),
       ResumeHero() => AlsoSlot(
