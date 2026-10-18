@@ -61,6 +61,7 @@ const TodayWeek _newWeek = TodayWeek(
 TodayInputs activeInputs({
   TodayWeek week = sundayWeek,
   int? reviseDue = 6,
+  int? openRepairs,
   RoadPlan roadPlan = const RoadPlan(),
   DateTime? now,
   bool offline = false,
@@ -89,6 +90,7 @@ TodayInputs activeInputs({
     profile: base.profile,
     reviseDue: reviseDue,
     reviseShown: reviseDue,
+    openRepairs: openRepairs,
     roadPlan: roadPlan,
     unopened: unopened,
     repaired: repaired,
@@ -168,6 +170,33 @@ Widget _plan(int step) => Builder(
       },
     );
 
+/// Change plan as showPlanFlow shows it: the live preview and the keys pinned in the sheet's footer, under the scrolling question
+/// (v15 walk, M8). On a short phone the last question scrolls and Done never leaves the screen.
+Widget _planPinned(int step) {
+  final slot = PlanFooterSlot();
+  return Builder(
+    builder: (context) {
+      final view = activeView();
+      return Stack(
+        children: [
+          Positioned.fill(child: TodayBody(view: view, callbacks: noopCallbacks)),
+          Positioned.fill(child: ColoredBox(color: context.mmColors.sheetScrim)),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: MmSheetGlass(
+              child: MmSheetScaffold(
+                title: 'Change plan',
+                footer: PlanFooterHost(slot: slot),
+                child: PlanFlowBody(layers: view.glance!.road!, road: view.road!, actions: noopRoadActions, initialStep: step, footerSlot: slot),
+              ),
+            ),
+          ),
+        ],
+      );
+    },
+  );
+}
+
 void main() {
   setUp(debugResetTodayPicks);
 
@@ -175,6 +204,9 @@ void main() {
   todayGolden('today1018_active', activeView, size: kPhone, prices: fixturePrices);
   todayGolden('today1018_active_full', activeView, size: kFull, dock: false, prices: fixturePrices);
   todayGolden('today1018_active_full_360', activeView, size: const Size(360, 3200), dock: false, prices: fixturePrices);
+  // One count for open repairs (v15 walk, M6): the lead names its batch and the whole ("123 open in all"), and the Repairs tile says the
+  // same 123 that Review's header does.
+  todayGolden('today1018_active_open_all', () => buildToday(activeInputs(openRepairs: 123)), size: kFull, dock: false, prices: fixturePrices);
   todayGolden('today1018_active_full_text130', activeView, size: const Size(412, 3900), dock: false, textScale: 1.3, prices: fixturePrices);
 
   // The swap (6.2): Practise your weakest picked; the recommended repair comes back as Suggested,
@@ -267,4 +299,5 @@ void main() {
     screenGolden('today1018_plan_step${step + 1}', () => _plan(step), size: kPhone, dock: false);
   }
   screenGolden('today1018_plan_own_date', () => _plan(0), size: const Size(412, 1200), dock: false, act: (t) => _tapKey(t, 'plan-date-own'));
+  screenGolden('today1018_plan_step3_pinned', () => _planPinned(2), size: const Size(360, 640), dock: false);
 }

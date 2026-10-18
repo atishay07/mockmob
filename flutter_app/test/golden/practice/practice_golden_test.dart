@@ -165,6 +165,12 @@ void main() {
         await _shot(tester, 'tab_order_390', b);
       });
 
+      testWidgets('tab at 390 by 844 with open mistakes: Repairs with its count and Ask Mobi right under the suggestion (D5)', (tester) async {
+        await _pump(tester, '/practice', b, practiceOverrides(quotes: _tabQuotes(), attempts: [_mock()], now: _evening, openRepairs: 98), size: const Size(390, 844));
+        await _settle(tester);
+        await _shot(tester, 'tab_repairs_390', b);
+      });
+
       testWidgets('tab at 390 by 844, scrolled to the exam band: its quiet line on the live bank (16 Oct)', (tester) async {
         await _pump(
           tester,

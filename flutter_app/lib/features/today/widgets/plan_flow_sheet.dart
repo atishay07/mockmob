@@ -324,7 +324,7 @@ class _PlanFlowBodyState extends State<PlanFlowBody> {
           left: (_target - _taken).clamp(0, 999),
           pace: GlanceCopy.paceWords(_target - _taken <= 0 || _daysToExam <= 0 ? null : (_daysToExam / (_target - _taken)).floor().clamp(1, 999)),
         ),
-        const SizedBox(height: MmSpace.s16),
+        const SizedBox(height: MmSpace.s20),
         Row(
           children: [
             if (_step > 0)
