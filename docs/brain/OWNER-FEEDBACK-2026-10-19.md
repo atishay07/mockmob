@@ -137,3 +137,10 @@ His message was the pasted next-session prompt (build PLAN-1019 Waves A and B, t
 > "If I'm not around when the mock-ups arrive, pick your recommendation for web nav, Ask Mobi and the homepage motion and build it; I can change it later."
 
 **Ledger D112:** if he is not around when the Wave B mock-ups arrive, the CTO picks the recommended option for web navigation, Ask Mobi and the homepage motion, builds it, and tells him. He can change it later.
+
+## Owner, 19 Oct about 2:15 am IST (after asking whether Autopilot had started a second session; verbatim)
+> "I have just started the auto edit. Can you just search the brain once, the Continuum, and the account which we are working on right now to see if it's on? Has it started another session, or what exactly is it doing? I am doubtful of what exactly it is doing right now, and I feel it has for sure messed up something big because I have a feeling that it's running two parallel sessions..."
+> (choice) "Keep your 10 agents running in this session; no Autopilot tonight."
+
+**Finding:** Autopilot had forked this session (6f206609) and launched 10 duplicate agents. He stopped it. The original agents are alive.
+**Ledger D113:** no Autopilot tonight. Session 25ef3d95 keeps its 10 agents and runs the plan. When this account nears its limit, STOP POINTs are made and the work waits for the reset or for him.
