@@ -302,3 +302,22 @@ His message was the pasted next-session prompt (resume from 25ef3d95, follow NOW
 - **D75** FINAL: Pro on Google Play is Rs 150 (not 149). The web stays Rs 99.
 - **D76** A proper credits wallet on the website AND the app: practice credits and AI credits in one wallet, with reload (top-up) packages. Build it even though the Razorpay checkout is not finished: he wires Razorpay himself today. Use the credit packages that already exist in the code; if the AI packs are unclear, propose reload packs.
 - **D77** He sees agents as stalled: stay on top continuously and run more in parallel. (6:38 pm check: all four agents had written within the last 1-5 minutes.)
+
+## Owner, 18 Oct about 6:50 pm IST (verbatim)
+> "We are not creating two separate wallets for practice credits and AI credits. There should be, in general, one credits option that can do multiple things. That's the direction, and there should be nudges in the app everywhere, like:
+>
+> * Get unlimited mocks
+> * No-credit system with something like better English
+> * Add writing copy, definitely
+>
+> Whenever someone clicks any pro feature, a nudge: "Upgrade to Pro," something like that.
+>
+> Also, the flow should be: once the user is onboarded on the app for the first time, after onboarding, they should not be immediately invited with the particular option. We want it only within the first usage session. After the first move or first action they attempt, they should have the pop-up: "Upgrade to Pro," with dynamic benefits shown according to the user. Something you can think of is how most apps do it. Every app has some system for doing this."
+
+(Transcription guesses, to confirm: "No-credit system with something like better English" = Pro needs no credits for practice, plus something like "better ..." (confirm the word); "Add writing copy, definitely" = write strong, persuasive copy for the nudges (confirm).)
+
+**Ledger D78-D81:**
+- **D78** ONE credits balance that does everything (practice questions AND AI replies), not two wallets. One set of credit packs.
+- **D79** Pro nudges everywhere, for example "Get unlimited mocks" and "No credits needed with Pro", with strong copy.
+- **D80** Tapping any Pro feature opens an "Upgrade to Pro" nudge.
+- **D81** First-session paywall. Not right after onboarding. In the first usage session, after the student's first move or action, show the "Upgrade to Pro" pop-up once, with benefits personalised to that student (the common app pattern).
