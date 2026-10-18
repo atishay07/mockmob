@@ -93,9 +93,10 @@ abstract final class TodayCopy {
     final tail = openInAllTail(allOpen, n);
     if (n < chapterOpen) return '$n of the $chapterOpen open mistakes in $chapter, $from.$tail';
     // The whole chapter: the big number already says how many, so the line never repeats it
-    // (design critic 16 Oct, finding 1). "Every" keeps the denominator: all of them.
+    // (design critic 16 Oct, finding 1). "Every" keeps the denominator: all of them. Two read
+    // "Both", never "All two" (SWIPE-V2-1018, W8).
     final when = '$source on ${formatDayMonthShort(marked)}';
-    return (n == 1 ? 'It is from $when, in $chapter.' : 'All ${countWord(n)} are from $when, in $chapter.') + tail;
+    return (n == 1 ? 'It is from $when, in $chapter.' : n == 2 ? 'Both are from $when, in $chapter.' : 'All ${countWord(n)} are from $when, in $chapter.') + tail;
   }
 
   /// " 123 open in all." when the account holds more open mistakes than the [shown] ones the card names, else nothing.

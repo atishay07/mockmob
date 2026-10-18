@@ -1,12 +1,16 @@
-// "Suggested for you" (D51, TODAY-SWIPE-1018) as plain values: the lead card's other moves as
-// cards (what each costs, its title, one line of evidence, its art), the pass through them (skip
-// sends the top card to the back; after every card was skipped once the end card shows), and how
-// many times the swipe hint has shown (twice, then never). Pure except the hint's store: the stack
-// widget renders the result and the tests feed fixtures. The cards are the choices' own
-// (`buildChoices`), so the deck never invents a move the lead card could not swap to; the weakest
-// chapter opens the deck when it is there (the approved d51-stack-rest: its object and its counts
-// are the strongest evidence), and the rest keep the choices' ranking.
+// "Suggested for you" (D51, TODAY-SWIPE-1018, refined by SWIPE-V2-1018 for D90) as plain values:
+// the lead card's other moves as cards (what each costs, its title, one line of evidence, its art),
+// the pass through them (Not now sends the top card to the back; after every card was passed on
+// once the end card shows; Undo takes back the last one), the first run's coaching ([DeckCoach]:
+// the demo once in the phone's life, then coaching until both directions were used or 3 visits),
+// and what the deck learns ([DeckMemory]: kinds passed on on 2 of the last 7 days sit lower).
+// Pure except the two stores: the stack widget renders the result and the tests feed fixtures.
+// The cards are the choices' own (`buildChoices`), so the deck never invents a move the lead card
+// could not swap to; the weakest chapter opens the deck when it is there (the approved
+// d51-stack-rest: its object and its counts are the strongest evidence), and the rest keep the
+// choices' ranking.
 import 'dart:async';
+import 'dart:convert';
 
 import '../../../core/storage/prefs_store.dart';
 import '../../../core/widgets/art/mm_art.dart';
@@ -34,7 +38,7 @@ enum SuggestedArt {
 class SuggestedCard {
   const SuggestedCard({required this.choice, required this.title, required this.line, this.cost, this.art = SuggestedArt.subject, this.subjectId, this.pose});
 
-  /// The choice behind the card: "Do this instead" swaps the lead card to it (or runs its action).
+  /// The choice behind the card: "Up next" swaps the lead card to it (or runs its action).
   final MoveChoice choice;
 
   String get key => choice.key;
@@ -117,7 +121,7 @@ SuggestedCard _card(MoveChoice c, TodayGlance? glance) {
       return SuggestedCard(
         choice: c,
         cost: SuggestedCopy.costMock(subject, int.tryParse(m.number ?? '') ?? 50, minutes),
-        // A title that stands on its own: the card sits over "Do this instead", so never "instead".
+        // A title that stands on its own, never "instead": the lead card shows it once it swaps.
         title: kind == MoveKind.mock ? SuggestedCopy.titleMock : (m.title ?? SuggestedCopy.titleMock),
         line: _first(m.meaning),
         art: SuggestedArt.stopwatch,
@@ -181,10 +185,12 @@ String _first(String text) {
   return at < 0 ? text : text.substring(0, at + 1);
 }
 
-/// Where the student is in one pass through the deck: the order (skips rotate the top card to the
-/// back), how many were skipped, and whether every card was seen. Pure.
+/// Where the student is in one pass through the deck: the order (Not now rotates the top card to
+/// the back), how many were passed on, and whether every card was seen. Pure.
 class DeckPass {
   DeckPass(List<String> keys) : _keys = List.of(keys), _order = List.of(keys);
+
+  DeckPass._copy(DeckPass from) : _keys = from._keys, _order = List.of(from._order), _skips = from._skips;
 
   final List<String> _keys;
   List<String> _order;
@@ -192,10 +198,13 @@ class DeckPass {
 
   /// The deck's keys in the order they show, the top first.
   List<String> get order => List.unmodifiable(_order);
+
+  /// The deck's keys in the order the pass started with ("Go through them again" returns to it).
+  List<String> get keys => List.unmodifiable(_keys);
   int get length => _keys.length;
   int get skips => _skips;
 
-  /// Every card was skipped once: the end card shows.
+  /// Every card was passed on once: the end card shows.
   bool get ended => _keys.isNotEmpty && _skips >= _keys.length;
 
   /// Cards still to come after the top one in this pass.
@@ -210,19 +219,24 @@ class DeckPass {
   /// The card under the top one, or null when the top is the last of the pass.
   String? get next => ended || moreAfter == 0 || _order.length < 2 ? null : _order[1];
 
-  /// The page dots: the one on is the card on top; those before it were seen.
-  List<DotState> get dots => [
-    for (var k = 0; k < _keys.length; k++) ended ? DotState.seen : (k < _skips ? DotState.seen : (k == _skips ? DotState.on : DotState.ahead)),
-  ];
-
   /// Whether this pass is over the same deck as [keys] (a pick changes the deck and starts anew).
   bool sameDeck(List<String> keys) => keys.length == _keys.length && Iterable<int>.generate(keys.length).every((k) => keys[k] == _keys[k]);
 
-  /// The top card goes to the back.
+  /// A copy to come back to (the undo of a pick restores the pass as it was).
+  DeckPass copy() => DeckPass._copy(this);
+
+  /// Not now: the top card goes to the back.
   void skip() {
     if (ended || _order.isEmpty) return;
     _order = [..._order.skip(1), _order.first];
     _skips++;
+  }
+
+  /// Undo of the last Not now: the card at the back comes back on top.
+  void unskip() {
+    if (_skips <= 0 || _order.isEmpty) return;
+    _order = [_order.last, ..._order.take(_order.length - 1)];
+    _skips--;
   }
 
   /// "Go through them again": the deck in its first order.
@@ -232,55 +246,254 @@ class DeckPass {
   }
 }
 
-enum DotState { ahead, on, seen }
+/// One phone's first-run coaching for the deck, as this app run sees it (persisted under
+/// [DeckCoach.key]). Mutable within the run: the stack marks what the student did.
+class DeckCoachRun {
+  DeckCoachRun({this.demoShown = false, this.rightDone = false, this.leftDone = false, this.visits = 0, bool? coaching})
+      : coaching = coaching ?? (!(rightDone && leftDone) && visits < DeckCoach.maxVisits);
 
-/// The swipe hint shows on the first two visits only (persisted on the phone), and never again
-/// once the student has swiped.
-abstract final class SuggestedHint {
-  static const String key = 'today_suggested_hint_shown';
+  /// A phone that has finished the coaching (goldens of a returning visit).
+  factory DeckCoachRun.taught() => DeckCoachRun(demoShown: true, rightDone: true, leftDone: true, visits: DeckCoach.maxVisits);
 
-  /// Visits the hint shows on.
-  static const int visits = 2;
+  /// A phone that has never seen the deck (goldens of the first run).
+  factory DeckCoachRun.fresh() => DeckCoachRun();
+
+  /// The card performed both directions by itself once (any touch stopped it): never again.
+  bool demoShown;
+
+  /// The student has used Up next (any way) at least once.
+  bool rightDone;
+
+  /// The student has used Not now (any way) at least once.
+  bool leftDone;
+
+  /// Visits on which the deck was on screen, this one included once counted.
+  int visits;
+
+  /// This visit coaches: the intro line and the coach line show. Fixed for the run, so nothing
+  /// leaves mid-visit once the student has done both directions; the next visit is plain.
+  final bool coaching;
+
+  /// The student has never moved a card at all (visits 2 and 3 nudge the top card once).
+  bool get neverSwiped => !rightDone && !leftDone;
+
+  Map<String, Object> toJson() => {'demo': demoShown, 'right': rightDone, 'left': leftDone, 'visits': visits};
+
+  static DeckCoachRun fromJson(Object? json) {
+    if (json is! Map) return DeckCoachRun();
+    bool b(String k) => json[k] == true;
+    final v = json['visits'];
+    return DeckCoachRun(demoShown: b('demo'), rightDone: b('right'), leftDone: b('left'), visits: v is int ? v : 0);
+  }
+}
+
+/// The deck's first run (SWIPE-V2-1018 section 5), persisted on the phone. The first visit gets the
+/// intro line, the demo (the top card performs right then left, about 2.2 s, once in the phone's
+/// life) and the coach line; coaching ends for good once both directions were used, or after
+/// [maxVisits] visits. Replaces the old caption hint (`today_suggested_hint_shown`): a phone that
+/// saw it twice counts as taught.
+abstract final class DeckCoach {
+  static const String key = 'today_deck_coach';
+
+  /// The old hint's key, migrated once.
+  static const String oldHintKey = 'today_suggested_hint_shown';
+
+  /// Coaching visits at most.
+  static const int maxVisits = 3;
 
   /// The store; null uses the phone's (tests set a memory store).
   static PrefsStore? store;
 
-  /// Goldens pin the hint on or off; null reads the store.
-  static bool? debugShow;
+  /// Goldens pin the run; null reads the store.
+  static DeckCoachRun? debugRun;
 
-  static Future<bool>? _thisRun;
+  static Future<DeckCoachRun>? _thisRun;
+  static DeckCoachRun? _loaded;
+  static bool _visitCounted = false;
 
-  /// Whether the hint shows on this visit. One visit per app run: the first call counts it, and
-  /// every later call in the run gets the same answer. Any error reads as no hint.
-  static Future<bool> claim() {
-    final forced = debugShow;
-    if (forced != null) return Future.value(forced);
-    return _thisRun ??= _claim();
+  /// This run's coaching, read once (every later call gets the same object). Any error reads as a
+  /// phone already taught: never a half-shown coach.
+  static Future<DeckCoachRun> load() {
+    final pinned = debugRun;
+    if (pinned != null) return Future.value(pinned);
+    return _thisRun ??= _load().then((run) => _loaded = run);
   }
 
-  static Future<bool> _claim() async {
+  /// The run once [load] has finished, else null (the stack's first frame reads it).
+  static DeckCoachRun? get loaded => debugRun ?? _loaded;
+
+  static Future<DeckCoachRun> _load() async {
     try {
       final s = store ?? SharedPrefsStore();
-      final shown = await s.getInt(key) ?? 0;
-      if (shown >= visits) return false;
-      await s.setInt(key, shown + 1);
-      return true;
+      final raw = await s.getString(key);
+      if (raw != null) return DeckCoachRun.fromJson(jsonDecode(raw));
+      final old = await s.getInt(oldHintKey) ?? 0;
+      if (old >= 2) {
+        final taught = DeckCoachRun.taught();
+        await s.setString(key, jsonEncode(taught.toJson()));
+        return taught;
+      }
+      return DeckCoachRun();
     } catch (_) {
-      return false;
+      return DeckCoachRun.taught();
     }
   }
 
-  /// The student swiped: the hint has done its job.
-  static Future<void> learned() async {
-    _thisRun = Future.value(false);
+  static Future<void> _save(DeckCoachRun run) async {
+    if (identical(run, debugRun)) return;
     try {
-      await (store ?? SharedPrefsStore()).setInt(key, visits);
+      await (store ?? SharedPrefsStore()).setString(key, jsonEncode(run.toJson()));
     } catch (_) {}
+  }
+
+  /// The deck was on screen (at least 60% of it): one visit per app run.
+  static Future<void> countVisit(DeckCoachRun run) async {
+    if (_visitCounted) return;
+    _visitCounted = true;
+    run.visits++;
+    await _save(run);
+  }
+
+  /// The demo ran (or began and was stopped by a touch): never again on this phone.
+  static Future<void> demoDone(DeckCoachRun run) async {
+    run.demoShown = true;
+    await _save(run);
+  }
+
+  /// The student used a direction (a swipe or its button).
+  static Future<void> used(DeckCoachRun run, {required bool right}) async {
+    if (right ? run.rightDone : run.leftDone) return;
+    if (right) {
+      run.rightDone = true;
+    } else {
+      run.leftDone = true;
+    }
+    await _save(run);
   }
 
   /// Forgets this run's answer (tests).
   static void debugReset() {
     _thisRun = null;
-    debugShow = null;
+    _loaded = null;
+    _visitCounted = false;
+    debugRun = null;
+  }
+}
+
+/// What the deck learns, truthfully (SWIPE-V2-1018 section 6): for each kind of card, the IST days
+/// in the last week it was passed on (one per day at most). A kind passed on on [sinkDays] or more
+/// of the last [window] days sinks to the end of the deck; nothing is removed, the recommended
+/// card never moves, and a pick clears the kind's passes. Local to the phone; nothing goes to the
+/// server. Pure; [DeckMemoryStore] keeps it.
+class DeckMemory {
+  DeckMemory([Map<String, List<int>>? passes]) : _passes = {for (final e in (passes ?? const <String, List<int>>{}).entries) e.key: List.of(e.value)};
+
+  /// Days counted back from today, today included.
+  static const int window = 7;
+
+  /// Pass days in the window that sink a kind.
+  static const int sinkDays = 2;
+
+  final Map<String, List<int>> _passes;
+
+  /// The kind a card belongs to: its choice's key, the subject for another subject's practice.
+  static String kindOf(SuggestedCard card) => card.key == 'other' && card.subjectId != null ? 'other:${card.subjectId}' : card.key;
+
+  /// The IST calendar day of [at], as a day number.
+  static int dayOf(DateTime at) {
+    final ist = at.toUtc().add(const Duration(hours: 5, minutes: 30));
+    return DateTime.utc(ist.year, ist.month, ist.day).millisecondsSinceEpoch ~/ Duration.millisecondsPerDay;
+  }
+
+  /// The pass days kept for [kind] (a copy).
+  List<int> passesOf(String kind) => List.of(_passes[kind] ?? const []);
+
+  /// Puts [kind]'s days back as they were (the undo of a Not now or a pick).
+  void restore(String kind, List<int> days) {
+    if (days.isEmpty) {
+      _passes.remove(kind);
+    } else {
+      _passes[kind] = List.of(days);
+    }
+  }
+
+  /// [kind] was passed on on [day]: kept once per day, and only the last [window] days.
+  void passed(String kind, int day) {
+    final days = {...?_passes[kind], day}.where((d) => d > day - window).toList()..sort();
+    _passes[kind] = days;
+  }
+
+  /// [kind] was picked (Up next): its passes are cleared.
+  void picked(String kind) => _passes.remove(kind);
+
+  /// Whether [kind] sits lower on [today].
+  bool sinks(String kind, int today) => (_passes[kind] ?? const []).where((d) => d <= today && d > today - window).length >= sinkDays;
+
+  /// [cards] in deck order on [today]: the recommended card first as it was, then those that do not
+  /// sink in their order, then those that sink in theirs. Never adds or removes a card.
+  List<SuggestedCard> order(List<SuggestedCard> cards, int today) {
+    final kept = <SuggestedCard>[];
+    final sunk = <SuggestedCard>[];
+    for (final c in cards) {
+      (!c.suggested && sinks(kindOf(c), today) ? sunk : kept).add(c);
+    }
+    return [...kept, ...sunk];
+  }
+
+  Map<String, Object> toJson() => {for (final e in _passes.entries) e.key: e.value};
+
+  static DeckMemory fromJson(Object? json) {
+    if (json is! Map) return DeckMemory();
+    return DeckMemory({
+      for (final e in json.entries)
+        if (e.key is String && e.value is List) e.key as String: [for (final d in e.value as List) if (d is int) d],
+    });
+  }
+}
+
+/// The phone's [DeckMemory] under [key], read once per app run.
+abstract final class DeckMemoryStore {
+  static const String key = 'today_deck_memory';
+
+  /// The store; null uses the phone's (tests set a memory store).
+  static PrefsStore? store;
+
+  /// The clock (tests set it).
+  static DateTime Function() clock = DateTime.now;
+
+  static Future<DeckMemory>? _thisRun;
+  static DeckMemory? _loaded;
+
+  /// Today's IST day number.
+  static int get today => DeckMemory.dayOf(clock());
+
+  /// The memory once read, else null.
+  static DeckMemory? get loaded => _loaded;
+
+  /// Reads the memory once; any error reads as an empty one.
+  static Future<DeckMemory> load() => _thisRun ??= _load().then((m) => _loaded = m);
+
+  static Future<DeckMemory> _load() async {
+    try {
+      final raw = await (store ?? SharedPrefsStore()).getString(key);
+      return raw == null ? DeckMemory() : DeckMemory.fromJson(jsonDecode(raw));
+    } catch (_) {
+      return DeckMemory();
+    }
+  }
+
+  static Future<void> save() async {
+    final m = _loaded;
+    if (m == null) return;
+    try {
+      await (store ?? SharedPrefsStore()).setString(key, jsonEncode(m.toJson()));
+    } catch (_) {}
+  }
+
+  /// Forgets this run's memory (tests).
+  static void debugReset() {
+    _thisRun = null;
+    _loaded = null;
+    clock = DateTime.now;
   }
 }
