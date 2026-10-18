@@ -9,8 +9,11 @@ export const TEST_MODES = {
     blurb: 'Fast revision with flexible question counts.',
     badge: 'Free',
     premium: false,
-    creditCost: 10,
-    creditAction: 'attempt',           // RPC action key
+    // Quick practice costs 1 practice credit a question (owner, 18 Oct, D65): 5 questions = 5, 10 = 10, 15 = 15, 20 = 20.
+    // The price of a set comes from practiceCreditCost(); there is no flat creditCost. The database knows the per-count
+    // actions attempt_5 / attempt_10 / attempt_15 / attempt_20 (supabase/migrations/20261018170000_...); the old flat
+    // 'attempt' action (10) stays in the database for old callers and old app builds.
+    creditPerQuestion: 1,
     countOptions: [5, 10, 15, 20],
     defaultCount: 10,
     durationPerQuestionSec: 60,        // ~60s/Q
@@ -104,6 +107,33 @@ export function fineTuneViolation(id, { chapters = [], difficulty = '' } = {}) {
   if (difficulty && !scope.difficulty) return 'DIFFICULTY_NOT_ALLOWED';
   return null;
 }
+
+// What a Free student pays for a paper, in practice credits: 1 a question for Quick practice, the fixed price for a Full
+// mock, nothing for the Pro modes. null for an unknown mode or a Quick count outside 5 / 10 / 15 / 20 (the server refuses it).
+// This is the list price: a free allowance (today's included 10-question set, a first set in a subject) is taken off by the
+// caller, and Pro pays nothing whatever this says.
+export function practiceCreditCost(modeId, count) {
+  const mode = TEST_MODES[modeId];
+  if (!mode) return null;
+  if (mode.premium) return 0;
+  if (mode.creditPerQuestion) {
+    const n = Number(count);
+    return Number.isInteger(n) && mode.countOptions.includes(n) ? n * mode.creditPerQuestion : null;
+  }
+  return Number(mode.creditCost) || 0;
+}
+
+// The database spend action that charges practiceCreditCost(): 'attempt_<count>' for Quick practice, 'attempt_full' for
+// a Full mock, null when nothing is spent (Pro modes) or the count is not one of the options.
+export function practiceCreditAction(modeId, count) {
+  const mode = TEST_MODES[modeId];
+  if (!mode || mode.premium) return null;
+  if (mode.creditPerQuestion) return practiceCreditCost(modeId, count) === null ? null : `attempt_${Number(count)}`;
+  return mode.creditAction || null;
+}
+
+// The Quick practice actions the database prices per question (one place for db.js, the tests and the migration check).
+export const PER_QUESTION_ACTIONS = Object.freeze(TEST_MODES.quick.countOptions.map((n) => `attempt_${n}`));
 
 export function defaultModeFor(isPremium) {
   return isPremium ? 'smart' : 'quick';

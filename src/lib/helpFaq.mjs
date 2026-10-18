@@ -3,7 +3,7 @@
 // differently from the phone (the credits history, sign-in, offline answers) the answer says how it works here.
 // Credit words come from creditCopy.mjs, the same source as the rest of the site. Plain sentence case:
 // no "!", no em dash, no middle dot. Pure, so a test can hold every word.
-import { AI_CREDITS, PRACTICE_CREDITS } from './creditCopy.mjs';
+import { AI_CREDITS, PRACTICE_CREDITS, PRACTICE_PRICE_LINE } from './creditCopy.mjs';
 
 export const SUPPORT_EMAIL = 'support@mockmob.in';
 export const HELP_HEADING = 'Common questions';
@@ -15,6 +15,7 @@ export const FAQ_ITEMS = Object.freeze([
     question: `What are ${PRACTICE_CREDITS} and ${AI_CREDITS}?`,
     answer: Object.freeze([
       `${PRACTICE_CREDITS} pay for mocks and practice sets. ${AI_CREDITS} pay for Ask Mobi replies and repair explanations. Each has its own balance. ${AI_CREDITS} show the date they renew. ${PRACTICE_CREDITS} do not renew.`,
+      PRACTICE_PRICE_LINE,
       `On Pro, practice is unlimited. Your ${AI_CREDITS} still count.`,
     ]),
   }),

@@ -9,13 +9,14 @@ import { AppIcon, CreditAmount, StatusIcon } from '@/components/ui/Glyph';
 import { useAuth } from '@/components/AuthProvider';
 import { DrawnCheck } from '@/components/ui/DrawnCheck';
 import { PAYMENT_PLANS } from '@/lib/payments/plans';
+import { PRACTICE_PRICE_LINE } from '@/lib/creditCopy.mjs';
 
 const MONTHLY_RUPEES = Math.round(PAYMENT_PLANS.pro_monthly_99.amount / 100);
 // Dates are India dates: a paid-through instant of 18:29:59Z is 23:59 IST, and must not read as the next day elsewhere.
 const fmt = (iso) => new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Kolkata' });
 // The lead names the timezone once, beside its date.
 // Balances are shown once on Account, in Credits right under this card; the plan says what things cost.
-const FREE_COSTS = 'Free uses practice credits: Quick practice costs 10 practice credits and Full mock costs 50. Your balance is under Credits.';
+const FREE_COSTS = `Free uses practice credits. ${PRACTICE_PRICE_LINE} Your balance is under Credits.`;
 const LeadDate = ({ iso }) => <><strong>{fmt(iso)}</strong> (IST)</>;
 
 export function PlanCard() {

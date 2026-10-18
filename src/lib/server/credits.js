@@ -68,7 +68,7 @@ export function parseCursor(raw) {
 // ---------------------------------------------------------------------------------------------
 // Words
 
-const PRACTICE_SPEND = Object.freeze({ attempt: 'Practice set', attempt_full: 'Full mock', generate: 'Practice set' });
+const PRACTICE_SPEND = Object.freeze({ attempt: 'Practice set', attempt_5: 'Practice set', attempt_10: 'Practice set', attempt_15: 'Practice set', attempt_20: 'Practice set', attempt_full: 'Full mock', generate: 'Practice set' });
 
 /** What a Practice credits line says, in plain words. */
 export function practiceWhat(row) {

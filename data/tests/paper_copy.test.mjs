@@ -11,7 +11,7 @@ import {
   pricingBankFaq, pricingBankLine, tileCount,
 } from '../../src/lib/paperCopy.mjs';
 import { practiceBankSize } from '../../src/lib/practiceBank.mjs';
-import { TEST_MODES } from '../test_modes.js';
+import { TEST_MODES, practiceCreditCost } from '../test_modes.js';
 import { rankCandidates } from '../mock_question_selector.js';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -79,7 +79,7 @@ test('pricing says no limit on papers without calling Free unlimited, and names 
   assert.doesNotMatch(pricingBankLine(null), /\d/);
   const faq = pricingBankFaq(8197);
   assert.equal(faq.q, 'How many mocks do I get per subject?');
-  assert.match(faq.a, /On Free, Quick practice uses 10 practice credits a session and a Full mock uses 50\./);
+  assert.match(faq.a, /On Free, each paper uses practice credits\. Practice credits: 1 a question\. A 10-question set is 10, a full mock 50\./);
   assert.match(faq.a, /can bring back questions you have answered before/);
   assert.match(ONBOARDING_LEAD, /^Pick up to 5\./);
 });
@@ -100,8 +100,12 @@ test('every line is plain: no "never repeats", no "unlimited" for Free, no "!", 
 
 // The facts behind the words. If one of these changes, the copy above must change with it.
 test('the prices the copy names are the prices the code charges', () => {
-  assert.equal(TEST_MODES.quick.creditCost, 10);
+  // Quick practice is 1 practice credit a question (owner D65, 18 Oct); a full mock stays 50. There is no flat Quick price.
+  assert.equal(TEST_MODES.quick.creditPerQuestion, 1);
+  assert.equal(TEST_MODES.quick.creditCost, undefined);
   assert.equal(TEST_MODES.full.creditCost, 50);
+  assert.deepEqual([5, 10, 15, 20].map((n) => practiceCreditCost('quick', n)), [5, 10, 15, 20]);
+  assert.equal(practiceCreditCost('full', 50), 50);
   assert.equal(TEST_MODES.nta.premium, true);
   assert.equal(TEST_MODES.smart.premium, true);
   assert.equal(TEST_MODES.full.fixedCount, 50);
@@ -109,6 +113,7 @@ test('the prices the copy names are the prices the code charges', () => {
   // Pro spends nothing on any mode; Free pays the mode's credit action per paper.
   const sessions = read('src/lib/server/practiceSessions.js');
   assert.match(sessions, /p_credit_action: charge\.creditAction/);
+  assert.match(sessions, /creditAction: practiceCreditAction\(mode\.id, count\)/);
   assert.match(read('data/practice_charge.js'), /if \(isPremium\) return \{ creditAction: null, quota: null \}/);
   assert.match(read('data/practice_charge.js'), /creditAction: creditAction \|\| null/);
   assert.match(sessions, /if \(charge\.creditAction\)/);

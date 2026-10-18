@@ -14,7 +14,7 @@
 //     bring back questions the student has answered, and NTA mode says so when it happens.
 // Pure, no React, so a node test can hold the words. Sentence case; no "!", no em dash, no middle dot, no arrows.
 
-import { usesLine, haveLine } from './creditCopy.mjs';
+import { usesLine, haveLine, PRACTICE_PRICE, PRACTICE_PRICE_LINE } from './creditCopy.mjs';
 import { SUBJECT_CLAIM } from '../../data/subject_claim.js';
 
 const PUBLIC_ID = Object.freeze({ gat: 'general_test' });
@@ -86,7 +86,7 @@ export const MODE_TILE_SPECS = Object.freeze({
 });
 
 const MODE_NAMES = Object.freeze({ quick: 'Quick practice', full: 'Full mock', smart: 'Smart practice', nta: 'NTA mode' });
-const MODE_COST = Object.freeze({ quick: 10, full: 50 });
+const MODE_COST = Object.freeze({ quick: PRACTICE_PRICE.set, full: PRACTICE_PRICE.full });   // quick: the 10-question set; Quick practice is 1 credit a question
 
 /**
  * The result page's next step: take another paper in the same subject and mode, built fresh. Returns the heading,
@@ -133,7 +133,7 @@ export function pricingBankFaq(bankSize) {
   const bank = Number.isInteger(bankSize) && bankSize > 0 ? ` (${fmt(bankSize)} questions in the subjects Practice offers, at the last daily count)` : '';
   return {
     q: 'How many mocks do I get per subject?',
-    a: `As many as you take. MockMob keeps one checked question bank${bank}, and each paper is built from it when you start, with questions you have not answered first. With Pro there is no cap. On Free, Quick practice uses 10 practice credits a session and a Full mock uses 50. A subject with a small bank can bring back questions you have answered before; NTA mode names any repeat on the paper.`,
+    a: `As many as you take. MockMob keeps one checked question bank${bank}, and each paper is built from it when you start, with questions you have not answered first. With Pro there is no cap. On Free, each paper uses practice credits. ${PRACTICE_PRICE_LINE} A subject with a small bank can bring back questions you have answered before; NTA mode names any repeat on the paper.`,
   };
 }
 

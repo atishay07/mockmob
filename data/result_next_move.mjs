@@ -7,15 +7,18 @@
 // Every number comes from the scored attempt (data/session_recovery.js analyseSession), the server's repair order
 // (lab.repairOrder), the key checks (answerReviews) or the wallet. Nothing is invented: an unknown balance has no number.
 import { usesLine, haveLine } from '../src/lib/creditCopy.mjs';
+import { TEST_MODES, practiceCreditCost } from './test_modes.js';
+
+const SET_SIZE = 10;
 
 export const NEXT_MOVE_RULES = Object.freeze({
   gapWrong: 6, // 5 not won plus the 1 penalty
   gapBlank: 5,
   fewRight: 0.15, // a chapter with under 15 percent right leads its detail with the right count ("1 right of 10: ...")
   weakShare: 0.4, // under 40 percent of answered questions right: a chapter set before single repairs
-  setSize: 10, // "Practise 10 on {chapter}"
-  practiceCost: 10, // practice credits for a 10-question Quick practice (src/lib/paperCopy.mjs MODE_COST.quick)
-  fullMockCost: 50, // practice credits for a Full mock (src/lib/paperCopy.mjs MODE_COST.full, data/test_modes.js)
+  setSize: SET_SIZE, // "Practise 10 on {chapter}"
+  practiceCost: practiceCreditCost('quick', SET_SIZE), // practice credits for this 10-question Quick practice: 1 a question (data/test_modes.js)
+  fullMockCost: practiceCreditCost('full', TEST_MODES.full.fixedCount), // practice credits for a Full mock (data/test_modes.js)
   fewRepairs: 5, // with 5 or fewer left, the time for all of them is said
   lateFrom: 23, // 11 PM to 5 AM: one plain line, no figure
   lateUntil: 5,

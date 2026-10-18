@@ -24,7 +24,7 @@ import { alternatives as buildAlternatives, buildMove, clock, fitMove } from '@/
 import { choiceMoves, keepLength, leadOf, pickChoices, pickKey, readLength, refit } from '@/lib/today/lead.mjs';
 import { firstWeekClock, firstWeekPath, stepOfDay, withFirstWeek } from '@/lib/today/firstWeek.mjs';
 import { firstTimedMockHref } from '@/../data/first_timed_mock';
-import { TEST_MODES } from '@/../data/test_modes';
+import { TEST_MODES, practiceCreditCost } from '@/../data/test_modes';
 import { usesLine } from '@/lib/creditCopy.mjs';
 import { greeting } from '@/lib/today/greeting.mjs';
 import { freshPaper, reelSeen } from '@/lib/today/paperReel.mjs';
@@ -148,7 +148,9 @@ export default function Today() {
     if (m.id === 'revise') return 'Free. No credits.';
     if (premium || m.aiEach || ['resume', 'check', 'done', 'plan'].includes(m.id) || (m.id === 'returning' && m.open > 0)) return null;
     const mock = m.kind === 'mock' || m.id === 'firstMock';
-    const cost = (mock ? TEST_MODES.full : TEST_MODES.quick)?.creditCost;
+    // A practice set is 1 credit a question, so the cost follows the set's own size (its link carries count=); a mock is 50.
+    const asked = Number(/[?&]count=(\d+)/.exec(m.key?.href || m.href || '')?.[1]);
+    const cost = mock ? practiceCreditCost('full', TEST_MODES.full.fixedCount) : practiceCreditCost('quick', Number.isFinite(asked) && asked > 0 ? asked : m.number) ?? practiceCreditCost('quick', TEST_MODES.quick.defaultCount);
     return cost > 0 ? usesLine({ what: mock ? 'This mock' : 'This set', cost, pool: 'practice', balance }) : null;
   }, [premium, balance]);
   const reviseSubjects = reviseData?.subjects;
