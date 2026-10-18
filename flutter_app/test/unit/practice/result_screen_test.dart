@@ -104,11 +104,23 @@ void main() {
     // The bar's line says what the missed marks went to, not the marks again.
     expect(find.text('1 wrong answer cost 6 of the 11 marks you missed.'), findsOneWidget);
     expect(find.textContaining('39 of 50 marks.'), findsNothing);
-    // Under the moment, the chapter that cost the most.
-    expect(find.text('Admission of a partner cost 11 of the 11 marks you missed.'), findsOneWidget);
+    // One chapter lost every missed mark: the bar's line has said it and the panel names the chapter, so the moment is
+    // not followed by the same news a second time (one thing at a time).
+    expect(find.textContaining('cost 11 of the 11 marks you missed'), findsNothing);
     expect(find.text('Finish for now'), findsWidgets);
     expect(find.text(ResultFoot.seePaperLabel), findsOneWidget);
     semantics.dispose();
+  });
+
+  testWidgets('two chapters lost marks: under the moment, the one that cost the most', (tester) async {
+    final two = [
+      for (var i = 0; i < 8; i++) ('Admission of a partner', V.right),
+      ('Admission of a partner', V.wrong),
+      ('Goodwill', V.wrong),
+    ];
+    await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(two)));
+    await tester.pump(const Duration(milliseconds: 900));
+    expect(find.text('Admission of a partner cost 6 of the 12 marks you missed.'), findsOneWidget);
   });
 
   testWidgets('"Paper saved" is said only once the server\'s acknowledgement is held on this phone', (tester) async {

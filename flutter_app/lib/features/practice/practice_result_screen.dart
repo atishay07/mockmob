@@ -486,6 +486,10 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
     final finishMarks = FinishMarks(correct: attempt.correct, wrong: attempt.wrong, blank: attempt.unattempted, total: attempt.total);
     final tone = finishToneFor(finishMarks, previousAccuracy: _previousAccuracy(attempt));
     final costliest = costliestLine(rows, reviews: reviews);
+    // One chapter lost every missed mark: the moment's bar line has just said the figure and the panel below names the
+    // chapter, so the block would say it a second time (one thing at a time, D108).
+    final top = costliest.chapter == null ? null : _topChapter(rows, reviews);
+    final showCostliest = costliest.chapter != null && top != null && top.marks < rows.marks.gap;
 
     // What is below the head waits for the arrival, then rises in: the list never gives the result away while the score
     // still counts up.
@@ -502,9 +506,9 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
     final layers = <Widget>[
       // What the moment does not say: the chapter that cost the most (only when one did; the moment's bar line already
       // says what the missed marks went to) and a key under re-check. Below the fold, so the moment stays one thing.
-      if (costliest.chapter != null || notice != null) ...[
+      if (showCostliest || notice != null) ...[
         const SizedBox(height: MmSpace.s24),
-        if (costliest.chapter != null)
+        if (showCostliest)
           CostliestBlock(costliest: costliest, notice: notice)
         else
           ResultNotice(text: notice!),
@@ -720,6 +724,9 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
     );
   }
 }
+
+/// The chapter that cost the most marks (the screen's own `costliest` local names the line built from it).
+ChapterCost? _topChapter(MoveAnalysis rows, Map<String, String> reviews) => costliest(rows, reviews: reviews);
 
 /// The folds' names in the session's memory.
 abstract final class _Folds {

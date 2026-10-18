@@ -614,11 +614,42 @@ class _CompletionLineState extends State<CompletionLine> with TickerProviderStat
         ),
         const SizedBox(width: MmSpace.s8),
         Expanded(
-          child: Text.rich(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Two lines, each whole: "Paper saved." then "You scored 34 of 50 marks." (at 360 dp one line left
+              // "marks." alone on the second).
+              if (saved != null) Text(saved, style: style.copyWith(fontWeight: FontWeight.w600)),
+              _scored(style, figureStyle, figureWidth),
+            ],
+          ),
+        ),
+      ],
+    );
+    return Semantics(
+      container: true,
+      liveRegion: widget.run,
+      label: widget.run ? FinishCopy.spoken(saved, widget.scored, widget.max) : null,
+      excludeSemantics: true,
+      child: AnimatedBuilder(
+        animation: _in,
+        child: line,
+        builder: (context, child) {
+          final t = Motion.out.transform(_in.value);
+          return Opacity(
+            opacity: t,
+            child: Transform.translate(offset: Offset(0, 8 * (1 - t)), child: child),
+          );
+        },
+      ),
+    );
+  }
+
+  /// "You scored 34 of 50 marks.", the figure counting up in a box as wide as its final digits.
+  Widget _scored(TextStyle style, TextStyle figureStyle, double figureWidth) => Text.rich(
             TextSpan(
               style: style,
               children: [
-                if (saved != null) TextSpan(text: '$saved ', style: style.copyWith(fontWeight: FontWeight.w600)),
                 TextSpan(text: FinishCopy.scoredLead),
                 WidgetSpan(
                   alignment: PlaceholderAlignment.baseline,
@@ -642,28 +673,7 @@ class _CompletionLineState extends State<CompletionLine> with TickerProviderStat
                 TextSpan(text: FinishCopy.scoredTail(widget.max)),
               ],
             ),
-          ),
-        ),
-      ],
-    );
-    return Semantics(
-      container: true,
-      liveRegion: widget.run,
-      label: widget.run ? FinishCopy.spoken(saved, widget.scored, widget.max) : null,
-      excludeSemantics: true,
-      child: AnimatedBuilder(
-        animation: _in,
-        child: line,
-        builder: (context, child) {
-          final t = Motion.out.transform(_in.value);
-          return Opacity(
-            opacity: t,
-            child: Transform.translate(offset: Offset(0, 8 * (1 - t)), child: child),
           );
-        },
-      ),
-    );
-  }
 
   /// Lucide's circle-check stroke ("m9 12 2 2 4-4") scaled to the box.
   static Path _check(Size size) {
