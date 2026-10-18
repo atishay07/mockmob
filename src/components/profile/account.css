@@ -127,16 +127,33 @@
   .app-shell .acct-stats__next dt { display: none; }
 }
 
-/* ---------- Name and sign-in ---------- */
+/* ---------- Name and email ---------- */
 .app-shell .acct-card { display: grid; gap: 18px; align-content: start; min-width: 0; padding: clamp(18px, 3vw, 24px); }
 .app-shell .acct-field { display: grid; gap: 8px; }
 .app-shell .acct-field > span:first-child { font-size: 14px; font-weight: 600; color: var(--a-ink-2); }
 .app-shell .acct-field__help { font-size: 13px; line-height: 1.45; color: var(--a-ink-3); }
 .app-shell .acct-card__keys { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding-top: 16px; border-top: 1px solid var(--a-line); }
-.app-shell .acct-signout { display: grid; gap: 12px; padding-top: 16px; border-top: 1px solid var(--a-line); }
-.app-shell .acct-signout h3 { margin: 0; font: 700 16px/1.3 var(--font-display); color: var(--a-ink); }
-.app-shell .acct-signout p { margin: 4px 0 0; max-width: 56ch; font-size: 13.5px; line-height: 1.55; color: var(--a-ink-2); }
-.app-shell .acct-signout__keys { display: flex; flex-wrap: wrap; gap: 10px; }
+
+/* ---------- Account actions (owner G29, 19 Oct): Sign out, Sign out of other devices, Delete account ----------
+   One card, three hairline-ruled rows. Each row: its name and one plain sentence, its key on the right from 640 px (under
+   the words on a phone). Sign out leads; Delete account's key alone carries the danger tone. No nested cards. */
+.app-shell .acct-actions { gap: 6px; }
+.app-shell .acct-actions__list { display: grid; }
+.app-shell .acct-actions__list > * + * { border-top: 1px solid var(--a-line); }
+.app-shell .acct-act { display: grid; gap: 12px; padding: 18px 0; min-width: 0; }
+.app-shell .acct-actions__list > :last-child, .app-shell .acct-actions__list > :last-child .acct-act { padding-bottom: 2px; }
+.app-shell .acct-act__text { min-width: 0; }
+.app-shell .acct-act h3 { margin: 0; font: 700 16px/1.3 var(--font-display); color: var(--a-ink); }
+.app-shell .acct-act p { margin: 4px 0 0; max-width: 60ch; font-size: 13.5px; line-height: 1.55; color: var(--a-ink-2); }
+.app-shell .acct-act > .acct-note, .app-shell .acct-act__confirm .acct-note { margin: 0; }
+.app-shell .acct-act__keys { display: flex; flex-wrap: wrap; gap: 10px; }
+.app-shell .acct-act__confirm { display: grid; gap: 12px; min-width: 0; max-width: 420px; }
+@media (min-width: 640px) {
+  .app-shell .acct-act { grid-template-columns: minmax(0, 1fr) auto; column-gap: 24px; align-items: center; }
+  .app-shell .acct-act > .acct-note, .app-shell .acct-act > .acct-act__confirm { grid-column: 1 / -1; }
+  .app-shell .acct-act__keys { justify-content: flex-end; }
+  .app-shell .acct-act[data-open] { align-items: start; }
+}
 
 /* ---------- Plan and credits: the live plan card, joined to the PrepOS line ---------- */
 .app-shell .acct-plan { display: grid; min-width: 0; }

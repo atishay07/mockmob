@@ -241,7 +241,7 @@ export const HELP_ROWS = Object.freeze([
 export const THEME_NAME = Object.freeze({ dark: 'Night', light: 'Daylight', system: 'Match device' });
 
 /** The anchors a link to /profile#... may land on. Anything else is ignored. */
-export const ACCOUNT_ANCHORS = Object.freeze(['sheet', 'name', 'colleges', 'plan', 'credits', 'appearance', 'goal', 'community', 'help', 'privacy', 'sign-in', 'delete']);
+export const ACCOUNT_ANCHORS = Object.freeze(['sheet', 'name', 'colleges', 'plan', 'credits', 'appearance', 'goal', 'community', 'help', 'privacy', 'account-actions', 'sign-out', 'sign-in', 'delete']);
 export function anchorFromHash(hash) {
   const id = String(hash || '').replace(/^#/, '').trim().toLowerCase();
   return ACCOUNT_ANCHORS.includes(id) ? id : null;

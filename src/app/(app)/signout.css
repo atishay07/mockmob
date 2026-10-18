@@ -1,0 +1,29 @@
+/* Sign out in words (owner G29, 19 Oct 2026): the top bar's key beside the account (from 1024 px) and the phone's More
+   sheet key. A quiet outlined key, 44 px tall, sentence case; it turns the danger tone only under a pointer or focus, so
+   it never shouts beside the credits. Tokens only, so Night and Daylight match. */
+.app-shell .arena-signout {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  min-height: 44px;
+  padding: 0 14px 0 12px;
+  border: 1px solid var(--a-line);
+  border-radius: 12px;
+  background: var(--a-raised);
+  color: var(--a-ink-2);
+  font: 650 13.5px/1 var(--font-display);
+  white-space: nowrap;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: border-color 160ms var(--mm-ease-out, ease-out), color 160ms var(--mm-ease-out, ease-out), transform 100ms var(--mm-ease-out, ease-out);
+}
+.app-shell .arena-signout svg { width: 17px; height: 17px; flex: none; }
+.app-shell .arena-signout:active { transform: scale(0.97); }
+.app-shell .arena-signout:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .app-shell .arena-signout:hover { color: var(--a-bad-text); border-color: color-mix(in srgb, var(--a-bad-text) 40%, transparent); }
+}
+@media (prefers-reduced-motion: reduce) { .app-shell .arena-signout { transition: none; } .app-shell .arena-signout:active { transform: none; } }
+:root[data-motion='reduced'] .app-shell .arena-signout { transition: none; }
+:root[data-motion='reduced'] .app-shell .arena-signout:active { transform: none; }

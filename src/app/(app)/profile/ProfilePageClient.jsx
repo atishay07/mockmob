@@ -3,11 +3,11 @@
 // Account: the live page, with the restructure's You page brought inside it. 17 Oct (W-052, W-053): your sheet carries
 // both balances at a glance, Your progress (study days, badges, best work) follows it, and the weekly goal now sits above
 // plan and credits. Your sheet first (who you
-// are, the exam, your subjects as the app's objects, your mocks), then your name and sign-in. Beside
+// are, the exam, your subjects as the app's objects, your mocks), then your name and email. Beside
 // them: plan and credits, appearance (the Night, Daylight and Match device switch) and your weekly goal. On a wide screen the
 // columns are sheet, name and appearance | plan, credits and goal, which keeps them level once the credits history is open;
 // on a phone the order is sheet, name, plan, credits, appearance, goal (account.css).
-// Below: community and help, then privacy, other devices and delete account.
+// Below: community and help and privacy, then Account actions (Sign out, Sign out of other devices, Delete account).
 // Every setting that was on this page is still here. The page paints at once: only the mock counts wait
 // for the server, and a failure there never hides a setting. Links to /profile#plan, #appearance, #goal,
 // #privacy, #delete and the rest land on their section. One Mobi on screen (lookMobiStore.js).
@@ -132,28 +132,31 @@ function DeleteAccountSection() {
     } finally { setBusy(false); }
   }
 
+  // The last row of Account actions (owner G29): the same row as Sign out, with the danger tone on its key only.
   return (
-    <section className="glass p-6 privacy-block" id="delete" aria-labelledby="delete-account-title">
-      <h2 id="delete-account-title">Delete account</h2>
-      <p>We delete your account and study records within 30 days. Payment records required by law are kept.</p>
+    <div className="acct-act acct-act--danger" id="delete" role="group" aria-labelledby="delete-account-title" data-open={open || undefined}>
+      <div className="acct-act__text">
+        <h3 id="delete-account-title">Delete account</h3>
+        <p>We delete your account and study records within 30 days. Payment records required by law are kept.</p>
+      </div>
       {pending ? (
-        <p className="privacy-note privacy-note--ok" role="status">Deletion pending. You asked on {fmtDate(pending)} and we complete it within 30 days. To cancel, email support@mockmob.in.</p>
+        <p className="acct-note" data-tone="ok" role="status">Deletion pending. You asked on {fmtDate(pending)} and we complete it within 30 days. To cancel, email support@mockmob.in.</p>
       ) : !open ? (
-        <div><Button variant="outline" size="md" className="privacy-danger" onClick={() => setOpen(true)}>Delete account</Button></div>
+        <div className="acct-act__keys"><button type="button" className="acct-key acct-key--danger" onClick={() => setOpen(true)}>Delete account</button></div>
       ) : (
-        <div className="privacy-confirm">
-          <label className="block">
-            <span className="privacy-label">Type DELETE to confirm</span>
+        <div className="acct-act__confirm">
+          <label className="acct-field">
+            <span>Type DELETE to confirm</span>
             <input className="input" value={typed} onChange={(e) => setTyped(e.target.value)} autoComplete="off" autoCapitalize="characters" spellCheck={false} />
           </label>
-          <div className="flex gap-3 flex-wrap">
-            <Button variant="outline" size="md" className="privacy-danger" disabled={busy || typed !== 'DELETE'} onClick={confirmDelete}>{busy ? 'Sending request' : 'Request deletion'}</Button>
-            <Button variant="ghost" size="md" disabled={busy} onClick={() => { setOpen(false); setTyped(''); setError(''); }}>Cancel</Button>
+          <div className="acct-act__keys">
+            <button type="button" className="acct-key acct-key--danger" disabled={busy || typed !== 'DELETE'} onClick={confirmDelete}>{busy ? 'Sending request' : 'Request deletion'}</button>
+            <button type="button" className="acct-key" disabled={busy} onClick={() => { setOpen(false); setTyped(''); setError(''); }}>Cancel</button>
           </div>
-          {error && <p className="privacy-note privacy-note--err" role="alert">{error}</p>}
+          {error && <p className="acct-note" data-tone="err" role="alert">{error}</p>}
         </div>
       )}
-    </section>
+    </div>
   );
 }
 
@@ -266,7 +269,7 @@ export default function ProfilePageClient() {
           <div className="acct-moved acct-moved--end"><InstallPractice /></div>
 
           <section className="glass acct-card" id="name" aria-labelledby="acct-name-h">
-            <h2 className="acct-h2" id="acct-name-h">Your name and sign-in</h2>
+            <h2 className="acct-h2" id="acct-name-h">Your name and email</h2>
             <label className="acct-field">
               <span>Display name</span>
               <input
@@ -292,7 +295,6 @@ export default function ProfilePageClient() {
                 {isSaving ? 'Saving' : 'Save name'}
               </Button>
             </div>
-            <SignOutControl />
           </section>
 
           <div id="appearance" className="acct-anchor"><LookAndFeelCard /></div>
@@ -314,9 +316,19 @@ export default function ProfilePageClient() {
       <div className="acct-grid acct-grid--even">
         <AccountLinks />
         <UsageDataSection />
-        <div id="sign-in" className="acct-anchor"><SignOutOtherDevicesSection /></div>
-        <DeleteAccountSection />
       </div>
+
+      {/* Account actions (owner G29, 19 Oct): one group, Sign out first, then Sign out of other devices, then Delete
+          account. Each is a labelled row with its own key, at every width, so the plain sign out is never mistaken for the
+          other two. The top bar and the phone's More sheet carry the same labelled Sign out (AppLayoutClient.jsx). */}
+      <section className="glass acct-card acct-actions" id="account-actions" aria-labelledby="acct-actions-h">
+        <h2 className="acct-h2" id="acct-actions-h">Account actions</h2>
+        <div className="acct-actions__list">
+          <div id="sign-out" className="acct-anchor"><SignOutControl /></div>
+          <div id="sign-in" className="acct-anchor"><SignOutOtherDevicesSection /></div>
+          <DeleteAccountSection />
+        </div>
+      </section>
     </div>
   );
 }
