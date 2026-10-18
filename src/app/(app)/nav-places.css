@@ -65,6 +65,10 @@ html[data-motion='reduced'] .app-shell .arena-mobi-door { transition: none; }
 /* ---------- The You sheet ---------- */
 /* Mobi's face in place of the sparkle on the Ask Mobi row. */
 .app-shell .arena-sheet .arena-sheet__mobi { flex: none; width: 30px; height: auto; }
+/* The sheet's blocks are 18 px apart by its own gap; the 12 px margins that the Ask Mobi row and the appearance row carried from
+   the old list doubled that space. Without them the sheet is 24 px shorter (555 to 531 px at 390 wide), so it needs no scroll
+   from a phone 687 px tall (it was 702). */
+html .app-shell .arena-sheet > .arena-sheet__lead, html .app-shell .arena-sheet > .arena-appearance { margin-bottom: 0; }
 
 /* ---------- The row of place tabs (below 1024 px) ---------- */
 .app-shell .arena-tabs { display: none; }
