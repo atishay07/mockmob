@@ -267,6 +267,7 @@ abstract final class TodayCopy {
   static const String reelKey = 'Play it back';
   static const String reelLength = '20 s';
   static const String reelLater = 'Not now';
+  static const String reelSlow = 'Still reading your paper. A slow connection takes a little longer.';
   static String reelSheetSemantics(int n) => 'Your answer sheet, $n questions, ready to play back.';
   static const String reelNotLoaded = 'The paper did not load. Opening the result instead.';
   static const String openDirectly = 'Open results directly';

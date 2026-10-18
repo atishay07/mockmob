@@ -140,10 +140,19 @@ class MistakeSummary extends StatelessWidget {
                     const SizedBox(height: MmSpace.s2),
                     Text(when!, style: type.caption.copyWith(color: colors.ink2), maxLines: 1, overflow: TextOverflow.ellipsis),
                   ],
-                  if (stem != null && stem!.isNotEmpty) ...[
-                    const SizedBox(height: MmSpace.s2),
-                    Text(stem!, style: type.small.copyWith(color: colors.ink2), maxLines: 1, overflow: TextOverflow.ellipsis),
-                  ],
+                  // The one-line preview of the question is the closed row's. Once the row is open its full stem stands
+                  // below, in large type: the same words twice is one too many (v15 walk), so the preview steps aside.
+                  MmSizeEase(
+                    duration: Motion.of(context, Motion.ui),
+                    curve: Motion.out,
+                    alignment: Alignment.topLeft,
+                    child: stem != null && stem!.isNotEmpty && !expanded
+                        ? Padding(
+                            padding: const EdgeInsets.only(top: MmSpace.s2),
+                            child: Text(stem!, style: type.small.copyWith(color: colors.ink2), maxLines: 1, overflow: TextOverflow.ellipsis),
+                          )
+                        : const SizedBox(width: double.infinity),
+                  ),
                   if (facts.isNotEmpty) ...[
                     const SizedBox(height: MmSpace.s8),
                     Wrap(spacing: MmSpace.s12, runSpacing: MmSpace.s6, crossAxisAlignment: WrapCrossAlignment.center, children: facts),

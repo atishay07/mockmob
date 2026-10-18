@@ -4,7 +4,11 @@
 // result directly" link: one volt key plays it, and "Not now" is one tap. Either way the Up next
 // card returns. The card shows the paper as its answer sheet, every bubble still hollow (nothing
 // is given away before the reel plays), on the same lamp-lit stage as the move.
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+
+import '../../../core/motion/motion.dart';
 
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -13,7 +17,7 @@ import '../logic/today_model.dart';
 import 'hero_stage.dart';
 import 'today_entrance.dart';
 
-class ReelHeroCard extends StatelessWidget {
+class ReelHeroCard extends StatefulWidget {
   const ReelHeroCard({super.key, required this.sealed, required this.onPlay, required this.onLater, this.loading = false});
 
   final SealedHero sealed;
@@ -22,6 +26,51 @@ class ReelHeroCard extends StatelessWidget {
 
   /// The paper is being read for the reel: the key shows it is working.
   final bool loading;
+
+  /// How long a read may run before the card says it is still working. A slow connection can take a minute, and a spinner
+  /// alone gave no reason (v15 walk).
+  static const Duration slowAfter = Duration(seconds: 8);
+
+  @override
+  State<ReelHeroCard> createState() => _ReelHeroCardState();
+}
+
+class _ReelHeroCardState extends State<ReelHeroCard> {
+  Timer? _slowTimer;
+  bool _slow = false;
+
+  SealedHero get sealed => widget.sealed;
+  VoidCallback get onPlay => widget.onPlay;
+  VoidCallback get onLater => widget.onLater;
+  bool get loading => widget.loading;
+
+  @override
+  void initState() {
+    super.initState();
+    _watch();
+  }
+
+  @override
+  void didUpdateWidget(ReelHeroCard old) {
+    super.didUpdateWidget(old);
+    if (old.loading != widget.loading) _watch();
+  }
+
+  void _watch() {
+    _slowTimer?.cancel();
+    _slow = false;
+    if (widget.loading) {
+      _slowTimer = Timer(ReelHeroCard.slowAfter, () {
+        if (mounted) setState(() => _slow = true);
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _slowTimer?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,6 +142,18 @@ class ReelHeroCard extends StatelessWidget {
               semanticsLabel: '${TodayCopy.reelKey}, ${TodayCopy.reelLength.replaceAll(' s', ' seconds')}',
               loading: loading,
               onPressed: onPlay,
+            ),
+            // A read that runs long says why the key is still turning, once, under it.
+            MmSizeEase(
+              duration: Motion.of(context, Motion.ui),
+              curve: Motion.out,
+              alignment: Alignment.topCenter,
+              child: _slow && loading
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: MmSpace.s8),
+                      child: Text(TodayCopy.reelSlow, textAlign: TextAlign.center, style: type.caption.copyWith(color: colors.ink2)),
+                    )
+                  : const SizedBox(width: double.infinity),
             ),
             const SizedBox(height: MmSpace.s4),
             Center(child: KeyButton.quiet(key: const ValueKey('reel-later'), label: TodayCopy.reelLater, onPressed: loading ? null : onLater)),

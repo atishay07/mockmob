@@ -30,7 +30,9 @@ class ObservationsPanel extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const SizedBox(height: MmSpace.group),
+        // The panel opens a fold that already has its own title above it: a small step, not a whole section gap (the walk
+        // measured a blank band of about 100 px between "Where the marks went" and this heading).
+        const SizedBox(height: MmSpace.s8),
         Padding(
           padding: const EdgeInsets.only(left: MmSpace.s4, bottom: MmSpace.s8),
           child: Semantics(header: true, child: Text(ResultCopy.showsTitle, style: type.title.copyWith(fontSize: 20))),

@@ -268,7 +268,8 @@ abstract final class AskSheetCopy {
   static String hint(String? label) => label == null ? 'Ask about your record' : 'Ask about $label';
   static const ask = 'Ask';
   static String reading(String? label) => label == null ? 'Reading your record' : 'Reading $label, your pick and the key';
-  static const writing = 'Writing a reply from your record';
+  /// A written reply is the AI service's, not the record's (the consent sheet says so): the line never claims it is from the record.
+  static const writing = 'Writing a reply';
   static const stillWriting = 'Still writing. Long questions take a little longer.';
   static String sourceRecord(int? questions, int sessions) => questions == null || questions == 0
       ? 'From your record · no credit used'
