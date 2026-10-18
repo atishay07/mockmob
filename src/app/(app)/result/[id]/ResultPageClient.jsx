@@ -8,7 +8,9 @@
 //     value and its cost before paying (src/components/result/NextMove.jsx, data/result_next_move.mjs);
 //   2 the Mistake Lab, open: where the marks went (the ledger), the mistakes in repair order with Repair and Check it
 //     held inline (a saved repair opens free; each names its paper and time), Find (the replay, time and every changed
-//     answer), Prove (the rule check, same mistakes later, fresh questions, across your mocks);
+//     answer), Prove (the rule check, same mistakes later, fresh questions, across your mocks). A mistake that is not
+//     repaired opens sealed (W-032): the student tries it again or asks for the answer, free, before the key shows;
+//     the paid Repair comes after, with its cost line;
 //   3 After this mock: the SWOT and the plan, open;
 //   4 Answer by answer, with the reader Mobi glancing at the answer just opened.
 // Then the next fresh paper and the links. Mobi never shows in NTA mode and is never sleepy.
@@ -25,6 +27,9 @@ import ResultHero from '@/components/result/ResultHero';
 import EarnedBadges from '@/components/EarnedBadges';
 import NextMove from '@/components/result/NextMove';
 import MistakeList, { SHOWN_FIRST } from '@/components/result/MistakeList';
+import RetryFirst, { RetrySaid } from '@/components/result/RetryFirst';
+import { questionModel } from '@/components/review/freeSteps';
+import { RETRY_COPY, retryEligible, retrySaid } from '@/../data/retry_first.mjs';
 import ReaderMobi from '@/components/brand/ReaderMobi';
 import { useMobiPrefs } from '@/lib/mobiPrefs';
 import MistakeRepair from '@/components/recovery/MistakeRepair';
@@ -138,6 +143,9 @@ export default function ResultPageClient({ previewId = null }) {
   const [cheer, setCheer] = useState(null); // the qid whose check just held: Mobi's one cheer
   const [showAll, setShowAll] = useState(false);
   const [blanksOpen, setBlanksOpen] = useState(false);
+  // W-032: qid -> { how: 'tried', pick, right } | { how: 'shown' }: the mistakes whose key the student has now asked for, by trying again
+  // or by "Show the answer". Kept on this page only: a try is not recorded, marked or charged.
+  const [retried, setRetried] = useState({});
   // Pass 1018 (REVIEW-RESULT-1018 5.2): the one open part of Your full analysis, in the URL (?part=).
   const [part, setPart] = useState(partFromUrl);
   const openPart = useCallback((id) => { setPart(id); writePart(id); }, []);
@@ -159,7 +167,7 @@ export default function ResultPageClient({ previewId = null }) {
 
   useEffect(() => {
     let alive = true;
-    queueMicrotask(() => { if (alive) { setAttempt(null); setError(null); setFilter('all'); setReporting({}); setReported({}); setReportError(null); setRepairOutcomes({}); setSavedRepairs({}); setRepairs(null); setAutoRepair(null); setStarted(new Set()); setRunCurrent(null); setHandover(null); setEnding(false); setAckedAt(null); setEpochs({}); setChecks({}); setCheer(null); setShowAll(false); setBlanksOpen(false); setOpen(new Set()); setVisited(new Set()); } });
+    queueMicrotask(() => { if (alive) { setAttempt(null); setError(null); setFilter('all'); setReporting({}); setReported({}); setReportError(null); setRepairOutcomes({}); setSavedRepairs({}); setRepairs(null); setAutoRepair(null); setStarted(new Set()); setRunCurrent(null); setHandover(null); setEnding(false); setAckedAt(null); setEpochs({}); setChecks({}); setCheer(null); setShowAll(false); setBlanksOpen(false); setRetried({}); setOpen(new Set()); setVisited(new Set()); } });
     // The repair record (the read Today makes) rides along for the receipt line. The first paint waits for it a moment, so the line is
     // in the first paint and never pushes the page down; a slow or failed read leaves the line out (or draws it when it arrives).
     const record = apiGet('/api/me/repair-record?limit=100').then((body) => (Array.isArray(body?.repairs) ? body.repairs : null)).catch(() => null);
@@ -403,6 +411,23 @@ export default function ResultPageClient({ previewId = null }) {
     }
   }
 
+  // W-032, "Repair lets the student retry before seeing the key": a wrong answer or a blank that holds no repair opens sealed.
+  // Its key, its book explanation, its option shares and its repair are not on screen (and the key is not in the row's markup
+  // either) until the student tries it again or asks for the answer. Both are free and neither is recorded or marked: they only
+  // change what this page shows. A saved repair opens free as before (F17), a key under re-check says so, a repair already
+  // written has already shown the key; none of those is sealed (data/retry_first.mjs retryEligible).
+  const sealedOf = (row) => !retried[row.q.id] && retryEligible({
+    verdict: row.verdict, saved: savedIds.has(row.q.id), outcome: repairOutcomes[row.q.id] || null, hasReview: Boolean(answerReviews[row.q.id]),
+    keyIndex: row.q.correctIndex, optionCount: row.q.options?.length || 0,
+  });
+  // The student has now asked for the key. This only reveals it: it calls no route and charges nothing. The next-move key, "Next
+  // mistake" and "Try the same mistakes again" press Repair for a mistake that was still sealed; that press opened the retry, so the
+  // Repair it asked for waits for the student's own tap on the paid key (the wallet moves only on Repair, after it is written).
+  const reveal = (row, how) => {
+    setRetried((s) => (s[row.q.id] ? s : { ...s, [row.q.id]: how }));
+    if (autoRepair === row.q.id) setAutoRepair(null);
+  };
+
   // The opened row: what the answer row always held, in the same order (How others answered, the options with your pick
   // and the correct answer, your time and picks, the repair with Check it held, the key notices, Report a problem).
   const renderBody = (row) => {
@@ -410,6 +435,28 @@ export default function ResultPageClient({ previewId = null }) {
     const given = d?.givenIndex;
     const isWrong = verdict === 'wrong';
     const review = answerReviews[q.id];
+    const tried = retried[q.id] || null;
+    // One Ask Mobi line per mistake and the report link close the row, sealed or not (askAbout is declared below; it runs when called).
+    const foot = (
+      <>
+        {askAbout(row)}
+        <div className="rp-q__foot">
+          {reaction && reading === q.id && !engaged ? <span className="rp-reader" key={`reader-${q.id}`}><ReaderMobi react={readerReact?.qid === q.id ? readerReact : null} /></span> : null}
+          <button type="button" className="rp-report" disabled={!!reporting[q.id] || !!reported[q.id]} onClick={() => handleReport(row)}>
+            {reported[q.id] ? 'Reported. Thank you.' : reporting[q.id] ? 'Sending…' : 'Report a problem with this question'}
+          </button>
+        </div>
+      </>
+    );
+    if (sealedOf(row)) {
+      return (
+        <div className="rp-q__body rx-body" data-sealed="">
+          <RetryFirst q={questionModel(q, d)} number={number} repairable={isWrong && Number.isInteger(given) && aiCredits !== 0}
+            onTried={({ pick, right }) => reveal(row, { how: 'tried', pick, right })} onShow={() => reveal(row, { how: 'shown' })} />
+          {foot}
+        </div>
+      );
+    }
     const timeRow = timeRead?.state === 'ready' ? timeRead.rows[row.index] : null;
     const insights = attempt.mistakeInsights?.[q.id] ?? null;
     const repairInsights = insights && timeRow?.lines.length ? { ...insights, lines: (insights.lines || []).filter(l => l?.kind !== 'change' && l?.kind !== 'time') } : insights;
@@ -419,6 +466,7 @@ export default function ResultPageClient({ previewId = null }) {
     const trap = isWrong ? attempt.lab?.traps?.tags?.[q.id] || null : null;
     return (
       <div className="rp-q__body rx-body">
+        {tried?.how === 'tried' ? <RetrySaid said={retrySaid({ pick: tried.pick, keyIndex: q.correctIndex, right: tried.right })} /> : null}
         {others ? <OthersAnswered others={others} title={attempt.lab?.labels?.othersTitle} /> : null}
         <ul className="rp-options">
           {q.options.map((opt, j) => {
@@ -428,7 +476,7 @@ export default function ResultPageClient({ previewId = null }) {
               <li key={j} data-state={corrected || (!review && key) ? 'key' : mine ? 'mine' : undefined} data-others={others ? '' : undefined}>
                 <span className="rp-options__letter">{LETTERS[j]}</span>
                 <span className="rp-options__text">{displayValue(plainOptionTexts(q.options)[j] ?? opt, 'Option')}</span>
-                {mine || key || corrected ? <span className="rp-options__tag">{corrected ? mine ? 'Your pick, corrected answer' : 'Corrected answer' : key ? mine ? 'Your pick, correct' : 'Correct answer' : 'Your pick'}</span> : null}
+                {mine || key || corrected ? <span className="rp-options__tag">{corrected ? mine ? 'Your pick, corrected answer' : 'Corrected answer' : key ? mine ? 'Your pick, correct' : 'Correct answer' : tried?.how === 'tried' ? RETRY_COPY.firstPick : 'Your pick'}</span> : null}
                 {others ? <OptionShare others={others} index={j} tone={shareTone(others, j, given)} /> : null}
                 {trap && trap.index === j && mine ? <TrapTag trap={trap} /> : null}
               </li>
@@ -443,10 +491,10 @@ export default function ResultPageClient({ previewId = null }) {
           </div>
         ) : null}
         {q.explanation && !review ? (
-          isWrong ? (
-            <details className="rp-expl"><summary>Book explanation</summary><p>{displayValue(q.explanation)}</p></details>
-          ) : <div className="rp-expl rp-expl--open"><span>Explanation</span><p>{displayValue(q.explanation)}</p></div>
-        ) : null}
+          isWrong && !tried ? (
+            <details className="rp-expl"><summary>{RETRY_COPY.bookExplanation}</summary><p>{displayValue(q.explanation)}</p></details>
+          ) : <div className="rp-expl rp-expl--open"><span>{tried ? RETRY_COPY.bookExplanation : 'Explanation'}</span><p>{displayValue(q.explanation)}</p></div>
+        ) : tried && !review ? <div className="rp-expl rp-expl--open"><span>{RETRY_COPY.bookExplanation}</span><p>{RETRY_COPY.noExplanation(isWrong && Number.isInteger(given))}</p></div> : null}
         {isWrong && Number.isInteger(given) ? (
           <MistakeRepair key={`${q.id}:${epochs[q.id] || 0}`} attemptId={attempt.id} questionId={q.id} number={number} nta={isNtaAttempt} chosen={LETTERS[given]} answer={Number.isInteger(q.correctIndex) ? LETTERS[q.correctIndex] : null}
             autoStart={autoRepair === q.id || savedIds.has(q.id)} saved={savedRepairs[q.id]?.repairedAt || (savedIds.has(q.id) ? 'saved' : null)} paper={paperLine || null} onSettled={settled} initialReview={review} onReview={reviewReceived} onCheck={checked}
@@ -457,13 +505,7 @@ export default function ResultPageClient({ previewId = null }) {
             next={(() => { const at = orderedMistakes.findIndex(m => m.q.id === q.id); const n = orderedMistakes.find((m, i) => i > at && !handled.has(m.q.id)) || orderedMistakes.find(m => m.q.id !== q.id && !handled.has(m.q.id)); return n ? { number: n.number, go: () => jumpTo(n.number, { repair: true }) } : null; })()} />
         ) : null}
         {review && !(isWrong && Number.isInteger(given)) ? review.state === 'corrected' || review.state === 'key_changed_unverified' ? <AnswerCorrectionNotice review={review} /> : <KeyReviewNotice chosenLetter={Number.isInteger(given) ? LETTERS[given] : null} keyLetter={LETTERS[q.correctIndex]} reviewState={review.state} /> : null}
-        {askAbout(row)}
-        <div className="rp-q__foot">
-          {reaction && reading === q.id && !engaged ? <span className="rp-reader" key={`reader-${q.id}`}><ReaderMobi react={readerReact?.qid === q.id ? readerReact : null} /></span> : null}
-          <button type="button" className="rp-report" disabled={!!reporting[q.id] || !!reported[q.id]} onClick={() => handleReport(row)}>
-            {reported[q.id] ? 'Reported. Thank you.' : reporting[q.id] ? 'Sending…' : 'Report a problem with this question'}
-          </button>
-        </div>
+        {foot}
       </div>
     );
   };
@@ -497,6 +539,9 @@ export default function ResultPageClient({ previewId = null }) {
     const review = answerReviews[qid];
     if (review?.state === 'corrected') return { id: 'corrected', label: 'Key corrected' };
     if (review && HELD_STATES.has(review.state)) return { id: 'recheck', label: 'Key being re-checked' };
+    // A blank has one action too (D15, section 7): Try it again, free. It is actionLabel's word, the same as Review and Today. Once the
+    // student has tried it or asked for the answer the step is done and the chip goes (a blank has no paid Repair to follow).
+    if (row.verdict === 'skipped') return sealedOf(row) ? { id: 'again', label: actionLabel('blank') } : null;
     if (row.verdict !== 'wrong') return null;
     const out = repairOutcomes[qid];
     if (out === 'held_for_recheck') return { id: 'recheck', label: 'Key being re-checked' };
@@ -600,7 +645,7 @@ export default function ResultPageClient({ previewId = null }) {
         <div className="rl-part" id="rl-repair">
           <MistakeList
             mistakes={orderedMistakes} blanks={blanks} openIds={open} onToggle={toggle} visited={visited}
-            statusOf={statusOf} cohortOf={cohortOf} renderBody={renderBody}
+            statusOf={statusOf} sealedOf={sealedOf} cohortOf={cohortOf} renderBody={renderBody}
             showAll={showAll} onShowAll={setShowAll} blanksOpen={blanksOpen} onBlanks={setBlanksOpen}
             repairedCount={repaired.size} heldCount={heldCount} ordered={repairOrder?.state === 'cohort' ? 'repair' : 'paper'} lead={leadMoved ? runNumbers[leadQid] : null}
             cheer={cheer} arrived={arrived} arrive={arrive} answered={marks.right + marks.wrong}

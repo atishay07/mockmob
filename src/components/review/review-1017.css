@@ -58,15 +58,15 @@
 .app-shell .rvw .rvw-next__key { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 54px; border-radius: 16px; font-family: var(--font-display); font-size: 18px; font-weight: 750; letter-spacing: -0.01em; text-align: center; }
 .app-shell .rvw-next__value { margin: 0; font: 500 14.5px/1.5 var(--font-body); color: var(--a-ink-2); text-wrap: pretty; }
 .app-shell .rvw-next__cost { margin: 0; font: 500 13.5px/1.45 var(--font-body); color: var(--a-ink-3); }
-.app-shell .rvw .rvw-alt, .app-shell .rvw .rvw-key {
+.app-shell .rvw .rvw-alt, .app-shell :is(.rvw, .rx) .rvw-key {
   justify-self: start; display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 12px;
   border: 1px solid var(--a-line-strong); font: 650 14.5px/1.2 var(--font-body); color: var(--a-ink); text-align: left;
 }
-.app-shell .rvw .rvw-key--round { border-radius: 999px; }
+.app-shell :is(.rvw, .rx) .rvw-key--round { border-radius: 999px; }
 @media (hover: hover) and (pointer: fine) {
-  .app-shell .rvw :is(.rvw-alt, .rvw-key):hover:not(:disabled) { border-color: var(--a-line-hover); background: var(--a-hover); }
+  .app-shell .rvw .rvw-alt:hover:not(:disabled), .app-shell :is(.rvw, .rx) .rvw-key:hover:not(:disabled) { border-color: var(--a-line-hover); background: var(--a-hover); }
 }
-.app-shell .rvw .rvw-key:disabled { color: var(--a-ink-3); border-style: dashed; }
+.app-shell :is(.rvw, .rx) .rvw-key:disabled { color: var(--a-ink-3); border-style: dashed; }
 
 /* The receipt strip: four numbers, hairlines, no card. */
 .app-shell .rvw-strip { margin-top: 26px; }
@@ -172,26 +172,26 @@
 .app-shell .rvw-sheet__note b { color: var(--a-ink); font-weight: 650; }
 .app-shell .rvw-sheet__keys { display: flex; flex-wrap: wrap; gap: 8px; }
 .app-shell .rvw-sheet__fine { margin: 0; font: 500 13px/1.5 var(--font-body); color: var(--a-ink-3); }
-.app-shell .rvw .rvw-sheet__fine a { color: var(--a-ink); text-decoration: underline; text-underline-offset: 3px; min-height: 44px; }
-.app-shell .rvw .rvw-inline { display: inline; padding: 0; font-weight: 650; color: var(--a-ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--a-line-strong); }
+.app-shell :is(.rvw, .rx) .rvw-sheet__fine a { color: var(--a-ink); text-decoration: underline; text-underline-offset: 3px; min-height: 44px; }
+.app-shell :is(.rvw, .rx) .rvw-inline { display: inline; padding: 0; font-weight: 650; color: var(--a-ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--a-line-strong); }
 .app-shell .rvw-sheet[data-mode='repair'], .app-shell .rvw-sheet[data-mode='saved'] { border-top-style: solid; }
 .app-shell .rvw-try, .app-shell .rvw-ans { display: grid; gap: 12px; min-width: 0; }
 .app-shell .rvw-try__stem { margin: 0; font: 600 16px/1.45 var(--font-body); text-wrap: pretty; }
 .app-shell .rvw-opts { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
-.app-shell .rvw .rvw-opt {
+.app-shell :is(.rvw, .rx) .rvw-opt {
   display: flex; gap: 12px; align-items: center; width: 100%; min-height: 48px; padding: 8px 12px; border-radius: 14px;
   border: 1px solid var(--a-line); background: var(--a-sunken); font: 500 15px/1.4 var(--font-body); color: var(--a-ink);
 }
 .app-shell .rvw-opt > i { font-style: normal; flex: none; width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; background: var(--a-letter); font: 700 13px/1 var(--font-body); color: var(--a-ink-2); }
 .app-shell .rvw-opt > span { display: grid; gap: 2px; min-width: 0; }
 .app-shell .rvw-opt small { font: 650 12.5px/1.2 var(--font-body); }
-.app-shell .rvw .rvw-opt[data-k='right'] { border-color: color-mix(in oklab, var(--a-good-text) 55%, transparent); }
+.app-shell :is(.rvw, .rx) .rvw-opt[data-k='right'] { border-color: color-mix(in oklab, var(--a-good-text) 55%, transparent); }
 .app-shell .rvw-opt[data-k='right'] > i, .app-shell .rvw-opt[data-k='right'] small { color: var(--a-good-text); }
-.app-shell .rvw .rvw-opt[data-k='wrong'] { border-color: color-mix(in oklab, var(--a-bad-text) 50%, transparent); }
+.app-shell :is(.rvw, .rx) .rvw-opt[data-k='wrong'] { border-color: color-mix(in oklab, var(--a-bad-text) 50%, transparent); }
 .app-shell .rvw-opt[data-k='wrong'] > i, .app-shell .rvw-opt[data-k='wrong'] small { color: var(--a-bad-text); }
-.app-shell .rvw .rvw-opt:disabled { opacity: 1; }
+.app-shell :is(.rvw, .rx) .rvw-opt:disabled { opacity: 1; }
 @media (hover: hover) and (pointer: fine) {
-  .app-shell .rvw button.rvw-opt:hover:not(:disabled) { border-color: var(--a-line-hover); }
+  .app-shell :is(.rvw, .rx) button.rvw-opt:hover:not(:disabled) { border-color: var(--a-line-hover); }
 }
 .app-shell .rvw-try__said { margin: 0; font: 500 14px/1.5 var(--font-body); color: var(--a-ink-2); }
 .app-shell .rvw-ans__expl { padding-top: 12px; border-top: 1px solid var(--a-line); }

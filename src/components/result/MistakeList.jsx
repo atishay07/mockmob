@@ -3,6 +3,8 @@
 // Check it held. The status chip on each row comes from a real server state, never ahead of it. The first four show;
 // "Show all" opens the rest in place. The blanks are one folded row. Right answers are not here: they live in
 // "Every answer". Opened rows hold what the answer row always held (the page renders it: renderBody).
+// W-032: a mistake that has not been repaired is sealed until the student tries it again or asks for the answer. A sealed row
+// shows the student's own pick and never the key: the key letter and the key's text are not rendered at all (not merely hidden).
 import { useId } from 'react';
 import { Check } from 'lucide-react';
 import MobiReact from '@/components/brand/MobiReact';
@@ -31,7 +33,7 @@ function Chip({ status, cheer }) {
   );
 }
 
-function Row({ row, open, onToggle, status, cohort, cheer, children, arrived }) {
+function Row({ row, open, onToggle, status, cohort, cheer, children, arrived, sealed = false }) {
   const given = row.d?.givenIndex;
   const key = row.q?.correctIndex;
   const stem = String(row.q?.question ?? row.q?.body ?? '').trim() || 'Question unavailable';
@@ -39,9 +41,9 @@ function Row({ row, open, onToggle, status, cohort, cheer, children, arrived }) 
   // An opened row writes the two options out (RESULT-1017 4.5): what the student picked and the answer, as text.
   const texts = open ? plainOptionTexts(row.q?.options) : [];
   const mineText = open && isWrong && Number.isInteger(given) ? optionText(texts, given) : '';
-  const keyText = open && Number.isInteger(key) ? optionText(texts, key) : '';
+  const keyText = open && !sealed && Number.isInteger(key) ? optionText(texts, key) : '';
   return (
-    <li id={`q-${row.number}`} className="rx-row" data-verdict={row.verdict} data-open={open || undefined}>
+    <li id={`q-${row.number}`} className="rx-row" data-verdict={row.verdict} data-open={open || undefined} data-sealed={sealed || undefined}>
       {arrived ? <span key={arrived} className="rp-q__ring" aria-hidden="true" /> : null}
       <h3 className="rx-row__h">
         <button type="button" className="rx-row__bar rp-q__bar" aria-expanded={open} aria-controls={`q-${row.number}-body`} onClick={() => onToggle(row.q.id)}>
@@ -52,7 +54,7 @@ function Row({ row, open, onToggle, status, cohort, cheer, children, arrived }) 
             <span className="rx-row__facts">
               {isWrong && Number.isInteger(given) ? <span className="rx-pick" data-kind="mine"><i>{LETTERS[given]}</i>yours</span> : null}
               {!isWrong ? <span className="rx-pick" data-kind="blank">left blank</span> : null}
-              {Number.isInteger(key) ? <span className="rx-pick" data-kind="key"><i>{LETTERS[key]}</i>answer</span> : null}
+              {Number.isInteger(key) && !sealed ? <span className="rx-pick" data-kind="key"><i>{LETTERS[key]}</i>answer</span> : null}
               {cohort ? <span className="rx-row__cohort">{cohort}</span> : null}
             </span>
             {mineText || keyText ? (
@@ -81,6 +83,7 @@ function Row({ row, open, onToggle, status, cohort, cheer, children, arrived }) 
  * blanks       blank rows in paper order
  * openIds      Set of opened qids; onToggle(qid)
  * statusOf     (row) => { id, label } | null
+ * sealedOf     (row) => true while the mistake is sealed (W-032): its key stays off the row until the student tries or asks
  * cohortOf     (row) => "18 of 22 got it right" | null
  * renderBody   (row) => the opened row's content (only called for rows opened at least once)
  * visited      Set of qids opened at least once
@@ -91,14 +94,14 @@ function Row({ row, open, onToggle, status, cohort, cheer, children, arrived }) 
  * top          a node at the head of the section (the repair run's track, once a run has begun)
  * after        nodes under the list (the credit line, the lesson link)
  */
-export default function MistakeList({ mistakes, blanks, openIds, onToggle, statusOf, cohortOf, renderBody, visited, showAll, onShowAll, blanksOpen, onBlanks, repairedCount = 0, heldCount = 0, ordered = 'repair', lead = null, cheer = null, arrived = null, top = null, after = null, arrive = false, answered = null }) {
+export default function MistakeList({ mistakes, blanks, openIds, onToggle, statusOf, sealedOf = () => false, cohortOf, renderBody, visited, showAll, onShowAll, blanksOpen, onBlanks, repairedCount = 0, heldCount = 0, ordered = 'repair', lead = null, cheer = null, arrived = null, top = null, after = null, arrive = false, answered = null }) {
   const listId = useId();
   const blankId = useId();
   const head = mistakesHead({ count: mistakes.length, repairedCount, heldCount, answered });
   const shown = showAll ? mistakes : mistakes.slice(0, SHOWN_FIRST);
   const rest = mistakes.length - SHOWN_FIRST;
   const row = (r) => (
-    <Row key={r.q.id} row={r} open={openIds.has(r.q.id)} onToggle={onToggle} status={statusOf(r)} cohort={cohortOf(r)} cheer={cheer === r.q.id}
+    <Row key={r.q.id} row={r} open={openIds.has(r.q.id)} onToggle={onToggle} status={statusOf(r)} sealed={sealedOf(r)} cohort={cohortOf(r)} cheer={cheer === r.q.id}
       arrived={arrived?.number === r.number ? arrived.n : null}>
       {visited.has(r.q.id) ? renderBody(r) : null}
     </Row>

@@ -1,0 +1,25 @@
+/* The free step before the key, on the result's mistakes (W-032). The pieces are Review's answer sheet (review-1017.css, its selectors
+   widened to .rx): this file only sets them into the result's open row. Arena tokens, Night and Day. No glow, no wash, no fill:
+   the page's one volt stays the next-move key. Motion is a short rise under the status line, and nothing under reduced motion. */
+
+/* The sheet sits in the open row's body, which already has its own indent and gap. */
+.app-shell .rx .rx-body > .rvw-sheet.rx-retry { margin: 0; padding: 0; border-top: 0; gap: 12px; animation: none; }
+
+/* Review's button reset, scoped to the sheet so the result's other buttons are left alone. Nothing inside counts for specificity,
+   so the keys and the options (their own rules) win over it. */
+.app-shell .rx :where(.rvw-sheet button:not(.btn-volt)) { font: inherit; color: inherit; background: none; border: 0; text-align: left; cursor: pointer; }
+.app-shell .rx :where(.rvw-sheet button):disabled { cursor: default; }
+.app-shell .rx :is(.rvw-sheet .rvw-key, .rvw-sheet .rvw-opt, .rvw-sheet .rvw-inline):focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 3px; }
+
+/* The first key is the step to take, so it carries a firmer outline than "Show the answer". Same fill (none), same size. */
+.app-shell .rx .rx-retry .rvw-sheet__keys .rvw-key:first-child:not(:last-child) { border-color: var(--a-ink-2); }
+
+/* What the try said: one line, then the key and the book explanation below it. Words carry the result, colour only supports them. */
+.rx-retry__said { margin: 0; font: 500 15px/1.5 var(--font-body, inherit); color: var(--a-ink-2, #bcc5b9); text-wrap: pretty; }
+.rx-retry__said b { font-weight: 700; color: var(--a-ink, #f2f4ec); }
+.rx-retry__said[data-k='right'] b { color: var(--a-good-text, #b6e36e); }
+.rx-retry__said:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 3px; border-radius: 6px; }
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion='reduced']) .rx-retry__said { animation: rx-retry-in 200ms var(--rx-ease, cubic-bezier(0.23, 1, 0.32, 1)) both; }
+}
+@keyframes rx-retry-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
