@@ -17,6 +17,7 @@ import '../../../core/widgets/key_button_motion.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../copy_glance.dart';
+import '../logic/move_price.dart' show quoteQueryFor;
 import '../logic/today_model.dart';
 import 'hero_stage.dart';
 import 'number_block.dart';
@@ -203,6 +204,7 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
                         durations: m.durations,
                         selected: m.selectedMinutes ?? m.durations.first.minutes,
                         title: _lengthTitle(m),
+                        quote: quoteQueryFor(m),
                       );
                       if (picked != null && picked != m.selectedMinutes) onMinutes(picked);
                     },
@@ -332,6 +334,7 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
                                     durations: m.durations,
                                     selected: m.selectedMinutes ?? m.durations.first.minutes,
                                     title: _lengthTitle(m),
+                                    quote: quoteQueryFor(m),
                                   );
                                   if (picked != null && picked != m.selectedMinutes) onMinutes(picked);
                                 },

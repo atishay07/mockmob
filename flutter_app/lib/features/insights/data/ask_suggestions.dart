@@ -197,9 +197,16 @@ List<String> recordSummary(PrepInsights? v, {bool pro = false}) {
 }
 
 /// The wallet line under the composer: "9 of 50 AI credits left · resets 1 Nov".
-String walletLine({required int? total, int? includedMonthly, int? bonus, bool paused = false, String? resetsOn}) {
+///
+/// [oneBalance]: the server keeps one credits balance (owner D78), so [total] is that one balance and the
+/// line says "108 credits left · free ones renew 1 Nov", never "AI credits".
+String walletLine({required int? total, int? includedMonthly, int? bonus, bool paused = false, String? resetsOn, bool oneBalance = false}) {
   if (paused) return AskSheetCopy.walletPaused;
   if (total == null) return AskSheetCopy.walletUnknown;
+  if (oneBalance) {
+    final left = '${InsightsCopy.credits(total)} left';
+    return resetsOn == null ? left : '$left · free ones renew $resetsOn';
+  }
   final left = includedMonthly != null && (bonus ?? 0) == 0 && total <= includedMonthly
       ? '$total of $includedMonthly AI credits left'
       : '${InsightsCopy.aiCredits(total)} left';

@@ -15,10 +15,13 @@ import 'data/credits_models.dart';
 import 'widgets/history_row.dart';
 import 'widgets/pool_card.dart';
 
-/// Credits: the plan, both pools with what each pays for and when it renews, and the history of
-/// every spend and top-up, newest first, 30 to a page. The figures are the server's own
-/// (`GET /api/me/credits`); nothing is estimated and a balance that did not load is never 0.
-/// No price and no purchase.
+/// Credits: the plan, the balance and the history of every spend and top-up, newest first, 30 to a
+/// page. The figures are the server's own (`GET /api/me/credits`); nothing is estimated and a balance
+/// that did not load is never 0. No price and no purchase.
+///
+/// On a server that keeps one credits balance the page shows that one figure, "Credits", and a history
+/// with no pools to filter. On an older server it shows the two pools with what each pays for, and the
+/// history can be narrowed to one of them.
 class CreditsScreen extends ConsumerStatefulWidget {
   const CreditsScreen({super.key});
 
@@ -45,8 +48,10 @@ class _CreditsScreenState extends ConsumerState<CreditsScreen> {
     final mine = ref.watch(meCreditsProvider);
     final more = ref.watch(creditsMoreProvider);
     final overview = mine.value;
+    final one = figures.oneBalance;
     final rows = <CreditEntry>[...?overview?.history, ...more.rows];
-    final shown = _filter == null ? rows : [for (final r in rows) if (r.pool == _filter) r];
+    final filter = one ? null : _filter;
+    final shown = filter == null ? rows : [for (final r in rows) if (r.pool == filter) r];
     final hasMore = ref.read(creditsMoreProvider.notifier).hasMore;
 
     return YouPage(
@@ -59,17 +64,21 @@ class _CreditsScreenState extends ConsumerState<CreditsScreen> {
           ),
         _PlanLine(figures: figures),
         const SizedBox(height: MmSpace.s16),
-        Padding(
-          padding: youGutter,
-          child: PoolCard(pool: CreditPool.practice, figures: figures),
-        ),
-        const SizedBox(height: MmSpace.s12),
-        Padding(
-          padding: youGutter,
-          child: PoolCard(pool: CreditPool.ai, figures: figures, mobi: true),
-        ),
+        if (one)
+          Padding(padding: youGutter, child: OneBalanceCard(figures: figures))
+        else ...[
+          Padding(
+            padding: youGutter,
+            child: PoolCard(pool: CreditPool.practice, figures: figures),
+          ),
+          const SizedBox(height: MmSpace.s12),
+          Padding(
+            padding: youGutter,
+            child: PoolCard(pool: CreditPool.ai, figures: figures, mobi: true),
+          ),
+        ],
         const GroupHeading(CreditsCopy.historyTitle, top: MmSpace.s32),
-        _history(context, mine: mine, rows: rows, shown: shown, hasMore: hasMore, more: more),
+        _history(context, mine: mine, rows: rows, shown: shown, hasMore: hasMore, more: more, one: one, filter: filter),
       ],
     );
   }
@@ -81,6 +90,8 @@ class _CreditsScreenState extends ConsumerState<CreditsScreen> {
     required List<CreditEntry> shown,
     required bool hasMore,
     required CreditsMoreState more,
+    required bool one,
+    required CreditPool? filter,
   }) {
     final colors = context.mmColors;
     final type = context.mmType;
@@ -125,7 +136,7 @@ class _CreditsScreenState extends ConsumerState<CreditsScreen> {
           children: [
             Text(CreditsCopy.historyEmptyTitle, style: type.title),
             const SizedBox(height: MmSpace.s8),
-            Text(CreditsCopy.historyEmptyBody, style: type.body.copyWith(color: colors.ink2)),
+            Text(one ? CreditsCopy.historyEmptyBodyOne : CreditsCopy.historyEmptyBody, style: type.body.copyWith(color: colors.ink2)),
           ],
         ),
       );
@@ -145,23 +156,24 @@ class _CreditsScreenState extends ConsumerState<CreditsScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Padding(
-          padding: youGutter,
-          child: Wrap(
-            spacing: MmSpace.s8,
-            runSpacing: MmSpace.s4,
-            children: [
-              MmChip(label: CreditsCopy.filterAll, selected: _filter == null, onTap: () => setState(() => _filter = null)),
-              for (final pool in CreditPool.values)
-                MmChip(label: pool.name, selected: _filter == pool, onTap: () => setState(() => _filter = pool)),
-            ],
+        // The pools to narrow by, on an older server only: one row at any width and text size. Short
+        // labels (the cards above already say "Practice credits" and "AI credits"), and a sideways scroll
+        // rather than a second row when the text is very large (final walk: the chips wrapped at 360 dp).
+        if (!one) ...[
+          ChipRail.labelled(
+            key: const ValueKey('credits-filters'),
+            labels: const [CreditsCopy.filterAll, CreditsCopy.filterPractice, CreditsCopy.filterAi],
+            selected: switch (filter) { null => 0, CreditPool.practice => 1, CreditPool.ai => 2 },
+            onSelected: (i) => setState(() => _filter = const [null, CreditPool.practice, CreditPool.ai][i]),
+            padding: youGutter,
+            semanticLabel: CreditsCopy.filterLabel,
           ),
-        ),
-        const SizedBox(height: MmSpace.s12),
-        if (shown.isEmpty && _filter != null)
+          const SizedBox(height: MmSpace.s12),
+        ],
+        if (shown.isEmpty && filter != null)
           Padding(
             padding: youGutter,
-            child: Text(CreditsCopy.historyEmptyFor(_filter!), style: type.body.copyWith(color: colors.ink2)),
+            child: Text(CreditsCopy.historyEmptyFor(filter), style: type.body.copyWith(color: colors.ink2)),
           ),
         for (final group in groups) ...[
           Padding(
@@ -172,7 +184,7 @@ class _CreditsScreenState extends ConsumerState<CreditsScreen> {
             flat: true,
             margin: EdgeInsets.zero,
             inset: youText + 36 + MmSpace.s12,
-            children: [for (final e in group.$2) HistoryRow(entry: e)],
+            children: [for (final e in group.$2) HistoryRow(entry: e, oneBalance: one)],
           ),
         ],
         if (more.failed)

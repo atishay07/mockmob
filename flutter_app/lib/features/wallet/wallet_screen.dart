@@ -19,7 +19,7 @@ import 'wallet_copy.dart';
 /// nothing is estimated and a balance that did not load is never 0.
 ///
 /// Top-ups and Pro are Google Play's (`PLAY_BILLING`): every price here is Google Play's own string.
-/// With the flag off the balance and the history are the same and the top-ups say they open soon.
+/// With the flag off the balance and the history are the same, and there is no top-up section and no Pro row.
 class WalletScreen extends ConsumerStatefulWidget {
   const WalletScreen({super.key});
 
@@ -64,8 +64,12 @@ class _WalletScreenState extends ConsumerState<WalletScreen> {
             padding: const EdgeInsets.fromLTRB(youText, MmSpace.s8, youText, 0),
             child: Align(alignment: Alignment.centerLeft, child: KeyButton.quiet(label: WalletCopy.tryAgain, onPressed: _reload)),
           ),
-        const SectionTitle(BillingCopy.topUpsTitle, padding: EdgeInsets.fromLTRB(youText, MmSpace.s32, youText, MmSpace.s12)),
-        const Padding(padding: youGutter, child: WalletTopUps()),
+        // Top-ups are Google Play's: with PLAY_BILLING off there is nothing to buy, so the section is not
+        // drawn at all (no "open soon" promise and no key that does nothing).
+        if (ref.watch(playBillingEnabledProvider)) ...[
+          const SectionTitle(BillingCopy.topUpsTitle, padding: EdgeInsets.fromLTRB(youText, MmSpace.s32, youText, MmSpace.s12)),
+          const Padding(padding: youGutter, child: WalletTopUps()),
+        ],
         if (billingOn && !view.isPro) ...[
           const SizedBox(height: MmSpace.s24),
           YouPanel(

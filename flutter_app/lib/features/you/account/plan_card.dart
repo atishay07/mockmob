@@ -7,12 +7,16 @@ import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../billing/billing.dart';
+import '../../credits/credits_copy.dart';
+import '../../credits/data/credit_figures.dart';
 import '../edit_copy.dart';
 import '../widgets/you_motion.dart';
 import '../widgets/you_page.dart' show PillKey, youText;
 
-/// The plan as the server reports it (WEB-PARITY F3): Free or Pro, the practice credit balance
-/// (or unlimited practice on Pro) and when Pro access ends. Read-only: the app never sells, so
+/// The plan as the server reports it (WEB-PARITY F3): Free or Pro, the credit balance (or unlimited
+/// practice on Pro) and when Pro access ends. On a server that keeps one credits balance (owner D78) the
+/// figure is that one balance, called "credits", the same figure the Account sheet and the Credits page
+/// show; on an older server it is the Practice credits balance and says so. Read-only: the app never sells, so
 /// there is no price and no purchase key, only a plain line saying where plans are managed.
 ///
 /// The balance rolls up from 0 only when it came fresh from the server in this run
@@ -89,7 +93,19 @@ class _PlanCardState extends ConsumerState<PlanCard> {
     final type = context.mmType;
     final pro = auth.isPro;
     final until = auth.premiumUntil?.toLocal();
-    final balance = auth.creditBalance;
+    final figures = ref.watch(creditFiguresProvider);
+    // The same computation as the Account sheet and the Credits page: one figure on a one-balance server.
+    final one = figures.oneBalance;
+    final balance = one ? (figures.total ?? auth.creditBalance) : auth.creditBalance;
+    final String unit;
+    final String spoken;
+    if (figures.mode == CreditsMode.twoPools) {
+      unit = balance == 1 ? EditCopy.creditUnitOne : EditCopy.creditUnit;
+      spoken = balance == null ? '' : EditCopy.credits(balance);
+    } else {
+      unit = balance == 1 ? 'credit' : 'credits';
+      spoken = balance == null ? '' : CreditsCopy.count(balance);
+    }
 
     final Widget figure;
     if (pro) {
@@ -98,11 +114,11 @@ class _PlanCardState extends ConsumerState<PlanCard> {
       // The credit balance is the hero of the screen: a monumental number on the ground, no card.
       figure = Semantics(
         container: true,
-        label: EditCopy.credits(balance),
+        label: spoken,
         excludeSemantics: true,
         child: MonumentalNumber(
           value: '$balance',
-          unit: balance == 1 ? EditCopy.creditUnitOne : EditCopy.creditUnit,
+          unit: unit,
           style: type.figureHero,
           // From 0 only when the server just told us; the phone's own copy shows as it is.
           fromZeroOnFirstBuild: auth.profileFresh,
@@ -112,7 +128,7 @@ class _PlanCardState extends ConsumerState<PlanCard> {
       figure = Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(EditCopy.creditsUnknown, style: type.title),
+          Text(figures.mode == CreditsMode.twoPools ? EditCopy.creditsUnknown : CreditsCopy.oneUnknown, style: type.title),
           const SizedBox(height: MmSpace.s12),
           PillKey(
             label: _retrying ? EditCopy.creditsRetrying : EditCopy.creditsRetry,

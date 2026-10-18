@@ -5,17 +5,20 @@
 // gets ("2 to repair"), closes on a choice, a tap outside or back, and the card reshapes in place
 // as it did with the old chips (the number rolls, the object answers).
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../credits/data/length_cost.dart';
+import '../../practice/model/practice_selection.dart' show QuoteQuery;
 import '../copy.dart';
 import '../logic/today_model.dart';
 
 /// The pill: the chosen length and a small up-and-down mark, as tall as the key beside it.
 class LengthPill extends StatelessWidget {
-  const LengthPill({super.key, required this.durations, required this.selected, required this.title, required this.onChanged});
+  const LengthPill({super.key, required this.durations, required this.selected, required this.title, required this.onChanged, this.quote});
 
   final List<DurationChoice> durations;
 
@@ -28,23 +31,31 @@ class LengthPill extends StatelessWidget {
   /// Null shows the pill without a panel behind it.
   final ValueChanged<int>? onChanged;
 
+  /// The quote the card's key launches with; each question-count row shows its own price from it.
+  final QuoteQuery? quote;
+
   DurationChoice get _choice => durations.firstWhere((d) => d.minutes == selected, orElse: () => durations.first);
 
   Future<void> _open(BuildContext context) async {
-    final picked = await openPanel(context, durations: durations, selected: selected, title: title);
+    final picked = await openPanel(context, durations: durations, selected: selected, title: title, quote: quote);
     if (picked != null && picked != selected) onChanged?.call(picked);
   }
 
   /// Opens the lengths as a sheet (the one sheet style every choice in the app uses: it rises, takes
   /// a drag or the scrim to close; v13 walk, finding 9: the old popup did not match it) and returns
   /// the chosen minutes, or null when it closed without a choice. The Change length pill uses it too.
-  static Future<int?> openPanel(BuildContext context, {required List<DurationChoice> durations, required int selected, required String title}) {
+  ///
+  /// [quote] is the quote the card's key launches with (`quoteQueryFor`): with it, each question-count
+  /// row shows what it costs (final walk: no row had a price). Without it (a repair, a free check) the
+  /// rows carry no price.
+  static Future<int?> openPanel(BuildContext context, {required List<DurationChoice> durations, required int selected, required String title, QuoteQuery? quote}) {
     return showMmSheet<int>(
       context: context,
       builder: (sheetContext) => LengthPanel(
         title: title,
         durations: durations,
         selected: selected,
+        quote: quote,
         inSheet: true,
         onPick: (m) => Navigator.of(sheetContext).pop(m),
       ),
@@ -97,12 +108,15 @@ class LengthPill extends StatelessWidget {
 /// The lengths themselves: a quiet question, then one 48 dp row per length with what it gets.
 /// Public for goldens.
 class LengthPanel extends StatelessWidget {
-  const LengthPanel({super.key, required this.title, required this.durations, required this.selected, required this.onPick, this.inSheet = false});
+  const LengthPanel({super.key, required this.title, required this.durations, required this.selected, required this.onPick, this.inSheet = false, this.quote});
 
   final String title;
   final List<DurationChoice> durations;
   final int selected;
   final ValueChanged<int> onPick;
+
+  /// The card's own quote: each question-count row prices itself from it (see [lengthCostProvider]).
+  final QuoteQuery? quote;
 
   /// True inside a sheet: the sheet is the surface, so the panel draws no card of its own, and the
   /// question is the sheet's title.
@@ -124,7 +138,7 @@ class LengthPanel extends StatelessWidget {
           children: [
             ExcludeSemantics(child: Text(title, style: type.title)),
             const SizedBox(height: MmSpace.s12),
-            for (final d in durations) _LengthRow(choice: d, selected: d.minutes == selected, onTap: () => onPick(d.minutes)),
+            for (final d in durations) _LengthRow(choice: d, selected: d.minutes == selected, quote: quote, onTap: () => onPick(d.minutes)),
           ],
         ),
       );
@@ -151,7 +165,7 @@ class LengthPanel extends StatelessWidget {
                 child: ExcludeSemantics(child: Text(title, style: type.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600))),
               ),
               const SizedBox(height: MmSpace.s4),
-              for (final d in durations) _LengthRow(choice: d, selected: d.minutes == selected, onTap: () => onPick(d.minutes)),
+              for (final d in durations) _LengthRow(choice: d, selected: d.minutes == selected, quote: quote, onTap: () => onPick(d.minutes)),
             ],
           ),
         ),
@@ -160,21 +174,25 @@ class LengthPanel extends StatelessWidget {
   }
 }
 
-class _LengthRow extends StatelessWidget {
-  const _LengthRow({required this.choice, required this.selected, required this.onTap});
+class _LengthRow extends ConsumerWidget {
+  const _LengthRow({required this.choice, required this.selected, required this.onTap, this.quote});
 
   final DurationChoice choice;
   final bool selected;
   final VoidCallback onTap;
+  final QuoteQuery? quote;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.mmColors;
     final type = context.mmType;
     final words = TodayCopy.lengthRowWords(choice);
     final gets = TodayCopy.lengthGets(choice);
+    // The row's price: its own quote when the server has answered, the per-question rule meanwhile.
+    final cost = quote == null ? null : ref.watch(lengthCostProvider((base: quote, questions: choice.questions, fullMock: choice.fullMock)));
+    final spoken = [words, ?gets, ?cost?.spoken].join(', ');
     return MmPressable(
-      semanticsLabel: gets == null ? words : '$words, $gets',
+      semanticsLabel: spoken,
       selected: selected,
       inMutuallyExclusiveGroup: true,
       focusRadius: MmRadius.smallAll,
@@ -198,6 +216,18 @@ class _LengthRow extends StatelessWidget {
                 const SizedBox(width: MmSpace.s8),
                 Expanded(child: Text(words, style: type.body.copyWith(color: colors.ink, fontWeight: selected ? FontWeight.w600 : FontWeight.w500))),
                 if (gets != null) Text(gets, style: type.caption.copyWith(color: colors.ink2)),
+                if (cost != null) ...[
+                  const SizedBox(width: MmSpace.s8),
+                  // Right-aligned, the price list a student scans down; under it, only when this length
+                  // takes more than they have, the balance it is short against.
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(cost.price, style: type.caption.copyWith(color: cost.short == null ? colors.ink2 : colors.ink3, fontFeatures: const [FontFeature.tabularFigures()])),
+                      if (cost.short != null) Text(cost.short!, style: type.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600)),
+                    ],
+                  ),
+                ],
               ],
             ),
           ),
