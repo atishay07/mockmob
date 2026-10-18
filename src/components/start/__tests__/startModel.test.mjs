@@ -288,3 +288,16 @@ test('G27 peek: no width is forced when the peek would need items wider than all
   assert.equal(peekWidth({ avail: 374, gap: 8, n: 5, min: 170, max: 180 }), null);
   assert.equal(peekWidth({ avail: 374, gap: 8, n: 5, min: 200, max: 150 }), null);
 });
+
+// 19 Oct 2026 (owner G26): picking a subject must not push "10 Accountancy questions" to the top of the Practice page.
+test('G26 Practice ticket: the card leads with the mode; the count and the subject are the Start key words', () => {
+  const page = readFileSync(join(startDir, '..', '..', 'app', '(app)', 'dashboard', 'DashboardPageClient.jsx'), 'utf8');
+  const ticket = page.slice(page.indexOf('<aside className="pr-summary pr-ticket"'));
+  const top = ticket.slice(0, ticket.indexOf('</div>', ticket.indexOf('pr-ticket__what')));
+  assert.match(top, /<h2 className="pr-ticket__mode">\{mode\.label\}<\/h2>/, 'the card names the mode');
+  assert.match(top, /<p className="pr-ticket__what">\{MODE_TILE_SPECS\[effectiveModeId\]\}<\/p>/, 'and says what the mode is');
+  assert.ok(!/quoteCount\}[^<]*subjectLabel|subjectLabel[^<]*questions/.test(top), 'no "N Subject questions" line at the top of the card');
+  assert.match(page, /const sessionWords = effectiveModeId === 'full' \? 'the full mock' : effectiveModeId === 'nta' \? 'the NTA paper' : `\$\{quoteCount\} \$\{quoteCount === 1 \? 'question' : 'questions'\}`;/);
+  assert.match(page, /`Start \$\{sessionWords\}\$\{inSubject\}`/, 'the Start key says the session once: Start 10 questions in Accountancy');
+  assert.match(page, /<small>in \{subjectLabel\}<\/small>/, 'the phone bar key carries the subject on its second line');
+});
