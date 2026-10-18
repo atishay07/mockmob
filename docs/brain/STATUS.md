@@ -2182,6 +2182,23 @@ Source changes (not yet deployed; deploy needs `AI_LUNA_MODEL` optional and the 
 - **Unresolved gates:** Razorpay keys + plan ID + webhook secret are empty in `.env.local`; no real captured top-up or
   subscription charge has been verified; Vercel env not updated.
 
+### 2026-10-19 00:45 IST: website release 10 LIVE (75ac3f23) and production migrations; final app v15.2 installed
+
+**Live:** www.mockmob.in = main 75ac3f23 (fast-forward from 9b3661e8), Vercel dpl_Hj8uNjjdG7hGe287MhU1UUBmf7ev READY, 0 runtime errors in the first 15 min. Smoke (signed out): /, /pricing, /pricing/ai-credits, /wallet, /today, /mob, /review 200; /api/wallet, /api/attempts?view=summary, /api/me/credits 401; /api/billing/play/verify 404 (PLAY_BILLING_ENABLED off). The live pricing page carries "1 credit is 1 practice question or 1 chat reply; a full mock is 50 and deeper analysis is 3." No Play price on the web.
+
+**Release 10 =** one credits balance core (D78), web wallet (/wallet, GET /api/wallet; Razorpay order/verify closed unless WALLET_COMMERCE_OPEN=true), web Pro nudges (D79-D81, D84), Google Play billing server (closed unless PLAY_BILLING_ENABLED=true), Today taste fixes (web/r10-taste), GET /api/attempts?view=summary (the app's list without the heavy snapshot; staging 29 MB -> about 0.8 MB).
+**Checks:** lint 0; test:billing 326/326; test:app 756 pass, 1 skipped; test:learning 357/357; test:recovery 604 pass, 3 todo; test:mob 78/78; test:today 120/120; next build --webpack 0. One Opus verifier (head bbb163e7): NO-GO only on 2 copy HIGHs; all HIGH and MEDIUM fixed in 75ac3f23 (H1 resets line, H2 free back to 50, M1 Pro-only refund evidence, M3 true credit sentence, M4 cap lift only for bought-credit replies, M5 no top-up promise while closed, M6 no table read on timeout, M7 /pricing/ai-credits adds up). Not fixed (later): L2 Razorpay credit-pack refund clawback, L3, L4, L7.
+
+**Production migrations (owner's standing grant), applied 19 Oct ~12:38-12:40 am IST, each dry-run on staging first:**
+1. play_purchases (20261018190000): staging matrix passed (grant, replay, cross-account, revoke, double revoke, tombstone, Pro never shortened, Pro-only evidence). Pre-check: deps present, table absent.
+2. one_credits_balance (20261018210000): pre-check production bodies spend_credits 911105fd, mm_ai_consume_credits c1ce92df, mm_ai_reserve_credits 499b44d1, mm_ai_release_credits 9c1d744b, reserve_runtime_ai f6026ff6 (= the undo file), 0 reservations breaking the new split check.
+3. attempts_list_summary_fn (20261018230100).
+**Post-check (md5 of prosrc, CR stripped) = staging for all 11:** attempts_list_summary cbf25393, mm_ai_consume_credits f43c5c1e, mm_ai_release_credits 8313e28a, mm_ai_reserve_credits 01e87c89, mm_bought_ai_credits_spent c728032b, mm_play_grant_purchase 83743a07, mm_play_revoke_purchase d3e2356d, mm_wallet_take ca977c24, mm_wallet_window c16763e6, reserve_runtime_ai c09163e9, spend_credits a2d71600. anon/authenticated cannot execute any; play_purchases RLS on, no anon/authenticated select; runtime_ai_budget student_bought_credit = 0.02.
+**Undo:** supabase/undo/20261018{190000,210000,230100}*.undo.sql (code first for the core: the code probes for the functions).
+**Flags (owner):** WALLET_COMMERCE_OPEN after his Razorpay test-card run; PLAY_BILLING_ENABLED after Play Console setup; PERSISTENT_LIMITS_ENABLED untouched.
+
+**App:** v15.2 = ui/v15.2-1018 ab04b067 (1.0.15+7), release APK arm64 obfuscated prod.json, mockmob-next/tmp/apk/mockmob-v15.2-ab04b067.apk + .zip; installed on the owner's phone 10BF370PA6002XR (versionCode 7) at ~12:47 am. One fix pass over the final walk (15 HIGH, 11 MEDIUM): all HIGH fixed, MEDIUM all fixed; flutter analyze clean; unit suite 6,043 pass (the 1 failure was a stale string test, fixed). No golden suite, no second walk (owner D96).
+
 ### 5 October 2026 (later) — landing page restructure, feature tour
 - Reverted the over-trimmed homepage: Compass Pro box, college destinations, stats band restored. Removed only the Subjects
   block (owner), the subject marquee and the three-step "how it works". Instagram stays where Subjects was.
