@@ -340,25 +340,27 @@ test('practice/held credits pay for AI past the free cap too; a Free student wit
 test('each held credit raises the cap by at most the student_held_credit bound, and a released (failed) call does not raise it', async () => {
   const d = await database();
   try {
-    assert.equal(Number((await one(d, "select monthly_cap_usd from runtime_ai_budget where id='student_held_credit'")).monthly_cap_usd), 0.01);
+    assert.equal(Number((await one(d, "select monthly_cap_usd from runtime_ai_budget where id='student_held_credit'")).monthly_cap_usd), 0.02);
     await user(d, 'h', { balance: 0, used: 50, bonus: 10 });
     await q(d, "insert into runtime_ai_requests(request_key,provider,model,reserved_usd,actual_usd,state,user_id) values('h-old-00000001','openai','gpt-6-luna',0.0284,0.0284,'receipted','h')");
     const key = 'prepos:h:0000000000000001';
     assert.equal((await reserve(d, 'h', 1, key)).ok, true);
-    // 0.0284 spent + 0.0284 cap + 1 held credit * 0.01: a request up to 0.01 dispatches, a bigger one (0.0152) is refused.
-    await assert.rejects(q(d, 'select public.reserve_runtime_ai($1,$2,$3,$4,$5,$6,$7)', [key, 'openai', 'gpt-6-luna', 2000, 30000, 'h', 'free']), /runtime user limit reached/);
+    // 0.0284 spent + 0.0284 cap + 1 held credit * 0.02: a request up to 0.02 dispatches, a bigger one (0.0252) is refused.
+    await assert.rejects(q(d, 'select public.reserve_runtime_ai($1,$2,$3,$4,$5,$6,$7)', [key, 'openai', 'gpt-6-luna', 2000, 50000, 'h', 'free']), /runtime user limit reached/);
     await release(d, key);
     assert.equal((await one(d, "select public.mm_held_ai_credits_spent('h', public.runtime_ai_month_start()) n")).n, 0, 'released credits do not count');
     assert.deepEqual(await reply(d, 'h', 2), { ok: true });
   } finally { await d.close(); }
 });
 
-test('a reply paid from 1 held credit at the very edge of the cap dispatches both physical calls (primary + retry/fallback), even with large bounds', async () => {
+test('a reply paid from 1 held credit at the very edge of the cap dispatches both physical calls (primary + retry/fallback), even with the largest bounds the code can send', async () => {
   // MAX_PHYSICAL_CALLS in providerCore.js is 2; each call is reserved at its bound and a failed first call keeps its
-  // reservation. 30 KB in + 3,000 out on luna = USD 0.0045 per call, about twice the largest runtime reservation seen on
-  // production (0.00237), so 0.009 for the reply.
+  // reservation. 30 KB in + 3,000 out on luna = USD 0.0045 per call (the largest the code can reserve, about twice the
+  // largest runtime reservation seen on production, 0.00237), so 0.009 for the reply.
   const src = readFileSync(new URL('../../src/services/ai/providerCore.js', import.meta.url), 'utf8');
   assert.match(src, /export const MAX_PHYSICAL_CALLS = 2;/);
+  assert.match(src, /MAX_TOKENS_RANGE = Object\.freeze\(\{ min: 200, max: 2_000 \}\)/);
+  assert.match(src, /low: 1000,/);
   for (const perCredit of [0.005, null]) {
     const d = await database();
     try {
@@ -371,6 +373,32 @@ test('a reply paid from 1 held credit at the very edge of the cap dispatches bot
       const second = q(d, 'select public.reserve_runtime_ai($1,$2,$3,$4,$5,$6,$7)', [`${key}:fallback`, 'anthropic', 'claude-haiku-5-5', 30000, 3000, 'edge', 'free']);
       if (perCredit === 0.005) await assert.rejects(second, /runtime user limit reached/, 'the 0.005 draft refused the second call of a paid reply');
       else await second;
+    } finally { await d.close(); }
+  }
+});
+
+test('after a failed reply at the cap edge (credit released, both provider reservations kept), the next reply paid from held credits still dispatches both calls', async () => {
+  for (const perCredit of [0.01, null]) {
+    const d = await database();
+    try {
+      if (perCredit !== null) await q(d, "update runtime_ai_budget set monthly_cap_usd=$1 where id='student_held_credit'", [perCredit]);
+      await user(d, 'fail', { balance: 3, used: 50, bonus: 0 });
+      await q(d, "insert into runtime_ai_requests(request_key,provider,model,reserved_usd,actual_usd,state,user_id) values('fail-old-0000001','openai','gpt-6-luna',0.0284,0.0284,'receipted','fail')");
+      const call = (k, provider, model) => q(d, 'select public.reserve_runtime_ai($1,$2,$3,$4,$5,$6,$7)', [k, provider, model, 30000, 3000, 'fail', 'free']);
+      // Reply 1: both calls reserved at the largest bounds, then it fails: the credit is released, the reservations stay.
+      const k1 = 'prepos:fail:000000000000001';
+      assert.equal((await reserve(d, 'fail', 1, k1)).ok, true);
+      await call(k1, 'openai', 'gpt-6-luna');
+      await call(`${k1}:fallback`, 'anthropic', 'claude-haiku-5-5');
+      await release(d, k1);
+      assert.deepEqual(await state(d, 'fail'), { free: 0, bonus: 0, balance: 3 }, 'the failed reply cost the student nothing');
+      // Reply 2, paid from a held credit.
+      const k2 = 'prepos:fail:000000000000002';
+      assert.equal((await reserve(d, 'fail', 1, k2)).ok, true);
+      const first = call(k2, 'openai', 'gpt-6-luna');
+      if (perCredit === 0.01) { await assert.rejects(first, /runtime user limit reached/, 'the 0.01 draft refused the next paid reply'); continue; }
+      await first;
+      await call(`${k2}:fallback`, 'anthropic', 'claude-haiku-5-5');
     } finally { await d.close(); }
   }
 });

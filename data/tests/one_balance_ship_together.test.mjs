@@ -77,6 +77,6 @@ test('Ask Mobi\'s context: one total with its parts, and no second balance the m
   const src = file('src/services/ai/getStudentAIContext.js');
   assert.doesNotMatch(src, /normalCreditBalance/, 'the raw users.credit_balance is no longer sent beside the total');
   assert.match(src, /aiCredits: oneBalanceForModel\(usageSnapshot\)/);
-  // The client route keeps the legacy key for older readers, from the same read.
-  assert.match(file('src/app/api/ai/context/route.js'), /normalCreditBalance: context\.aiCredits\?\.heldCredits \?\? 0/);
+  // The client route keeps the legacy key for older readers with its old meaning (users.credit_balance).
+  assert.match(file('src/app/api/ai/context/route.js'), /normalCreditBalance: dbUser\.creditBalance \|\| 0,/, 'users.credit_balance on either database');
 });

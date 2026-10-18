@@ -29,7 +29,7 @@
 --   5. reserve_runtime_ai (CTO, 18 Oct 2026, 7:08 pm): the per-user monthly USD cap (student_user_free / student_user_paid)
 --      now covers the free monthly allowance only. Each AI credit paid this IST month from bought/held credits (bonus or
 --      users.credit_balance part of a reservation or spend that was not released) raises that student's cap by the USD in the
---      new runtime_ai_budget row 'student_held_credit' (monthly_cap_usd = USD per held credit, 0.01). So a student who buys credits
+--      new runtime_ai_budget row 'student_held_credit' (monthly_cap_usd = USD per held credit, 0.02). So a student who buys credits
 --      is never refused by the cap for what they paid for, a free-only student is capped exactly as before, a failed call
 --      (credit released, provider reservation kept) still eats into the cap, and each held credit can add at most that bound.
 --      Everything else in reserve_runtime_ai (model allowlist, global cap, idempotency, price check) is production's.
@@ -60,15 +60,22 @@ alter table public.ai_credit_ledger drop constraint if exists ai_credit_ledger_w
 alter table public.ai_credit_ledger add constraint ai_credit_ledger_wallet_source_check
   check (wallet_source in ('included', 'bonus', 'balance', 'mixed', 'grant', 'adjustment', 'none'));
 
--- USD 0.01 per held credit. One charged reply makes at most 2 physical provider calls (src/services/ai/providerCore.js
--- MAX_PHYSICAL_CALLS: the primary, then one JSON retry or fallback), each reserved at its bound before it is sent. The
--- largest single reservation on production for a runtime model (gpt-6-luna / claude-haiku-5-5, both USD 0.10 / 0.50 per
--- million) is USD 0.00237 (all time, 18 Oct 2026); the largest of any model ever was 0.002536. 0.01 covers two calls of
--- 0.005 each, about twice the largest seen, so a reply paid from held credits at the very edge of the cap still dispatches.
--- (It was 0.005 in the first draft: exactly 2 x 0.002536, which a 2-call reply could exceed.) The cap counts actual cost
--- once a call is receipted (typical USD 0.0003), so a larger headroom never makes a reply cost more.
+-- USD 0.02 per held credit (CTO, 18 Oct 2026, 11 pm). One charged reply makes at most 2 physical provider calls
+-- (src/services/ai/providerCore.js MAX_PHYSICAL_CALLS: the primary, then one JSON retry or fallback), each reserved at its
+-- bound before it is sent. Production runtime_ai_requests (read-only, 18 Oct 2026): the largest single reservation for a
+-- runtime model (gpt-6-luna, 9 rows) is USD 0.00237 (p99 0.00236, p50 0.00194); the largest of any model ever 0.002536;
+-- the largest actual cost 0.00048. The largest the code can reserve is about USD 0.0045 per call (12 KB context + prompt +
+-- message, about 30 KB in; 2,000 visible + 1,000 reasoning tokens out, at USD 0.10 / 0.50 per million), so 0.009 a reply.
+-- 0.02 covers one such reply twice over: a reply paid from held credits at the very edge of the cap dispatches both calls,
+-- and so does the next one even after a failed reply there (a failed reply releases its credit, so it no longer raises the
+-- cap, while its provider reservations keep counting). A larger value never makes anything cost more: it only lifts the
+-- cap, the credit is taken per reply, each call is bounded by its own reservation, and the free credits are always spent
+-- first in a month, so this headroom serves replies paid from bought/held credits (and at most the few free credits a
+-- failed reply gives back).
+-- (Drafts: 0.005, exactly 2 x 0.002536, which a 2-call reply could exceed; then 0.01, which one failed reply at the edge
+-- could use up for the next.)
 -- do update: this file is the source of the value (staging took the 0.005 draft; production has no row yet).
-insert into public.runtime_ai_budget(id, monthly_cap_usd) values ('student_held_credit', 0.01)
+insert into public.runtime_ai_budget(id, monthly_cap_usd) values ('student_held_credit', 0.02)
   on conflict (id) do update set monthly_cap_usd = excluded.monthly_cap_usd;
 
 -- ---- the IST month ---------------------------------------------------------------------------------------------------
