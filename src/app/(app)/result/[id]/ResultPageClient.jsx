@@ -527,8 +527,9 @@ export default function ResultPageClient({ previewId = null }) {
     const review = answerReviews[qid];
     if (review?.state === 'corrected') return { id: 'corrected', label: 'Key corrected' };
     if (review && HELD_STATES.has(review.state)) return { id: 'recheck', label: 'Key being re-checked' };
-    // A blank has one action too (D15, section 7): Try it again, free. It is actionLabel's word, the same as Review and Today.
-    if (row.verdict === 'skipped') return { id: 'again', label: actionLabel('blank') };
+    // A blank has one action too (D15, section 7): Try it again, free. It is actionLabel's word, the same as Review and Today. Once the
+    // student has tried it or asked for the answer the step is done and the chip goes (a blank has no paid Repair to follow).
+    if (row.verdict === 'skipped') return sealedOf(row) ? { id: 'again', label: actionLabel('blank') } : null;
     if (row.verdict !== 'wrong') return null;
     const out = repairOutcomes[qid];
     if (out === 'held_for_recheck') return { id: 'recheck', label: 'Key being re-checked' };

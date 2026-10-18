@@ -146,12 +146,12 @@ test('the page seals a mistake from real state: no saved repair, no repair outco
 });
 
 test('a blank has one label, Try it again, the same word Review and Today use; a wrong answer keeps Repair', () => {
-  assert.match(page, /if \(row\.verdict === 'skipped'\) return \{ id: 'again', label: actionLabel\('blank'\) \};/);
+  assert.match(page, /if \(row\.verdict === 'skipped'\) return sealedOf\(row\) \? \{ id: 'again', label: actionLabel\('blank'\) \} : null;/);
   assert.match(page, /return \{ id: 'repair', label: actionLabel\('open'\) \};/);
   assert.equal(actionLabel('blank'), 'Try it again');
   assert.equal(actionLabel('open'), 'Repair');
   // A held key is said before anything else, so a blank under re-check says so instead.
-  assert.ok(page.indexOf("label: 'Key being re-checked'") < page.indexOf("if (row.verdict === 'skipped') return { id: 'again'"));
+  assert.ok(page.indexOf("label: 'Key being re-checked'") < page.indexOf("if (row.verdict === 'skipped') return sealedOf"));
 });
 
 test('one component: Review\'s answer sheet and the result\'s mistakes use the same free steps', () => {
