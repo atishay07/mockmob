@@ -104,8 +104,8 @@
 
 .pp-lock { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 10px; padding: 10px 12px; border: 1px dashed var(--pp-line-strong, rgba(244, 245, 240, 0.22)); border-radius: 12px; color: var(--pp-ink-2, #b4bdae); }
 .pp-lock p { flex: 1; min-width: 180px; margin: 0; font-size: 13px; line-height: 1.5; }
-.pp-lock button { min-height: 44px; padding: 0 14px; border-radius: 12px; border: 1px solid var(--pp-line-strong, rgba(244, 245, 240, 0.22)); background: transparent; color: var(--pp-ink, #f2f4ec); font: 700 13px var(--font-display); cursor: pointer; }
-.pp-lock button:hover { border-color: var(--pp-accent, #d2f000); color: var(--pp-accent, #d2f000); }
+.pp-lock button, .pp-lock .pp-lock__key { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 12px; border: 1px solid var(--pp-line-strong, rgba(244, 245, 240, 0.22)); background: transparent; color: var(--pp-ink, #f2f4ec); font: 700 13px var(--font-display); text-decoration: none; cursor: pointer; }
+.pp-lock button:hover, .pp-lock .pp-lock__key:hover { border-color: var(--pp-accent, #d2f000); color: var(--pp-accent, #d2f000); }
 
 /* A quiet workspace: evidence, reply source and cost remain visible. */
 .pp-handover { display:flex; align-items:center; gap:18px; padding-bottom:10px; }

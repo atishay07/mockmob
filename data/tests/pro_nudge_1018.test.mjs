@@ -274,6 +274,16 @@ test('every Pro gate opens the sheet: Compass Pro, the Mob, full saves', () => {
   assert.match(read('src/components/review/ReviewChapters.jsx'), /facts=\{\{ focusChapter: row\.name \}\}/);
 });
 
+test('the Pro rows on Radar and the Mentor record open the sheet on full chapter review (D80)', () => {
+  const record = read('src/components/ai/RecordView.jsx');
+  const lock = record.match(/function ProLock[\s\S]*?\n}\n/)[0];
+  assert.match(lock, /<Link href="\/pricing"[^>]*data-pro-feature="review"/, 'a /pricing link the host turns into the review sheet');
+  assert.doesNotMatch(lock, /onNavigate|router\.push|location\.assign/, 'never a navigation that skips the host');
+  assert.equal((record.match(/<ProLock /g) || []).length, 4, 'all four Pro rows use it');
+  assert.match(sheetHead('review').lede, /pace and the answers you changed/);
+  assert.equal(benefitLines('review', {})[0].id, 'review');
+});
+
 test('NTA lines name only subjects with an NTA mode blueprint', () => {
   const index = JSON.parse(read('data/nta_blueprints/index.json'));
   assert.deepEqual([...NTA_SUBJECTS].sort(), Object.keys(index.subjects).sort());
