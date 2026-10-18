@@ -21,7 +21,7 @@ const double _skeletonHeight = 176;
 /// "What you get" on the confirm sheet: the size of the session, how long it takes and what it
 /// costs, all from the quote. The only place in the app that states a cost. Every state of the
 /// quote is designed here: checking, offline, failed, blocked, credits low and the Pro gate.
-class GetPanel extends StatelessWidget {
+class GetPanel extends StatefulWidget {
   const GetPanel({
     super.key,
     required this.selection,
@@ -52,18 +52,60 @@ class GetPanel extends StatelessWidget {
   final bool conceptsOpen;
 
   @override
+  State<GetPanel> createState() => _GetPanelState();
+}
+
+/// The ticket as last shown, kept so a changed selection that is being quoted again does not blank it.
+class _HeldTicket {
+  const _HeldTicket({required this.selection, required this.quote, required this.costText, required this.subjectName});
+
+  final PracticeSelection selection;
+  final PracticeQuote quote;
+  final String? costText;
+  final String subjectName;
+}
+
+class _GetPanelState extends State<GetPanel> {
+  /// What the panel last showed as a finished ticket; null before the first one and after any other state. A 5, 10, 15 or
+  /// 20 tap used to turn the whole body into a grey skeleton for the length of the quote and then rise the rows in again:
+  /// on every tap the panel flickered (v15 walk). The finished ticket now stays, quieter, until the new quote lands, and
+  /// the new figures replace the old ones in place. The skeleton is for the first quote of the sheet only.
+  _HeldTicket? _held;
+
+  static const _ticketKey = ValueKey('get-ticket');
+
+  @override
   Widget build(BuildContext context) {
-    if (offline) return const PlainNotice(message: PracticeCopy.offlineStart, tone: BannerTone.offline);
+    final selection = widget.selection;
+    final quote = widget.quote;
+    final pending = widget.pending;
+    final subjectName = widget.subjectName;
+    if (widget.offline) {
+      _held = null;
+      return const PlainNotice(message: PracticeCopy.offlineStart, tone: BannerTone.offline);
+    }
     final value = quote;
     // A failed quote may be retrying in the background; say it failed rather than spin.
     if (!pending && value != null && value.hasError && !value.hasValue) {
+      _held = null;
       final error = value.error;
       if (error is ApiError && error.isOffline) {
         return const PlainNotice(message: PracticeCopy.offlineStart, tone: BannerTone.offline);
       }
-      return PlainNotice(message: PracticeCopy.quoteFailed, tone: BannerTone.error, actionLabel: PracticeCopy.retry, onAction: onRetry);
+      return PlainNotice(message: PracticeCopy.quoteFailed, tone: BannerTone.error, actionLabel: PracticeCopy.retry, onAction: widget.onRetry);
     }
     if (pending || value == null || !value.hasValue) {
+      final held = _held;
+      if (held != null) {
+        return _Ticket(
+          key: _ticketKey,
+          selection: held.selection,
+          quote: held.quote,
+          costText: held.costText,
+          subjectName: held.subjectName,
+          checking: true,
+        );
+      }
       // The rows of "What you get" as lines of the same shape, so nothing jumps when they land.
       return const DelayedSkeleton(
         height: _skeletonHeight,
@@ -89,10 +131,14 @@ class GetPanel extends StatelessWidget {
 
     final q = value.requireValue;
     final line = costLineFor(q);
-    if (line.kind == CostKind.proGated) return _ProGate(mode: selection.mode);
+    if (line.kind == CostKind.proGated) {
+      _held = null;
+      return _ProGate(mode: selection.mode);
+    }
 
     final low = creditsLowFor(q);
     if (low != null) {
+      _held = null;
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -101,24 +147,23 @@ class GetPanel extends StatelessWidget {
           _FreeRightNow(
             subjectId: selection.subjectId,
             showDaily: !selection.mode.isMock && selection.count != 10,
-            conceptsOpen: conceptsOpen,
-            onUseDailyCount: onUseDailyCount,
-            onOpenConcepts: onOpenConcepts,
-            onOpenReview: onOpenReview,
+            conceptsOpen: widget.conceptsOpen,
+            onUseDailyCount: widget.onUseDailyCount,
+            onOpenConcepts: widget.onOpenConcepts,
+            onOpenReview: widget.onOpenReview,
           ),
         ],
       );
     }
-    if (line.kind == CostKind.blocked) return PlainNotice(message: line.text!);
-    // Keyed by the selection the quote answers: its rows rise in once for each selection, never
-    // again for a rebuild of the same one.
-    return _Ticket(
-      key: ValueKey(selection.quoteQuery),
-      selection: selection,
-      quote: q,
-      costText: line.kind == CostKind.none ? null : line.text,
-      subjectName: subjectName,
-    );
+    if (line.kind == CostKind.blocked) {
+      _held = null;
+      return PlainNotice(message: line.text!);
+    }
+    final costText = line.kind == CostKind.none ? null : line.text;
+    _held = _HeldTicket(selection: selection, quote: q, costText: costText, subjectName: subjectName);
+    // One key for the sheet's whole life: the rows rise in once, the first time, and a new quote replaces the figures in
+    // place (a change of 5 to 20 questions is a number changing, not a panel arriving again).
+    return _Ticket(key: _ticketKey, selection: selection, quote: q, costText: costText, subjectName: subjectName);
   }
 }
 
@@ -127,12 +172,15 @@ class GetPanel extends StatelessWidget {
 /// the ticket does not (marking, cost), each figure from the selection or the quote.
 /// The difficulty is not repeated: its control sits right above.
 class _Ticket extends StatefulWidget {
-  const _Ticket({super.key, required this.selection, required this.quote, required this.costText, required this.subjectName});
+  const _Ticket({super.key, required this.selection, required this.quote, required this.costText, required this.subjectName, this.checking = false});
 
   final PracticeSelection selection;
   final PracticeQuote quote;
   final String? costText;
   final String subjectName;
+
+  /// A changed selection is being quoted: this is the ticket as it stood, held quietly until the new figures land.
+  final bool checking;
 
   /// Each row rises 45 ms after the one above; the "Free" check inks after the last has landed.
   static const Duration step = Duration(milliseconds: 45);
@@ -206,38 +254,47 @@ class _TicketState extends State<_Ticket> with SingleTickerProviderStateMixin {
       (PracticeCopy.summaryMarking, PracticeCopy.markingValue),
       (PracticeCopy.summaryCost, costText ?? (quote.entitlementKind == 'access' ? PracticeCopy.costIncluded : PracticeCopy.costFree)),
     ];
-    return Semantics(
-      container: true,
-      label:
-          '${PracticeCopy.whatYouGet}, $subjectName, ${modeTitle(selection.mode)}. $get ${[if (difficulty != null) '${PracticeCopy.difficultyLabel}: $difficulty', if (!selection.mode.isMock) chapters.isEmpty ? PracticeCopy.allChapters : PracticeCopy.chaptersSummary(chapters), for (final r in rows) '${r.$1}: ${r.$2}'].join('. ')}',
-      excludeSemantics: true,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          _rise(
-            0,
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(PracticeCopy.whatYouGet, style: type.label.copyWith(color: colors.ink2)),
-                const SizedBox(height: MmSpace.s4),
-                Text(get, style: type.cardTitle),
-              ],
-            ),
-          ),
-          const SizedBox(height: MmSpace.s8),
-          for (var i = 0; i < rows.length; i++)
+    // Held quietly while the next quote is read: the same rows in the same places, a step lighter, so a changed length
+    // reads as a number about to change and nothing jumps.
+    return AnimatedOpacity(
+      opacity: widget.checking ? 0.5 : 1,
+      duration: Motion.of(context, Motion.ui),
+      curve: Motion.out,
+      child: Semantics(
+        container: true,
+        liveRegion: widget.checking,
+        label: widget.checking
+            ? PracticeCopy.checkingCost
+            : '${PracticeCopy.whatYouGet}, $subjectName, ${modeTitle(selection.mode)}. $get ${[if (difficulty != null) '${PracticeCopy.difficultyLabel}: $difficulty', if (!selection.mode.isMock) chapters.isEmpty ? PracticeCopy.allChapters : PracticeCopy.chaptersSummary(chapters), for (final r in rows) '${r.$1}: ${r.$2}'].join('. ')}',
+        excludeSemantics: true,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
             _rise(
-              i + 1,
-              _SummaryRow(
-                label: rows[i].$1,
-                value: rows[i].$2,
-                // A free start inks a check once the rows have landed. Only "Free" carries it:
-                // the words are the state, the mark is the second signal.
-                mark: rows[i].$1 == PracticeCopy.summaryCost && rows[i].$2.startsWith(PracticeCopy.costFree) ? _c : null,
+              0,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(PracticeCopy.whatYouGet, style: type.label.copyWith(color: colors.ink2)),
+                  const SizedBox(height: MmSpace.s4),
+                  Text(get, style: type.cardTitle),
+                ],
               ),
             ),
-        ],
+            const SizedBox(height: MmSpace.s8),
+            for (var i = 0; i < rows.length; i++)
+              _rise(
+                i + 1,
+                _SummaryRow(
+                  label: rows[i].$1,
+                  value: rows[i].$2,
+                  // A free start inks a check once the rows have landed. Only "Free" carries it:
+                  // the words are the state, the mark is the second signal.
+                  mark: rows[i].$1 == PracticeCopy.summaryCost && rows[i].$2.startsWith(PracticeCopy.costFree) ? _c : null,
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }

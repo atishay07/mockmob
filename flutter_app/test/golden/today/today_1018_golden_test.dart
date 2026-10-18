@@ -16,6 +16,9 @@ import 'package:mockmob/features/today/data/today_profile.dart';
 import 'package:mockmob/features/today/logic/move_price.dart';
 import 'package:mockmob/features/today/logic/road_board.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
+import 'package:mockmob/features/practice/model/open_paper.dart';
+import 'package:mockmob/features/practice/model/pending_start.dart';
+import 'package:mockmob/features/practice/model/practice_selection.dart';
 import 'package:mockmob/features/today/logic/today_inputs.dart';
 import 'package:mockmob/features/today/logic/today_model.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
@@ -67,6 +70,7 @@ TodayInputs activeInputs({
   bool offline = false,
   bool weekFailed = false,
   String? firstName = 'Asha',
+  OpenPaper? openPaper,
   List<({String attemptId, DateTime receivedAt})> unopened = const [],
   Map<String, Set<String>> repaired = const {
     'm6': {'m6-q2', 'm6-q9'},
@@ -94,6 +98,7 @@ TodayInputs activeInputs({
     roadPlan: roadPlan,
     unopened: unopened,
     repaired: repaired,
+    openPaper: openPaper,
   );
 }
 
@@ -199,6 +204,9 @@ Widget _planPinned(int step) {
 
 void main() {
   setUp(debugResetTodayPicks);
+  // A paper that is open and not on this phone leads Today: the server's own, and a start nobody read.
+  todayGolden('today1018_open_paper_held', () => buildToday(activeInputs(openPaper: _openHeld())), size: kPhone, prices: fixturePrices);
+  todayGolden('today1018_open_paper_pending', () => buildToday(activeInputs(openPaper: _openPending())), size: kPhone, prices: fixturePrices);
 
   // Active: the first screen and the whole page (app-412-active-*).
   todayGolden('today1018_active', activeView, size: kPhone, prices: fixturePrices);
@@ -300,4 +308,33 @@ void main() {
   }
   screenGolden('today1018_plan_own_date', () => _plan(0), size: const Size(412, 1200), dock: false, act: (t) => _tapKey(t, 'plan-date-own'));
   screenGolden('today1018_plan_step3_pinned', () => _planPinned(2), size: const Size(360, 640), dock: false);
+  // The owner's own phone, 360 by 800: the last question's "Your own number" card is whole above the pinned footer (v15 walk, the card was cut).
+  screenGolden('today1018_plan_step3_pinned_800', () => _planPinned(2), size: const Size(360, 800), dock: false);
 }
+
+/// A paper that is open and not on this phone leads Today (v15 walk, credits): the one the server holds, and a start whose
+/// answer never came.
+OpenPaper _openHeld() => OpenPaper(
+      kind: OpenPaperKind.held,
+      subjectId: 'accountancy',
+      apiMode: 'full',
+      count: 50,
+      mockNumber: 9,
+      endsAt: sunday.add(const Duration(minutes: 47)),
+      sessionId: 'sess-9',
+    );
+
+OpenPaper _openPending() => OpenPaper(
+      kind: OpenPaperKind.pending,
+      subjectId: 'accountancy',
+      apiMode: 'full',
+      count: 50,
+      mockNumber: 9,
+      start: PendingStart(
+        draftKey: 'full:accountancy',
+        generationKey: 'gen-key-123456',
+        at: sunday.subtract(const Duration(minutes: 3)),
+        selection: PracticeSelection(mode: PracticeMode.full, subjectId: 'accountancy'),
+        mockNumber: 9,
+      ),
+    );

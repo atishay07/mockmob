@@ -77,6 +77,7 @@ class MmSurface extends StatelessWidget {
     this.haptic = MmPressHaptic.selection,
     this.semanticsLabel,
     this.captureLaunch = false,
+    this.flat = false,
   });
 
   const MmSurface.hero({
@@ -90,6 +91,7 @@ class MmSurface extends StatelessWidget {
     this.haptic = MmPressHaptic.selection,
     this.semanticsLabel,
     this.captureLaunch = false,
+    this.flat = false,
   }) : tier = MmSurfaceTier.hero;
 
   const MmSurface.plain({
@@ -102,6 +104,7 @@ class MmSurface extends StatelessWidget {
     this.haptic = MmPressHaptic.selection,
     this.semanticsLabel,
     this.captureLaunch = false,
+    this.flat = false,
   })  : tier = MmSurfaceTier.plain,
         light = null;
 
@@ -116,7 +119,8 @@ class MmSurface extends StatelessWidget {
   })  : tier = MmSurfaceTier.inset,
         lit = false,
         light = null,
-        captureLaunch = false;
+        captureLaunch = false,
+        flat = false;
 
   final MmSurfaceTier tier;
   final Widget child;
@@ -143,6 +147,10 @@ class MmSurface extends StatelessWidget {
   /// With [onTap]: the page it opens grows out of it.
   final bool captureLaunch;
 
+  /// A card with no drop shadow in Daylight: the hairline and the fill alone, for a card that sits among flat
+  /// sections and would otherwise stand a step higher than everything around it (v15 walk, the result on Day).
+  final bool flat;
+
   double get _radius =>
       radius ??
       switch (tier) {
@@ -162,10 +170,10 @@ class MmSurface extends StatelessWidget {
   /// A card's fill, hairline and depth. Night's depth is light (the edge light painted over the
   /// top edge; shadows vanish on charcoal), Daylight's is the card shadow: white on cream with
   /// neither read as a flat sheet with no edge (SPACING.md 8.2).
-  static ShapeDecoration _cardDecoration(MmColors colors, BorderRadius r) => ShapeDecoration(
+  static ShapeDecoration _cardDecoration(MmColors colors, BorderRadius r, {bool flat = false}) => ShapeDecoration(
         color: colors.raised,
         shape: mmShapeBorder(r, side: BorderSide(color: colors.line)),
-        shadows: colors.isNight ? null : colors.cardShadow,
+        shadows: colors.isNight || flat ? null : colors.cardShadow,
       );
 
   Widget _face(BuildContext context, bool pressed) {
@@ -177,7 +185,7 @@ class MmSurface extends StatelessWidget {
       case MmSurfaceTier.hero:
         final glow = light;
         face = DecoratedBox(
-          decoration: _cardDecoration(colors, r),
+          decoration: _cardDecoration(colors, r, flat: flat),
           child: MmClip(
             borderRadius: r,
             child: Stack(
@@ -217,7 +225,7 @@ class MmSurface extends StatelessWidget {
         );
       case MmSurfaceTier.plain:
         face = DecoratedBox(
-          decoration: _cardDecoration(colors, r),
+          decoration: _cardDecoration(colors, r, flat: flat),
           child: CustomPaint(
             foregroundPainter: EdgeLightPainter(
               borderRadius: r,

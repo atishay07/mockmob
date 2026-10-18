@@ -12,11 +12,23 @@ import '../../../core/sync/session/session_engine.dart';
 import '../../../core/sync/sync_providers.dart';
 import '../../runner/data/runner_session.dart' show EngineRunnerSession;
 import '../copy.dart';
+import '../model/pending_start.dart';
 import '../model/practice_selection.dart';
 import 'practice_notes.dart';
 
 /// Why a start did not happen. Each maps to exact copy in `PracticeCopy`.
-enum StartFailure { offline, generic, notEnoughQuestions, notEnoughCredits, notIncluded, rateLimited }
+enum StartFailure {
+  offline,
+  generic,
+  notEnoughQuestions,
+  notEnoughCredits,
+  notIncluded,
+  rateLimited,
+
+  /// The paper this start asked for is over (its time ran out, or it was handed in): the key is
+  /// forgotten and the next start is a new paper. No new charge was made.
+  ended,
+}
 
 sealed class StartOutcome {
   const StartOutcome();
@@ -51,6 +63,7 @@ StartFailure failureFor(ApiError e) {
   if (e.hasCode(ApiCodes.insufficientCredits)) return StartFailure.notEnoughCredits;
   if (e.hasCode(ApiCodes.premiumRequired) || e.hasCode('DIFFICULTY_NOT_ALLOWED')) return StartFailure.notIncluded;
   if (e.isRateLimited) return StartFailure.rateLimited;
+  if (e.hasCode(ApiCodes.sessionExpired) || e.hasCode(ApiCodes.sessionAlreadySubmitted)) return StartFailure.ended;
   return StartFailure.generic;
 }
 
@@ -85,6 +98,7 @@ class PracticeStarter implements PracticeStarting {
     required this.rememberSession,
     this.afterStarted,
     this.awaitClosing,
+    this.onPendingChanged,
   });
 
   final ApiClient api;
@@ -100,6 +114,18 @@ class PracticeStarter implements PracticeStarting {
   /// this start saves). Null in tests that have no runner.
   final Future<void> Function(String draftKey)? awaitClosing;
 
+  /// Told whenever a start key is written or forgotten, so what Today and Practice offer for a start
+  /// whose answer never came (see [PendingStart]) is read again.
+  final void Function()? onPendingChanged;
+
+  void _pendingChanged() {
+    try {
+      onPendingChanged?.call();
+    } on Object {
+      // Only a nudge to re-read; the key row is already written.
+    }
+  }
+
   final Map<String, Future<StartOutcome>> _inFlight = {};
 
   @override
@@ -114,8 +140,21 @@ class PracticeStarter implements PracticeStarting {
   }
 
   Future<StartOutcome> _start(PracticeSelection s, String draftKey, PracticeQuote? quote, int? mockNumber) async {
-    final generationKey = await drafts.generationKeyFor(draftKey);
-    final purpose = quote == null || s.isFreshCheck ? null : launchPurposeFor(quote);
+    // The key outlives the paper it may have opened (an hour for a mock), so a start the phone never
+    // saw the answer to is the same paper whenever it is asked for again, never a second charge. A
+    // start made without a quote is the phone opening a paper it began: it names the same allowance
+    // and the same mock number as the try before it.
+    final window = PendingStart.windowFor(s);
+    final prior = s.isFreshCheck ? null : await _priorStart(draftKey, window);
+    final purpose = s.isFreshCheck ? null : (quote == null ? prior?.purpose : launchPurposeFor(quote));
+    final number = mockNumber ?? prior?.mockNumber;
+    final generationKey = await drafts.generationKeyFor(
+      draftKey,
+      // A fresh check is free and keeps the ordinary quarter hour; it has nothing worth offering again.
+      reuseFor: s.isFreshCheck ? const Duration(minutes: 15) : window,
+      start: s.isFreshCheck ? null : PendingStart.record(s, purpose: purpose, mockNumber: number),
+    );
+    _pendingChanged();
     final SessionView view;
     try {
       final response = await api.post(
@@ -127,7 +166,10 @@ class PracticeStarter implements PracticeStarting {
       );
       view = SessionView.fromJson(response.map);
     } on ApiError catch (e) {
-      if (_definitive(e)) await drafts.clearGenerationKey(draftKey);
+      if (_definitive(e)) {
+        await drafts.clearGenerationKey(draftKey);
+        _pendingChanged();
+      }
       return StartFailed(failureFor(e));
     }
     if (view.questions.isEmpty || (view.meta.sessionId.isEmpty && view.id.isEmpty)) {
@@ -140,6 +182,7 @@ class PracticeStarter implements PracticeStarting {
     if (s.mode.isMock && view.questions.length != mockQuestionCount) {
       // Retrying the same key returns the same short paper: forget it.
       await drafts.clearGenerationKey(draftKey);
+      _pendingChanged();
       return StartFailed(StartFailure.notEnoughQuestions, message: view.meta.message ?? ntaPaperSizeMessage(view.questions.length));
     }
 
@@ -161,7 +204,10 @@ class PracticeStarter implements PracticeStarting {
           generationKey: generationKey,
           chapter: s.chapterLabel,
           difficulty: s.effectiveDifficulty,
-          mockNumber: s.mode.isMock ? mockNumber : null,
+          mockNumber: s.mode.isMock ? number : null,
+          // A repeat of a key returns the paper the server already holds, with the events it keeps;
+          // a new paper has none.
+          serverEvents: view.events,
         ),
       );
       // The draft and journal are on the phone now. The runner restores its own engine from
@@ -173,6 +219,7 @@ class PracticeStarter implements PracticeStarting {
     }
 
     await drafts.clearGenerationKey(draftKey);
+    _pendingChanged();
     final sessionId = view.meta.sessionId.isNotEmpty ? view.meta.sessionId : view.id;
     try {
       await rememberSession(sessionId, s);
@@ -181,6 +228,18 @@ class PracticeStarter implements PracticeStarting {
       // Bookkeeping only: the session is already running.
     }
     return Started(sessionId);
+  }
+
+  /// The unfinished try of this very start, when its key is still the one a retry uses.
+  Future<PendingStart?> _priorStart(String draftKey, Duration window) async {
+    try {
+      for (final stored in await drafts.pendingStarts(within: (_) => window)) {
+        if (stored.draftKey == draftKey) return PendingStart.from(stored);
+      }
+    } on Object {
+      // Only the allowance and the number of the try before; a start still goes ahead without them.
+    }
+    return null;
   }
 }
 
@@ -191,6 +250,17 @@ bool hasUsableDeadline(SessionView view) {
   return expires > 0 && expires > view.serverNowMs;
 }
 
+/// Counts the times a start key was written or forgotten: what depends on the stored starts (the
+/// cards that offer a paper whose answer never came) watches it and reads again.
+class PendingStartsRevision extends Notifier<int> {
+  @override
+  int build() => 0;
+
+  void bump() => state++;
+}
+
+final pendingStartsRevisionProvider = NotifierProvider<PendingStartsRevision, int>(PendingStartsRevision.new);
+
 final practiceStarterProvider = Provider<PracticeStarting>((ref) {
   return PracticeStarter(
     api: ref.watch(apiClientProvider),
@@ -198,6 +268,7 @@ final practiceStarterProvider = Provider<PracticeStarting>((ref) {
     userId: () => ref.read(userIdProvider) ?? (throw const SignedOutException()),
     startEngine: ref.watch(sessionEngineStarterProvider),
     awaitClosing: EngineRunnerSession.closedUnderKey,
+    onPendingChanged: () => ref.read(pendingStartsRevisionProvider.notifier).bump(),
     rememberSession: (id, s) => ref
         .read(practiceNotesProvider)
         .write(id, chapter: s.effectiveChapters.isEmpty ? null : PracticeCopy.chaptersSummary(s.effectiveChapters), mode: s.mode.apiMode),

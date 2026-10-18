@@ -6,6 +6,7 @@ import '../../core/copy/formatters.dart' as fmt;
 import '../../core/copy/formatters.dart';
 import '../../core/copy/state_words.dart' show SavedCopy;
 import '../../core/domain/cuet_dates.dart';
+import '../paper_reel/model/paper_reel_model.dart' show PaperReelModel;
 import 'logic/today_model.dart' show DurationChoice;
 
 abstract final class TodayCopy {
@@ -43,7 +44,7 @@ abstract final class TodayCopy {
   static const String offlineSuffix = 'You are offline.';
   static String updatedOffline(DateTime time) => SavedCopy.offline(time);
   static String updatedNotRefreshed(DateTime time) => SavedCopy.refreshFailed(time);
-  static String updatedTried(DateTime time, DateTime tried) => SavedCopy.triedAgain(time, tried);
+  static String updatedTried(DateTime time) => SavedCopy.triedAgain(time);
   static const String refreshSemantics = 'Try again';
 
   // Hero overlines.
@@ -268,7 +269,9 @@ abstract final class TodayCopy {
       : 'Your $subject paper, question by question: where the marks went and what to fix first.';
   static const String reelTitle = 'Play your paper back';
   static const String reelKey = 'Play it back';
-  static const String reelLength = '20 s';
+  /// The reel's length for a paper of [questions]: the number the result row and the reel itself use (PaperReelModel.secondsFor).
+  /// Null while the paper's size is not known: the key then says nothing it cannot stand by.
+  static String? reelLength(int? questions) => questions == null ? null : '${PaperReelModel.secondsFor(questions)} s';
   static const String reelLater = 'Not now';
   static const String reelSlow = 'Still reading your paper. A slow connection takes a little longer.';
   static String reelSheetSemantics(int n) => 'Your answer sheet, $n questions, ready to play back.';

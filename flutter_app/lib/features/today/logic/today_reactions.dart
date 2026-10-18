@@ -92,6 +92,8 @@ abstract final class TodayReactions {
         b.write('|sealed:${h.attemptId}');
       case EndedHero h:
         b.write('|ended:${h.title}:${h.action.label}');
+      case OpenPaperHero h:
+        b.write('|open:${h.paper.identity}:${h.line}');
       case null:
         b.write('|none');
     }

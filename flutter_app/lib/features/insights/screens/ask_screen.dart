@@ -90,7 +90,8 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     // Local answers need the record; read it if nothing has yet.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      if (ref.read(insightsRepositoryProvider).value == null) ref.read(insightsRepositoryProvider.notifier).refresh();
+      // Read again on every open (not only when none is held), so the caption's session count is the record's now.
+      ref.read(insightsRepositoryProvider.notifier).refresh();
       // A question handed over from a repair is opened (its context read); an ordinary visit hands
       // nothing over, so an earlier question never rides along.
       if (cleanQuestionRef(widget.questionRef) != null) {

@@ -26,6 +26,8 @@ class NextMovePanel extends StatelessWidget {
     return Semantics(
       container: true,
       child: MmSurface.plain(
+        // No drop shadow on Day: the one raised card on a page of flat sections stood a step above the rest (v15 walk).
+        flat: true,
         padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s16, MmSpace.s16, MmSpace.s12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

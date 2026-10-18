@@ -172,6 +172,7 @@ class StartSessionArgs {
     this.difficulty,
     this.mockNumber,
     this.draftKey,
+    this.serverEvents = const [],
   });
 
   final SessionView view;
@@ -186,6 +187,10 @@ class StartSessionArgs {
   /// Names the draft row itself, for a paper that is not a selection (a Mob paper), so it never
   /// takes the row of an ordinary quick set of the same subject and length. Null: the selection's key.
   final String? draftKey;
+
+  /// The events the server already holds, for a paper this phone takes over from it (see
+  /// [SessionEngine.start]). Empty for a paper just opened.
+  final List<SessionEvent> serverEvents;
 }
 
 /// Starts a session engine from a session view the server returned. A thin wrapper so the
@@ -202,6 +207,7 @@ final sessionEngineStarterProvider = Provider<Future<SessionEngine> Function(Sta
         difficulty: args.difficulty,
         mockNumber: args.mockNumber,
         draftKey: args.draftKey,
+        serverEvents: args.serverEvents,
       );
 });
 

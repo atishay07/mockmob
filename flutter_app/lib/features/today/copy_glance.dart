@@ -112,6 +112,9 @@ abstract final class GlanceCopy {
   }
 
   static const String weekPlanDone = "This week's plan is done.";
+
+  /// No day is left that can still count this week (Sunday already counted, say): no promise of a study day that does not exist.
+  static const String weekNoDaysOpen = 'No study days left this week. A new week starts Monday.';
   static String weekPlanDoneNext(DateTime next) => "This week's plan is done. The next full mock is due ${_dayShort(next)}.";
   static String weekLeftNext(String left, DateTime next) => '$left Next full mock ${_dayShort(next)}.';
   static String weekFigure(int done, int planned) => '$done of $planned done';

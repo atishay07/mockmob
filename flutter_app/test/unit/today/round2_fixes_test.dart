@@ -39,6 +39,7 @@ import 'package:mockmob/features/today/screens/today_body.dart';
 import '../../golden/today/today_golden_support.dart' show PhoneFrame, todayOverrides;
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
+import '../../helpers/no_open_paper.dart';
 import '../rhythm/fixtures.dart';
 import 'support/today_fixtures.dart';
 
@@ -108,6 +109,7 @@ void main() {
           ...extra,
           nowProvider.overrideWithValue(() => now),
           studentTimezoneProvider.overrideWithValue(kolkata),
+          ...noOpenPaperOverrides,
           latestSessionDraftProvider.overrideWith((ref) => Stream<SessionDraft?>.value(null)),
           rhythmRepositoryProvider.overrideWith(() => _Rhythm(rhythm, refreshes)),
           goalRepositoryProvider.overrideWith(_Goal.new),
@@ -210,6 +212,7 @@ void main() {
     ProviderContainer container() => ProviderContainer(overrides: [
           nowProvider.overrideWithValue(() => now),
           studentTimezoneProvider.overrideWithValue(kolkata),
+          ...noOpenPaperOverrides,
           latestSessionDraftProvider.overrideWith((ref) => Stream<SessionDraft?>.value(null)),
           userIdProvider.overrideWith((ref) => ref.watch(_userIdSource)),
         ]);

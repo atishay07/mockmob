@@ -259,7 +259,7 @@ void main() {
       (402, 'PREMIUM_REQUIRED', StartFailure.notIncluded),
       (422, 'INSUFFICIENT_VERIFIED_CONTENT', StartFailure.notEnoughQuestions),
       (503, 'SESSION_CREATE_FAILED', StartFailure.generic),
-      (422, 'SESSION_ALREADY_SUBMITTED', StartFailure.generic),
+      (422, 'SESSION_ALREADY_SUBMITTED', StartFailure.ended),
     ];
     for (final (status, code, expected) in cases) {
       http.handler = (_) => FakeReply(status, {'error': code, 'message': 'raw server text'});

@@ -205,6 +205,9 @@ void main() {
       // waiting after its bound and says so.
       await tester.pump(PracticeScreen.refreshTimeout);
       await tester.pump(const Duration(seconds: 1));
+      // The page keeps its gap while the ring leaves and returns once it has gone: one more frame starts that return.
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 400));
       expect(find.text(PracticeCopy.refreshFailed), findsOneWidget);
       expect(find.text(PracticeCopy.retry), findsOneWidget);
       expect(find.text(PracticeCopy.quickTitle), findsOneWidget, reason: 'what was on screen stays');

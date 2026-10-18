@@ -197,28 +197,124 @@ class SessionDraftRepository {
   /// The `generationKey` for a selection, created and stored before the start request goes out
   /// so a double tap or a crash retries the same key (and the server returns the same session).
   /// A stored key is reused for [reuseFor]; after that a fresh start gets a fresh key.
-  Future<String> generationKeyFor(String draftKey, {Duration reuseFor = const Duration(minutes: 15)}) async {
+  ///
+  /// [start] is what the request asks for (the selection, the purpose it was sent with, the mock's
+  /// number), kept beside the key: a start the process never saw the answer to (the app killed, the
+  /// phone lost the signal after the server charged) is then still a paper the phone can offer to
+  /// open again, with the same key, so nothing is charged twice (v15 walk, credits). A key whose
+  /// paper already has a draft on this phone is spent: the paper exists, so the next start is a
+  /// new paper and gets a new key.
+  Future<String> generationKeyFor(String draftKey, {Duration reuseFor = const Duration(minutes: 15), Map<String, Object?>? start}) async {
     final id = _scope.userId;
-    final cacheKey = 'genkey:$draftKey';
+    final cacheKey = '$_keyPrefix$draftKey';
     final now = _scope.now();
     final row = await (_db.select(_db.cacheEntries)..where((t) => t.userId.equals(id) & t.cacheKey.equals(cacheKey))).getSingleOrNull();
     if (row != null && now.millisecondsSinceEpoch - row.fetchedAtMs < reuseFor.inMilliseconds) {
       final key = asString(asJson(jsonDecode(row.json))['key']);
-      if (key != null && key.isNotEmpty) return key;
+      if (key != null && key.isNotEmpty && !await _spent(draftKey, key)) {
+        // The same key, asking again for the same thing: the record is rewritten only when it
+        // changed, and the time the key was made is kept (it is when the paper may have opened).
+        if (start != null) {
+          await _db
+              .into(_db.cacheEntries)
+              .insertOnConflictUpdate(
+                CacheEntriesCompanion.insert(userId: id, cacheKey: cacheKey, json: jsonEncode({'key': key, 'start': start}), fetchedAtMs: row.fetchedAtMs),
+              );
+        }
+        return key;
+      }
     }
     // Charset [A-Za-z0-9_-], 12 to 100 characters.
     final key = const Uuid().v4();
     await _db
         .into(_db.cacheEntries)
         .insertOnConflictUpdate(
-          CacheEntriesCompanion.insert(userId: id, cacheKey: cacheKey, json: jsonEncode({'key': key}), fetchedAtMs: now.millisecondsSinceEpoch),
+          CacheEntriesCompanion.insert(
+            userId: id,
+            cacheKey: cacheKey,
+            json: jsonEncode({'key': key, 'start': ?start}),
+            fetchedAtMs: now.millisecondsSinceEpoch,
+          ),
         );
     return key;
   }
 
+  static const _keyPrefix = 'genkey:';
+
+  /// True when a draft of [draftKey] on this phone was made from [key].
+  Future<bool> _spent(String draftKey, String key) async {
+    final draft = await byKey(draftKey);
+    return draft != null && draft.generationKey == key;
+  }
+
   /// Forgets a stored start key once the session exists (or the start definitively failed).
   Future<void> clearGenerationKey(String draftKey) =>
-      (_db.delete(_db.cacheEntries)..where((t) => t.userId.equals(_scope.userId) & t.cacheKey.equals('genkey:$draftKey'))).go();
+      (_db.delete(_db.cacheEntries)..where((t) => t.userId.equals(_scope.userId) & t.cacheKey.equals('$_keyPrefix$draftKey'))).go();
+
+  /// The start keys on this phone that carry what they asked for and have not produced a draft:
+  /// each is a start whose answer this phone may never have seen. Newest first. [within] drops the
+  /// ones older than the paper they could still have opened (a key that old is not offered).
+  Future<List<StoredStart>> pendingStarts({Duration Function(Map<String, dynamic> start)? within}) async {
+    final id = _scope.userIdOrNull;
+    if (id == null) return const [];
+    final rows = await (_db.select(_db.cacheEntries)..where((t) => t.userId.equals(id) & t.cacheKey.like('$_keyPrefix%'))).get();
+    final now = _scope.now().millisecondsSinceEpoch;
+    final spent = {for (final d in await _allDrafts(id)) d.generationKey};
+    final out = <StoredStart>[];
+    for (final row in rows) {
+      final Map<String, dynamic> body;
+      try {
+        body = asJson(jsonDecode(row.json));
+      } on Object {
+        continue;
+      }
+      final key = asString(body['key']);
+      final start = body['start'];
+      if (key == null || key.isEmpty || start is! Map || spent.contains(key)) continue;
+      final asked = asJson(start);
+      final age = Duration(milliseconds: now - row.fetchedAtMs);
+      if (within != null && age >= within(asked)) continue;
+      out.add(StoredStart(draftKey: row.cacheKey.substring(_keyPrefix.length), generationKey: key, at: DateTime.fromMillisecondsSinceEpoch(row.fetchedAtMs), start: asked));
+    }
+    out.sort((a, b) => b.at.compareTo(a.at));
+    return out;
+  }
+
+  Future<List<SessionDraft>> _allDrafts(String userId) async {
+    final rows = await (_db.select(_db.sessionDrafts)..where((t) => t.userId.equals(userId))).get();
+    return [for (final row in rows) ?_decode(row)];
+  }
+
+  /// The papers still running on this phone (newest first): not rejected, not already handed in,
+  /// and with time left. An archived row (a rejected or still-owed paper moved out of its selection)
+  /// is a paper the student is done with, so it never counts. This is what stops a second paid
+  /// start: a paper that is open is continued, not charged for again.
+  Future<List<SessionDraft>> runningDrafts() async {
+    final id = _scope.userIdOrNull;
+    if (id == null) return const [];
+    final nowMs = _scope.now().millisecondsSinceEpoch;
+    final running = [
+      for (final d in await _allDrafts(id))
+        if (!isArchiveKey(d.draftKey) && !d.rejected && !d.windowClosed && !d.pendingSubmission && d.endsAtWallMs > nowMs) d,
+    ];
+    running.sort((a, b) => b.updatedAtMs.compareTo(a.updatedAtMs));
+    return running;
+  }
+}
+
+/// A start key still on the phone with what it asked for: see [SessionDraftRepository.pendingStarts].
+class StoredStart {
+  const StoredStart({required this.draftKey, required this.generationKey, required this.at, required this.start});
+
+  /// The draft row the start belongs to (one per selection).
+  final String draftKey;
+  final String generationKey;
+
+  /// When the key was made: when the paper may have opened.
+  final DateTime at;
+
+  /// The request's own fields, as the starter wrote them.
+  final Map<String, dynamic> start;
 }
 
 final sessionDraftRepositoryProvider = Provider<SessionDraftRepository>((ref) => SessionDraftRepository(ref.watch(localScopeProvider)));

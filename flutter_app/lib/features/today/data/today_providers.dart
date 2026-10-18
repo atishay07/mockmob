@@ -13,6 +13,7 @@ import '../../../core/connectivity/connectivity.dart';
 import '../../../core/domain/session_rules.dart';
 import '../../../core/models/models.dart' show Attempt;
 import '../../../core/repositories/repositories.dart';
+import '../../practice/data/open_paper.dart' show openPaperProvider;
 import '../../review/data/review_providers.dart' show openRepairsProvider;
 import '../../review/revise/revise_data.dart' show reviseCapProvider, reviseEntryProvider;
 import '../../rhythm/data/rhythm_providers.dart' show rhythmClockProvider;
@@ -314,6 +315,7 @@ final todayInputsProvider = Provider<TodayInputs>((ref) {
     weekFailed: weekFailed,
     returning: rhythm.rhythm?.returning ?? false,
     draft: ref.watch(todayDraftProvider).value,
+    openPaper: ref.watch(openPaperProvider).value,
     unopened: [
       for (final u in ref.watch(unopenedResultsProvider).value ?? const <PendingResult>[])
         (attemptId: u.attemptId, receivedAt: u.receivedAt),
@@ -433,4 +435,53 @@ final todayReconnectRefreshProvider = Provider<void>((ref) {
     if (previous == NetworkStatus.offline && next == NetworkStatus.online) soon();
   });
   ref.onDispose(() => pending?.cancel());
+});
+
+/// How long Today waits before it reads the plan again by itself, after the plan alone failed (the papers are fresh).
+/// Two quiet tries, then it stops: a pull or the line's tap is still there. Never a timer that runs for ever.
+const List<Duration> todayQuietPlanRetries = [Duration(seconds: 20), Duration(seconds: 75)];
+
+/// Only the plan read failed: the record is fresh and the card is built from it, so the one thing wrong is a plan
+/// copy the header calls "Updated 10:18 AM" and keeps over the greeting until someone pulls (v15 walk, ten minutes of
+/// it). The plan is read again twice, quietly, a little after it failed, so the line goes by itself when the server
+/// answers. Watched by the Today screen; nothing runs while nobody is listening.
+final todayQuietPlanRetryProvider = Provider<void>((ref) {
+  Timer? timer;
+  var tries = 0;
+
+  bool onlyPlanStale() {
+    final i = ref.read(todayInputsProvider);
+    return i.planStale && !i.attemptsStale && !i.offline;
+  }
+
+  void schedule() {
+    timer?.cancel();
+    if (tries >= todayQuietPlanRetries.length) return;
+    timer = Timer(todayQuietPlanRetries[tries], () async {
+      timer = null;
+      if (!ref.mounted || !onlyPlanStale()) return;
+      tries++;
+      try {
+        await ref.read(planRepositoryProvider(todayPlanMinutes).notifier).refresh(force: true);
+      } on Object {
+        // The next quiet try, or the student's own, reads it again.
+      }
+      if (ref.mounted && onlyPlanStale()) schedule();
+    });
+  }
+
+  ref.listen<bool>(
+    todayInputsProvider.select((i) => i.planStale && !i.attemptsStale && !i.offline),
+    (previous, stale) {
+      if (stale) {
+        if (timer == null) schedule();
+      } else {
+        timer?.cancel();
+        timer = null;
+        tries = 0;
+      }
+    },
+    fireImmediately: true,
+  );
+  ref.onDispose(() => timer?.cancel());
 });

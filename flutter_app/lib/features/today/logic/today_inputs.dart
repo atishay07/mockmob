@@ -7,6 +7,7 @@ import '../../../core/models/attempt.dart';
 import '../../../core/models/learning_plan.dart';
 import '../../../core/notifications/timezones.dart';
 import '../../../core/repositories/dismissal_repository.dart';
+import '../../practice/model/open_paper.dart' show OpenPaper;
 import '../data/today_profile.dart';
 import 'road_board.dart' show RoadPlan;
 
@@ -102,6 +103,7 @@ class TodayInputs {
     this.weekFailed = false,
     this.returning = false,
     this.draft,
+    this.openPaper,
     this.unopened = const [],
     this.reelPending,
     this.dismissed = const {},
@@ -158,6 +160,10 @@ class TodayInputs {
   /// The server's `returning` (3 or more days away).
   final bool returning;
   final TodayDraft? draft;
+
+  /// A paper that is open and not running on this phone (a start whose answer never came, or one the
+  /// server holds): it leads Today until it is continued or let go. Null with none.
+  final OpenPaper? openPaper;
 
   /// Results received and not opened yet: attempt id and when it arrived, newest first.
   final List<({String attemptId, DateTime receivedAt})> unopened;

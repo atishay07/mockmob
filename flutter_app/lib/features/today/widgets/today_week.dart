@@ -378,9 +378,9 @@ class _Readout extends StatelessWidget {
       ...readout.lines,
       if (readout.isToday) upNext ?? GlanceCopy.moveNotLoaded,
     ];
-    // The new day's words rise into place over the old (220 ms); reduced motion keeps a short fade.
-    return MmOverlapSwitcher.rise(
-      duration: const Duration(milliseconds: 220),
+    // The old words leave and then the new day's rise into place (220 ms): never both readable at once. Reduced motion swaps at once.
+    return MmFadeThrough(
+      rise: 4,
       alignment: Alignment.topLeft,
       child: Semantics(
         key: ValueKey('${readout.title}|${lines.join('|')}'),
@@ -573,7 +573,7 @@ class _Caption extends StatelessWidget {
     final style = type.caption.copyWith(fontSize: 14, height: 20 / 14, color: colors.ink2);
     final k = keyClause;
     final at = k == null ? -1 : text.indexOf(k);
-    return MmOverlapSwitcher.fade(
+    return MmFadeThrough(
       alignment: Alignment.centerLeft,
       child: Text.rich(
         key: ValueKey(text),

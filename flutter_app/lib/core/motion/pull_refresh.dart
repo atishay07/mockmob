@@ -16,8 +16,8 @@ import 'motion.dart';
 /// rubber-bands down under the finger and the ring rides in the gap it opens, centred half the
 /// pull below the status bar (at most 36 dp down). On release past the threshold the page settles
 /// [holdExtent] dp lower and keeps that gap open while the data loads, so the ring sits in clear
-/// space and never over the title row or the greeting; when the data lands the page returns as the
-/// ring lifts away. (Before the bounce, the content never moved: the views clamped and the ring
+/// space and never over the title row or the greeting; when the data lands the ring inks and lifts away first, and the page returns once the
+/// ring has gone. (Before the bounce, the content never moved: the views clamped and the ring
 /// alone showed the pull. A view that still clamps works as it did.)
 ///
 /// - **Pull.** An answer-bubble ring draws its stroke from nothing to a full circle as the pull grows
@@ -222,7 +222,10 @@ class _MmPullRefreshState extends ConsumerState<MmPullRefresh> with TickerProvid
   Widget build(BuildContext context) {
     final reduced = Motion.reduced(context);
     final top = MediaQuery.paddingOf(context).top;
-    final hold = _mode == _PullMode.refreshing ? (reduced || _slow ? MmPullRefresh.holdExtentWithWords : MmPullRefresh.holdExtent) : 0.0;
+    // The gap stays open while the ring inks and lifts away, and closes only once it has gone: the page used to rise back
+    // into the ring as it left, so the ring's dot sat over the date and the title for a frame (v15 walk).
+    final holding = _mode == _PullMode.refreshing || _mode == _PullMode.landing || _mode == _PullMode.failing;
+    final hold = holding ? (reduced || _slow ? MmPullRefresh.holdExtentWithWords : MmPullRefresh.holdExtent) : 0.0;
     return Semantics(
       customSemanticsActions: {const CustomSemanticsAction(label: 'Refresh'): () => unawaited(_refresh())},
       child: NotificationListener<ScrollNotification>(

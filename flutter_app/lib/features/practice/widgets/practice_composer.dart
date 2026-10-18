@@ -17,8 +17,10 @@ import '../../../core/widgets/widgets.dart';
 import '../../learn/data/catalog_repository.dart';
 import '../copy.dart';
 import '../data/launch_flow.dart';
+import '../data/open_paper.dart';
 import '../data/practice_catalog.dart';
 import '../data/practice_quote.dart';
+import '../data/practice_starter.dart' show StartFailure;
 import '../model/cost_line.dart';
 import '../model/practice_selection.dart';
 import 'chapter_picker.dart';
@@ -75,6 +77,10 @@ class ComposerController extends ChangeNotifier {
   StartFailureView? failure;
   String? costNote;
 
+  /// A paper that is open and so keeps a new one from starting (nothing was charged): the Start key
+  /// becomes the one that continues it, until the student asks for something else.
+  OpenPaper? openPaper;
+
   PracticeSelection get selection => _selection;
 
   /// The query the quote on screen answers. Lags a changed selection by 300 ms.
@@ -100,6 +106,7 @@ class ComposerController extends ChangeNotifier {
     _selection = next;
     failure = null;
     costNote = null;
+    openPaper = null;
     notifyListeners();
     if (next.quoteQuery == _query) return;
     _debounce = Timer(const Duration(milliseconds: 300), () {
@@ -495,6 +502,7 @@ class _PracticeComposerKeysState extends ConsumerState<PracticeComposerKeys> {
       _c.tear = TicketTear.lifted;
       _c.failure = null;
       _c.costNote = null;
+      _c.openPaper = null;
     });
     final result = await launchPractice(ref, selection, quote);
     if (!mounted) return;
@@ -538,6 +546,36 @@ class _PracticeComposerKeysState extends ConsumerState<PracticeComposerKeys> {
           _c.tear = TicketTear.rest;
           _c.failure = StartFailureView(failure, message: message);
         });
+      case LaunchOpenPaper(:final paper):
+        // Nothing was charged. The paper that is open is said, and Start now continues it.
+        _c.update(() {
+          _c.starting = false;
+          _c.tear = TicketTear.rest;
+          _c.openPaper = paper;
+        });
+    }
+  }
+
+  /// Start, after "your full mock is still open": opens that paper (never another, never a charge).
+  Future<void> _continueOpen() async {
+    final paper = _c.openPaper;
+    if (paper == null || _c.starting) return;
+    _c.update(() {
+      _c.starting = true;
+      _c.failure = null;
+    });
+    final result = await ref.read(paperContinuerProvider).open(paper);
+    if (!mounted) return;
+    switch (result) {
+      case Continued(:final sessionId):
+        widget.exits.run(sessionId);
+      case ContinueFailed(:final failure, :final message):
+        _c.update(() {
+          _c.starting = false;
+          _c.failure = StartFailureView(failure, message: message);
+          // An ended paper is gone: Start is a start again.
+          if (failure == StartFailure.ended) _c.openPaper = null;
+        });
     }
   }
 
@@ -557,6 +595,7 @@ class _PracticeComposerKeysState extends ConsumerState<PracticeComposerKeys> {
     final mode = _c.selection.mode;
     final starting = _c.starting;
     final torn = _c.tear == TicketTear.torn;
+    final open = _c.openPaper;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
@@ -576,22 +615,34 @@ class _PracticeComposerKeysState extends ConsumerState<PracticeComposerKeys> {
             child: PlainNotice(message: _c.failure?.text ?? '', tone: BannerTone.error),
           ),
         ),
+        KeyReveal(
+          show: open != null,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: MmSpace.s12),
+            child: PlainNotice(message: open == null ? '' : PracticeCopy.openFirst(apiMode: open.apiMode)),
+          ),
+        ),
         KeyButton(
           // A Pro-gated mode has nothing to start: the one action is the open alternative. Once
-          // the server has said yes the key inks to a check and says "Starting".
+          // the server has said yes the key inks to a check and says "Starting". A paper that is
+          // open keeps another from starting: the one action is to continue it.
           label: torn
               ? PracticeCopy.startingNow
-              : start.gated
-                  ? (mode == PracticeMode.smart ? PracticeCopy.takeQuickInstead : PracticeCopy.takeFullInstead)
-                  : _startLabel,
+              : open != null
+                  ? PracticeCopy.openKey(apiMode: open.apiMode)
+                  : start.gated
+                      ? (mode == PracticeMode.smart ? PracticeCopy.takeQuickInstead : PracticeCopy.takeFullInstead)
+                      : _startLabel,
           leading: torn ? const _InkedCheck() : null,
           loading: starting && !torn,
-          disabledReason: start.disabledReason,
+          disabledReason: open != null ? null : start.disabledReason,
           onPressed: torn
               ? _noop
-              : start.gated
-                  ? _takeOpen
-                  : (start.canStart && !starting && loaded != null ? () => _start(loaded) : null),
+              : open != null
+                  ? (starting ? null : _continueOpen)
+                  : start.gated
+                      ? _takeOpen
+                      : (start.canStart && !starting && loaded != null ? () => _start(loaded) : null),
         ),
         if (widget.exits.close != null) ...[
           const SizedBox(height: MmSpace.s4),

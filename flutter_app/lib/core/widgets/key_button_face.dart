@@ -287,18 +287,22 @@ class _LabelMorph extends StatelessWidget {
     return AnimatedSwitcher(
       duration: duration,
       reverseDuration: duration,
-      switchInCurve: Motion.out,
-      switchOutCurve: Motion.out,
+      // Linear underneath, so the halves are exact: the old words are gone in the first half and the new ones arrive in the
+      // second. Two labels drawn over one another at the same spot was a smudge for about 0.3 s (v15 walk: "Skip" into
+      // "Done" at the end of the reel).
+      switchInCurve: Curves.linear,
+      switchOutCurve: Curves.linear,
       transitionBuilder: (child, animation) {
         final incoming = child.key == current;
         return AnimatedBuilder(
           animation: animation,
           child: child,
           builder: (context, child) {
-            final v = animation.value;
+            // 0 until the other label has left, then 0 to 1 over the last half of the morph.
+            final v = Motion.out.transform(((animation.value - 0.5) * 2).clamp(0.0, 1.0));
             // The new label rises from below; the old one lifts away.
             final dy = incoming ? (1 - v) * travel : -(1 - v) * travel;
-            return Opacity(opacity: v.clamp(0.0, 1.0), child: Transform.translate(offset: Offset(0, dy), child: child));
+            return Opacity(opacity: v, child: Transform.translate(offset: Offset(0, dy), child: child));
           },
         );
       },

@@ -162,9 +162,9 @@ void main() {
       expect(line, isNot(contains('7:32')));
     });
 
-    test('after a Try again that changed nothing, both times are named for what they are', () {
+    test('after a Try again that changed nothing, the line still names the last good read and fits one line', () {
       final header = buildHeader(inputs(stale: true, tried: failedTry));
-      expect(header.updatedLine, 'Tried 7:32 AM, still not loading. Last loaded 7:26 AM.');
+      expect(header.updatedLine, 'Still not loading. Last loaded 7:26 AM.');
       expect(header.refreshable, isTrue, reason: 'the line still runs Try again');
     });
 

@@ -23,6 +23,7 @@ class PlanAction {
     this.availability,
     this.evidence = const [],
     this.facts = const [],
+    this.fields = const {},
   });
 
   factory PlanAction.fromJson(Json j) => PlanAction(
@@ -34,6 +35,7 @@ class PlanAction {
         availability: asString(j['availability']),
         evidence: asStringList(j['evidence']),
         facts: [for (final f in asJsonList(j['facts'])) PlanFact.fromJson(f)],
+        fields: asJson(j['action']),
       );
 
   /// `resume_session`, `fresh_check`, `repair`, `investigate`, `baseline`, `ordinary_practice`.
@@ -45,6 +47,24 @@ class PlanAction {
   final String? availability;
   final List<String> evidence;
   final List<PlanFact> facts;
+
+  /// The structured fields the server sends beside [href] (`action`: `type`, `subject`, `mode`,
+  /// `sessionId`), so the app never has to read a web address. Empty when the server sent none.
+  final Map<String, dynamic> fields;
+
+  /// The session a `resume_session` action waits on: the structured `sessionId`, else the one in the
+  /// web address, else the id the action names as its evidence. Null for any other kind of action.
+  /// This is the website's own resume read: the server builds it from the account's newest session
+  /// that is still active, so it exists only for durable sessions (a device-held paper has no row).
+  String? get resumeSessionId {
+    if (kind != 'resume_session') return null;
+    final structured = asString(fields['sessionId']);
+    if (structured != null && structured.isNotEmpty) return structured;
+    final target = href;
+    final fromHref = target == null ? null : Uri.tryParse(target)?.queryParameters['sessionId'];
+    if (fromHref != null && fromHref.isNotEmpty) return fromHref;
+    return evidence.isEmpty || evidence.first.isEmpty ? null : evidence.first;
+  }
 }
 
 class PlanTonight {

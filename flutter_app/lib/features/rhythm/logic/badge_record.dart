@@ -6,7 +6,7 @@ import '../copy.dart';
 import 'derived_badges.dart';
 
 class BadgeRecord {
-  const BadgeRecord({required this.attemptId, required this.subject, required this.mode, required this.at, required this.marks, required this.max, this.before});
+  const BadgeRecord({required this.attemptId, required this.subject, required this.mode, required this.at, required this.marks, required this.max, this.before, this.total});
 
   final String attemptId;
   final String subject;
@@ -15,13 +15,16 @@ class BadgeRecord {
   final int marks;
   final int max;
 
+  /// The paper's question count, so a quick set is named as the rest of the app names it ("Quick 10"), not "practice set".
+  final int? total;
+
   /// For a new best: the marks it beat.
   final int? before;
 
   /// "From your Accountancy full mock, 12 October: 152 of 250 (before: 142)".
   String text(String Function(DateTime) dateOf, String Function(String) subjectName) => RhythmCopy.badgeFromPaper(
         subjectName(subject),
-        RhythmCopy.paperKind(mode),
+        RhythmCopy.paperKind(mode, total: total),
         dateOf(at),
         '$marks of $max',
         before: before == null ? null : '$before',
@@ -36,7 +39,7 @@ Map<String, BadgeRecord> badgeRecords(Map<String, DerivedBadge> derived, List<At
   for (final d in derived.values) {
     final a = byId[d.attemptId];
     if (a == null) continue;
-    out[d.id] = BadgeRecord(attemptId: a.id, subject: a.subject, mode: a.mode ?? '', at: a.completedAt, marks: a.marks, max: a.maxMarks, before: d.before);
+    out[d.id] = BadgeRecord(attemptId: a.id, subject: a.subject, mode: a.mode ?? '', at: a.completedAt, marks: a.marks, max: a.maxMarks, before: d.before, total: a.total);
   }
   return out;
 }

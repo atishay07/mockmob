@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/motion/motion.dart';
 import '../../../core/sync/session/save_state.dart';
@@ -416,6 +417,9 @@ class _ScrollFadeState extends State<_ScrollFade> {
   /// The fade at the top, under the progress dots: once the question has scrolled up, its first
   /// line dissolves into the ground instead of being sliced by the header (v13 walk, finding 9).
   static const double _topHeight = 20;
+
+  /// The shortest question region that shows the "More below" cue.
+  static const double _cueRoom = 200;
   bool _more = false;
   bool _before = false;
 
@@ -435,7 +439,8 @@ class _ScrollFadeState extends State<_ScrollFade> {
   @override
   Widget build(BuildContext context) {
     final ground = context.mmColors.ground;
-    return Stack(
+    return LayoutBuilder(
+      builder: (context, box) => Stack(
       children: [
         NotificationListener<ScrollMetricsNotification>(
           onNotification: (n) => _update(n.metrics),
@@ -483,7 +488,55 @@ class _ScrollFadeState extends State<_ScrollFade> {
             ),
           ),
         ),
+        // The fade alone read as a stray smudge on a long stem (v15 walk: only A and B showed, C clipped, and nothing said
+        // there was more). One small word and an arrow say it, until the first scroll: the student who has scrolled knows. It stands at
+        // the right edge, where an option's words rarely reach, so it never sits over the half-visible option it points at.
+        Positioned(
+          right: MmSpace.gutter,
+          bottom: MmSpace.s8,
+          child: IgnorePointer(
+            child: AnimatedOpacity(
+              key: const ValueKey('runner-more-options'),
+              // Only where the region is tall enough to hold a line and the cue apart: in a sliver of a window (large text on a small phone) it would sit on the words.
+              opacity: _more && !_before && box.maxHeight >= _cueRoom ? 1 : 0,
+              duration: Motion.of(context, Motion.ui),
+              curve: Motion.out,
+              child: const _MoreBelow(),
+            ),
+          ),
+        ),
       ],
+    ),
+    );
+  }
+}
+
+/// "More below" with a down arrow: a small solid capsule, no glow, no motion of its own. It keeps its own size at any text size: a cue
+/// that grew with the words would cover the very option it points at.
+class _MoreBelow extends StatelessWidget {
+  const _MoreBelow();
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final style = context.mmType.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600);
+    return ExcludeSemantics(
+      child: MediaQuery.withNoTextScaling(
+        child: DecoratedBox(
+          decoration: ShapeDecoration(color: colors.raised, shape: StadiumBorder(side: BorderSide(color: colors.line))),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s6),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(RunnerCopy.moreOptions, style: style),
+                const SizedBox(width: MmSpace.s4),
+                Icon(LucideIcons.chevronDown, size: 14, color: colors.ink2),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

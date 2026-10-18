@@ -429,9 +429,12 @@ abstract final class RhythmCopy {
   static const String badgeDone = 'Done';
   static String badgeFromPaper(String subject, String kind, String date, String marks, {String? before}) =>
       'From your $subject $kind, $date: $marks${before == null ? '' : ' (before: $before)'}';
-  static String paperKind(String mode) => switch (mode) {
+  /// "full mock", "Quick 10", "Smart 5": the paper as it is named everywhere else; "practice set" only when its size is not known.
+  static String paperKind(String mode, {int? total}) => switch (mode) {
         'full' => 'full mock',
         'nta' => 'NTA mode paper',
+        'quick' || 'chapter' when total != null && total > 0 => 'Quick $total',
+        'smart' when total != null && total > 0 => 'Smart $total',
         _ => 'practice set',
       };
 

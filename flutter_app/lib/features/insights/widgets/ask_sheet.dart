@@ -112,8 +112,11 @@ class _AskMobiSheetState extends ConsumerState<AskMobiSheet> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      // Record answers need the record, and prices need the wallet: read whichever is missing.
-      if (ref.read(insightsRepositoryProvider).value == null) ref.read(insightsRepositoryProvider.notifier).refresh();
+      // Record answers need the record, and prices need the wallet.
+      // The record is read again each time the sheet opens, not only when none is held: the chip's session count and the
+      // answers below it come from the same read, so a copy left over from an hour ago never disagrees with them (v15 walk:
+      // the chip said 17 sessions while the answer said 19). The copy on the phone shows meanwhile.
+      ref.read(insightsRepositoryProvider.notifier).refresh();
       if (ref.read(creditsRepositoryProvider).value == null) ref.read(creditsRepositoryProvider.notifier).refresh();
       // Back to a conversation already under way: its latest turn is in view.
       if (ref.read(askSheetControllerProvider).messages.isNotEmpty && _scroll.hasClients) _scroll.jumpTo(_scroll.position.maxScrollExtent);

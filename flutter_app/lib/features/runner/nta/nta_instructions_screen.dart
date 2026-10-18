@@ -13,8 +13,10 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../practice/copy.dart';
 import '../../practice/data/launch_flow.dart';
+import '../../practice/data/open_paper.dart';
 import '../../practice/data/practice_catalog.dart' show internalSubjectFor;
 import '../../practice/data/practice_quote.dart';
+import '../../practice/data/practice_starter.dart' show StartFailure;
 import '../../practice/model/practice_selection.dart';
 import '../../practice/widgets/failure_copy.dart';
 import '../../rules/widgets/start_sheet_line.dart';
@@ -47,6 +49,9 @@ class _NtaInstructionsScreenState extends ConsumerState<NtaInstructionsScreen> {
   /// The quote whose new, higher cost this page last put in front of the student. The next
   /// Start is the student's yes to that cost, and to that cost only.
   PracticeQuote? _costShown;
+
+  /// A paper that is open, which keeps another from starting: Start becomes the key that continues it.
+  OpenPaper? _open;
 
   PracticeSelection get _selection => PracticeSelection(mode: PracticeMode.nta, subjectId: widget.subject);
 
@@ -90,6 +95,37 @@ class _NtaInstructionsScreenState extends ConsumerState<NtaInstructionsScreen> {
         _fail(_gateText(quote));
       case LaunchFailed(:final failure, :final message):
         _fail(StartFailureView(failure, message: message).text);
+      case LaunchOpenPaper(:final paper):
+        // Nothing was charged: the paper that is open is said, and Start continues it.
+        if (!mounted) return;
+        setState(() {
+          _phase = null;
+          _open = paper;
+          _error = PracticeCopy.openFirst(apiMode: paper.apiMode);
+        });
+    }
+  }
+
+  /// Start, after "your mock is still open": opens that paper (never another, never a charge).
+  Future<void> _continueOpen() async {
+    final paper = _open;
+    if (paper == null || _phase != null) return;
+    setState(() {
+      _error = null;
+      _phase = NtaPrepPhase.starting;
+    });
+    final result = await ref.read(paperContinuerProvider).open(paper);
+    if (!mounted) return;
+    switch (result) {
+      case Continued(:final sessionId):
+        setState(() => _phase = NtaPrepPhase.opening);
+        context.go(AppRoutes.run(sessionId));
+      case ContinueFailed(:final failure, :final message):
+        setState(() {
+          _phase = null;
+          _error = StartFailureView(failure, message: message).text;
+          if (failure == StartFailure.ended) _open = null;
+        });
     }
   }
 
@@ -185,7 +221,10 @@ class _NtaInstructionsScreenState extends ConsumerState<NtaInstructionsScreen> {
                           ),
                         ),
                         const SizedBox(height: MmSpace.s8),
-                        KeyButton(label: NtaStartCopy.start, onPressed: _declared ? () => unawaited(_start()) : null),
+                        KeyButton(
+                          label: _open == null ? NtaStartCopy.start : PracticeCopy.openKey(apiMode: _open!.apiMode),
+                          onPressed: _declared ? () => unawaited(_open == null ? _start() : _continueOpen()) : null,
+                        ),
                       ],
                     ],
                   ),

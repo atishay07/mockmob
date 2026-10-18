@@ -29,6 +29,7 @@ abstract final class YouCopy {
   static const weekNone = 'No study days yet this week';
   static const studyDayDefinition = 'A study day is any day you finish a practice, a mock or a repair.';
   static String weekDaysLeft(int days) => days == 1 ? '1 day left this week' : '$days days left this week';
+  static const weekNoDaysLeft = 'No days left this week';
   static String runInARow(int weeks) => '${plural(weeks, 'week')} at your goal in a row';
   static const rhythmOffTitle = 'Study days are off';
   static const rhythmOffLine = 'Turn them on to see your week here.';

@@ -38,6 +38,7 @@ import 'package:mockmob/features/practice/data/practice_prefs.dart';
 import 'package:mockmob/features/social/data/mob_models.dart' show MobRead;
 import 'package:mockmob/features/social/data/mob_repository.dart' show mobRepositoryProvider;
 import 'package:mockmob/features/practice/data/practice_starter.dart';
+import '../../../helpers/no_open_paper.dart';
 import 'package:mockmob/features/practice/data/result_actions.dart';
 import 'package:mockmob/features/practice/model/practice_selection.dart';
 import 'package:mockmob/features/practice/practice_result_screen.dart';
@@ -302,7 +303,11 @@ List<Override> practiceOverrides({
   /// Every mistake open on the account (Practice's Repairs row); null: not read yet, no row.
   int? openRepairs,
   List<Override> extra = const [],
+
+  /// A test that brings its own open paper turns this off: nothing is open by default.
+  bool nothingOpen = true,
 }) => [
+  ...(nothingOpen ? noOpenPaperOverrides : quietOpenPaperOverrides),
   practicePrefsStoreProvider.overrideWithValue(prefs ?? MemoryPrefsStore()),
   networkRestoredProvider.overrideWith((ref) => restored ?? const Stream<void>.empty()),
   attemptsRepositoryProvider.overrideWith(() => FakeAttempts(attempts)),

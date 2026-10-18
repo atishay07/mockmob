@@ -338,6 +338,7 @@ RoadLayers buildRoadLayers(TodayInputs i, {required RoadBoard board, MoveHero? l
     weekMocksDone: math.min(mocksThisWeek, plannedMocks),
     nextMockOn: plannedMocks == 0 && nextDue != null && mocksKnown && all.isNotEmpty ? (nextDue.isBefore(i.date()) ? i.date() : nextDue) : null,
     weekEnds: sunday,
+    weekDaysOpen: w == null || w.studied.length != 7 ? null : [for (var d = todayIdx; d < 7; d++) if (!w.studied[d]) d].length,
     goalItems: [
       DueItem(label: GlanceCopy.itemExamOn(board.examDate, own: board.ownDate), done: false, info: true),
       if (mocksKnown) DueItem(label: GlanceCopy.itemMocksTaken(taken, target, suggested: suggested), done: taken >= target),
