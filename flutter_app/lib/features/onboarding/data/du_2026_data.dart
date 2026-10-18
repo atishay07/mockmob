@@ -216,17 +216,6 @@ const List<DuCourse> _courses = [
     ],
   ),
   DuCourse(
-    id: 'bachelor-of-business-administration-financial-investment-analysis-bba-fia',
-    name: 'Bachelor of Business Administration (Financial Investment Analysis) BBA (FIA)',
-    short: 'BBA (FIA)',
-    stream: 'Commerce & Economics',
-    combos: [DuCombo('Any one Language from List A + Mathematics/Applied Mathematics + Any one subject from List B + General Aptitude Test', [DuSlot.language(1), DuSlot.domain('mathematics'), DuSlot.free(1), DuSlot.generalTest()])],
-    offerings: [
-      DuOffering('Shaheed Rajguru College of Applied Sciences for Women (W)', 'Shaheed Rajguru', [655.9642, 488.186, 413.5954, 334.5436, 561.5229, null, 211.2396, 344.6169, 633.5737, null, null]),
-      DuOffering('Shaheed Sukhdev College Business Studies', 'SSCBS', [806.4638, 684.9431, 585.6809, 475.2313, 742.5728, null, 609.4695, 420.6522, 779.5189, 512.7238, 496.4068]),
-    ],
-  ),
-  DuCourse(
     id: 'bachelor-of-management-studies-bms',
     name: 'Bachelor of Management Studies (BMS)',
     short: 'BMS',
@@ -242,6 +231,17 @@ const List<DuCourse> _courses = [
       DuOffering('Shaheed Rajguru College of Applied Sciences for Women (W)', 'Shaheed Rajguru', [642.2154, 474.3887, 409.4748, 158.0321, 531.0831, null, null, null, 636.9285, null, null]),
       DuOffering('Shaheed Sukhdev College Business Studies', 'SSCBS', [783.3938, 638.6252, 563.957, 440.5096, 710.7087, null, 589.7867, 276.1413, 774.4146, 258.5869, 327.504]),
       DuOffering('Sri Guru Gobind Singh College of Commerce', 'SGGSCC', [770.1037, null, null, null, null, 620.9936, 535.8824, null, 767.0704, null, null]),
+    ],
+  ),
+  DuCourse(
+    id: 'bachelor-of-business-administration-financial-investment-analysis-bba-fia',
+    name: 'Bachelor of Business Administration (Financial Investment Analysis) BBA (FIA)',
+    short: 'BBA (FIA)',
+    stream: 'Commerce & Economics',
+    combos: [DuCombo('Any one Language from List A + Mathematics/Applied Mathematics + Any one subject from List B + General Aptitude Test', [DuSlot.language(1), DuSlot.domain('mathematics'), DuSlot.free(1), DuSlot.generalTest()])],
+    offerings: [
+      DuOffering('Shaheed Rajguru College of Applied Sciences for Women (W)', 'Shaheed Rajguru', [655.9642, 488.186, 413.5954, 334.5436, 561.5229, null, 211.2396, 344.6169, 633.5737, null, null]),
+      DuOffering('Shaheed Sukhdev College Business Studies', 'SSCBS', [806.4638, 684.9431, 585.6809, 475.2313, 742.5728, null, 609.4695, 420.6522, 779.5189, 512.7238, 496.4068]),
     ],
   ),
   DuCourse(
