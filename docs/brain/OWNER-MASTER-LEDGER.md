@@ -343,6 +343,15 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 | D67 | Ship the final v15 (all his v15 fixes) + the Mob + the website with all his feedback | OPEN: R9 + final app |
 | D68 | Within 1-2 hours of 4 pm | target 5-6 pm |
 
+### CEO/CTO decisions while the owner is away (18 Oct from about 4:10 pm, D69)
+| # | Decision | Why |
+|---|---|---|
+| C1 | One FINAL app build instead of two APKs: the v15 walk fixes + per-question prices + the richer Today and swipe stack (v15.1), one integration (1.0.15+6), one emulator walk, one release APK. The old two-walk workflow was stopped at 4:15 pm (the fixer's edits saved as STOP POINT 17ccad0f). | D67 asks for one shipment; one walk saves about 45 minutes of emulator time |
+| C2 | Per-question practice prices (D65): Quick 1 credit a question (5/10/15/20); a 50-question full mock stays 50; Pro unchanged; every free allowance unchanged (today's included 10-question set, free first sets, the free 5-question recovery set, Mob papers); old 'attempt' (10) and 'attempt_full' (50) kept for old app builds; new per-count actions in the database. | His words; keeps old builds correct and the credit RPCs atomic |
+| C3 | The Mob ships ON (D66) when its real staging gate passes and an independent verifier says GO: production migrations 20261017100000_mob and 20261017190000_mob_fix_1017 under the standing grant, then MOB_ENABLED=true on Vercel Production. The app's Mob is server-driven, so it appears in the app at the same moment. | His words "fully built, switched on, everything tested" |
+| C4 | Release 9 (the Mob, credits per question, the audited website fixes) ships on suites + independent verifier GO without waiting for his live look. | His 4 pm "should now be shipped" and D69 |
+| C5 | His phone gets the final APK when he is back and plugs it in (only the main session installs). | Nothing touches his phone without him |
+
 ## Waiting on the owner (updated 18 Oct about 3:45 am)
 - Answered 3:50 am: M-001 first launch 3 s; M-006 bolder copy; D19 keep badges, refine; D22 Mob.
 - D32: confirm the kept landing element when he reviews the port live (wt-land3, port 3206).
