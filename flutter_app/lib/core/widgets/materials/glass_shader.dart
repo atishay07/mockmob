@@ -12,13 +12,17 @@ import 'package:flutter/foundation.dart';
 /// * the program loaded;
 /// * [enabled] is true.
 ///
-/// [enabled] defaults to the `MM_GLASS_SHADER` build flag, which is **off**: the shipped Full
-/// tier is "Full without the shader" (blur, saturation and a thicker tint) until acceptance
-/// check A4 (the debug grid lines up on the emulator and on one Vulkan phone) and the section 7
-/// budget (bar raster p90 at or under 2.0 ms on a Galaxy M06) are proven on a device. Neither
-/// could be measured in this pass: no device run was allowed. Build with
-/// `--dart-define=MM_GLASS_SHADER=true` to run the lens, and with `MM_GLASS_GRID=true` as well to
-/// draw the A4 grid (magenta through the shader, cyan on the screen: they must coincide).
+/// [enabled] defaults to the `MM_GLASS_SHADER` build flag, which is **off** for sheets, controls
+/// and bubbles (`MmGlass`): their Full tier is "Full without the shader" until acceptance check
+/// A4 (the debug grid lines up on the emulator and on one Vulkan phone) is proven on a device.
+///
+/// The bar is the exception (D57, 18 Oct: the owner could not see the bar's glass on his phone).
+/// [barEnabled] defaults **on** (`MM_GLASS_SHADER_BAR`, set it to false to build without), so the
+/// bar lenses wherever the engine runs shader filters, and [GlassPerformanceWatch] drops the lens
+/// first, back to the plain frost, on a phone that cannot afford it. The shader degrades to plain
+/// glass when its mapping is wrong (see `mm_glass.frag`), never to garbage. Build with
+/// `MM_GLASS_GRID=true` to draw the A4 grid (magenta through the shader, cyan on the screen: they
+/// must coincide).
 abstract final class GlassShader {
   /// The asset key in `pubspec.yaml`.
   static const String asset = 'shaders/mm_glass.frag';
@@ -29,8 +33,15 @@ abstract final class GlassShader {
   /// Debug builds only: draws the A4 alignment grid through the shader.
   static const bool gridByDefine = bool.fromEnvironment('MM_GLASS_GRID');
 
-  /// Whether the lens may run at all (the build flag; tests and the lab may switch it).
+  /// Whether the lens may run at all on sheets, controls and bubbles (the build flag; tests and
+  /// the lab may switch it).
   static bool enabled = enabledByDefine;
+
+  /// The bar's own flag, on by default (see the class comment).
+  static const bool barEnabledByDefine = bool.fromEnvironment('MM_GLASS_SHADER_BAR', defaultValue: true);
+
+  /// Whether the bar may lens (tests may switch it).
+  static bool barEnabled = barEnabledByDefine;
 
   /// Tests fake the engine's support (the golden engine has none).
   @visibleForTesting
@@ -48,11 +59,14 @@ abstract final class GlassShader {
   /// True when [MmGlass] draws the lens; false means "Full without the shader".
   static bool get ready => enabled && supported && _program != null;
 
+  /// True when the bar can draw the lens (the phone's automatic step may still drop it).
+  static bool get barReady => (enabled || barEnabled) && supported && _program != null;
+
   /// Loads the program once; never throws. Safe to call more than once.
   static Future<void> load() => _loading ??= _load();
 
   static Future<void> _load() async {
-    if (!enabled) {
+    if (!enabled && !barEnabled) {
       failure = 'off';
       return;
     }
@@ -71,6 +85,9 @@ abstract final class GlassShader {
   /// A fresh shader from the loaded program, or null when the lens is not [ready].
   static ui.FragmentShader? newShader() => ready ? _program!.fragmentShader() : null;
 
+  /// A fresh shader for the bar, or null when the bar's lens is not [barReady].
+  static ui.FragmentShader? newBarShader() => barReady ? _program!.fragmentShader() : null;
+
   /// Tests: forget the program so [load] runs again.
   @visibleForTesting
   static void debugReset() {
@@ -78,6 +95,7 @@ abstract final class GlassShader {
     _loading = null;
     failure = null;
     enabled = enabledByDefine;
+    barEnabled = barEnabledByDefine;
     debugSupportedOverride = null;
   }
 

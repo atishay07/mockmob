@@ -1,9 +1,12 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/storage/app_prefs.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/storage/storage_providers.dart';
 import 'package:mockmob/core/theme/theme.dart';
+import 'package:mockmob/core/widgets/materials/glass_shader.dart';
+import 'package:mockmob/core/widgets/widgets.dart' show BarGlass;
 
 void main() {
   group('RasterBudgetMonitor', () {
@@ -163,6 +166,114 @@ void main() {
       expect(container.read(glassQualityProvider), GlassQuality.full);
       final again = await GlassBoot.read(prefs, lowMemory: () async => true);
       expect(again.autoLite, isFalse, reason: 'the saved Full choice outranks the memory rule on the next launch');
+    });
+  });
+
+  // D57 (18 Oct): the owner saw no frost on his 120 Hz phone. v14's one step sent Full to the
+  // dense Lite tint once raster p90 passed 7.5 ms, which the blur misses on mid-range phones.
+  group('GlassStep: the lens goes first, the frost only below 60 fps (D57)', () {
+    test('the lens is held to the display frame, the frost to a 60 Hz frame', () {
+      expect(GlassStep.none.budget(lensRunning: true, hz: 120).inMicroseconds, 7500);
+      expect(GlassStep.none.budget(lensRunning: true, hz: 60).inMicroseconds, 12000);
+      expect(GlassStep.none.budget(lensRunning: false, hz: 120).inMicroseconds, 15000, reason: 'a 120 Hz phone at 60 fps keeps the frost');
+      expect(GlassStep.noLens.budget(lensRunning: false, hz: 120).inMicroseconds, 15000);
+      expect(GlassStep.noLens.budget(lensRunning: false, hz: 90).inMicroseconds, 15000);
+      expect(GlassStep.noLens.budget(lensRunning: false, hz: 30).inMicroseconds, 30000, reason: 'a 30 Hz screen gets its own frame');
+      expect(GlassStep.noLens.budget(lensRunning: false, hz: 0), GlassStep.frostBudget);
+    });
+
+    test('the ladder: lens, then frost, then Lite; without a lens straight to Lite', () {
+      expect(GlassStep.none.next(lensRunning: true), GlassStep.noLens);
+      expect(GlassStep.none.next(lensRunning: false), GlassStep.lite);
+      expect(GlassStep.noLens.next(lensRunning: false), GlassStep.lite);
+      expect(GlassStep.lite.next(lensRunning: false), GlassStep.lite);
+    });
+
+    test('a frost frame of 10 ms on a 120 Hz phone never reaches Lite', () {
+      final m = RasterBudgetMonitor(threshold: GlassStep.noLens.budget(lensRunning: false, hz: 120));
+      var fired = false;
+      for (var i = 0; i < 400; i++) {
+        fired = m.add(endMicros: i * 8333, rasterMicros: 10000) || fired;
+      }
+      expect(fired, isFalse);
+    });
+
+    test('stepDown: Full keeps the frost when the lens goes, then Lite; choosing Full clears it', () async {
+      final container = ProviderContainer(
+        overrides: [
+          glassBootProvider.overrideWithValue(const GlassBoot()),
+          appPrefsProvider.overrideWithValue(AppPrefs(MemoryPrefsStore())),
+        ],
+      );
+      addTearDown(container.dispose);
+      final setting = container.read(glassQualityProvider.notifier);
+      expect(container.read(glassQualityProvider), GlassQuality.full);
+      expect(container.read(glassLensAllowedProvider), isTrue);
+
+      setting.stepDown(lensRunning: true);
+      expect(container.read(glassQualityProvider), GlassQuality.full, reason: 'the frost stays');
+      expect(setting.step, GlassStep.noLens);
+      expect(container.read(glassLensAllowedProvider), isFalse);
+      expect(setting.autoLite, isFalse);
+
+      setting.stepDown(lensRunning: false);
+      expect(container.read(glassQualityProvider), GlassQuality.lite);
+      expect(setting.autoLite, isTrue);
+
+      await setting.choose(GlassQuality.full);
+      expect(container.read(glassQualityProvider), GlassQuality.full);
+      expect(setting.step, GlassStep.none);
+      expect(container.read(glassLensAllowedProvider), isTrue);
+    });
+
+    test('stepDown never touches a choice of Lite or Off', () {
+      final container = ProviderContainer(
+        overrides: [
+          glassBootProvider.overrideWithValue(const GlassBoot(chosen: GlassQuality.off)),
+          appPrefsProvider.overrideWithValue(AppPrefs(MemoryPrefsStore())),
+        ],
+      );
+      addTearDown(container.dispose);
+      container.read(glassQualityProvider.notifier).stepDown(lensRunning: true);
+      expect(container.read(glassQualityProvider), GlassQuality.off);
+      expect(container.read(glassQualityProvider.notifier).step, GlassStep.none);
+    });
+
+    test('the bar lenses by default where the engine can; MmGlass surfaces still wait for A4', () {
+      GlassShader.debugReset();
+      addTearDown(GlassShader.debugReset);
+      expect(GlassShader.barEnabled, isTrue);
+      expect(GlassShader.enabled, isFalse);
+      GlassShader.debugSupportedOverride = false;
+      expect(GlassShader.barReady, isFalse, reason: 'no shader filters (Skia): the plain frost');
+      GlassShader.debugSupportedOverride = true;
+      expect(GlassShader.barReady, isFalse, reason: 'not loaded yet');
+    });
+
+    test('the bar tier: the lens when ready and allowed, the frost otherwise', () {
+      expect(BarGlass.tierFor(GlassQuality.full, lensReady: true, lensAllowed: true), GlassTier.full);
+      expect(BarGlass.tierFor(GlassQuality.full, lensReady: true, lensAllowed: false), GlassTier.fullBasic);
+      expect(BarGlass.tierFor(GlassQuality.full, lensReady: false, lensAllowed: true), GlassTier.fullBasic);
+      expect(BarGlass.tierFor(GlassQuality.lite, lensReady: true, lensAllowed: true), GlassTier.lite);
+      expect(BarGlass.tierFor(GlassQuality.off, lensReady: true, lensAllowed: true), GlassTier.off);
+    });
+
+    testWidgets('GlassScope tells the tree when the lens is dropped', (tester) async {
+      bool? seen;
+      Widget probe(bool lens) => GlassScope(
+        quality: GlassQuality.full,
+        lens: lens,
+        child: Builder(
+          builder: (context) {
+            seen = GlassScope.lensOf(context);
+            return const SizedBox();
+          },
+        ),
+      );
+      await tester.pumpWidget(probe(true));
+      expect(seen, isTrue);
+      await tester.pumpWidget(probe(false));
+      expect(seen, isFalse);
     });
   });
 }
