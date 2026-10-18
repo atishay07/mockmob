@@ -7,6 +7,7 @@ import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../billing/billing.dart';
 import '../../rules/widgets/start_sheet_line.dart';
 import '../copy.dart';
 import '../model/practice_selection.dart';
@@ -126,6 +127,8 @@ class _DifficultyPickerState extends ConsumerState<DifficultyPicker> {
               style: type.small.copyWith(color: colors.ink2),
             ),
           ),
+          // After a tap on a locked level: Google Play's Get Pro, when PLAY_BILLING is on.
+          if (_told) const GetProEntry.quiet(),
         ],
       ],
     );

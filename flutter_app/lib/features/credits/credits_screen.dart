@@ -6,6 +6,7 @@ import '../../core/copy/copy.dart';
 import '../../core/repositories/remote_state.dart';
 import '../../core/theme/theme.dart';
 import '../../core/widgets/widgets.dart';
+import '../billing/billing.dart';
 import '../you/widgets/you_page.dart';
 import '../you/widgets/you_row.dart' show YouPanel;
 import 'credits_copy.dart';
@@ -18,7 +19,7 @@ import 'widgets/pool_card.dart';
 /// Credits: the plan, both pools with what each pays for and when it renews, and the history of
 /// every spend and top-up, newest first, 30 to a page. The figures are the server's own
 /// (`GET /api/me/credits`); nothing is estimated and a balance that did not load is never 0.
-/// No price and no purchase.
+/// No price and no purchase, except Google Play's own when `PLAY_BILLING` is on (lib/features/billing).
 class CreditsScreen extends ConsumerStatefulWidget {
   const CreditsScreen({super.key});
 
@@ -68,6 +69,11 @@ class _CreditsScreenState extends ConsumerState<CreditsScreen> {
           padding: youGutter,
           child: PoolCard(pool: CreditPool.ai, figures: figures, mobi: true),
         ),
+        // Google Play's AI credit packs, when PLAY_BILLING is on; nothing at all otherwise.
+        if (ref.watch(playBillingEnabledProvider) && ref.watch(playBillingUserIdProvider) != null) ...[
+          const GroupHeading(BillingCopy.packsTitle, top: MmSpace.s32),
+          const Padding(padding: youGutter, child: AiCreditPacks(showIntro: true)),
+        ],
         const GroupHeading(CreditsCopy.historyTitle, top: MmSpace.s32),
         _history(context, mine: mine, rows: rows, shown: shown, hasMore: hasMore, more: more),
       ],
@@ -239,6 +245,8 @@ class _PlanLine extends StatelessWidget {
           // One quiet line (M-002): where the mocks come from, true on every plan.
           const SizedBox(height: MmSpace.s8),
           Text(PlanCopy.bankLine(pro: pro), style: type.small.copyWith(color: colors.ink2)),
+          // Google Play's Get Pro for a Free student, when PLAY_BILLING is on; nothing otherwise.
+          const GetProEntry.key(topGap: MmSpace.s12),
         ],
       ),
     );

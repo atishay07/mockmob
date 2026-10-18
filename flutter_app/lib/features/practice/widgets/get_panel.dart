@@ -7,6 +7,7 @@ import '../../../core/models/practice_quote.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../billing/billing.dart';
 import '../copy.dart';
 import '../data/practice_quote.dart';
 import '../model/cost_line.dart';
@@ -135,6 +136,8 @@ class _GetPanelState extends State<GetPanel> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Semantics(liveRegion: true, child: Text(low.message(selection.mode), style: context.mmType.lead)),
+          // Practice credits are not sold; Pro is what removes the limit. Google Play's Get Pro, when PLAY_BILLING is on.
+          const Align(alignment: Alignment.centerLeft, child: GetProEntry.key(topGap: MmSpace.s12, note: BillingCopy.proRemovesLimit)),
           const SizedBox(height: MmSpace.s20),
           _FreeRightNow(
             subjectId: selection.subjectId,
@@ -441,6 +444,8 @@ class _ProGate extends StatelessWidget {
                     Semantics(header: true, child: Text(PracticeCopy.proGateTitle(name), style: type.cardTitle)),
                     const SizedBox(height: MmSpace.s4),
                     Text(PracticeCopy.proGateBody, style: type.small.copyWith(color: colors.ink2)),
+                    // Google Play's Get Pro, when PLAY_BILLING is on; nothing otherwise.
+                    const GetProEntry.key(topGap: MmSpace.s12),
                   ],
                 ),
               ),

@@ -202,7 +202,12 @@ class PlayBillingController extends Notifier<PlayBillingState> {
       } else if (previous != next) {
         unawaited(_syncOwned());
       }
-    }, fireImmediately: true);
+    });
+    // On every launch with a signed-in student: ask Google Play what this account owns, which sends
+    // again anything the server could not confirm last time. Quiet.
+    Future<void>.microtask(() {
+      if (_alive && ref.read(playBillingUserIdProvider) != null) unawaited(_syncOwned());
+    });
     return const PlayBillingState();
   }
 
@@ -336,7 +341,10 @@ class PlayBillingController extends Notifier<PlayBillingState> {
     final before = _includeCompleted;
     _includeCompleted = includeCompleted;
     try {
-      if (!await store.isAvailable()) return;
+      if (!await store.isAvailable()) {
+        if (!silent) throw StateError('Google Play is not available');
+        return;
+      }
       await store.restore(accountHash: playAccountHash(userId));
       // The purchases arrive on the stream; let them in, then wait for each to be handled.
       await Future<void>.delayed(Duration.zero);
