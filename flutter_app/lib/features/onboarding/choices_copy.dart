@@ -36,10 +36,11 @@ abstract final class ChoicesCopy {
   static String mobiFewDays(int n) => n == 1 ? 'One day a week. Short and steady works.' : 'Two days a week. Short and steady works.';
   static const String mobiEveryDay = 'Every day? Keep one day to rest.';
 
-  /// The live readout: "about 110 sessions, about 37 hours by May".
+  /// The live readout beside the sessions figure: "About 37 hours of practice before May, if you
+  /// keep this." Hours come from the chosen session length.
   static String sessionsLine({required int sessions, required int minutes, required bool estimate, required int year, required bool boards}) {
     final hours = (sessions * minutes / 60).round();
-    final about = estimate ? 'about ' : '';
+    final about = estimate ? 'About ' : '';
     final time = hours >= 2 ? '$about$hours hours' : '$about${sessions * minutes} minutes';
     final when = 'before May${year == 2028 ? ' 2028' : ''}';
     return '$time of practice $when, if you keep this.${boards ? ' During boards we count two a week.' : ''}';

@@ -11,7 +11,13 @@ abstract final class CourseCombos {
   static String line(DuCourse course, {int max = 2}) {
     final groups = _merge(course.combos);
     if (groups.isEmpty) return '';
-    final shown = [for (final g in groups.take(max)) _sentence(g)];
+    // A later way that starts like the first drops the shared start: "A language + any 3
+    // subjects, or any 1 subject + General Test" (the language still holds for both).
+    final first = groups.first;
+    final shown = <String>[
+      for (final g in groups.take(max))
+        identical(g, first) ? _sentence(g) : _sentence(g.sublist(_shared(first, g))),
+    ];
     final rest = groups.length - shown.length;
     final text = shown.join(', or ');
     final tail = rest <= 0 ? '' : ', or ${rest == 1 ? 'one other way' : '$rest other ways'}';
@@ -56,6 +62,15 @@ abstract final class CourseCombos {
       if (!merged) groups.add([for (final s in combo.slots) [s]]);
     }
     return groups;
+  }
+
+  /// How many leading places [b] shares with [a], leaving at least one of [b]'s own.
+  static int _shared(List<List<DuSlot>> a, List<List<DuSlot>> b) {
+    var n = 0;
+    while (n < a.length && n < b.length - 1 && a[n].length == 1 && b[n].length == 1 && _same(a[n].single, b[n].single)) {
+      n++;
+    }
+    return n;
   }
 
   static bool _same(DuSlot a, DuSlot b) =>

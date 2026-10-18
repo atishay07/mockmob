@@ -16,8 +16,11 @@ class RunwayStrip extends StatefulWidget {
   /// Sessions per week, from this week to the last before the window.
   final List<int> weeks;
 
-  static const double cell = 4;
-  static const double gap = 2;
+  static const double cell = 5;
+  static const double gap = 1.5;
+
+  /// The gap between weeks: wider than between days, so each week reads as one column.
+  static const double weekGap = 3;
   static const double height = cell * 7 + gap * 6;
   static const Duration fill = Duration(milliseconds: 520);
 
@@ -81,7 +84,8 @@ class _RunwayStripState extends State<RunwayStrip> with SingleTickerProviderStat
               lit: [for (var w = 0; w < widget.weeks.length; w++) _at(w, widget.weeks, _t.value)],
               // A 4 dp cell reads as a stroke: the text accent (olive on Day, where volt on
               // cream would vanish), as the course tiles' ladder bars do (SPACING.md 8.3).
-              on: colors.isNight ? colors.volt : colors.accentText,
+              // Night stays subtle: the volt is held back, so a full runway is not a block of light.
+              on: colors.isNight ? colors.volt.withValues(alpha: 0.6) : colors.accentText,
               off: colors.line,
             ),
           ),
@@ -102,14 +106,14 @@ class _RunwayPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final n = lit.length;
     if (n == 0) return;
-    const gap = RunwayStrip.gap;
+    const gap = RunwayStrip.weekGap;
     final w = math.max(1.0, (size.width - gap * (n - 1)) / n);
     final radius = Radius.circular(math.min(1.5, w / 2));
     final paint = Paint();
     for (var i = 0; i < n; i++) {
       final x = i * (w + gap);
       for (var d = 0; d < 7; d++) {
-        final y = size.height - (d + 1) * RunwayStrip.cell - d * gap;
+        final y = size.height - (d + 1) * RunwayStrip.cell - d * RunwayStrip.gap;
         // The cell the light is passing through blends in, so the fill moves smoothly.
         final f = (lit[i] - d).clamp(0.0, 1.0);
         paint.color = Color.lerp(off, on, f)!;

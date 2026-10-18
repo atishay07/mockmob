@@ -225,19 +225,12 @@ class _Readout extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              MonumentalNumber(value: '$shown', style: type.figure),
+              MonumentalNumber(value: '$shown', unit: ChoicesCopy.sessionsUnit, style: type.figure),
               const SizedBox(width: MmSpace.s12),
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(ChoicesCopy.sessionsUnit, style: type.label.copyWith(color: colors.ink)),
-                    const SizedBox(height: MmSpace.s2),
-                    Text(
-                      ChoicesCopy.sessionsLine(sessions: sessions, minutes: minutes, estimate: estimate, year: year, boards: boards),
-                      style: type.small.copyWith(color: colors.ink2),
-                    ),
-                  ],
+                child: Text(
+                  ChoicesCopy.sessionsLine(sessions: sessions, minutes: minutes, estimate: estimate, year: year, boards: boards),
+                  style: type.small.copyWith(color: colors.ink2),
                 ),
               ),
             ],

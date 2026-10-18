@@ -226,7 +226,7 @@ void main() {
     test('the readout counts hours from the session length and says about', () {
       expect(
         ChoicesCopy.sessionsLine(sessions: 110, minutes: 20, estimate: true, year: 2027, boards: false),
-        'about 37 hours of practice before May, if you keep this.',
+        'About 37 hours of practice before May, if you keep this.',
       );
     });
 

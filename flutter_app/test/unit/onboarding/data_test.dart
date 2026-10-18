@@ -164,7 +164,7 @@ void main() {
       String line(String id) => CourseCombos.line(DuCatalog.course(id)!);
       expect(line('b-com-hons'), 'A language + Maths or Accountancy + any 2 subjects');
       expect(line('b-a-hons-economics'), 'A language + Maths + any 2 subjects');
-      expect(line('b-com'), 'A language + any 3 subjects, or a language + any 1 subject + General Test');
+      expect(line('b-com'), 'A language + any 3 subjects, or any 1 subject + General Test');
       expect(line('bachelor-of-management-studies-bms'), 'A language + Maths + any 1 subject + General Test');
       for (final c in DuCatalog.all) {
         expect(CourseCombos.line(c), isNotEmpty, reason: c.id);
