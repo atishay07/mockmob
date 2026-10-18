@@ -4,10 +4,11 @@
 // gestures: right past 30% (or a tap, or Up next) swaps the lead card and never starts or spends;
 // left (or Not now) sends the card to the back; a short drag springs home; a vertical drag is the
 // page's scroll. The row under the deck is the accessible path.
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
@@ -235,14 +236,14 @@ void main() {
     });
 
     test('the words: one name per direction, the end says today, every count has its unit, "Both" for two', () {
-      expect(SuggestedCopy.upNext, 'Up next');
+      expect(SuggestedCopy.upNext, 'Do this next');
       expect(SuggestedCopy.notNow, 'Not now');
       expect(SuggestedCopy.allSeen(4), "That's all four for today");
       expect(SuggestedCopy.allSeen(1), "That's the one for today");
       expect(SuggestedCopy.countFirst(4), '4 cards');
       expect(SuggestedCopy.moreAfter(2, 4), '2 more after this');
       expect(SuggestedCopy.moreAfter(0, 4), 'Last of 4');
-      expect(SuggestedCopy.costRepair('Accountancy', 15), 'Accountancy, 1 AI credit each, about 15 min');
+      expect(SuggestedCopy.costRepair(15), '1 AI credit each, about 15 min');
       expect(SuggestedCopy.upNextSemantics('Revise what is due'), contains('Nothing starts until you tap Start'));
       for (final s in [
         SuggestedCopy.intro,
@@ -619,12 +620,13 @@ void main() {
       await _pumpLive(tester);
       expect(await _until(tester, () => _stamp(SuggestedCopy.upNext).evaluate().isNotEmpty), isTrue, reason: 'the card shows right by itself');
       expect(_coach(tester), SuggestedCopy.coachRight);
-      expect(_coachSaved()['demo'], isTrue, reason: 'once in the life of the phone');
+      expect(_coachSaved()['demo'], isFalse, reason: 'not spent until both halves play or the student touches it');
       expect(tester.getSize(find.byKey(SuggestedStack.upNextKey)).width, greaterThan(0));
       // A touch anywhere on the stack (here, its intro line) stops it.
       final g = await tester.startGesture(tester.getCenter(find.text(SuggestedCopy.intro)));
       await tester.pump();
       await g.up();
+      expect(_coachSaved()['demo'], isTrue, reason: 'the student\'s own touch spends it, once in the life of the phone');
       for (var k = 0; k < 30; k++) {
         await tester.pump(const Duration(milliseconds: 100));
         expect(_stamp(SuggestedCopy.notNow), findsNothing, reason: 'the left half never runs after the touch');
@@ -633,6 +635,83 @@ void main() {
       expect(_stamp(SuggestedCopy.upNext), findsNothing, reason: 'the card sprang home');
       expect(_coach(tester), SuggestedCopy.coachIdle);
       expect(_heroTitle(tester), GlanceCopy.titleRepair, reason: 'the touch did not commit anything');
+    });
+
+    testWidgets('a tap on the card mid-demo only stops it: no Up next, no bar, the card home (round 1, item 1)', (tester) async {
+      final events = await _pumpLive(tester);
+      expect(await _until(tester, () => _stamp(SuggestedCopy.upNext).evaluate().isNotEmpty), isTrue, reason: 'the card shows right by itself');
+      // A first-timer's reflex: touch the card that started moving, at its centre.
+      final g = await tester.startGesture(tester.getCenter(find.byKey(SuggestedStack.topKey)));
+      await tester.pump();
+      await g.up();
+      await tester.pumpAndSettle();
+      expect(_heroTitle(tester), GlanceCopy.titleRepair, reason: 'the lead did not change');
+      expect(find.byKey(SuggestedStack.barKey), findsNothing, reason: 'no bar inside the tutorial');
+      expect(_onTop(GlanceCopy.titleWeakest), findsOneWidget, reason: 'the card is still on top');
+      expect(tester.getTopLeft(find.byKey(SuggestedStack.topKey)).dx, closeTo(tester.getTopLeft(find.byKey(SuggestedStack.notNowKey)).dx, 24), reason: 'and home');
+      expect(events, isEmpty);
+      // The next tap is a tap again.
+      await tester.tap(find.byKey(SuggestedStack.topKey));
+      await tester.pumpAndSettle();
+      expect(_heroTitle(tester), GlanceCopy.titleWeakest, reason: 'once the demo is over, a tap on the card is Up next');
+    });
+
+    testWidgets('a route over Today mid-demo stops it without spending it; back on Today it plays again (round 1, item 3)', (tester) async {
+      await _pumpLive(tester);
+      expect(await _until(tester, () => _stamp(SuggestedCopy.upNext).evaluate().isNotEmpty), isTrue);
+      final nav = Navigator.of(tester.element(find.byType(SuggestedStack)));
+      unawaited(nav.push(MaterialPageRoute<void>(builder: (_) => const Scaffold(body: Text('session')))));
+      await tester.pumpAndSettle();
+      expect(_coachSaved()['demo'], isFalse, reason: 'unseen, so not spent');
+      nav.pop();
+      await tester.pump();
+      expect(await _until(tester, () => _stamp(SuggestedCopy.upNext).evaluate().isNotEmpty), isTrue, reason: 'it replays at the next still moment');
+      expect(await _until(tester, () => _stamp(SuggestedCopy.notNow).evaluate().isNotEmpty), isTrue, reason: 'then left');
+      for (var k = 0; k < 30; k++) {
+        await tester.pump(const Duration(milliseconds: 100));
+      }
+      await tester.pumpAndSettle();
+      expect(_coachSaved()['demo'], isTrue, reason: 'both halves played: spent');
+    });
+
+    testWidgets('the Up next bar leaves when a route covers Today (round 1, item 2)', (tester) async {
+      await _pump(tester);
+      await _tap(tester, SuggestedStack.upNextKey);
+      expect(find.byKey(SuggestedStack.barKey), findsOneWidget);
+      final nav = Navigator.of(tester.element(find.byType(SuggestedStack)));
+      unawaited(nav.push(MaterialPageRoute<void>(builder: (_) => const Scaffold(body: Text('session')))));
+      await tester.pumpAndSettle();
+      expect(find.byKey(SuggestedStack.barKey), findsNothing, reason: 'never over the session');
+      nav.pop();
+      await tester.pumpAndSettle();
+      expect(find.byKey(SuggestedStack.barKey), findsNothing, reason: 'and it does not come back');
+      expect(_heroTitle(tester), GlanceCopy.titleWeakest, reason: 'the pick stands; the row still offers Undo');
+    });
+
+    testWidgets('the Up next bar leaves when the student starts the lead card (round 1, item 2)', (tester) async {
+      final events = await _pump(tester);
+      await _tap(tester, SuggestedStack.upNextKey);
+      expect(find.byKey(SuggestedStack.barKey), findsOneWidget);
+      final start = find.descendant(of: find.byType(MoveHeroCard), matching: find.textContaining('Start')).first;
+      await tester.tap(start, warnIfMissed: false);
+      await tester.pumpAndSettle();
+      expect(events, isNotEmpty, reason: 'the lead card started');
+      expect(find.byKey(SuggestedStack.barKey), findsNothing, reason: 'the bar left with that tap');
+    });
+
+    testWidgets('Today in an offstage tab is not "seen": no visit counted, no demo (round 1, item 3)', (tester) async {
+      await pumpMockmob(
+        tester,
+        TickerMode(
+          enabled: false,
+          child: TodayBody(view: _view(), skeletonDelay: Duration.zero, callbacks: TodayCallbacks(onAction: (_) {}, onTarget: (_) {})),
+        ),
+        size: const Size(412, 2400),
+        overrides: _overrides,
+      );
+      await tester.pump(const Duration(seconds: 3));
+      expect(_coachStore.values[DeckCoach.key], isNull, reason: 'nothing counted or spent while off screen');
+      expect(_stamp(SuggestedCopy.upNext), findsNothing);
     });
 
     testWidgets('the demo runs right then left when nothing touches it, and starts nothing', (tester) async {
@@ -749,13 +828,13 @@ void main() {
       handle.dispose();
     });
 
-    for (final size in [const Size(360, 800), const Size(412, 915)]) {
-      testWidgets('at 1.3x text on ${size.width.toInt()} dp the row keeps one line', (tester) async {
+    for (final (size, scale) in [(const Size(360, 800), 1.3), (const Size(412, 915), 1.3), (const Size(360, 800), 1.0)]) {
+      testWidgets('at ${scale}x text on ${size.width.toInt()} dp the row keeps one line', (tester) async {
         await pumpMockmob(
           tester,
           TodayBody(view: _view(), skeletonDelay: Duration.zero, callbacks: TodayCallbacks(onAction: (_) {}, onTarget: (_) {})),
           size: Size(size.width, 2600),
-          textScale: 1.3,
+          textScale: scale,
           disableAnimations: true,
           overrides: _overrides,
         );
@@ -767,6 +846,10 @@ void main() {
         expect(undo.center.dy, closeTo(up.center.dy, 0.5));
         expect(no.right, lessThanOrEqualTo(undo.left + 0.5));
         expect(undo.right, lessThanOrEqualTo(up.left + 0.5));
+        for (final words in [SuggestedCopy.notNow, SuggestedCopy.upNext]) {
+          final text = tester.renderObject<RenderParagraph>(find.descendant(of: find.byKey(words == SuggestedCopy.notNow ? SuggestedStack.notNowKey : SuggestedStack.upNextKey), matching: find.text(words)));
+          expect(text.didExceedMaxLines, isFalse, reason: '"$words" is whole, never cut with an ellipsis');
+        }
         expect(tester.takeException(), isNull);
       });
     }

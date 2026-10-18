@@ -1,8 +1,10 @@
 // "Suggested for you" (D51, refined by SWIPE-V2-1018 for D90): the card deck under the lead card.
 // Sentence case, no arrows, no middle dots, no exclamation marks; every count says what it counts.
 // The two directions have one name each everywhere (the stamp, the button, the coach line and the
-// screen reader): right is "Up next" (the card moves into the lead card; nothing starts, nothing is
-// spent) and left is "Not now" (the card waits at the back; nothing is hidden for good).
+// screen reader): right is "Do this next", a verb that names the outcome (the card moves into the
+// lead card; nothing starts, nothing is spent), and left is "Not now" (the card waits at the back;
+// nothing is hidden for good). The result keeps the noun: the bar and the lead card's overline say
+// "Up next", so a first-timer never reads the button as "show the next card" (round 1, item 4).
 abstract final class SuggestedCopy {
   static const String title = 'Suggested for you';
 
@@ -18,8 +20,8 @@ abstract final class SuggestedCopy {
 
   // The coach line (first run).
   static const String coachIdle = 'Drag the card, or tap a button.';
-  static const String coachRight = 'Right puts it up next, in the card above.';
-  static const String coachLeft = 'Left is not now. It waits at the back.';
+  static const String coachRight = 'Right: do this next, in the card above.';
+  static const String coachLeft = 'Left: not now. It waits at the back.';
   static const String letGoRight = 'Let go: it goes up next';
   static const String letGoLeft = 'Let go: it waits at the back';
   static const String letGoLast = 'Let go: that was the last one';
@@ -28,7 +30,7 @@ abstract final class SuggestedCopy {
   static const String learnedLeft = 'At the back now.\nCards you often pass on sit lower next time.';
 
   // The two directions and the way back.
-  static const String upNext = 'Up next';
+  static const String upNext = 'Do this next';
   static const String notNow = 'Not now';
   static const String undo = 'Undo';
   static const String suggestedTag = 'Suggested';
@@ -47,8 +49,11 @@ abstract final class SuggestedCopy {
   static String costQuestions(String subject, int questions) => '$subject, $questions questions';
   static String costMinutes(String subject, int minutes) => '$subject, ${_about(minutes)}';
 
-  /// A repair's cost: it spends 1 AI credit a repair ("Accountancy, 1 AI credit each, about 15 min").
-  static String costRepair(String? subject, int minutes) => subject == null ? '1 AI credit each, ${_about(minutes)}' : '$subject, 1 AI credit each, ${_about(minutes)}';
+  /// A repair's cost: it spends 1 AI credit a repair. Price then time, like the free card's "Free,
+  /// about 10 min", on one line at 412 dp: "Accountancy, 1 AI credit each, about 15 min" wrapped and
+  /// pushed the title a line down (W8). The subject's object in the card's corner names the subject,
+  /// and the lead card's overline says it once the card is up next.
+  static String costRepair(int minutes) => '1 AI credit each, ${_about(minutes)}';
 
   /// "about 15 min", held together on one line (no break before the number or the unit).
   static String _about(int minutes) => 'about $minutes min';
@@ -72,7 +77,7 @@ abstract final class SuggestedCopy {
   static String cardSemantics(int at, int of, String? cost, String title, String line, {required bool suggested}) =>
       'Card $at of $of. ${suggested ? '$suggestedTag. ' : ''}$title. ${cost == null ? '' : '$cost. '}$line';
   static String notNowSemantics(String title) => 'Not now: $title. It waits at the back.';
-  static String upNextSemantics(String title) => 'Up next: $title. It moves into the card above. Nothing starts until you tap Start.';
+  static String upNextSemantics(String title) => 'Do this next: $title. It moves into the card above. Nothing starts until you tap Start.';
   static String undoSemantics(String title) => 'Undo: brings back $title.';
   static const String undoNone = 'Undo, nothing to undo yet.';
 
