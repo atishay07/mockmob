@@ -88,7 +88,7 @@ abstract final class OnboardingCopy {
   static const String trackToday = 'Today';
   static String trackMay(int year) => 'May $year';
   static String stageWindow(int year) => 'CUET in May $year';
-  static const String stageWindowProbably = 'CUET in May 2027, probably';
+  static const String stageWindowProbably = 'Probably May 2027';
   static String stageWeeksSpoken(int year) => 'weeks to the expected May $year window';
 
   // Course and colleges.

@@ -128,8 +128,10 @@ class _StageTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          // Clear of the chosen tick at the top right (22 dp at 12 dp from the edge, plus an 8 dp
+          // gap), so the tick never sits on the title.
           Padding(
-            padding: const EdgeInsets.only(right: MmSpace.s20),
+            padding: const EdgeInsets.only(right: 22 + MmSpace.s12 + MmSpace.s8 - MmSpace.s16),
             child: Text(stage.option, style: type.cardTitle.copyWith(color: selected ? colors.ink : colors.ink2)),
           ),
           const SizedBox(height: MmSpace.s8),

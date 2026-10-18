@@ -229,4 +229,20 @@ void main() {
       expect(tileOf(Worry.numericals).top, below, reason: 'the next row never moves');
     });
   });
+
+  group('Stage: short titles, the tick clear of them', () {
+    for (final scale in const [1.0, 1.3]) {
+      testWidgets('the chosen tick never covers its title; titles stay short at ${scale}x', (tester) async {
+        await _flowAt(tester, studentUpTo(Steps.stage), textScale: scale);
+        final title = tester.getRect(find.text(Stage.classTwelve.option));
+        final tile = find.ancestor(of: find.text(Stage.classTwelve.option), matching: find.byType(ChoiceTile)).first;
+        final tick = tester.getRect(find.descendant(of: tile, matching: find.byType(Bubble)).first);
+        expect(title.overlaps(tick), isFalse, reason: 'the tick sits beside the title, never on it');
+        final line = tester.getSize(find.text(Stage.notSure.option)).height / scale;
+        expect(title.height / scale, lessThanOrEqualTo(line * 2.2), reason: 'at most two lines, never four');
+        expect(find.text(OnboardingCopy.stageWindowProbably), findsOneWidget);
+        expect(tester.takeException(), isNull);
+      });
+    }
+  });
 }

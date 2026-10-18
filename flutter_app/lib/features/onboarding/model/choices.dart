@@ -2,8 +2,10 @@ import '../../../core/models/consent.dart';
 
 /// Where the student is on the road to CUET (brief section 11, step 3).
 enum Stage {
-  classTwelve('Class 12, writing CUET in 2027', 'Class 12, writing in 2027', 2027, boards: true),
-  passedTwelve('Passed Class 12, writing in 2027', 'Passed Class 12, writing in 2027', 2027),
+  // The answers say only the stage: the CUET year is the tile's caption, so no title repeats
+  // it (v15 taste pass; at 1.3x the old titles wrapped to four lines).
+  classTwelve('In Class 12', 'Class 12, writing in 2027', 2027, boards: true),
+  passedTwelve('Passed Class 12', 'Passed Class 12, writing in 2027', 2027),
   classEleven('In Class 11', 'Class 11, writing in 2028', 2028),
   notSure('Not sure yet', 'Writing in 2027, probably', 2027);
 
