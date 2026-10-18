@@ -228,11 +228,11 @@ void main() {
     expect(find.text('From your repairs'), findsOneWidget);
   });
 
-  testWidgets('Review lists the Rule book under the record and the saved questions', (tester) async {
+  testWidgets('Review lists the Rule book under the saved repairs and the saved questions', (tester) async {
     await pumpMockmob(
       tester,
       const ReviewScreen(),
-      size: const Size(384, 2400),
+      size: const Size(384, 6000),
       disableAnimations: true,
       wrapInScaffold: false,
       overrides: reviewOverrides(records: [repairedRecord], rules: RemoteState(value: rulesRead(), fetchedAt: DateTime.utc(2026, 10, 15, 9))),

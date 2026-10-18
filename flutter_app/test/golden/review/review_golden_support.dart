@@ -131,7 +131,8 @@ List<Override> reviewOverrides({
       unopened: unopened,
     ),
   ),
-  if (figures != null) creditFiguresProvider.overrideWithValue(figures),
+  // The wallet figures the lead's cost lines read: unknown unless a test says (no cache or network behind them here).
+  creditFiguresProvider.overrideWithValue(figures ?? const CreditFigures()),
   if (checks != null) reviewCheckOutcomesProvider.overrideWithValue(checks),
   creditsRepositoryProvider.overrideWith(() => StillCredits(credits)),
   rhythmRepositoryProvider.overrideWith(StillRhythm.new),
