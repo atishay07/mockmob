@@ -26,7 +26,7 @@ test('lead: a repair move carries its title, kind and stake (6 marks a mistake, 
   assert.equal(move.kind, 'repair');
   assert.equal(move.number, 4);
   assert.deepEqual(move.stake, { value: 24, word: 'marks they cost you' });
-  assert.deepEqual(move.choice, { title: 'Repair a mistake', value: '4 open from yesterday' });
+  assert.deepEqual(move.choice, { title: 'Repair your last paper', value: '4 open from yesterday' });
   // A shorter length keeps the stake honest.
   const short = refit(fitMove(move, 10));
   assert.equal(short.number, 3);
@@ -34,7 +34,7 @@ test('lead: a repair move carries its title, kind and stake (6 marks a mistake, 
 });
 
 test('lead: Revise counts 6 a mistake "then"; a chapter counts its open marks over its papers; others have none', () => {
-  assert.deepEqual(stakeOf({ id: 'revise', number: 6 }), { value: 36, word: 'marks they cost you then' });
+  assert.deepEqual(stakeOf({ id: 'revise', number: 6 }), { value: 36, word: 'marks lost to them the first time' });
   assert.deepEqual(stakeOf({ id: 'weakest', number: 15, chapterOpen: 45, chapterSessions: 4 }), { value: 45, word: 'marks open there, over 4 papers' });
   assert.equal(stakeOf({ id: 'dayOne', number: 10 }), null);
   assert.equal(stakeOf({ id: 'mock', number: 50 }), null);
@@ -46,8 +46,8 @@ test('choices: two of a different kind from the lead, in the order Repair, Revis
   const lead = { id: 'repair', open: 4, number: 4 };
   const two = pickChoices(lead, pool);
   assert.deepEqual(two.map((m) => m.id), ['revise', 'weakest']);
-  assert.deepEqual(two[0].choice, { title: 'Revise what is due', value: '6 due, about 10 min' });
-  assert.deepEqual(two[1].choice, { title: 'Practise your weakest', value: 'Admission of a partner' });
+  assert.deepEqual(two[0].choice, { title: 'Revise what came back', value: '6 due, about 10 min' });
+  assert.deepEqual(two[1].choice, { title: 'Practise your weakest chapter', value: 'Admission of a partner' });
   assert.equal(two[1].title, 'Practise your weakest chapter');
   assert.match(two[1].key.href, /chapter=Admission\+of\+a\+partner/);
 });
@@ -57,8 +57,9 @@ test('choices: day one offers a full mock and another subject; a pick keeps the 
   const rec = leadOf({ id: 'dayOne', number: 10, label: 'questions to your starting point', key: { minutes: 10 } }, { now: NOW });
   const two = pickChoices(rec, pool);
   assert.deepEqual(two.map((m) => m.id), ['mock', 'another']);
-  assert.deepEqual(two[0].choice, { title: 'Full mock instead', value: '50 questions, 60 min' });
-  assert.equal(two[1].choice.value, 'Business Studies, Economics, English');
+  assert.deepEqual(two[0].choice, { title: 'A full mock instead', value: '50 questions, 60 min' });
+  assert.equal(two[1].choice.value, 'Business Studies and 2 more', 'release 10: short and capped');
+  assert.equal(two[1].choice.full, 'Business Studies, Economics, English');
   // The student picks the mock: the suggested move comes first in the pool and is offered, then the next kind.
   const picked = two[0];
   const again = pickChoices(picked, [{ ...rec, suggested: true }, ...pool]);
@@ -92,7 +93,7 @@ test('week: a tapped day reads what was saved, today reads the lead, a planned d
   assert.deepEqual(thu.lines, [{ text: 'Economics practice, 15 questions, 41 of 75', at: '6:20 PM' }]);
   const sun = dayReadout({ mark: marks[6], index: 6, papers: [], repairs: [], dayKey: key, clockOf: clk, move: { id: 'weakest', title: 'Practise your weakest chapter', key: { minutes: 15 } }, today: TODAY, goal: 4 });
   assert.equal(sun.title, 'Today, Sunday 18 Oct, planned');
-  assert.equal(sun.note, 'Up next: practise your weakest chapter, about 15 minutes.');
+  assert.equal(sun.note, 'Nothing saved yet today.', 'release 10: the lead card says what is next; the readout says what the day holds');
   const wed = dayReadout({ mark: marks[2], index: 2, papers: [], repairs: [], dayKey: key, today: TODAY, goal: 4 });
   assert.equal(wed.note, 'No session saved that day. The week still counts any 4 days.');
   const tue = dayReadout({ mark: marks[1], index: 1, papers: [], repairs: [], dayKey: key, today: TODAY, goal: 4 });

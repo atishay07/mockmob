@@ -20,16 +20,14 @@
 // is never a debt.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Check, Flag, SlidersHorizontal } from 'lucide-react';
+import { Check, ChevronDown, Flag, SlidersHorizontal } from 'lucide-react';
 import { api } from '@/lib/fetcher';
-import { roadFigures, roadLayers, stripColumns, targetFor, weekdayDay, shortDay } from '@/lib/today/road.mjs';
+import { roadFigures, roadLayers, stripColumns, targetFor, weekdayDay, shortDay, goalLines } from '@/lib/today/road.mjs';
 import { todayKeyIn, weekDays } from '@/lib/today/week.mjs';
 import { clock } from '@/lib/today/move.mjs';
 import TodayPlanFlow from './TodayPlanFlow';
 
 const JSON_HEADERS = { 'Content-Type': 'application/json' };
-// 'Board exams ...' reads mid-sentence in lower case; an acronym ('CUET ...') keeps its capitals.
-const lowerFirst = (t) => (/^[A-Z]{2}/.test(t) ? t : `${t.charAt(0).toLowerCase()}${t.slice(1)}`);
 // Up to 16 things get a segment each; more (a target of 27 full mocks) are one continuous stretch filled to the share.
 const MAX_SEGMENTS = 16;
 const LONG_DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -67,7 +65,7 @@ function Stop({ id, index, selected, onSelect, label, figure, of, unit, also = '
   return (
     <li>
       <button type="button" className="trd__stop" id={`trd-stop-${id}`} aria-pressed={selected} aria-controls="trd-readout" onClick={() => onSelect(index)} aria-label={aria}>
-        <span className="trd__label" aria-hidden="true">{label}</span>
+        <span className="trd__label" aria-hidden="true">{label}<ChevronDown className="trd__chev" size={14} strokeWidth={2} /></span>
         <span className="trd__fig" aria-hidden="true"><b>{figure}</b>{of ? <small>{of}</small> : null}</span>
         {stretch}
         <span className="trd__unit" aria-hidden="true">{unit}{also ? <span className="trd__also">{also}</span> : null}</span>
@@ -106,13 +104,14 @@ export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, l
   const [swapKey, setSwapKey] = useState(0);
   const select = (i) => { setSel(i); setSwapKey((k) => k + 1); };
   const [flow, setFlow] = useState(null); // the step Change plan opens on, or null
+  const [fromKey, setFromKey] = useState(false); // opened by the first week's day 7 key ("Plan my weeks")
   const [asked, setAsked] = useState(planAsk);
-  if (planAsk !== asked) { setAsked(planAsk); if (!hold && layers) setFlow(1); }
+  if (planAsk !== asked) { setAsked(planAsk); if (!hold && layers) { setFromKey(true); setFlow(1); } }
   const [receipt, setReceipt] = useState('');
   // Change plan is re-keyed on open and close, so the browser has nothing to give focus back to: return it to the button
   // that opened the sheet (the header's, or the goal readout's), however the sheet closed (Esc, X, Done, backdrop).
   const openerRef = useRef(null);
-  const openFlow = (event) => { openerRef.current = event.currentTarget; setFlow(1); };
+  const openFlow = (event) => { openerRef.current = event.currentTarget; setFromKey(false); setFlow(1); };
   useEffect(() => {
     if (flow || !openerRef.current) return;
     const opener = openerRef.current;
@@ -173,7 +172,6 @@ export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, l
   const year = g.exam.slice(0, 4);
   const examLine = g.own ? `Your date, ${weekdayDay(g.exam)} ${year}` : `Expected from ${weekdayDay(g.exam)} ${year}`;
   const paceWords = g.pace ? (g.pace.left === 0 ? 'target reached' : g.pace.strong ? g.pace.strong.replace(/^about /, '').replace(/ gets you there\.$/, '') : `${g.pace.left} to go`) : '';
-  const nextLine = g.next ? `Next, ${g.next.when}: ${lowerFirst(g.next.title)}, ${weekdayDay(g.next.day)}.` : '';
   const days = g.studyDays != null && g.goal ? `${g.studyDays} study ${g.studyDays === 1 ? 'day' : 'days'} at ${g.goal} a week` : '';
   const todayName = `${LONG_DAYS[new Date(`${today}T00:00:00Z`).getUTCDay()]} ${shortDay(today)}`;
   // This week's stop prints the same count and words as the This week block (weekDays: "4 of 4 study days"); the full mock the plan
@@ -205,6 +203,9 @@ export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, l
     },
   ];
   const stop = stops[sel];
+  // The plan sheet is named for what the student came to do (release 10, D15): "Plan your weeks" from the day 7 key ("Plan my weeks") or
+  // on day one, when there is no plan yet to change; "Change plan" otherwise, as the button that opened it says.
+  const planTitle = fromKey || dayOne ? 'Plan your weeks' : 'Change plan';
 
   let readout;
   if (stop.id === 'today') {
@@ -214,10 +215,11 @@ export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, l
         {day.items.length || day.unknown.length ? (
           <ul className="trd__items">
             {day.items.map((i) => (
-              <li key={i.id} data-done={i.done || undefined}>
+              <li key={i.id} data-done={i.done || undefined} data-extra={i.extra || undefined}>
                 <span className="trd__mark" aria-hidden="true">{i.done ? <Check size={13} strokeWidth={2.6} /> : null}</span>
                 <span className="trd__item-t"><b>{i.title}</b><span>{i.done ? (i.id === 'revise' ? `${i.detail}, done` : i.detail) : i.detail}</span></span>
-                {!i.done && i.href ? <Link className="tm__pill trd__go" href={i.href}>{i.id === 'revise' ? 'Revise now' : 'Start'}</Link> : null}
+                {/* One label per action (release 10, D15): the row's key is the lead card's own key and length ("Start Revise 5 min"). */}
+                {!i.done && i.href ? <Link className="tm__pill trd__go" href={i.href}>{i.id === 'revise' ? 'Start Revise' : i.key?.label || 'Start'}{(i.id === 'revise' ? i.minutes : i.key?.minutes) ? <span className="trd__go-len">{i.id === 'revise' ? i.minutes : i.key.minutes} min</span> : null}</Link> : null}
               </li>
             ))}
             {day.unknown.map((i) => (
@@ -258,13 +260,8 @@ export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, l
         <h3>{inWindow ? 'The CUET UG window is open' : `To CUET UG, ${weekdayDay(g.exam)} ${year}${g.own ? '' : ', expected'}`}</h3>
         {inWindow ? <p className="trd__note">Each paper now is the last practice before yours.</p> : (
           <>
-            <p className="trd__note">
-              {taken == null ? 'Your full mocks did not load. ' : <><b>{taken} of {target} full mocks</b>{plan.mockTarget == null ? ', suggested' : ''}. </>}
-              {g.pace && taken != null ? <>{g.pace.text} <b>{g.pace.strong}</b></> : null}
-            </p>
-            {days ? <p className="trd__note"><b>{days}.</b> Board weeks count as 2.</p> : null}
-            {g.next ? <p className="trd__note"><b>{nextLine}</b> {g.next.note}</p> : null}
-            {g.own ? null : <p className="trd__note">NTA has not published the {year} dates yet.</p>}
+            {/* Release 10 (D6, no disclaimers): three plain lines, the caveat folded into "expected". */}
+            {goalLines({ goal: g, taken }).map((line) => <p key={line} className="trd__note">{line}</p>)}
             {dayOne ? <p className="trd__note">Set your date and days. It takes three taps.</p> : null}
           </>
         )}
@@ -299,7 +296,7 @@ export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, l
       {receipt ? <p className="trd__receipt" role="status">{receipt}</p> : null}
       <TodayPlanFlow
         key={flow ? `open-${flow}` : 'closed'}
-        open={Boolean(flow)} onClose={() => setFlow(null)} startStep={flow || 1}
+        open={Boolean(flow)} onClose={() => setFlow(null)} startStep={flow || 1} title={planTitle}
         today={today} plan={plan} weekdays={goalData?.weekdays || null} daysPerWeek={goalNow} taken={taken} onAccount={onAccount}
         columns={columns} thisWeekDone={rhythm.data?.studyDays ?? null}
         saveRoad={saveRoad} saveDays={saveDays}

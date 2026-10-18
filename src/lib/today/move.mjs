@@ -98,7 +98,7 @@ export function buildMove({ plan = null, planFailed = false, papers = null, rhyt
   if (sessions === 0) {
     const name = firstSubject ? subjectName(firstSubject) : '';
     return {
-      id: 'dayOne', overline: 'Your first move', number: 10, label: 'questions to your starting point',
+      id: 'dayOne', overline: 'Your first move', number: 10, label: 'questions, marked the CUET way',
       why: `Ten CUET-style ${name ? `${name} ` : ''}questions, marked +5 and −1. The result shows where your marks go, chapter by chapter.`,
       key: { label: 'Start now', href: `/dashboard?${firstSubject ? `subject=${encodeURIComponent(firstSubject)}&` : ''}mode=quick&count=10`, minutes: 10 },
       pills: pills('mock'), art: 'mobi', mobiAct: 'hello', subject: firstSubject, firstWeek: 1,
@@ -160,7 +160,7 @@ export function buildMove({ plan = null, planFailed = false, papers = null, rhyt
   const due = whole(revise?.due) ? revise.due : 0;
   if (!tonightDone && due > 0) {
     return {
-      id: 'revise', overline: weekLine || moveWord, number: due, label: due === 1 ? 'mistake comes back today' : 'mistakes come back today',
+      id: 'revise', overline: weekLine || moveWord, number: due, label: due === 1 ? 'mistake due back today' : 'mistakes due back today',
       why: `Revise brings back what you got wrong after 1, 3, 7 and 21 days. ${due === 1 ? 'This one is' : `These ${word(due)} are`} due today, so the fix holds.`,
       key: { label: 'Start Revise', href: '/review/revise', minutes: Math.max(5, Math.ceil(due / 5) * 5) },
       pills: pills(), art: 'object', subject: last?.subject || null, firstWeek, due,
@@ -168,12 +168,18 @@ export function buildMove({ plan = null, planFailed = false, papers = null, rhyt
   }
   if (tonightDone) {
     const t = plan.tonight;
+    // Release 10 (#10, every count agrees): when mistakes are still due back today, the card says so beside "Done", and its outline key
+    // is Revise with its minutes; Road to CUET lists that Revise as extra tonight, so the card and the road tell one story.
+    const reviseMinutes = due > 0 ? Math.max(5, Math.ceil(due / 5) * 5) : null;
+    const tomorrow = open > 0 ? `Tomorrow starts with ${plural(open, 'open mistake')} from it.` : 'Tomorrow’s move is planned from it.';
     return {
       id: 'done', overline: 'Done for today', number: t.minutes, label: `minutes practised ${moveWord.startsWith('Tonight') ? 'tonight' : 'today'}`,
-      why: `Saved at ${clock(t.completedAt)}. ${open > 0 ? `Tomorrow starts with ${plural(open, 'open mistake')} from it.` : 'Tomorrow’s move is planned from it.'}`,
+      why: `Saved at ${clock(t.completedAt)}. ${due > 0 ? `${plural(due, 'mistake')} ${due === 1 ? 'is' : 'are'} also due back today: ${reviseMinutes}\u00a0more minutes keeps ${due === 1 ? 'it' : 'them'}.` : tomorrow}`,
       // The key keeps going (one more session is extra, never owed); the session just saved is one tap away in the pills.
-      key: { label: 'Practise more', href: primary?.kind === 'ordinary_practice' ? primary.href : '/dashboard', minutes: null },
-      pills: { length: false, second: 'open', openHref: `/result/${encodeURIComponent(t.sessionId)}` }, art: 'object', subject: last?.subject || null, done: true,
+      key: due > 0
+        ? { label: 'Start Revise', href: '/review/revise', minutes: reviseMinutes }
+        : { label: 'Practise more', href: primary?.kind === 'ordinary_practice' ? primary.href : '/dashboard', minutes: null },
+      pills: { length: false, second: 'open', openHref: `/result/${encodeURIComponent(t.sessionId)}` }, art: 'object', subject: last?.subject || null, done: true, due,
     };
   }
   if (open > 0) return repairMove('repair', weekLine || moveWord);
@@ -241,12 +247,12 @@ export function alternatives({ move, papers = null, revise = null, facts = null,
   const last = papers?.[0] || null;
   const open = openMistakes(last, repaired);
   const out = [];
-  if (open > 0) out.push({ id: 'repair', title: 'Repair a mistake', reason: `${plural(open, 'open mistake')} on ${paperName(last, subjectName)}.`, href: `/result/${encodeURIComponent(last.id)}` });
+  if (open > 0) out.push({ id: 'repair', title: 'Repair your last paper', reason: `${plural(open, 'open mistake')} on ${paperName(last, subjectName)}.`, href: `/result/${encodeURIComponent(last.id)}`, subject: last.subject || null });
   if (whole(revise?.due) && revise.due > 0) out.push({ id: 'revise', title: 'Revise what came back', reason: `${plural(revise.due, 'question')} due today.`, href: '/review/revise' });
   out.push({ id: 'quick', title: 'Quick practice', reason: 'Pick the subject, chapters and length yourself.', href: '/dashboard?mode=quick' });
-  out.push({ id: 'another', title: 'Another subject', reason: 'Practice opens on every subject you study.', href: '/dashboard' });
+  out.push({ id: 'another', title: 'Start with another subject', reason: 'Practice opens on every subject you study.', href: '/dashboard' });
   const paper = shortestTimedPaper();
-  if (paper) out.push({ id: 'mock', title: 'Full mock', reason: `${paper.questions} questions in ${paper.minutes} minutes, a fresh paper from the bank each time.`, href: firstTimedMockHref(facts?.subject || last?.subject || null, paper) });
+  if (paper) out.push({ id: 'mock', title: 'A full mock instead', reason: `${paper.questions} questions in ${paper.minutes} minutes, a fresh paper from the bank each time.`, href: firstTimedMockHref(facts?.subject || last?.subject || null, paper) });
   out.push({ id: 'nta', title: 'NTA mode', reason: 'The dress rehearsal: the real paper’s screen, clock and rules.', href: '/dashboard?mode=nta' });
   if (mobUnsat) out.push({ id: 'mob', title: 'Sit this week’s Mob paper', reason: 'Everyone in your Mob sits the same 10 questions.', href: '/mob' });
   out.push({ id: 'review', title: 'Review your papers', reason: whole(papers?.length) && papers.length ? `${plural(papers.length, 'paper')} saved, every answer explained.` : 'Every answer, explained.', href: '/review' });
@@ -267,7 +273,7 @@ export function fitMove(move, chosen) {
   }
   if (move.id === 'revise' && move.due > 0) {
     const n = Math.min(move.due, chosen);
-    return { ...move, number: n, label: n === 1 ? 'mistake comes back today' : 'mistakes come back today', key: { ...move.key, minutes: Math.max(5, Math.ceil(n / 5) * 5) } };
+    return { ...move, number: n, label: n === 1 ? 'mistake due back today' : 'mistakes due back today', key: { ...move.key, minutes: Math.max(5, Math.ceil(n / 5) * 5) } };
   }
   if (['practice', 'dayOne', 'weakest'].includes(move.id) || (move.id === 'returning' && !move.open)) {
     const count = chosen === 10 ? 10 : 20;

@@ -65,8 +65,15 @@
   box-shadow: inset 0 1px 0 var(--a-glass-top), var(--a-shadow-1);
   animation: today-rise-12 320ms var(--t-out) both;
 }
-.app-shell .tm__body { position: relative; display: flex; flex-direction: column; transition: opacity 220ms var(--t-out), transform 260ms var(--t-out), filter 200ms ease; }
-.app-shell .tm__body[data-out] { opacity: 0; transform: translateY(6px); filter: blur(2px); transition-duration: 140ms; }
+.app-shell .tm__body { position: relative; display: flex; flex-direction: column; transition: opacity 220ms var(--t-out), transform 260ms var(--t-out); }
+/* The swap (release 10, D90): the body leaves away from the tapped cell (140 ms) and the new lead comes in from it (280 ms, a small
+   overshoot), so the eye follows the move from the cell into the card. Transform and opacity only. */
+.app-shell .tm__body[data-out] { opacity: 0; transform: translateX(-20px); transition-duration: 140ms; transition-timing-function: ease-in; }
+.app-shell .tm__body[data-out][data-dir='l'] { transform: translateX(20px); }
+.app-shell .tm__body[data-in] { transition: none; animation: tm-in-r 280ms cubic-bezier(0.2, 0.9, 0.25, 1.1) both; }
+.app-shell .tm__body[data-in='l'] { animation-name: tm-in-l; }
+@keyframes tm-in-r { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: none; } }
+@keyframes tm-in-l { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: none; } }
 .app-shell .tm__top { position: relative; min-height: 0; padding-right: 116px; }
 .app-shell .tm__head { min-width: 0; }
 .app-shell .tm__over { margin: 0; font-size: 14px; font-weight: 500; line-height: 1.35; color: var(--a-ink-2); }
@@ -88,7 +95,19 @@
 .app-shell .tm__rail:has(.tm__step[data-day]) { margin-bottom: 20px; }
 .app-shell .tm__step[data-day]::before { content: attr(data-day); position: absolute; top: 19px; left: 50%; transform: translateX(-50%); font: 500 10.5px/1 var(--font-body); color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
 .app-shell .tm__step[data-state='today']::before { color: var(--a-ink); font-weight: 700; }
-.app-shell .tm__path { margin: 0 0 8px; font-size: 13px; line-height: 1.4; color: var(--a-ink-2); text-wrap: balance; }
+.app-shell .tm__path { margin: 0 0 8px; font-size: 13px; line-height: 1.4; color: var(--a-ink-2); text-wrap: balance; animation: today-rise-4 200ms var(--t-out) both; }
+/* Release 10: a step done before its day is drawn quieter (ink-3), so a tick ahead of today reads as "already", never as a skip. */
+.app-shell .tm__step[data-early] { background: var(--a-ink-3); }
+/* Each mark is a 28 x 44 tap target (the rail's spacing allows 28 across; WCAG 2.2 asks 24). The tapped mark's day is in ink. */
+.app-shell .tm__step-hit { position: absolute; left: 50%; top: 50%; width: 28px; height: 44px; margin: 0; padding: 0; border: 0; background: transparent; transform: translate(-50%, -36%); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.app-shell .tm__step[data-picked]::before { color: var(--a-ink); font-weight: 700; }
+.app-shell .tm__step[data-picked]:not([data-state='today']) { box-shadow: inset 0 0 0 1.5px var(--a-ink-2); }
+.app-shell .tm__step[data-picked][data-state='done'] { box-shadow: none; }
+/* From 1024 px the marks are named, not numbered: the rail widens to carry seven short words. */
+@media (min-width: 1024px) {
+  .app-shell .tm__rail { width: min(100%, 392px); }
+  .app-shell .tm__step[data-day]::before { content: attr(data-short); white-space: nowrap; }
+}
 .app-shell .tm__title { margin: 2px 0 0; font: 600 23px/1.2 var(--font-display); letter-spacing: -0.015em; color: var(--a-ink); text-wrap: balance; overflow-wrap: anywhere; }
 .app-shell .tm__art { position: absolute; top: -10px; right: -8px; display: grid; place-items: center; width: 112px; height: 112px; pointer-events: none; }
 .app-shell .tm__art img, .app-shell .tm__art picture, .app-shell .tm__art > * { max-width: 100%; max-height: 100%; }
@@ -149,18 +168,53 @@ html[data-theme='light'] .app-shell .tm__key:not([aria-disabled='true']) { box-s
 .app-shell .tm__key:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 3px; }
 .app-shell .tm__key-len { font-weight: 500; opacity: 0.74; font-variant-numeric: tabular-nums; }
 .app-shell .tm__price { margin: 10px 0 0; font-size: 13.5px; color: var(--a-ink-3); }
-/* The two other moves: a split footer of the same card (not cards in a card), each a full-height button. */
+/* The two other moves: a split footer of the same card (not cards in a card), each a full-height button. Release 10 (D90, F5): a line
+   says what they do ("Or make one of these your move"), each cell carries a swap mark top right and presses in, and a cell that
+   arrives (the move that just left the card) crossfades in (180 ms). */
 .app-shell .tm__or { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 20px -22px 0; border-top: 1px solid var(--a-line); }
 .app-shell .tm__or--one { grid-template-columns: minmax(0, 1fr); }
+.app-shell .tm__or-h { grid-column: 1 / -1; margin: 0; padding: 12px 22px 0; font-size: 12.5px; font-weight: 500; line-height: 1.3; color: var(--a-ink-3); }
 .app-shell .tm__choice {
-  position: relative; display: grid; align-content: start; gap: 3px; min-height: 78px; padding: 14px 18px 16px 22px;
-  border: 0; background: transparent; color: inherit; text-align: left; text-decoration: none; font: inherit; cursor: pointer;
-  transition: background-color 150ms ease; -webkit-tap-highlight-color: transparent;
+  position: relative; display: grid; align-content: start; gap: 3px; min-height: 78px; padding: 10px 40px 16px 22px;
+  border: 0; border-radius: 14px; background: transparent; color: inherit; text-align: left; text-decoration: none; font: inherit; cursor: pointer;
+  transition: background-color 150ms ease, transform 120ms var(--t-out), box-shadow 180ms ease; -webkit-tap-highlight-color: transparent;
 }
-.app-shell .tm__choice + .tm__choice { border-left: 1px solid var(--a-line); padding-left: 18px; }
-.app-shell .tm__choice:active { background: var(--a-hover); }
-@media (hover: hover) and (pointer: fine) { .app-shell .tm__choice:hover { background: var(--a-hover); } }
+.app-shell .tm__choice[data-arrived] { animation: tm-cell-in 180ms ease both; }
+.app-shell .tm__or--one .tm__choice { padding-top: 14px; }
+.app-shell .tm__choice + .tm__choice { padding-left: 18px; }
+.app-shell .tm__choice + .tm__choice::before { content: ''; position: absolute; left: 0; top: 10px; bottom: 16px; width: 1px; background: var(--a-line); }
+.app-shell .tm__choice-i { position: absolute; top: 12px; right: 16px; color: var(--a-ink-3); transition: color 150ms ease, transform 220ms var(--t-out); }
+.app-shell .tm__choice:active { transform: scale(0.98); }
+.app-shell .tm__choice:active::after { opacity: 1; background: var(--a-hover); }
+.app-shell .tm__choice:active .tm__choice-i { transform: rotate(-90deg); }
+@media (hover: hover) and (pointer: fine) { .app-shell .tm__choice:hover::after { opacity: 1; background: var(--a-hover); } .app-shell .tm__choice:hover .tm__choice-i { color: var(--a-ink); } }
 .app-shell .tm__choice:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -3px; }
+/* The first-run coach (release 10, D90): one cell only (the Suggested one, else the right). A 2 px ring in the accent at 40% draws in 6 px
+   inside the cell's edges (never on them, so it never runs into the card's border), and the cell's title lifts 8 px and springs back,
+   twice (360 ms each); then the ring fades. */
+/* The same inset shape carries the hover and press fill, so no state draws a box that runs into the card's border. */
+.app-shell .tm__choice { isolation: isolate; }
+.app-shell .tm__choice::after { content: ''; position: absolute; z-index: -1; inset: 6px; border-radius: 12px; box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--a-accent-text) 40%, transparent); opacity: 0; pointer-events: none; transition: opacity 150ms ease, background-color 150ms ease; }
+.app-shell .tm__choice:is(:hover, :active)::after { box-shadow: none; }
+.app-shell .tm__or[data-hint] .tm__choice[data-coach]::after { box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--a-accent-text) 40%, transparent); }
+.app-shell .tm__or[data-hint] .tm__choice[data-coach]::after { animation: tm-coach-ring 1000ms ease both; }
+.app-shell .tm__or[data-hint] .tm__choice[data-coach] .tm__choice-t { animation: tm-coach-lift 360ms cubic-bezier(0.2, 0.9, 0.25, 1.1) 2; }
+.app-shell .tm__or[data-hint] .tm__choice[data-coach] .tm__choice-i { color: var(--a-accent-text); }
+.app-shell .tm__choice-t { display: block; }
+@keyframes tm-coach-ring { 0% { opacity: 0; transform: scale(0.97); } 16% { opacity: 1; transform: none; } 78% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes tm-coach-lift { 0%, 100% { transform: none; } 45% { transform: translateY(-8px); } }
+.app-shell .tm__or-h { animation: today-fade 200ms ease both; }
+/* Desktop: the pointer on a cell previews the swap; the card's title leans 12 px toward that cell, and back when the pointer leaves. */
+.app-shell .tm__body .tm__title { transition: transform 220ms var(--t-out); }
+@media (hover: hover) and (pointer: fine) {
+  .app-shell .tm__body[data-lean='l'] .tm__title { transform: translateX(-12px); }
+  .app-shell .tm__body[data-lean='r'] .tm__title { transform: translateX(12px); }
+}
+/* "Done": its key (Revise still due, or one more session) is an outline, never the volt; the day's work is already saved. */
+.app-shell .tm__key[data-outline] { background: transparent; color: var(--a-ink); box-shadow: inset 0 0 0 1.5px var(--a-line-strong); }
+html[data-theme='light'] .app-shell .tm__key[data-outline]:not([aria-disabled='true']) { box-shadow: inset 0 0 0 1.5px var(--a-line-strong); }
+@media (hover: hover) and (pointer: fine) { .app-shell .tm__key[data-outline]:not([aria-disabled='true']):hover { background: var(--a-hover); } }
+@keyframes tm-cell-in { from { opacity: 0; } to { opacity: 1; } }
 .app-shell .tm__choice-s { font-size: 12.5px; font-weight: 600; color: var(--a-accent-text); }
 .app-shell .tm__choice-t { font: 600 15px/1.3 var(--font-body); color: var(--a-ink); }
 .app-shell .tm__choice-v { font-size: 13.5px; line-height: 1.35; color: var(--a-ink-3); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
@@ -198,17 +252,34 @@ html[data-theme='light'] .app-shell .tm__key:not([aria-disabled='true']) { box-s
 .app-shell .tm--failed .tm__or { margin-top: 20px; }
 
 /* ---------- The cue below the fold (W-044): phones only ---------- */
-/* W-044 (release 9 audit): the cue lies in the page's flow just under the lead card, never pinned over it. The page gap is 40 px; a
-   -24 px top margin puts the pill 16 px below the card's bottom edge (clear of the footer row and every key in the card at any phone
-   height), and a -16 px bottom margin keeps the net height at 4 px so the week does not move (W-042). It fades only once the week is on screen. */
-.app-shell .tcue { position: relative; z-index: 1; display: flex; justify-content: center; margin: -24px 0 -16px; pointer-events: none; transition: opacity 240ms var(--t-out), transform 240ms var(--t-out); }
-.app-shell .tcue[data-seen] { opacity: 0; transform: translateY(-4px); pointer-events: none; }
+/* Release 10 (owner D89, taste): a 44 px glass circle anchored right, 96 px above the bottom edge (the dock is 64 px tall and 12 px
+   above the safe area, so the circle keeps 20 px clear of it). It is out of the page's flow, so it leaves no band between the card
+   and This week. For its first 2.4 s it carries the words "Your week and road", then the words fold away (240 ms, ease-out) and it
+   is a circle. It steps away while the card's key or footer is under it (TodayCue measures that) and once the week is on screen. */
+.app-shell .tcue { position: fixed; left: 50%; bottom: calc(92px + env(safe-area-inset-bottom)); z-index: 5; display: flex; justify-content: center; transform: translateX(-50%); pointer-events: none; transition: opacity 200ms var(--t-out), transform 240ms var(--t-out); }
+@media (min-width: 1024px) { .app-shell .tcue { bottom: calc(16px + env(safe-area-inset-bottom)); } }
+.app-shell .tcue[data-seen] { opacity: 0; transform: translate(-50%, 8px) scale(0.92); pointer-events: none; }
 .app-shell .tcue[data-wait] { visibility: hidden; pointer-events: none; }
-.app-shell .tcue__key { display: flex; align-items: center; justify-content: center; gap: 10px; max-width: 100%; min-height: 44px; padding: 0 6px 0 16px; border: 0; border-radius: 22px; background: var(--a-raised); box-shadow: inset 0 0 0 1px var(--a-line), var(--a-shadow-1); color: var(--a-ink-2); font: 500 14px/1.3 var(--font-body); cursor: pointer; pointer-events: auto; -webkit-tap-highlight-color: transparent; }
+/* Release 10 (W-044 restored): a 40 px glass circle centred above the dock, with the dock's own glass and blur so it reads over the
+   card's cells; its tap area reaches 44 px. */
+.app-shell .tcue__key {
+  position: relative; display: flex; align-items: center; justify-content: flex-end; min-width: 40px; min-height: 40px; padding: 0; border: 0; border-radius: 20px;
+  background: var(--dock-solid, var(--a-raised)); box-shadow: inset 0 0 0 1px var(--a-line), var(--a-shadow-1); color: var(--a-ink);
+  font: 600 13.5px/1 var(--font-body); cursor: pointer; pointer-events: auto; -webkit-tap-highlight-color: transparent;
+  transition: transform 120ms var(--t-out), background-color 150ms ease;
+}
+.app-shell .tcue__key::before { content: ''; position: absolute; inset: -2px; border-radius: 22px; }
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .app-shell .tcue__key { background: var(--dock-glass, var(--a-raised)); -webkit-backdrop-filter: blur(32px) saturate(1.5); backdrop-filter: blur(32px) saturate(1.5); }
+}
 .app-shell .tcue[data-seen] .tcue__key, .app-shell .tcue[data-wait] .tcue__key { pointer-events: none; }
-.app-shell .tcue__chev { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 13px; box-shadow: inset 0 0 0 1px var(--a-line-strong); color: var(--a-ink-2); animation: tcue-nudge 1400ms var(--t-out) 900ms 2 both; }
-.app-shell .tcue__key:active { background: var(--a-hover); }
-@media (hover: hover) and (pointer: fine) { .app-shell .tcue__key:hover { color: var(--a-ink); } }
+/* The words: a grid row that folds from its width to none, so the pill shrinks into the circle without a jump. */
+.app-shell .tcue__text { display: grid; grid-template-columns: 0fr; overflow: hidden; white-space: nowrap; transition: grid-template-columns 240ms var(--t-out), opacity 160ms ease; opacity: 0; }
+.app-shell .tcue__text > span { min-width: 0; overflow: hidden; }
+.app-shell .tcue[data-wide] .tcue__text { grid-template-columns: 1fr; opacity: 1; padding-left: 16px; }
+.app-shell .tcue__chev { display: grid; place-items: center; flex: 0 0 40px; width: 40px; height: 40px; color: var(--a-ink); animation: tcue-nudge 1400ms var(--t-out) 900ms 2 both; }
+.app-shell .tcue__key:active { transform: scale(0.94); }
+@media (hover: hover) and (pointer: fine) { .app-shell .tcue__key:hover { background: var(--a-hover); } }
 .app-shell .tcue__key:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 @keyframes tcue-nudge { 0%, 100% { transform: none; } 40% { transform: translateY(4px); } 70% { transform: translateY(-1px); } }
 
@@ -235,6 +306,7 @@ html[data-theme='light'] .app-shell .tw__day[data-state='counted'] .tw__dot { bo
 .app-shell .tw__day[data-today]:not([aria-pressed='true']) .tw__dot { outline: 1.5px solid var(--a-ink-3); outline-offset: 3px; }
 .app-shell .tw__name { font-size: 12.5px; font-weight: 600; color: var(--a-ink-3); transition: color 150ms ease; }
 .app-shell .tw__day[aria-pressed='true'] .tw__name, .app-shell .tw__day[data-today] .tw__name { color: var(--a-ink); }
+.app-shell .tw__legend { margin: 6px 2px 0; font-size: 12px; line-height: 1.4; color: var(--a-ink-3); animation: today-fade 200ms ease both; }
 .app-shell .tw__readout { min-height: 76px; margin-top: 12px; padding: 0 2px; }
 .app-shell .tw__readout[data-swap] { animation: today-rise-4 220ms var(--t-out) both; }
 .app-shell .tw__readout h3 { margin: 0; font: 600 15px/1.3 var(--font-body); color: var(--a-ink); }
@@ -293,7 +365,10 @@ html[data-theme='light'] .app-shell .tw__day[data-state='counted'] .tw__dot { bo
 .app-shell .trd__stop:active { transform: scale(0.98); }
 @media (hover: hover) and (pointer: fine) { .app-shell .trd__stop:not([aria-pressed='true']):hover .trd__label { color: var(--a-ink); } }
 .app-shell .trd__stop:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; }
-.app-shell .trd__label { font-size: 13px; font-weight: 600; line-height: 1.2; color: var(--a-ink-3); transition: color 150ms ease; white-space: nowrap; }
+.app-shell .trd__label { font-size: 13px; font-weight: 600; line-height: 1.2; color: var(--a-ink-3); transition: color 150ms ease; white-space: nowrap; display: inline-flex; align-items: center; gap: 3px; }
+/* Release 10 (#4): each stop carries a small chevron, so the three read as things to open; the open one's turns over (200 ms). */
+.app-shell .trd__chev { flex: 0 0 auto; color: var(--a-ink-3); transition: transform 200ms var(--t-out), color 150ms ease; }
+.app-shell .trd__stop[aria-pressed='true'] .trd__chev { transform: rotate(180deg); color: var(--a-ink); }
 .app-shell .trd__stop[aria-pressed='true'] .trd__label { color: var(--a-ink); }
 .app-shell .trd__fig { display: flex; align-items: baseline; gap: 5px; white-space: nowrap; }
 .app-shell .trd__fig b { font: 700 30px/1 var(--font-display); letter-spacing: -0.04em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
@@ -319,10 +394,13 @@ html[data-theme='light'] .app-shell .tw__day[data-state='counted'] .tw__dot { bo
 .app-shell .trd__items li:first-child { border-top: 0; }
 .app-shell .trd__mark { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--a-line-strong); color: var(--a-bg); }
 .app-shell .trd__items li[data-done] .trd__mark { background: var(--a-ink); box-shadow: none; }
+/* Extra tonight (release 10): Revise after "Done" is listed with its key, drawn as a dashed ring because it is not owed. */
+.app-shell .trd__items li[data-extra] .trd__mark { box-shadow: none; border: 1.5px dashed var(--a-ink-3); }
 .app-shell .trd__item-t { display: grid; gap: 1px; min-width: 0; }
 .app-shell .trd__item-t b { font: 600 14.5px/1.3 var(--font-body); color: var(--a-ink); }
 .app-shell .trd__item-t span { font-size: 13px; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
 .app-shell .today .trd__go { min-height: 44px; padding: 0 14px; font-size: 14px; }
+.app-shell .trd__go-len { font-weight: 500; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
 .app-shell .trd__items li[data-unknown] .trd__mark { color: var(--a-ink-3); font: 600 12px/1 var(--font-body); }
 .app-shell .trd__note { margin: 6px 0 0; font-size: 14px; line-height: 1.5; color: var(--a-ink-2); }
 .app-shell .trd__note b { color: var(--a-ink); font-weight: 600; }
@@ -342,11 +420,12 @@ html[data-theme='light'] .app-shell .tw__day[data-state='counted'] .tw__dot { bo
 .app-shell .twk__rows { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--a-line); }
 .app-shell .twk__rows > li { border-bottom: 1px solid var(--a-line); }
 .app-shell .twk__row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; min-height: 76px; }
-.app-shell .twk__open { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; align-items: center; gap: 10px; min-height: 76px; padding: 10px 0; border: 0; background: transparent; color: inherit; text-align: left; font: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.app-shell .twk__open { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 10px; min-height: 76px; padding: 10px 0; border: 0; background: transparent; color: inherit; text-align: left; font: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .app-shell .twk__open:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 8px; }
 @media (hover: hover) and (pointer: fine) { .app-shell .twk__open:hover .twk__t b { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; } }
-.app-shell .twk__plus { color: var(--a-ink-3); transition: transform 220ms var(--t-out); }
-.app-shell .twk__open[aria-expanded='true'] .twk__plus { transform: rotate(45deg); }
+.app-shell .twk__peek { display: inline-flex; align-items: center; gap: 2px; color: var(--a-ink-2); font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; text-decoration-color: var(--a-line-strong); }
+.app-shell .twk__plus { flex: 0 0 auto; color: var(--a-ink-2); transition: transform 220ms var(--t-out); }
+.app-shell .twk__open[aria-expanded='true'] .twk__plus { transform: rotate(180deg); }
 .app-shell .twk__t { display: grid; gap: 2px; min-width: 0; }
 .app-shell .twk__t b { font: 600 16px/1.3 var(--font-body); color: var(--a-ink); overflow-wrap: anywhere; }
 .app-shell .twk__t span { font-size: 13.5px; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
@@ -358,7 +437,7 @@ html[data-theme='light'] .app-shell .tw__day[data-state='counted'] .tw__dot { bo
 .app-shell .twk__more > div { min-height: 0; overflow: hidden; }
 /* Collapsed, the row's links are not reachable by Tab (0 px tall but focusable otherwise); they leave the order once the fold has closed. */
 .app-shell .twk__more:not([data-open]) > div { visibility: hidden; transition: visibility 0s 240ms; }
-.app-shell .twk__list { display: grid; gap: 2px; margin: 0; padding: 0 0 6px 32px; list-style: none; }
+.app-shell .twk__list { display: grid; gap: 2px; margin: 0; padding: 0 0 6px; list-style: none; }
 .app-shell .twk__mk { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid var(--a-line); }
 .app-shell .twk__mk:first-child { border-top: 0; }
 .app-shell .twk__meta { font-size: 12.5px; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
@@ -367,9 +446,9 @@ html[data-theme='light'] .app-shell .tw__day[data-state='counted'] .tw__dot { bo
 .app-shell .twk__act:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 4px; }
 .app-shell .twk__state { display: block; margin-top: 3px; font-size: 12.5px; font-weight: 600; color: var(--a-good-text); text-decoration: none; }
 .app-shell .twk__state[data-state='slipped'] { color: var(--a-ink-2); }
-.app-shell .twk__all { margin: 0; padding: 4px 0 16px 32px; font-size: 14px; }
-.app-shell .twk__note { margin: 0; padding: 4px 0 8px 32px; font-size: 14px; color: var(--a-ink-2); }
-.app-shell .twk__wait { display: grid; gap: 10px; padding: 8px 0 12px 32px; }
+.app-shell .twk__all { margin: 0; padding: 4px 0 16px; font-size: 14px; }
+.app-shell .twk__note { margin: 0; padding: 4px 0 8px; font-size: 14px; color: var(--a-ink-2); }
+.app-shell .twk__wait { display: grid; gap: 10px; padding: 8px 0 12px; }
 .app-shell .twk__wait span { display: block; height: 14px; border-radius: 6px; background: var(--a-raised-2); }
 .app-shell .twk__wait span:first-child { width: 48%; height: 12px; }
 .app-shell .twk__wait span + span { width: 88%; height: 34px; border-radius: 10px; }
@@ -469,10 +548,16 @@ html[data-theme='light'] .tsh::backdrop { background: rgb(23 32 22 / 0.32); }
 .tsh__lede { margin: -4px 0 4px; font-size: 14px; line-height: 1.45; color: var(--a-ink-2); }
 .tsh__list { margin: 0; padding: 0; list-style: none; }
 .tsh__list li + li { border-top: 1px solid var(--a-line); }
-.tsh__row { display: grid; gap: 3px; min-height: 60px; padding: 12px 4px; color: inherit; text-decoration: none; border-radius: 6px; }
+/* Release 10 (F5): each row is a pressable line: a 36 px picture, the title and its reason, a chevron; it darkens under a press. */
+.tsh__row { display: grid; grid-template-columns: 36px minmax(0, 1fr) 16px; align-items: center; gap: 14px; min-height: 64px; margin: 0 -10px; padding: 12px 10px; color: inherit; text-decoration: none; border-radius: 16px; transition: background-color 150ms ease, transform 120ms cubic-bezier(0.23, 1, 0.32, 1); -webkit-tap-highlight-color: transparent; }
+.tsh__row:active { background: var(--a-hover); transform: scale(0.99); }
+.tsh__row-t { display: grid; gap: 3px; min-width: 0; }
 .tsh__row b { font-size: 16px; font-weight: 600; color: var(--a-ink); }
-.tsh__row span { font-size: 14px; line-height: 1.4; color: var(--a-ink-2); }
-@media (hover: hover) and (pointer: fine) { .tsh__row:hover b { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; } }
+.tsh__row-t span { font-size: 14px; line-height: 1.4; color: var(--a-ink-2); }
+.tsh__tile { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 12px; background: var(--a-raised-2); box-shadow: inset 0 0 0 1px var(--a-line); color: var(--a-ink); }
+.tsh__tile--obj { background: none; box-shadow: none; }
+.tsh__chev { color: var(--a-ink-3); transition: transform 150ms ease, color 150ms ease; }
+@media (hover: hover) and (pointer: fine) { .tsh__row:hover { background: var(--a-hover); } .tsh__row:hover .tsh__chev { color: var(--a-ink); transform: translateX(2px); } }
 #trd-plan .tsh__head h2 { font: 600 16px/1.2 var(--font-body); color: var(--a-ink-2); }
 @media (min-width: 720px) {
   .tsh { inset: 0; width: min(480px, calc(100vw - 48px)); height: fit-content; max-height: calc(100dvh - 64px); margin: auto; }
@@ -546,6 +631,7 @@ html[data-theme='light'] .tsh::backdrop { background: rgb(23 32 22 / 0.32); }
 .tsh .tpf__back:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 6px; }
 .tsh .tpf__done { display: inline-flex; width: auto; min-width: 140px; margin-top: 0; border: 0; border-radius: 28px; background: #d2f000; color: #0b1000; font: 700 16px/1.2 var(--font-body); min-height: 52px; padding: 0 28px; cursor: pointer; align-items: center; justify-content: center; transition: transform 120ms ease, background-color 150ms ease; }
 .tsh .tpf__done:active { transform: scale(0.97); }
+@media (max-width: 600px) { .tsh .tpf__done { flex: 1 1 auto; } .tsh .tpf__foot > span:empty { display: none; } }
 html[data-theme='light'] .tsh .tpf__done { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.28); }
 .tsh .tpf__done:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 3px; }
 /* The rail for "See every week" (R4, kept). */
@@ -564,10 +650,20 @@ html[data-theme='light'] .tsh .tpf__done { box-shadow: inset 0 0 0 1px rgb(82 10
 .tsh .trd__readout { margin: 6px 0 0; font-size: 14px; color: var(--a-ink-2); }
 
 /* ---------- Phones: the Practise key sits under the chapter name, so the name never squeezes ---------- */
-@media (max-width: 559px) {
+/* Release 10 (slop #3, the same pill on every row): up to 600 px the first chapter keeps the full Practise pill under its name, and
+   the others carry a 40 px round Play key beside their marks, so no row loses Practise and the section stays short. */
+@media (max-width: 600px) {
   .app-shell .twk__row { grid-template-columns: minmax(0, 1fr); gap: 0; }
   .app-shell .twk__open { padding-bottom: 6px; }
-  .app-shell .twk__practise { justify-self: start; min-height: 44px !important; margin: 0 0 10px 32px; padding: 0 14px !important; }
+  .app-shell .twk__practise { justify-self: start; min-height: 44px !important; margin: 0 0 10px; padding: 0 14px !important; }
+  .app-shell .twk__rows > li[data-compact] .twk__row { grid-template-columns: minmax(0, 1fr) auto; gap: 10px; }
+  .app-shell .twk__rows > li[data-compact] .twk__open { padding-bottom: 10px; }
+  .app-shell .twk__rows > li[data-compact] .twk__practise { position: relative; justify-self: end; width: 40px; min-width: 40px; height: 40px; min-height: 40px !important; margin: 0; padding: 0 !important; border-radius: 20px; }
+  .app-shell .twk__rows > li[data-compact] .twk__practise svg { color: var(--a-ink); }
+  .app-shell .twk__rows > li[data-compact] .twk__practise-t { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .app-shell .twk__rows > li[data-compact] .twk__practise::after { content: ''; position: absolute; inset: -2px; }
+}
+@media (max-width: 559px) {
   .tsh .tpf__sentence { font-size: 22px; }
   .tsh .tpf__ans { padding: 12px 12px 11px; }
   .tsh .tpf__answers--3 .tpf__ans-big { font-size: 30px; }
@@ -589,6 +685,7 @@ html[data-theme='light'] .tsh .tpf__done { box-shadow: inset 0 0 0 1px rgb(82 10
   .app-shell .tm { padding: 26px 26px 0; }
   .app-shell .tm__or, .app-shell .tm__more { margin-left: -26px; margin-right: -26px; }
   .app-shell .tm__choice { padding-left: 26px; }
+  .app-shell .tm__or-h { padding-left: 26px; }
   .app-shell .tm__top { padding-right: 140px; }
   .app-shell .tm__art { width: 132px; height: 132px; top: -14px; }
   .app-shell .tm__art--mobi { width: 116px; height: 116px; }
@@ -612,12 +709,16 @@ html[data-theme='light'] .tsh .tpf__done { box-shadow: inset 0 0 0 1px rgb(82 10
 
 @media (prefers-reduced-motion: reduce) {
   .app-shell :is(.today__head, .tm, .tw, .trd, .twk, .tpp, .tq, .tc, .tmob, .tw__readout, .trd__readout, .trd__receipt, .tpp__receipt, .tcue__chev), .tsh__body, .tsh .tpf__step { animation: today-fade 150ms ease both !important; transform: none !important; }
-  .app-shell :is(.tw__dot, .tw__dot path, .tm__step, .tm__step path, .trd__stretch i::after, .trd__stretch i b, .tpp__bar i), .tsh .tpf__bump { animation: none !important; transform: none; }
+  .app-shell :is(.tw__dot, .tw__dot path, .tm__step, .tm__step path, .trd__stretch i::after, .trd__stretch i b, .tpp__bar i, .tm__choice, .tm__body), .tsh .tpf__bump { animation: none !important; transform: none; }
   .app-shell .tm__step path { stroke-dashoffset: 0; }
   .app-shell .tw__dot path { stroke-dashoffset: 0; }
-  .app-shell :is(.tm__body, .tw__sel, .trd__sel, .tm__lengths, .twk__more, .twk__plus) { transition-duration: 1ms !important; }
+  .app-shell :is(.tm__body, .tw__sel, .trd__sel, .tm__lengths, .twk__more, .twk__plus, .tcue, .tcue__text, .trd__chev) { transition-duration: 1ms !important; }
+  .app-shell :is(.tm__choice-t, .tm__choice::after) { animation: none !important; }
+  .app-shell .tm__body .tm__title { transform: none !important; transition: none; }
 }
 html[data-motion='reduced'] .app-shell :is(.today__head, .tm, .tw, .trd, .twk, .tpp, .tq, .tc, .tmob, .tw__readout, .trd__readout, .trd__receipt, .tpp__receipt, .tcue__chev), html[data-motion='reduced'] .tsh__body, html[data-motion='reduced'] .tsh .tpf__step { animation: today-fade 150ms ease both !important; transform: none !important; }
-html[data-motion='reduced'] .app-shell :is(.tw__dot, .tm__step, .trd__stretch i::after, .trd__stretch i b, .tpp__bar i) { animation: none !important; }
+html[data-motion='reduced'] .app-shell :is(.tw__dot, .tm__step, .trd__stretch i::after, .trd__stretch i b, .tpp__bar i, .tm__choice, .tm__body) { animation: none !important; }
 html[data-motion='reduced'] .app-shell :is(.tw__dot path, .tm__step path) { animation: none; stroke-dashoffset: 0; }
-html[data-motion='reduced'] .app-shell :is(.tm__body, .tw__sel, .trd__sel, .tm__lengths, .twk__more) { transition-duration: 1ms !important; }
+html[data-motion='reduced'] .app-shell :is(.tm__body, .tw__sel, .trd__sel, .tm__lengths, .twk__more, .tcue, .tcue__text) { transition-duration: 1ms !important; }
+html[data-motion='reduced'] .app-shell :is(.tm__choice-t, .tm__choice::after) { animation: none !important; }
+html[data-motion='reduced'] .app-shell .tm__body .tm__title { transform: none !important; transition: none; }

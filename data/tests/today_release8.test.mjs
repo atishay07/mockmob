@@ -92,10 +92,11 @@ test('wired on Today: the path leads through withFirstWeek, the rail rides on th
   assert.match(move, /\{path\?\.day \? <p className="sr-only">\{railLine\(path\)\}\{caption && !week \? ` \$\{caption\}` : ''\}<\/p> : null\}/, 'a screen reader hears the rail once, in words');
   // The one volt key: Change plan is a button, a link is a link, offline is disabled; exactly one of them is drawn.
   assert.match(move, /\{isPlan \? \(\s*<button type="button" className="tm__key" data-page-primary aria-haspopup="dialog" onClick=\{onPlan\}>\{m\.key\.label\}<\/button>\s*\) : offline \? \(/);
-  assert.match(move, /Flag size=\{34\}/, 'the road\'s flag is the plan\'s picture');
+  assert.doesNotMatch(move, /Flag size=\{34\}/, 'release 10: Mobi points the way on day 7, not a flat flag tile');
   const road = read('src/components/today/TodayRoad.jsx');
   assert.match(road, /planAsk = 0, onPlanSaved/);
-  assert.match(road, /if \(planAsk !== asked\) \{ setAsked\(planAsk\); if \(!hold && layers\) setFlow\(1\); \}/, 'it opens once per ask, and only once the road has loaded');
+  assert.match(road, /if \(planAsk !== asked\) \{ setAsked\(planAsk\); if \(!hold && layers\) \{ setFromKey\(true\); setFlow\(1\); \} \}/, 'it opens once per ask, and only once the road has loaded');
+  assert.match(road, /const planTitle = fromKey \|\| dayOne \? 'Plan your weeks' : 'Change plan';/, 'release 10 (D15): the sheet opened by "Plan my weeks" is "Plan your weeks"');
   assert.match(road, /onDone=\{\(s\) => \{ onPlanSaved\?\.\(\); setReceipt\(/);
   const hook = read('src/components/today/useToday.js');
   assert.match(hook, /recalled: reviseRecalled\(body\)/);
@@ -122,7 +123,9 @@ test('nothing looks like a form, Night stays subtle, one volt, motion with a rea
   // No checkbox, radio or switch semantics on the rail.
   const move = read('src/components/today/TodayMove.jsx');
   const railMarkup = move.match(/<ol className="tm__rail">[\s\S]*?<\/ol>/)[0];
-  assert.doesNotMatch(railMarkup, /checkbox|radio|switch|<input|<button|onClick|tabIndex/);
+  assert.doesNotMatch(railMarkup, /checkbox|radio|switch|<input|role=/);
+  // Release 10 (N1): each mark is a plain tap target that says its own line; out of the Tab order, since the words reach a screen reader once.
+  assert.match(railMarkup, /<button type="button" className="tm__step-hit" tabIndex=\{-1\}/);
 });
 
 test('the preview: ?firstweek=1 to 7 serves a student on that day, and the result opens the first full mock with ?attempt=', () => {

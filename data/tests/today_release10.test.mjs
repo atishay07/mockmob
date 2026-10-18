@@ -1,0 +1,303 @@
+// Today, release 10: the taste pass (owner D89 to D90, 18 Oct 7:40 pm; docs/brain/OWNER-TASTE-PROFILE.md). Each test locks one
+// critic finding that was fixed, so a later pass cannot quietly bring it back.
+//   D15  one label per action: the Road row repeats the card's key, the week says "Counted at" once, never "Up next" again
+//   D90  the swap choices say what they do, nudge on the first visits, and the swap moves with the tap
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { dayReadout, weekCaption, weekMarks } from '../../src/lib/today/week.mjs';
+import { roadLayers, roadFigures } from '../../src/lib/today/road.mjs';
+
+const read = (path) => readFileSync(new URL(`../../${path}`, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
+const css = (path) => read(path).replace(/\/\*[\s\S]*?\*\//g, '');
+
+test('D90: the two choices say they swap the lead, carry a swap mark, and press in', () => {
+  const move = read('src/components/today/TodayMove.jsx');
+  assert.match(move, /<p className="tm__or-h" id="tm-or-h" key=\{coach \? 'coach' : 'plain'\}>\{coach \? 'Tap one to swap it in as your move' : 'Or make one of these your move'\}<\/p>/);
+  assert.match(move, /aria-labelledby="tm-or-h"/);
+  assert.match(move, /<Repeat2 className="tm__choice-i" size=\{16\}/);
+  const sheet = css('src/components/today/today.css');
+  assert.match(sheet, /\.tm__or-h \{[^}]*font-size: 12\.5px;[^}]*color: var\(--a-ink-3\)/);
+  assert.match(sheet, /\.tm__choice:active \{[^}]*transform: scale\(0\.98\)/);
+});
+
+test('D90: the first-run coach plays 1.2 s after landing on ONE cell, until the first swap, at most 3 visits, storage guarded', () => {
+  const move = read('src/components/today/TodayMove.jsx');
+  assert.match(move, /SWAP_HINT_KEY = 'mm:today-swap-hint:v1'/);
+  assert.match(move, /if \(seen >= 3\) return undefined;/);
+  assert.match(move, /\}, 1200\);/);
+  assert.match(move, /try \{ const v = window\.localStorage\.getItem\(SWAP_HINT_KEY\)/);
+  assert.match(read('src/app/(app)/today/page.jsx'), /swapLearned\(\);/, 'a swap clears the hint for good');
+  // The Suggested cell, else the right one; the line says what a tap does for that visit.
+  assert.match(move, /const coached = choices\.findIndex\(\(c\) => c\.suggested\) >= 0 \? choices\.findIndex\(\(c\) => c\.suggested\) : choices\.length - 1;/);
+  assert.match(move, /data-coach=\{i === coached \|\| undefined\}/);
+  const sheet = css('src/components/today/today.css');
+  assert.doesNotMatch(sheet, /\.tm__or\[data-hint\] \.tm__choice \{[^}]*box-shadow/, 'no outline on the cells (it read as two boxes cut off in the card)');
+  assert.doesNotMatch(sheet, /\.tm__choice:(?:hover|active) \{[^}]*background/, 'hover and press fill the same inset shape, never the whole cell');
+  assert.match(sheet, /\.app-shell \.tm__choice::after \{ content: ''; position: absolute; z-index: -1; inset: 6px; border-radius: 12px; box-shadow: inset 0 0 0 2px color-mix\(in srgb, var\(--a-accent-text\) 40%, transparent\);/);
+  assert.match(sheet, /\.tm__choice\[data-coach\] \.tm__choice-t \{ animation: tm-coach-lift 360ms cubic-bezier\(0\.2, 0\.9, 0\.25, 1\.1\) 2; \}/);
+  assert.match(sheet, /@keyframes tm-coach-lift \{ 0%, 100% \{ transform: none; \} 45% \{ transform: translateY\(-8px\); \} \}/);
+  // Desktop: hovering a cell previews the swap; the title leans 12 px toward it. Touch never leans.
+  assert.match(move, /onPointerEnter=\{\(e\) => \{ if \(e\.pointerType === 'mouse'\) setLean\(i === 0 \? 'l' : 'r'\); \}\}/);
+  assert.match(sheet, /@media \(hover: hover\) and \(pointer: fine\) \{\s*\.app-shell \.tm__body\[data-lean='l'\] \.tm__title \{ transform: translateX\(-12px\); \}\s*\.app-shell \.tm__body\[data-lean='r'\] \.tm__title \{ transform: translateX\(12px\); \}/);
+});
+
+test('D90: the swap is direction-aware, has no blur, and the move that left sits in the tapped cell', () => {
+  const sheet = css('src/components/today/today.css');
+  const body = sheet.match(/\.app-shell \.tm__body \{[^}]*\}/)[0];
+  assert.doesNotMatch(body, /filter/, 'no blur');
+  assert.match(sheet, /\.tm__body\[data-out\] \{ opacity: 0; transform: translateX\(-20px\); transition-duration: 140ms;/);
+  assert.match(sheet, /\.tm__body\[data-out\]\[data-dir='l'\] \{ transform: translateX\(20px\); \}/);
+  assert.match(sheet, /\.tm__body\[data-in\] \{ transition: none; animation: tm-in-r 280ms cubic-bezier\(0\.2, 0\.9, 0\.25, 1\.1\) both; \}/);
+  assert.match(sheet, /\.tm__choice\[data-arrived\] \{ animation: tm-cell-in 180ms ease both; \}/);
+  const page = read('src/app/(app)/today/page.jsx');
+  assert.match(page, /const dir = slot === 0 \? 'l' : 'r';/);
+  assert.match(page, /if \(at >= 0 && marked\.length === 2 && at !== traded\.slot\) return \[marked\[1\], marked\[0\]\];/);
+  assert.match(page, /if \(reducedMotion\(\)\) \{ put\(\); return; \}/, 'reduced motion swaps at once');
+});
+
+const RHYTHM = { weekStart: '2026-10-12', daysGoal: 4, studyDays: 3, studyDayDates: ['2026-10-15', '2026-10-17', '2026-10-18'], timeZone: 'Asia/Kolkata', metThisWeek: false };
+const TODAY = '2026-10-18';
+const dayKey = (at) => new Date((typeof at === 'number' ? at : Date.parse(at)) + 19800000).toISOString().slice(0, 10);
+
+test('D15: the readout for today never repeats the lead; a counted day says when, and what is left of the week, in one line', () => {
+  const marks = weekMarks({ rhythm: RHYTHM, today: TODAY, weekdays: null, firstDay: '2026-09-01' });
+  const at = Date.parse('2026-10-18T14:11:00Z'); // 7:41 PM IST
+  const paper = { id: 'p1', subject: 'accountancy', mode: 'quick', total: 10, completedAt: at };
+  const r = dayReadout({ mark: marks[6], index: 6, papers: [paper], repairs: [], dayKey, clockOf: () => '7:41 PM', subjectName: (s) => s, today: TODAY, goal: 4, done: 3 });
+  assert.equal(r.note, 'Counted at 7:41 PM. 1 more study day meets your 4.');
+  const two = dayReadout({ mark: marks[6], index: 6, papers: [], repairs: [], dayKey, today: TODAY, goal: 4, done: 2 });
+  assert.equal(two.note, 'Counted as a study day. 2 more study days meet your 4.');
+  const met = dayReadout({ mark: marks[6], index: 6, papers: [], repairs: [], dayKey, today: TODAY, goal: 4, done: 4, met: true });
+  assert.equal(met.note, 'Counted as a study day.');
+  for (const n of [r.note, two.note, met.note]) assert.doesNotMatch(n, /Up next|already counts/);
+  assert.equal(weekCaption({ rhythm: RHYTHM, marks, today: TODAY, everSessions: 9 }), null, 'the caption does not say it a second time');
+  const week = read('src/components/today/TodayWeek.jsx');
+  assert.match(week, /\{caption \? null : <>\{readout\.note \? ' ' : ''\}<Link className="tm__inline tw__weeks" href="\/progress">Your weeks<\/Link><\/>\}/, '"Your weeks" ends the line');
+});
+
+test('D15: the Road row key is the lead card key and length', () => {
+  const fig = roadFigures({ today: TODAY, plan: {}, goal: 4, taken: 0 });
+  const move = { id: 'dayOne', title: 'Find your starting point', key: { label: 'Start now', minutes: 10, href: '/dashboard?mode=quick&count=10' }, choice: { title: 'Your starting point', value: '10 questions' } };
+  const layers = roadLayers({ today: TODAY, rhythm: { ...RHYTHM, studyDayDates: [], studyDays: 0 }, weekdays: null, revise: null, move, fig, target: 14, taken: 0, firstDay: true });
+  const row = layers.today.items[0];
+  assert.deepEqual(row.key, { label: 'Start now', minutes: 10 });
+  assert.equal(row.detail, '10 questions', 'the minutes are on the key, so the detail says what the session holds');
+  const road = read('src/components/today/TodayRoad.jsx');
+  assert.match(road, /\{i\.id === 'revise' \? 'Start Revise' : i\.key\?\.label \|\| 'Start'\}/);
+  assert.doesNotMatch(road, /'Revise now'/);
+});
+
+// ---- The first-week rail (N1, #7, #4): names on wide screens, a tap says each mark's line, an early tick is explained ----------
+
+import { firstWeekPath, markLine, railCaption, STEP_PROMISE } from '../../src/lib/today/firstWeek.mjs';
+
+const NOW10 = Date.parse('2026-10-18T14:00:00Z');
+const DAY10 = 86400000;
+const pathOn = (day, o = {}) => firstWeekPath({
+  now: NOW10, firstAt: day === 1 ? null : new Date(NOW10 - (day - 1) * DAY10).toISOString(), sessions: day === 1 ? 0 : 1,
+  papers: day === 1 ? [] : [{ id: 'p1', subject: 'accountancy', mode: 'quick', correct: 5, wrong: 4, unattempted: 1, total: 10, completedAt: NOW10 - DAY10 }],
+  repaired: day === 1 ? new Map() : new Map([['p1', 1]]), repairs: day === 1 ? 0 : 1, mocks: 0,
+  revise: null, road: { onAccount: true, examDate: null, mockTarget: null }, weekdays: null,
+  subjects: ['accountancy', 'economics'], facts: { sessions: 1, mocks: 0, subject: 'accountancy' }, firstSubject: 'accountancy', premium: false, length: 10, ...o,
+});
+
+test('first week: the caption says what the next step brings, and a step done before its day is explained', () => {
+  const p1 = pathOn(1);
+  assert.equal(railCaption(p1, true), 'Tomorrow: your first mistakes come back.');
+  const early = pathOn(1, { road: { onAccount: true, examDate: '2027-05-08', mockTarget: null } });
+  const plan = early.steps.find((s) => s.id === 'plan');
+  assert.equal(plan.done, true);
+  assert.equal(plan.early, true, 'done before its day');
+  assert.equal(railCaption(early, true), 'Tomorrow: your first mistakes come back. Day 7 is done already: your plan is set.');
+  for (const id of ['revise', 'aim', 'spread', 'mock', 'lab', 'plan']) assert.match(STEP_PROMISE[id], /^[a-z].*\.$/, id);
+  const move = read('src/components/today/TodayMove.jsx');
+  assert.match(move, /data-early=\{s\.early \|\| undefined\}/);
+  assert.match(css('src/components/today/today.css'), /\.tm__step\[data-early\] \{ background: var\(--a-ink-3\); \}/);
+});
+
+test('first week: a tapped mark says its own line; from 1024 px the marks carry names, not digits', () => {
+  const p = pathOn(3);
+  const spread = p.steps.find((s) => s.id === 'spread');
+  assert.equal(markLine(p, spread, NOW10), 'Day 4: a second subject joins in. Comes up tomorrow.');
+  const mock = p.steps.find((s) => s.id === 'mock');
+  assert.match(markLine(p, mock, NOW10), /^Day 5: your first full mock\. Comes up (Mon|Tue|Wed|Thu|Fri|Sat|Sun)\.$/);
+  const start = p.steps.find((s) => s.id === 'start');
+  assert.equal(markLine(p, start, NOW10), 'Day 1: ten questions find your starting point. Done.');
+  assert.deepEqual(p.steps.map((s) => s.short), ['Start', 'Revise', 'Aim', 'Subject', 'Mock', 'Lab', 'Plan']);
+  const sheet = css('src/components/today/today.css');
+  assert.match(sheet, /@media \(min-width: 1024px\) \{\s*\.app-shell \.tm__rail \{ width: min\(100%, 392px\); \}\s*\.app-shell \.tm__step\[data-day\]::before \{ content: attr\(data-short\);/);
+  assert.match(sheet, /\.tm__step-hit \{[^}]*width: 28px; height: 44px;/);
+});
+
+// ---- Road to CUET (#4, D6): the stops look openable; the goal readout is three plain lines with no disclaimer line -------------
+
+import { goalLines, mockPace } from '../../src/lib/today/road.mjs';
+
+test('Road: the overall goal reads as three lines, the NTA caveat folded into "expected"', () => {
+  const g = { pace: mockPace({ target: 14, taken: 0, days: 196 }), studyDays: 94, goal: 4, own: false, next: { id: 'registration', day: '2027-02-01', when: 'in 15 weeks', title: 'CUET registration is expected to open' } };
+  assert.deepEqual(goalLines({ goal: g, taken: 0 }), [
+    '14 full mocks to go: about one a fortnight.',
+    '94 study days at 4 a week; board-exam weeks ease to 2.',
+    'Next: CUET registration expected Mon 1 Feb, in 15 weeks.',
+  ]);
+  assert.equal(goalLines({ goal: { ...g, goal: 2 }, taken: 0 })[1], '94 study days at 2 a week.', 'no easing to mention at 2 a week');
+  assert.equal(goalLines({ goal: g, taken: null })[0], 'Your full mocks did not load.');
+  const road = read('src/components/today/TodayRoad.jsx');
+  assert.doesNotMatch(road, /NTA has not published|Board weeks count as 2/);
+  assert.match(road, /<ChevronDown className="trd__chev" size=\{14\}/);
+  assert.match(css('src/components/today/today.css'), /\.trd__stop\[aria-pressed='true'\] \.trd__chev \{ transform: rotate\(180deg\);/);
+});
+
+test('Weak chapters: the misses say they open (chevron, no bare "+"); rows after the first get a round Play key up to 600 px', () => {
+  const weak = read('src/components/today/TodayWeak.jsx');
+  assert.doesNotMatch(weak, /<Plus /);
+  assert.match(weak, /<span className="twk__peek">\{missed\} of \{c\.n\} missed<ChevronDown className="twk__plus"/);
+  assert.match(weak, /data-compact=\{i > 0 \|\| undefined\}/);
+  assert.match(weak, /aria-label=\{`Practise \$\{c\.chapter\}`\}/, 'the round key keeps its name');
+  const sheet = css('src/components/today/today.css');
+  assert.match(sheet, /\.twk__open\[aria-expanded='true'\] \.twk__plus \{ transform: rotate\(180deg\); \}/);
+  assert.match(sheet, /@media \(max-width: 600px\) \{[\s\S]*?li\[data-compact\] \.twk__practise \{ position: relative; justify-self: end; width: 40px;[\s\S]*?li\[data-compact\] \.twk__practise::after \{ content: ''; position: absolute; inset: -2px; \}/, 'a 44 px hit area');
+});
+
+test('More ways to practise: rows look pressable (picture, chevron, press) and the intro is bolder', () => {
+  const move = read('src/components/today/TodayMove.jsx');
+  assert.match(move, /lede=\{`Pick what fits \$\{when\}\. Each one opens straight in\.`\}/);
+  assert.match(move, /<AltTile item=\{a\} \/>/);
+  assert.match(move, /<ChevronRight className="tsh__chev" size=\{16\}/);
+  assert.doesNotMatch(move, /Each one, and why it might be your next move/);
+  const sheet = css('src/components/today/today.css');
+  assert.match(sheet, /\.tsh__row \{[^}]*grid-template-columns: 36px minmax\(0, 1fr\) 16px;[^}]*min-height: 64px;/);
+  assert.match(sheet, /\.tsh__row:active \{ background: var\(--a-hover\);/);
+});
+
+import { buildMove } from '../../src/lib/today/move.mjs';
+import { leadOf, stakeOf } from '../../src/lib/today/lead.mjs';
+
+test('copy (#9, D84): the hero never repeats the title, and the stake reads as plain English', () => {
+  const day1 = leadOf(buildMove({ facts: { sessions: 0 }, papers: [], firstSubject: 'accountancy', now: Date.parse('2026-10-18T14:00:00Z') }));
+  assert.equal(day1.title, 'Find your starting point');
+  assert.equal(day1.label, 'questions, marked the CUET way');
+  assert.match(day1.why, /\+5 and −1/, 'the body keeps the marking');
+  assert.deepEqual(stakeOf({ id: 'revise', number: 5 }), { value: 30, word: 'marks lost to them the first time' });
+  for (const p of ['src/lib/today/move.mjs', 'src/lib/today/lead.mjs']) assert.doesNotMatch(read(p), /come back today'|comes back today'|cost you then/);
+});
+
+test('Done for tonight: Mobi cheers once a visit, then stands proud; the week keeps one Mobi on screen', () => {
+  const move = read('src/components/today/TodayMove.jsx');
+  assert.match(move, /if \(move\.id === 'done'\) return <DoneMobi \/>;/);
+  assert.match(move, /act=\{first \? 'cheer' : 'proud'\}/);
+  assert.match(move, /recallNumber\(DONE_CHEER\) == null/);
+  assert.match(read('src/app/(app)/today/page.jsx'), /mobiFree=\{!\(lead\?\.art === 'mobi' \|\| lead\?\.id === 'done'\)/);
+});
+
+test('This week: the strip explains its dashed ring, dot and dash in one quiet line for the first 3 visits', () => {
+  const week = read('src/components/today/TodayWeek.jsx');
+  assert.match(week, /LEGEND_KEY = 'mm:today-week-legend:v1'/);
+  assert.match(week, /missed: 'Dashed: a planned day that passed\.', rest: 'Dot: a rest day\.', before: 'Dash: before your first session\.'/);
+  assert.match(week, /if \(n < 3\) \{ window\.localStorage\.setItem\(LEGEND_KEY, String\(n \+ 1\)\); setShowLegend\(true\); \}/);
+  assert.match(week, /\} catch \{ \/\* no storage/);
+  assert.match(css('src/components/today/today.css'), /\.tw__legend \{[^}]*font-size: 12px;[^}]*color: var\(--a-ink-3\)/);
+});
+
+import { choiceMoves, shortSubject } from '../../src/lib/today/lead.mjs';
+
+test('Another subject: short display names, capped ("Economics and 2 more"), the full list kept for the spoken label', () => {
+  const names = { economics: 'Economics / Business Economics', business_studies: 'Business Studies', english: 'English' };
+  const pool = choiceMoves({ papers: [], subjects: ['accountancy', 'economics', 'business_studies', 'english'], firstSubject: 'accountancy', subjectName: (id) => names[id] || id, now: Date.parse('2026-10-18T14:00:00Z') });
+  const another = pool.find((m) => m.id === 'another');
+  assert.equal(another.choice.value, 'Economics and 2 more');
+  assert.equal(another.choice.full, 'Economics / Business Economics, Business Studies, English');
+  assert.equal(another.label, 'Economics questions');
+  assert.equal(shortSubject('Economics / Business Economics'), 'Economics');
+  assert.match(read('src/components/today/TodayMove.jsx'), /\$\{c\.choice\.full \|\| c\.choice\.value\}/);
+});
+
+test('Change plan: Next is the sheet\'s volt key, at least 48 px, full width up to 600 px', () => {
+  const flow = read('src/components/today/TodayPlanFlow.jsx');
+  assert.match(flow, /<button type="button" className="tm__key tpf__done tpf__next" onClick=\{\(\) => go\(step \+ 1\)\}>Next<\/button>/);
+  assert.doesNotMatch(flow, /className="tm__pill" onClick=\{\(\) => go\(step \+ 1\)\}/);
+  const sheet = css('src/components/today/today.css');
+  assert.match(sheet, /\.tsh \.tpf__done \{[^}]*min-height: 52px;/);
+  assert.match(sheet, /@media \(max-width: 600px\) \{ \.tsh \.tpf__done \{ flex: 1 1 auto; \}/);
+});
+
+test('preview fixture agrees with itself: full mocks counted from its papers, the bar and the leak from one attempt, day one has not sat', () => {
+  const client = read('src/app/preview/arena/ArenaPreviewClient.jsx');
+  assert.match(client, /const mocks = state === 'empty' \? 0 : fixtureSummaryItems\(fixture\)\.filter\(\(p\) => \['full', 'nta'\]\.includes\(p\.mode\)\)\.length;/);
+  assert.match(client, /const wrong = 5 \* correct - m;/, 'marks = 5 x right - wrong');
+  assert.match(client, /unattempted: 50 - correct - wrong/);
+  assert.match(client, /items\[0\] = \{ \.\.\.items\[0\], correct: lab\.correct, wrong: lab\.wrong, unattempted: lab\.unattempted/, 'the newest paper is the attempt the leak reads');
+  assert.match(client, /const mock = fixture\.get\('mock'\) \|\| \(todayNewest \? 'full' : null\);/);
+  assert.match(read('src/app/preview/arena/previewMob.js'), /fixture\.get\('firstweek'\) === '1' \|\| fixture\.get\('data'\) === 'empty' \? 'notsat' : 'ready'/);
+  // Production reads the bar (the summary item) and the leak (loadAttempt of that item's id) from one attempt.
+  assert.match(read('src/components/today/TodayPaper.jsx'), /loadAttempt\(last\.id\)/);
+});
+
+// ---- Release 10, critic round 2: one name per move, and "Done" agrees with Road (D15, #10) ------------------------------------
+
+import { alternatives } from '../../src/lib/today/move.mjs';
+import { leadTitle, pickChoices } from '../../src/lib/today/lead.mjs';
+
+const R2_NOW = Date.parse('2026-10-18T15:26:00Z'); // 8:56 PM IST
+const r2name = (id) => ({ accountancy: 'Accountancy', economics: 'Economics', business_studies: 'Business Studies' }[id] || id);
+const r2paper = (over = {}) => ({ id: 'p9', subject: 'accountancy', mode: 'full', correct: 27, wrong: 4, unattempted: 19, total: 50, completedAt: R2_NOW - DAY10, ...over });
+const r2top = { subject: 'accountancy', chapter: 'Admission of a partner', open: 45, wrong: 6, skip: 3, n: 21, sessions: 4 };
+
+test('D15: every choice cell carries its card title word for word, so the cell tapped is the card that arrives', () => {
+  const pool = choiceMoves({ papers: [r2paper({ mode: 'quick' })], revise: { due: 5, dueTotal: 8 }, facts: { mocks: 0 }, repaired: new Map(), top: r2top, subjectName: r2name, subjects: ['accountancy', 'economics', 'business_studies'], now: R2_NOW });
+  assert.deepEqual(pool.map((m) => m.id), ['repair', 'revise', 'weakest', 'mock', 'another']);
+  for (const m of pool) assert.equal(m.choice.title, leadTitle(m, R2_NOW), `${m.id}: the cell title is the lead title`);
+  assert.deepEqual(pool.map((m) => m.choice.title), ['Repair your last paper', 'Revise what came back', 'Practise your weakest chapter', 'A full mock instead', 'Start with another subject']);
+  assert.equal(pool[1].choice.value, '5 of 8 due today', 'the variable part lives in the value line');
+  for (const id of ['dayOne', 'returning', 'smart', 'practice', 'firstMock']) {
+    const m = leadOf({ id, number: 10, label: 'questions', key: { minutes: 10 }, chapter: id === 'practice' ? 'X' : null }, { now: R2_NOW });
+    assert.equal(m.choice.title, m.title, `${id}: the cell title is the lead title`);
+  }
+  // The More ways sheet says the same names.
+  const alts = alternatives({ move: { id: 'practice', key: { href: '/x' } }, papers: [r2paper()], revise: { due: 5 }, subjectName: r2name });
+  const titles = Object.fromEntries(alts.map((a) => [a.id, a.title]));
+  assert.equal(titles.repair, 'Repair your last paper');
+  assert.equal(titles.revise, 'Revise what came back');
+  assert.equal(titles.mock, 'A full mock instead');
+  assert.equal(titles.another, 'Start with another subject');
+  // Day 6's lab card keeps its own title on its cell too.
+  const lab = pathOn(6, { papers: [r2paper({ completedAt: NOW10 - DAY10 })], repaired: new Map(), mocks: 1 });
+  if (lab?.move?.id === 'repair') assert.equal(lab.move.choice.title, lab.move.title);
+});
+
+test('#10: "Done for tonight" with mistakes still due says so, keys Revise in outline, and Road lists it as extra, 1 of 1 done', () => {
+  const plan = { primary: { kind: 'ordinary_practice', href: '/dashboard?mode=quick&count=10' }, tonight: { state: 'recorded', sessionId: 's1', minutes: 30, completedAt: '2026-10-18T15:26:00Z' } };
+  const input = { plan, papers: [r2paper({ wrong: 0 })], rhythm: { ...RHYTHM, counts: { sessions: 9, repairs: 3 }, daysSinceLastActivity: 0 }, revise: { due: 5 }, facts: { sessions: 9, mocks: 2 }, repaired: new Map(), subjectName: r2name, now: R2_NOW };
+  const done = leadOf(buildMove(input), { now: R2_NOW });
+  assert.equal(done.id, 'done');
+  assert.equal(done.title, 'Done for tonight');
+  assert.equal(done.why, 'Saved at 8:56 PM. 5 mistakes are also due back today: 5\u00a0more minutes keeps them.');
+  assert.deepEqual(done.key, { label: 'Start Revise', href: '/review/revise', minutes: 5 }, 'the Road row key says the same: Start Revise, 5 min');
+  const one = leadOf(buildMove({ ...input, revise: { due: 1 } }), { now: R2_NOW });
+  assert.equal(one.why, 'Saved at 8:56 PM. 1 mistake is also due back today: 5\u00a0more minutes keeps it.');
+  const none = buildMove({ ...input, revise: { due: 0 } });
+  assert.equal(none.key.label, 'Practise more');
+  assert.match(none.why, /^Saved at 8:56 PM\. Tomorrow/);
+  // Revise is on the key, so it is not offered again as a cell.
+  const pool = choiceMoves({ papers: input.papers, revise: { due: 5 }, facts: { mocks: 2 }, top: r2top, subjectName: r2name, subjects: ['accountancy', 'economics'], now: R2_NOW });
+  assert.ok(!pickChoices(done, pool).some((m) => m.id === 'revise'));
+  // Road: the session is done, Revise is extra tonight and not counted.
+  const fig = roadFigures({ today: TODAY, plan: {}, goal: 4, taken: 2 });
+  const layers = roadLayers({ today: TODAY, rhythm: RHYTHM, weekdays: null, revise: { due: 5, answeredToday: 0 }, move: done, fig, target: 14, taken: 2 });
+  assert.equal(layers.today.done, 1);
+  assert.equal(layers.today.total, 1, 'Due today 1 of 1');
+  const rev = layers.today.items.find((i) => i.id === 'revise');
+  assert.equal(rev.extra, true);
+  assert.equal(rev.detail, '0 of 5 questions, extra tonight');
+  assert.equal(rev.minutes, 5);
+  assert.equal(layers.today.left, 'Everything due today is done. 5 Revise questions are extra tonight, about 5 min.');
+  // With any other lead, Revise counts as before.
+  const plain = roadLayers({ today: TODAY, rhythm: RHYTHM, weekdays: null, revise: { due: 5, answeredToday: 0 }, move: null, fig, target: 14, taken: 2 });
+  assert.equal(plain.today.total, 2);
+  const road = read('src/components/today/TodayRoad.jsx');
+  assert.match(road, /data-extra=\{i\.extra \|\| undefined\}/);
+  const move = read('src/components/today/TodayMove.jsx');
+  assert.match(move, /data-outline=\{done \|\| undefined\}/);
+  assert.match(css('src/components/today/today.css'), /\.app-shell \.tm__key\[data-outline\] \{ background: transparent; color: var\(--a-ink\);/);
+});

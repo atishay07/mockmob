@@ -168,13 +168,15 @@ test('day 6: repair what the first mock found, until a Repair is saved on it', (
   assert.equal(firstWeekPath(input({ papers: [paper({ id: 'm1', mode: 'full', wrong: 0 })] })).move, null);
 });
 
-test('day 7: Change plan leads with the weeks to CUET as its number, and a saved plan ends it', () => {
+test('day 7: Change plan leads with its three taps as its number, and a saved plan ends it', () => {
   const p = firstWeekPath(ctx(7, { sessions: 4, mocks: 1 }));
   assert.equal(p.move.id, 'plan');
   assert.equal(p.move.title, 'Plan your weeks to CUET');
   assert.equal(p.move.overline, 'Day 7 of your first week');
-  assert.equal(p.move.number, 27);
-  assert.equal(p.move.label, 'weeks to CUET UG');
+  assert.equal(p.move.number, 3, 'release 10: the three taps, never a second 27 beside Road to CUET');
+  assert.equal(p.move.label, 'taps to plan your 27 weeks');
+  assert.equal(p.move.art, 'mobi');
+  assert.equal(p.move.mobiAct, 'point');
   assert.equal(p.move.key.action, 'plan');
   assert.equal(p.move.key.label, 'Plan my weeks');
   assert.equal(p.move.key.minutes, null);

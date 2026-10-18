@@ -107,7 +107,7 @@ test('move: day one is 10 questions to a starting point with Mobi, never a revie
   const m = buildMove(base({ papers: [], facts: facts({ sessions: 0, mocks: 0 }), rhythm: rhythm({ counts: { sessions: 0, repairs: 0 }, studyDays: 0, milestones: [] }), firstSubject: 'accountancy' }));
   assert.equal(m.id, 'dayOne');
   assert.equal(m.number, 10);
-  assert.equal(m.label, 'questions to your starting point');
+  assert.equal(m.label, 'questions, marked the CUET way', 'release 10: the hero never repeats the title');
   assert.match(m.why, /Ten CUET-style Accountancy questions, marked \+5 and −1/);
   assert.equal(m.art, 'mobi');
   assert.equal(m.pills.second, 'mock');

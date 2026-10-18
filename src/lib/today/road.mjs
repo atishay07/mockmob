@@ -342,30 +342,39 @@ export function roadLayers({ today, rhythm = null, weekdays = null, revise = nul
     items.push({
       id: 'session',
       title: sessionDone ? 'Study session' : named ? named.title : 'A study session',
-      detail: sessionDone ? 'Saved today' : minutes ? `about ${minutes} min` : 'any length counts',
+      // The row's key repeats the card's own key and length (release 10, D15), so the detail says what the session holds instead.
+      detail: sessionDone ? 'Saved today' : named?.choice?.value || (minutes ? `about ${minutes} min` : 'any length counts'),
       done: sessionDone,
       href: sessionDone ? null : named?.key?.href || '/dashboard',
+      key: sessionDone || !named?.key?.label ? null : { label: named.key.label, minutes },
     });
   }
   const asked = Number.isInteger(revise?.answeredToday) ? revise.answeredToday : 0;
   const leftRevise = Number.isInteger(revise?.due) ? revise.due : null;
+  // Once tonight's session is saved the lead says "Done" (release 10, #10): Revise still due is then extra tonight, listed with its key
+  // but never counted against Due today, so the stop reads "1 of 1 done" beside a card that says done.
+  const when = /today$/.test(move?.label || '') ? 'today' : 'tonight';
+  const extraRevise = move?.id === 'done' && leftRevise > 0;
   if (leftRevise != null && asked + leftRevise > 0) {
-    items.push({ id: 'revise', title: 'Revise', detail: `${asked} of ${asked + leftRevise} questions`, done: leftRevise === 0, href: leftRevise > 0 ? '/review/revise' : null, minutes: leftRevise > 0 ? Math.max(5, Math.ceil(leftRevise / 5) * 5) : null });
+    items.push({ id: 'revise', title: 'Revise', detail: `${asked} of ${asked + leftRevise} questions${extraRevise ? `, extra ${when}` : ''}`, done: leftRevise === 0, extra: extraRevise || undefined, href: leftRevise > 0 ? '/review/revise' : null, minutes: leftRevise > 0 ? Math.max(5, Math.ceil(leftRevise / 5) * 5) : null });
   }
   const reviseUnknown = leftRevise == null && (reviseState === 'failed' || reviseState === 'loading');
   const unknown = reviseUnknown ? [{ id: 'revise', title: 'Revise', detail: reviseState === 'failed' ? 'Did not load' : 'Loading' }] : [];
   const unknownLine = reviseState === 'failed' ? 'Revise did not load, so it is not counted.' : 'Checking Revise.';
-  const open = items.filter((i) => !i.done);
+  const owed = items.filter((i) => !i.extra);
+  const open = owed.filter((i) => !i.done);
+  const extra = items.find((i) => i.extra);
+  const extraLine = extra ? ` ${leftRevise} Revise ${leftRevise === 1 ? 'question is' : 'questions are'} extra ${when}, about ${extra.minutes} min.` : '';
   const todayLayer = {
     unknown,
-    done: items.length - open.length,
-    total: items.length,
+    done: owed.length - open.length,
+    total: owed.length,
     items,
     rest: !items.length && !reviseUnknown,
     left: reviseUnknown && !open.length ? (items.length ? `Done so far. ${unknownLine}` : unknownLine)
       : !items.length
       ? (plan ? 'A rest day in your plan. Anything you practise still counts.' : 'Nothing is due today. Anything you practise counts.')
-      : !open.length ? 'Everything due today is done.'
+      : !open.length ? `Everything due today is done.${extraLine}`
         : `Left: ${open.map((i) => (i.id === 'revise' ? `${leftRevise} Revise ${leftRevise === 1 ? 'question' : 'questions'}` : `${i.title.charAt(0).toLowerCase()}${i.title.slice(1)}${i.detail.startsWith('about') ? `, ${i.detail}` : ''}`)).join(', and ')}.`,
   };
 
@@ -409,4 +418,32 @@ export function roadLayers({ today, rhythm = null, weekdays = null, revise = nul
     next: fig.phase === 'window' ? null : nextMilestone({ today, exam: fig.exam, own: fig.own, goal }),
   };
   return { today: todayLayer, week: weekLayer, goal: goalLayer };
+}
+
+const NEXT_WORDS = { registration: 'CUET registration expected', boards: 'Board exams expected to begin', 'boards-end': 'Board exams expected to end' };
+
+/**
+ * The overall goal's readout in three plain lines (release 10, owner D6: no clutter, no standalone disclaimer; the caveat lives in
+ * the word "expected"). `goal` is roadLayers' goal layer; `taken` the full mocks on the record (null when unread).
+ *   "14 full mocks to go: about one a fortnight."
+ *   "94 study days at 4 a week; board-exam weeks ease to 2."
+ *   "Next: CUET registration expected Mon 1 Feb, in 15 weeks."
+ */
+export function goalLines({ goal: g, taken = null }) {
+  if (!g) return [];
+  const out = [];
+  const p = g.pace;
+  if (taken == null) out.push('Your full mocks did not load.');
+  else if (p) {
+    const mocks = (n) => `${n} full ${n === 1 ? 'mock' : 'mocks'}`;
+    if (p.left === 0) out.push(`${mocks(taken)} taken: target reached. Every extra paper is more practice.`);
+    else if (p.strong) out.push(`${mocks(p.left)} to go: ${p.strong.replace(/ gets you there\.$/, '')}.`);
+    else out.push(`${mocks(p.left)} to go${p.text.replace(/^\d+ to go/, '').replace(/\.$/, '')}.`);
+  }
+  if (g.studyDays != null && g.goal) out.push(`${g.studyDays} study ${g.studyDays === 1 ? 'day' : 'days'} at ${g.goal} a week${g.goal > BOARD_WEEK_SESSIONS ? `; board-exam weeks ease to ${BOARD_WEEK_SESSIONS}` : ''}.`);
+  if (g.next) {
+    const what = g.next.id === 'exam' ? (g.own ? 'your exam' : 'CUET UG expected to begin') : NEXT_WORDS[g.next.id] || g.next.title;
+    out.push(`Next: ${what} ${weekdayDay(g.next.day)}, ${g.next.when}.`);
+  }
+  return out;
 }

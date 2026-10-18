@@ -9,14 +9,15 @@
 //   pick is on the card the recommended move waits in the footer, marked Suggested;
 //   "More ways to practise" opens every other way in (the R3 Something else sheet).
 // The key is the viewport's one volt (data-page-primary steps the shell's Start key back to an outline).
-import { useContext, useState, useSyncExternalStore } from 'react';
+import { useContext, useEffect, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
-import { ChevronsUpDown, RotateCcw, Check, Flag } from 'lucide-react';
+import { ChevronsUpDown, RotateCcw, Check, Repeat2, ChevronRight, Timer, Layers, ListChecks, MonitorCheck, Users, NotebookText, Brain, RefreshCw } from 'lucide-react';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import MobiReact from '@/components/brand/MobiReact';
 import { useCountUpState } from '@/lib/motion/useCountUp';
+import { recallNumber, rememberNumber } from '@/lib/motion/numberMemory';
 import { keepTogether } from '@/lib/today/move.mjs';
-import { pathLeads, railCaption, railLine } from '@/lib/today/firstWeek.mjs';
+import { markLine, pathLeads, railCaption, railLine } from '@/lib/today/firstWeek.mjs';
 import TodaySheet from './TodaySheet';
 import { AuthContext } from '@/components/AuthProvider';
 import { useWalletSummary } from '@/components/useWalletSummary';
@@ -41,9 +42,19 @@ function RepairPrice({ each }) {
   return <p className="tm__price">{usesLine({ what: 'Each repair', cost: each, pool: 'ai', balance: wallet.wallet?.known ? wallet.wallet.total : null })}</p>;
 }
 
+// "Done for tonight" is the day's best moment, so Mobi cheers once a visit (the number memory the count-up uses), then stands proud
+// on a return (release 10, owner D45, D48: Mobi reacting, in every scene).
+const DONE_CHEER = 'today-done-cheer';
+function DoneMobi() {
+  const [first] = useState(() => recallNumber(DONE_CHEER) == null);
+  useEffect(() => { rememberNumber(DONE_CHEER, 1); }, []);
+  return <span className="tm__art tm__art--mobi" aria-hidden="true"><MobiReact act={first ? 'cheer' : 'proud'} size={96} /></span>;
+}
+
 function Art({ move, failed }) {
   if (failed) return <span className="tm__art tm__art--mobi" aria-hidden="true"><MobiReact act="oops" size={96} /></span>;
   if (!move) return null;
+  if (move.id === 'done') return <DoneMobi />;
   if (move.art === 'mobi') return <span className="tm__art tm__art--mobi" aria-hidden="true"><MobiReact act={move.mobiAct || 'hello'} size={96} /></span>;
   // Revise: the objects of the subjects whose questions come back today, most first (one, or a small stack of up to three).
   if (move.id === 'revise' && move.subjects?.length) {
@@ -56,18 +67,29 @@ function Art({ move, failed }) {
   // The subject's object is alive here (the brand's ObjectLife: a slow breath and a lean toward the pointer), the page's
   // one living object; reduced motion keeps the still picture.
   if (move.subject) return <span className="tm__art" key={move.subject} aria-hidden="true"><SubjectObject id={move.subject} size={112} lit life framed={false} /></span>;
-  return <span className="tm__glyph" aria-hidden="true">{move.id === 'done' ? <Check size={36} strokeWidth={1.5} /> : move.id === 'plan' ? <Flag size={34} strokeWidth={1.5} /> : <RotateCcw size={34} strokeWidth={1.5} />}</span>;
+  return <span className="tm__glyph" aria-hidden="true">{move.id === 'done' ? <Check size={36} strokeWidth={1.5} /> : <RotateCcw size={34} strokeWidth={1.5} />}</span>;
 }
 
-function SomethingElse({ open, onClose, items }) {
+// Each way in carries its own picture (release 10, F5: rows that look pressable): the paper's subject object for a repair, else the
+// app's icon for the mode (one lucide family, as Glyph's APP_ICONS), and a chevron that says the row opens.
+const ALT_ICONS = { quick: Timer, another: Layers, mock: ListChecks, nta: MonitorCheck, mob: Users, review: NotebookText, revise: Brain, repair: RefreshCw };
+
+function AltTile({ item }) {
+  if (item.subject) return <span className="tsh__tile tsh__tile--obj" aria-hidden="true"><SubjectObject id={item.subject} size={36} life={false} framed={false} /></span>;
+  const Icon = ALT_ICONS[item.id] || Layers;
+  return <span className="tsh__tile" aria-hidden="true"><Icon size={18} strokeWidth={1.75} /></span>;
+}
+
+function SomethingElse({ open, onClose, items, when = 'tonight' }) {
   return (
-    <TodaySheet open={open} onClose={onClose} id="tm-else" title="More ways to practise" lede="Each one, and why it might be your next move.">
+    <TodaySheet open={open} onClose={onClose} id="tm-else" title="More ways to practise" lede={`Pick what fits ${when}. Each one opens straight in.`}>
       <ul className="tsh__list">
         {items.map((a) => (
           <li key={a.id}>
             <Link className="tsh__row" href={a.href} onClick={onClose}>
-              <b>{a.title}</b>
-              <span>{a.reason}</span>
+              <AltTile item={a} />
+              <span className="tsh__row-t"><b>{a.title}</b><span>{a.reason}</span></span>
+              <ChevronRight className="tsh__chev" size={16} strokeWidth={2} aria-hidden="true" />
             </Link>
           </li>
         ))}
@@ -76,6 +98,16 @@ function SomethingElse({ open, onClose, items }) {
   );
 }
 
+// The swap coach (release 10, owner D90: a first-time student "won't know what cards actually do"; Tinder's first run shows the gesture
+// on one card). Until the student has swapped once, at most 3 visits, 1.2 s after the card lands ONE cell is coached: the Suggested
+// cell, else the right one. A ring inset 6 px from its edges draws in and its title lifts 8 px and springs back, twice; for that
+// visit the line above says what a tap does ("Tap one to swap it in as your move"). No outline on the cells, so nothing reads as a box
+// cut off inside the card.
+export const SWAP_HINT_KEY = 'mm:today-swap-hint:v1';
+const hintVisits = () => { try { const v = window.localStorage.getItem(SWAP_HINT_KEY); return v === 'done' ? Infinity : Number(v) || 0; } catch { return Infinity; } };
+const countHint = (n) => { try { window.localStorage.setItem(SWAP_HINT_KEY, String(n)); } catch { /* this visit only */ } };
+export const swapLearned = () => { try { window.localStorage.setItem(SWAP_HINT_KEY, 'done'); } catch { /* it may nudge again */ } };
+
 const say = (s, current) => (s === 'saving' ? 'Saving…' : s === 'saved' ? 'Saved.' : s === 'local' ? 'Kept on this device for today.' : s === 'failed' ? `Not saved, so it stays at ${current} minutes.` : '');
 
 /**
@@ -83,10 +115,30 @@ const say = (s, current) => (s === 'saving' ? 'Saving…' : s === 'saved' ? 'Sav
  * `choices`: the two other moves (pickChoices). `picked`: the lead is the student's pick. `out`: the swap is fading out.
  * `lengths`: [{ n, line }] when a length changes the move, else null. `chosen`: the chosen length.
  */
-export default function TodayMove({ phase, lead, choices = [], picked = false, out = false, onPick, lengths = null, chosen = null, onChoose, saving = '', alternatives = [], word = 'Tonight’s move', slow = false, triedAt = '', onRetry, askContext = null, path = null, onPlan }) {
+export default function TodayMove({ phase, lead, choices = [], picked = false, out = false, swapDir = 'r', enter = null, onPick, lengths = null, chosen = null, onChoose, saving = '', alternatives = [], word = 'Tonight’s move', slow = false, triedAt = '', onRetry, askContext = null, path = null, onPlan }) {
   const online = useSyncExternalStore(subscribeOnline, onlineNow, () => true);
   const [sheet, setSheet] = useState(false);
   const [lenOpen, setLenOpen] = useState(false);
+  const [hint, setHint] = useState(false); // the coached cell is moving now
+  const [coach, setCoach] = useState(false); // this visit coaches the swap: the line says what a tap does
+  const [lean, setLean] = useState(null); // desktop: the cell under the pointer ('l' or 'r'); the title leans 12 px toward it
+  const [mark, setMark] = useState(null); // the rail's tapped mark (its day), or null for the caption
+  const hasChoices = phase === 'ready' && choices.length > 0;
+  // The one cell the coach points at: the Suggested one, else the right one.
+  const coached = choices.findIndex((c) => c.suggested) >= 0 ? choices.findIndex((c) => c.suggested) : choices.length - 1;
+  useEffect(() => {
+    if (!hasChoices) return undefined;
+    const seen = hintVisits();
+    if (seen >= 3) return undefined;
+    let off = 0;
+    const t = window.setTimeout(() => {
+      countHint(seen + 1);
+      setCoach(true);
+      setHint(true);
+      off = window.setTimeout(() => setHint(false), 1000);
+    }, 1200);
+    return () => { window.clearTimeout(t); window.clearTimeout(off); };
+  }, [hasChoices]);
 
   if (phase === 'loading') {
     return (
@@ -132,26 +184,31 @@ export default function TodayMove({ phase, lead, choices = [], picked = false, o
   // the card's footer beside More ways to practise, so the two never read as one phrase ("See all 6 Why this?"); a link to the record
   // page is "Why this?" itself.
   const moved = Boolean(askContext && m.link && !m.link.href.startsWith('/mentor'));
+  // "Done" keeps its key an outline (one more session is extra, never owed) and shows no length beside its minutes practised.
+  const done = m.id === 'done';
   const price = m.aiEach && m.open > 0 ? <RepairPrice each={m.aiEach} /> : m.priceLine ? <p className="tm__price">{m.priceLine}</p> : m.free ? <p className="tm__price">Free. No credits.</p> : null;
 
   return (
     <section className="tm" data-move={m.id} aria-labelledby="tm-title">
       <h2 id="tm-title" className="sr-only">{heading}</h2>
       {path?.day ? <p className="sr-only">{railLine(path)}{caption && !week ? ` ${caption}` : ''}</p> : null}
-      <div className="tm__body" data-out={out || undefined} aria-live="polite">
+      <div className="tm__body" data-out={out || undefined} data-dir={swapDir} data-in={enter || undefined} data-lean={lean || undefined} aria-live="polite">
         <div className="tm__top" aria-hidden="true">
           <div className="tm__head">
             <p className="tm__over">{picked ? <>Up next, <b>your pick</b></> : over}{subject && !week ? `, ${subject}` : ''}</p>
             {path?.day ? (
               <>
+                {/* Release 10 (N1, #7): from 1024 px each mark is named (Start, Revise, Aim...); on a phone each mark is a tap target
+                    (28 x 44) that says its own line in place of the caption. The words reach a screen reader once, in the line above. */}
                 <ol className="tm__rail">
                   {path.steps.map((s, i) => (
-                    <li key={s.id} className="tm__step" data-state={s.state} data-day={s.day} style={{ '--i': i }}>
+                    <li key={s.id} className="tm__step" data-state={s.state} data-day={s.day} data-short={s.short} data-early={s.early || undefined} data-picked={mark === s.day || undefined} style={{ '--i': i }}>
                       {s.state === 'done' ? <svg viewBox="0 0 24 24" focusable="false"><path d="M6.5 12.5l3.6 3.6 7.4-8.2" pathLength="1" /></svg> : null}
+                      <button type="button" className="tm__step-hit" tabIndex={-1} onClick={() => setMark((d) => (d === s.day ? null : s.day))} />
                     </li>
                   ))}
                 </ol>
-                {caption ? <p className="tm__path">{caption}</p> : null}
+                {caption || mark ? <p className="tm__path" key={mark || 'caption'}>{mark ? markLine(path, path.steps.find((s) => s.day === mark)) : caption}</p> : null}
               </>
             ) : null}
             <p className="tm__title">{m.title}</p>
@@ -161,14 +218,14 @@ export default function TodayMove({ phase, lead, choices = [], picked = false, o
         {m.number != null ? (
           <p className="tm__figure" aria-hidden="true"><BigNumber value={m.number} /><span className="tm__label">{m.label}</span></p>
         ) : null}
-        {m.stake || minutes ? (
+        {m.stake || (minutes && !done) ? (
           <div className="tm__value">
             {m.stake ? <span><b>{m.stake.value}</b> {m.stake.word}</span> : null}
             {minutes && lengths ? (
               <button type="button" className="tm__token" aria-expanded={lenOpen} aria-controls="tm-lengths" onClick={() => setLenOpen((v) => !v)}>
                 about {minutes} min<ChevronsUpDown size={15} strokeWidth={1.75} aria-hidden="true" />
               </button>
-            ) : minutes ? <span>about <b>{minutes}</b> min</span> : null}
+            ) : minutes && !done ? <span>about <b>{minutes}</b> min</span> : null}
           </div>
         ) : null}
         {lengths ? (
@@ -195,14 +252,21 @@ export default function TodayMove({ phase, lead, choices = [], picked = false, o
         ) : offline ? (
           <span className="tm__key" aria-disabled="true" role="link">{m.key.label}{minutes ? <span className="tm__key-len">{minutes} min</span> : null}</span>
         ) : (
-          <Link className="tm__key" data-page-primary href={m.key.href}>{m.key.label}{minutes ? <span className="tm__key-len">{minutes} min</span> : null}</Link>
+          <Link className="tm__key" data-page-primary data-outline={done || undefined} href={m.key.href}>{m.key.label}{minutes ? <span className="tm__key-len">{minutes} min</span> : null}</Link>
         )}
         {price}
       </div>
       {choices.length ? (
-        <div className="tm__or" role="group" aria-label="Or do this instead">
-          {choices.map((c) => (
-            <button key={c.id} type="button" className="tm__choice" onClick={() => onPick?.(c.id)} aria-label={`${c.suggested ? 'Suggested. ' : ''}${c.choice.title}: ${c.choice.value}. Show it in Up next.`}>
+        <div className="tm__or" role="group" aria-labelledby="tm-or-h" data-hint={hint || undefined}>
+          <p className="tm__or-h" id="tm-or-h" key={coach ? 'coach' : 'plain'}>{coach ? 'Tap one to swap it in as your move' : 'Or make one of these your move'}</p>
+          {choices.map((c, i) => (
+            <button
+              key={c.id} type="button" className="tm__choice" data-arrived={c.arrived || undefined} data-coach={i === coached || undefined}
+              onClick={() => { setLean(null); onPick?.(c.id, i); }}
+              onPointerEnter={(e) => { if (e.pointerType === 'mouse') setLean(i === 0 ? 'l' : 'r'); }} onPointerLeave={() => setLean(null)}
+              aria-label={`${c.suggested ? 'Suggested. ' : ''}${c.choice.title}: ${c.choice.full || c.choice.value}. Make it your move.`}
+            >
+              <Repeat2 className="tm__choice-i" size={16} strokeWidth={1.75} aria-hidden="true" />
               {c.suggested ? <span className="tm__choice-s">Suggested</span> : null}
               <span className="tm__choice-t">{c.choice.title}</span>
               <span className="tm__choice-v">{c.choice.value}</span>
@@ -216,7 +280,7 @@ export default function TodayMove({ phase, lead, choices = [], picked = false, o
           {alternatives.length ? <button type="button" aria-haspopup="dialog" onClick={() => setSheet(true)}>More ways to practise</button> : null}
         </div>
       ) : null}
-      <SomethingElse open={sheet} onClose={() => setSheet(false)} items={alternatives} />
+      <SomethingElse open={sheet} onClose={() => setSheet(false)} items={alternatives} when={word.startsWith('Tonight') ? 'tonight' : 'today'} />
     </section>
   );
 }
