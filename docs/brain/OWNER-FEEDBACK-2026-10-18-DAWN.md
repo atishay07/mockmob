@@ -260,3 +260,8 @@ His message was the pasted next-session prompt (resume from 25ef3d95, follow NOW
 - **D66** The Mob: fully built, switched ON, everything tested, on the website and in the app.
 - **D67** Ship together: the final v15 with every fix from his v15 phone feedback, the Mob fully working, and the website with all his feedback.
 - **D68** Deadline: within 1 to 2 hours of about 4 pm (so by about 5-6 pm).
+
+## Owner, 18 Oct about 4:10 pm IST (verbatim)
+> "Also, I gotta go right now. I'll be back in an hour or two. So until then, don't stop for anything that you need from me or for any question. Take decisions yourself, acting as the CEO and CTO."
+
+**Ledger D69:** full autonomy until he is back (about 5:10-6:10 pm): never block on a question; decide as CEO/CTO and record each decision for him. His 4 pm instruction ("all this should now be shipped") is the go-ahead to ship R9 (the Mob on, credits per question, his website feedback) once its suites and an independent verifier pass, with production migrations under his standing grant.
