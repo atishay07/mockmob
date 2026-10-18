@@ -38,6 +38,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/art/art.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
+import '../../../core/router/quick_start.dart' show keepUnitsTogether;
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy_glance.dart';
@@ -1701,7 +1702,7 @@ class _DeckCard extends StatelessWidget {
           ],
           if (card.cost != null)
             Text(
-              card.cost!,
+              keepUnitsTogether(card.cost!),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: type.caption.copyWith(fontSize: 14, height: 20 / 14, color: colors.ink3),
