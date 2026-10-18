@@ -12,8 +12,8 @@ import 'package:mockmob/core/widgets/brand/brand_opening.dart';
 import 'package:mockmob/core/widgets/brand/first_launch_opening.dart';
 
 /// M-001 (owner, 18 Oct): the brand opening plays its whole 3 second version once, on the first
-/// launch after install; every launch after it is the short one (about 1.3 s). Reduced motion is
-/// the same short fade either way. These tests cover the flag, the timeline's extension and the
+/// launch after install; every launch after it is the short one (about 1.3 s). Under reduced
+/// motion the first launch holds the static logo for the same 3 s. These tests cover the flag, the timeline's extension and the
 /// host that ties them together.
 
 class _QuietHaptics implements HapticDriver {
@@ -227,12 +227,33 @@ void main() {
       expect(find.text('First screen'), findsOneWidget);
     });
 
-    testWidgets('reduced motion: the same short fade on the first launch', (tester) async {
+    testWidgets('reduced motion: the static word is held for the whole 3 s on the first launch', (tester) async {
       final prefs = await _pump(tester, firstLaunch: true, reduced: true);
-      final goneAt = await _goneAt(tester);
-      expect(goneAt, lessThan(700), reason: 'a fade, not 3 s');
+      // Nothing is gone before the hold ends, and the hand-off ends with the 3 s.
+      for (var ms = 16; ms < 2600; ms += 16) {
+        await tester.pump(const Duration(milliseconds: 16));
+      }
+      expect(find.byType(BrandOpening), findsOneWidget, reason: 'still holding the logo at 2.6 s');
+      final goneAt = await _goneAt(tester, limit: 1000);
+      expect(goneAt, isNot(-1));
+      expect(2608 + goneAt, inInclusiveRange(2900, 3200), reason: 'about 3 s in all');
       await tester.pump();
-      expect(await prefs.coldOpenSeen(), isTrue, reason: 'it still counts as the first opening played');
+      expect(await prefs.coldOpenSeen(), isTrue);
+    });
+
+    testWidgets('reduced motion: a tap anywhere skips the held logo', (tester) async {
+      await _pump(tester, firstLaunch: true, reduced: true);
+      await tester.pump(const Duration(milliseconds: 600));
+      expect(find.byType(BrandOpening), findsOneWidget);
+      await tester.tapAt(const Offset(40, 60));
+      final goneAt = await _goneAt(tester, limit: 1000);
+      expect(goneAt, inInclusiveRange(1, 400), reason: 'a short fade after the tap');
+    });
+
+    testWidgets('reduced motion on a later launch stays the short fade', (tester) async {
+      await _pump(tester, firstLaunch: false, reduced: true);
+      final goneAt = await _goneAt(tester);
+      expect(goneAt, lessThan(700));
     });
   });
 }
