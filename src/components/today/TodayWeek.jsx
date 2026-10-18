@@ -1,9 +1,10 @@
 "use client";
 // This week on Today (TODAY-1018 section 6.3, R3's block made tappable). "3 of 4 study days", seven day buttons and one
 // readout under them that swaps in place: a tapped day says what was saved that day (the papers and repairs the page
-// already read) or what is planned; today says what is up next, live with the lead card. One indicator slides between
+// already read) or what is planned; today says what it holds. One indicator slides between
 // the days (240 ms, the N5 lesson), not seven boxes switching. The caption ties the week to tonight; its "Your weeks"
-// opens Progress. The week-goal Mobi cheer (once per week on this device, only when no other Mobi is on screen) and the
+// opens Progress. Today's readout says what the day holds, never the lead again (release 10, D15); once today is counted it
+// carries the week's one line itself ("Counted at 7:41 PM. 1 more study day meets your 4."). The week-goal Mobi cheer (once per week on this device, only when no other Mobi is on screen) and the
 // weekly repair receipt stay from R3.
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
@@ -32,10 +33,9 @@ function Day({ m, i, selected, onSelect }) {
 
 /**
  * `rhythm`, `goal`: the reads ({ status, data }). `everSessions`: saved sessions (0 = day one). `mobiFree`: no other
- * Mobi is on screen. `mob`: the Mob state. `papers`, `repairs`: what was saved, for the day readout. `lead`: the move on
- * the card now (today's readout follows it). `failed`: the move did not load.
+ * Mobi is on screen. `mob`: the Mob state. `papers`, `repairs`: what was saved, for the day readout. `failed`: the move did not load.
  */
-export default function TodayWeek({ rhythm, goal, everSessions = null, mobiFree = true, mob = null, repairs = null, papers = null, lead = null, failed = false, subjectName = (id) => id, onRetry, hold = false }) {
+export default function TodayWeek({ rhythm, goal, everSessions = null, mobiFree = true, mob = null, repairs = null, papers = null, failed = false, subjectName = (id) => id, onRetry, hold = false }) {
   const r = rhythm.data;
   const tz = r?.timeZone || 'Asia/Kolkata';
   const today = useMemo(() => (r ? todayKeyIn(tz) : null), [r, tz]);
@@ -55,7 +55,7 @@ export default function TodayWeek({ rhythm, goal, everSessions = null, mobiFree 
   const dayKey = useMemo(() => (at) => todayKeyIn(tz, typeof at === 'number' ? at : Date.parse(at)), [tz]);
   const readout = marks[sel] ? dayReadout({
     mark: marks[sel], index: sel, papers: papers?.status === 'ready' ? papers.data : [], repairs: repairs || [], dayKey, clockOf: (at) => clockIn(at, tz),
-    subjectName, move: lead, failed, goal: r?.daysGoal || null, today,
+    subjectName, failed, goal: r?.daysGoal || null, done: Number.isInteger(r?.studyDays) ? r.studyDays : null, met: Boolean(r?.metThisWeek), today,
   }) : null;
 
   // The cheer: decided once when the week arrives, remembered once it has been shown.
@@ -111,15 +111,18 @@ export default function TodayWeek({ rhythm, goal, everSessions = null, mobiFree 
         <div className="tw__readout" key={swapKey} data-swap={swapKey > 0 || undefined} aria-live="polite">
           <h3>{readout.title}</h3>
           {readout.lines.length ? <ul>{readout.lines.map((l) => <li key={`${l.text}${l.at}`}><span>{l.text}</span><time>{l.at}</time></li>)}</ul> : null}
-          {readout.note ? <p>{readout.note}</p> : null}
+          {/* With no caption (today counted, the goal not met yet), the readout carries the week's one line and "Your weeks" at its end. */}
+          {readout.note || !caption ? <p>{readout.note}{caption ? null : <>{readout.note ? ' ' : ''}<Link className="tm__inline tw__weeks" href="/progress">Your weeks</Link></>}</p> : null}
         </div>
       ) : null}
-      <div className="tw__foot">
-        {moment ? <span className="tw__mobi" aria-hidden="true"><MobiReact key={moment.key} act={moment.act} size={52} /></span> : null}
-        <p className="tw__caption">
-          {moment?.mob ? <>{moment.mob} </> : null}{caption.text} <b>{caption.strong}</b> <Link className="tm__inline tw__weeks" href="/progress">Your weeks</Link>
-        </p>
-      </div>
+      {caption || moment ? (
+        <div className="tw__foot">
+          {moment ? <span className="tw__mobi" aria-hidden="true"><MobiReact key={moment.key} act={moment.act} size={52} /></span> : null}
+          <p className="tw__caption">
+            {moment?.mob ? <>{moment.mob} </> : null}{caption ? <>{caption.text} <b>{caption.strong}</b> <Link className="tm__inline tw__weeks" href="/progress">Your weeks</Link></> : null}
+          </p>
+        </div>
+      ) : null}
       {receipt ? <p className="tw__receipt">{receipt.text} <b>{keepTogether(receipt.strong)}</b></p> : null}
     </section>
   );

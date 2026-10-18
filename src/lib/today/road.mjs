@@ -342,9 +342,11 @@ export function roadLayers({ today, rhythm = null, weekdays = null, revise = nul
     items.push({
       id: 'session',
       title: sessionDone ? 'Study session' : named ? named.title : 'A study session',
-      detail: sessionDone ? 'Saved today' : minutes ? `about ${minutes} min` : 'any length counts',
+      // The row's key repeats the card's own key and length (release 10, D15), so the detail says what the session holds instead.
+      detail: sessionDone ? 'Saved today' : named?.choice?.value || (minutes ? `about ${minutes} min` : 'any length counts'),
       done: sessionDone,
       href: sessionDone ? null : named?.key?.href || '/dashboard',
+      key: sessionDone || !named?.key?.label ? null : { label: named.key.label, minutes },
     });
   }
   const asked = Number.isInteger(revise?.answeredToday) ? revise.answeredToday : 0;

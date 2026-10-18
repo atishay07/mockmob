@@ -217,7 +217,8 @@ export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, l
               <li key={i.id} data-done={i.done || undefined}>
                 <span className="trd__mark" aria-hidden="true">{i.done ? <Check size={13} strokeWidth={2.6} /> : null}</span>
                 <span className="trd__item-t"><b>{i.title}</b><span>{i.done ? (i.id === 'revise' ? `${i.detail}, done` : i.detail) : i.detail}</span></span>
-                {!i.done && i.href ? <Link className="tm__pill trd__go" href={i.href}>{i.id === 'revise' ? 'Revise now' : 'Start'}</Link> : null}
+                {/* One label per action (release 10, D15): the row's key is the lead card's own key and length ("Start Revise 5 min"). */}
+                {!i.done && i.href ? <Link className="tm__pill trd__go" href={i.href}>{i.id === 'revise' ? 'Start Revise' : i.key?.label || 'Start'}{(i.id === 'revise' ? i.minutes : i.key?.minutes) ? <span className="trd__go-len">{i.id === 'revise' ? i.minutes : i.key.minutes} min</span> : null}</Link> : null}
               </li>
             ))}
             {day.unknown.map((i) => (

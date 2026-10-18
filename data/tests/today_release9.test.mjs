@@ -112,7 +112,7 @@ test('D27: the tapped Road stop is an ink underline, not a raised tile inside th
 test('D27: "Today already counts toward your week" is This week\'s line only', () => {
   const road = read('src/components/today/TodayRoad.jsx').replace(/\{\/\*[\s\S]*?\*\/\}/g, '');
   assert.doesNotMatch(road, /already counts/, 'Road to CUET no longer repeats it');
-  assert.match(read('src/lib/today/week.mjs'), /Today already counts/, 'This week still says it');
+  assert.match(read('src/lib/today/week.mjs'), /Counted at \$\{first\}\./, 'This week says it once, as "Counted at" (release 10)');
   assert.match(road, /i\.id === 'session' && i\.done\) \? day\.left/, 'the road says what is left today instead');
 });
 

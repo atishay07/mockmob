@@ -92,7 +92,7 @@ test('week: a tapped day reads what was saved, today reads the lead, a planned d
   assert.deepEqual(thu.lines, [{ text: 'Economics practice, 15 questions, 41 of 75', at: '6:20 PM' }]);
   const sun = dayReadout({ mark: marks[6], index: 6, papers: [], repairs: [], dayKey: key, clockOf: clk, move: { id: 'weakest', title: 'Practise your weakest chapter', key: { minutes: 15 } }, today: TODAY, goal: 4 });
   assert.equal(sun.title, 'Today, Sunday 18 Oct, planned');
-  assert.equal(sun.note, 'Up next: practise your weakest chapter, about 15 minutes.');
+  assert.equal(sun.note, 'Nothing saved yet today.', 'release 10: the lead card says what is next; the readout says what the day holds');
   const wed = dayReadout({ mark: marks[2], index: 2, papers: [], repairs: [], dayKey: key, today: TODAY, goal: 4 });
   assert.equal(wed.note, 'No session saved that day. The week still counts any 4 days.');
   const tue = dayReadout({ mark: marks[1], index: 1, papers: [], repairs: [], dayKey: key, today: TODAY, goal: 4 });

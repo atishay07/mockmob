@@ -358,6 +358,7 @@ html[data-theme='light'] .app-shell .tw__day[data-state='counted'] .tw__dot { bo
 .app-shell .trd__item-t b { font: 600 14.5px/1.3 var(--font-body); color: var(--a-ink); }
 .app-shell .trd__item-t span { font-size: 13px; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
 .app-shell .today .trd__go { min-height: 44px; padding: 0 14px; font-size: 14px; }
+.app-shell .trd__go-len { font-weight: 500; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
 .app-shell .trd__items li[data-unknown] .trd__mark { color: var(--a-ink-3); font: 600 12px/1 var(--font-body); }
 .app-shell .trd__note { margin: 6px 0 0; font-size: 14px; line-height: 1.5; color: var(--a-ink-2); }
 .app-shell .trd__note b { color: var(--a-ink); font-weight: 600; }

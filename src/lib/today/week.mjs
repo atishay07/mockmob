@@ -82,8 +82,8 @@ export function weekCaption({ rhythm, marks, today, everSessions = null, pausedU
     if (done + 1 === goal) return { text: `${dayList(countedNames)} counted.`, strong: `Tonight makes ${goal}.` };
     return { text: countedNames.length ? `${dayList(countedNames)} counted.` : 'No study day yet this week.', strong: 'Tonight counts.' };
   }
-  const left = Math.max(0, goal - done);
-  return { text: 'Today is counted.', strong: `${left} more to meet ${goal}.` };
+  // Today is counted and the goal is not met yet: today's readout says it in one line (release 10), so the caption has nothing to add.
+  return null;
 }
 
 /**
@@ -146,10 +146,10 @@ export function clockIn(at, timeZone = 'Asia/Kolkata') {
  *   clockOf   (at) -> '6:20 PM'
  *   move      the lead move on the card now (for today), or null
  *   failed    the move did not load (today then says so, and claims nothing)
- *   goal      study days a week
+ *   goal      study days a week; done  study days counted this week; met  the week's goal is met
  *   today     today's key (a past planned day says nothing was saved; a future one says it is planned)
  */
-export function dayReadout({ mark, index, papers = null, repairs = null, dayKey, clockOf = (at) => String(at), subjectName = (id) => id, move = null, failed = false, goal = null, today = '' }) {
+export function dayReadout({ mark, index, papers = null, repairs = null, dayKey, clockOf = (at) => String(at), subjectName = (id) => id, failed = false, goal = null, done = null, met = false, today = '' }) {
   if (!mark) return null;
   const lines = [];
   for (const p of Array.isArray(papers) ? papers : []) {
@@ -172,9 +172,16 @@ export function dayReadout({ mark, index, papers = null, repairs = null, dayKey,
   if (mark.today) {
     const title = `Today, ${long}${!out.length && mark.state === 'planned' ? ', planned' : ''}`;
     if (failed) return { title, lines: out, note: 'Your move shows here once it loads.' };
-    const m = move && move.id !== 'done' && move.title ? `Up next: ${move.title.charAt(0).toLowerCase()}${move.title.slice(1)}${move.key?.minutes ? `, about ${move.key.minutes} minutes` : ''}.` : '';
-    if (!out.length && mark.state === 'counted') return { title, lines: out, note: m ? `Today already counts. ${m}` : 'Today already counts toward your week.' };
-    return { title, lines: out, note: out.length ? (m ? `Still to come: ${m.slice(9)}` : '') : m || 'Any session today counts toward your week.' };
+    // Release 10 (D15, one label per action): the lead card already says what is next, so today's readout says only what the day
+    // holds. A counted day says when it counted and what is left of the week, in one line ("Counted at 7:41 PM. 1 more study day
+    // meets your 4."); the week's caption no longer repeats it.
+    if (mark.state === 'counted') {
+      const first = lines[0]?.at || '';
+      const when = first ? `Counted at ${first}.` : 'Counted as a study day.';
+      const left = goal > 0 && Number.isInteger(done) ? Math.max(0, goal - done) : null;
+      return { title, lines: out, note: left > 0 && !met ? `${when} ${left} more study ${left === 1 ? 'day meets' : 'days meet'} your ${goal}.` : when, counted: true };
+    }
+    return { title, lines: out, note: out.length ? '' : 'Nothing saved yet today.' };
   }
   if (out.length) return { title: long, lines: out, note: '' };
   if (mark.state === 'counted') return { title: long, lines: out, note: 'Counted as a study day. The session is not listed here.' };

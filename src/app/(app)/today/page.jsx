@@ -292,7 +292,7 @@ export default function Today() {
             <TodayWeek
               hold={landing} rhythm={data.rhythm} goal={data.goal} everSessions={everSessions}
               mobiFree={!(lead?.art === 'mobi') && phase !== 'failed'} mob={mob} repairs={data.repairRows} papers={data.papers}
-              lead={phase === 'ready' ? lead : null} failed={phase === 'failed'} subjectName={subjectName} onRetry={data.retryWeek}
+              failed={phase === 'failed'} subjectName={subjectName} onRetry={data.retryWeek}
             />
             <TodayMob enabled={mobOn && !landing} mob={mob} />
             {landing ? null : <MobEntry where="today" mob={mob} rhythm={data.rhythm} inviteOnly />}
