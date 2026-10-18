@@ -4,7 +4,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
-import '../../pro_nudge/pro_nudge.dart' show ProNudgeCopy, ProReason;
+import '../../pro_nudge/pro_nudge.dart' show ProNudgeCopy, ProReason, proNudgesOnProvider;
 import '../copy.dart';
 import '../data/mob_models.dart';
 import '../data/mob_repository.dart';
@@ -56,18 +56,21 @@ class MobSwitcher extends ConsumerWidget {
   }
 }
 
-/// One quiet line near the end of the page, so the paper and the ring come first. Free: what Pro adds,
-/// in one sentence, no price and no count-down (T005, T009); with the Pro nudges on, one quiet See Pro
-/// key under it opens the Upgrade sheet on the Mob (D80, as the website's Mob plan line does). Pro at
-/// its cap of Mobs it started: the server's own sentence for it (MOB_LIMIT_PRO), where the start key would be.
-class MobProNote extends StatelessWidget {
+/// One quiet line near the end of the page, so the paper and the ring come first. Free, with the Pro
+/// nudges on (PLAY_BILLING on): what Pro adds, in one sentence, no price and no count-down (T005,
+/// T009), and one quiet See Pro key under it that opens the Upgrade sheet on the Mob (D80, as the
+/// website's Mob plan line does). Free with the nudges off: nothing at all, since Pro cannot be had
+/// here (owner, 18 Oct, H11). Pro at its cap of Mobs it started: the server's own sentence for it
+/// (MOB_LIMIT_PRO), where the start key would be.
+class MobProNote extends ConsumerWidget {
   const MobProNote({super.key, required this.mob});
 
   final Mob mob;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     if (mob.plan.pro && !mob.plan.atProCap) return const SizedBox.shrink();
+    if (!mob.plan.pro && !ref.watch(proNudgesOnProvider)) return const SizedBox.shrink();
     final type = context.mmType;
     final colors = context.mmColors;
     return Padding(

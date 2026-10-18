@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/haptics/haptics.dart';
 import '../../../core/theme/theme.dart';
+import '../../pro_nudge/pro_nudge.dart' show ProReason, proNudgesOnProvider;
 import '../../you/widgets/you_page.dart';
 import '../copy.dart';
 import '../data/mob_models.dart';
@@ -91,7 +92,9 @@ class _MobCompareScreenState extends ConsumerState<MobCompareScreen> {
               ],
               if (d.access == MobCompareAccess.sample) ...[
                 const SizedBox(height: MmSpace.s8),
-                MobNote(MobCopy.sampleLead),
+                // Pro is named only where it can be had, with the key to the Upgrade sheet on it (D80).
+                MobNote(MobCopy.sampleLeadFor(sell: ref.watch(proNudgesOnProvider))),
+                const MobProEntry(reason: ProReason.mob),
               ],
               if (!d.youShare) ...[
                 const SizedBox(height: MmSpace.s8),

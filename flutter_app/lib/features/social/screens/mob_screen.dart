@@ -11,7 +11,7 @@ import '../../../core/repositories/remote_state.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../practice/widgets/stale_subjects_banner.dart' show openEditSubjects;
-import '../../pro_nudge/pro_nudge.dart' show ProReason, UpgradeEntry;
+import '../../pro_nudge/pro_nudge.dart' show ProReason, UpgradeEntry, proNudgesOnProvider;
 import '../../you/data/subject_catalog.dart' show youSubjectNames;
 import '../../you/widgets/you_page.dart';
 import '../../you/widgets/you_row.dart';
@@ -368,7 +368,7 @@ class _MobBodyState extends ConsumerState<MobBody> {
     final failure = await ref.read(mobNavigatorProvider).sitPaper(context, ref, mob, extra: extra);
     if (!mounted) return;
     setState(() => _sitting = null);
-    if (failure != null) sayMobFailure(context, failure, MobCopy.failure(failure));
+    if (failure != null) sayMobFailure(context, failure, MobCopy.failure(failure, sell: ref.read(proNudgesOnProvider)));
   }
 
   Future<void> _nudge() async {
@@ -614,10 +614,11 @@ class _MobBodyState extends ConsumerState<MobBody> {
   }
 
   /// A free student's one weekly Mob paper went to another of their Mobs: say so, and (with the Pro
-  /// nudges on) the key that opens the Upgrade sheet on that limit (D80). No price here.
+  /// nudges on) the key that opens the Upgrade sheet on that limit (D80). No price here. With the
+  /// nudges off it is the plain fact, with no word of Pro.
   List<Widget> _freeUsed() => [
         const SizedBox(height: MmSpace.s12),
-        const MobNote(MobCopy.freeUsed, center: true),
+        MobNote(MobCopy.freeUsedFor(sell: ref.watch(proNudgesOnProvider)), center: true),
         const Center(child: UpgradeEntry(reason: ProReason.mobLimit, topGap: MmSpace.s8)),
       ];
 

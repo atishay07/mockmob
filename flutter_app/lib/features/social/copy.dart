@@ -1,7 +1,10 @@
 // Every Mob sentence. Plain, calm, no exclamation marks, no arrows, 12-hour IST times (P13).
 // No count of who has not sat, no rank, no pressure (Rule 22, T005), nothing that counts down, and
-// no price: the app never sells, so Pro is only ever named as what includes a part ("Included with
-// Pro."). The words follow the website's Mob page so a student sees the same sentence on both.
+// no price. Pro is named only where it can be had: [sell] is true with `PLAY_BILLING` on for a signed-in
+// Free student (proNudgesOnProvider), and then each Pro line comes with the key to the Upgrade sheet
+// (D80). With [sell] false (the flag off, or a Pro student) a Free limit is said as the plain fact it
+// is ("You get one Mob paper a week.") and nothing names Pro (owner, 18 Oct, H11). The selling words
+// follow the website's Mob page so a student sees the same sentence on both.
 
 import 'data/mob_models.dart';
 import 'data/mob_repository.dart';
@@ -49,6 +52,8 @@ abstract final class MobCopy {
   static const String seeAnswers = 'See your answers';
   static const String seeMob = 'See your Mob';
   static const String freeUsed = 'You already sat a Mob paper this week, in another Mob. Free includes one a week, and Pro lets you sit one in every Mob.';
+  static const String freeUsedPlain = 'You already sat a Mob paper this week, in another Mob. You get one Mob paper a week.';
+  static String freeUsedFor({required bool sell}) => sell ? freeUsed : freeUsedPlain;
   static const String includedWithPro = 'Included with Pro.';
   static const String opening = 'Opening';
   static const String openingPaper = 'Opening the paper';
@@ -123,18 +128,21 @@ abstract final class MobCopy {
       'On by default. Members who share see what each other picked, how long it took and how they scored, only inside this Mob, never a ranking. Turn it off to keep yours to yourself.';
   static const String shareHintCompare = 'You see what members who share picked, and they see yours. Never a ranking.';
   static const String lockedNote = 'The full side-by-side is included with Pro: who picked what, who changed an answer, and how long each question took.';
+  static const String lockedNotePlain = 'Your one free side-by-side went to another week, so this one stays closed.';
   static const String sampleNote = 'This is your free first side-by-side, so it stays open for this week.';
   static const String sampleLead = 'This is your free first side-by-side. Pro opens it every week, with past weeks and extra papers.';
+  static const String sampleLeadPlain = 'This is your free first side-by-side.';
+  static String sampleLeadFor({required bool sell}) => sell ? sampleLead : sampleLeadPlain;
   static const String offerFree = 'Your first side-by-side is free.';
   static const String offerNeedsOther = 'Your first side-by-side is free. It opens once another member shares their answers.';
   static const String offerNeedsYou = 'Your first side-by-side is free. Share your answers to open it.';
   static const String shareToCompare = 'Share your answers to compare this paper with your Mob.';
   static const String sharedWaiting = 'Your answers are shared. Comparing opens when another member shares theirs.';
 
-  static String? compareNote(MobCompareSummary c) => switch (c.access) {
+  static String? compareNote(MobCompareSummary c, {bool sell = false}) => switch (c.access) {
         MobCompareAccess.offer => c.needsShare ? (c.youShare ? offerNeedsOther : offerNeedsYou) : offerFree,
         MobCompareAccess.sample => sampleNote,
-        MobCompareAccess.locked => lockedNote,
+        MobCompareAccess.locked => sell ? lockedNote : lockedNotePlain,
         _ => null,
       };
 
@@ -169,6 +177,8 @@ abstract final class MobCopy {
   static const String extrasEmpty = 'No extra papers this week. Make one on a chapter you want to drill, and your Mob can sit it too.';
   /// Free student, extras waiting: the website's line, so the one free Mob paper and the open extras never read as a contradiction.
   static const String extrasOpenToAll = 'Extra papers are open to every member of the Mob, on any plan. Pro members make them.';
+  static const String extrasOpenToAllPlain = 'Extra papers are open to every member of the Mob, on any plan.';
+  static String extrasOpenToAllFor({required bool sell}) => sell ? extrasOpenToAll : extrasOpenToAllPlain;
   static const String makeExtra = 'Make an extra paper';
   static const String makeExtraSheetTitle = 'Make an extra paper';
   static String chapterOf(String subject) => 'Chapter of $subject';
@@ -258,9 +268,9 @@ abstract final class MobCopy {
   static const String reportSend = 'Send report';
   static const String reported = 'Reported. A moderator will look at it.';
 
-  // The plan (the app never sells: this only says what Pro includes).
-  // One quiet line near the end of the page, never a block of bullets (the website's wording). Free
-  // starts 1 Mob and joins any by invite; Pro starts up to 3.
+  // The plan. Only with [sell] (PLAY_BILLING on, a Free student): one quiet line near the end of the
+  // page, never a block of bullets (the website's wording). Free starts 1 Mob and joins any by
+  // invite; Pro starts up to 3. With the flag off nothing here is drawn for a Free student.
   static const String proLine = 'Pro adds the full side-by-side every week, past weeks, extra papers on a chapter you choose, and up to 3 Mobs you start.';
   /// Pro at its cap of Mobs it started: the server's own sentence (MOB_LIMIT_PRO), shown where the
   /// start key would be, so a missing key is never a mystery. Joining stays open.
@@ -334,14 +344,21 @@ abstract final class MobCopy {
 
   static const String notNow = 'Not now';
   static const String inviteMomentTitle = 'Sit one paper a week with friends';
-  static String inviteMomentBody(String reason) =>
-      '$reason A Mob is up to 5 friends on the same 10 questions each week, free of credits. Only people you send the link to can join.';
+
+  /// What a Mob is and why to start one, first (owner walk, 18 Oct: "You have saved 12 sessions."
+  /// opened the card as a non sequitur). The moment's reason decides when the card shows; it is not
+  /// the card's first line.
+  static const String inviteMomentBody =
+      'Sit the same 10 questions as your friends each week, then see the questions your Mob got wrong together. Up to 5 of you, free of credits. Only people you send the link to can join.';
   static const String inviteMomentWeek = 'You met your study goal for a week.';
   static String inviteMomentSessions(int n) => 'You have saved $n sessions.';
   static String todayTitle(Mob m) => m.several ? 'Your ${m.subjectName} Mob' : 'Your Mob';
 
   /// One sentence for every failure: the server's own wording for its codes (a test holds the two together).
-  static String failure(MobFailure f) => switch (f) {
+  ///
+  /// [sell]: the three Free limits Pro answers ([MobFailure.needsPro]) name Pro only when the Upgrade
+  /// sheet can open (PLAY_BILLING on, a Free student). Otherwise they say the plain fact.
+  static String failure(MobFailure f, {bool sell = false}) => switch (f) {
         MobFailure.offline => 'You\'re offline. Nothing changed.',
         MobFailure.unauthenticated => 'Sign in to use your Mob.',
         MobFailure.disabled => 'This page is not available.',
@@ -350,7 +367,9 @@ abstract final class MobCopy {
         MobFailure.inviteInvalid || MobFailure.inviteExpired => inviteUnusable,
         MobFailure.full => 'This Mob is full: it has 5 members, the most a Mob can have. Ask your friend to tell you if a seat opens, or start a Mob of your own.',
         MobFailure.alreadyInMob => 'You are already in this Mob.',
-        MobFailure.mobLimit => 'You already started a Mob. Free lets you start one, and join as many as friends invite you to. Pro lets you start up to 3.',
+        MobFailure.mobLimit => sell
+            ? 'You already started a Mob. Free lets you start one, and join as many as friends invite you to. Pro lets you start up to 3.'
+            : 'You already started a Mob. You can start one, and join as many as friends invite you to.',
         MobFailure.mobLimitPro => 'You already started 3 Mobs, the most Pro allows. You can still join any Mob a friend invites you to.',
         MobFailure.mobCeiling => 'You are in 12 Mobs, the most one account can be in. Leave one to start or join another.',
         MobFailure.invitesPaused => 'New invites are paused for now. Your Mob works as before.',
@@ -362,11 +381,11 @@ abstract final class MobCopy {
         MobFailure.comparePastAlone => 'Only one member sat that week\'s paper, so there is nothing to compare.',
         MobFailure.bankThin => 'There are not enough questions ready for that paper.',
         MobFailure.mobRequired => 'Say which Mob this is for.',
-        MobFailure.proRequired => 'This part of the Mob is included with Pro.',
+        MobFailure.proRequired => sell ? 'This part of the Mob is included with Pro.' : 'This part of the Mob is not on your plan.',
         MobFailure.compareUnavailable => 'There is nothing to compare yet. It needs one more member to sit this paper.',
         MobFailure.shareFirst => 'Share your answers with your Mob to compare. Members who share see each other, never a ranking.',
         MobFailure.compareWaiting => 'No one else has shared their answers yet. Your first comparison stays free until someone does.',
-        MobFailure.freePaperUsed => 'You already sat a Mob paper this week. Pro lets you sit one in every Mob.',
+        MobFailure.freePaperUsed => sell ? 'You already sat a Mob paper this week. Pro lets you sit one in every Mob.' : 'You already sat a Mob paper this week. You get one Mob paper a week.',
         MobFailure.extraLimit => 'Your Mob already has 3 extra papers this week. It can make more next week.',
         MobFailure.extraClosed => 'This extra paper has closed.',
         MobFailure.extraAlreadySat => 'You already sat this extra paper. Your answers are under See your answers.',

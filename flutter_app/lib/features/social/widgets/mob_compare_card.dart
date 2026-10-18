@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
-import '../../pro_nudge/pro_nudge.dart' show ProReason;
+import '../../pro_nudge/pro_nudge.dart' show ProReason, proNudgesOnProvider;
 import '../copy.dart';
 import '../data/mob_models.dart';
 import '../data/mob_repository.dart';
@@ -80,7 +80,7 @@ class _MobCompareCardState extends ConsumerState<MobCompareCard> {
     if (summary == null) return const SizedBox.shrink();
     final type = context.mmType;
     final colors = context.mmColors;
-    final note = MobCopy.compareNote(summary);
+    final note = MobCopy.compareNote(summary, sell: ref.watch(proNudgesOnProvider));
     final canOpen = summary.canOpen;
     final showShare = !summary.youShare && !summary.locked;
     return MobCard(
