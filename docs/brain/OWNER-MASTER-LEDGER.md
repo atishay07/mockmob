@@ -302,6 +302,18 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 | W-033/W-058 | A live repair and sign-in persistence need a real signed-in walk | not testable from fixtures |
 | W-046 | "Study day / week chapters" meaning | **ask him** |
 
+### Owner on v15 (79aaca6d) on his phone, 18 Oct about 12:15 pm (D40-D57; his words at the end of OWNER-FEEDBACK-2026-10-18-DAWN.md)
+| D | Item | Status / where |
+|---|---|---|
+| D40, D43, D44, D48 | Onboarding layout: content too high, too much space below; a clear Back button; adaptive Mobi and a sharper Mobi graphic, bigger on the plan screen | Building: ui/v15-onboard-a |
+| D41, D42, D45, D46, D47, D49 | Courses (most chosen first, Bulletin combinations, full list); no default subjects for "Not sure yet"; marks step up to 3; a full-mocks line under 10/20/30; an interactive study-days step; usage data ON by default | Building: ui/v15-onboard-b |
+| D53 | Ask Mobi answers at once; no "goes to an AI service" sheet | Building: ui/v15-askinstant (web parity in R8 fixes) |
+| D56, D57 (+ D8) | Restore the Start key's lost character; the bar's frosted glass visible; one icon family | Building: ui/v15-icons |
+| D51, D52 | Swipe suggestion cards; a richer Today (earlier versions felt cooler) | Mock-up first: tmp/design-1018/v15-feedback |
+| D55 | Audit every recorded app ask against the build, then fix the gaps | Audit plus fixer: ui/v15-ledger |
+| D50 | "5, 10, 20 only. No direction until you do a full mock" | **Ask him** which screen |
+| D54 | 50 free credits for free users | **He decides** (billing and website change) |
+
 ## Waiting on the owner (updated 18 Oct about 3:45 am)
 - Answered 3:50 am: M-001 first launch 3 s; M-006 bolder copy; D19 keep badges, refine; D22 Mob.
 - D32: confirm the kept landing element when he reviews the port live (wt-land3, port 3206).
