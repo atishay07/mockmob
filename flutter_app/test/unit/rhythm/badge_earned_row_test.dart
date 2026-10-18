@@ -5,6 +5,7 @@
 // nothing and spends nothing.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/haptics/haptics.dart';
 import 'package:mockmob/core/models/attempt.dart';
@@ -14,6 +15,7 @@ import 'package:mockmob/core/repositories/rhythm_seen_repository.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/result/data/result_providers.dart' show RecapData;
 import 'package:mockmob/features/result/widgets/next_move_panel.dart' show NextMovePanel;
+import 'package:mockmob/features/rhythm/celebration/celebration_controller.dart';
 import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show CelebrationMode;
 import 'package:mockmob/features/rhythm/logic/badge_shelf.dart';
 import 'package:mockmob/features/rhythm/widgets/badge_earned_row.dart';
@@ -43,6 +45,12 @@ Attempt _attempt(String id, {required DateTime at, int correct = 7, int wrong = 
 
 RhythmMilestone _m(String id, DateTime at) => RhythmMilestone(id: id, achievedAt: at);
 
+/// The celebration state with two badges already marked fresh (by the rhythm watcher).
+class _FreshController extends CelebrationController {
+  @override
+  CelebrationState build() => const CelebrationState(freshRows: {'first_scored_session', 'other'});
+}
+
 void main() {
   setUpAll(loadAppFonts);
 
@@ -58,6 +66,7 @@ void main() {
     bool hidden = false,
     bool reduced = false,
     VoidCallback? onSee,
+    List<Override> extra = const [],
   }) async {
     await tester.pumpWidget(
       ProviderScope(
@@ -70,6 +79,7 @@ void main() {
           ),
           rhythmSeenRepositoryProvider.overrideWithValue(seen),
           hapticsProvider.overrideWithValue(Haptics(enabled: true, driver: driver)),
+          ...extra,
         ],
         child: MaterialApp(
           theme: buildTheme(Brightness.dark),
@@ -130,6 +140,23 @@ void main() {
     await tester.pump(const Duration(milliseconds: 700));
     expect(find.text('Badge earned'), findsNothing);
     expect(driver.calls, ['selection'], reason: 'no second tick');
+  });
+
+  testWidgets('a result that announces a badge takes it off the fresh list, so the milestones page and You do not play it again', (tester) async {
+    final seen = MemorySeen();
+    final at = _done.add(const Duration(seconds: 20));
+    await pumpRow(
+      tester,
+      seen: seen,
+      driver: CountingDriver(),
+      milestones: [_m('first_scored_session', at)],
+      // The rhythm watcher had marked it fresh before the result opened.
+      extra: [celebrationControllerProvider.overrideWith(_FreshController.new)],
+    );
+    await tester.pump(const Duration(milliseconds: 700));
+    expect(find.text('Badge earned'), findsOneWidget);
+    final container = ProviderScope.containerOf(tester.element(find.byType(BadgeEarnedRow)));
+    expect(container.read(celebrationControllerProvider).freshRows, {'other'}, reason: 'only the one this result announced is taken off');
   });
 
   testWidgets('two badges at once are one row: "2 badges earned" with both names, one tick', (tester) async {

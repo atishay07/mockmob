@@ -26,6 +26,7 @@ import '../../../core/repositories/rhythm_seen_repository.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../celebration/celebration_controller.dart' show celebrationControllerProvider;
 import '../copy.dart';
 import '../data/badges.dart';
 import '../data/rhythm_prefs.dart';
@@ -86,6 +87,8 @@ class _BadgeEarnedRowState extends ConsumerState<BadgeEarnedRow> {
     }
     if (!mounted) return;
     setState(() => _shown = fresh);
+    // This result has announced them: the milestones page and You will not play the same badges again.
+    ref.read(celebrationControllerProvider.notifier).consumeFreshRows([for (final b in fresh) b.id]);
     // One light tick with the reveal, in Full only (Quiet is plain text; reduced motion changes the motion, not the tick).
     if (ref.read(celebrationModeProvider) == CelebrationMode.full) unawaited(ref.read(hapticsProvider).tick());
   }

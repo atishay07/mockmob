@@ -17,6 +17,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/api/api_providers.dart' show nowProvider;
 import '../../../core/copy/formatters.dart' show formatDayMonthShort;
+import '../../../core/repositories/attempts_repository.dart' show attemptsRepositoryProvider;
 import '../../../core/repositories/rhythm_repository.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
@@ -48,8 +49,10 @@ class BadgeHomeSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final snapshot = ref.watch(rhythmSnapshotProvider);
     final tracks = ref.watch(badgeTracksProvider);
+    // The phone's own papers are being read for the first time: that is loading, not "could not be checked".
+    final papersLoading = ref.watch(attemptsRepositoryProvider.select((s) => s.isInitialLoading));
     final failed = !snapshot.hasData && !snapshot.isInitialLoading;
-    final loading = snapshot.isInitialLoading;
+    final loading = snapshot.isInitialLoading || (papersLoading && !failed);
     final ready = tracks != null && !failed && !loading;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
