@@ -1287,8 +1287,8 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
                 final pc = p.clamp(0.0, 1.0);
                 final to = _leadOffsetOr(flight.to);
                 final at = Offset.lerp(flight.from, to, p)!;
-                final rise = Curves.easeOut.transform((pc / 0.3).clamp(0.0, 1.0));
-                final land = const Interval(0.75, 0.97, curve: Curves.easeIn).transform(pc);
+                final rise = Motion.out.transform((pc / 0.3).clamp(0.0, 1.0));
+                final land = const Interval(0.75, 0.97, curve: Motion.leave).transform(pc);
                 final lift = rise * (1 - land);
                 final scale = 1 + (deckLiftScale - 1) * lift;
                 SuggestedStack.debugFlightFrame?.call((progress: p, scale: scale, opacity: 1 - land, at: at));
