@@ -208,3 +208,8 @@ His message was the pasted next-session prompt (build PLAN-1019 Waves A and B, t
 > "Rules: ... Opus for taste, numbers, copy and money; Sonnet otherwise. ... Never hide a feature to fix it. ... Check usage before every wave, and make STOP POINT commits at 95%. Never give me a ship time before the walk's issue count is known. ... Never use Autopilot's "Continue a session" while a session has live agents."
 
 **Ledger D116:** the resume order above (merge A4a first; relaunch every unfinished owner from its brief with the RESUMED line, A1 first, the baseline's NEW findings added to the right owners; merge as each finishes with the area's tests; one Opus copy pass; ACCEPTANCE-1019 checks; one Opus verifier per platform, 2 rounds at most; push release 11 with the hero OFF and send the ?hero=v2 preview link; v15.3 APK, install only when he connects; ONE message).
+
+## Owner, 19 Oct about 3:20 am IST (verbatim)
+> "keep running the entire night. I'm going to sleep now. If you have any questions or anything to say, tell right now."
+
+**Ledger D117:** run the whole night autonomously (D111, D112 apply): finish PLAN-1019, merge, copy pass, walks, verifiers, push release 11 (hero OFF) when it passes, build the v15.3 APK; the phone install waits for him in the morning. Pace agents so the usage window is not exhausted before the work is done.
