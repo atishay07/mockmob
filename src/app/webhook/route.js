@@ -519,9 +519,12 @@ async function keepRefundRevokedOrder({ orderId, payment, paymentRecord }) {
 
 async function processCreditPackWebhook({ eventType, payment, orderId, paymentRecord, creditPack }) {
   const hasCapturedPayment = isCapturedRazorpayPayment(payment);
+  // A row already captured is never downgraded to 'failed' by a replayed or late event (same rule as both verify paths).
+  const settled = paymentRecord?.status === 'captured';
 
   if (eventType === 'payment.captured' && hasCapturedPayment) {
     if (payment.amount !== creditPack.amountPaise) {
+      if (settled) return;
       await Database.updatePaymentByOrderId(orderId, {
         paymentId: payment?.id,
         status: 'failed',
@@ -561,7 +564,7 @@ async function processCreditPackWebhook({ eventType, payment, orderId, paymentRe
     });
   }
 
-  if (eventType === 'payment.failed') {
+  if (eventType === 'payment.failed' && !settled) {
     await Database.updatePaymentByOrderId(orderId, {
       paymentId: payment?.id,
       status: 'failed',

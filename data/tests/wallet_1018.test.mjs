@@ -238,6 +238,16 @@ test('the grant key is the one the webhook uses, so a verify and a webhook for o
   assert.equal(file('src/app/api/wallet/verify/route.js').includes('walletCommerceOpen('), false);
 });
 
+test('the webhook credit-pack path never downgrades a captured row to failed (amount mismatch or payment.failed), like both verify paths', () => {
+  const src = file('src/app/webhook/route.js');
+  const body = src.slice(src.indexOf('async function processCreditPackWebhook'), src.indexOf('function isAlreadyCapturedCreditPayment'));
+  assert.match(body, /const settled = paymentRecord\?\.status === 'captured';/);
+  assert.match(body, /if \(payment\.amount !== creditPack\.amountPaise\) \{\s+if \(settled\) return;\s+await Database\.updatePaymentByOrderId/);
+  assert.match(body, /eventType === 'payment\.failed' && !settled/);
+  // every write of 'failed' in the credit-pack path sits behind the guard
+  assert.equal((body.match(/status: 'failed'/g) || []).length, 2);
+});
+
 // ---- the read: body shape and history order ------------------------------------------------------------------------------
 const UNIFIED = { total: 108, freeLeft: 38, freeAllowance: 50, held: 70, resetAt: '2026-10-31T18:30:00.000Z', parts: { included: 38, bonus: 30, balance: 40 } };
 
@@ -395,7 +405,8 @@ test('the page: no lime, no glow, 44 px keys, tabular numerals; nav, chips and t
   assert.match(page, /WALLET_COPY\.retry/);
   assert.match(file('src/lib/arenaNavigation.js'), /label: 'Account', items: \[item\('profile', 'Account', 'account'\), item\('wallet', 'Wallet', 'wallet'\)/);
   const shell = file('src/app/(app)/AppLayoutClient.jsx');
-  assert.equal((shell.match(/previewLinks\?\.wallet \|\| '\/wallet'/g) || []).length, 2, 'both top-bar chips open the wallet');
+  assert.equal((shell.match(/previewLinks\?\.wallet \|\| '\/wallet'/g) || []).length, 1, 'the one top-bar credits chip opens the wallet');
+  assert.doesNotMatch(shell, /arena-chip--prepos|kind="prepos"/, 'no second AI credits chip beside a one-balance page (D78)');
   assert.doesNotMatch(shell, /href="\/pricing\/ai-credits"/);
   assert.match(file('src/components/CreditsRemainingModal.jsx'), /router\.push\('\/wallet'\)/);
   assert.match(file('src/components/billing/PlanCard.jsx'), /href="\/wallet"/);

@@ -90,7 +90,7 @@ Field by field:
 
 Errors: `401 { "error": "Unauthorized", "message": "Please sign in." }` when signed out; `503 { "error": "unavailable", "message": "..." }` when the student cannot be read.
 
-Anti-steering (D83): `proOffer`, `packs` and `commerce` are the website's own prices and checkout state. The Android app must never draw them: its Pro and pack prices come only from Google Play (Pro Rs 150, packs Rs 15, 45 and 75). The current app (`wallet_data.dart`) reads only `credits`, `plan`, `history` and `historyState`.
+Anti-steering (rule from D72; the Play prices, Pro Rs 150 and packs Rs 15, 45 and 75, are D82): `proOffer`, `packs` and `commerce` are the website's own prices and checkout state. The Android app must never draw them: its Pro and pack prices come only from Google Play (Pro Rs 150, packs Rs 15, 45 and 75). The current app (`wallet_data.dart`) reads only `credits`, `plan`, `history` and `historyState`.
 
 `total = freeLeft + held`; `held = parts.bonus + parts.balance`; `parts.included = freeLeft`.
 
@@ -104,7 +104,7 @@ This branch carries two stand-ins that the release 10 merge replaces with `wt-cr
 
 ## 6. Test before opening
 
-The live `/wallet` page has only been checked on `/preview/arena?view=wallet` fixtures (the preview shell's top-bar chip now shows the same total as the page). The real Razorpay checkout, a real signature and a real grant have not been run. Do the steps below on a preview deploy before `WALLET_COMMERCE_OPEN` is set to `true` in production.
+The live `/wallet` page has only been checked on `/preview/arena?view=wallet` fixtures (the shell's top bar now draws one credits chip, the same total as the page; on the release 10 merge the core's `AppLayoutClient` draws the same single chip, linked to `/pricing/ai-credits` there, so keep the `/wallet` link). The real Razorpay checkout, a real signature and a real grant have not been run. Do the steps below on a preview deploy before `WALLET_COMMERCE_OPEN` is set to `true` in production.
 
 1. Set test keys and `WALLET_COMMERCE_OPEN=true` on a preview deployment.
 2. Buy `credits_29_150` with a Razorpay test card: the balance rises by 150 and one "Credits added" line appears; replay the verify call: nothing is added.
