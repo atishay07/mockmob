@@ -9,12 +9,15 @@
 //   keyboard  the chips are one radio group, so the arrow keys move the choice; the focused chip and the
 //             chosen one are always brought clear of the edge fades
 //   touch     untouched: the browser's own scrolling and scroll-snap
+//   cue       owner G27 (19 Oct): the chips share one width so the last chip in view is cut at about 60%, the row nudges
+//             24 px once on the first open on a device, and a chevron hint shows on touch (railCue.js, start.css)
 //
 // The glide is the app's out feel: the distance left shrinks exponentially every frame, so a new wheel
 // notch or a fling simply moves the target and the motion never restarts. Scroll-snap is held off while
 // the row glides or is dragged, and every glide ends on a snap position, so the browser has nothing to
 // correct. Reduced motion: the row jumps straight to where it is going.
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useRailCue } from './railCue';
 
 const EDGE_PX = 2;
 const DRAG_SLOP_PX = 5;
@@ -56,9 +59,17 @@ function nearest(points, x) {
   return best;
 }
 
-/** `selected` is the chosen subject id; `active` is whether the row is on screen (more than one subject). */
-export function useSubjectRail(selected, active = true) {
+// The peek is measured to the start of a mouse arrow's clear zone (start.css: 76 px fade, the first 44 px clear), so the cut
+// chip is about 60% visible beside the arrow; on touch the fade is gradual and the peek is measured to the edge.
+const arrowInset = () => { try { return window.matchMedia('(hover: hover) and (pointer: fine)').matches ? 44 : 0; } catch { return 0; } };
+export const START_RAIL_NUDGE_KEY = 'mm:cue:start-subjects:v1';
+
+/** `selected` is the chosen subject id; `active` is whether the row is on screen (more than one subject); `count` is how
+ *  many chips there are and `hintRef` the chevron that leans with the first-open nudge. */
+export function useSubjectRail(selected, active = true, { count = 0, hintRef = null } = {}) {
   const railRef = useRef(null);
+  // Declared first, so the chips have their shared width before the chosen one is brought into view below.
+  useRailCue(railRef, { active, items: '.st-chip', min: 'content', max: 320, endInset: arrowInset, nudgeKey: START_RAIL_NUDGE_KEY, hintRef, count, edges: false });
   const glide = useRef({ raf: 0, x: 0, target: 0, tau: SETTLE_TAU_MS, last: 0 });
   const [edges, setEdges] = useState({ overflow: false, start: true, end: true });
 

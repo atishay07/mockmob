@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Check, Play, SlidersHorizontal, Target } from 'lucide-react';
+import { Check, ChevronRight, Play, SlidersHorizontal, Target } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { AppIcon, CreditAmount, StatusIcon } from '@/components/ui/Glyph';
 import { useContributeEnabled } from '@/components/contribute/ContributeFlag';
@@ -31,6 +31,7 @@ import { chapterUnits, chaptersForMode } from './chapterGroups.mjs';
 import { MODE_SPECS, MODE_TILE_SPECS, bankCount, freshPaperLine } from '@/lib/paperCopy.mjs';
 import PracticeMobChip from '@/components/mob/PracticeMobChip';
 import PracticeRepairs from './PracticeRepairs';
+import { useRailCue, reducedMotion as railReduced } from '@/components/start/railCue';
 import { InlineNudge, ProFacts, openUpgrade } from '@/components/pro';
 import { fullMocksIn } from '@/lib/proNudge.mjs';
 import './practice.css';
@@ -304,6 +305,10 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
     () => subjects.filter((subject) => user?.subjects?.includes(subject.id) && subject.practice === 'supported'),
     [subjects, user],
   );
+  // The shelf's sideways cue on a phone (owner G27, as on the Start sheet): the last subject in view is cut at about 60%,
+  // the shelf nudges 24 px once on the first visit on a device, and a chevron shows while subjects wait past the edge.
+  const shelfHint = useRef(null);
+  const { edges: shelfEdges } = useRailCue(shelfRef, { active: status === 'ready' && mySubs.length > 1, items: '.pr-subject', min: 92, max: 132, endInset: 16, nudgeKey: 'mm:cue:practice-shelf:v1', nudgeDelay: 900, hintRef: shelfHint, count: mySubs.length });
   const linkedSubject=searchParams.get('subject');
   const linkedSubjectUnavailable=status==='ready' && linkedSubject && !mySubs.some(subject=>subject.id===linkedSubject);
   // Stored choices that cannot launch (not offered, merged or retired) are shown, never launched.
@@ -584,6 +589,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
               {/* The subject shelf: each subject's object on one shelf line, its name and chapter count under it. The chosen
                   one is sharp with its lamp on and a volt rule under its name; the others stand back, blurred, dimmer and a
                   little smaller (owner F7). Phones: one sideways row that brings the chosen subject to the middle. */}
+              <div className="pr-shelf" data-overflow={shelfEdges.overflow || undefined} data-at-end={shelfEdges.end || undefined}>
               <div className="pr-subjects" role="group" aria-label="Subject" data-count={Math.min(mySubs.length, 6)} ref={shelfRef}>
                 {mySubs.map((subject) => {
                   const on = selSubj === subject.id;
@@ -601,6 +607,12 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
                     </button>
                   );
                 })}
+              </div>
+              {/* The chevron hint (phones): a tap moves the shelf on by two subjects; keyboard users tab through the subjects. */}
+              <button ref={shelfHint} type="button" className="pr-shelf__hint" tabIndex={-1} aria-hidden="true"
+                onClick={() => { const el = shelfRef.current; const first = el?.querySelector('.pr-subject'); if (el) el.scrollBy({ left: (first?.offsetWidth || 104) * 2, behavior: railReduced() ? 'auto' : 'smooth' }); }}>
+                <span className="pr-shelf__disc"><ChevronRight size={18} strokeWidth={2.2} aria-hidden="true" /></span>
+              </button>
               </div>
               {/* Repairs and Ask Mobi, about the subject the shelf has chosen (owner D5): what is waiting to be repaired, the
                   saved repairs to revisit, and Mobi in place. It changes with the shelf, so it is seen on every visit. */}

@@ -241,3 +241,43 @@ test('?start= requests', () => {
   assert.equal(startRequestFromSearch('?view=today'), null);
   assert.equal(startRequestFromSearch(''), null);
 });
+
+// Owner G27 (19 Oct 2026): the sideways-scroll cue. The last item in view is cut at about 60% of its width, the row nudges
+// 24 px once on the first open on a device (never under reduced motion), and touch gets a chevron hint.
+test('G27 peek: the shared item width leaves the last item in view about 60% visible', async () => {
+  const { peekWidth, PEEK } = await import('../railPeek.mjs');
+  assert.equal(PEEK, 0.6);
+  // The Start sheet at 390 px: 368 px from the first chip to the edge, 8 px gaps, four chips no narrower than 210 px.
+  const w = peekWidth({ avail: 368, gap: 8, n: 4, min: 210, max: 320 });
+  assert.ok(w >= 210 && w <= 320, `width ${w}`);
+  const visible = (368 - (w + 8)) / w;
+  assert.ok(Math.abs(visible - 0.6) < 0.01, `second chip ${Math.round(visible * 100)}% visible`);
+  // The shelf at 390 px: 104 px subjects become one width with three whole and the fourth cut at 60%.
+  const s = peekWidth({ avail: 358, gap: 6, n: 4, min: 92, max: 132 });
+  assert.ok(Math.abs((358 - 3 * (s + 6)) / s - 0.6) < 0.01, `shelf width ${s}`);
+  // A row that cannot reach the peek without words breaking, or with one item, gets no width (the natural row stays).
+  assert.equal(peekWidth({ avail: 200, gap: 8, n: 4, min: 210 }), null);
+  assert.equal(peekWidth({ avail: 368, gap: 8, n: 1, min: 100 }), null);
+  // The row still overflows: k stops at n - 1.
+  const two = peekWidth({ avail: 368, gap: 8, n: 2, min: 150 });
+  assert.ok(2 * two + 8 > 368, 'two items still overflow');
+});
+
+test('G27 cue: the Start rail, the Practice shelf and Review share it; the nudge is once per device and off under reduced motion', () => {
+  const cue = readFileSync(join(startDir, 'railCue.js'), 'utf8');
+  assert.match(cue, /export const NUDGE_PX = 24;/);
+  assert.match(cue, /if \(!el \|\| reducedMotion\(\)\) return \(\) => \{\};/, 'no nudge under reduced motion');
+  assert.match(cue, /seen\(nudgeKey\)/, 'once per device');
+  assert.match(cue, /markSeen\(nudgeKey\)/);
+  const rail = readFileSync(join(startDir, 'useSubjectRail.js'), 'utf8');
+  assert.match(rail, /useRailCue\(railRef, \{ active, items: '\.st-chip'/);
+  assert.ok(rail.indexOf('useRailCue(railRef') < rail.indexOf('reveal(chip, { instant'), 'the chips have their width before the chosen one is revealed');
+  const sheet = readFileSync(join(startDir, 'StartSheet.jsx'), 'utf8');
+  assert.match(sheet, /useSubjectRail\(subject, open && subjects\.length > 1, \{ count: subjects\.length, hintRef: railHint \}\)/);
+  assert.match(sheet, /ref=\{railHint\}[^>]*st-rail__arrow--next/);
+  const css = readFileSync(join(startDir, 'start.css'), 'utf8');
+  assert.match(css, /\.st-chips\[data-peek\] > \.st-chip \{ width: var\(--rail-item-w\); \}/);
+  assert.match(css, /@media \(hover: none\), \(pointer: coarse\) \{\s*\.st-rail__arrow--next \{ display: grid; \}/);
+  const practice = readFileSync(join(startDir, '..', '..', 'app', '(app)', 'dashboard', 'DashboardPageClient.jsx'), 'utf8');
+  assert.match(practice, /useRailCue\(shelfRef, \{[^}]*items: '\.pr-subject'[^}]*nudgeKey: 'mm:cue:practice-shelf:v1'/);
+});

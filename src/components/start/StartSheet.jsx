@@ -119,7 +119,8 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
   const titleId = useId();
   const subjectsId = useId();
   const { hero = null, rows = [], choose = null, section = null, subjects = [], subject = null, pro = false, balance = null, planState = 'loading', selectSubject = () => {}, retry = () => {} } = model || {};
-  const { railRef, edges: railEdges, step: railStep } = useSubjectRail(subject, open && subjects.length > 1);
+  const railHint = useRef(null);
+  const { railRef, edges: railEdges, step: railStep } = useSubjectRail(subject, open && subjects.length > 1, { count: subjects.length, hintRef: railHint });
   // Read once as the sheet opens, so a re-render never re-opens or re-animates it.
   const opening = useRef({ initialRow, returnFocus });
   useEffect(() => { opening.current = { initialRow, returnFocus }; }, [initialRow, returnFocus]);
@@ -333,11 +334,12 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
                   </label>
                 ))}
               </div>
-              {/* Mouse only: keyboard users move through the radio group, touch scrolls natively. */}
+              {/* Mouse: two arrow discs. Touch: the next arrow is a quiet chevron hint over the fade (owner G27), and a tap on it
+                  steps the row. Keyboard users move through the radio group. */}
               <button type="button" className="st-rail__arrow st-rail__arrow--prev" tabIndex={-1} aria-hidden="true" onClick={() => railStep(-1)}>
                 <span className="st-rail__disc"><ChevronLeft size={18} strokeWidth={2.2} aria-hidden="true" /></span>
               </button>
-              <button type="button" className="st-rail__arrow st-rail__arrow--next" tabIndex={-1} aria-hidden="true" onClick={() => railStep(1)}>
+              <button ref={railHint} type="button" className="st-rail__arrow st-rail__arrow--next" tabIndex={-1} aria-hidden="true" onClick={() => railStep(1)}>
                 <span className="st-rail__disc"><ChevronRight size={18} strokeWidth={2.2} aria-hidden="true" /></span>
               </button>
             </div>
