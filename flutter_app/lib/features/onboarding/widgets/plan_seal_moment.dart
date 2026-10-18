@@ -45,6 +45,29 @@ class PlanSealMoment extends ChangeNotifier {
 
   void reset() => set(reveal: 0, press: 0, land: 0, burst: 0, ring: false);
 
+  /// Where the moment's words start, in screen coordinates (the plan step measures them): the
+  /// painted sheet sits in the room between the status bar and them (v15 taste pass, D40).
+  /// Its own notifier, so the room is laid out again only when the words move, never on each
+  /// frame of the hold.
+  final ValueNotifier<double?> words = ValueNotifier<double?>(null);
+
+  double? get wordsTop => words.value;
+
+  void setWordsTop(double? y) {
+    final was = words.value;
+    if (y == was || (y != null && was != null && (y - was).abs() < 0.5)) return;
+    words.value = y;
+  }
+
+  @override
+  void dispose() {
+    words.dispose();
+    super.dispose();
+  }
+
+  /// The geometry the backdrop last drew with, so Mobi looks at the seal where it really is.
+  SealGeometry? geometry;
+
   /// Back to dark without telling listeners: for a step being torn down, when the tree is locked.
   /// The room is rebuilt from these values the next time it is shown.
   void clear() {
@@ -71,6 +94,37 @@ class SealGeometry {
     final left = screen.width / 2 - impressionX * w;
     return SealGeometry._(Rect.fromLTWH(left, 0, w, h), Offset(screen.width / 2, impressionY * h));
   }
+
+  /// The sheet placed in the room from [top] to [bottom] (v15 taste pass, D40: the paper had
+  /// started under the status bar, with a void above the words): the paper (the painted sheet,
+  /// [paperTop] to [paperBottom] of the painting) stands at [anchor] in that room, shrinking
+  /// only when the room is shorter than it.
+  factory SealGeometry.within(Size screen, {required double top, required double bottom, double anchor = 0.5}) {
+    final art = SceneArt.planSeal;
+    final free = math.max(0.0, bottom - top);
+    var w = screen.width;
+    var h = w * art.aspect;
+    final paper = (paperBottom - paperTop) * h;
+    if (paper > free && paper > 0) {
+      final k = math.max(0.5, free / paper);
+      w *= k;
+      h *= k;
+    }
+    final paperH = (paperBottom - paperTop) * h;
+    final spare = math.max(0.0, free - paperH);
+    final paperAt = top + spare * (1 + anchor) / 2;
+    final imageTop = paperAt - paperTop * h;
+    final left = screen.width / 2 - impressionX * w;
+    return SealGeometry._(Rect.fromLTWH(left, imageTop, w, h), Offset(screen.width / 2, imageTop + impressionY * h));
+  }
+
+  /// The painted sheet's top and bottom, as shares of the painting's height.
+  static const double paperTop = 0.156;
+  static const double paperBottom = 0.889;
+
+  /// The room kept under the status bar above the paper, and above the words under it.
+  static const double topInset = 24;
+  static const double wordsGap = 32;
 
   /// The impression's centre, as shares of the painting.
   static const double impressionX = 0.494;
@@ -99,15 +153,38 @@ class PlanSealBackdrop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    return LayoutBuilder(
+    return ValueListenableBuilder<double?>(
+      valueListenable: moment.words,
+      builder: (context, wordsTop, _) => LayoutBuilder(
       builder: (context, box) {
-        final geo = SealGeometry.of(box.biggest);
+        final geo = wordsTop == null
+            ? SealGeometry.of(box.biggest)
+            : SealGeometry.within(
+                box.biggest,
+                top: MediaQuery.paddingOf(context).top + SealGeometry.topInset,
+                bottom: wordsTop - SealGeometry.wordsGap,
+              );
+        moment.geometry = geo;
         final room = Stack(
           clipBehavior: Clip.hardEdge,
           children: [
             Positioned.fill(child: ColoredBox(color: colors.ground)),
             if (colors.isNight)
-              Positioned.fromRect(rect: geo.image, child: SceneImage(SceneArt.planSeal, width: geo.image.width, height: geo.image.height))
+              Positioned.fromRect(
+                rect: geo.image,
+                // The painting's top edge melts into the ground (it can stand below the status bar
+                // now), so no straight seam crosses the lamp's light.
+                child: ShaderMask(
+                  blendMode: BlendMode.dstIn,
+                  shaderCallback: (r) => const LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Color(0x00000000), Color(0xFF000000)],
+                    stops: [0, 0.14],
+                  ).createShader(r),
+                  child: SceneImage(SceneArt.planSeal, width: geo.image.width, height: geo.image.height),
+                ),
+              )
             else
               Positioned.fill(
                 child: CustomPaint(painter: _ImpressionPainter(geo: geo, ground: colors.ground, paper: colors.raised, line: colors.lineStrong)),
@@ -146,6 +223,7 @@ class PlanSealBackdrop extends StatelessWidget {
           ),
         );
       },
+      ),
     );
   }
 }

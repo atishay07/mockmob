@@ -178,7 +178,10 @@ void main() {
       await _run(tester, 500);
       expect(_moment(tester).reveal, 0, reason: 'a hold let go early returns the plan card');
       expect(_sealedIn(tester), isFalse);
-      expect(find.text(OnboardingCopy.planSet), findsNothing);
+      // The words are laid out from the start (so the sheet stands above them) but unseen.
+      final words = find.textContaining('Sealed. Week one');
+      final shown = tester.widgetList<Opacity>(find.ancestor(of: words, matching: find.byType(Opacity))).map((o) => o.opacity);
+      expect(shown, contains(0.0), reason: 'no words before the seal');
     });
 
     testWidgets('a full hold strikes once: a firm tap, the flecks, then the words', (tester) async {
@@ -192,7 +195,7 @@ void main() {
       await hold.up();
       await _run(tester, 900);
       expect(_moment(tester).reveal, 1, reason: 'once struck, the sheet stays');
-      expect(find.text(OnboardingCopy.planSet), findsOneWidget);
+      expect(find.textContaining('Sealed. Week one'), findsOneWidget);
       expect(find.widgetWithText(KeyButton, OnboardingCopy.next), findsOneWidget);
       await tester.pump(const Duration(seconds: 3));
     });

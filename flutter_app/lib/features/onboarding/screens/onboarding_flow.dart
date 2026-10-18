@@ -402,6 +402,7 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         GuideBar(
+                          showBack: !(step.kind == StepKind.reveal && answers.sealed),
                           onBack: () => _back(answers),
                           onSkip: step.skippable && !answers.isDone(step.id) ? () => _skip(answers) : null,
                         ),

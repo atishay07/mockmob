@@ -191,7 +191,7 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
     final mobi = widget.mobi;
     if (mobi == null) return;
     if (_momentOn) {
-      mobi.lookAt(SealGeometry.of(MediaQuery.sizeOf(context)).centre);
+      mobi.lookAt((widget.moment?.geometry ?? SealGeometry.of(MediaQuery.sizeOf(context))).centre);
     } else {
       mobi.lookAtWidget(_holdKey);
     }
@@ -208,6 +208,15 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
     mobi.say(OnboardingCopy.mobiStillYours);
     _hush?.cancel();
     _hush = Timer(Duration(milliseconds: (MobiTyping.duration(OnboardingCopy.mobiStillYours) * 1000).round() + 2200), mobi.hush);
+  }
+
+  /// On the moment's words, so the flow's painted sheet can stand above them.
+  final GlobalKey _wordsKey = GlobalKey();
+
+  void _measureWords() {
+    final box = _wordsKey.currentContext?.findRenderObject();
+    if (!mounted || box is! RenderBox || !box.hasSize) return;
+    widget.moment?.setWordsTop(box.localToGlobal(Offset.zero).dy);
   }
 
   /// The seal has been struck: setting the hold to full below completes it, which asks to seal
@@ -399,14 +408,20 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
     }
 
     // Once struck, the words of the moment rise in the quiet ground under the seal as it
-    // settles (the second half of the strike).
+    // settles (the second half of the strike). They are laid out (unseen) from the start of the
+    // moment, so the painted sheet is placed above them before it comes up and never moves.
     final type = context.mmType;
-    final momentWords = _momentOn && sealed
+    if (_momentOn) WidgetsBinding.instance.addPostFrameCallback((_) => _measureWords());
+    final momentWords = _momentOn
         ? AnimatedBuilder(
+            key: _wordsKey,
             animation: _stamp,
             builder: (context, child) {
-              final t = Curves.easeOut.transform(((_stamp.value - 0.45) / 0.55).clamp(0.0, 1.0));
-              return Opacity(opacity: t, child: Transform.translate(offset: Offset(0, reduced ? 0 : 8 * (1 - t)), child: child));
+              final t = sealed ? Curves.easeOut.transform(((_stamp.value - 0.45) / 0.55).clamp(0.0, 1.0)) : 0.0;
+              return IgnorePointer(
+                ignoring: !sealed,
+                child: Opacity(opacity: t, child: Transform.translate(offset: Offset(0, reduced ? 0 : 8 * (1 - t)), child: child)),
+              );
             },
             child: Semantics(
               container: true,
@@ -418,7 +433,7 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
                   Semantics(
                     header: true,
                     child: Text(
-                      OnboardingCopy.planSet,
+                      OnboardingCopy.sealedHeadline(FirstMove.of(widget.answers).chapter),
                       style: type.moment,
                       textScaler: MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.3),
                     ),

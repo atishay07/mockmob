@@ -22,6 +22,10 @@ import 'package:mockmob/core/storage/storage_providers.dart';
 import 'package:mockmob/features/onboarding/screens/after_sign_in_sheet.dart';
 import 'package:mockmob/features/onboarding/widgets/swipe_preview.dart';
 import 'package:flutter/rendering.dart';
+import 'package:mockmob/core/widgets/art/scene_art.dart';
+import 'package:mockmob/features/onboarding/model/plan.dart';
+import 'package:mockmob/features/onboarding/steps/plan_step.dart';
+import 'package:mockmob/features/onboarding/widgets/plan_seal_moment.dart';
 import '../../golden/onboarding/support.dart';
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
@@ -277,5 +281,23 @@ void main() {
     final before = tester.widget<Text>(hours).data;
     await _tap(tester, find.bySemanticsLabel(OnboardingCopy.minutesSpoken(30)));
     expect(tester.widget<Text>(find.textContaining('before May')).data, isNot(before), reason: 'it moves with the minutes');
+  });
+
+  testWidgets('Sealed: the sheet stands clear of the status bar, close above the words; no back icon on it', (tester) async {
+    tester.view.padding = const FakeViewPadding(top: 56, bottom: 40);
+    final c = await _flowAt(tester, studentUpTo(Steps.rhythm, step: Steps.plan), size: const Size(412, 915));
+    await _tap(tester, find.byKey(PlanStep.tapToSealKey));
+    await tester.pump(const Duration(seconds: 2));
+    expect(_answers(c).sealed, isTrue);
+    final headline = find.text(OnboardingCopy.sealedHeadline(FirstMove.of(_answers(c)).chapter));
+    expect(headline, findsOneWidget, reason: 'bolder: it says what was sealed');
+    final art = tester.getRect(find.byType(SceneImage));
+    final paperTop = art.top + SealGeometry.paperTop * art.height;
+    final paperBottom = art.top + SealGeometry.paperBottom * art.height;
+    expect(paperTop, greaterThanOrEqualTo(28 + SealGeometry.topInset - 0.5), reason: 'never under the status bar');
+    final gap = tester.getRect(headline).top - paperBottom;
+    expect(gap, greaterThanOrEqualTo(SealGeometry.wordsGap - 0.5));
+    expect(gap, lessThan(160), reason: 'no void of about 250 px between the sheet and the words');
+    expect(find.bySemanticsLabel(OnboardingCopy.back), findsOneWidget, reason: 'only the labelled Back pill, not the icon on the sheet');
   });
 }

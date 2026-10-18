@@ -13,7 +13,12 @@ class GuideBar extends StatelessWidget {
     super.key,
     required this.onBack,
     required this.onSkip,
+    this.showBack = true,
   });
+
+  /// Off once the plan is sealed: the icon would sit on the painted sheet, and the labelled Back
+  /// pill stays at the foot (v15 taste pass, D40).
+  final bool showBack;
 
   /// The bar's own height (the targets are 48 dp, centred).
   static const double height = 48;
@@ -37,7 +42,7 @@ class GuideBar extends StatelessWidget {
         child: Row(
           children: [
             // The label sits on the pressable itself, so TalkBack's double tap reaches onTap.
-            MmPressable(
+            if (!showBack) const SizedBox.square(dimension: 48) else MmPressable(
               semanticsLabel: OnboardingCopy.back,
               onTap: onBack,
               pressedScale: 0.9,
