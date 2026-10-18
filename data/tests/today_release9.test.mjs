@@ -88,7 +88,7 @@ test('W-044 (release 10): the cue is a 44 px glass circle anchored right, clear 
   const comp = read('src/components/today/TodayCue.jsx');
   assert.match(comp, /Your week and road/);
   assert.match(comp, /setTimeout\(\(\) => setWide\(false\), 2400\)/, 'the words fold to the circle after 2.4 s');
-  assert.match(comp, /'\.tm \.tm__key, \.tm \.tm__or, \.tm \.tm__more'/, 'it steps away from the card key and footer');
+  assert.match(comp, /const KEEP_CLEAR = '\.tm \.tm__key, \.tm \.tm__or, \.tm \.tm__more, \.tm \.tm__why, \.tm \.tm__price/, 'it steps away from the card words and keys');
 });
 
 test('W-044 (release 10): coversCue says when a key sits under the circle', () => {
