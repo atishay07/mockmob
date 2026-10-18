@@ -114,10 +114,12 @@ void main() {
     await _tap(tester, OnboardingCopy.next);
 
     expect(find.text(OnboardingCopy.saveTitle), findsOneWidget);
-    // The keys stand in place from the start at full strength (answering the age moves nothing); a tap
-    // before the age asks it.
+    // The keys stand in place from the start (answering the age moves nothing); they are drawn
+    // live, and before the age a tap asks it instead of signing in (v15 taste pass).
     final email = find.widgetWithText(KeyButton, OnboardingCopy.useEmailCode);
-    expect(tester.widget<KeyButton>(email).onPressed, isNotNull);
+    expect(tester.widget<KeyButton>(email).onPressed, isNotNull, reason: 'never looks disabled');
+    await _tap(tester, OnboardingCopy.useEmailCode);
+    expect(find.text(OnboardingCopy.saveTitle), findsOneWidget, reason: 'age comes first: still on the save step');
     await _tap(tester, AgeAnswer.minor.label);
     expect(tester.widget<KeyButton>(email).onPressed, isNotNull);
     await _tap(tester, OnboardingCopy.notNow);

@@ -17,6 +17,10 @@ abstract final class AppRoutes {
 
   /// The email is passed as a query parameter as the spec lists it; it stays inside the app and
   /// is never sent anywhere.
+  /// Sign-in opened from the onboarding save step's "Use an email code": the email form alone,
+  /// worded as saving the plan (v15 taste pass).
+  static final String signInToSave = Uri(path: signIn, queryParameters: {'from': 'save', 'method': 'email'}).toString();
+
   static String signInCode({String? email}) =>
       email == null ? signInCodeBase : Uri(path: signInCodeBase, queryParameters: {'email': email}).toString();
 

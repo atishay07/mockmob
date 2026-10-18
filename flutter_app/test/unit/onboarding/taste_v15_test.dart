@@ -15,6 +15,12 @@ import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/onboarding/model/choices.dart';
 import 'package:mockmob/features/onboarding/steps/save_step.dart';
 import 'package:mockmob/features/onboarding/widgets/choice_tile.dart';
+import 'package:mockmob/core/haptics/haptics.dart';
+import 'package:mockmob/core/storage/app_prefs.dart';
+import 'package:mockmob/core/storage/prefs_store.dart';
+import 'package:mockmob/core/storage/storage_providers.dart';
+import 'package:mockmob/features/onboarding/screens/after_sign_in_sheet.dart';
+import 'package:mockmob/features/onboarding/widgets/swipe_preview.dart';
 import '../../golden/onboarding/support.dart';
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
@@ -64,6 +70,21 @@ OnboardingAnswers _answers(ProviderContainer c) => c.read(onboardingAnswersProvi
 
 OnboardingAnswers _notSure(String step) => studentUpTo(Steps.stage, step: step).copyWith(courseUndecided: true).mark(Steps.course);
 
+/// Counts the haptics a widget asks for.
+class _Ticks implements HapticDriver {
+  int selection = 0;
+  int light = 0;
+
+  @override
+  Future<void> lightImpact() async => light++;
+
+  @override
+  Future<void> mediumImpact() async {}
+
+  @override
+  Future<void> selectionClick() async => selection++;
+}
+
 void main() {
   setUpAll(loadAppFonts);
 
@@ -109,6 +130,89 @@ void main() {
       await _tap(tester, find.text(AgeAnswer.adult.label));
       expect(_answers(c).age, AgeAnswer.adult);
       expect(tester.takeException(), isNull);
+    });
+  });
+
+  group('After sign-in: a preview of the swipe deck before Today (D90)', () {
+    Future<_Ticks> pumpPreview(WidgetTester tester, {bool reduced = false}) async {
+      final ticks = _Ticks();
+      tester.view.physicalSize = const Size(720, 1600);
+      tester.view.devicePixelRatio = 2;
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(ProviderScope(
+        overrides: [hapticsProvider.overrideWithValue(Haptics(enabled: true, driver: ticks))],
+        child: MaterialApp(
+          theme: buildTheme(Brightness.dark),
+          builder: (context, child) => MediaQuery(data: MediaQuery.of(context).copyWith(disableAnimations: reduced), child: child!),
+          home: const Scaffold(body: Padding(padding: EdgeInsets.all(20), child: SwipePreviewCard())),
+        ),
+      ));
+      return ticks;
+    }
+
+    double cardX(WidgetTester tester) =>
+        tester.getTopLeft(find.text(OnboardingCopy.swipePreviewTitle)).dx;
+
+    testWidgets('on first show it nudges right, then left, and comes home; no haptic for a demo', (tester) async {
+      final ticks = await pumpPreview(tester);
+      final home = cardX(tester);
+      var most = home, least = home;
+      int? mostAt, leastAt;
+      for (var t = 0; t < 180; t++) {
+        await tester.pump(const Duration(milliseconds: 16));
+        final x = cardX(tester);
+        if (x > most) (most, mostAt) = (x, t);
+        if (x < least) (least, leastAt) = (x, t);
+      }
+      expect(most, greaterThan(home + 18), reason: 'about 24 dp right');
+      expect(least, lessThan(home - 18), reason: 'about 24 dp left');
+      expect(mostAt!, lessThan(leastAt!), reason: 'right first, then left');
+      await tester.pumpAndSettle();
+      expect(cardX(tester), moreOrLessEquals(home, epsilon: 0.5));
+      expect(ticks.selection, 0);
+      expect(find.text(OnboardingCopy.swipePreviewCaption), findsOneWidget);
+    });
+
+    testWidgets('a drag past the deck threshold ticks once; letting go springs it home', (tester) async {
+      final ticks = await pumpPreview(tester, reduced: true);
+      final home = cardX(tester);
+      final g = await tester.startGesture(tester.getCenter(find.byType(SwipePreviewCard)) - const Offset(0, 20));
+      await g.moveBy(const Offset(20, 0));
+      await g.moveBy(const Offset(60, 0));
+      await tester.pump();
+      expect(ticks.selection, 0, reason: '80 dp of 320 is under 30%');
+      await g.moveBy(const Offset(40, 0));
+      await tester.pump();
+      expect(ticks.selection, 1, reason: 'the commit threshold, as on Today');
+      await g.up();
+      await tester.pumpAndSettle();
+      expect(cardX(tester), moreOrLessEquals(home, epsilon: 0.5), reason: 'a preview never commits');
+    });
+
+    testWidgets('the sheet shows it once per install', (tester) async {
+      final prefs = AppPrefs(MemoryPrefsStore());
+      Future<void> open() async {
+        await pumpMockmob(
+          tester,
+          const AfterSignInSheet(),
+          size: const Size(412, 915),
+          disableAnimations: true,
+          overrides: [
+            ...onboardingOverrides(
+              answers: studentUpTo(Steps.plan, step: Steps.save).copyWith(age: AgeAnswer.minor),
+            ).where((o) => !identical(o.origin, appPrefsProvider)),
+            appPrefsProvider.overrideWithValue(prefs),
+          ],
+        );
+        await _settle(tester);
+      }
+
+      await open();
+      expect(find.byType(SwipePreviewCard), findsOneWidget);
+      expect(await prefs.swipePreviewSeen(), isTrue);
+      await tester.pumpWidget(const SizedBox());
+      await open();
+      expect(find.byType(SwipePreviewCard), findsNothing, reason: 'Today teaches from here on');
     });
   });
 }

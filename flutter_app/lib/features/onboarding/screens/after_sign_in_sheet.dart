@@ -7,6 +7,7 @@ import '../../../core/haptics/haptics.dart';
 import '../../../core/models/models.dart';
 import '../../../core/repositories/repositories.dart';
 import '../../../core/router/routes.dart';
+import '../../../core/storage/storage_providers.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -17,6 +18,7 @@ import '../state/answers_controller.dart';
 import '../state/colleges_move.dart';
 import '../state/sheet_sync.dart';
 import '../widgets/sheet_status.dart';
+import '../widgets/swipe_preview.dart';
 import '../widgets/usage_data_card.dart';
 
 /// The sheet that follows sign-in (the `/before-you-start` route), once per phone.
@@ -52,6 +54,25 @@ class _AfterSignInSheetState extends ConsumerState<AfterSignInSheet> {
 
   /// The switch is on screen (an adult on either view), so continuing applies it.
   bool _usageVisible = false;
+
+  /// The swipe preview shows on this install's first sheet only (D90): read once, then marked.
+  bool _swipePreview = false;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() async {
+      final prefs = ref.read(appPrefsProvider);
+      try {
+        if (await prefs.swipePreviewSeen()) return;
+        if (!mounted) return;
+        setState(() => _swipePreview = true);
+        await prefs.setSwipePreviewSeen(true);
+      } catch (_) {
+        // A phone whose store cannot be read shows no preview: never a half-shown one.
+      }
+    });
+  }
 
   /// What the switch shows: on once the server says so, otherwise the student's choice, otherwise
   /// on for an adult whose account never turned it off (D49).
@@ -205,6 +226,7 @@ class _AfterSignInSheetState extends ConsumerState<AfterSignInSheet> {
         onToggleUsage: _setUsage,
         onToggleEvents: () => setState(() => _eventsOpen = !_eventsOpen),
         onDone: _done,
+        showSwipePreview: _swipePreview,
       );
     }
 
@@ -261,9 +283,16 @@ class SheetSavedView extends StatelessWidget {
     this.laterLabel,
     this.onStart,
     this.onLater,
+    this.showSwipePreview = false,
+    this.swipeDemo = true,
   });
 
   final SheetSyncPhase phase;
+
+  /// Under the starting-point keys, once per install: the card that shows how Today's deck
+  /// works before the student meets it (D90). [swipeDemo] plays its nudge.
+  final bool showSwipePreview;
+  final bool swipeDemo;
 
   /// The first move: "Start now, about 10 minutes" and "Tomorrow at 8:00 PM". Without them the
   /// sheet ends on Done.
@@ -323,6 +352,10 @@ class SheetSavedView extends StatelessWidget {
           KeyButton(label: startLabel!, onPressed: usageBusy ? null : onStart),
           const SizedBox(height: MmSpace.s8),
           KeyButton.secondary(label: laterLabel ?? OnboardingCopy.done, onPressed: usageBusy ? null : (onLater ?? onDone)),
+          if (showSwipePreview) ...[
+            const SizedBox(height: MmSpace.s20),
+            SwipePreviewCard(demo: swipeDemo),
+          ],
         ] else
           KeyButton(label: OnboardingCopy.done, onPressed: usageBusy ? null : onDone),
       ],

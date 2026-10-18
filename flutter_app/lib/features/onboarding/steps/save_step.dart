@@ -77,7 +77,7 @@ class _SaveStepState extends ConsumerState<SaveStep> {
       problem: problemText,
       onAge: ref.read(onboardingAnswersProvider.notifier).setAge,
       onGoogle: () => ref.read(signInControllerProvider.notifier).signInWithGoogle(),
-      onEmail: () => context.push(AppRoutes.signIn),
+      onEmail: () => context.push(AppRoutes.signInToSave),
       onNotNow: widget.onNotNow,
       onBack: StepGuide.of(context)?.onBack,
       note: widget.note,
