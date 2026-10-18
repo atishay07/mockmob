@@ -52,11 +52,12 @@ class AskMobiCard extends ConsumerWidget {
               ],
             ),
             const SizedBox(height: 14),
+            // Widths by their words, so "Ask your record" stays on one line at 360 dp.
             Row(
               children: [
-                Expanded(child: KeyButton.secondary(label: AskDoorCopy.cardNow, minHeight: 52, onPressed: () => open(AskDoor.now))),
+                Expanded(flex: 5, child: KeyButton.secondary(label: AskDoorCopy.cardNow, minHeight: 52, onPressed: () => open(AskDoor.now))),
                 const SizedBox(width: 10),
-                Expanded(child: KeyButton.secondary(label: AskDoorCopy.cardRecord, minHeight: 52, onPressed: () => open(AskDoor.record))),
+                Expanded(flex: 7, child: KeyButton.secondary(label: AskDoorCopy.cardRecord, minHeight: 52, onPressed: () => open(AskDoor.record))),
               ],
             ),
           ],

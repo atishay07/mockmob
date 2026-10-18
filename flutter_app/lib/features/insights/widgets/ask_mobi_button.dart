@@ -88,7 +88,9 @@ class AskMobiButton extends StatelessWidget {
                   grain: false,
                   child: DecoratedBox(
                     decoration: ShapeDecoration(shape: StadiumBorder(side: BorderSide(color: colors.lineStrong))),
-                    child: Padding(
+                    // The glass is the capsule's full height; the words sit in its middle.
+                    child: Container(
+                      height: height,
                       padding: EdgeInsets.only(left: art == null ? 12 : 38, right: 15),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,

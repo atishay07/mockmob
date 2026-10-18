@@ -784,9 +784,9 @@ class AskCreditLine extends ConsumerWidget {
   }
 }
 
-/// The two lines of the credit line, from the wallet: "38 of your 50 monthly credits left. They
-/// renew on 1 November." then what costs what. "Of your 50 monthly" is said only when it is true:
-/// a known monthly allowance and nothing bought beside it.
+/// The two lines of the credit line, from the wallet: "38 of your 50 monthly credits left · renews
+/// 1 Nov", then what costs what. "Of your 50 monthly" is said only when it is true: a known monthly
+/// allowance and nothing bought beside it.
 (String, String) creditLineWords(AskWallet? wallet, {required String renew, bool oneBalance = false}) {
   if (wallet?.paused ?? false) return (AskDoorCopy.creditsPaused, AskDoorCopy.pausedSecond);
   final total = wallet?.total;
@@ -794,10 +794,18 @@ class AskCreditLine extends ConsumerWidget {
   if (total == 0) return ('${AskDoorCopy.creditsNone} ${AskDoorCopy.renews(renew)}', AskDoorCopy.howItCostsNone);
   final monthly = wallet!.includedMonthly;
   final bought = wallet.bonus ?? 0;
+  final day = shortDay(renew);
   if (!oneBalance && monthly != null && bought == 0 && total <= monthly) {
-    return ('${AskDoorCopy.creditsOfMonthly(total, monthly)} ${AskDoorCopy.renews(renew)}', AskDoorCopy.howItCosts);
+    return (AskDoorCopy.creditsOfMonthly(total, monthly, day), AskDoorCopy.howItCosts);
   }
-  return ('${AskDoorCopy.creditsLeft(total)} ${AskDoorCopy.freeOnesRenew(renew)}', AskDoorCopy.howItCosts);
+  return (AskDoorCopy.creditsLeft(total, day), AskDoorCopy.howItCosts);
+}
+
+/// "1 November" as "1\u00a0Nov": short, and never broken between the day and the month.
+String shortDay(String renew) {
+  final parts = renew.split(' ');
+  if (parts.length != 2 || parts[1].length < 3) return renew.replaceAll(' ', '\u00a0');
+  return '${parts[0]}\u00a0${parts[1].substring(0, 3)}';
 }
 
 // ---- Pro, visible but locked (D101) ----------------------------------------------------------

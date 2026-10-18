@@ -94,11 +94,11 @@ abstract final class AskDoorCopy {
   static const oneCredit = '1 credit';
   static const pro = 'Pro';
 
-  // The line at the foot of the doors.
-  static String creditsOfMonthly(int left, int monthly) => '$left of your $monthly monthly credits left.';
-  static String creditsLeft(int left) => left == 1 ? '1 credit left.' : '$left credits left.';
+  // The line at the foot of the doors, in the design's words (ASK-MOBI-1019, "Credit line"). [day] is
+  // "1 Nov": its space never breaks, so the date is never split across two lines.
+  static String creditsOfMonthly(int left, int monthly, String day) => '$left of your $monthly monthly credits left\u00a0· renews\u00a0$day';
+  static String creditsLeft(int left, String day) => '${left == 1 ? '1 credit' : '$left credits'} left\u00a0· free ones renew\u00a0$day';
   static String renews(String day) => 'They renew on $day.';
-  static String freeOnesRenew(String day) => 'Free ones renew on $day.';
   static const creditsUnknown = 'See your credits';
   static const creditsNone = 'No credits left.';
   static const creditsPaused = 'Written answers are paused just now.';

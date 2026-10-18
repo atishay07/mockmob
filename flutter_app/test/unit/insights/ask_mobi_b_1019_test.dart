@@ -143,9 +143,9 @@ void main() {
 
     test('the credit line is the wallet: of your 50 monthly, the real renewal day, or nothing invented', () {
       final w = AskWallet.fromCredits(monthly());
-      expect(creditLineWords(w, renew: renewDay(w, evening)).$1, '38 of your 50 monthly credits left. They renew on 1 November.');
+      expect(creditLineWords(w, renew: renewDay(w, evening)).$1, '38 of your 50 monthly credits left\u00a0· renews\u00a01\u00a0Nov');
       expect(creditLineWords(w, renew: '1 November').$2, 'Answers from your marks are free. A written answer uses 1 credit.');
-      expect(creditLineWords(w, renew: '1 November', oneBalance: true).$1, '38 credits left. Free ones renew on 1 November.');
+      expect(creditLineWords(w, renew: '1 November', oneBalance: true).$1, '38 credits left\u00a0· free ones renew\u00a01\u00a0Nov');
       expect(creditLineWords(null, renew: '1 November').$1, AskDoorCopy.creditsUnknown, reason: 'an unknown balance is never a zero');
       expect(creditLineWords(w.withTotal(0), renew: '1 November').$1, 'No credits left. They renew on 1 November.');
     });
@@ -182,7 +182,7 @@ void main() {
       expect(find.descendant(of: now, matching: find.text(AskDoorCopy.oneCredit)), findsNWidgets(2));
       expect(find.text(AskDoorCopy.nowTip), findsOneWidget);
       // The credit line is the wallet's own numbers.
-      expect(find.text('38 of your 50 monthly credits left. They renew on 1 November.'), findsOneWidget);
+      expect(find.text('38 of your 50 monthly credits left\u00a0· renews\u00a01\u00a0Nov'), findsOneWidget);
     });
 
     testWidgets('a heavy account: the record door leads with the real figure and says Free', (tester) async {
