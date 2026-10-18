@@ -20,10 +20,14 @@ class SubjectRow extends ConsumerWidget {
     required this.confidence,
     required this.onToggle,
     required this.onConfidence,
+    this.note,
   });
 
   final SheetSubject subject;
   final bool included;
+
+  /// A quiet line under the name ("Needed for BMS").
+  final String? note;
   final Confidence? confidence;
   final VoidCallback onToggle;
   final ValueChanged<Confidence> onConfidence;
@@ -41,7 +45,7 @@ class SubjectRow extends ConsumerWidget {
         GuideGlance.at(context);
         onToggle();
       },
-      builder: (context, pressed, _) => SubjectLine(subject: subject, chosen: included, dim: !included, bubble: !included),
+      builder: (context, pressed, _) => SubjectLine(subject: subject, chosen: included, dim: !included, bubble: !included, note: note),
     );
 
     // On the sheet: a flat wash of the lamp's light under the name and the confidence bubbles, no

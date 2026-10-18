@@ -85,6 +85,8 @@ void main() {
     await _tap(tester, OnboardingCopy.next);
 
     expect(find.text(OnboardingCopy.subjectsTitle), findsOneWidget);
+    // Nothing is assumed (D42): the Commerce set ticks in one tap.
+    await _tap(tester, 'Commerce');
     expect(find.text('Your 4 subjects open B.Com (Hons) at your college.'), findsOneWidget);
     await _tap(tester, OnboardingCopy.next);
 
@@ -125,7 +127,7 @@ void main() {
     expect(a.stage, Stage.classTwelve);
     expect(a.courseId, 'b-com-hons');
     expect(a.colleges, ['Hindu College']);
-    expect(a.subjects, [SheetSubject.english, SheetSubject.accountancy, SheetSubject.businessStudies, SheetSubject.economics]);
+    expect(a.subjects, [SheetSubject.accountancy, SheetSubject.businessStudies, SheetSubject.economics, SheetSubject.english]);
     expect(a.worry, Worry.knewIt);
     expect(a.warmup!.correct, isFalse);
     expect(a.sealed, isTrue);

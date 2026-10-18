@@ -187,6 +187,17 @@ class AnswersController extends AsyncNotifier<OnboardingAnswers> {
     return true;
   }
 
+  /// A one-tap common set: the sheet's subjects become exactly [set] (ratings already given are
+  /// kept). Tapping the set that is already on clears it back to what the course needs.
+  void applySubjectSet(List<SheetSubject> set) {
+    final a = _current;
+    final on = a.subjects.length == set.length && a.subjects.toSet().containsAll(set);
+    final list = on ? neededSubjects(a.course) : set.take(kMaxSubjects).toList();
+    var next = a.copyWith(subjects: list, subjectsTouched: true);
+    if (list.isEmpty) next = next.copyWith(done: {...next.done}..remove(Steps.subjects));
+    _set(next);
+  }
+
   void setConfidence(SheetSubject s, Confidence c) {
     final a = _current;
     final list = a.subjects.contains(s) ? a.subjects : [...a.subjects, s];
@@ -199,6 +210,26 @@ class AnswersController extends AsyncNotifier<OnboardingAnswers> {
     if (a.subjects.isEmpty && !a.subjectsTouched) _set(a.copyWith(subjects: neededSubjects(a.course)));
   }
 
+  /// Picks or drops a "where do your marks go" answer. Up to [kMaxWorries]: a fourth pick swaps
+  /// out the oldest and returns true so the step can say so. The step stays answered while at
+  /// least one pick is left.
+  bool toggleWorry(Worry w) {
+    final a = _current;
+    final list = [...a.worries];
+    var swapped = false;
+    if (!list.remove(w)) {
+      if (list.length >= kMaxWorries) {
+        list.removeAt(0);
+        swapped = true;
+      }
+      list.add(w);
+    }
+    final next = a.copyWith(worries: list);
+    _set(list.isEmpty ? next.copyWith(done: {...next.done}..remove(Steps.worry)) : next.mark(Steps.worry));
+    return swapped;
+  }
+
+  /// One answer as the primary (kept for callers that set a single worry).
   void setWorry(Worry w) => _set(_current.copyWith(worry: w).mark(Steps.worry));
 
   void recordWarmup(WarmupResult result) => _set(_current.copyWith(warmup: result).mark(Steps.question));

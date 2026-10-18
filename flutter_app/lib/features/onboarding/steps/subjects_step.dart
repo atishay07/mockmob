@@ -5,8 +5,10 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../choices_copy.dart';
 import '../copy.dart';
 import '../data/eligibility.dart';
+import '../data/subject_sets.dart';
 import '../data/subjects.dart';
 import '../model/answers.dart';
 import '../model/deck.dart';
@@ -29,9 +31,11 @@ const List<SheetSubject> kQuickSubjects = [
   SheetSubject.mathematics,
 ];
 
-/// Step 5: the subjects, and how solid each feels. Chosen rows reorder weakest first as the
-/// student rates them; the common picks sit under them, and "Add a subject" opens all 15 (and
-/// what MockMob doesn't offer yet). The eligibility line for the chosen course updates live.
+/// Step 5: the subjects, and how solid each feels. Nothing is assumed (owner, 18 Oct, D42): "Add a
+/// subject" leads, then up to three common sets that tick in one tap; with a course, only what
+/// every one of its Bulletin combinations names starts ticked, marked "Needed for" it. Chosen rows
+/// reorder weakest first as the student rates them; once there is one, the common single picks
+/// follow. The eligibility line for the chosen course updates live.
 class SubjectsStep extends ConsumerStatefulWidget {
   const SubjectsStep({super.key, required this.answers, required this.onNext});
 
@@ -59,21 +63,26 @@ class _SubjectsStepState extends ConsumerState<SubjectsStep> {
     final colors = context.mmColors;
     final c = ref.read(onboardingAnswersProvider.notifier);
     final included = a.ranked;
-    final rest = [for (final s in kQuickSubjects) if (!a.subjects.contains(s)) s];
+    // The single common picks join once the student has a subject; before that the sets lead.
+    final rest = a.subjects.isEmpty ? const <SheetSubject>[] : [for (final s in kQuickSubjects) if (!a.subjects.contains(s)) s];
     final course = a.course;
     final check = course == null || a.subjects.isEmpty ? null : EligibilityCheck.of(course, a.subjects.toSet());
     final line = PlanSummary.eligibilityLine(a);
+    final sets = SubjectSets.forCourse(course);
+    final needed = neededSubjects(course);
 
-    // Rows lift in the order they stand: the chosen ones, then the common picks.
+    // Rows lift in the order they stand: Add, the sets, the note, the chosen ones, the picks.
+    final lead = 1 + sets.length + (line == null ? 0 : 1);
     final order = [...included, ...rest];
     Widget row(SheetSubject s) => FlipItem(
           key: ValueKey(s),
           child: EntranceItem.answer(
-            order.indexOf(s) + (line == null ? 0 : 1),
+            lead + order.indexOf(s),
             child: SubjectRow(
               subject: s,
               included: a.subjects.contains(s),
               confidence: a.confidence[s],
+              note: course != null && needed.contains(s) ? ChoicesCopy.neededFor(course.short) : null,
               onToggle: () => setState(() => _capped = !c.toggleSubject(s)),
               onConfidence: (v) => c.setConfidence(s, v),
             ),
@@ -82,22 +91,45 @@ class _SubjectsStepState extends ConsumerState<SubjectsStep> {
 
     return StepLayout(
       title: OnboardingCopy.subjectsTitle,
-      support: OnboardingCopy.subjectsSupport,
+      support: ChoicesCopy.subjectsSupportOpen,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          EntranceItem.answer(0, child: _AddRow(onTap: () => showSubjectPicker(context))),
+          if (sets.isNotEmpty) ...[
+            Padding(
+              padding: const EdgeInsets.only(top: MmSpace.s20, bottom: MmSpace.s8),
+              child: Text(ChoicesCopy.quickSetsLabel, style: context.mmType.label.copyWith(color: colors.ink3)),
+            ),
+            for (var i = 0; i < sets.length; i++)
+              EntranceItem.answer(
+                1 + i,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: MmSpace.s8),
+                  child: _SetRow(
+                    set: sets[i],
+                    on: sets[i].matches(a.subjects),
+                    onTap: () => setState(() {
+                      _capped = false;
+                      c.applySubjectSet(sets[i].subjects);
+                    }),
+                  ),
+                ),
+              ),
+          ],
           if (line != null)
             EntranceItem.answer(
-              0,
+              1 + sets.length,
               child: Padding(
-              padding: const EdgeInsets.only(bottom: MmSpace.s12),
-              child: _Note(
-                text: line,
-                icon: check?.eligible ?? false ? LucideIcons.check : LucideIcons.circleAlert,
-                color: check?.eligible ?? false ? colors.accentText : colors.warnText,
+                padding: const EdgeInsets.only(top: MmSpace.s12, bottom: MmSpace.s4),
+                child: _Note(
+                  text: line,
+                  icon: check?.eligible ?? false ? LucideIcons.check : LucideIcons.circleAlert,
+                  color: check?.eligible ?? false ? colors.accentText : colors.warnText,
+                ),
               ),
             ),
-            ),
+          if (included.isNotEmpty) const SizedBox(height: MmSpace.s12),
           for (final s in included) row(s),
           if (_capped)
             Padding(
@@ -111,7 +143,6 @@ class _SubjectsStepState extends ConsumerState<SubjectsStep> {
             ),
             for (final s in rest) row(s),
           ],
-          _AddRow(onTap: () => showSubjectPicker(context)),
         ],
       ),
       bottom: KeyButton(
@@ -124,6 +155,26 @@ class _SubjectsStepState extends ConsumerState<SubjectsStep> {
                 widget.onNext();
               },
       ),
+    );
+  }
+}
+
+/// One common set as a row: its name, the subjects in it, and the select bubble that inks when
+/// the sheet holds exactly this set.
+class _SetRow extends StatelessWidget {
+  const _SetRow({required this.set, required this.on, required this.onTap});
+
+  final SubjectSet set;
+  final bool on;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return MmSelectRow(
+      title: set.title,
+      note: [for (final s in set.subjects) s.label].join(', '),
+      selected: on,
+      onTap: onTap,
     );
   }
 }

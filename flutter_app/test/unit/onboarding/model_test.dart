@@ -21,7 +21,7 @@ OnboardingAnswers _student({Worry? worry, Stage stage = Stage.classTwelve}) => O
     SheetSubject.accountancy: Confidence.okay,
     SheetSubject.english: Confidence.strong,
   },
-  worry: worry,
+  worries: [?worry],
 );
 
 void main() {

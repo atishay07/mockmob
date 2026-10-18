@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/theme.dart';
+import '../choices_copy.dart';
 import '../copy.dart';
+import '../data/course_combos.dart';
 import '../data/du_catalog.dart';
 import 'choice_tile.dart';
 import 'entrance.dart';
 import 'glyphs.dart';
 
-/// The six Commerce courses as tiles: the real count of colleges that took each through CUET in
-/// 2026, in condensed figures, the shape of its college ladder, and the course name. Two
-/// columns, equal heights.
+/// The six most chosen courses as tiles (B.Com (Hons) first): the real count of colleges that
+/// took each through CUET in 2026, in condensed figures, the shape of its college ladder, the
+/// course name and its CUET subject combination from the Bulletin. Two columns, equal heights.
 class CourseGrid extends StatelessWidget {
   const CourseGrid({super.key, required this.selected, required this.onPick});
 
@@ -61,7 +63,7 @@ class CourseTile extends StatelessWidget {
     return ChoiceTile(
       selected: selected,
       onTap: onTap,
-      semanticsLabel: '${course.short}, ${OnboardingCopy.collegesCount(course.collegeCount)}',
+      semanticsLabel: '${course.short}, ${OnboardingCopy.collegesCount(course.collegeCount)}. ${ChoicesCopy.combosSpoken}: ${CourseCombos.line(course)}',
       minHeight: 124,
       padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s12, MmSpace.s16),
       child: Column(
@@ -97,6 +99,9 @@ class CourseTile extends StatelessWidget {
           ),
           const SizedBox(height: MmSpace.s12),
           Text(course.short, style: type.labelLarge.copyWith(height: 20 / 15)),
+          const SizedBox(height: MmSpace.s4),
+          // The CUET subjects it takes, from the Bulletin rows only (D41).
+          Text(CourseCombos.line(course), style: type.caption.copyWith(color: colors.ink2)),
         ],
       ),
     );

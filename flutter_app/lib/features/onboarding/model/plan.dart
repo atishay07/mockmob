@@ -79,8 +79,17 @@ class FirstMove {
     SheetSubject subject = ready.isNotEmpty ? ready.first : (ranked.isNotEmpty ? ranked.first : SheetSubject.accountancy);
     bool open(SheetSubject s) => a.subjects.isEmpty || a.subjects.contains(s);
     final worry = a.worry;
-    if (worry == Worry.numericals && open(SheetSubject.accountancy)) subject = SheetSubject.accountancy;
-    if (worry == Worry.passages && open(SheetSubject.english)) subject = SheetSubject.english;
+    // Up to three picks (D45): the first one that names a subject decides it, in pick order.
+    for (final w in a.worries) {
+      if (w == Worry.numericals && open(SheetSubject.accountancy)) {
+        subject = SheetSubject.accountancy;
+        break;
+      }
+      if (w == Worry.passages && open(SheetSubject.english)) {
+        subject = SheetSubject.english;
+        break;
+      }
+    }
     final chapter = firstChapter(subject);
     final framing = switch (worry) {
       Worry.knewIt => 'Every slip becomes a repair.',
@@ -110,6 +119,7 @@ class PlanSummary {
       subjectDefault
           ? '${move.line} (${OnboardingCopy.ourDefault}), about ${FirstMove.minutes} minutes. ${move.framing}'
           : '${move.line}, about ${FirstMove.minutes} minutes. ${move.framing}',
+      ?worriesLine(a),
       rhythmLine(a),
       chapterLine(move),
       if ((a.stage ?? Stage.notSure).boards) 'Boards end in early April. The plan goes lighter from mid-February.',
@@ -118,6 +128,22 @@ class PlanSummary {
     ];
     return PlanSummary(headline: 'Week one starts with ${move.chapter}.', lines: lines);
   }
+
+  /// "Where your marks go: traps first, then the clock." Only with two or three picks (D45); one
+  /// pick is already in the first move's line. It repeats what the student said, nothing more.
+  static String? worriesLine(OnboardingAnswers a) {
+    final named = [for (final w in a.worries) ?_worryWords[w]];
+    if (a.worries.length < 2 || named.length < 2) return null;
+    return 'Where your marks go: ${named.first} first, then ${joinWithAnd(named.skip(1).toList())}.';
+  }
+
+  static const Map<Worry, String> _worryWords = {
+    Worry.knewIt: 'traps',
+    Worry.time: 'the clock',
+    Worry.numericals: 'Accounts numericals',
+    Worry.passages: 'English passages',
+    Worry.syllabus: 'too much syllabus',
+  };
 
   /// True when a skipped step left a default in the plan.
   static bool usesDefaults(OnboardingAnswers a) =>

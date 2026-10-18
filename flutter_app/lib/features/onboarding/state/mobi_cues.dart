@@ -51,9 +51,10 @@ MobiCue? mobiCueFor(OnboardingAnswers? before, OnboardingAnswers after) {
         : const MobiCue(act: MobiAct.encourage, line: OnboardingCopy.mobiTrap);
   }
 
-  final worry = after.worry;
-  if (worry != null && worry != before.worry) {
-    return MobiCue(act: MobiAct.idle, line: worry.mobiShort);
+  // Up to three picks (D45): Mobi answers the newest one, never a drop.
+  final added = [for (final w in after.worries) if (!before.worries.contains(w)) w];
+  if (added.isNotEmpty) {
+    return MobiCue(act: MobiAct.idle, line: added.last.mobiShort);
   }
 
   final step = after.step;
