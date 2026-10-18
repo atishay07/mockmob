@@ -380,6 +380,13 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 | D76 | One credits wallet on web AND app (practice + AI credits, reload packs); build now, he wires Razorpay today | BUILDING 6:42 pm: web wt-wallet-web (web/wallet-1018: /wallet, /api/wallet, /api/wallet/order + verify, flag WALLET_COMMERCE_OPEN, note WALLET-RAZORPAY.md); app Wallet screen added to the Play billing app agent. Packs (CEO proposal, constants): AI Rs 10/50, Rs 20/150, Rs 50/400 (existing ids, labels renamed); practice NEW Rs 19/100, Rs 49/300; Play prices about 1.5x (AI 15/30/75, practice 29/75) for him to confirm |
 | D77 | "No agent is running / stalled": stay on top, more parallel | 6:38 pm check: all 4 agents wrote within 1-5 min; 2 more agents added (wallet web, wallet app scope) |
 
+### Owner at about 6:50 pm, 18 Oct (D78-D81)
+| D | Item | Status |
+|---|---|---|
+| D78 | ONE credits balance for everything (no separate practice and AI wallets) | BUILDING 6:58 pm: core (Opus, wt-credits-core, web/credits-core-1018): one balance = this month's free 50 + held (ai bonus + users.credit_balance); one spend order (free, bought, held) for practice and AI; spend_credits and the AI reserve/consume functions take through one wallet function; no data moved; migration 20261018210000_one_credits_balance + undo; packs credits_10_50 (Rs 10), credits_29_150 (Rs 29), credits_49_300 (Rs 49). Wallet web/app and Play map redirected to one balance |
+| D79-D80 | Pro nudges everywhere ("Get unlimited mocks", "No credits needed for practice with Pro"); any Pro feature tap opens "Upgrade to Pro" | BUILDING: web (Opus, wt-pro-nudge), app (wt-pro-nudge-app; app nudges only with Play billing on, the store rule) |
+| D81 | First-session pop-up after the first real action (never on or right after onboarding), benefits personalised and true; once ever | BUILDING with D79-D80 |
+
 ## Waiting on the owner (updated 18 Oct about 3:45 am)
 - Answered 3:50 am: M-001 first launch 3 s; M-006 bolder copy; D19 keep badges, refine; D22 Mob.
 - D32: confirm the kept landing element when he reviews the port live (wt-land3, port 3206).
