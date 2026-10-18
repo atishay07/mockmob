@@ -12,6 +12,7 @@ import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/practice/copy.dart';
 import 'package:mockmob/features/today/copy.dart';
+import 'package:mockmob/features/today/copy_suggested.dart';
 import 'package:mockmob/features/today/data/today_profile.dart';
 import 'package:mockmob/features/today/logic/move_price.dart';
 import 'package:mockmob/features/today/logic/road_board.dart';
@@ -24,6 +25,7 @@ import 'package:mockmob/features/today/logic/today_model.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
 import 'package:mockmob/features/today/widgets/plan_flow_sheet.dart';
 import 'package:mockmob/features/today/widgets/road_glance.dart';
+import 'package:mockmob/features/today/widgets/suggested_stack.dart';
 import 'package:mockmob/features/today/widgets/weak_chapters.dart';
 
 import '../../unit/today/support/today_fixtures.dart';
@@ -137,6 +139,18 @@ Future<void> _tapText(WidgetTester tester, String text, {bool ensure = true}) as
   await tester.pump(const Duration(milliseconds: 600));
 }
 
+/// Taps [finder] after scrolling it into view, and lets the swap land.
+Future<void> _tapIn(WidgetTester tester, Finder finder) async {
+  await tester.ensureVisible(finder);
+  await tester.pump();
+  await tester.tap(finder);
+  await tester.pump();
+  await tester.pump(const Duration(milliseconds: 600));
+  // Back to the top of the page, where the lead card shows the swap.
+  await tester.drag(find.byType(Scrollable).first, const Offset(0, 3000));
+  await tester.pumpAndSettle();
+}
+
 Future<void> _tapKey(WidgetTester tester, String key) async {
   await tester.tap(find.byKey(ValueKey(key)));
   await tester.pump();
@@ -219,7 +233,11 @@ void main() {
 
   // The swap (6.2): Practise your weakest picked; the recommended repair comes back as Suggested,
   // and the price line follows the card.
-  todayGolden('today1018_swap_weakest', activeView, size: kPhone, prices: fixturePrices, act: (t) => _tapText(t, 'Practise your weakest', ensure: false));
+  // D51: the weakest chapter, on top of the Suggested stack, is chosen with Do this instead.
+  todayGolden('today1018_swap_weakest', activeView, size: kPhone, prices: fixturePrices, act: (t) async {
+    Finder onTop(String text) => find.descendant(of: find.byKey(SuggestedStack.topKey), matching: find.text(text));
+    await _tapIn(t, onTop(SuggestedCopy.doThis));
+  });
 
   // Day one, returning, done, loading, error, offline.
   todayGolden(

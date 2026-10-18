@@ -21,7 +21,6 @@ import '../logic/today_model.dart';
 import 'hero_stage.dart';
 import 'number_block.dart';
 import 'length_pill.dart';
-import 'move_choices.dart';
 import 'today_pill.dart';
 import 'today_entrance.dart';
 import 'today_type.dart';
@@ -40,7 +39,6 @@ class MoveHeroCard extends StatefulWidget {
     this.controlsKey,
     this.keyPulse,
     this.choices = const [],
-    this.onChoose,
     this.onMore,
     this.price,
   });
@@ -51,14 +49,13 @@ class MoveHeroCard extends StatefulWidget {
   /// 38."), or null while it is not known (then the line's place is kept, empty).
   final String? price;
 
-  /// The two other moves under the key (TODAY-1018 6.1). Empty keeps the older pills (a failed
-  /// read's Practise anyway).
+  /// The other moves (TODAY-1018 6.1), shown under the card as the Suggested stack (D51): when
+  /// there are any, the card takes its 1018 form (the value line and the price line). Empty keeps
+  /// the older pills (a failed read's Practise anyway).
   final List<MoveChoice> choices;
 
-  /// A choice was tapped: the screen swaps the card to it (or runs its action).
-  final ValueChanged<MoveChoice>? onChoose;
-
-  /// "More ways to practise": the alternatives sheet.
+  /// The alternatives sheet is offered under the card (in the Suggested stack): the card's body
+  /// swaps in place when a suggested card is chosen.
   final VoidCallback? onMore;
   final void Function(TodayAction action) onAction;
   final ValueChanged<int>? onMinutes;
@@ -387,22 +384,17 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
     return HeroStage(
       subjectId: m.subjectId,
       react: _react,
-      art: MoveSwap(child: KeyedSubtree(key: swapKey, child: art)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // A choice swaps the body in place (6.2): the old one drops 6 dp and blurs out in 140 ms,
-          // the new one rises in over 240 ms, and the card's height eases between them.
-          MmSizeEase(
-            duration: Motion.ui,
-            curve: Motion.out,
-            alignment: Alignment.topCenter,
-            clipBehavior: Clip.none,
-            child: MoveSwap(child: KeyedSubtree(key: swapKey, child: content)),
-          ),
-          MoveChoicesFooter(choices: widget.choices, onChoose: widget.onChoose, onMore: widget.onMore),
-        ],
+      // The art box has a fixed size: the outgoing object keeps the whole box while it leaves.
+      art: MoveSwap(fill: true, child: KeyedSubtree(key: swapKey, child: art)),
+      // A suggested card swaps the body in place (6.2): the old one drops 6 dp and blurs out in
+      // 140 ms, the new one rises in over 240 ms, and the card's height eases between them. The
+      // card ends at its price line: the other moves are the Suggested stack under it (D51).
+      child: MmSizeEase(
+        duration: Motion.ui,
+        curve: Motion.out,
+        alignment: Alignment.topCenter,
+        clipBehavior: Clip.none,
+        child: MoveSwap(child: KeyedSubtree(key: swapKey, child: content)),
       ),
     );
   }
@@ -411,9 +403,13 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
 /// The swap between two moves: the outgoing body fades, blurs 2 px and drops 6 dp in 140 ms; the
 /// incoming one rises into place in 240 ms. Reduced motion swaps at once.
 class MoveSwap extends StatelessWidget {
-  const MoveSwap({super.key, required this.child});
+  const MoveSwap({super.key, required this.child, this.fill = false});
 
   final Widget child;
+
+  /// The outgoing child keeps the whole box (a fixed-size box such as the art corner), instead of
+  /// its own height from the top (the body, whose height eases).
+  final bool fill;
 
   @override
   Widget build(BuildContext context) {
@@ -426,7 +422,7 @@ class MoveSwap extends StatelessWidget {
       layoutBuilder: (current, previous) => Stack(
         alignment: Alignment.topCenter,
         children: [
-          for (final p in previous) Positioned(left: 0, right: 0, top: 0, child: p),
+          for (final p in previous) fill ? Positioned.fill(child: p) : Positioned(left: 0, right: 0, top: 0, child: p),
           ?current,
         ],
       ),

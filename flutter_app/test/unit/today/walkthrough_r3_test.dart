@@ -3,8 +3,7 @@
 // its own, the primary key stays in reach above the bar (as the capsule), and its label does not wrap at 1.3x.
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockmob/features/today/widgets/move_choices.dart';
-import 'package:mockmob/features/today/copy_glance.dart';
+import 'package:mockmob/features/today/widgets/suggested_stack.dart';
 import 'package:mockmob/core/domain/next_move.dart';
 import 'package:mockmob/core/models/attempt.dart';
 import 'package:mockmob/core/theme/theme.dart' show MmBar;
@@ -172,11 +171,11 @@ void main() {
     testWidgets('on a tall screen the card shows its own key and no capsule is added', (tester) async {
       await pump(tester, buildToday(ashaInputs()), size: const Size(384, 1100));
       expect(bar(), findsNothing);
-      // The card has its one primary key, and its two choices with More ways under them
-      // (TODAY-1018 6.1).
+      // The card has its one primary key and ends at its price line; the other moves are the
+      // Suggested stack under it, never inside it (D51).
       expect(find.descendant(of: find.byType(MoveHeroCard), matching: find.byType(KeyButton)), findsOneWidget, reason: 'one primary');
-      expect(find.descendant(of: find.byType(MoveHeroCard), matching: find.byType(MoveChoicesFooter)), findsOneWidget, reason: 'the two choices');
-      expect(find.descendant(of: find.byType(MoveHeroCard), matching: find.text(GlanceCopy.moreWays)), findsOneWidget);
+      expect(find.descendant(of: find.byType(MoveHeroCard), matching: find.byType(SuggestedStack)), findsNothing, reason: 'no card inside the card');
+      expect(find.byType(SuggestedStack), findsOneWidget, reason: 'the other moves follow the card');
     });
 
     testWidgets('scrolling the card key into the clear hands over to it: one primary at a time', (tester) async {
