@@ -81,6 +81,8 @@ export function MobEntry({ where, mob: given = null, rhythm = null, inviteOnly =
     const reason = rhythm?.status === 'ready' ? inviteMoment(rhythm.data) : null;
     return reason ? <Invitation reason={reason} /> : null;
   }
+  // inviteOnly: Today already shows a member the Mob (TodayMob), so this carries only the invitation above.
+  if (inviteOnly) return null;
   const entry = entryFor(where, data);
   if (!entry) return null;
   if (where === 'review') {

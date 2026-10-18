@@ -379,6 +379,10 @@ test('entry lines: one per page for a member, the invitation only on Today and o
   assert.match(read('src/app/(app)/dashboard/DashboardPageClient.jsx'), /<PracticeMobChip userId=/);
   assert.match(read('src/components/RecoveryOverview.jsx'), /<MobTodayCard userId=/);
   assert.match(read('src/components/review/ReviewChapters.jsx'), /<MobEntry where="review" \/>/);
+  // Today shows a member one Mob row (TodayMob): the invitation-only entry returns nothing once there is a Mob.
+  const entrySrc = read('src/components/mob/MobEntry.jsx');
+  assert.ok(entrySrc.indexOf('if (inviteOnly) return null;') > entrySrc.indexOf('if (!data) {'), 'inviteOnly stays quiet for a member');
+  assert.ok(entrySrc.indexOf('if (inviteOnly) return null;') < entrySrc.indexOf('const entry = entryFor(where, data);'), 'inviteOnly is decided before the member line is built');
   const entry = read('src/components/mob/MobEntry.jsx');
   assert.doesNotMatch(entry, /btn-volt|data-page-primary/, 'an entry line never takes the page\'s volt');
 });
