@@ -170,7 +170,7 @@ void main() {
     });
 
     test('the aim line carries the real figures, the source and the scale', () {
-      expect(PlanSummary.aimLine(_student()), 'Aim: SRCC. It took 924.3 of\u00A01000 in Round 1 of 2026, about 231 a paper.');
+      expect(PlanSummary.aimLine(_student()), 'Your aim is SRCC. It took 924.3 of\u00A01000 in Round 1 of 2026, about 231 a paper.');
       expect(PlanSummary.alsoLine(_student()), 'Also on your list: Hindu 919.9.');
     });
 
@@ -179,7 +179,7 @@ void main() {
     });
 
     test('the rhythm line and the sessions count', () {
-      expect(PlanSummary.rhythmLine(_student()), '4 evenings a week, 20 minutes, around 8:00\u00A0PM.');
+      expect(PlanSummary.rhythmLine(_student()), 'You study 4 evenings a week, 20 minutes each, around 8:00\u00A0PM.');
       expect(PlanSummary.sessionsLine(_student(), _now), 'That\'s about 100 sessions before May.');
     });
   });
@@ -226,7 +226,7 @@ void main() {
       expect(OnboardingCopy.welcomeHeadline, 'Every lost mark has a pattern.');
       expect(
         OnboardingCopy.welcomeSupport,
-        'MockMob finds where your marks slip, helps you fix each mistake, and checks that the fix holds. Setup takes about two minutes.',
+        'MockMob finds where your marks slip, helps you fix each mistake, and checks that the fix sticks. Setup takes about two minutes.',
       );
       expect(OnboardingCopy.buildPlan, 'Build my plan');
       expect(OnboardingCopy.haveAccount, 'I already have an account');

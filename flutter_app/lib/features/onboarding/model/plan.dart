@@ -156,11 +156,11 @@ class PlanSummary {
         _ => '${move.subject.label} starts at ${move.chapter}, the first chapter on your plan.',
       };
 
-  /// "4 evenings a week, 20 minutes, around 8:00 PM." A skipped pace says it is a default.
+  /// "You study 4 evenings a week, 20 minutes each, around 8:00 PM." A skipped pace says it is a default.
   static String rhythmLine(OnboardingAnswers a) {
     final n = a.days.length;
     final unit = n == 1 ? a.window.plural.substring(0, a.window.plural.length - 1) : a.window.plural;
-    final base = '$n $unit a week, ${a.minutes} minutes, around ${a.window.time}';
+    final base = 'You study $n $unit a week, ${a.minutes} minutes each, around ${a.window.time}';
     return a.isSkipped(Steps.rhythm) ? '$base (${OnboardingCopy.ourDefault}).' : '$base.';
   }
 
@@ -190,7 +190,7 @@ class PlanSummary {
     return '${course.short} also needs ${joinWithAnd(check.missing)}.';
   }
 
-  /// "Aim: SRCC. It took 924.3 of 1000 in Round 1 of 2026, about 231 a paper." The first college
+  /// "Your aim is SRCC. It took 924.3 of 1000 in Round 1 of 2026, about 231 a paper." The first college
   /// (the picks stand in order of the marks, D103, so it is the one that needs the most)
   /// with its real bar and what that means per paper, as the course step says it (v15 taste pass:
   /// the old line read like a data dump, with a parenthesis). A category other than unreserved is
@@ -202,9 +202,9 @@ class PlanSummary {
       final o = course.offeringAt(name);
       if (o == null) continue;
       final score = o.scoreFor(a.category);
-      if (score == null) return 'Aim: ${o.short}. ${OnboardingCopy.noSeatsFor(a.category)}';
+      if (score == null) return 'Your aim is ${o.short}. ${OnboardingCopy.noSeatsFor(a.category)}';
       final who = categoryWords(a.category) == 'unreserved' ? '' : ' (${categoryWords(a.category)})';
-      return 'Aim: ${o.short}. It took ${DuCatalog.format(score)} of\u00A0${DuCatalog.scale}$who in Round 1 of 2026, '
+      return 'Your aim is ${o.short}. It took ${DuCatalog.format(score)} of\u00A0${DuCatalog.scale}$who in Round 1 of 2026, '
           'about ${(score / 4).round()} a paper.';
     }
     return null;

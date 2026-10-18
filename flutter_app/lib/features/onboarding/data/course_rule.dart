@@ -96,10 +96,12 @@ abstract final class CourseRule {
 
   static String _count(int n) => switch (n) { 1 => 'one', 2 => 'two', 3 => 'three', 4 => 'four', 5 => 'five', _ => '$n' };
 
+  /// "A, B and C"; with a comma inside an item, the last one takes a comma too, so it never
+  /// reads as part of that item ("Maths, one other subject, such as X or Y, and the General Test").
   static String _join(List<String> items, {String last = 'and'}) => switch (items.length) {
         0 => '',
         1 => items.single,
         2 => '${items.first} $last ${items.last}',
-        _ => '${items.sublist(0, items.length - 1).join(', ')} $last ${items.last}',
+        _ => '${items.sublist(0, items.length - 1).join(', ')}${items.any((i) => i.contains(',')) ? ',' : ''} $last ${items.last}',
       };
 }

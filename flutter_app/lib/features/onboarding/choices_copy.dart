@@ -43,7 +43,7 @@ abstract final class ChoicesCopy {
   static String runwaySpoken(int weeks, int days) => '$weeks weeks to CUET, $days study days in each.';
   static const String weeksLeft = 'weeks to CUET';
   static String mobiFewDays(int n) => n == 1 ? 'One day a week is fine. Short and steady works.' : 'Two days a week is fine. Short and steady works.';
-  static const String mobiEveryDay = 'Studying every day? Keep one day for rest.';
+  static const String mobiEveryDay = 'Are you studying every day? Keep one day for rest.';
 
   /// The live readout beside the sessions figure: "About 37 hours of practice before May, if you
   /// keep this." Hours come from the chosen session length.

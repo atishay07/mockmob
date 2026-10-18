@@ -164,7 +164,7 @@ void main() {
     });
 
     test('the plan aims at the first and names the next two, then counts the rest', () {
-      expect(PlanSummary.aimLine(_with(_names.take(8).toList())), startsWith('Aim: SRCC. It took 924.3 of'));
+      expect(PlanSummary.aimLine(_with(_names.take(8).toList())), startsWith('Your aim is SRCC. It took 924.3 of'));
       expect(PlanSummary.alsoLine(_with(_names.take(8).toList())), 'Also on your list: Hindu 919.9, LSR 912.5 and 5 more.');
       expect(PlanSummary.alsoLine(_with(_names.take(2).toList())), 'Also on your list: Hindu 919.9.');
       expect(PlanSummary.alsoLine(_with(_names.take(1).toList())), isNull);

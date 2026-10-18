@@ -21,7 +21,7 @@ abstract final class OnboardingCopy {
   /// G1 (owner, 19 Oct: "I don't know what kind of English this is"): whole sentences, no clipped
   /// fragments. The headline above stays, as he said it was fine.
   static const String welcomeSupport =
-      'MockMob finds where your marks slip, helps you fix each mistake, and checks that the fix holds. Setup takes about two minutes.';
+      'MockMob finds where your marks slip, helps you fix each mistake, and checks that the fix sticks. Setup takes about two minutes.';
   static const String buildPlan = 'Build my plan';
   static const String haveAccount = 'I already have an account';
   static const String continuePlan = 'Pick up my sheet';
@@ -57,7 +57,7 @@ abstract final class OnboardingCopy {
   // Mobi's lines. Short, about what happens next, never about the person, and always whole
   // sentences (G1, D84): no dropped subjects, verbs or articles.
   static const String mobiWelcome = "Hi, I'm Mobi. Let's find the marks you're losing and win them back before CUET.";
-  static const String mobiWelcomeBack = 'Welcome back. Your sheet is just where you left it.';
+  static const String mobiWelcomeBack = 'Your sheet is right where you left it.';
   static String mobiRight(int seconds) =>
       seconds <= 1 ? 'You got it in about a second. That was clean.' : 'You got it in $seconds seconds. That was clean.';
   static const String mobiTrap = "That's a classic trap. The fix is just below.";
@@ -87,7 +87,7 @@ abstract final class OnboardingCopy {
   static const String weeksPlaceholder = 'Your weeks to May land here.';
   static String weeksUnit(int year) => 'weeks to CUET, May $year';
   static const String datesNotOut = 'Dates not out yet';
-  static const String classElevenNote = 'You\'re early.';
+  static const String classElevenNote = "You're starting early.";
   static const String boardsNote = 'Boards land mid-February to early April. The plan goes lighter then.';
   static const String trackToday = 'Today';
   static String trackMay(int year) => 'May $year';
@@ -128,7 +128,7 @@ abstract final class OnboardingCopy {
   static String noSeatsFor(String category) => 'No seats went to ${categoryWords(category)} here in Round 1 of 2026.';
 
   // Subjects.
-  static const String subjectsTitle = 'Your subjects. How solid is each, honestly?';
+  static const String subjectsTitle = 'Pick your subjects. How solid is each one, honestly?';
   static const String subjectsSupport = 'Be harsh. Your first check shows where your gut was right.';
   static const String fiveMax = 'Five is the most CUET allows. Drop one to add another.';
   static const String pickOne = 'Pick at least one subject.';
@@ -153,9 +153,9 @@ abstract final class OnboardingCopy {
   static const String worrySupport = 'Pick the one that stings most. It changes where you start.';
 
   // Question.
-  static String questionTitle(String subject) => 'One question from $subject.';
+  static String questionTitle(String subject) => "Here's one question from $subject.";
   static const String questionSupport = 'Answer the way you would in the hall.';
-  static String rightIn(int seconds) => seconds <= 1 ? 'Right, in about a second.' : 'Right, in $seconds seconds.';
+  static String rightIn(int seconds) => seconds <= 1 ? 'You got it right in about a second.' : 'You got it right in $seconds seconds.';
   static const String trapLead = "That's the trap. Here's the ten-second fix.";
 
   /// Beside the measured seconds, set as a monumental number.
@@ -163,7 +163,7 @@ abstract final class OnboardingCopy {
   static const String examPace = 'Exam pace, about a minute';
   static String paceSpoken(int seconds) =>
       seconds <= 60 ? 'Inside exam pace, about a minute a question.' : 'Slower than exam pace, about a minute a question.';
-  static String rightSeconds(int seconds) => seconds <= 1 ? 'second. Right.' : 'seconds. Right.';
+  static String rightSeconds(int seconds) => seconds <= 1 ? 'second, and you got it right.' : 'seconds, and you got it right.';
   static String optionSemantics(String letter, String text) => 'Option $letter, $text';
   static const String correctAnswer = 'Correct answer';
   static const String yourAnswer = 'Your answer';
@@ -180,8 +180,8 @@ abstract final class OnboardingCopy {
   static const String minutesUnit = 'minutes';
 
   // Plan.
-  static const String planLead = 'Your plan, built from your answers.';
-  static const String planLeadDefaults = 'Your plan, built from your answers and a few defaults.';
+  static const String planLead = "Here's your plan, built from your answers.";
+  static const String planLeadDefaults = "Here's your plan, built from your answers and a few defaults.";
   static const String ourDefault = 'our default, which you can change any time';
   static String planFrom(String date) => 'From $date';
   static const String holdToSeal = 'Hold to seal';
@@ -200,7 +200,7 @@ abstract final class OnboardingCopy {
   static const String planSet = 'Your plan is set.';
 
   /// The seal moment's headline (v15 taste pass: bolder, and it says what was sealed).
-  static String sealedHeadline(String chapter) => 'Sealed. Week one: $chapter.';
+  static String sealedHeadline(String chapter) => "It's sealed. Week one starts with $chapter.";
   static const String changeSomething = 'Change something';
   static const String sharpens = 'It sharpens after your first check.';
   static const String changeTitle = 'What do you want to change?';
