@@ -1,30 +1,50 @@
-// The rules of the Pro nudges, stated one by one: the first-session pop-up (first session only, after
-// the first action, once ever, never on onboarding, Pro and the flag off see nothing) and the inline
+// The rules of the Pro nudges, stated one by one, as the website states them (src/lib/proNudge.mjs):
+// the first-session pop-up (the run in which onboarding finished, at most 6 hours after it, after a real
+// action taken since, once ever, never on onboarding, Pro and the flag off see nothing) and the inline
 // rows (quiet for seven days after a dismissal).
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/features/pro_nudge/data/nudge_rules.dart';
+
+final onboarded = DateTime(2026, 10, 18, 19);
 
 PopupInputs inputs({
   bool enabled = true,
   bool loaded = true,
   bool shown = false,
   bool inOnboarding = false,
-  String launch = 'L2',
-  String? first = 'L2',
+  String launch = 'L1',
+  DateTime? now,
+  DateTime? onboardedAt,
+  bool neverOnboarded = false,
+  String? onboardedLaunch = 'L1',
   int actions = 1,
+  int actionsAtOnboarded = 0,
 }) =>
-    PopupInputs(enabled: enabled, loaded: loaded, shown: shown, inOnboarding: inOnboarding, launchId: launch, firstSessionLaunch: first, actions: actions);
+    PopupInputs(
+      enabled: enabled,
+      loaded: loaded,
+      shown: shown,
+      inOnboarding: inOnboarding,
+      launchId: launch,
+      now: now ?? onboarded.add(const Duration(minutes: 5)),
+      onboardedAt: neverOnboarded ? null : (onboardedAt ?? onboarded),
+      onboardedLaunch: onboardedLaunch,
+      actions: actions,
+      actionsAtOnboarded: actionsAtOnboarded,
+    );
 
 void main() {
   group('first-session pop-up verdict', () {
-    test('due: the first session, after the first action, never shown, a Free student with the flag on', () {
+    test('due: the run in which onboarding finished, after an action since, never shown, a Free student with the flag on', () {
       expect(PopupRules.verdict(inputs()), PopupVerdict.due);
       expect(PopupRules.verdict(inputs(actions: 5)), PopupVerdict.due);
     });
 
-    test('not before the first real action', () {
+    test('not before the first real action, and an action from before onboarding finished does not count', () {
       expect(PopupRules.verdict(inputs(actions: 0)), PopupVerdict.noAction);
+      expect(PopupRules.verdict(inputs(actions: 2, actionsAtOnboarded: 2)), PopupVerdict.noAction);
+      expect(PopupRules.verdict(inputs(actions: 3, actionsAtOnboarded: 2)), PopupVerdict.due);
     });
 
     test('once ever: shown means never again', () {
@@ -32,11 +52,18 @@ void main() {
     });
 
     test('first session only: a later run is not it', () {
-      expect(PopupRules.verdict(inputs(launch: 'L3', first: 'L2')), PopupVerdict.notFirstSession);
+      expect(PopupRules.verdict(inputs(launch: 'L2', onboardedLaunch: 'L1')), PopupVerdict.notFirstSession);
     });
 
-    test('the run before a first session is chosen is not it either', () {
-      expect(PopupRules.verdict(inputs(first: null)), PopupVerdict.notFirstSession);
+    test('the first session lasts 6 hours from onboarding, as on the website', () {
+      expect(PopupRules.verdict(inputs(now: onboarded.add(const Duration(hours: 6)))), PopupVerdict.due);
+      expect(PopupRules.verdict(inputs(now: onboarded.add(const Duration(hours: 6, seconds: 1)))), PopupVerdict.notFirstSession);
+      // A clock that runs backwards is not in the window either.
+      expect(PopupRules.verdict(inputs(now: onboarded.subtract(const Duration(minutes: 1)))), PopupVerdict.notFirstSession);
+    });
+
+    test('a student who never onboarded on this phone (signed straight in, or set up before this build) is never asked', () {
+      expect(PopupRules.verdict(inputs(neverOnboarded: true, onboardedLaunch: null, actions: 4)), PopupVerdict.notFirstSession);
     });
 
     test('never during onboarding', () {
@@ -45,40 +72,30 @@ void main() {
 
     test('Pro, signed out or the flag off (the nudges are not enabled): nothing', () {
       expect(PopupRules.verdict(inputs(enabled: false)), PopupVerdict.off);
-      // Even with everything else true, and even if it was shown before.
       expect(PopupRules.verdict(inputs(enabled: false, shown: true)), PopupVerdict.off);
     });
 
     test('nothing until what was saved on the phone is read', () {
       expect(PopupRules.verdict(inputs(loaded: false)), PopupVerdict.notLoaded);
     });
+
+    test('the pop-up waits a beat, as the website does after the result', () {
+      expect(PopupRules.firstActionDelay, const Duration(milliseconds: 1800));
+      expect(PopupRules.firstSessionWindow, const Duration(hours: 6));
+    });
   });
 
-  group('which run is the first session after onboarding', () {
-    test('the run in which onboarding was seen is the onboarding run, and is not the first session', () {
-      final c = PopupRules.classify(launchId: 'L1', sawOnboarding: true, onboardedLaunch: null, firstSessionLaunch: null)!;
-      expect(c.onboardedLaunch, 'L1');
-      expect(c.firstSessionLaunch, isNull);
+  group('marking the end of onboarding', () {
+    test('the first finish is marked with the time, the run and the actions so far', () {
+      final m = PopupRules.noteOnboarded(onboardedAt: null, shown: false, now: onboarded, launchId: 'L1', actions: 2)!;
+      expect(m.at, onboarded);
+      expect(m.launch, 'L1');
+      expect(m.actions, 2);
     });
 
-    test('the next run is the first session', () {
-      final c = PopupRules.classify(launchId: 'L2', sawOnboarding: false, onboardedLaunch: 'L1', firstSessionLaunch: null)!;
-      expect(c.firstSessionLaunch, 'L2');
-      expect(c.onboardedLaunch, 'L1');
-    });
-
-    test('an account set up before this build has this run as its first session', () {
-      final c = PopupRules.classify(launchId: 'L9', sawOnboarding: false, onboardedLaunch: null, firstSessionLaunch: null)!;
-      expect(c.firstSessionLaunch, 'L9');
-    });
-
-    test('once chosen it never moves', () {
-      expect(PopupRules.classify(launchId: 'L3', sawOnboarding: false, onboardedLaunch: 'L1', firstSessionLaunch: 'L2'), isNull);
-      expect(PopupRules.classify(launchId: 'L3', sawOnboarding: true, onboardedLaunch: 'L1', firstSessionLaunch: 'L2'), isNull);
-    });
-
-    test('seeing onboarding twice in the onboarding run changes nothing', () {
-      expect(PopupRules.classify(launchId: 'L1', sawOnboarding: true, onboardedLaunch: 'L1', firstSessionLaunch: null), isNull);
+    test('a second onboarding never resets it, nor one after the pop-up was shown', () {
+      expect(PopupRules.noteOnboarded(onboardedAt: onboarded, shown: false, now: onboarded.add(const Duration(days: 1)), launchId: 'L2', actions: 0), isNull);
+      expect(PopupRules.noteOnboarded(onboardedAt: null, shown: true, now: onboarded, launchId: 'L1', actions: 0), isNull);
     });
   });
 
