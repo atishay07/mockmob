@@ -110,3 +110,11 @@
 
 **Ledger D101:** NTA mode (and any Pro-only mode) in the app: VISIBLE but locked while PLAY_BILLING is off (a quiet Pro tag, no way to buy, no web link or price). Never hidden.
 **Ledger D102:** tonight is planning only: record everything, make the decisions, ask him what is needed, do all the theoretical work in this usage window, and write a handoff so complete that the next session builds exactly what he expects with nothing unclear.
+
+## Owner, 19 Oct about 1:40 am IST (his choices; verbatim option labels)
+> G6 college order: "Real cutoff data, shown (Recommended)"
+> G7 colleges on Today: "Top 3, labelled, plus 'all 5' (Recommended)"
+> G17 the Mob in the app: "Its own tab in the bar (Recommended)" (the option read: the bottom bar becomes Today, Practice, Start, Mob, You; Review moves into Practice as 'Your papers')
+> G20 Review and history: "Papers first, then mistakes (Recommended)" (the option read: Review opens on 'Your papers', newest first, a subject filter at the top, each row = paper, subject, marks, date, tap = its result and answers; below that 'Mistakes to repair' by chapter; the stats strip at the very top)
+
+**Ledger D103-D106:** D103 colleges ordered by last year's real closing marks for the course and category, with the number shown. D104 Today shows the 3 hardest-to-reach colleges labelled "Your top 3 of N" with "See all N". D105 the app bar becomes Today, Practice, Start, Mob, You; Review moves inside Practice. D106 Review (inside Practice) opens on Your papers (stats strip, subject filter, newest first, tap = result and answers), then Mistakes to repair by chapter.
