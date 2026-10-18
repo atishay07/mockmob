@@ -1,8 +1,10 @@
-// Weak chapters on Today (TODAY-1018 section 3 row 5 and 6.5; D18): where the marks go, chapter by
-// chapter, over the last papers. Rows on the ground split by hairlines; each row opens in place to
-// its newest wrong answers with their full stems (never truncated) and one action each: Repair
-// when open, See repair with "Repaired" when it already has one (F17: never a paid repair again).
-// Practise sits under the chapter's name so the name never squeezes.
+// Weak chapters on Today (TODAY-1018 section 3 row 5 and 6.5; D18), as ordered bars (D52 item 4,
+// TODAY-SWIPE-1018): where the marks go, chapter by chapter, over the last papers. Each row is the
+// chapter, its misses and its marks open, with a bar sized to those marks against the top chapter's;
+// the top bar is in the warning colour, the rest neutral. The whole row is the one target: it opens
+// in place to a 10-question set on the chapter and its newest wrong answers with their full stems
+// (never truncated), each with one action: Repair when open, See repair with "Repaired" when it
+// already has one (F17: never a paid repair again). No "Practise" pill repeats on every row.
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show HapticFeedback;
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -10,6 +12,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../copy_ahead.dart';
 import '../copy_glance.dart';
 import '../logic/today_model.dart';
 import 'today_type.dart';
@@ -51,13 +54,17 @@ class _WeakChaptersBlockState extends State<WeakChaptersBlock> {
           : (w.startChapters.isEmpty ? GlanceCopy.weakDayOne : GlanceCopy.weakDayOneStart(w.startChapters));
       body = Text(line, style: type.body.copyWith(color: colors.ink2));
     } else {
+      // The bars are sized against the top chapter's marks (the rows come ranked by them).
+      final top = w.rows.map((r) => r.marks).fold<int>(0, (a, b) => b > a ? b : a);
       body = Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           for (var k = 0; k < w.rows.length; k++) ...[
-            if (k > 0) Divider(height: 1, thickness: 1, color: colors.line),
+            Divider(height: 1, thickness: 1, color: colors.line),
             _Row(
               chapter: w.rows[k],
+              share: top <= 0 ? 0 : w.rows[k].marks / top,
+              lead: k == 0,
               open: _open == k,
               onToggle: () {
                 HapticFeedback.selectionClick();
@@ -66,6 +73,9 @@ class _WeakChaptersBlockState extends State<WeakChaptersBlock> {
               onOpen: widget.onOpen,
             ),
           ],
+          Divider(height: 1, thickness: 1, color: colors.line),
+          const SizedBox(height: MmSpace.s12),
+          Text(AheadCopy.weakHint, style: type.small.copyWith(fontSize: 14, height: 20 / 14, color: colors.ink3)),
         ],
       );
     }
@@ -82,9 +92,15 @@ class _WeakChaptersBlockState extends State<WeakChaptersBlock> {
 }
 
 class _Row extends StatelessWidget {
-  const _Row({required this.chapter, required this.open, required this.onToggle, this.onOpen});
+  const _Row({required this.chapter, required this.share, required this.lead, required this.open, required this.onToggle, this.onOpen});
 
   final WeakChapter chapter;
+
+  /// This chapter's marks open over the top chapter's (0 to 1): the bar's length.
+  final double share;
+
+  /// The top chapter: its bar is in the warning colour.
+  final bool lead;
   final bool open;
   final VoidCallback onToggle;
   final void Function(TodayTarget target)? onOpen;
@@ -102,40 +118,40 @@ class _Row extends StatelessWidget {
       pressedScale: 0.99,
       builder: (context, pressed, _) => Container(
         color: pressed ? colors.raised2.withValues(alpha: 0.5) : Colors.transparent,
-        padding: const EdgeInsets.only(top: MmSpace.s12, bottom: MmSpace.s8),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        padding: const EdgeInsets.symmetric(vertical: 14),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 3),
-              child: AnimatedRotation(
-                turns: open ? 0.125 : 0,
-                duration: Motion.of(context, const Duration(milliseconds: 240)),
-                curve: Motion.out,
-                child: Icon(LucideIcons.plus, size: 18, color: colors.ink2),
-              ),
-            ),
-            const SizedBox(width: MmSpace.s12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(c.chapter, style: type.labelLarge.copyWith(fontSize: 16, height: 21 / 16, fontWeight: FontWeight.w600, color: colors.ink)),
-                  const SizedBox(height: 2),
-                  Text(line, style: type.caption.copyWith(fontSize: 13.5, color: colors.ink2)),
-                ],
-              ),
-            ),
-            const SizedBox(width: MmSpace.s12),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisSize: MainAxisSize.min,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('${c.marks}', style: type.scoreFigure.copyWith(color: colors.ink, fontFeatures: const [FontFeature.tabularFigures()])),
-                Text(GlanceCopy.marks, style: type.micro.copyWith(color: colors.ink3)),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(c.chapter, style: type.labelLarge.copyWith(fontSize: 16, height: 21 / 16, fontWeight: FontWeight.w600, color: colors.ink)),
+                      const SizedBox(height: 2),
+                      Text(line, style: type.caption.copyWith(fontSize: 13.5, color: colors.ink2)),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: MmSpace.s12),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  textBaseline: TextBaseline.alphabetic,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text('${c.marks}', style: type.scoreFigure.copyWith(color: colors.ink, fontFeatures: const [FontFeature.tabularFigures()])),
+                    const SizedBox(width: MmSpace.s4),
+                    Text(AheadCopy.marksOpen, style: type.caption.copyWith(fontSize: 13, color: colors.ink3)),
+                  ],
+                ),
               ],
             ),
+            const SizedBox(height: 10),
+            _Bar(share: share, lead: lead),
           ],
         ),
       ),
@@ -145,17 +161,6 @@ class _Row extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         head,
-        Padding(
-          padding: const EdgeInsets.only(left: 30, bottom: MmSpace.s12),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: _SmallKey(
-              label: GlanceCopy.practise,
-              icon: LucideIcons.play,
-              onTap: onOpen == null ? null : () => onOpen!(c.practise),
-            ),
-          ),
-        ),
         MmSizeEase(
           duration: Motion.ui,
           curve: Motion.out,
@@ -164,10 +169,20 @@ class _Row extends StatelessWidget {
           child: !open
               ? const SizedBox(width: double.infinity)
               : Padding(
-                  padding: const EdgeInsets.only(left: 30, bottom: MmSpace.s16),
+                  padding: const EdgeInsets.only(bottom: MmSpace.s16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
+                      // The chapter's 10-question set leads the opened row; its mistakes follow.
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: _SmallKey(
+                          label: AheadCopy.practiseSet,
+                          icon: LucideIcons.play,
+                          onTap: onOpen == null ? null : () => onOpen!(c.practise),
+                        ),
+                      ),
+                      const SizedBox(height: MmSpace.s8),
                       for (final m in c.mistakes) ...[
                         _Mistake(mistake: m, onOpen: onOpen),
                         const SizedBox(height: MmSpace.s12),
@@ -182,6 +197,41 @@ class _Row extends StatelessWidget {
                 ),
         ),
       ],
+    );
+  }
+}
+
+/// The chapter's marks open as a bar on a sunken track: the top chapter in the warning colour,
+/// the rest neutral ink.
+class _Bar extends StatelessWidget {
+  const _Bar({required this.share, required this.lead});
+
+  final double share;
+  final bool lead;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    return ExcludeSemantics(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(3),
+        child: SizedBox(
+          height: 6,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              ColoredBox(color: colors.sunken),
+              FractionallySizedBox(
+                alignment: Alignment.centerLeft,
+                widthFactor: share.clamp(0.0, 1.0),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(color: lead ? colors.badText : colors.ink2, borderRadius: BorderRadius.circular(3)),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

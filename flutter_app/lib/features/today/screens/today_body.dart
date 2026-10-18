@@ -33,6 +33,8 @@ import '../widgets/glance_rows.dart';
 import '../widgets/road_glance.dart';
 import '../widgets/road_section.dart';
 import '../widgets/weak_chapters.dart';
+import '../widgets/weeks_ahead.dart';
+import '../widgets/your_marks.dart';
 import '../widgets/reel_hero.dart';
 import '../widgets/today_rows.dart';
 import '../widgets/today_week.dart';
@@ -685,6 +687,9 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
         bleed: _bleed,
         onRefresh: () => callbacks.onAction(const TodayAction(TodayCopy.tryAgain, RetryLoad())),
         refreshing: widget.retrying,
+        // Mobi back in the header (D52), unless the card holds him; a tap opens Ask Mobi.
+        showMobi: !heroMobi,
+        onMobi: () => callbacks.onTarget(const GoTo(AppRoutes.ask)),
       ),
       // Header to the move: 18 (TODAY-1017 4.1).
       const SizedBox(height: 18),
@@ -756,9 +761,32 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
         ),
       ],
       if (loaded && glance != null) ...[
+        // D52, after Road to CUET: the weeks ahead, Your marks (the trend merged with Last paper),
+        // then Weak chapters as ordered bars.
+        if (glance.ahead != null) ...[
+          gap,
+          TodayEnter(
+            delay: const Duration(milliseconds: 260),
+            rise: 8,
+            child: WeeksAheadBlock(
+              ahead: glance.ahead!,
+              onWeek: road == null || glance.road == null
+                  ? null
+                  : (_) => unawaited(showWeekPlan(context, layers: glance.road!, road: road, actions: callbacks.road)),
+            ),
+          ),
+        ],
+        if (glance.paper != null || glance.marks != null) ...[
+          gap,
+          TodayEnter(
+            delay: const Duration(milliseconds: 280),
+            rise: 8,
+            child: YourMarksBlock(trend: glance.marks, paper: glance.paper, onOpen: callbacks.onTarget),
+          ),
+        ],
         gap,
         TodayEnter(
-          delay: const Duration(milliseconds: 280),
+          delay: const Duration(milliseconds: 320),
           rise: 8,
           child: WeakChaptersBlock(
             weak: glance.weak,
@@ -766,10 +794,6 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
             onRetry: callbacks.onRefresh == null ? null : () => unawaited(callbacks.onRefresh!()),
           ),
         ),
-        if (glance.paper != null) ...[
-          gap,
-          TodayEnter(delay: const Duration(milliseconds: 320), rise: 8, child: LastPaperBlock(detail: glance.paper!, onOpen: callbacks.onTarget)),
-        ],
         gap,
         TodayEnter(
           delay: const Duration(milliseconds: 360),

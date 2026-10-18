@@ -1,19 +1,33 @@
 // Today's masthead (TODAY-1017 4.1): the date line and a greeting by first name, the account
-// avatar on the left. No Mobi here and no week: the week is "This week" under the move. When
-// Today shows what it last loaded, a quiet time line takes the date line's place, so a Wi-Fi flip
-// never moves the page (audit T6).
+// avatar on the left, and Mobi back on the right (D52 item 1, TODAY-SWIPE-1018): 46 dp in his
+// greeting pose, a tap opens Ask Mobi. The greeting keeps one line beside him (it scales down to
+// fit at 360 dp and large text, never wraps or ends in an ellipsis). When the move card already has
+// Mobi (day one, coming back) the header leaves him out: never two Mobis on one screen. No week
+// here: the week is "This week" under the move. When Today shows what it last loaded, a quiet time
+// line takes the date line's place, so a Wi-Fi flip never moves the page (audit T6).
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/account/account_avatar.dart' show AccountLeading;
+import '../../../core/widgets/widgets.dart' show Mobi, MobiPose, MmHitSlop, MmPressable, MmPressHaptic;
 import '../copy.dart';
+import '../copy_ahead.dart';
 import '../logic/today_model.dart';
 import 'today_entrance.dart';
 
 class TodayHeader extends StatefulWidget {
-  const TodayHeader({super.key, required this.header, this.onWeek, this.aim, this.bleed = 0, this.onRefresh, this.refreshing = false});
+  const TodayHeader({super.key, required this.header, this.onWeek, this.aim, this.bleed = 0, this.onRefresh, this.refreshing = false, this.onMobi, this.showMobi = true});
+
+  /// Mobi's tap: Ask Mobi. Without it he is still there, as a picture.
+  final VoidCallback? onMobi;
+
+  /// False while the move card holds Mobi, so he is never on the screen twice.
+  final bool showMobi;
+
+  /// Mobi's height in the header (D52: 46 dp).
+  static const double mobiSize = 46;
 
   /// A refresh failed online (S7): the date and greeting run Try again, the icon turning while
   /// the read runs.
@@ -43,8 +57,8 @@ class _TodayHeaderState extends State<TodayHeader> {
   @override
   Widget build(BuildContext context) {
     final header = widget.header;
-    // The date line and the greeting, with the account avatar on the left (L16). No Mobi in the
-    // header (TODAY-1017 4.6), and the week moved under the move as "This week" (4.3).
+    // The date line and the greeting, with the account avatar on the left (L16) and Mobi on the
+    // right (D52); the week moved under the move as "This week" (4.3).
     return TodayEnter(
       delay: Duration.zero,
       rise: 0,
@@ -59,6 +73,7 @@ class _TodayHeaderState extends State<TodayHeader> {
             onRefresh: header.refreshable ? widget.onRefresh : null,
             offline: header.offline,
             refreshing: widget.refreshing,
+            mobi: widget.showMobi ? _HeaderMobi(onTap: widget.onMobi) : null,
           ),
         ),
       ),
@@ -77,9 +92,13 @@ class _GreetingRow extends StatelessWidget {
     this.onRefresh,
     this.refreshing = false,
     this.offline = false,
+    this.mobi,
   });
 
   final VoidCallback? onRefresh;
+
+  /// Mobi at the end of the row, or null.
+  final Widget? mobi;
 
   /// Only a phone that is really offline gets the cloud-off mark.
   final bool offline;
@@ -159,7 +178,33 @@ class _GreetingRow extends StatelessWidget {
               ),
             ),
           ),
+          if (mobi != null) ...[const SizedBox(width: 10), mobi!],
         ],
+      ),
+    );
+  }
+}
+
+/// Mobi in the header: his greeting pose at 46 dp, a 48 dp target that opens Ask Mobi.
+class _HeaderMobi extends StatelessWidget {
+  const _HeaderMobi({this.onTap});
+
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    const figure = Mobi(pose: MobiPose.greet, size: TodayHeader.mobiSize);
+    final tap = onTap;
+    if (tap == null) return const ExcludeSemantics(child: figure);
+    return MmHitSlop.toTarget(
+      visual: TodayHeader.mobiSize,
+      child: MmPressable(
+        onTap: tap,
+        semanticsLabel: AheadCopy.askMobi,
+        focusRadius: MmRadius.pillAll,
+        pressedScale: 0.94,
+        haptic: MmPressHaptic.selection,
+        builder: (context, pressed, _) => const SizedBox(height: TodayHeader.mobiSize, child: figure),
       ),
     );
   }

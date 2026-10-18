@@ -108,8 +108,14 @@ void main() {
       await pumpToday(tester, onRefresh: () async {}, size: const Size(384, 640));
       final position = tester.state<ScrollableState>(find.byType(Scrollable).first).position;
       expect(position.maxScrollExtent, greaterThan(0), reason: 'the test frame is shorter than the page');
-      position.jumpTo(position.maxScrollExtent);
-      await tester.pump();
+      // The list builds lazily, so its end is only known once the last rows are laid out (the
+      // longer D52 page): jump until the extent stops growing.
+      for (var k = 0; k < 8; k++) {
+        final before = position.maxScrollExtent;
+        position.jumpTo(before);
+        await tester.pump();
+        if (position.maxScrollExtent == before) break;
+      }
       final gesture = await tester.startGesture(const Offset(192, 500));
       for (var i = 0; i < 12; i++) {
         await gesture.moveBy(const Offset(0, -24));

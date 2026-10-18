@@ -17,6 +17,7 @@ import '../copy_glance.dart';
 import '../../../core/copy/formatters.dart' show formatTime12;
 import '../../onboarding/data/chapter_order.dart' show rankedChapters;
 import 'links.dart';
+import 'marks_trend.dart';
 import 'move_builder.dart';
 import 'road_board.dart';
 import 'road_builder.dart' show expectedWindowStart;
@@ -24,6 +25,7 @@ import 'subjects.dart';
 import 'today_builder.dart' show buildLastPaper;
 import 'today_inputs.dart';
 import 'today_model.dart';
+import 'weeks_ahead.dart';
 import '../../../core/domain/cuet_dates.dart';
 
 /// Marks a wrong answer cost: 5 not gained plus 1 taken (CUET marking).
@@ -174,6 +176,8 @@ TodayGlance buildGlance(TodayInputs i, {MoveHero? lead, RoadModel? road}) {
     weak: weak,
     paper: buildPaperDetail(i),
     queue: buildQueue(i),
+    ahead: road?.board == null ? null : buildWeeksAhead(i, board: road!.board!),
+    marks: buildMarksTrend(i, subject: lead?.subjectId),
   );
 }
 
@@ -290,12 +294,14 @@ RoadLayers buildRoadLayers(TodayInputs i, {required RoadBoard board, MoveHero? l
   final nextDue = every == null ? null : (last == null ? i.date() : last.add(Duration(days: every)));
   final dueThisWeek = mocksKnown && all.isNotEmpty && mocksThisWeek == 0 && nextDue != null && !nextDue.isAfter(sunday);
   final plannedMocks = mocksThisWeek + (dueThisWeek ? 1 : 0);
+  // The next mock's day, on a day the plan studies (the weeks ahead names the same day).
+  final nextOn = nextDue == null ? null : snapToPlan(nextDue.isBefore(i.date()) ? i.date() : nextDue, plannedWeekdays(i));
   final weekItems = <DueItem>[
     if (goal != null) DueItem(label: GlanceCopy.itemStudyWeek(studyDone, goal), done: studyDone >= goal),
     if (plannedMocks > 0)
       DueItem(label: GlanceCopy.itemMockWeek(mocksThisWeek, plannedMocks), done: mocksThisWeek >= plannedMocks, target: dueThisWeek && i.attempts != null ? GoTo(TodayLinks.fullMock(subject: all.isEmpty ? null : all.first.subject)) : null)
     else if (nextDue != null && mocksKnown && all.isNotEmpty)
-      DueItem(label: GlanceCopy.itemMockWeekNone(GlanceCopy.dayShort(nextDue.isBefore(i.date()) ? i.date() : nextDue)), done: false, info: true),
+      DueItem(label: GlanceCopy.itemMockWeekNone(GlanceCopy.dayShort(nextOn!)), done: false, info: true),
   ];
   final int plannedDone = math.min<int>(studyDone, goal ?? 0) + math.min<int>(mocksThisWeek, plannedMocks);
   final plannedAll = (goal ?? 0) + plannedMocks;
@@ -336,7 +342,7 @@ RoadLayers buildRoadLayers(TodayInputs i, {required RoadBoard board, MoveHero? l
     weekKnown: w != null,
     weekMocksPlanned: plannedMocks,
     weekMocksDone: math.min(mocksThisWeek, plannedMocks),
-    nextMockOn: plannedMocks == 0 && nextDue != null && mocksKnown && all.isNotEmpty ? (nextDue.isBefore(i.date()) ? i.date() : nextDue) : null,
+    nextMockOn: plannedMocks == 0 && nextOn != null && mocksKnown && all.isNotEmpty ? nextOn : null,
     weekEnds: sunday,
     weekDaysOpen: w == null || w.studied.length != 7 ? null : [for (var d = todayIdx; d < 7; d++) if (!w.studied[d]) d].length,
     goalItems: [
