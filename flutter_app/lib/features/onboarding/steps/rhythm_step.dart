@@ -6,6 +6,7 @@ import '../../../core/api/api_providers.dart' show nowProvider;
 import '../../../core/haptics/haptics.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../choices_copy.dart';
 import '../copy.dart';
 import '../data/calendar.dart';
 import '../model/answers.dart';
@@ -14,11 +15,15 @@ import '../state/answers_controller.dart';
 import '../widgets/choice_tile.dart';
 import '../widgets/day_picker.dart';
 import '../widgets/entrance.dart';
+import '../widgets/runway_strip.dart';
 import '../widgets/step_layout.dart';
 
-/// Step 8: a pace the student can keep: minutes as three big bubbles, study days as seven, and a
-/// time of day as four tiles with their sky. The sessions it adds up to before May roll live
-/// (plain arithmetic on their own choices, boards weeks at two).
+/// Step 8: a pace the student can keep: minutes as three big bubbles (full mocks stay in Practice),
+/// study days as a "days a week" slider synced both ways with the seven day bubbles, and a time of
+/// day as four tiles with their sky. What the choice adds up to rolls live: the sessions and the
+/// hours before May (plain arithmetic on their own choices, board weeks at two, "about" because the
+/// exam date is expected), over a runway of the weeks left that fills or empties as the days change
+/// (owner, 18 Oct, D46 and D47).
 class RhythmStep extends ConsumerWidget {
   const RhythmStep({super.key, required this.answers, required this.onNext});
 
@@ -31,12 +36,9 @@ class RhythmStep extends ConsumerWidget {
     final type = context.mmType;
     final c = ref.read(onboardingAnswersProvider.notifier);
     final stage = answers.stage ?? Stage.notSure;
-    final sessions = CuetCalendar.sessionsBefore(
-      stage.cuetYear,
-      ref.watch(nowProvider)(),
-      daysPerWeek: answers.days.length,
-      boards: stage.boards,
-    );
+    final now = ref.watch(nowProvider)();
+    final weekly = CuetCalendar.weeklySessions(stage.cuetYear, now, daysPerWeek: answers.days.length, boards: stage.boards);
+    final sessions = weekly.fold(0, (a, b) => a + b);
 
     Widget label(String text) => Padding(
           padding: const EdgeInsets.only(bottom: MmSpace.s12),
@@ -59,6 +61,9 @@ class RhythmStep extends ConsumerWidget {
               children: [
                 label(OnboardingCopy.minutesLabel),
                 _MinuteBubbles(value: answers.minutes, onChanged: c.setMinutes),
+                const SizedBox(height: MmSpace.s12),
+                // D46: the quick sessions stay; the full paper is never far.
+                Text(ChoicesCopy.fullMocksLine, style: type.caption.copyWith(color: colors.ink3)),
               ],
             ),
           ),
@@ -69,9 +74,11 @@ class RhythmStep extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 label(OnboardingCopy.daysLabel),
+                _DaysSlider(days: answers.days.length, onChanged: c.setDayCount),
+                const SizedBox(height: MmSpace.s8),
                 DayPicker(days: answers.days, onToggle: c.toggleDay),
                 const SizedBox(height: MmSpace.s8),
-                Text(OnboardingCopy.restDays, style: type.caption.copyWith(color: colors.ink3)),
+                Text('${OnboardingCopy.restDays} ${ChoicesCopy.tapDays}', style: type.caption.copyWith(color: colors.ink3)),
               ],
             ),
           ),
@@ -79,29 +86,12 @@ class RhythmStep extends ConsumerWidget {
             const SizedBox(height: MmSpace.s32),
             EntranceItem.answer(
               2,
-              child: Semantics(
-                liveRegion: true,
-                label: 'That\'s ${CuetCalendar.about(sessions)} sessions before May',
-                excludeSemantics: true,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    MonumentalNumber(value: '${sessions < 20 ? sessions : (sessions / 10).round() * 10}', style: type.figure),
-                    const SizedBox(width: MmSpace.s12),
-                    Expanded(
-                      child: Text(
-                        [
-                          if (sessions >= 20)
-                            'About this many sessions before May${stage.cuetYear == 2028 ? ' 2028' : ''}, if you keep this.'
-                          else
-                            'Sessions before May, if you keep this.',
-                          if (stage.boards) OnboardingCopy.boardWeeks,
-                        ].join(' '),
-                        style: type.small.copyWith(color: colors.ink2),
-                      ),
-                    ),
-                  ],
-                ),
+              child: _Readout(
+                sessions: sessions,
+                minutes: answers.minutes,
+                weekly: weekly,
+                year: stage.cuetYear,
+                boards: stage.boards,
               ),
             ),
           ],
@@ -136,6 +126,125 @@ class RhythmStep extends ConsumerWidget {
           c.confirmRhythm();
           onNext();
         },
+      ),
+    );
+  }
+}
+
+/// "Days a week" as a big figure and a slider from 1 to 7, one haptic tick per stop. It moves
+/// when a day bubble is tapped, because both read the same answer.
+class _DaysSlider extends ConsumerWidget {
+  const _DaysSlider({required this.days, required this.onChanged});
+
+  final int days;
+  final ValueChanged<int> onChanged;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        ExcludeSemantics(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              MonumentalNumber(value: '$days', style: type.figure, fromZeroOnFirstBuild: false),
+              const SizedBox(width: MmSpace.s8),
+              Padding(
+                padding: const EdgeInsets.only(bottom: MmSpace.s8),
+                child: Text(ChoicesCopy.daysPerWeek, style: type.body.copyWith(color: colors.ink2)),
+              ),
+            ],
+          ),
+        ),
+        // The track runs edge to edge on the gutter, its thumb a 48 dp target.
+        SliderTheme(
+          data: SliderTheme.of(context).copyWith(
+            trackHeight: 6,
+            thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 12),
+            overlayShape: const RoundSliderOverlayShape(overlayRadius: 24),
+            tickMarkShape: const RoundSliderTickMarkShape(tickMarkRadius: 2),
+            activeTickMarkColor: colors.voltInk.withValues(alpha: 0.5),
+            inactiveTickMarkColor: colors.ink3,
+            padding: EdgeInsets.zero,
+          ),
+          child: Semantics(
+            label: ChoicesCopy.daysSlider,
+            child: SizedBox(
+              height: 48,
+              child: Slider(
+                value: days.toDouble(),
+                min: 1,
+                max: 7,
+                divisions: 6,
+                semanticFormatterCallback: (v) => ChoicesCopy.daysSpoken(v.round()),
+                onChanged: (v) {
+                  final n = v.round();
+                  if (n == days) return;
+                  ref.read(hapticsProvider).segmentTick();
+                  onChanged(n);
+                },
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// What the pace adds up to: the sessions before May as a rolling figure, the hours they make
+/// from the chosen session length, and the runway of weeks with the chosen days lit.
+class _Readout extends StatelessWidget {
+  const _Readout({required this.sessions, required this.minutes, required this.weekly, required this.year, required this.boards});
+
+  final int sessions;
+  final int minutes;
+  final List<int> weekly;
+  final int year;
+  final bool boards;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    // The window's date is expected, not published: every count here is "about".
+    const estimate = true;
+    final shown = sessions < 20 ? sessions : (sessions / 10).round() * 10;
+    return Semantics(
+      liveRegion: true,
+      container: true,
+      label: '${ChoicesCopy.sessionsSpoken(sessions: shown, minutes: minutes, estimate: estimate)} '
+          '${ChoicesCopy.runwaySpoken(weekly.length, weekly.isEmpty ? 0 : weekly.first)}',
+      excludeSemantics: true,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              MonumentalNumber(value: '$shown', unit: ChoicesCopy.sessionsUnit, style: type.figure),
+              const SizedBox(width: MmSpace.s12),
+              Expanded(
+                child: Text(
+                  ChoicesCopy.sessionsLine(sessions: sessions, minutes: minutes, estimate: estimate, year: year, boards: boards),
+                  style: type.small.copyWith(color: colors.ink2),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: MmSpace.s16),
+          RunwayStrip(weeks: weekly),
+          const SizedBox(height: MmSpace.s8),
+          Row(
+            children: [
+              Expanded(child: Text('${weekly.length} ${ChoicesCopy.weeksLeft}', style: type.caption.copyWith(color: colors.ink3))),
+              Text('May $year', style: type.caption.copyWith(color: colors.ink3)),
+            ],
+          ),
+        ],
       ),
     );
   }

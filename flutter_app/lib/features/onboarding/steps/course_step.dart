@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../choices_copy.dart';
 import '../copy.dart';
 import '../data/du_catalog.dart';
 import '../model/answers.dart';
@@ -11,12 +13,14 @@ import '../state/answers_controller.dart';
 import '../widgets/college_ladder.dart';
 import '../widgets/college_search_field.dart';
 import '../widgets/course_grid.dart';
+import '../widgets/course_list_sheet.dart';
 import '../widgets/engraved_text.dart';
 import '../widgets/entrance.dart';
 import '../widgets/step_layout.dart';
 
-/// Step 2 ("Aim"), one evolving screen: pick the course from the six with their real 2026 college
-/// counts, then the ladder of colleges with their Round 1 minimums from 2026 unfolds in place; picks
+/// Step 2 ("Aim"), one evolving screen: pick the course from the six most chosen, each with its
+/// real 2026 college count and its CUET subjects, or from every DU course in "More courses"; then
+/// the ladder of colleges with their Round 1 minimums from 2026 unfolds in place; picks
 /// engrave onto the sheet. Up to eight colleges, found by name in "Find a college": the same list,
 /// limit and search as My colleges, which these picks move into after sign-in.
 class CourseStep extends ConsumerStatefulWidget {
@@ -114,27 +118,47 @@ class _CourseStepState extends ConsumerState<CourseStep> {
     );
   }
 
+  void _pickCourse(DuCourse course) {
+    _c.setCourse(course.id);
+    _search.clear();
+    setState(() {
+      _choosing = false;
+      _query = '';
+    });
+  }
+
+  Future<void> _moreCourses(String? selected) async {
+    final picked = await showCourseList(context, selected: selected);
+    if (picked != null && mounted) _pickCourse(picked);
+  }
+
   Widget _courses(BuildContext context, OnboardingAnswers a) {
+    final colors = context.mmColors;
+    // A course picked from the full list (not one of the six tiles) shows on its row.
+    final fromList = a.course != null && !DuCatalog.courses.any((c) => c.id == a.courseId) ? a.course : null;
     return StepLayout(
       key: const ValueKey('courses'),
       title: OnboardingCopy.courseTitle,
-      support: OnboardingCopy.courseSupport,
+      support: ChoicesCopy.courseSupport,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          CourseGrid(
-            selected: a.courseId,
-            onPick: (course) {
-              _c.setCourse(course.id);
-              _search.clear();
-              setState(() {
-                _choosing = false;
-                _query = '';
-              });
-            },
-          ),
+          CourseGrid(selected: a.courseId, onPick: _pickCourse),
           EntranceItem.answer(
             6,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: MmSpace.s12),
+              child: MmSelectRow(
+                title: fromList?.short ?? ChoicesCopy.moreCourses,
+                note: fromList == null ? ChoicesCopy.moreCoursesNote(DuCatalog.all.length) : ChoicesCopy.moreCourses,
+                selected: fromList != null,
+                onTap: () => _moreCourses(a.courseId),
+                trailing: Icon(LucideIcons.search, size: 18, color: colors.ink2),
+              ),
+            ),
+          ),
+          EntranceItem.answer(
+            7,
             child: MmSelectRow(
               title: OnboardingCopy.notSure,
               note: OnboardingCopy.notSureNote,

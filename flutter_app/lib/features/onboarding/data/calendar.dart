@@ -20,18 +20,26 @@ abstract final class CuetCalendar {
 
   /// Sessions before the window if the student keeps [daysPerWeek]; board weeks count at most
   /// [boardWeekSessions] when [boards] is true. Plain arithmetic on the student's own choices.
-  static int sessionsBefore(int year, DateTime now, {required int daysPerWeek, required bool boards}) {
+  static int sessionsBefore(int year, DateTime now, {required int daysPerWeek, required bool boards}) =>
+      weeklySessions(year, now, daysPerWeek: daysPerWeek, boards: boards).fold(0, (a, b) => a + b);
+
+  /// The sessions in each whole week from [now] to the window, in order: [daysPerWeek], or at most
+  /// [boardWeekSessions] in a board week when [boards] is true. Empty once the window has started.
+  /// The runway on the pace step draws exactly these.
+  static List<int> weeklySessions(int year, DateTime now, {required int daysPerWeek, required bool boards}) {
     final weeks = weeksTo(year, now);
-    if (weeks == null || daysPerWeek <= 0) return 0;
-    var total = 0;
+    if (weeks == null || daysPerWeek <= 0) return const [];
     final start = DateTime(now.year, now.month, now.day);
-    for (var w = 0; w < weeks; w++) {
-      final weekStart = start.add(Duration(days: w * 7));
-      final inBoards = boards && !weekStart.isBefore(boardsStart(year)) && weekStart.isBefore(boardsEnd(year));
-      total += inBoards ? (daysPerWeek < boardWeekSessions ? daysPerWeek : boardWeekSessions) : daysPerWeek;
-    }
-    return total;
+    return [
+      for (var w = 0; w < weeks; w++)
+        if (boards && _inBoards(start.add(Duration(days: w * 7)), year))
+          daysPerWeek < boardWeekSessions ? daysPerWeek : boardWeekSessions
+        else
+          daysPerWeek,
+    ];
   }
+
+  static bool _inBoards(DateTime weekStart, int year) => !weekStart.isBefore(boardsStart(year)) && weekStart.isBefore(boardsEnd(year));
 
   /// "about 120": rounded to the nearest ten above twenty, exact below.
   static String about(int n) => n < 20 ? '$n' : 'about ${(n / 10).round() * 10}';

@@ -11,6 +11,9 @@ import 'choices.dart';
 /// after sign-in.
 const int kMaxColleges = MyColleges.maxColleges;
 
+/// The most "where do your marks go" picks (D45).
+const int kMaxWorries = 3;
+
 /// The single real question, as answered.
 @immutable
 class WarmupResult {
@@ -47,7 +50,7 @@ class OnboardingAnswers {
     this.subjects = const [],
     this.subjectsTouched = false,
     this.confidence = const {},
-    this.worry,
+    this.worries = const [],
     this.warmup,
     this.minutes = 20,
     this.days = const {0, 1, 3, 5},
@@ -91,8 +94,14 @@ class OnboardingAnswers {
   /// False until the student changes the pre-ticked set, so the set can follow the course.
   final bool subjectsTouched;
   final Map<SheetSubject, Confidence> confidence;
-  final Worry? worry;
+
+  /// Where the marks go: up to [kMaxWorries] picks in the order they were made (owner, 18 Oct,
+  /// D45). The first is the primary: it decides the first move; the plan uses them all.
+  final List<Worry> worries;
   final WarmupResult? warmup;
+
+  /// The primary pick, or null.
+  Worry? get worry => worries.isEmpty ? null : worries.first;
 
   /// 10, 20 or 30.
   final int minutes;
@@ -156,6 +165,7 @@ class OnboardingAnswers {
     bool? subjectsTouched,
     Map<SheetSubject, Confidence>? confidence,
     Worry? worry,
+    List<Worry>? worries,
     Object? warmup = _keep,
     int? minutes,
     Set<int>? days,
@@ -181,7 +191,9 @@ class OnboardingAnswers {
       subjects: subjects ?? this.subjects,
       subjectsTouched: subjectsTouched ?? this.subjectsTouched,
       confidence: confidence ?? this.confidence,
-      worry: worry ?? this.worry,
+      // [worry] makes that one the primary and keeps the other picks (the You editor sets one).
+      worries: worries?.take(kMaxWorries).toList() ??
+          (worry == null ? this.worries : [worry, ...this.worries.where((w) => w != worry)].take(kMaxWorries).toList()),
       warmup: identical(warmup, _keep) ? this.warmup : warmup as WarmupResult?,
       minutes: minutes ?? this.minutes,
       days: days ?? this.days,
@@ -216,7 +228,9 @@ class OnboardingAnswers {
         'subjects': [for (final s in subjects) s.id],
         'subjectsTouched': subjectsTouched,
         'confidence': {for (final e in confidence.entries) e.key.id: e.value.name},
+        // The primary under its old key, so a sheet stays readable by a build from before D45.
         'worry': worry?.name,
+        'worries': [for (final w in worries) w.name],
         'warmup': warmup?.toJson(),
         'minutes': minutes,
         'days': (days.toList()..sort()),
@@ -264,7 +278,7 @@ class OnboardingAnswers {
       subjects: [for (final id in strings(j['subjects'])) ?SheetSubject.byId(id)],
       subjectsTouched: j['subjectsTouched'] == true,
       confidence: confidence,
-      worry: Worry.byName(j['worry'] as String?),
+      worries: _worries(j),
       warmup: WarmupResult.fromJson(j['warmup']),
       minutes: minutes is int && const [10, 20, 30].contains(minutes) ? minutes : 20,
       days: days == null || days.isEmpty ? const {0, 1, 3, 5} : days,
@@ -282,6 +296,18 @@ class OnboardingAnswers {
       seed: j['seed'] is int ? j['seed']! as int : null,
     );
   }
+}
+
+/// Picks stored as `worries` (D45), or the single `worry` of an older sheet.
+List<Worry> _worries(Map<String, Object?> j) {
+  final raw = j['worries'];
+  final names = raw is List ? [for (final e in raw) if (e is String) e] : [if (j['worry'] is String) j['worry']! as String];
+  final list = <Worry>[];
+  for (final n in names) {
+    final w = Worry.byName(n);
+    if (w != null && !list.contains(w)) list.add(w);
+  }
+  return list.take(kMaxWorries).toList();
 }
 
 const Object _keep = Object();

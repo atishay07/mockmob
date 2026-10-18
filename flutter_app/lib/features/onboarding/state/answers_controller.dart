@@ -133,7 +133,7 @@ class AnswersController extends AsyncNotifier<OnboardingAnswers> {
   void setCourse(String? courseId, {bool undecided = false}) {
     final a = _current;
     var next = a.copyWith(courseId: courseId, courseUndecided: undecided, colleges: const [], openToAny: false);
-    if (!a.subjectsTouched) next = next.copyWith(subjects: suggestedSubjects(next.course));
+    if (!a.subjectsTouched) next = next.copyWith(subjects: neededSubjects(next.course));
     _set(undecided ? next.mark(Steps.course) : next);
   }
 
@@ -187,6 +187,17 @@ class AnswersController extends AsyncNotifier<OnboardingAnswers> {
     return true;
   }
 
+  /// A one-tap common set: the sheet's subjects become exactly [set] (ratings already given are
+  /// kept). Tapping the set that is already on clears it back to what the course needs.
+  void applySubjectSet(List<SheetSubject> set) {
+    final a = _current;
+    final on = a.subjects.length == set.length && a.subjects.toSet().containsAll(set);
+    final list = on ? neededSubjects(a.course) : set.take(kMaxSubjects).toList();
+    var next = a.copyWith(subjects: list, subjectsTouched: true);
+    if (list.isEmpty) next = next.copyWith(done: {...next.done}..remove(Steps.subjects));
+    _set(next);
+  }
+
   void setConfidence(SheetSubject s, Confidence c) {
     final a = _current;
     final list = a.subjects.contains(s) ? a.subjects : [...a.subjects, s];
@@ -196,9 +207,29 @@ class AnswersController extends AsyncNotifier<OnboardingAnswers> {
   /// Makes sure the pre-ticked subjects are on the sheet when the subjects step opens.
   void ensureSubjects() {
     final a = _current;
-    if (a.subjects.isEmpty && !a.subjectsTouched) _set(a.copyWith(subjects: suggestedSubjects(a.course)));
+    if (a.subjects.isEmpty && !a.subjectsTouched) _set(a.copyWith(subjects: neededSubjects(a.course)));
   }
 
+  /// Picks or drops a "where do your marks go" answer. Up to [kMaxWorries]: a fourth pick swaps
+  /// out the oldest and returns true so the step can say so. The step stays answered while at
+  /// least one pick is left.
+  bool toggleWorry(Worry w) {
+    final a = _current;
+    final list = [...a.worries];
+    var swapped = false;
+    if (!list.remove(w)) {
+      if (list.length >= kMaxWorries) {
+        list.removeAt(0);
+        swapped = true;
+      }
+      list.add(w);
+    }
+    final next = a.copyWith(worries: list);
+    _set(list.isEmpty ? next.copyWith(done: {...next.done}..remove(Steps.worry)) : next.mark(Steps.worry));
+    return swapped;
+  }
+
+  /// One answer as the primary (kept for callers that set a single worry).
   void setWorry(Worry w) => _set(_current.copyWith(worry: w).mark(Steps.worry));
 
   void recordWarmup(WarmupResult result) => _set(_current.copyWith(warmup: result).mark(Steps.question));
@@ -210,6 +241,27 @@ class AnswersController extends AsyncNotifier<OnboardingAnswers> {
     final days = {..._current.days};
     if (!days.remove(day)) days.add(day);
     if (days.isEmpty) return;
+    _set(_current.copyWith(days: days));
+  }
+
+  /// The order the "days a week" slider lights days in: Monday to Friday, then Saturday, then
+  /// Sunday (D47). Lowering it unlights in the reverse order.
+  static const List<int> dayOrder = [0, 1, 2, 3, 4, 5, 6];
+
+  /// Sets how many study days a week (1 to 7), keeping the days already chosen where it can:
+  /// more lights the next usual days, fewer drops the least usual ones first.
+  void setDayCount(int n) {
+    final want = n.clamp(1, 7);
+    final days = {..._current.days};
+    for (final d in dayOrder) {
+      if (days.length >= want) break;
+      days.add(d);
+    }
+    for (final d in dayOrder.reversed) {
+      if (days.length <= want) break;
+      days.remove(d);
+    }
+    if (days.length == _current.days.length && days.containsAll(_current.days)) return;
     _set(_current.copyWith(days: days));
   }
 

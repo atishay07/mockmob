@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import '../../../core/mascot/mascot.dart';
+import '../choices_copy.dart';
 import '../copy.dart';
 import '../model/answers.dart';
 import '../model/deck.dart';
@@ -51,9 +52,17 @@ MobiCue? mobiCueFor(OnboardingAnswers? before, OnboardingAnswers after) {
         : const MobiCue(act: MobiAct.encourage, line: OnboardingCopy.mobiTrap);
   }
 
-  final worry = after.worry;
-  if (worry != null && worry != before.worry) {
-    return MobiCue(act: MobiAct.idle, line: worry.mobiShort);
+  // Up to three picks (D45): Mobi answers the newest one, never a drop.
+  final added = [for (final w in after.worries) if (!before.worries.contains(w)) w];
+  if (added.isNotEmpty) {
+    return MobiCue(act: MobiAct.idle, line: added.last.mobiShort);
+  }
+
+  // The pace step's days at its ends (D47): short and steady works; every day keeps one to rest.
+  if (after.step == Steps.rhythm && before.step == Steps.rhythm && after.days.length != before.days.length) {
+    final n = after.days.length;
+    if (n <= 2) return MobiCue(act: MobiAct.nod, line: ChoicesCopy.mobiFewDays(n));
+    if (n == 7) return const MobiCue(act: MobiAct.tilt, line: ChoicesCopy.mobiEveryDay);
   }
 
   final step = after.step;
