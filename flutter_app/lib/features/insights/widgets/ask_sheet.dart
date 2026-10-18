@@ -1112,7 +1112,7 @@ class _ComposerState extends State<_Composer> {
   }
 }
 
-/// The credits line as a link: "9 of 10 AI credits left · resets 1 Nov". It opens the AI credits page,
+/// The credits line as a link: "9 of 50 AI credits left · resets 1 Nov". It opens the AI credits page,
 /// and when a reply changes the balance the number crossfades (160 ms) instead of counting.
 class _WalletLink extends StatelessWidget {
   const _WalletLink({required this.line, required this.onTap});

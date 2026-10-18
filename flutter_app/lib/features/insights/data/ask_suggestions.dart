@@ -196,7 +196,7 @@ List<String> recordSummary(PrepInsights? v, {bool pro = false}) {
   ];
 }
 
-/// The wallet line under the composer: "9 of 10 AI credits left · resets 1 Nov".
+/// The wallet line under the composer: "9 of 50 AI credits left · resets 1 Nov".
 String walletLine({required int? total, int? includedMonthly, int? bonus, bool paused = false, String? resetsOn}) {
   if (paused) return AskSheetCopy.walletPaused;
   if (total == null) return AskSheetCopy.walletUnknown;
