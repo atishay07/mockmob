@@ -140,3 +140,51 @@ test('D53: the cost row\'s wallet link keeps a 44 px target without growing the 
   const css = stripComments(read('src/components/ai/ask-mobi.css'));
   assert.match(css, /a\.amb-cost__wallet\s*\{[^}]*padding-block:\s*13px;\s*margin-block:\s*-13px/);
 });
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Release 8 follow-ups (the integrator's re-audit of 7066d676): first glance of the landing hero, Review's row Repair,
+// the Lab Cinema light, and the tablet hero buttons.
+// ---------------------------------------------------------------------------------------------------------------------
+
+test('D38/L-014: on desktop the hero seat does not paint before PipGuide marks the root (no Mobi on the headline at first glance)', () => {
+  const css = stripComments(read('src/app/brand-pip.css'));
+  const rule = css.match(/:root:not\(\[data-motion='reduced'\]\):not\(\[data-pip-guide\]\):not\(\[data-pip-static\]\) \.mm\.lp \.lp-hero__greeting \.pip-seat \{([^}]*)\}/);
+  assert.ok(rule, 'the pre-guide hide rule exists');
+  assert.match(rule[1], /visibility:\s*hidden/);
+  // It sits inside the desktop, motion-allowed query that takes the seat out of flow, and nowhere else.
+  const query = css.indexOf('@media (min-width: 1100px) and (prefers-reduced-motion: no-preference)');
+  assert.ok(query > 0 && css.indexOf(rule[0]) > query && css.indexOf(rule[0]) < css.indexOf('@media (max-width: 760px)', query), 'inside the desktop query');
+});
+
+test('W-032: a Review row\'s Repair opens the sealed sheet (Try it again, Show the answer, the priced Repair key); it never starts the paid repair itself', () => {
+  const page = read('src/components/review/ReviewChapters.jsx');
+  assert.doesNotMatch(page, /autoRepair|setAuto|auto=\{/, 'no auto-start path in the chapter rows');
+  assert.match(page, /onRepair=\{\(\) => setOpenUid\(m\.uid\)\}/);
+  assert.match(page, /className="rv8-act mk-press" onClick=\{onRepair\}/);
+  // The sealed sheet carries the priced key; nothing on the row itself reserves a credit.
+  assert.match(read('src/components/review/AnswerSheet.jsx'), /Repair Q\{item\.number\}, 1 AI credit/);
+});
+
+test('W-032: reopening a saved repair is quiet and free: the server answers "stored" before it reserves, whatever the request id', () => {
+  const repair = read('src/components/recovery/MistakeRepair.jsx');
+  assert.match(repair, /queueMicrotask\(\(\) => run\(\{ quiet: !!saved \}\)\)/);
+  const flow = read('src/services/recovery/repairFlow.js');
+  assert.ok(flow.indexOf('deps.findStored(user.id, id)') > 0 && flow.indexOf('deps.findStored(user.id, id)') < flow.indexOf('deps.reserve('), 'the stored lookup runs before any reservation');
+});
+
+test('L-019: Lab Cinema has no drifting light behind the screen', () => {
+  const css = stripComments(read('src/app/lab-cinema.css'));
+  assert.doesNotMatch(css, /lcd__glow|lc-glow/);
+  assert.doesNotMatch(read('src/components/landing/LabCinema.jsx'), /lcd__glow/);
+});
+
+test('L-013: the hero buttons show on tablet widths (761 to 899 px); nothing hides .lp-cta there', () => {
+  const css = stripComments(read('src/app/landing.css'));
+  assert.doesNotMatch(css, /@media \(max-width: 899px\) \{\s*\.lp-cta \{\s*display: none;/);
+  const all = ['src/app/landing.css', 'src/app/home-refinements.css', 'src/app/hero-motion.css'].map((f) => stripComments(read(f))).join('\n');
+  assert.doesNotMatch(all, /\.lp-cta\s*\{[^}]*display:\s*none/);
+});
+
+test('W-064: the preview has a check fixture, so the first-week path can be walked with a check due', () => {
+  assert.match(read('src/app/preview/arena/ArenaPreviewClient.jsx'), /fixture\.get\('move'\) === 'check'\) plan\.primary = \{ kind: 'fresh_check'/);
+});
