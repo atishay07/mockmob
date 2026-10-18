@@ -440,6 +440,12 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 |---|---|---|
 | D96 | ONE goal: the final app with everything, in about 1 hour; skip the 1.0.15+6 file and everything else; merge everything, one final walk, one fix pass, APK, install | 8:48 pm: the web tracks C/D/E stopped (STOP POINTs: credits-core 6c23b11c, pro-nudge-app 69938fad); one workflow merges ui/v15.1-1018 + Play billing + Pro nudges + taste fixes + swipe v2 into ui/v15.2-1018, one walk, one fix pass, release APK. Release 9 is kept only because the app's Mob and per-question prices need it live |
 
+### Status at about 10:25 pm, 18 Oct (session 25ef3d95)
+- **DONE, live:** website release 9 (main 2e45a92c, then STATUS 9b3661e8). It carries D65 per-question credits, the D66 Mob ON (MOB_ENABLED=true on Vercel), and the audit fixes (the ledger PARTIAL list). Vercel is READY with 0 runtime errors; the live smoke test passed.
+- **W-044** (the Today cue) is not claimed: it stays OPEN for a decision.
+- **Final app** (ui/v15.2-1018 in wt-v15-2, with swipe v2): the one final walk said NO-GO, with 15 HIGH, 11 MEDIUM and 6 LOW (mostly numbers that disagree across screens; the Up next bar covering Start). The one fix pass is running, then the APK and the install (D96).
+- **Tracks C/D/E (web wallet, credits core, web nudges):** paused at STOP POINTs for release 10 (D96).
+
 ## Waiting on the owner (updated 18 Oct about 3:45 am)
 - Answered 3:50 am: M-001 first launch 3 s; M-006 bolder copy; D19 keep badges, refine; D22 Mob.
 - D32: confirm the kept landing element when he reviews the port live (wt-land3, port 3206).
