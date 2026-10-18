@@ -28,7 +28,7 @@ export function parseQuestionRef(ref) {
 /** The Ask link for one question (relative). */
 export const askHrefFor = (attemptId, questionId) => `/mentor?tab=ask&q=${encodeURIComponent(attemptId)}:${encodeURIComponent(questionId)}`;
 
-/** The cost line the Ask screen shows before sending, as data. Ask's own rule: one AI credit per written reply. */
+/** The cost line the Ask screen shows before sending, as data. Ask's own rule: one credit per written reply. */
 export const ASK_COST = Object.freeze({ credits: 1, pool: 'ai' });
 
 const held = (current) => !current || current.is_deleted || ['pending', 'quarantined', 'rejected', 'invalid'].includes(current.status) || current.verification_state === 'disputed';

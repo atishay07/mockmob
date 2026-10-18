@@ -14,7 +14,7 @@ export const TOUR_STEPS_ALL = Object.freeze([
   { title: 'Review', target: 'nav-review', body: 'Every mistake from your papers, with its explanation. Repair one to find the reason, and Revise brings it back until it holds.' },
   { title: 'Progress', target: 'nav-progress', body: 'Your study days, badges and personal bests, week by week. Your standing, where your recorded mocks place you, sits right under it.' },
   { title: 'Colleges', target: 'nav-admission-compass', body: 'Which DU courses your subjects open, and the 2026 cutoff college by college. Your chosen colleges show on Today.' },
-  { title: 'Ask Mobi', target: 'nav-mentor', body: 'Opens beside the question, the result, Practice or Today, already about it. Questions about your own record are free. A written reply costs 1 AI credit, and the cost shows before you ask.' },
+  { title: 'Ask Mobi', target: 'nav-mentor', body: 'Opens beside the question, the result, Practice or Today, already about it. Questions about your own record are free. A written reply costs 1 credit, and the cost shows before you ask.' },
   { title: 'Your Mob', target: 'nav-mob', body: 'You and up to four friends sit the same 10-question paper each week. You see who has sat it, and your own result.', mob: true },
   // The last stop is the standalone Guide page (D11, renamed from Help and FAQ): a link in the sidebar's Account group, under More on a phone.
   { title: 'Guide', target: ['nav-help', 'nav-more'], body: 'Stuck anywhere? Guide has the common questions, this tour to take again and a way to write to us.',

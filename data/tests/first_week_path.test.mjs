@@ -248,7 +248,7 @@ test('the copy: sentence case, no exclamation marks, no arrows, nothing free tha
     const text = [m.title, m.label, m.why, m.key.label, m.choice?.title, m.choice?.value].join(' | ');
     assert.doesNotMatch(text, /!|→|->|streak|miss(ed)? (a|your) day|you.?re behind|falling behind|behind schedule|lazy|hurry/i, text);
   }
-  // Repair is never described as free here: its price line is the lead card's own ("Each repair uses 1 AI credit").
+  // Repair is never described as free here: its price line is the lead card's own ("Each repair uses 1 credit").
   const lab = leads[6];
   assert.doesNotMatch(`${lab.why} ${lab.title}`, /\bfree\b/i);
   assert.equal(lab.aiEach, 1);

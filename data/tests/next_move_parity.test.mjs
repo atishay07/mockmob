@@ -91,7 +91,7 @@ test('the result page and Review agree on every shared paper rule: practise, rep
   }
 });
 
-test('Review on the design student: Repair Q42 in Mock 3; with 0 AI credits, Practise 10 on the costliest chapter', () => {
+test('Review on the design student: Repair Q42 in Mock 3; with 0 credits, Practise 10 on the costliest chapter', () => {
   const move = reviewMove(student);
   assert.equal(move.kind, 'repair');
   assert.equal(move.target.uid, 'm3:42');

@@ -1,5 +1,5 @@
 "use client";
-// Reads the AI credits wallet once per signed-in account for the app shell. The cache is keyed
+// Reads the credits wallet once per signed-in account for the app shell. The cache is keyed
 // by account and marked stale, so a switch of accounts never shows the previous balance.
 // One balance everywhere (W-060): any screen that reads a fresh wallet after spending (Ask Mobi after a reply, a repair)
 // calls announceWallet, and every mounted reader (the top bar chip, Account's strip) takes the new balance at once.

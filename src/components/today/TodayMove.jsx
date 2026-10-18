@@ -34,7 +34,7 @@ function BigNumber({ value }) {
   return <span className="tm__num"><span aria-hidden="true">{rolled}</span><span className="sr-only">{value}</span></span>;
 }
 
-// A repair move's price before the press: "Each repair uses 1 AI credit. You have 68." (unknown balance, no number).
+// A repair move's price before the press: "Each repair uses 1 credit. You have 68." (unknown balance, no number).
 function RepairPrice({ each }) {
   const auth = useContext(AuthContext);
   const wallet = useWalletSummary(auth?.user?.id, { reuseFresh: true });

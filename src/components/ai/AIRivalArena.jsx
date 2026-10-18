@@ -358,7 +358,7 @@ export default function AIRivalArena() {
 
 function RivalShell({ children, usage }) {
   const wallet = usage?.aiWallet || null;
-  // Unknown or paused wallets show no number; practice credits are a different ledger.
+  // Unknown or paused wallets show no number; the number is the one credits balance.
   const total = wallet?.known ? wallet.total : null;
   const free = formatFreeRival(usage);
   // Themed with the Arena's own tokens, Night and Day alike (W-078): no dark panel inside Daylight. The wallet is one
@@ -367,7 +367,7 @@ function RivalShell({ children, usage }) {
     <div className="rvl-shell mx-auto w-full max-w-7xl">
       <p className="rvl-wallet">
         <Coins size={14} aria-hidden="true" />
-        <span>AI credits <b>{total ?? 'not available'}</b></span>
+        <span>Credits <b>{total ?? 'not available'}</b></span>
         <span aria-hidden="true">·</span>
         <span>Free benchmarks today <b>{free === '—' ? 'not available' : free}</b></span>
       </p>
@@ -679,7 +679,7 @@ function getClientAccess({ rivalId, profile, isPaid, usage }) {
 
 function lockMessage(access) {
   if (access.kind === 'daily_used') return 'Today’s free benchmark is used. Pro adds more.';
-  if (access.kind === 'paused') return 'AI features are paused for now. Your AI credits have not been used.';
+  if (access.kind === 'paused') return 'AI features are paused for now. Your credits have not been used.';
   if (access.kind === 'credits') return usesLine({ what: 'This benchmark', cost: access.required || 1, pool: 'ai', balance: access.balance ?? null });
   if (access.kind === 'plan') return 'This benchmark needs Pro.';
   return 'Benchmark unavailable.';

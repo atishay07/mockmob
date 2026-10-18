@@ -3,7 +3,7 @@
 // differently from the phone (the credits history, sign-in, offline answers) the answer says how it works here.
 // Credit words come from creditCopy.mjs, the same source as the rest of the site. Plain sentence case:
 // no "!", no em dash, no middle dot. Pure, so a test can hold every word.
-import { AI_CREDITS, PRACTICE_CREDITS, PRACTICE_PRICE_LINE } from './creditCopy.mjs';
+import { PRACTICE_PRICE_LINE } from './creditCopy.mjs';
 
 export const SUPPORT_EMAIL = 'support@mockmob.in';
 export const HELP_HEADING = 'Common questions';
@@ -12,18 +12,18 @@ export const HELP_LEDE = 'Short answers to what students ask most. Not here? Wri
 export const FAQ_ITEMS = Object.freeze([
   Object.freeze({
     id: 'credits',
-    question: `What are ${PRACTICE_CREDITS} and ${AI_CREDITS}?`,
+    question: 'What are credits?',
     answer: Object.freeze([
-      `${PRACTICE_CREDITS} pay for mocks and practice sets. ${AI_CREDITS} pay for Ask Mobi replies and repair explanations. Each has its own balance. ${AI_CREDITS} show the date they renew. ${PRACTICE_CREDITS} do not renew.`,
+      'One balance pays for everything: practice sets, full mocks, Ask Mobi replies and repair explanations. Every account gets 50 free credits each month, and they are used first. Credits you buy or earn are used after them and stay in your account.',
       PRACTICE_PRICE_LINE,
-      `On Pro, practice is unlimited. Your ${AI_CREDITS} still count.`,
+      'One Ask Mobi reply is 1 credit. On Pro, practice needs no credits at all, so your credits go to Ask Mobi.',
     ]),
   }),
   Object.freeze({
     id: 'history',
     question: 'How do I see what I have used?',
     answer: Object.freeze([
-      'Open Account, then Credits. Every line says which credits it used, how many, and how many are left.',
+      'Open Account, then Credits. Every line says what it was for, how many credits it used, and how many are left.',
     ]),
   }),
   Object.freeze({

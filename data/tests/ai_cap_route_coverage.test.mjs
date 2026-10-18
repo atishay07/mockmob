@@ -152,6 +152,8 @@ test('the migration seeds Rs 5 for a paid student and Rs 1 for a free one (USD 0
   // Nothing else in the migration chain writes a different per-user value.
   for (const f of readdirSync(join(ROOT, 'supabase/migrations')).filter((n) => /\.sql$/.test(n))) {
     const text = read(`supabase/migrations/${f}`);
-    if (/student_user_paid/.test(text) && f !== '20261017120000_runtime_ai_user_cap.sql') assert.fail(`${f} writes student_user_paid`);
+    // A later migration may READ the cap row (reserve_runtime_ai selects it); only an insert or update of it is a write.
+    const writes = /(insert\s+into\s+public\.runtime_ai_budget[^;]*student_user_paid|update\s+public\.runtime_ai_budget[^;]*student_user_paid)/i;
+    if (writes.test(text) && f !== '20261017120000_runtime_ai_user_cap.sql') assert.fail(`${f} writes student_user_paid`);
   }
 });

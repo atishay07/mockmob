@@ -1,5 +1,5 @@
-// The price before the press on Today's lead card (W-060): a repair names its AI credit; Revise is free; a practice set or a full mock
-// on a free account names its practice credits and the balance (Pro includes both, so nothing is printed). PURE, so the words are
+// The price before the press on Today's lead card (W-060): a repair names its credit; Revise is free; a practice set or a full mock
+// on a free account names its credits and the balance (Pro includes both, so nothing is printed). PURE, so the words are
 // held by a test (data/tests/practice_credit_per_question.test.mjs).
 //
 // A practice set is 1 credit a question, so the cost follows the set's own size (its link carries count=); a mock is 50.

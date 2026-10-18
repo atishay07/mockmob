@@ -102,11 +102,11 @@ export function CreditsRemainingModal({ open, credits, onClose, offer = null }) 
         </button>
 
         <h2 id="credits-modal-title" className="mmx-sheet__title">
-          {isEmpty ? (safe === 0 ? 'You are out of practice credits' : 'Not enough practice credits') : 'What Pro adds'}
+          {isEmpty ? (safe === 0 ? 'You are out of credits' : 'Not enough credits') : 'What Pro adds'}
         </h2>
         <p className="mmx-sheet__lede">
           {isEmpty
-            ? 'Practice credits set how many new sets you can start. Your results, explanations and DU eligibility stay open on Free. Pro removes the credit limit and adds:'
+            ? 'Credits set how many new sets you can start. Your results, explanations and DU eligibility stay open on Free. Pro removes the credit limit and adds:'
             : 'Your results, explanations, DU eligibility and top three chapters stay open on Free. Pro adds:'}
         </p>
 
@@ -121,20 +121,20 @@ export function CreditsRemainingModal({ open, credits, onClose, offer = null }) 
 
         <div className="mmx-credits">
           <p className="mmx-credits__head">
-            Practice credits left <strong>{safe}</strong>
+            Credits left <strong>{safe}</strong>
           </p>
           <div className="mmx-credits__bar" aria-hidden="true">
             <span style={{ transform: `scaleX(${Math.min(100, safe) / 100})` }} />
           </div>
           <div className="mmx-credits__runs">
             <div>
-              <span>Quick practice, 1 practice credit a question</span>
+              <span>Quick practice, 1 credit a question</span>
               <strong>
                 {quickQuestions > 0 ? `${quickQuestions} questions` : `Not enough for a ${QUICK_MIN_SET}-question set`}
               </strong>
             </div>
             <div>
-              <span>Full mock, {FULL_COST} practice credits</span>
+              <span>Full mock, {FULL_COST} credits</span>
               <strong>
                 {fullRuns} run{fullRuns === 1 ? '' : 's'}
               </strong>

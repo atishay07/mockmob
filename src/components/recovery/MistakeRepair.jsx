@@ -27,7 +27,7 @@ const newRequestId = () => (globalThis.crypto?.randomUUID?.() || `${Date.now()}-
 const SLOW_AFTER_MS = REPAIR_LOADING.slowAfterMs;
 const LONG_AFTER_MS = REPAIR_LOADING.longAfterMs;
 
-// What a repair costs and what the student has, in the one spend line: "This repair uses 1 AI credit. You have 9."
+// What a repair costs and what the student has, in the one spend line: "This repair uses 1 credit. You have 9."
 // The balance is the one the top bar already read (reused for five minutes); unknown shows no number.
 function RepairCost() {
   const auth = useContext(AuthContext);
@@ -35,7 +35,7 @@ function RepairCost() {
   return <p className="mr-cost">{usesLine({ what: 'This repair', cost: 1, pool: 'ai', balance: wallet.wallet?.known ? wallet.wallet.total : null })}</p>;
 }
 
-// The paid start, or, with a known balance of 0 AI credits, the credits line and the free way forward instead.
+// The paid start, or, with a known balance of 0 credits, the credits line and the free way forward instead.
 function RepairStart({ chosen, number = null, onStart }) {
   const auth = useContext(AuthContext);
   const wallet = useWalletSummary(auth?.user?.id, { reuseFresh: true });
@@ -43,7 +43,7 @@ function RepairStart({ chosen, number = null, onStart }) {
     return (
       <div className="mr-empty">
         <p className="mr-cost">{usesLine({ what: 'A repair', cost: 1, pool: 'ai', balance: 0 })}</p>
-        <p className="mr-note mr-ways"><Link href="/pricing/ai-credits">See your AI credits</Link> <Link href="/dashboard?mode=quick&count=5">Practise 5 fresh questions</Link></p>
+        <p className="mr-note mr-ways"><Link href="/pricing/ai-credits">See your credits</Link> <Link href="/dashboard?mode=quick&count=5">Practise 5 fresh questions</Link></p>
       </div>
     );
   }
@@ -52,7 +52,7 @@ function RepairStart({ chosen, number = null, onStart }) {
       <button type="button" className="mr-start" onClick={onStart}>
         <span className="mr-start__icon" aria-hidden="true"><Wrench size={18} strokeWidth={2.4} /></span>
         <span className="mr-start__text"><b>{Number.isInteger(number) ? `Repair Q${number}` : 'Repair this mistake'}</b><small>Why {chosen ? `option ${chosen}` : 'your answer'} looked right, why the key is right and one rule to keep, then a new question to check it held</small></span>
-        <span className="mr-start__cost">1 AI credit</span>
+        <span className="mr-start__cost">1 credit</span>
       </button>
       <RepairCost />
     </>
@@ -392,9 +392,9 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
             <p className="mr-note">{state.message}</p>
           </div>
           {state.canRetry ? <button type="button" className="mr-retry" onClick={run}>{state.status === 'waiting' ? 'Check again' : 'Try again'}</button> : null}
-          {/* Out of AI credits: the free ways forward, not a dead end. */}
+          {/* Out of credits: the free ways forward, not a dead end. */}
           {state.code === 'insufficient_ai_credits' ? (
-            <p className="mr-note mr-ways"><Link href="/dashboard?mode=quick&count=5">Practise 5 fresh questions</Link> <Link href="/pricing/ai-credits">See your AI credits</Link></p>
+            <p className="mr-note mr-ways"><Link href="/dashboard?mode=quick&count=5">Practise 5 fresh questions</Link> <Link href="/pricing/ai-credits">See your credits</Link></p>
           ) : null}
         </div>
       );

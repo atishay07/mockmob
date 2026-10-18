@@ -3,7 +3,7 @@
 // match a shipped capability (see data/capabilities.js).
 import { CAPABILITIES } from '@/../data/capabilities';
 
-export const PREPOS_PAUSED_MESSAGE = 'AI features are paused for now. Your AI credits have not been used.';
+export const PREPOS_PAUSED_MESSAGE = 'AI features are paused for now. Your credits have not been used.';
 
 export const FEATURE_GUIDE = [
   {
@@ -18,7 +18,7 @@ export const FEATURE_GUIDE = [
     key: 'practice',
     name: 'Practice',
     route: '/dashboard',
-    description: 'Timed CUET practice by subject, mode and question count, marked +5 / −1 on the server. Access and practice credits are checked before a session starts.',
+    description: 'Timed CUET practice by subject, mode and question count, marked +5 / −1 on the server. Access and credits are checked before a session starts.',
     whenToUse: 'Use it for daily sets and full-length timing practice.',
     actionLabel: 'Open Practice',
   },
@@ -58,17 +58,17 @@ export const FEATURE_GUIDE = [
     key: 'benchmark',
     name: 'Shadow Benchmark',
     route: '/rival',
-    description: 'A timed set against a simulated pace. Basic benchmarks are included; Pro benchmarks use AI credits and are paused for now.',
+    description: 'A timed set against a simulated pace. Basic benchmarks are included; Pro benchmarks use credits and are paused for now.',
     whenToUse: 'Use it for a short timed check without a full mock.',
     actionLabel: 'Open Benchmark',
   },
   {
     key: 'credits',
-    name: 'AI credits',
+    name: 'Credits',
     route: '/pricing/ai-credits',
-    description: 'AI credits are separate from practice credits. Paid AI replies and new top-ups are paused; existing balances are preserved and nothing is charged.',
-    whenToUse: 'Use it to see your preserved AI credit balance.',
-    actionLabel: 'See your AI credits',
+    description: 'One credits balance pays for practice and Ask Mobi: 1 credit a question or a reply, a full mock 50. Everyone gets 50 free a month, used first.',
+    whenToUse: 'Use it to see your credits and what they pay for.',
+    actionLabel: 'See your credits',
   },
 ];
 
@@ -80,7 +80,7 @@ export function pageHelpForPath(pathname = '/') {
   if (pathname.startsWith('/admission-compass')) return help('DU eligibility and cutoffs', FEATURE_GUIDE.find((f) => f.key === 'compass').description, null);
   if (pathname.startsWith('/analytics')) return help('Marks trend', 'This page summarises your server-scored sessions. Review the chapters you missed more than once.', { label: 'Open Review', type: 'navigate', route: '/review' });
   if (pathname.startsWith('/saved')) return help('Saved questions', 'Saved questions are for short revision blocks.', null);
-  if (pathname.startsWith('/pricing')) return help('Plans and credits', 'Pro and AI credits are separate. New AI credit top-ups are paused; existing balances are preserved.', null);
+  if (pathname.startsWith('/pricing')) return help('Plans and credits', 'One credits balance pays for practice and Ask Mobi. Pro makes practice free of credits.', null);
   return help('MockMob', 'Mobi explains your next step and the tools. Your plan comes from your practice record.', { label: 'Open Today', type: 'navigate', route: '/today' });
 }
 
@@ -100,10 +100,10 @@ export function deterministicReplyFor({ text, pathname }) {
     const paused = CAPABILITIES.optionalAi.state !== 'available';
     return reply(
       paused
-        ? `${PREPOS_PAUSED_MESSAGE} Your practice credits (for Quick practice and Full mock) are a separate balance and still work.`
-        : 'AI credits are separate from practice credits.',
+        ? `${PREPOS_PAUSED_MESSAGE} Your credits still pay for practice sets and full mocks.`
+        : 'One credits balance pays for practice and Ask Mobi: 1 credit a question or a reply, a full mock 50. The 50 free credits each month are used first.',
       'Wallet state comes from the server.',
-      { label: 'See your AI credits', type: 'navigate', route: '/pricing/ai-credits' },
+      { label: 'See your credits', type: 'navigate', route: '/pricing/ai-credits' },
     );
   }
   if (q.includes('college') || q.includes('admission') || q.includes('cutoff') || q.includes('chance') || q.includes(' du ') || q.startsWith('du ')) {

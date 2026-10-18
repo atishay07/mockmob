@@ -20,7 +20,7 @@ const secret = () => process.env.PRACTICE_SESSION_SECRET || process.env.SUPABASE
 // `server` carries what only the server may decide; POST /api/sessions never passes it. server.mobPaper (the Mob, set by
 // src/lib/server/mob/service.js) serves the Mob's frozen weekly questions in canonical option order instead of the
 // selector, and stamps selection_meta.mobPaper so the finish can record the sitting. A Mob paper charges no credits and
-// uses no daily allowance (SOCIAL-SPEC section 15: free of practice credits for every member); the Mob service decides who
+// uses no daily allowance (SOCIAL-SPEC section 15: free of credits for every member); the Mob service decides who
 // may start one (one free weekly paper per student per week, Pro without that limit) before it ever calls this.
 export async function startPractice(userId, input, server = {}) {
   const mobPaper = server?.mobPaper && Array.isArray(server.mobPaper.questions) ? server.mobPaper : null;

@@ -24,8 +24,8 @@ export function isPaidUser(user, nowMs = Date.now()) {
   }, nowMs);
 }
 
-export const PREPOS_PAUSED_MESSAGE = 'AI features are paused for now. Your AI credits have not been used.';
-export const WALLET_UNAVAILABLE_MESSAGE = 'Your AI credits could not be read just now. Nothing has been charged. Try again later.';
+export const PREPOS_PAUSED_MESSAGE = 'AI features are paused for now. Your credits have not been used.';
+export const WALLET_UNAVAILABLE_MESSAGE = 'Your credits could not be read just now. Nothing has been charged. Try again later.';
 
 export function walletWindow(input = new Date()) {
   // IST (UTC+05:30) calendar month.

@@ -21,14 +21,15 @@ test('the Free monthly allowance is 50, Pro still 50, and the Free spending cap 
   assert.ok(UNDO.includes("monthly_cap_usd = 0.0114 where id = 'student_user_free'"), 'the undo restores the Rs 1 cap');
 });
 
-test('no page still says Free gets 10 AI credits a month, and the pages that name the number say 50', () => {
+test('no page still says Free gets 10 credits a month, and the pages that name the number say 50', () => {
   for (const rel of ['src/app/pricing/page.js', 'src/app/features/page.js', 'src/app/page.js', 'src/app/pricing/ai-credits/page.js']) {
     const s = file(rel);
-    assert.doesNotMatch(s, /\b10 a month\b|10 on Free|10 AI credits|: 10 a month/, `${rel} still states 10`);
+    assert.doesNotMatch(s, /\b10 a month\b|10 on Free|10 credits|: 10 a month/, `${rel} still states 10`);
   }
-  assert.match(file('src/app/pricing/page.js'), /AI credits', '50 a month for written replies from Ask Mobi'/);
-  assert.match(file('src/app/pricing/page.js'), /AI credits: 50 a month on Free, kept apart from practice credits/);
-  assert.match(file('src/app/features/page.js'), /50 a month on Free and on Pro/);
+  // One credits balance (D78): the 50 free a month are for practice and Ask Mobi alike.
+  assert.match(file('src/app/pricing/page.js'), /plus 50 free every month: 1 a question in Quick practice, 50 a Full mock, 1 an Ask Mobi reply/);
+  assert.match(file('src/app/pricing/page.js'), /Practice and Ask Mobi replies share one credits balance: 50 free a month, used first\./);
+  assert.match(file('src/app/features/page.js'), /everyone gets 50 free a month/);
   assert.match(file('src/app/page.js'), /AI replies use monthly credits: 50 on Free, 50 on Pro/);
   assert.match(file('src/components/ai/askSuggestions.mjs'), /includedMonthlyCredits \?\? 50\}/);
 });

@@ -60,8 +60,8 @@ export const PRACTICE_PRICE = Object.freeze({
   setQuestions: SET,
   full: practiceCreditCost('full', TEST_MODES.full.fixedCount),
 });
-/** "Credits: 1 a question. A 10-question set is 10, a full mock 50." */
-export const PRACTICE_PRICE_LINE = `${PRACTICE_CREDITS}: ${PRACTICE_PRICE.perQuestion} a question. A ${PRACTICE_PRICE.setQuestions}-question set is ${PRACTICE_PRICE.set}, a full mock ${PRACTICE_PRICE.full}.`;
+/** "1 credit a question. A 10-question set is 10, a full mock 50." (one credits balance, D78) */
+export const PRACTICE_PRICE_LINE = `${PRACTICE_PRICE.perQuestion} credit a question. A ${PRACTICE_PRICE.setQuestions}-question set is ${PRACTICE_PRICE.set}, a full mock ${PRACTICE_PRICE.full}.`;
 /** The same, for a place that already says "practice credits" before it: "1 a question. A 10-question set is 10, a full mock 50." */
 export const PRACTICE_PRICE_TAIL = `${PRACTICE_PRICE.perQuestion} a question. A ${PRACTICE_PRICE.setQuestions}-question set is ${PRACTICE_PRICE.set}, a full mock ${PRACTICE_PRICE.full}.`;
 

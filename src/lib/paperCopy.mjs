@@ -9,7 +9,7 @@
 //   - NTA mode builds unseen questions first, leaves out questions from earlier NTA papers while the CUET pattern can
 //     still be met, and names any repeat on the paper itself (data/nta_engine.js, data/nta_pool.js).
 //   - No cap on papers: starting one (src/lib/server/practiceSessions.js startPractice) counts nothing per day or per
-//     subject. Pro spends nothing; Free spends practice credits per paper (data/test_modes.js creditCost).
+//     subject. Pro spends nothing; Free spends credits per paper (data/test_modes.js creditCost).
 //   - Never written: "never repeats", "unlimited" for Free, or any competitor. A small bank or a long run of papers can
 //     bring back questions the student has answered, and NTA mode says so when it happens.
 // Pure, no React, so a node test can hold the words. Sentence case; no "!", no em dash, no middle dot, no arrows.
@@ -52,15 +52,15 @@ export function bankPhrase(count, subjectName) {
 
 /**
  * The line under the modes on Practice. Every mode builds its paper fresh; the cap line differs by plan, because on
- * Free each paper costs practice credits (the price sits beside each mode).
+ * Free each paper costs credits (the price sits beside each mode).
  */
 export function freshPaperLine({ count = null, subjectName = '', isPremium = false, mode = null } = {}) {
-  // Smart practice and NTA mode are Pro only (data/test_modes.js premium: true), never paid for with practice credits,
+  // Smart practice and NTA mode are Pro only (data/test_modes.js premium: true), never paid for with credits,
   // so on Free their line says what they are part of rather than quoting a credit price they do not have.
   const proOnly = mode === 'nta' || mode === 'smart';
   const cap = isPremium ? 'There is no cap on how many you take.'
     : proOnly ? `${mode === 'nta' ? 'NTA mode' : 'Smart practice'} is part of Pro, which has no cap on how many you take.`
-      : 'There is no cap on how many you take, only the practice credits each one uses.';
+      : 'There is no cap on how many you take, only the credits each one uses.';
   // NTA mode draws only on questions with a checked quality score of 8 or more out of 10 (data/nta_engine.js
   // NTA_MIN_SCORE), a subset the public counts do not give, so its line never presents the whole bank as its pool.
   if (mode === 'nta') return `Each NTA paper is built fresh from the ${subjectName ? `${subjectName} ` : ''}questions that meet NTA mode’s quality bar${Number.isInteger(count) && count > 0 ? ` (the full bank holds ${fmt(count)})` : ''}, questions you have not answered first. ${cap}`;
@@ -114,13 +114,13 @@ export function nextPaper({ mode, subject, subjectName = '', count = null, total
 
 function creditCountShort(balance) {
   const n = Math.max(0, Math.trunc(Number(balance)));
-  return `${fmt(n)} practice credit${n === 1 ? '' : 's'}`;
+  return `${fmt(n)} credit${n === 1 ? '' : 's'}`;
 }
 
 /** Pricing: the one calm sentence under the plans' lead. The bank size is the stored daily count, or left out. */
 export function pricingBankLine(bankSize) {
   const bank = Number.isInteger(bankSize) && bankSize > 0 ? `a live bank of ${fmt(bankSize)} questions` : 'the live question bank';
-  return `There is no fixed set of mocks: each paper is built when you start it, from ${bank}, questions you have not answered first. Pro covers as many as you take; on Free, each one uses practice credits.`;
+  return `There is no fixed set of mocks: each paper is built when you start it, from ${bank}, questions you have not answered first. Pro covers as many as you take; on Free, each one uses credits.`;
 }
 
 /** Pricing: what the bank covers. Only the subjects Practice offers are counted, never the thin or dropped ones. */
@@ -133,13 +133,13 @@ export function pricingBankFaq(bankSize) {
   const bank = Number.isInteger(bankSize) && bankSize > 0 ? ` (${fmt(bankSize)} questions in the subjects Practice offers, at the last daily count)` : '';
   return {
     q: 'How many mocks do I get per subject?',
-    a: `As many as you take. MockMob keeps one checked question bank${bank}, and each paper is built from it when you start, with questions you have not answered first. With Pro there is no cap. On Free, each paper uses practice credits. ${PRACTICE_PRICE_LINE} A subject with a small bank can bring back questions you have answered before; NTA mode names any repeat on the paper.`,
+    a: `As many as you take. MockMob keeps one checked question bank${bank}, and each paper is built from it when you start, with questions you have not answered first. With Pro there is no cap. On Free, each paper uses credits: ${PRACTICE_PRICE_LINE} A subject with a small bank can bring back questions you have answered before; NTA mode names any repeat on the paper.`,
   };
 }
 
-/** Onboarding: the subjects step's lead, and the count on each subject tile. "No cap" is Pro's; Free pays practice credits
+/** Onboarding: the subjects step's lead, and the count on each subject tile. "No cap" is Pro's; Free pays credits
  *  for each mock, said in the same breath (release 9 audit: the lead was shown to Free students without it). */
-export const ONBOARDING_LEAD = 'Pick up to 5. Every mock is built fresh from one live question bank: no cap on Pro, and on Free each one uses practice credits. Swap them any time.';
+export const ONBOARDING_LEAD = 'Pick up to 5. Every mock is built fresh from one live question bank: no cap on Pro, and on Free each one uses credits. Swap them any time.';
 
 /** Onboarding: each step's headline and lead (M-006, 18 Oct: bolder and punchier, still true, no exclamation marks). */
 export const ONBOARDING_STEPS = Object.freeze({

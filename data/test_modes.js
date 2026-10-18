@@ -9,7 +9,7 @@ export const TEST_MODES = {
     blurb: 'Fast revision with flexible question counts.',
     badge: 'Free',
     premium: false,
-    // Quick practice costs 1 practice credit a question (owner, 18 Oct, D65): 5 questions = 5, 10 = 10, 15 = 15, 20 = 20.
+    // Quick practice costs 1 credit a question (owner, 18 Oct, D65): 5 questions = 5, 10 = 10, 15 = 15, 20 = 20.
     // The price of a set comes from practiceCreditCost(); there is no flat creditCost. The database knows the per-count
     // actions attempt_5 / attempt_10 / attempt_15 / attempt_20 (supabase/migrations/20261018170000_...); the old flat
     // 'attempt' action (10) stays in the database for old callers and old app builds.
@@ -108,7 +108,7 @@ export function fineTuneViolation(id, { chapters = [], difficulty = '' } = {}) {
   return null;
 }
 
-// What a Free student pays for a paper, in practice credits: 1 a question for Quick practice, the fixed price for a Full
+// What a Free student pays for a paper, in credits: 1 a question for Quick practice, the fixed price for a Full
 // mock, nothing for the Pro modes. null for an unknown mode or a Quick count outside 5 / 10 / 15 / 20 (the server refuses it).
 // This is the list price: a free allowance (today's included 10-question set, a first set in a subject) is taken off by the
 // caller, and Pro pays nothing whatever this says.

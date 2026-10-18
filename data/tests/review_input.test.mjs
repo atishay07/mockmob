@@ -110,14 +110,14 @@ test('weekdays match their dates (18 Oct 2026 is a Sunday, 21 Oct a Wednesday) a
   assert.equal(paperViews(student)[0].stamp, 'Mock 3, 16 Oct, 9:40 PM');
 });
 
-test('the next move is the shared function on the open set: Repair Q42 (Mock 3), 40 AI credits, rule 3', () => {
+test('the next move is the shared function on the open set: Repair Q42 (Mock 3), 40 credits, rule 3', () => {
   const move = reviewMove(student);
   assert.equal(move.kind, 'repair');
   assert.equal(move.rule, 3);
   assert.equal(move.label, 'Repair Q42');
   assert.deepEqual({ qid: move.target.qid, number: move.target.number, chapter: move.target.chapter, attemptId: move.target.attemptId, paper: move.target.paper }, { qid: 'm3:42', number: 42, chapter: 'Admission of a partner', attemptId: 'm3', paper: 'Mock 3' });
   assert.equal(move.value, 'A repair gives you why D looked right, the trap, one rule to keep, and a new question to check it held.');
-  assert.equal(move.cost, '1 AI credit. You have 40. No charge if the repair cannot be written.');
+  assert.equal(move.cost, '1 credit. You have 40. No charge if the repair cannot be written.');
   assert.equal(move.alt.label, 'Practise 10 on Admission of a partner instead');
   assert.deepEqual(move.panel, { title: 'Admission of a partner', line: 'Your costliest chapter: 35 marks lost in Mock 3 and Mock 2. Q42 comes first.' });
 });
@@ -139,19 +139,19 @@ test('a slipped mistake is never the repair target, and a key under re-check is 
   assert.equal(view.repairable, false);
 });
 
-test('0 AI credits: practise the costliest chapter and say when the credits renew (rule 5)', () => {
+test('0 credits: practise the costliest chapter and say when the credits renew (rule 5)', () => {
   const z = load('zero_credits');
   const move = reviewMove(z);
   assert.equal(move.kind, 'practise');
   assert.equal(move.rule, 5);
   assert.equal(move.label, 'Practise 10 on Admission of a partner');
-  assert.equal(move.panel.line, 'Repairs use AI credits. You have 0. They renew on 1 Nov.');
-  assert.equal(move.alt.label, 'See your AI credits');
+  assert.equal(move.panel.line, 'Repairs use credits. You have 0. They renew on 1 Nov.');
+  assert.equal(move.alt.label, 'See your credits');
   // an unknown balance has no number and is not zero: the repair stays the move
   const unknown = copy(student);
   unknown.wallet.aiCredits = null;
   assert.equal(reviewMove(unknown).label, 'Repair Q42');
-  assert.match(reviewMove(unknown).cost, /^1 AI credit\. /);
+  assert.match(reviewMove(unknown).cost, /^1 credit\. /);
   assert.ok(!/You have 0/.test(reviewMove(unknown).cost));
 });
 
@@ -183,7 +183,7 @@ test('rule 2 reads the newest paper: under 40 percent right there sends the stud
   const move = reviewMove(r);
   assert.equal(move.rule, 2);
   assert.equal(move.label, 'Practise 10 on Admission of a partner');
-  assert.equal(move.alt.label, 'Or repair Q42, 1 AI credit');
+  assert.equal(move.alt.label, 'Or repair Q42, 1 credit');
   // the same record with an older weak paper and a strong newest one still repairs
   const old = copy(student);
   Object.assign(old.papers.find((p) => p.id === 'm2'), { right: 5, wrong: 15, blank: 30 });

@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-// AI credits: what a student's AI credits are, what they have, and how they spend. A plain page on the
+// credits: what a student's credits are, what they have, and how they spend. A plain page on the
 // marketing tokens, so Day and Night both read at AA: one heading, the balance (or one sign-in line),
 // a ruled list of the three rules, the FAQs. No orb, no gradient, no tiles. The old /pricing/prepos
 // address redirects here.
@@ -24,16 +24,16 @@ import { runtimeAiReleased } from '@/../data/capabilities';
 import { aiCreditsRules, aiCreditsStatusLine } from './aiCreditsCopy.mjs';
 
 export const metadata = seoMetadata({
-  title: 'AI credits',
+  title: 'Credits',
   description:
-    'How MockMob AI credits work: monthly credits on Free and Pro, purchased credits that do not expire, and your current balance.',
+    'How MockMob credits work: monthly credits on Free and Pro, purchased credits that do not expire, and your current balance.',
   path: '/pricing/ai-credits',
 });
 
 const faqs = [
   {
-    q: 'Do purchased AI credits expire?',
-    a: 'No. Monthly included credits reset every month, but purchased AI credits stay in your account until you spend them.',
+    q: 'Do purchased credits expire?',
+    a: 'No. Monthly included credits reset every month, but purchased credits stay in your account until you spend them.',
   },
   {
     q: 'What is the difference between monthly and purchased credits?',
@@ -41,7 +41,7 @@ const faqs = [
   },
   {
     q: 'Is Pro still separate?',
-    a: 'Yes. Pro is billed separately from the optional AI credits. New top-ups are currently paused and existing balances are preserved.',
+    a: 'Yes. Pro is billed separately from the optional credits. New top-ups are currently paused and existing balances are preserved.',
   },
 ];
 
@@ -60,7 +60,7 @@ export default async function AICreditsPage() {
         data={breadcrumbJsonLd([
           { name: 'Home', path: '/' },
           { name: 'Pricing', path: '/pricing' },
-          { name: 'AI credits', path: '/pricing/ai-credits' },
+          { name: 'Credits', path: '/pricing/ai-credits' },
         ])}
       />
       <JsonLd id="ai-credits-faq-json-ld" data={faqJsonLd(faqs.map((faq) => ({ question: faq.q, answer: faq.a })))} />
@@ -69,9 +69,9 @@ export default async function AICreditsPage() {
       <main>
         <section className="mm-section mm-section--flush" style={{ paddingTop: '2.5rem' }}>
           <div className="mm-wrap mm-wrap--tight">
-            <h1 className="mm-h1">AI credits</h1>
+            <h1 className="mm-h1">Credits</h1>
             <p className="mm-lead" style={{ marginTop: '1rem' }}>
-              Ask Mobi uses AI credits for written replies: {AI_FREE_MONTHLY_CREDITS} a month on Free and {AI_PRO_INCLUDED_MONTHLY_CREDITS} on Pro, kept apart from Practice credits.
+              Practice and Ask Mobi share one credits balance: 1 credit a question or a written reply, a full mock 50. Everyone gets {AI_FREE_MONTHLY_CREDITS} free credits a month on Free and {AI_PRO_INCLUDED_MONTHLY_CREDITS} on Pro, used first.
               {' '}{aiCreditsStatusLine({ checkoutOpen, repliesOpen: runtimeAiReleased() })}
             </p>
 
@@ -79,14 +79,14 @@ export default async function AICreditsPage() {
             {wallet ? (
               wallet.known ? (
                 <dl className="aic-balance">
-                  <div><dt>Your balance</dt><dd>{wallet.total}<small>AI credits</small></dd></div>
+                  <div><dt>Your balance</dt><dd>{wallet.total}<small>Credits</small></dd></div>
                   <div><dt>Monthly included</dt><dd>{wallet.includedRemaining}<small>of {wallet.includedMonthlyCredits} left this month</small></dd></div>
                   <div><dt>Purchased</dt><dd>{wallet.bonusCredits}<small>never expire</small></dd></div>
                 </dl>
-              ) : <p className="aic-line" role="status">{wallet.message || 'Your AI credit balance could not be read just now.'}</p>
+              ) : <p className="aic-line" role="status">{wallet.message || 'Your credit balance could not be read just now.'}</p>
             ) : (
               <div className="aic-signin">
-                <p className="aic-line">Log in to see your AI credits. A {isPaid ? 'Pro' : 'free'} account includes {monthly} a month.</p>
+                <p className="aic-line">Log in to see your credits. A {isPaid ? 'Pro' : 'free'} account includes {monthly} a month.</p>
                 <Link href="/login?callbackUrl=%2Fpricing%2Fai-credits" className="mm-btn mm-btn--primary">Log in</Link>
               </div>
             )}
@@ -97,7 +97,7 @@ export default async function AICreditsPage() {
         {checkoutOpen ? (
           <section className="mm-section">
             <div className="mm-wrap mm-wrap--tight">
-              <h2 className="mm-h2">Buy AI credits</h2>
+              <h2 className="mm-h2">Buy credits</h2>
               <ul className="aic-rules">
                 {AI_CREDIT_PACKS.map((pack) => (
                   <li key={pack.key} className="aic-pack">
@@ -115,21 +115,21 @@ export default async function AICreditsPage() {
 
         <section className="mm-section mm-section--sunken" id="how-credits-work">
           <div className="mm-wrap mm-wrap--tight">
-            <h2 className="mm-h2">How AI credits work</h2>
+            <h2 className="mm-h2">How credits work</h2>
             <ul className="aic-rules">
               {aiCreditsRules(checkoutOpen).map(([title, body]) => (
                 <li key={title}><b>{title}</b><p>{body}</p></li>
               ))}
             </ul>
             <p className="mm-body" style={{ marginTop: '1.25rem' }}>
-              Your next step on Today never uses AI credits. <Link href="/pricing" className="mm-link">Compare Free and Pro</Link>
+              Your next step on Today never uses credits. <Link href="/pricing" className="mm-link">Compare Free and Pro</Link>
             </p>
           </div>
         </section>
 
         <section className="mm-section">
           <div className="mm-wrap mm-wrap--tight">
-            <h2 className="mm-h2">Questions about AI credits</h2>
+            <h2 className="mm-h2">Questions about credits</h2>
             <div className="mm-faqs">
               {faqs.map((faq) => (
                 <details key={faq.q} className="mm-faq">

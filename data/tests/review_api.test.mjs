@@ -282,7 +282,7 @@ test('a failed read of Revise, of the keys or of the lesson cards degrades one p
   assert.ok(noKeys.body.items.every((i) => !i.keyState));
   const unknownWallet = await run(world(), { wallet: null });
   assert.equal(unknownWallet.body.wallet, null);
-  assert.match(reviewMove(unknownWallet.body).cost, /^1 AI credit\./);
+  assert.match(reviewMove(unknownWallet.body).cost, /^1 credit\./);
   assert.ok(!/You have 0/.test(reviewMove(unknownWallet.body).cost));
 });
 

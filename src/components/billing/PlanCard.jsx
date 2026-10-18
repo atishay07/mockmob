@@ -16,7 +16,7 @@ const MONTHLY_RUPEES = Math.round(PAYMENT_PLANS.pro_monthly_99.amount / 100);
 const fmt = (iso) => new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Kolkata' });
 // The lead names the timezone once, beside its date.
 // Balances are shown once on Account, in Credits right under this card; the plan says what things cost.
-const FREE_COSTS = `Free uses practice credits. ${PRACTICE_PRICE_LINE} Your balance is under Credits.`;
+const FREE_COSTS = `Free uses credits. ${PRACTICE_PRICE_LINE} Your balance is under Credits.`;
 const LeadDate = ({ iso }) => <><strong>{fmt(iso)}</strong> (IST)</>;
 
 export function PlanCard() {

@@ -3,7 +3,7 @@
 // decide the asks, and each ask carries its price. A preview line is never invented: with no record line, it is omitted.
 //
 // Prices: an ask the record can answer is free (the same rule as the chat route, which answers record questions before any
-// model call). Anything that needs a written reply costs 1 AI credit, and says so before it is sent (W-060).
+// model call). Anything that needs a written reply costs 1 credit, and says so before it is sent (W-060).
 import { answerFromInsights, readout } from '../../../data/prepos_insights.js';
 import { FAQ_ITEMS } from '../../lib/helpFaq.mjs';
 import { todayAnswer } from './askContexts.mjs';
@@ -90,7 +90,7 @@ function catalogue(context, insights, { pro }) {
     mock_change: { price: 'paid', label: 'What should I change before the next mock?', line: 'Uses this mock and your record' },
     plan_talk: { price: 'paid', label: 'Talk me through this step', line: 'Uses the step and your record' },
     practice_plan: { price: 'paid', label: chapterName ? `How should I practise ${chapterName}?` : 'How should I practise this week?', line: 'Uses your record' },
-    credits_help: { price: 'free', label: 'How do AI credits work?', line: null },
+    credits_help: { price: 'free', label: 'How do credits work?', line: null },
     nta_help: { price: 'free', label: 'What is NTA mode?', line: null },
   };
 }
@@ -132,7 +132,7 @@ export function suggestionsFor({ context, insights = null, status = 'loading', p
 export function answerFree(id, { context = {}, insights = null, pro = false } = {}) {
   if (id === 'credits_help' || id === 'nta_help') {
     const item = product(id === 'credits_help' ? 'credits' : 'nta');
-    return { reply: item.answer.join(' '), actions: id === 'credits_help' ? [{ label: 'See your AI credits', route: '/pricing/ai-credits' }] : [], source: 'From the MockMob help answers' };
+    return { reply: item.answer.join(' '), actions: id === 'credits_help' ? [{ label: 'See your credits', route: '/pricing/ai-credits' }] : [], source: 'From the MockMob help answers' };
   }
   if (!ready(insights)) {
     if (['chapter_history', 'marks_leak', 'pace', 'week'].includes(id)) {
@@ -191,7 +191,7 @@ export function productAskFor(text) {
 /**
  * What typed text costs, shown under the composer before it is sent. With a question attached a typed ask is always a
  * written reply (a record answer cannot discuss a question). Otherwise free when the record or the help answers can
- * answer it, else 1 AI credit. Unknown is shown as the price, never as free.
+ * answer it, else 1 credit. Unknown is shown as the price, never as free.
  */
 export function priceForText(text, { insights = null, status = 'loading', pro = false, hasQuestion = false } = {}) {
   const t = String(text || '').trim();
@@ -218,27 +218,28 @@ export function shortDate(iso) {
 }
 
 /**
- * The one wallet line under the composer: { count, rest, reset }. "8 of 10 AI credits left", "resets 1 Nov". Purchased
+ * The one wallet line under the composer: { count, rest, reset }. "8 of 10 credits left", "resets 1 Nov". Purchased
  * credits make "of 10" untrue, so then it is the total alone. Unknown is never written as 0.
  */
 export function walletLine(wallet) {
-  if (!wallet) return { count: null, rest: 'Reading AI credits', reset: null };
-  if (!wallet.known) return { count: null, rest: wallet.state === 'paused' ? 'Written replies are paused' : 'AI credits could not be read', reset: null };
+  if (!wallet) return { count: null, rest: 'Reading credits', reset: null };
+  if (!wallet.known) return { count: null, rest: wallet.state === 'paused' ? 'Written replies are paused' : 'Credits could not be read', reset: null };
   const reset = shortDate(wallet.resetAt);
-  if (wallet.bonusCredits > 0 || !Number.isFinite(wallet.includedMonthlyCredits)) {
-    return { count: wallet.total, rest: `AI credit${wallet.total === 1 ? '' : 's'} left`, reset: reset ? `resets ${reset}` : null };
+  // One credits balance (D78): bought or held credits (bonus or users.credit_balance) make "of 50" untrue too.
+  if (wallet.bonusCredits > 0 || wallet.balanceCredits > 0 || wallet.heldCredits > 0 || !Number.isFinite(wallet.includedMonthlyCredits)) {
+    return { count: wallet.total, rest: `credit${wallet.total === 1 ? '' : 's'} left`, reset: reset ? `resets ${reset}` : null };
   }
-  return { count: wallet.includedRemaining, rest: `of ${wallet.includedMonthlyCredits} AI credits left`, reset: reset ? `resets ${reset}` : null };
+  return { count: wallet.includedRemaining, rest: `of ${wallet.includedMonthlyCredits} credits left`, reset: reset ? `resets ${reset}` : null };
 }
 
 /** Whether a paid ask can be sent now, and the plain words when it cannot. */
 export function paidState(wallet) {
-  if (!wallet) return { open: false, why: 'Reading your AI credits.' };
+  if (!wallet) return { open: false, why: 'Reading your credits.' };
   if (wallet.state === 'available' && wallet.known && wallet.total > 0) return { open: true, why: null };
   if (wallet.state === 'paused') return { open: false, why: 'Written replies are paused for now. Questions about your record stay free. Nothing is charged from here.' };
   if (wallet.known && wallet.total <= 0) {
     const reset = shortDate(wallet.resetAt);
-    return { open: false, why: `0 of ${wallet.includedMonthlyCredits ?? 50} AI credits left.${reset ? ` They reset on ${reset}.` : ''} Questions about your record stay free. Nothing is charged from here.` };
+    return { open: false, why: `0 of ${wallet.includedMonthlyCredits ?? 50} credits left.${reset ? ` They reset on ${reset}.` : ''} Questions about your record stay free. Nothing is charged from here.` };
   }
-  return { open: false, why: 'Your AI credits could not be read, so written replies wait. Questions about your record stay free. Nothing is charged.' };
+  return { open: false, why: 'Your credits could not be read, so written replies wait. Questions about your record stay free. Nothing is charged.' };
 }

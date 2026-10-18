@@ -13,8 +13,8 @@ import { usesLine } from '@/lib/creditCopy.mjs';
 import { askRequestFromHref, isPlainClick, openAskMobi } from '@/components/ai/askMobi.mjs';
 import './repair-check.css';
 
-// `balance`: the AI credits the repair's own response says are left after its charge. It is newer than the wallet read
-// (reused for five minutes), so the price line and the repair's "1 AI credit used. You have N." say the same N.
+// `balance`: the credits the repair's own response says are left after its charge. It is newer than the wallet read
+// (reused for five minutes), so the price line and the repair's "1 credit used. You have N." say the same N.
 export default function RepairAsk({ attemptId, questionId, number = null, askHref = null, askContext = null, balance = null, style }) {
   const auth = useContext(AuthContext);
   const wallet = useWalletSummary(auth?.user?.id, { reuseFresh: true });

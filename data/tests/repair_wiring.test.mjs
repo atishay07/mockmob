@@ -26,7 +26,7 @@ test('the repair route allows 90 s (owner decision D1: Hobby with Fluid compute)
   assert.match(route, /repairMistake\(\{[^}]*startedAt \}\)/);
 });
 
-test('the existing daily cron route sweeps expired AI credits first, in its own guard, and reports the count', () => {
+test('the existing daily cron route sweeps expired credits first, in its own guard, and reports the count', () => {
   const route = read('src/app/api/internal/finalise-sessions/route.js');
   assert.match(route, /import \{ releaseExpiredAiCredits \} from '@\/services\/credits\/releaseExpired';/);
   assert.match(route, /releaseExpiredAiCredits\(supabaseAdmin\(\), 100\)/);
@@ -194,7 +194,7 @@ test('a v3 payload with every field renders blocks 1 to 12 in the A.1 order', as
     'From your record', INSIGHTS.lines[0].text, INSIGHTS.lines[1].text, V3_FULL.pattern.line, // 9
     'This answer cost 6 marks in this session: 5 not earned and 1 penalty.', // 10
     'Do this next', 'Practise 5 on Correct Word Usage', // 11
-    '1 AI credit used. You have 43.', // 12
+    '1 credit used. You have 43.', // 12
   ]);
   assert.match(html, /data-version="3"/);
   assert.match(html, /data-fresh="true"/, 'a fresh repair carries the motion hook');

@@ -42,8 +42,8 @@ const PARTS = [
   },
   {
     title: 'Ask Mobi',
-    body: 'One next step from your own practice record, sized to the time you have. Questions about your record are free; written replies use AI credits, 50 a month on Free and on Pro.',
-    href: '/pricing/ai-credits', link: 'How AI credits work',
+    body: 'One next step from your own practice record, sized to the time you have. Questions about your record are free; written replies use credits from your one balance, 1 a reply, and everyone gets 50 free a month.',
+    href: '/pricing/ai-credits', link: 'How credits work',
   },
   {
     title: 'DU cutoff calculator',

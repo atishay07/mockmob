@@ -12,7 +12,7 @@
 import { usesLine } from '../../lib/creditCopy.mjs';
 import { userLimitMessage } from '../../../data/repair_failures.js';
 
-export const PREPOS_PAUSED_MESSAGE = 'AI features are paused for now. Your AI credits have not been used.';
+export const PREPOS_PAUSED_MESSAGE = 'AI features are paused for now. Your credits have not been used.';
 const REQUEST_ID = /^[A-Za-z0-9_-]{16,64}$/;
 
 export function operationKeyFor(userId, requestId) {

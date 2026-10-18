@@ -69,21 +69,21 @@ test('artBox on one floor: a wide and a tall object end on the same line', () =>
 });
 
 test('cost lines say what is spent against the real balance', () => {
-  assert.deepEqual(costLine('quick', { balance: 40 }), { text: 'Uses 10 of your 40 practice credits.', tone: 'cost' });
-  assert.deepEqual(costLine('full', { balance: 40 }), { text: 'Uses 50 practice credits. You have 40.', tone: 'short' });
-  assert.deepEqual(costLine('quick', { balance: null }), { text: 'Uses 10 practice credits.', tone: 'cost' });
-  assert.deepEqual(costLine('quick', { balance: 10 }), { text: 'Uses 10 of your 10 practice credits.', tone: 'cost' });
+  assert.deepEqual(costLine('quick', { balance: 40 }), { text: 'Uses 10 of your 40 credits.', tone: 'cost' });
+  assert.deepEqual(costLine('full', { balance: 40 }), { text: 'Uses 50 credits. You have 40.', tone: 'short' });
+  assert.deepEqual(costLine('quick', { balance: null }), { text: 'Uses 10 credits.', tone: 'cost' });
+  assert.deepEqual(costLine('quick', { balance: 10 }), { text: 'Uses 10 of your 10 credits.', tone: 'cost' });
   // Quick practice is 1 credit a question, so a count changes the line; Pro and the Pro-only modes ignore it.
-  assert.deepEqual(costLine('quick', { balance: 40, count: 5 }), { text: 'Uses 5 of your 40 practice credits.', tone: 'cost' });
-  assert.deepEqual(costLine('quick', { balance: 12, count: 15 }), { text: 'Uses 15 practice credits. You have 12.', tone: 'short' });
+  assert.deepEqual(costLine('quick', { balance: 40, count: 5 }), { text: 'Uses 5 of your 40 credits.', tone: 'cost' });
+  assert.deepEqual(costLine('quick', { balance: 12, count: 15 }), { text: 'Uses 15 credits. You have 12.', tone: 'short' });
   assert.deepEqual(costLine('quick', { balance: null, count: 20, short: true }), { text: '20 credits', tone: 'cost' });
-  assert.deepEqual(costLine('quick', { balance: null, count: 7 }), { text: 'Uses 10 practice credits.', tone: 'cost' }, 'a count Quick does not offer is priced as the default set, as the server resolves it');
+  assert.deepEqual(costLine('quick', { balance: null, count: 7 }), { text: 'Uses 10 credits.', tone: 'cost' }, 'a count Quick does not offer is priced as the default set, as the server resolves it');
   assert.deepEqual(costLine('quick', { pro: true, count: 20 }), { text: 'Included with Pro.', tone: 'included' });
-  assert.deepEqual(costLine('full', { balance: 400, count: 5 }), { text: 'Uses 50 of your 400 practice credits.', tone: 'cost' }, 'a Full mock is 50 whatever count is passed');
+  assert.deepEqual(costLine('full', { balance: 400, count: 5 }), { text: 'Uses 50 of your 400 credits.', tone: 'cost' }, 'a Full mock is 50 whatever count is passed');
   assert.deepEqual(costLine('nta', { balance: 400 }), { text: 'Needs Pro.', tone: 'locked' });
   assert.deepEqual(costLine('nta', { pro: true }), { text: 'Included with Pro.', tone: 'included' });
   assert.deepEqual(costLine('full', { pro: true, balance: 0 }), { text: 'Included with Pro.', tone: 'included' });
-  assert.equal(balanceLine({ balance: 1 }), 'You have 1 practice credit');
+  assert.equal(balanceLine({ balance: 1 }), 'You have 1 credit');
   assert.equal(balanceLine({ balance: null }), null);
   assert.equal(balanceLine({ pro: true }), 'Pro: practice and mocks are included');
 });
@@ -111,7 +111,7 @@ test('the hero is the live plan, with the chosen subject added to a bare practic
   assert.equal(hero.href, '/dashboard?mode=quick&count=10&subject=economics');
   assert.equal(hero.quick, true);
   assert.equal(hero.subject, 'economics');
-  assert.equal(hero.cost.text, 'Uses 10 of your 40 practice credits.');
+  assert.equal(hero.cost.text, 'Uses 10 of your 40 credits.');
   assert.equal(hero.eyebrow, undefined, 'the card heading says it; no kicker above it');
   const keyed = heroFromPlan(plan, { subject: 'economics', tonightKey: 'tonight-start-r1x' });
   assert.equal(keyed.href, '/dashboard?mode=quick&count=10&subject=economics&tonightKey=tonight-start-r1x&tonightMinutes=10');

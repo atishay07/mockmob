@@ -80,7 +80,7 @@ export default function PracticeRepairs({ userId, attempts, subjectId, subjectNa
           <MessageCircle size={16} strokeWidth={2.2} aria-hidden="true" />{ENTRY_LABELS.practice}
         </AskMobiLink>
       </div>
-      <p className="pr-fix__fine" id="pr-fix-ask-line">{askLine} Opening Mobi is free; a written reply costs 1 AI credit.</p>
+      <p className="pr-fix__fine" id="pr-fix-ask-line">{askLine} Opening Mobi is free; a written reply costs 1 credit.</p>
     </div>
   );
 }

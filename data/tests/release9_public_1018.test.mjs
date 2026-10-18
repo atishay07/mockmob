@@ -1,5 +1,5 @@
 // Release 9, public packet (the 18 Oct ledger audit of release 8, landing-pricing-copy surface): landing, pricing,
-// AI credits, auth, web onboarding copy and the public footer. Source-level and pure-module checks, no server.
+// credits, auth, web onboarding copy and the public footer. Source-level and pure-module checks, no server.
 // The browser walk of the same fixes (390 and 1440, Night and Day, reduced motion, real pointer) is in tmp/r9-fixes/public.
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -28,7 +28,7 @@ function walk(dir, ext, out = []) {
 // MEDIUM (truth): /pricing/ai-credits told every visitor "Written replies and new top-ups are paused" while replies were live.
 // ---------------------------------------------------------------------------------------------------------------------
 
-test('AI credits: while runtimeAi is on, the page never says written replies are paused', () => {
+test('Credits: while runtimeAi is on, the page never says written replies are paused', () => {
   const repliesPaused = /(written )?repl(y|ies)[^.]*paused/i;
   for (const checkoutOpen of [false, true]) {
     const line = aiCreditsStatusLine({ checkoutOpen, repliesOpen: true });
@@ -41,7 +41,7 @@ test('AI credits: while runtimeAi is on, the page never says written replies are
   assert.match(aiCreditsStatusLine({ checkoutOpen: false, repliesOpen: false }), /Written replies and new top-ups are paused/);
 });
 
-test('AI credits: the page reads the real gates (runtimeAi for replies, aiCommerce for top-ups) and today says top-ups only', () => {
+test('Credits: the page reads the real gates (runtimeAi for replies, aiCommerce for top-ups) and today says top-ups only', () => {
   const page = read('src/app/pricing/ai-credits/page.js');
   assert.match(page, /aiCreditsStatusLine\(\{ checkoutOpen, repliesOpen: runtimeAiReleased\(\) \}\)/);
   assert.match(page, /aiCreditsRules\(checkoutOpen\)/);
@@ -56,10 +56,10 @@ test('AI credits: the page reads the real gates (runtimeAi for replies, aiCommer
 // MEDIUM (truth): onboarding step 1 promised "no cap on how many you take" to Free students too. M-006: bolder copy.
 // ---------------------------------------------------------------------------------------------------------------------
 
-test('onboarding: "no cap" is said for Pro, and Free is told each mock uses practice credits', () => {
+test('onboarding: "no cap" is said for Pro, and Free is told each mock uses credits', () => {
   assert.doesNotMatch(ONBOARDING_LEAD, /no cap on how many you take/);
   assert.match(ONBOARDING_LEAD, /no cap on Pro/);
-  assert.match(ONBOARDING_LEAD, /on Free each one uses practice credits/);
+  assert.match(ONBOARDING_LEAD, /on Free each one uses credits/);
   assert.equal(ONBOARDING_STEPS.subjects.lead, ONBOARDING_LEAD);
 });
 

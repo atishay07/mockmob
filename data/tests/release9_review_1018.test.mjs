@@ -130,7 +130,7 @@ test('F11: Review shows one Repair entry at a time and the sheet leaves out a st
   const sheet = read('src/components/review/AnswerSheet.jsx');
   assert.match(sheet, /stemInRow && q && sameStem\(item\.stem, q\.stem\)/);
   assert.match(sheet, /showStem=\{showStem\}/);
-  assert.match(sheet, /Repair Q\{item\.number\}, 1 AI credit/, "the sheet's own paid Repair stays: it is the one entry once the row is open");
+  assert.match(sheet, /Repair Q\{item\.number\}, 1 credit/, "the sheet's own paid Repair stays: it is the one entry once the row is open");
 });
 
 // ---------------------------------------------------------------------------------------------------------------------

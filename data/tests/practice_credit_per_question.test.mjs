@@ -1,5 +1,5 @@
-// Practice credits per question (owner, 18 Oct 2026, D65: "5, 10, 15, 20, like as many questions, that many credits").
-// Quick practice costs 1 practice credit a question on Free; a full mock stays 50; Pro, every allowance, the starting 100 and
+// Credits per question (owner, 18 Oct 2026, D65: "5, 10, 15, 20, like as many questions, that many credits").
+// Quick practice costs 1 credit a question on Free; a full mock stays 50; Pro, every allowance, the starting 100 and
 // the AI wallet are unchanged. The helpers, the quote, the charge, the server wiring, the words and the database migration
 // supabase/migrations/20261018170000_practice_credit_per_question.sql (and its undo) run here. No network, no model.
 import test from 'node:test';
@@ -131,14 +131,14 @@ test('the credits history names every Quick spend a Practice set and the full mo
 });
 
 // ---- the words ----------------------------------------------------------------------------------------------------
-test('one sentence says the price everywhere: "Practice credits: 1 a question. A 10-question set is 10, a full mock 50."', () => {
-  assert.equal(PRACTICE_PRICE_LINE, 'Practice credits: 1 a question. A 10-question set is 10, a full mock 50.');
+test('one sentence says the price everywhere: "1 credit a question. A 10-question set is 10, a full mock 50."', () => {
+  assert.equal(PRACTICE_PRICE_LINE, '1 credit a question. A 10-question set is 10, a full mock 50.');
   assert.equal(PRACTICE_PRICE_TAIL, '1 a question. A 10-question set is 10, a full mock 50.');
   assert.deepEqual({ ...PRACTICE_PRICE }, { perQuestion: 1, set: 10, setQuestions: 10, full: 50 });
   const pricing = file('src/app/pricing/page.js');
   assert.match(pricing, /^ {2}PRACTICE_PRICE_LINE,$/m, '/pricing notes');
   assert.match(pricing, /1 a question in Quick practice, 50 a Full mock/);
-  assert.match(pricing, /Quick practice, 5 to 20 questions, 1 practice credit a question/);
+  assert.match(pricing, /Quick practice, 5 to 20 questions, 1 credit a question/);
   assert.match(pricing, /\['Quick practice \(5 to 20 questions\)', '1 credit a question', 'Unlimited'\]/);
   assert.match(file('src/components/billing/PlanCard.jsx'), /\$\{PRACTICE_PRICE_LINE\}/);
   // Release 9: Practice says the price once (the mode tiles, and the card's Cost line), not again under the lede.
@@ -151,7 +151,7 @@ test('no page, help answer or helper still says Quick practice costs 10 or "a se
   const files = ['src/app/pricing/page.js', 'src/app/features/page.js', 'src/app/page.js', 'src/app/pricing/ai-credits/page.js', 'src/components/billing/PlanCard.jsx',
     'src/components/CreditsRemainingModal.jsx', 'src/lib/helpFaq.mjs', 'src/lib/paperCopy.mjs', 'src/app/(app)/dashboard/DashboardPageClient.jsx', 'src/components/start/startModel.mjs', 'data/capabilities.js'];
   for (const rel of files) {
-    assert.doesNotMatch(file(rel), /10 (practice )?credits a session|Quick practice (costs|uses) (\$\{[^}]+\}|10) practice credits|10 a Quick session|credits per session/i, `${rel} still states the flat price`);
+    assert.doesNotMatch(file(rel), /10 (practice )?credits a session|Quick practice (costs|uses) (\$\{[^}]+\}|10) credits|10 a Quick session|credits per session/i, `${rel} still states the flat price`);
   }
 });
 
@@ -411,11 +411,11 @@ test('Today: a 10-question set is free or priceless-until-read when the allowanc
   const ctx = (dailySet) => ({ premium: false, balance: 40, dailySet });
   assert.equal(priceLineOf(set10, ctx('free')), DAILY_FREE_LINE);
   assert.equal(priceLineOf(set10, ctx('unknown')), PRICE_AT_START_LINE);
-  assert.equal(priceLineOf(set10, ctx('priced')), 'This set uses 10 practice credits. You have 40.');
-  assert.equal(priceLineOf(set10, { premium: false, balance: 40 }), 'This set uses 10 practice credits. You have 40.', 'default is the words as they were');
+  assert.equal(priceLineOf(set10, ctx('priced')), 'This set uses 10 credits. You have 40.');
+  assert.equal(priceLineOf(set10, { premium: false, balance: 40 }), 'This set uses 10 credits. You have 40.', 'default is the words as they were');
   for (const state of ['free', 'unknown', 'priced']) {
-    assert.equal(priceLineOf(set15, ctx(state)), 'This set uses 15 practice credits. You have 40.', `15 questions never read the allowance (${state})`);
-    assert.equal(priceLineOf(mock, ctx(state)), 'This mock uses 50 practice credits. You have 40.', `a mock has no free set (${state})`);
+    assert.equal(priceLineOf(set15, ctx(state)), 'This set uses 15 credits. You have 40.', `15 questions never read the allowance (${state})`);
+    assert.equal(priceLineOf(mock, ctx(state)), 'This mock uses 50 credits. You have 40.', `a mock has no free set (${state})`);
   }
   assert.equal(priceLineOf(set10, { premium: true, balance: 40, dailySet: 'free' }), null, 'Pro prints nothing');
   assert.equal(priceLineOf({ id: 'revise' }, ctx('free')), 'Free. No credits.');
@@ -429,11 +429,11 @@ test('the Start sheet: a free included set reads "Free: today\'s included set." 
   assert.equal(costLine('quick', { balance: 40, count: 10, dailySet: 'free', short: true }).text, DAILY_FREE_SHORT);
   assert.equal(costLine('quick', { balance: 4, dailySet: 'free' }).tone, 'cost', 'free is never "short of credits"');
   assert.equal(costLine('quick', { balance: 40, dailySet: 'unknown' }).text, PRICE_AT_START_LINE);
-  assert.equal(costLine('quick', { balance: 40, dailySet: 'priced' }).text, 'Uses 10 of your 40 practice credits.');
-  assert.equal(costLine('quick', { balance: 40 }).text, 'Uses 10 of your 40 practice credits.', 'default as before');
+  assert.equal(costLine('quick', { balance: 40, dailySet: 'priced' }).text, 'Uses 10 of your 40 credits.');
+  assert.equal(costLine('quick', { balance: 40 }).text, 'Uses 10 of your 40 credits.', 'default as before');
   for (const state of ['free', 'unknown']) {
-    assert.equal(costLine('quick', { balance: 40, count: 15, dailySet: state }).text, 'Uses 15 of your 40 practice credits.');
-    assert.equal(costLine('full', { balance: 60, dailySet: state }).text, 'Uses 50 of your 60 practice credits.');
+    assert.equal(costLine('quick', { balance: 40, count: 15, dailySet: state }).text, 'Uses 15 of your 40 credits.');
+    assert.equal(costLine('full', { balance: 60, dailySet: state }).text, 'Uses 50 of your 60 credits.');
     assert.equal(costLine('quick', { pro: true, dailySet: state }).text, 'Included with Pro.');
     assert.equal(costLine('nta', { dailySet: state }).text, 'Needs Pro.');
   }
@@ -452,20 +452,20 @@ const movePaper = (name, over = {}) => { const { input } = paperFx(name); return
 
 test('the result and Review next moves: free says free and names no number; unread names none; priced is the shared fixture words; a mock is still 50', () => {
   for (const name of ['weak', 'zero_credits', 'blank']) {
-    assert.equal(movePaper(name, { dailySet: 'priced' }).cost, 'This set uses 10 practice credits. You have 40.', name);
-    assert.equal(movePaper(name).cost, 'This set uses 10 practice credits. You have 40.', `${name}: default is the shared fixture`);
+    assert.equal(movePaper(name, { dailySet: 'priced' }).cost, 'This set uses 10 credits. You have 40.', name);
+    assert.equal(movePaper(name).cost, 'This set uses 10 credits. You have 40.', `${name}: default is the shared fixture`);
     assert.equal(movePaper(name, { dailySet: 'free' }).cost, DAILY_FREE_LINE, name);
     assert.equal(movePaper(name, { dailySet: 'unknown' }).cost, PRICE_AT_START_LINE, name);
   }
   // Rule 1 on a mock: the full mock stays 50; the "or practise 10" alternative follows the allowance.
-  assert.equal(movePaper('perfect').cost, 'A full mock uses 50 practice credits. You have 40. Need 10 more. A set level comes with Pro.');
-  for (const state of ['free', 'unknown']) assert.equal(movePaper('perfect', { dailySet: state }).cost, 'A full mock uses 50 practice credits. You have 40. Need 10 more. A set level comes with Pro.', `a mock has no free set (${state})`);
-  assert.equal(movePaper('perfect').alt.label, 'Or practise 10 in Accountancy, 10 practice credits');
+  assert.equal(movePaper('perfect').cost, 'A full mock uses 50 credits. You have 40. Need 10 more. A set level comes with Pro.');
+  for (const state of ['free', 'unknown']) assert.equal(movePaper('perfect', { dailySet: state }).cost, 'A full mock uses 50 credits. You have 40. Need 10 more. A set level comes with Pro.', `a mock has no free set (${state})`);
+  assert.equal(movePaper('perfect').alt.label, 'Or practise 10 in Accountancy, 10 credits');
   assert.equal(movePaper('perfect', { dailySet: 'free' }).alt.label, 'Or practise 10 in Accountancy, free today');
   assert.equal(movePaper('perfect', { dailySet: 'unknown' }).alt.label, 'Or practise 10 in Accountancy');
   // Rule 1 on a practice paper (a set, not a mock): no "Need N more" against a price that is not charged.
   const practice = (dailySet) => nextMove({ analysis: analysisFromRows([{ qid: 'a', chapter: 'A', verdict: 'correct' }, { qid: 'b', chapter: 'A', verdict: 'correct' }]), mode: 'quick', subject: 'accountancy', subjectName: 'Accountancy', practiceCredits: 4, dailySet });
-  assert.equal(practice('priced').cost, 'This set uses 10 practice credits. You have 4. Need 6 more. A set level comes with Pro.');
+  assert.equal(practice('priced').cost, 'This set uses 10 credits. You have 4. Need 6 more. A set level comes with Pro.');
   assert.equal(practice('free').cost, `${DAILY_FREE_LINE} A set level comes with Pro.`);
   assert.equal(practice('unknown').cost, `${PRICE_AT_START_LINE} A set level comes with Pro.`);
   assert.equal(practiceCostLine({ isPremium: true, dailySet: 'free' }), 'Pro covers this set.');
@@ -481,7 +481,7 @@ test('the result and Review next moves: free says free and names no number; unre
   assert.equal(chapterPracticeClause({ isPremium: true, dailySet: 'free' }), 'Pro covers this set.');
 });
 
-test('no surface says "uses 10 practice credits" when the allowance says the set is free: every builder, every state', () => {
+test('no surface says "uses 10 credits" when the allowance says the set is free: every builder, every state', () => {
   const lines = [];
   const asked = { premium: false, balance: 40, dailySet: 'free' };
   lines.push(priceLineOf({ id: 'weakest', key: { href: '/dashboard?mode=quick&count=10' } }, asked));
@@ -530,7 +530,7 @@ test('the credits modal: a balance buys whole 5s of questions (37 credits = 35 q
   const modal = file('src/components/CreditsRemainingModal.jsx');
   assert.match(modal, /const quickQuestions = quickQuestionsFor\(safe\);/);
   assert.match(modal, /quickQuestions > 0 \? `\$\{quickQuestions\} questions` : `Not enough for a \$\{QUICK_MIN_SET\}-question set`/);
-  assert.match(modal, /safe === 0 \? 'You are out of practice credits' : 'Not enough practice credits'/, 'a balance of 3 is not "out", and not "3 questions"');
+  assert.match(modal, /safe === 0 \? 'You are out of credits' : 'Not enough credits'/, 'a balance of 3 is not "out", and not "3 questions"');
   assert.doesNotMatch(modal, /Math\.floor\(safe \/ TEST_MODES\.quick\.creditPerQuestion\)/);
 });
 

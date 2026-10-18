@@ -68,7 +68,7 @@ export function mocksSummary(attempts) {
 }
 
 // ---------------------------------------------------------------------------------------------
-// Plan and credits: the AI credits line under the live plan card.
+// Plan and credits: the credits line under the live plan card.
 // Unknown is never shown as 0, and a paused or empty wallet says so in words.
 
 export const PREPOS_HREF = '/mentor';
@@ -82,13 +82,13 @@ export function walletLine(summary) {
   const wallet = summary?.wallet || null;
   if (wallet?.known && Number.isFinite(Number(wallet.total))) {
     const total = Math.max(0, Math.trunc(Number(wallet.total)));
-    let line = 'AI credits left this month.';
-    if (wallet.state === 'paused') line = 'AI features are paused right now. Your AI credits are kept.';
-    else if (total === 0) line = 'No AI credits left this month.';
+    let line = 'Credits left. The free ones are used first.';
+    if (wallet.state === 'paused') line = 'AI features are paused right now. Your credits are kept.';
+    else if (total === 0) line = 'No credits left.';
     return { state: 'known', total, line };
   }
-  if (status === 'idle') return { state: 'loading', total: null, line: 'Checking your AI credits.' };
-  return { state: 'unknown', total: null, line: 'Your AI credits did not load. Nothing was spent.' };
+  if (status === 'idle') return { state: 'loading', total: null, line: 'Checking your credits.' };
+  return { state: 'unknown', total: null, line: 'Your credits did not load. Nothing was spent.' };
 }
 
 // ---------------------------------------------------------------------------------------------

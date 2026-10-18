@@ -53,9 +53,9 @@ export function shortDate(value) {
   return `${Number(d)} ${MONTHS[Number(m) - 1]}`;
 }
 /**
- * "They renew on 1 Nov." for a student whose AI credits are at 0 and whose renewal day the server knows (the monthly reset);
- * '' otherwise: an unknown balance is never 0, and no date is guessed. Practice credits do not renew, so this is only ever said
- * about AI credits (REVIEW-RESULT-1018 4.7, the 0 credits state).
+ * "They renew on 1 Nov." for a student whose credits are at 0 and whose renewal day the server knows (the monthly reset);
+ * '' otherwise: an unknown balance is never 0, and no date is guessed. One credits balance (D78): at 0 nothing bought is
+ * left, so what comes back is the month's free credits (REVIEW-RESULT-1018 4.7, the 0 credits state).
  */
 export function aiRenewsLine(wallet) {
   if (wallet?.aiCredits !== 0 || !wallet?.aiRenews) return '';

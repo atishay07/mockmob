@@ -175,7 +175,7 @@ export async function POST(request) {
         ok: true,
         kind: 'redirect',
         target: '/pricing/ai-credits',
-        message: aiCommerceOpen() ? 'Open AI credit packs to top up without changing your subscription.' : `${PREPOS_PAUSED_MESSAGE} New top-ups are paused; your existing AI credits are preserved.`,
+        message: aiCommerceOpen() ? 'Open credit packs to top up without changing your subscription.' : `${PREPOS_PAUSED_MESSAGE} New top-ups are paused; your credits are kept.`,
         params: { reason: 'ai_credits', balance: snapshot.aiWallet?.known ? snapshot.aiWallet.total : null },
         packs: AI_CREDIT_PACKS,
       });

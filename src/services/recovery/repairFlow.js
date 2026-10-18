@@ -4,7 +4,7 @@
 // wallet and model client in, and data/tests/repair_flow.test.mjs wires fakes in, so each failure path (a timeout, a
 // stuck reservation, quota, a failed commit) is tested without a database or a paid model.
 //
-// One AI repair per wrong answer, charged 1 AI credit through reserve -> execute -> commit | release.
+// One AI repair per wrong answer, charged 1 credit through reserve -> execute -> commit | release.
 // The rule that matters most: a credit is kept only for a repair the student actually received and the server
 // acknowledged. Every other ending, a timeout included, releases it.
 import { createHash } from 'node:crypto';

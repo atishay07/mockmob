@@ -259,7 +259,7 @@ export default function ResultPageClient({ previewId = null }) {
 
   // ?q=N (Today's weak chapters, Last paper and the reel's last key): once the paper is read, open that question the way a press on
   // its row does: Your mistakes (or the part that owns it) opens, the row expands and comes into view with its Repair button. It is
-  // jumpTo without { repair: true }, so it never sets autoRepair: a repair can spend an AI credit and is only ever the student's own
+  // jumpTo without { repair: true }, so it never sets autoRepair: a repair can spend a credit and is only ever the student's own
   // press. An unknown or out-of-range N does nothing. Once per paper, so a later re-render never scrolls the page again.
   const fromUrl = useRef(null);
   useEffect(() => {
@@ -554,7 +554,7 @@ export default function ResultPageClient({ previewId = null }) {
     if (c) return c.right ? { id: 'held', label: actionLabel('held'), words: 'Held on a new question' } : { id: 'slipped', label: actionLabel('slipped'), words: 'Slipped on a new question' };
     if (hasExplanation(out)) return { id: 'check', label: actionLabel('repaired') };
     if (started.has(qid)) return { id: 'writing', label: 'Writing' };
-    // Out of AI credits: the same word; the opened row offers the credits line, not a paid repair.
+    // Out of credits: the same word; the opened row offers the credits line, not a paid repair.
     return { id: 'repair', label: actionLabel('open') };
   };
   const cohortItem = new Map((repairOrder?.state === 'cohort' ? repairOrder.items || [] : []).filter(x => x?.reason === 'most_right' && x.line).map(x => [x.qid, x.line]));

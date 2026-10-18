@@ -74,11 +74,11 @@ function practiseLine(wallet, allRepaired, dailySet) {
 function costLine(wallet) {
   const have = Number.isFinite(wallet?.aiCredits) ? wallet.aiCredits : null;
   const renews = aiRenewsLine(wallet) ? ` ${aiRenewsLine(wallet)}` : '';
-  return `Each repair is 1 AI credit${have === null ? '' : `; you have ${have}`}.${renews} No charge if a repair cannot be written. Seeing the answer and trying again are free.`;
+  return `Each repair is 1 credit${have === null ? '' : `; you have ${have}`}.${renews} No charge if a repair cannot be written. Seeing the answer and trying again are free.`;
 }
 
 /** One mistake under the open chapter: badge, the stem's first line, its paper and time, the pick, and Repair.
- *  Repair opens the same sealed sheet as the row (Try it again, Show the answer, Repair Qn for 1 AI credit): the paid step
+ *  Repair opens the same sealed sheet as the row (Try it again, Show the answer, Repair Qn for 1 credit): the paid step
  *  is only ever the student's tap inside it, as on the result page (W-032). */
 function MistakeRow({ row, item, wallet, open, onOpen, onRepair, onChanged }) {
   return (
@@ -92,7 +92,7 @@ function MistakeRow({ row, item, wallet, open, onOpen, onRepair, onChanged }) {
             <Pick letter={row.pick} />
           </span>
         </button>
-        {/* One Repair entry at a time: the row's key opens the sheet, and once it is open the sheet's own "Repair Qn, 1 AI credit"
+        {/* One Repair entry at a time: the row's key opens the sheet, and once it is open the sheet's own "Repair Qn, 1 credit"
             is the entry, so the paid action is never offered twice (F11). */}
         {open ? null : <button type="button" className="rv8-act mk-press" onClick={onRepair} aria-label={`Repair question ${row.number}`}>Repair</button>}
       </div>

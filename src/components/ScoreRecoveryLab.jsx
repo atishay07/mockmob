@@ -34,7 +34,7 @@ import { useWalletSummary } from '@/components/useWalletSummary';
 import { usesLine } from '@/lib/creditCopy.mjs';
 import COPY from '../../data/mistake_lab.copy.json' with { type: 'json' };
 
-// The repair total in the one spend line: each repair is 1 AI credit, so the ones left cost that many together.
+// The repair total in the one spend line: each repair is 1 credit, so the ones left cost that many together.
 // Nothing to repair, nothing to say. Unknown balance shows no number, never 0.
 export function RepairTotal({ remaining }) {
   const auth = useContext(AuthContext);
