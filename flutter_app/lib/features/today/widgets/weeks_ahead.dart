@@ -312,32 +312,40 @@ class _DayChips extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final letter = type.micro.copyWith(fontWeight: FontWeight.w700, height: 1);
+    // One row of seven, never wrapped: the chips shrink to fit a narrow body (24 dp at most).
     return ExcludeSemantics(
-      child: Wrap(
-        spacing: 4,
-        runSpacing: 4,
-        children: [
-          for (var d = 0; d < 7; d++)
-            () {
-              final mock = mockDays.contains(d);
-              final on = planned.contains(d);
-              return Container(
-                width: 24,
-                height: 24,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: mock ? colors.ink : null,
-                  border: on && !mock ? Border.all(color: colors.ink2, width: 1.5) : null,
-                ),
-                child: Text(
-                  AheadCopy.dayLetters[d],
-                  textScaler: MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.15),
-                  style: letter.copyWith(color: mock ? colors.ground : (on ? colors.ink : colors.ink4)),
-                ),
-              );
-            }(),
-        ],
+      child: LayoutBuilder(
+        builder: (context, box) {
+          const gap = 3.0;
+          final size = ((box.maxWidth - gap * 6) / 7).clamp(16.0, 24.0);
+          return Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              for (var d = 0; d < 7; d++) ...[
+                if (d > 0) const SizedBox(width: gap),
+                () {
+                  final mock = mockDays.contains(d);
+                  final on = planned.contains(d);
+                  return Container(
+                    width: size,
+                    height: size,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: mock ? colors.ink : null,
+                      border: on && !mock ? Border.all(color: colors.ink2, width: 1.5) : null,
+                    ),
+                    child: Text(
+                      AheadCopy.dayLetters[d],
+                      textScaler: MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.1),
+                      style: letter.copyWith(color: mock ? colors.ground : (on ? colors.ink : colors.ink4)),
+                    ),
+                  );
+                }(),
+              ],
+            ],
+          );
+        },
       ),
     );
   }
@@ -359,6 +367,7 @@ class _ThenRow extends StatelessWidget {
       first: first,
       last: last,
       child: Container(
+        width: double.infinity,
         decoration: BoxDecoration(border: Border(top: BorderSide(color: colors.line))),
         padding: const EdgeInsets.only(top: 14, bottom: 6),
         child: Text(AheadCopy.then, style: type.caption.copyWith(fontSize: 13, color: colors.ink3)),
