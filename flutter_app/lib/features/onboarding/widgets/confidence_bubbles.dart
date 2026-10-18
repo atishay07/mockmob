@@ -58,7 +58,7 @@ class _ConfidenceBubblesState extends ConsumerState<ConfidenceBubbles> with Sing
   /// 1.0 up to 1.08 by the middle, back to 1.0 at the end, eased both ways.
   double get _scale {
     final t = _pulse.value;
-    final up = t < 0.5 ? Motion.glide.transform(t * 2) : 1 - Curves.easeInOut.transform((t - 0.5) * 2);
+    final up = t < 0.5 ? Motion.glide.transform(t * 2) : 1 - Motion.inOut.transform((t - 0.5) * 2);
     return 1 + 0.08 * (_pulse.isAnimating ? up : 0);
   }
 

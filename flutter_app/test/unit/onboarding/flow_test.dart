@@ -114,10 +114,10 @@ void main() {
     await _tap(tester, OnboardingCopy.next);
 
     expect(find.text(OnboardingCopy.saveTitle), findsOneWidget);
-    // The keys stand in place from the start (answering the age moves nothing); they wait, off,
-    // for the age.
+    // The keys stand in place from the start at full strength (answering the age moves nothing); a tap
+    // before the age asks it.
     final email = find.widgetWithText(KeyButton, OnboardingCopy.useEmailCode);
-    expect(tester.widget<KeyButton>(email).onPressed, isNull, reason: 'age comes first');
+    expect(tester.widget<KeyButton>(email).onPressed, isNotNull);
     await _tap(tester, AgeAnswer.minor.label);
     expect(tester.widget<KeyButton>(email).onPressed, isNotNull);
     await _tap(tester, OnboardingCopy.notNow);
