@@ -79,9 +79,10 @@ function costLine(wallet) {
   return `Each repair is 1 AI credit${have === null ? '' : `; you have ${have}`}.${renews} No charge if a repair cannot be written. Seeing the answer and trying again are free.`;
 }
 
-/** One mistake under the open chapter: badge, the stem's first line, its paper and time, the pick, and Repair. */
-function MistakeRow({ row, item, wallet, open, auto, onOpen, onRepair, onChanged }) {
-  const noAi = Number.isFinite(wallet?.aiCredits) && wallet.aiCredits < 1;
+/** One mistake under the open chapter: badge, the stem's first line, its paper and time, the pick, and Repair.
+ *  Repair opens the same sealed sheet as the row (Try it again, Show the answer, Repair Qn for 1 AI credit): the paid step
+ *  is only ever the student's tap inside it, as on the result page (W-032). */
+function MistakeRow({ row, item, wallet, open, onOpen, onRepair, onChanged }) {
   return (
     <li className="rv8-mk" data-open={open || undefined} id={`rv8-q-${row.uid.replace(/[^A-Za-z0-9_-]/g, '-')}`}>
       <div className="rv8-mk__row">
@@ -93,9 +94,9 @@ function MistakeRow({ row, item, wallet, open, auto, onOpen, onRepair, onChanged
             <Pick letter={row.pick} />
           </span>
         </button>
-        <button type="button" className="rv8-act mk-press" onClick={noAi ? onOpen : onRepair} aria-label={`Repair question ${row.number}`}>Repair</button>
+        <button type="button" className="rv8-act mk-press" onClick={onRepair} aria-label={`Repair question ${row.number}`}>Repair</button>
       </div>
-      {open && item ? <AnswerSheet key={`${item.uid}:${auto}`} item={item} wallet={wallet} autoRepair={auto > 0} onChanged={onChanged} /> : null}
+      {open && item ? <AnswerSheet key={item.uid} item={item} wallet={wallet} onChanged={onChanged} /> : null}
     </li>
   );
 }
@@ -131,7 +132,7 @@ function ChapterFoot({ row, byUid, wallet, openUid, setOpenUid, onChanged }) {
   );
 }
 
-function ChapterRow({ row, open, onToggle, wallet, byUid, openUid, setOpenUid, auto, setAuto, onChanged }) {
+function ChapterRow({ row, open, onToggle, wallet, byUid, openUid, setOpenUid, onChanged }) {
   const panel = `rv8-ch-${row.id.replace(/[^A-Za-z0-9_-]/g, '-')}`;
   const href = `/dashboard?${new URLSearchParams({ subject: subjectId(row.subject), mode: 'quick', count: String(NEXT_MOVE_RULES.setSize), chapter: row.name })}`;
   const allRepaired = !row.open.length;
@@ -154,9 +155,9 @@ function ChapterRow({ row, open, onToggle, wallet, byUid, openUid, setOpenUid, a
           {row.open.length ? (
             <ul className="rv8-mks" aria-label={`Mistakes to repair in ${row.name}`}>
               {row.open.map((m) => (
-                <MistakeRow key={m.uid} row={m} item={byUid.get(m.uid)} wallet={wallet} open={openUid === m.uid} auto={openUid === m.uid ? auto : 0}
-                  onOpen={() => { setAuto(0); setOpenUid(openUid === m.uid ? null : m.uid); }}
-                  onRepair={() => { setAuto((a) => a + 1); setOpenUid(m.uid); }} onChanged={onChanged} />
+                <MistakeRow key={m.uid} row={m} item={byUid.get(m.uid)} wallet={wallet} open={openUid === m.uid}
+                  onOpen={() => setOpenUid(openUid === m.uid ? null : m.uid)}
+                  onRepair={() => setOpenUid(m.uid)} onChanged={onChanged} />
               ))}
             </ul>
           ) : null}
@@ -170,7 +171,6 @@ function ChapterRow({ row, open, onToggle, wallet, byUid, openUid, setOpenUid, a
 function WeakChapters({ lose, byUid, wallet, openId, setOpenId, openUid, setOpenUid, onChanged }) {
   const rows = lose.rows;
   const [all, setAll] = useState(() => rows.findIndex((r) => r.id === openId) >= SHOWN);
-  const [auto, setAuto] = useState(0);
   const shown = all ? rows : rows.slice(0, SHOWN);
   const rest = rows.slice(SHOWN);
   return (
@@ -180,7 +180,7 @@ function WeakChapters({ lose, byUid, wallet, openId, setOpenId, openUid, setOpen
       {rows.length ? (
         <ul className="rv8-chs">
           {shown.map((row) => (
-            <ChapterRow key={row.id} row={row} open={openId === row.id} wallet={wallet} byUid={byUid} openUid={openUid} setOpenUid={setOpenUid} auto={auto} setAuto={setAuto} onChanged={onChanged}
+            <ChapterRow key={row.id} row={row} open={openId === row.id} wallet={wallet} byUid={byUid} openUid={openUid} setOpenUid={setOpenUid} onChanged={onChanged}
               onToggle={() => { setOpenUid(null); setOpenId(openId === row.id ? null : row.id); }} />
           ))}
         </ul>
