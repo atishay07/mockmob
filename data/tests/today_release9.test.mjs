@@ -64,35 +64,31 @@ test('W-042: the lead holds for the rhythm, the road, the study days and the rec
   assert.match(page, /<TodayWeak [^>]*hold=\{landing\}/);
 });
 
-// ---- W-044: the cue is above the dock at scroll 0 -------------------------------------------------------------------------------
+// ---- W-044: the cue leads below the card and never covers a control -----------------------------------------------------------
 
-test('W-044: the cue is sticky just above the dock (dock 12 px above the safe area, 64 px tall, the cue 8 px clear)', () => {
-  const arena = css('src/app/(app)/arena.css');
-  const dock = arena.match(/@media \(max-width: 1023px\) \{\s*html \.app-shell \.arena-dock \{([^}]*)\}/);
-  assert.ok(dock, 'the phone dock rule');
-  const bottom = Number(dock[1].match(/bottom: calc\((\d+)px \+ env\(safe-area-inset-bottom\)\)/)[1]);
-  const height = Number(dock[1].match(/height: (\d+)px/)[1]);
+test('W-044 (audit 2): the cue lies in the flow below the lead card, 16 px clear of its bottom edge, and is never pinned over it', () => {
   const sheet = css('src/components/today/today.css');
   const cue = sheet.match(/\.app-shell \.tcue \{([^}]*)\}/)[1];
-  assert.match(cue, /position: sticky/);
-  const above = Number(cue.match(/bottom: calc\((\d+)px \+ env\(safe-area-inset-bottom\)\)/)[1]);
-  assert.equal(above, bottom + height + 8, 'its bottom edge is 8 px above the top of the dock');
-  assert.match(sheet, /@media \(min-width: 1024px\) \{ \.app-shell \.tcue \{ bottom: calc\(16px \+ env\(safe-area-inset-bottom\)\); \} \}/, 'no dock from 1024 px');
-  assert.doesNotMatch(cue, /position: fixed/, 'it keeps its place in the flow: no layout shift and no overlap once scrolled');
+  assert.doesNotMatch(cue, /position: (sticky|fixed|absolute)/, 'pinned over the card it covered the lime key, the price line and the card footer at 390 x 800 and 390 x 844');
+  assert.match(cue, /position: relative/);
+  const gap = Number(sheet.match(/\.app-shell \.today-grid \{[^}]*gap: (\d+)px/)[1]);
+  const [top, bottom] = cue.match(/margin: (-?\d+)px 0 (-?\d+)px/).slice(1).map(Number);
+  assert.ok(top < 0 && gap + top >= 12, 'the pill starts at least 12 px below the card, so no key in the card can be under it');
+  assert.equal(44 + top + bottom, 4, 'the net height stays 4 px, so the week does not move (W-042)');
+  assert.doesNotMatch(sheet, /\.tcue[^{]*\{[^}]*bottom: calc\(\d+px \+ env\(safe-area-inset-bottom\)\)/, 'no dock-pinned offset any more');
   const key = sheet.match(/\.app-shell \.tcue__key \{([^}]*)\}/)[1];
   assert.match(key, /min-height: 44px/);
   assert.doesNotMatch(key, /accent|volt|glow/);
 });
 
-test('W-044 (audit): the cue steps aside while it would sit on the card footer row, and comes back once the card is clear', () => {
+test('W-044 (audit 2): the cue fades only when the week is on screen; it does not step aside by overlap, so it never blinks while scrolling', () => {
   const cue = read('src/components/today/TodayCue.jsx');
-  assert.match(cue, /previousElementSibling/, 'it measures against the card before it');
-  assert.match(cue, /\.tm__more/, 'the footer row (More ways to practise) is the thing it must not cover');
-  assert.match(cue, /data-over=\{over \|\| undefined\}/);
-  assert.match(cue, /const hidden = seen \|\| over \|\| !ready/, 'stepped aside means out of the tab order and the reading order too');
+  assert.doesNotMatch(cue, /data-over|setOver|getBoundingClientRect|previousElementSibling/, 'no overlap measuring: the layout guarantees it');
+  assert.match(cue, /const hidden = seen \|\| !ready/, 'faded out means out of the tab order and the reading order too');
+  assert.match(cue, /data-seen=\{seen \|\| undefined\}/);
   const sheet = css('src/components/today/today.css');
-  assert.match(sheet, /\.app-shell \.tcue\[data-over\] \{ opacity: 0; pointer-events: none; \}/);
-  assert.match(sheet, /\.app-shell \.tcue\[data-over\] \.tcue__key/, 'the key takes no tap while it steps aside');
+  assert.doesNotMatch(sheet, /\.tcue\[data-over\]/);
+  assert.match(sheet, /\.app-shell \.tcue\[data-seen\] \.tcue__key/, 'the key takes no tap once faded');
 });
 
 // ---- D27: the Road card -------------------------------------------------------------------------------------------------------
