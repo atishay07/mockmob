@@ -1,52 +1,52 @@
 # NOW: MockMob current state (overwrite at every handoff; git keeps the history)
 
-**Last written:** 18 Oct 2026, about 10:10 am IST, by session 604ced81 (main, Claude Opus 5.5, CEO/CTO), just before the owner's account switch at about 95% usage.
+**Last written:** 18 Oct 2026, about 12:25 pm IST, by session 25ef3d95 (main, Claude Opus 5.5, CEO/CTO).
 
-**Read next:** `OWNER-MASTER-LEDGER.md` (newest sections at the bottom), then `OWNER-FEEDBACK-2026-10-18-DAWN.md` (the last sections, D35-D39).
+**Read next:** `OWNER-MASTER-LEDGER.md` (newest sections at the bottom), then the last section of `OWNER-FEEDBACK-2026-10-18-DAWN.md`, which holds his 12:15 pm words on v15 (D40-D57).
 
 **The goal (owner, 9:15 am, D39):** the Play Store is parked. Deliver:
-- **App:** v15 completely ready (all features, walked on the emulator, APK delivered).
-- **Website:** "perfected", with every change he asked for and every change promised.
+- **App:** v15 completely ready, now including his 12:15 pm feedback.
+- **Website:** "perfected".
 
-When both are published and checked, send him ONE message with the links, the APK and where to look. He then reviews and gives final feedback (D37).
+When both are published and checked, send him ONE message with the links, the APK and where to look (D37).
 
 ## Live
-- **www.mockmob.in = main 70c4598c = release 6** (Review/result 1018, Ask Mobi 1018, community hidden, Learn, web badges, fixes). READY, 0 errors.
-- Release 5 (58bc53f6) shipped earlier.
-- **Production migration** revise_cards_mode was applied at 4:50 am (STATUS in 70c4598c).
+- **www.mockmob.in = main 70c4598c = release 6.** It is READY.
+- The owner's phone (V2413, serial 10BF370PA6002XR, connected by USB) has v15 79aaca6d (1.0.15+3) installed. When the final APK is built, the main session installs it there with `adb -s 10BF370PA6002XR install -r`.
 
-## In flight at 10:10 am (every agent commits as it goes; check each worktree's git log)
+## In flight at 12:25 pm
+A network drop at about 11:40 am killed 10 agents. Their commits and edits were kept, and two workflows relaunched every track.
 
-| Track | Worktree, branch | State | Next |
-|---|---|---|---|
-| **R7 web: the new Today** | wt-rel7, deploy/web-1018-r7, c46d1dcd and on | Verifier NO-GO on 1 HIGH: the Change plan receipt states a stale mock target (TodayPlanFlow.jsx). **A fix round is running** (H1, M1-M3, M5-M7, L4, L5; captures in tmp/fix-r7). | GO → push (fast-forward from 70c4598c) + STATUS. NO-GO → a fix round. |
-| **R8 web fixes** | wt-r8-fixes, web/r8-fixes-1018 (from c46d1dcd) | W-078 /mentor Day contrast (LIVE bug), W-075 the dock Start goes quiet while the page primary is visible, W-079 targets, W-093 copy (Help "Five stops"), W-089 copying the design notes | Merge into R8 |
-| **R8 adoption** | wt-r8-adopt, web/r8-adopt-1018 | W-064: the first-week path on Today; the "of the N you repaired, M did not come back" receipt | Merge into R8 |
-| **R8 retry** | wt-r8-retry, web/r8-retry-1018 | W-032: "Try it again" before the key on the result | Merge into R8 |
-| **Landing hero** | wt-land3, web/land3-1018 (83f8f821+) | Opus is building D38: the morphing third line, a coloured CUET 2027, Mobi alive, clean spacing, at most one Mobi per viewport, the "10:35 later" sample fix, the Mobi foot overlap. Dev server 3206 is live for the owner. | Merge into R8 |
-| **R8 integration** | not started | | A new worktree from the R7 head after the R7 push: merge the 4 branches above, run the suites, an independent verifier, fix, push. |
-| **App v15** | wt-v15, ui/v15-1018, 79aaca6d | All first-walk defects fixed (H1 UTC time, M1-M11) + the badges merge; 5681 unit, 1445 goldens; profile APK rebuilt | **The confirm walk is running** (notes in mockmob-next/tmp/app-walk-1018b/WALK.md) |
-| **App Review D18** | wt-v15-review, ui/v15-review (from a417b827) | Port of the web Review "leads with weak chapters" | Merge into ui/v15-1018 |
-| **App polish 2** | wt-v15-polish2, ui/v15-polish2 (from 79aaca6d) | Full-mock resume after a killed start (credits), the real reel length, Ask chip freshness, the runner scroll cue, Practice flicker, the Day shadow, copy, motion overlaps | Merge into ui/v15-1018 |
-| **v15 release** | wt-v15 | | After the two merges: analyze, unit, goldens, a short walk of Review + polish, then the **release APK** (`--release --target-platform android-arm64 --obfuscate --split-debug-info=build/symbols --dart-define-from-file=dart_defines/prod.json`). Copy it to mockmob-next/tmp/apk/mockmob-v15-<sha>.apk and send it to the owner. |
+**Workflow web-1218 (wf_7f182806-4da, task wdcvxxe87):**
 
-**Stopped:** the read-only audit workflow wf_7899c96b-147 (app ledger L01-L39, Compass data M-007, missed asks), stopped to save usage. Re-run it later with fresh agents (the script is in the session's workflows folder).
+| Item | Worktree | State |
+|---|---|---|
+| R7 fix | wt-rel7, at 81e467f4 plus uncommitted work | Being finished, then an independent verifier runs |
+| R8 fixes | wt-r8-fixes, at b8766804 | Finishing; adds D53 web parity (Ask Mobi without the blocking AI sheet) |
+| R8 retry | wt-r8-retry, at 453f9ae8 | Building W-032 |
+| R8 adopt | wt-r8-adopt, at dfc6797e | Done |
+| Landing hero | wt-land3, at 42b51dd3 | Done. The owner has preview 3206 (he reviews it live, D30) |
 
-**Preview servers for the owner:**
-- 3206 (landing, wt-land3) and 3207 (web Today, wt-today18).
-- `.claude/launch.json` has "landing-1018" and "today-1018" (scratchpad devserve.mjs). The LAN address 192.168.1.8 works because allowedDevOrigins is set.
+- **On an R7 GO:** the main session pushes deploy/web-1018-r7 to main (a fast-forward from 70c4598c), checks Vercel and writes STATUS.
+- **Then R8 integration:** a new worktree from the R7 head merges r8-fixes, r8-adopt, r8-retry and land3; suites run, an independent verifier checks it, the owner sees it live, then it is pushed.
 
-## Owner decisions still open
-- W-099: merge Ask Mobi's "Your record" page with the Weak chapters page? (Merging cuts a page; ask.)
-- W-046: what "Study day / week chapters" meant.
-- The flat 10-credit line for 5/10/15/20 questions (app), to confirm.
-- The Mob switch-on (needs the re-gate on staging first; wt-mobfix e89d4a35).
-- Play Console account and upload key, and 12 testers for the 14-day closed test (parked).
+**Workflow v15-final-1218 (wf_57a36e4c-275, task w2sbl0z25):**
+- **Build:** 10 packets run at once:
+  - review (D18), polish2 (with the WALK.md 1018b items), icons (D8 plus D57 visible bar glass plus D56 restoring the Start key), mob and learn, all resumed;
+  - new: onboard-a (D40/D43/D44/D48), onboard-b (D41/D42/D45/D46/D47/D49), askinstant (D53), and a ledger audit followed by a fixer (D55);
+  - design (D51 swipe cards and D52 a richer Today: mock-ups only; plus finding the D50 screen).
+- ui/v15-asks (4a1b9b98: M-001, M-002, M-003) is done.
+- **Then:** the integrator merges everything into wt-v15 and runs the full suites, a walk on the emulator follows (screenshots in tmp/app-walk-1018c), a fixer handles what the walk finds, and the release APK goes to `tmp/apk/mockmob-v15-final-<sha>.apk`.
+
+## Owner decisions open
+- **D54:** 50 free credits for free users (this changes billing and the website).
+- **D50:** which screen he meant by "5, 10, 20 only, no direction until a full mock". The design agent is finding it.
+- **D51/D52:** the swipe cards and the richer Today. Mock-ups are coming; nothing is built before he says yes.
+- **D49:** usage data is ON by default, for adults only. India's DPDP Act treats a pre-ticked box as weak consent, so tell him that.
+- Older ones still open: W-099, W-046, the flat 10-credit line, the Mob switch-on, Play Console (parked).
 
 ## Rules that bit today
-- **Stall alerts:** the stall watcher flags read-only verifiers and finished agents; check the capture folder or processes before acting.
-- **Clean up leftovers:** reap leftover Flutter tests from stopped sessions (one held a lock slot).
-- **Briefs must match approved docs:** a brief contradicting COMMUNITY-1018 had to be redone.
-- **LAN previews:** need allowedDevOrigins (dev only) or the page never hydrates.
-- **Temp files:** an agent deleted *.sh in the shared Temp folder; tell agents never to clean outside their worktree.
-- **Usage:** 9 parallel agents burn about 30% an hour.
+- **Network drops kill every agent at once.** Agents commit as they go; after a drop, relaunch from the worktrees (check git status for uncommitted work).
+- **Leftovers:** dead agents leave dev servers behind (ports 3214, 3402, 3404 had them). Reap them before relaunching.
+- **Machine:** the PC has 32 GB of RAM (17 GB free at noon), and Flutter slots are now 4. The CPU is still the ceiling.
+- **Usage:** 17% at 12:07 pm, and it resets at about 4:10 pm. 13 agents run at once.
