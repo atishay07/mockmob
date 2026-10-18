@@ -400,7 +400,7 @@ class PaperRowView extends ConsumerWidget {
       key: ValueKey('mark-${line.attemptId}'),
       tween: Tween(begin: 1, end: 0),
       duration: Motion.reduced(context) ? Duration.zero : markFor,
-      curve: const Interval(0.35, 1, curve: Curves.easeOut),
+      curve: const Interval(0.35, 1, curve: Motion.out),
       builder: (context, t, child) => DecoratedBox(
         key: const ValueKey('paper-row-mark'),
         decoration: BoxDecoration(
