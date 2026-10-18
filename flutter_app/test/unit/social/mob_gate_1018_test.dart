@@ -262,7 +262,8 @@ void main() {
 
     testWidgets('a free student sees the extras are open to every member', (tester) async {
       await _pump(tester, const MobScreen(), mobState((m) => m['extras'] = extras), size: const Size(390, 4200));
-      expect(find.text(MobCopy.extrasOpenToAll), findsOneWidget);
+      // PLAY_BILLING off: the fact, without "Pro members make them" (H11).
+      expect(find.text(MobCopy.extrasOpenToAllPlain), findsOneWidget);
     });
 
     testWidgets('Pro does not need the line', (tester) async {

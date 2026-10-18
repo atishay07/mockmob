@@ -236,7 +236,10 @@ void main() {
       expect(MobCopy.compareNote(c('offer')), 'Your first side-by-side is free.');
       expect(MobCopy.compareNote(c('offer', needsShare: true, youShare: false)), 'Your first side-by-side is free. Share your answers to open it.');
       expect(MobCopy.compareNote(c('offer', needsShare: true)), 'Your first side-by-side is free. It opens once another member shares their answers.');
-      expect(MobCopy.compareNote(c('locked')), startsWith('The full side-by-side is included with Pro'));
+      expect(MobCopy.compareNote(c('locked'), sell: true), startsWith('The full side-by-side is included with Pro'));
+      // PLAY_BILLING off (H11): the plain fact, no word of Pro.
+      expect(MobCopy.compareNote(c('locked')), MobCopy.lockedNotePlain);
+      expect(MobCopy.lockedNotePlain, isNot(contains('Pro')));
       expect(MobCopy.compareNote(c('full')), isNull);
     });
 
