@@ -216,10 +216,26 @@ LastPaper? buildLastPaper(TodayInputs i) {
   );
 }
 
+/// When the papers Today shows were last known: the list's last full read, or, when a paper was
+/// added after it (a submit the server acknowledged), that paper's own time. Null when the read time
+/// is unknown (an unknown time is never invented from a paper).
+DateTime? papersDataAt(TodayInputs i) {
+  final read = i.attemptsFetchedAt;
+  if (read == null) return null;
+  final newest = i.attempts?.fold<DateTime?>(null, (best, a) => best == null || a.completedAt.isAfter(best) ? a.completedAt : best);
+  return newest != null && newest.isAfter(read) ? newest : read;
+}
+
 String? _updatedLine(TodayInputs i) {
   final cached = i.offline || i.readOffline || i.planStale || i.attemptsStale;
   if (!cached) return null;
-  final times = [?i.planFetchedAt, ?i.attemptsFetchedAt];
+  final papersAt = papersDataAt(i);
+  // Only the plan is a saved copy (the papers were read, or a paper was just added): the plan feeds
+  // nothing on screen but the server's own repair hint, so the line names the newest data Today
+  // shows, the papers', not the plan's older read (final walk: "Updated 9:53 PM" over a paper
+  // recorded at 10:11 PM).
+  final papersAreFresh = !i.offline && !i.readOffline && !i.attemptsStale && papersAt != null;
+  final times = papersAreFresh ? [papersAt] : [?i.planFetchedAt, ?papersAt];
   if (times.isEmpty) return i.offline ? TodayCopy.offlineSuffix : null;
   // The older read, as on the home widget: the papers are the list's last full read, served from
   // the phone while the plan is read again, so the newer time would call days-old papers fresh.

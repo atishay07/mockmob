@@ -8,7 +8,7 @@ import '../auth/auth_state.dart';
 
 /// A server read with its cache story, for screens that show "Updated 9:40 PM".
 class RemoteState<T> {
-  const RemoteState({this.value, this.fetchedAt, this.fromCache = false, this.loading = false, this.error});
+  const RemoteState({this.value, this.fetchedAt, this.fromCache = false, this.loading = false, this.error, this.priorError});
 
   /// Nothing signed in yet or nothing requested.
   const RemoteState.idle()
@@ -16,7 +16,8 @@ class RemoteState<T> {
         fetchedAt = null,
         fromCache = false,
         loading = false,
-        error = null;
+        error = null,
+        priorError = null;
 
   final T? value;
 
@@ -32,6 +33,15 @@ class RemoteState<T> {
   /// The last network read failed. [value] may still hold the cached copy (offline use).
   final ApiError? error;
 
+  /// The failure that ended the read before this one, kept while a new read runs with nothing in
+  /// hand. A screen that was showing "did not load" keeps saying so until the new read answers,
+  /// instead of dropping to its first-load skeleton on every Try again or pull (final walk, 32-today-top).
+  /// Null on a first read, once a value is in hand, and after the new read ends either way.
+  final ApiError? priorError;
+
+  /// A read is running again after one that failed with nothing in hand.
+  bool get isRetryingAfterFailure => loading && value == null && priorError != null;
+
   bool get hasValue => value != null;
 
   /// First load with nothing to show yet.
@@ -43,12 +53,13 @@ class RemoteState<T> {
   /// A cached value is showing because the network read failed: label it with [fetchedAt].
   bool get isStale => error != null && value != null;
 
-  RemoteState<T> copyWith({bool? loading, ApiError? error, bool clearError = false}) => RemoteState(
+  RemoteState<T> copyWith({bool? loading, ApiError? error, bool clearError = false, ApiError? priorError, bool clearPrior = false}) => RemoteState(
         value: value,
         fetchedAt: fetchedAt,
         fromCache: fromCache,
         loading: loading ?? this.loading,
         error: clearError ? null : (error ?? this.error),
+        priorError: clearPrior ? null : (priorError ?? this.priorError),
       );
 }
 
@@ -180,7 +191,8 @@ abstract class RemoteNotifier<T> extends Notifier<RemoteState<T>> {
         if (settled) return;
       }
     }
-    state = state.copyWith(loading: true, clearError: true);
+    // A read that follows a failure with nothing in hand remembers that failure while it runs.
+    state = state.copyWith(loading: true, clearError: true, priorError: state.value == null ? state.error : null, clearPrior: state.value != null);
     try {
       final fetched = await fetchRemote();
       if (!_current(id)) return;
@@ -192,10 +204,10 @@ abstract class RemoteNotifier<T> extends Notifier<RemoteState<T>> {
       }
       if (_current(id)) state = RemoteState(value: fetched.value, fetchedAt: at);
     } on ApiError catch (e) {
-      if (_current(id)) state = state.copyWith(loading: false, error: e);
+      if (_current(id)) state = state.copyWith(loading: false, error: e, clearPrior: true);
     } on Object {
       // Never leave the screen on a spinner: an unexpected failure is a failed read.
-      if (_current(id)) state = state.copyWith(loading: false, error: const ApiError(kind: ApiErrorKind.unknown, code: 'unknown'));
+      if (_current(id)) state = state.copyWith(loading: false, error: const ApiError(kind: ApiErrorKind.unknown, code: 'unknown'), clearPrior: true);
     }
   }
 

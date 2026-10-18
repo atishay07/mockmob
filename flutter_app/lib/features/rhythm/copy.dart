@@ -35,6 +35,13 @@ abstract final class RhythmCopy {
   static const String setStudyDays = 'Set your study days';
   static const String noPlanYet = 'You have not planned your days yet. Every day you study still counts.';
 
+  /// The week's count when no study days are planned: the days studied, with no "of" a plan never set
+  /// ("3 study days so far"). A planned week keeps [stripOpen].
+  static String studiedSoFar(int days) => days == 0 ? 'No study days yet' : '${plural(days, 'study day')} so far';
+
+  /// The primary key of a week that is over (Sunday, with nothing left that could change the count).
+  static const String planNextWeek = 'Plan next week';
+
   static String stripOpen(int days, int goal) => '$days of ${plural(goal, 'study day')}';
 
   static String stripMet(int days, int goal) => '$days of ${plural(goal, 'study day')}. This week is done.';

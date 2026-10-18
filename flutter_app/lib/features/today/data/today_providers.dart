@@ -287,10 +287,12 @@ final todayInputsProvider = Provider<TodayInputs>((ref) {
     reviseCap: reviseRead == null ? 10 : ref.watch(reviseCapProvider).value ?? 10,
     subjects: auth.subjects,
     attempts: attempts.value,
-    attemptsFailed: attempts.isFailedEmpty,
+    // A Try again or a pull on the failure card keeps the card up while the new read runs (it is
+    // not a first load, so no skeleton): the failure stands until the read answers.
+    attemptsFailed: attempts.isFailedEmpty || attempts.isRetryingAfterFailure,
     // Only the attempts read can fail the card (L01). A plan read that failed while the papers
     // are in hand is logged, never shown: the move is built from the papers instead.
-    readProblem: attempts.isFailedEmpty ? LoadProblem.of(attempts.error) : null,
+    readProblem: attempts.isFailedEmpty || attempts.isRetryingAfterFailure ? LoadProblem.of(attempts.error ?? attempts.priorError) : null,
     attemptsFetchedAt: attempts.fetchedAt,
     attemptsStale: attempts.isStale,
     plan: plan.value,
