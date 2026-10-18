@@ -160,3 +160,14 @@ His message was the pasted next-session prompt (build PLAN-1019 Waves A and B, t
   - "Why did I lose marks in my last paper?": build it as a free answer from the latest paper's breakdown if the app already has that data. Otherwise leave it out and say so.
 - **Why B:** it is the only option where every frame passes the 17-year-old test. A reads like a switch, and C repeats the "hidden in You" mistake (G17).
 - **Sources:** board images tmp/design-1019/ask-mobi/board-*.png; design docs/design-decisions/pass-1019/ASK-MOBI-1019.md.
+
+## CTO pick under D112, 19 Oct about 2:45 am (the owner is away)
+**C-pick 3, homepage text motion: option C, "select and type".** The old line is selected like a text selection, held a beat, then replaced by the new line typed at a natural rhythm. A solid brand-colour caret blinks twice and disappears. One change takes about 1.6 s. There is no glow or sheen (L-016, L-019).
+- **Timing rule:**
+  - the page counts as settled once the fonts have loaded, the hero entrance is done, there has been no scroll for 1.2 s and the line is fully on screen;
+  - the first change comes 1.8 s after that, and each line holds for 3.0 s;
+  - any scroll pauses the cycle, and a change already under way finishes;
+  - reduced motion shows "No more guessing." still.
+- **CTO addition (WCAG 2.2.2 Pause, Stop, Hide):** the cycle runs through the phrase set once, then rests on the final line. It never loops forever.
+- **Why C:** it is visibly new; it is the typed line he asked for on 15 Oct; and "select the line and correct it" matches what MockMob does. B (mask rise) is the quieter fallback.
+- **Sources:** compare sheets and videos in tmp/design-1019/hero-motion/; the design is docs/design-decisions/pass-1019/HERO-MOTION-1019.md.
