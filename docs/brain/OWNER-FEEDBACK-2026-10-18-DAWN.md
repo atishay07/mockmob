@@ -321,3 +321,10 @@ His message was the pasted next-session prompt (resume from 25ef3d95, follow NOW
 - **D79** Pro nudges everywhere, for example "Get unlimited mocks" and "No credits needed with Pro", with strong copy.
 - **D80** Tapping any Pro feature opens an "Upgrade to Pro" nudge.
 - **D81** First-session paywall. Not right after onboarding. In the first usage session, after the student's first move or action, show the "Upgrade to Pro" pop-up once, with benefits personalised to that student (the common app pattern).
+
+## Owner, 18 Oct about 7:05 pm IST (verbatim)
+> "So your proposed pricing is good for now, I just wanted to make sure that you tell me: if we are giving 50 credits for ₹10, how much are they costing us against that ₹10 in the worst-case scenario, and how much margin are we maintaining throughout?"
+
+**Ledger D82-D83:**
+- **D82** APPROVED: the proposed packs (50 credits ₹10, 150 ₹29, 300 ₹49 on the web; Play ₹15 / ₹45 / ₹75) and Pro ₹150 on Play.
+- **D83** Report the worst-case cost of 50 credits against ₹10, and the margin across packs, from real cost data.
