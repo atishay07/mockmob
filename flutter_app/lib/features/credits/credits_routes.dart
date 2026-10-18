@@ -6,13 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/router/routes.dart';
-import '../wallet/wallet_screen.dart';
+import '../wallet/wallet_gate.dart';
 
 abstract final class CreditsPaths {
   static const String credits = AppRoutes.youCredits;
 }
 
-Widget creditsScreen(BuildContext context, GoRouterState state) => const WalletScreen();
+Widget creditsScreen(BuildContext context, GoRouterState state) => const WalletOrCreditsScreen();
 
 /// Opens Credits over the app.
 Future<void> openCreditsPage(BuildContext context) async {
@@ -21,5 +21,5 @@ Future<void> openCreditsPage(BuildContext context) async {
     await router.push<void>(CreditsPaths.credits);
     return;
   }
-  await Navigator.of(context, rootNavigator: true).push<void>(MaterialPageRoute(builder: (_) => const WalletScreen()));
+  await Navigator.of(context, rootNavigator: true).push<void>(MaterialPageRoute(builder: (_) => const WalletOrCreditsScreen()));
 }

@@ -6,6 +6,9 @@ import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/features/billing/billing_copy.dart';
 import 'package:mockmob/features/wallet/data/wallet_data.dart';
 import 'package:mockmob/features/wallet/wallet_copy.dart';
+import 'package:mockmob/features/credits/credits_copy.dart';
+import 'package:mockmob/features/credits/credits_screen.dart';
+import 'package:mockmob/features/wallet/wallet_gate.dart';
 import 'package:mockmob/features/wallet/wallet_screen.dart';
 
 import '../../golden/you/you_golden_kit.dart' show setUpGoldenFonts;
@@ -201,6 +204,46 @@ void main() {
     expect(find.text(WalletCopy.historyFailedTitle), findsOneWidget);
     expect(find.text('Not loaded'), findsOneWidget);
     expect(find.text(WalletCopy.tryAgain), findsWidgets);
+  });
+
+  group('production without /api/wallet (404 or no network, nothing kept)', () {
+    for (final kind in [ApiErrorKind.notFound, ApiErrorKind.network]) {
+      testWidgets('${kind.name}: the page quietly becomes the Credits page, with no error and no Not loaded', (tester) async {
+        await pumpMockmob(
+          tester,
+          const WalletOrCreditsScreen(),
+          size: const Size(360, 1100),
+          wrapInScaffold: false,
+          disableAnimations: true,
+          overrides: walletOverrides(rig: BillingRig(on: false), read: RemoteState<WalletRead>(error: ApiError(kind: kind, code: kind.name))),
+        );
+        await _settle(tester);
+        expect(find.byType(CreditsScreen), findsOneWidget);
+        expect(find.byType(WalletScreen), findsNothing);
+        expect(find.text(CreditsCopy.title), findsWidgets);
+        expect(find.text('Not loaded'), findsNothing);
+        expect(find.text(WalletCopy.historyFailedTitle), findsNothing);
+        // With PLAY_BILLING off: no purchase key and no web price.
+        expect(find.text(BillingCopy.getCredits), findsNothing);
+        expect(find.text(BillingCopy.getPro), findsNothing);
+        expect(find.textContaining('₹'), findsNothing);
+        expect(tester.takeException(), isNull);
+      });
+    }
+
+    testWidgets('a read that works is still the Wallet', (tester) async {
+      await pumpMockmob(
+        tester,
+        const WalletOrCreditsScreen(),
+        size: const Size(360, 1100),
+        wrapInScaffold: false,
+        disableAnimations: true,
+        overrides: walletOverrides(rig: BillingRig(on: false)),
+      );
+      await _settle(tester);
+      expect(find.byType(WalletScreen), findsOneWidget);
+      expect(find.byType(CreditsScreen), findsNothing);
+    });
   });
 
   testWidgets('large text: nothing overflows', (tester) async {
