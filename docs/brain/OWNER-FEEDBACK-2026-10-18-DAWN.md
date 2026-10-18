@@ -290,3 +290,15 @@ His message was the pasted next-session prompt (resume from 25ef3d95, follow NOW
 - **D72** Play price: higher than the web, by about ₹50; not ₹115 (too small), not ₹199 (almost double); "150 doesn't sound as good as 99". CTO answer: ₹149 on Google Play (a familiar app price point), ₹99 stays on the website.
 - **D73** A concrete plan for selling Pro and credits inside the Play app, and build it.
 - **D74** Everything said (release 9 with the Mob and credits per question, the final app, the Play billing build) done by 10:30 pm tonight; run more in parallel.
+
+## Owner, 18 Oct about 6:38 pm IST (verbatim)
+> "Okay, record this also: 150 is the final price. Also, check and see the credits and all. They have to be incorporated properly using a credits wallet on both the website and the app.
+>
+> Even though Razorpay integration is not complete, it doesn't matter. Just do it, and I'll do the Razorpay integration myself today only. Just extract. I think I had already discussed all this and pricing. I think it already exists for the plans of the credit packages. If you have any doubt about the AI credit packages, you can suggest some wallet reload package options to me yourself, or I'll think of something. Let me know.
+>
+> Literally, no agent is running right now. That's the reason why time keeps pushing, because you are not continuously on top of everything. Both agents, to me, show that they are stalled. I hope to pace up continuously, and we are progressing at a good speed."
+
+**Ledger D75-D77:**
+- **D75** FINAL: Pro on Google Play is Rs 150 (not 149). The web stays Rs 99.
+- **D76** A proper credits wallet on the website AND the app: practice credits and AI credits in one wallet, with reload (top-up) packages. Build it even though the Razorpay checkout is not finished: he wires Razorpay himself today. Use the credit packages that already exist in the code; if the AI packs are unclear, propose reload packs.
+- **D77** He sees agents as stalled: stay on top continuously and run more in parallel. (6:38 pm check: all four agents had written within the last 1-5 minutes.)
