@@ -1,3 +1,30 @@
+## 18 October 2026, about 10:20 pm IST: website release 9 SHIPPED (main 2e45a92c), and the Mob is ON in production
+- **Deploy:** main moved eb5185ef to 2e45a92c as a fast-forward. Vercel dpl_B8RemZJBcEvuc9CER6var7dFqr6Q is READY, aliased to www.mockmob.in, with 0 runtime errors in its first 20 minutes.
+- **Vercel env:** MOB_ENABLED=true (Production) was set at about 10:15 pm, before the push. PERSISTENT_LIMITS_ENABLED was left unset on purpose; it is the owner's decision.
+- **Smoke test (live):** /, /pricing, /today, /review, /mob, /join/<code> and /api/stats all return 200. /api/mob signed out returns 401 UNAUTHENTICATED (not the disabled error). /pricing says "1 credit a question".
+- **Contents:**
+  - Per-question practice credits (D65/C2): 5/10/15/20 questions cost 5/10/15/20 credits; a full mock costs 50; free allowances are unchanged; old builds keep attempt=10 and attempt_full=50.
+  - The audit-fix packets: Today, Review/Result, nav and public.
+  - The Mob (D66/C3).
+- **Verification:** an independent Opus verifier ran 3 rounds with 2 fix rounds. Its final verdict: no HIGH, and 2 MEDIUM.
+  - The join form showed a placeholder name and failed on the first Join tap. FIXED in 2e45a92c with tests.
+  - W-044 (the Today cue is barely seen while scrolling at 390x844) is NOT claimed. The cue now sits in the page flow and never covers a control. W-044 stays OPEN for a decision.
+  - Also fixed: the false line "You sat it in your other Mob".
+- **Suites at 2e45a92c:** lint clean; test:mob 78/78; test:app 720/720; and at a14de0db: today 99, recovery 604 (+3 todo), learning 357, billing 215, auth 110, dock 31 (+1 skip), subjects 30. `next build --webpack` passes.
+- **Production database: migrations applied today under the owner's standing grant.** Each had a pre-check, a post-check and a rolled-back dry run, and each has an undo file in supabase/undo.
+  1. **20261018130000_free_ai_wallet_50**, about 3:47 pm.
+     - The two AI wallet functions hash as the file; student_user_free reads 0.0284.
+  2. **20261018170000_practice_credit_per_question**, about 6:22 pm.
+     - spend_credits md5 went from 7decd1ff... (1535 chars) to 911105fd... (1666 chars); EXECUTE is granted only to postgres and service_role.
+     - A rolled-back dry spend of 5+15+20+10+50 came to exactly 100, a replay was free, and 0 rows were left.
+  3. **20261017100000_mob + 20261017190000_mob_fix_1017**, about 6:29 pm.
+     - 26 functions have md5s equal to staging; 15 mob tables, all with RLS on; server roles only.
+     - Undo runs in reverse order: the fix first, then the base.
+- **Known open items (LOW):**
+  - /mob?mob=<id> ignores the deep link to a second Mob.
+  - "You both got the same question right" does not name the question.
+  - W-044, described above.
+
 ## 18 October 2026 - Web release 9 integrated (part A) (deploy/web-1018-r9, from live main 00328e54 = release 8; local, not pushed, not deployed; nothing applied to any database; the Mob packet web/r9-mob-1018 is NOT merged yet)
 
 **Merged, --no-ff, in order:** web/r9-perq-1018 (dfc33d17), web/r9-today-1018 (106c8fb5), web/r9-review-1018 (0f5df84d), web/r9-nav-1018 (d88e7c5b), web/r9-public-1018 (77da5a35). Each STATUS section below is kept, newest packet on top of the older ones.
