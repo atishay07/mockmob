@@ -44,6 +44,17 @@ A network drop at about 11:40 am killed 10 agents. Their commits and edits were 
 - **The main session merges ui/v15-credits into wt-v15 BEFORE the v15 integrator starts.** If the integrator has already started, it waits and merges after the integration instead.
 - **Speed-up:** when the integrator commits the build bump, the main session builds the release APK in a separate worktree at that head while the walker walks.
 
+**D50 (CTO decision): d50-length-1018** (wf_9e30dcc2-023, task wjsb1xkn5) builds in wt-v15-length (ui/v15-length).
+- "How many questions?" offers 5/10/15/20 and a full mock.
+- On day one, Weak chapters names the chapters with the most marks at stake.
+- An independent checker reviews it. **The main session merges it into wt-v15 before the integrator** (ui/v15-credits is already merged, 06b6af85).
+
+**v15.1 (approved 12:50 pm): v15-1-today-swipe** (wf_f3eaa161-76e, task wo26f9z62).
+- **Build:** D52, the richer Today (wt-v15-today-rich), and D51, the Suggested stack (wt-v15-swipe), from 06b6af85. Each gets an Opus critic and fix loop, up to 2 rounds.
+- **Then:** it waits for the final v15 APK, integrates in wt-v15-1 (ui/v15.1-1018), runs the full tests and a walk (screenshots in tmp/app-walk-1018d), and builds `tmp/apk/mockmob-v15.1-<sha>.apk`. Expected at about 5 pm.
+
+**Usage:** 39% at 12:45 pm, resets at 4:10 pm. An account switch at about 95% is likely around 3 pm, and every workflow survives it only as commits. After a switch, relaunch from the worktrees.
+
 ## Owner decisions open
 - **D50:** which screen he meant by "5, 10, 20 only, no direction until a full mock". The design agent is finding it.
 - **D51/D52:** the swipe cards and the richer Today. Mock-ups are coming; nothing is built before he says yes.
