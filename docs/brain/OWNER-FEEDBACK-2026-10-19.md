@@ -103,3 +103,10 @@
 ### Process (his words: think, record, act)
 - **G32** He is not satisfied after so much agent time: the app UI direction is good, but the core problems and the experience are the same; things he asked for (the reveal animation, the post-paper moment) have gone.
 - **G33** Why can't the agents see these things themselves? Every agent must think through every point, go beyond his expectation, and actually act on his feedback instead of looping.
+
+## Owner, 19 Oct about 1:35 am IST (his answers to two questions; verbatim)
+> (NTA mode in the app while Play billing is off) "Visible but locked"
+> (How to run the fixes) "Write the full plan of what you have and record everything. Make actionable decisions on the things. Ask me anything you want. Do all the theoretical work right now, in this window only. Then prepare a handoff so that, by the time we have to hand everything over to the next agent, it is not the case that anything is still not clear and it still fails to produce the output that I want and what is expected."
+
+**Ledger D101:** NTA mode (and any Pro-only mode) in the app: VISIBLE but locked while PLAY_BILLING is off (a quiet Pro tag, no way to buy, no web link or price). Never hidden.
+**Ledger D102:** tonight is planning only: record everything, make the decisions, ask him what is needed, do all the theoretical work in this usage window, and write a handoff so complete that the next session builds exactly what he expects with nothing unclear.
