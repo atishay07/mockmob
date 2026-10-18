@@ -15,6 +15,8 @@ import 'package:mockmob/features/today/logic/today_model.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
 import 'package:mockmob/features/today/widgets/road_section.dart' show RoadActions;
 
+import 'package:mockmob/features/practice/data/open_paper.dart' show Continued;
+
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
 import '../../helpers/no_open_paper.dart';
@@ -39,7 +41,17 @@ List<Override> get todayOverrides => [
 RoadActions get noopRoadActions => RoadActions(savePace: (_) async {}, setExamDate: (_) async {}, setMockTarget: (_) async {});
 
 TodayCallbacks get noopCallbacks =>
-    TodayCallbacks(onAction: (_) {}, onTarget: (_) {}, onMinutes: (_) {}, onShowMe: (_) {}, onWeek: () {}, onChooseColleges: () {}, road: noopRoadActions);
+    TodayCallbacks(
+      onAction: (_) {},
+      onTarget: (_) {},
+      onMinutes: (_) {},
+      onShowMe: (_) {},
+      onWeek: () {},
+      onChooseColleges: () {},
+      onContinuePaper: (paper) async => Continued(paper.sessionId ?? 'sess'),
+      onLetGoPaper: (_) async {},
+      road: noopRoadActions,
+    );
 
 /// Today as the shell shows it: phone insets, the bar floating over the content with its scrim,
 /// the content's bottom padding raised by the bar's clearance ([MmBarInsets]), and the live

@@ -268,7 +268,7 @@ class _PlanFlowBodyState extends State<PlanFlowBody> {
             mocks: GlanceCopy.tokenMocks(_target),
             onStep: _go,
           ),
-          const SizedBox(height: MmSpace.s20),
+          const SizedBox(height: MmSpace.s16),
           // One question at a time: the old one leaves, then the new one slides in from the side it comes from (12 dp, 240 ms); never both
           // readable at once. The sheet eases to its height (a month view opening, a shorter step).
           MmSizeEase(
@@ -285,7 +285,7 @@ class _PlanFlowBodyState extends State<PlanFlowBody> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Semantics(header: true, child: Text(question, style: type.labelLarge.copyWith(fontSize: 15, fontWeight: FontWeight.w600, color: colors.ink))),
-                const SizedBox(height: MmSpace.s12),
+                const SizedBox(height: MmSpace.s8),
                 body,
               ],
             ),
@@ -323,7 +323,7 @@ class _PlanFlowBodyState extends State<PlanFlowBody> {
           left: (_target - _taken).clamp(0, 999),
           pace: GlanceCopy.paceWords(_target - _taken <= 0 || _daysToExam <= 0 ? null : (_daysToExam / (_target - _taken)).floor().clamp(1, 999)),
         ),
-        const SizedBox(height: MmSpace.s20),
+        const SizedBox(height: MmSpace.s12),
         Row(
           children: [
             if (_step > 0)
@@ -525,7 +525,10 @@ class _Sentence extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final base = type.headline.copyWith(fontSize: 25, height: 1.5, color: colors.ink3, fontWeight: FontWeight.w600);
+    // A phone about 800 dp tall (the owner's) sets the sentence a step smaller, so the last question's "Your own number" card clears the
+    // dissolve above the pinned footer instead of reading as cut (v15 walk). Taller phones keep the full size.
+    final short = MediaQuery.sizeOf(context).height < 820;
+    final base = type.headline.copyWith(fontSize: short ? 22.5 : 25, height: short ? 1.36 : 1.42, color: colors.ink3, fontWeight: FontWeight.w600);
     InlineSpan token(int k, String text) => WidgetSpan(
           alignment: PlaceholderAlignment.baseline,
           baseline: TextBaseline.alphabetic,

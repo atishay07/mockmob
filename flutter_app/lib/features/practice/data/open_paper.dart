@@ -30,6 +30,7 @@ import '../../../core/sync/session/session_engine.dart' show SessionEngine;
 import '../../../core/sync/sync_providers.dart';
 import '../model/open_paper.dart';
 import '../model/pending_start.dart';
+import '../copy.dart' show PracticeCopy;
 import 'practice_catalog.dart';
 import 'practice_starter.dart';
 import 'suggestion.dart' show publicSubjectOf;
@@ -193,7 +194,8 @@ class PaperContinuer {
 
   ContinueResult _answer(StartOutcome outcome) => switch (outcome) {
     Started(:final sessionId) => Continued(sessionId),
-    StartFailed(:final failure, :final message) => ContinueFailed(failure, message: message),
+    // Continuing is not starting: offline it says so in its own words.
+    StartFailed(:final failure, :final message) => ContinueFailed(failure, message: message ?? (failure == StartFailure.offline ? PracticeCopy.openOffline : null)),
   };
 
   Future<ContinueResult> _takeOver(OpenPaper paper) async {

@@ -100,12 +100,26 @@ void main() {
       }
     });
 
-    test('about 20 s with three moments, never under 15 s', () {
+    test('the length depends on the paper size only: 20 s here, with three moments or none, as the cards say', () {
       final m = PaperReelModel.tryFrom(reelDetail())!;
-      expect(m.totalMs, inInclusiveRange(18000, 22000));
+      expect(m.totalMs, 20000);
       expect(m.seconds, 20);
       final plain = PaperReelModel.tryFrom(reelDetail(withLab: false, withTimes: false, changed: false))!;
-      expect(plain.totalMs, greaterThanOrEqualTo(15000));
+      expect(plain.totalMs, 20000, reason: 'a moment takes its pause out of the sheet time; the total does not move');
+      expect(PaperReelModel.secondsFor(m.questions.length), m.seconds, reason: 'Today\'s card and the result row print the reel\'s own figure');
+    });
+
+    test('a short set runs 16 s and a long one 20 s, whatever its moments', () {
+      expect(PaperReelModel.lengthMsFor(5), 16000);
+      expect(PaperReelModel.lengthMsFor(10), 16000);
+      expect(PaperReelModel.lengthMsFor(12), 16000);
+      expect(PaperReelModel.lengthMsFor(13), 20000);
+      expect(PaperReelModel.lengthMsFor(50), 20000);
+      for (final pattern in ['rrwrbrrwrb', 'rwrwrwrwrw', 'bbbbbbbbbb', 'rrrrrrrrrr']) {
+        final m = PaperReelModel.tryFrom(reelDetail(pattern: pattern))!;
+        expect(m.totalMs, 16000, reason: pattern);
+        expect(m.seconds, PaperReelModel.secondsFor(10));
+      }
     });
 
     test('the timeline is contiguous and frames walk the phases in order', () {

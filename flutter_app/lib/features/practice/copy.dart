@@ -64,9 +64,10 @@ abstract final class PracticeCopy {
   /// "Mock 7, Accountancy" when the paper has its number, else "Your full mock, Accountancy".
   static String openTitle({required String apiMode, required String subject, int? mockNumber}) =>
       mockNumber != null && (apiMode == 'full' || apiMode == 'nta') ? 'Mock $mockNumber, $subject' : 'Your ${openKind(apiMode: apiMode)}, $subject';
-  static const String openPendingReason = 'It began to open and did not finish. Opening it again never takes credits twice.';
+  static const String openPendingReason = 'It did not finish opening. Continue it: credits are taken once, never twice.';
   static String openKey({required String apiMode}) => 'Continue your ${openKind(apiMode: apiMode)}';
   static const String openNotNow = 'Not now';
+  static const String openOffline = 'Connect to continue this paper.';
   static String openFirst({required String apiMode}) =>
       'Your ${openKind(apiMode: apiMode)} is still open. Continue it first, so nothing is charged twice.';
   static const String paperEnded = 'That paper has ended, so it cannot be opened. Nothing more was charged. Start again for a new one.';

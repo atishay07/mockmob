@@ -13,6 +13,7 @@ import 'package:mockmob/core/sync/session/session_engine.dart';
 import 'package:mockmob/core/sync/session/session_journal.dart';
 import 'package:mockmob/core/sync/session/session_submitter.dart';
 import 'package:mockmob/core/sync/sync_providers.dart';
+import 'package:mockmob/features/practice/copy.dart' show PracticeCopy;
 import 'package:mockmob/features/practice/data/open_paper.dart';
 import 'package:mockmob/features/practice/data/practice_notes.dart';
 import 'package:mockmob/features/practice/data/practice_starter.dart';
@@ -452,7 +453,10 @@ void main() {
       http.handler = (_) => const FakeReply.network();
       final paper = (await resolver().offer(null))!;
       final result = await continuer().open(paper);
-      expect(result, isA<ContinueFailed>().having((f) => f.failure, 'failure', StartFailure.offline));
+      expect(
+        result,
+        isA<ContinueFailed>().having((f) => f.failure, 'failure', StartFailure.offline).having((f) => f.message, 'message', PracticeCopy.openOffline),
+      );
       expect(await drafts.pendingStarts(), hasLength(1), reason: 'the key stays: the next try is the same paper');
     });
 

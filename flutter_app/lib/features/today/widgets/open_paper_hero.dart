@@ -89,11 +89,13 @@ class _OpenPaperHeroCardState extends State<OpenPaperHeroCard> {
                       child: Text(hero.title, style: hero.title.contains(' ') ? type.title : type.headline, maxLines: 1, softWrap: false),
                     ),
                   ),
+                  // The line stands beside the object too: a start that never finished says what happened in two lines,
+                  // and they must not run under the art.
+                  const SizedBox(height: MmSpace.s12),
+                  Text(hero.line, style: type.body.copyWith(color: colors.ink2)),
                 ],
               ),
             ),
-            const SizedBox(height: MmSpace.s12),
-            Text(hero.line, style: type.body.copyWith(color: colors.ink2)),
             if (_message != null) ...[
               const SizedBox(height: MmSpace.s12),
               Semantics(liveRegion: true, child: Text(_message!, style: type.small.copyWith(color: colors.badText))),

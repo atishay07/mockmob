@@ -1,5 +1,5 @@
-// A test that does not exercise a paper that is open and not on the phone says so once: nothing is open. The
-// resolver and the plan it reads from would otherwise open the real drift database, which a widget test cannot.
+// A test that does not exercise a paper that is open and not on the phone says so once: nothing is open. The resolver and
+// the plan it reads from would otherwise open the real drift database, which a widget test cannot.
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:mockmob/core/models/learning_plan.dart';
 import 'package:mockmob/core/repositories/plan_repository.dart';
@@ -29,9 +29,15 @@ class _SilentPlan extends PlanRepository {
   Future<void> refresh({bool force = false}) async {}
 }
 
+/// The plan Practice and Today read for the open paper is never fetched, and the card that offers one is empty: what a test
+/// that brings its own [OpenPaperResolver] keeps.
+List<Override> get quietOpenPaperOverrides => [
+  openPaperProvider.overrideWith((ref) async => null),
+  planRepositoryProvider.overrideWith2(_SilentPlan.new),
+];
+
 /// Nothing is open, and the plan Practice and Today read for it is never fetched.
 List<Override> get noOpenPaperOverrides => [
-  openPaperProvider.overrideWith((ref) async => null),
+  ...quietOpenPaperOverrides,
   openPaperResolverProvider.overrideWithValue(const _NothingOpen()),
-  planRepositoryProvider.overrideWith2(_SilentPlan.new),
 ];

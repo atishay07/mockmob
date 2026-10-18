@@ -3,6 +3,7 @@ import 'package:mockmob/core/models/learning_plan.dart';
 import 'package:mockmob/core/repositories/dismissal_repository.dart';
 import 'package:mockmob/features/today/data/today_profile.dart';
 import 'package:mockmob/features/today/logic/today_inputs.dart';
+import 'package:mockmob/features/practice/model/open_paper.dart' show OpenPaper;
 
 /// A verdict for one question of a fixture paper.
 enum V { right, wrong, blank }
@@ -224,6 +225,7 @@ TodayInputs ashaInputs({
   bool isPro = false,
   String? firstName = 'Asha',
   String? email,
+  OpenPaper? openPaper,
 }) {
   final at = now ?? tuesdayEvening;
   return TodayInputs(
@@ -255,5 +257,6 @@ TodayInputs ashaInputs({
     offline: offline,
     selectedMinutes: selectedMinutes,
     lastTriedAt: lastTriedAt,
+    openPaper: openPaper,
   );
 }

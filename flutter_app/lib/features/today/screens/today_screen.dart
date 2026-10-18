@@ -280,6 +280,8 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
     // card, a "Could not refresh" line and a plain stale copy are all read again; the student never has to find
     // the line to tap).
     ref.watch(todayReconnectRefreshProvider);
+    // Only the plan failed (the papers are fresh): it is read again twice, quietly, so "Updated 10:18 AM" does not stay over the greeting.
+    ref.watch(todayQuietPlanRetryProvider);
     // A plan read that failed while the papers are in hand never reaches the card (L01, S6): it
     // is written to the log, and the move is built from the papers.
     ref.listen(planRepositoryProvider(todayPlanMinutes).select((s) => s.error), (previous, next) {

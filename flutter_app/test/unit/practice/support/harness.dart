@@ -303,8 +303,11 @@ List<Override> practiceOverrides({
   /// Every mistake open on the account (Practice's Repairs row); null: not read yet, no row.
   int? openRepairs,
   List<Override> extra = const [],
+
+  /// A test that brings its own open paper turns this off: nothing is open by default.
+  bool nothingOpen = true,
 }) => [
-  ...noOpenPaperOverrides,
+  ...(nothingOpen ? noOpenPaperOverrides : quietOpenPaperOverrides),
   practicePrefsStoreProvider.overrideWithValue(prefs ?? MemoryPrefsStore()),
   networkRestoredProvider.overrideWith((ref) => restored ?? const Stream<void>.empty()),
   attemptsRepositoryProvider.overrideWith(() => FakeAttempts(attempts)),
