@@ -182,3 +182,8 @@ The rest of the landing (band + bolder copy) is not rejected.
   - release 7 Today;
   - the landing hero, band and bolder copy;
   - every open W item from the live re-audit.
+
+## Owner, 18 Oct about 10:05 am IST
+> "Keep working right now I'll switch at 95%"
+
+Ledger: keep all agents running; at about 95% usage he switches accounts. Have NOW.md current before then so the next account continues without a gap.
