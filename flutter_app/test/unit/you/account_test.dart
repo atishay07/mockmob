@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mockmob/core/copy/copy.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/api/api_client.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
@@ -53,6 +54,8 @@ void main() {
       expect(find.text('asha.verma@example.com'), findsOneWidget);
       expect(find.text('Free'), findsOneWidget);
       expect(find.text('Practice credits did not load.'), findsOneWidget);
+      // No balance, no claim: the bank line waits for a plan that is known (M-002).
+      expect(find.text(PlanCopy.bankFree), findsNothing);
       expect(find.text('Credit balance not loaded'), findsNothing);
       expect(find.text('Your plan and credits as of the last check.'), findsNothing);
     });
@@ -71,6 +74,7 @@ void main() {
       await _pumpAccount(tester, pro: true, until: DateTime(2027, 7, 31, 12));
       expect(find.text('Pro is active until 31 July 2027.'), findsOneWidget);
       expect(find.text('Unlimited practice'), findsOneWidget);
+      expect(find.text(PlanCopy.bankPro), findsOneWidget, reason: 'unlimited mocks from one central bank, said quietly (M-002)');
       expect(find.text('Free'), findsNothing);
     });
 

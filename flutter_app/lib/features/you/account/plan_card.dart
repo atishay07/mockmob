@@ -158,6 +158,11 @@ class _PlanCardState extends ConsumerState<PlanCard> {
               style: type.small.copyWith(color: colors.ink2),
             ),
           ],
+          // One quiet line (M-002): where the mocks come from, true on every plan.
+          if (balance != null || pro) ...[
+            const SizedBox(height: MmSpace.s8),
+            Text(PlanCopy.bankLine(pro: pro), style: type.small.copyWith(color: colors.ink2)),
+          ],
         ],
       ),
     );

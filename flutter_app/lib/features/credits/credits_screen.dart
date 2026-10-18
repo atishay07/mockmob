@@ -224,13 +224,21 @@ class _PlanLine extends StatelessWidget {
     // (critic 16 Oct, finding 27/28). Pro keeps its line, because the date is news.
     return Padding(
       padding: const EdgeInsets.fromLTRB(youText, MmSpace.s8, youText, 0),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          PlanTag(pro: pro),
-          if (line != null) ...[
-            const SizedBox(width: MmSpace.s12),
-            Expanded(child: Text(line, style: type.body.copyWith(color: colors.ink2))),
-          ],
+          Row(
+            children: [
+              PlanTag(pro: pro),
+              if (line != null) ...[
+                const SizedBox(width: MmSpace.s12),
+                Expanded(child: Text(line, style: type.body.copyWith(color: colors.ink2))),
+              ],
+            ],
+          ),
+          // One quiet line (M-002): where the mocks come from, true on every plan.
+          const SizedBox(height: MmSpace.s8),
+          Text(PlanCopy.bankLine(pro: pro), style: type.small.copyWith(color: colors.ink2)),
         ],
       ),
     );
