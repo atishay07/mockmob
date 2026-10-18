@@ -5,7 +5,7 @@
 // them again". Cards already passed on in this pass leave the deck.
 //
 // Taken from Tinder, without its meaning: the controls are not on the card. One fixed row under the
-// deck holds Not now, Undo and Up next. While a card is dragged, the button on that side grows
+// deck holds Not now, Undo and Do this next (the button names the outcome; the result is "Up next"). While a card is dragged, the button on that side grows
 // with the drag and lights at the threshold, and a stamp with the same words lands on the card.
 // Right is "Up next": the card flies up into the lead card, which swaps to it exactly as the old
 // choices did (the old move comes down into the deck marked Suggested), and a glass bar says so
@@ -14,8 +14,9 @@
 //
 // The first run teaches itself ([DeckCoach]): a one-line intro says what the cards are; once the
 // deck has been on screen and still, the top card performs right then left by itself (about 2.2 s,
-// once in the phone's life; any touch stops it); a coach line names each direction as it is shown
-// and as the student drags. The first Up next says nothing starts; the first Not now says where the
+// once in the phone's life, spent only when both halves played or a touch stopped it, never while
+// Today is off screen; a touch only stops it, never also taps the card); a coach line names each
+// direction as it is shown and as the student drags. The first Up next says nothing starts; the first Not now says where the
 // card went and that kinds passed on often sit lower next time ([DeckMemory], which is true).
 //
 // Safeguards: nothing here starts a session or spends a credit. Right only makes a card the lead;
@@ -74,7 +75,7 @@ const Duration deckBarHold = Duration(seconds: 5);
 const double deckRowHeight = 48;
 
 class SuggestedStack extends StatefulWidget {
-  const SuggestedStack({super.key, required this.cards, required this.onChoose, this.onUndoChoose, this.onMore, this.leadKey});
+  const SuggestedStack({super.key, required this.cards, required this.onChoose, this.onUndoChoose, this.onMore, this.leadKey, this.closeBar});
 
   /// The deck, in order: [buildSuggestedDeck]. The stack sinks kinds passed on often ([DeckMemory]).
   final List<SuggestedCard> cards;
@@ -90,6 +91,11 @@ class SuggestedStack extends StatefulWidget {
 
   /// The lead card, which a chosen card flies into.
   final GlobalKey? leadKey;
+
+  /// Pinged when the student acts on the lead card (its Start, the bar's capsule): the Up next bar
+  /// leaves at once, so it never floats over the session that just began (round 1, item 2), and the
+  /// pick's Undo goes with it: what the student started is no longer swapped away (round 2, item 5).
+  final Listenable? closeBar;
 
   /// On the card on top of the deck.
   static const Key topKey = ValueKey('suggested-top');
@@ -217,6 +223,14 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
   bool _demoRunning = false;
   bool _nudging = false;
   static bool _nudgedThisRun = false;
+
+  /// A touch that stopped the demo (or the nudge): its lift is not a tap on the card, so the stop
+  /// never commits Up next (round 1, item 1). Cleared by the card's next tap or the next touch.
+  bool _swallowTap = false;
+
+  /// Today is the surface on screen: its branch is the shown tab (TickerMode) and no route sits
+  /// over it. Off screen the bar leaves and the demo neither runs nor counts.
+  bool _onScreen = true;
   Timer? _stillTimer;
   Timer? _waitTimer;
   Completer<void>? _waiting;
@@ -259,6 +273,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
     _tuck = AnimationController(vsync: this, duration: const Duration(milliseconds: 200))..addListener(_tucked);
     _back = AnimationController(vsync: this, duration: const Duration(milliseconds: 300), value: 1);
     _fade = AnimationController(vsync: this, duration: Motion.reducedFade, value: 1);
+    widget.closeBar?.addListener(_leadUsed);
     final pin = SuggestedStack.debugDemoPeak;
     if (pin != null) {
       _demoSide = pin;
@@ -293,12 +308,29 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
       _position?.removeListener(_scrolled);
       _position = position?..addListener(_scrolled);
     }
+    final onScreen = TickerMode.valuesOf(context).enabled && (ModalRoute.of(context)?.isCurrent ?? true);
+    if (onScreen != _onScreen) {
+      _onScreen = onScreen;
+      if (!onScreen) {
+        // Another tab, or a route over Today (the session the student just started): the bar's
+        // words are no longer true there, and its Undo would change a lead nobody can see. The
+        // messenger is an ancestor, so it is told after this build.
+        final bar = _bar;
+        _bar = null;
+        if (bar != null) scheduleMicrotask(bar.close);
+        _stopDemo(jump: true);
+      }
+    }
     _armDemo();
   }
 
   @override
   void didUpdateWidget(SuggestedStack old) {
     super.didUpdateWidget(old);
+    if (old.closeBar != widget.closeBar) {
+      old.closeBar?.removeListener(_leadUsed);
+      widget.closeBar?.addListener(_leadUsed);
+    }
     final raw = _keys(widget.cards);
     if (_sameKeys(raw, _rawKeys)) return;
     final restoring = _restoring;
@@ -333,6 +365,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
     _stillTimer?.cancel();
     _waitTimer?.cancel();
     _position?.removeListener(_scrolled);
+    widget.closeBar?.removeListener(_leadUsed);
     // The bar leaves with the deck, after this frame (the messenger cannot rebuild mid-teardown).
     final bar = _bar;
     final messenger = _messenger;
@@ -378,20 +411,23 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
   }
 
   /// Once the deck is at least 60% on screen and the page has been still for 300 ms, the visit
-  /// counts; 600 ms later the demo (or the nudge) runs.
+  /// counts; 600 ms later the demo (or the nudge) runs. Only while Today is the surface on screen:
+  /// an offstage tab is still laid out, so the deck's geometry alone would count it as seen.
   void _armDemo() {
     _stillTimer?.cancel();
     final coach = _coach;
-    if (coach == null || !coach.coaching || !mounted || SuggestedStack.debugDemoPeak != null) return;
+    if (coach == null || !coach.coaching || !mounted || !_onScreen || SuggestedStack.debugDemoPeak != null) return;
     _stillTimer = Timer(const Duration(milliseconds: 300), () {
-      if (!mounted || _visibleShare() < 0.6) return;
+      if (!mounted || !_onScreen || _visibleShare() < 0.6) return;
       unawaited(DeckCoach.countVisit(coach));
       if (_reduced || _demoRunning || _dragging || _leaving || _pass.top == null) return;
-      final demo = !coach.demoShown;
+      // Any use of the deck taught the gesture: a commit made before the demo began (the page then
+      // scrolls the lead into view, which re-arms this) never brings the demo on after it (round 2).
+      final demo = !coach.demoShown && coach.neverSwiped && _undo == null && _flight == null;
       final nudge = !demo && coach.neverSwiped && !_nudgedThisRun;
       if (!demo && !nudge) return;
       _stillTimer = Timer(const Duration(milliseconds: 600), () {
-        if (!mounted || _visibleShare() < 0.6 || _demoRunning || _dragging || _leaving || _x.value != 0) return;
+        if (!mounted || !_onScreen || _visibleShare() < 0.6 || _demoRunning || _dragging || _leaving || _x.value != 0) return;
         if (demo) {
           unawaited(_runDemo(coach));
         } else {
@@ -423,10 +459,11 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
 
   /// The card performs each direction by itself: out 72 dp, a hold with its stamp, the button lit
   /// and the coach line naming it, then home; right first, then left. No haptics: the student did
-  /// not act.
+  /// not act. It counts as shown (never again on this phone) only once both halves played, or
+  /// when the student's own touch stopped it ([_stopDemo]); a scroll or leaving Today mid-way
+  /// leaves it to replay at the next still moment.
   Future<void> _runDemo(DeckCoachRun coach) async {
     _demoRunning = true;
-    unawaited(DeckCoach.demoDone(coach));
     for (final side in MmDragSide.values.reversed) {
       if (!_demoRunning || !mounted) return;
       setState(() => _demoSide = side);
@@ -445,6 +482,8 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
       }
       if (side == MmDragSide.right) await _wait(const Duration(milliseconds: 160));
     }
+    if (!_demoRunning) return;
+    unawaited(DeckCoach.demoDone(coach));
     if (mounted) setState(() => _demoRunning = false);
   }
 
@@ -467,10 +506,14 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
     }
   }
 
-  /// Any touch stops the demo at once; the card springs home.
-  void _stopDemo() {
+  /// Any touch stops the demo at once; the card springs home. A [touch] (the student's own) spends
+  /// the demo for good; a scroll or Today leaving the screen does not. [jump] puts the card home
+  /// without motion (offstage, where its ticker is muted).
+  void _stopDemo({bool touch = false, bool jump = false}) {
     _stillTimer?.cancel();
     if (!_demoRunning) return;
+    final coach = _coach;
+    if (touch && !_nudging && coach != null && !coach.demoShown) unawaited(DeckCoach.demoDone(coach));
     _demoRunning = false;
     _waitTimer?.cancel();
     final waiting = _waiting;
@@ -479,14 +522,27 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
       _demoSide = null;
       _nudging = false;
     });
-    if (!_dragging) _home(0);
+    if (_dragging) return;
+    if (jump) {
+      _x.value = 0;
+    } else {
+      _home(0);
+    }
+  }
+
+  /// The student used the deck (a drag, a button, a commit): they know the gesture, so the demo
+  /// is spent for good, even when it never began (round 2, item 1).
+  void _taught() {
+    final coach = _coach;
+    if (coach != null && !coach.demoShown) unawaited(DeckCoach.demoDone(coach));
   }
 
   // The finger.
 
   void _start() {
     if (_leaving || _flight != null && _fly.isAnimating && _fly.value < 0.2) return;
-    _stopDemo();
+    _stopDemo(touch: true);
+    _taught();
     _x.stop();
     _raw = _x.value;
     _dragging = true;
@@ -546,6 +602,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
     final top = _card(_pass.top);
     if (_leaving || top == null) return;
     _stopDemo();
+    _taught();
     _hideBar();
     if (swipe) hapticsOf(context)?.gestureEnd();
     final coach = _coach;
@@ -610,6 +667,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
   void _upNext(SuggestedCard card, {bool swipe = false}) {
     if (_leaving) return;
     _stopDemo();
+    _taught();
     _hideBar();
     final hero = card.choice.hero;
     if (hero == null) {
@@ -644,8 +702,18 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
       widget.onChoose(card.choice);
       _revealLead();
     }
-    _announce(SuggestedCopy.saidUpNext(card.title));
-    _showBar(card, first: first);
+    // The bar is a snack bar, a live region of its own: it speaks the result once. Only without a
+    // bar is it announced here (round 2, item 4).
+    if (!_showBar(card, first: first)) _announce(SuggestedCopy.saidUpNext(card.title));
+  }
+
+  /// A tap on the card is Up next, unless the touch it lifts from stopped the demo.
+  void _tapCard(SuggestedCard card) {
+    if (_swallowTap) {
+      _swallowTap = false;
+      return;
+    }
+    _upNext(card);
   }
 
   /// Undo: the last commit, reversed. A Not now brings the card back on top; an Up next puts the
@@ -654,6 +722,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
     final undo = _undo;
     if (!mounted || undo == null || _leaving) return;
     _stopDemo();
+    _taught();
     _hideBar();
     _undo = null;
     DeckMemoryStore.loaded?.restore(undo.kind, undo.memory);
@@ -743,9 +812,10 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
   // The bar after Up next: glass chrome above the dock, the moved card's object and title, what
   // happened, and Undo. It holds 5 s (paused while touched) and leaves on the next action or scroll.
 
-  void _showBar(SuggestedCard card, {required bool first}) {
+  /// Whether a bar was shown (false: no messenger above Today).
+  bool _showBar(SuggestedCard card, {required bool first}) {
     final messenger = ScaffoldMessenger.maybeOf(context);
-    if (messenger == null) return;
+    if (messenger == null) return false;
     _messenger = messenger;
     final media = MediaQuery.of(context);
     final dock = MmBarInsets.maybeOf(context)?.showing ?? false;
@@ -777,6 +847,15 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
     bar.closed.then((_) {
       if (identical(_bar, bar)) _bar = null;
     });
+    return true;
+  }
+
+  /// The student acted on the lead card (its Start): the bar leaves, and the pick it began can no
+  /// longer be undone from the deck. The row's Undo would otherwise swap away a lead the student
+  /// already started, long after (round 2, item 5).
+  void _leadUsed() {
+    _hideBar();
+    if (_undo is _UndoUpNext && mounted) setState(() => _undo = null);
   }
 
   void _hideBar() {
@@ -884,8 +963,13 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
     );
     final coachStyle = SuggestedStackSkeleton.coachStyle(context);
     return Listener(
-      // Any touch on the deck, its row or its words stops the demo at once.
-      onPointerDown: (_) => _stopDemo(),
+      // Any touch on the deck, its row or its words stops the demo at once. A touch that stops it
+      // is only that: its lift is not also a tap on the card (Tinder's coach: the first touch only
+      // dismisses).
+      onPointerDown: (_) {
+        _swallowTap = _demoRunning;
+        _stopDemo(touch: true);
+      },
       behavior: HitTestBehavior.translucent,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -1147,7 +1231,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
           // A tap on the card is Up next; the row is the accessible path.
           excludeFromSemantics: true,
           behavior: HitTestBehavior.opaque,
-          onTap: _leaving || !top.swipeable ? null : () => _upNext(top),
+          onTap: _leaving || !top.swipeable ? null : () => _tapCard(top),
           child: _DeckLayout(children: children),
         ),
       ),
@@ -1177,39 +1261,84 @@ class _CoachSay {
 }
 
 /// The coach line under the deck, first run only: centred, a chip for the side it names.
+///
+/// It holds the height of the tallest line a demo or a drag can show at this width, so the row
+/// under it never bobs while the card performs or follows the finger (a two-line "Right: do this
+/// next. It moves into the card above." on a 360 dp phone, a one-line idle line). A line of two
+/// sentences that cannot keep one line breaks between them, never with one word left alone on
+/// the second line (round 2, item 3).
 class _CoachLine extends StatelessWidget {
   const _CoachLine({super.key, required this.say, required this.style});
 
   final _CoachSay say;
   final TextStyle style;
 
+  /// The lines a demo or a drag shows, whose tallest the coach line holds.
+  static const List<_CoachSay> _held = [
+    _CoachSay(SuggestedCopy.coachIdle),
+    _CoachSay(SuggestedCopy.coachRight, chip: MmDragSide.right),
+    _CoachSay(SuggestedCopy.coachLeft, chip: MmDragSide.left),
+    _CoachSay(SuggestedCopy.letGoRight),
+    _CoachSay(SuggestedCopy.letGoLeft),
+    _CoachSay(SuggestedCopy.letGoLast),
+  ];
+
+  /// The chip and its gap.
+  static const double _chipRoom = 22 + MmSpace.s8;
+
   @override
   Widget build(BuildContext context) {
-    Widget line(String text, MmDragSide? chip) => Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        if (chip != null) ...[
-          _Chip(side: chip),
-          const SizedBox(width: MmSpace.s8),
-        ],
-        Flexible(
-          child: Text(text, textAlign: TextAlign.center, style: style),
-        ),
-      ],
-    );
-    return SizedBox(
-      key: SuggestedStack.coachKey,
-      width: double.infinity,
-      child: say.both
-          ? Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                line(SuggestedCopy.coachRight, MmDragSide.right),
-                const SizedBox(height: MmSpace.s6),
-                line(SuggestedCopy.coachLeft, MmDragSide.left),
-              ],
-            )
-          : line(say.text, say.chip),
+    final scaler = MediaQuery.textScalerOf(context);
+    return LayoutBuilder(
+      builder: (context, box) {
+        final width = box.maxWidth;
+        // Two sentences that do not fit one line take one line each.
+        String fit(String text, bool chip) {
+          final at = text.indexOf('. ');
+          if (at < 0 || text.contains('\n')) return text;
+          final tp = TextPainter(text: TextSpan(text: text, style: style), textDirection: TextDirection.ltr, textScaler: scaler)..layout(maxWidth: math.max(0, width - (chip ? _chipRoom : 0)));
+          final lines = tp.computeLineMetrics().length;
+          tp.dispose();
+          return lines > 1 ? '${text.substring(0, at + 1)}\n${text.substring(at + 2)}' : text;
+        }
+
+        Widget line(String text, MmDragSide? chip) => Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (chip != null) ...[
+              _Chip(side: chip),
+              const SizedBox(width: MmSpace.s8),
+            ],
+            Flexible(
+              child: Text(fit(text, chip != null), textAlign: TextAlign.center, style: style),
+            ),
+          ],
+        );
+        final Widget shown = say.both
+            ? Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  line(SuggestedCopy.coachRight, MmDragSide.right),
+                  const SizedBox(height: MmSpace.s6),
+                  line(SuggestedCopy.coachLeft, MmDragSide.left),
+                ],
+              )
+            : line(say.text, say.chip);
+        return SizedBox(
+          key: SuggestedStack.coachKey,
+          width: double.infinity,
+          child: say.both
+              ? shown
+              : Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    for (final h in _held)
+                      if (h != say) ExcludeSemantics(child: Visibility(visible: false, maintainSize: true, maintainAnimation: true, maintainState: true, child: line(h.text, h.chip))),
+                    shown,
+                  ],
+                ),
+        );
+      },
     );
   }
 }
@@ -1760,10 +1889,20 @@ class _DeckControls extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, box) {
         // Each button: its icon (18), the gap (8) and its padding, around its words.
-        final side = 14 + 18 + 8 + 18;
+        const side = 14 + 18 + 8 + 18;
+        const bareSide = 16 + 16;
         final undoFull = 12 + 18 + 8 + w(SuggestedCopy.undo, undoLabel) + 12;
+        final noW = w(SuggestedCopy.notNow, label);
+        final upW = w(SuggestedCopy.upNext, label);
+        // Tight (a 360 dp phone): the two outer buttons drop their icons first, since words in a
+        // pill still read as a button, and every label stays whole ("Do this next", never
+        // "Do this ..."). Only when even that cannot fit (360 dp at 1.3x text) does Undo keep only
+        // its icon: a bare glyph between two pills is the last thing given up (round 2, item 2).
+        final bare = !ended && side * 2 + noW + upW + undoFull > box.maxWidth;
+        final compact = bare && bareSide * 2 + noW + upW + undoFull > box.maxWidth;
+        final pad = bare ? bareSide : side;
         final undo = _UndoButton(
-          compact: ended ? false : side * 2 + w(SuggestedCopy.notNow, label) + w(SuggestedCopy.upNext, label) + undoFull > box.maxWidth,
+          compact: compact,
           style: undoLabel,
           onTap: onUndo,
           semanticsLabel: undoTitle == null ? SuggestedCopy.undoNone : SuggestedCopy.undoSemantics(undoTitle!),
@@ -1797,10 +1936,13 @@ class _DeckControls extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              // Each side takes room in proportion to its own width, so the longer words are not
+              // cut while the shorter ones have room to spare.
               Flexible(
+                flex: (pad + noW).round(),
                 child: _RowButton(
                   key: SuggestedStack.notNowKey,
-                  icon: LucideIcons.x,
+                  icon: bare ? null : LucideIcons.x,
                   label: SuggestedCopy.notNow,
                   style: label,
                   grow: notNow,
@@ -1811,9 +1953,10 @@ class _DeckControls extends StatelessWidget {
               ),
               undo,
               Flexible(
+                flex: (pad + upW).round(),
                 child: _RowButton(
                   key: SuggestedStack.upNextKey,
-                  icon: LucideIcons.arrowUpToLine,
+                  icon: bare ? null : LucideIcons.arrowUpToLine,
                   label: SuggestedCopy.upNext,
                   style: label,
                   filled: true,
@@ -1848,7 +1991,8 @@ class _RowButton extends StatelessWidget {
     this.lit = false,
   });
 
-  final IconData icon;
+  /// Null on a row too tight for icons: the words alone.
+  final IconData? icon;
   final String label;
   final TextStyle style;
   final VoidCallback? onTap;
@@ -1892,13 +2036,15 @@ class _RowButton extends StatelessWidget {
           final ink = lit || filled ? colors.ink : colors.ink2;
           return Container(
             height: deckRowHeight,
-            padding: const EdgeInsets.only(left: 14, right: 18),
+            padding: icon == null ? const EdgeInsets.symmetric(horizontal: 16) : const EdgeInsets.only(left: 14, right: 18),
             decoration: ShapeDecoration(color: fill, shape: StadiumBorder(side: border)),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(icon, size: 18, color: yes ? accent : ink),
-                const SizedBox(width: MmSpace.s8),
+                if (icon != null) ...[
+                  Icon(icon, size: 18, color: yes ? accent : ink),
+                  const SizedBox(width: MmSpace.s8),
+                ],
                 Flexible(
                   child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis, style: style.copyWith(color: ink)),
                 ),
@@ -1958,8 +2104,11 @@ class _UndoButton extends StatelessWidget {
 }
 
 /// The bar after Up next: the moved card's object, its title, what happened, and Undo, on glass
-/// chrome above the dock. It holds [deckBarHold], paused while touched or while its Undo has focus,
-/// and is a live region for screen readers.
+/// chrome above the dock. It holds [deckBarHold], paused while touched or while its Undo has focus.
+/// With a screen reader on it has no clock at all: it stays until the next action or scroll, so its
+/// Undo is never gone before the student reaches it (WCAG 2.2.1; accessibility focus is not
+/// keyboard focus, so a pause on focus alone would not hold it). The snack bar it sits in is the
+/// live region that speaks it, once.
 class _UpNextBar extends StatefulWidget {
   const _UpNextBar({required this.card, required this.line, required this.onUndo, required this.onTimeout});
 
@@ -1978,10 +2127,14 @@ class _UpNextBarState extends State<_UpNextBar> {
   bool _touched = false;
   bool _focused = false;
 
+  /// A screen reader is on: the bar holds until the next action.
+  bool _untimed = false;
+
   @override
-  void initState() {
-    super.initState();
-    _resume();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _untimed = MediaQuery.maybeAccessibleNavigationOf(context) ?? false;
+    _untimed ? _pause() : _resume();
   }
 
   @override
@@ -1996,7 +2149,7 @@ class _UpNextBarState extends State<_UpNextBar> {
   }
 
   void _resume() {
-    if (_touched || _focused) return;
+    if (_touched || _focused || _untimed) return;
     _timer?.cancel();
     _held.start();
     final left = deckBarHold - _held.elapsed;
@@ -2034,7 +2187,6 @@ class _UpNextBarState extends State<_UpNextBar> {
             focused ? _pause() : _resume();
           },
           child: Semantics(
-            liveRegion: true,
             container: true,
             child: ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(20)),

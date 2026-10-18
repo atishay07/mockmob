@@ -186,6 +186,10 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
   final GlobalKey _roadKey = GlobalKey(debugLabel: 'today-road');
   final ValueNotifier<bool> _moreCue = ValueNotifier(false);
 
+  /// Ticks when the student acts on the lead card (its Start or the bar's capsule), so the deck's
+  /// Up next bar leaves before the session's first frame (SWIPE-V2 round 1, item 2).
+  final ValueNotifier<int> _leadActed = ValueNotifier(0);
+
   /// The cue's own slot: with the Suggested stack under the card (D51) it can sit below the bar
   /// line, where nobody would see it; then it stays away.
   final GlobalKey _cueKey = GlobalKey(debugLabel: 'today-cue');
@@ -251,6 +255,7 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
         onChoose: _choose,
         onUndoChoose: _undoChoose,
         leadKey: _moveKey,
+        closeBar: _leadActed,
         onMore: () => widget.callbacks.onAction(const TodayAction(GlanceCopy.moreWays, OpenAlternatives())),
       ),
     );
@@ -459,6 +464,7 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
     _keyPulse.dispose();
     _entrance.dispose();
     _moreCue.dispose();
+    _leadActed.dispose();
     super.dispose();
   }
 
@@ -635,10 +641,16 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
       title: title,
       detail: minutes == null ? null : '$minutes min',
       label: primary.label,
-      onStart: () => widget.callbacks.onAction(primary),
+      onStart: () => _leadAction(primary),
       originRect: _lastKeyRect,
       originNow: _keyRectNow,
     );
+  }
+
+  /// An action on the lead card: the deck's bar leaves first.
+  void _leadAction(TodayAction action) {
+    _leadActed.value++;
+    widget.callbacks.onAction(action);
   }
 
   void _publish(BarMove? move) {
@@ -685,7 +697,7 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
           mobiController: widget.mobiController,
           primaryKey: _primaryKey,
           controlsKey: _controlsKey,
-          onAction: cb.onAction,
+          onAction: _leadAction,
           onMinutes: cb.onMinutes == null ? null : _minutes,
           keyPulse: _keyPulse,
           choices: _shownChoices,

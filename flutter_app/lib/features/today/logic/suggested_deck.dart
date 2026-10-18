@@ -132,7 +132,7 @@ SuggestedCard _card(MoveChoice c, TodayGlance? glance) {
         choice: c,
         // A repair spends AI credits, so its card says so beside the free ones (the lead card's
         // price line: "Each repair uses 1 AI credit").
-        cost: SuggestedCopy.costRepair(subject.isEmpty ? null : subject, minutes),
+        cost: SuggestedCopy.costRepair(minutes),
         title: m.title ?? SuggestedCopy.titleRepair,
         line: _first(m.meaning),
         art: m.art.isMobi ? SuggestedArt.mobi : SuggestedArt.subject,
