@@ -14,6 +14,7 @@ import 'core/settings/theme_cross_fade.dart';
 import 'core/theme/theme.dart';
 import 'core/widgets/brand/brand_opening.dart';
 import 'core/widgets/status_tint.dart';
+import 'features/billing/billing.dart' show playBillingEnabledProvider, playBillingProvider;
 import 'features/notifications/notifications.dart';
 import 'features/onboarding/onboarding_routes.dart' show sampleImportProvider;
 import 'features/rhythm/rhythm.dart' show celebrationModeProvider, rhythmWatcherProvider;
@@ -54,6 +55,9 @@ class _AppServices extends ConsumerWidget {
     ref.watch(rhythmWatcherProvider);
     ref.watch(nativeTouchesProvider);
     ref.watch(homeWidgetSyncProvider);
+    // Google Play Billing listens for purchases from the first moment (a purchase the server could not
+    // confirm last time is sent again here). Off with PLAY_BILLING off: nothing is built.
+    if (ref.watch(playBillingEnabledProvider)) ref.watch(playBillingProvider);
     return const SizedBox.shrink();
   }
 }

@@ -6,6 +6,7 @@ import '../../../core/api/api_providers.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../billing/billing.dart';
 import '../copy.dart';
 import '../data/ask_controller.dart';
 import '../data/ask_wallet.dart';
@@ -171,8 +172,8 @@ class AskWalletSheet extends ConsumerWidget {
 }
 
 /// Out of AI credits: a quiet band over the field that says so plainly, when they renew, that
-/// record questions stay free and (on Free) what Pro includes. No price and no purchase path: the
-/// app never sells.
+/// record questions stay free and (on Free) what Pro includes. With `PLAY_BILLING` on a Get AI credits
+/// key opens Google Play's packs (lib/features/billing); with it off there is no price and no purchase.
 class AskOutOfCredits extends ConsumerWidget {
   const AskOutOfCredits({super.key, required this.onDetails});
 
@@ -207,6 +208,8 @@ class AskOutOfCredits extends ConsumerWidget {
                     style: type.small.copyWith(color: colors.ink2),
                   ),
                   ActionLink(label: InsightsCopy.creditDetails, onTap: onDetails),
+                  // Google Play's AI credit packs, when PLAY_BILLING is on; nothing otherwise.
+                  const Align(alignment: Alignment.centerLeft, child: WalletTopUpEntry()),
                 ],
               ),
             ),

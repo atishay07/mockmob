@@ -6,6 +6,7 @@ import '../../../core/copy/copy.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../billing/billing.dart';
 import '../edit_copy.dart';
 import '../widgets/you_motion.dart';
 import '../widgets/you_page.dart' show PillKey, youText;
@@ -163,6 +164,8 @@ class _PlanCardState extends ConsumerState<PlanCard> {
             const SizedBox(height: MmSpace.s8),
             Text(PlanCopy.bankLine(pro: pro), style: type.small.copyWith(color: colors.ink2)),
           ],
+          // Google Play's Get Pro for a Free student, when PLAY_BILLING is on; nothing otherwise.
+          if (!pro) const Align(alignment: Alignment.centerLeft, child: GetProEntry.key(topGap: MmSpace.s12)),
         ],
       ),
     );
