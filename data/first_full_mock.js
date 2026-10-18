@@ -51,12 +51,14 @@ const FULL_MOCK_PRICE = practiceCreditCost('full', TEST_MODES.full.fixedCount);
 //           Cost row on the web); the line the apps show for freeReason 'first_full_mock_free'
 //   short   the price chip where there is only room for a word (the Full mock tile, the phone session bar)
 //   reason  the quote's own `reason` sentence under the price, so the card does not say the price line twice
-//   plan    the Free plan's line (the pricing page's Free list, Account > Plan)
+//   plan    the Free plan's line in sentences (Account > Plan)
+//   planItem the same line in the pricing page's Free list, whose items are fragments without a full stop
 export const FIRST_FULL_MOCK_COPY = Object.freeze({
   price: 'Free: your first full mock in this subject is on us.',
   short: 'Free',
   reason: `No credits are charged for this one. Your next full mock in this subject costs ${FULL_MOCK_PRICE} credits.`,
   plan: 'Your first full mock in every subject is free.',
+  planItem: 'Your first full mock in every subject is free',
 });
 
 /** 'first_full_mock:<subject>' for an internal subject id, or null when the id is not one. */

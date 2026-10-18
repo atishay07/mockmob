@@ -19,6 +19,7 @@ import { publicInventory } from '@/lib/server/inventory';
 import { pricingBankFaq, pricingBankLine, pricingSubjectLine } from '@/lib/paperCopy.mjs';
 import { practiceBankSize } from '@/lib/practiceBank.mjs';
 import { ONE_CREDIT_LINE, PRACTICE_PRICE_LINE } from '@/lib/creditCopy.mjs';
+import { FIRST_FULL_MOCK_COPY } from '@/../data/first_full_mock';
 
 export function generateMetadata() {
   const offer = publicOffer();
@@ -43,9 +44,11 @@ const buildPlans = (offer) => [
       ['Renewal', 'None, and no card needed'],
       ['Credits', '100 to start, plus 50 free every month: 1 a question in Quick practice, 50 a Full mock, 1 an Ask Mobi reply, 3 a deeper analysis'],
     ],
-    features: newOfferReleased() ? ['One five-question baseline per launch subject', 'One included daily 10-question practice set', 'One new complete recovery episode per week', 'Delayed checks for every started episode', '25 saved questions', 'Free DU eligibility and historical cutoffs'] : [
+    features: newOfferReleased() ? ['One five-question baseline per launch subject', 'One included daily 10-question practice set', FIRST_FULL_MOCK_COPY.planItem, 'One new complete recovery episode per week', 'Delayed checks for every started episode', '25 saved questions', 'Free DU eligibility and historical cutoffs'] : [
       'Quick practice, 5 to 20 questions, 1 credit a question',
       'Full mock, 50 questions in 60 minutes, 50 credits a mock',
+      // The first full mock in each subject is free (data/first_full_mock.js), said right under the price it changes.
+      FIRST_FULL_MOCK_COPY.planItem,
       'Every paper built fresh from the live question bank',
       'Weekly progress tracking',
       '25 saved questions',

@@ -372,6 +372,8 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
         user: { id: 'preview-user', isPremium: pro, premiumUntil: pro ? '2027-07-31T18:29:59.000Z' : null, creditBalance: pro ? 0 : 40 },
         subject: url.searchParams.get('subject'), mode: url.searchParams.get('mode'), count: Number(url.searchParams.get('count')),
         inventory, allowance: { enabled: page.get('allowance') === 'on', used: false }, token: `preview-${Date.now()}`,
+        // ?firstmock=free: the first full mock in this subject is free (a fresh account); ?firstmock=used: it was taken.
+        firstFullMock: page.get('firstmock') === 'free' ? 'available' : page.get('firstmock') === 'used' ? 'used' : null,
       }), offer });
     }
     if (url.pathname === '/api/me/credits') {
