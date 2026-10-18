@@ -16,7 +16,6 @@ import 'package:mockmob/core/copy/sentences.dart';
 import 'package:mockmob/core/models/rhythm.dart';
 import 'package:mockmob/core/repositories/attempts_repository.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
-import 'package:mockmob/core/storage/app_database.dart';
 import 'package:mockmob/core/storage/storage_providers.dart';
 import 'package:mockmob/features/rhythm/data/rhythm_providers.dart';
 import 'package:mockmob/features/rhythm/screens/week_sheet.dart';
