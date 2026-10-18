@@ -12,7 +12,9 @@ import 'package:mockmob/core/mascot/mascot.dart' show MobiRation;
 import 'package:mockmob/core/models/ai_credits.dart';
 import 'package:mockmob/core/repositories/credits_repository.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
+import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/insights/copy.dart';
+import 'package:mockmob/features/insights/data/ai_reply_report.dart' show insightsPrefsStoreProvider;
 import 'package:mockmob/features/insights/data/ask_controller.dart';
 import 'package:mockmob/features/insights/data/ask_wallet.dart';
 import 'package:mockmob/features/insights/data/insights_models.dart';
@@ -329,10 +331,40 @@ void main() {
       expect(find.text(InsightsCopy.askNoteIdle(9)), findsOneWidget);
       await tester.enterText(find.byType(TextField), 'What is goodwill?');
       await tester.pumpAndSettle();
-      expect(find.text('Uses 1 of your 9 AI credits'), findsOneWidget);
+      expect(find.text(InsightsCopy.askNoteCost(9)), findsOneWidget);
       await tester.enterText(find.byType(TextField), 'Where am I losing marks?');
       await tester.pumpAndSettle();
       expect(find.text(InsightsCopy.askNoteFree), findsOneWidget);
+    });
+
+    testWidgets('Send goes straight to the answer: no sheet first, and the AI service line stays under the field', (tester) async {
+      http.handler = (o) => FakeReply(200, modelReply());
+      await pumpMockmob(
+        tester,
+        const AskScreen(),
+        brightness: Brightness.dark,
+        size: const Size(384, 900),
+        disableAnimations: true,
+        overrides: [
+          ...insightsOverrides(realAsk: true, credits: serverCredits()).where((o) => !identical(o.origin, creditsRepositoryProvider)),
+          creditsRepositoryProvider.overrideWith(() => _Credits(serverCredits())),
+          apiClientProvider.overrideWithValue(newApiClient(http, now: () => now)),
+          insightsPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
+        ],
+        wrapInScaffold: false,
+      );
+      await tester.enterText(find.byType(TextField), 'What is goodwill?');
+      await tester.pumpAndSettle();
+      expect(find.text(InsightsCopy.askNoteCost(9)), findsOneWidget);
+      await tester.tap(find.bySemanticsLabel(InsightsCopy.askSend));
+      for (var i = 0; i < 5; i++) {
+        await tester.pump(const Duration(milliseconds: 50));
+      }
+      expect(http.requests.where((r) => r.path.contains('/mentor/chat')), hasLength(1));
+      expect(find.text('This question goes to an AI service'), findsNothing);
+      expect(find.text('This message goes to an AI service'), findsNothing);
+      expect(find.text('Send it'), findsNothing);
+      await tester.pump(const Duration(seconds: 13));
     });
 
     testWidgets('out of credits: when they renew, that record questions stay free, and what Pro includes', (tester) async {

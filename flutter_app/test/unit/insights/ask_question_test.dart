@@ -267,7 +267,7 @@ void main() {
       // The record's prompt tiles are about the record: none are offered beside a question.
       expect(find.text(InsightsCopy.askGroupRecord), findsNothing);
       // The cost line says a written reply, never that record questions are free.
-      expect(find.text('Uses 1 of your 9 AI credits'), findsOneWidget);
+      expect(find.text(InsightsCopy.askNoteCost(9)), findsOneWidget);
       expect(find.textContaining('free'), findsNothing);
     });
 
@@ -299,7 +299,7 @@ void main() {
       expect(find.text('Ask about my record'), findsWidgets);
       expect(find.text('Ask something else'), findsNothing);
       expect(find.byType(TextField), findsNothing, reason: 'a composer for a question that cannot be asked is a dead end');
-      expect(find.textContaining('Uses 1'), findsNothing);
+      expect(find.textContaining(InsightsCopy.aiWrites), findsNothing);
       expect(find.textContaining('free'), findsNothing, reason: 'it never says the question can be asked about for free');
       expect(find.text(InsightsCopy.questionHint), findsNothing);
     });

@@ -118,8 +118,6 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     if (message.isEmpty || ref.read(askControllerProvider).busy) return;
     // The handed-over question is still opening: nothing is sent, and the words stay in the field.
     if (ref.read(askQuestionProvider)?.loading ?? false) return;
-    if (!await _disclosed(message)) return;
-    if (!mounted || ref.read(askControllerProvider).busy) return;
     ref.read(hapticsProvider).light();
     if (text == null) _text.clear();
     final sending = ref.read(askControllerProvider.notifier).send(message);
@@ -130,34 +128,6 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     if (failure == AskFailure.tooLong && mounted && text == null && _text.text.isEmpty) {
       _text.value = TextEditingValue(text: message, selection: TextSelection.collapsed(offset: message.length));
     }
-  }
-
-  /// Before the first message that would leave the phone for an AI service, says so once and
-  /// waits for the student. Record questions answered on the phone never ask.
-  Future<bool> _disclosed(String message) async {
-    if (ref.read(askControllerProvider.notifier).answersOnPhone(message)) return true;
-    final store = ref.read(insightsPrefsStoreProvider);
-    if (await aiServiceDisclosed(store)) return true;
-    if (!mounted) return false;
-    final withQuestion = ref.read(askQuestionProvider)?.ready ?? false;
-    final go = await showMmSheet<bool>(
-      context: context,
-      title: withQuestion ? InsightsCopy.disclosureTitleQuestion : InsightsCopy.disclosureTitle,
-      builder: (sheet) => Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(withQuestion ? InsightsCopy.disclosureBodyQuestion : InsightsCopy.disclosureBody, style: sheet.mmType.body),
-          const SizedBox(height: MmSpace.s20),
-          KeyButton(label: InsightsCopy.disclosureSend, onPressed: () => Navigator.of(sheet).pop(true)),
-          const SizedBox(height: MmSpace.s4),
-          Center(child: KeyButton.quiet(label: InsightsCopy.disclosureNotNow, onPressed: () => Navigator.of(sheet).pop(false))),
-        ],
-      ),
-    );
-    if (go != true) return false;
-    await markAiServiceDisclosed(store);
-    return true;
   }
 
   /// The credit details, and a fresh read of the wallet behind them.

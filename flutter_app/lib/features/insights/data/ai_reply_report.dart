@@ -77,23 +77,3 @@ final insightsPrefsStoreProvider = Provider<PrefsStore>((ref) {
     return MemoryPrefsStore();
   }
 });
-
-const String _aiDisclosedKey = 'ask_ai_service_disclosed';
-
-/// True once the student has been told, before a first model call, that such a message goes to
-/// an AI service. A failed read counts as not told, so the notice errs toward showing.
-Future<bool> aiServiceDisclosed(PrefsStore store) async {
-  try {
-    return await store.getBool(_aiDisclosedKey) ?? false;
-  } on Object {
-    return false;
-  }
-}
-
-Future<void> markAiServiceDisclosed(PrefsStore store) async {
-  try {
-    await store.setBool(_aiDisclosedKey, true);
-  } on Object {
-    // The worst case is the notice once more.
-  }
-}
