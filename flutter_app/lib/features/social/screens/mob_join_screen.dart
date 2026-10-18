@@ -44,9 +44,9 @@ class _MobJoinScreenState extends ConsumerState<MobJoinScreen> {
   @override
   void initState() {
     super.initState();
-    final full = ref.read(authSnapshotProvider).name?.trim() ?? '';
-    final first = full.split(RegExp(r'\s+')).first;
-    _name = TextEditingController(text: first.length > 18 ? first.substring(0, 18) : first);
+    // Only a name that passes the screen's own rule is prefilled; otherwise the field starts empty.
+    final first = mobNameFrom(ref.read(authSnapshotProvider).name);
+    _name = TextEditingController(text: first);
     _colour = first.isEmpty ? 3 : (first.codeUnits.fold<int>(0, (a, b) => a + b) + 3) % MobColours.count;
     _load();
   }

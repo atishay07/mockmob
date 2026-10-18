@@ -187,7 +187,10 @@ void main() {
         final f = MobFailure.fromCode(entry.key);
         expect(f, isNot(MobFailure.generic), reason: 'no app failure for ${entry.key}');
         expect(f.code, entry.key);
-        expect(MobCopy.failure(f), message, reason: entry.key);
+        // The server's sentence is the website's, which sells: the app says it word for word only
+        // while the Upgrade sheet can open (sell). Flag off, a Free limit is the plain fact (H11).
+        expect(MobCopy.failure(f, sell: true), message, reason: entry.key);
+        if (!f.needsPro) expect(MobCopy.failure(f), message, reason: entry.key);
       }
     });
 
@@ -314,7 +317,8 @@ void main() {
       final (c, f) = await actions().compare();
       expect(c, isNull);
       expect(f, MobFailure.proRequired);
-      expect(MobCopy.failure(f!), 'This part of the Mob is included with Pro.');
+      expect(MobCopy.failure(f!, sell: true), 'This part of the Mob is included with Pro.');
+      expect(MobCopy.failure(f), 'This part of the Mob is not on your plan.');
     });
 
     test('the public lookup is a plain GET of the code', () async {

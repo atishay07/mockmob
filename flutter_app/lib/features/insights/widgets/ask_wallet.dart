@@ -204,7 +204,10 @@ class AskOutOfCredits extends ConsumerWidget {
                   Text(InsightsCopy.outTitle, style: type.labelLarge.copyWith(fontWeight: FontWeight.w600)),
                   const SizedBox(height: MmSpace.s2),
                   Text(
-                    (wallet?.paid ?? false) ? InsightsCopy.outBody(renewDay(wallet, now)) : '${InsightsCopy.outBody(renewDay(wallet, now))} ${InsightsCopy.outPro}',
+                    // What Pro includes is said only while Pro can be had here (PLAY_BILLING on, a Free wallet).
+                    (wallet?.paid ?? false) || !ref.watch(playBillingEnabledProvider)
+                        ? InsightsCopy.outBody(renewDay(wallet, now))
+                        : '${InsightsCopy.outBody(renewDay(wallet, now))} ${InsightsCopy.outPro}',
                     style: type.small.copyWith(color: colors.ink2),
                   ),
                   ActionLink(label: InsightsCopy.creditDetails, onTap: onDetails),

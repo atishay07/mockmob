@@ -181,6 +181,9 @@ abstract final class PracticeCopy {
   static const String difficultyBalancedNote = 'Balanced is the exam’s own mix.';
   static const String difficultyLocked = 'Easy, Medium and Hard come with Pro.';
   static const String difficultyLockedHint = 'Comes with Pro';
+  // With the Pro nudges off (PLAY_BILLING off) a lock names no other plan: the plain fact.
+  static const String difficultyLockedPlain = 'Easy, Medium and Hard are not part of your plan.';
+  static const String difficultyLockedHintPlain = 'Not part of your plan';
 
   // Fine-tune (owner, 17 Oct, F8 and F9): one block above Start, scoped by mode. Chapters and level
   // belong to Quick practice; a Full mock keeps the level; Smart practice and NTA mode choose for you.
@@ -272,6 +275,9 @@ abstract final class PracticeCopy {
 
   // Pro gate, warm and true. No prices, no purchase links.
   static String proGateTitle(String mode) => '$mode comes with Pro';
+  // The same gate with the Pro nudges off: no Pro named where it cannot be had.
+  static String planGateTitle(String mode) => '$mode is not part of your plan';
+  static const String ntaGatedPlain = 'NTA mode is not part of your plan. Full mock gives you the same 50 questions and 60 minutes.';
   static const String proGateBody = 'Everything else here is yours: Full mock, Quick practice and By chapter.';
   static const String takeFullInstead = 'Take a Full mock instead';
   static const String takeQuickInstead = 'Take Quick practice instead';
@@ -283,7 +289,7 @@ abstract final class PracticeCopy {
   static const String startFailed = 'We could not start the session. We are checking whether this was charged. Your credits show in You.';
   static const String notEnoughQuestions = 'We do not have enough questions for this yet. Nothing was charged.';
   static const String notEnoughCredits = 'You do not have enough credits for this. Nothing was charged.';
-  static const String notIncluded = 'This comes with Pro. Nothing was charged.';
+  static const String notIncluded = 'This is not part of your plan. Nothing was charged.';
   static const String slowDown = 'Give it a minute and try again. Nothing was charged.';
 
   // Before a mock (on the same confirm sheet, not a wizard).

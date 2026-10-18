@@ -5,6 +5,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../pro_nudge/pro_nudge.dart' show proNudgesOnProvider;
 import '../../you/widgets/you_page.dart';
 import '../../you/widgets/you_row.dart';
 import '../copy.dart';
@@ -56,9 +57,9 @@ class MobExtrasSection extends ConsumerWidget {
             ),
           ),
         if (!mob.plan.canMakeExtra && extras.isNotEmpty)
-          const Padding(
-            padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, 0),
-            child: MobNote(MobCopy.extrasOpenToAll),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, 0),
+            child: MobNote(MobCopy.extrasOpenToAllFor(sell: ref.watch(proNudgesOnProvider))),
           ),
         if (mob.plan.canMakeExtra)
           Padding(

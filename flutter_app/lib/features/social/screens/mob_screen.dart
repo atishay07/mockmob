@@ -11,7 +11,7 @@ import '../../../core/repositories/remote_state.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../practice/widgets/stale_subjects_banner.dart' show openEditSubjects;
-import '../../pro_nudge/pro_nudge.dart' show ProReason, UpgradeEntry;
+import '../../pro_nudge/pro_nudge.dart' show ProReason, UpgradeEntry, proNudgesOnProvider;
 import '../../you/data/subject_catalog.dart' show youSubjectNames;
 import '../../you/widgets/you_page.dart';
 import '../../you/widgets/you_row.dart';
@@ -176,9 +176,9 @@ class _StartMobFormState extends ConsumerState<StartMobForm> {
   @override
   void initState() {
     super.initState();
-    final full = ref.read(authSnapshotProvider).name?.trim() ?? '';
-    final first = full.split(RegExp(r'\s+')).first;
-    _name = TextEditingController(text: first.length > 18 ? first.substring(0, 18) : first);
+    // Only a name that passes the screen's own rule is prefilled; otherwise the field starts empty.
+    final first = mobNameFrom(ref.read(authSnapshotProvider).name);
+    _name = TextEditingController(text: first);
     // A stable colour from the name, so two friends rarely start on the same one.
     _colour = first.isEmpty ? 0 : first.codeUnits.fold<int>(0, (a, b) => a + b) % MobColours.count;
   }
@@ -279,8 +279,11 @@ class _StartMobFormState extends ConsumerState<StartMobForm> {
         ColourPicker(value: _colour, onChanged: (c) => setState(() => _colour = c)),
         const SizedBox(height: MmSpace.s24),
         KeyButton(label: _busy ? 'Starting your Mob' : MobCopy.startKey, loading: _busy, onPressed: _busy || _subject == null ? null : _start),
-        const SizedBox(height: MmSpace.s8),
-        const MobNote(MobCopy.startCost, center: true),
+        // On the start page the rules above already say it is free; the sheet has no rules, so it says so here.
+        if (widget.another) ...[
+          const SizedBox(height: MmSpace.s8),
+          const MobNote(MobCopy.startCost, center: true),
+        ],
         if (_error != null) ...[
           const SizedBox(height: MmSpace.s12),
           InlineBanner(message: _error!, tone: BannerTone.error),
@@ -299,6 +302,41 @@ class _StartMobFormState extends ConsumerState<StartMobForm> {
     );
   }
 
+  /// The seat card: the weekly paper's line for the chosen subject, the seat ring in the picked
+  /// colour with the typed name's initial, and one line naming the seats.
+  Widget _seatCard(BuildContext context) {
+    final type = context.mmType;
+    final colors = context.mmColors;
+    final name = _name.text.trim();
+    final subject = _subject;
+    return MobCard(
+      padding: const EdgeInsets.fromLTRB(MmSpace.s20, MmSpace.s20, MmSpace.s20, MmSpace.s20),
+      child: Column(
+        children: [
+          if (subject != null) ...[
+            Text(
+              MobCopy.paperLine(youSubjectNames[subject] ?? Mob(subject: subject).subjectName, 10),
+              textAlign: TextAlign.center,
+              style: type.label.copyWith(color: colors.ink2),
+            ),
+            const SizedBox(height: MmSpace.s16),
+          ],
+          MobSeatRing(
+            colour: _colour,
+            initial: name.isEmpty ? '' : name.characters.first.toUpperCase(),
+            semanticsLabel: MobCopy.seatRingLabel,
+          ),
+          const SizedBox(height: MmSpace.s12),
+          Text(
+            MobCopy.seatCaption(isValidMobName(name) ? name : ''),
+            textAlign: TextAlign.center,
+            style: type.small.copyWith(color: colors.ink2),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _startPage(BuildContext context, Widget form) {
     final type = context.mmType;
     final colors = context.mmColors;
@@ -310,29 +348,18 @@ class _StartMobFormState extends ConsumerState<StartMobForm> {
           children: [
             const SizedBox(height: MmSpace.s8),
             MmStaggerItem(index: 0, child: Text(MobCopy.pitch, style: type.headline.copyWith(color: colors.ink))),
+            const SizedBox(height: MmSpace.s20),
+            // The page's one picture: the Mob about to exist, the student's seat in their colour and
+            // the seats that wait for friends, the same card as the Mob page's ring (H12).
+            MmStaggerItem(index: 1, child: _seatCard(context)),
             const SizedBox(height: MmSpace.s16),
+            // The rules in two plain lines, not a list.
             MmStaggerItem(
-              index: 1,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  for (final line in MobCopy.promises)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: MmSpace.s8),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(padding: const EdgeInsets.only(top: 3), child: Icon(LucideIcons.check, size: 18, color: colors.accentText)),
-                          const SizedBox(width: MmSpace.s12),
-                          Expanded(child: Text(line, style: type.body.copyWith(color: colors.ink2))),
-                        ],
-                      ),
-                    ),
-                ],
-              ),
+              index: 2,
+              child: Text(MobCopy.promises.join(' '), style: type.body.copyWith(color: colors.ink2)),
             ),
             const SizedBox(height: MmSpace.s24),
-            MmStaggerItem(index: 2, child: form),
+            MmStaggerItem(index: 3, child: form),
           ],
         ),
       ),
@@ -368,7 +395,7 @@ class _MobBodyState extends ConsumerState<MobBody> {
     final failure = await ref.read(mobNavigatorProvider).sitPaper(context, ref, mob, extra: extra);
     if (!mounted) return;
     setState(() => _sitting = null);
-    if (failure != null) sayMobFailure(context, failure, MobCopy.failure(failure));
+    if (failure != null) sayMobFailure(context, failure, MobCopy.failure(failure, sell: ref.read(proNudgesOnProvider)));
   }
 
   Future<void> _nudge() async {
@@ -614,10 +641,11 @@ class _MobBodyState extends ConsumerState<MobBody> {
   }
 
   /// A free student's one weekly Mob paper went to another of their Mobs: say so, and (with the Pro
-  /// nudges on) the key that opens the Upgrade sheet on that limit (D80). No price here.
+  /// nudges on) the key that opens the Upgrade sheet on that limit (D80). No price here. With the
+  /// nudges off it is the plain fact, with no word of Pro.
   List<Widget> _freeUsed() => [
         const SizedBox(height: MmSpace.s12),
-        const MobNote(MobCopy.freeUsed, center: true),
+        MobNote(MobCopy.freeUsedFor(sell: ref.watch(proNudgesOnProvider)), center: true),
         const Center(child: UpgradeEntry(reason: ProReason.mobLimit, topGap: MmSpace.s8)),
       ];
 

@@ -79,7 +79,7 @@ void main() {
 
     test('pace detail is Pro on a free account', () {
       final a = answerFromInsights('Am I too slow on wrong answers?', rich(), pro: false)!;
-      expect(a.reply, contains('part of Pro'));
+      expect(a.reply, contains('not part of your plan'));
       final pro = answerFromInsights('Am I too slow on wrong answers?', rich())!;
       expect(pro.reply, contains('Your slowest question took 3:04, against a typical 41s'));
     });

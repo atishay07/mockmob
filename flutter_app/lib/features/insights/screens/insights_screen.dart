@@ -19,7 +19,7 @@ import '../data/recovery_record.dart';
 import '../data/subject_names.dart';
 import '../data/trend.dart';
 import '../insights_paths.dart';
-import '../../pro_nudge/pro_nudge.dart' show ProReason;
+import '../../pro_nudge/pro_nudge.dart' show ProReason, proNudgesOnProvider;
 import '../widgets/insights_bits.dart';
 import '../widgets/ledger_hero.dart';
 import '../widgets/recovery_sections.dart';
@@ -240,8 +240,11 @@ class InsightsScreen extends ConsumerWidget {
     final c = v.changes;
     final p = v.pace;
     final quietWeek = v.thisWeek.sessions == 0 && v.lastWeek.sessions == 0;
-    final showChanges = !inputs.pro || c.count == 0 || ev.changes.isNotEmpty;
-    final showPace = !inputs.pro || !p.usable || ev.pace.isNotEmpty;
+    // For a Free student these two sections are Pro rows: drawn only while Pro can be had here
+    // (PLAY_BILLING on), never as a Pro tag with no way to it (owner walk, 18 Oct).
+    final proOnSale = ref.watch(proNudgesOnProvider);
+    final showChanges = inputs.pro ? (c.count == 0 || ev.changes.isNotEmpty) : proOnSale;
+    final showPace = inputs.pro ? (!p.usable || ev.pace.isNotEmpty) : proOnSale;
     final showWeek = quietWeek || ev.lastTwoWeeks.isNotEmpty;
 
     return [

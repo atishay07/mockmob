@@ -24,7 +24,7 @@ import '../../../core/widgets/widgets.dart';
 import '../../practice/model/practice_selection.dart' show mockQuestionCount;
 import '../../practice/widgets/choice_deck.dart' show ChoiceDeck, ChoiceOption, ChoiceRow;
 import '../../practice/widgets/choice_glyphs.dart' show ChoiceGlyphKind;
-import '../../pro_nudge/pro_nudge.dart' show ProReason, showUpgradeSheetIfOn;
+import '../../pro_nudge/pro_nudge.dart' show ProReason, proNudgesOnProvider, showUpgradeSheetIfOn;
 import '../../review/revise/revise_data.dart' show reviseCapProvider, reviseEntryProvider;
 import '../../runner/runner_routes.dart' show NtaRoutes;
 import '../copy.dart';
@@ -67,6 +67,7 @@ List<AlternativeRow> alternativeRows(
   String? moveSubject,
   ReviseRound? revise,
   List<PlanAction> plan = const [],
+  bool proOnSale = false,
 }) {
   final facts = MoveFacts(inputs);
   final attempts = facts.attempts;
@@ -162,8 +163,10 @@ List<AlternativeRow> alternativeRows(
       kind: AlternativeKind.mock,
     ));
     // 5. NTA mode, once a full mock in this subject is on record: the next one on the exam-day
-    // screen (FEATURE-ADOPTION FA-8, taught at the moment it is a real next step).
-    if (lastMock != null) {
+    // screen (FEATURE-ADOPTION FA-8, taught at the moment it is a real next step). It comes with
+    // Pro, so a Free student sees it only while Pro can be had here ([proOnSale]: PLAY_BILLING on);
+    // with the flag off it is left out rather than offered as a gate (owner walk, 18 Oct).
+    if (lastMock != null && (inputs.isPro || proOnSale)) {
       rows.add(AlternativeRow(
         title: TodayCopy.altNtaTitle(subjectName(subject)),
         note: TodayCopy.altNtaNote(mockQuestionCount, 60, pro: inputs.isPro),
@@ -233,6 +236,7 @@ class AlternativesSheet extends ConsumerWidget {
       moveSubject: move?.subjectId,
       revise: revise,
       plan: inputs.plan?.alternatives ?? const [],
+      proOnSale: ref.watch(proNudgesOnProvider),
     );
     return AlternativesSheetBody(
       rows: rows,

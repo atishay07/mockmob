@@ -205,3 +205,114 @@ class _RingPainter extends CustomPainter {
   bool shouldRepaint(_RingPainter old) =>
       old.progress != progress || old.plan != plan || old.track != track || old.fill != fill || old.stroke != stroke;
 }
+
+/// The start page's seat ring (owner walk, 18 Oct, H12): the Mob about to exist, as the page's one
+/// picture. The same ring as the Mob page (one segment a seat, [mobMaxSize] seats), with the
+/// student's seat inked in the colour they are picking and their initial in the middle; the other
+/// seats wait on the track, each marked with a small plus. The seat inks once on arrival (220 ms on
+/// `Motion.out`, the ring's own timing) and recolours with a 200 ms crossfade as a colour is tapped;
+/// reduced motion paints the end state.
+class MobSeatRing extends StatelessWidget {
+  const MobSeatRing({super.key, required this.colour, required this.initial, this.size = 168, this.semanticsLabel});
+
+  /// The student's colour (0 to 7).
+  final int colour;
+
+  /// The first letter of the typed name, or empty: then the seat shows no letter.
+  final String initial;
+  final double size;
+  final String? semanticsLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final reduced = Motion.reduced(context);
+    final stroke = (size * 0.09).clamp(6.0, 14.0);
+    final seat = MobColours.of(context, colour);
+    final disc = size * 0.42;
+    return Semantics(
+      label: semanticsLabel,
+      image: semanticsLabel != null,
+      child: ExcludeSemantics(
+        child: TweenAnimationBuilder<Color?>(
+          tween: ColorTween(end: seat),
+          duration: reduced ? Duration.zero : const Duration(milliseconds: 200),
+          curve: Motion.out,
+          builder: (context, ink, _) => TweenAnimationBuilder<double>(
+            tween: Tween(begin: reduced ? 1 : 0, end: 1),
+            duration: reduced ? Duration.zero : ringSegmentInk,
+            curve: Motion.out,
+            builder: (context, t, _) => CustomPaint(
+              size: Size.square(size),
+              painter: _SeatRingPainter(seat: ink ?? seat, progress: t, track: colors.line, plus: colors.ink3, stroke: stroke),
+              child: SizedBox.square(
+                dimension: size,
+                child: Center(
+                  child: Container(
+                    width: disc,
+                    height: disc,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(color: ink ?? seat, shape: BoxShape.circle),
+                    child: Text(
+                      initial,
+                      style: context.mmType.label.copyWith(color: MobColours.inkOn(context), fontSize: disc * 0.44, height: 1, fontWeight: FontWeight.w700),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _SeatRingPainter extends CustomPainter {
+  _SeatRingPainter({required this.seat, required this.progress, required this.track, required this.plus, required this.stroke});
+
+  final Color seat;
+  final double progress;
+  final Color track;
+  final Color plus;
+  final double stroke;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    const n = mobMaxSize;
+    final center = size.center(Offset.zero);
+    final radius = (size.shortestSide - stroke) / 2;
+    final rect = Rect.fromCircle(center: center, radius: radius);
+    // The Mob page's geometry: a gap of about one stroke between seats.
+    final gap = (stroke * 1.4) / rect.width * 2;
+    final sweep = (2 * math.pi - gap * n) / n;
+    Paint arc(Color c) => Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = stroke
+      ..strokeCap = StrokeCap.round
+      ..color = c;
+    final plusPaint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.6
+      ..strokeCap = StrokeCap.round
+      ..color = plus;
+    final arm = stroke * 0.32;
+    for (var i = 0; i < n; i++) {
+      final start = -math.pi / 2 + gap / 2 + i * (sweep + gap);
+      canvas.drawArc(rect, start, sweep, false, arc(track));
+      if (i == 0) {
+        if (progress > 0) canvas.drawArc(rect, start, sweep * progress, false, arc(seat));
+        continue;
+      }
+      // An open seat: a small plus at its middle.
+      final mid = start + sweep / 2;
+      final c = center + Offset(math.cos(mid), math.sin(mid)) * radius;
+      canvas.drawLine(c - Offset(arm, 0), c + Offset(arm, 0), plusPaint);
+      canvas.drawLine(c - Offset(0, arm), c + Offset(0, arm), plusPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(_SeatRingPainter old) =>
+      old.seat != seat || old.progress != progress || old.track != track || old.plus != plus || old.stroke != stroke;
+}

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/art/art.dart';
@@ -10,7 +11,7 @@ import '../copy.dart';
 import '../data/insights_models.dart';
 import '../data/subject_names.dart';
 import '../../../core/models/attempt.dart';
-import '../../pro_nudge/pro_nudge.dart' show ProReason;
+import '../../pro_nudge/pro_nudge.dart' show ProReason, proNudgesOnProvider;
 import '../data/trend.dart';
 import 'evidence.dart';
 import 'insights_bits.dart';
@@ -53,7 +54,14 @@ class _ChaptersSectionState extends State<ChaptersSection> {
           if (i > 0) Divider(height: 1, color: colors.line),
           WeakChapterRow(chapter: _weak(shown[i]), subtitle: subjectDisplayName(shown[i].subject), onPractise: () => widget.onPractise(shown[i])),
         ],
-        if (locked > 0) ...[const SizedBox(height: MmSpace.s12), ProRow(InsightsCopy.proMore(locked), reason: ProReason.insightsChapters)],
+        // The chapters past the free three are named as Pro's only while Pro can be had here
+        // (PLAY_BILLING on); with the flag off no row names Pro (owner walk, 18 Oct).
+        if (locked > 0)
+          Consumer(
+            builder: (context, ref, _) => ref.watch(proNudgesOnProvider)
+                ? Padding(padding: const EdgeInsets.only(top: MmSpace.s12), child: ProRow(InsightsCopy.proMore(locked), reason: ProReason.insightsChapters))
+                : const SizedBox.shrink(),
+          ),
         if (widget.thin.isNotEmpty) ...[
           const SizedBox(height: MmSpace.s8),
           MmPressable(

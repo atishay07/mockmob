@@ -24,7 +24,7 @@ import '../widgets/materials/lit_edge.dart';
 import '../widgets/mobi.dart';
 import '../widgets/pressable.dart';
 import '../../features/practice/widgets/choice_deck.dart';
-import '../../features/pro_nudge/pro_nudge.dart' show ProReason, showUpgradeSheetIfOn;
+import '../../features/pro_nudge/pro_nudge.dart' show ProReason, proNudgesOnProvider, showUpgradeSheetIfOn;
 import '../../features/practice/widgets/quick_start_deck.dart';
 import 'routes.dart';
 
@@ -593,7 +593,9 @@ class _StartRows extends ConsumerWidget {
     );
     // The quote is for the default subject; the Pro tag and the gated note show only where it is known.
     final ntaGated = nta != null && nta.proOnly && (subject == null || subject == nta.subject);
-    final ntaOption = nta == null
+    // A gated NTA mode shows to a Free student only while Pro can be had here (PLAY_BILLING on): with
+    // the flag off it is left out, so no row wears a Pro tag or leads to a gate (owner walk, 18 Oct).
+    final ntaOption = nta == null || (ntaGated && !ref.watch(proNudgesOnProvider))
         ? null
         : ChoiceOption(
             id: 'nta',

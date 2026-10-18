@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/features/social/copy.dart';
@@ -10,6 +11,7 @@ import 'package:mockmob/features/social/screens/mob_history_screen.dart';
 import 'package:mockmob/features/social/screens/mob_join_screen.dart';
 import 'package:mockmob/features/social/screens/mob_screen.dart';
 import 'package:mockmob/features/social/widgets/mob_hub_row.dart';
+import 'package:mockmob/features/social/widgets/mob_ring.dart';
 import 'package:mockmob/features/social/widgets/mob_today_card.dart';
 
 import '../../helpers/golden_harness.dart';
@@ -68,13 +70,16 @@ void main() {
       expect(find.text(MobCopy.startKey), findsNothing);
     });
 
-    testWidgets('no Mob: the pitch, the four promises, subjects, name prefilled, one Start key', (tester) async {
+    testWidgets('no Mob: the pitch, the seat ring, the rules in two plain lines, subjects, name prefilled, one Start key', (tester) async {
       FakeMobActions? fake;
       await _pump(tester, const MobScreen(), noMobState(), actions: (ref) => fake = FakeMobActions(ref));
       expect(find.text(MobCopy.pitch), findsOneWidget);
-      for (final p in MobCopy.promises) {
-        expect(find.text(p), findsOneWidget);
-      }
+      // H12: the seat ring is the page's picture; the rules are one paragraph, no check-mark list.
+      expect(find.byType(MobSeatRing), findsOneWidget);
+      expect(find.text(MobCopy.seatCaption('Asha')), findsOneWidget);
+      expect(MobCopy.promises, hasLength(2));
+      expect(find.text(MobCopy.promises.join(' ')), findsOneWidget);
+      expect(find.byIcon(LucideIcons.check), findsNothing);
       expect(find.text('Accountancy'), findsOneWidget);
       expect(find.widgetWithText(TextField, 'Asha'), findsOneWidget);
       await tester.tap(find.text(MobCopy.startKey));
@@ -125,8 +130,9 @@ void main() {
       // Only the member who opted in shows a score, and no row says "Sat" (P6).
       expect(find.text('7 of 10'), findsOneWidget);
       expect(find.text('Sat'), findsNothing);
-      // The Pro note says what Pro includes and sells nothing.
-      expect(find.text(MobCopy.proLine), findsOneWidget);
+      // PLAY_BILLING off (H11): no line about Pro at all for a Free student.
+      expect(find.text(MobCopy.proLine), findsNothing);
+      expect(find.textContaining('Pro', findRichText: true), findsNothing);
       expect(find.textContaining('pricing', findRichText: true), findsNothing);
 
       await tester.tap(find.text(MobCopy.seeAnswers));
@@ -173,7 +179,7 @@ void main() {
       expect(find.text(MobCopy.nudgeEveryoneSat), findsOneWidget);
     });
 
-    testWidgets('this week\'s free paper went to another Mob: the line, "Included with Pro.", no sit key', (tester) async {
+    testWidgets('this week\'s free paper went to another Mob: the plain line, no sit key', (tester) async {
       await _pump(tester, const MobScreen(), mobState((m) {
         ((m['week'] as Map)['paper'] as Map)['blocked'] = 'free_used';
         (m['week'] as Map)['youSat'] = false;
@@ -181,7 +187,7 @@ void main() {
         m['compare'] = null;
         m['trap'] = null;
       }));
-      expect(find.text(MobCopy.freeUsed), findsOneWidget);
+      expect(find.text(MobCopy.freeUsedPlain), findsOneWidget);
       expect(find.text(MobCopy.sitKey(10, 10)), findsNothing);
     });
 
@@ -213,13 +219,13 @@ void main() {
       expect(find.text('5 of 5'), findsWidgets);
     });
 
-    testWidgets('a locked side-by-side says what Pro includes and offers no key', (tester) async {
+    testWidgets('a locked side-by-side says the plain fact and offers no key (flag off)', (tester) async {
       await _pump(tester, const MobScreen(), mobState((m) {
         m['compare'] = {'available': true, 'access': 'locked', 'youShare': true, 'needsShare': false, 'teaser': {'split': 3, 'of': 10, 'with': null, 'text': 'Your Mob split on 3 of 10 questions.'}};
         m['trap'] = null;
       }));
       expect(find.text('Your Mob split on 3 of 10 questions.'), findsOneWidget);
-      expect(find.text(MobCopy.lockedNote), findsOneWidget);
+      expect(find.text(MobCopy.lockedNotePlain), findsOneWidget);
       expect(find.text(MobCopy.openCompare), findsNothing);
     });
 
@@ -407,7 +413,7 @@ void main() {
         mobState(),
         actions: (ref) => fake = FakeMobActions(ref, compareResult: _compare()),
       );
-      expect(find.text(MobCopy.sampleLead), findsOneWidget);
+      expect(find.text(MobCopy.sampleLeadPlain), findsOneWidget);
       await tester.tap(find.bySemanticsLabel(MobCopy.shareLabel).first);
       await tester.pumpAndSettle();
       expect(fake!.calls, ['me:true:null', 'compare:-:-']);

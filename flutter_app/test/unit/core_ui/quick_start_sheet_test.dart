@@ -11,7 +11,7 @@ import 'package:mockmob/core/widgets/materials/glass_surface.dart';
 
 import '../core_data/support/fixtures.dart';
 
-Future<GoRouter> _pump(WidgetTester tester, {double textScale = 1, bool crowded = false, QuickRepair? repair}) async {
+Future<GoRouter> _pump(WidgetTester tester, {double textScale = 1, bool crowded = false, QuickRepair? repair, bool ntaProOnly = false}) async {
   tester.view.physicalSize = const Size(360, 640);
   tester.view.devicePixelRatio = 1;
   addTearDown(tester.view.reset);
@@ -59,7 +59,7 @@ Future<GoRouter> _pump(WidgetTester tester, {double textScale = 1, bool crowded 
       overrides: [
         resumeDraftProvider.overrideWith((ref) => crowded ? draft : null),
         resumeOfferProvider.overrideWith((ref) async => crowded ? ResumeOffer(draft: draft, answered: 12) : null),
-        if (crowded) quickStartNtaProvider.overrideWith((ref) => const QuickNta(location: '/exam/nta', subject: 'english', proOnly: true)),
+        if (crowded) quickStartNtaProvider.overrideWith((ref) => QuickNta(location: '/exam/nta', subject: 'english', proOnly: ntaProOnly)),
         if (crowded)
           quickStartRepairProvider.overrideWith((ref) => const QuickRepair(location: '/review/repair/a/q', chapter: 'Cash flow'))
         else if (repair != null)
@@ -115,6 +115,13 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('nta screen'), findsOneWidget);
     expect(router.canPop(), isTrue);
+  });
+
+  testWidgets('PLAY_BILLING off: an NTA mode that needs Pro is left out, never a Pro tag or a gate (owner walk, 18 Oct)', (tester) async {
+    await _pump(tester, crowded: true, ntaProOnly: true);
+    expect(find.text('NTA mode'), findsNothing);
+    expect(find.text('Pro'), findsNothing);
+    expect(find.textContaining('Comes with Pro'), findsNothing);
   });
 
   group('Repair the next mistake (U3-1)', () {

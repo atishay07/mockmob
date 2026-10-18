@@ -19,7 +19,7 @@ import '../../practice/data/practice_quote.dart';
 import '../../practice/data/practice_starter.dart' show StartFailure;
 import '../../practice/model/practice_selection.dart';
 import '../../practice/widgets/failure_copy.dart';
-import '../../pro_nudge/pro_nudge.dart' show ProReason, UpgradeEntry;
+import '../../pro_nudge/pro_nudge.dart' show ProReason, UpgradeEntry, proNudgesOnProvider;
 import '../../rules/widgets/start_sheet_line.dart';
 import 'nta_chip.dart';
 import 'nta_copy.dart';
@@ -75,7 +75,7 @@ class _NtaInstructionsScreenState extends ConsumerState<NtaInstructionsScreen> {
     }
     if (!mounted) return;
     if (!quote.launchable) {
-      _fail(_gateText(quote));
+      _fail(_gateText(quote, sell: ref.read(proNudgesOnProvider)));
       return;
     }
     // Dearer again than the cost the student said yes to: show it and wait for another Start.
@@ -93,7 +93,7 @@ class _NtaInstructionsScreenState extends ConsumerState<NtaInstructionsScreen> {
       case LaunchNeedsLook(:final quote, costChanged: true):
         _costChanged(quote);
       case LaunchNeedsLook(:final quote):
-        _fail(_gateText(quote));
+        _fail(_gateText(quote, sell: ref.read(proNudgesOnProvider)));
       case LaunchFailed(:final failure, :final message):
         _fail(StartFailureView(failure, message: message).text);
       case LaunchOpenPaper(:final paper):
@@ -145,9 +145,14 @@ class _NtaInstructionsScreenState extends ConsumerState<NtaInstructionsScreen> {
     });
   }
 
-  static String _gateText(PracticeQuote q) => q.isAccessRequired ? PracticeCopy.ntaGatedLine : (q.reason ?? PracticeCopy.unavailableFallback);
+  /// Pro is named only where it can be had (PLAY_BILLING on, a Free student); otherwise the plain fact.
+  static String _gateText(PracticeQuote q, {required bool sell}) =>
+      q.isAccessRequired ? (sell ? PracticeCopy.ntaGatedLine : PracticeCopy.ntaGatedPlain) : (q.reason ?? PracticeCopy.unavailableFallback);
 
   void _back() => context.go(AppRoutes.practice);
+
+  /// NTA mode is not on this plan: a Full mock in the same subject, which every plan has.
+  void _fullInstead() => context.go(Uri(path: AppRoutes.practiceSetup('full'), queryParameters: {'subject': widget.subject}).toString());
 
   // The page is the exam paper itself (in the NTA look), wherever it is opened from.
   @override
@@ -157,7 +162,7 @@ class _NtaInstructionsScreenState extends ConsumerState<NtaInstructionsScreen> {
     final colors = context.mmColors;
     final subject = NtaCopy.subject(widget.subject);
     final quote = ref.watch(practiceQuoteProvider(_selection.quoteQuery)).value;
-    final gate = quote != null && !quote.launchable ? _gateText(quote) : null;
+    final gate = quote != null && !quote.launchable ? _gateText(quote, sell: ref.watch(proNudgesOnProvider)) : null;
     final working = _phase != null;
     final bottom = MediaQuery.viewPaddingOf(context).bottom;
 
@@ -210,7 +215,12 @@ class _NtaInstructionsScreenState extends ConsumerState<NtaInstructionsScreen> {
                       ],
                       if (gate != null) ...[
                         // The mode comes with Pro: the Upgrade sheet, when PLAY_BILLING is on (it draws nothing otherwise).
-                        if (quote != null && quote.isAccessRequired) const UpgradeEntry(reason: ProReason.ntaMode, bottomGap: MmSpace.s8),
+                        if (quote != null && quote.isAccessRequired) ...[
+                          const UpgradeEntry(reason: ProReason.ntaMode, bottomGap: MmSpace.s8),
+                          // Never a gate with no way through: the same 50 questions and 60 minutes, open on every plan.
+                          KeyButton(label: PracticeCopy.takeFullInstead, onPressed: _fullInstead),
+                          const SizedBox(height: MmSpace.s8),
+                        ],
                         KeyButton.secondary(label: PracticeCopy.backToPractice, onPressed: _back),
                       ] else ...[
                         // The line keeps its space once the box is ticked, so the page does not move.

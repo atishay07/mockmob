@@ -82,7 +82,7 @@ Future<List<Uri>> _open(
         startSubjectsProvider.overrideWith((ref) => _subjects),
         startDefaultSubjectProvider.overrideWith((ref) => 'accountancy'),
         if (move != null) startTonightMoveProvider.overrideWith((ref) => move),
-        if (full) quickStartNtaProvider.overrideWith((ref) => const QuickNta(location: '/exam/nta?subject=accountancy', subject: 'accountancy', proOnly: true)),
+        if (full) quickStartNtaProvider.overrideWith((ref) => const QuickNta(location: '/exam/nta?subject=accountancy', subject: 'accountancy', proOnly: false)),
         if (full) quickStartRepairProvider.overrideWith((ref) => const QuickRepair(location: '/review/repair/a/q', chapter: 'Cash flow')),
       ],
       child: MaterialApp.router(
@@ -183,7 +183,8 @@ void main() {
       for (final label in [
         RegExp(r'^Quick 10\.'),
         RegExp(r'^Full mock\. 50 questions, 60 minutes'),
-        RegExp(r'^NTA mode\. Pro\.'),
+        // An open NTA mode (the fixture's quote needs no Pro): its label says what it is.
+        RegExp(r'^NTA mode\. The exam-day screen'),
         RegExp(r'^Choose your own in Practice'),
       ]) {
         expect(find.bySemanticsLabel(label), findsOneWidget, reason: '$label');

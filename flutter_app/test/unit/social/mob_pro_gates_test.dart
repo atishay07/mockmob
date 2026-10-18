@@ -96,9 +96,10 @@ void main() {
       _expectSheet(ProReason.mob);
     });
 
-    testWidgets('flag off: the note alone, no key', (tester) async {
+    testWidgets('flag off: the plain note alone, no word of Pro, no key', (tester) async {
       await _pump(tester, const MobScreen(), _locked(), on: false);
-      expect(find.text(MobCopy.lockedNote), findsOneWidget);
+      expect(find.text(MobCopy.lockedNote), findsNothing);
+      expect(find.text(MobCopy.lockedNotePlain), findsOneWidget);
       expect(find.text(ProNudgeCopy.gateAction), findsNothing);
       expect(find.text(ProNudgeCopy.seePro), findsNothing);
     });
@@ -143,9 +144,10 @@ void main() {
       _expectSheet(ProReason.mobLimit);
     });
 
-    testWidgets('flag off: the line alone', (tester) async {
+    testWidgets('flag off: the plain line alone ("You get one Mob paper a week.")', (tester) async {
       await _pump(tester, const MobScreen(), _freeUsed(), on: false);
-      expect(find.text(MobCopy.freeUsed), findsOneWidget);
+      expect(find.text(MobCopy.freeUsed), findsNothing);
+      expect(find.text(MobCopy.freeUsedPlain), findsOneWidget);
       expect(find.text(ProNudgeCopy.gateAction), findsNothing);
     });
   });

@@ -8,7 +8,7 @@ import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../billing/billing.dart';
-import '../../pro_nudge/pro_nudge.dart' show ProReason, showUpgradeSheetIfOn;
+import '../../pro_nudge/pro_nudge.dart' show ProReason, proNudgesOnProvider, showUpgradeSheetIfOn;
 import '../../rules/widgets/start_sheet_line.dart';
 import '../copy.dart';
 import '../model/practice_selection.dart';
@@ -98,6 +98,8 @@ class _DifficultyPickerState extends ConsumerState<DifficultyPicker> {
     final colors = context.mmColors;
     final type = context.mmType;
     final isPro = widget.isPro;
+    // Pro is named only where it can be had (PLAY_BILLING on); otherwise the lock says the plain fact.
+    final sell = ref.watch(proNudgesOnProvider);
     // Four equal segments cut "Balanced" and "Medium" to "Balan..." from 1.3x text up: the
     // same choice reads as a wrapped row of chips there, with nothing cut and the Start key not
     // pushed out of sight.
@@ -110,7 +112,7 @@ class _DifficultyPickerState extends ConsumerState<DifficultyPicker> {
             value: value,
             onChanged: widget.onChanged,
             onLockedTap: (_) => _locked(),
-            lockedHint: PracticeCopy.difficultyLockedHint,
+            lockedHint: sell ? PracticeCopy.difficultyLockedHint : PracticeCopy.difficultyLockedHintPlain,
           );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -125,7 +127,7 @@ class _DifficultyPickerState extends ConsumerState<DifficultyPicker> {
           const SizedBox(height: MmSpace.s8),
           MmOverlapSwitcher.fade(
             child: Text(
-              _told ? PracticeCopy.difficultyLocked : PracticeCopy.difficultyBalancedNote,
+              _told ? (sell ? PracticeCopy.difficultyLocked : PracticeCopy.difficultyLockedPlain) : PracticeCopy.difficultyBalancedNote,
               key: ValueKey(_told),
               style: type.small.copyWith(color: colors.ink2),
             ),

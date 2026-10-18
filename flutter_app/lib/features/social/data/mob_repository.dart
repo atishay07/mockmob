@@ -5,6 +5,7 @@ import '../../../core/models/json_helpers.dart';
 import '../../../core/repositories/json_remote_notifier.dart';
 import '../../../core/repositories/remote_state.dart';
 import '../../../core/storage/prefs_store.dart';
+import '../../pro_nudge/data/pro_nudge_controller.dart' show proNudgesOnProvider;
 import '../copy.dart';
 import 'mob_models.dart';
 
@@ -186,7 +187,8 @@ enum MobFailure {
   /// The server's code (or a local one: OFFLINE, GENERIC).
   final String code;
 
-  /// This part is for Pro: the screen says "Included with Pro." and sells nothing.
+  /// A Free limit that Pro answers: with the Upgrade sheet on, the sentence names Pro and a tap opens
+  /// the sheet (D80); with it off, the sentence is the plain fact and nothing names Pro.
   bool get needsPro => this == proRequired || this == mobLimit || this == freePaperUsed;
 
   /// The student must choose their subjects before a Mob can start: the way forward is Edit subjects.
@@ -276,10 +278,11 @@ class MobActions {
   }
 
   /// The sentence for [failure]: the server's own when it said more than the code does (the real
-  /// wait: "You can start another in 25 minutes"), else the app's copy for the code.
+  /// wait: "You can start another in 25 minutes"), else the app's copy for the code. A Free limit
+  /// names Pro only while the Upgrade sheet can open (PLAY_BILLING on, a Free student).
   String say(MobFailure failure) {
     final said = _saidFor == failure ? _said?.message : null;
-    return said ?? MobCopy.failure(failure);
+    return said ?? MobCopy.failure(failure, sell: ref.read(proNudgesOnProvider));
   }
 
   /// The nearest paper the bank can build, after a BANK_THIN (null otherwise).
