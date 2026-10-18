@@ -1,3 +1,15 @@
+## 18 October 2026 - Web release 8 integrated (deploy/web-1018-r8, from live main fc9e1f6b = release 7; local, not pushed, not deployed; nothing applied to any database)
+
+**Merged, --no-ff, in order:** web/r8-fixes-1018 (cb672f6b), web/r8-adopt-1018 (dfc6797e), web/r8-retry-1018 (f9fa1d82), web/land3-1018 (42b51dd3), web/credits50-1018 (d8bc38d8). Every R7 fix is kept.
+
+**Conflicts:** (1) adopt: `package.json` test:today lists both the R7 fixes test and the first-week tests; `today/page.jsx` imports keep R7 keepLength and readLength and add firstWeek. (2) retry: `package.json` test:recovery lists repair_receipt and retry_first; `ResultPageClient.jsx` reset effect keeps adopt's repair-record read for the receipt and adds setRetried. (3) credits50: `docs/brain/STATUS.md`, both sections kept. fixes and land3 merged clean.
+
+**Also:** `test:app` now runs the landing hero, copy, Mobi and position tests (land3 added them but wired none).
+
+**Checks:** lint clean; test:app 647; test:today 87; test:recovery 586 pass, 3 todo; test:learning 357; test:auth 110; test:billing 161; test:dock 28 pass, 1 skipped by design (needs DOCK_BASE_URL); `next build --webpack` ok.
+
+**Gate before deploy:** the D54 migration `20261018130000_free_ai_wallet_50` must be applied on production first (code is backward compatible), then the code. Not applied here.
+
 ## 18 October 2026 - Free AI wallet 10 -> 50 a month (branch web/credits50-1018; local, not pushed, not deployed; NOTHING applied to production)
 
 **Owner, 12:15 and 12:30 pm (D54):** free users get 50 AI credits a month (Pro stays 50 included); the server, the app and the website change together.
