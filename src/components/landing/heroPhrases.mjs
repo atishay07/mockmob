@@ -188,6 +188,7 @@ export function createHeroCycle({
   let t0 = 0; // first paint (0 = not yet)
   let lastInput = 0; // the last scroll input
   let backAt = 0; // the line came back on screen, or the tab came back
+  let fontsAt = 0; // the web fonts arrived
   let needRead = true;
   let landedAt = 0;
   let fontsReady = false;
@@ -202,7 +203,7 @@ export function createHeroCycle({
   let state = 'loading';
   let disposed = false;
 
-  const settleAt = () => Math.max(t0 + rule.ENTRANCE_MS, lastInput + rule.QUIET_MS, backAt);
+  const settleAt = () => Math.max(t0 + rule.ENTRANCE_MS, lastInput + rule.QUIET_MS, backAt, fontsAt);
   const stop = () => { if (timer != null) clearTimer(timer); timer = null; nextAt = 0; };
 
   function arm() {
@@ -254,7 +255,7 @@ export function createHeroCycle({
     input() { lastInput = now(); needRead = true; if (!flight) arm(); },
     /** First paint: the latest report wins (two frames after mount; the browser's first-contentful-paint). */
     painted(t = now()) { if (t > t0) { t0 = t; if (lastInput < t0) lastInput = t0; if (!flight) arm(); } },
-    fontsReady() { fontsReady = true; if (!flight) arm(); },
+    fontsReady() { if (fontsReady) return; fontsReady = true; fontsAt = now(); if (!flight) arm(); },
     setInView(v) { v = !!v; if (v === inView) return; inView = v; if (v) { backAt = now(); needRead = true; } if (!flight) arm(); },
     setHidden(h) { h = !!h; if (h === hidden) return; hidden = h; if (!h) { backAt = now(); needRead = true; } if (!flight) arm(); },
     setReduced(r) {
