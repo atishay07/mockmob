@@ -8,13 +8,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/api/api_error.dart';
+import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/models/ai_credits.dart';
+import 'package:mockmob/core/repositories/credits_repository.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/credits/credits_copy.dart';
 import 'package:mockmob/features/credits/credits_screen.dart';
 import 'package:mockmob/features/credits/data/credit_figures.dart';
-import 'package:mockmob/features/credits/data/credits_data.dart' show meCreditsProvider;
+import 'package:mockmob/features/credits/data/credits_data.dart' show MeCreditsRepository, meCreditsProvider;
 import 'package:mockmob/features/credits/data/credits_models.dart';
 import 'package:mockmob/features/credits/widgets/credit_tile.dart';
 import 'package:mockmob/features/credits/widgets/pool_card.dart';
@@ -41,7 +43,66 @@ class _MovingCredits extends FakeMeCredits {
   void land(RemoteState<CreditsOverview> next) => state = next;
 }
 
+/// The real credits read's listeners with no network: it holds a one-balance body and counts forced reads.
+class _OneOverview extends MeCreditsRepository {
+  int reads = 0;
+
+  @override
+  bool get autoLoad => false;
+
+  @override
+  RemoteState<CreditsOverview> build() {
+    super.build();
+    return oneBalanceState();
+  }
+
+  @override
+  Future<void> refresh({bool force = false}) async {
+    if (force) reads++;
+  }
+}
+
+/// Ask's credits read, counting forced reads.
+class _AskRead extends CreditsRepository {
+  int reads = 0;
+
+  @override
+  RemoteState<AiCredits> build() => const RemoteState();
+
+  @override
+  Future<void> refresh({bool force = false}) async {
+    if (force) reads++;
+  }
+}
+
+/// A signed-in profile whose balance the test moves, as the profile read after a start does.
+class _Profile extends AuthController {
+  @override
+  AuthSnapshot build() => const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', creditBalance: 108);
+
+  void balance(int next) => state = AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', creditBalance: next);
+}
+
 void main() {
+  test('a set paid from the one balance reads the credits and the Ask read again', () async {
+    final profile = _Profile();
+    final overview = _OneOverview();
+    final ask = _AskRead();
+    final c = ProviderContainer(overrides: [
+      authSnapshotProvider.overrideWith(() => profile),
+      meCreditsProvider.overrideWith(() => overview),
+      creditsRepositoryProvider.overrideWith(() => ask),
+    ]);
+    addTearDown(c.dispose);
+    c.read(meCreditsProvider);
+    c.read(creditsRepositoryProvider);
+    c.read(authSnapshotProvider);
+    profile.balance(88); // a set of 20 started
+    await Future<void>.delayed(Duration.zero);
+    expect(overview.reads, 1);
+    expect(ask.reads, 1, reason: 'Ask Mobi shows the same balance, so its header must not keep 108');
+  });
+
   group('the mode comes from the server', () {
     CreditsMode modeOf({RemoteState<CreditsOverview>? credits, RemoteState<WalletRead>? wallet}) {
       final c = ProviderContainer(overrides: youOverrides(credits: credits, wallet: wallet));
