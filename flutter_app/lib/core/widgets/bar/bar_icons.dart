@@ -45,7 +45,7 @@ enum BarIconKind {
 }
 
 /// Start's glyph: the Lucide play triangle (never the retired bolt), in the same 24 dp box as the
-/// tab icons.
+/// tab icons. The key draws it filled (`StartGlyph`, D56).
 const IconData kStartGlyph = LucideIcons.play;
 
 /// The colours an icon is drawn with.

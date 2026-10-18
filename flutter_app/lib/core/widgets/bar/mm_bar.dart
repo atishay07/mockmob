@@ -860,7 +860,7 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
       return;
     }
     _press.forward();
-    // Gel: it squashes under the finger over 100 ms, anchored at its foot.
+    // It travels down under the finger over 100 ms, like a key (D56).
     _gel.animateTo(1, duration: MotionDurations.gelSquash, curve: Motion.out);
   }
 
@@ -871,7 +871,7 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
       return;
     }
     _press.reverse();
-    // It springs back with one small wobble (not after a drag, which springs back by itself).
+    // It springs back through a small overshoot (not after a drag, which springs back by itself).
     _gel.animateWith(_spring(Springs.dock, _gel.value, 0, velocity: _dragging ? 0 : -6));
   }
 
@@ -1245,7 +1245,7 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
             pressed: pressed,
             ripple: _ripple.value,
             stretch: _stretch.value,
-            gel: widget.startPressed ? 1 : _gel.value,
+            travel: widget.startPressed ? 1 : _gel.value,
             labelShift: _labelShift,
             light: _keyLight,
             rimBoost: _keyRimBoost,

@@ -144,7 +144,7 @@ void main() {
             expect(icon.center.dy, closeTo(iconY, 0.5), reason: '$kind');
             expect(icon.center.dx, closeTo(bar.left + geo.slotCenter(kind.index), 0.5), reason: '$kind on its slot');
           }
-          final glyph = tester.getRect(find.byIcon(kStartGlyph));
+          final glyph = tester.getRect(find.byType(StartGlyph));
           expect(glyph.center.dy, closeTo(iconY, 0.5), reason: 'the Start glyph');
           expect(glyph.center.dx, closeTo(bar.left + geo.keyBox.center.dx, 0.5));
 

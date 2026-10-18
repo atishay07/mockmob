@@ -88,7 +88,7 @@ void main() {
           // (a) every icon centre, Start's glyph included, on one y, each centred on its slot.
           final iconYs = <double>[
             for (final kind in BarIconKind.values) tester.getRect(_iconOf(kind)).center.dy,
-            tester.getRect(find.byIcon(kStartGlyph)).center.dy,
+            tester.getRect(find.byType(StartGlyph)).center.dy,
           ];
           for (final y in iconYs) {
             expect(y, closeTo(bar.top + geo.iconRect(0, collapse: e).center.dy, 0.5));
@@ -96,7 +96,7 @@ void main() {
           for (final kind in BarIconKind.values) {
             expect(tester.getRect(_iconOf(kind)).center.dx, closeTo(bar.left + geo.slotCenter(branchToSlot(kind.index)), 0.5), reason: '$kind');
           }
-          expect(tester.getRect(find.byIcon(kStartGlyph)).center.dx, closeTo(bar.left + geo.keyBox.center.dx, 0.5));
+          expect(tester.getRect(find.byType(StartGlyph)).center.dx, closeTo(bar.left + geo.keyBox.center.dx, 0.5));
           // (b) every label box, Start's word included, on one y (labels fade out when compact).
           if (!compact) {
             for (final label in [...kBarTabs.map((t) => t.label), StartKeyFace.word]) {

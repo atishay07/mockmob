@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'dart:async';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
@@ -206,20 +208,42 @@ void main() {
       expect(_scaleOf(tester, label), closeTo(1, 0.002));
     });
 
-    testWidgets('the Start key flexes like gel while held (1.04 wide, anchored at its foot) and settles back (GLASS-1017 5.6)', (tester) async {
+    testWidgets('the Start key travels down like a key while held (0.94, 2 dp) and springs back through an overshoot (D56)', (tester) async {
       await tester.pumpWidget(_app(Align(alignment: Alignment.bottomCenter, child: MmBottomBar(currentBranch: 0, onTab: (_) {}, onStart: (_) {}))));
       final word = find.text('Start');
       // Relative to rest: the word may also be fitted to the key (the test font is wide).
       final rest = _scaleOf(tester, word);
+      final restTop = tester.getRect(find.byType(StartGlyph)).center.dy;
       final gesture = await tester.startGesture(tester.getCenter(word));
       await _pumpFor(tester, const Duration(milliseconds: 400));
       expect(tester.widget<StartKeyFace>(find.byType(StartKeyFace)).pressed, closeTo(1, 0.001));
-      expect(tester.widget<StartKeyFace>(find.byType(StartKeyFace)).gel, closeTo(1, 0.001));
-      expect(_scaleOf(tester, word) / rest, closeTo(1.04, 0.002));
+      expect(tester.widget<StartKeyFace>(find.byType(StartKeyFace)).travel, closeTo(1, 0.001));
+      expect(_scaleOf(tester, word) / rest, closeTo(0.94, 0.002), reason: 'it sinks, never widens');
+      expect(tester.getRect(find.byType(StartGlyph)).center.dy, greaterThan(restTop), reason: 'and goes down into the bar');
       await gesture.up();
-      await _pumpFor(tester, const Duration(milliseconds: 700));
+      var peak = 0.0;
+      for (var i = 0; i < 44; i++) {
+        await tester.pump(const Duration(milliseconds: 16));
+        peak = math.max(peak, _scaleOf(tester, word) / rest);
+      }
+      expect(peak, greaterThan(1.0005), reason: 'a small overshoot on the way back');
+      expect(peak, lessThan(1.03));
       expect(tester.widget<StartKeyFace>(find.byType(StartKeyFace)).pressed, closeTo(0, 0.001));
       expect(_scaleOf(tester, word) / rest, closeTo(1, 0.004));
+    });
+
+    test('the press travel: 0.94 and 2 dp pressed, over 1 and up in the overshoot', () {
+      expect(StartKeyFace.travelFor(0), (1.0, 0.0));
+      expect(StartKeyFace.travelFor(1), (0.94, 2.0));
+      final (s, dy) = StartKeyFace.travelFor(-0.2);
+      expect(s, greaterThan(1));
+      expect(dy, lessThan(0));
+    });
+
+    testWidgets('the Start glyph is the Lucide play, drawn filled with round joins', (tester) async {
+      await tester.pumpWidget(_app(Align(alignment: Alignment.bottomCenter, child: MmBottomBar(currentBranch: 0, onTab: (_) {}, onStart: (_) {}))));
+      expect(find.byType(StartGlyph), findsOneWidget);
+      expect(StartGlyphPainter.corners, const [Offset(6, 4), Offset(19.5, 12), Offset(6, 20)]);
     });
 
     testWidgets('under reduced motion the press is instant', (tester) async {
@@ -260,7 +284,7 @@ void main() {
       final expanded = ValueNotifier(false);
       addTearDown(expanded.dispose);
       await tester.pumpWidget(_app(bar(expanded)));
-      final rest = tester.getCenter(find.byIcon(kStartGlyph)).dy;
+      final rest = tester.getCenter(find.byType(StartGlyph)).dy;
       final compact = ValueNotifier(true);
       addTearDown(compact.dispose);
       await tester.pumpWidget(const SizedBox());
@@ -270,7 +294,7 @@ void main() {
       // glyph moves down with the tab icons, from the first frame.
       final startWord = tester.widget<FadeTransition>(find.ancestor(of: find.text('Start'), matching: find.byType(FadeTransition)).first);
       expect(startWord.opacity.value, 0);
-      expect(tester.getCenter(find.byIcon(kStartGlyph)).dy - rest, closeTo(MmBar.compactShift, 0.01));
+      expect(tester.getCenter(find.byType(StartGlyph)).dy - rest, closeTo(MmBar.compactShift, 0.01));
     });
 
     testWidgets('collapses over 240 ms and expands over 300 ms, labels first out', (tester) async {
