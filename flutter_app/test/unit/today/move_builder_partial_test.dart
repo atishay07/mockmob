@@ -51,7 +51,7 @@ void main() {
       expect(view.hero, isA<MoveHero>());
       expect((view.hero! as MoveHero).state, isNot(NextMoveState.historyUnavailable));
       expect(view.header.refreshable, isTrue);
-      expect(view.header.updatedLine, endsWith('Could not refresh.'));
+      expect(view.header.updatedLine, startsWith('Could not refresh. Last loaded '));
       final tried = buildToday(withPlan(readyPlan(), attemptsStale: true, lastTried: at.add(const Duration(minutes: 2))));
       expect(tried.header.updatedLine, contains('still not loading'));
     });
@@ -59,7 +59,7 @@ void main() {
     test('offline with the cache, the header says offline and is not a retry line', () {
       final view = buildToday(ashaInputs(offline: true));
       expect(view.header.refreshable, isFalse);
-      expect(view.header.updatedLine, endsWith('You are offline.'));
+      expect(view.header.updatedLine, startsWith('Offline. Last loaded '));
     });
   });
 

@@ -384,7 +384,7 @@ void main() {
 
     test('offline shows the time of the cached data', () {
       final header = buildHeader(ashaInputs(offline: true));
-      expect(header.updatedLine, 'Updated 7:30 PM. You are offline.');
+      expect(header.updatedLine, 'Offline. Last loaded 7:30 PM.');
       expect(buildHeader(ashaInputs()).updatedLine, isNull);
     });
 
@@ -393,11 +393,11 @@ void main() {
     test('the updated time is the older of the plan and the papers', () {
       expect(
         buildHeader(ashaInputs(offline: true, attemptsAge: const Duration(hours: 3, minutes: 10))).updatedLine,
-        'Updated 5:30 PM. You are offline.',
+        'Offline. Last loaded 5:30 PM.',
       );
       expect(
         buildHeader(ashaInputs(offline: true, planAge: const Duration(hours: 3, minutes: 10))).updatedLine,
-        'Updated 5:30 PM. You are offline.',
+        'Offline. Last loaded 5:30 PM.',
       );
     });
 

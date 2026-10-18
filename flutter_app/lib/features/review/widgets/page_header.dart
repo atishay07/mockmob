@@ -2,25 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/models/attempt.dart' show Attempt;
+import '../../../core/repositories/remote_state.dart' show RemoteState;
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
+import '../data/review_providers.dart' show ReviewClock;
 
-/// "Offline. Showing what is saved on this phone." as a legible 14 sp line with its glyph, living inside a
+/// "Offline. Last loaded 7:26 AM." as a legible 14 sp line with its glyph, living inside a
 /// header row that is already tall enough for it: it adds no height, so nothing below it moves
 /// when the phone goes offline and comes back.
 class HeaderNotice extends StatelessWidget {
   const HeaderNotice(this.message, {super.key});
 
-  /// What the offline header says.
-  static const offline = ReviewCopy.savedOffline;
+  /// The line for a failed read over a saved copy ([offline]: the phone has no connection), with the time of the last
+  /// GOOD read of what is on screen ([lastGoodRead]): the same words Today says over its own saved copy.
+  static String forFailure({required bool offline, DateTime? lastGoodRead}) =>
+      offline ? ReviewCopy.savedOffline(lastGoodRead) : ReviewCopy.savedRefreshFailed(lastGoodRead);
 
-  /// Online, but the last refresh failed: the saved record is on screen.
-  static const refreshFailed = ReviewCopy.savedRefreshFailed;
-
-  /// The line for a failed read over a saved copy ([offline]: the phone has no connection).
-  static String forFailure({required bool offline}) => offline ? ReviewCopy.savedOffline : ReviewCopy.savedRefreshFailed;
+  /// The header line over the attempts list the screen holds, or null while that list is fresh: offline or refresh
+  /// failed by the failed read's own cause, and the time of the last GOOD read in the student's own clock.
+  static String? forAttempts(RemoteState<List<Attempt>> attempts, ReviewClock clock) {
+    if (!attempts.isStale) return null;
+    final at = attempts.fetchedAt;
+    return forFailure(offline: attempts.error?.isOffline ?? false, lastGoodRead: at == null ? null : clock.local(at));
+  }
 
   final String message;
 

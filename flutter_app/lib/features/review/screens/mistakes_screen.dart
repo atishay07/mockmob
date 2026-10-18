@@ -146,7 +146,7 @@ class MistakesScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            PageHeader(title: ReviewCopy.mistakesTitle, notice: index != null && inputs.attempts.isStale ? HeaderNotice.forFailure(offline: inputs.attempts.error?.isOffline ?? false) : null),
+            PageHeader(title: ReviewCopy.mistakesTitle, notice: index == null ? null : HeaderNotice.forAttempts(inputs.attempts, clock)),
             Expanded(child: body),
           ],
         ),

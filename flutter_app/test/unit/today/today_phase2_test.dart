@@ -127,7 +127,7 @@ void main() {
     await pumpToday(tester, reduced: true);
     final online = tester.getSize(find.byType(TodayHeader));
     await pumpToday(tester, reduced: true, offline: true);
-    expect(find.textContaining('You are offline'), findsOneWidget);
+    expect(find.textContaining('Offline. Last loaded'), findsOneWidget);
     expect(tester.getSize(find.byType(TodayHeader)).height, online.height);
   });
 

@@ -107,6 +107,7 @@ class TodayInputs {
     this.repaired = const {},
     this.profile,
     this.offline = false,
+    this.readOffline = false,
     this.selectedMinutes,
     this.roadPlan = const RoadPlan(),
     this.lastTriedAt,
@@ -164,6 +165,11 @@ class TodayInputs {
   final Map<String, Set<String>> repaired;
   final TodayProfile? profile;
   final bool offline;
+
+  /// The papers' last read failed because the server could not be reached (a connection or timeout error), whatever
+  /// the connectivity monitor says (a Wi-Fi with no internet, a server that is down). Only the header line reads it:
+  /// it says "Offline" in the words Review uses, while the moves stay available (a tap on the line reads again).
+  final bool readOffline;
 
   /// The duration chip the student chose, or null for the default.
   final int? selectedMinutes;

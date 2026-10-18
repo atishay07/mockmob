@@ -4,6 +4,7 @@
 import '../../core/auth/load_problem.dart';
 import '../../core/copy/formatters.dart' as fmt;
 import '../../core/copy/formatters.dart';
+import '../../core/copy/state_words.dart' show SavedCopy;
 import '../../core/domain/cuet_dates.dart';
 import 'logic/today_model.dart' show DurationChoice;
 
@@ -40,9 +41,9 @@ abstract final class TodayCopy {
 
   static String updatedAt(DateTime time) => 'Updated ${formatTime12(time)}';
   static const String offlineSuffix = 'You are offline.';
-  static String updatedOffline(DateTime time) => 'Updated ${formatTime12(time)}. You are offline.';
-  static String updatedNotRefreshed(DateTime time) => 'Updated ${formatTime12(time)}. Could not refresh.';
-  static String updatedTried(DateTime time, DateTime tried) => 'Updated ${formatTime12(time)}. Tried ${formatTime12(tried)}, still not loading.';
+  static String updatedOffline(DateTime time) => SavedCopy.offline(time);
+  static String updatedNotRefreshed(DateTime time) => SavedCopy.refreshFailed(time);
+  static String updatedTried(DateTime time, DateTime tried) => SavedCopy.triedAgain(time, tried);
   static const String refreshSemantics = 'Try again';
 
   // Hero overlines.

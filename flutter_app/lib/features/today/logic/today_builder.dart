@@ -89,7 +89,7 @@ HeaderModel buildHeader(TodayInputs i) {
     weekFailed: week == null && !i.weekLoading && i.weekFailed,
     updatedLine: _updatedLine(i),
     refreshable: _refreshFailed(i),
-    offline: i.offline,
+    offline: i.offline || i.readOffline,
   );
 }
 
@@ -215,15 +215,19 @@ LastPaper? buildLastPaper(TodayInputs i) {
 }
 
 String? _updatedLine(TodayInputs i) {
-  final cached = i.offline || i.planStale || i.attemptsStale;
+  final cached = i.offline || i.readOffline || i.planStale || i.attemptsStale;
   if (!cached) return null;
   final times = [?i.planFetchedAt, ?i.attemptsFetchedAt];
   if (times.isEmpty) return i.offline ? TodayCopy.offlineSuffix : null;
   // The older read, as on the home widget: the papers are the list's last full read, served from
   // the phone while the plan is read again, so the newer time would call days-old papers fresh.
+  // Both are the time of the last GOOD read (a failed try leaves them alone, see RemoteNotifier), never
+  // of the failed try: that one has its own words below ("Tried 7:32 AM") and is never the "Last loaded".
   final oldest = times.reduce((a, b) => a.isBefore(b) ? a : b);
   final at = i.clock(oldest);
-  if (i.offline) return TodayCopy.updatedOffline(at);
+  // The monitor says offline, or the read itself could not reach the server: one condition, the words Review
+  // uses over its own saved copy (v15 walk, M2).
+  if (i.offline || i.readOffline) return TodayCopy.updatedOffline(at);
   if (_refreshFailed(i)) {
     final tried = i.lastTriedAt;
     return tried == null ? TodayCopy.updatedNotRefreshed(at) : TodayCopy.updatedTried(at, i.clock(tried));

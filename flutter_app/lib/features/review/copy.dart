@@ -1,5 +1,6 @@
 import '../../core/auth/load_problem.dart';
 import '../../core/copy/formatters.dart';
+import '../../core/copy/state_words.dart' show SavedCopy;
 
 /// Every line the Review feature shows (spec 5.8, Night Sheet brief sections 8 and 10). The
 /// steps of a mistake are Found, Repaired, Retested and Still right; never "fixed" or "mastered".
@@ -234,8 +235,8 @@ abstract final class ReviewCopy {
   static const offlineMessage = 'Your mistakes load when you are back online. Nothing was lost.';
 
   /// The header line over a saved copy: offline, or online but the refresh failed.
-  static const savedOffline = 'Offline. Showing what is saved on this phone.';
-  static const savedRefreshFailed = 'Could not refresh. Showing your saved record.';
+  static String savedOffline([DateTime? lastGoodRead]) => SavedCopy.offline(lastGoodRead);
+  static String savedRefreshFailed([DateTime? lastGoodRead]) => SavedCopy.refreshFailed(lastGoodRead);
   static const tryAgainKey = 'Try again';
 
   // ---- Repair entry ---------------------------------------------------------------------

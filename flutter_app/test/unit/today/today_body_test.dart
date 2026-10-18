@@ -103,7 +103,7 @@ void main() {
   testWidgets('offline, a start says why it is unavailable instead of failing', (tester) async {
     final events = await pumpToday(tester, buildToday(ashaInputs(offline: true)));
     expect(find.text(TodayCopy.connectToStart), findsOneWidget);
-    expect(find.text('Updated 7:30 PM. You are offline.'), findsOneWidget);
+    expect(find.text('Offline. Last loaded 7:30 PM.'), findsOneWidget);
     await tester.tap(find.text('Start repair'));
     await tester.pump();
     expect(events.whereType<TodayAction>(), isEmpty);

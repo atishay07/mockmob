@@ -20,3 +20,21 @@ abstract final class Receipts {
   /// Before acknowledgment.
   static const String notRecordedYet = 'On this phone. Not recorded yet.';
 }
+
+/// What a screen says over the copy kept on the phone, in one set of words so Today and Review (and every tab that
+/// shows a saved copy) never describe the same condition two ways (v15 walk, M2). The time is always the last GOOD
+/// read of the data on screen: a failed try never replaces it.
+abstract final class SavedCopy {
+  /// The phone cannot reach the server: "Offline. Last loaded 7:26 AM." With no known time the copy is simply what is on
+  /// the phone.
+  static String offline(DateTime? lastGoodRead) =>
+      lastGoodRead == null ? 'Offline. Showing what is saved on this phone.' : 'Offline. Last loaded ${formatTime12(lastGoodRead)}.';
+
+  /// The server answered badly or not at all while the phone is online: "Could not refresh. Last loaded 7:26 AM."
+  static String refreshFailed(DateTime? lastGoodRead) =>
+      lastGoodRead == null ? 'Could not refresh. Showing your saved record.' : 'Could not refresh. Last loaded ${formatTime12(lastGoodRead)}.';
+
+  /// After a Try again that changed nothing: both times, each named for what it is.
+  static String triedAgain(DateTime lastGoodRead, DateTime tried) =>
+      'Tried ${formatTime12(tried)}, still not loading. Last loaded ${formatTime12(lastGoodRead)}.';
+}

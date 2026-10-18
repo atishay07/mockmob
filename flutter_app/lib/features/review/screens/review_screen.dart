@@ -112,7 +112,7 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
       padding: const EdgeInsets.fromLTRB(ReviewSpace.gutter, MmSpace.s8, ReviewSpace.gutter, MmSpace.s16),
       child: AccountLeading(child: ReviewTabHeader(
         title: ReviewCopy.title,
-        notice: attempts.isStale ? HeaderNotice.forFailure(offline: attempts.error?.isOffline ?? false) : null,
+        notice: HeaderNotice.forAttempts(attempts, ref.watch(reviewClockProvider)),
         // Ask answers from the record, so it lives here (DOCK.md 6), not on the bar or the Start sheet.
         onAsk: () => openAskMobi(context, const AskMobiContext.page()),
         showMobi: !sceneMobi,

@@ -306,6 +306,7 @@ final todayInputsProvider = Provider<TodayInputs>((ref) {
     repaired: repaired,
     profile: ref.watch(todayProfileProvider),
     offline: ref.watch(networkStatusProvider) == NetworkStatus.offline,
+    readOffline: attempts.isStale && (attempts.error?.isOffline ?? false),
     selectedMinutes: ref.watch(todayMinutesProvider),
     roadPlan: ref.watch(roadPlanProvider),
     lastTriedAt: ref.watch(todayLastTriedProvider),
@@ -332,6 +333,26 @@ class TodayActions {
   TodayActions(this._ref);
 
   final Ref _ref;
+
+  /// After a read that changed nothing, the header (or the failure card) says when it tried: "Tried 7:32 AM, still
+  /// not loading". Once the record is in hand the line is cleared. The same bookkeeping the screen does after a
+  /// Try again, so a refresh the app ran by itself (the network came back) leaves the same trace.
+  void noteTry() {
+    final view = _ref.read(todayViewProvider);
+    final hero = view.hero;
+    final failing = (hero is MoveHero && hero.primary.target is RetryLoad) || (hero is EndedHero && hero.action.target is RetryLoad);
+    final still = failing || view.header.refreshable;
+    _ref.read(todayLastTriedProvider.notifier).set(still ? _ref.read(nowProvider)() : null);
+  }
+
+  /// The network is back: read everything Today shows again, once, and note whether it worked.
+  Future<void> refreshAfterReconnect() async {
+    try {
+      await refresh();
+    } finally {
+      noteTry();
+    }
+  }
 
   /// Pull to refresh and Try again: the record, the plan and the week, read again.
   Future<void> refresh() async {
@@ -368,3 +389,31 @@ class TodayActions {
 }
 
 final todayActionsProvider = Provider<TodayActions>(TodayActions.new);
+
+/// The network signals for one reconnect arrive together (the radio, the first answered request, the monitor's
+/// ping); Today waits this long after the last one and then reads once.
+const Duration todayReconnectDebounce = Duration(seconds: 1);
+
+/// Today refreshes itself when the network returns (v15 walk, M1): one read of the record, the plan and the week
+/// about a second after the connection settles, so the header never keeps saying "Could not refresh" over a problem
+/// that is gone and the student never has to find the line to tap. Debounced: a flapping connection reads once.
+/// Watched by the Today screen; it does nothing while nobody is listening.
+final todayReconnectRefreshProvider = Provider<void>((ref) {
+  Timer? pending;
+  void soon() {
+    pending?.cancel();
+    pending = Timer(todayReconnectDebounce, () {
+      pending = null;
+      if (!ref.mounted) return;
+      unawaited(ref.read(todayActionsProvider).refreshAfterReconnect().catchError((Object _) {}));
+    });
+  }
+
+  ref.listen(networkRestoredProvider, (_, next) {
+    if (next.hasValue) soon();
+  });
+  ref.listen(networkStatusProvider, (previous, next) {
+    if (previous == NetworkStatus.offline && next == NetworkStatus.online) soon();
+  });
+  ref.onDispose(() => pending?.cancel());
+});

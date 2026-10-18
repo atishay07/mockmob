@@ -96,12 +96,12 @@ void main() {
   group('review-states: a saved copy says so in the header', () {
     testWidgets('offline over a saved record', (tester) async {
       await _pump(tester, state: RemoteState(value: allAttempts, fetchedAt: eveningUtc, error: _offline));
-      expect(find.text('Offline. Showing what is saved on this phone.'), findsOneWidget);
+      expect(find.text('Offline. Last loaded 9:40 PM.'), findsOneWidget);
     });
 
     testWidgets('online but the refresh failed', (tester) async {
       await _pump(tester, state: RemoteState(value: allAttempts, fetchedAt: eveningUtc, error: _server));
-      expect(find.text('Could not refresh. Showing your saved record.'), findsOneWidget);
+      expect(find.text('Could not refresh. Last loaded 9:40 PM.'), findsOneWidget);
     });
   });
 

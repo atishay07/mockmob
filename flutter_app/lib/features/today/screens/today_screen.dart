@@ -7,9 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/api/api_providers.dart' show nowProvider;
-import '../../../core/connectivity/connectivity_monitor.dart' show NetworkStatus;
-import '../../../core/connectivity/connectivity_providers.dart' show networkStatusProvider;
 import '../../../core/motion/motion.dart';
 import '../../../core/repositories/repositories.dart';
 import '../../../core/router/app_shell.dart';
@@ -156,10 +153,8 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
   /// Still not loading." The time changes on every tap, so a repeated tap visibly ran (L01; the
   /// 5-second snackbar is retired). Once the record is in hand the line is cleared.
   void _noteTry() {
-    final tried = ref.read(todayLastTriedProvider.notifier);
     // The failure card, or the header's "Could not refresh" line (S7), says when it last tried.
-    final still = _failing || ref.read(todayViewProvider).header.refreshable;
-    tried.set(still ? ref.read(nowProvider)() : null);
+    ref.read(todayActionsProvider).noteTry();
   }
 
   /// What the Your colleges card knows beyond the road: the shared list's state, and what the
@@ -271,9 +266,10 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
       if (hero is MoveHero && hero.art.isMobi) _mobi.play(MobiAct.hello);
       unawaited(MmScroll.toTop(context, _scroll));
     });
-    ref.listen(networkStatusProvider, (previous, next) {
-      if (previous == NetworkStatus.offline && next == NetworkStatus.online && _failing) _retrySoon();
-    });
+    // The network came back: one read of everything Today shows, a second after the connection settles (a failure
+    // card, a "Could not refresh" line and a plain stale copy are all read again; the student never has to find
+    // the line to tap).
+    ref.watch(todayReconnectRefreshProvider);
     // A plan read that failed while the papers are in hand never reaches the card (L01, S6): it
     // is written to the log, and the move is built from the papers.
     ref.listen(planRepositoryProvider(todayPlanMinutes).select((s) => s.error), (previous, next) {
