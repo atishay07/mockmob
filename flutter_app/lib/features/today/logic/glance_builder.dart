@@ -37,6 +37,9 @@ const int marksPerMiss = 5;
 /// Papers Weak chapters reads, newest first.
 const int weakPapers = 10;
 
+/// More papers than this on one day and the week's readout says the count and the newest paper instead of every paper.
+const int busyDay = 2;
+
 /// The choice key of a move: the card's two choices are always a different kind from the lead.
 String choiceKeyOf(MoveHero m) => switch (m.kind) {
       MoveKind.repair || MoveKind.firstRepair || MoveKind.returning => 'repair',
@@ -208,21 +211,17 @@ List<DayReadout>? buildReadouts(TodayInputs i) {
         final date = monday.add(Duration(days: d));
         final papers = [for (final a in all.reversed) if (i.date(a.completedAt) == date) a];
         String lineOf(Attempt a) => unopened.contains(a.id)
-            ? '${paperLabel(all, a)}, ${subjectName(a.subject)}, ${a.total} questions, result waiting, ${formatTime12(i.clock(a.completedAt))}'
+            ? GlanceCopy.paperLineWaiting(paperLabel(all, a), subjectName(a.subject), a.total, formatTime12(i.clock(a.completedAt)))
             : GlanceCopy.paperLine(paperLabel(all, a), subjectName(a.subject), a.total, a.marks, a.maxMarks, formatTime12(i.clock(a.completedAt)));
-        // A busy day reads as a summary and the latest paper, never a raw log of every paper (final walk, H4).
-        if (papers.length > 2) {
+        // A busy day reads as a count and the newest paper, never a raw log of every paper (final walk, H4):
+        // "3 full mocks and 6 quick sets saved." then "Latest: Mock 13, Accountancy, ...". [papers] is oldest first.
+        if (papers.length > busyDay) {
           final mocks = papers.where((a) => a.isMock).length;
           final lines = [GlanceCopy.daySummary(mocks, papers.length - mocks), GlanceCopy.latestPaper(lineOf(papers.last))];
           if (d == today) return DayReadout(title: GlanceCopy.todayTitle(date, planned: planned != null && planned.contains(d)), lines: lines, isToday: true);
           return DayReadout(title: GlanceCopy.dayTitle(date), lines: lines);
         }
-        final lines = [
-          for (final a in papers)
-            unopened.contains(a.id)
-                ? '${paperLabel(all, a)}, ${subjectName(a.subject)}, ${a.total} questions, result waiting, ${formatTime12(i.clock(a.completedAt))}'
-                : GlanceCopy.paperLine(paperLabel(all, a), subjectName(a.subject), a.total, a.marks, a.maxMarks, formatTime12(i.clock(a.completedAt))),
-        ];
+        final lines = [for (final a in papers) lineOf(a)];
         final isPlanned = planned == null || planned.contains(d);
         if (d == today) return DayReadout(title: GlanceCopy.todayTitle(date, planned: planned != null && planned.contains(d)), lines: lines, isToday: true);
         if (lines.isEmpty) {
@@ -313,7 +312,7 @@ RoadLayers buildRoadLayers(TodayInputs i, {required RoadBoard board, MoveHero? l
   final weekItems = <DueItem>[
     if (goal != null) DueItem(label: GlanceCopy.itemStudyWeek(studyDone, goal), done: studyDone >= goal),
     if (plannedMocks > 0)
-      DueItem(label: GlanceCopy.itemMockWeek(math.min(mocksThisWeek, plannedMocks), plannedMocks), done: mocksThisWeek >= plannedMocks, target: dueThisWeek && i.attempts != null ? GoTo(TodayLinks.fullMock(subject: all.isEmpty ? null : all.first.subject)) : null)
+      DueItem(label: GlanceCopy.itemMockWeek(mocksThisWeek, plannedMocks), done: mocksThisWeek >= plannedMocks, target: dueThisWeek && i.attempts != null ? GoTo(TodayLinks.fullMock(subject: all.isEmpty ? null : all.first.subject)) : null)
     else if (nextDue != null && mocksKnown && all.isNotEmpty)
       DueItem(label: GlanceCopy.itemMockWeekNone(GlanceCopy.dayShort(nextOn!)), done: false, info: true),
   ];

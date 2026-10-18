@@ -73,11 +73,16 @@ abstract final class GlanceCopy {
       minutes == null ? 'Up next: ${_lowerFirst(title)}.' : 'Up next: ${_lowerFirst(title)}, about ${plural(minutes, 'minute')}.';
   static String paperLine(String label, String subject, int questions, int marks, int outOf, String time) =>
       '$label, $subject, $questions questions, $marks of $outOf, $time';
+  static String paperLineWaiting(String label, String subject, int questions, String time) =>
+      '$label, $subject, $questions questions, result waiting, $time';
+
+  /// A busy day's count: "3 full mocks and 6 quick sets saved." (every paper of the day, each counted once).
   static String daySummary(int mocks, int quick) {
     final parts = [if (mocks > 0) plural(mocks, 'full mock'), if (quick > 0) plural(quick, 'quick set')];
     return '${parts.join(' and ')} saved.';
   }
 
+  /// Under the count, the newest paper of the day: "Latest: Mock 13, Accountancy, 50 questions, 120 of 250, 10:11 PM".
   static String latestPaper(String line) => 'Latest: $line';
   static String noSession(int goal) => 'No session saved that day. The week still counts any $goal days.';
   static const String noSessionNoGoal = 'No session saved that day.';
@@ -137,7 +142,8 @@ abstract final class GlanceCopy {
   static String studyDaysNoGoal(int done) => plural(done, 'study day');
   static String plannedDone(int done, int planned) => '$done of $planned planned done';
   static const String setDaysHint = 'Set your days to plan the week.';
-  static String mocksOf(int taken, int target) => '$taken of $target full mocks';
+  /// Never "30 of 27": past the target both are said as what they are.
+  static String mocksOf(int taken, int target) => taken > target ? '$taken full mocks, target $target' : '$taken of $target full mocks';
   static String weeksLeft(int weeks) => '${plural(weeks, 'week')} left';
   static String daysLeftShort(int days) => '${plural(days, 'day')} left';
   static const String suggestedTag = 'suggested';
@@ -149,12 +155,16 @@ abstract final class GlanceCopy {
   static String itemRevise(int n) => 'Revise ${plural(n, 'question')}';
   static String itemStart(int n) => 'Answer $n questions to your starting point';
   static String itemMove(String title) => title;
-  static String itemStudyWeek(int done, int goal) => 'Study days: $done of $goal';
-  static String itemMockWeek(int done, int planned) => 'Full mocks this week: $done of $planned';
+  /// "X of Y" only while X counts toward Y and is short of it; at or past the plan both are said as what they are, so a
+  /// student who sat 13 full mocks never reads "1 of 1" or "13 of 1" (final walk, H5).
+  static String _doneAgainst(int done, int planned) => done >= planned ? '$done done, $planned planned' : '$done of $planned done';
+  static String itemStudyWeek(int done, int goal) => 'Study days: ${_doneAgainst(done, goal)}';
+  static String itemMockWeek(int done, int planned) => 'Full mocks this week: ${_doneAgainst(done, planned)}';
   static String itemMockWeekNone(String nextOn) => 'No full mock due this week. The next is due $nextOn.';
   static String itemCountedOn(List<String> days) => days.isEmpty ? 'Nothing counted yet this week.' : 'Counted: ${listJoin(days)}.';
-  static String itemMocksTaken(int taken, int target, {required bool suggested}) =>
-      'Full mocks: $taken of $target${suggested ? ', suggested' : ''}';
+  static String itemMocksTaken(int taken, int target, {required bool suggested}) => taken > target
+      ? 'Full mocks: $taken taken, target $target${suggested ? ', suggested' : ''}'
+      : 'Full mocks: $taken of $target${suggested ? ', suggested' : ''}';
   static String itemStudyLeft(int days, int perWeek) => 'Study days left: $days at $perWeek a week';
   static String itemExamOn(DateTime d, {required bool own}) => own ? 'Your date: ${_dayLong(d)}' : 'CUET UG: ${_dayLong(d)}, expected';
 
