@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:mockmob/core/api/api_providers.dart' show nowProvider;
 import 'package:mockmob/core/haptics/haptics.dart';
 import 'package:mockmob/core/models/session_draft.dart';
@@ -87,7 +88,7 @@ void main() {
           // (a) every icon centre, Start's glyph included, on one y, each centred on its slot.
           final iconYs = <double>[
             for (final kind in BarIconKind.values) tester.getRect(_iconOf(kind)).center.dy,
-            tester.getRect(find.byIcon(kStartGlyph)).center.dy,
+            tester.getRect(find.byType(StartGlyph)).center.dy,
           ];
           for (final y in iconYs) {
             expect(y, closeTo(bar.top + geo.iconRect(0, collapse: e).center.dy, 0.5));
@@ -95,7 +96,7 @@ void main() {
           for (final kind in BarIconKind.values) {
             expect(tester.getRect(_iconOf(kind)).center.dx, closeTo(bar.left + geo.slotCenter(branchToSlot(kind.index)), 0.5), reason: '$kind');
           }
-          expect(tester.getRect(find.byIcon(kStartGlyph)).center.dx, closeTo(bar.left + geo.keyBox.center.dx, 0.5));
+          expect(tester.getRect(find.byType(StartGlyph)).center.dx, closeTo(bar.left + geo.keyBox.center.dx, 0.5));
           // (b) every label box, Start's word included, on one y (labels fade out when compact).
           if (!compact) {
             for (final label in [...kBarTabs.map((t) => t.label), StartKeyFace.word]) {
@@ -206,46 +207,47 @@ void main() {
   });
 
   group('icons (DOCK.md 4, revised after the owner review on 14 Oct)', () {
-    test('one family: filled Rounded when active, outlined at rest, from the Material font', () {
-      expect(BarIconKind.today.glyph, const BarGlyph(active: Icons.home_rounded, idle: Icons.home_outlined));
-      expect(BarIconKind.practice.glyph, const BarGlyph(active: Icons.quiz_rounded, idle: Icons.quiz_outlined));
-      expect(BarIconKind.review.glyph, const BarGlyph(active: Icons.fact_check_rounded, idle: Icons.fact_check_outlined));
-      expect(BarIconKind.colleges.glyph, const BarGlyph(active: Icons.account_balance_rounded, idle: Icons.account_balance_outlined));
-      expect(BarIconKind.you.glyph, const BarGlyph(active: Icons.person_rounded, idle: Icons.person_outlined));
+    test('one family: Lucide outline, the same names the web uses; no filled swap (D8)', () {
+      expect(BarIconKind.today.glyph, const BarGlyph(LucideIcons.calendarCheck));
+      expect(BarIconKind.practice.glyph, const BarGlyph(LucideIcons.timer));
+      expect(BarIconKind.review.glyph, const BarGlyph(LucideIcons.notebookText));
+      expect(BarIconKind.colleges.glyph, const BarGlyph(LucideIcons.landmark));
+      expect(BarIconKind.you.glyph, const BarGlyph(LucideIcons.userRound));
       for (final kind in BarIconKind.values) {
-        expect(kind.glyph.active.fontFamily, 'MaterialIcons', reason: '$kind: no icon package');
-        expect(kind.glyph.idle.fontFamily, 'MaterialIcons');
-        expect(kind.glyph.active, isNot(kind.glyph.idle), reason: '$kind: the active state is a shape, not only a colour');
+        expect(kind.glyph.icon.fontFamily, 'Lucide', reason: '$kind: the family the rest of the app draws');
+        expect(kind.glyph.icon.fontPackage, 'lucide_icons_flutter');
       }
+      expect({for (final kind in BarIconKind.values) kind.glyph.icon}.length, BarIconKind.values.length, reason: 'five distinct shapes');
       expect([for (final t in kBarTabs) t.icon], BarIconKind.values, reason: 'Today, Practice, Review, Colleges, You');
     });
 
-    test('colours: ink when active in both themes (the one lime is the Start key), ink 2 at rest', () {
+    test('colours: the accent when active (volt on Night, the olive text colour on Day), ink 2 at rest', () {
       final night = BarIconColors.of(MmColors.dark);
-      expect(night.active, const Color(0xFFF4F0E6));
-      expect(night.active, isNot(MmColors.dark.volt));
+      expect(night.active, MmColors.dark.accentText);
+      expect(night.active, const Color(0xFFD2F000));
       expect(night.idle, const Color(0xFFBDB6A6));
       final day = BarIconColors.of(MmColors.light);
-      expect(day.active, const Color(0xFF17150F));
+      expect(day.active, MmColors.light.accentText);
+      expect(day.active, const Color(0xFF526700));
       expect(day.idle, const Color(0xFF454036));
-      expect(day.active, isNot(MmColors.light.volt));
-    });
-
-    test('the fill leads and the outline holds, so the shape never thins mid-way', () {
-      expect(BarIconPainter.fillAt(0), 0);
-      expect(BarIconPainter.outlineAt(0), 1);
-      expect(BarIconPainter.fillAt(1), 1);
-      expect(BarIconPainter.outlineAt(1), 0);
-      for (var t = 0.0; t <= 1.0; t += 0.02) {
-        expect(BarIconPainter.fillAt(t) + BarIconPainter.outlineAt(t), greaterThanOrEqualTo(1 - 1e-9), reason: 'at $t');
-      }
     });
 
     testWidgets('You is a person shape, never the initial (the header avatar has it)', (tester) async {
       await pumpMockmob(tester, _bar(branch: BarBranch.you));
-      expect(_painterOf(tester, BarIconKind.you).glyph, const BarGlyph(active: Icons.person_rounded, idle: Icons.person_outlined));
+      expect(_painterOf(tester, BarIconKind.you).glyph, const BarGlyph(LucideIcons.userRound));
       expect(_onOf(tester, BarIconKind.you), 1);
-      expect(kStartGlyph, Icons.play_arrow_rounded, reason: 'Start is a play triangle, never the retired bolt');
+      expect(kStartGlyph, LucideIcons.play, reason: 'Start is a play triangle, never the retired bolt');
+    });
+
+    testWidgets('the active label is bold and an idle one is medium (D8)', (tester) async {
+      await pumpMockmob(tester, _bar(branch: BarBranch.you));
+      FontWeight? weightOf(String label) {
+        final text = tester.widget<Text>(find.text(label));
+        return text.style!.fontWeight;
+      }
+
+      expect(weightOf('You'), FontWeight.w700);
+      expect(weightOf('Today'), FontWeight.w500);
     });
 
     testWidgets('arrival waits for the lens (70% of its travel), fills over 200 ms and settles from 0.9; departure empties over 160 ms', (tester) async {
@@ -306,13 +308,6 @@ void main() {
       expect(_onOf(tester, BarIconKind.review), 1);
       expect(_onOf(tester, BarIconKind.today), 0);
       expect(_scaleOf(tester, BarIconKind.review), 1);
-    });
-
-    testWidgets('labels are w600 active or not, so nothing shifts', (tester) async {
-      await pumpMockmob(tester, _bar(branch: 2));
-      for (final label in const ['Today', 'Practice', 'Review', 'Colleges', 'You']) {
-        expect(tester.widget<Text>(find.text(label)).style!.fontWeight, FontWeight.w600, reason: label);
-      }
     });
 
     testWidgets('icons are never clipped: 320 dp, compact, and text at 1.3x and 2.0x', (tester) async {

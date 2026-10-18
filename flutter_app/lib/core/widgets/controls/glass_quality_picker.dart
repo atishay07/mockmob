@@ -28,7 +28,7 @@ class GlassQualityPicker extends ConsumerWidget {
   /// What each choice does, in the student's words. Full only promises the bend when the phone
   /// runs the lens; otherwise it is live glass the page shows through.
   static String describe(GlassQuality quality, {bool? lens}) => switch (quality) {
-    GlassQuality.full => (lens ?? GlassShader.ready) ? "Glass that bends what's behind it." : 'Glass the page shows through.',
+    GlassQuality.full => (lens ?? GlassShader.barReady) ? "Glass that bends what's behind it." : 'Glass the page shows through.',
     GlassQuality.lite => 'Frosted look, lighter on battery.',
     GlassQuality.off => 'Solid surfaces.',
   };

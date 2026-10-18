@@ -21,9 +21,15 @@ import 'bar_icons.dart';
 ///   glass in the bar (GLASS-1017 4.2).
 /// * [StartKeyStyle.glass] (A): the capsule's glass with a 1.5 dp volt ring and a volt glyph.
 ///
-/// It flexes like gel when pressed ([gel]: 1.04 wide, 0.95 tall, anchored at its foot, then a
-/// small wobble back), its volt deepens 16% ([pressed]), the touch light blooms inside it
-/// ([light]), and on release an ink ring spreads out of it ([ripple], 380 ms). Dragged up it
+/// Pressed, it travels like a key ([travel], D56, 18 Oct): it sinks to 0.94 and 2 dp into the bar
+/// in 100 ms, its top light dims, its shadow tightens and its volt deepens 16% ([pressed]); on
+/// release it springs back through a small overshoot (the gel wobble), the touch light blooms
+/// inside it ([light]) and an ink ring spreads out of it ([ripple], 380 ms). v13 had swapped the
+/// v10 to v12 sink for a widening squash (1.04 wide, 0.95 tall), which felt soft rather than
+/// pressed: the owner's "the Start button used to be something else".
+///
+/// The glyph is the Lucide play triangle ([kStartGlyph]) drawn **filled** ([StartGlyph]): the
+/// solid play the key has had since v12, in the app's one icon family (D8). Dragged up it
 /// stretches tall and narrow ([stretch], volume kept), anchored at its foot. Once per open
 /// session its word slides from Start to Resume and back in the same label box ([labelShift]);
 /// the key never widens. Compact, it shrinks to a 52 dp circle about its foot with the capsule,
@@ -36,7 +42,7 @@ class StartKeyFace extends StatelessWidget {
     this.pressed = 0,
     this.ripple = 1,
     this.stretch = 0,
-    this.gel = 0,
+    this.travel = 0,
     this.labelShift = 0,
     this.light,
     this.rimBoost = 0,
@@ -59,8 +65,9 @@ class StartKeyFace extends StatelessWidget {
   /// (a squash).
   final double stretch;
 
-  /// The gel press: 0 at rest, 1 squashed under the finger, a little below 0 in the wobble back.
-  final double gel;
+  /// The press travel: 0 at rest, 1 pressed in under the finger, a little below 0 in the
+  /// overshoot back.
+  final double travel;
 
   /// 0 shows "Start", 1 shows "Resume"; between, one slides up out and the other in.
   final double labelShift;
@@ -83,8 +90,13 @@ class StartKeyFace extends StatelessWidget {
     return (1 / math.sqrt(sy), sy);
   }
 
-  /// The gel press's width scale and height scale for [gel].
-  static (double sx, double sy) gelFor(double gel) => (1 + 0.04 * gel, 1 - 0.05 * gel);
+  /// How far the pressed key shrinks, and how far it moves down into the bar (dp).
+  static const double pressDepth = 0.06;
+  static const double pressTravel = 2;
+
+  /// The key's scale and its downward travel for a [travel]: 0.94 and 2 dp fully pressed, a
+  /// little over 1 and up in the overshoot back.
+  static (double scale, double dy) travelFor(double travel) => (1 - pressDepth * travel, pressTravel * travel);
 
   /// The key's circle inside its 64 dp box at [collapse]: 64 across expanded, 52 compact, sharing
   /// the box's foot and its centre line.
@@ -143,12 +155,16 @@ class StartKeyFace extends StatelessWidget {
             final e = collapse.value;
             final rect = keyRect(size, e);
             final (sx, sy) = squashFor(stretch);
-            final (gx, gy) = gelFor(gel);
-            // Squashed and stretched about its foot, the way a drop of gel sits on a surface.
+            final (s, dy) = travelFor(travel);
+            // Pressed in about its centre (a key going down into the bar), then stretched about its
+            // foot while dragged up.
             return Transform(
-              transform: Matrix4.diagonal3Values(sx * gx, sy * gy, 1),
+              transform: Matrix4.diagonal3Values(sx, sy, 1),
               origin: rect.bottomCenter,
-              child: Stack(
+              child: Transform(
+                transform: Matrix4.translationValues(0, dy, 0)..multiply(Matrix4.diagonal3Values(s, s, 1)),
+                origin: rect.center,
+                child: Stack(
                 clipBehavior: Clip.none,
                 children: [
                   Positioned.fill(
@@ -182,6 +198,7 @@ class StartKeyFace extends StatelessWidget {
                   Transform.translate(offset: Offset(0, MmBar.compactShift * e), child: child),
                 ],
               ),
+              ),
             );
           },
           child: Stack(
@@ -192,7 +209,7 @@ class StartKeyFace extends StatelessWidget {
                 top: MmBar.iconTop,
                 width: MmBar.icon,
                 height: MmBar.icon,
-                child: Icon(kStartGlyph, size: MmBar.icon, color: glyphColor),
+                child: StartGlyph(color: glyphColor),
               ),
               Positioned(
                 left: (size.width - labelWidth) / 2,
@@ -251,23 +268,27 @@ class _StartKeyPainter extends CustomPainter {
     final boost = rimBoost.clamp(0.0, 0.4);
 
     if (style == StartKeyStyle.volt) {
-      // A soft drop shadow under the key (offset, never a halo).
+      // A soft drop shadow under the key (offset, never a halo); it tightens as the key goes down,
+      // the way a pressed key sits closer to its bed.
+      final lift = 1 - 0.6 * deepen;
       canvas.drawRRect(
-        circle.shift(Offset(0, night ? 6 : 4)),
+        circle.shift(Offset(0, (night ? 6 : 4) * lift)),
         Paint()
           ..color = night ? const Color(0x59000000) : const Color(0x2E526700)
-          ..maskFilter = MaskFilter.blur(BlurStyle.normal, ui.Shadow.convertRadiusToSigma(night ? 14 : 10)),
+          ..maskFilter = MaskFilter.blur(BlurStyle.normal, ui.Shadow.convertRadiusToSigma((night ? 14 : 10) * (0.5 + 0.5 * lift))),
       );
       canvas.drawRRect(circle, Paint()..color = Color.lerp(volt, voltEdge, 0.16 * deepen)!);
       canvas.save();
       canvas.clipRRect(circle);
-      // The top light (38% to nothing over 45% of the height) and a bottom inner shade, so the
-      // key reads as a lens of volt glass, not a flat disc.
+      // The top light (38% to nothing over 45% of the height, dimming as the key goes down) and
+      // the bottom inner shade (GLASS-1017 5.1: #526700 at 35% over the lower 35%), so the key
+      // reads as a domed key of volt glass, not a flat disc.
+      final top = (night ? 0.30 : 0.38) * (1 + boost) * (1 - 0.45 * deepen);
       canvas.drawRect(
         rect,
         Paint()
           ..shader = ui.Gradient.linear(rect.topCenter, Offset(rect.center.dx, rect.top + rect.height * 0.45), [
-            Colors.white.withValues(alpha: (night ? 0.30 : 0.38) * (1 + boost)),
+            Colors.white.withValues(alpha: top),
             Colors.white.withValues(alpha: 0),
           ]),
       );
@@ -275,8 +296,20 @@ class _StartKeyPainter extends CustomPainter {
         rect,
         Paint()
           ..shader = ui.Gradient.linear(rect.bottomCenter, Offset(rect.center.dx, rect.bottom - rect.height * 0.35), [
-            const Color(0x26526700),
+            const Color(0x59526700),
             const Color(0x00526700),
+          ]),
+      );
+      // The 1 dp inner highlight along the top arc (white 55%, gone by 45% of the height): the
+      // bevel that catches the light on a key.
+      canvas.drawRRect(
+        circle.deflate(1.5),
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1
+          ..shader = ui.Gradient.linear(rect.topCenter, Offset(rect.center.dx, rect.top + rect.height * 0.45), [
+            Colors.white.withValues(alpha: 0.55 * (1 - 0.5 * deepen)),
+            Colors.white.withValues(alpha: 0),
           ]),
       );
       canvas.restore();
@@ -325,4 +358,45 @@ class _StartKeyPainter extends CustomPainter {
       old.voltEdge != voltEdge ||
       old.accent != accent ||
       old.rim != rim;
+}
+
+/// The Start key's play glyph: the Lucide play triangle ([kStartGlyph]) drawn filled, with the
+/// family's 2 px round joins, in the 24 dp icon box. A filled triangle reads as "go" at a glance on
+/// the volt key; the outline alone looked thin there.
+class StartGlyph extends StatelessWidget {
+  const StartGlyph({super.key, required this.color, this.size = MmBar.icon});
+
+  final Color color;
+  final double size;
+
+  @override
+  Widget build(BuildContext context) => CustomPaint(size: Size.square(size), painter: StartGlyphPainter(color: color));
+}
+
+/// Paints [StartGlyph].
+class StartGlyphPainter extends CustomPainter {
+  StartGlyphPainter({required this.color});
+
+  final Color color;
+
+  /// The triangle in Lucide's 24 unit box (the play icon's corners before the round joins).
+  static const List<Offset> corners = [Offset(6, 4), Offset(19.5, 12), Offset(6, 20)];
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final k = size.shortestSide / 24;
+    final path = Path()..addPolygon([for (final c in corners) c * k], true);
+    canvas.drawPath(path, Paint()..color = color);
+    canvas.drawPath(
+      path,
+      Paint()
+        ..color = color
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2 * k
+        ..strokeJoin = StrokeJoin.round,
+    );
+  }
+
+  @override
+  bool shouldRepaint(StartGlyphPainter old) => old.color != color;
 }

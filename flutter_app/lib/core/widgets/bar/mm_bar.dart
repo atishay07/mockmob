@@ -451,7 +451,7 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
   /// The widest of the five labels as drawn: 11 sp at the clamped text scale, never wider than
   /// the label box (the box scales a longer word down).
   double _measureLabels() {
-    final style = _labelStyle(context.mmColors.ink);
+    final style = _labelStyle(context.mmColors.ink, 1);
     final scaler = MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.2);
     var widest = 0.0;
     for (final tab in kBarTabs) {
@@ -462,10 +462,13 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
     return math.min(widest, _geo.labelBoxWidth);
   }
 
-  TextStyle _labelStyle(Color color) => context.mmType.navLabel.copyWith(
+  /// [on] (0 to 1) moves the label from a medium weight to bold (D8: the active tab reads from the
+  /// accent icon and a bold label). The widest label is measured at bold, so the slot never
+  /// jumps as the weight changes.
+  TextStyle _labelStyle(Color color, double on) => context.mmType.navLabel.copyWith(
     fontSize: MmBar.labelSize,
     height: MmBar.labelHeight / MmBar.labelSize,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.lerp(FontWeight.w500, FontWeight.w700, on),
     letterSpacing: 0,
     color: color,
   );
@@ -857,7 +860,7 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
       return;
     }
     _press.forward();
-    // Gel: it squashes under the finger over 100 ms, anchored at its foot.
+    // It travels down under the finger over 100 ms, like a key (D56).
     _gel.animateTo(1, duration: MotionDurations.gelSquash, curve: Motion.out);
   }
 
@@ -868,7 +871,7 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
       return;
     }
     _press.reverse();
-    // It springs back with one small wobble (not after a drag, which springs back by itself).
+    // It springs back through a small overshoot (not after a drag, which springs back by itself).
     _gel.animateWith(_spring(Springs.dock, _gel.value, 0, velocity: _dragging ? 0 : -6));
   }
 
@@ -1130,7 +1133,7 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
         tab.label,
         maxLines: 1,
         softWrap: false,
-        style: _labelStyle(Color.lerp(colors.ink2, colors.ink, _on[branch].value)!),
+        style: _labelStyle(Color.lerp(colors.ink2, colors.ink, _on[branch].value)!, _on[branch].value),
       ),
     );
 
@@ -1242,7 +1245,7 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
             pressed: pressed,
             ripple: _ripple.value,
             stretch: _stretch.value,
-            gel: widget.startPressed ? 1 : _gel.value,
+            travel: widget.startPressed ? 1 : _gel.value,
             labelShift: _labelShift,
             light: _keyLight,
             rimBoost: _keyRimBoost,

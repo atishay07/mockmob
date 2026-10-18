@@ -57,6 +57,45 @@ enum GlassTier {
   }
 }
 
+/// The automatic steps the app takes by itself when a phone cannot keep up with the glass (D57,
+/// 18 Oct). They never touch the student's choice and are not saved: each launch starts on the
+/// choice again and [GlassPerformanceWatch] re-decides.
+///
+/// v14 had one step, Full straight to the dense Lite tint, at a budget of 90% of the display's
+/// frame. On a 120 Hz phone that is 7.5 ms of raster, which the live blur misses on most mid-range
+/// phones within seconds of scrolling, so the owner's phone showed an opaque pill and "no frost".
+/// Now the lens goes first, and the frost itself goes only on a phone that cannot hold 60 fps.
+enum GlassStep {
+  /// As chosen.
+  none,
+
+  /// The lens is dropped; the plain frost (live blur, no rim bend) stays.
+  noLens,
+
+  /// No live blur: the Lite tint. Android Go class phones start here.
+  lite;
+
+  /// The raster p90 the frost may use before it gives way to Lite: 90% of a 60 Hz frame. A
+  /// phone that holds 60 fps keeps the frost whatever its refresh rate.
+  static const Duration frostBudget = Duration(microseconds: 15000);
+
+  /// The budget that moves this step on, for a display at [hz] with the lens [lensRunning]. The
+  /// lens is held to the display's own frame ([RasterBudgetMonitor.thresholdFor]); the frost to
+  /// [frostBudget], or to the display's frame on a screen slower than 60 Hz.
+  Duration budget({required bool lensRunning, required double hz}) {
+    if (this == none && lensRunning) return RasterBudgetMonitor.thresholdFor(hz);
+    if (hz <= 0) return frostBudget;
+    final display = Duration(microseconds: (0.9 * 1000000 / hz).round());
+    return display > frostBudget ? display : frostBudget;
+  }
+
+  /// The step after a missed [budget]: the lens first when it runs, then Lite. Lite is the last.
+  GlassStep next({required bool lensRunning}) => switch (this) {
+    none => lensRunning ? noLens : lite,
+    noLens || lite => lite,
+  };
+}
+
 /// The saved glass settings, read before `runApp` so a saved Lite or Off is right on the first
 /// frame instead of flipping from Full after it.
 class GlassBoot {
@@ -133,18 +172,24 @@ Future<bool> deviceIsEmulator() async {
 /// Overridden in `main.dart` with [GlassBoot.read]. Null (tests, the lab) loads lazily.
 final glassBootProvider = Provider<GlassBoot?>((ref) => null);
 
-/// The glass quality in effect: the student's choice, except that Full can be stepped down to
-/// Lite automatically by [GlassPerformanceWatch]. The automatic step is stored on its own, never
-/// as the student's choice; choosing any quality clears it.
+/// The glass quality in effect: the student's choice, except for the automatic [GlassStep]s
+/// [GlassPerformanceWatch] takes on a slow phone (the lens first, then Lite). The automatic step
+/// is kept apart from the choice; choosing any quality clears it.
 class GlassQualitySetting extends Notifier<GlassQuality> {
   GlassQuality _chosen = GlassQuality.full;
-  bool _auto = false;
+  GlassStep _step = GlassStep.none;
 
   /// What the student picked in Appearance.
   GlassQuality get chosen => _chosen;
 
+  /// The automatic step in effect (always [GlassStep.none] unless Full was chosen).
+  GlassStep get step => _chosen == GlassQuality.full ? _step : GlassStep.none;
+
   /// True while Full was chosen but the app switched to Lite to keep scrolling smooth.
-  bool get autoLite => _auto && _chosen == GlassQuality.full;
+  bool get autoLite => step == GlassStep.lite;
+
+  /// True while the app has dropped the lens by itself (the frost stays until [autoLite]).
+  bool get lensSuspended => step != GlassStep.none;
 
   GlassQuality get _effective => autoLite ? GlassQuality.lite : _chosen;
 
@@ -153,7 +198,7 @@ class GlassQualitySetting extends Notifier<GlassQuality> {
     final boot = ref.read(glassBootProvider);
     if (boot != null) {
       _chosen = boot.chosen;
-      _auto = boot.autoLite;
+      _step = boot.autoLite ? GlassStep.lite : GlassStep.none;
       return _effective;
     }
     _load();
@@ -169,17 +214,19 @@ class GlassQualitySetting extends Notifier<GlassQuality> {
     }
     if (!ref.mounted) return;
     _chosen = boot.chosen;
-    _auto = boot.autoLite;
+    _step = boot.autoLite ? GlassStep.lite : GlassStep.none;
     state = _effective;
   }
 
   Future<void> choose(GlassQuality quality) async {
     final before = state;
+    final suspended = lensSuspended;
     _chosen = quality;
-    _auto = false;
+    _step = GlassStep.none;
     state = _effective;
-    // Lite chosen while already on automatic Lite: the state is the same, the choice is not.
-    if (state == before) ref.notifyListeners();
+    // Lite chosen while already on automatic Lite, or Full again after the lens was dropped: the
+    // state is the same, the choice (or the lens) is not.
+    if (state == before || suspended) ref.notifyListeners();
     try {
       final prefs = ref.read(appPrefsProvider);
       await prefs.setGlassQuality(quality.name);
@@ -189,17 +236,35 @@ class GlassQualitySetting extends Notifier<GlassQuality> {
     }
   }
 
-  /// Full to Lite only, for this run; never touches a choice of Lite or Off.
+  /// One automatic step down from Full, for this run ([GlassStep.next]); never touches a choice
+  /// of Lite or Off.
   ///
   /// Not saved (v14): a trip once stuck for good, so one slow scroll (or the emulator's software
   /// GPU) put the bar on the dense Lite tint for every launch after, which the owner saw as an
   /// opaque pill. Each launch starts on the student's choice again and the watch re-decides.
+  void stepDown({required bool lensRunning}) {
+    if (_chosen != GlassQuality.full || _step == GlassStep.lite) return;
+    final before = state;
+    _step = _step.next(lensRunning: lensRunning);
+    state = _effective;
+    // Dropping the lens keeps Full: the lens flag still needs to hear it.
+    if (state == before) ref.notifyListeners();
+  }
+
+  /// Full straight to Lite, for this run; never touches a choice of Lite or Off.
   Future<void> downgrade() async {
-    if (_chosen != GlassQuality.full || _auto) return;
-    _auto = true;
+    if (_chosen != GlassQuality.full || _step == GlassStep.lite) return;
+    _step = GlassStep.lite;
     state = _effective;
   }
 }
+
+/// False while the app has dropped the lens by itself ([GlassStep.noLens] or further); the frost
+/// stays. The root `GlassScope` passes it down.
+final glassLensAllowedProvider = Provider<bool>((ref) {
+  ref.watch(glassQualityProvider);
+  return !ref.read(glassQualityProvider.notifier).lensSuspended;
+});
 
 final glassQualityProvider = NotifierProvider<GlassQualitySetting, GlassQuality>(GlassQualitySetting.new);
 
@@ -209,9 +274,15 @@ final glassQualityProvider = NotifierProvider<GlassQualitySetting, GlassQuality>
 /// High-contrast text on the phone (`MediaQuery.highContrast`) forces Off everywhere, whatever
 /// was chosen (GLASS-1017 section 5.11): solid surfaces with stronger hairlines.
 class GlassScope extends InheritedWidget {
-  const GlassScope({super.key, required this.quality, required super.child});
+  const GlassScope({super.key, required this.quality, this.lens = true, required super.child});
 
   final GlassQuality quality;
+
+  /// False while the app has dropped the lens by itself on a slow phone ([GlassStep.noLens]).
+  final bool lens;
+
+  /// Whether the lens may run under [context] (the phone and the build decide whether it can).
+  static bool lensOf(BuildContext context) => context.dependOnInheritedWidgetOfExactType<GlassScope>()?.lens ?? true;
 
   /// The quality in effect: the inherited choice, or Off under high contrast.
   static GlassQuality of(BuildContext context) {
@@ -223,11 +294,11 @@ class GlassScope extends InheritedWidget {
   /// inherited choice (the lab and goldens), never high contrast.
   static GlassTier tierOf(BuildContext context, {GlassQuality? quality}) {
     final highContrast = MediaQuery.maybeHighContrastOf(context) ?? false;
-    return GlassTier.resolve(quality ?? of(context), shaderReady: GlassShader.ready, highContrast: highContrast);
+    return GlassTier.resolve(quality ?? of(context), shaderReady: GlassShader.ready && lensOf(context), highContrast: highContrast);
   }
 
   @override
-  bool updateShouldNotify(GlassScope oldWidget) => quality != oldWidget.quality;
+  bool updateShouldNotify(GlassScope oldWidget) => quality != oldWidget.quality || lens != oldWidget.lens;
 }
 
 /// What the raster watch needs to know about the screen: whether the student is scrolling and
@@ -307,32 +378,41 @@ class RasterBudgetMonitor {
   void reset() => _frames.clear();
 }
 
-/// Steps glass from Full to Lite once when [RasterBudgetMonitor] fires during a user scroll with
-/// live glass on screen. Runs in release and profile builds only: a debug engine is slower and
-/// would switch for the wrong reason. Watch [glassPerformanceWatchProvider] once near the root.
+/// Steps glass down ([GlassStep]) when [RasterBudgetMonitor] fires during a user scroll with live
+/// glass on screen: the lens first (held to the display's frame), then the frost (held to a 60 Hz
+/// frame, [GlassStep.frostBudget]). Runs in release and profile builds only: a debug engine is
+/// slower and would switch for the wrong reason. Watch [glassPerformanceWatchProvider] once near
+/// the root.
 class GlassPerformanceWatch {
-  GlassPerformanceWatch(this._ref, {Duration? threshold})
-    : _monitor = RasterBudgetMonitor(threshold: threshold ?? const Duration(milliseconds: 12));
+  GlassPerformanceWatch(this._ref, {this.hz = 60, bool Function()? lensReady})
+    : _lensReady = lensReady ?? (() => GlassShader.barReady);
 
   final Ref _ref;
-  final RasterBudgetMonitor _monitor;
-  bool _fired = false;
+
+  /// The display's refresh rate.
+  final double hz;
+  final bool Function() _lensReady;
+  RasterBudgetMonitor _monitor = RasterBudgetMonitor();
 
   void start() => SchedulerBinding.instance.addTimingsCallback(_onTimings);
 
   void stop() => SchedulerBinding.instance.removeTimingsCallback(_onTimings);
 
   void _onTimings(List<FrameTiming> timings) {
-    if (_fired || _ref.read(glassQualityProvider) != GlassQuality.full) return;
+    final setting = _ref.read(glassQualityProvider.notifier);
+    if (setting.chosen != GlassQuality.full || setting.step == GlassStep.lite) return;
     if (!GlassActivity.userScrolling || !GlassActivity.liveGlassMounted) {
       _monitor.reset();
       return;
     }
+    final lens = _lensReady() && setting.step == GlassStep.none;
+    final budget = setting.step.budget(lensRunning: lens, hz: hz);
+    if (_monitor.threshold != budget) _monitor = RasterBudgetMonitor(threshold: budget);
     for (final t in timings) {
       final end = t.timestampInMicroseconds(FramePhase.rasterFinish);
       if (_monitor.add(endMicros: end, rasterMicros: t.rasterDuration.inMicroseconds)) {
-        _fired = true;
-        _ref.read(glassQualityProvider.notifier).downgrade();
+        _monitor.reset();
+        setting.stepDown(lensRunning: lens);
         return;
       }
     }
@@ -344,7 +424,7 @@ final glassPerformanceWatchProvider = Provider<GlassPerformanceWatch?>((ref) {
   if (ref.read(glassBootProvider)?.emulator ?? false) return null;
   final views = PlatformDispatcher.instance.views;
   final hz = views.isEmpty ? 60.0 : views.first.display.refreshRate;
-  final watch = GlassPerformanceWatch(ref, threshold: RasterBudgetMonitor.thresholdFor(hz))..start();
+  final watch = GlassPerformanceWatch(ref, hz: hz)..start();
   ref.onDispose(watch.stop);
   return watch;
 });

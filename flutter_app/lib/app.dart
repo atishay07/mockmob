@@ -98,6 +98,7 @@ class _AppView extends ConsumerWidget {
           value: _systemBars(context),
           child: GlassScope(
             quality: ref.watch(glassQualityProvider),
+            lens: ref.watch(glassLensAllowedProvider),
             child: MediaQuery(
               data: MediaQuery.of(context).copyWith(textScaler: scaler),
               // The brand opening covers the app on every cold start, then removes itself.
