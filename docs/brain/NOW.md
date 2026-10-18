@@ -13,13 +13,28 @@
 4. `docs/design-decisions/pass-1018/TODAY-SWIPE-1018.md`: the approved D51 and D52 design.
 5. The saved agent reports in `mockmob-next/tmp/resume-1018-1530/*-results.json`: one file per workflow, with every agent's full return.
 
-> **INTERIM UPDATE, 18 Oct about 4:30 pm IST (session 604ced81; the owner is away until about 5:10-6:10 pm and said: decide everything yourself, D69):**
-> - **New goal (owner 4 pm, D64-D68):** skip W-099/W-046; practice credits = number of questions; the Mob fully built, ON and tested; ship the final app (all his v15 fixes) + the Mob + the website with all his feedback, in 1-2 hours. CEO decisions C1-C5 are in the ledger.
-> - **Release 8 is LIVE** (main 00328e54, STATUS eb5185ef; free_ai_wallet_50 applied on production 3:47 pm with checks; Vercel dpl_3THyGFBktbdxcAuwhfN2sLNsHmrT READY, 0 errors).
-> - **App: workflow wf_42449aec-c78 (task wjdnzvnv7):** v15 fixer in wt-v15 (from STOP POINT 17ccad0f), per-question cost display in wt-v15-perq (ui/v15-perq from 628f3612), v15.1 suites in wt-v15-1; then one integration in wt-v15-1 (1.0.15+6), the emulator walk (tmp/app-walk-1018f), fix rounds, the release APK (tmp/apk/mockmob-v15-final-<sha>.apk). The old workflow wf_b5edd365-0fc was stopped on purpose.
-> - **Web R9 packets: workflow wf_e5192b3e-188 (task wmpzrnzri):** per-question credits + migration 20261018170000_practice_credit_per_question (wt-r9-perq, web/r9-perq-1018) and the Mob merged from web/mob-fix-1017 with a real staging gate (wt-r9-mob, web/r9-mob-1018), then Opus verifiers. Both return a productionPlan for the main session.
-> - **Web audit: workflow wf_4a84a08c-1af (task wsdk4iil5):** read-only, against release 8 on 3208; screenshots tmp/ledger-audit-1018. Its non-DONE S/M items become the R9 fix packet.
-> - **Then:** R9 integration (perq + mob + audit fixes) from 00328e54 -> suites -> verifier -> production migrations (mob, mob_fix, per-question) -> MOB_ENABLED=true on Vercel -> push -> live check; staging rig 3101 on R9 code + MOB_ENABLED for a short app walk of the Mob and real per-question prices; then the ONE message.
+> **INTERIM UPDATE, 18 Oct about 6:35 pm IST (session 604ced81; owner back since 6:10 pm; target: everything by 10:30 pm, D74).**
+> **Owner asks since 4 pm:** D64-D74 in OWNER-FEEDBACK-2026-10-18-DAWN.md (end) and the ledger (bottom): skip W-099/W-046; credits per question; the Mob ON and tested; ship the final app + Mob + website; Play billing at Rs 149 on Play (Rs 99 web); 10:30 pm.
+> **LIVE:** release 8 (main 00328e54 + STATUS eb5185ef).
+> **Production DB, applied ahead of the R9 code (evidence in scratchpad status-r9-migrations.md; copy into the R9 STATUS):**
+> - free_ai_wallet_50 (3:47 pm).
+> - practice_credit_per_question (about 6:22 pm; spend_credits md5 911105fd; old actions unchanged).
+> - 20261017100000_mob + 20261017190000_mob_fix_1017 (about 6:29 pm; 26 functions equal to staging; 15 tables RLS on; server-only).
+> - The Mob is still invisible: MOB_ENABLED is not set on Vercel.
+> **Website release 9:** wt-rel9 (deploy/web-1018-r9).
+> - Part A at 5d9116f0 = perq + 4 audit-fix packets + leftovers.
+> - Verify round 1 NO-GO on 2 MEDIUM (a free set priced "10 credits"; a /pricing FAQ "Rs 99 a month"). Fix round + re-verify running: workflow wf_7951d194-584.
+> - NEXT: merge web/r9-mob-1018 (186bbb1b) into wt-rel9, but RESTORE data/evidence_registry.js to 00328e54 (the Mob branch carries a rig-only process.cwd() hack: verifier HIGH). Then run the suites and a focused verify. Then: Vercel env MOB_ENABLED=true (Production; leave PERSISTENT_LIMITS_ENABLED unset: it moves login limits too, a separate deliberate step). Then push wt-rel9 to main (fast-forward from 00328e54), check Vercel, smoke test, write STATUS (R9 + migrations).
+> **Final app:** wt-v15-1 (ui/v15.1-1018) at ab8db172 = 1.0.15+6 (v15 walk fixes + per-question price display + richer Today + swipe stack; 6007 unit, 1675 goldens).
+> - Walk r1 NO-GO: HIGH = "How many questions?" dead when the lead came from the Suggested stack; MEDIUM = the could-not-refresh line wraps at 360, Ask Mobi's cold first answer waits 20 s then says offline, Today's failure title is cut at 360.
+> - Fix round + walk r2 + release APK: workflow wf_42449aec-c78.
+> - THEN a short Mob + per-question walk against the staging site on 3103 (wt-rig-r9 d0d6d0fe = R9 + Mob with MOB_ENABLED=true; set \`adb -e reverse tcp:3101 tcp:3103\`, then restore \`tcp:3101 tcp:3101\`).
+> - Then install on his phone (adb -s 10BF370PA6002XR install -r) and send.
+> **Play billing (D73):** agents are running.
+> - Server: wt-play-server, web/play-billing-1018 (verify + RTDN + play_purchases migration, flag PLAY_BILLING_ENABLED).
+> - App: wt-play-app, ui/play-billing-1018 from ab8db172 (in_app_purchase, Get Pro sheet, flag PLAY_BILLING).
+> - Then: an Opus check, a v15.2 merge (on top of the walked final app) and its APK; docs/brain/PLAY-BILLING-PLAN-1018.md for his Play Console steps.
+> **Usage:** 70% at 6:34 pm; ask him to switch accounts at about 7:20 pm.
 
 ## 1. The goal (owner, D39 at 9:15 am, then D59 and D62)
 The Play Store is parked.
