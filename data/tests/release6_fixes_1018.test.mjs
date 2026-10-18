@@ -4,6 +4,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { cutIndexLine, cutSentence, knownRecord, nearestSlot, replayView, spokenTime } from '../replay.js';
+import { aiRenewsLine } from '../review_input.mjs';
 import COPY from '../mistake_lab.copy.json' with { type: 'json' };
 
 const root = new URL('../../', import.meta.url);
@@ -150,4 +151,20 @@ test('the small links are 44 px targets without moving a line: badge names, Best
   assert.match(read('src/components/StudyBadges.jsx'), /sb-link sb-link--tap" href=\{r\.href\}>Open that paper/);
   assert.match(stripComments(read('src/components/today/today.css')), /a\.tm__inline\s*\{\s*padding-block:\s*12px/);
   assert.match(stripComments(read('src/components/review/review-1018.css')), /\.rv8-inline\s*\{[^}]*display:\s*inline-block;[^}]*padding:\s*12px 0;\s*margin-block:\s*-12px/);
+});
+
+test('Review at 0 AI credits says when they renew, only where the server knows the day', () => {
+  assert.equal(aiRenewsLine({ aiCredits: 0, aiRenews: '2026-11-01' }), 'They renew on 1 Nov.');
+  assert.equal(aiRenewsLine({ aiCredits: 0, aiRenews: '2026-12-01' }), 'They renew on 1 Dec.');
+  // No known day, a balance above 0, or an unknown balance (never read as 0): nothing is said.
+  assert.equal(aiRenewsLine({ aiCredits: 0, aiRenews: null }), '');
+  assert.equal(aiRenewsLine({ aiCredits: 3, aiRenews: '2026-11-01' }), '');
+  assert.equal(aiRenewsLine({ aiCredits: null, aiRenews: '2026-11-01' }), '');
+  assert.equal(aiRenewsLine(null), '');
+  assert.equal(aiRenewsLine({ aiCredits: 0, aiRenews: 'soon' }), '');
+  // The chapter's cost line and the answer sheet's repair line both use it; the Practise line (practice credits never renew) does not.
+  assert.match(read('src/components/review/ReviewChapters.jsx'), /aiRenewsLine\(wallet\)/);
+  assert.match(read('src/components/review/AnswerSheet.jsx'), /\{haveLine\(0\)\}\{aiRenewsLine\(wallet\)/);
+  const practise = read('src/components/review/ReviewChapters.jsx').match(/function practiseLine[\s\S]*?\n\}\n/)[0];
+  assert.ok(!/renew/.test(practise), 'practice credits do not renew, so their line never says they do');
 });

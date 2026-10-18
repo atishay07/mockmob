@@ -11,6 +11,7 @@ import Link from 'next/link';
 import { apiGet } from '@/lib/fetcher';
 import MistakeRepair from '@/components/recovery/MistakeRepair';
 import { haveLine } from '@/lib/creditCopy.mjs';
+import { aiRenewsLine } from '@/../data/review_input.mjs';
 
 const LETTERS = 'ABCDEFGH';
 const SAVED = new Set(['repaired', 'held', 'slipped']);
@@ -147,7 +148,7 @@ export default function AnswerSheet({ item, wallet, autoRepair = false, onChange
         </div>
       ) : null}
       {showKeys && repairable && noAi ? (
-        <p className="rvw-sheet__fine">A repair adds why {item.pick || 'your pick'} looked right, the trap, one rule and a Check it held, for 1 AI credit. {haveLine(0)} <Link href="/pricing/ai-credits">See your AI credits</Link></p>
+        <p className="rvw-sheet__fine">A repair adds why {item.pick || 'your pick'} looked right, the trap, one rule and a Check it held, for 1 AI credit. {haveLine(0)}{aiRenewsLine(wallet) ? ` ${aiRenewsLine(wallet)}` : ''} <Link href="/pricing/ai-credits">See your AI credits</Link></p>
       ) : null}
     </div>
   );

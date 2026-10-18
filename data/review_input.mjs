@@ -52,6 +52,16 @@ export function shortDate(value) {
   const [, m, d] = istDate(t).split('-');
   return `${Number(d)} ${MONTHS[Number(m) - 1]}`;
 }
+/**
+ * "They renew on 1 Nov." for a student whose AI credits are at 0 and whose renewal day the server knows (the monthly reset);
+ * '' otherwise: an unknown balance is never 0, and no date is guessed. Practice credits do not renew, so this is only ever said
+ * about AI credits (REVIEW-RESULT-1018 4.7, the 0 credits state).
+ */
+export function aiRenewsLine(wallet) {
+  if (wallet?.aiCredits !== 0 || !wallet?.aiRenews) return '';
+  const day = shortDate(`${wallet.aiRenews}T00:00:00+05:30`);
+  return day ? `They renew on ${day}.` : '';
+}
 /** "9:40 PM" in India time. */
 export function shortTime(value) {
   const t = time(value);
@@ -320,9 +330,9 @@ export function reviewMove(record, options = {}) {
   if (move.kind === 'repair' && row) {
     const lead = rows.find((c) => c.marks > 0);
     line = `${lead && lead.id === row.id ? 'Your costliest chapter: ' : ''}${row.marks} marks lost in ${joinNames(row.papers)}. Q${out.target.number} comes first.`;
-  } else if (move.rule === 5 && input.aiCredits === 0 && record.wallet?.aiRenews) {
+  } else if (move.rule === 5 && input.aiCredits === 0 && aiRenewsLine(record.wallet)) {
     // Review's wording of the zero-credit line names the day the credits renew (5.3).
-    line = `${line} They renew on ${shortDate(`${record.wallet.aiRenews}T00:00:00+05:30`)}.`;
+    line = `${line} ${aiRenewsLine(record.wallet)}`;
   } else if (move.kind === 'check') title = 'Check it held';
   else if (move.kind === 'harder') title = 'Every question right';
   out.panel = { title, line };

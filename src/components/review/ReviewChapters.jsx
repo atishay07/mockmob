@@ -17,7 +17,7 @@ import { SubjectObject } from '@/components/brand/SubjectObject';
 import { PaperTrend } from '@/components/ai/RecordGlimpse';
 import { useRuleBook } from '@/components/rules/useRuleBook';
 import { bookRules } from '@/../data/rule_book';
-import { shortDate } from '@/../data/review_input.mjs';
+import { aiRenewsLine, shortDate } from '@/../data/review_input.mjs';
 import { NEXT_MOVE_RULES } from '@/../data/result_next_move.mjs';
 import AnswerSheet from './AnswerSheet';
 import { LessonLink, subjectId } from './ChapterRows';
@@ -75,7 +75,7 @@ function practiseLine(wallet, allRepaired) {
 
 function costLine(wallet) {
   const have = Number.isFinite(wallet?.aiCredits) ? wallet.aiCredits : null;
-  const renews = have === 0 && wallet?.aiRenews ? ` They renew on ${shortDate(`${wallet.aiRenews}T00:00:00+05:30`)}.` : '';
+  const renews = aiRenewsLine(wallet) ? ` ${aiRenewsLine(wallet)}` : '';
   return `Each repair is 1 AI credit${have === null ? '' : `; you have ${have}`}.${renews} No charge if a repair cannot be written. Seeing the answer and trying again are free.`;
 }
 
