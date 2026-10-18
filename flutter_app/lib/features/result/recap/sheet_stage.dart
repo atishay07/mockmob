@@ -427,7 +427,7 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
                 );
                 // The headline stands at the top of the stage, on the same line as every other card's
                 // headline and with Mobi on its right, and the sheet rests below it. Sealed, it is
-                // "Your sheet is back." and fades as the flap lifts; open, it is the one plain line,
+                // "Your result has loaded." and fades as the flap lifts; open, it is the one plain line,
                 // engraved as the reader starts. Mobi reads the sheet beside it (cheering once,
                 // after the figure lands, only for a higher result; never after a lower or held
                 // one). Left out where the sheet needs the space. The sheet keeps its place in the

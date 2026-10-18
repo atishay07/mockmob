@@ -149,7 +149,7 @@ void main() {
     test('no acknowledgement row gives no time, only the plain fact', () {
       final noAck = buildRecapModel(attempt: d.attempt, detail: d, attempts: [...history(), d.attempt]);
       expect(noAck.receivedAt, isNull);
-      expect(ResultCopy.receiptLine(noAck.receivedAt), 'Marked on the server.');
+      expect(ResultCopy.receiptLine(noAck.receivedAt), 'Saved to your account.');
       final acked = mock7();
       expect(acked.receivedAt, isNotNull);
       expect(ResultCopy.receiptLine(acked.receivedAt), startsWith('Saved to your record at '));

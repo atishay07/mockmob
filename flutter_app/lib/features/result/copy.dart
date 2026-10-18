@@ -28,9 +28,12 @@ abstract final class ResultCopy {
 
   // ---- Sealed sheet (5.6.2) -------------------------------------------------------------
 
-  static const sheetBack = 'Your sheet is back.';
-  static const markedOnServer = 'Marked on the server.';
-  static const openWhenReady = markedOnServer;
+  /// The sealed entry after the result was slow to load (a weak network, a busy server): what it truthfully is now.
+  /// It is not the marking-wait vocabulary ("Your sheet is back. Marked on the server."): the paper was marked the moment it
+  /// was handed in, and the owner rejected a screen that implies a wait for marking (D29, v15 walk M10).
+  static const sheetBack = 'Your result has loaded.';
+
+  static const openWhenReady = 'It is saved to your account.';
   static const openTab = 'Open your result';
   static const openWithoutReveal = 'Open without the reveal';
   static const dragHint = 'Swipe up to unfold';
@@ -214,7 +217,7 @@ abstract final class ResultCopy {
 
   /// The receipt line on card 4: a time only when the server's acknowledgment was received on
   /// this phone, otherwise the plain fact.
-  static String receiptLine(DateTime? acknowledgedAt) => acknowledgedAt == null ? markedOnServer : savedAt(acknowledgedAt);
+  static String receiptLine(DateTime? acknowledgedAt) => acknowledgedAt == null ? savedOnServer : savedAt(acknowledgedAt);
   static String readyToRepair(int n, int? minutes) => minutes == null
       ? '${plural(n, 'wrong answer')} ready to repair.'
       : '${plural(n, 'wrong answer')} ready to repair, about $minutes minutes.';
