@@ -380,25 +380,7 @@ body:has(.mm.lp) {
 .lp-title__line {
   display: block;
 }
-.lp-morph {
-  display: grid;
-  justify-items: start;
-}
-/* Every phrase shares one grid cell, so the height is the tallest phrase's and nothing jitters.
-   Phrases fit on one line at 320px and up; at 200% zoom they may wrap rather than clip. */
-.lp-morph__word {
-  grid-area: 1 / 1;
-  color: var(--accent-text);
-  opacity: 0;
-  filter: blur(0.35em);
-  transform: translate3d(0, 0.3em, 0);
-  transition: opacity 0.6s var(--ease), filter 0.6s var(--ease), transform 0.6s var(--ease);
-}
-.lp-morph__word[data-active="true"] {
-  opacity: 1;
-  filter: none;
-  transform: none;
-}
+/* The changing third line (.lp-morph) lives in hero-motion.css. */
 .lp-lead {
   margin: 0;
   max-width: 36rem;
@@ -1302,10 +1284,6 @@ body:has(.mm.lp) {
     width: auto;
     flex-wrap: wrap;
     justify-content: center;
-  }
-  .lp-morph__word {
-    transition: none;
-    filter: none;
   }
   .lp-bg__spot {
     display: none;

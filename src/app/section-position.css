@@ -1,0 +1,121 @@
+/* ==========================================================================
+   SECTION POSITION (landing): the band under the site bar that names the held story you are in
+   (SectionPosition.jsx).
+   A held story pins its stage, so its heading is long gone by the middle of it. Once a section's heading has
+   gone under the band and its story is still running, a one-line band slides in under the site bar with the
+   section's name and a 2px rule along its bottom edge that fills with the hold; it leaves when the story has run.
+   The band is the bar's own paper, a hairline and a rule: no glow, no dot, no action, and it never takes a tap.
+   The held stories in a host section (.lp-pos-host) start their stage under the band, and tuck up under their
+   heading by the same amount, so nothing is covered and the page reads as it did above the hold.
+   Selectors start at .mm.lp so they win over the page's own stylesheets whatever their load order.
+   Only opacity and transform move.
+   ========================================================================== */
+
+.mm.lp {
+  /* The site bar's height (61 px, with the safe area on top), and the band's. */
+  --lp-pos-top: calc(61px + env(safe-area-inset-top, 0px));
+  --lp-pos-h: 2.5rem;
+}
+
+/* ---------- The band ---------- */
+.mm.lp .lp-pos {
+  position: fixed;
+  top: var(--lp-pos-top);
+  left: 0;
+  right: 0;
+  z-index: 55; /* under the site bar (60) and its menu */
+  height: var(--lp-pos-h);
+  pointer-events: none;
+}
+.mm.lp .lp-pos__band {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--paper) 92%, transparent);
+  -webkit-backdrop-filter: saturate(1.4) blur(14px);
+  backdrop-filter: saturate(1.4) blur(14px);
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(0, -0.5rem, 0);
+  transition: opacity 200ms ease-out, transform 280ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)), visibility 0s linear 280ms;
+}
+.mm.lp .lp-pos[data-on='true'] .lp-pos__band {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: opacity 200ms ease-out, transform 280ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)), visibility 0s;
+}
+/* The site bar's soft blur tail (phones) would blur the band's words: it rests while the band is on. */
+.mm.lp:has(.lp-pos[data-on='true']) .mm-nav::after { opacity: 0; }
+
+.mm.lp .lp-pos__row { display: flex; align-items: center; width: 100%; min-width: 0; }
+/* On a wide window the site bar's column grows by Mobi's lane (brand-pip.css), so the band's words keep the bar's left edge. */
+@media (min-width: 1100px) and (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion='reduced']) .mm.lp .lp-pos__row { max-width: calc(75rem + var(--pip-lane)); }
+}
+/* One line of running text, so a brand word in an <em> stays one space from its neighbours. */
+.mm.lp .lp-pos__name {
+  display: block;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  color: var(--ink);
+  font: 700 1rem/1.2 var(--font-display);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  opacity: 0;
+  transform: translate3d(0, 0.35rem, 0);
+  transition: opacity 150ms ease-out, transform 220ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1));
+}
+.mm.lp .lp-pos[data-on='true'] .lp-pos__name {
+  opacity: 1;
+  transform: none;
+  transition: opacity 200ms ease-out 50ms, transform 260ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)) 50ms;
+}
+.mm.lp .lp-pos__name em { font-style: normal; color: var(--accent-text); }
+
+/* The rule is the hold's progress, written from the scroll position (SectionPosition.jsx): it follows the page 1:1,
+   so it never animates on its own. */
+.mm.lp .lp-pos__rule {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--accent-text);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+/* ---------- Held stories under the band ----------
+   The stage starts under the band, and the story tucks up by the band's height, so the gap from a heading to its
+   story is what it was. The track never takes a pointer (its stage's own content does), so the tucked-up overlap
+   leaves the heading's last words selectable. */
+@media (min-height: 521px) {
+  .mm.lp .lp-pos-host .ss { --ss-top: calc(61px + env(safe-area-inset-top, 0px) + 0.75rem + var(--lp-pos-h)); }
+  .mm.lp .lp-pos-host .ss[data-pinned='true'] { margin-top: calc(var(--lp-pos-h) * -1); }
+  .mm.lp .lp-pos-host .ss--centre[data-pinned='true'] { margin-top: calc(var(--ss-slack, 0px) / -2 - var(--lp-pos-h)); }
+  .mm.lp .lp-pos-host .ss__track { pointer-events: none; }
+}
+@media (min-width: 900px) and (min-height: 521px) {
+  .mm.lp .lp-pos-host .ss { --ss-top: calc(72px + 1.25rem + var(--lp-pos-h)); }
+}
+/* Landscape phones keep their own tight hold; the band stays out of the way there. */
+@media (max-height: 520px) {
+  .mm.lp .lp-pos { display: none; }
+}
+
+/* ---------- Reduced motion: the same states, swapped without travel ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .mm.lp :is(.lp-pos__band, .lp-pos__name) { transition: none !important; transform: none !important; }
+}
+html[data-motion='reduced'] .mm.lp :is(.lp-pos__band, .lp-pos__name) { transition: none !important; transform: none !important; }
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  .mm.lp .lp-pos__band { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--paper); }
+}
+@media print {
+  .mm.lp .lp-pos { display: none; }
+}

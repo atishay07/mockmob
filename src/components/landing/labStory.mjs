@@ -12,17 +12,20 @@ export const GAP = Object.freeze({ wrong: 6, blank: 5 });
 export const PAPER_PACE_SEC = 72;
 
 const row = (n, verdict, sec, chapter, change = null) => Object.freeze({ n, verdict, sec, chapter, change });
-// change: first pick and its clock time, the final pick and its clock time (seconds from the start).
+// change: first pick and its clock time, the final pick and its clock time (seconds from the start). Questions run
+// in paper order, so question n is on screen from the sum of the earlier times to that plus its own; every change
+// happens inside that one visit, seconds after the first pick, the way second thoughts happen (L-033: an answer
+// changed ten minutes later is not believable).
 export const SESSION = Object.freeze([
   row(1, 'right', 48, 'Ratios'),
   row(2, 'right', 55, 'Ratios'),
   row(3, 'wrong', 80, 'Partnership'),
-  row(4, 'wrong', 198, 'Partnership', { from: 'B', fromVerdict: 'right', at: 225, to: 'D', toAt: 860 }),
+  row(4, 'wrong', 198, 'Partnership', { from: 'B', fromVerdict: 'right', at: 308, to: 'D', toAt: 360 }),
   row(5, 'right', 62, 'Ratios'),
   row(6, 'blank', 20, 'Cash flow'),
   row(7, 'right', 192, 'Partnership'),
-  row(8, 'wrong', 161, 'Partnership', { from: 'A', fromVerdict: 'right', at: 550, to: 'C', toAt: 898 }),
-  row(9, 'right', 110, 'Cash flow', { from: 'D', fromVerdict: 'wrong', at: 662, to: 'B', toAt: 750 }),
+  row(8, 'wrong', 161, 'Partnership', { from: 'A', fromVerdict: 'right', at: 732, to: 'C', toAt: 778 }),
+  row(9, 'right', 110, 'Cash flow', { from: 'D', fromVerdict: 'wrong', at: 861, to: 'B', toAt: 899 }),
   row(10, 'blank', 10, 'Cash flow'),
 ]);
 

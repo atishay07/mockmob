@@ -1,0 +1,73 @@
+/* ==========================================================================
+   HERO, 18 Oct (D38: L-014, L-016, L-017). Loaded last on the landing.
+   - "CUET 2027." in the brand colour: volt on Night, the Day links' dark olive on Day (volt text on a light
+     ground fails contrast). Plain text, never a button (L-018).
+   - The third line changes by letter (HeroMorph.jsx, heroMorph.mjs): transform and opacity only, no blur, no
+     glow (L-016, L-019). Still under Reduce motion.
+   - The phone hero's rhythm: the bank line reads as one quiet line of proof under the lead, and the buttons get
+     room above them.
+   ========================================================================== */
+
+.mm.lp .lp-title__brand { color: var(--accent-text); }
+
+/* The copy column holds the widest phrase ("Every mark traced.", 8.7 em, letter by letter) on one line at every
+   width: 11 cqi on a phone (home.css), 11.3 cqi from 761 px. */
+@media (min-width: 761px) {
+  .mm.lp .lp-title { font-size: clamp(1.75rem, min(11.3cqi, 13.5svh), 5.1rem); }
+}
+
+/* ---------- The changing line ---------- */
+.lp-morph { position: relative; }
+.lp-morph__cell { display: grid; justify-items: start; }
+.lp-morph__phrase { grid-area: 1 / 1; }
+.lp-morph__phrase[data-state='size'] { visibility: hidden; }
+.lp-morph__phrase[data-state='out'] { pointer-events: none; }
+.lp-morph__word { display: inline-block; white-space: nowrap; }
+.lp-morph__l { display: inline-block; }
+
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion='reduced']) .lp-morph__phrase[data-state='in'] .lp-morph__l {
+    animation: lp-morph-in 360ms cubic-bezier(0.23, 1, 0.32, 1) calc(120ms + var(--i, 0) * 20ms) both;
+  }
+  :root:not([data-motion='reduced']) .lp-morph__phrase[data-state='out'] .lp-morph__l {
+    animation: lp-morph-out 240ms cubic-bezier(0.23, 1, 0.32, 1) calc(var(--i, 0) * 20ms) both;
+  }
+}
+/* A leaving letter is gone before it reaches the line above, and before the new letter under it shows. */
+@keyframes lp-morph-out {
+  0% { opacity: 1; transform: none; }
+  60% { opacity: 0; }
+  100% { opacity: 0; transform: translate3d(0, -0.35em, 0); }
+}
+@keyframes lp-morph-in {
+  from { opacity: 0; transform: translate3d(0, 0.35em, 0); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lp-morph__phrase[data-state='out'] { display: none; }
+}
+:root[data-motion='reduced'] .lp-morph__phrase[data-state='out'] { display: none; }
+
+/* ---------- Phones: one quiet line of proof, then the buttons ---------- */
+.lp .lp-bank { color: var(--ink-3); }
+.lp .lp-bank__n { color: var(--ink); }
+@media (max-width: 760px) {
+  .lp .lp-hero__copy { gap: 0.75rem; }
+  .lp .lp-bank { margin-top: -0.125rem; font-size: 0.8125rem; line-height: 1.5; }
+  .lp .lp-cta { margin-top: 0.5rem; }
+}
+
+/* ---------- The sample's way out for other subjects (L-015) ---------- */
+.lp-stage__other { margin: -0.35rem 0 0; justify-self: center; text-align: center; font-size: 0.75rem; line-height: 1.5; color: var(--ink-3); }
+.lp-stage__other a {
+  color: var(--accent-text);
+  font-weight: 650;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  /* The line keeps its leading; the padding makes the 44 px target (W-079). */
+  padding-block: 13px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .lp-stage__other a:hover { text-decoration-thickness: 2px; }
+}

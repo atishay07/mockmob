@@ -101,7 +101,7 @@ export function LiveStatsBand({ offer = null } = {}) {
         fallback="…"
         failed={failed}
         label="questions in one bank"
-        note="Every mock draws from this bank, so there is no set number of mocks. Scored +5 right, −1 wrong."
+        note="Every mock is built from this bank: no set number, no cap on Pro. Marked +5 right, −1 wrong."
         animate={seen}
       />
       <Figure

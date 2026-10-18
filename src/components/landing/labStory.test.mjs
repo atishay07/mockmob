@@ -46,6 +46,19 @@ test('every change happens inside the session clock and after its first pick', (
   assert.deepEqual(story.changes.map((c) => c.toAtSec), story.changes.map((c) => c.toAtSec).slice().sort((a, b) => a - b));
 });
 
+test('L-033: every change is a second thought inside its own question, seconds after the first pick', () => {
+  let start = 0;
+  const visits = new Map();
+  for (const r of SESSION) { visits.set(r.n, [start, start + r.sec]); start += r.sec; }
+  for (const c of story.changes) {
+    const [from, to] = visits.get(c.n);
+    assert.ok(c.atSec > from && c.toAtSec <= to, `Q${c.n} changes outside its own visit (${clock(from)} to ${clock(to)})`);
+    assert.ok(c.toAtSec - c.atSec < 60, `Q${c.n} changes ${c.gap} after its first pick`);
+    assert.match(c.gap, /^0:\d\d$/);
+  }
+  assert.ok(story.rows.every((r) => r.sec <= 200), 'no question over about 3 minutes');
+});
+
 test('time figures are derived, not typed', () => {
   assert.equal(story.pace, '1:12');
   assert.equal(PAPER_PACE_SEC, 72);
@@ -88,7 +101,8 @@ test('the SWOT lines come from the rows and the earlier record, in the product w
 
 test('the changes carry both verdicts, the gap and the first answers score', () => {
   const q9 = story.changes.find((c) => c.n === 9);
-  assert.deepEqual([q9.from, q9.fromVerdict, q9.to, q9.toVerdict, q9.net, q9.gap], ['D', 'wrong', 'B', 'right', 6, '1:28']);
+  assert.deepEqual([q9.from, q9.fromVerdict, q9.to, q9.toVerdict, q9.net, q9.gap], ['D', 'wrong', 'B', 'right', 6, '0:38']);
+  assert.deepEqual(story.changes.map((c) => [c.n, c.at, c.toAt, c.gap]), [[4, '5:08', '6:00', '0:52'], [8, '12:12', '12:58', '0:46'], [9, '14:21', '14:59', '0:38']]);
   const q4 = story.changes.find((c) => c.n === 4);
   assert.deepEqual([q4.from, q4.fromVerdict, q4.to, q4.toVerdict, q4.net], ['B', 'right', 'D', 'wrong', -6]);
   assert.equal(story.firstAnswers, 28);

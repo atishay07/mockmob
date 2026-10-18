@@ -148,8 +148,8 @@ export function DemoDrill() {
           </p>
           <p className="mm-drill__verdict">
             {score >= 4
-              ? 'Sharp. A full mock is 50 of these in 60 minutes.'
-              : 'Good. Now you know where to start.'}
+              ? 'Sharp. Ready for 50 of these in 60 minutes?'
+              : 'Good. Now you know exactly where to start.'}
           </p>
 
           {missed.length > 0 ? (
@@ -241,8 +241,10 @@ export function DemoDrill() {
         <div className="mm-drill__foot" aria-live="polite" ref={footRef}>
           {answered ? (
             <>
-              <p className="mm-drill__why pip-drill-reaction">
-                {picked === question.correct && <Mascot pose="celebrating" />}
+              {/* Mobi answers the pick: a hop for a right one, a head tilt in his warm pose for a wrong one (brand-pip.css,
+                  Round 7). On desktop the hero's Mobi in the lane answers instead and this one steps aside. */}
+              <p className="mm-drill__why pip-drill-reaction" data-verdict={picked === question.correct ? 'right' : 'wrong'}>
+                <Mascot pose={picked === question.correct ? 'celebrating' : 'encouraging'} />
                 <span>
                 <strong data-ok={picked === question.correct ? 'true' : 'false'}>
                   {picked === question.correct ? 'Correct.' : 'Not quite.'}
