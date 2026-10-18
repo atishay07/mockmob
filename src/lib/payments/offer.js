@@ -19,3 +19,17 @@ export function priceLine(offer = publicOffer()) {
     ? `Pro ₹${offer.monthly.rupees} a month`
     : `Pro ₹${offer.oneTime.rupees} once, through ${offer.oneTime.expires}`;
 }
+
+/** The /pricing headline: what a buyer is charged today, framed the same way as priceLine (release 9: one framing). */
+export function priceHeadline(offer = publicOffer()) {
+  return offer.purchasable === 'monthly'
+    ? `Pro is ₹${offer.monthly.rupees} a month.`
+    : `Pro is ₹${offer.oneTime.rupees} once, through ${offer.oneTime.expires}.`;
+}
+
+/** The Pro card's price tag: the rupees charged today and how often. */
+export function priceTag(offer = publicOffer()) {
+  return offer.purchasable === 'monthly'
+    ? { price: `₹${offer.monthly.rupees}`, cycle: 'a month' }
+    : { price: `₹${offer.oneTime.rupees}`, cycle: 'once' };
+}

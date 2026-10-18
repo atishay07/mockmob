@@ -20,6 +20,8 @@ import {
   readAIWallet,
 } from '@/services/credits/aiCreditWallet';
 import { breadcrumbJsonLd, faqJsonLd, seoMetadata } from '@/lib/seo';
+import { runtimeAiReleased } from '@/../data/capabilities';
+import { aiCreditsRules, aiCreditsStatusLine } from './aiCreditsCopy.mjs';
 
 export const metadata = seoMetadata({
   title: 'AI credits',
@@ -41,13 +43,6 @@ const faqs = [
     q: 'Is Pro still separate?',
     a: 'Yes. Pro is billed separately from the optional AI credits. New top-ups are currently paused and existing balances are preserved.',
   },
-];
-
-// While top-ups are paused, the rules speak only about credits already bought, so none of them reads as an offer.
-const rulesFor = (checkoutOpen) => [
-  ['Monthly credits spend first', checkoutOpen ? 'The credits included with Free or Pro are used before any you bought.' : 'The credits included with Free or Pro are used before any you bought earlier.'],
-  [checkoutOpen ? 'Purchased credits never expire' : 'Credits you already bought never expire', 'They stay in your account until you use them.'],
-  ['Separate from Pro', checkoutOpen ? 'Buying AI credits does not change your plan, and Pro does not use them up.' : 'Credits you bought earlier did not change your plan, and Pro does not use them up.'],
 ];
 
 export default async function AICreditsPage() {
@@ -77,7 +72,7 @@ export default async function AICreditsPage() {
             <h1 className="mm-h1">AI credits</h1>
             <p className="mm-lead" style={{ marginTop: '1rem' }}>
               Ask Mobi uses AI credits for written replies: {AI_FREE_MONTHLY_CREDITS} a month on Free and {AI_PRO_INCLUDED_MONTHLY_CREDITS} on Pro, kept apart from Practice credits.
-              {checkoutOpen ? ' You can buy more below.' : ' Written replies and new top-ups are paused for now. Credits you already have are kept.'}
+              {' '}{aiCreditsStatusLine({ checkoutOpen, repliesOpen: runtimeAiReleased() })}
             </p>
 
             {/* The balance: a signed-in student sees their own figures with their labels; a visitor gets one line. */}
@@ -122,7 +117,7 @@ export default async function AICreditsPage() {
           <div className="mm-wrap mm-wrap--tight">
             <h2 className="mm-h2">How AI credits work</h2>
             <ul className="aic-rules">
-              {rulesFor(checkoutOpen).map(([title, body]) => (
+              {aiCreditsRules(checkoutOpen).map(([title, body]) => (
                 <li key={title}><b>{title}</b><p>{body}</p></li>
               ))}
             </ul>

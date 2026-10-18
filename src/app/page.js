@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { CAPABILITIES, recoveryReleased, newOfferReleased } from '@/../data/capabilities';
-import { publicOffer } from '@/lib/payments/offer';
+import { priceLine, publicOffer } from '@/lib/payments/offer';
 import { Check, History, Timer, Wrench, Radar, Sparkles, Compass, Combine, Trophy, Monitor, BookOpenText } from 'lucide-react';
 import STUDY_RELEASE from '@/../data/study/release.json';
 import { SUBJECT_CLAIM } from '@/../data/subject_claim';
@@ -54,7 +54,7 @@ const freePlan = newOfferReleased() ? ['One baseline per launch subject', 'One i
   'Quick practice and Full mock on credits',
   'Weekly progress tracking',
   '25 saved questions',
-  'Leaderboard',
+  'Your standing',
 ];
 const proPlan = newOfferReleased() ? ['All available recovery pathways', 'Fresh delayed checks and full history', 'Unlimited available practice and reattempts', 'Full, Smart and NTA access', 'Unlimited saved questions'] : [
   'Unlimited Quick practice and Full mock',
@@ -132,16 +132,16 @@ const TOUR = [
   { id: 'combo', label: 'Combo Planner', icon: <Combine size={18} aria-hidden="true" />, line: 'Choose your five CUET papers', kicker: 'Subject Combo Planner', title: 'Picking five papers? Test the combination first.',
     body: 'Pick your DU goals and the subjects you can take, then see which five-paper combinations the published 2026 rules keep open.',
     points: ['Free to use', 'Compare combinations side by side'], chip: 'Tested against DU’s published 2026 rules.', href: '/cuet-subject-combination', cta: 'Plan my subjects' },
-  { id: 'rival', label: 'Benchmarks', icon: <Trophy size={18} aria-hidden="true" />, line: 'Beat a target score under the clock', kicker: 'Benchmarks and leaderboard', title: 'Beat the score you’re aiming for.',
+  { id: 'rival', label: 'Benchmarks', icon: <Trophy size={18} aria-hidden="true" />, line: 'Beat a target score under the clock', kicker: 'Benchmarks and your standing', title: 'Beat the score you’re aiming for.',
     body: 'Take a short timed run against a fixed target for accuracy and pace, set at daily, college or DU level. It shows whether you can hold that standard when the clock is running.',
-    points: ['The daily benchmark is free', 'Every mock earns points for accuracy and speed on the leaderboard'], chip: 'Race a set target score against the clock.', href: '/leaderboard', cta: 'See the leaderboard' },
+    points: ['The daily benchmark is free', 'Every mock earns points for accuracy and speed toward your standing'], chip: 'Race a set target score against the clock.', href: '/leaderboard', cta: 'See your standing' },
 ];
 
 const faqs = [
   { question: 'Can I try it before signing up?', answer: 'Yes. Answer five CUET-style questions at the top of this page, each with the reasoning behind the answer. No account needed.' },
   { question: 'What is MockMob built for?', answer: 'Timed CUET UG practice, a clear read of every mistake, and one next step you can act on tonight. It covers the 15 subjects behind 19 of every 20 CUET papers, with DU eligibility and published cutoffs alongside. Every mock is built fresh from one live question bank, and Pro puts no cap on how many you take.' },
   { question: 'What is the Mistake Lab?', answer: 'After every mock, the Lab shows where your marks went: the time on each question, every answer you changed, the reason behind each miss, and a SWOT with the set to do next. Mistake Repair then fixes the reasoning, one mistake at a time.' },
-  { question: 'What does Pro cost?', answer: OFFER.purchasable === 'monthly' ? `₹${OFFER.monthly.rupees} a month. It renews until you cancel in Account, and you keep Pro to the end of the month you paid for.` : `Monthly Pro at ₹${OFFER.monthly.rupees} a month is opening soon. Until then, ₹${OFFER.oneTime.rupees} once covers access through ${OFFER.oneTime.expires}, with no auto-renewal. Whoever pays now keeps the full term.` },
+  { question: 'What does Pro cost?', answer: OFFER.purchasable === 'monthly' ? `₹${OFFER.monthly.rupees} a month. It renews until you cancel in Account, and you keep Pro to the end of the month you paid for.` : `₹${OFFER.oneTime.rupees} once covers Pro through ${OFFER.oneTime.expires}, with no auto-renewal. Monthly Pro at ₹${OFFER.monthly.rupees} a month opens soon, and whoever pays now keeps the full term.` },
 ];
 
 export default function LandingPage() {
@@ -177,7 +177,7 @@ export default function LandingPage() {
               </div>
               <ul className="lp-trust" data-hero style={{ '--h': 3 }}>
                 <li><Check size={16} aria-hidden="true" />Free to start</li>
-                <li><Check size={16} aria-hidden="true" />{OFFER.purchasable === 'monthly' ? `Pro ₹${OFFER.monthly.rupees} a month` : `Pro ₹${OFFER.oneTime.rupees} once, through ${OFFER.oneTime.expires}`}</li>
+                <li><Check size={16} aria-hidden="true" />{priceLine(OFFER)}</li>
                 <li><Check size={16} aria-hidden="true" />{OFFER.purchasable === 'monthly' ? 'Cancel anytime' : 'No auto-renewal'}</li>
               </ul>
               <Link href="/cuet-cutoff-calculator" className="lp-link lp-hero__tool" data-hero style={{ '--h': 4 }}>
@@ -357,7 +357,7 @@ export default function LandingPage() {
             <div className="mm-wrap">
               <Reveal className="lp-head lp-head--left">
                 <p className="lp-kicker">Wall of love</p>
-                <h2 className="lp-h2">The mob speaks.</h2>
+                <h2 className="lp-h2">Students, in their own words.</h2>
               </Reveal>
               <Reveal delay={100}><WallOfLove voices={WALL_VOICES} /></Reveal>
             </div>
@@ -396,7 +396,7 @@ export default function LandingPage() {
         </section>
 
         {/* -------------------------------- FAQ ----------------------------- */}
-        <section className="lp-sec lp-sec--band">
+        <section className="lp-sec lp-sec--band" id="faq">
           <div className="mm-wrap mm-wrap--tight">
             <Reveal><h2 className="lp-h2">Before your first mock.</h2></Reveal>
             <Reveal className="mm-faqs">
@@ -413,7 +413,6 @@ export default function LandingPage() {
         {/* ------------------------------- CLOSE ---------------------------- */}
         <section className="lp-close">
           <div className="lp-bg lp-bg--static" aria-hidden="true">
-            <div className="lp-bg__aurora" />
             <div className="lp-bg__grid" />
             <div className="lp-bg__dots" />
           </div>

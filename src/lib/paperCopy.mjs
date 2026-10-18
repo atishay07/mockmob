@@ -137,8 +137,17 @@ export function pricingBankFaq(bankSize) {
   };
 }
 
-/** Onboarding: the subjects step's lead, and the count on each subject tile. */
-export const ONBOARDING_LEAD = 'Pick up to 5. Every mock is built fresh from one live question bank, with no cap on how many you take. You can change them any time.';
+/** Onboarding: the subjects step's lead, and the count on each subject tile. "No cap" is Pro's; Free pays practice credits
+ *  for each mock, said in the same breath (release 9 audit: the lead was shown to Free students without it). */
+export const ONBOARDING_LEAD = 'Pick up to 5. Every mock is built fresh from one live question bank: no cap on Pro, and on Free each one uses practice credits. Swap them any time.';
+
+/** Onboarding: each step's headline and lead (M-006, 18 Oct: bolder and punchier, still true, no exclamation marks). */
+export const ONBOARDING_STEPS = Object.freeze({
+  subjects: Object.freeze({ title: 'Pick your papers. We build the mocks.', lead: ONBOARDING_LEAD }),
+  edit: Object.freeze({ title: 'Your papers, your call.', lead: 'Up to 5. Practice and every mock run on these.' }),
+  days: Object.freeze({ title: 'How many days a week can you give?', lead: 'Today keeps your week in view: seven days, a mark on every study day. Skip and we start you on 4.' }),
+  colleges: Object.freeze({ title: 'Which colleges are you chasing?', lead: 'Pick a course, then up to 8 colleges. Today puts your first one up front with its 2026 cutoff. Change them any time on Account.' }),
+});
 export function tileCount(count) {
   return Number.isInteger(count) && count > 0 ? `${fmt(count)} question${count === 1 ? '' : 's'}` : null;
 }

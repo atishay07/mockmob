@@ -2,7 +2,6 @@
 .lp .lp-hero { padding-block: clamp(2.5rem, 5vw, 5rem) clamp(3.5rem, 6vw, 6rem); }
 .lp .lp-bg__grid { opacity: .35; }
 .lp .lp-bg__dots { opacity: .3; }
-.lp .lp-bg__aurora { opacity: .4; }
 
 .lp .lp-pill__dot::after { animation-iteration-count: 2; }
 .lp .lp-pill { background: var(--paper-raised); border-color: var(--line); }

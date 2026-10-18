@@ -75,7 +75,6 @@ html[data-theme] .mm .mm-btn--secondary { background: var(--paper-raised); color
 html[data-theme='light'] .lp :is(.du-teaser__big span, .du-live > span:first-child) { color: var(--accent-text); }
 html[data-theme='light'] .lp .lp-bg__grid { opacity: .18; background-image: linear-gradient(to right, #65784b40 1px, transparent 1px), linear-gradient(to bottom, #65784b40 1px, transparent 1px); }
 html[data-theme='light'] .lp .lp-bg__dots { opacity: .14; background-image: radial-gradient(circle at 1px 1px, #53673a 1px, transparent 1.6px); }
-html[data-theme='light'] .lp .lp-bg__aurora { opacity: .35; }
 html[data-theme='light'] .lp .lp-bg__fade { background: linear-gradient(0deg, var(--paper), transparent 60%); }
 html[data-theme='light'] .lp .du-live { background: var(--paper-raised); }
 html[data-theme='light'] .lp :is(.du-chip[aria-pressed='true'], .du-preset:hover) { color: #344800; border-color: #7e943d; background: #edf3d2; }

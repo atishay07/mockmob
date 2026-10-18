@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 // Auto-playing product preview: a real CUET-style question types itself out,
-// options land, the mob's answer split fills, the correct option locks in and
+// options land, the students' answer split fills, the correct option locks in and
 // the score ticks up. Honest by design: labelled "Practice preview", no fake
 // usernames. Pauses off-screen; reduced motion shows a solved static frame.
 const QUESTIONS = [
@@ -162,7 +162,7 @@ export function ArenaPreview() {
 
       <div className="arena-preview-foot">
         <span>
-          Mob solved in <strong>{question.seconds}s</strong>
+          Students solved it in <strong>{question.seconds}s</strong>
         </span>
         <span className="arena-preview-score">
           Points <strong>{score}</strong>

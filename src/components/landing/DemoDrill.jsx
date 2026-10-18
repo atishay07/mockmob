@@ -6,6 +6,7 @@ import { Icon } from '@/components/ui/Icons';
 import { Mascot } from '@/components/brand/Mascot';
 import { pipReact } from '@/components/brand/pipEvents';
 import { mobiMoment, runMood } from '@/lib/mobiMoments';
+import { markDemoAnswered } from './demoSignal.mjs';
 
 // Five original sample questions, playable with no signup. Not authenticated PYQs. This is the
 // onboarding: the drill opens already on question 1 so the first thing a
@@ -102,6 +103,7 @@ export function DemoDrill() {
     if (answered) return;
     focusNext.current = 'next';
     setPicked(optionIndex);
+    markDemoAnswered();
     if (event.detail > 0) pipReact('hero', mobiMoment(optionIndex === question.correct ? 'rightAnswer' : 'wrongAnswer'));
     if (optionIndex === question.correct) {
       setScore((s) => s + 1);
