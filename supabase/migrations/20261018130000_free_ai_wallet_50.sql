@@ -20,7 +20,7 @@
 --      Under the old Rs 1 cap a Free student stops after about 33 typical replies (0.0114 - 0.00155 = 0.0099 / 0.0003); 50 typical
 --      replies need 0.015 + 0.00155 = about 0.0165. At the observed maximum (0.000479 a reply) 50 replies need about 0.0255, so
 --      Rs 2.50 (0.0284) covers that as well, with room for a failed attempt or two (a failed call keeps its reservation).
---      Pro (student_user_paid, 0.0568 = Rs 5) is unchanged. The global 'student_ai' row is NOT touched by this file.
+--      Pro's per-user row (USD 0.0568 = Rs 5) is unchanged. The global 'student_ai' row is NOT touched by this file.
 --
 -- Rollback: supabase/undo/20261018130000_free_ai_wallet_50.undo.sql (restores production's bodies and the 0.0114 cap).
 
