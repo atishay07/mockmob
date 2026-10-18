@@ -65,7 +65,9 @@ export default function MentorRecordPage() {
 
   if (tab === 'plan' || tab === 'tools') return <p className="mrp-note" role="status">Taking you there.</p>;
   return (
-    <div className="mrp">
+    // pp-arena maps the record view's own tokens (--pp-ink and the rest) onto the Arena's Night and Day colours (arena.css).
+    // Without it the view falls back to the dark defaults in prepos.css and reads near-white on near-white in Day (W-078).
+    <div className="mrp pp-arena">
       <ArenaHead title="Your record" lede="Where your marks went, from your own saved sessions." />
       <AskMobiLink context={{ kind: 'page' }} variant="row" className="mrp-ask">
         <span className="ame__icon" aria-hidden="true"><AppIcon name="prepos" size={20} /></span>

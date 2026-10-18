@@ -250,9 +250,19 @@
 .ctl-toggle__text small { font-size: 12.5px; color: var(--ctl-ink-3); }
 @media (hover: hover) { .ctl-toggle:hover:not([data-disabled='true']) { border-color: var(--ctl-line-hover); } }
 /* The switch keeps its own look; on the volt row its rail reads against the wash. */
-/* The row is the 44 px target, so the switch keeps its drawn 52 x 32 size inside the app shell too. */
-.ctl-toggle .mk-switch { min-width: 0; min-height: 0; border-color: var(--ctl-line-strong); background: var(--ctl-sunken); }
-.ctl-toggle .mk-switch[aria-checked='true'] { background: var(--ctl-volt); border-color: var(--ctl-volt-edge); }
+/* The switch is its own 44 px target (W-079): the button is 52 x 44 and the 52 x 32 track is drawn by its ::before, 6 px in from
+   the top and bottom, so the look is what it was. The row is still the label, so a tap anywhere on it still toggles. The thumb
+   and the tick keep their old places inside the track (4 px in, the tick on the old 50 x 30 box). */
+.ctl-toggle .mk-switch, .ctl-toggle .mk-switch[aria-checked='true'] { min-width: 52px; min-height: 44px; height: 44px; border: 0; background: transparent; }
+.ctl-toggle .mk-switch::before {
+  inset: 6px 0; border-radius: 999px; border: 1px solid var(--ctl-line-strong); background: var(--ctl-sunken);
+  transition: background-color 220ms ease, border-color 220ms ease;
+}
+.ctl-toggle .mk-switch[aria-checked='true']::before { background: var(--ctl-volt); border-color: var(--ctl-volt-edge); }
+.ctl-toggle .mk-switch:focus-visible { outline: none; }
+.ctl-toggle .mk-switch:focus-visible::before { outline: 2px solid var(--focus-ring, #d2f000); outline-offset: 3px; }
+.ctl-toggle .mk-switch__thumb { left: 4px; top: 10px; }
+.ctl-toggle .mk-switch__tick { inset: auto; left: 1px; top: 7px; width: 50px; height: 30px; }
 
 /* ---------- Smooth details ---------- */
 .ctl-details__body { display: block; }

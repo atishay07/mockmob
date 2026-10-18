@@ -369,7 +369,7 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
             {line.reset ? <><i aria-hidden="true"> · </i>{line.reset}</> : null}
           </Link>
           <span className="amb-cost__price" aria-live="polite">
-            {!price ? 'Record questions are free' : price === 'free' ? 'Free, from your record' : offline ? 'Needs a connection. Nothing is charged.' : paid.open ? usesLine({ what: 'This reply', cost: 1, pool: 'ai' }) : 'Needs a written reply. Nothing is charged from here.'}
+            {!price ? 'Record questions are free' : price === 'free' ? 'Free, from your record' : offline ? 'Needs a connection. Nothing is charged.' : paid.open ? `An AI service writes it. ${usesLine({ what: 'This reply', cost: 1, pool: 'ai' })}` : 'Needs a written reply. Nothing is charged from here.'}
           </span>
         </div>
       </form>

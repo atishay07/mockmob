@@ -244,7 +244,7 @@ html[data-theme='light'] :is(.app-shell .nta-runner[data-interface='nta'], .aren
 /* A link that belongs to the one above it (Your standing under Progress, COMMUNITY-1018). In the sidebar it is indented under its
    parent, so it reads as part of Progress; the phone sheet lists it beside Progress as an ordinary row. */
 .app-shell .arena-sidebar .arena-nav-link--sub {
-  min-height: 34px;
+  min-height: 44px;
   margin-left: 28px;
   padding: 0 10px;
   font-size: 13.5px;
@@ -1985,14 +1985,23 @@ html[data-motion='reduced'] .app-shell .rc-caption .rc-chip { animation: none; }
    volt wash and volt outline. The rail already has a volt key and a volt current page; a third volt mark at the foot is
    what read as "in your face". The sheet's full row keeps its own pick. */
 .app-shell .arena-appearance--compact::before { background: var(--a-raised-2); box-shadow: inset 0 0 0 1px var(--a-line-strong); }
-/* Short desktop windows (under 960 px tall, which is every 1440 x 900 laptop window): with a mouse the
-   rail's rows come down from 44 to 38 px and its gaps tighten, so the Account group and the appearance row sit nearer the
-   screen. Touch and trackpad-less screens keep 44 (W-079); the rail still scrolls when the window is shorter still. */
-@media (min-width: 1024px) and (max-height: 960px) and (hover: hover) and (pointer: fine) {
+/* Rail rows are 44 px (W-079), including the indented "Your standing". Where the whole rail would not fit at 44, a mouse
+   window brings the rows down to 38 px and tightens the gaps, so the Account group and the appearance row never need a
+   scroll; touch screens keep 44 and the rail scrolls when the window is shorter still. Measured at 1440 wide, the rail needs
+   823 px with 12 rows and 46 more for each further row: Learn on and the Mob off (the live set) needs 869, so 1440 x 900 keeps
+   44; Learn and the Mob together need 915 and compact up to there. The Contribute group (off) would add 111 more. Those
+   figures hold with the 6 px gaps below, which the rail now has at every desktop height. */
+@media (min-width: 1024px) {
   .app-shell .arena-sidebar { gap: 6px; }
+  .app-shell .arena-sidebar__foot { padding-top: 8px; }
+}
+@media (min-width: 1024px) and (max-height: 869px) and (hover: hover) and (pointer: fine) {
   .app-shell .arena-sidebar .arena-nav-link { min-height: 38px; }
   .app-shell .arena-sidebar .arena-nav-link[aria-current="page"]::before { top: 8px; bottom: 8px; }
-  .app-shell .arena-sidebar__foot { padding-top: 8px; }
+}
+@media (min-width: 1024px) and (min-height: 870px) and (max-height: 915px) and (hover: hover) and (pointer: fine) {
+  .app-shell .arena-sidebar:has([data-tour="nav-learn"]):has([data-tour="nav-mob"]) .arena-nav-link { min-height: 38px; }
+  .app-shell .arena-sidebar:has([data-tour="nav-learn"]):has([data-tour="nav-mob"]) .arena-nav-link[aria-current="page"]::before { top: 8px; bottom: 8px; }
 }
 .app-shell .arena-sheet .arena-appearance { margin: 0 0 12px; }
 

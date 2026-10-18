@@ -17,6 +17,8 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import AppearanceSwitch from '@/components/AppearanceSwitch';
 import { PipActor } from '@/components/brand/PipActor';
 import { StartKey, StartSheetHost } from '@/components/start';
+import { watchPagePrimary } from '@/components/start/pagePrimary.mjs';
+import { setStartQuiet } from '@/components/start/startQuietStore';
 import AskMobiHost from '@/components/ai/AskMobiHost';
 import './arena.css';
 import './student-pages.css';
@@ -27,6 +29,8 @@ import '@/components/study/study.css';
 import { arenaNavigation, MOBILE_STUDY_NAV } from '@/lib/arenaNavigation';
 import { useReviseBadge } from '@/lib/reviewRead';
 import { VIEW_TRANSITION_PROPS } from '@/lib/motion/placeTransition';
+import { tourSteps } from '@/lib/appTour.mjs';
+import { TourStopsProvider } from '@/components/help/TourStops';
 
 // React's <ViewTransition> (Next's experimental.viewTransition): the arena's page transitions. The type
 // of each navigation (place, push, pop, rise, fade, or none on /test) is added by src/instrumentation-client.js
@@ -36,24 +40,7 @@ function PageTransition({ children }) {
   return ViewTransition ? <ViewTransition {...VIEW_TRANSITION_PROPS}>{children}</ViewTransition> : children;
 }
 
-// The Guide (W-064, F18): one stop per place a student uses, each saying what it is for and when it helps. Started by the
-// student only (a pressed Guide, never a popup on first open). Colleges, Ask Mobi and the Mob joined on 17 Oct so every
-// feature has a way in; the Mob stop shows only while the Mob is on.
-const TOUR_STEPS_ALL = [
-  { title: 'Today', target: 'nav-today', body: 'Your next useful step, and why: what to practise now and what is due for review.' },
-  { title: 'Practice', target: 'nav-dashboard', body: 'Choose a subject, a mode and how many questions, then start a timed session. Every answer is scored on the server.' },
-  // Learn has its own stop and, on a phone, its own lead row at the top of More (D20), so a student who looks for it is shown where it is.
-  { title: 'Learn', target: ['nav-learn', 'nav-more'], study: true, body: 'Short lessons on a concept, a recall check to lock it in, then practice questions on it.',
-    bodies: { 'nav-more': 'Learn is the first place under More: short lessons on a concept, a recall check to lock it in, then practice questions on it.' } },
-  { title: 'Review', target: 'nav-review', body: 'Every mistake from your papers, with its explanation. Repair one to find the reason, and Revise brings it back until it holds.' },
-  { title: 'Progress', target: 'nav-progress', body: 'Your study days, badges and personal bests, week by week. Your standing, where your recorded mocks place you, sits right under it.' },
-  { title: 'Colleges', target: 'nav-admission-compass', body: 'Which DU courses your subjects open, and the 2026 cutoff college by college. Your chosen colleges show on Today.' },
-  { title: 'Ask Mobi', target: 'nav-mentor', body: 'Opens beside the question, the result, Practice or Today, already about it. Questions about your own record are free. A written reply costs 1 AI credit, and the cost shows before you ask.' },
-  { title: 'Your Mob', target: 'nav-mob', body: 'You and up to four friends sit the same 10-question paper each week. You see who has sat it, and your own result.', mob: true },
-  // The last stop is the standalone Help and FAQ page (D11): a link in the sidebar's Account group, under More on a phone.
-  { title: 'Help and FAQ', target: ['nav-help', 'nav-more'], body: 'Stuck anywhere? Help and FAQ has the common questions, this tour to take again and a way to write to us.',
-    bodies: { 'nav-more': 'Stuck anywhere? Help and FAQ is under More: the common questions, this tour to take again and a way to write to us.' } },
-];
+// The Guide's stops live in src/lib/appTour.mjs (W-093), so Help and FAQ counts the tour that will run.
 // Pip guides the tour only (rare, so it may have character); it nods on each step.
 const TOUR_POSES = ['greeting', 'encouraging', 'thinking', 'encouraging', 'celebrating', 'encouraging', 'thinking', 'celebrating', 'greeting'];
 
@@ -73,7 +60,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   const wallet = useWalletSummary(user?.id);
   const mobOn = mobEnabled || Boolean(previewLinks?.mob);
   const studyOn = studyEnabled || previewRoute === '/learn';
-  const TOUR_STEPS = useMemo(() => TOUR_STEPS_ALL.filter((step) => (!step.mob || mobOn) && (!step.study || studyOn)), [mobOn, studyOn]);
+  const TOUR_STEPS = useMemo(() => tourSteps({ mob: mobOn, study: studyOn }), [mobOn, studyOn]);
   // The Review badge is what Revise has due today (LEARN-REVIEW-1017 5.12), absent when nothing is due or the count is unknown.
   const reviseBadge = useReviseBadge({ enabled: status === 'authenticated' && !isTestRoute });
 
@@ -194,8 +181,9 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
 
   // One volt per viewport (AGENT_RULES 7, WB-05): a page that owns a volt action marks it data-page-primary (or marks its
   // root data-owns-start). While such a page is mounted, #app-main carries data-start-quiet and the sidebar's Start key (from
-  // 1024 px) is outlined for the whole visit (start.css); the phone bar's key keeps its lime disc everywhere (nav A1). The key's look follows the route and what the page holds, never the
+  // 1024 px) is outlined for the whole visit (start.css). The sidebar key follows the route and what the page holds, never the
   // scroll position: a key that flips as the page scrolls is the bug the owner saw on Practice (F12, START-1017 section 5).
+  // The phone dock's key is handled by the effect below this one, which follows whether the page's key is on screen (W-075).
   useEffect(() => {
     // <main> exists only once the session is known, so this waits for it.
     const main = status === 'authenticated' ? document.getElementById('app-main') : null;
@@ -210,6 +198,18 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
     sync();
     return () => { mo.disconnect(); cancelAnimationFrame(frame); delete main.dataset.startQuiet; };
   }, [activePath, status]);
+
+  // The phone dock's Start key (W-075, release 8): while the page's own volt key is on screen it steps back to its quiet look,
+  // so a phone never holds two lime fills, and when that key has scrolled away it is lime again. It follows one thing, whether
+  // that key is in view (pagePrimary.mjs: the band between the top bar and the dock, a dead band at its edges and a short
+  // settle, so a fast scroll never flickers it), not the route and not the scroll position itself. Keys that exist only on a
+  // phone mark data-phone-primary, so they never quiet the desktop sidebar. The timed runner has no dock and no watch.
+  useEffect(() => {
+    const main = status === 'authenticated' && !isTestRoute ? document.getElementById('app-main') : null;
+    if (!main) return undefined;
+    const stop = watchPagePrimary(main, { onChange: setStartQuiet });
+    return () => { stop(); setStartQuiet(false); };
+  }, [activePath, status, isTestRoute]);
 
   useEffect(() => {
     if (status !== 'authenticated') return;
@@ -428,7 +428,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
         <div className="arena-backdrop" aria-hidden="true" />
         <PageTransition>
           <div className={`${isTestRoute ? 'test-content-host' : 'container-std'} relative z-10`}>
-            <MobFlagProvider enabled={mobEnabled || Boolean(previewLinks?.mob)}><ContributeFlagProvider enabled={contributeOn}>{children}</ContributeFlagProvider></MobFlagProvider>
+            <MobFlagProvider enabled={mobEnabled || Boolean(previewLinks?.mob)}><ContributeFlagProvider enabled={contributeOn}><TourStopsProvider count={TOUR_STEPS.length}>{children}</TourStopsProvider></ContributeFlagProvider></MobFlagProvider>
           </div>
         </PageTransition>
       </main>

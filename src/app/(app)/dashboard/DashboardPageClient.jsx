@@ -498,7 +498,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
   ) : quoteStatus === 'error' && short ? (
     <button type="button" className={`btn-outline md ${className}`} onClick={() => setQuoteNonce((n) => n + 1)}>Check again</button>
   ) : (
-    <Button key={`key-${modeNudge}`} variant="volt" size="md" className={className} data-page-primary={short ? undefined : ''} data-nudge={modeNudge > 0 || undefined}
+    <Button key={`key-${modeNudge}`} variant="volt" size="md" className={className} data-page-primary={short ? undefined : ''} data-phone-primary={short ? '' : undefined} data-nudge={modeNudge > 0 || undefined}
       disabled={isLaunching || !quoteLaunchable} aria-busy={isLaunching || quoteStatus === 'loading' || undefined} aria-label={short && !isLaunching ? barStartLabel : undefined} onClick={launch}>
       {/* Under 380 px the bar's key says "Start 10" (its name still says the whole label), so the mode's name beside it is
           never cut to "Quick pr…" (W-068). */}
@@ -507,8 +507,9 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
   ));
 
   return (
-    // data-owns-start: Practice owns the volt Start, so the bar's and the sidebar's Start key are quiet (outlined) for the
-    // whole visit, never flipping as the page scrolls (owner F12; AppLayoutClient, start.css).
+    // data-owns-start: Practice owns the volt Start, so the sidebar's Start key is quiet (outlined) for the whole visit, never
+    // flipping as the page scrolls (owner F12; AppLayoutClient, start.css). The phone dock's key steps back while the session
+    // bar's key (data-phone-primary) is on screen, and only then (W-075; pagePrimary.mjs). This page has no scroll script.
     <div className="pr view" data-rule={startSheet ? '' : undefined} data-owns-start="" data-launch={launchMoment || undefined}>
       {!isPremium && (
         <CreditsRemainingModal open={showCreditsModal} credits={user?.creditBalance ?? 0} offer={quote?.offer} onClose={() => setShowCreditsModal(false)} />

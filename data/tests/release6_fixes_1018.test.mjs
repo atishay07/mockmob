@@ -9,7 +9,7 @@ import { MORE_BUTTON, openAskMobi, returnFocusFor } from '../../src/components/a
 import COPY from '../mistake_lab.copy.json' with { type: 'json' };
 
 const root = new URL('../../', import.meta.url);
-const read = (path) => readFileSync(new URL(path, root), 'utf8');
+const read = (path) => readFileSync(new URL(path, root), 'utf8').replace(/\r\n/g, '\n'); // a CRLF checkout (core.autocrlf) reads like LF
 const stripComments = (css) => css.replace(/\/\*[\s\S]*?\*\//g, '');
 // The text of every at-rule block that opens with `head` (brace-matched), so a rule can be asked "which block holds you".
 function blocks(css, head) {

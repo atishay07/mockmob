@@ -3,9 +3,13 @@
 // The Start key: an action, not a page. It opens the Start sheet, which grows out of it.
 //   variant 'sidebar'  a full-width volt key under the logo (from 1024 px)
 //   variant 'bar'      a 64 px round volt key beside the phone and tablet dock's tab capsule (NAV-1017 A1): its play
-//                      mark and word sit on the tabs' icon and label lines, and its look never follows page state.
+//                      mark and word sit on the tabs' icon and label lines. Lime when the page has no key of its own on
+//                      screen; while the page's own volt key is in view it draws data-quiet (the capsule's glass, an ink
+//                      word) so a phone never holds two lime fills (W-075). Same box and place either way, and it opens
+//                      the sheet either way.
 // Volt is the one action colour; the key carries the word Start with a play mark.
 import { openStart, useStartState } from './startStore';
+import { useStartQuiet } from './startQuietStore';
 import './start.css';
 
 function PlayMark({ size = 14 }) {
@@ -18,6 +22,7 @@ function PlayMark({ size = 14 }) {
 
 export default function StartKey({ variant = 'sidebar', onOpen = null }) {
   const { open } = useStartState();
+  const quiet = useStartQuiet();
   const press = (event) => {
     onOpen?.();
     openStart({ opener: event.currentTarget });
@@ -30,6 +35,7 @@ export default function StartKey({ variant = 'sidebar', onOpen = null }) {
       aria-expanded={open}
       aria-controls={open ? 'start-sheet' : undefined}
       data-start-key={variant}
+      data-quiet={variant === 'bar' && quiet ? '' : undefined}
       data-tour="nav-start"
       onClick={press}
     >
