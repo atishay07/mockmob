@@ -1,6 +1,7 @@
 import '../../core/auth/load_problem.dart';
 import '../../core/copy/formatters.dart';
 import '../../core/copy/state_words.dart' show SavedCopy;
+import 'model/review_chapters.dart' show ActionLabels;
 
 /// Every line the Review feature shows (spec 5.8, Night Sheet brief sections 8 and 10). The
 /// steps of a mistake are Found, Repaired, Retested and Still right; never "fixed" or "mastered".
@@ -518,4 +519,96 @@ abstract final class ReviewCopy {
   static const loadingRecord = 'Loading your repair record';
   static const loadingRepair = 'Loading your repair';
   static const loadingAnswers = 'Loading the answer sheet';
+
+  // ---- Weak chapters lead (REVIEW-RESULT-1018 4 and 7; the website's ReviewChapters) -------------------------------------
+  //
+  // The same words as the website, so a student reads one Review on both. One label per state: Repair, Check it held, See
+  // repair, Try it again (ActionLabels in model/review_chapters.dart). No "Repair first", no "Repair in N".
+
+  static const marksLostWord = 'marks lost';
+  static const loseMost = 'You lose the most marks in';
+
+  /// The lead-in over a chapter that is not the costliest: its place in the ranking, in words.
+  static String costliestNth(int rank) => 'Your ${ordinal(rank)} costliest chapter';
+
+  /// "2nd", "3rd", "11th", "22nd".
+  static String ordinal(int n) {
+    final tens = n % 100;
+    if (tens >= 11 && tens <= 13) return '${n}th';
+    return switch (n % 10) {
+      1 => '${n}st',
+      2 => '${n}nd',
+      3 => '${n}rd',
+      _ => '${n}th',
+    };
+  }
+
+  /// The figure beside the big number: "of 80", or nothing when the chapter's questions are not known.
+  static String ofOffer(int offer) => 'of $offer';
+
+  /// "16 questions in Mock 3 and Mock 2: 5 wrong, 1 left blank." (the number, its scope and its parts); without the
+  /// question count "In Mock 3 and Mock 2: 5 wrong, 1 left blank."
+  static String chapterScope({required int? questions, required String papers, required String counted}) =>
+      questions == null ? 'In $papers: $counted.' : '${plural(questions, 'question')} in $papers: $counted.';
+
+  static String practiseOnChapter(int n) => 'Practise $n on this chapter';
+  static String practiseInSubject(int n, String subject) => 'Practise $n in $subject';
+
+  /// The line under the Practise key: what it is, and what it costs (unknown never zero; Pro covers it).
+  static String practiseLine({required int size, required int cost, required bool allRepaired, bool isPro = false, int? credits}) {
+    final lead = allRepaired ? 'Practise to prove it on new questions. ' : '';
+    final base = '$size new questions, about $size minutes.';
+    if (isPro) return '$lead$base Pro covers this set.';
+    if (credits == null) return '$lead$base Uses $cost credits.';
+    if (credits < cost) return '$lead$base It uses $cost credits. You have $credits.';
+    return '$lead$base Uses $cost of your $credits credits.';
+  }
+
+  static String chapterMistakes(int n) => n == 1 ? '1 mistake to repair' : '$n mistakes to repair';
+  static const chapterNothingToRepair = 'Nothing left to repair';
+  static const newestFirst = 'Newest first';
+  static String showMoreMistakes(int n) => 'Show $n more';
+  /// What a screen reader says on a mistake row: the action first, then which question, then where it is from.
+  static String rowSpoken({required String action, required int number, required String stamp, String? stem}) =>
+      '$action, question $number, $stamp.${stem == null || stem.isEmpty ? '' : ' $stem'}';
+
+  static const yoursWord = 'yours';
+  static String pickSpoken(String letter) => 'Your pick $letter';
+
+  /// The foot under a chapter's mistakes (plain sentences, the website's).
+  static String leftBlank(int n) => '$n left blank';
+  static String tryBlankAgain(int n) => 'Try ${n == 1 ? 'it' : 'them'} again, free.';
+  static String blankChip(int number, String paper) => 'Q$number, $paper';
+  static String blankChipSpoken(int number, String paper) => '${ActionLabels.again}, question $number, $paper. Free.';
+  static String repairedFoot(int n) => '$n repaired';
+  static String repairedNames(List<String> named, int more, {required int slipped, required int total}) {
+    final list = more > 0 ? '${named.join(', ')} and $more more' : _join(named);
+    final tail = slipped == 0 ? '' : (total == 1 ? ', which slipped on a new question' : '; $slipped slipped on a new question');
+    return '$list$tail.';
+  }
+
+  static String inSavedRepairs(int n) => n == 1 ? 'It is in Saved repairs.' : 'They are in Saved repairs.';
+  static String setAsideFoot(int n) => '$n set aside while ${n == 1 ? 'its key is' : 'their keys are'} checked.';
+
+  /// Under the foot: what a repair costs, from the AI wallet (unknown never zero), and when credits renew at 0.
+  static String repairCostFoot({int? aiCredits, String? renews}) =>
+      'Each repair is 1 AI credit${aiCredits == null ? '' : '; you have $aiCredits'}.${renews == null ? '' : ' They renew on $renews.'} '
+      'No charge if a repair cannot be written. Seeing the answer and trying again are free.';
+  static String learnFirst(String lesson) => 'Learn the idea first: $lesson';
+
+  // ---- More chapters, Saved repairs ----------------------------------------------------------------------------------------
+
+  static const moreChapters = 'More chapters';
+  static const mostMarksFirst = 'Most marks first';
+  static const marksWord = 'marks';
+  static const opensChapter = 'Opens this chapter.';
+  static String chapterRowSpoken({required String name, required int lost, required String line}) => '$name. Lost $lost marks. $line';
+  static const savedRepairsHeading = 'Saved repairs';
+  static String savedRepairsCount(int n) => '$n, each opens free';
+  static String showAllSaved(int n) => 'Show all $n';
+  static String savedRowSpoken({required String action, required int number, required String chapter, required String stamp, required String line}) =>
+      '$action, question $number, $chapter. $stamp. $line';
+
+  /// The sentence over the chapters when nothing lost a mark.
+  static const noChapterLost = 'Every answer on your papers was right, so no chapter lost marks.';
 }
