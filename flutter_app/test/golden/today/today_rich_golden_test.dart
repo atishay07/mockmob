@@ -30,6 +30,8 @@ Widget _onGround(Widget child) => Builder(
 /// The rhythm paused: no plan, so the weeks ahead shows the milestones only.
 const TodayWeek _paused = TodayWeek(studied: [false, false, false, false, false, false, false], todayIndex: 6, label: 'Paused', paused: true);
 
+TodayInputs _mockNext() => ashaInputs(now: sunday, attempts: ashaRecord(DateTime.utc(2026, 10, 9, 14, 10)), week: activeInputs().week!, reviseDue: 6);
+
 Widget _marksAndWeak() {
   final g = activeView().glance!;
   return Column(
@@ -60,6 +62,15 @@ void main() {
     dock: false,
     textScale: 1.3,
   );
+  // The last mock 11 days ago: full mock 8 lands next week on a planned day (the stopwatch beside the
+  // chips), the week of 26 Oct is bare, full mock 9 the week of 2 Nov, as the approved mock.
+  for (final (name, size, scale) in const [
+    ('today_rich_ahead_mock_next_360', Size(360, 900), 1.0),
+    ('today_rich_ahead_mock_next_412', Size(412, 915), 1.0),
+    ('today_rich_ahead_mock_next_360_text130', Size(360, 1250), 1.3),
+  ]) {
+    screenGolden(name, () => _onGround(WeeksAheadBlock(ahead: buildToday(_mockNext()).glance!.ahead!, onWeek: (_) {})), size: size, dock: false, textScale: scale);
+  }
   // No plan: the milestones only.
   screenGolden(
     'today_rich_ahead_noplan_412',

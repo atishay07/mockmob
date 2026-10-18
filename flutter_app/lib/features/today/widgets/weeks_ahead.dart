@@ -263,7 +263,7 @@ class _WeekRow extends StatelessWidget {
               final trailingWidth = thumb ? 44.0 : (trailing == null ? 0.0 : 18.0);
               final room = box.maxWidth - whenWidth - 12 - (trailingWidth > 0 ? trailingWidth + 12 : 0);
               // Too narrow for the when column (a small phone at large text): it sits over the body instead.
-              if (room < 150) {
+              if (room < 136 * scale.clamp(1.0, 1.3)) {
                 return Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
