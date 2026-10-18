@@ -331,7 +331,8 @@ void main() {
       TrendPoint pt(int k, int marks) => TrendPoint(attemptId: 'm$k', label: 'Mock $k', date: '$k Oct', marks: marks, outOf: 250, target: const GoTo('/r'));
       final t = MarksTrend(points: [pt(2, 178), pt(3, 182), pt(4, 171), pt(5, 182), pt(6, 204), pt(7, 204)], subject: 'Accountancy', ofSubject: 6, outOf: 250);
       await _pump(tester, SingleChildScrollView(child: YourMarksBlock(trend: t, onOpen: (_) {})));
-      expect(find.text('204 on Mock 7, your best of these 6. Level with Mock 6.', findRichText: true), findsOneWidget);
+      // Mock 6 and Mock 7 share the best, so both are named (final walk, low).
+      expect(find.text('204 on Mock 7. Your best of these 6 is 204, on Mock 6 and Mock 7. Level with Mock 6.', findRichText: true), findsOneWidget);
       expect(find.textContaining('0 on Mock 6', findRichText: true), findsNothing);
     });
 

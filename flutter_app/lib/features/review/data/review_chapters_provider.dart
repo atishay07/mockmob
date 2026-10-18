@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/api_providers.dart' show nowProvider;
+import '../../../core/repositories/pending_result_repository.dart' show PendingResult, unopenedResultsProvider;
 import '../model/review_chapters.dart';
 import '../model/review_record_adapter.dart';
 import 'mistake_index.dart';
@@ -37,4 +38,15 @@ final reviewChaptersProvider = Provider<ChaptersBody?>((ref) {
   final clock = ref.watch(reviewClockProvider);
   final record = reviewRecordOf(index, now: ref.watch(nowProvider)(), unopened: unopened, checks: ref.watch(reviewCheckOutcomesProvider));
   return chaptersBody(record, local: clock.local);
+});
+
+/// The chapters' figures alone (marks lost, on offer, wrong and blank), the same `chapterRows` the weak-chapter page prints, for
+/// another screen to read: Today's Weak chapters (final walk, H6). It leaves the Check it held outcomes out, as they change no
+/// figure, so it never wakes a repair check.
+final reviewChapterFiguresProvider = Provider<List<ChapterRow>?>((ref) {
+  final index = ref.watch(reviewIndexProvider);
+  if (index == null) return null;
+  // The sealed papers straight from their source (what Review's inputs read too), so this never wakes the saved-repairs read.
+  final unopened = {for (final u in ref.watch(unopenedResultsProvider).value ?? const <PendingResult>[]) u.attemptId};
+  return chapterRows(reviewRecordOf(index, now: ref.watch(nowProvider)(), unopened: unopened));
 });

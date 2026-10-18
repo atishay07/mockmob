@@ -159,7 +159,7 @@ void main() {
     });
 
     test('Practice opens on the record answer for the weakest chapter', () {
-      expect(openingFor(const AskMobiContext.practice(), rich())!.reply, startsWith('Partnership'));
+      expect(openingFor(const AskMobiContext.practice(), rich())!.reply, startsWith('You lose the most marks in Partnership'));
     });
 
     test("Today opens on the lead's reason and the plan's facts", () {
