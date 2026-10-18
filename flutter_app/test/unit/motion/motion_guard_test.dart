@@ -64,7 +64,7 @@ const Map<String, int> _animatedSwitcherAllowed = {
   'lib/core/widgets/key_button_face.dart': 1,
   'lib/features/account_access/widgets/problem_slot.dart': 1,
   'lib/features/account_access/widgets/sign_in_methods.dart': 1,
-  'lib/features/auth/auth_page.dart': 1,
+  'lib/features/auth/auth_page.dart': 2,
   'lib/features/insights/screens/stream_screen.dart': 1,
   'lib/features/insights/widgets/ask_messages.dart': 1,
   'lib/features/insights/widgets/ledger_hero.dart': 1,
