@@ -9,7 +9,6 @@
 // Not mapped on purpose (the web does not sell them as a one-off, or not at all):
 //   pro_monthly_99   the web's Rs 99 auto-renewing Razorpay subscription. A Play subscription would need
 //                    purchases.subscriptionsv2 and its own renewal and cancel handling; add it when the owner wants it.
-//   practice credits there is no web purchase of Practice credits (they come from sign-up, contributions and nothing else).
 //   pro_cuet_2027_v2 not released on the web.
 //   pro_cuet_2026    legacy.
 import { PAYMENT_PLANS } from './plans.js';
@@ -23,8 +22,8 @@ const pro = (webPlanId) => ({
   finish: 'acknowledge',
 });
 
-/** A credit pack: consumed after the grant, so the student can buy it again. */
-const pack = (productId, credits) => ({ productId, kind: 'ai_credits', webPlanId: productId, credits, finish: 'consume' });
+/** A credit pack: consumed after the grant, so the student can buy it again. kind: 'ai_credits' (the PrepOS wallet) or 'practice_credits' (users.credit_balance). */
+const pack = (productId, credits, kind = 'ai_credits') => ({ productId, kind, webPlanId: productId, credits, finish: 'consume' });
 
 export const PLAY_PRODUCTS = Object.freeze(Object.fromEntries([
   pro('pro_cuet_2027'),
@@ -32,6 +31,9 @@ export const PLAY_PRODUCTS = Object.freeze(Object.fromEntries([
   pack('ai_credits_prepos_10_50', 50),
   pack('ai_credits_prepos_20_150', 150),
   pack('ai_credits_prepos_50_400', 400),
+  // Practice credit packs (owner, 18 Oct 2026 6:38 pm; the website wallet gets the same two, web/wallet-1018): Rs 19 -> 100, Rs 49 -> 300 on the web.
+  pack('practice_credits_19_100', 100, 'practice_credits'),
+  pack('practice_credits_49_300', 300, 'practice_credits'),
 ].map((p) => [p.productId, Object.freeze(p)])));
 
 export function getPlayProduct(productId) {
@@ -39,4 +41,4 @@ export function getPlayProduct(productId) {
 }
 
 /** Product ids that exist only as a gap list, for the doc and the test. */
-export const PLAY_GAPS = Object.freeze(['pro_monthly_99', 'practice_credits', 'pro_cuet_2027_v2', 'pro_cuet_2026']);
+export const PLAY_GAPS = Object.freeze(['pro_monthly_99', 'pro_cuet_2027_v2', 'pro_cuet_2026']);
