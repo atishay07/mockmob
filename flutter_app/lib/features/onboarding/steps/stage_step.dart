@@ -73,8 +73,13 @@ class StageStep extends ConsumerWidget {
                     ),
                     const SizedBox(height: MmSpace.s8),
                     // The weeks land here, under the road, at the same height before and after the
-                    // choice, so nothing below moves when the number rolls in.
-                    SizedBox(height: 40, child: WeeksReadout(stage: stage, now: now, compact: true)),
+                    // choice, so nothing below moves when the number rolls in. At a large text size
+                    // the line may take a second line: the row grows and pushes the tiles down,
+                    // never clipping it.
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(minHeight: 40),
+                      child: Align(alignment: Alignment.centerLeft, child: WeeksReadout(stage: stage, now: now, compact: true)),
+                    ),
                   ],
                 ),
               ),

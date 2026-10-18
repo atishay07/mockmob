@@ -21,6 +21,7 @@ import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/storage/storage_providers.dart';
 import 'package:mockmob/features/onboarding/screens/after_sign_in_sheet.dart';
 import 'package:mockmob/features/onboarding/widgets/swipe_preview.dart';
+import 'package:flutter/rendering.dart';
 import '../../golden/onboarding/support.dart';
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
@@ -244,5 +245,16 @@ void main() {
         expect(tester.takeException(), isNull);
       });
     }
+  });
+
+  testWidgets('Stage at 1.3x: the weeks line is whole, above the tiles', (tester) async {
+    await _flowAt(tester, studentUpTo(Steps.stage), textScale: 1.3);
+    final line = find.text(OnboardingCopy.weeksUnit(2027));
+    expect(line, findsOneWidget);
+    final para = tester.renderObject<RenderParagraph>(line);
+    expect(para.didExceedMaxLines, isFalse);
+    final tileTop = tester.getRect(find.ancestor(of: find.text(Stage.classTwelve.option), matching: find.byType(ChoiceTile)).first).top;
+    expect(tester.getRect(line).bottom, lessThanOrEqualTo(tileTop), reason: 'never cut mid-word under the tiles');
+    expect(tester.takeException(), isNull);
   });
 }

@@ -81,7 +81,7 @@ abstract final class OnboardingCopy {
   static const String stageTitle = 'Which CUET are you writing?';
   static const String stageSupport = 'No dates to type. We work them out.';
   static const String weeksPlaceholder = 'Your weeks to May land here.';
-  static String weeksUnit(int year) => 'weeks to the expected May $year window';
+  static String weeksUnit(int year) => 'weeks to CUET, May $year';
   static const String datesNotOut = 'Dates not out yet';
   static const String classElevenNote = 'You\'re early.';
   static const String boardsNote = 'Boards land mid-February to early April. The plan goes lighter then.';
