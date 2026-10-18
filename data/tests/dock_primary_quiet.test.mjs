@@ -440,14 +440,14 @@ test('quiet keeps the key where it is, as big as it is, and draws it without the
   assert.ok(quiet.length >= 2, 'the key and its play mark both have a quiet rule');
   const body = quiet.map((m) => m[2]).join('\n');
   assert.doesNotMatch(body, /var\(--volt\)|#d2f000|#dcfa1e/i, 'no lime fill in the quiet look');
-  assert.doesNotMatch(body, /\b(width|height|padding|margin|top|left|position|display|grid-template|border-radius)\s*:/, 'quiet changes the colours only: same shape, same place, same 64 px target');
-  assert.match(body, /background:\s*var\(--dock-glass\)/, 'the capsule glass, so the page never reads through the key');
+  assert.doesNotMatch(body, /\b(width|height|padding|margin|top|left|position|display|grid-template|border-radius)\s*:/, 'quiet changes the colours only: same shape, same place, same 56 px target');
+  assert.match(body, /background:\s*var\(--a-raised-2\)/, 'a raised, opaque disc inside the capsule, so the page never reads through the key');
   assert.match(body, /color:\s*var\(--a-ink\)/);
   assert.match(quiet.map((m) => m[1]).join('\n'), /\.stk__disc/);
   assert.match(body, /color:\s*var\(--a-accent-text\)/, 'the play mark keeps the accent');
   // Reduced motion: the swap is instant, in both ways the app asks for it.
-  assert.match(phone, /html\[data-motion='reduced'\] \.app-shell \.arena-dock > \.stk--bar\s*\{[^}]*transition:\s*none/);
-  assert.match(phone, /@media \(prefers-reduced-motion: reduce\)\s*\{[^}]*\.arena-dock > \.stk--bar\s*\{[^}]*transition:\s*none/);
+  assert.match(phone, /html\[data-motion='reduced'\] \.app-shell \.arena-bottomnav > button\.stk--bar\s*\{[^}]*transition:\s*none/);
+  assert.match(phone, /@media \(prefers-reduced-motion: reduce\)\s*\{[^}]*\.arena-bottomnav > button\.stk--bar\s*\{[^}]*transition:\s*none/);
 });
 
 test('the quiet rule is the dock key’s only page-dependent look, and it is not keyed on the old scroll rules (F12)', () => {

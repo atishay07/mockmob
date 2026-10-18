@@ -56,7 +56,7 @@ html[data-theme='light'] .app-shell .stk--sidebar { box-shadow: inset 0 0 0 1px 
   /* The centre slot of the capsule (WEB-NAV-1019 option A, owner D114: Today, Practice, Start, Mob, You, as in the app). A
      56 px circle centred in its slot and in the 64 px row; its play mark and word sit on the tabs' icon and label lines
      (icon centre 23 px down the row, label line 39 to 53 px), so the five read as one row. `button` raises it above the
-     capsule's own tab rules, which would otherwise dress it as a tab (aria-expanded while the Start sheet is open). */
+     capsule's own tab rules, which would otherwise dress it as an open tab while the Start sheet is open. */
   html .app-shell .arena-bottomnav > button.stk--bar {
     --mk-press-scale: 0.94;
     position: relative;
