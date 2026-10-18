@@ -29,10 +29,10 @@ abstract final class FaqCopy {
 
   static const credits = FaqItem(
     id: 'credits',
-    question: 'What are Practice credits and AI credits?',
+    question: 'How do credits work?',
     answer: [
-      'Practice credits pay for mocks and practice sets. AI credits pay for Ask Mobi replies and repair explanations. Each one has its own balance, and each shows when it renews.',
-      'On Pro, practice is unlimited. Your AI credits still count.',
+      'Credits pay for mocks and practice sets, and for Ask Mobi replies and repair explanations. Your balance shows when it renews.',
+      'On Pro, practice is unlimited. Your credits still count for Ask Mobi and repairs.',
     ],
   );
 

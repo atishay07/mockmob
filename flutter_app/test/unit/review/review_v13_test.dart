@@ -107,14 +107,14 @@ void main() {
 
     test('one mistake: the credit line with the balance, and no total beyond it', () {
       final plan = EntryPlan.of(1, wallet, clock);
-      expect(plan.line, 'Uses 1 AI credit per mistake. You have 9.');
+      expect(plan.line, 'Uses 1 credit per mistake. You have 9.');
       expect(plan.after, isNull);
       expect(plan.usesCredits, isTrue);
     });
 
     test('several mistakes: what the whole repair takes and leaves', () {
       final plan = EntryPlan.of(3, wallet, clock);
-      expect(plan.line, 'Uses 1 AI credit per mistake. You have 9.');
+      expect(plan.line, 'Uses 1 credit per mistake. You have 9.');
       expect(plan.after, 'This repair takes 3 and leaves 6.');
     });
 

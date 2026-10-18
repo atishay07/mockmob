@@ -633,7 +633,7 @@ abstract final class TodayCopy {
   static const String seeTonightsRepairs = "See tonight's repairs";
 
   // The price line under the key (TODAY-1018 section 5): the wallet's and the quote's own numbers.
-  static String priceRepair(int balance) => 'Each repair uses 1 AI credit. You have $balance.';
+  static String priceRepair(int balance) => 'Each repair uses 1 credit. You have $balance.';
   static const String priceFree = 'Free. No credits.';
   static const String openTheRepair = 'Open the repair';
   static const String openTheSession = 'Open the session';

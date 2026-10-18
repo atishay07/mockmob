@@ -147,15 +147,15 @@ void main() {
     test('enough credits: the credit line and Begin', () {
       final plan = EntryPlan.of(3, credits(9), clock);
       expect(plan.headline, isNull);
-      expect(plan.line, 'Uses 1 AI credit per mistake. You have 9.');
+      expect(plan.line, 'Uses 1 credit per mistake. You have 9.');
       expect(plan.limit, isNull);
     });
 
     test('a short wallet starts with what it covers, or reads the keys', () {
       final plan = EntryPlan.of(3, credits(2), clock);
       // One headline that says the whole shortfall; the options are the keys under it.
-      expect(plan.headline, 'You have 2 AI credits, this repair needs 3');
-      expect(plan.line, 'AI credits renew on 1 November.');
+      expect(plan.headline, 'You have 2 credits, this repair needs 3');
+      expect(plan.line, 'credits renew on 1 November.');
       expect(plan.limit, 2);
       expect(plan.offerKeys, isTrue);
     });
@@ -163,8 +163,8 @@ void main() {
     test('an empty wallet reads the keys, with the renewal date', () {
       final plan = EntryPlan.of(3, credits(0), clock);
       expect(plan.keyOnly, isTrue);
-      expect(plan.headline, "You have used this month's AI credits");
-      expect(plan.line, 'AI credits renew on 1 November.');
+      expect(plan.headline, "You have used this month's credits");
+      expect(plan.line, 'credits renew on 1 November.');
     });
 
     test('paused explanations read the keys', () {

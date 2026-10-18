@@ -283,7 +283,7 @@ void main() {
       final view = buildToday(_inputs());
       final lead = view.hero! as MoveHero;
       const credits = AiCredits(state: 'active', wallet: AiWallet(known: true, total: 38));
-      expect(priceLine(lead, credits: credits), 'Each repair uses 1 AI credit. You have 38.');
+      expect(priceLine(lead, credits: credits), 'Each repair uses 1 credit. You have 38.');
       expect(priceLine(lead), isNull, reason: 'an unknown wallet is not zero');
       final revise = view.choices.firstWhere((c) => c.key == 'revise').hero!;
       expect(priceLine(revise), TodayCopy.priceFree);

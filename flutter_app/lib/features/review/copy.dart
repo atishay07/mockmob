@@ -246,10 +246,10 @@ abstract final class ReviewCopy {
       '${plural(n, 'mistake')}${minutes == null ? '' : ', about $minutes minutes'}. You can stop after any one.';
   /// The line under the entry's number, which already says how many.
   static String entryMeaning(int? minutes) => '${minutes == null ? 'Take your time' : 'About $minutes minutes'}. You can stop after any one.';
-  static String creditLine(int balance) => 'Uses 1 AI credit per mistake. You have $balance.';
+  static String creditLine(int balance) => 'Uses 1 credit per mistake. You have $balance.';
 
   /// The headline when the wallet covers fewer mistakes than the repair holds.
-  static String shortfallHeadline(int needed, int balance) => 'You have ${plural(balance, 'AI credit')}, this repair needs $needed';
+  static String shortfallHeadline(int needed, int balance) => 'You have ${plural(balance, 'credit')}, this repair needs $needed';
   static String startWith(int n) => 'Start with ${plural(n, 'mistake')}';
   static const begin = 'Begin';
   static const reopenLead = 'Already repaired. Opening it again is free and changes nothing on your record.';
@@ -280,8 +280,8 @@ abstract final class ReviewCopy {
   static const readKey = 'Read the key explanation';
   static const pausedHeadline = 'Explanations are paused right now';
   static const pausedLine = 'The key explanations still work.';
-  static const outOfCreditsHeadline = "You have used this month's AI credits";
-  static String renewsOn(String date) => 'AI credits renew on $date.';
+  static const outOfCreditsHeadline = "You have used this month's credits";
+  static String renewsOn(String date) => 'credits renew on $date.';
 
   // ---- Try it once more (L13) -----------------------------------------------------------------
   //
@@ -306,8 +306,8 @@ abstract final class ReviewCopy {
 
   /// The cost line under "Check my answer". An unknown balance says nothing about the balance and
   /// never counts as zero.
-  static String reasonCost(int balance) => 'The reason uses 1 AI credit. You have $balance.';
-  static const reasonCostUnknown = 'The reason uses 1 AI credit.';
+  static String reasonCost(int balance) => 'The reason uses 1 credit. You have $balance.';
+  static const reasonCostUnknown = 'The reason uses 1 credit.';
   static const keyExplanationFree = 'The key explanation is free.';
 
   /// The verdict, in words and never in colour alone.
@@ -416,7 +416,7 @@ abstract final class ReviewCopy {
   static const heldForRecheck = 'Answer key under check. You were not charged.';
   static const setAsideCheck = 'Answer key under check. Nothing was charged.';
   static const notExplained = 'We could not explain this one. You were not charged. Try another.';
-  static const outOfCredits = "You have used this month's AI credits.";
+  static const outOfCredits = "You have used this month's credits.";
   /// One line, no box: used up, and when they come back.
   static String creditsUsedLine(String? renewDate) => renewDate == null ? 'Credits used up for this month.' : 'Credits used up. They renew on $renewDate.';
   static const paused = 'Explanations are paused right now.';
@@ -594,7 +594,7 @@ abstract final class ReviewCopy {
 
   /// Under the foot: what a repair costs, from the AI wallet (unknown never zero), and when credits renew at 0.
   static String repairCostFoot({int? aiCredits, String? renews}) =>
-      'Each repair is 1 AI credit${aiCredits == null ? '' : '; you have $aiCredits'}.${renews == null ? '' : ' They renew on $renews.'} '
+      'Each repair is 1 credit${aiCredits == null ? '' : '; you have $aiCredits'}.${renews == null ? '' : ' They renew on $renews.'} '
       'No charge if a repair cannot be written. Seeing the answer and trying again are free.';
   static String learnFirst(String lesson) => 'Learn the idea first: $lesson';
 

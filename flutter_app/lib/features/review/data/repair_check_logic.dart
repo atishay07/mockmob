@@ -27,8 +27,8 @@ abstract final class CheckCopy {
   // Ask Mobi, about the mistake being repaired (never the check question).
   static const askCost = 'One written reply';
   static const askPaused = 'Written replies are paused right now. Nothing is charged.';
-  static const askEmpty = 'You have no AI credits left, so Mobi cannot write a reply. Nothing is charged.';
-  static const askUnreadable = 'Your AI credits could not be read just now, so Mobi cannot write a reply. Nothing is charged.';
+  static const askEmpty = 'You have no credits left, so Mobi cannot write a reply. Nothing is charged.';
+  static const askUnreadable = 'Your credits could not be read just now, so Mobi cannot write a reply. Nothing is charged.';
 
   /// The tag on an option of an answered check: words, never colour alone.
   static const tagKey = 'Key';
@@ -162,7 +162,7 @@ class AskOffer {
     switch (credits.state) {
       case 'available':
         if (left == null) return const AskOffer(ask: false, line: CheckCopy.askUnreadable);
-        return AskOffer(ask: true, line: '${CheckCopy.askCost} uses 1 AI credit. You have $left.');
+        return AskOffer(ask: true, line: '${CheckCopy.askCost} uses 1 credit. You have $left.');
       case 'empty':
         return const AskOffer(ask: false, line: CheckCopy.askEmpty);
       case 'paused':

@@ -530,7 +530,7 @@
       "label": "Repair Q42",
       "why": "Share Capital. You picked D. 18 of 22 other students got it right.",
       "value": "A repair gives you why D looked right, the trap, one rule to keep, and a new question to check it held.",
-      "cost": "1 AI credit. You have 68. No charge if the repair cannot be written.",
+      "cost": "1 credit. You have 68. No charge if the repair cannot be written.",
       "late": "It is late. One repair is enough for tonight.",
       "alt": {
         "kind": "practise",

@@ -113,7 +113,7 @@ void main() {
     });
 
     test('an unknown balance shows no number, never zero', () {
-      expect(repairCostLine(null), '1 AI credit. No charge if the repair cannot be written.');
+      expect(repairCostLine(null), '1 credit. No charge if the repair cannot be written.');
       expect(practiceCostLine(), 'This set uses 10 practice credits.');
       expect(practiceCostLine(isPremium: true), 'Pro covers this set.');
     });

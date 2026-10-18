@@ -317,7 +317,7 @@ void main() {
     testWidgets('the header shows the live balance, and opens the credit details', (tester) async {
       await pump(tester);
       expect(find.byType(AskCreditPill), findsOneWidget);
-      expect(find.bySemanticsLabel('9 AI credits. Credit details'), findsOneWidget);
+      expect(find.bySemanticsLabel('9 credits. Credit details'), findsOneWidget);
       await tester.tap(find.byType(AskCreditPill));
       await tester.pumpAndSettle();
       expect(find.text(InsightsCopy.walletTitle), findsOneWidget);

@@ -111,7 +111,7 @@ void main() {
     expect(find.text('Admission of a partner. You picked B.'), findsOneWidget);
     // No check question is promised until the Lab says one is ready (RESULT-1017 4.4).
     expect(find.textContaining('A repair gives you why B looked right, the trap'), findsOneWidget);
-    expect(find.text('1 AI credit. You have 68.\nNo charge if the repair cannot be written.'), findsOneWidget);
+    expect(find.text('1 credit. You have 68.\nNo charge if the repair cannot be written.'), findsOneWidget);
     // 11 PM: one plain line, never a sleeping figure.
     expect(find.text('It is late. One repair is enough for tonight.'), findsOneWidget);
     expect(find.text('Practise 10 on Admission of a partner instead'), findsOneWidget);
@@ -357,7 +357,7 @@ void main() {
     );
     await tester.pump(const Duration(milliseconds: 900));
     expect(find.textContaining('You have'), findsNothing);
-    expect(find.text('1 AI credit.\nNo charge if the repair cannot be written.'), findsOneWidget);
+    expect(find.text('1 credit.\nNo charge if the repair cannot be written.'), findsOneWidget);
   });
 
   testWidgets('with fresh questions ready the proof fold starts 5 in that chapter for this attempt', (tester) async {

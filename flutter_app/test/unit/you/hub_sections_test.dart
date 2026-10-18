@@ -349,11 +349,10 @@ void main() {
       expect(find.text(FaqCopy.credits.answer.first), findsNothing);
     });
 
-    test('the answers say the two credit names and only those', () {
+    test('the answers say credits, one balance, and no wallet or pool names', () {
       final text = FaqCopy.all.expand((q) => [q.question, ...q.answer]).join('\n');
-      expect(text, contains('Practice credits'));
-      expect(text, contains('AI credits'));
-      for (final banned in ['explanation credit', 'wallet', 'practice credits pay', 'ai credits']) {
+      expect(text, contains('Credits pay for'));
+      for (final banned in ['explanation credit', 'wallet', 'practice credits', 'ai credits']) {
         expect(text.contains(banned), isFalse, reason: banned);
       }
       expect(text.contains('!'), isFalse);

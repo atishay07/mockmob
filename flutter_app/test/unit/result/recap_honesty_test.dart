@@ -160,7 +160,7 @@ void main() {
     test('balance 0', () {
       expect(
         ResultCopy.walletShort(3, 0),
-        'This repair needs 3 AI credits. You have none. Read the key explanations in Review.',
+        'This repair needs 3 credits. You have none. Read the key explanations in Review.',
       );
       expect(ResultCopy.walletShort(3, 0), isNot(contains('0 mistakes')));
     });
@@ -168,7 +168,7 @@ void main() {
     test('balance 1 or more keeps the covered count', () {
       expect(
         ResultCopy.walletShort(3, 1),
-        'This repair needs 3 AI credits. You have 1. Start with 1 mistake, or read the key explanations in Review.',
+        'This repair needs 3 credits. You have 1. Start with 1 mistake, or read the key explanations in Review.',
       );
     });
   });

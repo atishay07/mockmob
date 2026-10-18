@@ -373,7 +373,7 @@ String repairAltDetail(String? letter, int? aiCredits) =>
 String? haveLine(int? balance) => balance == null ? null : 'You have $balance.';
 
 /// "1 AI credit. You have 68. No charge if the repair cannot be written."
-String repairCostLine(int? aiCredits) => ['1 AI credit.', ?haveLine(aiCredits), 'No charge if the repair cannot be written.'].join(' ');
+String repairCostLine(int? aiCredits) => ['1 credit.', ?haveLine(aiCredits), 'No charge if the repair cannot be written.'].join(' ');
 
 /// The cost of a 10-question chapter set: Pro covers it; otherwise practice credits and the balance.
 String practiceCostLine({bool isPremium = false, int? practiceCredits}) {
@@ -427,14 +427,14 @@ ResultMove nextMove({
     final MoveAlt? alt = first != null
         ? MoveAlt(
             kind: AltKind.repair,
-            label: 'Or repair Q${first.number} first, 1 AI credit',
+            label: 'Or repair Q${first.number} first, 1 credit',
             detail: repairAltDetail(firstLetter, aiCredits),
             qid: first.qid,
             number: first.number,
             chapter: first.chapter,
           )
         : noAi && open.isNotEmpty
-        ? const MoveAlt(kind: AltKind.credits, label: 'See your AI credits')
+        ? const MoveAlt(kind: AltKind.credits, label: 'See your credits')
         : null;
     return ResultMove(
       kind: MoveKind.practise,
@@ -532,7 +532,7 @@ ResultMove nextMove({
   // 5. Practise the costliest chapter.
   final String why;
   if (noAi && open.isNotEmpty) {
-    why = 'Repairs use AI credits. ${haveLine(0)}';
+    why = 'Repairs use credits. ${haveLine(0)}';
   } else if (mistakes.isNotEmpty && done.length == mistakes.length) {
     why = 'Every mistake on this paper is repaired. A set on ${top?.chapter ?? subject} keeps it.';
   } else if (top != null) {

@@ -254,7 +254,7 @@ void main() {
 
       // Before: the row names its price, and the line says what the balance is.
       expect(find.text(AskSheetCopy.oneCredit), findsNWidgets(2));
-      expect(find.textContaining('9 of 10 AI credits left'), findsOneWidget);
+      expect(find.textContaining('9 of 10 credits left'), findsOneWidget);
 
       await tester.tap(find.text('What did I misread?'));
       await tester.pumpAndSettle();
@@ -263,9 +263,9 @@ void main() {
 
       // After: the reply, its source naming what it used, and the balance the server reported.
       expect(find.text('Each partner gives up 1/8.'), findsOneWidget);
-      expect(find.textContaining('Written reply on Q7 · 1 AI credit used, 8 left'), findsOneWidget);
-      expect(find.textContaining('8 of 10 AI credits left'), findsOneWidget);
-      expect(find.textContaining('9 of 10 AI credits left'), findsNothing);
+      expect(find.textContaining('Written reply on Q7 · 1 credit used, 8 left'), findsOneWidget);
+      expect(find.textContaining('8 of 10 credits left'), findsOneWidget);
+      expect(find.textContaining('9 of 10 credits left'), findsNothing);
       final sent = http.requests.where((r) => r.path.contains('/mentor/chat')).single;
       final body = sent.body is String ? jsonDecode(sent.body! as String) as Map<String, dynamic> : Map<String, dynamic>.from(sent.body! as Map);
       expect(body['mode'], 'revision');
@@ -273,7 +273,7 @@ void main() {
       await tester.pump(const Duration(seconds: 13));
     });
 
-    testWidgets('the credits line opens the AI credits page', (tester) async {
+    testWidgets('the credits line opens the credits page', (tester) async {
       final opened = <String>[];
       final router = GoRouter(
         routes: [
@@ -305,9 +305,9 @@ void main() {
       );
       await tester.tap(find.text('open'));
       await tester.pumpAndSettle();
-      final line = find.bySemanticsLabel(RegExp('9 of 10 AI credits left'));
+      final line = find.bySemanticsLabel(RegExp('9 of 10 credits left'));
       expect(line, findsOneWidget);
-      await tester.tap(find.textContaining('9 of 10 AI credits left'));
+      await tester.tap(find.textContaining('9 of 10 credits left'));
       await tester.pumpAndSettle();
       expect(opened, [AppRoutes.youCredits]);
       expect(find.byType(AskMobiSheet), findsNothing);

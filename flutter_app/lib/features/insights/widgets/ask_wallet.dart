@@ -149,7 +149,7 @@ class AskWalletSheet extends ConsumerWidget {
               children: [
                 Text('${wallet.total}', style: type.display.copyWith(fontFeatures: const [FontFeature.tabularFigures()])),
                 const SizedBox(width: MmSpace.s8),
-                Text(one ? (wallet.total == 1 ? 'credit' : 'credits') : (wallet.total == 1 ? 'AI credit' : 'AI credits'), style: type.title.copyWith(color: colors.ink2)),
+                Text(wallet.total == 1 ? 'credit' : 'credits', style: type.title.copyWith(color: colors.ink2)),
               ],
             ),
           ),

@@ -307,7 +307,7 @@ abstract final class InsightsCopy {
 
   // The AI credit wallet, in the website's words where it has them (MockMobAIHub, pricing/prepos):
   // 50 a month on Free, 50 on Pro, purchased credits never expire, a failed reply costs nothing.
-  static String aiCredits(int n) => n == 1 ? '1 AI credit' : '$n AI credits';
+  static String aiCredits(int n) => n == 1 ? '1 credit' : '$n credits';
   static String credits(int n) => n == 1 ? '1 credit' : '$n credits';
 
   /// Under the field, before anything is sent: what the question in the field will cost, and who
@@ -325,7 +325,7 @@ abstract final class InsightsCopy {
         1 => '$aiWrites\u00a0·\u00a0your\u00a0last\u00a0credit',
         final n => '$aiWrites\u00a0·\u00a01\u00a0of\u00a0your\u00a0$n\u00a0credits',
       };
-  static String askNoteEmpty(String renew) => 'No AI credits left. They renew on $renew. Questions about your record stay free.';
+  static String askNoteEmpty(String renew) => 'No credits left. They renew on $renew. Questions about your record stay free.';
 
   // The balance in the header, and the sheet it opens.
   static const walletPillUnknown = 'Credits';
@@ -333,9 +333,9 @@ abstract final class InsightsCopy {
   static String walletPillLabel(int? balance, {bool paused = false}) => paused
       ? 'AI replies paused. Credit details'
       : balance == null
-          ? 'AI credits. Credit details'
+          ? 'credits. Credit details'
           : '${aiCredits(balance)}. Credit details';
-  static const walletTitle = 'Your AI credits';
+  static const walletTitle = 'Your credits';
   static const walletUnknown = 'Your credits could not be read just now. Nothing has been charged.';
   static const walletPaused = 'AI replies are paused just now. Your credits have not been used.';
   static const walletIncluded = 'Included this month';
@@ -351,9 +351,9 @@ abstract final class InsightsCopy {
   static const walletHistory = 'Used in this conversation';
   static const walletHistoryEmpty = 'Nothing yet. Questions about your record never use a credit.';
   static const creditDetails = 'Credit details';
-  static const outTitle = 'No AI credits left this month';
+  static const outTitle = 'No credits left this month';
   static String outBody(String renew) => 'They renew on $renew. Questions about your record stay free.';
-  static const outPro = 'Pro includes 50 AI credits a month.';
+  static const outPro = 'Pro includes 50 credits a month.';
 
   /// What a reply cost, as the server reported it.
   static String chargedLine(int? charged, int? left) => switch (charged) {
@@ -369,8 +369,8 @@ abstract final class InsightsCopy {
   static const failOffline = 'You are offline. Send it again when you are back.';
   static const failSlow = 'Taking longer than usual. Send it again in a moment.';
   static String failNoCredits(int? balance, String renew) => balance == null
-      ? 'That needs 1 AI credit. Yours renew on $renew. Questions about your record stay free.'
-      : 'That needs 1 AI credit and you have $balance. They renew on $renew. Questions about your record stay free.';
+      ? 'That needs 1 credit. Yours renew on $renew. Questions about your record stay free.'
+      : 'That needs 1 credit and you have $balance. They renew on $renew. Questions about your record stay free.';
   static const failPaused = 'AI replies are paused just now. Questions about your record still work.';
   static const failResend = 'That did not go through. Send it again.';
   static const failRate = 'That is a lot of questions in a minute. Wait a moment, then send again.';

@@ -136,6 +136,6 @@
   "ask": {
     "link": "/mentor?tab=ask&q=<attemptId>:<questionId>",
     "context": "GET /api/recovery/ask-context?q=<attemptId>:<questionId> returns { ok, context:{ question (first 160 chars), subject, chapter, rule, cost:{ credits:1, pool:'ai' } } } for the Ask screen's context line.",
-    "chat": "POST /api/ai/mentor/chat gains `questionRef: '<attemptId>:<questionId>'`. The server builds the context itself from the student's own attempt: question text, the options, the student's pick, today's key and the repair's rule. Nothing else about the student is sent when questionRef is present. Ask's own credit rules apply (1 AI credit, shown before sending)."
+    "chat": "POST /api/ai/mentor/chat gains `questionRef: '<attemptId>:<questionId>'`. The server builds the context itself from the student's own attempt: question text, the options, the student's pick, today's key and the repair's rule. Nothing else about the student is sent when questionRef is present. Ask's own credit rules apply (1 credit, shown before sending)."
   }
 }

@@ -176,8 +176,8 @@ void main() {
 
   group('lines', () {
     test('the credits line reads like the mock', () {
-      expect(walletLine(total: 9, includedMonthly: 10, bonus: 0, resetsOn: '1 Nov'), '9 of 10 AI credits left · resets 1 Nov');
-      expect(walletLine(total: 12, includedMonthly: 10, bonus: 4, resetsOn: '1 Nov'), '12 AI credits left · resets 1 Nov');
+      expect(walletLine(total: 9, includedMonthly: 10, bonus: 0, resetsOn: '1 Nov'), '9 of 10 credits left · resets 1 Nov');
+      expect(walletLine(total: 12, includedMonthly: 10, bonus: 4, resetsOn: '1 Nov'), '12 credits left · resets 1 Nov');
       expect(walletLine(total: null), AskSheetCopy.walletUnknown);
       expect(walletLine(total: 3, paused: true), AskSheetCopy.walletPaused);
     });
@@ -322,7 +322,7 @@ void main() {
       expect(find.byType(MobiCharacter), findsNothing);
       expect(find.text(AskSheetCopy.oneCredit), findsNWidgets(2));
       expect(find.text(AskSheetCopy.free), findsOneWidget);
-      expect(find.textContaining('9 of 10 AI credits left'), findsOneWidget);
+      expect(find.textContaining('9 of 10 credits left'), findsOneWidget);
       await tester.pump(const Duration(seconds: 13));
     });
 

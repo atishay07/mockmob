@@ -55,7 +55,7 @@ class AskOpening {
 }
 
 /// Free product asks for a student with no sessions yet.
-const askCreditsQuestion = 'How do AI credits work?';
+const askCreditsQuestion = 'How do credits work?';
 const askScopeQuestion = 'What can you answer?';
 
 /// The free record ask when it is answered on this phone, or null when the record cannot answer it.
@@ -208,7 +208,7 @@ String walletLine({required int? total, int? includedMonthly, int? bonus, bool p
     return resetsOn == null ? left : '$left · free ones renew $resetsOn';
   }
   final left = includedMonthly != null && (bonus ?? 0) == 0 && total <= includedMonthly
-      ? '$total of $includedMonthly AI credits left'
+      ? '$total of $includedMonthly credits left'
       : '${InsightsCopy.aiCredits(total)} left';
   return resetsOn == null || includedMonthly == null ? left : '$left · resets $resetsOn';
 }
@@ -231,7 +231,7 @@ abstract final class AskSheetCopy {
   static const askNext = 'Ask next';
   static const youCanAsk = 'You can ask now';
   static const free = 'Free';
-  static const oneCredit = '1 AI credit';
+  static const oneCredit = '1 credit';
   static const needsWritten = 'Needs a written reply';
   static String youPicked(String letter, String? text) => text == null ? 'You picked $letter' : 'You picked $letter, $text';
   static String keyIs(String letter, String? text) => text == null ? 'Key $letter' : 'Key $letter, $text';
@@ -252,10 +252,10 @@ abstract final class AskSheetCopy {
   static const explainPreview = 'A written explanation in plain words';
   static const mockOpeningTitle = 'Where the lost marks went';
   static const creditsAnswer = 'Questions about your own practice are free and answered from your record. Anything else gets a '
-      'written reply for 1 AI credit, and the price shows before you send. Free includes 50 AI credits a month and Pro 50; '
+      'written reply for 1 credit, and the price shows before you send. Free includes 50 credits a month and Pro 50; '
       'bought credits never expire. A reply that fails costs nothing.';
   static const scopeAnswer = 'Your marks, chapters, timing and week, from your own practice, for free. Anything else, like '
-      'explaining a question, gets a written reply for 1 AI credit.';
+      'explaining a question, gets a written reply for 1 credit.';
   static const newStudent = 'Mobi answers from your own practice. After one session it can show where your marks went.';
   static const firstCheck = 'Take a 10-question check';
   static const firstCheckHref = '/dashboard?mode=quick';
@@ -263,13 +263,13 @@ abstract final class AskSheetCopy {
       'Net $net marks from $questions answers: $gained gained, $penalty lost to wrong answers';
   static String leakLine(String chapter, int lost, int wrong, int n) => 'Biggest leak: $chapter, $lost marks lost, $wrong wrong of $n';
   static String paceLine(String median, int timed) => 'Pace: a typical question takes $median, over $timed timed answers';
-  static const openCredits = 'Open AI credits';
+  static const openCredits = 'Open credits';
   static const walletPaused = 'AI replies are paused. Record questions still work.';
-  static const walletUnknown = 'AI credits not loaded';
+  static const walletUnknown = 'credits not loaded';
   static const recordFree = thisCosts;
   static const thisIsFree = 'Free, from your record';
   static const thisCosts = "An AI service writes Mobi's replies\u00a0·\u00a01\u00a0credit";
-  static String noCredits(String renew) => '0 AI credits left. They reset on $renew. Questions about your record stay free. Nothing is charged from here.';
+  static String noCredits(String renew) => '0 credits left. They reset on $renew. Questions about your record stay free. Nothing is charged from here.';
   static const paused = 'Written replies are paused just now. Questions about your record stay free. Nothing is charged from here.';
   static const blocked = 'Mobi cannot write replies right now. Questions about your record stay free. Nothing is charged from here.';
   static String hint(String? label) => label == null ? 'Ask about your record' : 'Ask about $label';
@@ -286,8 +286,8 @@ abstract final class AskSheetCopy {
     final cost = switch (charged) {
       null => 'check your credits for the charge',
       0 => 'no credit used',
-      1 => left == null ? '1 AI credit used' : '1 AI credit used, $left left',
-      final n => left == null ? '$n AI credits used' : '$n AI credits used, $left left',
+      1 => left == null ? '1 credit used' : '1 credit used, $left left',
+      final n => left == null ? '$n credits used' : '$n credits used, $left left',
     };
     return '$on · $cost';
   }

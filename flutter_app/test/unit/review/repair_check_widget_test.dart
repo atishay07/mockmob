@@ -115,27 +115,27 @@ void main() {
     testWidgets('an available wallet: the link names the mistake by its number, with the price and what Mobi sees', (tester) async {
       await _pump(tester, _overrides());
       expect(_keys(askLabel), findsWidgets);
-      expect(find.textContaining('One written reply uses 1 AI credit. You have 9. Mobi sees Q$number, your pick, the key and your rule, and nothing else about you.'), findsOneWidget);
+      expect(find.textContaining('One written reply uses 1 credit. You have 9. Mobi sees Q$number, your pick, the key and your rule, and nothing else about you.'), findsOneWidget);
     });
 
     testWidgets('paused: no link, one line, and nothing about a price or free asking', (tester) async {
       await _pump(tester, _overrides(wallet: _paused()));
       expect(_keys(askLabel), findsNothing);
       expect(find.text('Written replies are paused right now. Nothing is charged.'), findsOneWidget);
-      expect(find.textContaining('1 AI credit'), findsNothing);
+      expect(find.textContaining('One written reply'), findsNothing);
       expect(find.textContaining('free'), findsNothing);
     });
 
     testWidgets('no credits: no link, and the line says Mobi cannot write a reply and that nothing is charged', (tester) async {
       await _pump(tester, _overrides(wallet: credits(0)));
       expect(_keys(askLabel), findsNothing);
-      expect(find.text('You have no AI credits left, so Mobi cannot write a reply. Nothing is charged.'), findsOneWidget);
+      expect(find.text('You have no credits left, so Mobi cannot write a reply. Nothing is charged.'), findsOneWidget);
     });
 
     testWidgets('an unreadable wallet says so, and that nothing is charged', (tester) async {
       await _pump(tester, _overrides(wallet: _unreadable()));
       expect(_keys(askLabel), findsNothing);
-      expect(find.text('Your AI credits could not be read just now, so Mobi cannot write a reply. Nothing is charged.'), findsOneWidget);
+      expect(find.text('Your credits could not be read just now, so Mobi cannot write a reply. Nothing is charged.'), findsOneWidget);
     });
 
     testWidgets('before the wallet is read nothing is shown, so nothing is shown and then taken back', (tester) async {

@@ -51,7 +51,7 @@ void main() {
     expect(find.text('6 held credits. Held credits do not expire.'), findsOneWidget);
     // No second balance and no pool names.
     expect(find.text('Practice credits'), findsNothing);
-    expect(find.text('AI credits'), findsNothing);
+    expect(find.text('credits'), findsNothing);
   });
 
   testWidgets('a balance that did not load is Not loaded, never 0', (tester) async {

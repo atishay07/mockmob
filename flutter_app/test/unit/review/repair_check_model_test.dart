@@ -209,7 +209,7 @@ void main() {
     test('available: the link and the price, with the balance', () {
       final o = AskOffer.of(credits('available', total: 68));
       expect(o.ask, isTrue);
-      expect(o.line, 'One written reply uses 1 AI credit. You have 68.');
+      expect(o.line, 'One written reply uses 1 credit. You have 68.');
     });
 
     test('not read yet: nothing is shown, so nothing is shown and then taken back', () {
@@ -225,7 +225,7 @@ void main() {
       expect(paused.line, 'Written replies are paused right now. Nothing is charged.');
       final empty = AskOffer.of(credits('empty', total: 0));
       expect(empty.ask, isFalse);
-      expect(empty.line, contains('no AI credits left'));
+      expect(empty.line, contains('no credits left'));
       final unreadable = AskOffer.of(credits('error', known: false));
       expect(unreadable.ask, isFalse);
       expect(unreadable.line, contains('could not be read'));
@@ -233,7 +233,7 @@ void main() {
       expect(AskOffer.of(credits('available', known: false)).ask, isFalse);
       for (final o in [paused, empty, unreadable]) {
         expect(o.line, endsWith('Nothing is charged.'));
-        expect(o.line, isNot(contains('1 AI credit')));
+        expect(o.line, isNot(contains('1 credit')));
         expect(o.line!.toLowerCase(), isNot(contains('free')));
       }
     });

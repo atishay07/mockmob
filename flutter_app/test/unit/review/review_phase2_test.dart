@@ -241,7 +241,7 @@ void main() {
       expect(title.dx, ReviewSpace.moment, reason: 'the headline is on the moment gutter');
       // What Repair gives is stated before any call, and the cost with the balance sits directly above the key that spends it.
       expect(find.text(ReviewCopy.givesHeading), findsOneWidget);
-      final credit = tester.getRect(find.text('Uses 1 AI credit per mistake. You have 9.'));
+      final credit = tester.getRect(find.text('Uses 1 credit per mistake. You have 9.'));
       expect(key.top - credit.bottom, lessThanOrEqualTo(40), reason: 'the cost line sits directly above the key');
       expect(credit.bottom, lessThanOrEqualTo(key.top), reason: 'the cost line never sits under the key');
     });

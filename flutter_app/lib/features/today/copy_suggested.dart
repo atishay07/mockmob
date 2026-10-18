@@ -60,7 +60,7 @@ abstract final class SuggestedCopy {
   /// about 10 min", on one line at 412 dp: "Accountancy, 1 AI credit each, about 15 min" wrapped and
   /// pushed the title a line down (W8). The subject's object in the card's corner names the subject,
   /// and the lead card's overline says it once the card is up next.
-  static String costRepair(int minutes) => '1 AI credit each, ${_about(minutes)}';
+  static String costRepair(int minutes) => '1 credit each, ${_about(minutes)}';
 
   /// "about 15 min", held together on one line (no break before the number or the unit).
   static String _about(int minutes) => 'about $minutes min';

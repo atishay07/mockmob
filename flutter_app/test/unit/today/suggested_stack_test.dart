@@ -250,7 +250,7 @@ void main() {
       expect(SuggestedCopy.countFirst(4), '4 cards');
       expect(SuggestedCopy.moreAfter(2, 4), '2 more after this');
       expect(SuggestedCopy.moreAfter(0, 4), 'Last of 4');
-      expect(SuggestedCopy.costRepair(15), '1 AI credit each, about 15 min');
+      expect(SuggestedCopy.costRepair(15), '1 credit each, about 15 min');
       expect(SuggestedCopy.upNextSemantics('Revise what is due'), contains('Nothing starts until you tap Start'));
       for (final s in [
         SuggestedCopy.intro,
