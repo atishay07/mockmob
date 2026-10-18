@@ -322,6 +322,13 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 | D54 | Free AI wallet 10 -> 50 a month: server, website, app together | Building: web/credits50-1018 (wt-credits50) and ui/v15-credits (merged into v15 before the integrator) |
 | D60, D62 | Max parallel, nothing stalled; final app in 1-2 hours; scan for anything broken | 17 agents running; chain and times in NOW.md |
 
+### Status at 3:35 pm, 18 Oct (session 25ef3d95 handoff)
+- **DONE, live:** release 7 (fc9e1f6b).
+- **Verified GO, waiting for his live look:** release 8 (00328e54), which carries W-078, W-075, W-079, W-093, W-089, W-064, W-032, D38, D53 web and D54 web. The migration is not applied yet.
+- **App:** D40-D50, D53, D56, D57, D8, M-001 and M-002 passed the emulator walk at 628f3612. D18 is blocked by the Review "316 of 310" HIGH (the fix is partial in 77d51ba8). D49 and M-003 are proven by test only.
+- **D51 and D52:** built and critic-checked, in v15.1 wt-v15-1 (88cc6c5d); not walked yet.
+- None of the app items is DONE until a walked APK is in his hands.
+
 ## Waiting on the owner (updated 18 Oct about 3:45 am)
 - Answered 3:50 am: M-001 first launch 3 s; M-006 bolder copy; D19 keep badges, refine; D22 Mob.
 - D32: confirm the kept landing element when he reviews the port live (wt-land3, port 3206).

@@ -16,7 +16,7 @@ The owner is Atishay. He reviews by voice dictation and is tired of repeating fe
 ## The goal
 - Ship a visibly better MockMob in **releases every 1-2 hours**, never stuck polishing one version.
 - **Website:** everything in the master ledger, verified live.
-- **App:** the v15 Play Store candidate.
+- **App:** the FINAL v15, then v15.1 (the richer Today and the swipe stack), each walked on the emulator, delivered as an APK and installed on his phone (adb serial 10BF370PA6002XR, only by the main session). The Play Store is parked.
 - **Then:** the Mob or social, as he decides; Learn and Review; Higgsfield.
 - **Quality is never traded for speed.** Every release passes its suites and a 390 and 1440, Night and Day check against the ledger items it claims.
 
