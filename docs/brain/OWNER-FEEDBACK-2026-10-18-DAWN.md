@@ -265,3 +265,16 @@ His message was the pasted next-session prompt (resume from 25ef3d95, follow NOW
 > "Also, I gotta go right now. I'll be back in an hour or two. So until then, don't stop for anything that you need from me or for any question. Take decisions yourself, acting as the CEO and CTO."
 
 **Ledger D69:** full autonomy until he is back (about 5:10-6:10 pm): never block on a question; decide as CEO/CTO and record each decision for him. His 4 pm instruction ("all this should now be shipped") is the go-ahead to ship R9 (the Mob on, credits per question, his website feedback) once its suites and an independent verifier pass, with production migrations under his standing grant.
+
+## Owner, 18 Oct about 6:10 pm IST (back; verbatim)
+> "I'm back. Give me an update on the progress of everything, and let me know if you need anything moved on my side.
+>
+> I also wanted to discuss with you how we can integrate the entire premium brands' pricing, credits, and all that into the Play Store app also, because having all that just run on the website doesn't make sense.
+>
+> I just wanted to ask: will Google really take 30% of everything? If we are selling it for ₹100, will we only get ₹70? If that's the case, can we raise the price on Google Play, or is that allowed? Or can we explore some gray area of this"
+
+(Dictation: "premium brands'" = premium plans'.)
+
+**Ledger D70-D71:**
+- **D70** A full progress update, plus anything needed from his side.
+- **D71** Bring Pro, credits and pricing into the Play Store app (not website-only). Questions: does Google take 30%? Can Play prices be higher than the web? Is there a legitimate grey area? Answer with current, sourced Play policy for India, then a recommended plan.
