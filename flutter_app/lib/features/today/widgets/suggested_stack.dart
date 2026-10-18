@@ -232,6 +232,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
 
   // The confirmation bar.
   ScaffoldFeatureController<SnackBar, SnackBarClosedReason>? _bar;
+  ScaffoldMessengerState? _messenger;
   ScrollPosition? _position;
 
   static List<String> _keys(List<SuggestedCard> cards) => [for (final c in cards) c.key];
@@ -332,7 +333,14 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
     _stillTimer?.cancel();
     _waitTimer?.cancel();
     _position?.removeListener(_scrolled);
-    _bar?.close();
+    // The bar leaves with the deck, after this frame (the messenger cannot rebuild mid-teardown).
+    final bar = _bar;
+    final messenger = _messenger;
+    if (bar != null && messenger != null) {
+      scheduleMicrotask(() {
+        if (messenger.mounted) bar.close();
+      });
+    }
     _x.dispose();
     _fly.dispose();
     _arrive.dispose();
@@ -644,7 +652,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
   /// old lead back and returns the card to the top of the deck.
   void _undoLast() {
     final undo = _undo;
-    if (undo == null || _leaving) return;
+    if (!mounted || undo == null || _leaving) return;
     _stopDemo();
     _hideBar();
     _undo = null;
@@ -738,6 +746,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
   void _showBar(SuggestedCard card, {required bool first}) {
     final messenger = ScaffoldMessenger.maybeOf(context);
     if (messenger == null) return;
+    _messenger = messenger;
     final media = MediaQuery.of(context);
     final dock = MmBarInsets.maybeOf(context)?.showing ?? false;
     final bottom = media.viewPadding.bottom + (dock ? MmBarInsets.barTop : 0) + MmSpace.s12;
@@ -1054,7 +1063,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
             final yes = x > 0 && top.swipeable ? stamp : 0.0;
             final no = x < 0 ? stamp : 0.0;
             final past = _past || (_demoSide == null && !_nudging && x.abs() >= _threshold && (x < 0 || top.swipeable));
-            final opacity = a * const Interval(0, 0.4).transform(_back.value) * Curves.easeOut.transform(_fade.value);
+            final opacity = a * const Interval(0, 0.4).transform(_back.value) * Motion.out.transform(_fade.value);
             final scale = (0.97 + 0.03 * a) * backScale;
             return Opacity(
               opacity: opacity.clamp(0.0, 1.0),
@@ -1393,7 +1402,6 @@ const double _footMinTop = _artTop + _artHeight - _cardTop;
 /// One card: what it costs, its title, its art, and its evidence pinned to the foot.
 class _DeckCard extends StatelessWidget {
   const _DeckCard({
-    super.key,
     required this.card,
     required this.at,
     required this.of,
