@@ -45,6 +45,8 @@
 @media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
   .app-shell .arena-mobi-door:hover { border-color: var(--a-line-hover); }
 }
+/* While the Ask Mobi panel is open the door reads as open (the ordinary selected wash, no accent), as the sidebar's Ask Mobi row did (ask-mobi.css). */
+html[data-mobi-open] .app-shell .arena-mobi-door:not([aria-current='page']) { background: var(--a-hover); border-color: var(--a-line-strong); }
 html[data-motion='reduced'] .app-shell .arena-mobi-door { transition: none; }
 @media (prefers-reduced-motion: reduce) { .app-shell .arena-mobi-door { transition: none; } }
 

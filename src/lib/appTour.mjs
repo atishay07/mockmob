@@ -21,7 +21,7 @@ export const TOUR_STEPS_ALL = Object.freeze([
   { title: 'Colleges', target: ['nav-admission-compass', 'nav-more'], body: 'Which DU courses your subjects open, and the 2026 cutoff college by college. Your chosen colleges show on Today.',
     bodies: { 'nav-more': 'Colleges is under You: which DU courses your subjects open, and the 2026 cutoff college by college. Your chosen colleges show on Today.' } },
   { title: 'Ask Mobi', target: ['nav-mentor', 'nav-more'], body: 'Opens beside the question, the result, Practice or Today, already about it. Questions about your own record are free. A written reply costs 1 credit, and the cost shows before you ask.',
-    bodies: { 'nav-more': 'Ask Mobi is the first row under You. He opens beside the question, the result, Practice or Today, already about it. Questions about your own record are free; a written reply costs 1 credit, and the cost shows before you ask.' } },
+    bodies: { 'nav-more': 'Ask Mobi is in the You sheet, just below your name. He opens beside the question, the result, Practice or Today, already about it. Questions about your own record are free; a written reply costs 1 credit, and the cost shows before you ask.' } },
   { title: 'Your Mob', target: 'nav-mob', body: 'You and up to four friends sit the same 10-question paper each week. You see who has sat it, and your own result. Your standing, where your mocks place you among MockMob students, is right beside it.', mob: true },
   // The last stop is the standalone Guide page (D11, renamed from Help and FAQ): a link in the sidebar's You place, in the You sheet on a phone.
   { title: 'Guide', target: ['nav-help', 'nav-more'], body: 'Stuck anywhere? Guide has the common questions, this tour to take again and a way to write to us.',
