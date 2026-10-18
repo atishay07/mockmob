@@ -263,4 +263,19 @@ void main() {
     expect(find.text('3 of 7'), findsOneWidget, reason: 'the ringed third bubble');
     expect(find.text('2 of 7'), findsNothing);
   });
+
+  testWidgets('Pace: the live readout is the hero under the title and answers the controls', (tester) async {
+    await _flowAt(tester, studentUpTo(Steps.question, step: Steps.rhythm), size: const Size(412, 915));
+    final hours = find.textContaining('before May');
+    expect(hours, findsOneWidget);
+    final keyTop = tester.getTopLeft(find.text(OnboardingCopy.next)).dy;
+    final title = tester.getRect(find.text(OnboardingCopy.rhythmTitle));
+    final line = tester.getRect(hours);
+    expect(line.top, greaterThan(title.bottom), reason: 'right under the title');
+    expect(line.bottom, lessThan(keyTop), reason: 'in view while the slider is dragged');
+    expect(line.bottom, lessThan(tester.getTopLeft(find.text(OnboardingCopy.minutesLabel)).dy), reason: 'above the controls');
+    final before = tester.widget<Text>(hours).data;
+    await _tap(tester, find.bySemanticsLabel(OnboardingCopy.minutesSpoken(30)));
+    expect(tester.widget<Text>(find.textContaining('before May')).data, isNot(before), reason: 'it moves with the minutes');
+  });
 }
