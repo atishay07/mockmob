@@ -277,18 +277,23 @@ export function createHeroCycle({
   };
 }
 
-/** Which hero line a server render mounts (D115: option C stays off in production until the owner has seen it live).
- *  'v1'      the live line (HeroMorph), exactly as released: production, unless the flag is on.
- *  'v2'      option C for everyone: HERO_MOTION_V2=1, or HERO_MOTION_V2_DEFAULT = true below.
- *  'preview' the live line, which switches to option C when the address carries ?hero=v2. Only on a preview build
- *            (a Vercel preview, the dev server, or HERO_MOTION_PREVIEW=1), never on Vercel production. */
+/** Which hero line the page mounts (D115: option C ships OFF, and the owner sees it LIVE on the production site
+ *  through the preview link ?hero=v2 before it is switched on for everyone).
+ *  'preview' the default on every build, production included. Everyone gets the released line (HeroMorph), served
+ *            byte for byte as before; only an address carrying ?hero=v2 swaps in option C after hydration, and only
+ *            then is option C's code downloaded (HeroLine.jsx).
+ *  'v2'      option C for everyone, served with the page: HERO_MOTION_V2=1, or HERO_MOTION_V2_DEFAULT = true below.
+ *            This is the switch to flip after his OK.
+ *  'v1'      the released line with the preview link turned off as well: HERO_MOTION_V2=0. */
 export const HERO_MOTION_V2_DEFAULT = false;
 export function heroMotionMode(env = {}) {
   const flag = String(env.HERO_MOTION_V2 ?? '').trim().toLowerCase();
   if (['1', 'true', 'on'].includes(flag)) return 'v2';
   if (['0', 'false', 'off'].includes(flag)) return 'v1';
-  if (HERO_MOTION_V2_DEFAULT) return 'v2';
-  if (env.VERCEL_ENV === 'production') return 'v1';
-  if (env.VERCEL_ENV === 'preview' || env.NODE_ENV === 'development' || env.HERO_MOTION_PREVIEW === '1') return 'preview';
-  return 'v1';
+  return HERO_MOTION_V2_DEFAULT ? 'v2' : 'preview';
+}
+
+/** Whether an address asks for option C: exactly ?hero=v2. */
+export function asksForHeroV2(search = '') {
+  try { return new URLSearchParams(search).get('hero') === 'v2'; } catch { return false; }
 }

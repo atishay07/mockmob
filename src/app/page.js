@@ -147,7 +147,8 @@ const faqs = [
 ];
 
 export default function LandingPage() {
-  // D115: option C (HeroType) stays off in production until the owner has seen it live; 'v1' is the released line.
+  // D115: option C ("select and type") ships OFF. Everyone gets the released line; ?hero=v2 previews option C on any
+  // build, production included, and HERO_MOTION_V2=1 switches it on for everyone after his OK (heroPhrases.mjs).
   const heroMotion = heroMotionMode(process.env);
   return (
     <div className="mm lp">

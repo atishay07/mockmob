@@ -48,6 +48,73 @@
 }
 :root[data-motion='reduced'] .lp-morph__phrase[data-state='out'] { display: none; }
 
+/* ---------- Option C, "select and type" (G30; D112 C-pick 3), behind its flag (D115; HeroLine.jsx, HeroType.jsx) ----------
+   One change: the old line is selected from its end back to its start (as Shift+Home does), held a beat, and replaced
+   at the first keystroke; the new line is typed letter by letter behind a solid brand-colour caret, which blinks twice
+   after the last letter and leaves. Opacity and transform only: no glow, no sheen, no coloured text (L-016, L-019).
+   Every time here is a TYPE value in heroPhrases.mjs (the tests hold them together):
+   select 320 ms on out-quart, a 200 ms beat, the replace at 519 ms, each letter fading in over 70 ms at --t.
+   The selection and the caret are positioned absolutely, so nothing moves the line box (CLS stays 0). */
+.lp-morph--type .lp-morph__cell { position: relative; }
+.lp-morph--type .lp-morph__phrase[data-state='select'] { position: relative; isolation: isolate; pointer-events: none; }
+/* The selection sits behind the old line, which keeps its ink colour, as a real selection does.
+   Day: the links' olive at 20%. Night: volt at 24%. */
+.lp-morph__sel {
+  position: absolute;
+  inset-inline: 0;
+  top: 0.04em;
+  height: 0.96em;
+  z-index: -1;
+  border-radius: 0.06em;
+  background: rgba(124, 150, 20, 0.2);
+  transform-origin: 100% 50%;
+}
+:root[data-theme='dark'] .lp-morph__sel { background: rgba(210, 240, 0, 0.24); }
+/* The caret: the brand colour (volt on Night, olive on Day), solid. Its wrapper rides the selection's left edge; the
+   caret itself jumps after each letter as it lands (Web Animations, from measured letter edges, HeroType.jsx). */
+.lp-morph__caretwrap { position: absolute; left: 0; top: 0; width: 0; height: 100%; z-index: 2; pointer-events: none; }
+.lp-morph__caret {
+  position: absolute;
+  left: 0;
+  top: 0.1em;
+  width: max(2px, 0.055em);
+  height: 0.84em;
+  border-radius: 1px;
+  background: var(--accent-text);
+  opacity: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion='reduced']) .lp-morph--type .lp-morph__sel {
+    animation: lp-type-select 320ms cubic-bezier(0.25, 1, 0.5, 1) both;
+  }
+  :root:not([data-motion='reduced']) .lp-morph--type .lp-morph__phrase[data-state='select'] {
+    animation: lp-type-replace 1ms linear 519ms both;
+  }
+  :root:not([data-motion='reduced']) .lp-morph--type .lp-morph__phrase[data-state='type'] .lp-morph__ch {
+    animation: lp-type-letter 70ms ease-out var(--t, 0ms) both;
+  }
+}
+@keyframes lp-type-select {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+/* The old line and its selection go together, the way the first keystroke replaces a selection. */
+@keyframes lp-type-replace {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+@keyframes lp-type-letter {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+/* Reduce motion never runs the cycle (HeroType.jsx); should it be switched on mid-change, nothing is left behind. */
+@media (prefers-reduced-motion: reduce) {
+  .lp-morph--type .lp-morph__phrase[data-state='select'],
+  .lp-morph--type .lp-morph__caretwrap { display: none; }
+}
+:root[data-motion='reduced'] .lp-morph--type .lp-morph__phrase[data-state='select'],
+:root[data-motion='reduced'] .lp-morph--type .lp-morph__caretwrap { display: none; }
+
 /* ---------- Phones: one quiet line of proof, then the buttons ---------- */
 .lp .lp-bank { color: var(--ink-3); }
 .lp .lp-bank__n { color: var(--ink); }
