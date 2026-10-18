@@ -13,6 +13,12 @@
 4. `docs/design-decisions/pass-1018/TODAY-SWIPE-1018.md`: the approved D51 and D52 design.
 5. The saved agent reports in `mockmob-next/tmp/resume-1018-1530/*-results.json`: one file per workflow, with every agent's full return.
 
+> **INTERIM UPDATE, 18 Oct about 4:15 pm IST (session 604ced81, resumed on a fresh account, usage low):**
+> - **Release 8 is LIVE.** The owner said "Ship it" at about 3:55 pm (D63). Migration `free_ai_wallet_50` was applied on production at about 3:57 pm (pre and post md5 checked, a rolled-back dry spend, undo ready). main = 00328e54, then STATUS at eb5185ef. Vercel dpl_3THyGFBktbdxcAuwhfN2sLNsHmrT READY, 0 runtime errors, /pricing says 50 on Free.
+> - **App workflow wf_b5edd365-0fc (task weqztyiva) is running:** the v15 fixer in wt-v15 (from 77d51ba8), the v15.1 full suites in wt-v15-1, then the v15 walk (tmp/app-walk-1018e), the v15 release, the v15.1 merge, the v15.1 walk (tmp/app-walk-1018d) and the v15.1 release. If it dies, read the journal in the workflow transcript folder and relaunch from the worktrees' git state.
+> - **Web audit wf_4a84a08c-1af (task wsdk4iil5) is running:** read-only, 5 surfaces, against release 8 on 3208; screenshots in tmp/ledger-audit-1018. Use its verdicts to reconcile the ledger.
+> - Reaped 6 orphan flutter_tester processes; cleared about 17 GB of build caches (C: 113 GB free).
+
 ## 1. The goal (owner, D39 at 9:15 am, then D59 and D62)
 The Play Store is parked.
 - **App: the FINAL v15, complete.** That means:
