@@ -52,8 +52,13 @@ MobiCue? mobiCueFor(OnboardingAnswers? before, OnboardingAnswers after) {
         : const MobiCue(act: MobiAct.encourage, line: OnboardingCopy.mobiTrap);
   }
 
-  // Up to three picks (D45): Mobi answers the newest one, never a drop.
+  // Up to three picks (D45): Mobi answers the newest one, never a drop. A fourth pick that
+  // replaced the Third says so in his bubble, which is always in view, naming what went.
   final added = [for (final w in after.worries) if (!before.worries.contains(w)) w];
+  final dropped = [for (final w in before.worries) if (!after.worries.contains(w)) w];
+  if (added.length == 1 && dropped.length == 1) {
+    return MobiCue(act: MobiAct.nod, line: ChoicesCopy.worrySwappedOut(dropped.single.words));
+  }
   if (added.isNotEmpty) {
     return MobiCue(act: MobiAct.idle, line: added.last.mobiShort);
   }

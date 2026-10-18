@@ -2,8 +2,10 @@ import '../../../core/models/consent.dart';
 
 /// Where the student is on the road to CUET (brief section 11, step 3).
 enum Stage {
-  classTwelve('Class 12, writing CUET in 2027', 'Class 12, writing in 2027', 2027, boards: true),
-  passedTwelve('Passed Class 12, writing in 2027', 'Passed Class 12, writing in 2027', 2027),
+  // The answers say only the stage: the CUET year is the tile's caption, so no title repeats
+  // it (v15 taste pass; at 1.3x the old titles wrapped to four lines).
+  classTwelve('In Class 12', 'Class 12, writing in 2027', 2027, boards: true),
+  passedTwelve('Passed Class 12', 'Passed Class 12, writing in 2027', 2027),
   classEleven('In Class 11', 'Class 11, writing in 2028', 2028),
   notSure('Not sure yet', 'Writing in 2027, probably', 2027);
 
@@ -25,16 +27,20 @@ enum Stage {
 /// What costs the student the most marks, in their words. Each one really changes the first
 /// move (directions-final 0.7): its subject or its framing, and Mobi's one line.
 enum Worry {
-  knewIt('I knew it and still got it wrong', "Knew it and still lost it? That's a trap, not a gap.", 'A trap, not a gap.'),
-  time('The last 10 questions, no time left', 'Then we train the clock. Short and often.', 'We train the clock.'),
-  numericals('Accounts numericals take me forever', 'Numericals get faster with reps, not with rereading.', 'Reps beat rereading.'),
-  passages('English passages eat my time', "Passages reward a method. We'll build yours.", "We'll build a method."),
-  syllabus('Too much syllabus, not enough months', 'Then we go in order. One chapter at a time.', 'One chapter at a time.'),
-  noIdea('No idea yet, honestly', 'Fair. Ten questions will tell us more than a guess.', 'Ten questions will tell.');
+  knewIt('I knew it and still got it wrong', "Knew it and still lost it? That's a trap, not a gap.", 'A trap, not a gap.', 'knew it, still got it wrong'),
+  time('The last 10 questions, no time left', 'Then we train the clock. Short and often.', 'We train the clock.', 'the last 10 questions'),
+  numericals('Accounts numericals take me forever', 'Numericals get faster with reps, not with rereading.', 'Reps beat rereading.', 'Accounts numericals'),
+  passages('English passages eat my time', "Passages reward a method. We'll build yours.", "We'll build a method.", 'English passages'),
+  syllabus('Too much syllabus, not enough months', 'Then we go in order. One chapter at a time.', 'One chapter at a time.', 'too much syllabus'),
+  noIdea('No idea yet, honestly', 'Fair. Ten questions will tell us more than a guess.', 'Ten questions will tell.', 'no idea yet');
 
-  const Worry(this.option, this.mobiLine, this.mobiShort);
+  const Worry(this.option, this.mobiLine, this.mobiShort, this.words);
 
   final String option;
+
+  /// The option in a few of the student's own words, to quote back ("then English passages,
+  /// then 'knew it, still got it wrong'"; "Swapped out 'the last 10 questions'").
+  final String words;
 
   /// Mobi's one line. Never about the person, only about what happens next.
   final String mobiLine;

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -17,9 +19,11 @@ import '../widgets/glyphs.dart';
 
 /// Step 6: where the marks go, in the student's words. Six tiles, two columns, each with the
 /// picture of its worry in a lamp-lit medallion. Up to three picks (owner, 18 Oct, D45): each
-/// chosen tile says its place (First, Second, Third), a fourth tap swaps out the oldest with a
-/// light hint, and the guide Mobi answers the newest pick. The first pick is the primary: it
-/// rewrites the first move on the sheet above.
+/// chosen tile says its place (First, Second, Third), and the guide Mobi answers the newest pick.
+/// A fourth tap replaces the Third (v15 taste pass: the First, which sets the start, never
+/// changes silently): the replaced tile shakes once with a light haptic and Mobi names it in his
+/// bubble, which is always in view. The first pick is the primary: it rewrites the first move on
+/// the sheet above.
 class WorryStep extends ConsumerStatefulWidget {
   const WorryStep({super.key, required this.answers, required this.onNext});
 
@@ -31,25 +35,39 @@ class WorryStep extends ConsumerStatefulWidget {
 }
 
 class _WorryStepState extends ConsumerState<WorryStep> {
-  /// The swap hint shows after a fourth pick, until the next tap.
-  bool _swapped = false;
+  /// Each worry's shake: bumped when a fourth pick replaces it.
+  final Map<Worry, ValueNotifier<int>> _shakes = {for (final w in Worry.values) w: ValueNotifier<int>(0)};
+
+  @override
+  void dispose() {
+    for (final n in _shakes.values) {
+      n.dispose();
+    }
+    super.dispose();
+  }
+
+  void _toggle(Worry w) {
+    final dropped = ref.read(onboardingAnswersProvider.notifier).toggleWorry(w);
+    if (dropped == null) return;
+    ref.read(hapticsProvider).light();
+    _shakes[dropped]!.value++;
+    SemanticsService.sendAnnouncement(View.of(context), ChoicesCopy.worrySwappedOut(dropped.words), Directionality.of(context));
+  }
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.mmColors;
     final worries = widget.answers.worries;
     Widget tile(int i) {
       final w = Worry.values[i];
       final rank = worries.indexOf(w);
       return EntranceItem.answer(
         i,
-        child: _WorryTile(
-          worry: w,
-          rank: rank < 0 ? null : rank,
-          onTap: () {
-            final swapped = ref.read(onboardingAnswersProvider.notifier).toggleWorry(w);
-            setState(() => _swapped = swapped);
-          },
+        child: MmShake(
+          pulse: _shakes[w],
+          haptic: false,
+          size: 6,
+          length: const Duration(milliseconds: 280),
+          child: _WorryTile(worry: w, rank: rank < 0 ? null : rank, onTap: () => _toggle(w)),
         ),
       );
     }
@@ -71,24 +89,8 @@ class _WorryStepState extends ConsumerState<WorryStep> {
                 ],
               ),
             ),
-            const SizedBox(height: MmSpace.s12),
+            if (i + 2 < Worry.values.length) const SizedBox(height: MmSpace.s12),
           ],
-          // Always laid out, so the hint never pushes the tiles; read out when it appears.
-          Semantics(
-            liveRegion: true,
-            child: AnimatedOpacity(
-              opacity: _swapped ? 1 : 0,
-              duration: Motion.of(context, Motion.ui),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(padding: const EdgeInsets.only(top: 2), child: Icon(LucideIcons.info, size: 16, color: colors.ink2)),
-                  const SizedBox(width: MmSpace.s8),
-                  Expanded(child: Text(_swapped ? ChoicesCopy.worrySwapped : '', style: context.mmType.small.copyWith(color: colors.ink2))),
-                ],
-              ),
-            ),
-          ),
         ],
       ),
       bottom: KeyButton(label: OnboardingCopy.next, onPressed: worries.isEmpty ? null : widget.onNext),
@@ -133,10 +135,22 @@ class _WorryTile extends StatelessWidget {
           GlyphMedallion(size: 44, lit: selected, child: glyph),
           const SizedBox(height: MmSpace.s12),
           Text(worry.option, style: type.labelLarge.copyWith(height: 20 / 15, color: selected ? colors.ink : colors.ink2)),
-          if (selected) ...[
-            const SizedBox(height: MmSpace.s4),
-            Text(ChoicesCopy.worryRank(rank!), style: type.caption.copyWith(color: colors.accentText, fontWeight: FontWeight.w600)),
-          ],
+          // Always laid out (a no-break space when not picked), so a pick never grows the tile and
+          // pushes the row below: the place fades and rises in instead.
+          const SizedBox(height: MmSpace.s4),
+          AnimatedSlide(
+            offset: selected ? Offset.zero : const Offset(0, 0.2),
+            duration: Motion.of(context, const Duration(milliseconds: 220)),
+            curve: Motion.glide,
+            child: AnimatedOpacity(
+              opacity: selected ? 1 : 0,
+              duration: Motion.of(context, const Duration(milliseconds: 180)),
+              child: Text(
+                selected ? ChoicesCopy.worryRank(rank!) : '\u00A0',
+                style: type.caption.copyWith(color: colors.accentText, fontWeight: FontWeight.w600),
+              ),
+            ),
+          ),
         ],
       ),
     );

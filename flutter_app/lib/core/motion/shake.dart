@@ -16,7 +16,14 @@ import 'motion.dart';
 /// [MmShakeState.shake]. Under reduced motion it does not move; the haptic still fires (it has its
 /// own Touch feedback switch). Transform only, on its own layer.
 class MmShake extends StatefulWidget {
-  const MmShake({super.key, required this.child, this.pulse, this.haptic = true});
+  const MmShake({
+    super.key,
+    required this.child,
+    this.pulse,
+    this.haptic = true,
+    this.size = amplitude,
+    this.length = duration,
+  });
 
   final Widget child;
 
@@ -26,15 +33,19 @@ class MmShake extends StatefulWidget {
   /// Fires `Haptics.warn` with each shake.
   final bool haptic;
 
+  /// This shake's sideways reach and length (the defaults are [amplitude] and [duration]).
+  final double size;
+  final Duration length;
+
   static const double amplitude = 4;
   static const int cycles = 3;
   static const Duration duration = Duration(milliseconds: 220);
 
   /// The sideways offset at [t] (0 to 1) of a shake: [amplitude] dp, [cycles] full cycles, a linear
   /// decay so the last cycle is small and it ends at exactly 0.
-  static double offsetAt(double t) {
+  static double offsetAt(double t, {double size = amplitude}) {
     if (t <= 0 || t >= 1) return 0;
-    return amplitude * math.sin(t * cycles * 2 * math.pi) * (1 - t);
+    return size * math.sin(t * cycles * 2 * math.pi) * (1 - t);
   }
 
   @override
@@ -42,7 +53,7 @@ class MmShake extends StatefulWidget {
 }
 
 class MmShakeState extends State<MmShake> with SingleTickerProviderStateMixin {
-  late final AnimationController _t = AnimationController(vsync: this, duration: MmShake.duration, value: 1);
+  late final AnimationController _t = AnimationController(vsync: this, duration: widget.length, value: 1);
 
   @override
   void initState() {
@@ -79,7 +90,7 @@ class MmShakeState extends State<MmShake> with SingleTickerProviderStateMixin {
     return RepaintBoundary(
       child: AnimatedBuilder(
         animation: _t,
-        builder: (context, child) => Transform.translate(offset: Offset(MmShake.offsetAt(_t.value), 0), child: child),
+        builder: (context, child) => Transform.translate(offset: Offset(MmShake.offsetAt(_t.value, size: widget.size), 0), child: child),
         child: widget.child,
       ),
     );

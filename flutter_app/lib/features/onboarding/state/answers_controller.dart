@@ -211,18 +211,16 @@ class AnswersController extends AsyncNotifier<OnboardingAnswers> {
     if (a.subjects.isEmpty && !a.subjectsTouched) _set(a.copyWith(subjects: neededSubjects(a.course)));
   }
 
-  /// Picks or drops a "where do your marks go" answer. Up to [kMaxWorries]: a fourth pick swaps
-  /// out the oldest and returns true so the step can say so. The step stays answered while at
-  /// least one pick is left.
-  bool toggleWorry(Worry w) {
+  /// Picks or drops a "where do your marks go" answer. Up to [kMaxWorries]: a fourth pick
+  /// replaces the Third (never the First, which decides where the student starts) and returns
+  /// the pick it replaced, so the step can name it. The step stays answered while at least one
+  /// pick is left.
+  Worry? toggleWorry(Worry w) {
     final a = _current;
     final list = [...a.worries];
-    var swapped = false;
+    Worry? swapped;
     if (!list.remove(w)) {
-      if (list.length >= kMaxWorries) {
-        list.removeAt(0);
-        swapped = true;
-      }
+      if (list.length >= kMaxWorries) swapped = list.removeLast();
       list.add(w);
     }
     final next = a.copyWith(worries: list);
