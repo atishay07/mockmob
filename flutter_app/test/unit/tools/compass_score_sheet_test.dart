@@ -10,6 +10,7 @@ import 'package:mockmob/features/tools/compass/compass_controller.dart';
 import 'package:mockmob/features/tools/compass/compass_screen.dart';
 import 'package:mockmob/features/tools/copy.dart';
 import 'package:mockmob/features/tools/domain/du_helpers.dart';
+import 'package:mockmob/features/tools/estimate/estimate_copy.dart';
 import 'package:mockmob/features/tools/estimate/estimate_providers.dart';
 import 'package:mockmob/features/tools/estimate/estimate_sheet.dart';
 
@@ -80,7 +81,7 @@ void main() {
     await tester.pumpAndSettle();
     await tester.enterText(field(CollegesCopy.from), '5..');
     await tester.pump();
-    expect(find.text(CollegesCopy.fieldError), findsOneWidget);
+    expect(find.text(EstimateCopy.fieldNotANumber), findsOneWidget);
     await tester.tap(find.widgetWithText(KeyButton, CollegesCopy.done));
     await tester.pumpAndSettle();
     expect(find.byType(EstimateSheet), findsOneWidget);

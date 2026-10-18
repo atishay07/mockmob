@@ -35,10 +35,10 @@ void main() {
   group('verdicts', () {
     const range = Estimate(source: EstimateSource.mocks, low: 588, high: 640);
 
-    test('clears by the low end, within by the high end, needs by the gap to the high end', () {
+    test('safe by the low end, in reach by the high end, needs by the gap to the high end', () {
       expect(verdictFor(range, 575.6).v, Verdict.clears);
-      expect(verdictWords(verdictFor(range, 575.6)), 'Clears by 12.4');
-      expect(verdictWords(verdictFor(range, 612)), 'Within your range');
+      expect(verdictWords(verdictFor(range, 575.6)), 'Safe, clears by 12.4');
+      expect(verdictWords(verdictFor(range, 612)), 'In reach if you score 612');
       expect(verdictWords(verdictFor(range, 907.5)), 'Needs 267.5 more');
       expect(verdictFor(range, null).v, Verdict.noSeat);
     });
