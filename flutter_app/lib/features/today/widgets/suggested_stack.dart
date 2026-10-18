@@ -84,16 +84,16 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
   late DeckPass _pass = DeckPass(_keys(widget.cards));
 
   /// The top card's sideways offset in dp.
-  late final AnimationController _x = AnimationController.unbounded(vsync: this)..addListener(_moved);
+  late final AnimationController _x;
 
   /// A chosen card flying into the lead card (0 to 1).
-  late final AnimationController _fly = AnimationController(vsync: this, duration: const Duration(milliseconds: 340));
+  late final AnimationController _fly;
 
   /// The new top card arriving after a pick: the old lead coming down into the deck.
-  late final AnimationController _arrive = AnimationController(vsync: this, duration: const Duration(milliseconds: 360), value: 1);
+  late final AnimationController _arrive;
 
   /// A skipped card settling in at the back.
-  late final AnimationController _backIn = AnimationController(vsync: this, duration: const Duration(milliseconds: 220), value: 1);
+  late final AnimationController _backIn;
 
   final GlobalKey _deckKey = GlobalKey(debugLabel: 'suggested-deck');
   _Flight? _flight;
@@ -113,6 +113,10 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
   @override
   void initState() {
     super.initState();
+    _x = AnimationController.unbounded(vsync: this)..addListener(_moved);
+    _fly = AnimationController(vsync: this, duration: const Duration(milliseconds: 340));
+    _arrive = AnimationController(vsync: this, duration: const Duration(milliseconds: 360), value: 1);
+    _backIn = AnimationController(vsync: this, duration: const Duration(milliseconds: 220), value: 1);
     SuggestedHint.claim().then((show) {
       if (mounted && show != _hint) setState(() => _hint = show);
     });
@@ -532,10 +536,13 @@ class _DeckCard extends StatelessWidget {
         // The buttons sit at the card's foot: every card in the deck is the tallest one's height.
         const SizedBox(height: MmSpace.s12),
         const Spacer(),
-        Row(
+        // Side by side at the card's ends; under each other when large text cannot fit both.
+        Wrap(
+          alignment: WrapAlignment.spaceBetween,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          runSpacing: MmSpace.s4,
           children: [
             _SkipButton(onTap: interactive ? onSkip : null, semanticsLabel: SuggestedCopy.skipSemantics(card.title)),
-            const Spacer(),
             _DoButton(onTap: interactive ? onDo : null, semanticsLabel: SuggestedCopy.doThisSemantics(card.title)),
           ],
         ),
@@ -671,7 +678,7 @@ class _SkipButton extends StatelessWidget {
             children: [
               Icon(LucideIcons.x, size: 18, color: colors.ink2),
               const SizedBox(width: MmSpace.s6),
-              Text(SuggestedCopy.skip, style: type.labelLarge.copyWith(fontSize: 14, fontWeight: FontWeight.w600, color: colors.ink2)),
+              Flexible(child: Text(SuggestedCopy.skip, maxLines: 1, overflow: TextOverflow.ellipsis, style: type.labelLarge.copyWith(fontSize: 14, fontWeight: FontWeight.w600, color: colors.ink2))),
             ],
           ),
         ),
@@ -710,7 +717,7 @@ class _DoButton extends StatelessWidget {
             children: [
               Icon(LucideIcons.arrowUp, size: 18, color: colors.ink),
               const SizedBox(width: MmSpace.s8),
-              Text(SuggestedCopy.doThis, style: type.labelLarge.copyWith(fontSize: 14, fontWeight: FontWeight.w600, color: colors.ink)),
+              Flexible(child: Text(SuggestedCopy.doThis, maxLines: 1, overflow: TextOverflow.ellipsis, style: type.labelLarge.copyWith(fontSize: 14, fontWeight: FontWeight.w600, color: colors.ink))),
             ],
           ),
         ),

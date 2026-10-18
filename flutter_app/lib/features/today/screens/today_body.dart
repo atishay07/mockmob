@@ -242,6 +242,10 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
       return;
     }
     setState(() {
+      // The card's body swaps with an overlap (MoveSwap): the leaving body keeps its keys, so the
+      // arriving one gets fresh ones (two bodies never hold one GlobalKey).
+      _primaryKey = GlobalKey(debugLabel: 'today-primary');
+      _controlsKey = GlobalKey(debugLabel: 'today-controls');
       if (choice.key == 'lead') {
         _todayPicks.remove(widget.view.header.dateLine);
       } else {

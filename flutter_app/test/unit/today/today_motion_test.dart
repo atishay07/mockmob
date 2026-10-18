@@ -6,7 +6,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockmob/features/today/copy_glance.dart';
+import 'package:mockmob/features/today/widgets/suggested_stack.dart';
+import 'package:mockmob/features/today/copy_suggested.dart';
+import 'package:mockmob/features/today/logic/suggested_deck.dart';
 import 'package:mockmob/core/art/art.dart' show SubjectEmblem;
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/haptics/haptics.dart';
@@ -137,11 +139,15 @@ void main() {
       );
       final handle = tester.ensureSemantics();
       await tester.pump();
-      // TODAY-1018: the card's quiet way out is "More ways to practise" under its two choices.
-      const alternative = GlanceCopy.moreWays;
-      expect(announced(tester).where((l) => l == alternative), hasLength(1), reason: 'the capsule replaced the pinned bar: one key, not two');
-      final quiet = find.text(alternative);
+      // D51: the card's quiet way out is the Suggested stack under it, whose top card's
+      // "Do this instead" is announced once (the cards behind are not read).
+      final view = buildToday(ashaInputs());
+      final alternative = SuggestedCopy.doThisSemantics(buildSuggestedDeck(view.choices, glance: view.glance).first.title);
+      final quiet = find.descendant(of: find.byKey(SuggestedStack.topKey), matching: find.text(SuggestedCopy.doThis));
       expect(quiet, findsOneWidget);
+      await tester.ensureVisible(quiet);
+      await tester.pumpAndSettle();
+      expect(announced(tester).where((l) => l == alternative), hasLength(1), reason: 'the capsule replaced the pinned bar: one key, not two');
       expect(quiet.hitTestable(), findsOneWidget, reason: 'nothing is pinned over the card any more, so its quiet key takes touches');
       await expectLater(tester, meetsGuideline(textContrastGuideline));
       handle.dispose();

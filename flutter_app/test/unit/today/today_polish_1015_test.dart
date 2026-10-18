@@ -64,6 +64,9 @@ void main() {
 
   testWidgets('This week spans the width at 360 dp, and each day is its own 44 dp target (TODAY-1018 6.3)', (tester) async {
     await _pump(tester, size: const Size(360, 800), dock: false);
+    // The Suggested stack (D51) sits between the card and the week: scroll the week into view.
+    await tester.dragUntilVisible(find.byType(TodayWeekRow), find.byType(Scrollable).first, const Offset(0, -200));
+    await tester.pumpAndSettle();
     final row = tester.getSize(find.byType(TodayWeekRow));
     expect(row.height, greaterThanOrEqualTo(48));
     expect(row.width, greaterThanOrEqualTo(300));

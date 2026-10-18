@@ -5,6 +5,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/features/today/widgets/suggested_stack.dart';
+import 'package:mockmob/features/today/copy_suggested.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/models/ai_credits.dart';
 import 'package:mockmob/core/router/routes.dart';
@@ -54,14 +56,21 @@ void main() {
   setUpAll(loadAppFonts);
   setUp(debugResetTodayPicks);
 
-  group('the lead card and its choices (6.1, 6.2)', () {
-    testWidgets('a choice swaps the card in place; the recommended move comes back as Suggested; the week readout follows', (tester) async {
+  group('the lead card and its Suggested stack (6.1, 6.2, D51)', () {
+    Finder onTop(String text) => find.descendant(of: find.byKey(SuggestedStack.topKey), matching: find.text(text));
+
+    testWidgets('a suggested card swaps the card in place; the recommended move comes back as Suggested; the week readout follows', (tester) async {
       final view = buildToday(_inputs());
       final events = <Object>[];
       await _pump(tester, TodayBody(view: view, skeletonDelay: Duration.zero, callbacks: TodayCallbacks(onAction: events.add, onTarget: events.add)));
       expect(find.text(GlanceCopy.titleRepair), findsOneWidget);
       expect(find.text(GlanceCopy.suggested), findsNothing);
-      await tester.tap(find.text(GlanceCopy.choiceWeakest));
+      // Revise is on top; Skip sends it to the back and the weakest chapter comes up.
+      expect(onTop(SuggestedCopy.titleRevise), findsOneWidget);
+      await tester.tap(onTop(SuggestedCopy.skip));
+      await tester.pumpAndSettle();
+      expect(onTop(SuggestedCopy.titleWeakest), findsOneWidget);
+      await tester.tap(onTop(SuggestedCopy.doThis));
       await tester.pumpAndSettle();
       // The swap writes nothing and starts nothing.
       expect(events, isEmpty);
@@ -69,14 +78,15 @@ void main() {
       expect(find.text(GlanceCopy.suggested), findsOneWidget);
       expect(find.textContaining('Up next, your pick'), findsOneWidget);
       expect(find.textContaining('Up next: practise your weakest chapter'), findsOneWidget);
-      // The way back is one tap.
-      await tester.tap(find.text(GlanceCopy.suggested));
+      // The way back is one tap: the recommended move is on top of the deck.
+      expect(onTop(GlanceCopy.suggested), findsOneWidget);
+      await tester.tap(onTop(SuggestedCopy.doThis));
       await tester.pumpAndSettle();
       expect(find.text(GlanceCopy.titleRepair), findsOneWidget);
       expect(find.text(GlanceCopy.suggested), findsNothing);
     });
 
-    test('the two choices are of a different kind from the lead, each with a number in its line', () {
+    test('the choices are of a different kind from the lead, each with a number in its line', () {
       final view = buildToday(_inputs());
       final lead = view.hero! as MoveHero;
       expect(lead.kind, MoveKind.repair);
@@ -288,7 +298,7 @@ void main() {
       final lead = view.hero! as MoveHero;
       Future<double> keyTop(Map<String, String> prices) async {
         await _pump(tester, TodayBody(view: view, prices: prices, skeletonDelay: Duration.zero, callbacks: TodayCallbacks(onAction: (_) {}, onTarget: (_) {})));
-        return tester.getTopLeft(find.text(GlanceCopy.moreWays)).dy;
+        return tester.getTopLeft(find.text(SuggestedCopy.title)).dy;
       }
 
       final without = await keyTop(const {});

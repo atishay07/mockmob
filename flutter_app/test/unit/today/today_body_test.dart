@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/features/today/copy_suggested.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/haptics/haptics.dart';
 import 'package:mockmob/core/models/rhythm.dart';
@@ -85,9 +86,9 @@ void main() {
   testWidgets('the volt key starts the repair; See why reports back; the length sits in the key', (tester) async {
     final events = await pumpToday(tester, buildToday(ashaInputs()));
     // TODAY-1018: "Start repair  15 min" in one key; the length is a token on the value line, and
-    // two choices plus More ways to practise sit under the key.
+    // the other moves follow under the card as the Suggested stack (D51).
     expect(find.text(GlanceCopy.lengthToken(15)), findsOneWidget, reason: 'a move with more than one length offers to change it');
-    expect(find.text(GlanceCopy.moreWays), findsOneWidget);
+    expect(find.text(SuggestedCopy.title), findsOneWidget);
     expect(find.textContaining('marks they cost you', findRichText: true), findsOneWidget);
     expect(find.text('15 min'), findsOneWidget, reason: 'the key says the length once, after the verb');
     expect(find.text('Start repair'), findsOneWidget);

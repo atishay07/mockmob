@@ -383,7 +383,8 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
     return HeroStage(
       subjectId: m.subjectId,
       react: _react,
-      art: MoveSwap(child: KeyedSubtree(key: swapKey, child: art)),
+      // The art box has a fixed size: the outgoing object keeps the whole box while it leaves.
+      art: MoveSwap(fill: true, child: KeyedSubtree(key: swapKey, child: art)),
       // A suggested card swaps the body in place (6.2): the old one drops 6 dp and blurs out in
       // 140 ms, the new one rises in over 240 ms, and the card's height eases between them. The
       // card ends at its price line: the other moves are the Suggested stack under it (D51).
@@ -401,9 +402,13 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
 /// The swap between two moves: the outgoing body fades, blurs 2 px and drops 6 dp in 140 ms; the
 /// incoming one rises into place in 240 ms. Reduced motion swaps at once.
 class MoveSwap extends StatelessWidget {
-  const MoveSwap({super.key, required this.child});
+  const MoveSwap({super.key, required this.child, this.fill = false});
 
   final Widget child;
+
+  /// The outgoing child keeps the whole box (a fixed-size box such as the art corner), instead of
+  /// its own height from the top (the body, whose height eases).
+  final bool fill;
 
   @override
   Widget build(BuildContext context) {
@@ -416,7 +421,7 @@ class MoveSwap extends StatelessWidget {
       layoutBuilder: (current, previous) => Stack(
         alignment: Alignment.topCenter,
         children: [
-          for (final p in previous) Positioned(left: 0, right: 0, top: 0, child: p),
+          for (final p in previous) fill ? Positioned.fill(child: p) : Positioned(left: 0, right: 0, top: 0, child: p),
           ?current,
         ],
       ),
