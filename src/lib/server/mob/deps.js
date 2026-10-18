@@ -4,19 +4,27 @@ import 'server-only';
 import { randomBytes } from 'node:crypto';
 import { auth } from '@/lib/auth';
 import { supabaseAdmin } from '@/lib/supabase';
-import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
+import { checkPersistentRateLimit, giveBackRateLimit, rateLimitWait } from '@/lib/server/rateLimit';
 import { mobileOptions } from '@/lib/server/mobileCors';
 import { readAtlasRows } from '@/lib/server/trapAtlas';
 import { Database, questionOut } from '@/../data/db';
 import { VISIBLE_QUESTION_FILTER } from '@/../data/practice_source';
+import { readablePracticeQuestions } from '@/../data/practice_library';
+import { pickWithConstraints, rankCandidates } from '@/../data/mock_question_selector';
+import { isPassageLinkedQuestion } from '@/../data/nta_question_selector';
+import { getMode } from '@/../data/test_modes';
 import { resolveSubject } from '@/../data/subject_registry';
 import { normalizeSubjectSelection } from '@/../data/cuet_controls';
 import { isValidTopSyllabusPair } from '@/../data/canonical_syllabus';
 import { indexAtlas, trapForOption } from '@/../data/trap_atlas';
 import blocklist from '@/../data/mob_name_blocklist.json';
+import { EXTRA_LENGTHS } from '@/lib/mob/model.mjs';
 import { createMobService } from './service';
 
 export const mobEnabled = () => process.env.MOB_ENABLED === 'true';
+// The stop rule's switch (SOCIAL-SPEC section 13): MOB_INVITES_ENABLED=false pauses new invite links and joining by link.
+// Anything else, unset included, leaves invites on. Existing Mobs keep working either way.
+export const mobInvitesEnabled = () => process.env.MOB_INVITES_ENABLED !== 'false';
 const secret = () => process.env.MOB_ID_SECRET || process.env.NEXTAUTH_SECRET || process.env.PRACTICE_SESSION_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 
 async function rpc(name, params) {
@@ -46,6 +54,47 @@ async function pickQuestionIds(subject, { mobId, week, count = 10, chapter = nul
 }
 
 const validChapter = (subject, chapter) => isValidTopSyllabusPair(subject, chapter);
+
+/**
+ * For the extra-paper chooser: per chapter of a subject, the longest extra paper the bank can really build. A plain row
+ * count was not enough (go/no-go check 17 Oct: "10 ready" built nothing): the paper's selector also drops passage-linked,
+ * held and evidence-ineligible questions, takes one question per family and at most 2 per concept. So this reads the
+ * subject's pool once, filters it exactly as the selector's full path does (data/practice_pick.js pickFromFullPool, quick
+ * mode, no student: no recency, no progress), and runs the same rankCandidates and pickWithConstraints per chapter for
+ * each length. `ready` is the longest length that fills, never a count the paper cannot reach.
+ * Kept 30 minutes per subject on this instance (only a Pro opening the chooser reads it); a failed extra drops the
+ * subject so the next look is fresh.
+ */
+const chapterCache = new Map();
+const CHAPTER_CACHE_MS = 30 * 60_000;
+export const forgetChapterCounts = (subject) => { chapterCache.delete(subject); };
+async function chapterCounts(subject) {
+  const hit = chapterCache.get(subject);
+  if (hit && hit.at > Date.now() - CHAPTER_CACHE_MS) return hit.rows;
+  const db = supabaseAdmin();
+  const rows = [];
+  for (let offset = 0; offset < 20_000; offset += 1000) {
+    const { data, error } = await db.from('questions').select('*').eq('subject', subject).eq('is_deleted', false)
+      .or(VISIBLE_QUESTION_FILTER).gte('score', -2).order('id').range(offset, offset + 999);
+    if (error) throw error;
+    rows.push(...(data || []));
+    if (!data || data.length < 1000) break;
+  }
+  const mode = getMode('quick');
+  const pool = await readablePracticeQuestions(rows.filter((row) => row.chapter && !isPassageLinkedQuestion(row)), db, { requireEvidence: false });
+  const byChapter = new Map();
+  for (const row of pool) { if (!byChapter.has(row.chapter)) byChapter.set(row.chapter, []); byChapter.get(row.chapter).push(row); }
+  const lengths = [...EXTRA_LENGTHS].sort((a, b) => b - a);
+  const out = [];
+  for (const [chapter, list] of byChapter) {
+    if (!isValidTopSyllabusPair(subject, chapter)) continue;
+    const ranked = rankCandidates(list, { mode });
+    const ready = lengths.find((n) => n <= list.length && pickWithConstraints(ranked, n, mode).length >= n) || 0;
+    out.push({ chapter, ready });
+  }
+  chapterCache.set(subject, { at: Date.now(), rows: out });
+  return out;
+}
 
 /** The frozen paper's questions in paper order, canonical option order (quick papers never shuffle options). */
 async function loadQuestions(ids) {
@@ -84,7 +133,7 @@ export function mobService() {
   cached = createMobService({
     rpc, secret: secret(), randomBytes: (n) => randomBytes(n), blocklist, subjectInfo,
     loadUser: (id) => Database.getUserById(id),
-    validChapter, pickQuestionIds, loadQuestions, trapNameFor, findAttempts,
+    validChapter, pickQuestionIds, loadQuestions, trapNameFor, findAttempts, chapterCounts, forgetChapterCounts, invitesEnabled: mobInvitesEnabled,
     // Lazy, because practiceSessions.js imports the sitting hook from this module.
     startPractice: async (userId, input, server) => (await import('@/lib/server/practiceSessions')).startPractice(userId, input, server),
   });
@@ -92,7 +141,10 @@ export function mobService() {
 }
 
 export function mobDeps() {
-  return { enabled: mobEnabled, auth: (request) => auth(request), rateLimit: checkPersistentRateLimit, cors: mobileOptions, service: mobService() };
+  return {
+    enabled: mobEnabled, auth: (request) => auth(request), rateLimit: checkPersistentRateLimit, giveBack: giveBackRateLimit, waitFor: rateLimitWait,
+    cors: mobileOptions, service: mobService(),
+  };
 }
 
 /** finishPractice's hook (see practiceSessions.js). Never throws. */
@@ -121,4 +173,16 @@ export async function resolveMobReport(id, { remove = false } = {}) {
   const { error: e2 } = await db.from('mob_reports').update({ resolved_at: new Date().toISOString() }).eq('id', id);
   if (e2) throw e2;
   return removed === 'removed' ? 'removed' : 'resolved';
+}
+
+// ---- /admin/funnel: the Mob block (SOCIAL-SPEC section 13). Aggregate counts only; the page suppresses small groups. ----
+
+/** { ok: true, raw } or { ok: false, reason: 'off' | 'missing' | 'failed' }. */
+export async function readMobMetrics(now = Date.now()) {
+  if (!mobEnabled()) return { ok: false, reason: 'off' };
+  try {
+    return { ok: true, raw: await rpc('mob_metrics', { p_now: new Date(now).toISOString() }) };
+  } catch (error) {
+    return { ok: false, reason: /PGRST20[25]|42883|42P01|does not exist|schema cache|Could not find the function/i.test(`${error?.code || ''} ${error?.message || ''}`) ? 'missing' : 'failed' };
+  }
 }

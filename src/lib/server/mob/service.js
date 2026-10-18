@@ -6,15 +6,17 @@
 // per-Mob lock. User ids never leave the server: members are addressed by memberId, an HMAC of (mobId, userId).
 // Free and Pro (section 15) are decided here and nowhere else, from the account's plan, never from anything the client
 // sent:
-//   Free   start or join a Mob (one at a time), sit the weekly paper without credits (one a week, whichever Mob), the
-//          ring, your own result, a one-line teaser, and one free side-by-side (the sample).
-//   Pro    the full side-by-side, past weeks, extra papers on a chosen chapter and length (3 a Mob and week), up to 3 Mobs.
+//   Free   start one Mob and join any number by invite (17 Oct CTO decision), sit the weekly paper without credits (one
+//          a week, whichever Mob), the ring, your own result, a one-line teaser, and one free side-by-side (the sample).
+//   Pro    the full side-by-side, past weeks, extra papers on a chosen chapter and length (3 a Mob and week), start up
+//          to 3 Mobs. Every plan joins up to MAX_MEMBERSHIPS Mobs (a safety ceiling, not a plan limit).
+// Sharing inside a Mob is on by default (show_score, migration 20261017190000), with a per-member switch to turn it off.
 // A Mob paper is started by startPractice, which charges no credits and uses no daily allowance for it (the Mob calls
 // no AI model: its cost is a few rows a week).
 // TODO(owner D-S4): an invite tied to credits is the owner's decision and is not built. Do not add one here.
 import { createHmac } from 'node:crypto';
 import {
-  CODE_ALPHABET, EXTRA_LENGTHS, EXTRA_MAX_PER_WEEK, EXTRA_OPEN_DAYS, FREE_MAX_MOBS, INVITE_DAYS, MobError, PAPER_COUNT, PRO_MAX_MOBS,
+  CODE_ALPHABET, EXTRA_LENGTHS, EXTRA_MAX_PER_WEEK, EXTRA_OPEN_DAYS, FREE_MAX_MOBS, INVITE_DAYS, MAX_MEMBERSHIPS, MobError, PAPER_COUNT, PRO_MAX_MOBS,
   REPORT_REASONS, SECONDS_PER_QUESTION, UUID_RE, buildView, checkColour, checkName, closesAt, codeFromBytes, computeTogether, computeTrap,
   finishedInWindow, mobWeek, normalizeCode, picksFromAttempt, tooLateToStart, trapPayload,
 } from '../../mob/model.mjs';
@@ -25,6 +27,31 @@ const DAY_MS = 86_400_000;
 const WEEK_RE = /^\d{4}-\d{2}-\d{2}$/;
 const missingSchema = (e) => /PGRST20[25]|42883|42P01|does not exist|schema cache|Could not find the function/i.test(`${e?.code || ''} ${e?.message || ''}`);
 const validMobId = (v) => typeof v === 'string' && UUID_RE.test(v);
+
+/** The longest extra-paper length `ready` questions can fill, or null when even the shortest cannot be. */
+export const longestFor = (ready) => [...EXTRA_LENGTHS].reverse().find((n) => n <= ready) || null;
+const questionsWord = (n) => (n === 0 ? 'no questions' : n === 1 ? '1 question' : `${n} questions`);
+
+/**
+ * The bank cannot fill the paper asked for: say how many questions are ready and offer the nearest paper that can be
+ * made (a shorter one on the same chapter, else the whole subject at the same length). Never a bare "unavailable".
+ */
+export function thinBank({ ready, count, chapter = null, subjectName = 'This subject' }) {
+  const fits = longestFor(ready);
+  const where = chapter || subjectName;
+  if (fits) {
+    return new MobError('BANK_THIN', {
+      message: `${where} has ${questionsWord(ready)} ready right now, enough for a ${fits}-question paper. Make a ${fits}-question paper instead${chapter ? ', or use the whole subject' : ''}.`,
+      detail: { ready, asked: count, suggest: { chapter, count: fits } },
+    });
+  }
+  return new MobError('BANK_THIN', {
+    message: chapter
+      ? `${where} has ${questionsWord(ready)} ready right now, too few for a paper. Make it from the whole subject, or choose a chapter with more.`
+      : `${where} has ${questionsWord(ready)} ready right now, too few for a paper. Try again in a few days.`,
+    detail: { ready, asked: count, suggest: chapter ? { chapter: null, count } : null },
+  });
+}
 
 /** memberId: the first 12 Crockford characters of HMAC-SHA256(secret, mobId:userId). */
 export function memberIdFor(secret, mobId, userId) {
@@ -40,7 +67,10 @@ export function memberIdFor(secret, mobId, userId) {
  *   now() -> ms, randomBytes(n) -> Uint8Array, secret
  *   blocklist                              data/mob_name_blocklist.json
  *   subjectInfo(subject) -> { ok, id, name }   a launchable subject, stored id and its official name
- *   loadUser(userId) -> { isPremium } | null     the plan: Pro is isPremium === true, anything else is Free
+ *   loadUser(userId) -> { isPremium, subjects } | null   the plan (Pro is isPremium === true, anything else is Free)
+ *                                                        and the subjects the student studies (a Mob is for one of them)
+ *   invitesEnabled() -> boolean                  false pauses new invites and joining by link (the spec's stop rule)
+ *   chapterCounts(subject) -> [{ chapter, ready }]   questions ready per chapter, for the extra-paper chooser
  *   validChapter(subject, chapter) -> boolean    a chapter of that subject's official syllabus
  *   pickQuestionIds(subject, { mobId, week, count, chapter, key }) -> string[]   from the central bank, no personal exclusions
  *   loadQuestions(ids) -> questions in that order (missing ones left out): { id, stem, correctIndex, options }
@@ -68,10 +98,18 @@ export function createMobService(deps) {
   const nameIn = (state) => (u) => (state.members || []).find((m) => m.user_id === u)?.display_name || null;
 
   // The plan. A failed read is Free: the safe side for every gate below.
+  const loadUser = async (userId) => (deps.loadUser ? deps.loadUser(userId).catch(() => null) : null);
   async function isPro(userId) {
-    const user = deps.loadUser ? await deps.loadUser(userId).catch(() => null) : null;
-    return user?.isPremium === true;
+    return (await loadUser(userId))?.isPremium === true;
   }
+  const invitesOn = () => (deps.invitesEnabled ? deps.invitesEnabled() !== false : true);
+  // How many Mobs the student started and is still in. Null when the count cannot be read (the view falls back).
+  const startedCount = async (userId) => {
+    try {
+      const n = Number(await deps.rpc('mob_started_count', { p_user_id: userId }));
+      return Number.isInteger(n) ? n : null;
+    } catch { return null; }
+  };
 
   async function readState(userId, week, mobId = null) {
     const state = await call('mob_state', { p_user_id: userId, p_week: week, p_mob_id: mobId || null, p_now: new Date(now()).toISOString() });
@@ -192,9 +230,10 @@ export function createMobService(deps) {
     // gets the teaser, which says where the Mob split and nothing more.
     const unlocked = pro || summary?.access === 'sample';
     const mobs = (state.mobs || []).map((m) => ({ id: m.id, subject: m.subject, subjectName: subjectName(m.subject) }));
+    const started = await startedCount(userId);
     return buildView(state, {
       userId, now: now(), memberIdFor: idFor(state.mob.id), cost: youSat ? null : { type: 'free' }, trap: unlocked ? trap : null, together: unlocked ? together : null,
-      subjectName: subjectName(state.mob.subject), plan: { pro }, mobs, freeBlocked,
+      subjectName: subjectName(state.mob.subject), plan: { pro }, mobs, freeBlocked, started, invitesPaused: !invitesOn(),
       compare: summary && summary.available ? summary : null, extras: extrasFor(state, userId, { pro }),
     });
   }
@@ -223,23 +262,46 @@ export function createMobService(deps) {
     return out;
   };
 
-  const limitFor = async (userId) => ((await isPro(userId)) ? { max: PRO_MAX_MOBS, code: 'MOB_LIMIT_PRO' } : { max: FREE_MAX_MOBS, code: 'MOB_LIMIT' });
+  const startLimit = (user) => (user?.isPremium === true ? { max: PRO_MAX_MOBS, code: 'MOB_LIMIT_PRO' } : { max: FREE_MAX_MOBS, code: 'MOB_LIMIT' });
+  // A Mob is for one of the student's own subjects: the ones on their account, resolved the way the server stores them.
+  const ownSubjects = (user) => new Set((Array.isArray(user?.subjects) ? user.subjects : []).map((s) => deps.subjectInfo(s)).filter((x) => x?.ok).map((x) => x.id));
 
   return {
     view,
 
+    /**
+     * Run BEFORE the create rate limit (http.js gate). A student already at their plan's cap of Mobs they started hears
+     * the plan's own sentence, never the rate limit's: for Pro the weekly create limit (3) equals the cap (3), so the
+     * wait ("start another on Sun 25 Oct") would be wrong for someone who must leave a Mob first. A failed read of the
+     * account or the count says nothing here: create decides.
+     */
+    async createGate(userId) {
+      const user = await loadUser(userId);
+      if (!user) return;
+      const plan = startLimit(user);
+      const n = await startedCount(userId);
+      if (n !== null && n >= plan.max) throw new MobError(plan.code);
+    },
+
     async create(userId, body) {
-      const subject = deps.subjectInfo(body.subject);
-      if (!subject?.ok) throw new MobError('SUBJECT_INVALID');
+      const user = await loadUser(userId);
+      if (!user) throw new MobError('UNAVAILABLE'); // the account did not load: never blame the student's subjects for it
+      const own = ownSubjects(user);
+      if (!own.size) throw new MobError('NO_SUBJECTS');
+      const subject = typeof body.subject === 'string' ? deps.subjectInfo(body.subject) : null;
+      if (!subject?.ok || !own.has(subject.id)) throw new MobError('SUBJECT_INVALID');
       const { name, colour } = nameAndColour(body, { required: true });
-      const plan = await limitFor(userId);
+      const plan = startLimit(user);
       const r = await call('mob_create', { p_user_id: userId, p_subject: subject.id, p_name: name, p_colour: colour, p_max_mobs: plan.max });
       if (r?.status === 'limit') throw new MobError(plan.code);
-      return view(userId, { mobId: r?.mob_id, sync: false });
+      if (r?.status === 'ceiling') throw new MobError('MOB_CEILING');
+      if (r?.status !== 'created') throw new MobError('UNAVAILABLE');
+      return view(userId, { mobId: r.mob_id, sync: false });
     },
 
     async invite(userId, body = {}) {
       const state = await mustState(userId, body.mob);
+      if (!invitesOn()) throw new MobError('INVITES_PAUSED');
       const expires = new Date(now() + INVITE_DAYS * DAY_MS).toISOString();
       for (let attempt = 0; attempt < 3; attempt += 1) {
         const code = codeFromBytes(deps.randomBytes(5));
@@ -263,8 +325,10 @@ export function createMobService(deps) {
     async lookup(rawCode, { viewerId = null } = {}) {
       const code = normalizeCode(rawCode);
       if (!code) throw new MobError('INVITE_INVALID');
+      if (!invitesOn()) throw new MobError('JOIN_PAUSED');
       const r = await call('mob_invite_lookup', { p_code: code, p_now: new Date(now()).toISOString() });
       if (r?.status === 'expired') throw new MobError('INVITE_EXPIRED');
+      if (r?.status === 'full') throw new MobError('MOB_FULL');
       if (r?.status !== 'valid') throw new MobError('INVITE_INVALID');
       return { valid: true, code, subject: r.subject, subjectName: subjectName(r.subject) || r.subject, size: Number(r.size), seatsLeft: Number(r.seats_left), expiresAt: new Date(r.expires_at).toISOString(), ...(viewerId && r.inviter ? { inviter: r.inviter } : {}) };
     },
@@ -272,15 +336,17 @@ export function createMobService(deps) {
     async join(userId, body) {
       const code = normalizeCode(body.code);
       if (!code) throw new MobError('INVITE_INVALID');
+      if (!invitesOn()) throw new MobError('JOIN_PAUSED');
       const { name, colour } = nameAndColour(body, { required: true });
-      const plan = await limitFor(userId);
-      const r = await call('mob_join', { p_user_id: userId, p_code: code, p_name: name, p_colour: colour, p_max_mobs: plan.max, p_now: new Date(now()).toISOString() });
+      // Joining is not a plan limit: every plan joins up to the safety ceiling (the migration counts every membership).
+      const r = await call('mob_join', { p_user_id: userId, p_code: code, p_name: name, p_colour: colour, p_max_mobs: MAX_MEMBERSHIPS, p_now: new Date(now()).toISOString() });
       const status = r?.status;
       // P10: a block either way reads exactly like a bad code, so the joiner learns nothing.
       if (status === 'invalid' || status === 'blocked') throw new MobError('INVITE_INVALID');
       if (status === 'expired') throw new MobError('INVITE_EXPIRED');
       if (status === 'full') throw new MobError('MOB_FULL');
-      if (status === 'limit') throw new MobError(plan.code);
+      if (status === 'limit') throw new MobError('MOB_CEILING');
+      if (status !== 'joined' && status !== 'already') throw new MobError('UNAVAILABLE');
       // Opening the link of a Mob you are already in just takes you there.
       return view(userId, { mobId: r?.mob_id, sync: false });
     },
@@ -396,21 +462,25 @@ export function createMobService(deps) {
     /** The side-by-side (Pro, or the one free sample). GET /api/mob/compare?mob=&week= or ?extra=. */
     async compare(userId, q = {}) {
       let state; let ids; let sittings; let week; let extra = null; let kind = 'weekly';
+      let past = false;
       if (q.extra !== undefined && q.extra !== null && q.extra !== '') {
-        if (!validMobId(q.extra)) throw new MobError('NOT_FOUND');
+        if (!validMobId(q.extra)) throw new MobError('EXTRA_NOT_FOUND');
         extra = await call('mob_extra_get', { p_user_id: userId, p_extra_id: q.extra });
-        if (!extra) throw new MobError('NOT_FOUND');
+        if (!extra) throw new MobError('EXTRA_NOT_FOUND');
         state = await mustState(userId, extra.mob_id);
         ids = extra.question_ids; sittings = extra.sittings || []; week = String(extra.week_start).slice(0, 10); kind = 'extra';
       } else {
         const current = mobWeek(now());
         week = q.week ? String(q.week) : current;
-        if (!WEEK_RE.test(week) || week > current || mobWeek(Date.parse(`${week}T12:00:00+05:30`)) !== week) throw new MobError('NOT_FOUND');
+        // A week that is not a Monday, is in the future, or is not a date at all names no paper.
+        if (!WEEK_RE.test(week) || week > current || mobWeek(Date.parse(`${week}T12:00:00+05:30`)) !== week) throw new MobError('WEEK_INVALID');
+        past = week < current;
         state = await mustState(userId, q.mob, { sync: week === current, week, lenient: true });
         ids = state.paper?.question_ids; sittings = state.sittings || [];
+        if (past && !Array.isArray(ids)) throw new MobError('WEEK_INVALID');
       }
-      if (!sittings.some((s) => s.user_id === userId)) throw new MobError('NOT_SAT_YET');
-      if (!Array.isArray(ids) || sittings.length < 2) throw new MobError('COMPARE_UNAVAILABLE');
+      if (!sittings.some((s) => s.user_id === userId)) throw new MobError(past ? 'NOT_SAT_THAT_WEEK' : 'COMPARE_SIT_FIRST');
+      if (!Array.isArray(ids) || sittings.length < 2) throw new MobError(past ? 'COMPARE_PAST_ALONE' : 'COMPARE_UNAVAILABLE');
       const pro = await isPro(userId);
       let access = 'full';
       if (!pro) {
@@ -465,7 +535,18 @@ export function createMobService(deps) {
       if (chapter && (chapter.length > 120 || !deps.validChapter || !deps.validChapter(state.mob.subject, chapter))) throw new MobError('CHAPTER_INVALID');
       const key = `x${Array.from(deps.randomBytes(6), (b) => b.toString(16).padStart(2, '0')).join('')}`;
       const picked = await deps.pickQuestionIds(state.mob.subject, { mobId: state.mob.id, week: state.week, count, chapter, key }).catch(() => []);
-      if (!Array.isArray(picked) || picked.length < count) throw new MobError('PAPER_UNAVAILABLE');
+      if (!Array.isArray(picked) || picked.length < count) {
+        // The selector answers all or nothing for a length it cannot fill, so its count says little. The chooser's
+        // probe says the longest paper this chapter can build; if even that claimed this length, it is stale: drop it
+        // and say what really happened.
+        let ready = Array.isArray(picked) ? picked.length : 0;
+        if (chapter && deps.chapterCounts) {
+          const known = (await deps.chapterCounts(state.mob.subject).catch(() => null))?.find((r) => r.chapter === chapter);
+          if (known && Number(known.ready) < count) ready = Number(known.ready) || 0;
+          else if (deps.forgetChapterCounts) deps.forgetChapterCounts(state.mob.subject);
+        }
+        throw thinBank({ ready, count, chapter, subjectName: subjectName(state.mob.subject) || 'This subject' });
+      }
       const r = await call('mob_extra_put', {
         p_user_id: userId, p_mob_id: state.mob.id, p_week: state.week, p_chapter: chapter, p_ids: picked.slice(0, count),
         p_closes_at: new Date(now() + EXTRA_OPEN_DAYS * DAY_MS).toISOString(), p_max_per_week: EXTRA_MAX_PER_WEEK,
@@ -473,6 +554,24 @@ export function createMobService(deps) {
       if (r?.status === 'limit') throw new MobError('EXTRA_LIMIT');
       if (r?.status !== 'ok') throw new MobError('NOT_IN_MOB');
       return { ...(await view(userId, { mobId: state.mob.id, sync: false })), extraId: r.id };
+    },
+
+    /**
+     * The extra-paper chooser (Pro): each chapter of the Mob's subject with how many questions are ready in the bank,
+     * so a student picks a chapter that can make the paper. GET /api/mob/extra?mob=.
+     */
+    async chapters(userId, q = {}) {
+      const state = await mustState(userId, q.mob, { lenient: true });
+      if (!(await isPro(userId))) throw new MobError('PRO_REQUIRED');
+      const rows = deps.chapterCounts ? await deps.chapterCounts(state.mob.subject).catch(() => null) : null;
+      if (!Array.isArray(rows)) throw new MobError('UNAVAILABLE');
+      const min = Math.min(...EXTRA_LENGTHS);
+      return {
+        mobId: state.mob.id,
+        lengths: [...EXTRA_LENGTHS],
+        chapters: rows.map((r) => ({ chapter: r.chapter, ready: Number(r.ready) || 0, longest: longestFor(Number(r.ready) || 0) }))
+          .filter((r) => r.ready >= min && (!deps.validChapter || deps.validChapter(state.mob.subject, r.chapter))).sort((a, b) => b.ready - a.ready || a.chapter.localeCompare(b.chapter)),
+      };
     },
 
     /**
@@ -498,27 +597,27 @@ export function createMobService(deps) {
   };
 
   async function startExtra(userId, state, body) {
-    if (!validMobId(body.extra)) throw new MobError('NOT_FOUND');
+    if (!validMobId(body.extra)) throw new MobError('EXTRA_NOT_FOUND');
     const extra = await call('mob_extra_get', { p_user_id: userId, p_extra_id: body.extra });
-    if (!extra || extra.mob_id !== state.mob.id) throw new MobError('NOT_FOUND');
-    if ((extra.sittings || []).some((s) => s.user_id === userId)) throw new MobError('PAPER_ALREADY_SAT');
+    if (!extra || extra.mob_id !== state.mob.id) throw new MobError('EXTRA_NOT_FOUND');
+    if ((extra.sittings || []).some((s) => s.user_id === userId)) throw new MobError('EXTRA_ALREADY_SAT');
     if (extraTooLate(extra)) throw new MobError('EXTRA_CLOSED');
     const questions = await deps.loadQuestions(extra.question_ids).catch(() => []);
     if (!Array.isArray(questions) || questions.length !== extra.question_ids.length) throw new MobError('PAPER_UNAVAILABLE');
     const generationKey = `mob_${createHmac('sha256', String(deps.secret || 'mob')).update(`extra:${extra.id}:${userId}`).digest('hex').slice(0, 40)}`;
     const input = { experience: 'practice', mode: 'quick', count: questions.length, subject: state.mob.subject, generationKey };
     if (typeof body.startReceipt === 'string' && body.startReceipt.length <= 2000) input.startReceipt = body.startReceipt;
-    return runStart(userId, input, { mobPaper: { mobId: state.mob.id, weekStart: String(extra.week_start).slice(0, 10), extraId: extra.id, questions } });
+    return runStart(userId, input, { mobPaper: { mobId: state.mob.id, weekStart: String(extra.week_start).slice(0, 10), extraId: extra.id, questions } }, { extra: true });
   }
 
-  async function runStart(userId, input, server) {
+  async function runStart(userId, input, server, { extra = false } = {}) {
     try {
       return await deps.startPractice(userId, input, server);
     } catch (error) {
       const m = String(error?.message || '');
       if (/CREDITS/.test(m)) throw new MobError('CREDITS');
       if (/SESSION_EXPIRED/.test(m)) throw new MobError('PAPER_EXPIRED');
-      if (/ALREADY_SUBMITTED/.test(m)) throw new MobError('PAPER_ALREADY_SAT');
+      if (/ALREADY_SUBMITTED/.test(m)) throw new MobError(extra ? 'EXTRA_ALREADY_SAT' : 'PAPER_ALREADY_SAT');
       if (/INSUFFICIENT_PRACTICE_CONTENT|SUBJECT_NOT_SUPPORTED/.test(m)) throw new MobError('PAPER_UNAVAILABLE');
       if (/MIGRATION/.test(m)) throw new MobError('MIGRATION');
       if (error instanceof MobError) throw error;

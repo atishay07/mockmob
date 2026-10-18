@@ -40,7 +40,7 @@ function PlatformShareCell({ part }) {
   );
 }
 
-export default function FunnelSummary({ summary, enabled, notSetUp, failed }) {
+export default function FunnelSummary({ summary, enabled, notSetUp, failed, children = null }) {
   const landing = summary.stages[0]?.count || 0;
   return (
     <main className="min-h-screen bg-[#07070b] px-4 py-6 text-white sm:px-6 lg:px-8">
@@ -207,6 +207,9 @@ export default function FunnelSummary({ summary, enabled, notSetUp, failed }) {
             </section>
           </>
         ) : null}
+
+        {/* Further blocks from the page (the Mob block), read on their own and shown whatever the landing counts say. */}
+        {children}
 
         <section aria-labelledby="funnel-note" className="space-y-2 border-t border-white/10 pt-6 text-sm text-zinc-400">
           <h2 id="funnel-note" className="text-base font-semibold text-zinc-200">How to read this</h2>

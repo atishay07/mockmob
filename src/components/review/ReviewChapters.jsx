@@ -22,6 +22,7 @@ import { NEXT_MOVE_RULES } from '@/../data/result_next_move.mjs';
 import AnswerSheet from './AnswerSheet';
 import { LessonLink, subjectId } from './ChapterRows';
 import { Pair } from './PapersView';
+import MobEntry from '@/components/mob/MobEntry';
 import './review-1018.css';
 
 const SHOWN = 5;
@@ -280,6 +281,7 @@ function Also() {
         <span>{book?.active?.text ? `For your next mock: ${book.active.text}` : 'Rules from your repairs and from how you take papers. Choose one for your next mock.'}</span>
         <Chev dir="right" />
       </Link>
+      <MobEntry where="review" />
       <Link className="rv8-qrow mk-press" href="/saved">
         <b>Saved questions{Number.isFinite(saved) ? ` (${saved})` : ''}</b>
         <span>Questions you marked to look at again.</span>

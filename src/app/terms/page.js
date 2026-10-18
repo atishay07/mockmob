@@ -2,6 +2,7 @@ import React from 'react';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
 import { seoMetadata } from '@/lib/seo';
+import { MobTermsSection, mobEnabledForLegal } from '@/components/mob/MobLegal';
 
 export const metadata = seoMetadata({
   title: 'Terms of Service | MockMob',
@@ -16,7 +17,7 @@ export default function TermsPage() {
       <main className="container-narrow px-5 pb-20 pt-10">
         <div className="eyebrow mb-3">{'// Legal'}</div>
         <h1 className="display-lg mb-5">Terms of Service</h1>
-        <p className="mb-10 text-zinc-400">Last updated: 2 October 2026</p>
+        <p className="mb-10 text-zinc-400">Last updated: {mobEnabledForLegal() ? '17 October 2026' : '2 October 2026'}</p>
 
         <div className="legal-copy">
           <section>
@@ -39,6 +40,7 @@ export default function TermsPage() {
             <h2>Exam affiliation</h2>
             <p>MockMob is not affiliated with NTA, DU, CUET, or any government exam body. Scores, bands, recommendations, and analysis are practice guidance, not official admission decisions.</p>
           </section>
+          {mobEnabledForLegal() ? <MobTermsSection /> : null}
           <section>
             <h2>Misuse</h2>
             <p>We may restrict or terminate access for spam, cheating, harassment, reverse engineering, payment abuse, harmful uploads, or attempts to compromise the platform.</p>

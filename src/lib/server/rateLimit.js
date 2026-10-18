@@ -6,11 +6,12 @@ import { supabaseAdmin } from '@/lib/supabase';
 import { takeFromMemory, takePersistent } from './rateLimitCore';
 
 const buckets = new Map();
+const memoryKey = (request, { route, keyParts = [] }) => [route, getClientIp(request), ...keyParts.map((part) => String(part || '').slice(0, 80))].join(':');
+const persistentBucket = (request, options) => createHash('sha256').update([options.route, options.identityOnly ? '' : getClientIp(request), ...(options.keyParts || [])].join(':')).digest('hex');
 
 // In-memory limit: counts per server instance, so it is a speed bump rather than a shared budget.
 export function checkRateLimit(request, { route, limit, windowMs = 60_000, keyParts = [] }) {
-  const key = [route, getClientIp(request), ...keyParts.map((part) => String(part || '').slice(0, 80))].join(':');
-  return takeFromMemory(buckets, key, { limit, windowMs });
+  return takeFromMemory(buckets, memoryKey(request, { route, keyParts }), { limit, windowMs });
 }
 
 // Shared limit kept in the database (take_rate_limit) when PERSISTENT_LIMITS_ENABLED=true; the in-memory limit otherwise.
@@ -19,7 +20,7 @@ export function checkRateLimit(request, { route, limit, windowMs = 60_000, keyPa
 // money or a paid model call sits behind the limit.
 export async function checkPersistentRateLimit(request, options) {
   if (process.env.PERSISTENT_LIMITS_ENABLED !== 'true') return checkRateLimit(request, options);
-  const bucket = createHash('sha256').update([options.route, options.identityOnly ? '' : getClientIp(request), ...(options.keyParts || [])].join(':')).digest('hex');
+  const bucket = persistentBucket(request, options);
   return takePersistent({
     take: (limit, windowMs) => supabaseAdmin().rpc('take_rate_limit', { p_bucket: bucket, p_limit: limit, p_window_ms: windowMs }),
     limit: options.limit,
@@ -27,6 +28,36 @@ export async function checkPersistentRateLimit(request, options) {
     fallback: options.fallback === 'memory' ? () => checkRateLimit(request, options) : null,
     onFallback: () => console.warn(`[rateLimit] persistent limiter unavailable for ${options.route}; using the in-memory limit for this call`),
   });
+}
+
+/**
+ * Give back the count a checkPersistentRateLimit call took, for a limit that should count only successful actions
+ * (the request it was taken for failed). Same options as the check. Best effort: a failure leaves the count as it was.
+ */
+export async function giveBackRateLimit(request, options) {
+  try {
+    if (process.env.PERSISTENT_LIMITS_ENABLED !== 'true') {
+      const bucket = buckets.get(memoryKey(request, options));
+      if (bucket && bucket.resetAt > Date.now() && bucket.count > 0) bucket.count -= 1;
+      return true;
+    }
+    const { error } = await supabaseAdmin().rpc('rate_limit_give_back', { p_bucket: persistentBucket(request, options) });
+    return !error;
+  } catch { return false; }
+}
+
+/** Seconds until a refused limit lets this caller through again, or null when it cannot be read. */
+export async function rateLimitWait(request, options) {
+  try {
+    if (process.env.PERSISTENT_LIMITS_ENABLED !== 'true') {
+      const bucket = buckets.get(memoryKey(request, options));
+      return bucket && bucket.resetAt > Date.now() ? Math.max(1, Math.ceil((bucket.resetAt - Date.now()) / 1000)) : null;
+    }
+    const { data, error } = await supabaseAdmin().rpc('rate_limit_reset_at', { p_bucket: persistentBucket(request, options) });
+    if (error || !data) return null;
+    const ms = Date.parse(data) - Date.now();
+    return Number.isFinite(ms) && ms > 0 ? Math.ceil(ms / 1000) : null;
+  } catch { return null; }
 }
 
 export function rateLimitHeaders(result) {
