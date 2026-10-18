@@ -2,7 +2,6 @@
 // data/tests/wallet_1018.test.mjs can hold them. The body is GET /api/wallet (src/lib/server/wallet.js).
 // Copy rules (owner UI standards): plain sentence case, no "!", no em dash, no middle dot, 12-hour times, counts with units,
 // an unknown balance is never written as 0.
-import { PRACTICE_CREDITS, AI_CREDITS, POOL_USE } from '../../lib/creditCopy.mjs';
 
 export const WALLET_URL = '/api/wallet';
 export const WALLET_PATH = '/wallet';
@@ -27,7 +26,7 @@ export function longDate(ymd, { year = false } = {}) {
 
 export const WALLET_COPY = Object.freeze({
   title: 'Wallet',
-  lede: 'Your practice credits and AI credits, what each is for, and how to add more.',
+  lede: 'Your credits, what they buy, and how to add more.',
   loading: 'Reading your wallet',
   failed: 'Your wallet did not load. Nothing was spent.',
   retry: 'Try again',
@@ -36,8 +35,10 @@ export const WALLET_COPY = Object.freeze({
   openSoon: 'Top-ups open soon',
   openSoonNote: 'Top-ups are not open yet. The prices are shown so you can plan.',
   historyHeading: 'Recent activity',
-  historyEmpty: 'No credit activity yet. Your first mock or Ask Mobi question shows up here.',
+  historyEmpty: 'No credit activity yet. Your first question or Ask Mobi reply shows up here.',
   historyFailed: 'Your activity did not load. Your balances above are current.',
+  heading: 'Credits',
+  packsHeading: 'Add credits',
   proLink: 'See Pro',
   proLine: (offer) => `Practice is included with Pro${offer?.rupees ? `, ₹${offer.rupees}${offer.expires ? ` through ${offer.expires}` : ''}` : ''}.`,
   proNow: (until) => {
@@ -66,83 +67,50 @@ export function resetLabel(resetAt) {
 
 /** The body, or null when it is not the wallet contract (an older server, a wrong reply). */
 export function walletFromResponse(body) {
-  if (!body || typeof body !== 'object' || body.ok !== true || !body.practice || !body.ai || !Array.isArray(body.packs) || !body.commerce) return null;
+  if (!body || typeof body !== 'object' || body.ok !== true || !body.credits || typeof body.credits !== 'object' || !Array.isArray(body.packs) || !body.commerce) return null;
   return {
-    practice: body.practice,
-    ai: body.ai,
+    credits: body.credits,
     plan: body.plan && typeof body.plan === 'object' ? body.plan : { name: 'Free', until: null },
     proOffer: body.proOffer && typeof body.proOffer === 'object' ? body.proOffer : null,
-    packs: body.packs.filter((p) => p && typeof p.packId === 'string' && (p.pool === 'practice' || p.pool === 'ai')),
+    packs: body.packs.filter((p) => p && typeof p.packId === 'string'),
     commerce: { open: body.commerce.open === true, message: body.commerce.message || null },
     history: Array.isArray(body.history) ? body.history.filter((l) => l && typeof l === 'object') : null,
   };
 }
 
 /**
- * The two balances. Each is { pool, name, unit, figure, state, lines } where figure is a string or null (unknown),
- * state is 'known' | 'zero' | 'unlimited' | 'unknown', and lines are the sentences under it.
+ * The one balance: { figure, state, lines } where figure is a string or null (unknown), state is 'known' | 'zero' | 'unknown',
+ * and lines are the sentences under it: what a credit buys, the free allowance with its reset date, the credits held.
  */
-export function balanceTiles(data) {
-  const pro = data?.plan?.name === 'Pro';
-  const p = data?.practice || {};
-  const a = data?.ai || {};
-  const pb = whole(p.balance);
-  const ab = whole(a.balance);
-
-  let practice;
-  if (pro) {
-    practice = { state: 'unlimited', figure: 'Unlimited', lines: [WALLET_COPY.proNow(data.plan.until), POOL_USE.practice] };
-  } else if (pb === null) {
-    practice = { state: 'unknown', figure: null, lines: [WALLET_COPY.unknownLine, POOL_USE.practice] };
-  } else {
-    const q = whole(p.approxQuestions);
-    practice = {
-      state: pb === 0 ? 'zero' : 'known',
-      figure: fmt(pb),
-      lines: [
-        pb === 0 ? 'You have no practice credits left.' : `About ${questions(q === null ? pb : q)}.`,
-        `${POOL_USE.practice} They do not renew.`,
-      ],
-    };
-  }
-
-  const reset = resetLabel(a.resetAt);
-  let ai;
-  if (ab === null) {
-    ai = { state: 'unknown', figure: null, lines: [WALLET_COPY.unknownLine, POOL_USE.ai] };
-  } else {
-    const inc = whole(a.includedRemaining);
-    const mon = whole(a.includedMonthly);
-    const bought = whole(a.boughtBalance);
-    const split = inc !== null && mon !== null && bought !== null
-      ? `${fmt(inc)} of ${fmt(mon)} included this month left, plus ${fmt(bought)} bought.` : null;
-    ai = {
-      state: ab === 0 ? 'zero' : 'known',
-      figure: fmt(ab),
-      lines: [
-        ...(split ? [split] : []),
-        ...(reset ? [`Included credits reset on ${reset}.`] : []),
-        `${POOL_USE.ai} Bought credits never expire.`,
-      ],
-    };
-  }
-  return [
-    { pool: 'practice', name: PRACTICE_CREDITS, unit: 'practice credits', ...practice },
-    { pool: 'ai', name: AI_CREDITS, unit: 'AI credits', ...ai },
+export function balanceTile(data) {
+  const c = data?.credits || {};
+  const total = whole(c.total);
+  const buys = typeof c.buys === 'string' && c.buys ? c.buys : null;
+  if (total === null) return { state: 'unknown', figure: null, lines: [WALLET_COPY.unknownLine, ...(buys ? [buys] : [])] };
+  const left = whole(c.freeLeft);
+  const allowance = whole(c.freeAllowance);
+  const held = whole(c.held);
+  const reset = resetLabel(c.resetAt);
+  const lines = [
+    ...(buys ? [buys] : []),
+    ...(left !== null && allowance !== null ? [`Free credits this month: ${fmt(left)} of ${fmt(allowance)} left${reset ? `, reset on ${reset}` : ''}.`] : []),
+    ...(held !== null ? [`Credits you hold: ${fmt(held)}. They do not expire.`] : []),
+    ...(data?.plan?.name === 'Pro' ? [WALLET_COPY.proNow(data.plan.until)] : []),
   ];
+  if (total === 0) lines.unshift('You have no credits left.');
+  return { state: total === 0 ? 'zero' : 'known', figure: fmt(total), lines };
 }
 
-/** The packs of one pool as rows: the price, the size, the value per credit and the key's state. */
-export function packRows(data, pool, phases = {}) {
+/** The packs as rows: the price, the size, the value per credit and the key's state. */
+export function packRows(data, phases = {}) {
   const open = Boolean(data?.commerce?.open);
-  return (data?.packs || []).filter((p) => p.pool === pool).map((p) => {
+  return (data?.packs || []).map((p) => {
     const phase = phases[p.packId] || { status: 'idle', message: '' };
     return {
       packId: p.packId,
-      pool,
-      title: `${fmt(p.credits)} ${pool === 'practice' ? 'practice credits' : 'AI credits'}`,
+      title: `${fmt(p.credits)} credits`,
       price: `₹${fmt(p.priceInr)}`,
-      value: `₹${p.perCreditInr} a credit${pool === 'practice' ? `, about ${questions(p.credits)}` : ''}`,
+      value: `₹${p.perCreditInr} a credit`,
       featured: Boolean(p.featured),
       featuredLabel: 'Best value',
       disabled: !open || phase.status === 'working',
@@ -156,16 +124,13 @@ export function packRows(data, pool, phases = {}) {
 /** One history line, ready to print. */
 export function historyRow(line, index = 0) {
   const delta = whole(line?.delta) ?? 0;
-  const pool = line?.pool === 'ai' ? 'ai' : 'practice';
   const after = whole(line?.balanceAfter);
   const when = whenParts(line?.at);
   return {
-    key: `${line?.at || 'line'}:${pool}:${index}`,
+    key: `${line?.at || 'line'}:${index}`,
     what: typeof line?.what === 'string' && line.what.trim() ? line.what : 'Credits',
     date: when?.date || null,
     time: when?.time || null,
-    pool,
-    poolName: pool === 'ai' ? AI_CREDITS : PRACTICE_CREDITS,
     change: delta,
     changeText: `${delta > 0 ? '+' : delta < 0 ? '−' : ''}${fmt(Math.abs(delta))}`,
     spokenChange: delta < 0 ? `${fmt(-delta)} used` : delta > 0 ? `${fmt(delta)} added` : 'no change',
@@ -177,9 +142,4 @@ export function historyRow(line, index = 0) {
 export function proRow(data) {
   if (!data || data.plan?.name === 'Pro') return null;
   return { text: WALLET_COPY.proLine(data.proOffer), link: WALLET_COPY.proLink, href: '/pricing' };
-}
-
-/** Merge order for history: newest first, the order GET /api/wallet already sends. Kept here for the test of the contract. */
-export function newestFirst(lines) {
-  return [...(lines || [])].sort((a, b) => Date.parse(b?.at) - Date.parse(a?.at));
 }

@@ -1,7 +1,7 @@
 import 'server-only';
 import { supabaseAdmin } from '@/lib/supabase';
 import { CAPABILITIES } from '@/../data/capabilities';
-import { AI_PACK_DEFS } from '@/lib/wallet/walletPacks.mjs';
+import { CREDIT_PACKS, getCreditPackByPlanId } from './creditPacks.mjs';
 import {
   PREPOS_PAUSED_MESSAGE,
   isPaidUser,
@@ -32,18 +32,19 @@ export function aiCommerceOpen() {
   return paidAiOpen() && CAPABILITIES.aiTopUps.state === 'available';
 }
 
-// Plan IDs are preserved for historical orders and verification of captured payments.
-// `status` reflects whether new purchases are open; it never makes a pack look live while paused.
-// The three packs, their prices and their plain labels live in src/lib/wallet/walletPacks.mjs (the wallet's one catalog).
-export const AI_CREDIT_PACKS = AI_PACK_DEFS.map(({ pool: _pool, ...pack }) => pack).map((pack) => Object.freeze({
+// The packs (one set, usable for everything) live in ./creditPacks.mjs. `status` reflects whether the older AI top-up checkout is
+// open; it never makes a pack look live while paused. A purchase of any pack is granted below, into the held (bonus) balance.
+export const AI_CREDIT_PACKS = CREDIT_PACKS.map((pack) => Object.freeze({
   ...pack,
   status: aiCommerceOpen() ? 'live' : 'paused',
-  description: `${pack.credits} AI credits that do not expire.`,
+  description: `${pack.credits} credits that do not expire.`,
 }));
 
+/** A pack by id or plan id for verify and the webhook: the current packs and the retired AI packs (old orders still settle). */
 export function getAICreditPack(packKeyOrPlanId) {
-  const key = String(packKeyOrPlanId || '').trim();
-  return AI_CREDIT_PACKS.find((pack) => pack.key === key || pack.planId === key) || null;
+  const pack = getCreditPackByPlanId(packKeyOrPlanId);
+  if (!pack) return null;
+  return AI_CREDIT_PACKS.find((p) => p.packId === pack.packId) || Object.freeze({ ...pack, status: 'retired', description: `${pack.credits} credits that do not expire.` });
 }
 
 export function isAICreditPackPlanId(planId) {

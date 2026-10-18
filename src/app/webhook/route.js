@@ -15,7 +15,6 @@ import { recordEarningIfApplicable } from '@/lib/payouts';
 import { Database } from '@/../data/db';
 import { countStepOnce } from '@/lib/server/funnelOnceStore';
 import { getAICreditPack, grantPurchasedAICredits } from '@/services/credits/aiCreditWallet';
-import { getWalletPackByPlanId } from '@/lib/wallet/walletPacks.mjs';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -111,14 +110,6 @@ export async function POST(request) {
     const creditPack = getAICreditPack(paymentRecord.planId);
     if (creditPack) {
       await processCreditPackWebhook({ eventType, payment, orderId, paymentRecord, creditPack });
-      await Database.markWebhookEventProcessed(eventId);
-      return NextResponse.json({ ok: true });
-    }
-
-    // A Practice credits pack (the wallet's reload packs): the same captured-payment rules as an AI pack, one grant per payment id.
-    const practicePack = getWalletPackByPlanId(paymentRecord.planId);
-    if (practicePack?.pool === 'practice') {
-      await processPracticePackWebhook({ eventType, payment, orderId, paymentRecord, pack: practicePack });
       await Database.markWebhookEventProcessed(eventId);
       return NextResponse.json({ ok: true });
     }
@@ -568,37 +559,6 @@ async function processCreditPackWebhook({ eventType, payment, orderId, paymentRe
       amountPaid: payment.amount,
       rawPayment: payment,
     });
-  }
-
-  if (eventType === 'payment.failed') {
-    await Database.updatePaymentByOrderId(orderId, {
-      paymentId: payment?.id,
-      status: 'failed',
-      amountPaid: typeof payment?.amount === 'number' ? payment.amount : undefined,
-      rawPayment: payment,
-    });
-  }
-}
-
-async function processPracticePackWebhook({ eventType, payment, orderId, paymentRecord, pack }) {
-  if (eventType === 'payment.captured' && isCapturedRazorpayPayment(payment)) {
-    if (payment.amount !== pack.amountPaise) {
-      await Database.updatePaymentByOrderId(orderId, {
-        paymentId: payment?.id,
-        status: 'failed',
-        amountPaid: typeof payment?.amount === 'number' ? payment.amount : undefined,
-        rawPayment: payment,
-      });
-      return;
-    }
-    if (isAlreadyCapturedCreditPayment(paymentRecord, { paymentId: payment?.id, amountPaise: pack.amountPaise })) return;
-
-    // Loaded here so the webhook's other paths never touch the practice grant module.
-    const { grantPurchasedPracticeCredits } = await import('@/services/credits/practiceCreditWallet');
-    const grant = await grantPurchasedPracticeCredits({ userId: paymentRecord.userId, credits: pack.credits, packId: pack.packId, paymentId: payment?.id });
-    if (!grant.ok) throw new Error(grant.error || 'practice_credit_webhook_grant_failed');
-
-    await Database.updatePaymentByOrderId(orderId, { paymentId: payment?.id, status: 'captured', amountPaid: payment.amount, rawPayment: payment });
   }
 
   if (eventType === 'payment.failed') {

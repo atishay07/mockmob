@@ -40,10 +40,10 @@ async function postJson(fetchImpl, url, payload) {
   return { ok: response.ok, status: response.status, data };
 }
 
-const creditsAdded = (pool, n) => `${n} ${pool === 'practice' ? 'practice credits' : 'AI credits'} added.`;
+const creditsAdded = (n) => `${n} credits added.`;
 
 /**
- * @param {{ packId: string, pool?: string, label?: string }} pack
+ * @param {{ packId: string, label?: string }} pack
  * @param {{ prefill?: {name?: string, email?: string}, fetchImpl?: typeof fetch, loadCheckout?: () => Promise<unknown>, openCheckout?: Function }} [options]
  */
 export async function startWalletPurchase(pack, options = {}) {
@@ -89,7 +89,7 @@ export async function startWalletPurchase(pack, options = {}) {
               status: 'paid',
               granted,
               balance: verified.data?.balance ?? null,
-              message: verified.data?.idempotent || verified.data?.alreadyCaptured ? 'Credits already added.' : creditsAdded(served?.pool || pack.pool, granted || served?.credits || 0),
+              message: verified.data?.idempotent || verified.data?.alreadyCaptured ? 'Credits already added.' : creditsAdded(granted || served?.credits || 0),
             });
           } catch {
             done({ status: 'failed', message: PURCHASE_COPY.verifyFailed });

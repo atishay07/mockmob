@@ -75,7 +75,6 @@ export function practiceWhat(row) {
   const ref = String(row?.reference || '');
   const action = String(row?.action || '');
   const delta = int(row?.credit_delta ?? row?.amount) ?? 0;
-  if (action === 'purchase' || ref.startsWith('purchase:')) return 'Practice credits added';
   if (ref.startsWith('daily_login:')) return 'Daily bonus';
   if (ref.startsWith('vote:')) return 'Rated a question';
   if (/^attempt:.+:question:/.test(ref)) return 'Practice answers';
