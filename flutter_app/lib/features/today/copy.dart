@@ -83,14 +83,23 @@ abstract final class TodayCopy {
   /// Mock 7 on 11 Oct." The denominator names its noun, so the 4 reads as what Review's badge
   /// counts (the chapter's open mistakes) and the hero's 3 as the part that fits the chosen
   /// length. Never "holds": that word is kept for a passed fresh check.
-  static String tonightLine(int n, int chapterOpen, String source, String chapter, DateTime marked) {
+  ///
+  /// [allOpen] is every mistake open on the account (Review's own count): when it is more than this batch the line
+  /// ends "123 open in all.", so the card says what it names (a part) next to what Review and the Repairs tile say
+  /// (the whole), and the three numbers never read as disagreeing (v15 walk, M6).
+  static String tonightLine(int n, int chapterOpen, String source, String chapter, DateTime marked, {int? allOpen}) {
     final from = 'from $source on ${formatDayMonthShort(marked)}';
-    if (n < chapterOpen) return '$n of the $chapterOpen open mistakes in $chapter, $from.';
+    final tail = openInAllTail(allOpen, n);
+    if (n < chapterOpen) return '$n of the $chapterOpen open mistakes in $chapter, $from.$tail';
     // The whole chapter: the big number already says how many, so the line never repeats it
     // (design critic 16 Oct, finding 1). "Every" keeps the denominator: all of them.
     final when = '$source on ${formatDayMonthShort(marked)}';
-    return n == 1 ? 'It is from $when, in $chapter.' : 'All ${countWord(n)} are from $when, in $chapter.';
+    return (n == 1 ? 'It is from $when, in $chapter.' : 'All ${countWord(n)} are from $when, in $chapter.') + tail;
   }
+
+  /// " 123 open in all." when the account holds more open mistakes than the [shown] ones the card names, else nothing.
+  static String openInAllTail(int? allOpen, int shown) => allOpen != null && allOpen > shown ? ' ${openInAll(allOpen)}' : '';
+  static String openInAll(int n) => '$n open in all.';
 
   /// "four" for 4, up to ten; the figure itself above that.
   static String countWord(int n) =>
@@ -630,10 +639,11 @@ abstract final class TodayCopy {
   static const String firstRepairTeach = 'Repair shows why your answer went wrong and gives you one like it to try.';
 
   /// After 7 or more days away, with open mistakes on the last paper.
-  static String returningWhy(String source, DateTime marked, int open, int shown) {
+  static String returningWhy(String source, DateTime marked, int open, int shown, {int? allOpen}) {
     final lead = 'Your last paper was $source on ${formatDayMonthShort(marked)}.';
-    if (open == shown) return open == 1 ? '$lead Its one mistake is still open.' : '$lead All ${countWord(open)} of its mistakes are still open.';
-    return '$lead Its ${countWord(open)} open mistakes are still here; start with ${countWord(shown)}.';
+    final tail = openInAllTail(allOpen, open);
+    if (open == shown) return (open == 1 ? '$lead Its one mistake is still open.' : '$lead All ${countWord(open)} of its mistakes are still open.') + tail;
+    return '$lead Its ${countWord(open)} open mistakes are still here; start with ${countWord(shown)}.$tail';
   }
 
   /// After 7 or more days away with nothing open: a warm-up.

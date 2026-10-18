@@ -119,6 +119,7 @@ class TodayInputs {
     this.isPro = false,
     this.email,
     this.repairedToday = 0,
+    this.openRepairs,
   });
 
   final DateTime now;
@@ -213,6 +214,12 @@ class TodayInputs {
 
   /// Mistakes whose repair the server acknowledged today (the student's date): the done state.
   final int repairedToday;
+
+  /// Every mistake still open on the account: the count Review's header says ("123 left to repair") and the Repairs
+  /// tile and the lead's "N open in all" repeat. It is Review's own index count (every paper, saved repairs the account
+  /// holds, answers marked not a mistake left out), so the screens cannot disagree; null while that index is not
+  /// built, and then the tile falls back to counting the papers on hand.
+  final int? openRepairs;
 
   /// Whole days since the newest paper, or null with no paper on record.
   int? get daysAway {

@@ -54,6 +54,7 @@ import 'package:mockmob/features/practice/widgets/suggestion_hero.dart' show dra
 import 'package:mockmob/features/practice/model/practice_selection.dart';
 import 'package:mockmob/features/result/data/result_providers.dart';
 import 'package:mockmob/features/review/data/repair_api.dart';
+import 'package:mockmob/features/review/data/review_providers.dart' show reviewIndexProvider;
 import 'package:mockmob/features/rhythm/rhythm.dart' show studyDayPlanProvider;
 import 'package:mockmob/features/runner/data/runner_loader.dart';
 import 'package:mockmob/features/today/data/today_profile.dart';
@@ -252,6 +253,7 @@ List<Override> _overrides() {
     pendingResultRepositoryProvider.overrideWithValue(practice.FakePendingResults()),
     unopenedResultsProvider.overrideWith((ref) => Stream.value(const <PendingResult>[])),
     allPendingResultsProvider.overrideWith((ref) => Stream.value(const <PendingResult>[])),
+    reviewIndexProvider.overrideWithValue(null),
     // The receipt says when this run's submit was acknowledged.
     resultReceivedAtProvider.overrideWith((ref, id) async => demoBook.receivedAt[id]),
     finishFreshProvider.overrideWith((ref, id) async => demoBook.fresh.remove(id)),

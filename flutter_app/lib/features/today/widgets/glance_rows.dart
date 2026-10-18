@@ -321,7 +321,13 @@ class QueueTilesBlock extends StatelessWidget {
         ? _TileData(GlanceCopy.revise, null, null, GlanceCopy.queueDayOneRevise)
         : due == null
             ? _TileData(GlanceCopy.revise, null, null, GlanceCopy.reviseUnknown)
-            : _TileData(GlanceCopy.revise, due, GlanceCopy.dueToday, due == 0 ? GlanceCopy.reviseNothing : GlanceCopy.reviseFree(q.reviseMinutes));
+            : _TileData(
+                GlanceCopy.revise,
+                // The round the lead card names (10 of 92), never the whole backlog as if it were today's round.
+                (q.reviseRound ?? due) < due ? q.reviseRound : due,
+                (q.reviseRound ?? due) < due ? GlanceCopy.ofDueToday(due) : GlanceCopy.dueToday,
+                due == 0 ? GlanceCopy.reviseNothing : GlanceCopy.reviseFree(q.reviseMinutes),
+              );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,

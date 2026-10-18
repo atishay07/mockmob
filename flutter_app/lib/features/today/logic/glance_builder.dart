@@ -5,11 +5,13 @@
 // denominator; unknown is never zero; stake is the record's own arithmetic.
 import 'dart:math' as math;
 
+import '../../../core/domain/marks.dart' show markBreakdownOf, missedMarksDenominator;
 import '../../../core/domain/next_move.dart';
 import '../../../core/domain/repair_candidates.dart';
 import '../../../core/domain/tonight_pick.dart' show isRepairBasis;
 import '../../../core/models/attempt.dart';
 import '../../../core/router/routes.dart';
+import '../../result/model/next_move.dart' show ChapterCost, MoveAnalysis, MoveRow, RowVerdict, costliest;
 import '../copy.dart';
 import '../copy_glance.dart';
 import '../../../core/copy/formatters.dart' show formatTime12;
@@ -418,6 +420,25 @@ WeakChapters buildWeakChapters(TodayInputs i) {
   return WeakChapters(rows: rows, papers: papers.length);
 }
 
+/// The chapter that cost [a] the most marks, by the result's own rule ([costliest]): rows are the paper's questions with
+/// a recorded answer row, chapters the questions' own. Null when nothing with a chapter was missed.
+ChapterCost? costliestChapterOf(Attempt a) {
+  final rows = <MoveRow>[];
+  for (var k = 0; k < a.questions.length; k++) {
+    final q = a.questions[k];
+    final d = a.detailFor(q.id);
+    if (d == null) continue;
+    rows.add(MoveRow(
+      qid: q.id,
+      number: k + 1,
+      chapter: _chapterOf(q.chapter),
+      verdict: d.isCorrect == true ? RowVerdict.correct : (d.isCorrect == false ? RowVerdict.wrong : RowVerdict.skipped),
+      givenIndex: d.givenIndex,
+    ));
+  }
+  return costliest(MoveAnalysis(rows));
+}
+
 /// The last paper in full: right, wrong and blank in words, and its biggest leak.
 PaperDetail? buildPaperDetail(TodayInputs i) {
   final paper = buildLastPaper(i);
@@ -425,27 +446,19 @@ PaperDetail? buildPaperDetail(TodayInputs i) {
   final opened = _opened(i);
   if (opened.isEmpty) return null;
   final a = opened.first;
-  final misses = <String, (int, int)>{};
-  for (final q in a.questions) {
-    final chapter = _chapterOf(q.chapter);
-    if (chapter == null) continue;
-    final d = a.detailFor(q.id);
-    if (d?.isCorrect == true) continue;
-    final (w, b) = misses[chapter] ?? (0, 0);
-    misses[chapter] = d?.isCorrect == false ? (w + 1, b) : (w, b + 1);
-  }
+  // The biggest leak is the chapter the result names as the one that cost the most marks: the same function
+  // (`costliest`, 6 marks a wrong and 5 a blank), not the chapter with the most misses, so one paper never has two
+  // "biggest" chapters on two screens (v15 walk, M6). Its figure is shown against what the whole paper missed.
   String? leak, leakChapter;
   TodayTarget? leakTarget;
-  final totalMisses = a.wrong + a.unattempted;
-  if (misses.isNotEmpty && totalMisses > 0) {
-    final top = misses.entries.reduce((x, y) => (y.value.$1 + y.value.$2) > (x.value.$1 + x.value.$2) ? y : x);
-    final k = top.value.$1 + top.value.$2;
-    if (k > 0) {
-      leakChapter = top.key;
-      leak = GlanceCopy.leak(top.key, k, totalMisses, top.value.$1, top.value.$2);
-      final open = [for (final c in repairCandidates(a, repairedIds: i.repaired[a.id] ?? const {})) if (_chapterOf(c.chapter) == top.key) c];
-      if (open.isNotEmpty) leakTarget = GoTo(TodayLinks.repair(a.id, open.first.questionId, open.length));
-    }
+  final cost = costliestChapterOf(a);
+  if (cost != null) {
+    leakChapter = cost.chapter;
+    final breakdown = markBreakdownOf(a);
+    final against = missedMarksDenominator(chapterMissed: cost.marks, paperMissed: breakdown.lost, paperMax: breakdown.max);
+    leak = GlanceCopy.leak(cost.chapter, cost.marks, against, cost.wrong, cost.blank);
+    final open = [for (final c in repairCandidates(a, repairedIds: i.repaired[a.id] ?? const {})) if (_chapterOf(c.chapter) == cost.chapter) c];
+    if (open.isNotEmpty) leakTarget = GoTo(TodayLinks.repair(a.id, open.first.questionId, open.length));
   }
   // When it was taken, to the minute (TODAY-1018 row 6: "Sat 17 Oct, 9:12 PM, +12 on the one before").
   final when = GlanceCopy.paperWhen(i.clock(a.completedAt));
@@ -473,15 +486,21 @@ PaperDetail? buildPaperDetail(TodayInputs i) {
 QueueTiles buildQueue(TodayInputs i) {
   final all = i.attempts;
   final due = i.reviseDue;
-  final size = due == null ? 5 : math.min(i.reviseCap == 5 ? 5 : 10, due);
+  // The round is the lead card's own number (10 of 92), from the same function, so the tile and the card agree.
+  final round = due == null || due <= 0 ? null : reviseRoundOf(i).size;
+  final size = round ?? (due == null ? 5 : math.min(i.reviseCap == 5 ? 5 : 10, due));
   final minutes = size <= 5 ? 5 : 10;
-  if (all == null) return QueueTiles(reviseDue: due, reviseMinutes: minutes);
-  if (all.isEmpty) return QueueTiles(repairsOpen: 0, reviseDue: due, reviseMinutes: minutes, dayOne: true);
+  if (all == null) return QueueTiles(reviseDue: due, reviseRound: round, reviseMinutes: minutes);
+  if (all.isEmpty) return QueueTiles(repairsOpen: 0, reviseDue: due, reviseRound: round, reviseMinutes: minutes, dayOne: true);
+  // Open repairs: the account's one count (Review's index, which Review's header prints too). Only when that index is
+  // not built yet does the tile count the papers on hand, as it did before.
   var open = 0;
-  for (final a in _opened(i)) {
-    if (!isRepairBasis(a)) continue;
-    open += repairCandidates(a, repairedIds: i.repaired[a.id] ?? const {}).length;
+  if (i.openRepairs == null) {
+    for (final a in _opened(i)) {
+      if (!isRepairBasis(a)) continue;
+      open += repairCandidates(a, repairedIds: i.repaired[a.id] ?? const {}).length;
+    }
   }
   final repaired = i.repaired.values.fold<int>(0, (n, s) => n + s.length);
-  return QueueTiles(repairsOpen: open, repairedToCheck: repaired, reviseDue: due, reviseMinutes: minutes);
+  return QueueTiles(repairsOpen: i.openRepairs ?? open, repairedToCheck: repaired, reviseDue: due, reviseRound: round, reviseMinutes: minutes);
 }

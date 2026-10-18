@@ -235,8 +235,14 @@ abstract final class GlanceCopy {
   // Last paper.
   static const String paperTitle = 'Last paper';
   static String paperBar(int right, int wrong, int blank, int total) => '$right right, $wrong wrong, $blank blank, of $total';
-  static String leak(String chapter, int k, int m, int wrong, int blank) =>
-      'Biggest leak: $chapter, $k of your $m misses ($wrong wrong, $blank blank).';
+  /// "Biggest leak: Share Capital, 47 of the 245 marks you missed: 2 wrong and 7 left blank." The chapter is the one the
+  /// result names as costliest (most marks, [marks] = 6 per wrong and 5 per blank), and the figure is shown against what
+  /// the whole paper missed through the one rule ([missedMarksDenominator]); with no honest denominator it says "47 marks".
+  static String leak(String chapter, int marks, int? ofMissed, int wrong, int blank) {
+    final parts = [if (wrong > 0) '$wrong wrong', if (blank > 0) '$blank left blank'].join(' and ');
+    final head = ofMissed == null ? '$marks marks' : '$marks of the $ofMissed marks you missed';
+    return 'Biggest leak: $chapter, $head${parts.isEmpty ? '' : ': $parts'}.';
+  }
   static const String leakPrefix = 'Biggest leak: ';
   static const String repairLeak = 'Repair this leak';
   static const String openResult = 'Open the result';
@@ -247,6 +253,9 @@ abstract final class GlanceCopy {
   static const String revise = 'Revise';
   static const String openWord = 'open';
   static const String dueToday = 'due today';
+
+  /// The round is smaller than what is due: the tile's figure is the round (10) and the word keeps the whole (of 92 due today), as the lead card says it.
+  static String ofDueToday(int due) => 'of $due due today';
   static String repairedToCheck(int k) => '$k repaired, ready to check on fresh questions';
   static const String noneRepaired = 'Each one you repair comes back on a fresh question.';
   static String reviseFree(int minutes) => 'Free, about $minutes min';

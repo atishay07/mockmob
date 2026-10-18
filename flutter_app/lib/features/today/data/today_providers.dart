@@ -13,6 +13,7 @@ import '../../../core/connectivity/connectivity.dart';
 import '../../../core/domain/session_rules.dart';
 import '../../../core/models/models.dart' show Attempt;
 import '../../../core/repositories/repositories.dart';
+import '../../review/data/review_providers.dart' show reviewIndexProvider;
 import '../../review/revise/revise_data.dart' show reviseCapProvider, reviseEntryProvider;
 import '../../rhythm/data/rhythm_providers.dart' show rhythmClockProvider;
 import '../../rhythm/logic/dates.dart' show formatIsoDate, studentDate;
@@ -277,6 +278,8 @@ final todayInputsProvider = Provider<TodayInputs>((ref) {
     email: auth.email,
     isPro: auth.isPro,
     repairedToday: repairedToday,
+    // One source for "open repairs": Review's index, the count its own header prints.
+    openRepairs: ref.watch(reviewIndexProvider.select((index) => index?.openCount)),
     reviseDue: reviseDue,
     reviseShown: reviseRead?.shown,
     reviseCards: [for (final c in reviseRead?.items ?? const []) (questionId: c.questionId, subject: c.subject, chapter: c.chapter)],

@@ -25,6 +25,8 @@ import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/repositories/rhythm_repository.dart';
 import 'package:mockmob/core/repositories/session_draft_repository.dart';
 import 'package:mockmob/core/widgets/widgets.dart' show BarMove, LiveCapsule;
+import 'package:mockmob/features/review/data/mistake_index.dart' show buildReviewIndex;
+import 'package:mockmob/features/review/data/review_providers.dart' show reviewIndexProvider;
 import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart';
 import 'package:mockmob/features/rhythm/data/rhythm_providers.dart';
 import 'package:mockmob/features/rhythm/data/study_days.dart';
@@ -153,6 +155,7 @@ void main() {
         repairLocalRecordsProvider.overrideWith((ref) => Stream<List<RepairLocalRecord>>.value(const [])),
         unopenedResultsProvider.overrideWith((ref) => Stream<List<PendingResult>>.value(const [])),
         allPendingResultsProvider.overrideWith((ref) => Stream<List<PendingResult>>.value(const [])),
+        reviewIndexProvider.overrideWithValue(null),
         todayDismissalsProvider.overrideWith((ref) {
           ref.watch(todayClockProvider);
           return Stream<Set<DismissalKey>>.value(const {});
@@ -170,6 +173,34 @@ void main() {
       now = DateTime.utc(2026, 10, 14, 19, 0);
       c.read(todayClockProvider.notifier).refresh();
       expect(c.read(todayInputsProvider).week!.todayIndex, 3);
+    });
+
+    test('the open-repairs count Today carries is the one Review prints (one source, v15 M6)', () {
+      now = DateTime.utc(2026, 10, 14, 17, 30);
+      final index = buildReviewIndex(ashaRecord(now), const []);
+      expect(index.openCount, greaterThan(0));
+      final c = containerFor(rhythmFixture(), extra: [
+        authSnapshotProvider.overrideWithBuild((ref, notifier) => const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1')),
+        attemptsRepositoryProvider.overrideWith(_Attempts.new),
+        planRepositoryProvider(todayPlanMinutes).overrideWith(() => _Plan(todayPlanMinutes)),
+        repairLocalRecordsProvider.overrideWith((ref) => Stream<List<RepairLocalRecord>>.value(const [])),
+        unopenedResultsProvider.overrideWith((ref) => Stream<List<PendingResult>>.value(const [])),
+        allPendingResultsProvider.overrideWith((ref) => Stream<List<PendingResult>>.value(const [])),
+        reviewIndexProvider.overrideWithValue(index),
+        todayDismissalsProvider.overrideWith((ref) {
+          ref.watch(todayClockProvider);
+          return Stream<Set<DismissalKey>>.value(const {});
+        }),
+        networkStatusProvider.overrideWith(_Online.new),
+        todayDraftProvider.overrideWith((ref) async => null),
+        todayProfileProvider.overrideWithValue(null),
+        rhythmVisibleProvider.overrideWithValue(true),
+        studyDayPlanProvider.overrideWithValue(null),
+        roadAccountProvider.overrideWithValue(RoadAccount.none),
+      ]);
+      addTearDown(c.dispose);
+      c.listen(todayInputsProvider, (_, _) {}, fireImmediately: true);
+      expect(c.read(todayInputsProvider).openRepairs, index.openCount);
     });
   });
 

@@ -379,7 +379,7 @@ MoveHero _repair(TodayInputs i, MoveFacts f, Attempt b, TodayMood mood, String o
   final date = i.date(b.completedAt);
   final now = i.clock();
   final chapterLine = tonight.hasNamedChapter
-      ? TodayCopy.tonightLine(n, chapterCount, source, tonight.chapter, date)
+      ? TodayCopy.tonightLine(n, chapterCount, source, tonight.chapter, date, allOpen: i.openRepairs)
       : TodayCopy.questionNumbers([for (final c in tonight.items.take(n)) c.number]);
   // The sparse clause (AGENT_RULES overlay: say when the data is thin): one paper replaces the
   // source sentence, two add a clause.
@@ -388,7 +388,7 @@ MoveHero _repair(TodayInputs i, MoveFacts f, Attempt b, TodayMood mood, String o
   final MoveKind kind;
   String? whyLink;
   if (away) {
-    meaning = TodayCopy.returningWhy(source, date, tonight.paperOpen, n);
+    meaning = TodayCopy.returningWhy(source, date, tonight.paperOpen, n, allOpen: i.openRepairs);
     kind = MoveKind.returning;
     if (tonight.paperOpen > n) whyLink = TodayCopy.seeAll(tonight.paperOpen);
   } else {
@@ -547,6 +547,17 @@ MoveHero? _firstWeek(TodayInputs i, MoveFacts f, NextMoveState state) {
   return null;
 }
 
+/// Today's Revise round in numbers, the one place that says how many questions it asks: [due] is everything due
+/// today (the server's count), [remaining] what the server shows for the round (never more than are due), and [size]
+/// the round itself at the student's cap of 5 or 10. The lead card ("10 of 92 due today") and the Revise tile read
+/// this and nothing else, so the two never say different things about the same round (v15 walk, M6).
+({int due, int remaining, int size}) reviseRoundOf(TodayInputs i) {
+  final due = i.reviseDue ?? 0;
+  final remaining = math.max(1, math.min(i.reviseShown ?? due, due));
+  final cap = i.reviseCap == 5 ? 5 : 10;
+  return (due: due, remaining: remaining, size: math.min(cap, remaining));
+}
+
 /// Today's Revise round as the move (TODAY-1017 4.2 applied to Revise; device walk 17 Oct). The
 /// number is the round's own size at the student's cap (5 or 10), over "of 92 due today" when
 /// fewer than all are asked, so the key's minutes never seem to cover all of them. The title names
@@ -554,10 +565,10 @@ MoveHero? _firstWeek(TodayInputs i, MoveFacts f, NextMoveState state) {
 /// they were missed on (matched on this phone's record) with their dates, and See why opens the
 /// newest of them. Change length switches between 5 and 10 questions.
 MoveHero _revise(TodayInputs i, MoveFacts f, NextMoveState state, String overline, {required String fallbackSubject}) {
-  final due = i.reviseDue ?? 0;
-  final remaining = math.max(1, math.min(i.reviseShown ?? due, due));
-  final cap = i.reviseCap == 5 ? 5 : 10;
-  final size = math.min(cap, remaining);
+  final round = reviseRoundOf(i);
+  final due = round.due;
+  final remaining = round.remaining;
+  final size = round.size;
   final minutes = size <= 5 ? 5 : 10;
   final cards = i.reviseCards.take(size).toList();
 

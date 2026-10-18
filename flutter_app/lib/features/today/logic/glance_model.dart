@@ -234,14 +234,17 @@ class PaperDetail {
 
 /// The two tiles: open repairs, and Revise due today.
 class QueueTiles {
-  const QueueTiles({this.repairsOpen, this.repairedToCheck = 0, this.reviseDue, this.reviseMinutes = 5, this.dayOne = false});
+  const QueueTiles({this.repairsOpen, this.repairedToCheck = 0, this.reviseDue, this.reviseRound, this.reviseMinutes = 5, this.dayOne = false});
 
-  /// Wrong answers without a repair on the papers read; null when the record is unknown.
+  /// Every mistake still open on the account (the one count Review and the lead repeat); null when the record is unknown.
   final int? repairsOpen;
   final int repairedToCheck;
 
   /// Null when Revise could not be read: never shown as zero.
   final int? reviseDue;
+
+  /// How many of the [reviseDue] today's round asks (the lead card's own number: 10 of 92). Null when unknown.
+  final int? reviseRound;
   final int reviseMinutes;
   final bool dayOne;
 }
