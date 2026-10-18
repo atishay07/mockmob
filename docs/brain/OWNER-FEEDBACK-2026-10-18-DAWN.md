@@ -380,3 +380,18 @@ His message was the pasted next-session prompt (resume from 25ef3d95, follow NOW
 > (choice) "Skip installing 1.0.15+6 on my phone; I'll connect once for v15.2. Still finish and send the 1.0.15+6 APK file."
 
 **Ledger D95:** do not install 1.0.15+6 on his phone. Finish it and send the APK file. He connects his phone ONCE, for v15.2, and only when the entire app is ready.
+
+## Owner, 18 Oct about 8:45 pm IST (verbatim)
+> "No need to just send me an APK file or do anything. Right now, what I want to do is just prepare the final version of the app in the next 1 hour and send me that. That's the only goal. Skip everything else.
+>
+> The final version should have everything that has been going on for so many days. This V15 has been stuck for 3 days now, and it shouldn't be taking this much time. Do anything you can to complete this on time. Skip the unnecessary checks or runs if they are too much, like per version, per time. The focus should be on:
+>
+> * building everything
+> * getting everything together
+> * merging everything successfully
+> * verifying the features
+> * limiting it to one final single walk, which analyzes all the issues, tests everything, and then a final fix pass
+>
+> At the end, I have to manually only verify most of the things, so so many steps are just a waste of time. Most of the time should only be given to building the actual app, which has, I think, already been done. Keep that in mind and increase the pace of the development."
+
+**Ledger D96:** ONE goal: the final app (everything from these days in one build) within about 1 hour. Skip the separate 1.0.15+6 APK and everything else. The flow: merge everything, verify the features, ONE final walk that finds all the issues, then ONE fix pass, then the APK, installed on his phone. He verifies the rest himself.

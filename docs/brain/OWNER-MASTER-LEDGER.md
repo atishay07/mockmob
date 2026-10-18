@@ -435,6 +435,11 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 |---|---|---|
 | D95 | Skip installing 1.0.15+6 on his phone; finish it and send the APK file; he connects once for v15.2 when the whole app is ready | Recorded; the 1.0.15+6 APK will be sent as a file; v15.2 is the install |
 
+### Owner at about 8:45 pm, 18 Oct (D96)
+| D | Item | Status |
+|---|---|---|
+| D96 | ONE goal: the final app with everything, in about 1 hour; skip the 1.0.15+6 file and everything else; merge everything, one final walk, one fix pass, APK, install | 8:48 pm: the web tracks C/D/E stopped (STOP POINTs: credits-core 6c23b11c, pro-nudge-app 69938fad); one workflow merges ui/v15.1-1018 + Play billing + Pro nudges + taste fixes + swipe v2 into ui/v15.2-1018, one walk, one fix pass, release APK. Release 9 is kept only because the app's Mob and per-question prices need it live |
+
 ## Waiting on the owner (updated 18 Oct about 3:45 am)
 - Answered 3:50 am: M-001 first launch 3 s; M-006 bolder copy; D19 keep badges, refine; D22 Mob.
 - D32: confirm the kept landing element when he reviews the port live (wt-land3, port 3206).
