@@ -168,6 +168,9 @@ html[data-theme='light'] .app-shell .pr {
   .app-shell .pr .pr-fix__fine { grid-column: 1 / -1; }
 }
 .app-shell .pr .pr-fix__text { display: grid; gap: 3px; min-width: 0; animation: pr-fade-in 200ms var(--mm-ease-out) both; }
+/* Owner G26: picking a subject must not move the modes. On a phone the repairs line keeps room for a one-line title and a
+   two-line detail whichever subject is chosen, so the tiles below stay where they were (wider screens hold 78 px above). */
+@media (max-width: 767px) { .app-shell .pr .pr-fix__text { min-height: 63px; align-content: start; } }
 .app-shell .pr .pr-fix__title { display: flex; align-items: center; gap: 8px; margin: 0; font: 700 16px/1.3 var(--font-display); letter-spacing: -0.012em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
 .app-shell .pr .pr-fix__title svg { flex: none; color: var(--a-accent-text); }
 .app-shell .pr .pr-fix[data-state='loading'] .pr-fix__title { color: var(--a-ink-2); }
@@ -338,6 +341,13 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg:not([data-lens
 @keyframes pr-obj-in { from { opacity: 0; translate: 0 8px; scale: 0.86; } }
 .app-shell .pr .pr-ticket.pr-summary .pr-ticket__mode { display: block; margin: 0; font: 750 22px/1.15 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); }
 .app-shell .pr .pr-ticket__what { margin: 3px 0 0; font-size: 14.5px; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+/* Owner G26 (19 Oct): the card leads with the mode, its picture included, and the picture settles in only when the mode
+   changes. The count and the subject are the Start key's words, which may wrap to a second line for a long subject name. */
+.app-shell .pr .pr-ticket__art { display: grid; place-items: center; }
+.app-shell .pr .pr-ticket__art > :not(.subj-obj) { animation: pr-obj-in var(--mm-spring-settle-dur) var(--mm-spring-settle) both; }
+.app-shell .pr .pr-ticket__what { line-height: 1.4; text-wrap: pretty; }
+.app-shell .pr .pr-ticket.pr-summary .pr-summary__cta { height: auto; padding-block: 10px; white-space: normal; line-height: 1.2; }
+.app-shell .pr .pr-summary__words { text-align: center; text-wrap: balance; }
 .app-shell .pr .pr-ticket__mobi { position: relative; display: block; width: 42px; height: 52px; }
 .app-shell .pr .pr-ticket__mobi .pip-actor { height: 100%; }
 .app-shell .pr .pr-ticket.pr-summary dl { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; margin: 0; }
@@ -449,6 +459,9 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg:not([data-lens
      price there too; the card above still says the time. */
   .app-shell .pr .pr-bar__text[data-blocked] .pr-bar__min { display: none; }
   .app-shell .pr .pr-bar__go { min-width: 96px; min-height: 48px; padding: 0 14px; border-radius: 14px; justify-content: center; gap: 7px; white-space: nowrap; }
+  /* The key's two lines (owner G26): "Start 10 questions" over "in Accountancy". */
+  .app-shell .pr .pr-bar__keytext { display: grid; justify-items: start; min-width: 0; line-height: 1.15; text-align: left; }
+  .app-shell .pr .pr-bar__keytext small { display: block; max-width: 132px; overflow: hidden; font: 650 12px/1.2 var(--font-body); white-space: nowrap; text-overflow: ellipsis; opacity: 0.78; }
   .app-shell .pr .pr-bar .pr-dock__rule { grid-column: 1 / -1; }
   /* Fine-tune, one line right above Start: what is set, and Edit (owner F8). 44 px tall (W-079), the whole line is the target. */
   .app-shell .pr .pr-bar__fine {

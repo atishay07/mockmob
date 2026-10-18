@@ -450,10 +450,14 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
           : `${quote.creditCost} credits`
     : 'Checking';
   const costTone = quoteStatus === 'ready' && quoteMatches && !quote.launchable ? 'locked' : 'cost';
+  // The session in words, said once, on the Start key (owner G26, 19 Oct): "Start 10 questions in Accountancy". The card
+  // above it leads with the mode, so picking a subject never puts a count and a subject at the top of the page.
+  const sessionWords = effectiveModeId === 'full' ? 'the full mock' : effectiveModeId === 'nta' ? 'the NTA paper' : `${quoteCount} ${quoteCount === 1 ? 'question' : 'questions'}`;
+  const inSubject = subjectLabel ? ` in ${subjectLabel}` : '';
   const startLabel = isLaunching ? 'Starting…'
     : quoteStatus === 'loading' ? 'Checking…'
       : !quoteLaunchable ? 'Not available'
-        : `Start ${mode.label}`;
+        : `Start ${sessionWords}${inSubject}`;
   const ntaOn = effectiveModeId === 'nta';
   const blocked = quoteStatus === 'ready' && quoteMatches && !quote.launchable;
   const blockedLabel = shortfall ? `Need ${shortfall} more practice ${shortfall === 1 ? 'credit' : 'credits'}` : quote?.reasonCode === 'access_required' ? 'See Pro' : 'See options';
@@ -514,10 +518,10 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
     <button type="button" className={`btn-outline md ${className}`} onClick={() => setQuoteNonce((n) => n + 1)}>Check again</button>
   ) : (
     <Button key={`key-${modeNudge}`} variant="volt" size="md" className={className} data-page-primary={short ? undefined : ''} data-phone-primary={short ? '' : undefined} data-nudge={modeNudge > 0 || undefined}
-      disabled={isLaunching || !quoteLaunchable} aria-busy={isLaunching || quoteStatus === 'loading' || undefined} aria-label={short && !isLaunching ? barStartLabel : undefined} onClick={launch}>
+      disabled={isLaunching || !quoteLaunchable} aria-busy={isLaunching || quoteStatus === 'loading' || undefined} aria-label={short && !isLaunching ? `${barStartLabel}${inSubject}` : undefined} onClick={launch}>
       {/* Under 380 px the bar's key says "Start 10" (its name still says the whole label), so the mode's name beside it is
-          never cut to "Quick pr…" (W-068). */}
-      {short ? <>{examPair ? <ClockGlyph size={17} /> : null}{isLaunching ? 'Starting…' : keyNamesCount ? <>Start {quoteCount}<span className="pr-bar__qword"> {quoteCount === 1 ? 'question' : 'questions'}</span></> : barStartLabel}</> : <>{examPair ? <ClockGlyph /> : <AppIcon name="practice" size={18} />}{startLabel}</>}
+          never cut to "Quick pr…" (W-068). The subject is the key's second line ("in Accountancy", owner G26). */}
+      {short ? <>{examPair ? <ClockGlyph size={17} /> : null}{isLaunching ? 'Starting…' : <span className="pr-bar__keytext"><span>{keyNamesCount ? <>Start {quoteCount}<span className="pr-bar__qword"> {quoteCount === 1 ? 'question' : 'questions'}</span></> : barStartLabel}</span>{subjectLabel && quoteLaunchable ? <small>in {subjectLabel}</small> : null}</span>}</> : <>{examPair ? <ClockGlyph /> : <AppIcon name="practice" size={18} />}<span className="pr-summary__words">{startLabel}</span></>}
     </Button>
   ));
 
@@ -705,11 +709,13 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
             </section>
 
           <aside className="pr-summary pr-ticket" aria-label="Your session">
+            {/* The card leads with the mode (owner G26, 19 Oct): its picture, its name and what it is. The count and the subject
+                are said once, on the Start key, so picking a subject changes nothing at the top of the card. */}
             <div className="pr-ticket__top">
-              <span className="pr-ticket__obj" key={selSubj}><SubjectObject id={selectedSubject?.internalId || selSubj} size={76} lit /></span>
+              <span className="pr-ticket__obj pr-ticket__art" key={effectiveModeId} aria-hidden="true"><ModeArt id={effectiveModeId} subjectId={selectedSubject?.internalId || selSubj} on /></span>
               <div>
                 <h2 className="pr-ticket__mode">{mode.label}</h2>
-                <p className="pr-ticket__what">{quoteCount} {subjectLabel ? `${subjectLabel} ` : ''}questions</p>
+                <p className="pr-ticket__what">{MODE_TILE_SPECS[effectiveModeId]}</p>
               </div>
               {cardMobi ? <span className="pr-ticket__mobi" aria-hidden="true"><PipActor pose={cardMobi === 'oops' ? 'encouraging' : 'thinking'} blink={1} /></span> : null}
             </div>
