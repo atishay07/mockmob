@@ -205,15 +205,19 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
     final ntaAsync = ref.watch(practiceQuoteProvider(QuoteQuery(subject: subject, apiMode: 'nta', count: mockQuestionCount)));
     final full = _lastFull = fullAsync.value ?? _lastFull;
     final nta = _lastNta = ntaAsync.value ?? _lastNta;
-    final showNta = nta != null && quoteOffersMode(nta);
+    // A mode Pro holds shows to a Free student only while Pro can be had here (PLAY_BILLING on): its
+    // tap opens the Upgrade sheet. With the flag off it is not drawn at all, so no tile wears a Pro
+    // tag and none leads to a gate with no way through (owner walk, 18 Oct). A Pro student sees it open.
+    final proOnSale = ref.watch(proNudgesOnProvider);
     final ntaGated = nta != null && costLineFor(nta).kind == CostKind.proGated;
+    final showNta = nta != null && quoteOffersMode(nta) && (!ntaGated || proOnSale);
     final smartQuery = PracticeSelection(mode: PracticeMode.smart, subjectId: subject).quoteQuery;
     final smartAsync = ref.watch(practiceQuoteProvider(smartQuery));
     final smart = _lastSmart = smartAsync.value ?? _lastSmart;
     // Mobi thinks while the quotes for this subject have not answered (a quote can take seconds).
     final quotesLoading = (fullAsync.isLoading && !fullAsync.hasValue) || (smartAsync.isLoading && !smartAsync.hasValue);
-    final showSmart = smart != null && quoteOffersMode(smart);
     final smartGated = smart != null && costLineFor(smart).kind == CostKind.proGated;
+    final showSmart = smart != null && quoteOffersMode(smart) && (!smartGated || proOnSale);
     final stale = ref.watch(staleSubjectsProvider);
     final fetchedCounts = ref.watch(questionCountsProvider).value;
     final counts = _lastCounts = (fetchedCounts != null && fetchedCounts.isNotEmpty) ? fetchedCounts : (_lastCounts ?? fetchedCounts);

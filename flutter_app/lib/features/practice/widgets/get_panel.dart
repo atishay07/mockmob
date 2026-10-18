@@ -8,7 +8,7 @@ import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../billing/billing.dart';
-import '../../pro_nudge/pro_nudge.dart' show ProNudgeCopy, ProReason, UpgradeEntry;
+import '../../pro_nudge/pro_nudge.dart' show ProNudgeCopy, ProReason, UpgradeEntry, proNudgesOnProvider;
 import '../copy.dart';
 import '../data/practice_quote.dart';
 import '../model/cost_line.dart';
@@ -417,13 +417,13 @@ ProReason _reasonFor(PracticeMode mode) => switch (mode) {
       _ => ProReason.general,
     };
 
-class _ProGate extends StatelessWidget {
+class _ProGate extends ConsumerWidget {
   const _ProGate({required this.mode});
 
   final PracticeMode mode;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.mmColors;
     final type = context.mmType;
     final name = modeTitle(mode);
@@ -449,7 +449,11 @@ class _ProGate extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Semantics(header: true, child: Text(PracticeCopy.proGateTitle(name), style: type.cardTitle)),
+                    // Pro is named only where it can be had (PLAY_BILLING on); otherwise the plain fact.
+                    Semantics(
+                      header: true,
+                      child: Text(ref.watch(proNudgesOnProvider) ? PracticeCopy.proGateTitle(name) : PracticeCopy.planGateTitle(name), style: type.cardTitle),
+                    ),
                     const SizedBox(height: MmSpace.s4),
                     Text(PracticeCopy.proGateBody, style: type.small.copyWith(color: colors.ink2)),
                     // The Upgrade sheet with this mode's own reason, when PLAY_BILLING is on; nothing otherwise.

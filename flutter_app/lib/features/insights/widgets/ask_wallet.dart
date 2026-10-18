@@ -7,6 +7,7 @@ import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../billing/billing.dart';
+import '../../pro_nudge/pro_nudge.dart' show proNudgesOnProvider;
 import '../copy.dart';
 import '../data/ask_controller.dart';
 import '../data/ask_wallet.dart';
@@ -204,7 +205,10 @@ class AskOutOfCredits extends ConsumerWidget {
                   Text(InsightsCopy.outTitle, style: type.labelLarge.copyWith(fontWeight: FontWeight.w600)),
                   const SizedBox(height: MmSpace.s2),
                   Text(
-                    (wallet?.paid ?? false) ? InsightsCopy.outBody(renewDay(wallet, now)) : '${InsightsCopy.outBody(renewDay(wallet, now))} ${InsightsCopy.outPro}',
+                    // What Pro includes is said only while Pro can be had here (PLAY_BILLING on, a Free student).
+                    (wallet?.paid ?? false) || !ref.watch(proNudgesOnProvider)
+                        ? InsightsCopy.outBody(renewDay(wallet, now))
+                        : '${InsightsCopy.outBody(renewDay(wallet, now))} ${InsightsCopy.outPro}',
                     style: type.small.copyWith(color: colors.ink2),
                   ),
                   ActionLink(label: InsightsCopy.creditDetails, onTap: onDetails),
