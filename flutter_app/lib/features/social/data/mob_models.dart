@@ -847,6 +847,33 @@ final RegExp _nameRule = RegExp(r"^\p{L}[\p{L}\p{M} .'\-]{1,17}$", unicode: true
 
 bool isValidMobName(String raw) => _nameRule.hasMatch(raw.trim().replaceAll(RegExp(r'\s+'), ' '));
 
+/// The Mob name to prefill from the account's display name, or '' when none would pass
+/// [isValidMobName] (the field then stays empty with its hint). A prefilled name must never fail the
+/// screen's own rule (owner walk, 18 Oct: "app-e2e-student" did).
+///
+/// A plain name ("Asha Verma") gives its first word. A handle or an email ("asha.verma99@gmail.com",
+/// "app-e2e-student") is cut at every character that is not a letter, and its first part of 2 or
+/// more letters is used ("Asha", "App"). Anything left is trimmed to 18 characters, and a lower-case
+/// first letter is raised. Digits alone give ''.
+String mobNameFrom(String? display) {
+  var raw = (display ?? '').trim();
+  if (raw.isEmpty) return '';
+  final handle = raw.contains('@') || RegExp(r'[\d_]').hasMatch(raw);
+  if (raw.contains('@')) raw = raw.substring(0, raw.indexOf('@'));
+  final parts = handle
+      ? raw.split(RegExp(r'[^\p{L}\p{M}]+', unicode: true))
+      : raw.split(RegExp(r'\s+')).map((w) => w.replaceAll(RegExp(r"[^\p{L}\p{M}.'\-]", unicode: true), ''));
+  for (final part in parts) {
+    var name = part.replaceFirst(RegExp(r'^[^\p{L}]+', unicode: true), '');
+    if (name.length > 18) name = name.substring(0, 18);
+    name = name.replaceFirst(RegExp(r"[ .'\-]+$"), '');
+    if (name.isEmpty) continue;
+    name = name[0].toUpperCase() + name.substring(1);
+    if (isValidMobName(name)) return name;
+  }
+  return '';
+}
+
 /// Crockford base32, 8 characters (P1). Lower case and the look-alikes I, L and O are read as
 /// the server reads them.
 String? normaliseInviteCode(String raw) {

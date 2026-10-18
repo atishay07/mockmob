@@ -13,12 +13,16 @@ abstract final class MobCopy {
   static const String title = 'Your Mob';
   static const String startTitle = 'Start a Mob';
   static const String pitch = 'Sit one 10-question paper a week with up to 4 friends.';
+  /// The rules on the start page: two plain lines under the seat ring, never a bullet list (owner
+  /// walk, 18 Oct, H12).
   static const List<String> promises = [
-    'Same 10 questions for everyone, fresh each week.',
-    'You see who sat, never who didn\'t.',
-    'Shared inside your Mob only: members see each other\'s answers and scores. One switch turns yours off.',
-    'The weekly paper is free of credits, on any plan.',
+    'The same 10 questions for all of you, fresh each week, free of credits on any plan.',
+    'Members see who sat and each other\'s answers, never who didn\'t. One switch keeps yours private.',
   ];
+
+  /// Under the start page's seat ring: the seat that is theirs and the ones that wait.
+  static String seatCaption(String name) => '${name.isEmpty ? 'Your seat' : name}, and ${mobMaxSize - 1} seats for friends';
+  static const String seatRingLabel = 'Your Mob: your seat, and ${mobMaxSize - 1} open seats for friends.';
   static const String subjectLabel = 'Subject for the weekly paper';
   static const String nameLabel = 'Your name in the Mob';
   static const String nameHint = 'First name';

@@ -37,12 +37,13 @@ class MobTodayBlock extends ConsumerWidget {
   }
 }
 
-/// Today's one-time invitation for a student in no Mob (the website's line): what a Mob is in real
+/// Today's one-time invitation for a student in no Mob: what a Mob is and why to start one, in real
 /// numbers, one outlined key (the page's volt is the page's own, rule 7) and a quiet "Not now".
 class MobInviteCard extends ConsumerStatefulWidget {
   const MobInviteCard({super.key, required this.reason, this.padding = EdgeInsets.zero});
 
-  /// The true reason it shows now, in words: "You met your study goal for a week."
+  /// The true reason it shows now ("You met your study goal for a week."). It decides that the card
+  /// shows; the card itself leads with what a Mob is (owner walk, 18 Oct).
   final String reason;
   final EdgeInsetsGeometry padding;
 
@@ -82,7 +83,8 @@ class _MobInviteCardState extends ConsumerState<MobInviteCard> {
           children: [
             Semantics(header: true, child: Text(MobCopy.inviteMomentTitle, style: type.title.copyWith(color: colors.ink))),
             const SizedBox(height: MmSpace.s4),
-            Text(MobCopy.inviteMomentBody(widget.reason), style: type.body.copyWith(color: colors.ink2)),
+            // What a Mob is and why to start one; the moment's reason only decides when the card shows.
+            Text(MobCopy.inviteMomentBody, style: type.body.copyWith(color: colors.ink2)),
             const SizedBox(height: MmSpace.s12),
             KeyButton.secondary(label: MobCopy.startKey, onPressed: () => _done(open: true)),
             KeyButton.quiet(label: MobCopy.notNow, expanded: true, onPressed: () => _done(open: false)),
