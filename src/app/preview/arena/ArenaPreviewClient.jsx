@@ -688,7 +688,9 @@ function PreviewInner({ candidatePathway }) {
   const route = `/${routeNames[view] || view}`;
   const previewHref = (name) => `/preview/arena?${new URLSearchParams({ view: name, plan: params.get('plan') || 'free', data: params.get('data') || 'ready', ...(params.get('role') === 'moderator' ? { role: 'moderator' } : {}), ...(params.get('recovery') ? { recovery: params.get('recovery') } : {}), ...(params.get('study') ? { study: params.get('study') } : {}), ...(params.get('contribute') ? { contribute: params.get('contribute') } : {}) })}`;
   // With ?study=on, Learn opens the Learn preview (its own fixture) instead of the signed-in route.
-  const previewLinks = { ...Object.fromEntries(views.map((name) => [routeNames[name] || name, previewHref(name)])), ...(params.get('study') === 'on' ? { learn: '/preview/study' } : {}) };
+  // &mob=off draws the shell as it is while the Mob is off (no Mob place, Your standing under You, a four-slot dock).
+  const allLinks = { ...Object.fromEntries(views.map((name) => [routeNames[name] || name, previewHref(name)])), ...(params.get('study') === 'on' ? { learn: '/preview/study' } : {}) };
+  const previewLinks = params.get('mob') === 'off' ? Object.fromEntries(Object.entries(allLinks).filter(([key]) => key !== 'mob')) : allLinks;
   const auth = useMemo(() => ({
     user: { id: 'preview-user', name: params.get('data') === 'long' ? 'An exceptionally long illustrative display name for responsive checks' : 'Preview Student', email: 'preview@example.test', role: params.get('role') === 'moderator' ? 'moderator' : 'student',
       subjects: ['accountancy', 'economics', 'business_studies', 'english', ...(params.get('cs') === '1' ? ['computer_science'] : []), ...(params.get('stale') === '1' ? ['hindi'] : [])],

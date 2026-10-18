@@ -1,12 +1,13 @@
 // COMMUNITY-1018 (owner answer of 18 Oct 2026): the contribution side is hidden behind CONTRIBUTE_ENABLED (default off), the
-// sidebar loses its Community header, Your standing sits under Progress, Learn has its place (D20), and the SEO line is true.
+// sidebar loses its Community header, Your standing sits with the Mob (under You while the Mob is off), Learn has its place (D20), and
+// the SEO line is true. The navigation is the five places of the app since 19 Oct (WEB-NAV-1019 option A, owner D114).
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 
 const read = (path) => readFileSync(new URL(`../../${path}`, import.meta.url), 'utf8');
 const navSource = read('src/lib/arenaNavigation.js').replace("'@/../data/capabilities'", `'${new URL('../capabilities.js', import.meta.url).href}'`);
-const { arenaNavigation, STUDY_NAV } = await import(`data:text/javascript,${encodeURIComponent(navSource)}`);
+const { arenaNavigation, ASK_MOBI_NAV, PRACTICE_PAGES, placeTabs, dockPlaceOf } = await import(`data:text/javascript,${encodeURIComponent(navSource)}`);
 const { standingRows, CONTRIBUTE_ROW_IDS, COMMUNITY_ROWS } = await import('../../src/components/profile/accountModel.mjs');
 const ids = (groups) => groups.flatMap((g) => g.items.map((i) => i.id));
 const labels = (groups) => groups.map((g) => g.label);
@@ -33,25 +34,29 @@ test('the paused answer is a stable 403 with a code, never a 404', async () => {
   assert.equal(CONTRIBUTIONS_PAUSED.code, 'contributions_paused');
 });
 
-test('navigation: no Community header; Contribute and My uploads only with the flag; Your standing under Progress', () => {
+test('navigation: no Community header; Contribute and My uploads only with the flag; Your standing with the Mob, else under You', () => {
   const off = arenaNavigation(false);
   assert.ok(!labels(off).includes('Community'), 'the Community header is gone');
   assert.ok(!ids(off).includes('upload') && !ids(off).includes('my-uploads'), 'hidden by default');
-  const study = off.find((g) => g.label === 'Study').items;
-  const at = study.findIndex((i) => i.id === 'progress');
-  assert.equal(study[at + 1].id, 'leaderboard', 'Your standing follows Progress');
-  assert.equal(study[at + 1].label, 'Your standing');
-  assert.equal(study[at + 1].sub, true, 'drawn as a sub-link');
+  // The Mob off: it is not drawn, and Your standing keeps its link under You, right after Progress.
+  const you = off.find((g) => g.id === 'you').items;
+  const at = you.findIndex((i) => i.id === 'progress');
+  assert.equal(you[at + 1].id, 'leaderboard', 'Your standing follows Progress');
+  assert.equal(you[at + 1].label, 'Your standing');
+  assert.equal(you[at + 1].sub, true, 'drawn as a sub-link');
   const on = arenaNavigation(false, { contribute: true });
   assert.ok(!labels(on).includes('Community'));
   assert.ok(ids(on).includes('upload') && ids(on).includes('my-uploads'), 'the flag brings them back');
-  // The Mob follows Your standing in Study when it is on, and is not drawn when off.
+  assert.deepEqual(on.at(-1).items.map((i) => i.id), ['upload', 'my-uploads'], 'as their own group, after the places');
+  // The Mob on: it is a place of its own, with Your standing under it, and You no longer lists Your standing.
   assert.ok(!ids(off).includes('mob'));
-  const mob = arenaNavigation(false, { mob: true }).find((g) => g.label === 'Study').items.map((i) => i.id);
-  assert.ok(mob.indexOf('mob') > mob.indexOf('leaderboard'));
-  // Nothing else was cut.
-  for (const id of ['today', 'dashboard', 'learn', 'review', 'explore', 'saved', 'progress', 'leaderboard', 'analytics', 'admission-compass', 'mentor', 'profile', 'help']) assert.ok(ids(off).includes(id), id);
-  assert.ok(STUDY_NAV.some((t) => t.id === 'learn'));
+  const withMob = arenaNavigation(false, { mob: true });
+  assert.deepEqual(withMob.find((g) => g.id === 'mob').items.map((i) => i.id), ['mob', 'leaderboard']);
+  assert.ok(!withMob.find((g) => g.id === 'you').items.some((i) => i.id === 'leaderboard'));
+  // Nothing else was cut: every page still has its own link, and Ask Mobi is the door at the foot of the sidebar.
+  for (const id of ['today', 'dashboard', 'learn', 'review', 'explore', 'saved', 'progress', 'leaderboard', 'analytics', 'admission-compass', 'profile', 'wallet', 'help']) assert.ok(ids(off).includes(id), id);
+  assert.equal(ASK_MOBI_NAV.id, 'mentor');
+  assert.ok(PRACTICE_PAGES.some((t) => t.id === 'learn'));
 });
 
 test('the Account group keeps Your standing and draws the contribution rows only with the flag', () => {
@@ -91,11 +96,18 @@ test('the SEO page no longer claims community-driven questions (0 student questi
   assert.match(read('src/lib/seoPages.js'), /MockMob focuses on timed practice from one large CUET question bank/);
 });
 
-test('Learn has its own row at the top of the phone sheet and its own guide stop (D20)', () => {
+test('Learn has its own row and tab inside Practice and its own guide stop (D20)', () => {
   const layout = read('src/app/(app)/AppLayoutClient.jsx');
-  assert.match(layout, /\{showStudy && \(\s*<Link href=\{previewLinks\?\.learn \|\| '\/learn'\} className="arena-sheet__lead"/);
+  const practice = arenaNavigation(false).find((g) => g.id === 'practice').items;
+  assert.deepEqual(practice.map((i) => i.id), ['dashboard', 'review', 'learn', 'explore', 'saved'], 'the sidebar draws Learn under Practice');
+  assert.deepEqual(PRACTICE_PAGES.map((t) => t.id), ['dashboard', 'review', 'learn', 'explore', 'saved'], 'and the phone draws it in Practice’s row of tabs');
+  // The lessons are optional (STUDY_CONTENT_ENABLED): the row and the sidebar leave Learn out while they are off.
+  assert.ok(placeTabs('/learn', { study: true }).tabs.some((t) => t.id === 'learn'));
+  assert.ok(!placeTabs('/dashboard', { study: false }).tabs.some((t) => t.id === 'learn'));
+  assert.match(layout, /const keepLearn = \(tab\) => showStudy \|\| tab\.id !== 'learn'/);
+  assert.match(layout, /placeTabs\(activePath, \{ mob: mobOn, study: showStudy \}\)/);
   const tour = read('src/lib/appTour.mjs');
-  assert.match(tour, /title: 'Learn', target: \['nav-learn', 'nav-more'\], study: true/);
+  assert.match(tour, /title: 'Learn', target: \['nav-learn', 'nav-dashboard'\], study: true/);
   assert.match(tour, /\(!step\.study \|\| study\)/, 'the stop shows only while Learn exists');
   assert.match(layout, /tourSteps\(\{ mob: mobOn, study: studyOn \}\)/, 'the shell runs the tour from appTour.mjs');
 });
@@ -120,11 +132,15 @@ test('no dead promise is left behind while the flag is off', () => {
   assert.match(read('src/app/robots.js'), /'\/upload'/, 'search engines are still told to skip the hidden pages');
 });
 
-test('a lesson or recall run keeps Learn as the current place, and More is marked on a place that lives under it (D20)', () => {
+test('a lesson or recall run keeps Learn as the current page, and the dock marks Practice on a page that lives inside it (D20)', () => {
   const layout = read('src/app/(app)/AppLayoutClient.jsx');
   assert.match(layout, /\(id === 'learn' && activePath\.startsWith\('\/study\/'\)\)/);
-  assert.match(layout, /const inMore = !isTestRoute && allTabs\.some\(\(tab\) => isActive\(tab\.id\) && !dockIds\.has\(tab\.id\)\)/);
-  assert.match(layout, /data-tour="nav-more" data-within=\{inMore && !mobileMenuOpen \? 'true' : undefined\}/);
+  assert.equal(dockPlaceOf('/study/abc'), 'practice');
+  for (const path of ['/dashboard', '/review', '/review/rules', '/learn', '/explore', '/saved']) assert.equal(dockPlaceOf(path), 'practice', path);
+  assert.equal(placeTabs('/study/abc', { study: true }), null, 'the row of tabs is drawn on the place’s own pages only, never inside a lesson');
+  assert.match(layout, /data-within=\{!isActive\(tab\.id\) && dockPlace === tab\.dock && !mobileMenuOpen \? 'true' : undefined\}/);
+  assert.match(layout, /data-tour="nav-more" data-within=\{dockPlace === 'you' && !mobileMenuOpen \? 'true' : undefined\}/);
+  assert.match(read('src/app/(app)/nav-places.css'), /\.arena-bottomnav:has\(> :nth-child\(2\)\[data-within='true'\]\) \{ --abn-i: 1; --abn-on: 1; \}/);
   assert.match(read('src/app/(app)/arena.css'), /\.arena-bottomnav:has\(> :nth-child\(5\)\[data-within='true'\]\) \{ --abn-i: 4; --abn-on: 1; \}/);
 });
 

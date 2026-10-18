@@ -1,0 +1,192 @@
+/* ==========================================================================
+   The five places (WEB-NAV-1019 option A, owner G24, D105 and D114): the sidebar's places and Mobi's door, the dock's
+   centre Start key and marks, the You sheet's Mobi face, and the phone's row of place tabs. AppLayoutClient markup;
+   the base rail, dock and sheet rules are in arena.css, the Start key in start.css. Night Arena tokens only, so Night
+   and Day stay in step.
+   ========================================================================== */
+
+/* ---------- Sidebar (from 1024 px) ---------- */
+/* The four places read as places: a bold row each, with their pages indented under them (arena-nav-link--sub). No group
+   headers to decode; a little air between one place and the next does the grouping. */
+.app-shell .arena-sidebar .arena-nav-link--place { font-size: 15px; font-weight: 700; color: var(--a-ink); }
+.app-shell .arena-sidebar .arena-nav-link--place:not([aria-current='page']) svg { color: var(--a-ink-2); }
+.app-shell .arena-sidebar .arena-nav-group--place + .arena-nav-group--place { margin-top: 4px; }
+/* In You, a hairline between the plan (Progress, Marks trend, Colleges) and the account pages (Wallet, Guide, the tour). */
+.app-shell .arena-sidebar .arena-nav-rule { display: block; height: 1px; margin: 4px 12px 4px 40px; background: var(--a-line); }
+
+/* Mobi's door: a raised row with his face at the foot of the sidebar, above Night and Day (D6). Static art, like the logo's
+   Mobi; the row answers the pointer like its neighbours. */
+.app-shell .arena-mobi-door { display: none; }
+@media (min-width: 1024px) {
+  .app-shell .arena-mobi-door {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: none;
+    min-height: 52px;
+    margin-top: auto;
+    padding: 5px 12px 5px 10px;
+    border: 1px solid var(--a-line);
+    border-radius: 14px;
+    background: var(--a-raised-2);
+    box-shadow: inset 0 1px 0 var(--a-edge);
+    color: var(--a-ink);
+    text-decoration: none;
+    transition: border-color 0.2s ease, background-color 0.2s ease, transform 140ms var(--a-ease, ease-out);
+  }
+  .app-shell .arena-mobi-door__face { flex: none; width: 30px; height: auto; }
+  .app-shell .arena-mobi-door .arena-sheet__lead-name { font-size: 15px; }
+  .app-shell .arena-mobi-door .arena-sheet__lead-note { font-size: 12.5px; white-space: nowrap; }
+  .app-shell .arena-mobi-door:active { transform: scale(0.98); }
+  .app-shell .arena-mobi-door[aria-current='page'] { border-color: var(--a-volt-line); background: var(--a-volt-wash); }
+  .app-shell .arena-mobi-door:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+  .app-shell .arena-sidebar:has(.arena-mobi-door) .arena-sidebar__foot { margin-top: 0; }
+}
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  .app-shell .arena-mobi-door:hover { border-color: var(--a-line-hover); }
+}
+/* While the Ask Mobi panel is open the door reads as open (the ordinary selected wash, no accent), as the sidebar's Ask Mobi row did (ask-mobi.css). */
+html[data-mobi-open] .app-shell .arena-mobi-door:not([aria-current='page']) { background: var(--a-hover); border-color: var(--a-line-strong); }
+html[data-motion='reduced'] .app-shell .arena-mobi-door { transition: none; }
+@media (prefers-reduced-motion: reduce) { .app-shell .arena-mobi-door { transition: none; } }
+
+/* ---------- Dock (below 1024 px) ---------- */
+@media (max-width: 1023px) {
+  /* The capsule is the whole row now that the Start key is its centre slot. */
+  html .app-shell .arena-dock > .arena-bottomnav { flex: 1 1 100%; }
+  /* Practice and the Mob are marked while the student is on a page inside them (Your papers, Learn, Explore, Saved; Your
+     standing), as You is on Account, Progress and the rest: the dock never shows a screen with nothing current. */
+  html .app-shell .arena-bottomnav:has(> :nth-child(2)[data-within='true']) { --abn-i: 1; --abn-on: 1; }
+  html .app-shell .arena-bottomnav:has(> :nth-child(4)[data-within='true']) { --abn-i: 3; --abn-on: 1; }
+  /* With the Mob off the capsule holds four: Today, Practice, Start and You. */
+  html .app-shell .arena-bottomnav[data-slots='4'] { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  html .app-shell .arena-bottomnav[data-slots='4']::before { width: calc((100% - 2 * var(--dock-pad)) / 4 - 4px); }
+  html .app-shell .arena-bottomnav[data-slots='4']:has(> :nth-child(4):is([aria-expanded='true'], [data-within='true'])) { --abn-i: 3; --abn-on: 1; }
+}
+
+/* ---------- The You sheet ---------- */
+/* Mobi's face in place of the sparkle on the Ask Mobi row. */
+.app-shell .arena-sheet .arena-sheet__mobi { flex: none; width: 30px; height: auto; }
+/* The sheet's blocks are 18 px apart by its own gap; the 12 px margins that the Ask Mobi row and the appearance row carried from
+   the old list doubled that space. Without them the sheet is 24 px shorter (555 to 531 px at 390 wide). Measured without the
+   development banner, it fits with no scroll from a phone 692 px tall at 390 wide (about 716 before) and 740 px tall at 360 wide,
+   where Ask Mobi's line takes a second row; on a shorter phone it scrolls inside itself by a few pixels. */
+html .app-shell .arena-sheet > .arena-sheet__lead, html .app-shell .arena-sheet > .arena-appearance { margin-bottom: 0; }
+
+/* ---------- The row of place tabs (below 1024 px) ---------- */
+.app-shell .arena-tabs { display: none; }
+@media (max-width: 1023px) {
+  .app-shell .arena-tabs {
+    --tabs-bleed: 16px;
+    position: relative;
+    z-index: 10;
+    display: block;
+    margin: -8px calc(-1 * var(--tabs-bleed)) 18px;
+  }
+  .app-shell .arena-tabs__row {
+    position: relative;
+    display: flex;
+    gap: 8px;
+    padding: 4px var(--tabs-bleed) 6px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-padding-inline: var(--tabs-bleed);
+    scrollbar-width: none;
+  }
+  .app-shell .arena-tabs__row::-webkit-scrollbar { display: none; }
+  .app-shell .arena-tab {
+    position: relative;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 var(--tab-pad, 16px);
+    border: 1px solid var(--a-line);
+    border-radius: 22px;
+    background: var(--a-raised);
+    color: var(--a-ink-2);
+    font: 650 14px/1 var(--font-display);
+    white-space: nowrap;
+    text-decoration: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, transform 100ms var(--a-ease, ease-out);
+  }
+  .app-shell .arena-tab:active { transform: scale(0.97); }
+  .app-shell .arena-tab[aria-current='page'] { border-color: var(--a-line-strong); background: var(--a-raised-2); color: var(--a-ink); }
+  /* The current tab carries the sidebar's volt bar, laid along its foot. */
+  .app-shell .arena-tab[aria-current='page']::after {
+    content: '';
+    position: absolute;
+    left: calc(var(--tab-pad, 16px) + 2px);
+    right: calc(var(--tab-pad, 16px) + 2px);
+    bottom: 5px;
+    height: 3px;
+    border-radius: 3px;
+    background: var(--a-select);
+  }
+  .app-shell .arena-tab__count { font: 700 12px/1 var(--font-body); font-style: normal; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+  .app-shell .arena-tab:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+  /* The edges: a fade wherever tabs wait past the edge (no fade when the row fits or is at that end). */
+  .app-shell .arena-tabs::before,
+  .app-shell .arena-tabs::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+    width: 48px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 200ms ease;
+  }
+  .app-shell .arena-tabs::before { left: 0; background: linear-gradient(to right, var(--a-bg) 8%, transparent); }
+  .app-shell .arena-tabs::after { right: 0; background: linear-gradient(to left, var(--a-bg) 8%, transparent); }
+  .app-shell .arena-tabs[data-overflow]:not([data-at-start])::before { opacity: 1; }
+  .app-shell .arena-tabs[data-overflow]:not([data-at-end])::after { opacity: 1; }
+  /* The chevron: a small disc on the right fade while tabs wait past it; a tap moves the row on. Its 44 px target is the
+     fade's own strip, so it never covers the cut tab's word. */
+  .app-shell .arena-tabs__hint {
+    position: absolute;
+    top: 4px;
+    right: 0;
+    bottom: 6px;
+    z-index: 2;
+    display: grid;
+    place-items: center end;
+    width: 44px;
+    padding: 0 6px 0 0;
+    border: 0;
+    background: none;
+    opacity: 0;
+    pointer-events: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: opacity 200ms ease;
+  }
+  .app-shell .arena-tabs__disc {
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border: 1px solid var(--a-line-strong);
+    border-radius: 50%;
+    background: var(--a-raised-2);
+    color: var(--a-ink-2);
+    box-shadow: inset 0 1px 0 var(--a-edge), 0 4px 10px -6px rgb(0 0 0 / 0.5);
+    transition: transform 100ms var(--a-ease, ease-out);
+  }
+  .app-shell .arena-tabs__disc svg { width: 16px; height: 16px; }
+  .app-shell .arena-tabs[data-overflow]:not([data-at-end]) .arena-tabs__hint { opacity: 1; pointer-events: auto; }
+  .app-shell .arena-tabs__hint:active .arena-tabs__disc { transform: scale(0.92); }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .app-shell .arena-tabs { --tabs-bleed: 20px; }
+}
+html[data-motion='reduced'] .app-shell :is(.arena-tab, .arena-tabs__hint, .arena-tabs__disc) { transition: none; }
+html[data-motion='reduced'] .app-shell .arena-tabs::before, html[data-motion='reduced'] .app-shell .arena-tabs::after { transition: none; }
+@media (prefers-reduced-motion: reduce) {
+  .app-shell :is(.arena-tab, .arena-tabs__hint, .arena-tabs__disc) { transition: none; }
+  .app-shell .arena-tabs::before, .app-shell .arena-tabs::after { transition: none; }
+}

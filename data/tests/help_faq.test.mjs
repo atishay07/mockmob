@@ -41,10 +41,13 @@ test('?q and #hash open a real question only', () => {
   assert.equal(faqIdFrom(null), null);
 });
 
-test('The Guide is linked from the Account group and the footer, and the page exists', () => {
+test('The Guide is linked from You, the account place, and the footer, and the page exists', () => {
   // D11 (18 Oct): "Help" alone was the wrong word and a menu in the sidebar the wrong place. It is a plain link to its own page, labelled
-  // Guide (release 9, CEO decision on D11 + N17); the page's title is Guide and questions and the route stays /help.
-  assert.match(read('src/lib/arenaNavigation.js'), /label: 'Account', items: \[[^\]]*item\('help', 'Guide', 'help'\)/);
+  // Guide (release 9, CEO decision on D11 + N17); the page's title is Guide and questions and the route stays /help. Since 19 Oct it
+  // is the last page under You in the sidebar (WEB-NAV-1019 option A), and a row of the You sheet's account card on a phone.
+  const nav = read('src/lib/arenaNavigation.js');
+  assert.match(nav, /const GUIDE = item\('help', 'Guide', 'help'\)/);
+  assert.match(nav, /id: 'you', label: 'You'[\s\S]{0,300}?sub\(GUIDE\)/);
   const shell = read('src/app/(app)/AppLayoutClient.jsx');
   assert.doesNotMatch(shell, /arena-help-door|<HelpMenu|guide-button/, 'no Help menu in the shell');
   assert.match(read('src/app/(app)/help/HelpPageClient.jsx'), /<ArenaHead title=\{GUIDE_PAGE_TITLE\}/);

@@ -1,23 +1,27 @@
-// In-page measurement of the phone dock (NAV-1017 section 10, website check 1). Evaluated in the page by
-// data/tests/dock_alignment.test.mjs; returns plain numbers so the test can assert on them.
+// In-page measurement of the phone dock (NAV-1017 section 10, website check 1; WEB-NAV-1019 option A: Today, Practice, the
+// Start key in the centre, Mob, You). Evaluated in the page by data/tests/dock_alignment.test.mjs; returns plain numbers so
+// the test can assert on them.
 export const MEASURE_DOCK = String.raw`(() => {
   const dock = document.querySelector('.arena-dock');
   if (!dock || getComputedStyle(dock).display === 'none') return { shown: false };
   const nav = dock.querySelector('nav.arena-bottomnav');
-  const key = dock.querySelector('[data-start-key="bar"]');
+  const key = nav.querySelector('[data-start-key="bar"]');
   const box = (el) => { const r = el.getBoundingClientRect(); return { left: r.left, right: r.right, top: r.top, bottom: r.bottom, width: r.width, height: r.height }; };
   const mid = (r) => (r.top + r.bottom) / 2;
   // A label's baseline: a zero-height inline-block at the end of its text sits on the baseline.
   const baseline = (span) => { const probe = document.createElement('i'); probe.style.cssText = 'display:inline-block;width:0;height:0;vertical-align:baseline'; span.appendChild(probe); const y = probe.getBoundingClientRect().top; probe.remove(); return y; };
   const textBox = (span) => { const range = document.createRange(); range.selectNodeContents(span); return box(range); };
-  const slots = [...nav.children].map((el) => {
+  // The Start key is the capsule's centre child: it is measured on its own, and it is never the current place. A place is current
+  // when it is the page, when its sheet is open (You), or when the page lives inside it (Your papers inside Practice: data-within).
+  const places = [...nav.children].filter((el) => el !== key);
+  const slots = places.map((el) => {
     const icon = el.querySelector('svg');
     const label = el.querySelector('span');
-    return { name: label.textContent.trim(), current: el.getAttribute('aria-current') === 'page' || el.getAttribute('aria-expanded') === 'true', slot: box(el), icon: box(icon), label: textBox(label), baseline: baseline(label) };
+    return { name: label.textContent.trim(), current: el.getAttribute('aria-current') === 'page' || el.getAttribute('aria-expanded') === 'true' || el.getAttribute('data-within') === 'true', slot: box(el), icon: box(icon), label: textBox(label), baseline: baseline(label) };
   });
   const keyIcon = key.querySelector('.stk__disc');
   const keyWord = key.querySelector('.stk__word');
-  const keyM = { slot: box(key), icon: box(keyIcon), label: textBox(keyWord), baseline: baseline(keyWord), name: keyWord.textContent.trim() };
+  const keyM = { slot: box(key), icon: box(keyIcon), label: textBox(keyWord), baseline: baseline(keyWord), name: keyWord.textContent.trim(), index: [...nav.children].indexOf(key) };
   // The lens is nav::before: its rect from its computed box and its translate.
   const ls = getComputedStyle(nav, '::before');
   const navR = box(nav);
@@ -28,15 +32,15 @@ export const MEASURE_DOCK = String.raw`(() => {
   // Everything drawn by the dock, to prove nothing stands above the capsule's top edge.
   const highest = Math.min(...[...dock.querySelectorAll('*')].map((el) => el.getBoundingClientRect()).filter((r) => r.width && r.height).map((r) => r.top));
   // Hit-test each place and the key at its centre: the element under the pointer must be inside it.
-  const hits = [...nav.children, key].map((el) => { const r = el.getBoundingClientRect(); const top = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2); return el.contains(top); });
+  const hits = [...nav.children].map((el) => { const r = el.getBoundingClientRect(); const top = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2); return el.contains(top); });
   const ks = getComputedStyle(key);
   return {
     shown: true,
     viewport: { width: innerWidth, height: innerHeight },
     nav: navR, key: keyM, slots, lens, highest, hits,
     keyLook: { background: ks.backgroundColor, color: ks.color, shadow: ks.boxShadow },
-    iconCentres: [...slots.map((s) => mid(s.icon)), mid(keyM.icon)],
-    baselines: [...slots.map((s) => s.baseline), keyM.baseline],
+    iconCentres: [...nav.children].map((el) => mid(box(el === key ? keyIcon : el.querySelector('svg')))),
+    baselines: [...nav.children].map((el) => (el === key ? keyM.baseline : baseline(el.querySelector('span')))),
   };
 })()`;
 

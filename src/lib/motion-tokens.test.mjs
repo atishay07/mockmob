@@ -220,10 +220,16 @@ test('no view transition is ever applied under /test (the NTA runner)', () => {
 });
 
 test('places fade through toward the side they lie; drill-ins push and pop; results rise', () => {
-  assert.deepEqual(Object.keys(PLACE_ORDER), ['today', 'dashboard', 'learn', 'review', 'admission-compass', 'profile']);
-  assert.equal(transitionFor('/review', '/admission-compass'), VT.placeFwd, 'Colleges lies after Review on the dock');
-  assert.equal(transitionFor('/admission-compass', '/dashboard'), VT.placeBack);
-  assert.equal(transitionFor('/profile', '/admission-compass'), VT.placeBack);
+  // The five places of the app (WEB-NAV-1019 option A): Today, Practice and its row of tabs, Mob and its row, You.
+  assert.deepEqual(Object.keys(PLACE_ORDER), ['today', 'dashboard', 'review', 'learn', 'explore', 'saved', 'mob', 'leaderboard', 'profile']);
+  assert.equal(transitionFor('/review', '/learn'), VT.placeFwd, 'Learn lies after Your papers in Practice’s row of tabs');
+  assert.equal(transitionFor('/saved', '/review'), VT.placeBack);
+  assert.equal(transitionFor('/dashboard', '/mob'), VT.placeFwd, 'the Mob lies after Practice on the dock');
+  assert.equal(transitionFor('/mob', '/leaderboard'), VT.placeFwd, 'Your standing lies after Your Mob in the Mob’s row of tabs');
+  assert.equal(transitionFor('/leaderboard', '/mob'), VT.placeBack);
+  assert.equal(transitionFor('/profile', '/mob'), VT.placeBack);
+  assert.equal(transitionFor('/review', '/admission-compass'), VT.fade, 'Colleges lives under You now: it fades like the other pages under You');
+  assert.equal(transitionFor('/admission-compass', '/dashboard'), VT.fade);
   assert.equal(transitionFor('/today', '/dashboard'), VT.placeFwd);
   assert.equal(transitionFor('/review', '/today'), VT.placeBack);
   assert.equal(transitionFor('/profile', '/review'), VT.placeBack);

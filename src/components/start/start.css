@@ -50,61 +50,59 @@
 .app-shell .stk--sidebar[aria-expanded='true'] { box-shadow: inset 0 0 0 2px rgb(24 32 0 / 0.5), 0 10px 24px -14px rgb(210 240 0 / 0.55); }
 html[data-theme='light'] .app-shell .stk--sidebar { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.35), inset 0 1px 0 rgb(255 255 255 / 0.5), 0 8px 18px -12px rgb(82 103 0 / 0.45); }
 
-/* Phone and tablet dock: the round Start key beside the tab capsule (NAV-1017 option A1, the owner's pick on 17 Oct).
-   A 64 px volt circle the capsule's height, its play mark on the tabs' icon line (centre 23 px down) and its word on their
-   label line (39 to 53 px), so the row reads as one object. Its look follows one thing only (W-075, release 8, after the
-   17 Oct rule that it never changed): whether the page's own volt key is on screen, below. No route, dock, open sheet or
-   bare scroll position changes it (NAV-1017 6.8, F12). The press moves it: it sinks to 0.94 and springs back. */
+/* Phone and tablet dock: the round Start key in the centre of the tab capsule (below). Its look follows one thing only
+   (W-075, release 8, after the 17 Oct rule that it never changed): whether the page's own volt key is on screen. No route,
+   dock, open sheet or bare scroll position changes it (NAV-1017 6.8, F12). The press moves it: it sinks to 0.94 and springs
+   back. */
 @media (max-width: 1023px) {
-  html .app-shell .arena-dock > .stk--bar {
+  /* The centre slot of the capsule (WEB-NAV-1019 option A, owner D114: Today, Practice, Start, Mob, You, as in the app). A
+     56 px circle centred in its slot and in the 64 px row; its play mark and word sit on the tabs' icon and label lines
+     (icon centre 23 px down the row, label line 39 to 53 px), so the five read as one row. `button` raises it above the
+     capsule's own tab rules, which would otherwise dress it as an open tab while the Start sheet is open. */
+  html .app-shell .arena-bottomnav > button.stk--bar {
     --mk-press-scale: 0.94;
     position: relative;
-    flex: none;
+    z-index: 2;
     display: grid;
     grid-template-rows: 24px 14px;
     row-gap: 4px;
     justify-items: center;
     align-content: start;
-    width: 64px;
-    height: 64px;
-    padding: 11px 0 0;
+    align-self: center;
+    justify-self: center;
+    width: 56px;
+    height: 56px;
+    padding: 7px 0 0;
     border-radius: 50%;
     background: var(--volt);
     color: #182000;
     font: 700 var(--dock-label, 11px)/14px var(--font-body);
     letter-spacing: 0;
-    box-shadow: 0 20px 40px -22px rgb(0 0 0 / 0.55), 0 2px 6px -2px rgb(0 0 0 / 0.25), inset 0 0 0 1px #9db400, inset 0 1px 0 rgb(255 255 255 / 0.35);
+    box-shadow: 0 10px 22px -12px rgb(0 0 0 / 0.55), inset 0 0 0 1px #9db400, inset 0 1px 0 rgb(255 255 255 / 0.35);
     pointer-events: auto;
   }
-  html .app-shell .arena-dock > .stk--bar .stk__disc { width: 24px; height: 24px; }
-  html .app-shell .arena-dock > .stk--bar .stk__disc svg { width: 22px; height: 22px; margin-left: 2px; }
-  html .app-shell .arena-dock > .stk--bar .stk__word { display: block; height: 14px; white-space: nowrap; }
-  html .app-shell .arena-dock > .stk--bar:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 3px; }
-  html[data-theme='light'] .app-shell .arena-dock > .stk--bar {
-    box-shadow: 0 18px 36px -20px rgb(23 32 22 / 0.24), 0 1px 3px rgb(23 32 22 / 0.08), inset 0 0 0 1px rgb(79 100 0 / 0.45);
+  html .app-shell .arena-bottomnav > button.stk--bar .stk__disc { width: 24px; height: 24px; }
+  html .app-shell .arena-bottomnav > button.stk--bar .stk__disc svg { width: 22px; height: 22px; margin-left: 2px; }
+  html .app-shell .arena-bottomnav > button.stk--bar .stk__word { display: block; height: 14px; white-space: nowrap; }
+  html .app-shell .arena-bottomnav > button.stk--bar:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+  html[data-theme='light'] .app-shell .arena-bottomnav > button.stk--bar {
+    box-shadow: 0 8px 18px -10px rgb(23 32 22 / 0.3), inset 0 0 0 1px rgb(79 100 0 / 0.45), inset 0 1px 0 rgb(255 255 255 / 0.5);
   }
   /* One lime fill per phone screen (W-075, release 8). While the page's own volt key is on screen (a key the page marks
      data-page-primary or data-phone-primary; AppLayoutClient watches them with pagePrimary.mjs, StartKey draws data-quiet)
-     this key steps back: the capsule's own glass, an ink word, the play mark kept in the accent and a hairline ring, the quiet
-     look the sidebar key takes on a wide screen. Same box, same place, same 64 px target, and it still opens the sheet. It
-     follows one thing, whether any of that key is in view: it steps back the moment a sliver shows (in the band above the dock or
-     in the strip under it), and returns to lime only after the key has been gone for a short settle, so a fast scroll never
-     flickers it. The fill, ink and ring change over the press transitions' 150 to 200 ms; reduced motion is instant. */
-  html .app-shell .arena-dock > .stk--bar[data-quiet] {
-    background: var(--dock-glass);
+     this key steps back: a raised disc in the capsule, an ink word, the play mark kept in the accent and a hairline ring.
+     Same box, same place, same target, and it still opens the sheet. It follows one thing, whether any of that key is in
+     view: it steps back the moment a sliver shows, and returns to lime only after the key has been gone for a short settle,
+     so a fast scroll never flickers it. Colours only; reduced motion is instant. */
+  html .app-shell .arena-bottomnav > button.stk--bar[data-quiet] {
+    background: var(--a-raised-2);
     color: var(--a-ink);
-    box-shadow: var(--dock-shadow), inset 0 1px 0 var(--dock-edge), inset 0 0 0 1.5px var(--a-line-strong);
+    box-shadow: inset 0 0 0 1.5px var(--a-line-strong), inset 0 1px 0 var(--a-edge);
   }
-  html .app-shell .arena-dock > .stk--bar[data-quiet] .stk__disc { color: var(--a-accent-text); }
-  @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-    html .app-shell .arena-dock > .stk--bar[data-quiet] { -webkit-backdrop-filter: blur(32px) saturate(1.5); backdrop-filter: blur(32px) saturate(1.5); }
-  }
-  @media (prefers-reduced-transparency: reduce) {
-    html .app-shell .arena-dock > .stk--bar[data-quiet] { background: var(--dock-solid); -webkit-backdrop-filter: none; backdrop-filter: none; }
-  }
-  html[data-motion='reduced'] .app-shell .arena-dock > .stk--bar { transition: none; }
+  html .app-shell .arena-bottomnav > button.stk--bar[data-quiet] .stk__disc { color: var(--a-accent-text); }
+  html[data-motion='reduced'] .app-shell .arena-bottomnav > button.stk--bar { transition: none; }
   @media (prefers-reduced-motion: reduce) {
-    html .app-shell .arena-dock > .stk--bar { transition: none; }
+    html .app-shell .arena-bottomnav > button.stk--bar { transition: none; }
   }
 }
 /* Wide screens: on a page that owns a volt action (Practice's session Start, Today's plan key, a result's Repair key, any

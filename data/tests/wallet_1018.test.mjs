@@ -407,7 +407,10 @@ test('the page: no lime, no glow, 44 px keys, tabular numerals; nav, chips and t
   assert.match(page, /startWalletPurchase\(/);
   assert.doesNotMatch(page, /\/api\/wallet\/order/, 'the page never talks to the order route directly');
   assert.match(page, /WALLET_COPY\.retry/);
-  assert.match(file('src/lib/arenaNavigation.js'), /label: 'Account', items: \[item\('profile', 'Account', 'account'\), item\('wallet', 'Wallet', 'wallet'\)/);
+  const nav = file('src/lib/arenaNavigation.js');
+  assert.match(nav, /const WALLET = item\('wallet', 'Wallet', 'wallet'\)/);
+  assert.match(nav, /\{ \.\.\.sub\(WALLET\), ruleAbove: true \}/, 'the sidebar lists the wallet under You');
+  assert.match(nav, /id: 'plan', label: 'Your plan', items: \[\{ \.\.\.COLLEGES, hint: null \}, WALLET\]/, 'and the You sheet lists it under Your plan');
   const shell = file('src/app/(app)/AppLayoutClient.jsx');
   assert.equal((shell.match(/previewLinks\?\.wallet \|\| '\/wallet'/g) || []).length, 1, 'the one top-bar credits chip opens the wallet');
   assert.doesNotMatch(shell, /arena-chip--prepos|kind="prepos"/, 'no second AI credits chip beside a one-balance page (D78)');
