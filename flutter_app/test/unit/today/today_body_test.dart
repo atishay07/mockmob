@@ -173,7 +173,7 @@ void main() {
     expect(rows.any((r) => r.note.contains('credit') || r.note.contains('Rs')), isFalse);
   });
 
-  testWidgets('a practice move offers 5, 10 and 20 questions and the panel reports the count', (tester) async {
+  testWidgets('a practice move offers 5, 10, 15 and 20 questions and a last Full mock row, and the panel reports the pick', (tester) async {
     final inputs = ashaInputs(attempts: [accountancyMock('clean', daysBefore(tuesdayEvening, 1))]);
     final events = await pumpToday(tester, buildToday(inputs));
     await tester.tap(find.text(GlanceCopy.lengthToken(10)));
@@ -182,11 +182,27 @@ void main() {
     expect(find.descendant(of: find.byType(LengthPanel), matching: find.text(TodayCopy.practiceLength)), findsOneWidget);
     expect(row('5 questions'), findsOneWidget);
     expect(row('10 questions'), findsOneWidget);
+    expect(row('15 questions'), findsOneWidget);
     expect(row('20 questions'), findsOneWidget);
-    expect(row('15 questions'), findsNothing);
+    expect(row('Full mock: 50 questions, 60 min'), findsOneWidget);
     await tester.tap(row('20 questions'));
     await tester.pumpAndSettle();
     expect(events, contains('minutes:20'));
+  });
+
+  testWidgets('the Full mock row reports 60, and the card then reads 60 min with a full mock key', (tester) async {
+    final record = [accountancyMock('clean', daysBefore(tuesdayEvening, 1))];
+    final events = await pumpToday(tester, buildToday(ashaInputs(attempts: record)));
+    await tester.tap(find.text(GlanceCopy.lengthToken(10)));
+    await tester.pumpAndSettle();
+    await tester.tap(find.descendant(of: find.byType(LengthPanel), matching: find.text('Full mock: 50 questions, 60 min')));
+    await tester.pumpAndSettle();
+    expect(events, contains('minutes:60'));
+    // The card rebuilt with the pick: the token says 60 min, never "about", and the key is the mock's.
+    await pumpToday(tester, buildToday(ashaInputs(attempts: record, selectedMinutes: 60)));
+    expect(find.text(GlanceCopy.lengthTokenExact(60)), findsWidgets, reason: 'the card token (and the bar capsule) say 60 min');
+    expect(find.text(GlanceCopy.lengthToken(60)), findsNothing);
+    expect(find.text(TodayCopy.keyVerb('Start full mock, 60 min')), findsWidgets);
   });
 
   testWidgets('the road keeps every stop: a chip per stop, and its full dates in the readout once chosen', (tester) async {

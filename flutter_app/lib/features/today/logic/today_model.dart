@@ -62,26 +62,41 @@ enum TodayMood { normal, dayOne, returning, lateNight }
 /// the tests and the card's Mobi read, never shown as words.
 enum MoveKind { dayOne, repair, firstRepair, returning, warmUp, revise, done, firstMock, smart, practice, failure, other, weakest, mock, otherSubject }
 
+/// The full mock's length in minutes: the last row of "How many questions?" carries it.
+const int fullMockMinutes = 60;
+
 /// One duration chip. [mistakes] is set for a repair (the task shrinks with the time).
 class DurationChoice {
-  const DurationChoice({required this.minutes, this.mistakes, this.questions});
+  const DurationChoice({required this.minutes, this.mistakes, this.questions, this.fullMock = false});
+
+  /// The last row of "How many questions?": a full mock, 60 minutes. It is the one length that
+  /// is not a question count, so it is told apart by this flag and never by its minutes.
+  const DurationChoice.fullMock({required this.questions}) : minutes = fullMockMinutes, mistakes = null, fullMock = true;
 
   final int minutes;
   final int? mistakes;
 
-  /// Set for practice: the chip is a question count (practice runs a question a minute).
+  /// Set for practice: the chip is a question count (practice runs a question a minute). A full
+  /// mock also sets it (50), though its minutes are 60.
   final int? questions;
 
+  /// This chip is the full mock, not a practice length.
+  final bool fullMock;
+
   /// What the chip says: "5 min" for a repair, the bare count for practice (the row above it
-  /// asks "How many questions?").
-  String get label => questions == null ? '$minutes min' : '$questions';
+  /// asks "How many questions?"), "60 min" for the full mock.
+  String get label => fullMock ? '$minutes min' : (questions == null ? '$minutes min' : '$questions');
 
   @override
   bool operator ==(Object other) =>
-      other is DurationChoice && other.minutes == minutes && other.mistakes == mistakes && other.questions == questions;
+      other is DurationChoice &&
+      other.minutes == minutes &&
+      other.mistakes == mistakes &&
+      other.questions == questions &&
+      other.fullMock == fullMock;
 
   @override
-  int get hashCode => Object.hash(minutes, mistakes, questions);
+  int get hashCode => Object.hash(minutes, mistakes, questions, fullMock);
 }
 
 /// What sits in the hero's art corner.
@@ -152,30 +167,44 @@ class MoveHero extends TodayHero {
   /// card's two choices are always a different kind from the lead.
   final String? choiceKey;
 
-  MoveHero copyWith({String? overline, String? title, String? valueLine, String? choiceKey}) => MoveHero(
+  /// [dropSecondary] removes the second key (a Full mock key beside a card that already is one).
+  MoveHero copyWith({
+    String? overline,
+    String? title,
+    String? valueLine,
+    String? choiceKey,
+    String? meaning,
+    String? number,
+    String? numberLabel,
+    String? summary,
+    TodayAction? primary,
+    int? selectedMinutes,
+    MoveKind? kind,
+    bool dropSecondary = false,
+  }) => MoveHero(
         state: state,
         mood: mood,
         overline: overline ?? this.overline,
         art: art,
-        meaning: meaning,
-        primary: primary,
-        summary: summary,
+        meaning: meaning ?? this.meaning,
+        primary: primary ?? this.primary,
+        summary: summary ?? this.summary,
         subjectId: subjectId,
         subjectLine: subjectLine,
         headline: headline,
-        number: number,
-        numberLabel: numberLabel,
+        number: number ?? this.number,
+        numberLabel: numberLabel ?? this.numberLabel,
         evidenceId: evidenceId,
         evidence: evidence,
         durationPrompt: durationPrompt,
         durations: durations,
-        selectedMinutes: selectedMinutes,
-        secondary: secondary,
+        selectedMinutes: selectedMinutes ?? this.selectedMinutes,
+        secondary: dropSecondary ? null : secondary,
         caption: caption,
         mobiLine: mobiLine,
         basisLine: basisLine,
         dismissedLine: dismissedLine,
-        kind: kind,
+        kind: kind ?? this.kind,
         whyLink: whyLink,
         whyAction: whyAction,
         alternate: alternate,

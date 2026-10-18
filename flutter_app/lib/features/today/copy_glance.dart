@@ -32,6 +32,9 @@ abstract final class GlanceCopy {
   static String stakeOpen(int marks, int papers) => '$marks marks open there, over ${plural(papers, 'paper')}';
   static String lengthToken(int minutes) => 'about $minutes min';
   static String lengthTokenSemantics(int minutes) => 'Length, about $minutes minutes. Change length.';
+  /// The full mock is exactly its 60 minutes, so its token never says "about".
+  static String lengthTokenExact(int minutes) => '$minutes min';
+  static String lengthTokenExactSemantics(int minutes) => 'Length, $minutes minutes. Change length.';
 
   static String weakestLabel(String chapter) => 'questions on\n$chapter';
   static String weakestWhy(String chapter, int marks, int missed, int asked) =>
@@ -226,6 +229,9 @@ abstract final class GlanceCopy {
   static const String repaired = 'Repaired';
   static String allInReview(int n) => 'All $n in Review';
   static String mistakeHead(int number, String paper, String when) => 'Q$number, $paper, $when';
+  /// Day one, for a subject MockMob ranks chapters in: "Start with Partnership and Company Accounts. Your first paper shows where your marks go." The ranking holds no marks, so the line says where to start and never how much a chapter is worth.
+  static String weakDayOneStart(List<String> chapters) => 'Start with ${chapters.join(' and ')}. Your first paper shows where your marks go.';
+  /// Day one, a subject with no ranking.
   static const String weakDayOne = 'Your weak chapters show here after your first paper: where the marks go, chapter by chapter.';
   static const String weakNone = 'No chapter stands out yet. Every chapter you have answered is holding.';
   static const String weakFailed = 'Your weak chapters did not load.';

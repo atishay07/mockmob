@@ -24,3 +24,28 @@ const Map<SheetSubject, List<String>> kChapterOrder = {
 
 /// The first chapter in MockMob's order for [subject].
 String firstChapter(SheetSubject subject) => kChapterOrder[subject]?.first ?? subject.label;
+
+/// The subjects whose chapters above come from the planner file's ranking (`cuet_chapter_priorities.json`).
+/// The other subjects hold syllabus order only, so nothing may be said of them as "first".
+const Set<SheetSubject> kRankedSubjects = {
+  SheetSubject.english,
+  SheetSubject.generalTest,
+  SheetSubject.accountancy,
+  SheetSubject.businessStudies,
+  SheetSubject.economics,
+  SheetSubject.mathematics,
+  SheetSubject.physics,
+  SheetSubject.chemistry,
+  SheetSubject.biology,
+};
+
+/// The first [take] chapters of the planner's ranking for the public subject [subjectId], or null
+/// when MockMob has no ranking for it. The file carries no frequency or marks, so a caller may
+/// name these chapters, never say how many marks they hold.
+List<String>? rankedChapters(String? subjectId, {int take = 2}) {
+  final subject = SheetSubject.byId(subjectId);
+  if (subject == null || !kRankedSubjects.contains(subject)) return null;
+  final order = kChapterOrder[subject];
+  if (order == null || order.isEmpty) return null;
+  return order.take(take).toList(growable: false);
+}

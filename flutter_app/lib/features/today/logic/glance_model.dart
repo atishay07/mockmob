@@ -195,7 +195,7 @@ class WeakChapter {
 }
 
 class WeakChapters {
-  const WeakChapters({this.rows = const [], this.papers = 0, this.failed = false, this.dayOne = false});
+  const WeakChapters({this.rows = const [], this.papers = 0, this.failed = false, this.dayOne = false, this.startChapters = const []});
 
   final List<WeakChapter> rows;
 
@@ -203,6 +203,10 @@ class WeakChapters {
   final int papers;
   final bool failed;
   final bool dayOne;
+
+  /// Day one only: the chapters MockMob ranks first for the student's subject (two), named in the
+  /// line until a first paper shows their own. Empty when the subject has no ranking.
+  final List<String> startChapters;
 }
 
 /// The last paper in full: the bar's counts in words, the biggest leak and its repair.
