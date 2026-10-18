@@ -57,3 +57,27 @@ test('the analysis scroll helper asks the layout, not the window, whether the de
   assert.ok(!/matchMedia\('\(min-width: 1024px\)'\)/.test(code), 'no 1024 px window query left in the part scroll');
   assert.match(code, /getComputedStyle\(g\)\.display === 'grid'/);
 });
+
+test('a URL that matches no route gets the themed not-found page, never the default white 404', () => {
+  const root = read('src/app/not-found.js');
+  assert.match(root, /export default function NotFound\(\)/);
+  assert.match(root, /SiteNotFound/);
+  const page = read('src/components/SiteNotFound.jsx');
+  // The arena's own tokens (Night by default, Day when chosen) come from the shell scope and its two sheets.
+  assert.match(page, /className="view app-shell snf"/);
+  assert.match(page, /@\/app\/\(app\)\/arena\.css/);
+  assert.match(page, /@\/app\/\(app\)\/student-pages\.css/);
+  // The AppNotFound look: the same headline, an ArenaHead, the same primary action class.
+  const inApp = read('src/app/(app)/not-found.js');
+  const headline = inApp.match(/title="([^"]+)"/)[1];
+  assert.ok(page.includes(`title="${headline}"`), 'the same headline as the signed-in not-found');
+  assert.match(page, /<ArenaHead/);
+  assert.match(page, /ui-state__action ui-state__action--primary/);
+  // A way home that works for a signed-in student and for a visitor: "/" (the front page sends a student on to Today).
+  assert.match(page, /<Link href="\/"/);
+  assert.match(page, /<Logo \/>/);
+  // It never blanks the page white: the ground is the arena's.
+  const css = read('src/components/site-not-found.css');
+  assert.match(css, /min-height:\s*100dvh/);
+  assert.ok(!/background:\s*#fff|background:\s*white/i.test(css));
+});
