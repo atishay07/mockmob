@@ -20,7 +20,12 @@ abstract final class SuggestedCopy {
 
   /// What a card costs and how long it is: "Accountancy, 10 questions", "Free, about 10 min".
   static String costQuestions(String subject, int questions) => '$subject, $questions questions';
-  static String costMinutes(String subject, int minutes) => '$subject, about $minutes min';
+  static String costMinutes(String subject, int minutes) => '$subject, ${_about(minutes)}';
+  /// A repair's cost: it spends 1 AI credit a repair ("Accountancy, 1 AI credit each, about 15 min").
+  static String costRepair(String? subject, int minutes) => subject == null ? '1 AI credit each, ${_about(minutes)}' : '$subject, 1 AI credit each, ${_about(minutes)}';
+
+  /// "about 15 min", held together on one line (no break before the number or the unit).
+  static String _about(int minutes) => 'about\u00A0$minutes\u00A0min';
   static String costFree(int minutes) => 'Free, about $minutes min';
   static String costMock(String subject, int questions, int minutes) => '$subject, $questions questions, $minutes min';
 
@@ -32,7 +37,11 @@ abstract final class SuggestedCopy {
   // The gesture.
   static const String hint = 'Swipe right to do it instead, left to skip';
   static const String letGoRight = 'Let go: it moves into the card above, its key ready';
-  static String letGoLeft(String next) => 'Let go: ${_lowerFirst(next)} comes up next';
+  static String letGoLeft(String next) => 'Let go: $next comes up next';
+
+  /// The short forms, for a phone too narrow to hold the long ones on one line.
+  static const String letGoRightShort = 'Let go: it moves into the card above';
+  static const String letGoLeftShort = 'Let go: the next one comes up';
   static const String letGoLast = 'Let go: that was the last one';
 
   // The end of the deck.
@@ -55,6 +64,4 @@ abstract final class SuggestedCopy {
         5 => 'five',
         _ => '$n',
       };
-
-  static String _lowerFirst(String s) => s.isEmpty ? s : '${s[0].toLowerCase()}${s.substring(1)}';
 }

@@ -1,9 +1,10 @@
 // "Suggested for you" (D51, TODAY-SWIPE-1018): the lead card's other moves as a small deck on the
 // ground under the card (never a card inside the card). One card on top, two behind at 0.95 and
-// 0.90 peeking 12 and 22 dp, the count and page dots above and below. Each card is its own
-// height (the buttons follow its evidence); the cards behind take the top card's height, and the
-// next one grows or shrinks to its own as the top card leaves, so the deck never holds a void.
-// Cards already skipped in this pass leave the deck, so the last card has nothing behind it.
+// 0.90 peeking 12 and 22 dp, the count and page dots above and below. Every card of the pass is
+// one height, the tallest card's (the mock's one 184 dp card, grown for its words), with the
+// buttons at its foot, so the stack stays full under the finger and nothing under the deck moves
+// on a skip, a pick or "Go through them again". Cards already skipped in this pass leave the deck,
+// so the last card has nothing behind it; the deck keeps its peek room for the pass.
 //
 // The finger: a sideways drag locks after 12 dp (a vertical one is the page's scroll); the card
 // follows it 1:1 and leans x/20 degrees about its foot. Past 30% of the width, or on a fling,
@@ -19,7 +20,6 @@
 import 'dart:async';
 import 'dart:math' as math;
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -43,6 +43,9 @@ const double deckCommitShare = 0.30;
 
 /// The sideways lock, in dp of finger travel.
 const double deckLock = 12;
+
+/// The steepest a drag may be and still be a swipe: dy over dx.
+const double deckSlope = 0.5;
 
 /// How much the card leans: one degree per this many dp.
 const double deckLeanPer = 20;
@@ -106,22 +109,12 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
   bool _leaving = false;
   bool _hint = false;
 
-  /// The hint showed on this visit: its line keeps its place until the visit ends, so nothing
-  /// under the deck moves when it goes (mid-gesture, on the first swipe).
+  /// The hint showed on this visit: its line keeps its place for the pass, so nothing under the
+  /// deck moves when it goes (mid-gesture, on the first swipe). The end card lets it go.
   bool _hintSlot = false;
 
-  /// The deck's height as it ended, which the end card takes, so the page does not jump.
+  /// The cards' one height as the pass ended, which the end card takes, so the page does not jump.
   double? _endHeight;
-
-  /// A skipped card's way out after the finger let go, 0 to 1: the deck eases to the next card's
-  /// height along it ([_DeckLayout]).
-  final ValueNotifier<double> _grow = ValueNotifier(0);
-
-  /// The top card's way toward the threshold, 0 to 1: the next card shrinks to its own height
-  /// along it when it is the shorter.
-  final ValueNotifier<double> _lift = ValueNotifier(0);
-  double _leaveFrom = 0;
-  double _leaveTo = 1;
 
   static List<String> _keys(List<SuggestedCard> cards) => [for (final c in cards) c.key];
 
@@ -161,8 +154,6 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
   @override
   void dispose() {
     _x.dispose();
-    _grow.dispose();
-    _lift.dispose();
     _fly.dispose();
     _arrive.dispose();
     super.dispose();
@@ -170,8 +161,6 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
 
   void _moved() {
     final x = _x.value;
-    _lift.value = (x.abs() / _threshold).clamp(0.0, 1.0);
-    _grow.value = _leaving ? ((x.abs() - _leaveFrom) / math.max(1.0, _leaveTo - _leaveFrom)).clamp(0.0, 1.0) : 0.0;
     final top = _card(_pass.top);
     final past = _dragging && x.abs() >= _threshold && (x < 0 || (top?.swipeable ?? false));
     if (past != _past) {
@@ -248,8 +237,6 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
     }
     _leaving = true;
     final target = -(_width * 1.15 + 24);
-    _leaveFrom = _x.value.abs();
-    _leaveTo = target.abs();
     try {
       await _x.animateWith(Motion.spring(Springs.lift, _x.value, target, velocity: math.min(velocity, -900))).orCancel;
     } on TickerCanceled {
@@ -264,7 +251,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
     _x.value = 0;
   }
 
-  /// Before the last skip: the deck's height, for the end card that takes its place.
+  /// Before the last skip: the cards' height, for the end card that takes their place.
   void _noteEnd() {
     if (_pass.moreAfter > 0) return;
     final deck = _deckKey.currentContext?.findRenderObject();
@@ -319,7 +306,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
     final deck = _deckKey.currentContext?.findRenderObject();
     if (lead is RenderBox && deck is RenderBox && lead.attached && deck.attached && lead.hasSize && deck.hasSize) {
       final a = lead.localToGlobal(lead.size.center(Offset.zero));
-      final b = deck.localToGlobal(Offset(deck.size.width / 2, (deck.size.height - deckPeek2) / 2));
+      final b = deck.localToGlobal(deck.size.center(Offset.zero));
       return a - b;
     }
     return const Offset(0, -260);
@@ -328,7 +315,16 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
   void _again() => setState(() {
     _pass.again();
     _endHeight = null;
+    _hintSlot = _hint;
   });
+
+  /// The room under the cards for the peeks, held for the whole pass (the deck's size, not the
+  /// cards still to come), so a skip never moves what is under the deck.
+  double get _peekRoom => switch (widget.cards.length) {
+    <= 1 => 0,
+    2 => deckPeek1,
+    _ => deckPeek2,
+  };
 
   // Drawing.
 
@@ -350,11 +346,12 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
       ? 0.75 - 0.30 * (depth - 1)
       : math.max(0, 0.45 * (3 - depth));
 
-  String get _hintLine {
+  /// The hint's words now; [fit] picks a long line or its short form by what one line holds.
+  String _hintLine(String Function(String long, String short) fit) {
     if (!_past) return SuggestedCopy.hint;
-    if (_x.value > 0) return SuggestedCopy.letGoRight;
+    if (_x.value > 0) return fit(SuggestedCopy.letGoRight, SuggestedCopy.letGoRightShort);
     final next = _card(_pass.next);
-    return next == null ? SuggestedCopy.letGoLast : SuggestedCopy.letGoLeft(next.title);
+    return next == null ? SuggestedCopy.letGoLast : fit(SuggestedCopy.letGoLeft(next.title), SuggestedCopy.letGoLeftShort);
   }
 
   @override
@@ -404,14 +401,17 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
           curve: Motion.out,
           alignment: Alignment.topCenter,
           clipBehavior: Clip.none,
-          child: ended
-              ? _EndCard(count: _pass.length, height: _endHeight, onAgain: _again, onMore: widget.onMore)
-              : LayoutBuilder(
-                  builder: (context, box) {
-                    _width = box.maxWidth;
-                    return KeyedSubtree(key: _deckKey, child: _deck(context));
-                  },
-                ),
+          child: Padding(
+            padding: EdgeInsets.only(bottom: _peekRoom),
+            child: ended
+                ? _EndCard(count: _pass.length, height: _endHeight, onAgain: _again, onMore: widget.onMore)
+                : LayoutBuilder(
+                    builder: (context, box) {
+                      _width = box.maxWidth;
+                      return _deck(context);
+                    },
+                  ),
+          ),
         ),
         const SizedBox(height: MmSpace.s8),
         _Dots(states: _pass.dots),
@@ -420,41 +420,63 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
           curve: Motion.out,
           alignment: Alignment.topCenter,
           clipBehavior: Clip.none,
-          child: _hintSlot ? _hintRow(type.caption.copyWith(fontSize: 14, color: colors.ink3), shown: _hint && !ended) : const SizedBox(width: double.infinity),
+          child: _hintSlot && !ended ? _hintRow(type.caption.copyWith(fontSize: 14, color: colors.ink3), shown: _hint) : const SizedBox(width: double.infinity),
         ),
       ],
     );
   }
 
-  /// The hint's line. Its place is held for the visit at the height of the longest thing it can
-  /// say, so neither a longer line nor its leaving moves the page; [shown] fades the words.
+  /// The hint's line. Its place is held for the pass at the height of the longest thing it can
+  /// say, so neither a longer line nor its leaving moves the page; [shown] fades the words. A
+  /// "Let go" line that one line cannot hold takes its short form, so a wrapped line never holds
+  /// two lines of room under a one-line hint.
   Widget _hintRow(TextStyle style, {required bool shown}) {
-    final lines = {SuggestedCopy.hint, SuggestedCopy.letGoRight, SuggestedCopy.letGoLast, for (final c in widget.cards) SuggestedCopy.letGoLeft(c.title)};
-    return Padding(
-      padding: const EdgeInsets.only(top: MmSpace.s8),
-      child: Stack(
-        alignment: Alignment.topCenter,
-        children: [
-          for (final l in lines)
-            ExcludeSemantics(
-              child: Opacity(
-                opacity: 0,
-                child: Text(l, textAlign: TextAlign.center, style: style),
+    return LayoutBuilder(
+      builder: (context, box) {
+        final scaler = MediaQuery.textScalerOf(context);
+        bool oneLine(String l) {
+          final tp = TextPainter(text: TextSpan(text: l, style: style), textDirection: TextDirection.ltr, textScaler: scaler, maxLines: 1)
+            ..layout(maxWidth: box.maxWidth);
+          final fits = !tp.didExceedMaxLines;
+          tp.dispose();
+          return fits;
+        }
+
+        String fit(String long, String short) => oneLine(long) ? long : short;
+        final lines = {
+          SuggestedCopy.hint,
+          fit(SuggestedCopy.letGoRight, SuggestedCopy.letGoRightShort),
+          SuggestedCopy.letGoLast,
+          for (final c in widget.cards) fit(SuggestedCopy.letGoLeft(c.title), SuggestedCopy.letGoLeftShort),
+        };
+        final line = _hintLine(fit);
+        return Padding(
+          padding: const EdgeInsets.only(top: MmSpace.s8),
+          child: Stack(
+            alignment: Alignment.topCenter,
+            children: [
+              for (final l in lines)
+                ExcludeSemantics(
+                  child: Opacity(
+                    opacity: 0,
+                    child: Text(l, textAlign: TextAlign.center, style: style),
+                  ),
+                ),
+              SizedBox(
+                width: double.infinity,
+                child: AnimatedOpacity(
+                  opacity: shown ? 1 : 0,
+                  duration: Motion.ui,
+                  curve: Motion.out,
+                  child: MmOverlapSwitcher.fade(
+                    child: Text(line, key: ValueKey(line), textAlign: TextAlign.center, style: style),
+                  ),
+                ),
               ),
-            ),
-          SizedBox(
-            width: double.infinity,
-            child: AnimatedOpacity(
-              opacity: shown ? 1 : 0,
-              duration: Motion.ui,
-              curve: Motion.out,
-              child: MmOverlapSwitcher.fade(
-                child: Text(_hintLine, key: ValueKey(_hintLine), textAlign: TextAlign.center, style: style),
-              ),
-            ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -463,9 +485,15 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
     final n = order.length;
     // The cards still to come in this pass: those skipped have left the deck.
     final left = math.max(1, n - _pass.skips);
-    final behind = math.min(left - 1, 2);
-    final peekRoom = behind <= 0 ? 0.0 : (behind == 1 ? deckPeek1 : deckPeek2);
-    final children = <Widget>[];
+    // Every card of the pass, unseen and without its art, for the one height they all take: the
+    // tallest card's.
+    final children = <Widget>[
+      for (final c in widget.cards)
+        _DeckSlot(
+          depth: _measureDepth,
+          child: _DeckCard(card: c, at: 0, of: n, measure: true),
+        ),
+    ];
     // Back to front: the two behind show, and a third waits unseen to rise into the gap while the
     // top card leaves.
     for (var d = math.min(left - 1, 3); d >= 1; d--) {
@@ -560,8 +588,8 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
         ),
       );
     }
-    return Padding(
-      padding: EdgeInsets.only(bottom: peekRoom),
+    return KeyedSubtree(
+      key: _deckKey,
       child: RawGestureDetector(
         behavior: HitTestBehavior.translucent,
         gestures: {
@@ -579,15 +607,16 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
           excludeFromSemantics: true,
           behavior: HitTestBehavior.opaque,
           onTap: _leaving || !top.swipeable ? null : () => _choose(top),
-          child: _DeckLayout(lift: _lift, grow: _grow, children: children),
+          child: _DeckLayout(children: children),
         ),
       ),
     );
   }
 }
 
-/// The stack's place while Today loads (L03): the heading, one card with the peek under it, and
-/// the dots, at their resting heights. Today's skeleton already says it is loading.
+/// The stack's place while Today loads (L03): the heading, the top card with the two peek bands
+/// under it, the dots, and the hint's line on the visits it shows, at their landed heights, so
+/// the week under it does not move when Today lands. Today's skeleton already says it is loading.
 class SuggestedStackSkeleton extends StatefulWidget {
   const SuggestedStackSkeleton({super.key, this.delay = const Duration(milliseconds: 400)});
 
@@ -595,8 +624,10 @@ class SuggestedStackSkeleton extends StatefulWidget {
   /// but the place is held from the first frame.
   final Duration delay;
 
-  /// The skeleton's height: the heading, the card, the peek and the dots.
-  static const double height = 22 + MmSpace.s12 + 188 + deckPeek2 + MmSpace.s8 + 6;
+  /// A card's height at [scaler]: its padding, gaps and buttons, and its words (a cost line, a
+  /// one-line title and three lines of evidence, the usual tallest card of a deck).
+  static double cardHeight(TextScaler scaler) => 18 + MmSpace.s2 + MmSpace.s6 + MmSpace.s12 + 44 + MmSpace.s12 + scaler.scale(_cardWords);
+  static const double _cardWords = 20 + 24 + 62;
 
   @override
   State<SuggestedStackSkeleton> createState() => _SuggestedStackSkeletonState();
@@ -606,10 +637,17 @@ class _SuggestedStackSkeletonState extends State<SuggestedStackSkeleton> {
   Timer? _timer;
   late bool _visible = widget.delay == Duration.zero;
 
+  /// The hint's line shows on this visit (the stack asks the same question and gets the same
+  /// answer), so its place is held too.
+  bool _hint = false;
+
   @override
   void initState() {
     super.initState();
     if (!_visible) _timer = Timer(widget.delay, () => mounted ? setState(() => _visible = true) : null);
+    SuggestedHint.claim().then((show) {
+      if (mounted && show != _hint) setState(() => _hint = show);
+    });
   }
 
   @override
@@ -620,24 +658,66 @@ class _SuggestedStackSkeletonState extends State<SuggestedStackSkeleton> {
 
   @override
   Widget build(BuildContext context) {
-    if (!_visible) return const SizedBox(height: SuggestedStackSkeleton.height);
-    return const ExcludeSemantics(
+    final type = context.mmType;
+    final scaler = MediaQuery.textScalerOf(context);
+    final card = SuggestedStackSkeleton.cardHeight(scaler);
+    // The hint's line: its top gap and one caption line, measured as the stack draws it.
+    final hint = _hint ? MmSpace.s8 + (TextPainter(text: TextSpan(text: SuggestedCopy.hint, style: type.caption.copyWith(fontSize: 14)), textDirection: TextDirection.ltr, textScaler: scaler, maxLines: 1)..layout()).height : 0.0;
+    final head = math.max(22.0, scaler.scale(24));
+    final below = deckPeek2 + MmSpace.s8 + 6 + hint;
+    if (!_visible) return SizedBox(height: head + MmSpace.s12 + card + below);
+    return ExcludeSemantics(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Align(alignment: Alignment.centerLeft, child: Skeleton.line(width: 168, height: 22)),
-          SizedBox(height: MmSpace.s12),
-          Skeleton(height: 188, radius: MmRadius.panel),
-          SizedBox(height: deckPeek2 + MmSpace.s8 + 6),
+          SizedBox(
+            height: head,
+            child: const Align(alignment: Alignment.bottomLeft, child: Skeleton.line(width: 168, height: 22)),
+          ),
+          const SizedBox(height: MmSpace.s12),
+          SizedBox(
+            height: card + deckPeek2,
+            child: LayoutBuilder(
+              builder: (context, box) {
+                final w = box.maxWidth;
+                // A band: the foot of a card behind, at its scale, showing under the one above.
+                Widget band(double scale, double top, double height, double opacity) => Positioned(
+                  left: w * (1 - scale) / 2,
+                  right: w * (1 - scale) / 2,
+                  top: top,
+                  height: height,
+                  child: Opacity(
+                    opacity: opacity,
+                    child: ClipRect(
+                      child: OverflowBox(
+                        alignment: Alignment.bottomCenter,
+                        minHeight: 56,
+                        maxHeight: 56,
+                        child: const Skeleton(height: 56, radius: MmRadius.panel),
+                      ),
+                    ),
+                  ),
+                );
+                return Stack(
+                  children: [
+                    band(0.90, card + deckPeek1, deckPeek2 - deckPeek1, 0.45),
+                    band(0.95, card, deckPeek1, 0.75),
+                    Positioned(left: 0, right: 0, top: 0, height: card, child: const Skeleton(radius: MmRadius.panel)),
+                  ],
+                );
+              },
+            ),
+          ),
+          SizedBox(height: below - deckPeek2),
         ],
       ),
     );
   }
 }
 
-/// The card's object: its box, and its inset from the card's top right corner (the mock's 76 x 70
-/// at 14, with the object itself about 70 dp, as the lead card's is).
+/// The card's object: the corner it keeps the words clear of, and its inset from the card's top
+/// right corner (the mock's 76 x 70 at 14). What shows of the object is sized on its own ([_Art]).
 const double _artWidth = 84;
 const double _artHeight = 78;
 const double _artInset = 10;
@@ -655,6 +735,7 @@ class _DeckCard extends StatelessWidget {
     required this.at,
     required this.of,
     this.interactive = false,
+    this.measure = false,
     this.contentOpacity = 1,
     this.onSkip,
     this.onDo,
@@ -664,6 +745,9 @@ class _DeckCard extends StatelessWidget {
   final int at;
   final int of;
   final bool interactive;
+
+  /// Laid out only for its height (never painted): no art, which takes no height of its own.
+  final bool measure;
   final double contentOpacity;
   final VoidCallback? onSkip;
   final VoidCallback? onDo;
@@ -718,22 +802,20 @@ class _DeckCard extends StatelessWidget {
             style: type.small.copyWith(color: colors.ink2),
           ),
         ),
-        // The buttons follow the evidence: the card is its own height, never a void above them.
-        const SizedBox(height: MmSpace.s12),
-        // Side by side at the card's ends; under each other when large text cannot fit both.
-        SizedBox(
-          width: double.infinity,
-          child: Wrap(
-            alignment: WrapAlignment.spaceBetween,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            runSpacing: MmSpace.s4,
-            children: [
-              _SkipButton(onTap: interactive ? onSkip : null, semanticsLabel: SuggestedCopy.skipSemantics(card.title)),
-              _DoButton(onTap: interactive ? onDo : null, semanticsLabel: SuggestedCopy.doThisSemantics(card.title)),
-            ],
-          ),
-        ),
       ],
+    );
+    // Side by side at the card's ends; under each other when large text cannot fit both.
+    final buttons = SizedBox(
+      width: double.infinity,
+      child: Wrap(
+        alignment: WrapAlignment.spaceBetween,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        runSpacing: MmSpace.s4,
+        children: [
+          _SkipButton(onTap: interactive ? onSkip : null, semanticsLabel: SuggestedCopy.skipSemantics(card.title)),
+          _DoButton(onTap: interactive ? onDo : null, semanticsLabel: SuggestedCopy.doThisSemantics(card.title)),
+        ],
+      ),
     );
     Widget out = DecoratedBox(
       decoration: BoxDecoration(
@@ -743,29 +825,27 @@ class _DeckCard extends StatelessWidget {
         boxShadow: colors.cardShadow,
       ),
       child: Stack(
+        // The deck's height reaches the card (one height for the pass); measured alone, the card
+        // is as tall as its words and buttons.
+        fit: StackFit.passthrough,
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(MmSpace.cardPadding, 18, MmSpace.cardPadding, MmSpace.s12),
-            // Its own height when the deck asks for it; a card behind takes the top card's height
-            // (its words are hidden there), and while it rises its words show from the top.
             child: ClipRect(
-              child: OverflowBox(
-                alignment: Alignment.topCenter,
-                minHeight: 0,
-                maxHeight: double.infinity,
-                fit: OverflowBoxFit.deferToChild,
-                child: Opacity(
-                  opacity: contentOpacity,
-                  child: Semantics(
-                    container: true,
-                    label: interactive ? SuggestedCopy.cardSemantics(at, of, card.cost, card.title, card.line, suggested: card.suggested) : null,
-                    child: words,
-                  ),
+              child: Opacity(
+                opacity: contentOpacity,
+                child: Semantics(
+                  container: true,
+                  label: interactive ? SuggestedCopy.cardSemantics(at, of, card.cost, card.title, card.line, suggested: card.suggested) : null,
+                  // The words from the top, the buttons pinned to the foot (the mock's acts at
+                  // margin-top auto): a shorter card's room sits above its buttons, never under them.
+                  child: _PinFoot(gap: MmSpace.s12, body: words, foot: buttons),
                 ),
               ),
             ),
           ),
-          Positioned(
+          if (!measure)
+            Positioned(
             top: _artInset,
             right: _artInset,
             child: ExcludeSemantics(
@@ -787,6 +867,70 @@ class _DeckCard extends StatelessWidget {
   }
 }
 
+/// A card's words from the top and its buttons at the foot: as tall as both (with [gap]) when
+/// nothing sets its height, and given a height, the buttons sit on its foot.
+class _PinFoot extends MultiChildRenderObjectWidget {
+  _PinFoot({required this.gap, required Widget body, required Widget foot}) : super(children: [body, foot]);
+
+  final double gap;
+
+  @override
+  RenderObject createRenderObject(BuildContext context) => _RenderPinFoot(gap);
+
+  @override
+  void updateRenderObject(BuildContext context, _RenderPinFoot renderObject) => renderObject.gap = gap;
+}
+
+class _PinData extends ContainerBoxParentData<RenderBox> {}
+
+class _RenderPinFoot extends RenderBox with ContainerRenderObjectMixin<RenderBox, _PinData>, RenderBoxContainerDefaultsMixin<RenderBox, _PinData> {
+  _RenderPinFoot(this._gap);
+
+  double _gap;
+  set gap(double value) {
+    if (value == _gap) return;
+    _gap = value;
+    markNeedsLayout();
+  }
+
+  @override
+  void setupParentData(RenderBox child) {
+    if (child.parentData is! _PinData) child.parentData = _PinData();
+  }
+
+  @override
+  double computeMinIntrinsicHeight(double width) => firstChild!.getMinIntrinsicHeight(width) + _gap + lastChild!.getMinIntrinsicHeight(width);
+
+  @override
+  double computeMaxIntrinsicHeight(double width) => firstChild!.getMaxIntrinsicHeight(width) + _gap + lastChild!.getMaxIntrinsicHeight(width);
+
+  @override
+  double computeMinIntrinsicWidth(double height) => math.max(firstChild!.getMinIntrinsicWidth(double.infinity), lastChild!.getMinIntrinsicWidth(double.infinity));
+
+  @override
+  double computeMaxIntrinsicWidth(double height) => math.max(firstChild!.getMaxIntrinsicWidth(double.infinity), lastChild!.getMaxIntrinsicWidth(double.infinity));
+
+  @override
+  void performLayout() {
+    final body = firstChild!;
+    final foot = lastChild!;
+    final width = constraints.maxWidth;
+    final loose = BoxConstraints(maxWidth: width);
+    body.layout(loose, parentUsesSize: true);
+    foot.layout(loose, parentUsesSize: true);
+    final natural = body.size.height + _gap + foot.size.height;
+    size = constraints.constrain(Size(width, natural));
+    (body.parentData! as _PinData).offset = Offset.zero;
+    (foot.parentData! as _PinData).offset = Offset(0, math.max(body.size.height + _gap, size.height - foot.size.height));
+  }
+
+  @override
+  void paint(PaintingContext context, Offset offset) => defaultPaint(context, offset);
+
+  @override
+  bool hitTestChildren(BoxHitTestResult result, {required Offset position}) => defaultHitTestChildren(result, position: position);
+}
+
 /// A card with its stamps over it: "Do this instead" top left as it goes right, "Skip" top right
 /// as it goes left, each at its strength (0 to 1 at the threshold).
 class _Stamped extends StatelessWidget {
@@ -802,6 +946,8 @@ class _Stamped extends StatelessWidget {
     final accent = colors.isNight ? colors.volt : colors.accentText;
     return Stack(
       clipBehavior: Clip.none,
+      // The card keeps the deck's height.
+      fit: StackFit.passthrough,
       children: [
         child,
         if (yes > 0.01)
@@ -827,14 +973,22 @@ class _Art extends StatelessWidget {
 
   final SuggestedCard card;
 
+  // Sized by what shows, not by the box: the pictures carry clear margins of their own, so each
+  // draws in a larger box centred on the corner's (the object itself about 74 dp, Mobi about 70,
+  // as in d51-stack-rest).
+  static const double _objectSide = 96;
+  static const double _mobiSize = 88;
+
   @override
-  Widget build(BuildContext context) => Center(
+  Widget build(BuildContext context) => OverflowBox(
+    maxWidth: double.infinity,
+    maxHeight: double.infinity,
     child: switch (card.art) {
-      SuggestedArt.mobi => Mobi(pose: HeroArtView.poseFor(card.pose), size: 76),
+      SuggestedArt.mobi => Mobi(pose: HeroArtView.poseFor(card.pose), size: _mobiSize),
       SuggestedArt.stopwatch => const HybridStopwatch(height: 72),
-      // The lead card's object, unframed, at about 70 dp: an object on the card, not an icon. It
-      // stays still (no lean or tap of its own), since the whole card answers the finger.
-      SuggestedArt.subject => SubjectEmblem(subject: card.subjectId, size: _artHeight, framed: false, life: false),
+      // The lead card's object, unframed: an object on the card, not an icon. It stays still (no
+      // lean or tap of its own), since the whole card answers the finger.
+      SuggestedArt.subject => SubjectEmblem(subject: card.subjectId, size: _objectSide, framed: false, life: false),
     },
   );
 }
@@ -1032,7 +1186,8 @@ class _EndCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Mobi(pose: MobiPose.think, size: 64),
+              // About 64 dp of Mobi showing (d51-stack-end): the picture carries its own margin.
+              const Mobi(pose: MobiPose.think, size: 82),
               const SizedBox(height: MmSpace.s6),
               Text(
                 SuggestedCopy.allSeen(count),
@@ -1090,7 +1245,7 @@ class _DashedEdge extends CustomPainter {
 }
 
 /// A card's place in the deck: 0 on top, 1 and 2 behind it (3 waits unseen), -1 a chosen card in
-/// flight.
+/// flight, [_measureDepth] a card laid out only for its height.
 class _DeckSlot extends ParentDataWidget<_DeckSlotData> {
   const _DeckSlot({required this.depth, required super.child});
 
@@ -1109,123 +1264,112 @@ class _DeckSlot extends ParentDataWidget<_DeckSlotData> {
   Type get debugTypicalAncestorWidgetClass => _DeckLayout;
 }
 
+/// The slot of a card laid out only for its height: never painted, never hit.
+const int _measureDepth = 1 << 20;
+
 class _DeckSlotData extends ContainerBoxParentData<RenderBox> {
   int depth = 0;
 }
 
-/// The deck's cards, one over another. The top card is its own height and so is the deck; the
-/// cards behind take that height too, so their peeks stay even bands. While the finger moves the
-/// top card ([lift], 0 to 1 at the threshold), a shorter next card already shrinks to its own
-/// height (never a void at its foot); once a skipped card is let go ([grow], 0 to 1 over its way
-/// out), the next card, the cards behind it and the deck ease to the next card's own height, so it
-/// lands on top already its size. While the finger is down nothing under the deck moves. A card
-/// in flight is its own height.
+/// The deck's cards, one over another, all one height for the pass: the tallest card's, read
+/// from every card of the pass laid out unseen. The top card, the cards behind it (their peeks
+/// even bands) and a card in flight all take it, and so does the deck, so nothing under it moves
+/// while the finger is down or after it lets go.
 class _DeckLayout extends MultiChildRenderObjectWidget {
-  const _DeckLayout({required this.lift, required this.grow, required super.children});
-
-  final ValueListenable<double> lift;
-  final ValueListenable<double> grow;
+  const _DeckLayout({required super.children});
 
   @override
-  RenderObject createRenderObject(BuildContext context) => _RenderDeck(lift, grow);
+  MultiChildRenderObjectElement createElement() => _DeckElement(this);
 
   @override
-  void updateRenderObject(BuildContext context, _RenderDeck renderObject) => renderObject
-    ..lift = lift
-    ..grow = grow;
+  RenderObject createRenderObject(BuildContext context) => _RenderDeck();
+}
+
+/// The cards laid out only for their height are not on stage (finders and inspectors skip them,
+/// as they skip an Offstage child).
+class _DeckElement extends MultiChildRenderObjectElement {
+  _DeckElement(super.widget);
+
+  @override
+  void debugVisitOnstageChildren(ElementVisitor visitor) {
+    for (final child in children) {
+      final slot = child.widget;
+      if (slot is _DeckSlot && slot.depth == _measureDepth) continue;
+      visitor(child);
+    }
+  }
 }
 
 class _RenderDeck extends RenderBox with ContainerRenderObjectMixin<RenderBox, _DeckSlotData>, RenderBoxContainerDefaultsMixin<RenderBox, _DeckSlotData> {
-  _RenderDeck(this._lift, this._grow);
-
-  ValueListenable<double> _lift;
-  set lift(ValueListenable<double> value) {
-    if (identical(value, _lift)) return;
-    if (attached) _lift.removeListener(markNeedsLayout);
-    _lift = value;
-    if (attached) _lift.addListener(markNeedsLayout);
-    markNeedsLayout();
-  }
-
-  ValueListenable<double> _grow;
-  set grow(ValueListenable<double> value) {
-    if (identical(value, _grow)) return;
-    if (attached) _grow.removeListener(markNeedsLayout);
-    _grow = value;
-    if (attached) _grow.addListener(markNeedsLayout);
-    markNeedsLayout();
-  }
-
   @override
   void setupParentData(RenderBox child) {
     if (child.parentData is! _DeckSlotData) child.parentData = _DeckSlotData();
   }
 
-  @override
-  void attach(PipelineOwner owner) {
-    super.attach(owner);
-    _lift.addListener(markNeedsLayout);
-    _grow.addListener(markNeedsLayout);
-  }
-
-  @override
-  void detach() {
-    _lift.removeListener(markNeedsLayout);
-    _grow.removeListener(markNeedsLayout);
-    super.detach();
-  }
+  static bool _measured(RenderBox child) => (child.parentData! as _DeckSlotData).depth == _measureDepth;
 
   @override
   void performLayout() {
     final width = constraints.maxWidth;
     final own = BoxConstraints(minWidth: width, maxWidth: width);
-    RenderBox? top;
-    RenderBox? next;
+    var height = 0.0;
     var child = firstChild;
     while (child != null) {
       final data = child.parentData! as _DeckSlotData;
       data.offset = Offset.zero;
-      if (data.depth == 0) top = child;
-      if (data.depth == 1) next = child;
-      child = data.nextSibling;
-    }
-    var height = 0.0;
-    if (top != null) {
-      top.layout(own, parentUsesSize: true);
-      height = top.size.height;
-    }
-    var deck = height;
-    if (next != null) {
-      next.layout(own, parentUsesSize: true);
-      final own1 = next.size.height;
-      final grow = _grow.value.clamp(0.0, 1.0);
-      if (top == null) {
-        height = deck = own1;
-      } else {
-        final held = height + (math.min(own1, height) - height) * _lift.value.clamp(0.0, 1.0);
-        deck = height + (own1 - height) * grow;
-        height = held + (own1 - held) * grow;
+      if (data.depth == _measureDepth) {
+        child.layout(own, parentUsesSize: true);
+        height = math.max(height, child.size.height);
       }
-      next.layout(BoxConstraints.tightFor(width: width, height: height));
+      child = data.nextSibling;
     }
     child = firstChild;
     while (child != null) {
       final data = child.parentData! as _DeckSlotData;
-      if (data.depth >= 2) {
-        child.layout(BoxConstraints.tightFor(width: width, height: height));
-      } else if (data.depth < 0) {
-        child.layout(own);
+      if (data.depth != _measureDepth) {
+        if (height <= 0) {
+          // Nothing measured (never in practice): the card is its own height and sets the deck's.
+          child.layout(own, parentUsesSize: true);
+          height = math.max(height, child.size.height);
+        } else {
+          child.layout(BoxConstraints.tightFor(width: width, height: height));
+        }
       }
       child = data.nextSibling;
     }
-    size = constraints.constrain(Size(width, deck));
+    size = constraints.constrain(Size(width, height));
   }
 
   @override
-  void paint(PaintingContext context, Offset offset) => defaultPaint(context, offset);
+  void paint(PaintingContext context, Offset offset) {
+    var child = firstChild;
+    while (child != null) {
+      final data = child.parentData! as _DeckSlotData;
+      if (data.depth != _measureDepth) context.paintChild(child, data.offset + offset);
+      child = data.nextSibling;
+    }
+  }
 
   @override
-  bool hitTestChildren(BoxHitTestResult result, {required Offset position}) => defaultHitTestChildren(result, position: position);
+  bool hitTestChildren(BoxHitTestResult result, {required Offset position}) {
+    var child = lastChild;
+    while (child != null) {
+      final data = child.parentData! as _DeckSlotData;
+      if (!_measured(child)) {
+        final hit = result.addWithPaintOffset(offset: data.offset, position: position, hitTest: (result, transformed) => child!.hitTest(result, position: transformed));
+        if (hit) return true;
+      }
+      child = data.previousSibling;
+    }
+    return false;
+  }
+
+  @override
+  void visitChildrenForSemantics(RenderObjectVisitor visitor) {
+    visitChildren((child) {
+      if (!_measured(child as RenderBox)) visitor(child);
+    });
+  }
 }
 
 /// A sideways drag that locks after [deckLock] dp of mostly sideways travel and gives way at once
@@ -1244,8 +1388,10 @@ class _DeckDragRecognizer extends OneSequenceGestureRecognizer {
   bool _dragging = false;
   int? _pointer;
 
-  static bool claims(Offset d) => d.dx.abs() >= deckLock && d.dx.abs() > d.dy.abs();
-  static bool yields(Offset d) => d.dy.abs() >= deckLock && d.dy.abs() >= d.dx.abs();
+  /// Sideways means within about 27 degrees of level (dy at most half of dx): a diagonal that
+  /// starts on the deck, say 12 across and 11 down, is the page's scroll, not a swipe.
+  static bool claims(Offset d) => d.dx.abs() >= deckLock && d.dy.abs() <= d.dx.abs() * deckSlope;
+  static bool yields(Offset d) => d.distance >= deckLock && d.dy.abs() > d.dx.abs() * deckSlope;
 
   @override
   void addAllowedPointer(PointerDownEvent event) {

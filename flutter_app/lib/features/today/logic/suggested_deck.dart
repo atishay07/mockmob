@@ -117,7 +117,8 @@ SuggestedCard _card(MoveChoice c, TodayGlance? glance) {
       return SuggestedCard(
         choice: c,
         cost: SuggestedCopy.costMock(subject, int.tryParse(m.number ?? '') ?? 50, minutes),
-        title: m.title ?? SuggestedCopy.titleMock,
+        // A title that stands on its own: the card sits over "Do this instead", so never "instead".
+        title: kind == MoveKind.mock ? SuggestedCopy.titleMock : (m.title ?? SuggestedCopy.titleMock),
         line: _first(m.meaning),
         art: SuggestedArt.stopwatch,
         subjectId: m.subjectId,
@@ -125,7 +126,9 @@ SuggestedCard _card(MoveChoice c, TodayGlance? glance) {
     case MoveKind.repair || MoveKind.firstRepair || MoveKind.returning:
       return SuggestedCard(
         choice: c,
-        cost: SuggestedCopy.costMinutes(subject, minutes),
+        // A repair spends AI credits, so its card says so beside the free ones (the lead card's
+        // price line: "Each repair uses 1 AI credit").
+        cost: SuggestedCopy.costRepair(subject.isEmpty ? null : subject, minutes),
         title: m.title ?? SuggestedCopy.titleRepair,
         line: _first(m.meaning),
         art: m.art.isMobi ? SuggestedArt.mobi : SuggestedArt.subject,
@@ -136,7 +139,8 @@ SuggestedCard _card(MoveChoice c, TodayGlance? glance) {
       return SuggestedCard(
         choice: c,
         cost: subject.isEmpty ? null : (questions == null ? SuggestedCopy.costMinutes(subject, minutes) : SuggestedCopy.costQuestions(subject, questions)),
-        title: m.title ?? c.title,
+        // The title names the move ("Practise Economics", as the alternatives sheet does).
+        title: kind == MoveKind.otherSubject && subject.isNotEmpty ? TodayCopy.altPractiseTitle(subject) : (m.title ?? c.title),
         line: _first(m.meaning),
         art: m.art.isMobi ? SuggestedArt.mobi : SuggestedArt.subject,
         pose: m.art.art,
@@ -145,14 +149,15 @@ SuggestedCard _card(MoveChoice c, TodayGlance? glance) {
   }
 }
 
-/// The move's length in minutes, as the lead card's length pill would show it once this move is
-/// the lead: with a choice of lengths, the chosen one (else the first); else what its key says,
-/// else 10. (The pill and the key can still differ inside the lead card; that is the move's own.)
+/// The move's length in minutes, from the one source the rest of the screen reads: what its key
+/// says (the Repairs and Revise tile, the alternatives sheet and the key it arms all show that),
+/// else the chosen length, else the first, else 10.
 int _minutes(MoveHero m) {
-  if (m.durations.length > 1) return m.selectedMinutes ?? m.durations.first.minutes;
+  final keyed = int.tryParse((TodayCopy.keyLength(m.primary.label) ?? '').split(' ').first);
+  if (keyed != null) return keyed;
   final picked = m.durations.where((d) => d.minutes == m.selectedMinutes).firstOrNull;
   if (picked != null) return picked.minutes;
-  return int.tryParse((TodayCopy.keyLength(m.primary.label) ?? '').split(' ').first) ?? (m.durations.isEmpty ? 10 : m.durations.first.minutes);
+  return m.durations.isEmpty ? 10 : m.durations.first.minutes;
 }
 
 /// The questions the move asks when its length is a count of questions, else null.

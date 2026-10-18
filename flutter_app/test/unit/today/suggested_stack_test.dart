@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
+import 'package:mockmob/core/theme/theme.dart';
+import 'package:mockmob/features/today/copy.dart';
 import 'package:mockmob/features/today/copy_glance.dart';
 import 'package:mockmob/features/today/copy_suggested.dart';
 import 'package:mockmob/features/today/logic/suggested_deck.dart';
@@ -112,8 +114,9 @@ void main() {
       expect(deck.any((c) => c.key == 'repair'), isFalse, reason: 'never the same kind as the lead');
       final revise = deck.firstWhere((c) => c.key == 'revise');
       final reviseHero = view.choices.firstWhere((c) => c.key == 'revise').hero!;
-      final pill = reviseHero.durations.length > 1 ? (reviseHero.selectedMinutes ?? reviseHero.durations.first.minutes) : 10;
-      expect(revise.cost, SuggestedCopy.costFree(pill), reason: 'the length the lead card\'s pill shows once it swaps');
+      final keyed = int.parse(TodayCopy.keyLength(reviseHero.primary.label)!.split(' ').first);
+      expect(revise.cost, SuggestedCopy.costFree(keyed), reason: 'the minutes the key it would arm says');
+      expect(view.choices.firstWhere((c) => c.key == 'revise').line, endsWith('about $keyed min'), reason: 'the same minutes as the Repairs and Revise tile and the sheet');
       expect(revise.title, reviseHero.title, reason: 'the words the lead card shows once it swaps');
       expect(revise.title, GlanceCopy.titleRevise);
       expect(revise.line, SuggestedCopy.reviseLine(6));
@@ -126,6 +129,9 @@ void main() {
       expect(weakest.line, contains(' of '), reason: 'every count has its denominator');
       expect(weakest.art, SuggestedArt.subject);
       for (final c in deck) {
+        expect(c.title, isNot(contains('instead')), reason: 'the card sits over Do this instead');
+        expect(c.title, isNot(GlanceCopy.titleOtherSubject), reason: 'the title names the move');
+        if (c.key == 'other') expect(c.title, startsWith('Practise '));
         expect(c.line, isNot(contains('·')));
         expect(c.line, isNot(contains('→')));
         expect(c.swipeable, isTrue);
@@ -170,6 +176,12 @@ void main() {
       expect(deck.first.suggested, isTrue);
       expect(deck.first.title, lead.title);
       expect(deck[1].key, 'weakest');
+    });
+
+    test('a repair card says its AI credit beside the free ones; the hint keeps the next title as it is', () {
+      expect(SuggestedCopy.costRepair('Accountancy', 15), 'Accountancy, 1 AI credit each, about\u00A015\u00A0min', reason: 'about 15 min never breaks apart');
+      expect(SuggestedCopy.costFree(10), 'Free, about 10 min');
+      expect(SuggestedCopy.letGoLeft('Revise what is due'), 'Let go: Revise what is due comes up next');
     });
 
     test('the end card counts the deck in words', () {
@@ -248,6 +260,39 @@ void main() {
       expect(_onTop(GlanceCopy.titleWeakest), findsOneWidget);
     });
 
+    for (final scale in [1.0, 1.3]) {
+      testWidgets('the loading place is the landed stack\'s height, peeks and hint line included, at ${scale}x', (tester) async {
+        Future<double> heightOf(Widget child) async {
+          await pumpMockmob(tester, Padding(padding: const EdgeInsets.all(16), child: Align(alignment: Alignment.topCenter, child: child)), size: const Size(412, 900), textScale: scale);
+          await tester.pumpAndSettle();
+          return tester.getSize(find.byWidget(child)).height;
+        }
+
+        final view = _view();
+        final landed = await heightOf(SuggestedStack(cards: buildSuggestedDeck(view.choices, glance: view.glance), onChoose: (_) {}, onMore: () {}));
+        SuggestedHint.debugReset();
+        SuggestedHint.store = MemoryPrefsStore();
+        final loading = await heightOf(const SuggestedStackSkeleton(delay: Duration.zero));
+        expect(loading, closeTo(landed, 1), reason: 'the week under it barely moves when Today lands');
+      });
+    }
+
+    testWidgets('a diagonal that starts on the deck is the page\'s scroll, not a swipe', (tester) async {
+      await _pump(tester);
+      final before = tester.getTopLeft(find.byKey(SuggestedStack.topKey));
+      final gesture = await tester.startGesture(tester.getCenter(find.byKey(SuggestedStack.topKey)));
+      for (var k = 0; k < 12; k++) {
+        await gesture.moveBy(const Offset(-12, -11));
+        await tester.pump(const Duration(milliseconds: 16));
+      }
+      await gesture.up();
+      await tester.pumpAndSettle();
+      final after = tester.getTopLeft(find.byKey(SuggestedStack.topKey));
+      expect(after.dx, closeTo(before.dx, 0.5), reason: 'the card never left its place');
+      expect(after.dy, lessThan(before.dy - 60), reason: 'the page scrolled');
+      expect(_onTop(GlanceCopy.titleWeakest), findsOneWidget, reason: 'nothing was skipped');
+    });
+
     testWidgets('the buttons do what the swipes do; a tap on the card is right', (tester) async {
       final events = await _pump(tester);
       await tester.tap(_onTop(SuggestedCopy.skip));
@@ -293,20 +338,38 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('each card is its own height: the buttons follow the evidence, with no void above them', (tester) async {
+    testWidgets('every card of the pass is one height, the buttons at its foot; nothing under the deck moves on a skip', (tester) async {
       await _pump(tester);
       final view = _view();
       final deck = buildSuggestedDeck(view.choices, glance: view.glance);
+      double bottom() => tester.getRect(find.byType(SuggestedStack)).bottom;
+      final height = tester.getSize(find.byKey(SuggestedStack.topKey)).height;
+      final bottomAt = bottom();
+      final gaps = <double>[];
       for (var k = 0; k < deck.length; k++) {
         final card = deck[k];
+        final top = tester.getRect(find.byKey(SuggestedStack.topKey));
+        expect(top.height, closeTo(height, 0.5), reason: '${card.title}: one height for the pass');
         final line = tester.getRect(_onTop(card.line));
         final skip = tester.getRect(_onTop(SuggestedCopy.skip));
-        expect(skip.top - line.bottom, lessThanOrEqualTo(_gapToSkip), reason: '${card.title}: the buttons sit right under the evidence');
-        final top = tester.getRect(find.byKey(SuggestedStack.topKey));
-        expect(top.bottom - skip.bottom, lessThanOrEqualTo(_footUnderSkip), reason: '${card.title}: the card ends at its buttons');
-        await tester.tap(_onTop(SuggestedCopy.skip));
-        await tester.pumpAndSettle();
+        expect(line.bottom, lessThanOrEqualTo(skip.top), reason: '${card.title}: the evidence stays above the buttons');
+        expect(top.bottom - skip.bottom, lessThanOrEqualTo(_footUnderSkip), reason: '${card.title}: the buttons sit on the foot');
+        expect(bottom(), closeTo(bottomAt, 0.5), reason: '${card.title}: nothing under the deck moved');
+        gaps.add(skip.top - line.bottom);
+        if (k < deck.length - 1) {
+          final gesture = await tester.startGesture(tester.getCenter(find.byKey(SuggestedStack.topKey)));
+          await gesture.moveBy(const Offset(-30, 0));
+          await gesture.moveBy(const Offset(-60, 0));
+          await tester.pump();
+          expect(bottom(), closeTo(bottomAt, 0.5), reason: 'mid-drag the stack stays full and still');
+          await gesture.moveBy(const Offset(90, 0));
+          await gesture.up();
+          await tester.pumpAndSettle();
+          await tester.tap(_onTop(SuggestedCopy.skip));
+          await tester.pumpAndSettle();
+        }
       }
+      expect(gaps.reduce((a, b) => a < b ? a : b), lessThanOrEqualTo(_gapToSkip), reason: 'the tallest card has its buttons right under its evidence');
     });
 
     testWidgets('cards already skipped leave the deck: the last card has nothing behind it', (tester) async {
@@ -321,25 +384,27 @@ void main() {
       expect(find.text(SuggestedCopy.doThis), findsOneWidget, reason: 'no card peeks behind the last one');
     });
 
-    testWidgets("the end card takes the last card's height, and the hint's line keeps its place", (tester) async {
+    testWidgets("the end card takes the cards' height; the hint's line keeps its place for the pass and goes with it", (tester) async {
       await _pump(tester);
       final n = _view().choices.length;
-      double hintY() => tester.getTopLeft(find.byKey(const ValueKey(SuggestedCopy.hint))).dy;
       double bottom() => tester.getRect(find.byType(SuggestedStack)).bottom;
-      final hintAt = hintY();
       final bottomAt = bottom();
+      final hintSlot = bottomAt - tester.getRect(find.byKey(const ValueKey(SuggestedCopy.hint))).top + MmSpace.s8;
       await _drag(tester, const Offset(-200, 0));
       expect(_hintOpacity(tester), 0);
-      expect(bottom() - bottomAt, closeTo(hintY() - hintAt, 0.5), reason: "the hint going never moves the page; only the deck's own height does");
+      expect(bottom(), closeTo(bottomAt, 0.5), reason: 'neither the hint going nor the skip moves the page');
       for (var k = 1; k < n - 1; k++) {
         await tester.tap(_onTop(SuggestedCopy.skip));
         await tester.pumpAndSettle();
       }
-      final last = bottom();
+      final card = tester.getSize(find.byKey(SuggestedStack.topKey)).height;
       await tester.tap(_onTop(SuggestedCopy.skip));
       await tester.pumpAndSettle();
       expect(find.byKey(SuggestedStack.topKey), findsNothing);
-      expect(bottom(), closeTo(last, 0.5), reason: "the end card is the last card's height: nothing under it jumps");
+      final end = find.ancestor(of: find.text(SuggestedCopy.allSeen(n)), matching: find.byType(ConstrainedBox)).first;
+      expect(tester.getSize(end).height, closeTo(card, 0.5), reason: "the end card is the cards' height");
+      expect(find.byKey(const ValueKey(SuggestedCopy.hint)), findsNothing, reason: 'the end card lets the hint line go');
+      expect(bottom(), closeTo(bottomAt - hintSlot, 0.5), reason: 'only the hint line leaves; the deck keeps its place');
     });
 
     testWidgets('Do this instead with the lead card scrolled away brings it back into view', (tester) async {
