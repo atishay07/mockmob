@@ -7,7 +7,7 @@ import { analyseSession } from '../session_recovery.js';
 import { analysisFromRows, costliestLine } from '../result_next_move.mjs';
 import { chapterRows } from '../review_chapters.mjs';
 import { reelScript, replayView } from '../replay.js';
-import { splitPhaseFor, SPLIT_OBSERVER } from '../../src/components/result/splitReveal.mjs';
+import { splitPhaseAt } from '../../src/components/result/splitReveal.mjs';
 import { heroAct } from '../../src/components/result/heroAct.mjs';
 import { cleanStem, sameStem } from '../../src/components/review/stemText.mjs';
 
@@ -137,13 +137,17 @@ test('F11: Review shows one Repair entry at a time and the sheet leaves out a st
 // LOW: "Where your marks went" never waits on a 14 px bar being wholly in view.
 // ---------------------------------------------------------------------------------------------------------------------
 test('the ledger reveals when its bar is first reached, or at once when the page opened past it', () => {
-  assert.equal(SPLIT_OBSERVER.threshold, 0, 'any part of the bar counts: threshold 1 never fires for a bar the page opened past');
-  assert.equal(splitPhaseFor({ isIntersecting: true, bottom: 500, height: 14, rootTop: 0 }), 'split');
-  assert.equal(splitPhaseFor({ isIntersecting: false, bottom: -40, height: 14, rootTop: 0 }), 'still', 'above the viewport: show it, no animation');
-  assert.equal(splitPhaseFor({ isIntersecting: false, bottom: 1500, height: 14, rootTop: 0 }), null, 'below the fold: wait');
-  assert.equal(splitPhaseFor({ isIntersecting: false, bottom: 0, height: 0, rootTop: 0 }), null, 'a closed part has no layout: wait');
+  const at = (top, height = 14, viewport = 900) => splitPhaseAt({ top, bottom: top + height, height, viewport });
+  assert.equal(at(400), 'split', 'in view: play the split');
+  assert.equal(at(700), 'split', 'a 14 px bar only just in view still counts (threshold 1 never would have)');
+  assert.equal(at(-5), 'split', 'half off the top is still in view');
+  assert.equal(at(-40), 'still', 'above the viewport: show it, no animation');
+  assert.equal(at(1500), null, 'below the fold: wait');
+  assert.equal(at(850), null, 'inside the bottom 12 percent: wait');
+  assert.equal(splitPhaseAt({ top: 0, bottom: 0, height: 0, viewport: 900 }), null, 'a closed part has no layout: wait');
   const ledger = read('src/components/result/MarksLedger.jsx');
-  assert.match(ledger, /SPLIT_OBSERVER/);
+  assert.match(ledger, /splitPhaseAt/);
+  assert.match(ledger, /addEventListener\('scroll', ask/, 'a jump past the bar crosses no observer threshold, so scroll is watched');
   assert.doesNotMatch(ledger, /threshold: 1/);
 });
 

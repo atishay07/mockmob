@@ -22,7 +22,16 @@ import { fixtureCheckField } from './previewRepairCheck';
 const one1018 = { ...student1018, papers: student1018.papers.filter((p) => p.id === 'm3'), items: student1018.items.filter((i) => i.paper === 'm3'), chapterQuestions: { m3: student1018.chapterQuestions.m3 } };
 const done1018 = { ...student1018, items: student1018.items.map((i) => (i.ch === 'adm' && i.state === 'open' ? { ...i, state: 'repaired', repairedAt: '2026-10-17T20:10:00+05:30' } : i)) };
 const zero1018 = { ...student1018, wallet: { ...student1018.wallet, aiCredits: 0, practiceCredits: 0 } };
-const RECORDS = { student1018, one: one1018, done: done1018, zero: zero1018, student, check: checkPending, zero1017: zeroCredits, held: allHeld, one1017: onePaper, nothing: nothingMissed, dedupe: reviseDedupe, empty, down: recordDown };
+// ?review=allwrong: every question a chapter asked was wrong, so the marks lost (6 a wrong) pass the marks on offer (5 a question).
+const allwrong1018 = (() => {
+  const chapterQuestions = {};
+  for (const i of student1018.items) {
+    chapterQuestions[i.paper] ||= {};
+    chapterQuestions[i.paper][i.ch] = (chapterQuestions[i.paper][i.ch] || 0) + 1;
+  }
+  return { ...student1018, chapterQuestions };
+})();
+const RECORDS = { student1018, allwrong: allwrong1018, one: one1018, done: done1018, zero: zero1018, student, check: checkPending, zero1017: zeroCredits, held: allHeld, one1017: onePaper, nothing: nothingMissed, dedupe: reviseDedupe, empty, down: recordDown };
 const SAVED = new Set(['repaired', 'held', 'slipped']);
 const subjectId = (v) => { const t = String(v || '').toLowerCase(); return SUBJECTS.find((s) => s.id === t || s.name.toLowerCase() === t)?.id || t.replace(/\s+/g, '_'); };
 
