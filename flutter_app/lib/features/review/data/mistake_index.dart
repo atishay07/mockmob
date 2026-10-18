@@ -187,6 +187,18 @@ class ReviewIndex {
       if (g.openCount > 0) g,
   ];
   int get openCount => groups.fold(0, (n, g) => n + g.openCount);
+
+  /// The open mistakes outside the papers in [sealed] (results not opened yet).
+  int openCountExcept(Set<String> sealed) {
+    if (sealed.isEmpty) return openCount;
+    var n = 0;
+    for (final g in groups) {
+      for (final i in g.items) {
+        if (i.stage.isOpen && !sealed.contains(i.attemptId)) n++;
+      }
+    }
+    return n;
+  }
   bool get hasAnyMistake => groups.isNotEmpty;
 
   /// Every wrong answer on record that is still counted (not-a-mistake answers are left out).

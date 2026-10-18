@@ -20,6 +20,7 @@ import '../../insights/data/trend.dart' show trendSeries;
 import '../../insights/widgets/trend_chart.dart' show TrendSection;
 import '../../paper_reel/paper_reel.dart' show PaperReel, PaperReelModel, PaperReelResultEntry, ReelMoveKind, ReelNextMove, ReelResult, reelSeenProvider;
 import '../../practice/widgets/result_foot.dart';
+import '../../review/your_papers_link.dart' show yourPapersLocation;
 import '../../practice/widgets/top_edge_fade.dart' show BarFade;
 import '../../review/data/paper_when.dart' show paperWhen;
 import '../../rules/widgets/across_mocks_view.dart';
@@ -804,7 +805,9 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                         () => _go(MoveNav.forMove(move, attemptId: id, subject: model.subjectId)),
                         note: LayersCopy.footNote(move.cost),
                       ),
-                      showFinish: false,
+                      // No "Finish for now" on a mock; its one quiet key opens Your papers on this paper's row (G20).
+                      showFinish: true,
+                      onSeePaper: () => context.go(yourPapersLocation(id)),
                     ),
                 ],
               ),

@@ -32,12 +32,18 @@ final reviewCheckOutcomesProvider = Provider<Map<String, CheckOutcome>>((ref) {
 /// The weak-chapter page's numbers (the website's `body.lose`): chapters priced in marks, the saved repairs and the lines over
 /// them, built from Review's own index so they agree with Today and the result. Null until the papers are read.
 final reviewChaptersProvider = Provider<ChaptersBody?>((ref) {
+  final record = ref.watch(reviewRecordProvider);
+  if (record == null) return null;
+  return chaptersBody(record, local: ref.watch(reviewClockProvider).local);
+});
+
+/// The one record Your papers reads (19 Oct, D106): the chapter list and the strip's open repairs are both built from it,
+/// filtered by the same subject, so they can never print different numbers. Null until the papers are read.
+final reviewRecordProvider = Provider<ReviewRecord?>((ref) {
   final index = ref.watch(reviewIndexProvider);
   if (index == null) return null;
   final unopened = {for (final u in ref.watch(reviewInputsProvider).unopened) u.attemptId};
-  final clock = ref.watch(reviewClockProvider);
-  final record = reviewRecordOf(index, now: ref.watch(nowProvider)(), unopened: unopened, checks: ref.watch(reviewCheckOutcomesProvider));
-  return chaptersBody(record, local: clock.local);
+  return reviewRecordOf(index, now: ref.watch(nowProvider)(), unopened: unopened, checks: ref.watch(reviewCheckOutcomesProvider));
 });
 
 /// The chapters' figures alone (marks lost, on offer, wrong and blank), the same `chapterRows` the weak-chapter page prints, for

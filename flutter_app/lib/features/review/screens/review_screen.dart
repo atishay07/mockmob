@@ -10,7 +10,6 @@ import '../../../core/notes/feature_note_view.dart';
 import '../../../core/notes/feature_notes.dart';
 import '../../../core/notes/sample_row.dart';
 import '../../../core/motion/motion.dart';
-import '../../../core/models/attempt.dart' show Attempt;
 import '../../../core/repositories/attempts_repository.dart';
 import '../../../core/router/app_shell.dart';
 import '../../../core/router/routes.dart';
@@ -22,46 +21,88 @@ import '../../insights/insights_routes.dart' show ReviewInsightsRows;
 import '../../rules/widgets/rules_entry.dart';
 import '../../social/social.dart' show MobEntryPlace, MobEntryRow;
 import '../copy.dart';
+import '../../today/logic/today_builder.dart' show buildTrend;
+import '../../today/logic/today_inputs.dart';
+import '../../today/logic/today_model.dart' show GoTo;
+import '../../today/widgets/paper_trend.dart' show PaperTrendStrip;
 import '../data/mistake_index.dart';
-import '../data/paper_when.dart';
 import '../data/repair_run.dart' show repairRunProvider;
 import '../model/review_chapters.dart';
+import '../model/your_papers.dart';
 import '../data/review_providers.dart';
 import '../data/review_chapters_provider.dart';
 import '../widgets/next_from_mock.dart';
 import '../again/review_again_copy.dart';
 import '../again/review_again_entry.dart';
-import '../widgets/review_bits.dart';
-import '../widgets/review_recent_papers.dart';
-import '../widgets/review_rows.dart';
 import '../widgets/page_header.dart';
 import '../widgets/review_layout.dart';
 import '../widgets/review_load_failure.dart';
 import '../widgets/review_state_view.dart';
 import '../widgets/saved_repairs.dart';
 import '../widgets/weak_chapters_lead.dart';
+import '../widgets/your_papers.dart';
 
-/// The Review tab, led by weak chapters (REVIEW-RESULT-1018 4, owner D18). The sentence over the papers says what they cost,
-/// the open chapter is the hero with its one volt key and its mistakes (one action each), and the other chapters follow. Under
-/// that lead everything the tab always had stays, in the website's order: Revise, Saved repairs, the papers, then the rows that
-/// open other pages.
+/// Your papers (19 Oct, owner D106 and G20; the Review tab, which D105 moves inside Practice). Top to bottom: the stats
+/// strip (papers sat, the latest marks with their trend, open repairs), the subject filter, the papers newest first (a
+/// tap opens that paper's result and answers), then Mistakes to repair by chapter (the weak-chapter lead of D18, kept:
+/// the chapter that costs the most marks is the hero with its one volt key and its mistakes, the other chapters
+/// follow). Under that everything the tab always had stays: Review again or Revise, Saved repairs, the notes, the next
+/// step after the latest mock, and the rows that open other pages. Every number on the page reads one record, filtered
+/// by the same subject, so the strip, the rows and the chapters agree. A fresh account sees one friendly first step.
+///
+/// [focusPaper] (a result's "See it in Your papers") opens the page on that paper's row and marks it for a moment.
 class ReviewScreen extends ConsumerStatefulWidget {
-  const ReviewScreen({super.key});
+  const ReviewScreen({super.key, this.focusPaper});
+
+  final String? focusPaper;
 
   @override
   ConsumerState<ReviewScreen> createState() => _ReviewScreenState();
 }
 
 class _ReviewScreenState extends ConsumerState<ReviewScreen> {
-  /// Results not opened yet, for the Recent papers block (their rows stay sealed).
-  Set<String> _unopenedIds = const {};
-
   final ScrollController _scroll = ScrollController();
+
+  /// The subject filter: a subject's name, or null for every subject.
+  String? _subject;
+
+  /// The paper "See it in Your papers" asked for, and whether the page still has to bring it into view.
+  String? _focus;
+  bool _focusPending = false;
+  final Map<String, GlobalKey> _rowKeys = {};
+  final GlobalKey _papersKey = GlobalKey(debugLabel: 'your-papers');
+  final GlobalKey _mistakesKey = GlobalKey(debugLabel: 'mistakes-to-repair');
+
+  @override
+  void initState() {
+    super.initState();
+    _focus = widget.focusPaper;
+    _focusPending = _focus != null;
+  }
+
+  @override
+  void didUpdateWidget(ReviewScreen old) {
+    super.didUpdateWidget(old);
+    final next = widget.focusPaper;
+    if (next != null && next != old.focusPaper) {
+      _focus = next;
+      _focusPending = true;
+    }
+  }
 
   @override
   void dispose() {
     _scroll.dispose();
     super.dispose();
+  }
+
+  GlobalKey _rowKey(String attemptId) => _rowKeys.putIfAbsent(attemptId, () => GlobalKey(debugLabel: 'paper-$attemptId'));
+
+  /// Scrolls [key]'s widget near the top, under the header.
+  void _bringIn(GlobalKey key, {double alignment = 0.12}) {
+    final at = key.currentContext;
+    if (at == null || !at.mounted) return;
+    unawaited(Scrollable.ensureVisible(at, alignment: alignment, duration: Motion.of(at, Motion.emphasizedDuration), curve: Motion.emphasized));
   }
 
   Future<void> _refresh() => ref.read(attemptsRepositoryProvider.notifier).refresh(force: true);
@@ -160,59 +201,149 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     Widget gutter(Widget child, {double top = 0}) =>
         Padding(padding: EdgeInsets.fromLTRB(ReviewSpace.gutter, top, ReviewSpace.gutter, 0), child: child);
 
-    _unopenedIds = {for (final p in inputs.unopened) p.attemptId};
-    final unopened = [
-      for (final p in inputs.unopened)
-        if (index.attempt(p.attemptId) case final a?) (p.attemptId, sourceLabel(index.attempts, a)) else (p.attemptId, 'Your mock'),
-    ];
-    final chapters = ref.watch(reviewChaptersProvider);
-    final mocks = index.mocks.take(5).toList();
+    final unopened = {for (final p in inputs.unopened) p.attemptId};
+    final record = ref.watch(reviewRecordProvider);
 
-    if (index.attempts.isEmpty && unopened.isEmpty) {
+    if (index.attempts.isEmpty || record == null) {
       return [
         SizedBox(
-          // The empty state is centred in what is left under the header and above the dock.
+          // The first step is centred in what is left under the header and above the dock.
           height: math.max(480.0, MediaQuery.sizeOf(context).height - MediaQuery.paddingOf(context).top - 72 - 96),
           child: ReviewStateView(
             kind: StateViewKind.empty,
             pose: MobiPose.read,
             pointAtKey: true,
-            title: ReviewCopy.emptyTitle,
-            message: ReviewCopy.emptyMessage,
-            // What will appear, drawn as it will look: the paper it came from and when it was attempted.
-            sample: SampleRow(
-              leading: const Bubble(state: BubbleState.wrong, size: 14, animate: false),
-              title: ReviewCopy.sampleTitle,
-              note: paperWhen(clock, ReviewCopy.sampleSource, clock.now().subtract(const Duration(hours: 1))),
+            title: ReviewCopy.firstPaperTitle,
+            message: ReviewCopy.firstPaperMessage,
+            // What will appear, drawn as it will look: a paper with its marks.
+            sample: const SampleRow(
+              leading: Bubble(state: BubbleState.filled, size: 14, animate: false),
+              title: ReviewCopy.firstPaperSampleTitle,
+              note: ReviewCopy.firstPaperSampleNote,
             ),
-            primary: StateAction(ReviewCopy.emptyAction, () => startQuickTen(context)),
+            primary: StateAction(ReviewCopy.firstPaperAction, () => startQuickTen(context)),
           ),
         ),
       ];
     }
 
-    // Reading order for the entrance: the unopened result (when there is one), the lead, then everything under it.
-    var next = 0;
-    final unopenedAt = unopened.isEmpty ? 0 : next++;
-    final leadAt = next++;
-    final belowAt = next++;
+    // A paper asked for by "See it in Your papers" is shown whatever the filter: a filter that would hide it is lifted.
+    var subject = _subject;
+    if (_focusPending && _focus != null && subject != null) {
+      final a = index.attempt(_focus!);
+      if (a != null && subjectName(a.subject) != subject) subject = _subject = null;
+    }
+    final view = buildYourPapers(attempts: index.attempts, unopened: unopened, record: record, subject: subject, local: clock.local);
+    if (_focusPending && _focus != null && view.papers.any((p) => p.attemptId == _focus)) {
+      _focusPending = false;
+      final key = _rowKey(_focus!);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _bringIn(key, alignment: 0.3);
+      });
+    }
+
+    // The latest marks' trend: the newest paper's kind across up to six papers (only from three, none sealed).
+    final shown = [for (final a in index.attempts) if (view.subject == null || subjectName(a.subject) == view.subject) a];
+    final trend = buildTrend(
+      TodayInputs(
+        now: clock.now(),
+        timezone: clock.zone,
+        attempts: shown,
+        unopened: [for (final id in unopened) (attemptId: id, receivedAt: clock.now())],
+      ),
+    );
+
+    final body = view.body;
+    final hasOpenPaper = view.papers.any((p) => !p.sealed);
+    void openRepair(RowItem m) => context.push(AppRoutes.reviewRepair(m.paper, m.qid ?? ''));
+    void openPaper(PaperLine p) => context.push(p.location);
     Widget item(int at, Widget child) => MmStaggerItem(index: at, child: child);
 
-    final hasOpenPaper = index.attempts.any((a) => !_unopenedIds.contains(a.id));
-    final saved = chapters?.saved ?? const <SavedRepair>[];
-    void openRepair(RowItem m) => context.push(AppRoutes.reviewRepair(m.paper, m.qid ?? ''));
-
     return [
-      for (final (id, label) in unopened.take(1))
-        item(unopenedAt, gutter(UnopenedResultRow(label: label, onOpen: () => context.push(AppRoutes.resultSealed(id))), top: 0)),
-      if (unopened.isNotEmpty) const SizedBox(height: ReviewSpace.group),
-      // The lead: the weak chapters. With no chapter that lost a mark the one card is the all-clear (its key starts a fresh
-      // set), never an empty list.
-      if (chapters != null && chapters.rows.isNotEmpty)
-        item(leadAt, gutter(WeakChaptersLead(body: chapters, onRepair: openRepair)))
+      // 1. The strip: papers sat, the latest marks with their trend, open repairs.
+      item(
+        0,
+        gutter(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              PapersStripView(
+                strip: view.strip,
+                onPapers: () => _bringIn(_papersKey),
+                onLatest: openPaper,
+                onRepairs: () => _bringIn(_mistakesKey),
+              ),
+              if (trend != null) ...[
+                Divider(height: 1, thickness: 1, color: context.mmColors.line.withValues(alpha: 0.7)),
+                PaperTrendStrip(
+                  trend: trend,
+                  onOpen: (target) {
+                    if (target is GoTo) unawaited(context.push(target.location));
+                  },
+                ),
+              ],
+            ],
+          ),
+        ),
+      ),
+      // 2. The subject filter, edge to edge so the next chip peeks at the screen's edge.
+      if (view.subjects.isNotEmpty)
+        item(
+          1,
+          Padding(
+            padding: const EdgeInsets.only(top: ReviewSpace.item),
+            child: PaperSubjectFilter(
+              subjects: view.subjects,
+              selected: view.subject,
+              onSelected: (name) => setState(() {
+                _subject = name;
+                _focus = null;
+              }),
+            ),
+          ),
+        ),
+      // 3. Your papers, newest first.
+      item(
+        2,
+        gutter(
+          KeyedSubtree(
+            key: _papersKey,
+            child: MmOverlapSwitcher(
+              child: PaperList(
+                key: ValueKey('papers-${view.subject ?? 'all'}'),
+                papers: view.papers,
+                subject: view.subject,
+                focus: _focus,
+                keyFor: _rowKey,
+                onOpen: openPaper,
+              ),
+            ),
+          ),
+          top: ReviewSpace.group,
+        ),
+      ),
+      // 4. Mistakes to repair, by chapter: the weak-chapter lead (D18), from the same record and the same filter.
+      item(
+        3,
+        gutter(
+          KeyedSubtree(
+            key: _mistakesKey,
+            child: _MistakesHead(open: view.strip.toRepair, chapters: body.rows.where((r) => r.open.isNotEmpty).length, subject: view.subject),
+          ),
+          top: ReviewSpace.section,
+        ),
+      ),
+      if (body.rows.isNotEmpty)
+        item(
+          4,
+          gutter(
+            WeakChaptersLead(key: ValueKey('chapters-${view.subject ?? 'all'}'), body: body, onRepair: openRepair, showSummary: false),
+            top: ReviewSpace.item,
+          ),
+        )
       else if (hasOpenPaper)
         item(
-          leadAt,
+          4,
           gutter(
             _AllClear(
               setAside: index.setAsideCount,
@@ -220,16 +351,19 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
               onStart: () => startQuickTen(context),
               onReviewAgain: () => context.push(ReviewAgainCopy.path),
             ),
+            top: ReviewSpace.item,
           ),
         ),
-      item(belowAt, _below(context, index, chapters, saved, clock, mocks)),
+      item(5, _below(context, index, body.saved, body.savedLine)),
     ];
   }
 
-  /// Everything under the lead, in the website's order: Revise, Saved repairs, the papers, then the rows that open other pages.
-  Widget _below(BuildContext context, ReviewIndex index, ChaptersBody? chapters, List<SavedRepair> saved, ReviewClock clock, List<Attempt> mocks) {
+  /// Everything under the chapters, in the website's order: Review again or Revise, Saved repairs, the notes, the next step
+  /// after the latest mock, then the rows that open other pages. (The papers that used to sit here now lead the page.)
+  Widget _below(BuildContext context, ReviewIndex index, List<SavedRepair> saved, String savedSummary) {
     Widget gutter(Widget child, {double top = 0}) =>
         Padding(padding: EdgeInsets.fromLTRB(ReviewSpace.gutter, top, ReviewSpace.gutter, 0), child: child);
+    final mocks = index.mocks;
     final latestMock = mocks.isEmpty ? null : mocks.first;
     // One note at a time, in order: the Lab after the first mock, then Colleges once there is a full-mock score. Stacked prompts
     // after a result are what the notes exist to avoid.
@@ -257,7 +391,7 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
           gutter(
             SavedRepairs(
               saved: saved,
-              summary: chapters?.savedLine ?? '',
+              summary: savedSummary,
               onOpen: (s) => context.push(AppRoutes.reviewRepair(s.item.paper, s.item.qid ?? '')),
               onRecord: () => context.push(AppRoutes.reviewRecord),
             ),
@@ -288,21 +422,6 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
         // The SWOT's next step after the latest mock (only when its read is ready with a plan).
         if (latestMock != null)
           gutter(NextFromMockBlock(attemptId: latestMock.id, label: sourceLabel(index.attempts, latestMock)), top: ReviewSpace.section),
-        // Your papers: the trend and the newest papers, then the past results.
-        gutter(ReviewRecentPapers(attempts: index.attempts, unopened: _unopenedIds), top: ReviewSpace.section),
-        if (mocks.isNotEmpty) ...[
-          gutter(SectionHeading(ReviewCopy.pastHeading, rule: true), top: ReviewSpace.section),
-          for (final a in mocks)
-            gutter(
-              PastResultRow(
-                attempt: a,
-                label: sourceLabel(index.attempts, a),
-                clock: clock,
-                onOpen: () => context.push(AppRoutes.result(a.id)),
-                onReplay: () => context.push(AppRoutes.resultRecap(a.id, 1)),
-              ),
-            ),
-        ],
         // The rows that open other pages: the Mob's shared trap, the record's numbers and the saved questions, the Rule book.
         gutter(
           Column(
@@ -316,6 +435,32 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
           ),
           top: ReviewSpace.section,
         ),
+      ],
+    );
+  }
+}
+
+/// "Mistakes to repair", with how many are open and across how many chapters: the same count as the strip above it and
+/// the badge on the bar, for the same subject.
+class _MistakesHead extends StatelessWidget {
+  const _MistakesHead({required this.open, required this.chapters, this.subject});
+
+  final int open;
+  final int chapters;
+  final String? subject;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Divider(height: 1, thickness: 1, color: colors.line),
+        const SizedBox(height: MmSpace.s16),
+        Semantics(header: true, child: Text(ReviewCopy.mistakesHeading, style: type.title)),
+        const SizedBox(height: MmSpace.s2),
+        Text(ReviewCopy.mistakesCaption(open, chapters, subject), style: type.small.copyWith(color: colors.ink2)),
       ],
     );
   }

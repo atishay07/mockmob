@@ -355,11 +355,18 @@ abstract final class PracticeCopy {
   /// The website's arithmetic: right +5, wrong -1; each wrong answer costs 6 of the marks missed.
   static String marksLine(FinishMarks m) {
     final head = '${formatSignedNumber(m.scored)} of ${m.max} marks.';
+    final detail = marksDetail(m);
+    return detail.isEmpty ? head : '$head $detail';
+  }
+
+  /// What the missed marks went to, without the marks themselves (the finish moment's completion
+  /// line says those, D108); empty when nothing was missed.
+  static String marksDetail(FinishMarks m) {
     // Below zero the marks missed would exceed the paper ("18 of the 18" on 15), so say what was lost instead.
-    if (m.scored < 0) return '$head ${ResultCopy.negativeLoss(m.wrong, m.blank)}';
-    if (m.wrong > 0) return '$head ${plural(m.wrong, 'wrong answer')} cost ${m.lostToWrong} of the ${m.missed} marks you missed.';
-    if (m.blank > 0) return '$head ${plural(m.blank, 'question')} not attempted left ${m.leftOnBlanks} marks on the table.';
-    return head;
+    if (m.scored < 0) return ResultCopy.negativeLoss(m.wrong, m.blank);
+    if (m.wrong > 0) return '${plural(m.wrong, 'wrong answer')} cost ${m.lostToWrong} of the ${m.missed} marks you missed.';
+    if (m.blank > 0) return '${plural(m.blank, 'question')} not attempted left ${m.leftOnBlanks} marks on the table.';
+    return '';
   }
 
   static String repairThese(int n) => n == 1 ? 'Repair this one' : 'Repair these $n';

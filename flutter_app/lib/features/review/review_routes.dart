@@ -4,6 +4,7 @@
 // The way into Review again, for the places that link to it (Practice's More list reads these).
 export 'again/review_again_copy.dart' show ReviewAgainCopy;
 export 'again/review_again_entry.dart' show ReviewAgainRow, reviewAgainCountProvider;
+export 'your_papers_link.dart' show yourPapersLocation, yourPapersFocusParam;
 
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
@@ -16,9 +17,12 @@ import 'screens/record_screen.dart';
 import 'screens/repair_ending_screen.dart';
 import 'screens/repair_screen.dart';
 import 'screens/review_screen.dart';
+import 'your_papers_link.dart';
 
-/// The Review tab.
-Widget reviewScreen(BuildContext context, GoRouterState state) => const ReviewScreen();
+/// Your papers (the Review tab; D105 moves it inside Practice). `?paper=attemptId` (from a result's
+/// "See it in Your papers") opens it on that paper's row.
+Widget reviewScreen(BuildContext context, GoRouterState state) =>
+    ReviewScreen(focusPaper: state.uri.queryParameters[yourPapersFocusParam]);
 
 /// `/review/again`: Review again, the repaired mistakes asked once more with the key hidden.
 /// `?keys=attemptId/questionId,...` (a repair run just finished) narrows the set to those.

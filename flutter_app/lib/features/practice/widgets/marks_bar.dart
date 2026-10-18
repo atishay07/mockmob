@@ -9,7 +9,12 @@ import '../model/finish_reaction.dart';
 /// the wrong answers cost and what was left on blanks, out of the paper's maximum. Each segment
 /// is a share of real marks, and the line under it says the same thing in words.
 class MarksBar extends StatelessWidget {
-  const MarksBar({super.key, required this.marks, this.reveal = 1, this.fill});
+  const MarksBar({super.key, required this.marks, this.reveal = 1, this.fill, this.headless = false});
+
+  /// The line under the bar leaves out the marks themselves ("34 of 50 marks.") and says only
+  /// what the missed marks were lost to: the finish moment's completion line says the marks
+  /// (D108), so the page says them once. With nothing missed there is no line.
+  final bool headless;
 
   final FinishMarks marks;
 
@@ -91,11 +96,13 @@ class MarksBar extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: MmSpace.s8),
-          Opacity(
-            opacity: reveal.clamp(0.0, 1.0),
-            child: Text(PracticeCopy.marksLine(m), style: type.small.copyWith(color: colors.ink2)),
-          ),
+          if (!headless || PracticeCopy.marksDetail(m).isNotEmpty) ...[
+            const SizedBox(height: MmSpace.s8),
+            Opacity(
+              opacity: reveal.clamp(0.0, 1.0),
+              child: Text(headless ? PracticeCopy.marksDetail(m) : PracticeCopy.marksLine(m), style: type.small.copyWith(color: colors.ink2)),
+            ),
+          ],
         ],
       ),
     );
