@@ -360,6 +360,12 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 - **Still open after release 9:** D25 and W-085 app halves (the final app build), W-033 (needs a signed-in repair walk), W-042 real-account timing, D31 (his landing verdict), W-072/W-073/W-077 (broad premium sweeps), D9 and W-053 (Progress order), M-007 (Compass source check), D20 (Learn one tap on phones is a dock change), D22 (Mob mechanics beyond M1).
 - **Closed by the owner (D64):** W-099, W-046. **Decided (D65):** FLAT-10 -> 1 credit a question. **Open design question:** N4 (fine-tune).
 
+### Owner at about 6:10 pm, 18 Oct (D70-D71)
+| D | Item | Status |
+|---|---|---|
+| D70 | Full progress update; anything needed from him | Answered 6:20 pm: R9 and the final app in progress (times in chat); needs: account switch near 95% usage, phone plugged in for the install |
+| D71 | Pro, credits and pricing inside the Play app; does Google take 30%; can Play prices be higher; any grey area | Answered 6:20 pm from Google's own pages: India today = 15% on the first USD 1M a year (enrol in the 15% tier) and 15% on auto-renewing subscriptions; 30% only above USD 1M for one-time products; new 10% rates reach the rest of the world by 30 Sep 2027; India User Choice Billing = own checkout beside Play's, fee 4 points lower, different prices allowed. No grey area (app and account removal risk). Recommended: ship web-purchase + app-unlock first (no fee), then Play Billing + User Choice Billing at the same Rs 99. OPEN: his go-ahead on that plan |
+
 ## Waiting on the owner (updated 18 Oct about 3:45 am)
 - Answered 3:50 am: M-001 first launch 3 s; M-006 bolder copy; D19 keep badges, refine; D22 Mob.
 - D32: confirm the kept landing element when he reviews the port live (wt-land3, port 3206).
