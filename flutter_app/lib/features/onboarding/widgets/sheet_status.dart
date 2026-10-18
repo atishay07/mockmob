@@ -35,10 +35,14 @@ class SheetStatus extends StatelessWidget {
         ),
       SheetSyncPhase.failed => (offline ? OnboardingCopy.savedOffline : OnboardingCopy.savedFailed, null),
       SheetSyncPhase.kept => (OnboardingCopy.keptExisting, null),
+      SheetSyncPhase.updated => (
+          OnboardingCopy.updatedSheet,
+          colleges == CollegesMove.moved ? OnboardingCopy.updatedWhatColleges : OnboardingCopy.updatedWhat,
+        ),
       SheetSyncPhase.saving || SheetSyncPhase.idle => (OnboardingCopy.savingSheet, null),
     };
     final Widget mark = switch (phase) {
-      SheetSyncPhase.saved => Stack(
+      SheetSyncPhase.saved || SheetSyncPhase.updated => Stack(
           alignment: Alignment.center,
           children: [
             const Bubble(state: BubbleState.filled, size: 24, inkOrigin: Offset(-1, 0)),

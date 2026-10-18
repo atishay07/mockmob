@@ -10,7 +10,11 @@ import '../../../core/models/auth_me.dart' show AuthMe;
 import '../../../core/models/consent.dart' show AgeBand;
 import '../../../core/models/notification_prefs.dart' as prefs;
 import '../../../core/repositories/repositories.dart';
+import '../../../core/models/my_colleges.dart';
 import '../../auth/sign_in_controller.dart' show resumeSignInSheetProvider;
+import '../../rhythm/data/study_days.dart' show plannedDaysProvider;
+import '../../tools/data/my_colleges_actions.dart' show MyCollegesOutcome, myCollegesActionsProvider;
+import '../../tools/data/my_colleges_repository.dart' show myCollegesRepositoryProvider;
 import '../model/answers.dart';
 import 'answers_controller.dart';
 
@@ -30,8 +34,14 @@ enum SheetSyncPhase {
   /// tries again at once.
   failed,
 
-  /// The account already had subjects, so nothing was overwritten. The sheet stays on the phone.
+  /// The account already had subjects and this sheet was sealed long ago (not answers the student
+  /// just gave), so nothing was overwritten. The sheet stays on the phone.
   kept,
+
+  /// The account already had subjects, which stay as they are. The answers this onboarding just
+  /// gave are the newest truth (D96 fix pass): its study days, study time and colleges replaced
+  /// the older ones, and the server acknowledged every write.
+  updated,
 }
 
 class SheetSyncState {
@@ -53,8 +63,13 @@ class SheetSyncState {
 /// claims it, and it is written only to that account. Another account on the same phone gets its
 /// own sheet (see [AnswersController.takeFor]).
 ///
-/// Only a new account (no subjects yet) is written to, so signing in never overwrites a plan,
-/// or a consent choice, that someone already has. "Saved" is reached only after every write is acknowledged.
+/// A new account (no subjects yet) gets everything above. An account that already has subjects
+/// keeps its subjects and its consent, but the answers the student just gave win over older ones:
+/// the study days goal (and the days themselves), the study time and the colleges (put first on My
+/// colleges, so Today's ladder names them) are written through the same calls, and the phase is
+/// [SheetSyncPhase.updated]. Only a sheet sealed within [SheetSync.freshFor] counts as just given:
+/// an old sheet that comes back on this phone never overwrites what the account has now
+/// ([SheetSyncPhase.kept]). "Saved" is reached only after every write is acknowledged.
 final sheetSyncProvider = NotifierProvider<SheetSync, SheetSyncState>(SheetSync.new);
 
 /// What wakes a failed sync: the app coming back to the front and the network returning. Built
@@ -85,6 +100,17 @@ class _AccountChanged implements Exception {
 }
 
 class SheetSync extends Notifier<SheetSyncState> {
+  /// How long after sealing a sheet still counts as answers the student just gave.
+  static const Duration freshFor = Duration(hours: 24);
+
+  /// True when [a] was sealed within [freshFor] of [now].
+  static bool justGiven(OnboardingAnswers a, DateTime now) {
+    final at = a.sealedAt;
+    if (at == null) return false;
+    final age = now.difference(at);
+    return age < freshFor && age > const Duration(minutes: -5);
+  }
+
   bool _running = false;
   bool _taking = false;
   String? _keptFor;
@@ -145,7 +171,10 @@ class SheetSync extends Notifier<SheetSyncState> {
       return;
     }
     if (answers.syncedFor == userId) {
-      if (state.phase != SheetSyncPhase.saved) state = const SheetSyncState(SheetSyncPhase.saved);
+      // An account updated this session keeps saying so (its line names what changed).
+      if (state.phase != SheetSyncPhase.saved && state.phase != SheetSyncPhase.updated) {
+        state = const SheetSyncState(SheetSyncPhase.saved);
+      }
       return;
     }
     if (_keptFor == userId) return;
@@ -196,9 +225,21 @@ class SheetSync extends Notifier<SheetSyncState> {
       // phone: a cached profile saved while the account had no subjects would make an account
       // that has since been set up elsewhere look new, and its plan would be written over.
       if (auth.subjects.isNotEmpty || await _serverHasPlan(userId)) {
-        _keptFor = userId;
+        if (!justGiven(answers, ref.read(nowProvider)())) {
+          _keptFor = userId;
+          _stopRetrying();
+          _settle(userId, const SheetSyncState(SheetSyncPhase.kept));
+          return;
+        }
+        // The answers just given win over the account's older ones; its subjects and consent stay.
+        await _writeWeek(userId, answers, hadPlan: true);
+        await _putCollegesFirst(userId, answers);
+        _stillSignedInAs(userId);
+        ref.read(onboardingAnswersProvider.notifier).markSynced(userId);
         _stopRetrying();
-        _settle(userId, const SheetSyncState(SheetSyncPhase.kept));
+        _retries = 0;
+        _settle(userId, const SheetSyncState(SheetSyncPhase.updated));
+        unawaited(_reloadProfile());
         return;
       }
       await _writeAge(userId, answers);
@@ -317,8 +358,28 @@ class SheetSync extends Notifier<SheetSyncState> {
   /// run, so if the goal or the study time failed first, the retry still writes them instead of
   /// keeping an account whose week the server never got.
   Future<void> _writeProfile(String userId, OnboardingAnswers a) async {
+    await _writeWeek(userId, a);
+    final subjects = [for (final s in a.subjects) if (s.syncs) s.id];
+    if (subjects.isNotEmpty) {
+      _stillSignedInAs(userId);
+      await ref.read(apiClientProvider).patch('/api/users/${Uri.encodeComponent(userId)}', body: {'subjects': subjects}, expectUserId: userId);
+    }
+  }
+
+  /// The study days goal and the study time, through the calls a new account's sheet uses. For an
+  /// account that already had a plan ([hadPlan]) a pause it set stays, and the days chosen here
+  /// replace any days picked on this phone before, so the week draws the days just given.
+  Future<void> _writeWeek(String userId, OnboardingAnswers a, {bool hadPlan = false}) async {
+    String? pausedUntil;
+    if (hadPlan) {
+      if (ref.read(goalRepositoryProvider).value == null) {
+        _stillSignedInAs(userId);
+        await ref.read(goalRepositoryProvider.notifier).refresh(force: true);
+      }
+      pausedUntil = ref.read(goalRepositoryProvider).value?.pausedUntil;
+    }
     _stillSignedInAs(userId);
-    await ref.read(goalRepositoryProvider.notifier).save(daysPerWeek: a.days.length.clamp(1, 7), expectUserId: userId);
+    await ref.read(goalRepositoryProvider.notifier).save(daysPerWeek: a.days.length.clamp(1, 7), pausedUntil: pausedUntil, expectUserId: userId);
     _stillSignedInAs(userId);
     await ref.read(notificationPrefsRepositoryProvider.notifier).update(
           studyWindow: prefs.StudyWindow(
@@ -327,10 +388,53 @@ class SheetSync extends Notifier<SheetSyncState> {
           ),
           expectUserId: userId,
         );
-    final subjects = [for (final s in a.subjects) if (s.syncs) s.id];
-    if (subjects.isNotEmpty) {
+    if (hadPlan && a.days.isNotEmpty) {
       _stillSignedInAs(userId);
-      await ref.read(apiClientProvider).patch('/api/users/${Uri.encodeComponent(userId)}', body: {'subjects': subjects}, expectUserId: userId);
+      try {
+        await ref.read(plannedDaysProvider.notifier).save(a.days);
+      } on Object {
+        // The days live only on this phone; the goal above is what the server keeps. A days
+        // store that cannot be written leaves the week drawn from the sheet (same count).
+      }
+    }
+  }
+
+  /// Puts the colleges picked in this onboarding at the top of My colleges, in the student's
+  /// order, with the rest of the list after them (Today's ladder is the first three). Nothing is
+  /// removed: a pick not on the list yet is added only while the list has room. Reads the
+  /// server's own list first; a list that cannot be read or saved fails this run (retried later).
+  Future<void> _putCollegesFirst(String userId, OnboardingAnswers a) async {
+    final course = a.course;
+    if (course == null || a.colleges.isEmpty) return;
+    final picks = <MyCollege>[
+      for (final name in a.colleges)
+        if (course.offeringAt(name) case final o?) MyCollege(programmeId: course.id, programme: course.name, college: o.college),
+    ];
+    if (picks.isEmpty) return;
+    var list = ref.read(myCollegesRepositoryProvider);
+    if (list.value == null || list.fromCache || list.error != null) {
+      _stillSignedInAs(userId);
+      await ref.read(myCollegesRepositoryProvider.notifier).refresh(force: true);
+      list = ref.read(myCollegesRepositoryProvider);
+    }
+    final shown = list.value;
+    if (shown == null || list.fromCache || list.error != null) {
+      final error = list.error;
+      throw error is ApiError ? error : const ApiError(kind: ApiErrorKind.unknown, code: 'colleges_not_loaded');
+    }
+    final next = collegesWithPicksFirst(shown, picks);
+    if (next == null) return;
+    _stillSignedInAs(userId);
+    final outcome = await ref.read(myCollegesActionsProvider.notifier).replace(next);
+    switch (outcome) {
+      case MyCollegesOutcome.saved:
+        return;
+      case MyCollegesOutcome.offline:
+        throw const ApiError(kind: ApiErrorKind.network, code: 'colleges_offline');
+      case MyCollegesOutcome.full:
+      case MyCollegesOutcome.notLoaded:
+      case MyCollegesOutcome.failed:
+        throw const ApiError(kind: ApiErrorKind.unknown, code: 'colleges_not_saved');
     }
   }
 
@@ -341,4 +445,29 @@ class SheetSync extends Notifier<SheetSyncState> {
       // The profile loads again on the next launch.
     }
   }
+}
+
+/// [list] with [picks] first, in their order, then every other college as it was. A pick not on
+/// the list yet is added only while there is room, so nothing already on it is ever removed.
+/// Null when the list already starts that way (nothing to send).
+MyColleges? collegesWithPicksFirst(MyColleges list, List<MyCollege> picks) {
+  final first = <MyCollege>[];
+  var room = list.max - list.colleges.length;
+  for (final p in picks) {
+    if (first.any(p.sameAs)) continue;
+    final onList = list.colleges.where(p.sameAs).firstOrNull;
+    if (onList != null) {
+      first.add(onList);
+    } else if (room > 0) {
+      first.add(p);
+      room--;
+    }
+  }
+  if (first.isEmpty) return null;
+  final ordered = [...first, for (final c in list.colleges) if (!first.any(c.sameAs)) c];
+  var same = ordered.length == list.colleges.length;
+  for (var i = 0; same && i < ordered.length; i++) {
+    same = ordered[i].sameAs(list.colleges[i]);
+  }
+  return same ? null : MyColleges(colleges: ordered, max: list.max);
 }

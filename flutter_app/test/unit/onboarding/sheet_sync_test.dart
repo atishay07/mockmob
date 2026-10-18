@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:dio/dio.dart' show RequestOptions;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/api/api_providers.dart';
@@ -18,6 +19,9 @@ import 'package:mockmob/features/onboarding/state/answers_controller.dart';
 import 'package:mockmob/features/onboarding/state/answers_store.dart';
 import 'package:mockmob/features/onboarding/state/sheet_sync.dart';
 import 'package:mockmob/features/onboarding/state/student_sheet.dart';
+import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show rhythmPrefsStoreProvider;
+import 'package:mockmob/features/rhythm/data/study_days.dart' show plannedDaysProvider;
+import 'package:mockmob/features/tools/data/tools_store.dart' show toolsPrefsProvider;
 
 import '../core_data/support/fakes.dart';
 import '../core_data/support/test_db.dart';
@@ -57,6 +61,12 @@ final _sealed = OnboardingAnswers(
   sealedAt: DateTime(2026, 10, 13, 21, 40),
 );
 
+/// The same answers sealed three days before "now": not answers the student just gave.
+final _oldSheet = _sealed.copyWith(sealedAt: DateTime(2026, 10, 10, 20, 0));
+
+/// The answers just given name SRCC and LSR for B.Com (Hons).
+final _withColleges = _sealed.copyWith(colleges: const ['Shri Ram College of Commerce', 'Lady Shri Ram College for Women (W)']);
+
 const _consent = {'ageBand': 'minor', 'analyticsAllowed': false, 'policyVersion': '2026-10-12', 'decidedAt': null, 'withdrawnAt': null};
 const _goal = {'daysPerWeek': 3, 'timezone': 'Asia/Kolkata', 'pausedUntil': null};
 const _prefs = {
@@ -83,6 +93,7 @@ void main() {
     List<Duration> retryDelays = const [],
     Map<String, List<String>> serverSubjects = const {},
     Map<String, Object?>? serverConsent,
+    List<String> serverColleges = const [],
   }) {
     wakeups = StreamController<void>.broadcast();
     today = DateTime(2026, 10, 13, 21, 45);
@@ -102,8 +113,20 @@ void main() {
       });
     }
 
+    // My colleges as the server keeps it: a PUT replaces the list and answers with it.
+    var colleges = [
+      for (final name in serverColleges) <String, Object?>{'programmeId': 'b-com-hons', 'programme': 'B.Com (Hons)', 'college': name},
+    ];
+    FakeReply collegesReply(RequestOptions o) {
+      if (o.method == 'PUT') {
+        colleges = [for (final c in ((o.data as Map)['colleges'] as List)) Map<String, Object?>.from(c as Map)];
+      }
+      return FakeReply(200, {'colleges': colleges, 'count': colleges.length, 'max': 8});
+    }
+
     http = FakeHttpAdapter()
       ..handler = (o) => switch (o.path) {
+            '/api/me/colleges' => collegesReply(o),
             '/api/auth/me' => me(),
             '/api/me/consent' => FakeReply(200, {
                 ..._consent,
@@ -119,6 +142,9 @@ void main() {
     sheetPrefs = MemoryPrefsStore()..values[AnswersStore.key] = jsonEncode((answers ?? _sealed).toJson());
     tokens = FakeTokens();
     final c = ProviderContainer(overrides: [
+      rhythmPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
+      // The account's older lists were moved to My colleges on an earlier sign-in.
+      toolsPrefsProvider.overrideWithValue(MemoryPrefsStore()..values['mm.mycolleges.moved.v1.u1'] = true),
       authSnapshotProvider.overrideWith(() => _FakeAuth(auth)),
       appDatabaseProvider.overrideWithValue(db),
       appPrefsProvider.overrideWithValue(AppPrefs(MemoryPrefsStore())),
@@ -170,15 +196,57 @@ void main() {
     expect((await AnswersStore(sheetPrefs).load()).syncedFor, 'u1');
   });
 
-  test('an account that already has subjects is never overwritten', () async {
+  // D96 fix pass (walk 26-after-code, 31-today, 66-you): the answers just given are the newest
+  // truth. The old contract kept everything of an account that had subjects, so Today showed the
+  // old 4-day goal and old colleges after an onboarding that picked 6 days, SRCC and LSR.
+  test('an account that already has subjects keeps its subjects and consent; the answers just given replace its week', () async {
     final c = start(auth: _existing);
     await c.read(onboardingAnswersProvider.future);
     c.read(sheetSyncProvider);
     await settle();
-    expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.kept);
-    expect(writes().map((r) => r.path), isNot(contains('/api/users/u1')));
-    expect(writes().map((r) => r.path), isNot(contains('/api/me/goal')));
+    expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.updated);
+    final sent = {for (final r in writes()) '${r.method} ${r.path}': r.body};
+    expect(jsonDecode(jsonEncode(sent['PUT /api/me/goal'])), {'daysPerWeek': 3, 'pausedUntil': null});
+    expect(jsonDecode(jsonEncode(sent['PUT /api/me/notification-prefs'])), {'studyWindow': {'start': '22:00', 'end': '23:00'}});
+    expect(writes().map((r) => r.path), isNot(contains('/api/users/u1')), reason: 'their subjects stay as they are');
     expect(writes().map((r) => r.path), isNot(contains('/api/me/consent')), reason: 'their consent stays as it is');
+    expect(c.read(plannedDaysProvider), {0, 2, 4}, reason: 'the days just picked replace days picked on this phone before');
+    await c.read(onboardingAnswersProvider.notifier).flushed();
+    expect((await AnswersStore(sheetPrefs).load()).syncedFor, 'u1', reason: 'written once; a later launch never writes it again');
+  });
+
+  test('a pause the account set stays when the answers just given replace its goal', () async {
+    final c = start(auth: _existing);
+    final ok = http.handler!;
+    http.handler = (o) => o.path == '/api/me/goal' && o.method == 'GET'
+        ? const FakeReply(200, {'daysPerWeek': 4, 'timezone': 'Asia/Kolkata', 'pausedUntil': '2026-10-20'})
+        : ok(o);
+    await c.read(onboardingAnswersProvider.future);
+    c.read(sheetSyncProvider);
+    await settle();
+    expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.updated);
+    final goal = writes().where((r) => r.path == '/api/me/goal').single;
+    expect(jsonDecode(jsonEncode(goal.body)), {'daysPerWeek': 3, 'pausedUntil': '2026-10-20'});
+  });
+
+  test('the colleges just picked go to the top of My colleges; nothing on the list is removed', () async {
+    final c = start(auth: _existing, answers: _withColleges, serverColleges: const ['Hindu College', 'Lady Shri Ram College for Women (W)']);
+    await c.read(onboardingAnswersProvider.future);
+    c.read(sheetSyncProvider);
+    await settle();
+    expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.updated);
+    final put = writes().where((r) => r.method == 'PUT' && r.path == '/api/me/colleges').single;
+    final names = [for (final e in ((put.body as Map)['colleges'] as List)) (e as Map)['college']];
+    expect(names, ['Shri Ram College of Commerce', 'Lady Shri Ram College for Women (W)', 'Hindu College']);
+  });
+
+  test('a sheet sealed days ago never overwrites an account that already has subjects', () async {
+    final c = start(auth: _existing, answers: _oldSheet);
+    await c.read(onboardingAnswersProvider.future);
+    c.read(sheetSyncProvider);
+    await settle();
+    expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.kept);
+    expect(writes(), isEmpty, reason: 'no goal, study time, subjects, colleges or age band from an old sheet');
   });
 
   test('a profile still cached on the phone waits: nothing is asked or written until the server profile arrives', () async {
@@ -198,13 +266,16 @@ void main() {
 
   // ROBUSTNESS onboarding-01: a profile cached on the phone while the account had no subjects
   // must not make an account that has since been set up elsewhere look new.
-  test('a cached profile with no subjects never lets the sheet overwrite the plan on the server', () async {
+  test('a cached profile with no subjects never lets the sheet overwrite the subjects on the server', () async {
     final c = start(serverSubjects: const {'u1': ['english', 'accountancy']});
     await c.read(onboardingAnswersProvider.future);
     c.read(sheetSyncProvider);
     await settle();
-    expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.kept);
-    expect(writes(), isEmpty, reason: 'no goal, study time, subjects or age band written over the plan');
+    // The server, not the cache, says the account has a plan: its subjects and age band stay; only
+    // the answers just given (days, time) replace the older ones.
+    expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.updated);
+    expect(writes().map((r) => r.path), isNot(contains('/api/users/u1')), reason: 'no subjects written over the plan');
+    expect(writes().map((r) => r.path), isNot(contains('/api/me/consent')), reason: 'no age band written over the plan');
     expect(http.requests.map((r) => r.path), contains('/api/auth/me'), reason: 'decided from the server, not the cache');
   });
 
@@ -366,10 +437,10 @@ void main() {
     _FakeAuth authOf(ProviderContainer c) => c.read(authSnapshotProvider.notifier) as _FakeAuth;
 
     test('removes the unsent sheet, and the sign-out after it puts nothing away', () async {
-      final c = start(auth: AuthSnapshot.signedOut);
+      final c = start(auth: AuthSnapshot.signedOut, answers: _oldSheet);
       await c.read(onboardingAnswersProvider.future);
       c.read(sheetSyncProvider);
-      // A signs in to an account that already has a plan: the sheet stays on the phone, unsent.
+      // A signs in to an account that already has a plan with an old sheet: it stays on the phone, unsent.
       authOf(c).become(_existing);
       await settle();
       expect(c.read(onboardingAnswersProvider).value!.owner, 'u1');
@@ -399,7 +470,7 @@ void main() {
     });
 
     test('a plain sign-out still puts the unsent sheet away for its account', () async {
-      final c = start(auth: AuthSnapshot.signedOut);
+      final c = start(auth: AuthSnapshot.signedOut, answers: _oldSheet);
       await c.read(onboardingAnswersProvider.future);
       c.read(sheetSyncProvider);
       authOf(c).become(_existing);
@@ -481,7 +552,7 @@ void main() {
     });
 
     test("a kept sheet stays A's: the next new account gets none of it", () async {
-      final c = start(auth: AuthSnapshot.signedOut);
+      final c = start(auth: AuthSnapshot.signedOut, answers: _oldSheet);
       await c.read(onboardingAnswersProvider.future);
       c.read(sheetSyncProvider);
       // A signs in to an account that already has a plan: nothing is written, the sheet stays.

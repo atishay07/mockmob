@@ -281,6 +281,12 @@ abstract final class OnboardingCopy {
       "Subjects and study days are on your account. Your colleges are still on this phone; they move when you're back online.";
   static const String savedFailed = 'Couldn\'t save yet. Your sheet is still on this phone.';
   static const String savedOffline = 'You\'re offline. Your sheet is still on this phone and saves when you\'re back.';
+  /// An account that already had a plan, after this onboarding's answers replaced the older ones
+  /// (study days, study time, colleges). Its subjects were not changed.
+  static const String updatedSheet = "Your plan now uses today's answers.";
+  static const String updatedWhat = 'Study days and study time are updated on your account. Your subjects stay as they were.';
+  static const String updatedWhatColleges =
+      'Study days, study time and your colleges are updated on your account. Your subjects stay as they were.';
   static const String keptExisting = 'Your account already had subjects, so we kept them. This sheet stays on this phone.';
   static const String tryAgain = 'Try again';
   static const String done = 'Done';

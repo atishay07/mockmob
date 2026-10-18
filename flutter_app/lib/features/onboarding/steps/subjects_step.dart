@@ -96,7 +96,7 @@ class _SubjectsStepState extends ConsumerState<SubjectsStep> {
     }
     if (!_pulsed) {
       _pulsed = true;
-      final after = ref.read(onboardingAnswersProvider).value?.ranked;
+      final after = ref.read(onboardingAnswersProvider).value?.subjects;
       if (after != null && after.isNotEmpty) {
         setState(() => _pulse = after.first);
         _unpulse?.cancel();
@@ -127,7 +127,10 @@ class _SubjectsStepState extends ConsumerState<SubjectsStep> {
     final a = widget.answers;
     final colors = context.mmColors;
     final c = ref.read(onboardingAnswersProvider.notifier);
-    final included = a.ranked;
+    // Sheet order, never re-sorted while the student rates (walk 11-rated, 12-rated-up: a Shaky
+    // tap moved the row away from the finger). Weakest first is applied where the order is used
+    // (the plan, the first move, Today).
+    final included = a.subjects;
     // The single common picks join once the student has a subject; before that the sets lead.
     final rest = a.subjects.isEmpty
         ? const <SheetSubject>[]

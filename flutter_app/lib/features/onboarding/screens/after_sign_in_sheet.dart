@@ -192,7 +192,7 @@ class _AfterSignInSheetState extends ConsumerState<AfterSignInSheet> {
   Widget build(BuildContext context) {
     // The success pattern belongs to the server's acknowledgment, and plays once.
     ref.listen<SheetSyncState>(sheetSyncProvider, (previous, next) {
-      if (next.phase == SheetSyncPhase.saved && previous?.phase == SheetSyncPhase.saving) {
+      if ((next.phase == SheetSyncPhase.saved || next.phase == SheetSyncPhase.updated) && previous?.phase == SheetSyncPhase.saving) {
         ref.read(hapticsProvider).success();
       }
     });
