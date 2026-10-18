@@ -96,8 +96,8 @@ test('the undo after the migration restores every md5, drops the new functions a
     await release(d, 'undo:open:1');
     await d.exec(UNDO);
     for (const r of await md5s(d)) assert.deepEqual([r.m, r.l], PROD[r.proname], r.proname);
-    assert.equal((await one(d, "select count(*)::int n from pg_proc where proname in ('mm_wallet_take','mm_wallet_window','mm_held_ai_credits_spent')")).n, 0);
-    assert.equal((await one(d, "select count(*)::int n from runtime_ai_budget where id='student_held_credit'")).n, 0);
+    assert.equal((await one(d, "select count(*)::int n from pg_proc where proname in ('mm_wallet_take','mm_wallet_window','mm_bought_ai_credits_spent','mm_held_ai_credits_spent')")).n, 0);
+    assert.equal((await one(d, "select count(*)::int n from runtime_ai_budget where id in ('student_bought_credit','student_held_credit')")).n, 0);
     assert.deepEqual((await one(d, "select parts from credit_transactions where reference='undo:1'")).parts, { included: 0, bonus: 0, balance: 10 });
     // Production behaviour again: practice spends only users.credit_balance.
     await q(d, "update ai_credit_wallets set included_credits_used=0 where user_id='u'");
@@ -315,7 +315,7 @@ test('a Free student with 300 bought credits makes all 350 luna replies (50 free
   } finally { await before.close(); }
 });
 
-test('practice/held credits pay for AI past the free cap too; a Free student with only the free 50 is capped exactly as before', async () => {
+test('held credits (users.credit_balance: signup grant, rewards) pay for AI but stay under the owner\'s cap; bought credits raise it; a free-only student is capped exactly as before', async () => {
   for (const migrated of [false, true]) {
     const d = await database({ migrated });
     try {
@@ -324,36 +324,47 @@ test('practice/held credits pay for AI past the free cap too; a Free student wit
       await q(d, "insert into runtime_ai_requests(request_key,provider,model,reserved_usd,actual_usd,state,user_id) values('old-spend-0001','openai','gpt-6-luna',0.027,0.027,'receipted','freeonly')");
       assert.deepEqual(await reply(d, 'freeonly', 1), { runtime: 'user_limit' }, `migrated=${migrated}: USD 0.027 spent + 0.0017 > 0.0284`);
       assert.deepEqual(await state(d, 'freeonly'), { free: 50, bonus: 0, balance: 0 }, 'the refused reply released its credit');
-      // Practice credits spent on practice never raise the AI cap.
       if (migrated) {
+        // 100 held credits (the signup grant), the free 50 used: practice and AI may spend them (one balance) ...
         await q(d, "update users set credit_balance=100 where id='freeonly'");
         await q(d, "update ai_credit_wallets set included_credits_used=50 where user_id='freeonly'");
         assert.equal(await spend(d, 'freeonly', 'attempt_20', 'fo:practice'), true);
-        assert.equal((await one(d, "select public.mm_held_ai_credits_spent('freeonly', public.runtime_ai_month_start()) n")).n, 0);
-        assert.deepEqual(await reply(d, 'freeonly', 2), { ok: true }, 'an AI reply paid from held credits is not refused by the free cap');
-        assert.equal((await one(d, "select public.mm_held_ai_credits_spent('freeonly', public.runtime_ai_month_start()) n")).n, 1);
+        // ... but they were not bought, so an AI reply from them stays under the owner's cap (refused here, credit back).
+        assert.deepEqual(await reply(d, 'freeonly', 2), { runtime: 'user_limit' }, 'held credits do not lift the owner\'s cap');
+        assert.deepEqual(await state(d, 'freeonly'), { free: 0, bonus: 0, balance: 80 }, 'the refused reply gave its held credit back');
+        assert.equal((await one(d, "select public.mm_bought_ai_credits_spent('freeonly', public.runtime_ai_month_start()) n")).n, 0);
+        // Below the cap, a held credit pays for a reply like any credit.
+        await q(d, "update runtime_ai_requests set actual_usd=0.001 where request_key='old-spend-0001'");
+        assert.deepEqual(await reply(d, 'freeonly', 3), { ok: true });
+        assert.deepEqual(await state(d, 'freeonly'), { free: 0, bonus: 0, balance: 79 });
+        // A bought credit (bonus) is spent before held ones and lifts the cap for its reply.
+        await q(d, "update runtime_ai_requests set actual_usd=0.0284 where request_key='old-spend-0001'");
+        await q(d, "update ai_credit_wallets set bonus_credits=1 where user_id='freeonly'");
+        assert.deepEqual(await reply(d, 'freeonly', 4), { ok: true }, 'a reply paid from a bought credit is not refused by the cap');
+        assert.equal((await one(d, "select public.mm_bought_ai_credits_spent('freeonly', public.runtime_ai_month_start()) n")).n, 1);
+        assert.deepEqual(await state(d, 'freeonly'), { free: 0, bonus: 0, balance: 79 });
       }
     } finally { await d.close(); }
   }
 });
 
-test('each held credit raises the cap by at most the student_held_credit bound, and a released (failed) call does not raise it', async () => {
+test('each bought credit raises the cap by at most the student_bought_credit bound, and a released (failed) call does not raise it', async () => {
   const d = await database();
   try {
-    assert.equal(Number((await one(d, "select monthly_cap_usd from runtime_ai_budget where id='student_held_credit'")).monthly_cap_usd), 0.02);
+    assert.equal(Number((await one(d, "select monthly_cap_usd from runtime_ai_budget where id='student_bought_credit'")).monthly_cap_usd), 0.02);
     await user(d, 'h', { balance: 0, used: 50, bonus: 10 });
     await q(d, "insert into runtime_ai_requests(request_key,provider,model,reserved_usd,actual_usd,state,user_id) values('h-old-00000001','openai','gpt-6-luna',0.0284,0.0284,'receipted','h')");
     const key = 'prepos:h:0000000000000001';
     assert.equal((await reserve(d, 'h', 1, key)).ok, true);
-    // 0.0284 spent + 0.0284 cap + 1 held credit * 0.02: a request up to 0.02 dispatches, a bigger one (0.0252) is refused.
+    // 0.0284 spent + 0.0284 cap + 1 bought credit * 0.02: a request up to 0.02 dispatches, a bigger one (0.0252) is refused.
     await assert.rejects(q(d, 'select public.reserve_runtime_ai($1,$2,$3,$4,$5,$6,$7)', [key, 'openai', 'gpt-6-luna', 2000, 50000, 'h', 'free']), /runtime user limit reached/);
     await release(d, key);
-    assert.equal((await one(d, "select public.mm_held_ai_credits_spent('h', public.runtime_ai_month_start()) n")).n, 0, 'released credits do not count');
+    assert.equal((await one(d, "select public.mm_bought_ai_credits_spent('h', public.runtime_ai_month_start()) n")).n, 0, 'released credits do not count');
     assert.deepEqual(await reply(d, 'h', 2), { ok: true });
   } finally { await d.close(); }
 });
 
-test('a reply paid from 1 held credit at the very edge of the cap dispatches both physical calls (primary + retry/fallback), even with the largest bounds the code can send', async () => {
+test('a reply paid from 1 bought credit at the very edge of the cap dispatches both physical calls (primary + retry/fallback), even with the largest bounds the code can send', async () => {
   // MAX_PHYSICAL_CALLS in providerCore.js is 2; each call is reserved at its bound and a failed first call keeps its
   // reservation. 30 KB in + 3,000 out on luna = USD 0.0045 per call (the largest the code can reserve, about twice the
   // largest runtime reservation seen on production, 0.00237), so 0.009 for the reply.
@@ -364,11 +375,11 @@ test('a reply paid from 1 held credit at the very edge of the cap dispatches bot
   for (const perCredit of [0.005, null]) {
     const d = await database();
     try {
-      if (perCredit !== null) await q(d, "update runtime_ai_budget set monthly_cap_usd=$1 where id='student_held_credit'", [perCredit]);
-      await user(d, 'edge', { balance: 1, used: 50, bonus: 0 });
+      if (perCredit !== null) await q(d, "update runtime_ai_budget set monthly_cap_usd=$1 where id='student_bought_credit'", [perCredit]);
+      await user(d, 'edge', { balance: 0, used: 50, bonus: 1 });
       await q(d, "insert into runtime_ai_requests(request_key,provider,model,reserved_usd,actual_usd,state,user_id) values('edge-old-0000001','openai','gpt-6-luna',0.0284,0.0284,'receipted','edge')");
       const key = 'prepos:edge:000000000000001';
-      assert.equal((await reserve(d, 'edge', 1, key)).ok, true, 'paid from the 1 held credit');
+      assert.equal((await reserve(d, 'edge', 1, key)).ok, true, 'paid from the 1 bought credit');
       await q(d, 'select public.reserve_runtime_ai($1,$2,$3,$4,$5,$6,$7)', [key, 'openai', 'gpt-6-luna', 30000, 3000, 'edge', 'free']);
       const second = q(d, 'select public.reserve_runtime_ai($1,$2,$3,$4,$5,$6,$7)', [`${key}:fallback`, 'anthropic', 'claude-haiku-5-5', 30000, 3000, 'edge', 'free']);
       if (perCredit === 0.005) await assert.rejects(second, /runtime user limit reached/, 'the 0.005 draft refused the second call of a paid reply');
@@ -377,12 +388,12 @@ test('a reply paid from 1 held credit at the very edge of the cap dispatches bot
   }
 });
 
-test('after a failed reply at the cap edge (credit released, both provider reservations kept), the next reply paid from held credits still dispatches both calls', async () => {
+test('after a failed reply at the cap edge (credit released, both provider reservations kept), the next reply paid from bought credits still dispatches both calls', async () => {
   for (const perCredit of [0.01, null]) {
     const d = await database();
     try {
-      if (perCredit !== null) await q(d, "update runtime_ai_budget set monthly_cap_usd=$1 where id='student_held_credit'", [perCredit]);
-      await user(d, 'fail', { balance: 3, used: 50, bonus: 0 });
+      if (perCredit !== null) await q(d, "update runtime_ai_budget set monthly_cap_usd=$1 where id='student_bought_credit'", [perCredit]);
+      await user(d, 'fail', { balance: 0, used: 50, bonus: 3 });
       await q(d, "insert into runtime_ai_requests(request_key,provider,model,reserved_usd,actual_usd,state,user_id) values('fail-old-0000001','openai','gpt-6-luna',0.0284,0.0284,'receipted','fail')");
       const call = (k, provider, model) => q(d, 'select public.reserve_runtime_ai($1,$2,$3,$4,$5,$6,$7)', [k, provider, model, 30000, 3000, 'fail', 'free']);
       // Reply 1: both calls reserved at the largest bounds, then it fails: the credit is released, the reservations stay.
@@ -391,8 +402,8 @@ test('after a failed reply at the cap edge (credit released, both provider reser
       await call(k1, 'openai', 'gpt-6-luna');
       await call(`${k1}:fallback`, 'anthropic', 'claude-haiku-5-5');
       await release(d, k1);
-      assert.deepEqual(await state(d, 'fail'), { free: 0, bonus: 0, balance: 3 }, 'the failed reply cost the student nothing');
-      // Reply 2, paid from a held credit.
+      assert.deepEqual(await state(d, 'fail'), { free: 0, bonus: 3, balance: 0 }, 'the failed reply cost the student nothing');
+      // Reply 2, paid from a bought credit.
       const k2 = 'prepos:fail:000000000000002';
       assert.equal((await reserve(d, 'fail', 1, k2)).ok, true);
       const first = call(k2, 'openai', 'gpt-6-luna');

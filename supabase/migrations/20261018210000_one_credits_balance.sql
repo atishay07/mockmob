@@ -26,12 +26,17 @@
 --      mm_ai_release_credits gives every part back to where it came from (the free part to the free credits in the same
 --      month, else to bonus credits as before; the balance part to users.credit_balance). Commit (settle) is unchanged.
 --      The ledger records balanceSpent / balanceRestored, and ai_credit_ledger.wallet_source may now say 'balance'.
---   5. reserve_runtime_ai (CTO, 18 Oct 2026, 7:08 pm): the per-user monthly USD cap (student_user_free / student_user_paid)
---      now covers the free monthly allowance only. Each AI credit paid this IST month from bought/held credits (bonus or
---      users.credit_balance part of a reservation or spend that was not released) raises that student's cap by the USD in the
---      new runtime_ai_budget row 'student_held_credit' (monthly_cap_usd = USD per held credit, 0.02). So a student who buys credits
---      is never refused by the cap for what they paid for, a free-only student is capped exactly as before, a failed call
---      (credit released, provider reservation kept) still eats into the cap, and each held credit can add at most that bound.
+--   5. reserve_runtime_ai (CTO, 18 Oct 2026, 7:08 pm; narrowed to BOUGHT credits 11 pm): the owner's per-user monthly USD
+--      cap (student_user_free Rs 2.50 / student_user_paid Rs 5) stays for everything the student did not pay for. Each AI
+--      credit paid this IST month from BOUGHT credits (ai_credit_wallets.bonus_credits: every Razorpay and Play pack is
+--      granted there through mm_ai_grant_bonus_credits; the bonus part of a reservation that was not released, or of an
+--      ai_spend) raises that student's cap by the USD in the new runtime_ai_budget row 'student_bought_credit' (monthly_cap_usd
+--      = USD per bought credit, 0.02). users.credit_balance credits do NOT raise it: on production they are the signup grant
+--      (column default 100) and community rewards, not purchases (18 Oct: 1,541 users hold 111,961 of them, 1,427 users hold
+--      some; credit_transactions has no purchase into it). They pay for AI like any credit (D78), under the owner's cap.
+--      So a student who buys credits is never refused by the cap for what they paid for (bought credits are spent before
+--      held ones), everything unpaid is capped exactly as before, a failed call (credit released, provider reservation kept)
+--      still eats into the cap, and each bought credit can add at most that bound.
 --      Everything else in reserve_runtime_ai (model allowlist, global cap, idempotency, price check) is production's.
 --
 -- Production before this migration (read-only pg_proc, 18 Oct 2026):
@@ -43,7 +48,7 @@
 --   mm_ai_release_credits(text,text)                         md5(prosrc) 9c1d744b969d7e52c74d06e5537110f5  length 2211
 --   reserve_runtime_ai(text,text,text,integer,integer,text,text)
 --                                                            md5(prosrc) f6026ff6dde4b329e6f021dae3b51b7a  length 2404
---   mm_wallet_take / mm_wallet_window / mm_held_ai_credits_spent: absent. runtime_ai_budget 'student_held_credit': absent.
+--   mm_wallet_take / mm_wallet_window / mm_bought_ai_credits_spent: absent. runtime_ai_budget 'student_bought_credit': absent.
 -- Undo: supabase/undo/20261018210000_one_credits_balance.undo.sql restores those exact bodies (code first, see its header).
 
 -- ---- schema: two nullable columns, two widened checks, one budget row ------------------------------------------------
@@ -60,22 +65,27 @@ alter table public.ai_credit_ledger drop constraint if exists ai_credit_ledger_w
 alter table public.ai_credit_ledger add constraint ai_credit_ledger_wallet_source_check
   check (wallet_source in ('included', 'bonus', 'balance', 'mixed', 'grant', 'adjustment', 'none'));
 
--- USD 0.02 per held credit (CTO, 18 Oct 2026, 11 pm). One charged reply makes at most 2 physical provider calls
+-- USD 0.02 per bought credit (CTO, 18 Oct 2026, 11 pm). One charged reply makes at most 2 physical provider calls
 -- (src/services/ai/providerCore.js MAX_PHYSICAL_CALLS: the primary, then one JSON retry or fallback), each reserved at its
 -- bound before it is sent. Production runtime_ai_requests (read-only, 18 Oct 2026): the largest single reservation for a
 -- runtime model (gpt-6-luna, 9 rows) is USD 0.00237 (p99 0.00236, p50 0.00194); the largest of any model ever 0.002536;
 -- the largest actual cost 0.00048. The largest the code can reserve is about USD 0.0045 per call (12 KB context + prompt +
 -- message, about 30 KB in; 2,000 visible + 1,000 reasoning tokens out, at USD 0.10 / 0.50 per million), so 0.009 a reply.
--- 0.02 covers one such reply twice over: a reply paid from held credits at the very edge of the cap dispatches both calls,
+-- 0.02 covers one such reply twice over: a reply paid from bought credits at the very edge of the cap dispatches both calls,
 -- and so does the next one even after a failed reply there (a failed reply releases its credit, so it no longer raises the
 -- cap, while its provider reservations keep counting). A larger value never makes anything cost more: it only lifts the
 -- cap, the credit is taken per reply, each call is bounded by its own reservation, and the free credits are always spent
--- first in a month, so this headroom serves replies paid from bought/held credits (and at most the few free credits a
+-- first in a month, so this headroom serves replies paid from bought credits (and at most the few free credits a
 -- failed reply gives back).
 -- (Drafts: 0.005, exactly 2 x 0.002536, which a 2-call reply could exceed; then 0.01, which one failed reply at the edge
 -- could use up for the next.)
--- do update: this file is the source of the value (staging took the 0.005 draft; production has no row yet).
-insert into public.runtime_ai_budget(id, monthly_cap_usd) values ('student_held_credit', 0.02)
+-- (A pack of 50 credits costs Rs 10, about USD 0.0024 a credit; a reply costs about USD 0.0003. The bound is headroom for
+-- the reservation, not a price.)
+-- do update: this file is the source of the value. The drafts' names ('student_held_credit', mm_held_ai_credits_spent, on
+-- staging only; production never had them) are removed here so a re-run leaves exactly one row and one function.
+delete from public.runtime_ai_budget where id = 'student_held_credit';
+drop function if exists public.mm_held_ai_credits_spent(text, timestamp with time zone);
+insert into public.runtime_ai_budget(id, monthly_cap_usd) values ('student_bought_credit', 0.02)
   on conflict (id) do update set monthly_cap_usd = excluded.monthly_cap_usd;
 
 -- ---- the IST month ---------------------------------------------------------------------------------------------------
@@ -159,8 +169,8 @@ begin
 end;
 $function$;
 
--- ---- AI credits paid from bought/held credits this month (for the per-user USD cap) -----------------------------------
-create or replace function public.mm_held_ai_credits_spent(p_user_id text, p_since timestamp with time zone)
+-- ---- AI credits paid from BOUGHT credits (bonus) this month, for the per-user USD cap ---------------------------------
+create or replace function public.mm_bought_ai_credits_spent(p_user_id text, p_since timestamp with time zone)
  returns integer
  language sql
  stable
@@ -168,9 +178,9 @@ create or replace function public.mm_held_ai_credits_spent(p_user_id text, p_sin
  set search_path to ''
 as $function$
   select (
-    coalesce((select sum(r.from_bonus + coalesce(r.from_balance, 0)) from public.ai_credit_reservations r
+    coalesce((select sum(r.from_bonus) from public.ai_credit_reservations r
                where r.user_id = p_user_id and r.created_at >= p_since and r.state <> 'released'), 0)
-    + coalesce((select sum(coalesce((l.metadata->>'bonusSpent')::integer, 0) + coalesce((l.metadata->>'balanceSpent')::integer, 0)) from public.ai_credit_ledger l
+    + coalesce((select sum(coalesce((l.metadata->>'bonusSpent')::integer, 0)) from public.ai_credit_ledger l
                where l.user_id = p_user_id and l.created_at >= p_since and l.reason = 'ai_spend'), 0)
   )::integer
 $function$;
@@ -460,13 +470,13 @@ begin
 end;
 $function$;
 
--- ---- runtime guard: the per-user USD cap covers the free allowance; held credits paid this month raise it ------------
+-- ---- runtime guard: the owner's per-user USD cap; bought credits paid this month raise it ----------------------------
 create or replace function public.reserve_runtime_ai(p_key text, p_provider text, p_model text, p_input_bound integer, p_output_bound integer, p_user_id text default null::text, p_user_tier text default null::text)
  returns jsonb
  language plpgsql
  set search_path to ''
 as $function$
-declare b public.runtime_ai_budget%rowtype;r public.runtime_ai_requests%rowtype;price public.runtime_ai_prices%rowtype;cost numeric;month_spend numeric;user_cap numeric;user_spend numeric;held_credit_usd numeric;
+declare b public.runtime_ai_budget%rowtype;r public.runtime_ai_requests%rowtype;price public.runtime_ai_prices%rowtype;cost numeric;month_spend numeric;user_cap numeric;user_spend numeric;bought_credit_usd numeric;
 begin
  select * into b from public.runtime_ai_budget where id='student_ai' for update;
  if not found or b.paused then raise exception 'runtime funding unavailable'; end if;
@@ -487,11 +497,11 @@ begin
    select monthly_cap_usd into user_cap from public.runtime_ai_budget
      where id=case when p_user_tier='paid' then 'student_user_paid' else 'student_user_free' end;
    if user_cap is null then raise exception 'runtime funding unavailable'; end if;
-   -- One credits balance (18 Oct 2026): the cap above covers the free monthly allowance. AI credits this student paid this
-   -- month from bought/held credits each add 'student_held_credit' USD. No row: the cap is exactly as before.
-   select monthly_cap_usd into held_credit_usd from public.runtime_ai_budget where id='student_held_credit';
-   if coalesce(held_credit_usd,0)>0 then
-     user_cap=user_cap+public.mm_held_ai_credits_spent(p_user_id,public.runtime_ai_month_start())*held_credit_usd;
+   -- One credits balance (18 Oct 2026): the cap above covers everything unpaid. AI credits this student paid this month
+   -- from BOUGHT credits (bonus) each add 'student_bought_credit' USD. No row: the cap is exactly as before.
+   select monthly_cap_usd into bought_credit_usd from public.runtime_ai_budget where id='student_bought_credit';
+   if coalesce(bought_credit_usd,0)>0 then
+     user_cap=user_cap+public.mm_bought_ai_credits_spent(p_user_id,public.runtime_ai_month_start())*bought_credit_usd;
    end if;
    select coalesce(sum(coalesce(actual_usd,reserved_usd)),0) into user_spend
      from public.runtime_ai_requests where user_id=p_user_id and created_at>=public.runtime_ai_month_start();
@@ -505,9 +515,9 @@ end $function$;
 -- ---- privileges: the new functions are server-only, like every credit function ---------------------------------------
 revoke all on function public.mm_wallet_window(timestamp with time zone) from public, anon, authenticated;
 revoke all on function public.mm_wallet_take(text, integer, timestamp with time zone, timestamp with time zone, integer) from public, anon, authenticated;
-revoke all on function public.mm_held_ai_credits_spent(text, timestamp with time zone) from public, anon, authenticated;
+revoke all on function public.mm_bought_ai_credits_spent(text, timestamp with time zone) from public, anon, authenticated;
 grant execute on function public.mm_wallet_window(timestamp with time zone) to service_role;
 grant execute on function public.mm_wallet_take(text, integer, timestamp with time zone, timestamp with time zone, integer) to service_role;
-grant execute on function public.mm_held_ai_credits_spent(text, timestamp with time zone) to service_role;
+grant execute on function public.mm_bought_ai_credits_spent(text, timestamp with time zone) to service_role;
 -- create or replace keeps the owner and grants of spend_credits, mm_ai_consume_credits, mm_ai_reserve_credits,
 -- mm_ai_release_credits and reserve_runtime_ai (service_role only on production).

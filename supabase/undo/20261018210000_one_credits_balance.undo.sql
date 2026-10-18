@@ -3,14 +3,15 @@
 --
 -- ORDER: roll the CODE back first (the one-balance reads, unified practice quote and credit packs), then run this file.
 -- Old code works against either database: it never reads credit_transactions.parts, ai_credit_reservations.from_balance or the
--- 'student_held_credit' row, and the RPC signatures are unchanged. This file restores production's exact bodies as read on
+-- 'student_bought_credit' row, and the RPC signatures are unchanged. This file restores production's exact bodies as read on
 -- 18 Oct 2026 (read-only pg_proc):
 --   spend_credits(text,text,text)                       md5(prosrc) 911105fda93f7c1dcd687b08dd7c1059  length 1666
 --   mm_ai_consume_credits(...9 args)                    md5(prosrc) c1ce92df1577794e2e49a54d82a0fd42  length 4144
 --   mm_ai_reserve_credits(...8 args)                    md5(prosrc) 499b44d19273c8901b11d65f0874e9fc  length 4149
 --   mm_ai_release_credits(text,text)                    md5(prosrc) 9c1d744b969d7e52c74d06e5537110f5  length 2211
 --   reserve_runtime_ai(text,text,text,int,int,text,text) md5(prosrc) f6026ff6dde4b329e6f021dae3b51b7a  length 2404
--- and drops mm_wallet_take, mm_wallet_window and mm_held_ai_credits_spent and the 'student_held_credit' budget row.
+-- and drops mm_wallet_take, mm_wallet_window and mm_bought_ai_credits_spent and the 'student_bought_credit' budget row (and the
+-- staging-only draft names mm_held_ai_credits_spent / 'student_held_credit', if present).
 --
 -- What it deliberately keeps: the two nullable history columns (credit_transactions.parts, ai_credit_reservations.from_balance)
 -- and the rows written while the migration was live. The restored checks are added NOT VALID, so those rows stay readable
@@ -390,9 +391,10 @@ begin
 end $function$;
 
 drop function if exists public.mm_wallet_take(text, integer, timestamp with time zone, timestamp with time zone, integer);
+drop function if exists public.mm_bought_ai_credits_spent(text, timestamp with time zone);
 drop function if exists public.mm_held_ai_credits_spent(text, timestamp with time zone);
 drop function if exists public.mm_wallet_window(timestamp with time zone);
-delete from public.runtime_ai_budget where id = 'student_held_credit';
+delete from public.runtime_ai_budget where id in ('student_bought_credit', 'student_held_credit');
 
 -- The checks as production had them (NOT VALID: rows written while the migration was live stay; new rows are checked).
 alter table public.ai_credit_reservations drop constraint if exists ai_credit_reservations_split;
