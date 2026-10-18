@@ -1,6 +1,6 @@
 /* Your full analysis, pass 1018 (REVIEW-RESULT-1018 5.2 to 5.4). Hairline index rows (72-76 px), no cards; the open row is a
-   neutral lit fill with a 3 px ink bar (never lime). One part open: below the index on phones, beside it from 1024 px. */
-.ap { --ap-ease: cubic-bezier(0.23, 1, 0.32, 1); margin-top: 36px; min-width: 0; }
+   neutral lit fill with a 3 px ink bar (never lime). One part open: below the index on phones and in a narrow column, beside it when the column is 880 px or wider. */
+.ap { --ap-ease: cubic-bezier(0.23, 1, 0.32, 1); margin-top: 36px; min-width: 0; container: ap / inline-size; }
 .ap .ap-title { margin: 0; font: 740 26px/1.15 var(--font-display); letter-spacing: -0.025em; color: var(--a-ink); }
 .ap-lede { margin: 6px 0 0; font: 500 14.5px/1.5 var(--font-body); color: var(--a-ink-2); }
 .ap-grid { margin-top: 14px; min-width: 0; }
@@ -57,9 +57,15 @@
 .ap-body .rl-answers .rp-q[data-open] { background: transparent; }
 
 @media (min-width: 1024px) {
+  .ap .ap-row { min-height: 76px; }
+}
+/* Side by side only when the column has room for both. The choice reads the width this section really has (a container
+   query on .ap), not the window: the docked Ask Mobi panel (ask-mobi.css) takes 420 px off the main column while the
+   window stays wide, and a detail pane squeezed to 200 px broke its words one letter to a line. The index is 360 px and the
+   gap 44 px, so 880 px leaves the detail at least 476 px, the narrowest the ledger and the mistake rows read well in. */
+@container ap (min-width: 880px) {
   .ap-grid { display: grid; grid-template-columns: 360px minmax(0, 1fr); gap: 0 44px; align-items: start; }
   .ap-indexwrap { position: sticky; top: calc(var(--arena-topbar-h, 63px) + 20px); }
-  .ap .ap-row { min-height: 76px; }
   .ap-detail { margin-top: 0; }
   .ap-dhead { padding-top: 4px; }
   .ap .ap-all { display: none; }

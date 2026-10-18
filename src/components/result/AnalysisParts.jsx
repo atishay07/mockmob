@@ -4,7 +4,7 @@
 //
 // One index of six named parts, each stating what it found with a number, and exactly one part open: below the index on a
 // phone (its heading sticks under the top bar with "All six parts", and it ends with "Next: {part}"), beside it from 1024 px
-// (the index is sticky on the left). Every part's content stays mounted and is only hidden, so a repair being written or
+// (the index is sticky on the left) when the column is 880 px or wider, which the docked Ask Mobi panel can take away at any window width. Every part's content stays mounted and is only hidden, so a repair being written or
 // an opened answer keeps its state when the student looks at another part. The open part lives in the URL (?part=time),
 // so Back returns to it and a link can open a part. The open row is a neutral lit fill with a 3 px ink bar: never lime.
 // Motion: the old part fades out (120 ms) and the new one rises 8 px while fading in (200 ms); scale 0.98 on rows.
@@ -12,7 +12,8 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react
 import './result-parts.css';
 
 const reduced = () => { try { return document.documentElement.dataset.motion === 'reduced' || window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { return true; } };
-const wide = () => { try { return window.matchMedia('(min-width: 1024px)').matches; } catch { return false; } };
+// Side by side is a container query (result-parts.css), so ask the layout itself: the grid is a grid only when the column has room.
+const wide = () => { try { const g = document.querySelector('.ap-grid'); return !!g && getComputedStyle(g).display === 'grid'; } catch { return false; } };
 
 export const PART_IDS = Object.freeze(['marks', 'mistakes', 'time', 'rule', 'after', 'answers']);
 

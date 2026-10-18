@@ -2,12 +2,12 @@
    no nested cards; the open chapter's Practise is the content's one lime fill. Night stays subtle: no glow, no wash beyond
    the arena's own bad-wash on a mistake's badge. Press feedback is scale only (0.98 rows, 0.97 keys, 160 ms). */
 
-.app-shell .rvw { --rv8-ease: cubic-bezier(0.23, 1, 0.32, 1); }
+.app-shell .rvw { --rv8-ease: cubic-bezier(0.23, 1, 0.32, 1); container: rvw / inline-size; }
 .app-shell .rvw .rv8-title { margin-top: 4px; }
 .app-shell .rvw .rv8-lede { margin: 10px 0 0; max-width: 62ch; font: 500 15px/1.5 var(--font-body); color: var(--a-ink-2); text-wrap: pretty; }
 .app-shell .rvw .rv8-lede b { color: var(--a-ink); font-weight: 700; }
 
-/* board: one column on phones (chapters, Revise, Saved repairs, papers, also); two at 1024+ with a sticky right column */
+/* board: one column on phones (chapters, Revise, Saved repairs, papers, also); two when the page is 750 px or wider (a container query) with a sticky right column */
 .app-shell .rv8-board { display: flex; flex-direction: column; min-width: 0; }
 .app-shell .rv8-side { display: contents; }
 .app-shell .rv8-wk { margin-top: 26px; min-width: 0; }
@@ -144,13 +144,19 @@
 .app-shell .rv8-skel__row { height: 92px; max-width: 760px; }
 
 @media (min-width: 1024px) {
+  .app-shell .rv8-ch__body { padding-left: 60px; }
+  .app-shell .rvw .rv8-lede { font-size: 15.5px; }
+}
+/* Two columns only when the page has room for both. The choice reads the width Review really has (a container query on
+   .rvw), not the window: the docked Ask Mobi panel (ask-mobi.css) takes 420 px off the main column while the window stays
+   wide, and a 221 px Saved repairs column broke its words. 750 px keeps the two columns a tablet at 1024 px always had
+   (the right one is never under 279 px); narrower, the right column goes under the chapters, as on a phone. */
+@container rvw (min-width: 750px) {
   .app-shell .rv8-board { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 0 56px; align-items: start; }
   .app-shell .rv8-board > .rv8-wk { grid-column: 1; grid-row: 1; }
   .app-shell .rv8-board > .rv8-side { display: block; grid-column: 2; grid-row: 1; position: sticky; top: 84px; margin-top: 26px; }
   .app-shell .rv8-side .rv8-revise { margin-top: 0; }
   .app-shell .rv8-side .rv8-sec { margin-top: 30px; }
-  .app-shell .rv8-ch__body { padding-left: 60px; }
-  .app-shell .rvw .rv8-lede { font-size: 15.5px; }
 }
 @media (max-width: 380px) {
   .app-shell .rvw .rv8-sechead h2 { font-size: 21px; }
