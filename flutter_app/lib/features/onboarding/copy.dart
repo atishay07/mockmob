@@ -63,6 +63,9 @@ abstract final class OnboardingCopy {
   static const String mobiSealed = "Sealed. It's yours.";
   static const String mobiSave = 'Keep it with you.';
 
+  /// Said once a common set is ticked on the subjects step: the rating under it is the point.
+  static const String mobiRateNow = "Now be harsh. Tap Shaky on any you'd dread.";
+
   /// What Mobi says on arriving at each step: short, about the step, never about the student.
   static const Map<String, String> mobiArrive = {
     'stage': 'First, where you are now.',
