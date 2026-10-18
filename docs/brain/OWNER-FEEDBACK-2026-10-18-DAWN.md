@@ -244,3 +244,19 @@ His message was the pasted next-session prompt (resume from 25ef3d95, follow NOW
 > "Ship it (Recommended)"
 
 **Ledger D63:** ship release 8. Done in order: the D54 migration `20261018130000_free_ai_wallet_50` on production first (pre-check, apply, post-check, rolled-back dry spend, undo ready), then main pushed fc9e1f6b..00328e54.
+
+## Owner, 18 Oct about 4 pm IST (session 604ced81; verbatim)
+(The R8 answer above came at about 3:45 pm, not 3:55.)
+
+> "Have you read everything carefully? Because as far as I know, website and app were mostly done, and the previous agent must have posted about the future vision and things that we have to improvise upon. Like V15 was already done way back."
+
+> "I don't know, in the open decisions, this W, what you mean, like W99. Two pages, repeat the same study record. I don't know what that is. And the 0461 also, skip that. Coming on to cost of credits, no, all should not be the same. 5, 10, 15, 20, like as many questions, that many credits, like 5 questions, then 5 credits only. And mob should be fully built, switched on, everything tested. And all the other review that I gave while testing the V15 and the changes in that, like V15 was completely built, and the fixes that I told, many things, all that should now be shipped along with the mob fully functional and the improved website with all the feedback that I gave. This is your next goal. Make sure all this is complete in next 1 to 2 hours."
+
+(Dictation: "0461" = W-046.)
+
+**Ledger D64-D68:**
+- **D64** W-099 (two pages repeat the same record) and W-046: skip both. Closed by the owner.
+- **D65** Practice credits per question: as many questions, that many credits (5 questions = 5 credits, 10 = 10, 15 = 15, 20 = 20). Server, website and app together. CTO reading: one credit a question everywhere, so a 50-question full mock stays 50.
+- **D66** The Mob: fully built, switched ON, everything tested, on the website and in the app.
+- **D67** Ship together: the final v15 with every fix from his v15 phone feedback, the Mob fully working, and the website with all his feedback.
+- **D68** Deadline: within 1 to 2 hours of about 4 pm (so by about 5-6 pm).

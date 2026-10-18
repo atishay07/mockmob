@@ -332,7 +332,16 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 ### Owner at about 3:55 pm, 18 Oct (session 604ced81)
 | D | Item | Status |
 |---|---|---|
-| D63 | "Ship it": release 8 | Migration applied on production 3:57 pm (pre/post md5 checked, dry spend rolled back); main pushed 00328e54; Vercel check and STATUS in progress |
+| D63 | "Ship it": release 8 (asked about 3:45 pm) | DONE: migration applied on production (pre/post md5 checked, dry spend rolled back); main 00328e54 READY, 0 runtime errors; STATUS eb5185ef |
+
+### Owner at about 4 pm, 18 Oct (D64-D68; his words at the end of OWNER-FEEDBACK-2026-10-18-DAWN.md)
+| D | Item | Status |
+|---|---|---|
+| D64 | W-099 and W-046: skip | CLOSED by the owner |
+| D65 | Practice credits = number of questions (5/10/15/20 -> 5/10/15/20; full mock 50 stays 50) on server, website, app | OPEN: building (R9 web + final app) |
+| D66 | The Mob fully built, ON, tested (web and app) | OPEN: staging gate, production switch-on |
+| D67 | Ship the final v15 (all his v15 fixes) + the Mob + the website with all his feedback | OPEN: R9 + final app |
+| D68 | Within 1-2 hours of 4 pm | target 5-6 pm |
 
 ## Waiting on the owner (updated 18 Oct about 3:45 am)
 - Answered 3:50 am: M-001 first launch 3 s; M-006 bolder copy; D19 keep badges, refine; D22 Mob.
