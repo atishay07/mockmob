@@ -40,6 +40,7 @@ import 'package:mockmob/features/practice/data/practice_starter.dart';
 import 'package:mockmob/features/practice/data/result_actions.dart';
 import 'package:mockmob/features/practice/model/practice_selection.dart';
 import 'package:mockmob/features/practice/practice_result_screen.dart';
+import 'package:mockmob/features/insights/data/insights_repository.dart' show insightsRepositoryProvider;
 import 'package:mockmob/features/insights/data/saved_repository.dart' show SavedList, savedRepositoryProvider;
 import 'package:mockmob/features/rules/data/rules_data.dart' show startSheetProvider;
 
@@ -324,6 +325,8 @@ List<Override> practiceOverrides({
   // test cannot open): none repaired here, so the row stays hidden.
   reviewAgainCountProvider.overrideWithValue(0),
   savedRepositoryProvider.overrideWithBuild((ref, n) => RemoteState(value: const SavedList(), fetchedAt: testNow)),
+  // "Ask Mobi what to practise" (More ways in) reads the record: settled and empty here, so no line under it and no database.
+  insightsRepositoryProvider.overrideWithBuild((ref, n) => const RemoteState()),
   analyticsClientProvider.overrideWithValue(analytics ?? FakeAnalytics()),
   pendingResultRepositoryProvider.overrideWithValue(pending ?? FakePendingResults()),
   nowProvider.overrideWithValue(() => now ?? testNow),
