@@ -209,7 +209,7 @@ class AskOutOfCredits extends ConsumerWidget {
                   ),
                   ActionLink(label: InsightsCopy.creditDetails, onTap: onDetails),
                   // Google Play's AI credit packs, when PLAY_BILLING is on; nothing otherwise.
-                  const Align(alignment: Alignment.centerLeft, child: GetAiCreditsEntry()),
+                  const Align(alignment: Alignment.centerLeft, child: WalletTopUpEntry()),
                 ],
               ),
             ),

@@ -138,6 +138,7 @@ class _GetPanelState extends State<GetPanel> {
           Semantics(liveRegion: true, child: Text(low.message(selection.mode), style: context.mmType.lead)),
           // Practice credits are not sold; Pro is what removes the limit. Google Play's Get Pro, when PLAY_BILLING is on.
           const Align(alignment: Alignment.centerLeft, child: GetProEntry.key(topGap: MmSpace.s12, note: BillingCopy.proRemovesLimit)),
+          const Align(alignment: Alignment.centerLeft, child: WalletTopUpEntry(label: BillingCopy.addPracticeCredits)),
           const SizedBox(height: MmSpace.s20),
           _FreeRightNow(
             subjectId: selection.subjectId,

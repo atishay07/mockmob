@@ -8,7 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../credits/credits_screen.dart' show CreditsScreen;
+import '../wallet/wallet_screen.dart' show WalletScreen;
 import '../tools/tools_routes.dart' show ToolsShelf;
 import 'account/account_screen.dart';
 import 'account/delete_screen.dart';
@@ -46,8 +46,9 @@ Widget youSubjectsScreen(BuildContext context, GoRouterState state) => const Sub
 /// Edit the sheet: `/you/sheet`.
 Widget youSheetScreen(BuildContext context, GoRouterState state) => const SheetEditorScreen();
 
-/// Credits: `/you/credits` (the Credits feature owns the screen; it lives under You).
-Widget youCreditsScreen(BuildContext context, GoRouterState state) => const CreditsScreen();
+/// The Wallet: `/you/credits` (the path stays so every credits chip and link still lands on it; the
+/// Wallet feature owns the screen, and it lives under You).
+Widget youCreditsScreen(BuildContext context, GoRouterState state) => const WalletScreen();
 
 /// Opens one of this feature's new pages: through the router when the path is registered,
 /// otherwise as a plain pushed page.

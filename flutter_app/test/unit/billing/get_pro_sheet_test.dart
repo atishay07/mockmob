@@ -214,7 +214,7 @@ void main() {
       ...BillingCopy.proIncludes,
       BillingCopy.proTerms, BillingCopy.googlePlayNote, BillingCopy.pending, BillingCopy.verifying, BillingCopy.cancelled,
       BillingCopy.failStore, BillingCopy.failCouldNotConfirm, BillingCopy.failOffline, BillingCopy.failNotOpenYet,
-      BillingCopy.proOnBody, BillingCopy.creditsAddedBody, BillingCopy.packsBody, BillingCopy.storeUnavailable,
+      BillingCopy.proOnBody, BillingCopy.creditsAddedBody, BillingCopy.aiPacksNote, BillingCopy.storeUnavailable,
       BillingCopy.storeUnreachable, BillingCopy.productUnavailable, BillingCopy.nothingToRestore,
     ];
     for (final s in all) {
@@ -236,17 +236,15 @@ void main() {
             children: [
               const GetProEntry.key(topGap: 12),
               const GetProEntry.quiet(),
-              const GetAiCreditsEntry(),
+              const WalletTopUpEntry(),
               TextButton(onPressed: () => showGetProSheet(context), child: const Text('open')),
-              TextButton(onPressed: () => showAiCreditsSheet(context), child: const Text('open packs')),
             ],
           ),
         ),
       );
       expect(find.text('Get Pro'), findsNothing);
-      expect(find.text('Get AI credits'), findsNothing);
+      expect(find.text(BillingCopy.getCredits), findsNothing);
       await tester.tap(find.text('open'));
-      await tester.tap(find.text('open packs'));
       await _settle(tester);
       expect(find.text('Pro includes'), findsNothing);
       expect(find.text('Restore purchases'), findsNothing);
@@ -274,43 +272,6 @@ void main() {
       await _pump(tester, rig, free: false, child: const Column(children: [GetProEntry.key()]));
       await _settle(tester);
       expect(find.text('Get Pro'), findsNothing);
-    });
-  });
-
-  group('AI credit packs', () {
-    testWidgets('three rows with Google Play prices; tapping one starts a consumable purchase', (tester) async {
-      final rig = BillingRig();
-      await _pump(tester, rig, child: const SingleChildScrollView(padding: EdgeInsets.all(20), child: AiCreditPacks(showIntro: true)));
-      await _settle(tester);
-      expect(find.text('50 AI credits'), findsOneWidget);
-      expect(find.text('150 AI credits'), findsOneWidget);
-      expect(find.text('400 AI credits'), findsOneWidget);
-      expect(find.text('₹15.00'), findsOneWidget);
-      expect(find.text('₹30.00'), findsOneWidget);
-      expect(find.text('₹75.00'), findsOneWidget);
-      await tester.tap(find.text('150 AI credits'));
-      await _settle(tester);
-      expect(rig.store.buys.single.productId, 'ai_credits_prepos_20_150');
-      expect(rig.store.buys.single.consumable, isTrue);
-    });
-
-    testWidgets('after the server confirms, the line says how many credits were added', (tester) async {
-      final rig = BillingRig();
-      rig.store.onBuy = (p) => rig.store.emit(purchase(p.id));
-      await _pump(tester, rig, child: const SingleChildScrollView(padding: EdgeInsets.all(20), child: AiCreditPacks(showIntro: true)));
-      await _settle(tester);
-      await tester.tap(find.text('400 AI credits'));
-      await _settle(tester);
-      expect(find.text('400 AI credits added'), findsOneWidget);
-      expect(rig.store.finished.single, (productId: 'ai_credits_prepos_50_400', consumable: true));
-    });
-
-    testWidgets('Google Play missing: a plain line and Try again instead of prices', (tester) async {
-      final rig = BillingRig(store: FakePlayStore(available: false));
-      await _pump(tester, rig, child: const SingleChildScrollView(padding: EdgeInsets.all(20), child: AiCreditPacks(showIntro: true)));
-      await _settle(tester);
-      expect(find.text(BillingCopy.storeUnavailable), findsOneWidget);
-      expect(find.text('Try again'), findsWidgets);
     });
   });
 }

@@ -9,6 +9,7 @@
 library;
 
 import '../../core/copy/copy.dart';
+import 'data/play_products.dart' show PlayProductKind;
 
 abstract final class BillingCopy {
   // The Pro sheet.
@@ -52,8 +53,13 @@ abstract final class BillingCopy {
   // Success: only ever shown after the server confirmed.
   static const proOnTitle = 'Pro is on';
   static const proOnBody = 'Your plan is up to date. Everything Pro includes is open.';
-  static String creditsAddedTitle(int? credits) => credits == null ? 'AI credits added' : '${credits == 1 ? '1 AI credit' : '$credits AI credits'} added';
-  static const creditsAddedBody = 'Your balance is up to date. Purchased credits do not expire.';
+  static String creditsAddedTitle(PlayProductKind kind, int? credits) {
+    final pool = kind == PlayProductKind.practiceCreditPack ? 'practice credit' : 'AI credit';
+    return credits == null ? '${_cap(pool)}s added' : '$credits $pool${credits == 1 ? '' : 's'} added';
+  }
+
+  static String _cap(String s) => s[0].toUpperCase() + s.substring(1);
+  static const creditsAddedBody = 'Your balance is up to date.';
 
   // Failures, each with a way out.
   static const failStore = 'Google Play could not complete this purchase. Try again, or use Restore purchases if you were charged.';
@@ -63,11 +69,19 @@ abstract final class BillingCopy {
   static const failNotOpenYet =
       'Your payment went through with Google Play, but MockMob cannot confirm purchases just now. It stays with Google Play and we check again each time you open the app.';
 
-  // AI credit packs.
-  static const packsTitle = 'Add AI credits';
-  static const packsBody = 'For Ask Mobi and repair explanations. Purchased credits do not expire.';
-  static const getCredits = 'Get AI credits';
-  static String packLabel(int credits) => credits == 1 ? '1 AI credit' : '$credits AI credits';
-  static String packSemantics(int credits, String? price) => price == null ? packLabel(credits) : '${packLabel(credits)}, $price';
-  static const packsSheetTitle = 'AI credits';
+  // Top-ups on the Wallet.
+  static const topUpsTitle = 'Top up';
+  static const topUpsSoon = 'Top-ups open soon.';
+  static const aiPacksHeading = 'AI credits';
+  static const aiPacksNote = 'Bought credits do not expire.';
+  static const practicePacksHeading = 'Practice credits';
+  static const getCredits = 'Add credits';
+  static const addPracticeCredits = 'Add practice credits';
+  static String packLabel(PlayProductKind kind, int credits) {
+    final pool = kind == PlayProductKind.practiceCreditPack ? 'practice credit' : 'AI credit';
+    return '$credits $pool${credits == 1 ? '' : 's'}';
+  }
+
+  static String packSemantics(PlayProductKind kind, int credits, String? price) =>
+      price == null ? packLabel(kind, credits) : '${packLabel(kind, credits)}, $price';
 }

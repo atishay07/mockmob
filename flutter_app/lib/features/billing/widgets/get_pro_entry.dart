@@ -4,9 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../credits/data/credit_figures.dart';
+import '../../credits/credits_routes.dart' show openCreditsPage;
 import '../billing_copy.dart';
 import '../data/billing_controller.dart';
-import 'ai_credit_packs.dart';
 import 'get_pro_sheet.dart';
 
 /// True when the Get Pro entry should show: the Play flag is on and the student is not Pro.
@@ -57,13 +57,17 @@ class GetProEntry extends ConsumerWidget {
   }
 }
 
-/// The way into the AI credit packs from the out-of-credits band. Draws nothing with the flag off.
-class GetAiCreditsEntry extends ConsumerWidget {
-  const GetAiCreditsEntry({super.key});
+/// The way into the Wallet's top-ups from a credits-low state: Ask Mobi's out-of-credits band and
+/// Practice's credits-low state. Draws nothing with the flag off, so no key ever promises a top-up
+/// that is not there.
+class WalletTopUpEntry extends ConsumerWidget {
+  const WalletTopUpEntry({super.key, this.label = BillingCopy.getCredits});
+
+  final String label;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (!ref.watch(playBillingEnabledProvider) || ref.watch(playBillingUserIdProvider) == null) return const SizedBox.shrink();
-    return KeyButton.quiet(label: BillingCopy.getCredits, onPressed: () => showAiCreditsSheet(context));
+    return KeyButton.quiet(label: label, onPressed: () => openCreditsPage(context));
   }
 }
