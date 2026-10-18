@@ -196,7 +196,7 @@ export function HeroType({ phrases = HERO_PHRASES_V2 }) {
       window.clearTimeout(fallback);
       window.removeEventListener('resize', remeasure);
     };
-  }, [n]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [n]);
 
   // Reduce motion or a reset mid-change: the caret's animations go with it.
   useEffect(() => {
