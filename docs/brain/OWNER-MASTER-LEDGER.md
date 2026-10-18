@@ -366,6 +366,13 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 | D70 | Full progress update; anything needed from him | Answered 6:20 pm: R9 and the final app in progress (times in chat); needs: account switch near 95% usage, phone plugged in for the install |
 | D71 | Pro, credits and pricing inside the Play app; does Google take 30%; can Play prices be higher; any grey area | Answered 6:20 pm from Google's own pages: India today = 15% on the first USD 1M a year (enrol in the 15% tier) and 15% on auto-renewing subscriptions; 30% only above USD 1M for one-time products; new 10% rates reach the rest of the world by 30 Sep 2027; India User Choice Billing = own checkout beside Play's, fee 4 points lower, different prices allowed. No grey area (app and account removal risk). Recommended: ship web-purchase + app-unlock first (no fee), then Play Billing + User Choice Billing at the same Rs 99. OPEN: his go-ahead on that plan |
 
+### Owner at about 6:25 pm, 18 Oct (D72-D74)
+| D | Item | Status |
+|---|---|---|
+| D72 | Play price about Rs 50 above the web (not 115, not 199) | CTO decision: Pro Rs 149 on Google Play, Rs 99 on the web; prices set in Play Console, never in code; the app never shows the web price (anti-steering) |
+| D73 | A plan for selling Pro and credits in the Play app, and build it | BUILDING 6:30 pm: server (wt-play-server, web/play-billing-1018: verify + RTDN + play_purchases migration, flag PLAY_BILLING_ENABLED) and app (wt-play-app, ui/play-billing-1018: in_app_purchase, Get Pro sheet, flag PLAY_BILLING); plan doc docs/brain/PLAY-BILLING-PLAN-1018.md; a real purchase needs his Play Console setup |
+| D74 | Everything by 10:30 pm, more parallel agents | Chain in chat: R9 live ~7:30, final app ~8, Play billing built and checked ~9:30, v15.2 APK ~10:15, final message 10:30 |
+
 ## Waiting on the owner (updated 18 Oct about 3:45 am)
 - Answered 3:50 am: M-001 first launch 3 s; M-006 bolder copy; D19 keep badges, refine; D22 Mob.
 - D32: confirm the kept landing element when he reviews the port live (wt-land3, port 3206).
