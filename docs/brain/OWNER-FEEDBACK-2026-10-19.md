@@ -118,3 +118,11 @@
 > G20 Review and history: "Papers first, then mistakes (Recommended)" (the option read: Review opens on 'Your papers', newest first, a subject filter at the top, each row = paper, subject, marks, date, tap = its result and answers; below that 'Mistakes to repair' by chapter; the stats strip at the very top)
 
 **Ledger D103-D106:** D103 colleges ordered by last year's real closing marks for the course and category, with the number shown. D104 Today shows the 3 hardest-to-reach colleges labelled "Your top 3 of N" with "See all N". D105 the app bar becomes Today, Practice, Start, Mob, You; Review moves inside Practice. D106 Review (inside Practice) opens on Your papers (stats strip, subject filter, newest first, tap = result and answers), then Mistakes to repair by chapter.
+
+## Owner, 19 Oct about 1:45 am IST (his choices; verbatim)
+> G24 web navigation: "Mock-up 2-3 options"
+> G22 after a paper: "Restore the reveal, then refine (Recommended)"
+> G19 'I don't know my range': "Your first direction is fine for estimating after 5 full mocks, but it should show 1 mock for each subject like that."
+> G21 Ask Mobi: "Mock-up first"
+
+**Ledger D107-D110:** D107 web navigation: 2-3 mock-up options for him to pick before anything moves (the app's Today, Practice, Start, Mob, You as one option). D108 after Submit (app): restore the approved reveal from git history exactly, then a short completion line, marks counting up, one next move; then refine on a phone. D109 "I don't know my range": estimate after 5 full mocks, ONE PER SUBJECT of the student's set (progress shown per subject, e.g. "English done, Accountancy done, Economics next"); then the estimated range with the colleges it reaches, which the student can accept. D110 Ask Mobi ("Ask now" / "Ask your record", big): mock-up first.
