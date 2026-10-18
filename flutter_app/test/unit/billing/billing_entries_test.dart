@@ -111,10 +111,11 @@ void main() {
       expect(find.text('Take a Full mock instead'), findsWidgets);
     });
 
-    testWidgets('flag off: the gate is the one it was, with no Upgrade key', (tester) async {
+    testWidgets('flag off: the gate says the plain fact, with no Upgrade key and no word of Pro', (tester) async {
       final rig = BillingRig(on: false);
       await pumpGate(tester, rig);
-      expect(find.text('NTA mode comes with Pro'), findsOneWidget);
+      expect(find.text('NTA mode comes with Pro'), findsNothing);
+      expect(find.text('NTA mode is not part of your plan'), findsOneWidget);
       expect(find.text(ProNudgeCopy.gateAction), findsNothing);
       expect(find.text('Get Pro'), findsNothing);
     });

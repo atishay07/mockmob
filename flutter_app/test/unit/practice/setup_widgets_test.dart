@@ -169,7 +169,9 @@ void main() {
       await tester.pump(const Duration(milliseconds: 400));
       expect(shakeOffset(tester), 0);
       expect(haptics.calls, ['light', 'light'], reason: 'the shake carries the one warn haptic (two light taps) and no selection tick');
-      expect(find.text(PracticeCopy.difficultyLocked), findsOneWidget);
+      // PLAY_BILLING off: the plain fact, no Pro named (owner walk, 18 Oct).
+      expect(find.text(PracticeCopy.difficultyLockedPlain), findsOneWidget);
+      expect(find.text(PracticeCopy.difficultyLocked), findsNothing);
       expect(find.text(PracticeCopy.difficultyBalancedNote), findsNothing);
     });
 
@@ -182,7 +184,7 @@ void main() {
       await tester.tap(find.text('Medium'));
       await tester.pump(const Duration(milliseconds: 400));
       expect(picked, isNull);
-      expect(find.text(PracticeCopy.difficultyLocked), findsOneWidget);
+      expect(find.text(PracticeCopy.difficultyLockedPlain), findsOneWidget);
     });
 
     testWidgets('a Pro account sees no lock or note, changes the level and gets the one selection tick', (tester) async {

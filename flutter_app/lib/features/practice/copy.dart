@@ -181,7 +181,7 @@ abstract final class PracticeCopy {
   static const String difficultyBalancedNote = 'Balanced is the exam’s own mix.';
   static const String difficultyLocked = 'Easy, Medium and Hard come with Pro.';
   static const String difficultyLockedHint = 'Comes with Pro';
-  // With the Pro nudges off (PLAY_BILLING off) a lock names no plan to buy: the plain fact.
+  // With the Pro nudges off (PLAY_BILLING off) a lock names no other plan: the plain fact.
   static const String difficultyLockedPlain = 'Easy, Medium and Hard are not part of your plan.';
   static const String difficultyLockedHintPlain = 'Not part of your plan';
 

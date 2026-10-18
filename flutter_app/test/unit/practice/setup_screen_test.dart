@@ -293,7 +293,9 @@ void main() {
       ),
     );
     await settle(tester);
-    expect(text('NTA mode comes with Pro'), findsOneWidget);
+    // PLAY_BILLING off: the gate says the plain fact and names no Pro (owner walk, 18 Oct).
+    expect(text('NTA mode is not part of your plan'), findsOneWidget);
+    expect(find.textContaining(RegExp(r'\bPro\b')), findsNothing);
     expect(text('Everything else here is yours: Full mock, Quick practice and By chapter.'), findsOneWidget);
     expect(text('Take a Full mock instead'), findsOneWidget);
     expect(find.textContaining('Rs'), findsNothing);

@@ -367,12 +367,13 @@ void main() {
       await tester.pump(const Duration(seconds: 13));
     });
 
-    testWidgets('out of credits: when they renew, that record questions stay free, and what Pro includes', (tester) async {
+    testWidgets('out of credits: when they renew, that record questions stay free, and no Pro line with PLAY_BILLING off', (tester) async {
       await pump(tester, credits: serverCredits(total: 0, included: 0, bonus: 0));
       expect(find.byType(AskOutOfCredits), findsOneWidget);
       expect(find.text(InsightsCopy.outTitle), findsOneWidget);
       expect(find.textContaining('They renew on 1 November'), findsWidgets);
-      expect(find.textContaining(InsightsCopy.outPro), findsOneWidget);
+      // Owner walk, 18 Oct (H11): what Pro includes is said only while Pro can be had here.
+      expect(find.textContaining(InsightsCopy.outPro), findsNothing);
     });
 
     testWidgets('a Pro wallet that is empty does not mention Pro', (tester) async {

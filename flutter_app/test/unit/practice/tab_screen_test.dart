@@ -162,15 +162,15 @@ void main() {
     expect(router.state.uri.path, '/run/sess-7');
   });
 
-  testWidgets('the exam-day row says it comes with Pro, warmly and with no price', (tester) async {
+  testWidgets('PLAY_BILLING off: an exam-day row that needs Pro is not drawn, so no Pro tag and no dead end', (tester) async {
     await pumpRouted(tester, location: '/practice', routes: _routes(), overrides: practiceOverrides(quotes: _quotes()));
     await settle(tester);
     await _toExamBand(tester);
-    expect(find.text('NTA mode'), findsOneWidget);
-    expect(find.text('Pro'), findsOneWidget);
-    expect(find.text('The exam-day screen. Comes with Pro.'), findsOneWidget);
+    expect(find.text('NTA mode'), findsNothing);
+    expect(find.text('Pro'), findsNothing);
+    expect(find.text('The exam-day screen. Comes with Pro.'), findsNothing);
+    expect(find.text('Full mock'), findsOneWidget);
     expect(find.textContaining('Rs'), findsNothing);
-    expect(find.textContaining('Upgrade'), findsNothing);
   });
 
   testWidgets('the exam-day row is shown only when the quote returns the mode', (tester) async {
