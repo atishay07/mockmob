@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/models/attempt.dart' show Attempt;
+import '../../../core/motion/motion.dart';
 import '../../../core/repositories/remote_state.dart' show RemoteState;
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
@@ -53,12 +54,31 @@ class HeaderNotice extends StatelessWidget {
   }
 }
 
-/// The notice on one line wherever it can be, so the header never grows when it appears (v15 walk: next to the Ask pill the
-/// line wrapped to two and the card under it moved down 26 dp). It is drawn a step smaller, never under [_floor] of its size,
-/// when that is what it takes; only a line that still does not fit (a large system text size) wraps.
+/// Where the offline line sits under a title. It opens and closes with a size ease on a Motion curve, so a line that has to
+/// wrap (a large system text size) pushes what is under it down smoothly instead of in one frame. On one line the header is
+/// already tall enough and the slot adds no height at all, with or without the ease.
+class _NoticeSlot extends StatelessWidget {
+  const _NoticeSlot(this.notice);
+
+  final String? notice;
+
+  @override
+  Widget build(BuildContext context) {
+    return MmSizeEase(
+      duration: Motion.card,
+      curve: Motion.out,
+      alignment: Alignment.topLeft,
+      child: notice == null ? const SizedBox.shrink() : HeaderNotice(notice!),
+    );
+  }
+}
+
 /// The smallest share of its size the header notice is drawn at before it wraps (and before the Ask pill gives it room).
 const double noticeFloor = 0.84;
 
+/// The notice on one line wherever it can be, so the header never grows when it appears (v15 walk: next to the Ask pill the
+/// line wrapped to two and the card under it moved down 13 dp). It is drawn a step smaller, never under [noticeFloor] of its
+/// size, when that is what it takes; only a line that still does not fit (a large system text size) wraps.
 class _OneLine extends StatelessWidget {
   const _OneLine(this.message, {required this.style});
 
@@ -152,7 +172,7 @@ class ReviewTabHeader extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Semantics(header: true, child: Text(title, style: type.screenTitle, maxLines: 1, overflow: TextOverflow.ellipsis)),
-                    if (notice != null) HeaderNotice(notice!),
+                    _NoticeSlot(notice),
                   ],
                 ),
               ),
@@ -260,7 +280,7 @@ class PageHeader extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Semantics(header: true, child: Text(title, style: context.mmType.screenTitle)),
-                  if (notice != null) HeaderNotice(notice!),
+                  _NoticeSlot(notice),
                 ],
               ),
             ),

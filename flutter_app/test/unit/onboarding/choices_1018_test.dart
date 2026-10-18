@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/theme/theme.dart';
+import 'package:mockmob/core/widgets/widgets.dart' show MmPressable;
 import 'package:mockmob/features/onboarding/choices_copy.dart';
 import 'package:mockmob/features/onboarding/copy.dart';
 import 'package:mockmob/core/mascot/mascot.dart';
@@ -42,7 +43,7 @@ Future<void> _settle(WidgetTester tester) async {
 }
 
 /// The flow at a step, on a 360 by 800 phone, signed out.
-Future<ProviderContainer> _flowAt(WidgetTester tester, OnboardingAnswers answers) async {
+Future<ProviderContainer> _flowAt(WidgetTester tester, OnboardingAnswers answers, {double textScale = 1}) async {
   tester.view.physicalSize = const Size(720, 1600);
   tester.view.devicePixelRatio = 2;
   addTearDown(tester.view.reset);
@@ -50,7 +51,11 @@ Future<ProviderContainer> _flowAt(WidgetTester tester, OnboardingAnswers answers
     overrides: onboardingOverrides(answers: answers),
     child: DefaultAssetBundle(
       bundle: FileAssetBundle(),
-      child: MaterialApp(theme: buildTheme(Brightness.dark), home: const OnboardingFlow(skipColdOpen: true, startInDeck: true)),
+      child: MaterialApp(
+        theme: buildTheme(Brightness.dark),
+        builder: (context, child) => MediaQuery(data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(textScale)), child: child!),
+        home: const OnboardingFlow(skipColdOpen: true, startInDeck: true),
+      ),
     ),
   ));
   await _settle(tester);
@@ -110,6 +115,21 @@ void main() {
       await _tap(tester, find.text(SubjectSets.commerceTest.title));
       expect(_answers(c).subjects.toSet(), SubjectSets.commerceTest.subjects.toSet());
     });
+
+    for (final scale in const [1.0, 1.3]) {
+      testWidgets('the Add a subject card holds its note inside its border at ${scale}x text (v15 final walk)', (tester) async {
+        final start = studentUpTo(Steps.stage, step: Steps.subjects).copyWith(courseUndecided: true).mark(Steps.course);
+        await _flowAt(tester, start, textScale: scale);
+        final card = tester.getRect(find.ancestor(of: find.text(OnboardingCopy.addSubject).first, matching: find.byType(MmPressable)).first);
+        final title = tester.getRect(find.text(OnboardingCopy.addSubject).first);
+        final note = tester.getRect(find.text(OnboardingCopy.addSubjectNote));
+        expect(title.top, greaterThanOrEqualTo(card.top + 7), reason: 'air above the title');
+        expect(note.bottom, lessThanOrEqualTo(card.bottom - 7), reason: 'air under the note: it never sits on the border');
+        expect(note.right, lessThanOrEqualTo(card.right - 16 - 18), reason: 'the note stops before the chevron');
+        if (scale == 1) expect(note.height, lessThan(20), reason: 'one line on a 360 dp phone');
+        expect(tester.takeException(), isNull);
+      });
+    }
 
     testWidgets('with a course, the needed subjects say so', (tester) async {
       final start = studentUpTo(Steps.stage, step: Steps.subjects).copyWith(courseId: 'bachelor-of-management-studies-bms', subjects: const []).mark(Steps.course);

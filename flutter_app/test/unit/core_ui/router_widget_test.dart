@@ -28,6 +28,7 @@ import 'package:mockmob/features/account_access/screens/phone_screens.dart';
 import 'package:mockmob/features/account_access/screens/set_password_screen.dart';
 import 'package:mockmob/features/account_sheet/account_sheet.dart' show AccountSheet;
 import 'package:mockmob/features/practice/practice_setup_screen.dart';
+import 'package:mockmob/features/today/data/today_providers.dart' show TodayActions, todayActionsProvider;
 import 'package:mockmob/features/tools/compass/compass_screen.dart';
 
 import '../../helpers/fonts.dart';
@@ -71,6 +72,7 @@ Future<ProviderContainer> _pump(
   AuthSnapshot auth = _signedIn,
   ExternalLinkOpener? opener,
   AppLinkSource? links,
+  List<Override> extra = const [],
 }) async {
   tester.view.physicalSize = const Size(720, 1560);
   tester.view.devicePixelRatio = 2;
@@ -82,6 +84,7 @@ Future<ProviderContainer> _pump(
       appPrefsProvider.overrideWithValue(AppPrefs(MemoryPrefsStore())),
       if (opener != null) externalLinkOpenerProvider.overrideWithValue(opener),
       if (links != null) appLinkSourceProvider.overrideWithValue(links),
+      ...extra,
     ],
   );
   addTearDown(container.dispose);
@@ -132,6 +135,16 @@ String _sample(String template) => template.replaceAllMapped(RegExp(r':(\w+)'), 
 });
 
 /// Runs [body], then unmounts the app and lets the real screens' timers run out.
+/// Counts the times Today asked to read a saved copy again as it came back to the front.
+class _ShownSpy extends TodayActions {
+  _ShownSpy(super.ref, this.calls);
+
+  final List<String> calls;
+
+  @override
+  Future<void> refreshWhenShown() async => calls.add('shown');
+}
+
 void _test(String name, Future<void> Function(WidgetTester tester) body) {
   testWidgets(name, (tester) async {
     await body(tester);
@@ -677,6 +690,23 @@ void main() {
       expect(topPath(container), AppRoutes.practice);
       expect(find.byType(PracticeSetupScreen), findsNothing);
       expect(find.byType(MmBottomBar), findsOneWidget);
+    });
+
+    _test('Today asks to read a saved copy again each time it comes back to the front, and not when it first opens (v15 final walk)', (tester) async {
+      final calls = <String>[];
+      await _pump(tester, extra: [todayActionsProvider.overrideWith((ref) => _ShownSpy(ref, calls))]);
+      expect(calls, isEmpty, reason: 'the first show is the first read, not a return');
+      await tester.tap(_tab('Review'));
+      await _settle(tester);
+      expect(calls, isEmpty, reason: 'leaving Today reads nothing');
+      await tester.tap(_tab('Today'));
+      await _settle(tester);
+      expect(calls, ['shown']);
+      await tester.tap(_tab('Practice'));
+      await _settle(tester);
+      await tester.tap(_tab('Today'));
+      await _settle(tester);
+      expect(calls, ['shown', 'shown']);
     });
 
     _test('Today (push from the tab): Back returns to Today', (tester) async {

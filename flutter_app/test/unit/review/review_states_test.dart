@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:mockmob/core/api/api_error.dart';
+import 'package:mockmob/core/connectivity/connectivity_monitor.dart' show NetworkStatus;
+import 'package:mockmob/core/connectivity/connectivity_providers.dart' show NetworkStatusNotifier, networkStatusProvider;
 import 'package:mockmob/core/auth/load_problem.dart';
 import 'package:mockmob/core/mascot/mascot.dart' show MobiCharacter;
 import 'package:mockmob/core/models/attempt.dart';
@@ -34,6 +36,13 @@ Future<void> _pump(
   wrapInScaffold: false,
   overrides: reviewOverrides(attempts: attempts, attemptsState: state, records: records, revise: revise),
 );
+
+class _Radio extends NetworkStatusNotifier {
+  @override
+  NetworkStatus build() => NetworkStatus.online;
+
+  void set(NetworkStatus next) => state = next;
+}
 
 const _server = ApiError(kind: ApiErrorKind.server, code: 'server_error', status: 500);
 const _offline = ApiError(kind: ApiErrorKind.network, code: 'network');
@@ -97,6 +106,28 @@ void main() {
     testWidgets('offline over a saved record', (tester) async {
       await _pump(tester, state: RemoteState(value: allAttempts, fetchedAt: eveningUtc, error: _offline));
       expect(find.text('Offline. Last loaded 9:40 PM.'), findsOneWidget);
+    });
+
+    testWidgets('the radio dropping over a fresh list says so at once, without a failed read, and clears when it is back (v15 final walk)', (tester) async {
+      final radio = _Radio();
+      await pumpMockmob(
+        tester,
+        const ReviewScreen(),
+        size: const Size(384, 6000),
+        disableAnimations: true,
+        wrapInScaffold: false,
+        overrides: [
+          ...reviewOverrides(attemptsState: RemoteState(value: allAttempts, fetchedAt: eveningUtc)),
+          networkStatusProvider.overrideWith(() => radio),
+        ],
+      );
+      expect(find.textContaining('Offline.'), findsNothing);
+      radio.set(NetworkStatus.offline);
+      await tester.pump();
+      expect(find.text('Offline. Last loaded 9:40 PM.'), findsOneWidget, reason: 'the list on screen is a saved copy the moment the radio drops');
+      radio.set(NetworkStatus.online);
+      await tester.pump();
+      expect(find.textContaining('Offline.'), findsNothing);
     });
 
     testWidgets('online but the refresh failed', (tester) async {

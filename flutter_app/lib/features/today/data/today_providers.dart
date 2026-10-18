@@ -384,6 +384,28 @@ class TodayActions {
     }
   }
 
+  /// The least gap between two reads made because Today came back to the front (a student flicking between tabs reads once).
+  static const Duration shownReadGap = Duration(seconds: 10);
+  DateTime? _lastShownRead;
+
+  /// Today is in front again (the student was on another tab). The connection monitor's own listener is paused while Today is
+  /// hidden (Riverpod pauses a provider nobody in view listens to), so a network that dropped and came back on the Review tab
+  /// was never seen by [todayReconnectRefreshProvider], and "Offline. Last loaded" stayed over Today for minutes (v15 final walk).
+  /// This is the same read, taken at the moment it matters: only when the copy on screen is still a saved one although the
+  /// connection is up, and not more than once in [shownReadGap]. It sets no timer.
+  Future<void> refreshWhenShown() async {
+    if (!stillSaved()) return;
+    final now = _ref.read(nowProvider)();
+    final last = _lastShownRead;
+    if (last != null && now.difference(last) < shownReadGap) return;
+    _lastShownRead = now;
+    try {
+      await refreshAfterReconnect();
+    } on Object {
+      // The record keeps its error and the line says "Still not loading"; the student's pull or tap reads again.
+    }
+  }
+
   /// Pull to refresh and Try again: the record, the plan and the week, read again.
   Future<void> refresh() async {
     // Ask the server about an ended mock first, in parallel with the record reads, so a slow

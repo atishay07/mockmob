@@ -79,7 +79,14 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
     super.didChangeDependencies();
     // The shell turns tickers off for tabs not in front: coming back on is a new visit.
     final front = TickerMode.valuesOf(context).enabled;
-    if (front && !_inFront) _newVisit();
+    if (front && !_inFront) {
+      _newVisit();
+      // A saved copy with the network back is read again as Today returns (the reconnect listener is paused while hidden).
+      // After the frame: a read moves provider state, which must not happen while the tree builds.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) unawaited(ref.read(todayActionsProvider).refreshWhenShown());
+      });
+    }
     _inFront = front;
   }
 

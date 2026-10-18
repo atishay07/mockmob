@@ -225,6 +225,52 @@ void main() {
       expect(tester.getSize(find.text(line)).height, lessThan(24), reason: 'one line');
     });
 
+    testWidgets('the widest 12-hour time still fits one line at 360 dp and 1.0 text, with the header at its plain height', (tester) async {
+      const line = 'Offline. Last loaded 12:59 PM.';
+      Future<Size> pumpHeader(String? notice) async {
+        await pumpMockmob(
+          tester,
+          Align(alignment: Alignment.topLeft, child: SizedBox(width: 280, child: ReviewTabHeader(title: 'Review', notice: notice, onAsk: () {}))),
+          size: const Size(360, 400),
+          disableAnimations: true,
+        );
+        return tester.getSize(find.byType(ReviewTabHeader));
+      }
+
+      final plain = await pumpHeader(null);
+      final offline = await pumpHeader(line);
+      expect(offline.height, plain.height, reason: 'no jump');
+      expect(tester.getSize(find.text(line)).height, lessThan(24), reason: 'one line');
+    });
+
+    testWidgets('at 1.3x text the line may wrap, but it eases the header open instead of jumping it', (tester) async {
+      const line = 'Offline. Last loaded 3:05 PM.';
+      final notice = ValueNotifier<String?>(null);
+      await pumpMockmob(
+        tester,
+        ValueListenableBuilder<String?>(
+          valueListenable: notice,
+          builder: (context, n, _) => Align(alignment: Alignment.topLeft, child: SizedBox(width: 280, child: ReviewTabHeader(title: 'Review', notice: n, onAsk: () {}))),
+        ),
+        size: const Size(360, 400),
+        textScale: 1.3,
+      );
+      double height() => tester.getSize(find.byType(ReviewTabHeader)).height;
+      final plain = height();
+      notice.value = line;
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 16));
+      final first = height();
+      await tester.pump(const Duration(seconds: 2));
+      final settled = height();
+      expect(settled, greaterThan(plain), reason: 'a large text size needs the room');
+      expect(first - plain, lessThan((settled - plain) / 2), reason: 'the first frames are still near the old height: eased, not jumped');
+      notice.value = null;
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 2));
+      expect(height(), plain, reason: 'it closes again');
+    });
+
     testWidgets('with room to spare the pill keeps its word', (tester) async {
       await pumpMockmob(
         tester,
