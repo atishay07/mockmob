@@ -170,7 +170,8 @@ void main() {
     });
 
     test('the aim line carries the real figures, the source and the scale', () {
-      expect(PlanSummary.aimLine(_student()), 'Aim: SRCC 924.3, Hindu 919.9. Round 1 minimum, 2026 (unreserved, out\u00A0of\u00A01000).');
+      expect(PlanSummary.aimLine(_student()), 'Aim: SRCC. It took 924.3 of\u00A01000 in Round 1, 2026, about 231 a paper.');
+      expect(PlanSummary.alsoLine(_student()), 'Also on your list: Hindu 919.9.');
     });
 
     test('the eligibility line counts the subjects and colleges the set keeps the course open at', () {

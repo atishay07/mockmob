@@ -398,10 +398,9 @@ class _HeroSlot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedSwitcher(
-      duration: Motion.of(context, _aside),
-      switchInCurve: Motion.glide,
-      switchOutCurve: Motion.exit,
+    return MmOverlapSwitcher.fade(
+      duration: Motion.reduced(context) ? Motion.reducedFade : _aside,
+      alignment: Alignment.bottomCenter,
       child: hidden
           ? const SizedBox.shrink(key: ValueKey('mobi-aside'))
           : KeyedSubtree(key: const ValueKey('mobi'), child: _hero()),

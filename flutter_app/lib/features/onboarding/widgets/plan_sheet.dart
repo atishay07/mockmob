@@ -151,23 +151,30 @@ class PlanSheet extends StatelessWidget {
                   if ((more && onAllLines != null) || onChange != null)
                     Row(
                       children: [
+                        // Both read as buttons (v15 taste pass, F5): "See all 7" with a chevron
+                        // that turns as the list opens, "Change" a quiet key with a pencil.
                         if (more && onAllLines != null)
                           Transform.translate(
                             offset: const Offset(-MmSpace.s12, 0),
-                            child: KeyButton.quiet(
+                            child: _CardLink(
                               key: PlanSheet.allLinesKey,
                               label: allLines ? OnboardingCopy.fewerLines : OnboardingCopy.seeAllLines(plan.lines.length),
-                              onPressed: onAllLines,
+                              icon: LucideIcons.chevronDown,
+                              turns: allLines ? 0.5 : 0,
+                              onTap: onAllLines!,
                             ),
                           ),
                         const Spacer(),
                         if (onChange != null)
                           Transform.translate(
                             offset: const Offset(MmSpace.s12, 0),
-                            child: KeyButton.quiet(
+                            child: _CardLink(
                               label: OnboardingCopy.change,
                               semanticsLabel: OnboardingCopy.changeSomething,
-                              onPressed: onChange,
+                              icon: LucideIcons.pencil,
+                              iconFirst: true,
+                              boxed: true,
+                              onTap: onChange!,
                             ),
                           ),
                       ],
@@ -211,6 +218,66 @@ class PlanSheet extends StatelessWidget {
 }
 
 /// Grows to its content on the emphasized curve (at once under reduced motion).
+/// A quiet action on the plan card that still looks pressable: its words with a 16 dp glyph,
+/// 44 dp tall, sinking to 0.97 under the finger. [boxed] gives it a hairline key shape (Change);
+/// [turns] turns its glyph (See all's chevron, 220 ms).
+class _CardLink extends ConsumerWidget {
+  const _CardLink({
+    super.key,
+    required this.label,
+    required this.icon,
+    required this.onTap,
+    this.semanticsLabel,
+    this.iconFirst = false,
+    this.boxed = false,
+    this.turns = 0,
+  });
+
+  final String label;
+  final String? semanticsLabel;
+  final IconData icon;
+  final VoidCallback onTap;
+  final bool iconFirst;
+  final bool boxed;
+  final double turns;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final glyph = AnimatedRotation(
+      turns: turns,
+      duration: Motion.of(context, const Duration(milliseconds: 220)),
+      curve: Motion.glide,
+      child: Icon(icon, size: 16, color: colors.ink2),
+    );
+    final words = Text(label, maxLines: 1, style: type.labelLarge.copyWith(fontSize: 14, fontWeight: FontWeight.w600, color: colors.ink));
+    return MmPressable(
+      semanticsLabel: semanticsLabel ?? label,
+      pressedScale: 0.97,
+      focusRadius: MmRadius.pillAll,
+      onTap: () {
+        ref.read(hapticsProvider).selection();
+        onTap();
+      },
+      builder: (context, pressed, _) => Container(
+        constraints: const BoxConstraints(minHeight: 44, minWidth: 48),
+        padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12),
+        decoration: ShapeDecoration(
+          color: pressed ? colors.raised2.withValues(alpha: 0.6) : Colors.transparent,
+          shape: StadiumBorder(side: boxed ? BorderSide(color: colors.lineStrong) : BorderSide.none),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: iconFirst
+              ? [glyph, const SizedBox(width: MmSpace.s8), words]
+              : [words, const SizedBox(width: MmSpace.s4), glyph],
+        ),
+      ),
+    );
+  }
+}
+
 class _FootGrow extends StatelessWidget {
   const _FootGrow({required this.child});
 

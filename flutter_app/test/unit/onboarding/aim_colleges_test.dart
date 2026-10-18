@@ -163,10 +163,11 @@ void main() {
       expect(PlanSummary.eligibilityLine(_with(_names.take(8).toList())), 'Your 4 subjects open B.Com (Hons) at all 8 of your colleges.');
     });
 
-    test('the plan names the first three and counts the rest', () {
-      final line = PlanSummary.aimLine(_with(_names.take(8).toList()))!;
-      expect(line, startsWith('Aim: SRCC 924.3, Hindu 919.9, LSR 912.5 and 5 more.'));
-      expect(PlanSummary.aimLine(_with(_names.take(2).toList())), startsWith('Aim: SRCC 924.3, Hindu 919.9.'));
+    test('the plan aims at the first and names the next two, then counts the rest', () {
+      expect(PlanSummary.aimLine(_with(_names.take(8).toList())), startsWith('Aim: SRCC. It took 924.3 of'));
+      expect(PlanSummary.alsoLine(_with(_names.take(8).toList())), 'Also on your list: Hindu 919.9, LSR 912.5 and 5 more.');
+      expect(PlanSummary.alsoLine(_with(_names.take(2).toList())), 'Also on your list: Hindu 919.9.');
+      expect(PlanSummary.alsoLine(_with(_names.take(1).toList())), isNull);
     });
 
     test('the sheet line stays one line at eight picks', () {

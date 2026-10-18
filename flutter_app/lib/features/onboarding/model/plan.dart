@@ -124,26 +124,26 @@ class PlanSummary {
       chapterLine(move),
       if ((a.stage ?? Stage.notSure).boards) 'Boards end in early April. The plan goes lighter from mid-February.',
       ?eligibilityLine(a),
+      // The other colleges sit just before the aim, so they show under "See all" while the
+      // aim stays one of the three lines that lead.
+      ?alsoLine(a),
       ?aimLine(a),
     ];
     return PlanSummary(headline: 'Week one starts with ${move.chapter}.', lines: lines);
   }
 
-  /// "Where your marks go: traps first, then the clock." Only with two or three picks (D45); one
-  /// pick is already in the first move's line. It repeats what the student said, nothing more.
+  /// "Where your marks go: the last 10 questions first, then English passages and 'knew it, still
+  /// got it wrong'." Only with two or three picks (D45); one pick is already in the first move's
+  /// line. It repeats what the student said, in their own option words (v15 taste pass: never a
+  /// word they did not choose, like "traps"); a phrase with a comma is quoted so it reads as theirs.
   static String? worriesLine(OnboardingAnswers a) {
-    final named = [for (final w in a.worries) ?_worryWords[w]];
+    final named = [
+      for (final w in a.worries)
+        if (w != Worry.noIdea) w.words.contains(',') ? "'${w.words}'" : w.words,
+    ];
     if (a.worries.length < 2 || named.length < 2) return null;
     return 'Where your marks go: ${named.first} first, then ${joinWithAnd(named.skip(1).toList())}.';
   }
-
-  static const Map<Worry, String> _worryWords = {
-    Worry.knewIt: 'traps',
-    Worry.time: 'the clock',
-    Worry.numericals: 'Accounts numericals',
-    Worry.passages: 'English passages',
-    Worry.syllabus: 'too much syllabus',
-  };
 
   /// True when a skipped step left a default in the plan.
   static bool usesDefaults(OnboardingAnswers a) =>
@@ -190,26 +190,48 @@ class PlanSummary {
     return '${course.short} also needs ${joinWithAnd(check.missing)}.';
   }
 
-  /// "Aim: SRCC 924.3, Hindu 919.9. Round 1 minimum, 2026 (unreserved, out of 1000)." Names the first
-  /// three (the ones Today shows) and counts the rest ("and 5 more"). "out of 1000" holds together
-  /// (no-break spaces), so the line never ends on a lone "1000.".
+  /// "Aim: SRCC. It took 924.3 of 1000 in Round 1, 2026, about 231 a paper." The first college
+  /// with its real bar and what that means per paper, as the course step says it (v15 taste pass:
+  /// the old line read like a data dump, with a parenthesis). A category other than unreserved is
+  /// named; a college with no seat in it says so.
   static String? aimLine(OnboardingAnswers a) {
     final course = a.course;
     if (course == null || a.colleges.isEmpty) return null;
+    for (final name in a.colleges) {
+      final o = course.offeringAt(name);
+      if (o == null) continue;
+      final score = o.scoreFor(a.category);
+      if (score == null) return 'Aim: ${o.short}. ${OnboardingCopy.noSeatsFor(a.category)}';
+      final who = categoryWords(a.category) == 'unreserved' ? '' : ' (${categoryWords(a.category)})';
+      return 'Aim: ${o.short}. It took ${DuCatalog.format(score)} of\u00A0${DuCatalog.scale}$who in Round 1, 2026, '
+          'about ${(score / 4).round()} a paper.';
+    }
+    return null;
+  }
+
+  /// "Also on your list: Hindu 919.9, Hansraj 907.5." The colleges after the first, up to the
+  /// ones Today shows, then a count ("and 5 more"). Null with one college.
+  static String? alsoLine(OnboardingAnswers a) {
+    final course = a.course;
+    if (course == null || a.colleges.length < 2) return null;
     final parts = <String>[];
+    var first = true;
     var more = 0;
     for (final name in a.colleges) {
       final o = course.offeringAt(name);
-      final score = o?.scoreFor(a.category);
       if (o == null) continue;
-      if (parts.length >= MyColleges.ladderSize) {
+      if (first) {
+        first = false;
+        continue;
+      }
+      if (parts.length >= MyColleges.ladderSize - 1) {
         more++;
         continue;
       }
+      final score = o.scoreFor(a.category);
       parts.add(score == null ? o.short : '${o.short} ${DuCatalog.format(score)}');
     }
     if (parts.isEmpty) return null;
-    final tail = more == 0 ? '' : ' and $more more';
-    return 'Aim: ${parts.join(', ')}$tail. ${DuCatalog.source} (${categoryWords(a.category)}, out\u00A0of\u00A0${DuCatalog.scale}).';
+    return 'Also on your list: ${parts.join(', ')}${more == 0 ? '' : ' and $more more'}.';
   }
 }
