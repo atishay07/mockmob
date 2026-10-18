@@ -171,3 +171,10 @@ His message was the pasted next-session prompt (build PLAN-1019 Waves A and B, t
 - **CTO addition (WCAG 2.2.2 Pause, Stop, Hide):** the cycle runs through the phrase set once, then rests on the final line. It never loops forever.
 - **Why C:** it is visibly new; it is the typed line he asked for on 15 Oct; and "select the line and correct it" matches what MockMob does. B (mask rise) is the quieter fallback.
 - **Sources:** compare sheets and videos in tmp/design-1019/hero-motion/; the design is docs/design-decisions/pass-1019/HERO-MOTION-1019.md.
+
+## CTO decision, 19 Oct about 2:50 am (the owner is away; tell him in the morning message)
+**C-dec 1: every student's FIRST full mock in EACH subject is free** (one per subject, ever; a started free mock counts as used).
+- **Why:** the acceptance check found that "I don't know my range" (D109: one full mock per subject) was unaffordable for a free student. A fresh account has about 90 credits, and a full mock costs 50. That would leave the feature dead for free users and break G16.
+- **Cost:** no AI cost; the questions come from the bank.
+- **How:** implemented in server code with no migration (web/1019-w5-firstmock). The quote API returns 0 with reason "first_full_mock_free", and the app shows "Free" from the quote. Copy: "Your first full mock in every subject is free."
+- He can reverse it with a one-line flag.
