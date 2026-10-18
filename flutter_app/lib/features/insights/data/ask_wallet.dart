@@ -2,7 +2,7 @@ import '../../../core/models/ai_credits.dart';
 import '../../../core/models/json_helpers.dart';
 
 /// The AI credit wallet as Ask shows it: the same wallet the website reads (`GET /api/ai/credits`,
-/// and the `usageSnapshot.aiWallet` a chat reply carries). Free accounts include 10 credits a
+/// and the `usageSnapshot.aiWallet` a chat reply carries). Free accounts include 50 credits a
 /// month and Pro 50 (the server's AI_FREE_MONTHLY_CREDITS and AI_PRO_INCLUDED_MONTHLY_CREDITS);
 /// purchased credits sit beside them and never expire. Included credits spend first.
 ///
