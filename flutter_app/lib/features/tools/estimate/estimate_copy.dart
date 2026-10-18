@@ -104,7 +104,7 @@ abstract final class EstimateCopy {
   static String sitFreeKey(String subject) => 'Sit your free full mock in $subject';
 
   /// Only when the server's quote says the first full mock in a subject is free.
-  static const String firstMockFree = 'Your first full mock in each subject is free, so the estimate costs you nothing.';
+  static const String firstMockFree = 'Your first full mock in every subject is free.';
 
   static String count(int done, int total) => '$done of $total ${total == 1 ? 'subject' : 'subjects'} done';
 

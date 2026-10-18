@@ -269,7 +269,7 @@ void main() {
       final p = rangeMockPrice(q(reasonCode: firstFullMockFree, cost: 0));
       expect(p.kind, RangeMockPriceKind.firstFree);
       expect(p.isFree, isTrue);
-      expect(p.line, 'Your first full mock in each subject is free, so the estimate costs you nothing.');
+      expect(p.line, 'Your first full mock in every subject is free.');
       expect(EstimateCopy.sitFreeKey('English'), 'Sit your free full mock in English');
       expect(rangeMockPrice(q(allowance: const QuoteAllowance(kind: 'first_full_mock:english', state: 'available'), cost: 0)).kind, RangeMockPriceKind.firstFree);
     });
