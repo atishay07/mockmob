@@ -235,7 +235,7 @@ void main() {
     expect(quotes.calls.any((c) => c.subject == 'english' && c.mode == 'full'), isTrue);
   });
 
-  testWidgets('the Concepts shelf shows lessons while study content is on, and opens one', (tester) async {
+  testWidgets('the Learn shelf shows lessons while study content is on, and opens one', (tester) async {
     final router = await pumpRouted(
       tester,
       location: '/practice',
@@ -244,15 +244,17 @@ void main() {
       overrides: practiceOverrides(quotes: _quotes(), learn: catalog(due: 4)),
     );
     await settle(tester);
-    expect(find.text('Concepts'), findsOneWidget);
-    // Due lessons lead the shelf.
+    // The Learn row under the suggestion and the shelf's heading (D20).
+    expect(find.text('Learn'), findsNWidgets(2));
+    // The lesson Learn would open next leads the shelf and says so; due lessons follow.
+    expect(find.text('Read this next'), findsOneWidget);
     expect(find.text('Vocabulary set 1'), findsOneWidget);
     await tester.tap(find.text('Vocabulary set 1'));
     await settle(tester);
     expect(router.state.uri.path, '/learn/eng-vocab');
   });
 
-  testWidgets('with study content switched off there is no Concepts shelf and no "not available" line', (tester) async {
+  testWidgets('with study content switched off there is no Learn row or shelf and no "not available" line', (tester) async {
     await pumpRouted(
       tester,
       location: '/practice',
@@ -261,7 +263,7 @@ void main() {
       overrides: practiceOverrides(quotes: _quotes(), learn: catalog(state: 'disabled')),
     );
     await settle(tester);
-    expect(find.text('Concepts'), findsNothing);
+    expect(find.text('Learn'), findsNothing);
     expect(find.textContaining('not available'), findsNothing);
   });
 

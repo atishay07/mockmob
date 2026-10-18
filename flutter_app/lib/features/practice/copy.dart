@@ -15,12 +15,17 @@ abstract final class PracticeCopy {
 
   /// The modes' heading, under the suggestion.
   static const String waysHeading = 'Ways to practise';
-  static const String concepts = 'Concepts';
+  /// The lesson library keeps the name Learn (owner D20).
+  static const String concepts = 'Learn';
   static const String moreHeading = 'More ways in';
 
   /// The Repairs row under the suggestion: the whole account's open mistakes, the count Review's header and Today's tile print.
   static const String repairsTitle = 'Repairs';
   static String repairsNote(int open) => open == 1 ? '1 open mistake to repair' : '$open open mistakes to repair';
+
+  /// The Learn row under the suggestion (D20): the lesson Learn would open next, and why.
+  static const String learnTitle = 'Learn';
+  static String learnNote(String lesson, String why) => '$lesson. $why';
   static const String toolsTitle = 'Admission Compass';
   static const String toolsNote = 'Which DU courses your subjects open, with the 2026 Round 1 cutoffs.';
   static const String allConcepts = 'See all';
@@ -234,7 +239,7 @@ abstract final class PracticeCopy {
   static String creditsNeeded(int cost, int balance) => 'Needs ${plural(cost, 'credit')}. You have $balance.';
   static const String freeRightNow = 'Free right now';
   static const String freeDaily = 'Today’s free 10-question practice';
-  static const String freeLearn = 'Concepts';
+  static const String freeLearn = 'Learn';
   static const String freeReview = 'Your answers and keys, explanations included';
   static const String offlineStart = 'Connect to start. Your downloaded reviews still work.';
   static const String offlineAutoStart =

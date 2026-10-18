@@ -74,13 +74,14 @@ void main() {
     });
   });
 
-  group('Concepts with no lessons yet', () {
-    testWidgets('has one hero, no "Nothing is due" card, and the Practise keys in view', (tester) async {
+  group('Learn with no lessons yet', () {
+    testWidgets('has one hero, no "Nothing is due" card, and the chapters to practise in view', (tester) async {
       await pumpScreen(tester, const LearnScreen(), brightness: Brightness.dark, size: const Size(360, 1100), overrides: learnOverrides(catalog: _noLessons()));
       await tester.pump(const Duration(milliseconds: 600));
       expect(find.text(LearnCopy.noLessonsTitle), findsOneWidget);
       expect(find.text(LearnCopy.nothingDue), findsNothing);
-      expect(find.text(LearnCopy.practiseKey), findsWidgets);
+      // Every chapter without a lesson is one row that goes straight to its practice.
+      expect(find.text('No lesson yet. Practice ready'), findsWidgets);
       expect(LearnCopy.noLessonsMobi, isNot(contains('!')));
     });
 
@@ -98,8 +99,8 @@ void main() {
     });
   });
 
-  group('Concepts with nothing due and new cards ready', () {
-    testWidgets('leads with the good news, and shows the suggested lesson once', (tester) async {
+  group('Learn with nothing due and new cards ready', () {
+    testWidgets('the panel is the lesson to read, the new cards one quiet row, and the lesson shown once', (tester) async {
       await pumpScreen(
         tester,
         const LearnScreen(),
@@ -108,18 +109,20 @@ void main() {
         overrides: learnOverrides(catalog: catalog(due: 0, newCount: 3), firstVisit: true),
       );
       await tester.pump(const Duration(milliseconds: 600));
-      expect(find.text(LearnCopy.newReadyHeadline(3)), findsOneWidget);
+      expect(find.text('3 new cards ready'), findsOneWidget);
       expect(find.text(LearnCopy.nothingDue), findsNothing);
-      // The lesson is not repeated as a card above its own row.
+      // The lesson is the panel (LEARN-REVIEW-1017 5.9): never a second card repeating it.
       expect(find.text(LearnCopy.nextLessonHeading), findsNothing);
       expect(find.text('Sacrificing and gaining ratios'), findsOneWidget);
-      expect(find.textContaining(LearnCopy.upNext), findsOneWidget);
+      expect(find.text('Start the lesson, 9 minutes'), findsOneWidget);
     });
 
-    testWidgets('with nothing to start at all it still says nothing is due', (tester) async {
+    testWidgets('with no card to start, no card row shows and the panel still offers the lesson', (tester) async {
       await pumpScreen(tester, const LearnScreen(), brightness: Brightness.dark, overrides: learnOverrides(catalog: catalog(due: 0)));
       await tester.pump(const Duration(milliseconds: 600));
-      expect(find.text(LearnCopy.nothingDue), findsOneWidget);
+      expect(find.textContaining('concept card'), findsNothing);
+      expect(find.textContaining('new card'), findsNothing);
+      expect(find.text('Start the lesson, 9 minutes'), findsOneWidget);
     });
 
     test('the headline names the count and ends with a full stop', () {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/features/learn/data/concepts_pick.dart';
 import 'package:mockmob/features/learn/data/lesson_loader.dart';
 import 'package:mockmob/features/learn/data/pending_event.dart';
 import 'package:mockmob/features/learn/data/run_controller.dart';
@@ -96,6 +97,22 @@ void main() {
 
     testWidgets('lesson page, read, with cards to review and kept on this phone, $n', (tester) async {
       await _unit(tester, b, _lesson(read: true), 'unit_read_$n', fromPhone: true);
+    });
+
+    // LEARN-REVIEW-1017 5.10 (P-LR6): opened from a chapter that costs marks, the lesson says so above its sections.
+    testWidgets('lesson page opened from a chapter with open mistakes, $n', (tester) async {
+      await pumpScreen(
+        tester,
+        const LearnUnitScreen(unitId: 'acc-sacrifice', from: FromChapter(subject: 'accountancy', chapter: 'Change in Profit Sharing Ratio')),
+        brightness: b,
+        size: const Size(360, 800),
+        overrides: [
+          ...learnOverrides(costs: const [ChapterCost(subject: 'accountancy', chapter: 'Change in Profit Sharing Ratio', open: 2)]),
+          lessonProvider('acc-sacrifice').overrideWith((ref) => LessonLoad(json: _lesson(), fromPhone: false)),
+        ],
+      );
+      expect(find.text('2 open mistakes in this chapter.'), findsOneWidget);
+      await expectLater(find.byType(Scaffold), matchesGoldenFile('goldens/unit_from_chapter_$n.png'));
     });
 
     testWidgets('lesson page, every block kind (tall), $n', (tester) async {

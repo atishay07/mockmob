@@ -8,14 +8,17 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../learn/copy.dart';
 import '../../learn/data/catalog_repository.dart';
+import '../../learn/data/concepts_pick.dart';
 import '../../learn/models/learn_catalog.dart';
 import '../copy.dart';
 import 'mode_list.dart' show SectionHeading;
 
-/// The lessons the shelf shows first: anything due, then what is in progress, then the server's
-/// next lesson, then the rest in syllabus order. At most [max].
-List<LearnUnit> shelfUnits(LearnCatalog catalog, {int max = 6}) {
+/// The lessons the shelf shows first: the lesson Learn would open next ([first], chosen from where marks are lost),
+/// then anything due, then what is in progress, then the server's next lesson, then the rest in syllabus order. At
+/// most [max].
+List<LearnUnit> shelfUnits(LearnCatalog catalog, {int max = 6, String? first}) {
   int rank(LearnUnit u) {
+    if (first != null && u.id == first) return -1;
     if (u.dueCards > 0 || u.status == StudyUnitStatus.due) return 0;
     if (u.status == StudyUnitStatus.inProgress || u.status == StudyUnitStatus.lockIn) return 1;
     if (u.id == catalog.next?.id) return 2;
@@ -44,7 +47,9 @@ class ConceptsShelf extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final catalog = ref.watch(learnCatalogProvider.select((s) => s.value));
     if (catalog == null || catalog.isDisabled) return const SizedBox.shrink();
-    final units = shelfUnits(catalog);
+    // Personalised (5.11): the lesson Learn would open next leads, and says so.
+    final pick = conceptsPick(catalog, ref.watch(learnChapterCostsProvider));
+    final units = shelfUnits(catalog, first: pick.unit?.id);
     if (units.isEmpty) return const SizedBox.shrink();
     final names = {for (final s in catalog.subjects) s.id: s.title};
 
@@ -79,6 +84,7 @@ class ConceptsShelf extends ConsumerWidget {
                 final u = units[i];
                 return ConceptCard(
                   unit: u,
+                  lead: u.id == pick.unit?.id ? pick.lead.replaceAll('.', '') : null,
                   subject: names[u.subject] ?? LearnCopy.subjectLabel(u.subject),
                   onTap: () => context.push(AppRoutes.learnUnit(u.id)),
                 );
@@ -93,9 +99,12 @@ class ConceptsShelf extends ConsumerWidget {
 
 /// One lesson on the shelf: its status word, the title, and the subject with the time it takes.
 class ConceptCard extends StatelessWidget {
-  const ConceptCard({super.key, required this.unit, required this.subject, required this.onTap});
+  const ConceptCard({super.key, required this.unit, required this.subject, required this.onTap, this.lead});
 
   final LearnUnit unit;
+
+  /// "Read this next" on the lesson Learn would open next, in place of its status word.
+  final String? lead;
   final String subject;
   final VoidCallback onTap;
 
@@ -103,7 +112,7 @@ class ConceptCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final status = LearnCopy.statusWord(unit.status);
+    final status = lead ?? LearnCopy.statusWord(unit.status);
     final due = unit.dueCards > 0;
     final meta = unit.estimatedMinutes == null ? subject : '$subject, ${LearnCopy.minutes(unit.estimatedMinutes!)}';
     return MmPressable(
@@ -125,7 +134,7 @@ class ConceptCard extends StatelessWidget {
                     Bubble(state: due ? BubbleState.filled : BubbleState.hollow, size: 10, animate: false),
                     const SizedBox(width: MmSpace.s8),
                     Text(
-                      due ? LearnCopy.dueSummary(unit.dueCards).replaceAll('.', '') : status,
+                      due && lead == null ? LearnCopy.dueSummary(unit.dueCards).replaceAll('.', '') : status,
                       style: type.caption.copyWith(color: colors.ink2),
                     ),
                   ],

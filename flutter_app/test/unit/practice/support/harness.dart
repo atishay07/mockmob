@@ -17,6 +17,7 @@ import 'package:mockmob/features/result/widgets/fold_section.dart' show FoldMemo
 import 'package:mockmob/features/credits/data/credit_figures.dart' show CreditFigures, creditFiguresProvider;
 import 'package:mockmob/features/practice/widgets/suggestion_hero.dart' show draftAnsweredProvider, draftSummaryProvider;
 import 'package:mockmob/features/learn/data/catalog_repository.dart';
+import 'package:mockmob/features/learn/data/concepts_pick.dart' show ChapterCost, learnChapterCostsProvider;
 import 'package:mockmob/features/learn/models/learn_catalog.dart';
 import 'package:mockmob/core/repositories/attempts_repository.dart';
 import 'package:mockmob/core/repositories/pending_result_repository.dart';
@@ -301,8 +302,12 @@ List<Override> practiceOverrides({
 
   /// Every mistake open on the account (Practice's Repairs row); null: not read yet, no row.
   int? openRepairs,
+
+  /// Open mistakes by chapter (Learn's pick on the Learn row and shelf): none by default, never the drift database.
+  List<ChapterCost>? chapterCosts = const [],
   List<Override> extra = const [],
 }) => [
+  learnChapterCostsProvider.overrideWithValue(chapterCosts),
   practicePrefsStoreProvider.overrideWithValue(prefs ?? MemoryPrefsStore()),
   networkRestoredProvider.overrideWith((ref) => restored ?? const Stream<void>.empty()),
   attemptsRepositoryProvider.overrideWith(() => FakeAttempts(attempts)),
