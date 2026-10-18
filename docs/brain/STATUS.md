@@ -1,3 +1,68 @@
+## 18 October 2026, about 7:25 am IST - Website release 6 shipped (deploy/web-1018-r6): Review and result 1018, Ask Mobi 1018, community and Learn, badges
+
+**What shipped, by owner item (OWNER-FEEDBACK-2026-10-18-DAWN.md):**
+- **Review and result:**
+  - Review leads with weak chapters (D18).
+  - One action label per mistake, and the counts agree (D15).
+  - The analysis index is calm, with one part open at a time (D16).
+  - The replay is sized to the paper; a paper with nothing to replay says so (D17).
+  - "Play your paper back" reel (D29).
+  - A saved repair opens free (F17).
+- **Ask Mobi** is one panel opened in context, with no tabs, nothing under the theme switch, a real Day panel, and the cost shown before a paid ask (D6/D12).
+- **Contribution features** are hidden behind CONTRIBUTE_ENABLED: /upload and /my-uploads show the calm paused page. Your standing is under Progress, and Learn is in the Study group (COMMUNITY-1018, D20).
+- **Badges:** "Badges, n of 16" on Progress, tap to explain, and a one-time "Badge earned" row on the result (D19). `forgetBadges` runs after an attempt is saved.
+- **Unknown URLs** get a themed not-found page.
+
+**Merges onto R5 (58bc53f6):** web/r6-community-1018 (f9f28fba), web/r6-review-1018 (0b7ae8a4), web/r6-askmobi-1018 (d5287d3d), web/badges-1018 (9f897ef8).
+
+**Checks:**
+- Suites:
+
+  | Suite | Result |
+  |---|---|
+  | recovery | 551 pass, 3 todo |
+  | app | 596 |
+  | learning | 357 |
+  | today | 32 |
+  | community | 11 |
+  | auth | 110 |
+  | billing | 153 |
+  | nta | 188 |
+  | mob | 45 |
+  | subjects | 30 |
+  | du | 42 |
+  | dock | 7 (1 skipped) |
+  | study | 37 of 38 (the known wordnet LICENSE_UNAVAILABLE) |
+
+- eslint clean; next build --webpack exit 0.
+- **Visual check:** an independent verifier (210 captures, 390/1440, Night and Day, real pointer clicks) gave NO-GO on 1 HIGH: the docked Ask Mobi broke the result at 1280-1366. A fix round (10 commits) fixed it and 8 MEDIUM/LOW items:
+  - the layouts now use container queries;
+  - the root not-found page;
+  - the Time part says what the paper holds;
+  - Progress CLS went from 0.198 to 0.006;
+  - 44 px targets;
+  - the Ask panel without lime;
+  - the reel moments in clock order;
+  - focus after Esc;
+  - no duplicated heading.
+
+  The fix round re-checked with ~50 captures at 1280/1366/1440 docked, Night and Day, with 0 mid-word breaks. The main session looked at the docked result and Review captures.
+- **Practice zero-credit line:** left honest. Practice credits do not renew, so no renewal date is shown there.
+
+**Approval:** the owner at about 4 am: "Push everything that passes".
+
+## 18 October 2026, about 4:50 am IST - Production migration 20261017160000_revise_cards_mode applied (owner's standing grant)
+
+- **Applied by:** the main session, through the migration tool as "revise_cards_mode", right after website release 5 (58bc53f6) was pushed. The code feature-detects the column.
+- **Before:** staging dry run and apply on 17 Oct (evidence in the migration file). Undo at supabase/undo/20261017160000_revise_cards_mode.undo.sql.
+- **Production pre-check:**
+  - 27 rows; no mode column; no check constraint;
+  - RLS on; 0 policies.
+- **Production post-check:**
+  - 27 rows, all with mode 'question'; 1 mode column;
+  - the check is (mode = ANY (ARRAY['question','again']));
+  - RLS on; 0 policies (service role only).
+
 ## 18 October 2026 - Web release 6 integrated (deploy/web-1018-r6, from live main 58bc53f6 = release 5; local, not pushed, not deployed; nothing applied to any database)
 
 - Merged in order, each with the suites and eslint run after it: web/r6-community-1018 (CONTRIBUTE_ENABLED, no Community header, Your standing under Progress, Learn in the Study group, phone More marks), web/r6-review-1018 (D15, D16, D17, D18, D29, F17), web/r6-askmobi-1018 (one Ask Mobi panel and its entry points, ASK-MOBI-1018), then web/badges-1018 (BADGES-REFINE-1018: Badges as their own section of Progress after the record, a tap-to-explain sheet or popover, the earned row on the result).
