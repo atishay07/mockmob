@@ -16,6 +16,7 @@ import '../../../core/motion/motion.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../practice/data/open_paper.dart' show ContinueResult, OpenPaper;
 import '../../tools/tools_paths.dart';
 import '../copy.dart';
 import '../copy_glance.dart';
@@ -26,6 +27,7 @@ import '../widgets/also_slots.dart';
 import '../../social/social.dart' show MobTodayBlock;
 import '../widgets/colleges_card.dart' show CollegesCardInfo, CollegesCardStatus;
 import '../widgets/move_hero.dart';
+import '../widgets/open_paper_hero.dart';
 import '../widgets/resume_hero.dart';
 import '../widgets/glance_rows.dart';
 import '../widgets/road_glance.dart';
@@ -52,6 +54,8 @@ class TodayCallbacks {
     this.onWeeklyEnding,
     this.onPlayReel,
     this.onSkipReel,
+    this.onContinuePaper,
+    this.onLetGoPaper,
   });
 
   final void Function(TodayAction action) onAction;
@@ -75,6 +79,10 @@ class TodayCallbacks {
   /// card and the Up next card returns.
   final Future<void> Function(SealedHero paper)? onPlayReel;
   final Future<void> Function(SealedHero paper)? onSkipReel;
+
+  /// The open paper's card (v15 walk, credits): ask for the paper again, or let a start nobody read go.
+  final Future<ContinueResult> Function(OpenPaper paper)? onContinuePaper;
+  final Future<void> Function(OpenPaper paper)? onLetGoPaper;
 }
 
 /// The student's pick among the lead card's choices, per day (TODAY-1018 6.2): kept for the run so
@@ -245,6 +253,7 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
       SealedHero() => GlanceCopy.upNextLine(TodayCopy.reelTitle, null),
       ResumeHero() => GlanceCopy.upNextLine(hero.keyLabel, null),
       EndedHero() => GlanceCopy.upNextLine(hero.title, null),
+      OpenPaperHero() => GlanceCopy.upNextLine(hero.keyLabel, null),
       null => null,
     };
   }
@@ -642,6 +651,13 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
           onAction: cb.onAction,
           retrying: widget.retrying,
           demoteAction: widget.view.also.any((s) => s.lead),
+        ),
+      OpenPaperHero() => OpenPaperHeroCard(
+          key: ValueKey(hero.paper.identity),
+          hero: hero,
+          onContinue: cb.onContinuePaper,
+          onLetGo: cb.onLetGoPaper,
+          onOpened: (sessionId) => cb.onAction(TodayAction('', GoTo(AppRoutes.run(sessionId)), actionType: 'resume')),
         ),
     };
   }

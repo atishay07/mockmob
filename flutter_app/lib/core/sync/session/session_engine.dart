@@ -163,6 +163,11 @@ class SessionEngine extends ChangeNotifier {
   }
 
   /// Starts a new session from a session view the server just returned.
+  ///
+  /// [serverEvents] are the events the server already holds for a paper this phone is taking over
+  /// (a durable session read by id, not one it has just opened): the journal begins as exactly that
+  /// log and all of it counts as acknowledged, so the answers and the place the student left come
+  /// back and every later save is a clean continuation of it. Empty for a paper that is new.
   static Future<SessionEngine> start({
     required SessionEngineServices services,
     required SessionView view,
@@ -174,6 +179,7 @@ class SessionEngine extends ChangeNotifier {
     String? difficulty,
     int? mockNumber,
     String? draftKey,
+    List<SessionEvent> serverEvents = const [],
   }) async {
     final clock = services.clockFactory?.call() ?? SessionClock();
     clock.anchor(
@@ -211,17 +217,38 @@ class SessionEngine extends ChangeNotifier {
       mockNumber: mockNumber,
       startedRefWallMs: clock.startedRefWallMs,
       endsAtWallMs: clock.endsAtWallMs,
+      acknowledgedSequence: serverEvents.isEmpty ? 0 : serverEvents.last.seq,
+      lastAckAtMs: serverEvents.isEmpty ? null : services.now().millisecondsSinceEpoch,
+      visited: _visitedIn(serverEvents),
+      marked: _markedIn(serverEvents),
     );
     await services.drafts.save(draft);
     final journal = await SessionJournal.open(services.db, userId: services.userId, sessionId: draft.sessionId, now: services.now);
+    if (serverEvents.isNotEmpty) await journal.replaceWith(serverEvents);
     final engine = SessionEngine._(services: services, draft: draft, clock: clock, journal: journal);
-    if (view.questions.isNotEmpty) {
+    if (serverEvents.isEmpty && view.questions.isNotEmpty) {
       // The first event is a visit on question 1.
       await journal.recordVisit(view.questions.first.id, clock);
       engine._visited.add(view.questions.first.id);
     }
     engine._begin();
     return engine;
+  }
+
+  /// The questions a log shows as opened (a visit or an answer), for the palette of a paper taken over from the server.
+  static Set<String> _visitedIn(List<SessionEvent> events) => {
+    for (final e in events)
+      if (e.type == SessionEvent.visit || e.isAnswer) e.qid,
+  };
+
+  /// The questions a log leaves marked for review: the last mark event of each decides.
+  static Set<String> _markedIn(List<SessionEvent> events) {
+    final out = <String>{};
+    for (final e in events) {
+      if (e.type != SessionEvent.mark) continue;
+      (e.marked ?? false) ? out.add(e.qid) : out.remove(e.qid);
+    }
+    return out;
   }
 
   /// The draft table holds one row per selection, so saving a new session would overwrite an

@@ -238,6 +238,10 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
           offline ? PracticeCopy.offlineAutoStart : StartFailureView(failure, message: message).text,
           offline ? StateViewKind.offline : StateViewKind.error,
         );
+      case LaunchOpenPaper(:final paper):
+        // Only a start that spends credits waits for an open paper, and this screen starts only free
+        // ones; the case is here so the screen can never start past one.
+        _stop(PracticeCopy.openFirst(apiMode: paper.apiMode), StateViewKind.error);
     }
   }
 

@@ -9,6 +9,8 @@ import '../../../core/domain/session_rules.dart';
 import '../../../core/models/attempt.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/widgets/bubbles/bubble_painter.dart';
+import '../../practice/copy.dart' show PracticeCopy;
+import '../../practice/model/open_paper.dart' show OpenPaperKind;
 import '../../rhythm/logic/plan_week.dart';
 import '../../rhythm/logic/week_outlook.dart';
 import '../copy.dart';
@@ -239,12 +241,11 @@ String _draftLabel(TodayDraft d) => d.isMock ? (d.mockNumber == null ? 'Your moc
 
 TodayHero? _resumeOrEnded(TodayInputs i) {
   final d = i.draft;
-  if (d == null) return null;
-  final label = _draftLabel(d);
-  final subject = subjectName(d.subject);
-  final title = TodayCopy.resumeTitle(label, subject);
-  final ended = !d.endsAt.isAfter(i.now);
-  if (!ended && d.resumable) {
+  final ended = d != null && !d.endsAt.isAfter(i.now);
+  if (d != null && !ended && d.resumable) {
+    final label = _draftLabel(d);
+    final subject = subjectName(d.subject);
+    final title = TodayCopy.resumeTitle(label, subject);
     final saved = d.lastAckAt == null ? TodayCopy.answersOnPhone : TodayCopy.savedAt(i.clock(d.lastAckAt));
     return ResumeHero(
       sessionId: d.sessionId,
@@ -258,7 +259,14 @@ TodayHero? _resumeOrEnded(TodayInputs i) {
       subjectId: canonicalSubject(d.subject),
     );
   }
-  if (!ended || !d.isMock) return null;
+  // A paper that is open and that this phone is not running holds the hero the way a running one does: its
+  // credits are spent, so it is continued before anything else is offered (v15 walk, credits).
+  final open = _openPaper(i);
+  if (open != null) return open;
+  if (d == null || !ended || !d.isMock) return null;
+  final label = _draftLabel(d);
+  final subject = subjectName(d.subject);
+  final title = TodayCopy.resumeTitle(label, subject);
   // The notice is for the evening it happened. Once a day has passed it stops being the hero
   // (the paper is in the sheet, or the window is long closed), so Today moves on to tonight's
   // move. The draft and its answers stay where they are.
@@ -287,6 +295,22 @@ TodayHero? _resumeOrEnded(TodayInputs i) {
     EndedMockOutcome.needsCheck => (TodayCopy.endedChecking(label, at), const TodayAction(TodayCopy.tryAgain, RetryLoad())),
   };
   return EndedHero(title: title, line: line, action: action, subjectId: canonicalSubject(d.subject));
+}
+
+/// The card for a paper that is open and not on this phone: what it is, when it ends if the server said, and
+/// the one key that continues it. A start nobody read has no clock to give, so its line says what happened.
+OpenPaperHero? _openPaper(TodayInputs i) {
+  final paper = i.openPaper;
+  if (paper == null) return null;
+  final endsAt = paper.endsAt;
+  return OpenPaperHero(
+    paper: paper,
+    overline: paper.kind == OpenPaperKind.pending ? PracticeCopy.pendingOverline : TodayCopy.resumeOverline,
+    title: PracticeCopy.openTitle(apiMode: paper.apiMode, subject: subjectName(paper.subjectId), mockNumber: paper.mockNumber),
+    line: endsAt == null ? PracticeCopy.openPendingReason : TodayCopy.endsAt(i.clock(endsAt)),
+    keyLabel: PracticeCopy.openKey(apiMode: paper.apiMode),
+    subjectId: canonicalSubject(paper.subjectId),
+  );
 }
 
 Attempt? _attempt(TodayInputs i, String id) {
@@ -328,6 +352,7 @@ AlsoSlot _slotFor(TodayHero h) => switch (h) {
           action: TodayAction(h.keyLabel, GoTo(AppRoutes.run(h.sessionId)), actionType: 'resume'),
         ),
       EndedHero() => AlsoSlot(title: h.title, line: h.line, action: h.action),
+      OpenPaperHero() => AlsoSlot(title: h.title, line: h.line, action: TodayAction(h.keyLabel, GoTo(AppRoutes.practice))),
       MoveHero() => _moveSlot(h),
     };
 

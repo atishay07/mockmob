@@ -21,6 +21,7 @@ import '../../tools/data/my_colleges_actions.dart' show MyCollegesStatus, myColl
 import '../../tools/my_colleges/my_colleges_sheet.dart' show showMyCollegesSheet;
 import '../data/road_plan.dart' show roadPlanProvider;
 import '../data/today_providers.dart';
+import '../../practice/data/open_paper.dart' show paperContinuerProvider;
 import '../../practice/data/practice_quote.dart' show practiceQuoteProvider;
 import '../logic/links.dart';
 import '../logic/move_price.dart';
@@ -343,6 +344,8 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
         onRefresh: () => ref.read(todayActionsProvider).refresh(),
         onPlayReel: _playReel,
         onSkipReel: _skipReel,
+        onContinuePaper: (paper) => ref.read(paperContinuerProvider).open(paper),
+        onLetGoPaper: (paper) => ref.read(paperContinuerProvider).letGo(paper),
         onCollegesRetry: () => unawaited(ref.read(myCollegesActionsProvider.notifier).retry()),
         road: RoadActions(
           // The goal on the account, then the weekdays, then the phone; it throws on a failed

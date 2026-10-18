@@ -5,8 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/api/api.dart';
 import '../../../core/auth/auth_state.dart';
 import '../../../core/models/practice_quote.dart';
+import '../../../core/repositories/plan_repository.dart';
 import '../model/cost_line.dart';
 import '../model/practice_selection.dart';
+import 'open_paper.dart';
 import 'practice_catalog.dart';
 import 'practice_quote.dart';
 import 'practice_starter.dart';
@@ -37,6 +39,14 @@ class LaunchFailed extends LaunchResult {
 
   final StartFailure failure;
   final String? message;
+}
+
+/// A paper is open, so nothing was charged for another: the student continues that one first (v15 walk,
+/// credits). Only a start that would take credits waits; a free one never does.
+class LaunchOpenPaper extends LaunchResult {
+  const LaunchOpenPaper(this.paper);
+
+  final OpenPaper paper;
 }
 
 /// True when starting on [quote] would take credits (not free by allowance, not Pro access).
@@ -78,6 +88,12 @@ Future<LaunchResult> _launchPractice(WidgetRef ref, PracticeSelection selection,
   }
   if (!quote.launchable) return LaunchNeedsLook(quote, costChanged: false);
 
+  // Never a second paid paper while one is open: the open one is continued, so nothing is charged twice.
+  if (quoteSpendsCredits(quote)) {
+    final open = await _openPaper(ref);
+    if (open != null) return LaunchOpenPaper(open);
+  }
+
   int? mockNumber;
   if (selection.mode.isMock) {
     final catalog = ref.read(practiceSubjectsProvider).value;
@@ -88,6 +104,17 @@ Future<LaunchResult> _launchPractice(WidgetRef ref, PracticeSelection selection,
 
   final outcome = await ref.read(practiceStarterProvider).start(selection, quote: quote, mockNumber: mockNumber);
   return _resultOf(ref, outcome);
+}
+
+/// The paper a credit-spending start must wait for, or null. A read that fails never stops a start: the
+/// guard only adds a stop, it never takes one away.
+Future<OpenPaper?> _openPaper(WidgetRef ref) async {
+  try {
+    final held = heldHintOf(ref.read(planRepositoryProvider(openPaperPlanMinutes)).value);
+    return await ref.read(openPaperResolverProvider).blocker(held);
+  } on Object {
+    return null;
+  }
 }
 
 LaunchResult _resultOf(WidgetRef ref, StartOutcome outcome) {

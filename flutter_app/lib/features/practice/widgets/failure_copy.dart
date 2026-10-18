@@ -17,6 +17,7 @@ class StartFailureView {
     StartFailure.notEnoughCredits => PracticeCopy.notEnoughCredits,
     StartFailure.notIncluded => PracticeCopy.notIncluded,
     StartFailure.rateLimited => PracticeCopy.slowDown,
+    StartFailure.ended => PracticeCopy.paperEnded,
   };
 
   /// A retry is pointless until the student changes something.

@@ -171,7 +171,7 @@ HomeWidgetData? homeWidgetFromToday({
 bool _isErrorCard(TodayHero hero) => switch (hero) {
       MoveHero() => hero.state == NextMoveState.historyUnavailable || hero.primary.target is RetryLoad,
       EndedHero() => hero.action.target is RetryLoad,
-      ResumeHero() || SealedHero() => false,
+      ResumeHero() || SealedHero() || OpenPaperHero() => false,
     };
 
 WidgetStamp _stamp(TodayInputs i, DateTime at) {
@@ -210,6 +210,14 @@ WidgetMove widgetMoveFor(TodayHero hero, TodayInputs inputs) => switch (hero) {
           // Today drops the notice a day after the session closed, and so does the widget (it
           // falls back to "Open MockMob"), even if the app is not opened again until then.
           until: inputs.draft?.endsAt.add(endedNoticeWindow),
+        ),
+      // A paper that is open and not on this phone is continued from Today, which leads with it: the widget opens Today.
+      OpenPaperHero() => WidgetMove(
+          overline: hero.overline,
+          title: hero.title,
+          action: hero.keyLabel,
+          href: widgetHref(const GoTo(AppRoutes.today)),
+          until: hero.paper.endsAt,
         ),
       // The paper reel plays from Today (D29): the widget opens Today, where it waits once.
       SealedHero() => WidgetMove(

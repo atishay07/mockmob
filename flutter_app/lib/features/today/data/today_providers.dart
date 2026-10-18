@@ -13,6 +13,7 @@ import '../../../core/connectivity/connectivity.dart';
 import '../../../core/domain/session_rules.dart';
 import '../../../core/models/models.dart' show Attempt;
 import '../../../core/repositories/repositories.dart';
+import '../../practice/data/open_paper.dart' show openPaperProvider;
 import '../../review/data/review_providers.dart' show openRepairsProvider;
 import '../../review/revise/revise_data.dart' show reviseCapProvider, reviseEntryProvider;
 import '../../rhythm/data/rhythm_providers.dart' show rhythmClockProvider;
@@ -314,6 +315,7 @@ final todayInputsProvider = Provider<TodayInputs>((ref) {
     weekFailed: weekFailed,
     returning: rhythm.rhythm?.returning ?? false,
     draft: ref.watch(todayDraftProvider).value,
+    openPaper: ref.watch(openPaperProvider).value,
     unopened: [
       for (final u in ref.watch(unopenedResultsProvider).value ?? const <PendingResult>[])
         (attemptId: u.attemptId, receivedAt: u.receivedAt),

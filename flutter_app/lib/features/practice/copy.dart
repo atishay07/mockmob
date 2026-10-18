@@ -49,6 +49,28 @@ abstract final class PracticeCopy {
   static String resumeMockReason(DateTime endsAt) => 'The clock ends at ${formatTime12(endsAt)}.';
   static const String resumePracticeReason = 'Pick up where you left off.';
 
+  // A paper that is open and not on this phone: a start the app never saw the answer to (killed, or the
+  // signal went after the request left, so the server may have opened it and taken the credits), or a
+  // paper the server holds. The card offers to continue it; a second paid start waits for it.
+  static const String pendingOverline = 'Not opened yet';
+
+  /// "full mock", "NTA mock" or "practice set": what the paper is called in the card's key and its lines.
+  static String openKind({required String apiMode}) => switch (apiMode) {
+    'full' => 'full mock',
+    'nta' => 'NTA mock',
+    _ => 'practice set',
+  };
+
+  /// "Mock 7, Accountancy" when the paper has its number, else "Your full mock, Accountancy".
+  static String openTitle({required String apiMode, required String subject, int? mockNumber}) =>
+      mockNumber != null && (apiMode == 'full' || apiMode == 'nta') ? 'Mock $mockNumber, $subject' : 'Your ${openKind(apiMode: apiMode)}, $subject';
+  static const String openPendingReason = 'It began to open and did not finish. Opening it again never takes credits twice.';
+  static String openKey({required String apiMode}) => 'Continue your ${openKind(apiMode: apiMode)}';
+  static const String openNotNow = 'Not now';
+  static String openFirst({required String apiMode}) =>
+      'Your ${openKind(apiMode: apiMode)} is still open. Continue it first, so nothing is charged twice.';
+  static const String paperEnded = 'That paper has ended, so it cannot be opened. Nothing more was charged. Start again for a new one.';
+
   static String chapterKicker(String subject) => '$subject, one chapter';
   static String chapterReasonMock(int marks, String mockLabel) => 'It cost you $marks marks in $mockLabel.';
   static String chapterReasonPractice(int missed) =>

@@ -3,6 +3,7 @@
 import '../../../core/domain/next_move.dart';
 import '../../../core/widgets/bubbles/bubble_painter.dart';
 import '../../../core/widgets/art/mm_art.dart';
+import '../../practice/model/open_paper.dart' show OpenPaper, OpenPaperKind;
 import '../../rhythm/logic/plan_week.dart';
 import 'glance_model.dart';
 import 'road_board.dart' show RoadBoard;
@@ -293,6 +294,36 @@ class ResumeHero extends TodayHero {
   final String? lead;
   @override
   final String? subjectId;
+}
+
+/// A paper that is open and that this phone is not running: a start whose answer never came (the app was
+/// killed after the server may have taken the credits), or a paper the server holds. It leads like a paper
+/// still running does, because the credits are already spent: one key continues it, and nothing is charged
+/// twice (v15 walk, credits).
+class OpenPaperHero extends TodayHero {
+  const OpenPaperHero({
+    required this.paper,
+    required this.overline,
+    required this.title,
+    required this.line,
+    required this.keyLabel,
+    this.subjectId,
+  });
+
+  final OpenPaper paper;
+  final String overline;
+
+  /// "Mock 7, Accountancy", or "Your full mock, Accountancy".
+  final String title;
+  final String line;
+
+  /// "Continue your full mock".
+  final String keyLabel;
+  @override
+  final String? subjectId;
+
+  /// A start nobody ever read can be let go ("Not now"); a paper the server holds cannot, it is really open.
+  bool get canLetGo => paper.kind == OpenPaperKind.pending;
 }
 
 /// A mock whose time ran out while the student was away (three copies from real state).
