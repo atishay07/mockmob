@@ -80,3 +80,39 @@ AUTOPILOT-GOAL-1019.md section 2 and BRIEF-1019-COMMON.md cover the boundaries, 
   - Vercel: prj_uSolddribHQDl1mM5AKxg3O9qCIu, team_V5PhMz9hqV42vblUMcvhYqoN.
   - Supabase: production isrxrxzjocewrdureyhp, staging onwkqxmjqjrhfbjjdydu.
 - **A watcher for silent agents:** mockmob-next/tmp/autopilot-1019/agentwatch.mjs. Run it with the session's tasks folder as the argument.
+
+## Live status at about 2:40 am (session 25ef3d95; the owner may switch accounts any minute)
+**Done:**
+- B1 web nav: pick A.
+- B2 Ask Mobi: pick B.
+- B3 hero motion: pick C.
+
+  All picked under D112 and recorded at the end of OWNER-FEEDBACK-2026-10-19.md, with the board images sent to the owner.
+- Acceptance checklist: docs/brain/ACCEPTANCE-1019.md (46 blocks; walk order at the end).
+- Disk clean-up.
+- CTO decision C-dec 1: the first full mock in each subject is free.
+
+**Running** (if the account switch kills them, relaunch each from its brief in docs/brain/briefs-1019/ with a RESUMED line; never duplicate a live one: first check its transcript mtime under ~/.claude/projects/C--Users-atish-Desktop-mockmob-copy/25ef3d95-*/subagents/):
+
+| Brief | Agent |
+|---|---|
+| 01 | A1 shell and Practice |
+| 02 | A2a onboarding and colleges |
+| 03 | A2b Today and deck |
+| 04 | A3 result and Your papers |
+| 05 | A5 range (told about C-dec 1) |
+| 06 | A4a web polish (first commit in) |
+| 07 | A4b web UX |
+| 12 | G16 fresh-account baseline walk (v15.2) |
+| 13 | web baseline captures |
+| 15 | C1 web nav A |
+| 16 | C2 Ask Mobi B (app) |
+| 17 | C3 hero motion C |
+| 18 | W5 first full mock free (server) |
+
+**Next:**
+1. Merge each owner when it finishes (app into wt-v15-3, web into wt-rel11).
+2. The final walks per ACCEPTANCE-1019.md.
+3. One Opus verifier per platform.
+4. The v15.3 APK; release 11.
+5. MESSAGE-1019.md.
