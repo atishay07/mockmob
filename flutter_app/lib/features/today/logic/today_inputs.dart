@@ -8,6 +8,7 @@ import '../../../core/models/learning_plan.dart';
 import '../../../core/notifications/timezones.dart';
 import '../../../core/repositories/dismissal_repository.dart';
 import '../../practice/model/open_paper.dart' show OpenPaper;
+import '../../review/model/review_chapters.dart' show ChapterRow;
 import '../data/today_profile.dart';
 import 'road_board.dart' show RoadPlan;
 
@@ -122,6 +123,7 @@ class TodayInputs {
     this.email,
     this.repairedToday = 0,
     this.openRepairs,
+    this.reviewChapters,
   });
 
   final DateTime now;
@@ -226,6 +228,11 @@ class TodayInputs {
   /// holds, answers marked not a mistake left out), so the screens cannot disagree; null while that index is not
   /// built, and then the tile falls back to counting the papers on hand.
   final int? openRepairs;
+
+  /// Review's chapters, most marks lost first (`chapterRows`: 6 a wrong answer, 5 a blank, against 5 a question on offer,
+  /// over every opened paper): the record Weak chapters ranks and prices, so Today and Review print one figure per chapter
+  /// (final walk, H6). Null while Review's index is not built; Weak chapters then runs the same function on the papers here.
+  final List<ChapterRow>? reviewChapters;
 
   /// Whole days since the newest paper, or null with no paper on record.
   int? get daysAway {

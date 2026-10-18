@@ -18,6 +18,7 @@ import '../../../core/widgets/art/mm_art.dart';
 import '../../../core/widgets/bubbles/bubble_painter.dart';
 import '../../practice/model/practice_selection.dart' show mockQuestionCount, practiceCounts;
 import '../copy.dart';
+import '../copy_glance.dart' show GlanceCopy;
 import 'links.dart';
 import 'subjects.dart';
 import 'today_inputs.dart';
@@ -584,8 +585,9 @@ MoveHero? _firstWeek(TodayInputs i, MoveFacts f, NextMoveState state) {
 
 /// Today's Revise round in numbers, the one place that says how many questions it asks: [due] is everything due
 /// today (the server's count), [remaining] what the server shows for the round (never more than are due), and [size]
-/// the round itself at the student's cap of 5 or 10. The lead card ("10 of 92 due today") and the Revise tile read
-/// this and nothing else, so the two never say different things about the same round (v15 walk, M6).
+/// the round itself at the student's cap of 5 or 10. The lead card ("10 mistakes come back today"), the Revise tile, the
+/// deck card and the Suggested choice print [size] and nothing else, the number the Revise page prints too, so no screen
+/// says a different count for the same round (v15 walk M6, final walk H3).
 ({int due, int remaining, int size}) reviseRoundOf(TodayInputs i) {
   final due = i.reviseDue ?? 0;
   final remaining = math.max(1, math.min(i.reviseShown ?? due, due));
@@ -594,14 +596,13 @@ MoveHero? _firstWeek(TodayInputs i, MoveFacts f, NextMoveState state) {
 }
 
 /// Today's Revise round as the move (TODAY-1017 4.2 applied to Revise; device walk 17 Oct). The
-/// number is the round's own size at the student's cap (5 or 10), over "of 92 due today" when
-/// fewer than all are asked, so the key's minutes never seem to cover all of them. The title names
+/// number is the round's own size at the student's cap (5 or 10), never the backlog, so the key's
+/// minutes never seem to cover more than the round. The title names
 /// the subjects the round's questions are from, not the newest paper's; the why names the papers
 /// they were missed on (matched on this phone's record) with their dates, and See why opens the
 /// newest of them. Change length switches between 5 and 10 questions.
 MoveHero _revise(TodayInputs i, MoveFacts f, NextMoveState state, String overline, {required String fallbackSubject}) {
   final round = reviseRoundOf(i);
-  final due = round.due;
   final remaining = round.remaining;
   final size = round.size;
   // A minute a question, so the length token ("about 9 min") and the key ("Start Revise, 9 min")
@@ -792,16 +793,11 @@ MoveHero? reviseMoveFor(TodayInputs i) {
   return _revise(i, f, nextMoveState(f.table), TodayCopy.moveOverline(i.clock()), fallbackSubject: subject);
 }
 
-/// Practise the weakest chapter: [chapter] in [subject], with its marks open over [papers] papers.
-MoveHero weakestMoveFor(
-  TodayInputs i, {
-  required String subject,
-  required String chapter,
-  required int marks,
-  required int missed,
-  required int asked,
-  required int papers,
-}) {
+/// Practise the weakest chapter: [chapter]'s own figures, Review's record for it (marks lost, wrong and blank, of the
+/// questions asked), so the card and Review never print two numbers for one chapter.
+MoveHero weakestMoveFor(TodayInputs i, {required WeakChapter chapter}) {
+  final w = chapter;
+  final subject = w.subjectId;
   final options = _practiceOptions();
   final count = _practiceCount(i, options);
   final name = subjectName(subject);
@@ -814,15 +810,15 @@ MoveHero weakestMoveFor(
     subjectLine: name,
     art: HeroArt.object(subject: canonicalSubject(subject)),
     number: '$count',
-    numberLabel: 'questions on\n$chapter',
-    meaning: '$chapter has $marks marks open in your record: $missed of $asked questions missed. Marked +5 and −1, the CUET way.',
+    numberLabel: GlanceCopy.weakestLabel(w.chapter),
+    meaning: GlanceCopy.weakestWhy(w.chapter, lost: w.marks, offer: w.offer, wrong: w.wrong, blank: w.blank, asked: w.asked),
     durationPrompt: TodayCopy.practiceLength,
     durations: options,
     selectedMinutes: count,
-    summary: 'Practise $chapter',
+    summary: 'Practise ${w.chapter}',
     primary: TodayAction(
       'Start practice, $count min',
-      GoTo(TodayLinks.quick(subject: subject, count: count, chapter: chapter)),
+      GoTo(TodayLinks.quick(subject: subject, count: count, chapter: w.chapter)),
       startsSession: true,
       actionType: 'practice',
     ),

@@ -51,7 +51,7 @@ class SuggestedCard {
   final String? cost;
   final String title;
 
-  /// One line of evidence from the record ("Partnership fundamentals: 15 of 63 missed, 75 marks open.").
+  /// One line of evidence from the record ("Partnership fundamentals: 15 of 63 missed, 80 marks lost.").
   final String line;
   final SuggestedArt art;
   final String? subjectId;

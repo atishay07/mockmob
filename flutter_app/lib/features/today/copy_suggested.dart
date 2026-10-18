@@ -64,7 +64,7 @@ abstract final class SuggestedCopy {
   static String costMock(String subject, int questions, int minutes) => '$subject, $questions questions, $minutes min';
 
   /// The one evidence line.
-  static String weakestLine(String chapter, int missed, int asked, int marks) => '$chapter: $missed of $asked missed, $marks marks open.';
+  static String weakestLine(String chapter, int missed, int asked, int marks) => '$chapter: $missed of $asked missed, $marks marks lost.';
 
   /// The lead card's own noun ("6 mistakes come back today"), so the move reads the same in both.
   static String reviseLine(int due) => due == 1 ? '1 mistake you repaired comes back today.' : '$due mistakes you repaired come back today.';

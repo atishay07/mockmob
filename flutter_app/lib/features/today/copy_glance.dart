@@ -29,7 +29,8 @@ abstract final class GlanceCopy {
   /// answer), never a promise of marks to gain.
   static String stake(int marks) => '$marks marks they cost you';
   static String stakeThen(int marks) => '$marks marks they cost you then';
-  static String stakeOpen(int marks, int papers) => '$marks marks open there, over ${plural(papers, 'paper')}';
+  /// "374 marks lost there, over 12 papers": the chapter's marks lost, Review's figure, and the papers it lost them in.
+  static String stakeLost(int marks, int papers) => '$marks marks lost there, over ${plural(papers, 'paper')}';
   static String lengthToken(int minutes) => 'about $minutes min';
   static String lengthTokenSemantics(int minutes) => 'Length, about $minutes minutes. Change length.';
   /// The full mock is exactly its 60 minutes, so its token never says "about".
@@ -37,8 +38,13 @@ abstract final class GlanceCopy {
   static String lengthTokenExactSemantics(int minutes) => 'Length, $minutes minutes. Change length.';
 
   static String weakestLabel(String chapter) => 'questions on\n$chapter';
-  static String weakestWhy(String chapter, int marks, int missed, int asked) =>
-      '$chapter has $marks marks open in your record: $missed of $asked questions missed. Marked +5 and −1, the CUET way.';
+  /// Review's words for the chapter: "Share Capital lost 374 of the 415 marks on offer in your record: 19 wrong and 52 left
+  /// blank, of 83 questions." Past the offer (6 go for a wrong answer, 5 are on offer) the "of" is left out, as on Review.
+  static String weakestWhy(String chapter, {required int lost, required int? offer, required int wrong, required int blank, required int asked}) {
+    final head = offer == null || lost > offer ? '$chapter lost $lost marks in your record' : '$chapter lost $lost of the $offer marks on offer in your record';
+    final counted = listJoin([if (wrong > 0) '$wrong wrong', if (blank > 0) '$blank left blank']);
+    return '$head: $counted, of ${plural(asked, 'question')}. Marked +5 and −1, the CUET way.';
+  }
   static const String mockLabel = 'questions in\n60 minutes';
   static const String mockWhy = 'A full paper, timed like the real one. It shows where the marks go across every chapter at once.';
   static String otherSubjectLabel(String subject) => 'questions in\n$subject';
@@ -52,7 +58,8 @@ abstract final class GlanceCopy {
   static const String choiceRepair = 'Repair a mistake';
   static String choiceRepairLine(int open, String from) => '$open open from $from';
   static const String choiceRevise = 'Revise what is due';
-  static String choiceReviseLine(int due, int minutes) => '$due due, about $minutes min';
+  /// The round the lead card and the Revise page name ("9 due, about 9 min"), never the whole backlog.
+  static String choiceReviseLine(int round, int minutes) => '$round due, about $minutes min';
   static const String choiceWeakest = 'Practise your weakest';
   static const String choiceMock = 'Full mock instead';
   static const String choiceMockLine = '50 questions, 60 min';
@@ -239,9 +246,13 @@ abstract final class GlanceCopy {
 
   // Weak chapters.
   static const String weakTitle = 'Weak chapters';
-  static String weakSub(int papers) => 'Where your marks go, from your last ${plural(papers, 'paper')}';
+  /// The scope Review reads too: every opened paper.
+  static String weakSub(int papers) => papers == 1 ? 'Where your marks go, from 1 paper' : 'Where your marks go, across your $papers papers';
   static String weakLine(String subject, int missed, int asked) => '$subject, $missed of $asked missed';
   static const String marks = 'marks';
+
+  /// Under a weak chapter's figure: the marks it lost, Review's own count ("374 of 415 marks lost" there).
+  static const String marksLost = 'marks lost';
   static const String practise = 'Practise';
   static const String repair = 'Repair';
   static const String seeRepair = 'See repair';
@@ -255,7 +266,7 @@ abstract final class GlanceCopy {
   static const String weakNone = 'No chapter stands out yet. Every chapter you have answered is holding.';
   static const String weakFailed = 'Your weak chapters did not load.';
   static String weakRowSemantics(String chapter, String line, int marks, bool open) =>
-      '$chapter. $line. $marks marks. ${open ? 'Hide mistakes' : 'Show mistakes'}.';
+      '$chapter. $line. $marks marks lost. ${open ? 'Hide mistakes' : 'Show mistakes'}.';
 
   // Last paper.
   static const String paperTitle = 'Last paper';

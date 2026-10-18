@@ -178,6 +178,9 @@ class WeakChapter {
     required this.mistakes,
     required this.practise,
     required this.review,
+    this.blank = 0,
+    this.offer,
+    this.papers = 1,
   });
 
   final String chapter;
@@ -186,15 +189,24 @@ class WeakChapter {
   final String subject;
   final String subjectId;
 
-  /// Questions missed (wrong or blank) over [asked] in this chapter.
+  /// Questions missed (wrong or blank, [wrong] + [blank]) over [asked] in this chapter.
   final int missed;
   final int asked;
 
-  /// Marks not gained there: 5 for each missed question.
+  /// Marks lost there, Review's own figure for the chapter: 6 a wrong answer (5 not earned and 1 taken off) and 5 a blank.
   final int marks;
+
+  /// Marks on offer (5 a question asked), or null when not known. [marks] can pass it (6 lost a wrong answer).
+  final int? offer;
 
   /// Wrong answers in all (the "All 9 in Review" count).
   final int wrong;
+
+  /// Questions left blank.
+  final int blank;
+
+  /// Papers the chapter lost marks in.
+  final int papers;
   final List<WeakMistake> mistakes;
   final TodayTarget practise;
   final TodayTarget review;
@@ -205,7 +217,7 @@ class WeakChapters {
 
   final List<WeakChapter> rows;
 
-  /// Papers the ranking reads ("from your last 9 papers").
+  /// Papers the ranking reads: every opened paper, as Review reads them ("across your 25 papers").
   final int papers;
   final bool failed;
   final bool dayOne;
