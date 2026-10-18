@@ -11,6 +11,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
+import 'package:mockmob/features/insights/ask_mobi.dart' show AskMobiCard;
+import 'package:mockmob/features/insights/data/ask_doors.dart' show AskDoorCopy;
 import 'package:mockmob/features/practice/copy.dart';
 import 'package:mockmob/features/practice/practice_routes.dart';
 
@@ -112,13 +114,15 @@ void main() {
     }
     final barTop = phone.height - _gesture - MmBar.lift - MmBar.height;
     expect(tester.getRect(find.text('Repairs')).bottom, lessThanOrEqualTo(barTop), reason: 'Repairs is whole above the bar at first view');
-    expect(tester.getRect(find.text('Ask Mobi what to practise')).bottom, lessThanOrEqualTo(barTop), reason: 'so is Ask Mobi');
-    final pair = tester.getRect(find.byKey(const ValueKey('choice-quick')));
-    expect(pair.top, greaterThan(tester.getRect(find.text('Ask Mobi what to practise')).bottom), reason: 'the pair comes after the two rows');
-    // One short scroll (about a third of a screen) brings the pair, titles and notes, above the bar.
+    // ASK-MOBI-1019 B: Ask Mobi's card took the old row's slot; its title and line are above the bar at first view.
+    final askTitle = find.descendant(of: find.byType(AskMobiCard), matching: find.text(AskDoorCopy.cardTitle));
+    expect(tester.getRect(askTitle).bottom, lessThanOrEqualTo(barTop), reason: 'so is Ask Mobi');
+    // One short scroll (under half a screen; the card is about 100 dp taller than the row it replaced) brings the
+    // pair, titles and notes, above the bar.
     final scrollable = find.byType(Scrollable).first;
-    await tester.drag(scrollable, const Offset(0, -220));
+    await tester.drag(scrollable, const Offset(0, -330));
     await tester.pump(const Duration(milliseconds: 400));
+    expect(tester.getRect(find.byKey(const ValueKey('choice-quick'))).top, greaterThan(tester.getRect(find.byType(AskMobiCard)).bottom), reason: 'the pair comes after the rows and the card');
     for (final (id, title, note) in const [('quick', 'Quick practice', PracticeCopy.quickLine), ('chapter', 'By chapter', PracticeCopy.chapterLine)]) {
       expect(tester.getRect(find.byKey(ValueKey('choice-$id'))).top, lessThanOrEqualTo(barTop - 120), reason: 'the $id card starts well above the bar after one scroll');
       expect(tester.getRect(find.text(title)).bottom, lessThanOrEqualTo(barTop - MmSpace.s24), reason: '$title rests above the bar after one scroll');

@@ -8,7 +8,7 @@ import 'widgets/ask_sheet.dart';
 export 'data/ask_mobi_context.dart';
 export 'data/ask_mock_lines.dart';
 export 'widgets/ask_entries.dart' show AskMobiLink, AskMobiPracticeRow;
-export 'widgets/ask_mobi_button.dart' show AskDoor, AskMobiButton, openAskMobiScreen;
+export 'widgets/ask_mobi_button.dart' show AskDoor, AskKeyLabel, AskMobiButton, openAskMobiScreen;
 export 'widgets/ask_mobi_card.dart' show AskMobiCard;
 
 /// Opens Ask Mobi over the screen the student is on, already about [about] (ASK-MOBI-1018 3).

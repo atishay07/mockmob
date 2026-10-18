@@ -1,9 +1,11 @@
 // M7 of the v15 emulator walk (the owner's D5): on Practice, Repairs and "Ask Mobi what to practise" sat at the very bottom
 // of the page, three screens down, and an account with open mistakes had no Repairs row at all. Both now sit right under the
 // suggestion, within the first view, and Repairs shows its open count for any account with an open mistake.
+// ASK-MOBI-1019 B (D112): Ask Mobi's card took the "Ask Mobi what to practise" row's slot, the last under the suggestion.
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mockmob/features/insights/ask_mobi.dart' show AskMobiCard;
 import 'package:mockmob/features/practice/practice_routes.dart';
 
 import '../../helpers/fonts.dart';
@@ -48,20 +50,21 @@ void main() {
     await pump(tester, openRepairs: 98);
     expect(find.text('Repairs'), findsOneWidget);
     expect(find.text('98 open mistakes to repair'), findsOneWidget);
-    expect(find.text('Ask Mobi what to practise'), findsOneWidget);
+    expect(find.byType(AskMobiCard), findsOneWidget);
     final viewport = tester.view.physicalSize.height / tester.view.devicePixelRatio;
     final repairs = tester.getTopLeft(find.text('Repairs')).dy;
-    final ask = tester.getTopLeft(find.text('Ask Mobi what to practise')).dy;
+    final ask = tester.getTopLeft(find.byType(AskMobiCard)).dy;
     expect(repairs, lessThan(viewport), reason: 'on the first screen, not three down');
     expect(ask, lessThan(viewport));
     expect(repairs, lessThan(ask), reason: 'Repairs first, then Ask Mobi');
     expect(ask, lessThan(tester.getTopLeft(find.text('Ways to practise')).dy), reason: 'both are above the modes, not under them');
   });
 
-  testWidgets('the rows are not in "More ways in" any more: Ask Mobi appears once on the page', (tester) async {
+  testWidgets("the rows are not in 'More ways in' any more: Ask Mobi's card appears once on the page", (tester) async {
     await pump(tester, openRepairs: 3);
     await tester.scrollUntilVisible(find.text('More ways in'), 300, scrollable: find.byType(Scrollable).first);
-    expect(find.text('Ask Mobi what to practise'), findsOneWidget);
+    expect(find.byType(AskMobiCard, skipOffstage: false), findsOneWidget);
+    expect(find.text('Ask Mobi what to practise', skipOffstage: false), findsNothing, reason: 'the row moved into the card');
     expect(find.text('Repairs'), findsOneWidget);
   });
 
@@ -73,7 +76,7 @@ void main() {
   testWidgets('no open mistakes, or a count not read yet, shows no Repairs row (an unknown is never a zero)', (tester) async {
     await pump(tester, openRepairs: 0);
     expect(find.text('Repairs'), findsNothing);
-    expect(find.text('Ask Mobi what to practise'), findsOneWidget, reason: 'Ask Mobi stays near the top for every account');
+    expect(find.byType(AskMobiCard), findsOneWidget, reason: 'Ask Mobi stays near the top for every account');
     await pump(tester);
     expect(find.text('Repairs'), findsNothing);
     expect(find.textContaining('open mistake'), findsNothing);
@@ -96,7 +99,7 @@ void main() {
     final learn = tester.getTopLeft(find.text('Learn').first).dy;
     expect(learn, lessThan(viewport));
     expect(learn, greaterThan(tester.getTopLeft(find.text('Repairs')).dy));
-    expect(learn, lessThan(tester.getTopLeft(find.text('Ask Mobi what to practise')).dy));
+    expect(learn, lessThan(tester.getTopLeft(find.byType(AskMobiCard)).dy));
     await tester.tap(find.text('Learn').first);
     await _settle(tester);
     expect(router.state.uri.path, '/learn');

@@ -1,0 +1,433 @@
+// Ask Mobi option B (ASK-MOBI-1019; the owner's D112 and D114; C-pick 2): Ask Mobi's own screen with
+// two big doors, "Ask now" and "Ask your record". These lock the build's contract:
+// * a fresh record says "Your record is empty for now." with one key; a heavy one leads with its
+//   biggest leak as a real figure;
+// * every starter says "Free", "1 credit" or a Pro lock before the tap, and a tap sends at once with
+//   no consent sheet (D53);
+// * Pro asks stay visible with a quiet lock (D101): a calm sheet with Play billing off, the Upgrade
+//   sheet with it on;
+// * a written reply waits honestly ("Writing a reply"), never typing a fake reply;
+// * "Why did I lose marks in my last paper?" is answered free from that paper on the phone;
+// * the labelled "Ask Mobi" key sits in the Today, Practice and Mob headers, and Practice's card
+//   takes the old "Ask Mobi what to practise" slot;
+// * Mobi never greets the student by an email prefix (G16 findings 4 and 38).
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
+import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mockmob/core/api/api_providers.dart';
+import 'package:mockmob/core/mascot/mascot.dart' show MobiRation;
+import 'package:mockmob/core/models/ai_credits.dart';
+import 'package:mockmob/core/models/attempt.dart';
+import 'package:mockmob/core/repositories/remote_state.dart';
+import 'package:mockmob/core/storage/prefs_store.dart';
+import 'package:mockmob/core/widgets/widgets.dart' show Mobi, TabRootHeader;
+import 'package:mockmob/features/insights/copy.dart';
+import 'package:mockmob/features/insights/data/ai_reply_report.dart' show insightsPrefsStoreProvider;
+import 'package:mockmob/features/insights/data/ask_doors.dart';
+import 'package:mockmob/features/insights/data/ask_wallet.dart';
+import 'package:mockmob/features/insights/data/insights_models.dart';
+import 'package:mockmob/features/insights/insights_routes.dart' show askScreen;
+import 'package:mockmob/features/insights/screens/ask_screen.dart';
+import 'package:mockmob/features/insights/widgets/ask_doors.dart';
+import 'package:mockmob/features/insights/widgets/ask_mobi_button.dart';
+import 'package:mockmob/features/insights/widgets/ask_mobi_card.dart';
+import 'package:mockmob/features/insights/widgets/ask_prompts.dart' show AskIntent;
+import 'package:mockmob/features/pro_nudge/copy.dart' show ProNudgeCopy, ProReason;
+import 'package:mockmob/features/today/logic/today_model.dart' show HeaderModel;
+import 'package:mockmob/features/today/widgets/today_header.dart';
+import 'package:mockmob/features/you/widgets/you_page.dart';
+
+import '../../golden/insights/insights_golden_support.dart';
+import '../../helpers/golden_harness.dart';
+import '../core_data/support/fakes.dart';
+import '../pro_nudge/pro_nudge_test_support.dart';
+import 'support/insights_fixtures.dart';
+
+/// The wallet as `GET /api/ai/credits` sends it: Free's 50 a month, none bought.
+AiCredits monthly({int total = 38}) => AiCredits.fromJson({
+      'ok': true,
+      'state': 'available',
+      'isPaid': false,
+      'wallet': {
+        'state': 'available',
+        'known': true,
+        'spendable': true,
+        'includedMonthlyCredits': 50,
+        'includedRemaining': total,
+        'bonusCredits': 0,
+        'total': total,
+        'resetAt': '2026-10-31T18:30:00.000Z',
+      },
+    });
+
+Map<String, Object?> modelReply() => {
+      'ok': true,
+      'sessionId': 's-1',
+      'reply': 'The sacrificing ratio is the share each old partner gives up.',
+      'origin': 'model',
+      'actions': [],
+      'charge': {'kind': 'prepos_credit', 'creditUnits': 1, 'amount': 1, 'reference': 'prepos:u1:x'},
+      'usageSnapshot': {
+        'tier': 'free',
+        'isPaid': false,
+        'aiWallet': {'state': 'available', 'known': true, 'spendable': true, 'total': 37, 'includedRemaining': 37, 'includedMonthlyCredits': 50, 'bonusCredits': 0, 'resetAt': '2026-10-31T18:30:00.000Z'},
+      },
+    };
+
+void main() {
+  final evening = DateTime.utc(2026, 10, 13, 15);
+
+  group('the doors, read from the record', () {
+    test('Mobi never greets by an email prefix; a real first name is used', () {
+      expect(askGreetName('g16-fresh-1019a', 'g16-fresh-1019a@example.com'), isNull);
+      expect(askGreetName('riya', 'Riya@example.com'), isNull, reason: 'the server stores the email part as the name');
+      expect(askGreetName('student42', null), isNull);
+      expect(askGreetName('Riya Sharma', 'riya.s@example.com'), 'Riya');
+      expect(askGreetName('  ', 'a@b.c'), isNull);
+      expect(askGreetName(null, 'a@b.c'), isNull);
+    });
+
+    test('the greetings are whole sentences, with no number words broken (finding 38)', () {
+      expect(InsightsCopy.askGreeting(null, 1), "Hi. I've read your first paper. Ask me anything about it.");
+      expect(InsightsCopy.askGreeting('Riya', 25), "Hi Riya. I've read your last 25 papers. Ask me anything about them.");
+      expect(InsightsCopy.askGreeting(null, 0), 'Hi. Ask me any CUET doubt, right now.');
+      expect(AskDoorCopy.greetFresh(null), 'Hi. Ask me any CUET doubt, right now.');
+      expect(AskDoorCopy.greetHeavy('Riya', 25), 'Hi Riya. Ask me any doubt, or ask what your 25 papers say.');
+      expect(AskDoorCopy.greetHeavy(null, 1), 'Hi. Ask me any doubt, or ask what your first paper says.');
+    });
+
+    test('Ask now always has three starters: the weakest chapter first, then the student subjects', () {
+      final heavy = askNowStarters(record: rich(), subjects: const ['accountancy', 'economics']);
+      expect(heavy, hasLength(3));
+      expect(heavy.first, 'Explain ${recordLead(rich())!.chapter} in simple words');
+      expect(askNowStarters(subjects: const ['physics']), hasLength(3), reason: 'a set with one starter is filled from English and the General Test');
+      expect(askNowStarters(), hasLength(3));
+      expect(askNowStarters().toSet(), hasLength(3));
+    });
+
+    test('a heavy record: the lead is the biggest leak, every ask says its price, Pro asks are locked on Free', () {
+      final last = lastPaper(trendAttempts(), evening);
+      final asks = recordDoorAsks(rich(), pro: false, last: last, now: evening);
+      expect(asks, hasLength(7), reason: '"See all 7 questions about your record"');
+      final lead = recordLead(rich())!;
+      expect(asks.first.text, 'Where am I losing marks?');
+      expect(asks.first.price, DoorPrice.free);
+      expect(asks.first.preview, '${lead.lost} marks lost in ${lead.chapter}');
+      DoorAsk byText(String t) => asks.firstWhere((a) => a.text == t);
+      expect(byText('Which chapter should I practise?').price, DoorPrice.free);
+      expect(byText(AskDoorCopy.lastPaper).price, DoorPrice.free);
+      expect(byText(AskDoorCopy.revise(evening)).price, DoorPrice.credit);
+      expect(byText('Am I too slow on wrong answers?').price, DoorPrice.pro);
+      expect(byText('Do I change answers too much?').price, DoorPrice.pro, reason: 'locked for Free, as the app already treats it (D101)');
+      expect(byText('How is my week going?').price, DoorPrice.free);
+
+      final onPro = recordDoorAsks(rich(), pro: true, last: last, now: evening);
+      expect(onPro.where((a) => a.locked), isEmpty);
+    });
+
+    test('with no paper on the phone the last-paper ask is left out, never made up', () {
+      expect(lastPaper(const [], evening), isNull);
+      expect(recordDoorAsks(rich(), pro: false, now: evening), hasLength(6));
+    });
+
+    test('the last-paper answer reads that paper only, free, with a way to it', () {
+      final last = lastPaper(trendAttempts(), evening)!;
+      expect(last.attempt.id, 'a4', reason: 'the newest paper');
+      expect(last.answer.reply, startsWith(lastPaperLead));
+      expect(last.answer.reply, contains('Accountancy'));
+      expect(last.answer.actions.single.$2, '/result/a4');
+    });
+
+    test('the credit line is the wallet: of your 50 monthly, the real renewal day, or nothing invented', () {
+      final w = AskWallet.fromCredits(monthly());
+      expect(creditLineWords(w, renew: renewDay(w, evening)).$1, '38 of your 50 monthly credits left. They renew on 1 November.');
+      expect(creditLineWords(w, renew: '1 November').$2, 'Answers from your marks are free. A written answer uses 1 credit.');
+      expect(creditLineWords(w, renew: '1 November', oneBalance: true).$1, '38 credits left. Free ones renew on 1 November.');
+      expect(creditLineWords(null, renew: '1 November').$1, AskDoorCopy.creditsUnknown, reason: 'an unknown balance is never a zero');
+      expect(creditLineWords(w.withTotal(0), renew: '1 November').$1, 'No credits left. They renew on 1 November.');
+    });
+  });
+
+  group('the screen', () {
+    setUp(() {
+      MobiRation.reset();
+      addTearDown(MobiRation.reset);
+    });
+
+    Future<void> pump(WidgetTester tester, {RemoteState<PrepInsights>? record, List<Attempt>? attempts, Size size = const Size(384, 900), List<Override> extra = const []}) =>
+        pumpMockmob(
+          tester,
+          const AskScreen(),
+          brightness: Brightness.dark,
+          size: size,
+          disableAnimations: true,
+          overrides: [...insightsOverrides(insights: record, attempts: attempts, credits: monthly()), ...extra],
+          wrapInScaffold: false,
+        );
+
+    testWidgets('a fresh account: Ask now works at once; the record door says it is empty, with one key', (tester) async {
+      await pump(tester, record: RemoteState(value: empty()), attempts: const []);
+      await tester.pumpAndSettle();
+      expect(find.text(AskDoorCopy.nowTitle), findsOneWidget);
+      expect(find.text(AskDoorCopy.recordTitle), findsOneWidget);
+      expect(find.text(AskDoorCopy.emptySay), findsOneWidget);
+      expect(find.text(AskDoorCopy.emptyKey), findsOneWidget);
+      expect(find.text(AskDoorCopy.emptyAfter), findsOneWidget);
+      // At 384 dp a fresh account shows two starters, each priced before the tap.
+      final now = find.byType(AskNowDoor);
+      expect(find.descendant(of: now, matching: find.byType(AskStarterRow)), findsNWidgets(2));
+      expect(find.descendant(of: now, matching: find.text(AskDoorCopy.oneCredit)), findsNWidgets(2));
+      expect(find.text(AskDoorCopy.nowTip), findsOneWidget);
+      // The credit line is the wallet's own numbers.
+      expect(find.text('38 of your 50 monthly credits left. They renew on 1 November.'), findsOneWidget);
+    });
+
+    testWidgets('a heavy account: the record door leads with the real figure and says Free', (tester) async {
+      await pump(tester);
+      await tester.pumpAndSettle();
+      final lead = recordLead(rich())!;
+      expect(find.text('${lead.lost}'), findsOneWidget);
+      expect(find.text(AskDoorCopy.leadFigureLine(lead.chapter)), findsOneWidget);
+      expect(find.text(AskDoorCopy.recordLine(rich().sessions)), findsOneWidget);
+      expect(find.text(AskDoorCopy.emptySay), findsNothing);
+      // Heavy at 384 dp: one Ask now starter, so the record door's figure stays in view.
+      expect(find.descendant(of: find.byType(AskNowDoor), matching: find.byType(AskStarterRow)), findsOneWidget);
+      // "See all 7" opens every record ask, each with its price.
+      await tester.scrollUntilVisible(find.text(AskDoorCopy.seeAll(7)), 200, scrollable: find.byType(Scrollable).first);
+      await tester.tap(find.text(AskDoorCopy.seeAll(7)));
+      await tester.pumpAndSettle();
+      final record = find.byType(AskRecordDoor);
+      expect(find.descendant(of: record, matching: find.byType(AskPriceTag)), findsNWidgets(7));
+      expect(find.descendant(of: record, matching: find.text(AskDoorCopy.pro)), findsNWidgets(2), reason: 'pace and changes: visible but locked');
+      expect(find.descendant(of: record, matching: find.text(AskDoorCopy.oneCredit)), findsOneWidget, reason: 'the revision plan');
+    });
+
+    testWidgets('at 360 dp a heavy account shows no starter and says where they are; a tap into the field brings all three', (tester) async {
+      await pump(tester, size: const Size(360, 800));
+      await tester.pumpAndSettle();
+      final now = find.byType(AskNowDoor);
+      expect(find.descendant(of: now, matching: find.byType(AskStarterRow)), findsNothing);
+      expect(find.text(AskDoorCopy.nowTapBox), findsOneWidget);
+      await tester.tap(find.descendant(of: now, matching: find.byType(TextField)));
+      await tester.pumpAndSettle();
+      expect(find.descendant(of: now, matching: find.byType(AskStarterRow)), findsNWidgets(3));
+      expect(find.text(AskDoorCopy.nowTip), findsOneWidget);
+    });
+
+    testWidgets('a starter sends at once with no sheet first (D53), and the wait says "Writing a reply"', (tester) async {
+      final http = FakeHttpAdapter()
+        ..handler = ((o) => FakeReply(200, modelReply()))
+        ..hold = Completer<void>();
+      await pumpMockmob(
+        tester,
+        const AskScreen(),
+        brightness: Brightness.dark,
+        size: const Size(384, 900),
+        disableAnimations: true,
+        overrides: [
+          ...insightsOverrides(realAsk: true, credits: monthly()),
+          apiClientProvider.overrideWithValue(newApiClient(http, now: () => evening)),
+          insightsPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
+        ],
+        wrapInScaffold: false,
+      );
+      await tester.pumpAndSettle();
+      final starter = find.descendant(of: find.byType(AskNowDoor), matching: find.byType(AskStarterRow)).first;
+      await tester.tap(starter);
+      for (var i = 0; i < 5; i++) {
+        await tester.pump(const Duration(milliseconds: 50));
+      }
+      expect(find.byType(BottomSheet), findsNothing, reason: 'no consent sheet');
+      expect(http.requests.where((r) => r.path.contains('/mentor/chat')), hasLength(1));
+      expect(find.text(InsightsCopy.askThinking), findsOneWidget);
+      expect(InsightsCopy.askThinking, 'Writing a reply');
+      expect(find.text(AskDoorCopy.writingNote), findsOneWidget);
+      http.hold!.complete();
+      await tester.pump(const Duration(milliseconds: 400));
+      await tester.pump(const Duration(seconds: 2));
+      expect(find.text(InsightsCopy.askThinking), findsNothing);
+      await tester.pump(const Duration(seconds: 13));
+    });
+
+    testWidgets('"Why did I lose marks in my last paper?" is answered free on the phone, no request sent', (tester) async {
+      final http = FakeHttpAdapter()..handler = (o) => FakeReply(200, modelReply());
+      await pumpMockmob(
+        tester,
+        const AskScreen(),
+        brightness: Brightness.dark,
+        size: const Size(384, 900),
+        disableAnimations: true,
+        overrides: [
+          ...insightsOverrides(realAsk: true, credits: monthly()),
+          apiClientProvider.overrideWithValue(newApiClient(http, now: () => evening)),
+          insightsPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
+        ],
+        wrapInScaffold: false,
+      );
+      await tester.pumpAndSettle();
+      await tester.scrollUntilVisible(find.text(AskDoorCopy.seeAll(7)), 200, scrollable: find.byType(Scrollable).first);
+      await tester.tap(find.text(AskDoorCopy.seeAll(7)));
+      await tester.pumpAndSettle();
+      await tester.scrollUntilVisible(find.text(AskDoorCopy.lastPaper), 200, scrollable: find.byType(Scrollable).first);
+      await tester.tap(find.text(AskDoorCopy.lastPaper));
+      await tester.pump(const Duration(milliseconds: 600));
+      await tester.pump(const Duration(seconds: 2));
+      expect(http.requests.where((r) => r.path.contains('/mentor/chat')), isEmpty);
+      expect(find.textContaining(lastPaperLead), findsWidgets);
+      await tester.pump(const Duration(seconds: 13));
+    });
+
+    testWidgets('a Pro ask on Free, billing off: a calm sheet with no price and no link; nothing is sent', (tester) async {
+      await pump(tester);
+      await tester.pumpAndSettle();
+      await tester.scrollUntilVisible(find.text(AskDoorCopy.seeAll(7)), 200, scrollable: find.byType(Scrollable).first);
+      await tester.tap(find.text(AskDoorCopy.seeAll(7)));
+      await tester.pumpAndSettle();
+      await tester.scrollUntilVisible(find.text('Am I too slow on wrong answers?'), 200, scrollable: find.byType(Scrollable).first);
+      await tester.tap(find.text('Am I too slow on wrong answers?'));
+      await tester.pumpAndSettle();
+      expect(find.text(AskDoorCopy.proPaceTitle), findsOneWidget);
+      expect(find.text(AskDoorCopy.proSoon), findsOneWidget);
+      expect(find.textContaining('₹'), findsNothing);
+      expect(find.textContaining('Rs'), findsNothing);
+      expect(find.textContaining('mockmob.in'), findsNothing);
+    });
+
+    for (final b in Brightness.values) {
+      for (final heavy in [false, true]) {
+        testWidgets('${b.name}, ${heavy ? 'heavy' : 'fresh'}: no overflow at 360 by 800 and 1.3 text', (tester) async {
+          await pumpMockmob(
+            tester,
+            const AskScreen(),
+            brightness: b,
+            size: const Size(360, 800),
+            textScale: 1.3,
+            disableAnimations: true,
+            overrides: insightsOverrides(insights: heavy ? null : RemoteState(value: empty()), attempts: heavy ? null : const [], credits: monthly()),
+            wrapInScaffold: false,
+          );
+          await tester.pumpAndSettle();
+          expect(tester.takeException(), isNull);
+          expect(find.text(AskDoorCopy.nowTitle), findsOneWidget);
+          expect(find.text('Back'), findsOneWidget, reason: 'the labelled Back key (D43)');
+        });
+      }
+    }
+
+    testWidgets('?door=record and ?door=now reach the screen; anything else opens at the top', (tester) async {
+      AskScreen? built;
+      final router = GoRouter(
+        initialLocation: '/ask?door=record',
+        routes: [
+          GoRoute(
+            path: '/ask',
+            builder: (context, state) {
+              final w = askScreen(context, state) as AskScreen;
+              built = w;
+              return const SizedBox();
+            },
+          ),
+        ],
+      );
+      await tester.pumpWidget(MaterialApp.router(routerConfig: router));
+      expect(built!.door, AskDoor.record);
+      router.go('/ask?door=now');
+      await tester.pumpAndSettle();
+      expect(built!.door, AskDoor.now);
+      router.go('/ask?door=elsewhere');
+      await tester.pumpAndSettle();
+      expect(built!.door, isNull);
+    });
+  });
+
+  group('Pro, visible but locked (D101)', () {
+    testWidgets('with Play billing on, the Pro ask opens the Upgrade sheet instead of the calm one', (tester) async {
+      final rig = NudgeRig(on: true);
+      await pumpNudges(tester, Builder(builder: (context) => TextButton(onPressed: () => showAskProSheet(context, AskIntent.pace), child: const Text('open'))), rig);
+      await tester.tap(find.text('open'));
+      await settleNudges(tester);
+      expect(find.text(ProNudgeCopy.head(ProReason.insightsPace).title), findsOneWidget);
+      expect(find.text(AskDoorCopy.proPaceTitle), findsNothing);
+    });
+
+    testWidgets('with Play billing off, the calm sheet', (tester) async {
+      final rig = NudgeRig(on: false);
+      await pumpNudges(tester, Builder(builder: (context) => TextButton(onPressed: () => showAskProSheet(context, AskIntent.changes), child: const Text('open'))), rig);
+      await tester.tap(find.text('open'));
+      await settleNudges(tester);
+      expect(find.text(AskDoorCopy.proChangesTitle), findsOneWidget);
+      expect(find.textContaining(playProPrice), findsNothing);
+    });
+  });
+
+  group('the ways in', () {
+    testWidgets('Today: the header carries the labelled Ask Mobi key, with Mobi or his mark', (tester) async {
+      var taps = 0;
+      const header = HeaderModel(dateLine: 'Monday 13 October', greeting: 'Good evening');
+      await pumpMockmob(tester, TodayHeader(header: header, onMobi: () => taps++), size: const Size(412, 200), disableAnimations: true, overrides: insightsOverrides());
+      expect(find.byType(AskMobiButton), findsOneWidget);
+      expect(find.text(AskDoorCopy.button), findsOneWidget);
+      expect(find.bySemanticsLabel(AskDoorCopy.button), findsOneWidget);
+      // At 360 dp it says "Ask" beside Mobi, as the design draws it; it is still spoken as "Ask Mobi".
+      await pumpMockmob(tester, TodayHeader(header: header, onMobi: () => taps++), size: const Size(360, 200), disableAnimations: true, overrides: insightsOverrides());
+      expect(find.text(AskDoorCopy.buttonShort), findsOneWidget);
+      expect(find.bySemanticsLabel(AskDoorCopy.button), findsOneWidget);
+      await tester.tap(find.byType(AskMobiButton));
+      await tester.pump();
+      expect(taps, 1);
+      await pumpMockmob(tester, TodayHeader(header: header, showMobi: false, onMobi: () => taps++), size: const Size(360, 200), disableAnimations: true, overrides: insightsOverrides());
+      expect(find.byType(AskMobiButton), findsOneWidget, reason: 'the key stays while the move card holds Mobi');
+      expect(find.byType(Mobi), findsNothing, reason: 'never two Mobis: the key carries his flat mark');
+    });
+
+    testWidgets('Mob: the page header carries the key at its end', (tester) async {
+      await pumpMockmob(
+        tester,
+        const YouPage(title: 'Mob', trailing: AskMobiButton(), children: [SizedBox(height: 10)]),
+        size: const Size(360, 400),
+        disableAnimations: true,
+        overrides: insightsOverrides(),
+        wrapInScaffold: false,
+      );
+      expect(find.byType(AskMobiButton), findsOneWidget);
+      expect(find.text(AskDoorCopy.button), findsOneWidget);
+    });
+
+    testWidgets('a tab header fits the key beside its title at 360 dp', (tester) async {
+      await pumpMockmob(
+        tester,
+        const TabRootHeader(title: 'Practice', trailing: AskMobiButton()),
+        size: const Size(360, 120),
+        disableAnimations: true,
+        overrides: insightsOverrides(),
+      );
+      expect(tester.takeException(), isNull);
+      expect(tester.getSize(find.byType(AskMobiButton)).height, greaterThanOrEqualTo(48));
+    });
+
+    testWidgets("Practice's card: one line for what Mobi is for, and the two doors as keys", (tester) async {
+      await pumpMockmob(tester, const SingleChildScrollView(child: AskMobiCard()), size: const Size(360, 600), disableAnimations: true, overrides: insightsOverrides());
+      final lead = recordLead(rich())!;
+      expect(find.text(AskDoorCopy.cardTitle), findsOneWidget);
+      expect(find.text(AskDoorCopy.cardLineHeavy(lead.lost, lead.chapter)), findsOneWidget);
+      expect(find.text(AskDoorCopy.cardNow), findsOneWidget);
+      expect(find.text(AskDoorCopy.cardRecord), findsOneWidget);
+    });
+
+    testWidgets("Practice's card on a fresh account says what Mobi is for, with no figure made up", (tester) async {
+      await pumpMockmob(
+        tester,
+        const SingleChildScrollView(child: AskMobiCard()),
+        size: const Size(360, 600),
+        disableAnimations: true,
+        overrides: insightsOverrides(insights: RemoteState(value: empty()), attempts: const []),
+      );
+      expect(find.text(AskDoorCopy.cardLineFresh), findsOneWidget);
+      expect(find.text(AskDoorCopy.cardNow), findsOneWidget);
+      expect(find.text(AskDoorCopy.cardRecord), findsOneWidget);
+    });
+  });
+}

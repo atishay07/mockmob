@@ -11,7 +11,6 @@ import '../../../core/connectivity/connectivity_monitor.dart' show NetworkStatus
 import '../../../core/connectivity/connectivity_providers.dart' show networkStatusProvider;
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
-import '../../../core/repositories/attempts_repository.dart';
 import '../../../core/repositories/credits_repository.dart';
 import '../../../core/sync/sync_providers.dart';
 import '../../../core/router/routes.dart';
@@ -118,8 +117,6 @@ class _AskScreenState extends ConsumerState<AskScreen> {
       if (!mounted) return;
       // Read again on every open (not only when none is held), so the counts are the record's now.
       ref.read(insightsRepositoryProvider.notifier).refresh();
-      // The last paper's own breakdown answers "Why did I lose marks in my last paper?".
-      ref.read(attemptsRepositoryProvider.notifier).refresh();
       // A question handed over from a repair is opened (its context read); an ordinary visit hands
       // nothing over, so an earlier question never rides along.
       if (cleanQuestionRef(widget.questionRef) != null) {
@@ -696,14 +693,22 @@ class _AskHeader extends StatelessWidget {
             ),
           ),
           const SizedBox(width: MmSpace.s12),
+          // The title steps down to fit whole (never "Ask Mo..."); at large text the pill does too.
           Expanded(
             child: Semantics(
               header: true,
-              child: Text(InsightsCopy.askTitle, style: type.screenTitle, maxLines: 1, overflow: TextOverflow.ellipsis),
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerLeft,
+                child: Text(InsightsCopy.askTitle, style: type.screenTitle, maxLines: 1, softWrap: false),
+              ),
             ),
           ),
           const SizedBox(width: MmSpace.s8),
-          AskCreditPill(onTap: onCredits),
+          ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width * 0.4),
+            child: FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerRight, child: AskCreditPill(onTap: onCredits)),
+          ),
           const SizedBox(width: MmSpace.gutter),
         ],
       ),

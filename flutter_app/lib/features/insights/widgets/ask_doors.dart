@@ -146,6 +146,20 @@ class _Door extends StatelessWidget {
   }
 }
 
+/// A list that grows into place as rows join it; under reduced motion it simply changes (an
+/// AnimatedSize with no duration cannot lay itself out).
+class _GrowIn extends StatelessWidget {
+  const _GrowIn({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    if (Motion.reduced(context)) return child;
+    return AnimatedSize(duration: Motion.ui, curve: Motion.glide, alignment: Alignment.topCenter, child: child);
+  }
+}
+
 // ---- Prices and rows ------------------------------------------------------------------------
 
 /// What an ask costs, before the tap: "Free" in the good ink, "1 credit" quiet, or a Pro lock.
@@ -454,10 +468,7 @@ class _AskNowDoorState extends State<AskNowDoor> {
             style: type.label.copyWith(color: colors.ink3),
           ),
         ),
-        AnimatedSize(
-          duration: Motion.of(context, Motion.ui),
-          curve: Motion.glide,
-          alignment: Alignment.topCenter,
+        _GrowIn(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -565,10 +576,7 @@ class AskRecordDoor extends StatelessWidget {
         _LeadTile(ask: lead, top: top, onTap: () => onAsk(lead)),
         const SizedBox(height: MmSpace.s16),
         Text(AskDoorCopy.recordTip, style: type.label.copyWith(color: colors.ink3)),
-        AnimatedSize(
-          duration: Motion.of(context, Motion.ui),
-          curve: Motion.glide,
-          alignment: Alignment.topCenter,
+        _GrowIn(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [

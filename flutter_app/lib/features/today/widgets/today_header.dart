@@ -13,7 +13,7 @@ import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/account/account_avatar.dart' show AccountLeading;
 import '../../../core/widgets/widgets.dart' show Mobi, MobiPose, OneLineNotice;
-import '../../insights/ask_mobi.dart' show AskMobiButton;
+import '../../insights/ask_mobi.dart' show AskKeyLabel, AskMobiButton;
 import '../copy.dart';
 import '../logic/today_model.dart';
 import 'today_entrance.dart';
@@ -75,7 +75,14 @@ class _TodayHeaderState extends State<TodayHeader> {
             offline: header.offline,
             refreshing: widget.refreshing,
             // ASK-MOBI-1019 B: Mobi rides in the labelled Ask Mobi key (its flat mark while the move card holds him).
-            mobi: AskMobiButton(figure: widget.showMobi ? const Mobi(pose: MobiPose.greet, size: TodayHeader.mobiSize) : null, onTap: widget.onMobi),
+            mobi: AskMobiButton(
+              figure: widget.showMobi ? const Mobi(pose: MobiPose.greet, size: TodayHeader.mobiSize) : null,
+              onTap: widget.onMobi,
+              // "Ask" beside the greeting on a 360 dp phone; Mobi alone while a "Not refreshed" line needs the room.
+              label: header.updatedLine != null
+                  ? AskKeyLabel.figureOnly
+                  : (MediaQuery.sizeOf(context).width < 380 ? AskKeyLabel.short : AskKeyLabel.full),
+            ),
           ),
         ),
       ),

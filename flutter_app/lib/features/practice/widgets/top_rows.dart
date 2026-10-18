@@ -19,7 +19,7 @@ import '../copy.dart';
 /// (ASK-MOBI-1019 B, D112) took the slot of the old "Ask Mobi what to practise" row: moved, nothing removed.
 ///
 /// Repairs shows for any account with an open mistake and for none without one (an unknown count is never a zero, and
-/// no row points at nothing). Plain rows with hairlines, no art, no card.
+/// no row points at nothing). Plain rows with hairlines, then Ask Mobi's card.
 class PracticeTopRows extends ConsumerWidget {
   const PracticeTopRows({super.key});
 
@@ -33,8 +33,7 @@ class PracticeTopRows extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const AskMobiCard(),
-        if (open > 0 || learn != null) ...[const SizedBox(height: MmSpace.s16), line],
+        line,
         if (open > 0) ...[
           EntryRow(
             icon: LucideIcons.wrench,
@@ -53,6 +52,9 @@ class PracticeTopRows extends ConsumerWidget {
           ),
           line,
         ],
+        // Ask Mobi's card, in the old "Ask Mobi what to practise" row's slot (ASK-MOBI-1019 B).
+        const SizedBox(height: MmSpace.s16),
+        const AskMobiCard(),
       ],
     );
   }

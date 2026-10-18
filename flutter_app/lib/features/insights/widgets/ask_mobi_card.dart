@@ -23,10 +23,8 @@ class AskMobiCard extends ConsumerWidget {
     final line = lead != null
         ? AskDoorCopy.cardLineHeavy(lead.lost, lead.chapter)
         : (record != null && record.isReady ? AskDoorCopy.cardLineRecord : AskDoorCopy.cardLineFresh);
-    void open(AskDoor door) {
-      ref.read(insightsRepositoryProvider.notifier).refresh();
-      openAskMobiScreen(context, door: door);
-    }
+    // The screen reads the record again as it opens.
+    void open(AskDoor door) => openAskMobiScreen(context, door: door);
 
     return FakeGlass(
       borderRadius: const BorderRadius.all(Radius.circular(22)),
