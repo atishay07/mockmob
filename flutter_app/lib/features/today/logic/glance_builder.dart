@@ -97,15 +97,16 @@ String _fromDay(TodayInputs i, DateTime date) {
 
 String formatDayMonthShortLocal(DateTime d) => '${d.day} ${const ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][d.month - 1]}';
 
-/// The lead card's two choices (6.1): the highest-value moves of a different kind from [lead], in
-/// the order Repair, Revise, the weakest chapter, a full mock (none in 14 days), another subject.
-/// Done for tonight keeps them too, for a student who wants more (its key shows the repairs).
-List<MoveChoice> buildChoices(TodayInputs i, MoveHero lead, {WeakChapter? weakest}) {
+/// The lead card's other moves (6.1; D51's Suggested stack shows up to [limit]): the highest-value
+/// moves of a different kind from [lead], in the order Repair, Revise, the weakest chapter, a full
+/// mock (none in 14 days), another subject. Done for tonight keeps them too, for a student who
+/// wants more (its key shows the repairs).
+List<MoveChoice> buildChoices(TodayInputs i, MoveHero lead, {WeakChapter? weakest, int limit = 4}) {
   if (lead.kind == MoveKind.failure || lead.state == NextMoveState.historyUnavailable) return const [];
   final leadKey = choiceKeyOf(lead);
   final out = <MoveChoice>[];
   void add(String key, MoveChoice? Function() build) {
-    if (out.length >= 2 || key == leadKey || out.any((c) => c.key == key)) return;
+    if (out.length >= limit || key == leadKey || out.any((c) => c.key == key)) return;
     final c = build();
     if (c != null) out.add(c);
   }

@@ -20,6 +20,7 @@ import '../../tools/tools_paths.dart';
 import '../copy.dart';
 import '../copy_glance.dart';
 import '../logic/move_price.dart' show priceKeyOf;
+import '../logic/suggested_deck.dart' show buildSuggestedDeck, deckSize;
 import '../logic/today_model.dart';
 import '../logic/today_reactions.dart';
 import '../widgets/also_slots.dart';
@@ -32,6 +33,7 @@ import '../widgets/road_glance.dart';
 import '../widgets/road_section.dart';
 import '../widgets/weak_chapters.dart';
 import '../widgets/reel_hero.dart';
+import '../widgets/suggested_stack.dart';
 import '../widgets/today_rows.dart';
 import '../widgets/today_week.dart';
 import '../widgets/today_header.dart';
@@ -203,17 +205,34 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
     return hero;
   }
 
-  /// The two choices under the card: with a pick, the recommended move comes back among them as
-  /// "Suggested".
+  /// The other moves, the Suggested stack's deck (at most [deckSize]): with a pick, the
+  /// recommended move comes back first among them as "Suggested".
   List<MoveChoice> get _shownChoices {
     final hero = widget.view.hero;
     final key = _pickKey;
     final all = widget.view.choices;
     if (hero is! MoveHero) return const [];
     final picked = key == null ? null : all.where((c) => c.key == key && c.hero != null).firstOrNull;
-    if (picked == null) return all.take(2).toList();
+    if (picked == null) return all.take(deckSize).toList();
     final lead = MoveChoice(key: 'lead', title: hero.title ?? hero.summary, line: hero.summary, hero: hero, suggested: true);
-    return [lead, ...all.where((c) => c.key != key)].take(2).toList();
+    return [lead, ...all.where((c) => c.key != key)].take(deckSize).toList();
+  }
+
+  /// "Suggested for you" under the lead card (D51): the other moves as a card stack. A card chosen
+  /// there swaps the lead card exactly as a choice did; it never starts anything.
+  Widget _suggested() {
+    final hero = _shownHero;
+    if (hero is! MoveHero || hero.kind == MoveKind.failure || hero.state == NextMoveState.historyUnavailable) return const SizedBox(width: double.infinity);
+    final cards = buildSuggestedDeck(_shownChoices, glance: widget.view.glance);
+    return Padding(
+      padding: const EdgeInsets.only(top: 28),
+      child: SuggestedStack(
+        cards: cards,
+        onChoose: _choose,
+        leadKey: _moveKey,
+        onMore: () => widget.callbacks.onAction(const TodayAction(GlanceCopy.moreWays, OpenAlternatives())),
+      ),
+    );
   }
 
   void _choose(MoveChoice choice) {
@@ -616,7 +635,6 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
           onMinutes: cb.onMinutes == null ? null : _minutes,
           keyPulse: _keyPulse,
           choices: _shownChoices,
-          onChoose: _choose,
           price: widget.prices[priceKeyOf(hero)],
           onMore: hero.kind == MoveKind.failure || hero.state == NextMoveState.historyUnavailable
               ? null
@@ -674,6 +692,8 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
       const SizedBox(height: 18),
       // The move rises 12 dp and fades (4.8); its object then scales in place and the number lands.
       TodayEnter(delay: const Duration(milliseconds: 80), child: KeyedSubtree(key: _heroBoxKey, child: hero)),
+      // The Suggested stack follows the card on the ground (D51), never inside it.
+      if (view.hero is MoveHero) TodayEnter(delay: const Duration(milliseconds: 140), rise: 8, child: _suggested()),
     ];
     final road = view.road;
     final glance = view.glance;

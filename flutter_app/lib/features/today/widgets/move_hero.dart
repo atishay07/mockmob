@@ -21,7 +21,6 @@ import '../logic/today_model.dart';
 import 'hero_stage.dart';
 import 'number_block.dart';
 import 'length_pill.dart';
-import 'move_choices.dart';
 import 'today_pill.dart';
 import 'today_entrance.dart';
 import 'today_type.dart';
@@ -40,7 +39,6 @@ class MoveHeroCard extends StatefulWidget {
     this.controlsKey,
     this.keyPulse,
     this.choices = const [],
-    this.onChoose,
     this.onMore,
     this.price,
   });
@@ -51,14 +49,13 @@ class MoveHeroCard extends StatefulWidget {
   /// 38."), or null while it is not known (then the line's place is kept, empty).
   final String? price;
 
-  /// The two other moves under the key (TODAY-1018 6.1). Empty keeps the older pills (a failed
-  /// read's Practise anyway).
+  /// The other moves (TODAY-1018 6.1), shown under the card as the Suggested stack (D51): when
+  /// there are any, the card takes its 1018 form (the value line and the price line). Empty keeps
+  /// the older pills (a failed read's Practise anyway).
   final List<MoveChoice> choices;
 
-  /// A choice was tapped: the screen swaps the card to it (or runs its action).
-  final ValueChanged<MoveChoice>? onChoose;
-
-  /// "More ways to practise": the alternatives sheet.
+  /// The alternatives sheet is offered under the card (in the Suggested stack): the card's body
+  /// swaps in place when a suggested card is chosen.
   final VoidCallback? onMore;
   final void Function(TodayAction action) onAction;
   final ValueChanged<int>? onMinutes;
@@ -387,21 +384,15 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
       subjectId: m.subjectId,
       react: _react,
       art: MoveSwap(child: KeyedSubtree(key: swapKey, child: art)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // A choice swaps the body in place (6.2): the old one drops 6 dp and blurs out in 140 ms,
-          // the new one rises in over 240 ms, and the card's height eases between them.
-          MmSizeEase(
-            duration: Motion.ui,
-            curve: Motion.out,
-            alignment: Alignment.topCenter,
-            clipBehavior: Clip.none,
-            child: MoveSwap(child: KeyedSubtree(key: swapKey, child: content)),
-          ),
-          MoveChoicesFooter(choices: widget.choices, onChoose: widget.onChoose, onMore: widget.onMore),
-        ],
+      // A suggested card swaps the body in place (6.2): the old one drops 6 dp and blurs out in
+      // 140 ms, the new one rises in over 240 ms, and the card's height eases between them. The
+      // card ends at its price line: the other moves are the Suggested stack under it (D51).
+      child: MmSizeEase(
+        duration: Motion.ui,
+        curve: Motion.out,
+        alignment: Alignment.topCenter,
+        clipBehavior: Clip.none,
+        child: MoveSwap(child: KeyedSubtree(key: swapKey, child: content)),
       ),
     );
   }
