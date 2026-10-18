@@ -198,18 +198,31 @@ html[data-theme='light'] .app-shell .tm__key:not([aria-disabled='true']) { box-s
 .app-shell .tm--failed .tm__or { margin-top: 20px; }
 
 /* ---------- The cue below the fold (W-044): phones only ---------- */
-/* W-044: the cue stays in the page's flow under the lead card, and is sticky just above the dock's safe area (the dock is 64 px,
-   12 px above the safe area; the cue keeps 8 px clear of it), so at 390 x 844, where its own place falls behind the dock, it rests
-   on the fold above the dock at scroll 0 and settles back into its place as the page scrolls. It takes no extra room (no shift). */
-.app-shell .tcue { position: sticky; bottom: calc(84px + env(safe-area-inset-bottom)); z-index: 5; display: flex; justify-content: center; margin: -28px 0 -12px; pointer-events: none; transition: opacity 240ms var(--t-out), transform 240ms var(--t-out); }
+/* Release 10 (owner D89, taste): a 44 px glass circle anchored right, 96 px above the bottom edge (the dock is 64 px tall and 12 px
+   above the safe area, so the circle keeps 20 px clear of it). It is out of the page's flow, so it leaves no band between the card
+   and This week. For its first 2.4 s it carries the words "Your week and road", then the words fold away (240 ms, ease-out) and it
+   is a circle. It steps away while the card's key or footer is under it (TodayCue measures that) and once the week is on screen. */
+.app-shell .tcue { position: fixed; right: 16px; bottom: calc(96px + env(safe-area-inset-bottom)); z-index: 5; display: flex; justify-content: flex-end; pointer-events: none; transition: opacity 200ms var(--t-out), transform 240ms var(--t-out); }
 @media (min-width: 1024px) { .app-shell .tcue { bottom: calc(16px + env(safe-area-inset-bottom)); } }
-.app-shell .tcue[data-seen] { opacity: 0; transform: translateY(-4px); pointer-events: none; }
+.app-shell .tcue[data-seen] { opacity: 0; transform: translateY(8px) scale(0.92); pointer-events: none; }
 .app-shell .tcue[data-wait] { visibility: hidden; pointer-events: none; }
-.app-shell .tcue__key { display: flex; align-items: center; justify-content: center; gap: 10px; max-width: 100%; min-height: 44px; padding: 0 6px 0 16px; border: 0; border-radius: 22px; background: var(--a-raised); box-shadow: inset 0 0 0 1px var(--a-line), var(--a-shadow-1); color: var(--a-ink-2); font: 500 14px/1.3 var(--font-body); cursor: pointer; pointer-events: auto; -webkit-tap-highlight-color: transparent; }
+.app-shell .tcue__key {
+  display: flex; align-items: center; justify-content: flex-end; min-width: 44px; min-height: 44px; padding: 0; border: 0; border-radius: 22px;
+  background: var(--dock-solid, var(--a-raised)); box-shadow: inset 0 0 0 1px var(--a-line), var(--a-shadow-1); color: var(--a-ink);
+  font: 600 13.5px/1 var(--font-body); cursor: pointer; pointer-events: auto; -webkit-tap-highlight-color: transparent;
+  transition: transform 120ms var(--t-out), background-color 150ms ease;
+}
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .app-shell .tcue__key { background: var(--dock-glass, var(--a-raised)); -webkit-backdrop-filter: blur(32px) saturate(1.5); backdrop-filter: blur(32px) saturate(1.5); }
+}
 .app-shell .tcue[data-seen] .tcue__key, .app-shell .tcue[data-wait] .tcue__key { pointer-events: none; }
-.app-shell .tcue__chev { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 13px; box-shadow: inset 0 0 0 1px var(--a-line-strong); color: var(--a-ink-2); animation: tcue-nudge 1400ms var(--t-out) 900ms 2 both; }
-.app-shell .tcue__key:active { background: var(--a-hover); }
-@media (hover: hover) and (pointer: fine) { .app-shell .tcue__key:hover { color: var(--a-ink); } }
+/* The words: a grid row that folds from its width to none, so the pill shrinks into the circle without a jump. */
+.app-shell .tcue__text { display: grid; grid-template-columns: 0fr; overflow: hidden; white-space: nowrap; transition: grid-template-columns 240ms var(--t-out), opacity 160ms ease; opacity: 0; }
+.app-shell .tcue__text > span { min-width: 0; overflow: hidden; }
+.app-shell .tcue[data-wide] .tcue__text { grid-template-columns: 1fr; opacity: 1; padding-left: 16px; }
+.app-shell .tcue__chev { display: grid; place-items: center; flex: 0 0 44px; width: 44px; height: 44px; color: var(--a-ink); animation: tcue-nudge 1400ms var(--t-out) 900ms 2 both; }
+.app-shell .tcue__key:active { transform: scale(0.94); }
+@media (hover: hover) and (pointer: fine) { .app-shell .tcue__key:hover { background: var(--a-hover); } }
 .app-shell .tcue__key:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 @keyframes tcue-nudge { 0%, 100% { transform: none; } 40% { transform: translateY(4px); } 70% { transform: translateY(-1px); } }
 
@@ -616,9 +629,9 @@ html[data-theme='light'] .tsh .tpf__done { box-shadow: inset 0 0 0 1px rgb(82 10
   .app-shell :is(.tw__dot, .tw__dot path, .tm__step, .tm__step path, .trd__stretch i::after, .trd__stretch i b, .tpp__bar i), .tsh .tpf__bump { animation: none !important; transform: none; }
   .app-shell .tm__step path { stroke-dashoffset: 0; }
   .app-shell .tw__dot path { stroke-dashoffset: 0; }
-  .app-shell :is(.tm__body, .tw__sel, .trd__sel, .tm__lengths, .twk__more, .twk__plus) { transition-duration: 1ms !important; }
+  .app-shell :is(.tm__body, .tw__sel, .trd__sel, .tm__lengths, .twk__more, .twk__plus, .tcue, .tcue__text) { transition-duration: 1ms !important; }
 }
 html[data-motion='reduced'] .app-shell :is(.today__head, .tm, .tw, .trd, .twk, .tpp, .tq, .tc, .tmob, .tw__readout, .trd__readout, .trd__receipt, .tpp__receipt, .tcue__chev), html[data-motion='reduced'] .tsh__body, html[data-motion='reduced'] .tsh .tpf__step { animation: today-fade 150ms ease both !important; transform: none !important; }
 html[data-motion='reduced'] .app-shell :is(.tw__dot, .tm__step, .trd__stretch i::after, .trd__stretch i b, .tpp__bar i) { animation: none !important; }
 html[data-motion='reduced'] .app-shell :is(.tw__dot path, .tm__step path) { animation: none; stroke-dashoffset: 0; }
-html[data-motion='reduced'] .app-shell :is(.tm__body, .tw__sel, .trd__sel, .tm__lengths, .twk__more) { transition-duration: 1ms !important; }
+html[data-motion='reduced'] .app-shell :is(.tm__body, .tw__sel, .trd__sel, .tm__lengths, .twk__more, .tcue, .tcue__text) { transition-duration: 1ms !important; }

@@ -15,6 +15,7 @@ import { greeting, greetingAt } from '../../src/lib/today/greeting.mjs';
 import { weekDays } from '../../src/lib/today/week.mjs';
 import { buildMove } from '../../src/lib/today/move.mjs';
 import { firstWeekPath, pathLeads, railCaption } from '../../src/lib/today/firstWeek.mjs';
+import { coversCue } from '../../src/lib/today/cue.mjs';
 import { todayContext, todayAnswer } from '../../src/components/ai/askContexts.mjs';
 import { normalizeContext } from '../../src/components/ai/askMobi.mjs';
 import { openingFor, recordSource, sessionsLabel } from '../../src/components/ai/askSuggestions.mjs';
@@ -66,7 +67,7 @@ test('W-042: the lead holds for the rhythm, the road, the study days and the rec
 
 // ---- W-044: the cue is above the dock at scroll 0 -------------------------------------------------------------------------------
 
-test('W-044: the cue is sticky just above the dock (dock 12 px above the safe area, 64 px tall, the cue 8 px clear)', () => {
+test('W-044 (release 10): the cue is a 44 px glass circle anchored right, clear of the dock, out of the flow', () => {
   const arena = css('src/app/(app)/arena.css');
   const dock = arena.match(/@media \(max-width: 1023px\) \{\s*html \.app-shell \.arena-dock \{([^}]*)\}/);
   assert.ok(dock, 'the phone dock rule');
@@ -74,14 +75,28 @@ test('W-044: the cue is sticky just above the dock (dock 12 px above the safe ar
   const height = Number(dock[1].match(/height: (\d+)px/)[1]);
   const sheet = css('src/components/today/today.css');
   const cue = sheet.match(/\.app-shell \.tcue \{([^}]*)\}/)[1];
-  assert.match(cue, /position: sticky/);
+  assert.match(cue, /position: fixed/, 'out of the flow: no dead band between the card and This week');
+  assert.match(cue, /right: 16px/);
   const above = Number(cue.match(/bottom: calc\((\d+)px \+ env\(safe-area-inset-bottom\)\)/)[1]);
-  assert.equal(above, bottom + height + 8, 'its bottom edge is 8 px above the top of the dock');
+  assert.ok(above >= bottom + height + 8, 'its bottom edge is at least 8 px above the top of the dock');
+  assert.doesNotMatch(cue, /margin: -/, 'no negative margins pulling it over the card');
   assert.match(sheet, /@media \(min-width: 1024px\) \{ \.app-shell \.tcue \{ bottom: calc\(16px \+ env\(safe-area-inset-bottom\)\); \} \}/, 'no dock from 1024 px');
-  assert.doesNotMatch(cue, /position: fixed/, 'it keeps its place in the flow: no layout shift and no overlap once scrolled');
   const key = sheet.match(/\.app-shell \.tcue__key \{([^}]*)\}/)[1];
   assert.match(key, /min-height: 44px/);
+  assert.match(key, /min-width: 44px/);
   assert.doesNotMatch(key, /accent|volt|glow/);
+  const comp = read('src/components/today/TodayCue.jsx');
+  assert.match(comp, /Your week and road/);
+  assert.match(comp, /setTimeout\(\(\) => setWide\(false\), 2400\)/, 'the words fold to the circle after 2.4 s');
+  assert.match(comp, /'\.tm \.tm__key, \.tm \.tm__or, \.tm \.tm__more'/, 'it steps away from the card key and footer');
+});
+
+test('W-044 (release 10): coversCue says when a key sits under the circle', () => {
+  const size = { height: 844, width: 390 };
+  assert.equal(coversCue({ top: 700, bottom: 756, left: 16, right: 374 }, size), true, 'a full-width key in the band');
+  assert.equal(coversCue({ top: 500, bottom: 560, left: 16, right: 374 }, size), false, 'a key above the band');
+  assert.equal(coversCue({ top: 700, bottom: 756, left: 16, right: 180 }, size), false, 'a left cell clear of the right edge');
+  assert.equal(coversCue(null, size), false);
 });
 
 // ---- D27: the Road card -------------------------------------------------------------------------------------------------------

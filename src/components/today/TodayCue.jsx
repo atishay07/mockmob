@@ -1,30 +1,62 @@
 "use client";
 // The lead below the fold on a phone (owner, 15 Oct: "something in the UI should be leading them below, maybe a down
-// arrow", W-044). Under the lead card, one quiet row names what is further down (the week, the road and the weak
-// chapters) with a down chevron. A tap brings the week into view; the row fades away once the week is on screen and
-// comes back when the student scrolls up past it. On a wide screen the week and the road sit beside the move, so the row is not drawn.
+// arrow", W-044). Release 10 (taste pass, owner D89): the cue is a 44 px glass circle with a down chevron, anchored to the
+// right just above the dock. It says "Your week and road" for its first 2.4 s, then folds to the circle (240 ms). It never
+// sits on the lead card's keys: while the card's key or its footer is under the circle, the circle steps away, and once the
+// week is on screen it fades for good until the student scrolls back up. A tap brings the week into view. On a wide screen
+// the week and the road sit beside the move, so the cue is not drawn.
 import { useEffect, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
+import { coversCue } from '@/lib/today/cue.mjs';
 
 const reduced = () => {
   try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.motion === 'reduced'; } catch { return false; }
 };
 
+// What the circle must never cover: the lead card's key, its two choices and its footer row.
+const KEEP_CLEAR = '.tm .tm__key, .tm .tm__or, .tm .tm__more';
+
 /**
- * `ready`: the move has landed; until then the row holds its place unseen, so it never pushes the week down (W-042).
+ * `ready`: the move has landed; until then the cue holds back, so it never lands before the card (W-042).
  */
 export default function TodayCue({ target = 'week', ready = true }) {
   const [seen, setSeen] = useState(false);
+  const [covered, setCovered] = useState(false);
+  const [wide, setWide] = useState(true);
+
+  // Seen: the week's top is on screen, or it has been scrolled past.
   useEffect(() => {
     const el = document.getElementById(target);
     if (!el || typeof IntersectionObserver === 'undefined') return undefined;
-    // Seen: the week's top is on screen, or it has been scrolled past.
     const watch = new IntersectionObserver(([entry]) => {
       setSeen(entry.isIntersecting || entry.boundingClientRect.top < 0);
     }, { threshold: 0, rootMargin: '0px 0px -96px 0px' });
     watch.observe(el);
     return () => watch.disconnect();
   }, [target]);
+
+  // Covered: the card's key or footer is under the circle. Measured on scroll and resize, once a frame at most.
+  useEffect(() => {
+    if (!ready) return undefined;
+    let frame = 0;
+    const measure = () => {
+      frame = 0;
+      const size = { height: window.innerHeight, width: document.documentElement.clientWidth || window.innerWidth };
+      setCovered([...document.querySelectorAll(KEEP_CLEAR)].some((el) => coversCue(el.getBoundingClientRect(), size)));
+    };
+    const ask = () => { if (!frame) frame = window.requestAnimationFrame(measure); };
+    measure();
+    window.addEventListener('scroll', ask, { passive: true });
+    window.addEventListener('resize', ask);
+    return () => { window.removeEventListener('scroll', ask); window.removeEventListener('resize', ask); if (frame) window.cancelAnimationFrame(frame); };
+  }, [ready]);
+
+  // The words show for the first 2.4 s after the card lands, then fold to the circle.
+  useEffect(() => {
+    if (!ready) return undefined;
+    const t = window.setTimeout(() => setWide(false), 2400);
+    return () => window.clearTimeout(t);
+  }, [ready]);
 
   const go = () => {
     const el = document.getElementById(target);
@@ -35,12 +67,12 @@ export default function TodayCue({ target = 'week', ready = true }) {
     if (heading) { heading.setAttribute('tabindex', '-1'); heading.focus({ preventScroll: true }); }
   };
 
-  const hidden = seen || !ready;
+  const hidden = seen || covered || !ready;
   return (
-    <div className="tcue" data-seen={seen || undefined} data-wait={ready ? undefined : ''}>
-      <button type="button" className="tcue__key" onClick={go} tabIndex={hidden ? -1 : 0} aria-hidden={hidden || undefined}>
-        <span className="tcue__text">Your week, the road and weak chapters</span>
-        <span className="tcue__chev" aria-hidden="true"><ChevronDown size={18} strokeWidth={2} /></span>
+    <div className="tcue" data-seen={seen || covered || undefined} data-wait={ready ? undefined : ''} data-wide={wide || undefined}>
+      <button type="button" className="tcue__key" onClick={go} tabIndex={hidden ? -1 : 0} aria-hidden={hidden || undefined} aria-label="Your week and road, further down">
+        <span className="tcue__text" aria-hidden="true"><span>Your week and road</span></span>
+        <span className="tcue__chev" aria-hidden="true"><ChevronDown size={20} strokeWidth={2} /></span>
       </button>
     </div>
   );
