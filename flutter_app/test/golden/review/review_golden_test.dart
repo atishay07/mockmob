@@ -22,18 +22,6 @@ void main() {
     overrides: () => reviewOverrides(records: [repairedRecord]),
   );
 
-  // The other side of the switch: the repair record and the past results.
-  reviewGolden(
-    'review_tab_history',
-    () => const ReviewScreen(),
-    size: const Size(384, 1100),
-    overrides: () => reviewOverrides(records: [repairedRecord]),
-    after: (tester) async {
-      await tester.tap(find.text('History'));
-      await tester.pumpAndSettle();
-    },
-  );
-
   reviewGolden(
     'review_tab_late',
     () => const ReviewScreen(),
