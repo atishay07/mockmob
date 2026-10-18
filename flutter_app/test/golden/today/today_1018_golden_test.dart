@@ -267,6 +267,12 @@ void main() {
     size: const Size(412, 2000),
     dock: false,
   );
+  // The failure card at 360 (v15.1 walk): the title takes a third line beside Mobi, never "did no...".
+  todayGolden(
+    'today1018_error_360',
+    () => buildToday(TodayInputs(now: sunday, firstName: 'Asha', attemptsFailed: true, readProblem: LoadProblem.busy, week: sundayWeek)),
+    size: const Size(360, 800),
+  );
   todayGolden('today1018_offline', () => buildToday(activeInputs(offline: true)), size: kPhone, prices: fixturePrices);
 
   // The paper reel's card after a fresh paper (D29): one volt key, Not now, no move row under it.
