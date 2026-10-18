@@ -167,10 +167,6 @@ void main() {
       }
     });
 
-    test('the sheet key names Google Play\'s own price string and nothing else', () {
-      expect(ProNudgeCopy.getProFor('₹150.00'), 'Get Pro for ₹150.00');
-    });
-
     test('the owner\'s words are in it (D79, D80): unlimited mocks, no credits for practice, Upgrade to Pro', () {
       expect(ProNudgeCopy.unlimitedMocks, startsWith('Get unlimited mocks'));
       expect(ProNudgeCopy.noCreditsForPractice, startsWith('No credits needed for practice with Pro'));

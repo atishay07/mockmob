@@ -37,7 +37,7 @@ void main() {
         expect(find.text(line), findsOneWidget);
       }
       expect(find.text(playProPrice), findsOneWidget);
-      expect(find.text(ProNudgeCopy.getProFor(playProPrice)), findsWidgets);
+      expect(find.text('Get Pro'), findsWidgets);
       expect(find.bySemanticsLabel(RegExp('^${ProNudgeCopy.sheetLabel}')), findsWidgets);
       semantics.dispose();
     });
@@ -71,7 +71,7 @@ void main() {
       await pumpNudges(tester, const OpenSheetHost(reason: ProReason.general), rig);
       await tester.tap(find.text('open'));
       await settleNudges(tester);
-      await tester.tap(find.text(ProNudgeCopy.getProFor(playProPrice)).first);
+      await tester.tap(find.text('Get Pro').first);
       await settleNudges(tester);
       expect(rig.billing.store.buys.single.productId, PlayProducts.proId);
     });

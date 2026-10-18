@@ -51,10 +51,9 @@ class ProNudgeController extends Notifier<ProNudgeState> {
   @override
   ProNudgeState build() {
     final userId = ref.watch(playBillingUserIdProvider);
-    // Each of these can be what completes the picture (out of onboarding, the plan read says Free,
-    // onboarding sealed); the mark is decided from the state, never from the order they arrive in.
+    // Either can be what completes the picture (out of onboarding, onboarding sealed); the mark is
+    // decided from the state, never from the order they arrive in.
     ref.listen<bool>(proNudgeInOnboardingProvider, (_, _) => _noteOnboarded());
-    ref.listen<bool>(proNudgesOnProvider, (_, _) => _noteOnboarded());
     ref.listen<bool>(onboardedThisRunProvider, (_, _) => _noteOnboarded());
     if (userId != null) unawaited(Future<void>.microtask(() => _load(userId)));
     return ProNudgeState(userId: userId);
@@ -67,12 +66,14 @@ class ProNudgeController extends Notifier<ProNudgeState> {
     _noteOnboarded();
   }
 
-  /// Onboarding finished in this run, the student is signed in and out of onboarding, and the nudges
-  /// are on: the first usage session starts now (once; see [PopupRules.noteOnboarded]).
+  /// Onboarding finished in this run and the student is signed in and out of onboarding: the first
+  /// usage session starts now (once; see [PopupRules.noteOnboarded]).
   void _noteOnboarded() {
     final userId = state.userId;
     if (userId == null || !state.loaded) return;
-    if (!ref.read(onboardedThisRunProvider) || !ref.read(proNudgesOnProvider) || ref.read(proNudgeInOnboardingProvider)) return;
+    // As on the website, the mark does not wait for the plan read: a Free student whose plan arrives a
+    // moment later still has this as the start of the first session (the verdict checks Pro and the flag).
+    if (!ref.read(onboardedThisRunProvider) || ref.read(proNudgeInOnboardingProvider)) return;
     final saved = state.saved;
     final mark = PopupRules.noteOnboarded(
       onboardedAt: saved.onboardedAt,

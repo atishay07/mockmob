@@ -96,9 +96,6 @@ abstract final class ProNudgeCopy {
   static const includesHeading = 'Everything Pro unlocks';
   static const notNow = 'Not now';
 
-  /// The sheet's key, with Google Play's own price string for Pro (the website's key reads the same way).
-  static String getProFor(String playPrice) => 'Get Pro for $playPrice';
-
   static const ProSheetHead _general = ProSheetHead(
     sheetTitle,
     'Unlimited mocks, NTA mode on the exam-day screen, and Smart practice that hunts down your weak chapters. One price, no credits to count.',

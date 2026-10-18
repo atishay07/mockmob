@@ -121,14 +121,14 @@ class _UpgradeSheetBodyState extends ConsumerState<UpgradeSheetBody> {
           BillingNotice(ids: {PlayProducts.proId}, showRestore: true),
           const SizedBox(height: MmSpace.s16),
           KeyButton(
-            // Google Play's own price string, never another (the store rule).
-            label: price == null ? BillingCopy.getPro : ProNudgeCopy.getProFor(price),
+            label: BillingCopy.getPro,
             loading: working,
             onPressed: price == null || s.busy ? null : () => ctl.buy(PlayProducts.proId),
           ),
           const SizedBox(height: MmSpace.s4),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          // A Wrap, so at large text on a narrow phone the second key goes under the first instead of off the edge.
+          Wrap(
+            alignment: WrapAlignment.center,
             children: [
               KeyButton.quiet(label: ProNudgeCopy.notNow, onPressed: widget.onClose),
               KeyButton.quiet(label: BillingCopy.restore, onPressed: s.busy ? null : () => ctl.restore()),
