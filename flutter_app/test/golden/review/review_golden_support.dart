@@ -22,12 +22,16 @@ import 'package:mockmob/core/repositories/rhythm_repository.dart';
 import 'package:mockmob/core/repositories/notification_prefs_repository.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/repositories/repair_local_repository.dart';
+import 'package:mockmob/core/repositories/pending_result_repository.dart' show PendingResult;
 import 'package:mockmob/core/repositories/rhythm_seen_repository.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/review/data/repair_run.dart';
 import 'package:mockmob/features/review/data/repair_state.dart';
 import 'package:mockmob/features/review/data/retry.dart';
 import 'package:mockmob/features/review/data/review_providers.dart';
+import 'package:mockmob/features/review/data/review_chapters_provider.dart' show reviewCheckOutcomesProvider;
+import 'package:mockmob/features/review/model/review_record_adapter.dart' show CheckOutcome;
+import 'package:mockmob/features/credits/data/credit_figures.dart' show CreditFigures, creditFiguresProvider;
 import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show rhythmPrefsStoreProvider;
 import 'package:mockmob/features/rhythm/rhythm.dart' show CelebrationMode, celebrationModeProvider;
 import 'package:mockmob/features/you/you_providers.dart' show lateNightLinesProvider;
@@ -111,6 +115,10 @@ List<Override> reviewOverrides({
   RemoteState<RulesRead>? rules,
   ReviseRead? revise,
   Map<String, AttemptDetail> details = const {},
+  List<PendingResult> unopened = const [],
+  CreditFigures? figures,
+  bool unknownFigures = true,
+  Map<String, CheckOutcome>? checks,
 }) => [
   authSnapshotProvider.overrideWithBuild((ref, n) => const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', name: 'Riya')),
   studentTimezoneProvider.overrideWithValue('Asia/Kolkata'),
@@ -121,8 +129,13 @@ List<Override> reviewOverrides({
     ReviewInputs(
       attempts: attemptsState ?? RemoteState(value: attempts ?? allAttempts, fetchedAt: eveningUtc),
       records: records,
+      unopened: unopened,
     ),
   ),
+  // The wallet figures the lead's cost lines read: unknown unless a test says (no cache or network behind them here). The repair
+  // ending's goldens pass [unknownFigures] false: their next-move line was drawn from the wallet read, not from unknown figures.
+  if (figures != null || unknownFigures) creditFiguresProvider.overrideWithValue(figures ?? const CreditFigures()),
+  if (checks != null) reviewCheckOutcomesProvider.overrideWithValue(checks),
   creditsRepositoryProvider.overrideWith(() => StillCredits(credits)),
   rhythmRepositoryProvider.overrideWith(StillRhythm.new),
   goalRepositoryProvider.overrideWith(StillGoal.new),

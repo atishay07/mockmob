@@ -1,0 +1,517 @@
+{
+  "about": "REVIEW-RESULT-1018 student (one student for every Review mock, tmp/design-1018/review-result/data.js). Now: Sat 17 Oct 2026, 9:41 PM. Illustrative stems. chapterQuestions: how many questions of each chapter each paper asked.",
+  "now": "2026-10-17T21:41:00+05:30",
+  "wallet": {
+    "aiCredits": 68,
+    "aiRenews": "2026-11-01",
+    "practiceCredits": 40
+  },
+  "papers": [
+    {
+      "id": "m3",
+      "name": "Mock 3",
+      "subject": "Accountancy",
+      "kind": "full mock",
+      "at": "2026-10-16T21:40:00+05:30",
+      "questions": 50,
+      "right": 34,
+      "wrong": 12,
+      "blank": 4,
+      "score": 158,
+      "of": 250
+    },
+    {
+      "id": "bq",
+      "name": "Quick practice",
+      "subject": "Business Studies",
+      "kind": "practice",
+      "at": "2026-10-15T19:05:00+05:30",
+      "questions": 10,
+      "right": 7,
+      "wrong": 3,
+      "blank": 0,
+      "score": 32,
+      "of": 50
+    },
+    {
+      "id": "m2",
+      "name": "Mock 2",
+      "subject": "Accountancy",
+      "kind": "full mock",
+      "at": "2026-10-12T22:42:00+05:30",
+      "questions": 50,
+      "right": 31,
+      "wrong": 15,
+      "blank": 4,
+      "score": 140,
+      "of": 250
+    }
+  ],
+  "chapters": [
+    {
+      "id": "adm",
+      "name": "Admission of a partner",
+      "subject": "Accountancy"
+    },
+    {
+      "id": "dis",
+      "name": "Dissolution of a firm",
+      "subject": "Accountancy"
+    },
+    {
+      "id": "ret",
+      "name": "Retirement and death of a partner",
+      "subject": "Accountancy"
+    },
+    {
+      "id": "sha",
+      "name": "Issue of shares",
+      "subject": "Accountancy"
+    },
+    {
+      "id": "cfs",
+      "name": "Cash flow statement",
+      "subject": "Accountancy"
+    },
+    {
+      "id": "rat",
+      "name": "Accounting ratios",
+      "subject": "Accountancy"
+    },
+    {
+      "id": "gw",
+      "name": "Goodwill",
+      "subject": "Accountancy"
+    },
+    {
+      "id": "pf",
+      "name": "Partnership fundamentals",
+      "subject": "Accountancy"
+    },
+    {
+      "id": "pom",
+      "name": "Principles of management",
+      "subject": "Business Studies"
+    },
+    {
+      "id": "pln",
+      "name": "Planning",
+      "subject": "Business Studies"
+    }
+  ],
+  "chapterQuestions": {
+    "m3": {
+      "adm": 9,
+      "dis": 3,
+      "ret": 6,
+      "sha": 9,
+      "cfs": 6,
+      "rat": 7,
+      "gw": 5,
+      "pf": 5
+    },
+    "bq": {
+      "pom": 4,
+      "pln": 6
+    },
+    "m2": {
+      "adm": 7,
+      "dis": 3,
+      "ret": 8,
+      "sha": 7,
+      "cfs": 6,
+      "rat": 7,
+      "gw": 5,
+      "pf": 7
+    }
+  },
+  "items": [
+    {
+      "paper": "m3",
+      "q": 42,
+      "ch": "adm",
+      "state": "open",
+      "stem": "New partner brings premium in cash; the sacrificing ratio is not given.",
+      "pick": "D"
+    },
+    {
+      "paper": "m3",
+      "q": 38,
+      "ch": "adm",
+      "state": "open",
+      "stem": "Revaluation profit on admission: which partners share it?",
+      "pick": "A"
+    },
+    {
+      "paper": "m3",
+      "q": 45,
+      "ch": "adm",
+      "state": "open",
+      "stem": "Hidden goodwill when the capital brought in is more than the share.",
+      "pick": "C"
+    },
+    {
+      "paper": "m2",
+      "q": 11,
+      "ch": "adm",
+      "state": "open",
+      "stem": "Adjusting old partners’ capitals to the new partner’s capital.",
+      "pick": "B"
+    },
+    {
+      "paper": "m2",
+      "q": 17,
+      "ch": "adm",
+      "state": "slipped",
+      "stem": "Premium for goodwill credited in the sacrificing ratio.",
+      "pick": "A",
+      "repairedAt": "2026-10-13T23:08:00+05:30",
+      "checkedAt": "2026-10-17T20:55:00+05:30",
+      "reviseNext": "2026-10-18"
+    },
+    {
+      "paper": "m3",
+      "q": 47,
+      "ch": "adm",
+      "state": "blank",
+      "stem": "Accumulated profits on admission, with a workmen compensation claim."
+    },
+    {
+      "paper": "m3",
+      "q": 49,
+      "ch": "dis",
+      "state": "open",
+      "stem": "Realisation account: an unrecorded asset taken over by a partner.",
+      "pick": "B"
+    },
+    {
+      "paper": "m3",
+      "q": 26,
+      "ch": "dis",
+      "state": "open",
+      "stem": "Order of payment of liabilities on dissolution.",
+      "pick": "C"
+    },
+    {
+      "paper": "m2",
+      "q": 40,
+      "ch": "dis",
+      "state": "held",
+      "stem": "Loss on realisation shared in the profit-sharing ratio.",
+      "pick": "D",
+      "repairedAt": "2026-10-13T22:40:00+05:30"
+    },
+    {
+      "paper": "m2",
+      "q": 44,
+      "ch": "dis",
+      "state": "open",
+      "stem": "Partner’s loan paid before capitals.",
+      "pick": "A"
+    },
+    {
+      "paper": "m2",
+      "q": 48,
+      "ch": "dis",
+      "state": "open",
+      "stem": "Creditors accept an asset in full settlement.",
+      "pick": "B"
+    },
+    {
+      "paper": "m3",
+      "q": 31,
+      "ch": "ret",
+      "state": "open",
+      "stem": "Gaining ratio when B retires and A and C take his share.",
+      "pick": "A"
+    },
+    {
+      "paper": "m2",
+      "q": 6,
+      "ch": "ret",
+      "state": "held",
+      "stem": "Goodwill adjusted through the continuing partners’ capitals.",
+      "pick": "C",
+      "repairedAt": "2026-10-13T21:55:00+05:30"
+    },
+    {
+      "paper": "m2",
+      "q": 24,
+      "ch": "ret",
+      "state": "open",
+      "stem": "Deceased partner’s share of profit till the date of death.",
+      "pick": "D"
+    },
+    {
+      "paper": "m2",
+      "q": 41,
+      "ch": "ret",
+      "state": "open",
+      "stem": "Joint life policy surrender value on death.",
+      "pick": "B"
+    },
+    {
+      "paper": "m2",
+      "q": 37,
+      "ch": "ret",
+      "state": "blank",
+      "stem": "Amount due to a retiring partner paid in instalments."
+    },
+    {
+      "paper": "m3",
+      "q": 29,
+      "ch": "sha",
+      "state": "repaired",
+      "stem": "Shares forfeited and reissued at a discount.",
+      "pick": "C",
+      "repairedAt": "2026-10-17T20:30:00+05:30"
+    },
+    {
+      "paper": "m3",
+      "q": 14,
+      "ch": "sha",
+      "state": "open",
+      "stem": "Calls in arrears on the allotment money.",
+      "pick": "B"
+    },
+    {
+      "paper": "m2",
+      "q": 14,
+      "ch": "sha",
+      "state": "held",
+      "stem": "Pro-rata allotment with excess application money.",
+      "pick": "A",
+      "repairedAt": "2026-10-14T21:20:00+05:30"
+    },
+    {
+      "paper": "m3",
+      "q": 28,
+      "ch": "sha",
+      "state": "blank",
+      "stem": "Securities premium used for writing off a discount."
+    },
+    {
+      "paper": "m2",
+      "q": 12,
+      "ch": "sha",
+      "state": "blank",
+      "stem": "Minimum subscription not received."
+    },
+    {
+      "paper": "m3",
+      "q": 22,
+      "ch": "cfs",
+      "state": "open",
+      "stem": "Interest paid by a non-financial company: which activity?",
+      "pick": "D"
+    },
+    {
+      "paper": "m2",
+      "q": 27,
+      "ch": "cfs",
+      "state": "repaired",
+      "stem": "Proceeds from the sale of machinery at a loss.",
+      "pick": "B",
+      "repairedAt": "2026-10-14T22:15:00+05:30"
+    },
+    {
+      "paper": "m2",
+      "q": 35,
+      "ch": "cfs",
+      "state": "open",
+      "stem": "Increase in trade payables in operating activities.",
+      "pick": "C"
+    },
+    {
+      "paper": "m3",
+      "q": 36,
+      "ch": "cfs",
+      "state": "blank",
+      "stem": "Dividend received by an investment company."
+    },
+    {
+      "paper": "m3",
+      "q": 3,
+      "ch": "rat",
+      "state": "open",
+      "stem": "Quick ratio after paying a creditor in cash.",
+      "pick": "A"
+    },
+    {
+      "paper": "m2",
+      "q": 33,
+      "ch": "rat",
+      "state": "held",
+      "stem": "Inventory turnover from cost of revenue.",
+      "pick": "D",
+      "repairedAt": "2026-10-14T20:50:00+05:30"
+    },
+    {
+      "paper": "m3",
+      "q": 50,
+      "ch": "rat",
+      "state": "blank",
+      "stem": "Interest coverage ratio with tax given."
+    },
+    {
+      "paper": "m2",
+      "q": 46,
+      "ch": "rat",
+      "state": "blank",
+      "stem": "Debt to equity after issuing debentures."
+    },
+    {
+      "paper": "m3",
+      "q": 19,
+      "ch": "gw",
+      "state": "open",
+      "stem": "Goodwill by capitalisation of super profit.",
+      "pick": "B"
+    },
+    {
+      "paper": "m2",
+      "q": 21,
+      "ch": "gw",
+      "state": "held",
+      "stem": "Average profit after an abnormal loss.",
+      "pick": "C",
+      "repairedAt": "2026-10-13T22:05:00+05:30"
+    },
+    {
+      "paper": "m2",
+      "q": 30,
+      "ch": "gw",
+      "state": "open",
+      "stem": "Weighted average profit method.",
+      "pick": "A"
+    },
+    {
+      "paper": "m3",
+      "q": 9,
+      "ch": "pf",
+      "state": "open",
+      "stem": "Interest on drawings made evenly through the year.",
+      "pick": "D"
+    },
+    {
+      "paper": "m2",
+      "q": 9,
+      "ch": "pf",
+      "state": "held",
+      "stem": "Guarantee of minimum profit to a partner.",
+      "pick": "B",
+      "repairedAt": "2026-10-13T21:30:00+05:30"
+    },
+    {
+      "paper": "m2",
+      "q": 19,
+      "ch": "pf",
+      "state": "blank",
+      "stem": "Past adjustments through capital accounts."
+    },
+    {
+      "paper": "bq",
+      "q": 2,
+      "ch": "pom",
+      "state": "open",
+      "stem": "Fayol’s principle shown by a single boss for each worker.",
+      "pick": "C"
+    },
+    {
+      "paper": "bq",
+      "q": 5,
+      "ch": "pom",
+      "state": "open",
+      "stem": "Taylor’s technique for finding the best way to do a job.",
+      "pick": "B"
+    },
+    {
+      "paper": "bq",
+      "q": 8,
+      "ch": "pln",
+      "state": "open",
+      "stem": "Which step of planning comes after setting objectives?",
+      "pick": "A"
+    }
+  ],
+  "revise": {
+    "rotation": 30,
+    "boxes": [
+      14,
+      8,
+      5,
+      3
+    ],
+    "cap": 10,
+    "dueToday": {
+      "questions": 5,
+      "again": 0,
+      "checks": 1,
+      "cards": 2
+    }
+  },
+  "lessons": {
+    "Accountancy": [
+      {
+        "ch": "Partnership: fundamentals",
+        "title": "Profit and loss appropriation",
+        "min": 6,
+        "read": false
+      },
+      {
+        "ch": "adm",
+        "title": "Goodwill and the new partner",
+        "min": 7,
+        "read": false
+      },
+      {
+        "ch": "adm",
+        "title": "Sacrificing and gaining ratio",
+        "min": 6,
+        "read": true,
+        "cardsDueToday": 2
+      },
+      {
+        "ch": "ret",
+        "title": "Retirement of a partner",
+        "min": 8,
+        "read": false
+      },
+      {
+        "ch": "iss",
+        "title": "Issue of shares at a premium",
+        "min": 8,
+        "read": false
+      }
+    ],
+    "Business Studies": [
+      {
+        "ch": "Nature and significance of management",
+        "title": "What management is",
+        "min": 6,
+        "read": true
+      },
+      {
+        "ch": "pom",
+        "title": "Fayol and Taylor",
+        "min": 8,
+        "read": false
+      }
+    ],
+    "English": [
+      {
+        "title": "Reading for inference",
+        "min": 7,
+        "read": false
+      },
+      {
+        "title": "Tone and attitude",
+        "min": 6,
+        "read": false
+      }
+    ],
+    "Economics": [],
+    "cardsPerLesson": 4,
+    "recalled": 23
+  }
+}

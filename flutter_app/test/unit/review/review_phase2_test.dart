@@ -27,7 +27,10 @@ import 'package:mockmob/features/review/widgets/question_panel.dart';
 import 'package:mockmob/features/review/widgets/page_header.dart' show ReviewTabHeader;
 import 'package:mockmob/features/review/widgets/review_layout.dart';
 import 'package:mockmob/features/review/widgets/review_status.dart' show RepairsProgress;
+import 'package:mockmob/features/review/widgets/chapter_hero.dart';
 import 'package:mockmob/features/review/widgets/tonight_card.dart';
+import 'package:mockmob/features/review/model/review_chapters.dart';
+import 'package:mockmob/features/review/model/review_record_adapter.dart';
 import 'package:mockmob/features/rhythm/rhythm.dart' show CelebrationMode;
 import 'package:mockmob/features/today/data/today_providers.dart' show todayDismissalsProvider;
 import 'package:mockmob/features/today/logic/move_builder.dart' show dismissalKeyFor;
@@ -50,6 +53,12 @@ class _Driver implements HapticDriver {
 
   @override
   Future<void> mediumImpact() async => medium++;
+}
+
+/// The costliest chapter of the fixtures, as the tab's lead names it.
+ChapterRow chaptersLead() {
+  final index = buildReviewIndex(allAttempts, [repairedRecord]);
+  return chapterRows(reviewRecordOf(index, now: eveningUtc)).first;
 }
 
 /// The hero's key: "Repair 3 mistakes, 10 min" (the count and the minutes depend on the fixture).
@@ -126,47 +135,54 @@ void main() {
       overrides: reviewOverrides(records: [repairedRecord]),
     );
 
-    testWidgets('its edge, its text and the section under it share the spacing system', (tester) async {
+    Finder practiseKey() => find.byWidgetPredicate((w) => w is KeyButton && w.label == ReviewCopy.practiseOnChapter(10));
+
+    testWidgets('its edge, its text and the list under it share the spacing system', (tester) async {
       await pumpTab(tester);
       final card = tester.getRect(find.byType(MmSurface).first);
       expect(card.left, 16, reason: 'the hero is a card at the screen gutter, not a bleed');
       expect(card.right, 384 - 16);
-      final overline = tester.getTopLeft(find.textContaining("'s repair, ").first);
-      expect(overline.dx, 16 + ReviewSpace.heroPad, reason: 'hero text starts one hero padding inside the card');
-      final heading = tester.getTopLeft(find.text('Mistakes to repair'));
+      final lead = tester.getTopLeft(find.text(ReviewCopy.loseMost));
+      expect(lead.dx, 16 + ReviewSpace.heroPad, reason: 'hero text starts one hero padding inside the card');
+      final heading = tester.getTopLeft(find.textContaining('to repair').first);
       expect(heading.dx, 16, reason: 'section headings sit on the gutter, E0');
-      expect(heading.dy - card.bottom, greaterThanOrEqualTo(ReviewSpace.section), reason: 'a section gap under the hero');
+      expect(heading.dy - card.bottom, greaterThanOrEqualTo(ReviewSpace.group), reason: 'a group gap under the hero');
     });
 
     testWidgets('the emblem is never cropped by the card and the title keeps clear of it', (tester) async {
       await pumpTab(tester);
       final card = tester.getRect(find.byType(MmSurface).first);
-      final emblem = tester.getRect(find.descendant(of: find.byType(TonightCard), matching: find.byType(SubjectEmblem)));
+      final emblem = tester.getRect(find.descendant(of: find.byType(ChapterHero), matching: find.byType(SubjectEmblem)));
       expect(emblem.size, const Size(136, 136));
       expect(emblem.top, greaterThanOrEqualTo(card.top), reason: 'not cropped by the top edge');
       expect(emblem.right, lessThanOrEqualTo(card.right), reason: 'its ink ends on the card edge');
-      final tonight = buildReviewIndex(allAttempts, const []).tonight!;
-      final title = tester.getRect(find.descendant(of: find.byType(TonightCard), matching: find.text(tonight.chapter)));
+      final lead = chaptersLead();
+      final title = tester.getRect(find.descendant(of: find.byType(ChapterHero), matching: find.text(lead.name)));
       expect(title.right, lessThanOrEqualTo(emblem.left - 12), reason: '12 dp of air between the title and the object');
       final number = tester.getRect(find.byType(MonumentalNumber));
-      expect(number.right, lessThanOrEqualTo(emblem.left), reason: 'the number and its unit stay beside the object, not under it');
+      expect(number.right, lessThanOrEqualTo(emblem.left), reason: 'the number stays beside the object, not under it');
+      // Everything under the number starts below the object.
+      final scope = tester.getRect(find.textContaining('questions in').first);
+      expect(scope.top, greaterThanOrEqualTo(emblem.top + 130));
     });
 
     testWidgets('the key is the one volt key, full width, and there is no second character', (tester) async {
       await pumpTab(tester);
       final card = tester.getRect(find.byType(MmSurface).first);
-      final key = tester.getRect(_repairKey());
+      final key = tester.getRect(practiseKey());
       expect(key.left, card.left + ReviewSpace.heroPad);
       expect(key.right, card.right - ReviewSpace.heroPad);
       expect(key.height, greaterThanOrEqualTo(56));
-      final hero = find.byType(TonightCard);
+      final hero = find.byType(ChapterHero);
       expect(find.descendant(of: hero, matching: find.byType(Mobi)), findsNothing, reason: 'a hero carries an object or Mobi, never both');
       expect(find.descendant(of: hero, matching: find.byType(MobiCharacter)), findsNothing);
       // The one Mobi on the tab is the 24 dp face in the Ask Mobi pill.
       expect(find.byType(MobiCharacter), findsOneWidget);
+      // The only volt fill in the content is that key.
+      expect(find.byWidgetPredicate((w) => w is KeyButton && w.variant == KeyVariant.primary), findsOneWidget);
     });
 
-    testWidgets('it is shorter than the 560 dp it was, and the same in Night and Day', (tester) async {
+    testWidgets('it is the same height in Night and Day', (tester) async {
       await pumpTab(tester);
       final day = tester.getRect(find.byType(MmSurface).first).height;
       expect(day, lessThan(480));
@@ -178,20 +194,7 @@ void main() {
     testWidgets('at 130% text the emblem gives way and nothing overflows', (tester) async {
       await pumpTab(tester, textScale: 1.3);
       expect(tester.takeException(), isNull);
-      expect(tester.getRect(find.descendant(of: find.byType(TonightCard), matching: find.byType(SubjectEmblem))).width, lessThan(136));
-    });
-
-    testWidgets('after 11 PM the hero says it is fine to stop and still has no Mobi', (tester) async {
-      await pumpMockmob(
-        tester,
-        const ReviewScreen(),
-        size: const Size(384, 2400),
-        disableAnimations: true,
-        wrapInScaffold: false,
-        overrides: reviewOverrides(records: [repairedRecord], nowUtc: lateUtc),
-      );
-      expect(find.text('Repair a little, then sleep.'), findsOneWidget);
-      expect(find.byType(Mobi), findsNothing);
+      expect(tester.getRect(find.descendant(of: find.byType(ChapterHero), matching: find.byType(SubjectEmblem))).width, lessThan(136));
     });
 
     testWidgets('the Start key records the card for the container transform before it opens the repair', (tester) async {

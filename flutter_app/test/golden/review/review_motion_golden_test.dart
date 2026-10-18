@@ -15,6 +15,7 @@ void main() {
       disableAnimations: false,
       overrides: () => reviewOverrides(
         run: runOf(phase: RepairPhase.ending, outcomes: [explained, explained2], index: 1),
+        unknownFigures: false,
       ),
       after: (tester) async {
         if (ms > 0) await tester.pump(Duration(milliseconds: ms));
@@ -27,6 +28,7 @@ void main() {
     disableAnimations: false,
     overrides: () => reviewOverrides(
       run: runOf(phase: RepairPhase.ending, outcomes: [explained, explained2], index: 1),
+      unknownFigures: false,
     ),
     after: (tester) async {
       await tester.pump(const Duration(milliseconds: 700));

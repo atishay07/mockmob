@@ -29,7 +29,7 @@ Future<void> _pump(
 }) => pumpMockmob(
   tester,
   const ReviewScreen(),
-  size: const Size(384, 1800),
+  size: const Size(384, 6000),
   disableAnimations: true,
   wrapInScaffold: false,
   overrides: reviewOverrides(attempts: attempts, attemptsState: state, records: records, revise: revise),
@@ -89,7 +89,7 @@ void main() {
     testWidgets('an account with papers never sees it', (tester) async {
       await _pump(tester);
       expect(find.text('Nothing to review yet'), findsNothing);
-      expect(find.text('Mistakes to repair'), findsOneWidget);
+      expect(find.text(ReviewCopy.loseMost), findsOneWidget);
     });
   });
 

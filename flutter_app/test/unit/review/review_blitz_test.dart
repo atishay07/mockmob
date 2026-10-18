@@ -195,7 +195,7 @@ void main() {
     });
   });
 
-  testWidgets('the tab opens on the hero, then the map, with no nested cards in the map', (tester) async {
+  testWidgets('the tab opens on the hero, then the chapter list, with one track a chapter and no nested cards', (tester) async {
     await pumpMockmob(
       tester,
       const ReviewScreen(),
@@ -204,10 +204,10 @@ void main() {
       wrapInScaffold: false,
       overrides: reviewOverrides(records: [repairedRecord]),
     );
-    expect(find.text('mistakes'), findsOneWidget, reason: 'the hero number carries its unit');
-    expect(find.byType(MistakeMap), findsOneWidget);
-    // One surface per chapter at most (the open one); closed chapters are bare rows.
-    expect(find.byType(ChapterTrack), findsNWidgets(3), reason: 'one track a chapter row');
-    expect(find.byType(MistakeBar), findsOneWidget, reason: 'the progress line keeps the segmented bar that teaches the colours');
+    expect(find.text('marks lost'), findsOneWidget, reason: 'the hero number carries its unit');
+    expect(find.byType(MistakeMap), findsNothing, reason: 'the old map is not on the tab; the chapters are the lead');
+    // The hero is the one raised card; the chapters below it are bare rows on the ground.
+    expect(find.byType(MmSurface), findsOneWidget);
+    expect(find.textContaining('marks on offer'), findsWidgets);
   });
 }

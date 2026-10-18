@@ -15,7 +15,7 @@ import 'review_golden_support.dart';
 
 /// The Review screens the owner's ledger items L12 to L15 touch, on a 390 dp phone (the width the
 /// owner's phone and the emulator use), Night and Day: the tab with its new key and the empty and
-/// error states, the History side with the next step from the latest mock, the repair's entry and
+/// error states, everything under the lead with the next step from the latest mock, the repair's entry and
 /// try step, and Review again. Same fixtures as the 384 set; only the width differs.
 const _phone = Size(390, 844);
 
@@ -81,28 +81,21 @@ Future<void> _answerRight(WidgetTester tester) async {
 void main() {
   reviewGolden('r390_tab', () => const ReviewScreen(), size: _phone, overrides: () => reviewOverrides(records: [repairedRecord]));
   reviewGolden('r390_tab_full', () => const ReviewScreen(), size: const Size(390, 2300), overrides: () => reviewOverrides(records: [repairedRecord]));
-  // The first chapter opened: every mistake names its paper with the date and the 12-hour time, and a repaired one says its saved repair is there and opens free.
+  // Another chapter tapped in More chapters: it becomes the hero with its own mistakes, each naming its paper with the date and the
+  // 12-hour time, and the one volt key moves with it.
   reviewGolden(
     'r390_tab_rows_open',
     () => const ReviewScreen(),
     size: const Size(390, 2300),
     overrides: () => reviewOverrides(records: [repairedRecord]),
     after: (tester) async {
-      await tester.tap(find.text('Partnership: admission of a partner').last);
+      await tester.tap(find.text('Issue of shares').first);
       await tester.pumpAndSettle();
     },
   );
   reviewGolden('r390_tab_empty', () => const ReviewScreen(), size: _phone, overrides: () => reviewOverrides(attempts: const []));
-  reviewGolden(
-    'r390_tab_history',
-    () => const ReviewScreen(),
-    size: const Size(390, 1300),
-    overrides: _withSwot,
-    after: (tester) async {
-      await tester.tap(find.text('History'));
-      await tester.pumpAndSettle();
-    },
-  );
+  // Everything under the lead (Revise, Saved repairs, the next step from the latest mock, the papers, the rows), in the one scroll.
+  reviewGolden('r390_tab_below', () => const ReviewScreen(), size: const Size(390, 4200), overrides: _withSwot);
   reviewGolden('r390_repair_entry', _repair, size: _phone, overrides: () => reviewOverrides(run: runOf(phase: RepairPhase.entry), credits: credits(9)));
   reviewGolden(
     'r390_repair_try',

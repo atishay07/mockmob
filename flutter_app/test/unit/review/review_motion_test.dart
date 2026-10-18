@@ -13,6 +13,7 @@ import 'package:mockmob/features/review/screens/repair_ending_screen.dart';
 import 'package:mockmob/features/review/screens/repair_screen.dart';
 import 'package:mockmob/features/review/screens/review_screen.dart';
 import 'package:mockmob/features/review/widgets/review_rows.dart';
+import 'package:mockmob/features/review/widgets/chapter_hero.dart';
 import 'package:mockmob/features/review/widgets/tonight_card.dart';
 
 import '../../golden/review/review_golden_support.dart';
@@ -104,7 +105,7 @@ void main() {
         wrapInScaffold: false,
         overrides: reviewOverrides(records: [repairedRecord]),
       );
-      final fade = find.ancestor(of: find.byType(TonightCard), matching: find.byType(FadeTransition)).first;
+      final fade = find.ancestor(of: find.byType(ChapterHero), matching: find.byType(FadeTransition)).first;
       await tester.pump(const Duration(seconds: 2));
       expect(tester.widget<FadeTransition>(fade).opacity.value, 1);
     });
@@ -118,7 +119,7 @@ void main() {
         wrapInScaffold: false,
         overrides: reviewOverrides(records: [repairedRecord]),
       );
-      final fade = find.ancestor(of: find.byType(TonightCard), matching: find.byType(FadeTransition)).first;
+      final fade = find.ancestor(of: find.byType(ChapterHero), matching: find.byType(FadeTransition)).first;
       expect(tester.widget<FadeTransition>(fade).opacity.value, 1);
     });
 

@@ -58,15 +58,14 @@ void main() {
   setUpAll(loadAppFonts);
 
   group('review-01: the all-clear is never shown above open mistakes', () {
-    testWidgets('open mistakes in a 5-question practice get an honest card, not the all-clear', (tester) async {
+    testWidgets('open mistakes in a 5-question practice are in the lead, never the all-clear', (tester) async {
       await _pump(tester, const ReviewScreen(), attempts: [_short]);
       expect(find.text('Nothing waiting to repair'), findsNothing);
       expect(find.textContaining("Every mistake you've found is repaired"), findsNothing);
-      expect(find.text('Nothing to repair tonight'), findsOneWidget);
-      expect(find.textContaining('shorter practice'), findsOneWidget);
-      // The list below still holds them, and the one key offered is the run that really exists.
-      expect(find.text('Mistakes to repair'), findsOneWidget);
-      expect(find.text('Repair 2 from Quick practice'), findsOneWidget);
+      // The chapter that lost the marks leads, and its two mistakes are rows with the one action.
+      expect(find.text('Money and banking'), findsWidgets);
+      expect(find.text('2 mistakes to repair'), findsOneWidget);
+      expect(find.text('Repair'), findsNWidgets(2));
     });
 
     testWidgets('with nothing open the all-clear shows', (tester) async {
@@ -164,13 +163,15 @@ void main() {
 
     testWidgets('the tab says how many of the mistakes found are repaired', (tester) async {
       await _pump(tester, const ReviewScreen(), records: [repairedRecord]);
-      // Mock 7 has 5 wrong answers, Mock 6 has 2 and the Quick practice 1; one is repaired.
-      expect(find.text('1 repaired, 8 found'), findsOneWidget);
-      // What is left sits in the caption, so nothing says "7 mistakes" beside the progress line.
-      expect(find.textContaining('7 left to repair across 4 chapters'), findsOneWidget);
+      // Mock 7 has 5 wrong answers and 3 skipped, Mock 6 has 2 and the Quick practice 1; one is repaired.
+      // 8 wrong x 6 + 3 blank x 5 = 63 marks, and the sentence says so with the one repaired.
+      expect(find.text('Your 3 papers lost 63 marks: 8 wrong answers and 3 left blank. 1 is repaired.'), findsOneWidget);
+      // What is left is the chapters' own rows: 8 found less 1 repaired is 7, in the lead and More chapters together.
+      final index = buildReviewIndex(allAttempts, [repairedRecord]);
+      expect(index.openCount, 7);
     });
 
-    testWidgets('no mistakes found, no progress line', (tester) async {
+    testWidgets('no mistakes found, no lead line', (tester) async {
       await _pump(tester, const ReviewScreen(), attempts: [_clean]);
       expect(find.textContaining(RegExp(r'\d+ repaired, \d+ found')), findsNothing);
       // The past result writes its marks as the rest of the app does.

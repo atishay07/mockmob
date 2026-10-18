@@ -75,17 +75,8 @@ Future<void> _answerRight(WidgetTester tester, String key) async {
 }
 
 void main() {
-  // The History side opens with what to do after the latest mock (L15).
-  reviewGolden(
-    'review_tab_history_next',
-    () => const ReviewScreen(),
-    size: const Size(384, 1300),
-    overrides: _withSwot,
-    after: (tester) async {
-      await tester.tap(find.text('History'));
-      await tester.pumpAndSettle();
-    },
-  );
+  // Under the lead: what to do after the latest mock (L15), then the papers.
+  reviewGolden('review_tab_below_next', () => const ReviewScreen(), size: const Size(384, 4200), overrides: _withSwot);
 
   // The tab with Review again as its first row (L14).
   reviewGolden(

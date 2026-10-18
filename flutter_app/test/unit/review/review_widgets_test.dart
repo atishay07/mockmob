@@ -7,7 +7,7 @@ import 'package:mockmob/features/review/data/repair_state.dart';
 import 'package:mockmob/features/review/screens/repair_ending_screen.dart';
 import 'package:mockmob/features/review/screens/repair_screen.dart';
 import 'package:mockmob/features/review/screens/review_screen.dart';
-import 'package:mockmob/features/review/widgets/mistake_map.dart' show ChapterTrack;
+import 'package:mockmob/features/review/copy.dart';
 import 'package:mockmob/features/review/widgets/question_panel.dart' show MarkedOption;
 import 'package:mockmob/features/rhythm/rhythm.dart' show CelebrationSlot;
 
@@ -28,50 +28,41 @@ Future<void> pump(WidgetTester tester, Widget screen, {RepairRunState? run, Date
 void main() {
   setUpAll(loadAppFonts);
 
-  testWidgets('the tab offers tonight, skipped questions without a repair key, and the record', (tester) async {
+  testWidgets('the tab leads with the weak chapter and keeps the record, the papers and the rows under it in one scroll', (tester) async {
     await pump(tester, const ReviewScreen());
-    expect(find.textContaining("'s repair, "), findsOneWidget);
-    expect(find.textContaining(RegExp(r'^Repair \d+ mistakes?, \d+ min$')), findsOneWidget);
-    expect(find.text('Not attempted in Mock 2 (3)'), findsOneWidget);
-    // The record and the past results sit on the other side of the switch, not in the same scroll.
-    expect(find.text('Repaired 4 Oct, 11:08\u00A0PM'), findsNothing);
-    expect(find.textContaining('mastered'), findsNothing);
-    await tester.tap(find.text('History'));
-    await tester.pumpAndSettle();
-    expect(find.text('Repaired 4 Oct, 11:08\u00A0PM'), findsOneWidget, reason: 'the record entry is one compact line per fact');
-    expect(find.text('Repair record'), findsOneWidget);
+    // The lead: what the papers cost, the costliest chapter, the one volt key.
+    expect(find.textContaining(RegExp(r'^Your 3 papers lost \d+ marks')), findsOneWidget);
+    expect(find.text(ReviewCopy.loseMost), findsOneWidget);
+    expect(find.text(ReviewCopy.practiseOnChapter(10)), findsOneWidget);
+    expect(find.textContaining(RegExp(r'^Repair \d+ mistakes?, \d+ min$')), findsNothing, reason: "tonight's key is not on the tab any more");
+    // Under it, in one scroll and with no switch: Saved repairs, the papers and the past results.
+    expect(find.text('History'), findsNothing);
+    expect(find.text('To repair'), findsNothing);
+    expect(find.text(ReviewCopy.savedRepairsHeading), findsOneWidget);
     expect(find.text('Past results'), findsOneWidget);
-    expect(find.text('Not attempted in Mock 2 (3)'), findsNothing);
-    await tester.tap(find.text('To repair'));
-    await tester.pumpAndSettle();
-    expect(find.text('Not attempted in Mock 2 (3)'), findsOneWidget);
-    expect(find.text('Repair record'), findsNothing);
+    expect(find.textContaining('mastered'), findsNothing);
+    // The record's one saved repair says when it was repaired, in a weekday and a 12-hour time, and opens free.
+    expect(find.textContaining('Repaired Sun 4 Oct, 11:08\u00A0PM'), findsOneWidget);
+    expect(find.text('See your record'), findsOneWidget);
   });
 
-  testWidgets('every chapter row has one track and says its count with the denominator', (tester) async {
+  testWidgets('every chapter says what it lost with its denominator, and the open one has one volt key', (tester) async {
     await pump(tester, const ReviewScreen());
-    expect(find.byType(ChapterTrack), findsWidgets);
-    expect(find.text('1 of 5 repaired'), findsOneWidget);
-    expect(find.text('0 of 1 repaired'), findsWidgets);
+    expect(find.textContaining('marks on offer'), findsWidgets);
+    expect(find.textContaining(RegExp(r'Lost \d+ of the \d+ marks')), findsWidgets);
+    expect(find.byWidgetPredicate((w) => w is KeyButton && w.variant == KeyVariant.primary), findsOneWidget);
   });
 
-  testWidgets('skipped questions sit in one collapsed group with their count until it is opened', (tester) async {
+  testWidgets('a skipped question is a free "Try it again" in the foot of its chapter, never a repair', (tester) async {
     await pump(tester, const ReviewScreen());
-    // Closed: the count and the way in, no per-question action pair.
-    expect(find.text('Not attempted in Mock 2 (3)'), findsOneWidget);
-    expect(find.text('See the answer'), findsNothing);
-    expect(find.text('Try it again'), findsNothing);
-    final group = find.bySemanticsLabel(RegExp(r'^Not attempted in Mock 2 \(3\)\..*Show the questions$'));
-    expect(group, findsOneWidget);
-
-    await tester.tap(find.text('Not attempted in Mock 2 (3)'));
+    // The costliest chapter (Partnership) skipped nothing, so no blank sentence leads the tab.
+    expect(find.textContaining('left blank. Try'), findsNothing);
+    // A chapter that holds a skipped question (Issue of shares, Q29 in Mock 2) opens on tap, and its foot names it as a 44 dp chip.
+    await tester.tap(find.text('Issue of shares').first);
     await tester.pumpAndSettle();
-    expect(find.text('See the answer'), findsNWidgets(3));
-    expect(find.text('Try it again'), findsNWidgets(3));
-    expect(find.bySemanticsLabel(RegExp(r'Hide the questions$')), findsOneWidget);
-
-    await tester.tap(find.text('Not attempted in Mock 2 (3)'));
-    await tester.pumpAndSettle();
+    expect(find.textContaining('left blank. Try'), findsWidgets);
+    final chips = find.bySemanticsLabel(RegExp(r'^Try it again, question \d+, Mock \d\. Free\.$'));
+    expect(chips, findsWidgets);
     expect(find.text('See the answer'), findsNothing);
   });
 
