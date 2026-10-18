@@ -170,7 +170,7 @@ void main() {
     });
 
     test('the aim line carries the real figures, the source and the scale', () {
-      expect(PlanSummary.aimLine(_student()), 'Aim: SRCC. It took 924.3 of\u00A01000 in Round 1, 2026, about 231 a paper.');
+      expect(PlanSummary.aimLine(_student()), 'Aim: SRCC. It took 924.3 of\u00A01000 in Round 1 of 2026, about 231 a paper.');
       expect(PlanSummary.alsoLine(_student()), 'Also on your list: Hindu 919.9.');
     });
 
@@ -226,7 +226,7 @@ void main() {
       expect(OnboardingCopy.welcomeHeadline, 'Every lost mark has a pattern.');
       expect(
         OnboardingCopy.welcomeSupport,
-        'MockMob finds yours, helps you repair it, and checks the repair holds. Two minutes to set up.',
+        'MockMob finds where your marks slip, helps you fix each mistake, and checks that the fix holds. Setup takes about two minutes.',
       );
       expect(OnboardingCopy.buildPlan, 'Build my plan');
       expect(OnboardingCopy.haveAccount, 'I already have an account');

@@ -22,7 +22,11 @@ class StepLayout extends StatelessWidget {
     this.tight = false,
     this.backInRow = true,
     this.guideBesideTitle = false,
+    this.dismissKeyboardOnDrag = true,
   });
+
+  /// See [StepFrame.dismissKeyboardOnDrag].
+  final bool dismissKeyboardOnDrag;
 
   final String title;
   final String? support;
@@ -106,6 +110,7 @@ class StepLayout extends StatelessWidget {
       child: StepFrame(
         endInset: endInset,
         hideBottomForKeyboard: hideBottomForKeyboard,
+        dismissKeyboardOnDrag: dismissKeyboardOnDrag,
         backInRow: backInRow,
         head: head,
         besideHead: guideBesideTitle,

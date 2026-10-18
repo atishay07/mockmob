@@ -140,8 +140,8 @@ void main() {
   });
 
   group('More courses (D41)', () {
-    test('the tiles lead with the most chosen; "More courses" holds every other course with Round 1 rows', () {
-      expect([for (final c in DuCatalog.courses) c.short].take(5), ['B.Com (Hons)', 'B.A. (Hons) Economics', 'B.Com', 'BBA (FIA)', 'BMS']);
+    test('the tiles lead in order of aspirant demand; "More courses" holds every other course with Round 1 rows', () {
+      expect([for (final c in DuCatalog.courses) c.short].take(5), ['B.Com (Hons)', 'B.A. (Hons) Economics', 'B.Com', 'BMS', 'BBA (FIA)']);
       final rules = _source('rules.json');
       final withRows = {
         for (final g in rules['groups'] as List)

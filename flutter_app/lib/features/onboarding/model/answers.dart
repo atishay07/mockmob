@@ -80,8 +80,8 @@ class OnboardingAnswers {
   /// "Not sure yet" on the course step.
   final bool courseUndecided;
 
-  /// Up to [kMaxColleges] colleges in the order picked (full names as DU prints them); the first
-  /// three are the ones Today shows.
+  /// Up to [kMaxColleges] colleges (full names as DU prints them), in order of last year's closing
+  /// marks for [category], highest first (D103); the first three are the ones Today shows.
   final List<String> colleges;
   final bool openToAny;
 
@@ -271,8 +271,9 @@ class OnboardingAnswers {
       stage: Stage.byName(j['stage'] as String?),
       courseId: DuCatalog.course(course) == null ? null : course,
       courseUndecided: j['courseUndecided'] == true,
-      // Sheets stored before the limit rose to eight hold at most three; both read the same.
-      colleges: strings(j['colleges']).toSet().take(kMaxColleges).toList(),
+      // Sheets stored before the limit rose to eight hold at most three; both read the same. A sheet
+      // kept in the order tapped (before D103) reads back in order of the marks.
+      colleges: _byMarks(course, strings(j['colleges']).toSet().take(kMaxColleges).toList(), category ?? DuCatalog.defaultCategory),
       openToAny: j['openToAny'] == true,
       category: category ?? DuCatalog.defaultCategory,
       subjects: [for (final id in strings(j['subjects'])) ?SheetSubject.byId(id)],
@@ -311,3 +312,9 @@ List<Worry> _worries(Map<String, Object?> j) {
 }
 
 const Object _keep = Object();
+
+/// [colleges] in order of last year's closing marks for [category] in [courseId] (D103).
+List<String> _byMarks(String? courseId, List<String> colleges, String category) =>
+    DuCatalog.course(courseId)?.byMarks(colleges, category) ?? colleges;
+
+

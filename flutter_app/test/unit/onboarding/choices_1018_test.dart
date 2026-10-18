@@ -207,7 +207,7 @@ void main() {
     test('a swap: Mobi names the pick that went', () {
       final before = studentUpTo(Steps.subjects, step: Steps.worry).copyWith(worries: const [Worry.knewIt, Worry.passages, Worry.time]);
       final after = before.copyWith(worries: const [Worry.knewIt, Worry.passages, Worry.syllabus]);
-      expect(mobiCueFor(before, after)?.line, "Swapped out 'The last 10 questions'. Three is the most.");
+      expect(mobiCueFor(before, after)?.line, "I swapped out 'The last 10 questions'. You can pick three at most.");
     });
 
     testWidgets('the step marks each pick with its place and Mobi names a swap', (tester) async {

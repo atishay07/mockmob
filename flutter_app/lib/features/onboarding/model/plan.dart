@@ -190,7 +190,8 @@ class PlanSummary {
     return '${course.short} also needs ${joinWithAnd(check.missing)}.';
   }
 
-  /// "Aim: SRCC. It took 924.3 of 1000 in Round 1, 2026, about 231 a paper." The first college
+  /// "Aim: SRCC. It took 924.3 of 1000 in Round 1 of 2026, about 231 a paper." The first college
+  /// (the picks stand in order of the marks, D103, so it is the one that needs the most)
   /// with its real bar and what that means per paper, as the course step says it (v15 taste pass:
   /// the old line read like a data dump, with a parenthesis). A category other than unreserved is
   /// named; a college with no seat in it says so.
@@ -203,7 +204,7 @@ class PlanSummary {
       final score = o.scoreFor(a.category);
       if (score == null) return 'Aim: ${o.short}. ${OnboardingCopy.noSeatsFor(a.category)}';
       final who = categoryWords(a.category) == 'unreserved' ? '' : ' (${categoryWords(a.category)})';
-      return 'Aim: ${o.short}. It took ${DuCatalog.format(score)} of\u00A0${DuCatalog.scale}$who in Round 1, 2026, '
+      return 'Aim: ${o.short}. It took ${DuCatalog.format(score)} of\u00A0${DuCatalog.scale}$who in Round 1 of 2026, '
           'about ${(score / 4).round()} a paper.';
     }
     return null;

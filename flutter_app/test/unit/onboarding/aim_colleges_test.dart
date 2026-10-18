@@ -234,7 +234,7 @@ void main() {
 
   group('copy', () {
     test('the Aim step has no filler or defensive line, and says what it means', () {
-      expect(OnboardingCopy.ladderSupport, 'Lowest Round 1 score in 2026, out of 1000.');
+      expect(OnboardingCopy.ladderSupport, 'Each number is the lowest score that won a seat in Round 1 last year (2026), out of 1000.');
       expect(OnboardingCopy.eightIsMost, '8 is the most. Drop one to add another.');
       expect(OnboardingCopy.notSureNote, 'You can pick one later in Colleges.');
       expect(OnboardingCopy.savedWhat, isNot(contains('stay on this phone')));

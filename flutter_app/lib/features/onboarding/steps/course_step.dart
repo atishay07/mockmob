@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -18,7 +20,8 @@ import '../widgets/engraved_text.dart';
 import '../widgets/entrance.dart';
 import '../widgets/step_layout.dart';
 
-/// Step 2 ("Aim"), one evolving screen: pick the course from the six most chosen, each with its
+/// Step 2 ("Aim"), one evolving screen: pick the course from the six commerce aspirants aim for
+/// most (in that order, G4), each with its
 /// real 2026 college count and its CUET subjects, or from every DU course in "More courses"; then
 /// the ladder of colleges with their Round 1 minimums from 2026 unfolds in place; picks
 /// engrave onto the sheet. Up to eight colleges, found by name in "Find a college": the same list,
@@ -36,7 +39,7 @@ class CourseStep extends ConsumerStatefulWidget {
   ConsumerState<CourseStep> createState() => _CourseStepState();
 }
 
-class _CourseStepState extends ConsumerState<CourseStep> {
+class _CourseStepState extends ConsumerState<CourseStep> with WidgetsBindingObserver {
   /// Showing the course tiles even though a course is chosen ("Change course").
   bool _choosing = false;
 
@@ -47,8 +50,15 @@ class _CourseStepState extends ConsumerState<CourseStep> {
   /// The search field's focus and place: when the student taps it, the field comes to the top of
   /// the list, so the colleges it finds are in view above the keyboard (not the field alone, at
   /// the bottom edge where the keyboard's own scroll leaves it).
+  ///
+  /// G3 (owner, 19 Oct, "my keyboard gets cut off again and again"): the keyboard opening, the
+  /// sheet strip folding away and Mobi stepping aside all move the field after that first scroll,
+  /// so it is brought to the top again once they have settled; and dragging the results no
+  /// longer puts the keyboard away (the step's list keeps it up). The field is one element for
+  /// the life of the ladder, so no rebuild ever drops its focus.
   final FocusNode _searchFocus = FocusNode();
   final GlobalKey _searchKey = GlobalKey();
+  Timer? _realign;
 
   /// Mobi nods at the first pick of this visit only.
   bool _nodded = false;
@@ -59,23 +69,47 @@ class _CourseStepState extends ConsumerState<CourseStep> {
   void initState() {
     super.initState();
     _searchFocus.addListener(_searchFocused);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _realign?.cancel();
     _searchFocus.removeListener(_searchFocused);
     _searchFocus.dispose();
     _search.dispose();
     super.dispose();
   }
 
+  /// How long the room around the field keeps moving after the keyboard opens: the sheet strip
+  /// folds away over [Motion.emphasizedDuration].
+  static Duration get settle => Motion.emphasizedDuration + const Duration(milliseconds: 80);
+
   void _searchFocused() {
     if (!_searchFocus.hasFocus) return;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final field = _searchKey.currentContext;
-      if (!mounted || field == null || !_searchFocus.hasFocus) return;
-      Scrollable.ensureVisible(field, alignment: 0, duration: Motion.of(context, Motion.ui), curve: Motion.out);
+    WidgetsBinding.instance.addPostFrameCallback((_) => _bringFieldUp());
+    _scheduleRealign();
+  }
+
+  /// The keyboard opened or closed (the window's insets changed): once the room has settled, the
+  /// field comes back to the top if it still has the focus.
+  @override
+  void didChangeMetrics() {
+    if (_searchFocus.hasFocus) _scheduleRealign();
+  }
+
+  void _scheduleRealign() {
+    _realign?.cancel();
+    _realign = Timer(settle, () {
+      if (mounted) _bringFieldUp();
     });
+  }
+
+  void _bringFieldUp() {
+    final field = _searchKey.currentContext;
+    if (!mounted || field == null || !_searchFocus.hasFocus) return;
+    Scrollable.ensureVisible(field, alignment: 0, duration: Motion.of(context, Motion.ui), curve: Motion.out);
   }
 
   void _changeCourse() {
@@ -183,6 +217,8 @@ class _CourseStepState extends ConsumerState<CourseStep> {
       key: ValueKey('ladder-${course.id}'),
       title: OnboardingCopy.ladderTitle,
       support: OnboardingCopy.ladderSupport,
+      // Scrolling the found colleges keeps the keyboard up (G3).
+      dismissKeyboardOnDrag: false,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

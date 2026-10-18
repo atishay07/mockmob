@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/router/routes.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/onboarding/copy.dart';
-import 'package:mockmob/features/onboarding/model/answers.dart';
 import 'package:mockmob/features/onboarding/model/deck.dart';
 import 'package:mockmob/features/onboarding/onboarding_routes.dart';
 import 'package:mockmob/features/onboarding/widgets/college_search_field.dart';

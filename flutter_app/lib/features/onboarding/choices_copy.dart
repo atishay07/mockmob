@@ -3,12 +3,13 @@
 /// `copy.dart` so the onboarding's two packets of work never edit the same lines.
 abstract final class ChoicesCopy {
   // Course step (D41).
-  static const String courseSupport = 'The most chosen DU courses first, with the CUET subjects each one takes.';
+  /// G4, G5: the order is aspirant demand (never "top"), and the one course can change any time.
+  static const String courseSupport = 'The courses commerce students aim for most come first. You can change your course any time.';
   static const String moreCourses = 'More courses';
-  static String moreCoursesNote(int n) => 'All $n DU courses with seats in Round 1, 2026';
+  static String moreCoursesNote(int n) => 'All $n DU courses that had seats in Round 1 of 2026';
   static const String moreCoursesTitle = 'Every DU course';
   static const String courseSearchHint = 'Search courses';
-  static String courseListCount(int n) => '$n courses. Each line is its CUET subject combination from the DU Bulletin.';
+  static String courseListCount(int n) => 'There are $n courses here. Each line shows the CUET subjects a course takes, from the DU Bulletin.';
   static String noCourseMatch(String q) => 'No DU course matches "$q".';
   static String collegesShort(int n) => n == 1 ? '1 college' : '$n colleges';
   static const String combosSpoken = 'CUET subjects';
@@ -25,10 +26,10 @@ abstract final class ChoicesCopy {
 
   // Marks step (D45).
   static const String worrySupport = 'Pick up to three. The first one decides where you start.';
-  static const String worrySwapped = 'Three is the most. Your oldest pick made room.';
+  static const String worrySwapped = 'You can pick three at most, so your oldest pick made room.';
 
   /// Mobi, when a fourth pick replaces the third: names the pick that went (v15 taste pass).
-  static String worrySwappedOut(String words) => "Swapped out '${_capital(words)}'. Three is the most.";
+  static String worrySwappedOut(String words) => "I swapped out '${_capital(words)}'. You can pick three at most.";
 
   static String _capital(String s) => s.isEmpty ? s : s[0].toUpperCase() + s.substring(1);
   static String worryRank(int i) => switch (i) { 0 => 'First', 1 => 'Second', _ => 'Third' };
@@ -41,8 +42,8 @@ abstract final class ChoicesCopy {
   static const String tapDays = 'Tap a day to swap it.';
   static String runwaySpoken(int weeks, int days) => '$weeks weeks to CUET, $days study days in each.';
   static const String weeksLeft = 'weeks to CUET';
-  static String mobiFewDays(int n) => n == 1 ? 'One day a week. Short and steady works.' : 'Two days a week. Short and steady works.';
-  static const String mobiEveryDay = 'Every day? Keep one day to rest.';
+  static String mobiFewDays(int n) => n == 1 ? 'One day a week is fine. Short and steady works.' : 'Two days a week is fine. Short and steady works.';
+  static const String mobiEveryDay = 'Studying every day? Keep one day for rest.';
 
   /// The live readout beside the sessions figure: "About 37 hours of practice before May, if you
   /// keep this." Hours come from the chosen session length.

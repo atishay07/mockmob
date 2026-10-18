@@ -28,12 +28,12 @@ enum Stage {
 /// What costs the student the most marks, in their words. Each one really changes the first
 /// move (directions-final 0.7): its subject or its framing, and Mobi's one line.
 enum Worry {
-  knewIt('I knew it and still got it wrong', "Knew it and still lost it? That's a trap, not a gap.", 'A trap, not a gap.', 'knew it, still got it wrong'),
-  time('The last 10 questions, no time left', 'Then we train the clock. Short and often.', 'We train the clock.', 'the last 10 questions'),
+  knewIt('I knew it and still got it wrong', "You knew it and still lost it? That's a trap, not a gap.", "That's a trap, not a gap.", 'knew it, still got it wrong'),
+  time('The last 10 questions, no time left', 'Then we train the clock with short, frequent sessions.', 'We train the clock.', 'the last 10 questions'),
   numericals('Accounts numericals take me forever', 'Numericals get faster with reps, not with rereading.', 'Reps beat rereading.', 'Accounts numericals'),
   passages('English passages eat my time', "Passages reward a method. We'll build yours.", "We'll build a method.", 'English passages'),
-  syllabus('Too much syllabus, not enough months', 'Then we go in order. One chapter at a time.', 'One chapter at a time.', 'too much syllabus'),
-  noIdea('No idea yet, honestly', 'Fair. Ten questions will tell us more than a guess.', 'Ten questions will tell.', 'no idea yet');
+  syllabus('Too much syllabus, not enough months', 'Then we go in order, one chapter at a time.', "We'll go one chapter at a time.", 'too much syllabus'),
+  noIdea('No idea yet, honestly', "That's fair. Ten questions will tell us more than a guess.", 'Ten questions will tell us.', 'no idea yet');
 
   const Worry(this.option, this.mobiLine, this.mobiShort, this.words);
 

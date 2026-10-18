@@ -10,6 +10,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../choices_copy.dart';
 import '../copy.dart';
+import '../data/course_rule.dart';
 import '../data/eligibility.dart';
 import '../data/subject_sets.dart';
 import '../data/subjects.dart';
@@ -45,6 +46,9 @@ class SubjectsStep extends ConsumerStatefulWidget {
 
   final OnboardingAnswers answers;
   final VoidCallback onNext;
+
+  /// The course's subject rule above the common sets (G9).
+  static const Key ruleKey = ValueKey('subjects-rule');
 
   @override
   ConsumerState<SubjectsStep> createState() => _SubjectsStepState();
@@ -143,6 +147,8 @@ class _SubjectsStepState extends ConsumerState<SubjectsStep> {
     final line = PlanSummary.eligibilityLine(a);
     final sets = SubjectSets.forCourse(course);
     final needed = neededSubjects(course);
+    // G9: the course's rule, up front, before any pick (it stays as the sets' lead after one).
+    final rule = course == null ? null : CourseRule.sentence(course);
 
     // Rows lift in the order they stand: Add, the sets, the note, the chosen ones, the picks.
     final lead = 1 + sets.length + (line == null ? 0 : 1);
@@ -183,6 +189,14 @@ class _SubjectsStepState extends ConsumerState<SubjectsStep> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           EntranceItem.answer(0, child: _AddRow(onTap: () => showSubjectPicker(context))),
+          if (rule != null)
+            EntranceItem.answer(
+              1,
+              child: Padding(
+                padding: const EdgeInsets.only(top: MmSpace.s16),
+                child: _Note(key: SubjectsStep.ruleKey, text: rule, icon: LucideIcons.listChecks, color: colors.ink2),
+              ),
+            ),
           if (sets.isNotEmpty) ...[
             Padding(
               padding: const EdgeInsets.only(top: MmSpace.s20, bottom: MmSpace.s8),
@@ -364,7 +378,7 @@ class _AddRow extends ConsumerWidget {
 
 /// A one-line note with its glyph, read out when it changes.
 class _Note extends StatelessWidget {
-  const _Note({required this.text, required this.icon, required this.color});
+  const _Note({super.key, required this.text, required this.icon, required this.color});
 
   final String text;
   final IconData icon;

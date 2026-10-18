@@ -64,7 +64,8 @@ abstract final class EditCopy {
   // Choice sheets.
   static const stageSheet = 'Where are you on the road to CUET?';
   static const courseSheet = 'Which course are you aiming for?';
-  static const courseNote = 'Changing the course clears your colleges, because they belong to a course.';
+  /// G5 (19 Oct): one target course, which the student can change any time, said plainly.
+  static const courseNote = 'You can change your course any time. Changing it clears your colleges, because they belong to a course.';
   static String courseConfirmTitle(int n) => n == 1 ? 'Remove your college?' : 'Remove your $n colleges?';
   static String courseConfirmBody(String course, String colleges) =>
       'Colleges belong to a course. Switching to $course removes $colleges.';

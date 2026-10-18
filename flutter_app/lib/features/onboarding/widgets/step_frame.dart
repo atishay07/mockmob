@@ -89,7 +89,13 @@ class StepFrame extends StatelessWidget {
     this.showGuide = true,
     this.head,
     this.besideHead = false,
+    this.dismissKeyboardOnDrag = true,
   });
+
+  /// Dragging the list puts the keyboard away. Off on a step whose field filters the list under
+  /// it (the college search, G3): the student scrolls the results with the keyboard still up,
+  /// and the keyboard's own search key or Back puts it away.
+  final bool dismissKeyboardOnDrag;
 
   /// The step's own group under Mobi: its title, support and answers. Laid out at its natural
   /// height (it scrolls with Mobi when the room is short).
@@ -199,8 +205,9 @@ class StepFrame extends StatelessWidget {
                   : Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [head, content]),
             );
             final body = SingleChildScrollView(
-              // Dragging the list puts the keyboard away, so the pinned key comes back.
-              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              // Dragging the list puts the keyboard away, so the pinned key comes back (except
+              // where a field filters the list, G3).
+              keyboardDismissBehavior: dismissKeyboardOnDrag ? ScrollViewKeyboardDismissBehavior.onDrag : ScrollViewKeyboardDismissBehavior.manual,
               child: BalancedBox(
                 minHeight: free.isFinite ? free : 0,
                 // With no action row the group keeps clear of the gesture bar itself.

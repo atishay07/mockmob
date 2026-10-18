@@ -15,8 +15,9 @@ import 'entrance.dart';
 
 /// The college ladder for one course: every college that seated [category] in Round 1, highest
 /// minimum first, with DU's figure to one decimal, on one rail. Tapping inks a college's bubble
-/// with its pick number (up to eight, the My colleges limit), so the order of the picks shows; the
-/// first three carry "On Today", because those are the ones Today shows.
+/// with its place among the picks (up to eight, the My colleges limit). The picks stand in order of
+/// last year's marks for the category, not the order tapped (D103), so the numbers run down the
+/// ladder, and the first three, the ones that need the highest marks, carry "On Today" (D104).
 ///
 /// [query] filters it with the "Find a college" matcher. Picks always show, matched or not, so a
 /// pick can always be seen and unticked.
@@ -141,7 +142,7 @@ class _CollegeLadderState extends State<CollegeLadder> {
   }
 }
 
-/// "3 of 8 picked. The first 3 show on Today.", above the ladder. The picked count rolls from the
+/// "3 of 8 picked. Today shows the 3 that need the highest marks.", above the ladder. The picked count rolls from the
 /// number it showed when a pick is added or dropped. The second half appears with the first pick.
 class LadderCount extends StatelessWidget {
   const LadderCount({super.key, required this.picked});
