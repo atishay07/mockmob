@@ -1,6 +1,8 @@
 /// DU CSAS 2026 data for the onboarding's course and college steps: the six Commerce and
-/// Economics programmes, their eligibility combinations from the Bulletin, and the Round 1
-/// minimum allocation score of every college for every category, out of 1000.
+/// Economics programmes shown as tiles ([DuCatalog.courses], most chosen first), every other course
+/// with Round 1 seats for "More courses" ([DuCatalog.more]), their eligibility combinations from
+/// the Bulletin, and the Round 1 minimum allocation score of every college for every category,
+/// out of 1000.
 ///
 /// The figures are real Round 1 minimums from 2026: always shown with that label and the scale.
 /// They say nothing about 2027 and never stand for a chance of admission.
@@ -12,23 +14,40 @@ part 'du_2026_data.dart';
 class DuSlot {
   const DuSlot.language(this.count)
       : kind = DuSlotKind.language,
+        subject = null,
+        specific = const [];
+
+  /// Named languages ("Bengali from List A"), plus [count] more of any language.
+  const DuSlot.languages(this.specific, {this.count = 0})
+      : kind = DuSlotKind.language,
         subject = null;
   const DuSlot.domain(String this.subject)
       : kind = DuSlotKind.domain,
-        count = 1;
+        count = 1,
+        specific = const [];
   const DuSlot.free(this.count)
       : kind = DuSlotKind.free,
-        subject = null;
+        subject = null,
+        specific = const [];
   const DuSlot.generalTest()
       : kind = DuSlotKind.generalTest,
         count = 1,
-        subject = null;
+        subject = null,
+        specific = const [];
 
   final DuSlotKind kind;
+
+  /// For a language slot, how many languages of the student's choice beyond [specific].
   final int count;
 
   /// The required domain subject (`mathematics`, `accountancy`), for [DuSlotKind.domain].
   final String? subject;
+
+  /// The languages a language slot names (`bengali`); empty when any language will do.
+  final List<String> specific;
+
+  /// Every language this slot takes.
+  int get languages => specific.length + count;
 }
 
 enum DuSlotKind { language, domain, free, generalTest }
@@ -59,7 +78,14 @@ class DuOffering {
 }
 
 class DuCourse {
-  const DuCourse({required this.id, required this.name, required this.short, required this.combos, required this.offerings});
+  const DuCourse({
+    required this.id,
+    required this.name,
+    required this.short,
+    required this.combos,
+    required this.offerings,
+    this.stream = 'Commerce & Economics',
+  });
 
   final String id;
 
@@ -68,6 +94,9 @@ class DuCourse {
 
   /// The name students use ("B.Com (Hons)").
   final String short;
+
+  /// The Bulletin's stream ("Commerce & Economics", "Science").
+  final String stream;
   final List<DuCombo> combos;
   final List<DuOffering> offerings;
 
@@ -92,6 +121,13 @@ class DuCourse {
   /// True when every combination needs [subject] (so it is pre-ticked on the subjects step).
   bool requires(String subject) => combos.every((c) => c.slots.any((s) => s.kind == DuSlotKind.domain && s.subject == subject));
 
+  /// The List B subjects every combination names, in the order the first one lists them.
+  List<String> get requiredDomains => [
+        if (combos.isNotEmpty)
+          for (final s in combos.first.slots)
+            if (s.kind == DuSlotKind.domain && requires(s.subject!)) s.subject!,
+      ];
+
   /// True when every combination needs the General Aptitude Test.
   bool get requiresGeneralTest => combos.every((c) => c.slots.any((s) => s.kind == DuSlotKind.generalTest));
 }
@@ -107,14 +143,30 @@ abstract final class DuCatalog {
   static const String defaultCategory = 'UR';
 
   static const List<String> categories = _categories;
+
+  /// The six Commerce and Economics programmes, most chosen first: the course step's tiles.
   static const List<DuCourse> courses = _courses;
 
+  /// Every other course with Round 1 seats in 2026, A to Z ("More courses"). B.A. (Programme)
+  /// is not here: its rows are per pair of disciplines, so it has no one college ladder.
+  static const List<DuCourse> more = _moreCourses;
+
+  /// [courses] then [more].
+  static const List<DuCourse> all = [..._courses, ..._moreCourses];
+
   static DuCourse? course(String? id) {
-    for (final c in courses) {
+    if (id == null) return null;
+    for (final c in all) {
       if (c.id == id) return c;
     }
     return null;
   }
+
+  /// The Bulletin's name for a List B subject id ("Biology / Biological Studies / ..."), or the id.
+  static String domainName(String id) => _domainNames[id] ?? id;
+
+  /// The Bulletin's name for a List A language id ("Bengali"), or the id.
+  static String languageName(String id) => _languageNames[id] ?? id;
 
   /// A score as DU prints it, to one decimal ("924.3").
   static String format(double score) => score.toStringAsFixed(1);

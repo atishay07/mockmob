@@ -133,7 +133,7 @@ class AnswersController extends AsyncNotifier<OnboardingAnswers> {
   void setCourse(String? courseId, {bool undecided = false}) {
     final a = _current;
     var next = a.copyWith(courseId: courseId, courseUndecided: undecided, colleges: const [], openToAny: false);
-    if (!a.subjectsTouched) next = next.copyWith(subjects: suggestedSubjects(next.course));
+    if (!a.subjectsTouched) next = next.copyWith(subjects: neededSubjects(next.course));
     _set(undecided ? next.mark(Steps.course) : next);
   }
 
@@ -196,7 +196,7 @@ class AnswersController extends AsyncNotifier<OnboardingAnswers> {
   /// Makes sure the pre-ticked subjects are on the sheet when the subjects step opens.
   void ensureSubjects() {
     final a = _current;
-    if (a.subjects.isEmpty && !a.subjectsTouched) _set(a.copyWith(subjects: suggestedSubjects(a.course)));
+    if (a.subjects.isEmpty && !a.subjectsTouched) _set(a.copyWith(subjects: neededSubjects(a.course)));
   }
 
   void setWorry(Worry w) => _set(_current.copyWith(worry: w).mark(Steps.worry));

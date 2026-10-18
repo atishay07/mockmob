@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/features/onboarding/data/calendar.dart';
 import 'package:mockmob/features/onboarding/data/chapter_order.dart';
+import 'package:mockmob/features/onboarding/data/course_combos.dart';
 import 'package:mockmob/features/onboarding/data/du_catalog.dart';
 import 'package:mockmob/features/onboarding/data/eligibility.dart';
 import 'package:mockmob/features/onboarding/data/subjects.dart';
@@ -45,7 +46,7 @@ void main() {
     test('every Round 1 figure matches the source files exactly', () {
       final categories = (_source('index.json')['meta'] as Map)['categories'] as List;
       expect(DuCatalog.categories, categories);
-      for (final course in DuCatalog.courses) {
+      for (final course in DuCatalog.all) {
         final rows = _source('offerings/${course.id}.json')['rows'] as List;
         expect(course.offerings.length, rows.length, reason: course.id);
         for (var i = 0; i < rows.length; i++) {
@@ -99,24 +100,76 @@ void main() {
       expect(check.missing, ['Maths or Applied Maths']);
     });
 
-    test('BMS needs Maths and General Test; the suggested set has both and stays within five', () {
+    test('BMS needs Maths and General Test: exactly those are pre-ticked (D42)', () {
       final bms = DuCatalog.course('bachelor-of-management-studies-bms')!;
       expect(bms.requires('mathematics'), isTrue);
       expect(bms.requiresGeneralTest, isTrue);
-      final suggested = suggestedSubjects(bms);
-      expect(suggested.length, lessThanOrEqualTo(kMaxSubjects));
-      expect(EligibilityCheck.of(bms, suggested.toSet()).eligible, isTrue);
+      expect(neededSubjects(bms), [SheetSubject.mathematics, SheetSubject.generalTest]);
     });
 
-    test('every course is reachable from its own suggested set', () {
-      for (final course in DuCatalog.courses) {
-        expect(EligibilityCheck.of(course, suggestedSubjects(course).toSet()).eligible, isTrue, reason: course.id);
+    test('no course: nothing is assumed; B.Com (Hons) takes Maths or Accountancy, so nothing is needed', () {
+      expect(neededSubjects(null), isEmpty);
+      expect(neededSubjects(DuCatalog.course('b-com-hons')), isEmpty);
+      expect(neededSubjects(DuCatalog.course('b-com')), isEmpty);
+      expect(neededSubjects(DuCatalog.course('b-a-hons-economics')), [SheetSubject.mathematics]);
+      expect(neededFor(DuCatalog.course('b-a-hons-economics'), SheetSubject.mathematics), isTrue);
+      expect(neededFor(DuCatalog.course('b-a-hons-economics'), SheetSubject.economics), isFalse);
+    });
+
+    test('every needed subject is one every Bulletin combination of that course names', () {
+      for (final course in DuCatalog.all) {
+        for (final s in neededSubjects(course)) {
+          final named = s == SheetSubject.generalTest ? course.requiresGeneralTest : course.requires(s.id);
+          expect(named, isTrue, reason: '${course.id} ${s.id}');
+        }
+        expect(neededSubjects(course).length, lessThanOrEqualTo(kMaxSubjects));
       }
+    });
+
+    test('a named language is asked for by name', () {
+      final hindi = DuCatalog.course('b-a-hons-hindi')!;
+      final check = EligibilityCheck.of(hindi, {SheetSubject.english, SheetSubject.history, SheetSubject.politicalScience, SheetSubject.sociology});
+      expect(check.eligible, isFalse);
+      expect(check.missing.first, 'Hindi');
     });
 
     test('without a language the line asks for one', () {
       final check = EligibilityCheck.of(DuCatalog.course('b-com')!, {SheetSubject.accountancy, SheetSubject.economics, SheetSubject.businessStudies});
       expect(check.missing, contains('a language such as English'));
+    });
+  });
+
+  group('More courses (D41)', () {
+    test('the tiles lead with the most chosen; "More courses" holds every other course with Round 1 rows', () {
+      expect([for (final c in DuCatalog.courses) c.short].take(5), ['B.Com (Hons)', 'B.A. (Hons) Economics', 'B.Com', 'BBA (FIA)', 'BMS']);
+      final rules = _source('rules.json');
+      final withRows = {
+        for (final g in rules['groups'] as List)
+          if (((g as Map)['offerings'] as int) > 0 && File('../public/du/2026/offerings/${g['id']}.json').existsSync()) g['id'] as String,
+      }..remove('b-a-programme');
+      expect({for (final c in DuCatalog.all) c.id}, withRows);
+      expect(DuCatalog.all.length, DuCatalog.courses.length + DuCatalog.more.length);
+      expect(DuCatalog.course('b-a-programme'), isNull);
+    });
+
+    test('combinations come from the Bulletin rows (each course keeps its own)', () {
+      final rules = {for (final g in _source('rules.json')['groups'] as List) (g as Map)['id']: g};
+      for (final c in DuCatalog.all) {
+        final want = [for (final x in (rules[c.id]!['eligibility'] as Map)['combinations'] as List) (x as Map)['text']];
+        expect([for (final x in c.combos) x.text], want, reason: c.id);
+      }
+    });
+
+    test('one short line per course', () {
+      String line(String id) => CourseCombos.line(DuCatalog.course(id)!);
+      expect(line('b-com-hons'), 'A language + Maths or Accountancy + any 2 subjects');
+      expect(line('b-a-hons-economics'), 'A language + Maths + any 2 subjects');
+      expect(line('b-com'), 'A language + any 3 subjects, or a language + any 1 subject + General Test');
+      expect(line('bachelor-of-management-studies-bms'), 'A language + Maths + any 1 subject + General Test');
+      for (final c in DuCatalog.all) {
+        expect(CourseCombos.line(c), isNotEmpty, reason: c.id);
+        expect(CourseCombos.line(c), isNot(contains('_')), reason: c.id);
+      }
     });
   });
 
