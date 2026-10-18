@@ -177,7 +177,8 @@ void main() {
       expect(revise.cost, SuggestedCopy.costFree(keyed), reason: 'the minutes the key it would arm says');
       expect(revise.title, reviseHero.title, reason: 'the words the lead card shows once it swaps');
       expect(revise.line, SuggestedCopy.reviseLine(6));
-      expect(revise.art, SuggestedArt.mobi);
+      // Revise rings back today: the desk bell (D96 fix pass: never the same object on every card).
+      expect(revise.art, SuggestedArt.bell);
       final weakest = deck.firstWhere((c) => c.key == 'weakest');
       final w = view.glance!.weak.rows.first;
       expect(weakest.cost, 'Accountancy, 10 questions');
@@ -240,11 +241,12 @@ void main() {
       expect(deck[1].key, 'weakest');
     });
 
-    test('the words: one name per direction, the end says today, every count has its unit, "Both" for two', () {
+    test('the words: one name per direction, the end says the passed cards wait, every count has its unit, "Both" for two', () {
       expect(SuggestedCopy.upNext, 'Do this next');
       expect(SuggestedCopy.notNow, 'Not now');
-      expect(SuggestedCopy.allSeen(4), "That's all four for today");
-      expect(SuggestedCopy.allSeen(1), "That's the one for today");
+      // The end shows only after every card was passed on, and they wait behind it (D96 fix pass).
+      expect(SuggestedCopy.allSeen(4), 'You passed all four. They wait here.');
+      expect(SuggestedCopy.allSeen(1), 'You passed this one. It waits here.');
       expect(SuggestedCopy.countFirst(4), '4 cards');
       expect(SuggestedCopy.moreAfter(2, 4), '2 more after this');
       expect(SuggestedCopy.moreAfter(0, 4), 'Last of 4');

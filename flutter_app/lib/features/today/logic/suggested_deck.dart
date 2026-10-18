@@ -32,6 +32,9 @@ enum SuggestedArt {
 
   /// The stopwatch object: a full mock is timed like the real paper.
   stopwatch,
+
+  /// The desk bell: what you repaired rings back today (Revise).
+  bell,
 }
 
 /// One card of the deck.
@@ -59,6 +62,10 @@ class SuggestedCard {
   /// Mobi's pose when [art] is [SuggestedArt.mobi].
   final MmArt? pose;
 
+  /// This card with other art.
+  SuggestedCard withArt(SuggestedArt art, {MmArt? pose}) =>
+      SuggestedCard(choice: choice, title: title, line: line, cost: cost, art: art, subjectId: subjectId, pose: pose);
+
   /// A swipe may make this card the lead: a swipe never starts a session or spends a credit, so a
   /// card whose only action would start one waits for its button (TODAY-SWIPE-1018, safeguard).
   bool get swipeable => choice.hero != null || !(choice.action?.startsSession ?? false);
@@ -82,9 +89,36 @@ List<SuggestedCard> buildSuggestedDeck(List<MoveChoice> choices, {TodayGlance? g
     for (final c in shown)
       if (!c.suggested && c.key != 'weakest') c,
   ];
-  return [
+  return distinctArt([
     for (final c in [...suggested, ...weakest, ...rest]) _card(c, glance),
-  ];
+  ]);
+}
+
+/// Mobi's poses a card may take when its own object is already on an earlier card, in order.
+const List<MmArt> _sparePoses = [MmArt.mobiPoint, MmArt.mobiThink, MmArt.mobiRead, MmArt.mobiGreet];
+
+/// Every card of a deck shows its own art (final walk 37, 43: every card showed the same
+/// calculator). A card whose object (a subject's object, the stopwatch, the bell, or a Mobi pose)
+/// is already on an earlier card takes the next Mobi pose not used yet.
+List<SuggestedCard> distinctArt(List<SuggestedCard> cards) {
+  String artKey(SuggestedCard c) => switch (c.art) {
+        SuggestedArt.subject => 'subject:${c.subjectId}',
+        SuggestedArt.mobi => 'mobi:${c.pose}',
+        SuggestedArt.stopwatch => 'stopwatch',
+        SuggestedArt.bell => 'bell',
+      };
+  final used = <String>{};
+  final out = <SuggestedCard>[];
+  for (final c in cards) {
+    var card = c;
+    if (used.contains(artKey(card))) {
+      final pose = _sparePoses.where((p) => !used.contains('mobi:$p')).firstOrNull;
+      if (pose != null) card = card.withArt(SuggestedArt.mobi, pose: pose);
+    }
+    used.add(artKey(card));
+    out.add(card);
+  }
+  return out;
 }
 
 SuggestedCard _card(MoveChoice c, TodayGlance? glance) {
@@ -114,8 +148,7 @@ SuggestedCard _card(MoveChoice c, TodayGlance? glance) {
         cost: SuggestedCopy.costFree(minutes),
         title: m.title ?? SuggestedCopy.titleRevise,
         line: due != null && due > 0 ? SuggestedCopy.reviseLine(due) : _first(m.meaning),
-        art: SuggestedArt.mobi,
-        pose: MmArt.mobiPoint,
+        art: SuggestedArt.bell,
         subjectId: m.subjectId,
       );
     case MoveKind.mock || MoveKind.firstMock:
@@ -136,8 +169,10 @@ SuggestedCard _card(MoveChoice c, TodayGlance? glance) {
         cost: SuggestedCopy.costRepair(minutes),
         title: m.title ?? SuggestedCopy.titleRepair,
         line: _first(m.meaning),
-        art: m.art.isMobi ? SuggestedArt.mobi : SuggestedArt.subject,
-        pose: m.art.art,
+        // Mobi reading the paper back: a repair is about one paper, and the subject's object is
+        // the practice card's (and often the lead card's) already.
+        art: SuggestedArt.mobi,
+        pose: m.art.isMobi ? m.art.art : MmArt.mobiRead,
         subjectId: m.subjectId,
       );
     default:

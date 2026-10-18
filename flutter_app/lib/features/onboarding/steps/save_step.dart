@@ -167,6 +167,9 @@ class SaveView extends ConsumerStatefulWidget {
   /// On the age question, for tests that measure it.
   static const Key ageKey = ValueKey('save-age');
 
+  /// On the line under the age question (the note, or what is needed after a key was tapped).
+  static const Key ageLineKey = ValueKey('save-age-line');
+
   @override
   ConsumerState<SaveView> createState() => _SaveViewState();
 }
@@ -179,6 +182,11 @@ class _SaveViewState extends ConsumerState<SaveView> {
   final GlobalKey _ageAt = GlobalKey();
   Timer? _letGo;
 
+  /// A sign-in key was tapped before the age was answered: the question stays marked, with the
+  /// line under it saying what is needed, until it is answered (walk 22-noage: the shake and Mobi
+  /// alone were missed).
+  bool _asked = false;
+
   @override
   void dispose() {
     _letGo?.cancel();
@@ -189,8 +197,14 @@ class _SaveViewState extends ConsumerState<SaveView> {
   /// A sign-in key tapped before the age: the question shakes, a light haptic, Mobi points at it
   /// and asks, then looks back ahead.
   void _askFirst() {
+    if (!_asked) setState(() => _asked = true);
     _askAge.value++;
     ref.read(hapticsProvider).light();
+    // Brings the question into view when the group is scrolled (a short phone, large text).
+    final at = _ageAt.currentContext;
+    if (at != null) {
+      unawaited(Scrollable.ensureVisible(at, duration: Motion.of(context, const Duration(milliseconds: 280)), curve: Motion.glide, alignment: 0.3));
+    }
     final mobi = StepGuide.of(context)?.mobi;
     if (mobi == null) return;
     mobi.pointAtWidget(_ageAt);
@@ -215,6 +229,9 @@ class _SaveViewState extends ConsumerState<SaveView> {
     final sealedLine = w.sealedLine;
     final bankLine = w.bankLine;
 
+    // Asked and still unanswered: the question turns to the warning ink and the note under it
+    // says what is needed, in the same slot, so nothing below moves.
+    final marked = _asked && !answered;
     final ageBlock = MmShake(
       pulse: _askAge,
       child: Column(
@@ -222,7 +239,15 @@ class _SaveViewState extends ConsumerState<SaveView> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Semantics(header: true, child: Text(OnboardingCopy.ageQuestion, key: _ageAt, style: type.cardTitle)),
+          Semantics(
+            header: true,
+            child: AnimatedDefaultTextStyle(
+              duration: Motion.of(context, Motion.fadeThroughIn),
+              curve: Motion.glide,
+              style: type.cardTitle.copyWith(color: marked ? colors.warnText : colors.ink),
+              child: Text(OnboardingCopy.ageQuestion, key: _ageAt),
+            ),
+          ),
           const SizedBox(height: MmSpace.s12),
           ChoicePills<AgeAnswer>(
             options: [for (final a in AgeAnswer.values) (a, a.label)],
@@ -230,7 +255,16 @@ class _SaveViewState extends ConsumerState<SaveView> {
             onSelected: w.onAge,
           ),
           const SizedBox(height: MmSpace.s8),
-          Text(OnboardingCopy.ageNote, style: type.caption.copyWith(color: colors.ink3)),
+          MmOverlapSwitcher(
+            alignment: Alignment.topLeft,
+            child: marked
+                ? Semantics(
+                    key: const ValueKey('asked'),
+                    liveRegion: true,
+                    child: Text(OnboardingCopy.ageFirstLine, key: SaveView.ageLineKey, style: type.caption.copyWith(color: colors.warnText)),
+                  )
+                : Text(OnboardingCopy.ageNote, key: SaveView.ageLineKey, style: type.caption.copyWith(color: colors.ink3)),
+          ),
         ],
       ),
     );

@@ -16,7 +16,9 @@ abstract final class SuggestedCopy {
 
   /// The count over the stack: the cards still to come in this pass, out of the deck.
   static String moreAfter(int more, int of) => more <= 0 ? 'Last of $of' : '$more more after this';
-  static const String noneLeft = 'None left';
+  /// Over the end card: every card was passed on, and they are all still there (Not now says
+  /// "It waits at the back", so the end never says they are gone).
+  static const String noneLeft = 'All passed';
 
   /// First run only, under the heading: what the cards are.
   static const String intro = 'More ways to win back marks today, one card at a time.';
@@ -69,8 +71,10 @@ abstract final class SuggestedCopy {
   /// The lead card's own noun ("6 mistakes come back today"), so the move reads the same in both.
   static String reviseLine(int due) => due == 1 ? '1 mistake you repaired comes back today.' : '$due mistakes you repaired come back today.';
 
-  // The end of the deck. "Today", never "tonight": the deck is passed on at any hour (W7).
-  static String allSeen(int n) => n == 1 ? "That's the one for today" : "That's all ${_word(n)} for today";
+  // The end of the deck: it shows only once every card was passed on with Not now, and they all
+  // wait behind it ("Go through them again" in the row brings them back). Final walk L: "That's all
+  // three for today" read as if the passed cards were gone, against "It waits at the back".
+  static String allSeen(int n) => n == 1 ? 'You passed this one. It waits here.' : 'You passed all ${_word(n)}. They wait here.';
   static const String endOurPick = 'The card above is still our pick for you.';
   static const String endYourPick = 'Your pick is ready in the card above.';
   static const String again = 'Go through them again';

@@ -222,6 +222,8 @@ abstract final class OnboardingCopy {
   }
   static const String ageQuestion = 'Quick one: are you 18 yet?';
   static const String ageNote = 'Under 18, usage tracking stays off.';
+  /// Under the age question after a sign-in key was tapped before it was answered.
+  static const String ageFirstLine = 'Answer this first, then sign in.';
 
   /// The hint on a sign-in key that waits for the age question above it.
   static const String ageFirst = 'Answer the age question first';

@@ -1040,7 +1040,11 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
                       animation: _x,
                       builder: (context, _) {
                         final say = _coachSay();
-                        return MmOverlapSwitcher.fade(
+                        // Fade-through, never an overlap: the old line leaves, then the new one
+                        // arrives, so two lines are never readable at once mid-drag (final walk 53).
+                        // Reduced motion swaps at once.
+                        return MmFadeThrough(
+                          alignment: Alignment.center,
                           child: _CoachLine(key: ValueKey(say), say: say, style: coachStyle),
                         );
                       },
@@ -1536,10 +1540,11 @@ class _SuggestedStackSkeletonState extends State<SuggestedStackSkeleton> {
   }
 }
 
-/// The card's object: the corner it keeps the words clear of, and its inset from the card's top
-/// right corner (the mock's 104 x 88 at 12, 10). What shows of the object is sized on its own ([_Art]).
-const double _artWidth = 104;
-const double _artHeight = 88;
+/// The card's object: its own corner, which the words never enter, and its inset from the card's
+/// top right corner. The object is drawn inside the corner (final walk 37: drawn larger than its
+/// box, it ran under "weakest" and past the card's edge at 360 dp).
+const double _artWidth = 96;
+const double _artHeight = 84;
 const double _artTop = 12;
 const double _artRight = 10;
 
@@ -1547,8 +1552,9 @@ const double _artRight = 10;
 const double _cardTop = 18;
 const double _cardBottom = 18;
 
-/// What the cost and title keep clear of the object (the mock's 236 dp line at 358).
-const double _titleRoom = 82;
+/// What the cost and title keep clear of the object: its whole corner past the card's padding,
+/// and a gap. The title wraps before the object at any width and text size.
+const double _titleRoom = _artRight + _artWidth - MmSpace.cardPadding + MmSpace.s8;
 
 /// The least gap between the title and the evidence line, and how far down the evidence line
 /// starts at least, so it runs the card's full width under the object.
@@ -1620,7 +1626,8 @@ class _DeckCard extends StatelessWidget {
           const SizedBox(height: MmSpace.s2),
           Text(
             card.title,
-            maxLines: 2,
+            // Three lines at large text, so a title is never cut beside the object.
+            maxLines: 3,
             overflow: TextOverflow.ellipsis,
             style: type.title.copyWith(fontSize: 19, height: 24 / 19, letterSpacing: -0.2, color: colors.ink),
           ),
@@ -1797,24 +1804,28 @@ class _Stamped extends StatelessWidget {
   }
 }
 
-/// The subject's object, Mobi, or the stopwatch, in the card's corner.
+/// The card's art in its corner, chosen by the card's kind: the subject's object (practice), the
+/// stopwatch (a full mock), the desk bell (Revise), or Mobi (a repair, or a card whose object is
+/// already on the deck).
 class _Art extends StatelessWidget {
   const _Art({required this.card});
 
   final SuggestedCard card;
 
-  // Sized by what shows, not by the box: the pictures carry clear margins of their own, so each
-  // draws in a larger box centred on the corner's (the mock's 104 x 88 corner).
-  static const double _objectSide = 116;
-  static const double _mobiSize = 96;
+  // Each drawn no wider than the corner, so nothing leaves it sideways (the pictures carry clear
+  // margins of their own, which may overhang the corner's top and foot a little).
+  static const double _objectSide = _artWidth;
+  static const double _mobiSize = _artHeight;
+  static const double _hybridHeight = _artHeight - 6;
 
   @override
   Widget build(BuildContext context) => OverflowBox(
-    maxWidth: double.infinity,
+    maxWidth: _artWidth,
     maxHeight: double.infinity,
     child: switch (card.art) {
       SuggestedArt.mobi => Mobi(pose: HeroArtView.poseFor(card.pose), size: _mobiSize),
-      SuggestedArt.stopwatch => const HybridStopwatch(height: 80),
+      SuggestedArt.stopwatch => const HybridStopwatch(height: _hybridHeight),
+      SuggestedArt.bell => const HybridBell(height: _hybridHeight),
       // The lead card's object, unframed: an object on the card, not an icon. It stays still (no
       // lean or tap of its own), since the whole card answers the finger.
       SuggestedArt.subject => SubjectEmblem(subject: card.subjectId, size: _objectSide, framed: false, life: false),
