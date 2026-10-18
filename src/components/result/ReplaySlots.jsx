@@ -13,7 +13,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import COPY from '@/../data/mistake_lab.copy.json';
-import { SLOT_RULES, cutIndexLine, cutSentence, eventCaption, replayView, slotLayout, spokenTime } from '@/../data/replay';
+import { SLOT_RULES, cutIndexLine, cutSentence, eventCaption, nearestSlot, replayView, slotLayout } from '@/../data/replay';
 import { fill, spentLabel, clockLabel } from '@/../data/paper_trace';
 import './replay-slots.css';
 
@@ -24,6 +24,18 @@ const H_PHONE = 76;
 const H_WIDE = 96;
 
 const readReduced = () => { try { return document.documentElement.dataset.motion === 'reduced' || window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { return true; } };
+// A press on a row goes to the slot whose centre is nearest it (data/replay.js nearestSlot): each slot's hit area is 44 px wide
+// (replay-slots.css), wider than the slots sit apart on a phone, so the areas overlap and the browser alone would pick the wrong one.
+const pressSlot = (event) => {
+  if (!event.detail) return; // a key press or a script click already names its slot
+  const slots = [...event.currentTarget.querySelectorAll('.rs-q')];
+  if (slots.length < 2) return;
+  const at = nearestSlot(slots.map((el) => { const r = el.getBoundingClientRect(); return r.left + r.width / 2; }), event.clientX);
+  const hit = event.target.closest?.('.rs-q');
+  if (at < 0 || slots[at] === hit) return;
+  event.stopPropagation();
+  slots[at].click();
+};
 const readCollapsed = () => { try { return window.localStorage.getItem(STORE) === '1'; } catch { return false; } };
 const writeCollapsed = (v) => { try { window.localStorage.setItem(STORE, v ? '1' : '0'); } catch { /* per-device convenience only */ } };
 
@@ -163,7 +175,7 @@ export default function ReplaySlots({ replay, rows = [], paceSec = null, onJump,
       ) : (
         <div className="rs-grid" style={{ '--h': `${H}px` }}>
           {lines.map((line, li) => (
-            <div key={li} className="rs-row" style={{ gridTemplateColumns: `repeat(${perRow}, minmax(0, 1fr))` }}>
+            <div key={li} className="rs-row" style={{ gridTemplateColumns: `repeat(${perRow}, minmax(0, 1fr))` }} onClickCapture={pressSlot}>
               <span className="rs-pace" aria-hidden="true" />
               {line.map((q) => {
                 const f = Math.min(SLOT_RULES.cap, spentAt(q) / pace) / SLOT_RULES.cap;

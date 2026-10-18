@@ -26,6 +26,7 @@
 @media (prefers-reduced-motion: reduce) { .ame:active { transform: none; } }
 html[data-motion='reduced'] .ame:active { transform: none; }
 
-/* Inline, inside a sentence (Today's "Why this?"): the page's own inline link style decides the look. */
-.ame.ame--inline { white-space: nowrap; display: inline; min-height: 0; padding: 0; font: inherit; font-weight: 600; color: var(--a-ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+/* Inline, inside a sentence (Today's "Why this?"): the page's own inline link style decides the look. The 12 px above and below is
+   padding on an inline box, so it adds 24 px of hit area (the box measures 45 px) and does not move the line. */
+.ame.ame--inline { white-space: nowrap; display: inline; min-height: 0; padding: 12px 0; font: inherit; font-weight: 600; color: var(--a-ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 .ame.ame--inline:active { transform: none; }

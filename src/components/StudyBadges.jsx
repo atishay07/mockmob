@@ -237,7 +237,7 @@ function Bests({ rows, lines, fastest, scored, zone, armed }) {
             <b className="sb-best__value">{r.value}</b>
             <div className="sb-best__text">
               <span className="sb-best__label">{r.label}</span>
-              <span className="sb-best__note">{r.note}{r.href ? <> <Link className="sb-link" href={r.href}>Open that paper</Link></> : null}</span>
+              <span className="sb-best__note">{r.note}{r.href ? <> <Link className="sb-link sb-link--tap" href={r.href}>Open that paper</Link></> : null}</span>
             </div>
           </li>
         ))}

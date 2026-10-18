@@ -157,6 +157,22 @@ export const SLOT_RULES = Object.freeze({
   labelsAllUpTo: 12, // Q numbers under every slot up to 12 slots a row; otherwise 1, every fifth and the last
 });
 
+/**
+ * Which slot a press belongs to: the one whose centre is nearest the press (centres and x in the same unit). Every slot has a
+ * 44 px wide hit area, but in a row of 25 on a phone the slots sit 12 px apart, so those areas overlap; the browser would hand
+ * a press to whichever slot is last in the page. The row asks this instead, so a press always selects the slot it is closest to.
+ * Returns the index into `centers`, or -1 for an empty row.
+ */
+export function nearestSlot(centers, x) {
+  let best = -1;
+  let gap = Infinity;
+  for (let i = 0; i < centers.length; i += 1) {
+    const d = Math.abs(centers[i] - x);
+    if (d < gap) { gap = d; best = i; }
+  }
+  return best;
+}
+
 /** perRow = ceil(N / ceil(N x (minSlot + 2) / width)); rows are balanced, so a short last row never strands. */
 export function slotLayout(n, width, minSlot) {
   const count = Math.max(1, Math.ceil((n * (minSlot + SLOT_RULES.gap)) / Math.max(1, width)));

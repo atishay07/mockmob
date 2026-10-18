@@ -85,7 +85,7 @@
 .app-shell .rv8-foot p b { color: var(--a-ink); font-weight: 650; }
 .app-shell .rv8-foot .rv8-fine { margin-top: 2px; font-size: 13px; color: var(--a-ink-3); }
 .app-shell .rv8-foot .rvw-sheet { margin-left: 0; }
-.app-shell .rvw .rv8-inline { display: inline; min-height: 0; padding: 6px 0; font: inherit; font-weight: 650; color: var(--a-ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--a-line-strong); }
+.app-shell .rvw .rv8-inline { display: inline-block; min-height: 0; padding: 12px 0; margin-block: -12px; font: inherit; font-weight: 650; color: var(--a-ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--a-line-strong); }
 
 .app-shell .rvw .rv8-seeall {
   display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 52px; padding: 10px 0;

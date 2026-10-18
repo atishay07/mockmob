@@ -3,7 +3,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { cutIndexLine, cutSentence, knownRecord, replayView, spokenTime } from '../replay.js';
+import { cutIndexLine, cutSentence, knownRecord, nearestSlot, replayView, spokenTime } from '../replay.js';
 import COPY from '../mistake_lab.copy.json' with { type: 'json' };
 
 const root = new URL('../../', import.meta.url);
@@ -128,4 +128,26 @@ test('Progress reserves the week card\'s resting height while the week loads, so
   assert.match(code, /rc__skeleton--weeks/);
   // The compact Today card keeps its own slim wait.
   assert.match(code, /compact \? <span className="rc__skeleton"/);
+});
+
+test('replay slots: a 44 px hit area, and a press goes to the nearest slot even where the areas overlap', () => {
+  const css = stripComments(read('src/components/result/replay-slots.css'));
+  assert.match(css, /\.rs \.rs-q::after\s*\{[^}]*width:\s*max\(100%,\s*44px\)/);
+  assert.match(css, /\.rs \.rs-q\s*\{\s*position:\s*relative/);
+  assert.match(read('src/components/result/ReplaySlots.jsx'), /onClickCapture=\{pressSlot\}/);
+  // Slots 14.5 px apart (50 questions on a 390 px phone): a press 6 px right of slot 3's centre is slot 3, 9 px right is slot 4.
+  const centers = Array.from({ length: 25 }, (_, i) => 10 + i * 14.5);
+  assert.equal(nearestSlot(centers, centers[3] + 6), 3);
+  assert.equal(nearestSlot(centers, centers[3] + 9), 4);
+  assert.equal(nearestSlot(centers, -30), 0, 'left of the row is the first slot');
+  assert.equal(nearestSlot(centers, 999), 24, 'right of the row is the last slot');
+  assert.equal(nearestSlot([], 5), -1);
+});
+
+test('the small links are 44 px targets without moving a line: badge names, Bests, Today\'s Why this?, Review\'s inline question', () => {
+  const badges = stripComments(read('src/components/study-badges.css'));
+  assert.match(badges, /\.sb-badge__open\s*\{[^}]*min-width:\s*44px;\s*padding:\s*12px 0;\s*margin-block:\s*-12px/);
+  assert.match(read('src/components/StudyBadges.jsx'), /sb-link sb-link--tap" href=\{r\.href\}>Open that paper/);
+  assert.match(stripComments(read('src/components/today/today.css')), /a\.tm__inline\s*\{\s*padding-block:\s*12px/);
+  assert.match(stripComments(read('src/components/review/review-1018.css')), /\.rv8-inline\s*\{[^}]*display:\s*inline-block;[^}]*padding:\s*12px 0;\s*margin-block:\s*-12px/);
 });

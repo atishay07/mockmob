@@ -88,7 +88,7 @@
 .app-shell .sb-badge__body, .sb-layer .sb-badge__body { display: grid; gap: 3px; min-width: 0; }
 .app-shell .sb-badge__name, .sb-layer .sb-badge__name { display: block; font: 650 15px/1.35 var(--font-body); color: var(--a-ink); }
 .app-shell .sb-badge[data-status='later'] .sb-badge__name, .sb-layer .sb-badge[data-status='later'] .sb-badge__name { color: var(--a-ink-2); }
-.app-shell .sb-badge .sb-badge__open, .sb-layer .sb-badge .sb-badge__open { min-height: 0; min-width: 0; padding: 0; border: 0; background: none; font: inherit; color: inherit; text-align: left; cursor: pointer; }
+.app-shell .sb-badge .sb-badge__open, .sb-layer .sb-badge .sb-badge__open { min-height: 0; min-width: 44px; padding: 12px 0; margin-block: -12px; border: 0; background: none; font: inherit; color: inherit; text-align: left; cursor: pointer; }
 .sb-badge__open::after { content: ''; position: absolute; inset: -7px -8px; border-radius: 12px; }
 .sb-badge__open:active::after { background: var(--a-hover); }
 @media (hover: hover) and (pointer: fine) { .sb-badge__open:hover::after { background: var(--a-hover); } .sb-badge__open:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; } }

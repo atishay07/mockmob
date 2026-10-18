@@ -16,7 +16,10 @@
 .rs-grid { margin-top: 14px; display: grid; gap: 14px; }
 .rs-row { position: relative; display: grid; gap: 2px; }
 .rs-pace { position: absolute; left: 0; right: 0; bottom: calc(16px + var(--h) / 3); border-top: 1px dashed var(--a-ink-3); opacity: 0.6; pointer-events: none; z-index: 1; }
-.rs .rs-q { display: grid; grid-template-rows: var(--h) 16px; padding: 0; min-width: 0; border: 0; background: none; cursor: pointer; transition: opacity 180ms ease; border-radius: 4px; }
+.rs .rs-q { position: relative; display: grid; grid-template-rows: var(--h) 16px; padding: 0; min-width: 0; border: 0; background: none; cursor: pointer; transition: opacity 180ms ease; border-radius: 4px; }
+/* The visual slot can be 12 px wide (50 questions on a phone); its hit area is never under 44 px: a transparent box centred on it.
+   Neighbouring areas overlap in a dense row, and ReplaySlots gives each press to the slot whose centre is nearest. */
+.rs .rs-q::after { content: ''; position: absolute; top: 0; bottom: 0; left: 50%; width: max(100%, 44px); transform: translateX(-50%); }
 .rs-col { position: relative; display: block; height: var(--h); border-bottom: 1px solid var(--a-line-strong); border-radius: 4px 4px 0 0; }
 .rs-col i { position: absolute; left: 0; right: 0; bottom: 0; height: 100%; border-radius: 3px 3px 0 0; background: var(--rs-right); transform-origin: bottom; transition: transform 200ms var(--rs-ease); }
 .rs-q[data-v='wrong'] .rs-col i { background: var(--rs-wrong); }

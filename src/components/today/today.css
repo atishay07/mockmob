@@ -26,6 +26,8 @@
 .app-shell .tg__fig b, .app-shell .tw__fig b { font: 700 30px/1 var(--font-display); letter-spacing: -0.04em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
 .app-shell .tw__of { font: 600 19px/1 var(--font-display); color: var(--a-ink-2); }
 .app-shell .tm__inline { display: inline; padding: 0; border: 0; background: none; color: var(--a-ink); font: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; cursor: pointer; }
+/* A link inside a sentence is a 44 px target: 12 px of padding above and below on an inline box adds hit area and moves no line. */
+.app-shell a.tm__inline { padding-block: 12px; }
 .app-shell .tm__inline:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 4px; }
 
 /* ---------- The move ---------- */
