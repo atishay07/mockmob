@@ -32,7 +32,7 @@ export function ProNote({ data }) {
   return (
     <p className="mob-pro-line">
       <span>Pro adds the full side-by-side every week, past weeks, extra papers on a chapter you choose, and up to 3 Mobs you start.</span>{' '}
-      <Link className="mob-link" href="/pricing">See Pro</Link>
+      <Link className="mob-link" href="/pricing" data-pro-feature="mob">See Pro</Link>
     </p>
   );
 }

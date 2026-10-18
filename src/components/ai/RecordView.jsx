@@ -3,6 +3,7 @@
 // "Your record": the student's own sessions, explained. Every figure states its sample;
 // nothing here uses a model or credits, and nothing claims a cause or a prediction.
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { StatusIcon } from '@/components/ui/Glyph';
 import MobiReact from '@/components/brand/MobiReact';
 import SceneVignette from '@/components/scenes/SceneVignette';
@@ -60,11 +61,14 @@ function Ledger({ userId, ledger, accuracy, right, wrong, blank }) {
   );
 }
 
-function ProLock({ what, onNavigate }) {
+// A Pro row on Radar and the Mentor record (D80): a plain link to /pricing that names the 'review' trigger, so for a Free
+// student the shell's ProNudgeHost opens the Upgrade sheet on full chapter review instead of leaving the page. Without the
+// host (signed out, or a new tab) it is still an ordinary link to /pricing.
+function ProLock({ what }) {
   return (
     <div className="pp-lock">
       <p>{what}</p>
-      <button type="button" onClick={() => onNavigate('/pricing')}>See Pro</button>
+      <Link href="/pricing" className="pp-lock__key" data-pro-feature="review">See Pro</Link>
     </div>
   );
 }
@@ -145,7 +149,7 @@ export default function RecordView({ state, onNavigate, pro = false, afterLedger
             <p className="pp-note">A right answer adds 5 marks, so every wrong or blank answer is 5 marks you can still win. Each wrong one also cost 1 on its paper.</p>
           </>
         )}
-        {!pro && chapters.ranked.length > FREE_CHAPTERS && <ProLock what={`${chapters.ranked.length - FREE_CHAPTERS} more ranked chapters are part of Pro.`} onNavigate={onNavigate} />}
+        {!pro && chapters.ranked.length > FREE_CHAPTERS && <ProLock what={`${chapters.ranked.length - FREE_CHAPTERS} more ranked chapters are part of Pro.`} />}
         {pro && chapters.thin.length > 0 && (
           <>
             <button type="button" className="pp-toggle" aria-expanded={showThin} onClick={() => setShowThin((v) => !v)}>
@@ -194,7 +198,7 @@ export default function RecordView({ state, onNavigate, pro = false, afterLedger
       {oneLock && !pro ? null : <section aria-labelledby="pp-a">
         <h3 id="pp-a" className="pp-h">Changed answers</h3>
         {!pro ? (
-          <ProLock what="Changed-answer detail is part of Pro. The headline above already counts both gains and losses." onNavigate={onNavigate} />
+          <ProLock what="Changed-answer detail is part of Pro. The headline above already counts both gains and losses." />
         ) : changes.count === 0 ? (
           <p className="pp-note">No changed answers recorded{changes.sessionsWithTelemetry === 0 ? ' (no session has a usable replay yet)' : ''}.</p>
         ) : (
@@ -209,7 +213,7 @@ export default function RecordView({ state, onNavigate, pro = false, afterLedger
       {oneLock && !pro ? null : <section aria-labelledby="pp-p">
         <h3 id="pp-p" className="pp-h">Pace</h3>
         {!pro ? (
-          <ProLock what="Pace detail from your replayed sessions is part of Pro." onNavigate={onNavigate} />
+          <ProLock what="Pace detail from your replayed sessions is part of Pro." />
         ) : !pace.usable ? (
           <p className="pp-note">Pace needs at least 8 timed questions from a replayed session. {pace.questionsTimed} so far.</p>
         ) : (
@@ -243,7 +247,7 @@ export default function RecordView({ state, onNavigate, pro = false, afterLedger
       {oneLock && !pro ? (
         <section aria-labelledby="pp-pro" className="pp-pro">
           <h3 id="pp-pro" className="pp-h">Changed answers and pace</h3>
-          <ProLock what="The detail from your replayed sessions is part of Pro. The marks above already count both gains and losses from changed answers." onNavigate={onNavigate} />
+          <ProLock what="The detail from your replayed sessions is part of Pro. The marks above already count both gains and losses from changed answers." />
         </section>
       ) : null}
     </div>

@@ -76,7 +76,7 @@ function Locked() {
         <h2 id="cpro-title">Compass Pro</h2>
         <p>Projects each paper from your own practice, with a range, and checks it against the cutoffs of up to 8 colleges you choose.</p>
       </div>
-      <Link href="/pricing" className="btn-outline md">See Compass Pro</Link>
+      <Link href="/pricing" className="btn-outline md" data-pro-feature="compass">See Compass Pro</Link>
     </section>
   );
 }

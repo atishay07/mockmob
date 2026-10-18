@@ -69,7 +69,11 @@ test('compat with the credits core: the wallet reads only the core catalog names
   }
   assert.deepEqual(Object.keys(PLAY_PRODUCT_IDS).sort(), CREDIT_PACKS.map((p) => p.key).sort());
   for (const p of CREDIT_PACKS) assert.ok(findBuyableCreditPack(p.key) && findCreditPack(p.planId));
-  assert.match(file('src/services/credits/unifiedWallet.js'), /known,\n\s+total/);
+  // Release 10 merge: the core's unifiedWallet.js builds the shape in aiWalletState.js unifiedFromWallet.
+  assert.match(file('src/services/credits/unifiedWallet.js'), /unifiedFromWallet\(wallet,/);
+  for (const field of ['known: true', 'total:', 'freeLeft:', 'freeAllowance:', 'resetAt:', 'held:', 'parts: \\{ included, bonus, balance \\}']) {
+    assert.match(file('src/services/credits/aiWalletState.js'), new RegExp(field), field);
+  }
   assert.doesNotMatch(file('src/lib/wallet/walletPacks.mjs') + file('src/lib/server/walletCheckout.js'), /\.packId\b|getCreditPack\b|LEGACY_PACKS/, 'no pack.packId: the core catalog names a pack by key');
 });
 

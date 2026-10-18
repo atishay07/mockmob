@@ -439,7 +439,7 @@ function InMob({ data, mob, user }) {
               <>
                 {afford
                   ? <Link className={primary()} {...pageProps} href={paperHref(data)}>Sit this week&apos;s paper ({paperLine()})</Link>
-                  : <Link className={primary()} {...pageProps} href="/pricing?reason=credits">Get credits to sit it</Link>}
+                  : <Link className={primary()} {...pageProps} href="/pricing?reason=credits" data-pro-direct="">Get credits to sit it</Link>}
                 <p className="mob-cost">{costLine(cost)}</p>
               </>
             ) : null}
@@ -448,7 +448,7 @@ function InMob({ data, mob, user }) {
                 {/* Not an error: this week's free Mob paper was claimed elsewhere (another Mob, possibly one since left, possibly unfinished). Say only what is true. */}
                 <p className="mob-done"><Check size={16} strokeWidth={2.5} aria-hidden="true" />This week&apos;s free Mob paper is used.</p>
                 <p className="mob-note">Free includes one Mob paper a week, and the next opens Monday. Pro lets you sit one in every Mob.</p>
-                <Link className="mob-link" href="/pricing">See Pro</Link>
+                <Link className="mob-link" href="/pricing" data-pro-feature="mob_limit">See Pro</Link>
               </>
             ) : null}
             {week.youSat ? (

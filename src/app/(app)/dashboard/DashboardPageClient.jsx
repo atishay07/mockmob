@@ -31,6 +31,8 @@ import { chapterUnits, chaptersForMode } from './chapterGroups.mjs';
 import { MODE_SPECS, MODE_TILE_SPECS, bankCount, freshPaperLine } from '@/lib/paperCopy.mjs';
 import PracticeMobChip from '@/components/mob/PracticeMobChip';
 import PracticeRepairs from './PracticeRepairs';
+import { InlineNudge, ProFacts, openUpgrade } from '@/components/pro';
+import { fullMocksIn } from '@/lib/proNudge.mjs';
 import './practice.css';
 import './chapter-picker.css';
 
@@ -260,6 +262,8 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
   const effectiveModeId = selMode && TEST_MODES[selMode] ? selMode : MODE_LIST.includes(requestedMode) ? requestedMode : 'quick';
   const mode = TEST_MODES[effectiveModeId];
   const scope = fineTuneScope(effectiveModeId);
+  // Whether the session card's practice_cost line is on screen (the level line then stands its own ask down).
+  const [costNudgeShown, setCostNudgeShown] = useState(false);
 
   useEffect(() => {
     if (!selSubj) return;
@@ -505,7 +509,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
   // The session card's Start (from 1024 px) and the phone bar's Start: one volt each, never both on one layout.
   const examPair = effectiveModeId === 'full' || effectiveModeId === 'nta';
   const startKey = (className, short = false) => (blocked && quote.upgradeHref ? (
-    <Link href={quote.upgradeHref} className={`btn-outline md ${className}`}>{short ? (shortfall ? `Need ${shortfall} more` : quote.reasonCode === 'access_required' ? 'See Pro' : 'See options') : blockedLabel}</Link>
+    <Link href={quote.upgradeHref} data-pro-feature={quote.reasonCode === 'access_required' ? effectiveModeId : 'credits'} className={`btn-outline md ${className}`}>{short ? (shortfall ? `Need ${shortfall} more` : quote.reasonCode === 'access_required' ? 'See Pro' : 'See options') : blockedLabel}</Link>
   ) : quoteStatus === 'error' && short ? (
     <button type="button" className={`btn-outline md ${className}`} onClick={() => setQuoteNonce((n) => n + 1)}>Check again</button>
   ) : (
@@ -610,7 +614,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
                   const on = effectiveModeId === id;
                   return (
                     <button key={id} type="button" role="radio" aria-checked={on} tabIndex={on ? 0 : -1} className="pr-tile mk-press" data-mode={id} data-tone={badge.tone}
-                      onClick={(event) => { answerPick(event); chooseMode(id); }}>
+                      onClick={(event) => { answerPick(event); chooseMode(id); if (badge.tone === 'locked') openUpgrade({ trigger: id, opener: event.currentTarget }); }}>
                       <span className="pr-tile__price" data-tone={badge.tone}>{badge.tone === 'locked' ? <AppIcon name="lock" size={13} /> : null}{badge.text}</span>
                       <span className="pr-tile__art" aria-hidden="true"><ModeArt id={id} subjectId={selectedSubject?.internalId || selSubj} on={on} /></span>
                       <span className="pr-tile__text">
@@ -694,7 +698,8 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
                   <div className="pr-fine2__label"><span>Difficulty</span><small>{mixLine(mode)}</small></div>
                   <Segmented label="Difficulty" value={difficultyMode} disabledValues={isPremium ? [] : ['easy', 'medium', 'hard']}
                     options={['auto', 'easy', 'medium', 'hard'].map((d) => ({ value: d, label: d === 'auto' ? 'Balanced' : d[0].toUpperCase() + d.slice(1) }))} onChange={setDifficultyMode} />
-                  {!isPremium ? <p className="pr-fine2__mix">A set level comes with Pro. <Link href="/pricing" className="pr-link">See Pro</Link></p> : null}
+                  {/* One Pro ask in view (D79 restraint): while the session card's cost line asks, this line only informs. */}
+                  {!isPremium ? <p className="pr-fine2__mix">A set level comes with Pro.{costNudgeShown ? null : <> <Link href="/pricing" className="pr-link" data-pro-feature="difficulty">See Pro</Link></>}</p> : null}
                 </div>
               ) : null}
             </section>
@@ -716,12 +721,14 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
             {/* The bank behind every paper, said once and quietly (owner, 16 Oct; START-1017 D10): no fixed set of mocks,
                 each paper built fresh, unseen questions first. Count from /api/stats; unknown is not 0. */}
             <p className="pr-ticket__fresh">{freshPaperLine({ count: selectedSubjectBank, subjectName: subjectLabel, isPremium, mode: effectiveModeId })}</p>
+            {/* Free only, when this set has a credit price (D79): one quiet line under the cost. */}
+            {!isPremium && quoteLaunchable && quote.creditCost > 0 ? <InlineNudge placement="practice_cost" facts={{ balance }} className="pr-nudge" onShown={setCostNudgeShown} /> : null}
             <p className="pr-summary__reason" role="status" aria-live="polite" tabIndex={-1}>
               {quoteStatus === 'loading' && 'Checking access, credits and questions…'}
               {quoteStatus === 'error' && <>Could not check this session. Nothing was charged. <button type="button" onClick={() => setQuoteNonce((n) => n + 1)}>Check again</button></>}
               {quoteStatus === 'ready' && quoteMatches && quote.reason}
               {quoteStatus === 'ready' && quoteMatches && !quote.launchable && quote.upgradeHref && (
-                <> <Link href={quote.upgradeHref}>{quote.reasonCode === 'access_required' ? 'See Pro' : 'See options'}</Link></>
+                <> <Link href={quote.upgradeHref} data-pro-feature={quote.reasonCode === 'access_required' ? effectiveModeId : 'credits'}>{quote.reasonCode === 'access_required' ? 'See Pro' : 'See options'}</Link></>
               )}
               {quoteStatus === 'ready' && quoteMatches && quote.reasonCode === 'insufficient_credits' && (
                 <> <Link href="/wallet">Open your wallet</Link></>
@@ -774,6 +781,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
         </div>
       )}
 
+      <ProFacts facts={{ sessions: status === 'ready' ? attempts.length : null, fullMocks: status === 'ready' ? fullMocksIn(attempts) : null, balance: isPremium ? null : balance }} />
       {/* Ruled figures from the student's own record. The bank size shows only when it is known. */}
       <dl className="pr-stats" data-count={statsAvailable || stats.state === 'loading' ? 4 : 3}>
         {statsAvailable || stats.state === 'loading' ? <div><dt>Usable questions</dt><dd>{statsAvailable ? Number(stats.bankSize || 0).toLocaleString('en-IN') : <span className="pr-stats__wait">Checking</span>}</dd></div> : null}

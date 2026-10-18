@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Icon } from '@/components/ui/Icons';
 import { TEST_MODES } from '@/../data/test_modes';
 import { quickQuestionsFor } from '@/lib/creditCopy.mjs';
+import { openUpgrade } from '@/components/pro/proNudgeStore';
 
 const QUICK_MIN_SET = Math.min(...TEST_MODES.quick.countOptions);  // the smallest Quick set, in questions: 1 credit a question
 const FULL_COST = TEST_MODES.full.creditCost;
@@ -156,7 +157,8 @@ export function CreditsRemainingModal({ open, credits, onClose, offer = null }) 
             className="mmx-btn mmx-btn--primary"
             onClick={() => {
               onClose?.();
-              router.push('/pricing');
+              // D80: the Upgrade sheet on credits, the one Pro pitch; /pricing only when no sheet host is mounted.
+              if (!openUpgrade({ trigger: 'credits' })) router.push('/pricing');
             }}
           >
             See Pro

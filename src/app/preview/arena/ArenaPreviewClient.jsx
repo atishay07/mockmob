@@ -58,6 +58,8 @@ import { previewReview } from './previewReview';
 import { previewWallet } from './previewWallet';
 import { previewChipCredits } from './previewChip';
 import { previewConcepts } from './previewConcepts';
+import { browserSession, loadRecord, openUpgrade, saveRecord } from '@/components/pro/proNudgeStore';
+import { emptyRecord, noteOnboarded } from '@/lib/proNudge.mjs';
 
 const CS_SUBJECT = { id: 'computer_science', name: 'Computer Science / Informatics Practices', practice: 'supported', chapters: ['Python Revision Tour', 'Database Concepts'] };
 
@@ -634,6 +636,23 @@ function PreviewInner({ candidatePathway }) {
   const recoveryFixture = params.get('recovery') === 'candidate';
   useLayoutEffect(() => { window.__previewPathway = recoveryFixture ? candidatePathway : null; }, [recoveryFixture, candidatePathway]);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  // Pro nudges (D79 to D81): &nudge=sheet&trigger=nta|smart|difficulty|credits|result|first_session|generic opens the Upgrade
+  // sheet on arrival; &nudge=first makes this tab the first usage session after onboarding (onboarded 30 minutes ago), so a
+  // scored result (view=result) opens the first-session sheet once; &nudge=fresh forgets dismissals and the first-session
+  // mark. All of it lives in this browser's storage only.
+  const nudge = params.get('nudge');
+  const nudgeTrigger = params.get('trigger') || 'generic';
+  useLayoutEffect(() => {
+    if (!nudge) return undefined;
+    if (nudge === 'fresh' || nudge === 'first') saveRecord('preview-user', emptyRecord());
+    if (nudge === 'first') {
+      const session = browserSession();
+      if (session) saveRecord('preview-user', noteOnboarded(loadRecord('preview-user'), { now: Date.now() - 30 * 60_000, session }));
+    }
+    if (nudge !== 'sheet') return undefined;
+    const t = window.setTimeout(() => openUpgrade({ trigger: nudgeTrigger }), 900);
+    return () => window.clearTimeout(t);
+  }, [nudge, nudgeTrigger]);
   const planParam = params.get('plan');
   const MONTHLY = MONTHLY_PROFILES[planParam] || null;
   const pro = planParam === 'pro' || Boolean(MONTHLY?.isPremium);
@@ -657,7 +676,7 @@ function PreviewInner({ candidatePathway }) {
     <AuthContext.Provider value={auth}>
       <RoleProvider>
         <div className="arena-fixture-note" role="note"><b>Development preview</b><span>Illustrative data · {params.get('plan') || 'free'} · {params.get('data') || 'ready'}. No real saves, scores, credits or billing.</span><label>View<select value={view} onChange={(event) => { window.location.href = previewHref(event.target.value); }}>{views.map((name) => <option key={name} value={name}>{name}</option>)}</select></label>{view === 'test' && <ThemeToggle />}{view === 'prepos' && <button type="button" className="arena-chip" onClick={() => setDrawerOpen(true)}>Preview assistant drawer</button>}</div><AssistantDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
-        {view === 'join' ? <AuthContext.Provider value={params.get('auth') === 'out' ? { ...auth, user: null, status: 'unauthenticated', isAuthenticated: false } : auth}><JoinMob code="7KQ2M9XR" /></AuthContext.Provider> : view === 'onboarding' ? <OnboardingPageClient preview /> : <AppLayoutClient previewRoute={route} previewLinks={previewLinks} studyEnabled={params.get('study') === 'on'} contributeEnabled={params.get('contribute') === 'on'}>{view === 'mob' ? <MobPage user={auth.user} /> : view === 'test' ? <TestPageClient /> : view === 'prepos' ? <MentorRecordPage /> : view === 'compass' ? <AdmissionCompassPageClient /> : view === 'radar' ? <AnalyticsPageClient /> : view === 'saved' ? <SavedPageClient /> : view === 'today' ? <TodayPage /> : view === 'recovery' ? <RecoveryJourney /> : view === 'review' ? <div className="student-page student-page--review"><RecoveryOverview view="review" tabParam="pane" /></div> : view === 'rules' ? <div className="student-page student-page--review"><RuleBook /></div> : view === 'revise' ? <div className="student-page student-page--review"><ReviseRun /></div> : view === 'progress' ? <ProgressPage /> : view === 'explore' ? <DiscoveryFeed /> : view === 'upload' ? <UploadForm /> : view === 'my-uploads' ? <MyUploadsPageClient /> : view === 'paused' ? <ContributionsPaused /> : view === 'paused-uploads' ? <ContributionsPaused title="My uploads are paused with Contribute" /> : view === 'not-found' ? <AppNotFound /> : view === 'wallet' ? <WalletPageClient /> : view === 'profile' ? <ProfilePageClient /> : view === 'help' ? <HelpPageClient /> : view === 'ranks' ? <LeaderboardPageClient /> : view === 'result' ? <ResultPageClient previewId={params.get('attempt') || 'fixture-attempt'} /> : view === 'moderation' ? <ModerationPageClient /> : view === 'rival' ? <AIRivalArena /> : view === 'onboarding' ? <OnboardingPageClient preview /> : <DashboardPageClient studyEnabled={params.get('study') === 'on'} />}</AppLayoutClient>}
+        {view === 'join' ? <AuthContext.Provider value={params.get('auth') === 'out' ? { ...auth, user: null, status: 'unauthenticated', isAuthenticated: false } : auth}><JoinMob code="7KQ2M9XR" /></AuthContext.Provider> : view === 'onboarding' ? <OnboardingPageClient preview /> : <AppLayoutClient offer={params.get('offer') === 'monthly' ? { purchasable: 'monthly', monthly: { planId: 'pro_monthly_99', rupees: 99, interval: 'month', autoRenews: true, ready: true }, oneTime: { planId: CURRENT_OFFER.planId, rupees: CURRENT_OFFER.rupees, expires: CURRENT_OFFER.expires, onSale: false } } : null} previewRoute={route} previewLinks={previewLinks} studyEnabled={params.get('study') === 'on'} contributeEnabled={params.get('contribute') === 'on'}>{view === 'mob' ? <MobPage user={auth.user} /> : view === 'test' ? <TestPageClient /> : view === 'prepos' ? <MentorRecordPage /> : view === 'compass' ? <AdmissionCompassPageClient /> : view === 'radar' ? <AnalyticsPageClient /> : view === 'saved' ? <SavedPageClient /> : view === 'today' ? <TodayPage /> : view === 'recovery' ? <RecoveryJourney /> : view === 'review' ? <div className="student-page student-page--review"><RecoveryOverview view="review" tabParam="pane" /></div> : view === 'rules' ? <div className="student-page student-page--review"><RuleBook /></div> : view === 'revise' ? <div className="student-page student-page--review"><ReviseRun /></div> : view === 'progress' ? <ProgressPage /> : view === 'explore' ? <DiscoveryFeed /> : view === 'upload' ? <UploadForm /> : view === 'my-uploads' ? <MyUploadsPageClient /> : view === 'paused' ? <ContributionsPaused /> : view === 'paused-uploads' ? <ContributionsPaused title="My uploads are paused with Contribute" /> : view === 'not-found' ? <AppNotFound /> : view === 'wallet' ? <WalletPageClient /> : view === 'profile' ? <ProfilePageClient /> : view === 'help' ? <HelpPageClient /> : view === 'ranks' ? <LeaderboardPageClient /> : view === 'result' ? <ResultPageClient previewId={params.get('attempt') || 'fixture-attempt'} /> : view === 'moderation' ? <ModerationPageClient /> : view === 'rival' ? <AIRivalArena /> : view === 'onboarding' ? <OnboardingPageClient preview /> : <DashboardPageClient studyEnabled={params.get('study') === 'on'} />}</AppLayoutClient>}
       </RoleProvider>
     </AuthContext.Provider>
   );

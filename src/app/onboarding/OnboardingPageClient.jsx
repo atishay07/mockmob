@@ -19,6 +19,7 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import { Button } from '@/components/ui/Button';
 import CollegePicker from '@/components/colleges/CollegePicker';
 import { useAuth } from '@/components/AuthProvider';
+import { noteOnboardedNow } from '@/components/pro/proNudgeStore';
 import { ErrorState, PageSpinner } from '@/components/ui/Skeleton';
 import MobiReact from '@/components/brand/MobiReact';
 import { SubjectObject } from '@/components/brand/SubjectObject';
@@ -213,9 +214,11 @@ export default function OnboardingPageClient({ preview = false }) {
   const finish = useCallback(async (act) => {
     setFinishing(true);
     mobiAct(SCOPE, act);
+    // The first run is done: the first usage session starts now (D81). Editing subjects later never starts one.
+    if (!edit && !preview) noteOnboardedNow(user?.id);
     try { await refreshing.current; } catch { /* the next page checks the session itself */ }
     window.setTimeout(() => { if (!preview) router.push(back || DONE_PATH); }, reducedMotion() ? 0 : 700);
-  }, [preview, router, back]);
+  }, [preview, router, back, edit, user?.id]);
 
   const saveSubjects = async () => {
     if (selected.length === 0 || !user?.id || saveLock.current) return;

@@ -13,10 +13,18 @@ import { apiGet } from '@/lib/fetcher';
 import {
   CREDITS_COPY, CREDITS_URL, FILTERS, appendPage, creditTiles, creditsFromResponse, filterHistory, historyLine,
 } from './creditsModel.mjs';
+import { InlineNudge, ProFacts } from '@/components/pro';
 import './credits.css';
 
 const EMPTY = { status: 'loading', data: null, history: [], next: null, moreStatus: 'idle' };
 const PAGE = 10;
+
+// The balance the Pro lines name: the one credits balance (D78, /api/me/credits `total`) once it is served, else the
+// practice pool this release still prices practice against. Unknown is null, never 0.
+function nudgeBalance(data) {
+  if (data?.total) return data.total.balance ?? null;
+  return data?.practice?.balance ?? null;
+}
 
 export default function CreditsSection({ userId }) {
   const [state, setState] = useState(EMPTY);
@@ -95,6 +103,14 @@ export default function CreditsSection({ userId }) {
               </div>
             ))}
           </div>
+
+          {/* Free only, when practice credits run under a Full mock's price (D79). */}
+          {state.data.plan?.name === 'Free' ? (
+            <>
+              <ProFacts facts={{ balance: nudgeBalance(state.data) }} history={state.history} oneBalance={Boolean(state.data.total)} />
+              <InlineNudge placement="credits_low" facts={{ balance: nudgeBalance(state.data) }} />
+            </>
+          ) : null}
 
           <div className="cr-history">
             <div className="cr-history__head">

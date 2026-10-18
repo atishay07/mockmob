@@ -103,8 +103,8 @@
 
 /* Pro rows: one plain line and a text link, no dashed box and no padlock */
 .app-shell .rd .pp-lock { gap: 4px 16px; margin-top: 0; padding: 4px 0; border: 0; border-radius: 0; }
-.app-shell .rd .pp-lock button { min-height: 44px; padding: 0; border: 0; border-radius: 0; background: none; color: var(--a-accent-text); }
-.app-shell .rd .pp-lock button:hover { border: 0; text-decoration: underline; text-underline-offset: 3px; color: var(--a-accent-text); }
+.app-shell .rd .pp-lock button, .app-shell .rd .pp-lock .pp-lock__key { min-height: 44px; padding: 0; border: 0; border-radius: 0; background: none; color: var(--a-accent-text); }
+.app-shell .rd .pp-lock button:hover, .app-shell .rd .pp-lock .pp-lock__key:hover { border: 0; text-decoration: underline; text-underline-offset: 3px; color: var(--a-accent-text); }
 
 /* Pace and this week: ruled figures */
 .app-shell .rd .pp-pace, .app-shell .rd .pp-week { gap: 0; }

@@ -20,6 +20,7 @@ import { StartKey, StartSheetHost } from '@/components/start';
 import { watchPagePrimary } from '@/components/start/pagePrimary.mjs';
 import { setStartQuiet } from '@/components/start/startQuietStore';
 import AskMobiHost from '@/components/ai/AskMobiHost';
+import { ProNudgeHost } from '@/components/pro';
 import './arena.css';
 import './student-pages.css';
 import './explore/explore.css';
@@ -45,7 +46,7 @@ function PageTransition({ children }) {
 // Pip guides the tour only (rare, so it may have character); it nods on each step.
 const TOUR_POSES = ['greeting', 'encouraging', 'thinking', 'encouraging', 'celebrating', 'encouraging', 'thinking', 'celebrating', 'greeting'];
 
-export default function AppLayoutClient({ children, previewRoute = null, previewLinks = null, studyEnabled = false, mobEnabled = false, contributeEnabled = false }) {
+export default function AppLayoutClient({ children, previewRoute = null, previewLinks = null, studyEnabled = false, mobEnabled = false, contributeEnabled = false, offer = null }) {
   const pathname = usePathname();
   const router = useRouter();
   const { user, status, signOut, refreshSession } = useAuth();
@@ -507,6 +508,8 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
       </div>}
       {!isTestRoute && <StartSheetHost previewLinks={previewLinks} />}
       {!isTestRoute && <AskMobiHost />}
+      {/* Pro nudges (D79 to D81): the Upgrade sheet for a Free student's Pro taps and the one first-session sheet. Nothing for Pro. */}
+      {!isTestRoute && <ProNudgeHost offer={offer} previewLinks={previewLinks} />}
       {!isTestRoute && tourOpen && (
         <div className="pointer-events-none fixed inset-0 z-[80]">
           {tourTarget ? (
