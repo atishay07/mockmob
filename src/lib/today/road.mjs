@@ -335,9 +335,9 @@ export function roadLayers({ today, rhythm = null, weekdays = null, revise = nul
   const sessionDone = counted.has(today);
   const sessionPlanned = firstDay || Boolean(rhythm.returning) || (plan ? plan.has(idx) : goal ? (rhythm.studyDays || 0) < goal : true);
   if (sessionPlanned || sessionDone) {
-    // The lead names today's session, unless the lead is Revise: Revise has its own line below, so the session stays a
-    // plain practice session (never the same thing twice on one list).
-    const named = move && !['done', 'revise'].includes(move.id) && move.title ? move : null;
+    // The lead names today's session, unless the lead is Revise (it has its own line below, so the session stays a plain
+    // practice session, never the same thing twice on one list) or Change plan (the first week's day 7: not a session).
+    const named = move && !['done', 'revise', 'plan'].includes(move.id) && move.title ? move : null;
     const minutes = named?.key?.minutes || null;
     items.push({
       id: 'session',

@@ -37,6 +37,7 @@ import { paperStamp } from '@/../data/repair_paper.mjs';
 import MistakeLessonLink from '@/components/study/MistakeLessonLink';
 import { RUN_COPY, arrowIntent, runSegments, stepIndex, endingModel, retryIds as retryIdsOf, earlierMisses, earlierMissAt } from '@/components/recovery/repairRun';
 import { REPAIR_OUTCOMES, actionLabel, hasExplanation, repairLabel, repairProgress } from '@/../data/repair_presentation.mjs';
+import { repairReceipt } from '@/../data/repair_receipt.mjs';
 import { analyseSession, formatDuration } from '@/../data/session_recovery';
 import { buildTimeDecisions, TIME_COPY, spentLabel, TIME_RULES } from '@/../data/time_decisions';
 import { attemptMode, costliestLine, leadMistake, nextMove, receiptLine } from '@/../data/result_next_move.mjs';
@@ -115,6 +116,7 @@ export default function ResultPageClient({ previewId = null }) {
   const [visited, setVisited] = useState(() => new Set());
   const [repairOutcomes, setRepairOutcomes] = useState({});
   const [savedRepairs, setSavedRepairs] = useState({}); // qid -> { repairedAt }: wrong answers that already hold a saved repair (F17)
+  const [repairs, setRepairs] = useState(null); // the repair record's rows for the receipt line; null while unread or when it did not load
   const [autoRepair, setAutoRepair] = useState(null);
   const [reporting, setReporting] = useState({});
   const [reported, setReported] = useState({});
@@ -157,10 +159,15 @@ export default function ResultPageClient({ previewId = null }) {
 
   useEffect(() => {
     let alive = true;
-    queueMicrotask(() => { if (alive) { setAttempt(null); setError(null); setFilter('all'); setReporting({}); setReported({}); setReportError(null); setRepairOutcomes({}); setSavedRepairs({}); setAutoRepair(null); setStarted(new Set()); setRunCurrent(null); setHandover(null); setEnding(false); setAckedAt(null); setEpochs({}); setChecks({}); setCheer(null); setShowAll(false); setBlanksOpen(false); setOpen(new Set()); setVisited(new Set()); } });
+    queueMicrotask(() => { if (alive) { setAttempt(null); setError(null); setFilter('all'); setReporting({}); setReported({}); setReportError(null); setRepairOutcomes({}); setSavedRepairs({}); setRepairs(null); setAutoRepair(null); setStarted(new Set()); setRunCurrent(null); setHandover(null); setEnding(false); setAckedAt(null); setEpochs({}); setChecks({}); setCheer(null); setShowAll(false); setBlanksOpen(false); setOpen(new Set()); setVisited(new Set()); } });
+    // The repair record (the read Today makes) rides along for the receipt line. The first paint waits for it a moment, so the line is
+    // in the first paint and never pushes the page down; a slow or failed read leaves the line out (or draws it when it arrives).
+    const record = apiGet('/api/me/repair-record?limit=100').then((body) => (Array.isArray(body?.repairs) ? body.repairs : null)).catch(() => null);
     apiGet(`/api/attempts/${id}`)
-      .then(data => {
+      .then(async (data) => {
+        const rows = await Promise.race([record, new Promise((resolve) => { setTimeout(() => resolve(undefined), 500); })]);
         if (!alive) return;
+        if (rows !== undefined) setRepairs(rows); else record.then((late) => { if (alive) setRepairs(late); });
         // A repair the server already holds (lab.repaired) starts as stored, so it counts as repaired and opens free.
         const ids = Array.isArray(data?.lab?.repaired) ? data.lab.repaired : [];
         const map = data.savedRepairs && typeof data.savedRepairs === 'object' ? data.savedRepairs : {};
@@ -176,6 +183,8 @@ export default function ResultPageClient({ previewId = null }) {
   }, [id, retry]);
 
   const analysis = useMemo(() => attempt ? analyseSession(attempt) : null, [attempt]);
+  // The after-the-mock receipt (FEATURE-ADOPTION item 5): what the repairs made before this paper did on it, or null (data/repair_receipt.mjs).
+  const repairsDid = useMemo(() => (attempt ? repairReceipt({ attempt, repairs }) : null), [attempt, repairs]);
   // Time and decisions: the time fold and each answer's "Your time and picks" read the same object. The server's
   // finished read (attempt.lab.time, from the one time calculator, with the slice 2 trace lines) comes first; an older
   // server or a result without the Lab falls back to the same builder here.
@@ -689,7 +698,7 @@ export default function ResultPageClient({ previewId = null }) {
     <div className="container-narrow student-page student-page--result rp rx rl-page pb-20" data-arrive={arrive || undefined}>
       {/* ---------- 1. The summary: Mobi, the score, the finding, the counts, the answer map and the one next move ---------- */}
       <ResultHero receipt={receipt} marks={marks} finding={finding} reaction={reaction} holdStill={engaged || reading != null}
-        notice={notice} onNotice={(n) => jumpTo(n)} arrive={arrive} strip={answerMap}
+        notice={notice} onNotice={(n) => jumpTo(n)} arrive={arrive} strip={answerMap} repairReceipt={repairsDid}
         next={<NextMove move={move} onAct={onAct} paperHref={next.href} arrive={arrive} flat lesson={move?.kind === 'practise' && move.rule === 2 ? lesson : null} />} />
 
       {/* A badge this scored set earned: one compact row, once, right after the summary and above the analysis (BADGES-REFINE-1018).

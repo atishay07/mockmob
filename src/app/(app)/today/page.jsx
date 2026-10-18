@@ -3,12 +3,13 @@
 // The R3 Today's information and structure, refined and made to lead (D1 to D3); nothing R3 showed is lost.
 // Top to bottom on a phone:
 //   1. greeting and date
-//   2. Up next: the recommended move with its reason, its stake and its minutes, and two other moves on the same card;
+//   2. Up next: the recommended move with its reason, its stake and its minutes, and two other moves on the same card; in the first
+//      7 days its overline says the day and a rail of seven marks draws the chained path, whose step for today leads (release 8)
 //      a tap swaps the lead live (the pick is kept for the day in this tab, never written to the server)
 //   3. This week: tappable days with a readout of what was done and what is planned
 //   4. Road to CUET in three layers: due today, due this week, the overall goal (D26); Change plan is a guided sentence
 //   5. Weak chapters, each opening to its own mistakes
-//   6. Last paper with its bar and biggest leak
+//   6. Last paper with its bar and biggest leak, and one receipt line of what the repairs made before it did on it (release 8)
 //   7. Repairs and Revise
 //   8. Your colleges and Compass
 // On a wide screen the doing (2, 5, 6) sits left and the glance (3, 4, 7, 8) right. The page lands in one piece (W-042).
@@ -21,6 +22,7 @@ import { api } from '@/lib/fetcher';
 import { getSubjectById } from '@/../data/subjects';
 import { alternatives as buildAlternatives, buildMove, clock, fitMove } from '@/lib/today/move.mjs';
 import { choiceMoves, keepLength, leadOf, pickChoices, pickKey, readLength, refit } from '@/lib/today/lead.mjs';
+import { firstWeekClock, firstWeekPath, stepOfDay, withFirstWeek } from '@/lib/today/firstWeek.mjs';
 import { firstTimedMockHref } from '@/../data/first_timed_mock';
 import { TEST_MODES } from '@/../data/test_modes';
 import { usesLine } from '@/lib/creditCopy.mjs';
@@ -123,6 +125,7 @@ export default function Today() {
   const papersData = data.papers.status === 'ready' ? data.papers.data : null;
   const reviseData = data.revise.status === 'ready' ? data.revise.data : null;
   const repairedData = data.repaired.status === 'ready' ? data.repaired.data : null;
+  const everSessions = facts && Number.isInteger(facts.sessions) ? facts.sessions : data.rhythm.data?.counts?.sessions ?? null;
   const base = useMemo(() => buildMove({
     plan: data.plan.data,
     planFailed: data.plan.status === 'error',
@@ -143,7 +146,7 @@ export default function Today() {
   const balance = Number.isFinite(Number(user?.creditBalance)) ? Number(user.creditBalance) : null;
   const priceOf = useCallback((m) => {
     if (m.id === 'revise') return 'Free. No credits.';
-    if (premium || m.aiEach || ['resume', 'check', 'done'].includes(m.id) || (m.id === 'returning' && m.open > 0)) return null;
+    if (premium || m.aiEach || ['resume', 'check', 'done', 'plan'].includes(m.id) || (m.id === 'returning' && m.open > 0)) return null;
     const mock = m.kind === 'mock' || m.id === 'firstMock';
     const cost = (mock ? TEST_MODES.full : TEST_MODES.quick)?.creditCost;
     return cost > 0 ? usesLine({ what: mock ? 'This mock' : 'This set', cost, pool: 'practice', balance }) : null;
@@ -157,7 +160,36 @@ export default function Today() {
     const out = { ...fitted, ...extra, base: m, subjectName: fitted.subject ? subjectName(fitted.subject) : '', mockHref: firstTimedMockHref(facts?.subject || fitted.subject || null) };
     return { ...out, priceLine: priceOf(out) };
   }, [chosen, facts, reviseSubjects, priceOf]);
-  const rec = useMemo(() => (base && base.id !== 'failed' ? finish(leadOf(base)) : base), [base, finish]);
+  const regular = useMemo(() => (base && base.id !== 'failed' ? finish(leadOf(base)) : base), [base, finish]);
+  // The first week (release 8, FEATURE-ADOPTION item 7): a chained path, one feature a day, drawn as a rail on the lead card. Today's step
+  // leads while it is undone and the product can do it now; the regular move waits among the choices. It never replaces a session waiting, a
+  // check, "Done for tonight" or a failed read, and it is gone after day 7 or once every step is done (src/lib/today/firstWeek.mjs).
+  const [nowMs] = useState(() => Date.now());
+  const [planSaved, setPlanSaved] = useState(false); // Change plan finished on this page: the day 7 step is done at once
+  const [planAsk, setPlanAsk] = useState(0); // the day 7 key asks Road to CUET to open Change plan
+  const firstAt = data.rhythm.data?.milestones?.find?.((m) => m.id === 'first_scored_session')?.achievedAt ?? null;
+  const repairsMade = Number.isInteger(data.rhythm.data?.counts?.repairs) ? data.rhythm.data.counts.repairs : Array.isArray(data.repairRows) ? data.repairRows.length : null;
+  const weekdaysRead = data.goal.status === 'ready' ? data.goal.data?.weekdays ?? null : undefined;
+  const roadRead = data.road.data ?? null;
+  const daysRead = data.goal.data?.daysPerWeek ?? data.rhythm.data?.daysGoal ?? null;
+  const path = useMemo(() => firstWeekPath({
+    now: nowMs, firstAt, sessions: everSessions, papers: papersData, repaired: repairedData, repairs: repairsMade,
+    mocks: facts && Number.isInteger(facts.mocks) ? facts.mocks : null, revise: reviseData, road: roadRead, weekdays: weekdaysRead, planSaved,
+    subjects: Array.isArray(user?.subjects) ? user.subjects : null, top, facts, firstSubject: Array.isArray(user?.subjects) ? user.subjects[0] || null : null,
+    premium: Boolean(user?.isPremium), length: chosen || 10, subjectName, daysPerWeek: daysRead, timeZone: data.rhythm.data?.timeZone || undefined,
+  }), [nowMs, firstAt, everSessions, papersData, repairedData, repairsMade, facts, reviseData, roadRead, weekdaysRead, planSaved, user?.subjects, user?.isPremium, top, chosen, daysRead, data.rhythm.data?.timeZone]);
+  const stepped = useMemo(() => (path?.move ? finish(path.move) : null), [path, finish]);
+  const rec = useMemo(() => withFirstWeek(regular, stepped), [regular, stepped]);
+  // The card lands once, not twice: while the reads that decide today's step are still on their way (Revise for day 2, the record for day 3, the
+  // repairs for day 6, the road and the study days for day 7), the lead holds as loading, for at most 1.5 s; after that it shows what it can.
+  const weekDay = firstWeekClock({ firstAt, sessions: everSessions, papers: papersData, now: nowMs }).day;
+  const stepReads = { revise: [data.revise], aim: [insights], lab: [data.repaired], plan: [data.road, data.goal] }[stepOfDay(weekDay)] || [];
+  const [waitedOut, setWaitedOut] = useState(false);
+  useEffect(() => {
+    const t = window.setTimeout(() => setWaitedOut(true), 1500);
+    return () => window.clearTimeout(t);
+  }, []);
+  const holdForStep = !waitedOut && stepReads.some((r) => r.status === 'loading');
   // The other moves, each a whole move (Repair, Revise, the weakest chapter, a full mock, another subject).
   const subjects = user?.subjects;
   const pool = useMemo(() => (rec && rec.id !== 'failed' ? choiceMoves({
@@ -193,10 +225,9 @@ export default function Today() {
 
   // Failed only once every read the move needs has settled without one; while any is still on its way it is loading.
   const settled = [data.plan, data.papers, data.rhythm, data.facts].every((r) => r.status !== 'loading');
-  const phase = rec && rec.id !== 'failed' ? 'ready' : rec?.id === 'failed' || settled ? 'failed' : 'loading';
+  const phase = holdForStep ? 'loading' : rec && rec.id !== 'failed' ? 'ready' : rec?.id === 'failed' || settled ? 'failed' : 'loading';
   // D29: after a fresh submission the paper's reel takes the lead's place once ("Play your paper back"), then Up next returns. The
   // paper is latched when the lead is ready, so the card stays for the visit (its own seen mark is written once it is on screen).
-  const [nowMs] = useState(() => Date.now());
   const [reelId, setReelId] = useState(null);
   const [reelOver, setReelOver] = useState(false);
   const freshId = phase === 'ready' && !reelId ? freshPaper(papersData, nowMs)?.id || null : null;
@@ -212,7 +243,6 @@ export default function Today() {
 
   const away = data.rhythm.data?.daysSinceLastActivity;
   const hello = greeting({ hour, name: user?.name, email: user?.email, returning: Number.isInteger(away) && away >= 7 });
-  const everSessions = facts && Number.isInteger(facts.sessions) ? facts.sessions : data.rhythm.data?.counts?.sessions ?? null;
   const dayOne = everSessions === 0;
   const word = hour >= 17 || hour < 4 ? 'Tonight’s move' : 'Today’s move';
 
@@ -232,11 +262,12 @@ export default function Today() {
                 phase={phase} lead={lead} choices={choices} picked={Boolean(picked)} out={out} onPick={onPick}
                 lengths={lengthsFor(lead?.base || lead)} chosen={chosen} onChoose={choose} saving={saving}
                 alternatives={alts} word={word} slow={slow} triedAt={triedAt} onRetry={retry} askContext={askContext}
+                path={phase === 'ready' ? path : null} onPlan={() => setPlanAsk((n) => n + 1)}
               />
             )}
             {phase !== 'failed' ? <TodayCue target="week" ready={phase === 'ready'} /> : null}
             <TodayWeak insights={insights} loadAttempt={data.loadAttempt} repairRows={data.repairRows} subjectName={subjectName} hold={landing} />
-            {dayOne ? null : <TodayPaper papers={data.papers} loadAttempt={data.loadAttempt} subjectName={subjectName} hold={landing} />}
+            {dayOne ? null : <TodayPaper papers={data.papers} loadAttempt={data.loadAttempt} subjectName={subjectName} repairRows={data.repairRows} hold={landing} />}
           </div>
           <div className="today-grid__side">
             <TodayWeek
@@ -247,7 +278,7 @@ export default function Today() {
             <TodayMob enabled={mobOn && !landing} mob={mob} />
             <TodayRoad
               hold={landing} road={data.road} goal={data.goal} rhythm={data.rhythm} facts={data.facts} revise={data.revise} papers={data.papers}
-              lead={phase === 'ready' ? lead : null} onGoalSaved={data.retryWeek}
+              lead={phase === 'ready' ? lead : null} onGoalSaved={data.retryWeek} planAsk={planAsk} onPlanSaved={() => setPlanSaved(true)}
             />
             <TodayQueue papers={data.papers} repaired={data.repaired} repairRows={data.repairRows} revise={data.revise} dayOne={dayOne} hold={landing} />
             <TodayColleges userId={userId} subjects={user?.subjects || []} hold={landing} />

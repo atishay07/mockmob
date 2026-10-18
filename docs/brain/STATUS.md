@@ -1,3 +1,27 @@
+## 18 October 2026 - Web release 8 adoption pieces: the chained first-week path and the after-the-mock repair receipt (web/r8-adopt-1018, from release 7 c46d1dcd; local, not pushed, not deployed; nothing applied to any database)
+
+**Owner items:** W-064 and F18 (students did not use 90% of features because nothing led them); FEATURE-ADOPTION-2026-10-17 items 5 and 7.
+
+**1. The first-week path** (`src/lib/today/firstWeek.mjs`, pure; wired in `page.jsx`, `TodayMove.jsx`):
+- Seven steps, one a day, the doc's order: day 1 Find and fix (the 10-question starting set, then a Repair), 2 Revise, 3 practice aimed at the weakest chapter (smart practice on Pro), 4 a first set in a second subject, 5 the first full mock, 6 repair what that mock found, 7 Change plan.
+- Clock: the first scored session (rhythm `first_scored_session`; the account start date is not among Today's reads, so it is not used). Nothing saved is day 1. After day 7, or when every step that applies is done, the path is gone.
+- Done is read from data the page already holds: a saved session plus a Repair (or nothing left to repair); Revise used (asked today, or an active card above box 1); a second session; papers in two subjects; a saved full or NTA mock; a Repair on the newest mock; a date, mock target or study days saved. Unknown reads never tick and never lead.
+- Today's step replaces the lead only while it is undone and the product can do it now. It never replaces a session waiting, a check, "Done for tonight" or a failed read. The regular move waits among the two choices; "More ways to practise" stays. A step passed stays a quiet open mark and is never nagged.
+- The lead's overline says "Day 3 of your first week"; under it a rail of seven marks (done = ink disc with a tick, today = ink ring, passed = quiet ring, ahead = dot, not applicable = dash). No volt, no checklist, no labels; a screen reader hears one sentence. The day 7 key is a button that opens Change plan.
+- The lead holds as loading, 1.5 s at most, while the reads that decide today's step are in flight, so it lands once.
+
+**2. The receipt** (`data/repair_receipt.mjs`, pure; the result's summary card, and one line under Last paper on Today):
+- Counts the student's saved repairs made before the paper (repair record, one per question). If a repaired question came up again on the paper: "Of the 6 mistakes you repaired, 2 came up again on this paper. You got both right." (nothing is said if none was right, and the chapter is never swapped in). Otherwise, repaired mistakes in chapters this paper asked about, answered at least twice (one lucky answer is not evidence of a chapter) and got none wrong: "Of the 6 mistakes you repaired, 4 are in chapters where you got nothing wrong on this paper." No line when there is no repair before the paper, the record did not load, nothing matches, or there is no good news. No cause and no marks claimed.
+- The result page reads the repair record in parallel with the paper (the same read Today makes) and waits for it 0.5 s at most so the line is in the first paint.
+
+**Preview fixtures (dev only):** `/preview/arena?view=today&firstweek=1..7` (a student on that day who followed the path to yesterday; real rhythm engine and scorer); `&receipt=chapter|question|none`; `?view=result&firstweek=6&attempt=fw-p5` opens the first full mock with the receipt.
+
+**Tests:** `first_week_path.test.mjs` (16) and `today_release8.test.mjs` (6) in `test:today`; `repair_receipt.test.mjs` (11) in `test:recovery`.
+
+**Checks:** today 75 pass; recovery 564 pass, 3 todo, 0 fail (was 553); learning 357; app 595 pass and 1 fail that is there before this work too (`release6_fixes_1018`, "Review at 0 AI credits", a CRLF-sensitive regex in a Windows checkout). eslint clean on every changed file. `npx next build --webpack` exit 0; `.next` deleted. Headless Chrome (playwright-core, own temp profile, own dev server on :3217, preview fixtures only, stopped): days 1 to 7 and the receipt in Night and Day at 390 and 1440, each capture looked at, a real pointer click opening Change plan from the day 7 key and swapping the lead on day 3, no horizontal overflow, no console errors; the rail fits at 320 and under reduced motion shows its ticks with no animation. Captures: `tmp/adopt/`.
+
+**Known limits:** the day 3 step is "done" by a second saved session (the summary does not say which chapter a set was aimed at); Check it held is not used as a step because the repair record's `checkedState` is `not_available` on this codebase; the receipt's chapter rule is a proxy and says so in its own words (a chapter counts as clean only on two or more answers). Not measured: production timing and a real account's history.
+
 ## 18 October 2026 - Web release 7 integrated (deploy/web-1018-r7, from live main 70c4598c = release 6; local, not pushed, not deployed; nothing applied to any database)
 
 **What it is:** the new Today (TODAY-1018, branch web/today-1018 at d0486c12; the owner at 8:40 am: "the today page is better now") merged onto release 6. Today files are the 1018 design; every R5 and R6 change in the shared files is kept (Help and FAQ with no Help door, "Learn", community hidden, the Ask Mobi panel and nav row, badges, not-found pages, the docked-panel rule that stacks Today's columns at 1280 to 1439).

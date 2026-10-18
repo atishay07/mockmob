@@ -12,6 +12,7 @@
 //   attempt  GET /api/attempts/{id}          lazy, cached per visit: the biggest leak on Last paper and the weak-chapter stems
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { apiGet } from '@/lib/fetcher';
+import { reviseRecalled } from '@/lib/today/firstWeek.mjs';
 
 const idle = { status: 'loading', data: null };
 
@@ -46,6 +47,9 @@ const reviseDue = (body) => (body?.state === 'unavailable' ? null : {
   nextDayLabel: typeof body?.nextDayLabel === 'string' ? body.nextDayLabel : null,
   // The subjects of today's questions, most first: the lead card shows their objects (what comes back, not a guess).
   subjects: Array.isArray(body?.items) ? subjectsByCount(body.items) : [],
+  // Revise has been used: a question asked today, or an active card above box 1 (a right recall moved it up; a wrong one drops it back).
+  // Unknown (null) when the body has no box counts and nothing was asked today: the first-week path ticks Revise only on a true.
+  recalled: reviseRecalled(body),
 });
 function subjectsByCount(items) {
   const n = new Map();

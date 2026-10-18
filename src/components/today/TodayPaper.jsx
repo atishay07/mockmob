@@ -3,12 +3,14 @@
 // the one before of the same format, the marks, a right / wrong / blank bar with the words beside it (colour is never
 // the only signal), and its biggest leak: the chapter with the most marks open on that paper, worked out by the result
 // page's own engine (computePrepOSInsights over the one paper). "Repair this leak" opens the result at that chapter's
-// first open mistake; "Open the result" opens the paper. The leak line lands later into reserved height.
-import { useEffect, useState } from 'react';
+// first open mistake; "Open the result" opens the paper. The leak line lands later into reserved height. Under the keys, once
+// the paper is read, one receipt line says what the repairs made before it did on it, when there is something honest to say.
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { Wrench } from 'lucide-react';
 import { TEST_MODES } from '@/../data/test_modes';
 import { computePrepOSInsights } from '@/../data/prepos_insights';
+import { repairReceipt } from '@/../data/repair_receipt.mjs';
 import { paperDay } from '@/lib/today/move.mjs';
 import { clockIn } from '@/lib/today/week.mjs';
 
@@ -27,19 +29,22 @@ function leakOf(attempt, subjectNames) {
   return { chapter: top.chapter, here: top.wrong + top.skip, wrong: top.wrong, blank: top.skip, misses, position: first?.position || null };
 }
 
-export default function TodayPaper({ papers, loadAttempt, subjectName = (id) => id, hold = false }) {
+export default function TodayPaper({ papers, loadAttempt, subjectName = (id) => id, repairRows = null, hold = false }) {
   const last = papers.status === 'ready' ? papers.data?.[0] || null : null;
-  const [leak, setLeak] = useState({ id: null, status: 'idle', value: null });
+  const [leak, setLeak] = useState({ id: null, status: 'idle', value: null, attempt: null });
   useEffect(() => {
     if (!last?.id || hold) return undefined;
     let alive = true;
     loadAttempt(last.id)
-      .then((a) => { if (alive) setLeak({ id: last.id, status: 'ready', value: leakOf(a, { [last.subject]: subjectName(last.subject) }) }); })
-      .catch(() => { if (alive) setLeak({ id: last.id, status: 'error', value: null }); });
+      .then((a) => { if (alive) setLeak({ id: last.id, status: 'ready', value: leakOf(a, { [last.subject]: subjectName(last.subject) }), attempt: a }); })
+      .catch(() => { if (alive) setLeak({ id: last.id, status: 'error', value: null, attempt: null }); });
     return () => { alive = false; };
     // subjectName is a stable module function on the page.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [last?.id, hold, loadAttempt]);
+  // The after-the-mock receipt (FEATURE-ADOPTION item 5): what the repairs made before this paper did on it, from the paper this block
+  // already read and the repair record Today already holds. No line when there is nothing honest to say (data/repair_receipt.mjs).
+  const receipt = useMemo(() => (leak.attempt && leak.id === last?.id ? repairReceipt({ attempt: leak.attempt, repairs: repairRows }) : null), [leak, last?.id, repairRows]);
 
   if (hold || papers.status === 'loading') {
     return (
@@ -100,6 +105,7 @@ export default function TodayPaper({ papers, loadAttempt, subjectName = (id) => 
         {misses > 0 ? <Link className="tm__pill" href={repairHref}><Wrench size={16} strokeWidth={1.75} aria-hidden="true" />{l.value ? 'Repair this leak' : 'Repair a mistake'}</Link> : null}
         <Link className="tm__inline" href={`/result/${encodeURIComponent(last.id)}`}>Open the result</Link>
       </div>
+      {receipt ? <p className="tpp__receipt">{receipt.lead} <b>{receipt.strong}</b></p> : null}
     </section>
   );
 }
