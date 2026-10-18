@@ -2,7 +2,7 @@ import 'server-only';
 import { Database } from '@/../data/db';
 import { normalizeSubjectSelection } from '@/../data/cuet_controls';
 import { isValidTopSyllabusPair } from '@/../data/canonical_syllabus';
-import { fineTuneViolation, getMode, isValidModeId, resolveCount, resolveDurationSec } from '@/../data/test_modes';
+import { fineTuneViolation, getMode, isValidModeId, practiceCreditAction, resolveCount, resolveDurationSec } from '@/../data/test_modes';
 import { scoreSession, scorePracticeSubmission, submitMeta } from '@/../data/recovery';
 import { openPractice, openStart, practiceId, sealPractice, sealStart } from '@/../data/practice_ticket';
 import { publicSessionView } from '@/../shared/recoveryContract';
@@ -85,7 +85,7 @@ export async function startPractice(userId, input, server = {}) {
   const row = { id, user_id: userId, subject: selection.internalSubject, mode: mode.id,
     created_at: new Date(created).toISOString(), expires_at: new Date(created + resolveDurationSec(mode, questions) * 1000).toISOString(),
     questions, selection_meta: { ...meta, ...(optionLayout ? { ntaOptionLayout: optionLayout } : {}), ...tonightMetadata({...input, mode:mode.id, count}, created), scoringVersion: 'server_practice_v1', scoringAuthority: 'server_snapshot', contentEvidence: 'legacy_bank', learningPurpose: input.purpose === 'baseline' ? 'baseline' : 'ordinary_practice', ...(mobPaper ? { mobPaper: { mobId: mobPaper.mobId, weekStart: mobPaper.weekStart, ...(mobPaper.extraId ? { extraId: mobPaper.extraId } : {}) } } : {}) } };
-  const charge = practiceCharge({ isPremium: user?.isPremium, mobPaper, modeId: mode.id, creditAction: mode.creditAction, count, purpose: input.purpose, subject: selection.internalSubject });
+  const charge = practiceCharge({ isPremium: user?.isPremium, mobPaper, modeId: mode.id, creditAction: practiceCreditAction(mode.id, count), count, purpose: input.purpose, subject: selection.internalSubject });
   if (durableLearningEnabled()) {
     const { quota } = charge;
     const { data, error } = await db.rpc('start_learning_session', { p_row: { ...row, request_key: input.generationKey, state: 'active' }, p_credit_action: charge.creditAction, p_quota_kind: quota, p_period: quota ? allowancePeriod(quota, created) : null });

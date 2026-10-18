@@ -16,7 +16,8 @@ const here = dirname(fileURLToPath(import.meta.url));
 const startDir = join(here, '..');
 
 test('session facts come from TEST_MODES', () => {
-  assert.equal(SESSION.quickCost, TEST_MODES.quick.creditCost);
+  assert.equal(SESSION.quickCost, 10, 'the 10-question set; Quick practice is 1 credit a question');
+  assert.equal(SESSION.quickCostPerQuestion, 1);
   assert.equal(SESSION.fullCost, TEST_MODES.full.creditCost);
   assert.equal(SESSION.fullCount, 50);
   assert.equal(SESSION.fullMinutes, 60);
@@ -72,6 +73,13 @@ test('cost lines say what is spent against the real balance', () => {
   assert.deepEqual(costLine('full', { balance: 40 }), { text: 'Uses 50 practice credits. You have 40.', tone: 'short' });
   assert.deepEqual(costLine('quick', { balance: null }), { text: 'Uses 10 practice credits.', tone: 'cost' });
   assert.deepEqual(costLine('quick', { balance: 10 }), { text: 'Uses 10 of your 10 practice credits.', tone: 'cost' });
+  // Quick practice is 1 credit a question, so a count changes the line; Pro and the Pro-only modes ignore it.
+  assert.deepEqual(costLine('quick', { balance: 40, count: 5 }), { text: 'Uses 5 of your 40 practice credits.', tone: 'cost' });
+  assert.deepEqual(costLine('quick', { balance: 12, count: 15 }), { text: 'Uses 15 practice credits. You have 12.', tone: 'short' });
+  assert.deepEqual(costLine('quick', { balance: null, count: 20, short: true }), { text: '20 credits', tone: 'cost' });
+  assert.deepEqual(costLine('quick', { balance: null, count: 7 }), { text: 'Uses 10 practice credits.', tone: 'cost' }, 'a count Quick does not offer is priced as the default set, as the server resolves it');
+  assert.deepEqual(costLine('quick', { pro: true, count: 20 }), { text: 'Included with Pro.', tone: 'included' });
+  assert.deepEqual(costLine('full', { balance: 400, count: 5 }), { text: 'Uses 50 of your 400 practice credits.', tone: 'cost' }, 'a Full mock is 50 whatever count is passed');
   assert.deepEqual(costLine('nta', { balance: 400 }), { text: 'Needs Pro.', tone: 'locked' });
   assert.deepEqual(costLine('nta', { pro: true }), { text: 'Included with Pro.', tone: 'included' });
   assert.deepEqual(costLine('full', { pro: true, balance: 0 }), { text: 'Included with Pro.', tone: 'included' });

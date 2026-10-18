@@ -1,7 +1,7 @@
 // Server-owned launch quote for ordinary practice. The dashboard renders this object
 // and never enables a launch from its own credit arithmetic. Pure: callers supply the
 // user, inventory and allowance facts they read, including "unknown" when a read failed.
-import { TEST_MODES, resolveCount } from './test_modes.js';
+import { TEST_MODES, resolveCount, practiceCreditCost } from './test_modes.js';
 import { MODE_CAPABILITIES, LAUNCH_SUBJECT_IDS } from './capabilities.js';
 import { resolveSubject } from './subject_registry.js';
 
@@ -86,7 +86,7 @@ export function buildPracticeQuote({ user, subject, mode: modeId, count, purpose
   // Allowance and credits.
   const kind = allowance.enabled ? allowanceKindFor({ isPremium, modeId: mode.id, count: n, purpose, subjectId: resolved.id }) : null;
   const allowanceOut = kind ? { kind, state: allowance.used === null ? 'unknown' : allowance.used ? 'used' : 'available' } : null;
-  const listCost = isPremium ? 0 : Number(mode.creditCost || 0);
+  const listCost = isPremium ? 0 : Number(practiceCreditCost(mode.id, n) || 0);
   const creditCost = allowanceOut?.state === 'available' ? 0 : listCost;
   const balance = Math.max(0, Number(user.creditBalance) || 0);
   const out = { ...common, inventory: inventoryOut, allowance: allowanceOut, creditCost, creditBalance: isPremium ? null : balance };

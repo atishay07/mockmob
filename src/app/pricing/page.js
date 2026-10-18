@@ -18,6 +18,7 @@ import { breadcrumbJsonLd, faqJsonLd, seoMetadata } from '@/lib/seo';
 import { publicInventory } from '@/lib/server/inventory';
 import { pricingBankFaq, pricingBankLine, pricingSubjectLine } from '@/lib/paperCopy.mjs';
 import { practiceBankSize } from '@/lib/practiceBank.mjs';
+import { PRACTICE_PRICE_LINE } from '@/lib/creditCopy.mjs';
 
 export function generateMetadata() {
   const offer = publicOffer();
@@ -40,11 +41,11 @@ const buildPlans = (offer) => [
     ctaLabel: 'Create a free account',
     terms: [
       ['Renewal', 'None, and no card needed'],
-      ['Practice credits', '100 to start: 10 a Quick session, 50 a Full mock'],
+      ['Practice credits', '100 to start: 1 a question in Quick practice, 50 a Full mock'],
       ['AI credits', '50 a month for written replies from Ask Mobi'],
     ],
     features: newOfferReleased() ? ['One five-question baseline per launch subject', 'One included daily 10-question practice set', 'One new complete recovery episode per week', 'Delayed checks for every started episode', '25 saved questions', 'Free DU eligibility and historical cutoffs'] : [
-      'Quick practice, 5 to 20 questions, 10 practice credits a session',
+      'Quick practice, 5 to 20 questions, 1 practice credit a question',
       'Full mock, 50 questions in 60 minutes, 50 practice credits a mock',
       'Every paper built fresh from the live question bank',
       'Weekly progress tracking',
@@ -90,7 +91,7 @@ const COMPARISON_GROUPS = newOfferReleased() ? [{ heading: 'Practice and recover
   {
     heading: 'Core test modes',
     rows: [
-      ['Quick practice (5 to 20 questions)', '10 credits a session', 'Unlimited'],
+      ['Quick practice (5 to 20 questions)', '1 credit a question', 'Unlimited'],
       ['Full mock (50 questions, 60 minutes)', '50 credits a mock', 'Unlimited'],
       ['A fresh paper each time, questions you have not answered first', true, true],
     ],
@@ -123,7 +124,7 @@ const COMPARISON_GROUPS = newOfferReleased() ? [{ heading: 'Practice and recover
 ];
 
 const FREE_NOTES = [
-  'Quick practice uses 10 practice credits a session. A Full mock uses 50.',
+  PRACTICE_PRICE_LINE,
   'New accounts start with 100 practice credits.',
   'Credits decide how often you practise, never what you can see: results, explanations, DU eligibility and published cutoffs stay open.',
   'Written replies from Ask Mobi use AI credits: 50 a month on Free, kept apart from practice credits.',

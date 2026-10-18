@@ -14,7 +14,7 @@
 //
 // Logic ported from wt-web-ia (src/lib/navigation.js startActions, src/components/shell/shellModel.mjs
 // sheetRows and morphFrom, data/next_step_rules.mjs practiceHref), rebased on the live plan API.
-import { TEST_MODES } from '../../../data/test_modes.js';
+import { TEST_MODES, practiceCreditCost } from '../../../data/test_modes.js';
 import { CUET_MAX_SUBJECTS } from '../../lib/cuetRules.mjs';
 
 export const PRACTICE_HREF = '/dashboard';
@@ -132,10 +132,11 @@ const whole = (value) => (value === null || value === undefined || value === '' 
 export const SESSION = Object.freeze({
   quickCount: 10,
   quickMinutes: Math.round((10 * TEST_MODES.quick.durationPerQuestionSec) / 60),
-  quickCost: TEST_MODES.quick.creditCost,
+  quickCost: practiceCreditCost('quick', 10),         // the 10-question set; Quick practice is 1 practice credit a question
+  quickCostPerQuestion: TEST_MODES.quick.creditPerQuestion,
   fullCount: TEST_MODES.full.fixedCount,
   fullMinutes: Math.round(TEST_MODES.full.fixedDurationSec / 60),
-  fullCost: TEST_MODES.full.creditCost,
+  fullCost: practiceCreditCost('full', 50),
   ntaCount: TEST_MODES.nta.fixedCount,
   ntaMinutes: Math.round(TEST_MODES.nta.fixedDurationSec / 60),
   ntaPro: TEST_MODES.nta.premium === true,
@@ -157,12 +158,18 @@ export function practiceHref({ subject = null, mode = 'quick', count = null, cha
   return `${PRACTICE_HREF}?${q.toString()}`;
 }
 
-/** Practice credits a session uses on Free, 0 on Pro, or null when the mode needs Pro. */
-export function sessionCost(mode, { pro = false } = {}) {
+/**
+ * Practice credits a session uses on Free, 0 on Pro, or null when the mode needs Pro. Quick practice is 1 a question, so
+ * `count` (the set's size) decides it; without one the 10-question set is meant, as on the Start sheet's rows.
+ */
+export function sessionCost(mode, { pro = false, count = null } = {}) {
   const m = TEST_MODES[mode];
   if (!m) return null;
   if (m.premium) return pro ? 0 : null;
-  return pro ? 0 : m.creditCost;
+  if (pro) return 0;
+  const cost = practiceCreditCost(mode, whole(count) || (mode === 'quick' ? SESSION.quickCount : m.fixedCount));
+  // A count the mode does not offer is priced as the default set: the server resolves it to that set too.
+  return cost === null ? practiceCreditCost(mode, m.defaultCount) : cost;
 }
 
 /**
@@ -170,8 +177,8 @@ export function sessionCost(mode, { pro = false } = {}) {
  * 'Needs Pro.' / 'Uses 50 practice credits. You have 40.' (not enough) / 'Uses 10 practice credits.'
  * (balance unknown). `short` drops the trailing sentence for narrow rows.
  */
-export function costLine(mode, { pro = false, balance = null, short = false } = {}) {
-  const cost = sessionCost(mode, { pro });
+export function costLine(mode, { pro = false, balance = null, short = false, count = null } = {}) {
+  const cost = sessionCost(mode, { pro, count });
   if (cost === null) return { text: short ? 'Needs Pro' : 'Needs Pro.', tone: 'locked' };
   if (pro) return { text: short ? 'Included with Pro' : 'Included with Pro.', tone: 'included' };
   const have = whole(balance);
@@ -288,7 +295,7 @@ export function heroFromPlan(plan, { subject = null, pro = false, balance = null
     cta: known.cta,
     graphic: known.graphic === 'subject' && !linked && !subjectFor(subject) ? 'check' : known.graphic,
     subject: linked || (known.graphic === 'subject' ? subjectFor(subject)?.id || null : null),
-    cost: practice && TEST_MODES[mode] ? costLine(mode, { pro, balance }) : null,
+    cost: practice && TEST_MODES[mode] ? costLine(mode, { pro, balance, count }) : null,
     quick: practice && mode === 'quick' && count === SESSION.quickCount,
   };
 }

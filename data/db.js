@@ -29,7 +29,7 @@ import { attemptMemoKey, memoisedAttempts, readAttemptRows } from './attempt_rea
 import { readUserProgress, readConceptBuckets } from './practice_progress';
 import { toPublicSubjectId } from './cuet_controls';
 import { retiredSubjectsIn, withoutRetiredSubjects } from './subject_claim';
-import { getMode } from './test_modes';
+import { getMode, PER_QUESTION_ACTIONS } from './test_modes';
 import { rankCandidates, pickWithConstraints, buildSelectionUsageMeta } from './mock_question_selector';
 import { NTA_DURATION_MINUTES, NTA_QUESTION_COUNT, isPassageLinkedQuestion } from './nta_question_selector';
 import { NTA_MIN_SCORE } from './nta_engine';
@@ -1137,9 +1137,10 @@ export const Database = {
   async spendCredits(userId, action, reference) {
     // Allowed actions match the SQL CASE in spend_credits():
     //   'generate'     -> 10 credits (question generation)
-    //   'attempt'      -> 10 credits (Quick practice)
+    //   'attempt'      -> 10 credits (the old flat Quick practice price; old callers only)
+    //   'attempt_5' / 'attempt_10' / 'attempt_15' / 'attempt_20' -> 5 / 10 / 15 / 20 credits (Quick practice, 1 a question)
     //   'attempt_full' -> 50 credits (Full mock)
-    if (!['generate', 'attempt', 'attempt_full'].includes(action)) {
+    if (!['generate', 'attempt', ...PER_QUESTION_ACTIONS, 'attempt_full'].includes(action)) {
       throw new Error('Invalid credit spend action');
     }
     const { data, error } = await supabaseAdmin().rpc('spend_credits', {

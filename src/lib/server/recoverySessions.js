@@ -2,7 +2,7 @@ import 'server-only';
 import { supabaseAdmin } from '@/lib/supabase';
 import { Database } from '@/../data/db';
 import { scoreSession, scorePracticeSubmission, submitMeta, lateTimeUpEnd } from '@/../data/recovery';
-import { fineTuneViolation, getMode, isValidModeId, resolveCount, resolveDurationSec } from '@/../data/test_modes';
+import { fineTuneViolation, getMode, isValidModeId, practiceCreditAction, resolveCount, resolveDurationSec } from '@/../data/test_modes';
 import { normalizeSubjectSelection } from '@/../data/cuet_controls';
 import { randomUUID } from 'node:crypto';
 import { LAUNCH_SUBJECTS, publicSessionView } from '@/../shared/recoveryContract';
@@ -90,7 +90,7 @@ export async function startSession(userId, input) {
     created_at: created.toISOString(), expires_at: new Date(+created + resolveDurationSec(mode, result.questions) * 1000).toISOString() };
   // Credit charge and session insert share one transaction; insufficient inventory is checked first.
   const { data, error } = await db.rpc('start_recovery_session', { p_row: row,
-    p_credit_action: !user?.isPremium && !(mode.id === 'quick' && count === 5) ? mode.creditAction : null });
+    p_credit_action: !user?.isPremium && !(mode.id === 'quick' && count === 5) ? practiceCreditAction(mode.id, count) : null });
   if (error) throw new Error(/credit/i.test(error.message) ? 'INSUFFICIENT_CREDITS' : 'SESSION_CREATE_FAILED');
   if (data.state !== 'active' || Date.parse(data.expires_at) <= Date.now()) throw new Error('SESSION_EXPIRED');
   return publicSession(data);

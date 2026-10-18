@@ -18,7 +18,8 @@ import { SegmentedControl as Segmented } from '@/components/ui/controls/Segmente
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import { ExamPanel, Stopwatch, WeightsGlyph } from '@/components/start/StartArt';
 import { LIFE, tapKeyframes } from '@/components/brand/ObjectLifeModel.mjs';
-import { TEST_MODES, fineTuneScope, resolveCount } from '@/../data/test_modes';
+import { TEST_MODES, fineTuneScope, resolveCount, practiceCreditCost } from '@/../data/test_modes';
+import { PRACTICE_PRICE_TAIL } from '@/lib/creditCopy.mjs';
 import { MODE_CAPABILITIES } from '@/../data/capabilities';
 import { retiredSubjectEntry } from '@/../data/subject_claim';
 import StartRule, { useStartRule } from './StartRule';
@@ -420,6 +421,8 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
     if (capability.state !== 'available') return { text: 'Unavailable', tone: 'muted' };
     if (isPremium) return { text: 'Included', tone: 'included' };
     if (capability.entitlement === 'access') return { text: 'Needs Pro', tone: 'locked' };
+    // Quick practice is priced by its question count (1 credit a question); a Full mock is a fixed price.
+    if (TEST_MODES[id].creditPerQuestion) return { text: `${TEST_MODES[id].creditPerQuestion} a question`, tone: 'cost' };
     return { text: `${TEST_MODES[id].creditCost} ${TEST_MODES[id].creditCost === 1 ? 'credit' : 'credits'}`, tone: 'cost' };
   };
   const minutes = (() => {
@@ -522,7 +525,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
           {/* The balance and the two prices, one line under the lede at every width (the session panel repeats the balance). */}
           <p className="pr-head__credits">
             <CreditAmount kind="practice" amount={isPremium ? 'unlimited' : balance} unit={!isPremium} unitLabel="practice credits" size={15} />
-            <span>{isPremium ? 'Quick practice and Full mock are included with your access.' : `Quick practice costs ${TEST_MODES.quick.creditCost} practice credits and Full mock costs ${TEST_MODES.full.creditCost}.`}</span>
+            <span>{isPremium ? 'Quick practice and Full mock are included with your access.' : PRACTICE_PRICE_TAIL}</span>
           </p>
           <PracticeMobChip userId={user?.id} />
         </div>
@@ -651,7 +654,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
               {mode.fixedCount ? (
                 <p className="pr-fixed"><b>{mode.fixedCount} questions</b><span>{minutes} minutes, one sitting, exam timing</span></p>
               ) : (
-                <Segmented label="Number of questions" value={count} options={(mode.countOptions || [5, 10, 15, 20]).map((n) => ({ value: n, label: String(n) }))} onChange={setCount} />
+                <Segmented label="Number of questions" value={count} options={(mode.countOptions || [5, 10, 15, 20]).map((n) => ({ value: n, label: String(n), ...(isPremium || !practiceCreditCost(mode.id, n) ? {} : { hint: `${practiceCreditCost(mode.id, n)} credits` }) }))} onChange={setCount} />
               )}
             </section>
 

@@ -4,9 +4,10 @@ import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import { Icon } from '@/components/ui/Icons';
+import { TEST_MODES } from '@/../data/test_modes';
 
-const QUICK_COST = 10;
-const FULL_COST = 50;
+const QUICK_MIN_SET = Math.min(...TEST_MODES.quick.countOptions);  // the smallest Quick set, in questions: 1 credit a question
+const FULL_COST = TEST_MODES.full.creditCost;
 
 // Only what is Pro-only on /pricing today. DU eligibility, published cutoffs and the top three
 // chapters are free there, so they are never listed here.
@@ -75,9 +76,9 @@ export function CreditsRemainingModal({ open, credits, onClose, offer = null }) 
   if (!open || typeof document === 'undefined') return null;
 
   const safe = Math.max(0, Number.isFinite(credits) ? credits : 0);
-  const quickRuns = Math.floor(safe / QUICK_COST);
+  const quickQuestions = Math.floor(safe / TEST_MODES.quick.creditPerQuestion);
   const fullRuns = Math.floor(safe / FULL_COST);
-  const isEmpty = safe < QUICK_COST;
+  const isEmpty = safe < QUICK_MIN_SET;
 
   return createPortal(
     <div
@@ -125,9 +126,9 @@ export function CreditsRemainingModal({ open, credits, onClose, offer = null }) 
           </div>
           <div className="mmx-credits__runs">
             <div>
-              <span>Quick practice, {QUICK_COST} practice credits</span>
+              <span>Quick practice, 1 practice credit a question</span>
               <strong>
-                {quickRuns} run{quickRuns === 1 ? '' : 's'}
+                {quickQuestions} question{quickQuestions === 1 ? '' : 's'}
               </strong>
             </div>
             <div>
