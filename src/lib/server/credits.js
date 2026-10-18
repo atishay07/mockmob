@@ -296,9 +296,9 @@ function olderThan(query, cursor) {
 }
 
 /** One page of the history for a student: { history, next }. Throws CREDITS_UNAVAILABLE on a read failure. */
-export async function loadHistory({ userId, practiceBalance, aiBalance, total, periodStart = null, cursor = null, db }) {
+export async function loadHistory({ userId, practiceBalance, aiBalance, total, periodStart = null, cursor = null, db, pageSize = PAGE_SIZE }) {
   const client = db || (await import('../supabase')).supabaseAdmin();
-  const take = PAGE_SIZE + 1;
+  const take = pageSize + 1;
   const practiceQuery = olderThan(client.from('credit_transactions')
     .select('id,created_at,amount,credit_delta,type,action,reference').eq('user_id', userId), cursor)
     .order('created_at', { ascending: false }).order('id', { ascending: false }).limit(take);
@@ -321,5 +321,5 @@ export async function loadHistory({ userId, practiceBalance, aiBalance, total, p
       if (!att.error) details = repairDetails({ userId, ids, attempts: att.data || [] });
     } catch { /* keep the plain line */ }
   }
-  return buildHistory({ practiceRows, aiRows, practiceBalance, aiBalance, total, periodStart, cursor, details });
+  return buildHistory({ practiceRows, aiRows, practiceBalance, aiBalance, total, periodStart, cursor, details, pageSize });
 }

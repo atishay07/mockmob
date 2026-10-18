@@ -158,7 +158,7 @@ function PaperRepairs({ paper, items: given, wallet, onChanged, onOpen }) {
           {busy ? 'Repairing' : run.status === 'stopped' ? `Repair the ${plural(left.length, 'question')} left` : `Begin ${plural(left.length, 'repair')}`}
         </button>
       ) : null}
-      {short && !busy ? <p className="rvw-sheet__fine">This needs {plural(items.length, 'Credit')}. {haveLine(balance)} <Link href="/pricing/ai-credits">See your credits</Link></p> : null}
+      {short && !busy ? <p className="rvw-sheet__fine">This needs {plural(items.length, 'Credit')}. {haveLine(balance)} <Link href="/wallet">See your credits</Link></p> : null}
     </div>
   );
 }

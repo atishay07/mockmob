@@ -15,6 +15,7 @@ export default function robots() {
           '/moderation',
           '/my-uploads',
           '/profile',
+          '/wallet',
           '/saved',
           '/test',
           '/upload',

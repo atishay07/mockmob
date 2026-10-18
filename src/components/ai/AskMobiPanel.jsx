@@ -190,7 +190,7 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
       setRetry(null);
       const response = res.ok ? { ...normalizeResponse({ ...(data.response || data), runtimeState: data.runtimeState }), about } : {
         reply: data.message || (res.status === 429 ? 'Too many questions in a short time. Wait a minute and try again.' : 'Mobi could not answer just now. Nothing is charged for a reply that fails.'),
-        origin: 'status', actions: res.status === 402 ? [{ label: 'See your credits', route: '/pricing/ai-credits' }] : [],
+        origin: 'status', actions: res.status === 402 ? [{ label: 'See your credits', route: '/wallet' }] : [],
       };
       setTurns((prev) => [...prev, { id: `a_${Date.now()}`, role: 'assistant', response }]);
       if (data.sessionId) setSessionId(data.sessionId);
@@ -363,8 +363,8 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
           <button type="submit" className="amb-send" disabled={!canSend}>Ask</button>
         </div>
         <div className="amb-cost">
-          {/* The balance, with the credits page one tap away (the wallet and its rules live there). */}
-          <Link href="/pricing/ai-credits" className="amb-cost__wallet" onClick={() => onClose?.()}>
+          {/* The balance, with the wallet one tap away (the balance, its rules and the packs live there). */}
+          <Link href="/wallet" className="amb-cost__wallet" onClick={() => onClose?.()}>
             {line.count !== null ? <b key={line.count} className="amb-num">{line.count}</b> : null}{line.count !== null ? ' ' : ''}{line.rest}
             {line.reset ? <><i aria-hidden="true"> · </i>{line.reset}</> : null}
           </Link>

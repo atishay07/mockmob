@@ -396,7 +396,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
             )}
             {/* One credits balance (owner, 18 Oct 2026, D78): one chip. The wallet read is the live total (free this month +
                 bought/held); until it answers, the account's own total from /api/auth/me stands in. */}
-            <Link href="/pricing/ai-credits" className="arena-chip arena-chip--credits" data-tour="credits-pill" data-state={wallet.wallet?.state || 'unknown'} aria-label={`Credits: ${wallet.wallet?.known ? wallet.wallet.total : (user?.creditBalance ?? 0)}`}>
+            <Link href={previewLinks?.wallet || '/wallet'} className="arena-chip arena-chip--credits" data-tour="credits-pill" data-state={wallet.wallet?.state || 'unknown'} aria-label={`Credits: ${wallet.wallet?.known ? wallet.wallet.total : (user?.creditBalance ?? 0)}`}>
               <CreditAmount kind="practice" amount={wallet.wallet?.known ? wallet.wallet.total : (user?.creditBalance ?? 0)} unit={false} />
             </Link>
             {user?.isPremium && (

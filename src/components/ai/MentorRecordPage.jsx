@@ -56,7 +56,7 @@ export default function MentorRecordPage() {
 
   useEffect(() => {
     if (tab === 'plan') { router.replace('/today'); return undefined; }
-    if (tab === 'tools') { router.replace('/pricing/ai-credits'); return undefined; }
+    if (tab === 'tools') { router.replace('/wallet'); return undefined; }
     if (tab !== 'ask') return undefined;
     // The panel's host mounts after this page does, so the request waits one beat for its listener.
     const timer = window.setTimeout(() => openAskMobi({ context: q ? { kind: 'question', ref: q } : { kind: 'page' } }), 120);
@@ -76,7 +76,7 @@ export default function MentorRecordPage() {
       </AskMobiLink>
       <RecordView state={insightsState} onNavigate={(route) => router.push(route)} pro={pro} />
       <History />
-      <p className="mrp-foot"><Link href="/pricing/ai-credits" className="ame ame--text">Your credits and how they work</Link></p>
+      <p className="mrp-foot"><Link href="/wallet" className="ame ame--text">Your credits and how they work</Link></p>
     </div>
   );
 }

@@ -1,9 +1,12 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
-import { getRazorpayClient, getRazorpayKeyId } from '@/lib/payments/razorpay';
+import { getRazorpayKeyId } from '@/lib/payments/razorpay';
+import { createPackOrder } from '@/lib/server/walletCheckout';
+import { walletDeps } from '@/lib/server/walletDeps';
 import { getAICreditPack } from '@/services/credits/aiCreditWallet';
 import { CAPABILITIES } from '@/../data/capabilities';
+import { walletCommerceOpen, WALLET_COMMERCE_CLOSED_MESSAGE } from '@/lib/wallet/walletPacks.mjs';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -14,6 +17,10 @@ export async function POST(request) {
     const session = await auth();
     if (!session?.user?.id) {
       return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
+    }
+    // One switch for selling: this older route honours the same WALLET_COMMERCE_OPEN gate as POST /api/wallet/order.
+    if (!walletCommerceOpen()) {
+      return NextResponse.json({ error: 'WALLET_COMMERCE_CLOSED', message: WALLET_COMMERCE_CLOSED_MESSAGE }, { status: 503 });
     }
     if (CAPABILITIES.aiTopUps.state !== 'available') return NextResponse.json({error:'PREPOS_TOPUPS_PAUSED',message:CAPABILITIES.aiTopUps.reason},{status:503});
 
@@ -28,27 +35,8 @@ export async function POST(request) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    const order = await getRazorpayClient().orders.create({
-      amount: pack.amountPaise,
-      currency: 'INR',
-      receipt: `prepos_${session.user.id}_${Date.now()}`.slice(0, 40),
-      notes: {
-        kind: 'ai_credit_topup',
-        userId: session.user.id,
-        packKey: pack.key,
-        credits: String(pack.credits),
-      },
-    });
-
-    await Database.createPayment({
-      userId: session.user.id,
-      orderId: order.id,
-      planId: pack.planId,
-      amount: pack.amountPaise,
-      currency: 'INR',
-      status: order.status || 'created',
-      rawOrder: order,
-    });
+    // The same order step the wallet's own route uses (src/lib/server/walletCheckout.js).
+    const { order } = await createPackOrder({ userId: session.user.id, pack, deps: walletDeps() });
 
     return NextResponse.json({
       ok: true,
@@ -58,6 +46,6 @@ export async function POST(request) {
     });
   } catch (error) {
     console.error('[ai-credits/order] failed:', error);
-    return NextResponse.json({ error: 'Failed to create PrepOS credit order' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to create the credit order' }, { status: 500 });
   }
 }

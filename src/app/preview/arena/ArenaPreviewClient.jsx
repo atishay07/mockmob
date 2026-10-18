@@ -32,6 +32,7 @@ import { DiscoveryFeed } from '@/components/feed/DiscoveryFeed';
 import { UploadForm } from '@/components/feed/UploadForm';
 import MyUploadsPageClient from '@/app/(app)/my-uploads/MyUploadsPageClient';
 import ProfilePageClient from '@/app/(app)/profile/ProfilePageClient';
+import WalletPageClient from '@/app/(app)/wallet/WalletPageClient';
 import HelpPageClient from '@/app/(app)/help/HelpPageClient';
 import AppNotFound from '@/app/(app)/not-found';
 import ContributionsPaused from '@/components/contribute/ContributionsPaused';
@@ -54,6 +55,8 @@ import JoinMob from '@/components/mob/JoinMob';
 import { previewMob } from './previewMob';
 import { previewFirstWeek } from './previewFirstWeek';
 import { previewReview } from './previewReview';
+import { previewWallet } from './previewWallet';
+import { previewChipCredits } from './previewChip';
 import { previewConcepts } from './previewConcepts';
 
 const CS_SUBJECT = { id: 'computer_science', name: 'Computer Science / Informatics Practices', practice: 'supported', chapters: ['Python Revision Tour', 'Database Concepts'] };
@@ -177,6 +180,9 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     const accountRead = method === 'GET' && !['/api/subjects', '/api/chapters'].includes(url.pathname) && !url.pathname.startsWith('/api/auth/');
     if (accountRead && state === 'loading') return new Promise((resolve, reject) => { init.signal?.addEventListener('abort', () => reject(new DOMException('Aborted', 'AbortError')), { once: true }); });
     if (accountRead && state === 'error') return json({ error: 'Illustrative connection failure' }, 503);
+    // Wallet (D76): GET /api/wallet from the real pack catalog; ?commerce=open|closed, ?wallet=down|zero|unknown, ?history=down|empty (previewWallet.js).
+    const walleted = previewWallet(url, method, init, fixture, json);
+    if (walleted) return walleted;
     // Review (LEARN-REVIEW-1017 P-LR1): GET /api/me/review and the papers, lessons and repairs it opens (?review=, previewReview.js).
     const reviewed = previewReview(url, method, init, fixture, json);
     if (reviewed) return reviewed;
@@ -631,7 +637,7 @@ function PreviewInner({ candidatePathway }) {
   const planParam = params.get('plan');
   const MONTHLY = MONTHLY_PROFILES[planParam] || null;
   const pro = planParam === 'pro' || Boolean(MONTHLY?.isPremium);
-  const views = ['dashboard', 'test', 'prepos', 'compass', 'radar', 'saved', 'today', 'review', 'rules', 'revise', 'progress', 'recovery', 'explore', 'ranks', 'profile', 'help', 'upload', 'my-uploads', 'paused', 'paused-uploads', 'not-found', 'result', 'rival', 'onboarding', 'mob', 'join', ...(params.get('role') === 'moderator' ? ['moderation'] : [])];
+  const views = ['dashboard', 'test', 'prepos', 'compass', 'radar', 'saved', 'today', 'review', 'rules', 'revise', 'progress', 'recovery', 'explore', 'ranks', 'profile', 'help', 'upload', 'my-uploads', 'paused', 'paused-uploads', 'not-found', 'result', 'rival', 'onboarding', 'mob', 'join', 'wallet', ...(params.get('role') === 'moderator' ? ['moderation'] : [])];
   const view = views.includes(params.get('view')) ? params.get('view') : 'dashboard';
   const routeNames = { prepos: 'mentor', compass: 'admission-compass', radar: 'analytics', ranks: 'leaderboard', rules: 'review/rules', revise: 'review/revise' };
   const route = `/${routeNames[view] || view}`;
@@ -642,7 +648,7 @@ function PreviewInner({ candidatePathway }) {
     user: { id: 'preview-user', name: params.get('data') === 'long' ? 'An exceptionally long illustrative display name for responsive checks' : 'Preview Student', email: 'preview@example.test', role: params.get('role') === 'moderator' ? 'moderator' : 'student',
       subjects: ['accountancy', 'economics', 'business_studies', 'english', ...(params.get('cs') === '1' ? ['computer_science'] : []), ...(params.get('stale') === '1' ? ['hindi'] : [])],
       retiredSubjects: params.get('stale') === '1' ? ['teaching_aptitude'] : [],
-      isPremium: pro, premiumUntil: pro ? '2027-07-31T18:29:59.000Z' : params.get('plan') === 'expired' ? '2026-09-01T18:29:59.000Z' : null, creditBalance: pro ? 0 : params.get('balance') !== null && Number.isFinite(Number(params.get('balance'))) ? Number(params.get('balance')) : 40, ...(MONTHLY || {}) },
+      isPremium: pro, premiumUntil: pro ? '2027-07-31T18:29:59.000Z' : params.get('plan') === 'expired' ? '2026-09-01T18:29:59.000Z' : null, creditBalance: pro ? 0 : previewChipCredits(params, params.get('balance') !== null && Number.isFinite(Number(params.get('balance'))) ? Number(params.get('balance')) : 40), ...(MONTHLY || {}) },
     status: 'authenticated', needsOnboarding: false, isAuthenticated: true,
     signInWithGoogle: async () => ({}), signInWithEmail: async () => ({}), verifyEmailOtp: async () => ({}),
     signOut: async () => {}, refreshSession: async () => {},
@@ -651,7 +657,7 @@ function PreviewInner({ candidatePathway }) {
     <AuthContext.Provider value={auth}>
       <RoleProvider>
         <div className="arena-fixture-note" role="note"><b>Development preview</b><span>Illustrative data · {params.get('plan') || 'free'} · {params.get('data') || 'ready'}. No real saves, scores, credits or billing.</span><label>View<select value={view} onChange={(event) => { window.location.href = previewHref(event.target.value); }}>{views.map((name) => <option key={name} value={name}>{name}</option>)}</select></label>{view === 'test' && <ThemeToggle />}{view === 'prepos' && <button type="button" className="arena-chip" onClick={() => setDrawerOpen(true)}>Preview assistant drawer</button>}</div><AssistantDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
-        {view === 'join' ? <AuthContext.Provider value={params.get('auth') === 'out' ? { ...auth, user: null, status: 'unauthenticated', isAuthenticated: false } : auth}><JoinMob code="7KQ2M9XR" /></AuthContext.Provider> : view === 'onboarding' ? <OnboardingPageClient preview /> : <AppLayoutClient previewRoute={route} previewLinks={previewLinks} studyEnabled={params.get('study') === 'on'} contributeEnabled={params.get('contribute') === 'on'}>{view === 'mob' ? <MobPage user={auth.user} /> : view === 'test' ? <TestPageClient /> : view === 'prepos' ? <MentorRecordPage /> : view === 'compass' ? <AdmissionCompassPageClient /> : view === 'radar' ? <AnalyticsPageClient /> : view === 'saved' ? <SavedPageClient /> : view === 'today' ? <TodayPage /> : view === 'recovery' ? <RecoveryJourney /> : view === 'review' ? <div className="student-page student-page--review"><RecoveryOverview view="review" tabParam="pane" /></div> : view === 'rules' ? <div className="student-page student-page--review"><RuleBook /></div> : view === 'revise' ? <div className="student-page student-page--review"><ReviseRun /></div> : view === 'progress' ? <ProgressPage /> : view === 'explore' ? <DiscoveryFeed /> : view === 'upload' ? <UploadForm /> : view === 'my-uploads' ? <MyUploadsPageClient /> : view === 'paused' ? <ContributionsPaused /> : view === 'paused-uploads' ? <ContributionsPaused title="My uploads are paused with Contribute" /> : view === 'not-found' ? <AppNotFound /> : view === 'profile' ? <ProfilePageClient /> : view === 'help' ? <HelpPageClient /> : view === 'ranks' ? <LeaderboardPageClient /> : view === 'result' ? <ResultPageClient previewId={params.get('attempt') || 'fixture-attempt'} /> : view === 'moderation' ? <ModerationPageClient /> : view === 'rival' ? <AIRivalArena /> : view === 'onboarding' ? <OnboardingPageClient preview /> : <DashboardPageClient studyEnabled={params.get('study') === 'on'} />}</AppLayoutClient>}
+        {view === 'join' ? <AuthContext.Provider value={params.get('auth') === 'out' ? { ...auth, user: null, status: 'unauthenticated', isAuthenticated: false } : auth}><JoinMob code="7KQ2M9XR" /></AuthContext.Provider> : view === 'onboarding' ? <OnboardingPageClient preview /> : <AppLayoutClient previewRoute={route} previewLinks={previewLinks} studyEnabled={params.get('study') === 'on'} contributeEnabled={params.get('contribute') === 'on'}>{view === 'mob' ? <MobPage user={auth.user} /> : view === 'test' ? <TestPageClient /> : view === 'prepos' ? <MentorRecordPage /> : view === 'compass' ? <AdmissionCompassPageClient /> : view === 'radar' ? <AnalyticsPageClient /> : view === 'saved' ? <SavedPageClient /> : view === 'today' ? <TodayPage /> : view === 'recovery' ? <RecoveryJourney /> : view === 'review' ? <div className="student-page student-page--review"><RecoveryOverview view="review" tabParam="pane" /></div> : view === 'rules' ? <div className="student-page student-page--review"><RuleBook /></div> : view === 'revise' ? <div className="student-page student-page--review"><ReviseRun /></div> : view === 'progress' ? <ProgressPage /> : view === 'explore' ? <DiscoveryFeed /> : view === 'upload' ? <UploadForm /> : view === 'my-uploads' ? <MyUploadsPageClient /> : view === 'paused' ? <ContributionsPaused /> : view === 'paused-uploads' ? <ContributionsPaused title="My uploads are paused with Contribute" /> : view === 'not-found' ? <AppNotFound /> : view === 'wallet' ? <WalletPageClient /> : view === 'profile' ? <ProfilePageClient /> : view === 'help' ? <HelpPageClient /> : view === 'ranks' ? <LeaderboardPageClient /> : view === 'result' ? <ResultPageClient previewId={params.get('attempt') || 'fixture-attempt'} /> : view === 'moderation' ? <ModerationPageClient /> : view === 'rival' ? <AIRivalArena /> : view === 'onboarding' ? <OnboardingPageClient preview /> : <DashboardPageClient studyEnabled={params.get('study') === 'on'} />}</AppLayoutClient>}
       </RoleProvider>
     </AuthContext.Provider>
   );

@@ -119,7 +119,7 @@ export default function AnswerSheet({ item, wallet, autoRepair = false, onChange
         </FreeKeys>
       ) : null}
       {showKeys && repairable && noAi ? (
-        <p className="rvw-sheet__fine">A repair adds why {item.pick || 'your pick'} looked right, the trap, one rule and a Check it held, for 1 credit. {haveLine(0)}{aiRenewsLine(wallet) ? ` ${aiRenewsLine(wallet)}` : ''} <Link href="/pricing/ai-credits">See your credits</Link></p>
+        <p className="rvw-sheet__fine">A repair adds why {item.pick || 'your pick'} looked right, the trap, one rule and a Check it held, for 1 credit. {haveLine(0)}{aiRenewsLine(wallet) ? ` ${aiRenewsLine(wallet)}` : ''} <Link href="/wallet">See your credits</Link></p>
       ) : null}
     </div>
   );
