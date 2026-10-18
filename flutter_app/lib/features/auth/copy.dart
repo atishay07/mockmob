@@ -7,6 +7,13 @@ abstract final class AuthCopy {
   // Sign-in screen.
   static const String signInTitle = 'Sign in';
   static const String signInLead = 'Pick how you want to sign in.';
+  // Sign-in from the onboarding save step's "Use an email code": the student already chose
+  // email, so the screen is about saving the plan they just sealed.
+  static const String saveTitle = 'Save your plan';
+  static const String saveLead =
+      "We'll email you an 8-digit code. New here? It creates your free account.";
+  static const String emailMeCode = 'Email me the code';
+
   static const String newHere =
       'New to MockMob? The same code creates your free account.';
   static const String emailLabel = 'Email address';

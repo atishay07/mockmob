@@ -8,8 +8,11 @@ import 'auth_load_failed_screen.dart';
 import 'sign_in_code_screen.dart';
 import 'sign_in_screen.dart';
 
-Widget signInScreen(BuildContext context, GoRouterState state) =>
-    const SignInScreen();
+Widget signInScreen(BuildContext context, GoRouterState state) => SignInScreen(
+  toSave:
+      state.uri.queryParameters['from'] == 'save' &&
+      state.uri.queryParameters['method'] == 'email',
+);
 
 Widget signInCodeScreen(BuildContext context, GoRouterState state) =>
     SignInCodeScreen(email: state.uri.queryParameters['email']);
