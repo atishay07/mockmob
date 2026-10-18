@@ -112,11 +112,18 @@ final quickStartNtaProvider = Provider<QuickNta?>((ref) => null);
 /// Tonight's move as the Start sheet's hero offers it: the same move Today's hero builds, so the
 /// two can never disagree. `main.dart` wires it to Today's next action.
 class StartMove {
-  const StartMove({required this.title, required this.location, this.kind});
+  const StartMove({required this.title, required this.location, this.kind, this.minutes, this.picked = false});
 
   /// What the move says ("Repair 4 mistakes in Ledgers").
   final String title;
   final String location;
+
+  /// The length Today's lead shows for this move, when it has one. The sheet says it on its note
+  /// line unless the title already does, so the two screens never state different lengths.
+  final int? minutes;
+
+  /// The student chose this move from Today's Suggested stack (it is not the recommended move).
+  final bool picked;
 
   /// `repair`, `practice`, `mock` or `resume`, when known. A repair hero hides the sheet's
   /// separate repair row.
@@ -187,6 +194,25 @@ abstract final class StartLocations {
 
 /// How long Mobi answers a choice before the sheet goes.
 const Duration startReactionHold = Duration(milliseconds: 160);
+
+/// A figure and its unit never part across a line ("10 min" wrapped as "10" over "min", final
+/// walk): the space between a number and the minute or question word is a no-break space, so a long
+/// line wraps before the figure, never inside it.
+String keepUnitsTogether(String text) => text.replaceAllMapped(
+  RegExp(r'(\d+) (?=(?:min|mins|minutes?|questions?|marks?)\b)'),
+  (m) => '${m[1]}\u00A0',
+);
+
+/// The line under the hero's title: whose move it is, and how long it is when the title does not
+/// say ("Tonight's move, about 20 minutes." / "Your pick, about 20 minutes."). The length is the
+/// one Today's lead card shows.
+String startMoveNote(StartMove move, String when) {
+  final who = move.picked ? 'Your pick' : "${when[0].toUpperCase()}${when.substring(1)}'s move";
+  final minutes = move.minutes;
+  final titleSaysLength = RegExp(r'\d+\s*(?:min|mins|minutes?)\b').hasMatch(move.title);
+  if (minutes == null || titleSaysLength) return '$who.';
+  return '$who, about ${plural(minutes, 'minute')}.';
+}
 
 /// What Mobi does for the row of [kind] (`resume`, `quick`, `mock`, `repair`; `practice` and
 /// anything else is the small cheer). NTA mode has none: it stays exam-faithful.
@@ -538,8 +564,8 @@ class _StartRows extends ConsumerWidget {
           'smart' => 'smart',
           _ => 'quick',
         }),
-        title: move.title,
-        note: "${when[0].toUpperCase()}${when.substring(1)}'s move.",
+        title: keepUnitsTogether(move.title),
+        note: keepUnitsTogether(startMoveNote(move, when)),
         onTap: () => go(move.location, act: startActFor(move.kind ?? 'quick')),
       );
     } else {
