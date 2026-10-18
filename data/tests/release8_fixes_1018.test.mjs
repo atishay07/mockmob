@@ -110,3 +110,23 @@ test('W-079: the sidebar rows, the Practice fine-tune line, "See Q14" and the sw
   assert.match(stripComments(read('src/components/result/result-1017.css')), /\.rx-notice \.rx-link\s*\{[^}]*padding-block:\s*13px/);
   assert.match(stripComments(read('src/components/ui/controls/controls.css')), /\.ctl-toggle \.mk-switch[^{]*\{[^}]*min-height:\s*44px/);
 });
+
+// ---------------------------------------------------------------------------------------------------------------------
+// D53 (owner, 12:15 pm, on the app): a tapped ask answers at once. The website's Ask Mobi never had the "goes to an AI service"
+// sheet; this holds that, and holds the one quiet inline line that says who writes the reply and what it costs.
+// ---------------------------------------------------------------------------------------------------------------------
+
+test('D53: a tapped ask in Ask Mobi sends at once, with no confirmation step between the tap and the request', () => {
+  const panel = read('src/components/ai/AskMobiPanel.jsx');
+  // askRow goes straight to sendPaid; nothing in the panel opens a sheet, a dialog or a confirm first.
+  assert.match(panel, /function askRow\(ask\)[\s\S]*?sendPaid\(ask\.label\);\s*\}/);
+  assert.doesNotMatch(panel, /\bconfirm\(|alertdialog|goes to an AI service|sentTo|acknowledg|consent/i);
+  // The server needs no acknowledgement flag with the ask: the body is the question, the mode, the kind and the request id.
+  assert.doesNotMatch(read('src/app/api/ai/mentor/chat/route.js'), /acknowledg|payload\.consent|payload\.ack/i);
+});
+
+test('D53: one quiet inline line says an AI service writes the reply and that it uses 1 AI credit', () => {
+  const panel = read('src/components/ai/AskMobiPanel.jsx');
+  assert.match(panel, /An AI service writes this reply\. \$\{creditCount\(1\)\} is used\./);
+  assert.match(panel, /className="amb-cost__price" aria-live="polite"/);
+});
