@@ -38,7 +38,12 @@ class AuthPage extends ConsumerStatefulWidget {
     this.onBack,
     this.backLabel = AuthCopy.back,
     this.entrance = MobiAct.hello,
+    this.keyboardAnchor,
   });
+
+  /// The screen's one action (the volt key). While the keyboard is up it is kept in view, 12 dp
+  /// above the keyboard, with the field and its help line directly above it.
+  final GlobalKey? keyboardAnchor;
 
   final SignInStep step;
   final Widget child;
@@ -65,8 +70,29 @@ class _AuthPageState extends ConsumerState<AuthPage> {
 
   SignInStep get step => widget.step;
 
+  /// The keyboard was up on the last build.
+  bool _keyboardWasOpen = false;
+  Timer? _pin;
+
+  /// Once Mobi has stepped aside (160 ms), the volt key is scrolled to sit just above the
+  /// keyboard, so the one action is visible while typing.
+  void _pinAnchor() {
+    _pin?.cancel();
+    _pin = Timer(const Duration(milliseconds: 200), () {
+      final target = widget.keyboardAnchor?.currentContext;
+      if (!mounted || target == null) return;
+      Scrollable.ensureVisible(
+        target,
+        alignment: 1,
+        duration: Motion.of(context, Motion.glideDuration),
+        curve: Motion.glide,
+      );
+    });
+  }
+
   @override
   void dispose() {
+    _pin?.cancel();
     _mobi.dispose();
     super.dispose();
   }
@@ -131,8 +157,13 @@ class _AuthPageState extends ConsumerState<AuthPage> {
       authSnapshotProvider.select((s) => s.sessionExpired),
     );
     final showExpired = expired && step == SignInStep.email;
+    // The keyboard is up: Mobi steps aside completely (never a clipped band under the status
+    // bar) and the volt key sits 12 dp above the keyboard.
+    final keyboardOpen = MediaQuery.viewInsetsOf(context).bottom > 0;
+    if (keyboardOpen && !_keyboardWasOpen) _pinAnchor();
+    _keyboardWasOpen = keyboardOpen;
     const padTop = MmSpace.s8;
-    const padBottom = MmSpace.s24;
+    final padBottom = keyboardOpen ? MmSpace.s12 : MmSpace.s24;
 
     return Scaffold(
       backgroundColor: colors.ground,
@@ -147,7 +178,7 @@ class _AuthPageState extends ConsumerState<AuthPage> {
               builder: (context, box) => SingleChildScrollView(
                 keyboardDismissBehavior:
                     ScrollViewKeyboardDismissBehavior.onDrag,
-                padding: const EdgeInsets.fromLTRB(
+                padding: EdgeInsets.fromLTRB(
                   MmSpace.gutter,
                   padTop,
                   MmSpace.gutter,
@@ -183,6 +214,7 @@ class _AuthPageState extends ConsumerState<AuthPage> {
                               child: _HeroSlot(
                                 controller: _mobi,
                                 entrance: widget.entrance,
+                                hidden: keyboardOpen,
                               ),
                             ),
                             const SizedBox(height: MmSpace.s8),
@@ -345,18 +377,38 @@ class _RenderNoIntrinsicHeight extends RenderProxyBox {
 }
 
 /// Mobi's slot: Mobi as the hero in a pool of volt light, as large as the slot allows (up to
-/// [_heroHeight]) and never smaller than [_heroFloor].
+/// [_heroHeight]) and never smaller than [_heroFloor]. While the keyboard is up ([hidden]) he
+/// fades out over 160 ms and the slot closes; when it goes down he comes back with his entrance.
 class _HeroSlot extends StatelessWidget {
-  const _HeroSlot({required this.controller, required this.entrance});
+  const _HeroSlot({
+    required this.controller,
+    required this.entrance,
+    this.hidden = false,
+  });
 
   final MobiController controller;
   final MobiAct entrance;
+  final bool hidden;
+
+  /// How long Mobi takes to step aside for the keyboard.
+  static const Duration _aside = Duration(milliseconds: 160);
 
   static const double _heroHeight = 232;
   static const double _heroFloor = 72;
 
   @override
   Widget build(BuildContext context) {
+    return AnimatedSwitcher(
+      duration: Motion.of(context, _aside),
+      switchInCurve: Motion.glide,
+      switchOutCurve: Motion.exit,
+      child: hidden
+          ? const SizedBox.shrink(key: ValueKey('mobi-aside'))
+          : KeyedSubtree(key: const ValueKey('mobi'), child: _hero()),
+    );
+  }
+
+  Widget _hero() {
     return ConstrainedBox(
       constraints: const BoxConstraints(minHeight: _heroFloor),
       child: _NoIntrinsicHeight(
