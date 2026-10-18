@@ -195,6 +195,7 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
             child: _ValueLine(
               text: m.valueLine,
               minutes: m.durations.length > 1 ? (m.selectedMinutes ?? m.durations.first.minutes) : null,
+              exact: m.durations.length > 1 && _chosen(m).fullMock,
               onLength: onMinutes == null || m.durations.length < 2
                   ? null
                   : (pillContext) async {
@@ -450,10 +451,13 @@ class MoveSwap extends StatelessWidget {
 
 /// "24 marks they cost you" with its figure in ink, and the length token beside it.
 class _ValueLine extends StatelessWidget {
-  const _ValueLine({this.text, this.minutes, this.onLength});
+  const _ValueLine({this.text, this.minutes, this.exact = false, this.onLength});
 
   final String? text;
   final int? minutes;
+
+  /// The length is exact (a full mock's 60 minutes), so the token drops "about".
+  final bool exact;
   final Future<void> Function(BuildContext pillContext)? onLength;
 
   @override
@@ -482,7 +486,7 @@ class _ValueLine extends StatelessWidget {
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         ?words,
-        if (m != null) Builder(builder: (pillContext) => _LengthToken(minutes: m, onTap: onLength == null ? null : () => onLength!(pillContext))),
+        if (m != null) Builder(builder: (pillContext) => _LengthToken(minutes: m, exact: exact, onTap: onLength == null ? null : () => onLength!(pillContext))),
       ],
     );
   }
@@ -490,9 +494,10 @@ class _ValueLine extends StatelessWidget {
 
 /// "about 12 min" as a token: the lengths open from it (TODAY-1018 2.1).
 class _LengthToken extends StatelessWidget {
-  const _LengthToken({required this.minutes, this.onTap});
+  const _LengthToken({required this.minutes, this.exact = false, this.onTap});
 
   final int minutes;
+  final bool exact;
   final VoidCallback? onTap;
 
   @override
@@ -504,7 +509,7 @@ class _LengthToken extends StatelessWidget {
       visual: 36,
       child: MmPressable(
       onTap: onTap,
-      semanticsLabel: GlanceCopy.lengthTokenSemantics(minutes),
+      semanticsLabel: exact ? GlanceCopy.lengthTokenExactSemantics(minutes) : GlanceCopy.lengthTokenSemantics(minutes),
       focusRadius: MmRadius.pillAll,
       pressedScale: 0.97,
       haptic: MmPressHaptic.selection,
@@ -522,7 +527,7 @@ class _LengthToken extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(GlanceCopy.lengthToken(minutes), style: type.labelLarge.copyWith(fontSize: 14, fontWeight: FontWeight.w600, color: colors.ink)),
+                Text(exact ? GlanceCopy.lengthTokenExact(minutes) : GlanceCopy.lengthToken(minutes), style: type.labelLarge.copyWith(fontSize: 14, fontWeight: FontWeight.w600, color: colors.ink)),
                 const SizedBox(width: MmSpace.s4),
                 Icon(LucideIcons.chevronsUpDown, size: 14, color: colors.ink2),
               ],

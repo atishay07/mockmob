@@ -177,7 +177,7 @@ void main() {
     });
   });
 
-  group('practice moves offer 5, 10 and 20 questions and start the one chosen', () {
+  group('practice moves offer 5, 10, 15 and 20 questions and the full mock, and start the one chosen', () {
     int countIn(MoveHero m) => int.parse(Uri.parse((m.primary.target as GoTo).location).queryParameters['count']!);
 
     final clean = accountancyMock('clean', daysBefore(now, 1));
@@ -199,20 +199,21 @@ void main() {
           )),
     };
     for (final entry in moves.entries) {
-      test('${entry.key}: the chips are 5, 10 and 20 and the key matches the chip', () {
+      test('${entry.key}: the chips are 5, 10, 15 and 20, then the full mock, and the key matches the chip', () {
         final fresh = entry.value(null);
-        expect(fresh.durations.map((d) => d.questions), [5, 10, 20]);
+        expect(fresh.durations.map((d) => d.questions), [5, 10, 15, 20, 50]);
+        expect(fresh.durations.last.fullMock, isTrue);
         expect(fresh.durations.length, greaterThan(1), reason: 'the chooser shows whenever there is a choice');
         expect(fresh.selectedMinutes, 10);
         expect(countIn(fresh), 10);
-        for (final n in [5, 20]) {
+        for (final n in [5, 15, 20]) {
           final m = entry.value(n);
           expect(m.selectedMinutes, n);
           expect(countIn(m), n, reason: 'the started session is the chip');
           expect(m.primary.label, endsWith('$n questions'));
         }
-        // The repair's 15 is not a practice length.
-        expect(countIn(entry.value(15)), 10);
+        // The full mock is not a count: a count started from it would be 60 questions.
+        expect(entry.value(60).primary.actionType, 'mock');
       });
     }
 

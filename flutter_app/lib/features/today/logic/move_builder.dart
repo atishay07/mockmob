@@ -26,16 +26,44 @@ import 'today_model.dart';
 /// A ready repair must come from a paper at least this long (a 10-question check counts).
 const int minQuestionsForBasis = minQuestionsForRepairBasis;
 
-/// Chips for practice moves: 5, 10 and 20 questions, the lengths Practice itself offers. Practice
-/// runs a question a minute, so a chip's count is also its minutes.
-final List<int> practiceChoices = [for (final c in const [5, 10, 20]) if (practiceCounts.contains(c)) c];
+/// Lengths for practice moves: what Practice itself offers (5, 10, 15 and 20 questions), in its
+/// order. Practice runs a question a minute, so a length's count is also its minutes.
+final List<int> practiceChoices = List.unmodifiable(practiceCounts);
 
-List<DurationChoice> _practiceOptions() => [for (final c in practiceChoices) DurationChoice(minutes: c, questions: c)];
+/// The practice lengths, then the full mock as the last row (design decision D50: "How many
+/// questions?" is the one place the student sizes a paper, a full mock included).
+List<DurationChoice> _practiceOptions() => [
+      for (final c in practiceChoices) DurationChoice(minutes: c, questions: c),
+      const DurationChoice.fullMock(questions: mockQuestionCount),
+    ];
+
+const String _mockNumberLabel = 'questions in\n60 minutes';
+const String _mockMeaning = 'A full paper, timed like the real one. It shows where the marks go across every chapter at once.';
+const String _mockKey = 'Start full mock, 60 min';
+
+/// A practice move whose pill reads "Full mock" is the full mock: its number, its sentence and its
+/// key say so, and the key opens the same set-up "Full mock instead" opens (the credits rule, the
+/// confirm and the NTA rules all live there). Any other pick, or a move without that row, is
+/// returned as it is.
+MoveHero _asChosen(MoveHero m, TodayInputs i) {
+  if (i.selectedMinutes != fullMockMinutes || !m.durations.any((d) => d.fullMock)) return m;
+  return m.copyWith(
+    kind: MoveKind.mock,
+    number: '$mockQuestionCount',
+    numberLabel: _mockNumberLabel,
+    meaning: _mockMeaning,
+    summary: TodayCopy.startTimedMock(fullMockMinutes),
+    selectedMinutes: fullMockMinutes,
+    primary: TodayAction(_mockKey, GoTo(TodayLinks.fullMock(subject: m.subjectId)), startsSession: true, actionType: 'mock'),
+    // The card is the full mock now; a Full mock key beside it would say the same thing twice.
+    dropSecondary: m.secondary?.label == TodayCopy.fullMockInstead,
+  );
+}
 
 /// The practice length for a move: the student's chip, else [preferred] (10 unless the mood or
 /// the plan says otherwise).
 int _practiceCount(TodayInputs i, List<DurationChoice> options, {int preferred = 10}) =>
-    _pick(options, i.selectedMinutes, preferred: preferred).minutes;
+    _pick(options, i.selectedMinutes == fullMockMinutes ? null : i.selectedMinutes, preferred: preferred).minutes;
 
 /// "Mock 7" for a mock, "Quick 10" for practice.
 String paperLabel(List<Attempt> all, Attempt a) {
@@ -172,7 +200,14 @@ int? repairMinutesSelected(TodayInputs i, MoveFacts f) {
 String repairNumberLabel({required int n, required int chapterCount, required int minutes, required DateTime now}) =>
     n < chapterCount ? TodayCopy.mistakesInLabel(minutes) : TodayCopy.mistakesLabel(n, now);
 
-MoveHero buildMove(TodayInputs i) {
+/// The subject a day-one card is about: the one onboarding marked shakiest, else the first the
+/// student picked, else the first launch subject. The lead card and the Weak chapters line both
+/// read this, so they always name the same subject.
+String dayOneSubject(TodayInputs i) => i.profile?.weakestSubject ?? (i.subjects.isEmpty ? launchSubjectIds.first : i.subjects.first);
+
+MoveHero buildMove(TodayInputs i) => _asChosen(_buildMove(i), i);
+
+MoveHero _buildMove(TodayInputs i) {
   final f = MoveFacts(i);
   final state = nextMoveState(f.table);
   final mood = moodOf(i, f);
@@ -228,7 +263,7 @@ MoveHero buildMove(TodayInputs i) {
     case NextMoveState.newUser:
     case NextMoveState.subjectChanged:
       // No subject anywhere yet: the first launch subject, the same order the catalogue uses.
-      final subject = i.profile?.weakestSubject ?? (i.subjects.isEmpty ? launchSubjectIds.first : i.subjects.first);
+      final subject = dayOneSubject(i);
       final name = subjectName(subject);
       final at = i.profile?.firstMoveAt;
       final scheduled = at != null && at.isAfter(i.now) && i.daysSince(at) == 0;
@@ -768,7 +803,7 @@ MoveHero weakestMoveFor(
   final options = _practiceOptions();
   final count = _practiceCount(i, options);
   final name = subjectName(subject);
-  return MoveHero(
+  return _asChosen(MoveHero(
     state: NextMoveState.ready,
     mood: TodayMood.normal,
     kind: MoveKind.weakest,
@@ -789,7 +824,7 @@ MoveHero weakestMoveFor(
       startsSession: true,
       actionType: 'practice',
     ),
-  );
+  ), i);
 }
 
 /// A full mock in [subject], timed like the real one.
@@ -850,7 +885,7 @@ MoveHero otherSubjectMoveFor(TodayInputs i, {required String subject}) {
     }
   }
   final days = last == null ? null : i.daysSince(last);
-  return MoveHero(
+  return _asChosen(MoveHero(
     state: NextMoveState.ready,
     mood: TodayMood.normal,
     kind: MoveKind.otherSubject,
@@ -868,5 +903,5 @@ MoveHero otherSubjectMoveFor(TodayInputs i, {required String subject}) {
     selectedMinutes: count,
     summary: 'Practise $name',
     primary: TodayAction('Start practice, $count min', GoTo(TodayLinks.quick(subject: subject, count: count)), startsSession: true, actionType: 'practice'),
-  );
+  ), i);
 }

@@ -171,7 +171,7 @@ class _LengthRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final words = TodayCopy.lengthWords(choice);
+    final words = TodayCopy.lengthRowWords(choice);
     final gets = TodayCopy.lengthGets(choice);
     return MmPressable(
       semanticsLabel: gets == null ? words : '$words, $gets',

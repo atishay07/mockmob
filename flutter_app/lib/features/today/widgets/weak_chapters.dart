@@ -46,7 +46,10 @@ class _WeakChaptersBlockState extends State<WeakChaptersBlock> {
         ],
       );
     } else if (w.dayOne || w.rows.isEmpty) {
-      body = Text(w.dayOne ? GlanceCopy.weakDayOne : GlanceCopy.weakNone, style: type.body.copyWith(color: colors.ink2));
+      final line = !w.dayOne
+          ? GlanceCopy.weakNone
+          : (w.startChapters.isEmpty ? GlanceCopy.weakDayOne : GlanceCopy.weakDayOneStart(w.startChapters));
+      body = Text(line, style: type.body.copyWith(color: colors.ink2));
     } else {
       body = Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

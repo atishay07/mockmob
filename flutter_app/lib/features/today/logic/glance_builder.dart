@@ -15,6 +15,7 @@ import '../../result/model/next_move.dart' show ChapterCost, MoveAnalysis, MoveR
 import '../copy.dart';
 import '../copy_glance.dart';
 import '../../../core/copy/formatters.dart' show formatTime12;
+import '../../onboarding/data/chapter_order.dart' show rankedChapters;
 import 'links.dart';
 import 'move_builder.dart';
 import 'road_board.dart';
@@ -350,7 +351,7 @@ RoadLayers buildRoadLayers(TodayInputs i, {required RoadBoard board, MoveHero? l
 WeakChapters buildWeakChapters(TodayInputs i) {
   if (i.attempts == null) return WeakChapters(failed: i.attemptsFailed);
   final all = i.attempts!;
-  if (all.isEmpty) return const WeakChapters(dayOne: true);
+  if (all.isEmpty) return WeakChapters(dayOne: true, startChapters: rankedChapters(canonicalSubject(dayOneSubject(i))) ?? const []);
   final papers = _opened(i).take(weakPapers).toList();
   final asked = <String, int>{};
   final missed = <String, int>{};

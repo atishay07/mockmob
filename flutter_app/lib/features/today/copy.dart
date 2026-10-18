@@ -106,8 +106,11 @@ abstract final class TodayCopy {
       n >= 0 && n <= 10 ? const ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'][n] : '$n';
 
   // The hero's length pill and its panel (design critic 16 Oct, finding 1).
-  /// What the pill and a panel row say: "15 min" for a repair, "10 questions" for practice.
-  static String lengthWords(DurationChoice d) => d.questions == null ? '${d.minutes} min' : '${d.questions} questions';
+  /// What the pill says: "15 min" for a repair, "10 questions" for practice, "60 min" for the full mock.
+  static String lengthWords(DurationChoice d) => d.fullMock || d.questions == null ? '${d.minutes} min' : '${d.questions} questions';
+
+  /// What a panel row says: the pill's words, and for the full mock its whole size, "Full mock: 50 questions, 60 min".
+  static String lengthRowWords(DurationChoice d) => d.fullMock ? 'Full mock: ${d.questions} questions, ${d.minutes} min' : lengthWords(d);
 
   /// What a length gets, beside it in the panel: "2 to repair". Null for practice, whose row
   /// already says its count.
