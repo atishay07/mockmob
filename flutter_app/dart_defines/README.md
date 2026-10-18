@@ -10,6 +10,7 @@ Keep real value files here as `*.json`. They are ignored by git (`dart_defines/.
 | `SUPABASE_ANON_KEY` | Supabase anon key (public, protected by row level security). | none, required |
 | `GOOGLE_WEB_CLIENT_ID` | Google OAuth web client id. When empty, Google sign-in is hidden. | empty |
 | `FRESH_CHECKS_LIVE` | Content gate for fresh-question checks. Keep `false` until the owner opens it. | `false` |
+| `PLAY_BILLING` | Pro and AI credit packs through Google Play Billing (lib/core/billing). Off: nothing of it shows. Turn on only with the Play Console products live and the server flag on. | `false` |
 
 ## Development against the local staging server
 

@@ -11,6 +11,7 @@ class AppConfig {
     this.freshChecksLive = false,
     this.googleSignInModeName = 'auto',
     this.phoneSignInEnabled = false,
+    this.playBilling = false,
   });
 
   /// Reads the compile-time defines. `API_BASE_URL` defaults to the production `www` host:
@@ -22,7 +23,8 @@ class AppConfig {
         googleWebClientId = const String.fromEnvironment('GOOGLE_WEB_CLIENT_ID'),
         freshChecksLive = const bool.fromEnvironment('FRESH_CHECKS_LIVE'),
         googleSignInModeName = const String.fromEnvironment('GOOGLE_SIGN_IN', defaultValue: 'auto'),
-        phoneSignInEnabled = const bool.fromEnvironment('PHONE_SIGN_IN');
+        phoneSignInEnabled = const bool.fromEnvironment('PHONE_SIGN_IN'),
+        playBilling = const bool.fromEnvironment('PLAY_BILLING');
 
   final String apiBaseUrl;
   final String supabaseUrl;
@@ -38,6 +40,11 @@ class AppConfig {
   /// `PHONE_SIGN_IN`: phone sign-in by SMS code. Off until the owner sets up an SMS provider
   /// (docs/AUTH.md, "Phone sign-in").
   final bool phoneSignInEnabled;
+
+  /// `PLAY_BILLING`: Pro and AI credit packs through Google Play Billing. Off by default: with it off
+  /// nothing of it shows and the app behaves as it did before (lib/core/billing). The server has its own
+  /// flag (`POST /api/billing/play/verify` answers 404 while that one is off).
+  final bool playBilling;
 
   GoogleSignInMode get googleSignInMode => switch (googleSignInModeName.trim().toLowerCase()) {
         'native' => GoogleSignInMode.native,
