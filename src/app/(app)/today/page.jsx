@@ -24,8 +24,8 @@ import { alternatives as buildAlternatives, buildMove, clock, fitMove } from '@/
 import { choiceMoves, keepLength, leadOf, pickChoices, pickKey, readLength, refit } from '@/lib/today/lead.mjs';
 import { firstWeekClock, firstWeekPath, stepOfDay, withFirstWeek } from '@/lib/today/firstWeek.mjs';
 import { firstTimedMockHref } from '@/../data/first_timed_mock';
-import { TEST_MODES, practiceCreditCost } from '@/../data/test_modes';
-import { usesLine } from '@/lib/creditCopy.mjs';
+import { priceLineOf } from '@/lib/today/priceLine.mjs';
+import { useMyDailySet } from '@/components/useMyDailySet';
 import { greetingAt } from '@/lib/today/greeting.mjs';
 import { freshPaper, reelSeen } from '@/lib/today/paperReel.mjs';
 import { todayKeyIn } from '@/lib/today/week.mjs';
@@ -146,15 +146,9 @@ export default function Today() {
   // free account names its practice credits and the balance (Pro includes both, so nothing is printed).
   const premium = Boolean(user?.isPremium);
   const balance = Number.isFinite(Number(user?.creditBalance)) ? Number(user.creditBalance) : null;
-  const priceOf = useCallback((m) => {
-    if (m.id === 'revise') return 'Free. No credits.';
-    if (premium || m.aiEach || ['resume', 'check', 'done', 'plan'].includes(m.id) || (m.id === 'returning' && m.open > 0)) return null;
-    const mock = m.kind === 'mock' || m.id === 'firstMock';
-    // A practice set is 1 credit a question, so the cost follows the set's own size (its link carries count=); a mock is 50.
-    const asked = Number(/[?&]count=(\d+)/.exec(m.key?.href || m.href || '')?.[1]);
-    const cost = mock ? practiceCreditCost('full', TEST_MODES.full.fixedCount) : practiceCreditCost('quick', Number.isFinite(asked) && asked > 0 ? asked : m.number) ?? practiceCreditCost('quick', TEST_MODES.quick.defaultCount);
-    return cost > 0 ? usesLine({ what: mock ? 'This mock' : 'This set', cost, pool: 'practice', balance }) : null;
-  }, [premium, balance]);
+  // Today's included 10-question set, read from the server quote like Practice does (src/lib/dailySet.mjs).
+  const dailySet = useMyDailySet();
+  const priceOf = useCallback((m) => priceLineOf(m, { premium, balance, dailySet }), [premium, balance, dailySet]);
   const reviseSubjects = reviseData?.subjects;
   const finish = useCallback((m) => {
     if (!m || m.id === 'failed') return m;
@@ -197,7 +191,8 @@ export default function Today() {
   // The first screen lands in one piece (W-042): the lead also waits for the reads This week, Road to CUET and Weak chapters draw
   // from (the rhythm, the road, the study days, the record), under the same 1.5 s cap, so the lead, the week, the road and the
   // weak chapters appear together instead of the glance column arriving 240 to 400 ms after the lead.
-  const holdForPage = !waitedOut && [data.rhythm, data.road, data.goal, insights].some((r) => r.status === 'loading');
+  // The lead's price line waits for the allowance read too (a free set must never flash "uses 10 credits" first), under the same cap.
+  const holdForPage = !waitedOut && ([data.rhythm, data.road, data.goal, insights].some((r) => r.status === 'loading') || Boolean(userId && !premium && dailySet === 'unknown'));
   // The other moves, each a whole move (Repair, Revise, the weakest chapter, a full mock, another subject).
   const subjects = user?.subjects;
   const pool = useMemo(() => (rec && rec.id !== 'failed' ? choiceMoves({

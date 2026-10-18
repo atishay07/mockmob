@@ -13,6 +13,7 @@ import { costLine, SESSION } from '../../src/components/start/startModel.mjs';
 import { PRACTICE_PRICE, PRACTICE_PRICE_LINE, PRACTICE_PRICE_TAIL } from '../../src/lib/creditCopy.mjs';
 import { FAQ_ITEMS } from '../../src/lib/helpFaq.mjs';
 import { NEXT_MOVE_RULES } from '../result_next_move.mjs';
+import { countHint } from '../../src/lib/dailySet.mjs';
 
 const file = (rel) => readFileSync(new URL(`../../${rel}`, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 const MIGRATION = file('supabase/migrations/20261018170000_practice_credit_per_question.sql');
@@ -159,16 +160,21 @@ test('the Start sheet and the dashboard show each count with its own cost; Pro s
   assert.deepEqual([5, 10, 15, 20].map((n) => costLine('quick', { count: n, short: true }).text), ['5 credits', '10 credits', '15 credits', '20 credits']);
   assert.equal(costLine('quick', { count: 15, pro: true }).text, 'Included with Pro.');
   const dash = file('src/app/(app)/dashboard/DashboardPageClient.jsx');
-  assert.match(dash, /hint: `\$\{practiceCreditCost\(mode\.id, n\)\} credits`/);
-  assert.match(dash, /isPremium \|\| !practiceCreditCost\(mode\.id, n\)/);
+  assert.match(dash, /\.\.\.countHintFor\(n\)/);
+  assert.match(dash, /countHint\(mode\.id, n, \{ isPremium, dailySet: dailyNow \}\)/);
+  // The count hint is one pure helper: each count its own cost, Pro none, and the 10 follows the allowance (see the allowance tests below).
+  assert.deepEqual([5, 10, 15, 20].map((n) => countHint('quick', n)), ['5 credits', '10 credits', '15 credits', '20 credits']);
+  assert.equal(countHint('quick', 15, { isPremium: true }), null);
 });
 
 test('Today and the result page price a set by its size, a mock at 50', () => {
   assert.equal(NEXT_MOVE_RULES.practiceCost, 10);
   assert.equal(NEXT_MOVE_RULES.fullMockCost, 50);
-  const today = file('src/app/(app)/today/page.jsx');
-  assert.match(today, /practiceCreditCost\('quick'/);
-  assert.match(today, /practiceCreditCost\('full', TEST_MODES\.full\.fixedCount\)/);
+  // Today's line is one pure function (src/lib/today/priceLine.mjs): a set by its link's count, a mock at 50.
+  const price = file('src/lib/today/priceLine.mjs');
+  assert.match(price, /practiceCreditCost\('quick'/);
+  assert.match(price, /practiceCreditCost\('full', TEST_MODES\.full\.fixedCount\)/);
+  assert.match(file('src/app/(app)/today/page.jsx'), /priceLineOf\(m, \{ premium, balance, dailySet \}\)/);
 });
 
 // ---- the database -------------------------------------------------------------------------------------------------
@@ -328,4 +334,265 @@ test('the migration changes only the price map: no table, grant, policy or other
   assert.match(code, /set search_path to 'public', 'pg_temp'/, "production's search_path is kept");
   for (const [action, amount] of [['attempt_5', 5], ['attempt_10', 10], ['attempt_15', 15], ['attempt_20', 20], ['attempt', 10], ['attempt_full', 50], ['generate', 10]])
     assert.match(code, new RegExp(`WHEN '${action}'\\s+THEN ${amount}\\b`), action);
+});
+
+// =====================================================================================================================
+// Release 9 part A, verifier fixes (18 Oct 2026). No surface may price today's included 10-question set at 10 credits.
+// =====================================================================================================================
+import { DAILY_FREE_LINE, DAILY_FREE_SHORT, DAILY_SET, PRICE_AT_START_LINE, dailySetFromQuote, dailySetState } from '../../src/lib/dailySet.mjs';
+import { readDailySet, forgetDailySet } from '../../src/lib/useDailySet.js';
+import { priceLineOf } from '../../src/lib/today/priceLine.mjs';
+import { startRows, heroFromPlan } from '../../src/components/start/startModel.mjs';
+import { nextMove, analysisFromRows, practiceCostLine, chapterPracticeClause } from '../result_next_move.mjs';
+import { reviewInput } from '../review_input.mjs';
+import { quickQuestionsFor } from '../../src/lib/creditCopy.mjs';
+import { spendWithLegacyFallback, LEGACY_QUICK_ACTION } from '../practice_charge.js';
+import { createHash } from 'node:crypto';
+
+const RAW = (rel) => readFileSync(new URL(`../../${rel}`, import.meta.url), 'utf8');
+const quoteWith = (allowance, over = {}) => buildPracticeQuote({ user: free(40), subject: 'accountancy', mode: 'quick', count: 10, inventory, token: 'tok-123456789012', now: 0, allowance, ...over });
+
+test('dailySetFromQuote reads the quote the way Practice does: available is free, used and off are priced, a failed read or a blocked quote is unknown', () => {
+  assert.equal(dailySetFromQuote(quoteWith({ enabled: true, used: false })), DAILY_SET.free);
+  assert.equal(dailySetFromQuote(quoteWith({ enabled: true, used: true })), DAILY_SET.priced, "today's set is used");
+  assert.equal(dailySetFromQuote(quoteWith({ enabled: false, used: null })), DAILY_SET.priced, 'the allowance is off: every 10-question set is 10 credits, and that is true');
+  assert.equal(dailySetFromQuote(quoteWith({ enabled: true, used: null })), DAILY_SET.unknown, 'the allowance read failed');
+  assert.equal(dailySetFromQuote(quoteWith({ enabled: true, used: false }, { inventory: { state: 'unavailable' } })), DAILY_SET.unknown, 'blocked before the allowance step');
+  assert.equal(dailySetFromQuote(null), DAILY_SET.unknown);
+  assert.equal(dailySetFromQuote({ state: 'unavailable', reasonCode: 'unauthenticated' }), DAILY_SET.unknown);
+  assert.equal(dailySetState('free'), 'free');
+  assert.equal(dailySetState('unknown'), 'unknown');
+  assert.equal(dailySetState(undefined), 'priced', 'a caller that never reads the allowance keeps the words as they were');
+  assert.equal(quoteWith({ enabled: true, used: false }).creditCost, 0, 'and the quote itself charges 0 for it');
+});
+
+test('the read behind it is one shared, read-only GET of the quote, kept a minute, never kept when it fails', async () => {
+  forgetDailySet();
+  const calls = [];
+  const fetcher = async (url, init) => { calls.push([url, init]); return { ok: true, json: async () => quoteWith({ enabled: true, used: false }) }; };
+  const [a, b] = await Promise.all([readDailySet('u1', 'economics', { fetcher }), readDailySet('u1', 'economics', { fetcher })]);
+  assert.deepEqual([a, b], ['free', 'free']);
+  assert.equal(calls.length, 1, 'two surfaces, one request');
+  assert.match(calls[0][0], /^\/api\/practice\/quote\?subject=economics&mode=quick&count=10$/);
+  assert.equal(calls[0][1].method, undefined, 'a GET: the quote never charges, reserves or creates a session');
+  assert.equal(await readDailySet('u1', 'economics', { fetcher }), 'free');
+  assert.equal(calls.length, 1, 'fresh for a minute');
+  assert.equal(await readDailySet('u1', 'economics', { fetcher, now: () => Date.now() + 61_000 }), 'free');
+  assert.equal(calls.length, 2, 'then it asks again');
+  forgetDailySet('u1');
+  const down = async () => { throw new TypeError('offline'); };
+  assert.equal(await readDailySet('u2', null, { fetcher: down }), 'unknown');
+  assert.equal(await readDailySet('u2', null, { fetcher: async () => ({ ok: false }) }), 'unknown');
+  assert.equal(await readDailySet('u2', 'english', { fetcher }), 'free', 'a failed read is not kept');
+  assert.equal(calls.at(-1)[0].includes('subject=english'), true);
+  assert.equal(await readDailySet(null, null, { fetcher }), 'unknown', 'signed out: no read');
+  await readDailySet('u3', 'not_a_launch_subject', { fetcher });
+  assert.match(calls.at(-1)[0], /subject=english/, 'a subject the quote cannot launch is replaced by one it can (the allowance is the same for every subject)');
+  forgetDailySet();
+});
+
+test('the count options: the 10 says "Free today" when the set is free, nothing when unread, 10 credits when priced; 5, 15 and 20 never change; Pro has none', () => {
+  assert.equal(countHint('quick', 10, { dailySet: 'free' }), DAILY_FREE_SHORT);
+  assert.equal(countHint('quick', 10, { dailySet: 'unknown' }), null);
+  assert.equal(countHint('quick', 10, { dailySet: 'priced' }), '10 credits');
+  assert.equal(countHint('quick', 10), '10 credits');
+  for (const n of [5, 15, 20]) for (const state of ['free', 'unknown', 'priced']) assert.equal(countHint('quick', n, { dailySet: state }), `${n} credits`, `${n} questions, ${state}`);
+  assert.equal(countHint('quick', 10, { isPremium: true, dailySet: 'free' }), null);
+  const dash = file('src/app/(app)/dashboard/DashboardPageClient.jsx');
+  assert.match(dash, /const dailyNow = quoteStatus === 'ready' && quoteMatches && isDailySet\(mode\.id, quoteCount\) \? dailySetFromQuote\(quote\) : sharedDaily;/, "the screen's own Quick 10 quote wins over the shared read");
+  assert.doesNotMatch(dash, /hint: `\$\{practiceCreditCost/, 'no hint is priced by the list price alone');
+  assert.match(dash, /forgetDailySet\(user\?\.id\)/, 'starting a set forgets the read: the included set may be used');
+});
+
+test('Today: a 10-question set is free or priceless-until-read when the allowance says so; other sizes, mocks and Pro are untouched', () => {
+  const set10 = { id: 'weakest', key: { href: '/dashboard?subject=economics&mode=quick&count=10' } };
+  const set15 = { id: 'weakest', key: { href: '/dashboard?subject=economics&mode=quick&count=15' } };
+  const mock = { id: 'firstMock', kind: 'mock', key: { href: '/dashboard?subject=economics&mode=full' } };
+  const ctx = (dailySet) => ({ premium: false, balance: 40, dailySet });
+  assert.equal(priceLineOf(set10, ctx('free')), DAILY_FREE_LINE);
+  assert.equal(priceLineOf(set10, ctx('unknown')), PRICE_AT_START_LINE);
+  assert.equal(priceLineOf(set10, ctx('priced')), 'This set uses 10 practice credits. You have 40.');
+  assert.equal(priceLineOf(set10, { premium: false, balance: 40 }), 'This set uses 10 practice credits. You have 40.', 'default is the words as they were');
+  for (const state of ['free', 'unknown', 'priced']) {
+    assert.equal(priceLineOf(set15, ctx(state)), 'This set uses 15 practice credits. You have 40.', `15 questions never read the allowance (${state})`);
+    assert.equal(priceLineOf(mock, ctx(state)), 'This mock uses 50 practice credits. You have 40.', `a mock has no free set (${state})`);
+  }
+  assert.equal(priceLineOf(set10, { premium: true, balance: 40, dailySet: 'free' }), null, 'Pro prints nothing');
+  assert.equal(priceLineOf({ id: 'revise' }, ctx('free')), 'Free. No credits.');
+  const today = file('src/app/(app)/today/page.jsx');
+  assert.match(today, /const dailySet = useMyDailySet\(\);/);
+  assert.match(today, /dailySet === 'unknown'/, 'the lead holds for the read, under the 1.5 s cap, so a free set never flashes "uses 10 credits"');
+});
+
+test('the Start sheet: a free included set reads "Free: today\'s included set." with no number or balance; unread says Practice shows the price; 15, 20, full and Pro are untouched', () => {
+  assert.equal(costLine('quick', { balance: 40, dailySet: 'free' }).text, DAILY_FREE_LINE);
+  assert.equal(costLine('quick', { balance: 40, count: 10, dailySet: 'free', short: true }).text, DAILY_FREE_SHORT);
+  assert.equal(costLine('quick', { balance: 4, dailySet: 'free' }).tone, 'cost', 'free is never "short of credits"');
+  assert.equal(costLine('quick', { balance: 40, dailySet: 'unknown' }).text, PRICE_AT_START_LINE);
+  assert.equal(costLine('quick', { balance: 40, dailySet: 'priced' }).text, 'Uses 10 of your 40 practice credits.');
+  assert.equal(costLine('quick', { balance: 40 }).text, 'Uses 10 of your 40 practice credits.', 'default as before');
+  for (const state of ['free', 'unknown']) {
+    assert.equal(costLine('quick', { balance: 40, count: 15, dailySet: state }).text, 'Uses 15 of your 40 practice credits.');
+    assert.equal(costLine('full', { balance: 60, dailySet: state }).text, 'Uses 50 of your 60 practice credits.');
+    assert.equal(costLine('quick', { pro: true, dailySet: state }).text, 'Included with Pro.');
+    assert.equal(costLine('nta', { dailySet: state }).text, 'Needs Pro.');
+  }
+  assert.equal(costLine('quick', { balance: 40, count: 7, dailySet: 'free' }).text, DAILY_FREE_LINE, 'a stray count resolves to the 10-question set the allowance covers');
+  const rows = startRows({ subjects: ['accountancy'], subject: 'accountancy', balance: 40, dailySet: 'free' });
+  assert.equal(rows.rows.find((r) => r.id === 'quick').cost.text, DAILY_FREE_SHORT);
+  assert.equal(rows.rows.find((r) => r.id === 'chapter').cost.text, DAILY_FREE_SHORT);
+  assert.equal(rows.rows.find((r) => r.id === 'full').cost.text, costLine('full', { balance: 40, short: true }).text, 'the full mock row is untouched');
+  const plan = { primary: { kind: 'ordinary_practice', title: 'Practise 10 questions', href: '/dashboard?subject=accountancy&mode=quick&count=10' }, minutes: 10 };
+  assert.equal(heroFromPlan(plan, { subject: 'accountancy', balance: 40, dailySet: 'free' })?.cost?.text, DAILY_FREE_LINE);
+  assert.match(file('src/components/start/useStartSheet.js'), /useDailySet\(\{ userId: open \? userId : null, premium: pro, subject \}\)/);
+});
+
+const paperFx = (name) => JSON.parse(readFileSync(new URL(`fixtures/result_next_move/${name}.json`, import.meta.url), 'utf8'));
+const movePaper = (name, over = {}) => { const { input } = paperFx(name); return nextMove({ ...input, analysis: analysisFromRows(input.rows), repaired: new Set(input.repaired), ...over }); };
+
+test('the result and Review next moves: free says free and names no number; unread names none; priced is the shared fixture words; a mock is still 50', () => {
+  for (const name of ['weak', 'zero_credits', 'blank']) {
+    assert.equal(movePaper(name, { dailySet: 'priced' }).cost, 'This set uses 10 practice credits. You have 40.', name);
+    assert.equal(movePaper(name).cost, 'This set uses 10 practice credits. You have 40.', `${name}: default is the shared fixture`);
+    assert.equal(movePaper(name, { dailySet: 'free' }).cost, DAILY_FREE_LINE, name);
+    assert.equal(movePaper(name, { dailySet: 'unknown' }).cost, PRICE_AT_START_LINE, name);
+  }
+  // Rule 1 on a mock: the full mock stays 50; the "or practise 10" alternative follows the allowance.
+  assert.equal(movePaper('perfect').cost, 'A full mock uses 50 practice credits. You have 40. Need 10 more. A set level comes with Pro.');
+  for (const state of ['free', 'unknown']) assert.equal(movePaper('perfect', { dailySet: state }).cost, 'A full mock uses 50 practice credits. You have 40. Need 10 more. A set level comes with Pro.', `a mock has no free set (${state})`);
+  assert.equal(movePaper('perfect').alt.label, 'Or practise 10 in Accountancy, 10 practice credits');
+  assert.equal(movePaper('perfect', { dailySet: 'free' }).alt.label, 'Or practise 10 in Accountancy, free today');
+  assert.equal(movePaper('perfect', { dailySet: 'unknown' }).alt.label, 'Or practise 10 in Accountancy');
+  // Rule 1 on a practice paper (a set, not a mock): no "Need N more" against a price that is not charged.
+  const practice = (dailySet) => nextMove({ analysis: analysisFromRows([{ qid: 'a', chapter: 'A', verdict: 'correct' }, { qid: 'b', chapter: 'A', verdict: 'correct' }]), mode: 'quick', subject: 'accountancy', subjectName: 'Accountancy', practiceCredits: 4, dailySet });
+  assert.equal(practice('priced').cost, 'This set uses 10 practice credits. You have 4. Need 6 more. A set level comes with Pro.');
+  assert.equal(practice('free').cost, `${DAILY_FREE_LINE} A set level comes with Pro.`);
+  assert.equal(practice('unknown').cost, `${PRICE_AT_START_LINE} A set level comes with Pro.`);
+  assert.equal(practiceCostLine({ isPremium: true, dailySet: 'free' }), 'Pro covers this set.');
+  // Review reads the same function through reviewInput.
+  const record = JSON.parse(readFileSync(new URL('fixtures/review/student.json', import.meta.url), 'utf8'));
+  assert.equal(reviewInput(record, { dailySet: 'free' })?.dailySet, 'free');
+  assert.equal(Object.hasOwn(reviewInput(record) || {}, 'dailySet'), false, 'left out when not read: the shared fixtures are unchanged');
+  assert.equal(chapterPracticeClause({ practiceCredits: 40 }), 'Uses 10 of your 40 credits.');
+  assert.equal(chapterPracticeClause({ practiceCredits: 4 }), 'It uses 10 credits. You have 4.');
+  assert.equal(chapterPracticeClause({ practiceCredits: null }), 'Uses 10 credits.');
+  assert.equal(chapterPracticeClause({ practiceCredits: 40, dailySet: 'free' }), DAILY_FREE_LINE);
+  assert.equal(chapterPracticeClause({ practiceCredits: 40, dailySet: 'unknown' }), PRICE_AT_START_LINE);
+  assert.equal(chapterPracticeClause({ isPremium: true, dailySet: 'free' }), 'Pro covers this set.');
+});
+
+test('no surface says "uses 10 practice credits" when the allowance says the set is free: every builder, every state', () => {
+  const lines = [];
+  const asked = { premium: false, balance: 40, dailySet: 'free' };
+  lines.push(priceLineOf({ id: 'weakest', key: { href: '/dashboard?mode=quick&count=10' } }, asked));
+  lines.push(costLine('quick', { balance: 40, dailySet: 'free' }).text, costLine('quick', { balance: 40, dailySet: 'free', short: true }).text);
+  lines.push(...startRows({ subjects: ['economics'], subject: 'economics', balance: 40, dailySet: 'free' }).rows.filter((r) => ['quick', 'chapter'].includes(r.id)).map((r) => r.cost.text));
+  for (const name of ['weak', 'zero_credits', 'blank']) lines.push(movePaper(name, { dailySet: 'free' }).cost);
+  lines.push(practiceCostLine({ practiceCredits: 40, dailySet: 'free' }), chapterPracticeClause({ practiceCredits: 40, dailySet: 'free' }), countHint('quick', 10, { dailySet: 'free' }));
+  for (const line of lines) {
+    assert.ok(line, 'a line');
+    assert.doesNotMatch(line, /\b10\b|\b40\b/, `"${line}" prices a free set`);
+  }
+  // The same for an unread allowance: no number at all.
+  const unread = [priceLineOf({ id: 'weakest', key: { href: '/dashboard?mode=quick&count=10' } }, { ...asked, dailySet: 'unknown' }), costLine('quick', { dailySet: 'unknown' }).text,
+    movePaper('weak', { dailySet: 'unknown' }).cost, chapterPracticeClause({ practiceCredits: 40, dailySet: 'unknown' }), practiceCostLine({ dailySet: 'unknown' })];
+  for (const line of unread) assert.doesNotMatch(line, /\d/, `"${line}" names a number before the allowance is read`);
+});
+
+test('every web surface that prices a 10-question set reads the allowance (wiring)', () => {
+  const surfaces = {
+    'src/app/(app)/today/page.jsx': /useMyDailySet\(\)/,
+    'src/app/(app)/result/[id]/ResultPageClient.jsx': /isPremium: Boolean\(user\?\.isPremium\), dailySet,/,
+    'src/components/review/ReviewPage.jsx': /reviewMove\(record, \{ dailySet \}\)/,
+    'src/components/review/ReviewChapters.jsx': /practiseLine\(wallet, allRepaired, dailySet\)/,
+    'src/components/revise/ReviseRun.jsx': /practiceCredits: null, dailySet \}/,
+    'src/components/start/useStartSheet.js': /startRows\(\{[^}]*dailySet \}\)/,
+    'src/app/(app)/dashboard/DashboardPageClient.jsx': /countHint\(mode\.id, n, \{ isPremium, dailySet: dailyNow \}\)/,
+  };
+  for (const [rel, pattern] of Object.entries(surfaces)) assert.match(file(rel), pattern, rel);
+  assert.match(file('src/components/review/ReviewPage.jsx'), /<Empty wallet=\{body\.wallet\} dailySet=\{dailySet\} \/>/);
+  // The Today reel builds the same next move but never renders its cost or its alternatives, so it reads nothing.
+  const reel = file('src/components/today/TodayReel.jsx') + file('src/lib/today/paperReel.mjs') + file('data/replay.js');
+  assert.doesNotMatch(reel, /move\.cost|move\.alt|\.alt\.label/, 'the reel shows no price');
+  // The pure modules are the only place the words live: no screen builds "uses 10" itself.
+  for (const rel of ['src/app/(app)/today/page.jsx', 'src/components/review/ReviewChapters.jsx', 'src/components/review/ReviewPage.jsx']) {
+    assert.doesNotMatch(file(rel), /Uses \$\{n\}|It uses \$\{n\}|usesLine\(/, `${rel} builds no price line of its own`);
+  }
+});
+
+// ---- the credits modal counts only what can be bought ---------------------------------------------------------------
+test('the credits modal: a balance buys whole 5s of questions (37 credits = 35 questions, 3 = not enough for a 5-question set)', () => {
+  assert.deepEqual([0, 3, 4, 5, 9, 10, 14, 37, 40, 100].map(quickQuestionsFor), [0, 0, 0, 5, 5, 10, 10, 35, 40, 100]);
+  assert.equal(quickQuestionsFor(null), 0);
+  assert.equal(quickQuestionsFor(NaN), 0);
+  assert.equal(quickQuestionsFor(-5), 0);
+  assert.equal(quickQuestionsFor('37'), 35);
+  const modal = file('src/components/CreditsRemainingModal.jsx');
+  assert.match(modal, /const quickQuestions = quickQuestionsFor\(safe\);/);
+  assert.match(modal, /quickQuestions > 0 \? `\$\{quickQuestions\} questions` : `Not enough for a \$\{QUICK_MIN_SET\}-question set`/);
+  assert.match(modal, /safe === 0 \? 'You are out of practice credits' : 'Not enough practice credits'/, 'a balance of 3 is not "out", and not "3 questions"');
+  assert.doesNotMatch(modal, /Math\.floor\(safe \/ TEST_MODES\.quick\.creditPerQuestion\)/);
+});
+
+// ---- a set paid on the old code can be restarted after the deploy ---------------------------------------------------
+test('a start paid as "attempt" before the deploy is recognised after it: one retry with the legacy action, only on that refusal, never a second charge', async () => {
+  const calls = [];
+  const conflict = Object.assign(new Error('credit reference already used for a different transaction'), { code: 'P0001' });
+  const old = (rows) => async (user, action, reference) => { calls.push(action); const hit = rows.get(reference); if (hit && hit !== action) throw conflict; rows.set(reference, action); return true; };
+  // Paid on the old code: the reference holds 'attempt'.
+  const rows = new Map([['practice_abc', 'attempt']]);
+  for (const action of ['attempt_5', 'attempt_10', 'attempt_15', 'attempt_20']) {
+    calls.length = 0;
+    assert.equal(await spendWithLegacyFallback(old(rows), 'u1', action, 'practice_abc'), true, action);
+    assert.deepEqual(calls, [action, LEGACY_QUICK_ACTION], `${action}: refused once, then recognised as the same spend`);
+  }
+  assert.equal(rows.get('practice_abc'), 'attempt', 'no new row was written');
+  // A fresh reference is a plain first call.
+  calls.length = 0;
+  assert.equal(await spendWithLegacyFallback(old(new Map()), 'u1', 'attempt_10', 'practice_new'), true);
+  assert.deepEqual(calls, ['attempt_10']);
+  // Not that refusal: no retry. Not a per-question action: no retry.
+  for (const [action, error] of [['attempt_10', new Error('network down')], ['attempt_10', Object.assign(new Error('insufficient'), { code: '23514' })], ['attempt_full', conflict], ['generate', conflict], ['attempt', conflict]]) {
+    calls.length = 0;
+    await assert.rejects(spendWithLegacyFallback(async (u, a) => { calls.push(a); throw error; }, 'u1', action, 'practice_x'), (e) => e === error, action);
+    assert.deepEqual(calls, [action], `${action}: one call only`);
+  }
+  // The legacy call refused too (the reference belongs to something else): the refusal is raised, not hidden.
+  await assert.rejects(spendWithLegacyFallback(async () => { throw conflict; }, 'u1', 'attempt_10', 'practice_y'), /credit reference already used/);
+  // A false (not enough credits) is passed through untouched.
+  assert.equal(await spendWithLegacyFallback(async () => false, 'u1', 'attempt_15', 'practice_z'), false);
+  const sessions = file('src/lib/server/practiceSessions.js');
+  assert.match(sessions, /await spendWithLegacyFallback\(\(u, a, r\) => Database\.spendCredits\(u, a, r\), userId, charge\.creditAction, `practice_\$\{id\}`\)/);
+});
+
+test('on PGlite with the migration: a reference paid as "attempt" refuses attempt_10, the legacy retry is recognised, and the balance is charged once', async () => {
+  const d = await database({ migrated: true });
+  try {
+    assert.equal(await spend(d, 'free', 'attempt', 'practice_resume'), true, 'paid on the old code');
+    assert.equal(await balance(d, 'free'), 90);
+    await assert.rejects(spend(d, 'free', 'attempt_10', 'practice_resume'), /credit reference already used for a different transaction/, 'the bug: refused without the fallback');
+    const ledger = async (user, action, reference) => spend(d, user, action, reference);
+    assert.equal(await spendWithLegacyFallback(ledger, 'free', 'attempt_10', 'practice_resume'), true, 'restarted after the deploy: recognised');
+    assert.equal(await balance(d, 'free'), 90, 'not charged again');
+    assert.equal(await spendWithLegacyFallback(ledger, 'free', 'attempt_15', 'practice_resume'), true, 'any per-question action: the old flat charge covers that start');
+    assert.equal(await balance(d, 'free'), 90);
+    await assert.rejects(spendWithLegacyFallback(ledger, 'pro', 'attempt_10', 'practice_resume'), /credit reference already used/, "another student's reference is still refused");
+    assert.equal((await q(d, "select count(*)::int n from credit_transactions where reference='practice_resume'"))[0].n, 1);
+  } finally { await d.close(); }
+});
+
+// ---- the migration files are LF on every checkout, so md5(prosrc) after the apply matches ---------------------------------
+test('the migration and its undo are LF on disk and hash exactly as the deploy plan checks (911105fd... after, 7decd1ff... before)', () => {
+  const md5 = (text) => createHash('md5').update(text).digest('hex');
+  const body = (text) => /\$function\$([\s\S]*?)\$function\$/.exec(text)[1];
+  const migration = RAW('supabase/migrations/20261018170000_practice_credit_per_question.sql');
+  const undo = RAW('supabase/undo/20261018170000_practice_credit_per_question.undo.sql');
+  assert.equal(migration.includes('\r'), false, 'no CR in the migration: a CRLF checkout hashed e7b4874c...');
+  assert.equal(undo.includes('\r'), false, 'no CR in the undo: a CRLF checkout hashed 8ac89ba7...');
+  assert.equal(md5(body(migration)), '911105fda93f7c1dcd687b08dd7c1059');
+  assert.equal(body(migration).length, 1666);
+  assert.equal(md5(body(undo)), PROD_MD5);
+  assert.equal(body(undo).length, PROD_LEN);
+  const attributes = RAW('.gitattributes').replace(/\r\n/g, '\n');
+  assert.match(attributes, /^supabase\/\*\*\/\*\.sql text eol=lf$/m, 'git keeps every migration and undo LF, whatever core.autocrlf is');
 });

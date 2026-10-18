@@ -18,7 +18,8 @@ import { PaperTrend } from '@/components/ai/RecordGlimpse';
 import { useRuleBook } from '@/components/rules/useRuleBook';
 import { bookRules } from '@/../data/rule_book';
 import { aiRenewsLine, shortDate } from '@/../data/review_input.mjs';
-import { NEXT_MOVE_RULES } from '@/../data/result_next_move.mjs';
+import { NEXT_MOVE_RULES, chapterPracticeClause } from '@/../data/result_next_move.mjs';
+import { useMyDailySet } from '@/components/useMyDailySet';
 import AnswerSheet from './AnswerSheet';
 import { LessonLink, subjectId } from './ChapterRows';
 import { Pair } from './PapersView';
@@ -62,15 +63,12 @@ function Pick({ letter }) {
   return <span className="rv8-pick"><i>{letter}</i>yours</span>;
 }
 
-function practiseLine(wallet, allRepaired) {
+function practiseLine(wallet, allRepaired, dailySet) {
   const lead = allRepaired ? 'Practise to prove it on new questions. ' : '';
   const n = NEXT_MOVE_RULES.setSize;
   const base = `${n} new questions, about ${n} minutes.`;
-  if (wallet?.isPremium) return `${lead}${base} Pro covers this set.`;
-  const have = Number.isFinite(wallet?.practiceCredits) ? wallet.practiceCredits : null;
-  if (have === null) return `${lead}${base} Uses ${n} credits.`;
-  if (have < NEXT_MOVE_RULES.practiceCost) return `${lead}${base} It uses ${n} credits. You have ${have}.`;
-  return `${lead}${base} Uses ${n} of your ${have} credits.`;
+  // The price follows today's included set: free names no number, an unread allowance names none (src/lib/dailySet.mjs).
+  return `${lead}${base} ${chapterPracticeClause({ isPremium: Boolean(wallet?.isPremium), practiceCredits: wallet?.practiceCredits, dailySet })}`;
 }
 
 function costLine(wallet) {
@@ -138,6 +136,7 @@ function ChapterRow({ row, open, onToggle, wallet, byUid, openUid, setOpenUid, o
   const panel = `rv8-ch-${row.id.replace(/[^A-Za-z0-9_-]/g, '-')}`;
   const href = `/dashboard?${new URLSearchParams({ subject: subjectId(row.subject), mode: 'quick', count: String(NEXT_MOVE_RULES.setSize), chapter: row.name })}`;
   const allRepaired = !row.open.length;
+  const dailySet = useMyDailySet();
   return (
     <li className="rv8-ch" data-open={open || undefined} id={`rv8-row-${row.id.replace(/[^A-Za-z0-9_-]/g, '-')}`}>
       <button type="button" className="rv8-ch__bar mk-press" aria-expanded={open} aria-controls={open ? panel : undefined} onClick={onToggle}>
@@ -151,7 +150,7 @@ function ChapterRow({ row, open, onToggle, wallet, byUid, openUid, setOpenUid, o
         <div className="rv8-ch__body" id={panel}>
           <div className="rv8-practise">
             <Link className="btn-volt rv8-volt mk-press" data-page-primary="" href={href}>Practise {NEXT_MOVE_RULES.setSize} on this chapter</Link>
-            <p>{practiseLine(wallet, allRepaired)}</p>
+            <p>{practiseLine(wallet, allRepaired, dailySet)}</p>
           </div>
           <div className="rv8-mkhead"><span>{row.open.length ? `${plural(row.open.length, 'mistake')} to repair` : 'Nothing left to repair'}</span>{row.open.length ? <small>Newest first</small> : null}</div>
           {row.open.length ? (

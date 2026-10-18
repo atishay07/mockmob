@@ -15,6 +15,7 @@
 // Logic ported from wt-web-ia (src/lib/navigation.js startActions, src/components/shell/shellModel.mjs
 // sheetRows and morphFrom, data/next_step_rules.mjs practiceHref), rebased on the live plan API.
 import { TEST_MODES, practiceCreditCost } from '../../../data/test_modes.js';
+import { DAILY_FREE_LINE, DAILY_FREE_SHORT, DAILY_SET, PRICE_AT_START_LINE, PRICE_AT_START_SHORT, dailySetState, isDailySet } from '../../lib/dailySet.mjs';
 import { CUET_MAX_SUBJECTS } from '../../lib/cuetRules.mjs';
 
 export const PRACTICE_HREF = '/dashboard';
@@ -176,11 +177,23 @@ export function sessionCost(mode, { pro = false, count = null } = {}) {
  * The cost line under a row. 'Uses 10 of your 40 practice credits.' / 'Included with Pro.' /
  * 'Needs Pro.' / 'Uses 50 practice credits. You have 40.' (not enough) / 'Uses 10 practice credits.'
  * (balance unknown). `short` drops the trailing sentence for narrow rows.
+ *
+ * Today's included 10-question set (src/lib/dailySet.mjs): when the server quote said it is free, a Quick set of 10 reads
+ * 'Free: today's included set.' and prints no number or balance; when the allowance has not been read, it prints no number
+ * and says Practice shows the price before it starts. 'priced' (the default) is the price as before. Any other count, and
+ * a full mock, are never changed by the allowance.
  */
-export function costLine(mode, { pro = false, balance = null, short = false, count = null } = {}) {
+export function costLine(mode, { pro = false, balance = null, short = false, count = null, dailySet = DAILY_SET.priced } = {}) {
   const cost = sessionCost(mode, { pro, count });
   if (cost === null) return { text: short ? 'Needs Pro' : 'Needs Pro.', tone: 'locked' };
   if (pro) return { text: short ? 'Included with Pro' : 'Included with Pro.', tone: 'included' };
+  // The count the server resolves to (a stray count becomes the default set), because that is the set the allowance covers.
+  const asked = whole(count) || SESSION.quickCount;
+  if (isDailySet(mode, practiceCreditCost(mode, asked) === null ? TEST_MODES[mode]?.defaultCount : asked)) {
+    const daily = dailySetState(dailySet);
+    if (daily === DAILY_SET.free) return { text: short ? DAILY_FREE_SHORT : DAILY_FREE_LINE, tone: 'cost' };
+    if (daily === DAILY_SET.unknown) return { text: short ? PRICE_AT_START_SHORT : PRICE_AT_START_LINE, tone: 'cost' };
+  }
   const have = whole(balance);
   // The short form fits a half-width tile on a 390 px phone in two lines at most: '50 credits. You have 40.'
   if (have === null) return { text: short ? plural(cost, 'credit') : `Uses ${plural(cost, 'practice credit')}.`, tone: 'cost' };
@@ -255,7 +268,7 @@ export function followingTitle(mode, count, name) {
  * }
  * A practice link without a subject takes the chosen subject, so it opens set up for it.
  */
-export function heroFromPlan(plan, { subject = null, pro = false, balance = null, tonightKey = null } = {}) {
+export function heroFromPlan(plan, { subject = null, pro = false, balance = null, tonightKey = null, dailySet = DAILY_SET.priced } = {}) {
   const primary = plan?.primary;
   const href = safeHref(primary?.href);
   if (!primary || !href || !primary.title) return null;
@@ -295,7 +308,7 @@ export function heroFromPlan(plan, { subject = null, pro = false, balance = null
     cta: known.cta,
     graphic: known.graphic === 'subject' && !linked && !subjectFor(subject) ? 'check' : known.graphic,
     subject: linked || (known.graphic === 'subject' ? subjectFor(subject)?.id || null : null),
-    cost: practice && TEST_MODES[mode] ? costLine(mode, { pro, balance, count }) : null,
+    cost: practice && TEST_MODES[mode] ? costLine(mode, { pro, balance, count, dailySet }) : null,
     quick: practice && mode === 'quick' && count === SESSION.quickCount,
   };
 }
@@ -311,12 +324,13 @@ export function heroFromPlan(plan, { subject = null, pro = false, balance = null
  * @param {boolean} o.pro
  * @param {number|null} o.balance  practice credits, null when unknown
  * @param {string|null} o.tonightKey the key Today's plan uses to record tonight's practice
+ * @param {'free'|'priced'|'unknown'} [o.dailySet] what the server quote said about today's included 10-question set
  * @returns {{ hero: object|null, rows: object[], choose: object }}
  */
-export function startRows({ plan = null, subjects = [], subject = null, pro = false, balance = null, tonightKey = null } = {}) {
+export function startRows({ plan = null, subjects = [], subject = null, pro = false, balance = null, tonightKey = null, dailySet = DAILY_SET.priced } = {}) {
   const chosen = subjectFor(subject)?.id || subjects[0] || null;
   const name = subjectName(chosen);
-  const hero = heroFromPlan(plan, { subject: chosen, pro, balance, tonightKey });
+  const hero = heroFromPlan(plan, { subject: chosen, pro, balance, tonightKey, dailySet });
   const rows = [];
   // Every session names what pressing it does (owner F5): 'Set up' opens Practice set up for it (nothing is spent there),
   // 'Pick chapters' opens it with the chapter list open, 'Open Practice' opens it to choose.
@@ -324,7 +338,7 @@ export function startRows({ plan = null, subjects = [], subject = null, pro = fa
   // resume, a repair, a linked subject) does not follow the chips, so the Quick practice row comes back under them.
   if (!(hero?.quick && hero?.followsSubject)) {
     rows.push({ id: 'quick', title: 'Quick practice', detail: `${SESSION.quickCount} ${name ? `${name} ` : ''}questions, about ${SESSION.quickMinutes} minutes`,
-      href: practiceHref({ subject: chosen, mode: 'quick', count: SESSION.quickCount }), graphic: 'subject', subject: chosen, cost: costLine('quick', { pro, balance, short: true }), badge: String(SESSION.quickCount), go: 'start', action: 'Set up' });
+      href: practiceHref({ subject: chosen, mode: 'quick', count: SESSION.quickCount }), graphic: 'subject', subject: chosen, cost: costLine('quick', { pro, balance, short: true, dailySet }), badge: String(SESSION.quickCount), go: 'start', action: 'Set up' });
   }
   rows.push({ id: 'full', title: 'Full mock', detail: `${SESSION.fullCount} ${name ? `${name} ` : ''}questions, ${SESSION.fullMinutes} minutes, a new paper every time`,
     href: practiceHref({ subject: chosen, mode: 'full' }), graphic: 'stopwatch', subject: chosen, cost: costLine('full', { pro, balance, short: true }), go: 'start', action: 'Set up' });
@@ -335,7 +349,7 @@ export function startRows({ plan = null, subjects = [], subject = null, pro = fa
   // By chapter is Quick practice with the chapters asked first (the app's entry, START-1017 A-rule 2): it opens Practice
   // with the chapter list open.
   rows.push({ id: 'chapter', title: 'By chapter', detail: `Pick ${name ? `${name} ` : ''}chapters, then ${SESSION.quickCount} questions`,
-    href: practiceHref({ subject: chosen, mode: 'quick', count: SESSION.quickCount, pick: 'chapters' }), graphic: 'chapters', subject: chosen, cost: costLine('quick', { pro, balance, short: true }), go: 'start', action: 'Pick chapters' });
+    href: practiceHref({ subject: chosen, mode: 'quick', count: SESSION.quickCount, pick: 'chapters' }), graphic: 'chapters', subject: chosen, cost: costLine('quick', { pro, balance, short: true, dailySet }), go: 'start', action: 'Pick chapters' });
   rows.push({ id: 'smart', title: 'Smart practice', detail: `${SESSION.smartCount} ${name ? `${name} ` : ''}questions on the topics you miss most`,
     href: practiceHref({ subject: chosen, mode: 'smart' }), graphic: 'weights', subject: chosen, cost: costLine('smart', { pro, balance, short: true }), tag: SESSION.smartPro && !pro ? 'Pro' : null, go: 'start', action: 'Set up' });
   const choose = { id: 'choose', title: 'Choose your own', detail: 'Any subject, chapters, mode and length', href: PRACTICE_HREF, graphic: 'fan', subjects: subjects.slice(0, 3), go: 'open', action: 'Open' };

@@ -18,7 +18,10 @@ import { SegmentedControl as Segmented } from '@/components/ui/controls/Segmente
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import { ExamPanel, Stopwatch, WeightsGlyph } from '@/components/start/StartArt';
 import { LIFE, tapKeyframes } from '@/components/brand/ObjectLifeModel.mjs';
-import { TEST_MODES, fineTuneScope, resolveCount, practiceCreditCost } from '@/../data/test_modes';
+import { TEST_MODES, fineTuneScope, resolveCount } from '@/../data/test_modes';
+import { countHint, dailySetFromQuote, isDailySet } from '@/lib/dailySet.mjs';
+import { forgetDailySet } from '@/lib/useDailySet';
+import { useMyDailySet } from '@/components/useMyDailySet';
 import { MODE_CAPABILITIES } from '@/../data/capabilities';
 import { retiredSubjectEntry } from '@/../data/subject_claim';
 import StartRule, { useStartRule } from './StartRule';
@@ -319,6 +322,11 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
   // The rule the student chose for their next mock (the Rule book), on this card before the clock starts: Full and NTA only.
   const startSheet = useStartRule(status === 'ready' ? selSubj : null, effectiveModeId);
   const quoteLaunchable = quoteStatus === 'ready' && quoteMatches && quote.launchable === true;
+  // The 10-question option's price follows the allowance, read the way the quote reads it: this screen's own Quick 10 quote while it is
+  // the one on show, else the shared read (src/lib/dailySet.mjs). A free included set is never priced at 10 credits.
+  const sharedDaily = useMyDailySet();
+  const dailyNow = quoteStatus === 'ready' && quoteMatches && isDailySet(mode.id, quoteCount) ? dailySetFromQuote(quote) : sharedDaily;
+  const countHintFor = (n) => { const hint = countHint(mode.id, n, { isPremium, dailySet: dailyNow }); return hint ? { hint } : {}; };
 
   useEffect(() => {
     if (status !== 'ready' || !selSubj) return;
@@ -465,6 +473,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
     setCreditError(null);
     setIsLaunching(true);
     launchingKeyRef.current = launchingKeyRef.current || quote.idempotencyToken;
+    forgetDailySet(user?.id); // starting a set may use today's included one: the next read asks the server again
     setLaunchSuccess(`Launching ${mode.label}…`);
     toast.success('Starting your session…');
     const tonight = new URLSearchParams();
@@ -654,7 +663,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
               {mode.fixedCount ? (
                 <p className="pr-fixed"><b>{mode.fixedCount} questions</b><span>{minutes} minutes, one sitting, exam timing</span></p>
               ) : (
-                <Segmented label="Number of questions" value={count} options={(mode.countOptions || [5, 10, 15, 20]).map((n) => ({ value: n, label: String(n), ...(isPremium || !practiceCreditCost(mode.id, n) ? {} : { hint: `${practiceCreditCost(mode.id, n)} credits` }) }))} onChange={setCount} />
+                <Segmented label="Number of questions" value={count} options={(mode.countOptions || [5, 10, 15, 20]).map((n) => ({ value: n, label: String(n), ...countHintFor(n) }))} onChange={setCount} />
               )}
             </section>
 

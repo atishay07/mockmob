@@ -7,6 +7,7 @@
 // Every number comes from the scored attempt (data/session_recovery.js analyseSession), the server's repair order
 // (lab.repairOrder), the key checks (answerReviews) or the wallet. Nothing is invented: an unknown balance has no number.
 import { usesLine, haveLine } from '../src/lib/creditCopy.mjs';
+import { DAILY_FREE_LINE, DAILY_SET, PRICE_AT_START_LINE, dailySetState } from '../src/lib/dailySet.mjs';
 import { TEST_MODES, practiceCreditCost } from './test_modes.js';
 
 const SET_SIZE = 10;
@@ -192,10 +193,33 @@ export function repairCostLine(aiCredits) {
   return ['1 AI credit.', have, 'No charge if the repair cannot be written.'].filter(Boolean).join(' ');
 }
 
-/** The cost of a 10-question chapter set: Pro covers it; otherwise practice credits and the balance. */
-export function practiceCostLine({ isPremium = false, practiceCredits = null } = {}) {
+/**
+ * The cost of a 10-question chapter set: Pro covers it; otherwise practice credits and the balance. `dailySet` is what the
+ * server quote said about today's included 10-question set (src/lib/dailySet.mjs): 'free' says the set is free and names no
+ * number, 'unknown' names no number and says Practice shows the price; 'priced' (the default) is the price as it was.
+ */
+export function practiceCostLine({ isPremium = false, practiceCredits = null, dailySet = DAILY_SET.priced } = {}) {
   if (isPremium) return 'Pro covers this set.';
+  const daily = dailySetState(dailySet);
+  if (daily === DAILY_SET.free) return DAILY_FREE_LINE;
+  if (daily === DAILY_SET.unknown) return PRICE_AT_START_LINE;
   return usesLine({ what: 'This set', cost: NEXT_MOVE_RULES.practiceCost, pool: 'practice', balance: practiceCredits });
+}
+
+/**
+ * The price clause of Review's chapter row, after "10 new questions, about 10 minutes." Pro covers it; today's included set is
+ * free and names no number; an unread allowance names no number; otherwise the credits and the balance as before.
+ */
+export function chapterPracticeClause({ isPremium = false, practiceCredits = null, dailySet = DAILY_SET.priced } = {}) {
+  if (isPremium) return 'Pro covers this set.';
+  const daily = dailySetState(dailySet);
+  if (daily === DAILY_SET.free) return DAILY_FREE_LINE;
+  if (daily === DAILY_SET.unknown) return PRICE_AT_START_LINE;
+  const n = NEXT_MOVE_RULES.setSize;
+  const have = Number.isFinite(practiceCredits) ? practiceCredits : null;
+  if (have === null) return `Uses ${n} credits.`;
+  if (have < NEXT_MOVE_RULES.practiceCost) return `It uses ${n} credits. You have ${have}.`;
+  return `Uses ${n} of your ${have} credits.`;
 }
 
 // Practice's own setup, with the subject, the chapter and the count already chosen (the dashboard reads them).
@@ -222,6 +246,7 @@ const practiseHref = ({ subject, chapter = null }) => {
  *   checks         { [qid]: 'right' | 'wrong' } checks the server has marked
  *   aiCredits      number, or null when unknown
  *   practiceCredits, isPremium
+ *   dailySet       'free' | 'priced' | 'unknown': what the server quote said about today's included 10-question set (default 'priced')
  *   mode           'quick' | 'full' | 'nta' | 'smart' | null
  *   subject, subjectName
  *   labReady       the Lab's checks are ready (the value line names the check only then)
@@ -232,7 +257,7 @@ const practiseHref = ({ subject, chapter = null }) => {
  *   target   { qid, number, chapter } for repair and check; { chapter, href } for practise and harder
  *   alt      { kind: 'repair' | 'practise' | 'paper' | 'credits', label, target } or null
  */
-export function nextMove({ analysis, answerReviews = {}, repairOrder = null, repaired = new Set(), checks = {}, aiCredits = null, practiceCredits = null, isPremium = false, mode = null, subject = '', subjectName = '', labReady = true, hour = null } = {}) {
+export function nextMove({ analysis, answerReviews = {}, repairOrder = null, repaired = new Set(), checks = {}, aiCredits = null, practiceCredits = null, isPremium = false, dailySet = DAILY_SET.priced, mode = null, subject = '', subjectName = '', labReady = true, hour = null } = {}) {
   const marks = analysis?.marks;
   if (!marks) return null;
   const subjectLabel = subjectName || 'this subject';
@@ -250,7 +275,7 @@ export function nextMove({ analysis, answerReviews = {}, repairOrder = null, rep
       kind: 'practise', rule,
       label: chapter ? `Practise ${NEXT_MOVE_RULES.setSize} on ${chapter}` : `Practise ${NEXT_MOVE_RULES.setSize} in ${subjectLabel}`,
       why, value: null,
-      cost: practiceCostLine({ isPremium, practiceCredits }),
+      cost: practiceCostLine({ isPremium, practiceCredits, dailySet }),
       late: null,
       alt: repairFirst ? { kind: 'repair', label: `Or repair Q${repairFirst.number}, 1 AI credit`, target: { qid: repairFirst.q.id, number: repairFirst.number, chapter: repairFirst.chapter } }
         : noAi && open.length ? { kind: 'credits', label: 'See your AI credits', target: { href: '/pricing/ai-credits' } } : null,
@@ -276,19 +301,24 @@ export function nextMove({ analysis, answerReviews = {}, repairOrder = null, rep
       };
     }
     const price = mock ? NEXT_MOVE_RULES.fullMockCost : NEXT_MOVE_RULES.practiceCost;
-    const short = Number.isFinite(practiceCredits) && practiceCredits < price ? price - practiceCredits : 0;
+    // Today's included 10-question set is the only price the allowance changes: a full mock is always 50 and has no free set.
+    const daily = dailySetState(dailySet);
+    const setLine = !mock && daily !== DAILY_SET.priced ? practiceCostLine({ isPremium, practiceCredits, dailySet: daily }) : null;
+    const short = !setLine && Number.isFinite(practiceCredits) && practiceCredits < price ? price - practiceCredits : 0;
     const cost = [
-      usesLine({ what: mock ? 'A full mock' : 'This set', cost: price, pool: 'practice', balance: practiceCredits }),
+      setLine || usesLine({ what: mock ? 'A full mock' : 'This set', cost: price, pool: 'practice', balance: practiceCredits }),
       short ? `Need ${short} more.` : null,
       'A set level comes with Pro.',
     ].filter(Boolean).join(' ');
+    // "Or practise 10 in X, 10 practice credits" is the same set under the full mock: it follows the allowance too.
+    const altPrice = daily === DAILY_SET.free ? ', free today' : daily === DAILY_SET.unknown ? '' : `, ${NEXT_MOVE_RULES.practiceCost} practice credits`;
     return {
       kind: 'harder', rule: 1,
       label: mock ? 'Take another full mock' : `Practise ${NEXT_MOVE_RULES.setSize} more in ${subjectLabel}`,
       why: 'Another fresh paper finds what is left to fix.',
       value: null, cost, late: null,
       alt: mock
-        ? { kind: 'practise', label: `Or practise ${NEXT_MOVE_RULES.setSize} in ${subjectLabel}, ${NEXT_MOVE_RULES.practiceCost} practice credits`, target: { chapter: null, href: practiseHref({ subject }) } }
+        ? { kind: 'practise', label: `Or practise ${NEXT_MOVE_RULES.setSize} in ${subjectLabel}${altPrice}`, target: { chapter: null, href: practiseHref({ subject }) } }
         : { kind: 'paper', label: 'Take another fresh paper', target: null },
       note: null,
       target: { chapter: null, href: mock ? mockHref : practiseHref({ subject }) },

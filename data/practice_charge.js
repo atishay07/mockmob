@@ -16,3 +16,23 @@ export function practiceCharge({ isPremium = false, mobPaper = null, modeId, cre
   if (purpose === 'full_sample' && modeId === 'full' && FREE_SAMPLE_SUBJECTS.includes(subject)) quota = `full_sample:${subject}`;
   return { creditAction: creditAction || null, quota };
 }
+
+// Before release 9 every Quick set was charged under the flat action 'attempt' (10 credits). A device-held start that was
+// paid on the old code and is restarted after the deploy (same generationKey, so the same `practice_<id>` reference) would send
+// 'attempt_N' for that reference; spend_credits finds the older row, sees a different action and raises "credit reference
+// already used for a different transaction", so a student who already paid could not resume. The fallback asks again with the
+// legacy action ONLY after that exact refusal: the reference then already exists, so the second call can only be recognised
+// as the same spend (same user, 'attempt', -10) and return true, or raise again. It can never charge a second time.
+export const LEGACY_QUICK_ACTION = 'attempt';
+const REFERENCE_CONFLICT = /credit reference already used/i;
+
+export async function spendWithLegacyFallback(spend, userId, action, reference) {
+  try {
+    return await spend(userId, action, reference);
+  } catch (error) {
+    if (typeof action === 'string' && /^attempt_(5|10|15|20)$/.test(action) && REFERENCE_CONFLICT.test(String(error?.message || ''))) {
+      return spend(userId, LEGACY_QUICK_ACTION, reference);
+    }
+    throw error;
+  }
+}

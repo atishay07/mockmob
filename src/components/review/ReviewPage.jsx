@@ -23,6 +23,7 @@ import ReceiptStrip from './ReceiptStrip';
 import ChapterRows, { ItemList } from './ChapterRows';
 import PapersView from './PapersView';
 import ReviewChapters from './ReviewChapters';
+import { useMyDailySet } from '@/components/useMyDailySet';
 import './review-1017.css';
 
 const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
@@ -61,7 +62,7 @@ function Failed({ cause, at, onRetry, retrying }) {
   );
 }
 
-function Empty({ wallet }) {
+function Empty({ wallet, dailySet }) {
   const { user } = useAuth();
   const first = SUBJECTS.find((s) => s.id === (user?.subjects || [])[0]) || SUBJECTS.find((s) => s.id === 'accountancy');
   const href = `/dashboard?${new URLSearchParams({ subject: first?.id || '', mode: 'quick', count: '10' })}`;
@@ -77,7 +78,7 @@ function Empty({ wallet }) {
         <span>Mock 1, 12 Oct, 8:40 PM. Cost you 6 marks</span>
       </div>
       <Link className="btn-volt rvw-state__key mk-press" data-page-primary="" href={href}>Start 10 questions</Link>
-      <p className="rvw-state__fine">About 10 minutes, {first?.name || 'your subject'}. {practiceCostLine({ isPremium: Boolean(wallet?.isPremium), practiceCredits: wallet?.practiceCredits ?? null })}</p>
+      <p className="rvw-state__fine">About 10 minutes, {first?.name || 'your subject'}. {practiceCostLine({ isPremium: Boolean(wallet?.isPremium), practiceCredits: wallet?.practiceCredits ?? null, dailySet })}</p>
     </section>
   );
 }
@@ -187,6 +188,7 @@ function ReviewInner({ tabParam }) {
     return open ? { chapter: open, uid: q || null, repair: false, n: 0 } : null;
   });
   const seq = useRef(0);
+  const dailySet = useMyDailySet();
 
   const load = useCallback(({ quiet = false } = {}) => {
     const mine = ++seq.current;
@@ -206,7 +208,7 @@ function ReviewInner({ tabParam }) {
 
   const body = read.status === 'ready' ? read.body : null;
   const record = useMemo(() => (body ? recordFromBody(body) : null), [body]);
-  const move = useMemo(() => (record && body.state === 'ready' ? reviewMove(record) : null), [record, body]);
+  const move = useMemo(() => (record && body.state === 'ready' ? reviewMove(record, { dailySet }) : null), [record, body, dailySet]);
   const items = useMemo(() => body?.items || [], [body]);
   const byUid = useMemo(() => new Map(items.map((i) => [i.uid, i])), [items]);
   const chapterOf = useCallback((uid) => byUid.get(uid)?.chapterId || null, [byUid]);
@@ -230,7 +232,7 @@ function ReviewInner({ tabParam }) {
 
   if (read.status === 'loading') return <><h1 className="display-md rvw-title">Review</h1><Loading /></>;
   if (read.status === 'down') return <><h1 className="display-md rvw-title">Review</h1><Failed cause={read.cause} at={read.at} onRetry={() => { setRetrying(true); load(); }} retrying={retrying} /></>;
-  if (body.state === 'empty') return <><h1 className="display-md rvw-title">Review</h1><Empty wallet={body.wallet} /></>;
+  if (body.state === 'empty') return <><h1 className="display-md rvw-title">Review</h1><Empty wallet={body.wallet} dailySet={dailySet} /></>;
 
   // Pass 1018 (REVIEW-RESULT-1018 4.1): Review leads with where you lose marks. A body without the 1018 part (an older
   // server mid-deploy) keeps the 1017 page below, so a deploy order never breaks Review.

@@ -1,8 +1,8 @@
 // One small signal between the landing's sample question and the hero keys. Once the first sample answer is in, the
-// sample card's own key ("Next question") is the one to press, so on wide screens (where the hero and the card share
-// the view) the hero's lime key steps down to the secondary style: one lime key in view (release 9, UI standard).
+// sample card's own key ("Next question") is the one to press, so at every width the hero's lime key steps down to the
+// secondary style: one lime key in view (release 9, UI standard). On a phone the hero key is still on screen under the
+// sticky nav while the sample is being answered, so a width gate left two lime keys in view there.
 export const DEMO_ANSWERED_EVENT = 'mm:demo-answered';
-export const DEMO_QUIET_QUERY = '(min-width: 960px)';
 
 let answered = false;
 
@@ -22,9 +22,9 @@ export function subscribeDemoAnswered(listener, target = typeof window === 'unde
   return () => target?.removeEventListener?.(DEMO_ANSWERED_EVENT, listener);
 }
 
-/** The hero key's class: lime until the sample is answered on a wide screen, then the secondary style. */
-export function heroKeyClass({ answered: isAnswered, wide }) {
-  return isAnswered && wide ? 'mm-btn mm-btn--secondary' : 'mm-btn mm-btn--primary';
+/** The hero key's class: lime until the sample is answered, then the secondary style, at every width. */
+export function heroKeyClass({ answered: isAnswered }) {
+  return isAnswered ? 'mm-btn mm-btn--secondary' : 'mm-btn mm-btn--primary';
 }
 
 /** Test hook only. */

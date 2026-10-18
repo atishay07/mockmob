@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import { Icon } from '@/components/ui/Icons';
 import { TEST_MODES } from '@/../data/test_modes';
+import { quickQuestionsFor } from '@/lib/creditCopy.mjs';
 
 const QUICK_MIN_SET = Math.min(...TEST_MODES.quick.countOptions);  // the smallest Quick set, in questions: 1 credit a question
 const FULL_COST = TEST_MODES.full.creditCost;
@@ -76,7 +77,8 @@ export function CreditsRemainingModal({ open, credits, onClose, offer = null }) 
   if (!open || typeof document === 'undefined') return null;
 
   const safe = Math.max(0, Number.isFinite(credits) ? credits : 0);
-  const quickQuestions = Math.floor(safe / TEST_MODES.quick.creditPerQuestion);
+  // Quick sets come in 5, 10, 15 or 20 questions, so a balance buys a whole number of 5s at most: 37 credits buy 35 questions, never 37.
+  const quickQuestions = quickQuestionsFor(safe);
   const fullRuns = Math.floor(safe / FULL_COST);
   const isEmpty = safe < QUICK_MIN_SET;
 
@@ -100,7 +102,7 @@ export function CreditsRemainingModal({ open, credits, onClose, offer = null }) 
         </button>
 
         <h2 id="credits-modal-title" className="mmx-sheet__title">
-          {isEmpty ? 'You are out of practice credits' : 'What Pro adds'}
+          {isEmpty ? (safe === 0 ? 'You are out of practice credits' : 'Not enough practice credits') : 'What Pro adds'}
         </h2>
         <p className="mmx-sheet__lede">
           {isEmpty
@@ -128,7 +130,7 @@ export function CreditsRemainingModal({ open, credits, onClose, offer = null }) 
             <div>
               <span>Quick practice, 1 practice credit a question</span>
               <strong>
-                {quickQuestions} question{quickQuestions === 1 ? '' : 's'}
+                {quickQuestions > 0 ? `${quickQuestions} questions` : `Not enough for a ${QUICK_MIN_SET}-question set`}
               </strong>
             </div>
             <div>

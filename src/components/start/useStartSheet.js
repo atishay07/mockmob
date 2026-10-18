@@ -8,6 +8,7 @@
 // so in one quiet line. The chosen subject is remembered on this device only.
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { SUBJECT_KEY, pickSubject, startRows, startSubjects } from './startModel.mjs';
+import { useDailySet } from '@/lib/useDailySet';
 
 const FRESH_MS = 120_000;
 
@@ -67,7 +68,9 @@ export function useStartSheet({ open = false, user = null }) {
   }, [open, userId, nonce]);
 
   const subject = pickSubject(subjects, chosen || null);
-  const model = useMemo(() => startRows({ plan: mine?.plan || null, subjects, subject, pro, balance, tonightKey }), [mine, subjects, subject, pro, balance, tonightKey]);
+  // Today's included 10-question set, read from the server quote only while the sheet is open (the quote is shared and kept a minute).
+  const dailySet = useDailySet({ userId: open ? userId : null, premium: pro, subject });
+  const model = useMemo(() => startRows({ plan: mine?.plan || null, subjects, subject, pro, balance, tonightKey, dailySet }), [mine, subjects, subject, pro, balance, tonightKey, dailySet]);
   const selectSubject = useCallback((id) => { setChosen(id); writeStored(id); }, []);
   const retry = useCallback(() => { fetched.current = { userId: null, at: 0 }; setRecord(null); setNonce((n) => n + 1); }, []);
 

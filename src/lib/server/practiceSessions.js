@@ -13,7 +13,7 @@ import { applyCheckedAnswers, checkedAnswersForSubmit } from './sessionCheck';
 import { tonightMetadata } from '@/../data/study_progress';
 import { assertNtaPaperServable, ntaOptionLayout } from './ntaPaper';
 import { SUBMISSION_GRACE_MS } from '@/../data/session_draft';
-import { practiceCharge } from '@/../data/practice_charge';
+import { practiceCharge, spendWithLegacyFallback } from '@/../data/practice_charge';
 
 const secret = () => process.env.PRACTICE_SESSION_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY;
 
@@ -97,7 +97,8 @@ export async function startPractice(userId, input, server = {}) {
   const ticket = sealPractice(row, secret());
   // Existing atomic ledger makes retries free; charge only after a complete usable set exists.
   if (charge.creditAction) {
-    const paid = await Database.spendCredits(userId, charge.creditAction, `practice_${id}`);
+    // A set paid on the pre-release-9 code ('attempt') and restarted after it keeps its charge instead of failing (spendWithLegacyFallback).
+    const paid = await spendWithLegacyFallback((u, a, r) => Database.spendCredits(u, a, r), userId, charge.creditAction, `practice_${id}`);
     if (!paid) throw new Error('INSUFFICIENT_CREDITS');
   }
   const view = publicSessionView(row);

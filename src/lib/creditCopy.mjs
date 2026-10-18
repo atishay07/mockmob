@@ -62,3 +62,13 @@ export const PRACTICE_PRICE = Object.freeze({
 export const PRACTICE_PRICE_LINE = `${PRACTICE_CREDITS}: ${PRACTICE_PRICE.perQuestion} a question. A ${PRACTICE_PRICE.setQuestions}-question set is ${PRACTICE_PRICE.set}, a full mock ${PRACTICE_PRICE.full}.`;
 /** The same, for a place that already says "practice credits" before it: "1 a question. A 10-question set is 10, a full mock 50." */
 export const PRACTICE_PRICE_TAIL = `${PRACTICE_PRICE.perQuestion} a question. A ${PRACTICE_PRICE.setQuestions}-question set is ${PRACTICE_PRICE.set}, a full mock ${PRACTICE_PRICE.full}.`;
+
+/**
+ * The most Quick-practice questions a practice-credit balance buys: sets come in 5, 10, 15 or 20 questions, so it is a whole
+ * number of the smallest set. 37 credits buy 35 questions, never 37; under 5 credits buy none (0).
+ */
+export function quickQuestionsFor(balance) {
+  const have = whole(balance) ?? 0;
+  const step = Math.min(...TEST_MODES.quick.countOptions);
+  return Math.floor(have / (TEST_MODES.quick.creditPerQuestion * step)) * step;
+}

@@ -42,6 +42,7 @@ import {
 } from '../../../data/repair_check_client.mjs';
 import COPY from '../../../data/mistake_lab.copy.json';
 import { practiceCostLine } from '../../../data/result_next_move.mjs';
+import { useMyDailySet } from '@/components/useMyDailySet';
 import { SUBJECTS } from '../../../data/subjects';
 import { readCap, saveCap, useRevise } from './useRevise';
 import {
@@ -335,6 +336,7 @@ function ConceptRun({ count, position, onProgress, onFinished }) {
  */
 function EmptyRevise() {
   const { user } = useAuth() || {};
+  const dailySet = useMyDailySet();
   const first = SUBJECTS.find((s) => s.id === (user?.subjects || [])[0]) || SUBJECTS.find((s) => s.id === 'accountancy');
   const href = `/dashboard?${new URLSearchParams({ subject: first?.id || '', mode: 'quick', count: '10' })}`;
   const E = RUN.empty;
@@ -348,7 +350,7 @@ function EmptyRevise() {
         <em>{E.example}</em>
       </div>
       <Link className="rvs-next rvs-next--link rvs-next--wide" href={href}>{E.key}</Link>
-      <p className="rvs-fine">{fill(E.time, { subject: first?.name || 'your subject' })} {practiceCostLine({ isPremium: user?.isPremium === true, practiceCredits: null })}</p>
+      <p className="rvs-fine">{fill(E.time, { subject: first?.name || 'your subject' })} {practiceCostLine({ isPremium: user?.isPremium === true, practiceCredits: null, dailySet })}</p>
     </div>
   );
 }

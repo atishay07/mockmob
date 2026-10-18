@@ -158,7 +158,7 @@ const buildFaqs = (offer, bankSize = null) => [
     q: 'Is Pro a monthly subscription?',
     a: offer.purchasable === 'monthly'
       ? `Yes. Pro is ₹${offer.monthly.rupees} a month. The first payment is taken when you start, and it renews on the same date each month until you cancel. Cancel in Account at any time; you keep Pro until the end of the month you already paid for.`
-      : `Not yet. Pro is ₹${offer.monthly.rupees} a month, and monthly billing opens soon. Until then Pro is one payment of ₹${offer.oneTime.rupees} for access through ${offer.oneTime.expires}, with no auto-renewal.`,
+      : `Not yet. Today Pro is one payment of ₹${offer.oneTime.rupees} for access through ${offer.oneTime.expires}, with no auto-renewal. A ₹${offer.monthly.rupees} monthly plan opens soon, and whoever pays now keeps the full term.`,
   },
   {
     q: 'What happens when I cancel?',

@@ -260,9 +260,11 @@ const chapterOfMove = (move) => move?.target?.chapter || null;
 /**
  * The input of nextMove() for the open set across papers (5.3). Rules 1 and 2 read the newest paper (nothing missed on any
  * paper; under 40 percent right on the newest paper); rules 3 to 5 read the open items across papers priced by chapterRows.
- * `hour` is the India hour of `record.now` unless given (the late line). Null when there is no paper.
+ * `hour` is the India hour of `record.now` unless given (the late line). `dailySet` ('free' | 'priced' | 'unknown', src/lib/dailySet.mjs)
+ * is what the server quote said about today's included 10-question set; left out, the set's price reads as it always did.
+ * Null when there is no paper.
  */
-export function reviewInput(record, { hour } = {}) {
+export function reviewInput(record, { hour, dailySet } = {}) {
   if (reviewState(record) !== 'ready') return null;
   const ctx = context(record);
   const newest = ctx.papers[0];
@@ -299,6 +301,7 @@ export function reviewInput(record, { hour } = {}) {
     mode: newest.mode || KIND_MODE[newest.kind] || null,
     subject, subjectName, labReady: true,
     hour: Number.isInteger(hour) ? hour : istHour(ctx.now),
+    ...(dailySet ? { dailySet } : {}),
   };
 }
 

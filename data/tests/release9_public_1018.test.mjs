@@ -10,7 +10,7 @@ import { RELEASE_GATES, runtimeAiReleased, aiCommerceReleased } from '../capabil
 import { aiCreditsRules, aiCreditsStatusLine } from '../../src/app/pricing/ai-credits/aiCreditsCopy.mjs';
 import { ONBOARDING_LEAD, ONBOARDING_STEPS } from '../../src/lib/paperCopy.mjs';
 import { priceHeadline, priceLine, priceTag } from '../../src/lib/payments/offer.js';
-import { DEMO_ANSWERED_EVENT, DEMO_QUIET_QUERY, demoAnswered, heroKeyClass, markDemoAnswered, resetDemoSignal, subscribeDemoAnswered } from '../../src/components/landing/demoSignal.mjs';
+import { DEMO_ANSWERED_EVENT, demoAnswered, heroKeyClass, markDemoAnswered, resetDemoSignal, subscribeDemoAnswered } from '../../src/components/landing/demoSignal.mjs';
 
 const root = new URL('../../', import.meta.url);
 const read = (path) => readFileSync(new URL(path, root), 'utf8').replace(/\r\n/g, '\n');
@@ -150,14 +150,18 @@ test('price framing: /pricing and the landing read the same helpers, and checkou
 });
 
 // ---------------------------------------------------------------------------------------------------------------------
-// LOW: after the first sample answer, two lime keys were in view at 960 px and up.
+// LOW: after the first sample answer, two lime keys were in view (at 960 px and up; at 390 the hero key stayed lime under the sticky nav).
 // ---------------------------------------------------------------------------------------------------------------------
 
-test('demo signal: the hero key steps down to secondary only after an answer and only on wide screens', () => {
-  assert.equal(heroKeyClass({ answered: false, wide: true }), 'mm-btn mm-btn--primary');
-  assert.equal(heroKeyClass({ answered: true, wide: false }), 'mm-btn mm-btn--primary');
-  assert.equal(heroKeyClass({ answered: true, wide: true }), 'mm-btn mm-btn--secondary');
-  assert.equal(DEMO_QUIET_QUERY, '(min-width: 960px)');
+test('demo signal: the hero key steps down to secondary after an answer, at every width', () => {
+  for (const wide of [true, false]) {
+    assert.equal(heroKeyClass({ answered: false, wide }), 'mm-btn mm-btn--primary');
+    assert.equal(heroKeyClass({ answered: true, wide }), 'mm-btn mm-btn--secondary', `wide=${wide}: a phone steps down too`);
+  }
+  assert.equal(heroKeyClass({ answered: true }), 'mm-btn mm-btn--secondary', 'no width is asked for');
+  const actions = read('src/components/LandingActions.jsx');
+  assert.doesNotMatch(actions, /matchMedia|DEMO_QUIET_QUERY/, 'no width gate is left on the hero key');
+  assert.doesNotMatch(read('src/components/landing/demoSignal.mjs'), /DEMO_QUIET_QUERY|min-width/);
 });
 
 test('demo signal: the first answer announces itself once and stays answered', () => {
@@ -249,4 +253,27 @@ test('auth: each thing is said once on /login and /signup', () => {
   assert.match(login, /'You stay signed in on this device until you sign out'/);
   assert.doesNotMatch(signup, /stay signed in/i);
   assert.match(card, /\{isLogin \? 'Your email is how you sign in\.' : 'Your email is how you sign in, and you stay signed in on this device until you sign out\.'\}/);
+});
+
+// ---------------------------------------------------------------------------------------------------------------------
+// MEDIUM (truth, one price framing): the /pricing FAQ said "Pro is ₹99 a month" while the page, checkout and the JSON-LD
+// answer were one payment of ₹99. The FAQ answer feeds faqJsonLd, so search results could show the monthly price.
+// ---------------------------------------------------------------------------------------------------------------------
+
+test('pricing FAQ: while monthly billing is not open, no string says "Pro is ₹N a month" (the FAQ and its JSON-LD answer say one payment)', () => {
+  const pricing = read('src/app/pricing/page.js');
+  const lines = pricing.split('\n');
+  const monthlyOnly = (index) => {
+    // A monthly-branch string sits on a line that starts "? `" under a "=== 'monthly'" line, or on a ternary that names the monthly state.
+    const here = lines[index];
+    const before = lines.slice(Math.max(0, index - 2), index).join('\n');
+    return /^\s*\? `/.test(here) && /\bmonthly\b/.test(before) || /monthly \? `/.test(here);
+  };
+  lines.forEach((line, index) => {
+    if (/Pro is ₹\$\{[^}]+\} a month|MockMob Pro is ₹\$\{[^}]+\} a month/.test(line)) assert.ok(monthlyOnly(index), `line ${index + 1} states a monthly price outside the monthly branch: ${line.trim().slice(0, 100)}`);
+  });
+  assert.match(pricing, /`Not yet\. Today Pro is one payment of ₹\$\{offer\.oneTime\.rupees\} for access through \$\{offer\.oneTime\.expires\}, with no auto-renewal\. A ₹\$\{offer\.monthly\.rupees\} monthly plan opens soon, and whoever pays now keeps the full term\.`/);
+  assert.doesNotMatch(pricing, /Not yet\. Pro is/);
+  // The JSON-LD answer is the same FAQ text, never a second copy.
+  assert.match(pricing, /faqJsonLd\(FAQS\.map\(\(faq\) => \(\{ question: faq\.q, answer: faq\.a \}\)\)\)/);
 });

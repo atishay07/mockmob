@@ -54,6 +54,7 @@ import { mobiReaction, answerReaction, repairCandidates, verdictWord } from './r
 import { inRepairOrder } from '@/components/result/labLoop';
 import { useAuth } from '@/components/AuthProvider';
 import { useWalletSummary } from '@/components/useWalletSummary';
+import { useMyDailySet } from '@/components/useMyDailySet';
 import { bankCount, nextPaper, practiceSubjectId } from '@/lib/paperCopy.mjs';
 import AnalysisParts, { partFromUrl, writePart, scrollToPart } from '@/components/result/AnalysisParts';
 import { settleInto, cancelSettle } from '@/components/result/settleInto.mjs';
@@ -155,6 +156,8 @@ export default function ResultPageClient({ previewId = null }) {
   const suppressRef = useRef(false);
   const { user } = useAuth();
   const wallet = useWalletSummary(user?.id, { reuseFresh: true });
+  // Today's included 10-question set, as the server quote reads it: the next move prices its set from this (src/lib/dailySet.mjs).
+  const dailySet = useMyDailySet();
   // The bank count for "Take another fresh paper": the stored daily counts (/api/stats). A failed read leaves the
   // count out of the sentence; it is never shown as 0.
   const [stats, setStats] = useState({ state: 'loading' });
@@ -338,7 +341,7 @@ export default function ResultPageClient({ previewId = null }) {
   const aiCredits = wallet.wallet?.known ? wallet.wallet.total : null;
   const move = nextMove({
     analysis, answerReviews, repairOrder, repaired, checks: checkMap, aiCredits,
-    practiceCredits: user ? user.creditBalance ?? null : null, isPremium: Boolean(user?.isPremium),
+    practiceCredits: user ? user.creditBalance ?? null : null, isPremium: Boolean(user?.isPremium), dailySet,
     mode, subject: practiceSubjectId(attempt.subject), subjectName: subject,
     labReady: Boolean(attempt.lab) && attempt.answerReviewState !== 'unavailable', hour,
   });

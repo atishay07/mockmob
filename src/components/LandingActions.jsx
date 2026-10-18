@@ -4,22 +4,13 @@ import React, { useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/components/AuthProvider';
 import { recoveryReleased } from '@/../data/capabilities';
-import { DEMO_QUIET_QUERY, demoAnswered, heroKeyClass, subscribeDemoAnswered } from '@/components/landing/demoSignal.mjs';
+import { demoAnswered, heroKeyClass, subscribeDemoAnswered } from '@/components/landing/demoSignal.mjs';
 
-const noSubscribe = () => () => {};
-const subscribeWide = (onChange) => {
-  const query = window.matchMedia(DEMO_QUIET_QUERY);
-  query.addEventListener('change', onChange);
-  return () => query.removeEventListener('change', onChange);
-};
-const readWide = () => window.matchMedia(DEMO_QUIET_QUERY).matches;
-
-// After the first sample answer, on a wide screen, the hero's lime key steps down so the sample's own key is the one
-// lime key in view. Server render and phones keep the lime key.
+// After the first sample answer, at every width, the hero's lime key steps down so the sample's own key is the one lime key
+// in view. Server render keeps the lime key.
 function useHeroKeyClass() {
   const answered = useSyncExternalStore(subscribeDemoAnswered, demoAnswered, () => false);
-  const wide = useSyncExternalStore(answered ? subscribeWide : noSubscribe, readWide, () => false);
-  return heroKeyClass({ answered, wide });
+  return heroKeyClass({ answered });
 }
 
 export function LandingActions({ mode = 'hero' }) {
