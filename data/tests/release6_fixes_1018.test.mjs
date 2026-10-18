@@ -43,7 +43,7 @@ test('the docked Ask Mobi panel cannot squeeze the analysis: the side-by-side la
 test('the docked panel cannot squeeze Review: its two columns are a container query on the page, not the window', () => {
   const css = stripComments(read('src/components/review/review-1018.css'));
   assert.match(css, /\.app-shell \.rvw\s*\{[^}]*container:\s*rvw\s*\/\s*inline-size/, '.rvw is the container');
-  const inContainer = blocks(css, '@container rvw (min-width: 750px)').join('\n');
+  const inContainer = blocks(css, '@container rvw (min-width: 720px)').join('\n');
   for (const piece of ['.rv8-board { display: grid', '.rv8-board > .rv8-side { display: block', 'position: sticky']) {
     assert.ok(inContainer.includes(piece), `${piece} sits in the container query`);
   }

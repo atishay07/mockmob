@@ -7,7 +7,7 @@
 .app-shell .rvw .rv8-lede { margin: 10px 0 0; max-width: 62ch; font: 500 15px/1.5 var(--font-body); color: var(--a-ink-2); text-wrap: pretty; }
 .app-shell .rvw .rv8-lede b { color: var(--a-ink); font-weight: 700; }
 
-/* board: one column on phones (chapters, Revise, Saved repairs, papers, also); two when the page is 750 px or wider (a container query) with a sticky right column */
+/* board: one column on phones (chapters, Revise, Saved repairs, papers, also); two when the page is 720 px or wider (a container query) with a sticky right column */
 .app-shell .rv8-board { display: flex; flex-direction: column; min-width: 0; }
 .app-shell .rv8-side { display: contents; }
 .app-shell .rv8-wk { margin-top: 26px; min-width: 0; }
@@ -149,9 +149,9 @@
 }
 /* Two columns only when the page has room for both. The choice reads the width Review really has (a container query on
    .rvw), not the window: the docked Ask Mobi panel (ask-mobi.css) takes 420 px off the main column while the window stays
-   wide, and a 221 px Saved repairs column broke its words. 750 px keeps the two columns a tablet at 1024 px always had
-   (the right one is never under 279 px); narrower, the right column goes under the chapters, as on a phone. */
-@container rvw (min-width: 750px) {
+   wide, and a 221 px Saved repairs column broke its words. 720 px keeps the two columns a tablet at 1024 px always had
+   (753 px wide, 738 px with a scrollbar; the right column is never under 266 px); narrower, the right column goes under the chapters, as on a phone. */
+@container rvw (min-width: 720px) {
   .app-shell .rv8-board { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 0 56px; align-items: start; }
   .app-shell .rv8-board > .rv8-wk { grid-column: 1; grid-row: 1; }
   .app-shell .rv8-board > .rv8-side { display: block; grid-column: 2; grid-row: 1; position: sticky; top: 84px; margin-top: 26px; }
