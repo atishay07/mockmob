@@ -13,6 +13,7 @@ import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/repositories/repair_local_repository.dart';
 import 'package:mockmob/features/review/copy.dart';
 import 'package:mockmob/features/review/screens/review_screen.dart';
+import 'package:mockmob/features/review/widgets/page_header.dart' show ReviewTabHeader;
 
 import '../../golden/review/review_golden_support.dart';
 import '../../helpers/fonts.dart';
@@ -128,6 +129,29 @@ void main() {
       radio.set(NetworkStatus.online);
       await tester.pump();
       expect(find.textContaining('Offline.'), findsNothing);
+    });
+
+    testWidgets('at 360 dp and 1.0 text the offline line is one line and the header does not move when it appears (v15 final walk)', (tester) async {
+      final radio = _Radio();
+      await pumpMockmob(
+        tester,
+        const ReviewScreen(),
+        size: const Size(360, 3000),
+        disableAnimations: true,
+        wrapInScaffold: false,
+        overrides: [
+          ...reviewOverrides(attemptsState: RemoteState(value: allAttempts, fetchedAt: eveningUtc)),
+          networkStatusProvider.overrideWith(() => radio),
+        ],
+      );
+      final before = tester.getRect(find.byType(ReviewTabHeader));
+      radio.set(NetworkStatus.offline);
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
+      final line = find.text('Offline. Last loaded 9:40 PM.');
+      expect(line, findsOneWidget);
+      expect(tester.getSize(line).height, lessThan(24), reason: 'one line');
+      expect(tester.getRect(find.byType(ReviewTabHeader)), before, reason: 'no layout jump');
     });
 
     testWidgets('online but the refresh failed', (tester) async {
