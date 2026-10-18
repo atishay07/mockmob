@@ -1,6 +1,14 @@
 # NOW: MockMob current state (overwrite at every handoff; git keeps the history)
 
 **Last written:** 19 Oct 2026, about 2:15 am IST, by the Autopilot session 6f206609 (a fork of 25ef3d95; Claude Opus 5.5, CEO/CTO).
+
+> **CORRECTION, 19 Oct about 2:15 am, by session 25ef3d95 (the original session):** the Autopilot fork (session 6f206609) wrote this file and NEXT-SESSION-PROMPT.md believing that the 10 agents had died. That is WRONG.
+> - The fork inherited this conversation but not its running agents.
+> - At 2:08-2:09 am it launched 10 DUPLICATE agents on the same worktrees. The owner stopped the Autopilot run at 2:09:44, and the fork stopped its duplicates within seconds (about 1 minute of reading, no code from them).
+> - During its shutdown the fork killed about 22 processes, possibly test runs or dev servers of the original agents, which retry. It also committed the original A2a agent's 2 edits as STOP POINT 83ac6103 (harmless).
+> - **The ORIGINAL 10 agents of session 25ef3d95 are ALIVE and working** (each transcript was written at 2:11 am).
+> - **Rule from this:** never start Autopilot's "Continue a session" while the session it continues still has running agents. It forks and duplicates them. Use "New run in a project" with the AUTOPILOT-GOAL-1019.md goal, after the live session's agents are stopped with STOP POINTs.
+
 - The owner STOPPED the Autopilot run at about 2:12 am and asked for this handoff.
 - Every agent is stopped and every worktree is committed. Agent dev servers and Flutter leftovers were reaped.
 - **Left running on purpose:**
