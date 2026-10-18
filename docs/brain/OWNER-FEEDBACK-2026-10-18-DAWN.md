@@ -357,3 +357,14 @@ His message was the pasted next-session prompt (resume from 25ef3d95, follow NOW
 - **D89** Every check is ALSO a taste check with actionable improvements, given the way he gives feedback (his taste), and improvement continues after the check (not only "does it work").
 - **D90** The swipe stack (D51): learn from Tinder AND other swipe-card apps that learn taste; a first-time user must understand what the cards do and what left and right mean; build that whole first-run process in.
 - **D91** Stay aligned on all ~100 tasks before the final build: show him how things are implemented early, not only at the end.
+
+## Owner, 18 Oct about 7:50 pm IST (verbatim)
+> "Also, just wanted to clarify one thing: the tasting that I mentioned is not just about capturing my taste or seeing my preferences. It's, in general, about having knowledge of what UI/UX taste is, through independent knowledge, the model, and so many research and records that I have added to the brain itself.
+>
+> Using that, it should be the combination of all these that the model uses to decide what good taste is and what it is being built on. You have found many taste agents, but this should not be a permanent provider. We have never done taste agents in this way. To do what work is existing, first, you have added another thing in the loop. We have never done a taste agent.
+>
+> I want real results: whether this is actually useful or not, and honestly, whether we should do this moving forward or not. If it is introducing more regressions or if it is confusing the agents in any way and not proving to be useful, then from next time onwards, we move back to the normal flow and ignore this testing (because itself only app has been built well). I'm just seeing if we can truly achieve the next level using this or not."
+
+**Ledger D92-D93:**
+- **D92** "Taste" means general UI/UX taste: the model's independent knowledge, plus his research brain, plus his records, combined. It is not only his preferences.
+- **D93** The taste agents are an EXPERIMENT. Report real results: whether they are useful, whether they cause regressions or confuse agents, and whether to keep them. If they are not clearly useful, go back to the normal flow from next time.

@@ -419,6 +419,12 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 | D90 | Swipe stack: Tinder and taste-learning swipe apps as inspiration; first-time users must learn what cards and left/right mean | Swipe v2: Opus design spec + mock, then build, then Opus taste critic; ships in v15.2 |
 | D91 | Stay aligned on all tasks; show how things look early | Send him screenshots of each surface as critics finish |
 
+### Owner at about 7:50 pm, 18 Oct (D92-D93)
+| D | Item | Status |
+|---|---|---|
+| D92 | Taste = independent UI/UX knowledge + his research brain + his records, combined (not only his preferences) | OWNER-TASTE-PROFILE.md section 0 added 7:55 pm; it governs the build and re-check stages |
+| D93 | The taste loop is an experiment: real results on usefulness, regressions and agent confusion; keep it only if clearly useful | A blind A/B evaluation after the taste workflow (before vs after, order hidden), plus regressions, skipped or confused items, merge conflicts and cost, in docs/brain/TASTE-LOOP-EVAL-1018.md with a keep/drop call |
+
 ## Waiting on the owner (updated 18 Oct about 3:45 am)
 - Answered 3:50 am: M-001 first launch 3 s; M-006 bolder copy; D19 keep badges, refine; D22 Mob.
 - D32: confirm the kept landing element when he reviews the port live (wt-land3, port 3206).
