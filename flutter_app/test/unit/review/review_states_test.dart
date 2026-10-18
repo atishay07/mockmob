@@ -13,6 +13,7 @@ import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/repositories/repair_local_repository.dart';
 import 'package:mockmob/features/review/copy.dart';
 import 'package:mockmob/features/review/screens/review_screen.dart';
+import 'package:mockmob/core/widgets/key_button.dart' show KeyButton;
 import 'package:mockmob/features/review/widgets/page_header.dart' show ReviewTabHeader;
 
 import '../../golden/review/review_golden_support.dart';
@@ -87,18 +88,19 @@ void main() {
   });
 
   group('review-states: the empty state is only for a read that succeeded with no papers', () {
-    testWidgets('a successful empty list says nothing to review yet, with the key to start', (tester) async {
+    testWidgets('a successful empty list is one friendly first step: Sit your first paper, with one key (D106)', (tester) async {
       await _pump(tester, attempts: const []);
-      expect(find.text('Nothing to review yet'), findsOneWidget);
-      expect(find.text(ReviewCopy.emptyMessage), findsOneWidget);
+      expect(find.text('Sit your first paper'), findsOneWidget);
+      expect(find.text(ReviewCopy.firstPaperMessage), findsOneWidget);
       expect(find.text(SampleRow.tag), findsOneWidget);
       expect(find.text('Start 10 questions'), findsOneWidget);
+      expect(find.byType(KeyButton), findsOneWidget);
       expect(find.text('Your mistakes gather here'), findsNothing);
     });
 
     testWidgets('an account with papers never sees it', (tester) async {
       await _pump(tester);
-      expect(find.text('Nothing to review yet'), findsNothing);
+      expect(find.text('Sit your first paper'), findsNothing);
       expect(find.text(ReviewCopy.loseMost), findsOneWidget);
     });
   });

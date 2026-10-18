@@ -41,6 +41,7 @@ class PapersStripView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
+            flex: 3,
             child: _Stat(
               key: const ValueKey('strip-papers'),
               figure: '${strip.papers}',
@@ -53,7 +54,7 @@ class PapersStripView extends StatelessWidget {
           ),
           rule,
           Expanded(
-            flex: 5,
+            flex: 4,
             child: latest == null || latest.marks == null
                 ? _Stat(
                     key: const ValueKey('strip-latest'),
@@ -75,7 +76,7 @@ class PapersStripView extends StatelessWidget {
           ),
           rule,
           Expanded(
-            flex: 4,
+            flex: 3,
             child: _Stat(
               key: const ValueKey('strip-repairs'),
               figure: '${strip.toRepair}',

@@ -28,11 +28,12 @@ abstract final class ReviewCopy {
   static String stripRepairsSpoken(int n) => '${plural(n, 'mistake')} to repair. Shows them by chapter';
 
   /// The subject filter.
-  static const allSubjects = 'All subjects';
+  static const allSubjects = 'All';
   static const filterSpoken = 'Show papers from one subject';
 
   /// The list.
-  static const yourPapersHeading = 'Your papers';
+  /// The list's heading under the page title ("Your papers"): the papers themselves.
+  static const yourPapersHeading = 'Papers';
   static String papersCaption(int n, String? subject) {
     if (subject == null) return n == 1 ? 'Your only paper so far. Tap it to see its result and answers.' : 'All $n papers. Tap one to see its result and answers.';
     return n == 1 ? 'Your only $subject paper. Tap it to see its result and answers.' : 'All $n $subject papers. Tap one to see its result and answers.';

@@ -155,9 +155,4 @@ String subjectName(String id) => switch (id) {
 /// row, so the screens can never print different numbers for the same queue (v15 walk, M6). A paper whose result is still
 /// sealed is left out (19 Oct, D106): its mistakes are the reveal's to show, and the chapter list leaves it out too, so
 /// the strip, the chapters and the badge read the same number.
-final openRepairsProvider = Provider<int?>((ref) {
-  final index = ref.watch(reviewIndexProvider);
-  if (index == null) return null;
-  final sealed = {for (final u in ref.watch(reviewInputsProvider.select((i) => i.unopened))) u.attemptId};
-  return index.openCountExcept(sealed);
-});
+final openRepairsProvider = Provider<int?>((ref) => ref.watch(reviewIndexProvider.select((index) => index?.openShown)));

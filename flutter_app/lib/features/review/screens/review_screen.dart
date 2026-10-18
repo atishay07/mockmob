@@ -96,7 +96,10 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     super.dispose();
   }
 
-  GlobalKey _rowKey(String attemptId) => _rowKeys.putIfAbsent(attemptId, () => GlobalKey(debugLabel: 'paper-$attemptId'));
+  /// A row's key, one per filter: while the list cross-fades from one filter to the next both lists are on screen, so a
+  /// paper in both must not share a key.
+  GlobalKey _rowKey(String? subject, String attemptId) =>
+      _rowKeys.putIfAbsent('${subject ?? '*'}|$attemptId', () => GlobalKey(debugLabel: 'paper-$attemptId'));
 
   /// Scrolls [key]'s widget near the top, under the header.
   void _bringIn(GlobalKey key, {double alignment = 0.12}) {
@@ -236,7 +239,7 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     final view = buildYourPapers(attempts: index.attempts, unopened: unopened, record: record, subject: subject, local: clock.local);
     if (_focusPending && _focus != null && view.papers.any((p) => p.attemptId == _focus)) {
       _focusPending = false;
-      final key = _rowKey(_focus!);
+      final key = _rowKey(view.subject, _focus!);
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) _bringIn(key, alignment: 0.3);
       });
@@ -314,7 +317,7 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
                 papers: view.papers,
                 subject: view.subject,
                 focus: _focus,
-                keyFor: _rowKey,
+                keyFor: (id) => _rowKey(view.subject, id),
                 onOpen: openPaper,
               ),
             ),

@@ -144,7 +144,8 @@ void main() {
       expect(card.right, 384 - 16);
       final lead = tester.getTopLeft(find.text(ReviewCopy.loseMost));
       expect(lead.dx, 16 + ReviewSpace.heroPad, reason: 'hero text starts one hero padding inside the card');
-      final heading = tester.getTopLeft(find.textContaining('to repair').first);
+      // The chapter's own heading under the hero ("N to repair in <chapter>"), not the strip's caption at the top.
+      final heading = tester.getTopLeft(find.textContaining(' to repair in ').first);
       expect(heading.dx, 16, reason: 'section headings sit on the gutter, E0');
       expect(heading.dy - card.bottom, greaterThanOrEqualTo(ReviewSpace.group), reason: 'a group gap under the hero');
     });
@@ -427,7 +428,7 @@ void main() {
       await pumpTab(tester);
       final ask = find.text('Ask Mobi');
       expect(ask, findsOneWidget);
-      final title = tester.getRect(find.text('Review'));
+      final title = tester.getRect(find.text(ReviewCopy.title).first);
       final pill = tester.getRect(find.ancestor(of: ask, matching: find.byType(DecoratedBox)).first);
       expect(pill.center.dy, closeTo(title.center.dy, 12), reason: 'on the title row');
       expect(pill.right, closeTo(384 - 16, 0.5), reason: 'on the right gutter');

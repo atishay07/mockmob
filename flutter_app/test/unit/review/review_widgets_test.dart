@@ -28,18 +28,22 @@ Future<void> pump(WidgetTester tester, Widget screen, {RepairRunState? run, Date
 void main() {
   setUpAll(loadAppFonts);
 
-  testWidgets('the tab leads with the weak chapter and keeps the record, the papers and the rows under it in one scroll', (tester) async {
+  testWidgets('Your papers: the strip, the papers, then the weak chapter and the record and the rows under it in one scroll', (tester) async {
     await pump(tester, const ReviewScreen());
-    // The lead: what the papers cost, the costliest chapter, the one volt key.
-    expect(find.textContaining(RegExp(r'^Your 3 papers lost \d+ marks')), findsOneWidget);
+    // The papers lead (D106); the long "Your 3 papers lost ..." sentence is gone, the strip says the counts.
+    expect(find.text(ReviewCopy.yourPapersHeading), findsWidgets);
+    expect(find.textContaining(RegExp(r'^Your 3 papers lost \d+ marks')), findsNothing);
+    // Then Mistakes to repair: the costliest chapter and the one volt key.
+    expect(find.text(ReviewCopy.mistakesHeading), findsOneWidget);
     expect(find.text(ReviewCopy.loseMost), findsOneWidget);
     expect(find.text(ReviewCopy.practiseOnChapter(10)), findsOneWidget);
     expect(find.textContaining(RegExp(r'^Repair \d+ mistakes?, \d+ min$')), findsNothing, reason: "tonight's key is not on the tab any more");
-    // Under it, in one scroll and with no switch: Saved repairs, the papers and the past results.
+    // Under it, in one scroll and with no switch: Saved repairs. The past results are the papers at the top now.
     expect(find.text('History'), findsNothing);
     expect(find.text('To repair'), findsNothing);
+    await tester.scrollUntilVisible(find.text(ReviewCopy.savedRepairsHeading), 300, scrollable: find.byType(Scrollable).first);
     expect(find.text(ReviewCopy.savedRepairsHeading), findsOneWidget);
-    expect(find.text('Past results'), findsOneWidget);
+    expect(find.text('Past results'), findsNothing);
     expect(find.textContaining('mastered'), findsNothing);
     // The record's one saved repair says when it was repaired, in a weekday and a 12-hour time, and opens free.
     expect(find.textContaining('Repaired Sun 4 Oct, 11:08\u00A0PM'), findsOneWidget);
