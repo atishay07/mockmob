@@ -149,3 +149,14 @@ His message was the pasted next-session prompt (build PLAN-1019 Waves A and B, t
 **C-pick 1, web navigation: option A,** the same five places as the app: Today, Practice (with Your papers, Learn, Explore, Saved), Start, Mob (with Your standing), You (with Progress, Marks trend, Colleges, Wallet, Guide, Show me around). Ask Mobi becomes Mobi's own door at the foot of the sidebar.
 - Why: he picked this structure for the app (D105, D106). It answers all of G24. It is the calmest sidebar and the only phone sheet with no scroll. Every page keeps its own link and route (R3).
 - Board images: tmp/design-1019/web-nav/BOARD-*.png. Design: docs/design-decisions/pass-1019/WEB-NAV-1019.md. He can switch to B or C.
+
+## CTO pick under D112, 19 Oct about 2:40 am (the owner is away)
+**C-pick 2, Ask Mobi: option B,** its own full screen (the existing /ask route) with two big stacked doors: "Ask now" (a field and starters) and "Ask your record" (it leads with the student's biggest marks leak).
+- **Entry points:** a labelled "Ask Mobi" button in the Today, Practice and Mob headers, plus a big card on Practice ("Ask now" / "Ask your record") that replaces the small "Ask Mobi what to practise" row. It is moved, nothing is removed. "Ask Mobi about Q7" keeps its sheet over the question.
+- **Fresh account:** Ask your record says plainly that it needs a paper, with one key.
+- **Credit line:** true numbers. D53 stays (no consent sheet). Pro asks stay visible but locked (D101).
+- **Decisions on the designer's questions:**
+  - Streaming replies: NOT tonight (a server change). Show an honest "Writing a reply" wait.
+  - "Why did I lose marks in my last paper?": build it as a free answer from the latest paper's breakdown if the app already has that data. Otherwise leave it out and say so.
+- **Why B:** it is the only option where every frame passes the 17-year-old test. A reads like a switch, and C repeats the "hidden in You" mistake (G17).
+- **Sources:** board images tmp/design-1019/ask-mobi/board-*.png; design docs/design-decisions/pass-1019/ASK-MOBI-1019.md.
