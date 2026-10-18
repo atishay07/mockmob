@@ -30,6 +30,15 @@ abstract final class MobCopy {
   static const String nameNote = 'Only your Mob sees it. 2 to 18 letters.';
   static const String colourLabel = 'Colour';
   static const String startKey = 'Start a Mob';
+  // Join with a code (D105): the Mob tab's second way in for a student in no Mob.
+  static const String joinWithCode = 'Join with a code';
+  static const String joinCodeLead = 'Got a code or a link from a friend? Join their Mob. You can be in theirs and still start your own.';
+  static const String joinCodeTitle = "Join a friend's Mob";
+  static const String joinCodeNote = 'Type the code your friend sent you (8 letters and numbers), or paste their whole link.';
+  static const String joinCodeLabel = 'Code or link';
+  static const String joinCodeHint = 'For example K7P2M9QX';
+  static const String joinCodeWrong = 'That code does not look right. A code has 8 letters and numbers. You can also paste the whole link.';
+  static const String joinCodeKey = 'Find their Mob';
   static const String haveLink = 'Got a link from a friend? Open it to join their Mob. You can be in theirs and your own.';
   // No subject to start a Mob for: the sentence is the server's (NO_SUBJECTS), the way forward is the key.
   static const String noSubjects = 'Choose your CUET subjects first. A Mob sits one paper a week in one of them.';

@@ -162,8 +162,8 @@ class _SheetEditorScreenState extends ConsumerState<SheetEditorScreen> {
               icon: LucideIcons.landmark,
               title: EditCopy.rowColleges,
               note: _collegesNote(ref, target.colleges),
-              // Colleges have one home, the Colleges tab (IA D2): the row goes there.
-              onTap: () => context.go(AppRoutes.colleges),
+              // Colleges have one home, the Colleges page (IA D2, a page over the bar since D105).
+              onTap: () => context.push(AppRoutes.colleges),
             ),
             YouRow(
               flat: true,

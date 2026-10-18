@@ -24,7 +24,7 @@ import '../../../core/widgets/widgets.dart';
 import '../../practice/model/practice_selection.dart' show mockQuestionCount;
 import '../../practice/widgets/choice_deck.dart' show ChoiceDeck, ChoiceOption, ChoiceRow;
 import '../../practice/widgets/choice_glyphs.dart' show ChoiceGlyphKind;
-import '../../pro_nudge/pro_nudge.dart' show ProReason, proNudgesOnProvider, showUpgradeSheetIfOn;
+import '../../practice/widgets/locked_mode_sheet.dart' show LockedMode, openLockedMode;
 import '../../review/revise/revise_data.dart' show reviseCapProvider, reviseEntryProvider;
 import '../../runner/runner_routes.dart' show NtaRoutes;
 import '../copy.dart';
@@ -67,7 +67,6 @@ List<AlternativeRow> alternativeRows(
   String? moveSubject,
   ReviseRound? revise,
   List<PlanAction> plan = const [],
-  bool proOnSale = false,
 }) {
   final facts = MoveFacts(inputs);
   final attempts = facts.attempts;
@@ -164,9 +163,9 @@ List<AlternativeRow> alternativeRows(
     ));
     // 5. NTA mode, once a full mock in this subject is on record: the next one on the exam-day
     // screen (FEATURE-ADOPTION FA-8, taught at the moment it is a real next step). It comes with
-    // Pro, so a Free student sees it only while Pro can be had here ([proOnSale]: PLAY_BILLING on);
-    // with the flag off it is left out rather than offered as a gate (owner walk, 18 Oct).
-    if (lastMock != null && (inputs.isPro || proOnSale)) {
+    // Pro: a Free student sees it locked, never hidden (D101), and a tap opens the Upgrade sheet or,
+    // with PLAY_BILLING off, the calm sheet with a Full mock instead.
+    if (lastMock != null) {
       rows.add(AlternativeRow(
         title: TodayCopy.altNtaTitle(subjectName(subject)),
         note: TodayCopy.altNtaNote(mockQuestionCount, 60, pro: inputs.isPro),
@@ -236,14 +235,25 @@ class AlternativesSheet extends ConsumerWidget {
       moveSubject: move?.subjectId,
       revise: revise,
       plan: inputs.plan?.alternatives ?? const [],
-      proOnSale: ref.watch(proNudgesOnProvider),
     );
     return AlternativesSheetBody(
       rows: rows,
       onRow: (row) {
-        // NTA mode comes with Pro: a Free student meets the Upgrade sheet (PLAY_BILLING on); otherwise as before.
-        if (row.kind == AlternativeKind.nta && !inputs.isPro && showUpgradeSheetIfOn(context, reason: ProReason.ntaMode)) return;
         final router = GoRouter.of(context);
+        // NTA mode comes with Pro (D101): a Free student meets the Upgrade sheet (PLAY_BILLING on) or the
+        // calm sheet, whose Full mock in the same subject replaces this sheet.
+        if (row.kind == AlternativeKind.nta && !inputs.isPro) {
+          final subject = Uri.parse(row.location).queryParameters['subject'];
+          openLockedMode(
+            context,
+            mode: LockedMode.nta,
+            onInstead: () {
+              Navigator.of(context).maybePop();
+              unawaited(router.push(TodayLinks.fullMock(subject: subject)));
+            },
+          );
+          return;
+        }
         Navigator.of(context).maybePop();
         if (AppRoutes.tabRoots.contains(row.location)) {
           router.go(row.location);

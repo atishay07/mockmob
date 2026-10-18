@@ -86,8 +86,8 @@ void main() {
 
   group('Something else', () {
     test('a full mock on record adds NTA mode with its own glyph and a reason; Review ends the list', () {
-      // PLAY_BILLING on (proOnSale): a Free student is offered NTA mode with what it comes with.
-      final rows = alternativeRows(ashaInputs(attempts: [accountancyMock('m1', daysBefore(tuesdayEvening, 1))]), moveSubject: 'accountancy', proOnSale: true);
+      // A Free student is offered NTA mode with what it comes with (D101: visible but locked).
+      final rows = alternativeRows(ashaInputs(attempts: [accountancyMock('m1', daysBefore(tuesdayEvening, 1))]), moveSubject: 'accountancy');
       final nta = rows.where((r) => r.kind == AlternativeKind.nta).toList();
       expect(nta, hasLength(1));
       expect(nta.single.glyph, ChoiceGlyphKind.nta);
@@ -101,10 +101,11 @@ void main() {
       }
     });
 
-    test('PLAY_BILLING off: a Free student is not offered NTA mode at all (no Pro gate; owner walk, 18 Oct)', () {
+    test('D101 (owner, 19 Oct: "visible but locked"): a Free student still sees NTA mode, whatever PLAY_BILLING says', () {
       final rows = alternativeRows(ashaInputs(attempts: [accountancyMock('m1', daysBefore(tuesdayEvening, 1))]), moveSubject: 'accountancy');
-      expect(rows.where((r) => r.kind == AlternativeKind.nta), isEmpty);
-      expect(rows.any((r) => r.note.contains('Pro')), isFalse);
+      final nta = rows.where((r) => r.kind == AlternativeKind.nta).toList();
+      expect(nta, hasLength(1), reason: 'never hidden');
+      expect(nta.single.note, contains('Comes with Pro.'));
     });
 
     test('Pro students see NTA mode without the Pro note', () {

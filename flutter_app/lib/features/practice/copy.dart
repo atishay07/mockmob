@@ -23,6 +23,18 @@ abstract final class PracticeCopy {
   static const String repairsTitle = 'Repairs';
   static String repairsNote(int open) => open == 1 ? '1 open mistake to repair' : '$open open mistakes to repair';
 
+  // Your papers (D105, G20): the Review screen lives inside Practice, one row under the suggestion.
+  static const String papersTitle = 'Your papers';
+
+  /// What the row says: every paper is kept here, newest first; with papers, how many and the open
+  /// mistakes, in one sentence each.
+  static String papersNote({required int papers, required int open}) {
+    if (papers <= 0) return 'Every paper you sit is kept here, newest first, with its answers.';
+    final kept = papers == 1 ? '1 paper so far, with its answers.' : '$papers papers so far, newest first.';
+    if (open <= 0) return kept;
+    return '$kept ${open == 1 ? '1 mistake' : '$open mistakes'} still to repair.';
+  }
+
   /// The Learn row under the suggestion (D20): the lesson Learn would open next, and why.
   static const String learnTitle = 'Learn';
   static String learnNote(String lesson, String why) => '$lesson. $why';
@@ -275,9 +287,18 @@ abstract final class PracticeCopy {
 
   // Pro gate, warm and true. No prices, no purchase links.
   static String proGateTitle(String mode) => '$mode comes with Pro';
-  // The same gate with the Pro nudges off: no Pro named where it cannot be had.
-  static String planGateTitle(String mode) => '$mode is not part of your plan';
-  static const String ntaGatedPlain = 'NTA mode is not part of your plan. Full mock gives you the same 50 questions and 60 minutes.';
+  // The same gate with the Pro nudges off (PLAY_BILLING off, D101): Pro is named calmly, with no price
+  // and no way to buy elsewhere, and the open mode that comes closest.
+  static String planGateTitle(String mode) => '$mode is part of Pro';
+  static const String ntaGatedPlain =
+      'NTA mode is part of Pro. Pro opens in the app soon. Until then, a Full mock gives you the same 50 questions in 60 minutes.';
+
+  // A Free student taps a mode Pro holds while Pro cannot be had here (D101): the calm sheet.
+  static String lockedTitle(String mode) => '$mode is part of Pro';
+  static const String lockedSoon = 'Pro opens in the app soon.';
+  static const String lockedNtaInstead = 'Until then, a Full mock gives you the same 50 questions in 60 minutes, timed like the exam.';
+  static const String lockedSmartInstead = 'Until then, Quick practice and By chapter are open to you. You choose the subject, the chapters and how many questions.';
+  static const String lockedNotNow = 'Not now';
   static const String proGateBody = 'Everything else here is yours: Full mock, Quick practice and By chapter.';
   static const String takeFullInstead = 'Take a Full mock instead';
   static const String takeQuickInstead = 'Take Quick practice instead';

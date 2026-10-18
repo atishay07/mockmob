@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../features/account_sheet/account_sheet.dart' show showAccountSheet;
 import '../../auth/auth_state.dart';
+import '../../router/routes.dart';
 import '../../theme/theme.dart';
 import '../hit_slop.dart';
 import '../pressable.dart';
@@ -92,9 +94,63 @@ class AccountAvatarButton extends ConsumerWidget {
   }
 }
 
+/// Whether a screen built as a tab root is showing as a pushed page: Your papers inside Practice and
+/// Colleges over the bar (D105) were tab roots before the Mob took a tab. Such a screen leads with a
+/// back key instead of the account key, so a student who arrived there can always see the way back.
+/// A real tab root is the first page of its branch and is never pushed.
+bool showsAsPushedPage(BuildContext context) =>
+    (ModalRoute.of(context)?.canPop ?? false) || context.dependOnInheritedWidgetOfExactType<PushedPageMarker>() != null;
+
+/// Marks a page over the bar that may have been opened with nothing under it (Colleges reached by a
+/// link): its tab-root header still leads with the back key, which then goes to Today.
+class PushedPageMarker extends InheritedWidget {
+  const PushedPageMarker({super.key, required super.child});
+
+  @override
+  bool updateShouldNotify(PushedPageMarker oldWidget) => false;
+}
+
+/// The back key a pushed tab-root screen leads with: the same 24 dp arrow on the gutter as every
+/// pushed page's header (MmPageHeader), in a 48 dp target. It pops, or goes to Today when a link
+/// opened the screen with nothing under it.
+class PushedBackKey extends StatelessWidget {
+  const PushedBackKey({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    return MmHitSlop(
+      slop: const EdgeInsets.fromLTRB(MmSpace.s12, 2, MmSpace.s8, 2),
+      child: MmPressable(
+        semanticsLabel: 'Back',
+        haptic: MmPressHaptic.selection,
+        focusRadius: MmRadius.smallAll,
+        onTap: () => context.canPop() ? context.pop() : context.go(AppRoutes.today),
+        builder: (context, pressed, _) => SizedBox(
+          width: 40,
+          height: 44,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Icon(LucideIcons.arrowLeft, size: 24, color: pressed ? colors.ink2 : colors.ink),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// The leading key of a tab root's top row: the account key, or the back key when the screen shows
+/// as a pushed page ([showsAsPushedPage]).
+class TabRootLeading extends StatelessWidget {
+  const TabRootLeading({super.key});
+
+  @override
+  Widget build(BuildContext context) => showsAsPushedPage(context) ? const PushedBackKey() : const AccountAvatarButton();
+}
+
 /// Puts the account key before a tab root's own header row, for headers that are not the shared
 /// [TabRootHeader] (Today's greeting row, Review's title row). The header keeps all its width but
-/// the key's.
+/// the key's. Shown as a pushed page (Your papers inside Practice), it leads with the back key.
 class AccountLeading extends StatelessWidget {
   const AccountLeading({super.key, required this.child});
 
@@ -104,7 +160,7 @@ class AccountLeading extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const AccountAvatarButton(),
+        const TabRootLeading(),
         const SizedBox(width: MmSpace.s12),
         Expanded(child: child),
       ],

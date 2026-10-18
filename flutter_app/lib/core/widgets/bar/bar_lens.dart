@@ -77,11 +77,13 @@ class LensShape {
 /// The bar's active indicator: a pane of clearer glass under the open tab, painted between its
 /// two edges ([left] and [right], in dp from the capsule's left edge).
 ///
-/// **It never cuts into what it holds** (the owner, 17 Oct: the old round lens "feels weird"
-/// over Practice, because a 56 dp circle crossed the corners of the word under the icon). Its
-/// corners are a continuous curve whose radius is the largest that still keeps every corner of
-/// the icon box and of the widest label at least [contentClearance] inside the curve
-/// ([cornerRadiusFor]). Compact, with the labels gone, it rounds into a full pill around the icon.
+/// **A perfect stadium** (G11, the owner on 19 Oct: the bubble around Today was "not evenly rounded
+/// at the edges"): its corner radius is always half its height, so both ends are half circles. It is
+/// as wide as its slot, centred on its icon and word, with even insets on both sides; on Today and
+/// You its round end shares the capsule's centre, 4 dp inside it all the way round, so the capsule
+/// never clips one end flatter than the other. It still never cuts into what it holds (the owner, 17
+/// Oct): the slots are wide enough since the bar has four tabs, so the word's ink sits inside the
+/// curve (the bar's geometry tests measure it).
 ///
 /// * Travelling, the edges are apart: the lens stretches and thins up to 8%, a drop of light
 ///   rather than a sliding block; it squashes a little as its trailing edge lands ([trailVelocity]).
@@ -154,21 +156,11 @@ class BarLensPainter extends CustomPainter {
     return b + math.sqrt(disc);
   }
 
-  /// The lens's corner radius for a lens [width] by [height], holding a 24 dp icon and (until
-  /// [labelsOut] reaches 1) a label [labelWidth] wide in the 42 dp icon-and-label group.
-  static double cornerRadiusFor({required double width, required double height, required double labelWidth, required double labelsOut}) {
-    final pill = height / 2;
-    final group = MmBar.labelTop + MmBar.labelHeight - MmBar.iconTop;
-    final groupMy = (height - group) / 2;
-    final withLabel = math.min(
-      cornerBound((width - labelWidth) / 2, groupMy),
-      cornerBound((width - MmBar.icon) / 2, groupMy),
-    );
-    final iconOnly = cornerBound((width - MmBar.icon) / 2, (height - MmBar.icon) / 2);
-    final expanded = math.min(pill, math.max(minRadius, withLabel));
-    final compact = math.min(pill, math.max(minRadius, iconOnly));
-    return ui.lerpDouble(expanded, compact, labelsOut.clamp(0.0, 1.0))!;
-  }
+  /// The lens's corner radius for a lens [width] by [height]: half its height, a stadium, with the
+  /// labels shown or gone (G11). [labelWidth] and [labelsOut] are kept for callers; the slots are
+  /// sized so the widest word fits the stadium.
+  static double cornerRadiusFor({required double width, required double height, required double labelWidth, required double labelsOut}) =>
+      math.min(height, width) / 2;
 
   /// The lens between edges [left] and [right] in the capsule's 64 dp box (bottom anchored: y 4
   /// to 60 expanded, 16 to 60 compact), before any lift.
@@ -243,19 +235,21 @@ class BarLensPainter extends CustomPainter {
   void _paintLens(Canvas canvas, LensShape shape, double lifted, double alpha) {
     if (alpha <= 0) return;
     Color a(Color c) => c.withValues(alpha: c.a * alpha);
-    final body = shape.superellipse;
+    // Circular ends (an RRect, not the continuous superellipse): a stadium's ends are exact half
+    // circles, which a superellipse at this radius flattens (G11).
+    final body = shape.rrect;
     final bounds = shape.rect;
 
     final rest = style.shadow;
     if (lifted > 0) {
-      canvas.drawRSuperellipse(
+      canvas.drawRRect(
         body.shift(Offset(0, 6 * lifted)),
         Paint()
           ..color = a(style.liftedShadow.withValues(alpha: style.liftedShadow.a * lifted))
           ..maskFilter = MaskFilter.blur(BlurStyle.normal, ui.Shadow.convertRadiusToSigma(16)),
       );
     } else if (rest != null) {
-      canvas.drawRSuperellipse(
+      canvas.drawRRect(
         body.shift(const Offset(0, 1)),
         Paint()
           ..color = a(rest)
@@ -263,12 +257,12 @@ class BarLensPainter extends CustomPainter {
       );
     }
 
-    canvas.drawRSuperellipse(body, Paint()..color = a(Color.lerp(style.fill, style.liftedFill, lifted)!));
+    canvas.drawRRect(body, Paint()..color = a(Color.lerp(style.fill, style.liftedFill, lifted)!));
 
     final hairline = style.hairline;
     if (hairline != null) {
-      canvas.drawRSuperellipse(
-        RSuperellipse.fromRectAndRadius(bounds.deflate(0.25), Radius.circular(shape.radius - 0.25)),
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(bounds.deflate(0.25), Radius.circular(shape.radius - 0.25)),
         Paint()
           ..style = PaintingStyle.stroke
           ..strokeWidth = 0.5
@@ -279,8 +273,8 @@ class BarLensPainter extends CustomPainter {
     if (fringe && lifted > 0.01) {
       // Light bending at the rim: a hairline of cyan just outside and of magenta just inside.
       for (final (color, offset) in const [(Color(0xFF7FE3FF), -0.5), (Color(0xFFFF7FD1), 0.5)]) {
-        canvas.drawRSuperellipse(
-          RSuperellipse.fromRectAndRadius(bounds.deflate(offset), Radius.circular(math.max(0, shape.radius - offset))),
+        canvas.drawRRect(
+          RRect.fromRectAndRadius(bounds.deflate(offset), Radius.circular(math.max(0, shape.radius - offset))),
           Paint()
             ..style = PaintingStyle.stroke
             ..strokeWidth = 0.5
@@ -291,8 +285,8 @@ class BarLensPainter extends CustomPainter {
 
     // The top edge light: bright on the upper rim, gone by mid-height; 1.6 times while lifted.
     final edge = style.edge.withValues(alpha: (style.edge.a * (1 + 0.6 * lifted)).clamp(0.0, 1.0));
-    canvas.drawRSuperellipse(
-      RSuperellipse.fromRectAndRadius(bounds.deflate(0.5), Radius.circular(math.max(0, shape.radius - 0.5))),
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(bounds.deflate(0.5), Radius.circular(math.max(0, shape.radius - 0.5))),
       Paint()
         ..style = PaintingStyle.stroke
         ..strokeWidth = 1

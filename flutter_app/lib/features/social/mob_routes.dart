@@ -1,8 +1,9 @@
-// Route builders and openers for the Mob. `/you/mob` is the page and `/join/<code>` (the verified
-// www.mockmob.in link) opens the join sheet. Each opener pushes through the router when the path is
-// registered and otherwise as a plain page, so the feature works before the router lines land. The
-// side-by-side and the history are pages pushed from the Mob page (they hold data the page has just
-// read), so they have no path of their own.
+// Route builders and openers for the Mob. `/mob` is the Mob tab (D105; `/you/mob`, its old page,
+// redirects there) and `/join/<code>` (the verified www.mockmob.in link) opens the join sheet. The Mob
+// page opens as its tab; the join sheet is pushed through the router when the path is registered,
+// and otherwise as a plain page, so the feature works before the router lines land. The side-by-side
+// and the history are pages pushed from the Mob page (they hold data the page has just read), so they
+// have no path of their own.
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -14,11 +15,14 @@ import 'screens/mob_join_screen.dart';
 import 'screens/mob_screen.dart';
 
 abstract final class MobPaths {
-  static const String mob = '/you/mob';
+  static const String mob = '/mob';
   static String join(String code) => '/join/${Uri.encodeComponent(code)}';
 }
 
 Widget mobScreen(BuildContext context, GoRouterState state) => const MobScreen();
+
+/// The Mob tab's root (D105): the same page, with no back key.
+Widget mobTabScreen(BuildContext context, GoRouterState state) => const MobScreen(asTab: true);
 
 Widget mobJoinScreen(BuildContext context, GoRouterState state) => MobJoinScreen(code: state.pathParameters['code'] ?? '');
 
@@ -31,7 +35,16 @@ Future<void> _open(BuildContext context, String path, WidgetBuilder fallback) as
   await Navigator.of(context, rootNavigator: true).push<void>(MaterialPageRoute(builder: fallback));
 }
 
-Future<void> openMobPage(BuildContext context) => _open(context, MobPaths.mob, (_) => const MobScreen());
+/// The Mob tab (D105). A tab is gone to, never pushed (a push of another branch's root would stack it
+/// in the wrong place); without the router lines it opens as a plain page.
+Future<void> openMobPage(BuildContext context) async {
+  final router = GoRouter.maybeOf(context);
+  if (router != null && router.configuration.findMatch(Uri.parse(MobPaths.mob)).isNotEmpty) {
+    router.go(MobPaths.mob);
+    return;
+  }
+  await Navigator.of(context, rootNavigator: true).push<void>(MaterialPageRoute(builder: (_) => const MobScreen()));
+}
 
 Future<void> openMobJoin(BuildContext context, String code) => _open(context, MobPaths.join(code), (_) => MobJoinScreen(code: code));
 

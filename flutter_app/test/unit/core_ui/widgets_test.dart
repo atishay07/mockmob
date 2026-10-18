@@ -44,14 +44,14 @@ void main() {
   });
 
   group('MmBottomBar', () {
-    testWidgets('names each tab with its position out of five and marks the active one selected', (tester) async {
+    testWidgets('names each tab with its position out of four and marks the active one selected', (tester) async {
       final handle = tester.ensureSemantics();
       await pumpMockmob(tester, const Align(alignment: Alignment.bottomCenter, child: _Nav(index: 1)));
 
-      expect(barTabSemanticsLabel(1), 'Practice, tab 2 of 5');
-      expect(barTabSemanticsLabel(3, collegesDot: true), 'Colleges, tab 4 of 5, new cutoffs for your colleges');
-      expect(barTabSemanticsLabel(4, youDot: true), 'You, tab 5 of 5, needs your attention');
-      for (var i = 0; i < 5; i++) {
+      expect(barTabSemanticsLabel(1), 'Practice, tab 2 of 4');
+      expect(barTabSemanticsLabel(2), 'Mob, tab 3 of 4');
+      expect(barTabSemanticsLabel(3, youDot: true), 'You, tab 4 of 4, needs your attention');
+      for (var i = 0; i < 4; i++) {
         final data = tester.getSemantics(find.bySemanticsLabel(barTabSemanticsLabel(i))).getSemanticsData();
         expect(data.flagsCollection.isSelected, i == 1 ? Tristate.isTrue : Tristate.isFalse, reason: 'tab $i');
         expect(data.flagsCollection.isButton, isTrue);
@@ -60,14 +60,14 @@ void main() {
       handle.dispose();
     });
 
-    testWidgets("Review's count is spoken and drawn; the dot adds a hint and no number", (tester) async {
+    testWidgets("Review's count is spoken and drawn on Practice (Your papers lives there, D105); the dot adds a hint and no number", (tester) async {
       final handle = tester.ensureSemantics();
       await pumpMockmob(tester, const Align(alignment: Alignment.bottomCenter, child: _Nav(index: 0, badges: BarBadges(reviewCount: 3))));
-      expect(find.bySemanticsLabel('Review, tab 3 of 5, 3 open mistakes to repair'), findsOneWidget);
+      expect(find.bySemanticsLabel('Practice, tab 2 of 4, 3 open mistakes to repair'), findsOneWidget);
       expect(find.text('3'), findsOneWidget);
 
       await pumpMockmob(tester, const Align(alignment: Alignment.bottomCenter, child: _Nav(index: 0, badges: BarBadges(reviewDot: true))));
-      expect(find.bySemanticsLabel('Review, tab 3 of 5, a result is waiting'), findsOneWidget);
+      expect(find.bySemanticsLabel('Practice, tab 2 of 4, a result is waiting'), findsOneWidget);
       expect(find.textContaining(RegExp(r'\d')), findsNothing);
       handle.dispose();
     });
@@ -81,15 +81,15 @@ void main() {
         overrides: <Override>[hapticsProvider.overrideWithValue(Haptics(enabled: true, driver: driver))],
       );
 
-      await tester.tap(find.text('Review'));
+      await tester.tap(find.text('Mob'));
       await tester.pump();
       expect(taps, [2]);
       expect(driver.selections, 1);
 
       await tester.tap(find.text('You'));
       await tester.pump();
-      // Colleges is branch 3; You is branch 4 (app-ia-1016.md 8.1).
-      expect(taps, [2, 4]);
+      // The Mob is branch 2; You is branch 3 (D105).
+      expect(taps, [2, 3]);
       expect(driver.selections, 2);
     });
 
@@ -107,7 +107,7 @@ void main() {
       expect(driver.selections, 0);
     });
 
-    testWidgets("Start reports its circle, 64 dp at the row's trailing end, for the morph (NAV-1017 6.1)", (tester) async {
+    testWidgets("Start reports its circle, 64 dp in the middle of the row, for the morph (D105)", (tester) async {
       final starts = <Rect>[];
       await pumpMockmob(
         tester,
@@ -117,10 +117,10 @@ void main() {
       await tester.tap(find.text('Start'));
       await tester.pump(const Duration(milliseconds: 400));
       expect(starts, hasLength(1));
-      // 384 dp: the row is 352 wide and the key closes it, a 64 dp circle 16 dp from the edge.
+      // 384 dp: the row is 352 wide and the key sits in its middle, a 64 dp circle on the screen's centre.
       expect(starts.single.width, closeTo(MmBar.keySize, 0.5));
       expect(starts.single.height, closeTo(MmBar.keySize, 0.5));
-      expect(starts.single.right, closeTo(384 - MmBar.gutter, 0.5));
+      expect(starts.single.center.dx, closeTo(384 / 2, 0.5));
     });
 
     testWidgets('labels clamp the text scale at 1.2 and stay on one line', (tester) async {
@@ -136,14 +136,13 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
-    // NAV-1017 6.1: a tab slot is 49.6 dp at 360 and wider above; at 320 the five tabs and the
-    // 64 dp key share 304 dp, so a slot is 45.6 (above the 44 dp floor the spec sets there). The
-    // whole slot is the target, 64 tall; the key is a 64 dp circle.
+    // D105: a tab slot is 62 dp at 360 and wider above; at 320 the four tabs and the 64 dp key
+    // share 304 dp, so a slot is 57. The whole slot is the target, 64 tall; the key is a 64 dp circle.
     for (final (width, floor) in const [(320.0, 44.0), (360.0, 48.0), (412.0, 48.0)]) {
       testWidgets('the bar is 64 dp tall; every tab is at least $floor by 64 at ${width.toInt()} dp, the key 64 by 64', (tester) async {
         await pumpMockmob(tester, const Align(alignment: Alignment.bottomCenter, child: _Nav(index: 0)), size: Size(width, 700));
         expect(tester.getSize(find.byType(MmBottomBar)).height, MmBar.height);
-        for (final label in ['Today', 'Practice', 'Review', 'Colleges', 'You', 'Start']) {
+        for (final label in ['Today', 'Practice', 'Mob', 'You', 'Start']) {
           final slot = find.ancestor(of: find.text(label), matching: find.byType(GestureDetector)).first;
           final size = tester.getSize(slot);
           expect(size.width, greaterThanOrEqualTo(label == 'Start' ? MmBar.keySize : floor), reason: label);

@@ -24,12 +24,26 @@ abstract final class AppRoutes {
   static String signInCode({String? email}) =>
       email == null ? signInCodeBase : Uri(path: signInCodeBase, queryParameters: {'email': email}).toString();
 
-  // Shell tabs (the bar: Today, Practice, Start, Review, Colleges, You; Start is an action).
+  // Shell tabs (the bar, D105: Today, Practice, Start, Mob, You; Start is the centre key, an
+  // action, not a tab).
   static const String today = '/today';
   static const String practice = '/practice';
-  static const String review = '/review';
-  static const String colleges = '/colleges';
+  static const String mob = '/mob';
   static const String you = '/you';
+
+  /// Your papers (D105, G20): the Review screen, inside Practice. Every old Review path (`/review`
+  /// and everything under it, from deep links, notifications, results and older code) redirects
+  /// here with the same tail, so `/review/mistakes` lands on `/practice/papers/mistakes`.
+  static const String papers = '/practice/papers';
+
+  /// The old Review tab's path. It redirects to [papers]; kept so every caller and every link that
+  /// names it still lands on Your papers.
+  static const String review = '/review';
+
+  /// Colleges: My colleges, Admission Compass and the CUET tools. No longer a tab (D105): a page
+  /// pushed over the bar from Today's colleges card, You's Aim row and Review, so Back returns to
+  /// where the student came from.
+  static const String colleges = '/colleges';
 
   /// You with the account sheet open over it (the website's `/profile`). The shell opens the
   /// sheet and drops the query.
@@ -129,9 +143,14 @@ abstract final class AppRoutes {
   /// Alias of [today].
   static const String dashboard = '/dashboard';
 
-  /// The shell tab roots in branch order (the bar: Today, Practice, Review, Colleges, You; Start
-  /// sits between Practice and Review but is an action, not a tab).
-  static const List<String> tabRoots = [today, practice, review, colleges, you];
+  /// The shell branch roots in branch order (the bar, D105: Today, Practice, Mob, You; Start sits
+  /// between Practice and Mob, the centre key, an action and not a tab).
+  static const List<String> branchRoots = [today, practice, mob, you];
+
+  /// The places opened with `go`, never pushed: the four branch roots, then Your papers (inside
+  /// Practice) under its new and its old path. A push of a page that lives in another branch would
+  /// stack it in the wrong place (or build the shell twice from a page outside it).
+  static const List<String> tabRoots = [...branchRoots, papers, review];
 
   /// The debug-only design lab.
   static const String lab = '/lab';
@@ -197,7 +216,17 @@ abstract final class AppRoutes {
     youCredits,
     '/you/mob',
     '/join/:code',
-    '/mob',
+    mob,
+    papers,
+    '$papers/mistakes',
+    '$papers/record',
+    '$papers/rules',
+    '$papers/revise',
+    '$papers/again',
+    '$papers/insights',
+    '$papers/saved',
+    '$papers/repair/:attemptId/:questionId',
+    '$papers/repair/:attemptId/ending',
     examNta,
     tools,
     toolsCompass,

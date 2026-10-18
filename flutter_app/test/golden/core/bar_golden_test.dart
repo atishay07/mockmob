@@ -1,5 +1,6 @@
-// The bar (NAV-1017 section 6, Option A1: five tabs in a glass capsule and the round volt Start
-// key beside it on one 64 dp row; GLASS-1017 5.4 to 5.6): contact sheets
+// The bar (NAV-1017 section 6, D105 and G11 of 19 Oct: Today, Practice, Start, Mob and You in one
+// glass capsule, the round volt Start key in its middle, on one 64 dp row, and the lens a perfect
+// stadium; GLASS-1017 5.4 to 5.6): contact sheets
 // of its states and of the lens travelling, Night and Day. Each sheet stacks the bottom of a phone (content behind the glass,
 // the scrim, the capsule and the bar) for one state per row, so the bar is judged over real
 // content, not on a flat ground.
@@ -251,44 +252,42 @@ void _barSheet(String name, List<_Shot> shots, {Size size = kNightSize}) {
 }
 
 void main() {
-  // Each place on the bar (Today, Practice, Review, Colleges, You), compact (scrolled down) on
-  // Review and on You, then Start held down.
+  // Each place on the bar (Today, Practice, Mob, You), compact (scrolled down) on the Mob and on
+  // You, then Start held down.
   _barSheet('bar_tabs', const [
     _Shot(branch: 0),
     _Shot(branch: 1),
     _Shot(branch: 2),
     _Shot(branch: 3),
-    _Shot(branch: 4),
     _Shot(branch: 2, compact: true),
-    _Shot(branch: 4, compact: true),
+    _Shot(branch: 3, compact: true),
     _Shot(branch: 0, startPressed: true),
   ]);
 
-  // NAV-1017 6.1 and check A3: the split row at 320, 360, 390 and 412 dp. Today expanded with the
+  // NAV-1017 6.1, check A3 and G11: the row at 320, 360, 390 and 412 dp. Today expanded with the
   // ruler (icon line, row centre, label line, capsule and key edges, every slot centre and the
-  // key's); Practice with Review's count and Colleges' dot; You; Review compact with the ruler;
-  // Colleges compact; Practice and Colleges at text scale 1.2 (the bar's clamp), where the lens
-  // must still hold the icon and the whole word.
+  // key's); Practice with Review's count; You; the Mob compact with the ruler; You compact; then
+  // Practice at text 1.3 and Today at 1.6, where the stadium lens must still hold the icon and the
+  // whole word with even ends.
   for (final width in const [320.0, 360.0, 390.0, 412.0]) {
     _barSheet('bar_split_${width.toInt()}', [
       _Shot(branch: 0, width: width, ruler: true),
-      _Shot(branch: 1, width: width, badges: const BarBadges(reviewCount: 3, collegesDot: true)),
-      _Shot(branch: 4, width: width),
+      _Shot(branch: 1, width: width, badges: const BarBadges(reviewCount: 3)),
+      _Shot(branch: 3, width: width),
       _Shot(branch: 2, width: width, compact: true, ruler: true),
       _Shot(branch: 3, width: width, compact: true),
-      _Shot(branch: 1, width: width, textScale: 1.2, badges: const BarBadges(reviewCount: 3)),
-      _Shot(branch: 3, width: width, textScale: 1.2),
+      _Shot(branch: 1, width: width, textScale: 1.3, badges: const BarBadges(reviewCount: 3)),
+      _Shot(branch: 0, width: width, textScale: 1.6),
     ], size: Size(width, kNightSize.height));
   }
 
-  // Real counts only: Review's 3 and 9+, the dot after a dismissed Marked capsule, Review's
-  // count with You's dot, and Colleges' dot (new cutoffs for a saved college).
+  // Real counts only, on Practice where Your papers lives (D105): Review's 3 and 9+, the dot after a
+  // dismissed Marked capsule, and the count with You's dot.
   _barSheet('bar_badges', const [
     _Shot(branch: 0, badges: BarBadges(reviewCount: 3)),
     _Shot(branch: 2, badges: BarBadges(reviewCount: 12)),
     _Shot(branch: 1, badges: BarBadges(reviewDot: true)),
     _Shot(branch: 0, badges: BarBadges(reviewCount: 3, youDot: true)),
-    _Shot(branch: 0, badges: BarBadges(collegesDot: true)),
   ]);
 
   // Every capsule state, highest priority first, and tonight's move (Today only).
@@ -340,7 +339,7 @@ void main() {
   ]);
 
   // Large text (labels scale down, never clip, the bar keeps its height; the icons never scale)
-  // and a 320 dp phone (8 dp gutters, five 45.6 dp slots), expanded and compact.
+  // and a 320 dp phone (8 dp gutters, four 57 dp slots around the key), expanded and compact.
   _barSheet('bar_text', [
     const _Shot(branch: 1, textScale: 1.3, badges: BarBadges(reviewCount: 3)),
     const _Shot(branch: 1, textScale: 2, badges: BarBadges(reviewCount: 3)),
@@ -352,7 +351,7 @@ void main() {
       textScale: 1.3,
       live: BarResume(sessionId: 's2', paper: 'Business Studies practice', total: 50, answered: 12),
     ),
-    const _Shot(branch: 4, width: 320, textScale: 2, compact: true, badges: BarBadges(reviewCount: 3)),
+    const _Shot(branch: 3, width: 320, textScale: 2, compact: true, badges: BarBadges(reviewCount: 3)),
   ]);
 
   setUpAll(_loadFonts);
@@ -384,10 +383,10 @@ void main() {
       await tester.pumpAndSettle();
     });
 
-    // The lens from Practice to Review at 0, 40, 80, 130, 200 and 420 ms (top to bottom): the
-    // leading edge runs ahead, the trailing edge follows, the old icon empties to its outline
-    // (160 ms), and the new one fills (200 ms) only once the lens has nearly arrived (past 70%
-    // of its travel). Then Review back to Today, leftward. The key never moves.
+    // The lens from Practice to the Mob at 0, 40, 80, 130, 200 and 420 ms (top to bottom), sliding
+    // under the Start key: the leading edge runs ahead, the trailing edge follows, the old icon
+    // empties to its outline (160 ms), and the new one fills (200 ms) only once the lens has nearly
+    // arrived (past 70% of its travel). Then the Mob back to Today, leftward. The key never moves.
     for (final (name, from, to) in const [('right', 1, 2), ('left', 2, 0)]) {
       testWidgets('bar travel $name (frames), $tag', (tester) async {
         final branch = ValueNotifier(from);

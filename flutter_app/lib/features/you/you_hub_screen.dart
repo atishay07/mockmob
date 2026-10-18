@@ -31,7 +31,6 @@ import 'widgets/you_row.dart';
 import '../rules/copy.dart';
 import '../rules/data/rules_data.dart';
 import '../rules/widgets/across_mocks_view.dart';
-import '../social/social.dart' show MobHubRow;
 import 'copy.dart';
 import 'edit_copy.dart';
 import 'data/student_target.dart';
@@ -368,9 +367,8 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                       // 4. Across your mocks (the same block as the Mistake Lab's end), then the
                       // repair record.
                       MmStaggerItem(index: 4, child: KeyedSubtree(key: _sectionKeys[3], child: const _AcrossSection())),
+                      // The Mob has its own tab since D105 (19 Oct), so its row left this list.
                       const MmStaggerItem(index: 5, child: _RepairRecordRow()),
-                      // The Mob's permanent entry (SOCIAL-SPEC section 9); draws nothing while the server's switch is off.
-                      const MmStaggerItem(index: 5, child: MobHubRow()),
                       // 5. My subjects, with the Aim row (course and colleges live in Colleges).
                       MmStaggerItem(
                         index: 6,
@@ -401,7 +399,8 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                                     ),
                                   ),
                                 const SizedBox(height: MmSpace.s8),
-                                AimRow(target: target, onOpen: () => context.go(AppRoutes.colleges)),
+                                // Colleges is a page over the bar since D105: pushed, so Back returns to You.
+                                AimRow(target: target, onOpen: () => context.push(AppRoutes.colleges)),
                               ],
                             ),
                           ),

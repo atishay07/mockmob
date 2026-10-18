@@ -23,6 +23,7 @@ import 'model/practice_selection.dart';
 import 'widgets/chapter_picker.dart';
 import 'widgets/concepts_shelf.dart';
 import 'widgets/confirm_sheet.dart';
+import 'widgets/locked_mode_sheet.dart';
 import 'widgets/choice_deck.dart';
 import 'widgets/choice_glyphs.dart';
 import 'widgets/mode_list.dart';
@@ -37,9 +38,15 @@ import 'widgets/top_rows.dart';
 
 /// The Practice tab (L08, brief app-practice-review-1016 section 2): the subject first ("Practise
 /// in", the tiles), then "Up next in [subject]", the one lit start, about that same subject; then
-/// "Ways to practise" shortest to longest (Quick practice and By chapter, Smart practice, the
-/// Exam conditions band with Full mock and NTA mode); then "More ways in" and the Concepts shelf.
+/// Your papers (D105: the Review screen lives here now) and the rows a student looks for; then "Ways
+/// to practise" shortest to longest (Quick practice and By chapter, Smart practice, the Exam
+/// conditions band with Full mock and NTA mode); then "More ways in" and the Concepts shelf.
 /// One subject state drives the tiles, the card and the modes. No cost appears on this screen.
+///
+/// Every mode is always listed (D101, owner 19 Oct: "visible but locked"). A mode Pro holds shows to
+/// a Free student with a quiet Pro tag; a tap opens the Upgrade sheet with PLAY_BILLING on, and with
+/// it off a calm sheet that says Pro opens in the app soon and offers the open mode instead. Only a
+/// server that says a mode is not offered at all takes its tile away.
 class PracticeScreen extends ConsumerStatefulWidget {
   const PracticeScreen({super.key});
 
@@ -200,24 +207,24 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
     // already on this phone resumes without the server, so only then does a banner say it.
     final offline = ref.watch(networkStatusProvider) == NetworkStatus.offline && ref.watch(practiceSuggestionProvider) is ResumeSuggestion;
 
-    // Only what the rows need: the mock's length, and whether the exam-day layout is offered.
+    // Only what the rows need: the mock's length, and whether each mode is open to this student.
     final fullAsync = ref.watch(practiceQuoteProvider(PracticeSelection(mode: PracticeMode.full, subjectId: subject).quoteQuery));
     final ntaAsync = ref.watch(practiceQuoteProvider(QuoteQuery(subject: subject, apiMode: 'nta', count: mockQuestionCount)));
     final full = _lastFull = fullAsync.value ?? _lastFull;
     final nta = _lastNta = ntaAsync.value ?? _lastNta;
-    // A mode Pro holds shows to a Free student only while Pro can be had here (PLAY_BILLING on): its
-    // tap opens the Upgrade sheet. With the flag off it is not drawn at all, so no tile wears a Pro
-    // tag and none leads to a gate with no way through (owner walk, 18 Oct). A Pro student sees it open.
-    final proOnSale = ref.watch(proNudgesOnProvider);
-    final ntaGated = nta != null && costLineFor(nta).kind == CostKind.proGated;
-    final showNta = nta != null && quoteOffersMode(nta) && (!ntaGated || proOnSale);
     final smartQuery = PracticeSelection(mode: PracticeMode.smart, subjectId: subject).quoteQuery;
     final smartAsync = ref.watch(practiceQuoteProvider(smartQuery));
     final smart = _lastSmart = smartAsync.value ?? _lastSmart;
     // Mobi thinks while the quotes for this subject have not answered (a quote can take seconds).
     final quotesLoading = (fullAsync.isLoading && !fullAsync.hasValue) || (smartAsync.isLoading && !smartAsync.hasValue);
-    final smartGated = smart != null && costLineFor(smart).kind == CostKind.proGated;
-    final showSmart = smart != null && quoteOffersMode(smart) && (!smartGated || proOnSale);
+    // Every mode is listed from the first frame (D101), before its quote answers: until then a Free
+    // student's NTA mode and Smart practice read as Pro's, which they are on the Free plan.
+    final ntaMode = practiceModeAccess(nta, isPro: auth.isPro);
+    final smartMode = practiceModeAccess(smart, isPro: auth.isPro);
+    final ntaGated = ntaMode == ModeAccess.locked;
+    final smartGated = smartMode == ModeAccess.locked;
+    final showNta = ntaMode != ModeAccess.notOffered;
+    final showSmart = smartMode != ModeAccess.notOffered;
     final stale = ref.watch(staleSubjectsProvider);
     final fetchedCounts = ref.watch(questionCountsProvider).value;
     final counts = _lastCounts = (fetchedCounts != null && fetchedCounts.isNotEmpty) ? fetchedCounts : (_lastCounts ?? fetchedCounts);
@@ -396,8 +403,16 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                                   tag: smartGated ? PracticeCopy.proTag : null,
                                   note: smartGated ? PracticeCopy.smartGatedLine : PracticeCopy.smartLine,
                                   onTap: () {
-                                    // A Free student is told what Pro adds and can buy it (PLAY_BILLING on); otherwise as before.
-                                    if (smartGated && showUpgradeSheetIfOn(context, reason: ProReason.smartPractice)) return;
+                                    // Locked for a Free student (D101): the Upgrade sheet with PLAY_BILLING on,
+                                    // otherwise the calm sheet with Quick practice instead.
+                                    if (smartGated) {
+                                      openLockedMode(
+                                        context,
+                                        mode: LockedMode.smart,
+                                        onInstead: () => _confirm(PracticeSelection(mode: PracticeMode.quick, subjectId: subject)),
+                                      );
+                                      return;
+                                    }
                                     _confirm(PracticeSelection(mode: PracticeMode.smart, subjectId: subject));
                                   },
                                 ),
@@ -427,7 +442,16 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                                           note: ntaGated ? PracticeCopy.ntaGatedLine : PracticeCopy.ntaLine,
                                           // The exam's own instructions page: the clock starts only after it.
                                           onTap: () {
-                                            if (ntaGated && showUpgradeSheetIfOn(context, reason: ProReason.ntaMode)) return;
+                                            // Locked for a Free student (D101): the Upgrade sheet with PLAY_BILLING
+                                            // on, otherwise the calm sheet with a Full mock instead.
+                                            if (ntaGated) {
+                                              openLockedMode(
+                                                context,
+                                                mode: LockedMode.nta,
+                                                onInstead: () => _confirm(PracticeSelection(mode: PracticeMode.full, subjectId: subject)),
+                                              );
+                                              return;
+                                            }
                                             context.push(NtaRoutes.location(subject));
                                           },
                                         )
