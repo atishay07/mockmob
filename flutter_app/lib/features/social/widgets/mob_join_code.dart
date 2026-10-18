@@ -79,7 +79,7 @@ class _JoinWithCodeSheetState extends State<JoinWithCodeSheet> {
     final type = context.mmType;
     final colors = context.mmColors;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(MmSpace.sheetSide, MmSpace.s4, MmSpace.sheetSide, MmSpace.s20),
+      padding: const EdgeInsets.only(top: MmSpace.s4),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,

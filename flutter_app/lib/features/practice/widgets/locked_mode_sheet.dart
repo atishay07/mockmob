@@ -53,7 +53,7 @@ class LockedModeSheetBody extends StatelessWidget {
     final colors = context.mmColors;
     final nta = mode == LockedMode.nta;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(MmSpace.sheetSide, MmSpace.s4, MmSpace.sheetSide, MmSpace.s20),
+      padding: const EdgeInsets.only(top: MmSpace.s4),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
