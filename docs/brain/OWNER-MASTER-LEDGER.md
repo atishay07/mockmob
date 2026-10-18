@@ -458,7 +458,7 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 ### Owner at about 10:40 pm, 18 Oct (D98; new account, session 604ced81 resumed)
 | # | Ask | Status |
 |---|---|---|
-| D98 | Order: final app v15.2 first (review fae1d928, merge taste dec4e083 + c2e950ba, ONE fix pass on the remaining HIGH/MEDIUM + quick LOWs, analyze + unit tests of changes, release APK, one install), then release 10 (two production migrations, one Opus verifier capped at 2 rounds), then ONE message; fast and slow work in separate workflows | BUILDING 10:45 pm |
+| D98 | Order: final app v15.2 first (review fae1d928, merge taste dec4e083 + c2e950ba, ONE fix pass on the remaining HIGH/MEDIUM + quick LOWs, analyze + unit tests of changes, release APK, one install), then release 10 (two production migrations, one Opus verifier capped at 2 rounds), then ONE message; fast and slow work in separate workflows | DONE 12:47 am: v15.2 installed on his phone (ab04b067) and sent; release 10 live (75ac3f23) with 3 production migrations; one verifier + fixes |
 
 ### Owner at about 11:30 pm, 18 Oct (D99)
 | # | Ask | Status |
@@ -468,7 +468,12 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 ### Owner at about 11:45 pm, 18 Oct (D100)
 | # | Ask | Status |
 |---|---|---|
-| D100 | Finish everything in THIS session (no 10th carry-over to another agent); speed up | 11:47 pm: APK builds in parallel with tests; release 10 verifier started in parallel with the suites; one round plus fixes; production dry runs done ahead |
+| D100 | Finish everything in THIS session (no 10th carry-over to another agent); speed up | DONE in this session, 12:50 am |
+
+### Status at about 12:50 am, 19 Oct (session 604ced81)
+- **Final app v15.2** (1.0.15+7, ab04b067): one fix pass over the final walk (all 15 HIGH and 11 MEDIUM fixed, analyze clean, 6,043 unit tests pass), release APK installed on his phone at 12:47 am and sent as a file. DONE pending his hand check (D96).
+- **Release 10 live** (main 75ac3f23, STATUS 23a7c090): one credits balance (D78), wallet, web Pro nudges (D79-D81, D84), Play billing server (off), Today taste fixes, light attempts list. Production migrations play_purchases, one_credits_balance, attempts_list_summary_fn applied with pre/post md5 checks and undo files. Flags WALLET_COMMERCE_OPEN, PLAY_BILLING_ENABLED, PERSISTENT_LIMITS_ENABLED stay off (his steps).
+- **Waiting on him:** Razorpay test-card run, Play Console setup, PERSISTENT_LIMITS_ENABLED, W-044 (glass-circle Today cue), his v15.2 hand check.
 
 ## Waiting on the owner (updated 18 Oct about 3:45 am)
 - Answered 3:50 am: M-001 first launch 3 s; M-006 bolder copy; D19 keep badges, refine; D22 Mob.
