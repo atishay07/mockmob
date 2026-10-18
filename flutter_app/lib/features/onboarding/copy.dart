@@ -223,6 +223,12 @@ abstract final class OnboardingCopy {
   /// The hint on a sign-in key that waits for the age question above it.
   static const String ageFirst = 'Answer the age question first';
 
+  /// The swipe preview on the sheet after sign-in: the deck's own words (SWIPE-V2-1018 section 12).
+  static const String swipePreviewTitle = 'Your next moves come as cards';
+  static const String swipePreviewRight = 'Up next';
+  static const String swipePreviewLeft = 'Not now';
+  static const String swipePreviewCaption = 'Right puts a card up next. Left is not now. The buttons work too.';
+
   /// Mobi, when a sign-in key is tapped before the age is answered.
   static const String mobiAgeFirst = 'One quick one first: are you 18 yet?';
   static const String continueWithGoogle = 'Continue with Google';

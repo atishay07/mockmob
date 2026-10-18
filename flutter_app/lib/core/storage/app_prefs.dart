@@ -40,6 +40,9 @@ class AppPrefs {
   static const _glassAutoLite = 'glass_auto_lite_v3';
   static const _coldOpenSeen = 'cold_open_seen';
 
+  /// The sheet after sign-in showed the swipe preview card (once per install).
+  static const _swipePreviewSeen = 'onboarding_swipe_preview_seen';
+
   Future<bool> welcomeSeen() async => await _prefs.getBool(_welcomeSeen) ?? false;
   Future<void> setWelcomeSeen(bool v) => _prefs.setBool(_welcomeSeen, v);
 
@@ -170,4 +173,7 @@ class AppPrefs {
   /// True once the first-launch cold open has played.
   Future<bool> coldOpenSeen() async => await _prefs.getBool(_coldOpenSeen) ?? false;
   Future<void> setColdOpenSeen(bool v) => _prefs.setBool(_coldOpenSeen, v);
+
+  Future<bool> swipePreviewSeen() async => await _prefs.getBool(_swipePreviewSeen) ?? false;
+  Future<void> setSwipePreviewSeen(bool v) => _prefs.setBool(_swipePreviewSeen, v);
 }
