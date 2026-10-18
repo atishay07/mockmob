@@ -11,7 +11,7 @@
 // The key is the viewport's one volt (data-page-primary steps the shell's Start key back to an outline).
 import { useContext, useEffect, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
-import { ChevronsUpDown, RotateCcw, Check, Flag, Repeat2 } from 'lucide-react';
+import { ChevronsUpDown, RotateCcw, Check, Repeat2 } from 'lucide-react';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import MobiReact from '@/components/brand/MobiReact';
 import { useCountUpState } from '@/lib/motion/useCountUp';
@@ -56,7 +56,7 @@ function Art({ move, failed }) {
   // The subject's object is alive here (the brand's ObjectLife: a slow breath and a lean toward the pointer), the page's
   // one living object; reduced motion keeps the still picture.
   if (move.subject) return <span className="tm__art" key={move.subject} aria-hidden="true"><SubjectObject id={move.subject} size={112} lit life framed={false} /></span>;
-  return <span className="tm__glyph" aria-hidden="true">{move.id === 'done' ? <Check size={36} strokeWidth={1.5} /> : move.id === 'plan' ? <Flag size={34} strokeWidth={1.5} /> : <RotateCcw size={34} strokeWidth={1.5} />}</span>;
+  return <span className="tm__glyph" aria-hidden="true">{move.id === 'done' ? <Check size={36} strokeWidth={1.5} /> : <RotateCcw size={34} strokeWidth={1.5} />}</span>;
 }
 
 function SomethingElse({ open, onClose, items }) {

@@ -219,7 +219,7 @@ function planLead(c) {
     why: 'Pick your exam date, the days you can study and how many full mocks to take. It takes three taps, and you can change it any day.',
     // The key opens Change plan on this page (the lead card draws a button for `action: 'plan'`); the href is only where a plain link would land.
     key: { label: 'Plan my weeks', href: '#road', action: 'plan', minutes: null },
-    pills: { length: false, second: 'else' }, art: 'glyph', subject: null,
+    pills: { length: false, second: 'else' }, art: 'mobi', mobiAct: 'point', subject: null,
   }, { now: c.now });
 }
 

@@ -92,7 +92,7 @@ test('wired on Today: the path leads through withFirstWeek, the rail rides on th
   assert.match(move, /\{path\?\.day \? <p className="sr-only">\{railLine\(path\)\}\{caption && !week \? ` \$\{caption\}` : ''\}<\/p> : null\}/, 'a screen reader hears the rail once, in words');
   // The one volt key: Change plan is a button, a link is a link, offline is disabled; exactly one of them is drawn.
   assert.match(move, /\{isPlan \? \(\s*<button type="button" className="tm__key" data-page-primary aria-haspopup="dialog" onClick=\{onPlan\}>\{m\.key\.label\}<\/button>\s*\) : offline \? \(/);
-  assert.match(move, /Flag size=\{34\}/, 'the road\'s flag is the plan\'s picture');
+  assert.doesNotMatch(move, /Flag size=\{34\}/, 'release 10: Mobi points the way on day 7, not a flat flag tile');
   const road = read('src/components/today/TodayRoad.jsx');
   assert.match(road, /planAsk = 0, onPlanSaved/);
   assert.match(road, /if \(planAsk !== asked\) \{ setAsked\(planAsk\); if \(!hold && layers\) setFlow\(1\); \}/, 'it opens once per ask, and only once the road has loaded');
