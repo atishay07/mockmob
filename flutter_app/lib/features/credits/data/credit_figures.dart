@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/auth/auth_state.dart';
 import '../../../core/repositories/credits_repository.dart';
+import '../../../core/repositories/remote_state.dart';
 import '../../wallet/data/wallet_data.dart';
 import 'credits_data.dart';
 
@@ -19,17 +20,23 @@ enum CreditsMode {
   twoPools,
 }
 
-/// The mode for the signed-in account. Both reads are cached on the phone and keep their last value when a
-/// later read fails, so once a server has said "one balance" the app keeps saying it for the session.
+/// The mode for the signed-in account.
+///
+/// The credits read (`GET /api/me/credits`) decides first: a one-balance server always sends its `total`
+/// block there, and an older one never does. This matters on a server that runs the one balance without the
+/// wallet route yet (staging on 18 Oct: `/api/wallet` was 404 while spending already came out of one
+/// balance, so the two-pool display showed a practice figure that never moved; final walk, H13). Only when
+/// that read cannot answer is `GET /api/wallet` asked: an answer with a total is one balance, a 404 (or any
+/// failure with nothing kept) is the two-pool display. Both reads are kept on the phone and keep their last
+/// value when a later read fails, so the mode does not flip within a session.
 final creditsModeProvider = Provider<CreditsMode>((ref) {
-  final wallet = ref.watch(walletRepositoryProvider);
   final mine = ref.watch(meCreditsProvider);
-  if (wallet.value?.total != null || mine.value?.total?.balance != null) return CreditsMode.oneBalance;
-  // The credits read answered without a usable total: an older server (release 9 has no total block and no
-  // wallet route, which answers 404), so its two balances are what is true there.
+  if (mine.value?.total?.balance != null) return CreditsMode.oneBalance;
   if (mine.value != null) return CreditsMode.twoPools;
-  // Neither read could answer and nothing is kept on the phone: the two-pool display, which reads "Not loaded".
-  if (mine.isFailedEmpty && (wallet.isFailedEmpty || wallet.value != null)) return CreditsMode.twoPools;
+  if (!mine.isFailedEmpty) return CreditsMode.unknown;
+  final wallet = ref.watch(walletRepositoryProvider);
+  if (wallet.value?.total != null) return CreditsMode.oneBalance;
+  if (wallet.value != null || wallet.isFailedEmpty) return CreditsMode.twoPools;
   return CreditsMode.unknown;
 });
 
@@ -119,7 +126,9 @@ final creditFiguresProvider = Provider<CreditFigures>((ref) {
   final proUntil = overview?.plan.until ?? auth.premiumUntil?.toLocal();
 
   if (mode == CreditsMode.oneBalance) {
-    final walletRead = ref.watch(walletRepositoryProvider);
+    // The wallet read joins in only once something has asked for it (the Wallet page, or the mode check
+    // when the credits read failed): the figures never start a second read of their own.
+    final walletRead = ref.exists(walletRepositoryProvider) ? ref.watch(walletRepositoryProvider) : const RemoteState<WalletRead>();
     final w = walletRead.value;
     final t = overview?.total;
     // The newer of the two reads wins. The credits read is the one read again after every spend (a set

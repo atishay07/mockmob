@@ -367,12 +367,14 @@ void main() {
       await tester.pump(const Duration(seconds: 13));
     });
 
-    testWidgets('out of credits: when they renew, that record questions stay free, and what Pro includes', (tester) async {
+    // New contract (final fix pass, 18 Oct): Pro is named only when it can be bought in the app
+    // (PLAY_BILLING on); the release APK has it off, so the band carries no Pro line.
+    testWidgets('out of credits: when they renew and that record questions stay free; no Pro line with billing off', (tester) async {
       await pump(tester, credits: serverCredits(total: 0, included: 0, bonus: 0));
       expect(find.byType(AskOutOfCredits), findsOneWidget);
       expect(find.text(InsightsCopy.outTitle), findsOneWidget);
       expect(find.textContaining('They renew on 1 November'), findsWidgets);
-      expect(find.textContaining(InsightsCopy.outPro), findsOneWidget);
+      expect(find.textContaining(InsightsCopy.outPro), findsNothing);
     });
 
     testWidgets('a Pro wallet that is empty does not mention Pro', (tester) async {

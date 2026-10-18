@@ -13,7 +13,6 @@ import '../../../core/router/routes.dart' show AppRoutes;
 import '../../../core/sync/sync_providers.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
-import '../../credits/data/credit_figures.dart' show CreditsMode, creditsModeProvider;
 import '../copy.dart';
 import '../data/ai_reply_report.dart';
 import '../data/ask_citation.dart';
@@ -30,6 +29,7 @@ import '../data/readout.dart';
 import '../insights_paths.dart';
 import '../screens/insights_screen.dart' show insightsInputsProvider;
 import 'ask_messages.dart';
+import 'ask_wallet.dart' show askOneBalanceProvider;
 import 'insights_bits.dart' show ActionLink;
 import 'mobi_mark.dart';
 import 'motion_bits.dart';
@@ -386,7 +386,7 @@ class _AskMobiSheetState extends ConsumerState<AskMobiSheet> {
                   bonus: wallet?.bonus,
                   // A pause is said once, in the notice above; the credits themselves are untouched.
                   resetsOn: renew,
-                  oneBalance: ref.watch(creditsModeProvider) == CreditsMode.oneBalance,
+                  oneBalance: ref.watch(askOneBalanceProvider),
                 ),
                 note: (typed) {
                   if (typed.trim().isEmpty) return AskSheetCopy.recordFree;

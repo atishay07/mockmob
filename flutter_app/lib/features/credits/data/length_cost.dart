@@ -7,10 +7,10 @@
 // uses no credits: "Included", with no upsell. A row the student cannot afford says so on the row.
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/auth/auth_state.dart';
 import '../../../core/models/practice_quote.dart';
 import '../../practice/data/practice_quote.dart' show practiceQuoteProvider;
 import '../../practice/model/practice_selection.dart' show QuoteQuery;
-import 'credit_figures.dart';
 
 /// One row's price: the words on the row's right ("5 credits", "Included", "Free") and, when the student
 /// has fewer credits than it takes, the balance under it ("You have 12").
@@ -81,12 +81,14 @@ LengthCost? lengthCostFor({required int questions, required bool fullMock, Pract
 }
 
 /// The price of one row for the signed-in student: the row's quote is asked for while the sheet is open
-/// (it is advisory and spends nothing), and the D65 rule shows until it answers.
+/// (it is advisory and spends nothing), and the D65 rule shows until it answers. The balance a row is
+/// measured against is the server's own, from the quotes (the card's quote has usually answered already):
+/// on a one-balance server that is the one credits balance, on an older one the Practice credits.
 final lengthCostProvider = Provider.autoDispose.family<LengthCost?, ({QuoteQuery? base, int? questions, bool fullMock})>((ref, row) {
   final query = lengthQuoteQuery(row.base, questions: row.questions, fullMock: row.fullMock);
   if (query == null) return null;
   final quote = ref.watch(practiceQuoteProvider(query)).value;
-  final figures = ref.watch(creditFiguresProvider);
-  final balance = figures.stale ? null : (figures.oneBalance ? figures.total : figures.practice);
-  return lengthCostFor(questions: row.questions!, fullMock: row.fullMock, quote: quote, isPro: figures.isPro, balance: balance);
+  final card = row.base == null ? null : ref.watch(practiceQuoteProvider(row.base!)).value;
+  final isPro = ref.watch(authSnapshotProvider.select((a) => a.isPro));
+  return lengthCostFor(questions: row.questions!, fullMock: row.fullMock, quote: quote, isPro: isPro, balance: quote?.creditBalance ?? card?.creditBalance);
 });

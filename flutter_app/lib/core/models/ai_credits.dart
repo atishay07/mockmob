@@ -52,16 +52,21 @@ class AiCredits {
     this.isPaid = false,
     this.tier,
     this.practiceBalance,
+    this.oneBalance = false,
   });
 
   factory AiCredits.fromJson(Json j) {
     final practice = asJson(j['practiceCredits']);
+    final one = asJson(j['credits']);
     return AiCredits(
       state: asStringOr(j['state'], 'error'),
       wallet: j['wallet'] is Map ? AiWallet.fromJson(asJson(j['wallet'])) : null,
       isPaid: asBool(j['isPaid']) ?? false,
       tier: asString(j['tier']),
       practiceBalance: asInt(practice['balance']),
+      // The one credits balance (owner D78, release 10): the server sends a known `credits` total, and the
+      // wallet's own total is then that one balance. An older server sends no `credits` block.
+      oneBalance: asBool(one['known']) == true && asInt(one['total']) != null,
     );
   }
 
@@ -73,6 +78,10 @@ class AiCredits {
 
   /// Practice credits, the other ledger.
   final int? practiceBalance;
+
+  /// The server keeps one credits balance: the wallet's total is that balance, called "credits", never
+  /// "AI credits".
+  final bool oneBalance;
 
   /// Explanation credits, or null when unknown. Never render null as zero.
   int? get explanationBalance => wallet?.balance;

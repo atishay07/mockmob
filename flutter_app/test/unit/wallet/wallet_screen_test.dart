@@ -115,8 +115,9 @@ void main() {
       for (final web in ['₹10', '₹29', '₹49', '₹99', 'Rs 10', 'Rs 29', 'Rs 49', 'Rs 99', 'mockmob.in', 'checkout']) {
         expect(find.textContaining(web), findsNothing, reason: web);
       }
-      // Off: the one calm line and no purchase key of any kind.
-      expect(find.text(BillingCopy.topUpsSoon), on ? findsNothing : findsOneWidget);
+      // Off: no top-up section at all (no "open soon" promise) and no purchase key of any kind.
+      expect(find.text(BillingCopy.topUpsSoon), findsNothing);
+      expect(find.text(BillingCopy.topUpsTitle), on ? findsOneWidget : findsNothing);
       if (!on) expect(find.text('Get Pro'), findsNothing);
       expect(find.text('Add credits'), findsNothing);
     });
@@ -168,11 +169,14 @@ void main() {
     expect(find.text('50 credits'), findsOneWidget);
   });
 
-  testWidgets('flag off: balance and history as ever, top-ups open soon, no key that does nothing, no price', (tester) async {
+  // New contract (final fix pass, 18 Oct): with PLAY_BILLING off the APK sells nothing, so the Wallet draws
+  // no top-up section at all; before, a "Top-ups open soon." line promised what the app cannot do yet.
+  testWidgets('flag off: balance and history as ever, no top-up section, no key that does nothing, no price', (tester) async {
     final rig = BillingRig(on: false);
     await _pump(tester, rig: rig);
     expect(find.text('46'), findsWidgets);
-    expect(find.text(BillingCopy.topUpsSoon), findsOneWidget);
+    expect(find.text(BillingCopy.topUpsSoon), findsNothing);
+    expect(find.text(BillingCopy.topUpsTitle), findsNothing);
     expect(find.text('50 credits'), findsNothing);
     expect(find.text('Get Pro'), findsNothing);
     expect(find.text(WalletCopy.proRowNote), findsNothing);

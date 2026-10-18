@@ -22,6 +22,7 @@ import 'package:mockmob/features/account_sheet/account_copy.dart';
 import 'package:mockmob/features/account_sheet/account_sheet.dart';
 import 'package:mockmob/features/credits/credits.dart' show CreditsCopy;
 import 'package:mockmob/features/credits/data/credits_data.dart' show meCreditsProvider;
+import 'package:mockmob/features/wallet/data/wallet_data.dart' show walletRepositoryProvider;
 import 'package:mockmob/features/notifications/copy.dart';
 import 'package:mockmob/features/notifications/services/system_settings.dart';
 import 'package:mockmob/core/permissions/permission_requester.dart';
@@ -30,7 +31,7 @@ import 'package:mockmob/features/you/you_providers.dart';
 
 import '../notifications/support.dart' show Rig, prefsWith;
 import '../notifications/widget_support.dart' show FakePermissionRequester, FakePrefsRepo, featureOverrides;
-import '../you/you_test_support.dart' show FakeMeCredits, creditsState, draftsWithUnsent, outboxWith;
+import '../you/you_test_support.dart' show FakeMeCredits, creditsState, draftsWithUnsent, oneBalanceState, outboxWith, walletMissing;
 
 const _asha = AuthSnapshot(
   status: AuthStatus.signedIn,
@@ -97,6 +98,8 @@ Future<void> _pumpApp(
         authSnapshotProvider.overrideWithBuild((ref, n) => auth),
         creditsRepositoryProvider.overrideWithBuild((ref, n) => const RemoteState<AiCredits>()),
         meCreditsProvider.overrideWith(() => FakeMeCredits(credits ?? creditsState(practice: 24, ai: 18))),
+        // GET /api/wallet as today's production answers it: no route (404).
+        walletRepositoryProvider.overrideWithBuild((ref, n) => walletMissing),
         appPrefsProvider.overrideWithValue(AppPrefs(MemoryPrefsStore())),
         supportMailerProvider.overrideWithValue(mailer ?? _Mailer()),
         ...extra,
@@ -344,6 +347,18 @@ void main() {
     expect(fake.refreshes, 0);
     await _openSheet(tester);
     expect(fake.refreshes, 1);
+  });
+
+  // Final walk, H13: on a one-balance server the sheet showed "Practice credits 390" and "AI credits 45", two
+  // figures that moved apart after a spend. It shows the one balance now, called credits.
+  testWidgets('one balance: one Credits tile, never Practice credits or AI credits', (tester) async {
+    await _pumpApp(tester, credits: oneBalanceState());
+    await _openSheet(tester);
+    expect(find.byKey(const ValueKey('account-credits')), findsOneWidget);
+    expect(find.byKey(const ValueKey('account-practice')), findsNothing);
+    expect(find.text('108'), findsOneWidget);
+    expect(find.textContaining('Practice credits'), findsNothing);
+    expect(find.textContaining('AI credits'), findsNothing);
   });
 
   testWidgets('fresh credits show no status line', (tester) async {

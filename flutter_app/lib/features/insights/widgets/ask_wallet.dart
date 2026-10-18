@@ -8,7 +8,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../billing/billing.dart';
 import '../../credits/credits_copy.dart';
-import '../../credits/data/credit_figures.dart' show CreditsMode, creditsModeProvider;
+import '../../../core/repositories/credits_repository.dart';
 import '../copy.dart';
 import '../data/ask_controller.dart';
 import '../data/ask_wallet.dart';
@@ -32,7 +32,7 @@ class AskCreditPill extends ConsumerWidget {
     final paused = wallet?.paused ?? false;
     final total = wallet?.total;
     final empty = wallet?.empty ?? false;
-    final one = ref.watch(creditsModeProvider) == CreditsMode.oneBalance;
+    final one = ref.watch(askOneBalanceProvider);
     final style = type.labelLarge.copyWith(fontSize: 14, fontWeight: FontWeight.w600, color: colors.ink);
     return MmPressable(
       semanticsLabel: one && !paused && total != null
@@ -80,13 +80,18 @@ class AskCreditPill extends ConsumerWidget {
 /// Opens the credit details: the balance, this month's included credits, purchased credits, when
 /// they renew, how Ask spends them and what this conversation has used.
 Future<void> showAskWalletSheet(BuildContext context) {
-  final one = ProviderScope.containerOf(context, listen: false).read(creditsModeProvider) == CreditsMode.oneBalance;
+  final one = ProviderScope.containerOf(context, listen: false).read(askOneBalanceProvider);
   return showMmSheet<void>(
     context: context,
     title: one ? AskWalletCopy.titleOne : InsightsCopy.walletTitle,
     builder: (sheet) => const AskWalletSheet(),
   );
 }
+
+/// The server keeps one credits balance (owner D78), as Ask's own credits read (`GET /api/ai/credits`)
+/// reports it: its `credits` block carries a known total. Then every balance in Ask is "credits", never
+/// "AI credits". The same server answers the Account sheet's read the same way.
+final askOneBalanceProvider = Provider<bool>((ref) => ref.watch(creditsRepositoryProvider.select((s) => s.value?.oneBalance ?? false)));
 
 /// The Ask wallet's words on a server that keeps one credits balance (owner D78): one name, "credits",
 /// and the parts of that balance as the server counts them (this month's free credits, then the rest held).
@@ -116,7 +121,7 @@ class AskWalletSheet extends ConsumerWidget {
     ];
     final known = wallet?.known ?? false;
     final paused = wallet?.paused ?? false;
-    final one = ref.watch(creditsModeProvider) == CreditsMode.oneBalance;
+    final one = ref.watch(askOneBalanceProvider);
 
     Widget row(String label, String value) => Padding(
           padding: const EdgeInsets.symmetric(vertical: MmSpace.s8),
@@ -224,7 +229,7 @@ class AskOutOfCredits extends ConsumerWidget {
     final type = context.mmType;
     final wallet = ref.watch(askWalletProvider);
     final now = ref.watch(nowProvider)();
-    final one = ref.watch(creditsModeProvider) == CreditsMode.oneBalance;
+    final one = ref.watch(askOneBalanceProvider);
     final renew = renewDay(wallet, now);
     final body = one ? AskWalletCopy.outBodyOne(renew) : InsightsCopy.outBody(renew);
     // Pro is named only when it can be bought here (PLAY_BILLING): no Pro nudge otherwise.
