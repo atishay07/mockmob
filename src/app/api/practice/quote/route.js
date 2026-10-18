@@ -11,6 +11,7 @@ import { resolveSubject } from '@/../data/subject_registry';
 import { publicOffer } from '@/lib/payments/offer';
 import { actionFromHref } from '@/lib/server/actionFields';
 import { TEST_MODES, resolveCount } from '@/../data/test_modes';
+import { getUnifiedWallet } from '@/services/credits/unifiedWallet';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -49,8 +50,12 @@ export async function GET(request) {
     }
   }
 
+  // One credits balance (18 Oct 2026): "can afford" is this month's free credits + bought/held credits, the same total
+  // spend_credits takes from. If the wallet cannot be read, users.credit_balance alone is a safe lower bound.
+  const credits = await getUnifiedWallet(user).catch(() => null);
+  const creditBalance = credits?.known ? credits.total : user.creditBalance;
   const quote = buildPracticeQuote({
-    user: { id: user.id, isPremium: user.isPremium === true, premiumUntil: user.premiumUntil, creditBalance: user.creditBalance },
+    user: { id: user.id, isPremium: user.isPremium === true, premiumUntil: user.premiumUntil, creditBalance },
     subject, mode: modeId, count: requested, purpose, inventory, allowance, token: randomUUID(),
   });
   const upgrade = typeof quote.upgradeHref === 'string' ? { upgradeAction: actionFromHref(quote.upgradeHref) } : {};

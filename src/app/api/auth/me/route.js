@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { authWithStatus } from '@/lib/auth';
 import { Database } from '@/../data/db';
+import { getUnifiedWallet } from '@/services/credits/unifiedWallet';
 import { checkRateLimit, rateLimitHeaders } from '@/lib/server/rateLimit';
 import {
   failRequestDiagnostics,
@@ -54,6 +55,9 @@ export async function GET(request) {
       return jsonWithDiagnostics(diagnostics, { user: null, needsOnboarding: false }, { status: 404 });
     }
 
+    // One credits balance (18 Oct 2026): creditBalance is the one total every screen shows and prices against
+    // (this month's free credits + bought/held credits). users.credit_balance alone is the fallback if the wallet read fails.
+    const credits = await getUnifiedWallet(dbUser).catch(() => null);
     const user = {
       id: dbUser.id,
       name: dbUser.name || '',
@@ -63,7 +67,8 @@ export async function GET(request) {
       // Papers CUET dropped in 2025 that the account still holds: named in a note, never offered or launched.
       retiredSubjects: dbUser.retiredSubjects || [],
       role: dbUser.role || 'student',
-      creditBalance: dbUser.creditBalance || 0,
+      creditBalance: credits?.known ? credits.total : (dbUser.creditBalance || 0),
+      credits: credits?.known ? { total: credits.total, freeLeft: credits.freeLeft, freeAllowance: credits.freeAllowance, resetAt: credits.resetAt, held: credits.held, parts: credits.parts } : null,
       subscriptionStatus: dbUser.subscriptionStatus || 'free',
       isPremium: Boolean(dbUser.isPremium),
       premiumUntil: dbUser.premiumUntil || null,

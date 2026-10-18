@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
 import { isPaidUser, readAIWallet } from '@/services/credits/aiCreditWallet';
-import { CREDITS_COPY, creditsBody, loadHistory, parseCursor } from '@/lib/server/credits';
+import { CREDITS_COPY, aiPoolBalance, creditsBody, loadHistory, parseCursor } from '@/lib/server/credits';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -26,7 +26,7 @@ export async function GET(request) {
     const { history, next } = await loadHistory({
       userId: user.id,
       practiceBalance,
-      aiBalance: wallet?.known ? wallet.total : null,
+      aiBalance: aiPoolBalance(wallet),
       cursor,
     });
     return NextResponse.json(creditsBody({

@@ -195,14 +195,25 @@ export function planOf({ paid, premiumUntil }) {
 }
 
 /**
+ * The AI-wallet pool only (this month's free credits + bonus credits), or null when unknown. Since the one credits balance
+ * (18 Oct 2026) readAIWallet's total also counts users.credit_balance; the contract's two pools must not count it twice,
+ * so practice.balance + ai.balance is the one total.
+ */
+export function aiPoolBalance(wallet) {
+  if (!wallet?.known || int(wallet.total) === null) return null;
+  return int(wallet.total) - (int(wallet.balanceCredits) ?? 0);
+}
+
+/**
  * The whole response. wallet is readAIWallet's view (known: false when it could not be read).
  * Practice credits do not renew, so their renewsOn is null.
  */
 export function creditsBody({ practiceBalance, wallet, paid, premiumUntil, history, next }) {
-  const aiKnown = Boolean(wallet?.known) && int(wallet.total) !== null;
+  const aiBalance = aiPoolBalance(wallet);
+  const aiKnown = aiBalance !== null;
   return {
     practice: { balance: int(practiceBalance), renewsOn: null, label: PRACTICE_LABEL },
-    ai: { balance: aiKnown ? int(wallet.total) : null, renewsOn: aiKnown ? istDate(wallet.resetAt) : null, label: AI_LABEL },
+    ai: { balance: aiBalance, renewsOn: aiKnown ? istDate(wallet.resetAt) : null, label: AI_LABEL },
     plan: planOf({ paid, premiumUntil }),
     history,
     nextCursor: next,
