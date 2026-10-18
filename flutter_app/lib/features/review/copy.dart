@@ -21,7 +21,7 @@ abstract final class ReviewCopy {
   static String stripPapersSpoken(int n) => n == 1 ? '1 paper sat. Shows your papers' : '$n papers sat. Shows your papers';
   static String stripOf(int max) => 'of $max';
   static String stripLatestCaption(String name) => 'Latest, $name';
-  static const stripLatestNone = 'No marks yet';
+  static const stripLatestNone = 'Open your result to see it';
   static String stripLatestSpoken(String name, int marks, int max, String? change) =>
       'Latest paper, $name: ${formatSignedNumber(marks)} of $max marks${change == null ? '' : ', $change'}. Opens it';
   static String stripRepairs(int n) => n == 1 ? 'mistake to repair' : 'mistakes to repair';
@@ -35,28 +35,29 @@ abstract final class ReviewCopy {
   /// The list's heading under the page title ("Your papers"): the papers themselves.
   static const yourPapersHeading = 'Papers';
   static String papersCaption(int n, String? subject) {
-    if (subject == null) return n == 1 ? 'Your only paper so far. Tap it to see its result and answers.' : 'All $n papers. Tap one to see its result and answers.';
-    return n == 1 ? 'Your only $subject paper. Tap it to see its result and answers.' : 'All $n $subject papers. Tap one to see its result and answers.';
+    const see = 'to see your marks and every answer explained.';
+    if (subject == null) return n == 1 ? 'Your first paper. Tap it $see' : 'All $n of your papers. Tap one $see';
+    return n == 1 ? 'Your one $subject paper so far. Tap it $see' : 'All $n of your $subject papers. Tap one $see';
   }
 
   static String showAllPapers(int n) => 'Show all $n papers';
   static String paperSplit(int right, int wrong, int blank) => '$right right, $wrong wrong, $blank not attempted';
-  static const paperSealed = 'Result not opened yet';
-  static const openYourResult = 'Open your result';
+  static const paperSealed = 'Your result is ready and not opened yet';
+  static const openYourResult = 'Your result is ready';
   static const opensSealed = 'Opens your result';
   static const opensResult = 'Opens its result and answers';
 
   /// Mistakes to repair, under the papers.
   static String mistakesCaption(int open, int chapters, String? subject) {
     final where = subject == null ? '' : ' in $subject';
-    if (open == 0) return 'Nothing left to repair$where. The chapters below still show where marks went.';
-    return '${plural(open, 'mistake')}$where, across ${plural(chapters, 'chapter')}. The chapter that costs you the most marks comes first.';
+    if (open == 0) return 'Nothing left to repair$where. The chapters below still show where your marks went.';
+    return '${plural(open, 'mistake')}$where across ${plural(chapters, 'chapter')}. Start with the chapter that costs you the most marks.';
   }
 
   /// A fresh account with no papers: one friendly first step (D106).
   static const firstPaperTitle = 'Sit your first paper';
   static const firstPaperMessage =
-      'Every paper you sit lands here, newest first, with its marks and every answer explained. Ten questions take about ten minutes.';
+      'Every paper you sit lands here with your marks and every answer explained, so you can see exactly where marks slip. Ten questions take about ten minutes.';
   static const firstPaperAction = 'Start 10 questions';
   static const firstPaperSampleTitle = 'Quick practice, Accountancy';
   static const firstPaperSampleNote = '7 right, 34 of 50 marks';
