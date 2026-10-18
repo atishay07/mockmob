@@ -30,15 +30,21 @@ const SERVICE_ACCOUNT = { type: 'service_account', client_email: 'play-billing@m
 
 // ---- the products ---------------------------------------------------------------------------------------------------
 test('the product map: web ids, server-decided grants, no price anywhere', () => {
-  assert.deepEqual(Object.keys(PLAY_PRODUCTS), ['pro_cuet_2027', 'ai_credits_prepos_10_50', 'ai_credits_prepos_20_150', 'ai_credits_prepos_50_400', 'practice_credits_19_100', 'practice_credits_49_300']);
+  assert.deepEqual(Object.keys(PLAY_PRODUCTS), ['pro_cuet_2027', 'credits_10_50', 'credits_29_150', 'credits_49_300', 'ai_credits_prepos_10_50', 'ai_credits_prepos_20_150', 'ai_credits_prepos_50_400']);
   const pro = getPlayProduct('pro_cuet_2027');
   assert.equal(pro.kind, 'pro');
   assert.equal(pro.finish, 'acknowledge', 'Pro is acknowledged, never consumed');
   assert.equal(pro.accessUntil, PAYMENT_PLANS.pro_cuet_2027.accessUntil, 'the same date the web grants');
   assert.equal(pro.accessUntil, '2027-07-31T18:29:59.999Z', 'Pro until 31 July 2027 India time');
-  for (const id of ['ai_credits_prepos_10_50', 'ai_credits_prepos_20_150', 'ai_credits_prepos_50_400', 'practice_credits_19_100', 'practice_credits_49_300']) assert.equal(getPlayProduct(id).finish, 'consume');
-  assert.deepEqual([getPlayProduct('practice_credits_19_100').kind, getPlayProduct('practice_credits_19_100').credits], ['practice_credits', 100]);
-  assert.deepEqual([getPlayProduct('practice_credits_49_300').kind, getPlayProduct('practice_credits_49_300').credits], ['practice_credits', 300]);
+  for (const [id, credits] of [['credits_10_50', 50], ['credits_29_150', 150], ['credits_49_300', 300], ['ai_credits_prepos_10_50', 50], ['ai_credits_prepos_20_150', 150], ['ai_credits_prepos_50_400', 400]]) {
+    assert.equal(getPlayProduct(id).finish, 'consume');
+    assert.equal(getPlayProduct(id).kind, 'ai_credits', `${id}: ONE credits balance, granted as bonus credits through the AI purchase path`);
+    assert.equal(getPlayProduct(id).credits, credits);
+  }
+  assert.equal(getPlayProduct('practice_credits_19_100'), null, 'no separate practice products');
+  assert.equal(getPlayProduct('practice_credits_49_300'), null);
+  assert.equal(getPlayProduct('ai_credits_prepos_10_50').legacy, true);
+  assert.equal(getPlayProduct('credits_10_50').legacy, undefined);
   for (const p of Object.values(PLAY_PRODUCTS)) {
     assert.deepEqual(Object.keys(p).filter((k) => /price|amount|rupee|paise|inr/i.test(k)), [], `${p.productId} carries no price`);
   }
@@ -48,7 +54,7 @@ test('the product map: web ids, server-decided grants, no price anywhere', () =>
   assert.ok(PLAY_GAPS.includes('pro_monthly_99'));
 });
 
-test('every credit pack matches the website pack of the same id (credits and plan id), read from the web source', () => {
+test('the earlier AI packs match the website pack of the same id (credits and plan id), read from the web source', () => {
   const src = file('src/services/credits/aiCreditWallet.js');
   const web = [...src.matchAll(/planId: '([a-z0-9_]+)',[^}]*?credits: (\d+)/g)].map((m) => [m[1], Number(m[2])]);
   assert.equal(web.length, 3, 'the website sells three packs');
@@ -57,7 +63,7 @@ test('every credit pack matches the website pack of the same id (credits and pla
     assert.ok(p, `${planId} is mapped`);
     assert.equal(p.credits, credits, `${planId} grants what the web grants`);
   }
-  assert.equal(Object.values(PLAY_PRODUCTS).filter((p) => p.kind === 'ai_credits').length, web.length, 'no pack the web does not sell');
+  assert.equal(Object.values(PLAY_PRODUCTS).filter((p) => p.legacy).length, web.length, 'no earlier pack the web did not sell');
 });
 
 // ---- Google auth ----------------------------------------------------------------------------------------------------
@@ -233,25 +239,25 @@ test('happy path, Pro: purchased, bound to the account, granted until the web da
   assert.ok(w.store.rows.get(TOKEN).acknowledged_at);
 });
 
-test('happy path, credit pack: granted, then consumed so it can be bought again', async () => {
+test('happy path, credit pack: granted into the held credits, then consumed so it can be bought again', async () => {
   const w = world();
-  w.google.products.set(TOKEN, purchaseFor('u1', 'ai_credits_prepos_20_150'));
-  const r = await w.verify({ userId: 'u1', productId: 'ai_credits_prepos_20_150' });
+  w.google.products.set(TOKEN, purchaseFor('u1', 'credits_29_150'));
+  const r = await w.verify({ userId: 'u1', productId: 'credits_29_150' });
   assert.equal(r.ok, true);
-  assert.deepEqual(r.credits, { pool: 'ai', granted: 150, balance: 150 });
+  assert.deepEqual(r.credits, { granted: 150, balance: 150 });
   assert.equal(w.google.count('consume'), 1);
   assert.equal(w.google.count('acknowledge'), 0, 'consume acknowledges by itself');
   assert.ok(w.store.rows.get(TOKEN).consumed_at);
 });
 
-test('happy path, practice credit pack: 100 or 300 Practice credits, consumed, reported as the practice pool', async () => {
-  for (const [productId, credits] of [['practice_credits_19_100', 100], ['practice_credits_49_300', 300]]) {
+test('every credit pack, new and earlier, grants its credits as bonus credits and is consumed', async () => {
+  for (const [productId, credits] of [['credits_10_50', 50], ['credits_29_150', 150], ['credits_49_300', 300], ['ai_credits_prepos_10_50', 50], ['ai_credits_prepos_20_150', 150], ['ai_credits_prepos_50_400', 400]]) {
     const w = world();
     w.google.products.set(TOKEN, purchaseFor('u1', productId));
     const r = await w.verify({ userId: 'u1', productId });
-    assert.equal(r.ok, true);
-    assert.deepEqual(r.credits, { pool: 'practice', granted: credits, balance: credits });
-    assert.equal(w.store.grants[0].kind, 'practice_credits');
+    assert.equal(r.ok, true, productId);
+    assert.deepEqual(r.credits, { granted: credits, balance: credits });
+    assert.equal(w.store.grants[0].kind, 'ai_credits');
     assert.equal(w.store.grants[0].credits, credits);
     assert.equal(w.google.count('consume'), 1);
   }
@@ -259,12 +265,12 @@ test('happy path, practice credit pack: 100 or 300 Practice credits, consumed, r
 
 test('a client price, amount or credit count is never read: the server grants what the product id maps to', async () => {
   const w = world();
-  w.google.products.set(TOKEN, purchaseFor('u1', 'ai_credits_prepos_10_50'));
+  w.google.products.set(TOKEN, purchaseFor('u1', 'credits_10_50'));
   const r = await handlePlayVerify({
     enabled: () => true, auth: async () => ({ user: { id: 'u1' } }), rateLimit: async () => ({ allowed: true }), billing: w.deps,
   }, new Request('http://x/api/billing/play/verify', {
     method: 'POST',
-    body: JSON.stringify({ productId: 'ai_credits_prepos_10_50', purchaseToken: TOKEN, credits: 99999, amount: 1, price: 0, priceAmountMicros: 1, accessUntil: '2099-01-01T00:00:00Z', plan: 'pro_cuet_2027', kind: 'pro', userId: 'someone-else' }),
+    body: JSON.stringify({ productId: 'credits_10_50', purchaseToken: TOKEN, credits: 99999, amount: 1, price: 0, priceAmountMicros: 1, accessUntil: '2099-01-01T00:00:00Z', plan: 'pro_cuet_2027', kind: 'pro', userId: 'someone-else' }),
   }));
   assert.equal(r.status, 200);
   assert.equal(w.store.grants[0].credits, 50);
@@ -622,10 +628,7 @@ test('Google certificates are fetched once an hour', async () => {
 async function database() {
   const d = new PGlite();
   await d.exec(`create role anon;create role authenticated;create role service_role;
-    create type public.credit_transaction_type as enum ('earn','spend','bonus');
-    create table public.users(id text primary key, credit_balance int not null default 100, is_premium boolean not null default false, subscription_status text not null default 'free', premium_until timestamptz, razorpay_subscription_id text);
-    create table public.credit_transactions(id uuid primary key default gen_random_uuid(), user_id text not null references public.users(id), amount int not null, type public.credit_transaction_type not null, reference text not null, created_at timestamptz default now(), action text not null, credit_delta int not null);
-    create unique index idx_credit_transactions_reference_unique on public.credit_transactions(reference);
+    create table public.users(id text primary key, is_premium boolean not null default false, subscription_status text not null default 'free', premium_until timestamptz, razorpay_subscription_id text);
     create table public.payments(id text primary key, user_id text references public.users(id), payment_id text, amount_paid int, status text, access_until timestamptz);
     create table public.ai_credit_wallets(user_id text primary key references public.users(id) on delete cascade, included_monthly_credits int default 50, included_credits_used int default 0 check(included_credits_used>=0), bonus_credits int default 0 check(bonus_credits>=0), period_start timestamptz, reset_at timestamptz, metadata jsonb, created_at timestamptz default now(), updated_at timestamptz default now());
     create table public.ai_credit_ledger(id uuid primary key default gen_random_uuid(), user_id text, amount int, reason text check (reason = any (array['monthly_grant','pack_purchase','admin_adjustment','ai_spend','expiry','ai_reserve','ai_release'])), feature text, reference text, metadata jsonb, expires_at timestamptz, created_at timestamptz default now(), wallet_source text, balance_after int, idempotency_key text);`);
@@ -637,7 +640,7 @@ async function database() {
 const q = (d, sql, params) => d.query(sql, params).then((r) => r.rows);
 const grant = (d, user, token, product, extra = {}) => {
   const pro = product === 'pro_cuet_2027';
-  const kind = pro ? 'pro' : product.startsWith('practice_') ? 'practice_credits' : 'ai_credits';
+  const kind = pro ? 'pro' : 'ai_credits';
   return q(d, 'select public.mm_play_grant_purchase($1,$2,$3,$4,$5,$6,$7,$8) r', [user, token, extra.order ?? `GPA.${token}`, product, kind, pro ? null : extra.credits ?? 50, pro ? extra.until ?? '2027-07-31T18:29:59.999Z' : null, { purchaseState: 0 }]).then((r) => r[0].r);
 };
 const revoke = (d, token, reason = 'voided') => q(d, 'select public.mm_play_revoke_purchase($1,$2,$3,$4) r', [token, reason, null, {}]).then((r) => r[0].r);
@@ -692,7 +695,7 @@ test('SQL grant, Pro: access is never shortened, and a double purchase is flagge
 test('SQL grant, credit pack: the existing atomic grant runs once; a replay and another account add nothing', async () => {
   const d = await database();
   try {
-    const r = await grant(d, 'u1', 'tok-pack-000000000001', 'ai_credits_prepos_20_150', { credits: 150 });
+    const r = await grant(d, 'u1', 'tok-pack-000000000001', 'credits_29_150', { credits: 150 });
     assert.equal(r.ok, true);
     assert.equal(r.granted.credits, 150);
     assert.equal(r.granted.balance, 160, '10 included (new-wallet default of the grant function) + 150 bonus');
@@ -700,8 +703,8 @@ test('SQL grant, credit pack: the existing atomic grant runs once; a replay and 
     assert.equal(wallet.b, 150);
     const ledger = await q(d, "select amount, reason, feature, idempotency_key from public.ai_credit_ledger where user_id='u1'");
     assert.deepEqual(ledger, [{ amount: 150, reason: 'pack_purchase', feature: 'ai_credit_purchase', idempotency_key: 'play:tok-pack-000000000001' }]);
-    await grant(d, 'u1', 'tok-pack-000000000001', 'ai_credits_prepos_20_150', { credits: 150 });
-    assert.equal((await grant(d, 'u2', 'tok-pack-000000000001', 'ai_credits_prepos_20_150', { credits: 150 })).error, 'purchase_already_used');
+    await grant(d, 'u1', 'tok-pack-000000000001', 'credits_29_150', { credits: 150 });
+    assert.equal((await grant(d, 'u2', 'tok-pack-000000000001', 'credits_29_150', { credits: 150 })).error, 'purchase_already_used');
     assert.equal((await q(d, "select bonus_credits b from public.ai_credit_wallets where user_id='u1'"))[0].b, 150, 'credited once');
     assert.equal((await q(d, 'select count(*)::int n from public.ai_credit_ledger'))[0].n, 1);
     assert.equal((await grant(d, 'u3', 'tok-pack-000000000002', 'ai_credits_prepos_10_50', { credits: 0 })).error, 'invalid_amount');
@@ -767,7 +770,7 @@ test('SQL revoke, Pro: other paid access keeps Pro (a captured web payment, or a
 test('SQL revoke, credit pack: purchased credits are clawed back, never below zero, and recorded', async () => {
   const d = await database();
   try {
-    await grant(d, 'u1', 'tok-pack-000000000010', 'ai_credits_prepos_10_50', { credits: 50 });
+    await grant(d, 'u1', 'tok-pack-000000000010', 'credits_10_50', { credits: 50 });
     const r = await revoke(d, 'tok-pack-000000000010');
     assert.deepEqual([r.revoked.clawedBack, r.revoked.shortfall], [50, 0]);
     assert.equal((await q(d, "select bonus_credits b from public.ai_credit_wallets where user_id='u1'"))[0].b, 0);
@@ -776,54 +779,20 @@ test('SQL revoke, credit pack: purchased credits are clawed back, never below ze
     assert.equal(ledger.find((l) => l.amount < 0).feature, 'play_refund');
 
     // 120 of 150 already spent: only the 30 left can be taken back, and the shortfall is recorded.
-    await grant(d, 'u2', 'tok-pack-000000000011', 'ai_credits_prepos_20_150', { credits: 150 });
+    await grant(d, 'u2', 'tok-pack-000000000011', 'credits_29_150', { credits: 150 });
     await d.query("update public.ai_credit_wallets set bonus_credits = 30 where user_id='u2'");
     const r2 = await revoke(d, 'tok-pack-000000000011');
     assert.deepEqual([r2.revoked.clawedBack, r2.revoked.shortfall], [30, 120]);
     assert.equal((await q(d, "select bonus_credits b from public.ai_credit_wallets where user_id='u2'"))[0].b, 0);
 
     // All spent: nothing to take, still voided, and no negative ledger row.
-    await grant(d, 'u3', 'tok-pack-000000000012', 'ai_credits_prepos_10_50', { credits: 50 });
+    await grant(d, 'u3', 'tok-pack-000000000012', 'credits_10_50', { credits: 50 });
     await d.query("update public.ai_credit_wallets set bonus_credits = 0 where user_id='u3'");
     const r3 = await revoke(d, 'tok-pack-000000000012');
     assert.deepEqual([r3.revoked.clawedBack, r3.revoked.shortfall], [0, 50]);
     assert.equal((await q(d, "select count(*)::int n from public.ai_credit_ledger where user_id='u3' and amount < 0"))[0].n, 0);
     assert.equal((await q(d, "select state from public.play_purchases where purchase_token='tok-pack-000000000012'"))[0].state, 'voided');
     assert.equal((await q(d, 'select count(*)::int n from public.ai_credit_wallets where bonus_credits < 0'))[0].n, 0);
-  } finally { await d.close(); }
-});
-
-test('SQL practice credit pack: credit_balance and a purchase transaction, idempotent on the token; a void takes back what is left, never below zero', async () => {
-  const d = await database();
-  try {
-    const r = await grant(d, 'u1', 'tok-prac-000000000001', 'practice_credits_19_100', { credits: 100 });
-    assert.equal(r.ok, true);
-    assert.deepEqual([r.granted.kind, r.granted.credits, r.granted.balance], ['practice_credits', 100, 200], 'the 100 a new account starts with plus 100');
-    const tx = await q(d, "select amount, type::text, reference, action, credit_delta from public.credit_transactions where user_id='u1'");
-    assert.deepEqual(tx, [{ amount: 100, type: 'purchase', reference: 'play:tok-prac-000000000001', action: 'purchase', credit_delta: 100 }]);
-    assert.equal((await grant(d, 'u1', 'tok-prac-000000000001', 'practice_credits_19_100', { credits: 100 })).idempotent, true);
-    assert.equal((await grant(d, 'u2', 'tok-prac-000000000001', 'practice_credits_19_100', { credits: 100 })).error, 'purchase_already_used');
-    assert.equal((await q(d, "select credit_balance b from public.users where id='u1'"))[0].b, 200, 'credited once');
-    assert.equal((await q(d, 'select count(*)::int n from public.credit_transactions'))[0].n, 1);
-    assert.equal((await q(d, "select credit_balance b from public.users where id='u2'"))[0].b, 100, 'the other account got nothing');
-
-    const v = await revoke(d, 'tok-prac-000000000001');
-    assert.deepEqual([v.revoked.clawedBack, v.revoked.shortfall], [100, 0]);
-    assert.equal((await q(d, "select credit_balance b from public.users where id='u1'"))[0].b, 100);
-    assert.equal((await revoke(d, 'tok-prac-000000000001')).idempotent, true);
-    assert.equal((await q(d, "select credit_delta from public.credit_transactions where reference='play_void:tok-prac-000000000001'"))[0].credit_delta, -100);
-
-    // 270 of the 300 already spent: 30 left, so 30 come back and the shortfall is 270.
-    await grant(d, 'u3', 'tok-prac-000000000002', 'practice_credits_49_300', { credits: 300 });
-    await d.query("update public.users set credit_balance = 30 where id='u3'");
-    const v3 = await revoke(d, 'tok-prac-000000000002');
-    assert.deepEqual([v3.revoked.clawedBack, v3.revoked.shortfall], [30, 270]);
-    // Nothing left: no negative row, balance stays zero.
-    await grant(d, 'u4', 'tok-prac-000000000003', 'practice_credits_19_100', { credits: 100 });
-    await d.query("update public.users set credit_balance = 0 where id='u4'");
-    assert.deepEqual([(await revoke(d, 'tok-prac-000000000003')).revoked.clawedBack], [0]);
-    assert.equal((await q(d, "select count(*)::int n from public.credit_transactions where user_id='u4' and credit_delta < 0"))[0].n, 0);
-    assert.equal((await q(d, 'select count(*)::int n from public.users where credit_balance < 0'))[0].n, 0);
   } finally { await d.close(); }
 });
 
@@ -891,7 +860,7 @@ test('end to end on the real SQL: verify grants Pro, a replay is idempotent, a v
     const t2 = 'purchasetokenpurchasetoken0009';
     google.products.set(t2, purchaseFor('u6', 'ai_credits_prepos_50_400'));
     const pack = await verifyPlayPurchase(deps, { userId: 'u6', productId: 'ai_credits_prepos_50_400', purchaseToken: t2 });
-    assert.deepEqual(pack.credits, { pool: 'ai', granted: 400, balance: 410 });
+    assert.deepEqual(pack.credits, { granted: 400, balance: 410 });
     assert.ok((await store.getByToken(t2)).consumed_at);
     assert.equal((await handlePlayNotification({ store, packageName: 'in.mockmob.app', log: quiet }, voidedFor(t2))).revoked.clawedBack, 400);
   } finally { await d.close(); }

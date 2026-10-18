@@ -9,12 +9,8 @@
 --   public.mm_play_grant_purchase   atomic grant: the play_purchases row and the entitlement in ONE transaction.
 --                                Pro: users.is_premium / subscription_status / premium_until (never shortened), exactly the
 --                                columns the web one-time Pro verify writes. AI credit packs: the existing atomic
---                                mm_ai_grant_bonus_credits (reason pack_purchase), idempotency key 'play:<token>'.
---                                Practice credit packs: users.credit_balance + a credit_transactions row (type 'purchase',
---                                reference 'play:<token>', which is unique, so the grant is idempotent on the token). This
---                                is done INLINE here; the website wallet work (web/wallet-1018) may add its own practice
---                                credit grant RPC (20261018200000_practice_credit_packs.sql): the integrator can unify them.
---                                Adds the value 'purchase' to the credit_transaction_type enum (it had earn, spend, bonus).
+--                                mm_ai_grant_bonus_credits (reason pack_purchase), idempotency key 'play:<token>'. There is
+--                                ONE credits balance (owner D78): every credit pack, new or earlier, lands there as bonus credits.
 --   public.mm_play_revoke_purchase  a voided purchase takes back what it granted: Pro off unless other paid evidence exists
 --                                (the same rule as the web refund path), credit-pack bonus credits clawed back down to
 --                                zero, never below. A void that arrives before the purchase was ever verified leaves a
@@ -23,15 +19,13 @@
 -- Both functions are SECURITY DEFINER with a pinned search_path and executable by service_role only.
 -- Idempotent. Undo: supabase/undo/20261018190000_play_purchases.undo.sql.
 
-alter type public.credit_transaction_type add value if not exists 'purchase';
-
 create table if not exists public.play_purchases (
   id uuid primary key default gen_random_uuid(),
   purchase_token text not null unique,
   order_id text,
   user_id text references public.users(id) on delete set null,
   product_id text,
-  kind text check (kind in ('pro', 'ai_credits', 'practice_credits')),
+  kind text check (kind in ('pro', 'ai_credits')),
   state text not null default 'granted' check (state in ('granted', 'voided')),
   access_until timestamptz,
   credits integer check (credits is null or credits > 0),
@@ -77,15 +71,14 @@ declare
   v_new_until timestamptz;
   v_duplicate boolean;
   v_granted jsonb;
-  v_balance integer;
 begin
   if coalesce(p_user_id, '') = '' or coalesce(p_purchase_token, '') = '' or coalesce(p_product_id, '') = '' then
     return jsonb_build_object('ok', false, 'error', 'missing_field');
   end if;
-  if p_kind is null or p_kind not in ('pro', 'ai_credits', 'practice_credits') then
+  if p_kind is null or p_kind not in ('pro', 'ai_credits') then
     return jsonb_build_object('ok', false, 'error', 'invalid_kind');
   end if;
-  if p_kind in ('ai_credits', 'practice_credits') and (p_credits is null or p_credits <= 0) then
+  if p_kind = 'ai_credits' and (p_credits is null or p_credits <= 0) then
     return jsonb_build_object('ok', false, 'error', 'invalid_amount');
   end if;
   if p_kind = 'pro' and p_access_until is null then
@@ -120,7 +113,7 @@ begin
   insert into public.play_purchases (purchase_token, order_id, user_id, product_id, kind, state, access_until, credits, raw)
   values (p_purchase_token, nullif(p_order_id, ''), p_user_id, p_product_id, p_kind, 'granted',
           case when p_kind = 'pro' then p_access_until end,
-          case when p_kind in ('ai_credits', 'practice_credits') then p_credits end,
+          case when p_kind = 'ai_credits' then p_credits end,
           coalesce(p_raw, '{}'::jsonb));
 
   if p_kind = 'pro' then
@@ -136,13 +129,6 @@ begin
      where id = p_user_id;
     v_granted := jsonb_build_object('kind', 'pro', 'accessUntil', p_access_until, 'premiumUntil', v_new_until,
                                     'duplicatePro', v_duplicate);
-  elsif p_kind = 'practice_credits' then
-    -- The user row is already locked (for update above). The unique credit_transactions.reference is a second guard.
-    update public.users set credit_balance = credit_balance + p_credits where id = p_user_id
-      returning credit_balance into v_balance;
-    insert into public.credit_transactions (user_id, amount, type, reference, action, credit_delta)
-    values (p_user_id, p_credits, 'purchase'::public.credit_transaction_type, 'play:' || p_purchase_token, 'purchase', p_credits);
-    v_granted := jsonb_build_object('kind', 'practice_credits', 'credits', p_credits, 'balance', v_balance);
   else
     v_grant := public.mm_ai_grant_bonus_credits(
       p_user_id, p_credits, 'pack_purchase', coalesce(nullif(p_order_id, ''), left(p_purchase_token, 64)),
@@ -238,17 +224,6 @@ begin
       end if;
     end if;
     v_revoked := jsonb_build_object('kind', 'ai_credits', 'reason', p_reason, 'credits', v_row.credits,
-                                    'clawedBack', v_take, 'shortfall', coalesce(v_row.credits, 0) - v_take);
-  elsif v_row.kind = 'practice_credits' then
-    -- Take back what is left of the purchased credits, never more than the balance holds (no negative balance).
-    select credit_balance into v_balance from public.users where id = v_row.user_id for update;
-    v_take := least(greatest(coalesce(v_balance, 0), 0), coalesce(v_row.credits, 0));
-    if v_take > 0 then
-      update public.users set credit_balance = credit_balance - v_take where id = v_row.user_id;
-      insert into public.credit_transactions (user_id, amount, type, reference, action, credit_delta)
-      values (v_row.user_id, -v_take, 'spend', 'play_void:' || v_row.purchase_token, 'play_refund', -v_take);
-    end if;
-    v_revoked := jsonb_build_object('kind', 'practice_credits', 'reason', p_reason, 'credits', v_row.credits,
                                     'clawedBack', v_take, 'shortfall', coalesce(v_row.credits, 0) - v_take);
   end if;
 

@@ -63,7 +63,7 @@ function resultBody({ product, idempotent, granted, finished, orderId }) {
   if (product.kind === 'pro') {
     body.pro = { isPremium: true, premiumUntil: granted?.premiumUntil || product.accessUntil, duplicate: Boolean(granted?.duplicatePro) };
   } else {
-    body.credits = { pool: product.kind === 'practice_credits' ? 'practice' : 'ai', granted: Number(granted?.credits ?? product.credits), balance: Number.isFinite(Number(granted?.balance)) ? Number(granted.balance) : null };
+    body.credits = { granted: Number(granted?.credits ?? product.credits), balance: Number.isFinite(Number(granted?.balance)) ? Number(granted.balance) : null };
   }
   return body;
 }
@@ -146,7 +146,7 @@ export async function verifyPlayPurchase(deps, input) {
     granted = await store.grant({
       userId, purchaseToken, orderId: orderId || (typeof input.orderId === 'string' ? input.orderId : null),
       productId: product.productId, kind: product.kind,
-      credits: product.kind === 'pro' ? null : product.credits,
+      credits: product.kind === 'ai_credits' ? product.credits : null,
       accessUntil: product.kind === 'pro' ? product.accessUntil : null,
       raw: purchase,
     });

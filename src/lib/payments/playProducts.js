@@ -22,18 +22,24 @@ const pro = (webPlanId) => ({
   finish: 'acknowledge',
 });
 
-/** A credit pack: consumed after the grant, so the student can buy it again. kind: 'ai_credits' (the PrepOS wallet) or 'practice_credits' (users.credit_balance). */
-const pack = (productId, credits, kind = 'ai_credits') => ({ productId, kind, webPlanId: productId, credits, finish: 'consume' });
+/**
+ * A credit pack: consumed after the grant, so the student can buy it again. There is ONE credits balance (owner D78, 18 Oct
+ * 2026): every pack goes into the held credits as bonus credits through the AI credit purchase grant path
+ * (mm_ai_grant_bonus_credits), idempotent on the purchase token. kind 'ai_credits' names that path.
+ */
+const pack = (productId, credits, legacy = false) => ({ productId, kind: 'ai_credits', webPlanId: productId, credits, finish: 'consume', ...(legacy ? { legacy: true } : {}) });
 
 export const PLAY_PRODUCTS = Object.freeze(Object.fromEntries([
   pro('pro_cuet_2027'),
-  // PrepOS AI credit packs (src/services/credits/aiCreditWallet.js AI_CREDIT_PACKS: Starter 50, Focus 150, Sprint 400).
-  pack('ai_credits_prepos_10_50', 50),
-  pack('ai_credits_prepos_20_150', 150),
-  pack('ai_credits_prepos_50_400', 400),
-  // Practice credit packs (owner, 18 Oct 2026 6:38 pm; the website wallet gets the same two, web/wallet-1018): Rs 19 -> 100, Rs 49 -> 300 on the web.
-  pack('practice_credits_19_100', 100, 'practice_credits'),
-  pack('practice_credits_49_300', 300, 'practice_credits'),
+  // The credit packs (web catalogue src/services/credits/creditPacks.mjs on web/credits-core-1018 / web/wallet-1018: the same ids and
+  // credits; the integrator should point this map at that catalogue). Web prices Rs 10 / 29 / 49.
+  pack('credits_10_50', 50),
+  pack('credits_29_150', 150),
+  pack('credits_49_300', 300),
+  // The earlier AI top-up packs (src/services/credits/aiCreditWallet.js AI_CREDIT_PACKS): no longer sold, still accepted for safety.
+  pack('ai_credits_prepos_10_50', 50, true),
+  pack('ai_credits_prepos_20_150', 150, true),
+  pack('ai_credits_prepos_50_400', 400, true),
 ].map((p) => [p.productId, Object.freeze(p)])));
 
 export function getPlayProduct(productId) {
