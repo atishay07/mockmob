@@ -309,9 +309,9 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 | D41, D42, D45, D46, D47, D49 | Courses (most chosen first, Bulletin combinations, full list); no default subjects for "Not sure yet"; marks step up to 3; a full-mocks line under 10/20/30; an interactive study-days step; usage data ON by default | Building: ui/v15-onboard-b |
 | D53 | Ask Mobi answers at once; no "goes to an AI service" sheet | Building: ui/v15-askinstant (web parity in R8 fixes) |
 | D56, D57 (+ D8) | Restore the Start key's lost character; the bar's frosted glass visible; one icon family | Building: ui/v15-icons |
-| D51, D52 | Swipe suggestion cards; a richer Today (earlier versions felt cooler) | Mock-up first: tmp/design-1018/v15-feedback |
+| D51, D52 | Swipe suggestion cards; a richer Today (earlier versions felt cooler) | APPROVED 12:50 pm as v15.1 (TODAY-SWIPE-1018.md); building ui/v15-today-rich and ui/v15-swipe |
 | D55 | Audit every recorded app ask against the build, then fix the gaps | Audit plus fixer: ui/v15-ledger |
-| D50 | "5, 10, 20 only. No direction until you do a full mock" | **Ask him** which screen |
+| D50 | "5, 10, 20 only. No direction until you do a full mock" | CTO decision: 5/10/15/20 + full mock in "How many questions?", day-one direction from marks at stake; ui/v15-length into the final v15 |
 | D54 | 50 free credits for free users | DECIDED 12:28 pm: yes (see the 11:21 am-12:30 pm section) |
 
 ### Owner 11:21 am-12:30 pm, 18 Oct (D58-D62, D54 decided; his words at the end of OWNER-FEEDBACK-2026-10-18-DAWN.md)

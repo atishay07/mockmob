@@ -233,3 +233,8 @@ Ledger: keep all agents running; at about 95% usage he switches accounts. Have N
 - **D61** (11:36) Load the APK on his phone. Done (adb -s 10BF370PA6002XR).
 - **D54 decided** (12:28) Free users get 50 credits. In the code, "10 credits" is the Free AI wallet (AI_FREE_MONTHLY_CREDITS = 10 a month; Pro 50). Change it to 50 a month in the server, the website pricing and the app copy together. The per-user Free cap is raised only as far as 50 replies need; the USD 25 monthly student-AI cap is unchanged. Any database step: saved, dry-run on staging, undone if needed, STATUS.
 - **D62** (12:30) Scan the whole context for broken workflows and files, record every response, make sure everything is implemented, and get the final app built "in the next 1 to 2 hours".
+
+## Owner, 18 Oct about 12:50 pm IST
+> "Yes, build both the richer Today (D52) and the swipe card stack (D51) as v15.1."
+
+**Ledger:** D51 and D52 approved as designed in docs/design-decisions/pass-1018/TODAY-SWIPE-1018.md: a right swipe makes the card the lead (it never starts or spends); the real Skip and Do-this-instead buttons stay. D50 decided by the CTO from his words: "How many questions?" offers 5, 10, 15, 20 and a full mock, and on day one Weak chapters names the chapters with the most marks at stake (going into the final v15).
