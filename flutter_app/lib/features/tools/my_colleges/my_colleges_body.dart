@@ -9,6 +9,8 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/models/my_colleges.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../onboarding/choices_copy.dart';
+import '../../onboarding/onboarding.dart' show DuCatalog, onboardingAnswersProvider;
 import '../data/my_colleges_actions.dart';
 import 'my_colleges_copy.dart';
 
@@ -35,8 +37,9 @@ class MyCollegeRank extends StatelessWidget {
   }
 }
 
-/// One college of the list: its place, its name and its programme. With [editable] it also has
-/// the keys to move it up or down and to take it off.
+/// One college of the list: its place, its name, its programme and the marks it closed at last
+/// year (DU CSAS Round 1, for the student's category: 19 Oct, G6/D103, never estimated). With
+/// [editable] it also has the keys to move it up or down and to take it off.
 class MyCollegeRow extends ConsumerWidget {
   const MyCollegeRow({super.key, required this.college, required this.index, required this.count, this.editable = false, this.busy = false});
 
@@ -55,6 +58,8 @@ class MyCollegeRow extends ConsumerWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final actions = ref.read(myCollegesActionsProvider.notifier);
+    final category = ref.watch(onboardingAnswersProvider.select((a) => a.value?.category)) ?? DuCatalog.defaultCategory;
+    final closing = DuCatalog.closing(college.programmeId, college.college, category);
     final canUp = !busy && index > 0;
     final canDown = !busy && index < count - 1;
     Color ink(bool on) => on ? colors.ink2 : colors.ink3.withValues(alpha: 0.4);
@@ -65,6 +70,7 @@ class MyCollegeRow extends ConsumerWidget {
         children: [
           Text(college.college, style: type.labelLarge.copyWith(color: colors.ink)),
           if (college.programme.isNotEmpty) Text(college.programme, style: type.caption.copyWith(color: colors.ink2)),
+          Text(ChoicesCopy.closingLast(closing == null ? null : DuCatalog.format(closing)), style: type.caption.copyWith(color: colors.ink3)),
         ],
       ),
     );

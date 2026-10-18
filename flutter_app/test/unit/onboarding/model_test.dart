@@ -118,7 +118,7 @@ void main() {
       expect(move.subject, SheetSubject.physics);
       expect(move.isStartingPoint, isFalse);
       expect(move.startLabel, 'Start with 10 questions in Physics');
-      expect(move.line, 'First practice: 10 questions in Physics');
+      expect(move.line, 'Your first practice is 10 questions in Physics');
       expect(move.unit, isNot(contains('starting point')));
       expect(move.title, isNot(contains('starting point')));
       expect(move.route, '/practice/setup/quick?subject=physics&count=10', reason: 'the plain practice path, no baseline allowance');
@@ -159,8 +159,8 @@ void main() {
     test('Class 12 gets the board-season taper; a gap year does not', () {
       final twelve = PlanSummary.of(_student(), _now).lines;
       final gap = PlanSummary.of(_student(stage: Stage.passedTwelve), _now).lines;
-      expect(twelve, contains('Boards end in early April. The plan goes lighter from mid-February.'));
-      expect(gap.any((l) => l.startsWith('Boards')), isFalse);
+      expect(twelve, contains('Board exams end in early April, so the plan goes lighter from mid-February.'));
+      expect(gap.any((l) => l.startsWith('Board')), isFalse);
     });
 
     test('names the first chapter without claiming how often it appears', () {
@@ -170,8 +170,8 @@ void main() {
     });
 
     test('the aim line carries the real figures, the source and the scale', () {
-      expect(PlanSummary.aimLine(_student()), 'Your aim is SRCC. It took 924.3 of\u00A01000 in Round 1 of 2026, about 231 a paper.');
-      expect(PlanSummary.alsoLine(_student()), 'Also on your list: Hindu 919.9.');
+      expect(PlanSummary.aimLine(_student()), 'Your aim is SRCC. It took 924.3 of\u00A01000 in Round 1 of 2026, about 231 out of 250 in each of the 4 papers that count.');
+      expect(PlanSummary.alsoLine(_student()), 'Your list also has Hindu at 919.9.');
     });
 
     test('the eligibility line counts the subjects and colleges the set keeps the course open at', () {

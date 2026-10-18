@@ -5,6 +5,7 @@
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/models/my_colleges.dart' show MyColleges;
 import '../../onboarding/data/subjects.dart' show Confidence, SheetSubject;
 import '../../onboarding/model/answers.dart' show OnboardingAnswers;
 import '../../onboarding/model/choices.dart' show Stage, Worry;
@@ -12,8 +13,9 @@ import '../../onboarding/model/deck.dart' show Steps;
 import '../../onboarding/state/answers_controller.dart';
 import 'confidence_store.dart';
 
-/// The most colleges a sheet holds.
-const int kMaxColleges = 3;
+/// The most colleges a sheet holds: the same eight My colleges holds (onboarding picks up to eight,
+/// so this editor must not cap at fewer, 19 Oct G7).
+const int kMaxColleges = MyColleges.maxColleges;
 
 /// The course part of the sheet as it was before a course change, so the change can be undone.
 @immutable
@@ -71,14 +73,17 @@ class SheetEditor {
     _edit((a) => a.copyWith(courseId: courseId, courseUndecided: courseId == null, colleges: const [], openToAny: false).mark(Steps.course));
   }
 
-  /// Adds or drops a college. Returns false when a fourth would be added.
+  /// Adds or drops a college. Returns false when a ninth would be added. The picks stand in order of
+  /// last year's closing marks for the category, highest first, as in setup (D103).
   bool toggleCollege(String college) {
     final picks = [...current.colleges];
     if (!picks.remove(college)) {
       if (picks.length >= kMaxColleges) return false;
       picks.add(college);
     }
-    _edit((a) => a.copyWith(colleges: picks, openToAny: picks.isEmpty && a.openToAny));
+    final course = current.course;
+    final ordered = course == null ? picks : course.byMarks(picks, current.category);
+    _edit((a) => a.copyWith(colleges: ordered, openToAny: ordered.isEmpty && a.openToAny));
     return true;
   }
 

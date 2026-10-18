@@ -18,6 +18,10 @@ abstract final class ChoicesCopy {
   static const String subjectsSupportOpen = 'Add your CUET subjects, then be harsh about each one.';
   static const String quickSetsLabel = 'Common sets, one tap';
 
+  /// Under the sets while a chosen subject has no rating yet: Okay is only the plan's default
+  /// (walk 19 Oct, #16), so it is named as a guess and the three taps are asked for.
+  static const String ratingGuess = 'Every subject starts at Okay, which is only a guess. Tap Shaky, Okay or Strong on each one.';
+
   /// The one quiet row the other sets fold into once a set is chosen.
   static const String otherSets = 'Other sets';
   static String neededFor(String course) => 'Needed for $course';
@@ -52,7 +56,7 @@ abstract final class ChoicesCopy {
     final about = estimate ? 'About ' : '';
     final time = hours >= 2 ? '$about$hours hours' : '$about${sessions * minutes} minutes';
     final when = 'before May${year == 2028 ? ' 2028' : ''}';
-    return '$time of practice $when, if you keep this.${boards ? ' During boards we count two a week.' : ''}';
+    return '$time of practice $when, if you keep this.${boards ? ' During board exams we count two sessions a week.' : ''}';
   }
 
   /// The hero line beside the sessions figure at the top of the pace step (v15 taste pass): what
@@ -65,11 +69,16 @@ abstract final class ChoicesCopy {
   }
 
   /// Under the runway: how the count treats the board weeks.
-  static const String boardsCount = 'During boards we count two a week.';
+  static const String boardsCount = 'During board exams we count two sessions a week.';
 
   static String sessionsSpoken({required int sessions, required int minutes, required bool estimate}) =>
       '${estimate ? 'About ' : ''}$sessions sessions of $minutes minutes before CUET.';
   static const String sessionsUnit = 'sessions';
+
+  // Colleges (19 Oct, G6/D103): the number beside each one on a list.
+  /// "907.5 of 1000 last year": the Round 1 closing mark of the DU CSAS list the data comes from,
+  /// for the student's course and category. A college with no seat for it says so plainly.
+  static String closingLast(String? score) => score == null ? 'No number from last year' : '$score of 1000 last year';
 
   // Usage data (D49).
   static const String usageOffAnyTime = 'Turn it off any time in You, under Account and privacy.';

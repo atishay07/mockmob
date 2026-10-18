@@ -1,5 +1,5 @@
 // What the student put on their sheet in setup, as You shows it: the stage, the course and up to
-// three colleges, the subjects with how solid each feels, what costs them marks and their study
+// eight colleges (every one they picked), the subjects with how solid each feels, what costs them marks and their study
 // week. Most of it has no endpoint (APP-API-CONTRACT 2.1) and lives on the phone in the
 // onboarding answers; the week's day count and study time are also on the server (goal and
 // reminders). This is the one seam You reads, so tests override [studentTargetProvider].
@@ -56,7 +56,8 @@ class StudentTarget {
   /// The DU course id, for the editor.
   final String? courseId;
 
-  /// College names in order of preference, at most three.
+  /// College names in order of the marks they needed last year, every one picked (up to eight).
+  /// Today shows the top three of them; the account keeps them all (19 Oct, G7).
   final List<String> colleges;
 
   /// Public subject ids from setup, weakest first. You prefers the profile's subjects and falls
@@ -95,7 +96,7 @@ final studentTargetProvider = Provider<StudentTarget>((ref) {
     colleges: [
       for (final name in answers.colleges)
         if (course?.offeringAt(name) case final o?) o.college,
-    ].take(3).toList(),
+    ],
     subjects: [for (final s in answers.ranked) s.id],
     stage: answers.stage,
     worry: answers.worry,

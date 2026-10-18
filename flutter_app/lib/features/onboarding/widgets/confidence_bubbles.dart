@@ -12,10 +12,14 @@ import 'choice_tile.dart';
 /// one inked from the touch point. Each is a 48 dp target in a radio group; TalkBack reads
 /// "How solid is Accountancy, Shaky, selected".
 class ConfidenceBubbles extends ConsumerStatefulWidget {
-  const ConfidenceBubbles({super.key, required this.subject, required this.value, required this.onChanged, this.pulse});
+  const ConfidenceBubbles({super.key, required this.subject, required this.value, required this.onChanged, this.pulse, this.rated = true});
 
   final String subject;
   final Confidence value;
+
+  /// False while the student has not tapped any of the three: [value] (Okay) is then only the
+  /// default the plan uses, so tapping it still counts as an answer.
+  final bool rated;
   final ValueChanged<Confidence> onChanged;
 
   /// The answer that pulses once (1.0 to 1.08 to 1.0 over 420 ms) when this turns on: the cue
@@ -84,7 +88,7 @@ class _ConfidenceBubblesState extends ConsumerState<ConfidenceBubbles> with Sing
                   pressedScale: 0.94,
                   focusRadius: MmRadius.keyAll,
                   onTap: () {
-                    if (c == value) return;
+                    if (c == value && widget.rated) return;
                     ref.read(hapticsProvider).selection();
                     GuideGlance.at(context);
                     onChanged(c);

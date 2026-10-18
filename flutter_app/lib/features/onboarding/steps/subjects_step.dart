@@ -50,6 +50,9 @@ class SubjectsStep extends ConsumerStatefulWidget {
   /// The course's subject rule above the common sets (G9).
   static const Key ruleKey = ValueKey('subjects-rule');
 
+  /// The line that says an unrated subject starts at Okay only as a guess (#16).
+  static const Key guessKey = ValueKey('subjects-guess');
+
   @override
   ConsumerState<SubjectsStep> createState() => _SubjectsStepState();
 }
@@ -232,6 +235,11 @@ class _SubjectsStepState extends ConsumerState<SubjectsStep> {
                   color: check?.eligible ?? false ? colors.accentText : colors.warnText,
                 ),
               ),
+            ),
+          if (included.any((s) => a.confidence[s] == null))
+            Padding(
+              padding: const EdgeInsets.only(top: MmSpace.s8, bottom: MmSpace.s4),
+              child: _Note(key: SubjectsStep.guessKey, text: ChoicesCopy.ratingGuess, icon: LucideIcons.info, color: colors.ink2),
             ),
           if (included.isNotEmpty) const SizedBox(height: MmSpace.s12),
           for (final s in included) row(s),

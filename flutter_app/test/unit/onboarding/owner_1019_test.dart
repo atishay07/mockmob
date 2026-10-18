@@ -4,6 +4,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/models/my_colleges.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/theme/theme.dart';
+import 'package:mockmob/core/widgets/widgets.dart' show KeyButton, KeyVariant;
+import 'package:mockmob/features/auth/after_sign_in.dart';
+import 'package:mockmob/features/auth/sign_in_gateway.dart';
 import 'package:mockmob/features/onboarding/choices_copy.dart';
 import 'package:mockmob/features/onboarding/copy.dart';
 import 'package:mockmob/features/onboarding/data/course_rule.dart';
@@ -15,12 +18,18 @@ import 'package:mockmob/features/onboarding/model/plan.dart';
 import 'package:mockmob/features/onboarding/screens/onboarding_flow.dart';
 import 'package:mockmob/features/onboarding/state/answers_controller.dart';
 import 'package:mockmob/features/onboarding/state/answers_store.dart';
+import 'package:mockmob/features/onboarding/steps/save_step.dart';
 import 'package:mockmob/features/onboarding/steps/subjects_step.dart';
+import 'package:mockmob/features/onboarding/widgets/guide_bar.dart';
+import 'package:mockmob/features/you/data/sheet_editor.dart' as you show kMaxColleges, sheetEditorProvider;
+import 'package:mockmob/features/you/data/student_target.dart';
 import 'package:mockmob/features/you/edit_copy.dart';
+import 'package:mockmob/features/you/hub/study_sections.dart' show AimRow;
 
 import '../../golden/onboarding/support.dart';
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
+import '../auth/fakes.dart';
 
 /// The owner's 19 Oct hand check, onboarding and colleges (PLAN-1019: G1, G4, G5, G6/D103, G9).
 
@@ -95,7 +104,41 @@ List<String> get onboardingSentences => [
       ChoicesCopy.courseListCount(67),
       EditCopy.courseNote,
       for (final c in DuCatalog.courses) CourseRule.sentence(c)!,
+      // The rest of what a student reads before the account: the stage, pace, plan and save steps.
+      OnboardingCopy.weeksPlaceholder,
+      OnboardingCopy.datesNotOut,
+      OnboardingCopy.boardWeeks,
+      ChoicesCopy.boardsCount,
+      ChoicesCopy.ratingGuess,
+      OnboardingCopy.sharpens,
+      OnboardingCopy.sealHint,
+      OnboardingCopy.swipePreviewCaption,
+      OnboardingCopy.sealedAt('2:33 AM', 'Partnership'),
+      OnboardingCopy.restDays,
+      OnboardingCopy.saveSupport,
+      OnboardingCopy.savedWhat,
+      OnboardingCopy.savedWhatColleges,
+      OnboardingCopy.savedFailed,
+      OnboardingCopy.offline,
+      ChoicesCopy.sessionsLine(sessions: 80, minutes: 20, estimate: true, year: 2027, boards: true),
+      for (final line in _planLines) line,
     ];
+
+/// Every line the plan prints, for a student with three worries and eight colleges, and for the
+/// plain default one (the plan step is the longest read of the onboarding).
+List<String> get _planLines {
+  final base = studentUpTo(Steps.plan);
+  final eight = base.copyWith(
+    worries: const [Worry.time, Worry.passages, Worry.knewIt],
+    colleges: [for (final o in _bcomHons.ladder('UR').take(8)) o.college],
+  );
+  return [
+    ...PlanSummary.of(base, kNow).lines,
+    ...PlanSummary.of(eight, kNow).lines,
+    ...PlanSummary.of(base.copyWith(worries: const [Worry.syllabus]), kNow).lines,
+    ...PlanSummary.of(base.copyWith(worries: const [Worry.passages]), kNow).lines,
+  ];
+}
 
 /// The old lines the owner read as broken English (19 Oct), and the telegram habits behind them.
 final List<RegExp> _banned = [
@@ -112,6 +155,19 @@ final List<RegExp> _banned = [
   RegExp(r'\bQuick one\b'),
   RegExp(r'\bOne quick one\b'),
   RegExp(r'^(Still|Swapped|Offline|Under 18|No dates)\b'),
+  // The walk of 19 Oct (G1, #11, #18): more clipped lines, and the plan's jargon.
+  RegExp(r'Hold to seal'),
+  RegExp(r'Tap to seal'),
+  RegExp(r'^It sharpens'),
+  RegExp(r'^Sealed'),
+  RegExp(r'Dates not out'),
+  RegExp(r'weeks to May land'),
+  RegExp(r'two a week'),
+  RegExp(r'^Right puts a card'),
+  RegExp(r'^Where your marks go:'),
+  RegExp(r'^(First check|First practice|Aim|Also on your list):'),
+  RegExp(r'of 250 a paper'),
+  RegExp(r'a paper\.$'),
 ];
 
 /// Words that make a sentence a sentence (a finite verb or an auxiliary). Contractions count too.
@@ -123,7 +179,9 @@ final Set<String> _verbs = {
   'belong', 'build', 'train', 'beat', 'decides', 'costs', 'stings', 'won', 'offered', 'went', 'stays', 'starts', 'start',
   'reward', 'swapped', 'made', 'sharpens', 'land', 'lands', 'changes', 'tracking', 'read', 'type', 'means', 'say',
   'writing', 'stand', 'aim', 'come', 'comes', 'slip', 'losing', 'offers', 'knew', 'lost', 'left', 'tells',
-  'pays', 'counts', 'opens', 'took', 'win', 'fix',
+  'pays', 'counts', 'opens', 'fix', 'lose', 'confirm', 'confirmed', 'swipe', 'skip', 'run', 'runs', 'hold', 'wait', 'waits',
+  'follow', 'count', 'connect', 'open', 'move', 'moves', 'stay', 'said', 'send', 'save', 'saved', 'use', 'uses', 'turn',
+  'collect', 'stays',
 };
 
 bool _hasVerb(String sentence) {
@@ -383,6 +441,176 @@ void main() {
       final sets = find.text(ChoicesCopy.quickSetsLabel);
       expect(sets, findsOneWidget, reason: 'the common sets are kept');
       expect(tester.getRect(rule).bottom, lessThanOrEqualTo(tester.getRect(sets).top), reason: 'the rule leads the sets');
+    });
+  });
+
+  // ---- the walk of 19 Oct (BASELINE-FINDINGS 10-20) ---------------------------------------------------
+
+  group('#14 every picked college is kept, nothing is cut to three', () {
+    const picks = [
+      'Hansraj College',
+      'Shri Ram College of Commerce',
+      'Hindu College',
+      'Lady Shri Ram College for Women (W)',
+      'Kirori Mal College',
+    ];
+
+    test('You reads all five picks, in order of the marks', () async {
+      final (container, c) = await _controller();
+      c.setCourse('b-com-hons');
+      for (final name in picks) {
+        c.toggleCollege(name);
+      }
+      final target = container.read(studentTargetProvider);
+      expect(target.colleges.length, 5, reason: 'You said "3 colleges" for five picks (walk 19 Oct)');
+      expect(target.colleges.first, 'Shri Ram College of Commerce');
+      expect(target.colleges.last, 'Kirori Mal College');
+    });
+
+    testWidgets('the Aim row says "5 colleges"', (tester) async {
+      await pumpMockmob(
+        tester,
+        AimRow(
+          target: StudentTarget(course: 'B.Com (Hons)', colleges: [for (final n in picks) n]),
+          onOpen: () {},
+        ),
+        size: const Size(360, 400),
+        wrapInScaffold: true,
+        disableAnimations: true,
+      );
+      expect(find.text('B.Com (Hons), 5 colleges'), findsOneWidget);
+    });
+
+    test('the You plan editor holds eight like setup does, in order of the marks, and refuses a ninth', () async {
+      final (container, c) = await _controller();
+      c.setCourse('b-com-hons');
+      expect(you.kMaxColleges, 8);
+      expect(you.kMaxColleges, MyColleges.maxColleges);
+      final editor = container.read(you.sheetEditorProvider);
+      final names = [for (final o in _bcomHons.ladder('UR').reversed.take(8)) o.college];
+      for (final name in names) {
+        expect(editor.toggleCollege(name), isTrue, reason: name);
+        await Future<void>.delayed(Duration.zero);
+      }
+      final kept = container.read(onboardingAnswersProvider).value!.colleges;
+      expect(kept.length, 8);
+      expect(kept, _bcomHons.byMarks(kept, 'UR'), reason: 'picked lowest first, kept highest first');
+      final ninth = _bcomHons.ladder('UR').map((o) => o.college).firstWhere((n) => !kept.contains(n));
+      expect(editor.toggleCollege(ninth), isFalse);
+      expect(EditCopy.collegesNote('UR'), contains('up to eight'));
+    });
+  });
+
+  group('#16 an unrated subject says Okay is a guess, and Okay can be tapped', () {
+    Future<void> pumpSubjects(WidgetTester tester, OnboardingAnswers answers) async {
+      tester.view.physicalSize = const Size(720, 3200);
+      tester.view.devicePixelRatio = 2;
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(ProviderScope(
+        overrides: onboardingOverrides(answers: answers),
+        child: DefaultAssetBundle(
+          bundle: FileAssetBundle(),
+          child: MaterialApp(theme: buildTheme(Brightness.dark), home: const OnboardingFlow(skipColdOpen: true, startInDeck: true)),
+        ),
+      ));
+      await _settle(tester);
+    }
+
+    testWidgets('the line shows while a chosen subject is unrated and goes once every one is rated', (tester) async {
+      final answers = studentUpTo(Steps.course, step: Steps.subjects).copyWith(
+        courseId: 'b-com-hons',
+        subjectsTouched: true,
+        confidence: const {},
+      );
+      await pumpSubjects(tester, answers);
+      expect(find.byKey(SubjectsStep.guessKey), findsOneWidget);
+      expect(find.text(ChoicesCopy.ratingGuess), findsOneWidget);
+      // Okay shows inked on an unrated subject; a tap on it is still an answer.
+      expect(find.text('Okay'), findsNWidgets(4));
+      for (var i = 0; i < 4; i++) {
+        await tester.tap(find.text('Okay').at(i));
+        await _settle(tester);
+      }
+      final container = ProviderScope.containerOf(tester.element(find.byType(OnboardingFlow)));
+      expect(container.read(onboardingAnswersProvider).value!.confidence.length, 4, reason: 'four taps on Okay are four ratings');
+      expect(find.byKey(SubjectsStep.guessKey), findsNothing);
+    });
+  });
+
+  group('#17 the sign-in keys wait in the glass style until the age is answered', () {
+    Future<void> pumpSave(WidgetTester tester, OnboardingAnswers answers) async {
+      await pumpMockmob(
+        tester,
+        // The answers follow the phone's sheet, as the flow gives them, so answering the age shows.
+        Consumer(builder: (context, ref, _) => SaveStep(answers: ref.watch(onboardingAnswersProvider).value ?? answers, onNotNow: () {})),
+        size: kPhone,
+        overrides: [
+          ...onboardingOverrides(answers: answers),
+          signInGatewayProvider.overrideWithValue(FakeGateway()),
+          afterSignInSheetLauncherProvider.overrideWithValue(() {}),
+          signInPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
+        ],
+      );
+      await tester.pump(const Duration(milliseconds: 600));
+    }
+
+    KeyVariant variantOf(WidgetTester tester, String label) => tester.widget<KeyButton>(find.widgetWithText(KeyButton, label)).variant;
+
+    testWidgets('unanswered: Google is a glass key, not volt; answered: volt', (tester) async {
+      await pumpSave(tester, const OnboardingAnswers());
+      expect(variantOf(tester, OnboardingCopy.continueWithGoogle), KeyVariant.secondary, reason: 'volt on a key that cannot work yet reads as broken');
+      // A tap still answers: it asks the age question.
+      await tester.tap(find.text(OnboardingCopy.continueWithGoogle));
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(find.text(OnboardingCopy.ageFirstLine), findsOneWidget);
+      await tester.tap(find.text(AgeAnswer.adult.label));
+      await tester.pump(const Duration(milliseconds: 600));
+      expect(variantOf(tester, OnboardingCopy.continueWithGoogle), KeyVariant.primary, reason: 'the volt comes back as the age is answered');
+    });
+
+    testWidgets('already answered: Google is volt from the start', (tester) async {
+      await pumpSave(tester, const OnboardingAnswers(age: AgeAnswer.adult));
+      expect(variantOf(tester, OnboardingCopy.continueWithGoogle), KeyVariant.primary);
+    });
+  });
+
+  group('#18 the plan says what the number means and what the hold does', () {
+    test('the aim line says out of 250 in each of the 4 papers that count', () {
+      expect(
+        PlanSummary.aimLine(const OnboardingAnswers(courseId: 'b-com-hons', colleges: ['Hansraj College'])),
+        'Your aim is Hansraj. It took 907.5 of 1000 in Round 1 of 2026, about 227 out of 250 in each of the 4 papers that count.',
+      );
+    });
+
+    test('the hold key says confirm, never seal', () {
+      expect(OnboardingCopy.holdToSeal, 'Hold to confirm');
+      expect(OnboardingCopy.sealIt, 'Tap to confirm instead');
+      expect(OnboardingCopy.sealHint, contains('confirm your plan'));
+      for (final s in [OnboardingCopy.holdToSeal, OnboardingCopy.sealIt, OnboardingCopy.sealHint, OnboardingCopy.mobiStillYours, OnboardingCopy.mobiSealed]) {
+        expect(RegExp(r'\bseal', caseSensitive: false).hasMatch(s), isFalse, reason: s);
+      }
+    });
+  });
+
+  group('#19 the progress stays on the timed question', () {
+    testWidgets('the sheet strip has no room there, so its dots and "5 of 7" ride in the top bar', (tester) async {
+      tester.view.padding = const FakeViewPadding(top: 48, bottom: 32);
+      await pumpMockmob(
+        tester,
+        const OnboardingFlow(skipColdOpen: true, startInDeck: true),
+        brightness: Brightness.dark,
+        size: const Size(360, 800),
+        disableAnimations: true,
+        overrides: onboardingOverrides(answers: studentUpTo(Steps.worry, step: Steps.question)),
+      );
+      for (var i = 0; i < 3; i++) {
+        await tester.pump(const Duration(milliseconds: 400));
+      }
+      expect(find.text('5 of 7'), findsOneWidget);
+      final bar = tester.getRect(find.byType(GuideBar));
+      final count = tester.getRect(find.text('5 of 7'));
+      expect(count.top, greaterThanOrEqualTo(bar.top));
+      expect(count.bottom, lessThanOrEqualTo(bar.bottom), reason: 'inside the bar, so it costs the question no height');
     });
   });
 }

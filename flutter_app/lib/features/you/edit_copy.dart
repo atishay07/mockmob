@@ -77,9 +77,9 @@ abstract final class EditCopy {
   static const courseRestored = 'Your course and colleges are back.';
   static const collegesSheet = 'Your colleges, in order';
   static String collegesNote(String category) =>
-      'Pick up to three. Figures are Round 1 minimum scores, 2026, for ${categoryWords(category)}, out of 1000.';
+      'Pick up to eight. Each figure is the lowest Round 1 score in 2026 for ${categoryWords(category)}, out of 1000.';
   static const collegesNeedCourse = 'Pick a course first. Colleges belong to a course.';
-  static const collegesCap = 'Three is the most. Remove one to add another.';
+  static const collegesCap = 'Eight is the most. Remove one to add another.';
   static const noSeat = 'No seat in Round 1, 2026';
   static const categorySheet = 'Which category should college figures use?';
   static const categoryNote = 'Only changes the figures you see. It stays on this phone.';

@@ -35,10 +35,11 @@ class FirstMove {
   /// The free starting-point check runs for [subject]. False means plain practice.
   bool get isStartingPoint => subject.hasStartingPoint;
 
-  /// "First check: 10 questions in Accountancy", or "First practice: 10 questions in Physics".
+  /// "Your first check is 10 questions in Accountancy", or "Your first practice is 10 questions in
+  /// Physics" (whole sentences, G1).
   String get line => isStartingPoint
-      ? 'First check: $questions questions in ${subject.label}'
-      : 'First practice: $questions questions in ${subject.label}';
+      ? 'Your first check is $questions questions in ${subject.label}'
+      : 'Your first practice is $questions questions in ${subject.label}';
 
   /// The heading over the first move.
   String get title => isStartingPoint ? OnboardingCopy.firstMoveTitle : OnboardingCopy.firstPracticeTitle;
@@ -95,9 +96,9 @@ class FirstMove {
       Worry.knewIt => 'Every slip becomes a repair.',
       Worry.time => 'Answer at exam pace, about a minute each.',
       Worry.numericals => 'Repairs start with the numericals you miss.',
-      Worry.passages when subject == SheetSubject.english => 'English first, since passages cost you most.',
+      Worry.passages when subject == SheetSubject.english => 'We start with English, since passages cost you the most marks.',
       Worry.passages => 'Long passages get a method of their own.',
-      Worry.syllabus => 'Then $chapter, the first chapter on your plan.',
+      Worry.syllabus => 'After that you start on $chapter, the first chapter on your plan.',
       Worry.noIdea || null => 'It decides what you repair first.',
     };
     return FirstMove(subject: subject, chapter: chapter, framing: framing, window: a.window);
@@ -122,7 +123,7 @@ class PlanSummary {
       ?worriesLine(a),
       rhythmLine(a),
       chapterLine(move),
-      if ((a.stage ?? Stage.notSure).boards) 'Boards end in early April. The plan goes lighter from mid-February.',
+      if ((a.stage ?? Stage.notSure).boards) 'Board exams end in early April, so the plan goes lighter from mid-February.',
       ?eligibilityLine(a),
       // The other colleges sit just before the aim, so they show under "See all" while the
       // aim stays one of the three lines that lead.
@@ -132,8 +133,8 @@ class PlanSummary {
     return PlanSummary(headline: 'Week one starts with ${move.chapter}.', lines: lines);
   }
 
-  /// "Where your marks go: the last 10 questions first, then English passages and 'knew it, still
-  /// got it wrong'." Only with two or three picks (D45); one pick is already in the first move's
+  /// "You said you lose marks on the last 10 questions first, then on English passages and 'knew it,
+  /// still got it wrong'." Only with two or three picks (D45); one pick is already in the first move's
   /// line. It repeats what the student said, in their own option words (v15 taste pass: never a
   /// word they did not choose, like "traps"); a phrase with a comma is quoted so it reads as theirs.
   static String? worriesLine(OnboardingAnswers a) {
@@ -142,7 +143,7 @@ class PlanSummary {
         if (w != Worry.noIdea) w.words.contains(',') ? "'${w.words}'" : w.words,
     ];
     if (a.worries.length < 2 || named.length < 2) return null;
-    return 'Where your marks go: ${named.first} first, then ${joinWithAnd(named.skip(1).toList())}.';
+    return 'You said you lose marks on ${named.first} first, then on ${joinWithAnd(named.skip(1).toList())}.';
   }
 
   /// True when a skipped step left a default in the plan.
@@ -190,7 +191,8 @@ class PlanSummary {
     return '${course.short} also needs ${joinWithAnd(check.missing)}.';
   }
 
-  /// "Your aim is SRCC. It took 924.3 of 1000 in Round 1 of 2026, about 231 a paper." The first college
+  /// "Your aim is SRCC. It took 924.3 of 1000 in Round 1 of 2026, about 231 out of 250 in each of the
+  /// 4 papers that count." The first college
   /// (the picks stand in order of the marks, D103, so it is the one that needs the most)
   /// with its real bar and what that means per paper, as the course step says it (v15 taste pass:
   /// the old line read like a data dump, with a parenthesis). A category other than unreserved is
@@ -205,13 +207,13 @@ class PlanSummary {
       if (score == null) return 'Your aim is ${o.short}. ${OnboardingCopy.noSeatsFor(a.category)}';
       final who = categoryWords(a.category) == 'unreserved' ? '' : ' (${categoryWords(a.category)})';
       return 'Your aim is ${o.short}. It took ${DuCatalog.format(score)} of\u00A0${DuCatalog.scale}$who in Round 1 of 2026, '
-          'about ${(score / 4).round()} a paper.';
+          'about ${(score / 4).round()} out of 250 in each of the 4 papers that count.';
     }
     return null;
   }
 
-  /// "Also on your list: Hindu 919.9, Hansraj 907.5." The colleges after the first, up to the
-  /// ones Today shows, then a count ("and 5 more"). Null with one college.
+  /// "Your list also has Hindu at 919.9 and Hansraj at 907.5, plus 5 more." The colleges after the
+  /// first, up to the ones Today shows, then a count. Null with one college.
   static String? alsoLine(OnboardingAnswers a) {
     final course = a.course;
     if (course == null || a.colleges.length < 2) return null;
@@ -230,9 +232,9 @@ class PlanSummary {
         continue;
       }
       final score = o.scoreFor(a.category);
-      parts.add(score == null ? o.short : '${o.short} ${DuCatalog.format(score)}');
+      parts.add(score == null ? o.short : '${o.short} at ${DuCatalog.format(score)}');
     }
     if (parts.isEmpty) return null;
-    return 'Also on your list: ${parts.join(', ')}${more == 0 ? '' : ' and $more more'}.';
+    return 'Your list also has ${joinWithAnd(parts)}${more == 0 ? '' : ', plus $more more'}.';
   }
 }

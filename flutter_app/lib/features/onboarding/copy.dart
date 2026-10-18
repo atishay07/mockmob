@@ -62,9 +62,9 @@ abstract final class OnboardingCopy {
       seconds <= 1 ? 'You got it in about a second. That was clean.' : 'You got it in $seconds seconds. That was clean.';
   static const String mobiTrap = "That's a classic trap. The fix is just below.";
 
-  /// Said when the hold is let go early: the plan is still his to seal, nothing is lost.
-  static const String mobiStillYours = "It's still yours to seal.";
-  static const String mobiSealed = "It's sealed, and it's all yours.";
+  /// Said when the hold is let go early: the plan is still the student's to confirm, nothing is lost.
+  static const String mobiStillYours = 'Nothing is lost. Hold a little longer to confirm your plan.';
+  static const String mobiSealed = "Your plan is set, and it's all yours.";
   static const String mobiSave = 'Keep it with you.';
 
   /// Said once a common set is ticked on the subjects step: the rating under it is the point.
@@ -84,11 +84,11 @@ abstract final class OnboardingCopy {
   // Stage.
   static const String stageTitle = 'Which CUET are you writing?';
   static const String stageSupport = "You don't need to type any dates. We work them out for you.";
-  static const String weeksPlaceholder = 'Your weeks to May land here.';
+  static const String weeksPlaceholder = 'The weeks left until May will show here.';
   static String weeksUnit(int year) => 'weeks to CUET, May $year';
-  static const String datesNotOut = 'Dates not out yet';
+  static const String datesNotOut = 'The dates are not out yet.';
   static const String classElevenNote = "You're starting early.";
-  static const String boardsNote = 'Boards land mid-February to early April. The plan goes lighter then.';
+  static const String boardsNote = 'Board exams run from mid-February to early April, so your plan goes lighter then.';
   static const String trackToday = 'Today';
   static String trackMay(int year) => 'May $year';
   static String stageWindow(int year) => 'CUET in May $year';
@@ -124,7 +124,7 @@ abstract final class OnboardingCopy {
   static String pickedSpoken(int picked, int of, {required bool tail}) =>
       tail ? '$picked of $of picked. $pickedTail' : '$picked of $of picked';
   static String barLine(String college, String score, int perPaper) =>
-      '$college needed $score of 1000 in Round 1 of 2026. That\'s about $perPaper of 250 a paper.';
+      '$college needed $score of 1000 in Round 1 of 2026. That\'s about $perPaper out of 250 in each of the 4 papers that count.';
   static String noSeatsFor(String category) => 'No seats went to ${categoryWords(category)} here in Round 1 of 2026.';
 
   // Subjects.
@@ -174,7 +174,7 @@ abstract final class OnboardingCopy {
   static const String daysLabel = 'Study days';
   static const String timeLabel = 'Around';
   static const String restDays = 'Dotted days are rest days.';
-  static const String boardWeeks = 'During boards we count two a week.';
+  static const String boardWeeks = 'During board exams we count two sessions a week.';
   static String minutes(int m) => '$m min';
   static String minutesSpoken(int m) => '$m minutes';
   static const String minutesUnit = 'minutes';
@@ -184,25 +184,25 @@ abstract final class OnboardingCopy {
   static const String planLeadDefaults = "Here's your plan, built from your answers and a few defaults.";
   static const String ourDefault = 'our default, which you can change any time';
   static String planFrom(String date) => 'From $date';
-  static const String holdToSeal = 'Hold to seal';
+  static const String holdToSeal = 'Hold to confirm';
   static const String sealing = 'Keep holding';
-  static const String sealIt = 'Tap to seal instead';
+  static const String sealIt = 'Tap to confirm instead';
 
-  /// The one line under Hold to seal: how the hold works, and the tap for anyone who cannot hold
+  /// The one line under Hold to confirm: how the hold works, and the tap for anyone who cannot hold
   /// (the whole line is the tap; TalkBack reads it as [sealIt]).
-  static const String sealHint = 'Hold for a second, or tap here to seal.';
+  static const String sealHint = 'Hold for a second, or tap here to confirm your plan.';
 
   /// The plan shows three lines (week one, the pace, the aim); the rest unfold in place.
   static String seeAllLines(int n) => 'See all $n';
   static const String fewerLines = 'Show fewer';
   static const String change = 'Change';
-  static const String sealed = 'Sealed';
+  static const String sealed = 'Plan confirmed';
   static const String planSet = 'Your plan is set.';
 
-  /// The seal moment's headline (v15 taste pass: bolder, and it says what was sealed).
-  static String sealedHeadline(String chapter) => "It's sealed. Week one starts with $chapter.";
+  /// The moment's headline once the plan is confirmed (v15 taste pass: bolder, and it says what was set).
+  static String sealedHeadline(String chapter) => 'Your plan is set. Week one starts with $chapter.';
   static const String changeSomething = 'Change something';
-  static const String sharpens = 'It sharpens after your first check.';
+  static const String sharpens = 'Your plan sharpens after your first check.';
   static const String changeTitle = 'What do you want to change?';
 
   // Save.
@@ -238,7 +238,7 @@ abstract final class OnboardingCopy {
   static const String swipePreviewTitle = 'Your next moves come as cards';
   static const String swipePreviewRight = 'Up next';
   static const String swipePreviewLeft = 'Not now';
-  static const String swipePreviewCaption = 'Right puts a card up next. Left is not now. The buttons work too.';
+  static const String swipePreviewCaption = 'Swipe a card right to do it next, or left to skip it for now. The buttons do the same.';
 
   /// Mobi, when a sign-in key is tapped before the age is answered.
   static const String mobiAgeFirst = 'One quick question first: are you 18 yet?';
@@ -248,11 +248,11 @@ abstract final class OnboardingCopy {
   static const String useEmailCode = 'Use an email code';
   static const String notNow = 'Not now';
   static const String offline = 'You\'re offline. Connect to save your sheet.';
-  static String sealedAt(String time, String chapter) => 'Sealed at $time. Week one starts with $chapter.';
+  static String sealedAt(String time, String chapter) => 'You confirmed your plan at $time. Week one starts with $chapter.';
 
   // First move.
   static const String firstMoveTitle = 'Your starting point';
-  static const String firstMoveUnit = 'questions to your starting point';
+  static const String firstMoveUnit = 'questions to see where you stand';
   static String firstMoveChapter(String chapter) => 'Week one starts with $chapter.';
   static const String startNow = 'Start now, about 10 minutes';
   static const String checkNeedsAccount = 'The check is marked on our server, so it needs your account.';
