@@ -20,6 +20,7 @@ class LearnUnit {
     this.runId,
     this.step,
     this.steps,
+    this.readFlag,
   });
 
   factory LearnUnit.fromJson(Json j) {
@@ -39,8 +40,19 @@ class LearnUnit {
       runId: asString(progress['runId']),
       step: asInt(progress['step']),
       steps: asInt(progress['total']),
+      readFlag: asBool(j['read']),
     );
   }
+
+  /// The server's own `read` flag, when it sends one.
+  final bool? readFlag;
+
+  /// The lesson has been read (its Learn step is done): the server's flag, or its status word.
+  bool get isRead =>
+      readFlag ??
+      (status == StudyUnitStatus.lockIn ||
+          status == StudyUnitStatus.due ||
+          status == StudyUnitStatus.learned);
 
   final String id;
   final String title;

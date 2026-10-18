@@ -118,7 +118,7 @@ void main() {
     });
 
     test('the state lines are the spec words', () {
-      expect(LearnCopy.disabledTitle, 'Concepts are paused right now.');
+      expect(LearnCopy.disabledTitle, 'Lessons are paused right now.');
       expect(LearnCopy.dailyNewLimit, "You have done today's new cards. Review is still open.");
       expect(LearnCopy.contentChangedOpening, 'This lesson was updated. Opening the new version.');
       expect(LearnCopy.reviewedOffline, 'Reviewed offline, sending when online');

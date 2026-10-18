@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mockmob/features/practice/practice_routes.dart';
 
 import '../../helpers/fonts.dart';
+import '../learn/support/learn_fixtures.dart';
 import 'support/harness.dart';
 
 List<GoRoute> _routes() => [
@@ -32,12 +33,12 @@ Future<void> _settle(WidgetTester tester) async {
 void main() {
   setUpAll(loadAppFonts);
 
-  Future<GoRouter> pump(WidgetTester tester, {int? openRepairs}) async {
+  Future<GoRouter> pump(WidgetTester tester, {int? openRepairs, bool lessons = false}) async {
     final router = await pumpRouted(
       tester,
       location: '/practice',
       routes: _routes(),
-      overrides: practiceOverrides(quotes: _quotes(), attempts: const [], openRepairs: openRepairs),
+      overrides: practiceOverrides(quotes: _quotes(), attempts: const [], openRepairs: openRepairs, learn: lessons ? catalog(due: 0) : null),
     );
     await _settle(tester);
     return router;
@@ -83,5 +84,26 @@ void main() {
     await tester.tap(find.text('Repairs'));
     await tester.pump(const Duration(milliseconds: 400));
     expect(router.state.uri.path, '/review');
+  });
+
+  // The owner's D20: Learn has a clear way in without a new tab. Under the suggestion, between Repairs and Ask Mobi, it
+  // names the lesson Learn would open next and why.
+  testWidgets('with lessons published the Learn row names the next lesson, sits in the first view, and opens Learn', (tester) async {
+    final router = await pump(tester, openRepairs: 3, lessons: true);
+    expect(find.text('Learn'), findsWidgets);
+    expect(find.text('Sacrificing and gaining ratios, 7 min. Work out who gave up profit share and who gained it.'), findsOneWidget);
+    final viewport = tester.view.physicalSize.height / tester.view.devicePixelRatio;
+    final learn = tester.getTopLeft(find.text('Learn').first).dy;
+    expect(learn, lessThan(viewport));
+    expect(learn, greaterThan(tester.getTopLeft(find.text('Repairs')).dy));
+    expect(learn, lessThan(tester.getTopLeft(find.text('Ask Mobi what to practise')).dy));
+    await tester.tap(find.text('Learn').first);
+    await _settle(tester);
+    expect(router.state.uri.path, '/learn');
+  });
+
+  testWidgets('with no lessons published there is no Learn row', (tester) async {
+    await pump(tester, openRepairs: 3);
+    expect(find.text('Learn'), findsNothing);
   });
 }

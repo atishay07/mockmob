@@ -7,9 +7,9 @@ import '../../core/models/study.dart';
 
 abstract final class LearnCopy {
   // Screen.
-  static const String title = 'Concepts';
-  static const String subtitle =
-      'Short lessons and recall cards, from the chapters you practise.';
+  // The library keeps the name Learn (owner D20); "concept cards" are its recall cards.
+  static const String title = 'Learn';
+  static const String subtitle = 'Short lessons on the ideas behind your mistakes.';
   static const String back = 'Back';
   static const String lessonsHeading = 'Lessons';
   static const String nextLessonHeading = 'Next lesson';
@@ -20,10 +20,10 @@ abstract final class LearnCopy {
       'New cards are paused until your reviews are caught up.';
   static const String resumeHeading = 'Pick up where you left off';
   static const String resumeKey = 'Continue';
-  static const String disabledTitle = 'Concepts are paused right now.';
+  static const String disabledTitle = 'Lessons are paused right now.';
   static const String disabledMessage = 'Practice and Review are still open.';
   static const String disabledAction = 'Open Practice';
-  static const String loadFailedTitle = 'We could not load Concepts';
+  static const String loadFailedTitle = 'We could not load Learn';
   static const String loadFailedMessage =
       'Check your connection and try again.';
   static const String offlineTitle = 'You are offline';
@@ -36,7 +36,7 @@ abstract final class LearnCopy {
       'New lessons will appear here when they are published.';
   static const String noLessonsMobi = 'Lessons are on the way.';
   static const String nothingDueMobi = 'A lesson is ready to read.';
-  static const String howTitle = 'How Concepts work';
+  static const String howTitle = 'How Learn works';
   static const String howLine =
       'Learn a short lesson, lock it in with recall cards, then apply it in practice.';
   static const String untaughtHeading = 'Untaught chapters';
@@ -46,6 +46,46 @@ abstract final class LearnCopy {
   static const String chapterSummariesHeading = 'Chapter summaries';
   static const String upNext = 'Up next';
   static const String readSummary = 'Read the chapter summary';
+
+  // The library (LEARN-REVIEW-1017 5.9, P-LR6), in the website's words.
+  static const String searchHint = 'Search chapters and lessons';
+  static const String resultsHeading = 'Results';
+  static const String nothingMatches = 'Nothing matches that. Try a chapter name or a topic.';
+  static String resultsCount(int lessons, int chapters) => lessons == 0
+      ? untaughtCount(chapters)
+      : [
+          lessonCount(lessons),
+          if (chapters > 0) '${chapters == 1 ? '1 chapter' : '$chapters chapters'} without one',
+        ].join(', ');
+
+  /// The lesson page opened from a chapter that costs marks (5.10, `?from=chapter:`).
+  static String fromChapter(int open) => open == 1 ? '1 open mistake in this chapter.' : '$open open mistakes in this chapter.';
+
+  /// The lesson page opened from a question (5.10, `?from=q:`).
+  static String fromQuestion(int n) => 'You are here from Question $n. This lesson covers the idea behind it.';
+  static String backToQuestion(int n) => 'Back to Question $n';
+  static String noLessonChapter(String subject) => '$subject. No lesson yet. Practise the chapter';
+  static const String loseHeading = 'Where you lose marks';
+  static const String loseNote = 'From your papers';
+  static String allChapters(String subject) => 'All $subject chapters';
+  static const String chaptersPreparing = 'Lessons are still being prepared';
+  static const String subjectSwitch = 'Subject';
+  static const String syllabusFoot =
+      'Chapter list from the CUET UG 2026 syllabus; the 2027 syllabus is provisional until NTA publishes it.';
+  static const String showChapter = 'Show the lessons';
+  static const String hideChapter = 'Hide the lessons';
+  static String reviseCards(int n) => n == 1 ? 'Revise 1 concept card' : 'Revise $n concept cards';
+  /// About half a minute a card, ten at most a run, never under 2 minutes (the website's line).
+  static String reviseCardsNote(int n) {
+    final m = ((n < 10 ? n : 10) / 2).ceil();
+    return 'From lessons you have read. About ${plural(m < 2 ? 2 : m, 'minute')}, free.';
+  }
+  static const String finishRevise = 'Finish your Revise session';
+  static String finishReviseNote(int? step, int? total) =>
+      step == null || total == null ? 'Everything before it is saved.' : 'You stopped at card $step of $total. Everything before it is saved.';
+  static const String fullMockTitle = 'Test it in a full mock';
+  static const String fullMockNote = 'Shows which chapters still cost marks. Access and cost are shown first.';
+  static const String marksFailed = 'Your mistakes did not load, so lessons are not ordered by marks yet.';
 
   // Chapter reader.
   static const String summaryLabel = 'Chapter summary';
@@ -74,7 +114,7 @@ abstract final class LearnCopy {
   };
 
   // The first load took too long: the skeleton gives way to this.
-  static const String loadSlowTitle = 'Concepts are taking too long';
+  static const String loadSlowTitle = 'Learn is taking too long';
   static const String loadSlowMessage =
       'MockMob has not answered yet. Try again.';
 
@@ -152,11 +192,11 @@ abstract final class LearnCopy {
   static const String lessonAgain = 'Go through it again';
   static const String unitMissingTitle = 'This lesson is not available';
   static const String unitMissingMessage =
-      'It may have been updated or withdrawn. Go back to Concepts for the current list.';
+      'It may have been updated or withdrawn. Go back to Learn for the current list.';
   static const String unitOfflineTitle = 'This lesson is not on this phone';
   static const String unitOfflineMessage =
       'Connect to open it. Lessons you open can be kept for offline use.';
-  static const String backToLearn = 'Back to Concepts';
+  static const String backToLearn = 'Back to Learn';
 
   static String reviewLessonCards(int n) =>
       'Review ${plural(n, 'card')} from this lesson';
@@ -240,7 +280,7 @@ abstract final class LearnCopy {
       'Step $n of $total. $text';
 
   // Run ending (spec 5.9).
-  static const String doneBack = 'Back to Concepts';
+  static const String doneBack = 'Back to Learn';
   static const String doneFinish = 'Finish for now';
   static const String doneAgainHeading = 'Marked forgot or hard';
   static const String doneRetry = 'Send now';

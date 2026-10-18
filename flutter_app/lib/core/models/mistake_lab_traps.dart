@@ -393,6 +393,7 @@ class ReviseRead {
     this.next,
     this.labels = const ReviseLabels(),
     this.items = const [],
+    this.queue,
   });
 
   static const ready = 'ready';
@@ -413,6 +414,7 @@ class ReviseRead {
     final boxes = [for (var i = 0; i < 4; i++) i < boxesRaw.length ? (asInt(boxesRaw[i]) ?? 0).clamp(0, 1 << 30) : 0];
     final items = [for (final i in asJsonList(j['items'])) ?ReviseItem.tryParse(i)];
     return ReviseRead(
+      queue: j['queue'] is Map ? ReviseQueue.tryParse(asJson(j['queue'])) : null,
       version: asInt(j['version']) ?? 1,
       state: state,
       today: _text(j['today']),
@@ -475,6 +477,20 @@ class ReviseRead {
   final ReviseLabels labels;
   final List<ReviseItem> items;
 
+  /// Revise as one queue (LEARN-REVIEW-1017 5.8, `?queue=1`): null from an older server or a plain read.
+  final ReviseQueue? queue;
+
+  /// The questions this run plays: the queue's wrong answers and repaired mistakes (deduped by the
+  /// server, a question due in both is one `again` card), or the plain list from an older server.
+  List<ReviseItem> get runItems {
+    final q = queue;
+    if (q == null) return items;
+    return q.back;
+  }
+
+  /// The Check it held this run plays after the questions back (none from an older server).
+  List<ReviseCheck> get runChecks => queue?.checks ?? const [];
+
   bool get isUnavailable => state == unavailable;
 
   /// No card at all: the entry stays out of the way.
@@ -483,7 +499,23 @@ class ReviseRead {
 
 /// One question to recall: no key, no explanation until it is answered.
 class ReviseItem {
-  const ReviseItem({required this.questionId, required this.question, required this.options, required this.box, this.subject, this.chapter, this.passage});
+  const ReviseItem({
+    required this.questionId,
+    required this.question,
+    required this.options,
+    required this.box,
+    this.subject,
+    this.chapter,
+    this.passage,
+    this.kind = kindQuestion,
+    this.source,
+  });
+
+  /// A wrong answer due again (same question).
+  static const kindQuestion = 'question';
+
+  /// A repaired mistake due again (same question, key hidden).
+  static const kindAgain = 'again';
 
   static ReviseItem? tryParse(Json j) {
     final id = asStringOr(j['questionId'], '');
@@ -499,8 +531,16 @@ class ReviseItem {
       subject: _text(j['subject']),
       chapter: _text(j['chapter']),
       passage: passage,
+      kind: asStringOr(j['kind'], kindQuestion) == kindAgain ? kindAgain : kindQuestion,
+      source: _text(j['source']),
     );
   }
+
+  /// [kindQuestion] or [kindAgain].
+  final String kind;
+
+  /// Where the wrong answer came from, finished by the server ("Mock 2, 12 Oct, 10:42 PM").
+  final String? source;
 
   final String questionId;
   final String? subject;
@@ -511,6 +551,96 @@ class ReviseItem {
 
   /// The box the card is in now, 1 to 4.
   final int box;
+}
+
+/// The merged Revise queue (`GET /api/me/revise?queue=1`, the website's `reviseQueue.js`): the
+/// questions back (wrong answers and repaired mistakes), the pending Check it held and the lesson
+/// cards due, deduped by question and capped by the server.
+class ReviseQueue {
+  const ReviseQueue({this.back = const [], this.checks = const [], this.counts = const ReviseQueueCounts(), this.total = 0, this.minutes = 0});
+
+  static ReviseQueue? tryParse(Json j) {
+    final raw = asJsonList(j['items']);
+    final back = <ReviseItem>[];
+    final checks = <ReviseCheck>[];
+    final seen = <String>{};
+    for (final i in raw) {
+      final kind = asStringOr(i['kind'], '');
+      if (kind == ReviseItem.kindQuestion || kind == ReviseItem.kindAgain) {
+        final item = ReviseItem.tryParse(i);
+        // One card per question per day: the server dedupes, and so does the phone.
+        if (item != null && seen.add('q:${item.questionId}')) back.add(item);
+      } else if (kind == ReviseCheck.kind) {
+        final check = ReviseCheck.tryParse(i);
+        if (check != null && seen.add('check:${check.key}')) checks.add(check);
+      }
+    }
+    final c = asJson(j['counts']);
+    final cards = (asInt(c['cards']) ?? 0).clamp(0, cardCap);
+    return ReviseQueue(
+      back: back,
+      checks: checks,
+      counts: ReviseQueueCounts(
+        back: back.length,
+        again: back.where((i) => i.kind == ReviseItem.kindAgain).length,
+        checks: checks.length,
+        cards: cards,
+      ),
+      // The head counts what the phone will show, so "8 due today" and the mix line always agree.
+      total: back.length + checks.length + cards,
+      minutes: asInt(j['minutes']) ?? 0,
+    );
+  }
+
+  /// Lesson cards add at most this many a day (the website's `CARD_CAP`).
+  static const int cardCap = 5;
+
+  /// The questions back, in play order.
+  final List<ReviseItem> back;
+
+  /// The pending Check it held, played after the questions back.
+  final List<ReviseCheck> checks;
+  final ReviseQueueCounts counts;
+
+  /// Everything due today across the four sources (the head's number).
+  final int total;
+  final int minutes;
+}
+
+/// A pending Check it held in the merged queue (Revise source 3): a NEW question on the rule of a
+/// repair, asked and marked by `/api/recovery/check` (no credit, no model). From the day after the
+/// repair; the mistake's own paper and number name it.
+class ReviseCheck {
+  const ReviseCheck({required this.attemptId, required this.questionId, this.number, this.paper, this.chapter});
+
+  static const kind = 'check';
+
+  static ReviseCheck? tryParse(Json j) {
+    final attemptId = asStringOr(j['attemptId'], '');
+    final questionId = asStringOr(j['questionId'], '');
+    if (attemptId.isEmpty || questionId.isEmpty) return null;
+    final n = asInt(j['number']);
+    return ReviseCheck(attemptId: attemptId, questionId: questionId, number: n != null && n > 0 ? n : null, paper: _text(j['paper']), chapter: _text(j['chapter']));
+  }
+
+  final String attemptId;
+  final String questionId;
+
+  /// The mistake's question number in its paper, when the server names it.
+  final int? number;
+  final String? paper;
+  final String? chapter;
+
+  String get key => '$attemptId/$questionId';
+}
+
+class ReviseQueueCounts {
+  const ReviseQueueCounts({this.back = 0, this.again = 0, this.checks = 0, this.cards = 0});
+
+  final int back;
+  final int again;
+  final int checks;
+  final int cards;
 }
 
 /// The server's grade of one recall (`POST /api/me/revise/answer`).

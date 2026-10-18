@@ -160,7 +160,7 @@ void main() {
     await settle(tester);
     expect(text('You have 8 credits, and this takes 10. One chapter takes the same.'), findsOneWidget);
     expect(text('Free right now'), findsOneWidget);
-    expect(text('Concepts'), findsOneWidget);
+    expect(text('Learn'), findsOneWidget);
     expect(text('Your answers and keys, explanations included'), findsOneWidget);
     expect(text('Today’s free 10-question practice'), findsOneWidget);
     expect(find.textContaining('still open'), findsNothing);
@@ -177,8 +177,8 @@ void main() {
     await settle(tester);
     expect(text('Free right now'), findsOneWidget);
     expect(text('Today’s free 10-question practice'), findsNothing);
-    // Concepts are listed only while study content is on.
-    expect(text('Concepts'), findsNothing);
+    // Learn is listed only while study content is on.
+    expect(text('Learn'), findsNothing);
   });
 
   testWidgets('a blocked quote shows words chosen by its reason code, never the server text', (tester) async {

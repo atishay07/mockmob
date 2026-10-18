@@ -14,6 +14,7 @@ import '../copy.dart';
 import '../learn_paths.dart';
 import '../models/learn_catalog.dart';
 import '../data/catalog_repository.dart';
+import '../data/concepts_pick.dart';
 import '../data/lesson_loader.dart';
 import '../data/run_starter.dart';
 import '../widgets/idea_line.dart';
@@ -24,9 +25,12 @@ import '../widgets/screen_bits.dart';
 /// A lesson (spec 5.9): its objectives and teaching blocks, then the way into the guided
 /// lesson or the lesson's cards. Opening it is what asks the server for the content.
 class LearnUnitScreen extends ConsumerStatefulWidget {
-  const LearnUnitScreen({super.key, required this.unitId});
+  const LearnUnitScreen({super.key, required this.unitId, this.from});
 
   final String unitId;
+
+  /// Where the student came from (5.10): the page says why they are here.
+  final LessonFrom? from;
 
   @override
   ConsumerState<LearnUnitScreen> createState() => _LearnUnitScreenState();
@@ -74,6 +78,27 @@ class _LearnUnitScreenState extends ConsumerState<LearnUnitScreen> {
       _afterRun();
     }
   }
+
+  /// The `from` block's line (5.10): a neutral hairline block, never a wash or a box.
+  String? _fromLine(StudyUnit unit) {
+    final from = widget.from;
+    switch (from) {
+      case FromChapter(:final subject, :final chapter):
+        final costs = ref.watch(learnChapterCostsProvider) ?? const <ChapterCost>[];
+        final open = costs.where((c) => c.subject == catalogSubjectId(subject) && nameKey(c.chapter) == nameKey(chapter)).fold(0, (n, c) => n + c.open);
+        return open > 0 ? LearnCopy.fromChapter(open) : null;
+      case FromQuestion(:final number):
+        return LearnCopy.fromQuestion(number);
+      case FromToday() || null:
+        return null;
+    }
+  }
+
+  /// The back link under the block, only for a question (the bar's own back covers the rest).
+  String? get _backLabel => switch (widget.from) {
+    FromQuestion(:final number) => LearnCopy.backToQuestion(number),
+    _ => null,
+  };
 
   void _afterRun() {
     if (!mounted) return;
@@ -220,6 +245,11 @@ class _LearnUnitScreenState extends ConsumerState<LearnUnitScreen> {
                         const SizedBox(height: MmSpace.s12),
                         Text(unit.summary!, style: type.lead),
                       ],
+                      if (_fromLine(unit) case final line?) ...[
+                        const SizedBox(height: MmSpace.s16),
+                        _FromBlock(line: line, back: _backLabel, onBack: _leave),
+                        const SizedBox(height: MmSpace.s8),
+                      ],
                       // Sections are typeset: air, a hairline, then the heading (SPACING.md 3.1).
                       if (unit.objectives.isNotEmpty) ...[
                         const SectionBreak(),
@@ -314,6 +344,34 @@ class _UnitSkeleton extends StatelessWidget {
             Skeleton.line(width: 200),
             SizedBox(height: MmSpace.s32),
             Skeleton(height: 140, radius: MmRadius.panel),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Where the student came from, above the lesson: a hairline, one line, and the way back to a question.
+class _FromBlock extends StatelessWidget {
+  const _FromBlock({required this.line, required this.back, required this.onBack});
+
+  final String line;
+  final String? back;
+  final VoidCallback onBack;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return DecoratedBox(
+      decoration: BoxDecoration(border: Border(top: BorderSide(color: colors.line))),
+      child: Padding(
+        padding: const EdgeInsets.only(top: MmSpace.s12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(line, style: type.body.copyWith(color: colors.ink2)),
+            if (back != null) KeyButton.quiet(label: back!, onPressed: onBack),
           ],
         ),
       ),

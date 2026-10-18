@@ -7,6 +7,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart' show ByteData, FontLoader;
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/features/learn/data/concepts_pick.dart' show ChapterCost;
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/api/api.dart';
 import 'package:mockmob/core/connectivity/connectivity.dart';
@@ -149,6 +150,27 @@ void main() {
         await tester.drag(find.byType(Scrollable).first, const Offset(0, -560));
         await _settle(tester, ms: 600);
         await _shot(tester, 'tab_choose_concepts', b);
+      });
+
+      // D20: Learn has a clear way in without a new tab. On the owner's phone (360 x 800), under the suggestion: Repairs,
+      // then Learn with the lesson it would open next and why, then Ask Mobi.
+      testWidgets('tab at 360 by 800 with lessons: the Learn row under the suggestion (D20)', (tester) async {
+        await _pump(
+          tester,
+          '/practice',
+          b,
+          practiceOverrides(
+            quotes: _tabQuotes(),
+            attempts: [_mock()],
+            now: _evening,
+            openRepairs: 5,
+            learn: catalog(due: 4),
+            chapterCosts: const [ChapterCost(subject: 'accountancy', chapter: 'Change in Profit Sharing Ratio', open: 2)],
+          ),
+          size: const Size(360, 800),
+        );
+        await _settle(tester);
+        await _shot(tester, 'tab_learn_row_360', b);
       });
 
       testWidgets('tab, a mock still running', (tester) async {

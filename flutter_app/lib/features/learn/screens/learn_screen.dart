@@ -12,6 +12,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/catalog_repository.dart';
+import '../data/concepts_pick.dart';
 import '../data/learn_prefs.dart';
 import '../data/learn_store.dart';
 import '../data/lesson_loader.dart';
@@ -20,19 +21,19 @@ import '../learn_paths.dart';
 import '../models/learn_catalog.dart';
 import '../widgets/due_card.dart';
 import '../widgets/how_concepts.dart';
-import '../widgets/lesson_list.dart';
+import '../widgets/learn_library.dart';
 import '../widgets/offline_packs.dart';
 import '../widgets/screen_bits.dart';
-import '../widgets/untaught_chapters.dart';
 
 /// Runs that have an event on this phone the server has not acknowledged.
 final pendingRunIdsProvider = FutureProvider.autoDispose<List<String>>(
   (ref) => ref.read(learnStoreProvider).pendingRunIds(),
 );
 
-/// The Concepts screen (spec 5.9), opened from the Practice shelf: how Concepts work, the due
-/// summary, the lesson to pick up, each subject's lessons with their status words and chapter
-/// summaries, the chapters without a lesson yet, and the offline switches.
+/// Learn, the lesson library (LEARN-REVIEW-1017 5.9, P-LR6; the name is the owner's D20), opened from Practice's
+/// Learn row and shelf: one panel, Read this next, chosen from where marks are lost; the concept cards due as one
+/// quiet row (they are Revise's); a search; the subject switch; Where you lose marks; every chapter of the subject
+/// with its lessons, summary and practice; the study record; the offline switches.
 class LearnScreen extends ConsumerStatefulWidget {
   const LearnScreen({super.key, this.slowAfter = const Duration(seconds: 15)});
 
@@ -48,6 +49,16 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
   bool _starting = false;
   String? _startMessage;
   bool _howMarked = false;
+
+  /// The panel's lesson is starting, and what a failed start said.
+  bool _startingLesson = false;
+  String? _lessonMessage;
+
+  /// The subject the student picked on the switch (null: the panel's lesson's subject).
+  String? _subject;
+
+  final _search = TextEditingController();
+  String _query = '';
 
   /// The skeleton stood in for the first load: the content then arrives on the cross-fade alone.
   bool _afterSkeleton = false;
@@ -79,6 +90,7 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
   void dispose() {
     _slowTimer?.cancel();
     _scroll.dispose();
+    _search.dispose();
     super.dispose();
   }
 
@@ -96,24 +108,15 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
     if (error != null) throw error;
   }
 
-  /// A fresh catalog, read after a run, found nothing due where cards were due before it: Mobi
-  /// is proud, once. A cached or failed read never says so.
-  bool _cleared = false;
-
+  /// Opens a page over Learn and reads the catalog again when the student comes back.
   Future<void> _open(String path) async {
-    final before = ref.read(learnCatalogProvider).value?.queue.dueCount ?? 0;
     await context.push<void>(path);
     if (!mounted) return;
     try {
       await _refresh();
     } on Object {
-      // A failed read is shown by the screen itself; it is never read as "nothing due".
+      // A failed read is shown by the screen itself.
     }
-    if (!mounted) return;
-    final state = ref.read(learnCatalogProvider);
-    final fresh = state.error == null && !state.fromCache && state.value != null;
-    final cleared = fresh && before > 0 && state.value!.queue.dueCount == 0;
-    if (cleared != _cleared) setState(() => _cleared = cleared);
   }
 
   Future<void> _startRecall() async {
@@ -244,14 +247,53 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
     return const _LearnSkeleton();
   }
 
+  /// Opens a lesson. From a chapter that costs marks, the lesson page says so (5.10, `?from=chapter:`).
+  void _openUnit(LearnUnit unit, {bool fromMarks = false}) {
+    final chapter = unit.chapter;
+    final path = AppRoutes.learnUnit(unit.id);
+    unawaited(
+      _open(
+        fromMarks && chapter != null && chapter.isNotEmpty
+            ? Uri(path: path, queryParameters: {'from': 'chapter:${unit.subject}:$chapter'}).toString()
+            : path,
+      ),
+    );
+  }
+
+  /// The panel's key: finish the lesson, start the next one, or go and practise.
+  Future<void> _startPick(ConceptsPick pick) async {
+    if (_startingLesson) return;
+    switch (pick.kind) {
+      case PickKind.finish:
+        await _open(AppRoutes.learnRun(pick.runId!));
+      case PickKind.practise:
+        context.go(AppRoutes.practice);
+      case PickKind.mistakes || PickKind.next when pick.runId != null:
+        // The lesson is part way through: its own run picks up where it stopped.
+        await _open(AppRoutes.learnRun(pick.runId!));
+      case PickKind.mistakes || PickKind.next:
+        final unit = pick.unit!;
+        setState(() {
+          _startingLesson = true;
+          _lessonMessage = null;
+        });
+        final result = await ref.read(runStarterProvider).start(mode: 'learn', unitId: unit.id);
+        if (!mounted) return;
+        setState(() {
+          _startingLesson = false;
+          _lessonMessage = result.message;
+        });
+        final run = result.run;
+        if (run != null) await _open(AppRoutes.learnRun(run.id));
+    }
+  }
+
   Widget _content(LearnCatalog catalog, RemoteState<LearnCatalog> state) {
     final colors = context.mmColors;
     final type = context.mmType;
     final pending = ref.watch(pendingRunIdsProvider).value ?? const <String>[];
     final offline =
         ref.watch(offlineLearnProvider).value ?? const OfflineLearnState();
-    final isOffline =
-        ref.watch(networkStatusProvider) == NetworkStatus.offline;
     final subjects = catalog.subjectsWithLessons;
     final shown = catalog.subjectsToShow;
     final firstVisit = !(ref.watch(conceptsHowSeenProvider).value ?? true);
@@ -259,31 +301,145 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
       _howMarked = true;
       unawaited(markConceptsHowSeen(ref.read(learnPrefsStoreProvider)));
     }
+    final costs = ref.watch(learnChapterCostsProvider);
     final active = catalog.active;
-    final hasResume = active != null && active.id.isNotEmpty;
     final queue = StudyQueueView.of(catalog);
     final noLessons = catalog.units.isEmpty;
-    // With nothing to start and no lessons the Mobi block below is the one hero: no "nothing is
-    // due" card beside it.
-    final showDue =
-        !(noLessons &&
-            queue.due == 0 &&
-            queue.newReady == 0 &&
-            !queue.pausedNew);
-    // The suggested lesson is folded into its own row when that row is the first one in view,
-    // so the same lesson is not shown twice in a screen.
-    final firstListed = shown
-        .map((s) => catalog.unitsOf(s.id))
-        .where((u) => u.isNotEmpty)
-        .firstOrNull;
-    final next = catalog.next;
-    final nextInList =
-        next != null &&
-        next.id.isNotEmpty &&
-        firstListed != null &&
-        firstListed.first.id == next.id;
-    final showNextCard =
-        !hasResume && next != null && next.id.isNotEmpty && !nextInList;
+    final pick = conceptsPick(catalog, costs);
+    // The subject follows the lesson on the panel until the student picks one, so the two never disagree.
+    final subjectIds = [for (final s in shown) s.id];
+    final subject = (_subject != null && subjectIds.contains(_subject))
+        ? _subject!
+        : (pick.unit != null && subjectIds.contains(pick.unit!.subject)
+              ? pick.unit!.subject
+              : subjectIds.firstOrNull);
+    final subjectInfo = shown.where((s) => s.id == subject).firstOrNull;
+    final results = searchConcepts(_query, catalog);
+    final recallRun = active != null && active.id.isNotEmpty && active.mode != 'learn';
+    final names = {for (final s in catalog.subjects) s.id: s.title};
+    final isOffline = ref.watch(networkStatusProvider) == NetworkStatus.offline;
+    // Whether a lesson opens without a connection, said only when it is true: kept on this phone, or (with no
+    // connection) not kept.
+    String? whereOf(LearnUnit u) => offline.lessons.contains(u.id) ? LearnCopy.onThisPhone : (isOffline ? LearnCopy.needsConnection : null);
+    String nameOf(String id) => names[id] ?? LearnCopy.subjectLabel(id);
+
+    final rows = <Widget>[
+      if (recallRun)
+        LearnLinkRow(
+          title: LearnCopy.finishRevise,
+          note: LearnCopy.finishReviseNote(active.step, active.total),
+          onTap: () => unawaited(_open(AppRoutes.learnRun(active.id))),
+        )
+      else if (catalog.core.recallEnabled && queue.due > 0)
+        LearnLinkRow(
+          title: LearnCopy.reviseCards(queue.due),
+          note: _startMessage ?? LearnCopy.reviseCardsNote(queue.due),
+          onTap: _starting ? null : _startRecall,
+        )
+      else if (catalog.core.recallEnabled && queue.newReady > 0)
+        LearnLinkRow(
+          title: LearnCopy.newReadyHeadline(queue.newReady).replaceAll('.', ''),
+          note: _startMessage ?? LearnCopy.newReadyFrom,
+          onTap: _starting ? null : _startRecall,
+        )
+      else if (queue.pausedNew)
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: MmSpace.s8),
+          child: Text(LearnCopy.newCardsPaused, style: type.small.copyWith(color: colors.ink2)),
+        ),
+    ];
+
+    Widget divider() => Divider(height: 1, thickness: 1, color: colors.line);
+
+    final List<Widget> library;
+    if (results != null) {
+      final count = results.lessons.length + results.chapters.length;
+      library = [
+        LearnSectionHead(
+          title: LearnCopy.resultsHeading,
+          note: count == 0 ? null : LearnCopy.resultsCount(results.lessons.length, results.chapters.length),
+        ),
+        const SizedBox(height: MmSpace.s8),
+        if (count == 0)
+          Text(LearnCopy.nothingMatches, style: type.body.copyWith(color: colors.ink2))
+        else ...[
+          for (final u in results.lessons)
+            LessonLine(
+              unit: u,
+              where: whereOf(u),
+              sub: [nameOf(u.subject), ?u.chapter].join(', '),
+              onOpen: () => _openUnit(u),
+            ),
+          for (final c in results.chapters)
+            LearnLinkRow(
+              title: c.name,
+              note: LearnCopy.noLessonChapter(nameOf(c.subject)),
+              onTap: () => unawaited(context.push<void>(LearnPaths.practiseChapter(c.subject, c.name))),
+            ),
+        ],
+      ];
+    } else if (subject == null) {
+      library = const [];
+    } else {
+      final lose = loseMarks(catalog, costs, subject).take(4).toList();
+      final all = allChapters(catalog, costs, subject);
+      final subjectName = subjectInfo?.title ?? nameOf(subject);
+      library = [
+        if (shown.length > 1) ...[
+          ChipRail(
+            padding: EdgeInsets.zero,
+            semanticLabel: LearnCopy.subjectSwitch,
+            revealIndex: subjectIds.indexOf(subject),
+            children: [
+              for (final s in shown)
+                MmChip(
+                  label: s.title,
+                  selected: s.id == subject,
+                  showBubble: false,
+                  onTap: () => setState(() => _subject = s.id),
+                ),
+            ],
+          ),
+          const SizedBox(height: MmRhythm.group),
+        ],
+        if (lose.isNotEmpty) ...[
+          const LearnSectionHead(title: LearnCopy.loseHeading, note: LearnCopy.loseNote),
+          const SizedBox(height: MmSpace.s4),
+          for (final row in lose)
+            LoseMarksBlock(
+              row: row,
+              whereOf: whereOf,
+              onOpen: (u) => _openUnit(u, fromMarks: true),
+              onPractise: () => unawaited(context.push<void>(LearnPaths.practiseChapter(subject, row.name))),
+            ),
+          const SectionBreak(),
+        ],
+        LearnSectionHead(
+          title: LearnCopy.allChapters(subjectName),
+          note: all.lessons > 0 ? all.head : LearnCopy.chaptersPreparing,
+          subjectId: subject,
+          subjectName: subjectName,
+        ),
+        const SizedBox(height: MmSpace.s4),
+        for (final (i, row) in all.chapters.indexed) ...[
+          if (i > 0) divider(),
+          ChapterFold(
+            key: ValueKey('chapter-$subject-${row.name}'),
+            row: row,
+            whereOf: whereOf,
+            onOpen: (u) => _openUnit(u, fromMarks: row.marks > 0),
+            onPractise: () => unawaited(context.push<void>(LearnPaths.practiseChapter(subject, row.name))),
+            onSummary: () => unawaited(_open(LearnPaths.summary(subject, row.name))),
+          ),
+        ],
+        if (all.chapters.isNotEmpty) ...[
+          const SizedBox(height: MmSpace.s8),
+          Text(LearnCopy.syllabusFoot, style: type.caption.copyWith(color: colors.ink3)),
+        ],
+      ];
+    }
+
+    final record = recordLine(catalog);
 
     return MmPullRefresh(
       onRefresh: _pull,
@@ -302,8 +458,8 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
               constraints: const BoxConstraints(
                 maxWidth: MmSpace.contentMaxWidth,
               ),
-              // One authored entrance when the content first arrives: the words, the card that
-              // holds the one action, then the lessons in reading order. Never on scroll.
+              // One authored entrance when the content first arrives: the words, the panel that holds the one
+              // action, then the library in reading order. Never on scroll.
               child: MmStagger(
                 enabled: !_afterSkeleton,
                 child: Column(
@@ -314,8 +470,7 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          // One two-line intro. "How Concepts work" is the first visit's own
-                          // explainer and is gone after it (SPACING-AUDIT E1).
+                          // One line of lede. "How Learn works" is the first visit's own explainer and is gone after it.
                           Padding(
                             padding: const EdgeInsets.only(bottom: MmSpace.s16),
                             child: Text(
@@ -331,53 +486,6 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
                         ],
                       ),
                     ),
-                    if (hasResume) ...[
-                      MmStaggerItem(
-                        index: 1,
-                        child: ResumeCard(
-                          run: LearnActiveRun(
-                            id: active.id,
-                            title: active.title,
-                            position: runPosition(
-                              active.mode,
-                              active.step,
-                              active.total,
-                            ),
-                          ),
-                          pendingCount: pending.contains(active.id) ? 1 : 0,
-                          onContinue: () =>
-                              _open(AppRoutes.learnRun(active.id)),
-                        ),
-                      ),
-                      const SizedBox(height: MmRhythm.item),
-                    ],
-                    if (showDue)
-                      MmStaggerItem(
-                        index: hasResume ? 2 : 1,
-                        child: DueCard(
-                          queue: queue,
-                          recallEnabled: catalog.core.recallEnabled,
-                          primary: !hasResume,
-                          starting: _starting,
-                          cleared: _cleared,
-                          message: _startMessage,
-                          onStart: _startRecall,
-                          showMobi:
-                              !(firstVisit || _howMarked) &&
-                              catalog.units.isNotEmpty,
-                        ),
-                      ),
-                    if (showNextCard) ...[
-                      const SizedBox(height: MmRhythm.item),
-                      MmStaggerItem(
-                        index: 2,
-                        child: NextLessonCard(
-                          lesson: next,
-                          onOpen: () => _open(AppRoutes.learnUnit(next.id)),
-                        ),
-                      ),
-                    ],
-                    SizedBox(height: showDue ? MmRhythm.group : MmSpace.s8),
                     if (noLessons)
                       Padding(
                         padding: const EdgeInsets.only(bottom: MmRhythm.group),
@@ -407,48 +515,58 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
                             ),
                           ],
                         ),
-                      ),
-                    for (final (i, subject) in shown.indexed) ...[
+                      )
+                    else
                       MmStaggerItem(
-                        index: 3 + i,
+                        index: 1,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            // A new section: 32, a hairline, 16, then its heading.
-                            if (i > 0) const SectionBreak(),
-                            if (catalog.unitsOf(subject.id).isNotEmpty)
-                              SubjectLessons(
-                                subject: subject,
-                                units: catalog.unitsOf(subject.id),
-                                upNext: nextInList && !hasResume ? next : null,
-                                onPhone: offline.lessons,
-                                offline: isOffline,
-                                onOpen: (unit) =>
-                                    _open(AppRoutes.learnUnit(unit.id)),
-                                onReadChapter: (chapter) => unawaited(
-                                  _open(
-                                    LearnPaths.summary(subject.id, chapter),
-                                  ),
-                                ),
-                              )
-                            else
-                              SubjectHeader(subject: subject),
-                            UntaughtChapters(
-                              chapters: catalog.untaughtOf(subject.id),
-                              // With no lesson anywhere, the chapters are the way forward: their
-                              // Practise keys are in view, not behind a fold.
-                              initiallyOpen: noLessons,
-                              onPractise: (chapter) => unawaited(
-                                context.push<void>(
-                                  LearnPaths.practiseChapter(
-                                    subject.id,
-                                    chapter,
-                                  ),
-                                ),
-                              ),
+                            ReadNextPanel(
+                              pick: pick,
+                              subjectName: pick.unit == null ? null : nameOf(pick.unit!.subject),
+                              busy: _startingLesson,
+                              message: _lessonMessage,
+                              onStart: () => unawaited(_startPick(pick)),
                             ),
+                            if (pick.kind == PickKind.finish && pending.contains(pick.runId)) ...[
+                              const SizedBox(height: MmSpace.s8),
+                              Text(LearnCopy.pendingOnPhone(1), style: type.small.copyWith(color: colors.ink2)),
+                            ],
                           ],
                         ),
+                      ),
+                    if (rows.isNotEmpty)
+                      MmStaggerItem(
+                        index: 2,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: MmSpace.s8),
+                          child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: rows),
+                        ),
+                      ),
+                    const SizedBox(height: MmRhythm.group),
+                    if (catalog.units.isNotEmpty || catalog.subjects.any((s) => s.chapters.isNotEmpty)) ...[
+                      MmStaggerItem(
+                        index: 3,
+                        child: LearnSearchField(
+                          controller: _search,
+                          onChanged: (q) => setState(() => _query = q),
+                        ),
+                      ),
+                      const SizedBox(height: MmRhythm.group),
+                    ],
+                    MmStaggerItem(
+                      index: 4,
+                      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: library),
+                    ),
+                    if (!noLessons) ...[
+                      const SectionBreak(),
+                      Text(record.text, style: type.small.copyWith(color: colors.ink2, fontFeatures: const [FontFeature.tabularFigures()])),
+                      const SizedBox(height: MmSpace.s4),
+                      LearnLinkRow(
+                        title: LearnCopy.fullMockTitle,
+                        note: LearnCopy.fullMockNote,
+                        onTap: () => context.go(AppRoutes.practice),
                       ),
                     ],
                     if (catalog.units.isNotEmpty) ...[

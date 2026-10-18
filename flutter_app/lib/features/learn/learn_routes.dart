@@ -9,6 +9,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
+import 'data/concepts_pick.dart' show LessonFrom;
 import 'screens/learn_screen.dart';
 import 'screens/run_done_screen.dart';
 import 'screens/run_screen.dart';
@@ -20,8 +21,11 @@ export 'learn_paths.dart';
 Widget learnScreen(BuildContext context, GoRouterState state) =>
     const LearnScreen();
 
-Widget learnUnitScreen(BuildContext context, GoRouterState state) =>
-    LearnUnitScreen(unitId: state.pathParameters['unitId'] ?? '');
+/// `/learn/:unitId[?from=]`: a lesson, saying where it was opened from (LEARN-REVIEW-1017 5.10).
+Widget learnUnitScreen(BuildContext context, GoRouterState state) => LearnUnitScreen(
+  unitId: state.pathParameters['unitId'] ?? '',
+  from: LessonFrom.parse(state.uri.queryParameters['from']),
+);
 
 Widget learnRunScreen(BuildContext context, GoRouterState state) =>
     LearnRunScreen(runId: state.pathParameters['runId'] ?? '');

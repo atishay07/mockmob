@@ -13,6 +13,7 @@ import 'package:mockmob/features/learn/data/lesson_loader.dart';
 import 'package:mockmob/features/learn/data/run_controller.dart';
 import 'package:mockmob/features/learn/models/learn_catalog.dart';
 import 'package:mockmob/features/learn/screens/learn_screen.dart';
+import 'package:mockmob/features/learn/widgets/learn_library.dart';
 import 'package:mockmob/features/learn/screens/run_done_screen.dart';
 import 'package:mockmob/features/learn/screens/run_screen.dart';
 import 'package:mockmob/features/learn/widgets/offline_packs.dart';
@@ -74,12 +75,13 @@ void main() {
       expect(find.text(LearnCopy.howLine), findsNothing);
     });
 
-    testWidgets('the intro, the hero and the subject headings share the 16 dp gutter (no 4 dp indents)', (tester) async {
+    testWidgets('the intro, the section headings and the offline heading share the 16 dp gutter (no 4 dp indents)', (tester) async {
       await pumpScreen(tester, const LearnScreen(), brightness: Brightness.light, size: const Size(360, 2400), overrides: learnOverrides(catalog: catalog(due: 12)));
       await tester.pump(const Duration(milliseconds: 600));
       expect(tester.getTopLeft(find.text(LearnCopy.subtitle)).dx, 16);
-      expect(tester.getTopLeft(find.text(LearnCopy.chapterSummariesHeading).first).dx, 16);
-      expect(tester.getTopLeft(find.text(LearnCopy.untaughtHeading).first).dx, 16);
+      expect(tester.getTopLeft(find.byType(LearnSearchField)).dx, 16);
+      expect(tester.getTopLeft(find.byType(ReadNextPanel)).dx, 16);
+      expect(tester.getTopLeft(find.text(LearnCopy.fullMockTitle)).dx, 16);
       expect(tester.getTopLeft(find.text(LearnCopy.offlineHeading)).dx, 16);
     });
   });

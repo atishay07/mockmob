@@ -40,7 +40,8 @@ class HttpReviseApi implements ReviseApi {
   @override
   Future<ReviseRead> read({required int cap}) async {
     try {
-      final response = await _api.get('/api/me/revise', query: {'cap': '$cap'});
+      // `queue=1`: the merged queue (LEARN-REVIEW-1017 5.8). An older server ignores it.
+      final response = await _api.get('/api/me/revise', query: {'cap': '$cap', 'queue': '1'});
       return ReviseRead.parse(response.data);
     } on ApiError catch (e) {
       if (e.kind == ApiErrorKind.unavailable || e.details['state'] == 'unavailable') return ReviseRead.notAvailable;

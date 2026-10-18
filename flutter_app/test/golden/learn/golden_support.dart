@@ -7,6 +7,7 @@ import 'package:mockmob/core/repositories/notification_prefs_repository.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/learn/data/catalog_repository.dart';
+import 'package:mockmob/features/learn/data/concepts_pick.dart';
 import 'package:mockmob/features/learn/data/learn_prefs.dart';
 import 'package:mockmob/features/learn/data/lesson_loader.dart';
 import 'package:mockmob/features/learn/data/run_controller.dart';
@@ -60,8 +61,11 @@ List<Override> learnOverrides({
   NetworkStatus network = NetworkStatus.online,
   Map<String, RunUiState> runs = const {},
   bool firstVisit = false,
+  List<ChapterCost>? costs = const [],
 }) =>
     [
+      // The open mistakes by chapter (the phone's Review index): none unless a test gives some.
+      learnChapterCostsProvider.overrideWithValue(costs),
       // The Celebrations setting reads the rhythm prefs store; with no platform it would throw.
       rhythmPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
       learnPrefsStoreProvider.overrideWithValue(MemoryPrefs({if (!firstVisit) 'learn_how_concepts_seen': true})),
