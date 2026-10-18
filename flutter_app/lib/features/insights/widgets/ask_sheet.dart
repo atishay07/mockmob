@@ -150,8 +150,6 @@ class _AskMobiSheetState extends ConsumerState<AskMobiSheet> {
       return;
     }
     if (ref.read(askSheetQuestionProvider)?.loading ?? false) return;
-    if (!await _disclosed(message)) return;
-    if (!mounted || ref.read(askSheetControllerProvider).busy) return;
     ref.read(hapticsProvider).light();
     if (fromField) _text.clear();
     final sending = _ask.send(message);
@@ -161,33 +159,6 @@ class _AskMobiSheetState extends ConsumerState<AskMobiSheet> {
     if (failure == AskFailure.tooLong && mounted && fromField && _text.text.isEmpty) {
       _text.value = TextEditingValue(text: message, selection: TextSelection.collapsed(offset: message.length));
     }
-  }
-
-  /// Before the first message that leaves the phone for an AI service, says so once.
-  Future<bool> _disclosed(String message) async {
-    if (_ask.answersOnPhone(message)) return true;
-    final store = ref.read(insightsPrefsStoreProvider);
-    if (await aiServiceDisclosed(store)) return true;
-    if (!mounted) return false;
-    final withQuestion = ref.read(askSheetQuestionProvider)?.ready ?? false;
-    final go = await showMmSheet<bool>(
-      context: context,
-      title: withQuestion ? InsightsCopy.disclosureTitleQuestion : InsightsCopy.disclosureTitle,
-      builder: (sheet) => Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(withQuestion ? InsightsCopy.disclosureBodyQuestion : InsightsCopy.disclosureBody, style: sheet.mmType.body),
-          const SizedBox(height: MmSpace.s20),
-          KeyButton(label: InsightsCopy.disclosureSend, onPressed: () => Navigator.of(sheet).pop(true)),
-          const SizedBox(height: MmSpace.s4),
-          Center(child: KeyButton.quiet(label: InsightsCopy.disclosureNotNow, onPressed: () => Navigator.of(sheet).pop(false))),
-        ],
-      ),
-    );
-    if (go != true) return false;
-    await markAiServiceDisclosed(store);
-    return true;
   }
 
   /// Leaves the sheet for [location] (a reply's next move, the full record).

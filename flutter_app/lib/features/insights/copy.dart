@@ -309,15 +309,20 @@ abstract final class InsightsCopy {
   static String aiCredits(int n) => n == 1 ? '1 AI credit' : '$n AI credits';
   static String credits(int n) => n == 1 ? '1 credit' : '$n credits';
 
-  /// Under the field, before anything is sent: what the question in the field will cost.
-  static String askNoteIdle(int? balance) => balance == null
-      ? 'Questions about your record are free. Others use 1 AI credit.'
-      : 'Questions about your record are free. Others use 1 of your ${aiCredits(balance)}.';
+  /// Under the field, before anything is sent: what the question in the field will cost, and who
+  /// writes the reply. Said quietly, never in the way: a tap or Send goes straight to the answer.
+  static const aiWrites = "An AI service writes Mobi's replies";
+
+  // The price tail never splits across lines (non-breaking spaces): "1 of your 18 credits" stays whole.
+  static const _tail1 = '\u00a0·\u00a01\u00a0credit';
+  /// Before anything is typed the line says the same: record questions are marked Free on their own
+  /// tiles, and a typed record question swaps this for [askNoteFree].
+  static String askNoteIdle(int? balance) => askNoteCost(balance);
   static const askNoteFree = 'Free. Mobi answers this from your record.';
   static String askNoteCost(int? balance) => switch (balance) {
-        null => 'Uses 1 AI credit',
-        1 => 'Uses your last AI credit',
-        final n => 'Uses 1 of your $n AI credits',
+        null => '$aiWrites$_tail1',
+        1 => '$aiWrites\u00a0·\u00a0your\u00a0last\u00a0credit',
+        final n => '$aiWrites\u00a0·\u00a01\u00a0of\u00a0your\u00a0$n\u00a0credits',
       };
   static String askNoteEmpty(String renew) => 'No AI credits left. They renew on $renew. Questions about your record stay free.';
 
@@ -381,7 +386,7 @@ abstract final class InsightsCopy {
   static const sendAgain = 'Send again';
   static const askAgain = 'Ask again';
 
-  // AI replies: a plain caveat, a way to report, and a one-time notice before the first send.
+  // AI replies: a plain caveat, a way to report, and and no notice in the way: the facts sit under the field.
   static const aiCaveat = 'AI wrote this and can be wrong. Check it against your record.';
   static const aboutReply = 'About this reply';
   static const reportReply = 'Report this reply';
@@ -390,14 +395,6 @@ abstract final class InsightsCopy {
   static const reportSent = 'Reported. It goes to a check.';
   static const reportWaiting = 'Report saved on this phone. It is sent when you are back online.';
   static const reportFailed = 'The report did not reach us. Try again in a moment.';
-  static const disclosureTitle = 'This question goes to an AI service';
-  static const disclosureBody = 'MockMob answers questions about your record on this phone. Other questions are sent, '
-      'with a short summary of your record, to an AI service that writes the reply. It uses 1 AI credit and can be wrong.';
-  static const disclosureTitleQuestion = 'This message goes to an AI service';
-  static const disclosureBodyQuestion = 'Your message, the question, your pick, the key and your rule are sent to an AI service '
-      'that writes the reply. Nothing else about you is sent. It uses 1 AI credit and can be wrong.';
-  static const disclosureSend = 'Send it';
-  static const disclosureNotNow = 'Not now';
   static String askAboutQuestion(String body, String? key) {
     final trimmed = body.length > 900 ? '${body.substring(0, 900)}...' : body;
     return 'Explain this question step by step: "$trimmed"${key == null ? '' : ' The answer is $key.'}';

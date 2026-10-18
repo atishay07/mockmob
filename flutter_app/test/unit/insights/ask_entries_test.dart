@@ -18,7 +18,6 @@ import 'package:mockmob/core/router/routes.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/insights/ask_mobi.dart';
-import 'package:mockmob/features/insights/copy.dart';
 import 'package:mockmob/features/insights/data/ai_reply_report.dart' show insightsPrefsStoreProvider;
 import 'package:mockmob/features/insights/data/ask_question.dart';
 import 'package:mockmob/features/insights/data/ask_sheet_controller.dart';
@@ -259,9 +258,8 @@ void main() {
 
       await tester.tap(find.text('What did I misread?'));
       await tester.pumpAndSettle();
-      // The first message to an AI service says so once.
-      await tester.tap(find.text(InsightsCopy.disclosureSend));
-      await tester.pumpAndSettle();
+      // No sheet in the way: the ask went straight to the answer.
+      expect(find.text('This question goes to an AI service'), findsNothing);
 
       // After: the reply, its source naming what it used, and the balance the server reported.
       expect(find.text('Each partner gives up 1/8.'), findsOneWidget);
