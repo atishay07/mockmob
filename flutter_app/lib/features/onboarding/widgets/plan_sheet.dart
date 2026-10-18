@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'dart:ui' show PathMetric;
 
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
@@ -165,17 +166,16 @@ class PlanSheet extends StatelessWidget {
                             ),
                           ),
                         const Spacer(),
+                        // Change has a visible outline, so its edge (not its words) lines up
+                        // with the rows' right edge; it does not overhang the padding.
                         if (onChange != null)
-                          Transform.translate(
-                            offset: const Offset(MmSpace.s12, 0),
-                            child: _CardLink(
-                              label: OnboardingCopy.change,
-                              semanticsLabel: OnboardingCopy.changeSomething,
-                              icon: LucideIcons.pencil,
-                              iconFirst: true,
-                              boxed: true,
-                              onTap: onChange!,
-                            ),
+                          _CardLink(
+                            label: OnboardingCopy.change,
+                            semanticsLabel: OnboardingCopy.changeSomething,
+                            icon: LucideIcons.pencil,
+                            iconFirst: true,
+                            boxed: true,
+                            onTap: onChange!,
                           ),
                       ],
                     )
@@ -217,11 +217,10 @@ class PlanSheet extends StatelessWidget {
   }
 }
 
-/// Grows to its content on the emphasized curve (at once under reduced motion).
 /// A quiet action on the plan card that still looks pressable: its words with a 16 dp glyph,
 /// 44 dp tall, sinking to 0.97 under the finger. [boxed] gives it a hairline key shape (Change);
 /// [turns] turns its glyph (See all's chevron, 220 ms).
-class _CardLink extends ConsumerWidget {
+class _CardLink extends StatelessWidget {
   const _CardLink({
     super.key,
     required this.label,
@@ -242,7 +241,7 @@ class _CardLink extends ConsumerWidget {
   final double turns;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
     final glyph = AnimatedRotation(
@@ -256,10 +255,8 @@ class _CardLink extends ConsumerWidget {
       semanticsLabel: semanticsLabel ?? label,
       pressedScale: 0.97,
       focusRadius: MmRadius.pillAll,
-      onTap: () {
-        ref.read(hapticsProvider).selection();
-        onTap();
-      },
+      haptic: MmPressHaptic.selection,
+      onTap: onTap,
       builder: (context, pressed, _) => Container(
         constraints: const BoxConstraints(minHeight: 44, minWidth: 48),
         padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12),
@@ -278,6 +275,7 @@ class _CardLink extends ConsumerWidget {
   }
 }
 
+/// Grows to its content on the emphasized curve (at once under reduced motion).
 class _FootGrow extends StatelessWidget {
   const _FootGrow({required this.child});
 
