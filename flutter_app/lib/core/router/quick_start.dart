@@ -24,6 +24,7 @@ import '../widgets/materials/lit_edge.dart';
 import '../widgets/mobi.dart';
 import '../widgets/pressable.dart';
 import '../../features/practice/widgets/choice_deck.dart';
+import '../../features/pro_nudge/pro_nudge.dart' show ProReason, showUpgradeSheetIfOn;
 import '../../features/practice/widgets/quick_start_deck.dart';
 import 'routes.dart';
 
@@ -578,7 +579,11 @@ class _StartRows extends ConsumerWidget {
                 ? 'The exam-day screen. Comes with Pro.'
                 : 'The exam-day screen${subjectName == null ? '' : ' in $subjectName'}, as on the day.',
             // No act: NTA mode is the exam as it is, with no Mobi in it.
-            onTap: () => go(StartLocations.nta(nta, subject)),
+            onTap: () {
+              // A Free student on the gated mode meets the Upgrade sheet (PLAY_BILLING on); otherwise as before.
+              if (ntaGated && showUpgradeSheetIfOn(context, reason: ProReason.ntaMode)) return;
+              go(StartLocations.nta(nta, subject));
+            },
           );
     final repairOption = repair == null || heroIsRepair
         ? null

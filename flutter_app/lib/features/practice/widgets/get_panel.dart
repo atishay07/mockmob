@@ -8,6 +8,7 @@ import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../billing/billing.dart';
+import '../../pro_nudge/pro_nudge.dart' show ProNudgeCopy, ProReason, UpgradeEntry;
 import '../copy.dart';
 import '../data/practice_quote.dart';
 import '../model/cost_line.dart';
@@ -136,8 +137,8 @@ class _GetPanelState extends State<GetPanel> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Semantics(liveRegion: true, child: Text(low.message(selection.mode), style: context.mmType.lead)),
-          // Practice credits are not sold; Pro is what removes the limit. Google Play's Get Pro, when PLAY_BILLING is on.
-          const Align(alignment: Alignment.centerLeft, child: GetProEntry.key(topGap: MmSpace.s12, note: BillingCopy.proRemovesLimit)),
+          // Practice credits are not sold; Pro is what removes the limit. The Upgrade sheet, when PLAY_BILLING is on.
+          const Align(alignment: Alignment.centerLeft, child: UpgradeEntry(reason: ProReason.practiceCredits, topGap: MmSpace.s12, note: ProNudgeCopy.creditsRunLow)),
           const Align(alignment: Alignment.centerLeft, child: WalletTopUpEntry(label: BillingCopy.addPracticeCredits)),
           const SizedBox(height: MmSpace.s20),
           _FreeRightNow(
@@ -410,6 +411,12 @@ class SheetPreview extends StatelessWidget {
   }
 }
 
+ProReason _reasonFor(PracticeMode mode) => switch (mode) {
+      PracticeMode.nta => ProReason.ntaMode,
+      PracticeMode.smart => ProReason.smartPractice,
+      _ => ProReason.general,
+    };
+
 class _ProGate extends StatelessWidget {
   const _ProGate({required this.mode});
 
@@ -445,8 +452,8 @@ class _ProGate extends StatelessWidget {
                     Semantics(header: true, child: Text(PracticeCopy.proGateTitle(name), style: type.cardTitle)),
                     const SizedBox(height: MmSpace.s4),
                     Text(PracticeCopy.proGateBody, style: type.small.copyWith(color: colors.ink2)),
-                    // Google Play's Get Pro, when PLAY_BILLING is on; nothing otherwise.
-                    const GetProEntry.key(topGap: MmSpace.s12),
+                    // The Upgrade sheet with this mode's own reason, when PLAY_BILLING is on; nothing otherwise.
+                    UpgradeEntry(reason: _reasonFor(mode), topGap: MmSpace.s12),
                   ],
                 ),
               ),

@@ -17,7 +17,7 @@ import 'upgrade_sheet.dart';
 /// off, the student is signed out or already Pro, or the row was dismissed inside the last seven
 /// days. A screen places at most one.
 class ProNudgeRow extends ConsumerWidget {
-  const ProNudgeRow({super.key, required this.surface, this.text, this.reason, this.topGap = 0, this.bottomGap = 0});
+  const ProNudgeRow({super.key, required this.surface, this.text, this.reason, this.show = true, this.topGap = 0, this.bottomGap = 0});
 
   final ProNudgeSurface surface;
 
@@ -27,6 +27,10 @@ class ProNudgeRow extends ConsumerWidget {
   /// The reason line on the sheet it opens, when it differs from the surface's own.
   final ProReason? reason;
 
+  /// False while the place has nothing to say yet (a cost that is not known). The row keeps its spot in the
+  /// tree, so what is around it does not rebuild when it comes and goes.
+  final bool show;
+
   /// Space above and below the row. They belong to the row so that, with the nudge off, no gap is left.
   final double topGap;
   final double bottomGap;
@@ -34,7 +38,7 @@ class ProNudgeRow extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (!ref.watch(proNudgesOnProvider)) return const SizedBox.shrink();
-    final visible = ref.watch(proNudgeVisibleProvider(surface));
+    final visible = show && ref.watch(proNudgeVisibleProvider(surface));
     final line = text ?? ProNudgeCopy.lineFor(surface);
     return MmSizeEase(
       duration: Motion.of(context, Motion.glideDuration),

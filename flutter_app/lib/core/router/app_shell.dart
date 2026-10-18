@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/account_sheet/account_sheet.dart' show showAccountSheet;
+import '../../features/pro_nudge/pro_nudge.dart' show showFirstSessionUpgradeIfDue, upgradePopupDueProvider;
 import '../haptics/haptics.dart';
 import '../motion/motion.dart';
 import '../theme/theme.dart';
@@ -96,6 +97,7 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
   /// arms it and says so, so a stray press never throws the student out.
   bool _exitArmed = false;
   Timer? _exitTimer;
+  Timer? _upgradeTimer;
   static const _exitWindow = Duration(seconds: 2);
   static const String pressBackAgain = 'Press back again to close';
 
@@ -194,6 +196,7 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
     if (_location != null && location != _location) _expand();
     _location = location;
     _maybeOpenAccount(uri);
+    _maybeUpgradePopup();
 
     final keyboard = MediaQuery.viewInsetsOf(context).bottom > 0;
     if (keyboard != _keyboardWasOpen) {
@@ -218,6 +221,7 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
     _transientTimer?.cancel();
     _minute?.cancel();
     _exitTimer?.cancel();
+    _upgradeTimer?.cancel();
     super.dispose();
   }
 
@@ -238,6 +242,21 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
         }
         unawaited(showAccountSheet(context).whenComplete(() => _accountOpening = false));
       });
+    });
+  }
+
+  /// The first-session Upgrade sheet (Pro nudges, D81): once the student's first real action of the first
+  /// session is done and they are back on a tab root with nothing over it, it opens, after a short pause
+  /// so it never lands with the page. It is due only with `PLAY_BILLING` on, for a Free student, never in
+  /// onboarding and once ever; the provider says so. Anywhere else this tries again on the next change of
+  /// location.
+  void _maybeUpgradePopup() {
+    if (_upgradeTimer != null || !ref.read(upgradePopupDueProvider)) return;
+    _upgradeTimer = Timer(const Duration(milliseconds: 900), () {
+      _upgradeTimer = null;
+      if (!mounted) return;
+      final calm = (ModalRoute.of(context)?.isCurrent ?? true) && AppRoutes.tabRoots.contains(GoRouterState.of(context).uri.path);
+      if (calm) showFirstSessionUpgradeIfDue(context, ref);
     });
   }
 
@@ -330,6 +349,9 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
 
   /// Saved after the server's 200 (3 s), Synced after the offline queue drains (2 s).
   void _watchTransitions() {
+    ref.listen<bool>(upgradePopupDueProvider, (previous, due) {
+      if (due) _maybeUpgradePopup();
+    });
     ref.listen<String?>(barSendingInputProvider, (previous, next) {
       if (next != null) {
         _sendingPaper = next;

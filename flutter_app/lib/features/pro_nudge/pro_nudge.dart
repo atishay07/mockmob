@@ -10,3 +10,4 @@ export 'data/pro_nudge_controller.dart' show proNudgesOnProvider, proNudgeProvid
 export 'widgets/first_session_popup.dart' show showFirstSessionUpgradeIfDue;
 export 'widgets/pro_nudge_row.dart' show ProNudgeRow;
 export 'widgets/upgrade_sheet.dart' show showUpgradeSheetIfOn;
+export 'widgets/upgrade_entry.dart' show UpgradeEntry;

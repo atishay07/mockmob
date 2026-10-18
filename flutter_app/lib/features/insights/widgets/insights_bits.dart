@@ -1,12 +1,14 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/art/art.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../pro_nudge/pro_nudge.dart' show ProReason, proNudgesOnProvider, showUpgradeSheetIfOn;
 import '../copy.dart';
 import '../data/subject_names.dart';
 
@@ -65,40 +67,54 @@ class SectionTitle extends StatelessWidget {
   }
 }
 
-/// Depth the website keeps for Pro, said once and quietly: no price, no purchase path.
-class ProRow extends StatelessWidget {
-  const ProRow(this.text, {super.key});
+/// Depth that comes with Pro, said once and quietly. With `PLAY_BILLING` on and a [reason] it is a
+/// key: a tap opens the Upgrade sheet with that reason. Otherwise it is as it always was, a line with
+/// no price and no purchase path.
+class ProRow extends ConsumerWidget {
+  const ProRow(this.text, {super.key, this.reason});
 
   final String text;
 
+  /// Why Pro is on offer here. Null: the row never opens anything.
+  final ProReason? reason;
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.mmColors;
     final type = context.mmType;
-    return Semantics(
-      container: true,
-      // The tag only repeats what the text says, so a text that already names Pro is read once.
-      label: text.contains('Pro') ? '$text.' : '$text. Pro.',
-      excludeSemantics: true,
-      child: DecoratedBox(
-        decoration: ShapeDecoration(
-          color: colors.sunken,
-          shape: mmShapeBorder(MmRadius.keyAll, side: BorderSide(color: colors.line)),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s12),
-          child: Row(
-            children: [
-              Icon(LucideIcons.lock, size: 16, color: colors.ink3),
-              const SizedBox(width: MmSpace.s12),
-              Expanded(child: Text(text, style: type.small.copyWith(color: colors.ink2))),
-              const SizedBox(width: MmSpace.s8),
-              const ProTag(),
-            ],
+    // The tag only repeats what the text says, so a text that already names Pro is read once.
+    final label = text.contains('Pro') ? '$text.' : '$text. Pro.';
+    final opens = reason != null && ref.watch(proNudgesOnProvider);
+    Widget row() => DecoratedBox(
+          decoration: ShapeDecoration(
+            color: colors.sunken,
+            shape: mmShapeBorder(MmRadius.keyAll, side: BorderSide(color: colors.line)),
           ),
-        ),
-      ),
-    );
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: opens ? MmTarget.min : 0),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s12),
+              child: Row(
+                children: [
+                  Icon(LucideIcons.lock, size: 16, color: colors.ink3),
+                  const SizedBox(width: MmSpace.s12),
+                  Expanded(child: Text(text, style: type.small.copyWith(color: colors.ink2))),
+                  const SizedBox(width: MmSpace.s8),
+                  const ProTag(),
+                ],
+              ),
+            ),
+          ),
+        );
+    if (opens) {
+      return MmPressable(
+        onTap: () => showUpgradeSheetIfOn(context, reason: reason!),
+        semanticsLabel: label,
+        focusRadius: MmRadius.keyAll,
+        builder: (context, pressed, focused) => row(),
+      );
+    }
+    return Semantics(container: true, label: label, excludeSemantics: true, child: row());
   }
 }
 

@@ -8,6 +8,7 @@ import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../billing/billing.dart';
+import '../../pro_nudge/pro_nudge.dart' show ProReason, showUpgradeSheetIfOn;
 import '../../rules/widgets/start_sheet_line.dart';
 import '../copy.dart';
 import '../model/practice_selection.dart';
@@ -86,6 +87,8 @@ class _DifficultyPickerState extends ConsumerState<DifficultyPicker> {
   /// A tap on a locked level: the row shakes (with its own warn haptic) and the line under it says
   /// why. Nothing is selected.
   void _locked() {
+    // PLAY_BILLING on: the Upgrade sheet says what Pro adds and can buy it. Off: as it was, below.
+    if (showUpgradeSheetIfOn(context, reason: ProReason.difficulty)) return;
     _shake.currentState?.shake();
     if (!_told) setState(() => _told = true);
   }

@@ -53,6 +53,7 @@ import '../widgets/result_head.dart';
 import '../widgets/result_space.dart';
 import '../widgets/weak_chapters_list.dart';
 import 'answer_row.dart';
+import '../../pro_nudge/pro_nudge.dart' show ProNudgeRow, ProNudgeSurface;
 import 'full_sections.dart';
 import 'replay_section.dart';
 import 'summary_section.dart';
@@ -545,6 +546,8 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                     },
                   ),
                 ),
+                // The one Pro nudge on this page: nothing with PLAY_BILLING off or for a Pro student.
+                const ProNudgeRow(surface: ProNudgeSurface.result, topGap: MmSpace.s8),
                 if (progress != null) ...[
                   const SizedBox(height: MmSpace.s12),
                   // A quiet text link, flush with the page's gutter, under the one next move: what happened

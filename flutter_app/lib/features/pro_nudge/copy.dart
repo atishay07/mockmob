@@ -101,6 +101,9 @@ abstract final class ProNudgeCopy {
 
   // The inline rows. One quiet line and one action each.
   static const nudgeAction = 'Get Pro';
+
+  /// The key on a Pro gate that stands shut.
+  static const gateAction = 'Upgrade to Pro';
   static const nudgeDismiss = 'Not now';
   static const unlimitedMocks = 'Mock as much as you want. Unlimited with Pro.';
   static const noCreditsForPractice = 'Practise as much as you want. No credits with Pro.';
