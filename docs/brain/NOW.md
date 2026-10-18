@@ -38,8 +38,13 @@ A network drop at about 11:40 am killed 10 agents. Their commits and edits were 
 - ui/v15-asks (4a1b9b98: M-001, M-002, M-003) is done.
 - **Then:** the integrator merges everything into wt-v15 and runs the full suites, a walk on the emulator follows (screenshots in tmp/app-walk-1018c), a fixer handles what the walk finds, and the release APK goes to `tmp/apk/mockmob-v15-final-<sha>.apk`.
 
+**D54 credits (approved 12:28 pm): the Free AI wallet goes from 10 to 50 a month.**
+- **credits-web-1018** (wf_8a0722bb-80c, task wir0nm4ir) builds the server and website side in wt-credits50 (web/credits50-1018, from c46d1dcd). Staging dry-run only. It merges into R8. Any production database step is the main session's, under the grant.
+- **credits-app-1018** (wf_b95e2cfe-c49, task wer8pk8ho) builds the app copy in wt-v15-credits (ui/v15-credits).
+- **The main session merges ui/v15-credits into wt-v15 BEFORE the v15 integrator starts.** If the integrator has already started, it waits and merges after the integration instead.
+- **Speed-up:** when the integrator commits the build bump, the main session builds the release APK in a separate worktree at that head while the walker walks.
+
 ## Owner decisions open
-- **D54:** 50 free credits for free users (this changes billing and the website).
 - **D50:** which screen he meant by "5, 10, 20 only, no direction until a full mock". The design agent is finding it.
 - **D51/D52:** the swipe cards and the richer Today. Mock-ups are coming; nothing is built before he says yes.
 - **D49:** usage data is ON by default, for adults only. India's DPDP Act treats a pre-ticked box as weak consent, so tell him that.
