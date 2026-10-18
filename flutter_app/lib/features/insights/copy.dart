@@ -305,7 +305,7 @@ abstract final class InsightsCopy {
   static const askPausedLine = 'AI replies are paused just now. Questions about your record still work.';
 
   // The AI credit wallet, in the website's words where it has them (MockMobAIHub, pricing/prepos):
-  // 10 a month on Free, 50 on Pro, purchased credits never expire, a failed reply costs nothing.
+  // 50 a month on Free, 50 on Pro, purchased credits never expire, a failed reply costs nothing.
   static String aiCredits(int n) => n == 1 ? '1 AI credit' : '$n AI credits';
   static String credits(int n) => n == 1 ? '1 credit' : '$n credits';
 
@@ -341,7 +341,7 @@ abstract final class InsightsCopy {
   static const walletHowRecord = 'Questions about your record are free.';
   static const walletHowModel = 'Other questions use 1 credit for a written reply.';
   static const walletHowFailed = 'A reply that fails costs nothing; the credit returns automatically.';
-  static const walletAllowance = '10 credits a month on Free, 50 on Pro. Separate from practice credits.';
+  static const walletAllowance = '50 credits a month on Free, 50 on Pro. Separate from practice credits.';
   static const walletHistory = 'Used in this conversation';
   static const walletHistoryEmpty = 'Nothing yet. Questions about your record never use a credit.';
   static const creditDetails = 'Credit details';

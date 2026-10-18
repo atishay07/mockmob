@@ -245,7 +245,7 @@ abstract final class AskSheetCopy {
   static const explainPreview = 'A written explanation in plain words';
   static const mockOpeningTitle = 'Where the lost marks went';
   static const creditsAnswer = 'Questions about your own practice are free and answered from your record. Anything else gets a '
-      'written reply for 1 AI credit, and the price shows before you send. Free includes 10 AI credits a month and Pro 50; '
+      'written reply for 1 AI credit, and the price shows before you send. Free includes 50 AI credits a month and Pro 50; '
       'bought credits never expire. A reply that fails costs nothing.';
   static const scopeAnswer = 'Your marks, chapters, timing and week, from your own practice, for free. Anything else, like '
       'explaining a question, gets a written reply for 1 AI credit.';
