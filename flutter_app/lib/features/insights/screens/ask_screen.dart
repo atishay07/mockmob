@@ -622,7 +622,8 @@ class _AskScreenState extends ConsumerState<AskScreen> {
           controller: _text,
           focusNode: _doorField,
           starters: askNowStarters(record: record, subjects: subjects),
-          shown: compact ? 1 : 2,
+          // ASK-MOBI-1019 B frames 2 and 3: a heavy record keeps its lead figure above the fold.
+          shown: ready ? (compact ? 0 : 1) : (compact ? 1 : 2),
           busy: busy,
           note: note,
           onSend: _send,

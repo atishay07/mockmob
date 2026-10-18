@@ -302,7 +302,8 @@ class AskNowDoor extends StatefulWidget {
   final FocusNode focusNode;
   final List<String> starters;
 
-  /// How many starters show before the field is touched; all of them show while it has focus.
+  /// How many starters show before the field is touched (0 says "Tap the box"); all of them show
+  /// once it has had focus.
   final int shown;
   final ValueChanged<String?> onSend;
 
@@ -356,7 +357,7 @@ class _AskNowDoorState extends State<AskNowDoor> {
     final colors = context.mmColors;
     final type = context.mmType;
     final focused = widget.focusNode.hasFocus;
-    final count = _open ? widget.starters.length : widget.shown.clamp(1, widget.starters.length);
+    final count = _open ? widget.starters.length : widget.shown.clamp(0, widget.starters.length);
     const fieldRadius = BorderRadius.all(Radius.circular(18));
     return _Door(
       title: AskDoorCopy.nowTitle,
@@ -442,8 +443,17 @@ class _AskNowDoorState extends State<AskNowDoor> {
             },
           ),
         ),
+        // With no room for a starter (a heavy record at 360 dp, so the record door's figure stays in view),
+        // one line says where they are; a tap into the field brings all three.
         const SizedBox(height: MmSpace.s16),
-        Text(AskDoorCopy.nowTip, style: type.label.copyWith(color: colors.ink3)),
+        MmFadeThrough(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            count == 0 ? AskDoorCopy.nowTapBox : AskDoorCopy.nowTip,
+            key: ValueKey(count == 0),
+            style: type.label.copyWith(color: colors.ink3),
+          ),
+        ),
         AnimatedSize(
           duration: Motion.of(context, Motion.ui),
           curve: Motion.glide,

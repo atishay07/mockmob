@@ -12,6 +12,7 @@ import '../../core/motion/motion.dart';
 import '../../core/router/app_shell.dart';
 import '../../core/theme/theme.dart';
 import '../../core/widgets/widgets.dart';
+import '../insights/ask_mobi.dart' show AskMobiButton;
 import '../pro_nudge/pro_nudge.dart';
 import '../runner/runner_routes.dart' show NtaRoutes;
 import 'copy.dart';
@@ -269,11 +270,14 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                           child: TabRootHeader(
                             title: PracticeCopy.tabTitle,
                             // 44 dp Mobi, resident: no bubble on this tab, he reacts.
-                            trailing: PracticeMobi(
-                              controller: _mobi,
-                              entrance: _entrance,
-                              loading: quotesLoading || _refreshing,
-                              aim: _heroKey,
+                            trailing: AskMobiButton(
+                              // ASK-MOBI-1019 B: the labelled way in to Ask Mobi.
+                              figure: PracticeMobi(
+                                controller: _mobi,
+                                entrance: _entrance,
+                                loading: quotesLoading || _refreshing,
+                                aim: _heroKey,
+                              ),
                             ),
                           ),
                         ),

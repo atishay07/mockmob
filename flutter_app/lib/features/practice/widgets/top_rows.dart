@@ -5,7 +5,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
-import '../../insights/ask_mobi.dart' show AskMobiPracticeRow;
+import '../../insights/ask_mobi.dart' show AskMobiCard;
 import '../../insights/widgets/entry_points.dart' show EntryRow;
 import '../../learn/data/catalog_repository.dart';
 import '../../learn/data/concepts_pick.dart';
@@ -15,7 +15,8 @@ import '../copy.dart';
 /// The rows a student looks for on Practice, right under the suggestion instead of three screens down (the owner's
 /// D5: "no one will be able to see it ever, the placement is really bad"): Repairs, with how many mistakes are open
 /// across the account (the same count Review's header and Today's tile print), Learn with the lesson it would open
-/// next and why (the owner's D20: Learn has a clear way in, without a new tab), and Ask Mobi what to practise.
+/// next and why (the owner's D20: Learn has a clear way in, without a new tab), and Ask Mobi. Ask Mobi's card
+/// (ASK-MOBI-1019 B, D112) took the slot of the old "Ask Mobi what to practise" row: moved, nothing removed.
 ///
 /// Repairs shows for any account with an open mistake and for none without one (an unknown count is never a zero, and
 /// no row points at nothing). Plain rows with hairlines, no art, no card.
@@ -32,7 +33,8 @@ class PracticeTopRows extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        line,
+        const AskMobiCard(),
+        if (open > 0 || learn != null) ...[const SizedBox(height: MmSpace.s16), line],
         if (open > 0) ...[
           EntryRow(
             icon: LucideIcons.wrench,
@@ -51,8 +53,6 @@ class PracticeTopRows extends ConsumerWidget {
           ),
           line,
         ],
-        const AskMobiPracticeRow(),
-        line,
       ],
     );
   }

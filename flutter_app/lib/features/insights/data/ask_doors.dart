@@ -59,7 +59,8 @@ abstract final class AskDoorCopy {
   static const nowTitle = 'Ask now';
   static const nowLine = 'Type any CUET doubt and Mobi explains it in plain words.';
   static const nowHint = 'Type your doubt here';
-  static const nowTip = 'Or tap a question to ask it now.';
+  static const nowTip = 'Or tap one to ask it now.';
+  static const nowTapBox = 'Tap the box to see three ideas to start with.';
 
   // Ask your record.
   static const recordTitle = 'Ask your record';
@@ -207,6 +208,11 @@ List<String> askNowStarters({PrepInsights? record, List<String> subjects = const
     for (final l in lists) {
       if (round < l.length) add(l[round]);
     }
+  }
+  // A set with few starters of its own is filled from the parts every CUET student sits, so the
+  // door always has three ideas (it says so at 360 dp).
+  for (final s in [...askNowBank['english']!, ...askNowBank['general_test']!]) {
+    add(s);
   }
   return out;
 }

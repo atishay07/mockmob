@@ -10,6 +10,7 @@ import '../../../core/motion/motion.dart';
 import '../../../core/repositories/remote_state.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../insights/ask_mobi.dart' show AskMobiButton;
 import '../../practice/widgets/stale_subjects_banner.dart' show openEditSubjects;
 import '../../pro_nudge/pro_nudge.dart' show ProReason, UpgradeEntry, proNudgesOnProvider;
 import '../../you/data/subject_catalog.dart' show youSubjectNames;
@@ -56,6 +57,7 @@ class _MobScreenState extends ConsumerState<MobScreen> {
     final mob = mobDisabledError(state.error) ? null : state.value?.mob;
     return YouPage(
       title: MobCopy.title,
+      trailing: const AskMobiButton(), // ASK-MOBI-1019 B
       children: [
         if (state.isStale)
           const Padding(

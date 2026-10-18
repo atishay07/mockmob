@@ -1,8 +1,9 @@
 // Today's masthead (TODAY-1017 4.1): the date line and a greeting by first name, the account
 // avatar on the left, and Mobi back on the right (D52 item 1, TODAY-SWIPE-1018): 46 dp in his
-// greeting pose, a tap opens Ask Mobi. The greeting keeps one line beside him (it scales down to
-// fit at 360 dp and large text, never wraps or ends in an ellipsis). When the move card already has
-// Mobi (day one, coming back) the header leaves him out: never two Mobis on one screen. No week
+// greeting pose, inside the labelled "Ask Mobi" key that opens Ask Mobi (ASK-MOBI-1019 B). The
+// greeting keeps one line beside it (it scales down to fit at 360 dp and large text, never wraps or
+// ends in an ellipsis). When the move card already has Mobi (day one, coming back) the key carries
+// his flat mark instead: never two Mobis on one screen. No week
 // here: the week is "This week" under the move. When Today shows what it last loaded, a quiet time
 // line takes the date line's place, so a Wi-Fi flip never moves the page (audit T6).
 import 'package:flutter/material.dart';
@@ -11,9 +12,9 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/account/account_avatar.dart' show AccountLeading;
-import '../../../core/widgets/widgets.dart' show Mobi, MobiPose, MmHitSlop, MmPressable, MmPressHaptic, OneLineNotice;
+import '../../../core/widgets/widgets.dart' show Mobi, MobiPose, OneLineNotice;
+import '../../insights/ask_mobi.dart' show AskMobiButton;
 import '../copy.dart';
-import '../copy_ahead.dart';
 import '../logic/today_model.dart';
 import 'today_entrance.dart';
 
@@ -73,7 +74,8 @@ class _TodayHeaderState extends State<TodayHeader> {
             onRefresh: header.refreshable ? widget.onRefresh : null,
             offline: header.offline,
             refreshing: widget.refreshing,
-            mobi: widget.showMobi ? _HeaderMobi(onTap: widget.onMobi) : null,
+            // ASK-MOBI-1019 B: Mobi rides in the labelled Ask Mobi key (its flat mark while the move card holds him).
+            mobi: AskMobiButton(figure: widget.showMobi ? const Mobi(pose: MobiPose.greet, size: TodayHeader.mobiSize) : null, onTap: widget.onMobi),
           ),
         ),
       ),
@@ -175,34 +177,6 @@ class _GreetingRow extends StatelessWidget {
           ),
           if (mobi != null) ...[const SizedBox(width: 10), mobi!],
         ],
-      ),
-    );
-  }
-}
-
-/// Mobi in the header: his greeting pose at 46 dp, a 48 dp target that opens Ask Mobi.
-class _HeaderMobi extends StatelessWidget {
-  const _HeaderMobi({this.onTap});
-
-  final VoidCallback? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    const figure = Mobi(pose: MobiPose.greet, size: TodayHeader.mobiSize);
-    final tap = onTap;
-    if (tap == null) return const ExcludeSemantics(child: figure);
-    // His figure is about 38 dp wide: the target reaches 10 dp towards the greeting (the right edge stays
-    // flush with the margin) and 1 dp above and below, so it is 48 x 48.
-    const vertical = (48 - TodayHeader.mobiSize) / 2;
-    return MmHitSlop(
-      slop: const EdgeInsets.fromLTRB(10, vertical, 0, vertical),
-      child: MmPressable(
-        onTap: tap,
-        semanticsLabel: AheadCopy.askMobi,
-        focusRadius: MmRadius.pillAll,
-        pressedScale: 0.94,
-        haptic: MmPressHaptic.selection,
-        builder: (context, pressed, _) => const SizedBox(height: TodayHeader.mobiSize, child: figure),
       ),
     );
   }
