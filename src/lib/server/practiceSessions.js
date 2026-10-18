@@ -14,6 +14,8 @@ import { tonightMetadata } from '@/../data/study_progress';
 import { assertNtaPaperServable, ntaOptionLayout } from './ntaPaper';
 import { SUBMISSION_GRACE_MS } from '@/../data/session_draft';
 import { practiceCharge, spendWithLegacyFallback } from '@/../data/practice_charge';
+import { firstFullMockApplies } from '@/../data/first_full_mock';
+import { firstFullMockFor, takeFirstFullMock } from './firstFullMock';
 
 const secret = () => process.env.PRACTICE_SESSION_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY;
 
@@ -85,7 +87,12 @@ export async function startPractice(userId, input, server = {}) {
   const row = { id, user_id: userId, subject: selection.internalSubject, mode: mode.id,
     created_at: new Date(created).toISOString(), expires_at: new Date(created + resolveDurationSec(mode, questions) * 1000).toISOString(),
     questions, selection_meta: { ...meta, ...(optionLayout ? { ntaOptionLayout: optionLayout } : {}), ...tonightMetadata({...input, mode:mode.id, count}, created), scoringVersion: 'server_practice_v1', scoringAuthority: 'server_snapshot', contentEvidence: 'legacy_bank', learningPurpose: input.purpose === 'baseline' ? 'baseline' : 'ordinary_practice', ...(mobPaper ? { mobPaper: { mobId: mobPaper.mobId, weekStart: mobPaper.weekStart, ...(mobPaper.extraId ? { extraId: mobPaper.extraId } : {}) } } : {}) } };
-  const charge = practiceCharge({ isPremium: user?.isPremium, mobPaper, modeId: mode.id, creditAction: practiceCreditAction(mode.id, count), count, purpose: input.purpose, subject: selection.internalSubject });
+  // The first full mock in each subject is free, once, from its start (data/first_full_mock.js). Its state for this very session
+  // is read the way the quote reads it (src/lib/server/firstFullMock.js), after the set is built; unknown is charged as before.
+  const firstFullMock = firstFullMockApplies({ isPremium: user?.isPremium === true, modeId: mode.id, mobPaper })
+    ? await firstFullMockFor(db, { userId, subject: selection.internalSubject, sessionId: id })
+    : null;
+  const charge = practiceCharge({ isPremium: user?.isPremium, mobPaper, modeId: mode.id, creditAction: practiceCreditAction(mode.id, count), count, purpose: input.purpose, subject: selection.internalSubject, firstFullMock });
   if (durableLearningEnabled()) {
     const { quota } = charge;
     const { data, error } = await db.rpc('start_learning_session', { p_row: { ...row, request_key: input.generationKey, state: 'active' }, p_credit_action: charge.creditAction, p_quota_kind: quota, p_period: quota ? allowancePeriod(quota, created) : null });
@@ -97,8 +104,12 @@ export async function startPractice(userId, input, server = {}) {
   const ticket = sealPractice(row, secret());
   // Existing atomic ledger makes retries free; charge only after a complete usable set exists.
   if (charge.creditAction) {
+    // The free first full mock: free when this start takes the free row (its primary key lets only one start have it); a start
+    // that finds the row taken, or that was paid before this rule shipped, is charged exactly as before.
+    const free = charge.firstFullMock === true
+      && await takeFirstFullMock(db, { userId, subject: selection.internalSubject, sessionId: id, reference: `practice_${id}`, state: firstFullMock });
     // A set paid on the pre-release-9 code ('attempt') and restarted after it keeps its charge instead of failing (spendWithLegacyFallback).
-    const paid = await spendWithLegacyFallback((u, a, r) => Database.spendCredits(u, a, r), userId, charge.creditAction, `practice_${id}`);
+    const paid = free || await spendWithLegacyFallback((u, a, r) => Database.spendCredits(u, a, r), userId, charge.creditAction, `practice_${id}`);
     if (!paid) throw new Error('INSUFFICIENT_CREDITS');
   }
   const view = publicSessionView(row);

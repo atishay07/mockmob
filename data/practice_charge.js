@@ -4,16 +4,34 @@
 // A Mob paper (SOCIAL-SPEC section 15) is free of credits for every member: no credit action and no daily
 // allowance. Who may start one (a free student gets one weekly Mob paper a week, Pro has no such limit) is decided by
 // the Mob service before this is ever asked, and `mobPaper` can only come from the server, never from a request body.
+import { FIRST_FULL_MOCK_STATE, firstFullMockApplies, firstFullMockIsFree, firstFullMockKind, isFullSampleKind } from './first_full_mock.js';
+
 const FREE_SAMPLE_SUBJECTS = ['english', 'accountancy', 'economics', 'business_studies'];
 
-/** { creditAction: string | null, quota: string | null } */
-export function practiceCharge({ isPremium = false, mobPaper = null, modeId, creditAction = null, count, purpose = null, subject }) {
+/**
+ * { creditAction: string | null, quota: string | null } and, only when the first full mock in the subject is free for this
+ * start, `firstFullMock: true` (data/first_full_mock.js). `firstFullMock` in the input is that rule's state for this start
+ * ('available' | 'mine' | 'used' | 'unknown', from src/lib/server/firstFullMock.js); without it the charge is exactly as before.
+ *   'available'  the start may take the free row. It keeps its credit action as a fallback: the durable start takes the row
+ *                inside start_learning_session (quota) and charges the action only if another start took the row first; the
+ *                device-held start takes the row itself before it would charge (practiceSessions.js, firstFullMock.js).
+ *   'mine'       this very session already holds the free row (a replay): nothing to charge and nothing to take.
+ *   'used'       the subject's free full mock was given (or a full paper is saved): a full-sample start is charged too, since
+ *                the full sample is the same one free full mock per subject (durable sessions only; data/first_full_mock.js).
+ *   'unknown'    and null: exactly as before.
+ */
+export function practiceCharge({ isPremium = false, mobPaper = null, modeId, creditAction = null, count, purpose = null, subject, firstFullMock = null }) {
   if (mobPaper) return { creditAction: null, quota: null };
   if (isPremium) return { creditAction: null, quota: null };
   let quota = null;
   if (modeId === 'quick' && count === 10) quota = 'daily_practice';
   if (purpose === 'baseline' && modeId === 'quick' && count === 5 && FREE_SAMPLE_SUBJECTS.includes(subject)) quota = `baseline:${subject}`;
   if (purpose === 'full_sample' && modeId === 'full' && FREE_SAMPLE_SUBJECTS.includes(subject)) quota = `full_sample:${subject}`;
+  const applies = firstFullMockApplies({ isPremium, modeId, mobPaper });
+  const firstKind = applies && firstFullMockIsFree(firstFullMock) ? firstFullMockKind(subject) : null;
+  if (firstKind && firstFullMock === FIRST_FULL_MOCK_STATE.mine) return { creditAction: null, quota: null, firstFullMock: true };
+  if (firstKind) return { creditAction: creditAction || null, quota: firstKind, firstFullMock: true };
+  if (applies && firstFullMock === FIRST_FULL_MOCK_STATE.used && isFullSampleKind(quota)) quota = null;
   return { creditAction: creditAction || null, quota };
 }
 

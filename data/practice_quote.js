@@ -4,6 +4,7 @@
 import { TEST_MODES, resolveCount, practiceCreditCost } from './test_modes.js';
 import { MODE_CAPABILITIES, LAUNCH_SUBJECT_IDS } from './capabilities.js';
 import { resolveSubject } from './subject_registry.js';
+import { FIRST_FULL_MOCK_COPY, FIRST_FULL_MOCK_REASON, FIRST_FULL_MOCK_STATE, firstFullMockApplies, firstFullMockKind, isFullSampleKind } from './first_full_mock.js';
 
 export const QUOTE_TTL_MS = 60_000;
 
@@ -30,9 +31,11 @@ export function estimatedDurationSec(mode, count) {
  * @param {string} [input.purpose]
  * @param {{state:'available'|'unavailable', subjectCounts?:Record<string,number>, checkedAt?:string}} input.inventory
  * @param {{enabled:boolean, used:boolean|null}} input.allowance  used=null means the read failed
+ * @param {'available'|'used'|'unknown'|null} [input.firstFullMock]  the first-full-mock rule's state for this student and
+ *   subject (data/first_full_mock.js, read by src/lib/server/firstFullMock.js); null or absent when it was not read
  * @param {string} input.token  idempotency token minted by the server
  */
-export function buildPracticeQuote({ user, subject, mode: modeId, count, purpose = 'ordinary', inventory, allowance = { enabled: false, used: null }, token, now = Date.now() }) {
+export function buildPracticeQuote({ user, subject, mode: modeId, count, purpose = 'ordinary', inventory, allowance = { enabled: false, used: null }, firstFullMock = null, token, now = Date.now() }) {
   const base = { quotedAt: new Date(now).toISOString(), expiresAt: new Date(now + QUOTE_TTL_MS).toISOString(), idempotencyToken: null };
   const block = (state, reasonCode, reason, extra = {}) => ({ ...base, ...extra, state, launchable: false, reasonCode, reason });
 
@@ -50,6 +53,10 @@ export function buildPracticeQuote({ user, subject, mode: modeId, count, purpose
   const isPremium = user.isPremium === true;
   const duration = estimatedDurationSec(mode, n);
   const entitlement = { kind: isPremium ? 'access' : 'free', expiresAt: isPremium ? user.premiumUntil || null : null };
+  // The first full mock in each subject is free (data/first_full_mock.js). Every Free quote past the subject and mode checks carries
+  // the rule's state for this subject ('available' | 'used' | 'unknown'), whichever mode it is for, so the Practice screen can say
+  // the Full mock is free while Quick practice or NTA mode is chosen. Pro has no such field: nothing is priced for Pro.
+  const firstState = isPremium ? null : [FIRST_FULL_MOCK_STATE.available, FIRST_FULL_MOCK_STATE.used, FIRST_FULL_MOCK_STATE.unknown].includes(firstFullMock) ? firstFullMock : null;
   const common = {
     subject: subjectOut,
     mode: { id: mode.id, label: mode.label, capabilityId: capability.id, capabilityVersion: capability.version },
@@ -57,6 +64,7 @@ export function buildPracticeQuote({ user, subject, mode: modeId, count, purpose
     durationSec: duration.seconds,
     durationEstimated: duration.estimated,
     entitlement,
+    ...(firstState ? { firstFullMock: firstState } : {}),
   };
 
   if (mode.premium && !isPremium) {
@@ -83,13 +91,21 @@ export function buildPracticeQuote({ user, subject, mode: modeId, count, purpose
       { ...common, inventory: inventoryOut });
   }
 
+  // A free Full mock is priced 0 with the allowance old app builds already read ({ kind, state: 'available' } means free) and an
+  // explicit freeReason ('first_full_mock_free') a client can switch on to say FIRST_FULL_MOCK_COPY.price. Once the free one is
+  // used, the durable-only full sample is not a second free one (it is the same promise): no allowance covers that start.
+  const firstApplies = firstFullMockApplies({ isPremium, modeId: mode.id });
+  const firstFree = firstApplies && firstState === FIRST_FULL_MOCK_STATE.available;
+
   // Allowance and credits.
-  const kind = allowance.enabled ? allowanceKindFor({ isPremium, modeId: mode.id, count: n, purpose, subjectId: resolved.id }) : null;
-  const allowanceOut = kind ? { kind, state: allowance.used === null ? 'unknown' : allowance.used ? 'used' : 'available' } : null;
+  const listedKind = firstFree ? firstFullMockKind(internal) : allowance.enabled ? allowanceKindFor({ isPremium, modeId: mode.id, count: n, purpose, subjectId: resolved.id }) : null;
+  const kind = firstApplies && firstState === FIRST_FULL_MOCK_STATE.used && isFullSampleKind(listedKind) ? null : listedKind;
+  const allowanceOut = firstFree ? { kind, state: 'available' } : kind ? { kind, state: allowance.used === null ? 'unknown' : allowance.used ? 'used' : 'available' } : null;
   const listCost = isPremium ? 0 : Number(practiceCreditCost(mode.id, n) || 0);
   const creditCost = allowanceOut?.state === 'available' ? 0 : listCost;
   const balance = Math.max(0, Number(user.creditBalance) || 0);
-  const out = { ...common, inventory: inventoryOut, allowance: allowanceOut, creditCost, creditBalance: isPremium ? null : balance };
+  const out = { ...common, inventory: inventoryOut, allowance: allowanceOut, creditCost, creditBalance: isPremium ? null : balance,
+    ...(firstFree ? { freeReason: FIRST_FULL_MOCK_REASON } : {}) };
 
   if (creditCost > balance) {
     return block('blocked', 'insufficient_credits',
@@ -99,6 +115,7 @@ export function buildPracticeQuote({ user, subject, mode: modeId, count, purpose
 
   const reason = isPremium
     ? `Included with your Pro access${entitlement.expiresAt ? ` (valid until ${new Date(entitlement.expiresAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })})` : ''}.`
+    : firstFree ? FIRST_FULL_MOCK_COPY.reason
     : allowanceOut?.state === 'available'
       ? 'Uses today’s included 10-question set. No credits are charged.'
       : 'You are charged only after a complete set is built.';

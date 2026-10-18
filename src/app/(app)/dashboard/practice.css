@@ -417,6 +417,9 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg:not([data-lens
 .app-shell .pr .pr-ticket.pr-summary dd { margin: 0; font-weight: 700; text-align: right; color: var(--a-ink); font-variant-numeric: tabular-nums; }
 .app-shell .pr .pr-ticket.pr-summary dd[data-tone='cost'] { color: var(--a-accent-text); }
 .app-shell .pr .pr-ticket.pr-summary dd[data-tone='locked'] { color: var(--a-ink-3); }
+/* A value that needs two lines beside its label (the free first full mock's line in the side panel) wraps in even lines,
+   never leaving one word alone on the second. */
+.app-shell .pr .pr-ticket.pr-summary dd { text-wrap: balance; }
 .app-shell .pr .pr-ticket.pr-summary div[data-balance] dd { color: var(--a-ink-2); font-weight: 600; }
 .app-shell .pr .pr-ticket__go {
   /* A 44 px target (W-079) that keeps the row's height: the extra 12 px sits in negative margin around the word. */

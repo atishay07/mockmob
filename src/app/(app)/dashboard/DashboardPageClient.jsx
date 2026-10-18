@@ -22,6 +22,7 @@ import { TEST_MODES, fineTuneScope, resolveCount } from '@/../data/test_modes';
 import { countHint, dailySetFromQuote, isDailySet } from '@/lib/dailySet.mjs';
 import { forgetDailySet } from '@/lib/useDailySet';
 import { useMyDailySet } from '@/components/useMyDailySet';
+import { FIRST_FULL_MOCK_COPY, FIRST_FULL_MOCK_REASON, FIRST_FULL_MOCK_STATE } from '@/../data/first_full_mock';
 import { MODE_CAPABILITIES } from '@/../data/capabilities';
 import { retiredSubjectEntry } from '@/../data/subject_claim';
 import StartRule, { useStartRule } from './StartRule';
@@ -190,6 +191,9 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
   const [quote, setQuote] = useState(null);
   const [quoteStatus, setQuoteStatus] = useState('idle');
   const [quoteNonce, setQuoteNonce] = useState(0);
+  // The first full mock in each subject is free (data/first_full_mock.js). Every Free quote says so for its subject, whichever mode
+  // it prices, and what it said is kept per subject, so the Full mock tile keeps its price while another mode's quote loads.
+  const [firstFullBySubject, setFirstFullBySubject] = useState({});
   const fineRef = useRef(null);
   const chapterButtonRef = useRef(null);
   const shelfRef = useRef(null);
@@ -328,6 +332,11 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
   const balance = user?.creditBalance || 0;
   const quoteCount = mode.fixedCount || count;
   const quoteMatches = Boolean(quote && quote.subject?.storedId === selSubj && quote.mode?.id === mode.id && quote.count === quoteCount);
+  // The Full mock's price on Free: 'Free' when this subject's first full mock is still free, nothing while that is unread (a number
+  // there could be the very claim the quote contradicts), else the list price. The session card and the bar follow the quote itself.
+  const quotedHere = quoteStatus === 'ready' && quote?.subject?.storedId === selSubj;
+  const firstFullState = isPremium ? null : firstFullBySubject[selSubj] || (quoteStatus === 'error' || quotedHere ? FIRST_FULL_MOCK_STATE.unknown : null);
+  const quoteFirstFree = quoteStatus === 'ready' && quoteMatches && quote.freeReason === FIRST_FULL_MOCK_REASON;
   // The rule the student chose for their next mock (the Rule book), on this card before the clock starts: Full and NTA only.
   const startSheet = useStartRule(status === 'ready' ? selSubj : null, effectiveModeId);
   const quoteLaunchable = quoteStatus === 'ready' && quoteMatches && quote.launchable === true;
@@ -350,6 +359,8 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
           if (!body || typeof body.state !== 'string') throw new Error('bad_quote');
           setQuote(body);
           setQuoteStatus('ready');
+          const quoted = body.subject?.storedId;
+          if (quoted && typeof body.firstFullMock === 'string') setFirstFullBySubject((known) => (known[quoted] === body.firstFullMock ? known : { ...known, [quoted]: body.firstFullMock }));
         })
         .catch(() => {
           if (!alive) return;
@@ -437,6 +448,8 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
     if (capability.state !== 'available') return { text: 'Unavailable', tone: 'muted' };
     if (isPremium) return { text: 'Included', tone: 'included' };
     if (capability.entitlement === 'access') return { text: 'Needs Pro', tone: 'locked' };
+    if (id === 'full' && firstFullState === FIRST_FULL_MOCK_STATE.available) return { text: FIRST_FULL_MOCK_COPY.short, tone: 'included' };
+    if (id === 'full' && !firstFullState) return { text: '', tone: 'cost' };
     // Quick practice is priced by its question count (1 credit a question); a Full mock is a fixed price.
     if (TEST_MODES[id].creditPerQuestion) return { text: `${TEST_MODES[id].creditPerQuestion} a question`, tone: 'cost' };
     return { text: `${TEST_MODES[id].creditCost} ${TEST_MODES[id].creditCost === 1 ? 'credit' : 'credits'}`, tone: 'cost' };
@@ -451,7 +464,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
   const costLabel = quoteStatus === 'ready' && quoteMatches
     ? !quote.launchable ? (quote.reasonCode === 'access_required' ? 'Needs Pro' : quote.creditCost ? `${quote.creditCost} credits` : 'Not available')
       : isPremium ? 'Included with access'
-        : quote.creditCost === 0 ? 'Free: today’s included set'
+        : quote.creditCost === 0 ? (quoteFirstFree ? FIRST_FULL_MOCK_COPY.price : 'Free: today’s included set')
           : `${quote.creditCost} credits`
     : 'Checking';
   const costTone = quoteStatus === 'ready' && quoteMatches && !quote.launchable ? 'locked' : 'cost';
@@ -471,9 +484,9 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
     ? !quote.launchable ? (quote.reasonCode === 'access_required' ? 'Needs Pro'
       : quote.reasonCode === 'insufficient_credits' && quote.creditCost ? `${quote.creditCost} credits` : 'Not available')
       : isPremium ? 'Included'
-        : quote.creditCost === 0 ? 'Free today'
+        : quote.creditCost === 0 ? (quoteFirstFree ? FIRST_FULL_MOCK_COPY.short : 'Free today')
           : `${quote.creditCost} ${quote.creditCost === 1 ? 'credit' : 'credits'}`
-    : modeBadge(effectiveModeId).text;
+    : modeBadge(effectiveModeId).text || 'Checking';
   const chapterValue = effectiveModeId === 'smart' ? 'Your weakest topics, chosen for you' : !scope.chapters ? 'All, as the exam' : sentChapters.length ? `${sentChapters.length} of ${chapterTotal}` : chapterTotal ? `All ${chapterTotal}` : 'All';
   const difficultyValue = !scope.difficulty ? 'Chosen for you' : difficultyMode === 'auto' ? 'Balanced' : difficultyMode[0].toUpperCase() + difficultyMode.slice(1);
   // Mobi on this page only at a real moment: thinking in the card while a start is slow, or after a failed start; else

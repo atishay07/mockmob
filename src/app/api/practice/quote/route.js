@@ -12,6 +12,8 @@ import { publicOffer } from '@/lib/payments/offer';
 import { actionFromHref } from '@/lib/server/actionFields';
 import { TEST_MODES, resolveCount } from '@/../data/test_modes';
 import { getUnifiedWallet } from '@/services/credits/unifiedWallet';
+import { normalizeSubjectSelection } from '@/../data/cuet_controls';
+import { firstFullMockFor } from '@/lib/server/firstFullMock';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -50,13 +52,21 @@ export async function GET(request) {
     }
   }
 
+  // The first full mock in each subject is free (data/first_full_mock.js): read for every Free quote in a launch subject, so the
+  // Practice screen can say so on the Full mock tile whichever mode is chosen. The start route reads the same facts the same
+  // way (src/lib/server/practiceSessions.js), so the quote and the start agree. A failed read is 'unknown': priced as before.
+  const internalSubject = normalizeSubjectSelection({ subject }).internalSubject;
+  const firstFullMock = user.isPremium !== true && resolved.launch && internalSubject
+    ? firstFullMockFor(supabaseAdmin(), { userId: user.id, subject: internalSubject }).catch(() => 'unknown')
+    : null;
+
   // One credits balance (18 Oct 2026): "can afford" is this month's free credits + bought/held credits, the same total
   // spend_credits takes from. If the wallet cannot be read, users.credit_balance alone is a safe lower bound.
-  const credits = await getUnifiedWallet(user).catch(() => null);
+  const [credits, firstFullMockState] = await Promise.all([getUnifiedWallet(user).catch(() => null), firstFullMock]);
   const creditBalance = credits?.known ? credits.total : user.creditBalance;
   const quote = buildPracticeQuote({
     user: { id: user.id, isPremium: user.isPremium === true, premiumUntil: user.premiumUntil, creditBalance },
-    subject, mode: modeId, count: requested, purpose, inventory, allowance, token: randomUUID(),
+    subject, mode: modeId, count: requested, purpose, inventory, allowance, firstFullMock: firstFullMockState, token: randomUUID(),
   });
   const upgrade = typeof quote.upgradeHref === 'string' ? { upgradeAction: actionFromHref(quote.upgradeHref) } : {};
   return Response.json({ ...quote, ...upgrade, offer: publicOffer() }, { headers });

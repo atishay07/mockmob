@@ -1,6 +1,7 @@
 // Deterministic learning logic. The caller supplies released, versioned content.
 // Software fixtures must never be passed to production as academic evidence.
 import { solveReasoningStep } from './recovery_solvers.js';
+import { FIRST_FULL_MOCK_KIND_PREFIX, FIRST_FULL_MOCK_PERIOD } from './first_full_mock.js';
 const DAY = 86400000;
 export const CONCEPT_BLUEPRINTS = [
   ['accountancy', 'sacrificing_gaining', 'Sacrificing and gaining ratios', 'numeric_step'],
@@ -155,6 +156,8 @@ export function publicEpisode(p, e, now) {
 export function allowancePeriod(kind, now) {
   const ist = new Date(now + 19800000);
   if (kind === 'weekly_episode') ist.setUTCDate(ist.getUTCDate() - (ist.getUTCDay() + 6) % 7);
+  // The first full mock in a subject is free once, ever (data/first_full_mock.js).
+  if (kind.startsWith(FIRST_FULL_MOCK_KIND_PREFIX)) return FIRST_FULL_MOCK_PERIOD;
   return kind.startsWith('baseline:') || kind.startsWith('full_sample:') ? 'cuet_2027' : ist.toISOString().slice(0, 10);
 }
 
