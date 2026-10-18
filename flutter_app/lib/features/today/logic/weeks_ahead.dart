@@ -131,6 +131,8 @@ DateTime snapToPlan(DateTime day, Set<int>? planned) {
   return day;
 }
 
+DateTime _mondayOf(DateTime day) => day.subtract(Duration(days: day.weekday - 1));
+
 bool _boardWeek(DateTime monday, DateTime exam) {
   final start = CuetCalendar.boardsStart(exam.year), end = CuetCalendar.boardsEnd(exam.year);
   final m = DateTime(monday.year, monday.month, monday.day);
@@ -172,13 +174,29 @@ WeeksAhead buildWeeksAhead(TodayInputs i, {required RoadBoard board, Map<DateTim
     }
     final nextMonday = sunday.add(const Duration(days: 1));
     if (on.isBefore(nextMonday)) on = nextMonday;
-    // The pace keeps its own rhythm; each mock is said on the planned day it lands on.
+    // Each mock is said on the planned day it lands on, and the next one is the pace's days after that
+    // day (so the rhythm Road to CUET says holds from mock to mock, and no two share a day). A week
+    // never holds more full mocks than its study days (a board week at two): the rest move on to the
+    // next week's planned days.
+    final perWeekMocks = <DateTime, int>{};
+    int room(DateTime weekMonday) {
+      if (perWeek == null) return 7;
+      final days = _boardWeek(weekMonday, exam) && perWeek > CuetCalendar.boardWeekSessions ? CuetCalendar.boardWeekSessions : perWeek;
+      return days > 0 ? days : 7;
+    }
+
     while (number <= target && on.isBefore(exam)) {
-      final day = snapToPlan(on, planned);
+      var day = snapToPlan(on, planned);
+      var weekMonday = _mondayOf(day);
+      for (var guard = 0; (perWeekMocks[weekMonday] ?? 0) >= room(weekMonday) && guard < 60; guard++) {
+        day = snapToPlan(weekMonday.add(const Duration(days: 7)), planned);
+        weekMonday = _mondayOf(day);
+      }
       if (!day.isBefore(exam)) break;
       mocks.add(AheadMock(number: number, on: day));
+      perWeekMocks[weekMonday] = (perWeekMocks[weekMonday] ?? 0) + 1;
       number++;
-      on = on.add(Duration(days: every));
+      on = day.add(Duration(days: every));
     }
   }
 

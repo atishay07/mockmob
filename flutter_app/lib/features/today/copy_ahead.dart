@@ -38,6 +38,17 @@ abstract final class AheadCopy {
 
   /// "Full mock 8 of 21, suggested for Sat, 60 minutes."
   static String mockLine(int number, int target, DateTime on) => 'Full mock $number of $target, suggested for ${_weekdayShort[on.weekday - 1]}, 60 minutes.';
+
+  /// One week's suggested full mocks, every one named: "Full mock 8 of 21, suggested for Thu, 60
+  /// minutes.", "Full mocks 8 and 9 of 21, suggested for Mon and Thu, 60 minutes each." or "Full mocks
+  /// 8 to 10 of 21, suggested for Mon, Wed and Fri, 60 minutes each." The numbers run on, oldest first.
+  static String mocksLine(List<int> numbers, int target, List<DateTime> on) {
+    if (numbers.length == 1) return mockLine(numbers.single, target, on.single);
+    final which = numbers.length == 2 ? '${numbers.first} and ${numbers.last}' : '${numbers.first} to ${numbers.last}';
+    final days = [for (final d in on) _weekdayShort[d.weekday - 1]];
+    final when = '${days.sublist(0, days.length - 1).join(', ')} and ${days.last}';
+    return 'Full mocks $which of $target, suggested for $when, 60 minutes each.';
+  }
   static const String reviseLine = 'Questions you repaired come back on their day.';
   static const String boardsWeek = 'A board week: the plan goes lighter.';
   static const String then = 'Then, at this pace';
@@ -92,8 +103,10 @@ abstract final class AheadCopy {
   static String marksNotBest(int marks, String label, int shown, int best, String bestLabel) =>
       '$marks on $label. Your best of these $shown is $best, on $bestLabel.';
 
-  /// "+33 on Mock 6." or "−12 on Mock 6."
-  static String marksChange(int delta, String previous) => '${delta > 0 ? '+' : (delta < 0 ? minusSign : '')}${delta.abs()} on $previous.';
+  /// "+33 on Mock 6.", "−12 on Mock 6.", or "Level with Mock 6." when the marks are the same (never
+  /// "0 on Mock 6.", which reads as a zero score).
+  static String marksChange(int delta, String previous) =>
+      delta == 0 ? 'Level with $previous.' : '${delta > 0 ? '+' : minusSign}${delta.abs()} on $previous.';
   static const String minusSign = '−';
   static String chartSemantics(List<(String, int)> points, int outOf) =>
       'Marks on your last ${points.length} mocks, out of $outOf: ${points.map((p) => '${p.$1}, ${p.$2}').join('; ')}.';

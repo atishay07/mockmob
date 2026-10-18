@@ -87,6 +87,7 @@ class YourMarksBlock extends StatelessWidget {
           TextSpan(children: [
             TextSpan(text: lead, style: TextStyle(color: colors.ink, fontWeight: FontWeight.w700)),
             TextSpan(text: head.substring(lead.length)),
+            // The change on the mock before, in its true sign; equal marks say "Level with Mock 6."
             if (delta != null && prev != null) ...[
               const TextSpan(text: ' '),
               TextSpan(
@@ -133,7 +134,8 @@ class MarksPainter extends CustomPainter {
   final TextStyle newestFigure;
   final TextScaler textScaler;
 
-  static const double left = 26;
+  /// Room on the left for the reference's number, clear of the first point's value (mock: 38).
+  static const double left = 38;
   static const double right = 34;
   static const double top = 26;
   static const double bottomRoom = 36;
@@ -183,19 +185,26 @@ class MarksPainter extends CustomPainter {
     final t = Curves.easeOut.transform(draw.value.clamp(0.0, 1.0));
     final pts = [for (var i = 0; i < n; i++) point(size, marks, outOf, i)];
 
-    // The reference, dashed, with its number at the left edge.
     final ref = referenceFor(marks);
-    if (ref != null) {
-      final y = yFor(size, marks, outOf, ref.toDouble());
-      if (y > 8 && y < size.height - bottomRoom + 4) {
-        final dash = Paint()
-          ..color = colors.lineStrong
-          ..strokeWidth = 1;
-        for (var x = 0.0; x < size.width; x += 7) {
-          canvas.drawLine(Offset(x, y), Offset(math.min(x + 3, size.width), y), dash);
-        }
-        _text(canvas, '$ref', label, Offset(0, y - 4), anchor: _Anchor.bottomLeft);
+    final refY = ref == null ? null : yFor(size, marks, outOf, ref.toDouble());
+    final showRef = refY != null && refY > 8 && refY < size.height - bottomRoom + 4;
+    final valueRects = valueRectsFor(size);
+
+    // The reference, dashed, with its number at the left edge, over the line (under it when a value
+    // sits there), the dashes broken wherever a value still crosses the line.
+    if (showRef) {
+      final y = refY;
+      final refRect = referenceLabelRect(size, valueRects)!;
+      final breaks = [for (final r in valueRects) if (y >= r.top - 2 && y <= r.bottom + 2) r.inflate(4)];
+      final dash = Paint()
+        ..color = colors.lineStrong
+        ..strokeWidth = 1;
+      for (var x = 0.0; x < size.width; x += 7) {
+        final x2 = math.min(x + 3, size.width);
+        if (breaks.any((b) => x2 >= b.left && x <= b.right)) continue;
+        canvas.drawLine(Offset(x, y), Offset(x2, y), dash);
       }
+      _text(canvas, '$ref', label, refRect.bottomLeft, anchor: _Anchor.bottomLeft);
     }
 
     // The line, drawn from the oldest toward the newest as far as the draw has gone.
@@ -244,13 +253,58 @@ class MarksPainter extends CustomPainter {
           );
         }
         final valueStyle = last ? newestFigure : label;
-        _text(canvas, '${marks[i]}', valueStyle.copyWith(color: valueStyle.color?.withValues(alpha: seen)), Offset(c.dx, c.dy - (last ? 13 : 9)),
-            anchor: _Anchor.bottomCenter, clampWidth: size.width);
+        _text(canvas, '${marks[i]}', valueStyle.copyWith(color: valueStyle.color?.withValues(alpha: seen)), valueRects[i].bottomLeft, anchor: _Anchor.bottomLeft);
       }
       // The paper's name under the chart is always there: the axis never animates.
       _text(canvas, labels[i], last ? label.copyWith(color: colors.ink, fontWeight: FontWeight.w700) : label, Offset(c.dx, size.height - 4),
           anchor: _Anchor.bottomCenter, clampWidth: size.width);
     }
+  }
+
+  /// The reference number's box: at the left edge over the dashed line, or under it when a value
+  /// would touch it there. Null without a reference on the chart.
+  Rect? referenceLabelRect(Size size, List<Rect> values) {
+    final ref = referenceFor(marks);
+    if (ref == null) return null;
+    final y = yFor(size, marks, outOf, ref.toDouble());
+    final m = _measure('$ref', label);
+    final over = Rect.fromLTWH(0, y - 4 - m.height, m.width, m.height);
+    return values.any((r) => r.inflate(3).overlaps(over)) ? over.translate(0, m.height + 8) : over;
+  }
+
+  /// The laid-out size of [text] in [style] at the chart's text scale.
+  Size _measure(String text, TextStyle style) {
+    final tp = TextPainter(text: TextSpan(text: text, style: style), textDirection: TextDirection.ltr, textScaler: textScaler)..layout();
+    final s = tp.size;
+    tp.dispose();
+    return s;
+  }
+
+  /// Each value's box on a chart of [size]: over its point, or under it when the reference line would
+  /// run through it (and there is room above the papers' names); where neither is clear the dashes
+  /// break behind it.
+  List<Rect> valueRectsFor(Size size) {
+    final n = marks.length;
+    final pts = [for (var i = 0; i < n; i++) point(size, marks, outOf, i)];
+    final ref = referenceFor(marks);
+    final refY = ref == null ? null : yFor(size, marks, outOf, ref.toDouble());
+    final showRef = refY != null && refY > 8 && refY < size.height - bottomRoom + 4;
+    final axisTop = size.height - 4 - _measure(labels.last, label).height;
+    final valueRects = <Rect>[];
+    for (var i = 0; i < n; i++) {
+      final last = i == n - 1;
+      final m = _measure('${marks[i]}', last ? newestFigure : label);
+      final c = pts[i];
+      final gap = last ? 13.0 : 9.0;
+      final dx = (c.dx - m.width / 2).clamp(0.0, math.max(0.0, size.width - m.width)).toDouble();
+      var r = Rect.fromLTWH(dx, c.dy - gap - m.height, m.width, m.height);
+      if (showRef && refY >= r.top - 2 && refY <= r.bottom + 2) {
+        final under = Rect.fromLTWH(dx, c.dy + (last ? 11 : 8), m.width, m.height);
+        if (under.bottom <= axisTop - 2) r = under;
+      }
+      valueRects.add(r);
+    }
+    return valueRects;
   }
 
   void _text(Canvas canvas, String text, TextStyle style, Offset at, {required _Anchor anchor, double? clampWidth}) {

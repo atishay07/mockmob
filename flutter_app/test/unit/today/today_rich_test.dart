@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/art/art.dart' show HybridStopwatch;
 import 'package:mockmob/core/router/routes.dart';
+import 'package:mockmob/core/theme/theme.dart' show MmColors;
 import 'package:mockmob/core/widgets/widgets.dart' show Mobi;
 import 'package:mockmob/features/today/copy_ahead.dart';
 import 'package:mockmob/features/today/copy_glance.dart';
@@ -129,6 +130,90 @@ void main() {
     });
   });
 
+  test('a high goal with few weeks left: no two mocks share a day, a week never holds more than its study days, and every mock is named', () {
+    final i = _inputs();
+    final board = buildToday(i).road!.board!.withTarget(60);
+    final a = buildWeeksAhead(i, board: board);
+    final all = [for (final w in a.weeks) ...w.mocks];
+    expect(all, isNotEmpty);
+    expect(all.map((m) => m.on).toSet(), hasLength(all.length));
+    for (final w in a.weeks) {
+      expect(w.mocks.length, lessThanOrEqualTo(w.studyDays));
+      for (final m in w.mocks) {
+        expect(sundayWeek.planned, contains(m.on.weekday - 1));
+      }
+    }
+    for (var k = 1; k < all.length; k++) {
+      expect(all[k].number, all[k - 1].number + 1);
+      expect(all[k].on.isAfter(all[k - 1].on), isTrue);
+    }
+    final many = a.weeks.firstWhere((w) => w.mocks.length > 1);
+    final line = AheadCopy.mocksLine([for (final m in many.mocks) m.number], 60, [for (final m in many.mocks) m.on]);
+    for (final m in many.mocks) {
+      expect(line, contains(const ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][m.on.weekday - 1]));
+    }
+    expect(AheadCopy.mocksLine([8], 21, [DateTime.utc(2026, 10, 29)]), 'Full mock 8 of 21, suggested for Thu, 60 minutes.');
+    expect(AheadCopy.mocksLine([8, 9], 21, [DateTime.utc(2026, 10, 26), DateTime.utc(2026, 10, 29)]), 'Full mocks 8 and 9 of 21, suggested for Mon and Thu, 60 minutes each.');
+    expect(
+      AheadCopy.mocksLine([8, 9, 10], 21, [DateTime.utc(2026, 10, 26), DateTime.utc(2026, 10, 29), DateTime.utc(2026, 10, 31)]),
+      'Full mocks 8 to 10 of 21, suggested for Mon, Thu and Sat, 60 minutes each.',
+    );
+  });
+
+  test('in the board weeks the suggested mocks keep to the two study days', () {
+    final feb = DateTime.utc(2027, 2, 14, 14, 10);
+    final i = ashaInputs(now: feb, attempts: ashaRecord(feb), week: sundayWeek, reviseDue: 6);
+    final board = buildToday(i).road!.board!.withTarget(40);
+    final a = buildWeeksAhead(i, board: board);
+    final boards = a.weeks.where((w) => w.boards).toList();
+    expect(boards, isNotEmpty);
+    for (final w in boards) {
+      expect(w.studyDays, 2);
+      expect(w.mocks.length, lessThanOrEqualTo(2));
+    }
+  });
+
+  test('each full mock keeps the pace from the day the one before lands on, so the rhythm holds', () {
+    final i = ashaInputs(now: sunday, attempts: ashaRecord(DateTime.utc(2026, 10, 9, 14, 10)), week: sundayWeek, reviseDue: 6);
+    final a = buildToday(i).glance!.ahead!;
+    final all = [for (final w in a.weeks) ...w.mocks];
+    expect(all.first.on, DateTime.utc(2026, 10, 22));
+    // Thu 22 Oct, then 13 days on (Wed 4 Nov) to the next planned day, Thu 5 Nov: a fortnight, not 11 days.
+    expect(all[1].on, DateTime.utc(2026, 11, 5));
+  });
+
+  group('the week rows share one layout', () {
+    for (final (width, scale) in const [(412.0, 1.3), (360.0, 1.05), (360.0, 1.1), (360.0, 1.3), (360.0, 1.0), (412.0, 1.0)]) {
+      testWidgets('at $width dp and ${scale}x every week row is stacked or every one is beside', (tester) async {
+        final i = ashaInputs(now: sunday, attempts: ashaRecord(DateTime.utc(2026, 10, 9, 14, 10)), week: sundayWeek, reviseDue: 6);
+        final a = buildToday(i).glance!.ahead!;
+        await pumpMockmob(
+          tester,
+          SingleChildScrollView(child: Padding(padding: const EdgeInsets.symmetric(horizontal: 16), child: WeeksAheadBlock(ahead: a, onWeek: (_) {}))),
+          size: Size(width, 2400),
+          textScale: scale,
+          disableAnimations: true,
+          overrides: _overrides,
+        );
+        // Each week row: its "Next week" or "Week of" line against its title. Beside means the title
+        // starts to the right of the when column; stacked means they share a left edge.
+        final whens = [...find.text(AheadCopy.nextWeek).evaluate(), ...find.text(AheadCopy.weekOf).evaluate()];
+        expect(whens, hasLength(a.weeks.length));
+        final titleLefts = <double>[];
+        for (final w in a.weeks) {
+          final title = AheadCopy.weekTitle(days: w.studyDays, mocks: w.mocks.length, revise: w.reviseBack);
+          for (final e in find.text(title).evaluate()) {
+            titleLefts.add(tester.getTopLeft(find.byWidget(e.widget).first).dx);
+          }
+        }
+        final whenLefts = [for (final e in whens) tester.getTopLeft(find.byWidget(e.widget).first).dx];
+        final beside = {for (final x in titleLefts) x > whenLefts.first + 20};
+        expect(beside, hasLength(1), reason: 'mixed layouts at $width x $scale');
+        expect(tester.takeException(), isNull);
+      });
+    }
+  });
+
   test('a suggested mock lands on a planned day, the same day Road to CUET names', () {
     // Last full mock 11 days ago (Wed 7 Oct): the pace says Tue 20 Oct, a day Asha leaves free, so
     // the mock is suggested for her next planned day, Thu 22 Oct, in both places.
@@ -228,6 +313,54 @@ void main() {
       expect(AheadCopy.marksNotBest(171, 'Mock 7', 6, 204, 'Mock 5'), '171 on Mock 7. Your best of these 6 is 204, on Mock 5.');
       expect(AheadCopy.marksChange(33, 'Mock 6'), '+33 on Mock 6.');
       expect(AheadCopy.marksChange(-12, 'Mock 6'), '−12 on Mock 6.');
+    });
+
+    testWidgets('equal marks on two mocks in a row say "Level with", never "0 on", which reads as a zero score', (tester) async {
+      expect(AheadCopy.marksChange(0, 'Mock 6'), 'Level with Mock 6.');
+      TrendPoint pt(int k, int marks) => TrendPoint(attemptId: 'm$k', label: 'Mock $k', date: '$k Oct', marks: marks, outOf: 250, target: const GoTo('/r'));
+      final t = MarksTrend(points: [pt(2, 178), pt(3, 182), pt(4, 171), pt(5, 182), pt(6, 204), pt(7, 204)], subject: 'Accountancy', ofSubject: 6, outOf: 250);
+      await _pump(tester, SingleChildScrollView(child: YourMarksBlock(trend: t, onOpen: (_) {})));
+      expect(find.text('204 on Mock 7, your best of these 6. Level with Mock 6.', findRichText: true), findsOneWidget);
+      expect(find.textContaining('0 on Mock 6', findRichText: true), findsNothing);
+    });
+
+    test('no value on the chart sits on the dashed reference: it moves under its point, or the dashes break', () {
+      for (final (marks, size) in const [
+        ([178, 182, 171, 182, 171, 204], Size(304, 132)),
+        ([178, 182, 171, 192, 171, 204], Size(304, 132)),
+        ([199, 182, 171, 182, 171, 204], Size(352, 132)),
+        ([195, 201, 196, 199, 197, 204], Size(304, 132)),
+      ]) {
+        for (final scale in const [1.0, 1.15]) {
+          final painter = MarksPainter(
+            marks: marks,
+            labels: [for (var i = 2; i < 8; i++) 'Mock $i'],
+            outOf: 250,
+            colors: MmColors.dark,
+            draw: const AlwaysStoppedAnimation(1),
+            label: const TextStyle(fontSize: 11),
+            newestFigure: const TextStyle(fontSize: 18),
+            textScaler: TextScaler.linear(scale),
+          );
+          final refY = MarksPainter.yFor(size, marks, 250, MarksPainter.referenceFor(marks)!.toDouble());
+          final rects = painter.valueRectsFor(size);
+          var moved = 0;
+          for (var i = 0; i < marks.length; i++) {
+            final r = rects[i];
+            final p = MarksPainter.point(size, marks, 250, i);
+            if (r.top > p.dy) moved++;
+            // A value still on the line is one with no room under its point: the dashes break there.
+            if (refY >= r.top - 2 && refY <= r.bottom + 2) expect(r.bottom, lessThan(p.dy), reason: 'value $i of $marks at $scale');
+          }
+          if (marks[3] == 192) expect(moved, greaterThan(0), reason: '$marks at $scale');
+          // The reference's number touches no value and sits off its own line.
+          final refRect = painter.referenceLabelRect(size, rects)!;
+          for (final r in rects) {
+            expect(r.overlaps(refRect), isFalse, reason: '$marks at $scale');
+          }
+          expect(refY >= refRect.top && refY <= refRect.bottom, isFalse);
+        }
+      }
     });
 
     testWidgets('the trend sits over Last paper in one block; with one mock Last paper stands alone', (tester) async {

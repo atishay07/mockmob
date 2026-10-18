@@ -43,38 +43,67 @@ class WeeksAheadBlock extends StatelessWidget {
   static const Duration rowLength = Duration(milliseconds: 220);
   static const Duration stagger = Duration(milliseconds: 40);
 
+  /// The when column's width at [scale] text.
+  static double whenWidth(double scale) => 92 * scale.clamp(1.0, 1.3);
+
+  /// The trailing a week row can have: the stopwatch beside next week's suggested mock (44 dp), else
+  /// the chevron of a tappable row (18 dp), else nothing.
+  static double trailingFor(AheadWeek w, {required bool tappable}) => w.next && w.mocks.isNotEmpty ? 44 : (tappable ? 18 : 0);
+
+  /// Whether every week row puts the when column over its body: the body's room beside it, with the
+  /// widest trailing of any row, is under 136 dp at the text scale. One answer for the whole block,
+  /// so the rows never mix the two layouts.
+  static bool weeksStacked({required double width, required double scale, required WeeksAhead ahead, required bool tappable}) {
+    var widest = 0.0;
+    for (final w in ahead.weeks) {
+      final t = trailingFor(w, tappable: tappable);
+      if (t > widest) widest = t;
+    }
+    final room = width - whenWidth(scale) - 12 - (widest > 0 ? widest + 12 : 0);
+    return room < 136 * scale.clamp(1.0, 1.3);
+  }
+
   @override
   Widget build(BuildContext context) {
     final a = ahead;
-    final rows = <Widget Function(bool first, bool last)>[
-      for (final w in a.weeks) (first, last) => _WeekRow(week: w, first: first, last: last, mockTarget: a.mockTarget, onTap: onWeek == null ? null : () => onWeek!(w)),
-      if (a.weeks.isNotEmpty) (first, last) => _ThenRow(first: first, last: last),
-      for (final m in a.milestones) (first, last) => _MilestoneRow(milestone: m, ahead: a, first: first, last: last),
+    final rows = <Widget Function(bool first, bool last, bool stacked)>[
+      for (final w in a.weeks)
+        (first, last, stacked) => _WeekRow(week: w, first: first, last: last, stacked: stacked, mockTarget: a.mockTarget, onTap: onWeek == null ? null : () => onWeek!(w)),
+      if (a.weeks.isNotEmpty) (first, last, _) => _ThenRow(first: first, last: last),
+      for (final m in a.milestones) (first, last, _) => _MilestoneRow(milestone: m, ahead: a, first: first, last: last),
     ];
     final count = rows.length;
     final total = rowLength + stagger * (count - 1).clamp(0, 99);
+    final scale = MediaQuery.textScalerOf(context).scale(15) / 15;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
         GlanceHead(title: AheadCopy.title, sub: a.perWeek == null ? AheadCopy.datesOnly : AheadCopy.pace(a.perWeek!)),
         const SizedBox(height: MmSpace.s8),
-        RevealOnce(
-          id: 'today-weeks-ahead',
-          length: total,
-          builder: (context, progress) => Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              for (var k = 0; k < count; k++)
-                _Arrive(
-                  progress: progress,
-                  start: (stagger * k).inMicroseconds / total.inMicroseconds,
-                  end: (stagger * k + rowLength).inMicroseconds / total.inMicroseconds,
-                  child: rows[k](k == 0, k == count - 1),
-                ),
-            ],
-          ),
+        // The week rows share one layout: the when column beside the body, or over it on a narrow
+        // phone at large text, decided once for the block with the widest trailing any row has.
+        LayoutBuilder(
+          builder: (context, box) {
+            final stacked = weeksStacked(width: box.maxWidth - rail, scale: scale, ahead: a, tappable: onWeek != null);
+            return RevealOnce(
+              id: 'today-weeks-ahead',
+              length: total,
+              builder: (context, progress) => Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  for (var k = 0; k < count; k++)
+                    _Arrive(
+                      progress: progress,
+                      start: (stagger * k).inMicroseconds / total.inMicroseconds,
+                      end: (stagger * k + rowLength).inMicroseconds / total.inMicroseconds,
+                      child: rows[k](k == 0, k == count - 1, stacked),
+                    ),
+                ],
+              ),
+            );
+          },
         ),
       ],
     );
@@ -193,11 +222,14 @@ class _Railed extends StatelessWidget {
 }
 
 class _WeekRow extends StatelessWidget {
-  const _WeekRow({required this.week, required this.first, required this.last, required this.mockTarget, this.onTap});
+  const _WeekRow({required this.week, required this.first, required this.last, required this.stacked, required this.mockTarget, this.onTap});
 
   final AheadWeek week;
   final bool first;
   final bool last;
+
+  /// The block's one layout answer (WeeksAheadBlock.weeksStacked).
+  final bool stacked;
   final int mockTarget;
   final VoidCallback? onTap;
 
@@ -208,7 +240,7 @@ class _WeekRow extends StatelessWidget {
     final w = week;
     final title = AheadCopy.weekTitle(days: w.studyDays, mocks: w.mocks.length, revise: w.reviseBack);
     final String? line = w.mocks.isNotEmpty
-        ? AheadCopy.mockLine(w.mocks.first.number, mockTarget, w.mocks.first.on)
+        ? AheadCopy.mocksLine([for (final m in w.mocks) m.number], mockTarget, [for (final m in w.mocks) m.on])
         : (w.reviseBack != null && w.reviseBack! > 0 ? AheadCopy.reviseLine : (w.boards ? AheadCopy.boardsWeek : null));
     final whenTop = w.next ? AheadCopy.nextWeek : AheadCopy.weekOf;
     final whenBottom = w.next ? AheadCopy.range(w.monday, w.sunday) : AheadCopy.dayMonth(w.monday);
@@ -257,13 +289,10 @@ class _WeekRow extends StatelessWidget {
             border: Border(top: BorderSide(color: colors.line)),
           ),
           padding: const EdgeInsets.symmetric(vertical: 14),
-          child: LayoutBuilder(
-            builder: (context, box) {
-              final whenWidth = 92 * scale.clamp(1.0, 1.3);
-              final trailingWidth = thumb ? 44.0 : (trailing == null ? 0.0 : 18.0);
-              final room = box.maxWidth - whenWidth - 12 - (trailingWidth > 0 ? trailingWidth + 12 : 0);
+          child: Builder(
+            builder: (context) {
               // Too narrow for the when column (a small phone at large text): it sits over the body instead.
-              if (room < 136 * scale.clamp(1.0, 1.3)) {
+              if (stacked) {
                 return Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -281,7 +310,7 @@ class _WeekRow extends StatelessWidget {
               return Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(width: whenWidth, child: when),
+                  SizedBox(width: WeeksAheadBlock.whenWidth(scale), child: when),
                   const SizedBox(width: MmSpace.s12),
                   Expanded(child: body),
                   if (trailing != null) ...[const SizedBox(width: MmSpace.s12), trailing],
