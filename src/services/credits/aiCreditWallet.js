@@ -13,10 +13,12 @@ import {
 
 export { PREPOS_PAUSED_MESSAGE, isPaidUser };
 
-export const AI_FREE_MONTHLY_CREDITS = 10;
+// Owner, 18 Oct 2026: Free gets 50 a month (was 10), so a free student can really try Ask Mobi. Pro still includes 50.
+export const AI_FREE_MONTHLY_CREDITS = 50;
 export const AI_PRO_INCLUDED_MONTHLY_CREDITS = 50;
 export const AI_INCLUDED_MONTHLY_CREDITS = AI_PRO_INCLUDED_MONTHLY_CREDITS;
-export const AI_FREE_BUDGET_INR_CAP = 5;
+// Mirrors runtime_ai_budget 'student_user_free' (USD 0.0284 = Rs 2.50), which is what the database enforces per Free student per IST month.
+export const AI_FREE_BUDGET_INR_CAP = 2.5;
 export const AI_INTERNAL_USD_TO_INR = 85;
 
 /** Paid PrepOS spending is open only when the capability registry says so. */

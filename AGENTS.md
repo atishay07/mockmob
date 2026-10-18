@@ -16,7 +16,7 @@ No routine human review: uncertainty means quarantine, never forced publication.
 Never call a paid model outside its persistent budget guard; retries and failures count.
 Budgets (owner, 4 Oct 2026): question/content generation USD 50 lifetime ceiling
 (scripts/pipeline/lib/budgetLedger.mjs); student-facing AI is capped per user per IST month
-(Rs 5 for a paid student, Rs 1 for a free one), enforced in the database
+(Rs 5 for a paid student, Rs 2.50 for a free one), enforced in the database
 (runtime_ai_budget); the global monthly ceiling was removed by the owner on 17 Oct 2026;
 only gpt-6-luna and claude-haiku-5-5 may run. Student AI is enabled
 (RELEASE_GATES.runtimeAi); it reaches students only once deployed with the AI_* env vars.

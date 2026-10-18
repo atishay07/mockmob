@@ -41,7 +41,7 @@ const buildPlans = (offer) => [
     terms: [
       ['Renewal', 'None, and no card needed'],
       ['Practice credits', '100 to start: 10 a Quick session, 50 a Full mock'],
-      ['AI credits', '10 a month for written replies from Ask Mobi'],
+      ['AI credits', '50 a month for written replies from Ask Mobi'],
     ],
     features: newOfferReleased() ? ['One five-question baseline per launch subject', 'One included daily 10-question practice set', 'One new complete recovery episode per week', 'Delayed checks for every started episode', '25 saved questions', 'Free DU eligibility and historical cutoffs'] : [
       'Quick practice, 5 to 20 questions, 10 practice credits a session',
@@ -126,7 +126,7 @@ const FREE_NOTES = [
   'Quick practice uses 10 practice credits a session. A Full mock uses 50.',
   'New accounts start with 100 practice credits.',
   'Credits decide how often you practise, never what you can see: results, explanations, DU eligibility and published cutoffs stay open.',
-  'Written replies from Ask Mobi use AI credits: 10 a month on Free.',
+  'Written replies from Ask Mobi use AI credits: 50 a month on Free, kept apart from practice credits.',
 ];
 
 const AI_PACKS = [
@@ -345,7 +345,7 @@ export default async function PricingPage() {
               Ask Mobi reads your own practice record and shows your next step, your leaks and your weekly report. The basics are free for everyone and use no credits. Pro adds every ranked chapter, pace and changed-answer detail.
             </p>
             <p className="mm-body">
-              Model replies use AI credits: 10 a month on Free and 50 on Pro, kept apart from Practice credits.
+              Model replies use AI credits: 50 a month on Free and 50 on Pro, kept apart from Practice credits. Practice credits are what Free spends on mocks; Pro has no limit there.
               AI credits you have already bought stay in your account.
             </p>
             <p style={{ marginTop: '1rem' }}>
