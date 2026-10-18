@@ -212,3 +212,15 @@ test('Change plan: Next is the sheet\'s volt key, at least 48 px, full width up 
   assert.match(sheet, /\.tsh \.tpf__done \{[^}]*min-height: 52px;/);
   assert.match(sheet, /@media \(max-width: 600px\) \{ \.tsh \.tpf__done \{ flex: 1 1 auto; \}/);
 });
+
+test('preview fixture agrees with itself: full mocks counted from its papers, the bar and the leak from one attempt, day one has not sat', () => {
+  const client = read('src/app/preview/arena/ArenaPreviewClient.jsx');
+  assert.match(client, /const mocks = state === 'empty' \? 0 : fixtureSummaryItems\(fixture\)\.filter\(\(p\) => \['full', 'nta'\]\.includes\(p\.mode\)\)\.length;/);
+  assert.match(client, /const wrong = 5 \* correct - m;/, 'marks = 5 x right - wrong');
+  assert.match(client, /unattempted: 50 - correct - wrong/);
+  assert.match(client, /items\[0\] = \{ \.\.\.items\[0\], correct: lab\.correct, wrong: lab\.wrong, unattempted: lab\.unattempted/, 'the newest paper is the attempt the leak reads');
+  assert.match(client, /const mock = fixture\.get\('mock'\) \|\| \(todayNewest \? 'full' : null\);/);
+  assert.match(read('src/app/preview/arena/previewMob.js'), /fixture\.get\('firstweek'\) === '1' \|\| fixture\.get\('data'\) === 'empty' \? 'notsat' : 'ready'/);
+  // Production reads the bar (the summary item) and the leak (loadAttempt of that item's id) from one attempt.
+  assert.match(read('src/components/today/TodayPaper.jsx'), /loadAttempt\(last\.id\)/);
+});

@@ -157,6 +157,26 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
   const json = (body, status = 200) => new Promise(resolve => setTimeout(() => resolve(
     new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } }),
   ), 25));
+  // The papers Today and Review list (GET /api/attempts/summary), newest first, each self-consistent (marks = 5 x right - wrong, and
+  // right + wrong + blank = 50). The newest is the Lab's full mock itself, so its bar, its leak and its repairs agree (release 10).
+  // ?trend=few has too few to draw; ?data=sparse has one; ?data=returning's newest is 8 days old.
+  const fixtureSummaryItems = (fixture) => {
+    const state = fixture.get('data');
+    if (state === 'empty') return [];
+    const marks = state === 'sparse' ? [92] : fixture.get('trend') === 'few' ? [92, 88] : [76, 84, 80, 96, 104, 118];
+    const away = state === 'returning' ? 8 * 86400000 : 0;
+    const items = marks.map((m, i) => {
+      const correct = Math.round((m + 4) / 5);
+      const wrong = 5 * correct - m;
+      return { id: `fxp${i}`, subject: 'accountancy', mode: 'full', correct, wrong, unattempted: 50 - correct - wrong, total: 50, marks: m, maxMarks: 250, completedAt: Date.now() - away - (marks.length - i) * 3 * 86400000, formatId: 'full:accountancy:q50:server_snapshot_v1' };
+    }).reverse();
+    const opts = { checks: fixture.get('checks') || 'ready', lab: fixture.get('lab') || 'on' };
+    const cacheKey = `${opts.checks}|${opts.lab}`;
+    if (!window.__previewLabPaper || window.__previewLabPaper.key !== cacheKey) window.__previewLabPaper = { key: cacheKey, attempt: fixtureMock('full', opts).attempt };
+    const lab = window.__previewLabPaper.attempt;
+    if (items.length && lab) items[0] = { ...items[0], correct: lab.correct, wrong: lab.wrong, unattempted: lab.unattempted, total: lab.total, marks: lab.score, maxMarks: lab.total * 5 };
+    return items;
+  };
   window.fetch = (input, init = {}) => {
     const url = new URL(typeof input === 'string' ? input : input.url, window.location.origin);
     const method = (init.method || 'GET').toUpperCase();
@@ -213,9 +233,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     // draw; ?data=empty has none; ?data=sparse has one; ?data=returning's newest is 9 days old.
     if (url.pathname === '/api/attempts/summary') {
       if (state === 'empty') return json({ items: [], nextCursor: null });
-      const marks = state === 'sparse' ? [92] : fixture.get('trend') === 'few' ? [92, 88] : [76, 84, 80, 96, 104, 118];
-      const away = state === 'returning' ? 8 * 86400000 : 0;
-      const items = marks.map((m, i) => ({ id: `fxp${i}`, subject: 'accountancy', mode: 'full', correct: Math.round((m + 4) / 5.2), wrong: state === 'returning' && i === marks.length - 1 ? 6 : 4, unattempted: 0, total: 50, marks: m, maxMarks: 250, completedAt: Date.now() - away - (marks.length - i) * 3 * 86400000, formatId: 'full:accountancy:q50:server_snapshot_v1' })).reverse();
+      const items = fixtureSummaryItems(fixture);
       // ?reel=fresh: the newest paper is the 10-question fixture paper (9 of 50 marks), saved 20 minutes ago, and each page load is a new attempt, so Today's one-time "Play your
       // paper back" card shows on every load. ?reel=stable keeps one attempt id: it shows once, and a reload brings Up next back
       // (clear localStorage `mm:today-reel:v1` to see it again).
@@ -247,7 +265,8 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       // ?repaired=chapter: on the weak chapter Partnership Fundamentals, Q2 is repaired and its check is not taken (Check it held),
       // Q3 is repaired and held on a new question (See repair), and the older one is still open (Repair).
       if (kind === 'chapter') return json({ repairs: [{ ...row('p1', 1), questionId: 'p1-q2' }, { ...row('p1', 2), questionId: 'p1-q3', checkedState: 'passed' }] });
-      return json({ repairs: kind === 'all' ? [0, 1, 2, 3].map((k) => row('fxp5', k)) : [] });
+      const newest = fixtureSummaryItems(fixture)[0];
+      return json({ repairs: kind === 'all' && newest ? Array.from({ length: newest.wrong }, (_, k) => row(newest.id, k)) : [] });
     }
     if (url.pathname.startsWith('/api/attempts/')) {
       if (state === 'empty') return json({ error: 'No fixture attempt' }, 404);
@@ -257,7 +276,10 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       // ?mock=full|nta serves a scored mock with the real SWOT, record lines and Mistake Lab (previewMock.js); ?checks=unavailable
       // leaves the answer-key check unread so the panels show their pending state; ?lab=basic|off shows the basic ledger or the
       // page without the Lab. Without ?mock the paper is the 10-question quick practice.
-      const mock = fixture.get('mock');
+      // Release 10: Today's newest fixture paper is the Lab's full mock, so Last paper's bar and its biggest leak come from one attempt.
+      const newestId = fixtureSummaryItems(fixture)[0]?.id;
+      const todayNewest = !fixture.get('mock') && Boolean(newestId) && newestId.startsWith('fxp') && decodeURIComponent(url.pathname.split('/').pop()) === newestId;
+      const mock = fixture.get('mock') || (todayNewest ? 'full' : null);
       // mock=full with the Lab on shows the Replay from its contract (&paper=time_up|nta|bst|english for the others;
       // &paper=v1 for the slice 1 paper).
       // Slice 5: &cohort=time shows the nightly table's time, changes and strike lines and the ledger finding, every gate met;
@@ -275,7 +297,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
         const built = fixtureResultPaper(fixture.get('paper'), { held: fixture.get('held') === '1', repaired: fixture.get('return') === 'all' ? 'all' : fixture.get('return') === '1' });
         return json({ ...built.attempt, ...tonePart, answerReviews: built.answerReviews, swot: built.swot, mistakeInsights: built.mistakeInsights, lab: built.lab, missedBefore: {}, answerReviewState: built.answerReviewState });
       }
-      if (mock === 'full' && fixture.get('paper') !== 'v1' && (fixture.get('checks') || 'ready') === 'ready' && (fixture.get('lab') || 'on') === 'on') {
+      if (mock === 'full' && !todayNewest && fixture.get('paper') !== 'v1' && (fixture.get('checks') || 'ready') === 'ready' && (fixture.get('lab') || 'on') === 'on') {
         return fixtureReplayMock(fixture.get('paper') || 'full', { cohortTime: fixture.get('cohort'), marks: fixture.get('marks') }).then((built) => json({ ...built.attempt, ...tonePart, answerReviews: built.answerReviews, swot: built.swot, mistakeInsights: built.mistakeInsights, lab: loop(built), missedBefore: {}, answerReviewState: built.answerReviewState }));
       }
       if (mock === 'full' || mock === 'nta') {
@@ -381,7 +403,9 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       const kind = fixture.get('timed') || 'none';
       if (kind === 'down') return json({ error: 'unavailable' }, 503);
       const sessions = state === 'empty' ? 0 : state === 'sparse' ? 1 : 6;
-      return json({ sessions, mocks: kind === 'has' || kind === 'older' ? 2 : 0, timedMocks: kind === 'has' ? 2 : 0, subject: state === 'empty' ? null : 'accountancy' });
+      // Release 10: the full mocks are counted from the papers the fixture lists (Road's "x of 14 full mocks" agrees with Last paper).
+      const mocks = state === 'empty' ? 0 : fixtureSummaryItems(fixture).filter((p) => ['full', 'nta'].includes(p.mode)).length;
+      return json({ sessions, mocks, timedMocks: kind === 'has' ? mocks : 0, subject: state === 'empty' ? null : 'accountancy' });
     }
     if (url.pathname === '/api/me/rules' && method === 'GET') {
       // ?data=empty is a student with no record: an empty rule book, not a failed read.
