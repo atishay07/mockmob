@@ -10,6 +10,7 @@ import {
   unreadableWallet,
   walletWindow,
 } from './aiWalletState';
+import { CREDIT_PACKS, findCreditPack } from './creditPacks.mjs';
 
 export { PREPOS_PAUSED_MESSAGE, isPaidUser };
 
@@ -31,21 +32,16 @@ export function aiCommerceOpen() {
   return paidAiOpen() && CAPABILITIES.aiTopUps.state === 'available';
 }
 
-// Plan IDs are preserved for historical orders and verification of captured payments.
-// `status` reflects whether new purchases are open; it never makes a pack look live while paused.
-export const AI_CREDIT_PACKS = [
-  { key: 'prepos_10_50', planId: 'ai_credits_prepos_10_50', label: '₹10 PrepOS top-up', shortLabel: 'Starter', amountInr: 10, amountPaise: 1000, credits: 50 },
-  { key: 'prepos_20_150', planId: 'ai_credits_prepos_20_150', label: '₹20 PrepOS top-up', shortLabel: 'Focus', amountInr: 20, amountPaise: 2000, credits: 150 },
-  { key: 'prepos_50_400', planId: 'ai_credits_prepos_50_400', label: '₹50 PrepOS top-up', shortLabel: 'Sprint', amountInr: 50, amountPaise: 5000, credits: 400, featured: true },
-].map((pack) => Object.freeze({
-  ...pack,
-  status: aiCommerceOpen() ? 'live' : 'paused',
-  description: `${pack.credits} AI credits that do not expire.`,
-}));
+// One set of credit packs, usable for everything (owner, 18 Oct 2026, D78); the catalog lives in ./creditPacks.mjs.
+// Plan IDs of the packs sold before (ai_credits_prepos_*) still resolve, so historical orders, late verifies and webhooks
+// grant exactly what was sold; they are never offered again. `status` reflects whether new purchases are open; it never
+// makes a pack look live while paused.
+const withStatus = (pack) => Object.freeze({ ...pack, status: pack.legacy ? 'retired' : aiCommerceOpen() ? 'live' : 'paused' });
+export const AI_CREDIT_PACKS = CREDIT_PACKS.map(withStatus);
 
 export function getAICreditPack(packKeyOrPlanId) {
-  const key = String(packKeyOrPlanId || '').trim();
-  return AI_CREDIT_PACKS.find((pack) => pack.key === key || pack.planId === key) || null;
+  const pack = findCreditPack(packKeyOrPlanId);
+  return pack ? withStatus(pack) : null;
 }
 
 export function isAICreditPackPlanId(planId) {
@@ -69,15 +65,23 @@ export async function readAIWallet(user) {
   const paid = isPaidUser(user);
   if (!user?.id) return unreadableWallet('error', { paid: false, reason: 'missing_user' });
   try {
-    const { data, error } = await supabaseAdmin()
-      .from('ai_credit_wallets')
-      .select('user_id, included_monthly_credits, included_credits_used, bonus_credits, period_start, reset_at')
-      .eq('user_id', user.id)
-      .maybeSingle();
+    // One credits balance: the wallet row and users.credit_balance are read together; either failing means unknown.
+    const db = supabaseAdmin();
+    const [{ data, error }, held] = await Promise.all([
+      db.from('ai_credit_wallets')
+        .select('user_id, included_monthly_credits, included_credits_used, bonus_credits, period_start, reset_at')
+        .eq('user_id', user.id)
+        .maybeSingle(),
+      db.from('users').select('credit_balance').eq('id', user.id).maybeSingle(),
+    ]);
     if (error) {
       return unreadableWallet(isMissingRelation(error) ? 'schema_unavailable' : 'error', { paid, reason: error.code || 'wallet_read_failed' });
     }
-    return projectWallet(data, { paid, includedMonthlyCredits: includedMonthlyCreditsForUser(user), paidAiOpen: paidAiOpen() });
+    if (held?.error || !held?.data) return unreadableWallet('error', { paid, reason: held?.error?.code || 'balance_read_failed' });
+    return projectWallet(data, {
+      paid, includedMonthlyCredits: includedMonthlyCreditsForUser(user), paidAiOpen: paidAiOpen(),
+      practiceBalance: held.data.credit_balance,
+    });
   } catch (err) {
     return unreadableWallet(isMissingRelation(err) ? 'schema_unavailable' : 'error', { paid, reason: 'wallet_read_failed' });
   }
@@ -135,6 +139,7 @@ export async function consumeAIWalletCredits({ user, amount, action, reference, 
         balance: data.balance ?? null,
         includedSpent: data.includedSpent || 0,
         bonusSpent: data.bonusSpent || 0,
+        balanceSpent: data.balanceSpent || 0,
       },
     };
   } catch (err) {
@@ -181,9 +186,11 @@ export async function grantPurchasedAICredits({ userId, credits, packKey, paymen
 function sourceKind(data) {
   const included = Number(data?.includedSpent || 0);
   const bonus = Number(data?.bonusSpent || 0);
-  if (included > 0 && bonus > 0) return 'mixed_ai_credits';
+  const balance = Number(data?.balanceSpent || 0);
+  if ((included > 0) + (bonus > 0) + (balance > 0) > 1) return 'mixed_ai_credits';
   if (included > 0) return 'included_monthly';
   if (bonus > 0) return 'bonus_credits';
+  if (balance > 0) return 'held_credits';
   return 'ai_credits';
 }
 
