@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useRef, useState } from 'react';
-import { Button } from '@/components/ui/Button';
 import { useAuth } from '@/components/AuthProvider';
 
 const RESULT_COPY = {
@@ -11,7 +10,8 @@ const RESULT_COPY = {
   failed: 'That did not work. Try again in a minute.',
 };
 
-// "Sign out of other devices" for the account page. Uses the profile page's privacy-block styles.
+// "Sign out of other devices": the second row of the account page's Account actions group (owner G29, 19 Oct), under the
+// plain Sign out and above Delete account. It uses the group's row styles (src/components/profile/account.css, .acct-act).
 export function SignOutOtherDevicesSection() {
   const { signOutOtherDevices } = useAuth();
   const [busy, setBusy] = useState(false);
@@ -33,22 +33,21 @@ export function SignOutOtherDevicesSection() {
   }
 
   return (
-    <section className="glass p-6 privacy-block" aria-labelledby="other-devices-title">
-      <div>
-        <div className="mono-label mb-2">Sign-in</div>
-        <h2 id="other-devices-title">Sign out of other devices</h2>
+    <div className="acct-act" role="group" aria-labelledby="other-devices-title">
+      <div className="acct-act__text">
+        <h3 id="other-devices-title">Sign out of other devices</h3>
+        <p>Signed in on a shared or lost phone? This ends MockMob on every other browser and phone, the app included. You stay signed in here.</p>
       </div>
-      <p>Signed in on a shared or lost phone? This ends MockMob on every other browser and phone, the app included. You stay signed in here.</p>
-      <div>
-        <Button variant="outline" size="md" disabled={busy} onClick={run}>
+      <div className="acct-act__keys">
+        <button type="button" className="acct-key" disabled={busy} aria-busy={busy || undefined} onClick={run}>
           {busy ? 'Signing out other devices' : 'Sign out other devices'}
-        </Button>
+        </button>
       </div>
       {result && (
-        <p className={`privacy-note ${result === 'ok' ? 'privacy-note--ok' : 'privacy-note--err'}`} role={result === 'ok' ? 'status' : 'alert'}>
+        <p className="acct-note" data-tone={result === 'ok' ? 'ok' : 'err'} role={result === 'ok' ? 'status' : 'alert'}>
           {RESULT_COPY[result] || RESULT_COPY.failed}
         </p>
       )}
-    </section>
+    </div>
   );
 }

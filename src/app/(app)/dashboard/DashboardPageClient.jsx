@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Check, Play, SlidersHorizontal, Target } from 'lucide-react';
+import { Check, ChevronRight, Play, SlidersHorizontal, Target } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { AppIcon, CreditAmount, StatusIcon } from '@/components/ui/Glyph';
 import { useContributeEnabled } from '@/components/contribute/ContributeFlag';
@@ -31,6 +31,7 @@ import { chapterUnits, chaptersForMode } from './chapterGroups.mjs';
 import { MODE_SPECS, MODE_TILE_SPECS, bankCount, freshPaperLine } from '@/lib/paperCopy.mjs';
 import PracticeMobChip from '@/components/mob/PracticeMobChip';
 import PracticeRepairs from './PracticeRepairs';
+import { useRailCue, reducedMotion as railReduced } from '@/components/start/railCue';
 import { InlineNudge, ProFacts, openUpgrade } from '@/components/pro';
 import { fullMocksIn } from '@/lib/proNudge.mjs';
 import './practice.css';
@@ -304,6 +305,10 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
     () => subjects.filter((subject) => user?.subjects?.includes(subject.id) && subject.practice === 'supported'),
     [subjects, user],
   );
+  // The shelf's sideways cue on a phone (owner G27, as on the Start sheet): the last subject in view is cut at about 60%,
+  // the shelf nudges 24 px once on the first visit on a device, and a chevron shows while subjects wait past the edge.
+  const shelfHint = useRef(null);
+  const { edges: shelfEdges } = useRailCue(shelfRef, { active: status === 'ready' && mySubs.length > 1, items: '.pr-subject', min: 92, max: 132, endInset: 16, nudgeKey: 'mm:cue:practice-shelf:v1', nudgeDelay: 900, hintRef: shelfHint, count: mySubs.length });
   const linkedSubject=searchParams.get('subject');
   const linkedSubjectUnavailable=status==='ready' && linkedSubject && !mySubs.some(subject=>subject.id===linkedSubject);
   // Stored choices that cannot launch (not offered, merged or retired) are shown, never launched.
@@ -450,10 +455,14 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
           : `${quote.creditCost} credits`
     : 'Checking';
   const costTone = quoteStatus === 'ready' && quoteMatches && !quote.launchable ? 'locked' : 'cost';
+  // The session in words, said once, on the Start key (owner G26, 19 Oct): "Start 10 questions in Accountancy". The card
+  // above it leads with the mode, so picking a subject never puts a count and a subject at the top of the page.
+  const sessionWords = effectiveModeId === 'full' ? 'the full mock' : effectiveModeId === 'nta' ? 'the NTA paper' : `${quoteCount} ${quoteCount === 1 ? 'question' : 'questions'}`;
+  const inSubject = subjectLabel ? ` in ${subjectLabel}` : '';
   const startLabel = isLaunching ? 'Starting…'
     : quoteStatus === 'loading' ? 'Checking…'
       : !quoteLaunchable ? 'Not available'
-        : `Start ${mode.label}`;
+        : `Start ${sessionWords}${inSubject}`;
   const ntaOn = effectiveModeId === 'nta';
   const blocked = quoteStatus === 'ready' && quoteMatches && !quote.launchable;
   const blockedLabel = shortfall ? `Need ${shortfall} more practice ${shortfall === 1 ? 'credit' : 'credits'}` : quote?.reasonCode === 'access_required' ? 'See Pro' : 'See options';
@@ -514,10 +523,10 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
     <button type="button" className={`btn-outline md ${className}`} onClick={() => setQuoteNonce((n) => n + 1)}>Check again</button>
   ) : (
     <Button key={`key-${modeNudge}`} variant="volt" size="md" className={className} data-page-primary={short ? undefined : ''} data-phone-primary={short ? '' : undefined} data-nudge={modeNudge > 0 || undefined}
-      disabled={isLaunching || !quoteLaunchable} aria-busy={isLaunching || quoteStatus === 'loading' || undefined} aria-label={short && !isLaunching ? barStartLabel : undefined} onClick={launch}>
+      disabled={isLaunching || !quoteLaunchable} aria-busy={isLaunching || quoteStatus === 'loading' || undefined} aria-label={short && !isLaunching ? `${barStartLabel}${inSubject}` : undefined} onClick={launch}>
       {/* Under 380 px the bar's key says "Start 10" (its name still says the whole label), so the mode's name beside it is
-          never cut to "Quick pr…" (W-068). */}
-      {short ? <>{examPair ? <ClockGlyph size={17} /> : null}{isLaunching ? 'Starting…' : keyNamesCount ? <>Start {quoteCount}<span className="pr-bar__qword"> {quoteCount === 1 ? 'question' : 'questions'}</span></> : barStartLabel}</> : <>{examPair ? <ClockGlyph /> : <AppIcon name="practice" size={18} />}{startLabel}</>}
+          never cut to "Quick pr…" (W-068). The subject is the key's second line ("in Accountancy", owner G26). */}
+      {short ? <>{examPair ? <ClockGlyph size={17} /> : null}{isLaunching ? 'Starting…' : <span className="pr-bar__keytext"><span>{keyNamesCount ? <>Start {quoteCount}<span className="pr-bar__qword"> {quoteCount === 1 ? 'question' : 'questions'}</span></> : barStartLabel}</span>{subjectLabel && quoteLaunchable ? <small>in {subjectLabel}</small> : null}</span>}</> : <>{examPair ? <ClockGlyph /> : <AppIcon name="practice" size={18} />}<span className="pr-summary__words">{startLabel}</span></>}
     </Button>
   ));
 
@@ -580,6 +589,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
               {/* The subject shelf: each subject's object on one shelf line, its name and chapter count under it. The chosen
                   one is sharp with its lamp on and a volt rule under its name; the others stand back, blurred, dimmer and a
                   little smaller (owner F7). Phones: one sideways row that brings the chosen subject to the middle. */}
+              <div className="pr-shelf" data-overflow={shelfEdges.overflow || undefined} data-at-end={shelfEdges.end || undefined}>
               <div className="pr-subjects" role="group" aria-label="Subject" data-count={Math.min(mySubs.length, 6)} ref={shelfRef}>
                 {mySubs.map((subject) => {
                   const on = selSubj === subject.id;
@@ -597,6 +607,12 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
                     </button>
                   );
                 })}
+              </div>
+              {/* The chevron hint (phones): a tap moves the shelf on by two subjects; keyboard users tab through the subjects. */}
+              <button ref={shelfHint} type="button" className="pr-shelf__hint" tabIndex={-1} aria-hidden="true"
+                onClick={() => { const el = shelfRef.current; const first = el?.querySelector('.pr-subject'); if (el) el.scrollBy({ left: (first?.offsetWidth || 104) * 2, behavior: railReduced() ? 'auto' : 'smooth' }); }}>
+                <span className="pr-shelf__disc"><ChevronRight size={18} strokeWidth={2.2} aria-hidden="true" /></span>
+              </button>
               </div>
               {/* Repairs and Ask Mobi, about the subject the shelf has chosen (owner D5): what is waiting to be repaired, the
                   saved repairs to revisit, and Mobi in place. It changes with the shelf, so it is seen on every visit. */}
@@ -710,11 +726,13 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
             </section>
 
           <aside className="pr-summary pr-ticket" aria-label="Your session">
+            {/* The card leads with the mode (owner G26, 19 Oct): its picture, its name and what it is. The count and the subject
+                are said once, on the Start key, so picking a subject changes nothing at the top of the card. */}
             <div className="pr-ticket__top">
-              <span className="pr-ticket__obj" key={selSubj}><SubjectObject id={selectedSubject?.internalId || selSubj} size={76} lit /></span>
+              <span className="pr-ticket__obj pr-ticket__art" key={effectiveModeId} aria-hidden="true"><ModeArt id={effectiveModeId} subjectId={selectedSubject?.internalId || selSubj} on /></span>
               <div>
                 <h2 className="pr-ticket__mode">{mode.label}</h2>
-                <p className="pr-ticket__what">{quoteCount} {subjectLabel ? `${subjectLabel} ` : ''}questions</p>
+                <p className="pr-ticket__what">{MODE_TILE_SPECS[effectiveModeId]}</p>
               </div>
               {cardMobi ? <span className="pr-ticket__mobi" aria-hidden="true"><PipActor pose={cardMobi === 'oops' ? 'encouraging' : 'thinking'} blink={1} /></span> : null}
             </div>

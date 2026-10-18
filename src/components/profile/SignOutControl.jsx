@@ -1,17 +1,18 @@
 "use client";
 
-// Account > Sign out of this browser. It never signs out on the first tap: the button opens a short
-// confirm with "Stay signed in" first and focused. Signing out clears this browser's study drafts
-// (AuthProvider.signOut), then the student lands on the public home page, as the top bar's sign out
-// does. Signing out other devices is its own section on this page.
+// Account > Account actions > Sign out (owner G29, 19 Oct: "I seriously don't see sign out of this browser"). It is the
+// first row of the Account actions group, above "Sign out of other devices" and "Delete account", and it is labelled in
+// words wherever it appears (this page, the top bar, the phone's More sheet). It never signs out on the first tap: the
+// button opens a short confirm with "Stay signed in" first and focused. Signing out clears this browser's study drafts
+// (AuthProvider.signOut), then the student lands on the public home page, as the top bar's sign out does.
 import { useEffect, useRef, useState } from 'react';
 import { LogOut } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
 import './account.css';
 
 const COPY = {
-  title: 'Sign out of this browser',
-  plain: 'You will need to sign in again to use MockMob here. Your history stays with your account.',
+  title: 'Sign out',
+  plain: 'Sign out of MockMob in this browser. Your history stays with your account, ready when you sign in again.',
   ask: 'Sign out here? A practice or mock you have open in this browser is cleared from it.',
   stay: 'Stay signed in',
   go: 'Sign out',
@@ -54,24 +55,24 @@ export default function SignOutControl() {
   const open = phase !== 'idle';
 
   return (
-    <div className="acct-signout" onKeyDown={onKeyDown}>
-      <div className="acct-signout__text">
+    <div className="acct-act acct-signout" onKeyDown={onKeyDown} data-open={open || undefined}>
+      <div className="acct-act__text">
         <h3 id="acct-signout-h">{COPY.title}</h3>
         <p>{open ? COPY.ask : COPY.plain}</p>
       </div>
       {open ? (
-        <div className="acct-signout__keys" role="group" aria-labelledby="acct-signout-h">
+        <div className="acct-act__keys" role="group" aria-labelledby="acct-signout-h">
           <button ref={stay} type="button" className="acct-key" disabled={phase === 'working'} onClick={() => setPhase('idle')}>{COPY.stay}</button>
           <button type="button" className="acct-key acct-key--danger" disabled={phase === 'working'} onClick={confirm}>{phase === 'working' ? COPY.working : COPY.go}</button>
         </div>
       ) : (
-        <div className="acct-signout__keys">
+        <div className="acct-act__keys">
           <button ref={trigger} type="button" className="acct-key" onClick={() => { setError(''); setPhase('confirm'); }}>
             <LogOut size={16} strokeWidth={1.75} aria-hidden="true" />{COPY.go}
           </button>
         </div>
       )}
-      <p className="acct-note" role={error && error !== COPY.preview ? 'alert' : 'status'} data-tone={error && error !== COPY.preview ? 'err' : undefined}>{error}</p>
+      {error ? <p className="acct-note" role={error !== COPY.preview ? 'alert' : 'status'} data-tone={error !== COPY.preview ? 'err' : undefined}>{error}</p> : null}
     </div>
   );
 }

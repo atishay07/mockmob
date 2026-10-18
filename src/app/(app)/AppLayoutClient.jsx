@@ -26,6 +26,7 @@ import './student-pages.css';
 import './explore/explore.css';
 import './arena-support.css';
 import './nav-badge.css';
+import './signout.css';
 import '@/components/study/study.css';
 import { arenaNavigation, MOBILE_STUDY_NAV } from '@/lib/arenaNavigation';
 import { useReviseBadge } from '@/lib/reviewRead';
@@ -408,14 +409,14 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
               <Avatar name={user?.name} size="sm" />
               <span>{user?.name ?? 'Account'}</span>
             </Link>
+            {/* Sign out in words, beside the account (owner G29, 19 Oct): an unlabelled glyph was missed. */}
             <button
               type="button"
               onClick={async () => { await signOut(); router.push('/'); }}
-              title="Sign out"
-              aria-label="Sign out"
-              className="arena-iconbtn arena-iconbtn--danger arena-desktop-only"
+              className="arena-signout arena-desktop-only"
             >
               <AppIcon name="signout" />
+              <span>Sign out</span>
             </button>
             {/* Phones: the account sits where the app puts You. The menu itself is More, on the dock. */}
             <Link
@@ -457,14 +458,14 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
                 <span>{user?.name ?? 'Account'}</span>
               </Link>
               <div className="arena-sheet__tools">
+                {/* The phone's account menu says Sign out in words (owner G29). */}
                 <button
                   type="button"
                   onClick={async () => { await signOut(); router.push('/'); }}
-                  title="Sign out"
-                  aria-label="Sign out"
-                  className="arena-iconbtn arena-iconbtn--danger"
+                  className="arena-signout"
                 >
                   <AppIcon name="signout" />
+                  <span>Sign out</span>
                 </button>
               </div>
               <button type="button" className="arena-sheet__help arena-sheet__tour" onClick={startTour}>

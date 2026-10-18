@@ -160,3 +160,17 @@ test('copy rules: no exclamation marks, no em dashes, no middle dots in what stu
     }
   }
 });
+
+// 19 Oct 2026 (owner G29: "I seriously don't see sign out of this browser"): Sign out is a labelled row, first in its own group.
+test('G29 account actions: Sign out leads the group, then Sign out of other devices, then Delete account; Sign out is in words in the top bar and the phone More sheet', () => {
+  const page = read('src/app/(app)/profile/ProfilePageClient.jsx');
+  const group = page.slice(page.indexOf('id="account-actions"'));
+  const at = (piece) => { const i = group.indexOf(piece); assert.ok(i > 0, `${piece} is in Account actions`); return i; };
+  assert.ok(at('<SignOutControl />') < at('<SignOutOtherDevicesSection />') && at('<SignOutOtherDevicesSection />') < at('<DeleteAccountSection />'));
+  assert.ok(!page.slice(0, page.indexOf('id="account-actions"')).includes('<SignOutControl />'), 'Sign out is no longer tucked inside the name card');
+  assert.match(read('src/components/profile/SignOutControl.jsx'), /title: 'Sign out'/);
+  const shell = read('src/app/(app)/AppLayoutClient.jsx');
+  assert.equal((shell.match(/<span>Sign out<\/span>/g) || []).length, 2, 'the top bar and the phone More sheet both say Sign out in words');
+  assert.ok(!/aria-label="Sign out"/.test(shell), 'no icon-only Sign out left');
+  assert.ok(ACCOUNT_ANCHORS.includes('account-actions') && ACCOUNT_ANCHORS.includes('sign-out') && ACCOUNT_ANCHORS.includes('sign-in') && ACCOUNT_ANCHORS.includes('delete'));
+});

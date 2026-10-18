@@ -241,3 +241,63 @@ test('?start= requests', () => {
   assert.equal(startRequestFromSearch('?view=today'), null);
   assert.equal(startRequestFromSearch(''), null);
 });
+
+// Owner G27 (19 Oct 2026): the sideways-scroll cue. The last item in view is cut at about 60% of its width, the row nudges
+// 24 px once on the first open on a device (never under reduced motion), and touch gets a chevron hint.
+test('G27 peek: the shared item width leaves the last item in view about 60% visible', async () => {
+  const { peekWidth, PEEK } = await import('../railPeek.mjs');
+  assert.equal(PEEK, 0.6);
+  // The Start sheet at 390 px: 368 px from the first chip to the edge, 8 px gaps, four chips no narrower than 210 px.
+  const w = peekWidth({ avail: 368, gap: 8, n: 4, min: 210, max: 320 });
+  assert.ok(w >= 210 && w <= 320, `width ${w}`);
+  const visible = (368 - (w + 8)) / w;
+  assert.ok(Math.abs(visible - 0.6) < 0.01, `second chip ${Math.round(visible * 100)}% visible`);
+  // The shelf at 390 px: 104 px subjects become one width with three whole and the fourth cut at 60%.
+  const s = peekWidth({ avail: 358, gap: 6, n: 4, min: 92, max: 132 });
+  assert.ok(Math.abs((358 - 3 * (s + 6)) / s - 0.6) < 0.01, `shelf width ${s}`);
+  // A row that cannot reach the peek without words breaking, or with one item, gets no width (the natural row stays).
+  assert.equal(peekWidth({ avail: 200, gap: 8, n: 4, min: 210 }), null);
+  assert.equal(peekWidth({ avail: 368, gap: 8, n: 1, min: 100 }), null);
+  // The row still overflows: k stops at n - 1.
+  const two = peekWidth({ avail: 368, gap: 8, n: 2, min: 150 });
+  assert.ok(2 * two + 8 > 368, 'two items still overflow');
+});
+
+test('G27 cue: the Start rail, the Practice shelf and Review share it; the nudge is once per device and off under reduced motion', () => {
+  const cue = readFileSync(join(startDir, 'railCue.js'), 'utf8');
+  assert.match(cue, /export const NUDGE_PX = 24;/);
+  assert.match(cue, /if \(!el \|\| reducedMotion\(\)\) return \(\) => \{\};/, 'no nudge under reduced motion');
+  assert.match(cue, /seen\(nudgeKey\)/, 'once per device');
+  assert.match(cue, /markSeen\(nudgeKey\)/);
+  const rail = readFileSync(join(startDir, 'useSubjectRail.js'), 'utf8');
+  assert.match(rail, /useRailCue\(railRef, \{ active, items: '\.st-chip'/);
+  assert.ok(rail.indexOf('useRailCue(railRef') < rail.indexOf('reveal(chip, { instant'), 'the chips have their width before the chosen one is revealed');
+  const sheet = readFileSync(join(startDir, 'StartSheet.jsx'), 'utf8');
+  assert.match(sheet, /useSubjectRail\(subject, open && subjects\.length > 1, \{ count: subjects\.length, hintRef: railHint \}\)/);
+  assert.match(sheet, /ref=\{railHint\}[^>]*st-rail__arrow--next/);
+  const css = readFileSync(join(startDir, 'start.css'), 'utf8');
+  assert.match(css, /\.st-chips\[data-peek\] > \.st-chip \{ width: var\(--rail-item-w\); \}/);
+  assert.match(css, /@media \(hover: none\), \(pointer: coarse\) \{\s*\.st-rail__arrow--next \{ display: grid; \}/);
+  const practice = readFileSync(join(startDir, '..', '..', 'app', '(app)', 'dashboard', 'DashboardPageClient.jsx'), 'utf8');
+  assert.match(practice, /useRailCue\(shelfRef, \{[^}]*items: '\.pr-subject'[^}]*nudgeKey: 'mm:cue:practice-shelf:v1'/);
+});
+
+test('G27 peek: no width is forced when the peek would need items wider than allowed', async () => {
+  const { peekWidth } = await import('../railPeek.mjs');
+  // Review's text chips: one chip and a cut would need 229 px pills, over the 180 px they may be, so the row stays natural.
+  assert.equal(peekWidth({ avail: 374, gap: 8, n: 5, min: 170, max: 180 }), null);
+  assert.equal(peekWidth({ avail: 374, gap: 8, n: 5, min: 200, max: 150 }), null);
+});
+
+// 19 Oct 2026 (owner G26): picking a subject must not push "10 Accountancy questions" to the top of the Practice page.
+test('G26 Practice ticket: the card leads with the mode; the count and the subject are the Start key words', () => {
+  const page = readFileSync(join(startDir, '..', '..', 'app', '(app)', 'dashboard', 'DashboardPageClient.jsx'), 'utf8');
+  const ticket = page.slice(page.indexOf('<aside className="pr-summary pr-ticket"'));
+  const top = ticket.slice(0, ticket.indexOf('</div>', ticket.indexOf('pr-ticket__what')));
+  assert.match(top, /<h2 className="pr-ticket__mode">\{mode\.label\}<\/h2>/, 'the card names the mode');
+  assert.match(top, /<p className="pr-ticket__what">\{MODE_TILE_SPECS\[effectiveModeId\]\}<\/p>/, 'and says what the mode is');
+  assert.ok(!/quoteCount\}[^<]*subjectLabel|subjectLabel[^<]*questions/.test(top), 'no "N Subject questions" line at the top of the card');
+  assert.match(page, /const sessionWords = effectiveModeId === 'full' \? 'the full mock' : effectiveModeId === 'nta' \? 'the NTA paper' : `\$\{quoteCount\} \$\{quoteCount === 1 \? 'question' : 'questions'\}`;/);
+  assert.match(page, /`Start \$\{sessionWords\}\$\{inSubject\}`/, 'the Start key says the session once: Start 10 questions in Accountancy');
+  assert.match(page, /<small>in \{subjectLabel\}<\/small>/, 'the phone bar key carries the subject on its second line');
+});

@@ -283,6 +283,10 @@ html:has(.st-sheet[open]) { overflow: hidden; scrollbar-gutter: stable; }
 .st-chips > .st-chip { scroll-snap-align: start; }
 /* While the row glides or is dragged it owns the position; snap waits for it to land on a chip. */
 .st-chips:is([data-gliding], [data-dragging]) { scroll-snap-type: none; }
+/* The peek (owner G27, 19 Oct): while the row overflows, the chips share one width (railCue.js sets --rail-item-w) so the
+   last chip in view is cut at about 60%. A long name wraps to a second line inside its chip rather than widening it. */
+.st-chips[data-peek] > .st-chip { width: var(--rail-item-w); }
+.st-chips[data-peek] > .st-chip > span { min-width: 0; overflow-wrap: break-word; text-wrap: balance; }
 @media (hover: hover) and (pointer: fine) {
   /* 76 px under each arrow, the first 44 of it clear; a step lands its chip just past the fade
      (useSubjectRail.js reads this scroll padding as the place a chip comes to rest). */
@@ -348,6 +352,18 @@ html:has(.st-sheet[open]) { overflow: hidden; scrollbar-gutter: stable; }
   }
   .st-rail__arrow:hover .st-rail__disc { background: var(--a-hover); border-color: var(--a-select); }
   .st-rail__arrow:active .st-rail__disc { transform: scale(var(--mm-pressed-scale)); transition-duration: 160ms, 160ms, var(--mm-spring-snappy-dur); transition-timing-function: ease, ease, var(--mm-spring-snappy); }
+}
+/* Touch (owner G27): the next arrow is the chevron hint, a smaller disc over the trailing fade while chips wait beyond the
+   edge. It leans with the first-open nudge (railCue.js) and a tap on it steps the row; at the end of the row it fades. */
+@media (hover: none), (pointer: coarse) {
+  .st-rail__arrow--next { display: grid; }
+  .st-rail__arrow--next .st-rail__disc { width: 32px; height: 32px; color: var(--a-ink-2); box-shadow: inset 0 1px 0 var(--a-edge), 0 4px 10px -6px var(--st-shadow); }
+  .st-rail[data-overflow]:not([data-at-end]) .st-rail__arrow--next {
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity var(--mm-dur-glide) var(--mm-ease-glide);
+  }
+  .st-rail__arrow--next:active .st-rail__disc { transform: scale(var(--mm-pressed-scale)); }
 }
 .st-chip {
   position: relative;
