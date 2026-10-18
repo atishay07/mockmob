@@ -45,4 +45,21 @@ void main() {
       expect(attempt.marks, 9);
     });
   });
+
+  group('missedMarksDenominator (the one rule for "47 of the 245 marks you missed")', () {
+    test('a chapter is shown against what the whole paper missed', () {
+      expect(missedMarksDenominator(chapterMissed: 47, paperMissed: 245, paperMax: 250), 245);
+      expect(missedMarksDenominator(chapterMissed: 245, paperMissed: 245, paperMax: 250), 245, reason: 'one chapter can be all of it');
+      expect(missedMarksDenominator(chapterMissed: 12, paperMissed: 30), 30, reason: 'no known paper maximum');
+    });
+
+    test('a negative score has no denominator: the paper missed more than it holds', () {
+      expect(missedMarksDenominator(chapterMissed: 21, paperMissed: 51, paperMax: 50), isNull);
+      expect(missedMarksDenominator(chapterMissed: 21, paperMissed: 50, paperMax: 50), 50, reason: 'a zero score misses exactly the paper');
+    });
+
+    test('a chapter that claims more than the paper missed gets no fraction', () {
+      expect(missedMarksDenominator(chapterMissed: 47, paperMissed: 45, paperMax: 250), isNull);
+    });
+  });
 }

@@ -1,3 +1,4 @@
+import '../../../core/domain/marks.dart' show markBreakdownOf, missedMarksDenominator;
 import '../../../core/models/models.dart';
 import '../copy.dart';
 
@@ -63,13 +64,20 @@ class ReelMoment {
 
 /// The chapter where the most marks went.
 class ReelChapter {
-  const ReelChapter({required this.name, required this.lost, required this.max, required this.wrong, required this.blank, required this.qids});
+  const ReelChapter({required this.name, required this.lost, required this.paperMissed, this.paperMax, required this.wrong, required this.blank, required this.qids});
 
   final String name;
 
   /// Marks missed against full marks (a wrong costs 6: the 5 not earned and the 1 taken).
   final int lost;
-  final int max;
+
+  /// What the whole paper missed (`max - score`), and what it holds: the figures the chapter is shown against.
+  final int paperMissed;
+  final int? paperMax;
+
+  /// The denominator of "47 of the 245 marks you missed", the same one the result's recap card uses, or null when the paper
+  /// has none to give honestly (a negative score, or counts that disagree): then the line says the marks alone.
+  int? get against => missedMarksDenominator(chapterMissed: lost, paperMissed: paperMissed, paperMax: paperMax);
   final int wrong;
   final int blank;
 
@@ -194,7 +202,8 @@ class PaperReelModel {
 
     final sum = questions.fold<int>(0, (s, q) => s + q.marks);
     final moments = _moments(questions, detail.lab);
-    final chapter = _costliest(questions);
+    final breakdown = markBreakdownOf(a);
+    final chapter = _costliest(questions, paperMissed: breakdown.lost, paperMax: breakdown.max);
     return PaperReelModel._(
       subject: subjectLabel ?? a.subject,
       questions: questions,
@@ -339,16 +348,14 @@ class PaperReelModel {
     return ranked.take(maxMoments).toList()..sort((x, y) => x.index.compareTo(y.index));
   }
 
-  static ReelChapter? _costliest(List<ReelQuestion> qs) {
+  static ReelChapter? _costliest(List<ReelQuestion> qs, {required int paperMissed, int? paperMax}) {
     final lost = <String, int>{};
-    final max = <String, int>{};
     final wrong = <String, int>{};
     final blank = <String, int>{};
     final qids = <String, List<String>>{};
     for (final q in qs) {
       final c = q.chapter;
       if (c == null || q.result == ReelResult.held) continue;
-      max[c] = (max[c] ?? 0) + 5;
       final cost = switch (q.result) { ReelResult.wrong => 6, ReelResult.blank => 5, _ => 0 };
       if (cost == 0) continue;
       lost[c] = (lost[c] ?? 0) + cost;
@@ -362,7 +369,7 @@ class PaperReelModel {
     for (final c in lost.keys) {
       if (best == null || lost[c]! > lost[best]!) best = c;
     }
-    return ReelChapter(name: best!, lost: lost[best]!, max: max[best]!, wrong: wrong[best] ?? 0, blank: blank[best] ?? 0, qids: qids[best]!);
+    return ReelChapter(name: best!, lost: lost[best]!, paperMissed: paperMissed, paperMax: paperMax, wrong: wrong[best] ?? 0, blank: blank[best] ?? 0, qids: qids[best]!);
   }
 
   static ReelNextMove _nextMove(List<ReelQuestion> qs, ReelChapter? chapter) {

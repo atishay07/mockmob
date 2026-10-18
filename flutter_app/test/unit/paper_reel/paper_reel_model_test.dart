@@ -1,6 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/models/models.dart';
 import 'package:mockmob/features/paper_reel/paper_reel.dart';
+import 'package:mockmob/features/paper_reel/copy.dart' show ReelCopy;
+import 'package:mockmob/features/result/copy.dart' show ResultCopy;
 
 import 'reel_fixture.dart';
 
@@ -68,7 +70,10 @@ void main() {
       // Chapter 2: 4 wrong (24) + 2 blank (10) = 34 of 50.
       expect(m.chapter!.name, 'Accounting for share capital');
       expect(m.chapter!.lost, 34);
-      expect(m.chapter!.max, 50);
+      // Shown against what the whole paper missed (8 wrong x 6 + 3 blank x 5 = 63), never against the chapter's own 50.
+      expect(m.chapter!.paperMissed, 63);
+      expect(m.chapter!.against, 63);
+      expect(ReelCopy.chapterLine(m.chapter!.lost, m.chapter!.against, m.chapter!.wrong, m.chapter!.blank), '34 of the 63 marks you missed: 4 wrong, 2 left blank.');
       expect(m.nextMove.kind, ReelMoveKind.repairChapter);
       expect(m.nextMove.label, 'Repair those 4 wrong answers');
       expect(m.nextMove.qids, hasLength(6));
@@ -125,6 +130,52 @@ void main() {
         ..['questionsSnapshot'] = <Object>[]
         ..['details'] = <Object>[];
       expect(PaperReelModel.tryFrom(AttemptDetail.fromJson(j)), isNull);
+    });
+  });
+
+  // M5 of the v15 emulator walk: the reel's closing card said "47 of 45 marks missed". 47 counts the wrong answers'
+  // penalties (a wrong costs 6), 45 was five marks a question in the chapter, a total with no room for them. The reel and
+  // the result's recap card now show a chapter against what the whole paper missed, through one function.
+  group('a chapter is never shown as missing more than it is shown against (M5)', () {
+    // The walk's Mock 4: 50 questions, 2 right, 5 wrong, 43 blank (a score of 5 of 250). The first chapter (blocks of ten repeat every three in the fixture, so it holds 20 questions) holds 2 wrong
+    // and 18 blank questions: 12 + 90 = 102 marks, more than the 100 the chapter's own five-a-question total allows.
+    const walkPaper = 'wwbbbbbbbb' 'rrwbbbbbbb' 'wwbbbbbbbb' 'bbbbbbbbbb' 'bbbbbbbbbb';
+
+    ReelChapter chapterOf(String pattern) => PaperReelModel.tryFrom(reelDetail(pattern: pattern, withLab: false, withTimes: false, changed: false))!.chapter!;
+
+    test('the walk\'s paper: 102 of the 245 marks the paper missed, never "102 of 100"', () {
+      final c = chapterOf(walkPaper);
+      expect(c.lost, 102);
+      expect(c.lost, greaterThan(20 * 5), reason: 'more than the chapter\'s own five marks a question: the old denominator');
+      expect(c.paperMissed, 5 * 6 + 43 * 5, reason: '250 - the score of 5');
+      expect(c.against, 245);
+      expect(c.lost, lessThanOrEqualTo(c.against!));
+      expect(ReelCopy.chapterLine(c.lost, c.against, c.wrong, c.blank), '102 of the 245 marks you missed: 2 wrong, 18 left blank.');
+    });
+
+    test('the same chapter reads the same figure on the recap card', () {
+      final c = chapterOf(walkPaper);
+      expect(ResultCopy.costLabel(c.lost, c.paperMissed, max: c.paperMax), '102 of the 245 marks you missed were in this chapter.');
+      expect(ResultCopy.costUnit(c.paperMissed, max: c.paperMax, cost: c.lost), 'of 245 missed');
+      expect(ReelCopy.chapterLine(c.lost, c.against, c.wrong, c.blank), contains('102 of the 245 marks you missed'));
+    });
+
+    test('a negative score: the paper missed more than it holds, so no denominator is claimed on either screen', () {
+      // Every answer wrong: 30 x -1 = -30 of 150, so 180 marks missed on a 150-mark paper.
+      final c = chapterOf('wwwwwwwwww' 'wwwwwwwwww' 'wwwwwwwwww');
+      expect(c.paperMissed, 180);
+      expect(c.against, isNull);
+      expect(ReelCopy.chapterLine(c.lost, c.against, c.wrong, c.blank), '60 marks missed: 10 wrong.');
+      expect(ResultCopy.costLabel(c.lost, c.paperMissed, max: c.paperMax), '60 marks cost in this chapter.');
+      expect(ResultCopy.costUnit(c.paperMissed, max: c.paperMax, cost: c.lost), 'marks');
+    });
+
+    test('whatever the paper, the figure is never above its denominator', () {
+      for (final pattern in [reelPattern, walkPaper, 'wwwwwwwwww' 'wwwwwwwwww' 'wwwwwwwwww', 'rrrrrrrrrw' 'bbbbbbbbbb' 'rrrrrrrrrr']) {
+        final c = chapterOf(pattern);
+        final against = c.against;
+        if (against != null) expect(c.lost, lessThanOrEqualTo(against), reason: pattern);
+      }
     });
   });
 }

@@ -1,5 +1,5 @@
 import '../../core/copy/formatters.dart';
-import '../../core/domain/domain.dart' show MarkBreakdown, RepairCandidates, RepairKeyScope, shortChapterName;
+import '../../core/domain/domain.dart' show MarkBreakdown, RepairCandidates, RepairKeyScope, missedMarksDenominator, shortChapterName;
 import 'widgets/marks_bar.dart' show MarkPart;
 import '../../core/widgets/bubbles/bubble_painter.dart' show BubbleState;
 
@@ -181,9 +181,13 @@ abstract final class ResultCopy {
 
   /// Beside the chapter's cost figure: "of 135 missed".
   ///
-  /// When the score is negative the marks missed exceed the paper, so the unit is just "marks".
-  static String costUnit(int missed, {int? max}) => max != null && missed > max ? 'marks' : 'of $missed missed';
-  static String costLabel(int cost, int missed, {int? max}) => max != null && missed > max
+  /// When the score is negative the marks missed exceed the paper, so the unit is just "marks". The paper reel's closing
+  /// card says the same thing through the same rule ([missedMarksDenominator]), so the two never print different
+  /// fractions for one chapter (v15 walk, M5).
+  static String costUnit(int missed, {int? max, int? cost}) =>
+      missedMarksDenominator(chapterMissed: cost ?? 0, paperMissed: missed, paperMax: max) == null ? 'marks' : 'of $missed missed';
+  static String costLabel(int cost, int missed, {int? max}) =>
+      missedMarksDenominator(chapterMissed: cost, paperMissed: missed, paperMax: max) == null
       ? '${plural(cost, 'mark')} cost in this chapter.'
       : '$cost of the $missed marks you missed were in this chapter.';
   static String chapterCounts(int q, int c, int w, int u) => '${plural(q, 'question')}: $c correct, $w wrong, $u not attempted.';

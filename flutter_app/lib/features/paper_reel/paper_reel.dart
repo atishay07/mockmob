@@ -389,7 +389,7 @@ class _ChapterCard extends StatelessWidget {
                 const SizedBox(height: MmSpace.s4),
                 Text(c.name, style: type.title.copyWith(color: colors.ink), maxLines: 2, overflow: TextOverflow.ellipsis),
                 const SizedBox(height: MmSpace.s8),
-                Text(ReelCopy.chapterLine(c.lost, c.max, c.wrong, c.blank), style: type.body.copyWith(color: colors.ink2)),
+                Text(ReelCopy.chapterLine(c.lost, c.against, c.wrong, c.blank), style: type.body.copyWith(color: colors.ink2)),
               ],
             ),
     );

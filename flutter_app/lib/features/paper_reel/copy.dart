@@ -34,12 +34,15 @@ abstract final class ReelCopy {
   static String ticker(int n, String? chapter) => chapter == null ? 'Q$n' : 'Q$n  ·  $chapter';
 
   static const chapterKicker = 'Most marks went in';
-  static String chapterLine(int lost, int max, int wrong, int blank) {
+  static String chapterLine(int lost, int? against, int wrong, int blank) {
     final parts = <String>[
       if (wrong > 0) '$wrong wrong',
       if (blank > 0) '$blank left blank',
     ];
-    return '$lost of $max marks missed${parts.isEmpty ? '' : ': ${parts.join(', ')}'}.';
+    // The denominator is what the whole paper missed ([missedMarksDenominator]), the same figure the result's recap card
+    // prints; with none to give, the line says the marks alone.
+    final head = against == null ? '$lost marks missed' : '$lost of the $against marks you missed';
+    return '$head${parts.isEmpty ? '' : ': ${parts.join(', ')}'}.';
   }
 
   static const noChapter = 'Every chapter held up.';

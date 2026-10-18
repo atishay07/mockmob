@@ -664,7 +664,7 @@ class _CostState extends State<_Cost> with SingleTickerProviderStateMixin {
               // The figure rolls once its block has risen into place, landing with the meter.
               child: MonumentalNumber(
                 value: '$cost',
-                unit: ResultCopy.costUnit(missed, max: widget.max),
+                unit: ResultCopy.costUnit(missed, max: widget.max, cost: cost),
                 style: type.figureHero,
                 roll: widget.roll,
                 delay: _CostState.settle,

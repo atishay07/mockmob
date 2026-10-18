@@ -66,3 +66,22 @@ MarkBreakdown markBreakdown(int correct, int wrong, int unattempted) {
 
 /// [markBreakdown] for a server-scored attempt, from its own counts.
 MarkBreakdown markBreakdownOf(Attempt attempt) => markBreakdown(attempt.correct, attempt.wrong, attempt.unattempted);
+
+/// What a chapter's missed marks are shown against, the one rule for every screen that says "47 of the 245 marks you
+/// missed" (the result's recap card and the paper reel's closing card; v15 walk, M5).
+///
+/// The denominator is what the whole paper missed ([paperMissed], `max - score`), because the chapter's marks are
+/// part of it: the figure can never be bigger than what it is shown against. It is null, and the words then drop
+/// the denominator ("47 marks"), when no honest one exists:
+///
+/// * the paper missed more than it holds ([paperMax]): a negative score (a wrong answer costs 6, 5 not won and 1
+///   taken off), where "of 300" on a 250-mark paper reads as a mistake;
+/// * [chapterMissed] is more than [paperMissed]: the counts do not agree, so no fraction is claimed.
+///
+/// The reel used to print "47 of 45 marks missed": 47 counts the wrong answers' penalties, 45 was five marks a question
+/// in the chapter, a total that has no room for them.
+int? missedMarksDenominator({required int chapterMissed, required int paperMissed, int? paperMax}) {
+  if (paperMax != null && paperMissed > paperMax) return null;
+  if (chapterMissed > paperMissed) return null;
+  return paperMissed;
+}
