@@ -194,3 +194,11 @@ His message was the pasted next-session prompt (build PLAN-1019 Waves A and B, t
 - Ask Mobi B confirmed;
 - homepage motion C as an idea; he judges it LIVE, so show it to him on a preview before it ships;
 - the marketing copy is what matters most: every new line in the app and on the web gets a dedicated copy pass in his voice (R6).
+
+## Owner, 19 Oct about 2:55 am IST (his choice)
+> "Push release 11 live when it passes the verifier, except the homepage motion: keep that off until I see it live."
+
+**Ledger D115:**
+- **Release 11 ships when it passes its verifier.** That means push to main, then STATUS.
+- **The homepage motion (C3) is the exception.** It ships OFF in production, behind a flag that defaults to off (the current hero stays), or it stays out of the release branch.
+- **His live review:** he sees C3 on a preview, and it is switched on only after his OK.
