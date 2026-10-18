@@ -293,7 +293,6 @@ function Stage({ step, pinned, reduced, goTo }) {
       </ol>
 
       <div className="lcd" aria-hidden="true">
-        <span className="lcd__glow" />
         <div className="lcd__frame">
           <ScreenBar />
           <div className="lcd__tabs"><i className="lcd__tab-ink" />{SCENES.map(({ key, tab }, i) => <span key={key} data-on={step === i ? 'true' : 'false'}>{tab}</span>)}</div>

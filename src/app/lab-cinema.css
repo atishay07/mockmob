@@ -93,12 +93,6 @@ html[data-theme='light'] .lc {
   background: var(--s-bg); border: 1px solid var(--s-line-2);
   box-shadow: 0 0 0 4px var(--lcd-bezel), 0 0 0 5px var(--lcd-bezel-edge), var(--s-shadow), inset 0 1px 0 rgb(255 255 255 / 0.06);
 }
-.lcd__glow {
-  position: absolute; z-index: -2; inset: 8% -6% -4% 10%; border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(210, 240, 0, 0.16), transparent 72%);
-  pointer-events: none;
-}
-html[data-theme='light'] .lcd__glow { background: radial-gradient(closest-side, rgba(170, 200, 0, 0.22), transparent 72%); }
 /* The lamp-lit Accountancy object: a prop in the screen's header beside the score, fully inside the
    bezel, standing on its own contact shadow (Night shade on the Night screen in both themes).
    Phones: 88 px in the corner. Wide windows: 72 px, centred on the title row. The title bar leaves it
@@ -510,19 +504,17 @@ html[data-theme='light'] .lcd__glow { background: radial-gradient(closest-side, 
 .lc[data-pinned='false'] .lc-scene__screen { position: relative; padding: 0 1rem 1.1rem; border-radius: 22px; background: var(--s-bg); border: 1px solid var(--s-line-2); box-shadow: var(--s-shadow); }
 .lc[data-pinned='false'] .lc-scene__mini .lcd-bar { padding: 1rem 0.2rem 0.85rem; margin-bottom: 0.9rem; border-bottom: 1px solid var(--s-line); }
 
-/* The object and the light drift with the whole story (compositor-only, where supported). */
+/* The object drifts with the whole story (compositor-only, where supported). There is no drifting light behind the screen (L-019). */
 @supports (animation-timeline: view()) {
   .lc[data-pinned='true'] .lc__obj { animation: lc-object linear both; animation-timeline: --ss-track; animation-range: contain 0% contain 100%; }
-  .lc[data-pinned='true'] .lcd__glow { animation: lc-glow linear both; animation-timeline: --ss-track; animation-range: contain 0% contain 100%; }
 }
 @keyframes lc-object { from { transform: translate3d(0.25rem, 0.6rem, 0) rotate(-4deg); } to { transform: translate3d(-0.35rem, -0.5rem, 0) rotate(3deg); } }
 /* In the header the drift stays small, so the object never leaves the title row. */
 @keyframes lc-object-held { from { transform: translate3d(0.1rem, 0.15rem, 0) rotate(-3deg); } to { transform: translate3d(-0.1rem, -0.15rem, 0) rotate(2deg); } }
 /* Wide windows: the object sits in the header, so its drift stays small (after the shorthand above). */
 @media (min-width: 960px) and (min-height: 600px) { .lc[data-pinned='true'] .lc__obj { animation-name: lc-object-held; } }
-@keyframes lc-glow { from { transform: translate3d(-4%, 6%, 0) scale(0.92); opacity: 0.7; } to { transform: translate3d(4%, -4%, 0) scale(1.06); opacity: 1; } }
 
 @media (prefers-reduced-motion: reduce) {
-  .lc .lc__obj, .lc .lcd__glow { animation: none !important; }
+  .lc .lc__obj { animation: none !important; }
   .lc__grid .lcp-clock__sweep i { animation: none !important; }
 }
