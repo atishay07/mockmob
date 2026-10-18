@@ -42,7 +42,11 @@
 .rx-finding__detail { font-size: 14px; line-height: 1.5; color: var(--a-ink-3, #93a08f); }
 .rx-notice { display: flex; gap: 8px; align-items: flex-start; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-2, #bcc5b9); }
 .rx-notice svg { flex: none; margin-top: 3px; color: var(--a-warn-text, #e0b93f); }
-.rx-notice .rx-link { min-height: 0; font-size: 13.5px; }
+/* The "See Q14" link sits inside a sentence. Its target is 44 px tall (W-079): 13 px of padding each side of the 18.9 px line,
+   and the same 13 px taken back as a negative margin, so the sentence does not move. The focus ring is pulled in to hug the
+   words, as before. */
+.rx-notice .rx-link { min-height: 0; padding-block: 13px; margin-block: -13px; font-size: 13.5px; }
+.rx-notice .rx-link:focus-visible { outline-offset: -10px; }
 
 .rx-next {
   display: grid; gap: 12px; min-width: 0; padding: 20px; border-radius: 18px;

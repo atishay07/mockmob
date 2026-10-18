@@ -449,9 +449,9 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg:not([data-lens
   .app-shell .pr .pr-bar__text[data-blocked] .pr-bar__min { display: none; }
   .app-shell .pr .pr-bar__go { min-width: 96px; min-height: 48px; padding: 0 14px; border-radius: 14px; justify-content: center; gap: 7px; white-space: nowrap; }
   .app-shell .pr .pr-bar .pr-dock__rule { grid-column: 1 / -1; }
-  /* Fine-tune, one line right above Start: what is set, and Edit (owner F8). 36 px tall, the whole line is the target. */
+  /* Fine-tune, one line right above Start: what is set, and Edit (owner F8). 44 px tall (W-079), the whole line is the target. */
   .app-shell .pr .pr-bar__fine {
-    grid-column: 1 / -1; display: flex; align-items: center; gap: 8px; min-width: 0; min-height: 36px; margin: 0 -3px 0 -6px; padding: 0 6px;
+    grid-column: 1 / -1; display: flex; align-items: center; gap: 8px; min-width: 0; min-height: 44px; margin: 0 -3px 0 -6px; padding: 0 6px;
     border: 0; border-bottom: 1px solid var(--a-line); border-radius: 0; background: none; color: var(--a-ink-2);
     font: 500 13px/1.25 var(--font-body); text-align: left; cursor: pointer; -webkit-tap-highlight-color: transparent;
   }
