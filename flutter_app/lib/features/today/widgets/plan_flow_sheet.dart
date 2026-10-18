@@ -23,19 +23,49 @@ import 'today_type.dart';
 import 'road_section.dart' show RoadActions;
 
 /// Opens Change plan; returns the receipt line once something was saved and the sheet closed.
-Future<String?> showPlanFlow(BuildContext context, {required RoadLayers layers, required RoadModel road, RoadActions? actions, int initialStep = 0}) =>
-    showMmSheet<String>(
-      context: context,
-      title: GlanceCopy.planTitle,
-      builder: (context) => PlanFlowBody(layers: layers, road: road, actions: actions, initialStep: initialStep),
-    );
+///
+/// The live outcome and the keys (Back, Next, Done) sit in the sheet's pinned footer (v15 walk, M8): on the last
+/// question they used to wait below the fold with no cue, and Done only showed after dragging the sheet.
+Future<String?> showPlanFlow(BuildContext context, {required RoadLayers layers, required RoadModel road, RoadActions? actions, int initialStep = 0}) {
+  final slot = PlanFooterSlot();
+  return showMmSheet<String>(
+    context: context,
+    title: GlanceCopy.planTitle,
+    builder: (context) => PlanFlowBody(layers: layers, road: road, actions: actions, initialStep: initialStep, footerSlot: slot),
+    footer: (context) => PlanFooterHost(slot: slot),
+  );
+}
+
+/// What the sheet's pinned footer shows: the body publishes how to draw it, and asks it to draw again after each of its
+/// own builds, so the preview and the keys follow every answer without the footer owning any of the state.
+class PlanFooterSlot extends ChangeNotifier {
+  WidgetBuilder? _builder;
+
+  /// How the footer is drawn now. Set before the first frame, so it never opens empty.
+  void attach(WidgetBuilder builder) => _builder = builder;
+
+  /// The body changed: draw the footer again.
+  void refresh() => notifyListeners();
+
+  Widget build(BuildContext context) => _builder?.call(context) ?? const SizedBox.shrink();
+}
+
+/// The pinned footer of the Change plan sheet.
+class PlanFooterHost extends StatelessWidget {
+  const PlanFooterHost({super.key, required this.slot});
+
+  final PlanFooterSlot slot;
+
+  @override
+  Widget build(BuildContext context) => ListenableBuilder(listenable: slot, builder: (context, _) => slot.build(context));
+}
 
 enum _Save { idle, saving, saved, failed }
 
 enum _Pace { fortnight, week, month, own }
 
 class PlanFlowBody extends StatefulWidget {
-  const PlanFlowBody({super.key, required this.layers, required this.road, this.actions, this.initialStep = 0, this.onClose});
+  const PlanFlowBody({super.key, required this.layers, required this.road, this.actions, this.initialStep = 0, this.onClose, this.footerSlot});
 
   final RoadLayers layers;
   final RoadModel road;
@@ -44,6 +74,13 @@ class PlanFlowBody extends StatefulWidget {
 
   /// Closes the sheet with the receipt (default: pops it).
   final ValueChanged<String?>? onClose;
+
+  /// Where the live outcome and the keys are drawn when the sheet pins them under the scrolling question
+  /// ([showPlanFlow]). Null: they follow the question inside the body.
+  final PlanFooterSlot? footerSlot;
+
+  /// The outcome and the keys stand in the sheet's pinned footer, not in the body.
+  bool get pinned => footerSlot != null;
 
   @override
   State<PlanFlowBody> createState() => _PlanFlowBodyState();
@@ -85,6 +122,13 @@ class _PlanFlowBodyState extends State<PlanFlowBody> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    // The pinned footer draws what this body draws for it, from the first frame.
+    widget.footerSlot?.attach(_footer);
+  }
+
+  @override
   void dispose() {
     _lead?.cancel();
     _daysDebounce?.cancel();
@@ -92,7 +136,8 @@ class _PlanFlowBodyState extends State<PlanFlowBody> {
   }
 
   void _go(int step) {
-    if (step == _step || step < 0 || step > 2) return;
+    // The keys also live in the sheet's footer, which stays on screen while the sheet leaves: a tap then does nothing.
+    if (!mounted || step == _step || step < 0 || step > 2) return;
     _lead?.cancel();
     setState(() {
       _direction = step > _step ? 1 : -1;
@@ -177,6 +222,7 @@ class _PlanFlowBodyState extends State<PlanFlowBody> {
   }
 
   void _close() {
+    if (!mounted) return;
     final receipt = _savedAny ? GlanceCopy.planSaved(DateTime.now(), _weeks, _days.length, _target) : null;
     final close = widget.onClose;
     if (close != null) {
@@ -190,6 +236,13 @@ class _PlanFlowBodyState extends State<PlanFlowBody> {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
+    // Every build of the body (an answer, a step, a save) draws the pinned footer again after the frame.
+    final slot = widget.footerSlot;
+    if (slot != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) slot.refresh();
+      });
+    }
     final question = switch (_step) {
       0 => GlanceCopy.askDate,
       1 => GlanceCopy.askDays,
@@ -201,7 +254,9 @@ class _PlanFlowBodyState extends State<PlanFlowBody> {
       _ => _mocksStep(context),
     };
     return Padding(
-      padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s4, MmSpace.gutter, MmSpace.s16),
+      // In the sheet the frame already pads the body (20 dp, like the title and the footer), so the answers line up with
+      // them and the seven day bubbles fit a 360 dp phone; standing alone the body keeps its own gutter.
+      padding: EdgeInsets.fromLTRB(widget.pinned ? 0 : MmSpace.gutter, MmSpace.s4, widget.pinned ? 0 : MmSpace.gutter, MmSpace.s16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
@@ -239,34 +294,51 @@ class _PlanFlowBodyState extends State<PlanFlowBody> {
           ),
           const SizedBox(height: MmSpace.s8),
           _SaveLine(state: _saves[_step] ?? _Save.idle, step: _step, onRetry: _retry),
-          const SizedBox(height: MmSpace.s12),
-          Divider(height: 1, thickness: 1, color: colors.line),
-          const SizedBox(height: MmSpace.s16),
-          _Preview(
-            weeks: _weeks,
-            days: _daysToExam,
-            own: _own,
-            studyDays: sessionsUntil(_today, _exam, daysPerWeek: _days.length),
-            perWeek: _days.length,
-            left: (_target - _taken).clamp(0, 999),
-            pace: GlanceCopy.paceWords(_target - _taken <= 0 || _daysToExam <= 0 ? null : (_daysToExam / (_target - _taken)).floor().clamp(1, 999)),
-          ),
-          const SizedBox(height: MmSpace.s20),
-          Row(
-            children: [
-              if (_step > 0)
-                KeyButton.quiet(label: GlanceCopy.back, onPressed: () => _go(_step - 1))
-              else
-                const SizedBox.shrink(),
-              const Spacer(),
-              if (_step < 2)
-                _NextKey(onTap: () => _go(_step + 1))
-              else
-                SizedBox(width: 140, child: KeyButton(label: GlanceCopy.done, onPressed: _close, expanded: true)),
-            ],
-          ),
+          // The live outcome and the keys (Back, Next, Done) close the sheet. Under [PlanFlowBody.pinned] they live in the
+          // sheet's pinned footer, so Done and the preview never wait below the fold (v15 walk, M8); standing alone
+          // (tests, a page) they follow the question as before.
+          if (!widget.pinned) ...[
+            const SizedBox(height: MmSpace.s12),
+            Divider(height: 1, thickness: 1, color: colors.line),
+            const SizedBox(height: MmSpace.s16),
+            _footer(context),
+          ],
         ],
       ),
+    );
+  }
+
+  /// The outcome, live, and the keys: weeks to the date, study days at the pace, mocks to go, then Back, Next or Done.
+  /// One builder for both places it can stand (the sheet's pinned footer, or the end of the body).
+  Widget _footer(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _Preview(
+          weeks: _weeks,
+          days: _daysToExam,
+          own: _own,
+          studyDays: sessionsUntil(_today, _exam, daysPerWeek: _days.length),
+          perWeek: _days.length,
+          left: (_target - _taken).clamp(0, 999),
+          pace: GlanceCopy.paceWords(_target - _taken <= 0 || _daysToExam <= 0 ? null : (_daysToExam / (_target - _taken)).floor().clamp(1, 999)),
+        ),
+        const SizedBox(height: MmSpace.s16),
+        Row(
+          children: [
+            if (_step > 0)
+              KeyButton.quiet(label: GlanceCopy.back, onPressed: () => _go(_step - 1))
+            else
+              const SizedBox.shrink(),
+            const Spacer(),
+            if (_step < 2)
+              _NextKey(onTap: () => _go(_step + 1))
+            else
+              SizedBox(width: 140, child: KeyButton(label: GlanceCopy.done, onPressed: _close, expanded: true)),
+          ],
+        ),
+      ],
     );
   }
 
@@ -357,10 +429,14 @@ class _PlanFlowBodyState extends State<PlanFlowBody> {
       mainAxisSize: MainAxisSize.min,
       children: [
         // The week as seven answer bubbles: a chosen day is filled in, like a mark on the sheet.
+        // Seven equal columns, so the week fits whatever the sheet's width is (seven 46 dp touch targets overflowed a 320 dp
+        // body by 4 dp on a 360 dp phone); each bubble stays 44 dp, centred in its column.
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            for (var d = 0; d < 7; d++) _DayBubble(label: TodayCopy.weekdayShort[d], on: _days.contains(d), onTap: () => _toggleDay(d)),
+            for (var d = 0; d < 7; d++)
+              Expanded(
+                child: Center(child: _DayBubble(label: TodayCopy.weekdayShort[d], on: _days.contains(d), onTap: () => _toggleDay(d))),
+              ),
           ],
         ),
         const SizedBox(height: MmSpace.s12),
