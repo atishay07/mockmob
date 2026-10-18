@@ -76,9 +76,10 @@ function Stop({ id, index, selected, onSelect, label, figure, of, unit, stretch,
 /**
  * Reads: `road`, `goal`, `rhythm`, `facts`, `revise`, `papers` ({ status, data }). `lead`: the move on the card (it names
  * today's session, live with a swap). `hold`: the move is still on its way; the road keeps its place and lands with the
- * page (W-042).
+ * page (W-042). `planAsk`: a count the page raises when the first week's day 7 key asks for Change plan (it opens once
+ * per ask, once the road has loaded); `onPlanSaved`: Change plan was finished here.
  */
-export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, lead = null, onGoalSaved, hold = false }) {
+export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, lead = null, onGoalSaved, hold = false, planAsk = 0, onPlanSaved }) {
   const tz = rhythm.data?.timeZone || 'Asia/Kolkata';
   const today = useMemo(() => todayKeyIn(tz), [tz]);
   const onAccount = road.status === 'ready' && road.data?.onAccount === true;
@@ -102,6 +103,8 @@ export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, l
   const [swapKey, setSwapKey] = useState(0);
   const select = (i) => { setSel(i); setSwapKey((k) => k + 1); };
   const [flow, setFlow] = useState(null); // the step Change plan opens on, or null
+  const [asked, setAsked] = useState(planAsk);
+  if (planAsk !== asked) { setAsked(planAsk); if (!hold && layers) setFlow(1); }
   const [receipt, setReceipt] = useState('');
 
   const saveRoad = useCallback(async (body) => {
@@ -276,7 +279,7 @@ export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, l
         today={today} plan={plan} weekdays={goalData?.weekdays || null} daysPerWeek={goalNow} taken={taken} onAccount={onAccount}
         columns={columns} thisWeekDone={rhythm.data?.studyDays ?? null}
         saveRoad={saveRoad} saveDays={saveDays}
-        onDone={(s) => setReceipt(`Plan saved at ${clock(Date.now())}: ${s.weeks} ${s.weeks === 1 ? 'week' : 'weeks'}, ${s.days} ${s.days === 1 ? 'day' : 'days'} a week, ${s.target} full ${s.target === 1 ? 'mock' : 'mocks'}.`)}
+        onDone={(s) => { onPlanSaved?.(); setReceipt(`Plan saved at ${clock(Date.now())}: ${s.weeks} ${s.weeks === 1 ? 'week' : 'weeks'}, ${s.days} ${s.days === 1 ? 'day' : 'days'} a week, ${s.target} full ${s.target === 1 ? 'mock' : 'mocks'}.`); }}
       />
     </section>
   );

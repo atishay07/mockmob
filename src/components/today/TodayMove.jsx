@@ -11,11 +11,12 @@
 // The key is the viewport's one volt (data-page-primary steps the shell's Start key back to an outline).
 import { useContext, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
-import { ChevronsUpDown, RotateCcw, Check } from 'lucide-react';
+import { ChevronsUpDown, RotateCcw, Check, Flag } from 'lucide-react';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import MobiReact from '@/components/brand/MobiReact';
 import { useCountUpState } from '@/lib/motion/useCountUp';
 import { keepTogether } from '@/lib/today/move.mjs';
+import { railLine } from '@/lib/today/firstWeek.mjs';
 import TodaySheet from './TodaySheet';
 import { AuthContext } from '@/components/AuthProvider';
 import { useWalletSummary } from '@/components/useWalletSummary';
@@ -55,7 +56,7 @@ function Art({ move, failed }) {
   // The subject's object is alive here (the brand's ObjectLife: a slow breath and a lean toward the pointer), the page's
   // one living object; reduced motion keeps the still picture.
   if (move.subject) return <span className="tm__art" key={move.subject} aria-hidden="true"><SubjectObject id={move.subject} size={112} lit life framed={false} /></span>;
-  return <span className="tm__glyph" aria-hidden="true">{move.id === 'done' ? <Check size={36} strokeWidth={1.5} /> : <RotateCcw size={34} strokeWidth={1.5} />}</span>;
+  return <span className="tm__glyph" aria-hidden="true">{move.id === 'done' ? <Check size={36} strokeWidth={1.5} /> : move.id === 'plan' ? <Flag size={34} strokeWidth={1.5} /> : <RotateCcw size={34} strokeWidth={1.5} />}</span>;
 }
 
 function SomethingElse({ open, onClose, items }) {
@@ -82,7 +83,7 @@ const say = (s, current) => (s === 'saving' ? 'Saving…' : s === 'saved' ? 'Sav
  * `choices`: the two other moves (pickChoices). `picked`: the lead is the student's pick. `out`: the swap is fading out.
  * `lengths`: [{ n, line }] when a length changes the move, else null. `chosen`: the chosen length.
  */
-export default function TodayMove({ phase, lead, choices = [], picked = false, out = false, onPick, lengths = null, chosen = null, onChoose, saving = '', alternatives = [], word = 'Tonight’s move', slow = false, triedAt = '', onRetry, askContext = null }) {
+export default function TodayMove({ phase, lead, choices = [], picked = false, out = false, onPick, lengths = null, chosen = null, onChoose, saving = '', alternatives = [], word = 'Tonight’s move', slow = false, triedAt = '', onRetry, askContext = null, path = null, onPlan }) {
   const online = useSyncExternalStore(subscribeOnline, onlineNow, () => true);
   const [sheet, setSheet] = useState(false);
   const [lenOpen, setLenOpen] = useState(false);
@@ -118,17 +119,31 @@ export default function TodayMove({ phase, lead, choices = [], picked = false, o
   const minutes = m.key?.minutes || null;
   const current = chosen || minutes || 10;
   const subject = m.subjectName || '';
-  const over = m.id === 'done' ? 'Today' : picked ? 'Up next, your pick' : m.firstWeek && m.firstWeek > 1 ? `Day ${m.firstWeek} of your first week` : 'Up next';
-  const heading = `${over}${subject ? `, ${subject}` : ''}: ${m.title}${m.number != null ? `, ${m.number} ${m.label}` : ''}`;
+  // The first week (release 8): the overline says the day, and the rail under it draws the path's seven steps, each ticked when done. With the
+  // day in the overline the subject object and the title already say the subject, so the overline stays one line.
+  const week = path?.day && m.id !== 'done' && !picked;
+  const over = m.id === 'done' ? 'Today' : picked ? 'Up next, your pick' : path?.day ? `Day ${path.day} of your first week` : 'Up next';
+  const isPlan = m.key?.action === 'plan';
+  const heading = `${over}${subject && !week ? `, ${subject}` : ''}: ${m.title}${m.number != null ? `, ${m.number} ${m.label}` : ''}`;
   const price = m.aiEach && m.open > 0 ? <RepairPrice each={m.aiEach} /> : m.priceLine ? <p className="tm__price">{m.priceLine}</p> : m.free ? <p className="tm__price">Free. No credits.</p> : null;
 
   return (
     <section className="tm" data-move={m.id} aria-labelledby="tm-title">
       <h2 id="tm-title" className="sr-only">{heading}</h2>
+      {path?.day ? <p className="sr-only">{railLine(path)}</p> : null}
       <div className="tm__body" data-out={out || undefined} aria-live="polite">
         <div className="tm__top" aria-hidden="true">
           <div className="tm__head">
-            <p className="tm__over">{picked ? <>Up next, <b>your pick</b></> : over}{subject ? `, ${subject}` : ''}</p>
+            <p className="tm__over">{picked ? <>Up next, <b>your pick</b></> : over}{subject && !week ? `, ${subject}` : ''}</p>
+            {path?.day ? (
+              <ol className="tm__rail">
+                {path.steps.map((s, i) => (
+                  <li key={s.id} className="tm__step" data-state={s.state} style={{ '--i': i }}>
+                    {s.state === 'done' ? <svg viewBox="0 0 24 24" focusable="false"><path d="M6.5 12.5l3.6 3.6 7.4-8.2" pathLength="1" /></svg> : null}
+                  </li>
+                ))}
+              </ol>
+            ) : null}
             <p className="tm__title">{m.title}</p>
           </div>
           <Art move={m} />
@@ -164,8 +179,10 @@ export default function TodayMove({ phase, lead, choices = [], picked = false, o
             and the plan's record facts answered free. It follows the lead, so a swapped card asks about the swapped move. It takes
             the place of a link to the record page, so the card never carries two ways to ask why. */}
         <p className="tm__why">{keepTogether(m.why)}{m.link && !(askContext && m.link.href.startsWith('/mentor')) ? <> <Link className="tm__inline" href={m.link.href}>{m.link.label}</Link></> : null}{askContext ? <> <AskMobiLink context={askContext} variant="inline" className="tm__inline">{ENTRY_LABELS.today}</AskMobiLink></> : null}</p>
-        {offline ? <p className="tm__note" role="status">Needs a connection to start.</p> : null}
-        {offline ? (
+        {offline && !isPlan ? <p className="tm__note" role="status">Needs a connection to start.</p> : null}
+        {isPlan ? (
+          <button type="button" className="tm__key" data-page-primary aria-haspopup="dialog" onClick={onPlan}>{m.key.label}</button>
+        ) : offline ? (
           <span className="tm__key" aria-disabled="true" role="link">{m.key.label}{minutes ? <span className="tm__key-len">{minutes} min</span> : null}</span>
         ) : (
           <Link className="tm__key" data-page-primary href={m.key.href}>{m.key.label}{minutes ? <span className="tm__key-len">{minutes} min</span> : null}</Link>

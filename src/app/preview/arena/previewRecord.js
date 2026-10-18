@@ -40,6 +40,9 @@ function attempt(id, daysAgo, spec, subject = 'accountancy') {
   return { id, userId: 'preview-user', subject, ...result, questionsSnapshot: questions, selectionMeta: { recovery: result.recovery }, completedAt: Date.now() - daysAgo * DAY };
 }
 
+// The paper builder, for the other preview records (previewFirstWeek.js builds its own papers with the same real scorer).
+export { attempt as previewAttempt };
+
 const R = 0; const W = 1;
 const ATTEMPTS = [
   attempt('p1', 1, [

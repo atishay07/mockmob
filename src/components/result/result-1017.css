@@ -239,6 +239,10 @@
 .rl-page .rh { align-items: start; }
 .rl-page .rh .rp-hero__main { gap: 8px; }
 .rh-verdict { margin: 4px 0 0; font: 650 18px/1.4 var(--font-display, inherit); color: var(--a-ink, #f2f4ec); text-wrap: pretty; max-width: 40ch; }
+/* The after-the-mock receipt (release 8): one quiet line in the summary, ink 2 with the counted clause in ink. It is in the first paint
+   (the page waits a moment for the repair record), so it never pushes the card down. */
+.rh-receipt { margin: 0; font-size: 14px; line-height: 1.5; color: var(--a-ink-2, #bcc5b9); max-width: 60ch; text-wrap: pretty; }
+.rh-receipt b { color: var(--a-ink, #f2f4ec); font-weight: 600; font-variant-numeric: tabular-nums; }
 .rh-next { grid-column: 1 / -1; padding-top: 18px; border-top: 1px solid var(--a-line, #253026); min-width: 0; }
 .rx .rx-next[data-flat] { padding: 0; margin: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
 .rx .rx-next[data-flat] .rx-next__key { width: auto; justify-self: start; min-width: 220px; }

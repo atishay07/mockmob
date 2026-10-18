@@ -34,9 +34,10 @@ function CountUp({ value, run }) {
  * still     Mobi holds still once the student is reading or repairing
  * notice    { text, number } a key under re-check or a correction, or null
  * strip     the answer map (rendered by the page; it owns the jumps)
+ * repairReceipt  { lead, strong } what the repairs made before this paper did on it (data/repair_receipt.mjs), or null
  * next      the next-move panel (rendered by the page)
  */
-export default function ResultHero({ receipt, marks, finding, reaction = null, holdStill = false, notice = null, onNotice, arrive = false, strip = null, next = null, unit = 'marks' }) {
+export default function ResultHero({ receipt, marks, finding, reaction = null, holdStill = false, notice = null, onNotice, arrive = false, strip = null, next = null, unit = 'marks', repairReceipt = null }) {
   const answered = marks.right + marks.wrong;
   const accuracy = answered ? Math.round((marks.right / answered) * 100) : null;
   const tone = marks.scored < 0 ? 'bad' : marks.max && marks.scored / marks.max >= 0.4 ? 'good' : 'mid';
@@ -55,6 +56,7 @@ export default function ResultHero({ receipt, marks, finding, reaction = null, h
         </h1>
         <p className="rh-verdict">{verdict}</p>
         {finding?.detail && marks.gap ? <p className="rp-hero__line">{finding.detail}{reaction?.line ? ` ${reaction.line}` : ''}</p> : reaction?.line ? <p className="rp-hero__line">{reaction.line}</p> : null}
+        {repairReceipt ? <p className="rh-receipt">{repairReceipt.lead} <b>{repairReceipt.strong}</b></p> : null}
         {notice ? (
           <p className="rx-notice" role="status">
             <AlertTriangle size={15} strokeWidth={2.2} aria-hidden="true" />
