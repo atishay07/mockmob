@@ -212,8 +212,10 @@ function planLead(c) {
   const fig = roadFigures({ today, plan: c.road || {}, goal: Number(c.daysPerWeek) > 0 ? Number(c.daysPerWeek) : null, taken: whole(c.mocks) ? c.mocks : null });
   const count = fig.phase === 'window' ? null : fig.phase === 'days' ? fig.days : fig.weeks;
   const unit = fig.phase === 'days' ? (fig.days === 1 ? 'day' : 'days') : (fig.weeks === 1 ? 'week' : 'weeks');
+  // Release 10: the hero is the three taps the body promises ("3 taps to plan your 27 weeks"), so the card never repeats Road to CUET's
+  // own "27 weeks" hero beside it; Mobi points the way instead of a flat flag tile (taste #2, #8).
   return leadOf({
-    id: 'plan', overline: 'Up next', title: 'Plan your weeks to CUET', number: count, label: count == null ? '' : `${unit} to ${fig.own ? 'your date' : 'CUET UG'}`,
+    id: 'plan', overline: 'Up next', title: 'Plan your weeks to CUET', number: 3, label: count == null ? 'taps to plan your weeks' : `taps to plan your ${count} ${unit}`,
     why: 'Pick your exam date, the days you can study and how many full mocks to take. It takes three taps, and you can change it any day.',
     // The key opens Change plan on this page (the lead card draws a button for `action: 'plan'`); the href is only where a plain link would land.
     key: { label: 'Plan my weeks', href: '#road', action: 'plan', minutes: null },
