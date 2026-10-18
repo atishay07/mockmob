@@ -188,7 +188,7 @@ test('the cost shows before each call and the balance updates after it (W-060)',
   const panel = read('src/components/ai/AskMobiPanel.jsx');
   assert.match(panel, /ask\.price === 'free' \? 'Free' : creditCount\(1\)/, 'every ask row names its price');
   assert.match(panel, /usesLine\(\{ what: 'This reply', cost: 1, pool: 'ai' \}\)/, 'the composer names the price of what is typed, in the one credit wording');
-  assert.match(panel, /<Link href="\/pricing\/ai-credits" className="amb-cost__wallet"/, 'the balance links to the AI credits page');
+  assert.match(panel, /<Link href="\/wallet" className="amb-cost__wallet"/, 'the balance links to the wallet (D76)');
   assert.match(panel, /announceWallet\(userId, next\)/, 'the top bar takes the same number');
   assert.match(panel, /finally \{[^}]*readWallet\(\);/s, 'the balance is read again after every written reply, success or failure');
   const route = '/api/ai/mentor/chat';
@@ -225,12 +225,12 @@ test('/mentor is "Your record" with no tabs, the old four-tab hub is gone, and t
   assert.match(page, /<MentorRecordPage \/>/);
   const view = read('src/components/ai/MentorRecordPage.jsx');
   assert.match(view, /if \(tab === 'plan'\) \{ router\.replace\('\/today'\)/, 'the next step lives on Today');
-  assert.match(view, /if \(tab === 'tools'\) \{ router\.replace\('\/pricing\/ai-credits'\)/, 'the wallet and its rules live on the AI credits page');
+  assert.match(view, /if \(tab === 'tools'\) \{ router\.replace\('\/wallet'\)/, 'the old tools tab lands on the wallet (D76)');
   assert.match(view, /title="Your record"/);
   assert.match(view, /<AskMobiLink context=\{\{ kind: 'page' \}\}/, 'Mobi is one row away, and opens beside the record');
   assert.doesNotMatch(view, /role="tablist"|aria-pressed|SECTIONS/, 'no tabs');
   for (const gone of ['src/components/ai/MockMobAIHub.jsx', 'src/components/ai/AIMentorTerminal.jsx']) assert.equal(existsSync(new URL(`../../${gone}`, import.meta.url)), false, gone);
-  assert.match(read('src/app/(app)/AppLayoutClient.jsx'), /<Link href="\/pricing\/ai-credits" className="arena-chip arena-chip--prepos"/, 'the top bar balance opens the AI credits page');
+  assert.match(read('src/app/(app)/AppLayoutClient.jsx'), /<Link href=\{previewLinks\?\.wallet \|\| '\/wallet'\} className="arena-chip arena-chip--prepos"/, 'the top bar balance opens the wallet (D76)');
 });
 
 test('touch targets in the panel are 44 px: close, chips and their x, the ask rows, the send key; the handle cannot start a text selection', () => {

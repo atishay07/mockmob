@@ -33,4 +33,14 @@ export async function POST(request) {
     // The same order step the wallet's own route uses (src/lib/server/walletCheckout.js).
     const { order } = await createPackOrder({ userId: session.user.id, pack, deps: walletDeps() });
 
-
+    return NextResponse.json({
+      ok: true,
+      keyId: getRazorpayKeyId(),
+      order,
+      pack,
+    });
+  } catch (error) {
+    console.error('[ai-credits/order] failed:', error);
+    return NextResponse.json({ error: 'Failed to create the credit order' }, { status: 500 });
+  }
+}
