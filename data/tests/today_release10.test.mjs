@@ -161,3 +161,15 @@ test('More ways to practise: rows look pressable (picture, chevron, press) and t
   assert.match(sheet, /\.tsh__row \{[^}]*grid-template-columns: 36px minmax\(0, 1fr\) 16px;[^}]*min-height: 64px;/);
   assert.match(sheet, /\.tsh__row:active \{ background: var\(--a-hover\);/);
 });
+
+import { buildMove } from '../../src/lib/today/move.mjs';
+import { leadOf, stakeOf } from '../../src/lib/today/lead.mjs';
+
+test('copy (#9, D84): the hero never repeats the title, and the stake reads as plain English', () => {
+  const day1 = leadOf(buildMove({ facts: { sessions: 0 }, papers: [], firstSubject: 'accountancy', now: Date.parse('2026-10-18T14:00:00Z') }));
+  assert.equal(day1.title, 'Find your starting point');
+  assert.equal(day1.label, 'questions, marked the CUET way');
+  assert.match(day1.why, /\+5 and −1/, 'the body keeps the marking');
+  assert.deepEqual(stakeOf({ id: 'revise', number: 5 }), { value: 30, word: 'marks lost to them the first time' });
+  for (const p of ['src/lib/today/move.mjs', 'src/lib/today/lead.mjs']) assert.doesNotMatch(read(p), /come back today'|comes back today'|cost you then/);
+});

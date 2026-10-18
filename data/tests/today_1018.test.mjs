@@ -34,7 +34,7 @@ test('lead: a repair move carries its title, kind and stake (6 marks a mistake, 
 });
 
 test('lead: Revise counts 6 a mistake "then"; a chapter counts its open marks over its papers; others have none', () => {
-  assert.deepEqual(stakeOf({ id: 'revise', number: 6 }), { value: 36, word: 'marks they cost you then' });
+  assert.deepEqual(stakeOf({ id: 'revise', number: 6 }), { value: 36, word: 'marks lost to them the first time' });
   assert.deepEqual(stakeOf({ id: 'weakest', number: 15, chapterOpen: 45, chapterSessions: 4 }), { value: 45, word: 'marks open there, over 4 papers' });
   assert.equal(stakeOf({ id: 'dayOne', number: 10 }), null);
   assert.equal(stakeOf({ id: 'mock', number: 50 }), null);

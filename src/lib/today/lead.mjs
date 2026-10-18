@@ -51,7 +51,7 @@ export function leadTitle(move, now = Date.now()) {
 export function stakeOf(move) {
   if (!move || !(move.number > 0)) return null;
   if (kindOf(move) === 'repair') return { value: move.number * MARKS_PER_MISTAKE, word: 'marks they cost you' };
-  if (move.id === 'revise') return { value: move.number * MARKS_PER_MISTAKE, word: 'marks they cost you then' };
+  if (move.id === 'revise') return { value: move.number * MARKS_PER_MISTAKE, word: 'marks lost to them the first time' };
   if (move.chapterOpen > 0) return { value: move.chapterOpen, word: `marks open there, over ${plural(move.chapterSessions || 1, 'paper')}` };
   return null;
 }
@@ -111,7 +111,7 @@ export function choiceMoves({ papers = null, revise = null, facts = null, repair
   if (due > 0) {
     const total = whole(revise?.dueTotal) && revise.dueTotal > due ? revise.dueTotal : due;
     const m = leadOf({
-      id: 'revise', overline: 'Up next', number: due, label: due === 1 ? 'mistake comes back today' : 'mistakes come back today',
+      id: 'revise', overline: 'Up next', number: due, label: due === 1 ? 'mistake due back today' : 'mistakes due back today',
       why: total > due
         ? `${total} of your wrong answers are due. Revise brings back ${due} a day, oldest first, so none is lost.`
         : `Revise brings back what you got wrong after 1, 3, 7 and 21 days. ${due === 1 ? 'This one is' : `These ${word(due)} are`} due today, so the fix holds.`,

@@ -98,7 +98,7 @@ export function buildMove({ plan = null, planFailed = false, papers = null, rhyt
   if (sessions === 0) {
     const name = firstSubject ? subjectName(firstSubject) : '';
     return {
-      id: 'dayOne', overline: 'Your first move', number: 10, label: 'questions to your starting point',
+      id: 'dayOne', overline: 'Your first move', number: 10, label: 'questions, marked the CUET way',
       why: `Ten CUET-style ${name ? `${name} ` : ''}questions, marked +5 and −1. The result shows where your marks go, chapter by chapter.`,
       key: { label: 'Start now', href: `/dashboard?${firstSubject ? `subject=${encodeURIComponent(firstSubject)}&` : ''}mode=quick&count=10`, minutes: 10 },
       pills: pills('mock'), art: 'mobi', mobiAct: 'hello', subject: firstSubject, firstWeek: 1,
@@ -160,7 +160,7 @@ export function buildMove({ plan = null, planFailed = false, papers = null, rhyt
   const due = whole(revise?.due) ? revise.due : 0;
   if (!tonightDone && due > 0) {
     return {
-      id: 'revise', overline: weekLine || moveWord, number: due, label: due === 1 ? 'mistake comes back today' : 'mistakes come back today',
+      id: 'revise', overline: weekLine || moveWord, number: due, label: due === 1 ? 'mistake due back today' : 'mistakes due back today',
       why: `Revise brings back what you got wrong after 1, 3, 7 and 21 days. ${due === 1 ? 'This one is' : `These ${word(due)} are`} due today, so the fix holds.`,
       key: { label: 'Start Revise', href: '/review/revise', minutes: Math.max(5, Math.ceil(due / 5) * 5) },
       pills: pills(), art: 'object', subject: last?.subject || null, firstWeek, due,
@@ -267,7 +267,7 @@ export function fitMove(move, chosen) {
   }
   if (move.id === 'revise' && move.due > 0) {
     const n = Math.min(move.due, chosen);
-    return { ...move, number: n, label: n === 1 ? 'mistake comes back today' : 'mistakes come back today', key: { ...move.key, minutes: Math.max(5, Math.ceil(n / 5) * 5) } };
+    return { ...move, number: n, label: n === 1 ? 'mistake due back today' : 'mistakes due back today', key: { ...move.key, minutes: Math.max(5, Math.ceil(n / 5) * 5) } };
   }
   if (['practice', 'dayOne', 'weakest'].includes(move.id) || (move.id === 'returning' && !move.open)) {
     const count = chosen === 10 ? 10 : 20;
