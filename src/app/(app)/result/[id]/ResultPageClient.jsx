@@ -54,6 +54,7 @@ import AnalysisParts, { partFromUrl, writePart, scrollToPart } from '@/component
 import { QuestionStrip, replayCutLine } from '@/components/result/ReplaySlots';
 import { knownRecord } from '@/../data/replay';
 import { ReelEntry } from '@/components/result/PaperReel';
+import { questionFromSearch } from '@/components/result/questionParam.mjs';
 import '@/components/result/result-parts.css';
 import AskMobiLink from '@/components/ai/AskMobiLink';
 import { canAskAboutQuestion, mockContext, mockEntryLabel, mockLabel, questionContext, questionEntryLabel } from '@/components/ai/askContexts.mjs';
@@ -233,6 +234,18 @@ export default function ResultPageClient({ previewId = null }) {
       if (!keepFocus) el?.querySelector('.rp-q__bar')?.focus({ preventScroll: true });
     }));
   }, [analysis, runIds, engaged, orderedMistakes]);
+
+  // ?q=N (Today's weak chapters, Last paper and the reel's last key): once the paper is read, open that question the way a press on
+  // its row does: Your mistakes (or the part that owns it) opens, the row expands and comes into view with its Repair button. It is
+  // jumpTo without { repair: true }, so it never sets autoRepair: a repair can spend an AI credit and is only ever the student's own
+  // press. An unknown or out-of-range N does nothing. Once per paper, so a later re-render never scrolls the page again.
+  const fromUrl = useRef(null);
+  useEffect(() => {
+    if (!attempt || !analysis || fromUrl.current === attempt.id) return undefined;
+    const n = questionFromSearch(window.location.search, analysis.rows.length);
+    const t = window.setTimeout(() => { fromUrl.current = attempt.id; if (n) jumpTo(n); }, 0);
+    return () => window.clearTimeout(t);
+  }, [attempt, analysis, jumpTo]);
 
   const handled = useMemo(() => repairProgress(analysis?.mistakes || [], repairOutcomes).handled, [analysis, repairOutcomes]);
   const repaired = useMemo(() => new Set((analysis?.mistakes || []).filter(r => hasExplanation(repairOutcomes[r.q.id])).map(r => r.q.id)), [analysis, repairOutcomes]);

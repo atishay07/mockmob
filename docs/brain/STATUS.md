@@ -20,7 +20,7 @@
 
 | Suite | Result |
 |---|---|
-| recovery | 551 pass, 3 todo (known gaps), 0 fail |
+| recovery | 553 pass, 3 todo (known gaps), 0 fail |
 | app | 596 |
 | learning | 357 |
 | auth | 110 |
@@ -37,8 +37,9 @@
 - eslint is clean on every changed file. `npx next build --webpack` exits 0; `.next` deleted.
 - Headless Chrome (playwright-core, own dev server on :3117, preview fixtures only, stopped): "Why this?" hit-tested at 390 and 1440; its click opens the docked panel with the reason answered; docked at 1280, 1440 and 1920 with no horizontal overflow; the reel card at 390 and 1440 in both themes, the reel plays and closes and Up next returns, "Not now" returns Up next, `reel=stable` shows once and a reload brings Up next back; Weak chapters shows Check it held, See repair and Repair.
 
-**Known gaps found while merging (not changed here):**
-- The result page does not read `?q=`; Today's "Repair this leak", Weak chapters links and the reel's last key send `?q=N`, so they open the paper's result at the top. Wiring it must not auto-start a paid repair (`jumpTo(..., { repair: true })` sets `autoRepair`), so it was left for a decision.
+**Result page `?q=N` (coordinator decision, after the merge):** Today's "Repair this leak", the Weak chapters links and the reel's last key send `/result/{id}?q=N`. The result page now reads it once the paper is loaded and runs `jumpTo(N)`, the same path as a press on that question's bubble: Your mistakes (or the part that owns the row) opens, the row expands and scrolls into view with its Repair button, and focus lands on the row. It never passes `{ repair: true }`, so it never sets `autoRepair`: no paid repair can start from a URL (checked in the preview: no POST was made). A missing, non-numeric or out-of-range N does nothing. `src/components/result/questionParam.mjs`; `data/tests/result_question_param.test.mjs` (2 tests, in test:recovery) pins the parse and that the effect never reaches `setAutoRepair`. recovery is now 553 pass, 3 todo.
+
+**Known gaps found while merging:**
 - The working tree of this worktree has CRLF line endings (core.autocrlf), which breaks one regex in `release6_fixes_1018.test.mjs` (`practiseLine` match on `
 `); the index is LF and the test passes on an LF checkout.
 
