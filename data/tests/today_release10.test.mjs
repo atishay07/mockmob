@@ -190,3 +190,16 @@ test('This week: the strip explains its dashed ring, dot and dash in one quiet l
   assert.match(week, /\} catch \{ \/\* no storage/);
   assert.match(css('src/components/today/today.css'), /\.tw__legend \{[^}]*font-size: 12px;[^}]*color: var\(--a-ink-3\)/);
 });
+
+import { choiceMoves, shortSubject } from '../../src/lib/today/lead.mjs';
+
+test('Another subject: short display names, capped ("Economics and 2 more"), the full list kept for the spoken label', () => {
+  const names = { economics: 'Economics / Business Economics', business_studies: 'Business Studies', english: 'English' };
+  const pool = choiceMoves({ papers: [], subjects: ['accountancy', 'economics', 'business_studies', 'english'], firstSubject: 'accountancy', subjectName: (id) => names[id] || id, now: Date.parse('2026-10-18T14:00:00Z') });
+  const another = pool.find((m) => m.id === 'another');
+  assert.equal(another.choice.value, 'Economics and 2 more');
+  assert.equal(another.choice.full, 'Economics / Business Economics, Business Studies, English');
+  assert.equal(another.label, 'Economics questions');
+  assert.equal(shortSubject('Economics / Business Economics'), 'Economics');
+  assert.match(read('src/components/today/TodayMove.jsx'), /\$\{c\.choice\.full \|\| c\.choice\.value\}/);
+});

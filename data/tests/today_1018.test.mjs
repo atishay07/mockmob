@@ -58,7 +58,8 @@ test('choices: day one offers a full mock and another subject; a pick keeps the 
   const two = pickChoices(rec, pool);
   assert.deepEqual(two.map((m) => m.id), ['mock', 'another']);
   assert.deepEqual(two[0].choice, { title: 'Full mock instead', value: '50 questions, 60 min' });
-  assert.equal(two[1].choice.value, 'Business Studies, Economics, English');
+  assert.equal(two[1].choice.value, 'Business Studies and 2 more', 'release 10: short and capped');
+  assert.equal(two[1].choice.full, 'Business Studies, Economics, English');
   // The student picks the mock: the suggested move comes first in the pool and is offered, then the next kind.
   const picked = two[0];
   const again = pickChoices(picked, [{ ...rec, suggested: true }, ...pool]);

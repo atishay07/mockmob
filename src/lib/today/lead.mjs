@@ -16,6 +16,9 @@ const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 const word = (n) => ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'][n] ?? String(n);
 const pills = () => ({ length: true, second: 'else' });
 
+/** A subject's display name, short: "Economics / Business Economics" -> "Economics". */
+export const shortSubject = (name) => String(name || '').split(' / ')[0].trim();
+
 /** The kind of a move: two moves of one kind are never offered side by side. */
 export function kindOf(move) {
   if (!move) return null;
@@ -148,13 +151,16 @@ export function choiceMoves({ papers = null, revise = null, facts = null, repair
   const others = (Array.isArray(subjects) ? subjects : []).filter((s) => s && s !== anchor);
   if (others.length) {
     const names = others.slice(0, 3).map(subjectName);
+    // A catalogue name such as "Economics / Business Economics" is shortened to its first part for display (release 10, #9); the
+    // full list stays in the choice's spoken label.
+    const short = others.map((id) => shortSubject(subjectName(id)));
     const m = leadOf({
-      id: 'another', overline: 'Up next', number: 10, label: `${names[0]} questions`,
+      id: 'another', overline: 'Up next', number: 10, label: `${short[0]} questions`,
       why: `Practice works on every subject you study. ${names.length > 1 ? `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]} are` : `${names[0]} is`} open.`,
       key: { label: 'Start', href: `/dashboard?${new URLSearchParams({ subject: others[0], mode: 'quick', count: '10' })}`, minutes: 10 },
       pills: pills(), art: 'object', subject: others[0],
     }, { now });
-    m.choice = { title: 'Another subject', value: names.join(', ') };
+    m.choice = { title: 'Another subject', value: short.length > 1 ? `${short[0]} and ${short.length - 1} more` : short[0], full: others.map(subjectName).join(', ') };
     out.push(m);
   }
   return out;
