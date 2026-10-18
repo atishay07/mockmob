@@ -31,7 +31,7 @@ import { greetingAt } from '@/lib/today/greeting.mjs';
 import { freshPaper, reelSeen } from '@/lib/today/paperReel.mjs';
 import { todayKeyIn } from '@/lib/today/week.mjs';
 import { useToday } from '@/components/today/useToday';
-import TodayMove from '@/components/today/TodayMove';
+import TodayMove, { swapLearned } from '@/components/today/TodayMove';
 import TodayReel from '@/components/today/TodayReel';
 import TodayWeek from '@/components/today/TodayWeek';
 import TodayRoad from '@/components/today/TodayRoad';
@@ -206,6 +206,11 @@ export default function Today() {
   const storeKey = useMemo(() => pickKey(todayKeyIn(tz)), [tz]);
   const [pickId, setPickId] = useState(null);
   const [out, setOut] = useState(false);
+  // The swap moves with the tap (release 10, owner D90): the card's body leaves away from the tapped cell's side and the new lead
+  // comes in from it; the move that was on the card takes the tapped cell's place, so the student sees the two trade places.
+  const [swapDir, setSwapDir] = useState('r');
+  const [enter, setEnter] = useState(null);
+  const [traded, setTraded] = useState(null); // { id, slot }: the move that left the card, and the cell it should sit in
   useEffect(() => {
     const t = window.setTimeout(() => setPickId(readPick(storeKey)), 0);
     return () => window.clearTimeout(t);
@@ -218,15 +223,24 @@ export default function Today() {
   const askContext = useMemo(() => (lead && lead.id !== 'failed' ? todayContext({ move: lead, revise: reviseData }) : null), [lead, reviseData]);
   const choices = useMemo(() => {
     if (!lead || lead.id === 'failed') return [];
-    return pickChoices(lead, picked ? [{ ...rec, suggested: true }, ...pool] : pool);
-  }, [lead, picked, rec, pool]);
-  const onPick = useCallback((id) => {
+    const two = pickChoices(lead, picked ? [{ ...rec, suggested: true }, ...pool] : pool);
+    // The move that just left the card sits in the cell that was tapped.
+    const at = traded ? two.findIndex((c) => c.id === traded.id) : -1;
+    const marked = at >= 0 ? two.map((c, i) => (i === at ? { ...c, arrived: true } : c)) : two;
+    if (at >= 0 && marked.length === 2 && at !== traded.slot) return [marked[1], marked[0]];
+    return marked;
+  }, [lead, picked, rec, pool, traded]);
+  const onPick = useCallback((id, slot = 1) => {
     const next = rec && id === rec.id ? null : id;
-    const put = () => { setPickId(next); keepPick(storeKey, next); setOut(false); };
+    const from = lead?.id || null;
+    swapLearned();
+    const put = () => { setPickId(next); keepPick(storeKey, next); setOut(false); setTraded(from ? { id: from, slot } : null); };
     if (reducedMotion()) { put(); return; }
+    const dir = slot === 0 ? 'l' : 'r';
+    setSwapDir(dir);
     setOut(true);
-    window.setTimeout(put, 150);
-  }, [rec, storeKey]);
+    window.setTimeout(() => { put(); setEnter(dir); window.setTimeout(() => setEnter(null), 300); }, 140);
+  }, [rec, lead, storeKey]);
 
   // Failed only once every read the move needs has settled without one; while any is still on its way it is loading.
   const settled = [data.plan, data.papers, data.rhythm, data.facts].every((r) => r.status !== 'loading');
@@ -264,7 +278,7 @@ export default function Today() {
               <TodayReel paper={reelPaper} loadAttempt={data.loadAttempt} subjectName={subjectName} user={user} onDone={() => setReelOver(true)} />
             ) : (
               <TodayMove
-                phase={phase} lead={lead} choices={choices} picked={Boolean(picked)} out={out} onPick={onPick}
+                phase={phase} lead={lead} choices={choices} picked={Boolean(picked)} out={out} swapDir={swapDir} enter={enter} onPick={onPick}
                 lengths={lengthsFor(lead?.base || lead)} chosen={chosen} onChoose={choose} saving={saving}
                 alternatives={alts} word={word} slow={slow} triedAt={triedAt} onRetry={retry} askContext={askContext}
                 path={phase === 'ready' ? path : null} onPlan={() => setPlanAsk((n) => n + 1)}

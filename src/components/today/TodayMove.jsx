@@ -9,9 +9,9 @@
 //   pick is on the card the recommended move waits in the footer, marked Suggested;
 //   "More ways to practise" opens every other way in (the R3 Something else sheet).
 // The key is the viewport's one volt (data-page-primary steps the shell's Start key back to an outline).
-import { useContext, useState, useSyncExternalStore } from 'react';
+import { useContext, useEffect, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
-import { ChevronsUpDown, RotateCcw, Check, Flag } from 'lucide-react';
+import { ChevronsUpDown, RotateCcw, Check, Flag, Repeat2 } from 'lucide-react';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import MobiReact from '@/components/brand/MobiReact';
 import { useCountUpState } from '@/lib/motion/useCountUp';
@@ -76,6 +76,13 @@ function SomethingElse({ open, onClose, items }) {
   );
 }
 
+// The swap hint (release 10, owner D90: a first-time student "won't know what cards actually do"): until the student has swapped
+// once, at most 3 visits, the two choices nudge up twice 1.2 s after the card lands, their edges drawn, like a first-run card hint.
+export const SWAP_HINT_KEY = 'mm:today-swap-hint:v1';
+const hintVisits = () => { try { const v = window.localStorage.getItem(SWAP_HINT_KEY); return v === 'done' ? Infinity : Number(v) || 0; } catch { return Infinity; } };
+const countHint = (n) => { try { window.localStorage.setItem(SWAP_HINT_KEY, String(n)); } catch { /* this visit only */ } };
+export const swapLearned = () => { try { window.localStorage.setItem(SWAP_HINT_KEY, 'done'); } catch { /* it may nudge again */ } };
+
 const say = (s, current) => (s === 'saving' ? 'Saving…' : s === 'saved' ? 'Saved.' : s === 'local' ? 'Kept on this device for today.' : s === 'failed' ? `Not saved, so it stays at ${current} minutes.` : '');
 
 /**
@@ -83,10 +90,24 @@ const say = (s, current) => (s === 'saving' ? 'Saving…' : s === 'saved' ? 'Sav
  * `choices`: the two other moves (pickChoices). `picked`: the lead is the student's pick. `out`: the swap is fading out.
  * `lengths`: [{ n, line }] when a length changes the move, else null. `chosen`: the chosen length.
  */
-export default function TodayMove({ phase, lead, choices = [], picked = false, out = false, onPick, lengths = null, chosen = null, onChoose, saving = '', alternatives = [], word = 'Tonight’s move', slow = false, triedAt = '', onRetry, askContext = null, path = null, onPlan }) {
+export default function TodayMove({ phase, lead, choices = [], picked = false, out = false, swapDir = 'r', enter = null, onPick, lengths = null, chosen = null, onChoose, saving = '', alternatives = [], word = 'Tonight’s move', slow = false, triedAt = '', onRetry, askContext = null, path = null, onPlan }) {
   const online = useSyncExternalStore(subscribeOnline, onlineNow, () => true);
   const [sheet, setSheet] = useState(false);
   const [lenOpen, setLenOpen] = useState(false);
+  const [hint, setHint] = useState(false);
+  const hasChoices = phase === 'ready' && choices.length > 0;
+  useEffect(() => {
+    if (!hasChoices) return undefined;
+    const seen = hintVisits();
+    if (seen >= 3) return undefined;
+    let off = 0;
+    const t = window.setTimeout(() => {
+      countHint(seen + 1);
+      setHint(true);
+      off = window.setTimeout(() => setHint(false), 900);
+    }, 1200);
+    return () => { window.clearTimeout(t); window.clearTimeout(off); };
+  }, [hasChoices]);
 
   if (phase === 'loading') {
     return (
@@ -138,7 +159,7 @@ export default function TodayMove({ phase, lead, choices = [], picked = false, o
     <section className="tm" data-move={m.id} aria-labelledby="tm-title">
       <h2 id="tm-title" className="sr-only">{heading}</h2>
       {path?.day ? <p className="sr-only">{railLine(path)}{caption && !week ? ` ${caption}` : ''}</p> : null}
-      <div className="tm__body" data-out={out || undefined} aria-live="polite">
+      <div className="tm__body" data-out={out || undefined} data-dir={swapDir} data-in={enter || undefined} aria-live="polite">
         <div className="tm__top" aria-hidden="true">
           <div className="tm__head">
             <p className="tm__over">{picked ? <>Up next, <b>your pick</b></> : over}{subject && !week ? `, ${subject}` : ''}</p>
@@ -200,9 +221,11 @@ export default function TodayMove({ phase, lead, choices = [], picked = false, o
         {price}
       </div>
       {choices.length ? (
-        <div className="tm__or" role="group" aria-label="Or do this instead">
-          {choices.map((c) => (
-            <button key={c.id} type="button" className="tm__choice" onClick={() => onPick?.(c.id)} aria-label={`${c.suggested ? 'Suggested. ' : ''}${c.choice.title}: ${c.choice.value}. Show it in Up next.`}>
+        <div className="tm__or" role="group" aria-labelledby="tm-or-h" data-hint={hint || undefined}>
+          <p className="tm__or-h" id="tm-or-h">Or make one of these your move</p>
+          {choices.map((c, i) => (
+            <button key={c.id} type="button" className="tm__choice" data-arrived={c.arrived || undefined} onClick={() => onPick?.(c.id, i)} aria-label={`${c.suggested ? 'Suggested. ' : ''}${c.choice.title}: ${c.choice.full || c.choice.value}. Make it your move.`}>
+              <Repeat2 className="tm__choice-i" size={16} strokeWidth={1.75} aria-hidden="true" />
               {c.suggested ? <span className="tm__choice-s">Suggested</span> : null}
               <span className="tm__choice-t">{c.choice.title}</span>
               <span className="tm__choice-v">{c.choice.value}</span>

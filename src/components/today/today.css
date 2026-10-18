@@ -65,8 +65,15 @@
   box-shadow: inset 0 1px 0 var(--a-glass-top), var(--a-shadow-1);
   animation: today-rise-12 320ms var(--t-out) both;
 }
-.app-shell .tm__body { position: relative; display: flex; flex-direction: column; transition: opacity 220ms var(--t-out), transform 260ms var(--t-out), filter 200ms ease; }
-.app-shell .tm__body[data-out] { opacity: 0; transform: translateY(6px); filter: blur(2px); transition-duration: 140ms; }
+.app-shell .tm__body { position: relative; display: flex; flex-direction: column; transition: opacity 220ms var(--t-out), transform 260ms var(--t-out); }
+/* The swap (release 10, D90): the body leaves away from the tapped cell (140 ms) and the new lead comes in from it (280 ms, a small
+   overshoot), so the eye follows the move from the cell into the card. Transform and opacity only. */
+.app-shell .tm__body[data-out] { opacity: 0; transform: translateX(-20px); transition-duration: 140ms; transition-timing-function: ease-in; }
+.app-shell .tm__body[data-out][data-dir='l'] { transform: translateX(20px); }
+.app-shell .tm__body[data-in] { transition: none; animation: tm-in-r 280ms cubic-bezier(0.2, 0.9, 0.25, 1.1) both; }
+.app-shell .tm__body[data-in='l'] { animation-name: tm-in-l; }
+@keyframes tm-in-r { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: none; } }
+@keyframes tm-in-l { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: none; } }
 .app-shell .tm__top { position: relative; min-height: 0; padding-right: 116px; }
 .app-shell .tm__head { min-width: 0; }
 .app-shell .tm__over { margin: 0; font-size: 14px; font-weight: 500; line-height: 1.35; color: var(--a-ink-2); }
@@ -149,18 +156,32 @@ html[data-theme='light'] .app-shell .tm__key:not([aria-disabled='true']) { box-s
 .app-shell .tm__key:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 3px; }
 .app-shell .tm__key-len { font-weight: 500; opacity: 0.74; font-variant-numeric: tabular-nums; }
 .app-shell .tm__price { margin: 10px 0 0; font-size: 13.5px; color: var(--a-ink-3); }
-/* The two other moves: a split footer of the same card (not cards in a card), each a full-height button. */
+/* The two other moves: a split footer of the same card (not cards in a card), each a full-height button. Release 10 (D90, F5): a line
+   says what they do ("Or make one of these your move"), each cell carries a swap mark top right and presses in, and a cell that
+   arrives (the move that just left the card) crossfades in (180 ms). */
 .app-shell .tm__or { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 20px -22px 0; border-top: 1px solid var(--a-line); }
 .app-shell .tm__or--one { grid-template-columns: minmax(0, 1fr); }
+.app-shell .tm__or-h { grid-column: 1 / -1; margin: 0; padding: 12px 22px 0; font-size: 12.5px; font-weight: 500; line-height: 1.3; color: var(--a-ink-3); }
 .app-shell .tm__choice {
-  position: relative; display: grid; align-content: start; gap: 3px; min-height: 78px; padding: 14px 18px 16px 22px;
-  border: 0; background: transparent; color: inherit; text-align: left; text-decoration: none; font: inherit; cursor: pointer;
-  transition: background-color 150ms ease; -webkit-tap-highlight-color: transparent;
+  position: relative; display: grid; align-content: start; gap: 3px; min-height: 78px; padding: 10px 40px 16px 22px;
+  border: 0; border-radius: 14px; background: transparent; color: inherit; text-align: left; text-decoration: none; font: inherit; cursor: pointer;
+  transition: background-color 150ms ease, transform 120ms var(--t-out), box-shadow 180ms ease; -webkit-tap-highlight-color: transparent;
 }
-.app-shell .tm__choice + .tm__choice { border-left: 1px solid var(--a-line); padding-left: 18px; }
-.app-shell .tm__choice:active { background: var(--a-hover); }
-@media (hover: hover) and (pointer: fine) { .app-shell .tm__choice:hover { background: var(--a-hover); } }
+.app-shell .tm__choice[data-arrived] { animation: tm-cell-in 180ms ease both; }
+.app-shell .tm__or--one .tm__choice { padding-top: 14px; }
+.app-shell .tm__choice + .tm__choice { padding-left: 18px; }
+.app-shell .tm__choice + .tm__choice::before { content: ''; position: absolute; left: 0; top: 10px; bottom: 16px; width: 1px; background: var(--a-line); }
+.app-shell .tm__choice-i { position: absolute; top: 12px; right: 16px; color: var(--a-ink-3); transition: color 150ms ease, transform 220ms var(--t-out); }
+.app-shell .tm__choice:active { background: var(--a-hover); transform: scale(0.98); }
+.app-shell .tm__choice:active .tm__choice-i { transform: rotate(-90deg); }
+@media (hover: hover) and (pointer: fine) { .app-shell .tm__choice:hover { background: var(--a-hover); } .app-shell .tm__choice:hover .tm__choice-i { color: var(--a-ink); } }
 .app-shell .tm__choice:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -3px; }
+/* The first-run hint: both cells nudge up 3 px twice (180 ms each), edged in the strong line, then settle. */
+.app-shell .tm__or[data-hint] .tm__choice { animation: tm-nudge 720ms var(--t-out) both; box-shadow: inset 0 0 0 1px var(--a-line-strong); }
+.app-shell .tm__or[data-hint] .tm__choice + .tm__choice { animation-delay: 60ms; }
+.app-shell .tm__or[data-hint] .tm__choice-i { color: var(--a-ink); }
+@keyframes tm-nudge { 0%, 50%, 100% { transform: none; } 25%, 75% { transform: translateY(-3px); } }
+@keyframes tm-cell-in { from { opacity: 0; } to { opacity: 1; } }
 .app-shell .tm__choice-s { font-size: 12.5px; font-weight: 600; color: var(--a-accent-text); }
 .app-shell .tm__choice-t { font: 600 15px/1.3 var(--font-body); color: var(--a-ink); }
 .app-shell .tm__choice-v { font-size: 13.5px; line-height: 1.35; color: var(--a-ink-3); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
@@ -603,6 +624,7 @@ html[data-theme='light'] .tsh .tpf__done { box-shadow: inset 0 0 0 1px rgb(82 10
   .app-shell .tm { padding: 26px 26px 0; }
   .app-shell .tm__or, .app-shell .tm__more { margin-left: -26px; margin-right: -26px; }
   .app-shell .tm__choice { padding-left: 26px; }
+  .app-shell .tm__or-h { padding-left: 26px; }
   .app-shell .tm__top { padding-right: 140px; }
   .app-shell .tm__art { width: 132px; height: 132px; top: -14px; }
   .app-shell .tm__art--mobi { width: 116px; height: 116px; }
@@ -626,12 +648,12 @@ html[data-theme='light'] .tsh .tpf__done { box-shadow: inset 0 0 0 1px rgb(82 10
 
 @media (prefers-reduced-motion: reduce) {
   .app-shell :is(.today__head, .tm, .tw, .trd, .twk, .tpp, .tq, .tc, .tmob, .tw__readout, .trd__readout, .trd__receipt, .tpp__receipt, .tcue__chev), .tsh__body, .tsh .tpf__step { animation: today-fade 150ms ease both !important; transform: none !important; }
-  .app-shell :is(.tw__dot, .tw__dot path, .tm__step, .tm__step path, .trd__stretch i::after, .trd__stretch i b, .tpp__bar i), .tsh .tpf__bump { animation: none !important; transform: none; }
+  .app-shell :is(.tw__dot, .tw__dot path, .tm__step, .tm__step path, .trd__stretch i::after, .trd__stretch i b, .tpp__bar i, .tm__choice, .tm__body), .tsh .tpf__bump { animation: none !important; transform: none; }
   .app-shell .tm__step path { stroke-dashoffset: 0; }
   .app-shell .tw__dot path { stroke-dashoffset: 0; }
   .app-shell :is(.tm__body, .tw__sel, .trd__sel, .tm__lengths, .twk__more, .twk__plus, .tcue, .tcue__text) { transition-duration: 1ms !important; }
 }
 html[data-motion='reduced'] .app-shell :is(.today__head, .tm, .tw, .trd, .twk, .tpp, .tq, .tc, .tmob, .tw__readout, .trd__readout, .trd__receipt, .tpp__receipt, .tcue__chev), html[data-motion='reduced'] .tsh__body, html[data-motion='reduced'] .tsh .tpf__step { animation: today-fade 150ms ease both !important; transform: none !important; }
-html[data-motion='reduced'] .app-shell :is(.tw__dot, .tm__step, .trd__stretch i::after, .trd__stretch i b, .tpp__bar i) { animation: none !important; }
+html[data-motion='reduced'] .app-shell :is(.tw__dot, .tm__step, .trd__stretch i::after, .trd__stretch i b, .tpp__bar i, .tm__choice, .tm__body) { animation: none !important; }
 html[data-motion='reduced'] .app-shell :is(.tw__dot path, .tm__step path) { animation: none; stroke-dashoffset: 0; }
 html[data-motion='reduced'] .app-shell :is(.tm__body, .tw__sel, .trd__sel, .tm__lengths, .twk__more, .tcue, .tcue__text) { transition-duration: 1ms !important; }
