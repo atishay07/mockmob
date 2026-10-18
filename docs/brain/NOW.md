@@ -11,13 +11,15 @@
 When both are published and checked, send him ONE message with the links, the APK and where to look (D37).
 
 ## Live
-- **www.mockmob.in = main 70c4598c = release 6.** It is READY.
+- **www.mockmob.in = main fc9e1f6b = release 7** (the new Today plus its fix round), pushed at about 1:10 pm after the verifier said GO. Vercel is READY, with 0 runtime errors at 1:20 pm. The STATUS entry is written together with release 8.
 - The owner's phone (V2413, serial 10BF370PA6002XR, connected by USB) has v15 79aaca6d (1.0.15+3) installed. When the final APK is built, the main session installs it there with `adb -s 10BF370PA6002XR install -r`.
 
 ## In flight at 12:25 pm
 A network drop at about 11:40 am killed 10 agents. Their commits and edits were kept, and two workflows relaunched every track.
 
-**Workflow web-1218 (wf_7f182806-4da, task wdcvxxe87):**
+**Release 8: web-r8-1018** (wf_c433e7ef-d49, task wdwzaf5wf). It runs in wt-rel8 (deploy/web-1018-r8 from fc9e1f6b) and merges r8-fixes cb672f6b, r8-adopt dfc6797e, r8-retry f9fa1d82, land3 42b51dd3 and credits50 d8bc38d8. Three verifiers follow (pages, landing, db), then fix and re-verify. **Then:** the owner reviews live (D30); the main session applies the credits migration on production FIRST and pushes after.
+
+**Workflow web-1218 (finished; R7 GO at fc9e1f6b):**
 
 | Item | Worktree | State |
 |---|---|---|
@@ -52,7 +54,7 @@ A network drop at about 11:40 am killed 10 agents. Their commits and edits were 
 - **ui/v15-credits is MERGED into wt-v15 (06b6af85).** If the integrator has already started, it waits and merges after the integration instead.
 - **Speed-up:** when the integrator commits the build bump, the main session builds the release APK in a separate worktree at that head while the walker walks.
 
-**D50 (CTO decision): d50-length-1018** (wf_9e30dcc2-023, task wjsb1xkn5) builds in wt-v15-length (ui/v15-length).
+**D50: DONE and MERGED into wt-v15 (959ba329 at 1:19 pm).** The checker said OK. The day-one line names the planner's first two chapters ("Start with ..."). The repo has no marks-per-chapter data, so it makes no claim about marks. **D50 (CTO decision): d50-length-1018** (wf_9e30dcc2-023, task wjsb1xkn5) builds in wt-v15-length (ui/v15-length).
 - "How many questions?" offers 5/10/15/20 and a full mock.
 - On day one, Weak chapters names the chapters with the most marks at stake.
 - An independent checker reviews it. **The main session merges it into wt-v15 before the integrator** (ui/v15-credits is already merged, 06b6af85).
