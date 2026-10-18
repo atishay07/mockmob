@@ -10,7 +10,10 @@ import 'sign_out_flow.dart';
 /// then the auth controller. A failed sign out says so under the key and the key comes back.
 /// Used on You and in the Account sheet.
 class SignOutKey extends ConsumerStatefulWidget {
-  const SignOutKey({super.key});
+  const SignOutKey({super.key, this.quiet = false});
+
+  /// The quiet key (the Account sheet's last row), not the bordered secondary.
+  final bool quiet;
 
   @override
   ConsumerState<SignOutKey> createState() => _SignOutKeyState();
@@ -54,7 +57,9 @@ class _SignOutKeyState extends ConsumerState<SignOutKey> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        KeyButton.secondary(label: YouCopy.signOut, loading: _signingOut, onPressed: _signingOut ? null : _signOut),
+        widget.quiet
+            ? KeyButton.quiet(label: YouCopy.signOut, expanded: true, onPressed: _signingOut ? null : _signOut)
+            : KeyButton.secondary(label: YouCopy.signOut, loading: _signingOut, onPressed: _signingOut ? null : _signOut),
         if (_failed) ...[
           const SizedBox(height: MmSpace.s8),
           Semantics(

@@ -243,20 +243,16 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.byType(AccountSheet), findsOneWidget);
   });
-  testWidgets('the theme switch and Sign out are on screen the moment the sheet opens, with no scrolling', (tester) async {
+  testWidgets('the theme switch is on screen at once; Sign out is the quiet last row, after Notifications', (tester) async {
     await _pumpApp(tester);
     await _openSheet(tester);
     final screen = tester.view.physicalSize / tester.view.devicePixelRatio;
-    for (final f in [find.text('Match phone'), find.text('Sign out')]) {
-      final rect = tester.getRect(f);
-      expect(rect.top, greaterThanOrEqualTo(0));
-      expect(rect.bottom, lessThanOrEqualTo(screen.height), reason: 'visible without a scroll');
-    }
-    // Sign out is pinned under the rows: it does not move when the rows scroll.
-    final before = tester.getTopLeft(find.text('Sign out'));
-    await tester.drag(find.text(AccountCopy.rowPrivacy), const Offset(0, -200));
-    await tester.pumpAndSettle();
-    expect(tester.getTopLeft(find.text('Sign out')), before);
+    final rect = tester.getRect(find.text('Match phone'));
+    expect(rect.top, greaterThanOrEqualTo(0));
+    expect(rect.bottom, lessThanOrEqualTo(screen.height), reason: 'visible without a scroll');
+    // Sign out is never pinned over the rows (final walk, H9): it sits under the last one.
+    expect(tester.getTopLeft(find.text('Sign out')).dy, greaterThan(tester.getTopLeft(find.text(AccountCopy.rowNotifications)).dy));
+    expect(tester.getTopLeft(find.text('Sign out')).dy, greaterThan(tester.getTopLeft(find.text(AccountCopy.rowContact)).dy));
   });
 
   testWidgets('Study days is not in the sheet: it lives on You', (tester) async {

@@ -33,12 +33,12 @@ import 'account_copy.dart';
 import 'notifications_row.dart';
 
 /// Opens the Account sheet over everything (the root navigator), so it covers the bar too. Sign
-/// out is the sheet's pinned footer: the rows scroll above it, and the key never leaves the screen.
+/// out is the last row, quiet, after every setting: never a pinned key louder than the rows, and
+/// never covering the Notifications row (final walk, H9).
 Future<void> showAccountSheet(BuildContext context) {
   return showMmSheet<void>(
     context: context,
     builder: (context) => const AccountSheet(),
-    footer: (context) => const SignOutKey(),
   );
 }
 
@@ -158,6 +158,8 @@ class _AccountSheetState extends ConsumerState<AccountSheet> {
               ),
             ],
           ),
+          const SizedBox(height: MmSpace.s24),
+          const SignOutKey(quiet: true),
         ],
       ),
     );
