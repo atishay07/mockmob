@@ -197,6 +197,11 @@ class _Loaded extends StatelessWidget {
       planned: plan,
       dates: [for (final d in week.days) d.date?.day],
     );
+    final hasPlan = plan != null && plan!.isNotEmpty;
+    // Sunday with nothing left that could change the count: the week is over, so the move that
+    // matters is planning the next one; pausing a week that has hours left stays, quietly.
+    final weekOver = todayIndex == 6 && outlook != null && outlook.kind != OutlookKind.onTrack && week.status == WeekStatus.open;
+    final headline = week.status == WeekStatus.open && !hasPlan ? RhythmCopy.studiedSoFar(week.studyDays) : week.label;
     final secondary = switch (week.status) {
       WeekStatus.paused => RhythmCopy.pausedKeepsRun,
       WeekStatus.open => outlook?.sentence ?? RhythmCopy.goalSentence(week.goal, hasPlan: plan != null && plan!.isNotEmpty),
@@ -225,19 +230,26 @@ class _Loaded extends StatelessWidget {
           done: week.studyDays,
           goal: week.goal.clamp(1, 7),
           paused: week.status == WeekStatus.paused,
-          headline: week.label,
+          // No planned days, no planned total: "3 study days so far", never "3 of 4" beside "you have
+          // not planned your days" (final walk). A planned week keeps its "3 of 4 study days".
+          headline: headline,
           caption: secondary,
           ringSize: 96,
           animateIn: true,
         ),
-        if (plan == null && onChangeDays != null) ...[
+        if (!hasPlan && onChangeDays != null) ...[
           const SizedBox(height: MmSpace.s8),
           Text(RhythmCopy.noPlanYet, style: type.small.copyWith(color: colors.ink2)),
-          FlushQuietKey(label: RhythmCopy.setStudyDays, onPressed: onChangeDays!),
+          // The week-over key below already opens the same editor.
+          if (!weekOver) FlushQuietKey(label: RhythmCopy.setStudyDays, onPressed: onChangeDays!),
+        ],
+        if (weekOver && onChangeDays != null) ...[
+          const SizedBox(height: MmSpace.s12),
+          KeyButton(label: RhythmCopy.planNextWeek, onPressed: onChangeDays),
         ],
         if (outlook?.kind == OutlookKind.outOfReach && onPauseWeek != null) ...[
           const SizedBox(height: MmSpace.s12),
-          _PauseKey(onPause: onPauseWeek!),
+          _PauseKey(onPause: onPauseWeek!, quiet: weekOver && onChangeDays != null),
         ],
         const SizedBox(height: MmSpace.s16),
         Divider(height: 1, thickness: 1, color: colors.line),
@@ -261,7 +273,7 @@ class _Loaded extends StatelessWidget {
         Text(run, style: type.small.copyWith(color: colors.ink2)),
         // The rule is one tap away, not repeated on every sheet.
         const _RuleInfo(),
-        if (onChangeDays != null && plan != null) FlushQuietKey(label: RhythmCopy.changeStudyDays, onPressed: onChangeDays!),
+        if (onChangeDays != null && hasPlan && !weekOver) FlushQuietKey(label: RhythmCopy.changeStudyDays, onPressed: onChangeDays!),
         const SizedBox(height: MmSpace.s8),
         QuietPill(label: RhythmCopy.seeRhythm, onPressed: onSeeRhythm),
       ],
@@ -349,9 +361,12 @@ class _WorkFigure extends StatelessWidget {
 
 /// "Pause this week": a secondary key with its own recovery line when the server refuses.
 class _PauseKey extends StatefulWidget {
-  const _PauseKey({required this.onPause});
+  const _PauseKey({required this.onPause, this.quiet = false});
 
   final Future<void> Function() onPause;
+
+  /// A text key under the week's own primary key (the week is over: Plan next week leads).
+  final bool quiet;
 
   @override
   State<_PauseKey> createState() => _PauseKeyState();
@@ -384,7 +399,10 @@ class _PauseKeyState extends State<_PauseKey> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        KeyButton(label: RhythmCopy.pauseThisWeekKey, onPressed: _busy ? null : _run, loading: _busy),
+        if (widget.quiet)
+          FlushQuietKey(label: RhythmCopy.pauseThisWeekKey, onPressed: _busy ? null : _run)
+        else
+          KeyButton(label: RhythmCopy.pauseThisWeekKey, onPressed: _busy ? null : _run, loading: _busy),
         if (_failed) ...[
           const SizedBox(height: MmSpace.s8),
           InlineBanner(message: RhythmCopy.pauseFailed, tone: BannerTone.error),

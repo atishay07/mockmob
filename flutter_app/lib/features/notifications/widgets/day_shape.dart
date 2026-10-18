@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/models/notification_prefs.dart';
+import '../../../core/copy/sentences.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../copy.dart';
@@ -161,7 +162,7 @@ class _DayShapeState extends State<DayShape>
     return Semantics(
       container: true,
       image: true,
-      label: '${NotificationsCopy.dayHeading}. $description.',
+      label: joinSentences([NotificationsCopy.dayHeading, description]),
       excludeSemantics: true,
       child: RepaintBoundary(
         child: Column(

@@ -235,7 +235,7 @@ void main() {
   group("the hero's own object", () {
     testWidgets('Revise draws the repeat object, never the Quick practice bolt', (tester) async {
       await _open(tester, move: _revise);
-      expect(find.text('Start Revise, 10 min'), findsOneWidget);
+      expect(find.text('Start Revise, 10\u00A0min'), findsOneWidget, reason: 'the figure and its unit take a no-break space');
       final kinds = [for (final g in tester.widgetList<ChoiceGlyph>(find.byType(ChoiceGlyph))) g.kind];
       expect(kinds, contains(ChoiceGlyphKind.revise));
       // The one bolt on the sheet is the Quick 10 row's own, never the lead's.

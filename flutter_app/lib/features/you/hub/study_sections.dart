@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/copy/copy.dart';
+import '../../../core/copy/sentences.dart';
 import '../../../core/notes/sample_row.dart';
 import '../../../core/repositories/repositories.dart';
 import '../../../core/router/routes.dart';
@@ -148,7 +149,7 @@ class _BestRow extends StatelessWidget {
       highlight: true,
       pressedScale: 0.985,
       focusRadius: MmRadius.smallAll,
-      semanticsLabel: figure == null ? '$label. $note.' : '$label: $figure. $note',
+      semanticsLabel: figure == null ? joinSentences([label, note]) : joinSentences(['$label: $figure', note]),
       builder: (context, pressed, focused) => ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 64),
         child: Padding(

@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/art/art.dart' show SubjectEmblem;
 import '../../../core/copy/formatters.dart' show formatDayMonthShort;
+import '../../../core/copy/sentences.dart';
 import '../../../core/haptics/haptics.dart' show hapticsOf;
 import '../../../core/mascot/mascot.dart';
 import '../../../core/motion/motion.dart';
@@ -963,10 +964,10 @@ class _StopRow extends StatelessWidget {
     final type = context.mmType;
     final s = stop;
     final current = isNext || distance == TodayCopy.onNow;
-    final when = distance == null ? '' : ' ${isNext ? '${TodayCopy.nextTag}, ' : ''}${distance!}.';
+    final when = distance == null ? null : '${isNext ? '${TodayCopy.nextTag}, ' : ''}${distance!}';
     return Semantics(
       container: true,
-      label: '${s.title}. ${s.expected ? '${TodayCopy.expectedTag}. ' : ''}${s.when}.${s.note == null ? '' : ' ${s.note}'}$when',
+      label: joinSentences([s.title, if (s.expected) TodayCopy.expectedTag, s.when, s.note, when]),
       excludeSemantics: true,
       child: IntrinsicHeight(
         child: Row(

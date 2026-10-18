@@ -83,6 +83,10 @@ Future<T> _offMain<T>(int chars, T Function() inline, Future<T> Function() isola
 /// than the list it joined, so the list's age is kept apart.
 const attemptsListFetchKey = 'attempts-list';
 
+/// The list call: `GET /api/attempts?view=summary`.
+const String attemptsListPath = '/api/attempts';
+const Map<String, String> attemptsListQuery = {'view': 'summary'};
+
 /// All of the student's attempts, newest first. `GET /api/attempts` is an unpaginated dump,
 /// so it is read once after sign-in and after a submit, parsed off the main isolate, and then
 /// served from drift (`cached_attempts`) until [refresh] is called again.
@@ -123,7 +127,15 @@ class AttemptsRepository extends RemoteNotifier<List<Attempt>> {
   @override
   Future<Fetched<List<Attempt>>> fetchRemote() async {
     final ApiClient api = ref.read(apiClientProvider);
-    final response = await api.get('/api/attempts', options: const ApiOptions(plainBody: true, receiveTimeout: Duration(seconds: 60)));
+    // The list asks for the summary view: the same array and the same fields the app reads, without
+    // the heavy per-question content (the full list was about 29 MB for 25 papers and timed out, so
+    // Today could not load for minutes: final walk H15). A server that does not know the parameter
+    // ignores it. Only the list asks: one paper's own read (`/api/attempts/{id}`) stays whole.
+    final response = await api.get(
+      attemptsListPath,
+      query: attemptsListQuery,
+      options: const ApiOptions(plainBody: true, receiveTimeout: Duration(seconds: 60)),
+    );
     final body = response.text;
     try {
       final parsed = await _offMain(body.length, () => _parseAttempts(body), () => Isolate.run(() => _parseAttempts(body)));

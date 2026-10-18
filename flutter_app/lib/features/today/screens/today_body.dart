@@ -20,6 +20,7 @@ import '../../practice/data/open_paper.dart' show ContinueResult, OpenPaper;
 import '../../tools/tools_paths.dart';
 import '../copy.dart';
 import '../copy_glance.dart';
+import '../data/lead_pick.dart' show shownHeroFor, todayPicks;
 import '../logic/move_price.dart' show priceKeyOf;
 import '../logic/suggested_deck.dart' show DeckCoach, DeckMemoryStore, buildSuggestedDeck, deckSize;
 import '../logic/today_model.dart';
@@ -93,13 +94,10 @@ class TodayCallbacks {
   final Future<void> Function(OpenPaper paper)? onLetGoPaper;
 }
 
-/// The student's pick among the lead card's choices, per day (TODAY-1018 6.2): kept for the run so
-/// a back navigation or a tab switch keeps it; nothing is written to the server.
-final Map<String, String> _todayPicks = {};
-
-/// Forgets the picks (tests).
+/// Forgets the picks (tests). The picks themselves live in [todayPicks], the one store the Start
+/// sheet's hero reads too.
 @visibleForTesting
-void debugResetTodayPicks() => _todayPicks.clear();
+void debugResetTodayPicks() => todayPicks.clear();
 
 class TodayBody extends StatefulWidget {
   const TodayBody({
@@ -214,18 +212,10 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
   /// The student's pick among the lead card's choices, kept for the day (TODAY-1018 6.2: the swap
   /// writes nothing to the server; a back navigation keeps it). Keyed by the date line.
 
-  String? get _pickKey => _todayPicks[widget.view.header.dateLine];
+  String? get _pickKey => todayPicks.of(widget.view.header.dateLine);
 
   /// The move the card shows: the pick when there is one, else the recommended move.
-  TodayHero? get _shownHero {
-    final hero = widget.view.hero;
-    final key = _pickKey;
-    if (hero is! MoveHero || key == null) return hero;
-    for (final c in widget.view.choices) {
-      if (c.key == key && c.hero != null) return c.hero!.copyWith(overline: GlanceCopy.upNextPick(c.hero!.subjectLine));
-    }
-    return hero;
-  }
+  TodayHero? get _shownHero => shownHeroFor(widget.view, _pickKey);
 
   /// The other moves, the Suggested stack's deck (at most [deckSize]): with a pick, the
   /// recommended move comes back first among them as "Suggested".
@@ -276,11 +266,7 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
       // arriving one gets fresh ones (two bodies never hold one GlobalKey).
       _primaryKey = GlobalKey(debugLabel: 'today-primary');
       _controlsKey = GlobalKey(debugLabel: 'today-controls');
-      if (choice.key == 'lead') {
-        _todayPicks.remove(widget.view.header.dateLine);
-      } else {
-        _todayPicks[widget.view.header.dateLine] = choice.key;
-      }
+      todayPicks.set(widget.view.header.dateLine, choice.key == 'lead' ? null : choice.key);
     });
     _cue(MobiAct.listen);
   }
@@ -291,12 +277,7 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
     setState(() {
       _primaryKey = GlobalKey(debugLabel: 'today-primary');
       _controlsKey = GlobalKey(debugLabel: 'today-controls');
-      final before = _pickBefore;
-      if (before == null) {
-        _todayPicks.remove(widget.view.header.dateLine);
-      } else {
-        _todayPicks[widget.view.header.dateLine] = before;
-      }
+      todayPicks.set(widget.view.header.dateLine, _pickBefore);
     });
   }
 

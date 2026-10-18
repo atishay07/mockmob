@@ -8,9 +8,12 @@ import 'core/sync/pending_work.dart' show pendingWorkProvider, pendingWorkCountP
 import 'core/sync/sync_attention.dart' show syncStaleProvider;
 import 'core/widgets/bar/bar_badges.dart';
 import 'core/widgets/bar/bar_live.dart';
-import 'features/practice/data/practice_catalog.dart' show practiceSubjectProvider, practiceSubjectsProvider;
+import 'core/auth/auth_state.dart' show authSnapshotProvider;
+import 'features/practice/data/practice_catalog.dart' show practiceSubjectProvider, practiceSubjectsProvider, subjectChoices;
 import 'features/practice/data/start_entries.dart' show practiceQuickNtaProvider;
 import 'features/review/data/review_providers.dart' show quickRepairFromReviewProvider, reviewIndexProvider;
+import 'features/today/copy.dart' show TodayCopy;
+import 'features/today/data/lead_pick.dart' show todayLeadIsPickProvider, todayLeadMoveProvider;
 import 'features/today/data/today_providers.dart' show todayInputsProvider, todayNextActionProvider, todayViewProvider;
 import 'features/today/logic/move_builder.dart' show buildMove, paperLabel;
 import 'features/today/logic/subjects.dart' show canonicalSubject;
@@ -25,17 +28,38 @@ List<Override> liveAppOverrides() => [
   quickStartRepairProvider.overrideWith((ref) => ref.watch(quickRepairFromReviewProvider)),
   // Start's NTA row follows Practice's quote for the student's practice subject.
   quickStartNtaProvider.overrideWith((ref) => ref.watch(practiceQuickNtaProvider)),
-  // Start's hero is tonight's move, the same move Today's hero builds.
+  // Start's hero is Today's lead card: the move Today shows now, the student's own pick from the
+  // Suggested stack included, with its length (final walk H14: Start led with Revise while Today's lead
+  // was the pick, Practise weakest chapter). Offline, a move that starts a session is not offered.
   startTonightMoveProvider.overrideWith((ref) {
-    final action = ref.watch(todayNextActionProvider);
+    final inputs = ref.watch(todayInputsProvider);
+    final lead = ref.watch(todayLeadMoveProvider);
+    final action = lead?.primary ?? ref.watch(todayNextActionProvider);
     final target = action?.target;
     if (action == null || target is! GoTo) return null;
-    return StartMove(title: buildMove(ref.watch(todayInputsProvider)).summary, location: target.location, kind: action.actionType);
+    if (inputs.offline && action.startsSession) return null;
+    final hero = lead ?? buildMove(inputs);
+    final minutes = hero.selectedMinutes ?? int.tryParse((TodayCopy.keyLength(action.label) ?? '').split(' ').first);
+    return StartMove(
+      title: hero.summary,
+      location: target.location,
+      kind: action.actionType,
+      minutes: minutes,
+      picked: ref.watch(todayLeadIsPickProvider),
+    );
   }),
-  // Start's subject chips: the student's practice subjects, opening on Practice's subject.
+  // Start's subject chips: the student's own subjects, as the Practice tab shows them (the account's
+  // subjects, plus the one picked from Other subjects), never the whole catalogue (final walk H14: English
+  // and Biology on an Accountancy and Economics account).
   startSubjectsProvider.overrideWith((ref) {
-    final catalog = ref.watch(practiceSubjectsProvider).value;
-    return catalog == null ? const <String>[] : [for (final s in catalog) s.id];
+    return [
+      for (final c in subjectChoices(
+        chosen: ref.watch(authSnapshotProvider).subjects,
+        selected: ref.watch(practiceSubjectProvider),
+        catalog: ref.watch(practiceSubjectsProvider).value,
+      ))
+        c.id,
+    ];
   }),
   startDefaultSubjectProvider.overrideWith((ref) => ref.watch(practiceSubjectProvider)),
   // The bar's live capsule and badges, each from its real source.

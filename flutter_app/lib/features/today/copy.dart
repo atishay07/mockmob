@@ -8,6 +8,7 @@ import '../../core/copy/state_words.dart' show SavedCopy;
 import '../../core/domain/cuet_dates.dart';
 import '../paper_reel/model/paper_reel_model.dart' show PaperReelModel;
 import 'logic/today_model.dart' show DurationChoice;
+import '../../core/copy/sentences.dart';
 
 abstract final class TodayCopy {
   // Header.
@@ -735,7 +736,7 @@ abstract final class TodayCopy {
   static const String restToday = 'Today is a rest day.';
   static String lastWeek(int done, int goal) => 'Last week: $done of $goal.';
   static const String seeYourWeek = 'See your week';
-  static String weekSemantics(String figure, String marks, String caption) => 'This week, $figure. $marks. $caption Opens your week.';
+  static String weekSemantics(String figure, String marks, String caption) => joinSentences(['This week, $figure', marks, caption, 'Opens your week']);
 
   // Road to May (4.4).
   static String roadWeeksTo({required bool own, required int n}) => '${n == 1 ? 'week' : 'weeks'} to ${own ? 'your date' : 'CUET UG'}';
@@ -777,7 +778,7 @@ abstract final class TodayCopy {
   static const String markRest = 'rest day';
   static const String markBefore = 'before your account';
   static const String markOpen = 'not counted';
-  static String rowSemantics(String label, String title, String sub, String figure) => '$label. $title. $sub. $figure.';
+  static String rowSemantics(String label, String title, String sub, String figure) => joinSentences([label, title, sub, figure]);
   static String ofDenominator(int n) => 'of $n';
   static const String bandRegistration = 'Registration';
   static const String bandBoards = 'Boards';
