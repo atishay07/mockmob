@@ -63,6 +63,9 @@ abstract final class OnboardingCopy {
   static const String mobiSealed = "Sealed. It's yours.";
   static const String mobiSave = 'Keep it with you.';
 
+  /// Said once a common set is ticked on the subjects step: the rating under it is the point.
+  static const String mobiRateNow = "Now be harsh. Tap Shaky on any you'd dread.";
+
   /// What Mobi says on arriving at each step: short, about the step, never about the student.
   static const Map<String, String> mobiArrive = {
     'stage': 'First, where you are now.',
@@ -219,6 +222,9 @@ abstract final class OnboardingCopy {
 
   /// The hint on a sign-in key that waits for the age question above it.
   static const String ageFirst = 'Answer the age question first';
+
+  /// Mobi, when a sign-in key is tapped before the age is answered.
+  static const String mobiAgeFirst = 'One quick one first: are you 18 yet?';
   static const String continueWithGoogle = 'Continue with Google';
   static const String googleBusy = 'Signing in';
   static const String cancelBrowser = 'Cancel';

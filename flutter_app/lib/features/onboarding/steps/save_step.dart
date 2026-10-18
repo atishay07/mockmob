@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -6,6 +8,7 @@ import '../../../core/api/api_providers.dart' show nowProvider;
 import '../../../core/config/app_config.dart';
 import '../../../core/connectivity/connectivity.dart';
 import '../../../core/copy/formatters.dart';
+import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
@@ -102,10 +105,11 @@ class _SaveStepState extends ConsumerState<SaveStep> {
 /// The pure layout of the save step, rendered by the goldens.
 ///
 /// The age question is the first thing in the action stack, directly above the sign-in keys
-/// (design critic 7): three 48 dp pills, then the keys. Until it is answered the keys wait under
-/// it, and a tap on a waiting key shakes the question once, so they never read as broken; one
-/// answer brings them to full strength. The sealed sheet keeps its place above.
-class SaveView extends StatefulWidget {
+/// (design critic 7): three 52 dp answer tiles, then the keys. The keys are always drawn at full
+/// strength (v15 taste pass, D53: a greyed key led the student to "Not now"); until the age is
+/// answered a tap on one asks it instead: the question shakes, a light haptic, and Mobi points
+/// at it. The sealed sheet keeps its place above.
+class SaveView extends ConsumerStatefulWidget {
   const SaveView({
     super.key,
     required this.age,
@@ -164,17 +168,38 @@ class SaveView extends StatefulWidget {
   static const Key ageKey = ValueKey('save-age');
 
   @override
-  State<SaveView> createState() => _SaveViewState();
+  ConsumerState<SaveView> createState() => _SaveViewState();
 }
 
-class _SaveViewState extends State<SaveView> {
+class _SaveViewState extends ConsumerState<SaveView> {
   /// Each bump shakes the age question once (a key tapped before it was answered).
   final ValueNotifier<int> _askAge = ValueNotifier<int>(0);
 
+  /// On the age question, so Mobi can point at it.
+  final GlobalKey _ageAt = GlobalKey();
+  Timer? _letGo;
+
   @override
   void dispose() {
+    _letGo?.cancel();
     _askAge.dispose();
     super.dispose();
+  }
+
+  /// A sign-in key tapped before the age: the question shakes, a light haptic, Mobi points at it
+  /// and asks, then looks back ahead.
+  void _askFirst() {
+    _askAge.value++;
+    ref.read(hapticsProvider).light();
+    final mobi = StepGuide.of(context)?.mobi;
+    if (mobi == null) return;
+    mobi.pointAtWidget(_ageAt);
+    mobi.say(OnboardingCopy.mobiAgeFirst, live: true);
+    _letGo?.cancel();
+    _letGo = Timer(const Duration(milliseconds: 2400), () {
+      mobi.hush();
+      mobi.play(MobiAct.idle);
+    });
   }
 
   @override
@@ -197,7 +222,7 @@ class _SaveViewState extends State<SaveView> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Semantics(header: true, child: Text(OnboardingCopy.ageQuestion, style: type.cardTitle)),
+          Semantics(header: true, child: Text(OnboardingCopy.ageQuestion, key: _ageAt, style: type.cardTitle)),
           const SizedBox(height: MmSpace.s12),
           ChoicePills<AgeAnswer>(
             options: [for (final a in AgeAnswer.values) (a, a.label)],
@@ -210,15 +235,11 @@ class _SaveViewState extends State<SaveView> {
       ),
     );
 
-    // Until the age is answered the keys wait (their own disabled look), and a tap on one asks
-    // the question above again instead of doing nothing.
-    Widget waiting(Widget key) => answered || w.offline || w.busy
-        ? key
-        : GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () => _askAge.value++,
-            child: Semantics(hint: OnboardingCopy.ageFirst, child: key),
-          );
+    // Until the age is answered the keys stay at full strength and a tap asks the question
+    // above instead (offline or busy, they wait as before).
+    final asks = !answered && !w.offline && !w.busy;
+    VoidCallback? live(VoidCallback? go) => asks ? _askFirst : go;
+    Widget waiting(Widget key) => asks ? Semantics(hint: OnboardingCopy.ageFirst, child: key) : key;
 
     // Back stands left of the primary key, as on every step (D43).
     final onBack = w.onBack;
@@ -242,7 +263,7 @@ class _SaveViewState extends State<SaveView> {
           withBack(waiting(KeyButton(
             label: w.googleBusy ? OnboardingCopy.googleBusy : OnboardingCopy.continueWithGoogle,
             loading: w.googleBusy,
-            onPressed: !answered || w.offline || w.busy || w.googleInBrowser ? null : w.onGoogle,
+            onPressed: live(w.offline || w.busy || w.googleInBrowser ? null : w.onGoogle),
           ))),
           if (w.googleInBrowser) ...[
             const SizedBox(height: MmSpace.s8),
@@ -264,9 +285,9 @@ class _SaveViewState extends State<SaveView> {
           const SizedBox(height: MmSpace.s12),
         ],
         if (w.googleEnabled)
-          waiting(KeyButton.secondary(label: OnboardingCopy.useEmailCode, onPressed: !answered || w.offline || w.busy ? null : w.onEmail))
+          waiting(KeyButton.secondary(label: OnboardingCopy.useEmailCode, onPressed: live(w.offline || w.busy ? null : w.onEmail)))
         else
-          withBack(waiting(KeyButton(label: OnboardingCopy.useEmailCode, onPressed: !answered || w.offline || w.busy ? null : w.onEmail))),
+          withBack(waiting(KeyButton(label: OnboardingCopy.useEmailCode, onPressed: live(w.offline || w.busy ? null : w.onEmail)))),
         const SizedBox(height: MmSpace.s4),
         Center(child: KeyButton.quiet(label: OnboardingCopy.notNow, onPressed: w.busy ? null : w.onNotNow)),
       ],

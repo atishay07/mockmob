@@ -235,8 +235,9 @@ class ChoicePills<T> extends ConsumerWidget {
   final T? selected;
   final ValueChanged<T> onSelected;
 
-  static const double height = MmTarget.min;
-  static const double _lead = MmSpace.s16 + 10 + MmSpace.s8;
+  /// 52 dp answer tiles with no radio dot (v15 taste pass): they read as answers, not a form.
+  static const double height = 52;
+  static const double _lead = MmSpace.s16;
   static const double _trail = MmSpace.s16;
 
   @override
@@ -311,25 +312,20 @@ class _Pill extends StatelessWidget {
         height: ChoicePills.height,
         decoration: ShapeDecoration(
           color: MmSelection.fill(colors, selected: selected, pressed: pressed),
-          shape: StadiumBorder(side: MmSelection.side(colors, selected: selected)),
+          shape: mmShapeBorder(MmRadius.keyAll, side: MmSelection.side(colors, selected: selected)),
         ),
         padding: const EdgeInsets.only(left: MmSpace.s16, right: MmSpace.s16),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SelectBubble(selected: selected),
-            const SizedBox(width: MmSpace.s8),
-            // Never cut: a label a few dp wider than its pill (a 360 dp phone, where the row has
-            // no spare width) is set a little smaller, not faded away at the pill's rim.
-            Flexible(
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                alignment: Alignment.centerLeft,
-                child: Text(label, maxLines: 1, softWrap: false, style: style.copyWith(color: colors.ink)),
-              ),
-            ),
-          ],
+        alignment: Alignment.center,
+        // Never cut: a label a few dp wider than its tile (a 360 dp phone, where the row has no
+        // spare width) is set a little smaller, not faded away at the tile's rim.
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            label,
+            maxLines: 1,
+            softWrap: false,
+            style: style.copyWith(color: selected ? colors.ink : colors.ink2, fontWeight: selected ? FontWeight.w700 : FontWeight.w500),
+          ),
         ),
       ),
     );

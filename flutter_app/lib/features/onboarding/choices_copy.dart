@@ -16,6 +16,9 @@ abstract final class ChoicesCopy {
   // Subjects step (D42).
   static const String subjectsSupportOpen = 'Add your CUET subjects, then be harsh about each one.';
   static const String quickSetsLabel = 'Common sets, one tap';
+
+  /// The one quiet row the other sets fold into once a set is chosen.
+  static const String otherSets = 'Other sets';
   static String neededFor(String course) => 'Needed for $course';
   static String setSpoken(String names) => 'Set: $names';
   static const String setOn = 'on your sheet';

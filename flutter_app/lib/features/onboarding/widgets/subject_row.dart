@@ -21,7 +21,11 @@ class SubjectRow extends ConsumerWidget {
     required this.onToggle,
     required this.onConfidence,
     this.note,
+    this.pulseShaky = false,
   });
+
+  /// The Shaky bubble pulses once (the first set tap of a sheet with no rating yet).
+  final bool pulseShaky;
 
   final SheetSubject subject;
   final bool included;
@@ -76,6 +80,7 @@ class SubjectRow extends ConsumerWidget {
                           subject: subject.label,
                           value: confidence ?? Confidence.okay,
                           onChanged: onConfidence,
+                          pulse: pulseShaky ? Confidence.shaky : null,
                         ),
                       )
                     : const SizedBox(width: double.infinity),
