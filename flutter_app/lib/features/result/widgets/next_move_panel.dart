@@ -52,6 +52,11 @@ class NextMovePanel extends StatelessWidget {
                 ),
                 style: type.body.copyWith(color: colors.ink),
               ),
+              // The promise the foot's one-line cost leaves out: nothing is charged for a repair that is not written.
+              if (m.kind == MoveKind.repair) ...[
+                const SizedBox(height: MmSpace.s6),
+                Text(LayersCopy.repairNoCharge, style: type.small.copyWith(color: colors.ink2)),
+              ],
             ],
             if (m.note != null) ...[
               const SizedBox(height: MmSpace.s8),

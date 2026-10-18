@@ -113,7 +113,8 @@ void main() {
       final label = tester.widget<Text>(key.first).data!;
       expect(find.text('Why ${label.substring(7)} first'), findsOneWidget);
       expect(find.textContaining('A repair gives you why'), findsOneWidget);
-      expect(find.text('1 credit. You have 68.\nNo charge if the repair cannot be written.'), findsOneWidget);
+      expect(find.text('1 credit. You have 68.'), findsOneWidget);
+      expect(find.text('No charge if the repair cannot be written.'), findsOneWidget);
       await tester.tap(key.first);
       await tester.pumpAndSettle();
       // Pushed over the result, so back returns to it: the stub names where it was opened.

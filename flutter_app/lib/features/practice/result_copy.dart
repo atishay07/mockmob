@@ -29,5 +29,9 @@ abstract final class ResultCopy {
   static const String proveTitle = 'Prove the repair';
   static String proveLine(String chapter) => 'Five questions you have not seen, from $chapter. Free, five minutes, no answers until you finish.';
   static const String proveNote = 'A day or two later is how you know a repair stuck.';
+
+  /// A chapter only left blank: no repair to prove, so the card says what the set shows instead.
+  static const String proveBlankTitle = 'Try the chapter you left blank';
+  static const String proveBlankNote = 'It shows where you stand on a chapter you did not answer.';
   static const String proveKey = 'Try 5 fresh questions';
 }

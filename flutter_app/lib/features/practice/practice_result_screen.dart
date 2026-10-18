@@ -467,7 +467,15 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
     final byQid = {for (final q in model.questions) q.qid: q};
     final shownWrong = _showAll ? wrong : wrong.take(_firstRows).toList();
     final repairCost = repairCostLine(state.aiCredits);
-    final proveChapter = model.wrong.isEmpty ? null : ref.watch(replayInventoryProvider(attempt.id)).value?.firstAvailable;
+    // The Prove step's chapter: a wrong answer's chapter (the one a repair fixes) first, or a chapter left blank, said as
+    // such; never a chapter the paper did not miss.
+    final prove = model.wrong.isEmpty && model.blank.isEmpty
+        ? null
+        : provePick(
+            ref.watch(replayInventoryProvider(attempt.id)).value,
+            wrongInRepairOrder: [for (final r in wrong) r.chapter],
+            blankChapters: [for (final q in model.blank) q.chapter],
+          );
     final m = rows.marks;
     // Where the lost marks went, from this set's own counts (Ask Mobi's first answer, free), and the set played back:
     // both as the full result has them, neither while a key is held or keys are unavailable (v15 walk, M4).
@@ -576,12 +584,12 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
           teaser: LayersCopy.answeredRight(m.right, m.answered),
           builder: (_) => ObservationsPanel(analysis: analysis, onShow: _showQuestions),
         ),
-      if (proveChapter != null)
+      if (prove != null)
         FoldSection(
           id: _Folds.proof,
-          title: LayersCopy.foldProof,
-          teaser: LayersCopy.proveTeaser(proveChapter),
-          builder: (_) => ProveCard(attemptId: attempt.id, subjectId: subjectId),
+          title: prove.ofWrong ? LayersCopy.foldProof : LayersCopy.foldFreshBlank,
+          teaser: prove.ofWrong ? LayersCopy.proveTeaser(prove.chapter) : LayersCopy.proveBlankTeaser(prove.chapter),
+          builder: (_) => ProveCard(attemptId: attempt.id, subjectId: subjectId, chapter: prove.chapter, ofWrong: prove.ofWrong),
         ),
       FoldSection(
         id: _Folds.every,

@@ -492,7 +492,7 @@ abstract final class ReviewCopy {
       ? 'A separate practice session. 5 questions, about 5 minutes. Free with your allowance.'
       : 'A separate practice session. 5 questions, about 5 minutes.${cost == null ? '' : ' ${plural(cost, 'credit')}.'}';
   static const retryKey = 'Practise 5 questions';
-  static const retryShort = 'Not enough practice credits for a retry. The repair counts without one.';
+  static const retryShort = 'Not enough credits for a retry. The repair counts without one.';
 
   // ---- Ending ---------------------------------------------------------------------------
 

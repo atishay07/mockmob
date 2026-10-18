@@ -11,6 +11,7 @@ import '../copy.dart';
 import '../data/mistake_index.dart' show MistakeStage;
 import '../data/review_providers.dart';
 import '../widgets/life_row.dart';
+import '../widgets/review_load_failure.dart' show startQuickTen;
 import '../widgets/review_state_view.dart';
 import '../widgets/page_header.dart';
 import '../widgets/review_layout.dart';
@@ -42,7 +43,11 @@ class RecordScreen extends ConsumerWidget {
         pose: MobiPose.read,
         title: ReviewCopy.recordEmptyTitle,
         message: ReviewCopy.recordPreviewEmpty,
-        primary: StateAction(ReviewCopy.recordEmptyAction, () => context.go(AppRoutes.review)),
+        // With mistakes waiting, the key opens them; with none yet, "See your mistakes" would open a page with nothing to
+        // repair (19 Oct walk, finding 33), so the key starts the set that finds them.
+        primary: (index?.openCount ?? 0) > 0
+            ? StateAction(ReviewCopy.recordEmptyAction, () => context.go(AppRoutes.review))
+            : StateAction(ReviewCopy.emptyAction, () => startQuickTen(context)),
       );
     } else {
       // The page arrives with its route: the note first, then the thread, in order.

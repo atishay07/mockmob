@@ -54,6 +54,11 @@ abstract final class RunnerCopy {
   static const String saving = 'Saving';
   static const String onThisPhone = 'On this phone';
 
+  /// Ticket mode (a practice set): the answers are kept on the phone and go to the account at submit. Said as a
+  /// saved state, so a first-time student reads it as "my answers are safe" (19 Oct walk, finding 36).
+  static const String savedOnThisPhone = 'Saved on this phone';
+  static const String savedOnThisPhoneSpoken = 'Your answers are saved on this phone. They go to your account when you submit.';
+
   /// The server refused the answers it was sent: they are still on this phone.
   static const String notSavedYet = 'Not saved yet. Tap to retry';
   static String waiting(int n) => '${plural(n, 'answer')} on this phone, waiting for network';
@@ -186,13 +191,15 @@ abstract final class RunnerCopy {
       final first = open.first + 1;
       final last = open.last + 1;
       final inOneRun = open.last - open.first + 1 == open.length;
-      if (open.length == 1) return 'Q$first is blank and scores 0.';
-      if (inOneRun) return 'Q$first to Q$last are blank and score 0.';
-      return 'Blanks score 0. The first is Q$first.';
+      if (open.length == 1) return 'Question $first is blank, so it scores 0.';
+      if (inOneRun) return 'Questions $first to $last are blank, so they score 0.';
+      return 'Blank answers score 0. The first one is question $first.';
     }
     if (marked.isNotEmpty) {
       final first = marked.first + 1;
-      return marked.length == 1 ? 'Q$first is marked. Its answer still counts.' : 'Marked answers still count. The first is Q$first.';
+      return marked.length == 1
+          ? 'Question $first is marked for review. Its answer still counts.'
+          : 'Marked answers still count. The first one is question $first.';
     }
     return null;
   }

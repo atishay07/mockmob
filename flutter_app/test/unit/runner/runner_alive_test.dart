@@ -62,11 +62,13 @@ void main() {
     });
 
     test('his line says what the sheet means, never the count printed above him', () {
-      expect(RunnerCopy.sheetMobiLine(open: [1, 2, 3, 4, 5, 6, 7, 8, 9], marked: [2]), 'Q2 to Q10 are blank and score 0.');
-      expect(RunnerCopy.sheetMobiLine(open: [6], marked: const []), 'Q7 is blank and scores 0.');
-      expect(RunnerCopy.sheetMobiLine(open: [2, 6, 8], marked: const []), 'Blanks score 0. The first is Q3.');
-      expect(RunnerCopy.sheetMobiLine(open: const [], marked: [3]), 'Q4 is marked. Its answer still counts.');
-      expect(RunnerCopy.sheetMobiLine(open: const [], marked: [3, 5]), 'Marked answers still count. The first is Q4.');
+      expect(RunnerCopy.sheetMobiLine(open: [1, 2, 3, 4, 5, 6, 7, 8, 9], marked: [2]), 'Questions 2 to 10 are blank, so they score 0.');
+      // Full words, read aloud (19 Oct walk, finding 35).
+      expect(RunnerCopy.sheetMobiLine(open: [6], marked: const []), 'Question 7 is blank, so it scores 0.');
+      expect(RunnerCopy.sheetMobiLine(open: [2, 3, 4], marked: const []), 'Questions 3 to 5 are blank, so they score 0.');
+      expect(RunnerCopy.sheetMobiLine(open: [2, 6, 8], marked: const []), 'Blank answers score 0. The first one is question 3.');
+      expect(RunnerCopy.sheetMobiLine(open: const [], marked: [3]), 'Question 4 is marked for review. Its answer still counts.');
+      expect(RunnerCopy.sheetMobiLine(open: const [], marked: [3, 5]), 'Marked answers still count. The first one is question 4.');
       expect(RunnerCopy.sheetMobiLine(open: const [], marked: const []), isNull);
       for (final line in [
         RunnerCopy.sheetMobiLine(open: [1, 2, 3, 4, 5, 6, 7, 8, 9], marked: const []),
@@ -252,7 +254,7 @@ void main() {
       await pumpRunner(tester, session: s, location: '/run/sess-1/submit');
       await settle(tester, ms: 4000);
       expect(find.byType(MobiCharacter), findsOneWidget);
-      expect(find.textContaining('Q3 to Q10 are blank and score 0.', findRichText: true), findsWidgets);
+      expect(find.textContaining('Questions 3 to 10 are blank, so they score 0.', findRichText: true), findsWidgets);
     });
 
     testWidgets('a timed mock has no reading Mobi before the hand-in', (tester) async {

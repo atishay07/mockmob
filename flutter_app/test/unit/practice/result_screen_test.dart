@@ -175,7 +175,9 @@ void main() {
     expect(find.text('Admission of a partner. You picked B.'), findsOneWidget);
     // No check question is promised until the Lab says one is ready (RESULT-1017 4.4).
     expect(find.textContaining('A repair gives you why B looked right, the trap'), findsOneWidget);
-    expect(find.text('1 credit. You have 68.\nNo charge if the repair cannot be written.'), findsOneWidget);
+    // The pinned foot carries the cost on one line (19 Oct walk, finding 28); the promise sits in the panel above.
+    expect(find.text('1 credit. You have 68.'), findsOneWidget);
+    expect(find.text('No charge if the repair cannot be written.'), findsOneWidget);
     // 11 PM: one plain line, never a sleeping figure.
     expect(find.text('It is late. One repair is enough for tonight.'), findsOneWidget);
     expect(find.text('Practise 10 on Admission of a partner instead'), findsOneWidget);
@@ -286,7 +288,7 @@ void main() {
     expect(find.widgetWithText(KeyButton, 'Practise 10 on Goodwill'), findsOneWidget);
     expect(find.text('Why this chapter first'), findsOneWidget);
     expect(find.text('Goodwill: most answers in this chapter were wrong, so a chapter set comes before repairing single mistakes.'), findsOneWidget);
-    expect(find.text('This set uses 10 practice credits. You have 40.'), findsOneWidget);
+    expect(find.text('This set uses 10 credits. You have 40.'), findsOneWidget);
     await tester.tap(find.widgetWithText(KeyButton, 'Practise 10 on Goodwill'));
     await tester.pump(const Duration(milliseconds: 500));
     expect(router.state.uri.path, '/practice/start');
@@ -443,7 +445,7 @@ void main() {
     );
     await tester.pump(const Duration(milliseconds: 900));
     expect(find.textContaining('You have'), findsNothing);
-    expect(find.text('1 credit.\nNo charge if the repair cannot be written.'), findsOneWidget);
+    expect(find.text('1 credit.'), findsOneWidget);
   });
 
   testWidgets('with fresh questions ready the proof fold starts 5 in that chapter for this attempt', (tester) async {
@@ -452,7 +454,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 900));
     final fold = find.text('Your rule and proof it stuck');
     await bringIn(tester, fold);
-    expect(find.text('Five new questions on Admission of a partner show whether a fix held.'), findsOneWidget);
+    expect(find.text('Five new questions on Admission of a partner, where you went wrong, show whether your fix held.'), findsOneWidget);
     await tester.tap(fold);
     await frames(tester);
     await bringIn(tester, find.widgetWithText(KeyButton, 'Try 5 fresh questions'));
@@ -693,6 +695,69 @@ void main() {
       expect(find.byType(PaperReel), findsOneWidget);
       final container = ProviderScope.containerOf(tester.element(find.byType(PaperReel)));
       expect(await container.read(reelSeenProvider.future), {'p1'});
+    });
+  });
+
+  // 19 Oct baseline walk, finding 29: "Your rule and proof it stuck" named a chapter the student only left blank, while the
+  // one wrong answer was in another chapter. The proof is now on the chapter a repair fixes.
+  group('the proof names the chapter a repair fixes (walk finding 29)', () {
+    final wrongAndBlank = [
+      for (var i = 0; i < 8; i++) ('Admission of a partner', V.right),
+      ('Admission of a partner', V.wrong),
+      ('Comparative statements', V.blank),
+    ];
+
+    testWidgets('the server lists the blank chapter first: the fold still names the wrong answer\'s chapter', (tester) async {
+      const replay = ReplayInventory(
+        supported: true,
+        chapters: [
+          ReplayChapter(chapter: 'Comparative statements', available: true),
+          ReplayChapter(chapter: 'Admission of a partner', available: true),
+        ],
+      );
+      await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(wrongAndBlank), replay: replay));
+      await tester.pump(const Duration(milliseconds: 900));
+      final fold = find.text('Your rule and proof it stuck');
+      await bringIn(tester, fold);
+      expect(find.text('Five new questions on Admission of a partner, where you went wrong, show whether your fix held.'), findsOneWidget);
+      expect(find.textContaining('Five new questions on Comparative statements'), findsNothing);
+    });
+
+    testWidgets('only the blank chapter has a fresh set: the fold says it was left blank, never "proof it stuck"', (tester) async {
+      const replay = ReplayInventory(
+        supported: true,
+        chapters: [
+          ReplayChapter(chapter: 'Admission of a partner', available: false),
+          ReplayChapter(chapter: 'Comparative statements', available: true),
+        ],
+      );
+      await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(wrongAndBlank), replay: replay));
+      await tester.pump(const Duration(milliseconds: 900));
+      final fold = find.text('Five fresh questions');
+      await bringIn(tester, fold);
+      expect(find.text('You left Comparative statements blank. Five new questions on it show where you stand.'), findsOneWidget);
+      expect(find.text('Your rule and proof it stuck'), findsNothing);
+      await tester.tap(fold);
+      await frames(tester);
+      await bringIn(tester, find.text('Try the chapter you left blank'));
+      expect(find.text('Try the chapter you left blank'), findsOneWidget);
+      expect(find.text('Prove the repair'), findsNothing);
+    });
+
+    test('provePick: a wrong answer\'s chapter first, in repair order, matched whatever the spacing and case', () {
+      const inv = ReplayInventory(
+        supported: true,
+        chapters: [
+          ReplayChapter(chapter: 'Cash Flow Statement', available: true),
+          ReplayChapter(chapter: 'Partnership  Fundamentals', available: true),
+          ReplayChapter(chapter: 'Goodwill', available: true),
+        ],
+      );
+      expect(provePick(inv, wrongInRepairOrder: ['partnership fundamentals', 'Goodwill'], blankChapters: ['Cash Flow Statement']),
+          (chapter: 'Partnership  Fundamentals', ofWrong: true));
+      expect(provePick(inv, wrongInRepairOrder: ['Accounting Ratios'], blankChapters: ['Cash Flow Statement']), (chapter: 'Cash Flow Statement', ofWrong: false));
+      expect(provePick(inv, wrongInRepairOrder: ['Accounting Ratios'], blankChapters: [null, 'Share Capital']), isNull);
+      expect(provePick(null, wrongInRepairOrder: ['Goodwill'], blankChapters: const []), isNull);
     });
   });
 }
