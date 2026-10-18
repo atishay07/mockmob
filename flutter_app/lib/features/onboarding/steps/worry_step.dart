@@ -135,10 +135,22 @@ class _WorryTile extends StatelessWidget {
           GlyphMedallion(size: 44, lit: selected, child: glyph),
           const SizedBox(height: MmSpace.s12),
           Text(worry.option, style: type.labelLarge.copyWith(height: 20 / 15, color: selected ? colors.ink : colors.ink2)),
-          if (selected) ...[
-            const SizedBox(height: MmSpace.s4),
-            Text(ChoicesCopy.worryRank(rank!), style: type.caption.copyWith(color: colors.accentText, fontWeight: FontWeight.w600)),
-          ],
+          // Always laid out (a no-break space when not picked), so a pick never grows the tile and
+          // pushes the row below: the place fades and rises in instead.
+          const SizedBox(height: MmSpace.s4),
+          AnimatedSlide(
+            offset: selected ? Offset.zero : const Offset(0, 0.2),
+            duration: Motion.of(context, const Duration(milliseconds: 220)),
+            curve: Motion.glide,
+            child: AnimatedOpacity(
+              opacity: selected ? 1 : 0,
+              duration: Motion.of(context, const Duration(milliseconds: 180)),
+              child: Text(
+                selected ? ChoicesCopy.worryRank(rank!) : '\u00A0',
+                style: type.caption.copyWith(color: colors.accentText, fontWeight: FontWeight.w600),
+              ),
+            ),
+          ),
         ],
       ),
     );

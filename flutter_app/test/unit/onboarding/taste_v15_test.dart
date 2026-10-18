@@ -215,4 +215,18 @@ void main() {
       expect(find.byType(SwipePreviewCard), findsNothing, reason: 'Today teaches from here on');
     });
   });
+
+  group('Marks: a pick never grows its tile', () {
+    testWidgets('the place line is always laid out, so the row below stays put', (tester) async {
+      final start = studentUpTo(Steps.subjects, step: Steps.worry).copyWith(worries: const []);
+      await _flowAt(tester, start, size: const Size(412, 915));
+      Rect tileOf(Worry w) => tester.getRect(find.ancestor(of: find.text(w.option), matching: find.byType(ChoiceTile)).first);
+      final before = tileOf(Worry.knewIt);
+      final below = tileOf(Worry.numericals).top;
+      await _tap(tester, find.text(Worry.knewIt.option));
+      expect(find.text('First'), findsOneWidget);
+      expect(tileOf(Worry.knewIt).height, before.height, reason: 'no 24 dp jump on a pick');
+      expect(tileOf(Worry.numericals).top, below, reason: 'the next row never moves');
+    });
+  });
 }

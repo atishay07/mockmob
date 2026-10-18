@@ -104,13 +104,14 @@ class ChoiceTile extends ConsumerWidget {
         } else {
           side = colors.isNight ? BorderSide.none : BorderSide(color: colors.line);
         }
+        // The border is painted over the content, not around it: a decoration's border insets
+        // its child by its width, so picking a tile (a 2 dp border) grew it and pushed the row
+        // below (v15 taste pass, #12).
         return AnimatedContainer(
           duration: Motion.of(context, Motion.ui),
           curve: Motion.glide,
-          decoration: ShapeDecoration(
-            color: fill,
-            shape: mmShapeBorder(radius, side: side),
-          ),
+          decoration: ShapeDecoration(color: fill, shape: mmShapeBorder(radius)),
+          foregroundDecoration: side == BorderSide.none ? null : ShapeDecoration(shape: mmShapeBorder(radius, side: side)),
           child: CustomPaint(
             foregroundPainter: flat || selected
                 ? null
