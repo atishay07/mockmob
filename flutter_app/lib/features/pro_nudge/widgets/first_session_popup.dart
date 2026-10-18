@@ -9,8 +9,7 @@ import 'upgrade_sheet.dart';
 /// (the mark is saved on the phone). Returns whether it opened. The app shell calls this once the
 /// student is on a calm screen (a tab root, nothing over it) after their first real action.
 bool showFirstSessionUpgradeIfDue(BuildContext context, WidgetRef ref) {
-  if (!ref.read(upgradePopupDueProvider)) return false;
-  // Marked first: a second call while the sheet opens finds it already shown.
-  ref.read(proNudgeProvider.notifier).popupShown();
+  // The rules again, with the clock as it is now; marked before the sheet opens.
+  if (!ref.read(proNudgeProvider.notifier).takePopup()) return false;
   return showUpgradeSheetIfOn(context, reason: ProReason.firstSession);
 }

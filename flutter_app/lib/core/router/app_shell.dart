@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/account_sheet/account_sheet.dart' show showAccountSheet;
-import '../../features/pro_nudge/pro_nudge.dart' show showFirstSessionUpgradeIfDue, upgradePopupDueProvider;
+import '../../features/pro_nudge/pro_nudge.dart' show PopupRules, showFirstSessionUpgradeIfDue, upgradePopupDueProvider;
 import '../haptics/haptics.dart';
 import '../motion/motion.dart';
 import '../theme/theme.dart';
@@ -252,7 +252,7 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
   /// location.
   void _maybeUpgradePopup() {
     if (_upgradeTimer != null || !ref.read(upgradePopupDueProvider)) return;
-    _upgradeTimer = Timer(const Duration(milliseconds: 900), () {
+    _upgradeTimer = Timer(PopupRules.firstActionDelay, () {
       _upgradeTimer = null;
       if (!mounted) return;
       final calm = (ModalRoute.of(context)?.isCurrent ?? true) && AppRoutes.tabRoots.contains(GoRouterState.of(context).uri.path);

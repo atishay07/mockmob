@@ -28,13 +28,13 @@ bool showUpgradeSheetIfOn(BuildContext context, {required ProReason reason}) {
   if (!container.read(proNudgesOnProvider)) return false;
   unawaited(showMmSheet<void>(
     context: context,
-    title: ProNudgeCopy.sheetTitle,
+    title: ProNudgeCopy.head(reason).title,
     builder: (sheet) => UpgradeSheetBody(reason: reason, onClose: () => Navigator.of(sheet).maybePop()),
   ));
   return true;
 }
 
-/// The Upgrade sheet's content: the headline is the sheet's title, then why Pro is on offer here, the
+/// The Upgrade sheet's content: the headline is the sheet's title, then the line under it (why Pro is on offer here), the
 /// lines that are about this student (or the plain list when there are none), Google Play's price, one
 /// key to buy and Restore purchases. Every state is honest, as the Get Pro sheet's: checking Google Play,
 /// Google Play unavailable, the product missing, a pending payment, the server confirming, a cancel, a
@@ -105,7 +105,7 @@ class _UpgradeSheetBodyState extends ConsumerState<UpgradeSheetBody> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(ProNudgeCopy.reasonLine(widget.reason), style: type.lead.copyWith(color: colors.ink2)),
+          Text(ProNudgeCopy.head(widget.reason).lede, style: type.lead.copyWith(color: colors.ink2)),
           const SizedBox(height: MmSpace.s20),
           Semantics(
             header: true,
@@ -121,7 +121,8 @@ class _UpgradeSheetBodyState extends ConsumerState<UpgradeSheetBody> {
           BillingNotice(ids: {PlayProducts.proId}, showRestore: true),
           const SizedBox(height: MmSpace.s16),
           KeyButton(
-            label: BillingCopy.getPro,
+            // Google Play's own price string, never another (the store rule).
+            label: price == null ? BillingCopy.getPro : ProNudgeCopy.getProFor(price),
             loading: working,
             onPressed: price == null || s.busy ? null : () => ctl.buy(PlayProducts.proId),
           ),

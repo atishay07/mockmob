@@ -1,10 +1,15 @@
 /// The rules of the Pro nudges, pure and with no Flutter, so a unit test can state each of them.
+/// They are the website's rules (`src/lib/proNudge.mjs`, 18 Oct 2026, D79 to D81), said for the app.
 ///
 /// Two kinds of nudge, two sets of rules:
-/// * the first-session pop-up ([PopupRules]): once ever, in the first app session after onboarding,
-///   after the student's first real action;
-/// * the inline rows ([InlineRules]): quiet, one per screen, and a dismissed one stays quiet for
+/// * the first-session pop-up ([PopupRules]): once ever, only in the first usage session after
+///   onboarding (the run of the app in which onboarding finished, and at most
+///   [PopupRules.firstSessionWindow] after it), and only after the student's first real action in it
+///   (a scored set or mock). Never on onboarding, never for Pro, never with `PLAY_BILLING` off;
+/// * the inline rows ([InlineRules]): quiet, at most one per screen, and a dismissed one stays quiet for
 ///   [InlineRules.quietFor].
+///
+/// The Upgrade sheet a student opens by tapping a Pro feature has no cap: it is their own choice.
 library;
 
 /// Why the pop-up is not due, or [due].
@@ -23,10 +28,11 @@ enum PopupVerdict {
   /// The student is in onboarding now.
   onboarding,
 
-  /// This is not the first app session after onboarding: it is the onboarding session itself, or a later one.
+  /// This is not the first usage session after onboarding: onboarding did not finish in this run, it
+  /// finished in an earlier run, or more than [PopupRules.firstSessionWindow] ago.
   notFirstSession,
 
-  /// The student has not yet done a real action in this session.
+  /// The student has not yet done a real action since onboarding finished.
   noAction,
 }
 
@@ -37,8 +43,11 @@ class PopupInputs {
     required this.shown,
     required this.inOnboarding,
     required this.launchId,
-    required this.firstSessionLaunch,
+    required this.now,
+    required this.onboardedAt,
+    required this.onboardedLaunch,
     required this.actions,
+    required this.actionsAtOnboarded,
   });
 
   /// The nudges are on for this student: the flag is on, signed in, and not Pro.
@@ -51,47 +60,62 @@ class PopupInputs {
 
   /// This run of the app.
   final String launchId;
+  final DateTime now;
 
-  /// The run that was marked, on the phone, as the first after onboarding. Null until one is.
-  final String? firstSessionLaunch;
+  /// When onboarding finished, saved on the phone. Null when it never finished on this phone (an
+  /// account that signed straight in, or one set up before this build): such a student is never asked,
+  /// as on the website.
+  final DateTime? onboardedAt;
 
-  /// Real actions in this run: sets and mocks submitted.
+  /// The run of the app in which it finished.
+  final String? onboardedLaunch;
+
+  /// Real actions in this run: sets and mocks submitted and scored.
   final int actions;
+
+  /// [actions] at the moment onboarding finished, so only an action after it counts.
+  final int actionsAtOnboarded;
 }
 
 abstract final class PopupRules {
+  /// The first usage session lasts at most this long after onboarding finished (the website's 6 hours).
+  static const Duration firstSessionWindow = Duration(hours: 6);
+
+  /// The pop-up waits this long once the student is back on a calm screen, so it never lands with the
+  /// page (the website's 1.8 s after the result).
+  static const Duration firstActionDelay = Duration(milliseconds: 1800);
+
+  /// Whether this run is still the first usage session after onboarding.
+  static bool inFirstSession({required String launchId, required DateTime now, required DateTime? onboardedAt, required String? onboardedLaunch}) {
+    if (onboardedAt == null || onboardedLaunch != launchId) return false;
+    final since = now.difference(onboardedAt);
+    return !since.isNegative && since <= firstSessionWindow;
+  }
+
   static PopupVerdict verdict(PopupInputs i) {
     if (!i.enabled) return PopupVerdict.off;
     if (!i.loaded) return PopupVerdict.notLoaded;
     if (i.shown) return PopupVerdict.alreadyShown;
     if (i.inOnboarding) return PopupVerdict.onboarding;
-    if (i.firstSessionLaunch != i.launchId) return PopupVerdict.notFirstSession;
-    if (i.actions < 1) return PopupVerdict.noAction;
+    if (!inFirstSession(launchId: i.launchId, now: i.now, onboardedAt: i.onboardedAt, onboardedLaunch: i.onboardedLaunch)) {
+      return PopupVerdict.notFirstSession;
+    }
+    if (i.actions <= i.actionsAtOnboarded) return PopupVerdict.noAction;
     return PopupVerdict.due;
   }
 
-  /// Which run is the first after onboarding, decided once and then saved.
-  ///
-  /// * the run in which the student was seen in onboarding is the onboarding session and is not it
-  ///   ([sawOnboarding]): the pop-up never follows onboarding at once;
-  /// * the next run is the first session, whatever the student does or does not do in it;
-  /// * a student who was never seen in onboarding on this phone (an account that was set up before
-  ///   this build) has this run as the first session.
-  ///
-  /// Returns the new `(onboardedLaunch, firstSessionLaunch)` to save, or null when nothing changes.
-  static ({String? onboardedLaunch, String? firstSessionLaunch})? classify({
+  /// Onboarding finished in this run: the first usage session starts now. Returns what to save, or null
+  /// when nothing changes: it is marked once, and a second onboarding (or one after the pop-up was shown)
+  /// never resets it.
+  static ({DateTime at, String launch, int actions})? noteOnboarded({
+    required DateTime? onboardedAt,
+    required bool shown,
+    required DateTime now,
     required String launchId,
-    required bool sawOnboarding,
-    required String? onboardedLaunch,
-    required String? firstSessionLaunch,
+    required int actions,
   }) {
-    if (firstSessionLaunch != null) return null;
-    if (sawOnboarding) {
-      if (onboardedLaunch == launchId) return null;
-      return (onboardedLaunch: launchId, firstSessionLaunch: null);
-    }
-    // The run that follows the onboarding run, or the first run of an already set-up account.
-    return (onboardedLaunch: onboardedLaunch, firstSessionLaunch: launchId);
+    if (onboardedAt != null || shown) return null;
+    return (at: now, launch: launchId, actions: actions);
   }
 }
 

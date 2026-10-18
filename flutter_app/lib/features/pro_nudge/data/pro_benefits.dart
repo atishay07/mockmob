@@ -47,8 +47,8 @@ class ProBenefit {
 }
 
 abstract final class ProBenefits {
-  /// Below this many practice credits a Full mock cannot be taken, so "you have N left" matters.
-  static const int lowCredits = 50;
+  /// Below this many credits a Full mock cannot be taken, so "only N left" matters.
+  static const int lowCredits = ProNudgeCopy.fullMockCredits;
 
   /// The most personal lines one sheet shows.
   static const int maxPersonal = 3;
@@ -97,21 +97,30 @@ abstract final class ProBenefits {
 
   /// The ids that belong with the feature that asked for Pro.
   static Set<String> _lift(ProReason reason) => switch (reason) {
-        ProReason.ntaMode || ProReason.unlimitedMocks => {'mocks'},
+        ProReason.ntaMode => {'subjects', 'mocks'},
+        ProReason.unlimitedMocks => {'mocks'},
         ProReason.smartPractice || ProReason.difficulty || ProReason.reviewChapter || ProReason.insightsChapters => {'weakest'},
         ProReason.practiceCredits => {'left', 'used'},
         _ => const {},
       };
 
-  /// The lines the sheet draws: the student's own, then the plain list to fill to [minLines]. With
-  /// nothing personal it is the plain list alone.
-  static List<String> lines(ProFacts f, {List<String> plain = ProNudgeCopy.plainBenefits, ProReason reason = ProReason.general, int minLines = 3}) {
+  /// The most lines one sheet shows, as on the website.
+  static const int maxLines = 4;
+
+  /// Which plain line each personal line speaks for, by the plain line's place in
+  /// [ProNudgeCopy.plainBenefits] (unlimited, credits, NTA, Smart). A personal line stands in for its
+  /// plain one, as on the website, so one benefit is never said twice.
+  static const Map<String, int> _standsFor = {'mocks': 0, 'used': 1, 'left': 1, 'subjects': 2, 'weakest': 3};
+
+  /// The lines the sheet draws: the student's own first, then the plain lines to fill to [maxLines].
+  /// With nothing personal it is the plain list alone.
+  static List<String> lines(ProFacts f, {ProReason reason = ProReason.general}) {
+    const plain = ProNudgeCopy.plainBenefits;
     final mine = personal(f, reason: reason);
+    final covered = {for (final b in mine) ?_standsFor[b.id]};
     final out = [for (final b in mine) b.text];
-    final want = mine.isEmpty ? plain.length : minLines;
-    for (final p in plain) {
-      if (out.length >= want) break;
-      if (!out.contains(p)) out.add(p);
+    for (var i = 0; i < plain.length && out.length < maxLines; i++) {
+      if (!covered.contains(i)) out.add(plain[i]);
     }
     return out;
   }

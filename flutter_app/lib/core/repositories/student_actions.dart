@@ -12,3 +12,17 @@ class StudentActions extends Notifier<int> {
 }
 
 final studentActionsProvider = NotifierProvider<StudentActions, int>(StudentActions.new);
+
+/// Whether the student finished onboarding (sealed their plan) in this run of the app. Like
+/// [studentActionsProvider] it starts false on every cold start. The first-session Pro pop-up (as on
+/// the website, where onboarding marks it as it finishes) treats the run in which onboarding finished
+/// as the student's first usage session; a student who signed straight in never sets it.
+class OnboardedThisRun extends Notifier<bool> {
+  @override
+  bool build() => false;
+
+  /// The student sealed their onboarding plan.
+  void sealed() => state = true;
+}
+
+final onboardedThisRunProvider = NotifierProvider<OnboardedThisRun, bool>(OnboardedThisRun.new);

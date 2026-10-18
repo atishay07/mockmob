@@ -49,6 +49,7 @@ class ProNudgeRow extends ConsumerWidget {
               padding: EdgeInsets.only(top: topGap, bottom: bottomGap),
               child: _Row(
                 line: line,
+                action: ProNudgeCopy.actionFor(surface),
                 onOpen: () => showUpgradeSheetIfOn(context, reason: reason ?? ProNudgeCopy.reasonFor(surface)),
                 onDismiss: () => ref.read(proNudgeProvider.notifier).dismiss(surface),
               ),
@@ -59,9 +60,10 @@ class ProNudgeRow extends ConsumerWidget {
 }
 
 class _Row extends StatelessWidget {
-  const _Row({required this.line, required this.onOpen, required this.onDismiss});
+  const _Row({required this.line, required this.action, required this.onOpen, required this.onDismiss});
 
   final String line;
+  final String action;
   final VoidCallback onOpen;
   final VoidCallback onDismiss;
 
@@ -74,7 +76,7 @@ class _Row extends StatelessWidget {
         Expanded(
           child: MmPressable(
             onTap: onOpen,
-            semanticsLabel: '$line. ${ProNudgeCopy.nudgeAction}',
+            semanticsLabel: '$line $action',
             focusRadius: MmRadius.keyAll,
             builder: (context, pressed, focused) => ConstrainedBox(
               constraints: const BoxConstraints(minHeight: MmTarget.min),
@@ -87,7 +89,7 @@ class _Row extends StatelessWidget {
                       style: type.small.copyWith(color: colors.ink2),
                       children: [
                         TextSpan(text: '$line '),
-                        TextSpan(text: ProNudgeCopy.nudgeAction, style: type.small.copyWith(color: colors.ink, fontWeight: FontWeight.w700)),
+                        TextSpan(text: action, style: type.small.copyWith(color: colors.ink, fontWeight: FontWeight.w700)),
                       ],
                     ),
                   ),

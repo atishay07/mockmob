@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show ProviderListenable;
 
 import '../../../core/api/api_providers.dart' show nowProvider;
 import '../../../core/auth/auth_state.dart';
@@ -17,8 +18,8 @@ final proNudgePrefsProvider = Provider<PrefsStore>((ref) => SharedPrefsStore());
 
 final proNudgeStoreProvider = Provider<ProNudgeStore>((ref) => ProNudgeStore(ref.watch(proNudgePrefsProvider)));
 
-/// Names this run of the app. A new one every cold start; it is what "the first session after
-/// onboarding" is compared with. Replaceable in tests.
+/// Names this run of the app. A new one every cold start; the first usage session after onboarding is
+/// the run in which onboarding finished (the website's browser session). Replaceable in tests.
 final proNudgeLaunchProvider = Provider<String>((ref) => DateTime.now().microsecondsSinceEpoch.toString());
 
 /// Whether the Pro nudges exist for this student at all: `PLAY_BILLING` on, signed in, not Pro.
@@ -44,28 +45,17 @@ class ProNudgeState {
   ProNudgeState copyWith({bool? loaded, ProNudgeSaved? saved}) => ProNudgeState(userId: userId, loaded: loaded ?? this.loaded, saved: saved ?? this.saved);
 }
 
-/// What the Pro nudges know: what was shown and dismissed (saved on the phone), and which run of the
-/// app is the first after onboarding. The rules themselves are in `nudge_rules.dart`.
+/// What the Pro nudges know: what was shown and dismissed (saved on the phone), and when onboarding
+/// finished (the start of the first usage session). The rules themselves are in `nudge_rules.dart`.
 class ProNudgeController extends Notifier<ProNudgeState> {
-  /// The student was seen in onboarding in this run.
-  bool _sawOnboarding = false;
-
   @override
   ProNudgeState build() {
     final userId = ref.watch(playBillingUserIdProvider);
-    if (ref.read(proNudgeInOnboardingProvider)) _sawOnboarding = true;
-    ref.listen<bool>(proNudgeInOnboardingProvider, (_, now) {
-      if (now) {
-        _sawOnboarding = true;
-      } else {
-        // Out of onboarding: this run is the onboarding run, and is marked as such.
-        _classify();
-      }
-    });
-    // The nudges may come on later (the plan read says Free): the run is classified then.
-    ref.listen<bool>(proNudgesOnProvider, (_, on) {
-      if (on) _classify();
-    });
+    // Each of these can be what completes the picture (out of onboarding, the plan read says Free,
+    // onboarding sealed); the mark is decided from the state, never from the order they arrive in.
+    ref.listen<bool>(proNudgeInOnboardingProvider, (_, _) => _noteOnboarded());
+    ref.listen<bool>(proNudgesOnProvider, (_, _) => _noteOnboarded());
+    ref.listen<bool>(onboardedThisRunProvider, (_, _) => _noteOnboarded());
     if (userId != null) unawaited(Future<void>.microtask(() => _load(userId)));
     return ProNudgeState(userId: userId);
   }
@@ -74,25 +64,35 @@ class ProNudgeController extends Notifier<ProNudgeState> {
     final saved = await ref.read(proNudgeStoreProvider).load(userId);
     if (!ref.mounted || state.userId != userId) return;
     state = state.copyWith(loaded: true, saved: saved);
-    _classify();
+    _noteOnboarded();
   }
 
-  /// Marks which run is the onboarding run and which is the first after it. Waits until the nudges
-  /// are on for this student and the student is out of onboarding.
-  void _classify() {
+  /// Onboarding finished in this run, the student is signed in and out of onboarding, and the nudges
+  /// are on: the first usage session starts now (once; see [PopupRules.noteOnboarded]).
+  void _noteOnboarded() {
     final userId = state.userId;
     if (userId == null || !state.loaded) return;
-    if (!ref.read(proNudgesOnProvider) || ref.read(proNudgeInOnboardingProvider)) return;
+    if (!ref.read(onboardedThisRunProvider) || !ref.read(proNudgesOnProvider) || ref.read(proNudgeInOnboardingProvider)) return;
     final saved = state.saved;
-    final next = PopupRules.classify(
+    final mark = PopupRules.noteOnboarded(
+      onboardedAt: saved.onboardedAt,
+      shown: saved.popupShown,
+      now: ref.read(nowProvider)(),
       launchId: ref.read(proNudgeLaunchProvider),
-      sawOnboarding: _sawOnboarding,
-      onboardedLaunch: saved.onboardedLaunch,
-      firstSessionLaunch: saved.firstSessionLaunch,
+      actions: ref.read(studentActionsProvider),
     );
-    if (next == null) return;
-    state = state.copyWith(saved: saved.copyWith(onboardedLaunch: next.onboardedLaunch, firstSessionLaunch: next.firstSessionLaunch));
-    unawaited(ref.read(proNudgeStoreProvider).saveLaunches(userId, onboardedLaunch: next.onboardedLaunch, firstSessionLaunch: next.firstSessionLaunch));
+    if (mark == null) return;
+    state = state.copyWith(saved: saved.copyWith(onboardedAt: mark.at, onboardedLaunch: mark.launch, actionsAtOnboarded: mark.actions));
+    unawaited(ref.read(proNudgeStoreProvider).saveOnboarded(userId, at: mark.at, launch: mark.launch, actions: mark.actions));
+  }
+
+  /// The first-session pop-up's moment: checks the rules again with the clock as it is now and, when
+  /// it is due, marks it shown (saved on the phone, never shown again for this account) and returns
+  /// true. Marked before it opens, so a second call in the same moment finds it shown.
+  bool takePopup() {
+    if (PopupRules.verdict(_inputs(ref, state, watch: false)) != PopupVerdict.due) return false;
+    popupShown();
+    return true;
   }
 
   /// The first-session pop-up is being shown: it is never shown again, on this phone, for this account.
@@ -113,6 +113,23 @@ class ProNudgeController extends Notifier<ProNudgeState> {
   }
 }
 
+/// The pop-up's inputs: [watch] in the provider (so it follows every change), read at the moment of showing.
+PopupInputs _inputs(Ref ref, ProNudgeState s, {required bool watch}) {
+  T get<T>(ProviderListenable<T> p) => watch ? ref.watch(p) : ref.read(p);
+  return PopupInputs(
+    enabled: get(proNudgesOnProvider),
+    loaded: s.loaded,
+    shown: s.saved.popupShown,
+    inOnboarding: get(proNudgeInOnboardingProvider),
+    launchId: get(proNudgeLaunchProvider),
+    now: get(nowProvider)(),
+    onboardedAt: s.saved.onboardedAt,
+    onboardedLaunch: s.saved.onboardedLaunch,
+    actions: get(studentActionsProvider),
+    actionsAtOnboarded: s.saved.actionsAtOnboarded,
+  );
+}
+
 final proNudgeProvider = NotifierProvider<ProNudgeController, ProNudgeState>(ProNudgeController.new);
 
 /// Whether the inline nudge for [surface] may show now. Never for a Pro student, never with the flag
@@ -123,19 +140,9 @@ final proNudgeVisibleProvider = Provider.family<bool, ProNudgeSurface>((ref, sur
   return InlineRules.visible(enabled: enabled, loaded: s.loaded, now: ref.watch(nowProvider)(), dismissedAt: s.saved.dismissed[surface.key]);
 });
 
-/// Why the first-session pop-up is or is not due. See [PopupRules.verdict].
-final upgradePopupVerdictProvider = Provider<PopupVerdict>((ref) {
-  final s = ref.watch(proNudgeProvider);
-  return PopupRules.verdict(PopupInputs(
-    enabled: ref.watch(proNudgesOnProvider),
-    loaded: s.loaded,
-    shown: s.saved.popupShown,
-    inOnboarding: ref.watch(proNudgeInOnboardingProvider),
-    launchId: ref.watch(proNudgeLaunchProvider),
-    firstSessionLaunch: s.saved.firstSessionLaunch,
-    actions: ref.watch(studentActionsProvider),
-  ));
-});
+/// Why the first-session pop-up is or is not due. See [PopupRules.verdict]. The clock is read when a
+/// dependency changes; [ProNudgeController.takePopup] reads it again at the moment of showing.
+final upgradePopupVerdictProvider = Provider<PopupVerdict>((ref) => PopupRules.verdict(_inputs(ref, ref.watch(proNudgeProvider), watch: true)));
 
 /// True while the first-session pop-up is due and has not been shown. The app shell shows it, once
 /// the student is back on a calm screen, and calls [ProNudgeController.popupShown].

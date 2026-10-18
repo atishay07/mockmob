@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/api_providers.dart' show nowProvider;
+import '../../../core/repositories/student_actions.dart' show onboardedThisRunProvider;
 import '../data/eligibility.dart';
 import '../data/subjects.dart';
 import '../model/answers.dart';
@@ -271,7 +272,11 @@ class AnswersController extends AsyncNotifier<OnboardingAnswers> {
 
   void skip(String step) => _set(_current.skip(step));
 
-  void seal() => _set(_current.copyWith(sealedAt: ref.read(nowProvider)()).mark(Steps.plan));
+  void seal() {
+    _set(_current.copyWith(sealedAt: ref.read(nowProvider)()).mark(Steps.plan));
+    // Onboarding is finished in this run: the first-session Pro pop-up counts from here (D81).
+    ref.read(onboardedThisRunProvider.notifier).sealed();
+  }
 
   void setAge(AgeAnswer age) => _set(_current.copyWith(age: age));
 
