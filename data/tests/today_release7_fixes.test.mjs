@@ -139,3 +139,14 @@ test('L5: Revise whose read failed is unknown, listed as unknown, never counted 
   // Still loading: unknown too, said as checking.
   assert.match(roadLayers({ ...base, revise: null, reviseState: 'loading' }).today.left, /Checking Revise/);
 });
+
+test('M6: a jump aims again once the page settles, and never fights the student or holds a ref in the page', () => {
+  const page = read('src/app/(app)/result/[id]/ResultPageClient.jsx');
+  const settle = read('src/components/result/settleInto.mjs');
+  assert.match(page, /settleInto\(el, \{ behavior: reducedMotion\(\) \|\| quick \? 'auto' : 'smooth' \}\)/);
+  assert.match(page, /useEffect\(\(\) => cancelSettle, \[\]\)/);
+  assert.doesNotMatch(page, /settleRef/);
+  // It stops on the student's own input, and a new jump ends the one running.
+  assert.match(settle, /const USER = \['wheel', 'touchstart', 'pointerdown', 'keydown'\]/);
+  assert.match(settle, /export function settleInto\([^)]*\) \{\n  cancelSettle\(\);/);
+});

@@ -51,6 +51,7 @@ import { useAuth } from '@/components/AuthProvider';
 import { useWalletSummary } from '@/components/useWalletSummary';
 import { bankCount, nextPaper, practiceSubjectId } from '@/lib/paperCopy.mjs';
 import AnalysisParts, { partFromUrl, writePart, scrollToPart } from '@/components/result/AnalysisParts';
+import { settleInto, cancelSettle } from '@/components/result/settleInto.mjs';
 import { QuestionStrip, replayCutLine } from '@/components/result/ReplaySlots';
 import { knownRecord } from '@/../data/replay';
 import { ReelEntry } from '@/components/result/PaperReel';
@@ -208,6 +209,7 @@ export default function ResultPageClient({ previewId = null }) {
   // Said above the list only when the move pulled a mistake ahead of the order the list would otherwise follow.
   const leadMoved = useMemo(() => { const natural = inRepairOrder(analysis?.mistakes, repairOrder); return Boolean(leadQid) && natural.length > 1 && natural[0]?.q?.id !== leadQid; }, [analysis, repairOrder, leadQid]);
 
+  useEffect(() => cancelSettle, []);
   const jumpTo = useCallback((number, { repair = false, instant, keepFocus = false } = {}) => {
     const row = analysis?.rows.find(r => r.number === number);
     if (!row) return;
@@ -230,7 +232,8 @@ export default function ResultPageClient({ previewId = null }) {
     setArrived((prev) => ({ number, n: (prev?.n || 0) + 1 }));
     requestAnimationFrame(() => requestAnimationFrame(() => {
       const el = document.getElementById(`q-${number}`);
-      el?.scrollIntoView({ behavior: reducedMotion() || quick ? 'auto' : 'smooth', block: 'start' });
+      // Aimed again once the scroll ends, so the part opening in the same frame cannot leave the row under the sticky heading.
+      settleInto(el, { behavior: reducedMotion() || quick ? 'auto' : 'smooth' });
       if (!keepFocus) el?.querySelector('.rp-q__bar')?.focus({ preventScroll: true });
     }));
   }, [analysis, runIds, engaged, orderedMistakes]);
