@@ -64,3 +64,14 @@ T003 (value before sign-up: the sample and the new line), S016 (WCAG 2.2: contra
 - Two of the four phrases are new words ("Know what to fix.", "Fresh every time.") because three candidates did not fit one line; the owner may prefer others of the same width.
 - The desktop headline is 2.6% smaller (11.3 cqi of the column, was 11.6) so "Every mark traced." fits its column.
 - Not tested on a real phone.
+
+## Verified after the account switch (18 Oct, resumed session)
+
+The STOP POINT commit (02d2558d) was reviewed line by line and kept whole; nothing in it needed changing.
+
+- **Suites:** landing + Mobi + lab tests 138/138 (heroPhrases, labStory, landingCopy, landingMobi, landingPosition, sectionPositionPhase, landing_content, mobi_*, pip_journey, mistake_lab, lab_loop); `test:recovery` 415/415; `eslint` clean; `next build --webpack` passes.
+- **Browser (headless, own profile), 390 x 844 and 1440 x 900, Night and Day:** no console errors; "CUET 2027." is rgb(210, 240, 0) on Night and rgb(82, 103, 0) on Day; the third line changes letter by letter ("No more guessing." to "Every mark traced." and on); the h1's accessible name stays "CUET 2027. One mock. No more guessing.".
+- **One Mobi:** the page scrolled top to bottom in 0.4-window steps in all four views, at most one Mobi on screen at every step; also after a wrong sample answer (390 Day: the sample's Mobi only; 1440 Night: the lane Mobi tilts in the warm pose, the sample's own figure hidden); also under Reduce motion (both widths, the line stays on "No more guessing.").
+- **Changes scene:** Q4 5:08 to 6:00 (0:52 later), Q8 12:12 to 12:58 (0:46), Q9 14:21 to 14:59 (0:38) on the phone list, the desktop lanes and the clock; no "10:35 later" anywhere.
+- **Close band:** at 1440 (Night and Day) Mobi stands clear above "See you at your first mock."; at 390 he sits beside it.
+- The dev server for review is the one already serving this worktree on port 3206 (Next refuses a second dev server per folder, so 3405 could not start).
