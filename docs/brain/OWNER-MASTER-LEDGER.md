@@ -508,6 +508,20 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 | G32-G33 | Not satisfied; agents must think through every point, exceed it, and act, not loop | RULE |
 | KEEP | G2 first onboarding screen, G9 common sets and picks, G10 the bigger bar and animation, G14 Today | KEEP |
 
+### Owner decisions, 19 Oct about 1:35-1:45 am (D101-D110; verbatim in OWNER-FEEDBACK-2026-10-19.md; specs in PLAN-1019.md)
+| # | Decision | Status |
+|---|---|---|
+| D101 | Pro-only modes (NTA mode, Smart practice) VISIBLE but locked in the app while PLAY_BILLING is off; never hidden | PLANNED (Wave A1) |
+| D102 | Planning only tonight; a complete handoff with nothing unclear | DONE 2:10 am (PLAN-1019, NOW.md, NEXT-PROMPT-1019) |
+| D103 | Colleges ordered by last year's real closing marks for the course and category, number shown | PLANNED (A2) |
+| D104 | Today: "Your top 3 of N" plus "See all N" | PLANNED (A2) |
+| D105 | App bar: Today, Practice, Start, Mob, You; Review moves into Practice as Your papers | PLANNED (A1) |
+| D106 | Your papers: stats strip, subject filter, papers newest first (tap = result + answers), then Mistakes by chapter | PLANNED (A3) |
+| D107 | Web navigation: 2-3 mock-ups, he picks before anything moves | PLANNED (Wave B) |
+| D108 | After Submit (app): restore the approved finish moment (68f63c11), then completion line, count-up, one next move | PLANNED (A3) |
+| D109 | "I don't know my range": estimate after one full mock per subject, progress per subject | PLANNED (A5) |
+| D110 | Ask Mobi ("Ask now" / "Ask your record", big): mock-up first | PLANNED (Wave B) |
+
 ## Waiting on the owner (updated 18 Oct about 3:45 am)
 - Answered 3:50 am: M-001 first launch 3 s; M-006 bolder copy; D19 keep badges, refine; D22 Mob.
 - D32: confirm the kept landing element when he reviews the port live (wt-land3, port 3206).
