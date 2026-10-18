@@ -156,18 +156,19 @@ void main() {
   });
 
   group('D45 up to three picks', () {
-    test('a fourth pick swaps out the oldest; the first is the primary', () async {
+    test('a fourth pick replaces the Third, never the First; the first is the primary', () async {
       final (c, answers) = await _controller();
-      expect(answers.toggleWorry(Worry.time), isFalse);
+      expect(answers.toggleWorry(Worry.time), isNull);
       answers.toggleWorry(Worry.numericals);
       answers.toggleWorry(Worry.passages);
       expect(_answers(c).worries, [Worry.time, Worry.numericals, Worry.passages]);
       expect(_answers(c).worry, Worry.time);
-      expect(answers.toggleWorry(Worry.knewIt), isTrue, reason: 'the step shows the light hint');
-      expect(_answers(c).worries, [Worry.numericals, Worry.passages, Worry.knewIt]);
+      expect(answers.toggleWorry(Worry.knewIt), Worry.passages, reason: 'the step names the pick that went');
+      expect(_answers(c).worries, [Worry.time, Worry.numericals, Worry.knewIt]);
+      expect(_answers(c).worry, Worry.time, reason: 'the pick that sets the start never changes silently');
       answers
         ..toggleWorry(Worry.numericals)
-        ..toggleWorry(Worry.passages)
+        ..toggleWorry(Worry.time)
         ..toggleWorry(Worry.knewIt);
       expect(_answers(c).worries, isEmpty);
       expect(_answers(c).isDone(Steps.worry), isFalse, reason: 'nothing picked: unanswered again');
@@ -198,17 +199,24 @@ void main() {
       expect(PlanSummary.worriesLine(a.copyWith(worries: const [Worry.time])), isNull);
     });
 
-    testWidgets('the step marks each pick with its place and hints at a swap', (tester) async {
+    test('a swap: Mobi names the pick that went', () {
+      final before = studentUpTo(Steps.subjects, step: Steps.worry).copyWith(worries: const [Worry.knewIt, Worry.passages, Worry.time]);
+      final after = before.copyWith(worries: const [Worry.knewIt, Worry.passages, Worry.syllabus]);
+      expect(mobiCueFor(before, after)?.line, "Swapped out 'The last 10 questions'. Three is the most.");
+    });
+
+    testWidgets('the step marks each pick with its place and Mobi names a swap', (tester) async {
       final c = await _flowAt(tester, studentUpTo(Steps.subjects, step: Steps.worry));
       for (final w in [Worry.time, Worry.numericals, Worry.passages]) {
         await _tap(tester, find.text(w.option));
       }
       expect(find.text('First'), findsOneWidget);
       expect(find.text('Third'), findsOneWidget);
-      expect(find.text(ChoicesCopy.worrySwapped), findsNothing);
+      final swapLine = ChoicesCopy.worrySwappedOut(Worry.passages.words);
+      expect(find.text(swapLine, findRichText: true), findsNothing);
       await _tap(tester, find.text(Worry.syllabus.option));
-      expect(find.text(ChoicesCopy.worrySwapped), findsOneWidget);
-      expect(_answers(c).worries, [Worry.numericals, Worry.passages, Worry.syllabus]);
+      expect(find.text(swapLine, findRichText: true), findsOneWidget, reason: "in Mobi's bubble, always in view");
+      expect(_answers(c).worries, [Worry.time, Worry.numericals, Worry.syllabus]);
     });
   });
 

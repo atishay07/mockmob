@@ -26,6 +26,11 @@ abstract final class ChoicesCopy {
   // Marks step (D45).
   static const String worrySupport = 'Pick up to three. The first one decides where you start.';
   static const String worrySwapped = 'Three is the most. Your oldest pick made room.';
+
+  /// Mobi, when a fourth pick replaces the third: names the pick that went (v15 taste pass).
+  static String worrySwappedOut(String words) => "Swapped out '${_capital(words)}'. Three is the most.";
+
+  static String _capital(String s) => s.isEmpty ? s : s[0].toUpperCase() + s.substring(1);
   static String worryRank(int i) => switch (i) { 0 => 'First', 1 => 'Second', _ => 'Third' };
 
   // Pace step (D46, D47).

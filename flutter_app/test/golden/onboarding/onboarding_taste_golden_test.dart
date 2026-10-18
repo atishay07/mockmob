@@ -100,6 +100,16 @@ void main() {
       overrides: () => onboardingOverrides(answers: studentUpTo(Steps.plan, step: Steps.save).copyWith(age: AgeAnswer.minor)),
       act: (tester) => _holdPreview(tester, -110),
     );
+    // Marks: a fourth pick replaces the Third and Mobi names it.
+    onboardingGolden(
+      'taste_worry_swap_${e.key}',
+      _flow,
+      size: e.value,
+      overrides: () => onboardingOverrides(
+        answers: studentUpTo(Steps.subjects, step: Steps.worry).copyWith(worries: const [Worry.knewIt, Worry.passages, Worry.time]).mark(Steps.worry),
+      ),
+      act: (tester) => _tap(tester, find.text(Worry.syllabus.option)),
+    );
     // Save: the keys at full strength before the age; the age answers as tiles.
     onboardingGolden('taste_save_ask_${e.key}', _flow, size: e.value, overrides: () => onboardingOverrides(answers: studentUpTo(Steps.plan, step: Steps.save)));
   }
