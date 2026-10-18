@@ -7,7 +7,6 @@ import 'package:go_router/go_router.dart';
 import 'package:mockmob/features/practice/practice_routes.dart';
 
 import '../../helpers/fonts.dart';
-import '../core_data/support/fixtures.dart';
 import 'support/harness.dart';
 
 List<GoRoute> _routes() => [
