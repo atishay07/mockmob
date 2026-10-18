@@ -55,7 +55,7 @@ abstract final class SuggestedCopy {
   static const String titleMock = 'Sit a full mock';
 
   /// The full mock card's evidence line: what a timed paper gives that a short set does not.
-  static const String mockLine = 'It is timed like the real exam, so you see how you do against the clock.';
+  static const String mockLine = 'You sit it timed, just like the real exam.';
 
   /// What a card costs and how long it is: "Accountancy, 10 questions", "Free, about 10 min".
   static String costQuestions(String subject, int questions) => '$subject, $questions questions';
@@ -73,7 +73,7 @@ abstract final class SuggestedCopy {
   static String costMock(String subject, int questions, int minutes) => '$subject, $questions questions, $minutes min';
 
   /// The one evidence line.
-  static String weakestLine(String chapter, int missed, int asked, int marks) => 'You missed $missed of $asked in $chapter, and that cost you $marks marks.';
+  static String weakestLine(String chapter, int missed, int asked, int marks) => 'You lost $marks marks in $chapter by missing $missed of $asked.';
 
   /// A repair card's evidence line: how many mistakes the repair fixes, and why now (19 Oct, D114:
   /// the card used to repeat the lead card's source fragment). Null without a count.
@@ -97,6 +97,9 @@ abstract final class SuggestedCopy {
       };
   static const String endOurPick = 'The card above is still our pick for you.';
   static const String endYourPick = 'Your pick is ready in the card above.';
+
+  /// Over the end card while a paper waits in the lead card (the reel, 19 Oct).
+  static const String endReel = 'Your paper is still waiting in the card above.';
   static const String again = 'Go through them again';
 
   /// "Go through them again" over one card: there is no "them".
@@ -137,10 +140,10 @@ abstract final class StarterCopy {
   static const String titleSubjectsNone = 'Add your subjects';
 
   /// The subject the student rated weakest in the setup.
-  static String weakestWhy(String subject, int n) => 'You rated $subject your weakest subject, so it has the most marks waiting for you. $n questions show where it stands today.';
+  static String weakestWhy(String subject, int n) => 'You rated $subject as your weakest subject, so start there. $n questions show where it stands today.';
 
   /// Any other subject, before a paper exists.
-  static String quickWhy(String subject, int n) => 'A quick $n in $subject shows where you stand in about $n minutes.';
+  static String quickWhy(String subject, int n) => 'A quick $n in $subject shows where you stand right now.';
 
   /// The language paper (English).
   static String languageWhy(String subject, int n) => 'Most DU courses count a language paper, and $subject is the usual one. $n questions keep it sharp.';

@@ -283,7 +283,9 @@ MoveHero _buildMove(TodayInputs i) {
         kind: state == NextMoveState.newUser ? MoveKind.dayOne : MoveKind.other,
         headline: state == NextMoveState.subjectChanged ? TodayCopy.subjectChanged : (scheduled ? TodayCopy.checkSetFor(i.clock(at)) : null),
         number: '$count',
-        numberLabel: 'questions to your\nstarting point',
+        // "Find your starting point" is the title: the label gives the subject (19 Oct: the card said
+        // "starting point" twice).
+        numberLabel: 'questions in\n$name',
         meaning: framing == null ? TodayCopy.startingPointLine(name, count) : TodayCopy.startingPointWith(name, framing, count),
         durationPrompt: TodayCopy.practiceLength,
         durations: options,

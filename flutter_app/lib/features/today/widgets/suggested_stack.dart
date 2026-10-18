@@ -88,7 +88,7 @@ const double deckLandAt = 0.8;
 SpringDescription get deckFlightSpring => Springs.settle;
 
 class SuggestedStack extends StatefulWidget {
-  const SuggestedStack({super.key, required this.cards, required this.onChoose, this.onUndoChoose, this.onMore, this.leadKey, this.closeBar, this.onLanded});
+  const SuggestedStack({super.key, required this.cards, required this.onChoose, this.onUndoChoose, this.onMore, this.leadKey, this.closeBar, this.onLanded, this.endLine});
 
   /// The deck, in order: [buildSuggestedDeck]. The stack sinks kinds passed on often ([DeckMemory]).
   final List<SuggestedCard> cards;
@@ -113,6 +113,10 @@ class SuggestedStack extends StatefulWidget {
   /// The accepted card has reached the lead card (motion on): the screen lets the lead card settle
   /// under it.
   final VoidCallback? onLanded;
+
+  /// What the end card says about the card above it, when that is not the usual pick (a paper's reel
+  /// stands in the lead card): null keeps the pick lines.
+  final String? endLine;
 
   /// On the card on top of the deck.
   static const Key topKey = ValueKey('suggested-top');
@@ -1072,7 +1076,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
               child: Padding(
                 padding: EdgeInsets.only(bottom: _peekRoom),
                 child: ended
-                    ? _EndCard(count: _pass.length, yourPick: _leadIsPick, height: _endHeight, onMore: widget.onMore)
+                    ? _EndCard(count: _pass.length, yourPick: _leadIsPick, line: widget.endLine, height: _endHeight, onMore: widget.onMore)
                     : LayoutBuilder(
                         builder: (context, box) {
                           _width = box.maxWidth;
@@ -2391,12 +2395,15 @@ class _UpNextBarState extends State<_UpNextBar> {
 /// The end of the deck: a dashed card with Mobi thinking, where the student stands, and every way
 /// to practise. The row under it offers Undo and Go through them again.
 class _EndCard extends StatelessWidget {
-  const _EndCard({required this.count, required this.yourPick, this.height, this.onMore});
+  const _EndCard({required this.count, required this.yourPick, this.line, this.height, this.onMore});
 
   final int count;
 
   /// The lead card is the student's own pick (else it is still the recommended move).
   final bool yourPick;
+
+  /// Replaces the pick line (the card above is not a move).
+  final String? line;
 
   /// The deck's height as it ended: the end card takes it, so nothing under it moves.
   final double? height;
@@ -2427,7 +2434,7 @@ class _EndCard extends StatelessWidget {
               ),
               const SizedBox(height: MmSpace.s2),
               Text(
-                yourPick ? SuggestedCopy.endYourPick : SuggestedCopy.endOurPick,
+                line ?? (yourPick ? SuggestedCopy.endYourPick : SuggestedCopy.endOurPick),
                 textAlign: TextAlign.center,
                 style: type.small.copyWith(fontSize: 14, height: 20 / 14, color: colors.ink2),
               ),

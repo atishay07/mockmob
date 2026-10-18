@@ -20,9 +20,11 @@ import '../../practice/data/open_paper.dart' show ContinueResult, OpenPaper;
 import '../../tools/tools_paths.dart';
 import '../copy.dart';
 import '../copy_glance.dart';
+import '../copy_suggested.dart' show SuggestedCopy;
 import '../data/lead_pick.dart' show shownHeroFor, todayPicks;
 import '../logic/move_price.dart' show priceKeyOf;
 import '../logic/suggested_deck.dart' show DeckCoach, DeckMemoryStore, buildSuggestedDeck, deckSize;
+import '../logic/today_builder.dart' show alsoSlotFor;
 import '../logic/today_model.dart';
 import '../logic/today_reactions.dart';
 import '../widgets/also_slots.dart';
@@ -224,6 +226,8 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
     final hero = widget.view.hero;
     final key = _pickKey;
     final all = widget.view.choices;
+    // A paper's reel in the lead: the deck holds every move, and a pick takes the lead from the reel.
+    if (hero is SealedHero) return [for (final c in all) if (c.key != key) c].take(deckSize).toList();
     if (hero is! MoveHero) return const [];
     final picked = key == null ? null : all.where((c) => c.key == key && c.hero != null).firstOrNull;
     if (picked == null) return all.take(deckSize).toList();
@@ -237,15 +241,19 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
     final hero = _shownHero;
     // While Today loads, the stack's place is held (L03), so the week does not jump when it lands.
     if (hero == null) return Padding(padding: const EdgeInsets.only(top: 28), child: SuggestedStackSkeleton(delay: widget.skeletonDelay));
-    if (hero is! MoveHero || hero.kind == MoveKind.failure || hero.state == NextMoveState.historyUnavailable) return const SizedBox(width: double.infinity);
+    // The reel stands in the lead card (a paper to play back): the deck is still under it.
+    final reel = widget.view.hero is SealedHero && hero is SealedHero;
+    if (!reel && (hero is! MoveHero || hero.kind == MoveKind.failure || hero.state == NextMoveState.historyUnavailable)) return const SizedBox(width: double.infinity);
     final cards = buildSuggestedDeck(_shownChoices, glance: widget.view.glance);
+    if (cards.isEmpty) return const SizedBox(width: double.infinity);
     return Padding(
       padding: const EdgeInsets.only(top: 28),
       child: SuggestedStack(
         cards: cards,
         onChoose: _choose,
         onUndoChoose: _undoChoose,
-        leadKey: _moveKey,
+        leadKey: reel ? _heroBoxKey : _moveKey,
+        endLine: reel ? SuggestedCopy.endReel : null,
         closeBar: _leadActed,
         onLanded: _landed,
         onMore: () => widget.callbacks.onAction(const TodayAction(GlanceCopy.moreWays, OpenAlternatives())),
@@ -678,7 +686,8 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
   /// goes, and the page below eases to the new height. A change inside one kind (a chip, a
   /// refresh) updates the card in place.
   Widget _heroSwap() {
-    final kind = widget.view.hero?.runtimeType;
+    // The kind on show: a card picked from the deck can put a move where the reel stood.
+    final kind = _shownHero?.runtimeType;
     _noteHeroKind(kind);
     return MmSizeEase(
       duration: Motion.card,
@@ -760,7 +769,10 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
       if (mounted) _measure();
     });
     final hero = _heroSwap();
-    final heroMobi = view.hero is MoveHero && (view.hero! as MoveHero).art.isMobi;
+    final shown = _shownHero;
+    final heroMobi = shown is MoveHero && shown.art.isMobi;
+    // A paper's reel gives way to a card picked from the deck: the paper waits in a row under it.
+    final alsoSlots = [if (view.hero is SealedHero && shown is! SealedHero) alsoSlotFor(view.hero!), ...view.also];
     final head = <Widget>[
       TodayHeader(
         header: view.header,
@@ -788,7 +800,7 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
         ),
       ),
       // The Suggested stack follows the card on the ground (D51), never inside it.
-      if (view.hero is MoveHero || view.hero == null) TodayEnter(delay: const Duration(milliseconds: 140), rise: 8, child: _suggested()),
+      if (view.hero is MoveHero || view.hero is SealedHero || view.hero == null) TodayEnter(delay: const Duration(milliseconds: 140), rise: 8, child: _suggested()),
     ];
     final road = view.road;
     final glance = view.glance;
@@ -803,11 +815,11 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
         curve: Motion.out,
         alignment: Alignment.topCenter,
         clipBehavior: Clip.none,
-        child: view.also.isEmpty
+        child: alsoSlots.isEmpty
             ? const SizedBox(width: double.infinity)
             : TodayEnter(
                 delay: const Duration(milliseconds: 160),
-                child: AlsoSlots(slots: view.also, onAction: callbacks.onAction, offline: view.offline, retrying: widget.retrying),
+                child: AlsoSlots(slots: alsoSlots, onAction: callbacks.onAction, offline: view.offline, retrying: widget.retrying),
               ),
       ),
       ?widget.weeklyEnding,
@@ -934,7 +946,7 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
     // or a line, and fading it out never moves the page. It leads to the week (TODAY-1018 2a).
     if (view.road != null && view.hero != null) {
       final cue = KeyedSubtree(key: _cueKey, child: MoreBelowSlot(cue: _moreCue, onTap: _toRoad, label: GlanceCopy.cue));
-      final gapAt = view.also.isEmpty && widget.weeklyEnding == null ? 1 : 0;
+      final gapAt = alsoSlots.isEmpty && widget.weeklyEnding == null ? 1 : 0;
       if (after.length > gapAt && after[gapAt] is SizedBox) {
         after[gapAt] = cue;
       } else {

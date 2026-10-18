@@ -543,7 +543,10 @@ void main() {
             return tester.getSize(find.byWidget(child)).height;
           }
 
-          final view = _view();
+          // The skeleton holds the usual tallest card: a cost line and a two-line title. A long subject
+          // name ("Business Studies, 10 questions") wraps its cost line at 1.3x on 412 dp, which is a
+          // line more than any placeholder can know, so this deck's subjects are short ones.
+          final view = buildToday(ashaInputs(now: _sunday, attempts: ashaRecord(_sunday), week: _week, reviseDue: 6, subjects: const ['accountancy', 'economics', 'english']));
           final landed = await heightOf(SuggestedStack(cards: buildSuggestedDeck(view.choices, glance: view.glance), onChoose: (_) {}, onMore: () {}));
           final loading = await heightOf(const SuggestedStackSkeleton(delay: Duration.zero));
           expect(loading, closeTo(landed, 1), reason: 'the week under it barely moves when Today lands');

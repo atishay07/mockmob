@@ -230,9 +230,9 @@ abstract final class OnboardingCopy {
 
   /// The swipe preview on the sheet after sign-in: the deck's own words (SWIPE-V2-1018 section 12).
   static const String swipePreviewTitle = 'Your next moves come as cards';
-  static const String swipePreviewRight = 'Up next';
+  static const String swipePreviewRight = 'Do this next';
   static const String swipePreviewLeft = 'Not now';
-  static const String swipePreviewCaption = 'Right puts a card up next. Left is not now. The buttons work too.';
+  static const String swipePreviewCaption = 'Swipe a card right to do it next, or left to skip it for now. The buttons do the same.';
 
   /// Mobi, when a sign-in key is tapped before the age is answered.
   static const String mobiAgeFirst = 'One quick one first: are you 18 yet?';

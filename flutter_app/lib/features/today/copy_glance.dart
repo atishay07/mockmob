@@ -262,6 +262,8 @@ abstract final class GlanceCopy {
   static String mistakeHead(int number, String paper, String when) => 'Q$number, $paper, $when';
   /// Day one, for a subject MockMob ranks chapters in: "Start with Partnership and Company Accounts. Your first paper shows where your marks go." The ranking holds no marks, so the line says where to start and never how much a chapter is worth.
   static String weakDayOneStart(List<String> chapters) => 'Start with ${chapters.join(' and ')}. Your first paper shows where your marks go.';
+  /// The key under it: ten questions on the first of those chapters.
+  static String weakDayOneKey(String chapter) => 'Practise $chapter, 10 questions';
   /// Day one, a subject with no ranking.
   static const String weakDayOne = 'Your weak chapters show here after your first paper: where the marks go, chapter by chapter.';
   static const String weakNone = 'No chapter stands out yet. Every chapter you have answered is holding.';

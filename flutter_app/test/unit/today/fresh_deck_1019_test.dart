@@ -77,7 +77,7 @@ void main() {
       final byKey = {for (final c in v.choices) c.key: c};
       expect(byKey['quick']!.hero!.subjectId, 'mathematics');
       expect(byKey['quick']!.hero!.title, StarterCopy.titleWeakest);
-      expect(byKey['quick']!.hero!.meaning, startsWith('You rated Mathematics as your weakest subject.'));
+      expect(byKey['quick']!.hero!.meaning, startsWith('You rated Mathematics as your weakest subject, so start there.'));
       expect(byKey['mock']!.hero!.subjectId, 'accountancy', reason: 'the first domain subject on the account (English is the language)');
       expect(byKey['language']!.hero!.subjectId, 'english');
       expect(byKey['mob']!.action, isNotNull, reason: 'the Mob card opens the Mob page; nothing starts from the deck');
@@ -124,9 +124,11 @@ void main() {
       expect(_keys(v).toSet().length, v.choices.length);
     });
 
-    test('a heavy record keeps its approved deck as it is (three cards of its own: nothing added, nothing lost)', () {
+    test('a heavy record keeps its own cards first and in order, and a fourth is added (nothing lost)', () {
       final v = buildToday(ashaInputs(now: _sunday, attempts: ashaRecord(_sunday), reviseDue: 6, mobInvite: true));
-      expect(_keys(v), ['revise', 'weakest', 'other']);
+      expect(_keys(v).take(3), ['revise', 'weakest', 'other']);
+      expect(v.choices.length, greaterThanOrEqualTo(deckMinimum), reason: _keys(v).join(', '));
+      expect(_keys(v).toSet().length, v.choices.length);
     });
 
     test('a test builds the deck from an empty history directly', () {
