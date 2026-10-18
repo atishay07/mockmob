@@ -265,7 +265,8 @@ export default function TodayPlanFlow({ open, onClose, startStep = 1, today, pla
       <p className="tpf__status" role="status">{status}</p>
       <div className="tpf__foot">
         {step > 1 ? <button type="button" className="tpf__back" onClick={() => go(step - 1)}>Back</button> : <span />}
-        {step < 3 ? <button type="button" className="tm__pill" onClick={() => go(step + 1)}>Next</button> : <button type="button" className="tm__key tpf__done" onClick={done}>Done</button>}
+        {/* Release 10 (#3): Next is the sheet's one volt key, like Done, so the lead action is never a quiet outline. */}
+        {step < 3 ? <button type="button" className="tm__key tpf__done tpf__next" onClick={() => go(step + 1)}>Next</button> : <button type="button" className="tm__key tpf__done" onClick={done}>Done</button>}
       </div>
     </TodaySheet>
   );

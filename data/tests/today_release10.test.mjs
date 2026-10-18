@@ -203,3 +203,12 @@ test('Another subject: short display names, capped ("Economics and 2 more"), the
   assert.equal(shortSubject('Economics / Business Economics'), 'Economics');
   assert.match(read('src/components/today/TodayMove.jsx'), /\$\{c\.choice\.full \|\| c\.choice\.value\}/);
 });
+
+test('Change plan: Next is the sheet\'s volt key, at least 48 px, full width up to 600 px', () => {
+  const flow = read('src/components/today/TodayPlanFlow.jsx');
+  assert.match(flow, /<button type="button" className="tm__key tpf__done tpf__next" onClick=\{\(\) => go\(step \+ 1\)\}>Next<\/button>/);
+  assert.doesNotMatch(flow, /className="tm__pill" onClick=\{\(\) => go\(step \+ 1\)\}/);
+  const sheet = css('src/components/today/today.css');
+  assert.match(sheet, /\.tsh \.tpf__done \{[^}]*min-height: 52px;/);
+  assert.match(sheet, /@media \(max-width: 600px\) \{ \.tsh \.tpf__done \{ flex: 1 1 auto; \}/);
+});
