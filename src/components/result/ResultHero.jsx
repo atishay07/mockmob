@@ -8,6 +8,7 @@
 import { useEffect, useState } from 'react';
 import { AlertTriangle } from 'lucide-react';
 import MobiReact from '@/components/brand/MobiReact';
+import { heroAct } from './heroAct.mjs';
 
 const still = () => {
   try { return document.documentElement.dataset.motion === 'reduced' || window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { return true; }
@@ -48,7 +49,7 @@ export default function ResultHero({ receipt, marks, finding, reaction = null, h
       : `${marks.blank} blank${marks.blank === 1 ? '' : 's'} left ${marks.gapBlank} marks unearned.`);
   return (
     <header className="rp-hero rh" data-mobi={reaction ? undefined : 'none'} data-arrive={arrive || undefined}>
-      {reaction ? <div className="rp-hero__pip rh-pip"><MobiReact act={reaction.act} size={96} label={reaction.alt} still={holdStill} /></div> : null}
+      {reaction ? <div className="rp-hero__pip rh-pip"><MobiReact act={heroAct(reaction.act)} size={96} label={reaction.alt} still={holdStill} /></div> : null}
       <div className="rp-hero__main">
         <p className="rp-eyebrow">{receipt}</p>
         <h1 className="rp-hero__score" aria-label={`${marks.scored} of ${marks.max} ${unit}`}>

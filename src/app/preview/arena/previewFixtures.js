@@ -58,6 +58,9 @@ export function fixtureUploads() {
 // A 10-question practice session shaped like a real hard one: 3 right, 6 wrong, 1 blank, two answer
 // changes (one right to wrong, one wrong to right) and several fast wrong picks. Scored by the real engine.
 const ADMISSION = { chapter: 'Admission of a Partner', body: 'A and B share profits 3:2. C is admitted and the new ratio is 2:2:1. The sacrificing ratio of A and B is:', options: ['3:2', '1:0', '1:1', '2:3'], answer: 'B', explanation: 'A gives up 3/5 − 2/5 = 1/5; B gives up 2/5 − 2/5 = 0. So only A sacrifices: 1:0.' };
+// The paper was taken a little while ago, in the viewer's own time, so a row that reads the paper's age (the Badge earned row
+// from ?earned=) can show; a fixed 4 Oct date could never be recent (R9).
+const PAPER_AGE_MS = 25 * 60 * 1000;
 export function fixtureAttempt() {
   const feed = fixtureFeed('accountancy');
   const asSnapshot = (q, i) => ({ id: `fixture-q${i + 1}`, chapter: q.chapter, difficulty: ['easy', 'medium', 'hard'][i % 3], question: q.body ?? q.question, explanation: q.explanation, options: q.options.map(o => (typeof o === 'string' ? o : o.text)), correctIndex: 'ABCD'.indexOf(q.correct_answer ?? q.answer) });
@@ -78,6 +81,6 @@ export function fixtureAttempt() {
   events.push({ seq: seq++, qid: questions.at(-1).id, at, type: 'visit' });
   const scored = scoreSession(questions, answers, events);
   return { id: 'fixture-attempt', subject: 'accountancy', score: scored.score, correct: scored.correct, wrong: scored.wrong, unattempted: scored.unattempted, total: scored.total,
-    completedAt: '2026-10-04T18:00:00.000Z', questionsSnapshot: questions, details: scored.details,
+    completedAt: new Date(Date.now() - PAPER_AGE_MS).toISOString(), questionsSnapshot: questions, details: scored.details,
     selectionMeta: { scoringVersion: 'server_practice_v1', recovery: scored.recovery } };
 }

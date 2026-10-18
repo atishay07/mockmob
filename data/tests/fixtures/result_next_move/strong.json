@@ -458,7 +458,7 @@
   "expected": {
     "costliest": {
       "line": "Accounting Ratios cost 12 of the 34 marks you missed.",
-      "detail": "2 wrong, of 10 questions."
+      "detail": "In Accounting Ratios: 2 wrong of its 10 questions."
     },
     "move": {
       "kind": "repair",

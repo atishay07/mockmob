@@ -265,20 +265,22 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       // Slice 3 parts on the Full mock's lab (previewMock.js fixtureLabLoop): &across=, &rulecheck=, &order=paper.
       // Slice 4 (fixtureSlice4): the trap tag under three wrong options and Same mistakes later in Prove; &traps=off leaves them out.
       // &lab=older leaves the rule check as not checked (the older-paper line).
+      // &tone=first_mock|higher|lower|held sets the server's recap tone, so Mobi's proud, cheering and encouraging acts can be seen (the default is none: he rests).
+      const tonePart = fixture.get('tone') ? { recap: { tone: fixture.get('tone') } } : {};
       const loop = (built) => (mock === 'full' ? fixtureSlice4({ lab: fixtureLabLoop({ lab: built.lab, attempt: built.attempt, answerReviews: built.answerReviews, across: fixture.get('across') || 'ready', ruleCheck: fixture.get('rulecheck') || (fixture.get('lab') === 'older' ? 'not_checked' : 'kept'), order: fixture.get('order') || 'cohort' }), attempt: built.attempt, answerReviews: built.answerReviews, traps: fixture.get('traps') || 'on' }) : built.lab);
       // The 17 Oct result papers (RESULT-1017 section 5): &paper=weak|avg|strong|perfect|blank|practice5, with &held=1 (a key
       // under re-check), &return=1 (the first mistake already repaired: it opens free, never offered as paid) and &return=all
       // (every mistake repaired). &wallet=zero is a known balance of 0 AI credits.
       if (RESULT_PAPER_NAMES.includes(fixture.get('paper'))) {
         const built = fixtureResultPaper(fixture.get('paper'), { held: fixture.get('held') === '1', repaired: fixture.get('return') === 'all' ? 'all' : fixture.get('return') === '1' });
-        return json({ ...built.attempt, answerReviews: built.answerReviews, swot: built.swot, mistakeInsights: built.mistakeInsights, lab: built.lab, missedBefore: {}, answerReviewState: built.answerReviewState });
+        return json({ ...built.attempt, ...tonePart, answerReviews: built.answerReviews, swot: built.swot, mistakeInsights: built.mistakeInsights, lab: built.lab, missedBefore: {}, answerReviewState: built.answerReviewState });
       }
       if (mock === 'full' && fixture.get('paper') !== 'v1' && (fixture.get('checks') || 'ready') === 'ready' && (fixture.get('lab') || 'on') === 'on') {
-        return fixtureReplayMock(fixture.get('paper') || 'full', { cohortTime: fixture.get('cohort'), marks: fixture.get('marks') }).then((built) => json({ ...built.attempt, answerReviews: built.answerReviews, swot: built.swot, mistakeInsights: built.mistakeInsights, lab: loop(built), missedBefore: {}, answerReviewState: built.answerReviewState }));
+        return fixtureReplayMock(fixture.get('paper') || 'full', { cohortTime: fixture.get('cohort'), marks: fixture.get('marks') }).then((built) => json({ ...built.attempt, ...tonePart, answerReviews: built.answerReviews, swot: built.swot, mistakeInsights: built.mistakeInsights, lab: loop(built), missedBefore: {}, answerReviewState: built.answerReviewState }));
       }
       if (mock === 'full' || mock === 'nta') {
         const built = fixtureMock(mock, { checks: fixture.get('checks') || 'ready', lab: fixture.get('lab') || 'on' });
-        return json({ ...built.attempt, answerReviews: built.answerReviews, swot: built.swot, mistakeInsights: built.mistakeInsights, lab: loop(built), missedBefore: {}, answerReviewState: built.answerReviewState });
+        return json({ ...built.attempt, ...tonePart, answerReviews: built.answerReviews, swot: built.swot, mistakeInsights: built.mistakeInsights, lab: loop(built), missedBefore: {}, answerReviewState: built.answerReviewState });
       }
       const attempt = fixtureAttempt(); const kind = fixture.get('repair');
       // &mobpaper=1: the attempt was this week's Mob paper, so the result shows the Mob row (pair with &mob=two|ready).
@@ -299,8 +301,8 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       // (pair with &repair=v3-stored, the free reopen), so Review can be seen with repairs that are not lost and never offered again.
       const saved = fixture.get('saved') === '1';
       const paper = { source: saved ? 'Mock 3' : 'Quick practice', completedAt: Date.parse(attempt.completedAt) };
-      const savedRepairs = saved ? { 'fixture-q2': { repairedAt: '2026-10-04T18:22:00.000Z' }, 'fixture-q4': { repairedAt: '2026-10-04T18:31:00.000Z' } } : undefined;
-      return json({ ...attempt, missedBefore, paper, ...(savedRepairs ? { savedRepairs } : {}), answerReviewState: 'ready' });
+      const savedRepairs = saved ? { 'fixture-q2': { repairedAt: new Date(paper.completedAt + 4 * 60000).toISOString() }, 'fixture-q4': { repairedAt: new Date(paper.completedAt + 12 * 60000).toISOString() } } : undefined;
+      return json({ ...attempt, ...tonePart, missedBefore, paper, ...(savedRepairs ? { savedRepairs } : {}), answerReviewState: 'ready' });
     }
     if (url.pathname.startsWith('/api/users/') && method === 'PATCH') return state === 'save-error' ? json({ error: 'Fixture profile save failure' }, 503) : json({ ok: true });
     if (url.pathname === '/api/bookmarks' && method === 'POST') return state === 'save-error' ? json({ error: 'Save limit', limit: 25 }, 402) : json({ saved: JSON.parse(init.body || '{}').saved });

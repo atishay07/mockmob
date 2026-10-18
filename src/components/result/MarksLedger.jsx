@@ -14,6 +14,7 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { ChevronDown, Play, Users } from 'lucide-react';
 import { curves, durations } from '@/lib/motion/tokens.g.js';
+import { SPLIT_OBSERVER, splitPhaseFor } from './splitReveal.mjs';
 import './marks-ledger.css';
 
 const CHIPS_SHOWN = 8; // LAB_RULES.chipsShown in data/mistake_lab.js
@@ -88,12 +89,15 @@ function useSplit(attemptId) {
     if (!el) return undefined;
     let raf = 0;
     const io = new IntersectionObserver(([entry]) => {
-      if (!entry?.isIntersecting) return;
+      if (!entry) return;
+      const next = splitPhaseFor({ isIntersecting: entry.isIntersecting, bottom: entry.boundingClientRect.bottom, height: entry.boundingClientRect.height, rootTop: entry.rootBounds?.top ?? 0 });
+      if (!next) return;
       io.disconnect();
       markSeen(attemptId);
+      if (next === 'still') { setPhase('still'); return; }
       // Two frames, so the neutral block is painted before it splits.
       raf = requestAnimationFrame(() => { raf = requestAnimationFrame(() => setPhase(reducedMotion() ? 'still' : 'split')); });
-    }, { threshold: 1, rootMargin: '0px 0px -12% 0px' });
+    }, SPLIT_OBSERVER);
     io.observe(el);
     return () => { io.disconnect(); cancelAnimationFrame(raf); };
   }, [phase, attemptId]);

@@ -396,21 +396,22 @@ export function reelScript({ rows = [], changes = [], view = null, paceSec = nul
   if (!total || !answered) return null;
   const Rr = R.reel;
   const moments = reelMoments({ rows, changes, view, paceSec });
-  const momentAt = new Map(moments.map((m) => [m.n, m]));
   const step = Math.min(REEL_RULES.stepMax, Math.max(REEL_RULES.stepMin, Math.round(REEL_RULES.walkMs / total)));
   const frames = [{ t: 0, kind: 'start', n: null, lit: 0, marks: 0, caption: null, ring: null }];
   let t = REEL_RULES.startMs;
   let marks = 0;
+  // The sheet lights in paper order, question by question, without stopping.
   rows.forEach((row, i) => {
     marks += row.verdict === 'correct' ? MARKS_RIGHT : row.verdict === 'wrong' ? MARKS_WRONG : 0;
     frames.push({ t, kind: 'light', n: row.number, lit: i + 1, marks, caption: null, ring: null });
     t += step;
-    const m = momentAt.get(row.number);
-    if (m) {
-      frames.push({ t, kind: 'moment', n: row.number, lit: i + 1, marks, caption: { at: m.at, text: m.text }, ring: row.number });
-      t += REEL_RULES.momentMs;
-    }
   });
+  // Then the real moments, in the order they happened on the clock (R9: the stamps never run 48:56, 51:01, 33:54). Each rings
+  // its own question on the lit sheet and says what happened there; the ring only ever marks a moment that is listed.
+  for (const m of moments) {
+    frames.push({ t, kind: 'moment', n: m.n, lit: total, marks, caption: { at: m.at, text: m.text }, ring: m.n });
+    t += REEL_RULES.momentMs;
+  }
   const chapterName = finding?.chapter || null;
   const chapter = chapterName ? { name: chapterName, numbers: rows.filter((r) => r.chapter === chapterName && r.verdict !== 'correct').map((r) => r.number) } : null;
   if (finding?.line) {

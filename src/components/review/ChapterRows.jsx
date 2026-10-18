@@ -56,7 +56,7 @@ export function ItemRow({ item, wallet, open, onToggle, onChanged, autoRepair = 
           {!open ? <span className="rvw-pill" data-k={pillKind(item)}>{item.pill}</span> : null}
         </span>
       </button>
-      {open ? <AnswerSheet key={`${item.uid}:${autoRepair}`} item={item} wallet={wallet} autoRepair={autoRepair > 0} onChanged={onChanged} /> : null}
+      {open ? <AnswerSheet key={`${item.uid}:${autoRepair}`} item={item} wallet={wallet} autoRepair={autoRepair > 0} onChanged={onChanged} stemInRow /> : null}
     </li>
   );
 }

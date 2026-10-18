@@ -40,6 +40,7 @@
 .pbk-scrim .pbk-sheet li[data-chapter='out'] { opacity: 0.4; }
 @keyframes pbk-ring { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: none; } }
 
+.pbk-ringnote { margin: 14px 0 0; min-height: 20px; font: 500 13.5px/1.45 var(--font-body); color: var(--a-ink-3); }
 .pbk-cap { margin-top: 22px; min-height: 92px; }
 .pbk-cap__line { margin: 0; font: 650 18px/1.4 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink); text-wrap: pretty; }
 .pbk-cap__line b { margin-right: 10px; font-weight: 700; color: var(--a-ink-3); font-variant-numeric: tabular-nums; font-family: var(--font-body); font-size: 15px; }

@@ -24,7 +24,7 @@ const script50 = reelScript({ rows: analysis50.rows, changes: changes50, view: v
 // paper10 and paper58s: built inline, 10 questions, from rows the result page would hold.
 const row = (n, verdict, chapter = 'Goodwill', key = 2) => ({ number: n, verdict, chapter, q: { id: `p${n}`, correctIndex: key } });
 const rows10 = [row(1, 'wrong'), row(2, 'correct'), row(3, 'wrong'), row(4, 'correct'), row(5, 'correct'), row(6, 'wrong'), row(7, 'correct'), row(8, 'wrong'), row(9, 'correct'), row(10, 'wrong', 'Admission of a Partner')];
-const finding10 = { line: 'Goodwill cost 24 of the 30 marks you missed.', detail: '4 wrong, of 9 questions.', chapter: 'Goodwill' };
+const finding10 = { line: 'Goodwill cost 24 of the 30 marks you missed.', detail: 'In Goodwill: 4 wrong of its 9 questions.', chapter: 'Goodwill' };
 const replay58 = {
   rowSec: 600, recordSec: 58, durationSec: 600, total: 10, end: { at: 58, reason: 'submit' }, opened: [], facts: [],
   rows: [{ bars: rows10.map((r, i) => ({ n: r.number, from: i * 5, to: i * 5 + 5, result: r.verdict === 'correct' ? 'right' : 'wrong', picks: [{ at: i * 5 + 4, option: r.verdict === 'correct' ? 2 : 0, change: false }], away: [] })) }],
@@ -89,13 +89,18 @@ test('paper50: every pause is a real moment the record shows, at most three', ()
     assert.equal(e.from, analysis50.rows[m.n - 1].q.correctIndex);
     assert.match(eventCaption(e, { key: e.from }).text, /a right answer made wrong\.$/);
   }
-  // Each moment pauses the sheet: a moment frame follows its question's light frame, and holds for momentMs.
-  for (const m of script50.moments) {
-    const i = script50.frames.findIndex((f) => f.kind === 'moment' && f.n === m.n);
-    assert.ok(i > 0 && script50.frames[i - 1].kind === 'light' && script50.frames[i - 1].n === m.n);
-    assert.equal(script50.frames[i + 1].t - script50.frames[i].t, REEL_RULES.momentMs);
-    assert.equal(script50.frames[i].caption.text, m.text);
-  }
+  // The sheet lights without a pause, then each moment holds for momentMs, in the order they happened on the clock (R9).
+  const moments = script50.frames.filter((f) => f.kind === 'moment');
+  assert.deepEqual(moments.map((f) => f.n), script50.moments.map((m) => m.n));
+  moments.forEach((f, k) => {
+    const m = script50.moments[k];
+    const i = script50.frames.indexOf(f);
+    assert.equal(script50.frames[i + 1].t - f.t, REEL_RULES.momentMs);
+    assert.equal(f.caption.text, m.text);
+    assert.equal(f.ring, m.n);
+    assert.equal(f.lit, 50, 'the sheet is fully lit while a moment shows');
+  });
+  assert.equal(script50.frames[script50.frames.findIndex((f) => f.kind === 'moment') - 1].kind, 'light');
 });
 
 test('the owner\'s example caption: "Q22 changed D to A, a right answer made wrong" at 20:40', () => {

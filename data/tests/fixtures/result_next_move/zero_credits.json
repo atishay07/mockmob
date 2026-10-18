@@ -522,7 +522,7 @@
   "expected": {
     "costliest": {
       "line": "Share Capital cost 29 of the 122 marks you missed.",
-      "detail": "4 wrong and 1 left blank, of 6 questions."
+      "detail": "In Share Capital: 4 wrong and 1 left blank of its 6 questions."
     },
     "move": {
       "kind": "practise",
