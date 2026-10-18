@@ -54,7 +54,12 @@ String _heroTitle(WidgetTester tester) => tester.widget<MoveHeroCard>(find.byTyp
 /// The coach line's words now (the last one in, while two overlap).
 String _coach(WidgetTester tester) {
   final texts = find.descendant(of: find.byKey(SuggestedStack.coachKey).last, matching: find.byType(Text));
-  return [for (final e in texts.evaluate()) (e.widget as Text).data ?? ''].join(' | ');
+  // The held places of the other lines are laid out but never seen; a line that breaks between its
+  // two sentences reads as one.
+  return [
+    for (final e in texts.evaluate())
+      if (e.findAncestorWidgetOfExactType<Visibility>()?.visible ?? true) ((e.widget as Text).data ?? '').replaceAll('\n', ' '),
+  ].join(' | ');
 }
 
 late MemoryPrefsStore _coachStore;
@@ -80,12 +85,12 @@ Future<List<Object>> _pump(WidgetTester tester, {bool animate = false, Size size
 }
 
 /// Today with motion on, pumped without settling (the demo waits on timers a settle would race).
-Future<List<Object>> _pumpLive(WidgetTester tester) async {
+Future<List<Object>> _pumpLive(WidgetTester tester, {Size size = const Size(412, 2400)}) async {
   final events = <Object>[];
   await pumpMockmob(
     tester,
     TodayBody(view: _view(), skeletonDelay: Duration.zero, callbacks: TodayCallbacks(onAction: events.add, onTarget: events.add)),
-    size: const Size(412, 2400),
+    size: size,
     overrides: _overrides,
   );
   await tester.pump();
@@ -473,7 +478,7 @@ void main() {
       expect(_onTop(GlanceCopy.titleRevise), findsOneWidget);
       expect(_heroTitle(tester), GlanceCopy.titleRepair);
       expect(find.text(SuggestedCopy.moreAfter(n - 2, n)), findsOneWidget);
-      expect(_coach(tester), SuggestedCopy.learnedLeft);
+      expect(_coach(tester), SuggestedCopy.learnedLeft.replaceAll('\n', ' '));
       expect(_coachSaved()['left'], isTrue);
       final today = DeckMemory.dayOf(_sunday);
       expect(DeckMemoryStore.loaded!.passesOf('weakest'), [today], reason: 'the pass is remembered');
@@ -699,6 +704,97 @@ void main() {
       expect(find.byKey(SuggestedStack.barKey), findsNothing, reason: 'the bar left with that tap');
     });
 
+    testWidgets('once the student starts the pick, the Undo in the row no longer swaps it away (round 2, item 5)', (tester) async {
+      await _pump(tester);
+      await _tap(tester, SuggestedStack.upNextKey);
+      expect(_heroTitle(tester), GlanceCopy.titleWeakest);
+      final start = find.descendant(of: find.byType(MoveHeroCard), matching: find.textContaining('Start')).first;
+      await tester.tap(start, warnIfMissed: false);
+      await tester.pumpAndSettle();
+      expect(find.bySemanticsLabel(SuggestedCopy.undoNone), findsOneWidget, reason: 'the row says there is nothing to undo');
+      await tester.tap(find.byKey(SuggestedStack.undoKey));
+      await tester.pumpAndSettle();
+      expect(_heroTitle(tester), GlanceCopy.titleWeakest, reason: 'the started pick stays the lead');
+    });
+
+    testWidgets('with a screen reader on, the Up next bar has no clock: its Undo waits for the student (round 2, item 4)', (tester) async {
+      tester.platformDispatcher.accessibilityFeaturesTestValue = const FakeAccessibilityFeatures(accessibleNavigation: true);
+      addTearDown(tester.platformDispatcher.clearAccessibilityFeaturesTestValue);
+      await _pump(tester);
+      await _tap(tester, SuggestedStack.upNextKey);
+      expect(find.byKey(SuggestedStack.barKey), findsOneWidget);
+      await tester.pump(deckBarHold + const Duration(seconds: 3));
+      await tester.pumpAndSettle();
+      expect(find.byKey(SuggestedStack.barUndoKey), findsOneWidget, reason: 'still there long after 5 s');
+      await tester.tap(find.byKey(SuggestedStack.barUndoKey));
+      await tester.pumpAndSettle();
+      expect(_heroTitle(tester), GlanceCopy.titleRepair, reason: 'and it still undoes');
+    });
+
+    testWidgets('without a screen reader the Up next bar leaves after its 5 s', (tester) async {
+      await _pump(tester);
+      await _tap(tester, SuggestedStack.upNextKey);
+      expect(find.byKey(SuggestedStack.barKey), findsOneWidget);
+      await tester.pump(deckBarHold + const Duration(milliseconds: 100));
+      await tester.pumpAndSettle();
+      expect(find.byKey(SuggestedStack.barKey), findsNothing);
+    });
+
+    testWidgets('Up next tapped before the demo begins: the demo never plays on the new top card (round 2, item 1)', (tester) async {
+      await _pumpLive(tester);
+      // A first-timer acts at once, inside the demo's 0.9 s wait.
+      await tester.tap(find.byKey(SuggestedStack.upNextKey));
+      await tester.pump();
+      expect(_coachSaved()['demo'], isTrue, reason: 'using the deck taught the gesture');
+      for (var k = 0; k < 30; k++) {
+        await tester.pump(const Duration(milliseconds: 100));
+        expect(_stamp(SuggestedCopy.upNext), findsNothing, reason: 'no "Do this next" stamp under the bar that says it is done');
+      }
+      await tester.pumpAndSettle();
+      final home = tester.getTopLeft(find.byKey(SuggestedStack.topKey)).dx;
+      for (var k = 0; k < 20; k++) {
+        await tester.pump(const Duration(milliseconds: 100));
+        expect(tester.getTopLeft(find.byKey(SuggestedStack.topKey)).dx, closeTo(home, 0.5), reason: 'the new top card never moves by itself');
+      }
+      expect(_heroTitle(tester), GlanceCopy.titleWeakest);
+    });
+
+    testWidgets('on a 360 dp phone the demo never moves the row: the coach line holds its tallest line, broken between sentences (round 2, item 3)', (tester) async {
+      await _pumpLive(tester, size: const Size(360, 2400));
+      await tester.pump(const Duration(milliseconds: 200));
+      final rowAt = tester.getTopLeft(find.byKey(SuggestedStack.notNowKey)).dy;
+      expect(await _until(tester, () => _stamp(SuggestedCopy.upNext).evaluate().isNotEmpty), isTrue);
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(tester.getTopLeft(find.byKey(SuggestedStack.notNowKey)).dy, closeTo(rowAt, 0.5), reason: 'the row holds still while the card performs');
+      final right = find.descendant(of: find.byKey(SuggestedStack.coachKey).last, matching: find.textContaining('Right:'));
+      final shown = right.evaluate().where((e) => e.findAncestorWidgetOfExactType<Visibility>()?.visible ?? true).map((e) => (e.widget as Text).data).toList();
+      expect(shown, ['Right: do this next.\nIt moves into the card above.'], reason: 'two clean lines, never "above." alone');
+      expect(await _until(tester, () => _stamp(SuggestedCopy.notNow).evaluate().isNotEmpty), isTrue);
+      expect(tester.getTopLeft(find.byKey(SuggestedStack.notNowKey)).dy, closeTo(rowAt, 0.5), reason: 'nor on the left half');
+      await tester.pump(const Duration(seconds: 2));
+      await tester.pumpAndSettle();
+    });
+
+    testWidgets('a drag that springs home before the demo begins also spends it (round 2, item 1)', (tester) async {
+      await _pumpLive(tester);
+      final g = await tester.startGesture(tester.getCenter(find.byKey(SuggestedStack.topKey)));
+      await g.moveBy(const Offset(20, 0));
+      await tester.pump();
+      await g.moveBy(const Offset(20, 0));
+      await tester.pump();
+      await g.up();
+      expect(_coachSaved()['demo'], isTrue);
+      // The card springs home (its own drag stamp fades with it); from then on nothing moves.
+      await tester.pumpAndSettle();
+      for (var k = 0; k < 30; k++) {
+        await tester.pump(const Duration(milliseconds: 100));
+        expect(_stamp(SuggestedCopy.upNext), findsNothing);
+        expect(_stamp(SuggestedCopy.notNow), findsNothing);
+      }
+      await tester.pumpAndSettle();
+      expect(_heroTitle(tester), GlanceCopy.titleRepair, reason: 'the short drag committed nothing');
+    });
+
     testWidgets('Today in an offstage tab is not "seen": no visit counted, no demo (round 1, item 3)', (tester) async {
       await pumpMockmob(
         tester,
@@ -850,6 +946,10 @@ void main() {
           final text = tester.renderObject<RenderParagraph>(find.descendant(of: find.byKey(words == SuggestedCopy.notNow ? SuggestedStack.notNowKey : SuggestedStack.upNextKey), matching: find.text(words)));
           expect(text.didExceedMaxLines, isFalse, reason: '"$words" is whole, never cut with an ellipsis');
         }
+        // Undo keeps its word whenever the row can hold it: the outer icons go first (round 2, item 2).
+        final undoWord = find.descendant(of: find.byKey(SuggestedStack.undoKey), matching: find.text(SuggestedCopy.undo));
+        expect(undoWord, scale == 1.0 ? findsOneWidget : anything, reason: 'Undo is a word, not a bare glyph, at ${size.width.toInt()} dp and 1.0x');
+        if (size.width >= 412) expect(undoWord, findsOneWidget, reason: '412 dp holds every word at 1.3x');
         expect(tester.takeException(), isNull);
       });
     }

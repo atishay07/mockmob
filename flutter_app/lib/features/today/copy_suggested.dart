@@ -5,6 +5,9 @@
 // lead card; nothing starts, nothing is spent), and left is "Not now" (the card waits at the back;
 // nothing is hidden for good). The result keeps the noun: the bar and the lead card's overline say
 // "Up next", so a first-timer never reads the button as "show the next card" (round 1, item 4).
+// Every line that teaches the right action says the verb and its outcome, the screen reader's own
+// words ("Do this next. It moves into the card above."); "Up next" stays only where the result is
+// shown: the bar, the lead card's overline and what a screen reader hears after it (round 2, item 3).
 abstract final class SuggestedCopy {
   static const String title = 'Suggested for you';
 
@@ -20,9 +23,9 @@ abstract final class SuggestedCopy {
 
   // The coach line (first run).
   static const String coachIdle = 'Drag the card, or tap a button.';
-  static const String coachRight = 'Right: do this next, in the card above.';
+  static const String coachRight = 'Right: do this next. It moves into the card above.';
   static const String coachLeft = 'Left: not now. It waits at the back.';
-  static const String letGoRight = 'Let go: it goes up next';
+  static const String letGoRight = 'Let go: it moves into the card above';
   static const String letGoLeft = 'Let go: it waits at the back';
   static const String letGoLast = 'Let go: that was the last one';
 

@@ -93,7 +93,8 @@ class SuggestedStack extends StatefulWidget {
   final GlobalKey? leadKey;
 
   /// Pinged when the student acts on the lead card (its Start, the bar's capsule): the Up next bar
-  /// leaves at once, so it never floats over the session that just began (round 1, item 2).
+  /// leaves at once, so it never floats over the session that just began (round 1, item 2), and the
+  /// pick's Undo goes with it: what the student started is no longer swapped away (round 2, item 5).
   final Listenable? closeBar;
 
   /// On the card on top of the deck.
@@ -272,7 +273,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
     _tuck = AnimationController(vsync: this, duration: const Duration(milliseconds: 200))..addListener(_tucked);
     _back = AnimationController(vsync: this, duration: const Duration(milliseconds: 300), value: 1);
     _fade = AnimationController(vsync: this, duration: Motion.reducedFade, value: 1);
-    widget.closeBar?.addListener(_hideBar);
+    widget.closeBar?.addListener(_leadUsed);
     final pin = SuggestedStack.debugDemoPeak;
     if (pin != null) {
       _demoSide = pin;
@@ -327,8 +328,8 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
   void didUpdateWidget(SuggestedStack old) {
     super.didUpdateWidget(old);
     if (old.closeBar != widget.closeBar) {
-      old.closeBar?.removeListener(_hideBar);
-      widget.closeBar?.addListener(_hideBar);
+      old.closeBar?.removeListener(_leadUsed);
+      widget.closeBar?.addListener(_leadUsed);
     }
     final raw = _keys(widget.cards);
     if (_sameKeys(raw, _rawKeys)) return;
@@ -364,7 +365,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
     _stillTimer?.cancel();
     _waitTimer?.cancel();
     _position?.removeListener(_scrolled);
-    widget.closeBar?.removeListener(_hideBar);
+    widget.closeBar?.removeListener(_leadUsed);
     // The bar leaves with the deck, after this frame (the messenger cannot rebuild mid-teardown).
     final bar = _bar;
     final messenger = _messenger;
@@ -420,7 +421,9 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
       if (!mounted || !_onScreen || _visibleShare() < 0.6) return;
       unawaited(DeckCoach.countVisit(coach));
       if (_reduced || _demoRunning || _dragging || _leaving || _pass.top == null) return;
-      final demo = !coach.demoShown;
+      // Any use of the deck taught the gesture: a commit made before the demo began (the page then
+      // scrolls the lead into view, which re-arms this) never brings the demo on after it (round 2).
+      final demo = !coach.demoShown && coach.neverSwiped && _undo == null && _flight == null;
       final nudge = !demo && coach.neverSwiped && !_nudgedThisRun;
       if (!demo && !nudge) return;
       _stillTimer = Timer(const Duration(milliseconds: 600), () {
@@ -527,11 +530,19 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
     }
   }
 
+  /// The student used the deck (a drag, a button, a commit): they know the gesture, so the demo
+  /// is spent for good, even when it never began (round 2, item 1).
+  void _taught() {
+    final coach = _coach;
+    if (coach != null && !coach.demoShown) unawaited(DeckCoach.demoDone(coach));
+  }
+
   // The finger.
 
   void _start() {
     if (_leaving || _flight != null && _fly.isAnimating && _fly.value < 0.2) return;
     _stopDemo(touch: true);
+    _taught();
     _x.stop();
     _raw = _x.value;
     _dragging = true;
@@ -591,6 +602,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
     final top = _card(_pass.top);
     if (_leaving || top == null) return;
     _stopDemo();
+    _taught();
     _hideBar();
     if (swipe) hapticsOf(context)?.gestureEnd();
     final coach = _coach;
@@ -655,6 +667,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
   void _upNext(SuggestedCard card, {bool swipe = false}) {
     if (_leaving) return;
     _stopDemo();
+    _taught();
     _hideBar();
     final hero = card.choice.hero;
     if (hero == null) {
@@ -689,8 +702,9 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
       widget.onChoose(card.choice);
       _revealLead();
     }
-    _announce(SuggestedCopy.saidUpNext(card.title));
-    _showBar(card, first: first);
+    // The bar is a snack bar, a live region of its own: it speaks the result once. Only without a
+    // bar is it announced here (round 2, item 4).
+    if (!_showBar(card, first: first)) _announce(SuggestedCopy.saidUpNext(card.title));
   }
 
   /// A tap on the card is Up next, unless the touch it lifts from stopped the demo.
@@ -708,6 +722,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
     final undo = _undo;
     if (!mounted || undo == null || _leaving) return;
     _stopDemo();
+    _taught();
     _hideBar();
     _undo = null;
     DeckMemoryStore.loaded?.restore(undo.kind, undo.memory);
@@ -797,9 +812,10 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
   // The bar after Up next: glass chrome above the dock, the moved card's object and title, what
   // happened, and Undo. It holds 5 s (paused while touched) and leaves on the next action or scroll.
 
-  void _showBar(SuggestedCard card, {required bool first}) {
+  /// Whether a bar was shown (false: no messenger above Today).
+  bool _showBar(SuggestedCard card, {required bool first}) {
     final messenger = ScaffoldMessenger.maybeOf(context);
-    if (messenger == null) return;
+    if (messenger == null) return false;
     _messenger = messenger;
     final media = MediaQuery.of(context);
     final dock = MmBarInsets.maybeOf(context)?.showing ?? false;
@@ -831,6 +847,15 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
     bar.closed.then((_) {
       if (identical(_bar, bar)) _bar = null;
     });
+    return true;
+  }
+
+  /// The student acted on the lead card (its Start): the bar leaves, and the pick it began can no
+  /// longer be undone from the deck. The row's Undo would otherwise swap away a lead the student
+  /// already started, long after (round 2, item 5).
+  void _leadUsed() {
+    _hideBar();
+    if (_undo is _UndoUpNext && mounted) setState(() => _undo = null);
   }
 
   void _hideBar() {
@@ -1236,39 +1261,84 @@ class _CoachSay {
 }
 
 /// The coach line under the deck, first run only: centred, a chip for the side it names.
+///
+/// It holds the height of the tallest line a demo or a drag can show at this width, so the row
+/// under it never bobs while the card performs or follows the finger (a two-line "Right: do this
+/// next. It moves into the card above." on a 360 dp phone, a one-line idle line). A line of two
+/// sentences that cannot keep one line breaks between them, never with one word left alone on
+/// the second line (round 2, item 3).
 class _CoachLine extends StatelessWidget {
   const _CoachLine({super.key, required this.say, required this.style});
 
   final _CoachSay say;
   final TextStyle style;
 
+  /// The lines a demo or a drag shows, whose tallest the coach line holds.
+  static const List<_CoachSay> _held = [
+    _CoachSay(SuggestedCopy.coachIdle),
+    _CoachSay(SuggestedCopy.coachRight, chip: MmDragSide.right),
+    _CoachSay(SuggestedCopy.coachLeft, chip: MmDragSide.left),
+    _CoachSay(SuggestedCopy.letGoRight),
+    _CoachSay(SuggestedCopy.letGoLeft),
+    _CoachSay(SuggestedCopy.letGoLast),
+  ];
+
+  /// The chip and its gap.
+  static const double _chipRoom = 22 + MmSpace.s8;
+
   @override
   Widget build(BuildContext context) {
-    Widget line(String text, MmDragSide? chip) => Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        if (chip != null) ...[
-          _Chip(side: chip),
-          const SizedBox(width: MmSpace.s8),
-        ],
-        Flexible(
-          child: Text(text, textAlign: TextAlign.center, style: style),
-        ),
-      ],
-    );
-    return SizedBox(
-      key: SuggestedStack.coachKey,
-      width: double.infinity,
-      child: say.both
-          ? Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                line(SuggestedCopy.coachRight, MmDragSide.right),
-                const SizedBox(height: MmSpace.s6),
-                line(SuggestedCopy.coachLeft, MmDragSide.left),
-              ],
-            )
-          : line(say.text, say.chip),
+    final scaler = MediaQuery.textScalerOf(context);
+    return LayoutBuilder(
+      builder: (context, box) {
+        final width = box.maxWidth;
+        // Two sentences that do not fit one line take one line each.
+        String fit(String text, bool chip) {
+          final at = text.indexOf('. ');
+          if (at < 0 || text.contains('\n')) return text;
+          final tp = TextPainter(text: TextSpan(text: text, style: style), textDirection: TextDirection.ltr, textScaler: scaler)..layout(maxWidth: math.max(0, width - (chip ? _chipRoom : 0)));
+          final lines = tp.computeLineMetrics().length;
+          tp.dispose();
+          return lines > 1 ? '${text.substring(0, at + 1)}\n${text.substring(at + 2)}' : text;
+        }
+
+        Widget line(String text, MmDragSide? chip) => Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (chip != null) ...[
+              _Chip(side: chip),
+              const SizedBox(width: MmSpace.s8),
+            ],
+            Flexible(
+              child: Text(fit(text, chip != null), textAlign: TextAlign.center, style: style),
+            ),
+          ],
+        );
+        final Widget shown = say.both
+            ? Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  line(SuggestedCopy.coachRight, MmDragSide.right),
+                  const SizedBox(height: MmSpace.s6),
+                  line(SuggestedCopy.coachLeft, MmDragSide.left),
+                ],
+              )
+            : line(say.text, say.chip);
+        return SizedBox(
+          key: SuggestedStack.coachKey,
+          width: double.infinity,
+          child: say.both
+              ? shown
+              : Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    for (final h in _held)
+                      if (h != say) ExcludeSemantics(child: Visibility(visible: false, maintainSize: true, maintainAnimation: true, maintainState: true, child: line(h.text, h.chip))),
+                    shown,
+                  ],
+                ),
+        );
+      },
     );
   }
 }
@@ -1820,15 +1890,16 @@ class _DeckControls extends StatelessWidget {
       builder: (context, box) {
         // Each button: its icon (18), the gap (8) and its padding, around its words.
         const side = 14 + 18 + 8 + 18;
-        const bareSide = 14 + 18;
+        const bareSide = 16 + 16;
         final undoFull = 12 + 18 + 8 + w(SuggestedCopy.undo, undoLabel) + 12;
         final noW = w(SuggestedCopy.notNow, label);
         final upW = w(SuggestedCopy.upNext, label);
-        // Tight (a narrow phone, large text): Undo keeps only its icon; tighter still, the two
-        // outer buttons drop their icons so their words stay whole ("Do this next", never
-        // "Do this ...").
-        final compact = !ended && side * 2 + noW + upW + undoFull > box.maxWidth;
-        final bare = compact && side * 2 + noW + upW + deckRowHeight > box.maxWidth;
+        // Tight (a 360 dp phone): the two outer buttons drop their icons first, since words in a
+        // pill still read as a button, and every label stays whole ("Do this next", never
+        // "Do this ..."). Only when even that cannot fit (360 dp at 1.3x text) does Undo keep only
+        // its icon: a bare glyph between two pills is the last thing given up (round 2, item 2).
+        final bare = !ended && side * 2 + noW + upW + undoFull > box.maxWidth;
+        final compact = bare && bareSide * 2 + noW + upW + undoFull > box.maxWidth;
         final pad = bare ? bareSide : side;
         final undo = _UndoButton(
           compact: compact,
@@ -2033,8 +2104,11 @@ class _UndoButton extends StatelessWidget {
 }
 
 /// The bar after Up next: the moved card's object, its title, what happened, and Undo, on glass
-/// chrome above the dock. It holds [deckBarHold], paused while touched or while its Undo has focus,
-/// and is a live region for screen readers.
+/// chrome above the dock. It holds [deckBarHold], paused while touched or while its Undo has focus.
+/// With a screen reader on it has no clock at all: it stays until the next action or scroll, so its
+/// Undo is never gone before the student reaches it (WCAG 2.2.1; accessibility focus is not
+/// keyboard focus, so a pause on focus alone would not hold it). The snack bar it sits in is the
+/// live region that speaks it, once.
 class _UpNextBar extends StatefulWidget {
   const _UpNextBar({required this.card, required this.line, required this.onUndo, required this.onTimeout});
 
@@ -2053,10 +2127,14 @@ class _UpNextBarState extends State<_UpNextBar> {
   bool _touched = false;
   bool _focused = false;
 
+  /// A screen reader is on: the bar holds until the next action.
+  bool _untimed = false;
+
   @override
-  void initState() {
-    super.initState();
-    _resume();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _untimed = MediaQuery.maybeAccessibleNavigationOf(context) ?? false;
+    _untimed ? _pause() : _resume();
   }
 
   @override
@@ -2071,7 +2149,7 @@ class _UpNextBarState extends State<_UpNextBar> {
   }
 
   void _resume() {
-    if (_touched || _focused) return;
+    if (_touched || _focused || _untimed) return;
     _timer?.cancel();
     _held.start();
     final left = deckBarHold - _held.elapsed;
@@ -2109,7 +2187,6 @@ class _UpNextBarState extends State<_UpNextBar> {
             focused ? _pause() : _resume();
           },
           child: Semantics(
-            liveRegion: true,
             container: true,
             child: ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(20)),
