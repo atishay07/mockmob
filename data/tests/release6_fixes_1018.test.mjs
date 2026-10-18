@@ -168,3 +168,10 @@ test('Review at 0 AI credits says when they renew, only where the server knows t
   const practise = read('src/components/review/ReviewChapters.jsx').match(/function practiseLine[\s\S]*?\n\}\n/)[0];
   assert.ok(!/renew/.test(practise), 'practice credits do not renew, so their line never says they do');
 });
+
+test('inside the Ask panel volt is Mobi\'s mark alone: the Free chip and the Key text are ink 2, no lime token is used', () => {
+  const css = stripComments(read('src/components/ai/ask-mobi.css'));
+  assert.match(css, /\.amb-quote__key\s*\{\s*color:\s*var\(--a-ink-2\)/);
+  assert.match(css, /\.amb-ask em\[data-price='free'\]\s*\{\s*color:\s*var\(--a-ink-2\)/);
+  for (const token of ['--a-good-text', '--a-accent', '--a-select', '--a-volt', '--volt', '#d2f000', '#D2F000']) assert.ok(!css.includes(token), `${token} is not used in the panel`);
+});
