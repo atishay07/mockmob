@@ -1,6 +1,7 @@
 import 'server-only';
 import { supabaseAdmin } from '@/lib/supabase';
 import { CAPABILITIES } from '@/../data/capabilities';
+import { AI_PACK_DEFS } from '@/lib/wallet/walletPacks.mjs';
 import {
   PREPOS_PAUSED_MESSAGE,
   isPaidUser,
@@ -33,11 +34,8 @@ export function aiCommerceOpen() {
 
 // Plan IDs are preserved for historical orders and verification of captured payments.
 // `status` reflects whether new purchases are open; it never makes a pack look live while paused.
-export const AI_CREDIT_PACKS = [
-  { key: 'prepos_10_50', planId: 'ai_credits_prepos_10_50', label: '₹10 PrepOS top-up', shortLabel: 'Starter', amountInr: 10, amountPaise: 1000, credits: 50 },
-  { key: 'prepos_20_150', planId: 'ai_credits_prepos_20_150', label: '₹20 PrepOS top-up', shortLabel: 'Focus', amountInr: 20, amountPaise: 2000, credits: 150 },
-  { key: 'prepos_50_400', planId: 'ai_credits_prepos_50_400', label: '₹50 PrepOS top-up', shortLabel: 'Sprint', amountInr: 50, amountPaise: 5000, credits: 400, featured: true },
-].map((pack) => Object.freeze({
+// The three packs, their prices and their plain labels live in src/lib/wallet/walletPacks.mjs (the wallet's one catalog).
+export const AI_CREDIT_PACKS = AI_PACK_DEFS.map(({ pool: _pool, ...pack }) => pack).map((pack) => Object.freeze({
   ...pack,
   status: aiCommerceOpen() ? 'live' : 'paused',
   description: `${pack.credits} AI credits that do not expire.`,

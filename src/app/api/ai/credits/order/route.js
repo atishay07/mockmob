@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
-import { getRazorpayClient, getRazorpayKeyId } from '@/lib/payments/razorpay';
+import { getRazorpayKeyId } from '@/lib/payments/razorpay';
+import { createPackOrder } from '@/lib/server/walletCheckout';
+import { walletDeps } from '@/lib/server/walletDeps';
 import { getAICreditPack } from '@/services/credits/aiCreditWallet';
 import { CAPABILITIES } from '@/../data/capabilities';
 
@@ -28,36 +30,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    const order = await getRazorpayClient().orders.create({
-      amount: pack.amountPaise,
-      currency: 'INR',
-      receipt: `prepos_${session.user.id}_${Date.now()}`.slice(0, 40),
-      notes: {
-        kind: 'ai_credit_topup',
-        userId: session.user.id,
-        packKey: pack.key,
-        credits: String(pack.credits),
-      },
-    });
+    // The same order step the wallet's own route uses (src/lib/server/walletCheckout.js).
+    const { order } = await createPackOrder({ userId: session.user.id, pack, deps: walletDeps() });
 
-    await Database.createPayment({
-      userId: session.user.id,
-      orderId: order.id,
-      planId: pack.planId,
-      amount: pack.amountPaise,
-      currency: 'INR',
-      status: order.status || 'created',
-      rawOrder: order,
-    });
 
-    return NextResponse.json({
-      ok: true,
-      keyId: getRazorpayKeyId(),
-      order,
-      pack,
-    });
-  } catch (error) {
-    console.error('[ai-credits/order] failed:', error);
-    return NextResponse.json({ error: 'Failed to create PrepOS credit order' }, { status: 500 });
-  }
-}

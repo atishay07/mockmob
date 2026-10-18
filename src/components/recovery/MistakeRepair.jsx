@@ -43,7 +43,7 @@ function RepairStart({ chosen, number = null, onStart }) {
     return (
       <div className="mr-empty">
         <p className="mr-cost">{usesLine({ what: 'A repair', cost: 1, pool: 'ai', balance: 0 })}</p>
-        <p className="mr-note mr-ways"><Link href="/pricing/ai-credits">See your AI credits</Link> <Link href="/dashboard?mode=quick&count=5">Practise 5 fresh questions</Link></p>
+        <p className="mr-note mr-ways"><Link href="/wallet">See your AI credits</Link> <Link href="/dashboard?mode=quick&count=5">Practise 5 fresh questions</Link></p>
       </div>
     );
   }
@@ -394,7 +394,7 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
           {state.canRetry ? <button type="button" className="mr-retry" onClick={run}>{state.status === 'waiting' ? 'Check again' : 'Try again'}</button> : null}
           {/* Out of AI credits: the free ways forward, not a dead end. */}
           {state.code === 'insufficient_ai_credits' ? (
-            <p className="mr-note mr-ways"><Link href="/dashboard?mode=quick&count=5">Practise 5 fresh questions</Link> <Link href="/pricing/ai-credits">See your AI credits</Link></p>
+            <p className="mr-note mr-ways"><Link href="/dashboard?mode=quick&count=5">Practise 5 fresh questions</Link> <Link href="/wallet">See your AI credits</Link></p>
           ) : null}
         </div>
       );

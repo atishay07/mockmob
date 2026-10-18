@@ -6,6 +6,7 @@
 // plan. Two names only: "Practice credits" and "AI credits".
 // Reads GET /api/me/credits once, then ?cursor= for "Show more". Unknown is never shown as 0.
 import { useCallback, useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import { CreditMark } from '@/components/ui/Glyph';
 import { apiGet } from '@/lib/fetcher';
 import {
@@ -67,6 +68,7 @@ export default function CreditsSection({ userId }) {
   return (
     <section className="glass acct-card cr" id="credits" aria-labelledby="cr-h" aria-busy={state.status === 'loading' || undefined}>
       <h2 className="acct-h2" id="cr-h">{CREDITS_COPY.heading}</h2>
+      <Link href="/wallet" className="acct-key" style={{ justifySelf: 'start' }}>Open your wallet</Link>
 
       {state.status === 'loading' ? (
         <div className="cr-tiles" role="status" aria-label={CREDITS_COPY.loading}>

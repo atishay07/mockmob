@@ -162,6 +162,16 @@ export function CreditsRemainingModal({ open, credits, onClose, offer = null }) 
           <button type="button" className="mmx-btn mmx-btn--quiet" onClick={onClose}>
             {isEmpty ? 'Not now' : 'Continue on free'}
           </button>
+          <button
+            type="button"
+            className="mmx-btn mmx-btn--quiet"
+            onClick={() => {
+              onClose?.();
+              router.push('/wallet');
+            }}
+          >
+            Open your wallet
+          </button>
         </div>
       </div>
     </div>,

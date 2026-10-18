@@ -75,6 +75,7 @@ export function practiceWhat(row) {
   const ref = String(row?.reference || '');
   const action = String(row?.action || '');
   const delta = int(row?.credit_delta ?? row?.amount) ?? 0;
+  if (action === 'purchase' || ref.startsWith('purchase:')) return 'Practice credits added';
   if (ref.startsWith('daily_login:')) return 'Daily bonus';
   if (ref.startsWith('vote:')) return 'Rated a question';
   if (/^attempt:.+:question:/.test(ref)) return 'Practice answers';
@@ -223,9 +224,9 @@ function olderThan(query, cursor) {
 }
 
 /** One page of the history for a student: { history, next }. Throws CREDITS_UNAVAILABLE on a read failure. */
-export async function loadHistory({ userId, practiceBalance, aiBalance, cursor = null, db }) {
+export async function loadHistory({ userId, practiceBalance, aiBalance, cursor = null, db, pageSize = PAGE_SIZE }) {
   const client = db || (await import('../supabase')).supabaseAdmin();
-  const take = PAGE_SIZE + 1;
+  const take = pageSize + 1;
   const practiceQuery = olderThan(client.from('credit_transactions')
     .select('id,created_at,amount,credit_delta,type,action,reference').eq('user_id', userId), cursor)
     .order('created_at', { ascending: false }).order('id', { ascending: false }).limit(take);
@@ -248,5 +249,5 @@ export async function loadHistory({ userId, practiceBalance, aiBalance, cursor =
       if (!att.error) details = repairDetails({ userId, ids, attempts: att.data || [] });
     } catch { /* keep the plain line */ }
   }
-  return buildHistory({ practiceRows, aiRows, practiceBalance, aiBalance, cursor, details });
+  return buildHistory({ practiceRows, aiRows, practiceBalance, aiBalance, cursor, details, pageSize });
 }

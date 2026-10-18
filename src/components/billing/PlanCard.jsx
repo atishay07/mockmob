@@ -96,6 +96,7 @@ export function PlanCard() {
           <Link href="/pricing" className="plan-card__cta" data-page-primary=""><AppIcon name="pricing" size={16} />{ended || lapsed ? 'See Pro to renew' : 'See Pro'}</Link>
         </>
       )}
+      <Link href="/wallet" className="plan-card__quiet">Open your wallet</Link>
     </section>
   );
 }

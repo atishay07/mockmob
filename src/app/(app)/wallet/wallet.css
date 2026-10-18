@@ -1,0 +1,88 @@
+/* ==========================================================================
+   WALLET (/wallet)  scope: .app-shell
+   A ruled page on the arena tokens (--a-*), so Night and Daylight match. No boxes inside boxes, no glow, no lime (the shell's Start
+   key is the viewport's one lime key). 44 px targets, tabular numerals, sentence case. Two balances side by side from 900 px, each
+   with its own packs beneath it; one column on a phone.
+   ========================================================================== */
+.app-shell .wl { display: grid; gap: 28px; align-content: start; }
+
+.app-shell .wl-cols { display: grid; gap: 32px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 900px) {
+  .app-shell .wl-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; }
+  .app-shell .wl-col + .wl-col { padding-left: 32px; border-left: 1px solid var(--a-line); }
+  .app-shell .wl-col:first-child { padding-right: 32px; }
+}
+.app-shell .wl-sk { display: block; min-height: 220px; border-radius: 12px; background: var(--a-sunken); }
+
+.app-shell .wl-col { display: grid; gap: 24px; align-content: start; min-width: 0; }
+
+/* The balance: a name, one big figure, then the lines that say what it is and when it renews. */
+.app-shell .wl-bal { display: grid; gap: 6px; min-width: 0; }
+.app-shell .wl-bal__name { display: flex; align-items: center; gap: 8px; margin: 0; font: 700 14px/1.3 var(--font-display); color: var(--a-ink-2); }
+.app-shell .wl-bal__figure { margin: 2px 0 6px; font: 800 44px/1.02 var(--font-display); letter-spacing: -0.035em; color: var(--a-ink); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.app-shell .wl-bal[data-state='unlimited'] .wl-bal__figure { font-size: 30px; letter-spacing: -0.02em; }
+.app-shell .wl-bal__unknown { font: 600 18px/1.3 var(--font-body); letter-spacing: 0; color: var(--a-ink-3); }
+.app-shell .wl-bal__line { margin: 0; max-width: 52ch; font-size: 14px; line-height: 1.55; color: var(--a-ink-3); }
+.app-shell .wl-bal__line:first-of-type { color: var(--a-ink-2); }
+.app-shell .wl-bal[data-state='zero'] .wl-bal__figure { color: var(--a-ink-2); }
+
+/* The packs: a ruled list, the size and its value on the left, the price and its key on the right. */
+.app-shell .wl-packs { display: grid; gap: 4px; padding-top: 20px; border-top: 1px solid var(--a-line); min-width: 0; }
+.app-shell .wl-packs__h { margin: 0 0 4px; font: 700 16px/1.3 var(--font-display); color: var(--a-ink); }
+.app-shell .wl-packlist { list-style: none; margin: 0; padding: 0; }
+.app-shell .wl-pack { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 4px 16px; padding: 14px 0; min-width: 0; }
+.app-shell .wl-pack + .wl-pack { border-top: 1px solid var(--a-line); }
+.app-shell .wl-pack__what { display: grid; gap: 2px; min-width: 0; }
+.app-shell .wl-pack__what b { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; font: 700 15.5px/1.35 var(--font-display); color: var(--a-ink); font-variant-numeric: tabular-nums; }
+.app-shell .wl-pack__what span { font-size: 13px; line-height: 1.45; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+.app-shell .wl-pack__tag { font: 650 12.5px/1.2 var(--font-body); color: var(--a-ink-2); }
+.app-shell .wl-pack__buy { display: flex; align-items: center; gap: 12px; }
+.app-shell .wl-pack__price { font: 800 18px/1.2 var(--font-display); color: var(--a-ink); font-variant-numeric: tabular-nums; }
+.app-shell .wl-pack__msg { grid-column: 1 / -1; margin: 4px 0 0; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-2); }
+.app-shell .wl-pack__msg[data-tone='good'] { color: var(--a-good-text); }
+@media (max-width: 479px) {
+  .app-shell .wl-pack { grid-template-columns: minmax(0, 1fr); }
+  .app-shell .wl-pack__buy { justify-content: space-between; }
+  .app-shell .wl-pack__buy .wl-key { flex: 1; }
+}
+
+/* Keys: flat, outlined, 44 px. The featured pack is a solid ink key (never lime). Closed top-ups read as a quiet label, still legible. */
+.app-shell .wl-key {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: 0 18px;
+  border-radius: 12px; border: 1px solid var(--a-line-strong); background: transparent; color: var(--a-ink);
+  font: 700 14px/1.2 var(--font-display); cursor: pointer; touch-action: manipulation; white-space: nowrap;
+  transition: border-color 150ms var(--a-ease), background-color 150ms var(--a-ease), transform 100ms var(--a-ease);
+}
+.app-shell .wl-key[data-solid]:not(:disabled) { background: var(--a-ink); border-color: var(--a-ink); color: var(--a-bg); }
+.app-shell .wl-key:active:not(:disabled) { transform: scale(0.98); }
+.app-shell .wl-key:focus-visible, .app-shell .wl-link:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.app-shell .wl-key:disabled { cursor: default; color: var(--a-ink-3); border-color: var(--a-line); background: transparent; }
+@media (hover: hover) and (pointer: fine) {
+  .app-shell .wl-key:hover:not(:disabled):not([data-solid]) { border-color: var(--a-line-hover); background: var(--a-hover); }
+  .app-shell .wl-key[data-solid]:hover:not(:disabled) { opacity: 0.92; }
+}
+
+.app-shell .wl-note { margin: 0; max-width: 62ch; font-size: 14px; line-height: 1.55; color: var(--a-ink-3); }
+.app-shell .wl-pro { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 16px; margin: 0; padding: 14px 0; border-block: 1px solid var(--a-line); font-size: 14.5px; line-height: 1.5; color: var(--a-ink-2); }
+.app-shell .wl-link { display: inline-flex; align-items: center; min-height: 44px; font: 700 14px/1.2 var(--font-display); color: var(--a-ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--a-line-strong); }
+@media (hover: hover) and (pointer: fine) { .app-shell .wl-link:hover { text-decoration-color: var(--a-ink); } }
+
+.app-shell .wl-failed { display: grid; gap: 10px; justify-items: start; }
+.app-shell .wl-failed p { margin: 0; font-size: 14.5px; line-height: 1.5; color: var(--a-ink-2); }
+
+/* History: the same ruled rows as Account > Credits, with the date and the 12-hour time. */
+.app-shell .wl-history { display: grid; gap: 8px; min-width: 0; }
+.app-shell .wl-history h2 { margin: 0; font: 800 20px/1.2 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); }
+.app-shell .wl-list { list-style: none; margin: 0; padding: 0; }
+.app-shell .wl-line { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 56px; padding: 10px 0; min-width: 0; }
+.app-shell .wl-line + .wl-line { border-top: 1px solid var(--a-line); }
+.app-shell .wl-line__what { display: grid; gap: 2px; min-width: 0; }
+.app-shell .wl-line__what b { font: 650 14.5px/1.35 var(--font-display); color: var(--a-ink); overflow-wrap: anywhere; }
+.app-shell .wl-line__meta { display: flex; flex-wrap: wrap; gap: 2px 12px; font-size: 12.5px; line-height: 1.4; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+.app-shell .wl-line__num { flex: none; display: grid; justify-items: end; gap: 1px; font-variant-numeric: tabular-nums; }
+.app-shell .wl-line__num b { font: 800 16px/1.2 var(--font-display); color: var(--a-ink); }
+.app-shell .wl-line__num[data-sign='up'] b { color: var(--a-good-text); }
+.app-shell .wl-line__after { font-size: 12.5px; line-height: 1.4; color: var(--a-ink-3); }
+
+@media (prefers-reduced-motion: reduce) { .app-shell .wl-key { transition: none !important; } }
+:root[data-motion='reduced'] .app-shell .wl-key { transition: none !important; }

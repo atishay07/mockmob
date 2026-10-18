@@ -122,7 +122,8 @@ export default async function AICreditsPage() {
               ))}
             </ul>
             <p className="mm-body" style={{ marginTop: '1.25rem' }}>
-              Your next step on Today never uses AI credits. <Link href="/pricing" className="mm-link">Compare Free and Pro</Link>
+              Your next step on Today never uses AI credits. <Link href="/pricing" className="mm-link">Compare Free and Pro</Link>{' '}
+              <Link href="/wallet" className="mm-link">Open your wallet</Link>
             </p>
           </div>
         </section>

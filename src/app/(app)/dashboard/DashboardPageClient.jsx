@@ -713,6 +713,9 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
               {quoteStatus === 'ready' && quoteMatches && !quote.launchable && quote.upgradeHref && (
                 <> <Link href={quote.upgradeHref}>{quote.reasonCode === 'access_required' ? 'See Pro' : 'See options'}</Link></>
               )}
+              {quoteStatus === 'ready' && quoteMatches && quote.reasonCode === 'insufficient_credits' && (
+                <> <Link href="/wallet">Open your wallet</Link></>
+              )}
             </p>
             <StartRule sheet={startSheet} />
             {/* Fine-tune, said right above Start on every width (owner F8: "above the start quick practice so that everyone

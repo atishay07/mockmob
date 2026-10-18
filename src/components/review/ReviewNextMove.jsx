@@ -23,7 +23,7 @@ export default function ReviewNextMove({ move, onOpen }) {
     if (!alt) return null;
     const label = here(alt.label);
     if (alt.kind === 'repair') return <button type="button" className="rvw-alt mk-press" onClick={() => onOpen(alt.target, { repair: true })}>{label}</button>;
-    const href = alt.kind === 'credits' ? '/pricing/ai-credits' : alt.target?.href || '/dashboard?mode=full';
+    const href = alt.kind === 'credits' ? '/wallet' : alt.target?.href || '/dashboard?mode=full';
     return <Link className="rvw-alt mk-press" href={href}>{label}</Link>;
   })();
   return (

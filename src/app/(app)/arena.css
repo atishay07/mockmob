@@ -1331,6 +1331,7 @@ html[data-theme='light'] .arena-dark-island {
 .app-shell .plan-card__row .credit-amount__value { font-size: 20px; color: var(--a-ink); }
 .app-shell .plan-card__cta { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 46px; border-radius: 14px; background: var(--volt); color: #0b1000; font: 700 15px var(--font-display); text-decoration: none; }
 .app-shell .plan-card__quiet, .app-shell .plan-card__danger { min-height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid var(--a-line-strong); background: transparent; color: var(--a-ink-2); font: 700 14px var(--font-display); cursor: pointer; justify-self: start; }
+.app-shell a.plan-card__quiet { display: inline-flex; align-items: center; text-decoration: none; }
 .app-shell .plan-card__quiet:hover { color: var(--a-ink); border-color: var(--a-line-hover); }
 .app-shell .plan-card__danger { color: var(--a-bad-text); border-color: var(--a-bad-text); }
 /* An inline question, not a second card: a hairline and spacing set it apart from the plan text. */
