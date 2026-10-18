@@ -293,7 +293,7 @@ class ChapterRow {
   final int? offer;
   final int? questions;
 
-  /// `offer - lost`, or null with [offer].
+  /// `offer - lost`, or null with [offer]. Negative when the wrong answers cost more than the chapter had on offer.
   final int? scored;
   final int wrong;
   final int blank;
@@ -302,11 +302,15 @@ class ChapterRow {
   final List<String> papers;
   final List<String> paperIds;
 
-  /// "Lost 35 of the 80 marks on offer, 16 questions in Mock 3 and Mock 2. 5 wrong, 1 left blank."
+  /// "Lost 35 of the 80 marks on offer, 16 questions in Mock 3 and Mock 2. 5 wrong, 1 left blank." When the marks lost pass the
+  /// marks on offer ([overOffer]) the "of N" is left out: "Lost 316 marks, 61 questions in Mock 3 and Mock 2. 52 wrong, 9 left blank."
   final LeadLine line;
 
   /// Marks lost over marks on offer, 0 to 1 (1 when the offer is not known).
   final double share;
+
+  /// True when the marks lost pass the marks on offer (6 lost a wrong answer, 5 on offer a question): the "of N" is not printed.
+  bool get overOffer => offer != null && lost > offer!;
 
   /// The never-repaired wrong answers, newest first.
   final List<RowItem> open;
@@ -605,8 +609,12 @@ List<ChapterRow> chapterRows(ReviewRecord record, {LocalTime local = istLocal}) 
     final counted = [if (wrong > 0) '$wrong wrong', if (blank > 0) '$blank left blank'].join(', ');
     final names = namePapers(papers);
     final asked = questions == null ? '' : ', ${_plural(questions, 'question')} in $names';
+    // Six marks go for a wrong answer and only five are on offer for a question, so a chapter of mostly wrong answers can lose
+    // more than it had on offer. "Lost 316 of the 310 marks" cannot be true: such a row says the marks lost alone.
     final line = offer == null
         ? LeadLine(lead: 'Lost $lost marks', rest: ' in $names. $counted.')
+        : lost > offer
+        ? LeadLine(lead: 'Lost $lost marks', rest: '$asked. $counted.')
         : LeadLine(lead: 'Lost $lost of the $offer marks', rest: ' on offer$asked. $counted.');
     built.add((
       row: ChapterRow(

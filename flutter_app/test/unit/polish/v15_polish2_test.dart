@@ -202,6 +202,86 @@ void main() {
     }
   });
 
+  group('the offline line beside the account key (v15 final walk)', () {
+    // A 360 dp phone: 16 dp gutters and the 40 dp account key with its gap leave the header 280 dp.
+    testWidgets('the Ask pill gives way to Mobi alone, the line stays on one line and the header keeps its height', (tester) async {
+      const line = 'Offline. Last loaded 3:05 PM.';
+      Future<Size> pumpHeader(String? notice) async {
+        await pumpMockmob(
+          tester,
+          Align(alignment: Alignment.topLeft, child: SizedBox(width: 280, child: ReviewTabHeader(title: 'Review', notice: notice, onAsk: () {}))),
+          size: const Size(360, 400),
+          disableAnimations: true,
+        );
+        return tester.getSize(find.byType(ReviewTabHeader));
+      }
+
+      final plain = await pumpHeader(null);
+      expect(find.text('Ask Mobi'), findsOneWidget);
+      final offline = await pumpHeader(line);
+      expect(offline.height, plain.height);
+      expect(find.text('Ask Mobi'), findsNothing, reason: 'the word steps aside only while the line needs the room');
+      expect(find.bySemanticsLabel('Ask Mobi, a question about your record'), findsOneWidget);
+      expect(tester.getSize(find.text(line)).height, lessThan(24), reason: 'one line');
+    });
+
+    testWidgets('the widest 12-hour time still fits one line at 360 dp and 1.0 text, with the header at its plain height', (tester) async {
+      const line = 'Offline. Last loaded 12:59 PM.';
+      Future<Size> pumpHeader(String? notice) async {
+        await pumpMockmob(
+          tester,
+          Align(alignment: Alignment.topLeft, child: SizedBox(width: 280, child: ReviewTabHeader(title: 'Review', notice: notice, onAsk: () {}))),
+          size: const Size(360, 400),
+          disableAnimations: true,
+        );
+        return tester.getSize(find.byType(ReviewTabHeader));
+      }
+
+      final plain = await pumpHeader(null);
+      final offline = await pumpHeader(line);
+      expect(offline.height, plain.height, reason: 'no jump');
+      expect(tester.getSize(find.text(line)).height, lessThan(24), reason: 'one line');
+    });
+
+    testWidgets('at 1.3x text the line may wrap, but it eases the header open instead of jumping it', (tester) async {
+      const line = 'Offline. Last loaded 3:05 PM.';
+      final notice = ValueNotifier<String?>(null);
+      await pumpMockmob(
+        tester,
+        ValueListenableBuilder<String?>(
+          valueListenable: notice,
+          builder: (context, n, _) => Align(alignment: Alignment.topLeft, child: SizedBox(width: 280, child: ReviewTabHeader(title: 'Review', notice: n, onAsk: () {}))),
+        ),
+        size: const Size(360, 400),
+        textScale: 1.3,
+      );
+      double height() => tester.getSize(find.byType(ReviewTabHeader)).height;
+      final plain = height();
+      notice.value = line;
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 16));
+      final first = height();
+      await tester.pump(const Duration(seconds: 2));
+      final settled = height();
+      expect(settled, greaterThan(plain), reason: 'a large text size needs the room');
+      expect(first - plain, lessThan((settled - plain) / 2), reason: 'the first frames are still near the old height: eased, not jumped');
+      notice.value = null;
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 2));
+      expect(height(), plain, reason: 'it closes again');
+    });
+
+    testWidgets('with room to spare the pill keeps its word', (tester) async {
+      await pumpMockmob(
+        tester,
+        ReviewTabHeader(title: 'Review', notice: 'Offline. Last loaded 3:05 PM.', onAsk: () {}),
+        size: const Size(600, 400),
+        disableAnimations: true,
+      );
+      expect(find.text('Ask Mobi'), findsOneWidget);
+    });
+  });
+
   group('the Sunday week promises no day that is gone', () {
     SheetWeek week({required List<WeekDayMark> marks, required int today, required int done, int goal = 4}) => SheetWeek.ready(
           days: [for (var d = 0; d < 7; d++) WeekBubbleDay(mark: marks[d], isToday: d == today)],

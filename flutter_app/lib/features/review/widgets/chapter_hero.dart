@@ -14,7 +14,9 @@ import 'review_layout.dart';
 ///
 /// Night stays subtle: a raised card with the subject's object beside the title, no wash, no glow. The number is in the wrong
 /// ink and carries its denominator ("of 80"); with no denominator known (an older record) it says "marks lost" alone and the bar
-/// is not drawn, because a bar with no whole behind it would be a made-up fullness.
+/// is not drawn, because a bar with no whole behind it would be a made-up fullness. When the marks lost pass the marks on offer
+/// ([ChapterRow.overOffer]: a wrong answer loses 6 and a question offers 5) the "of N" is left out, never "316 of 310"; the bar is
+/// then full, which is true (every mark on offer went), and never wider than its rail.
 class ChapterHero extends StatelessWidget {
   const ChapterHero({
     super.key,
@@ -116,7 +118,7 @@ class ChapterHero extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    if (offer != null) Text(ReviewCopy.ofOffer(offer), style: _unit(type, colors)),
+                                    if (offer != null && !row.overOffer) Text(ReviewCopy.ofOffer(offer), style: _unit(type, colors)),
                                     Text(ReviewCopy.marksLostWord, style: _unit(type, colors)),
                                   ],
                                 ),

@@ -139,6 +139,107 @@ void main() {
     expect([for (final i in adm.open) i.number], [38, 45, 11]);
   });
 
+  test('a chapter of mostly wrong answers never prints more marks lost than it had on offer (v15 final walk)', () {
+    // 10 questions: 9 wrong and 1 blank lose 59 marks, 5 a question is 50 on offer. "Lost 59 of the 50" cannot be true.
+    final rec = _custom(
+      papers: [
+        {'id': 'p1', 'name': 'Mock 1', 'at': '2026-10-17T20:00:00+05:30'},
+      ],
+      chapters: [
+        {'id': 'c1', 'name': 'Financial Markets'},
+      ],
+      chapterQuestions: {
+        'p1': {'c1': 10},
+      },
+      items: [
+        for (var q = 1; q <= 9; q++) {'paper': 'p1', 'q': q, 'ch': 'c1', 'state': 'open'},
+        {'paper': 'p1', 'q': 10, 'ch': 'c1', 'state': 'blank'},
+      ],
+    );
+    final row = chapterRows(rec).single;
+    expect((row.lost, row.offer, row.scored), (59, 50, -9));
+    expect(row.overOffer, isTrue);
+    expect(row.line.text, 'Lost 59 marks, 10 questions in Mock 1. 9 wrong, 1 left blank.');
+    expect(row.line.text, isNot(contains(' of the ')));
+    expect(row.share, 1);
+    // Under the line the sentence keeps its "of N".
+    expect(chapterRows(_record())[0].overOffer, isFalse);
+  });
+
+  group('a figure never says "lost X of Y" with X over Y (v15 final walk)', () {
+    // One chapter with [wrong] wrong answers and [blank] blanks out of [questions] asked, in one paper.
+    ChapterRow oneChapter(int wrong, int blank, int? questions) {
+      final rec = ReviewRecord.fromJson({
+        'now': '2026-10-17T21:00:00+05:30',
+        'papers': [
+          {'id': 'p1', 'name': 'Mock 1', 'at': '2026-10-17T20:00:00+05:30'},
+        ],
+        'chapters': [
+          {'id': 'c1', 'name': 'Financial Markets'},
+        ],
+        if (questions != null)
+          'chapterQuestions': {
+            'p1': {'c1': questions},
+          },
+        'items': [
+          for (var q = 1; q <= wrong; q++) {'paper': 'p1', 'q': q, 'ch': 'c1', 'state': 'open'},
+          for (var q = wrong + 1; q <= wrong + blank; q++) {'paper': 'p1', 'q': q, 'ch': 'c1', 'state': 'blank'},
+        ],
+      });
+      return chapterRows(rec).single;
+    }
+
+    test('lost under the offer keeps its "of N"', () {
+      final row = oneChapter(2, 1, 10); // 12 + 5 = 17 lost of 50.
+      expect((row.lost, row.offer), (17, 50));
+      expect(row.overOffer, isFalse);
+      expect(row.line.text, 'Lost 17 of the 50 marks on offer, 10 questions in Mock 1. 2 wrong, 1 left blank.');
+      expect(row.share, closeTo(17 / 50, 1e-9));
+    });
+
+    test('lost exactly the offer still says "of N" (every mark gone, none over)', () {
+      final row = oneChapter(0, 5, 5); // five blanks lose 25 of the 25 on offer.
+      expect((row.lost, row.offer), (25, 25));
+      expect(row.overOffer, isFalse);
+      expect(row.line.text, 'Lost 25 of the 25 marks on offer, 5 questions in Mock 1. 5 left blank.');
+      expect(row.share, 1);
+    });
+
+    test('lost over the offer (the walk 316 of 310) drops the "of N" and the bar stays inside the rail', () {
+      final row = oneChapter(6, 56, 62); // 36 + 280 = 316 lost, 62 questions is 310 on offer.
+      expect((row.lost, row.offer), (316, 310));
+      expect(row.overOffer, isTrue);
+      expect(row.line.text, 'Lost 316 marks, 62 questions in Mock 1. 6 wrong, 56 left blank.');
+      expect(row.line.text, isNot(contains(' of the ')));
+      expect(row.share, 1, reason: 'clamped: a bar can never run past its rail');
+    });
+
+    test('an offer that is not known never prints a denominator, and is not "over" anything', () {
+      final row = oneChapter(3, 1, null);
+      expect(row.offer, isNull);
+      expect(row.overOffer, isFalse);
+      expect(row.line.text, 'Lost 23 marks in Mock 1. 3 wrong, 1 left blank.');
+      expect(row.line.text, isNot(contains(' of the ')));
+    });
+
+    test('over every mix of wrong and blank answers, no row says more lost than on offer, and share stays 0 to 1', () {
+      final said = RegExp(r'Lost (\d+) of the (\d+) marks');
+      for (var questions = 1; questions <= 24; questions++) {
+        for (var wrong = 0; wrong <= questions; wrong++) {
+          for (var blank = 0; blank <= questions - wrong; blank++) {
+            if (wrong + blank == 0) continue;
+            final row = oneChapter(wrong, blank, questions);
+            final m = said.firstMatch(row.line.text);
+            if (m != null) expect(int.parse(m[1]!) <= int.parse(m[2]!), isTrue, reason: row.line.text);
+            expect(row.overOffer, row.lost > row.offer!, reason: '$wrong wrong, $blank blank of $questions');
+            expect(m == null, row.overOffer, reason: 'the "of N" is printed exactly when it can be true: ${row.line.text}');
+            expect(row.share, inInclusiveRange(0, 1));
+          }
+        }
+      }
+    });
+  });
+
   test('without chapterQuestions (an older server) the line states the marks lost alone, and no denominator is invented', () {
     final adm = chapterRows(_record().withoutChapterQuestions())[0];
     expect(adm.offer, isNull);

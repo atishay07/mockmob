@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/connectivity/connectivity.dart' show NetworkStatus, networkStatusProvider;
 import '../../../core/repositories/attempts_repository.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
@@ -146,7 +147,7 @@ class MistakesScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            PageHeader(title: ReviewCopy.mistakesTitle, notice: index == null ? null : HeaderNotice.forAttempts(inputs.attempts, clock)),
+            PageHeader(title: ReviewCopy.mistakesTitle, notice: index == null ? null : HeaderNotice.forAttempts(inputs.attempts, clock, offline: ref.watch(networkStatusProvider) == NetworkStatus.offline)),
             Expanded(child: body),
           ],
         ),

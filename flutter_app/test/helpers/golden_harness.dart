@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/connectivity/connectivity_monitor.dart' show NetworkStatus;
+import 'package:mockmob/core/connectivity/connectivity_providers.dart' show NetworkStatusNotifier, networkStatusProvider;
 import 'package:mockmob/core/models/my_colleges.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/theme/theme.dart';
@@ -28,6 +30,12 @@ class FileAssetBundle extends CachingAssetBundle {
     if (!file.existsSync()) throw FlutterError('Unable to load asset: $key');
     return ByteData.sublistView(Uint8List.fromList(await file.readAsBytes()));
   }
+}
+
+/// The phone is online (the real monitor needs the connectivity plugin and the phone's database).
+class _OnlineNetwork extends NetworkStatusNotifier {
+  @override
+  NetworkStatus build() => NetworkStatus.online;
 }
 
 /// Default golden frame: 360 by 780 logical px at device pixel ratio 2 (spec A10).
@@ -60,6 +68,8 @@ Future<void> pumpMockmob(
         // (it draws nothing) unless the test passes its own.
         if (!overrides.any((o) => identical(o.origin, mobRepositoryProvider)))
           mobRepositoryProvider.overrideWithBuild((ref, n) => const RemoteState<MobRead>()),
+        // Review and Today say "Offline" from the connection monitor: a screen under test is online unless the test says otherwise.
+        if (!overrides.any((o) => identical(o.origin, networkStatusProvider))) networkStatusProvider.overrideWith(_OnlineNetwork.new),
         ...overrides,
       ],
       child: DefaultAssetBundle(
