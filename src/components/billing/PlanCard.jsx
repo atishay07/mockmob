@@ -57,7 +57,8 @@ export function PlanCard() {
     <section className="plan-card" aria-labelledby="plan-card-title">
       <div className="plan-card__head">
         <h2 id="plan-card-title">Plan</h2>
-        <span className="pr-badge" data-tone={pro ? 'included' : 'muted'}>{pro ? 'Pro' : 'Free'}</span>
+        {/* Quiet meta text, not a pill (BADGES-REFINE section 4: only real badges are badge-shaped). */}
+        <span className="plan-card__meta">{pro ? 'Pro' : 'Free'}</span>
       </div>
 
       {pro || paymentFailed ? (

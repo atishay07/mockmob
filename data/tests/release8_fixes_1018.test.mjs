@@ -131,9 +131,10 @@ test('D53: one quiet inline line says an AI service writes the reply and that it
   assert.match(panel, /className="amb-cost__price" aria-live="polite"/);
 });
 
-test('W-079: the desktop "Edit" on the Practice ticket keeps its 36 px look and has a 44 px target, all of it above the button', () => {
+test('W-079 (release 9): the desktop "Edit" on the Practice ticket is itself 44 px tall, not 36 px with an invisible layer', () => {
   const css = stripComments(read('src/app/(app)/dashboard/practice.css'));
-  assert.match(css, /\.pr-ticket__edit::after\s*\{[^}]*inset:\s*-8px -2px 0/);
+  assert.match(css, /\.pr-ticket__edit\s*\{[^}]*min-height:\s*44px/);
+  assert.doesNotMatch(css, /\.pr-ticket__edit::after/);
 });
 
 test('D53: the cost row\'s wallet link keeps a 44 px target without growing the row', () => {

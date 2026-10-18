@@ -28,6 +28,10 @@
 .sb-medal[data-status='later'] { border-style: dashed; border-color: var(--a-line-strong); }
 .sb-medal[data-status='next'] { border-color: var(--a-ink-2); color: var(--a-ink-2); }
 .sb-medal[data-status='earned'] { background: var(--volt); border-color: var(--volt); color: #0b1000; }
+/* Night (D7, release 9): solid lime on six medals at once was "very in-your-face". In Night an earned medal is a charcoal disc
+   with a thin lime ring and a lime glyph (the subtle Night accent: the tokens' wash and line, no fill, no glow); the medal's art
+   (its numeral or icon, size and ring) is unchanged. Day keeps the solid medal. */
+html:not([data-theme='light']) .sb-medal[data-status='earned'] { background: var(--a-volt-wash, rgba(210, 240, 0, 0.07)); border-color: var(--a-volt-line, rgba(210, 240, 0, 0.5)); color: var(--a-accent-text, #d2f000); }
 
 /* ----- Badges section: the shelf, the next badge, then (desktop) the four paths ----- */
 /* The shelf: earned medals, newest first. It scrolls sideways on a phone (the next medal peeks), wraps on a desktop. */
@@ -67,6 +71,7 @@
 /* The four paths: two ruled columns from tablets up, one column on a phone (inside the All badges sheet) */
 .app-shell .sb-paths { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; margin-top: 12px; border-top: 1px solid var(--a-line); }
 .sb-all-sheet .sb-paths { margin-top: 0; border-top: 0; }
+.app-shell .sb-path__done, .sb-layer .sb-path__done { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-3); }
 .app-shell .sb-path, .sb-layer .sb-path { display: grid; gap: 14px; align-content: start; padding: 20px 28px 22px 0; min-width: 0; }
 .app-shell .sb-path:nth-child(even), .sb-layer .sb-path:nth-child(even) { padding: 20px 0 22px 28px; border-left: 1px solid var(--a-line); }
 .app-shell .sb-path header, .sb-layer .sb-path header { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }

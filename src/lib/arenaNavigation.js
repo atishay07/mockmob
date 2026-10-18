@@ -1,6 +1,7 @@
 import { CAPABILITIES } from '@/../data/capabilities';
 
 // hint: a plain descriptor shown beside a branded name (WEB-REDESIGN-PLAN 5.3) until the owner settles those names (D10).
+// The Guide row is HELP_DOOR.label (src/lib/helpDoor.mjs); a test holds the two together (this file is also loaded on its own, so it imports nothing local).
 const item = (id, label, icon = id, href = `/${id}`, hint = null) => ({ id, label, icon, href, hint });
 // sub: a link that belongs to the item above it. The desktop sidebar indents it under that item; the phone sheet lists it beside it.
 const sub = (tab) => ({ ...tab, sub: true });
@@ -18,9 +19,9 @@ export function arenaNavigation(moderator = false, { mob = false, contribute = f
   return [
     ...(moderator ? [{ label: 'Moderation', items: [item('moderation', 'Mod queue', 'moderation')] }] : []),
     { label: 'Study', items: [...STUDY_NAV, sub(item('leaderboard', 'Your standing', 'ranks')), ...(mob ? [item('mob', 'Your Mob', 'mob')] : [])] },
-    { label: 'Planning', items: [item('analytics', 'Weak chapters', 'radar', '/analytics'), item('admission-compass', 'Colleges', 'colleges', '/admission-compass', 'DU cutoffs'), item('mentor', 'Ask Mobi', 'prepos')] },
+    { label: 'Planning', items: [item('analytics', 'Marks trend', 'radar', '/analytics'), item('admission-compass', 'Colleges', 'colleges', '/admission-compass', 'DU cutoffs'), item('mentor', 'Ask Mobi', 'prepos')] },
     ...(contribute ? [{ label: 'Contribute', items: [item('upload', 'Contribute', 'contribute'), item('my-uploads', 'My uploads', 'uploads')] }] : []),
-    { label: 'Account', items: [item('profile', 'Account', 'account'), item('help', 'Help and FAQ', 'help')] },
+    { label: 'Account', items: [item('profile', 'Account', 'account'), item('help', 'Guide', 'help')] },
   ];
 }
 // The phone dock (NAV-1017 section 8): Today, Practice, Review and Colleges, then More (drawn by the layout). Colleges is

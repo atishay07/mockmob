@@ -85,8 +85,9 @@ html[data-theme='light'] .app-shell .stk--sidebar { box-shadow: inset 0 0 0 1px 
      data-page-primary or data-phone-primary; AppLayoutClient watches them with pagePrimary.mjs, StartKey draws data-quiet)
      this key steps back: the capsule's own glass, an ink word, the play mark kept in the accent and a hairline ring, the quiet
      look the sidebar key takes on a wide screen. Same box, same place, same 64 px target, and it still opens the sheet. It
-     follows one thing, whether that key is in view, with a short settle so a fast scroll never flickers it; once the page's key
-     has gone it is lime again. The fill, ink and ring change over the press transitions' 150 to 200 ms; reduced motion is instant. */
+     follows one thing, whether any of that key is in view: it steps back the moment a sliver shows (in the band above the dock or
+     in the strip under it), and returns to lime only after the key has been gone for a short settle, so a fast scroll never
+     flickers it. The fill, ink and ring change over the press transitions' 150 to 200 ms; reduced motion is instant. */
   html .app-shell .arena-dock > .stk--bar[data-quiet] {
     background: var(--dock-glass);
     color: var(--a-ink);
@@ -289,7 +290,7 @@ html:has(.st-sheet[open]) { overflow: hidden; scrollbar-gutter: stable; }
 }
 
 /* The arrows: mouse only, and only toward chips that are out of view. They sit in the fade, at the sheet's
-   edge, as 44 px targets around a 34 px glass disc, centred on the chips, and leave on the exit curve once
+   edge, as 44 px glass discs (the disc is the target, W-079), centred on the chips, and leave on the exit curve once
    their end is reached. */
 .st-rail__arrow {
   position: absolute;
@@ -306,17 +307,19 @@ html:has(.st-sheet[open]) { overflow: hidden; scrollbar-gutter: stable; }
   color: var(--a-ink);
   cursor: pointer;
   opacity: 0;
-  scale: 0.82;
   pointer-events: none;
-  transition: opacity var(--mm-dur-exit) var(--mm-ease-exit), scale var(--mm-dur-exit) var(--mm-ease-exit);
+  /* The hidden arrow keeps its full 44 px box (W-079 measured it at 0.82 scale, 36 px): it only fades out, and the scale-in is an
+     animation on arrival, so a resting arrow is never a scaled-down target. */
+  transition: opacity var(--mm-dur-exit) var(--mm-ease-exit);
 }
+@keyframes st-arrow-in { from { opacity: 0; scale: 0.82; } }
 .st-rail__arrow--prev { left: calc(var(--st-pad) * -1 + 4px); }
 .st-rail__arrow--next { right: calc(var(--st-pad) * -1 + 4px); }
 .st-rail__disc {
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
+  width: 44px;
+  height: 44px;
   border: 1px solid var(--a-line-strong);
   border-radius: 50%;
   background: var(--a-raised-2);
@@ -337,9 +340,9 @@ html:has(.st-sheet[open]) { overflow: hidden; scrollbar-gutter: stable; }
   .st-rail[data-overflow]:not([data-at-start]) .st-rail__arrow--prev,
   .st-rail[data-overflow]:not([data-at-end]) .st-rail__arrow--next {
     opacity: 1;
-    scale: 1;
     pointer-events: auto;
-    transition: opacity var(--mm-dur-glide) var(--mm-ease-glide), scale var(--mm-spring-smooth-dur) var(--mm-spring-smooth);
+    transition: opacity var(--mm-dur-glide) var(--mm-ease-glide);
+    animation: st-arrow-in var(--mm-spring-smooth-dur) var(--mm-spring-smooth) both;
   }
   .st-rail__arrow:hover .st-rail__disc { background: var(--a-hover); border-color: var(--a-select); }
   .st-rail__arrow:active .st-rail__disc { transform: scale(var(--mm-pressed-scale)); transition-duration: 160ms, 160ms, var(--mm-spring-snappy-dur); transition-timing-function: ease, ease, var(--mm-spring-snappy); }
@@ -664,13 +667,13 @@ html[data-theme='light'] .st-cta { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.
 
 /* ---------- Reduced motion: hover and press without movement ---------- */
 :root[data-motion='reduced'] :is(.st-row, .st-chip, .st-close, .stk__disc, .st-row__art > *) { transition-property: background-color, border-color, color, box-shadow; transform: none !important; }
-:root[data-motion='reduced'] :is(.st-rail__arrow, .st-rail__disc) { scale: 1 !important; transform: none !important; transition-property: opacity, background-color, border-color; }
+:root[data-motion='reduced'] :is(.st-rail__arrow, .st-rail__disc) { scale: 1 !important; transform: none !important; animation: none !important; transition-property: opacity, background-color, border-color; }
 :root[data-motion='reduced'] .st-chip .st-obj { translate: none !important; scale: none !important; transition: filter 120ms linear, opacity 120ms linear; }
 :root[data-motion='reduced'] :is(.st-tile, .st-go, .st-tile__art > *) { transform: none !important; transition-property: background-color, border-color, color, box-shadow; }
 :root[data-motion='reduced'] .st-words { animation: st-words-fade 120ms linear both; }
 @media (prefers-reduced-motion: reduce) {
   :is(.st-row, .st-chip, .st-close, .stk__disc, .st-row__art > *) { transition-property: background-color, border-color, color, box-shadow; transform: none !important; }
-  :is(.st-rail__arrow, .st-rail__disc) { scale: 1 !important; transform: none !important; transition-property: opacity, background-color, border-color; }
+  :is(.st-rail__arrow, .st-rail__disc) { scale: 1 !important; transform: none !important; animation: none !important; transition-property: opacity, background-color, border-color; }
   .st-chip .st-obj { translate: none !important; scale: none !important; transition: filter 120ms linear, opacity 120ms linear; }
   :is(.st-tile, .st-go, .st-tile__art > *) { transform: none !important; transition-property: background-color, border-color, color, box-shadow; }
   .st-words { animation: st-words-fade 120ms linear both; }

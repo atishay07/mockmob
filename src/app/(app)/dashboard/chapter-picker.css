@@ -14,7 +14,7 @@
 .app-shell .cp-open:hover, .app-shell .cp-done:hover, .app-shell .cp-clear:hover:not(:disabled) { background: var(--a-hover); border-color: var(--a-ink-3); }
 .app-shell .cp-clear:disabled { opacity: 0.5; cursor: default; }
 .app-shell :is(.cp-open, .cp-done, .cp-clear, .cp-use, .cp-close, .cp-link, .cp-chap, .cp-chosen button):focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
-.app-shell .cp-link { min-height: 32px; padding: 0; border: 0; background: none; color: var(--a-accent-text); font: 700 13px/1.2 var(--font-body); cursor: pointer; white-space: nowrap; }
+.app-shell .cp-link { min-height: 44px; min-width: 44px; padding: 0 2px; border: 0; background: none; color: var(--a-accent-text); font: 700 13px/1.2 var(--font-body); cursor: pointer; white-space: nowrap; }
 .app-shell .cp-link:hover { text-decoration: underline; text-underline-offset: 3px; }
 
 /* The chosen chapters: volt wash chips with a 44 px remove target. */

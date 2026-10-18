@@ -30,6 +30,7 @@ import { arenaNavigation, MOBILE_STUDY_NAV } from '@/lib/arenaNavigation';
 import { useReviseBadge } from '@/lib/reviewRead';
 import { VIEW_TRANSITION_PROPS } from '@/lib/motion/placeTransition';
 import { tourSteps } from '@/lib/appTour.mjs';
+import { HELP_DOOR, TOUR_LABEL } from '@/lib/helpDoor.mjs';
 import { TourStopsProvider } from '@/components/help/TourStops';
 
 // React's <ViewTransition> (Next's experimental.viewTransition): the arena's page transitions. The type
@@ -40,7 +41,7 @@ function PageTransition({ children }) {
   return ViewTransition ? <ViewTransition {...VIEW_TRANSITION_PROPS}>{children}</ViewTransition> : children;
 }
 
-// The Guide's stops live in src/lib/appTour.mjs (W-093), so Help and FAQ counts the tour that will run.
+// The Guide's stops live in src/lib/appTour.mjs (W-093), so the Guide page counts the tour that will run.
 // Pip guides the tour only (rare, so it may have character); it nods on each step.
 const TOUR_POSES = ['greeting', 'encouraging', 'thinking', 'encouraging', 'celebrating', 'encouraging', 'thinking', 'celebrating', 'greeting'];
 
@@ -307,10 +308,11 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   // The desktop sidebar keeps the full groups.
   const mobileTabs = MOBILE_STUDY_NAV;
   const dockIds = new Set(mobileTabs.map((tab) => tab.id));
-  // Account and Help and FAQ are the sheet's own header (the name row and the Help and FAQ link beside the sign-out key), so one tap
-  // reaches them; the sidebar keeps both in its Account group. Nothing is dropped: each is still one tap from More.
-  // Learn leads the sheet's places in a row of its own (D20), so the Study group does not list it a second time.
-  const sheetHeadIds = new Set(['profile', 'help', 'learn']);
+  // Account and the Guide are the sheet's own header (the name row, then "Show me around" and Guide), so one tap reaches them; the
+  // sidebar keeps both in its Account group. Nothing is dropped: each is still one tap from More.
+  // Learn leads the sheet's places in a row of its own (D20), so the Study group does not list it a second time. Ask Mobi
+  // has its own row above the theme control (D6: it never sits below the theme selector), so Planning does not list it again.
+  const sheetHeadIds = new Set(['profile', 'help', 'learn', 'mentor']);
   const sheetGroups = navGroups.map((group) => ({ ...group, items: group.items.filter((tab) => !dockIds.has(tab.id) && !sheetHeadIds.has(tab.id)) })).filter((group) => group.items.length);
   const allTabs = navGroups.flatMap((group) => group.items);
   // A lesson or recall run lives at /study/<id> but belongs to Learn (D20), so Learn stays the current place while you are in one.
@@ -338,6 +340,13 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   const currentTitle = allTabs.find((tab) => isActive(tab.id))?.label
     || (activePath.startsWith('/result') ? 'Result' : '');
 
+  // The 8-stop tour, from any row that offers it ("Show me around": the More sheet, the sidebar's Account group).
+  function startTour() {
+    setMobileMenuOpen(false);
+    setTourStep(0);
+    setTourOpen(true);
+  }
+
   function closeTour() {
     setTourOpen(false);
     setTourStep(0);
@@ -357,10 +366,17 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
           <nav key={group.label} className="arena-nav-group" aria-label={group.label}>
             <p className="arena-nav-label">{group.label}</p>
             {group.items.map((tab) => renderNavLink(tab))}
+            {/* The tour, under the Account group's Guide row (N17): a student who is lost finds it without knowing to open Guide. */}
+            {group.label === 'Account' && !isTestRoute ? (
+              <button type="button" className="arena-nav-link arena-nav-link--tour" onClick={startTour}>
+                <AppIcon name="guide" />
+                <span className="arena-nav-link__label">{TOUR_LABEL}</span>
+              </button>
+            ) : null}
           </nav>
         ))}
-        {/* The foot is the appearance row alone (D11): Account and Help and FAQ are links in the Account group above it, and
-            Help and FAQ is its own page, not a menu inside the sidebar. */}
+        {/* The foot is the appearance row alone (D11): Account and the Guide are links in the Account group above it, and
+            the Guide is its own page, not a menu inside the sidebar. */}
         <div className="arena-sidebar__foot">
           <AppearanceSwitch compact />
         </div>
@@ -453,10 +469,20 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
                   <AppIcon name="signout" />
                 </button>
               </div>
+              <button type="button" className="arena-sheet__help arena-sheet__tour" onClick={startTour}>
+                <AppIcon name="guide" /> {TOUR_LABEL}
+              </button>
               <Link href={previewLinks?.help || '/help'} className="arena-sheet__help" aria-current={isActive('help') ? 'page' : undefined} onClick={() => setMobileMenuOpen(false)}>
-                <AppIcon name="help" /> Help and FAQ
+                <AppIcon name="help" /> {HELP_DOOR.label}
               </Link>
             </div>
+            {/* Ask Mobi sits above the theme control (D6), as Learn's row does below it. */}
+            {navGroups.some((group) => group.items.some((tab) => tab.id === 'mentor')) && (
+              <Link href={previewLinks?.mentor || '/mentor'} className="arena-sheet__lead arena-sheet__lead--ask" data-tour="nav-mentor" aria-current={isActive('mentor') ? 'page' : undefined} onClick={() => setMobileMenuOpen(false)}>
+                <AppIcon name="prepos" />
+                <span className="arena-sheet__lead-text"><span className="arena-sheet__lead-name">Ask Mobi</span><span className="arena-sheet__lead-note">About a question, a result or your plan</span></span>
+              </Link>
+            )}
             <AppearanceSwitch />
             {showStudy && (
               <Link href={previewLinks?.learn || '/learn'} className="arena-sheet__lead" data-tour="nav-learn" aria-current={isActive('learn') ? 'page' : undefined} onClick={() => setMobileMenuOpen(false)}>
