@@ -691,7 +691,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
     if (_reduced) {
       _x.value = 0;
       widget.onChoose(card.choice);
-      _revealLead();
+      _revealLeadAfterSwap();
     } else {
       final x = _x.value;
       _flight = _Flight(card: card, from: Offset(x, _liftY(x)), lean: _lean(x), to: _leadOffset());
@@ -700,7 +700,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
       });
       _x.value = 0;
       widget.onChoose(card.choice);
-      _revealLead();
+      _revealLeadAfterSwap();
     }
     // The bar is a snack bar, a live region of its own: it speaks the result once. Only without a
     // bar is it announced here (round 2, item 4).
@@ -749,6 +749,13 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
     }
   }
 
+  /// The new lead is measured once it has built (it may be taller or shorter than the old one).
+  void _revealLeadAfterSwap() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _revealLead();
+    });
+  }
+
   /// A card chosen while the lead card's top is scrolled away: the page brings the lead card back
   /// into view, so the swap is never made out of sight. The deck scrolls with it, so a flight
   /// still lands on it.
@@ -760,11 +767,23 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
     final position = scrollable.position;
     final lead = widget.leadKey?.currentContext?.findRenderObject();
     final double target;
-    if (lead is RenderBox && lead.attached) {
+    if (lead is RenderBox && lead.attached && lead.hasSize) {
       final inset = MediaQuery.paddingOf(context).top + MmSpace.s16;
       final top = lead.localToGlobal(Offset.zero, ancestor: viewport).dy;
-      if (top >= inset) return;
-      target = (position.pixels + top - inset).clamp(position.minScrollExtent, position.maxScrollExtent);
+      // The lead card's foot holds its Start key: it must sit above the Up next bar, or the bar
+      // hides Start for its 5 s and a tap meant for Undo lands on Start as the bar fades.
+      final floor = viewport.size.height - _barReserve();
+      final bottom = top + lead.size.height;
+      final double delta;
+      if (top < inset) {
+        delta = top - inset;
+      } else if (bottom > floor) {
+        // Too tall to fit whole: the foot wins, so Start is never under the bar.
+        delta = bottom - floor;
+      } else {
+        return;
+      }
+      target = (position.pixels + delta).clamp(position.minScrollExtent, position.maxScrollExtent);
     } else {
       // Scrolled so far that a lazy list let the lead card go: it sits near the top of the page.
       // Once there and built, a second look settles it exactly.
@@ -787,6 +806,14 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
     } else {
       unawaited(position.animateTo(target, duration: const Duration(milliseconds: 420), curve: Motion.inOut));
     }
+  }
+
+  /// The height at the foot of the page the Up next bar covers (the bar, its margin, the dock).
+  double _barReserve() {
+    final media = MediaQuery.of(context);
+    final dock = MmBarInsets.maybeOf(context)?.showing ?? false;
+    final text = media.textScaler.scale(18) / 18;
+    return media.viewPadding.bottom + (dock ? MmBarInsets.barTop : 0) + MmSpace.s12 + 64 * text + MmSpace.s12;
   }
 
   /// Where the lead card's middle is, from the top card's middle; straight up when it cannot be
