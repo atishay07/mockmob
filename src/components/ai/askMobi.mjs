@@ -102,7 +102,8 @@ export function openAskMobi({ context = null, tab = 'plan', questionRef = null, 
       tab: scoped.kind === 'question' ? 'ask' : cleanTab,
       questionRef: scoped.kind === 'question' ? scoped.ref : null,
       origin: originOf(from),
-      returnTo: returnFocusFor(from),
+      // Only said when it matters (a row of the phone's More sheet), so every other request keeps the detail it always had.
+      ...(returnFocusFor(from) ? { returnTo: returnFocusFor(from) } : {}),
       context: scoped,
     },
   });

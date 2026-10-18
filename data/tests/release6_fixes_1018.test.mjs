@@ -219,6 +219,9 @@ test('Ask Mobi opened from a row in the phone\'s More sheet gives focus back to 
   const target = { dispatchEvent: (event) => { detail = event.detail; return true; } };
   openAskMobi({ context: { kind: 'page' }, from: Object.assign(inSheet, { getBoundingClientRect: () => ({ width: 0 }) }) }, target);
   assert.equal(detail.returnTo, MORE_BUTTON);
+  // Every other request keeps exactly the detail it always had (mobi_help_door.test.mjs pins it): no returnTo key at all.
+  openAskMobi({ context: { kind: 'page' }, from: Object.assign(onPage, { getBoundingClientRect: () => ({ width: 0 }) }) }, target);
+  assert.ok(!('returnTo' in detail), 'no returnTo when the opener stays on the page');
   assert.match(read('src/components/ai/AskMobiHost.jsx'), /returnTo=\{request\.returnTo\}/);
   assert.match(read('src/components/ai/AssistantDrawer.jsx'), /document\.querySelector\(returnTo\)/);
 });
