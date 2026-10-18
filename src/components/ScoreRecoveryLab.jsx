@@ -21,6 +21,7 @@ import { fill } from '@/../data/paper_trace';
 import TimeDecisions from './result/TimeDecisions';
 import MarksLedger from './result/MarksLedger';
 import ReplaySlots from './result/ReplaySlots';
+import { knownRecord } from '@/../data/replay';
 import AcrossMocks from './result/AcrossMocks';
 import RuleCheck from './result/RuleCheck';
 import SameMistakesLater from './result/SameMistakesLater';
@@ -121,6 +122,7 @@ export function LabTime({ attempt, analysis, timeRead = null, lab = null, onJump
       {firstTimed ? <FirstTimedMock prompt={firstTimed} /> : null}
       {/* D17, pass 1018: one slot per question sized to the paper, play over real events, or one sentence when there is nothing to replay. */}
       {<ReplaySlots replay={replay} rows={analysis.rows} paceSec={timeRead?.pace?.perQuestionMs ? timeRead.pace.perQuestionMs / 1000 : null} onJump={onJump}
+        known={knownRecord({ totalMs: analysis.timing?.totalMs, changed: timeRead?.state === 'ready' ? timeRead.changes?.count : 0 })}
         cutLink={{ href: `/dashboard?${new URLSearchParams({ subject: attempt?.subject || '', mode: 'quick', count: String(analysis.rows.length || 10) })}`, label: fill(COPY.replay.slots.cutLink, { n: analysis.rows.length || 10 }) }} />}
       {replay && swotShown ? <h4 className="td-h srl-find__time">{TIME_COPY.title}</h4> : null}
       {swotShown ? null : <>

@@ -52,6 +52,7 @@ import { useWalletSummary } from '@/components/useWalletSummary';
 import { bankCount, nextPaper, practiceSubjectId } from '@/lib/paperCopy.mjs';
 import AnalysisParts, { partFromUrl, writePart, scrollToPart } from '@/components/result/AnalysisParts';
 import { QuestionStrip, replayCutLine } from '@/components/result/ReplaySlots';
+import { knownRecord } from '@/../data/replay';
 import { ReelEntry } from '@/components/result/PaperReel';
 import '@/components/result/result-parts.css';
 import AskMobiLink from '@/components/ai/AskMobiLink';
@@ -533,10 +534,11 @@ export default function ResultPageClient({ previewId = null }) {
   // ---------- Your full analysis (pass 1018, REVIEW-RESULT-1018 5.2 and 5.3): six parts, each finding generated ----------
   const ledgerTop = (ledgerOf(lab)?.groups || []).filter(g => g.marks > 0).sort((x, y) => y.marks - x.marks)[0] || null;
   const waiting = orderedMistakes.find(r => statusOf(r)?.id === 'check') || null;
-  const cutLine = lab ? replayCutLine(lab.replay || null, analysis.rows.length) : null;
   const usedMs = timing?.totalMs ?? null;
   const paperMs = timeRead?.pace?.paperMs ?? null;
   const changes = timeRead?.state === 'ready' ? timeRead.changes : null;
+  // With no replay to draw, the index line still names the paper's own total time (the same number the line below it would give).
+  const cutLine = lab ? replayCutLine(lab.replay || null, analysis.rows.length, knownRecord({ totalMs: usedMs, changed: changes?.count || 0 })) : null;
   const signed = (n) => (n > 0 ? `+${n}` : n < 0 ? `−${-n}` : '0');
   const ruleCheck = lab?.prove?.ruleCheck || null;
   const ruleFigure = { kept: 'Held', not_kept: 'Slipped', counted: 'Counted' }[ruleCheck?.state] || '';

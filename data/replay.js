@@ -223,6 +223,43 @@ export function replayView(replay, { total: given = null } = {}) {
   return { perQuestion, events, cut, recordSec, answered, total, awaySec, awayCount, firstAt };
 }
 
+/** Under a minute in words ("58 seconds"); longer as the paper says it ("3m 17s"). */
+export function spokenTime(secs) {
+  const v = Math.round(secs);
+  return v < 60 ? fill(v === 1 ? R.slots.seconds.one : R.slots.seconds.many, { n: v }) : spentLabel(v);
+}
+
+/**
+ * What the paper's own record still holds when there is no replay of it (an older paper, or a result without the Lab): its
+ * total time, and how many answers changed. null when it holds no time at all. The sentence under "Nothing to replay"
+ * says this instead of claiming there is no record, because the index row and the answer map read the same numbers.
+ */
+export function knownRecord({ totalMs = null, changed = 0 } = {}) {
+  const sec = Number(totalMs) > 0 ? Number(totalMs) / 1000 : 0;
+  if (!(sec > 0)) return null;
+  return { sec, changed: Math.max(0, Math.floor(Number(changed) || 0)) };
+}
+
+/** The one sentence under "Nothing to replay on this paper." (view = replayView(...) with a cut; known = knownRecord(...) or null). */
+export function cutSentence(view, { known = null } = {}) {
+  const S = R.slots;
+  const time = spokenTime(view.recordSec);
+  const blanks = Math.max(0, view.total - view.answered);
+  const where = blanks && view.answered ? fill(S.whereBoth, { a: view.answered, b: blanks }) : S.whereAll;
+  if (view.cut?.reason === 'short') return fill(S.cutShort, { time, a: view.answered, total: view.total, where });
+  if (view.cut?.reason === 'few') return fill(S.cutFew, { time, k: view.events.filter((e) => e.kind === 'pick' || e.kind === 'change').length });
+  if (!known) return S.cutNone;
+  const changes = known.changed ? fill(known.changed === 1 ? S.cutHeldChanges.one : S.cutHeldChanges.many, { k: known.changed }) : null;
+  return [S.cutNoReplay, fill(S.cutHeldTime, { time: spokenTime(known.sec) }), changes, S.whereAll].filter(Boolean).join(' ');
+}
+
+/** The Time part's index line when nothing is drawn: "58 seconds. Nothing to replay." The paper's own total time stands in for a missing replay clock. */
+export function cutIndexLine(view, { known = null } = {}) {
+  if (!view.cut) return null;
+  const secs = view.recordSec || known?.sec || 0;
+  return fill(R.slots.cutIndex, { time: secs ? spokenTime(secs) : 'No record' });
+}
+
 // ---------------------------------------------------------------------------------------------------------------------
 // D29, pass 1018 (owner, 18 Oct 4:10 am IST): "Play your paper back, 20 s". The same engine as the replay above, not a second
 // feature: it reads replayView() (perQuestion seconds and the real events) plus the attempt record's own rows and answer

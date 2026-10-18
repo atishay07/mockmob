@@ -333,6 +333,12 @@
       "cutFew": "This paper has {k} answer events in {time}, so there is no pace or change to show. Every answer is in Answer by answer.",
       "cutNone": "There is no record of how this paper was taken, so there is no pace or change to show. Every answer is in Answer by answer.",
       "cutIndex": "{time}. Nothing to replay.",
+      "cutNoReplay": "There is no replay of this paper to play back.",
+      "cutHeldTime": "It took {time}.",
+      "cutHeldChanges": {
+        "one": "1 answer changed.",
+        "many": "{k} answers changed."
+      },
       "made": {
         "rightToWrong": "a right answer made wrong",
         "wrongToRight": "a wrong answer made right",

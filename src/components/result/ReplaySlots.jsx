@@ -13,7 +13,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import COPY from '@/../data/mistake_lab.copy.json';
-import { SLOT_RULES, eventCaption, replayView, slotLayout } from '@/../data/replay';
+import { SLOT_RULES, cutIndexLine, cutSentence, eventCaption, replayView, slotLayout, spokenTime } from '@/../data/replay';
 import { fill, spentLabel, clockLabel } from '@/../data/paper_trace';
 import './replay-slots.css';
 
@@ -41,35 +41,25 @@ function useWidth(ref) {
   return w;
 }
 
-/** Under a minute in words ("58 seconds"); longer as the paper says it ("3m 17s"). */
-const spokenTime = (sec) => { const v = Math.round(sec); return v < 60 ? fill(v === 1 ? S.seconds.one : S.seconds.many, { n: v }) : spentLabel(v); };
-
 /** "the even pace" in words: "1m 12s". */
 const paceWords = (sec) => spentLabel(sec);
 
-function Cut({ view, cutLink }) {
-  const time = spokenTime(view.recordSec);
-  const blanks = Math.max(0, view.total - view.answered);
-  const where = blanks && view.answered ? fill(S.whereBoth, { a: view.answered, b: blanks }) : S.whereAll;
-  const line = view.cut.reason === 'short' ? fill(S.cutShort, { time, a: view.answered, total: view.total, where })
-    : view.cut.reason === 'few' ? fill(S.cutFew, { time, k: view.events.filter((e) => e.kind === 'pick' || e.kind === 'change').length })
-      : S.cutNone;
+function Cut({ view, cutLink, known }) {
   return (
     <div className="rs-cut" role="note">
       <b>{S.cutTitle}</b>
-      <p>{line}</p>
+      <p>{cutSentence(view, { known })}</p>
       {cutLink ? <Link className="rs-link" href={cutLink.href}>{cutLink.label}</Link> : null}
     </div>
   );
 }
 
-/** The index line for Time and changes when nothing is drawn: "58 seconds. Nothing to replay." */
-export function replayCutLine(replay, total) {
-  const view = replayView(replay, { total });
-  return view.cut ? fill(S.cutIndex, { time: view.recordSec ? spokenTime(view.recordSec) : 'No record' }) : null;
+/** The index line for Time and changes when nothing is drawn: "58 seconds. Nothing to replay." `known` is the paper's own total time and changed answers (knownRecord). */
+export function replayCutLine(replay, total, known = null) {
+  return cutIndexLine(replayView(replay, { total }), { known });
 }
 
-export default function ReplaySlots({ replay, rows = [], paceSec = null, onJump, cutLink = null }) {
+export default function ReplaySlots({ replay, rows = [], paceSec = null, onJump, cutLink = null, known = null }) {
   const total = rows.length || replay?.total || 0;
   const view = useMemo(() => replayView(replay, { total }), [replay, total]);
   const byN = useMemo(() => new Map(rows.map((r) => [r.number, r])), [rows]);
@@ -114,7 +104,7 @@ export default function ReplaySlots({ replay, rows = [], paceSec = null, onJump,
     if (e) { setT(e.at); if (e.n) setSel(e.n); } else if (dir > 0) setT(null);
   };
 
-  if (view.cut) return <Cut view={view} cutLink={cutLink} />;
+  if (view.cut) return <Cut view={view} cutLink={cutLink} known={known} />;
 
   const settled = t === null;
   const current = settled ? null : [...events].reverse().find((e) => e.at <= t + 0.001) || null;

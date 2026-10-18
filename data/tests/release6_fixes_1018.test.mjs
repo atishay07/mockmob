@@ -3,6 +3,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+import { cutIndexLine, cutSentence, knownRecord, replayView, spokenTime } from '../replay.js';
+import COPY from '../mistake_lab.copy.json' with { type: 'json' };
 
 const root = new URL('../../', import.meta.url);
 const read = (path) => readFileSync(new URL(path, root), 'utf8');
@@ -80,4 +82,37 @@ test('a URL that matches no route gets the themed not-found page, never the defa
   const css = read('src/components/site-not-found.css');
   assert.match(css, /min-height:\s*100dvh/);
   assert.ok(!/background:\s*#fff|background:\s*white/i.test(css));
+});
+
+test('Time and changes never says there is no record of a paper whose total time and changed answers it already shows', () => {
+  const noReplay = replayView(null, { total: 10 });
+  assert.equal(noReplay.cut.reason, 'none');
+  // The 10-question quick practice: 5m 03s, two answers changed, and no replay of the sitting.
+  const known = knownRecord({ totalMs: 303000, changed: 2 });
+  assert.deepEqual(known, { sec: 303, changed: 2 });
+  const line = cutSentence(noReplay, { known });
+  assert.equal(line, 'There is no replay of this paper to play back. It took 5m 03s. 2 answers changed. Every answer is in Answer by answer.');
+  assert.ok(!/no record/i.test(line), 'the sentence does not claim there is no record');
+  assert.equal(cutIndexLine(noReplay, { known }), '5m 03s. Nothing to replay.');
+  assert.match(cutSentence(noReplay, { known: knownRecord({ totalMs: 303000, changed: 1 }) }), /1 answer changed\./);
+  assert.ok(!/changed/.test(cutSentence(noReplay, { known: knownRecord({ totalMs: 303000, changed: 0 }) })), 'no changes, none claimed');
+  // Only a paper that holds no time at all keeps the old words.
+  assert.equal(knownRecord({ totalMs: 0, changed: 3 }), null);
+  assert.equal(knownRecord({}), null);
+  assert.equal(cutSentence(noReplay, { known: null }), COPY.replay.slots.cutNone);
+  assert.equal(cutIndexLine(noReplay, { known: null }), 'No record. Nothing to replay.');
+  // A replay that exists keeps its own clock and its own reasons.
+  const short = { version: 1, rowSec: 600, durationSec: 58, recordSec: 58, total: 10, rows: [{ from: 0, to: 600, bars: [] }], opened: [], facts: [], chips: [] };
+  const shortView = replayView(short, { total: 10 });
+  assert.equal(shortView.cut.reason, 'short');
+  assert.match(cutSentence(shortView, { known }), /^You submitted after 58 seconds/);
+  assert.equal(cutIndexLine(shortView, { known }), '58 seconds. Nothing to replay.');
+  assert.equal(cutIndexLine({ cut: null }, { known }), null);
+  assert.equal(spokenTime(1), '1 second');
+});
+
+test('the Time part passes the paper\'s own record to the replay and to its index line', () => {
+  assert.match(read('src/components/ScoreRecoveryLab.jsx'), /known=\{knownRecord\(\{ totalMs: analysis\.timing\?\.totalMs/);
+  assert.match(read('src/app/(app)/result/[id]/ResultPageClient.jsx'), /replayCutLine\(lab\.replay \|\| null, analysis\.rows\.length, knownRecord\(/);
+  assert.match(read('src/components/result/ReplaySlots.jsx'), /cutSentence\(view, \{ known \}\)/);
 });
