@@ -27,7 +27,11 @@ import './explore/explore.css';
 import './arena-support.css';
 import './nav-badge.css';
 import '@/components/study/study.css';
-import { arenaNavigation, MOBILE_STUDY_NAV } from '@/lib/arenaNavigation';
+import { arenaNavigation, ASK_MOBI_NAV, dockPlaceOf, mobileNavigation, placeTabs, youSheetGroups } from '@/lib/arenaNavigation';
+import './nav-places.css';
+import Image from 'next/image';
+import mascot from '@/../public/brand/mascot/manifest.json';
+import PlaceTabs from '@/components/nav/PlaceTabs';
 import { useReviseBadge } from '@/lib/reviewRead';
 import { VIEW_TRANSITION_PROPS } from '@/lib/motion/placeTransition';
 import { tourSteps } from '@/lib/appTour.mjs';
@@ -41,6 +45,11 @@ const ViewTransition = React.ViewTransition;
 function PageTransition({ children }) {
   return ViewTransition ? <ViewTransition {...VIEW_TRANSITION_PROPS}>{children}</ViewTransition> : children;
 }
+
+// Mobi's face on his door (the sidebar's foot and the phone's You sheet): the real mascot art, static, as on the logo.
+const MOBI_FACE = mascot.greeting;
+// The two lines under "Ask Mobi" (R6, read aloud): the sidebar's is short enough for one line at 232 px.
+const ASK_MOBI_NOTE = { rail: 'He explains any answer.', sheet: 'Ask about a question, a result or your plan.' };
 
 // The Guide's stops live in src/lib/appTour.mjs (W-093), so the Guide page counts the tour that will run.
 // Pip guides the tour only (rare, so it may have character); it nods on each step.
@@ -63,7 +72,8 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   const mobOn = mobEnabled || Boolean(previewLinks?.mob);
   const studyOn = studyEnabled || previewRoute === '/learn';
   const TOUR_STEPS = useMemo(() => tourSteps({ mob: mobOn, study: studyOn }), [mobOn, studyOn]);
-  // The Review badge is what Revise has due today (LEARN-REVIEW-1017 5.12), absent when nothing is due or the count is unknown.
+  // The Revise count is what Revise has due today (LEARN-REVIEW-1017 5.12), absent when nothing is due or the count is unknown.
+  // It sits on Practice in the phone dock and on Your papers in the sidebar and in Practice's row of tabs.
   const reviseBadge = useReviseBadge({ enabled: status === 'authenticated' && !isTestRoute });
 
   useEffect(() => {
@@ -72,8 +82,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
     const opener = menuOpener.current;
     const header = document.querySelector('.app-shell .arena-topbar');
     const dock = document.querySelector('.arena-dock');
-    // The More sheet rises from the dock (the tab capsule and the Start key): it sits on the dock's top edge and never
-    // reaches under the header.
+    // The You sheet rises from the dock: it sits on the dock's top edge and never reaches under the header.
     const fitMenu = () => {
       const bottom = dock?.getBoundingClientRect();
       // 8 px of air between the sheet and the floating dock, as between the dock's capsule and its key.
@@ -90,7 +99,8 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
     fitMenu();
     window.addEventListener('resize', fitMenu);
     window.addEventListener('scroll', fitMenu, { passive: true });
-    const frame = requestAnimationFrame(() => sheet?.querySelector('.arena-nav-link')?.focus({ preventScroll: true }));
+    // Focus starts at the top of the sheet, on the account row, and reads down from there.
+    const frame = requestAnimationFrame(() => sheet?.querySelector('a[href], button')?.focus({ preventScroll: true }));
     const closeOnEscape = (event) => { if (event.key === 'Escape') { setMobileMenuOpen(false); opener?.focus({ preventScroll: true }); } };
     // The scrim closes on its own click, so a tap on it never falls through to the page beneath.
     const inMenu = (target) => target.closest?.('.arena-topbar, .arena-dock, .arena-sheet, .arena-sheet-scrim');
@@ -303,45 +313,48 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
 
   const showStudy=studyEnabled || previewRoute==='/learn';
   const contributeOn = Boolean(contributeEnabled);
-  const navGroups = arenaNavigation(isModerator, { mob: mobEnabled || Boolean(previewLinks?.mob), contribute: contributeOn }).map((group) => ({ ...group, items: group.items.filter((tab) => !(isTestRoute && tab.id === 'mentor') && (showStudy || tab.id!=='learn')) }));
-  // The phone dock's four places (NAV-1017 section 8). The More sheet lists every other place, so its Study group opens
-  // on Learn, then Explore, Saved and Progress; the dock's places are one tap away right under it and are not repeated.
-  // The desktop sidebar keeps the full groups.
-  const mobileTabs = MOBILE_STUDY_NAV;
-  const dockIds = new Set(mobileTabs.map((tab) => tab.id));
-  // Account and the Guide are the sheet's own header (the name row, then "Show me around" and Guide), so one tap reaches them; the
-  // sidebar keeps both in its Account group. Nothing is dropped: each is still one tap from More.
-  // Learn leads the sheet's places in a row of its own (D20), so the Study group does not list it a second time. Ask Mobi
-  // has its own row above the theme control (D6: it never sits below the theme selector), so Planning does not list it again.
-  const sheetHeadIds = new Set(['profile', 'help', 'learn', 'mentor']);
-  const sheetGroups = navGroups.map((group) => ({ ...group, items: group.items.filter((tab) => !dockIds.has(tab.id) && !sheetHeadIds.has(tab.id)) })).filter((group) => group.items.length);
-  const allTabs = navGroups.flatMap((group) => group.items);
+  const keepLearn = (tab) => showStudy || tab.id !== 'learn';
+  // The five places (WEB-NAV-1019 option A, owner D114): the sidebar draws Today, Practice, Mob and You as bold rows with their
+  // pages indented under them (no group headers); the phone dock draws Today, Practice, the Start key, Mob and You; You opens
+  // the You sheet; Practice's and the Mob's pages are a row of tabs on those pages. Every page keeps its link and route.
+  const navGroups = arenaNavigation(isModerator, { mob: mobOn, contribute: contributeOn }).map((group) => ({ ...group, items: group.items.filter(keepLearn) }));
+  const sheetGroups = youSheetGroups(isModerator, { mob: mobOn, contribute: contributeOn });
+  const dockTabs = mobileNavigation({ mob: mobOn });
+  const dockPlace = isTestRoute ? null : dockPlaceOf(activePath, { mob: mobOn });
+  const tabRow = isTestRoute ? null : placeTabs(activePath, { mob: mobOn, study: showStudy });
+  const allTabs = [...navGroups.flatMap((group) => group.items), ...sheetGroups.flatMap((group) => group.items), ASK_MOBI_NAV];
   // A lesson or recall run lives at /study/<id> but belongs to Learn (D20), so Learn stays the current place while you are in one.
   const isActive = (id) => activePath === `/${id}` || activePath.startsWith(`/${id}/`) || (id === 'learn' && activePath.startsWith('/study/'));
-  // On a phone the dock draws four places and More. When you are on a place that lives under More (Learn, Explore, Saved, Progress,
-  // Account, Help), More is marked as where you are, so the dock never shows a screen with nothing current.
-  const inMore = !isTestRoute && allTabs.some((tab) => isActive(tab.id) && !dockIds.has(tab.id));
-  const countLabel = (tab) => (tab.id === 'review' && reviseBadge ? `Review, ${reviseBadge} due in Revise today` : undefined);
-  const renderNavLink = (tab, onNavigate) => (
-    <Link
-      key={tab.id}
-      href={previewLinks?.[tab.id] || tab.href || `/${tab.id}`}
-      className={tab.sub ? 'arena-nav-link arena-nav-link--sub' : 'arena-nav-link'}
-      style={{ '--i': allTabs.indexOf(tab) }}
-      aria-current={isActive(tab.id) ? 'page' : undefined}
-      aria-label={countLabel(tab)}
-      data-tour={`nav-${tab.id}`}
-      onClick={onNavigate}
-    >
-      <AppIcon name={tab.icon} />
-      <span className="arena-nav-link__label">{tab.label}{tab.hint ? <span className="arena-nav-link__hint">, {tab.hint}</span> : null}</span>
-      {tab.id === 'review' && reviseBadge ? <i className="arena-nav-link__count" aria-hidden="true">{reviseBadge > 99 ? '99+' : reviseBadge}</i> : null}
-    </Link>
+  // The Revise count, in words, wherever it is drawn as a number.
+  const dueWords = reviseBadge ? `${reviseBadge} ${reviseBadge === 1 ? 'mistake' : 'mistakes'} due back today` : '';
+  const countLabel = (tab) => (reviseBadge && (tab.id === 'review' || tab.id === 'dashboard') ? `${tab.label}, ${dueWords}` : undefined);
+  const hrefOf = (tab) => previewLinks?.[tab.id] || tab.href || `/${tab.id}`;
+  const linkClass = (tab) => ['arena-nav-link', tab.place ? 'arena-nav-link--place' : '', tab.sub ? 'arena-nav-link--sub' : ''].filter(Boolean).join(' ');
+  const renderNavLink = (tab, onNavigate, index = 0) => (
+    <React.Fragment key={tab.id}>
+      {tab.ruleAbove ? <span className="arena-nav-rule" aria-hidden="true" /> : null}
+      <Link
+        href={hrefOf(tab)}
+        className={linkClass(tab)}
+        style={{ '--i': index }}
+        aria-current={isActive(tab.id) ? 'page' : undefined}
+        aria-label={tab.id === 'review' ? countLabel(tab) : undefined}
+        data-tour={`nav-${tab.id}`}
+        onClick={onNavigate}
+      >
+        <AppIcon name={tab.icon} />
+        <span className="arena-nav-link__label">{tab.label}{tab.hint ? <span className="arena-nav-link__hint">, {tab.hint}</span> : null}</span>
+        {tab.id === 'review' && reviseBadge ? <i className="arena-nav-link__count" aria-hidden="true">{reviseBadge > 99 ? '99+' : reviseBadge}</i> : null}
+      </Link>
+    </React.Fragment>
   );
-  const currentTitle = allTabs.find((tab) => isActive(tab.id))?.label
+  // The top bar names the page: a tab's own name inside a row of tabs ("Your papers", "Your Mob"), else the place's page name.
+  const currentTitle = tabRow?.tabs.find((tab) => isActive(tab.id))?.label
+    || allTabs.find((tab) => isActive(tab.id))?.title
+    || allTabs.find((tab) => isActive(tab.id))?.label
     || (activePath.startsWith('/result') ? 'Result' : '');
 
-  // The 8-stop tour, from any row that offers it ("Show me around": the More sheet, the sidebar's Account group).
+  // The tour, from any row that offers it ("Show me around": the You sheet's account card, the sidebar's You group).
   function startTour() {
     setMobileMenuOpen(false);
     setTourStep(0);
@@ -358,26 +371,33 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
 
   return (
     <div className={`view app-shell ${isTestRoute ? 'app-shell--test' : ''}`} style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      {/* Keyboard users reach the page before the fourteen navigation stops; hidden until it has focus. */}
+      {/* Keyboard users reach the page before the navigation's stops; hidden until it has focus. */}
       <a href="#app-main" className="arena-skip">Skip to content</a>
       <aside className="arena-sidebar" aria-label="Main navigation">
         <Logo />
         {!isTestRoute && <StartKey variant="sidebar" />}
         {navGroups.map((group) => (
-          <nav key={group.label} className="arena-nav-group" aria-label={group.label}>
-            <p className="arena-nav-label">{group.label}</p>
+          <nav key={group.id} className={group.place ? 'arena-nav-group arena-nav-group--place' : 'arena-nav-group'} aria-label={group.label}>
+            {group.place ? null : <p className="arena-nav-label">{group.label}</p>}
             {group.items.map((tab) => renderNavLink(tab))}
-            {/* The tour, under the Account group's Guide row (N17): a student who is lost finds it without knowing to open Guide. */}
-            {group.label === 'Account' && !isTestRoute ? (
-              <button type="button" className="arena-nav-link arena-nav-link--tour" onClick={startTour}>
+            {/* The tour, under You's Guide row (N17): a student who is lost finds it without knowing to open Guide. */}
+            {group.id === 'you' && !isTestRoute ? (
+              <button type="button" className="arena-nav-link arena-nav-link--sub arena-nav-link--tour" onClick={startTour}>
                 <AppIcon name="guide" />
                 <span className="arena-nav-link__label">{TOUR_LABEL}</span>
               </button>
             ) : null}
           </nav>
         ))}
-        {/* The foot is the appearance row alone (D11): Account and the Guide are links in the Account group above it, and
-            the Guide is its own page, not a menu inside the sidebar. */}
+        {/* Mobi's own door, at the foot above Night and Day (D6): the one place in the navigation where a student talks to him.
+            A plain /mentor link, which AskMobiHost opens in place beside the page (a modifier-click still opens /mentor). */}
+        {!isTestRoute && (
+          <Link href={previewLinks?.mentor || '/mentor'} className="arena-mobi-door" data-tour="nav-mentor" aria-current={isActive('mentor') ? 'page' : undefined}>
+            <Image className="arena-mobi-door__face" src={MOBI_FACE.src} width={30} height={41} sizes="30px" alt="" />
+            <span className="arena-sheet__lead-text"><span className="arena-sheet__lead-name">Ask Mobi</span><span className="arena-sheet__lead-note">{ASK_MOBI_NOTE.rail}</span></span>
+          </Link>
+        )}
+        {/* The foot is the appearance row alone (D11). */}
         <div className="arena-sidebar__foot">
           <AppearanceSwitch compact />
         </div>
@@ -440,6 +460,9 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
 
       <main id="app-main" tabIndex={-1} className={`app-main ${isTestRoute ? 'app-main--test' : 'px-4 py-6 md:px-5 md:py-8'}`} style={{ flex: 1, position: 'relative' }}>
         <div className="arena-backdrop" aria-hidden="true" />
+        {/* Phones: the pages inside Practice (or the Mob) as a row of tabs on each of those pages. It stays put while the
+            page under it changes, so moving between the tabs never moves the row. */}
+        {tabRow ? <PlaceTabs key={tabRow.id} group={tabRow} hrefOf={hrefOf} isActive={isActive} count={reviseBadge || 0} countLabel={countLabel} /> : null}
         <PageTransition>
           <div className={`${isTestRoute ? 'test-content-host' : 'container-std'} relative z-10`}>
             <MobFlagProvider enabled={mobEnabled || Boolean(previewLinks?.mob)}><ContributeFlagProvider enabled={contributeOn}><TourStopsProvider count={TOUR_STEPS.length}>{children}</TourStopsProvider></ContributeFlagProvider></MobFlagProvider>
@@ -449,7 +472,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
       {!isTestRoute && mobileMenuOpen && (
         <>
           <div className="arena-sheet-scrim arena-mobile-only" aria-hidden="true" onClick={() => setMobileMenuOpen(false)} />
-          <div className="arena-sheet arena-mobile-only" id="arena-sheet" role="region" aria-label="More places">
+          <div className="arena-sheet arena-mobile-only" id="arena-sheet" role="region" aria-label="You: your account, progress and plan">
             <span className="arena-sheet__handle" aria-hidden="true" />
             <div className="arena-sheet__account">
               <Link href={previewLinks?.profile || '/profile'} className="arena-sheet__who" onClick={() => setMobileMenuOpen(false)}>
@@ -474,37 +497,46 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
                 <AppIcon name="help" /> {HELP_DOOR.label}
               </Link>
             </div>
-            {/* Ask Mobi sits above the theme control (D6), as Learn's row does below it. */}
-            {navGroups.some((group) => group.items.some((tab) => tab.id === 'mentor')) && (
-              <Link href={previewLinks?.mentor || '/mentor'} className="arena-sheet__lead arena-sheet__lead--ask" data-tour="nav-mentor" aria-current={isActive('mentor') ? 'page' : undefined} onClick={() => setMobileMenuOpen(false)}>
-                <AppIcon name="prepos" />
-                <span className="arena-sheet__lead-text"><span className="arena-sheet__lead-name">Ask Mobi</span><span className="arena-sheet__lead-note">About a question, a result or your plan</span></span>
-              </Link>
-            )}
-            <AppearanceSwitch />
-            {showStudy && (
-              <Link href={previewLinks?.learn || '/learn'} className="arena-sheet__lead" data-tour="nav-learn" aria-current={isActive('learn') ? 'page' : undefined} onClick={() => setMobileMenuOpen(false)}>
-                <AppIcon name="learn" />
-                <span className="arena-sheet__lead-text"><span className="arena-sheet__lead-name">Learn</span><span className="arena-sheet__lead-note">Short lessons, a recall check, then practice questions</span></span>
-              </Link>
-            )}
+            {/* Ask Mobi, with Mobi's face, above the places and the theme control (D6). */}
+            <Link href={previewLinks?.mentor || '/mentor'} className="arena-sheet__lead arena-sheet__lead--ask" data-tour="nav-mentor" aria-current={isActive('mentor') ? 'page' : undefined} onClick={() => setMobileMenuOpen(false)}>
+              <Image className="arena-sheet__mobi" src={MOBI_FACE.src} width={30} height={41} sizes="30px" alt="" />
+              <span className="arena-sheet__lead-text"><span className="arena-sheet__lead-name">Ask Mobi</span><span className="arena-sheet__lead-note">{ASK_MOBI_NOTE.sheet}</span></span>
+            </Link>
             {sheetGroups.map((group) => (
-              <nav key={group.label} className="arena-nav-group" aria-label={group.label}>
+              <nav key={group.id} className="arena-nav-group" aria-label={group.label}>
                 <p className="arena-nav-label">{group.label}</p>
-                {group.items.map((tab) => renderNavLink(tab, () => setMobileMenuOpen(false)))}
+                {group.items.map((tab, index) => renderNavLink(tab, () => setMobileMenuOpen(false), index))}
               </nav>
             ))}
+            {/* Night and Day comes last, so the places come first; it is still below Ask Mobi (D6). */}
+            <AppearanceSwitch />
           </div>
         </>
       )}
-      {/* The phone and tablet dock (NAV-1017 section 8): a glass capsule of five places and, beside it, the Start key. The
-          key is an action, so it sits outside the nav, which keeps five tabs. */}
+      {/* The phone and tablet dock: one glass capsule of the same five places as the app (D105, D114): Today, Practice, the
+          Start key in the centre, Mob and You. Start is an action: it opens the Start sheet, it is never a current place.
+          You opens the You sheet (its data-tour is the sheet opener's, which the tour and Ask Mobi's focus return use). */}
       {!isTestRoute && <div className="arena-dock">
-        <nav className="arena-bottomnav" aria-label="Quick study navigation">
-          {mobileTabs.map((tab) => <Link key={tab.id} href={previewLinks?.[tab.id] || tab.href} onClick={() => setMobileMenuOpen(false)} aria-current={isActive(tab.id) ? 'page' : undefined} aria-label={countLabel(tab)} data-tour={`nav-${tab.id}`}><AppIcon name={tab.icon} size={24} /><span>{tab.label}</span>{tab.id === 'review' && reviseBadge ? <i className="arena-badge" aria-hidden="true">{reviseBadge > 99 ? '99+' : reviseBadge}</i> : null}</Link>)}
-          <button type="button" data-tour="nav-more" data-within={inMore && !mobileMenuOpen ? 'true' : undefined} aria-expanded={mobileMenuOpen} aria-controls={mobileMenuOpen ? 'arena-sheet' : undefined} onClick={toggleMenu}><AppIcon name="more" size={24} /><span>More</span></button>
+        <nav className="arena-bottomnav" aria-label="Quick study navigation" data-slots={dockTabs.length + 2}>
+          {dockTabs.map((tab, index) => (
+            <React.Fragment key={tab.id}>
+              {index === 2 ? <StartKey variant="bar" onOpen={() => setMobileMenuOpen(false)} /> : null}
+              <Link
+                href={hrefOf(tab)}
+                onClick={() => setMobileMenuOpen(false)}
+                aria-current={isActive(tab.id) ? 'page' : undefined}
+                data-within={!isActive(tab.id) && dockPlace === tab.dock && !mobileMenuOpen ? 'true' : undefined}
+                aria-label={tab.id === 'dashboard' ? countLabel(tab) : undefined}
+                data-tour={`nav-${tab.id}`}
+              >
+                <AppIcon name={tab.icon} size={24} /><span>{tab.label}</span>
+                {tab.id === 'dashboard' && reviseBadge ? <i className="arena-badge" aria-hidden="true">{reviseBadge > 99 ? '99+' : reviseBadge}</i> : null}
+              </Link>
+            </React.Fragment>
+          ))}
+          {dockTabs.length < 3 ? <StartKey variant="bar" onOpen={() => setMobileMenuOpen(false)} /> : null}
+          <button type="button" data-tour="nav-more" data-within={dockPlace === 'you' && !mobileMenuOpen ? 'true' : undefined} aria-expanded={mobileMenuOpen} aria-controls={mobileMenuOpen ? 'arena-sheet' : undefined} onClick={toggleMenu}><AppIcon name="account" size={24} /><span>You</span></button>
         </nav>
-        <StartKey variant="bar" onOpen={() => setMobileMenuOpen(false)} />
       </div>}
       {!isTestRoute && <StartSheetHost previewLinks={previewLinks} />}
       {!isTestRoute && <AskMobiHost />}
