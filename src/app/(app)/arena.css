@@ -460,11 +460,11 @@ html:has(.app-shell .arena-sheet) { overflow: hidden; scrollbar-gutter: stable; 
   border: 1px solid var(--a-line-strong);
   border-radius: 24px;
   background: var(--a-sheet);
-  box-shadow: 0 -24px 56px -28px rgb(0 0 0 / 0.6);
+  box-shadow: inset 0 1px 0 var(--a-edge), 0 -24px 56px -28px rgb(0 0 0 / 0.6);
   transform-origin: 50% 100%;
   animation: arena-sheet-in 380ms var(--mk-settle, cubic-bezier(.23, 1, .32, 1)) both;
 }
-html[data-theme='light'] .app-shell .arena-sheet { box-shadow: 0 -20px 48px -28px rgb(20 32 14 / 0.3); }
+html[data-theme='light'] .app-shell .arena-sheet { box-shadow: inset 0 1px 0 var(--a-edge), 0 -20px 48px -28px rgb(20 32 14 / 0.3); }
 @keyframes arena-sheet-in { from { opacity: 0; transform: translate3d(0, 28px, 0); } }
 @media (max-width: 359px) { .app-shell .arena-sheet { width: calc(100% - 16px); } }
 .app-shell .arena-sheet__handle {
@@ -556,7 +556,7 @@ html[data-motion='reduced'] .app-shell :is(.arena-sheet, .arena-sheet-scrim, .ar
   flex-shrink: 0;
   border-radius: 999px;
   text-decoration: none;
-  transition: transform var(--mm-spring-release-dur) var(--mk-spring);
+  transition: transform var(--mk-spring-dur) var(--mk-spring);
 }
 .app-shell .arena-you .avatar { width: 36px; height: 36px; font-size: 14px; box-shadow: 0 0 0 1px var(--a-line-strong); }
 .app-shell .arena-you[aria-current='page'] .avatar { box-shadow: 0 0 0 2px var(--a-bg), 0 0 0 4px var(--a-select); }
@@ -584,7 +584,9 @@ html[data-motion='reduced'] .app-shell .arena-you { transition: none; }
 
 /* ---------- Shared app primitives, re-skinned in scope ---------- */
 .app-shell .glass {
-  background: var(--a-raised);
+  /* The card's edge light (restored 19 Oct, owner G28, from c9662f67^): a faint wash falling from the top edge and a
+     hairline of light along it. Both stay inside the card; nothing glows outside it. */
+  background: linear-gradient(180deg, var(--a-glass-top), transparent 40%), var(--a-raised);
   border: 1px solid var(--a-line);
   border-radius: var(--a-radius);
   -webkit-backdrop-filter: none;
@@ -592,7 +594,10 @@ html[data-motion='reduced'] .app-shell .arena-you { transition: none; }
   box-shadow: var(--a-shadow-1);
 }
 .app-shell .glass::before {
-  display: none;
+  inset: 0 12% auto;
+  height: 1px;
+  border-radius: 0;
+  background: linear-gradient(90deg, transparent, var(--a-edge), transparent);
 }
 .app-shell .glass .glass {
   background: var(--a-sunken);
@@ -604,7 +609,7 @@ html[data-motion='reduced'] .app-shell .arena-you { transition: none; }
 }
 .app-shell .glass.volt-soft {
   border-color: rgba(210, 240, 0, 0.28);
-  background: var(--a-sunken);
+  background: linear-gradient(180deg, rgba(210, 240, 0, 0.06), rgba(210, 240, 0, 0.015)), var(--a-sunken);
 }
 .app-shell .glass.hover:hover,
 .app-shell .glass.lift:hover {
@@ -613,7 +618,7 @@ html[data-motion='reduced'] .app-shell .arena-you { transition: none; }
 }
 .app-shell .glass.active {
   border-color: var(--a-volt-line);
-  background: var(--a-raised);
+  background: linear-gradient(180deg, var(--a-volt-wash), transparent 60%), var(--a-raised);
 }
 /* No dot and no tracking: where a page still sets a small label, it reads as quiet text. */
 .app-shell .eyebrow {
@@ -663,7 +668,7 @@ html[data-motion='reduced'] .app-shell .arena-you { transition: none; }
 }
 .app-shell .stat.highlight {
   border-color: rgba(210, 240, 0, 0.3);
-  background: var(--a-raised);
+  background: linear-gradient(180deg, var(--a-volt-wash), transparent 70%), var(--a-raised);
 }
 .app-shell .select,
 .app-shell .input,
@@ -704,36 +709,42 @@ html[data-motion='reduced'] .app-shell .arena-you { transition: none; }
   border-color: var(--a-select);
   background: var(--volt);
   color: #0b1000;
+  box-shadow: 0 2px 0 #9db400;
 }
 .app-shell .count-btn:disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }
-/* The primary action: one flat volt fill. No glow, no keycap edge; it answers a press by sinking a little. */
+/* The primary action is the marketing keycap (restored 19 Oct, owner G28 and G31, from c9662f67^): volt, a hard
+   bottom edge and a soft light under it; it sits 3 px up and goes flush with its edge when pressed. */
 .app-shell .btn-volt {
   min-height: 46px;
-  border-radius: 12px;
+  border-radius: 14px;
   letter-spacing: 0;
   text-transform: none;
   font-weight: 700;
   color: #0b1000;
-  box-shadow: none;
-  transform: none;
-  transition: transform 140ms var(--a-ease), background-color 150ms ease;
+  box-shadow: 0 3px 0 #9db400, 0 10px 24px -12px rgba(210, 240, 0, 0.55);
+  transform: translateY(-3px);
+  transition: transform 0.15s var(--a-ease), box-shadow 0.15s var(--a-ease), background-color 0.15s ease;
 }
 .app-shell .btn-volt:hover:not(:disabled) {
   background: #dbfb14;
-  box-shadow: none;
+  box-shadow: 0 3px 0 #9db400, 0 14px 30px -12px rgba(210, 240, 0, 0.65);
 }
 .app-shell .btn-volt:active:not(:disabled) {
-  transform: scale(0.97);
-  box-shadow: none;
+  transform: translateY(0);
+  box-shadow: 0 0 0 #9db400;
 }
 .app-shell .btn-volt:disabled {
   transform: none;
   box-shadow: none;
 }
-html[data-theme='light'] .app-shell .btn-volt { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.28); }
+/* Day: the same keycap, its edge a step darker and a thin line so the lime holds on white. */
+html[data-theme='light'] .app-shell .btn-volt { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.28), 0 3px 0 #8ba000, 0 10px 22px -14px rgb(82 103 0 / 0.45); }
+html[data-theme='light'] .app-shell .btn-volt:hover:not(:disabled) { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.28), 0 3px 0 #8ba000, 0 14px 26px -14px rgb(82 103 0 / 0.5); }
+html[data-theme='light'] .app-shell .btn-volt:active:not(:disabled) { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.28), 0 0 0 #8ba000; }
+html[data-theme='light'] .app-shell .btn-volt:disabled { box-shadow: none; }
 .app-shell .btn-volt.md { padding: 12px 20px; font-size: 15px; }
 .app-shell .btn-volt.sm { padding: 9px 16px; font-size: 13px; }
 .app-shell .btn-outline {
@@ -1249,7 +1260,7 @@ html[data-theme='light'] .arena-dark-island {
 .app-shell .pr-seg { display: inline-flex; flex-wrap: wrap; gap: 4px; padding: 4px; border: 1px solid var(--a-line-strong); border-radius: 14px; background: var(--a-sunken); max-width: 100%; }
 .app-shell .pr-seg button { min-width: 56px; min-height: 44px; padding: 0 16px; border: 0; border-radius: 10px; background: transparent; color: var(--a-ink-2); font: 700 14px var(--font-display); font-variant-numeric: tabular-nums; cursor: pointer; transition: background-color .15s ease, color .15s ease; }
 .app-shell .pr-seg button:hover:not(:disabled):not([aria-checked='true']) { background: var(--a-hover); color: var(--a-ink); }
-.app-shell .pr-seg button[aria-checked='true'] { background: var(--volt); color: #0b1000; }
+.app-shell .pr-seg button[aria-checked='true'] { background: var(--volt); color: #0b1000; box-shadow: 0 2px 0 #9db400; }
 .app-shell .pr-seg button:disabled { opacity: .45; cursor: not-allowed; }
 .app-shell .pr-fixed { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin: 0; }
 .app-shell .pr-fixed b { font-family: var(--font-display); font-size: 18px; }
@@ -1329,7 +1340,7 @@ html[data-theme='light'] .arena-dark-island {
 .app-shell .plan-card__lead strong { color: var(--a-ink); }
 .app-shell .plan-card__row { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 13px; color: var(--a-ink-3); }
 .app-shell .plan-card__row .credit-amount__value { font-size: 20px; color: var(--a-ink); }
-.app-shell .plan-card__cta { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 46px; border-radius: 14px; background: var(--volt); color: #0b1000; font: 700 15px var(--font-display); text-decoration: none; }
+.app-shell .plan-card__cta { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 46px; border-radius: 14px; background: var(--volt); color: #0b1000; font: 700 15px var(--font-display); text-decoration: none; box-shadow: 0 3px 0 #9db400; }
 .app-shell .plan-card__quiet, .app-shell .plan-card__danger { min-height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid var(--a-line-strong); background: transparent; color: var(--a-ink-2); font: 700 14px var(--font-display); cursor: pointer; justify-self: start; }
 .app-shell a.plan-card__quiet { display: inline-flex; align-items: center; text-decoration: none; }
 .app-shell .plan-card__quiet:hover { color: var(--a-ink); border-color: var(--a-line-hover); }
@@ -1514,7 +1525,7 @@ html[data-motion='reduced'] .app-shell .pr-nta__palette em { transition: none; }
 /* ---------- Shared next step (Today, Radar, Review, Progress) ----------
    One card in the Practice language. The full form carries the time choice; the compact
    form is a slim row so it never competes with the page it sits on. */
-.app-shell .na { display: grid; gap: 12px; padding: clamp(16px, 3vw, 22px); border-radius: 18px; border: 1px solid var(--a-line-strong); background: var(--a-raised); }
+.app-shell .na { display: grid; gap: 12px; padding: clamp(16px, 3vw, 22px); border-radius: 18px; border: 1px solid var(--a-volt-line); background: linear-gradient(180deg, var(--a-volt-wash), transparent 70%), var(--a-raised); }
 .app-shell .na__top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
 .app-shell .na__eyebrow { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: var(--a-accent-text); }
 .app-shell .na__time { margin: 0; padding: 0; border: 0; min-width: 0; }
@@ -1587,7 +1598,7 @@ html[data-motion='reduced'] .app-shell .pr-nta__palette em { transition: none; }
 /* ---------- Next step: the minutes roll, keys spring (LearningNextAction) ---------- */
 .app-shell .na__mins { color: var(--a-ink); font-variant-numeric: tabular-nums; }
 .app-shell .na__seg button.mk-press:active:not(:disabled) { transform: scale(0.94); }
-.app-shell .na__seg button[aria-pressed="true"] { transition: background-color 160ms ease, color 160ms ease, transform var(--mm-spring-release-dur) var(--mk-spring); }
+.app-shell .na__seg button[aria-pressed="true"] { transition: background-color 160ms ease, color 160ms ease, transform var(--mk-spring-dur) var(--mk-spring); }
 .app-shell .student-page--today .rc--compact { margin: 0; }
 .app-shell .student-page--today .pt { margin: 0; }
 
@@ -1683,7 +1694,7 @@ html[data-motion='reduced'] .app-shell .pr-nta__palette em { transition: none; }
     box-shadow: inset 0 1px 0 var(--dock-edge);
     transform: translate3d(calc(var(--abn-i) * (100% + 4px)), 0, 0);
     opacity: var(--abn-on);
-    transition: transform var(--mm-spring-release-dur) var(--mk-spring), opacity 160ms ease;
+    transition: transform var(--mk-spring-dur) var(--mk-spring), opacity 160ms ease;
     pointer-events: none;
   }
   html .app-shell .arena-bottomnav:has(> :nth-child(1)[aria-current='page']) { --abn-i: 0; --abn-on: 1; }
@@ -1714,7 +1725,7 @@ html[data-motion='reduced'] .app-shell .pr-nta__palette em { transition: none; }
     letter-spacing: 0;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
-    transition: transform var(--mm-spring-release-dur) var(--mk-spring), color 160ms ease;
+    transition: transform var(--mk-spring-dur) var(--mk-spring), color 160ms ease;
   }
   html .app-shell .arena-bottomnav :is(a, button) > svg { display: block; width: 24px; height: 24px; }
   html .app-shell .arena-bottomnav :is(a, button) > span { display: block; height: 14px; white-space: nowrap; }
@@ -1743,9 +1754,16 @@ html[data-motion='reduced'] .app-shell .arena-bottomnav::before, html[data-motio
 html[data-motion='reduced'] .app-shell .arena-bottomnav svg { animation: none !important; }
 @media (prefers-reduced-motion: reduce) { html .app-shell .arena-bottomnav::before, html .app-shell .arena-bottomnav :is(a, button) { transition: none; } html .app-shell .arena-bottomnav svg { animation: none !important; } }
 
-/* The start key on the next step: no glow; it sinks on the press and springs back after. */
-.app-shell .na__cta { transition: transform var(--mm-spring-release-dur) var(--mk-spring), background-color 160ms ease; }
-.app-shell .na__cta:active { transform: scale(0.965); transition-duration: 90ms, 160ms; }
+/* The Start key on the next step: leans in and lights before the press, springs back after (restored 19 Oct, owner
+   G31, from c9662f67^). On a keycap (.btn-volt) the lean-in lifts it a pixel above its resting 3 px. */
+.app-shell .na__cta { transition: transform var(--mk-spring-dur) var(--mk-spring), box-shadow 240ms ease, background-color 160ms ease; }
+@media (hover: hover) and (pointer: fine) {
+  .app-shell .na__cta:hover { transform: translateY(-1px); box-shadow: 0 10px 26px -8px var(--volt-glow-strong, rgba(210,240,0,.5)); }
+  .app-shell .na__cta.btn-volt:hover:not(:disabled) { transform: translateY(-4px); box-shadow: 0 3px 0 #9db400, 0 12px 28px -10px var(--volt-glow-strong, rgba(210,240,0,.5)); }
+  html[data-theme='light'] .app-shell .na__cta.btn-volt:hover:not(:disabled) { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.28), 0 3px 0 #8ba000, 0 12px 26px -12px rgb(82 103 0 / 0.5); }
+}
+.app-shell .na__cta:active { transform: scale(0.965); box-shadow: 0 2px 8px -4px var(--volt-glow-strong, rgba(210,240,0,.5)); transition-duration: 90ms, 120ms, 160ms; }
+.app-shell .na__cta.btn-volt:active:not(:disabled) { transform: translateY(0); box-shadow: 0 0 0 #9db400; }
 /* A new time was chosen: the plan on screen is the old one until the new one arrives, so its key waits. */
 .app-shell .na__cta[data-stale] { opacity: 0.6; pointer-events: none; }
 html[data-motion='reduced'] .app-shell .na__cta { transition: none; }
@@ -1883,7 +1901,7 @@ html[data-motion='reduced'] .app-shell .na__cta { transition: none; }
 .app-shell :is(.student-page--review, .student-page--progress) .ov-section[aria-label='Recorded milestones'] .pr-link { display: inline-flex; align-items: center; min-height: 44px; margin: 0; }
 
 /* ---------- Review: a session's object lifts off its shadow under the pointer, and dips on press ---------- */
-.app-shell .ov-session__icon--obj .subj-obj__img { transition: transform var(--mm-spring-release-dur) var(--mk-spring), opacity 320ms var(--mk-settle, cubic-bezier(.23, 1, .32, 1)); }
+.app-shell .ov-session__icon--obj .subj-obj__img { transition: transform var(--mk-spring-dur) var(--mk-spring), opacity 320ms var(--mk-settle, cubic-bezier(.23, 1, .32, 1)); }
 @media (hover: hover) and (pointer: fine) {
   .app-shell .ov-session:hover .ov-session__icon--obj .subj-obj__img { transform: translateY(-3px) rotate(-4deg); }
   .app-shell .ov-session:hover .ov-session__icon--obj .subj-obj__shadow { scale: .86; opacity: .75; }

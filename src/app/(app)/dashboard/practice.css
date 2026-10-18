@@ -15,6 +15,8 @@
 .app-shell .pr {
   --pr-cool: rgb(118 168 255 / 0.13);
   --pr-cool-edge: rgb(160 196 255 / 0.22);
+  /* NTA mode's volt light: the old 7 percent wash, a step stronger because it now falls over the cool light. */
+  --pr-nta-wash: rgb(210 240 0 / 0.1);
   --pr-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 -.18'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='.16'/%3E%3C/svg%3E");
   --pr-surface:
     radial-gradient(120% 90px at 30% 0%, var(--pr-cool), transparent 100%),
@@ -24,6 +26,7 @@
 html[data-theme='light'] .app-shell .pr {
   --pr-cool: rgb(70 120 220 / 0.09);
   --pr-cool-edge: rgb(255 255 255 / 0.9);
+  --pr-nta-wash: rgb(124 150 20 / 0.13);
   --pr-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .1 0 0 0 0 .12 0 0 0 0 .1 0 0 0 .55 -.18'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='.12'/%3E%3C/svg%3E");
 }
 
@@ -230,12 +233,13 @@ html[data-theme='light'] .app-shell .pr {
   inset: 0;
   z-index: -1;
   border-radius: inherit;
-  background: var(--a-volt-wash);
+  background: linear-gradient(180deg, var(--a-volt-wash), transparent 90%);
   opacity: 0;
   transition: opacity var(--mm-dur-exit) var(--mm-ease-exit);
   pointer-events: none;
 }
-.app-shell .pr .pr-tile[aria-checked='true'] { box-shadow: inset 0 0 0 2px var(--a-select), inset 0 1px 0 var(--pr-cool-edge); }
+/* The chosen tile's 2 px ring is drawn by its rim (below), so the ring here is the resting line. */
+.app-shell .pr .pr-tile[aria-checked='true'] { box-shadow: inset 0 0 0 1px var(--a-select), inset 0 1px 0 var(--pr-cool-edge); }
 .app-shell .pr .pr-tile[aria-checked='true']::before { opacity: 1; transition: opacity var(--mm-dur-glide) var(--mm-ease-out); }
 .app-shell .pr .pr-tile:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 3px; }
 @media (hover: hover) and (pointer: fine) {
@@ -281,10 +285,44 @@ html[data-theme='light'] .app-shell .pr {
 }
 @media (max-width: 359px) { .app-shell .pr .pr-tile__name { font-size: 16px; } }
 
+/* The rim (restored 19 Oct, owner G28 and G31: deploy/1016-batch drew it with .mk-rim): when a tile is chosen, a 2 px
+   ring in the select colour draws round it once, clockwise from the top, on the settle curve over 780 ms, and stays.
+   Reduced motion: the ring is simply there. */
+.app-shell .pr .pr-tile__rim {
+  position: absolute; inset: 0; z-index: 1; border-radius: inherit; padding: 2px; pointer-events: none;
+  background: conic-gradient(from -90deg, var(--a-select) var(--mk-rim), transparent 0);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); mask-composite: exclude;
+  opacity: 0;
+}
+.app-shell .pr .pr-tile[aria-checked='true'] .pr-tile__rim { opacity: 1; --mk-rim: 360deg; animation: mk-rim-draw 780ms var(--mk-settle) both; }
+@media (prefers-reduced-motion: reduce) { .app-shell .pr .pr-tile[aria-checked='true'] .pr-tile__rim { animation: none; } }
+:root[data-motion='reduced'] .app-shell .pr .pr-tile[aria-checked='true'] .pr-tile__rim { animation: none; }
+
+/* NTA mode: the button-card closest to exam day (restored 19 Oct, owner G28, from deploy/1015-night: arena.css at
+   c9662f67^ line 1318). Its own volt gradient falls across the card from the top-left corner over the cool light and
+   grain every card has, its line is a step stronger, and "Closest to exam day" sits over its name. The light stays
+   inside the card (Night stays subtle). */
+.app-shell .pr .pr-tile[data-mode='nta'] {
+  background: linear-gradient(135deg, var(--pr-nta-wash), transparent 58%), var(--pr-surface);
+  box-shadow: inset 0 0 0 1px var(--a-line-strong), inset 0 1px 0 var(--pr-cool-edge);
+}
+.app-shell .pr .pr-tile[data-mode='nta'][aria-checked='true'] { box-shadow: inset 0 0 0 1px var(--a-select), inset 0 1px 0 var(--pr-cool-edge); }
+@media (hover: hover) and (pointer: fine) {
+  .app-shell .pr .pr-tile[data-mode='nta']:not([aria-checked='true']):hover { box-shadow: inset 0 0 0 1px var(--a-line-hover, var(--a-line-strong)), inset 0 1px 0 var(--pr-cool-edge); }
+}
+.app-shell .pr .pr-tile__kicker { font-size: 12.5px; font-weight: 650; line-height: 1.3; color: var(--a-accent-text); }
+
 /* NTA mode's panel under the tiles: the exam screen, the mode in full, and the screen choice. */
 .app-shell .pr .pr-nta__after { display: grid; gap: 14px; margin-top: 4px; }
 @media (min-width: 768px) { .app-shell .pr .pr-nta__after { grid-template-columns: minmax(0, 300px) minmax(0, 1fr); align-items: start; } }
-.app-shell .pr .pr-nta__more { max-width: 360px; }
+/* The exam screen stands in its own gradient card, as the short NTA tile's panel did (c9662f67^ line 249). */
+.app-shell .pr .pr-nta__more {
+  display: grid; gap: 12px; max-width: 360px; padding: 16px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--pr-nta-wash), transparent 60%), var(--pr-surface);
+  box-shadow: inset 0 0 0 1px var(--a-line-strong), inset 0 1px 0 var(--pr-cool-edge);
+}
 .app-shell .pr .pr-nta__screen { display: grid; gap: 10px; align-content: start; }
 .app-shell .pr .pr-nta__about { margin: 0; max-width: 62ch; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-2); }
 

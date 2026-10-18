@@ -167,6 +167,17 @@ html[data-theme='light'] .app-shell .tm__key:not([aria-disabled='true']) { box-s
 @media (hover: hover) and (pointer: fine) { .app-shell .tm__key:not([aria-disabled='true']):hover { background: #dbfb14; } }
 .app-shell .tm__key:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 3px; }
 .app-shell .tm__key-len { font-weight: 500; opacity: 0.74; font-variant-numeric: tabular-nums; }
+/* The volt keycap, as every arena primary (restored 19 Oct, owner G28): a hard bottom edge and a soft light under it;
+   the key sits 3 px up and goes flush with its edge when pressed. Outlined and unavailable keys stay flat. */
+.app-shell .tm__key:not([data-outline]):not([aria-disabled='true']) {
+  box-shadow: 0 3px 0 #9db400, 0 10px 24px -12px rgba(210, 240, 0, 0.55); transform: translateY(-3px);
+  transition: transform 150ms var(--t-out), box-shadow 150ms ease, background-color 150ms ease;
+}
+.app-shell .tm__key:not([data-outline]):not([aria-disabled='true']):active { transform: translateY(0); box-shadow: 0 0 0 #9db400; }
+html[data-theme='light'] .app-shell .tm__key:not([data-outline]):not([aria-disabled='true']) { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.28), 0 3px 0 #8ba000, 0 10px 22px -14px rgb(82 103 0 / 0.45); }
+html[data-theme='light'] .app-shell .tm__key:not([data-outline]):not([aria-disabled='true']):active { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.28), 0 0 0 #8ba000; }
+:root[data-motion='reduced'] .app-shell .tm__key { transform: none !important; }
+@media (prefers-reduced-motion: reduce) { .app-shell .tm__key { transform: none !important; } }
 .app-shell .tm__price { margin: 10px 0 0; font-size: 13.5px; color: var(--a-ink-3); }
 /* The two other moves: a split footer of the same card (not cards in a card), each a full-height button. Release 10 (D90, F5): a line
    says what they do ("Or make one of these your move"), each cell carries a swap mark top right and presses in, and a cell that

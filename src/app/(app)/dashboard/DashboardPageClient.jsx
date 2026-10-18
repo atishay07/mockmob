@@ -615,9 +615,14 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
                   return (
                     <button key={id} type="button" role="radio" aria-checked={on} tabIndex={on ? 0 : -1} className="pr-tile mk-press" data-mode={id} data-tone={badge.tone}
                       onClick={(event) => { answerPick(event); chooseMode(id); if (badge.tone === 'locked') openUpgrade({ trigger: id, opener: event.currentTarget }); }}>
+                      {/* The chosen tile's rim draws round it (restored 19 Oct, owner G28/G31: the mk-rim draw of deploy/1016-batch). */}
+                      <span className="pr-tile__rim" aria-hidden="true" />
                       <span className="pr-tile__price" data-tone={badge.tone}>{badge.tone === 'locked' ? <AppIcon name="lock" size={13} /> : null}{badge.text}</span>
                       <span className="pr-tile__art" aria-hidden="true"><ModeArt id={id} subjectId={selectedSubject?.internalId || selSubj} on={on} /></span>
                       <span className="pr-tile__text">
+                        {/* NTA mode is the button-card closest to exam day: its volt gradient and this line come back from
+                            deploy/1015-night (owner G28, 19 Oct). */}
+                        {id === 'nta' ? <span className="pr-tile__kicker">Closest to exam day</span> : null}
                         <span className="pr-tile__name">{m.label}</span>
                         <span className="pr-tile__spec">{MODE_TILE_SPECS[id]}</span>
                       </span>

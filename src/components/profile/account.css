@@ -7,10 +7,10 @@
    one authored moment when the page opens (the subject tiles settle in). All still under reduced motion.
    ========================================================================== */
 
-.app-shell .student-page.acct { width: min(100%, 1080px); display: grid; gap: 28px; align-content: start; }
-/* The cards are plain raised surfaces: the arena's .glass gives them a top wash and an edge line, which are off here. */
-.app-shell .acct .glass { background: var(--a-raised); box-shadow: none; }
-.app-shell .acct .glass::before { display: none; }
+.app-shell .student-page.acct { width: min(100%, 1080px); display: grid; gap: 28px; align-content: start; --acct-lamp: rgba(226, 255, 92, 0.085); }
+html[data-theme='light'] .app-shell .student-page.acct { --acct-lamp: rgba(190, 226, 30, 0.2); }
+/* The cards are the arena's .glass again (restored 19 Oct, owner G28, from 06285f1a^): a faint wash from the top edge
+   and a hairline of light along it, as on every other arena card. */
 .app-shell .acct-grid { display: grid; gap: 20px; align-items: start; min-width: 0; }
 .app-shell .acct-col { display: grid; gap: 20px; min-width: 0; align-content: start; }
 @media (min-width: 1024px) {
@@ -47,9 +47,11 @@
 .app-shell .acct-key:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 .app-shell .acct-key:disabled, .app-shell .acct-key[aria-disabled='true'] { opacity: 0.45; cursor: not-allowed; }
 @media (hover: hover) and (pointer: fine) { .app-shell .acct-key:hover:not(:disabled) { border-color: var(--a-line-hover); background: var(--a-hover); } }
-/* The primary key is a flat volt fill (no edge light, no glow); it presses in a little. */
-.app-shell .acct-key--volt { background: var(--volt, #d2f000); border-color: transparent; color: #0b1000; }
-.app-shell .acct-key--volt:active:not(:disabled) { transform: scale(0.98); }
+/* The volt keycap (restored 19 Oct, owner G28, from 06285f1a^): it sits on its own edge and presses down into it. */
+.app-shell .acct-key--volt { background: var(--volt, #d2f000); border-color: transparent; color: #0b1000; box-shadow: 0 3px 0 #9db400; }
+.app-shell .acct-key--volt:active:not(:disabled) { transform: translate3d(0, 2px, 0); box-shadow: 0 1px 0 #9db400; }
+html[data-theme='light'] .app-shell .acct-key--volt { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.28), 0 3px 0 #8ba000; }
+html[data-theme='light'] .app-shell .acct-key--volt:active:not(:disabled) { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.28), 0 1px 0 #8ba000; }
 @media (hover: hover) and (pointer: fine) { .app-shell .acct-key--volt:hover:not(:disabled) { background: var(--volt, #d2f000); border-color: transparent; filter: brightness(1.05); } }
 .app-shell .acct-key--danger { border-color: color-mix(in srgb, var(--a-bad-text) 45%, transparent); color: var(--a-bad-text); }
 .app-shell .acct-link {
@@ -68,7 +70,14 @@
 .app-shell .acct-sk--days { height: 44px; width: min(100%, 460px); border-radius: 999px; }
 
 /* ---------- Your sheet ---------- */
-.app-shell .acct-sheet { display: grid; gap: 28px; padding: clamp(18px, 3vw, 28px); min-width: 0; }
+.app-shell .acct-sheet { position: relative; display: grid; gap: 28px; padding: clamp(18px, 3vw, 28px); min-width: 0; isolation: isolate; }
+/* A lamp over the sheet (restored 19 Oct, owner G28): a soft pool of volt light behind your name. It stays inside the
+   card (it fades out before the edge), so nothing is clipped and Mobi can still hop above it. */
+.app-shell .acct-sheet::after {
+  content: ''; position: absolute; z-index: -1; pointer-events: none;
+  top: 0; right: 0; width: 76%; height: 70%; border-radius: inherit;
+  background: radial-gradient(closest-side, var(--acct-lamp), transparent);
+}
 .app-shell .acct-sheet__who { display: flex; align-items: center; gap: 14px; min-width: 0; }
 .app-shell .acct-sheet__mobi { flex: none; display: grid; place-items: center; width: 72px; min-height: 72px; }
 .app-shell .acct-sheet__id { flex: 1; min-width: 0; display: grid; gap: 4px; }
