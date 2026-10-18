@@ -1,68 +1,52 @@
-# NOW: MockMob current state (overwrite this file at every handoff; git keeps the history)
+# NOW: MockMob current state (overwrite at every handoff; git keeps the history)
 
-**Last written:** 18 Oct 2026, about 7:35 am IST (first written 6:45 am), by session 604ced81 (Claude Opus 5.5, main, CEO/CTO). The owner went to sleep at about 4 am.
+**Last written:** 18 Oct 2026, about 10:10 am IST, by session 604ced81 (main, Claude Opus 5.5, CEO/CTO), just before the owner's account switch at about 95% usage.
 
-**Read next:** `OWNER-MASTER-LEDGER.md` (the 3:45 am fold-in and the owner answers), then `OWNER-FEEDBACK-2026-10-18-DAWN.md` (the last sections).
+**Read next:** `OWNER-MASTER-LEDGER.md` (newest sections at the bottom), then `OWNER-FEEDBACK-2026-10-18-DAWN.md` (the last sections, D35-D39).
 
-## 1. Live
-- **www.mockmob.in = main 70c4598c = website release 6** (pushed about 7:25 am).
-  - Vercel dpl_6q9MVJky9k741wsmTrRRCfjm7EXU is READY, with 0 runtime errors; unknown URLs return a themed 404.
-  - What it contains: Review/result 1018, Ask Mobi 1018, community and Learn, web badges, and the verifier's fix round.
-  - The STATUS entries for R6 and the migration are in 70c4598c.
-- **Before that: main 58bc53f6 = website release 5.**
-  - Vercel dpl_BKdqQn1PtzYWEPwER72gygLs5WKJ is READY, with 0 runtime errors; the main pages return 200.
-  - What it contains:
-    - Night subtle on Ask Mobi (D7/D12);
-    - the eclipse theme switch (D10);
-    - the Help and FAQ page, with no Help door (D11);
-    - the nav fade floor (D13);
-    - Practice "Review and repair" and Ask Mobi (D5);
-    - result labels and the 10-slot bar (D15/D17);
-    - the Learn and Review packets;
-    - the "Learn" name (D20).
-  - Owner guide: `docs/brain/R5-WHERE-TO-LOOK.md` in the release (pictures in `docs/brain/r5-where-to-look/`).
-- **Production DB:** `20261017160000_revise_cards_mode` was applied at about 4:50 am under the standing grant.
-  - Pre-check: 27 rows, no column. Post-check: 27 rows all 'question', the check constraint present, RLS on, 0 policies.
-  - **The STATUS entry is pending:** the text is in the session scratchpad `status-pending.md`; add it to the release 6 push.
-- **App:** v13 (1.0.13) is the last delivered APK.
+**The goal (owner, 9:15 am, D39):** the Play Store is parked. Deliver:
+- **App:** v15 completely ready (all features, walked on the emulator, APK delivered).
+- **Website:** "perfected", with every change he asked for and every change promised.
 
-## 2. The owner's decisions tonight (do not re-ask)
-- **M-001:** a 3 s logo opening on the first launch only (built in v15, f006df6e).
-- **M-006:** exciting, bolder copy, never false (not started: copy pass).
-- **D19:** keep the badges and refine them (BADGES-REFINE-1018; web and app built).
-- **D22:** the name is **Mob**.
-- **4 am, overnight deploys:** "Push everything that passes". R5 and R6 ship when their suites and an independent visual check pass. **The landing and the new web Today wait for his live review.**
+When both are published and checked, send him ONE message with the links, the APK and where to look. He then reviews and gives final feedback (D37).
 
-## 3. Tracks
+## Live
+- **www.mockmob.in = main 70c4598c = release 6** (Review/result 1018, Ask Mobi 1018, community hidden, Learn, web badges, fixes). READY, 0 errors.
+- Release 5 (58bc53f6) shipped earlier.
+- **Production migration** revise_cards_mode was applied at 4:50 am (STATUS in 70c4598c).
 
-| Track | Worktree, branch | Head | State | Next |
-|---|---|---|---|---|
-| **Web R6** | wt-rel6, deploy/web-1018-r6 | 70c4598c | **LIVE** | The owner reviews it with the R5 list; the Practice zero-credit line was left honest (practice credits never renew) |
-| **Landing** | wt-land3, web/land3-1018 | f64cffe5 | Only the position band was ported (the toggle was already live). Dev server **3206** is up (LAN http://192.168.1.8:3206). | **The owner reviews it live.** Commit afa2cd73 (allowedDevOrigins) is dev-only: drop it before merging. |
-| **Web Today** | wt-today18, web/today-1018 | d0486c12 | TODAY-1018 finished: D26 road (due today / this week / goal), D27 polish, greeting by hour, all states; tests green. Dev server **3207** (http://192.168.1.8:3207/preview/arena?view=today). | **The owner reviews it live.** Then merge onto the R6 base (expect conflicts with askmobi's Today "Why this?" line and R5's Today files). |
-| **App v15** | wt-v15, ui/v15-1018 | fecc6a73 and on | Integrated (base + reel + Today 1018 + Ask Mobi + Play it back + M-001). **Walk: NO-GO**, 48 pass / 8 fail / 5 not exercised (mockmob-next/tmp/app-walk-1018/WALK.md). The HIGH is H1: full-mock results show UTC as local time. The MEDIUMs are M1-M11 (offline recovery, the reel card after Quick sets, Quick-result parity, impossible fractions, counts disagreeing, Practice entries low on the page, the Change plan Done button below the fold, stale You credits, the old marking-wait copy, the Mob flag). | **The fix round is running** (it merges ui/v15-badges first). Then a confirm walk, then the release APK + AAB 1.0.15. |
-| **App badges** | wt-v15-badges, ui/v15-badges | a85f0e50 | Built: You badge home, badge sheet, earned row on the result; 61 new tests, 28 goldens | Merge into v15 with the fix round |
-| **Mob** | wt-mobfix, web/mob-fix-1017 | e89d4a35 | The 5 gate defects are fixed; a re-gate is needed | Re-run the go/no-go on staging; stays OFF until 10/10 |
+## In flight at 10:10 am (every agent commits as it goes; check each worktree's git log)
 
-Walk findings so far (incomplete):
-- **M-C:** the Repairs/Revise counts (98) disagree with the lead card ("10 of 98 due") and the Review badge.
-- **M-D:** the Mob card shows on Today. The rig's staging site runs MOB_ENABLED=true, so check that the app hides it when the server says the Mob is off.
-- **LOW:** a notice card repeats its title.
+| Track | Worktree, branch | State | Next |
+|---|---|---|---|
+| **R7 web: the new Today** | wt-rel7, deploy/web-1018-r7, c46d1dcd | Integrated (Today 1018, "Why this?" Ask Mobi, the reel card, ?q=N). The independent verifier is running (captures in wt-rel7/tmp/verify-r7). | GO → push (fast-forward from 70c4598c) + STATUS. NO-GO → a fix round. |
+| **R8 web fixes** | wt-r8-fixes, web/r8-fixes-1018 (from c46d1dcd) | W-078 /mentor Day contrast (LIVE bug), W-075 the dock Start goes quiet while the page primary is visible, W-079 targets, W-093 copy (Help "Five stops"), W-089 copying the design notes | Merge into R8 |
+| **R8 adoption** | wt-r8-adopt, web/r8-adopt-1018 | W-064: the first-week path on Today; the "of the N you repaired, M did not come back" receipt | Merge into R8 |
+| **R8 retry** | wt-r8-retry, web/r8-retry-1018 | W-032: "Try it again" before the key on the result | Merge into R8 |
+| **Landing hero** | wt-land3, web/land3-1018 (83f8f821+) | Opus is building D38: the morphing third line, a coloured CUET 2027, Mobi alive, clean spacing, at most one Mobi per viewport, the "10:35 later" sample fix, the Mobi foot overlap. Dev server 3206 is live for the owner. | Merge into R8 |
+| **R8 integration** | not started | | A new worktree from the R7 head after the R7 push: merge the 4 branches above, run the suites, an independent verifier, fix, push. |
+| **App v15** | wt-v15, ui/v15-1018, 79aaca6d | All first-walk defects fixed (H1 UTC time, M1-M11) + the badges merge; 5681 unit, 1445 goldens; profile APK rebuilt | **The confirm walk is running** (notes in mockmob-next/tmp/app-walk-1018b/WALK.md) |
+| **App Review D18** | wt-v15-review, ui/v15-review (from a417b827) | Port of the web Review "leads with weak chapters" | Merge into ui/v15-1018 |
+| **App polish 2** | wt-v15-polish2, ui/v15-polish2 (from 79aaca6d) | Full-mock resume after a killed start (credits), the real reel length, Ask chip freshness, the runner scroll cue, Practice flicker, the Day shadow, copy, motion overlaps | Merge into ui/v15-1018 |
+| **v15 release** | wt-v15 | | After the two merges: analyze, unit, goldens, a short walk of Review + polish, then the **release APK** (`--release --target-platform android-arm64 --obfuscate --split-debug-info=build/symbols --dart-define-from-file=dart_defines/prod.json`). Copy it to mockmob-next/tmp/apk/mockmob-v15-<sha>.apk and send it to the owner. |
 
-## 4. Next steps, in order
-1. **R6:** finish the fixes, spot re-check, push. Add the STATUS entries (R6 and the migration).
-2. **v15:** finish the walk, then one fix round (walk defects + merge badges), a confirm walk on the emulator, then the release build 1.0.15 (APK + AAB). Play signing needs the owner's upload key (PLAY-READINESS-V15.md).
-3. **The owner's morning review** (live dev servers):
-   - the landing (3206);
-   - the web Today (3207);
-   - R5 and R6 on mockmob.in, with the where-to-look lists.
-4. **After his verdicts:** merge the web Today and the landing; the M-006 bolder copy pass (landing and onboarding); the Mob re-gate; the icons (D8, with the next app nav change); the D22 Mob concept brief.
+**Stopped:** the read-only audit workflow wf_7899c96b-147 (app ledger L01-L39, Compass data M-007, missed asks), stopped to save usage. Re-run it later with fresh agents (the script is in the session's workflows folder).
 
-## 5. Waiting on the owner
-- His live review of the landing (and confirming the kept element, D32) and of the web Today.
-- Play Console account and upload key; Anthropic key; Avast HTTPS-scanning exception; 112 held questions; a Hindi reviewer; free first Repair; M-011 Vercel duplicates (his click).
+**Preview servers for the owner:**
+- 3206 (landing, wt-land3) and 3207 (web Today, wt-today18).
+- `.claude/launch.json` has "landing-1018" and "today-1018" (scratchpad devserve.mjs). The LAN address 192.168.1.8 works because allowedDevOrigins is set.
 
-## 6. Rules that bit tonight
-- **The stall watcher flags finished agents and read-only verifiers.** Check the process and the screenshot folder before acting.
-- **A leftover Flutter test from a stopped session held a lock slot.** Reap leftovers at the start of every session.
-- **Briefs must match the approved design docs.** One brief said "not-found" where COMMUNITY-1018 said a "paused" page, and it had to be redone.
+## Owner decisions still open
+- W-099: merge Ask Mobi's "Your record" page with the Weak chapters page? (Merging cuts a page; ask.)
+- W-046: what "Study day / week chapters" meant.
+- The flat 10-credit line for 5/10/15/20 questions (app), to confirm.
+- The Mob switch-on (needs the re-gate on staging first; wt-mobfix e89d4a35).
+- Play Console account and upload key, and 12 testers for the 14-day closed test (parked).
+
+## Rules that bit today
+- **Stall alerts:** the stall watcher flags read-only verifiers and finished agents; check the capture folder or processes before acting.
+- **Clean up leftovers:** reap leftover Flutter tests from stopped sessions (one held a lock slot).
+- **Briefs must match approved docs:** a brief contradicting COMMUNITY-1018 had to be redone.
+- **LAN previews:** need allowedDevOrigins (dev only) or the page never hydrates.
+- **Temp files:** an agent deleted *.sh in the shared Temp folder; tell agents never to clean outside their worktree.
+- **Usage:** 9 parallel agents burn about 30% an hour.
