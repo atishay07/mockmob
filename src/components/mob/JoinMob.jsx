@@ -116,6 +116,8 @@ export default function JoinMob({ code: rawCode }) {
   const signedIn = authStatus === 'authenticated' && Boolean(user?.id);
   const info = invite.data;
   const wide = invite.status === 'valid' || invite.status === 'loading';
+  // An email-code account has no name to offer (suggestName gives ''), so the editor starts open: the Join key never fails on its first tap.
+  const showEditor = editing || (signedIn && !cleanName(name));
   return (
     <main className="mob-join">
       <div className={wide ? 'mob-join__inner mob-join__inner--wide' : 'mob-join__inner'}>
@@ -163,10 +165,10 @@ export default function JoinMob({ code: rawCode }) {
                   <h2 id="mob-join-h" className="mob-h2">Join as</h2>
                   <div className="mob-joinas">
                     <span className="mob-disc" data-colour={colour} aria-hidden="true">{initialOf(name || '?')}</span>
-                    <b className="mob-joinas__name">{cleanName(name) || 'Your name'}</b>
-                    <button type="button" className="mob-link" onClick={() => setEditing((v) => !v)} aria-expanded={editing}>{editing ? 'Done' : 'Change name or colour'}</button>
+                    <b className="mob-joinas__name">{cleanName(name) || 'Choose a name'}</b>
+                    <button type="button" className="mob-link" onClick={() => setEditing((v) => !v)} aria-expanded={showEditor}>{showEditor ? 'Done' : 'Change name or colour'}</button>
                   </div>
-                  {editing ? (
+                  {showEditor ? (
                     <>
                       <div className="mob-field">
                         <label className="mob-label" htmlFor={nameId}>Your name in the Mob</label>

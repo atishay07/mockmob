@@ -445,9 +445,9 @@ function InMob({ data, mob, user }) {
             ) : null}
             {!week.youSat && freeUsed ? (
               <>
-                {/* Not an error: the student has done this week's paper, in their other Mob. The claim is theirs, not this Mob's. */}
-                <p className="mob-done"><Check size={16} strokeWidth={2.5} aria-hidden="true" />This week&apos;s paper is done.</p>
-                <p className="mob-note">You sat it in your other Mob. Free includes one weekly Mob paper, and the next opens Monday. Pro lets you sit one in every Mob.</p>
+                {/* Not an error: this week's free Mob paper was claimed elsewhere (another Mob, possibly one since left, possibly unfinished). Say only what is true. */}
+                <p className="mob-done"><Check size={16} strokeWidth={2.5} aria-hidden="true" />This week&apos;s free Mob paper is used.</p>
+                <p className="mob-note">Free includes one Mob paper a week, and the next opens Monday. Pro lets you sit one in every Mob.</p>
                 <Link className="mob-link" href="/pricing">See Pro</Link>
               </>
             ) : null}

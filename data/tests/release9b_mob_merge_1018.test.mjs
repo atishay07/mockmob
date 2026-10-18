@@ -142,3 +142,17 @@ test('MEDIUM: the name pre-filled on the join and start forms always passes the 
   assert.match(page, /suggestName\(user\?\.name \|\| '', user\?\.email \|\| ''\)/);
   assert.doesNotMatch(join + page, /cleanName\((user\??\.name)[^)]*\)\.split/, 'no raw first-word pre-fill is left');
 });
+
+test('Join: an account with no offerable name starts with the name editor open, so Join never fails its first tap (R9 verify round 3)', () => {
+  const src = readFileSync(new URL('../../src/components/mob/JoinMob.jsx', import.meta.url), 'utf8');
+  assert.match(src, /const showEditor = editing \|\| \(signedIn && !cleanName\(name\)\);/);
+  assert.match(src, /\{showEditor \? \(/);
+  assert.match(src, /cleanName\(name\) \|\| 'Choose a name'/);
+  assert.doesNotMatch(src, /'Your name'/);
+});
+
+test('Mob: a used free paper never claims the student sat it in another Mob (R9 verify round 3)', () => {
+  const src = readFileSync(new URL('../../src/components/mob/MobPage.jsx', import.meta.url), 'utf8');
+  assert.doesNotMatch(src, /You sat it in your other Mob/);
+  assert.match(src, /This week&apos;s free Mob paper is used\./);
+});
