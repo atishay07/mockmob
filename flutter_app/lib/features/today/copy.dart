@@ -261,7 +261,7 @@ abstract final class TodayCopy {
   static String reelSheetSemantics(int n) => 'Your answer sheet, $n questions, ready to play back.';
   static const String reelNotLoaded = 'The paper did not load. Opening the result instead.';
   static const String openDirectly = 'Open results directly';
-  static String moreResults(int n) => n == 1 ? '1 more result is ready to open.' : '$n more results are ready to open.';
+  static String moreResults(int n) => n == 1 ? '1 more paper to play back.' : '$n more papers to play back.';
 
   // Compact slots.
   static String nextUp(String what) => 'Next: $what';

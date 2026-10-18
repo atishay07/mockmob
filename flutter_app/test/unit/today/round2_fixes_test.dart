@@ -152,6 +152,7 @@ void main() {
         planRepositoryProvider(todayPlanMinutes).overrideWith(() => _Plan(todayPlanMinutes)),
         repairLocalRecordsProvider.overrideWith((ref) => Stream<List<RepairLocalRecord>>.value(const [])),
         unopenedResultsProvider.overrideWith((ref) => Stream<List<PendingResult>>.value(const [])),
+        allPendingResultsProvider.overrideWith((ref) => Stream<List<PendingResult>>.value(const [])),
         todayDismissalsProvider.overrideWith((ref) {
           ref.watch(todayClockProvider);
           return Stream<Set<DismissalKey>>.value(const {});

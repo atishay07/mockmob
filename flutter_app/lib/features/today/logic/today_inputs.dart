@@ -103,6 +103,7 @@ class TodayInputs {
     this.returning = false,
     this.draft,
     this.unopened = const [],
+    this.reelPending,
     this.dismissed = const {},
     this.repaired = const {},
     this.profile,
@@ -159,6 +160,14 @@ class TodayInputs {
 
   /// Results received and not opened yet: attempt id and when it arrived, newest first.
   final List<({String attemptId, DateTime receivedAt})> unopened;
+
+  /// The papers the reel card is due for (see `reelPendingFrom`): any fresh submission whose reel was not played or
+  /// turned down, whether or not its result was opened. Null leaves the card to the [unopened] results, the way it
+  /// worked before the reel had its own flag.
+  final List<({String attemptId, DateTime receivedAt})>? reelPending;
+
+  /// What the reel card reads: [reelPending], else the unopened results.
+  List<({String attemptId, DateTime receivedAt})> get reelDue => reelPending ?? unopened;
   final Set<DismissalKey> dismissed;
 
   /// Questions repaired on this phone, per attempt.

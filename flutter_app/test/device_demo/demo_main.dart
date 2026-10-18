@@ -251,6 +251,7 @@ List<Override> _overrides() {
     }),
     pendingResultRepositoryProvider.overrideWithValue(practice.FakePendingResults()),
     unopenedResultsProvider.overrideWith((ref) => Stream.value(const <PendingResult>[])),
+    allPendingResultsProvider.overrideWith((ref) => Stream.value(const <PendingResult>[])),
     // The receipt says when this run's submit was acknowledged.
     resultReceivedAtProvider.overrideWith((ref, id) async => demoBook.receivedAt[id]),
     finishFreshProvider.overrideWith((ref, id) async => demoBook.fresh.remove(id)),

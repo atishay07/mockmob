@@ -18,7 +18,7 @@ import '../../insights/ask_mobi.dart' show AskMobiContext, AskMobiLink, askMobiA
 import '../../insights/data/ask_suggestions.dart' show AskSheetCopy;
 import '../../insights/data/trend.dart' show trendSeries;
 import '../../insights/widgets/trend_chart.dart' show TrendSection;
-import '../../paper_reel/paper_reel.dart' show PaperReel, PaperReelModel, PaperReelResultEntry, ReelMoveKind, ReelNextMove, ReelResult;
+import '../../paper_reel/paper_reel.dart' show PaperReel, PaperReelModel, PaperReelResultEntry, ReelMoveKind, ReelNextMove, ReelResult, reelSeenProvider;
 import '../../practice/widgets/result_foot.dart';
 import '../../practice/widgets/top_edge_fade.dart' show BarFade;
 import '../../review/data/paper_when.dart' show paperWhen;
@@ -208,6 +208,8 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
   /// Today: the repair of the costliest chapter, the mistakes below, or the next mock of this subject.
   void _playBack(PaperReelModel reel, {required String subjectId, required bool isNta}) {
     unawaited(ref.read(hapticsProvider).tick());
+    // Played from here: Today does not offer the same reel again.
+    unawaited(ref.read(reelSeenProvider.notifier).mark(widget.attemptId));
     unawaited(PaperReel.open(context, model: reel, onNextMove: (m) => _reelMove(reel, m, subjectId: subjectId, isNta: isNta)));
   }
 

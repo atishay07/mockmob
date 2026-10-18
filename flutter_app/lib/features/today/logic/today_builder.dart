@@ -297,8 +297,9 @@ Attempt? _attempt(TodayInputs i, String id) {
 }
 
 TodayHero? _sealed(TodayInputs i) {
-  if (i.unopened.isEmpty) return null;
-  final first = i.unopened.first;
+  final due = i.reelDue;
+  if (due.isEmpty) return null;
+  final first = due.first;
   final a = _attempt(i, first.attemptId);
   final label = a == null ? 'Your mock' : paperLabel(i.attempts!, a);
   final subject = a?.subject;
@@ -309,7 +310,7 @@ TodayHero? _sealed(TodayInputs i) {
     // What the reel shows, in one line (D29): no "received at", no marking wait.
     line: TodayCopy.reelLine(name),
     subjectId: subject == null ? null : canonicalSubject(subject),
-    moreLine: i.unopened.length > 1 ? TodayCopy.moreResults(i.unopened.length - 1) : null,
+    moreLine: due.length > 1 ? TodayCopy.moreResults(due.length - 1) : null,
     subject: name,
     questions: a == null || a.total <= 0 ? null : a.total,
   );

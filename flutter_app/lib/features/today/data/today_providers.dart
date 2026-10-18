@@ -11,12 +11,15 @@ import '../../../core/api/api_providers.dart';
 import '../../../core/auth/auth_state.dart';
 import '../../../core/connectivity/connectivity.dart';
 import '../../../core/domain/session_rules.dart';
+import '../../../core/models/models.dart' show Attempt;
 import '../../../core/repositories/repositories.dart';
 import '../../review/revise/revise_data.dart' show reviseCapProvider, reviseEntryProvider;
 import '../../rhythm/data/rhythm_providers.dart' show rhythmClockProvider;
 import '../../rhythm/logic/dates.dart' show formatIsoDate, studentDate;
 import '../../rhythm/rhythm.dart';
+import '../../paper_reel/paper_reel.dart' show reelSeenProvider;
 import '../logic/move_builder.dart';
+import '../logic/reel_pending.dart';
 import '../logic/today_builder.dart';
 import '../logic/today_clock.dart';
 import '../logic/today_inputs.dart';
@@ -225,6 +228,16 @@ class TodayLastTried extends Notifier<DateTime?> {
 
 final todayLastTriedProvider = NotifierProvider<TodayLastTried, DateTime?>(TodayLastTried.new);
 
+/// The papers the reel card is due for: every fresh submission whose reel was not played or turned down, opened
+/// result or not (D29, v15 walk M3). Keyed on the reel's own flag, so a Quick set, whose result opens itself the
+/// moment it lands, still gets its card once.
+final todayReelPendingProvider = Provider<List<ReelDue>>((ref) {
+  final all = ref.watch(allPendingResultsProvider).value ?? const <PendingResult>[];
+  final seen = ref.watch(reelSeenProvider).value;
+  final attempts = ref.watch(attemptsRepositoryProvider.select((s) => s.value)) ?? const <Attempt>[];
+  return reelPendingFrom(pending: all, seen: seen, knownAttempts: {for (final a in attempts) a.id}, now: ref.watch(nowProvider)());
+});
+
 final todayInputsProvider = Provider<TodayInputs>((ref) {
   // Re-sampled on every clock tick (see [TodayClock]).
   ref.watch(todayClockProvider);
@@ -302,6 +315,7 @@ final todayInputsProvider = Provider<TodayInputs>((ref) {
       for (final u in ref.watch(unopenedResultsProvider).value ?? const <PendingResult>[])
         (attemptId: u.attemptId, receivedAt: u.receivedAt),
     ]..sort((a, b) => b.receivedAt.compareTo(a.receivedAt)),
+    reelPending: ref.watch(todayReelPendingProvider),
     dismissed: ref.watch(todayDismissalsProvider).value ?? const {},
     repaired: repaired,
     profile: ref.watch(todayProfileProvider),

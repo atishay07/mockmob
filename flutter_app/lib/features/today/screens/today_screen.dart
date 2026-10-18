@@ -199,9 +199,11 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
     }
     final model = detail == null ? null : PaperReelModel.tryFrom(detail, subjectLabel: paper.subject);
     unawaited(ref.read(resultActionsProvider).markSeen(id));
+    // The reel card is done for this paper (its own flag, apart from the result being open).
+    unawaited(ref.read(reelSeenProvider.notifier).mark(id));
     if (!mounted) return;
     if (model == null) {
-      _go(AppRoutes.result(id));
+      _go(_resultRoute(id));
       return;
     }
     await PaperReel.open(context, model: model, onNextMove: (m) => _reelMove(paper, model, m));
@@ -209,7 +211,14 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
 
   /// "Not now": one tap, and the card gives way to the Up next card. The paper stays in Review.
   Future<void> _skipReel(SealedHero paper) async {
+    unawaited(ref.read(reelSeenProvider.notifier).mark(paper.attemptId));
     await ref.read(resultActionsProvider).markSeen(paper.attemptId);
+  }
+
+  /// Where a paper's result lives: a mock's full result, a Quick set's own result (the page Last paper opens too).
+  String _resultRoute(String id) {
+    final attempt = ref.read(attemptsRepositoryProvider).value?.where((a) => a.id == id).firstOrNull;
+    return attempt != null && !attempt.isMock ? AppRoutes.practiceResult(id) : AppRoutes.result(id);
   }
 
   /// The reel's one closing key.
@@ -219,9 +228,9 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
       case ReelMoveKind.repairChapter:
         final wrong = {for (final q in model.questions) if (q.result == ReelResult.wrong) q.qid};
         final open = [for (final q in m.qids) if (wrong.contains(q)) q];
-        _go(open.isEmpty ? AppRoutes.result(id) : TodayLinks.repair(id, open.first, open.length));
+        _go(open.isEmpty ? _resultRoute(id) : TodayLinks.repair(id, open.first, open.length));
       case ReelMoveKind.reviewMistakes:
-        _go(AppRoutes.result(id));
+        _go(_resultRoute(id));
       case ReelMoveKind.nextMock:
         _go(TodayLinks.fullMock(subject: paper.subjectId));
     }

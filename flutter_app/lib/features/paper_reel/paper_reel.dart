@@ -8,6 +8,7 @@ import 'model/paper_reel_model.dart';
 
 export 'model/paper_reel_model.dart';
 export 'widgets/reel_entries.dart';
+export 'data/reel_seen.dart' show reelSeenProvider;
 
 /// "Play your paper back" (owner item D29, the same engine as the meaningful replay of D17).
 ///

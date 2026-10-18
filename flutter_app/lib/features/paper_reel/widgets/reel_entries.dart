@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 
 /// The Today card after a fresh submission (D29): "Play your paper back, 20 s". Shown once per
-/// attempt: the integrator asks [PaperReelOnce.shouldShow] and calls [PaperReelOnce.markShown] on
-/// play or dismiss. No marking wait, no receipt: the paper is already marked.
+/// attempt: Today keys it on the reel's own flag (`reelSeenProvider`), marked when the reel plays or
+/// the card is dismissed. No marking wait, no receipt: the paper is already marked.
 class PaperReelTodayCard extends StatelessWidget {
   const PaperReelTodayCard({super.key, required this.subject, required this.onPlay, required this.onDismiss, this.seconds = 20});
 
@@ -117,26 +116,5 @@ class _PlayDot extends StatelessWidget {
         child: Icon(LucideIcons.play, size: size * 0.46, color: colors.voltInk),
       ),
     );
-  }
-}
-
-/// "Shown once after a fresh submission": the Today card's gate, by attempt id, on this phone.
-abstract final class PaperReelOnce {
-  static const _key = 'paper_reel_shown_v1';
-
-  static Future<bool> shouldShow(String attemptId) async {
-    if (attemptId.isEmpty) return false;
-    final p = await SharedPreferences.getInstance();
-    return !(p.getStringList(_key) ?? const []).contains(attemptId);
-  }
-
-  static Future<void> markShown(String attemptId) async {
-    if (attemptId.isEmpty) return;
-    final p = await SharedPreferences.getInstance();
-    final list = [...(p.getStringList(_key) ?? const <String>[])];
-    if (list.contains(attemptId)) return;
-    list.add(attemptId);
-    // Keep the last 30 so the list never grows without end.
-    await p.setStringList(_key, list.length > 30 ? list.sublist(list.length - 30) : list);
   }
 }

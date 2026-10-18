@@ -57,6 +57,17 @@ class PendingResultRepository {
     return rows.map(_from).toList();
   }
 
+  /// Every result received on this phone, opened or not, newest first. Today's reel card reads this: whether a result
+  /// was opened and whether its reel was played are two different things.
+  Stream<List<PendingResult>> watchAll() {
+    final id = _scope.userIdOrNull;
+    if (id == null) return Stream.value(const []);
+    final query = _db.select(_db.pendingResults)
+      ..where((t) => t.userId.equals(id))
+      ..orderBy([(t) => OrderingTerm.desc(t.receivedAtMs)]);
+    return query.watch().map((rows) => rows.map(_from).toList());
+  }
+
   Stream<List<PendingResult>> watchUnopened() {
     final id = _scope.userIdOrNull;
     if (id == null) return Stream.value(const []);
@@ -73,6 +84,12 @@ final pendingResultRepositoryProvider = Provider<PendingResultRepository>((ref) 
 final unopenedResultsProvider = StreamProvider<List<PendingResult>>((ref) {
   ref.watch(userIdProvider);
   return ref.watch(pendingResultRepositoryProvider).watchUnopened();
+});
+
+/// Every result received on this phone, opened or not, newest first.
+final allPendingResultsProvider = StreamProvider<List<PendingResult>>((ref) {
+  ref.watch(userIdProvider);
+  return ref.watch(pendingResultRepositoryProvider).watchAll();
 });
 
 /// Drives the 8 dp dot on the Review tab.
