@@ -153,6 +153,14 @@ void main() {
       expect(detailOf(board({'new_best': at}), 'new_best', records: {'new_best': later})!.paper!.from, 'From Accountancy full mock, Sat 17 Oct, 7:12 PM');
     });
 
+    test('a practice paper is named the way Today names it, "Quick 10", not "practice set"', () {
+      final record = BadgeRecord(attemptId: 'a1', subject: 'accountancy', mode: 'quick', at: at, marks: 10, max: 10, total: 10);
+      final d = detailOf(board({'clean_set': at}), 'clean_set', records: {'clean_set': record})!;
+      expect(d.paper!.from, 'From Accountancy Quick 10');
+      final unknown = BadgeRecord(attemptId: 'a1', subject: 'accountancy', mode: 'quick', at: at, marks: 10, max: 10);
+      expect(detailOf(board({'clean_set': at}), 'clean_set', records: {'clean_set': unknown})!.paper!.from, 'From Accountancy practice set');
+    });
+
     test('a badge with no record names no paper: no source is ever made up', () {
       expect(detailOf(board({'first_repair': at}), 'first_repair')!.paper, isNull);
     });

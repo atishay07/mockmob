@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart' show LucideIcons;
 
 import '../router/transitions.dart' show MmPageTransitionsBuilder;
 import 'fonts.dart';
@@ -37,7 +38,7 @@ SwitchThemeData _switchTheme(MmColors colors) {
     ),
     thumbIcon: WidgetStateProperty.resolveWith(
       (states) => states.contains(WidgetState.selected)
-          ? Icon(Icons.check, size: 16, color: held(states) ? colors.lineStrong : colors.volt)
+          ? Icon(LucideIcons.check, size: 16, color: held(states) ? colors.lineStrong : colors.volt)
           : null,
     ),
     overlayColor: const WidgetStatePropertyAll(Colors.transparent),
