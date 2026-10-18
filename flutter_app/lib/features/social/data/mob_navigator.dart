@@ -37,7 +37,7 @@ class DefaultMobNavigator implements MobNavigator {
     switch (outcome) {
       case MobPaperFailed(:final failure):
         // A paper that could not start may have changed the week (closed, already sat): read it again.
-        if (failure == MobFailure.weekClosed || failure == MobFailure.alreadySat || failure == MobFailure.freePaperUsed || failure == MobFailure.extraClosed || failure == MobFailure.extraNotFound) {
+        if (failure == MobFailure.weekClosed || failure == MobFailure.alreadySat || failure == MobFailure.freePaperUsed || failure == MobFailure.extraClosed || failure == MobFailure.extraAlreadySat || failure == MobFailure.extraNotFound) {
           await ref.read(mobRepositoryProvider.notifier).refresh(force: true);
         }
         return failure;

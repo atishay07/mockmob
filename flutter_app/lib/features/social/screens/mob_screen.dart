@@ -592,7 +592,8 @@ class _MobBodyState extends ConsumerState<MobBody> {
           KeyButton.secondary(
             label: MobCopy.nudgeKey,
             loading: _nudging,
-            disabledReason: canNudge ? null : (reason ?? MobCopy.nudgeSentReason),
+            // The reason is the line under the key (drawn once, below): the key speaks only when nothing else does.
+            disabledReason: canNudge || reason != null || _nudgeNote != null ? null : MobCopy.nudgeSentReason,
             onPressed: canNudge && !_nudging ? _nudge : null,
           ),
         ],

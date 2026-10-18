@@ -54,6 +54,11 @@ class MobExtrasSection extends ConsumerWidget {
               ],
             ),
           ),
+        if (!mob.plan.canMakeExtra && extras.isNotEmpty)
+          const Padding(
+            padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, 0),
+            child: MobNote(MobCopy.extrasOpenToAll),
+          ),
         if (mob.plan.canMakeExtra)
           Padding(
             padding: const EdgeInsets.only(top: MmSpace.s8),

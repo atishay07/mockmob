@@ -180,7 +180,7 @@ void main() {
     final errors = (jsonDecode(File('test/fixtures/mob/errors_v1.json').readAsStringSync()) as Map<String, dynamic>);
 
     test('every code has an app failure and the same sentence as the server', () {
-      expect(errors.keys, hasLength(47));
+      expect(errors.keys, hasLength(48));
       for (final entry in errors.entries) {
         final body = (entry.value as Map<String, dynamic>)['body'] as Map<String, dynamic>;
         final message = (body['error'] as Map<String, dynamic>)['message'] as String;

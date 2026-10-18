@@ -154,7 +154,10 @@ abstract final class MobCopy {
   static const String right = 'Right';
   static const String wrong = 'Wrong';
   static String changed(int n) => n == 1 ? 'Changed once' : 'Changed $n times';
-  static String howPicked(List<MobPickCount> picks) => 'How your Mob picked: ${picks.map((p) => '${p.option ?? 'No answer'} ${p.count}').join(', ')}.';
+  /// The counts are over the sitters you can read: with a member who keeps their answers private
+  /// ([partial]) the sentence says so, because that member is in neither the counts nor the split.
+  static String howPicked(List<MobPickCount> picks, {bool partial = false}) =>
+      '${partial ? 'How you and the members who share picked' : 'How your Mob picked'}: ${picks.map((p) => '${p.option ?? 'No answer'} ${p.count}').join(', ')}.';
 
   static String seconds(int s) {
     if (s < 60) return '${s}s';
@@ -164,6 +167,8 @@ abstract final class MobCopy {
   // Extra papers (Pro makes them, any member sits them).
   static const String extrasTitle = 'Extra papers';
   static const String extrasEmpty = 'No extra papers this week. Make one on a chapter you want to drill, and your Mob can sit it too.';
+  /// Free student, extras waiting: the website's line, so the one free Mob paper and the open extras never read as a contradiction.
+  static const String extrasOpenToAll = 'Extra papers are open to every member of the Mob, on any plan. Pro members make them.';
   static const String makeExtra = 'Make an extra paper';
   static const String makeExtraSheetTitle = 'Make an extra paper';
   static String chapterOf(String subject) => 'Chapter of $subject';
@@ -257,6 +262,9 @@ abstract final class MobCopy {
   // One quiet line near the end of the page, never a block of bullets (the website's wording). Free
   // starts 1 Mob and joins any by invite; Pro starts up to 3.
   static const String proLine = 'Pro adds the full side-by-side every week, past weeks, extra papers on a chapter you choose, and up to 3 Mobs you start.';
+  /// Pro at its cap of Mobs it started: the server's own sentence (MOB_LIMIT_PRO), shown where the
+  /// start key would be, so a missing key is never a mystery. Joining stays open.
+  static const String proCapLine = 'You already started 3 Mobs, the most Pro allows. You can still join any Mob a friend invites you to.';
   static const String startAnother = 'Start another Mob';
   static const String startOwn = 'Start your own Mob';
   static const String startAnotherTitle = 'Start another Mob';
@@ -361,6 +369,7 @@ abstract final class MobCopy {
         MobFailure.freePaperUsed => 'You already sat a Mob paper this week. Pro lets you sit one in every Mob.',
         MobFailure.extraLimit => 'Your Mob already has 3 extra papers this week. It can make more next week.',
         MobFailure.extraClosed => 'This extra paper has closed.',
+        MobFailure.extraAlreadySat => 'You already sat this extra paper. Your answers are under See your answers.',
         MobFailure.chapterInvalid => 'Choose a chapter of this subject.',
         MobFailure.lengthInvalid => 'Choose 5, 10, 15 or 20 questions.',
         MobFailure.notOwner => 'Only the member who started the Mob can remove someone.',

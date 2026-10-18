@@ -159,6 +159,7 @@ enum MobFailure {
   freePaperUsed('FREE_PAPER_USED'),
   extraLimit('EXTRA_LIMIT'),
   extraClosed('EXTRA_CLOSED'),
+  extraAlreadySat('EXTRA_ALREADY_SAT'),
   chapterInvalid('CHAPTER_INVALID'),
   lengthInvalid('LENGTH_INVALID'),
   notOwner('NOT_OWNER'),
@@ -301,8 +302,14 @@ class MobActions {
     }
   }
 
-  MobWrite create({required String subject, required String name, required int colour}) =>
-      _run(() => _api.post('/api/mob', body: {'subject': subject, 'name': name.trim(), 'colour': colour}, options: const ApiOptions(retries: 0)), acceptsShape: true);
+  MobWrite create({required String subject, required String name, required int colour}) async {
+    final failure = await _run(() => _api.post('/api/mob', body: {'subject': subject, 'name': name.trim(), 'colour': colour}, options: const ApiOptions(retries: 0)), acceptsShape: true);
+    // The plan's cap answered: what this page drew (a start key) was out of date. Read it again so the key goes.
+    if (failure == MobFailure.mobLimit || failure == MobFailure.mobLimitPro || failure == MobFailure.mobCeiling) {
+      await _repo.refresh(force: true);
+    }
+    return failure;
+  }
 
   MobWrite join({required String code, required String name, required int colour}) =>
       _run(() => _api.post('/api/mob/join', body: {'code': code, 'name': name.trim(), 'colour': colour}, options: const ApiOptions(retries: 0)), acceptsShape: true);
