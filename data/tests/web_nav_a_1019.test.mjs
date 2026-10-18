@@ -231,7 +231,7 @@ test('the sidebar compaction follows the new rail: 38 px rows only where 44 woul
   assert.doesNotMatch(arena, /max-height: 869px|max-height: 915px/);
 });
 
-test('the You sheet is 24 px shorter, so it needs no scroll on a phone 687 px tall', () => {
+test('the You sheet is 24 px shorter (531 px at 390 wide), so it needs no scroll from a phone 692 px tall', () => {
   assert.match(places, /html \.app-shell \.arena-sheet > \.arena-sheet__lead, html \.app-shell \.arena-sheet > \.arena-appearance \{ margin-bottom: 0; \}/);
 });
 
