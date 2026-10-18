@@ -94,8 +94,10 @@ test('the SEO page no longer claims community-driven questions (0 student questi
 test('Learn has its own row at the top of the phone sheet and its own guide stop (D20)', () => {
   const layout = read('src/app/(app)/AppLayoutClient.jsx');
   assert.match(layout, /\{showStudy && \(\s*<Link href=\{previewLinks\?\.learn \|\| '\/learn'\} className="arena-sheet__lead"/);
-  assert.match(layout, /title: 'Learn', target: \['nav-learn', 'nav-more'\], study: true/);
-  assert.match(layout, /\(!step\.study \|\| studyOn\)/, 'the stop shows only while Learn exists');
+  const tour = read('src/lib/appTour.mjs');
+  assert.match(tour, /title: 'Learn', target: \['nav-learn', 'nav-more'\], study: true/);
+  assert.match(tour, /\(!step\.study \|\| study\)/, 'the stop shows only while Learn exists');
+  assert.match(layout, /tourSteps\(\{ mob: mobOn, study: studyOn \}\)/, 'the shell runs the tour from appTour.mjs');
 });
 
 test('no dead promise is left behind while the flag is off', () => {
