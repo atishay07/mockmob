@@ -13,11 +13,13 @@
 4. `docs/design-decisions/pass-1018/TODAY-SWIPE-1018.md`: the approved D51 and D52 design.
 5. The saved agent reports in `mockmob-next/tmp/resume-1018-1530/*-results.json`: one file per workflow, with every agent's full return.
 
-> **INTERIM UPDATE, 18 Oct about 4:15 pm IST (session 604ced81, resumed on a fresh account, usage low):**
-> - **Release 8 is LIVE.** The owner said "Ship it" at about 3:55 pm (D63). Migration `free_ai_wallet_50` was applied on production at about 3:57 pm (pre and post md5 checked, a rolled-back dry spend, undo ready). main = 00328e54, then STATUS at eb5185ef. Vercel dpl_3THyGFBktbdxcAuwhfN2sLNsHmrT READY, 0 runtime errors, /pricing says 50 on Free.
-> - **App workflow wf_b5edd365-0fc (task weqztyiva) is running:** the v15 fixer in wt-v15 (from 77d51ba8), the v15.1 full suites in wt-v15-1, then the v15 walk (tmp/app-walk-1018e), the v15 release, the v15.1 merge, the v15.1 walk (tmp/app-walk-1018d) and the v15.1 release. If it dies, read the journal in the workflow transcript folder and relaunch from the worktrees' git state.
-> - **Web audit wf_4a84a08c-1af (task wsdk4iil5) is running:** read-only, 5 surfaces, against release 8 on 3208; screenshots in tmp/ledger-audit-1018. Use its verdicts to reconcile the ledger.
-> - Reaped 6 orphan flutter_tester processes; cleared about 17 GB of build caches (C: 113 GB free).
+> **INTERIM UPDATE, 18 Oct about 4:30 pm IST (session 604ced81; the owner is away until about 5:10-6:10 pm and said: decide everything yourself, D69):**
+> - **New goal (owner 4 pm, D64-D68):** skip W-099/W-046; practice credits = number of questions; the Mob fully built, ON and tested; ship the final app (all his v15 fixes) + the Mob + the website with all his feedback, in 1-2 hours. CEO decisions C1-C5 are in the ledger.
+> - **Release 8 is LIVE** (main 00328e54, STATUS eb5185ef; free_ai_wallet_50 applied on production 3:47 pm with checks; Vercel dpl_3THyGFBktbdxcAuwhfN2sLNsHmrT READY, 0 errors).
+> - **App: workflow wf_42449aec-c78 (task wjdnzvnv7):** v15 fixer in wt-v15 (from STOP POINT 17ccad0f), per-question cost display in wt-v15-perq (ui/v15-perq from 628f3612), v15.1 suites in wt-v15-1; then one integration in wt-v15-1 (1.0.15+6), the emulator walk (tmp/app-walk-1018f), fix rounds, the release APK (tmp/apk/mockmob-v15-final-<sha>.apk). The old workflow wf_b5edd365-0fc was stopped on purpose.
+> - **Web R9 packets: workflow wf_e5192b3e-188 (task wmpzrnzri):** per-question credits + migration 20261018170000_practice_credit_per_question (wt-r9-perq, web/r9-perq-1018) and the Mob merged from web/mob-fix-1017 with a real staging gate (wt-r9-mob, web/r9-mob-1018), then Opus verifiers. Both return a productionPlan for the main session.
+> - **Web audit: workflow wf_4a84a08c-1af (task wsdk4iil5):** read-only, against release 8 on 3208; screenshots tmp/ledger-audit-1018. Its non-DONE S/M items become the R9 fix packet.
+> - **Then:** R9 integration (perq + mob + audit fixes) from 00328e54 -> suites -> verifier -> production migrations (mob, mob_fix, per-question) -> MOB_ENABLED=true on Vercel -> push -> live check; staging rig 3101 on R9 code + MOB_ENABLED for a short app walk of the Mob and real per-question prices; then the ONE message.
 
 ## 1. The goal (owner, D39 at 9:15 am, then D59 and D62)
 The Play Store is parked.
