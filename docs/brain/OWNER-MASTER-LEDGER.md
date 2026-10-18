@@ -405,6 +405,11 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 - **Mid-build:** one credits balance core (5c553d3a + STOP POINT), web wallet (6237ada2), web Pro nudges (b281ea9a), app billing + wallet (STOP POINT 5ae50007), app Pro nudges (STOP POINT a00ddfe1).
 - None of D65, D66, D76, D78-D81 is DONE until live (web) or on a walked APK in his hands (app). Next steps: NOW.md section 4.
 
+### Owner at about 7:20 pm, 18 Oct (D86; new account, session 25ef3d95)
+| D | Item | Status |
+|---|---|---|
+| D86 | Tonight by 10:30 pm, in order: R9 (verify, MOB_ENABLED, push, STATUS); final app 1.0.15+6 (walk, APK, Mob + per-question walk on 3103, install, send); tracks C-H with tests and independent checks; release 10 + production migrations play_purchases and one_credits_balance; v15.2 walked, APK, installed; then ONE message | BUILDING 7:25 pm |
+
 ## Waiting on the owner (updated 18 Oct about 3:45 am)
 - Answered 3:50 am: M-001 first launch 3 s; M-006 bolder copy; D19 keep badges, refine; D22 Mob.
 - D32: confirm the kept landing element when he reviews the port live (wt-land3, port 3206).
