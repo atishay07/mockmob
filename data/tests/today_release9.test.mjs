@@ -179,26 +179,26 @@ test('F18: the overline says the day only when the card shows the day\'s step', 
 
 test('F18: one line under the rail names today\'s step and the next, so the seven marks read as a path', () => {
   const p3 = firstWeekPath(ctx(3));
-  assert.equal(railCaption(p3, true), 'Tomorrow: A second subject.');
+  assert.equal(railCaption(p3, true), 'Tomorrow: a second subject joins in.', 'release 10: what the next step brings');
   assert.equal(railCaption(p3, false), 'Day 3 of 7: Weak chapters next.', 'a check leads; the step waits behind it, named');
   const p7 = firstWeekPath(ctx(7, { mocks: 1, facts: { sessions: 4, mocks: 1, subject: 'accountancy' }, sessions: 4, papers: [paper({ id: 'm1', mode: 'full' }), paper({ id: 'e1', subject: 'economics' })], repaired: new Map([['m1', 2], ['e1', 1]]), repairs: 3, road: { onAccount: true, examDate: null, mockTarget: null } }));
   assert.equal(p7.today, 'plan');
   assert.equal(railCaption(p7, true), 'The last step of your first week.');
   // One subject only: day 4's step does not apply, so the day says what is next.
   const p4 = firstWeekPath(ctx(4, { subjects: ['accountancy'], sessions: 2 }));
-  assert.equal(railCaption(p4, false), 'Day 4 of 7. Tomorrow: First full mock.');
+  assert.equal(railCaption(p4, false), 'Day 4 of 7. Tomorrow: your first full mock.');
   // Today's step done: it says so, and what comes next.
   const done3 = firstWeekPath(ctx(3, { sessions: 2 }));
-  assert.equal(railCaption(done3, false), 'Day 3 of 7: Weak chapters, done. Tomorrow: A second subject.');
+  assert.equal(railCaption(done3, false), 'Day 3 of 7: Weak chapters, done. Tomorrow: a second subject joins in.');
   assert.equal(railCaption(null), '');
   for (const p of [p3, p7, p4, done3]) for (const leads of [true, false]) {
     const line = railCaption(p, leads);
     assert.doesNotMatch(line, /!|→|streak|missed|behind/i, line);
-    assert.ok(line.length <= 60, `one short line: ${line}`);
+    assert.ok(line.length <= 80, `two short lines at most: ${line}`);
   }
   const move = read('src/components/today/TodayMove.jsx');
   assert.match(move, /const caption = path\?\.day \? railCaption\(path, week\) : ''/);
-  assert.match(move, /\{caption \? <p className="tm__path">\{caption\}<\/p> : null\}/);
+  assert.match(move, /\{caption \|\| mark \? <p className="tm__path" key=\{mark \|\| 'caption'\}>\{mark \? markLine\(path, path\.steps\.find\(\(s\) => s\.day === mark\)\) : caption\}<\/p> : null\}/, 'release 10: a tapped mark says its own line in its place');
   assert.match(move, /className="tm__step" data-state=\{s\.state\} data-day=\{s\.day\}/, 'each mark carries its day');
   const sheet = css('src/components/today/today.css');
   assert.match(sheet, /\.tm__step\[data-day\]::before \{ content: attr\(data-day\);/, 'the day number is drawn under its mark');

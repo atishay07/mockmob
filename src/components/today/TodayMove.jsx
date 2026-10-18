@@ -16,7 +16,7 @@ import { SubjectObject } from '@/components/brand/SubjectObject';
 import MobiReact from '@/components/brand/MobiReact';
 import { useCountUpState } from '@/lib/motion/useCountUp';
 import { keepTogether } from '@/lib/today/move.mjs';
-import { pathLeads, railCaption, railLine } from '@/lib/today/firstWeek.mjs';
+import { markLine, pathLeads, railCaption, railLine } from '@/lib/today/firstWeek.mjs';
 import TodaySheet from './TodaySheet';
 import { AuthContext } from '@/components/AuthProvider';
 import { useWalletSummary } from '@/components/useWalletSummary';
@@ -95,6 +95,7 @@ export default function TodayMove({ phase, lead, choices = [], picked = false, o
   const [sheet, setSheet] = useState(false);
   const [lenOpen, setLenOpen] = useState(false);
   const [hint, setHint] = useState(false);
+  const [mark, setMark] = useState(null); // the rail's tapped mark (its day), or null for the caption
   const hasChoices = phase === 'ready' && choices.length > 0;
   useEffect(() => {
     if (!hasChoices) return undefined;
@@ -165,14 +166,17 @@ export default function TodayMove({ phase, lead, choices = [], picked = false, o
             <p className="tm__over">{picked ? <>Up next, <b>your pick</b></> : over}{subject && !week ? `, ${subject}` : ''}</p>
             {path?.day ? (
               <>
+                {/* Release 10 (N1, #7): from 1024 px each mark is named (Start, Revise, Aim...); on a phone each mark is a tap target
+                    (28 x 44) that says its own line in place of the caption. The words reach a screen reader once, in the line above. */}
                 <ol className="tm__rail">
                   {path.steps.map((s, i) => (
-                    <li key={s.id} className="tm__step" data-state={s.state} data-day={s.day} style={{ '--i': i }}>
+                    <li key={s.id} className="tm__step" data-state={s.state} data-day={s.day} data-short={s.short} data-early={s.early || undefined} data-picked={mark === s.day || undefined} style={{ '--i': i }}>
                       {s.state === 'done' ? <svg viewBox="0 0 24 24" focusable="false"><path d="M6.5 12.5l3.6 3.6 7.4-8.2" pathLength="1" /></svg> : null}
+                      <button type="button" className="tm__step-hit" tabIndex={-1} onClick={() => setMark((d) => (d === s.day ? null : s.day))} />
                     </li>
                   ))}
                 </ol>
-                {caption ? <p className="tm__path">{caption}</p> : null}
+                {caption || mark ? <p className="tm__path" key={mark || 'caption'}>{mark ? markLine(path, path.steps.find((s) => s.day === mark)) : caption}</p> : null}
               </>
             ) : null}
             <p className="tm__title">{m.title}</p>

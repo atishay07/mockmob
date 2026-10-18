@@ -122,7 +122,9 @@ test('nothing looks like a form, Night stays subtle, one volt, motion with a rea
   // No checkbox, radio or switch semantics on the rail.
   const move = read('src/components/today/TodayMove.jsx');
   const railMarkup = move.match(/<ol className="tm__rail">[\s\S]*?<\/ol>/)[0];
-  assert.doesNotMatch(railMarkup, /checkbox|radio|switch|<input|<button|onClick|tabIndex/);
+  assert.doesNotMatch(railMarkup, /checkbox|radio|switch|<input|role=/);
+  // Release 10 (N1): each mark is a plain tap target that says its own line; out of the Tab order, since the words reach a screen reader once.
+  assert.match(railMarkup, /<button type="button" className="tm__step-hit" tabIndex=\{-1\}/);
 });
 
 test('the preview: ?firstweek=1 to 7 serves a student on that day, and the result opens the first full mock with ?attempt=', () => {

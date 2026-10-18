@@ -78,3 +78,45 @@ test('D15: the Road row key is the lead card key and length', () => {
   assert.match(road, /\{i\.id === 'revise' \? 'Start Revise' : i\.key\?\.label \|\| 'Start'\}/);
   assert.doesNotMatch(road, /'Revise now'/);
 });
+
+// ---- The first-week rail (N1, #7, #4): names on wide screens, a tap says each mark's line, an early tick is explained ----------
+
+import { firstWeekPath, markLine, railCaption, STEP_PROMISE } from '../../src/lib/today/firstWeek.mjs';
+
+const NOW10 = Date.parse('2026-10-18T14:00:00Z');
+const DAY10 = 86400000;
+const pathOn = (day, o = {}) => firstWeekPath({
+  now: NOW10, firstAt: day === 1 ? null : new Date(NOW10 - (day - 1) * DAY10).toISOString(), sessions: day === 1 ? 0 : 1,
+  papers: day === 1 ? [] : [{ id: 'p1', subject: 'accountancy', mode: 'quick', correct: 5, wrong: 4, unattempted: 1, total: 10, completedAt: NOW10 - DAY10 }],
+  repaired: day === 1 ? new Map() : new Map([['p1', 1]]), repairs: day === 1 ? 0 : 1, mocks: 0,
+  revise: null, road: { onAccount: true, examDate: null, mockTarget: null }, weekdays: null,
+  subjects: ['accountancy', 'economics'], facts: { sessions: 1, mocks: 0, subject: 'accountancy' }, firstSubject: 'accountancy', premium: false, length: 10, ...o,
+});
+
+test('first week: the caption says what the next step brings, and a step done before its day is explained', () => {
+  const p1 = pathOn(1);
+  assert.equal(railCaption(p1, true), 'Tomorrow: your first mistakes come back.');
+  const early = pathOn(1, { road: { onAccount: true, examDate: '2027-05-08', mockTarget: null } });
+  const plan = early.steps.find((s) => s.id === 'plan');
+  assert.equal(plan.done, true);
+  assert.equal(plan.early, true, 'done before its day');
+  assert.equal(railCaption(early, true), 'Tomorrow: your first mistakes come back. Day 7 is done already: your plan is set.');
+  for (const id of ['revise', 'aim', 'spread', 'mock', 'lab', 'plan']) assert.match(STEP_PROMISE[id], /^[a-z].*\.$/, id);
+  const move = read('src/components/today/TodayMove.jsx');
+  assert.match(move, /data-early=\{s\.early \|\| undefined\}/);
+  assert.match(css('src/components/today/today.css'), /\.tm__step\[data-early\] \{ background: var\(--a-ink-3\); \}/);
+});
+
+test('first week: a tapped mark says its own line; from 1024 px the marks carry names, not digits', () => {
+  const p = pathOn(3);
+  const spread = p.steps.find((s) => s.id === 'spread');
+  assert.equal(markLine(p, spread, NOW10), 'Day 4: a second subject joins in. Comes up tomorrow.');
+  const mock = p.steps.find((s) => s.id === 'mock');
+  assert.match(markLine(p, mock, NOW10), /^Day 5: your first full mock\. Comes up (Mon|Tue|Wed|Thu|Fri|Sat|Sun)\.$/);
+  const start = p.steps.find((s) => s.id === 'start');
+  assert.equal(markLine(p, start, NOW10), 'Day 1: ten questions find your starting point. Done.');
+  assert.deepEqual(p.steps.map((s) => s.short), ['Start', 'Revise', 'Aim', 'Subject', 'Mock', 'Lab', 'Plan']);
+  const sheet = css('src/components/today/today.css');
+  assert.match(sheet, /@media \(min-width: 1024px\) \{\s*\.app-shell \.tm__rail \{ width: min\(100%, 392px\); \}\s*\.app-shell \.tm__step\[data-day\]::before \{ content: attr\(data-short\);/);
+  assert.match(sheet, /\.tm__step-hit \{[^}]*width: 28px; height: 44px;/);
+});

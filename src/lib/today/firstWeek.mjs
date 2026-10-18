@@ -39,14 +39,36 @@ export const KEEPS_THE_LEAD = Object.freeze(['resume', 'check', 'done', 'failed'
 
 /** The steps in order, each due on its own day. `name` is what a screen reader hears. */
 export const FIRST_WEEK_STEPS = Object.freeze([
-  { id: 'start', day: 1, name: 'Find and fix' },
-  { id: 'revise', day: 2, name: 'Revise' },
-  { id: 'aim', day: 3, name: 'Weak chapters' },
-  { id: 'spread', day: 4, name: 'A second subject' },
-  { id: 'mock', day: 5, name: 'First full mock' },
-  { id: 'lab', day: 6, name: 'Repair from your mock' },
-  { id: 'plan', day: 7, name: 'Plan your weeks' },
+  { id: 'start', day: 1, name: 'Find and fix', short: 'Start' },
+  { id: 'revise', day: 2, name: 'Revise', short: 'Revise' },
+  { id: 'aim', day: 3, name: 'Weak chapters', short: 'Aim' },
+  { id: 'spread', day: 4, name: 'A second subject', short: 'Subject' },
+  { id: 'mock', day: 5, name: 'First full mock', short: 'Mock' },
+  { id: 'lab', day: 6, name: 'Repair from your mock', short: 'Lab' },
+  { id: 'plan', day: 7, name: 'Plan your weeks', short: 'Plan' },
 ]);
+
+/** What each step brings, as the line under the rail says it (release 10, D84: bold, specific, true). */
+export const STEP_PROMISE = Object.freeze({
+  start: 'ten questions find your starting point.',
+  revise: 'your first mistakes come back.',
+  aim: 'practice aimed at your weakest chapter.',
+  spread: 'a second subject joins in.',
+  mock: 'your first full mock.',
+  lab: 'repair what your mock found.',
+  plan: 'plan every week to CUET.',
+});
+
+/** A step done before its day, said once (release 10: a tick on day 7 on day 1 is explained, not a puzzle). */
+const DONE_EARLY = Object.freeze({
+  start: 'your starting point is set.',
+  revise: 'Revise is under way.',
+  aim: 'a second set is in.',
+  spread: 'a second subject is in.',
+  mock: 'your first full mock is in.',
+  lab: 'your mock is repaired.',
+  plan: 'your plan is set.',
+});
 
 /** The id of the step due on a day of the first week (1 to 7), or null. */
 export const stepOfDay = (day) => FIRST_WEEK_STEPS.find((s) => s.day === day)?.id ?? null;
@@ -248,7 +270,7 @@ export function firstWeekPath(c = {}) {
   const lead = today && today.done === false && today.ready === true && LEAD[today.step.id] ? mark(LEAD[today.step.id](c), today.step, day) : null;
   return {
     day,
-    steps: rows.map((r) => ({ id: r.step.id, day: r.step.day, name: r.step.name, state: markState(r, day), done: r.done === true, ready: r.ready === true })),
+    steps: rows.map((r) => ({ id: r.step.id, day: r.step.day, name: r.step.name, short: r.step.short, state: markState(r, day), done: r.done === true, ready: r.ready === true, early: r.done === true && r.step.day > day })),
     done: live.filter((r) => r.done === true).length,
     total: live.length,
     today: today?.step.id || null,
@@ -286,20 +308,42 @@ export function pathLeads(path, move, { picked = false } = {}) {
 
 /**
  * The one line under the rail that makes it read as a path (F18): it always names today's step, and what comes next.
- *   leads   the card shows today's step: "Tomorrow: A second subject." (the overline already says the day and the title the step)
+ *   leads   the card shows today's step: "Tomorrow: your first mistakes come back." (the overline already says the day and the
+ *           title the step; release 10 says what the next step brings, not only its name)
  *   else    "Day 3 of 7: Weak chapters next." when the step is ready behind another move (a check, a pick); ", done." when it is
  *           done; the step's name alone when it cannot run yet; the day alone when it does not apply
- * The last day says so instead of a tomorrow. '' with no path.
+ * The last day says so instead of a tomorrow. A step already done before its day is said once at the end ("Day 7 is done already:
+ * your plan is set."), so a tick ahead of today is never a puzzle. '' with no path.
  */
 export function railCaption(path, leads = false) {
   if (!path?.day) return '';
   const steps = Array.isArray(path.steps) ? path.steps : [];
   const today = steps.find((s) => s.day === path.day) || null;
   const ahead = steps.find((s) => s.day > path.day && s.state !== 'na' && !s.done) || null;
-  const next = ahead ? (ahead.day === path.day + 1 ? `Tomorrow: ${ahead.name}.` : `Day ${ahead.day}: ${ahead.name}.`) : path.day >= FIRST_WEEK_DAYS ? 'The last step of your first week.' : '';
-  if (leads) return next || 'The last step of your first week.';
+  const promise = (s) => STEP_PROMISE[s.id] || `${s.name}.`;
+  const next = ahead ? (ahead.day === path.day + 1 ? `Tomorrow: ${promise(ahead)}` : `Day ${ahead.day}: ${promise(ahead)}`) : path.day >= FIRST_WEEK_DAYS ? 'The last step of your first week.' : '';
+  const early = steps.filter((s) => s.day > path.day && s.done);
+  const tail = early.length === 1 ? ` Day ${early[0].day} is done already: ${DONE_EARLY[early[0].id] || 'nice work.'}` : early.length > 1 ? ` Days ${early.slice(0, -1).map((s) => s.day).join(', ')} and ${early[early.length - 1].day} are done already.` : '';
+  if (leads) return `${next || 'The last step of your first week.'}${tail}`;
   const of = `Day ${path.day} of ${FIRST_WEEK_DAYS}`;
-  if (!today || today.state === 'na') return `${of}.${next ? ` ${next}` : ''}`;
-  if (today.done) return `${of}: ${today.name}, done.${next ? ` ${next}` : ''}`;
-  return today.ready ? `${of}: ${today.name} next.` : `${of}: ${today.name}.${next ? ` ${next}` : ''}`;
+  if (!today || today.state === 'na') return `${of}.${next ? ` ${next}` : ''}${tail}`;
+  if (today.done) return `${of}: ${today.name}, done.${next ? ` ${next}` : ''}${tail}`;
+  return today.ready ? `${of}: ${today.name} next.${tail}` : `${of}: ${today.name}.${next ? ` ${next}` : ''}${tail}`;
+}
+
+const SHORT_DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+/**
+ * The line a tapped mark of the rail says (release 10, N1: a mark carries its own information): its day, what the step brings and
+ * where it stands. "Day 4: a second subject joins in. Comes up Wed." `now` dates the steps ahead (the path's day is today).
+ */
+export function markLine(path, step, now = Date.now()) {
+  if (!path?.day || !step) return '';
+  const what = `Day ${step.day}: ${STEP_PROMISE[step.id] || `${step.name}.`}`;
+  if (step.state === 'na') return `Day ${step.day}: ${step.name}. Not needed with one subject.`;
+  if (step.done) return `${what} Done${step.day > path.day ? ' already' : ''}.`;
+  if (step.state === 'today') return `${what} That is today.`;
+  if (step.state === 'open') return `${what} Still open, any day.`;
+  const on = new Date(now + 19800000 + (step.day - path.day) * 86400000);
+  return `${what} Comes up ${step.day === path.day + 1 ? 'tomorrow' : SHORT_DAYS[on.getUTCDay()]}.`;
 }

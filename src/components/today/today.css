@@ -95,7 +95,19 @@
 .app-shell .tm__rail:has(.tm__step[data-day]) { margin-bottom: 20px; }
 .app-shell .tm__step[data-day]::before { content: attr(data-day); position: absolute; top: 19px; left: 50%; transform: translateX(-50%); font: 500 10.5px/1 var(--font-body); color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
 .app-shell .tm__step[data-state='today']::before { color: var(--a-ink); font-weight: 700; }
-.app-shell .tm__path { margin: 0 0 8px; font-size: 13px; line-height: 1.4; color: var(--a-ink-2); text-wrap: balance; }
+.app-shell .tm__path { margin: 0 0 8px; font-size: 13px; line-height: 1.4; color: var(--a-ink-2); text-wrap: balance; animation: today-rise-4 200ms var(--t-out) both; }
+/* Release 10: a step done before its day is drawn quieter (ink-3), so a tick ahead of today reads as "already", never as a skip. */
+.app-shell .tm__step[data-early] { background: var(--a-ink-3); }
+/* Each mark is a 28 x 44 tap target (the rail's spacing allows 28 across; WCAG 2.2 asks 24). The tapped mark's day is in ink. */
+.app-shell .tm__step-hit { position: absolute; left: 50%; top: 50%; width: 28px; height: 44px; margin: 0; padding: 0; border: 0; background: transparent; transform: translate(-50%, -36%); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.app-shell .tm__step[data-picked]::before { color: var(--a-ink); font-weight: 700; }
+.app-shell .tm__step[data-picked]:not([data-state='today']) { box-shadow: inset 0 0 0 1.5px var(--a-ink-2); }
+.app-shell .tm__step[data-picked][data-state='done'] { box-shadow: none; }
+/* From 1024 px the marks are named, not numbered: the rail widens to carry seven short words. */
+@media (min-width: 1024px) {
+  .app-shell .tm__rail { width: min(100%, 392px); }
+  .app-shell .tm__step[data-day]::before { content: attr(data-short); white-space: nowrap; }
+}
 .app-shell .tm__title { margin: 2px 0 0; font: 600 23px/1.2 var(--font-display); letter-spacing: -0.015em; color: var(--a-ink); text-wrap: balance; overflow-wrap: anywhere; }
 .app-shell .tm__art { position: absolute; top: -10px; right: -8px; display: grid; place-items: center; width: 112px; height: 112px; pointer-events: none; }
 .app-shell .tm__art img, .app-shell .tm__art picture, .app-shell .tm__art > * { max-width: 100%; max-height: 100%; }
