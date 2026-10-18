@@ -1,249 +1,199 @@
 # NOW: MockMob current state (overwrite at every handoff; git keeps the history)
 
-**Last written:** 18 Oct 2026, about 7:15 pm IST, by session 604ced81 (main, Claude Opus 5.5, CEO/CTO). The owner said "Usage is now at 95%. We can start stopping things", then asked for this handoff.
-- **Every agent and workflow is stopped.** Partial work is committed as STOP POINTs: wt-play-app 5ae50007, wt-credits-core 72d8550e, wt-pro-nudge-app a00ddfe1. Every other worktree is clean.
-- **Reaped:** Flutter tests, Gradle, adb, the emulator, headless Chrome, agent dev servers.
+**Last written:** 18 Oct 2026, about 10:35 pm IST, by session 25ef3d95 (main, Claude Opus 5.5, CEO/CTO). The owner asked to stop at 96% usage and hand off.
+- **Stopped:** every workflow.
+- **Committed:** every worktree. The partial work is in two STOP POINTs: wt-v15-2 fae1d928 and wt-v15-taste c2e950ba.
+- **Reaped:** agent leftovers.
 - **Left running on purpose:**
-  - Staging site 3101 (old rig code, wt-rig-site).
-  - Relay 3102.
-  - Staging site 3103 = release 9 part A + the Mob with MOB_ENABLED=true. Worktree wt-rig-r9, local merge d0d6d0fe; launcher `tmp/rig-1016e/stagingLocalApp.r9-3103.mjs`; listener PID 14616. Kill and relaunch it after R9 changes.
+  - staging site 3101 (old rig code), relay 3102;
+  - staging site 3103 (release 9 part A + the Mob, MOB_ENABLED=true; wt-rig-r9; launcher `tmp/rig-1016e/stagingLocalApp.r9-3103.mjs`).
 
 **Read next, in this order:**
 1. This file, completely.
-2. `OWNER-MASTER-LEDGER.md`: the bottom sections, from "Owner at about 3:55 pm" (D63) to "D84-D85", plus the CEO decisions C1-C5 and the release 8 audit reconciliation.
-3. `OWNER-FEEDBACK-2026-10-18-DAWN.md`: his own words; the sections after 3:45 pm are tonight's D63-D85.
-4. `docs/brain/PLAY-BILLING-PLAN-1018.md` (in branch web/play-billing-1018) and `docs/brain/WALLET-RAZORPAY.md` (in branch web/wallet-1018).
-5. `tmp/ledger-audit-1018/results.json`: the release 8 audit, item by item.
+2. The bottom of `OWNER-MASTER-LEDGER.md` (D86-D97 and the 10:25 pm status).
+3. `OWNER-FEEDBACK-2026-10-18-DAWN.md`, the sections after 7:20 pm: his own words tonight.
+4. `mockmob-next/tmp/resume-1018-2230/`, which holds every agent report from tonight:
+   - `FINAL-WALK-ISSUES.json`: the final app walk, 15 HIGH, 11 MEDIUM and 6 LOW, with screenshot names from `tmp/app-walk-1018g`;
+   - `app-v15-2-final-results.json`: the merge report, the walk and the partial fix pass;
+   - `taste-and-swipe-results.json`: the taste profile, the swipe v2 design, the 7 taste critics with about 170 items, the improvers and the swipe critics;
+   - `tracks-c-h-results.json`: credits core, wallet, nudges, Play app, app nudges, with their checks and fixes;
+   - `web-r9-final-results.json`: the release 9 verifier rounds.
+5. `docs/brain/OWNER-TASTE-PROFILE.md` (section 0 governs) and `docs/design-decisions/pass-1018/SWIPE-V2-1018.md`.
 
-## 1. The goal and the vision (his words, newest first)
-**Tonight (D74, 6:25 pm):** "I want everything that you said to be done by 10:30", and run more in parallel. "Everything" means:
-- **Website release 9:** the Mob ON (D66), per-question practice credits (D65), and his audited feedback fixed.
-- **Final app:** his v15 phone fixes, the richer Today and swipe stack (v15.1), per-question prices and the Mob. Walked on the emulator, then a release APK installed on his phone.
-- **Google Play billing (D71-D73, D75):** Pro at Rs 150 on Play vs Rs 99 on the web; credit packs on Play.
-- **ONE credits balance** for everything (D78), with a wallet on web and app (D76).
-- **Pro nudges everywhere,** an Upgrade sheet on any Pro feature, and a first-session pop-up after the first real action with personalised benefits (D79-D81), in persuasive marketing English (D84).
-- **Then ONE message** with the links, the APKs and where to look, ending with "Things needed from you right now" or "Nothing needed from your side" (M-018).
+## 1. The goal (his newest words win)
+- **D96 (8:45 pm), the ONE goal:** the FINAL APP. Everything from these days goes into one build, then:
+  1. merge everything;
+  2. ONE final walk (done);
+  3. ONE fix pass (partial: finish it);
+  4. the release APK;
+  5. install on his phone and send it.
 
-**Vision:**
-- MockMob for CUET UG 2027: unlimited mocks from one central bank (the USP), Score Recovery (find, repair, check the mistake), and Ask Mobi.
-- Premium, refined, never generic: refine, don't rebuild; Night subtle; mock-ups before new layouts.
-- Monetisation:
-  - Pro Rs 99 on the web, Rs 150 on Google Play.
-  - One credits balance: 50 free a month for everyone, plus packs.
-  - Strong but truthful marketing copy.
-- **Next phases after tonight:**
-  - The Play Store launch: his Play Console steps and a 12-tester, 14-day closed test.
-  - The Mob growing into a social circle (D22).
-  - Learn and Review depth.
-  - Higgsfield videos (storyboards in docs/brain, M-009).
-  - The remaining audit items (section 6).
+  He verifies the rest by hand. "Skip the unnecessary checks." No second walk.
+- **D95:** he connects his phone ONCE, for this final app (v15.2), and only when it is ready. 1.0.15+6 is skipped.
+- **D97:** swipe v2 stays in the final build.
+- **After the app:** release 10 (web), which is the one credits balance, the wallet, web Pro nudges, the Play billing server and the web taste fixes. Then ONE message with the links, the APK, where to look, and what he must do. End it with "Things needed from you right now" or "Nothing needed from your side".
+- **Vision (unchanged):**
+  - CUET UG 2027, with unlimited mocks from one central bank (the USP), Score Recovery and Ask Mobi.
+  - Premium and refined: refine, never rebuild; Night subtle.
+  - Pro is Rs 99 on the web and Rs 150 on Play. One credits balance: 50 free a month, plus packs at Rs 10/29/49 (Play Rs 15/45/75).
+  - Persuasive but truthful copy.
 
 ## 2. Live now (production)
-**www.mockmob.in = main 00328e54 (release 8), then STATUS commit eb5185ef.**
-- Vercel dpl_3THyGFBktbdxcAuwhfN2sLNsHmrT READY, 0 runtime errors.
-- Release 8 carries: the D38 landing hero, D53 (the quiet AI line), D54 (Free AI wallet 50 a month), W-064 (the first-week path and repair receipt), W-032 (Try it again before the key), and the R8 fixes.
+**www.mockmob.in = main 9b3661e8:** release 9 (2e45a92c), plus its STATUS commit.
+- Vercel dpl_B8RemZJBcEvuc9CER6var7dFqr6Q is READY, with 0 runtime errors.
+- Smoke test passed: /, /pricing ("1 credit a question"), /today, /review, /mob and /join all return 200; /api/mob returns 401 when signed out.
+- **Release 9 =**
+  - D65 per-question practice credits (5/10/15/20 questions cost 5/10/15/20 credits; a full mock 50);
+  - the audit fixes (Today, Review/Result, nav, public);
+  - the Mob ON (D66): Vercel env **MOB_ENABLED=true (Production)**, set at about 10:15 pm;
+  - the Mob join fix (email-code accounts now pick a name first).
+- **Production migrations applied today** (each with pre-checks, post-checks, a rolled-back dry run and an undo in supabase/undo):
+  - free_ai_wallet_50;
+  - practice_credit_per_question;
+  - mob;
+  - mob_fix_1017.
 
-**Production database: applied today, all under his standing grant.** Pre-checks, post-checks and rolled-back dry runs were done; the undo files are in the repo.
-1. **free_ai_wallet_50**, about 3:47 pm.
-   - The two AI wallet functions now hash as the migration file; the student_user_free cap is 0.0284.
-   - Undo: supabase/undo/20261018130000_free_ai_wallet_50.undo.sql.
-2. **practice_credit_per_question**, about 6:22 pm.
-   - Pre-check: spend_credits md5 7decd1ff..., length 1535. Post-check: md5 911105fd..., length 1666; EXECUTE only postgres and service_role.
-   - Dry spend (rolled back): 5+15+20+10+50 = exactly 100; a replay charged nothing; 0 rows left.
-   - Old actions keep their prices (attempt 10, attempt_full 50), so release 8's code is unaffected.
-   - Undo: supabase/undo/20261018170000_practice_credit_per_question.undo.sql (roll back the code first).
-3. **20261017100000_mob + 20261017190000_mob_fix_1017**, about 6:29 pm.
-   - 26 functions with md5s equal to staging; 15 mob tables, all RLS on; server roles only.
-   - The Mob is INVISIBLE until MOB_ENABLED=true on Vercel and the R9 code is deployed.
-   - Undo in reverse order: the fix undo first, then the base undo.
+  STATUS 9b3661e8 holds the evidence.
+- **NOT on production:**
+  - migrations 20261018190000_play_purchases and 20261018210000_one_credits_balance;
+  - Vercel env PLAY_BILLING_ENABLED, WALLET_COMMERCE_OPEN and PERSISTENT_LIMITS_ENABLED (the last is his decision).
+- **His phone:** V2413, serial 10BF370PA6002XR. It has v15 79aaca6d (1.0.15+3), debug-signed, so `install -r` works. **Only the main session touches it, and only when he connects it for the final app.**
 
-**NOT on production yet:** 20261018190000_play_purchases (Play billing) and 20261018210000_one_credits_balance (the one balance). Neither is on staging yet either.
+## 3. THE FINAL APP: exactly where it stopped (TOP PRIORITY)
+**Worktree `C:\Users\atish\Desktop\mockmob copy\wt-v15-2`, branch ui/v15.2-1018, head fae1d928.** fae1d928 is a STOP POINT: 6 files of the fix pass's unchecked edits, on top of 3dbece85.
 
-**Vercel env NOT set yet:**
-- MOB_ENABLED.
-- PLAY_BILLING_ENABLED and the Play vars.
-- WALLET_COMMERCE_OPEN.
-- PERSISTENT_LIMITS_ENABLED: deliberately deferred. It moves login rate limits to the database too, so it needs its own decision.
+**Merged into it, in order:**
+1. ui/v15.1-1018: v15 phone fixes D40-D62, the richer Today D52, the D51 stack v1, per-question price display, walk-1 fixes, and the clipping fixes fc2f0891.
+2. ui/play-billing-1018 (0e840013): Play billing plus the one-balance Wallet screen, behind the PLAY_BILLING dart-define, which is OFF.
+3. ui/pro-nudge-1018 (69938fad): the Pro nudges, the Upgrade sheet and the first-session pop-up. Shown only with PLAY_BILLING on.
+4. ui/v15-taste: the taste fixes, merged up to 0506c021/a59963e7 and more.
+5. ui/v15-swipe2 (34d8824b): **swipe v2 as approved** (D94). It covers Up next and Not now, the buttons under the deck, the first-time demo, undo, honest learning, and two Opus critic rounds.
 
-## 3. Owner decisions tonight (details in the ledger)
-- **D63** Ship release 8: done.
-- **D64** Skip W-099 and W-046.
-- **D65** Practice credits = number of questions (5/10/15/20); a full mock 50.
-- **D66** The Mob fully built, ON, tested.
-- **D67-D68** Ship all of it.
-- **D69** Decide autonomously while he is away (C1-C5 recorded).
-- **D71-D73** Play billing plan. D72/D75: Pro **Rs 150 on Play (final)**, Rs 99 on the web; the app never shows the web price (anti-steering).
-- **D76/D78** ONE credits balance and wallet. Spend order: this month's free 50 first, then bought (ai bonus), then held (users.credit_balance). 1 credit = 1 question or 1 Ask Mobi reply; a full mock is 50.
-- **D82** Packs APPROVED:
-  - credits_10_50 (Rs 10), credits_29_150 (Rs 29), credits_49_300 (Rs 49, featured).
-  - Play prices Rs 15 / 45 / 75; Pro on Play Rs 150.
-- **D83** Margin answer: gpt-6-luna about Rs 0.03 a reply typical and Rs 0.04 worst seen. Margins 74-84% on the packs. Keep credit-paid replies on luna with a hard reply-length cap. A deeper Haiku reply = 3 credits if ever offered. The per-user AI cap must not block bought credits: fixed in credits-core 5c553d3a, which raises the cap by held credits.
-- **D79-D81, D84** Pro nudges, the Upgrade sheet, the first-session pop-up (after the first real action, never on or right after onboarding, once ever, personalised and true). Persuasive marketing English.
-- **D85** He switches accounts himself near 95%.
-- **Open with him:**
-  - The PERSISTENT_LIMITS_ENABLED switch.
-  - The Play Console steps (his).
-  - The Razorpay wiring for the wallet (his, "today only").
-  - Plugging in the phone for the APK.
+**Version:** the build number was bumped by the integrator; versionName is 1.0.15. Unit suite: full suite green at merge time (see the merge report).
 
-## 4. Every track: where it stopped and what is next
-### A. Website release 9: the merge is done, the final checks are not
-- **wt-rel9 (deploy/web-1018-r9) = 74295941 = part A + verifier fixes.**
-  - Part A = per-question credits (perq), the four audit-fix packets, and the leftovers.
-  - Verify round 1 was NO-GO (2 MEDIUM); both were fixed in 74295941. Verify round 2 was STOPPED before finishing: re-run it.
-- **wt-rel9b (deploy/web-1018-r9b) = 31c4dd21 = 74295941 + the Mob** (web/r9-mob-1018 186bbb1b, gated 10/10 on staging).
-  - data/evidence_registry.js was RESTORED (the Mob branch carried a rig-only process.cwd() hack: the verifier's HIGH), with a test against it.
-  - Three Mob LOWs fixed: the runner says Mob paper, give-back only on RPC failure, an empty mob id gives 400.
-  - Its suites and visual check were NOT confirmed (stopped).
-- **NEXT:**
-  1. In wt-rel9b: lint, test:mob/app/today/recovery/learning/billing/auth/dock/subjects, and `next build --webpack`.
-  2. ONE independent Opus verifier over the whole R9 (money, truth, the Mob on and off, the audit items at 390/1440 Night/Day). Fix and re-verify.
-  3. Set Vercel env MOB_ENABLED=true (Production).
-  4. Push to main as a fast-forward from 00328e54: `git -C wt-rel9b push origin HEAD:refs/heads/main` after `git merge-base --is-ancestor origin/main HEAD`.
-  5. Vercel READY and runtime errors.
-  6. Smoke test: /, /pricing, /today, /review, /mob 200 signed-out redirect, /api/stats.
-  7. STATUS: R9 + the 3 migrations above (copy the evidence from section 2).
-- **Release 9 contents:** per-question practice prices; Today (one-piece landing, honest greeting, cue above the dock, path rail, one week count, a better "Why this?"); Review/Result (never "lost X of Y" with X > Y, chapter-scoped counts, one stem, one Repair, ledger reveal, reel order); nav (Guide, Marks trend, Show me around, Ask Mobi above the theme control, one lime key, 44 px, badges); public (AI credits truth, onboarding truth plus bolder copy, "Your standing", one price framing, aurora removed, tabs, footer Help for guests, auth copy); the Mob.
+**Not merged yet:** ui/v15-taste commits after f70d087c (dec4e083, onboarding plan card, and STOP POINT c2e950ba). Merge them first.
 
-### B. The final app (1.0.15+6): one more walk, then the APK
-**wt-v15-1 (ui/v15.1-1018) = 01dd7770.** It holds the v15 walk fixes, per-question price display, the richer Today (D52), the swipe stack (D51), and the walk round 1 fixes:
-- af7616bc: HIGH, "How many questions?" from a Suggested-stack lead.
-- 47a1b501: the failure title at 360.
-- d6ef23fc: the could-not-refresh line on one line.
-- 01dd7770: Ask Mobi's cold first answer, where slow is not offline.
+**The final walk** (Opus, about 9:35-10:15 pm, on the emulator, 185+ screenshots in `mockmob-next/tmp/app-walk-1018g`) said NO-GO: 15 HIGH, 11 MEDIUM, 6 LOW. The full text is in `tmp/resume-1018-2230/FINAL-WALK-ISSUES.json`. Most HIGHs are numbers that disagree across screens, plus a few layout and truth items.
 
-Before them: analyze clean, 6007 unit tests, 1675 goldens. Walk round 1 PASSED: the HIGH 316/310 marks fix, offline line, onboarding helper, Today/Mobi/weeks/marks/bars, and the swipe rules.
+**Fixed by the fix pass before the stop** (its commits):
+- 1f3ecd9c: the Up next bar no longer hides Start, and an Undo tap never lands on Start (HIGH 1).
+- af24f29d: Revise lead minutes agree (HIGH 2).
+- 9e69bf83: Revise counts name the round (HIGH 3).
+- 728061c3: the Free plan line no longer makes the "nothing to run out of" promise.
+- 3dbece85: Account sheet Sign out is quiet and no longer hides Notifications.
+- fae1d928: partial work on more items (unchecked).
 
-**NEXT:**
-1. Re-run the walk (round 2 was stopped) on the round 1 findings plus a regression pass. Screenshots go in tmp/app-walk-1018f/round2; the brief is in the workflow script app-final-1018 under the session's workflows folder.
-2. Build the release APK: `--release --target-platform android-arm64 --obfuscate --split-debug-info=build/symbols --dart-define-from-file=dart_defines/prod.json`. Save it as tmp/apk/mockmob-v15-final-<sha>.apk plus a zip.
-3. Do a short walk of the Mob and real per-question prices against the 3103 staging site (R9 + Mob): `adb -e reverse tcp:3101 tcp:3103`, then restore `tcp:3101 tcp:3101`.
-4. Install on his phone with `adb -s 10BF370PA6002XR install -r` (only the main session) and send the file.
+**Still to fix:** the rest of the 15 HIGH and 11 MEDIUM. Check each against the commits above:
+- This week readout as a raw log;
+- the Road "16 of 17 due";
+- Share Capital figures disagreeing (Today/Review/Ask Mobi);
+- repair counts 139/19/2;
+- full-mock counts 5/13/8;
+- AI credits "Not loaded";
+- and the others in the JSON.
 
-### C. ONE credits balance core (web, Opus): built, not yet verified
-**wt-credits-core (web/credits-core-1018) = 5c553d3a + STOP POINT 72d8550e.**
-- 5c553d3a holds:
-  - public.mm_wallet_take, with the spend order free, then ai bonus, then users.credit_balance, used by spend_credits and by the AI reserve and consume functions;
-  - refunds per part;
-  - held credits raising the per-user AI cap;
-  - src/services/credits/creditPacks.mjs, the one pack catalog;
-  - PGlite tests;
-  - migration supabase/migrations/20261018210000_one_credits_balance.sql and its undo, with production md5s.
-- 72d8550e: the partial JS reads (AppLayoutClient, api/ai/credits, auth/me, me/credits, practice/quote, AccountCredits, creditCopy, credits.js). Unchecked.
-- NOT applied on staging (checked: mm_wallet_take absent).
+**NEXT, in order (about 1-1.5 h):**
+1. Review STOP POINT fae1d928: keep the right parts, finish them.
+2. Merge the newer ui/v15-taste commits.
+3. ONE fix pass: every remaining HIGH and MEDIUM, and quick LOWs. Use Opus for taste and numbers.
+4. Run flutter analyze clean, plus the unit tests of what changed. No golden suite, no second walk (D96).
+5. Build the release APK: `MOCKMOB_FLUTTER_SLOTS=4 bash tool/flutter_locked.sh build apk --release --target-platform android-arm64 --obfuscate --split-debug-info=build/symbols --dart-define-from-file=dart_defines/prod.json`, then `./gradlew --stop`. Copy it to `mockmob-next/tmp/apk/mockmob-v15.2-<sha>.apk` with a zip.
+6. Tell him it is ready. When he connects, run `adb -s 10BF370PA6002XR install -r <apk>`, then send him the file.
 
-**NEXT:**
-1. Finish the JS reads to getUnifiedWallet (src/services/credits/unifiedWallet.js).
-2. Run the suites.
-3. Dry-run on staging in a rolled-back DO block, then apply on staging.
-4. An independent Opus verifier: money correctness for about 900 students; the per-user cap; every spend path; the undo md5.
+**Server reality:**
+- Production does not have /api/wallet yet. The wallet screens must fall back quietly to the current credits display; the integrator was told to do this, so verify it in code.
+- With PLAY_BILLING off, there are no purchases, no web price, no nudges and no pop-up.
+- The Mob and per-question prices work against live release 9.
 
-### D. Credits wallet, web: nearly done
-**wt-wallet-web (web/wallet-1018) = 6237ada2.**
-- /wallet page with one balance, the packs credits_10_50 / 29_150 / 49_300, a quiet Pro row and history.
-- GET /api/wallet for web and app; POST /api/wallet/order and /api/wallet/verify behind WALLET_COMMERCE_OPEN (closed = "Top-ups open soon").
-- docs/brain/WALLET-RAZORPAY.md tells the owner what to wire.
-- It was at "build passes; STATUS and the final test run". Its creditPacks.mjs and unifiedWallet.js are stubs: on merge, TAKE credits-core's versions.
+## 4. Release 10 (web), after the app
+| Track | Worktree, branch, head | State |
+|---|---|---|
+| C, the one credits balance core (money, Opus) | wt-credits-core, web/credits-core-1018, 6c23b11c | The checker's first round found issues; the fixer was stopped mid-work (STOP POINTs). Read tracks-c-h-results.json (C-core-build, C-core-check-1) for the staging state and the open items. Migration 20261018210000_one_credits_balance plus its undo. |
+| D, web wallet | wt-wallet-web, web/wallet-1018, d491ba22 | Built, 2 check rounds plus fixes. On merge, take credits-core's creditPacks.mjs and unifiedWallet.js. The /api/wallet shape is documented in WALLET-RAZORPAY.md. |
+| E, web Pro nudges (Opus copy) | wt-pro-nudge, web/pro-nudge-1018, 5216dee0 | 2 check rounds plus fixes. The 3 headline and 3 button options are in docs/brain/PRO-NUDGE-COPY-1018.md (in that branch). |
+| F, Play billing server | wt-play-server, web/play-billing-1018, 9b6cd30b | DONE (45 tests). Migration 20261018190000_play_purchases plus its undo. |
+| Web taste fixes | wt-r10-taste, web/r10-taste, 18f791be | About 20 commits on Today (cue, swap coach, rows, chevrons, copy). Built from the release 9 head of about 9 pm; merge onto main 9b3661e8. The re-check results are in the taste results file. |
 
-**NEXT:** final tests and STATUS.
+**Release 10 plan:**
+1. New worktree from main 9b3661e8. Merge C, D, E, F and r10-taste, then run the suites.
+2. One Opus verifier covering money, truth and the taste items.
+3. Production: the play_purchases migration (with the flag off) and one_credits_balance, each with a pre-check, post-check and undo.
+4. Push, then STATUS.
+5. Flags: WALLET_COMMERCE_OPEN only after his Razorpay wiring; PLAY_BILLING_ENABLED only after his Play Console setup.
 
-### E. Pro nudges, web (Opus): wired, visual check unfinished
-**wt-pro-nudge (web/pro-nudge-1018) = b281ea9a.**
-- Rules and copy (D79-D81, D84); the Upgrade sheet; inline nudges in Practice, the Start sheet, result, Review, Credits and the credits chip; the onboarding first-session mark; preview fixtures; tests in test:app.
-- It was viewing its screenshots (tmp/pro-nudge-web).
+## 5. The taste experiment (D89-D93): honest interim result
+**The measurement:** the blind A/B evaluation was NOT run (stopped for usage). Run it later, or report this interim result.
 
-**NEXT:** finish the visual check at 390/1440 Night/Day, and get 3 headline options plus 3 button options for the owner.
+**For it:**
+- The 7 critics found about 170 items, including real bugs the function walks had missed:
+  - Learn blank for 20 s;
+  - numbers disagreeing across screens;
+  - "AI credits Not loaded";
+  - a false "nothing to run out of" line;
+  - the static header Mobi;
+  - two returned landing regressions (L-009 dock label, L-033 clock times);
+  - the Ask Mobi canned repeat.
+- The final walk independently confirmed several of them as HIGH.
+- Swipe v2's design came straight from the D90 ask and passed two critic rounds.
 
-### F. Play billing, server: DONE
-**wt-play-server (web/play-billing-1018) = 9b6cd30b**, 45 tests.
-- POST /api/billing/play/verify and /api/billing/play/rtdn behind PLAY_BILLING_ENABLED (404 when off).
-- Service-account JWT on node:crypto (no new dependency).
-- Migration 20261018190000_play_purchases with an undo.
-- Product map: pro_cuet_2027 (acknowledge), credits_10_50 / 29_150 / 49_300 (consume, into ai bonus), legacy ai_credits_prepos_* accepted.
-- Plan and owner steps: docs/brain/PLAY-BILLING-PLAN-1018.md.
-- **On merge:** point its product map at creditPacks.mjs.
+**Against it:**
+- It added about 1.5 h and many parallel branches.
+- Merge complexity grew (the final merge took about 45 min).
+- Improvers fixed only part of the list before the walk, so the walk re-found them.
 
-### G. Play billing, app: tests not finished
-**wt-play-app (ui/play-billing-1018) = 64842472 + STOP POINT 5ae50007** (a plugin test).
-- The PLAY_BILLING dart-define flag (default off); the in_app_purchase plugin; a billing controller where the server confirms before completing.
-- A Get Pro sheet (it takes a reason and benefit lines).
-- A one-balance Wallet screen on /you/credits.
+**Interim call:** keep a LIGHTER version. Put the taste lens inside the one walk and the one fix pass, plus a critic only on genuinely new features (as with swipe v2). Do not keep a separate critic-improver loop on every surface. Tell him this, with the evidence above.
 
-**NEXT:** the full unit suite and goldens; adapt to the /api/wallet shape (D).
-
-### H. Pro nudges, app: tests unfinished
-**wt-pro-nudge-app (ui/pro-nudge-1018) = 49e64aca + STOP POINT a00ddfe1** (partial tests).
-- Copy, rules, store and controller; benefit lines; the Upgrade sheet wired into every Pro gate; inline rows; the first-session host.
-- Shown only with PLAY_BILLING on (the store rule).
-
-**NEXT:** tests and goldens.
-
-### I. The releases after that
-- **Release 10 (web)** = R9 + C + D + E + F.
-  - Integrate in a new worktree from the pushed R9 head and run the suites.
-  - One Opus verifier.
-  - Production in this order: play_purchases (flag off) and one_credits_balance, each with pre-checks, post-checks and an undo; then push; then the flags (WALLET_COMMERCE_OPEN only after his Razorpay wiring; PLAY_BILLING_ENABLED only after his Play Console setup).
-- **v15.2 (app)** = B's walked head + G + H.
-  - Merge, run the suites, walk, build the APK, install it.
-  - With PLAY_BILLING off, the app shows the one-balance wallet with "Top-ups open soon" and no nudges.
-
-## 5. What the owner must do (tell him in the final message)
-1. Plug in his phone (USB debugging) for the APK install.
-2. Wire Razorpay for the wallet (docs/brain/WALLET-RAZORPAY.md in web/wallet-1018), then say so, and we set WALLET_COMMERCE_OPEN=true.
-3. Play Console (docs/brain/PLAY-BILLING-PLAN-1018.md):
+## 6. What the owner must do (put this in the final message)
+1. Connect his phone (USB debugging) when the final app is ready: one install.
+2. Wire Razorpay for the wallet (WALLET-RAZORPAY.md in web/wallet-1018); then we set WALLET_COMMERCE_OPEN=true.
+3. Play Console setup (PLAY-BILLING-PLAN-1018.md):
    - payments profile;
-   - the 15% service fee tier;
-   - products pro_cuet_2027 at Rs 150 and credits_10_50 / 29_150 / 49_300 at Rs 15 / 45 / 75;
-   - the service account with View financial data and Manage orders;
-   - the Pub/Sub RTDN topic and push subscription;
+   - the 15% tier;
+   - products: pro_cuet_2027 at Rs 150, and credits_10_50 / 29_150 / 49_300 at Rs 15 / 45 / 75;
+   - a service account with financial and orders access;
+   - RTDN through Pub/Sub;
    - licence testers;
    - an internal-testing upload.
 4. Decide PERSISTENT_LIMITS_ENABLED. Recommendation: on, after a login-limit check on staging.
+5. W-044 (the Today cue barely seen while scrolling): a design decision. The web taste branch already re-shapes the cue.
 
-## 6. Still open after release 9 (from the audit; ledger section "Audit reconciliation")
-- D25 and W-085 (the app halves).
-- W-033 (a signed-in repair walk).
-- W-042 timing on a real account.
-- D31 (his landing verdict).
-- W-072/W-073/W-077 (premium sweeps).
-- D9 and W-053 (Progress order).
-- M-007 (Compass sources).
-- D20 (Learn one tap on phones).
-- D22 (the Mob as a social circle).
-- N4 (fine-tune).
-- Mob LOWs: the timer re-issued on reopen; an invite spent after a leave; the leave copy; no deep link to a second Mob; the practice-result Mob line not built.
+## 7. Still open (beyond the app and release 10)
+- **Audit list:** D25/W-085 (the app halves), W-033, W-042 timing, D31, W-072/W-073/W-077, D9/W-053, M-007, D20, D22, N4.
+- **Mob LOWs:**
+  - the deep link to a second Mob is ignored;
+  - "same question right" does not name the question;
+  - the timer is re-issued on reopen;
+  - an invite is spent after a leave.
 
-## 7. Commands and facts
-**Flutter:**
-- Always `MOCKMOB_FLUTTER_SLOTS=4 bash tool/flutter_locked.sh <args>` from flutter_app; unit tests with -j 3; `./gradlew --stop` after builds.
-- dart_defines live in mockmob-next/flutter_app/dart_defines (git-ignored; copy them in).
-- Walks use a PROFILE build with phone-relay.json; never build --debug.
+## 8. Commands and facts
+- **Flutter:**
+  - Always `MOCKMOB_FLUTTER_SLOTS=4 bash tool/flutter_locked.sh <args>` from flutter_app; unit tests with -j 3; `./gradlew --stop` after builds.
+  - dart_defines live in mockmob-next/flutter_app/dart_defines (git-ignored; copy them in).
+  - Walks use a PROFILE build with phone-relay.json.
+  - Release builds are debug-signed (there is no key.properties), so they match his phone.
+- **Emulator:**
+  - AVD mockmob_budget, `-memory 3072 -no-snapshot-save`, `adb -e` only.
+  - The rig is documented in tmp/rig-1016e/RIG-READY.md (staging OTP for app-e2e-student@example.com).
+  - For the Mob on staging: `adb -e reverse tcp:3101 tcp:3103`, then restore `tcp:3101 tcp:3101`.
+  - Staging /api/attempts times out (5-12 s) tonight, so walks are slow.
+- **Web:**
+  - node_modules is a junction to mockmob-hotfix/node_modules.
+  - .env.local (from wt-batch2) points at PRODUCTION, so use preview fixtures only.
+  - `NODE_OPTIONS=--max-old-space-size=4096 npx next dev --webpack -p <port>`.
+  - Next refuses a second dev server in the same folder: use a detached worktree per server.
+- **IDs:**
+  - Vercel: project prj_uSolddribHQDl1mM5AKxg3O9qCIu, team team_V5PhMz9hqV42vblUMcvhYqoN.
+  - Supabase: production isrxrxzjocewrdureyhp, staging onwkqxmjqjrhfbjjdydu.
+- **The main session:** pushes, applies production migrations, sets Vercel env and installs on the phone.
+- **Tools:** headless playwright-core only; never the chrome-devtools MCP or a visible browser. Only gpt-6-luna and Claude Haiku 5.5 at runtime.
+- **Capacity:**
+  - 16 threads and 32 GB. The CPU sat at 77-95% with about 16 agents; RAM went down to 6 GB free.
+  - The disk has about 110 GB free (keep 100 or more).
+  - Usage burned about 94% in 3 h with 12-16 agents (many on Opus).
 
-**Emulator:** AVD mockmob_budget, `-memory 3072 -no-snapshot-save`, `adb -e` only. The rig is in tmp/rig-1016e/RIG-READY.md (staging OTP sign-in, app-e2e-student@example.com).
-
-**His phone:** V2413, serial 10BF370PA6002XR. It has v15 79aaca6d (1.0.15+3), debug-signed, so `install -r` works. Only the main session touches it.
-
-**Web:**
-- node_modules is a junction to mockmob-hotfix/node_modules (create it with PowerShell New-Item -ItemType Junction). Never npm install.
-- .env.local comes from wt-batch2 and points at PRODUCTION: dev servers use preview fixtures only.
-- Staging work uses .env.staging via the rig launchers.
-- Dev server: `NODE_OPTIONS=--max-old-space-size=4096 npx next dev --webpack -p <port>`.
-
-**IDs:**
-- Vercel project prj_uSolddribHQDl1mM5AKxg3O9qCIu, team team_V5PhMz9hqV42vblUMcvhYqoN.
-- Supabase production isrxrxzjocewrdureyhp, staging onwkqxmjqjrhfbjjdydu.
-
-**Process:**
-- Headless playwright-core only (C:/Users/atish/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core). Never the chrome-devtools MCP or a visible browser.
-- Only gpt-6-luna and Claude Haiku 5.5 run at runtime.
-- The main session pushes, applies production migrations (or an agent under an exact brief with md5 checks), sets Vercel env, and installs on the phone.
-
-**Capacity:** 16 threads and 32 GB; 9 GB of RAM was free with 11 agents. The real limits are the C: disk at 100% and the CPU. Usage burns about 30% an hour with 9-11 agents.
-
-## 8. Rules that bit today
-- A sed with an escaped backtick prefixed every line of NOW.md; use Python for text edits with backticks.
-- PowerShell treats "$var:" as a drive: use ${var}.
-- "Stalled" alerts and the owner's view of agents: always check the transcript mtimes before calling an agent stalled. All of them were active at 6:38 pm.
-- Unchecked STOP POINT commits can carry rig-only hacks into release branches (evidence_registry.js). Diff every release against main for rig files.
-- Production migrations of 50 KB+ go to an agent with exact pre/post checks (function md5 equal to staging), not hand-copied.
-- Stopping a workflow kills its agents. Commit first, then relaunch from the git state; resume briefs must name the STOP POINT.
+## 9. Rules that bit tonight
+- **The release 9 verifier ran 3 rounds (about 2.9 h).** Each round found new MEDIUMs. Cap at 2 rounds, and let the main session decide design calls (W-044) instead of looping.
+- **The stall watcher (scratchpad stallwatch.mjs) needs the "Structured output provided successfully" tool_result counted as finished,** otherwise it raises false alarms.
+- **Stopping a workflow kills every agent in it.** Separate fast and slow work into separate workflows so one can be stopped alone.
+- **A wait step must check a unique marker, not a file name pattern.**
+- **Merging many parallel branches costs real time.** Fewer, larger branches for the final build.

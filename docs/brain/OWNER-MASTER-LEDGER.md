@@ -446,6 +446,15 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 - **Final app** (ui/v15.2-1018 in wt-v15-2, with swipe v2): the one final walk said NO-GO, with 15 HIGH, 11 MEDIUM and 6 LOW (mostly numbers that disagree across screens; the Up next bar covering Start). The one fix pass is running, then the APK and the install (D96).
 - **Tracks C/D/E (web wallet, credits core, web nudges):** paused at STOP POINTs for release 10 (D96).
 
+### Status at about 10:35 pm, 18 Oct (session 25ef3d95 handoff, stopped at 96% usage)
+- **DONE, live:** release 9 (2e45a92c, STATUS 9b3661e8); D65 (web and server); D66 the Mob ON (web, server); the release 8 audit PARTIAL items (except W-044).
+- **Final app (ui/v15.2-1018, wt-v15-2 fae1d928):** everything is merged (v15 fixes, D52, swipe v2 D94, per-question prices, Play billing and nudges behind the flag, taste fixes).
+  - The one final walk said NO-GO: 15 HIGH, 11 MEDIUM, 6 LOW (tmp/resume-1018-2230/FINAL-WALK-ISSUES.json).
+  - The fix pass is partial: 5 fixed and committed, plus a STOP POINT.
+  - Next: finish the fix pass, build the APK, then the install he connects for (D95-D96).
+- **Release 10 tracks (C/D/E/F and web taste):** paused at their heads (NOW.md section 4).
+- **Taste experiment (D93):** an interim positive result (the critics found real bugs that the walk confirmed). The blind evaluation was not run. Interim call: a lighter version (NOW.md section 5).
+
 ## Waiting on the owner (updated 18 Oct about 3:45 am)
 - Answered 3:50 am: M-001 first launch 3 s; M-006 bolder copy; D19 keep badges, refine; D22 Mob.
 - D32: confirm the kept landing element when he reviews the port live (wt-land3, port 3206).

@@ -1,0 +1,213 @@
+{
+ "verdict": "NO-GO",
+ "highs": [
+  "Up next bar covers the lead card's Start key for about 5 s, and a tap aimed at Undo lands on Start when the bar fades. In the walk, my Undo tap opened Revise. The bar also says 'Nothing starts until you tap Start' while hiding Start. (44-upnext-btn, 45-undo-bar, 40-after-right)",
+  "Lead card lengths still disagree: the pill says 'about 9 min' and the key says 'Start Revise 10 min'. The taste critic's HIGH is NOT fixed. (36-today-loaded)",
+  "Revise numbers disagree on three screens: the Today lead and Repairs tile say '9 of 82 due today', the deck card says '82 mistakes you repaired come back today', and the Revise page says '113 questions in rotation'. (36, 43, 46-revise)",
+  "This week readout still prints every paper of the day as a raw log (9 rows), with 'Up next' last. Critic HIGH NOT fixed. (49-vscroll)",
+  "Road to CUET still reads 'Due this week 16 of 17 done' (every mock counted as due). Critic HIGH NOT fixed. (52-scroll-4)",
+  "Share Capital figures disagree. Today: 245 marks open, 49 of 52 missed. Review: 374 of 415 lost, 83 questions. Ask Mobi: 'Accountancy: 12 right, 19 wrong, 52 blank of 83 ... worth 355 marks', labelled with the subject instead of the chapter. Critic HIGH NOT fixed. (52-montage, 59-review, 65-ask-ans)",
+  "Repair counts still disagree: Today and Practice say 139 open, the Review list header says '19 mistakes to repair' (no chapter named), and the Review badge says 2. Critic HIGH NOT fixed. (52-montage2, 56-practice, 59-review)",
+  "Full mock counts disagree: You says '5 full mocks landed', Road says '13 of 27 full mocks', Your marks says '8 Accountancy mocks'. (66-you, 52-scroll-4, 52-scroll-6)",
+  "Account sheet still has Sign out pinned as the loudest key, and it hides the Notifications row. Critic HIGH NOT fixed. (67-account)",
+  "Free plan line still promises 'so there is no fixed set to run out of' right under a credit count that runs out, on both Credits and Account. Critic HIGH NOT fixed. (68-credits, 70-plan)",
+  "Pro upsell copy shows with PLAY_BILLING off. The Mob screen says 'Free includes one a week, and Pro lets you sit one in every Mob' and 'Pro adds the full side-by-side every week, past weeks, extra papers ... up to 3 Mobs'. This is against 'no Pro nudge anywhere'. (92-mob-created)",
+  "Mob start screen is still the stacked bullet-list form with no seat ring. Critic HIGH NOT fixed. (90-mobstart)",
+  "Per-question spending on 3103 does not show as a balance drop. The server ledger recorded exactly -5 and -20 'Practice set' rows, but practice credits read 390 before and after, in the app and in /api/me/credits. AI credits fell instead (3103: 45 to 25; 3101: 10 to 0), and the app's Account sheet still showed AI 45. The student never sees 5 or 20 leave. This looks like a release 9 server or accounting bug; a concurrent writer is not ruled out. (78-86, 88-acct-3103)",
+  "Start sheet ('Pick tonight's work') leads with 'Start Revise, 10 min. Tonight's move.' while Today's lead is the student's own pick (Practise weakest chapter, 20 min). Its subject chips show English, Accountancy and Biology, but the account's subjects are Accountancy and Economics, which the Practice tab shows. (72-start-offline)",
+  "Today could not load for this account for about 6 minutes (5 retries, 'MockMob's server is busy'). GET /api/attempts returns about 29 MB for 25 attempts, and staging hit 'canceling statement due to statement timeout' (57014). The cause is on the server or in the payload, but Today depends on it, and any heavy user would hit it on a slow network or DB. (33-today, 34-today, 35-today)"
+ ],
+ "mediums": [
+  "The 'How many questions?' sheet lists 5/10/15/20 and 'Full mock: 50 questions, 60 min' with no credit cost on any row. The price appears only in the card line after a pick. On 3103 that line is correct (5 credits, 20 credits). (47-length, 79/86)",
+  "Onboarding answers are dropped for an account that already has subjects, and only subjects are explained. Today then shows a 4-day goal (onboarding picked 6) and Hindu College (onboarding picked SRCC and LSR). The This week sheet shows '3 of 4 study days' next to 'You have not planned your days yet'. The primary key on a Sunday night is 'Pause this week'. (26-after-code, 31-today, 66-you)",
+  "Subjects step: tapping Shaky re-sorts the list (weakest first), so the row jumps away from the finger and can leave the screen. (11-rated, 12-rated-up)",
+  "Save step: tapping 'Use an email code' before answering age gave no visible reaction (no Mobi line, no highlight in the capture). (22-noage)",
+  "The 3D object on the deck card overlaps the card title ('weakest'). Every card and the lead reuse the same calculator object. (37-deck-zoom, 43-notnow)",
+  "Mob: the prefilled name 'app-e2e-student' fails the screen's own validator ('Use 2 to 18 letters'), so Start a Mob fails until the student edits it. (91b-name-invalid)",
+  "The Mob invite card on Today opens with 'You have saved 12 sessions.', which reads as a non sequitur. (52-scroll-3)",
+  "NTA mode tile is labelled Pro and leads to a dead end ('The exam-day screen. Comes with Pro.' with only 'Back to Practice'), because there is no way to get Pro while the flag is off. (72, 73-nta, 74-nta-bottom)",
+  "Credits page: the history filter chips wrap onto two rows at 360 dp. A history row says '50 AI credits left' next to a balance of 10. (68-credits)",
+  "The Today header said 'Updated 9:53 PM' after a new paper was recorded at 10:11 PM and shown on Today. (85-today-after5)",
+  "Pull-to-refresh once dropped the loaded Today back to the 'Loading Today' skeleton instead of keeping the content. (32-today-top)"
+ ],
+ "lows": [
+  "Double full stops in semantics labels: 'keeps your run..', 'from Quick 10..', '2 more saved..', 'starts Monday..'.",
+  "Not now says 'It waits at the back', but after three passes the deck says 'None left / That's all three for today'.",
+  "The coach line crossfade overlaps two lines mid-drag. (53-drag-left)",
+  "The Start sheet hero wraps as 'Start Revise, 10 / min'.",
+  "Ask Mobi in the Today header needed 3 taps once, right after a pull-to-refresh.",
+  "Your marks says 'your best of these 6' on a tie (Mock 4 and Mock 8 both scored 5)."
+ ],
+ "items": [
+  {
+   "id": "onboarding-steps",
+   "pass": true,
+   "note": "Checked: course picks with live weeks, Not sure yet (Skip hides once picked), courses and college picks, subject set, the rating rows, Back keeps state, Mobi adapts on the marks step ('A trap, not a gap.', 'We train the clock.'), the warm-up question with measured seconds, the study-days slider synced with the day bubbles (4 to 6), hold to seal. 01-21"
+  },
+  {
+   "id": "onboarding-set-rating",
+   "pass": false,
+   "note": "After a set tap the rows scroll into view (partly fixed), but no 'be harsh' Mobi line was seen, and a rating re-sorts the row away from the finger. 09-12"
+  },
+  {
+   "id": "save-step-keys",
+   "pass": true,
+   "note": "Google and email keys now look enabled (critic HIGH fixed); no visible reaction when age is unanswered. 21-22"
+  },
+  {
+   "id": "email-code-path",
+   "pass": true,
+   "note": "'Save your plan' mode with no Google or tabs (critic HIGH fixed). Rig only: the 3101 site has no Resend key, so I used a local shim that answered email-login ok, then the staging OTP. Signed in fine. 23-26"
+  },
+  {
+   "id": "swipe-coach-before-today",
+   "pass": true,
+   "note": "The post-sign-in sheet shows the 'Your next moves come as cards' preview with a Not now stamp (critic HIGH fixed). 26"
+  },
+  {
+   "id": "today-header-mobi",
+   "pass": true,
+   "note": "Header Mobi moves (frame diffs over 3 s); the greeting is 'Good evening'. It has no speech line."
+  },
+  {
+   "id": "today-lead-lengths",
+   "pass": false,
+   "note": "about 9 min vs Start Revise 10 min. 36"
+  },
+  {
+   "id": "length-sheet-prices",
+   "pass": false,
+   "note": "5/10/15/20 and Full mock 50 are listed, but no row shows its credit cost. 47"
+  },
+  {
+   "id": "swipe-v2-demo",
+   "pass": true,
+   "note": "Not captured on video: the demo fires when the deck is 60% visible, and it had already run before my first capture. Coach line and intro present."
+  },
+  {
+   "id": "swipe-v2-directions-stamps-buttons",
+   "pass": true,
+   "note": "Right drag shows the Up next stamp; left drag shows the Not now stamp. The button row (Not now / Undo / Up next) works. 39, 53"
+  },
+  {
+   "id": "swipe-v2-upnext-bar-undo",
+   "pass": false,
+   "note": "The bar covers the lead card's Start key, and a tap as it fades starts the session. Deck Undo works. 40, 44, 45"
+  },
+  {
+   "id": "swipe-v2-notnow-count-end",
+   "pass": true,
+   "note": "Count updates and the end card shows ('That's all three for today', 'Go through them again'). 43, 55"
+  },
+  {
+   "id": "vertical-scroll-never-swipes",
+   "pass": true,
+   "note": "A vertical/diagonal drag on the card scrolled the page; the deck did not move."
+  },
+  {
+   "id": "today-weeks-ahead-marks-weak-chapters",
+   "pass": true,
+   "note": "Rendered and readable. Weak-chapter bars agree with their own figures. 52-scroll-5/6/8"
+  },
+  {
+   "id": "today-road-counts",
+   "pass": false,
+   "note": "Due this week 16 of 17. 52-scroll-4"
+  },
+  {
+   "id": "today-this-week-readout",
+   "pass": false,
+   "note": "Raw log of 9 papers. 49"
+  },
+  {
+   "id": "practice-counts",
+   "pass": false,
+   "note": "Repairs 139 vs Review 19 vs badge 2. 56, 59"
+  },
+  {
+   "id": "quick-full-setup",
+   "pass": true,
+   "note": "Quick setup sheet with 5/10/15/20 and the cost line. 3101 quotes a flat 10 credits (today's production server). 3103 quotes 5 and 20. Full mock tile present; I did not sit one."
+  },
+  {
+   "id": "runner-results",
+   "pass": true,
+   "note": "5-question runner, Review and submit, result -1 of 25 with a consistent loss line. 81-84"
+  },
+  {
+   "id": "review-x-of-y",
+   "pass": true,
+   "note": "374 of 415, never X > Y. 59"
+  },
+  {
+   "id": "repair",
+   "pass": true,
+   "note": "Repair intro and run render (1 of 1, try again before the reason). The AI reason is not reachable on the rig (no keys). 60-61"
+  },
+  {
+   "id": "revise-numbers",
+   "pass": false,
+   "note": "9 / 82 / 113 disagree. 46"
+  },
+  {
+   "id": "learn",
+   "pass": true,
+   "note": "No Learn entry was visible on Practice or Today in this walk, so no blank page was reachable. Not opened."
+  },
+  {
+   "id": "ask-mobi",
+   "pass": false,
+   "note": "Answers at once with 'No credits used', but labels chapter numbers with the subject, and 355 does not match the other screens' 374 and 245. 64-65"
+  },
+  {
+   "id": "bar-start-key-icons",
+   "pass": true,
+   "note": "Glass bar, labels, volt Start key all fine. The Start sheet content disagrees with Today (see HIGH). 72"
+  },
+  {
+   "id": "you-hub",
+   "pass": false,
+   "note": "'5 full mocks landed' disagrees with Road's 13. 66"
+  },
+  {
+   "id": "credits-wallet-fallback",
+   "pass": true,
+   "note": "/api/wallet 404 on 3101 and 3103; the Credits page shows today's credits quietly, with no error or blank. AI credits show a number (the 'Not loaded' HIGH is fixed). 67-68"
+  },
+  {
+   "id": "plan-copy-true",
+   "pass": false,
+   "note": "'No fixed set to run out of' is still there. 68, 70"
+  },
+  {
+   "id": "offline-reconnect-360",
+   "pass": true,
+   "note": "'Offline. Last loaded' header, 'Needs a connection to start' and a disabled key; reconnect restored. 71"
+  },
+  {
+   "id": "no-pro-nudge-flag-off",
+   "pass": false,
+   "note": "No purchase button or price anywhere, but there are Mob Pro upsell lines and the NTA 'Comes with Pro' gate. 92, 74"
+  },
+  {
+   "id": "mob-entry-create-invite-leave",
+   "pass": true,
+   "note": "Entry card on Today, create (after editing the name), invite link sheet, leave with confirm. 89-96"
+  },
+  {
+   "id": "mob-paper-free-compare",
+   "pass": false,
+   "note": "Not testable: the account already sat a Mob paper this week ('Free includes one a week'). Compare was not tested (no second member)."
+  },
+  {
+   "id": "per-question-spend-5-20",
+   "pass": false,
+   "note": "Ledger -5 and -20 exact, but the practice balance shown stays 390 and the AI pool moved. 79-88"
+  },
+  {
+   "id": "critic-high-sign-in-keyboard",
+   "pass": true,
+   "note": "With the keyboard up, Mobi is hidden and 'Email me the code' is visible. 23"
+  }
+ ]
+}

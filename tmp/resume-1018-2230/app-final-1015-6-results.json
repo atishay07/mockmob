@@ -1,0 +1,106 @@
+{
+ "started": [
+  "walk-r2",
+  "fix-1",
+  "walk-recheck-1"
+ ],
+ "results": [
+  {
+   "verdict": "NO-GO",
+   "head": "01dd7770 (wt-v15-1, clean, pubspec 1.0.15+6). flutter analyze: no issues. Profile APK reused: it was built at 18:55, after the 18:50 head commit, and no source or define file is newer. Walked on AVD mockmob_budget (3072 MB) against staging sites 3101 and 3103 at 411 dp and 360 dp, Night theme only. I did not rebuild, and I did not check Day theme or run the hint-only-twice check.",
+   "profileApk": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-v15-1\\flutter_app\\build\\app\\outputs\\flutter-apk\\app-profile.apk",
+   "highs": [
+    "Today header on a failed refresh clips the time at 360 dp: it reads 'Not refreshed. Last loaded 7:55 P...' with an ellipsis, because Mobi sits beside it. Round-1 fix d6ef23fc claims one line and only holds on Review, where the same line shows in full ('Last loaded 7:43 PM.'). Screenshots w-61a-flaky-6s.png, w-68d-howmany-360.png, w-68e-after-20-360.png.",
+    "Hero title is truncated at 360 dp when a Suggested card becomes the lead: 'Practise your weakest cha...' (two lines, ellipsis). This is the same class as the 'did no...' title that 47a1b501 fixed. Screenshots w-68b-lead-after-right.png, w-68e-after-20-360.png."
+   ],
+   "mediums": [
+    "You tab plan row still shows two balances ('390 practice credits, 50 AI credits'). The owner's D78 wants one credits balance; this is probably the separate wallet tracks that are not in v15.1 (w-70a-you-down.png).",
+    "After clearing app data, the week sheet says 'No study days chosen yet' beside '3 of 4 study days' and 'This week cannot reach your goal now'. Two states are mixed (w-66a-today-3103.png).",
+    "The Today failure card ('Tonight's move did not load') drops Mobi from the header, since the card carries its own Mobi (w-66b-today.png). Probably intended.",
+    "Rig, not the app: /api/attempts on staging hits 'canceling statement due to statement timeout' and takes 5 to 12 s, so Today shows 'Still loading' for 30 to 60 s. The first Send code returns 'Something went wrong' because RESEND_API_KEY is missing, and a second tap goes through.",
+    "Not exercised: the Suggested hint 'only twice' rule. The hint showed on the first launch after pm clear (w-68a-stack-360.png) and I did not count later launches."
+   ],
+   "items": [
+    {
+     "id": "1a-howmany-from-suggested-lead",
+     "pass": true,
+     "note": "At 360 dp, after a right swipe makes the Suggested card the lead, the 'How many questions?' panel opens for the card on screen. Picking 20 gives 'Start practice 20 min' and '20 credits. You have 390.' At 411 dp, 5 gave 5 credits.",
+     "shot": "w-68d-howmany-360.png, w-68e-after-20-360.png, w-41b-panel.png, w-41c-after-5.png"
+    },
+    {
+     "id": "1b-failure-title-360",
+     "pass": true,
+     "note": "Reproduced the failure card at 360 dp. 'Tonight's move did not load' takes three lines with no 'did no...'. Try again recovers it.",
+     "shot": "w-66b-today.png, w-67b-later.png"
+    },
+    {
+     "id": "1c-could-not-refresh-one-line",
+     "pass": false,
+     "note": "Holds one line on Review ('Not refreshed. Last loaded 7:43 PM.'). On Today at 360 dp it is clipped with an ellipsis ('7:55 P...'). Offline ('Offline. Last loaded 7:39 PM.') fits one line on Today.",
+     "shot": "w-62a-review-flaky-360.png, w-61a-flaky-6s.png, w-68e-after-20-360.png, w-60d-offline-composite.png"
+    },
+    {
+     "id": "1d-askmobi-cold-first-answer",
+     "pass": true,
+     "note": "After a force-stop and cold start, a free record ask answered within 0.7 s with no offline wording. A 1-credit AI ask shows 'Writing a reply', then 'Taking longer than usual. Send it again in a moment. A question is never charged twice' with Send again, not 'offline'.",
+     "shot": "w-58d-cold-composite.png, w-56c-ai-ask-31s.png"
+    },
+    {
+     "id": "2-onboarding-D40-D49",
+     "pass": true,
+     "note": "Walked as seen: balance under the status bar, a courses list with Bulletin lines, 'Not sure yet' ticks nothing, a visible Back, adaptive Mobi, 3 marks picks (the 4th is refused), the full-mocks line, and the study-days slider with its live readout. The final screens asked for sign-in.",
+     "shot": "w-03-ob1.png through w-22-ob-next.png"
+    },
+    {
+     "id": "2-today-D52",
+     "pass": true,
+     "note": "Mobi in the header with a one-line greeting, The weeks ahead with suggested and expected words, Your marks, and the weak-chapter bars. Tapping a chapter expands it.",
+     "shot": "w-30-today-first.png, w-33-today-s1.png through s4.png, w-34-weak-chapters.png, w-36-weak-expanded.png"
+    },
+    {
+     "id": "2-stack-D51",
+     "pass": true,
+     "note": "A right swipe makes the card the lead and starts and spends nothing. A left swipe and the Skip button both skip. Tapping the card and 'Do this instead' work. Vertical drags over the stack scroll the page. The end card reads 'That was all three for tonight' with Go through them again and see every way to practise. The swipe hint showed once, but its twice-only rule was not tested.",
+     "shot": "w-38a-swipe-right-0.4s.png, w-44a-after-left-skip.png, w-44c-end-card.png, w-45a-go-again.png, w-43b-vertical-over-stack.png, w-43c-vertical-down-over-stack.png"
+    },
+    {
+     "id": "2-howmany-D50-prices",
+     "pass": true,
+     "note": "5/10/15/20 plus Full mock: 50 questions, 60 min. Server quotes on 3103 are 5, 10, 15 and 20 credits (full mock 50). Quick setup shows 5, 10, 15 and 20 credits; the full mock setup shows 50 credits. Site 3101 still quotes a flat 10, but the app was walked against 3103's quotes.",
+     "shot": "w-39a-howmany-panel.png, w-50c-quick-5-15-20-composite.png, w-52-fullmock-setup.png, w-42b-fullmock.png"
+    },
+    {
+     "id": "2-review-no-lost-X-of-Y-over",
+     "pass": true,
+     "note": "Scanned about 12 Review screens through the accessibility tree. Every 'Lost X of the Y marks on offer' has X <= Y (229/255, 258/260, 368/410). The result screen reads coherently.",
+     "shot": "w-53a-review.png, w-53c-review-scroll-composite.png, w-73a-settings.png"
+    },
+    {
+     "id": "2-askmobi-no-sheet-D53",
+     "pass": true,
+     "note": "A tapped chip answers in place with no 'goes to an AI service' sheet. The record answer shows up in under 1 s. The AI chip shows a writing state first.",
+     "shot": "w-55a-ask-1s.png, w-56a-ai-ask-1s.png"
+    },
+    {
+     "id": "2-bar-glass-start-icons-D57-D56-D8",
+     "pass": true,
+     "note": "The bar blurs the content under it, collapses to icons on scroll, and the Start key is the lime circle. The icons are one family.",
+     "shot": "w-33-today-s*.png, w-69b-you-s1.png, w-72a-colleges.png"
+    },
+    {
+     "id": "2-offline-reconnect-360",
+     "pass": true,
+     "note": "The offline line 'Offline. Last loaded 7:39 PM.' fits one line at 360 dp, and the saved copy shows. After reconnect the content refreshed.",
+     "shot": "w-60d-offline-composite.png"
+    },
+    {
+     "id": "2-mob-hidden-when-off",
+     "pass": true,
+     "note": "On 3103 (Mob on) the You tab shows the 'Start a Mob' row. Behind a proxy that answers 404 MOB_DISABLED to /api/mob, no Mob row appears.",
+     "shot": "w-70a-you-down.png, w-71b-you-mob-off.png"
+    }
+   ]
+  },
+  "Head is `fc2f0891` on `ui/v15.1-1018`, one commit on top of `01dd7770`. I did not re-walk it on the emulator, so the two HIGH fixes are checked by tests and goldens only.\n\n**Checks:** analyze is clean. The unit suite is 6027 passing, with one `SessionLock` timing flake that passes alone. In the full golden run, 15 failed. Nine were `motion_repair_ending_*` and pass when run alone. The other six are the goldens I changed on purpose.\n\n**HIGH 1, Today header clipped the time at 360 dp: fixed.**\n- The line now uses a shared one-line notice, also used by Review. It draws a step smaller, never under 84%, and wraps only at very large text. The time is never cut.\n- The tests at 360 and 330 dp check no ellipsis, one line, no clash with Mobi and no taller header. The 330 case covers the scaled path.\n- I added a 360 golden of the failed-refresh header, `today1018_notrefreshed_360` (day and night).\n- In the test font the line fits at natural width at 360, so the golden does not show the scaling the phone needed.\n\n**HIGH 2, Suggested lead title cut (\"Practise your weakest cha...\"): fixed.**\n- The lead card's title no longer has a line cap, so a third line appears when it needs one. The failure card keeps the same behaviour.\n- A new test `hero_title_whole_test.dart` swaps through every card that can lead, at 360 and 412 dp and at 1.0x and 1.3x text, and checks the title is whole. It fails with the old cap.\n- I opened old and new goldens for `today_rich_fold1_360_text130` and `today_suggested_rest_360_text130`. The old ones had the cut baked in (\"Repair your last ...\"). The new ones show \"Repair your last paper\" in full and the cards below shifted down a line.\n\n**MEDIUM items**\n- **Two balances on the You tab: not changed.** The server still holds two pools until migration `20261018210000_one_credits_balance` ships (not on staging yet). One-balance wallet UI is planned for v15.2. A single number now would be untrue.\n- **Week sheet mixed state: fixed.** The line now reads \"You have not planned your days yet. Every day you study still counts.\" It no longer says \"study days\" beside \"3 of 4 study days\". The planned weekdays live only on the phone, so a cleared app really has none. Day and night goldens updated.\n- **Failure card drops Mobi from the header: intended.** The card carries its own Mobi, and the header code says never two Mobis on one screen. No change.\n- **Rig issues (statement timeouts, missing RESEND_API_KEY): rig, not the app.** No change.\n- **Suggested hint \"only twice\": not walked, but covered.** An existing test checks it shows on the first two visits only and never after a swipe. It passes.\n\nOn your timeline question: I can't confirm 9 pm. What I can say is that these round-1 findings are fixed. The round-2 emulator walk, the APK build and the install on your phone are still ahead, and I haven't done them.\n\nThe emulator, Gradle and the device `10BF370PA6002XR` were not touched. No dart_defines were committed."
+ ]
+}
