@@ -116,3 +116,16 @@ test('the Time part passes the paper\'s own record to the replay and to its inde
   assert.match(read('src/app/(app)/result/[id]/ResultPageClient.jsx'), /replayCutLine\(lab\.replay \|\| null, analysis\.rows\.length, knownRecord\(/);
   assert.match(read('src/components/result/ReplaySlots.jsx'), /cutSentence\(view, \{ known \}\)/);
 });
+
+test('Progress reserves the week card\'s resting height while the week loads, so the next step does not jump', () => {
+  const css = stripComments(read('src/app/(app)/student-pages.css'));
+  const reserve = css.match(/\.app-shell \.rc--wait:not\(\.rc--compact\)\s*\{[^}]*min-height:\s*(\d+)px/);
+  assert.ok(reserve, 'the full card has a reserved height');
+  // The loaded card measured 270 to 357 px across its states and widths; the reserve sits inside that range.
+  assert.ok(Number(reserve[1]) >= 270 && Number(reserve[1]) <= 357, `reserve ${reserve[1]} px`);
+  const code = read('src/components/RhythmCard.jsx');
+  assert.match(code, /rc__skeleton--head/);
+  assert.match(code, /rc__skeleton--weeks/);
+  // The compact Today card keeps its own slim wait.
+  assert.match(code, /compact \? <span className="rc__skeleton"/);
+});

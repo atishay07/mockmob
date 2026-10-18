@@ -272,7 +272,14 @@ export default function RhythmCard({ compact = false, mobi = !compact, between =
     );
   }
   if (state.status !== 'ready' || !rhythm) {
-    const wait = <section className={`rc${compact ? ' rc--compact' : ''} rc--wait`} aria-label="Your study days" aria-busy="true"><span className="rc__skeleton" aria-hidden="true" /></section>;
+    // The full card holds its resting height while the week loads (student-pages.css .rc--wait), so the next step under it
+    // does not jump when the week arrives (a 0.198 layout shift on a phone, release 6 verification). The skeleton is the
+    // card's own anatomy: the head (Mobi, title, status), then the weeks.
+    const wait = (
+      <section className={`rc${compact ? ' rc--compact' : ''} rc--wait`} aria-label="Your study days" aria-busy="true">
+        {compact ? <span className="rc__skeleton" aria-hidden="true" /> : <><span className="rc__skeleton rc__skeleton--head" aria-hidden="true" /><span className="rc__skeleton rc__skeleton--weeks" aria-hidden="true" /></>}
+      </section>
+    );
     return compact ? wait : <>{wait}{between}</>;
   }
 
