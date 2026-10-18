@@ -114,11 +114,13 @@ abstract final class ProBenefits {
 
   /// The lines the sheet draws: the student's own first, then the plain lines to fill to [maxLines].
   /// With nothing personal it is the plain list alone.
+  /// A reason the plain list does not name (the Mob) leads with its own line.
   static List<String> lines(ProFacts f, {ProReason reason = ProReason.general}) {
     const plain = ProNudgeCopy.plainBenefits;
-    final mine = personal(f, reason: reason);
+    final lead = ProNudgeCopy.leadBenefit(reason);
+    final mine = personal(f, reason: reason, limit: lead == null ? maxPersonal : maxPersonal - 1);
     final covered = {for (final b in mine) ?_standsFor[b.id]};
-    final out = [for (final b in mine) b.text];
+    final out = [?lead, for (final b in mine) b.text];
     for (var i = 0; i < plain.length && out.length < maxLines; i++) {
       if (!covered.contains(i)) out.add(plain[i]);
     }

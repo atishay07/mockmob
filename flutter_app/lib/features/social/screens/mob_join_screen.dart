@@ -10,6 +10,7 @@ import '../copy.dart';
 import '../data/mob_models.dart';
 import '../data/mob_repository.dart';
 import '../widgets/mob_parts.dart';
+import '../widgets/mob_pro_entry.dart';
 import '../widgets/mob_ring.dart';
 import 'mob_screen.dart';
 
@@ -165,6 +166,7 @@ class _MobJoinScreenState extends ConsumerState<MobJoinScreen> {
                 Text(MobCopy.inviteLoadFailedTitle, style: type.headline.copyWith(color: colors.ink)),
                 const SizedBox(height: MmSpace.s8),
                 Text(ref.read(mobActionsProvider).say(_failure ?? MobFailure.generic), style: type.body.copyWith(color: colors.ink2)),
+                MobProEntry(failure: _failure),
                 const SizedBox(height: MmSpace.s16),
                 PillKey(label: MobCopy.tryAgain, onPressed: _load),
               ] else ...[
@@ -211,6 +213,7 @@ class _MobJoinScreenState extends ConsumerState<MobJoinScreen> {
                 if (_failure != null) ...[
                   const SizedBox(height: MmSpace.s12),
                   InlineBanner(message: ref.read(mobActionsProvider).say(_failure!), tone: BannerTone.error),
+                  MobProEntry(failure: _failure),
                   // Joining is open to every plan up to one safety ceiling (12 Mobs); a Mob you are in already just opens.
                   if (_failure == MobFailure.mobCeiling || _failure == MobFailure.alreadyInMob) ...[
                     const SizedBox(height: MmSpace.s8),

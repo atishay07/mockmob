@@ -36,6 +36,12 @@ enum ProReason {
   insightsPace,
   insightsChapters,
 
+  /// A Pro part of the Mob: the full side-by-side, past weeks, extra papers.
+  mob,
+
+  /// A Mob limit of Free the student just met: one Mob started, or one Mob paper a week.
+  mobLimit,
+
   /// Any other Pro-only thing.
   general,
 }
@@ -143,7 +149,24 @@ abstract final class ProNudgeCopy {
             'See every chapter that costs you marks',
             'Full chapter review ranks every chapter, with your pace and the answers you changed.',
           ),
+        // The Mob's own words for what Pro adds (social/copy.dart proLine, freeUsed, the MOB_LIMIT sentence).
+        ProReason.mob => const ProSheetHead(
+            'See your whole Mob, every week',
+            'Pro opens the full side-by-side after every paper: who picked what, who changed an answer and how long each question took. Plus past weeks, extra papers on a chapter you choose, and up to 3 Mobs you start.',
+          ),
+        ProReason.mobLimit => const ProSheetHead(
+            'Start up to 3 Mobs, one for each subject',
+            "Free lets you start one Mob and sit one Mob paper a week. With Pro, start up to 3 Mobs and sit every Mob's weekly paper, with the full side-by-side after each one.",
+          ),
         ProReason.general => _general,
+      };
+
+  /// The line that leads the benefits when the sheet opened on a part the plain list does not name
+  /// (the Mob), so the first thing it says answers what the student tapped. Null for every other reason.
+  static String? leadBenefit(ProReason reason) => switch (reason) {
+        ProReason.mob => 'The full side-by-side after every Mob paper, past weeks, and extra papers on a chapter you choose.',
+        ProReason.mobLimit => "Up to 3 Mobs you start, and every Mob's weekly paper, not one a week.",
+        _ => null,
       };
 
   /// What Pro includes, the plain lines the sheet falls back to when it has nothing of the student's

@@ -9,6 +9,7 @@ import '../data/mob_models.dart';
 import '../data/mob_navigator.dart';
 import '../data/mob_repository.dart';
 import '../widgets/mob_parts.dart';
+import '../widgets/mob_pro_entry.dart';
 import '../widgets/mob_ring.dart';
 
 /// The side-by-side of one paper (SOCIAL-SPEC section 15): per question, what each member who shares
@@ -33,6 +34,7 @@ class _MobCompareScreenState extends ConsumerState<MobCompareScreen> {
   late MobCompare _data = widget.data;
   bool _busy = false;
   String? _notice;
+  MobFailure? _failure;
 
   /// Turning sharing on shows the members who share: the side-by-side is read again.
   Future<void> _share() async {
@@ -40,6 +42,7 @@ class _MobCompareScreenState extends ConsumerState<MobCompareScreen> {
     setState(() {
       _busy = true;
       _notice = null;
+      _failure = null;
     });
     final actions = ref.read(mobActionsProvider);
     final failure = await actions.updateMe(showScore: true);
@@ -48,6 +51,7 @@ class _MobCompareScreenState extends ConsumerState<MobCompareScreen> {
         setState(() {
           _busy = false;
           _notice = ref.read(mobActionsProvider).say(failure);
+          _failure = failure;
         });
       }
       return;
@@ -58,6 +62,7 @@ class _MobCompareScreenState extends ConsumerState<MobCompareScreen> {
       _busy = false;
       if (fresh != null) _data = fresh;
       _notice = failure2 == null ? null : ref.read(mobActionsProvider).say(failure2);
+      _failure = failure2;
     });
   }
 
@@ -95,6 +100,7 @@ class _MobCompareScreenState extends ConsumerState<MobCompareScreen> {
               if (_notice != null) ...[
                 const SizedBox(height: MmSpace.s8),
                 Semantics(liveRegion: true, child: Text(_notice!, style: type.small.copyWith(color: colors.ink))),
+                MobProEntry(failure: _failure),
               ],
               const SizedBox(height: MmSpace.s16),
             ],

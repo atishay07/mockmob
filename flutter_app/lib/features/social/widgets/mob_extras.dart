@@ -13,6 +13,7 @@ import '../data/mob_navigator.dart';
 import '../data/mob_repository.dart';
 import '../mob_routes.dart';
 import 'mob_parts.dart';
+import 'mob_pro_entry.dart';
 
 /// Extra papers (Pro makes them, any member sits them). A paper on a chosen chapter and length,
 /// beyond the weekly one. They close 7 days after they were made, cost no credits and count nothing
@@ -137,7 +138,7 @@ class _SideBySideKeyState extends ConsumerState<_SideBySideKey> {
     if (!mounted) return;
     setState(() => _busy = false);
     if (failure != null) {
-      showMobToast(context, ref.read(mobActionsProvider).say(failure));
+      sayMobFailure(context, failure, ref.read(mobActionsProvider).say(failure));
     } else if (compare != null) {
       await openMobCompare(context, compare, extra: widget.extra.id);
     }
