@@ -1,5 +1,5 @@
 // App polish 2 (v15 walk, 18 Oct): words that change in place never show two at once, the Practice ticket does not
-// blink on a changed length, the runner says "More options below", the offline words fit one line, the Sunday week makes
+// blink on a changed length, the runner says "More below", the offline words fit one line, the Sunday week makes
 // no promise of a day that is gone, a Quick 10 is named so, the plan sheet's last question clears its footer, and Today
 // reads the plan again by itself when only the plan failed.
 import 'package:flutter/material.dart';
@@ -160,7 +160,7 @@ void main() {
   group('the runner says there is more below, until the first scroll', () {
     double cue(WidgetTester tester) => tester.widget<AnimatedOpacity>(find.byKey(const ValueKey('runner-more-options'))).opacity;
 
-    testWidgets('a short window: "More options below" shows; the first scroll takes it away', (tester) async {
+    testWidgets('a short window: "More below" shows; the first scroll takes it away', (tester) async {
       final s = FakeRunnerSession(questions: accountancyQuestions(10), mode: 'quick', mockNumber: null);
       await pumpRunner(tester, session: s, size: const Size(360, 520), disableAnimations: true);
       await settle(tester);
