@@ -373,3 +373,10 @@ His message was the pasted next-session prompt (resume from 25ef3d95, follow NOW
 > "Yes, build swipe v2 as drawn: Up next / Not now with the buttons under the deck and the first-time demo."
 
 **Ledger D94:** swipe v2 is APPROVED as drawn in docs/design-decisions/pass-1018/SWIPE-V2-1018.md. It ships in v15.2.
+
+## Owner, 18 Oct about 8:40 pm IST (verbatim)
+> "It's 8:40 approximately. Can I now connect my phone if you are done with the app?"
+> "I'll only connect it when the APK and the entire app are ready. Why is it still not ready, and are you sure it will be ready in the next 30-40 minutes?"
+> (choice) "Skip installing 1.0.15+6 on my phone; I'll connect once for v15.2. Still finish and send the 1.0.15+6 APK file."
+
+**Ledger D95:** do not install 1.0.15+6 on his phone. Finish it and send the APK file. He connects his phone ONCE, for v15.2, and only when the entire app is ready.

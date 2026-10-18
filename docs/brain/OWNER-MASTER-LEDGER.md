@@ -430,6 +430,11 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 |---|---|---|
 | D94 | Swipe v2 approved as drawn (Up next / Not now, buttons under the deck, first-time demo, undo, honest learning) | BUILDING: ui/v15-swipe2 (wt-v15-swipe2), Opus critic loop, ships in v15.2 |
 
+### Owner at about 8:40 pm, 18 Oct (D95)
+| D | Item | Status |
+|---|---|---|
+| D95 | Skip installing 1.0.15+6 on his phone; finish it and send the APK file; he connects once for v15.2 when the whole app is ready | Recorded; the 1.0.15+6 APK will be sent as a file; v15.2 is the install |
+
 ## Waiting on the owner (updated 18 Oct about 3:45 am)
 - Answered 3:50 am: M-001 first launch 3 s; M-006 bolder copy; D19 keep badges, refine; D22 Mob.
 - D32: confirm the kept landing element when he reviews the port live (wt-land3, port 3206).
