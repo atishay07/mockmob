@@ -9,7 +9,7 @@ import 'bar_live.dart';
 class BarBadges {
   const BarBadges({this.reviewCount = 0, this.reviewDot = false, this.collegesDot = false, this.youDot = false});
 
-  /// Mistakes in tonight's repair, until it is recorded. Shown as "9+" above 9.
+  /// Open mistakes to repair on the account (Review's index, the count Today and Practice print). Shown as "9+" above 9.
   final int reviewCount;
 
   /// An 8 dp dot on Review: a marked result whose capsule was dismissed, until it is opened.

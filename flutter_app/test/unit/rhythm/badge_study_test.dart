@@ -130,7 +130,8 @@ void main() {
     test('it wins over the week, with the badge name and no more', () {
       final reading = readWeek(week: week, now: DateTime(2026, 10, 14, 19), mode: CelebrationMode.full, landedBadge: 'Clean set');
       expect(reading!.gate, HubMobiGate.badge);
-      expect(reading.line, 'Clean set landed.');
+      // It says it is a badge, so "5 full mocks" is never read as a count of full mocks (final walk, H8).
+      expect(reading.line, 'Badge earned: Clean set.');
     });
 
     test('Off plays nothing; Quiet nods', () {

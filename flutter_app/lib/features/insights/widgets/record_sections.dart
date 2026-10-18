@@ -103,7 +103,7 @@ class _ThinChapterRow extends StatelessWidget {
     final counts = InsightsCopy.chapterCounts(c.right, c.wrong, c.skip, c.n);
     return MmPressable(
       onTap: onPractise,
-      semanticsLabel: '${InsightsCopy.practiseChapter} ${c.chapter}. $counts. ${InsightsCopy.chapterOpen(c.open)}',
+      semanticsLabel: '${InsightsCopy.practiseChapter} ${c.chapter}. $counts. ${InsightsCopy.chapterLost(c.lost)}',
       focusRadius: MmRadius.smallAll,
       haptic: MmPressHaptic.selection,
       highlight: true,
@@ -122,7 +122,7 @@ class _ThinChapterRow extends StatelessWidget {
                   const SizedBox(height: MmSpace.s12),
                   MarksBar(right: c.right, wrong: c.wrong, blank: c.skip, height: 6),
                   const SizedBox(height: MmSpace.s8),
-                  Text('$counts. ${InsightsCopy.chapterOpen(c.open)}.', style: type.caption.copyWith(color: colors.ink2, fontFeatures: _tabular)),
+                  Text('$counts. ${InsightsCopy.chapterLost(c.lost)}.', style: type.caption.copyWith(color: colors.ink2, fontFeatures: _tabular)),
                 ],
               ),
             ),

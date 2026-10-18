@@ -145,7 +145,7 @@ class _Row extends StatelessWidget {
                   children: [
                     Text('${c.marks}', style: type.scoreFigure.copyWith(color: colors.ink, fontFeatures: const [FontFeature.tabularFigures()])),
                     const SizedBox(width: MmSpace.s4),
-                    Text(AheadCopy.marksOpen, style: type.caption.copyWith(fontSize: 13, color: colors.ink3)),
+                    Text(GlanceCopy.marksLost, style: type.caption.copyWith(fontSize: 13, color: colors.ink3)),
                   ],
                 ),
               ],

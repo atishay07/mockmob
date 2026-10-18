@@ -64,7 +64,7 @@ void main() {
       expect(find.textContaining("Every mistake you've found is repaired"), findsNothing);
       // The chapter that lost the marks leads, and its two mistakes are rows with the one action.
       expect(find.text('Money and banking'), findsWidgets);
-      expect(find.text('2 mistakes to repair'), findsOneWidget);
+      expect(find.text('2 to repair in Money and banking'), findsOneWidget);
       expect(find.text('Repair'), findsNWidgets(2));
     });
 

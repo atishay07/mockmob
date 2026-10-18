@@ -14,6 +14,7 @@ import '../../../core/domain/session_rules.dart';
 import '../../../core/models/models.dart' show Attempt;
 import '../../../core/repositories/repositories.dart';
 import '../../practice/data/open_paper.dart' show openPaperProvider;
+import '../../review/data/review_chapters_provider.dart' show reviewChapterFiguresProvider;
 import '../../review/data/review_providers.dart' show openRepairsProvider;
 import '../../review/revise/revise_data.dart' show reviseCapProvider, reviseEntryProvider;
 import '../../rhythm/data/rhythm_providers.dart' show rhythmClockProvider;
@@ -281,6 +282,8 @@ final todayInputsProvider = Provider<TodayInputs>((ref) {
     repairedToday: repairedToday,
     // One source for "open repairs": Review's index, the count its own header prints.
     openRepairs: ref.watch(openRepairsProvider),
+    // One record for chapter figures: Review's own rows, so Weak chapters and Review agree.
+    reviewChapters: ref.watch(reviewChapterFiguresProvider),
     reviseDue: reviseDue,
     reviseShown: reviseRead?.shown,
     reviseCards: [for (final c in reviseRead?.items ?? const []) (questionId: c.questionId, subject: c.subject, chapter: c.chapter)],

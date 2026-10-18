@@ -12,6 +12,11 @@ String _sec(int s) => s >= 60 ? '${s ~/ 60}:${(s % 60).toString().padLeft(2, '0'
 String _sign(int n) => n > 0 ? '+$n' : '$n';
 String _plural(int n, String word) => '$n $word${n == 1 ? '' : 's'}';
 
+/// "They lost 374 of the 415 marks on offer." Past the offer (6 go for a wrong answer, 5 are on offer) the "of" is left out,
+/// as Review leaves it out.
+String _lostLine(ChapterLine c) =>
+    c.lost > c.offer ? 'They lost ${c.lost} marks.' : 'They lost ${c.lost} of the ${c.offer} marks on offer.';
+
 /// Plain-language findings, strongest first, each with its sample size.
 List<Finding> readout(PrepInsights insights, {int limit = 4}) {
   if (!insights.isReady) return const [];
@@ -22,9 +27,11 @@ List<Finding> readout(PrepInsights insights, {int limit = 4}) {
       id: 'chapter',
       kind: 'leak',
       n: top.n,
-      headline: '${top.chapter} is where the most marks are open',
-      detail: '${top.subjectName}: ${top.right} right, ${top.wrong} wrong, ${top.skip} left blank out of ${top.n} questions over '
-          '${_plural(top.sessions, 'session')}. Those ${top.wrong + top.skip} questions were worth ${top.open} marks.',
+      // The chapter's own name, never its subject's, and Review's figure for it (6 a wrong answer, 5 a blank, of 5 a
+      // question on offer), so Ask Mobi, Review and Today say one number for one chapter (final walk, H6).
+      headline: 'You lose the most marks in ${top.chapter}',
+      detail: '${top.chapter}: ${top.right} right, ${top.wrong} wrong, ${top.skip} left blank, of ${_plural(top.n, 'question')} over '
+          '${_plural(top.sessions, 'session')}. ${_lostLine(top)}',
       actionLabel: 'Practise ${top.chapter}',
       // The key says "Practise <chapter>", so the link carries the chapter: without it the app
       // opens all-chapters Quick practice for the subject.

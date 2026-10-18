@@ -11,7 +11,7 @@ import 'core/widgets/bar/bar_live.dart';
 import 'core/auth/auth_state.dart' show authSnapshotProvider;
 import 'features/practice/data/practice_catalog.dart' show practiceSubjectProvider, practiceSubjectsProvider, subjectChoices;
 import 'features/practice/data/start_entries.dart' show practiceQuickNtaProvider;
-import 'features/review/data/review_providers.dart' show quickRepairFromReviewProvider, reviewIndexProvider;
+import 'features/review/data/review_providers.dart' show openRepairsProvider, quickRepairFromReviewProvider, reviewIndexProvider;
 import 'features/today/copy.dart' show TodayCopy;
 import 'features/today/data/lead_pick.dart' show todayLeadIsPickProvider, todayLeadMoveProvider;
 import 'features/today/data/today_providers.dart' show todayInputsProvider, todayNextActionProvider, todayViewProvider;
@@ -109,7 +109,9 @@ List<Override> liveAppOverrides() => [
       if (unopened.isNotEmpty) BarLiveKind.marked,
     };
   }),
-  barReviewCountProvider.overrideWith((ref) => ref.watch(reviewIndexProvider)?.tonight?.items.length ?? 0),
+  // Review's badge is the account's open repairs, the one count Today's Repairs tile, Practice's Repairs row and the badge's
+  // own spoken label ("139 open mistakes to repair") say; tonight's chapter alone read "2" beside "139 open" (final walk, H7).
+  barReviewCountProvider.overrideWith((ref) => ref.watch(openRepairsProvider) ?? 0),
   // You's dot: a write has waited over 24 hours to reach the server (the sync is not getting through).
   // Colleges has no dot source yet (no cutoff-change record exists), so its dot stays off by default.
   barYouAttentionProvider.overrideWith((ref) => ref.watch(syncStaleProvider).value ?? false),

@@ -60,7 +60,7 @@ class _ChapterMistakesState extends ConsumerState<ChapterMistakes> {
               Expanded(
                 child: Semantics(
                   header: true,
-                  child: Text(open.isEmpty ? ReviewCopy.chapterNothingToRepair : ReviewCopy.chapterMistakes(open.length), style: type.labelLarge.copyWith(fontSize: 16)),
+                  child: Text(open.isEmpty ? ReviewCopy.chapterNothingToRepair(row.name) : ReviewCopy.chapterMistakes(open.length, row.name), style: type.labelLarge.copyWith(fontSize: 16)),
                 ),
               ),
               if (open.length > 1) Text(ReviewCopy.newestFirst, style: type.caption.copyWith(color: colors.ink2)),

@@ -144,7 +144,7 @@ AskSuggestion? _history(String? chapter, PrepInsights? v) {
     return AskSuggestion(text: text, price: AskPrice.free, answer: RecordAnswer(AskSheetCopy.noChapterYet(chapter)));
   }
   final preview = AskSheetCopy.wrongOf(line.wrong, line.n, line.sessions);
-  final open = line.open > 0 ? ' ${_plural(line.open, 'mark')} are still open there.' : '';
+  final open = line.lost > 0 ? ' ${line.lost > line.offer ? '${_plural(line.lost, 'mark')} lost there.' : '${line.lost} of the ${line.offer} marks on offer lost there.'}' : '';
   return AskSuggestion(
     text: text,
     price: AskPrice.free,
@@ -191,7 +191,7 @@ List<String> recordSummary(PrepInsights? v, {bool pro = false}) {
   String sec(int s) => s >= 60 ? '${s ~/ 60}:${(s % 60).toString().padLeft(2, '0')}' : '${s}s';
   return [
     AskSheetCopy.ledgerLine(l.net, l.gained, l.penalty, v.questions),
-    if (top != null) AskSheetCopy.leakLine(top.chapter, top.open, top.wrong, top.n),
+    if (top != null) AskSheetCopy.leakLine(top.chapter, top.lost, top.wrong, top.n),
     if (pro && p.usable && p.medianSec != null) AskSheetCopy.paceLine(sec(p.medianSec!), p.questionsTimed),
   ];
 }
@@ -254,7 +254,7 @@ abstract final class AskSheetCopy {
   static const firstCheckHref = '/dashboard?mode=quick';
   static String ledgerLine(int net, int gained, int penalty, int questions) =>
       'Net $net marks from $questions answers: $gained gained, $penalty lost to wrong answers';
-  static String leakLine(String chapter, int open, int wrong, int n) => 'Biggest leak: $chapter, $open marks open, $wrong wrong of $n';
+  static String leakLine(String chapter, int lost, int wrong, int n) => 'Biggest leak: $chapter, $lost marks lost, $wrong wrong of $n';
   static String paceLine(String median, int timed) => 'Pace: a typical question takes $median, over $timed timed answers';
   static const openCredits = 'Open AI credits';
   static const walletPaused = 'AI replies are paused. Record questions still work.';

@@ -1,3 +1,4 @@
+import 'package:mockmob/features/review/model/review_chapters.dart' show ChapterRow;
 import 'package:mockmob/core/models/attempt.dart';
 import 'package:mockmob/core/models/learning_plan.dart';
 import 'package:mockmob/core/repositories/dismissal_repository.dart';
@@ -222,6 +223,7 @@ TodayInputs ashaInputs({
   int? reviseShown,
   int reviseCap = 10,
   int? openRepairs,
+  List<ChapterRow>? reviewChapters,
   bool isPro = false,
   String? firstName = 'Asha',
   String? email,
@@ -237,6 +239,7 @@ TodayInputs ashaInputs({
     reviseShown: reviseShown,
     reviseCap: reviseCap,
     openRepairs: openRepairs,
+    reviewChapters: reviewChapters,
     isPro: isPro,
     subjects: const ['accountancy', 'business_studies', 'economics', 'english'],
     attempts: attempts ?? ashaRecord(at),

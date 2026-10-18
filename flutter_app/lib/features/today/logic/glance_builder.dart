@@ -8,9 +8,12 @@ import 'dart:math' as math;
 import '../../../core/domain/marks.dart' show markBreakdownOf, missedMarksDenominator;
 import '../../../core/domain/next_move.dart';
 import '../../../core/domain/repair_candidates.dart';
-import '../../../core/domain/tonight_pick.dart' show isRepairBasis;
+import '../../../core/domain/tonight_pick.dart' show chapterKey, isRepairBasis, otherChapter;
 import '../../../core/models/attempt.dart';
 import '../../../core/router/routes.dart';
+import '../../review/data/mistake_index.dart' show buildReviewIndex;
+import '../../review/model/review_chapters.dart' show ChapterRow, chapterRows;
+import '../../review/model/review_record_adapter.dart' show reviewRecordOf;
 import '../../result/model/next_move.dart' show ChapterCost, MoveAnalysis, MoveRow, RowVerdict, costliest;
 import '../copy.dart';
 import '../copy_glance.dart';
@@ -31,11 +34,9 @@ import '../../../core/domain/cuet_dates.dart';
 /// Marks a wrong answer cost: 5 not gained plus 1 taken (CUET marking).
 const int marksPerWrong = 6;
 
-/// Marks a missed question (wrong or blank) left on the table: the 5 it would have earned.
-const int marksPerMiss = 5;
 
-/// Papers Weak chapters reads, newest first.
-const int weakPapers = 10;
+/// More papers than this on one day and the week's readout says the count and the newest paper instead of every paper.
+const int busyDay = 2;
 
 /// The choice key of a move: the card's two choices are always a different kind from the lead.
 String choiceKeyOf(MoveHero m) => switch (m.kind) {
@@ -125,13 +126,13 @@ List<MoveChoice> buildChoices(TodayInputs i, MoveHero lead, {WeakChapter? weakes
     final m = reviseMoveFor(i);
     if (m == null) return null;
     final minutes = int.tryParse((TodayCopy.keyLength(m.primary.label) ?? '').split(' ').first) ?? 5;
-    return MoveChoice(key: 'revise', title: GlanceCopy.choiceRevise, line: GlanceCopy.choiceReviseLine(i.reviseDue!, minutes), hero: presentMove(m, i));
+    return MoveChoice(key: 'revise', title: GlanceCopy.choiceRevise, line: GlanceCopy.choiceReviseLine(reviseRoundOf(i).size, minutes), hero: presentMove(m, i));
   });
   add('weakest', () {
     final w = weakest;
     if (w == null) return null;
-    final m = weakestMoveFor(i, subject: w.subjectId, chapter: w.chapter, marks: w.marks, missed: w.missed, asked: w.asked, papers: _papersWith(i, w));
-    return MoveChoice(key: 'weakest', title: GlanceCopy.choiceWeakest, line: w.chapter, hero: presentMove(m, i).copyWith(valueLine: GlanceCopy.stakeOpen(w.marks, _papersWith(i, w))));
+    final m = weakestMoveFor(i, chapter: w);
+    return MoveChoice(key: 'weakest', title: GlanceCopy.choiceWeakest, line: w.chapter, hero: presentMove(m, i).copyWith(valueLine: GlanceCopy.stakeLost(w.marks, w.papers)));
   });
   final subject = lead.subjectId ?? (all.isNotEmpty ? canonicalSubject(all.first.subject) : (i.subjects.isEmpty ? null : canonicalSubject(i.subjects.first)));
   add('mock', () {
@@ -146,15 +147,6 @@ List<MoveChoice> buildChoices(TodayInputs i, MoveHero lead, {WeakChapter? weakes
     return MoveChoice(key: 'other', title: GlanceCopy.titleOtherSubject, line: GlanceCopy.choiceOtherLine(subjectName(other)), hero: presentMove(otherSubjectMoveFor(i, subject: other), i));
   });
   return out;
-}
-
-/// Papers in the ranking that hold questions of [w]'s chapter.
-int _papersWith(TodayInputs i, WeakChapter w) {
-  var n = 0;
-  for (final a in _opened(i).take(weakPapers)) {
-    if (a.questions.any((q) => _chapterOf(q.chapter) == w.chapter && canonicalSubject(a.subject) == w.subjectId)) n++;
-  }
-  return n == 0 ? 1 : n;
 }
 
 List<Attempt> _opened(TodayInputs i) {
@@ -208,21 +200,17 @@ List<DayReadout>? buildReadouts(TodayInputs i) {
         final date = monday.add(Duration(days: d));
         final papers = [for (final a in all.reversed) if (i.date(a.completedAt) == date) a];
         String lineOf(Attempt a) => unopened.contains(a.id)
-            ? '${paperLabel(all, a)}, ${subjectName(a.subject)}, ${a.total} questions, result waiting, ${formatTime12(i.clock(a.completedAt))}'
+            ? GlanceCopy.paperLineWaiting(paperLabel(all, a), subjectName(a.subject), a.total, formatTime12(i.clock(a.completedAt)))
             : GlanceCopy.paperLine(paperLabel(all, a), subjectName(a.subject), a.total, a.marks, a.maxMarks, formatTime12(i.clock(a.completedAt)));
-        // A busy day reads as a summary and the latest paper, never a raw log of every paper (final walk, H4).
-        if (papers.length > 2) {
+        // A busy day reads as a count and the newest paper, never a raw log of every paper (final walk, H4):
+        // "3 full mocks and 6 quick sets saved." then "Latest: Mock 13, Accountancy, ...". [papers] is oldest first.
+        if (papers.length > busyDay) {
           final mocks = papers.where((a) => a.isMock).length;
           final lines = [GlanceCopy.daySummary(mocks, papers.length - mocks), GlanceCopy.latestPaper(lineOf(papers.last))];
           if (d == today) return DayReadout(title: GlanceCopy.todayTitle(date, planned: planned != null && planned.contains(d)), lines: lines, isToday: true);
           return DayReadout(title: GlanceCopy.dayTitle(date), lines: lines);
         }
-        final lines = [
-          for (final a in papers)
-            unopened.contains(a.id)
-                ? '${paperLabel(all, a)}, ${subjectName(a.subject)}, ${a.total} questions, result waiting, ${formatTime12(i.clock(a.completedAt))}'
-                : GlanceCopy.paperLine(paperLabel(all, a), subjectName(a.subject), a.total, a.marks, a.maxMarks, formatTime12(i.clock(a.completedAt))),
-        ];
+        final lines = [for (final a in papers) lineOf(a)];
         final isPlanned = planned == null || planned.contains(d);
         if (d == today) return DayReadout(title: GlanceCopy.todayTitle(date, planned: planned != null && planned.contains(d)), lines: lines, isToday: true);
         if (lines.isEmpty) {
@@ -313,7 +301,7 @@ RoadLayers buildRoadLayers(TodayInputs i, {required RoadBoard board, MoveHero? l
   final weekItems = <DueItem>[
     if (goal != null) DueItem(label: GlanceCopy.itemStudyWeek(studyDone, goal), done: studyDone >= goal),
     if (plannedMocks > 0)
-      DueItem(label: GlanceCopy.itemMockWeek(math.min(mocksThisWeek, plannedMocks), plannedMocks), done: mocksThisWeek >= plannedMocks, target: dueThisWeek && i.attempts != null ? GoTo(TodayLinks.fullMock(subject: all.isEmpty ? null : all.first.subject)) : null)
+      DueItem(label: GlanceCopy.itemMockWeek(mocksThisWeek, plannedMocks), done: mocksThisWeek >= plannedMocks, target: dueThisWeek && i.attempts != null ? GoTo(TodayLinks.fullMock(subject: all.isEmpty ? null : all.first.subject)) : null)
     else if (nextDue != null && mocksKnown && all.isNotEmpty)
       DueItem(label: GlanceCopy.itemMockWeekNone(GlanceCopy.dayShort(nextOn!)), done: false, info: true),
   ];
@@ -367,57 +355,41 @@ RoadLayers buildRoadLayers(TodayInputs i, {required RoadBoard board, MoveHero? l
   );
 }
 
-/// Weak chapters: chapters ranked by the marks their missed questions left, over the last
-/// [weakPapers] opened papers; the top three, each with its newest wrong answers (open first).
+/// Weak chapters: Review's own chapter record (`chapterRows`), the top three, each with its newest wrong answers (open first).
+/// One computation for both screens (final walk, H6): every opened paper, marks lost at 6 a wrong answer and 5 a blank, against
+/// 5 a question on offer, ranked most marks lost first. Review's rows come in [TodayInputs.reviewChapters]; until its index is
+/// built the same function runs on the papers here. Unmapped questions are left out (no chapter to practise).
 WeakChapters buildWeakChapters(TodayInputs i) {
   if (i.attempts == null) return WeakChapters(failed: i.attemptsFailed);
   final all = i.attempts!;
   if (all.isEmpty) return WeakChapters(dayOne: true, startChapters: rankedChapters(canonicalSubject(dayOneSubject(i))) ?? const []);
-  final papers = _opened(i).take(weakPapers).toList();
-  final asked = <String, int>{};
-  final missed = <String, int>{};
-  final wrong = <String, int>{};
-  final names = <String, (String, String)>{};
-  final mistakes = <String, List<(Attempt, int, String)>>{};
-  for (final a in papers) {
-    final subject = canonicalSubject(a.subject);
-    for (var k = 0; k < a.questions.length; k++) {
-      final q = a.questions[k];
-      final chapter = _chapterOf(q.chapter);
-      if (chapter == null) continue;
-      final key = '$subject|$chapter';
-      names[key] = (subject, chapter);
-      asked[key] = (asked[key] ?? 0) + 1;
-      final d = a.detailFor(q.id);
-      if (d?.isCorrect == true) continue;
-      missed[key] = (missed[key] ?? 0) + 1;
-      if (d?.isCorrect == false) {
-        wrong[key] = (wrong[key] ?? 0) + 1;
-        (mistakes[key] ??= []).add((a, k + 1, q.id));
-      }
-    }
-  }
-  final keys = [for (final k in missed.keys) if ((missed[k] ?? 0) > 0) k]
-    ..sort((x, y) {
-      final byMarks = missed[y]!.compareTo(missed[x]!);
-      return byMarks != 0 ? byMarks : x.compareTo(y);
-    });
+  final opened = _opened(i);
+  final ranked = weakRowsOf(i);
   final rows = <WeakChapter>[];
-  for (final key in keys.take(3)) {
-    final (subject, chapter) = names[key]!;
-    final list = mistakes[key] ?? const [];
-    final open = [for (final m in list) if (!(i.repaired[m.$1.id]?.contains(m.$3) ?? false)) m];
-    final fixed = [for (final m in list) if (i.repaired[m.$1.id]?.contains(m.$3) ?? false) m];
-    final shown = [...open, ...fixed].take(3);
+  for (final r in ranked) {
+    if (rows.length >= 3) break;
+    if (r.name == otherChapter || r.lost <= 0) continue;
+    final subject = canonicalSubject(r.subject ?? '');
+    // This chapter's wrong answers, newest paper first, by question number: its open ones lead.
+    final list = <(Attempt, int, String)>[
+      for (final a in opened)
+        for (var k = 0; k < a.questions.length; k++)
+          if ('${a.subject}|${chapterKey(a.questions[k].chapter)}' == r.id && a.detailFor(a.questions[k].id)?.isCorrect == false) (a, k + 1, a.questions[k].id),
+    ];
+    bool isRepaired((Attempt, int, String) m) => i.repaired[m.$1.id]?.contains(m.$3) ?? false;
+    final shown = [...list.where((m) => !isRepaired(m)), ...list.where(isRepaired)].take(3);
     rows.add(WeakChapter(
-      chapter: chapter,
-      subject: subjectName(subject),
+      chapter: r.name,
+      subject: subjectName(r.subject ?? subject),
       subjectId: subject,
-      missed: missed[key]!,
-      asked: asked[key]!,
-      marks: missed[key]! * marksPerMiss,
-      wrong: wrong[key] ?? 0,
-      practise: GoTo(TodayLinks.quick(subject: subject, chapter: chapter)),
+      missed: r.wrong + r.blank,
+      asked: r.questions ?? (r.wrong + r.blank),
+      marks: r.lost,
+      offer: r.offer,
+      wrong: r.wrong,
+      blank: r.blank,
+      papers: math.max(1, r.papers.length),
+      practise: GoTo(TodayLinks.quick(subject: subject, chapter: r.name)),
       review: const GoTo(AppRoutes.reviewMistakes),
       mistakes: [
         for (final (a, number, qid) in shown)
@@ -439,7 +411,18 @@ WeakChapters buildWeakChapters(TodayInputs i) {
       ],
     ));
   }
-  return WeakChapters(rows: rows, papers: papers.length);
+  return WeakChapters(rows: rows, papers: opened.length);
+}
+
+/// The chapter record Weak chapters reads: Review's rows when its index is built, else Review's own functions run on the
+/// papers here (`buildReviewIndex`, `reviewRecordOf`, `chapterRows`), so the figures are the same arithmetic either way.
+List<ChapterRow> weakRowsOf(TodayInputs i) {
+  final given = i.reviewChapters;
+  if (given != null) return given;
+  final all = i.attempts ?? const <Attempt>[];
+  final unopened = {for (final u in i.unopened) u.attemptId};
+  final index = buildReviewIndex(all, const [], unopened: unopened);
+  return chapterRows(reviewRecordOf(index, now: i.now, unopened: unopened));
 }
 
 /// The chapter that cost [a] the most marks, by the result's own rule ([costliest]): rows are the paper's questions with

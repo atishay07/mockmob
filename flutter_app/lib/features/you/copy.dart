@@ -60,7 +60,9 @@ abstract final class YouCopy {
   // its section: Plan and credits, Appearance, Study days, Notifications, My subjects and colleges.
   // You as the student's study (app-you-1016 A.2).
   static const hubWeek = 'This week';
-  static String badgeLandedLine(String name) => '$name landed.';
+  /// Mobi's line for a badge that landed since the last visit. It says it is a badge: "5 full mocks landed." read as a count
+  /// of full mocks beside Road to CUET's "13 of 27 full mocks" (final walk, H8).
+  static String badgeLandedLine(String name) => 'Badge earned: $name.';
   static const seeRhythm = 'See rhythm';
   static const hubSubjects = 'My subjects';
   static const editSubjectsShort = 'Edit';
