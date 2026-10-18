@@ -5,6 +5,7 @@ import 'core/connectivity/connectivity_providers.dart' show networkStatusProvide
 import 'core/repositories/repositories.dart';
 import 'core/router/quick_start.dart';
 import 'core/sync/pending_work.dart' show pendingWorkProvider, pendingWorkCountProvider;
+import 'core/sync/sync_attention.dart' show syncStaleProvider;
 import 'core/widgets/bar/bar_badges.dart';
 import 'core/widgets/bar/bar_live.dart';
 import 'features/practice/data/practice_catalog.dart' show practiceSubjectProvider, practiceSubjectsProvider;
@@ -85,6 +86,9 @@ List<Override> liveAppOverrides() => [
     };
   }),
   barReviewCountProvider.overrideWith((ref) => ref.watch(reviewIndexProvider)?.tonight?.items.length ?? 0),
+  // You's dot: a write has waited over 24 hours to reach the server (the sync is not getting through).
+  // Colleges has no dot source yet (no cutoff-change record exists), so its dot stays off by default.
+  barYouAttentionProvider.overrideWith((ref) => ref.watch(syncStaleProvider).value ?? false),
 ];
 
 /// "Accountancy mock", "Business Studies practice".

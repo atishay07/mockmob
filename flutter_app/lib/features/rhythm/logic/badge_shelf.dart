@@ -194,7 +194,7 @@ PaperLine? paperLine(BadgeRecord? record, String zone, {DateTime? earnedAt}) {
   final marks = record.max > 0 ? RhythmCopy.badgePaperMarks(record.marks, record.max, before: record.before) : '';
   return PaperLine(
     attemptId: record.attemptId,
-    from: RhythmCopy.badgePaperFrom(subjectDisplayName(record.subject), RhythmCopy.paperKind(record.mode), when),
+    from: RhythmCopy.badgePaperFrom(subjectDisplayName(record.subject), RhythmCopy.paperKind(record.mode, total: record.total), when),
     marks: marks,
   );
 }

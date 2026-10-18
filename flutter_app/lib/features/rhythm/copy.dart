@@ -429,10 +429,12 @@ abstract final class RhythmCopy {
   static const String badgeDone = 'Done';
   static String badgeFromPaper(String subject, String kind, String date, String marks, {String? before}) =>
       'From your $subject $kind, $date: $marks${before == null ? '' : ' (before: $before)'}';
-  static String paperKind(String mode) => switch (mode) {
+  /// A practice paper is named the way Today and History name it ("Quick 10"); [total] is its
+  /// question count. Without one it stays "practice set".
+  static String paperKind(String mode, {int total = 0}) => switch (mode) {
         'full' => 'full mock',
         'nta' => 'NTA mode paper',
-        _ => 'practice set',
+        _ => total > 0 ? 'Quick $total' : 'practice set',
       };
 
   // A step opened in its sheet.
