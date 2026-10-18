@@ -14,11 +14,14 @@ The owner is Atishay. He reviews by voice dictation and is tired of repeating fe
 5. Call continuum_start for project "mockmob" with your task.
 
 ## The goal
-- Ship a visibly better MockMob in **releases every 1-2 hours**, never stuck polishing one version.
-- **Website:** everything in the master ledger, verified live.
-- **App:** the FINAL v15, then v15.1 (the richer Today and the swipe stack), each walked on the emulator, delivered as an APK and installed on his phone (adb serial 10BF370PA6002XR, only by the main session). The Play Store is parked.
-- **Then:** the Mob or social, as he decides; Learn and Review; Higgsfield.
-- **Quality is never traded for speed.** Every release passes its suites and a 390 and 1440, Night and Day check against the ledger items it claims.
+- **Current goal (19 Oct): build PLAN-1019.** That covers his v15.2 / release 10 hand-check, G1-G33 and D101-D112. Wave A restores and fixes, Wave B makes the mock-ups, and Wave C builds the picks.
+- **Ship:**
+  - **App v15.3:** walked as a fresh AND a heavy account, an APK installed on his phone (adb serial 10BF370PA6002XR, main session only).
+  - **Web release 11:** verified, then pushed.
+  - **ONE message.**
+- **The plan:** `docs/brain/AUTOPILOT-GOAL-1019.md` (steps 0-5 and boundaries) and `docs/brain/PLAN-1019.md` (rules R1-R8, SPEC and DONE WHEN). Each agent's exact brief is in `docs/brain/briefs-1019/`. NOW.md says where each agent stopped.
+- **Users:** 16-17-year-olds, many new to apps and CBT. A fresh account must be complete; never hide a feature to fix it (R1-R3).
+- **Quality is never traded for speed.** Every release passes its suites, the walks, a side-by-side with the previous release, and motion frame checks.
 
 ## His standing rules (his words)
 - "Never use the chrome-devtools MCP or a visible browser. Never drive my browser or sign in as me." Use headless playwright-core.
