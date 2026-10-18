@@ -131,7 +131,7 @@ class _FirstMoveStepState extends ConsumerState<FirstMoveStep> {
                 children: [
                   // The title lifts with the step (only Welcome and the plan rise word by word).
                   Padding(
-                    padding: const EdgeInsets.only(bottom: MmSpace.s16),
+                    padding: const EdgeInsets.only(bottom: MmSpace.s12),
                     child: EntranceItem(
                       at: Entrance.headline,
                       child: Semantics(header: true, child: Text(move.title, style: type.headline)),
@@ -153,8 +153,9 @@ class _FirstMoveStepState extends ConsumerState<FirstMoveStep> {
                       onNumberLanded: () => ref.read(hapticsProvider).selection(),
                     ),
                   ),
-                  // Group gap from the hero to the next block (SPACING.md 3.1).
-                  const SizedBox(height: MmSpace.s24),
+                  // Group gap from the hero to the next block (SPACING.md 3.1), a step tighter
+                  // now that Back is pinned under it.
+                  const SizedBox(height: MmSpace.s20),
                   EntranceItem.answer(
                     2,
                     child: WeekAhead(

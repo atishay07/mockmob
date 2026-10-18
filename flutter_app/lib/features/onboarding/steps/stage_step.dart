@@ -61,7 +61,7 @@ class StageStep extends ConsumerWidget {
             EntranceItem.answer(
               0,
               child: Padding(
-                padding: const EdgeInsets.only(bottom: MmSpace.s16),
+                padding: const EdgeInsets.only(bottom: MmSpace.s12),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -71,10 +71,10 @@ class StageStep extends ConsumerWidget {
                       litWeeks: stage == null ? null : CuetCalendar.weeksTo(stage.cuetYear, now),
                       mobi: mobi,
                     ),
-                    const SizedBox(height: MmSpace.s12),
+                    const SizedBox(height: MmSpace.s8),
                     // The weeks land here, under the road, at the same height before and after the
                     // choice, so nothing below moves when the number rolls in.
-                    SizedBox(height: 48, child: WeeksReadout(stage: stage, now: now, compact: true)),
+                    SizedBox(height: 40, child: WeeksReadout(stage: stage, now: now, compact: true)),
                   ],
                 ),
               ),
@@ -120,8 +120,10 @@ class _StageTile extends StatelessWidget {
       selected: selected,
       onTap: onTap,
       semanticsLabel: w == null ? stage.option : '${stage.option}. $w ${OnboardingCopy.stageWeeksSpoken(stage.cuetYear)}',
-      minHeight: 112,
-      padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s16, MmSpace.s16, MmSpace.s16),
+      minHeight: 104,
+      // 14 dp above and below: with Mobi in the group the four answers stay above the fold on a
+      // 360 by 800 phone (D40, D44).
+      padding: const EdgeInsets.fromLTRB(MmSpace.s16, 14, MmSpace.s16, 14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -130,7 +132,7 @@ class _StageTile extends StatelessWidget {
             padding: const EdgeInsets.only(right: MmSpace.s20),
             child: Text(stage.option, style: type.cardTitle.copyWith(color: selected ? colors.ink : colors.ink2)),
           ),
-          const SizedBox(height: MmSpace.s12),
+          const SizedBox(height: MmSpace.s8),
           Text(caption, style: type.caption.copyWith(color: colors.ink3)),
         ],
       ),

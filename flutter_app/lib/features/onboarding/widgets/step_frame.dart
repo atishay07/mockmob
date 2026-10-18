@@ -122,8 +122,8 @@ class StepFrame extends StatefulWidget {
   /// The room between the action row and the bottom inset.
   static const double footGap = MmSpace.s16;
 
-  /// Mobi's gap to the title under him.
-  static double headGap(BuildContext context) => MediaQuery.sizeOf(context).height < 720 ? MmSpace.s12 : MmSpace.s16;
+  /// Mobi's gap to the title under him (his contact shadow already sets him apart).
+  static double headGap(BuildContext context) => MediaQuery.sizeOf(context).height < 720 ? MmSpace.s8 : MmSpace.s12;
 
   /// The line in Mobi's bubble goes up one type step from this screen height.
   static const double largeBubbleFrom = 760;
