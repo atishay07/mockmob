@@ -104,7 +104,7 @@ test('Reduce motion keeps the first phrase still; a hidden tab or an off-screen 
 });
 
 test('a screen reader hears the static sentence once; the letters are hidden and nothing is announced', () => {
-  assert.match(PAGE, /<span className="lp-title__line lp-title__brand">\{HERO_LINES\[0\]\}<\/span>\s*<span className="lp-title__line">\{HERO_LINES\[1\]\}<\/span>\s*<HeroMorph \/>/);
+  assert.match(PAGE, /<span className="lp-title__line lp-title__brand">\{HERO_LINES\[0\]\}<\/span>\s*<span className="lp-title__line">\{HERO_LINES\[1\]\}<\/span>\s*\{heroMotion === 'v1' \? <HeroMorph \/> : <HeroLine mode=\{heroMotion\} \/>\}/);
   assert.match(MORPH_JSX, /<span className="lp-sr">\{phrases\[0\]\}<\/span>/);
   assert.match(MORPH_JSX, /<span className="lp-morph__cell" aria-hidden="true">/);
   assert.doesNotMatch(MORPH_JSX, /aria-live/);
