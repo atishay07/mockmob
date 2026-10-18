@@ -132,3 +132,8 @@ His message was the pasted next-session prompt (build PLAN-1019 Waves A and B, t
 > "I want you to understand everything and have clarity of what all happened and why the successful result was not published, even after doing so much. Once you have clarity of everything, if you want to ask me anything, then ask. Then proceed fully in an autonomous flow to complete everything and deliver a result which will exceed my expectation."
 
 **Ledger D111:** first explain plainly what happened and why the good result never reached him; ask only what is needed; then run the whole plan autonomously and deliver beyond his expectation.
+
+## Owner, 19 Oct about 2:10 am IST (his choice)
+> "If I'm not around when the mock-ups arrive, pick your recommendation for web nav, Ask Mobi and the homepage motion and build it; I can change it later."
+
+**Ledger D112:** if he is not around when the Wave B mock-ups arrive, the CTO picks the recommended option for web navigation, Ask Mobi and the homepage motion, builds it, and tells him. He can change it later.
