@@ -53,3 +53,16 @@ test('the preview fixture and the signed-in page render the same /mentor compone
   assert.match(read('src/app/(app)/mentor/page.js'), /<MentorRecordPage \/>/);
   assert.match(read('src/app/preview/arena/ArenaPreviewClient.jsx'), /view === 'prepos' \? <MentorRecordPage \/>/);
 });
+
+// ---------------------------------------------------------------------------------------------------------------------
+// W-089: the 18 Oct design notes were only in the working branch (mockmob-next), not in the repo that ships.
+// ---------------------------------------------------------------------------------------------------------------------
+
+test('W-089: the six 18 Oct design notes are in the repo, as written', () => {
+  const notes = ['TODAY-1018.md', 'REVIEW-RESULT-1018.md', 'ASK-MOBI-1018.md', 'COMMUNITY-1018.md', 'BADGES-ICONS-1018.md', 'BADGES-REFINE-1018.md'];
+  for (const name of notes) {
+    const text = read(`docs/design-decisions/pass-1018/${name}`);
+    assert.ok(text.length > 4000, `${name} is the whole note`);
+    assert.match(text, /^# .+/m, `${name} opens with its title`);
+  }
+});
