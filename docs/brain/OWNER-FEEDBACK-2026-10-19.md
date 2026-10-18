@@ -178,3 +178,19 @@ His message was the pasted next-session prompt (build PLAN-1019 Waves A and B, t
 - **Cost:** no AI cost; the questions come from the bank.
 - **How:** implemented in server code with no migration (web/1019-w5-firstmock). The quote API returns 0 with reason "first_full_mock_free", and the app shows "Free" from the quote. Copy: "Your first full mock in every subject is free."
 - He can reverse it with a one-line flag.
+
+## Owner, 19 Oct about 2:50 am IST (his picks on the three mock-ups; verbatim)
+> "I am getting the preferences for all the web navigation.
+>
+> * A seems fine to me, though I am also inclined towards B because it matches my vision more of having everything clear. A seems most aesthetically pleasing right now, so go ahead with A. We'll see about it later.
+> * For the Ask Mob, I like the direction of B.
+> * For this landing page, C seems good as an idea, but I can only tell properly once I see it live.
+> * The English part: the marketing copy is all that really matters. What you are writing here, so focus on that also.
+>
+> This is my selection for now. Let me know if you need anything else from my side."
+
+**Ledger D114:**
+- web navigation A confirmed (he leans towards B's clarity too; revisit later);
+- Ask Mobi B confirmed;
+- homepage motion C as an idea; he judges it LIVE, so show it to him on a preview before it ships;
+- the marketing copy is what matters most: every new line in the app and on the web gets a dedicated copy pass in his voice (R6).
