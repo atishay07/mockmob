@@ -140,6 +140,9 @@
   :root:not([data-motion='reduced']) .mm.lp :is(.mm-nav, .mm-foot) > .mm-wrap { max-width: calc(75rem + var(--pip-lane)); }
   :root:not([data-motion='reduced']) .lp-hero__greeting { position: relative; }
   :root:not([data-motion='reduced']) .lp-hero__greeting .pip-seat { position: absolute; top: 0; }
+  /* First glance: the seat is out of flow here, so until PipGuide (a lazy chunk) marks the root he must not paint,
+     or he sits on the headline and then vanishes to fly in. The static opt-out never starts the guide: keep him. */
+  :root:not([data-motion='reduced']):not([data-pip-guide]):not([data-pip-static]) .mm.lp .lp-hero__greeting .pip-seat { visibility: hidden; }
   :root:not([data-motion='reduced']) .mm.lp .pip-seat[data-pip-station] { width: 160px; grid-template-columns: 1fr; text-align: center; justify-items: center; flex-basis: 160px; }
   :root:not([data-motion='reduced']) .mm.lp .pip-seat[data-pip-station] .pip-seat__art { width: 160px; height: 180px; }
 }
