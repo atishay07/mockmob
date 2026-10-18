@@ -1,7 +1,7 @@
 /* ==========================================================================
    HERO DEPTH, PROOF DOCK AND STATEMENT (landing only)
    Scroll Craft principles adapted to the existing guided-practice grammar:
-   - planes move at different rates (far aurora < grid < page < near drill card),
+   - planes move at different rates (far grid < dots < page < near drill card),
      travel stays under 200px, copy rides at 1x and nothing pins;
    - all motion is CSS scroll-driven (compositor work, no JS on scroll) and is a
      progressive enhancement: unsupported browsers and reduced motion get the
@@ -11,7 +11,6 @@
 /* ---------- 1. Scroll depth on the existing hero planes ---------- */
 @supports (animation-timeline: scroll()) {
   @media (prefers-reduced-motion: no-preference) {
-    .lp-hero .lp-bg__aurora,
     .lp-hero .lp-bg__grid,
     .lp-hero .lp-bg__dots,
     .lp-hero .lp-stage__card {
@@ -20,8 +19,6 @@
       animation-timeline: scroll(root block);
       animation-range: 0 100svh;
     }
-    /* Far: lags the page most, and opens slightly as if the camera moves in. */
-    .lp-hero .lp-bg__aurora { animation-name: lp-depth-far; }
     .lp-hero .lp-bg__grid { animation-name: lp-depth-grid; }
     .lp-hero .lp-bg__dots { animation-name: lp-depth-mid; }
     /* Near: the playable card rises a little faster than the page, so it reads in front.
@@ -30,7 +27,6 @@
     @media (min-width: 960px) { .lp-hero .lp-stage__card { animation-name: lp-depth-near; } }
   }
 }
-@keyframes lp-depth-far { to { transform: translate3d(0, 160px, 0) scale(1.08); opacity: 0.55; } }
 @keyframes lp-depth-grid { to { transform: translate3d(0, 110px, 0); } }
 @keyframes lp-depth-mid { to { transform: translate3d(0, 60px, 0); } }
 @keyframes lp-depth-near { to { transform: translate3d(0, -36px, 0); } }

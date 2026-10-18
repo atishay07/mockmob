@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 import React from 'react';
 import { newOfferReleased, RECOVERY_PACKAGING_ROWS } from '@/../data/capabilities';
-import { publicOffer } from '@/lib/payments/offer';
+import { priceHeadline, priceTag, publicOffer } from '@/lib/payments/offer';
 import Link from 'next/link';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
@@ -24,10 +24,10 @@ export function generateMetadata() {
   const offer = publicOffer();
   const monthly = offer.purchasable === 'monthly';
   return seoMetadata({
-    title: `MockMob Pro Pricing: ₹${offer.monthly.rupees} a month`,
+    title: monthly ? `MockMob Pro Pricing: ₹${offer.monthly.rupees} a month` : `MockMob Pro Pricing: ₹${offer.oneTime.rupees} once, through ${offer.oneTime.expires}`,
     description: monthly
       ? `Start free. MockMob Pro is ₹${offer.monthly.rupees} a month: unlimited Quick practice and Full mock, Smart practice, NTA mode and full chapter review. Cancel anytime.`
-      : `Start free. MockMob Pro is ₹${offer.monthly.rupees} a month, and monthly billing opens soon. Until then one ₹${offer.oneTime.rupees} payment covers Pro through ${offer.oneTime.expires}, with no renewal: unlimited Quick practice and Full mock, Smart practice, NTA mode and full chapter review.`,
+      : `Start free. MockMob Pro is ₹${offer.oneTime.rupees} once, through ${offer.oneTime.expires}, with no renewal: unlimited Quick practice and Full mock, Smart practice, NTA mode and full chapter review. Monthly Pro at ₹${offer.monthly.rupees} a month opens soon.`,
     path: '/pricing',
   });
 }
@@ -55,8 +55,8 @@ const buildPlans = (offer) => [
   },
   {
     name: offer.purchasable === 'monthly' ? 'Pro' : 'Pro access',
-    price: `₹${offer.monthly.rupees}`,
-    cycle: 'a month',
+    // One framing everywhere (release 9): the tag is what a buyer is charged today, like the H1 and the landing trust row.
+    ...priceTag(offer),
     description: offer.purchasable === 'monthly'
       ? `Every mode, no limits. ₹${offer.monthly.rupees} is charged when you start, then every month on the same date until you cancel.`
       : `Every mode, no limits. The ₹${offer.oneTime.rupees} you pay today is one payment: it covers you through ${offer.oneTime.expires} and does not renew.`,
@@ -242,11 +242,11 @@ export default async function PricingPage() {
       <main>
         <section className="mm-section mm-section--flush" style={{ paddingTop: '2.5rem', paddingBottom: '2rem' }}>
           <div className="mm-wrap">
-            <h1 className="mm-h1">{`Pro is ₹${offer.monthly.rupees} a month.`}</h1>
+            <h1 className="mm-h1">{priceHeadline(offer)}</h1>
             <p className="mm-lead" style={{ marginTop: '1rem' }}>
               {offer.purchasable === 'monthly'
                 ? 'Start free and stay free if that is enough. Go Pro when you want unlimited practice, every mode and full chapter review. Cancel any time in Account.'
-                : `Start free and stay free if that is enough. Monthly billing opens soon. Until then, one payment of ₹${offer.oneTime.rupees} covers Pro through ${offer.oneTime.expires}, with no renewal.`}
+                : `Start free and stay free if that is enough. One payment covers every mode to that date, and it never renews. Monthly Pro at ₹${offer.monthly.rupees} a month opens soon.`}
             </p>
             <p className="mm-body" style={{ marginTop: '0.875rem', maxWidth: '60ch', fontVariantNumeric: 'tabular-nums' }}>{pricingBankLine(bankSize)} {pricingSubjectLine()}</p>
           </div>

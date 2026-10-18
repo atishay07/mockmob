@@ -217,7 +217,8 @@ body:has(.mm.lp) {
   color: var(--accent-text);
 }
 
-/* ---------- Backdrop: grid + dot matrix + pointer-lit dots ---------- */
+/* ---------- Backdrop: grid + dot matrix + pointer-lit dots ----------
+   No colour wash behind them: the lime radial "aurora" was the glow L-019 rules out (release 9). */
 
 .lp-bg {
   position: absolute;
@@ -229,10 +230,6 @@ body:has(.mm.lp) {
 .lp-bg > div {
   position: absolute;
   inset: 0;
-}
-.lp-bg__aurora {
-  background: radial-gradient(40% 60% at 76% 38%, rgba(210, 240, 0, 0.17), transparent 70%),
-    radial-gradient(36% 46% at 8% 6%, rgba(96, 150, 60, 0.09), transparent 70%);
 }
 .lp-bg__grid {
   background-image: linear-gradient(to right, rgba(244, 245, 240, 0.085) 1px, transparent 1px),
@@ -1193,6 +1190,9 @@ body:has(.mm.lp) {
   color: var(--ink-2);
 }
 
+/* The public questions: the footer's Help sends guests here (/#faq), so the heading lands clear of the sticky nav. */
+#faq { scroll-margin-top: 64px; }
+
 /* ---------- Close ---------- */
 
 .lp-close {
@@ -1202,9 +1202,6 @@ body:has(.mm.lp) {
   padding-block: clamp(4rem, 10vw, 8rem);
   border-top: 1px solid var(--line);
   text-align: center;
-}
-.lp-close .lp-bg__aurora {
-  background: radial-gradient(50% 70% at 50% 100%, rgba(210, 240, 0, 0.12), transparent 70%);
 }
 .lp-close .lp-bg__grid,
 .lp-close .lp-bg__dots {

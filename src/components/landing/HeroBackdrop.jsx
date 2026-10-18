@@ -49,7 +49,6 @@ export function HeroBackdrop() {
 
   return (
     <div ref={ref} className="lp-bg" aria-hidden="true" data-live="false">
-      <div className="lp-bg__aurora" />
       <div className="lp-bg__grid" />
       <div className="lp-bg__dots" />
       <div className="lp-bg__spot" />

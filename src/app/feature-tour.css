@@ -3,7 +3,8 @@
 .ft__list { position: relative; display: flex; gap: .4rem; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; list-style: none; margin: 0; padding: 2px; }
 .ft__list::-webkit-scrollbar, .ft__track::-webkit-scrollbar { display: none; }
 /* The chip row fades only at an edge with more chips beyond it, so a half-shown chip reads as "more". */
-.ft__list { scroll-padding-inline: 24px; --ft-fade-l: #000; --ft-fade-r: #000; -webkit-mask-image: linear-gradient(90deg, var(--ft-fade-l), #000 24px, #000 calc(100% - 24px), var(--ft-fade-r)); mask-image: linear-gradient(90deg, var(--ft-fade-l), #000 24px, #000 calc(100% - 24px), var(--ft-fade-r)); }
+.ft__list { scroll-padding-inline: 24px; scroll-snap-type: x proximity; --ft-fade-l: #000; --ft-fade-r: #000; -webkit-mask-image: linear-gradient(90deg, var(--ft-fade-l), #000 48px, #000 calc(100% - 48px), var(--ft-fade-r)); mask-image: linear-gradient(90deg, var(--ft-fade-l), #000 48px, #000 calc(100% - 48px), var(--ft-fade-r)); }
+.ft__list li { scroll-snap-align: start; }
 .ft__list:is([data-fade='start'], [data-fade='both']) { --ft-fade-l: transparent; }
 .ft__list:is([data-fade='end'], [data-fade='both']) { --ft-fade-r: transparent; }
 .ft__list li { flex: 0 0 auto; }
@@ -157,4 +158,12 @@ html[data-theme='light'] .ft__shot .ts { box-shadow: none; }
   .ft-story[data-pinned='true'] .ft__card { grid-template-rows: none; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
   .ft-story[data-pinned='true'] .ft__copy { order: -1; justify-content: center; padding: 1rem 1.25rem; }
   .ft-story[data-pinned='true'] .ft__media { padding: .75rem 1rem; }
+}
+
+/* Release 9: from 900 px every chapter chip is in view. The row wraps instead of clipping the last chip at a hard edge
+   (nine chips cut "Benchm..." at 1440), and the chips sit a little tighter so nine fit one row at 1440. Below 900 the
+   row scrolls, snaps chip by chip and fades wide on the side where more chips wait. */
+@media (min-width: 900px) {
+  .ft__list { flex-wrap: wrap; gap: .3rem; overflow-x: visible; scroll-snap-type: none; -webkit-mask-image: none; mask-image: none; }
+  .ft__row { padding-inline: .7rem; }
 }

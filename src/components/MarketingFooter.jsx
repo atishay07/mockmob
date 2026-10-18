@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { Logo } from './Logo';
 import { FooterStart } from './FooterStart';
+import { FooterHelpLink } from './FooterHelpLink';
 import { SUBJECT_CLAIM } from '../../data/subject_claim.js';
 import { NewTag } from './NavBar';
 import './new-tag.css';
@@ -24,6 +25,7 @@ const SUBJECT_LINKS = [
   ['CUET 2027 guide', '/cuet-2027'],
 ];
 
+// Help is chosen by sign-in (FooterHelpLink): /help for a student, the landing's public questions for a guest.
 const COMPANY_LINKS = [
   ['About', '/about'],
   ['Help', '/help'],
@@ -83,7 +85,7 @@ export function MarketingFooter() {
             <ul>
               {COMPANY_LINKS.map(([label, href]) => (
                 <li key={href}>
-                  <Link href={href}>{label}</Link>
+                  {href === '/help' ? <FooterHelpLink>{label}</FooterHelpLink> : <Link href={href}>{label}</Link>}
                 </li>
               ))}
             </ul>

@@ -26,7 +26,7 @@ import { mobiAct, useMobiScope } from '@/components/brand/pipEvents';
 import { useCountUp } from '@/lib/motion';
 import { getMobiPrefs } from '@/lib/mobiPrefs';
 import { SUBJECT_RULE_NOTE } from '@/lib/cuetRules.mjs';
-import { ONBOARDING_LEAD, bankCount, tileCount } from '@/lib/paperCopy.mjs';
+import { ONBOARDING_STEPS, bankCount, tileCount } from '@/lib/paperCopy.mjs';
 import {
   DAY_OPTIONS, DEFAULT_DAYS, DONE_PATH, GOAL_PATH, SIGNUP_PATH, STUDY_DAY_RULE, SUBJECT_CAP,
   cleanDays, dayRhythm, daysLine, goalBody, mobiForDays, onboardingEntry, pickedLine, pickedSlots, resolveStep, ringArcs, stepFromQuery, thumbIndex,
@@ -41,24 +41,8 @@ const reducedMotion = () => getMobiPrefs().reduced;
 const SUBJECTS_FAILED = 'Your subjects did not save. Your choices are still selected. Try again.';
 const DAYS_FAILED = 'Your days did not save. Try again, or skip for now.';
 
-const COPY = {
-  subjects: {
-    title: 'Which subjects are you taking?',
-    lead: ONBOARDING_LEAD,
-  },
-  edit: {
-    title: 'Your subjects',
-    lead: 'Pick up to 5. Practice and your mocks use these.',
-  },
-  days: {
-    title: 'How many days a week can you study?',
-    lead: 'Today shows your week as seven days, with a mark on each study day. Skip keeps 4.',
-  },
-  colleges: {
-    title: 'Which colleges are you aiming for?',
-    lead: 'Pick a course, then up to 8 colleges. Today shows your first with its 2026 cutoff. You can change them on Account.',
-  },
-};
+// Each step's headline and lead live in paperCopy (ONBOARDING_STEPS), so the copy tests read the same words.
+const COPY = ONBOARDING_STEPS;
 
 function Tick({ on }) {
   return (

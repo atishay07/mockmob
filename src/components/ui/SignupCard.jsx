@@ -134,9 +134,11 @@ export function SignupCard({ mode = 'signup' }) {
       <div className="auth-card__head">
         <h2>{isLogin ? 'Welcome back' : 'Create your account'}</h2>
         <p>
+          {/* Each thing is said once on the page (release 9): the headline's lead names what you open or keep, the
+              ruled facts beside the desk say you stay signed in, so the card says how you get in. */}
           {isLogin
-            ? 'Open your recorded mocks, saved questions and chapter review.'
-            : 'Free to start. No card needed. Your practice, chapter review and saved questions stay with your account.'}
+            ? 'Use Google, or get a one-time code by email. No password to remember.'
+            : 'Free to start. No card needed.'}
         </p>
       </div>
 
@@ -226,7 +228,7 @@ export function SignupCard({ mode = 'signup' }) {
         {isLogin ? 'New here?' : 'Already have an account?'}{' '}
         <Link href={isLogin ? '/signup' : '/login'}>{isLogin ? 'Create an account' : 'Log in'}</Link>
       </p>
-      <p className="auth-card__fine">Your email is how you sign in, and you stay signed in on this device until you sign out.</p>
+      <p className="auth-card__fine">{isLogin ? 'Your email is how you sign in.' : 'Your email is how you sign in, and you stay signed in on this device until you sign out.'}</p>
     </div>
   );
 }
