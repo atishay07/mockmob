@@ -126,3 +126,9 @@
 > G21 Ask Mobi: "Mock-up first"
 
 **Ledger D107-D110:** D107 web navigation: 2-3 mock-up options for him to pick before anything moves (the app's Today, Practice, Start, Mob, You as one option). D108 after Submit (app): restore the approved reveal from git history exactly, then a short completion line, marks counting up, one next move; then refine on a phone. D109 "I don't know my range": estimate after 5 full mocks, ONE PER SUBJECT of the student's set (progress shown per subject, e.g. "English done, Accountancy done, Economics next"); then the estimated range with the colleges it reaches, which the student can accept. D110 Ask Mobi ("Ask now" / "Ask your record", big): mock-up first.
+
+## Owner, 19 Oct about 2 am IST (new session 25ef3d95 on a fresh account; verbatim)
+His message was the pasted next-session prompt (build PLAN-1019 Waves A and B, the checks, ship app v15.3 and web release 11, then ONE message), then:
+> "I want you to understand everything and have clarity of what all happened and why the successful result was not published, even after doing so much. Once you have clarity of everything, if you want to ask me anything, then ask. Then proceed fully in an autonomous flow to complete everything and deliver a result which will exceed my expectation."
+
+**Ledger D111:** first explain plainly what happened and why the good result never reached him; ask only what is needed; then run the whole plan autonomously and deliver beyond his expectation.
