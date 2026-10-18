@@ -42,7 +42,7 @@ const PARTS = [
   },
   {
     title: 'Ask Mobi',
-    body: 'One next step from your own practice record, sized to the time you have. Questions about your record are free; written replies use AI credits, 10 a month on Free and 50 on Pro.',
+    body: 'One next step from your own practice record, sized to the time you have. Questions about your record are free; written replies use AI credits, 50 a month on Free and on Pro.',
     href: '/pricing/ai-credits', link: 'How AI credits work',
   },
   {

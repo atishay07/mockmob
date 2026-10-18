@@ -234,7 +234,7 @@ export function paidState(wallet) {
   if (wallet.state === 'paused') return { open: false, why: 'Written replies are paused for now. Questions about your record stay free. Nothing is charged from here.' };
   if (wallet.known && wallet.total <= 0) {
     const reset = shortDate(wallet.resetAt);
-    return { open: false, why: `0 of ${wallet.includedMonthlyCredits ?? 10} AI credits left.${reset ? ` They reset on ${reset}.` : ''} Questions about your record stay free. Nothing is charged from here.` };
+    return { open: false, why: `0 of ${wallet.includedMonthlyCredits ?? 50} AI credits left.${reset ? ` They reset on ${reset}.` : ''} Questions about your record stay free. Nothing is charged from here.` };
   }
   return { open: false, why: 'Your AI credits could not be read, so written replies wait. Questions about your record stay free. Nothing is charged.' };
 }

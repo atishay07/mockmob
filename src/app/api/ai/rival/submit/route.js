@@ -44,7 +44,7 @@ export async function POST(request) {
   const profile = getRivalProfile(result.rivalType);
   let outro = { summary: deterministicOutro(result), nextMove: result.nextMoveHint };
   try {
-    // The outro counts against this student's monthly AI limit (Rs 5 paid, Rs 1 free), like every other student-facing call.
+    // The outro counts against this student's monthly AI limit (Rs 5 paid, Rs 2.50 free), like every other student-facing call.
     const dbUser = await Database.getUserById(session.user.id).catch(() => null);
     const ai = await generateAIResponse({
       tier: 'fast',
