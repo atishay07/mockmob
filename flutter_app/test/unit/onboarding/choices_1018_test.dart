@@ -7,6 +7,8 @@ import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/onboarding/choices_copy.dart';
 import 'package:mockmob/features/onboarding/copy.dart';
+import 'package:mockmob/core/mascot/mascot.dart';
+import 'package:mockmob/features/onboarding/data/calendar.dart';
 import 'package:mockmob/features/onboarding/data/du_catalog.dart';
 import 'package:mockmob/features/onboarding/data/subject_sets.dart';
 import 'package:mockmob/features/onboarding/data/subjects.dart';
@@ -19,6 +21,7 @@ import 'package:mockmob/features/onboarding/state/answers_controller.dart';
 import 'package:mockmob/features/onboarding/state/answers_store.dart';
 import 'package:mockmob/features/onboarding/state/mobi_cues.dart';
 import 'package:mockmob/features/onboarding/widgets/course_list_sheet.dart';
+import 'package:mockmob/features/onboarding/widgets/runway_strip.dart';
 
 import '../../golden/onboarding/support.dart';
 import '../../helpers/fonts.dart';
@@ -186,6 +189,64 @@ void main() {
       await _tap(tester, find.text(Worry.syllabus.option));
       expect(find.text(ChoicesCopy.worrySwapped), findsOneWidget);
       expect(_answers(c).worries, [Worry.numericals, Worry.passages, Worry.syllabus]);
+    });
+  });
+
+  group('D46, D47 pace', () {
+    test('the slider lights the usual days first (Mon to Fri, then Sat, then Sun) and unlights in reverse', () async {
+      final (c, answers) = await _controller();
+      answers.setDayCount(1);
+      expect(_answers(c).days, {0}, reason: 'from Mon, Tue, Thu, Sat: Sat, Thu, Tue go first');
+      answers.setDayCount(5);
+      expect(_answers(c).days, {0, 1, 2, 3, 4});
+      answers.setDayCount(6);
+      expect(_answers(c).days, {0, 1, 2, 3, 4, 5});
+      answers.setDayCount(7);
+      expect(_answers(c).days.length, 7);
+      answers.toggleDay(2);
+      answers.setDayCount(5);
+      expect(_answers(c).days, {0, 1, 3, 4, 5}, reason: 'a day the student took off stays off');
+    });
+
+    test('the runway is the sessions, week by week', () {
+      final weeks = CuetCalendar.weeklySessions(2027, kNow, daysPerWeek: 4, boards: true);
+      expect(weeks.length, CuetCalendar.weeksTo(2027, kNow));
+      expect(weeks.fold(0, (a, b) => a + b), CuetCalendar.sessionsBefore(2027, kNow, daysPerWeek: 4, boards: true));
+      expect(weeks.where((w) => w == 2), isNotEmpty, reason: 'board weeks hold two');
+    });
+
+    test('Mobi speaks at the ends only', () {
+      final at = studentUpTo(Steps.question, step: Steps.rhythm);
+      expect(mobiCueFor(at, at.copyWith(days: const {0, 3}))?.line, ChoicesCopy.mobiFewDays(2));
+      expect(mobiCueFor(at, at.copyWith(days: const {0}))?.act, MobiAct.nod);
+      expect(mobiCueFor(at, at.copyWith(days: const {0, 1, 2, 3, 4, 5, 6}))?.line, ChoicesCopy.mobiEveryDay);
+      expect(mobiCueFor(at, at.copyWith(days: const {0, 1, 2, 3, 4})), isNull);
+    });
+
+    test('the readout counts hours from the session length and says about', () {
+      expect(
+        ChoicesCopy.sessionsLine(sessions: 110, minutes: 20, estimate: true, year: 2027, boards: false),
+        'about 37 hours of practice before May, if you keep this.',
+      );
+    });
+
+    testWidgets('slider and day bubbles move together; the full-mocks line sits under the minutes', (tester) async {
+      final c = await _flowAt(tester, studentUpTo(Steps.question, step: Steps.rhythm));
+      expect(find.text(ChoicesCopy.fullMocksLine), findsOneWidget);
+      expect(find.byType(RunwayStrip), findsOneWidget);
+      final slider = find.byType(Slider);
+      await tester.ensureVisible(slider);
+      await tester.pump();
+      expect(tester.widget<Slider>(slider).value, 4);
+      // The far right of the track is 7.
+      final box = tester.getRect(slider);
+      await tester.tapAt(Offset(box.right - 4, box.center.dy));
+      await _settle(tester);
+      expect(_answers(c).days.length, 7);
+      expect(find.text(ChoicesCopy.mobiEveryDay, findRichText: true), findsOneWidget, reason: 'Mobi says keep a day to rest');
+      // A tapped day moves the slider.
+      await _tap(tester, find.bySemanticsLabel(RegExp(r'^Sunday, study day')));
+      expect(tester.widget<Slider>(slider).value, 6);
     });
   });
 }

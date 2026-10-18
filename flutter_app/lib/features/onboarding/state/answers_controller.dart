@@ -244,6 +244,27 @@ class AnswersController extends AsyncNotifier<OnboardingAnswers> {
     _set(_current.copyWith(days: days));
   }
 
+  /// The order the "days a week" slider lights days in: Monday to Friday, then Saturday, then
+  /// Sunday (D47). Lowering it unlights in the reverse order.
+  static const List<int> dayOrder = [0, 1, 2, 3, 4, 5, 6];
+
+  /// Sets how many study days a week (1 to 7), keeping the days already chosen where it can:
+  /// more lights the next usual days, fewer drops the least usual ones first.
+  void setDayCount(int n) {
+    final want = n.clamp(1, 7);
+    final days = {..._current.days};
+    for (final d in dayOrder) {
+      if (days.length >= want) break;
+      days.add(d);
+    }
+    for (final d in dayOrder.reversed) {
+      if (days.length <= want) break;
+      days.remove(d);
+    }
+    if (days.length == _current.days.length && days.containsAll(_current.days)) return;
+    _set(_current.copyWith(days: days));
+  }
+
   void setWindow(StudyTime w) => _set(_current.copyWith(window: w));
 
   void confirmRhythm() => _set(_current.mark(Steps.rhythm));

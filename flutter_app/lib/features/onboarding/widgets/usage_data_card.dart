@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../choices_copy.dart';
 import '../copy.dart';
 
-/// The usage-data row: the switch labelled exactly "Allow usage data to improve MockMob", off
-/// until an adult turns it on, with one short line of what it is. It sits flat on the sheet (no
+/// The usage-data row: the switch labelled exactly "Allow usage data to improve MockMob", on by
+/// default for an adult (D49) and always in plain sight, with one short line of what it is and
+/// where to turn it off later. It sits flat on the sheet (no
 /// card inside the sheet). The full explanation and the list of every event we collect are one
 /// tap away behind "See every event we collect". [on] comes from the server's acknowledged
-/// consent, so the switch never shows on before the server agrees. While a write is in flight a
+/// consent or the student's own choice before they continue (the sheet decides). While a write is in flight a
 /// spinner of the same size replaces it.
 class UsageDataCard extends StatelessWidget {
   const UsageDataCard({
@@ -50,6 +52,8 @@ class UsageDataCard extends StatelessWidget {
                         Text(OnboardingCopy.usageSwitchLabel, style: type.cardTitle),
                         const SizedBox(height: MmSpace.s4),
                         Text(OnboardingCopy.usageSummary, style: type.small.copyWith(color: colors.ink2)),
+                        const SizedBox(height: MmSpace.s4),
+                        Text(on ? ChoicesCopy.usageOffAnyTime : ChoicesCopy.usageChangeAnyTime, style: type.small.copyWith(color: colors.ink2)),
                       ],
                     ),
                   ),

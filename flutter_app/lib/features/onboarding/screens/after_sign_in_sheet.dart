@@ -25,6 +25,12 @@ import '../widgets/usage_data_card.dart';
 /// "Saved to your account." only after every write is acknowledged), and for adults the
 /// usage-data switch. Without one (a student who signed straight in): "Are you 18 or older?",
 /// then usage data for adults, as before.
+///
+/// Usage data for adults (owner, 18 Oct, D49): the switch starts on, says where to turn it off,
+/// and an adult who continues with it on is saved as allowed (`analyticsAllowed: true`, once the
+/// server acknowledges). Nothing is sent before they continue, and nothing is collected before
+/// the server agrees ([Consent.canCollect] is unchanged). An account that turned it off before
+/// starts off. Under 18 and "rather not say" never see the switch, as before.
 class AfterSignInSheet extends ConsumerStatefulWidget {
   const AfterSignInSheet({super.key});
 
@@ -41,9 +47,50 @@ class _AfterSignInSheetState extends ConsumerState<AfterSignInSheet> {
   bool _leaving = false;
   String? _error;
 
+  /// The student's own position of the switch; null until they move it (then the default holds).
+  bool? _usageChoice;
+
+  /// The switch is on screen (an adult on either view), so continuing applies it.
+  bool _usageVisible = false;
+
+  /// What the switch shows: on once the server says so, otherwise the student's choice, otherwise
+  /// on for an adult whose account never turned it off (D49).
+  bool _usageShown(ConsentState consent) {
+    if (consent.consent.analyticsAllowed && !consent.withdrawalPending) return true;
+    final neverOff = consent.isLoaded && consent.consent.withdrawnAt == null && !consent.withdrawalPending;
+    return _usageChoice ?? neverOff;
+  }
+
+  /// Saves "allowed" for an adult continuing with the switch on and the server not yet on. False
+  /// when that write failed: the switch shows off with the reason, and the student stays to see
+  /// it (the next tap continues, with usage data off).
+  Future<bool> _applyUsage() async {
+    final consent = ref.read(consentRepositoryProvider);
+    if (!_usageVisible || consent.consent.analyticsAllowed || !_usageShown(consent)) return true;
+    setState(() {
+      _usageBusy = true;
+      _error = null;
+    });
+    try {
+      await ref.read(consentRepositoryProvider.notifier).setAnalyticsAllowed(true);
+      if (mounted) setState(() => _usageBusy = false);
+      return true;
+    } on ApiError catch (e) {
+      if (mounted) {
+        setState(() {
+          _usageBusy = false;
+          _usageChoice = false;
+          _error = e.isOffline ? OnboardingCopy.consentOffline : OnboardingCopy.usageTurnOnFailed;
+        });
+      }
+      return false;
+    }
+  }
+
   /// Closes the sheet and opens [location] (the starting-point check).
-  void _leaveTo(String location) {
-    if (_leaving) return;
+  Future<void> _leaveTo(String location) async {
+    if (_leaving || _usageBusy) return;
+    if (!await _applyUsage() || !mounted) return;
     _leaving = true;
     final router = GoRouter.of(context);
     final nav = Navigator.of(context);
@@ -51,8 +98,9 @@ class _AfterSignInSheetState extends ConsumerState<AfterSignInSheet> {
     router.go(location);
   }
 
-  void _done() {
-    if (_leaving) return;
+  Future<void> _done() async {
+    if (_leaving || _usageBusy) return;
+    if (!await _applyUsage() || !mounted) return;
     _leaving = true;
     final nav = Navigator.of(context);
     if (nav.canPop()) {
@@ -78,7 +126,7 @@ class _AfterSignInSheetState extends ConsumerState<AfterSignInSheet> {
           _usageStep = true;
         });
       } else {
-        _done();
+        await _done();
       }
     } on ApiError catch (e) {
       if (!mounted) return;
@@ -91,6 +139,16 @@ class _AfterSignInSheetState extends ConsumerState<AfterSignInSheet> {
 
   Future<void> _setUsage(bool allowed) async {
     if (_usageBusy) return;
+    final consent = ref.read(consentRepositoryProvider);
+    // Until the server holds it on, the switch is the student's choice, applied when they
+    // continue: moving it sends nothing.
+    if (!consent.consent.analyticsAllowed || consent.withdrawalPending) {
+      setState(() {
+        _usageChoice = allowed;
+        _error = null;
+      });
+      return;
+    }
     setState(() {
       _usageBusy = true;
       _error = null;
@@ -119,7 +177,7 @@ class _AfterSignInSheetState extends ConsumerState<AfterSignInSheet> {
     });
     final answers = ref.watch(onboardingAnswersProvider).value ?? OnboardingAnswers.empty;
     final consent = ref.watch(consentRepositoryProvider);
-    final usageOn = consent.consent.analyticsAllowed && !consent.withdrawalPending;
+    final usageOn = _usageShown(consent);
 
     if (answers.sealed) {
       final sync = ref.watch(sheetSyncProvider);
@@ -129,14 +187,16 @@ class _AfterSignInSheetState extends ConsumerState<AfterSignInSheet> {
         startLabel: move.startLabel,
         laterLabel: move.laterLabel(ref.watch(nowProvider)()),
         onStart: () => _leaveTo(move.route),
-        onLater: () {
+        onLater: () async {
+          if (_usageBusy) return;
+          if (!await _applyUsage() || !mounted) return;
           ref.read(onboardingAnswersProvider.notifier).setTonight(true);
-          _done();
+          await _done();
         },
         phase: sync.phase,
         offline: sync.offline,
         colleges: ref.watch(collegesMoveProvider),
-        showUsage: answers.age == AgeAnswer.adult,
+        showUsage: _usageVisible = answers.age == AgeAnswer.adult,
         usageOn: usageOn,
         usageBusy: _usageBusy,
         eventsOpen: _eventsOpen,
@@ -163,6 +223,7 @@ class _AfterSignInSheetState extends ConsumerState<AfterSignInSheet> {
         ),
       );
     }
+    _usageVisible = _usageStep;
     return AgeThenUsageView(
       usageStep: _usageStep,
       savingAge: _savingAge,
@@ -171,7 +232,7 @@ class _AfterSignInSheetState extends ConsumerState<AfterSignInSheet> {
       eventsOpen: _eventsOpen,
       error: _error,
       onAnswerAge: _answerAge,
-      onSkip: _done,
+      onSkip: () => _done(),
       onToggleUsage: _setUsage,
       onToggleEvents: () => setState(() => _eventsOpen = !_eventsOpen),
       onDone: _done,

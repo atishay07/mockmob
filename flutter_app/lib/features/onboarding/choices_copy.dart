@@ -51,4 +51,5 @@ abstract final class ChoicesCopy {
 
   // Usage data (D49).
   static const String usageOffAnyTime = 'Turn it off any time in You, under Account and privacy.';
+  static const String usageChangeAnyTime = 'Change it any time in You, under Account and privacy.';
 }
