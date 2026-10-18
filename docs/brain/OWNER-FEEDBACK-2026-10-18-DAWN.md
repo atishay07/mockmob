@@ -215,3 +215,21 @@ Ledger: keep all agents running; at about 95% usage he switches accounts. Have N
 - **D55** "Many things I already gave feedback on are not implemented exactly": audit the app ledger against the build and fix the gaps.
 - **D56** The app feels basic in places, not unique any more. Even the Start button "used to be something else". Find what was lost and restore it.
 - **D57** The frosted (liquid glass) look on the bar is not visible.
+
+## Owner, 18 Oct 11:21 am to 12:30 pm IST (session 25ef3d95; verbatim)
+- 11:20 am: "by when will the website release 7 and app v15 be done"
+- 11:21 am: "v15 was already completed yesterday only what are you doing now"
+- 11:23 am: "so are all the changes and things to be done in the app done today?"
+- 11:29 am: "the things that you have mentioned Not done yet need to be complete before releasing the final v15 build all this can be done in less than an hour easily By running everything in parallel, spawning parallel agents, it can be done for sure. I'll tell you: the new Today section, Polish, Asthma [Ask Mobi], all that was already done. What you need to focus on now is that the Polish round 2 can be done easily in 10, 15 minutes. Then, side by side, the Mob in the App, Learn, and View Beyond [Review beyond D18] can also be built finally, and everything else also. Just showing you: the final v15 app build needs to be done by 12 pm. That is in the next 30 minutes, or 12:30 pm max."
+- 11:31 am: "12:30 pm isn't realistic because you are not running enough agents parally so many are still stalled"
+- 11:36 am: "can you load the latest apk on my phone", then "done" twice (the phone was connected).
+- 12:28 pm, on D54: "Yes, give free users 50 credits. Change the server grant, app and website pricing together."
+- 12:30 pm: "There were internet disruptions, and many things happened. Then I had to stop your entire workflow in between. Also, many things happened, so just scan through the entire context window. There might be some broken workflows, files, or other things, and many things in the lost context. Just see that everything is there, that you understand everything, and record all my responses. Make sure all of it is implemented, and according to that, start the new workflows so that this final version of the app is built in the next 1 to 2 hours."
+
+**Ledger D58-D63:**
+- **D58** (11:21) The walked v15 had no APK. Done at 11:34: `tmp/apk/mockmob-v15-79aaca6d.apk` (1.0.15+3), installed on his phone (V2413) at about 11:40.
+- **D59** (11:29) The final v15 must include the whole "Not done yet" list before release. The list: Review D18, polish 2, one icon family D8, M-001/M-002/M-003, the Mob in the app (behind its switch), and Learn and Review beyond D18. Everything runs in parallel. He wanted it by 12-12:30 pm; the honest chain said about 2-2:30 pm, before his 12:15 pm feedback added D40-D57.
+- **D60** (11:31) Run more agents in parallel; do not let agents stall. Main session answer: none were stalled at 11:32, and the CPU was the limit.
+- **D61** (11:36) Load the APK on his phone. Done (adb -s 10BF370PA6002XR).
+- **D54 decided** (12:28) Free users get 50 credits. In the code, "10 credits" is the Free AI wallet (AI_FREE_MONTHLY_CREDITS = 10 a month; Pro 50). Change it to 50 a month in the server, the website pricing and the app copy together. The per-user Free cap is raised only as far as 50 replies need; the USD 25 monthly student-AI cap is unchanged. Any database step: saved, dry-run on staging, undone if needed, STATUS.
+- **D62** (12:30) Scan the whole context for broken workflows and files, record every response, make sure everything is implemented, and get the final app built "in the next 1 to 2 hours".

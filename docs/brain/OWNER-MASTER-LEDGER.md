@@ -312,7 +312,15 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 | D51, D52 | Swipe suggestion cards; a richer Today (earlier versions felt cooler) | Mock-up first: tmp/design-1018/v15-feedback |
 | D55 | Audit every recorded app ask against the build, then fix the gaps | Audit plus fixer: ui/v15-ledger |
 | D50 | "5, 10, 20 only. No direction until you do a full mock" | **Ask him** which screen |
-| D54 | 50 free credits for free users | **He decides** (billing and website change) |
+| D54 | 50 free credits for free users | DECIDED 12:28 pm: yes (see the 11:21 am-12:30 pm section) |
+
+### Owner 11:21 am-12:30 pm, 18 Oct (D58-D62, D54 decided; his words at the end of OWNER-FEEDBACK-2026-10-18-DAWN.md)
+| D | Item | Status / where |
+|---|---|---|
+| D58, D61 | APK of the walked v15, on his phone | DONE 11:34-11:40 (mockmob-v15-79aaca6d.apk, 1.0.15+3) |
+| D59 | The whole "Not done yet" list in the final v15: Review D18, polish 2, icons D8, M-001/2/3, the Mob (switch off), Learn and Review beyond D18 | Building in v15-final-1218 (asks done, 4a1b9b98) |
+| D54 | Free AI wallet 10 -> 50 a month: server, website, app together | Building: web/credits50-1018 (wt-credits50) and ui/v15-credits (merged into v15 before the integrator) |
+| D60, D62 | Max parallel, nothing stalled; final app in 1-2 hours; scan for anything broken | 17 agents running; chain and times in NOW.md |
 
 ## Waiting on the owner (updated 18 Oct about 3:45 am)
 - Answered 3:50 am: M-001 first launch 3 s; M-006 bolder copy; D19 keep badges, refine; D22 Mob.
