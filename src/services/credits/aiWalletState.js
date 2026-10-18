@@ -46,6 +46,31 @@ export function isMissingFunction(error) {
   return text.includes('42883') || text.includes('pgrst202') || (text.includes('function') && text.includes('not')) || text.includes('schema cache');
 }
 
+/**
+ * Code and database ship together (one credits balance, 18 Oct 2026). On a database without
+ * 20261018210000_one_credits_balance.sql the old spend_credits takes only users.credit_balance and AI cannot spend it, so
+ * this code must not quote or show the one total there. The probe calls public.mm_wallet_window (added by that migration,
+ * service_role only, stable, no writes). A missing function means the old database; any other failure means unknown for
+ * this request (treated like the old database, the conservative figure) and is probed again next time.
+ * A yes is cached for the life of the process; a no is cached for one minute. Returns true or false.
+ */
+const ONE_BALANCE_NO_TTL_MS = 60_000;
+let oneBalanceCache = { live: null, at: 0 };
+export async function oneBalanceLive(db, { now = Date.now() } = {}) {
+  if (oneBalanceCache.live === true) return true;
+  if (oneBalanceCache.live === false && now - oneBalanceCache.at < ONE_BALANCE_NO_TTL_MS) return false;
+  try {
+    const { error } = await db.rpc('mm_wallet_window', { p_at: new Date(now).toISOString() });
+    if (!error) { oneBalanceCache = { live: true, at: now }; return true; }
+    if (isMissingFunction(error)) oneBalanceCache = { live: false, at: now };
+    return false;
+  } catch {
+    return false;
+  }
+}
+/** Tests only. */
+export function resetOneBalanceProbe() { oneBalanceCache = { live: null, at: 0 }; }
+
 /** A wallet whose balance is unknown. */
 export function unreadableWallet(state, { paid = false, reason = null } = {}) {
   return {

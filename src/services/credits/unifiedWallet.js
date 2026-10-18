@@ -9,9 +9,14 @@ import { unifiedFromWallet } from './aiWalletState';
  *   held       = bought/held credits: ai_credit_wallets.bonus_credits + users.credit_balance
  *   parts      = { included, bonus, balance }, the order every spend takes them in (public.mm_wallet_take)
  *   resetAt    = when the free credits come back
- * known: false (and every number null) when either part could not be read. Never writes.
+ * known: false (and every number null) when either part could not be read, or on a database without the one credits
+ * balance migration (wallet.oneBalance === false). Never writes.
  */
 export async function getUnifiedWallet(user) {
   const wallet = await readAIWallet(user);
-  return { ...unifiedFromWallet(wallet, wallet?.known ? wallet.balanceCredits : null), wallet };
+  // Old database (migration not applied): no one total exists yet, so it is unknown and every caller uses its legacy figure
+  // (users.credit_balance for practice, the AI wallet for AI).
+  return { ...unifiedFromWallet(wallet, oneBalanceKnown(wallet) ? wallet.balanceCredits : null), wallet };
 }
+
+const oneBalanceKnown = (wallet) => Boolean(wallet?.known) && wallet.oneBalance !== false;

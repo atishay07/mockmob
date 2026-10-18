@@ -31,7 +31,8 @@ export async function GET(request) {
 
   const wallet = await readAIWallet(dbUser);
   // One credits balance (18 Oct 2026): wallet.total is the one total (free this month + bonus + users.credit_balance).
-  const credits = unifiedFromWallet(wallet, wallet.known ? wallet.balanceCredits : null);
+  // On a database without that migration (wallet.oneBalance === false) there is no one total: credits is unknown.
+  const credits = unifiedFromWallet(wallet, wallet.known && wallet.oneBalance !== false ? wallet.balanceCredits : null);
   const paid = isPaidUser(dbUser);
   const checkoutOpen = aiCommerceOpen();
 

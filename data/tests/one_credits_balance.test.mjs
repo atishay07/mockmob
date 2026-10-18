@@ -340,16 +340,53 @@ test('practice/held credits pay for AI past the free cap too; a Free student wit
 test('each held credit raises the cap by at most the student_held_credit bound, and a released (failed) call does not raise it', async () => {
   const d = await database();
   try {
-    assert.equal(Number((await one(d, "select monthly_cap_usd from runtime_ai_budget where id='student_held_credit'")).monthly_cap_usd), 0.005);
+    assert.equal(Number((await one(d, "select monthly_cap_usd from runtime_ai_budget where id='student_held_credit'")).monthly_cap_usd), 0.01);
     await user(d, 'h', { balance: 0, used: 50, bonus: 10 });
     await q(d, "insert into runtime_ai_requests(request_key,provider,model,reserved_usd,actual_usd,state,user_id) values('h-old-00000001','openai','gpt-6-luna',0.0284,0.0284,'receipted','h')");
     const key = 'prepos:h:0000000000000001';
     assert.equal((await reserve(d, 'h', 1, key)).ok, true);
-    // 0.0284 spent + 0.0284 cap + 1 held credit * 0.005: a request up to 0.005 dispatches, a bigger one is refused.
-    await assert.rejects(q(d, 'select public.reserve_runtime_ai($1,$2,$3,$4,$5,$6,$7)', [key, 'openai', 'gpt-6-luna', 2000, 20000, 'h', 'free']), /runtime user limit reached/);
+    // 0.0284 spent + 0.0284 cap + 1 held credit * 0.01: a request up to 0.01 dispatches, a bigger one (0.0152) is refused.
+    await assert.rejects(q(d, 'select public.reserve_runtime_ai($1,$2,$3,$4,$5,$6,$7)', [key, 'openai', 'gpt-6-luna', 2000, 30000, 'h', 'free']), /runtime user limit reached/);
     await release(d, key);
     assert.equal((await one(d, "select public.mm_held_ai_credits_spent('h', public.runtime_ai_month_start()) n")).n, 0, 'released credits do not count');
     assert.deepEqual(await reply(d, 'h', 2), { ok: true });
+  } finally { await d.close(); }
+});
+
+test('a reply paid from 1 held credit at the very edge of the cap dispatches both physical calls (primary + retry/fallback), even with large bounds', async () => {
+  // MAX_PHYSICAL_CALLS in providerCore.js is 2; each call is reserved at its bound and a failed first call keeps its
+  // reservation. 30 KB in + 3,000 out on luna = USD 0.0045 per call, about twice the largest runtime reservation seen on
+  // production (0.00237), so 0.009 for the reply.
+  const src = readFileSync(new URL('../../src/services/ai/providerCore.js', import.meta.url), 'utf8');
+  assert.match(src, /export const MAX_PHYSICAL_CALLS = 2;/);
+  for (const perCredit of [0.005, null]) {
+    const d = await database();
+    try {
+      if (perCredit !== null) await q(d, "update runtime_ai_budget set monthly_cap_usd=$1 where id='student_held_credit'", [perCredit]);
+      await user(d, 'edge', { balance: 1, used: 50, bonus: 0 });
+      await q(d, "insert into runtime_ai_requests(request_key,provider,model,reserved_usd,actual_usd,state,user_id) values('edge-old-0000001','openai','gpt-6-luna',0.0284,0.0284,'receipted','edge')");
+      const key = 'prepos:edge:000000000000001';
+      assert.equal((await reserve(d, 'edge', 1, key)).ok, true, 'paid from the 1 held credit');
+      await q(d, 'select public.reserve_runtime_ai($1,$2,$3,$4,$5,$6,$7)', [key, 'openai', 'gpt-6-luna', 30000, 3000, 'edge', 'free']);
+      const second = q(d, 'select public.reserve_runtime_ai($1,$2,$3,$4,$5,$6,$7)', [`${key}:fallback`, 'anthropic', 'claude-haiku-5-5', 30000, 3000, 'edge', 'free']);
+      if (perCredit === 0.005) await assert.rejects(second, /runtime user limit reached/, 'the 0.005 draft refused the second call of a paid reply');
+      else await second;
+    } finally { await d.close(); }
+  }
+});
+
+test("a reserve records the wallet's period, not the caller's: a clock behind at the month edge cannot turn free credits into bonus on release", async () => {
+  const d = await database();
+  try {
+    await user(d, 'clock', { balance: 0, used: 40, bonus: 0 }); // wallet in this month, 10 free left
+    const key = 'clock:op:000001';
+    // The server clock is a month behind: it passes last month's window.
+    const r = await one(d, 'select public.mm_ai_reserve_credits($1,$2,$3,$4,$5,$6,$7) r', ['clock', 2, 'prepos_mentor', key, 50, LAST.periodStart, LAST.resetAt]).then((x) => x.r);
+    assert.equal(r.ok, true);
+    const res = await one(d, 'select period_start from ai_credit_reservations where operation_key=$1', [key]);
+    assert.equal(res.period_start.toISOString(), W.periodStart, 'the synced wallet period, as production stored it');
+    await release(d, key);
+    assert.deepEqual(await state(d, 'clock'), { free: 10, bonus: 0, balance: 0 }, 'the free part went back to free credits, not to bonus');
   } finally { await d.close(); }
 });
 

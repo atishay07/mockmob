@@ -6,6 +6,7 @@ import {
   isPaidUser,
   isMissingFunction,
   isMissingRelation,
+  oneBalanceLive,
   projectWallet,
   unreadableWallet,
   walletWindow,
@@ -67,21 +68,27 @@ export async function readAIWallet(user) {
   try {
     // One credits balance: the wallet row and users.credit_balance are read together; either failing means unknown.
     const db = supabaseAdmin();
-    const [{ data, error }, held] = await Promise.all([
+    const [{ data, error }, held, live] = await Promise.all([
       db.from('ai_credit_wallets')
         .select('user_id, included_monthly_credits, included_credits_used, bonus_credits, period_start, reset_at')
         .eq('user_id', user.id)
         .maybeSingle(),
       db.from('users').select('credit_balance').eq('id', user.id).maybeSingle(),
+      oneBalanceLive(db),
     ]);
     if (error) {
       return unreadableWallet(isMissingRelation(error) ? 'schema_unavailable' : 'error', { paid, reason: error.code || 'wallet_read_failed' });
     }
     if (held?.error || !held?.data) return unreadableWallet('error', { paid, reason: held?.error?.code || 'balance_read_failed' });
-    return projectWallet(data, {
-      paid, includedMonthlyCredits: includedMonthlyCreditsForUser(user), paidAiOpen: paidAiOpen(),
-      practiceBalance: held.data.credit_balance,
-    });
+    // On a database without the one credits balance migration AI cannot spend users.credit_balance: the AI wallet is then
+    // exactly the old one (free + bonus) and oneBalance: false tells every reader to fall back to the old figures.
+    return {
+      ...projectWallet(data, {
+        paid, includedMonthlyCredits: includedMonthlyCreditsForUser(user), paidAiOpen: paidAiOpen(),
+        practiceBalance: live ? held.data.credit_balance : 0,
+      }),
+      oneBalance: live,
+    };
   } catch (err) {
     return unreadableWallet(isMissingRelation(err) ? 'schema_unavailable' : 'error', { paid, reason: 'wallet_read_failed' });
   }

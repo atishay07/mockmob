@@ -36,7 +36,8 @@ export async function GET() {
       revisionPriority: context.revisionPriority,
       recommendedDeterministicActions: context.recommendedDeterministicActions,
       aiCredits: context.aiCredits,
-      normalCreditBalance: context.normalCreditBalance,
+      // Legacy key for older readers: users.credit_balance, a part already inside aiCredits.total (never add the two).
+      normalCreditBalance: context.aiCredits?.heldCredits ?? 0,
     },
   });
 }

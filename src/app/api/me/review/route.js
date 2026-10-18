@@ -33,6 +33,17 @@ export async function GET(request) {
       // One credits balance (18 Oct 2026, D78): AI and practice prices read the same one total.
       const credits = await getUnifiedWallet(user);
       const known = Boolean(credits?.known) && Number.isFinite(Number(credits.total));
+      // A database without the one credits balance migration keeps the two old figures (AI wallet, users.credit_balance).
+      const legacy = !known && credits?.wallet?.known && credits.wallet.oneBalance === false;
+      if (legacy) {
+        const held = Number(user.creditBalance);
+        return {
+          aiCredits: Math.trunc(Number(credits.wallet.total) || 0),
+          aiRenews: credits.wallet.resetAt ? istDate(credits.wallet.resetAt) : null,
+          practiceCredits: Number.isFinite(held) ? Math.trunc(held) : null,
+          isPremium: isPaidUser(user),
+        };
+      }
       return {
         aiCredits: known ? Math.trunc(Number(credits.total)) : null,
         aiRenews: known && credits.resetAt ? istDate(credits.resetAt) : null,

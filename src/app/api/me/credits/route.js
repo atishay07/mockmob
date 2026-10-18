@@ -26,7 +26,7 @@ export async function GET(request) {
     // parts and the one total always agree. Each history line states the one balance after it (this IST month).
     const unified = await getUnifiedWallet(user);
     const wallet = unified.wallet;
-    const practiceBalance = wallet?.known ? Math.trunc(Number(wallet.balanceCredits) || 0)
+    const practiceBalance = wallet?.known && wallet.oneBalance !== false ? Math.trunc(Number(wallet.balanceCredits) || 0)
       : Number.isFinite(Number(user.creditBalance)) ? Math.trunc(Number(user.creditBalance)) : null;
     const { history, next } = await loadHistory({
       userId: user.id,

@@ -4,6 +4,7 @@ import { supabaseAdmin } from '@/lib/supabase';
 import { buildAdmissionCompass } from '@/lib/admissionCompass';
 import { learningRecord } from '@/lib/server/learning';
 import { getUsageSnapshot } from '@/services/usage/getDailyUsage';
+import { ONE_BALANCE_NOTE, oneBalanceForModel } from './creditsForModel.js';
 
 /**
  * Build a compact context object for the AI Mentor.
@@ -126,13 +127,10 @@ export async function getStudentAIContext({ user, options = {} } = {}) {
     revisionPriority: buildRevisionPriority({ weaknessSummary, savedQuestionSummary, skippedQuestionSummary }),
     recommendedDeterministicActions,
 
-    aiCredits: usageSnapshot?.aiWallet || {
-      total: usageSnapshot?.aiCreditBalance || 0,
-      includedRemaining: usageSnapshot?.includedAiCreditsRemaining || 0,
-      bonusCredits: 0,
-      resetAt: null,
-    },
-    normalCreditBalance: effectiveUser?.creditBalance ?? 0,
+    // One credits balance (18 Oct 2026, D78): aiCredits.total is the student's ONE balance (free this month + bought +
+    // held users.credit_balance). The held part is named inside it and is never sent as a separate figure, so the model
+    // cannot add the two together and count held credits twice.
+    aiCredits: oneBalanceForModel(usageSnapshot),
     dailyUsage: usageSnapshot?.used || { aiMentorMessages: 0, basicRivalBattles: 0, premiumRivalBattles: 0 },
     limits: usageSnapshot?.limits || null,
     contextVersion: 1,
@@ -479,8 +477,7 @@ function safeEmptyContext({ reason }) {
     aiConfidence: { score: 18, label: 'low', evidence: ['missing user context'] },
     revisionPriority: [],
     recommendedDeterministicActions: [],
-    aiCredits: { total: 0, includedRemaining: 0, bonusCredits: 0, resetAt: null },
-    normalCreditBalance: 0,
+    aiCredits: { total: 0, includedRemaining: 0, bonusCredits: 0, heldCredits: 0, resetAt: null, note: ONE_BALANCE_NOTE },
     dailyUsage: { aiMentorMessages: 0, basicRivalBattles: 0, premiumRivalBattles: 0 },
     limits: null,
     contextVersion: 1,

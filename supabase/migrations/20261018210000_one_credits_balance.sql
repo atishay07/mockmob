@@ -29,7 +29,7 @@
 --   5. reserve_runtime_ai (CTO, 18 Oct 2026, 7:08 pm): the per-user monthly USD cap (student_user_free / student_user_paid)
 --      now covers the free monthly allowance only. Each AI credit paid this IST month from bought/held credits (bonus or
 --      users.credit_balance part of a reservation or spend that was not released) raises that student's cap by the USD in the
---      new runtime_ai_budget row 'student_held_credit' (monthly_cap_usd = USD per held credit). So a student who buys credits
+--      new runtime_ai_budget row 'student_held_credit' (monthly_cap_usd = USD per held credit, 0.01). So a student who buys credits
 --      is never refused by the cap for what they paid for, a free-only student is capped exactly as before, a failed call
 --      (credit released, provider reservation kept) still eats into the cap, and each held credit can add at most that bound.
 --      Everything else in reserve_runtime_ai (model allowlist, global cap, idempotency, price check) is production's.
@@ -60,9 +60,16 @@ alter table public.ai_credit_ledger drop constraint if exists ai_credit_ledger_w
 alter table public.ai_credit_ledger add constraint ai_credit_ledger_wallet_source_check
   check (wallet_source in ('included', 'bonus', 'balance', 'mixed', 'grant', 'adjustment', 'none'));
 
--- USD 0.005 per held credit: above the largest provider reservation one Ask Mobi reply makes (so a paid-for reply always
--- dispatches), while a typical reply costs about USD 0.0003 (production runtime_ai_requests, 18 Oct 2026).
-insert into public.runtime_ai_budget(id, monthly_cap_usd) values ('student_held_credit', 0.005) on conflict (id) do nothing;
+-- USD 0.01 per held credit. One charged reply makes at most 2 physical provider calls (src/services/ai/providerCore.js
+-- MAX_PHYSICAL_CALLS: the primary, then one JSON retry or fallback), each reserved at its bound before it is sent. The
+-- largest single reservation on production for a runtime model (gpt-6-luna / claude-haiku-5-5, both USD 0.10 / 0.50 per
+-- million) is USD 0.00237 (all time, 18 Oct 2026); the largest of any model ever was 0.002536. 0.01 covers two calls of
+-- 0.005 each, about twice the largest seen, so a reply paid from held credits at the very edge of the cap still dispatches.
+-- (It was 0.005 in the first draft: exactly 2 x 0.002536, which a 2-call reply could exceed.) The cap counts actual cost
+-- once a call is receipted (typical USD 0.0003), so a larger headroom never makes a reply cost more.
+-- do update: this file is the source of the value (staging took the 0.005 draft; production has no row yet).
+insert into public.runtime_ai_budget(id, monthly_cap_usd) values ('student_held_credit', 0.01)
+  on conflict (id) do update set monthly_cap_usd = excluded.monthly_cap_usd;
 
 -- ---- the IST month ---------------------------------------------------------------------------------------------------
 create or replace function public.mm_wallet_window(p_at timestamp with time zone, out period_start timestamp with time zone, out reset_at timestamp with time zone)
@@ -310,6 +317,7 @@ declare
   v_existing public.ai_credit_reservations%rowtype;
   v_allow integer := greatest(0, coalesce(p_included_monthly_credits, 50));
   v_take record;
+  v_period timestamp with time zone;
 begin
   if p_user_id is null or p_user_id = '' then
     return jsonb_build_object('ok', false, 'error', 'missing_user');
@@ -349,8 +357,13 @@ begin
     return jsonb_build_object('ok', false, 'error', coalesce(v_take.error_code, 'take_failed'));
   end if;
 
+  -- The reservation records the wallet's period after mm_wallet_take synced it (as production did), not the caller's
+  -- p_period_start: if the server clock is behind at a month edge the two differ, and a release must compare like with like
+  -- or it would turn the free part into bonus credits. The wallet row is locked by mm_wallet_take in this transaction.
+  select w.period_start into v_period from public.ai_credit_wallets w where w.user_id = p_user_id;
+
   insert into public.ai_credit_reservations (user_id, operation_key, amount, action, from_included, from_bonus, from_balance, period_start)
-  values (p_user_id, p_operation_key, p_amount, coalesce(p_action, 'ai'), v_take.take_included, v_take.take_bonus, v_take.take_balance, p_period_start);
+  values (p_user_id, p_operation_key, p_amount, coalesce(p_action, 'ai'), v_take.take_included, v_take.take_bonus, v_take.take_balance, coalesce(v_period, p_period_start));
 
   insert into public.ai_credit_ledger (user_id, amount, reason, feature, reference, wallet_source, balance_after, idempotency_key, metadata)
   values (
