@@ -1,11 +1,15 @@
 # NOW: MockMob current state (overwrite this file at every handoff; git keeps the history)
 
-**Last written:** 18 Oct 2026, about 6:45 am IST, by session 604ced81 (Claude Opus 5.5, main, CEO/CTO). The owner went to sleep at about 4 am.
+**Last written:** 18 Oct 2026, about 7:35 am IST (first written 6:45 am), by session 604ced81 (Claude Opus 5.5, main, CEO/CTO). The owner went to sleep at about 4 am.
 
 **Read next:** `OWNER-MASTER-LEDGER.md` (the 3:45 am fold-in and the owner answers), then `OWNER-FEEDBACK-2026-10-18-DAWN.md` (the last sections).
 
 ## 1. Live
-- **www.mockmob.in = main 58bc53f6 = website release 5.**
+- **www.mockmob.in = main 70c4598c = website release 6** (pushed about 7:25 am).
+  - Vercel dpl_6q9MVJky9k741wsmTrRRCfjm7EXU is READY, with 0 runtime errors; unknown URLs return a themed 404.
+  - What it contains: Review/result 1018, Ask Mobi 1018, community and Learn, web badges, and the verifier's fix round.
+  - The STATUS entries for R6 and the migration are in 70c4598c.
+- **Before that: main 58bc53f6 = website release 5.**
   - Vercel dpl_BKdqQn1PtzYWEPwER72gygLs5WKJ is READY, with 0 runtime errors; the main pages return 200.
   - What it contains:
     - Night subtle on Ask Mobi (D7/D12);
@@ -33,10 +37,10 @@
 
 | Track | Worktree, branch | Head | State | Next |
 |---|---|---|---|---|
-| **Web R6** | wt-rel6, deploy/web-1018-r6 | 34de061a and on | Integrated: community + Review/result + Ask Mobi + web badges; all suites green. The verifier said NO-GO on 1 HIGH: docked Ask Mobi broke the result at 1280-1366. The fix round is running (HIGH fixed at 34de061a; MEDIUM and LOW items in progress). | Fix report, then a spot re-check at 1280/1366/1440 docked, then push with the STATUS for R6 and the migration. |
+| **Web R6** | wt-rel6, deploy/web-1018-r6 | 70c4598c | **LIVE** | The owner reviews it with the R5 list; the Practice zero-credit line was left honest (practice credits never renew) |
 | **Landing** | wt-land3, web/land3-1018 | f64cffe5 | Only the position band was ported (the toggle was already live). Dev server **3206** is up (LAN http://192.168.1.8:3206). | **The owner reviews it live.** Commit afa2cd73 (allowedDevOrigins) is dev-only: drop it before merging. |
 | **Web Today** | wt-today18, web/today-1018 | d0486c12 | TODAY-1018 finished: D26 road (due today / this week / goal), D27 polish, greeting by hour, all states; tests green. Dev server **3207** (http://192.168.1.8:3207/preview/arena?view=today). | **The owner reviews it live.** Then merge onto the R6 base (expect conflicts with askmobi's Today "Why this?" line and R5's Today files). |
-| **App v15** | wt-v15, ui/v15-1018 | fecc6a73 | Integrated: base + reel + Today 1018 + Ask Mobi + result Play it back + the M-001 logo; analyze clean, 5506 unit, 1417 goldens. Profile APK built (phone-relay defines). | The **emulator walk is running** (notes in mockmob-next/tmp/app-walk-1018/WALK.md). Then: merge ui/v15-badges (a85f0e50), a fix round, a confirm walk, the release APK + AAB 1.0.15 (prod defines, obfuscate). |
+| **App v15** | wt-v15, ui/v15-1018 | fecc6a73 and on | Integrated (base + reel + Today 1018 + Ask Mobi + Play it back + M-001). **Walk: NO-GO**, 48 pass / 8 fail / 5 not exercised (mockmob-next/tmp/app-walk-1018/WALK.md). The HIGH is H1: full-mock results show UTC as local time. The MEDIUMs are M1-M11 (offline recovery, the reel card after Quick sets, Quick-result parity, impossible fractions, counts disagreeing, Practice entries low on the page, the Change plan Done button below the fold, stale You credits, the old marking-wait copy, the Mob flag). | **The fix round is running** (it merges ui/v15-badges first). Then a confirm walk, then the release APK + AAB 1.0.15. |
 | **App badges** | wt-v15-badges, ui/v15-badges | a85f0e50 | Built: You badge home, badge sheet, earned row on the result; 61 new tests, 28 goldens | Merge into v15 with the fix round |
 | **Mob** | wt-mobfix, web/mob-fix-1017 | e89d4a35 | The 5 gate defects are fixed; a re-gate is needed | Re-run the go/no-go on staging; stays OFF until 10/10 |
 
