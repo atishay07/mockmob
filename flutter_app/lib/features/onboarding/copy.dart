@@ -21,7 +21,7 @@ abstract final class OnboardingCopy {
   /// G1 (owner, 19 Oct: "I don't know what kind of English this is"): whole sentences, no clipped
   /// fragments. The headline above stays, as he said it was fine.
   static const String welcomeSupport =
-      'MockMob finds where your marks slip, helps you fix each mistake, and checks that the fix sticks. Setup takes about two minutes.';
+      'MockMob finds where your marks slip, helps you fix each mistake, and checks the fix holds.';
   static const String buildPlan = 'Build my plan';
   static const String haveAccount = 'I already have an account';
   static const String continuePlan = 'Pick up my sheet';
@@ -119,7 +119,7 @@ abstract final class OnboardingCopy {
 
   /// "3 of 8 picked.", then what Today does with them once there is a pick. The picks stand in
   /// order of last year's marks (D103), so Today's three are the ones that need the most (D104).
-  static const String pickedTail = 'Today shows the 3 that need the highest marks.';
+  static const String pickedTail = 'Today shows the top 3.';
   static const String onToday = 'On Today';
   static String pickedSpoken(int picked, int of, {required bool tail}) =>
       tail ? '$picked of $of picked. $pickedTail' : '$picked of $of picked';

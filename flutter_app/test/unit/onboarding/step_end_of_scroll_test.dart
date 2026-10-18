@@ -43,6 +43,10 @@ void main() {
 
   for (final entry in {
     'stage': studentUpTo(Steps.stage, step: Steps.stage).copyWith(done: const {}),
+    // #19 (19 Oct walk): the second row of tiles was cut by the key bar at rest; at the end of the
+    // scroll both rows stand clear of it.
+    'course tiles': studentUpTo(Steps.stage, step: Steps.course),
+    'worry': studentUpTo(Steps.subjects, step: Steps.worry),
     'course ladder': studentUpTo(Steps.course),
     'course ladder with eight picks': studentUpTo(Steps.course).copyWith(
       colleges: [for (final o in DuCatalog.course('b-com-hons')!.ladder('UR').take(8)) o.college],

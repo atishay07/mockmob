@@ -226,7 +226,7 @@ void main() {
       expect(OnboardingCopy.welcomeHeadline, 'Every lost mark has a pattern.');
       expect(
         OnboardingCopy.welcomeSupport,
-        'MockMob finds where your marks slip, helps you fix each mistake, and checks that the fix sticks. Setup takes about two minutes.',
+        'MockMob finds where your marks slip, helps you fix each mistake, and checks the fix holds.',
       );
       expect(OnboardingCopy.buildPlan, 'Build my plan');
       expect(OnboardingCopy.haveAccount, 'I already have an account');

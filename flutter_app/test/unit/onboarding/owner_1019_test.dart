@@ -224,7 +224,7 @@ void main() {
       expect(OnboardingCopy.welcomeHeadline, 'Every lost mark has a pattern.', reason: 'the owner said the headline is fine');
       expect(OnboardingCopy.mobiWelcome, "Hi, I'm Mobi. Let's find the marks you're losing and win them back before CUET.");
       expect(OnboardingCopy.welcomeSupport,
-          'MockMob finds where your marks slip, helps you fix each mistake, and checks that the fix sticks. Setup takes about two minutes.');
+          'MockMob finds where your marks slip, helps you fix each mistake, and checks the fix holds.');
       expect(OnboardingCopy.lateNight, "It's late, so I'll keep this quick. Then you can get some sleep.");
     });
 
