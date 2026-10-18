@@ -9,7 +9,8 @@
 //   revise   GET /api/me/revise              questions due today
 //   facts    GET /api/me/timed-mock          sessions and mocks saved
 //   repaired GET /api/me/repair-record       repairs per paper (F17: a repaired mistake is never offered again)
-import { useCallback, useEffect, useState } from 'react';
+//   attempt  GET /api/attempts/{id}          lazy, cached per visit: the biggest leak on Last paper and the weak-chapter stems
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { apiGet } from '@/lib/fetcher';
 
 const idle = { status: 'loading', data: null };
@@ -35,7 +36,22 @@ const repairedMap = (body) => {
   for (const r of body?.repairs || []) if (r?.attemptId) out.set(r.attemptId, (out.get(r.attemptId) || 0) + 1);
   return out;
 };
-const reviseDue = (body) => (body?.state === 'unavailable' ? null : { due: Array.isArray(body?.items) ? body.items.length : 0 });
+// Revise today: `due` is what is still asked today (the API caps it at 10), `dueTotal` every card due, `answeredToday` the
+// ones already recalled today (they count against the cap), and when the next ones come back.
+const reviseDue = (body) => (body?.state === 'unavailable' ? null : {
+  due: Array.isArray(body?.items) ? body.items.length : 0,
+  dueTotal: Number.isInteger(body?.due) ? body.due : null,
+  answeredToday: Number.isInteger(body?.answeredToday) ? body.answeredToday : 0,
+  minutes: Number.isInteger(body?.minutes) ? body.minutes : null,
+  nextDayLabel: typeof body?.nextDayLabel === 'string' ? body.nextDayLabel : null,
+  // The subjects of today's questions, most first: the lead card shows their objects (what comes back, not a guess).
+  subjects: Array.isArray(body?.items) ? subjectsByCount(body.items) : [],
+});
+function subjectsByCount(items) {
+  const n = new Map();
+  for (const i of items) if (i?.subject) n.set(i.subject, (n.get(i.subject) || 0) + 1);
+  return [...n.entries()].sort((a, b) => b[1] - a[1]).map(([s]) => s);
+}
 
 export function useToday(userId) {
   const [planKey, setPlanKey] = useState(0);
@@ -56,5 +72,17 @@ export function useToday(userId) {
   const retryPlan = useCallback(() => setPlanKey((n) => n + 1), []);
   const retryAll = useCallback(() => setAll((n) => n + 1), []);
   const retryWeek = useCallback(() => setRhythmKey((n) => n + 1), []);
-  return { plan, papers, rhythm, goal, road, revise, facts, repaired, repairRows, minutes, setMinutes, retryPlan, retryWeek, retryAll };
+  // One paper in full (its questions and answers), read at most once per visit and shared by every block that asks.
+  const attempts = useRef(new Map());
+  const loadAttempt = useCallback((id) => {
+    if (!id) return Promise.reject(new Error('no attempt'));
+    const cache = attempts.current;
+    if (!cache.has(id)) {
+      const p = apiGet(`/api/attempts/${encodeURIComponent(id)}`);
+      p.catch(() => cache.delete(id)); // a failed read is tried again on the next ask
+      cache.set(id, p);
+    }
+    return cache.get(id);
+  }, []);
+  return { plan, papers, rhythm, goal, road, revise, facts, repaired, repairRows, minutes, setMinutes, retryPlan, retryWeek, retryAll, loadAttempt };
 }

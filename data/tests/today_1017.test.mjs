@@ -155,7 +155,8 @@ test('move: returning after 7 days starts with the 3 open mistakes, says how man
   const m = buildMove(base({ rhythm: rhythm({ daysSinceLastActivity: 8, returning: true }), papers: [paper({ wrong: 6, completedAt: Date.parse('2026-10-09T13:00:00Z') }), paper({ id: 'p6' }), paper({ id: 'p5' })] }));
   assert.equal(m.id, 'returning');
   assert.equal(m.number, 3);
-  assert.equal(m.label, 'mistakes to repair first');
+  // Release 7 (owner D15): one label for a mistake to repair, the same as the result and Review; priority is order, not a word.
+  assert.equal(m.label, 'mistakes to repair');
   assert.match(m.why, /Your last paper was your Accountancy full mock on 9 Oct\. Its six open mistakes are still here; start with three\./);
   assert.equal(m.key.minutes, 10);
   assert.equal(m.link.label, 'See all 6');
@@ -242,7 +243,9 @@ test('week: day one, goal met, returning, Monday after a week, paused', () => {
   assert.equal(metC.text, 'Goal met: 4 of 4 study days.');
   assert.equal(metC.met, true);
   const back = rhythm({ studyDays: 0, studyDayDates: [], returning: true });
-  assert.equal(weekCaption({ rhythm: back, marks: weekMarks({ rhythm: back, today: TODAY }), today: TODAY, everSessions: 9 }).text, 'A new week.');
+  // TODAY-1018 section 5 (approved): the returning caption, as the app has it.
+  const backCaption = weekCaption({ rhythm: back, marks: weekMarks({ rhythm: back, today: TODAY }), today: TODAY, everSessions: 9 });
+  assert.equal(`${backCaption.text} ${backCaption.strong}`, 'A new week starts with one session. Today can be day one of 4.');
   const monday = rhythm({ studyDays: 0, studyDayDates: [], weekStart: '2026-10-19', lastClosedWeek: { id: '2026-10-12', studyDays: 4, goal: 4, met: true } });
   assert.equal(weekCaption({ rhythm: monday, marks: weekMarks({ rhythm: monday, today: '2026-10-19' }), today: '2026-10-19', everSessions: 9 }).text, 'Last week: 4 of 4.');
   assert.equal(weekCaption({ rhythm: rhythm({ paused: true }), marks: [], today: TODAY, pausedUntil: '2026-10-18' }).text, 'Paused until Sun 18 Oct.');
@@ -256,9 +259,17 @@ import { fitMove } from '../../src/lib/today/move.mjs';
 test('greeting: time of day, welcome back, and never a handle (acceptance 11)', () => {
   assert.equal(greeting({ hour: 9, name: 'Asha Rao' }), 'Good morning, Asha');
   assert.equal(greeting({ hour: 14, name: 'Asha' }), 'Good afternoon, Asha');
-  assert.equal(greeting({ hour: 0, name: 'Asha' }), 'Good evening, Asha');
+  // By the local hour, as the app (b9a02c18): evening from 5 PM to midnight, then a plain Hello until 5 AM (owner D28:
+  // never "Good evening" at 2:41 am).
+  assert.equal(greeting({ hour: 17, name: 'Asha' }), 'Good evening, Asha');
+  assert.equal(greeting({ hour: 23, name: 'Asha' }), 'Good evening, Asha');
+  assert.equal(greeting({ hour: 0, name: 'Asha' }), 'Hello, Asha');
+  assert.equal(greeting({ hour: 2, name: 'Asha' }), 'Hello, Asha');
+  assert.equal(greeting({ hour: 4, name: 'Asha' }), 'Hello, Asha');
+  assert.equal(greeting({ hour: 5, name: 'Asha' }), 'Good morning, Asha');
+  assert.equal(greeting({ hour: 2, name: 'Asha', returning: true }), 'Welcome back, Asha');
   assert.equal(greeting({ hour: 20, name: 'Asha', returning: true }), 'Welcome back, Asha');
-  assert.equal(greeting({ hour: 0, name: 'app-e2e-student' }), 'Good evening');
+  assert.equal(greeting({ hour: 0, name: 'app-e2e-student' }), 'Hello');
   assert.equal(greetName('asha', 'asha@example.com'), '');
   assert.equal(greetName('Student42'), '');
 });
@@ -272,7 +283,7 @@ test('change length: practice sets its count, a repair takes as many as fit, nev
   const repair = buildMove(base({ papers: [paper({ wrong: 8 }), paper({ id: 'p6' }), paper({ id: 'p5' })] }));
   assert.equal(repair.number, 8);
   assert.equal(fitMove(repair, 10).number, 3);
-  assert.equal(fitMove(repair, 10).label, 'mistakes to repair first');
+  assert.equal(fitMove(repair, 10).label, 'mistakes to repair');
   assert.equal(fitMove(repair, 30).number, 8);
   assert.equal(fitMove(repair, 30).key.minutes, 30);
 });

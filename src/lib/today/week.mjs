@@ -63,7 +63,8 @@ export function weekCaption({ rhythm, marks, today, everSessions = null, pausedU
     const w = rhythm.lastClosedWeek;
     return { text: `Last week: ${w.studyDays} of ${w.goal}.`, strong: 'Tonight starts this week.', lastWeek: true };
   }
-  if (done === 0 && rhythm.returning) return { text: 'A new week.', strong: 'Tonight counts.' };
+  // Returning (TODAY-1018 section 5, as the app): no shaming, no streak loss; the week starts again with one session.
+  if (done === 0 && rhythm.returning) return { text: 'A new week starts with one session.', strong: `Today can be day one of ${goal}.` };
   if (todayMark && todayMark.state !== 'counted') {
     if (todayMark.state === 'rest') return { text: countedNames.length ? `${dayList(countedNames)} counted. Tonight is a rest day;` : 'Tonight is a rest day;', strong: 'a session still counts.' };
     if (done + 1 === goal) return { text: `${dayList(countedNames)} counted.`, strong: `Tonight makes ${goal}.` };
@@ -102,3 +103,74 @@ export const todayKeyIn = (timeZone, now = Date.now()) => {
   } catch { /* an unknown zone falls through */ }
   return new Date(now + 19800000).toISOString().slice(0, 10);
 };
+
+// ---------- The day readout, pass 1018 (TODAY-1018 section 6.3): a tapped day says what was done or planned ----------
+
+const LONG_NAMES = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const MODE_WORDS = { quick: 'practice', smart: 'smart practice', full: 'full mock', nta: 'NTA mock' };
+
+/** '2026-10-15' (index 3 of its week) -> 'Thursday 15 Oct'. */
+export function longDay(key, index) {
+  return `${LONG_NAMES[index] ?? ''} ${Number(key.slice(8, 10))} ${MONTHS[Number(key.slice(5, 7)) - 1]}`.trim();
+}
+
+/** 6:20 PM in the rhythm's own zone (IST by default). */
+export function clockIn(at, timeZone = 'Asia/Kolkata') {
+  const t = typeof at === 'number' ? at : Date.parse(at || '');
+  if (!Number.isFinite(t)) return '';
+  try {
+    return new Intl.DateTimeFormat('en-US', { timeZone, hour: 'numeric', minute: '2-digit', hour12: true }).format(new Date(t));
+  } catch { return ''; }
+}
+
+/**
+ * What one day of this week holds: { title, lines: [{ text, at }], note }.
+ *   mark      the day's mark from weekMarks ({ key, state, today })
+ *   index     0 (Monday) to 6
+ *   papers    GET /api/attempts/summary items (each with completedAt, mode, subject, total, marks, maxMarks)
+ *   repairs   GET /api/me/repair-record rows ({ repairedAt })
+ *   dayKey    (at) -> the day key in the rhythm's zone
+ *   clockOf   (at) -> '6:20 PM'
+ *   move      the lead move on the card now (for today), or null
+ *   failed    the move did not load (today then says so, and claims nothing)
+ *   goal      study days a week
+ *   today     today's key (a past planned day says nothing was saved; a future one says it is planned)
+ */
+export function dayReadout({ mark, index, papers = null, repairs = null, dayKey, clockOf = (at) => String(at), subjectName = (id) => id, move = null, failed = false, goal = null, today = '' }) {
+  if (!mark) return null;
+  const lines = [];
+  for (const p of Array.isArray(papers) ? papers : []) {
+    if (!p?.completedAt || dayKey(p.completedAt) !== mark.key) continue;
+    const mode = MODE_WORDS[p.mode] || 'practice';
+    const name = `${p.subject ? `${subjectName(p.subject)} ` : ''}${mode}`;
+    const n = Number(p.total) || (Number(p.correct) || 0) + (Number(p.wrong) || 0) + (Number(p.unattempted) || 0);
+    const score = Number.isFinite(Number(p.marks)) && Number(p.maxMarks) > 0 ? `, ${p.marks} of ${p.maxMarks}` : '';
+    lines.push({ text: `${name.charAt(0).toUpperCase()}${name.slice(1)}, ${n} ${n === 1 ? 'question' : 'questions'}${score}`, at: clockOf(p.completedAt), t: Date.parse(p.completedAt) || Number(p.completedAt) });
+  }
+  const fixed = (Array.isArray(repairs) ? repairs : []).filter((r) => r?.repairedAt && dayKey(r.repairedAt) === mark.key);
+  if (fixed.length) {
+    const lastAt = fixed.map((r) => Date.parse(r.repairedAt)).sort((a, b) => b - a)[0];
+    lines.push({ text: `Repair, ${fixed.length} ${fixed.length === 1 ? 'mistake' : 'mistakes'}`, at: clockOf(lastAt), t: lastAt });
+  }
+  lines.sort((a, b) => a.t - b.t);
+  const out = lines.map(({ text, at }) => ({ text, at }));
+  const long = longDay(mark.key, index);
+  const past = Boolean(today) && mark.key < today;
+  if (mark.today) {
+    const title = `Today, ${long}${!out.length && mark.state === 'planned' ? ', planned' : ''}`;
+    if (failed) return { title, lines: out, note: 'Your move shows here once it loads.' };
+    const m = move && move.id !== 'done' && move.title ? `Up next: ${move.title.charAt(0).toLowerCase()}${move.title.slice(1)}${move.key?.minutes ? `, about ${move.key.minutes} minutes` : ''}.` : '';
+    if (!out.length && mark.state === 'counted') return { title, lines: out, note: m ? `Today already counts. ${m}` : 'Today already counts toward your week.' };
+    return { title, lines: out, note: out.length ? (m ? `Still to come: ${m.slice(9)}` : '') : m || 'Any session today counts toward your week.' };
+  }
+  if (out.length) return { title: long, lines: out, note: '' };
+  if (mark.state === 'before') return { title: long, lines: out, note: 'Before your first session.' };
+  if (mark.state === 'rest') return { title: long, lines: out, note: 'A rest day in your plan. Anything you practise still counts.' };
+  if (mark.state === 'planned') {
+    return past
+      ? { title: `${long}, planned`, lines: out, note: goal > 0 ? `No session saved that day. The week still counts any ${goal} ${goal === 1 ? 'day' : 'days'}.` : 'No session saved that day.' }
+      : { title: `${long}, planned`, lines: out, note: 'Planned. Any day you practise counts.' };
+  }
+  return { title: long, lines: out, note: past ? 'No session saved that day.' : 'Nothing planned yet. Any day you practise counts.' };
+}

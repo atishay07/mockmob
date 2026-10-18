@@ -1,3 +1,48 @@
+## 18 October 2026 - Web release 7 integrated (deploy/web-1018-r7, from live main 70c4598c = release 6; local, not pushed, not deployed; nothing applied to any database)
+
+**What it is:** the new Today (TODAY-1018, branch web/today-1018 at d0486c12; the owner at 8:40 am: "the today page is better now") merged onto release 6. Today files are the 1018 design; every R5 and R6 change in the shared files is kept (Help and FAQ with no Help door, "Learn", community hidden, the Ask Mobi panel and nav row, badges, not-found pages, the docked-panel rule that stacks Today's columns at 1280 to 1439).
+
+**Conflicts and how they were resolved (by intent):**
+- `src/app/(app)/today/page.jsx` and `src/components/today/TodayMove.jsx`: the 1018 versions won. R6's "Why this?" was re-attached to the new lead card (below).
+- Auto-merged and checked: `package.json` (R6's suite lists plus `test:today` now with `today_release7.test.mjs`), `ArenaPreviewClient.jsx` (R6's preview routes kept, two fixture states added), `today.css` (R6's 44 px sentence-link rule kept).
+
+**Owner items on the new Today:**
+- **D36, "Why this?"**: AskMobiLink (ASK-MOBI-1018) is in the lead card's reason paragraph, right after the reason text, 68 x 45 px (hit-tested at the top, centre and bottom). It opens the Ask Mobi panel with the lead's reason answered free, and it follows the lead: a swapped card (tap a choice) asks about the swapped move. It takes the place of the "See why" link to the record page, so the card never has two ways to ask why.
+- **D15 wording**: "mistakes to repair first" is now "mistakes to repair" (priority is order, never a label); in Weak chapters each mistake's one action is `actionLabel` from `data/repair_presentation.mjs`: Repair, Check it held, See repair, Try it again (`src/lib/today/mistakeAction.mjs`). The lead's key still reads "Start repair" with its minutes: it starts a run of several, not one question.
+- **D29, "Play your paper back, 20 s"**: after a fresh submission (newest paper saved within 3 hours) Today shows a card once in the lead's place (`TodayReel.jsx`, `src/lib/today/paperReel.mjs`). It builds the reel with the result's own engine (`reelScript.mjs`, shared with the result page: same analysis, time read, costliest chapter and next move) from the cached attempt read that Last paper already makes. One volt key plays it in the result's own `PaperReel`; "Not now" is one tap. The card is marked seen once it has been on screen (last 20 attempt ids in localStorage `mm:today-reel:v1`), and Up next returns. A paper that cannot be read or has nothing answered hands the lead back at once. The seconds in the title come from the script (5, 10, 15, 20...).
+- **D28, greeting**: Hello from midnight to 5 AM survives (the 1018 greeting.mjs, tested).
+
+**Preview fixtures (dev only):** `/preview/arena?view=today&reel=fresh` (a new attempt every load, so the card shows every time) and `&reel=stable` (one attempt id: shows once, a reload brings Up next back); `&repaired=chapter` (weak chapter with one Check it held, one See repair, one Repair).
+
+**Tests changed because the owner replaced the behaviour:** `today_1017.test.mjs` (two asserts: the label "mistakes to repair first" is now "mistakes to repair", D15); `ask_mobi_entries.test.mjs` (the page wiring regex now reads `todayContext({ move: lead, ... })`: the 1018 lead is named `lead`, not `move`; the entry, its label and its context are unchanged). New: `data/tests/today_release7.test.mjs` (9 tests).
+
+**Checks (after the merge, in this worktree):**
+
+| Suite | Result |
+|---|---|
+| recovery | 551 pass, 3 todo (known gaps), 0 fail |
+| app | 596 |
+| learning | 357 |
+| auth | 110 |
+| billing | 153 |
+| nta | 188 |
+| today | 53 (was 32; 9 new in today_release7) |
+| mob | 45 |
+| subjects | 30 |
+| du | 42 |
+| dock | 7 pass, 1 todo |
+| community | 11 |
+| study | 37 pass, 1 fail: the known wordnet LICENSE_UNAVAILABLE |
+
+- eslint is clean on every changed file. `npx next build --webpack` exits 0; `.next` deleted.
+- Headless Chrome (playwright-core, own dev server on :3117, preview fixtures only, stopped): "Why this?" hit-tested at 390 and 1440; its click opens the docked panel with the reason answered; docked at 1280, 1440 and 1920 with no horizontal overflow; the reel card at 390 and 1440 in both themes, the reel plays and closes and Up next returns, "Not now" returns Up next, `reel=stable` shows once and a reload brings Up next back; Weak chapters shows Check it held, See repair and Repair.
+
+**Known gaps found while merging (not changed here):**
+- The result page does not read `?q=`; Today's "Repair this leak", Weak chapters links and the reel's last key send `?q=N`, so they open the paper's result at the top. Wiring it must not auto-start a paid repair (`jumpTo(..., { repair: true })` sets `autoRepair`), so it was left for a decision.
+- The working tree of this worktree has CRLF line endings (core.autocrlf), which breaks one regex in `release6_fixes_1018.test.mjs` (`practiseLine` match on `
+`); the index is LF and the test passes on an LF checkout.
+
+
 ## 18 October 2026, about 7:25 am IST - Website release 6 shipped (deploy/web-1018-r6): Review and result 1018, Ask Mobi 1018, community and Learn, badges
 
 **What shipped, by owner item (OWNER-FEEDBACK-2026-10-18-DAWN.md):**

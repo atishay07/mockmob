@@ -129,11 +129,11 @@ export function buildMove({ plan = null, planFailed = false, papers = null, rhyt
     if (open > 0) {
       const n = Math.min(3, open);
       return {
-        id: 'returning', overline: 'Pick up where you left off', number: n, label: n === 1 ? 'mistake to repair first' : 'mistakes to repair first',
+        id: 'returning', overline: 'Pick up where you left off', number: n, label: n === 1 ? 'mistake to repair' : 'mistakes to repair',
         why: `Your last paper was ${lastName} on ${lastWhen}. ${open === n ? `${open === 1 ? 'Its one mistake is' : `All ${word(open)} of its mistakes are`} still open.` : `Its ${word(open)} open mistakes are still here; start with ${word(n)}.`}`,
         key: { label: 'Start repair', href: `/result/${encodeURIComponent(last.id)}`, minutes: repairMinutes(n) },
         link: open > n ? { label: `See all ${open}`, href: `/result/${encodeURIComponent(last.id)}` } : null,
-        pills: pills(), art: 'mobi', mobiAct: 'hello', subject: last.subject, returning: true, open, aiEach: 1,
+        pills: pills(), art: 'mobi', mobiAct: 'hello', subject: last.subject, returning: true, open, aiEach: 1, paperAt: last.completedAt,
       };
     }
     return {
@@ -151,7 +151,7 @@ export function buildMove({ plan = null, planFailed = false, papers = null, rhyt
     why: `${open === last.wrong ? (open === 1 ? 'It is from' : `All ${word(open)} are from`) : `${plural(open, 'open mistake')} from`} ${lastName} on ${lastWhen}.${extra}${sparseClause}`,
     key: { label: 'Start repair', href: `/result/${encodeURIComponent(last.id)}`, minutes: repairMinutes(open) },
     link: { label: 'See why', href: `/result/${encodeURIComponent(last.id)}` },
-    pills: pills(papers.length < 2 ? 'mock' : 'else'), art: 'object', subject: last.subject, firstWeek, open,
+    pills: pills(papers.length < 2 ? 'mock' : 'else'), art: 'object', subject: last.subject, firstWeek, open, paperAt: last.completedAt,
     aiEach: 1, // each repair uses 1 AI credit; the card says so, with the balance, before the press
   });
 
@@ -212,6 +212,7 @@ export function buildMove({ plan = null, planFailed = false, papers = null, rhyt
     key: { label: `Start ${count} questions`, href: aim, minutes: length },
     link: top?.chapter ? { label: 'See why', href: '/mentor?tab=record' } : null,
     pills: pills(), art: 'object', subject: top?.subject || last?.subject || null, firstWeek,
+    chapter: top?.chapter || null, chapterOpen: top?.chapter ? top.open : null, chapterSessions: top?.chapter ? top.sessions : null,
   };
 }
 
@@ -262,17 +263,17 @@ export function fitMove(move, chosen) {
   if (!move || ![10, 20, 30].includes(chosen)) return move;
   if (['repair', 'firstRepair', 'returning'].includes(move.id) && move.open > 0) {
     const n = Math.min(move.open, Math.max(1, Math.floor(chosen / 3)));
-    const first = n < move.open;
-    return { ...move, number: n, label: first ? (n === 1 ? 'mistake to repair first' : 'mistakes to repair first') : (n === 1 ? 'mistake to repair' : 'mistakes to repair'), key: { ...move.key, minutes: chosen } };
+    // D15: one label for a mistake to repair; priority is shown by order and the why line ("start with three"), never by "first".
+    return { ...move, number: n, label: n === 1 ? 'mistake to repair' : 'mistakes to repair', key: { ...move.key, minutes: chosen } };
   }
   if (move.id === 'revise' && move.due > 0) {
     const n = Math.min(move.due, chosen);
     return { ...move, number: n, label: n === 1 ? 'mistake comes back today' : 'mistakes come back today', key: { ...move.key, minutes: Math.max(5, Math.ceil(n / 5) * 5) } };
   }
-  if (['practice', 'dayOne'].includes(move.id) || (move.id === 'returning' && !move.open)) {
+  if (['practice', 'dayOne', 'weakest'].includes(move.id) || (move.id === 'returning' && !move.open)) {
     const count = chosen === 10 ? 10 : 20;
     const href = move.key.href.replace(/([?&])count=\d+/, `$1count=${count}`);
-    return { ...move, number: count, key: { ...move.key, href, minutes: chosen, label: move.id === 'dayOne' ? move.key.label : `Start ${count} questions` }, review: chosen === 30 ? 10 : 0 };
+    return { ...move, number: count, key: { ...move.key, href, minutes: chosen, label: ['dayOne', 'weakest'].includes(move.id) ? move.key.label : `Start ${count} questions` }, review: chosen === 30 ? 10 : 0 };
   }
   return move;
 }

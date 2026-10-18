@@ -1,15 +1,21 @@
 "use client";
-// Up next: the one move on Today (TODAY-1017 4.2). One card: what to do now (the subject, a big number with its
-// meaning), why from the student's own record in one sentence, one volt key with the length inside it, and two
-// pressable pills under it (Change length, Something else). Every other way into practice is in Something else.
+// Up next: the lead card on Today (TODAY-1018 sections 3 row 2, 6.1 and 6.2; the R3 anatomy kept, owner D1 to D3).
+// One card that leads and is interactive:
+//   overline and title, the subject object, the big number with its meaning;
+//   the value line: what these questions cost the student (the record's own arithmetic) and the "about 12 min" token,
+//   which opens the three lengths inline in the card (no sheet);
+//   why, from the student's own record; one volt key with the minutes inside; the price before the press;
+//   a split footer of two other moves (not cards inside the card): a tap swaps the lead live, and while the student's
+//   pick is on the card the recommended move waits in the footer, marked Suggested;
+//   "More ways to practise" opens every other way in (the R3 Something else sheet).
 // The key is the viewport's one volt (data-page-primary steps the shell's Start key back to an outline).
 import { useContext, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
-import { Clock3, Shuffle, FileText, Play, RotateCcw } from 'lucide-react';
+import { ChevronsUpDown, RotateCcw, Check } from 'lucide-react';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import MobiReact from '@/components/brand/MobiReact';
 import { useCountUpState } from '@/lib/motion/useCountUp';
-import { fitMove, keepTogether } from '@/lib/today/move.mjs';
+import { keepTogether } from '@/lib/today/move.mjs';
 import TodaySheet from './TodaySheet';
 import { AuthContext } from '@/components/AuthProvider';
 import { useWalletSummary } from '@/components/useWalletSummary';
@@ -21,53 +27,40 @@ const subscribeOnline = (cb) => { window.addEventListener('online', cb); window.
 const onlineNow = () => navigator.onLine !== false;
 
 function BigNumber({ value }) {
-  const { value: rolled, ink } = useCountUpState(value, { memoryKey: 'today-move-number' });
-  return <span className="tm__num" data-ink={ink || undefined}><span aria-hidden="true">{rolled}</span><span className="sr-only">{value}</span></span>;
+  // The first landing climbs from 0 with the card (part of the page's one load moment); remembered for the visit, so a
+  // return draws it at once; a swap rolls from the old number to the new one (380 ms, ease-out).
+  const { value: rolled } = useCountUpState(value, { memoryKey: 'today-move-number', duration: 380, from: 0 });
+  return <span className="tm__num"><span aria-hidden="true">{rolled}</span><span className="sr-only">{value}</span></span>;
 }
 
 // A repair move's price before the press: "Each repair uses 1 AI credit. You have 68." (unknown balance, no number).
 function RepairPrice({ each }) {
   const auth = useContext(AuthContext);
   const wallet = useWalletSummary(auth?.user?.id, { reuseFresh: true });
-  return <p className="tm__caption tm__price">{usesLine({ what: 'Each repair', cost: each, pool: 'ai', balance: wallet.wallet?.known ? wallet.wallet.total : null })}</p>;
+  return <p className="tm__price">{usesLine({ what: 'Each repair', cost: each, pool: 'ai', balance: wallet.wallet?.known ? wallet.wallet.total : null })}</p>;
 }
 
 function Art({ move, failed }) {
-  if (failed) return <span className="tm__art tm__art--mobi" aria-hidden="true"><MobiReact act="oops" size={104} /></span>;
+  if (failed) return <span className="tm__art tm__art--mobi" aria-hidden="true"><MobiReact act="oops" size={96} /></span>;
   if (!move) return null;
-  if (move.art === 'mobi') return <span className="tm__art tm__art--mobi" aria-hidden="true"><MobiReact act={move.mobiAct || 'hello'} size={104} /></span>;
-  if (!move.subject) return null;
-  return <span className="tm__art" aria-hidden="true"><SubjectObject id={move.subject} size={136} lit life={false} framed={false} /></span>;
-}
-
-const LENGTHS = [10, 20, 30];
-
-function lengthLine(move, n) {
-  const fitted = fitMove(move, n);
-  if (!fitted || fitted === move && !['practice', 'dayOne'].includes(move.id)) return `${n} minutes`;
-  return `${fitted.number} ${fitted.label}${fitted.review ? `, then ${fitted.review} minutes on what you missed` : ''}`;
-}
-
-function ChangeLength({ open, onClose, move, chosen, onChoose, saving }) {
-  const current = chosen || move?.key?.minutes || 10;
-  return (
-    <TodaySheet open={open} onClose={onClose} id="tm-length" title="How long do you have?" lede="The move keeps its aim. The length sets how much of it fits.">
-      <div className="tsh__options" role="radiogroup" aria-label="Length">
-        {LENGTHS.map((n) => (
-          <button key={n} type="button" role="radio" aria-checked={current === n} className="tsh__option" disabled={saving === 'saving'} onClick={() => onChoose(n)}>
-            <b>{n} min</b>
-            <span>{lengthLine(move, n)}</span>
-          </button>
-        ))}
-      </div>
-      <p className="tsh__status" role="status">{saving === 'saving' ? 'Saving…' : saving === 'saved' ? 'Saved.' : saving === 'local' ? 'Kept on this device for today.' : saving === 'failed' ? `Your time was not saved, so it stays at ${current} minutes.` : ''}</p>
-    </TodaySheet>
-  );
+  if (move.art === 'mobi') return <span className="tm__art tm__art--mobi" aria-hidden="true"><MobiReact act={move.mobiAct || 'hello'} size={96} /></span>;
+  // Revise: the objects of the subjects whose questions come back today, most first (one, or a small stack of up to three).
+  if (move.id === 'revise' && move.subjects?.length) {
+    return (
+      <span className="tm__art tm__art--stack" data-n={move.subjects.length} aria-hidden="true">
+        {move.subjects.map((s, i) => <span key={s} className="tm__stack-i" style={{ '--k': i }}><SubjectObject id={s} size={move.subjects.length === 1 ? 112 : [96, 64, 56][i]} lit={i === 0} life={false} framed={false} /></span>)}
+      </span>
+    );
+  }
+  // The subject's object is alive here (the brand's ObjectLife: a slow breath and a lean toward the pointer), the page's
+  // one living object; reduced motion keeps the still picture.
+  if (move.subject) return <span className="tm__art" key={move.subject} aria-hidden="true"><SubjectObject id={move.subject} size={112} lit life framed={false} /></span>;
+  return <span className="tm__glyph" aria-hidden="true">{move.id === 'done' ? <Check size={36} strokeWidth={1.5} /> : <RotateCcw size={34} strokeWidth={1.5} />}</span>;
 }
 
 function SomethingElse({ open, onClose, items }) {
   return (
-    <TodaySheet open={open} onClose={onClose} id="tm-else" title="Something else" lede="Each one, and why it might be your next move.">
+    <TodaySheet open={open} onClose={onClose} id="tm-else" title="More ways to practise" lede="Each one, and why it might be your next move.">
       <ul className="tsh__list">
         {items.map((a) => (
           <li key={a.id}>
@@ -82,18 +75,22 @@ function SomethingElse({ open, onClose, items }) {
   );
 }
 
+const say = (s, current) => (s === 'saving' ? 'Saving…' : s === 'saved' ? 'Saved.' : s === 'local' ? 'Kept on this device for today.' : s === 'failed' ? `Not saved, so it stays at ${current} minutes.` : '');
+
 /**
- * `phase`: 'loading' | 'failed' | 'ready'. `move` from buildMove (fitted to the chosen length by the page).
- * `slow`: the read has taken over 8 s. `triedAt`: the time a retry also failed (a 12-hour clock string).
+ * `phase`: 'loading' | 'failed' | 'ready'. `lead`: the move on the card (leadOf, fitted to the chosen length).
+ * `choices`: the two other moves (pickChoices). `picked`: the lead is the student's pick. `out`: the swap is fading out.
+ * `lengths`: [{ n, line }] when a length changes the move, else null. `chosen`: the chosen length.
  */
-export default function TodayMove({ phase, move, word = 'Tonight’s move', slow = false, triedAt = '', cause = '', onRetry, alternatives = [], chosen = null, onChoose, saving = '', askContext = null }) {
+export default function TodayMove({ phase, lead, choices = [], picked = false, out = false, onPick, lengths = null, chosen = null, onChoose, saving = '', alternatives = [], word = 'Tonight’s move', slow = false, triedAt = '', onRetry, askContext = null }) {
   const online = useSyncExternalStore(subscribeOnline, onlineNow, () => true);
-  const [sheet, setSheet] = useState(null);
+  const [sheet, setSheet] = useState(false);
+  const [lenOpen, setLenOpen] = useState(false);
 
   if (phase === 'loading') {
     return (
       <section className="tm tm--wait" aria-busy="true" aria-label={`Loading ${word.toLowerCase()}`}>
-        <span className="tm__sk tm__sk--a" /><span className="tm__sk tm__sk--b" /><span className="tm__sk tm__sk--c" /><span className="tm__sk tm__sk--key" />
+        <span className="tm__sk tm__sk--a" /><span className="tm__sk tm__sk--b" /><span className="tm__sk tm__sk--c" /><span className="tm__sk tm__sk--d" /><span className="tm__sk tm__sk--key" />
         {slow ? (
           <p className="tm__slow" role="status">Still loading. Your connection looks slow. <button type="button" className="tm__inline" onClick={onRetry}>Try again</button></p>
         ) : null}
@@ -105,60 +102,91 @@ export default function TodayMove({ phase, move, word = 'Tonight’s move', slow
     return (
       <section className="tm tm--failed" aria-labelledby="tm-title">
         <div className="tm__top">
-          <div className="tm__head"><h2 id="tm-title" className="tm__subject">{word} did not load</h2></div>
+          <div className="tm__head"><p className="tm__over">Up next</p><h2 id="tm-title" className="tm__title">{word} did not load</h2></div>
           <Art failed />
         </div>
-        <p className="tm__why">{cause || 'MockMob did not answer, so ' + word.toLowerCase() + ' could not be worked out.'} Your papers and mistakes are safe; Review still opens them.</p>
-        {triedAt ? <p className="tm__caption" role="status">Tried again at {triedAt}. Still not loading.</p> : null}
+        <p className="tm__why">MockMob did not answer, so {word.toLowerCase()} could not be worked out. Your papers and mistakes are safe; Review still opens them.</p>
+        {triedAt ? <p className="tm__note" role="status">Tried again at {triedAt}. Still not loading.</p> : null}
         <button type="button" className="tm__key" data-page-primary onClick={onRetry}><RotateCcw size={18} strokeWidth={2} aria-hidden="true" />Try again</button>
-        <div className="tm__pills"><Link className="tm__pill" href="/dashboard"><Play size={17} strokeWidth={1.75} aria-hidden="true" />Practise anyway</Link></div>
+        <div className="tm__or tm__or--one"><Link className="tm__choice" href="/dashboard"><span className="tm__choice-t">Practise anyway</span><span className="tm__choice-v">Pick a subject and a length yourself</span></Link></div>
       </section>
     );
   }
 
-  const m = move;
+  const m = lead;
   const offline = !online;
-  // Change length shows only when a length changes the move (a Revise of 4, or a timed mock, is the same at every length).
-  const lengthMatters = new Set(LENGTHS.map((n) => { const f = fitMove(m.base || m, n); return `${f?.number}|${f?.key?.minutes}`; })).size > 1;
-  const heading = m.number != null ? `${m.overline}: ${m.subjectName ? `${m.subjectName}, ` : ''}${m.number} ${m.label}` : `${m.overline}: ${m.title}`;
+  const minutes = m.key?.minutes || null;
+  const current = chosen || minutes || 10;
+  const subject = m.subjectName || '';
+  const over = m.id === 'done' ? 'Today' : picked ? 'Up next, your pick' : m.firstWeek && m.firstWeek > 1 ? `Day ${m.firstWeek} of your first week` : 'Up next';
+  const heading = `${over}${subject ? `, ${subject}` : ''}: ${m.title}${m.number != null ? `, ${m.number} ${m.label}` : ''}`;
+  const price = m.aiEach && m.open > 0 ? <RepairPrice each={m.aiEach} /> : m.priceLine ? <p className="tm__price">{m.priceLine}</p> : m.free ? <p className="tm__price">Free. No credits.</p> : null;
+
   return (
     <section className="tm" data-move={m.id} aria-labelledby="tm-title">
       <h2 id="tm-title" className="sr-only">{heading}</h2>
-      <div className="tm__top">
-        <div className="tm__head" aria-hidden="true">
-          <p className="tm__over">{m.overline}</p>
-          <p className="tm__subject">{m.subjectName || m.title || ''}</p>
+      <div className="tm__body" data-out={out || undefined} aria-live="polite">
+        <div className="tm__top" aria-hidden="true">
+          <div className="tm__head">
+            <p className="tm__over">{picked ? <>Up next, <b>your pick</b></> : over}{subject ? `, ${subject}` : ''}</p>
+            <p className="tm__title">{m.title}</p>
+          </div>
+          <Art move={m} />
         </div>
-        <Art move={m} />
+        {m.number != null ? (
+          <p className="tm__figure" aria-hidden="true"><BigNumber value={m.number} /><span className="tm__label">{m.label}</span></p>
+        ) : null}
+        {m.stake || minutes ? (
+          <div className="tm__value">
+            {m.stake ? <span><b>{m.stake.value}</b> {m.stake.word}</span> : null}
+            {minutes && lengths ? (
+              <button type="button" className="tm__token" aria-expanded={lenOpen} aria-controls="tm-lengths" onClick={() => setLenOpen((v) => !v)}>
+                about {minutes} min<ChevronsUpDown size={15} strokeWidth={1.75} aria-hidden="true" />
+              </button>
+            ) : minutes ? <span>about <b>{minutes}</b> min</span> : null}
+          </div>
+        ) : null}
+        {lengths ? (
+          <div className="tm__lengths" id="tm-lengths" data-open={lenOpen || undefined}>
+            <div>
+              <div className="tm__len-row" role="radiogroup" aria-label="How long do you have?">
+                {lengths.map((l) => (
+                  <button key={l.n} type="button" role="radio" aria-checked={current === l.n} className="tm__len" tabIndex={lenOpen ? 0 : -1} disabled={saving === 'saving'} onClick={() => onChoose?.(l.n)}>
+                    <b>{l.n} min</b><span>{l.line}</span>
+                  </button>
+                ))}
+              </div>
+              <p className="tm__len-status" role="status">{say(saving, current)}</p>
+            </div>
+          </div>
+        ) : null}
+        {/* "Why this?" (ASK-MOBI-1018, owner D36) sits beside the reason line and opens Mobi already on this step, with the reason
+            and the plan's record facts answered free. It follows the lead, so a swapped card asks about the swapped move. It takes
+            the place of a link to the record page, so the card never carries two ways to ask why. */}
+        <p className="tm__why">{keepTogether(m.why)}{m.link && !(askContext && m.link.href.startsWith('/mentor')) ? <> <Link className="tm__inline" href={m.link.href}>{m.link.label}</Link></> : null}{askContext ? <> <AskMobiLink context={askContext} variant="inline" className="tm__inline">{ENTRY_LABELS.today}</AskMobiLink></> : null}</p>
+        {offline ? <p className="tm__note" role="status">Needs a connection to start.</p> : null}
+        {offline ? (
+          <span className="tm__key" aria-disabled="true" role="link">{m.key.label}{minutes ? <span className="tm__key-len">{minutes} min</span> : null}</span>
+        ) : (
+          <Link className="tm__key" data-page-primary href={m.key.href}>{m.key.label}{minutes ? <span className="tm__key-len">{minutes} min</span> : null}</Link>
+        )}
+        {price}
       </div>
-      {m.number != null ? (
-        <p className="tm__figure" aria-hidden="true"><BigNumber value={m.number} /><span className="tm__label">{m.label}</span></p>
+      {choices.length ? (
+        <div className="tm__or" role="group" aria-label="Or do this instead">
+          {choices.map((c) => (
+            <button key={c.id} type="button" className="tm__choice" onClick={() => onPick?.(c.id)} aria-label={`${c.suggested ? 'Suggested. ' : ''}${c.choice.title}: ${c.choice.value}. Show it in Up next.`}>
+              {c.suggested ? <span className="tm__choice-s">Suggested</span> : null}
+              <span className="tm__choice-t">{c.choice.title}</span>
+              <span className="tm__choice-v">{c.choice.value}</span>
+            </button>
+          ))}
+        </div>
       ) : null}
-      {/* "Why this?" opens Mobi already on this step, with the reason and the plan's record facts answered free. It takes the place
-          of a link to the record page, so the card never carries two ways to ask why. */}
-      <p className="tm__why">{keepTogether(m.why)}{m.link && !(askContext && m.link.href.startsWith('/mentor')) ? <> <Link className="tm__inline" href={m.link.href}>{m.link.label}</Link></> : null}{askContext ? <> <AskMobiLink context={askContext} variant="inline" className="tm__inline">{ENTRY_LABELS.today}</AskMobiLink></> : null}</p>
-      {offline ? <p className="tm__caption" role="status">Needs a connection to start.</p> : null}
-      {offline ? (
-        <span className="tm__key" aria-disabled="true" role="link">{m.key.label}{m.key.minutes ? <span className="tm__key-len">{m.key.minutes} min</span> : null}</span>
-      ) : (
-        <Link className="tm__key" data-page-primary href={m.key.href}>{m.key.label}{m.key.minutes ? <span className="tm__key-len">{m.key.minutes} min</span> : null}</Link>
-      )}
-      {m.aiEach && m.open > 0 ? <RepairPrice each={m.aiEach} /> : null}
-      <div className="tm__pills">
-        {m.pills.length && lengthMatters ? (
-          <button type="button" className="tm__pill" aria-haspopup="dialog" onClick={() => setSheet('length')}><Clock3 size={17} strokeWidth={1.75} aria-hidden="true" />Change length</button>
-        ) : null}
-        {m.pills.second === 'mock' ? (
-          <Link className="tm__pill" href={m.mockHref || '/dashboard?mode=full'}><FileText size={17} strokeWidth={1.75} aria-hidden="true" />Full mock instead</Link>
-        ) : m.pills.second === 'open' ? (
-          <Link className="tm__pill" href={m.pills.openHref}><FileText size={17} strokeWidth={1.75} aria-hidden="true" />Open the session</Link>
-        ) : null}
-        {m.pills.second !== 'mock' ? (
-          <button type="button" className="tm__pill" aria-haspopup="dialog" onClick={() => setSheet('else')}><Shuffle size={17} strokeWidth={1.75} aria-hidden="true" />Something else</button>
-        ) : null}
-      </div>
-      <ChangeLength open={sheet === 'length'} onClose={() => setSheet(null)} move={m.base || m} chosen={chosen} onChoose={onChoose} saving={saving} />
-      <SomethingElse open={sheet === 'else'} onClose={() => setSheet(null)} items={alternatives} />
+      {alternatives.length ? (
+        <div className="tm__more"><button type="button" aria-haspopup="dialog" onClick={() => setSheet(true)}>More ways to practise</button></div>
+      ) : null}
+      <SomethingElse open={sheet} onClose={() => setSheet(false)} items={alternatives} />
     </section>
   );
 }

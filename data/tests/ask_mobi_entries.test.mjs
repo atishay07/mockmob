@@ -145,7 +145,9 @@ test('every entry is wired once, with its one label, and none adds a card or an 
   const repairAsk = read('src/components/recovery/RepairAsk.jsx');
   assert.match(repairAsk, /openAskMobi\(\{ context, from: event\.currentTarget \}\)/);
   assert.match(read('src/components/today/TodayMove.jsx'), /ENTRY_LABELS\.today/);
-  assert.match(read('src/app/(app)/today/page.jsx'), /todayContext\(\{ move, plan: data\.plan\.data \}\)/);
+  // Release 7: the 1018 lead card carries the entry; the context follows the lead (a swapped card asks about the swapped move).
+  assert.match(read('src/app/(app)/today/page.jsx'), /todayContext\(\{ move: lead, plan: data\.plan\.data \}\)/);
+  assert.match(read('src/app/(app)/today/page.jsx'), /askContext=\{askContext\}/);
   // Practice has one entry (release 6 merge): the Repairs and Ask Mobi line under the subject shelf (owner D5) carries "Ask Mobi what to practise".
   assert.match(read('src/app/(app)/dashboard/DashboardPageClient.jsx'), /<PracticeRepairs /);
   assert.doesNotMatch(read('src/app/(app)/dashboard/DashboardPageClient.jsx'), /PracticeAskRow/, 'one Ask Mobi entry on Practice, not two');

@@ -13,7 +13,7 @@ import { CURRENT_OFFER } from '@/../data/capabilities';
 import creditsContract from '@/../data/tests/fixtures/credits/contract_credits_v1.json';
 import { learningPlan, createEpisode, advanceEpisode, publicEpisode } from '@/../data/learning_engine';
 import { studyMilestones, tonightMetadata, tonightCompletion } from '@/../data/study_progress';
-import { previewAnalytics, previewCompass, previewInsights } from './previewRecord';
+import { previewAnalytics, previewCompass, previewInsights, previewRecordAttempt } from './previewRecord';
 import { computeRhythm } from '@/lib/server/rhythm';
 import { standingFor } from '@/lib/server/standing';
 import { previewStudyRecord, previewBadgesBody } from './previewStudy';
@@ -212,6 +212,11 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       const marks = state === 'sparse' ? [92] : fixture.get('trend') === 'few' ? [92, 88] : [76, 84, 80, 96, 104, 118];
       const away = state === 'returning' ? 8 * 86400000 : 0;
       const items = marks.map((m, i) => ({ id: `fxp${i}`, subject: 'accountancy', mode: 'full', correct: Math.round((m + 4) / 5.2), wrong: state === 'returning' && i === marks.length - 1 ? 6 : 4, unattempted: 0, total: 50, marks: m, maxMarks: 250, completedAt: Date.now() - away - (marks.length - i) * 3 * 86400000, formatId: 'full:accountancy:q50:server_snapshot_v1' })).reverse();
+      // ?reel=fresh: the newest paper is the 10-question fixture paper (9 of 50 marks), saved 20 minutes ago, and each page load is a new attempt, so Today's one-time "Play your
+      // paper back" card shows on every load. ?reel=stable keeps one attempt id: it shows once, and a reload brings Up next back
+      // (clear localStorage `mm:today-reel:v1` to see it again).
+      const reel = fixture.get('reel');
+      if ((reel === 'fresh' || reel === 'stable') && items.length) items[0] = { ...items[0], id: reel === 'stable' ? 'fxreel-stable' : (window.__previewReelId ||= `fxreel-${Date.now()}`), mode: 'quick', correct: 3, wrong: 6, unattempted: 1, total: 10, marks: 9, maxMarks: 50, completedAt: Date.now() - 20 * 60000 };
       return json({ items, nextCursor: null });
     }
     // Today's road on the account (GET and PUT /api/me/road). ?road=set has a date and a target; ?road=off is before the
@@ -230,15 +235,21 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       return json(window.__previewRoad);
     }
     // Repairs per paper (GET /api/me/repair-record). ?repaired=all has every mistake of the newest paper repaired;
-    // ?repaired=week has three repairs made today on two older papers (Today's weekly receipt).
+    // ?repaired=week has three repairs made today on two older papers (Today's weekly receipt); ?repaired=chapter has two repairs in the weakest chapter (Today's weak chapters).
     if (url.pathname === '/api/me/repair-record' && method === 'GET') {
       const kind = fixture.get('repaired');
       const row = (attemptId, k) => ({ attemptId, questionId: `q${k}`, chapter: 'Partnership Fundamentals', subject: 'accountancy', foundAt: null, repairedAt: new Date().toISOString(), checkedState: 'pending', retriedAt: null });
       if (kind === 'week') return json({ repairs: [row('fxp4', 0), row('fxp4', 1), row('fxp3', 2)] });
+      // ?repaired=chapter: on the weak chapter Partnership Fundamentals, Q2 is repaired and its check is not taken (Check it held),
+      // Q3 is repaired and held on a new question (See repair), and the older one is still open (Repair).
+      if (kind === 'chapter') return json({ repairs: [{ ...row('p1', 1), questionId: 'p1-q2' }, { ...row('p1', 2), questionId: 'p1-q3', checkedState: 'passed' }] });
       return json({ repairs: kind === 'all' ? [0, 1, 2, 3].map((k) => row('fxp5', k)) : [] });
     }
     if (url.pathname.startsWith('/api/attempts/')) {
       if (state === 'empty') return json({ error: 'No fixture attempt' }, 404);
+      // Today's weak chapters open the record's own papers (p1, p2, p3) for their stems (previewRecord.js).
+      const recordPaper = previewRecordAttempt(decodeURIComponent(url.pathname.split('/').pop()));
+      if (recordPaper) return json(recordPaper);
       // ?mock=full|nta serves a scored mock with the real SWOT, record lines and Mistake Lab (previewMock.js); ?checks=unavailable
       // leaves the answer-key check unread so the panels show their pending state; ?lab=basic|off shows the basic ledger or the
       // page without the Lab. Without ?mock the paper is the 10-question quick practice.

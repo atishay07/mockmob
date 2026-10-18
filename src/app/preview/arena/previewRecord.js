@@ -4,10 +4,28 @@ import { scoreSession } from '@/../data/recovery';
 import { computePrepOSInsights, readout } from '@/../data/prepos_insights';
 
 const OPTIONS = ['A', 'B', 'C', 'D'].map((key) => ({ key, text: key }));
+// Illustrative stems (original, never bank rows), so Today's weak chapters can show whole questions in the preview.
+const STEMS = {
+  'Partnership Fundamentals': [
+    'A and B share profits 3:2. C is admitted for a 1/5th share. What is the sacrificing ratio of A and B?',
+    'Goodwill brought in cash by a new partner is credited to which account?',
+    'In the absence of a partnership deed, interest on a partner’s loan is allowed at what rate a year?',
+  ],
+  Goodwill: [
+    'Average profit is ₹60,000 and normal profit is ₹45,000. What is goodwill at three years’ purchase of super profit?',
+    'Which method values goodwill by capitalising the average profit at the normal rate of return?',
+    'Hidden goodwill is the difference between which two amounts?',
+  ],
+  Ratios: [
+    'Current assets are ₹2,40,000 and current liabilities ₹80,000. What is the current ratio?',
+    'Which ratio shows how many times the interest charges are covered by profit before interest and tax?',
+    'An increase in which item raises the quick ratio but leaves the current ratio unchanged?',
+  ],
+};
 const DAY = 86_400_000;
 
 function attempt(id, daysAgo, spec, subject = 'accountancy') {
-  const questions = spec.map((s, i) => ({ id: `${id}-q${i + 1}`, chapter: s.chapter, difficulty: s.difficulty || 'medium', correctIndex: 0, options: OPTIONS }));
+  const questions = spec.map((s, i) => ({ id: `${id}-q${i + 1}`, chapter: s.chapter, difficulty: s.difficulty || 'medium', correctIndex: 0, options: OPTIONS, question: STEMS[s.chapter]?.[i % 3] || `Illustrative question ${i + 1} on ${s.chapter}.` }));
   const answers = {}; const events = []; let seq = 1; let at = 800;
   spec.forEach((s, i) => {
     const qid = questions[i].id;
@@ -35,6 +53,12 @@ const ATTEMPTS = [
   ]),
   attempt('p3', 10, Array.from({ length: 8 }, (_, k) => ({ chapter: k < 4 ? 'Partnership Fundamentals' : 'Goodwill', final: k % 3 === 0 ? R : W }))),
 ];
+
+/** One record paper in full (GET /api/attempts/{id} for p1, p2 and p3), so Today's weak chapters can load stems. */
+export function previewRecordAttempt(id) {
+  const a = ATTEMPTS.find((x) => x.id === id);
+  return a ? { ...a, mode: 'quick', paper: { source: 'Quick practice', completedAt: a.completedAt } } : null;
+}
 
 export function previewInsights(names = { accountancy: 'Accountancy' }) {
   const insights = computePrepOSInsights(ATTEMPTS, { subjectNames: names });

@@ -12,7 +12,8 @@ import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import COPY from '@/../data/mistake_lab.copy.json';
 import { fill } from '@/../data/paper_trace';
-import { reelFrameAt, reelKeyFrames, reelSeconds, reelScript, replayView } from '@/../data/replay';
+import { reelFrameAt, reelKeyFrames, reelSeconds } from '@/../data/replay';
+import { buildReelScript, reelInputs } from './reelScript.mjs';
 import './paper-reel.css';
 
 
@@ -21,27 +22,11 @@ const readReduced = () => { try { return document.documentElement.dataset.motion
 
 /** The script for one result, from what the page already holds. null when there is nothing to play back. */
 export function useReelScript({ analysis, attempt, timeRead, finding, move }) {
-  const rows = analysis?.rows;
-  const replay = attempt?.lab?.replay || null;
-  const paceMs = timeRead?.pace?.perQuestionMs || null;
-  const rec = attempt?.selectionMeta?.recovery || null;
-  const kind = move?.kind || null;
-  const label = move?.label || null;
-  const target = move?.target || null;
-  const line = finding?.line || null;
-  const detail = finding?.detail || null;
-  const chapter = finding?.chapter || null;
-  return useMemo(() => {
-    if (!rows?.length) return null;
-    const view = replay ? replayView(replay, { total: rows.length }) : null;
-    const paceSec = paceMs ? paceMs / 1000 : replay?.durationSec ? replay.durationSec / rows.length : null;
-    const changes = rec?.telemetry === 'self_reported' && Array.isArray(rec.observed?.answerChanges) ? rec.observed.answerChanges : [];
-    return reelScript({
-      rows, changes, view, paceSec,
-      finding: line ? { line, detail, chapter } : null,
-      next: label ? { kind, label, target, href: (kind === 'practise' || kind === 'harder') && target?.href ? target.href : null } : null,
-    });
-  }, [rows, replay, paceMs, rec, kind, label, target, line, detail, chapter]);
+  const { rows, replay, paceMs, rec, kind, label, target, line, detail, chapter } = reelInputs({ analysis, attempt, timeRead, finding, move });
+  return useMemo(
+    () => buildReelScript({ rows, replay, paceMs, rec, kind, label, target, line, detail, chapter }),
+    [rows, replay, paceMs, rec, kind, label, target, line, detail, chapter],
+  );
 }
 
 function Play({ className }) {
