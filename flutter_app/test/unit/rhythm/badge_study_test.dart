@@ -71,14 +71,30 @@ void main() {
     final now = DateTime.utc(2026, 10, 14, 8);
     RhythmSeenState seenWeek() => RhythmSeenState(lastSeenWeek: LastSeenWeek.fromRhythm(rhythmFixture()));
 
-    test('inside 48 hours it is one quiet line with the badge name, once', () {
+    test('a badge a paper earned is a dated row, never a second announcement on Today (the result says it once)', () {
       final rhythm = rhythmFixture();
       final merged = mergeDerived(rhythm.milestones, {'clean_set': DerivedBadge('clean_set', now.subtract(const Duration(hours: 3)), 'a')});
       final plan = planMilestones(rhythm, seenWeek(), now, milestones: merged);
       expect(plan.events, hasLength(1));
       expect(plan.events.single.id, 'clean_set');
+      expect(plan.events.single.level, CelebrationLevel.l3);
+      expect(plan.events.single.sentence, isNull);
+    });
+
+    test('inside 48 hours a new server badge is one quiet line with its name, once', () {
+      final rhythm = rhythmFixture();
+      final listed = [RhythmMilestone(id: 'run_weeks_3', achievedAt: now.subtract(const Duration(hours: 3)))];
+      final plan = planMilestones(rhythm, seenWeek(), now, milestones: listed);
+      expect(plan.events, hasLength(1));
       expect(plan.events.single.level, CelebrationLevel.l1);
-      expect(plan.events.single.sentence, 'Clean set landed.');
+      expect(plan.events.single.sentence, '3 weeks in a row landed.');
+    });
+
+    test('a badge already shown on a result is not announced again (its plain id is spent with it)', () {
+      final rhythm = rhythmFixture();
+      final merged = mergeDerived(rhythm.milestones, {'clean_set': DerivedBadge('clean_set', now.subtract(const Duration(hours: 3)), 'a')});
+      final seen = RhythmSeenState(lastSeenWeek: LastSeenWeek.fromRhythm(rhythm), celebratedIds: const {'clean_set'});
+      expect(planMilestones(rhythm, seen, now, milestones: merged).events, isEmpty);
     });
 
     test('five old ones become one receipt, never five ceremonies', () {

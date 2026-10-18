@@ -172,6 +172,12 @@ class CelebrationController extends Notifier<CelebrationState> {
     state = state.copyWith(byScope: next);
   }
 
+  /// A result announced these badges itself ("Badge earned"), so the milestones page and You do not play them again.
+  void consumeFreshRows(Iterable<String> ids) {
+    if (!ids.any(state.freshRows.contains)) return;
+    state = state.copyWith(freshRows: {...state.freshRows}..removeAll(ids));
+  }
+
   /// The milestone screen calls this after it faded the fresh rows in.
   void clearFreshRows() {
     if (state.freshRows.isEmpty) return;

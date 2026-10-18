@@ -1,7 +1,7 @@
 // Goldens of the badges (app-you-1016 section 3) at 390x844, Night and Day: the Badges page with
-// six earned of 16, the same page with nothing earned, the badge sheet for an earned badge (with
-// its record line) and for a not-yet badge (with its count and key), and Personal bests with the
-// longest run and the fastest right answer.
+// six earned of 16, the same page with nothing earned, and Personal bests with the longest run and
+// the fastest right answer. The badge sheet and the badge home on You are in
+// badge_home_golden_test.dart (BADGES-REFINE-1018, at 412).
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
@@ -11,10 +11,8 @@ import 'package:mockmob/core/models/rhythm.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/widgets/widgets.dart' show StudyWeekLegendMemory;
 import 'package:mockmob/features/rhythm/data/bests.dart';
-import 'package:mockmob/features/rhythm/logic/milestone_tracks.dart';
 import 'package:mockmob/features/rhythm/screens/bests_screen.dart';
 import 'package:mockmob/features/rhythm/screens/milestones_screen.dart';
-import 'package:mockmob/features/rhythm/widgets/step_sheet.dart';
 
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
@@ -93,8 +91,6 @@ const _bests = [
   ),
 ];
 
-StepView _view(String id, StepStatus status, {DateTime? at}) => StepView(milestoneSteps.firstWhere((s) => s.id == id), status, at);
-
 void main() {
   setUpAll(() async {
     await loadAppFonts();
@@ -155,58 +151,6 @@ void main() {
       await shoot(tester, 'badges_empty_390', brightness, const YouMilestonesScreen(), overrides: rhythmOverrides(rhythm: loaded(rhythmFixture())));
     });
 
-    testWidgets('badge sheet, earned with its record, $b', (tester) async {
-      await shoot(
-        tester,
-        'badge_sheet_earned_390',
-        brightness,
-        _Framed(
-          samples: [
-            (
-              'New best',
-              SheetFrame(
-                child: StepSheetBody(
-                  view: _view('new_best', StepStatus.earned, at: DateTime.utc(2026, 9, 12, 6)),
-                  dateOf: (d) => '12 September',
-                  pathLine: 'Your best work. Any of these can come first.',
-                  record: 'From your Accountancy full mock, 12 September: 160 of 250 (before: 144)',
-                  paperId: 'm2',
-                  onAction: (_) {},
-                ),
-              ),
-            ),
-          ],
-        ),
-        overrides: rhythmOverrides(rhythm: loaded(_rhythm)),
-      );
-    });
-
-    testWidgets('badge sheet, not yet with its count, $b', (tester) async {
-      await shoot(
-        tester,
-        'badge_sheet_notyet_390',
-        brightness,
-        _Framed(
-          samples: [
-            (
-              '10 scored sets',
-              SheetFrame(
-                child: StepSheetBody(
-                  view: _view('sessions_10', StepStatus.next),
-                  previous: _view('first_nta', StepStatus.next),
-                  dateOf: (d) => '',
-                  count: 6,
-                  pathLine: 'Papers, step 4 of 5.',
-                  onAction: (_) {},
-                ),
-              ),
-            ),
-          ],
-        ),
-        overrides: rhythmOverrides(rhythm: loaded(_rhythm)),
-      );
-    });
-
     testWidgets('personal bests with the run and the fastest answer, $b', (tester) async {
       await shoot(
         tester,
@@ -221,14 +165,4 @@ void main() {
       await shoot(tester, 'bests_empty_390', brightness, const YouBestsScreen(), overrides: rhythmOverrides(rhythm: loaded(rhythmFixture())));
     });
   }
-}
-
-/// The sheet samples sit on a Material, as a real sheet does, so no text draws the debug underline.
-class _Framed extends StatelessWidget {
-  const _Framed({required this.samples});
-
-  final List<(String, Widget)> samples;
-
-  @override
-  Widget build(BuildContext context) => Material(type: MaterialType.transparency, child: SheetColumn(samples: samples));
 }

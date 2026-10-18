@@ -13,6 +13,19 @@ class RhythmMilestone {
   bool get earned => achievedAt != null;
 }
 
+/// The exact counts `GET /api/me/rhythm` sends toward the countable badges (`counts`): every scored set,
+/// every finished repair and every week that reached its goal, from the records the server holds. Each is
+/// null when the server did not send it, so an unknown count is never read as zero.
+class RhythmCounts {
+  const RhythmCounts({this.sessions, this.repairs, this.weeksMet});
+
+  factory RhythmCounts.fromJson(Json j) => RhythmCounts(sessions: asInt(j['sessions']), repairs: asInt(j['repairs']), weeksMet: asInt(j['weeksMet']));
+
+  final int? sessions;
+  final int? repairs;
+  final int? weeksMet;
+}
+
 /// One closed week (`history` of backend module B2, not live yet).
 class RhythmWeek {
   const RhythmWeek({required this.weekStart, required this.studyDays, required this.goal, required this.met, this.paused = false});
@@ -54,6 +67,7 @@ class Rhythm {
     this.repairsThisWeek,
     this.mocksThisWeek,
     this.lastClosedWeek,
+    this.counts,
   });
 
   factory Rhythm.fromJson(Json j) => Rhythm(
@@ -74,6 +88,7 @@ class Rhythm {
     repairsThisWeek: asInt(j['repairsThisWeek']),
     mocksThisWeek: asInt(j['mocksThisWeek']),
     lastClosedWeek: j['lastClosedWeek'] is Map ? RhythmWeek.fromJson(asJson(j['lastClosedWeek'])) : null,
+    counts: j['counts'] is Map ? RhythmCounts.fromJson(asJson(j['counts'])) : null,
   );
 
   final String timeZone;
@@ -99,6 +114,9 @@ class Rhythm {
   final int? repairsThisWeek;
   final int? mocksThisWeek;
   final RhythmWeek? lastClosedWeek;
+
+  /// Exact counts toward the badges (the 16 Oct badges contract); null from a server that does not send them.
+  final RhythmCounts? counts;
 }
 
 /// `GET/PUT /api/me/goal`. The goal unit is study days per week.

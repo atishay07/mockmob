@@ -206,6 +206,8 @@ void main() {
           track: milestoneTracks([
             RhythmMilestone(id: 'first_repair', achievedAt: DateTime.utc(2026, 10, 13, 15)),
             RhythmMilestone(id: 'repairs_5', achievedAt: DateTime.utc(2026, 10, 14, 4)),
+            const RhythmMilestone(id: 'first_hold'),
+            const RhythmMilestone(id: 'run_weeks_3'),
           ])[1],
           dateOf: (d) => formatAchievedDate(d, 'Asia/Kolkata', kNow),
           progress: const {'repairs_10': 6},

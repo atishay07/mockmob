@@ -11,7 +11,9 @@ import 'package:mockmob/core/repositories/goal_repository.dart';
 import 'package:mockmob/core/repositories/local_scope.dart';
 import 'package:mockmob/core/repositories/notification_prefs_repository.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
+import 'package:mockmob/core/haptics/haptics.dart' show HapticDriver;
 import 'package:mockmob/core/repositories/rhythm_repository.dart';
+import 'package:mockmob/core/repositories/rhythm_seen_repository.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/rhythm/data/bests.dart';
@@ -183,4 +185,38 @@ class SheetColumn extends StatelessWidget {
       ),
     );
   }
+}
+
+/// `rhythm_seen` in memory.
+class MemorySeen implements RhythmSeenRepository {
+  final Set<String> ids = {};
+  bool unreadable = false;
+
+  @override
+  Future<RhythmSeenState> read() async {
+    if (unreadable) throw StateError('no storage');
+    return RhythmSeenState(celebratedIds: {...ids});
+  }
+
+  @override
+  Future<bool> markCelebrated(String id) async => ids.add(id);
+
+  @override
+  Future<bool> hasCelebrated(String id) async => ids.contains(id);
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
+class CountingDriver implements HapticDriver {
+  final List<String> calls = [];
+
+  @override
+  Future<void> selectionClick() async => calls.add('selection');
+
+  @override
+  Future<void> lightImpact() async => calls.add('light');
+
+  @override
+  Future<void> mediumImpact() async => calls.add('medium');
 }

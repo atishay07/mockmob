@@ -1,10 +1,13 @@
-// How far along the next milestone is, only where the app can count it exactly. The server
-// dates milestones but sends no counts, so the app counts from records it holds in full:
-// scored sets from the complete attempts list (server-scored, 5 or more answers, as the server
-// counts them) and weeks at the goal from the closed-week history while that history reaches
-// back to the first week. Repairs are not counted: the phone does not hold every repair (some
-// are done on the website), so a count would guess. A count that disagrees with the server (it
-// reaches the target while the server has not dated the step) is dropped, never shown.
+// How far along the next milestone is, only where the count is exact. Two sources, both records
+// the phone already reads:
+//  - the server's own `counts` in `GET /api/me/rhythm` (scored sets, finished repairs, weeks that
+//    reached the goal): the authority, because the phone does not hold every repair (some are
+//    done on the website), so it never counts repairs itself;
+//  - the complete attempts list (scored sets, full mocks, subjects) and the closed-week history
+//    while that history reaches back to the first week, for a server that sends no `counts`.
+// "3 weeks in a row" counts the run now (`weeksMetStreak`), never an older best run. A count that
+// disagrees with the server (it reaches the target while the server has not dated the step) is
+// dropped, never shown, and a count that is unknown is absent, never 0.
 import '../../../core/models/attempt.dart';
 import '../../../core/models/rhythm.dart';
 import 'derived_badges.dart';
@@ -13,7 +16,15 @@ import 'derived_badges.dart';
 const int rhythmHistoryWeeks = 12;
 
 /// Targets of the counted steps.
-const Map<String, int> milestoneTargets = {'sessions_10': 10, 'weeks_met_4': 4, ...derivedTargets};
+const Map<String, int> milestoneTargets = {
+  'sessions_10': 10,
+  'weeks_met_4': 4,
+  'repairs_5': 5,
+  'repairs_10': 10,
+  'repairs_25': 25,
+  'run_weeks_3': 3,
+  ...derivedTargets,
+};
 
 /// Step id to the count so far, for the steps that can be counted exactly.
 Map<String, int> milestoneProgress({List<Attempt>? attempts, Rhythm? rhythm}) {
@@ -25,6 +36,21 @@ Map<String, int> milestoneProgress({List<Attempt>? attempts, Rhythm? rhythm}) {
   final history = rhythm?.history;
   if (rhythm != null && history != null && history.length < rhythmHistoryWeeks) {
     out['weeks_met_4'] = history.where((w) => w.met).length + (rhythm.metThisWeek ? 1 : 0);
+  }
+  final counts = rhythm?.counts;
+  if (rhythm != null) {
+    // The server's own counts win where the phone could only have guessed (repairs) or only counted part of the record.
+    final sets = counts?.sessions;
+    if (sets != null && !out.containsKey('sessions_10')) out['sessions_10'] = sets;
+    final weeks = counts?.weeksMet;
+    if (weeks != null) out['weeks_met_4'] = weeks;
+    final repairs = counts?.repairs;
+    if (repairs != null) {
+      for (final id in const ['repairs_5', 'repairs_10', 'repairs_25']) {
+        out[id] = repairs;
+      }
+    }
+    out['run_weeks_3'] = rhythm.weeksMetStreak;
   }
   final earned = {for (final m in rhythm?.milestones ?? const <RhythmMilestone>[]) if (m.earned) m.id};
   out.removeWhere((id, n) => earned.contains(id) || n >= (milestoneTargets[id] ?? 1 << 30) || n < 0);

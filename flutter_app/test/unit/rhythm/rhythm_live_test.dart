@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/router/routes.dart';
 import 'package:mockmob/features/rhythm/copy.dart';
+import 'package:mockmob/core/models/rhythm.dart';
+import 'package:mockmob/features/rhythm/logic/badge_record.dart';
+import 'package:mockmob/features/rhythm/logic/badge_shelf.dart';
 import 'package:mockmob/features/rhythm/logic/milestone_progress.dart';
 import 'package:mockmob/features/rhythm/logic/milestone_tracks.dart';
 import 'package:mockmob/features/rhythm/widgets/goal_editor.dart';
 import 'package:mockmob/features/rhythm/widgets/medal.dart';
 import 'package:mockmob/features/rhythm/widgets/run_ribbon.dart';
-import 'package:mockmob/features/rhythm/widgets/step_sheet.dart';
+import 'package:mockmob/features/rhythm/widgets/badge_sheet.dart';
 import 'package:mockmob/features/rhythm/widgets/week_dial.dart';
 
 import '../../helpers/fonts.dart';
@@ -24,9 +27,9 @@ void main() {
       expect(milestoneFraction('weeks_met_4', {'weeks_met_4': 3}), 0.75);
     });
 
-    test('a step the app cannot count has no fraction, so no arc is ever drawn on a guess', () {
-      expect(milestoneFraction('repairs_5', {'repairs_5': 3}), isNull);
-      expect(milestoneFraction('first_repair', const {}), isNull);
+    test('a step with no exact count has no fraction, so no arc is ever drawn on a guess', () {
+      expect(milestoneFraction('repairs_5', const {}), isNull, reason: 'an unknown count is not zero');
+      expect(milestoneFraction('first_repair', {'first_repair': 1}), isNull, reason: 'a single-event badge has no count');
       expect(milestoneFraction('sessions_10', const {}), isNull);
     });
 
@@ -40,65 +43,82 @@ void main() {
 
     test('every step of the three paths has a place to go', () {
       for (final s in milestoneSteps) {
-        expect(stepAction(s), isNotNull, reason: s.id);
+        expect(badgeAction(s), isNotNull, reason: s.id);
       }
     });
 
     test('sets go to Practice, repairs to the mistakes, weeks to rhythm', () {
-      expect(stepAction(step('sessions_10'))!.location, AppRoutes.practiceStart);
-      expect(stepAction(step('first_full_mock'))!.label, 'Start a full mock');
-      expect(stepAction(step('repairs_10'))!.location, AppRoutes.reviewMistakes);
-      expect(stepAction(step('weeks_met_4'))!.location, AppRoutes.youRhythm);
+      expect(badgeAction(step('sessions_10'))!.location, AppRoutes.practiceStart);
+      expect(badgeAction(step('first_full_mock'))!.label, 'Start a full mock');
+      expect(badgeAction(step('repairs_10'))!.location, AppRoutes.reviewMistakes);
+      expect(badgeAction(step('weeks_met_4'))!.location, AppRoutes.youRhythm);
     });
   });
 
-  group('the step sheet', () {
-    StepView view(String id, StepStatus status, {DateTime? at}) => StepView(milestoneSteps.firstWhere((s) => s.id == id), status, at);
+  group('the badge sheet', () {
+    /// A board where [earned] have dates and the rest follow the path rules.
+    List<TrackView> board(Map<String, DateTime> earned) => milestoneTracks([for (final e in earned.entries) RhythmMilestone(id: e.key, achievedAt: e.value), const RhythmMilestone(id: 'first_hold'), const RhythmMilestone(id: 'run_weeks_3')]);
 
-    Future<void> open(WidgetTester tester, StepSheetBody body) async {
-      await pumpMockmob(tester, SingleChildScrollView(child: body), disableAnimations: true);
+    Future<void> open(WidgetTester tester, BadgeDetail detail, {ValueChanged<String>? onGo}) async {
+      await pumpMockmob(tester, SingleChildScrollView(child: BadgeSheetBody(detail: detail, onGo: onGo ?? (_) {}, onClose: () {})), disableAnimations: true);
       await tester.pump(const Duration(milliseconds: 100));
     }
 
-    testWidgets('a landed step says the date and closes with Done', (tester) async {
-      await open(
-        tester,
-        StepSheetBody(view: view('first_repair', StepStatus.earned, at: DateTime(2026, 10, 9)), dateOf: (d) => '9 October', onAction: (_) {}),
-      );
-      expect(find.text('Earned on 9 October'), findsOneWidget);
+    testWidgets('an earned badge says the day and the 12-hour time, what lands it, and what comes next', (tester) async {
+      final tracks = board({'first_repair': DateTime.utc(2026, 10, 17, 15, 42), 'first_scored_session': DateTime.utc(2026, 10, 1)});
+      await open(tester, detailOf(tracks, 'first_repair', progress: const {'repairs_5': 3})!);
+      expect(find.text('Earned Sat 17 Oct, 9:12 PM'), findsOneWidget);
       expect(find.text('Lands when you finish your first repair.'), findsOneWidget);
-      expect(find.text('Done'), findsOneWidget);
+      expect(find.text('Next on this path: 5 repairs'), findsOneWidget);
+      expect(find.text('2 more repairs to go.'), findsOneWidget);
       expect(find.byType(Medal), findsOneWidget);
       expect(tester.getSize(find.byType(Medal)), const Size.square(96));
     });
 
-    testWidgets('the next step shows the exact count and one key that goes to its place', (tester) async {
+    testWidgets('a badge earned by a paper names it and opens it', (tester) async {
+      final at = DateTime.utc(2026, 10, 17, 15, 42);
+      final tracks = board({'clean_set': at});
+      final records = {'clean_set': BadgeRecord(attemptId: 'a1', subject: 'accountancy', mode: 'full', at: at.subtract(const Duration(hours: 2)), marks: 152, max: 250)};
       String? went;
-      await open(
-        tester,
-        StepSheetBody(view: view('sessions_10', StepStatus.next), dateOf: (d) => '', count: 4, onAction: (l) => went = l),
-      );
-      expect(find.text('4 of 10 so far'), findsOneWidget);
-      expect(find.text('Start a quick practice'), findsOneWidget);
+      await open(tester, detailOf(tracks, 'clean_set', records: records)!, onGo: (l) => went = l);
+      expect(find.text('From Accountancy full mock, Sat 17 Oct, 7:12 PM'), findsOneWidget);
+      expect(find.text('152 of 250 marks'), findsOneWidget);
+      await tester.tap(find.text('Open that paper'));
+      expect(went, AppRoutes.result('a1'));
+    });
+
+    testWidgets('a badge not earned says not yet, its exact count with the denominator, and one key that goes to its place', (tester) async {
+      final tracks = board({'first_scored_session': DateTime.utc(2026, 10, 1)});
+      String? went;
+      await open(tester, detailOf(tracks, 'sessions_10', progress: const {'sessions_10': 4})!, onGo: (l) => went = l);
+      expect(find.text('Not yet'), findsOneWidget);
+      expect(find.text('4 of 10 scored sets so far'), findsOneWidget);
       await tester.tap(find.text('Start a quick practice'));
       expect(went, AppRoutes.practiceStart);
     });
 
-    testWidgets('a next step the app cannot count shows no count', (tester) async {
-      await open(tester, StepSheetBody(view: view('repairs_5', StepStatus.next), dateOf: (d) => '', onAction: (_) {}));
+    testWidgets('a badge with no exact count shows no count', (tester) async {
+      final tracks = board({'first_scored_session': DateTime.utc(2026, 10, 1)});
+      await open(tester, detailOf(tracks, 'repairs_5')!);
       expect(find.textContaining('so far'), findsNothing);
       expect(find.text('Open your mistakes'), findsOneWidget);
     });
 
-    testWidgets('a later step names what comes first and offers no key', (tester) async {
-      await open(
-        tester,
-        StepSheetBody(view: view('repairs_10', StepStatus.later), previous: view('repairs_5', StepStatus.next), dateOf: (d) => '', onAction: (_) {}),
-      );
+    testWidgets('a later badge names what comes first and still has the key that earns it', (tester) async {
+      final tracks = board({'first_scored_session': DateTime.utc(2026, 10, 1)});
+      await open(tester, detailOf(tracks, 'repairs_10')!);
       expect(find.text('Not yet'), findsOneWidget);
       expect(find.text('Comes after 5 repairs.'), findsOneWidget);
       expect(find.text('Lands with your 10th finished repair.'), findsOneWidget);
-      expect(find.text('Open your mistakes'), findsOneWidget, reason: 'a badge not earned always has the key that earns it');
+      expect(find.text('Open your mistakes'), findsOneWidget);
+    });
+
+    testWidgets('a badge that could not be read says so, is not "not yet", and offers only Done', (tester) async {
+      final tracks = milestoneTracks(const [], unreadable: const {'clean_set'});
+      await open(tester, detailOf(tracks, 'clean_set')!);
+      expect(find.text('This one could not be checked just now.'), findsOneWidget);
+      expect(find.text('Not yet'), findsNothing);
+      expect(find.text('Done'), findsOneWidget);
     });
   });
 

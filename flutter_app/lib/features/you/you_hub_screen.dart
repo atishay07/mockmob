@@ -6,7 +6,6 @@ import 'package:flutter/rendering.dart' show RenderAbstractViewport, RenderBox, 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../core/api/api_providers.dart';
 import '../../core/auth/auth_state.dart';
 import '../../core/copy/copy.dart';
 import '../../core/motion/motion.dart';
@@ -23,8 +22,7 @@ import '../rhythm/logic/week_view.dart' show WeekStatus, weeksInRhythmText;
 import '../rhythm/rhythm.dart';
 import '../rhythm/widgets/rhythm_layout.dart' show SectionBreak;
 import '../rhythm/data/badges.dart';
-import '../rhythm/logic/dates.dart' show formatAchievedDate;
-import '../rhythm/widgets/badge_row.dart';
+import '../rhythm/widgets/badge_home.dart';
 import '../notifications/notifications.dart' show NotificationsInvite;
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'hub/study_sections.dart';
@@ -216,7 +214,6 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
     final snapshot = ref.watch(rhythmSnapshotProvider);
     final prefs = ref.watch(rhythmPrefsProvider);
     final target = ref.watch(studentTargetProvider);
-    final now = ref.watch(nowProvider)();
     final off = prefs.loaded && prefs.hidden;
     final subjects = auth.subjects.isNotEmpty ? auth.subjects : target.subjects;
     final bottom = MediaQuery.viewPaddingOf(context).bottom;
@@ -339,8 +336,8 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                           ),
                         ),
                       ),
-                      // 2. Badges: the coin row and the next one to go for.
-                      MmStaggerItem(index: 2, child: KeyedSubtree(key: _sectionKeys[1], child: _badges(snapshot, now))),
+                      // 2. Badges: the shelf of earned coins and the next one to go for.
+                      MmStaggerItem(index: 2, child: KeyedSubtree(key: _sectionKeys[1], child: const BadgeHomeSection(rule: false))),
                       // 3. Personal bests, value first.
                       MmStaggerItem(
                         index: 3,
@@ -419,56 +416,6 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _badges(RhythmSnapshot snapshot, DateTime now) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    final failed = !snapshot.hasData && !snapshot.isInitialLoading;
-    final badges = ref.watch(badgeMilestonesProvider) ?? const [];
-    final tracks = milestoneTracks(badges);
-    final total = tracks.fold<int>(0, (n, t) => n + t.steps.length);
-    return _HubSection(
-      // The study-days rows above end on their own hairline.
-      rule: false,
-      title: RhythmCopy.badgesTitle,
-      trailing: KeyButton.quiet(
-        label: total > 0 ? RhythmCopy.badgesSeeAll(total) : YouCopy.shelfSeeAll,
-        onPressed: () => context.push(AppRoutes.youMilestones),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
-        child: failed
-            // One pill on the screen retries the rhythm (the week's); this one is a quiet link,
-            // so a failed hub reads as one problem with one way out, not two stacked alarms.
-            ? Row(
-                children: [
-                  Expanded(child: Text(RhythmCopy.badgesLoadFailed, style: type.small.copyWith(color: colors.ink2))),
-                  const SizedBox(width: MmSpace.s8),
-                  KeyButton.quiet(label: YouCopy.tryAgain, onPressed: () => ref.read(rhythmRepositoryProvider.notifier).refresh(force: true)),
-                ],
-              )
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  BadgeRow(
-                    tracks: tracks,
-                    loading: snapshot.isInitialLoading,
-                    dateOf: (d) => formatAchievedDate(d, snapshot.timezone, now),
-                    progress: ref.watch(badgeProgressProvider),
-                    records: ref.watch(badgeRecordsProvider),
-                    freshIds: ref.watch(celebrationControllerProvider.select((s) => s.freshRows)),
-                  ),
-                  // Before the first badge, the one thing to do is a scored set.
-                  if (!snapshot.isInitialLoading && tracks.every((t) => t.earned.isEmpty))
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: KeyButton.quiet(label: RhythmCopy.startQuick, onPressed: () => context.push(AppRoutes.practiceStart)),
-                    ),
-                ],
-              ),
       ),
     );
   }

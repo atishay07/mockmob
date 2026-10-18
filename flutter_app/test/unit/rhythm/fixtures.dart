@@ -16,6 +16,7 @@ Rhythm rhythmFixture({
   int? repairs,
   int? mocks,
   RhythmWeek? lastClosed,
+  RhythmCounts? counts,
 }) =>
     Rhythm(
       timeZone: 'Asia/Kolkata',
@@ -34,4 +35,5 @@ Rhythm rhythmFixture({
       repairsThisWeek: repairs,
       mocksThisWeek: mocks,
       lastClosedWeek: lastClosed,
+      counts: counts,
     );

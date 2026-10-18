@@ -121,9 +121,11 @@ class CelebrationEvent {
           ring: true,
         );
       default:
-        // The badges the phone works out and the two new server ones get one quiet line when they
-        // land ("Clean set landed."); the badges the server already dated stay dated rows.
-        final badge = milestoneSteps.where((s) => s.id == milestone.id && s.source != BadgeSource.server).firstOrNull;
+        // The two new server badges (`first_hold`, `run_weeks_3`) get one quiet line when they land
+        // ("It held landed."). The badges the server already dated stay dated rows, and so do the ones the
+        // phone works out from a paper (clean set, new best, ...): the result of that paper announces them
+        // once, in its own "Badge earned" row (BADGES-REFINE-1018 3), so Today never says them a second time.
+        final badge = milestoneSteps.where((s) => s.id == milestone.id && s.source == BadgeSource.newServer).firstOrNull;
         if (badge != null) {
           return CelebrationEvent(
             id: milestone.id,

@@ -393,6 +393,32 @@ abstract final class RhythmCopy {
   /// The small volt line under the achievement headline of a path that just landed a step.
   static const String justLanded = 'Just landed';
 
+  // The badge home on You and the badge sheet (BADGES-REFINE-1018). Words match the website's.
+  static String badgesHead(int earned, int total) => 'Badges, $earned of $total';
+  static const String badgesAll = 'All badges';
+  static const String badgesShelfLabel = 'Badges you have earned, newest first';
+  static const String badgesAllEarned = 'Every badge is earned.';
+  static const String badgesReadFailed = 'We could not read your badges.';
+  static const String badgesPartlyUnknown = 'Some badges could not be checked just now.';
+  static const String badgeNextLead = 'Next badge';
+  static String badgeGhostLabel(String name, String line) => 'Next badge: $name. $line';
+  static String badgeEarnedWhen(String when) => 'Earned $when';
+  static String badgePaperFrom(String subject, String kind, String when) => 'From $subject $kind$when';
+  static String badgePaperMarks(int marks, int max, {int? before}) => '$marks of $max marks${before == null ? '' : ', $before before'}';
+  static String badgeSoFarOf(String so) => '$so so far';
+  static String badgeOnPathNext(String name) => 'Next on this path: $name';
+  static String badgeOnPathAlso(String name) => 'Also to earn: $name';
+  static String badgeLeft(String more) => '$more to go.';
+  static const String badgePathDone = 'Every badge on this path is earned.';
+  static const String badgeUnknownLine = 'This one could not be checked just now.';
+  static String badgeCoinUnknown(String name) => '$name, could not be checked just now';
+
+  // The earned moment on the result (BADGES-REFINE-1018 3).
+  static const String badgeEarnedOne = 'Badge earned';
+  static String badgesEarnedMany(int n) => '$n badges earned';
+  static const String seeYourBadges = 'See your badges';
+  static String badgeEarnedRowLabel(String title, String detail) => '$title. $detail.';
+
   // A badge opened in its sheet (app-you-1016 Screen C).
   static String badgeEarnedOn(String date) => 'Earned on $date';
   static const String badgeNotYet = 'Not yet';

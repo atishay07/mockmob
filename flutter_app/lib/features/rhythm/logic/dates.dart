@@ -41,3 +41,9 @@ String formatAchievedDate(DateTime instant, String zoneName, DateTime now) {
   final thisYear = studentDate(now, zoneName).year;
   return date.year == thisYear ? formatDayMonth(date) : '${formatDayMonth(date)} ${date.year}';
 }
+
+/// "Sat 17 Oct, 9:12 PM": the day and the 12-hour time of [instant] as they fall in the student's zone.
+String formatWhen(DateTime instant, String zoneName) {
+  final c = studentClock(instant, zoneName);
+  return '${weekdayName(c.weekday).substring(0, 3)} ${formatDayMonthShort(c)}, ${formatTime12(c)}';
+}
