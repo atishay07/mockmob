@@ -622,7 +622,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
                       <span className="pr-tile__text">
                         {/* NTA mode is the button-card closest to exam day: its volt gradient and this line come back from
                             deploy/1015-night (owner G28, 19 Oct). */}
-                        {id === 'nta' ? <span className="pr-tile__kicker">Closest to exam day</span> : null}
+                        {id === 'nta' ? <span className="pr-tile__kicker">The closest thing to exam day</span> : null}
                         <span className="pr-tile__name">{m.label}</span>
                         <span className="pr-tile__spec">{MODE_TILE_SPECS[id]}</span>
                       </span>
