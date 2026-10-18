@@ -12,6 +12,7 @@ const ACTOR = read('../brand/PipActor.jsx');
 const CSS = read('../../app/brand-pip.css');
 const DRILL = read('DemoDrill.jsx');
 const MORPH = read('HeroMorph.jsx');
+const TYPE_LINE = read('HeroType.jsx');
 
 test('the hero Mobi flies in on a short arc and settles, then floats and blinks, only at the hero', () => {
   assert.match(CSS, /@keyframes pip-fly-x \{[\s\S]*?scale\(1\.04\)[\s\S]*?100% \{ opacity: 1; transform: none; \}/);
@@ -27,6 +28,7 @@ test('the hero Mobi flies in on a short arc and settles, then floats and blinks,
 
 test('each headline change makes him glance at it; a wrong sample answer tilts his head, a right one hops', () => {
   assert.match(MORPH, /new CustomEvent\('pip:glance'/);
+  assert.match(TYPE_LINE, /new CustomEvent\('pip:glance'/, 'option C (behind its flag) asks for the same glance');
   assert.match(GUIDE, /window\.addEventListener\('pip:glance', glance\)/);
   assert.match(GUIDE, /window\.addEventListener\('pip:react',react\);window\.addEventListener\('pip:glance',glance\)/);
   assert.match(GUIDE, /rotate: `\$\{x < 0 \? -3 : 3\}deg`/, 'a dip of about 3 degrees toward the line');

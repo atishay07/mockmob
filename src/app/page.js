@@ -16,7 +16,8 @@ import { HashSettle } from '@/components/landing/HashSettle';
 import { HeroBackdrop } from '@/components/landing/HeroBackdrop';
 import { HeroDockGate } from '@/components/landing/HeroDockGate';
 import { HeroMorph } from '@/components/landing/HeroMorph';
-import { HERO_LINES } from '@/components/landing/heroPhrases.mjs';
+import { HeroLine } from '@/components/landing/HeroLine';
+import { HERO_LINES, heroMotionMode } from '@/components/landing/heroPhrases.mjs';
 import { Reveal } from '@/components/landing/Reveal';
 import { LiveStatsBand } from '@/components/landing/LiveStatsBand';
 import { QuestionBankLine } from '@/components/landing/QuestionBankLine';
@@ -146,6 +147,9 @@ const faqs = [
 ];
 
 export default function LandingPage() {
+  // D115: option C ("select and type") ships OFF. Everyone gets the released line; ?hero=v2 previews option C on any
+  // build, production included, and HERO_MOTION_V2=1 switches it on for everyone after his OK (heroPhrases.mjs).
+  const heroMotion = heroMotionMode(process.env);
   return (
     <div className="mm lp">
       <JsonLd id="home-breadcrumb-json-ld" data={breadcrumbJsonLd([{ name: 'Home', path: '/' }])} />
@@ -166,7 +170,7 @@ export default function LandingPage() {
                 {recoveryReleased() ? <><span className="lp-title__line">Find the mistake</span><span className="lp-title__line">behind the marks.</span></> : <>
                 <span className="lp-title__line lp-title__brand">{HERO_LINES[0]}</span>
                 <span className="lp-title__line">{HERO_LINES[1]}</span>
-                <HeroMorph />
+                {heroMotion === 'v1' ? <HeroMorph /> : <HeroLine mode={heroMotion} />}
                 </>}
               </h1>
               <p className="lp-lead" data-hero style={{ '--h': 1 }}>
