@@ -170,3 +170,15 @@ Each time, a screen he wanted **refined** was **rebuilt**, and the useful parts 
 "Along with some other things": the rest of the hero L items (L-013 conversion path, L-015 a sample for other subject combinations).
 
 The rest of the landing (band + bolder copy) is not rejected.
+
+## Owner, 18 Oct about 9:15 am IST
+> "Leave the Play Store part for now. I just want everything else of the website at least done, and the app itself properly built with all the features. Right now, in next 1 to 2 hours, what your goal should be to give a completely ready V15 along with a perfected website with all the changes that I said and that you have mentioned will be done."
+
+**Ledger D39:** the Play Store is parked.
+
+**The goal by about 11:15 am-12 pm:**
+- **App:** v15 completely ready: every feature built, walked on the emulator, and delivered as an APK.
+- **Website:** "perfected", with every change he asked for and every change the main session promised:
+  - release 7 Today;
+  - the landing hero, band and bolder copy;
+  - every open W item from the live re-audit.
