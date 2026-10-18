@@ -393,11 +393,12 @@ html[data-theme='light'] .app-shell .tw__day[data-state='counted'] .tw__dot { bo
 .app-shell .twk__rows { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--a-line); }
 .app-shell .twk__rows > li { border-bottom: 1px solid var(--a-line); }
 .app-shell .twk__row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; min-height: 76px; }
-.app-shell .twk__open { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; align-items: center; gap: 10px; min-height: 76px; padding: 10px 0; border: 0; background: transparent; color: inherit; text-align: left; font: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.app-shell .twk__open { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 10px; min-height: 76px; padding: 10px 0; border: 0; background: transparent; color: inherit; text-align: left; font: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .app-shell .twk__open:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 8px; }
 @media (hover: hover) and (pointer: fine) { .app-shell .twk__open:hover .twk__t b { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; } }
-.app-shell .twk__plus { color: var(--a-ink-3); transition: transform 220ms var(--t-out); }
-.app-shell .twk__open[aria-expanded='true'] .twk__plus { transform: rotate(45deg); }
+.app-shell .twk__peek { display: inline-flex; align-items: center; gap: 2px; color: var(--a-ink-2); font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; text-decoration-color: var(--a-line-strong); }
+.app-shell .twk__plus { flex: 0 0 auto; color: var(--a-ink-2); transition: transform 220ms var(--t-out); }
+.app-shell .twk__open[aria-expanded='true'] .twk__plus { transform: rotate(180deg); }
 .app-shell .twk__t { display: grid; gap: 2px; min-width: 0; }
 .app-shell .twk__t b { font: 600 16px/1.3 var(--font-body); color: var(--a-ink); overflow-wrap: anywhere; }
 .app-shell .twk__t span { font-size: 13.5px; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
@@ -409,7 +410,7 @@ html[data-theme='light'] .app-shell .tw__day[data-state='counted'] .tw__dot { bo
 .app-shell .twk__more > div { min-height: 0; overflow: hidden; }
 /* Collapsed, the row's links are not reachable by Tab (0 px tall but focusable otherwise); they leave the order once the fold has closed. */
 .app-shell .twk__more:not([data-open]) > div { visibility: hidden; transition: visibility 0s 240ms; }
-.app-shell .twk__list { display: grid; gap: 2px; margin: 0; padding: 0 0 6px 32px; list-style: none; }
+.app-shell .twk__list { display: grid; gap: 2px; margin: 0; padding: 0 0 6px; list-style: none; }
 .app-shell .twk__mk { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid var(--a-line); }
 .app-shell .twk__mk:first-child { border-top: 0; }
 .app-shell .twk__meta { font-size: 12.5px; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
@@ -418,9 +419,9 @@ html[data-theme='light'] .app-shell .tw__day[data-state='counted'] .tw__dot { bo
 .app-shell .twk__act:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 4px; }
 .app-shell .twk__state { display: block; margin-top: 3px; font-size: 12.5px; font-weight: 600; color: var(--a-good-text); text-decoration: none; }
 .app-shell .twk__state[data-state='slipped'] { color: var(--a-ink-2); }
-.app-shell .twk__all { margin: 0; padding: 4px 0 16px 32px; font-size: 14px; }
-.app-shell .twk__note { margin: 0; padding: 4px 0 8px 32px; font-size: 14px; color: var(--a-ink-2); }
-.app-shell .twk__wait { display: grid; gap: 10px; padding: 8px 0 12px 32px; }
+.app-shell .twk__all { margin: 0; padding: 4px 0 16px; font-size: 14px; }
+.app-shell .twk__note { margin: 0; padding: 4px 0 8px; font-size: 14px; color: var(--a-ink-2); }
+.app-shell .twk__wait { display: grid; gap: 10px; padding: 8px 0 12px; }
 .app-shell .twk__wait span { display: block; height: 14px; border-radius: 6px; background: var(--a-raised-2); }
 .app-shell .twk__wait span:first-child { width: 48%; height: 12px; }
 .app-shell .twk__wait span + span { width: 88%; height: 34px; border-radius: 10px; }
@@ -615,10 +616,20 @@ html[data-theme='light'] .tsh .tpf__done { box-shadow: inset 0 0 0 1px rgb(82 10
 .tsh .trd__readout { margin: 6px 0 0; font-size: 14px; color: var(--a-ink-2); }
 
 /* ---------- Phones: the Practise key sits under the chapter name, so the name never squeezes ---------- */
-@media (max-width: 559px) {
+/* Release 10 (slop #3, the same pill on every row): up to 600 px the first chapter keeps the full Practise pill under its name, and
+   the others carry a 40 px round Play key beside their marks, so no row loses Practise and the section stays short. */
+@media (max-width: 600px) {
   .app-shell .twk__row { grid-template-columns: minmax(0, 1fr); gap: 0; }
   .app-shell .twk__open { padding-bottom: 6px; }
-  .app-shell .twk__practise { justify-self: start; min-height: 44px !important; margin: 0 0 10px 32px; padding: 0 14px !important; }
+  .app-shell .twk__practise { justify-self: start; min-height: 44px !important; margin: 0 0 10px; padding: 0 14px !important; }
+  .app-shell .twk__rows > li[data-compact] .twk__row { grid-template-columns: minmax(0, 1fr) auto; gap: 10px; }
+  .app-shell .twk__rows > li[data-compact] .twk__open { padding-bottom: 10px; }
+  .app-shell .twk__rows > li[data-compact] .twk__practise { position: relative; justify-self: end; width: 40px; min-width: 40px; height: 40px; min-height: 40px !important; margin: 0; padding: 0 !important; border-radius: 20px; }
+  .app-shell .twk__rows > li[data-compact] .twk__practise svg { color: var(--a-ink); }
+  .app-shell .twk__rows > li[data-compact] .twk__practise-t { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .app-shell .twk__rows > li[data-compact] .twk__practise::after { content: ''; position: absolute; inset: -2px; }
+}
+@media (max-width: 559px) {
   .tsh .tpf__sentence { font-size: 22px; }
   .tsh .tpf__ans { padding: 12px 12px 11px; }
   .tsh .tpf__answers--3 .tpf__ans-big { font-size: 30px; }

@@ -9,7 +9,7 @@
 // chapter.
 import { useState } from 'react';
 import Link from 'next/link';
-import { Plus, Play } from 'lucide-react';
+import { ChevronDown, Play } from 'lucide-react';
 import { TEST_MODES } from '@/../data/test_modes';
 import { mistakeAction } from '@/lib/today/mistakeAction.mjs';
 import { clockIn } from '@/lib/today/week.mjs';
@@ -123,19 +123,19 @@ export default function TodayWeak({ insights, loadAttempt, repairRows = null, su
       {head}
       <p className="twk__sub">Where your marks go, from your last {n} {n === 1 ? 'paper' : 'papers'}</p>
       <ul className="twk__rows">
-        {ranked.map((c) => {
+        {ranked.map((c, i) => {
           const missed = c.wrong + c.skip;
           const isOpen = Boolean(open[c.key]);
           const id = `twk-${c.key.replace(/[^a-zA-Z0-9]/g, '-')}`;
           return (
-            <li key={c.key} data-open={isOpen || undefined}>
+            <li key={c.key} data-open={isOpen || undefined} data-compact={i > 0 || undefined}>
               <div className="twk__row">
                 <button type="button" className="twk__open" aria-expanded={isOpen} aria-controls={id} onClick={() => toggle(c)}>
-                  <Plus className="twk__plus" size={18} strokeWidth={1.75} aria-hidden="true" />
-                  <span className="twk__t"><b>{c.chapter}</b><span>{c.subjectName || subjectName(c.subject)}, {missed} of {c.n} missed</span></span>
+                  {/* Release 10 (#4): the misses themselves say they open, with a chevron that turns, in place of an unlabelled "+". */}
+                  <span className="twk__t"><b>{c.chapter}</b><span>{c.subjectName || subjectName(c.subject)}, <span className="twk__peek">{missed} of {c.n} missed<ChevronDown className="twk__plus" size={15} strokeWidth={2} aria-hidden="true" /></span></span></span>
                   <span className="twk__fig"><b>{c.open}</b><span>marks</span></span>
                 </button>
-                <Link className="tm__pill twk__practise" href={practiseHref(c)} aria-label={`Practise ${c.chapter}`}><Play size={15} strokeWidth={1.75} aria-hidden="true" />Practise</Link>
+                <Link className="tm__pill twk__practise" href={practiseHref(c)} aria-label={`Practise ${c.chapter}`}><Play size={15} strokeWidth={1.75} aria-hidden="true" /><span className="twk__practise-t">Practise</span></Link>
               </div>
               <div className="twk__more" id={id} data-open={isOpen || undefined}>
                 <div>

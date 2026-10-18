@@ -139,3 +139,14 @@ test('Road: the overall goal reads as three lines, the NTA caveat folded into "e
   assert.match(road, /<ChevronDown className="trd__chev" size=\{14\}/);
   assert.match(css('src/components/today/today.css'), /\.trd__stop\[aria-pressed='true'\] \.trd__chev \{ transform: rotate\(180deg\);/);
 });
+
+test('Weak chapters: the misses say they open (chevron, no bare "+"); rows after the first get a round Play key up to 600 px', () => {
+  const weak = read('src/components/today/TodayWeak.jsx');
+  assert.doesNotMatch(weak, /<Plus /);
+  assert.match(weak, /<span className="twk__peek">\{missed\} of \{c\.n\} missed<ChevronDown className="twk__plus"/);
+  assert.match(weak, /data-compact=\{i > 0 \|\| undefined\}/);
+  assert.match(weak, /aria-label=\{`Practise \$\{c\.chapter\}`\}/, 'the round key keeps its name');
+  const sheet = css('src/components/today/today.css');
+  assert.match(sheet, /\.twk__open\[aria-expanded='true'\] \.twk__plus \{ transform: rotate\(180deg\); \}/);
+  assert.match(sheet, /@media \(max-width: 600px\) \{[\s\S]*?li\[data-compact\] \.twk__practise \{ position: relative; justify-self: end; width: 40px;[\s\S]*?li\[data-compact\] \.twk__practise::after \{ content: ''; position: absolute; inset: -2px; \}/, 'a 44 px hit area');
+});
