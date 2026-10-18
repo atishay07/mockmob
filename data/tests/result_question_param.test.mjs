@@ -35,8 +35,13 @@ test('the ?q effect only jumps (no repair option), and a repair is started nowhe
   assert.ok(jump, 'jumpTo is unchanged in shape');
   assert.equal([...jump[0].matchAll(/setAutoRepair\(/g)].length, 1);
   assert.match(jump[0], /if \(repair\) setAutoRepair\(row\.q\.id\);/);
-  // Every place that sets autoRepair on the page: the reset when a paper loads, jumpTo's guarded call, and the start of a repair
-  // from the next-move key. None is reachable from the ?q effect.
+  // Every place that sets autoRepair on the page: the reset when a paper loads, jumpTo's guarded call, the start of a repair
+  // from the next-move key, and (W-032) the retry gate dropping a stale one. None is reachable from the ?q effect.
   const sites = [...source.matchAll(/setAutoRepair\(([^)]*)\)/g)].map((m) => m[1]);
-  assert.deepEqual(sites.sort(), ['first.q.id', 'null', 'row.q.id'].sort());
+  assert.deepEqual(sites.sort(), ['first.q.id', 'null', 'null', 'row.q.id'].sort());
+  // The fourth site only ever CLEARS the value, and only for the mistake that has just been revealed: it can never start a repair.
+  const reveal = source.match(/const reveal = \(row, how\) => \{[\s\S]*?\n  \};/);
+  assert.ok(reveal, 'the retry gate reveal is on the page');
+  assert.match(reveal[0], /if \(autoRepair === row\.q\.id\) setAutoRepair\(null\);/);
+  assert.equal([...reveal[0].matchAll(/setAutoRepair\(/g)].length, 1);
 });

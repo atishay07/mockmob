@@ -94,6 +94,9 @@
 .rx-row__opts { display: none; gap: 8px; margin-top: 10px; }
 .rx-row[data-open]:has(.mr--done[data-fold='folded']) .rx-row__opts { display: grid; }
 .rx-row[data-open]:has(.mr--done[data-fold='folded']) .rx-row__facts .rx-pick { display: none; }
+/* W-032: an opened sealed mistake writes out what the student picked and nothing about the key (the key line is not rendered). */
+.rx-row[data-open][data-sealed] .rx-row__opts { display: grid; }
+.rx-row[data-open][data-sealed] .rx-row__facts .rx-pick[data-kind='mine'] { display: none; }
 .rx-opt { display: grid; grid-template-columns: 22px minmax(0, 1fr); align-items: start; gap: 10px; font-size: 14px; line-height: 1.45; color: var(--a-ink, #f2f4ec); text-align: left; }
 .rx-opt i { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; font: 700 11.5px/1 var(--font-display, inherit); font-style: normal; }
 .rx-opt[data-kind='mine'] i { border: 1.5px solid var(--a-bad-text, #ff9d92); color: var(--a-bad-text, #ff9d92); }
