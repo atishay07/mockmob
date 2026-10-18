@@ -415,7 +415,7 @@ function InMob({ data, mob, user }) {
             {!week.youSat && freeUsed ? (
               <>
                 <p className="mob-note">You already sat a Mob paper this week, in another Mob. Free includes one a week.</p>
-                <Link className="mob-key" href="/pricing" data-pro-feature="mob">See Pro</Link>
+                <Link className="mob-key" href="/pricing" data-pro-feature="mob_limit">See Pro</Link>
               </>
             ) : null}
             {week.youSat ? (

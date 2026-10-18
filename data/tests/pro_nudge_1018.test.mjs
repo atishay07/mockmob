@@ -184,7 +184,7 @@ test('price and key follow offer.js: the one framing on sale today', () => {
 });
 
 test('copy is true and in house style: no "!", no emoji, no countdown or scarcity, no AI cliches', () => {
-  const triggers = ['generic', 'first_session', 'result', 'credits', 'nta', 'smart', 'difficulty', 'review', 'compass', 'saves', 'mob'];
+  const triggers = ['generic', 'first_session', 'result', 'credits', 'nta', 'smart', 'difficulty', 'review', 'compass', 'saves', 'mob', 'mob_limit', 'study', 'benchmark'];
   const all = [
     ...HEADLINE_OPTIONS, ...KEY_LABEL_OPTIONS,
     ...triggers.flatMap((t) => [sheetHead(t).title, sheetHead(t).lede, ...benefitLines(t, { fullMocks: 2, spentWeek: 10, subjects: ['accountancy'], weakChapter: 'X' }).map((l) => l.text)]),
@@ -220,7 +220,10 @@ test('wiring: Pro renders nothing; every Pro tap opens the sheet; onboarding nev
   assert.match(nudge, /claimScreen\(claims, key, placement\)/);
   const shell = read('src/app/(app)/AppLayoutClient.jsx');
   assert.match(shell, /<ProNudgeHost offer=\{offer\}/);
-  assert.match(shell, /data-pro-feature="credits"/);
+  // The credits chip is the student's own balance (D76, D78): it opens the balance and history, never a Pro pitch.
+  const chip = shell.match(/<Link [^>]*arena-chip--credits[^>]*>/)[0];
+  assert.match(chip, /href="\/profile#credits"/);
+  assert.doesNotMatch(chip, /data-pro-feature|\/pricing/);
   assert.match(read('src/app/(app)/layout.js'), /offer=\{publicOffer\(\)\}/);
   const practice = read('src/app/(app)/dashboard/DashboardPageClient.jsx');
   assert.match(practice, /if \(badge\.tone === 'locked'\) openUpgrade\(\{ trigger: id/);
@@ -282,6 +285,53 @@ test('the Pro rows on Radar and the Mentor record open the sheet on full chapter
   assert.equal((record.match(/<ProLock /g) || []).length, 4, 'all four Pro rows use it');
   assert.match(sheetHead('review').lede, /pace and the answers you changed/);
   assert.equal(benefitLines('review', {})[0].id, 'review');
+});
+
+test('the first-session headline never counts papers: it can open on a later paper in the first session', () => {
+  const head = sheetHead('first_session');
+  assert.doesNotMatch(`${head.title} ${head.lede}`, /\bfirst\b/i);
+  assert.equal(head.title, 'Paper done. Now take the limits off.');
+});
+
+test('each Pro tap names what was tapped: study plan, benchmark, the Mob limit, the credits modal', () => {
+  // Study preferences: the weekly plan and mixed revision (StudyWorkspace) lead the sheet.
+  assert.match(read('src/components/study/StudyWorkspace.jsx'), /href="\/pricing" data-pro-feature="study"/);
+  assert.match(sheetHead('study').lede, /weekly plan/);
+  assert.match(sheetHead('study').lede, /up to 20 concepts/);
+  assert.equal(benefitLines('study', {})[0].id, 'study');
+  // Benchmark: /pricing?reason=benchmark (AIRivalArena) maps to its own sheet; Pro's standard rivals have no daily limit.
+  assert.match(read('src/components/ai/AIRivalArena.jsx'), /'\/pricing\?reason=benchmark'/);
+  assert.equal(triggerForReason('benchmark'), 'benchmark');
+  assert.equal(benefitLines('benchmark', {})[0].id, 'benchmark');
+  assert.match(read('src/services/usage/getDailyUsage.js'), /paid: \{[\s\S]*?basicRivalBattles: Infinity/);
+  assert.match(sheetHead('benchmark').lede, /stronger rivals also use credits/, 'never implies every rival is free with Pro');
+  // The Mob limit: both limit screens lead with up to 3 Mobs, the number the model holds.
+  assert.match(read('src/components/mob/JoinMob.jsx'), /errorCode === 'MOB_LIMIT' \? <> <Link className="mob-link" href="\/pricing" data-pro-feature="mob_limit">/);
+  assert.match(read('src/components/mob/MobPage.jsx'), /Free includes one a week\.<\/p>\s*<Link className="mob-key" href="\/pricing" data-pro-feature="mob_limit">/);
+  assert.match(read('src/lib/mob/model.mjs'), /PRO_MAX_MOBS = 3;/);
+  assert.match(sheetHead('mob_limit').title, /^Join up to 3 Mobs/);
+  assert.deepEqual(benefitLines('mob_limit', {}).slice(0, 2).map((l) => l.id), ['mob_more', 'mob']);
+  // The credits modal's See Pro opens the sheet on credits; /pricing only when no host would show it.
+  const modal = read('src/components/CreditsRemainingModal.jsx');
+  assert.match(modal, /if \(!openUpgrade\(\{ trigger: 'credits' \}\)\) router\.push\('\/pricing'\);/);
+  assert.match(read('src/components/pro/proNudgeStore.js'), /emit\(\);\s*return hostReady;/);
+  assert.match(read('src/components/pro/ProNudgeHost.jsx'), /setUpgradeHost\(true\);\s*return \(\) => setUpgradeHost\(false\);/);
+});
+
+test('one credits balance (D78): the Pro lines name the one total once it is served, and never undercount spends', () => {
+  const section = read('src/components/profile/CreditsSection.jsx');
+  assert.match(section, /if \(data\?\.total\) return data\.total\.balance \?\? null;\s*return data\?\.practice\?\.balance \?\? null;/);
+  assert.match(section, /<ProFacts facts=\{\{ balance: nudgeBalance\(state\.data\) \}\} history=\{state\.history\} oneBalance=\{Boolean\(state\.data\.total\)\} \/>/);
+  assert.match(section, /<InlineNudge placement="credits_low" facts=\{\{ balance: nudgeBalance\(state\.data\) \}\} \/>/);
+  assert.match(read('src/components/pro/ProFacts.jsx'), /history && !oneBalance \? \{ spentWeek:/);
+  assert.match(read('src/components/pro/ProNudgeHost.jsx'), /Number\.isFinite\(user\?\.credits\?\.total\) \? user\.credits\.total : Number\.isFinite\(user\?\.creditBalance\)/);
+});
+
+test('Practice keeps one Pro ask in view: the level line stands down while the cost line asks', () => {
+  const practice = read('src/app/(app)/dashboard/DashboardPageClient.jsx');
+  assert.match(practice, /A set level comes with Pro\.\{costNudgeShown \? null : <> <Link href="\/pricing" className="pr-link" data-pro-feature="difficulty">See Pro<\/Link><\/>\}/);
+  assert.match(practice, /placement="practice_cost"[^>]*onShown=\{setCostNudgeShown\}/);
+  assert.match(read('src/components/pro/InlineNudge.jsx'), /useEffect\(\(\) => \{ onShown\?\.\(visible\); \}, \[visible\]\)/);
 });
 
 test('NTA lines name only subjects with an NTA mode blueprint', () => {

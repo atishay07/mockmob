@@ -262,6 +262,8 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
   const effectiveModeId = selMode && TEST_MODES[selMode] ? selMode : MODE_LIST.includes(requestedMode) ? requestedMode : 'quick';
   const mode = TEST_MODES[effectiveModeId];
   const scope = fineTuneScope(effectiveModeId);
+  // Whether the session card's practice_cost line is on screen (the level line then stands its own ask down).
+  const [costNudgeShown, setCostNudgeShown] = useState(false);
 
   useEffect(() => {
     if (!selSubj) return;
@@ -695,7 +697,8 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
                   <div className="pr-fine2__label"><span>Difficulty</span><small>{mixLine(mode)}</small></div>
                   <Segmented label="Difficulty" value={difficultyMode} disabledValues={isPremium ? [] : ['easy', 'medium', 'hard']}
                     options={['auto', 'easy', 'medium', 'hard'].map((d) => ({ value: d, label: d === 'auto' ? 'Balanced' : d[0].toUpperCase() + d.slice(1) }))} onChange={setDifficultyMode} />
-                  {!isPremium ? <p className="pr-fine2__mix">A set level comes with Pro. <Link href="/pricing" className="pr-link" data-pro-feature="difficulty">See Pro</Link></p> : null}
+                  {/* One Pro ask in view (D79 restraint): while the session card's cost line asks, this line only informs. */}
+                  {!isPremium ? <p className="pr-fine2__mix">A set level comes with Pro.{costNudgeShown ? null : <> <Link href="/pricing" className="pr-link" data-pro-feature="difficulty">See Pro</Link></>}</p> : null}
                 </div>
               ) : null}
             </section>
@@ -718,7 +721,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
                 each paper built fresh, unseen questions first. Count from /api/stats; unknown is not 0. */}
             <p className="pr-ticket__fresh">{freshPaperLine({ count: selectedSubjectBank, subjectName: subjectLabel, isPremium, mode: effectiveModeId })}</p>
             {/* Free only, when this set has a credit price (D79): one quiet line under the cost. */}
-            {!isPremium && quoteLaunchable && quote.creditCost > 0 ? <InlineNudge placement="practice_cost" facts={{ balance }} className="pr-nudge" /> : null}
+            {!isPremium && quoteLaunchable && quote.creditCost > 0 ? <InlineNudge placement="practice_cost" facts={{ balance }} className="pr-nudge" onShown={setCostNudgeShown} /> : null}
             <p className="pr-summary__reason" role="status" aria-live="polite" tabIndex={-1}>
               {quoteStatus === 'loading' && 'Checking access, credits and questions…'}
               {quoteStatus === 'error' && <>Could not check this session. Nothing was charged. <button type="button" onClick={() => setQuoteNonce((n) => n + 1)}>Check again</button></>}

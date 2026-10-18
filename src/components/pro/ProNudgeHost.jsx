@@ -16,7 +16,7 @@ import { useAuth } from '@/components/AuthProvider';
 import { CURRENT_OFFER } from '@/../data/capabilities';
 import { FIRST_ACTION_DELAY_MS, firstActionOpens, firstSheetMayOpen, markDeclined, markFirstShown, nudgesAllowed, triggerForReason } from '@/lib/proNudge.mjs';
 import UpgradeSheet from './UpgradeSheet';
-import { FIRST_ACTION_EVENT, browserSession, closeUpgrade, loadRecord, openUpgrade, saveRecord, shareProFacts, useUpgradeState } from './proNudgeStore';
+import { FIRST_ACTION_EVENT, browserSession, closeUpgrade, loadRecord, openUpgrade, saveRecord, setUpgradeHost, shareProFacts, useUpgradeState } from './proNudgeStore';
 import './pro-nudge.css';
 
 // What is on sale when the server did not pass the offer (the preview): the one-time access, as offer.js frames it.
@@ -43,8 +43,18 @@ export default function ProNudgeHost({ offer = null, previewLinks = null }) {
   // What the shell already knows about the student, for the sheet's personal lines.
   useEffect(() => {
     if (!allowed) return;
-    shareProFacts({ subjects: user?.subjects || [], balance: Number.isFinite(user?.creditBalance) ? user.creditBalance : null });
-  }, [allowed, user?.subjects, user?.creditBalance]);
+    // One credits balance (D78): user.credits.total when the session serves it, else creditBalance (the one total once
+    // track C serves it; the practice pool before). Unknown is null, never 0.
+    const total = Number.isFinite(user?.credits?.total) ? user.credits.total : Number.isFinite(user?.creditBalance) ? user.creditBalance : null;
+    shareProFacts({ subjects: user?.subjects || [], balance: total });
+  }, [allowed, user?.subjects, user?.creditBalance, user?.credits?.total]);
+
+  // Callers that open the sheet in code (openUpgrade) learn whether it will show; without a host they go to /pricing.
+  useEffect(() => {
+    if (!allowed) return undefined;
+    setUpgradeHost(true);
+    return () => setUpgradeHost(false);
+  }, [allowed]);
 
   // Every link to /pricing in the app opens the sheet for a Free student (plain clicks only: a new tab still goes there).
   useEffect(() => {

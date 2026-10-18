@@ -50,7 +50,7 @@ When monthly Pro is on sale, the key follows `offer.js`: "Start Pro for ₹99/mo
 | Credits chip, or short of credits for a set | Stop rationing your practice |
 | The Mob | See your whole Mob, every week |
 | After a result | Keep the momentum going |
-| First-session pop-up | First paper done. Now take the limits off. |
+| First-session pop-up | Paper done. Now take the limits off. (never counts papers: the sheet can open on a later paper in the first session) |
 
 ## Inline lines (one quiet line, one action)
 

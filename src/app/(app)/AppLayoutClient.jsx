@@ -395,7 +395,9 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
                 <AppIcon name="moderation" /> Moderator
               </Link>
             )}
-            <Link href="/pricing" className="arena-chip arena-chip--credits" data-tour="credits-pill" data-pro-feature="credits" aria-label={user?.isPremium ? 'Practice credits: unlimited with Pro' : `Practice credits: ${user?.creditBalance || 0}`}>
+            {/* The student's own balance (D76, D78): tapping it shows the balance and its history, never a Pro pitch.
+                Account > Credits today; when release 10's /wallet lands, this goes to /wallet, where Pro is one quiet row. */}
+            <Link href="/profile#credits" className="arena-chip arena-chip--credits" data-tour="credits-pill" aria-label={user?.isPremium ? 'Practice credits: unlimited with Pro' : `Practice credits: ${user?.creditBalance || 0}`}>
               <CreditAmount kind="practice" amount={user?.isPremium ? 'unlimited' : (user?.creditBalance || 0)} unit={false} />
             </Link>
             {wallet.status !== 'idle' && (

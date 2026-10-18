@@ -6,11 +6,14 @@ import { useEffect } from 'react';
 import { mergeFacts, practiceSpentWeek } from '@/lib/proNudge.mjs';
 import { shareProFacts } from './proNudgeStore';
 
-// `history` (Account > Credits lines) adds the practice credits spent in the last 7 days, worked out after render.
-export default function ProFacts({ facts = {}, history = null }) {
+// `history` (Account > Credits lines) adds the credits spent on practice in the last 7 days, worked out after render.
+// `oneBalance` (D78: the history serves one credits balance): a practice set can then be paid from this month's free
+// credits, whose lines sit in the 'ai' pool, so counting the 'practice' pool would undercount. The figure is left out
+// (the plain line stands in) until the history names practice spends whatever part paid for them.
+export default function ProFacts({ facts = {}, history = null, oneBalance = false }) {
   const key = JSON.stringify(mergeFacts(facts));
   useEffect(() => {
-    shareProFacts(mergeFacts(JSON.parse(key), history ? { spentWeek: practiceSpentWeek(history, Date.now()) } : null));
-  }, [key, history]);
+    shareProFacts(mergeFacts(JSON.parse(key), history && !oneBalance ? { spentWeek: practiceSpentWeek(history, Date.now()) } : null));
+  }, [key, history, oneBalance]);
   return null;
 }

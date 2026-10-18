@@ -15,7 +15,9 @@ import { loadRecord, openUpgrade, quietNudge, shareProFacts, useUpgradeState } f
 // Which placement holds each screen (a route, or 'start-sheet' for the sheet over it).
 const claims = new Map();
 
-export default function InlineNudge({ placement, facts = {}, screen = null, className = '' }) {
+// `onShown(bool)` tells the page whether the line is on screen, so a page with its own Pro line can stand it down and keep
+// one Pro ask in view (Practice's level line).
+export default function InlineNudge({ placement, facts = {}, screen = null, className = '', onShown = null }) {
   const { user } = useAuth();
   const pathname = usePathname();
   const key = screen || pathname || 'screen';
@@ -36,7 +38,11 @@ export default function InlineNudge({ placement, facts = {}, screen = null, clas
     // copy follows facts; factsKey stands in for them.
   }, [placement, key, userId, user, factsKey, Boolean(copy), sheetOpen, pathname]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (!shown || !copy) return null;
+  const visible = shown && Boolean(copy);
+  useEffect(() => { onShown?.(visible); }, [visible]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => () => { onShown?.(false); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (!visible) return null;
   return (
     // The outer box is a size container: in a narrow column (Practice's session card) the action drops under the line.
     <div className={`pn-inline-box ${className}`}>

@@ -13,13 +13,18 @@ const SESSION_KEY = 'mm:pro-nudge:session';
 export const FIRST_ACTION_EVENT = 'mockmob:pro-first-action';
 
 let state = { open: false, trigger: 'generic', facts: {}, at: 0, opener: null };
+// True while a ProNudgeHost is mounted for a Free student, so a caller can fall back to /pricing when nothing would show.
+let hostReady = false;
+export function setUpgradeHost(ready) { hostReady = Boolean(ready); }
 let shared = {};
 const listeners = new Set();
 const emit = () => { for (const fn of listeners) fn(); };
 
+/** Opens the sheet. Returns false when no host is mounted to show it (Pro, signed out), so the caller can go to /pricing. */
 export function openUpgrade({ trigger = 'generic', facts = {}, opener = null } = {}) {
   state = { open: true, trigger, facts: mergeFacts(shared, facts), at: Date.now(), opener: opener || (typeof document !== 'undefined' ? document.activeElement : null) };
   emit();
+  return hostReady;
 }
 
 export function closeUpgrade() {

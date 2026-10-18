@@ -46,7 +46,7 @@ export const NTA_SUBJECTS = Object.freeze(['english', 'general_test', 'accountan
 export const PLACEMENTS = Object.freeze(['credits_low', 'practice_cost', 'result', 'review_chapter', 'start_sheet']);
 
 // Pro features a Free student can tap. Each opens the sheet with its own headline and its own benefit first.
-export const TRIGGERS = Object.freeze(['nta', 'smart', 'difficulty', 'review', 'compass', 'saves', 'mob', 'credits', 'result', 'first_session', 'generic']);
+export const TRIGGERS = Object.freeze(['nta', 'smart', 'difficulty', 'review', 'compass', 'saves', 'mob', 'mob_limit', 'study', 'benchmark', 'credits', 'result', 'first_session', 'generic']);
 
 const whole = (n) => (Number.isFinite(Number(n)) && n !== null && n !== '' ? Math.max(0, Math.trunc(Number(n))) : null);
 const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
@@ -218,7 +218,16 @@ const HEADS = Object.freeze({
   saves: { title: 'Your 25 free saves are full', lede: 'This question was not saved. Remove one to make room, or keep every question worth keeping with Pro, ready for revision.' },
   credits: { title: 'Stop rationing your practice', lede: 'With Pro, Quick practice and Full mocks need no credits. Take the paper you need, the moment you need it.' },
   mob: { title: 'See your whole Mob, every week', lede: 'Pro opens the full side-by-side: who picked what, who changed an answer and how long each question took. Plus past weeks and up to 3 Mobs.' },
-  first_session: { title: 'First paper done. Now take the limits off.', lede: 'Pro gives you unlimited mocks from one central bank, NTA mode and Smart practice, for one price. No credits needed for practice.' },
+  // The Mob limit the student just hit (one Mob, or one Mob paper a week, on Free): the sheet answers that limit first.
+  // src/lib/mob/model.mjs PRO_MAX_MOBS = 3; src/lib/server/mob/service.js gives Pro every Mob's weekly paper.
+  mob_limit: { title: 'Join up to 3 Mobs, one for each subject', lede: "Free includes one Mob and one Mob paper a week. With Pro, be in up to 3 Mobs and sit every Mob's weekly paper, with the full side-by-side after each one." },
+  // Study preferences (src/components/study/StudyWorkspace.jsx): the weekly plan and mixed revision are Pro; lessons stay free.
+  study: { title: 'Plan your week, day by day', lede: "Pro saves a weekly plan, a subject and the minutes for each day, and mixes up to 20 concepts you have learned into one revision session. Lessons, reviews and Today's plan stay free." },
+  // The benchmark rivals (src/components/ai/AIRivalArena.jsx, src/services/usage/getDailyUsage.js LIMITS.paid).
+  benchmark: { title: 'All four rivals, no daily limit', lede: 'Free includes one benchmark a day against one rival. Pro opens all four standard rivals with no daily limit. The stronger rivals also use credits.' },
+  // Never counts papers: the sheet can open on a later paper in the first session (a paper within 2 minutes of
+  // onboarding, or one the student left before the sheet was due, does not open it), so "first" would not always be true.
+  first_session: { title: 'Paper done. Now take the limits off.', lede: 'Pro gives you unlimited mocks from one central bank, NTA mode and Smart practice, for one price. No credits needed for practice.' },
   result: { title: 'Keep the momentum going', lede: 'Your next paper is built fresh from the bank. With Pro it needs no credits, and neither does the one after it.' },
   generic: GENERIC,
 });
@@ -283,13 +292,17 @@ const BENEFITS = Object.freeze({
   compass: { plain: () => 'Compass Pro: your practice projected against your DU shortlist.', personal: () => null },
   saves: { plain: () => 'Unlimited saved questions. Free keeps 25.', personal: () => null },
   mob: { plain: () => "Your Mob's shared trap with its repair, and extra papers on a chapter you choose.", personal: () => null },
+  mob_more: { plain: () => "Up to 3 Mobs at once, and every Mob's weekly paper, not one a week.", personal: () => null },
+  study: { plain: () => 'A saved weekly plan and mixed revision of up to 20 learned concepts.', personal: () => null },
+  benchmark: { plain: () => 'All four standard benchmark rivals, with no daily limit.', personal: () => null },
 });
 
 // The order each trigger leads with; the rest follow in the default order. Four lines at most.
 const DEFAULT_ORDER = ['unlimited', 'credits', 'nta', 'smart'];
 const LEAD = Object.freeze({
   nta: ['nta'], smart: ['smart'], difficulty: ['difficulty'], review: ['review'], compass: ['compass'], saves: ['saves'],
-  credits: ['credits'], result: ['unlimited'], first_session: [], mob: ['mob'], generic: [],
+  credits: ['credits'], result: ['unlimited'], first_session: [], mob: ['mob'], mob_limit: ['mob_more', 'mob'], study: ['study'],
+  benchmark: ['benchmark'], generic: [],
 });
 export const MAX_BENEFITS = 4;
 
@@ -322,6 +335,7 @@ export function sheetPrice(offer) {
 export function triggerForReason(reason) {
   if (reason === 'premium_mode') return 'generic';
   if (reason === 'credits') return 'credits';
+  if (reason === 'benchmark') return 'benchmark';
   return null;
 }
 
